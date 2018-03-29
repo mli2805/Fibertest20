@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
@@ -73,12 +74,31 @@ namespace Iit.Fibertest.Client
             if (_readModel.Traces.Any(t => t.Nodes.Contains(nodeId) && t.HasAnyBaseRef) && type != EquipmentType.AdjustmentPoint)
                 return;
 
-            var dictionary = _readModel.Traces.Where(t => t.Nodes.Contains(nodeId))
-                .ToDictionary(trace => trace.Id, trace => Guid.NewGuid());
+            var detoursForGraph = new List<NodeDetour>();
+            var detoursForTracesInModel = new Dictionary<Guid, Guid>();
+            foreach (var trace in _readModel.Traces.Where(t => t.Nodes.Contains(nodeId)))
+            {
+                var removedNodeIndex = trace.Nodes.IndexOf(nodeId);
+                var detourFiberId = Guid.NewGuid();
 
-            var cmd = new RemoveNode { Id = nodeId, Type = type, TraceWithNewFiberForDetourRemovedNode = dictionary };
-            if (dictionary.Count == 0 && type == EquipmentType.AdjustmentPoint)
+                detoursForTracesInModel.Add(trace.Id, detourFiberId);
+                var detour = new NodeDetour()
+                {
+                    FiberId = detourFiberId,
+                    NodeId1 = trace.Nodes[removedNodeIndex-1],
+                    NodeId2 = trace.Nodes[removedNodeIndex+1],
+                    TraceState = trace.State,
+                    TraceId = trace.Id,
+                };
+                detoursForGraph.Add(detour);
+            }
+
+           
+            var cmd = new RemoveNode { Id = nodeId, Type = type, TraceWithNewFiberForDetourRemovedNode = detoursForTracesInModel, DetoursForGraph = detoursForGraph};
+            if (detoursForTracesInModel.Count == 0 && type == EquipmentType.AdjustmentPoint)
+            {
                 cmd.FiberIdToDetourAdjustmentPoint = Guid.NewGuid();
+            }
 
             var message = await _c2DWcfManager.SendCommandAsObj(cmd);
             if (message != null)

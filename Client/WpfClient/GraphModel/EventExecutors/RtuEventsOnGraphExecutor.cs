@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Client
         public void RemoveRtu(RtuRemoved evnt)
         {
             foreach (var t in _readModel.Traces.Where(t => t.RtuId == evnt.RtuId).ToList())
-                _traceEventsOnGraphExecutor.CleanTrace(new TraceCleaned() { Id = t.Id });
+                _traceEventsOnGraphExecutor.CleanTrace(new TraceCleaned() { TraceId = t.Id });
 
             var rtu = _readModel.Rtus.First(r => r.Id == evnt.RtuId);
             _nodeEventsOnGraphExecutor.RemoveNodeWithAllHis(rtu.NodeId);

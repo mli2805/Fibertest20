@@ -40,26 +40,29 @@ namespace Iit.Fibertest.Client
 
         public void CleanTrace(TraceCleaned evnt)
         {
-            var trace = _readModel.Traces.First(t => t.Id == evnt.Id);
-            GetTraceFibersByNodes(trace.Nodes).ToList().ForEach(f => f.RemoveState(evnt.Id));
+            foreach (var fiberId in evnt.FiberIds)
+            {
+                var fiberVm = _model.Data.Fibers.First(f => f.Id == fiberId);
+                fiberVm.RemoveState(evnt.TraceId);
+            }
         }
 
         public void RemoveTrace(TraceRemoved evnt)
         {
-            var trace = _readModel.Traces.First(t => t.Id == evnt.Id);
-            var traceFibers = GetTraceFibersByNodes(trace.Nodes).ToList();
-            foreach (var fiberVm in traceFibers)
+            foreach (var fiberId in evnt.FiberIds)
             {
-                fiberVm.RemoveState(evnt.Id);
+                var fiberVm = _model.Data.Fibers.First(f => f.Id == fiberId);
+                fiberVm.RemoveState(evnt.TraceId);
                 if (fiberVm.State == FiberState.NotInTrace)
                     _model.Data.Fibers.Remove(fiberVm);
             }
-            foreach (var nodeId in trace.Nodes)
+            foreach (var nodeId in evnt.NodeIds)
             {
                 if (_model.Data.Fibers.Any(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId))
                     continue;
                 var nodeVm = _model.Data.Nodes.First(n => n.Id == nodeId);
-                _model.Data.Nodes.Remove(nodeVm);
+                if (nodeVm.Type != EquipmentType.Rtu)
+                    _model.Data.Nodes.Remove(nodeVm);
             }
         }
 

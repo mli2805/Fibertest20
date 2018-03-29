@@ -100,8 +100,13 @@ namespace Iit.Fibertest.Client
 
                 try
                 {
-                    _eventsOnGraphExecutor.Apply(evnt);
+
+                    // !!!!!!!!!!!!!!!!!
                     _eventsOnModelExecutor.Apply(evnt);
+                    _eventsOnGraphExecutor.Apply(evnt);
+                    // !!!!!!!!!!!!!!!!!
+
+
                     _treeOfRtuModel.AsDynamic().Apply(evnt);
                     _opticalEventsExecutor.Apply(evnt);
                     _networkEventsDoubleViewModel.Apply(evnt);

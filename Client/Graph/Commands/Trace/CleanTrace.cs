@@ -4,6 +4,6 @@ namespace Iit.Fibertest.Graph
 {
     public class CleanTrace
     {
-        public Guid Id { get; set; }
+        public Guid TraceId { get; set; }
     }
 }

@@ -141,6 +141,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<TraceEventsOnGraphExecutor>().SingleInstance();
             builder.RegisterType<RtuEventsOnGraphExecutor>().SingleInstance();
             builder.RegisterType<AccidentEventsOnGraphExecutor>().SingleInstance();
+            builder.RegisterType<ResponsibilityEventsOnGraphExecutor>().SingleInstance();
             builder.RegisterType<EventsOnGraphExecutor>().SingleInstance();
             builder.RegisterType<GraphReadModel>().SingleInstance();
 

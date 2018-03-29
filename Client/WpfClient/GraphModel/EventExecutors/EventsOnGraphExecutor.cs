@@ -10,10 +10,13 @@ namespace Iit.Fibertest.Client
         private readonly TraceEventsOnGraphExecutor _traceEventsOnGraphExecutor;
         private readonly RtuEventsOnGraphExecutor _rtuEventsOnGraphExecutor;
         private readonly AccidentEventsOnGraphExecutor _accidentEventsOnGraphExecutor;
+        private readonly ResponsibilityEventsOnGraphExecutor _responsibilityEventsOnGraphExecutor;
 
-        public EventsOnGraphExecutor(NodeEventsOnGraphExecutor nodeEventsOnGraphExecutor, FiberEventsOnGraphExecutor fiberEventsOnGraphExecutor,
+        public EventsOnGraphExecutor(NodeEventsOnGraphExecutor nodeEventsOnGraphExecutor, 
+            FiberEventsOnGraphExecutor fiberEventsOnGraphExecutor,
             EquipmentEventsOnGraphExecutor equipmentsExtor, TraceEventsOnGraphExecutor traceEventsOnGraphExecutor, 
-            RtuEventsOnGraphExecutor rtuEventsOnGraphExecutor, AccidentEventsOnGraphExecutor accidentEventsOnGraphExecutor)
+            RtuEventsOnGraphExecutor rtuEventsOnGraphExecutor, AccidentEventsOnGraphExecutor accidentEventsOnGraphExecutor,
+            ResponsibilityEventsOnGraphExecutor responsibilityEventsOnGraphExecutor)
         {
             _nodeEventsOnGraphExecutor = nodeEventsOnGraphExecutor;
             _equipmentsExtor = equipmentsExtor;
@@ -21,6 +24,7 @@ namespace Iit.Fibertest.Client
             _traceEventsOnGraphExecutor = traceEventsOnGraphExecutor;
             _rtuEventsOnGraphExecutor = rtuEventsOnGraphExecutor;
             _accidentEventsOnGraphExecutor = accidentEventsOnGraphExecutor;
+            _responsibilityEventsOnGraphExecutor = responsibilityEventsOnGraphExecutor;
         }
 
         public void Apply(object e)
@@ -53,10 +57,10 @@ namespace Iit.Fibertest.Client
                 case RtuUpdated evnt: _rtuEventsOnGraphExecutor. UpdateRtu(evnt); return;
                 case RtuRemoved evnt: _rtuEventsOnGraphExecutor.RemoveRtu(evnt); return;
 
+                case ResponsibilitiesChanged evnt: _responsibilityEventsOnGraphExecutor.ChangeResponsibilities(evnt); return;
+
                 default: return;
             }
         }
-
-      
     }
 }

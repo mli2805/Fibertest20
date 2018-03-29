@@ -63,14 +63,14 @@ namespace Iit.Fibertest.Client
 
         public void CleanTrace(TraceCleaned evnt)
         {
-            ActualOpticalEventsViewModel.RemoveEventsOfTrace(evnt.Id);
-            AllOpticalEventsViewModel.RemoveEventsOfTrace(evnt.Id);
+            ActualOpticalEventsViewModel.RemoveEventsOfTrace(evnt.TraceId);
+            AllOpticalEventsViewModel.RemoveEventsOfTrace(evnt.TraceId);
         }
 
         public void RemoveTrace(TraceRemoved evnt)
         {
-            ActualOpticalEventsViewModel.RemoveEventsOfTrace(evnt.Id);
-            AllOpticalEventsViewModel.RemoveEventsOfTrace(evnt.Id);
+            ActualOpticalEventsViewModel.RemoveEventsOfTrace(evnt.TraceId);
+            AllOpticalEventsViewModel.RemoveEventsOfTrace(evnt.TraceId);
         }
 
         public void UpdateRtu(RtuUpdated evnt)

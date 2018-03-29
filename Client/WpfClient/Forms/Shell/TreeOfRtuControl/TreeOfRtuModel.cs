@@ -139,14 +139,14 @@ namespace Iit.Fibertest.Client
 
         public void Apply(TraceCleaned e)
         {
-            var traceLeaf = Tree.GetById(e.Id);
+            var traceLeaf = Tree.GetById(e.TraceId);
             var rtuLeaf = traceLeaf.Parent is RtuLeaf ? (RtuLeaf)traceLeaf.Parent : (RtuLeaf)traceLeaf.Parent.Parent;
             rtuLeaf.ChildrenImpresario.Children.Remove(traceLeaf);
         }
 
         public void Apply(TraceRemoved e)
         {
-            var traceLeaf = Tree.GetById(e.Id);
+            var traceLeaf = Tree.GetById(e.TraceId);
             var rtuLeaf = traceLeaf.Parent is RtuLeaf ? (RtuLeaf)traceLeaf.Parent : (RtuLeaf)traceLeaf.Parent.Parent;
             rtuLeaf.ChildrenImpresario.Children.Remove(traceLeaf);
         }

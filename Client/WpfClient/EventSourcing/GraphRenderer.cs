@@ -12,8 +12,8 @@ namespace Iit.Fibertest.Client
         private readonly GraphReadModel _graphReadModel;
         private readonly CurrentUser _currentUser;
 
-        private readonly List<NodeVm> _nodesForRendering = new List<NodeVm>();
-        private readonly List<FiberVm> _fibersForRendering = new List<FiberVm>();
+        private List<NodeVm> _nodesForRendering = new List<NodeVm>();
+        private List<FiberVm> _fibersForRendering = new List<FiberVm>();
 
         public GraphRenderer(ReadModel readModel, GraphReadModel graphReadModel, CurrentUser currentUser)
         {
@@ -22,31 +22,44 @@ namespace Iit.Fibertest.Client
             _currentUser = currentUser;
         }
 
-        public void Do()
+        public void RenderGraphOnApplicationStart()
         {
-            if (_readModel.Zones.First(z=>z.ZoneId == _currentUser.ZoneId).IsDefaultZone)
+            if (_readModel.Zones.First(z => z.ZoneId == _currentUser.ZoneId).IsDefaultZone)
                 RenderAllGraph();
             else RenderOneZone();
+
+            Transfer();
         }
+
+        public void ReRenderOneZoneOnResponsibilitiesChanged()
+        {
+            _nodesForRendering = new List<NodeVm>();
+            _fibersForRendering = new List<FiberVm>();
+
+            RenderOneZone();
+
+            ApplyToExistingGraph();
+        }
+
 
         private void RenderOneZone()
         {
-            foreach (var trace in _readModel.Traces.Where(t=>t.ZoneIds.Contains(_currentUser.ZoneId)))
+            foreach (var trace in _readModel.Traces.Where(t => t.ZoneIds.Contains(_currentUser.ZoneId)))
             {
                 foreach (var nodeId in trace.Nodes)
                 {
-                    if (_nodesForRendering.Any(n=>n.Id == nodeId)) continue;
+                    if (_nodesForRendering.Any(n => n.Id == nodeId)) continue;
                     var node = _readModel.Nodes.First(n => n.Id == nodeId);
                     _nodesForRendering.Add(Map(node));
                 }
 
-                foreach (var node in _readModel.Nodes.Where(n=>n.TypeOfLastAddedEquipment == EquipmentType.AccidentPlace && n.AccidentOnTraceId == trace.Id))
+                foreach (var node in _readModel.Nodes.Where(n => n.TypeOfLastAddedEquipment == EquipmentType.AccidentPlace && n.AccidentOnTraceId == trace.Id))
                     _nodesForRendering.Add(Map(node));
 
                 var fibers = _readModel.GetTraceFibers(trace);
                 foreach (var fiber in fibers)
                 {
-                    var fiberVm =_fibersForRendering.FirstOrDefault(f=>f.Id == fiber.Id);
+                    var fiberVm = _fibersForRendering.FirstOrDefault(f => f.Id == fiber.Id);
                     if (fiberVm == null)
                         fiberVm = Map(fiber);
                     fiberVm.States.Add(trace.Id, trace.State);
@@ -55,8 +68,6 @@ namespace Iit.Fibertest.Client
                     _fibersForRendering.Add(fiberVm);
                 }
             }
-
-            Transfer();
         }
 
         private void RenderAllGraph()
@@ -66,8 +77,6 @@ namespace Iit.Fibertest.Client
 
             foreach (var fiber in _readModel.Fibers)
                 _fibersForRendering.Add(MapWithAllTraceStates(fiber));
-
-            Transfer();
         }
 
         private void Transfer()
@@ -78,6 +87,52 @@ namespace Iit.Fibertest.Client
                 _graphReadModel.Data.Fibers.Add(fiberVm);
         }
 
+        private void ApplyToExistingGraph()
+        {
+            // remove nodes for deleted traces
+            foreach (var nodeVm in _graphReadModel.Data.Nodes)
+            {
+                if (_nodesForRendering.All(n => n.Id != nodeVm.Id))
+                    _graphReadModel.Data.Nodes.Remove(nodeVm);
+            }
+
+            // add nodes for added traces
+            foreach (var nodeVm in _nodesForRendering)
+            {
+                if (_graphReadModel.Data.Nodes.All(n => n.Id != nodeVm.Id))
+                    _graphReadModel.Data.Nodes.Add(nodeVm);
+            }
+
+            // remove fibers for deleted traces
+            foreach (var fiberVm in _graphReadModel.Data.Fibers)
+            {
+                if (_fibersForRendering.All(f => f.Id != fiberVm.Id))
+                    _graphReadModel.Data.Fibers.Remove(fiberVm);
+            }
+
+            // add fibers for added traces
+            foreach (var fiberVm in _fibersForRendering)
+            {
+                var oldFiberVm = _graphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == fiberVm.Id);
+                if (oldFiberVm == null)
+                    _graphReadModel.Data.Fibers.Add(fiberVm);
+                else
+                {
+                    // though fiber exists already it's characteristics could be changed
+                    if (oldFiberVm.TracesWithExceededLossCoeff.Any() ^ fiberVm.TracesWithExceededLossCoeff.Any()
+                        || oldFiberVm.State != fiberVm.State)
+                    {
+                        _graphReadModel.Data.Fibers.Remove(oldFiberVm);
+                        _graphReadModel.Data.Fibers.Add(fiberVm);
+                    }
+                    else
+                    {
+                        oldFiberVm.States = fiberVm.States;
+                        oldFiberVm.TracesWithExceededLossCoeff = fiberVm.TracesWithExceededLossCoeff;
+                    }
+                }
+            }
+        }
 
         private NodeVm Map(Node node)
         {

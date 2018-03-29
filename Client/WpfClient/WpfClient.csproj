@@ -236,6 +236,7 @@
     <Compile Include="GraphModel\EventExecutors\EventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\FiberEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\NodeEventsOnGraphExecutor.cs" />
+    <Compile Include="GraphModel\EventExecutors\ResponsibilityEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\RtuEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\TraceEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\GrmData.cs" />

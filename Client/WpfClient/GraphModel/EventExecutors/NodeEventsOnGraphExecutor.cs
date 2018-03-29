@@ -67,8 +67,8 @@ namespace Iit.Fibertest.Client
 
         public void RemoveNode(NodeRemoved evnt)
         {
-            foreach (var trace in _readModel.Traces.Where(t => t.Nodes.Contains(evnt.Id)))
-                CreateDetourIfAbsent(trace, evnt.TraceWithNewFiberForDetourRemovedNode[trace.Id], trace.Nodes.IndexOf(evnt.Id));
+            foreach (var detour in evnt.DetoursForGraph)
+                CreateDetourIfAbsent(detour);
 
             if (evnt.FiberIdToDetourAdjustmentPoint != Guid.Empty)
             {
@@ -146,22 +146,20 @@ namespace Iit.Fibertest.Client
                 _model.Data.Nodes.Remove(nodeVm);
             else _logFile.AppendLine($@"NodeVm {nodeId.First6()} not found");
         }
-        private void CreateDetourIfAbsent(Trace trace, Guid fiberId, int idxInTrace)
-        {
-            var nodeBefore = trace.Nodes[idxInTrace - 1];
-            var nodeAfter = trace.Nodes[idxInTrace + 1];
 
-            if (!_model.Data.Fibers.Any(f => f.Node1.Id == nodeBefore && f.Node2.Id == nodeAfter
-                                 || f.Node2.Id == nodeBefore && f.Node1.Id == nodeAfter))
+        private void CreateDetourIfAbsent(NodeDetour detour)
+        {
+            if (!_model.Data.Fibers.Any(f => f.Node1.Id == detour.NodeId1 && f.Node2.Id == detour.NodeId2
+                                 || f.Node2.Id == detour.NodeId1 && f.Node1.Id == detour.NodeId2))
             {
                 var fiberVm = new FiberVm()
                 {
-                    Id = fiberId,
-                    Node1 = _model.Data.Nodes.First(m => m.Id == nodeBefore),
-                    Node2 = _model.Data.Nodes.First(m => m.Id == nodeAfter),
+                    Id = detour.FiberId,
+                    Node1 = _model.Data.Nodes.First(m => m.Id == detour.NodeId1),
+                    Node2 = _model.Data.Nodes.First(m => m.Id == detour.NodeId2),
                 };
                 _model.Data.Fibers.Add(fiberVm);
-                fiberVm.SetState(trace.Id, trace.State);
+                fiberVm.SetState(detour.TraceId, detour.TraceState);
             }
         }
     }

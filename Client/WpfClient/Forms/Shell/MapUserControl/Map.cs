@@ -63,11 +63,6 @@ namespace Iit.Fibertest.Client
         public string MeasuredDistance => IsInDistanceMeasurementMode ? $"{_lastDistance} m  / {Distances.Sum() + _lastDistance} m" : "";
         #endregion
 
-//        public void Initialize(CurrentGpsInputMode currentGpsInputMode)
-//        {
-//            CurrentGpsInputMode = currentGpsInputMode;
-//        }
-
         protected override void OnKeyDown(KeyEventArgs e)
         {
             if (e.Key == Key.Escape)

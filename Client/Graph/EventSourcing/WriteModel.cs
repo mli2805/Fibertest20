@@ -517,26 +517,26 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(TraceCleaned e)
         {
-            var trace = Traces.FirstOrDefault(t => t.Id == e.Id);
+            var trace = Traces.FirstOrDefault(t => t.Id == e.TraceId);
             if (trace != null)
             {
                 Traces.Remove(trace);
                 return null;
             }
-            var message = $@"TraceCleaned: Trace {e.Id} not found";
+            var message = $@"TraceCleaned: Trace {e.TraceId} not found";
             LogFile.AppendLine(message);
             return message;
         }
 
         public string Apply(TraceRemoved e)
         {
-            var trace = Traces.FirstOrDefault(t => t.Id == e.Id);
+            var trace = Traces.FirstOrDefault(t => t.Id == e.TraceId);
             if (trace != null)
             {
                 Traces.Remove(trace);
                 return null;
             }
-            var message = $@"TraceRemoved: Trace {e.Id} not found";
+            var message = $@"TraceRemoved: Trace {e.TraceId} not found";
             LogFile.AppendLine(message);
             return message;
         }

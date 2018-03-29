@@ -113,6 +113,14 @@ namespace Iit.Fibertest.Graph
             return model.GetNodeFibers(adjustmentPoint).First(f => f.Id != fiberId);
         }
 
+        public static List<Guid> GetNeighbours(this IModel model, Guid nodeId)
+        {
+            var nodes = model.Fibers.Where(f => f.Node1 == nodeId).Select(f => f.Node2).ToList();
+            nodes.AddRange(model.Fibers.Where(f => f.Node2 == nodeId).Select(f => f.Node1));
+            return nodes;
+        }
+
+
         public static void RemoveFiberUptoRealNodesNotPoints(this IModel model, Fiber fiber)
         {
             var leftNode = model.Nodes.First(n => n.Id == fiber.Node1);

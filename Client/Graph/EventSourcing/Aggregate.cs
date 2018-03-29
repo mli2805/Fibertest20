@@ -235,12 +235,18 @@ namespace Iit.Fibertest.Graph
 
         public string When(CleanTrace cmd)
         {
-            return WriteModel.Add(_mapper.Map<TraceCleaned>(cmd));
+            var traceCleaned = _mapper.Map<TraceCleaned>(cmd);
+            traceCleaned.NodeIds = WriteModel.Traces.First(t => t.Id == cmd.TraceId).Nodes;
+            traceCleaned.FiberIds = WriteModel.GetFibersByNodes(traceCleaned.NodeIds).ToList();
+            return WriteModel.Add(traceCleaned);
         }
 
         public string When(RemoveTrace cmd)
         {
-            return WriteModel.Add(_mapper.Map<TraceRemoved>(cmd));
+            var traceRemoved = _mapper.Map<TraceRemoved>(cmd);
+            traceRemoved.NodeIds = WriteModel.Traces.First(t => t.Id == cmd.TraceId).Nodes;
+            traceRemoved.FiberIds = WriteModel.GetFibersByNodes(traceRemoved.NodeIds).ToList();
+            return WriteModel.Add(traceRemoved);
         }
 
         public string When(AttachTrace cmd)
