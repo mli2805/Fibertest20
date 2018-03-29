@@ -10,15 +10,13 @@ namespace Iit.Fibertest.Client
         private readonly GraphReadModel _model;
         private readonly ReadModel _readModel;
         private readonly NodeEventsOnGraphExecutor _nodeEventsOnGraphExecutor;
-        private readonly TraceEventsOnGraphExecutor _traceEventsOnGraphExecutor;
 
         public RtuEventsOnGraphExecutor(GraphReadModel model, ReadModel readModel,
-            NodeEventsOnGraphExecutor nodeEventsOnGraphExecutor, TraceEventsOnGraphExecutor traceEventsOnGraphExecutor)
+            NodeEventsOnGraphExecutor nodeEventsOnGraphExecutor)
         {
             _model = model;
             _readModel = readModel;
             _nodeEventsOnGraphExecutor = nodeEventsOnGraphExecutor;
-            _traceEventsOnGraphExecutor = traceEventsOnGraphExecutor;
         }
 
         public void AddRtuAtGpsLocation(RtuAtGpsLocationAdded evnt)
@@ -45,11 +43,11 @@ namespace Iit.Fibertest.Client
 
         public void RemoveRtu(RtuRemoved evnt)
         {
-            foreach (var t in _readModel.Traces.Where(t => t.RtuId == evnt.RtuId).ToList())
-                _traceEventsOnGraphExecutor.CleanTrace(new TraceCleaned() { TraceId = t.Id });
-
-            var rtu = _readModel.Rtus.First(r => r.Id == evnt.RtuId);
-            _nodeEventsOnGraphExecutor.RemoveNodeWithAllHis(rtu.NodeId);
+            foreach (var pair in evnt.FibersFromCleanedTraces)
+            {
+                _model.Data.Fibers.First(f=>f.Id == pair.Key).RemoveState(pair.Value);
+            }
+            _nodeEventsOnGraphExecutor.RemoveNodeWithAllHis(evnt.RtuNodeId);
         }
     }
 }

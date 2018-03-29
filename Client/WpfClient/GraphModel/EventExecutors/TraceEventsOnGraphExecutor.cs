@@ -79,15 +79,9 @@ namespace Iit.Fibertest.Client
         public void DetachTrace(TraceDetached evnt)
         {
             var trace = _readModel.Traces.First(t => t.Id == evnt.TraceId);
-            ApplyTraceStateToFibers(trace, FiberState.NotJoined);
-            _model.CleanAccidentPlacesOnTrace(evnt.TraceId);
-        }
-
-        // events are applied to Graph BEFORE applying to ReadModel, so trace doesn't have new state
-        private void ApplyTraceStateToFibers(Trace trace, FiberState state)
-        {
             foreach (var fiberVm in GetTraceFibersByNodes(trace.Nodes))
-                fiberVm.SetState(trace.Id, state);
+                fiberVm.SetState(trace.Id, trace.State);
+            _model.CleanAccidentPlacesOnTrace(evnt.TraceId);
         }
 
     }

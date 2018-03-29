@@ -44,7 +44,7 @@ namespace Iit.Fibertest.Client
             var rtu = _readModel.Rtus.FirstOrDefault(r => r.NodeId == request.NodeId);
             if (rtu == null)
                 return;
-            var cmd = new RemoveRtu() { RtuId = rtu.Id };
+            var cmd = new RemoveRtu() { RtuId = rtu.Id, RtuNodeId = request.NodeId };
             await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 

@@ -198,7 +198,16 @@ namespace Iit.Fibertest.Graph
 
         public string When(RemoveRtu cmd)
         {
-            return WriteModel.Add(_mapper.Map<RtuRemoved>(cmd));
+            var evnt = _mapper.Map<RtuRemoved>(cmd);
+            evnt.FibersFromCleanedTraces = new Dictionary<Guid, Guid>();
+            foreach (var trace in WriteModel.Traces.Where(t=>t.RtuId == cmd.RtuId))
+            {
+                foreach (var fiberId in WriteModel.GetFibersByNodes(trace.Nodes))
+                {
+                    evnt.FibersFromCleanedTraces.Add(fiberId, trace.Id);
+                }
+            }
+            return WriteModel.Add(evnt);
         }
 
         public string When(AttachOtau cmd)

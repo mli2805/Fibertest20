@@ -12,11 +12,13 @@ namespace Iit.Fibertest.Graph
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
         private readonly IModel _model;
         private readonly IMyLog _logFile;
+        private readonly TraceEventsOnModelExecutor _traceEventsOnModelExecutor;
 
-        public RtuEventsOnModelExecutor(ReadModel model, IMyLog logFile)
+        public RtuEventsOnModelExecutor(ReadModel model, IMyLog logFile, TraceEventsOnModelExecutor traceEventsOnModelExecutor)
         {
             _model = model;
             _logFile = logFile;
+            _traceEventsOnModelExecutor = traceEventsOnModelExecutor;
         }
         public string AddRtuAtGpsLocation(RtuAtGpsLocationAdded e)
         {
@@ -54,7 +56,13 @@ namespace Iit.Fibertest.Graph
                 return message;
             }
             var nodeId = rtu.NodeId;
-            _model.Traces.RemoveAll(t => t.RtuId == rtu.Id);
+
+            foreach (var trace in _model.Traces.Where(t => t.RtuId == rtu.Id).ToList())
+            {
+                _traceEventsOnModelExecutor.CleanTrace(new TraceCleaned(){TraceId = trace.Id});
+                _model.Traces.Remove(trace);
+            }
+
             _model.Rtus.Remove(rtu);
             _model.RemoveNodeWithAllHis(nodeId);
             return null;
