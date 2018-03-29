@@ -178,7 +178,7 @@ namespace Iit.Fibertest.Client
             var owner = Tree.GetById(traceLeaf.Parent.Id);
             var rtuLeaf = owner is RtuLeaf ? (RtuLeaf)owner : (RtuLeaf)(owner.Parent);
             int port = traceLeaf.PortNumber;
-            if (port == 0)
+            if (port <= 0)
                 return; // some error
 
             var detachedTraceLeaf = _globalScope.Resolve<TraceLeaf>(new NamedParameter(@"parent", rtuLeaf));
@@ -193,6 +193,7 @@ namespace Iit.Fibertest.Client
             ((IPortOwner)owner).ChildrenImpresario.Children.RemoveAt(port - 1);
             ((IPortOwner)owner).ChildrenImpresario.Children.Insert(port - 1,
                 _globalScope.Resolve<PortLeaf>(new NamedParameter(@"parent", owner), new NamedParameter(@"portNumber", port)));
+
             rtuLeaf.ChildrenImpresario.Children.Add(detachedTraceLeaf);
         }
 
