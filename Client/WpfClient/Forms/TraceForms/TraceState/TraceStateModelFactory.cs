@@ -70,7 +70,7 @@ namespace Iit.Fibertest.Client
         private TraceStateModelHeader PrepareHeader(Guid traceId)
         {
             var result = new TraceStateModelHeader();
-            var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceId);
+            var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
             if (trace == null)
                 return result;
 

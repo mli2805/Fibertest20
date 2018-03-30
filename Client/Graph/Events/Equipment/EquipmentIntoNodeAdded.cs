@@ -7,7 +7,7 @@ namespace Iit.Fibertest.Graph
     [Serializable]
     public class EquipmentIntoNodeAdded
     {
-        public Guid Id { get; set; }
+        public Guid EquipmentId { get; set; }
         public Guid NodeId { get; set; }
         public string Title { get; set; }
         public EquipmentType Type { get; set; }

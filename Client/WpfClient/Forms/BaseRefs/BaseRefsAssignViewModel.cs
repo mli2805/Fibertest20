@@ -185,7 +185,7 @@ namespace Iit.Fibertest.Client
         public AssignBaseRefsDto PrepareDto(Trace trace)
         {
             var dto = new AssignBaseRefsDto()
-                { RtuId = trace.RtuId, TraceId = trace.Id, OtauPortDto = trace.OtauPort, BaseRefs = new List<BaseRefDto>(), DeleteOldSorFileIds = new List<int>() };
+                { RtuId = trace.RtuId, TraceId = trace.TraceId, OtauPortDto = trace.OtauPort, BaseRefs = new List<BaseRefDto>(), DeleteOldSorFileIds = new List<int>() };
 
 
             var baseRefs = new List<BaseRefDto>();

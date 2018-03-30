@@ -166,7 +166,7 @@ namespace Iit.Fibertest.Client
             foreach (var opticalEventModel in Rows.Where(m => m.TraceId == traceId).ToList())
             {
                 Rows.Remove(opticalEventModel);
-                opticalEventModel.TraceTitle = _readModel.Traces.FirstOrDefault(t => t.Id == traceId)?.Title;
+                opticalEventModel.TraceTitle = _readModel.Traces.FirstOrDefault(t => t.TraceId == traceId)?.Title;
                 Rows.Add(opticalEventModel);
             }
         }
@@ -181,7 +181,7 @@ namespace Iit.Fibertest.Client
                 RtuId = measurement.RtuId,
                 RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == measurement.RtuId)?.Title,
                 TraceId = measurement.TraceId,
-                TraceTitle = _readModel.Traces.FirstOrDefault(t => t.Id == measurement.TraceId)?.Title,
+                TraceTitle = _readModel.Traces.FirstOrDefault(t => t.TraceId == measurement.TraceId)?.Title,
                 BaseRefType = measurement.BaseRefType,
                 TraceState = measurement.TraceState,
 

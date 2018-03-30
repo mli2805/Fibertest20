@@ -45,26 +45,26 @@ namespace Graph.Tests
             _trace = _sut.CreateTraceRtuEmptyTerminal();
             _sut.InitializeRtu(_trace.RtuId);
 
-            _rtuNodeId = _trace.Nodes[0];
-            _lastNodeId = _trace.Nodes.Last();
+            _rtuNodeId = _trace.NodeIds[0];
+            _lastNodeId = _trace.NodeIds.Last();
         }
 
         [Given(@"Данный узел последний в трассе")]
         public void GivenДанныйУзелПоследнийВТрассе()
         {
-            _nodeId = _trace.Nodes.Last();
+            _nodeId = _trace.NodeIds.Last();
         }
 
         [Given(@"Данный узел НЕ последний в трассе")]
         public void GivenДанныйУзелНеПоследнийВТрассе()
         {
-            _nodeId = _trace.Nodes[1];
+            _nodeId = _trace.NodeIds[1];
         }
 
         [Given(@"Для трассы задана базовая")]
         public void GivenДляТрассыЗаданаБазовая()
         {
-            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
+            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.TraceId);
             _sut.AssignBaseRef(traceLeaf, SystemUnderTest.Base1625Lm3, SystemUnderTest.Base1625Lm3, null, Answer.Yes);
         }
 
@@ -87,22 +87,22 @@ namespace Graph.Tests
 
             var fiberVm = _sut.GraphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == fiber?.FiberId);
             fiberVm.Should().NotBeNull();
-            fiberVm?.States.Should().ContainKey(_trace.Id);
+            fiberVm?.States.Should().ContainKey(_trace.TraceId);
         }
 
         [Then(@"Корректируются списки узлов и оборудования трассы")]
         public void ThenКорректируютсяСпискиУзловИОборудованияТрассы()
         {
-            _trace.Nodes.Contains(_nodeId).Should().BeFalse();
-            _trace.Nodes.Count.Should().Be(_trace.Equipments.Count);
+            _trace.NodeIds.Contains(_nodeId).Should().BeFalse();
+            _trace.NodeIds.Count.Should().Be(_trace.EquipmentIds.Count);
 
-            var trace = _sut.ReadModel.Traces.First(t => t.Id == _trace.Id);
-            for (int i = 0; i < trace.Nodes.Count - 1; i++)
+            var trace = _sut.ReadModel.Traces.First(t => t.TraceId == _trace.TraceId);
+            for (int i = 0; i < trace.NodeIds.Count - 1; i++)
             {
                 _sut.ReadModel.Fibers.FirstOrDefault(
                     f =>
-                        f.NodeId1 == trace.Nodes[i] && f.NodeId2 == trace.Nodes[i + 1] ||
-                        f.NodeId1 == trace.Nodes[i + 1] && f.NodeId2 == trace.Nodes[i]).Should().NotBeNull();
+                        f.NodeId1 == trace.NodeIds[i] && f.NodeId2 == trace.NodeIds[i + 1] ||
+                        f.NodeId1 == trace.NodeIds[i + 1] && f.NodeId2 == trace.NodeIds[i]).Should().NotBeNull();
             }
         }
 
@@ -122,7 +122,7 @@ namespace Graph.Tests
         [Then(@"Удаление не происходит")]
         public void ThenУдалениеНеПроисходит()
         {
-            _trace.Nodes.Contains(_nodeId).Should().BeTrue();
+            _trace.NodeIds.Contains(_nodeId).Should().BeTrue();
         }
     }
 }

@@ -55,7 +55,7 @@ namespace Graph.Tests
                 if (i == 0)
                     _sut.ReadModel.Rtus.Single(r => r.Id == _equipments[i]).NodeId.Should().Be(_nodes[i]);
                 else 
-                        _sut.ReadModel.Equipments.Single(e => e.Id == _equipments[i]).NodeId.Should().Be(_nodes[i]);
+                        _sut.ReadModel.Equipments.Single(e => e.EquipmentId == _equipments[i]).NodeId.Should().Be(_nodes[i]);
             }
         }
     }

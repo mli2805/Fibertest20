@@ -29,7 +29,7 @@ namespace Graph.Tests
         {
             _rtu = _sut.SetInitializedRtu();
             _trace = _sut.SetTrace(_rtu.NodeId, @"Trace1");
-            _traceLeaf = (TraceLeaf)_sut.TreeOfRtuModel.Tree.GetById(_trace.Id);
+            _traceLeaf = (TraceLeaf)_sut.TreeOfRtuModel.Tree.GetById(_trace.TraceId);
             _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1550Lm4YesThresholds, null, null, Answer.Yes);
         }
 
@@ -37,7 +37,7 @@ namespace Graph.Tests
         public void WhenПользовательОткрываетСтатистикуПоТрассе()
         {
             _vm = _sut.Container.Resolve<TraceStatisticsViewModel>();
-            _vm.Initialize(_trace.Id);
+            _vm.Initialize(_trace.TraceId);
         }
 
         [Then(@"Там есть строка для базовой с именем и временем задания")]
@@ -48,7 +48,7 @@ namespace Graph.Tests
             _assignedBy = line.AssignedBy;
             _assignedAt = line.AssignedAt;
 
-            var baseRefs = _sut.ReadModel.BaseRefs.Where(b => b.TraceId == _trace.Id).ToList();
+            var baseRefs = _sut.ReadModel.BaseRefs.Where(b => b.TraceId == _trace.TraceId).ToList();
             baseRefs.Count.Should().Be(1);
 
             var wcf = _sut.Container.Resolve<IWcfServiceForClient>();
@@ -63,7 +63,7 @@ namespace Graph.Tests
         [When(@"Пользователь сдвигает узел трассы")]
         public void WhenПользовательСдвигаетУзелТрассы()
         {
-            var nodeId = _trace.Nodes[3];
+            var nodeId = _trace.NodeIds[3];
             _sut.GraphReadModel.GrmNodeRequests.MoveNode(new MoveNode()
             {
                 NodeId = nodeId,
@@ -77,7 +77,7 @@ namespace Graph.Tests
         public void WhenСноваОткрываетСтатистику()
         {
             _vm = _sut.Container.Resolve<TraceStatisticsViewModel>();
-            _vm.Initialize(_trace.Id);
+            _vm.Initialize(_trace.TraceId);
         }
 
         [Then(@"Имя и время пользователя не изменились")]
@@ -94,7 +94,7 @@ namespace Graph.Tests
         public async void ThenИзменилосьПоложениеОриентиров()
         {
             var wcf = _sut.Container.Resolve<IWcfServiceForClient>();
-            var baseRefs = _sut.ReadModel.BaseRefs.Where(b => b.TraceId == _trace.Id).ToList();
+            var baseRefs = _sut.ReadModel.BaseRefs.Where(b => b.TraceId == _trace.TraceId).ToList();
             baseRefs.Count.Should().Be(1);
             var sorBytes = await wcf.GetSorBytes(baseRefs[0].SorFileId);
             var otdrDataKnownBlocks = SorData.FromBytes(sorBytes);

@@ -67,13 +67,13 @@ namespace Graph.Tests
             equipment.CableReserveRight.Should().Be(SystemUnderTest.NewRightCableReserve);
             equipment.Comment.Should().Be(SystemUnderTest.NewCommentForTest);
 
-            var item = _nodeUpdateViewModel.EquipmentsInNode.First(it => it.Id == equipment.Id);
+            var item = _nodeUpdateViewModel.EquipmentsInNode.First(it => it.Id == equipment.EquipmentId);
             item.Title.Should().Be(SystemUnderTest.NewTitleForTest);
             item.Type.Should().Be(SystemUnderTest.NewTypeForTest.ToLocalizedString());
             item.Comment.Should().Be(SystemUnderTest.NewCommentForTest);
-            item.Traces.Should().Be(_sut.ReadModel.Traces.First(t => t.Id == _traceWithoutEqId).Title+@" ;  ");
+            item.Traces.Should().Be(_sut.ReadModel.Traces.First(t => t.TraceId == _traceWithoutEqId).Title+@" ;  ");
 
-            _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
+            _sut.ReadModel.Equipments.FirstOrDefault(e => e.EquipmentId == Guid.Empty).Should().BeNull();
         }
 
         [Then(@"Новое оборудование НЕ сохраняется и НЕ появляется на форме редактирования узла")]

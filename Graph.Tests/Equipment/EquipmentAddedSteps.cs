@@ -56,7 +56,7 @@ namespace Graph.Tests
         public void GivenДляОднойИзТрассЗаданаБазовая()
         {
             var trace = _sut.ReadModel.Traces.First();
-            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(trace.Id);
+            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(trace.TraceId);
 
             _sut.AssignBaseRef(traceLeaf, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes);
         }
@@ -78,7 +78,7 @@ namespace Graph.Tests
         [Then(@"На форме выбора трасс эта трасса недоступна для выбора остальные доступны")]
         public void ThenНаФормеВыбораТрассЭтаТрассаНедоступнаДляВыбора()
         {
-            var traceList = _sut.ReadModel.Traces.Where(t => t.Equipments.Contains(_oldEquipment.Id)).ToList();
+            var traceList = _sut.ReadModel.Traces.Where(t => t.EquipmentIds.Contains(_oldEquipment.EquipmentId)).ToList();
             var traceChoiceVm = new TracesToEquipmentInjectionViewModel(traceList);
             traceChoiceVm.Choices.First(l => l.Id == _shortTraceId).IsEnabled.Should().BeFalse();
             foreach (var traceChoice in traceChoiceVm.Choices.Where(l => l.Id != _shortTraceId))
@@ -111,41 +111,41 @@ namespace Graph.Tests
         {
             _sut.ReadModel.Equipments.Count(e => e.NodeId == _oldEquipment.NodeId).Should().Be(3);
 
-            var equipment = _sut.ReadModel.Equipments.First(e => e.NodeId == _oldEquipment.NodeId && e.Id != _oldEquipment.Id && e.Type != EquipmentType.EmptyNode);
+            var equipment = _sut.ReadModel.Equipments.First(e => e.NodeId == _oldEquipment.NodeId && e.EquipmentId != _oldEquipment.EquipmentId && e.Type != EquipmentType.EmptyNode);
 
             equipment.Title.Should().Be(SystemUnderTest.NewTitleForTest);
             equipment.Type.Should().Be(SystemUnderTest.NewTypeForTest);
             equipment.CableReserveLeft.Should().Be(SystemUnderTest.NewLeftCableReserve);
             equipment.CableReserveRight.Should().Be(SystemUnderTest.NewRightCableReserve);
             equipment.Comment.Should().Be(SystemUnderTest.NewCommentForTest);
-            _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
+            _sut.ReadModel.Equipments.FirstOrDefault(e => e.EquipmentId == Guid.Empty).Should().BeNull();
 
-            _equipmentId = equipment.Id;
+            _equipmentId = equipment.EquipmentId;
         }
 
         [Then(@"Но в трассы оно не входит")]
         public void ThenНоВТрассыОноНеВходит()
         {
-            _sut.ReadModel.Traces.Any(t => t.Equipments.Contains(_equipmentId)).Should().BeFalse();
+            _sut.ReadModel.Traces.Any(t => t.EquipmentIds.Contains(_equipmentId)).Should().BeFalse();
         }
 
         [Then(@"Новое оборудование входит во все трассы а старое ни в одну")]
         public void ThenНовоеОборудованиеВходитВоВсеТрассыАСтароеНиВОдну()
         {
-            var shortTrace = _sut.ReadModel.Traces.First(t => t.Id == _shortTraceId);
-            shortTrace.Equipments.Contains(_equipmentId).Should().BeTrue();
-            shortTrace.Equipments.Count.ShouldBeEquivalentTo(shortTrace.Nodes.Count);
+            var shortTrace = _sut.ReadModel.Traces.First(t => t.TraceId == _shortTraceId);
+            shortTrace.EquipmentIds.Contains(_equipmentId).Should().BeTrue();
+            shortTrace.EquipmentIds.Count.ShouldBeEquivalentTo(shortTrace.NodeIds.Count);
 
-            var traceWithEqId = _sut.ReadModel.Traces.First(t => t.Id == _traceWithEqId);
-            traceWithEqId.Equipments.Contains(_equipmentId).Should().BeTrue();
-            traceWithEqId.Equipments.Count.ShouldBeEquivalentTo(traceWithEqId.Nodes.Count);
+            var traceWithEqId = _sut.ReadModel.Traces.First(t => t.TraceId == _traceWithEqId);
+            traceWithEqId.EquipmentIds.Contains(_equipmentId).Should().BeTrue();
+            traceWithEqId.EquipmentIds.Count.ShouldBeEquivalentTo(traceWithEqId.NodeIds.Count);
 
-            var traceWithoutEqId = _sut.ReadModel.Traces.First(t => t.Id == _traceWithoutEqId);
-            traceWithoutEqId.Equipments.Contains(_equipmentId).Should().BeTrue();
-            traceWithoutEqId.Equipments.Count.ShouldBeEquivalentTo(traceWithoutEqId.Nodes.Count);
+            var traceWithoutEqId = _sut.ReadModel.Traces.First(t => t.TraceId == _traceWithoutEqId);
+            traceWithoutEqId.EquipmentIds.Contains(_equipmentId).Should().BeTrue();
+            traceWithoutEqId.EquipmentIds.Count.ShouldBeEquivalentTo(traceWithoutEqId.NodeIds.Count);
 
-            _sut.ReadModel.Traces.Any(t => t.Equipments.Contains(_oldEquipment.Id)).Should().BeFalse();
-            _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
+            _sut.ReadModel.Traces.Any(t => t.EquipmentIds.Contains(_oldEquipment.EquipmentId)).Should().BeFalse();
+            _sut.ReadModel.Equipments.FirstOrDefault(e => e.EquipmentId == Guid.Empty).Should().BeNull();
         }
 
         [Then(@"В узле НЕ создается новое оборудование")]

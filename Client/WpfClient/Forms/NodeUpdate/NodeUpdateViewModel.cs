@@ -143,7 +143,7 @@ namespace Iit.Fibertest.Client
             Coors = _nodeCoors.ToDetailedString(_selectedGpsInputModeComboItem.Mode);
             Comment = _originalNode.Comment;
 
-            TracesInNode = _readModel.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
+            TracesInNode = _readModel.Traces.Where(t => t.NodeIds.Contains(nodeId)).ToList();
 
             EquipmentsInNode = new ObservableCollection<ItemOfEquipmentTableModel>(
                 _readModel.Equipments.Where(e => e.NodeId == _originalNode.NodeId && e.Type != EquipmentType.EmptyNode).Select(CreateEqItem));
@@ -164,15 +164,15 @@ namespace Iit.Fibertest.Client
 
         private ItemOfEquipmentTableModel CreateEqItem(Equipment equipment)
         {
-            var tracesNames = _readModel.Traces.Where(t => t.Equipments.Contains(equipment.Id))
+            var tracesNames = _readModel.Traces.Where(t => t.EquipmentIds.Contains(equipment.EquipmentId))
                 .Aggregate("", (current, traceVm) => current + (traceVm.Title + @" ;  "));
 
-            var isLastForSomeTrace = _readModel.Traces.Any(t => t.Equipments.Last() == equipment.Id);
-            var isPartOfTraceWithBase = _readModel.Traces.Any(t => t.Equipments.Contains(equipment.Id) && t.HasAnyBaseRef);
+            var isLastForSomeTrace = _readModel.Traces.Any(t => t.EquipmentIds.Last() == equipment.EquipmentId);
+            var isPartOfTraceWithBase = _readModel.Traces.Any(t => t.EquipmentIds.Contains(equipment.EquipmentId) && t.HasAnyBaseRef);
 
             var eqItem = new ItemOfEquipmentTableModel()
             {
-                Id = equipment.Id,
+                Id = equipment.EquipmentId,
                 Type = equipment.Type.ToLocalizedString(),
                 Title = equipment.Title,
                 CableReserveLeft = equipment.CableReserveLeft.ToString(),
@@ -189,7 +189,7 @@ namespace Iit.Fibertest.Client
         {
             var cmd = ((ItemOfEquipmentTableModel)sender).Command;
             if (cmd is UpdateEquipment equipment)
-                LaunchUpdateEquipmentView(equipment.Id);
+                LaunchUpdateEquipmentView(equipment.EquipmentId);
             else if (cmd is RemoveEquipment)
                 RemoveEquipment((RemoveEquipment)cmd);
             else
@@ -211,7 +211,7 @@ namespace Iit.Fibertest.Client
 
         private async void LaunchUpdateEquipmentView(Guid id)
         {
-            var equipment = _readModel.Equipments.First(e => e.Id == id);
+            var equipment = _readModel.Equipments.First(e => e.EquipmentId == id);
 
             var equipmentViewModel = _globalScope.Resolve<EquipmentInfoViewModel>();
             equipmentViewModel.InitializeForUpdate(equipment);

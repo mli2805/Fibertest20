@@ -94,7 +94,7 @@ namespace Graph.Tests
         [Then(@"Трасса присоединяется к порту РТУ")]
         public void ThenТрассаПрисоединяетсяКПортуРту()
         {
-            _sut.ReadModel.Traces.First(t => t.Id == _traceId).Port.Should().Be(_portNumber);
+            _sut.ReadModel.Traces.First(t => t.TraceId == _traceId).Port.Should().Be(_portNumber);
             var rtuLeaf = (RtuLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_rtuId);
             (rtuLeaf.ChildrenImpresario.Children[_portNumber - 1] is TraceLeaf).Should().BeTrue();
             rtuLeaf.ChildrenImpresario.Children[_portNumber - 1].Id.Should().Be(_traceId);
@@ -110,7 +110,7 @@ namespace Graph.Tests
         [Then(@"Трасса НЕ присоединяется к порту РТУ")]
         public void ThenТрассаНеПрисоединяетсяКПортуРту()
         {
-            _sut.ReadModel.Traces.First(t => t.Id == _traceId).Port.Should().BeLessThan(1);
+            _sut.ReadModel.Traces.First(t => t.TraceId == _traceId).Port.Should().BeLessThan(1);
             var rtuLeaf = (RtuLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_rtuId);
             (rtuLeaf.ChildrenImpresario.Children[_portNumber - 1] is PortLeaf).Should().BeTrue();
         }

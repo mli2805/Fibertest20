@@ -59,7 +59,7 @@ namespace Iit.Fibertest.Graph
 
             foreach (var trace in _model.Traces.Where(t => t.RtuId == rtu.Id).ToList())
             {
-                _traceEventsOnModelExecutor.CleanTrace(new TraceCleaned(){TraceId = trace.Id});
+                _traceEventsOnModelExecutor.CleanTrace(new TraceCleaned(){TraceId = trace.TraceId});
                 _model.Traces.Remove(trace);
             }
 

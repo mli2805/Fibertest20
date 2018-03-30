@@ -15,9 +15,9 @@ namespace Iit.Fibertest.Client
 
         public static NodeVm GetNodeByLandmarkIndex(this GraphReadModel model, Guid traceId, int landmarkIndex)
         {
-            var trace = model.ReadModel.Traces.First(t => t.Id == traceId);
+            var trace = model.ReadModel.Traces.First(t => t.TraceId == traceId);
             var i = -1;
-            foreach (var nodeId in trace.Nodes)
+            foreach (var nodeId in trace.NodeIds)
             {
                 var nodeVm = model.Data.Nodes.First(n => n.Id == nodeId);
                 if (nodeVm.Type != EquipmentType.AdjustmentPoint) i++;
@@ -32,9 +32,9 @@ namespace Iit.Fibertest.Client
         public static FiberVm GetFiberByLandmarkIndexes(this GraphReadModel model, Guid traceId,
             int leftLandmarkIndex, int rightLandmarkIndex)
         {
-            var trace = model.ReadModel.Traces.First(t => t.Id == traceId);
+            var trace = model.ReadModel.Traces.First(t => t.TraceId == traceId);
             List<Guid> traceNodesWithoutAdjustmentPoints = new List<Guid>();
-            foreach (var nodeId in trace.Nodes)
+            foreach (var nodeId in trace.NodeIds)
             {
                 var nodeVm = model.Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
                 if (nodeVm != null && nodeVm.Type != EquipmentType.AdjustmentPoint)

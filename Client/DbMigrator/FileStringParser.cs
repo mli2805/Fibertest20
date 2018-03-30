@@ -103,7 +103,7 @@ namespace Iit.Fibertest.DbMigrator
 
             var evnt = new AddEquipmentIntoNode()
             {
-                Id = equipmentGuid,
+                EquipmentId = equipmentGuid,
                 NodeId = _graphModel.NodesDictionary[nodeId],
                 Type = type,
                 Title = parts[4].Trim(),

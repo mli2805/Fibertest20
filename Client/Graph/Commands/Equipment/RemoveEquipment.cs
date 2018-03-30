@@ -4,6 +4,6 @@ namespace Iit.Fibertest.Graph
 {
     public class RemoveEquipment
     {
-        public Guid Id { get; set; }
+        public Guid EquipmentId { get; set; }
     }
 }

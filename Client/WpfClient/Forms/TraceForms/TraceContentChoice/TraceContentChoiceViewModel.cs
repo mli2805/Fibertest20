@@ -69,7 +69,7 @@ namespace Iit.Fibertest.Client
 
 
             var emptyNode = possibleEquipment.Single(e => e.Type == EquipmentType.EmptyNode);
-            NoEquipmentInNodeChoice = _equipmentOfChoiceModelFactory.CreateDoNotUseEquipment(emptyNode.Id, isLastNode);
+            NoEquipmentInNodeChoice = _equipmentOfChoiceModelFactory.CreateDoNotUseEquipment(emptyNode.EquipmentId, isLastNode);
             NoEquipmentInNodeChoice.PropertyChanged += EquipmentOfChoiceModel_PropertyChanged;
 
             if (EquipmentChoices.Any())
@@ -117,7 +117,7 @@ namespace Iit.Fibertest.Client
 
                 foreach (var equipment in _possibleEquipment.Where(e => e.Type != EquipmentType.EmptyNode))
                 {
-                    var model = EquipmentChoices.FirstOrDefault(m => m.EquipmentId == equipment.Id);
+                    var model = EquipmentChoices.FirstOrDefault(m => m.EquipmentId == equipment.EquipmentId);
                     if (model == null) continue;
 
                     if (equipment.Title != model.TitleOfEquipment ||
@@ -153,7 +153,7 @@ namespace Iit.Fibertest.Client
         {
             var cmd = new UpdateEquipment()
             {
-                Id = equipment.Id,
+                EquipmentId = equipment.EquipmentId,
                 Title = newTitle,
                 Type = equipment.Type,
                 CableReserveLeft = leftCableReserve,

@@ -94,7 +94,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (cmd is MoveNode moveNode)
                 return await _baseRefRepairmanIntermediary.ProcessNodeMoved(moveNode.NodeId);
             if (cmd is UpdateEquipment updateEquipment)
-                return await _baseRefRepairmanIntermediary.ProcessUpdateEquipment(updateEquipment.Id);
+                return await _baseRefRepairmanIntermediary.ProcessUpdateEquipment(updateEquipment.EquipmentId);
             if (cmd is UpdateFiber updateFiber)
                 return await _baseRefRepairmanIntermediary.ProcessUpdateFiber(updateFiber.Id);
             if (cmd is AddNodeIntoFiber addNodeIntoFiber)

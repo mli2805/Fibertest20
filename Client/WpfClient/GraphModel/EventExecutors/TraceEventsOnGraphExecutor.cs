@@ -21,8 +21,8 @@ namespace Iit.Fibertest.Client
 
         public void AddTrace(TraceAdded evnt)
         {
-            var fiberIds = _readModel.GetFibersByNodes(evnt.Nodes).ToList();
-            _model.ChangeFutureTraceColor(evnt.Id, fiberIds, FiberState.NotJoined);
+            var fiberIds = _readModel.GetFibersByNodes(evnt.NodeIds).ToList();
+            _model.ChangeFutureTraceColor(evnt.TraceId, fiberIds, FiberState.NotJoined);
         }
 
         private IEnumerable<FiberVm> GetTraceFibersByNodes(List<Guid> nodes)
@@ -78,9 +78,9 @@ namespace Iit.Fibertest.Client
 
         public void DetachTrace(TraceDetached evnt)
         {
-            var trace = _readModel.Traces.First(t => t.Id == evnt.TraceId);
-            foreach (var fiberVm in GetTraceFibersByNodes(trace.Nodes))
-                fiberVm.SetState(trace.Id, trace.State);
+            var trace = _readModel.Traces.First(t => t.TraceId == evnt.TraceId);
+            foreach (var fiberVm in GetTraceFibersByNodes(trace.NodeIds))
+                fiberVm.SetState(trace.TraceId, trace.State);
             _model.CleanAccidentPlacesOnTrace(evnt.TraceId);
         }
 

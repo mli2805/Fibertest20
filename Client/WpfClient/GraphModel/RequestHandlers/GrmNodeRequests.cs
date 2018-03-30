@@ -69,26 +69,26 @@ namespace Iit.Fibertest.Client
 
         public async Task RemoveNode(Guid nodeId, EquipmentType type)
         {
-            if (_readModel.Traces.Any(t => t.Nodes.Last() == nodeId))
+            if (_readModel.Traces.Any(t => t.NodeIds.Last() == nodeId))
                 return;
-            if (_readModel.Traces.Any(t => t.Nodes.Contains(nodeId) && t.HasAnyBaseRef) && type != EquipmentType.AdjustmentPoint)
+            if (_readModel.Traces.Any(t => t.NodeIds.Contains(nodeId) && t.HasAnyBaseRef) && type != EquipmentType.AdjustmentPoint)
                 return;
 
             var detoursForGraph = new List<NodeDetour>();
             var detoursForTracesInModel = new Dictionary<Guid, Guid>();
-            foreach (var trace in _readModel.Traces.Where(t => t.Nodes.Contains(nodeId)))
+            foreach (var trace in _readModel.Traces.Where(t => t.NodeIds.Contains(nodeId)))
             {
-                var removedNodeIndex = trace.Nodes.IndexOf(nodeId);
+                var removedNodeIndex = trace.NodeIds.IndexOf(nodeId);
                 var detourFiberId = Guid.NewGuid();
 
-                detoursForTracesInModel.Add(trace.Id, detourFiberId);
+                detoursForTracesInModel.Add(trace.TraceId, detourFiberId);
                 var detour = new NodeDetour()
                 {
                     FiberId = detourFiberId,
-                    NodeId1 = trace.Nodes[removedNodeIndex-1],
-                    NodeId2 = trace.Nodes[removedNodeIndex+1],
+                    NodeId1 = trace.NodeIds[removedNodeIndex-1],
+                    NodeId2 = trace.NodeIds[removedNodeIndex+1],
                     TraceState = trace.State,
-                    TraceId = trace.Id,
+                    TraceId = trace.TraceId,
                 };
                 detoursForGraph.Add(detour);
             }

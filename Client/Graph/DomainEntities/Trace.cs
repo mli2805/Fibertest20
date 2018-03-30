@@ -6,7 +6,7 @@ namespace Iit.Fibertest.Graph
 {
     public class Trace
     {
-        public Guid Id { get; set; }
+        public Guid TraceId { get; set; }
         public string Title { get; set; }
         public Guid RtuId { get; set; } // it's better to store than search through the RTU list
 
@@ -16,8 +16,8 @@ namespace Iit.Fibertest.Graph
         public int Port { get; set; } = -1;
 
         public TraceMode Mode { get; set; } = TraceMode.Light;
-        public List<Guid> Nodes { get; set; } = new List<Guid>();
-        public List<Guid> Equipments { get; set; } = new List<Guid>();
+        public List<Guid> NodeIds { get; set; } = new List<Guid>();
+        public List<Guid> EquipmentIds { get; set; } = new List<Guid>();
 
         public Guid PreciseId { get; set; } = Guid.Empty;
         public TimeSpan PreciseDuration { get; set; }

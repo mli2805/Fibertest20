@@ -35,7 +35,7 @@ namespace Graph.Tests
         [Given(@"Трасса подключена к переключателю")]
         public void GivenТрассаПодключенаКПереключателю()
         {
-            _sut.AttachTraceTo(_trace.Id, _otauLeaf, 3, Answer.Yes);
+            _sut.AttachTraceTo(_trace.TraceId, _otauLeaf, 3, Answer.Yes);
         }
 
         [Then(@"Пункт удаление переключателя недоступен")]

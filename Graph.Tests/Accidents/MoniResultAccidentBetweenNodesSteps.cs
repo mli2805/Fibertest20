@@ -38,7 +38,7 @@ namespace Graph.Tests
             var dto = new MonitoringResultDto()
             {
                 RtuId = _trace.RtuId,
-                PortWithTrace = new PortWithTraceDto() { TraceId = _trace.Id },
+                PortWithTrace = new PortWithTraceDto() { TraceId = _trace.TraceId },
                 TraceState = traceState,
                 BaseRefType = baseType,
                 SorBytes = sorBytes,
@@ -53,12 +53,12 @@ namespace Graph.Tests
             _sut.GraphReadModel.Data.Nodes.Count.Should().Be(6);
             _sut.GraphReadModel.Data.Nodes.Count(n => n.Type == EquipmentType.AccidentPlace).Should().Be(1);
             var accidentPlaceNodeVm = _sut.GraphReadModel.Data.Nodes.First(n => n.Type == EquipmentType.AccidentPlace);
-            accidentPlaceNodeVm.AccidentOnTraceVmId.Should().Be(_trace.Id);
+            accidentPlaceNodeVm.AccidentOnTraceVmId.Should().Be(_trace.TraceId);
 
             _sut.ReadModel.Nodes.Count.Should().Be(6);
             _sut.ReadModel.Nodes.Count(n => n.TypeOfLastAddedEquipment == EquipmentType.AccidentPlace).Should().Be(1);
             var accidentPlaceNode = _sut.GraphReadModel.Data.Nodes.First(n => n.Type == EquipmentType.AccidentPlace);
-            accidentPlaceNode.AccidentOnTraceVmId.Should().Be(_trace.Id);
+            accidentPlaceNode.AccidentOnTraceVmId.Should().Be(_trace.TraceId);
 
             _trace.State.Should().Be(FiberState.FiberBreak);
             _sut.AssertTraceFibersState(_trace);

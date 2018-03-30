@@ -54,12 +54,12 @@ namespace Iit.Fibertest.Client
         {
             var cmd = new ReSendBaseRefsDto()
             {
-                TraceId = _selectedTrace.Id,
+                TraceId = _selectedTrace.TraceId,
                 RtuId = _selectedTrace.RtuId,
                 OtauPortDto = _otauPortDto,
                 BaseRefDtos = new List<BaseRefDto>(),
             };
-            foreach (var baseRef in _readModel.BaseRefs.Where(b => b.TraceId == _selectedTrace.Id))
+            foreach (var baseRef in _readModel.BaseRefs.Where(b => b.TraceId == _selectedTrace.TraceId))
             {
                 cmd.BaseRefDtos.Add(new BaseRefDto()
                 {
@@ -86,11 +86,11 @@ namespace Iit.Fibertest.Client
 
             var command = new AttachTrace()
             {
-                TraceId = SelectedTrace.Id,
+                TraceId = SelectedTrace.TraceId,
                 OtauPortDto = _otauPortDto,
             };
 
-            Measurement measurement =  _readModel.Measurements.LastOrDefault(m=>m.TraceId == _selectedTrace.Id);
+            Measurement measurement =  _readModel.Measurements.LastOrDefault(m=>m.TraceId == _selectedTrace.TraceId);
             if (measurement != null)
             {
                 command.PreviousTraceState = measurement.TraceState;

@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
         {
             var equipmentOfChoiceModel = new EquipmentOfChoiceModel()
             {
-                EquipmentId = equipment.Id,
+                EquipmentId = equipment.EquipmentId,
                 TitleOfEquipment = equipment.Title,
                 TypeOfEquipment = equipment.Type.ToLocalizedString(),
                 LeftCableReserve = equipment.CableReserveLeft,

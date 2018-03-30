@@ -114,7 +114,7 @@ namespace Graph.Tests
         {
            _sut.ReadModel.Nodes.Count.Should().Be(_nodesCountCutOff + p0);
            _sut.ReadModel.Equipments.Count.Should().Be(_equipmentCountCutOff + p0);
-           _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
+           _sut.ReadModel.Equipments.FirstOrDefault(e => e.EquipmentId == Guid.Empty).Should().BeNull();
            _sut.ReadModel.Fibers.Count.Should().Be(_fibersCountCutOff + p1);
         }
 

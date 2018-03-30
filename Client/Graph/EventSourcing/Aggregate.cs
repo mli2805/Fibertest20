@@ -159,8 +159,8 @@ namespace Iit.Fibertest.Graph
                     _logFile.AppendLine(message);
                     return message;
                 }
-                var idx = trace.Nodes.IndexOf(cmd.NodeId);
-                trace.Equipments[idx] = cmd.Id;
+                var idx = trace.NodeIds.IndexOf(cmd.NodeId);
+                trace.EquipmentIds[idx] = cmd.EquipmentId;
             }
             return null;
         }
@@ -202,9 +202,9 @@ namespace Iit.Fibertest.Graph
             evnt.FibersFromCleanedTraces = new Dictionary<Guid, Guid>();
             foreach (var trace in WriteModel.Traces.Where(t=>t.RtuId == cmd.RtuId))
             {
-                foreach (var fiberId in WriteModel.GetFibersByNodes(trace.Nodes))
+                foreach (var fiberId in WriteModel.GetFibersByNodes(trace.NodeIds))
                 {
-                    evnt.FibersFromCleanedTraces.Add(fiberId, trace.Id);
+                    evnt.FibersFromCleanedTraces.Add(fiberId, trace.TraceId);
                 }
             }
             return WriteModel.Add(evnt);
@@ -227,11 +227,11 @@ namespace Iit.Fibertest.Graph
             var rtu = WriteModel.GetRtu(cmd.RtuId);
             if (rtu == null)
                 return Resources.SID_RTU_is_not_found;
-            if (cmd.Equipments[0] != cmd.RtuId)
+            if (cmd.EquipmentIds[0] != cmd.RtuId)
                 return Resources.SID_Trace_should_start_from_RTU;
-            if (cmd.Nodes.Count != cmd.Equipments.Count)
+            if (cmd.NodeIds.Count != cmd.EquipmentIds.Count)
                 return Resources.SID_Equipments_count_in_trace_should_match_nodes_count;
-            if (cmd.Equipments.Last() == Guid.Empty)
+            if (cmd.EquipmentIds.Last() == Guid.Empty)
                 return Resources.SID_Last_node_of_trace_must_contain_some_equipment;
 
             return WriteModel.Add(_mapper.Map<TraceAdded>(cmd));
@@ -245,7 +245,7 @@ namespace Iit.Fibertest.Graph
         public string When(CleanTrace cmd)
         {
             var traceCleaned = _mapper.Map<TraceCleaned>(cmd);
-            traceCleaned.NodeIds = WriteModel.Traces.First(t => t.Id == cmd.TraceId).Nodes;
+            traceCleaned.NodeIds = WriteModel.Traces.First(t => t.TraceId == cmd.TraceId).NodeIds;
             traceCleaned.FiberIds = WriteModel.GetFibersByNodes(traceCleaned.NodeIds).ToList();
             return WriteModel.Add(traceCleaned);
         }
@@ -253,7 +253,7 @@ namespace Iit.Fibertest.Graph
         public string When(RemoveTrace cmd)
         {
             var traceRemoved = _mapper.Map<TraceRemoved>(cmd);
-            traceRemoved.NodeIds = WriteModel.Traces.First(t => t.Id == cmd.TraceId).Nodes;
+            traceRemoved.NodeIds = WriteModel.Traces.First(t => t.TraceId == cmd.TraceId).NodeIds;
             traceRemoved.FiberIds = WriteModel.GetFibersByNodes(traceRemoved.NodeIds).ToList();
             return WriteModel.Add(traceRemoved);
         }
@@ -296,7 +296,7 @@ namespace Iit.Fibertest.Graph
 
         public string When(AddMeasurement cmd)
         {
-            if (WriteModel.Traces.All(t => t.Id != cmd.TraceId))
+            if (WriteModel.Traces.All(t => t.TraceId != cmd.TraceId))
                 return $@"Unknown trace {cmd.TraceId.First6()}";
             return WriteModel.Add(_mapper.Map<MeasurementAdded>(cmd));
         }

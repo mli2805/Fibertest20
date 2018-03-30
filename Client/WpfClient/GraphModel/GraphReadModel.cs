@@ -99,7 +99,7 @@ namespace Iit.Fibertest.Client
 
         public void ChangeTraceColor(Guid traceId, FiberState state)
         {
-            var trace = ReadModel.Traces.FirstOrDefault(t => t.Id == traceId);
+            var trace = ReadModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
             if (trace == null) return;
 
             var fibers = ReadModel.GetTraceFibers(trace);

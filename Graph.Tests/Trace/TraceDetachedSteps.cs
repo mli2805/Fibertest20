@@ -52,7 +52,7 @@ namespace Graph.Tests
         [Then(@"Трасса отсоединена")]
         public void ThenТрассаОтсоединена()
         {
-            _sut.ReadModel.Traces.Single(t => t.Id == _traceId).Port.Should().BeLessThan(1);
+            _sut.ReadModel.Traces.Single(t => t.TraceId == _traceId).Port.Should().BeLessThan(1);
 
             var portLeaf = _rtuLeaf.ChildrenImpresario.Children[_portNumber - 1] as PortLeaf;
             portLeaf.Should().NotBeNull();
@@ -62,7 +62,7 @@ namespace Graph.Tests
         [Then(@"Трасса отсоединена от переключателя")]
         public void ThenТрассаОтсоединенаОтПереключателя()
         {
-            _sut.ReadModel.Traces.Single(t => t.Id == _traceId).Port.Should().BeLessThan(1);
+            _sut.ReadModel.Traces.Single(t => t.TraceId == _traceId).Port.Should().BeLessThan(1);
             var portLeaf = _otauLeaf.ChildrenImpresario.Children[_portNumber - 1] as PortLeaf;
             portLeaf.Should().NotBeNull();
             portLeaf?.Name.Should().

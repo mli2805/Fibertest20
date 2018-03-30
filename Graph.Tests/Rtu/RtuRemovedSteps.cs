@@ -36,8 +36,8 @@ namespace Graph.Tests
         [Given(@"Существует трасса от первого РТУ")]
         public void GivenСуществуетТрассаОтЭтогоРту()
         {
-            _traceId = _sut.DefineTrace(_nodes[2], _rtu.NodeId, @"title", 3).Id;
-            _fibers = _sut.ReadModel.GetTraceFibers(_sut.ReadModel.Traces.FirstOrDefault(t => t.Id == _traceId)).Select(f=>f.FiberId).ToArray();
+            _traceId = _sut.DefineTrace(_nodes[2], _rtu.NodeId, @"title", 3).TraceId;
+            _fibers = _sut.ReadModel.GetTraceFibers(_sut.ReadModel.Traces.FirstOrDefault(t => t.TraceId == _traceId)).Select(f=>f.FiberId).ToArray();
         }
 
         [Given(@"Существует трасса от второго РТУ последние отрезки трасс совпадают")]
@@ -70,7 +70,7 @@ namespace Graph.Tests
        [Then(@"Трасса удаляемого RTU не удаляется но очищается")]
         public void ThenТрассаУдаляемогоRtuНеУдаляютсяНоОчищаются()
         {
-            _sut.ReadModel.Traces.FirstOrDefault(t => t.Id == _traceId).Should().BeNull();
+            _sut.ReadModel.Traces.FirstOrDefault(t => t.TraceId == _traceId).Should().BeNull();
 
             _sut.GraphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == _fibers[0]).Should().BeNull();
             _sut.GraphReadModel.Data.Fibers.First(f => f.Id == _fibers[1]).State.Should()

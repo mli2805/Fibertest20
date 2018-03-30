@@ -16,17 +16,17 @@ namespace Iit.Fibertest.Graph
         public double CalculateTraceGpsLengthKm(Trace trace)
         {
             double result = 0;
-            for (int i = 0; i < trace.Nodes.Count - 1; i++)
+            for (int i = 0; i < trace.NodeIds.Count - 1; i++)
             {
-                var node1 = _readModel.Nodes.FirstOrDefault(n => n.NodeId == trace.Nodes[i]);
+                var node1 = _readModel.Nodes.FirstOrDefault(n => n.NodeId == trace.NodeIds[i]);
                 if (node1 == null) return 0;
-                var node2 = _readModel.Nodes.FirstOrDefault(n => n.NodeId == trace.Nodes[i + 1]);
+                var node2 = _readModel.Nodes.FirstOrDefault(n => n.NodeId == trace.NodeIds[i + 1]);
                 if (node2 == null) return 0;
 
                 var equipment1 = i == 0
                     ? new Equipment() { Type = EquipmentType.Rtu, CableReserveLeft = 0, CableReserveRight = 0 }
-                    : _readModel.Equipments.FirstOrDefault(e => e.Id == trace.Equipments[i]);
-                var equipment2 = _readModel.Equipments.FirstOrDefault(e => e.Id == trace.Equipments[i + 1]);
+                    : _readModel.Equipments.FirstOrDefault(e => e.EquipmentId == trace.EquipmentIds[i]);
+                var equipment2 = _readModel.Equipments.FirstOrDefault(e => e.EquipmentId == trace.EquipmentIds[i + 1]);
 
                 result = result +
                          GpsCalculator.GetDistanceBetweenPointLatLng(node1.Position, node2.Position) +

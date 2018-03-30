@@ -20,7 +20,7 @@ namespace Graph.Tests
         private static bool TraceToAttachHandler(object model, Guid traceId, Answer answer)
         {
             if (!(model is TraceToAttachViewModel vm)) return false;
-            vm.SelectedTrace = vm.Choices.First(t => t.Id == traceId);
+            vm.SelectedTrace = vm.Choices.First(t => t.TraceId == traceId);
             if (answer == Answer.Yes)
                 vm.Attach();
             else

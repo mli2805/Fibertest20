@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Client
             var dict = new Dictionary<EquipmentType, int>();
             foreach (var id in traceEquipments.Skip(1))
             {
-                dict.Update(_readModel.Equipments.First(e => e.Id == id).Type);
+                dict.Update(_readModel.Equipments.First(e => e.EquipmentId == id).Type);
             }
             return dict;
         }

@@ -32,7 +32,7 @@ namespace Graph.Tests
         [Given(@"Для трассы проходящей по данному отрезку задана базовая")]
         public void GivenДляДаннойТрассыЗаданаБазовая()
         {
-            var traceLeaf = (TraceLeaf)_scene.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
+            var traceLeaf = (TraceLeaf)_scene.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.TraceId);
 
             _scene.AssignBaseRef(traceLeaf, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes);
             traceLeaf.BaseRefsSet.PreciseId.Should().NotBe(Guid.Empty);
@@ -45,7 +45,7 @@ namespace Graph.Tests
             _scene.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber() {FiberId = _fiber.FiberId}).Wait();
             _scene.Poller.EventSourcingTick().Wait();
             _nodeId = _scene.ReadModel.Nodes.Last().NodeId;
-            _equipmentId = _scene.ReadModel.Equipments.Last().Id;
+            _equipmentId = _scene.ReadModel.Equipments.Last().EquipmentId;
         }
 
         [Then(@"Старый отрезок удаляется и добавляются два новых и новый узел связывает их")]
@@ -59,10 +59,10 @@ namespace Graph.Tests
         [Then(@"Новый узел входит в трассу")]
         public void ThenНовыйУзелВходитВТрассуАСвязностьТрассыСохраняется()
         {
-            _trace.Nodes.Should().Contain(_nodeId);
-            _trace.Nodes.Count.ShouldBeEquivalentTo(_trace.Equipments.Count);
-            _trace.Equipments.Contains(Guid.Empty).Should().BeFalse();
-            _trace.Equipments.Contains(_equipmentId).Should().BeTrue();
+            _trace.NodeIds.Should().Contain(_nodeId);
+            _trace.NodeIds.Count.ShouldBeEquivalentTo(_trace.EquipmentIds.Count);
+            _trace.EquipmentIds.Contains(Guid.Empty).Should().BeFalse();
+            _trace.EquipmentIds.Contains(_equipmentId).Should().BeTrue();
         }
 
         [Then(@"Cообщением об невозможности")]

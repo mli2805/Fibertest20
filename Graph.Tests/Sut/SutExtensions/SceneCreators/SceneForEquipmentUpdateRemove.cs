@@ -24,7 +24,7 @@ namespace Graph.Tests
             sut.Poller.EventSourcingTick().Wait();
             var nodeId = sut.ReadModel.Nodes.Last().NodeId;
             nodeA = nodeId;
-            eqA = sut.ReadModel.Equipments.Last(e=>e.NodeId == nodeId && e.Type == EquipmentType.Closure).Id;
+            eqA = sut.ReadModel.Equipments.Last(e=>e.NodeId == nodeId && e.Type == EquipmentType.Closure).EquipmentId;
         }
 
         private static Guid SetRtuAndFibers(this SystemUnderTest sut, Guid nodeAId, Guid nodeBId)

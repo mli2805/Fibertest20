@@ -122,7 +122,7 @@ namespace Iit.Fibertest.Client
             var rtuLeaf = (RtuLeaf)Tree.GetById(e.RtuId);
             var traceLeaf = _globalScope.Resolve<TraceLeaf>(new NamedParameter(@"parent", rtuLeaf));
 
-            traceLeaf.Id = e.Id;
+            traceLeaf.Id = e.TraceId;
             traceLeaf.Title = e.Title;
             traceLeaf.TraceState = FiberState.NotJoined;
             traceLeaf.Color = Brushes.Blue;

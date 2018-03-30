@@ -46,11 +46,11 @@ namespace Iit.Fibertest.Client
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
-            var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceLeaf.Id);
+            var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == traceLeaf.Id);
             if (trace == null)
                 return;
             var vm = _globalScope.Resolve<TraceInfoViewModel>();
-            vm.Initialize(traceLeaf.Id, trace.Equipments, trace.Nodes);
+            vm.Initialize(traceLeaf.Id, trace.EquipmentIds, trace.NodeIds);
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
@@ -63,7 +63,7 @@ namespace Iit.Fibertest.Client
             if (!(param is TraceLeaf traceLeaf))
                 return;
 
-            var trace = _readModel.Traces.First(t => t.Id == traceLeaf.Id);
+            var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             _baseRefsAssignViewModel.Initialize(trace);
             _windowManager.ShowDialogWithAssignedOwner(_baseRefsAssignViewModel);
         }

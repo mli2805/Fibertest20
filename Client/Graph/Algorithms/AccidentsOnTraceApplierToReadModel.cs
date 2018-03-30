@@ -33,14 +33,14 @@ namespace Iit.Fibertest.Graph.Algorithms
 
         public void ShowMonitoringResult(MeasurementAdded e)
         {
-            var trace = _model.Traces.FirstOrDefault(t => t.Id == e.TraceId);
+            var trace = _model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null) return;
 
             trace.State = e.TraceState;
             foreach (var fiber in _model.GetTraceFibers(trace))
-                fiber.SetState(trace.Id, trace.State);
+                fiber.SetState(trace.TraceId, trace.State);
 
-            CleanAccidentPlacesOnTrace(trace.Id);
+            CleanAccidentPlacesOnTrace(trace.TraceId);
 
             if (e.TraceState != FiberState.Ok && e.TraceState != FiberState.NoFiber)
                 e.Accidents.ForEach(a => ShowAccidentPlaceOnTrace(a, e.TraceId));
@@ -117,19 +117,19 @@ namespace Iit.Fibertest.Graph.Algorithms
         // and return all fibers between those nodes
         private IEnumerable<Fiber> GetTraceFibersBetweenLandmarks(Guid traceId, int leftLmIndex, int rightLmIndex)
         {
-            var trace = _model.Traces.First(t => t.Id == traceId);
+            var trace = _model.Traces.First(t => t.TraceId == traceId);
             var nodesWithoutAdjustmentPoints = _model.GetTraceNodesExcludingAdjustmentPoints(traceId).ToList();
             var leftNodeId = nodesWithoutAdjustmentPoints[leftLmIndex];
             var rightNodeId = nodesWithoutAdjustmentPoints[rightLmIndex];
 
-            var leftNodeIndexInFull = trace.Nodes.IndexOf(leftNodeId);
-            var rightNodeIndexInFull = trace.Nodes.IndexOf(rightNodeId);
+            var leftNodeIndexInFull = trace.NodeIds.IndexOf(leftNodeId);
+            var rightNodeIndexInFull = trace.NodeIds.IndexOf(rightNodeId);
 
             for (int i = leftNodeIndexInFull; i < rightNodeIndexInFull; i++)
             {
                 yield return _model.Fibers.First(
-                    f => f.NodeId1 == trace.Nodes[i] && f.NodeId2 == trace.Nodes[i + 1] ||
-                         f.NodeId1 == trace.Nodes[i + 1] && f.NodeId2 == trace.Nodes[i]);
+                    f => f.NodeId1 == trace.NodeIds[i] && f.NodeId2 == trace.NodeIds[i + 1] ||
+                         f.NodeId1 == trace.NodeIds[i + 1] && f.NodeId2 == trace.NodeIds[i]);
             }
 
         }

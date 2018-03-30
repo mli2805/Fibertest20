@@ -26,8 +26,8 @@ namespace Graph.Tests
             _sut.GraphReadModel.Data.Nodes.Count.Should().Be(9);
             _sut.ReadModel.Nodes.Count.Should().Be(9);
 
-            _crossVm = _sut.GraphReadModel.Data.Nodes.First(n => n.Id == _trace.Nodes[1]);
-            _closureVm = _sut.GraphReadModel.Data.Nodes.First(n => n.Id == _trace.Nodes[5]);
+            _crossVm = _sut.GraphReadModel.Data.Nodes.First(n => n.Id == _trace.NodeIds[1]);
+            _closureVm = _sut.GraphReadModel.Data.Nodes.First(n => n.Id == _trace.NodeIds[5]);
 
             _trace.State.Should().Be(FiberState.NotJoined);
             _sut.AssertTraceFibersState(_trace);
@@ -47,7 +47,7 @@ namespace Graph.Tests
             var dto = new MonitoringResultDto()
             {
                 RtuId = _trace.RtuId,
-                PortWithTrace = new PortWithTraceDto() { TraceId = _trace.Id },
+                PortWithTrace = new PortWithTraceDto() { TraceId = _trace.TraceId },
                 TraceState = traceState,
                 BaseRefType = baseType,
                 SorBytes = sorBytes,
@@ -83,12 +83,12 @@ namespace Graph.Tests
             _sut.GraphReadModel.Data.Nodes.Count.Should().Be(10);
             _sut.GraphReadModel.Data.Nodes.Count(n => n.Type == EquipmentType.AccidentPlace).Should().Be(1);
             var accidentPlaceNodeVm = _sut.GraphReadModel.Data.Nodes.First(n => n.Type == EquipmentType.AccidentPlace);
-            accidentPlaceNodeVm.AccidentOnTraceVmId.Should().Be(_trace.Id);
+            accidentPlaceNodeVm.AccidentOnTraceVmId.Should().Be(_trace.TraceId);
 
             _sut.ReadModel.Nodes.Count.Should().Be(10);
             _sut.ReadModel.Nodes.Count(n => n.TypeOfLastAddedEquipment == EquipmentType.AccidentPlace).Should().Be(1);
             var accidentPlaceNode = _sut.GraphReadModel.Data.Nodes.First(n => n.Type == EquipmentType.AccidentPlace);
-            accidentPlaceNode.AccidentOnTraceVmId.Should().Be(_trace.Id);
+            accidentPlaceNode.AccidentOnTraceVmId.Should().Be(_trace.TraceId);
 
             _trace.State.Should().Be(FiberState.FiberBreak);
             _sut.AssertTraceFibersState(_trace);
@@ -104,16 +104,16 @@ namespace Graph.Tests
             _sut.GraphReadModel.Data.Nodes.Count.Should().Be(11);
             _sut.GraphReadModel.Data.Nodes.Count(n => n.Type == EquipmentType.AccidentPlace).Should().Be(2);
             var accidentPlaceNodeVm1 = _sut.GraphReadModel.Data.Nodes[9];
-            accidentPlaceNodeVm1.AccidentOnTraceVmId.Should().Be(_trace.Id);
+            accidentPlaceNodeVm1.AccidentOnTraceVmId.Should().Be(_trace.TraceId);
             var accidentPlaceNodeVm2 = _sut.GraphReadModel.Data.Nodes[10];
-            accidentPlaceNodeVm2.AccidentOnTraceVmId.Should().Be(_trace.Id);
+            accidentPlaceNodeVm2.AccidentOnTraceVmId.Should().Be(_trace.TraceId);
 
             _sut.ReadModel.Nodes.Count.Should().Be(11);
             _sut.ReadModel.Nodes.Count(n => n.TypeOfLastAddedEquipment == EquipmentType.AccidentPlace).Should().Be(2);
             var accidentPlaceNode1 = _sut.ReadModel.Nodes[9];
-            accidentPlaceNode1.AccidentOnTraceId.Should().Be(_trace.Id);
+            accidentPlaceNode1.AccidentOnTraceId.Should().Be(_trace.TraceId);
             var accidentPlaceNode2 = _sut.ReadModel.Nodes[10];
-            accidentPlaceNode2.AccidentOnTraceId.Should().Be(_trace.Id);
+            accidentPlaceNode2.AccidentOnTraceId.Should().Be(_trace.TraceId);
 
             _trace.State.Should().Be(FiberState.Major);
             _sut.AssertTraceFibersState(_trace);
@@ -130,16 +130,16 @@ namespace Graph.Tests
             _sut.GraphReadModel.Data.Nodes.Count.Should().Be(13);
             _sut.GraphReadModel.Data.Nodes.Count(n => n.Type == EquipmentType.AccidentPlace).Should().Be(2);
             var accidentPlaceNodeVm1 = _sut.GraphReadModel.Data.Nodes[11];
-            accidentPlaceNodeVm1.AccidentOnTraceVmId.Should().Be(_trace.Id);
+            accidentPlaceNodeVm1.AccidentOnTraceVmId.Should().Be(_trace.TraceId);
             var accidentPlaceNodeVm2 = _sut.GraphReadModel.Data.Nodes[12];
-            accidentPlaceNodeVm2.AccidentOnTraceVmId.Should().Be(_trace.Id);
+            accidentPlaceNodeVm2.AccidentOnTraceVmId.Should().Be(_trace.TraceId);
 
             _sut.ReadModel.Nodes.Count.Should().Be(13);
             _sut.ReadModel.Nodes.Count(n => n.TypeOfLastAddedEquipment == EquipmentType.AccidentPlace).Should().Be(2);
             var accidentPlaceNode1 = _sut.ReadModel.Nodes[11];
-            accidentPlaceNode1.AccidentOnTraceId.Should().Be(_trace.Id);
+            accidentPlaceNode1.AccidentOnTraceId.Should().Be(_trace.TraceId);
             var accidentPlaceNode2 = _sut.ReadModel.Nodes[12];
-            accidentPlaceNode2.AccidentOnTraceId.Should().Be(_trace.Id);
+            accidentPlaceNode2.AccidentOnTraceId.Should().Be(_trace.TraceId);
 
             _trace.State.Should().Be(FiberState.Major);
             _sut.AssertTraceFibersState(_trace);

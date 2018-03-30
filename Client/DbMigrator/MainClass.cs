@@ -55,7 +55,7 @@ namespace Iit.Fibertest.DbMigrator
             var i = 0;
             foreach (var pair in _graphModel.TracesDictionary)
             {
-                var rtuGuid = _graphModel.AddTraceCommands.First(c => c.Id == pair.Value).RtuId;
+                var rtuGuid = _graphModel.AddTraceCommands.First(c => c.TraceId == pair.Value).RtuId;
                 var assignBaseRefCommand = _traceBaseFetcher.GetAssignBaseRefsDto(pair.Key, pair.Value, rtuGuid);
                 _c2DWcfManager.AssignBaseRefAsync(assignBaseRefCommand).Wait();
 

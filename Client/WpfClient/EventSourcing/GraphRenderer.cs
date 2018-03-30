@@ -46,14 +46,14 @@ namespace Iit.Fibertest.Client
         {
             foreach (var trace in _readModel.Traces.Where(t => t.ZoneIds.Contains(_currentUser.ZoneId)))
             {
-                foreach (var nodeId in trace.Nodes)
+                foreach (var nodeId in trace.NodeIds)
                 {
                     if (_nodesForRendering.Any(n => n.Id == nodeId)) continue;
                     var node = _readModel.Nodes.First(n => n.NodeId == nodeId);
                     _nodesForRendering.Add(Map(node));
                 }
 
-                foreach (var node in _readModel.Nodes.Where(n => n.TypeOfLastAddedEquipment == EquipmentType.AccidentPlace && n.AccidentOnTraceId == trace.Id))
+                foreach (var node in _readModel.Nodes.Where(n => n.TypeOfLastAddedEquipment == EquipmentType.AccidentPlace && n.AccidentOnTraceId == trace.TraceId))
                     _nodesForRendering.Add(Map(node));
 
                 var fibers = _readModel.GetTraceFibers(trace);
@@ -62,9 +62,9 @@ namespace Iit.Fibertest.Client
                     var fiberVm = _fibersForRendering.FirstOrDefault(f => f.Id == fiber.FiberId);
                     if (fiberVm == null)
                         fiberVm = Map(fiber);
-                    fiberVm.States.Add(trace.Id, trace.State);
-                    if (fiber.TracesWithExceededLossCoeff.Contains(trace.Id))
-                        fiberVm.TracesWithExceededLossCoeff.Add(trace.Id);
+                    fiberVm.States.Add(trace.TraceId, trace.State);
+                    if (fiber.TracesWithExceededLossCoeff.Contains(trace.TraceId))
+                        fiberVm.TracesWithExceededLossCoeff.Add(trace.TraceId);
                     _fibersForRendering.Add(fiberVm);
                 }
             }

@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Graph
         public string AddNodeIntoFiber(NodeIntoFiberAdded e)
         {
             _model.Nodes.Add(new Node() { NodeId = e.Id, Position = e.Position, TypeOfLastAddedEquipment = e.InjectionType });
-            _model.Equipments.Add(new Equipment() { Id = e.EquipmentId, Type = e.InjectionType, NodeId = e.Id });
+            _model.Equipments.Add(new Equipment() { EquipmentId = e.EquipmentId, Type = e.InjectionType, NodeId = e.Id });
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
             var fiber = _model.Fibers.FirstOrDefault(f => f.FiberId == e.FiberId);
@@ -44,8 +44,8 @@ namespace Iit.Fibertest.Graph
                 int idx;
                 while ((idx = Topo.GetFiberIndexInTrace(trace, _model.Fibers.First(f => f.FiberId == e.FiberId))) != -1)
                 {
-                    trace.Nodes.Insert(idx + 1, e.Id); // GPS location добавляется во все трассы
-                    trace.Equipments.Insert(idx + 1, e.EquipmentId);
+                    trace.NodeIds.Insert(idx + 1, e.Id); // GPS location добавляется во все трассы
+                    trace.EquipmentIds.Insert(idx + 1, e.EquipmentId);
                 }
             }
         }
@@ -86,17 +86,17 @@ namespace Iit.Fibertest.Graph
 
         public string RemoveNode(NodeRemoved e)
         {
-            foreach (var trace in _model.Traces.Where(t => t.Nodes.Contains(e.NodeId)))
+            foreach (var trace in _model.Traces.Where(t => t.NodeIds.Contains(e.NodeId)))
             {
                 if (e.TraceWithNewFiberForDetourRemovedNode == null ||
-                    !e.TraceWithNewFiberForDetourRemovedNode.ContainsKey(trace.Id))
+                    !e.TraceWithNewFiberForDetourRemovedNode.ContainsKey(trace.TraceId))
                 {
-                    var message = $@"NodeRemoved: No fiber prepared to detour trace {trace.Id}";
+                    var message = $@"NodeRemoved: No fiber prepared to detour trace {trace.TraceId}";
                     _logFile.AppendLine(message);
                     return message;
                 }
                 else
-                    ExcludeNodeFromTrace(trace, e.TraceWithNewFiberForDetourRemovedNode[trace.Id], e.NodeId);
+                    ExcludeNodeFromTrace(trace, e.TraceWithNewFiberForDetourRemovedNode[trace.TraceId], e.NodeId);
             }
 
             if (e.FiberIdToDetourAdjustmentPoint != Guid.Empty)
@@ -110,11 +110,11 @@ namespace Iit.Fibertest.Graph
 
         private void ExcludeNodeFromTrace(Trace trace, Guid fiberId, Guid nodeId)
         {
-            var idxInTrace = trace.Nodes.IndexOf(nodeId);
+            var idxInTrace = trace.NodeIds.IndexOf(nodeId);
             CreateDetourIfAbsent(trace, fiberId, idxInTrace);
 
-            trace.Equipments.RemoveAt(idxInTrace);
-            trace.Nodes.RemoveAt(idxInTrace);
+            trace.EquipmentIds.RemoveAt(idxInTrace);
+            trace.NodeIds.RemoveAt(idxInTrace);
         }
 
         private string ExcludeAdjustmentPoint(Guid nodeId, Guid detourFiberId)
@@ -179,8 +179,8 @@ namespace Iit.Fibertest.Graph
 
         private void CreateDetourIfAbsent(Trace trace, Guid fiberId, int idxInTrace)
         {
-            var nodeBefore = trace.Nodes[idxInTrace - 1];
-            var nodeAfter = trace.Nodes[idxInTrace + 1];
+            var nodeBefore = trace.NodeIds[idxInTrace - 1];
+            var nodeAfter = trace.NodeIds[idxInTrace + 1];
 
             if (!_model.Fibers.Any(f => f.NodeId1 == nodeBefore && f.NodeId2 == nodeAfter
                                         || f.NodeId2 == nodeBefore && f.NodeId1 == nodeAfter))

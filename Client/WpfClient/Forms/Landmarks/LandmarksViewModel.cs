@@ -103,7 +103,7 @@ namespace Iit.Fibertest.Client
             }
             else
             {
-                SelectedTrace = _readModel.Traces.First(t => t.Id == id);
+                SelectedTrace = _readModel.Traces.First(t => t.TraceId == id);
                 Traces = _readModel.Traces.Where(t => t.RtuId == SelectedTrace.RtuId).ToList();
             }
         }

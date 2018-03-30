@@ -23,7 +23,7 @@ namespace Graph.Tests
         [Given(@"Одна из трасс присоединена к порту")]
         public void GivenОднаИзТрассПрисоединенаКПорту()
         {
-            var rtuLeaf = _sut.InitializeRtu(_sut.ReadModel.Traces.First(t => t.Id == _traceId1).RtuId);
+            var rtuLeaf = _sut.InitializeRtu(_sut.ReadModel.Traces.First(t => t.TraceId == _traceId1).RtuId);
             _sut.AttachTraceTo(_traceId1, rtuLeaf, 2, Answer.Yes);
         }
 

@@ -108,12 +108,12 @@ namespace Iit.Fibertest.Client
         // context menu
         public void UpdateEquipment()
         {
-            Command = new UpdateEquipment { Id = Id };
+            Command = new UpdateEquipment { EquipmentId = Id };
         }
 
         public void RemoveEquipment()
         {
-            Command = new RemoveEquipment { Id = Id };
+            Command = new RemoveEquipment { EquipmentId = Id };
         }
 
         public void AddEquipment() { Command = false; }

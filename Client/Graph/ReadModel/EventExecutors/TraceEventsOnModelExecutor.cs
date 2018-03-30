@@ -29,33 +29,33 @@ namespace Iit.Fibertest.Graph
             Trace trace = _mapper.Map<Trace>(e);
             trace.ZoneIds.Add(_model.Zones.First(z => z.IsDefaultZone).ZoneId);
             _model.Traces.Add(trace);
-            for (int i = 1; i < trace.Nodes.Count; i++)
-                GetFiberBetweenNodes(trace.Nodes[i - 1], trace.Nodes[i]).SetState(trace.Id, FiberState.NotJoined);
+            for (int i = 1; i < trace.NodeIds.Count; i++)
+                GetFiberBetweenNodes(trace.NodeIds[i - 1], trace.NodeIds[i]).SetState(trace.TraceId, FiberState.NotJoined);
             return null;
         }
 
         public string UpdateTrace(TraceUpdated source)
         {
-            var destination = _model.Traces.First(t => t.Id == source.Id);
+            var destination = _model.Traces.First(t => t.TraceId == source.Id);
             _mapper.Map(source, destination);
             return null;
         }
 
         public string CleanTrace(TraceCleaned e)
         {
-            var trace = _model.Traces.FirstOrDefault(t => t.Id == e.TraceId);
+            var trace = _model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
             {
                 var message = $@"TraceCleaned: Trace {e.TraceId} not found";
                 _logFile.AppendLine(message);
                 return message;
             }
-            var traceFibers = GetTraceFibersByNodes(trace.Nodes).ToList();
+            var traceFibers = GetTraceFibersByNodes(trace.NodeIds).ToList();
             foreach (var fiber in traceFibers)
             {
-                fiber.TracesWithExceededLossCoeff.Remove(trace.Id);
-                if (fiber.States.ContainsKey(trace.Id))
-                    fiber.States.Remove(trace.Id);
+                fiber.TracesWithExceededLossCoeff.Remove(trace.TraceId);
+                if (fiber.States.ContainsKey(trace.TraceId))
+                    fiber.States.Remove(trace.TraceId);
             }
 
             _model.Traces.Remove(trace);
@@ -77,7 +77,7 @@ namespace Iit.Fibertest.Graph
 
         public string RemoveTrace(TraceRemoved e)
         {
-            var trace = _model.Traces.FirstOrDefault(t => t.Id == e.TraceId);
+            var trace = _model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
             {
                 var message = $@"TraceRemoved: Trace {e.TraceId} not found";
@@ -85,14 +85,14 @@ namespace Iit.Fibertest.Graph
                 return message;
             }
 
-            var traceFibers = GetTraceFibersByNodes(trace.Nodes).ToList();
+            var traceFibers = GetTraceFibersByNodes(trace.NodeIds).ToList();
             foreach (var fiber in traceFibers)
             {
-                if (_model.Traces.Where(t => t.Id != e.TraceId).All(t => Topo.GetFiberIndexInTrace(t, fiber) == -1))
+                if (_model.Traces.Where(t => t.TraceId != e.TraceId).All(t => Topo.GetFiberIndexInTrace(t, fiber) == -1))
                     _model.Fibers.Remove(fiber);
             }
 
-            foreach (var traceNodeId in trace.Nodes)
+            foreach (var traceNodeId in trace.NodeIds)
             {
                 if (_model.Fibers.Any(f => f.NodeId1 == traceNodeId || f.NodeId2 == traceNodeId))
                     continue;
@@ -108,7 +108,7 @@ namespace Iit.Fibertest.Graph
 
         public string AttachTrace(TraceAttached e)
         {
-            var trace = _model.Traces.First(t => t.Id == e.TraceId);
+            var trace = _model.Traces.First(t => t.TraceId == e.TraceId);
             if (trace == null)
             {
                 var message = $@"TraceAttached: Trace {e.TraceId} not found";
@@ -130,7 +130,7 @@ namespace Iit.Fibertest.Graph
 
         public string DetachTrace(TraceDetached e)
         {
-            var trace = _model.Traces.First(t => t.Id == e.TraceId);
+            var trace = _model.Traces.First(t => t.TraceId == e.TraceId);
             if (trace == null)
             {
                 var message = $@"TraceDetached: Trace {e.TraceId} not found";
@@ -141,12 +141,12 @@ namespace Iit.Fibertest.Graph
             trace.OtauPort = null;
             trace.IsIncludedInMonitoringCycle = false;
             trace.State = FiberState.NotJoined;
-            foreach (var fiber in GetTraceFibersByNodes(trace.Nodes))
+            foreach (var fiber in GetTraceFibersByNodes(trace.NodeIds))
             {
-                fiber.SetState(trace.Id, FiberState.NotJoined);
+                fiber.SetState(trace.TraceId, FiberState.NotJoined);
             }
 
-            _accidentsOnTraceApplierToReadModel.CleanAccidentPlacesOnTrace(trace.Id);
+            _accidentsOnTraceApplierToReadModel.CleanAccidentPlacesOnTrace(trace.TraceId);
             return null;
         }
     }

@@ -23,7 +23,7 @@ namespace Graph.Tests
         public void ThenНовыйУзелСОборудованиемСохраняется()
         {
             _sut.ReadModel.Equipments.Last().NodeId.Should().Be(_sut.ReadModel.Nodes.Last().NodeId);
-            _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
+            _sut.ReadModel.Equipments.FirstOrDefault(e => e.EquipmentId == Guid.Empty).Should().BeNull();
         }
     }
 }

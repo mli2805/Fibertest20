@@ -60,7 +60,7 @@ namespace Iit.Fibertest.Client
             var traceLine = new ObjectToZonesModel()
             {
                 SubjectTitle = @"  " + trace.Title,
-                TraceId = trace.Id,
+                TraceId = trace.TraceId,
                 RtuId = trace.RtuId,
                 IsRtu = false,
             };
@@ -106,7 +106,7 @@ namespace Iit.Fibertest.Client
         {
             return lineModel.IsRtu
                 ? ReadModel.Rtus.First(r => r.Id == lineModel.RtuId).ZoneIds
-                : ReadModel.Traces.First(t => t.Id == lineModel.TraceId).ZoneIds;
+                : ReadModel.Traces.First(t => t.TraceId == lineModel.TraceId).ZoneIds;
         }
 
         public async void Save()

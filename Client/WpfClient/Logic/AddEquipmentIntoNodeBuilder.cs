@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
 
         public AddEquipmentIntoNode BuildCommand(Guid nodeId)
         {
-            var tracesInNode = _readModel.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
+            var tracesInNode = _readModel.Traces.Where(t => t.NodeIds.Contains(nodeId)).ToList();
             TracesToEquipmentInjectionViewModel tracesToEquipmentInjectionVm = null;
             if (tracesInNode.Count > 0)
             {

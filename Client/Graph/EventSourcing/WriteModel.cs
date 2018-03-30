@@ -71,7 +71,7 @@ namespace Iit.Fibertest.Graph
 
         public Trace GetTrace(Guid traceId)
         {
-            return Traces.FirstOrDefault(t => t.Id == traceId);
+            return Traces.FirstOrDefault(t => t.TraceId == traceId);
         }
 
         public Rtu GetRtu(Guid id)
@@ -128,7 +128,7 @@ namespace Iit.Fibertest.Graph
         public string Apply(NodeIntoFiberAdded e)
         {
             Nodes.Add(new Node() { NodeId = e.Id, Position = e.Position });
-            Equipments.Add(new Equipment() { Id = e.EquipmentId, Type = e.InjectionType, NodeId = e.Id });
+            Equipments.Add(new Equipment() { EquipmentId = e.EquipmentId, Type = e.InjectionType, NodeId = e.Id });
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
             var fiber = Fibers.FirstOrDefault(f => f.FiberId == e.FiberId);
@@ -150,8 +150,8 @@ namespace Iit.Fibertest.Graph
                 int idx;
                 while ((idx = Topo.GetFiberIndexInTrace(trace, Fibers.Single(f => f.FiberId == e.FiberId))) != -1)
                 {
-                    trace.Nodes.Insert(idx + 1, e.Id); // GPS location добавляется во все трассы
-                    trace.Equipments.Insert(idx + 1, e.EquipmentId); // GPS location добавляется во все трассы
+                    trace.NodeIds.Insert(idx + 1, e.Id); // GPS location добавляется во все трассы
+                    trace.EquipmentIds.Insert(idx + 1, e.EquipmentId); // GPS location добавляется во все трассы
                 }
             }
         }
@@ -200,17 +200,17 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(NodeRemoved e)
         {
-            foreach (var trace in Traces.Where(t => t.Nodes.Contains(e.NodeId)))
+            foreach (var trace in Traces.Where(t => t.NodeIds.Contains(e.NodeId)))
             {
                 if (e.TraceWithNewFiberForDetourRemovedNode == null ||
-                    !e.TraceWithNewFiberForDetourRemovedNode.ContainsKey(trace.Id))
+                    !e.TraceWithNewFiberForDetourRemovedNode.ContainsKey(trace.TraceId))
                 {
-                    var message = $@"NodeRemoved: No fiber prepared to detour trace {trace.Id}";
+                    var message = $@"NodeRemoved: No fiber prepared to detour trace {trace.TraceId}";
                     LogFile.AppendLine(message);
                     return message;
                 }
                 else
-                    ExcludeNodeFromTrace(trace, e.TraceWithNewFiberForDetourRemovedNode[trace.Id], e.NodeId);
+                    ExcludeNodeFromTrace(trace, e.TraceWithNewFiberForDetourRemovedNode[trace.TraceId], e.NodeId);
             }
 
             if (e.FiberIdToDetourAdjustmentPoint != Guid.Empty)
@@ -224,11 +224,11 @@ namespace Iit.Fibertest.Graph
 
         private void ExcludeNodeFromTrace(Trace trace, Guid fiberId, Guid nodeId)
         {
-            var idxInTrace = trace.Nodes.IndexOf(nodeId);
+            var idxInTrace = trace.NodeIds.IndexOf(nodeId);
             CreateDetourIfAbsent(trace, fiberId, idxInTrace);
 
-            trace.Equipments.RemoveAt(idxInTrace);
-            trace.Nodes.RemoveAt(idxInTrace);
+            trace.EquipmentIds.RemoveAt(idxInTrace);
+            trace.NodeIds.RemoveAt(idxInTrace);
         }
 
         private string ExcludeAdjustmentPoint(Guid nodeId, Guid detourFiberId)
@@ -310,8 +310,8 @@ namespace Iit.Fibertest.Graph
 
         private void CreateDetourIfAbsent(Trace trace, Guid fiberId, int idxInTrace)
         {
-            var nodeBefore = trace.Nodes[idxInTrace - 1];
-            var nodeAfter = trace.Nodes[idxInTrace + 1];
+            var nodeBefore = trace.NodeIds[idxInTrace - 1];
+            var nodeAfter = trace.NodeIds[idxInTrace + 1];
 
             if (!Fibers.Any(f => f.NodeId1 == nodeBefore && f.NodeId2 == nodeAfter
                                   || f.NodeId2 == nodeBefore && f.NodeId1 == nodeAfter))
@@ -331,11 +331,11 @@ namespace Iit.Fibertest.Graph
 
         public bool IsNodeContainedInAnyTraceWithBase(Guid nodeId)
         {
-            return Traces.Any(t => t.HasAnyBaseRef && t.Nodes.Contains(nodeId));
+            return Traces.Any(t => t.HasAnyBaseRef && t.NodeIds.Contains(nodeId));
         }
         public bool IsNodeLastForAnyTrace(Guid nodeId)
         {
-            return Traces.Any(t => t.Nodes.Last() == nodeId);
+            return Traces.Any(t => t.NodeIds.Last() == nodeId);
         }
         #endregion
 
@@ -388,7 +388,7 @@ namespace Iit.Fibertest.Graph
                 LogFile.AppendLine(message);
                 return message;
             }
-            Equipments.Add(new Equipment() { Id = e.Id, Type = e.Type, NodeId = e.NodeId });
+            Equipments.Add(new Equipment() { EquipmentId = e.EquipmentId, Type = e.Type, NodeId = e.NodeId });
             return null;
         }
 
@@ -396,9 +396,9 @@ namespace Iit.Fibertest.Graph
         {
             Nodes.Add(new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude) });
 
-            Equipments.Add(new Equipment() { Id = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });
+            Equipments.Add(new Equipment() { EquipmentId = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });
             if (e.EmptyNodeEquipmentId != Guid.Empty)
-                Equipments.Add(new Equipment() { Id = e.EmptyNodeEquipmentId, Type = EquipmentType.EmptyNode, NodeId = e.NodeId });
+                Equipments.Add(new Equipment() { EquipmentId = e.EmptyNodeEquipmentId, Type = EquipmentType.EmptyNode, NodeId = e.NodeId });
 
             return null;
         }
@@ -407,16 +407,16 @@ namespace Iit.Fibertest.Graph
             Nodes.Add(new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), Title = e.Title, Comment = e.Comment });
 
             if (e.RequestedEquipmentId != Guid.Empty)
-                Equipments.Add(new Equipment() { Id = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });
+                Equipments.Add(new Equipment() { EquipmentId = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });
             if (e.EmptyNodeEquipmentId != Guid.Empty)
-                Equipments.Add(new Equipment() { Id = e.EmptyNodeEquipmentId, Type = EquipmentType.EmptyNode, NodeId = e.NodeId });
+                Equipments.Add(new Equipment() { EquipmentId = e.EmptyNodeEquipmentId, Type = EquipmentType.EmptyNode, NodeId = e.NodeId });
 
             return null;
         }
 
         public string Apply(EquipmentUpdated cmd)
         {
-            var equipment = Equipments.FirstOrDefault(e => e.Id == cmd.Id);
+            var equipment = Equipments.FirstOrDefault(e => e.EquipmentId == cmd.EquipmentId);
             if (equipment != null)
             {
                 equipment.Title = cmd.Title;
@@ -427,17 +427,17 @@ namespace Iit.Fibertest.Graph
                 return null;
             }
 
-            var message = $@"EquipmentUpdated: Equipment {cmd.Id.First6()} not found";
+            var message = $@"EquipmentUpdated: Equipment {cmd.EquipmentId.First6()} not found";
             LogFile.AppendLine(message);
             return message;
         }
 
         public string Apply(EquipmentRemoved cmd)
         {
-            var equipment = Equipments.FirstOrDefault(e => e.Id == cmd.Id);
+            var equipment = Equipments.FirstOrDefault(e => e.EquipmentId == cmd.EquipmentId);
             if (equipment == null)
             {
-                var message = $@"EquipmentRemoved: Equipment {cmd.Id.First6()} not found";
+                var message = $@"EquipmentRemoved: Equipment {cmd.EquipmentId.First6()} not found";
                 LogFile.AppendLine(message);
                 return message;
             }
@@ -450,11 +450,11 @@ namespace Iit.Fibertest.Graph
                 return message;
             }
 
-            var traces = Traces.Where(t => t.Equipments.Contains(equipment.Id));
+            var traces = Traces.Where(t => t.EquipmentIds.Contains(equipment.EquipmentId));
             foreach (var trace in traces)
             {
-                var index = trace.Equipments.FindIndex(e => e == equipment.Id);
-                trace.Equipments.Insert(index, emptyEquipment.Id);
+                var index = trace.EquipmentIds.FindIndex(e => e == equipment.EquipmentId);
+                trace.EquipmentIds.Insert(index, emptyEquipment.EquipmentId);
             }
             Equipments.Remove(equipment);
             return null;
@@ -517,7 +517,7 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(TraceCleaned e)
         {
-            var trace = Traces.FirstOrDefault(t => t.Id == e.TraceId);
+            var trace = Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace != null)
             {
                 Traces.Remove(trace);
@@ -530,7 +530,7 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(TraceRemoved e)
         {
-            var trace = Traces.FirstOrDefault(t => t.Id == e.TraceId);
+            var trace = Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace != null)
             {
                 Traces.Remove(trace);
@@ -543,7 +543,7 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(TraceAttached e)
         {
-            var trace = Traces.FirstOrDefault(t => t.Id == e.TraceId);
+            var trace = Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
             {
                 var message = $@"TraceAttached: Trace {e.TraceId} not found";
@@ -557,7 +557,7 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(TraceDetached e)
         {
-            var trace = Traces.FirstOrDefault(t => t.Id == e.TraceId);
+            var trace = Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
             {
                 var message = $@"TraceDetached: Trace {e.TraceId} not found";
@@ -575,7 +575,7 @@ namespace Iit.Fibertest.Graph
         #region JustEchosOfCmdsSentToRtu
         public string Apply(BaseRefAssigned cmd)
         {
-            var trace = Traces.FirstOrDefault(t => t.Id == cmd.TraceId);
+            var trace = Traces.FirstOrDefault(t => t.TraceId == cmd.TraceId);
             if (trace != null)
             {
                 foreach (var baseRefEvSo in cmd.BaseRefs)

@@ -23,7 +23,7 @@ namespace Graph.Tests
         public void GivenЗаданаТрассаCОборудованиемАвСерединеИbвКонце()
         {
             _trace = _sut.SetTraceFromRtuThrouhgAtoB(out _nodeAId, out _equipmentA1Id, out _nodeBId, out _equipmentB1Id);
-            _equipment = _sut.ReadModel.Equipments.First(e => e.Id == _equipmentB1Id);
+            _equipment = _sut.ReadModel.Equipments.First(e => e.EquipmentId == _equipmentB1Id);
         }
 
         [Given(@"Открыта форма изменения узла где лежит А1")]
@@ -43,7 +43,7 @@ namespace Graph.Tests
         [Given(@"Задаем базовую")]
         public void GivenЗадаемБазовую()
         {
-            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
+            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.TraceId);
             var rtuId = traceLeaf.Parent.Id;
             _sut.InitializeRtu(rtuId);
 
@@ -75,7 +75,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model=> _sut.EquipmentInfoViewModelHandler(model, Answer.Yes));
 
             var item = _nodeUpdateViewModel.EquipmentsInNode.First(i => i.Id == _equipmentB1Id);
-            item.Command = new UpdateEquipment() {Id = _equipmentB1Id};
+            item.Command = new UpdateEquipment() {EquipmentId = _equipmentB1Id};
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -85,7 +85,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentInfoViewModelHandler(model, Answer.Cancel));
 
             var item = _nodeUpdateViewModel.EquipmentsInNode.First(i => i.Id == _equipmentB1Id);
-            item.Command = new UpdateEquipment() { Id = _equipmentB1Id };
+            item.Command = new UpdateEquipment() { EquipmentId = _equipmentB1Id };
             _cutOff = _sut.Poller.CurrentEventNumber;
             _sut.Poller.EventSourcingTick().Wait();
         }
@@ -98,7 +98,7 @@ namespace Graph.Tests
             _equipment.CableReserveLeft.Should().Be(SystemUnderTest.NewLeftCableReserve);
             _equipment.CableReserveRight.Should().Be(SystemUnderTest.NewRightCableReserve);
             _equipment.Comment.Should().Be(SystemUnderTest.NewCommentForTest);
-            _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == Guid.Empty).Should().BeNull();
+            _sut.ReadModel.Equipments.FirstOrDefault(e => e.EquipmentId == Guid.Empty).Should().BeNull();
         }
 
         [Then(@"Комманда не подается")]

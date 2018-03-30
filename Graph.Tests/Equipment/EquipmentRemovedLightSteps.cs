@@ -26,7 +26,7 @@ namespace Graph.Tests
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _nodeAId = _sut.ReadModel.Nodes.Last().NodeId;
-            _equipmentA1Id = _sut.ReadModel.Equipments.Last().Id;
+            _equipmentA1Id = _sut.ReadModel.Equipments.Last().EquipmentId;
         }
 
         [Given(@"Существует трасса не проходящая через этот узел")]
@@ -39,7 +39,7 @@ namespace Graph.Tests
         public void GivenЕстьТрассаИвПоследнемУзлеТрассыЕстьОборудованиеНеиспользуемоеТрассой()
         {
             _trace = _sut.CreateTraceRtuEmptyTerminal();
-            var nodeId = _trace.Nodes.Last();
+            var nodeId = _trace.NodeIds.Last();
 
             _sut.FakeWindowManager.RegisterHandler(model =>
                 _sut.TraceChoiceHandler(model, new List<Guid>(), Answer.Yes));
@@ -48,7 +48,7 @@ namespace Graph.Tests
 
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentIntoNode(new RequestAddEquipmentIntoNode() {NodeId = nodeId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _notInTraceEquipmentId = _sut.ReadModel.Equipments.Last().Id;
+            _notInTraceEquipmentId = _sut.ReadModel.Equipments.Last().EquipmentId;
         }
 
 
@@ -67,7 +67,7 @@ namespace Graph.Tests
         {
 //            _vm = new NodeUpdateViewModel(_trace.Nodes.Last(), _sut.ReadModel, new FakeWindowManager(), _sut.ShellVm.C2DWcfManager);
             _vm = _sut.Container.Resolve<NodeUpdateViewModel>();
-            _vm.Initialize(_trace.Nodes.Last());
+            _vm.Initialize(_trace.NodeIds.Last());
             _vm.EquipmentsInNode.Count.Should().Be(2);
             _vm.EquipmentsInNode.First(item => item.Id == _notInTraceEquipmentId).IsRemoveEnabled.Should().BeTrue();
         }
@@ -82,14 +82,14 @@ namespace Graph.Tests
         [When(@"Пользователь жмет удалить оборудование")]
         public void WhenПользовательЖметУдалитьОборудование()
         {
-            _vm.RemoveEquipment(new RemoveEquipment() { Id = _equipmentA1Id });
+            _vm.RemoveEquipment(new RemoveEquipment() { EquipmentId = _equipmentA1Id });
             _sut.Poller.EventSourcingTick().Wait();
         }
 
         [When(@"Пользователь жмет удалить неиспользуемое оборудование")]
         public void WhenПользовательЖметУдалитьНеиспользуемоеОборудование()
         {
-            _vm.RemoveEquipment(new RemoveEquipment() { Id = _vm.EquipmentsInNode.First(item => item.Id == _notInTraceEquipmentId).Id });
+            _vm.RemoveEquipment(new RemoveEquipment() { EquipmentId = _vm.EquipmentsInNode.First(item => item.Id == _notInTraceEquipmentId).Id });
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -97,13 +97,13 @@ namespace Graph.Tests
         public void ThenИОборудованиеУдаляется()
         {
             _sut.ReadModel.Equipments.Count(e => e.NodeId == _nodeAId).ShouldBeEquivalentTo(1);
-            _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == _equipmentA1Id).Should().BeNull();
+            _sut.ReadModel.Equipments.FirstOrDefault(e => e.EquipmentId == _equipmentA1Id).Should().BeNull();
         }
 
         [Then(@"Неиспользуемое оборудование удаляется")]
         public void ThenНеиспользуемоеОборудованиеУдаляется()
         {
-            _sut.ReadModel.Equipments.FirstOrDefault(e => e.Id == _notInTraceEquipmentId).Should().BeNull();
+            _sut.ReadModel.Equipments.FirstOrDefault(e => e.EquipmentId == _notInTraceEquipmentId).Should().BeNull();
         }
 
     }

@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Graph
 
         public string AssignBaseRef(BaseRefAssigned e)
         {
-            var trace = _model.Traces.FirstOrDefault(t => t.Id == e.TraceId);
+            var trace = _model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
             {
                 var message = $@"BaseRefAssigned: Trace {e.TraceId} not found";
@@ -146,7 +146,7 @@ namespace Iit.Fibertest.Graph
 
             foreach (var trace in _model.Traces.Where(t => t.RtuId == e.RtuId))
             {
-                trace.IsIncludedInMonitoringCycle = e.TracesInMonitoringCycle.Contains(trace.Id);
+                trace.IsIncludedInMonitoringCycle = e.TracesInMonitoringCycle.Contains(trace.TraceId);
             }
             return null;
         }

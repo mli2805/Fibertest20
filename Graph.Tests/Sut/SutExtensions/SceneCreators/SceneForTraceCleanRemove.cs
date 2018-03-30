@@ -31,8 +31,8 @@ namespace Graph.Tests
             sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = a1, NodeId2 = b2 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
-            traceId1 = sut.DefineTrace(a2, nodeForRtuId).Id;
-            traceId2 = sut.DefineTrace(b2, nodeForRtuId).Id;
+            traceId1 = sut.DefineTrace(a2, nodeForRtuId).TraceId;
+            traceId2 = sut.DefineTrace(b2, nodeForRtuId).TraceId;
         }
     }
 }

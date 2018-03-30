@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Client
         {
             _mode = ViewMode.Update;
             Equipment = equipment;
-            EquipmentId = equipment.Id;
+            EquipmentId = equipment.EquipmentId;
             NodeId = equipment.NodeId;
 
             Model.Title = equipment.Title;
@@ -80,7 +80,7 @@ namespace Iit.Fibertest.Client
             {
                 var cmd = new UpdateEquipment()
                 {
-                    Id = EquipmentId,
+                    EquipmentId = EquipmentId,
                     Title = Model.Title,
                     Type = eqType,
                     CableReserveLeft = Model.CableReserveLeft,
@@ -96,7 +96,7 @@ namespace Iit.Fibertest.Client
                 EquipmentId = Guid.NewGuid();
                 var cmd = new AddEquipmentIntoNode()
                 {
-                    Id = EquipmentId,
+                    EquipmentId = EquipmentId,
                     NodeId = NodeId,
                     Title = Model.Title,
                     Type = eqType,

@@ -59,7 +59,7 @@ namespace Iit.Fibertest.Client
 
         private void GetOtherPropertiesOfExistingTrace()
         {
-            var trace = _readModel.Traces.First(t => t.Id == Model.TraceId);
+            var trace = _readModel.Traces.First(t => t.TraceId == Model.TraceId);
 
             Model.Title = trace.Title;
             if (trace.Mode == TraceMode.Light)
@@ -100,11 +100,11 @@ namespace Iit.Fibertest.Client
         {
             var cmd = new AddTrace()
             {
-                Id = Guid.NewGuid(),
+                TraceId = Guid.NewGuid(),
                 RtuId = Model.Rtu.Id,
                 Title = Model.Title,
-                Nodes = Model.TraceNodes,
-                Equipments = Model.TraceEquipments,
+                NodeIds = Model.TraceNodes,
+                EquipmentIds = Model.TraceEquipments,
                 Comment = Model.Comment
             };
             var message = await _c2DWcfManager.SendCommandAsObj(cmd);

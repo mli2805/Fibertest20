@@ -19,15 +19,15 @@ namespace Graph.Tests
         [Given(@"Существует трасса")]
         public void GivenСуществуетТрасса()
         {
-            _traceId = _sut.CreateTraceRtuEmptyTerminal().Id;
+            _traceId = _sut.CreateTraceRtuEmptyTerminal().TraceId;
         }
         [Given(@"Пользователь открывает форму Информация и вносит изменения")]
         public void GivenПользовательОткрываетФормуИнформацияИВноситИзменения()
         {
-            var trace = _sut.ReadModel.Traces.FirstOrDefault(t => t.Id == _traceId);
+            var trace = _sut.ReadModel.Traces.FirstOrDefault(t => t.TraceId == _traceId);
             if (trace == null) return;
             _viewModel = _sut.Container.Resolve<TraceInfoViewModel>();
-            _viewModel.Initialize(_traceId, trace.Equipments, trace.Nodes);
+            _viewModel.Initialize(_traceId, trace.EquipmentIds, trace.NodeIds);
             _viewModel.Model.Title = NewTitle;
             _viewModel.Model.Comment = NewComment;
             _viewModel.Model.IsTraceModeLight = false;
@@ -49,11 +49,11 @@ namespace Graph.Tests
         [Then(@"Изменения сохраняются")]
         public void ThenИзмененияСохраняются()
         {
-            var trace = _sut.ReadModel.Traces.FirstOrDefault(t => t.Id == _traceId);
+            var trace = _sut.ReadModel.Traces.FirstOrDefault(t => t.TraceId == _traceId);
             if (trace == null) return;
 
             _viewModel = _sut.Container.Resolve<TraceInfoViewModel>();
-            _viewModel.Initialize(_traceId, trace.Equipments, trace.Nodes);
+            _viewModel.Initialize(_traceId, trace.EquipmentIds, trace.NodeIds);
             _viewModel.Model.Title.Should().Be(NewTitle);
             _viewModel.Model.Comment.Should().Be(NewComment);
             _viewModel.Model.IsTraceModeLight.Should().BeFalse();
@@ -62,11 +62,11 @@ namespace Graph.Tests
         [Then(@"Изменения НЕ сохраняются")]
         public void ThenИзмененияНеСохраняются()
         {
-            var trace = _sut.ReadModel.Traces.FirstOrDefault(t => t.Id == _traceId);
+            var trace = _sut.ReadModel.Traces.FirstOrDefault(t => t.TraceId == _traceId);
             if (trace == null) return;
 
             _viewModel = _sut.Container.Resolve<TraceInfoViewModel>();
-            _viewModel.Initialize(_traceId, trace.Equipments, trace.Nodes);
+            _viewModel.Initialize(_traceId, trace.EquipmentIds, trace.NodeIds);
             _viewModel.Model.Title.Should().NotBe(NewTitle);
             _viewModel.Model.Comment.Should().NotBe(NewComment);
             _viewModel.Model.IsTraceModeLight.Should().BeTrue();

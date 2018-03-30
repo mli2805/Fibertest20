@@ -23,7 +23,7 @@ namespace Iit.Fibertest.DbMigrator
         {
             foreach (var pair in graphModel.TracesDictionary)
             {
-                var rtuGuid = graphModel.AddTraceCommands.First(c => c.Id == pair.Value).RtuId;
+                var rtuGuid = graphModel.AddTraceCommands.First(c => c.TraceId == pair.Value).RtuId;
                 var listOfMeasurementForOneTrace = GetTraceMeasurementsList(pair.Key);
                 Console.WriteLine($"{DateTime.Now}  {listOfMeasurementForOneTrace.Count} measurements for trace {pair.Key} found");
 

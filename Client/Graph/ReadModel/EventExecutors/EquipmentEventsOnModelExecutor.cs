@@ -29,15 +29,15 @@ namespace Iit.Fibertest.Graph
             _model.Equipments.Add(equipment);
             foreach (var traceId in e.TracesForInsertion)
             {
-                var trace = _model.Traces.FirstOrDefault(t => t.Id == traceId);
+                var trace = _model.Traces.FirstOrDefault(t => t.TraceId == traceId);
                 if (trace == null)
                 {
                     var message = $@"EquipmentIntoNodeAdded: Trace {traceId.First6()} not found";
                     _logFile.AppendLine(message);
                     return message;
                 }
-                var idx = trace.Nodes.IndexOf(e.NodeId);
-                trace.Equipments[idx] = e.Id;
+                var idx = trace.NodeIds.IndexOf(e.NodeId);
+                trace.EquipmentIds[idx] = e.EquipmentId;
             }
             return null;
         }
@@ -47,12 +47,12 @@ namespace Iit.Fibertest.Graph
             Node node = new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), TypeOfLastAddedEquipment = e.Type };
             _model.Nodes.Add(node);
             Equipment equipment = _mapper.Map<Equipment>(e);
-            equipment.Id = e.RequestedEquipmentId;
+            equipment.EquipmentId = e.RequestedEquipmentId;
             _model.Equipments.Add(equipment);
             if (e.EmptyNodeEquipmentId != Guid.Empty)
             {
                 Equipment emptyEquipment = _mapper.Map<Equipment>(e);
-                emptyEquipment.Id = e.EmptyNodeEquipmentId;
+                emptyEquipment.EquipmentId = e.EmptyNodeEquipmentId;
                 emptyEquipment.Type = EquipmentType.EmptyNode;
                 _model.Equipments.Add(emptyEquipment);
             }
@@ -65,20 +65,20 @@ namespace Iit.Fibertest.Graph
                 TypeOfLastAddedEquipment = e.Type, Title = e.Title, Comment = e.Comment });
 
             if (e.RequestedEquipmentId != Guid.Empty)
-                _model.Equipments.Add(new Equipment() { Id = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });
+                _model.Equipments.Add(new Equipment() { EquipmentId = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });
 
             if (e.EmptyNodeEquipmentId != Guid.Empty)
-                _model.Equipments.Add(new Equipment() { Id = e.EmptyNodeEquipmentId, Type = EquipmentType.EmptyNode, NodeId = e.NodeId });
+                _model.Equipments.Add(new Equipment() { EquipmentId = e.EmptyNodeEquipmentId, Type = EquipmentType.EmptyNode, NodeId = e.NodeId });
 
             return null;
         }
 
         public string UpdateEquipment(EquipmentUpdated e)
         {
-            var equipment = _model.Equipments.FirstOrDefault(eq => eq.Id == e.Id);
+            var equipment = _model.Equipments.FirstOrDefault(eq => eq.EquipmentId == e.EquipmentId);
             if (equipment == null)
             {
-                var message = $@"EquipmentUpdated: Equipment {e.Id.First6()} not found";
+                var message = $@"EquipmentUpdated: Equipment {e.EquipmentId.First6()} not found";
                 _logFile.AppendLine(message);
                 return message;
             }
@@ -90,10 +90,10 @@ namespace Iit.Fibertest.Graph
 
         public string RemoveEquipment(EquipmentRemoved e)
         {
-            var equipment = _model.Equipments.FirstOrDefault(eq => eq.Id == e.Id);
+            var equipment = _model.Equipments.FirstOrDefault(eq => eq.EquipmentId == e.EquipmentId);
             if (equipment == null)
             {
-                var message = $@"EquipmentRemoved: Equipment {e.Id.First6()} not found";
+                var message = $@"EquipmentRemoved: Equipment {e.EquipmentId.First6()} not found";
                 _logFile.AppendLine(message);
                 return message;
             }
@@ -106,11 +106,11 @@ namespace Iit.Fibertest.Graph
                 return message;
             }
 
-            var traces = _model.Traces.Where(t => t.Equipments.Contains(e.Id)).ToList();
+            var traces = _model.Traces.Where(t => t.EquipmentIds.Contains(e.EquipmentId)).ToList();
             foreach (var trace in traces)
             {
-                var idx = trace.Equipments.IndexOf(e.Id);
-                trace.Equipments[idx] = emptyEquipment.Id;
+                var idx = trace.EquipmentIds.IndexOf(e.EquipmentId);
+                trace.EquipmentIds[idx] = emptyEquipment.EquipmentId;
             }
 
             var node = _model.Nodes.First(n => n.NodeId == equipment.NodeId);

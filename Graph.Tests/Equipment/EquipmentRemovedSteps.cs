@@ -27,7 +27,7 @@ namespace Graph.Tests
         [Given(@"Для этой трассы задана базовая")]
         public void GivenДляЭтойТрассыЗаданаБазовая()
         {
-            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.Id);
+            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.TraceId);
             var rtuId = traceLeaf.Parent.Id;
             _sut.InitializeRtu(rtuId);
 
@@ -74,25 +74,25 @@ namespace Graph.Tests
 //            var vm = new NodeUpdateViewModel(_nodeAId,_sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
             var vm = _sut.Container.Resolve<NodeUpdateViewModel>();
             vm.Initialize(_nodeAId);
-            vm.EquipmentsInNode.First(it=>it.Id == _equipmentA1Id).Command = new RemoveEquipment() { Id = _equipmentA1Id};
+            vm.EquipmentsInNode.First(it=>it.Id == _equipmentA1Id).Command = new RemoveEquipment() { EquipmentId = _equipmentA1Id};
             _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"Оборудование удаляется из трассы")]
         public void ThenОборудованиеУдаляетсяИзТрассы()
         {
-            _sut.ReadModel.Traces.Where(t => t.Equipments.Contains(_equipmentA1Id)).Should().BeEmpty();
-            _trace.Equipments.Contains(_equipmentA1Id).ShouldBeEquivalentTo(false);
+            _sut.ReadModel.Traces.Where(t => t.EquipmentIds.Contains(_equipmentA1Id)).Should().BeEmpty();
+            _trace.EquipmentIds.Contains(_equipmentA1Id).ShouldBeEquivalentTo(false);
             _sut.ReadModel.Equipments.Count(e => e.NodeId == _nodeAId).ShouldBeEquivalentTo(1);
-            _trace.Equipments.Count.ShouldBeEquivalentTo(_trace.Nodes.Count);
-            _sut.ReadModel.Equipments.First(e => e.NodeId == _nodeAId).Id.ShouldBeEquivalentTo(_trace.Equipments[1]);
-            _trace.Equipments.Contains(Guid.Empty).Should().BeFalse();
+            _trace.EquipmentIds.Count.ShouldBeEquivalentTo(_trace.NodeIds.Count);
+            _sut.ReadModel.Equipments.First(e => e.NodeId == _nodeAId).EquipmentId.ShouldBeEquivalentTo(_trace.EquipmentIds[1]);
+            _trace.EquipmentIds.Contains(Guid.Empty).Should().BeFalse();
         }
 
         [Then(@"Оборудование удаляется")]
         public void ThenОборудованиеУдаляется()
         {
-            _sut.ReadModel.Equipments.FirstOrDefault(e=>e.Id == _equipmentA1Id).Should().BeNull();
+            _sut.ReadModel.Equipments.FirstOrDefault(e=>e.EquipmentId == _equipmentA1Id).Should().BeNull();
         }
 
     }

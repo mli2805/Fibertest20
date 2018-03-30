@@ -65,7 +65,7 @@ namespace Iit.Fibertest.Client
 
         public void Initialize(Guid traceId)
         {
-            _trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceId);
+            _trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
             if (_trace == null)
                 return;
             TraceTitle = _trace.Title;
@@ -87,7 +87,7 @@ namespace Iit.Fibertest.Client
 
         public void AddNewMeasurement()
         {
-            var lastMeasurement = _readModel.Measurements.Last(m => m.TraceId == _trace.Id);
+            var lastMeasurement = _readModel.Measurements.Last(m => m.TraceId == _trace.TraceId);
             Rows.Add(new MeasurementModel(lastMeasurement));
         }
 

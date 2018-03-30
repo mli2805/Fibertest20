@@ -82,7 +82,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                 var traceLeaf = portOwner.ChildrenImpresario.Children[i] as TraceLeaf;
                 if (traceLeaf != null)
                 {
-                    var trace = _readModel.Traces.FirstOrDefault(t => t.Id == traceLeaf.Id);
+                    var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == traceLeaf.Id);
                     if (trace == null)
                         return null; // it couldn't be!
                     result.Add(new MonitoringPortModel()

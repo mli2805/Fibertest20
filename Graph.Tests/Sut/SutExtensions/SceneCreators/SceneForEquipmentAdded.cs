@@ -55,7 +55,7 @@ namespace Graph.Tests
 
             sut.GraphReadModel.AddTrace(new RequestAddTrace() { LastNodeId = nodeId, NodeWithRtuId = rtuNodeId });
             sut.Poller.EventSourcingTick().Wait();
-            return sut.ReadModel.Traces.Last().Id;
+            return sut.ReadModel.Traces.Last().TraceId;
         }
 
         public static Guid SetLongTraceWithEquipment(this SystemUnderTest sut, Guid rtuNodeId, Guid anotherNodeId)
@@ -72,7 +72,7 @@ namespace Graph.Tests
                 NodeWithRtuId = rtuNodeId
             });
             sut.Poller.EventSourcingTick().Wait();
-            return sut.ReadModel.Traces.Last().Id;
+            return sut.ReadModel.Traces.Last().TraceId;
         }
 
         public static Guid SetLongTraceWithoutEquipment(this SystemUnderTest sut, Guid rtuNodeId, Guid anotherNodeId2)
@@ -89,7 +89,7 @@ namespace Graph.Tests
                 NodeWithRtuId = rtuNodeId
             });
             sut.Poller.EventSourcingTick().Wait();
-            return sut.ReadModel.Traces.Last().Id;
+            return sut.ReadModel.Traces.Last().TraceId;
         }
 
         public static void SetThreeTraceThroughNode(this SystemUnderTest sut, 

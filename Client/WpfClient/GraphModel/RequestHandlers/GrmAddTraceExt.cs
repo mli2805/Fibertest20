@@ -83,7 +83,7 @@ namespace Iit.Fibertest.Client
             if (allEquipmentInNode.Count == 1 &&
                 (allEquipmentInNode[0].Type == EquipmentType.AdjustmentPoint || !string.IsNullOrEmpty(nodeVm.Title)))
             {
-                return allEquipmentInNode[0].Id;
+                return allEquipmentInNode[0].EquipmentId;
             }
 
             var node = model.ReadModel.Nodes.First(n => n.NodeId == nodeId);

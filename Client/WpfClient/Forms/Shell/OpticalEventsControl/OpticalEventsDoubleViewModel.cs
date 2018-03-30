@@ -32,7 +32,7 @@ namespace Iit.Fibertest.Client
         {
             var measurement = _mapper.Map<Measurement>(measurementAdded);
 
-            var trace = _readModel.Traces.FirstOrDefault(t => t.Id == measurement.TraceId);
+            var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == measurement.TraceId);
             if (trace == null || !trace.IsAttached)
                 return;
 

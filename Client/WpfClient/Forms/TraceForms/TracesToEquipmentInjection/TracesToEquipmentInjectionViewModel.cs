@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Client
             Choices = new List<CheckBoxModel>();
             foreach (var trace in _tracesInNode)
             {
-                var checkBoxModel = new CheckBoxModel() { Id = trace.Id, Title = trace.Title, IsChecked = false, IsEnabled = !trace.HasAnyBaseRef};
+                var checkBoxModel = new CheckBoxModel() { Id = trace.TraceId, Title = trace.Title, IsChecked = false, IsEnabled = !trace.HasAnyBaseRef};
                 Choices.Add(checkBoxModel);
             }
         }

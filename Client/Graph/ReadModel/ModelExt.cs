@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Graph
 
         public static IEnumerable<Fiber> GetTraceFibers(this IModel model, Trace trace)
         {
-            return model.GetFibersByNodes(trace.Nodes).Select(i => model.Fibers.Single(f=>f.FiberId == i));
+            return model.GetFibersByNodes(trace.NodeIds).Select(i => model.Fibers.Single(f=>f.FiberId == i));
         }
 
         public static IEnumerable<Guid> GetFibersByNodes(this IModel model, List<Guid> nodes)
@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Graph
         {
             foreach (var trace in model.Traces)
             {
-                if (model.GetFibersByNodes(trace.Nodes).Contains(fiberId))
+                if (model.GetFibersByNodes(trace.NodeIds).Contains(fiberId))
                     yield return trace;
             }
         }
@@ -56,7 +56,7 @@ namespace Iit.Fibertest.Graph
         {
             try
             {
-                return trace.Nodes.Select(i => model.Nodes.Single(eq => eq.NodeId == i));
+                return trace.NodeIds.Select(i => model.Nodes.Single(eq => eq.NodeId == i));
             }
             catch (Exception e)
             {
@@ -68,8 +68,8 @@ namespace Iit.Fibertest.Graph
 
         public static IEnumerable<Guid> GetTraceNodesExcludingAdjustmentPoints(this IModel model, Guid traceId)
         {
-                var trace = model.Traces.First(t => t.Id == traceId);
-                foreach (var nodeId in trace.Nodes)
+                var trace = model.Traces.First(t => t.TraceId == traceId);
+                foreach (var nodeId in trace.NodeIds)
                 {
                     var node = model.Nodes.FirstOrDefault(n =>
                         n.NodeId == nodeId && n.TypeOfLastAddedEquipment != EquipmentType.AdjustmentPoint);
@@ -82,7 +82,7 @@ namespace Iit.Fibertest.Graph
         {
             try
             {
-                return trace.Equipments.Skip(1).Select(i => model.Equipments.Single(eq => eq.Id == i));
+                return trace.EquipmentIds.Skip(1).Select(i => model.Equipments.Single(eq => eq.EquipmentId == i));
             }
             catch (Exception e)
             {
@@ -93,10 +93,10 @@ namespace Iit.Fibertest.Graph
 
         public static IEnumerable<Equipment> GetTraceEquipmentsExcludingAdjustmentPoints(this IModel model, Guid traceId)
         {
-            var trace = model.Traces.First(t => t.Id == traceId);
-            foreach (var equipmentId in trace.Equipments.Skip(1)) // 0 - RTU
+            var trace = model.Traces.First(t => t.TraceId == traceId);
+            foreach (var equipmentId in trace.EquipmentIds.Skip(1)) // 0 - RTU
             {
-                var equipment = model.Equipments.First(e => e.Id == equipmentId);
+                var equipment = model.Equipments.First(e => e.EquipmentId == equipmentId);
                 if (equipment.Type != EquipmentType.AdjustmentPoint)
                     yield return equipment;
             }
@@ -157,7 +157,7 @@ namespace Iit.Fibertest.Graph
                     continue;
                 }
 
-                var trace = model.Traces.First(t => t.Id == pair.Key);
+                var trace = model.Traces.First(t => t.TraceId == pair.Key);
                 trace.ZoneIds = ApplyChanges(trace.ZoneIds, pair.Value);
             }
         }

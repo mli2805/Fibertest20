@@ -23,7 +23,7 @@ namespace Iit.Fibertest.DbMigrator
             _graphModel.TraceEventsUnderConstruction.Add(
                 new AddTrace()
                 {
-                    Id = traceGuid,
+                    TraceId = traceGuid,
                     Title = parts[3],
                     Comment = parts[4],
                 });
@@ -35,22 +35,22 @@ namespace Iit.Fibertest.DbMigrator
         public void ParseTraceNodes(string[] parts)
         {
             var traceId = int.Parse(parts[1]);
-            var evnt = (AddTrace)_graphModel.TraceEventsUnderConstruction.First(e => e is AddTrace && ((AddTrace)e).Id == _graphModel.TracesDictionary[traceId]);
+            var evnt = (AddTrace)_graphModel.TraceEventsUnderConstruction.First(e => e is AddTrace && ((AddTrace)e).TraceId == _graphModel.TracesDictionary[traceId]);
             for (int i = 2; i < parts.Length; i++)
             {
                 if (parts[i] == "")
                     continue;
-                evnt.Nodes.Add(_graphModel.NodesDictionary[int.Parse(parts[i])]);
+                evnt.NodeIds.Add(_graphModel.NodesDictionary[int.Parse(parts[i])]);
             }
         }
 
         public void ParseTraceEquipments(string[] parts)
         {
             var traceId = int.Parse(parts[1]);
-            var cmd = (AddTrace)_graphModel.TraceEventsUnderConstruction.First(e => e is AddTrace && ((AddTrace)e).Id == _graphModel.TracesDictionary[traceId]);
+            var cmd = (AddTrace)_graphModel.TraceEventsUnderConstruction.First(e => e is AddTrace && ((AddTrace)e).TraceId == _graphModel.TracesDictionary[traceId]);
             var rtuGuid = _graphModel.NodeToRtuDictionary[_graphModel.NodesDictionary[int.Parse(parts[2])]];
             cmd.RtuId = rtuGuid;
-            cmd.Equipments.Add(rtuGuid);
+            cmd.EquipmentIds.Add(rtuGuid);
             for (int i = 3; i < parts.Length; i++)
             {
                 if (parts[i] == "")
@@ -59,7 +59,7 @@ namespace Iit.Fibertest.DbMigrator
                 var equipmetnGuid = equipmentId == -1 
                     ? GetEmptyNodeEquipmentGuid(cmd)
                     : _graphModel.EquipmentsDictionary[equipmentId];
-                cmd.Equipments.Add(equipmetnGuid);
+                cmd.EquipmentIds.Add(equipmetnGuid);
             }
 
             var traceGuid = _graphModel.TracesDictionary[traceId];
@@ -87,8 +87,8 @@ namespace Iit.Fibertest.DbMigrator
 
         private Guid GetEmptyNodeEquipmentGuid(AddTrace cmd)
         {
-            var index = cmd.Equipments.Count;
-            var nodeGuid = cmd.Nodes[index];
+            var index = cmd.EquipmentIds.Count;
+            var nodeGuid = cmd.NodeIds[index];
             return _graphModel.EmptyNodes[nodeGuid];
         }
     }

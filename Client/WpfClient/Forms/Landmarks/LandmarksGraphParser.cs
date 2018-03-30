@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
 
         public List<Landmark> GetLandmarks(Trace trace)
         {
-            var list = trace.Nodes.Select((t, i) => CombineLandmark(t, trace.Equipments[i], i)).ToList();
+            var list = trace.NodeIds.Select((t, i) => CombineLandmark(t, trace.EquipmentIds[i], i)).ToList();
             for (var i = 1; i < list.Count; i++)
                 list[i].Location = list[i].GpsCoors.GetDistanceKm(list[i - 1].GpsCoors) + list[i - 1].Location;
             return list;
@@ -44,7 +44,7 @@ namespace Iit.Fibertest.Client
             {
                 if (equipmentId != Guid.Empty)
                 {
-                    var equipment = _readModel.Equipments.First(e => e.Id == equipmentId);
+                    var equipment = _readModel.Equipments.First(e => e.EquipmentId == equipmentId);
                     result.EquipmentTitle = equipment.Title;
                     result.EquipmentType = equipment.Type;
                 }

@@ -35,7 +35,7 @@ namespace Iit.Fibertest.Graph.Algorithms
 
         private PointLatLng GetAccidentGps(AccidentAsNewEvent accident)
         {
-            var trace = _readModel.Traces.First(t => t.Id == accident.TraceId);
+            var trace = _readModel.Traces.First(t => t.TraceId == accident.TraceId);
 
             var distances = GetGpsDistancesOfSegmentsBetweenLandmarks(accident, trace, out Node leftNodeVm, out Node rightNodeVm);
             GetCableReserves(accident, accident.TraceId, out double leftReserveM, out double rightReserveM);
@@ -62,13 +62,13 @@ namespace Iit.Fibertest.Graph.Algorithms
 
             return GetPointOnBrokenSegment(trace, 
                 (distances[segmentIndex] - (distancesSum - distanceToAccidentOnGraphM)) / distances[segmentIndex], 
-                trace.Nodes.IndexOf(leftNodeVm.NodeId) + segmentIndex);
+                trace.NodeIds.IndexOf(leftNodeVm.NodeId) + segmentIndex);
         }
 
         private PointLatLng GetPointOnBrokenSegment(Trace trace, double procentOfSegmentUptoAccident, int leftNodeIndex)
         {
-            var leftNode = _readModel.Nodes.First(n => n.NodeId == trace.Nodes[leftNodeIndex]);
-            var rightNode = _readModel.Nodes.First(n => n.NodeId == trace.Nodes[leftNodeIndex + 1]);
+            var leftNode = _readModel.Nodes.First(n => n.NodeId == trace.NodeIds[leftNodeIndex]);
+            var rightNode = _readModel.Nodes.First(n => n.NodeId == trace.NodeIds[leftNodeIndex + 1]);
 
             var latBreak = leftNode.Position.Lat + (rightNode.Position.Lat - leftNode.Position.Lat) * procentOfSegmentUptoAccident;
             var lngBreak = leftNode.Position.Lng + (rightNode.Position.Lng - leftNode.Position.Lng) * procentOfSegmentUptoAccident;
@@ -108,13 +108,13 @@ namespace Iit.Fibertest.Graph.Algorithms
                 return null;
             }
 
-            var indexOfLeft = trace.Nodes.IndexOf(leftNode.NodeId);
-            var indexOfRight = trace.Nodes.IndexOf(rightNode.NodeId);
+            var indexOfLeft = trace.NodeIds.IndexOf(leftNode.NodeId);
+            var indexOfRight = trace.NodeIds.IndexOf(rightNode.NodeId);
             var result = new List<double>();
             var fromNode = leftNode;
             for (int i = indexOfLeft + 1; i < indexOfRight; i++)
             {
-                var toNode = _readModel.Nodes.First(n => n.NodeId == trace.Nodes[i]);
+                var toNode = _readModel.Nodes.First(n => n.NodeId == trace.NodeIds[i]);
                 result.Add(GpsCalculator.GetDistanceBetweenPointLatLng(fromNode.Position, toNode.Position));
                 fromNode = toNode;
             }
