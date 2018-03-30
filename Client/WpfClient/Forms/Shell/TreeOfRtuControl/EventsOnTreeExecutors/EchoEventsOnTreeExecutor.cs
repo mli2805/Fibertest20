@@ -25,10 +25,21 @@ namespace Iit.Fibertest.Client
             _rtuEventsOnTreeExecutor = rtuEventsOnTreeExecutor;
         }
 
+        private EventAcceptability ShouldAcceptEventForTrace(Guid traceId)
+        {
+            if (_currentUser.ZoneId == Guid.Empty) return EventAcceptability.Full;
+
+            var trace = _readModel.Traces.First(t => t.TraceId == traceId);
+
+            if (!_readModel.Rtus.First(r => r.Id == trace.RtuId).ZoneIds.Contains(_currentUser.ZoneId))
+                return EventAcceptability.No;
+
+            return trace.ZoneIds.Contains(_currentUser.ZoneId) ? EventAcceptability.Full : EventAcceptability.Partly;
+        }
+
         public void AssignBaseRef(BaseRefAssigned e)
         {
-            if (_currentUser.ZoneId != Guid.Empty &&
-                !_readModel.Traces.First(t => t.TraceId == e.TraceId).ZoneIds.Contains(_currentUser.ZoneId)) return;
+            if (ShouldAcceptEventForTrace(e.TraceId) == EventAcceptability.No) return;
 
             var traceLeaf = (TraceLeaf)_treeOfRtuModel.GetById(e.TraceId);
 
@@ -57,6 +68,9 @@ namespace Iit.Fibertest.Client
 
         public void InitializeRtu(RtuInitialized e)
         {
+            if (_currentUser.ZoneId != Guid.Empty &&
+                !_readModel.Rtus.First(r => r.Id == e.Id).ZoneIds.Contains(_currentUser.ZoneId)) return;
+
             var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(e.Id);
 
             if (rtuLeaf.Serial == null)
@@ -122,6 +136,9 @@ namespace Iit.Fibertest.Client
 
         public void ChangeMonitoringSettings(MonitoringSettingsChanged e)
         {
+            if (_currentUser.ZoneId != Guid.Empty &&
+                !_readModel.Rtus.First(r => r.Id == e.RtuId).ZoneIds.Contains(_currentUser.ZoneId)) return;
+
             var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(e.RtuId);
             rtuLeaf.MonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
             ApplyMonitoringSettingsRecursively(rtuLeaf, e);
@@ -145,6 +162,9 @@ namespace Iit.Fibertest.Client
 
         public void StartMonitoring(MonitoringStarted e)
         {
+            if (_currentUser.ZoneId != Guid.Empty &&
+                !_readModel.Rtus.First(r => r.Id == e.RtuId).ZoneIds.Contains(_currentUser.ZoneId)) return;
+
             var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(e.RtuId);
             rtuLeaf.MonitoringState = MonitoringState.On;
             ApplyRecursively(rtuLeaf, MonitoringState.On);
@@ -152,6 +172,9 @@ namespace Iit.Fibertest.Client
 
         public void StopMonitoring(MonitoringStopped e)
         {
+            if (_currentUser.ZoneId != Guid.Empty &&
+                !_readModel.Rtus.First(r => r.Id == e.RtuId).ZoneIds.Contains(_currentUser.ZoneId)) return;
+
             var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(e.RtuId);
             rtuLeaf.MonitoringState = MonitoringState.Off;
             ApplyRecursively(rtuLeaf, MonitoringState.Off);

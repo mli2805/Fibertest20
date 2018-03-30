@@ -7,6 +7,12 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
+    public enum EventAcceptability
+    {
+        Full,
+        Partly,
+        No,
+    }
     public class TraceEventsOnTreeExecutor
     {
         private readonly ILifetimeScope _globalScope;
@@ -22,10 +28,22 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
         }
 
+        private EventAcceptability ShouldAcceptEventForTrace(Guid traceId)
+        {
+            if (_currentUser.ZoneId == Guid.Empty) return EventAcceptability.Full;
+
+            var trace = _readModel.Traces.First(t => t.TraceId == traceId);
+
+            if (!_readModel.Rtus.First(r => r.Id == trace.RtuId).ZoneIds.Contains(_currentUser.ZoneId))
+                return EventAcceptability.No;
+
+            return trace.ZoneIds.Contains(_currentUser.ZoneId) ? EventAcceptability.Full : EventAcceptability.Partly;
+        }
+
         public void AddTrace(TraceAdded e)
         {
-            if (_currentUser.ZoneId != Guid.Empty &&
-                !_readModel.Rtus.First(r => r.Id == e.RtuId).ZoneIds.Contains(_currentUser.ZoneId)) return;
+            var acceptable = ShouldAcceptEventForTrace(e.TraceId);
+            if (acceptable == EventAcceptability.No) return;
 
             var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(e.RtuId);
             var traceLeaf = _globalScope.Resolve<TraceLeaf>(new NamedParameter(@"parent", rtuLeaf));
@@ -33,7 +51,7 @@ namespace Iit.Fibertest.Client
             traceLeaf.Id = e.TraceId;
             traceLeaf.Title = e.Title;
             traceLeaf.TraceState = FiberState.NotJoined;
-            traceLeaf.Color = Brushes.Blue;
+            traceLeaf.Color = acceptable == EventAcceptability.Full ? Brushes.Blue : Brushes.LightGray;
 
             rtuLeaf.ChildrenImpresario.Children.Add(traceLeaf);
             rtuLeaf.IsExpanded = true;
@@ -41,8 +59,7 @@ namespace Iit.Fibertest.Client
 
         public void UpdateTrace(TraceUpdated e)
         {
-            if (_currentUser.ZoneId != Guid.Empty &&
-                !_readModel.Traces.First(t => t.TraceId == e.Id).ZoneIds.Contains(_currentUser.ZoneId)) return;
+            if (ShouldAcceptEventForTrace(e.Id) == EventAcceptability.No) return;
 
             var traceLeaf = _treeOfRtuModel.GetById(e.Id);
             traceLeaf.Title = e.Title;
@@ -50,8 +67,7 @@ namespace Iit.Fibertest.Client
 
         public void CleanTrace(TraceCleaned e)
         {
-            if (_currentUser.ZoneId != Guid.Empty &&
-                !_readModel.Traces.First(t => t.TraceId == e.TraceId).ZoneIds.Contains(_currentUser.ZoneId)) return;
+            if (ShouldAcceptEventForTrace(e.TraceId) == EventAcceptability.No) return;
 
             var traceLeaf = _treeOfRtuModel.GetById(e.TraceId);
             var rtuLeaf = traceLeaf.Parent is RtuLeaf ? (RtuLeaf)traceLeaf.Parent : (RtuLeaf)traceLeaf.Parent.Parent;
@@ -60,8 +76,7 @@ namespace Iit.Fibertest.Client
 
         public void RemoveTrace(TraceRemoved e)
         {
-            if (_currentUser.ZoneId != Guid.Empty &&
-                !_readModel.Traces.First(t => t.TraceId == e.TraceId).ZoneIds.Contains(_currentUser.ZoneId)) return;
+            if (ShouldAcceptEventForTrace(e.TraceId) == EventAcceptability.No) return;
 
             var traceLeaf = _treeOfRtuModel.GetById(e.TraceId);
             var rtuLeaf = traceLeaf.Parent is RtuLeaf ? (RtuLeaf)traceLeaf.Parent : (RtuLeaf)traceLeaf.Parent.Parent;
@@ -70,8 +85,8 @@ namespace Iit.Fibertest.Client
 
         public void AttaceTrace(TraceAttached e)
         {
-            if (_currentUser.ZoneId != Guid.Empty &&
-                !_readModel.Traces.First(t => t.TraceId == e.TraceId).ZoneIds.Contains(_currentUser.ZoneId)) return;
+            var acceptable = ShouldAcceptEventForTrace(e.TraceId);
+            if (acceptable == EventAcceptability.No) return;
 
             TraceLeaf traceLeaf = (TraceLeaf)_treeOfRtuModel.GetById(e.TraceId);
             RtuLeaf rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(traceLeaf.Parent.Id);
@@ -84,7 +99,7 @@ namespace Iit.Fibertest.Client
             newTraceLeaf.Id = e.TraceId;
             newTraceLeaf.TraceState = e.PreviousTraceState;
             newTraceLeaf.Title = traceLeaf.Title;
-            newTraceLeaf.Color = Brushes.Black;
+            newTraceLeaf.Color = acceptable == EventAcceptability.Full ? Brushes.Black : Brushes.LightGray;
             newTraceLeaf.PortNumber = port;
 
             portOwner.ChildrenImpresario.Children[port - 1] = newTraceLeaf;
@@ -94,8 +109,8 @@ namespace Iit.Fibertest.Client
 
         public void DetachTrace(TraceDetached e)
         {
-            if (_currentUser.ZoneId != Guid.Empty &&
-                !_readModel.Traces.First(t => t.TraceId == e.TraceId).ZoneIds.Contains(_currentUser.ZoneId)) return;
+            var acceptable = ShouldAcceptEventForTrace(e.TraceId);
+            if (acceptable == EventAcceptability.No) return;
 
             var traceLeaf = (TraceLeaf)_treeOfRtuModel.GetById(e.TraceId);
             var owner = _treeOfRtuModel.GetById(traceLeaf.Parent.Id);
@@ -109,7 +124,8 @@ namespace Iit.Fibertest.Client
             detachedTraceLeaf.PortNumber = 0;
             detachedTraceLeaf.Title = traceLeaf.Title;
             detachedTraceLeaf.TraceState = FiberState.NotJoined;
-            detachedTraceLeaf.Color = Brushes.Blue;
+            detachedTraceLeaf.Color = acceptable == EventAcceptability.Full ? Brushes.Blue : Brushes.LightGray;
+
             detachedTraceLeaf.BaseRefsSet = traceLeaf.BaseRefsSet;
             detachedTraceLeaf.BaseRefsSet.IsInMonitoringCycle = false;
 
