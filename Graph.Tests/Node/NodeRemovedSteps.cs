@@ -26,7 +26,7 @@ namespace Graph.Tests
         {
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation(){Type = Type}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _nodeId = _sut.ReadModel.Nodes.Last().Id;
+            _nodeId = _sut.ReadModel.Nodes.Last().NodeId;
         }
 
         [Given(@"К данному узлу присоединен отрезок")]
@@ -34,8 +34,8 @@ namespace Graph.Tests
         {
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _anotherNodeId = _sut.ReadModel.Nodes.Last().Id;
-            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = _nodeId, Node2 = _anotherNodeId }).Wait();
+            _anotherNodeId = _sut.ReadModel.Nodes.Last().NodeId;
+            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = _nodeId, NodeId2 = _anotherNodeId }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -81,11 +81,11 @@ namespace Graph.Tests
         public void ThenСоздаетсяОтрезокМеждуСоседнимиСДаннымУзлами()
         {
             var fiber = _sut.ReadModel.Fibers.FirstOrDefault(f =>
-                    f.Node1 == _rtuNodeId && f.Node2 == _lastNodeId ||
-                    f.Node1 == _lastNodeId && f.Node2 == _rtuNodeId);
+                    f.NodeId1 == _rtuNodeId && f.NodeId2 == _lastNodeId ||
+                    f.NodeId1 == _lastNodeId && f.NodeId2 == _rtuNodeId);
             fiber.Should().NotBeNull();
 
-            var fiberVm = _sut.GraphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == fiber?.Id);
+            var fiberVm = _sut.GraphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == fiber?.FiberId);
             fiberVm.Should().NotBeNull();
             fiberVm?.States.Should().ContainKey(_trace.Id);
         }
@@ -101,21 +101,21 @@ namespace Graph.Tests
             {
                 _sut.ReadModel.Fibers.FirstOrDefault(
                     f =>
-                        f.Node1 == trace.Nodes[i] && f.Node2 == trace.Nodes[i + 1] ||
-                        f.Node1 == trace.Nodes[i + 1] && f.Node2 == trace.Nodes[i]).Should().NotBeNull();
+                        f.NodeId1 == trace.Nodes[i] && f.NodeId2 == trace.Nodes[i + 1] ||
+                        f.NodeId1 == trace.Nodes[i + 1] && f.NodeId2 == trace.Nodes[i]).Should().NotBeNull();
             }
         }
 
         [Then(@"Отрезки связанные с исходным узлом удаляются")]
         public void ThenОтрезкиСвязанныеСИсходнымУзломУдаляются()
         {
-            _sut.ReadModel.Fibers.FirstOrDefault(f => f.Node1 == _nodeId || f.Node2 == _nodeId).Should().Be(null);
+            _sut.ReadModel.Fibers.FirstOrDefault(f => f.NodeId1 == _nodeId || f.NodeId2 == _nodeId).Should().Be(null);
         }
 
         [Then(@"Узел удаляется")]
         public void ThenУзелУдаляется()
         {
-            _sut.ReadModel.Nodes.FirstOrDefault(n => n.Id == _nodeId).Should().Be(null);
+            _sut.ReadModel.Nodes.FirstOrDefault(n => n.NodeId == _nodeId).Should().Be(null);
             _sut.ReadModel.Equipments.FirstOrDefault(e => e.NodeId == _nodeId).Should().Be(null);
         }
 

@@ -21,7 +21,7 @@ namespace Graph.Tests
                 Longitude = 30.1
             }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-            var firstNodeId = sut.ReadModel.Nodes.Last().Id;
+            var firstNodeId = sut.ReadModel.Nodes.Last().NodeId;
 
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()
             {
@@ -30,10 +30,10 @@ namespace Graph.Tests
                 Longitude = 30.2
             }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-            var secondNodeId = sut.ReadModel.Nodes.Last().Id;
+            var secondNodeId = sut.ReadModel.Nodes.Last().NodeId;
 
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = nodeForRtuId, Node2 = firstNodeId }).Wait();
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = firstNodeId, Node2 = secondNodeId }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = nodeForRtuId, NodeId2 = firstNodeId }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = firstNodeId, NodeId2 = secondNodeId }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
             return sut.DefineTrace(secondNodeId, nodeForRtuId, title);

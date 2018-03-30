@@ -20,15 +20,15 @@ namespace Graph.Tests
         {
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            var n1 = _sut.ReadModel.Nodes.Last().Id;
+            var n1 = _sut.ReadModel.Nodes.Last().NodeId;
 
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            var n2 = _sut.ReadModel.Nodes.Last().Id;
+            var n2 = _sut.ReadModel.Nodes.Last().NodeId;
 
-            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() {Node1 = n1, Node2 = n2}).Wait();
+            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() {NodeId1 = n1, NodeId2 = n2}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _saidFiberId = _sut.ReadModel.Fibers.Last().Id;
+            _saidFiberId = _sut.ReadModel.Fibers.Last().FiberId;
 
             _cutOff = _sut.CurrentEventNumber;
         }

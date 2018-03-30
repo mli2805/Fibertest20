@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
                 foreach (var nodeId in trace.Nodes)
                 {
                     if (_nodesForRendering.Any(n => n.Id == nodeId)) continue;
-                    var node = _readModel.Nodes.First(n => n.Id == nodeId);
+                    var node = _readModel.Nodes.First(n => n.NodeId == nodeId);
                     _nodesForRendering.Add(Map(node));
                 }
 
@@ -59,7 +59,7 @@ namespace Iit.Fibertest.Client
                 var fibers = _readModel.GetTraceFibers(trace);
                 foreach (var fiber in fibers)
                 {
-                    var fiberVm = _fibersForRendering.FirstOrDefault(f => f.Id == fiber.Id);
+                    var fiberVm = _fibersForRendering.FirstOrDefault(f => f.Id == fiber.FiberId);
                     if (fiberVm == null)
                         fiberVm = Map(fiber);
                     fiberVm.States.Add(trace.Id, trace.State);
@@ -90,7 +90,7 @@ namespace Iit.Fibertest.Client
         private void ApplyToExistingGraph()
         {
             // remove nodes for deleted traces
-            foreach (var nodeVm in _graphReadModel.Data.Nodes)
+            foreach (var nodeVm in _graphReadModel.Data.Nodes.ToList())
             {
                 if (_nodesForRendering.All(n => n.Id != nodeVm.Id))
                     _graphReadModel.Data.Nodes.Remove(nodeVm);
@@ -104,7 +104,7 @@ namespace Iit.Fibertest.Client
             }
 
             // remove fibers for deleted traces
-            foreach (var fiberVm in _graphReadModel.Data.Fibers)
+            foreach (var fiberVm in _graphReadModel.Data.Fibers.ToList())
             {
                 if (_fibersForRendering.All(f => f.Id != fiberVm.Id))
                     _graphReadModel.Data.Fibers.Remove(fiberVm);
@@ -138,7 +138,7 @@ namespace Iit.Fibertest.Client
         {
             return new NodeVm()
             {
-                Id = node.Id,
+                Id = node.NodeId,
                 Title = node.Title,
                 Position = node.Position,
                 Type = node.TypeOfLastAddedEquipment,
@@ -150,9 +150,9 @@ namespace Iit.Fibertest.Client
         {
             return new FiberVm()
             {
-                Id = fiber.Id,
-                Node1 = _nodesForRendering.First(n => n.Id == fiber.Node1),
-                Node2 = _nodesForRendering.First(n => n.Id == fiber.Node2),
+                Id = fiber.FiberId,
+                Node1 = _nodesForRendering.First(n => n.Id == fiber.NodeId1),
+                Node2 = _nodesForRendering.First(n => n.Id == fiber.NodeId2),
                 States = new Dictionary<Guid, FiberState>(),
             };
         }

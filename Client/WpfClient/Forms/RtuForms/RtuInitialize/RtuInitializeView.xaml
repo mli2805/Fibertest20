@@ -6,7 +6,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" 
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" ResizeMode="CanMinimize"
         d:DataContext="{d:DesignInstance client:RtuInitializeViewModel}"
         FocusManager.FocusedElement="{Binding ElementName=MainAddress}">
     <Window.Resources>

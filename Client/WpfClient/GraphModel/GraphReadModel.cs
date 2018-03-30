@@ -105,7 +105,7 @@ namespace Iit.Fibertest.Client
             var fibers = ReadModel.GetTraceFibers(trace);
             foreach (var fiber in fibers)
             {
-                var fiberVm = Data.Fibers.First(f => f.Id == fiber.Id);
+                var fiberVm = Data.Fibers.First(f => f.Id == fiber.FiberId);
                 if (state != FiberState.NotInTrace)
                     fiberVm.SetState(traceId, state);
                 else

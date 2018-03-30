@@ -15,7 +15,7 @@ namespace Graph.Tests
         {
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-            var nodeId = sut.ReadModel.Nodes.Last().Id;
+            var nodeId = sut.ReadModel.Nodes.Last().NodeId;
             return sut.ReadModel.Equipments.First(e => e.NodeId == nodeId && e.Type == EquipmentType.Closure);
         }
 
@@ -24,23 +24,23 @@ namespace Graph.Tests
             sut.FakeWindowManager.RegisterHandler(model => sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Yes));
             sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation());
             sut.Poller.EventSourcingTick().Wait();
-            var rtuNodeId = sut.ReadModel.Nodes.Last().Id;
+            var rtuNodeId = sut.ReadModel.Nodes.Last().NodeId;
 
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = rtuNodeId, Node2 = nodeId }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = rtuNodeId, NodeId2 = nodeId }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-            anotherNodeId = sut.ReadModel.Nodes.Last().Id;
+            anotherNodeId = sut.ReadModel.Nodes.Last().NodeId;
 
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = anotherNodeId, Node2 = nodeId }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = anotherNodeId, NodeId2 = nodeId }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Other }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-            anotherNodeId2 = sut.ReadModel.Nodes.Last().Id;
+            anotherNodeId2 = sut.ReadModel.Nodes.Last().NodeId;
 
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = anotherNodeId2, Node2 = nodeId }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = anotherNodeId2, NodeId2 = nodeId }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
             return sut.ReadModel.Rtus.Last();

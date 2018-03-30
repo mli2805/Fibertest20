@@ -29,18 +29,18 @@ namespace Iit.Fibertest.Client
         public async Task AddFiber(AddFiber cmd)
         {
             if (!Validate(cmd)) return;
-            cmd.Id = Guid.NewGuid();
+            cmd.FiberId = Guid.NewGuid();
             await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
         private bool Validate(AddFiber cmd)
         {
-            if (cmd.Node1 == cmd.Node2)
+            if (cmd.NodeId1 == cmd.NodeId2)
                 return false;
             var fiber =
                 _readModel.Fibers.FirstOrDefault(f =>
-                        f.Node1 == cmd.Node1 && f.Node2 == cmd.Node2 ||
-                        f.Node1 == cmd.Node2 && f.Node2 == cmd.Node1);
+                        f.NodeId1 == cmd.NodeId1 && f.NodeId2 == cmd.NodeId2 ||
+                        f.NodeId1 == cmd.NodeId2 && f.NodeId2 == cmd.NodeId1);
             if (fiber == null)
                 return true;
             _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Section_already_exists));

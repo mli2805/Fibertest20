@@ -71,8 +71,8 @@ namespace Iit.Fibertest.Graph
         private Fiber GetFiberBetweenNodes(Guid node1, Guid node2)
         {
             return _model.Fibers.First(
-                f => f.Node1 == node1 && f.Node2 == node2 ||
-                     f.Node1 == node2 && f.Node2 == node1);
+                f => f.NodeId1 == node1 && f.NodeId2 == node2 ||
+                     f.NodeId1 == node2 && f.NodeId2 == node1);
         }
 
         public string RemoveTrace(TraceRemoved e)
@@ -94,10 +94,10 @@ namespace Iit.Fibertest.Graph
 
             foreach (var traceNodeId in trace.Nodes)
             {
-                if (_model.Fibers.Any(f => f.Node1 == traceNodeId || f.Node2 == traceNodeId))
+                if (_model.Fibers.Any(f => f.NodeId1 == traceNodeId || f.NodeId2 == traceNodeId))
                     continue;
 
-                var node = _model.Nodes.First(n => n.Id == traceNodeId);
+                var node = _model.Nodes.First(n => n.NodeId == traceNodeId);
                 if (node.TypeOfLastAddedEquipment != EquipmentType.Rtu)
                     _model.Nodes.Remove(node);
             }

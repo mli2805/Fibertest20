@@ -44,7 +44,7 @@ namespace Iit.Fibertest.Graph.Algorithms
         {
             var nodes = _readModel.GetTraceNodes(trace).ToList();
             var equipments = _readModel.GetTraceEquipments(trace).ToList(); // without RTU
-            var rtu = _readModel.Rtus.First(r => r.NodeId == nodes[0].Id);
+            var rtu = _readModel.Rtus.First(r => r.NodeId == nodes[0].NodeId);
 
             var landmarks = sorData.LinkParameters.LandmarkBlocks;
             landmarks[0].Comment = rtu.Title;

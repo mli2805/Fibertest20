@@ -22,7 +22,7 @@ namespace Graph.Tests
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _cutOff = _sut.CurrentEventNumber;
-            _nodeId = _sut.ReadModel.Nodes.Last().Id;
+            _nodeId = _sut.ReadModel.Nodes.Last().NodeId;
         }
 
         [When(@"Пользователь подвинул узел")]

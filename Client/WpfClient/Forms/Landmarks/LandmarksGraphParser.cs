@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Client
 
         private Landmark CombineLandmark(Guid nodeId, Guid equipmentId, int number)
         {
-            var node = _readModel.Nodes.First(n => n.Id == nodeId);
+            var node = _readModel.Nodes.First(n => n.NodeId == nodeId);
             var result = new Landmark()
             {
                 Number = number,

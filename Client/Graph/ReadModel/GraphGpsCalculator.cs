@@ -18,9 +18,9 @@ namespace Iit.Fibertest.Graph
             double result = 0;
             for (int i = 0; i < trace.Nodes.Count - 1; i++)
             {
-                var node1 = _readModel.Nodes.FirstOrDefault(n => n.Id == trace.Nodes[i]);
+                var node1 = _readModel.Nodes.FirstOrDefault(n => n.NodeId == trace.Nodes[i]);
                 if (node1 == null) return 0;
-                var node2 = _readModel.Nodes.FirstOrDefault(n => n.Id == trace.Nodes[i + 1]);
+                var node2 = _readModel.Nodes.FirstOrDefault(n => n.NodeId == trace.Nodes[i + 1]);
                 if (node2 == null) return 0;
 
                 var equipment1 = i == 0
@@ -64,9 +64,9 @@ namespace Iit.Fibertest.Graph
 
         public double GetFiberFullGpsDistance(Guid fiberId)
         {
-            var fiber = _readModel.Fibers.First(f => f.Id == fiberId);
-            var node1 = _readModel.Nodes.First(n => n.Id == fiber.Node1);
-            var node2 = _readModel.Nodes.First(n => n.Id == fiber.Node2);
+            var fiber = _readModel.Fibers.First(f => f.FiberId == fiberId);
+            var node1 = _readModel.Nodes.First(n => n.NodeId == fiber.NodeId1);
+            var node2 = _readModel.Nodes.First(n => n.NodeId == fiber.NodeId2);
             var result = GpsCalculator.GetDistanceBetweenPointLatLng(node1.Position, node2.Position);
 
             var fId = fiberId;
@@ -74,9 +74,9 @@ namespace Iit.Fibertest.Graph
             {
                 fiber = _readModel.GetAnotherFiberOfAdjustmentPoint(node1, fId);
                 var previousNode1 = node1;
-                node1 = _readModel.Nodes.First(n => n.Id == fiber.Node1);
+                node1 = _readModel.Nodes.First(n => n.NodeId == fiber.NodeId1);
                 result = result + GpsCalculator.GetDistanceBetweenPointLatLng(node1.Position, previousNode1.Position);
-                fId = fiber.Id;
+                fId = fiber.FiberId;
             }
 
             fId = fiberId;
@@ -84,9 +84,9 @@ namespace Iit.Fibertest.Graph
             {
                 fiber = _readModel.GetAnotherFiberOfAdjustmentPoint(node2, fId);
                 var previousNode2 = node2;
-                node2 = _readModel.Nodes.First(n => n.Id == fiber.Node2);
+                node2 = _readModel.Nodes.First(n => n.NodeId == fiber.NodeId2);
                 result = result + GpsCalculator.GetDistanceBetweenPointLatLng(node2.Position, previousNode2.Position);
-                fId = fiber.Id;
+                fId = fiber.FiberId;
             }
 
             return result;

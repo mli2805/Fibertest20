@@ -30,7 +30,7 @@ namespace Graph.Tests
             _nodeUpdateViewModel.Save();
 
             _sut.Poller.EventSourcingTick().Wait();
-            _sut.ReadModel.Nodes.First(n => n.Id == nodeId).Title.Should().Be(title);
+            _sut.ReadModel.Nodes.First(n => n.NodeId == nodeId).Title.Should().Be(title);
         }
 
         [Given(@"Добавлен узел")]
@@ -39,7 +39,7 @@ namespace Graph.Tests
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
 
-            _saidNodeId = _sut.ReadModel.Nodes.Last().Id;
+            _saidNodeId = _sut.ReadModel.Nodes.Last().NodeId;
         }
 
         [When(@"Пользователь открыл окно редактирования только что добавленного узла")]
@@ -105,7 +105,7 @@ namespace Graph.Tests
         [Then(@"Сохраняется комментарий узла (.*)")]
         public void ThenСохраняетсяКомментарийУзла(string comment)
         {
-            _sut.ReadModel.Nodes.First(n => n.Id == _saidNodeId).Comment.Should().Be(comment);
+            _sut.ReadModel.Nodes.First(n => n.NodeId == _saidNodeId).Comment.Should().Be(comment);
         }
 
         [When(@"Пользователь открыл окно редактирования и что-то изменив нажал Отменить")]

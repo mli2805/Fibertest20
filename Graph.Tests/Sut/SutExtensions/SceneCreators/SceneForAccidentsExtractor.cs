@@ -40,23 +40,23 @@ namespace Graph.Tests
         {
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure, Latitude = 55.074, Longitude = 30.074 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-            var nodeIdA = sut.ReadModel.Nodes.Last().Id;
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = rtuNodeId, Node2 = nodeIdA }).Wait();
+            var nodeIdA = sut.ReadModel.Nodes.Last().NodeId;
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = rtuNodeId, NodeId2 = nodeIdA }).Wait();
 
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure, Latitude = 55.112, Longitude = 30.112 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-            var nodeIdB = sut.ReadModel.Nodes.Last().Id;
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = nodeIdA, Node2 = nodeIdB }).Wait();
+            var nodeIdB = sut.ReadModel.Nodes.Last().NodeId;
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = nodeIdA, NodeId2 = nodeIdB }).Wait();
 
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Cross, Latitude = 55.117, Longitude = 30.117 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-            nodeIdA = sut.ReadModel.Nodes.Last().Id;
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = nodeIdA, Node2 = nodeIdB }).Wait();
+            nodeIdA = sut.ReadModel.Nodes.Last().NodeId;
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = nodeIdA, NodeId2 = nodeIdB }).Wait();
 
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal, Latitude = 55.122, Longitude = 30.122 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-            nodeIdB = sut.ReadModel.Nodes.Last().Id;
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = nodeIdA, Node2 = nodeIdB }).Wait();
+            nodeIdB = sut.ReadModel.Nodes.Last().NodeId;
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = nodeIdA, NodeId2 = nodeIdB }).Wait();
 
             sut.Poller.EventSourcingTick().Wait();
 
@@ -69,7 +69,7 @@ namespace Graph.Tests
             foreach (var fiber in fibers)
             {
                 fiber.States.Contains(new KeyValuePair<Guid, FiberState>(trace.Id, trace.State)).Should().Be(true);
-                var fiberVm = sut.GraphReadModel.Data.Fibers.First(f => f.Id == fiber.Id);
+                var fiberVm = sut.GraphReadModel.Data.Fibers.First(f => f.Id == fiber.FiberId);
                 fiberVm.States.Contains(new KeyValuePair<Guid, FiberState>(trace.Id, trace.State)).Should().Be(true);
             }
         }

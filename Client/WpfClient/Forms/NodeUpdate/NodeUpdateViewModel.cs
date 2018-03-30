@@ -136,7 +136,7 @@ namespace Iit.Fibertest.Client
 
         public void Initialize(Guid nodeId)
         {
-            _originalNode = _readModel.Nodes.First(n => n.Id == nodeId);
+            _originalNode = _readModel.Nodes.First(n => n.NodeId == nodeId);
             _nodeCoors = _originalNode.Position;
             Title = _originalNode.Title;
             _selectedGpsInputModeComboItem = GpsInputModeComboItems.First(i => i.Mode == _currentGpsInputMode.Mode);
@@ -146,7 +146,7 @@ namespace Iit.Fibertest.Client
             TracesInNode = _readModel.Traces.Where(t => t.Nodes.Contains(nodeId)).ToList();
 
             EquipmentsInNode = new ObservableCollection<ItemOfEquipmentTableModel>(
-                _readModel.Equipments.Where(e => e.NodeId == _originalNode.Id && e.Type != EquipmentType.EmptyNode).Select(CreateEqItem));
+                _readModel.Equipments.Where(e => e.NodeId == _originalNode.NodeId && e.Type != EquipmentType.EmptyNode).Select(CreateEqItem));
         }
 
 
@@ -154,7 +154,7 @@ namespace Iit.Fibertest.Client
         private void _readModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             EquipmentsInNode = new ObservableCollection<ItemOfEquipmentTableModel>(
-                _readModel.Equipments.Where(eq => eq.NodeId == _originalNode.Id && eq.Type != EquipmentType.EmptyNode).Select(CreateEqItem));
+                _readModel.Equipments.Where(eq => eq.NodeId == _originalNode.NodeId && eq.Type != EquipmentType.EmptyNode).Select(CreateEqItem));
         }
 
         protected override void OnViewLoaded(object view)
@@ -198,7 +198,7 @@ namespace Iit.Fibertest.Client
 
         public async Task AddEquipmentIntoNode()
         {
-            var cmd = _addEquipmentIntoNodeBuilder.BuildCommand(_originalNode.Id);
+            var cmd = _addEquipmentIntoNodeBuilder.BuildCommand(_originalNode.NodeId);
             if (cmd == null)
                 return;
             await _c2DWcfManager.SendCommandAsObj(cmd);
@@ -233,7 +233,7 @@ namespace Iit.Fibertest.Client
             {
                 var cmd = new UpdateNode
                 {
-                    Id = _originalNode.Id,
+                    NodeId = _originalNode.NodeId,
                     Title = _title?.Trim(),
                     Comment = _comment?.Trim()
                 };

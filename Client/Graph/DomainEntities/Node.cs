@@ -6,7 +6,7 @@ namespace Iit.Fibertest.Graph
 {
     public class Node
     {
-        public Guid Id { get; set; }
+        public Guid NodeId { get; set; }
         public string Title { get; set; }
         public EquipmentType TypeOfLastAddedEquipment { get; set; }
         public FiberState State { get; set; }

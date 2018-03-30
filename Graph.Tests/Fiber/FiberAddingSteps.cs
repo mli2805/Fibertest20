@@ -24,17 +24,17 @@ namespace Graph.Tests
         {
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _leftNodeId = _sut.ReadModel.Nodes.Last().Id;
+            _leftNodeId = _sut.ReadModel.Nodes.Last().NodeId;
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _rightNodeId = _sut.ReadModel.Nodes.Last().Id;
+            _rightNodeId = _sut.ReadModel.Nodes.Last().NodeId;
             _cutOff = _sut.CurrentEventNumber;
         }
 
         [Given(@"Отрезок между левым и правым узлом уже добавлен")]
         public void AddFiber()
         {
-            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
+            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() {NodeId1 = _leftNodeId, NodeId2 = _rightNodeId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _cutOff = _sut.CurrentEventNumber;
         }
@@ -43,15 +43,15 @@ namespace Graph.Tests
         public void WhenUserClickedAddFiber()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
+            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() {NodeId1 = _leftNodeId, NodeId2 = _rightNodeId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"Новый отрезок сохранен")]
         public void ThenNewEventPersisted()
         {
-            _sut.ReadModel.Fibers.Where(f => f.Node1 == _leftNodeId && f.Node2 == _rightNodeId ||
-                                             f.Node2 == _leftNodeId && f.Node1 == _rightNodeId).Should().NotBeNull();
+            _sut.ReadModel.Fibers.Where(f => f.NodeId1 == _leftNodeId && f.NodeId2 == _rightNodeId ||
+                                             f.NodeId2 == _leftNodeId && f.NodeId1 == _rightNodeId).Should().NotBeNull();
         }
 
         [Then(@"Появится сообщение что есть такое волокно")]

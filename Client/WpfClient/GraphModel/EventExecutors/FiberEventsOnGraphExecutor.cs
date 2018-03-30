@@ -9,25 +9,32 @@ namespace Iit.Fibertest.Client
     public class FiberEventsOnGraphExecutor
     {
         private readonly GraphReadModel _model;
+        private readonly CurrentUser _currentUser;
 
-        public FiberEventsOnGraphExecutor(GraphReadModel model)
+        public FiberEventsOnGraphExecutor(GraphReadModel model, CurrentUser currentUser)
         {
             _model = model;
+            _currentUser = currentUser;
         }
 
         public void AddFiber(FiberAdded evnt)
         {
+            if (_currentUser.ZoneId != Guid.Empty) return;
+
             _model.Data.Fibers.Add(new FiberVm()
             {
-                Id = evnt.Id,
-                Node1 = _model.Data.Nodes.First(m => m.Id == evnt.Node1),
-                Node2 = _model.Data.Nodes.First(m => m.Id == evnt.Node2),
+                Id = evnt.FiberId,
+                Node1 = _model.Data.Nodes.First(m => m.Id == evnt.NodeId1),
+                Node2 = _model.Data.Nodes.First(m => m.Id == evnt.NodeId2),
             });
         }
 
         public void RemoveFiber(FiberRemoved evnt)
         {
-            var fiberVm = _model.Data.Fibers.First(f => f.Id == evnt.Id);
+            if (_currentUser.ZoneId != Guid.Empty
+                && _model.Data.Fibers.All(f => f.Id != evnt.FiberId)) return;
+
+            var fiberVm = _model.Data.Fibers.First(f => f.Id == evnt.FiberId);
             RemoveFiberUptoRealNodesNotPoints(fiberVm);
         }
 

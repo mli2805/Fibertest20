@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Graph
 
         public static IEnumerable<Fiber> GetTraceFibers(this IModel model, Trace trace)
         {
-            return model.GetFibersByNodes(trace.Nodes).Select(i => model.Fibers.Single(f=>f.Id == i));
+            return model.GetFibersByNodes(trace.Nodes).Select(i => model.Fibers.Single(f=>f.FiberId == i));
         }
 
         public static IEnumerable<Guid> GetFibersByNodes(this IModel model, List<Guid> nodes)
@@ -39,8 +39,8 @@ namespace Iit.Fibertest.Graph
         public static Guid GetFiberByNodes(this IModel model, Guid node1, Guid node2)
         {
             return model.Fibers.First(
-                f => f.Node1 == node1 && f.Node2 == node2 ||
-                     f.Node1 == node2 && f.Node2 == node1).Id;
+                f => f.NodeId1 == node1 && f.NodeId2 == node2 ||
+                     f.NodeId1 == node2 && f.NodeId2 == node1).FiberId;
         }
 
         public static IEnumerable<Trace> GetTracesPassingFiber(this IModel model, Guid fiberId)
@@ -56,7 +56,7 @@ namespace Iit.Fibertest.Graph
         {
             try
             {
-                return trace.Nodes.Select(i => model.Nodes.Single(eq => eq.Id == i));
+                return trace.Nodes.Select(i => model.Nodes.Single(eq => eq.NodeId == i));
             }
             catch (Exception e)
             {
@@ -72,9 +72,9 @@ namespace Iit.Fibertest.Graph
                 foreach (var nodeId in trace.Nodes)
                 {
                     var node = model.Nodes.FirstOrDefault(n =>
-                        n.Id == nodeId && n.TypeOfLastAddedEquipment != EquipmentType.AdjustmentPoint);
+                        n.NodeId == nodeId && n.TypeOfLastAddedEquipment != EquipmentType.AdjustmentPoint);
                     if (node != null)
-                        yield return node.Id;
+                        yield return node.NodeId;
                 }
         }
 
@@ -105,42 +105,42 @@ namespace Iit.Fibertest.Graph
         private static IEnumerable<Fiber> GetNodeFibers(this IModel model, Node node)
         {
             foreach (var fiber in model.Fibers)
-                if (fiber.Node1 == node.Id || fiber.Node2 == node.Id) yield return fiber;
+                if (fiber.NodeId1 == node.NodeId || fiber.NodeId2 == node.NodeId) yield return fiber;
         }
 
         public static Fiber GetAnotherFiberOfAdjustmentPoint(this IModel model, Node adjustmentPoint, Guid fiberId)
         {
-            return model.GetNodeFibers(adjustmentPoint).First(f => f.Id != fiberId);
+            return model.GetNodeFibers(adjustmentPoint).First(f => f.FiberId != fiberId);
         }
 
         public static List<Guid> GetNeighbours(this IModel model, Guid nodeId)
         {
-            var nodes = model.Fibers.Where(f => f.Node1 == nodeId).Select(f => f.Node2).ToList();
-            nodes.AddRange(model.Fibers.Where(f => f.Node2 == nodeId).Select(f => f.Node1));
+            var nodes = model.Fibers.Where(f => f.NodeId1 == nodeId).Select(f => f.NodeId2).ToList();
+            nodes.AddRange(model.Fibers.Where(f => f.NodeId2 == nodeId).Select(f => f.NodeId1));
             return nodes;
         }
 
 
         public static void RemoveFiberUptoRealNodesNotPoints(this IModel model, Fiber fiber)
         {
-            var leftNode = model.Nodes.First(n => n.Id == fiber.Node1);
+            var leftNode = model.Nodes.First(n => n.NodeId == fiber.NodeId1);
             while (leftNode.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint)
             {
-                var leftFiber = model.GetAnotherFiberOfAdjustmentPoint(leftNode, fiber.Id);
+                var leftFiber = model.GetAnotherFiberOfAdjustmentPoint(leftNode, fiber.FiberId);
                 model.Nodes.Remove(leftNode);
-                var nextLeftNodeId = leftFiber.Node1 == leftNode.Id ? leftFiber.Node2 : leftFiber.Node1;
+                var nextLeftNodeId = leftFiber.NodeId1 == leftNode.NodeId ? leftFiber.NodeId2 : leftFiber.NodeId1;
                 model.Fibers.Remove(leftFiber);
-                leftNode = model.Nodes.First(n => n.Id == nextLeftNodeId);
+                leftNode = model.Nodes.First(n => n.NodeId == nextLeftNodeId);
             }
 
-            var rightNode = model.Nodes.First(n => n.Id == fiber.Node2);
+            var rightNode = model.Nodes.First(n => n.NodeId == fiber.NodeId2);
             while (rightNode.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint)
             {
-                var rightFiber = model.GetAnotherFiberOfAdjustmentPoint(rightNode, fiber.Id);
+                var rightFiber = model.GetAnotherFiberOfAdjustmentPoint(rightNode, fiber.FiberId);
                 model.Nodes.Remove(rightNode);
-                var nextRightNodeId = rightFiber.Node1 == rightNode.Id ? rightFiber.Node2 : rightFiber.Node1;
+                var nextRightNodeId = rightFiber.NodeId1 == rightNode.NodeId ? rightFiber.NodeId2 : rightFiber.NodeId1;
                 model.Fibers.Remove(rightFiber);
-                rightNode = model.Nodes.First(n => n.Id == nextRightNodeId);
+                rightNode = model.Nodes.First(n => n.NodeId == nextRightNodeId);
             }
 
             model.Fibers.Remove(fiber);

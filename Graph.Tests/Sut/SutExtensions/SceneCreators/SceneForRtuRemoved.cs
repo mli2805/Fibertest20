@@ -27,19 +27,19 @@ namespace Graph.Tests
 
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-            var node1Id = sut.ReadModel.Nodes.Last().Id;
+            var node1Id = sut.ReadModel.Nodes.Last().NodeId;
 
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-            result[1] = sut.ReadModel.Nodes.Last().Id;
+            result[1] = sut.ReadModel.Nodes.Last().NodeId;
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-            result[2] = sut.ReadModel.Nodes.Last().Id;
+            result[2] = sut.ReadModel.Nodes.Last().NodeId;
 
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = rtuANodeId, Node2 = node1Id }).Wait();
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = node1Id, Node2 = result[1] }).Wait();
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = result[1], Node2 = result[2] }).Wait();
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = result[2], Node2 = result[0] }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = rtuANodeId, NodeId2 = node1Id }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = node1Id, NodeId2 = result[1] }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = result[1], NodeId2 = result[2] }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = result[2], NodeId2 = result[0] }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
             return result;

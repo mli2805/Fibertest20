@@ -63,7 +63,7 @@ namespace Iit.Fibertest.Client
         private async void AskRemoveFiber(object parameter)
         {
             var route = (GMapRoute)parameter;
-            await GraphReadModel.GrmFiberRequests.RemoveFiber(new RemoveFiber() { Id = route.Id });
+            await GraphReadModel.GrmFiberRequests.RemoveFiber(new RemoveFiber() { FiberId = route.Id });
         }
 
         private void Route_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

@@ -26,7 +26,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             if (accident is AccidentInOldEvent accidentInOldEvent)
             {
                 var withoutPoints = _readModel.GetTraceNodesExcludingAdjustmentPoints(accident.TraceId).ToList();
-                var nodeVm = _readModel.Nodes.FirstOrDefault(n => n.Id == withoutPoints[accidentInOldEvent.BrokenLandmarkIndex]);
+                var nodeVm = _readModel.Nodes.FirstOrDefault(n => n.NodeId == withoutPoints[accidentInOldEvent.BrokenLandmarkIndex]);
                 return nodeVm?.Position;
             }
 
@@ -62,13 +62,13 @@ namespace Iit.Fibertest.Graph.Algorithms
 
             return GetPointOnBrokenSegment(trace, 
                 (distances[segmentIndex] - (distancesSum - distanceToAccidentOnGraphM)) / distances[segmentIndex], 
-                trace.Nodes.IndexOf(leftNodeVm.Id) + segmentIndex);
+                trace.Nodes.IndexOf(leftNodeVm.NodeId) + segmentIndex);
         }
 
         private PointLatLng GetPointOnBrokenSegment(Trace trace, double procentOfSegmentUptoAccident, int leftNodeIndex)
         {
-            var leftNode = _readModel.Nodes.First(n => n.Id == trace.Nodes[leftNodeIndex]);
-            var rightNode = _readModel.Nodes.First(n => n.Id == trace.Nodes[leftNodeIndex + 1]);
+            var leftNode = _readModel.Nodes.First(n => n.NodeId == trace.Nodes[leftNodeIndex]);
+            var rightNode = _readModel.Nodes.First(n => n.NodeId == trace.Nodes[leftNodeIndex + 1]);
 
             var latBreak = leftNode.Position.Lat + (rightNode.Position.Lat - leftNode.Position.Lat) * procentOfSegmentUptoAccident;
             var lngBreak = leftNode.Position.Lng + (rightNode.Position.Lng - leftNode.Position.Lng) * procentOfSegmentUptoAccident;
@@ -94,8 +94,8 @@ namespace Iit.Fibertest.Graph.Algorithms
         private List<double> GetGpsDistancesOfSegmentsBetweenLandmarks(AccidentAsNewEvent accident, Trace trace, out Node leftNode, out Node rightNode)
         {
             var withoutPoints = _readModel.GetTraceNodesExcludingAdjustmentPoints(accident.TraceId).ToList();
-            leftNode = _readModel.Nodes.FirstOrDefault(n => n.Id == withoutPoints[accident.LeftLandmarkIndex]);
-            rightNode = _readModel.Nodes.FirstOrDefault(n => n.Id == withoutPoints[accident.RightLandmarkIndex]);
+            leftNode = _readModel.Nodes.FirstOrDefault(n => n.NodeId == withoutPoints[accident.LeftLandmarkIndex]);
+            rightNode = _readModel.Nodes.FirstOrDefault(n => n.NodeId == withoutPoints[accident.RightLandmarkIndex]);
 
             if (leftNode == null)
             {
@@ -108,13 +108,13 @@ namespace Iit.Fibertest.Graph.Algorithms
                 return null;
             }
 
-            var indexOfLeft = trace.Nodes.IndexOf(leftNode.Id);
-            var indexOfRight = trace.Nodes.IndexOf(rightNode.Id);
+            var indexOfLeft = trace.Nodes.IndexOf(leftNode.NodeId);
+            var indexOfRight = trace.Nodes.IndexOf(rightNode.NodeId);
             var result = new List<double>();
             var fromNode = leftNode;
             for (int i = indexOfLeft + 1; i < indexOfRight; i++)
             {
-                var toNode = _readModel.Nodes.First(n => n.Id == trace.Nodes[i]);
+                var toNode = _readModel.Nodes.First(n => n.NodeId == trace.Nodes[i]);
                 result.Add(GpsCalculator.GetDistanceBetweenPointLatLng(fromNode.Position, toNode.Position));
                 fromNode = toNode;
             }

@@ -37,7 +37,7 @@ namespace Graph.Tests
         public void GivenСуществуетТрассаОтЭтогоРту()
         {
             _traceId = _sut.DefineTrace(_nodes[2], _rtu.NodeId, @"title", 3).Id;
-            _fibers = _sut.ReadModel.GetTraceFibers(_sut.ReadModel.Traces.FirstOrDefault(t => t.Id == _traceId)).Select(f=>f.Id).ToArray();
+            _fibers = _sut.ReadModel.GetTraceFibers(_sut.ReadModel.Traces.FirstOrDefault(t => t.Id == _traceId)).Select(f=>f.FiberId).ToArray();
         }
 
         [Given(@"Существует трасса от второго РТУ последние отрезки трасс совпадают")]

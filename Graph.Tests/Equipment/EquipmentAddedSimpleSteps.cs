@@ -19,7 +19,7 @@ namespace Graph.Tests
         {
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _nodeId = _sut.ReadModel.Nodes.Last().Id;
+            _nodeId = _sut.ReadModel.Nodes.Last().NodeId;
         }
 
         [Given(@"Существует некоторый узел с оборудованием")]
@@ -27,7 +27,7 @@ namespace Graph.Tests
         {
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _nodeId = _sut.ReadModel.Nodes.Last().Id;
+            _nodeId = _sut.ReadModel.Nodes.Last().NodeId;
         }
 
         [Then(@"Пользователь вводит тип и другие параметры оборудования и жмет Сохранить")]

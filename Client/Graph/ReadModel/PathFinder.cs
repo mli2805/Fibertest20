@@ -17,10 +17,10 @@ namespace Iit.Fibertest.Graph
         {
             foreach (var fiber in _readModel.Fibers)
             {
-                if (fiber.Node1 == nodeId)
-                    yield return fiber.Node2;
-                if (fiber.Node2 == nodeId)
-                    yield return fiber.Node1;
+                if (fiber.NodeId1 == nodeId)
+                    yield return fiber.NodeId2;
+                if (fiber.NodeId2 == nodeId)
+                    yield return fiber.NodeId1;
             }
         }
 

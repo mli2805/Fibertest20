@@ -22,7 +22,7 @@ namespace Graph.Tests
         {
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-            var nodeId = sut.ReadModel.Nodes.Last().Id;
+            var nodeId = sut.ReadModel.Nodes.Last().NodeId;
             nodeA = nodeId;
             eqA = sut.ReadModel.Equipments.Last(e=>e.NodeId == nodeId && e.Type == EquipmentType.Closure).Id;
         }
@@ -32,12 +32,12 @@ namespace Graph.Tests
             sut.FakeWindowManager.RegisterHandler(model => sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Yes));
             sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation());
             sut.Poller.EventSourcingTick().Wait();
-            var rtuNodeId = sut.ReadModel.Nodes.Last().Id;
+            var rtuNodeId = sut.ReadModel.Nodes.Last().NodeId;
 
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = rtuNodeId, Node2 = nodeAId }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = rtuNodeId, NodeId2 = nodeAId }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = nodeAId, Node2 = nodeBId }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = nodeAId, NodeId2 = nodeBId }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
             return rtuNodeId;

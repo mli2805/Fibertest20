@@ -23,8 +23,8 @@ namespace Graph.Tests
         public void GivenЕстьДвеТрассыПроходящиеЧерезОтрезокИОднаНе()
         {
             _scene.CreatePositionForAddNodeIntoFiberTest(out _fiber, out _trace);
-            _a1Id = _fiber.Node1;
-            _b1Id = _fiber.Node2;
+            _a1Id = _fiber.NodeId1;
+            _b1Id = _fiber.NodeId2;
 
             _scene.InitializeRtu(_trace.RtuId);
         }
@@ -42,16 +42,16 @@ namespace Graph.Tests
         public void WhenПользовательКликаетДобавитьУзелВОтрезок()
         {
             _scene.FakeWindowManager.RegisterHandler(model => _scene.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            _scene.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber() {FiberId = _fiber.Id}).Wait();
+            _scene.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber() {FiberId = _fiber.FiberId}).Wait();
             _scene.Poller.EventSourcingTick().Wait();
-            _nodeId = _scene.ReadModel.Nodes.Last().Id;
+            _nodeId = _scene.ReadModel.Nodes.Last().NodeId;
             _equipmentId = _scene.ReadModel.Equipments.Last().Id;
         }
 
         [Then(@"Старый отрезок удаляется и добавляются два новых и новый узел связывает их")]
         public void ThenВместоОтрезкаОбразуетсяДваНовыхИНовыйУзелСвязывающийИх()
         {
-            _scene.ReadModel.Fibers.FirstOrDefault(f => f.Id == _fiber.Id).Should().Be(null);
+            _scene.ReadModel.Fibers.FirstOrDefault(f => f.FiberId == _fiber.FiberId).Should().Be(null);
             _scene.ReadModel.HasFiberBetween(_b1Id, _nodeId).Should().BeTrue();
             _scene.ReadModel.HasFiberBetween(_a1Id, _nodeId).Should().BeTrue();
         }

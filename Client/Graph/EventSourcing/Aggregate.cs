@@ -78,9 +78,9 @@ namespace Iit.Fibertest.Graph
 
         public string When(RemoveNode cmd)
         {
-            if (WriteModel.IsNodeLastForAnyTrace(cmd.Id))
+            if (WriteModel.IsNodeLastForAnyTrace(cmd.NodeId))
                 return Resources.SID_It_s_prohibited_to_remove_last_node_from_trace;
-            if (WriteModel.IsNodeContainedInAnyTraceWithBase(cmd.Id) && cmd.Type != EquipmentType.AdjustmentPoint)
+            if (WriteModel.IsNodeContainedInAnyTraceWithBase(cmd.NodeId) && cmd.Type != EquipmentType.AdjustmentPoint)
                 return Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram;
 
             return WriteModel.Add(_mapper.Map<NodeRemoved>(cmd));
@@ -90,7 +90,7 @@ namespace Iit.Fibertest.Graph
         #region Fiber
         public string When(AddFiber cmd)
         {
-            if (WriteModel.HasFiberBetween(cmd.Node1, cmd.Node2))
+            if (WriteModel.HasFiberBetween(cmd.NodeId1, cmd.NodeId2))
                 return Resources.SID_Section_already_exists;
 
             return WriteModel.Add(_mapper.Map<FiberAdded>(cmd));
@@ -125,7 +125,7 @@ namespace Iit.Fibertest.Graph
         }
         public string When(RemoveFiber cmd)
         {
-            if (WriteModel.IsFiberContainedInAnyTraceWithBase(cmd.Id))
+            if (WriteModel.IsFiberContainedInAnyTraceWithBase(cmd.FiberId))
                 return Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram;
             return WriteModel.Add(_mapper.Map<FiberRemoved>(cmd));
         }

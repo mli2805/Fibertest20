@@ -22,26 +22,26 @@ namespace Graph.Tests
         {
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _leftNodeId = _sut.ReadModel.Nodes.Last().Id;
+            _leftNodeId = _sut.ReadModel.Nodes.Last().NodeId;
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _rightNodeId = _sut.ReadModel.Nodes.Last().Id;
-            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
+            _rightNodeId = _sut.ReadModel.Nodes.Last().NodeId;
+            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() {NodeId1 = _leftNodeId, NodeId2 = _rightNodeId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _fiberId = _sut.ReadModel.Fibers.Last().Id;
+            _fiberId = _sut.ReadModel.Fibers.Last().FiberId;
         }
 
         [When(@"Пользователь кликает удалить отрезок")]
         public void WhenПользовательКликаетУдалитьОтрезок()
         {
-            _sut.GraphReadModel.GrmFiberRequests.RemoveFiber(new RemoveFiber() {Id = _fiberId}).Wait();
+            _sut.GraphReadModel.GrmFiberRequests.RemoveFiber(new RemoveFiber() {FiberId = _fiberId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Then(@"Отрезок удаляется")]
         public void ThenОтрезокУдаляется()
         {
-            _sut.ReadModel.Fibers.FirstOrDefault(f => f.Id == _fiberId).Should().Be(null);
+            _sut.ReadModel.Fibers.FirstOrDefault(f => f.FiberId == _fiberId).Should().Be(null);
         }
     }
 }

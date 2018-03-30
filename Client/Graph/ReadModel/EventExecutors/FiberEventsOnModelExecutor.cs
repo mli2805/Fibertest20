@@ -26,7 +26,7 @@ namespace Iit.Fibertest.Graph
 
         public string UpdateFiber(FiberUpdated source)
         {
-            var destination = _model.Fibers.FirstOrDefault(f => f.Id == source.Id);
+            var destination = _model.Fibers.FirstOrDefault(f => f.FiberId == source.Id);
             if (destination == null)
             {
                 var message = $@"FiberUpdated: Fiber {source.Id.First6()} not found";
@@ -39,10 +39,10 @@ namespace Iit.Fibertest.Graph
 
         public string RemoveFiber(FiberRemoved e)
         {
-            var fiber = _model.Fibers.FirstOrDefault(f => f.Id == e.Id);
+            var fiber = _model.Fibers.FirstOrDefault(f => f.FiberId == e.FiberId);
             if (fiber == null)
             {
-                var message = $@"FiberRemoved: Fiber {e.Id.First6()} not found";
+                var message = $@"FiberRemoved: Fiber {e.FiberId.First6()} not found";
                 _logFile.AppendLine(message);
                 return message;
             }

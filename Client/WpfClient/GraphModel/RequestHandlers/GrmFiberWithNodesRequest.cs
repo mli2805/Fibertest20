@@ -56,8 +56,8 @@ namespace Iit.Fibertest.Client
                 return false;
             var fiber =
                 _readModel.Fibers.FirstOrDefault(f =>
-                        f.Node1 == request.Node1 && f.Node2 == request.Node2 ||
-                        f.Node1 == request.Node2 && f.Node2 == request.Node1);
+                        f.NodeId1 == request.Node1 && f.NodeId2 == request.Node2 ||
+                        f.NodeId1 == request.Node2 && f.NodeId2 == request.Node1);
             if (fiber == null)
                 return true;
             _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Section_already_exists));
@@ -89,8 +89,8 @@ namespace Iit.Fibertest.Client
 
         private IEnumerable<AddEquipmentAtGpsLocation> CreateIntermediateNodes(Guid startId, Guid finishId, int count, EquipmentType type)
         {
-            var startNode = _readModel.Nodes.First(n => n.Id == startId);
-            var finishNode = _readModel.Nodes.First(n => n.Id == finishId);
+            var startNode = _readModel.Nodes.First(n => n.NodeId == startId);
+            var finishNode = _readModel.Nodes.First(n => n.NodeId == finishId);
 
             double deltaLat = (finishNode.Position.Lat - startNode.Position.Lat) / (count + 1);
             double deltaLng = (finishNode.Position.Lng - startNode.Position.Lng) / (count + 1);
@@ -116,7 +116,7 @@ namespace Iit.Fibertest.Client
         private IEnumerable<AddFiber> CreateIntermediateFibers(List<Guid> nodes, int count)
         {
             for (int i = 0; i <= count; i++)
-                yield return new AddFiber() { Id = Guid.NewGuid(), Node1 = nodes[i], Node2 = nodes[i + 1] };
+                yield return new AddFiber() { FiberId = Guid.NewGuid(), NodeId1 = nodes[i], NodeId2 = nodes[i + 1] };
         }
     }
 }

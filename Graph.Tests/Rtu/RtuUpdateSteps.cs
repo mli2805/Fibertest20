@@ -34,7 +34,7 @@ namespace Graph.Tests
             _sut.Poller.EventSourcingTick().Wait();
 
             _saidRtuId = _sut.ReadModel.Rtus.Last().Id;
-            _saidNodeId = _sut.ReadModel.Nodes.Last().Id;
+            _saidNodeId = _sut.ReadModel.Nodes.Last().NodeId;
         }
 
 

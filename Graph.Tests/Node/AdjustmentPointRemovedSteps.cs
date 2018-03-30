@@ -26,7 +26,7 @@ namespace Graph.Tests
             _sut.Poller.EventSourcingTick().Wait();
             _n2 = _sut.GraphReadModel.Data.Nodes.Last().Id;
 
-            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber(){Id = Guid.NewGuid(), Node1 = _n1, Node2 = _n2}).Wait();
+            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber(){FiberId = Guid.NewGuid(), NodeId1 = _n1, NodeId2 = _n2}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _fiberId = _sut.GraphReadModel.Data.Fibers.Last().Id;
         }
@@ -53,8 +53,8 @@ namespace Graph.Tests
             _sut.GraphReadModel.Data.Fibers.FirstOrDefault(f => f.Node1.Id == _n1 && f.Node2.Id == _n2).Should().NotBeNull();
             _sut.GraphReadModel.Data.Fibers.Count.Should().Be(1);
 
-            _sut.ReadModel.Nodes.FirstOrDefault(n => n.Id == _nodeWithPointId).Should().BeNull();
-            _sut.ReadModel.Fibers.FirstOrDefault(f => f.Node1 == _n1 && f.Node2 == _n2).Should().NotBeNull();
+            _sut.ReadModel.Nodes.FirstOrDefault(n => n.NodeId == _nodeWithPointId).Should().BeNull();
+            _sut.ReadModel.Fibers.FirstOrDefault(f => f.NodeId1 == _n1 && f.NodeId2 == _n2).Should().NotBeNull();
             _sut.ReadModel.Fibers.Count.Should().Be(1);
         }
 
@@ -72,7 +72,7 @@ namespace Graph.Tests
             _sut.GraphReadModel.Data.Nodes[0].Id.Should().Be(_n1);
 
             _sut.ReadModel.Nodes.Count.Should().Be(1);
-            _sut.ReadModel.Nodes[0].Id.Should().Be(_n1);
+            _sut.ReadModel.Nodes[0].NodeId.Should().Be(_n1);
         }
 
     }

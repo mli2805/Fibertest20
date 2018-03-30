@@ -10,16 +10,21 @@ namespace Iit.Fibertest.Client
     public class NodeEventsOnGraphExecutor
     {
         private readonly GraphReadModel _model;
+        private readonly CurrentUser _currentUser;
         private readonly IMyLog _logFile;
 
-        public NodeEventsOnGraphExecutor(IMyLog logFile, GraphReadModel model)
+        public NodeEventsOnGraphExecutor(IMyLog logFile, GraphReadModel model, CurrentUser currentUser)
         {
             _model = model;
+            _currentUser = currentUser;
             _logFile = logFile;
         }
 
         public void AddNodeIntoFiber(NodeIntoFiberAdded evnt)
         {
+            if (_currentUser.ZoneId != Guid.Empty 
+                   && _model.Data.Fibers.All(f=>f.Id != evnt.FiberId))  return;
+
             var nodeVm = new NodeVm()
             {
                 Id = evnt.Id,
@@ -36,7 +41,6 @@ namespace Iit.Fibertest.Client
             AddTwoFibersToNewNode(evnt, fiberForDeletion);
             _model.Data.Fibers.Remove(fiberForDeletion);
         }
-
      
         private void AddTwoFibersToNewNode(NodeIntoFiberAdded e, FiberVm oldFiberVm)
         {
@@ -49,6 +53,9 @@ namespace Iit.Fibertest.Client
 
         public void MoveNode(NodeMoved evnt)
         {
+            if (_currentUser.ZoneId != Guid.Empty
+                    && _model.Data.Nodes.All(f => f.Id != evnt.NodeId)) return;
+
             var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == evnt.NodeId);
             if (nodeVm == null)
                 return;
@@ -57,7 +64,10 @@ namespace Iit.Fibertest.Client
 
         public void UpdateNode(NodeUpdated evnt)
         {
-            var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == evnt.Id);
+            if (_currentUser.ZoneId != Guid.Empty
+                   && _model.Data.Nodes.All(f => f.Id != evnt.NodeId)) return;
+
+            var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == evnt.NodeId);
             if (nodeVm == null)
                 return;
             nodeVm.Title = evnt.Title;
@@ -65,20 +75,23 @@ namespace Iit.Fibertest.Client
 
         public void RemoveNode(NodeRemoved evnt)
         {
+            if (_currentUser.ZoneId != Guid.Empty
+                && _model.Data.Nodes.All(f => f.Id != evnt.NodeId)) return;
+
             foreach (var detour in evnt.DetoursForGraph)
                 CreateDetourIfAbsent(detour);
 
             if (evnt.FiberIdToDetourAdjustmentPoint != Guid.Empty)
             {
-                ExcludeAdjustmentPoint(evnt.Id, evnt.FiberIdToDetourAdjustmentPoint);
+                ExcludeAdjustmentPoint(evnt.NodeId, evnt.FiberIdToDetourAdjustmentPoint);
                 return;
             }
 
             if (evnt.TraceWithNewFiberForDetourRemovedNode.Count == 0 &&
-                _model.Data.Fibers.Count(f => f.Node1.Id == evnt.Id || f.Node2.Id == evnt.Id) == 1)
-                RemoveNodeOnEdgeWhereNoTraces(evnt.Id);
+                _model.Data.Fibers.Count(f => f.Node1.Id == evnt.NodeId || f.Node2.Id == evnt.NodeId) == 1)
+                RemoveNodeOnEdgeWhereNoTraces(evnt.NodeId);
             else
-                RemoveNodeWithAllHis(evnt.Id);
+                RemoveNodeWithAllHis(evnt.NodeId);
         }
 
         private void ExcludeAdjustmentPoint(Guid nodeId, Guid detourFiberId)

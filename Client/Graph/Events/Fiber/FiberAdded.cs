@@ -5,8 +5,8 @@ namespace Iit.Fibertest.Graph
     [Serializable]
     public class FiberAdded
     {
-        public Guid Id { get; set; }
-        public Guid Node1 { get; set; }
-        public Guid Node2 { get; set; }
+        public Guid FiberId { get; set; }
+        public Guid NodeId1 { get; set; }
+        public Guid NodeId2 { get; set; }
     }
 }

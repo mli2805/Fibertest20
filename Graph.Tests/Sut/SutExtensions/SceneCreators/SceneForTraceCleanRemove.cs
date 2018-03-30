@@ -17,18 +17,18 @@ namespace Graph.Tests
 
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-            var a1 = sut.ReadModel.Nodes.Last().Id;
+            var a1 = sut.ReadModel.Nodes.Last().NodeId;
 
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-            var a2 = sut.ReadModel.Nodes.Last().Id;
+            var a2 = sut.ReadModel.Nodes.Last().NodeId;
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-            var b2 = sut.ReadModel.Nodes.Last().Id;
+            var b2 = sut.ReadModel.Nodes.Last().NodeId;
 
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = nodeForRtuId, Node2 = a1 }).Wait();
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = a1, Node2 = a2 }).Wait();
-            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = a1, Node2 = b2 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = nodeForRtuId, NodeId2 = a1 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = a1, NodeId2 = a2 }).Wait();
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = a1, NodeId2 = b2 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
             traceId1 = sut.DefineTrace(a2, nodeForRtuId).Id;

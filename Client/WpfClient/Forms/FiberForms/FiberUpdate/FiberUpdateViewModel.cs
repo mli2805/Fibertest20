@@ -42,7 +42,7 @@ namespace Iit.Fibertest.Client
 
         public void Initialize(Guid fiberId)
         {
-            _fiber = _readModel.Fibers.Single(f => f.Id == fiberId);
+            _fiber = _readModel.Fibers.Single(f => f.FiberId == fiberId);
 
             GpsLength = $@"{_graphGpsCalculator.GetFiberFullGpsDistance(fiberId):#,##0}";
 //            OpticalLength = _fiber.OpticalLength; // потом из базовых брать
@@ -59,7 +59,7 @@ namespace Iit.Fibertest.Client
         public void Save()
         {
 
-            Command = new UpdateFiber {Id = _fiber.Id, UserInputedLength = int.Parse(_userInputedLength)};
+            Command = new UpdateFiber {Id = _fiber.FiberId, UserInputedLength = int.Parse(_userInputedLength)};
             TryClose();
         }
 

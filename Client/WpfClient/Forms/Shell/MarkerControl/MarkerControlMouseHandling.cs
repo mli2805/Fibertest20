@@ -100,7 +100,7 @@ namespace Iit.Fibertest.Client
             if (Type != EquipmentType.AdjustmentPoint)
             {
                 if (!MainMap.IsFiberWithNodes)
-                    await Owner.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { Node1 = MainMap.StartNode.Id, Node2 = GMapMarker.Id });
+                    await Owner.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = MainMap.StartNode.Id, NodeId2 = GMapMarker.Id });
                 else
                     await Owner.GraphReadModel.GrmFiberWithNodesRequest.AddFiberWithNodes(
                         new RequestAddFiberWithNodes() { Node1 = MainMap.StartNode.Id, Node2 = GMapMarker.Id, });

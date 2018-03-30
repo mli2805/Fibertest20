@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Graph
         }
         public string AddEquipmentIntoNode(EquipmentIntoNodeAdded e)
         {
-            var node = _model.Nodes.First(n => n.Id == e.NodeId);
+            var node = _model.Nodes.First(n => n.NodeId == e.NodeId);
             node.TypeOfLastAddedEquipment = e.Type;
             Equipment equipment = _mapper.Map<Equipment>(e);
             _model.Equipments.Add(equipment);
@@ -44,7 +44,7 @@ namespace Iit.Fibertest.Graph
 
         public string AddEquipmentAtGpsLocation(EquipmentAtGpsLocationAdded e)
         {
-            Node node = new Node() { Id = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), TypeOfLastAddedEquipment = e.Type };
+            Node node = new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), TypeOfLastAddedEquipment = e.Type };
             _model.Nodes.Add(node);
             Equipment equipment = _mapper.Map<Equipment>(e);
             equipment.Id = e.RequestedEquipmentId;
@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Graph
 
         public string AddEquipmentAtGpsLocationWithNodeTitle(EquipmentAtGpsLocationWithNodeTitleAdded e)
         {
-            _model.Nodes.Add(new Node() { Id = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude),
+            _model.Nodes.Add(new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude),
                 TypeOfLastAddedEquipment = e.Type, Title = e.Title, Comment = e.Comment });
 
             if (e.RequestedEquipmentId != Guid.Empty)
@@ -82,7 +82,7 @@ namespace Iit.Fibertest.Graph
                 _logFile.AppendLine(message);
                 return message;
             }
-            var node = _model.Nodes.First(n => n.Id == equipment.NodeId);
+            var node = _model.Nodes.First(n => n.NodeId == equipment.NodeId);
             node.TypeOfLastAddedEquipment = e.Type;
             _mapper.Map(e, equipment);
             return null;
@@ -113,12 +113,12 @@ namespace Iit.Fibertest.Graph
                 trace.Equipments[idx] = emptyEquipment.Id;
             }
 
-            var node = _model.Nodes.First(n => n.Id == equipment.NodeId);
+            var node = _model.Nodes.First(n => n.NodeId == equipment.NodeId);
 
 //            _model.Equipments.Remove(_model.Equipments.First(eq => eq.Id == e.Id));
             _model.Equipments.Remove(equipment);
 
-            node.TypeOfLastAddedEquipment = _model.Equipments.Where(p => p.NodeId == node.Id).Max(q => q.Type);
+            node.TypeOfLastAddedEquipment = _model.Equipments.Where(p => p.NodeId == node.NodeId).Max(q => q.Type);
 
             return null;
         }

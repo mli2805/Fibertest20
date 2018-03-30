@@ -30,9 +30,9 @@ namespace Iit.Fibertest.Client
         public void Initialize(Guid rtuNodeId, string rtuTitle)
         {
             Steps = new ObservableCollection<StepModel>();
-            var rtuNode = _readModel.Nodes.First(n => n.Id == rtuNodeId);
+            var rtuNode = _readModel.Nodes.First(n => n.NodeId == rtuNodeId);
             _graphReadModel.MainMap.Position = rtuNode.Position;
-            Steps.Add(new StepModel() { NodeId = rtuNode.Id, Title = rtuTitle });
+            Steps.Add(new StepModel() { NodeId = rtuNode.NodeId, Title = rtuTitle });
         }
 
         protected override void OnViewLoaded(object view)

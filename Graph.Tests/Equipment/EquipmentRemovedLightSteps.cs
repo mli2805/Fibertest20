@@ -25,7 +25,7 @@ namespace Graph.Tests
         {
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Closure }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _nodeAId = _sut.ReadModel.Nodes.Last().Id;
+            _nodeAId = _sut.ReadModel.Nodes.Last().NodeId;
             _equipmentA1Id = _sut.ReadModel.Equipments.Last().Id;
         }
 

@@ -59,14 +59,14 @@ namespace Iit.Fibertest.Graph
 
         public bool HasAnotherNodeWithTitle(string title, Guid id)
         {
-            return Nodes.Any(n => n.Title == title && n.Id != id);
+            return Nodes.Any(n => n.Title == title && n.NodeId != id);
         }
 
         public bool HasFiberBetween(Guid a, Guid b)
         {
             return Fibers.Any(f =>
-                f.Node1 == a && f.Node2 == b ||
-                f.Node1 == b && f.Node2 == a);
+                f.NodeId1 == a && f.NodeId2 == b ||
+                f.NodeId1 == b && f.NodeId2 == a);
         }
 
         public Trace GetTrace(Guid traceId)
@@ -127,11 +127,11 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(NodeIntoFiberAdded e)
         {
-            Nodes.Add(new Node() { Id = e.Id, Position = e.Position });
+            Nodes.Add(new Node() { NodeId = e.Id, Position = e.Position });
             Equipments.Add(new Equipment() { Id = e.EquipmentId, Type = e.InjectionType, NodeId = e.Id });
             AddTwoFibersToNewNode(e);
             FixTracesWhichContainedOldFiber(e);
-            var fiber = Fibers.FirstOrDefault(f => f.Id == e.FiberId);
+            var fiber = Fibers.FirstOrDefault(f => f.FiberId == e.FiberId);
             if (fiber != null)
             {
                 Fibers.Remove(fiber);
@@ -148,7 +148,7 @@ namespace Iit.Fibertest.Graph
             foreach (var trace in Traces)
             {
                 int idx;
-                while ((idx = Topo.GetFiberIndexInTrace(trace, Fibers.Single(f => f.Id == e.FiberId))) != -1)
+                while ((idx = Topo.GetFiberIndexInTrace(trace, Fibers.Single(f => f.FiberId == e.FiberId))) != -1)
                 {
                     trace.Nodes.Insert(idx + 1, e.Id); // GPS location добавляется во все трассы
                     trace.Equipments.Insert(idx + 1, e.EquipmentId); // GPS location добавляется во все трассы
@@ -157,36 +157,36 @@ namespace Iit.Fibertest.Graph
         }
         private void AddTwoFibersToNewNode(NodeIntoFiberAdded e)
         {
-            var fiber = Fibers.FirstOrDefault(f => f.Id == e.FiberId);
+            var fiber = Fibers.FirstOrDefault(f => f.FiberId == e.FiberId);
             if (fiber == null)
             {
                 LogFile.AppendLine($@"AddTwoFibersToNewNode: Fiber {e.FiberId.First6()} not found");
                 return;
             }
-            Guid nodeId1 = fiber.Node1;
-            Guid nodeId2 = fiber.Node2;
+            Guid nodeId1 = fiber.NodeId1;
+            Guid nodeId2 = fiber.NodeId2;
 
-            Fibers.Add(new Fiber() { Id = e.NewFiberId1, Node1 = nodeId1, Node2 = e.Id });
-            Fibers.Add(new Fiber() { Id = e.NewFiberId2, Node1 = e.Id, Node2 = nodeId2 });
+            Fibers.Add(new Fiber() { FiberId = e.NewFiberId1, NodeId1 = nodeId1, NodeId2 = e.Id });
+            Fibers.Add(new Fiber() { FiberId = e.NewFiberId2, NodeId1 = e.Id, NodeId2 = nodeId2 });
         }
 
         public string Apply(NodeUpdated source)
         {
-            var node = Nodes.FirstOrDefault(x => x.Id == source.Id);
+            var node = Nodes.FirstOrDefault(x => x.NodeId == source.NodeId);
             if (node != null)
             {
                 _mapper.Map(source, node);
                 return null;
             }
 
-            var message = $@"NodeUpdated: Node {source.Id.First6()} not found";
+            var message = $@"NodeUpdated: Node {source.NodeId.First6()} not found";
             LogFile.AppendLine(message);
             return message;
         }
 
         public string Apply(NodeMoved e)
         {
-            var node = Nodes.FirstOrDefault(x => x.Id == e.NodeId);
+            var node = Nodes.FirstOrDefault(x => x.NodeId == e.NodeId);
             if (node != null)
             {
                 node.Position = new PointLatLng(e.Latitude, e.Longitude);
@@ -200,7 +200,7 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(NodeRemoved e)
         {
-            foreach (var trace in Traces.Where(t => t.Nodes.Contains(e.Id)))
+            foreach (var trace in Traces.Where(t => t.Nodes.Contains(e.NodeId)))
             {
                 if (e.TraceWithNewFiberForDetourRemovedNode == null ||
                     !e.TraceWithNewFiberForDetourRemovedNode.ContainsKey(trace.Id))
@@ -210,16 +210,16 @@ namespace Iit.Fibertest.Graph
                     return message;
                 }
                 else
-                    ExcludeNodeFromTrace(trace, e.TraceWithNewFiberForDetourRemovedNode[trace.Id], e.Id);
+                    ExcludeNodeFromTrace(trace, e.TraceWithNewFiberForDetourRemovedNode[trace.Id], e.NodeId);
             }
 
             if (e.FiberIdToDetourAdjustmentPoint != Guid.Empty)
-                return ExcludeAdjustmentPoint(e.Id, e.FiberIdToDetourAdjustmentPoint);
+                return ExcludeAdjustmentPoint(e.NodeId, e.FiberIdToDetourAdjustmentPoint);
 
             if (e.TraceWithNewFiberForDetourRemovedNode.Count == 0 &&
-                Fibers.Count(f => f.Node1 == e.Id || f.Node2 == e.Id) == 1)
-                return RemoveNodeOnEdgeWhereNoTraces(e.Id);
-            return RemoveNodeWithAllHis(e.Id);
+                Fibers.Count(f => f.NodeId1 == e.NodeId || f.NodeId2 == e.NodeId) == 1)
+                return RemoveNodeOnEdgeWhereNoTraces(e.NodeId);
+            return RemoveNodeWithAllHis(e.NodeId);
         }
 
         private void ExcludeNodeFromTrace(Trace trace, Guid fiberId, Guid nodeId)
@@ -233,29 +233,29 @@ namespace Iit.Fibertest.Graph
 
         private string ExcludeAdjustmentPoint(Guid nodeId, Guid detourFiberId)
         {
-            var leftFiber = Fibers.FirstOrDefault(f => f.Node2 == nodeId);
+            var leftFiber = Fibers.FirstOrDefault(f => f.NodeId2 == nodeId);
             if (leftFiber == null)
             {
                 var message = @"IsFiberContainedInAnyTraceWithBase: Left fiber not found";
                 LogFile.AppendLine(message);
                 return message;
             }
-            var leftNodeId = leftFiber.Node1;
+            var leftNodeId = leftFiber.NodeId1;
 
-            var rightFiber = Fibers.FirstOrDefault(f => f.Node1 == nodeId);
+            var rightFiber = Fibers.FirstOrDefault(f => f.NodeId1 == nodeId);
             if (rightFiber == null)
             {
                 var message = @"IsFiberContainedInAnyTraceWithBase: Right fiber not found";
                 LogFile.AppendLine(message);
                 return message;
             }
-            var rightNodeId = rightFiber.Node2;
+            var rightNodeId = rightFiber.NodeId2;
 
             Fibers.Remove(leftFiber);
             Fibers.Remove(rightFiber);
-            Fibers.Add(new Fiber() { Id = detourFiberId, Node1 = leftNodeId, Node2 = rightNodeId });
+            Fibers.Add(new Fiber() { FiberId = detourFiberId, NodeId1 = leftNodeId, NodeId2 = rightNodeId });
 
-            var node = Nodes.FirstOrDefault(n => n.Id == nodeId);
+            var node = Nodes.FirstOrDefault(n => n.NodeId == nodeId);
             if (node == null)
             {
                 var message = $@"RemoveNodeWithAllHis: Node {nodeId.First6()} not found";
@@ -271,9 +271,9 @@ namespace Iit.Fibertest.Graph
         {
             do
             {
-                var node = Nodes.First(n => n.Id == nodeId);
-                var fiber = Fibers.First(f => f.Node1 == nodeId || f.Node2 == nodeId);
-                var neighbourId = fiber.Node1 == nodeId ? fiber.Node2 : fiber.Node1;
+                var node = Nodes.First(n => n.NodeId == nodeId);
+                var fiber = Fibers.First(f => f.NodeId1 == nodeId || f.NodeId2 == nodeId);
+                var neighbourId = fiber.NodeId1 == nodeId ? fiber.NodeId2 : fiber.NodeId1;
 
                 Fibers.Remove(fiber);
                 Equipments.RemoveAll(e => e.NodeId == nodeId);
@@ -293,9 +293,9 @@ namespace Iit.Fibertest.Graph
 
         public string RemoveNodeWithAllHis(Guid nodeId)
         {
-            Fibers.RemoveAll(f => f.Node1 == nodeId || f.Node2 == nodeId);
+            Fibers.RemoveAll(f => f.NodeId1 == nodeId || f.NodeId2 == nodeId);
             Equipments.RemoveAll(e => e.NodeId == nodeId);
-            var node = Nodes.FirstOrDefault(n => n.Id == nodeId);
+            var node = Nodes.FirstOrDefault(n => n.NodeId == nodeId);
             if (node != null)
             {
                 Nodes.Remove(node);
@@ -313,15 +313,15 @@ namespace Iit.Fibertest.Graph
             var nodeBefore = trace.Nodes[idxInTrace - 1];
             var nodeAfter = trace.Nodes[idxInTrace + 1];
 
-            if (!Fibers.Any(f => f.Node1 == nodeBefore && f.Node2 == nodeAfter
-                                  || f.Node2 == nodeBefore && f.Node1 == nodeAfter))
-                Fibers.Add(new Fiber() { Id = fiberId, Node1 = nodeBefore, Node2 = nodeAfter });
+            if (!Fibers.Any(f => f.NodeId1 == nodeBefore && f.NodeId2 == nodeAfter
+                                  || f.NodeId2 == nodeBefore && f.NodeId1 == nodeAfter))
+                Fibers.Add(new Fiber() { FiberId = fiberId, NodeId1 = nodeBefore, NodeId2 = nodeAfter });
         }
 
         public bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
         {
             var tracesWithBase = Traces.Where(t => t.HasAnyBaseRef);
-            var fiber = Fibers.FirstOrDefault(f => f.Id == fiberId);
+            var fiber = Fibers.FirstOrDefault(f => f.FiberId == fiberId);
             if (fiber == null)
             {
                 LogFile.AppendLine($@"IsFiberContainedInAnyTraceWithBase: Fiber {fiberId.First6()} not found");
@@ -348,7 +348,7 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(FiberUpdated source)
         {
-            var fiber = Fibers.FirstOrDefault(f => f.Id == source.Id);
+            var fiber = Fibers.FirstOrDefault(f => f.FiberId == source.Id);
             if (fiber != null)
             {
                 fiber.UserInputedLength = source.UserInputedLength;
@@ -362,14 +362,14 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(FiberRemoved e)
         {
-            var fiber = Fibers.FirstOrDefault(f => f.Id == e.Id);
+            var fiber = Fibers.FirstOrDefault(f => f.FiberId == e.FiberId);
             if (fiber != null)
             {
                 this.RemoveFiberUptoRealNodesNotPoints(fiber);
                 return null;
             }
 
-            var message = $@"FiberRemoved: Fiber {e.Id.First6()} not found";
+            var message = $@"FiberRemoved: Fiber {e.FiberId.First6()} not found";
             LogFile.AppendLine(message);
             return message;
         }
@@ -381,7 +381,7 @@ namespace Iit.Fibertest.Graph
         #region Equipment
         public string Apply(EquipmentIntoNodeAdded e)
         {
-            var node = Nodes.FirstOrDefault(n => n.Id == e.NodeId);
+            var node = Nodes.FirstOrDefault(n => n.NodeId == e.NodeId);
             if (node == null)
             {
                 var message = $@"EquipmentIntoNodeAdded: Node {e.NodeId.First6()} not found";
@@ -394,7 +394,7 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(EquipmentAtGpsLocationAdded e)
         {
-            Nodes.Add(new Node() { Id = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude) });
+            Nodes.Add(new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude) });
 
             Equipments.Add(new Equipment() { Id = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });
             if (e.EmptyNodeEquipmentId != Guid.Empty)
@@ -404,7 +404,7 @@ namespace Iit.Fibertest.Graph
         }
         public string Apply(EquipmentAtGpsLocationWithNodeTitleAdded e)
         {
-            Nodes.Add(new Node() { Id = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), Title = e.Title, Comment = e.Comment });
+            Nodes.Add(new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), Title = e.Title, Comment = e.Comment });
 
             if (e.RequestedEquipmentId != Guid.Empty)
                 Equipments.Add(new Equipment() { Id = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });
@@ -465,7 +465,7 @@ namespace Iit.Fibertest.Graph
         #region Rtu
         public string Apply(RtuAtGpsLocationAdded e)
         {
-            Nodes.Add(new Node() { Id = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude) });
+            Nodes.Add(new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude) });
             Rtus.Add(_mapper.Map<Rtu>(e));
             return null;
         }
@@ -478,7 +478,7 @@ namespace Iit.Fibertest.Graph
                 rtu.Title = e.Title;
                 rtu.Comment = e.Comment;
 
-                var nodeOfRtu = Nodes.First(n => n.Id == rtu.NodeId);
+                var nodeOfRtu = Nodes.First(n => n.NodeId == rtu.NodeId);
                 nodeOfRtu.Position = e.Position;
                 return null;
             }

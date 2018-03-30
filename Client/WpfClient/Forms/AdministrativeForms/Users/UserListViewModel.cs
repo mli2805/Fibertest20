@@ -11,7 +11,6 @@ using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
-
     public class UserListViewModel : Screen
     {
         private List<User> _users;

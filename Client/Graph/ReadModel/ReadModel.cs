@@ -35,15 +35,15 @@ namespace Iit.Fibertest.Graph
         public bool HasFiberBetween(Guid a, Guid b)
         {
             return Fibers.Any(f =>
-                f.Node1 == a && f.Node2 == b ||
-                f.Node1 == b && f.Node2 == a);
+                f.NodeId1 == a && f.NodeId2 == b ||
+                f.NodeId1 == b && f.NodeId2 == a);
         }
 
         public string RemoveNodeWithAllHis(Guid nodeId)
         {
-            Fibers.RemoveAll(f => f.Node1 == nodeId || f.Node2 == nodeId);
+            Fibers.RemoveAll(f => f.NodeId1 == nodeId || f.NodeId2 == nodeId);
             Equipments.RemoveAll(e => e.NodeId == nodeId);
-            var node = Nodes.FirstOrDefault(n => n.Id == nodeId);
+            var node = Nodes.FirstOrDefault(n => n.NodeId == nodeId);
             if (node != null)
             {
                 Nodes.Remove(node);

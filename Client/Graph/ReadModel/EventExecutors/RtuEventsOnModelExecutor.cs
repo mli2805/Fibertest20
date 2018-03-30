@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Graph
         }
         public string AddRtuAtGpsLocation(RtuAtGpsLocationAdded e)
         {
-            Node node = new Node() { Id = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), TypeOfLastAddedEquipment = EquipmentType.Rtu, Title = e.Title };
+            Node node = new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), TypeOfLastAddedEquipment = EquipmentType.Rtu, Title = e.Title };
             _model.Nodes.Add(node);
             Rtu rtu = _mapper.Map<Rtu>(e);
             rtu.ZoneIds.Add(_model.Zones.First(z=>z.IsDefaultZone).ZoneId);
@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Graph
             }
             rtu.Title = e.Title;
             rtu.Comment = e.Comment;
-            var nodeOfRtu = _model.Nodes.First(n => n.Id == rtu.NodeId);
+            var nodeOfRtu = _model.Nodes.First(n => n.NodeId == rtu.NodeId);
             nodeOfRtu.Position = e.Position;
             return null;
         }

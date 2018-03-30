@@ -73,7 +73,7 @@ namespace Iit.Fibertest.Client
             RtuId = rtuId;
             _originalRtu = _readModel.Rtus.First(r => r.Id == RtuId);
 
-            var node = _readModel.Nodes.First(n => n.Id == _originalRtu.NodeId);
+            var node = _readModel.Nodes.First(n => n.NodeId == _originalRtu.NodeId);
             GpsInputViewModel = _globalScope.Resolve<GpsInputViewModel>();
             GpsInputViewModel.Initialize(node.Position);
 
@@ -85,7 +85,7 @@ namespace Iit.Fibertest.Client
         {
             _isInCreationMode = true;
             var nodeId = Guid.NewGuid();
-            _originalNode = new Node() { Id = nodeId, Position = new PointLatLng(request.Latitude, request.Longitude) };
+            _originalNode = new Node() { NodeId = nodeId, Position = new PointLatLng(request.Latitude, request.Longitude) };
             RtuId = Guid.NewGuid();
             _originalRtu = new Rtu() { Id = RtuId, NodeId = nodeId };
 
@@ -112,7 +112,7 @@ namespace Iit.Fibertest.Client
             var cmd = new AddRtuAtGpsLocation()
             {
                 Id = _originalRtu.Id,
-                NodeId = _originalNode.Id,
+                NodeId = _originalNode.NodeId,
                 Latitude = GpsInputViewModel.OneCoorViewModelLatitude.StringsToValue(),
                 Longitude = GpsInputViewModel.OneCoorViewModelLongitude.StringsToValue(),
                 Title = Title,

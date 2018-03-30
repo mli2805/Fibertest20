@@ -142,7 +142,7 @@ namespace Iit.Fibertest.Client
         {
             var cmd = new UpdateNode
             {
-                Id = _node.Id,
+                NodeId = _node.NodeId,
                 Title = NodeTitle.Trim(),
                 Comment = _node.Comment,
             };

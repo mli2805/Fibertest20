@@ -45,11 +45,11 @@ namespace Iit.Fibertest.DataCenterCore
             if (equipment == null)
                 return $"Can't find equipment {equipmentId}";
 
-            var node = _writeModel.Nodes.FirstOrDefault(n => n.Id == equipment.NodeId);
+            var node = _writeModel.Nodes.FirstOrDefault(n => n.NodeId == equipment.NodeId);
             if (node == null)
                 return $"Can't find node {equipment.NodeId}";
 
-            var tracesWhichUseThisNode = _writeModel.Traces.Where(t => t.Nodes.Contains(node.Id) && t.HasAnyBaseRef).ToList();
+            var tracesWhichUseThisNode = _writeModel.Traces.Where(t => t.Nodes.Contains(node.NodeId) && t.HasAnyBaseRef).ToList();
             return await AmendBaseRefs(tracesWhichUseThisNode);
         }
 

@@ -86,7 +86,7 @@ namespace Iit.Fibertest.Client
                 return allEquipmentInNode[0].Id;
             }
 
-            var node = model.ReadModel.Nodes.First(n => n.Id == nodeId);
+            var node = model.ReadModel.Nodes.First(n => n.NodeId == nodeId);
             nodeVm.IsHighlighted = true;
             var traceContentChoiceViewModel = model.GlobalScope.Resolve<TraceContentChoiceViewModel>();
             traceContentChoiceViewModel.Initialize(allEquipmentInNode, node, isLastNode);

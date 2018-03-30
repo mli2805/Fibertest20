@@ -20,9 +20,9 @@ namespace Iit.Fibertest.DbMigrator
 
             var evnt = new AddFiber()
             {
-                Id = Guid.NewGuid(),
-                Node1 = _graphModel.NodesDictionary[nodeId1],
-                Node2 = _graphModel.NodesDictionary[nodeId2]
+                FiberId = Guid.NewGuid(),
+                NodeId1 = _graphModel.NodesDictionary[nodeId1],
+                NodeId2 = _graphModel.NodesDictionary[nodeId2]
             };
             _graphModel.Commands.Add(evnt);
         }

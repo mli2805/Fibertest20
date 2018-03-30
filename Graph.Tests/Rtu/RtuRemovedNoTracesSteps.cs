@@ -51,8 +51,8 @@ namespace Graph.Tests
         [Then(@"Узел под РТУ и присоединенные к нему отрезки удаляются")]
         public void ThenУзелПодРтуиПрисоединенныеКНемуОтрезкиУдаляются()
         {
-            _sut.ReadModel.Nodes.FirstOrDefault(n => n.Id == _rtu.NodeId).Should().Be(null);
-            _sut.ReadModel.Fibers.FirstOrDefault(f => f.Node1 == _rtu.NodeId || f.Node2 == _rtu.NodeId)
+            _sut.ReadModel.Nodes.FirstOrDefault(n => n.NodeId == _rtu.NodeId).Should().Be(null);
+            _sut.ReadModel.Fibers.FirstOrDefault(f => f.NodeId1 == _rtu.NodeId || f.NodeId2 == _rtu.NodeId)
                 .Should().BeNull();
         }
 

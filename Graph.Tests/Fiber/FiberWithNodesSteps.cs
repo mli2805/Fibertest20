@@ -27,10 +27,10 @@ namespace Graph.Tests
         {
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _leftNodeId =_sut.ReadModel.Nodes.Last().Id;
+            _leftNodeId =_sut.ReadModel.Nodes.Last().NodeId;
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation()).Wait();
             _sut.Poller.EventSourcingTick().Wait();
-            _rightNodeId =_sut.ReadModel.Nodes.Last().Id;
+            _rightNodeId =_sut.ReadModel.Nodes.Last().NodeId;
             _nodesCountCutOff =_sut.ReadModel.Nodes.Count;
             _equipmentCountCutOff =_sut.ReadModel.Equipments.Count;
             _fibersCountCutOff =_sut.ReadModel.Fibers.Count;
@@ -40,7 +40,7 @@ namespace Graph.Tests
         [Given(@"Между левым и правым узлом уже добавлен отрезок")]
         public void GivenМеждуЛевымИПравымУзломУжеДобавленОтрезок()
         {
-            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() {Node1 = _leftNodeId, Node2 = _rightNodeId}).Wait();
+            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() {NodeId1 = _leftNodeId, NodeId2 = _rightNodeId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _fibersCountCutOff =_sut.ReadModel.Fibers.Count;
         }

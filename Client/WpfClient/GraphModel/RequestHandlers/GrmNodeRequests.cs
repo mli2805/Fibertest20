@@ -62,7 +62,7 @@ namespace Iit.Fibertest.Client
 
         public bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
         {
-            var fiber = _readModel.Fibers.FirstOrDefault(f => f.Id == fiberId);
+            var fiber = _readModel.Fibers.FirstOrDefault(f => f.FiberId == fiberId);
             if (fiber == null) return false;
             return _readModel.Traces.Where(t => t.HasAnyBaseRef).ToList().Any(trace => Topo.GetFiberIndexInTrace(trace, fiber) != -1);
         }
@@ -94,7 +94,7 @@ namespace Iit.Fibertest.Client
             }
 
            
-            var cmd = new RemoveNode { Id = nodeId, Type = type, TraceWithNewFiberForDetourRemovedNode = detoursForTracesInModel, DetoursForGraph = detoursForGraph};
+            var cmd = new RemoveNode { NodeId = nodeId, Type = type, TraceWithNewFiberForDetourRemovedNode = detoursForTracesInModel, DetoursForGraph = detoursForGraph};
             if (detoursForTracesInModel.Count == 0 && type == EquipmentType.AdjustmentPoint)
             {
                 cmd.FiberIdToDetourAdjustmentPoint = Guid.NewGuid();

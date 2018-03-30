@@ -84,7 +84,7 @@ namespace Iit.Fibertest.Graph.Algorithms
         {
             var accidentNode = new Node()
             {
-                Id = Guid.NewGuid(),
+                NodeId = Guid.NewGuid(),
                 Position = accidentGps,
                 TypeOfLastAddedEquipment = EquipmentType.AccidentPlace,
                 AccidentOnTraceId = traceId,
@@ -109,7 +109,7 @@ namespace Iit.Fibertest.Graph.Algorithms
         {
             var nodesWithoutAdjustmentPoints = _model.GetTraceNodesExcludingAdjustmentPoints(traceId).ToList();
             var nodeId = nodesWithoutAdjustmentPoints[lmIndex];
-            return _model.Nodes.First(n => n.Id == nodeId);
+            return _model.Nodes.First(n => n.NodeId == nodeId);
         }
 
         // on graph could be more than one fiber between landmarks
@@ -128,8 +128,8 @@ namespace Iit.Fibertest.Graph.Algorithms
             for (int i = leftNodeIndexInFull; i < rightNodeIndexInFull; i++)
             {
                 yield return _model.Fibers.First(
-                    f => f.Node1 == trace.Nodes[i] && f.Node2 == trace.Nodes[i + 1] ||
-                         f.Node1 == trace.Nodes[i + 1] && f.Node2 == trace.Nodes[i]);
+                    f => f.NodeId1 == trace.Nodes[i] && f.NodeId2 == trace.Nodes[i + 1] ||
+                         f.NodeId1 == trace.Nodes[i + 1] && f.NodeId2 == trace.Nodes[i]);
             }
 
         }
