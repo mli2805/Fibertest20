@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.Linq;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -15,6 +16,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
 
         private ObservableCollection<Zone> _rows;
+
         public ObservableCollection<Zone> Rows
         {
             get { return _rows; }
@@ -26,7 +28,20 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public Zone SelectedZone { get; set; }
+        private Zone _selectedZone;
+        public Zone SelectedZone    
+        {
+            get { return _selectedZone; }
+            set
+            {
+                if (Equals(value, _selectedZone)) return;
+                _selectedZone = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IsRemoveEnabled));
+            }
+        }
+
+        public bool IsRemoveEnabled => !SelectedZone.IsDefaultZone;
 
         public ZonesViewModel(ILifetimeScope globalScope, ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
@@ -36,6 +51,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             Rows = new ObservableCollection<Zone>(readModel.Zones);
             readModel.PropertyChanged += ReadModel_PropertyChanged;
+            SelectedZone = Rows.First();
         }
 
         private void ReadModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

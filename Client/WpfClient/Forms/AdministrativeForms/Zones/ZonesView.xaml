@@ -30,7 +30,7 @@
             <ListBox.ContextMenu>
                 <ContextMenu>
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Update}" cal:Message.Attach="UpdateZone" />
-                        <MenuItem Header="{x:Static stringResources:Resources.SID_Remove}" cal:Message.Attach="RemoveZone" />
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Remove}" cal:Message.Attach="RemoveZone" IsEnabled="{Binding IsRemoveEnabled}" />
                         <Separator />
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Add}" cal:Message.Attach="AddZone" />
                 </ContextMenu>
@@ -39,7 +39,6 @@
                 <DataTemplate>
                     <Border BorderThickness="0,0,0,1" BorderBrush="LightGray">
                         <Grid>
-                            
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="150" />
                                 <ColumnDefinition Width="300" />

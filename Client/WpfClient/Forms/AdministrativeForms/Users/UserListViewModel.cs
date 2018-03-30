@@ -68,6 +68,7 @@ namespace Iit.Fibertest.Client
                 Rows.Add(new UserVm(user, _zones.First(z=>z.ZoneId == user.ZoneId).Title));
 
             _readModel.PropertyChanged += _readModel_PropertyChanged;
+            SelectedUser = Rows.First();
         }
 
         private void _readModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

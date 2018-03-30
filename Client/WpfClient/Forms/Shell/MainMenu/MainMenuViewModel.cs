@@ -54,19 +54,19 @@ namespace Iit.Fibertest.Client
         public void LaunchResponsibilityZonesView()
         {
             var vm = _globalScope.Resolve<ZonesViewModel>();
-            _windowManager.ShowWindowWithAssignedOwner(vm);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
         public void LaunchUserListView()
         {
             var vm = _globalScope.Resolve<UserListViewModel>();
-            _windowManager.ShowWindowWithAssignedOwner(vm);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
         public void LaunchObjectsToZonesView()
         {
             var vm = _globalScope.Resolve<ObjectsAsTreeToZonesViewModel>();
-            _windowManager.ShowWindowWithAssignedOwner(vm);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
         public void LaunchChangePasswordView()
@@ -74,7 +74,7 @@ namespace Iit.Fibertest.Client
             var vm = _globalScope.Resolve<ChangePasswordViewModel>();
             var user = _readModel.Users.First(u => u.Title == _currentUser.UserName);
             vm.Initialize(user);
-            _windowManager.ShowWindowWithAssignedOwner(vm);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
     }
