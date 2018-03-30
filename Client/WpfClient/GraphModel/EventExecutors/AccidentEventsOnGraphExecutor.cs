@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -9,16 +10,24 @@ namespace Iit.Fibertest.Client
     public class AccidentEventsOnGraphExecutor
     {
         private readonly GraphReadModel _model;
+        private readonly ReadModel _readModel;
+        private readonly CurrentUser _currentUser;
         private readonly AccidentPlaceLocator _accidentPlaceLocator;
 
-        public AccidentEventsOnGraphExecutor(GraphReadModel model, AccidentPlaceLocator accidentPlaceLocator)
+        public AccidentEventsOnGraphExecutor(GraphReadModel model, ReadModel readModel, 
+            CurrentUser currentUser, AccidentPlaceLocator accidentPlaceLocator)
         {
             _model = model;
+            _readModel = readModel;
+            _currentUser = currentUser;
             _accidentPlaceLocator = accidentPlaceLocator;
         }
 
         public void ShowMonitoringResult(MeasurementAdded evnt)
         {
+            if (_currentUser.ZoneId != Guid.Empty &&
+                !_readModel.Traces.First(t => t.TraceId == evnt.TraceId).ZoneIds.Contains(_currentUser.ZoneId)) return;
+
             _model.ChangeTraceColor(evnt.TraceId, evnt.TraceState);
 
             _model.CleanAccidentPlacesOnTrace(evnt.TraceId); // accidents on trace could change, so old should be cleaned and new drawn

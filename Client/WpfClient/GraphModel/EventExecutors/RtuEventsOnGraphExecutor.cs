@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -9,18 +10,22 @@ namespace Iit.Fibertest.Client
     {
         private readonly GraphReadModel _model;
         private readonly ReadModel _readModel;
+        private readonly CurrentUser _currentUser;
         private readonly NodeEventsOnGraphExecutor _nodeEventsOnGraphExecutor;
 
         public RtuEventsOnGraphExecutor(GraphReadModel model, ReadModel readModel,
-            NodeEventsOnGraphExecutor nodeEventsOnGraphExecutor)
+            CurrentUser currentUser, NodeEventsOnGraphExecutor nodeEventsOnGraphExecutor)
         {
             _model = model;
             _readModel = readModel;
+            _currentUser = currentUser;
             _nodeEventsOnGraphExecutor = nodeEventsOnGraphExecutor;
         }
 
         public void AddRtuAtGpsLocation(RtuAtGpsLocationAdded evnt)
         {
+            if (_currentUser.ZoneId != Guid.Empty) return;
+
             var nodeVm = new NodeVm()
             {
                 Id = evnt.NodeId,
@@ -35,6 +40,10 @@ namespace Iit.Fibertest.Client
         public void UpdateRtu(RtuUpdated evnt)
         {
             var rtu = _readModel.Rtus.First(r => r.Id == evnt.RtuId);
+
+            if (_currentUser.ZoneId != Guid.Empty && 
+                !rtu.ZoneIds.Contains(_currentUser.ZoneId)) return;
+
             var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == rtu.NodeId);
             if (nodeVm == null) return;
             nodeVm.Title = evnt.Title;
@@ -43,6 +52,9 @@ namespace Iit.Fibertest.Client
 
         public void RemoveRtu(RtuRemoved evnt)
         {
+            if (_currentUser.ZoneId != Guid.Empty &&
+                _model.Data.Nodes.All(n=>n.Id != evnt.RtuNodeId)) return;
+
             foreach (var pair in evnt.FibersFromCleanedTraces)
             {
                 _model.Data.Fibers.First(f=>f.Id == pair.Key).RemoveState(pair.Value);
