@@ -25,7 +25,7 @@ namespace Graph.Tests
         [Then(@"В дереве появляется лист с названием (.*) без пиктограмм")]
         public void ThenВДеревеПоявляетсяЛистСНазваниемТрасса(string p0)
         {
-            _traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
+            _traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(_traceId);
             _traceLeaf.Name.ShouldBeEquivalentTo(p0);
             _traceLeaf.PortNumber.ShouldBeEquivalentTo(0);
             _traceLeaf.BaseRefsSet.HasEnoughBaseRefsToPerformMonitoring.Should().BeFalse();
@@ -72,7 +72,7 @@ namespace Graph.Tests
         [Then(@"Новый лист трассы на месте листа порта получает имя (.*) и видимые пиктограммы")]
         public void ThenНовыйЛистТрассыНаМестеЛистаПортаПолучаетИмяNТрассаИВидимыеПиктограммы(string p0)
         {
-            _traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_traceId);
+            _traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(_traceId);
             _traceLeaf.Name.ShouldBeEquivalentTo(p0);
             _traceLeaf.PortNumber.ShouldBeEquivalentTo(_portNumber);
             _traceLeaf.BaseRefsSet.HasEnoughBaseRefsToPerformMonitoring.Should().BeTrue();

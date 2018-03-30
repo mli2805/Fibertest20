@@ -56,7 +56,7 @@ namespace Graph.Tests
         public void GivenДляОднойИзТрассЗаданаБазовая()
         {
             var trace = _sut.ReadModel.Traces.First();
-            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(trace.TraceId);
+            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(trace.TraceId);
 
             _sut.AssignBaseRef(traceLeaf, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes);
         }

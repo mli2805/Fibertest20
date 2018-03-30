@@ -65,7 +65,7 @@ namespace Graph.Tests
             var trace = _sut.ReadModel.Traces.Last();
             trace.Title.Should().Be(TraceTitle);
             trace.Comment.Should().Be(TraceComment);
-            _traceLeaf = (TraceLeaf)_sut.TreeOfRtuModel.Tree.GetById(trace.TraceId);
+            _traceLeaf = (TraceLeaf)_sut.TreeOfRtuModel.GetById(trace.TraceId);
             trace.EquipmentIds.Contains(Guid.Empty).Should().BeFalse();
         }
 

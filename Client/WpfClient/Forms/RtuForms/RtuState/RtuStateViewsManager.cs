@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
         private void NotifyUserRtuAvailabilityChanged(NetworkEventAdded networkEventAdded)
         {
             var networkEvent = _mapper.Map<NetworkEvent>(networkEventAdded);
-            RtuLeaf rtuLeaf = (RtuLeaf)_treeOfRtuModel.Tree.GetById(networkEvent.RtuId);
+            RtuLeaf rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(networkEvent.RtuId);
             Show(rtuLeaf, isUserAskedToOpenView: false, changes: networkEventAdded.RtuPartStateChanges);
         }
 
@@ -87,7 +87,7 @@ namespace Iit.Fibertest.Client
 
         public void NotifyUserTraceChanged(Guid traceId)
         {
-            var traceLeaf = _treeOfRtuModel.Tree.GetById(traceId);
+            var traceLeaf = _treeOfRtuModel.GetById(traceId);
             var rtuLeaf = (RtuLeaf)(traceLeaf.Parent is RtuLeaf ? traceLeaf.Parent : traceLeaf.Parent.Parent);
             if (LaunchedViews.TryGetValue(rtuLeaf.Id, out var vm))
                 vm.RefreshModel(rtuLeaf);
@@ -95,7 +95,7 @@ namespace Iit.Fibertest.Client
 
         private void NotifyUserRtuUpdated(Guid rtuId)
         {
-            var rtuLeaf = (RtuLeaf)_treeOfRtuModel.Tree.GetById(rtuId);
+            var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(rtuId);
             if (LaunchedViews.TryGetValue(rtuId, out var vm))
                 vm.RefreshModel(rtuLeaf);
         }

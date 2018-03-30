@@ -122,6 +122,11 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<OtauLeaf>();
             builder.RegisterType<RtuLeaf>();
             builder.RegisterType<TraceLeaf>();
+
+            builder.RegisterType<EchoEventsOnTreeExecutor>().SingleInstance();
+            builder.RegisterType<TraceEventsOnTreeExecutor>().SingleInstance();
+            builder.RegisterType<RtuEventsOnTreeExecutor>().SingleInstance();
+            builder.RegisterType<EventsOnTreeExecutor>().SingleInstance();
             builder.RegisterType<TreeOfRtuModel>().SingleInstance();
             builder.RegisterType<TreeOfRtuViewModel>().SingleInstance();
             builder.RegisterType<WriteModel>().SingleInstance();

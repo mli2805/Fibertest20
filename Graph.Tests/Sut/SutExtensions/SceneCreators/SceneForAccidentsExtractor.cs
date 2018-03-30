@@ -15,23 +15,23 @@ namespace Graph.Tests
         {
             var rtu = sut.SetInitializedRtu();
             var trace = sut.SetTrace(rtu.NodeId, @"Trace with accident in existing node");
-            var traceLeaf = (TraceLeaf)sut.TreeOfRtuModel.Tree.GetById(trace.TraceId);
+            var traceLeaf = (TraceLeaf)sut.TreeOfRtuModel.GetById(trace.TraceId);
             sut.AssignBaseRef(traceLeaf, SystemUnderTest.Base1550Lm4RealplaceYesRough, SystemUnderTest.Base1550Lm4RealplaceYesRough, null, Answer.Yes);
             return trace;
         }
 
         public static TraceLeaf Attach(this SystemUnderTest sut, Iit.Fibertest.Graph.Trace trace, int portNumber)
         {
-            var rtuLeaf = (RtuLeaf)sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(trace.RtuId);
+            var rtuLeaf = (RtuLeaf)sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(trace.RtuId);
             sut.AttachTraceTo(trace.TraceId, rtuLeaf, portNumber, Answer.Yes);
-            return (TraceLeaf)sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(trace.TraceId);
+            return (TraceLeaf)sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(trace.TraceId);
         }
 
         public static Iit.Fibertest.Graph.Trace SetTraceWithAccidentBetweenNodes(this SystemUnderTest sut)
         {
             var rtu = sut.SetInitializedRtu();
             var trace = sut.SetTraceWithAccidentBetweenNodes(rtu.NodeId, @"Trace with accident between nodes");
-            var traceLeaf = (TraceLeaf)sut.TreeOfRtuModel.Tree.GetById(trace.TraceId);
+            var traceLeaf = (TraceLeaf)sut.TreeOfRtuModel.GetById(trace.TraceId);
             sut.AssignBaseRef(traceLeaf, SystemUnderTest.Base1550Lm5FakeYesRough, SystemUnderTest.Base1550Lm5FakeYesRough, null, Answer.Yes);
             return trace;
         }

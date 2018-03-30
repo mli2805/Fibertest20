@@ -5,7 +5,6 @@ using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Newtonsoft.Json;
 using NEventStore;
-using PrivateReflectionUsingDynamic;
 
 namespace Iit.Fibertest.Client
 {
@@ -17,15 +16,15 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly ILocalDbManager _localDbManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly EventsOnTreeExecutor _eventsOnTreeExecutor;
         private readonly EventsOnModelExecutor _eventsOnModelExecutor;
-        private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly OpticalEventsExecutor _opticalEventsExecutor;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
         private readonly GraphRenderer _graphRenderer;
 
         public ReadyEventsLoader(IMyLog logFile, ILocalDbManager localDbManager, IWcfServiceForClient c2DWcfManager, 
-             TreeOfRtuModel treeOfRtuModel, 
+             EventsOnTreeExecutor eventsOnTreeExecutor,
             EventsOnModelExecutor eventsOnModelExecutor,
             OpticalEventsExecutor opticalEventsExecutor, 
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,  
@@ -35,8 +34,8 @@ namespace Iit.Fibertest.Client
             _logFile = logFile;
             _localDbManager = localDbManager;
             _c2DWcfManager = c2DWcfManager;
+            _eventsOnTreeExecutor = eventsOnTreeExecutor;
             _eventsOnModelExecutor = eventsOnModelExecutor;
-            _treeOfRtuModel = treeOfRtuModel;
             _opticalEventsExecutor = opticalEventsExecutor;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
@@ -85,7 +84,7 @@ namespace Iit.Fibertest.Client
                 try
                 {
                     _eventsOnModelExecutor.Apply(evnt);
-                    _treeOfRtuModel.AsDynamic().Apply(evnt);
+                    _eventsOnTreeExecutor.Apply(evnt);
                     _opticalEventsExecutor.Apply(evnt);
                     if (evnt is NetworkEventAdded ee) _networkEventsDoubleViewModel.Apply(ee);
                     if (evnt is BopNetworkEventAdded bee) _bopNetworkEventsDoubleViewModel.Apply(bee);

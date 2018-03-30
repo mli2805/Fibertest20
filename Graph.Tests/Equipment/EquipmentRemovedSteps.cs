@@ -27,7 +27,7 @@ namespace Graph.Tests
         [Given(@"Для этой трассы задана базовая")]
         public void GivenДляЭтойТрассыЗаданаБазовая()
         {
-            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.TraceId);
+            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(_trace.TraceId);
             var rtuId = traceLeaf.Parent.Id;
             _sut.InitializeRtu(rtuId);
 

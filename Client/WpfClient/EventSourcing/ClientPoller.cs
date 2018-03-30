@@ -7,7 +7,6 @@ using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Newtonsoft.Json;
 using NEventStore;
-using PrivateReflectionUsingDynamic;
 
 namespace Iit.Fibertest.Client
 {
@@ -21,6 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
         private readonly EventsOnModelExecutor _eventsOnModelExecutor;
+        private readonly EventsOnTreeExecutor _eventsOnTreeExecutor;
         private readonly OpticalEventsExecutor _opticalEventsExecutor;
         private readonly TraceStateViewsManager _traceStateViewsManager;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Client
 
         public ClientPoller(IWcfServiceForClient wcfConnection, IDispatcherProvider dispatcherProvider,
             ReadModel readModel, TreeOfRtuModel treeOfRtuModel, EventsOnGraphExecutor eventsOnGraphExecutor,
-            EventsOnModelExecutor eventsOnModelExecutor, OpticalEventsExecutor opticalEventsExecutor,
+            EventsOnModelExecutor eventsOnModelExecutor, EventsOnTreeExecutor eventsOnTreeExecutor, OpticalEventsExecutor opticalEventsExecutor,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel, RtuStateViewsManager rtuStateViewsManager,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
@@ -49,6 +49,7 @@ namespace Iit.Fibertest.Client
             _treeOfRtuModel = treeOfRtuModel;
             _eventsOnGraphExecutor = eventsOnGraphExecutor;
             _eventsOnModelExecutor = eventsOnModelExecutor;
+            _eventsOnTreeExecutor = eventsOnTreeExecutor;
             _opticalEventsExecutor = opticalEventsExecutor;
             _traceStateViewsManager = traceStateViewsManager;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
@@ -103,7 +104,7 @@ namespace Iit.Fibertest.Client
                     _eventsOnModelExecutor.Apply(evnt);
 
                     _eventsOnGraphExecutor.Apply(evnt);
-                    _treeOfRtuModel.AsDynamic().Apply(evnt);
+                    _eventsOnTreeExecutor.Apply(evnt);
                     _opticalEventsExecutor.Apply(evnt);
                     _networkEventsDoubleViewModel.Apply(evnt);
                     _rtuStateViewsManager.Apply(evnt);

@@ -28,7 +28,7 @@ namespace Graph.Tests
         {
             _sut.ReadModel.Rtus.Count.Should().Be(_rtuCutOff+1);
             var rtu = _sut.ReadModel.Rtus.Last();
-            var rtuLeaf = (RtuLeaf)_sut.TreeOfRtuModel.Tree.GetById(rtu.Id);
+            var rtuLeaf = (RtuLeaf)_sut.TreeOfRtuModel.GetById(rtu.Id);
             rtuLeaf.MainChannelState.Should().Be(RtuPartState.NotSetYet);
             rtuLeaf.ReserveChannelState.Should().Be(RtuPartState.NotSetYet);
             rtuLeaf.TreeOfAcceptableMeasParams.Should().BeNull();

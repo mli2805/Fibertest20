@@ -204,6 +204,10 @@
     <Compile Include="Forms\AdministrativeForms\ObjectsToZones\ObjectsAsTreeToZonesView.xaml.cs">
       <DependentUpon>ObjectsAsTreeToZonesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\EchoEventsOnTreeExecutor.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\EventsOnTreeExecutor.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\RtuEventsOnTreeExecutor.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\TraceEventsOnTreeExecutor.cs" />
     <Compile Include="Forms\WpfTricks\FocusExtension.cs" />
     <Compile Include="Forms\LoginServer\Server.cs" />
     <Compile Include="Forms\LoginServer\ServersConnectView.xaml.cs">
@@ -538,7 +542,6 @@
     <Compile Include="Forms\Primitive\MenuItemVm.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeaf.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeaf.cs" />
-    <Compile Include="Forms\Shell\TreeOfRtuControl\TreeExtensions.cs" />
     <Compile Include="Forms\AdministrativeForms\Users\UserListView.xaml.cs">
       <DependentUpon>UserListView.xaml</DependentUpon>
     </Compile>

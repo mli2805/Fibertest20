@@ -32,7 +32,7 @@ namespace Graph.Tests
         [Given(@"Для трассы проходящей по данному отрезку задана базовая")]
         public void GivenДляДаннойТрассыЗаданаБазовая()
         {
-            var traceLeaf = (TraceLeaf)_scene.TreeOfRtuViewModel.TreeOfRtuModel.Tree.GetById(_trace.TraceId);
+            var traceLeaf = (TraceLeaf)_scene.TreeOfRtuViewModel.TreeOfRtuModel.GetById(_trace.TraceId);
 
             _scene.AssignBaseRef(traceLeaf, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes);
             traceLeaf.BaseRefsSet.PreciseId.Should().NotBe(Guid.Empty);
