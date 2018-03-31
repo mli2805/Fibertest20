@@ -6,11 +6,11 @@ namespace Iit.Fibertest.Graph
 {
     public class GraphGpsCalculator
     {
-        private readonly ReadModel _readModel;
+        private readonly IModel _model;
 
-        public GraphGpsCalculator(ReadModel readModel)
+        public GraphGpsCalculator(IModel model)
         {
-            _readModel = readModel;
+            _model = model;
         }
 
         public double CalculateTraceGpsLengthKm(Trace trace)
@@ -18,15 +18,15 @@ namespace Iit.Fibertest.Graph
             double result = 0;
             for (int i = 0; i < trace.NodeIds.Count - 1; i++)
             {
-                var node1 = _readModel.Nodes.FirstOrDefault(n => n.NodeId == trace.NodeIds[i]);
+                var node1 = _model.Nodes.FirstOrDefault(n => n.NodeId == trace.NodeIds[i]);
                 if (node1 == null) return 0;
-                var node2 = _readModel.Nodes.FirstOrDefault(n => n.NodeId == trace.NodeIds[i + 1]);
+                var node2 = _model.Nodes.FirstOrDefault(n => n.NodeId == trace.NodeIds[i + 1]);
                 if (node2 == null) return 0;
 
                 var equipment1 = i == 0
                     ? new Equipment() { Type = EquipmentType.Rtu, CableReserveLeft = 0, CableReserveRight = 0 }
-                    : _readModel.Equipments.FirstOrDefault(e => e.EquipmentId == trace.EquipmentIds[i]);
-                var equipment2 = _readModel.Equipments.FirstOrDefault(e => e.EquipmentId == trace.EquipmentIds[i + 1]);
+                    : _model.Equipments.FirstOrDefault(e => e.EquipmentId == trace.EquipmentIds[i]);
+                var equipment2 = _model.Equipments.FirstOrDefault(e => e.EquipmentId == trace.EquipmentIds[i + 1]);
 
                 result = result +
                          GpsCalculator.GetDistanceBetweenPointLatLng(node1.Position, node2.Position) +
@@ -64,17 +64,17 @@ namespace Iit.Fibertest.Graph
 
         public double GetFiberFullGpsDistance(Guid fiberId)
         {
-            var fiber = _readModel.Fibers.First(f => f.FiberId == fiberId);
-            var node1 = _readModel.Nodes.First(n => n.NodeId == fiber.NodeId1);
-            var node2 = _readModel.Nodes.First(n => n.NodeId == fiber.NodeId2);
+            var fiber = _model.Fibers.First(f => f.FiberId == fiberId);
+            var node1 = _model.Nodes.First(n => n.NodeId == fiber.NodeId1);
+            var node2 = _model.Nodes.First(n => n.NodeId == fiber.NodeId2);
             var result = GpsCalculator.GetDistanceBetweenPointLatLng(node1.Position, node2.Position);
 
             var fId = fiberId;
             while (node1.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint)
             {
-                fiber = _readModel.GetAnotherFiberOfAdjustmentPoint(node1, fId);
+                fiber = _model.GetAnotherFiberOfAdjustmentPoint(node1, fId);
                 var previousNode1 = node1;
-                node1 = _readModel.Nodes.First(n => n.NodeId == fiber.NodeId1);
+                node1 = _model.Nodes.First(n => n.NodeId == fiber.NodeId1);
                 result = result + GpsCalculator.GetDistanceBetweenPointLatLng(node1.Position, previousNode1.Position);
                 fId = fiber.FiberId;
             }
@@ -82,9 +82,9 @@ namespace Iit.Fibertest.Graph
             fId = fiberId;
             while (node2.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint)
             {
-                fiber = _readModel.GetAnotherFiberOfAdjustmentPoint(node2, fId);
+                fiber = _model.GetAnotherFiberOfAdjustmentPoint(node2, fId);
                 var previousNode2 = node2;
-                node2 = _readModel.Nodes.First(n => n.NodeId == fiber.NodeId2);
+                node2 = _model.Nodes.First(n => n.NodeId == fiber.NodeId2);
                 result = result + GpsCalculator.GetDistanceBetweenPointLatLng(node2.Position, previousNode2.Position);
                 fId = fiber.FiberId;
             }
