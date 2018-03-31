@@ -174,5 +174,20 @@ namespace Iit.Fibertest.Graph
             }
             return newList;
         }
+
+        public static string RemoveNodeWithAllHis(this IModel model, Guid nodeId)
+        {
+            model.Fibers.RemoveAll(f => f.NodeId1 == nodeId || f.NodeId2 == nodeId);
+            model.Equipments.RemoveAll(e => e.NodeId == nodeId);
+            var node = model.Nodes.FirstOrDefault(n => n.NodeId == nodeId);
+            if (node != null)
+            {
+                model.Nodes.Remove(node);
+                return null;
+            }
+
+            return $@"RemoveNodeWithAllHis: Node {nodeId.First6()} not found";
+        }
+
     }
 }

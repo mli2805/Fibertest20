@@ -52,8 +52,12 @@ namespace Graph.Tests
         public void ThenВместоОтрезкаОбразуетсяДваНовыхИНовыйУзелСвязывающийИх()
         {
             _scene.ReadModel.Fibers.FirstOrDefault(f => f.FiberId == _fiber.FiberId).Should().Be(null);
-            _scene.ReadModel.HasFiberBetween(_b1Id, _nodeId).Should().BeTrue();
-            _scene.ReadModel.HasFiberBetween(_a1Id, _nodeId).Should().BeTrue();
+            _scene.ReadModel.Fibers.Any(f =>
+                f.NodeId1 == _b1Id && f.NodeId2 == _nodeId ||
+                f.NodeId1 == _nodeId && f.NodeId2 == _b1Id).Should().BeTrue();
+            _scene.ReadModel.Fibers.Any(f =>
+                f.NodeId1 == _a1Id && f.NodeId2 == _nodeId ||
+                f.NodeId1 == _nodeId && f.NodeId2 == _a1Id).Should().BeTrue();
         }
 
         [Then(@"Новый узел входит в трассу")]

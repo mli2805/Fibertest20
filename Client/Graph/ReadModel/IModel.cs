@@ -20,6 +20,5 @@ namespace Iit.Fibertest.Graph
         List<BopNetworkEvent> BopNetworkEvents { get; }
         List<BaseRef> BaseRefs { get; }
 
-        string RemoveNodeWithAllHis(System.Guid nodeId);
     }
 }
