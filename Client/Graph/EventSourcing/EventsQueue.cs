@@ -16,8 +16,8 @@ namespace Iit.Fibertest.Graph
 
         public string Add(object e)
         {
-            var result = _writeModel.Add(e);
-//            var result = _eventsOnModelExecutor.Apply(e);
+//            var result = _writeModel.Add(e);
+            var result = _eventsOnModelExecutor.Apply(e);
             if (result == null)
                 EventsWaitingForCommit.Add(e);
             return result;

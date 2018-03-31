@@ -55,7 +55,7 @@ namespace Graph.Tests
         [Given(@"Пользователь открыл окно нового RTU и ввел название существующего (.*)")]
         public void GivenПользовательОткрылОкноНовогоRtuиВвелНазваниеСуществующего(string title)
         {
-            _rtuUpdateViewModel = _sut.Container.Resolve<RtuUpdateViewModel>();
+            _rtuUpdateViewModel = _sut.ClientContainer.Resolve<RtuUpdateViewModel>();
             _rtuUpdateViewModel.Initialize(_saidRtuId);
             _rtuUpdateViewModel.Title = title;
         }
@@ -99,7 +99,7 @@ namespace Graph.Tests
         [When(@"Пользователь открыл окно редактирования нового RTU")]
         public void WhenПользовательОткрылОкноРедактированияНовогоRtu()
         {
-            _rtuUpdateViewModel = _sut.Container.Resolve<RtuUpdateViewModel>();
+            _rtuUpdateViewModel = _sut.ClientContainer.Resolve<RtuUpdateViewModel>();
             _rtuUpdateViewModel.Initialize(_saidRtuId);
         }
 

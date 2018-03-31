@@ -39,14 +39,14 @@ namespace Graph.Tests
         public void GivenОткрытаФормаДляРедактированияУзлаГдеОборудованиеА1()
         {
 //            _vm = new NodeUpdateViewModel(_nodeAId,_sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
-            _vm = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _vm = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
             _vm.Initialize(_nodeAId);
         }
         [Given(@"Открыта форма для редактирования узла где оборудование B1")]
         public void GivenОткрытаФормаДляРедактированияУзлаГдеОборудованиеB1()
         {
 //            _vm = new NodeUpdateViewModel(_nodeBId,_sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
-            _vm = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _vm = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
             _vm.Initialize(_nodeBId);
         }
 
@@ -72,7 +72,7 @@ namespace Graph.Tests
         public void WhenПользовательНажимаетУдалитьОборудование()
         {
 //            var vm = new NodeUpdateViewModel(_nodeAId,_sut.ReadModel, _sut.FakeWindowManager, _sut.ShellVm.C2DWcfManager);
-            var vm = _sut.Container.Resolve<NodeUpdateViewModel>();
+            var vm = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
             vm.Initialize(_nodeAId);
             vm.EquipmentsInNode.First(it=>it.Id == _equipmentA1Id).Command = new RemoveEquipment() { EquipmentId = _equipmentA1Id};
             _sut.Poller.EventSourcingTick().Wait();

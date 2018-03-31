@@ -24,7 +24,7 @@ namespace Graph.Tests
             _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation(){Type = EquipmentType.EmptyNode}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             var nodeId = _sut.GraphReadModel.Data.Nodes.Last().Id;
-            _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
             _nodeUpdateViewModel.Initialize(nodeId);
             _nodeUpdateViewModel.Title = title;
             _nodeUpdateViewModel.Save();
@@ -45,7 +45,7 @@ namespace Graph.Tests
         [When(@"Пользователь открыл окно редактирования только что добавленного узла")]
         public void WhenПользовательОткрылОкноРедактированияТолькоЧтоДобавленногоУзла()
         {
-            _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
             _nodeUpdateViewModel.Initialize(_saidNodeId);
         }
 
@@ -73,7 +73,7 @@ namespace Graph.Tests
         public void WhenПользовательОткрылОкноРедактированияИНичегоНеИзменивНажалСохранить()
         {
             _cutOff = _sut.CurrentEventNumber;
-            _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
             _nodeUpdateViewModel.Initialize(_saidNodeId);
             _nodeUpdateViewModel.Save();
             _sut.Poller.EventSourcingTick().Wait();
@@ -112,7 +112,7 @@ namespace Graph.Tests
         public void WhenПользовательОткрылОкноРедактированияИЧто_ТоИзменивНажалОтменить()
         {
             _cutOff = _sut.CurrentEventNumber;
-            _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
             _nodeUpdateViewModel.Initialize(_saidNodeId);
             _nodeUpdateViewModel.Title = @"asdf";
             _nodeUpdateViewModel.Cancel();

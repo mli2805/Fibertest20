@@ -14,7 +14,7 @@ namespace Graph.Tests
 {
     public class SystemUnderTest
     {
-        public IContainer Container { get; set; }
+       // public IContainer Container { get; set; }
         public ILifetimeScope ClientContainer { get; set; }
         public ILifetimeScope ServerContainer { get; set; }
 
@@ -50,19 +50,19 @@ namespace Graph.Tests
         {
             AutofacMess();
 
-            Poller = Container.Resolve<ClientPoller>();
-            FakeWindowManager = (FakeWindowManager) Container.Resolve<IWindowManager>();
-            MyLogFile = Container.Resolve<IMyLog>();
-            ShellVm = (ShellViewModel) Container.Resolve<IShell>();
-            ReadModel = Container.Resolve<ReadModel>();
-            GraphReadModel = Container.Resolve<GraphReadModel>();
-            TreeOfRtuModel = Container.Resolve<TreeOfRtuModel>();
-            TreeOfRtuViewModel = Container.Resolve<TreeOfRtuViewModel>();
-            AccidentsExtractorFromSor = Container.Resolve<AccidentsExtractorFromSor>();
-            MsmqHandler = Container.Resolve<MsmqHandler>();
+            Poller = ClientContainer.Resolve<ClientPoller>();
+            FakeWindowManager = (FakeWindowManager)ClientContainer.Resolve<IWindowManager>();
+            MyLogFile = ClientContainer.Resolve<IMyLog>();
+            ShellVm = (ShellViewModel)ClientContainer.Resolve<IShell>();
+            ReadModel = (ReadModel)ClientContainer.Resolve<IModel>();
+            GraphReadModel = ClientContainer.Resolve<GraphReadModel>();
+            TreeOfRtuModel = ClientContainer.Resolve<TreeOfRtuModel>();
+            TreeOfRtuViewModel = ClientContainer.Resolve<TreeOfRtuViewModel>();
+            AccidentsExtractorFromSor = ClientContainer.Resolve<AccidentsExtractorFromSor>();
+            MsmqHandler = ServerContainer.Resolve<MsmqHandler>();
             
 
-            var ev = Container.Resolve<EventStoreService>();
+            var ev = ServerContainer.Resolve<EventStoreService>();
             ev.Init();
         }
 
@@ -101,7 +101,7 @@ namespace Graph.Tests
 
             builder.RegisterType<TestsDispatcherProvider>().As<IDispatcherProvider>().SingleInstance();
 
-            Container = builder.Build();
+            var Container = builder.Build();
             ClientContainer = Container.BeginLifetimeScope();
             ServerContainer = Container.BeginLifetimeScope();
         }

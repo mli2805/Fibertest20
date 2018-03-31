@@ -36,7 +36,7 @@ namespace Graph.Tests
         [When(@"Пользователь открывает статистику по трассе")]
         public void WhenПользовательОткрываетСтатистикуПоТрассе()
         {
-            _vm = _sut.Container.Resolve<TraceStatisticsViewModel>();
+            _vm = _sut.ClientContainer.Resolve<TraceStatisticsViewModel>();
             _vm.Initialize(_trace.TraceId);
         }
 
@@ -51,7 +51,7 @@ namespace Graph.Tests
             var baseRefs = _sut.ReadModel.BaseRefs.Where(b => b.TraceId == _trace.TraceId).ToList();
             baseRefs.Count.Should().Be(1);
 
-            var wcf = _sut.Container.Resolve<IWcfServiceForClient>();
+            var wcf = _sut.ServerContainer.Resolve<IWcfServiceForClient>();
             var sorBytes = await wcf.GetSorBytes(baseRefs[0].SorFileId);
 
             var otdrDataKnownBlocks = SorData.FromBytes(sorBytes);
@@ -76,7 +76,7 @@ namespace Graph.Tests
         [When(@"Снова открывает статистику")]
         public void WhenСноваОткрываетСтатистику()
         {
-            _vm = _sut.Container.Resolve<TraceStatisticsViewModel>();
+            _vm = _sut.ClientContainer.Resolve<TraceStatisticsViewModel>();
             _vm.Initialize(_trace.TraceId);
         }
 
@@ -93,7 +93,7 @@ namespace Graph.Tests
         [Then(@"Изменилось положение ориентиров")]
         public async void ThenИзменилосьПоложениеОриентиров()
         {
-            var wcf = _sut.Container.Resolve<IWcfServiceForClient>();
+            var wcf = _sut.ServerContainer.Resolve<IWcfServiceForClient>();
             var baseRefs = _sut.ReadModel.BaseRefs.Where(b => b.TraceId == _trace.TraceId).ToList();
             baseRefs.Count.Should().Be(1);
             var sorBytes = await wcf.GetSorBytes(baseRefs[0].SorFileId);

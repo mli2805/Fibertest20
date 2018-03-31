@@ -29,14 +29,14 @@ namespace Graph.Tests
         [Given(@"Открыта форма изменения узла где лежит А1")]
         public void GivenОткрытаФормаИзмененияУзлаГдеЛежитА()
         {
-            _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
             _nodeUpdateViewModel.Initialize(_nodeAId);
         }
 
         [Given(@"Открыта форма изменения узла где лежит B1")]
         public void GivenОткрытаФормаИзмененияУзлаГдеЛежитB()
         {
-            _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
             _nodeUpdateViewModel.Initialize(_nodeBId);
         }
 

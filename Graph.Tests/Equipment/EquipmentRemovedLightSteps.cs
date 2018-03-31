@@ -56,7 +56,7 @@ namespace Graph.Tests
         public void WhenОткрытаФормаРедактированияЭтогоУзла()
         {
 //            _vm = new NodeUpdateViewModel(_nodeAId, _sut.ReadModel, new FakeWindowManager(), _sut.ShellVm.C2DWcfManager);
-            _vm = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _vm = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
             _vm.Initialize(_nodeAId);
             _vm.EquipmentsInNode.Count.Should().Be(1);
             _vm.EquipmentsInNode.First().IsRemoveEnabled.Should().BeTrue();
@@ -66,7 +66,7 @@ namespace Graph.Tests
         public void WhenОткрытаФормаРедактированияПоследнегоУзлаТрассы()
         {
 //            _vm = new NodeUpdateViewModel(_trace.Nodes.Last(), _sut.ReadModel, new FakeWindowManager(), _sut.ShellVm.C2DWcfManager);
-            _vm = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _vm = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
             _vm.Initialize(_trace.NodeIds.Last());
             _vm.EquipmentsInNode.Count.Should().Be(2);
             _vm.EquipmentsInNode.First(item => item.Id == _notInTraceEquipmentId).IsRemoveEnabled.Should().BeTrue();

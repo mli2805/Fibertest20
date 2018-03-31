@@ -27,7 +27,7 @@ namespace Graph.Tests
         [Given(@"Пользователь открывает форму редактирования узла")]
         public void GivenПользовательОткрываетФормуРедактированияУзла()
         {
-            _nodeUpdateViewModel = _sut.Container.Resolve<NodeUpdateViewModel>();
+            _nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
             _nodeUpdateViewModel.Initialize(_oldEquipment.NodeId);
         }
 

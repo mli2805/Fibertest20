@@ -26,7 +26,7 @@ namespace Graph.Tests
         {
             var trace = _sut.ReadModel.Traces.FirstOrDefault(t => t.TraceId == _traceId);
             if (trace == null) return;
-            _viewModel = _sut.Container.Resolve<TraceInfoViewModel>();
+            _viewModel = _sut.ClientContainer.Resolve<TraceInfoViewModel>();
             _viewModel.Initialize(_traceId, trace.EquipmentIds, trace.NodeIds);
             _viewModel.Model.Title = NewTitle;
             _viewModel.Model.Comment = NewComment;
@@ -52,7 +52,7 @@ namespace Graph.Tests
             var trace = _sut.ReadModel.Traces.FirstOrDefault(t => t.TraceId == _traceId);
             if (trace == null) return;
 
-            _viewModel = _sut.Container.Resolve<TraceInfoViewModel>();
+            _viewModel = _sut.ClientContainer.Resolve<TraceInfoViewModel>();
             _viewModel.Initialize(_traceId, trace.EquipmentIds, trace.NodeIds);
             _viewModel.Model.Title.Should().Be(NewTitle);
             _viewModel.Model.Comment.Should().Be(NewComment);
@@ -65,7 +65,7 @@ namespace Graph.Tests
             var trace = _sut.ReadModel.Traces.FirstOrDefault(t => t.TraceId == _traceId);
             if (trace == null) return;
 
-            _viewModel = _sut.Container.Resolve<TraceInfoViewModel>();
+            _viewModel = _sut.ClientContainer.Resolve<TraceInfoViewModel>();
             _viewModel.Initialize(_traceId, trace.EquipmentIds, trace.NodeIds);
             _viewModel.Model.Title.Should().NotBe(NewTitle);
             _viewModel.Model.Comment.Should().NotBe(NewComment);
