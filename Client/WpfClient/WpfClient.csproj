@@ -421,7 +421,6 @@
     <Compile Include="Forms\Landmarks\LandmarksViewModel.cs" />
     <Compile Include="Forms\Landmarks\LandmarkViewModel.cs" />
     <Compile Include="Forms\LoginServer\LoginViewModel.cs" />
-    <Compile Include="Forms\LoginServer\ServerConnectViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\Users\UserVm.cs" />
     <Compile Include="Forms\AdministrativeForms\Users\UserListViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\Users\UserViewModel.cs" />
@@ -452,9 +451,6 @@
     </Compile>
     <Compile Include="Forms\RtuForms\RtuInitialize\RtuInitializeView.xaml.cs">
       <DependentUpon>RtuInitializeView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\LoginServer\ServerConnectView.xaml.cs">
-      <DependentUpon>ServerConnectView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\TraceForms\TraceToAttach\TraceToAttachView.xaml.cs">
       <DependentUpon>TraceToAttachView.xaml</DependentUpon>
@@ -710,10 +706,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\RtuForms\RtuInitialize\RtuInitializeView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Forms\LoginServer\ServerConnectView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
