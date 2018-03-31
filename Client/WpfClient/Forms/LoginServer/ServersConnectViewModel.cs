@@ -137,10 +137,6 @@ namespace Iit.Fibertest.Client
         {
             ServersComboboxVisibility = Visibility.Collapsed;
 
-//            var localScope = _globalScope.BeginLifetimeScope( ctx => ctx.RegisterInstance(
-//                    new NetAddressForConnectionTest((NetAddress)_serverInWorkAddress.Clone(), false)));
-//            ServerConnectionTestViewModel = localScope.Resolve<NetAddressTestViewModel>();
-
             ServerConnectionTestViewModel = _globalScope.Resolve<NetAddressTestViewModel>
                 (new NamedParameter(@"netAddressForConnectionTest", new NetAddressForConnectionTest((NetAddress)_serverInWorkAddress.Clone(), false)));
             ServerConnectionTestViewModel.PropertyChanged += ServerConnectionTestViewModel_PropertyChanged;
@@ -152,11 +148,6 @@ namespace Iit.Fibertest.Client
         private void ToggleToSelectServerMode()
         {
             ServersComboboxVisibility = Visibility.Visible;
-
-//            var localScope = _globalScope.BeginLifetimeScope( ctx => ctx.RegisterInstance(
-//                    new NetAddressForConnectionTest((NetAddress)SelectedServer.ServerAddress.Main.Clone(), false)));
-//            ServerConnectionTestViewModel = localScope.Resolve<NetAddressTestViewModel>();
-//
 
             ServerConnectionTestViewModel = _globalScope.Resolve<NetAddressTestViewModel>
                 (new NamedParameter(@"netAddressForConnectionTest", new NetAddressForConnectionTest((NetAddress)(NetAddress)SelectedServer.ServerAddress.Main.Clone(), false)));

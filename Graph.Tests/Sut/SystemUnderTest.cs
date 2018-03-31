@@ -79,7 +79,7 @@ namespace Graph.Tests
             builder.RegisterType<FakeLocalDbManager>().As<ILocalDbManager>().SingleInstance();
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
             builder.RegisterType<FakeWaitCursor>().As<IWaitCursor>().SingleInstance();
-            builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
+            builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();  // server!!!
 
             // server's
             builder.RegisterType<MeasurementFactory>().SingleInstance();
@@ -93,7 +93,7 @@ namespace Graph.Tests
             builder.RegisterType<ClientToRtuTransmitter>().SingleInstance();
             builder.RegisterType<BaseRefRepairmanIntermediary>().SingleInstance();
             builder.RegisterType<SorFileRepository>().SingleInstance();
-            builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
+            builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();  // server !!!
             builder.RegisterType<D2CWcfManager>().SingleInstance();
             builder.RegisterType<MsmqHandler>().SingleInstance();
 
