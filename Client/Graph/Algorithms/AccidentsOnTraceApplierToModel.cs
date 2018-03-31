@@ -6,12 +6,12 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph.Algorithms
 {
-    public  class AccidentsOnTraceApplierToReadModel
+    public  class AccidentsOnTraceApplierToModel
     {
         private readonly IModel _model;
         private readonly AccidentPlaceLocator _accidentPlaceLocator;
 
-        public AccidentsOnTraceApplierToReadModel(ReadModel model, AccidentPlaceLocator accidentPlaceLocator)
+        public AccidentsOnTraceApplierToModel(IModel model, AccidentPlaceLocator accidentPlaceLocator)
         {
             _model = model;
             _accidentPlaceLocator = accidentPlaceLocator;

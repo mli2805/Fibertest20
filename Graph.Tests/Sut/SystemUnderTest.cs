@@ -67,14 +67,19 @@ namespace Graph.Tests
         private void AutofacMess()
         {
             var builder = new ContainerBuilder();
+
+            // client's 
             builder.RegisterModule<AutofacClient>();
+
+            // fakes
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
             builder.RegisterType<FakeD2RWcfManager>().As<ID2RWcfManager>().SingleInstance();
             builder.RegisterType<FakeLocalDbManager>().As<ILocalDbManager>().SingleInstance();
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
             builder.RegisterType<FakeWaitCursor>().As<IWaitCursor>().SingleInstance();
-
             builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
+
+            // server's
             builder.RegisterType<MeasurementFactory>().SingleInstance();
             builder.RegisterType<EventsQueue>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();

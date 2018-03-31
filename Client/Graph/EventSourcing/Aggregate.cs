@@ -9,31 +9,6 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Graph
 {
-    public class EventsQueue
-    {
-        public List<object> EventsWaitingForCommit { get; } = new List<object>();
-        private readonly WriteModel _writeModel;
-
-        public EventsQueue(WriteModel writeModel)
-        {
-            _writeModel = writeModel;
-        }
-
-        public string Add(object e)
-        {
-            var result = _writeModel.Add(e);
-            if (result == null)
-                EventsWaitingForCommit.Add(e);
-            return result;
-
-        }
-        public void Commit()
-        {
-            EventsWaitingForCommit.Clear();
-        }
-    }
-
-
     public class Aggregate
     {
         private readonly IMyLog _logFile;

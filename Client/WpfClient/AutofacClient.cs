@@ -140,7 +140,7 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<AccidentsExtractorFromSor>().SingleInstance();
             builder.RegisterType<AccidentPlaceLocator>().SingleInstance();
-            builder.RegisterType<AccidentsOnTraceApplierToReadModel>().SingleInstance();
+            builder.RegisterType<AccidentsOnTraceApplierToModel>().SingleInstance();
             builder.RegisterType<NodeEventsOnGraphExecutor>().SingleInstance();
             builder.RegisterType<FiberEventsOnGraphExecutor>().SingleInstance();
             builder.RegisterType<EquipmentEventsOnGraphExecutor>().SingleInstance();

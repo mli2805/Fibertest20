@@ -19,6 +19,7 @@ namespace Iit.Fibertest.DataCenterCore
         private IStoreEvents _storeEvents;
         private Aggregate _aggregate;
         private readonly EventsQueue _eventsQueue;
+        private readonly EventsOnModelExecutor _eventsOnModelExecutor;
 
         private static readonly Guid AggregateId =
             new Guid("1C28CBB5-A9F5-4A5C-B7AF-3D188F8F24ED");
@@ -31,7 +32,8 @@ namespace Iit.Fibertest.DataCenterCore
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public EventStoreService(IniFile iniFile, IMyLog logFile, IEventStoreInitializer eventStoreInitializer, WriteModel writeModel, Aggregate aggregate, EventsQueue eventsQueue)
+        public EventStoreService(IniFile iniFile, IMyLog logFile, IEventStoreInitializer eventStoreInitializer, 
+            WriteModel writeModel, Aggregate aggregate, EventsQueue eventsQueue, EventsOnModelExecutor eventsOnModelExecutor)
         {
             _eventsPortion = iniFile.Read(IniSection.General, IniKey.EventSourcingPortion, 100);
             _logFile = logFile;
@@ -39,6 +41,7 @@ namespace Iit.Fibertest.DataCenterCore
             _writeModel = writeModel;
             _aggregate = aggregate;
             _eventsQueue = eventsQueue;
+            _eventsOnModelExecutor = eventsOnModelExecutor;
         }
 
         public void Init()
@@ -49,7 +52,11 @@ namespace Iit.Fibertest.DataCenterCore
             if (!AssignGraphDbVersion(eventStream)) return;
 
             var events = eventStream.CommittedEvents.Select(x => x.Body).ToList();
-            _writeModel.Init(events);
+//            _writeModel.Init(events);
+            foreach (var evnt in events)
+            {
+                _eventsOnModelExecutor.Apply(evnt);
+            }
 
             _logFile.AppendLine($"{events.Count} events from base are applied to WriteModel");
         }

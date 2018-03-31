@@ -10,12 +10,12 @@ namespace Iit.Fibertest.Graph.Algorithms
     public class AccidentPlaceLocator
     {
         private readonly IMyLog _logFile;
-        private readonly ReadModel _readModel;
+        private readonly IModel _model;
 
-        public AccidentPlaceLocator(IMyLog logFile, ReadModel readModel)
+        public AccidentPlaceLocator(IMyLog logFile, IModel model)
         {
             _logFile = logFile;
-            _readModel = readModel;
+            _model = model;
         }
 
         public PointLatLng? GetAccidentGps(AccidentOnTrace accident)
@@ -25,8 +25,8 @@ namespace Iit.Fibertest.Graph.Algorithms
 
             if (accident is AccidentInOldEvent accidentInOldEvent)
             {
-                var withoutPoints = _readModel.GetTraceNodesExcludingAdjustmentPoints(accident.TraceId).ToList();
-                var nodeVm = _readModel.Nodes.FirstOrDefault(n => n.NodeId == withoutPoints[accidentInOldEvent.BrokenLandmarkIndex]);
+                var withoutPoints = _model.GetTraceNodesExcludingAdjustmentPoints(accident.TraceId).ToList();
+                var nodeVm = _model.Nodes.FirstOrDefault(n => n.NodeId == withoutPoints[accidentInOldEvent.BrokenLandmarkIndex]);
                 return nodeVm?.Position;
             }
 
@@ -35,7 +35,7 @@ namespace Iit.Fibertest.Graph.Algorithms
 
         private PointLatLng GetAccidentGps(AccidentAsNewEvent accident)
         {
-            var trace = _readModel.Traces.First(t => t.TraceId == accident.TraceId);
+            var trace = _model.Traces.First(t => t.TraceId == accident.TraceId);
 
             var distances = GetGpsDistancesOfSegmentsBetweenLandmarks(accident, trace, out Node leftNodeVm, out Node rightNodeVm);
             GetCableReserves(accident, accident.TraceId, out double leftReserveM, out double rightReserveM);
@@ -67,8 +67,8 @@ namespace Iit.Fibertest.Graph.Algorithms
 
         private PointLatLng GetPointOnBrokenSegment(Trace trace, double procentOfSegmentUptoAccident, int leftNodeIndex)
         {
-            var leftNode = _readModel.Nodes.First(n => n.NodeId == trace.NodeIds[leftNodeIndex]);
-            var rightNode = _readModel.Nodes.First(n => n.NodeId == trace.NodeIds[leftNodeIndex + 1]);
+            var leftNode = _model.Nodes.First(n => n.NodeId == trace.NodeIds[leftNodeIndex]);
+            var rightNode = _model.Nodes.First(n => n.NodeId == trace.NodeIds[leftNodeIndex + 1]);
 
             var latBreak = leftNode.Position.Lat + (rightNode.Position.Lat - leftNode.Position.Lat) * procentOfSegmentUptoAccident;
             var lngBreak = leftNode.Position.Lng + (rightNode.Position.Lng - leftNode.Position.Lng) * procentOfSegmentUptoAccident;
@@ -77,7 +77,7 @@ namespace Iit.Fibertest.Graph.Algorithms
 
         private void GetCableReserves(AccidentAsNewEvent accident, Guid traceId, out double leftReserveM, out double rightReserveM)
         {
-            var equipmentsWithoutPointsAndRtu = _readModel.GetTraceEquipmentsExcludingAdjustmentPoints(traceId).ToList();
+            var equipmentsWithoutPointsAndRtu = _model.GetTraceEquipmentsExcludingAdjustmentPoints(traceId).ToList();
             leftReserveM = GetCableReserve(equipmentsWithoutPointsAndRtu, accident.LeftLandmarkIndex, true);
             rightReserveM = GetCableReserve(equipmentsWithoutPointsAndRtu, accident.LeftLandmarkIndex, false);
         }
@@ -93,9 +93,9 @@ namespace Iit.Fibertest.Graph.Algorithms
 
         private List<double> GetGpsDistancesOfSegmentsBetweenLandmarks(AccidentAsNewEvent accident, Trace trace, out Node leftNode, out Node rightNode)
         {
-            var withoutPoints = _readModel.GetTraceNodesExcludingAdjustmentPoints(accident.TraceId).ToList();
-            leftNode = _readModel.Nodes.FirstOrDefault(n => n.NodeId == withoutPoints[accident.LeftLandmarkIndex]);
-            rightNode = _readModel.Nodes.FirstOrDefault(n => n.NodeId == withoutPoints[accident.RightLandmarkIndex]);
+            var withoutPoints = _model.GetTraceNodesExcludingAdjustmentPoints(accident.TraceId).ToList();
+            leftNode = _model.Nodes.FirstOrDefault(n => n.NodeId == withoutPoints[accident.LeftLandmarkIndex]);
+            rightNode = _model.Nodes.FirstOrDefault(n => n.NodeId == withoutPoints[accident.RightLandmarkIndex]);
 
             if (leftNode == null)
             {
@@ -114,7 +114,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             var fromNode = leftNode;
             for (int i = indexOfLeft + 1; i < indexOfRight; i++)
             {
-                var toNode = _readModel.Nodes.First(n => n.NodeId == trace.NodeIds[i]);
+                var toNode = _model.Nodes.First(n => n.NodeId == trace.NodeIds[i]);
                 result.Add(GpsCalculator.GetDistanceBetweenPointLatLng(fromNode.Position, toNode.Position));
                 fromNode = toNode;
             }

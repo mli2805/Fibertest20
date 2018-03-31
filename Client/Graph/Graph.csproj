@@ -133,6 +133,7 @@
     <Compile Include="Commands\AddMeasurement.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StartMonitoring.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StopMonitoring.cs" />
+    <Compile Include="EventSourcing\EventsQueue.cs" />
     <Compile Include="Events\ResponsibilitiesChanged.cs" />
     <Compile Include="Commands\UpdateMeasurement.cs" />
     <Compile Include="Commands\User\AddUser.cs" />
@@ -240,7 +241,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DomainEntities\Rtu.cs" />
     <Compile Include="DomainEntities\Trace.cs" />
-    <Compile Include="Algorithms\AccidentsOnTraceApplierToReadModel.cs" />
+    <Compile Include="Algorithms\AccidentsOnTraceApplierToModel.cs" />
     <Compile Include="EventExecutors\EchoEventsOnModelExecutor.cs" />
     <Compile Include="EventExecutors\EquipmentEventsOnModelExecutor.cs" />
     <Compile Include="EventExecutors\EventsOnModelExecutor.cs" />
