@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Graph
         private readonly IModel _model;
         private readonly IMyLog _logFile;
 
-        public FiberEventsOnModelExecutor(ReadModel model, IMyLog logFile)
+        public FiberEventsOnModelExecutor(IModel model, IMyLog logFile)
         {
             _model = model;
             _logFile = logFile;

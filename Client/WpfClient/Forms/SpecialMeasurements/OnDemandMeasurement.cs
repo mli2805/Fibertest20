@@ -10,20 +10,20 @@ namespace Iit.Fibertest.Client
     public class OnDemandMeasurement
     {
         private readonly IMyLog _logFile;
-        private readonly ReadModel _readModel;
+        private readonly IModel _model;
         private readonly IWcfServiceForClient _c2DWcfManager;
 
-        public OnDemandMeasurement(IMyLog logFile, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
+        public OnDemandMeasurement(IMyLog logFile, IModel model, IWcfServiceForClient c2DWcfManager)
         {
             _logFile = logFile;
-            _readModel = readModel;
+            _model = model;
             _c2DWcfManager = c2DWcfManager;
         }
 
         public async Task Interrupt(RtuLeaf rtuLeaf, string log)
         {
             _logFile.AppendLine($@"Interrupting {log}...");
-            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
+            var rtu = _model.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
             if (rtu == null) return;
 
             var dto = new InitializeRtuDto()

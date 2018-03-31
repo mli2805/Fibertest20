@@ -9,16 +9,16 @@ namespace Iit.Fibertest.Client
 {
     public class RtuStateModelFactory
     {
-        private readonly ReadModel _readModel;
+        private readonly IModel _model;
 
-        public RtuStateModelFactory(ReadModel readModel)
+        public RtuStateModelFactory(IModel model)
         {
-            _readModel = readModel;
+            _model = model;
         }
 
         public RtuStateModel Create(RtuLeaf rtuLeaf)
         {
-            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
+            var rtu = _model.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
             if (rtu == null) return null;
 
             var rtuStateVm = new RtuStateModel();
@@ -94,7 +94,7 @@ namespace Iit.Fibertest.Client
 
         private PortLineModel PreparePortLine(TraceLeaf traceLeaf, string mainPort)
         {
-            var lastMeasurement = _readModel.Measurements.LastOrDefault(m=>m.TraceId == traceLeaf.Id);
+            var lastMeasurement = _model.Measurements.LastOrDefault(m=>m.TraceId == traceLeaf.Id);
             return new PortLineModel()
             {
                 Number = mainPort + traceLeaf.PortNumber,

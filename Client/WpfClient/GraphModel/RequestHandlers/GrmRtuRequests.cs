@@ -12,14 +12,14 @@ namespace Iit.Fibertest.Client
     public class GrmRtuRequests
     {
         private readonly ILifetimeScope _globalScope;
-        private readonly ReadModel _readModel;
+        private readonly IModel _model;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 
-        public GrmRtuRequests(ILifetimeScope globalScope, ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+        public GrmRtuRequests(ILifetimeScope globalScope, IModel model, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
-            _readModel = readModel;
+            _model = model;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
         }
@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Client
 
         public void UpdateRtu(RequestUpdateRtu request)
         {
-            var rtu = _readModel.Rtus.First(r => r.NodeId == request.NodeId);
+            var rtu = _model.Rtus.First(r => r.NodeId == request.NodeId);
             var vm = _globalScope.Resolve<RtuUpdateViewModel>();
             vm.Initialize(rtu.Id);
             _windowManager.ShowDialogWithAssignedOwner(vm);
@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Client
 
         public async Task RemoveRtu(RequestRemoveRtu request)
         {
-            var rtu = _readModel.Rtus.FirstOrDefault(r => r.NodeId == request.NodeId);
+            var rtu = _model.Rtus.FirstOrDefault(r => r.NodeId == request.NodeId);
             if (rtu == null)
                 return;
             var cmd = new RemoveRtu() { RtuId = rtu.Id, RtuNodeId = request.NodeId };

@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Graph
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
         private readonly IModel _model;
 
-        public UserEventsOnModelExecutor(ReadModel model)
+        public UserEventsOnModelExecutor(IModel model)
         {
             _model = model;
         }

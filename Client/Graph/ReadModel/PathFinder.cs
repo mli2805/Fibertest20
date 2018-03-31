@@ -6,16 +6,16 @@ namespace Iit.Fibertest.Graph
 {
     public class PathFinder
     {
-        private readonly ReadModel _readModel;
+        private readonly IModel _model;
 
-        public PathFinder(ReadModel readModel)
+        public PathFinder(IModel model)
         {
-            _readModel = readModel;
+            _model = model;
         }
 
         private IEnumerable<Guid> GetAdjacentNodes(Guid nodeId)
         {
-            foreach (var fiber in _readModel.Fibers)
+            foreach (var fiber in _model.Fibers)
             {
                 if (fiber.NodeId1 == nodeId)
                     yield return fiber.NodeId2;

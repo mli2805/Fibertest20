@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Client
 
         public static NodeVm GetNodeByLandmarkIndex(this GraphReadModel model, Guid traceId, int landmarkIndex)
         {
-            var trace = model.ReadModel.Traces.First(t => t.TraceId == traceId);
+            var trace = model.Model.Traces.First(t => t.TraceId == traceId);
             var i = -1;
             foreach (var nodeId in trace.NodeIds)
             {
@@ -32,7 +32,7 @@ namespace Iit.Fibertest.Client
         public static FiberVm GetFiberByLandmarkIndexes(this GraphReadModel model, Guid traceId,
             int leftLandmarkIndex, int rightLandmarkIndex)
         {
-            var trace = model.ReadModel.Traces.First(t => t.TraceId == traceId);
+            var trace = model.Model.Traces.First(t => t.TraceId == traceId);
             List<Guid> traceNodesWithoutAdjustmentPoints = new List<Guid>();
             foreach (var nodeId in trace.NodeIds)
             {
@@ -63,10 +63,10 @@ namespace Iit.Fibertest.Client
         public static void CleanAccidentPlacesOnTrace(this GraphReadModel model, Guid traceId)
         {
             var accidentNodes = model.Data.Nodes.Where(n => n.Type == EquipmentType.AccidentPlace).ToList();
-            model.ReadModel.LogFile.AppendLine($@"{accidentNodes.Count} accident nodes were found");
+            model.Model.LogFile.AppendLine($@"{accidentNodes.Count} accident nodes were found");
             foreach (var accidentNode in accidentNodes)
             {
-                model.ReadModel.LogFile.AppendLine($@"On trace {accidentNode.AccidentOnTraceVmId.First6()}");
+                model.Model.LogFile.AppendLine($@"On trace {accidentNode.AccidentOnTraceVmId.First6()}");
             }
 
             var nodeVms = model.Data.Nodes.Where(n => n.AccidentOnTraceVmId == traceId).ToList();
@@ -74,7 +74,7 @@ namespace Iit.Fibertest.Client
             {
                 model.Data.Nodes.Remove(nodeVm);
             }
-            model.ReadModel.LogFile.AppendLine($@"{nodeVms.Count} accident nodes were cleaned");
+            model.Model.LogFile.AppendLine($@"{nodeVms.Count} accident nodes were cleaned");
 
             foreach (var fiberVm in model.Data.Fibers)
             {

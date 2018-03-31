@@ -90,7 +90,11 @@ namespace Iit.Fibertest.Graph
         #region Fiber
         public string When(AddFiber cmd)
         {
-            if (WriteModel.HasFiberBetween(cmd.NodeId1, cmd.NodeId2))
+            Guid a = cmd.NodeId1;
+            Guid b = cmd.NodeId2;
+            if (WriteModel.Fibers.Any(f =>
+                f.NodeId1 == a && f.NodeId2 == b ||
+                f.NodeId1 == b && f.NodeId2 == a))
                 return Resources.SID_Section_already_exists;
 
             return WriteModel.Add(_mapper.Map<FiberAdded>(cmd));
@@ -98,7 +102,11 @@ namespace Iit.Fibertest.Graph
 
         public string When(AddFiberWithNodes cmd)
         {
-            if (WriteModel.HasFiberBetween(cmd.Node1, cmd.Node2))
+            Guid a = cmd.Node1;
+            Guid b = cmd.Node2;
+            if (WriteModel.Fibers.Any(f =>
+                f.NodeId1 == a && f.NodeId2 == b ||
+                f.NodeId1 == b && f.NodeId2 == a))
                 return Resources.SID_Section_already_exists;
 
 
@@ -136,7 +144,7 @@ namespace Iit.Fibertest.Graph
         {
             foreach (var traceId in cmd.TracesForInsertion)
             {
-                var trace = WriteModel.GetTrace(traceId);
+                var trace = WriteModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
                 if (trace == null)
                 {
                     var message = $@"AddEquipmentIntoNode: Trace {traceId.First6()} not found";
@@ -152,7 +160,7 @@ namespace Iit.Fibertest.Graph
 
             foreach (var traceId in cmd.TracesForInsertion)
             {
-                var trace = WriteModel.GetTrace(traceId);
+                var trace = WriteModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
                 if (trace == null)
                 {
                     var message = $@"AddEquipmentIntoNode: Trace {traceId.First6()} not found";
@@ -224,7 +232,7 @@ namespace Iit.Fibertest.Graph
         #region Trace
         public string When(AddTrace cmd)
         {
-            var rtu = WriteModel.GetRtu(cmd.RtuId);
+            var rtu = WriteModel.Rtus.FirstOrDefault(r => r.Id == cmd.RtuId);
             if (rtu == null)
                 return Resources.SID_RTU_is_not_found;
             if (cmd.EquipmentIds[0] != cmd.RtuId)

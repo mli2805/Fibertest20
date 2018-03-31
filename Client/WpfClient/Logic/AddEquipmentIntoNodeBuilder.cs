@@ -9,19 +9,19 @@ namespace Iit.Fibertest.Client
     public class AddEquipmentIntoNodeBuilder
     {
         private readonly ILifetimeScope _globalScope;
-        private readonly ReadModel _readModel;
+        private readonly IModel _model;
         private readonly IWindowManager _windowManager;
 
-        public AddEquipmentIntoNodeBuilder(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager)
+        public AddEquipmentIntoNodeBuilder(ILifetimeScope globalScope, IModel model, IWindowManager windowManager)
         {
             _globalScope = globalScope;
-            _readModel = readModel;
+            _model = model;
             _windowManager = windowManager;
         }
 
         public AddEquipmentIntoNode BuildCommand(Guid nodeId)
         {
-            var tracesInNode = _readModel.Traces.Where(t => t.NodeIds.Contains(nodeId)).ToList();
+            var tracesInNode = _model.Traces.Where(t => t.NodeIds.Contains(nodeId)).ToList();
             TracesToEquipmentInjectionViewModel tracesToEquipmentInjectionVm = null;
             if (tracesInNode.Count > 0)
             {

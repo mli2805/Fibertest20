@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Graph
 
         private readonly IModel _model;
 
-        public ZoneEventsOnModelExecutor(ReadModel model)
+        public ZoneEventsOnModelExecutor(IModel model)
         {
             _model = model;
         }

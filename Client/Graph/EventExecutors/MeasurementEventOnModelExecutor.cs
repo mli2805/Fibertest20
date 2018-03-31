@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Graph
         private readonly IModel _model;
         private readonly AccidentsOnTraceApplierToReadModel _accidentsOnTraceApplierToReadModel;
 
-        public MeasurementEventOnModelExecutor(ReadModel model, AccidentsOnTraceApplierToReadModel accidentsOnTraceApplierToReadModel)
+        public MeasurementEventOnModelExecutor(IModel model, AccidentsOnTraceApplierToReadModel accidentsOnTraceApplierToReadModel)
         {
             _model = model;
             _accidentsOnTraceApplierToReadModel = accidentsOnTraceApplierToReadModel;

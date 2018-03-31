@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
                 return;
 
             var traceId = Guid.NewGuid();
-            var fiberIds = model.ReadModel.GetFibersByNodes(traceNodes).ToList();
+            var fiberIds = model.Model.GetFibersByNodes(traceNodes).ToList();
             model.ChangeFutureTraceColor(traceId, fiberIds, FiberState.HighLighted);
             try
             {
@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Client
 
         private static bool Validate(this GraphReadModel model, RequestAddTrace request)
         {
-            if (model.ReadModel.Equipments.Any(e => e.NodeId == request.LastNodeId && e.Type > EquipmentType.CableReserve)) return true;
+            if (model.Model.Equipments.Any(e => e.NodeId == request.LastNodeId && e.Type > EquipmentType.CableReserve)) return true;
 
             model.WindowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Last_node_of_trace_must_contain_some_equipment));
             return false;
@@ -56,7 +56,7 @@ namespace Iit.Fibertest.Client
         private static List<Guid> GetPath(this GraphReadModel model, RequestAddTrace request)
         {
             List<Guid> path;
-            if (!new PathFinder(model.ReadModel).FindPath(request.NodeWithRtuId, request.LastNodeId, out path))
+            if (!new PathFinder(model.Model).FindPath(request.NodeWithRtuId, request.LastNodeId, out path))
                 model.WindowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Path_couldn_t_be_found));
 
             return path;
@@ -65,7 +65,7 @@ namespace Iit.Fibertest.Client
 
         public static List<Guid> CollectEquipment(this GraphReadModel model, List<Guid> nodes)
         {
-            var equipments = new List<Guid> { model.ReadModel.Rtus.First(r => r.NodeId == nodes[0]).Id };
+            var equipments = new List<Guid> { model.Model.Rtus.First(r => r.NodeId == nodes[0]).Id };
             foreach (var nodeId in nodes.Skip(1))
             {
                 var equipmentId = model.ChooseEquipmentForNode(nodeId, nodeId == nodes.Last());
@@ -79,14 +79,14 @@ namespace Iit.Fibertest.Client
         public static Guid ChooseEquipmentForNode(this GraphReadModel model, Guid nodeId, bool isLastNode)
         {
             var nodeVm = model.Data.Nodes.First(n => n.Id == nodeId);
-            var allEquipmentInNode = model.ReadModel.Equipments.Where(e => e.NodeId == nodeId).ToList();
+            var allEquipmentInNode = model.Model.Equipments.Where(e => e.NodeId == nodeId).ToList();
             if (allEquipmentInNode.Count == 1 &&
                 (allEquipmentInNode[0].Type == EquipmentType.AdjustmentPoint || !string.IsNullOrEmpty(nodeVm.Title)))
             {
                 return allEquipmentInNode[0].EquipmentId;
             }
 
-            var node = model.ReadModel.Nodes.First(n => n.NodeId == nodeId);
+            var node = model.Model.Nodes.First(n => n.NodeId == nodeId);
             nodeVm.IsHighlighted = true;
             var traceContentChoiceViewModel = model.GlobalScope.Resolve<TraceContentChoiceViewModel>();
             traceContentChoiceViewModel.Initialize(allEquipmentInNode, node, isLastNode);

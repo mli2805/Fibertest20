@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Graph
         private readonly IMyLog _logFile;
 
 
-        public EquipmentEventsOnModelExecutor(ReadModel model, IMyLog logFile)
+        public EquipmentEventsOnModelExecutor(IModel model, IMyLog logFile)
         {
             _logFile = logFile;
             _model = model;

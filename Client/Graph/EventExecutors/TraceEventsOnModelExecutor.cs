@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Graph
         private readonly IMyLog _logFile;
         private readonly AccidentsOnTraceApplierToReadModel _accidentsOnTraceApplierToReadModel;
 
-        public TraceEventsOnModelExecutor(ReadModel model, IMyLog logFile,
+        public TraceEventsOnModelExecutor(IModel model, IMyLog logFile,
             AccidentsOnTraceApplierToReadModel accidentsOnTraceApplierToReadModel)
         {
             _model = model;

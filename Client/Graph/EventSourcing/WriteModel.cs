@@ -57,29 +57,6 @@ namespace Iit.Fibertest.Graph
             EventsWaitingForCommit.Clear();
         }
 
-        public bool HasAnotherNodeWithTitle(string title, Guid id)
-        {
-            return Nodes.Any(n => n.Title == title && n.NodeId != id);
-        }
-
-        public bool HasFiberBetween(Guid a, Guid b)
-        {
-            return Fibers.Any(f =>
-                f.NodeId1 == a && f.NodeId2 == b ||
-                f.NodeId1 == b && f.NodeId2 == a);
-        }
-
-        public Trace GetTrace(Guid traceId)
-        {
-            return Traces.FirstOrDefault(t => t.TraceId == traceId);
-        }
-
-        public Rtu GetRtu(Guid id)
-        {
-            return Rtus.FirstOrDefault(r => r.Id == id);
-        }
-
-
 
         #region User
         public string Apply(UserAdded e)

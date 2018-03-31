@@ -16,13 +16,13 @@ namespace Iit.Fibertest.Client
     {
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
-        private readonly ReadModel _readModel;
+        private readonly IModel _model;
 
-        public GrmNodeRequests(IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, ReadModel readModel)
+        public GrmNodeRequests(IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, IModel model)
         {
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
-            _readModel = readModel;
+            _model = model;
         }
 
         public async Task MoveNode(MoveNode cmd)
@@ -62,21 +62,21 @@ namespace Iit.Fibertest.Client
 
         public bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
         {
-            var fiber = _readModel.Fibers.FirstOrDefault(f => f.FiberId == fiberId);
+            var fiber = _model.Fibers.FirstOrDefault(f => f.FiberId == fiberId);
             if (fiber == null) return false;
-            return _readModel.Traces.Where(t => t.HasAnyBaseRef).ToList().Any(trace => Topo.GetFiberIndexInTrace(trace, fiber) != -1);
+            return _model.Traces.Where(t => t.HasAnyBaseRef).ToList().Any(trace => Topo.GetFiberIndexInTrace(trace, fiber) != -1);
         }
 
         public async Task RemoveNode(Guid nodeId, EquipmentType type)
         {
-            if (_readModel.Traces.Any(t => t.NodeIds.Last() == nodeId))
+            if (_model.Traces.Any(t => t.NodeIds.Last() == nodeId))
                 return;
-            if (_readModel.Traces.Any(t => t.NodeIds.Contains(nodeId) && t.HasAnyBaseRef) && type != EquipmentType.AdjustmentPoint)
+            if (_model.Traces.Any(t => t.NodeIds.Contains(nodeId) && t.HasAnyBaseRef) && type != EquipmentType.AdjustmentPoint)
                 return;
 
             var detoursForGraph = new List<NodeDetour>();
             var detoursForTracesInModel = new Dictionary<Guid, Guid>();
-            foreach (var trace in _readModel.Traces.Where(t => t.NodeIds.Contains(nodeId)))
+            foreach (var trace in _model.Traces.Where(t => t.NodeIds.Contains(nodeId)))
             {
                 var removedNodeIndex = trace.NodeIds.IndexOf(nodeId);
                 var detourFiberId = Guid.NewGuid();

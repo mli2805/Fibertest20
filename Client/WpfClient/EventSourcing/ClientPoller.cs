@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
             new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
         private readonly IWcfServiceForClient _wcfConnection;
-        private readonly ReadModel _readModel;
+        private readonly IModel _model;
         private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
         private readonly EventsOnModelExecutor _eventsOnModelExecutor;
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.Client
         public int CurrentEventNumber { get; set; }
 
         public ClientPoller(IWcfServiceForClient wcfConnection, IDispatcherProvider dispatcherProvider,
-            ReadModel readModel, TreeOfRtuModel treeOfRtuModel, EventsOnGraphExecutor eventsOnGraphExecutor,
+            IModel model, TreeOfRtuModel treeOfRtuModel, EventsOnGraphExecutor eventsOnGraphExecutor,
             EventsOnModelExecutor eventsOnModelExecutor, EventsOnTreeExecutor eventsOnTreeExecutor, OpticalEventsExecutor opticalEventsExecutor,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel, RtuStateViewsManager rtuStateViewsManager,
@@ -45,7 +45,7 @@ namespace Iit.Fibertest.Client
             IMyLog logFile, IniFile iniFile, ILocalDbManager localDbManager)
         {
             _wcfConnection = wcfConnection;
-            _readModel = readModel;
+            _model = model;
             _treeOfRtuModel = treeOfRtuModel;
             _eventsOnGraphExecutor = eventsOnGraphExecutor;
             _eventsOnModelExecutor = eventsOnModelExecutor;
@@ -126,7 +126,8 @@ namespace Iit.Fibertest.Client
                         _bopNetworkEventsDoubleViewModel.Apply(bee);
 
                     // some forms refresh their view because they have sent command previously and are waiting event's arrival
-                    _readModel.NotifyOfPropertyChange(nameof(_readModel.JustForNotification));
+                    var readModel = (ReadModel)_model;
+                    readModel.NotifyOfPropertyChange(nameof(readModel.JustForNotification));
 
                     // otherwise I should do this in almost all operations of applying events in tree
                     _treeOfRtuModel.NotifyOfPropertyChange(nameof(_treeOfRtuModel.Statistics));

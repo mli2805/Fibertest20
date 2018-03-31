@@ -14,13 +14,13 @@ namespace Iit.Fibertest.Client
     public class GrmFiberWithNodesRequest
     {
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly ReadModel _readModel;
+        private readonly IModel _model;
         private readonly IWindowManager _windowManager;
 
-        public GrmFiberWithNodesRequest(IWcfServiceForClient c2DWcfManager, ReadModel readModel, IWindowManager windowManager)
+        public GrmFiberWithNodesRequest(IWcfServiceForClient c2DWcfManager, IModel model, IWindowManager windowManager)
         {
             _c2DWcfManager = c2DWcfManager;
-            _readModel = readModel;
+            _model = model;
             _windowManager = windowManager;
         }
 
@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Client
             if (request.Node1 == request.Node2)
                 return false;
             var fiber =
-                _readModel.Fibers.FirstOrDefault(f =>
+                _model.Fibers.FirstOrDefault(f =>
                         f.NodeId1 == request.Node1 && f.NodeId2 == request.Node2 ||
                         f.NodeId1 == request.Node2 && f.NodeId2 == request.Node1);
             if (fiber == null)
@@ -89,8 +89,8 @@ namespace Iit.Fibertest.Client
 
         private IEnumerable<AddEquipmentAtGpsLocation> CreateIntermediateNodes(Guid startId, Guid finishId, int count, EquipmentType type)
         {
-            var startNode = _readModel.Nodes.First(n => n.NodeId == startId);
-            var finishNode = _readModel.Nodes.First(n => n.NodeId == finishId);
+            var startNode = _model.Nodes.First(n => n.NodeId == startId);
+            var finishNode = _model.Nodes.First(n => n.NodeId == finishId);
 
             double deltaLat = (finishNode.Position.Lat - startNode.Position.Lat) / (count + 1);
             double deltaLng = (finishNode.Position.Lng - startNode.Position.Lng) / (count + 1);

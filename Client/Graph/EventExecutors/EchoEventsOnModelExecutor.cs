@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Graph
             private readonly IMyLog _logFile;
         private readonly IModel _model;
 
-        public EchoEventsOnModelExecutor(ReadModel model, IMyLog logFile)
+        public EchoEventsOnModelExecutor(IModel model, IMyLog logFile)
         {
             _model = model;
             _logFile = logFile;

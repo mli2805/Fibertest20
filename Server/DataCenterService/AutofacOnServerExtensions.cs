@@ -29,8 +29,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<MySqlEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
 
 
-            builder.RegisterType<WriteModel>().SingleInstance();
-            builder.RegisterType<ReadModel>().SingleInstance();
+            builder.RegisterType<WriteModel>().As<WriteModel>().As<IModel>().SingleInstance();
             builder.RegisterType<Aggregate>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
             builder.RegisterType<MeasurementFactory>().SingleInstance();

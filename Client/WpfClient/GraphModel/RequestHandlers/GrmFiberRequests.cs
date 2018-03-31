@@ -14,15 +14,15 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly ReadModel _readModel;
+        private readonly IModel _model;
         private readonly IWindowManager _windowManager;
 
 
-        public GrmFiberRequests(ILifetimeScope globalScope, IWcfServiceForClient c2DWcfManager, ReadModel readModel, IWindowManager windowManager)
+        public GrmFiberRequests(ILifetimeScope globalScope, IWcfServiceForClient c2DWcfManager, IModel model, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _c2DWcfManager = c2DWcfManager;
-            _readModel = readModel;
+            _model = model;
             _windowManager = windowManager;
         }
 
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Client
             if (cmd.NodeId1 == cmd.NodeId2)
                 return false;
             var fiber =
-                _readModel.Fibers.FirstOrDefault(f =>
+                _model.Fibers.FirstOrDefault(f =>
                         f.NodeId1 == cmd.NodeId1 && f.NodeId2 == cmd.NodeId2 ||
                         f.NodeId1 == cmd.NodeId2 && f.NodeId2 == cmd.NodeId1);
             if (fiber == null)

@@ -8,23 +8,23 @@ namespace Iit.Fibertest.Client
 {
     public class GraphRenderer
     {
-        private readonly ReadModel _readModel;
+        private readonly IModel _model;
         private readonly GraphReadModel _graphReadModel;
         private readonly CurrentUser _currentUser;
 
         private List<NodeVm> _nodesForRendering = new List<NodeVm>();
         private List<FiberVm> _fibersForRendering = new List<FiberVm>();
 
-        public GraphRenderer(ReadModel readModel, GraphReadModel graphReadModel, CurrentUser currentUser)
+        public GraphRenderer(IModel model, GraphReadModel graphReadModel, CurrentUser currentUser)
         {
-            _readModel = readModel;
+            _model = model;
             _graphReadModel = graphReadModel;
             _currentUser = currentUser;
         }
 
         public void RenderGraphOnApplicationStart()
         {
-            if (_readModel.Zones.First(z => z.ZoneId == _currentUser.ZoneId).IsDefaultZone)
+            if (_model.Zones.First(z => z.ZoneId == _currentUser.ZoneId).IsDefaultZone)
                 RenderAllGraph();
             else RenderOneZone();
 
@@ -44,19 +44,19 @@ namespace Iit.Fibertest.Client
 
         private void RenderOneZone()
         {
-            foreach (var trace in _readModel.Traces.Where(t => t.ZoneIds.Contains(_currentUser.ZoneId)))
+            foreach (var trace in _model.Traces.Where(t => t.ZoneIds.Contains(_currentUser.ZoneId)))
             {
                 foreach (var nodeId in trace.NodeIds)
                 {
                     if (_nodesForRendering.Any(n => n.Id == nodeId)) continue;
-                    var node = _readModel.Nodes.First(n => n.NodeId == nodeId);
+                    var node = _model.Nodes.First(n => n.NodeId == nodeId);
                     _nodesForRendering.Add(Map(node));
                 }
 
-                foreach (var node in _readModel.Nodes.Where(n => n.TypeOfLastAddedEquipment == EquipmentType.AccidentPlace && n.AccidentOnTraceId == trace.TraceId))
+                foreach (var node in _model.Nodes.Where(n => n.TypeOfLastAddedEquipment == EquipmentType.AccidentPlace && n.AccidentOnTraceId == trace.TraceId))
                     _nodesForRendering.Add(Map(node));
 
-                var fibers = _readModel.GetTraceFibers(trace);
+                var fibers = _model.GetTraceFibers(trace);
                 foreach (var fiber in fibers)
                 {
                     var fiberVm = _fibersForRendering.FirstOrDefault(f => f.Id == fiber.FiberId);
@@ -72,10 +72,10 @@ namespace Iit.Fibertest.Client
 
         private void RenderAllGraph()
         {
-            foreach (var node in _readModel.Nodes)
+            foreach (var node in _model.Nodes)
                 _nodesForRendering.Add(Map(node));
 
-            foreach (var fiber in _readModel.Fibers)
+            foreach (var fiber in _model.Fibers)
                 _fibersForRendering.Add(MapWithAllTraceStates(fiber));
         }
 
