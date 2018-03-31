@@ -15,5 +15,6 @@
         MySql,
         Map,
         Miscellaneous,
+        Migrator,
     }
 }

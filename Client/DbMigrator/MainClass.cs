@@ -16,20 +16,25 @@ namespace Iit.Fibertest.DbMigrator
         private readonly MeasurementsFetcher _measurementsFetcher;
 
         private readonly C2DWcfManager _c2DWcfManager;
+
+        private bool _shouldTransferMeasurements;
         public MainClass(IniFile iniFile, LogFile logFile)
         {
             _logFile = logFile;
             _graphModel = new GraphModel();
             _graphFetcher = new GraphFetcher(logFile, _graphModel);
 
-            var oldFibertestServerIp = iniFile.Read(IniSection.General, IniKey.OldFibertestServerIp, "0.0.0.0");
+            var oldFibertestServerIp = iniFile.Read(IniSection.Migrator, IniKey.OldFibertestServerIp, "0.0.0.0");
             _traceBaseFetcher = new TraceBaseFetcher(oldFibertestServerIp); 
+            // set TRUE for little bases only. on big base could crash 
+            _shouldTransferMeasurements = iniFile.Read(IniSection.Migrator, IniKey.ShouldTransferMeasurements, false);
             _measurementsFetcher = new MeasurementsFetcher(oldFibertestServerIp, logFile);
 
             _c2DWcfManager = new C2DWcfManager(iniFile, _logFile);
             DoubleAddress serverAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
             NetAddress clientAddress = iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
             _c2DWcfManager.SetServerAddresses(serverAddress, @"migrator", clientAddress.Ip4Address);
+
         }
 
         public void Go()
@@ -43,7 +48,8 @@ namespace Iit.Fibertest.DbMigrator
             TransferBaseRefs();
             _logFile.AppendLine("Base refs are sent");
 
-            _measurementsFetcher.TransferMeasurements(_graphModel, _c2DWcfManager);
+            if (_shouldTransferMeasurements)
+                _measurementsFetcher.TransferMeasurements(_graphModel, _c2DWcfManager);
 
             SendCommandsAttachTrace();
             _logFile.AppendLine("Migration is terminated");
