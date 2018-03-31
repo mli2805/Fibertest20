@@ -15,6 +15,8 @@ namespace Graph.Tests
     public class SystemUnderTest
     {
         public IContainer Container { get; set; }
+        public ILifetimeScope ClientContainer { get; set; }
+        public ILifetimeScope ServerContainer { get; set; }
 
         public ReadModel ReadModel { get; }
         public GraphReadModel GraphReadModel { get; }
@@ -100,6 +102,8 @@ namespace Graph.Tests
             builder.RegisterType<TestsDispatcherProvider>().As<IDispatcherProvider>().SingleInstance();
 
             Container = builder.Build();
+            ClientContainer = Container.BeginLifetimeScope();
+            ServerContainer = Container.BeginLifetimeScope();
         }
     }
 }

@@ -72,7 +72,8 @@ namespace Iit.Fibertest.Client
 
 
 //            builder.RegisterType<ReadModel>().SingleInstance();
-            builder.RegisterType<ReadModel>().As<ReadModel>().As<IModel>().SingleInstance();
+            builder.RegisterType<ReadModel>().As<ReadModel>().As<IModel>().InstancePerLifetimeScope();
+
             builder.RegisterType<EquipmentEventsOnModelExecutor>().SingleInstance();
             builder.RegisterType<NodeEventsOnModelExecutor>().SingleInstance();
             builder.RegisterType<FiberEventsOnModelExecutor>().SingleInstance();

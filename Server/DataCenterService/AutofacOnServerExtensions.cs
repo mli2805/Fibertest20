@@ -42,7 +42,8 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<MeasurementEventOnModelExecutor>().SingleInstance();
             builder.RegisterType<EventsOnModelExecutor>().SingleInstance();
 
-            builder.RegisterType<WriteModel>().As<WriteModel>().As<IModel>().SingleInstance();
+            builder.RegisterType<WriteModel>().As<WriteModel>().As<IModel>().InstancePerLifetimeScope();
+
             builder.RegisterType<EventsQueue>().SingleInstance();
             builder.RegisterType<Aggregate>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();

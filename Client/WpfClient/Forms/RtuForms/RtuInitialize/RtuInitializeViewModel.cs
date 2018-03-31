@@ -60,14 +60,16 @@ namespace Iit.Fibertest.Client
         {
             OriginalRtu = _readModel.Rtus.First(r => r.Id == rtuId);
 
-            var localScope1 = _globalScope.BeginLifetimeScope(
-                    ctx => ctx.RegisterInstance(new NetAddressForConnectionTest(OriginalRtu.MainChannel, true)));
-            MainChannelTestViewModel = localScope1.Resolve<NetAddressTestViewModel>();
+//            var localScope1 = _globalScope.BeginLifetimeScope(
+//                    ctx => ctx.RegisterInstance(new NetAddressForConnectionTest(OriginalRtu.MainChannel, true)));
+            MainChannelTestViewModel = _globalScope.Resolve<NetAddressTestViewModel>
+                (new NamedParameter(@"netAddressForConnectionTest", new NetAddressForConnectionTest(OriginalRtu.MainChannel, true)));
             MainChannelTestViewModel.PropertyChanged += MainChannelTestViewModel_PropertyChanged;
 
-            var localScope2 = _globalScope.BeginLifetimeScope(
-                    ctx => ctx.RegisterInstance(new NetAddressForConnectionTest(OriginalRtu.ReserveChannel, true)));
-            ReserveChannelTestViewModel = localScope2.Resolve<NetAddressTestViewModel>();
+//            var localScope2 = _globalScope.BeginLifetimeScope(
+//                    ctx => ctx.RegisterInstance(new NetAddressForConnectionTest(OriginalRtu.ReserveChannel, true)));
+            ReserveChannelTestViewModel = _globalScope.Resolve<NetAddressTestViewModel>
+                (new NamedParameter(@"netAddressForConnectionTest", new NetAddressForConnectionTest(OriginalRtu.ReserveChannel, true)));
             ReserveChannelTestViewModel.PropertyChanged += ReserveChannelTestViewModel_PropertyChanged;
 
             IsReserveChannelEnabled = OriginalRtu.IsReserveChannelSet;

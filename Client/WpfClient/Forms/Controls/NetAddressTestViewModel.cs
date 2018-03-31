@@ -27,7 +27,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public NetAddressTestViewModel(ILifetimeScope globalScope, IWcfServiceForClient c2DWcfManager, NetAddressForConnectionTest netAddressForConnectionTest)
+        public NetAddressTestViewModel(ILifetimeScope globalScope, IWcfServiceForClient c2DWcfManager,
+            NetAddressForConnectionTest netAddressForConnectionTest)
         {
             _globalScope = globalScope;
             _c2DWcfManager = c2DWcfManager;
