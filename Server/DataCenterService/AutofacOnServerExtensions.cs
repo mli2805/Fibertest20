@@ -30,6 +30,7 @@ namespace Iit.Fibertest.DataCenterService
 
 
             builder.RegisterType<WriteModel>().As<WriteModel>().As<IModel>().SingleInstance();
+            builder.RegisterType<EventsQueue>().SingleInstance();
             builder.RegisterType<Aggregate>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
             builder.RegisterType<MeasurementFactory>().SingleInstance();

@@ -18,6 +18,8 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly WriteModel _writeModel;
         private IStoreEvents _storeEvents;
         private Aggregate _aggregate;
+        private readonly EventsQueue _eventsQueue;
+
         private static readonly Guid AggregateId =
             new Guid("1C28CBB5-A9F5-4A5C-B7AF-3D188F8F24ED");
 
@@ -29,13 +31,14 @@ namespace Iit.Fibertest.DataCenterCore
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public EventStoreService(IniFile iniFile, IMyLog logFile, IEventStoreInitializer eventStoreInitializer, WriteModel writeModel, Aggregate aggregate)
+        public EventStoreService(IniFile iniFile, IMyLog logFile, IEventStoreInitializer eventStoreInitializer, WriteModel writeModel, Aggregate aggregate, EventsQueue eventsQueue)
         {
             _eventsPortion = iniFile.Read(IniSection.General, IniKey.EventSourcingPortion, 100);
             _logFile = logFile;
             _eventStoreInitializer = eventStoreInitializer;
             _writeModel = writeModel;
             _aggregate = aggregate;
+            _eventsQueue = eventsQueue;
         }
 
         public void Init()
@@ -111,11 +114,11 @@ namespace Iit.Fibertest.DataCenterCore
         private void StoreEventsInDb(string username, string clientIp)
         {
             var eventStream = _storeEvents.OpenStream(AggregateId);
-            foreach (var e in _writeModel.EventsWaitingForCommit)   // takes already applied event(s) from WriteModel's list
+            foreach (var e in _eventsQueue.EventsWaitingForCommit)   // takes already applied event(s) from WriteModel's list
             {
                 eventStream.Add(WrapEvent(e, username, clientIp));   // and stores this event in BD
             }
-            _writeModel.Commit();                                     // now cleans WriteModel's list
+            _eventsQueue.Commit();                                     // now cleans WriteModel's list
             eventStream.CommitChanges(Guid.NewGuid());
         }
 

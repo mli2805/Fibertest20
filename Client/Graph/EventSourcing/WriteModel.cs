@@ -13,7 +13,6 @@ namespace Iit.Fibertest.Graph
     public class WriteModel : IModel
     {
         public IMyLog LogFile { get; }
-        public List<object> EventsWaitingForCommit { get; } = new List<object>();
 
         private readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
@@ -47,16 +46,11 @@ namespace Iit.Fibertest.Graph
         public string Add(object evnt)
         {
             var result = (string)this.AsDynamic().Apply(evnt);
-            if (result == null)
-                EventsWaitingForCommit.Add(evnt);
+      
             return result;
         }
 
-        public void Commit()
-        {
-            EventsWaitingForCommit.Clear();
-        }
-
+      
 
         #region User
         public string Apply(UserAdded e)
@@ -295,16 +289,7 @@ namespace Iit.Fibertest.Graph
                 Fibers.Add(new Fiber() { FiberId = fiberId, NodeId1 = nodeBefore, NodeId2 = nodeAfter });
         }
 
-        public bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
-        {
-            var tracesWithBase = Traces.Where(t => t.HasAnyBaseRef);
-            var fiber = Fibers.FirstOrDefault(f => f.FiberId == fiberId);
-            if (fiber == null)
-            {
-                LogFile.AppendLine($@"IsFiberContainedInAnyTraceWithBase: Fiber {fiberId.First6()} not found");
-            }
-            return tracesWithBase.Any(trace => Topo.GetFiberIndexInTrace(trace, fiber) != -1);
-        }
+      
 
         public bool IsNodeContainedInAnyTraceWithBase(Guid nodeId)
         {

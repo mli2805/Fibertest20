@@ -76,6 +76,7 @@ namespace Graph.Tests
 
             builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
             builder.RegisterType<MeasurementFactory>().SingleInstance();
+            builder.RegisterType<EventsQueue>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
 
             builder.RegisterType<TestSettings>().As<ISettings>().SingleInstance();
