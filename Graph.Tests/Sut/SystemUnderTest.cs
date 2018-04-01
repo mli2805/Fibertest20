@@ -101,9 +101,9 @@ namespace Graph.Tests
 
             builder.RegisterType<TestsDispatcherProvider>().As<IDispatcherProvider>().SingleInstance();
 
-            var Container = builder.Build();
-            ClientContainer = Container.BeginLifetimeScope();
-            ServerContainer = Container.BeginLifetimeScope();
+            var container = builder.Build();
+            ClientContainer = container.BeginLifetimeScope();
+            ServerContainer = container.BeginLifetimeScope();
         }
     }
 }

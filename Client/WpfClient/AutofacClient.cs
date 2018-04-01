@@ -14,38 +14,38 @@ namespace Iit.Fibertest.Client
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterType<GraphGpsCalculator>().SingleInstance();
+            builder.RegisterType<GraphGpsCalculator>().InstancePerLifetimeScope();
 
-            builder.RegisterType<CurrentUser>().SingleInstance();
-            builder.RegisterType<CurrentGpsInputMode>().SingleInstance();
-            builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
+            builder.RegisterType<CurrentUser>().InstancePerLifetimeScope();
+            builder.RegisterType<CurrentGpsInputMode>().InstancePerLifetimeScope();
+            builder.RegisterType<WindowManager>().As<IWindowManager>().InstancePerLifetimeScope();
 
-            builder.RegisterType<LocalDbManager>().As<ILocalDbManager>().SingleInstance();
-            builder.RegisterType<ReflectogramManager>().SingleInstance();
-            builder.RegisterType<TraceStateViewsManager>().SingleInstance();
+            builder.RegisterType<LocalDbManager>().As<ILocalDbManager>().InstancePerLifetimeScope();
+            builder.RegisterType<ReflectogramManager>().InstancePerLifetimeScope();
+            builder.RegisterType<TraceStateViewsManager>().InstancePerLifetimeScope();
 
             builder.RegisterType<OpticalEventsViewModel>();
-            builder.RegisterType<OpticalEventsDoubleViewModel>().SingleInstance();
-            builder.RegisterType<OpticalEventsExecutor>().SingleInstance();
+            builder.RegisterType<OpticalEventsDoubleViewModel>().InstancePerLifetimeScope();
+            builder.RegisterType<OpticalEventsExecutor>().InstancePerLifetimeScope();
 
             builder.RegisterType<NetworkEventsViewModel>();
-            builder.RegisterType<NetworkEventsDoubleViewModel>().SingleInstance();
+            builder.RegisterType<NetworkEventsDoubleViewModel>().InstancePerLifetimeScope();
 
             builder.RegisterType<BopNetworkEventsViewModel>();
-            builder.RegisterType<BopNetworkEventsDoubleViewModel>().SingleInstance();
+            builder.RegisterType<BopNetworkEventsDoubleViewModel>().InstancePerLifetimeScope();
 
-            builder.RegisterType<TabulatorViewModel>().SingleInstance();
-            builder.RegisterType<CommonStatusBarViewModel>().SingleInstance();
+            builder.RegisterType<TabulatorViewModel>().InstancePerLifetimeScope();
+            builder.RegisterType<CommonStatusBarViewModel>().InstancePerLifetimeScope();
 
             builder.RegisterType<RtuStateViewModel>();
             builder.RegisterType<TraceStateViewModel>();
             builder.RegisterType<BaseRefModelFactory>();
             builder.RegisterType<TraceStatisticsViewModel>();
 
-            builder.RegisterType<MainMenuViewModel>().SingleInstance();
+            builder.RegisterType<MainMenuViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<ShellViewModel>().As<IShell>();
-            builder.RegisterType<OtauToAttachViewModel>().SingleInstance();
-            builder.RegisterType<TraceToAttachViewModel>().SingleInstance();
+            builder.RegisterType<OtauToAttachViewModel>().InstancePerLifetimeScope();
+            builder.RegisterType<TraceToAttachViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<RtuUpdateViewModel>();
             builder.RegisterType<UserViewModel>();
             builder.RegisterType<UserListViewModel>();
@@ -53,8 +53,8 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ZonesViewModel>();
             builder.RegisterType<ObjectsAsTreeToZonesViewModel>();
             builder.RegisterType<ChangePasswordViewModel>();
-            builder.RegisterType<ClientWcfService>().SingleInstance();
-            builder.RegisterType<ClientWcfServiceHost>().As<IClientWcfServiceHost>().SingleInstance();
+            builder.RegisterType<ClientWcfService>().InstancePerLifetimeScope();
+            builder.RegisterType<ClientWcfServiceHost>().As<IClientWcfServiceHost>().InstancePerLifetimeScope();
 
             builder.RegisterType<WaitCursor>().As<IWaitCursor>();
 
@@ -68,55 +68,55 @@ namespace Iit.Fibertest.Client
             Thread.CurrentThread.CurrentCulture = new CultureInfo(currentCulture);
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
 
-            builder.RegisterType<Aggregate>().SingleInstance();
+            builder.RegisterType<Aggregate>().InstancePerLifetimeScope();
 
 
-//            builder.RegisterType<ReadModel>().SingleInstance();
+//            builder.RegisterType<ReadModel>().InstancePerLifetimeScope();
             builder.RegisterType<ReadModel>().As<ReadModel>().As<IModel>().InstancePerLifetimeScope();
 
-            builder.RegisterType<EquipmentEventsOnModelExecutor>().SingleInstance();
-            builder.RegisterType<NodeEventsOnModelExecutor>().SingleInstance();
-            builder.RegisterType<FiberEventsOnModelExecutor>().SingleInstance();
-            builder.RegisterType<TraceEventsOnModelExecutor>().SingleInstance();
-            builder.RegisterType<RtuEventsOnModelExecutor>().SingleInstance();
-            builder.RegisterType<UserEventsOnModelExecutor>().SingleInstance();
-            builder.RegisterType<ZoneEventsOnModelExecutor>().SingleInstance();
-            builder.RegisterType<EchoEventsOnModelExecutor>().SingleInstance();
-            builder.RegisterType<MeasurementEventOnModelExecutor>().SingleInstance();
-            builder.RegisterType<EventsOnModelExecutor>().SingleInstance();
+            builder.RegisterType<EquipmentEventsOnModelExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<NodeEventsOnModelExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<FiberEventsOnModelExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<TraceEventsOnModelExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<RtuEventsOnModelExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<UserEventsOnModelExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<ZoneEventsOnModelExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<EchoEventsOnModelExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<MeasurementEventOnModelExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<EventsOnModelExecutor>().InstancePerLifetimeScope();
 
-            builder.RegisterType<BaseRefsChecker>().SingleInstance();
-            builder.RegisterType<TraceModelBuilder>().SingleInstance();
-            builder.RegisterType<BaseRefAdjuster>().SingleInstance();
-            builder.RegisterType<BaseRefLandmarksTool>().SingleInstance();
-            builder.RegisterType<BaseRefMeasParamsChecker>().SingleInstance();
-            builder.RegisterType<BaseRefLandmarksChecker>().SingleInstance();
-            builder.RegisterType<BaseRefDtoFactory>().SingleInstance();
+            builder.RegisterType<BaseRefsChecker>().InstancePerLifetimeScope();
+            builder.RegisterType<TraceModelBuilder>().InstancePerLifetimeScope();
+            builder.RegisterType<BaseRefAdjuster>().InstancePerLifetimeScope();
+            builder.RegisterType<BaseRefLandmarksTool>().InstancePerLifetimeScope();
+            builder.RegisterType<BaseRefMeasParamsChecker>().InstancePerLifetimeScope();
+            builder.RegisterType<BaseRefLandmarksChecker>().InstancePerLifetimeScope();
+            builder.RegisterType<BaseRefDtoFactory>().InstancePerLifetimeScope();
             builder.RegisterType<BaseRefsAssignViewModel>();
 
-            builder.RegisterType<RtuLeafActions>().SingleInstance();
-            builder.RegisterType<RtuLeafActionsPermissions>().SingleInstance();
-            builder.RegisterType<RtuLeafContextMenuProvider>().SingleInstance();
+            builder.RegisterType<RtuLeafActions>().InstancePerLifetimeScope();
+            builder.RegisterType<RtuLeafActionsPermissions>().InstancePerLifetimeScope();
+            builder.RegisterType<RtuLeafContextMenuProvider>().InstancePerLifetimeScope();
 
-            builder.RegisterType<TraceLeafActions>().SingleInstance();
-            builder.RegisterType<TraceLeafActionsPermissions>().SingleInstance();
-            builder.RegisterType<TraceLeafContextMenuProvider>().SingleInstance();
+            builder.RegisterType<TraceLeafActions>().InstancePerLifetimeScope();
+            builder.RegisterType<TraceLeafActionsPermissions>().InstancePerLifetimeScope();
+            builder.RegisterType<TraceLeafContextMenuProvider>().InstancePerLifetimeScope();
 
-            builder.RegisterType<PortLeafActions>().SingleInstance();
-            builder.RegisterType<PortLeafContextMenuProvider>().SingleInstance();
+            builder.RegisterType<PortLeafActions>().InstancePerLifetimeScope();
+            builder.RegisterType<PortLeafContextMenuProvider>().InstancePerLifetimeScope();
 
-            builder.RegisterType<CommonActions>().SingleInstance();
+            builder.RegisterType<CommonActions>().InstancePerLifetimeScope();
 
-            builder.RegisterType<SoundManager>().SingleInstance();
-            builder.RegisterType<RtuFilterViewModel>().SingleInstance();
+            builder.RegisterType<SoundManager>().InstancePerLifetimeScope();
+            builder.RegisterType<RtuFilterViewModel>().InstancePerLifetimeScope();
 
-            builder.RegisterType<RtuStateModelFactory>().SingleInstance();
-            builder.RegisterType<RtuStateViewsManager>().SingleInstance();
-            builder.RegisterType<AccidentLineModelFactory>().SingleInstance();
-            builder.RegisterType<TraceStateModelFactory>().SingleInstance();
-            builder.RegisterType<TraceStateViewsManager>().SingleInstance();
-            builder.RegisterType<TraceStatisticsViewsManager>().SingleInstance();
-            builder.RegisterType<TraceInfoCalculator>().SingleInstance();
+            builder.RegisterType<RtuStateModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<RtuStateViewsManager>().InstancePerLifetimeScope();
+            builder.RegisterType<AccidentLineModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<TraceStateModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<TraceStateViewsManager>().InstancePerLifetimeScope();
+            builder.RegisterType<TraceStatisticsViewsManager>().InstancePerLifetimeScope();
+            builder.RegisterType<TraceInfoCalculator>().InstancePerLifetimeScope();
             builder.RegisterType<TraceInfoViewModel>();
             builder.RegisterType<TraceStepByStepViewModel>();
 
@@ -125,46 +125,46 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<RtuLeaf>();
             builder.RegisterType<TraceLeaf>();
 
-            builder.RegisterType<EchoEventsOnTreeExecutor>().SingleInstance();
-            builder.RegisterType<TraceEventsOnTreeExecutor>().SingleInstance();
-            builder.RegisterType<RtuEventsOnTreeExecutor>().SingleInstance();
-            builder.RegisterType<EventsOnTreeExecutor>().SingleInstance();
-            builder.RegisterType<TreeOfRtuModel>().SingleInstance();
-            builder.RegisterType<TreeOfRtuViewModel>().SingleInstance();
-            builder.RegisterType<WriteModel>().SingleInstance();
+            builder.RegisterType<EchoEventsOnTreeExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<TraceEventsOnTreeExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<RtuEventsOnTreeExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<EventsOnTreeExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<TreeOfRtuModel>().InstancePerLifetimeScope();
+            builder.RegisterType<TreeOfRtuViewModel>().InstancePerLifetimeScope();
+            builder.RegisterType<WriteModel>().InstancePerLifetimeScope();
 
-            builder.RegisterType<GrmEquipmentRequests>().SingleInstance();
-            builder.RegisterType<GrmNodeRequests>().SingleInstance();
-            builder.RegisterType<GrmFiberWithNodesRequest>().SingleInstance();
-            builder.RegisterType<GrmFiberRequests>().SingleInstance();
-            builder.RegisterType<GrmRtuRequests>().SingleInstance();
+            builder.RegisterType<GrmEquipmentRequests>().InstancePerLifetimeScope();
+            builder.RegisterType<GrmNodeRequests>().InstancePerLifetimeScope();
+            builder.RegisterType<GrmFiberWithNodesRequest>().InstancePerLifetimeScope();
+            builder.RegisterType<GrmFiberRequests>().InstancePerLifetimeScope();
+            builder.RegisterType<GrmRtuRequests>().InstancePerLifetimeScope();
 
-            builder.RegisterType<AccidentsExtractorFromSor>().SingleInstance();
-            builder.RegisterType<AccidentPlaceLocator>().SingleInstance();
-            builder.RegisterType<AccidentsOnTraceApplierToModel>().SingleInstance();
-            builder.RegisterType<NodeEventsOnGraphExecutor>().SingleInstance();
-            builder.RegisterType<FiberEventsOnGraphExecutor>().SingleInstance();
-            builder.RegisterType<EquipmentEventsOnGraphExecutor>().SingleInstance();
-            builder.RegisterType<TraceEventsOnGraphExecutor>().SingleInstance();
-            builder.RegisterType<RtuEventsOnGraphExecutor>().SingleInstance();
-            builder.RegisterType<AccidentEventsOnGraphExecutor>().SingleInstance();
-            builder.RegisterType<ResponsibilityEventsOnGraphExecutor>().SingleInstance();
-            builder.RegisterType<EventsOnGraphExecutor>().SingleInstance();
-            builder.RegisterType<GraphReadModel>().SingleInstance();
+            builder.RegisterType<AccidentsExtractorFromSor>().InstancePerLifetimeScope();
+            builder.RegisterType<AccidentPlaceLocator>().InstancePerLifetimeScope();
+            builder.RegisterType<AccidentsOnTraceApplierToModel>().InstancePerLifetimeScope();
+            builder.RegisterType<NodeEventsOnGraphExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<FiberEventsOnGraphExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<EquipmentEventsOnGraphExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<TraceEventsOnGraphExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<RtuEventsOnGraphExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<AccidentEventsOnGraphExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<ResponsibilityEventsOnGraphExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<EventsOnGraphExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<GraphReadModel>().InstancePerLifetimeScope();
 
-            builder.RegisterType<FreePorts>().SingleInstance();
+            builder.RegisterType<FreePorts>().InstancePerLifetimeScope();
 
             builder.RegisterType<TraceContentChoiceViewModel>();
-            builder.RegisterType<EquipmentOfChoiceModelFactory>().SingleInstance();
-            builder.RegisterType<C2DWcfManager>().AsSelf().As<IWcfServiceForClient>().SingleInstance();
+            builder.RegisterType<EquipmentOfChoiceModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<C2DWcfManager>().AsSelf().As<IWcfServiceForClient>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ClientHeartbeat>().SingleInstance();
+            builder.RegisterType<ClientHeartbeat>().InstancePerLifetimeScope();
 
 
-            builder.RegisterType<UiDispatcherProvider>().As<IDispatcherProvider>().SingleInstance();
-            builder.RegisterType<GraphRenderer>().SingleInstance();
-            builder.RegisterType<ReadyEventsLoader>().SingleInstance();
-            builder.RegisterType<ClientPoller>().SingleInstance();
+            builder.RegisterType<UiDispatcherProvider>().As<IDispatcherProvider>().InstancePerLifetimeScope();
+            builder.RegisterType<GraphRenderer>().InstancePerLifetimeScope();
+            builder.RegisterType<ReadyEventsLoader>().InstancePerLifetimeScope();
+            builder.RegisterType<ClientPoller>().InstancePerLifetimeScope();
 
             builder.RegisterType<AddEquipmentIntoNodeBuilder>();
             builder.RegisterType<GpsInputViewModel>();
@@ -179,20 +179,20 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<NetAddressTestViewModel>();
             builder.RegisterType<NetAddressInputViewModel>();
             builder.RegisterType<RtuInitializeViewModel>();
-            builder.RegisterType<OnDemandMeasurement>().SingleInstance();
-            builder.RegisterType<OtdrParametersThroughServerSetterViewModel>().SingleInstance();
-            builder.RegisterType<ClientMeasurementViewModel>().SingleInstance();
-            builder.RegisterType<OutOfTurnPreciseMeasurementViewModel>().SingleInstance();
+            builder.RegisterType<OnDemandMeasurement>().InstancePerLifetimeScope();
+            builder.RegisterType<OtdrParametersThroughServerSetterViewModel>().InstancePerLifetimeScope();
+            builder.RegisterType<ClientMeasurementViewModel>().InstancePerLifetimeScope();
+            builder.RegisterType<OutOfTurnPreciseMeasurementViewModel>().InstancePerLifetimeScope();
 
-            builder.RegisterType<NodeVmActions>().SingleInstance();
-            builder.RegisterType<CommonVmActions>().SingleInstance();
-            builder.RegisterType<NodeVmPermissions>().SingleInstance();
-            builder.RegisterType<NodeVmContextMenuProvider>().SingleInstance();
-            builder.RegisterType<RtuVmActions>().SingleInstance();
-            builder.RegisterType<RtuVmPermissions>().SingleInstance();
-            builder.RegisterType<RtuVmContextMenuProvider>().SingleInstance();
-            builder.RegisterType<MapActions>().SingleInstance();
-            builder.RegisterType<MapContextMenuProvider>().SingleInstance();
+            builder.RegisterType<NodeVmActions>().InstancePerLifetimeScope();
+            builder.RegisterType<CommonVmActions>().InstancePerLifetimeScope();
+            builder.RegisterType<NodeVmPermissions>().InstancePerLifetimeScope();
+            builder.RegisterType<NodeVmContextMenuProvider>().InstancePerLifetimeScope();
+            builder.RegisterType<RtuVmActions>().InstancePerLifetimeScope();
+            builder.RegisterType<RtuVmPermissions>().InstancePerLifetimeScope();
+            builder.RegisterType<RtuVmContextMenuProvider>().InstancePerLifetimeScope();
+            builder.RegisterType<MapActions>().InstancePerLifetimeScope();
+            builder.RegisterType<MapContextMenuProvider>().InstancePerLifetimeScope();
 
         }
     }
