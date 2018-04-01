@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Client
 {
     public class OpticalEventsDoubleViewModel : PropertyChangedBase
     {
-        private static readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         private readonly ReadModel _readModel;
@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Client
 
         public void AddMeasurement(MeasurementAdded measurementAdded)
         {
-            var measurement = _mapper.Map<Measurement>(measurementAdded);
+            var measurement = Mapper.Map<Measurement>(measurementAdded);
 
             var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == measurement.TraceId);
             if (trace == null || !trace.IsAttached)

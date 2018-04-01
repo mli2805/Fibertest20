@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Graph
 {
     public class NodeEventsOnModelExecutor
     {
-        private static readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         private readonly IMyLog _logFile;
@@ -67,7 +67,7 @@ namespace Iit.Fibertest.Graph
                 _logFile.AppendLine(message);
                 return message;
             }
-            _mapper.Map(source, destination);
+            Mapper.Map(source, destination);
             return null;
         }
 

@@ -15,7 +15,6 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IMyLog _logFile;
         private readonly IEventStoreInitializer _eventStoreInitializer;
-        private readonly WriteModel _writeModel;
         private IStoreEvents _storeEvents;
         private Aggregate _aggregate;
         private readonly EventsQueue _eventsQueue;
@@ -33,12 +32,11 @@ namespace Iit.Fibertest.DataCenterCore
         };
 
         public EventStoreService(IniFile iniFile, IMyLog logFile, IEventStoreInitializer eventStoreInitializer, 
-            WriteModel writeModel, Aggregate aggregate, EventsQueue eventsQueue, EventsOnModelExecutor eventsOnModelExecutor)
+             Aggregate aggregate, EventsQueue eventsQueue, EventsOnModelExecutor eventsOnModelExecutor)
         {
             _eventsPortion = iniFile.Read(IniSection.General, IniKey.EventSourcingPortion, 100);
             _logFile = logFile;
             _eventStoreInitializer = eventStoreInitializer;
-            _writeModel = writeModel;
             _aggregate = aggregate;
             _eventsQueue = eventsQueue;
             _eventsOnModelExecutor = eventsOnModelExecutor;

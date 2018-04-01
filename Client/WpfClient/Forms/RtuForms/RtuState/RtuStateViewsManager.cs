@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Client
 {
     public class RtuStateViewsManager
     {
-        private static readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         private readonly ILifetimeScope _globalScope;
@@ -52,7 +52,7 @@ namespace Iit.Fibertest.Client
         // Server sent network event
         private void NotifyUserRtuAvailabilityChanged(NetworkEventAdded networkEventAdded)
         {
-            var networkEvent = _mapper.Map<NetworkEvent>(networkEventAdded);
+            var networkEvent = Mapper.Map<NetworkEvent>(networkEventAdded);
             RtuLeaf rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(networkEvent.RtuId);
             Show(rtuLeaf, isUserAskedToOpenView: false, changes: networkEventAdded.RtuPartStateChanges);
         }

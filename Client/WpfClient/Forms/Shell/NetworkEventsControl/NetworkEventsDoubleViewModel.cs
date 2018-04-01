@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Client
 {
     public class NetworkEventsDoubleViewModel : PropertyChangedBase
     {
-        private static readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
         private readonly ReadModel _readModel;
 
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Client
 
         private void NotifyUserRtuAvailabilityChanged(NetworkEventAdded networkEventAdded)
         {
-            var networkEvent = _mapper.Map<NetworkEvent>(networkEventAdded);
+            var networkEvent = Mapper.Map<NetworkEvent>(networkEventAdded);
             var rtu = _readModel.Rtus.FirstOrDefault(t => t.Id == networkEvent.RtuId);
             if (rtu == null)
                 return;

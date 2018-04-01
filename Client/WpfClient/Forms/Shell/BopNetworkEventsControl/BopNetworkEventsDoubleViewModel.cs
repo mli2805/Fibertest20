@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Client
 {
     public class BopNetworkEventsDoubleViewModel : PropertyChangedBase
     {
-        private static readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
         private readonly ReadModel _readModel;
 
@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Client
 
         public void Apply(BopNetworkEventAdded evnt)
         {
-            var bopNetworkEvent = _mapper.Map<BopNetworkEvent>(evnt);
+            var bopNetworkEvent = Mapper.Map<BopNetworkEvent>(evnt);
             var rtu = _readModel.Rtus.FirstOrDefault(t => t.Id == bopNetworkEvent.RtuId);
             if (rtu == null)
                 return;

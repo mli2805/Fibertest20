@@ -6,7 +6,7 @@ namespace Iit.Fibertest.Graph
 {
     public class MeasurementEventOnModelExecutor
     {
-        private static readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         private readonly IModel _model;
@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Graph
 
         public string AddMeasurement(MeasurementAdded e)
         {
-            _model.Measurements.Add(_mapper.Map<Measurement>(e));
+            _model.Measurements.Add(Mapper.Map<Measurement>(e));
             _accidentsOnTraceApplierToModel.ShowMonitoringResult(e);
             return null;
         }
@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Graph
         public string UpdateMeasurement(MeasurementUpdated e)
         {
             var destination = _model.Measurements.First(f => f.SorFileId == e.SorFileId);
-            _mapper.Map(e, destination);
+            Mapper.Map(e, destination);
             return null;
         }
     }

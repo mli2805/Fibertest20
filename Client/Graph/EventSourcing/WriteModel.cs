@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Graph
     {
         public IMyLog LogFile { get; }
 
-        private static readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         public List<Node> Nodes { get; } = new List<Node>();
@@ -55,14 +55,14 @@ namespace Iit.Fibertest.Graph
         #region User
         public string Apply(UserAdded e)
         {
-            Users.Add(_mapper.Map<User>(e));
+            Users.Add(Mapper.Map<User>(e));
             return null;
         }
 
         public string Apply(UserUpdated source)
         {
             var destination = Users.First(f => f.UserId == source.UserId);
-            _mapper.Map(source, destination);
+            Mapper.Map(source, destination);
             return null;
         }
 
@@ -76,14 +76,14 @@ namespace Iit.Fibertest.Graph
         #region Zone
         public string Apply(ZoneAdded e)
         {
-            Zones.Add(_mapper.Map<Zone>(e));
+            Zones.Add(Mapper.Map<Zone>(e));
             return null;
         }
 
         public string Apply(ZoneUpdated source)
         {
             var destination = Zones.First(f => f.ZoneId == source.ZoneId);
-            _mapper.Map(source, destination);
+            Mapper.Map(source, destination);
             return null;
         }
 
@@ -146,7 +146,7 @@ namespace Iit.Fibertest.Graph
             var node = Nodes.FirstOrDefault(x => x.NodeId == source.NodeId);
             if (node != null)
             {
-                _mapper.Map(source, node);
+                Mapper.Map(source, node);
                 return null;
             }
 
@@ -304,7 +304,7 @@ namespace Iit.Fibertest.Graph
         #region Fiber
         public string Apply(FiberAdded e)
         {
-            Fibers.Add(_mapper.Map<Fiber>(e));
+            Fibers.Add(Mapper.Map<Fiber>(e));
             return null;
         }
 
@@ -428,7 +428,7 @@ namespace Iit.Fibertest.Graph
         public string Apply(RtuAtGpsLocationAdded e)
         {
             Nodes.Add(new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude) });
-            Rtus.Add(_mapper.Map<Rtu>(e));
+            Rtus.Add(Mapper.Map<Rtu>(e));
             return null;
         }
 
@@ -473,7 +473,7 @@ namespace Iit.Fibertest.Graph
         #region Trace
         public string Apply(TraceAdded e)
         {
-            Traces.Add(_mapper.Map<Trace>(e));
+            Traces.Add(Mapper.Map<Trace>(e));
             return null;
         }
 
@@ -574,7 +574,7 @@ namespace Iit.Fibertest.Graph
             var rtu = Rtus.FirstOrDefault(r => r.Id == e.Id);
             if (rtu != null)
             {
-                _mapper.Map(e, rtu);
+                Mapper.Map(e, rtu);
                 return null;
             }
             var message = $@"RtuInitialized: RTU {e.Id.First6()} not found";
@@ -626,20 +626,20 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(MeasurementAdded e)
         {
-            Measurements.Add(_mapper.Map<Measurement>(e));
+            Measurements.Add(Mapper.Map<Measurement>(e));
             return null;
         }
 
         public string Apply(MeasurementUpdated e)
         {
             var destination = Measurements.First(f => f.SorFileId == e.SorFileId);
-            _mapper.Map(e, destination);
+            Mapper.Map(e, destination);
             return null;
         }
 
         public string Apply(NetworkEventAdded e)
         {
-            var networkEvent = _mapper.Map<NetworkEvent>(e);
+            var networkEvent = Mapper.Map<NetworkEvent>(e);
             var rtu = Rtus.First(r => r.Id == e.RtuId);
             rtu.MainChannelState = e.MainChannelState;
             rtu.ReserveChannelState = e.ReserveChannelState;
@@ -649,7 +649,7 @@ namespace Iit.Fibertest.Graph
 
         public string Apply(BopNetworkEventAdded e)
         {
-            BopNetworkEvents.Add(_mapper.Map<BopNetworkEvent>(e));
+            BopNetworkEvents.Add(Mapper.Map<BopNetworkEvent>(e));
             return null;
         }
 

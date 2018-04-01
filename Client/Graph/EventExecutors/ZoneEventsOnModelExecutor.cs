@@ -5,7 +5,7 @@ namespace Iit.Fibertest.Graph
 {
     public class ZoneEventsOnModelExecutor
     {
-        private static readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         private readonly IModel _model;
@@ -16,14 +16,14 @@ namespace Iit.Fibertest.Graph
         }
         public string AddZone(ZoneAdded e)
         {
-            _model.Zones.Add(_mapper.Map<Zone>(e));
+            _model.Zones.Add(Mapper.Map<Zone>(e));
             return null;
         }
 
         public string UpdateZone(ZoneUpdated source)
         {
             var destination =  _model.Zones.First(f => f.ZoneId == source.ZoneId);
-            _mapper.Map(source, destination);
+            Mapper.Map(source, destination);
             return null;
         }
 

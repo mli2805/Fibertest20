@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Graph
 {
     public class EquipmentEventsOnModelExecutor
     {
-        private static readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         private readonly IModel _model;
@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Graph
         {
             var node = _model.Nodes.First(n => n.NodeId == e.NodeId);
             node.TypeOfLastAddedEquipment = e.Type;
-            Equipment equipment = _mapper.Map<Equipment>(e);
+            Equipment equipment = Mapper.Map<Equipment>(e);
             _model.Equipments.Add(equipment);
             foreach (var traceId in e.TracesForInsertion)
             {
@@ -46,12 +46,12 @@ namespace Iit.Fibertest.Graph
         {
             Node node = new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), TypeOfLastAddedEquipment = e.Type };
             _model.Nodes.Add(node);
-            Equipment equipment = _mapper.Map<Equipment>(e);
+            Equipment equipment = Mapper.Map<Equipment>(e);
             equipment.EquipmentId = e.RequestedEquipmentId;
             _model.Equipments.Add(equipment);
             if (e.EmptyNodeEquipmentId != Guid.Empty)
             {
-                Equipment emptyEquipment = _mapper.Map<Equipment>(e);
+                Equipment emptyEquipment = Mapper.Map<Equipment>(e);
                 emptyEquipment.EquipmentId = e.EmptyNodeEquipmentId;
                 emptyEquipment.Type = EquipmentType.EmptyNode;
                 _model.Equipments.Add(emptyEquipment);
@@ -84,7 +84,7 @@ namespace Iit.Fibertest.Graph
             }
             var node = _model.Nodes.First(n => n.NodeId == equipment.NodeId);
             node.TypeOfLastAddedEquipment = e.Type;
-            _mapper.Map(e, equipment);
+            Mapper.Map(e, equipment);
             return null;
         }
 

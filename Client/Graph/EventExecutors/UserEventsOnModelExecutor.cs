@@ -5,7 +5,7 @@ namespace Iit.Fibertest.Graph
 {
     public class UserEventsOnModelExecutor
     {
-        private static readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
         private readonly IModel _model;
 
@@ -15,14 +15,14 @@ namespace Iit.Fibertest.Graph
         }
         public string AddUser(UserAdded e)
         {
-            _model.Users.Add(_mapper.Map<User>(e));
+            _model.Users.Add(Mapper.Map<User>(e));
             return null;
         }
 
         public string UpdateUser(UserUpdated source)
         {
             var destination =  _model.Users.First(f => f.UserId == source.UserId);
-            _mapper.Map(source, destination);
+            Mapper.Map(source, destination);
             return null;
         }
 

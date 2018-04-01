@@ -150,7 +150,7 @@ namespace Iit.Fibertest.Client
             ServersComboboxVisibility = Visibility.Visible;
 
             ServerConnectionTestViewModel = _globalScope.Resolve<NetAddressTestViewModel>
-                (new NamedParameter(@"netAddressForConnectionTest", new NetAddressForConnectionTest((NetAddress)(NetAddress)SelectedServer.ServerAddress.Main.Clone(), false)));
+                (new NamedParameter(@"netAddressForConnectionTest", new NetAddressForConnectionTest((NetAddress)SelectedServer.ServerAddress.Main.Clone(), false)));
             ServerConnectionTestViewModel.PropertyChanged += ServerConnectionTestViewModel_PropertyChanged;
 
             NewServerTitleVisibility = Visibility.Collapsed;

@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Client
 {
     public class ZoneViewModel : Screen, IDataErrorInfo
     {
-        private static readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
 
         private readonly IWcfServiceForClient _c2DWcfManager;
@@ -82,9 +82,9 @@ namespace Iit.Fibertest.Client
         {
             object cmd;
             if (_isInCreationMode)
-                cmd = _mapper.Map<AddZone>(this);
+                cmd = Mapper.Map<AddZone>(this);
             else
-                cmd = _mapper.Map<UpdateZone>(this);
+                cmd = Mapper.Map<UpdateZone>(this);
             await _c2DWcfManager.SendCommandAsObj(cmd);
             TryClose();
         }

@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Graph
 
         public EventsQueue EventsQueue { get; }
 
-        private static readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingCmdToEventProfile>()).CreateMapper();
 
         public Aggregate(IMyLog logFile, EventsQueue eventsQueue, IModel writeModel)
@@ -30,53 +30,53 @@ namespace Iit.Fibertest.Graph
         #region User
         public string When(AddUser cmd)
         {
-            return EventsQueue.Add(_mapper.Map<UserAdded>(cmd));
+            return EventsQueue.Add(Mapper.Map<UserAdded>(cmd));
         }
 
         public string When(UpdateUser cmd)
         {
-            return EventsQueue.Add(_mapper.Map<UserUpdated>(cmd));
+            return EventsQueue.Add(Mapper.Map<UserUpdated>(cmd));
         }
 
         public string When(RemoveUser cmd)
         {
-            return EventsQueue.Add(_mapper.Map<UserRemoved>(cmd));
+            return EventsQueue.Add(Mapper.Map<UserRemoved>(cmd));
         }
         #endregion
 
         #region Zone
         public string When(AddZone cmd)
         {
-            return EventsQueue.Add(_mapper.Map<ZoneAdded>(cmd));
+            return EventsQueue.Add(Mapper.Map<ZoneAdded>(cmd));
         }
 
         public string When(UpdateZone cmd)
         {
-            return EventsQueue.Add(_mapper.Map<ZoneUpdated>(cmd));
+            return EventsQueue.Add(Mapper.Map<ZoneUpdated>(cmd));
         }
 
         public string When(RemoveZone cmd)
         {
             // Checks?
-            return EventsQueue.Add(_mapper.Map<ZoneRemoved>(cmd));
+            return EventsQueue.Add(Mapper.Map<ZoneRemoved>(cmd));
         }
         #endregion
 
         #region Node
         public string When(AddNodeIntoFiber cmd)
         {
-            return EventsQueue.Add(_mapper.Map<NodeIntoFiberAdded>(cmd));
+            return EventsQueue.Add(Mapper.Map<NodeIntoFiberAdded>(cmd));
         }
 
         public string When(UpdateNode cmd)
         {
-            return EventsQueue.Add(_mapper.Map<NodeUpdated>(cmd));
+            return EventsQueue.Add(Mapper.Map<NodeUpdated>(cmd));
         }
 
 
         public string When(MoveNode cmd)
         {
-            return EventsQueue.Add(_mapper.Map<NodeMoved>(cmd));
+            return EventsQueue.Add(Mapper.Map<NodeMoved>(cmd));
         }
 
         public string When(RemoveNode cmd)
@@ -86,7 +86,7 @@ namespace Iit.Fibertest.Graph
             if (_writeModel.Traces.Any(t => t.HasAnyBaseRef && t.NodeIds.Contains(cmd.NodeId) && cmd.Type != EquipmentType.AdjustmentPoint))
                 return Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram;
 
-            return EventsQueue.Add(_mapper.Map<NodeRemoved>(cmd));
+            return EventsQueue.Add(Mapper.Map<NodeRemoved>(cmd));
         }
         #endregion
 
@@ -100,7 +100,7 @@ namespace Iit.Fibertest.Graph
                 f.NodeId1 == b && f.NodeId2 == a))
                 return Resources.SID_Section_already_exists;
 
-            return EventsQueue.Add(_mapper.Map<FiberAdded>(cmd));
+            return EventsQueue.Add(Mapper.Map<FiberAdded>(cmd));
         }
 
         public string When(AddFiberWithNodes cmd)
@@ -115,14 +115,14 @@ namespace Iit.Fibertest.Graph
 
             foreach (var cmdAddEquipmentAtGpsLocation in cmd.AddEquipments)
             {
-                var result = EventsQueue.Add(_mapper.Map<EquipmentAtGpsLocationAdded>(cmdAddEquipmentAtGpsLocation));
+                var result = EventsQueue.Add(Mapper.Map<EquipmentAtGpsLocationAdded>(cmdAddEquipmentAtGpsLocation));
                 if (result != null)
                     return result;
             }
 
             foreach (var cmdAddFiber in cmd.AddFibers)
             {
-                var result = EventsQueue.Add(_mapper.Map<FiberAdded>(cmdAddFiber));
+                var result = EventsQueue.Add(Mapper.Map<FiberAdded>(cmdAddFiber));
                 if (result != null)
                     return result;
             }
@@ -132,13 +132,13 @@ namespace Iit.Fibertest.Graph
 
         public string When(UpdateFiber cmd)
         {
-            return EventsQueue.Add(_mapper.Map<FiberUpdated>(cmd));
+            return EventsQueue.Add(Mapper.Map<FiberUpdated>(cmd));
         }
         public string When(RemoveFiber cmd)
         {
             if (IsFiberContainedInAnyTraceWithBase(cmd.FiberId))
                 return Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram;
-            return EventsQueue.Add(_mapper.Map<FiberRemoved>(cmd));
+            return EventsQueue.Add(Mapper.Map<FiberRemoved>(cmd));
         }
 
         private bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
@@ -168,7 +168,7 @@ namespace Iit.Fibertest.Graph
                 if (trace.HasAnyBaseRef)
                     return Resources.SID_Base_ref_is_set_for_trace;
             }
-            var result = EventsQueue.Add(_mapper.Map<EquipmentIntoNodeAdded>(cmd));
+            var result = EventsQueue.Add(Mapper.Map<EquipmentIntoNodeAdded>(cmd));
             if (result != null)
                 return result;
 
@@ -189,38 +189,38 @@ namespace Iit.Fibertest.Graph
 
         public string When(AddEquipmentAtGpsLocation cmd)
         {
-            return EventsQueue.Add(_mapper.Map<EquipmentAtGpsLocationAdded>(cmd));
+            return EventsQueue.Add(Mapper.Map<EquipmentAtGpsLocationAdded>(cmd));
         }
 
         public string When(AddEquipmentAtGpsLocationWithNodeTitle cmd)
         {
-            return EventsQueue.Add(_mapper.Map<EquipmentAtGpsLocationWithNodeTitleAdded>(cmd));
+            return EventsQueue.Add(Mapper.Map<EquipmentAtGpsLocationWithNodeTitleAdded>(cmd));
         }
 
         public string When(UpdateEquipment cmd)
         {
-            return EventsQueue.Add(_mapper.Map<EquipmentUpdated>(cmd));
+            return EventsQueue.Add(Mapper.Map<EquipmentUpdated>(cmd));
         }
         public string When(RemoveEquipment cmd)
         {
-            return EventsQueue.Add(_mapper.Map<EquipmentRemoved>(cmd));
+            return EventsQueue.Add(Mapper.Map<EquipmentRemoved>(cmd));
         }
         #endregion
 
         #region Rtu
         public string When(AddRtuAtGpsLocation cmd)
         {
-            return EventsQueue.Add(_mapper.Map<RtuAtGpsLocationAdded>(cmd));
+            return EventsQueue.Add(Mapper.Map<RtuAtGpsLocationAdded>(cmd));
         }
 
         public string When(UpdateRtu cmd)
         {
-            return EventsQueue.Add(_mapper.Map<RtuUpdated>(cmd));
+            return EventsQueue.Add(Mapper.Map<RtuUpdated>(cmd));
         }
 
         public string When(RemoveRtu cmd)
         {
-            var evnt = _mapper.Map<RtuRemoved>(cmd);
+            var evnt = Mapper.Map<RtuRemoved>(cmd);
             evnt.FibersFromCleanedTraces = new Dictionary<Guid, Guid>();
             foreach (var trace in _writeModel.Traces.Where(t=>t.RtuId == cmd.RtuId))
             {
@@ -234,12 +234,12 @@ namespace Iit.Fibertest.Graph
 
         public string When(AttachOtau cmd)
         {
-            return EventsQueue.Add(_mapper.Map<OtauAttached>(cmd));
+            return EventsQueue.Add(Mapper.Map<OtauAttached>(cmd));
         }
 
         public string When(DetachOtau cmd)
         {
-            return EventsQueue.Add(_mapper.Map<OtauDetached>(cmd));
+            return EventsQueue.Add(Mapper.Map<OtauDetached>(cmd));
         }
         #endregion
 
@@ -256,17 +256,17 @@ namespace Iit.Fibertest.Graph
             if (cmd.EquipmentIds.Last() == Guid.Empty)
                 return Resources.SID_Last_node_of_trace_must_contain_some_equipment;
 
-            return EventsQueue.Add(_mapper.Map<TraceAdded>(cmd));
+            return EventsQueue.Add(Mapper.Map<TraceAdded>(cmd));
         }
 
         public string When(UpdateTrace cmd)
         {
-            return EventsQueue.Add(_mapper.Map<TraceUpdated>(cmd));
+            return EventsQueue.Add(Mapper.Map<TraceUpdated>(cmd));
         }
 
         public string When(CleanTrace cmd)
         {
-            var traceCleaned = _mapper.Map<TraceCleaned>(cmd);
+            var traceCleaned = Mapper.Map<TraceCleaned>(cmd);
             traceCleaned.NodeIds = _writeModel.Traces.First(t => t.TraceId == cmd.TraceId).NodeIds;
             traceCleaned.FiberIds = _writeModel.GetFibersByNodes(traceCleaned.NodeIds).ToList();
             return EventsQueue.Add(traceCleaned);
@@ -274,7 +274,7 @@ namespace Iit.Fibertest.Graph
 
         public string When(RemoveTrace cmd)
         {
-            var traceRemoved = _mapper.Map<TraceRemoved>(cmd);
+            var traceRemoved = Mapper.Map<TraceRemoved>(cmd);
             traceRemoved.NodeIds = _writeModel.Traces.First(t => t.TraceId == cmd.TraceId).NodeIds;
             traceRemoved.FiberIds = _writeModel.GetFibersByNodes(traceRemoved.NodeIds).ToList();
             return EventsQueue.Add(traceRemoved);
@@ -282,54 +282,54 @@ namespace Iit.Fibertest.Graph
 
         public string When(AttachTrace cmd)
         {
-            return EventsQueue.Add(_mapper.Map<TraceAttached>(cmd));
+            return EventsQueue.Add(Mapper.Map<TraceAttached>(cmd));
         }
 
         public string When(DetachTrace cmd)
         {
-            return EventsQueue.Add(_mapper.Map<TraceDetached>(cmd));
+            return EventsQueue.Add(Mapper.Map<TraceDetached>(cmd));
         }
         #endregion
 
         #region JustEchosOfCmdsSentToRtu
         public string When(AssignBaseRef cmd)
         {
-            return EventsQueue.Add(_mapper.Map<BaseRefAssigned>(cmd));
+            return EventsQueue.Add(Mapper.Map<BaseRefAssigned>(cmd));
         }
         public string When(ChangeMonitoringSettings cmd)
         {
-            return EventsQueue.Add(_mapper.Map<MonitoringSettingsChanged>(cmd));
+            return EventsQueue.Add(Mapper.Map<MonitoringSettingsChanged>(cmd));
         }
 
         public string When(InitializeRtu cmd)
         {
-            return EventsQueue.Add(_mapper.Map<RtuInitialized>(cmd));
+            return EventsQueue.Add(Mapper.Map<RtuInitialized>(cmd));
         }
 
         public string When(StartMonitoring cmd)
         {
-            return EventsQueue.Add(_mapper.Map<MonitoringStarted>(cmd));
+            return EventsQueue.Add(Mapper.Map<MonitoringStarted>(cmd));
         }
 
         public string When(StopMonitoring cmd)
         {
-            return EventsQueue.Add(_mapper.Map<MonitoringStopped>(cmd));
+            return EventsQueue.Add(Mapper.Map<MonitoringStopped>(cmd));
         }
 
         public string When(AddMeasurement cmd)
         {
             if (_writeModel.Traces.All(t => t.TraceId != cmd.TraceId))
                 return $@"Unknown trace {cmd.TraceId.First6()}";
-            return EventsQueue.Add(_mapper.Map<MeasurementAdded>(cmd));
+            return EventsQueue.Add(Mapper.Map<MeasurementAdded>(cmd));
         }
         public string When(UpdateMeasurement cmd)
         {
-            return EventsQueue.Add(_mapper.Map<MeasurementUpdated>(cmd));
+            return EventsQueue.Add(Mapper.Map<MeasurementUpdated>(cmd));
         }
 
         public string When(AddNetworkEvent cmd)
         {
-            var networkEventAdded = _mapper.Map<NetworkEventAdded>(cmd);
+            var networkEventAdded = Mapper.Map<NetworkEventAdded>(cmd);
             var lastEventOrdial = _writeModel.NetworkEvents.Any() ? _writeModel.NetworkEvents.Max(n => n.Ordinal) : 1;
             networkEventAdded.Ordinal = lastEventOrdial + 1;
             var rtu = _writeModel.Rtus.First(r => r.Id == networkEventAdded.RtuId);
@@ -339,7 +339,7 @@ namespace Iit.Fibertest.Graph
 
         public string When(AddBopNetworkEvent cmd)
         {
-            return EventsQueue.Add(_mapper.Map<BopNetworkEventAdded>(cmd));
+            return EventsQueue.Add(Mapper.Map<BopNetworkEventAdded>(cmd));
         }
 
 
@@ -362,7 +362,7 @@ namespace Iit.Fibertest.Graph
 
         public string When(ChangeResponsibilities cmd)
         {
-            return EventsQueue.Add(_mapper.Map<ResponsibilitiesChanged>(cmd));
+            return EventsQueue.Add(Mapper.Map<ResponsibilitiesChanged>(cmd));
         }
 
         #endregion

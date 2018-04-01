@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Graph
 {
     public class RtuEventsOnModelExecutor
     {
-        private static readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
         private readonly IModel _model;
         private readonly IMyLog _logFile;
@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Graph
         {
             Node node = new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), TypeOfLastAddedEquipment = EquipmentType.Rtu, Title = e.Title };
             _model.Nodes.Add(node);
-            Rtu rtu = _mapper.Map<Rtu>(e);
+            Rtu rtu = Mapper.Map<Rtu>(e);
             rtu.ZoneIds.Add(_model.Zones.First(z=>z.IsDefaultZone).ZoneId);
             _model.Rtus.Add(rtu);
             return null;
@@ -70,7 +70,7 @@ namespace Iit.Fibertest.Graph
 
         public string AttachOtau(OtauAttached e)
         {
-            Otau otau = _mapper.Map<Otau>(e);
+            Otau otau = Mapper.Map<Otau>(e);
             _model.Otaus.Add(otau);
             return null;
         }

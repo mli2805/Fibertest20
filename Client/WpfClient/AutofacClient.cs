@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-using System.Threading;
-using Autofac;
+﻿using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Algorithms;

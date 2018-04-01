@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Graph
 {
     public class TraceEventsOnModelExecutor
     {
-        private static readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         private readonly IModel _model;
@@ -26,7 +26,7 @@ namespace Iit.Fibertest.Graph
         }
         public string AddTrace(TraceAdded e)
         {
-            Trace trace = _mapper.Map<Trace>(e);
+            Trace trace = Mapper.Map<Trace>(e);
             trace.ZoneIds.Add(_model.Zones.First(z => z.IsDefaultZone).ZoneId);
             _model.Traces.Add(trace);
             for (int i = 1; i < trace.NodeIds.Count; i++)
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.Graph
         public string UpdateTrace(TraceUpdated source)
         {
             var destination = _model.Traces.First(t => t.TraceId == source.Id);
-            _mapper.Map(source, destination);
+            Mapper.Map(source, destination);
             return null;
         }
 
