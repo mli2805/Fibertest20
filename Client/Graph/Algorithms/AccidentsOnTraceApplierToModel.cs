@@ -8,10 +8,10 @@ namespace Iit.Fibertest.Graph.Algorithms
 {
     public  class AccidentsOnTraceApplierToModel
     {
-        private readonly IModel _model;
+        private readonly Model _model;
         private readonly AccidentPlaceLocator _accidentPlaceLocator;
 
-        public AccidentsOnTraceApplierToModel(IModel model, AccidentPlaceLocator accidentPlaceLocator)
+        public AccidentsOnTraceApplierToModel(Model model, AccidentPlaceLocator accidentPlaceLocator)
         {
             _model = model;
             _accidentPlaceLocator = accidentPlaceLocator;

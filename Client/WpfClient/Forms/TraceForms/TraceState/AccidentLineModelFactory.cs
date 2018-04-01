@@ -10,11 +10,11 @@ namespace Iit.Fibertest.Client
     public class AccidentLineModelFactory
     {
         private readonly GraphReadModel _graphReadModel;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly AccidentPlaceLocator _accidentPlaceLocator;
         private readonly CurrentGpsInputMode _currentGpsInputMode;
 
-        public AccidentLineModelFactory(GraphReadModel graphReadModel, ReadModel readModel,
+        public AccidentLineModelFactory(GraphReadModel graphReadModel, Model readModel,
             AccidentPlaceLocator accidentPlaceLocator, CurrentGpsInputMode currentGpsInputMode)
         {
             _graphReadModel = graphReadModel;

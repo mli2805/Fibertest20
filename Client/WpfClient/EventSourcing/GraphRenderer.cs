@@ -8,14 +8,14 @@ namespace Iit.Fibertest.Client
 {
     public class GraphRenderer
     {
-        private readonly IModel _model;
+        private readonly Model _model;
         private readonly GraphReadModel _graphReadModel;
         private readonly CurrentUser _currentUser;
 
         private List<NodeVm> _nodesForRendering = new List<NodeVm>();
         private List<FiberVm> _fibersForRendering = new List<FiberVm>();
 
-        public GraphRenderer(IModel model, GraphReadModel graphReadModel, CurrentUser currentUser)
+        public GraphRenderer(Model model, GraphReadModel graphReadModel, CurrentUser currentUser)
         {
             _model = model;
             _graphReadModel = graphReadModel;

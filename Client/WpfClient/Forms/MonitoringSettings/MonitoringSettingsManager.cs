@@ -8,9 +8,9 @@ namespace Iit.Fibertest.Client.MonitoringSettings
     public class MonitoringSettingsManager
     {
         private readonly RtuLeaf _rtuLeaf;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
 
-        public MonitoringSettingsManager(RtuLeaf rtuLeaf, ReadModel readModel)
+        public MonitoringSettingsManager(RtuLeaf rtuLeaf, Model readModel)
         {
             _rtuLeaf = rtuLeaf;
             _readModel = readModel;

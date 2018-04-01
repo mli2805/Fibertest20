@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterInstance(iniFile);
             builder.RegisterType<LogFile>().As<IMyLog>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ReadModel>().As<ReadModel>().As<IModel>().InstancePerLifetimeScope();
+            builder.RegisterType<Model>().InstancePerLifetimeScope();
 
             builder.RegisterType<EquipmentEventsOnModelExecutor>().InstancePerLifetimeScope();
             builder.RegisterType<NodeEventsOnModelExecutor>().InstancePerLifetimeScope();

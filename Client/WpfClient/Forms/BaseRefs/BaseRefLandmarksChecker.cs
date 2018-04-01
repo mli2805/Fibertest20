@@ -13,10 +13,10 @@ namespace Iit.Fibertest.Client
     
     public class BaseRefLandmarksChecker
     {
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
 
-        public BaseRefLandmarksChecker(ReadModel readModel, IWindowManager windowManager)
+        public BaseRefLandmarksChecker(Model readModel, IWindowManager windowManager)
         {
             _readModel = readModel;
             _windowManager = windowManager;

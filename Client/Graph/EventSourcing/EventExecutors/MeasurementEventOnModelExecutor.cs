@@ -9,10 +9,10 @@ namespace Iit.Fibertest.Graph
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
-        private readonly IModel _model;
+        private readonly Model _model;
         private readonly AccidentsOnTraceApplierToModel _accidentsOnTraceApplierToModel;
 
-        public MeasurementEventOnModelExecutor(IModel model, AccidentsOnTraceApplierToModel accidentsOnTraceApplierToModel)
+        public MeasurementEventOnModelExecutor(Model model, AccidentsOnTraceApplierToModel accidentsOnTraceApplierToModel)
         {
             _model = model;
             _accidentsOnTraceApplierToModel = accidentsOnTraceApplierToModel;

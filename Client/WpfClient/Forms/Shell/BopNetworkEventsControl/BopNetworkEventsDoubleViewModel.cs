@@ -11,12 +11,12 @@ namespace Iit.Fibertest.Client
     {
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
 
         public BopNetworkEventsViewModel ActualBopNetworkEventsViewModel { get; set; }
         public BopNetworkEventsViewModel AllBopNetworkEventsViewModel { get; set; }
 
-        public BopNetworkEventsDoubleViewModel(ReadModel readModel, 
+        public BopNetworkEventsDoubleViewModel(Model readModel, 
             BopNetworkEventsViewModel actualBopNetworkEventsViewModel, BopNetworkEventsViewModel allBopNetworkEventsViewModel)
         {
             ActualBopNetworkEventsViewModel = actualBopNetworkEventsViewModel;

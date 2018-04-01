@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly IniFile _iniFile;
         private Trace _trace;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
 
         private readonly IWcfServiceForClient _c2DWcfManager;
@@ -99,7 +99,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public BaseRefsAssignViewModel(IniFile iniFile, ReadModel readModel, CurrentUser currentUser, 
+        public BaseRefsAssignViewModel(IniFile iniFile, Model readModel, CurrentUser currentUser, 
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, 
             BaseRefDtoFactory baseRefDtoFactory, BaseRefsChecker baseRefsChecker)
         {

@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
         public NetAddressTestViewModel ReserveChannelTestViewModel { get; set; }
 
         private readonly ILifetimeScope _globalScope;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IMyLog _logFile;
@@ -43,7 +43,7 @@ namespace Iit.Fibertest.Client
             : OriginalRtu.OtdrNetAddress.Ip4Address;
 
 
-        public RtuInitializeViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager,
+        public RtuInitializeViewModel(ILifetimeScope globalScope, Model readModel, IWindowManager windowManager,
             IWcfServiceForClient c2DWcfManager, IMyLog logFile, RtuLeaf rtuLeaf, CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;

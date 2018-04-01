@@ -15,11 +15,11 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
         private readonly ClientMeasurementViewModel _clientMeasurementViewModel;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
 
         public CommonActions(IniFile iniFile35, IMyLog logFile, CurrentUser currentUser,
-            ClientMeasurementViewModel clientMeasurementViewModel, ReadModel readModel,
+            ClientMeasurementViewModel clientMeasurementViewModel, Model readModel,
             IWindowManager windowManager)
         {
             _iniFile35 = iniFile35;

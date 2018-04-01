@@ -9,10 +9,10 @@ namespace Iit.Fibertest.Client
     public class EquipmentEventsOnGraphExecutor
     {
         private readonly GraphReadModel _model;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
 
-        public EquipmentEventsOnGraphExecutor(GraphReadModel model, ReadModel readModel, CurrentUser currentUser)
+        public EquipmentEventsOnGraphExecutor(GraphReadModel model, Model readModel, CurrentUser currentUser)
         {
             _model = model;
             _readModel = readModel;

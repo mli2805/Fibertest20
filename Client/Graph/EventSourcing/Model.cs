@@ -2,7 +2,7 @@
 
 namespace Iit.Fibertest.Graph
 {
-    public class ReadModel : IModel
+    public class Model 
     {
         public List<Node> Nodes { get; } = new List<Node>();
         public List<Fiber> Fibers { get; } = new List<Fiber>();

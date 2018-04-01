@@ -12,14 +12,14 @@ namespace Iit.Fibertest.Graph
     public class Aggregate
     {
         private readonly IMyLog _logFile;
-        private readonly IModel _writeModel;
+        private readonly Model _writeModel;
 
         public EventsQueue EventsQueue { get; }
 
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingCmdToEventProfile>()).CreateMapper();
 
-        public Aggregate(IMyLog logFile, EventsQueue eventsQueue, IModel writeModel)
+        public Aggregate(IMyLog logFile, EventsQueue eventsQueue, Model writeModel)
         {
             _logFile = logFile;
             _writeModel = writeModel;

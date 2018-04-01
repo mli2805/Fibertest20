@@ -14,11 +14,11 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IModel _model;
+        private readonly Model _model;
         private readonly IWindowManager _windowManager;
 
 
-        public GrmFiberRequests(ILifetimeScope globalScope, IWcfServiceForClient c2DWcfManager, IModel model, IWindowManager windowManager)
+        public GrmFiberRequests(ILifetimeScope globalScope, IWcfServiceForClient c2DWcfManager, Model model, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _c2DWcfManager = c2DWcfManager;

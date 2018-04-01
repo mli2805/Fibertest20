@@ -9,11 +9,11 @@ namespace Iit.Fibertest.Client
     public class TraceEventsOnGraphExecutor
     {
         private readonly GraphReadModel _model;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
         private readonly AccidentEventsOnGraphExecutor _accidentEventsOnGraphExecutor;
 
-        public TraceEventsOnGraphExecutor(GraphReadModel model, ReadModel readModel, 
+        public TraceEventsOnGraphExecutor(GraphReadModel model, Model readModel, 
             CurrentUser currentUser, AccidentEventsOnGraphExecutor accidentEventsOnGraphExecutor)
         {
             _model = model;

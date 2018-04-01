@@ -13,9 +13,9 @@ namespace Iit.Fibertest.DatabaseLibrary
     {
         private readonly ISettings _settings;
         private readonly IMyLog _logFile;
-        private readonly IModel _writeModel;
+        private readonly Model _writeModel;
 
-        public ClientStationsRepository(ISettings settings, IMyLog logFile, IModel writeModel)
+        public ClientStationsRepository(ISettings settings, IMyLog logFile, Model writeModel)
         {
             _settings = settings;
             _logFile = logFile;

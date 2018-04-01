@@ -16,9 +16,9 @@ namespace Iit.Fibertest.Client
     {
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
-        private readonly IModel _model;
+        private readonly Model _model;
 
-        public GrmNodeRequests(IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, IModel model)
+        public GrmNodeRequests(IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, Model model)
         {
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;

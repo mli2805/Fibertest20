@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
         private Rtu _originalRtu;
         private Node _originalNode;
         private readonly ILifetimeScope _globalScope;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private bool _isInCreationMode;
 
@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Client
         }
         public GpsInputViewModel GpsInputViewModel { get; set; }
 
-        public RtuUpdateViewModel(ILifetimeScope globalScope, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
+        public RtuUpdateViewModel(ILifetimeScope globalScope, Model readModel, IWcfServiceForClient c2DWcfManager)
         {
             _globalScope = globalScope;
             _readModel = readModel;

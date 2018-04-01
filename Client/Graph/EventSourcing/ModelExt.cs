@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Graph
 {
     public static class ModelExt
     {
-        public static TraceModelForBaseRef GetTraceComponentsByIds(this IModel model, Trace trace)
+        public static TraceModelForBaseRef GetTraceComponentsByIds(this Model model, Trace trace)
         {
             var nodes = model.GetTraceNodes(trace).ToArray();
             var equipList =
@@ -22,28 +22,27 @@ namespace Iit.Fibertest.Graph
                 EquipArray = equipList.ToArray(),
                 FiberArray = fibers,
             };
-
         }
 
-        public static IEnumerable<Fiber> GetTraceFibers(this IModel model, Trace trace)
+        public static IEnumerable<Fiber> GetTraceFibers(this Model model, Trace trace)
         {
             return model.GetFibersByNodes(trace.NodeIds).Select(i => model.Fibers.Single(f => f.FiberId == i));
         }
 
-        public static IEnumerable<Guid> GetFibersByNodes(this IModel model, List<Guid> nodes)
+        public static IEnumerable<Guid> GetFibersByNodes(this Model model, List<Guid> nodes)
         {
             for (int i = 1; i < nodes.Count; i++)
                 yield return GetFiberByNodes(model, nodes[i - 1], nodes[i]);
         }
 
-        public static Guid GetFiberByNodes(this IModel model, Guid node1, Guid node2)
+        public static Guid GetFiberByNodes(this Model model, Guid node1, Guid node2)
         {
             return model.Fibers.First(
                 f => f.NodeId1 == node1 && f.NodeId2 == node2 ||
                      f.NodeId1 == node2 && f.NodeId2 == node1).FiberId;
         }
 
-        public static IEnumerable<Trace> GetTracesPassingFiber(this IModel model, Guid fiberId)
+        public static IEnumerable<Trace> GetTracesPassingFiber(this Model model, Guid fiberId)
         {
             foreach (var trace in model.Traces)
             {
@@ -52,12 +51,12 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        public static IEnumerable<Node> GetTraceNodes(this IModel model, Trace trace)
+        public static IEnumerable<Node> GetTraceNodes(this Model model, Trace trace)
         {
             return trace.NodeIds.Select(i => model.Nodes.Single(eq => eq.NodeId == i));
         }
 
-        public static IEnumerable<Guid> GetTraceNodesExcludingAdjustmentPoints(this IModel model, Guid traceId)
+        public static IEnumerable<Guid> GetTraceNodesExcludingAdjustmentPoints(this Model model, Guid traceId)
         {
             var trace = model.Traces.First(t => t.TraceId == traceId);
             foreach (var nodeId in trace.NodeIds)
@@ -69,12 +68,12 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        public static IEnumerable<Equipment> GetTraceEquipments(this IModel model, Trace trace)
+        public static IEnumerable<Equipment> GetTraceEquipments(this Model model, Trace trace)
         {
             return trace.EquipmentIds.Skip(1).Select(i => model.Equipments.Single(eq => eq.EquipmentId == i));
         }
 
-        public static IEnumerable<Equipment> GetTraceEquipmentsExcludingAdjustmentPoints(this IModel model, Guid traceId)
+        public static IEnumerable<Equipment> GetTraceEquipmentsExcludingAdjustmentPoints(this Model model, Guid traceId)
         {
             var trace = model.Traces.First(t => t.TraceId == traceId);
             foreach (var equipmentId in trace.EquipmentIds.Skip(1)) // 0 - RTU
@@ -85,18 +84,18 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        private static IEnumerable<Fiber> GetNodeFibers(this IModel model, Node node)
+        private static IEnumerable<Fiber> GetNodeFibers(this Model model, Node node)
         {
             foreach (var fiber in model.Fibers)
                 if (fiber.NodeId1 == node.NodeId || fiber.NodeId2 == node.NodeId) yield return fiber;
         }
 
-        public static Fiber GetAnotherFiberOfAdjustmentPoint(this IModel model, Node adjustmentPoint, Guid fiberId)
+        public static Fiber GetAnotherFiberOfAdjustmentPoint(this Model model, Node adjustmentPoint, Guid fiberId)
         {
             return model.GetNodeFibers(adjustmentPoint).First(f => f.FiberId != fiberId);
         }
 
-        public static List<Guid> GetNeighbours(this IModel model, Guid nodeId)
+        public static List<Guid> GetNeighbours(this Model model, Guid nodeId)
         {
             var nodes = model.Fibers.Where(f => f.NodeId1 == nodeId).Select(f => f.NodeId2).ToList();
             nodes.AddRange(model.Fibers.Where(f => f.NodeId2 == nodeId).Select(f => f.NodeId1));
@@ -104,7 +103,7 @@ namespace Iit.Fibertest.Graph
         }
 
 
-        public static void RemoveFiberUptoRealNodesNotPoints(this IModel model, Fiber fiber)
+        public static void RemoveFiberUptoRealNodesNotPoints(this Model model, Fiber fiber)
         {
             var leftNode = model.Nodes.First(n => n.NodeId == fiber.NodeId1);
             while (leftNode.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint)
@@ -129,7 +128,7 @@ namespace Iit.Fibertest.Graph
             model.Fibers.Remove(fiber);
         }
 
-        public static void ChangeResponsibilities(this IModel model, ResponsibilitiesChanged e)
+        public static void ChangeResponsibilities(this Model model, ResponsibilitiesChanged e)
         {
             foreach (var pair in e.ResponsibilitiesDictionary)
             {
@@ -158,7 +157,7 @@ namespace Iit.Fibertest.Graph
             return newList;
         }
 
-        public static string RemoveNodeWithAllHis(this IModel model, Guid nodeId)
+        public static string RemoveNodeWithAllHis(this Model model, Guid nodeId)
         {
             model.Fibers.RemoveAll(f => f.NodeId1 == nodeId || f.NodeId2 == nodeId);
             model.Equipments.RemoveAll(e => e.NodeId == nodeId);

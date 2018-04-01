@@ -9,11 +9,11 @@ namespace Iit.Fibertest.Client
     public class RtuEventsOnGraphExecutor
     {
         private readonly GraphReadModel _model;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
         private readonly NodeEventsOnGraphExecutor _nodeEventsOnGraphExecutor;
 
-        public RtuEventsOnGraphExecutor(GraphReadModel model, ReadModel readModel,
+        public RtuEventsOnGraphExecutor(GraphReadModel model, Model readModel,
             CurrentUser currentUser, NodeEventsOnGraphExecutor nodeEventsOnGraphExecutor)
         {
             _model = model;

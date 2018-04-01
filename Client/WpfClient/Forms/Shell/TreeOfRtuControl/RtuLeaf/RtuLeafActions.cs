@@ -16,14 +16,14 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly GraphReadModel _graphReadModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly LandmarksViewModel _landmarksViewModel;
 
-        public RtuLeafActions(ILifetimeScope globalScope, IMyLog logFile, ReadModel readModel, GraphReadModel graphReadModel,
+        public RtuLeafActions(ILifetimeScope globalScope, IMyLog logFile, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, 
             RtuStateViewsManager rtuStateViewsManager, LandmarksViewModel landmarksViewModel)
         {

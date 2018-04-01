@@ -13,9 +13,9 @@ namespace Iit.Fibertest.Graph.Algorithms
     }
     public class BaseRefAdjuster
     {
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
 
-        public BaseRefAdjuster(ReadModel readModel)
+        public BaseRefAdjuster(Model readModel)
         {
             _readModel = readModel;
         }

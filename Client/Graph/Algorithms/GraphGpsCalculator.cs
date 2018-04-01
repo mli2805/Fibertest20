@@ -6,9 +6,9 @@ namespace Iit.Fibertest.Graph.Algorithms
 {
     public class GraphGpsCalculator
     {
-        private readonly IModel _model;
+        private readonly Model _model;
 
-        public GraphGpsCalculator(IModel model)
+        public GraphGpsCalculator(Model model)
         {
             _model = model;
         }

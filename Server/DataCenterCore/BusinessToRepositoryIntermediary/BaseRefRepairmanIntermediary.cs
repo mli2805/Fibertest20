@@ -13,14 +13,14 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public class BaseRefRepairmanIntermediary
     {
-        private readonly IModel _writeModel;
+        private readonly Model _writeModel;
         private readonly SorFileRepository _sorFileRepository;
         private readonly BaseRefDtoFactory _baseRefDtoFactory;
         private readonly TraceModelBuilder _traceModelBuilder;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
 
-        public BaseRefRepairmanIntermediary(IModel writeModel, 
+        public BaseRefRepairmanIntermediary(Model writeModel, 
             SorFileRepository sorFileRepository, BaseRefDtoFactory baseRefDtoFactory,
             TraceModelBuilder traceModelBuilder, BaseRefLandmarksTool baseRefLandmarksTool,
             ClientToRtuTransmitter clientToRtuTransmitter)

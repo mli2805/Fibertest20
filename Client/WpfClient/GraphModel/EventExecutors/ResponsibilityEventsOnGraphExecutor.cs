@@ -6,10 +6,10 @@ namespace Iit.Fibertest.Client
     public class ResponsibilityEventsOnGraphExecutor
     {
         private readonly CurrentUser _currentUser;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly GraphRenderer _graphRenderer;
 
-        public ResponsibilityEventsOnGraphExecutor(CurrentUser currentUser, ReadModel readModel,
+        public ResponsibilityEventsOnGraphExecutor(CurrentUser currentUser, Model readModel,
             GraphRenderer graphRenderer)
         {
             _currentUser = currentUser;

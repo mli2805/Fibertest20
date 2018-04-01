@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client
         public GrmFiberWithNodesRequest GrmFiberWithNodesRequest { get; }
         public GrmRtuRequests GrmRtuRequests { get; }
         public IWindowManager WindowManager { get; }
-        public IModel Model { get; }
+        public Model Model { get; }
         public readonly ILifetimeScope GlobalScope;
         public readonly IniFile IniFile;
 
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.Client
             GrmFiberRequests grmFiberRequests, GrmFiberWithNodesRequest grmFiberWithNodesRequest,
              GrmRtuRequests grmRtuRequests,
 
-            IWindowManager windowManager, IModel model)
+            IWindowManager windowManager, Model model)
         {
             LogFile = logFile;
             CurrentGpsInputMode = currentGpsInputMode;

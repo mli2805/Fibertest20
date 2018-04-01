@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Client
     public class ZonesViewModel : Screen
     {
         private readonly ILifetimeScope _globalScope;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 
@@ -43,7 +43,7 @@ namespace Iit.Fibertest.Client
 
         public bool IsRemoveEnabled => !SelectedZone.IsDefaultZone;
 
-        public ZonesViewModel(ILifetimeScope globalScope, ReadModel readModel, EventArrivalNotifier eventArrivalNotifier,
+        public ZonesViewModel(ILifetimeScope globalScope, Model readModel, EventArrivalNotifier eventArrivalNotifier,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;

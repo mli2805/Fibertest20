@@ -9,9 +9,9 @@ namespace Iit.Fibertest.Client
 {
     public class TraceInfoCalculator
     {
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
 
-        public TraceInfoCalculator(ReadModel readModel)
+        public TraceInfoCalculator(Model readModel)
         {
             _readModel = readModel;
         }

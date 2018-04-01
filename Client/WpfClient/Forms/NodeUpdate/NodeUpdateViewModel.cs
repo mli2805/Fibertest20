@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
     public class NodeUpdateViewModel : Screen, IDataErrorInfo
     {
         private readonly ILifetimeScope _globalScope;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly CurrentGpsInputMode _currentGpsInputMode;
@@ -122,7 +122,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public NodeUpdateViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager, EventArrivalNotifier eventArrivalNotifier,
+        public NodeUpdateViewModel(ILifetimeScope globalScope, Model readModel, IWindowManager windowManager, EventArrivalNotifier eventArrivalNotifier,
             IWcfServiceForClient c2DWcfManager, CurrentGpsInputMode currentGpsInputMode, AddEquipmentIntoNodeBuilder addEquipmentIntoNodeBuilder)
         {
             _globalScope = globalScope;

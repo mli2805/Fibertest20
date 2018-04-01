@@ -19,7 +19,7 @@ namespace Graph.Tests
         public ILifetimeScope ClientContainer { get; set; }
         public ILifetimeScope ServerContainer { get; set; }
 
-        public ReadModel ReadModel { get; }
+        public Model ReadModel { get; }
         public GraphReadModel GraphReadModel { get; }
         public TreeOfRtuModel TreeOfRtuModel { get; }
         public TreeOfRtuViewModel TreeOfRtuViewModel { get; }
@@ -55,7 +55,7 @@ namespace Graph.Tests
             FakeWindowManager = (FakeWindowManager)ClientContainer.Resolve<IWindowManager>();
             MyLogFile = ClientContainer.Resolve<IMyLog>();
             ShellVm = (ShellViewModel)ClientContainer.Resolve<IShell>();
-            ReadModel = (ReadModel)ClientContainer.Resolve<IModel>();
+            ReadModel = ClientContainer.Resolve<Model>();
             GraphReadModel = ClientContainer.Resolve<GraphReadModel>();
             TreeOfRtuModel = ClientContainer.Resolve<TreeOfRtuModel>();
             TreeOfRtuViewModel = ClientContainer.Resolve<TreeOfRtuViewModel>();

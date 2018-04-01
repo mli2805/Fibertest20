@@ -12,12 +12,12 @@ namespace Iit.Fibertest.Client
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
 
         public OpticalEventsViewModel AllOpticalEventsViewModel { get; set; }
         public OpticalEventsViewModel ActualOpticalEventsViewModel { get; set; }
 
-        public OpticalEventsDoubleViewModel(ReadModel readModel,
+        public OpticalEventsDoubleViewModel(Model readModel,
             OpticalEventsViewModel allOpticalEventsViewModel,
             OpticalEventsViewModel actualOpticalEventsViewModel)
         {

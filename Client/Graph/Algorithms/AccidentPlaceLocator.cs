@@ -10,9 +10,9 @@ namespace Iit.Fibertest.Graph.Algorithms
     public class AccidentPlaceLocator
     {
         private readonly IMyLog _logFile;
-        private readonly IModel _model;
+        private readonly Model _model;
 
-        public AccidentPlaceLocator(IMyLog logFile, IModel model)
+        public AccidentPlaceLocator(IMyLog logFile, Model model)
         {
             _logFile = logFile;
             _model = model;

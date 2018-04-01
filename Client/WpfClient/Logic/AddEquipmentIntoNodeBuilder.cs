@@ -9,10 +9,10 @@ namespace Iit.Fibertest.Client
     public class AddEquipmentIntoNodeBuilder
     {
         private readonly ILifetimeScope _globalScope;
-        private readonly IModel _model;
+        private readonly Model _model;
         private readonly IWindowManager _windowManager;
 
-        public AddEquipmentIntoNodeBuilder(ILifetimeScope globalScope, IModel model, IWindowManager windowManager)
+        public AddEquipmentIntoNodeBuilder(ILifetimeScope globalScope, Model model, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _model = model;

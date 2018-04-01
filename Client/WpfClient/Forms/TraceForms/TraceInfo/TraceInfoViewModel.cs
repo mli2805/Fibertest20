@@ -14,14 +14,14 @@ namespace Iit.Fibertest.Client
 {
     public class TraceInfoViewModel : Screen, IDataErrorInfo
     {
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly TraceInfoCalculator _traceInfoCalculator;
 
         public TraceInfoModel Model { get; set; } = new TraceInfoModel();
         
-        public TraceInfoViewModel(ReadModel readModel, IWcfServiceForClient c2DWcfManager,
+        public TraceInfoViewModel(Model readModel, IWcfServiceForClient c2DWcfManager,
             IWindowManager windowManager, TraceInfoCalculator traceInfoCalculator)
         {
             _readModel = readModel;

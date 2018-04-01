@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private CurrentUser _currentUser;
 
         private bool _isZonesEnabled;
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager, ReadModel readModel)
+        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager, Model readModel)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;

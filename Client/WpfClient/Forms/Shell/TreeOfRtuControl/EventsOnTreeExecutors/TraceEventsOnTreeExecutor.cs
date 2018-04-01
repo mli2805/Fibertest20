@@ -18,9 +18,9 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly CurrentUser _currentUser;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
 
-        public TraceEventsOnTreeExecutor(ILifetimeScope globalScope, TreeOfRtuModel treeOfRtuModel, CurrentUser currentUser, ReadModel readModel)
+        public TraceEventsOnTreeExecutor(ILifetimeScope globalScope, TreeOfRtuModel treeOfRtuModel, CurrentUser currentUser, Model readModel)
         {
             _globalScope = globalScope;
             _treeOfRtuModel = treeOfRtuModel;

@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
     {
         public string TableTitle { get; set; }
 
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
       
         private ObservableCollection<NetworkEventModel> _rows = new ObservableCollection<NetworkEventModel>();
         public ObservableCollection<NetworkEventModel> Rows
@@ -26,7 +26,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public NetworkEventsViewModel(ReadModel readModel)
+        public NetworkEventsViewModel(Model readModel)
         {
             _readModel = readModel;
 

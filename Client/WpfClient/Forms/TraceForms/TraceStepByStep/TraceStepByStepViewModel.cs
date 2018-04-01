@@ -16,11 +16,11 @@ namespace Iit.Fibertest.Client
     public class TraceStepByStepViewModel : Screen
     {
         private readonly GraphReadModel _graphReadModel;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
         public ObservableCollection<StepModel> Steps { get; set; }
 
-        public TraceStepByStepViewModel(GraphReadModel graphReadModel, ReadModel readModel, IWindowManager windowManager)
+        public TraceStepByStepViewModel(GraphReadModel graphReadModel, Model readModel, IWindowManager windowManager)
         {
             _graphReadModel = graphReadModel;
             _readModel = readModel;

@@ -12,11 +12,11 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly CurrentUser _currentUser;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly RtuEventsOnTreeExecutor _rtuEventsOnTreeExecutor;
 
         public EchoEventsOnTreeExecutor(ILifetimeScope globalScope, TreeOfRtuModel treeOfRtuModel, 
-            CurrentUser currentUser, ReadModel readModel, RtuEventsOnTreeExecutor rtuEventsOnTreeExecutor)
+            CurrentUser currentUser, Model readModel, RtuEventsOnTreeExecutor rtuEventsOnTreeExecutor)
         {
             _globalScope = globalScope;
             _treeOfRtuModel = treeOfRtuModel;

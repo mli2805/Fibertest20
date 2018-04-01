@@ -8,9 +8,9 @@ namespace Iit.Fibertest.Client
 {
     public class LandmarksGraphParser
     {
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
 
-        public LandmarksGraphParser(ReadModel readModel)
+        public LandmarksGraphParser(Model readModel)
         {
             _readModel = readModel;
         }

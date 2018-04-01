@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Client
 {
     public class RtuFilterViewModel : Screen
     {
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private RtuGuidFilter _selectedRow;
         public List<RtuGuidFilter> Rows { get; set; }
 
@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Client
 
 
 
-        public RtuFilterViewModel(ReadModel readModel)
+        public RtuFilterViewModel(Model readModel)
         {
             _readModel = readModel;
         }

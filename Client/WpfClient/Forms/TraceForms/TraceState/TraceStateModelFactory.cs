@@ -9,10 +9,10 @@ namespace Iit.Fibertest.Client
 {
     public class TraceStateModelFactory
     {
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
 
-        public TraceStateModelFactory(ReadModel readModel, AccidentLineModelFactory accidentLineModelFactory)
+        public TraceStateModelFactory(Model readModel, AccidentLineModelFactory accidentLineModelFactory)
         {
             _readModel = readModel;
             _accidentLineModelFactory = accidentLineModelFactory;

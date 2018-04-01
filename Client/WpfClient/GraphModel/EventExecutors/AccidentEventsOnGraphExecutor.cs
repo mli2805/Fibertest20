@@ -10,11 +10,11 @@ namespace Iit.Fibertest.Client
     public class AccidentEventsOnGraphExecutor
     {
         private readonly GraphReadModel _model;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
         private readonly AccidentPlaceLocator _accidentPlaceLocator;
 
-        public AccidentEventsOnGraphExecutor(GraphReadModel model, ReadModel readModel, 
+        public AccidentEventsOnGraphExecutor(GraphReadModel model, Model readModel, 
             CurrentUser currentUser, AccidentPlaceLocator accidentPlaceLocator)
         {
             _model = model;

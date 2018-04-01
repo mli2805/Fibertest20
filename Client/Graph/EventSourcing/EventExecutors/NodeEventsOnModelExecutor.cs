@@ -14,9 +14,9 @@ namespace Iit.Fibertest.Graph
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         private readonly IMyLog _logFile;
-        private readonly IModel _model;
+        private readonly Model _model;
 
-        public NodeEventsOnModelExecutor(IModel model, IMyLog logFile)
+        public NodeEventsOnModelExecutor(Model model, IMyLog logFile)
         {
             _logFile = logFile;
             _model = model;

@@ -12,11 +12,11 @@ namespace Iit.Fibertest.Client
     public class GrmRtuRequests
     {
         private readonly ILifetimeScope _globalScope;
-        private readonly IModel _model;
+        private readonly Model _model;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 
-        public GrmRtuRequests(ILifetimeScope globalScope, IModel model, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+        public GrmRtuRequests(ILifetimeScope globalScope, Model model, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _model = model;

@@ -14,9 +14,9 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
-        private readonly IModel _writeModel;
+        private readonly Model _writeModel;
 
-        public MeasurementFactory(ILifetimeScope globalScope, IMyLog logFile, IModel writeModel)
+        public MeasurementFactory(ILifetimeScope globalScope, IMyLog logFile, Model writeModel)
         {
             _globalScope = globalScope;
             _logFile = logFile;

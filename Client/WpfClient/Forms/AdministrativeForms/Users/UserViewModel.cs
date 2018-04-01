@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private bool _isInCreationMode;
 
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         public UserVm UserInWork { get; set; }
 
         public bool IsntItRoot { get; set; }
@@ -76,7 +76,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public UserViewModel(IWcfServiceForClient c2DWcfManager, ReadModel readModel)
+        public UserViewModel(IWcfServiceForClient c2DWcfManager, Model readModel)
         {
             _c2DWcfManager = c2DWcfManager;
             _readModel = readModel;

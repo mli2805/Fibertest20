@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 {
     public class MonitoringSettingsViewModel : Screen
     {
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         public MonitoringSettingsModel Model { get; set; }
 
@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             }
         }
 
-        public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, ReadModel readModel, IWcfServiceForClient c2DWcfManager)
+        public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, Model readModel, IWcfServiceForClient c2DWcfManager)
         {
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;

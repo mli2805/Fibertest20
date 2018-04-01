@@ -9,9 +9,9 @@ namespace Iit.Fibertest.Client
 {
     public class RtuStateModelFactory
     {
-        private readonly IModel _model;
+        private readonly Model _model;
 
-        public RtuStateModelFactory(IModel model)
+        public RtuStateModelFactory(Model model)
         {
             _model = model;
         }

@@ -6,9 +6,9 @@ namespace Iit.Fibertest.Graph.Algorithms
 {
     public class PathFinder
     {
-        private readonly IModel _model;
+        private readonly Model _model;
 
-        public PathFinder(IModel model)
+        public PathFinder(Model model)
         {
             _model = model;
         }

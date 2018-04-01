@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client
 {
     public class BaseRefsChecker
     {
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
         private readonly BaseRefMeasParamsChecker _baseRefMeasParamsChecker;
         private readonly BaseRefLandmarksChecker _baseRefLandmarksChecker;
@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Client
         private readonly BaseRefAdjuster _baseRefAdjuster;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
 
-        public BaseRefsChecker(ReadModel readModel, IWindowManager windowManager,
+        public BaseRefsChecker(Model readModel, IWindowManager windowManager,
             BaseRefMeasParamsChecker baseRefMeasParamsChecker, BaseRefLandmarksChecker baseRefLandmarksChecker,
             GraphGpsCalculator graphGpsCalculator, TraceModelBuilder traceModelBuilder, 
             BaseRefAdjuster baseRefAdjuster, BaseRefLandmarksTool baseRefLandmarksTool)

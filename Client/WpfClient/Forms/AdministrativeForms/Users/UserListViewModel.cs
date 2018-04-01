@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
         private List<User> _users;
         private List<Zone> _zones;
         private readonly ILifetimeScope _globalScope;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly EventArrivalNotifier _eventArrivalNotifier;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Client
 
         public static List<Role> Roles { get; set; }
 
-        public UserListViewModel(ILifetimeScope globalScope, ReadModel readModel, EventArrivalNotifier eventArrivalNotifier,
+        public UserListViewModel(ILifetimeScope globalScope, Model readModel, EventArrivalNotifier eventArrivalNotifier,
             IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
         {
             _globalScope = globalScope;

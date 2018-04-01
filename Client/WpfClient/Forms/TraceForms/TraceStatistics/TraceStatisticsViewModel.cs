@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Client
 {
     public class TraceStatisticsViewModel : Screen
     {
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly TraceStateViewsManager _traceStateViewsManager;
         private readonly BaseRefModelFactory _baseRefModelFactory;
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceStatisticsViewModel(ReadModel readModel, ReflectogramManager reflectogramManager,
+        public TraceStatisticsViewModel(Model readModel, ReflectogramManager reflectogramManager,
             TraceStateViewsManager traceStateViewsManager, BaseRefModelFactory baseRefModelFactory)
         {
             _readModel = readModel;

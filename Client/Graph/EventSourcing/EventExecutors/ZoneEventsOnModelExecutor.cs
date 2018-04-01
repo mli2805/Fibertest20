@@ -8,9 +8,9 @@ namespace Iit.Fibertest.Graph
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
-        private readonly IModel _model;
+        private readonly Model _model;
 
-        public ZoneEventsOnModelExecutor(IModel model)
+        public ZoneEventsOnModelExecutor(Model model)
         {
             _model = model;
         }

@@ -10,10 +10,10 @@ namespace Iit.Fibertest.Client
     public class OnDemandMeasurement
     {
         private readonly IMyLog _logFile;
-        private readonly IModel _model;
+        private readonly Model _model;
         private readonly IWcfServiceForClient _c2DWcfManager;
 
-        public OnDemandMeasurement(IMyLog logFile, IModel model, IWcfServiceForClient c2DWcfManager)
+        public OnDemandMeasurement(IMyLog logFile, Model model, IWcfServiceForClient c2DWcfManager)
         {
             _logFile = logFile;
             _model = model;

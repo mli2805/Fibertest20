@@ -68,7 +68,7 @@ namespace Iit.Fibertest.Client
         }
 
         private readonly ILifetimeScope _globalScope;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
         private List<Landmark> _landmarks;
 
@@ -86,7 +86,7 @@ namespace Iit.Fibertest.Client
 
         public LandmarkRow SelectedRow { get; set; }
 
-        public LandmarksViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager)
+        public LandmarksViewModel(ILifetimeScope globalScope, Model readModel, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _readModel = readModel;

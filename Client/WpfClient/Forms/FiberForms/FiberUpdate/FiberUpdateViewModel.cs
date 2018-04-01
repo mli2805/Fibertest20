@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Client
 {
     public class FiberUpdateViewModel : Screen, IDataErrorInfo
     {
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
         private readonly GraphGpsCalculator _graphGpsCalculator;
         private Fiber _fiber;
         private string _userInputedLength;
@@ -35,7 +35,7 @@ namespace Iit.Fibertest.Client
         public UpdateFiber Command { get; set; }
 
        
-        public FiberUpdateViewModel(ReadModel readModel, GraphGpsCalculator graphGpsCalculator)
+        public FiberUpdateViewModel(Model readModel, GraphGpsCalculator graphGpsCalculator)
         {
             _readModel = readModel;
             _graphGpsCalculator = graphGpsCalculator;

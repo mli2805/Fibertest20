@@ -17,13 +17,13 @@ namespace Iit.Fibertest.Client
         private readonly OutOfTurnPreciseMeasurementViewModel _outOfTurnPreciseMeasurementViewModel;
         private readonly IWindowManager _windowManager;
         private readonly C2DWcfManager _c2DWcfManager;
-        private readonly ReadModel _readModel;
+        private readonly Model _readModel;
 
         private List<TraceStateViewModel> LaunchedViews { get; } = new List<TraceStateViewModel>();
 
 
         public TraceStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager,
-            C2DWcfManager c2DWcfManager, ReadModel readModel, TraceStateModelFactory traceStateModelFactory,
+            C2DWcfManager c2DWcfManager, Model readModel, TraceStateModelFactory traceStateModelFactory,
             OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel)
         {
             _globalScope = globalScope;
