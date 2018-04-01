@@ -16,7 +16,6 @@ namespace Iit.Fibertest.Client
             new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
         private readonly IWcfServiceForClient _wcfConnection;
-        private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
         private readonly EventsOnModelExecutor _eventsOnModelExecutor;
         private readonly EventsOnTreeExecutor _eventsOnTreeExecutor;
@@ -37,7 +36,7 @@ namespace Iit.Fibertest.Client
         public int CurrentEventNumber { get; set; }
 
         public ClientPoller(IWcfServiceForClient wcfConnection, IDispatcherProvider dispatcherProvider,
-             TreeOfRtuModel treeOfRtuModel, EventsOnGraphExecutor eventsOnGraphExecutor,
+            EventsOnGraphExecutor eventsOnGraphExecutor,
             EventsOnModelExecutor eventsOnModelExecutor, EventsOnTreeExecutor eventsOnTreeExecutor, OpticalEventsExecutor opticalEventsExecutor,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel, RtuStateViewsManager rtuStateViewsManager,
@@ -45,7 +44,6 @@ namespace Iit.Fibertest.Client
             IMyLog logFile, IniFile iniFile, EventArrivalNotifier eventArrivalNotifier, ILocalDbManager localDbManager)
         {
             _wcfConnection = wcfConnection;
-            _treeOfRtuModel = treeOfRtuModel;
             _eventsOnGraphExecutor = eventsOnGraphExecutor;
             _eventsOnModelExecutor = eventsOnModelExecutor;
             _eventsOnTreeExecutor = eventsOnTreeExecutor;

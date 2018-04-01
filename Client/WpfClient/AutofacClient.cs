@@ -61,7 +61,6 @@ namespace Iit.Fibertest.Client
             builder.RegisterInstance(iniFile);
             builder.RegisterType<LogFile>().As<IMyLog>().InstancePerLifetimeScope();
 
-            builder.RegisterType<Aggregate>().InstancePerLifetimeScope();
             builder.RegisterType<ReadModel>().As<ReadModel>().As<IModel>().InstancePerLifetimeScope();
 
             builder.RegisterType<EquipmentEventsOnModelExecutor>().InstancePerLifetimeScope();
@@ -121,7 +120,6 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<EventsOnTreeExecutor>().InstancePerLifetimeScope();
             builder.RegisterType<TreeOfRtuModel>().InstancePerLifetimeScope();
             builder.RegisterType<TreeOfRtuViewModel>().InstancePerLifetimeScope();
-            builder.RegisterType<WriteModel>().InstancePerLifetimeScope();
 
             builder.RegisterType<GrmEquipmentRequests>().InstancePerLifetimeScope();
             builder.RegisterType<GrmNodeRequests>().InstancePerLifetimeScope();
