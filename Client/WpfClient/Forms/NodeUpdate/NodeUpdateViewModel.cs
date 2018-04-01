@@ -122,13 +122,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public NodeUpdateViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager,
+        public NodeUpdateViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager, EventArrivalNotifier eventArrivalNotifier,
             IWcfServiceForClient c2DWcfManager, CurrentGpsInputMode currentGpsInputMode, AddEquipmentIntoNodeBuilder addEquipmentIntoNodeBuilder)
         {
             _globalScope = globalScope;
             _readModel = readModel;
-            _readModel.PropertyChanged += _readModel_PropertyChanged;
             _windowManager = windowManager;
+            eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
             _c2DWcfManager = c2DWcfManager;
             _currentGpsInputMode = currentGpsInputMode;
             _addEquipmentIntoNodeBuilder = addEquipmentIntoNodeBuilder;
@@ -149,14 +149,12 @@ namespace Iit.Fibertest.Client
                 _readModel.Equipments.Where(e => e.NodeId == _originalNode.NodeId && e.Type != EquipmentType.EmptyNode).Select(CreateEqItem));
         }
 
-
-
-        private void _readModel_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void _eventArrivalNotifier_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             EquipmentsInNode = new ObservableCollection<ItemOfEquipmentTableModel>(
                 _readModel.Equipments.Where(eq => eq.NodeId == _originalNode.NodeId && eq.Type != EquipmentType.EmptyNode).Select(CreateEqItem));
         }
-
+      
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Node;

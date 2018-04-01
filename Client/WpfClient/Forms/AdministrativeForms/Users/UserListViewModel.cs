@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Client
         private List<Zone> _zones;
         private readonly ILifetimeScope _globalScope;
         private readonly ReadModel _readModel;
+        private readonly EventArrivalNotifier _eventArrivalNotifier;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
 
@@ -47,10 +48,12 @@ namespace Iit.Fibertest.Client
 
         public static List<Role> Roles { get; set; }
 
-        public UserListViewModel(ILifetimeScope globalScope, ReadModel readModel, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
+        public UserListViewModel(ILifetimeScope globalScope, ReadModel readModel, EventArrivalNotifier eventArrivalNotifier,
+            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
         {
             _globalScope = globalScope;
             _readModel = readModel;
+            _eventArrivalNotifier = eventArrivalNotifier;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
 
@@ -66,11 +69,11 @@ namespace Iit.Fibertest.Client
             foreach (var user in _users.Where(u=>u.Role > Role.Developer))
                 Rows.Add(new UserVm(user, _zones.First(z=>z.ZoneId == user.ZoneId).Title));
 
-            _readModel.PropertyChanged += _readModel_PropertyChanged;
+            _eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
             SelectedUser = Rows.First();
         }
 
-        private void _readModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void _eventArrivalNotifier_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             Rows = new ObservableCollection<UserVm>();
             foreach (var user in _users.Where(u => u.Role > Role.Developer))

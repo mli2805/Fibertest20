@@ -16,7 +16,6 @@ namespace Iit.Fibertest.Client
             new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
         private readonly IWcfServiceForClient _wcfConnection;
-        private readonly IModel _model;
         private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
         private readonly EventsOnModelExecutor _eventsOnModelExecutor;
@@ -30,6 +29,7 @@ namespace Iit.Fibertest.Client
         private Thread _pollerThread;
         private readonly IDispatcherProvider _dispatcherProvider;
         private readonly IMyLog _logFile;
+        private readonly EventArrivalNotifier _eventArrivalNotifier;
         private readonly ILocalDbManager _localDbManager;
         private readonly int _pollingRate;
         public CancellationToken CancellationToken { get; set; }
@@ -37,15 +37,14 @@ namespace Iit.Fibertest.Client
         public int CurrentEventNumber { get; set; }
 
         public ClientPoller(IWcfServiceForClient wcfConnection, IDispatcherProvider dispatcherProvider,
-            IModel model, TreeOfRtuModel treeOfRtuModel, EventsOnGraphExecutor eventsOnGraphExecutor,
+             TreeOfRtuModel treeOfRtuModel, EventsOnGraphExecutor eventsOnGraphExecutor,
             EventsOnModelExecutor eventsOnModelExecutor, EventsOnTreeExecutor eventsOnTreeExecutor, OpticalEventsExecutor opticalEventsExecutor,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel, RtuStateViewsManager rtuStateViewsManager,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
-            IMyLog logFile, IniFile iniFile, ILocalDbManager localDbManager)
+            IMyLog logFile, IniFile iniFile, EventArrivalNotifier eventArrivalNotifier, ILocalDbManager localDbManager)
         {
             _wcfConnection = wcfConnection;
-            _model = model;
             _treeOfRtuModel = treeOfRtuModel;
             _eventsOnGraphExecutor = eventsOnGraphExecutor;
             _eventsOnModelExecutor = eventsOnModelExecutor;
@@ -58,6 +57,7 @@ namespace Iit.Fibertest.Client
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
             _dispatcherProvider = dispatcherProvider;
             _logFile = logFile;
+            _eventArrivalNotifier = eventArrivalNotifier;
             _localDbManager = localDbManager;
             _pollingRate = iniFile.Read(IniSection.General, IniKey.ClientPollingRateMs, 500);
         }
@@ -126,11 +126,7 @@ namespace Iit.Fibertest.Client
                         _bopNetworkEventsDoubleViewModel.Apply(bee);
 
                     // some forms refresh their view because they have sent command previously and are waiting event's arrival
-                    var readModel = (ReadModel)_model;
-                    readModel.NotifyOfPropertyChange(nameof(readModel.JustForNotification));
-
-                    // otherwise I should do this in almost all operations of applying events in tree
-                    _treeOfRtuModel.NotifyOfPropertyChange(nameof(_treeOfRtuModel.Statistics));
+                    _eventArrivalNotifier.NeverMind = CurrentEventNumber;
                 }
                 catch (Exception e)
                 {

@@ -8,20 +8,36 @@ namespace Iit.Fibertest.Client
 {
     public class TreeOfRtuModel : PropertyChangedBase
     {
+        private string _statistics;
 
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
         public FreePorts FreePorts { get; }
 
-        public string Statistics =>
-            string.Format(Resources.SID_Tree_statistics, Tree.Count,
-                Tree.Sum(r => ((RtuLeaf)r).ChildrenImpresario.Children.Count(c => c is OtauLeaf)),
-                Tree.Sum(r => ((RtuLeaf)r).FullPortCount), Tree.Sum(r => ((RtuLeaf)r).TraceCount), 
-                (double)Tree.Sum(r => ((RtuLeaf)r).TraceCount) / Tree.Sum(r => ((RtuLeaf)r).FullPortCount) * 100);
-
-        public TreeOfRtuModel(FreePorts freePorts)
+        public string Statistics
         {
+            get => _statistics;
+            set
+            {
+                if (value == _statistics) return;
+                _statistics = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public TreeOfRtuModel(FreePorts freePorts, EventArrivalNotifier eventArrivalNotifier)
+        {
+            eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
             FreePorts = freePorts;
             FreePorts.AreVisible = true;
+        }
+
+        private void _eventArrivalNotifier_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            Statistics =
+                string.Format(Resources.SID_Tree_statistics, Tree.Count,
+                    Tree.Sum(r => ((RtuLeaf)r).ChildrenImpresario.Children.Count(c => c is OtauLeaf)),
+                    Tree.Sum(r => ((RtuLeaf)r).FullPortCount), Tree.Sum(r => ((RtuLeaf)r).TraceCount),
+                    (double)Tree.Sum(r => ((RtuLeaf)r).TraceCount) / Tree.Sum(r => ((RtuLeaf)r).FullPortCount) * 100);
         }
 
         public Leaf GetById(Guid id)

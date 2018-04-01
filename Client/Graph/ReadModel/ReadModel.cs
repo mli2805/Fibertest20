@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
-using Caliburn.Micro;
 
 namespace Iit.Fibertest.Graph
 {
-    public class ReadModel : PropertyChangedBase, IModel
+    public class ReadModel : IModel
     {
         public List<Node> Nodes { get; } = new List<Node>();
         public List<Fiber> Fibers { get; } = new List<Fiber>();
@@ -17,9 +16,5 @@ namespace Iit.Fibertest.Graph
         public List<NetworkEvent> NetworkEvents { get; } = new List<NetworkEvent>();
         public List<BopNetworkEvent> BopNetworkEvents { get; } = new List<BopNetworkEvent>();
         public List<BaseRef> BaseRefs { get; } = new List<BaseRef>();
-
-
-        public int JustForNotification { get; set; }
-
     }
 }

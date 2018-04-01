@@ -16,6 +16,5 @@ namespace Iit.Fibertest.Graph
         public List<NetworkEvent> NetworkEvents { get; } = new List<NetworkEvent>();
         public List<BopNetworkEvent> BopNetworkEvents { get; } = new List<BopNetworkEvent>();
         public List<BaseRef> BaseRefs { get; } = new List<BaseRef>();
-
     }
 }

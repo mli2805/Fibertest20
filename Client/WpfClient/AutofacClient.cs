@@ -154,6 +154,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<UiDispatcherProvider>().As<IDispatcherProvider>().InstancePerLifetimeScope();
             builder.RegisterType<GraphRenderer>().InstancePerLifetimeScope();
             builder.RegisterType<ReadyEventsLoader>().InstancePerLifetimeScope();
+            builder.RegisterType<EventArrivalNotifier>().InstancePerLifetimeScope();
             builder.RegisterType<ClientPoller>().InstancePerLifetimeScope();
 
             builder.RegisterType<AddEquipmentIntoNodeBuilder>();

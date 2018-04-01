@@ -43,18 +43,19 @@ namespace Iit.Fibertest.Client
 
         public bool IsRemoveEnabled => !SelectedZone.IsDefaultZone;
 
-        public ZonesViewModel(ILifetimeScope globalScope, ReadModel readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+        public ZonesViewModel(ILifetimeScope globalScope, ReadModel readModel, EventArrivalNotifier eventArrivalNotifier,
+            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             Rows = new ObservableCollection<Zone>(readModel.Zones);
-            readModel.PropertyChanged += ReadModel_PropertyChanged;
             SelectedZone = Rows.First();
+            eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
         }
 
-        private void ReadModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private void _eventArrivalNotifier_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             Rows = new ObservableCollection<Zone>(_readModel.Zones);
         }
