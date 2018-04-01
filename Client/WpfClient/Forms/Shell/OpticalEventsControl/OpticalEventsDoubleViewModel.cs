@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Client
 {
     public class OpticalEventsDoubleViewModel : PropertyChangedBase
     {
-        private readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         private readonly ReadModel _readModel;

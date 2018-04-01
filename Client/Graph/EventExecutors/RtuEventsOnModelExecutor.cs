@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Graph
 {
     public class RtuEventsOnModelExecutor
     {
-        private readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
         private readonly IModel _model;
         private readonly IMyLog _logFile;

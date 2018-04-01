@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Graph
 
         public EventsQueue EventsQueue { get; }
 
-        private readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingCmdToEventProfile>()).CreateMapper();
 
         public Aggregate(IMyLog logFile, EventsQueue eventsQueue, IModel writeModel)

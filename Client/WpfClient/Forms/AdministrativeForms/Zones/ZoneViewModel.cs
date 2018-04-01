@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Client
 {
     public class ZoneViewModel : Screen, IDataErrorInfo
     {
-        private readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
 
         private readonly IWcfServiceForClient _c2DWcfManager;

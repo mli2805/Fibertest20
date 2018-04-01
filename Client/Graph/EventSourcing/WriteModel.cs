@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Graph
     {
         public IMyLog LogFile { get; }
 
-        private readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         public List<Node> Nodes { get; } = new List<Node>();

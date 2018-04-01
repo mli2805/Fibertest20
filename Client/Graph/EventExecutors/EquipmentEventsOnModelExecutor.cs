@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Graph
 {
     public class EquipmentEventsOnModelExecutor
     {
-        private readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         private readonly IModel _model;

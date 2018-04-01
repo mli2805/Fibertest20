@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Client
 {
     public class RtuStateViewsManager
     {
-        private readonly IMapper _mapper = new MapperConfiguration(
+        private static readonly IMapper _mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         private readonly ILifetimeScope _globalScope;
