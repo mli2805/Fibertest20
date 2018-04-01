@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
+using System.Threading;
 using System.Windows;
 using System.Windows.Markup;
 using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client {
     public class AppBootstrapper : BootstrapperBase
@@ -21,6 +23,11 @@ namespace Iit.Fibertest.Client {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacClient>();
             _container = builder.Build();
+            
+            var iniFile = _container.Resolve<IniFile>();
+            var currentCulture =  iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(currentCulture);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
 
             // Ensure the current culture passed into bindings 
             // is the OS culture. By default, WPF uses en-US 

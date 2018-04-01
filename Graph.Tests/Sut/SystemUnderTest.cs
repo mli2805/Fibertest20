@@ -12,6 +12,7 @@ using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Graph.Tests
 {
+    
     public class SystemUnderTest
     {
        // public IContainer Container { get; set; }
@@ -74,33 +75,32 @@ namespace Graph.Tests
             builder.RegisterModule<AutofacClient>();
 
             // fakes
-            builder.RegisterType<FakeWindowManager>().As<IWindowManager>().SingleInstance();
-            builder.RegisterType<FakeD2RWcfManager>().As<ID2RWcfManager>().SingleInstance();
-            builder.RegisterType<FakeLocalDbManager>().As<ILocalDbManager>().SingleInstance();
+            builder.RegisterType<FakeWindowManager>().As<IWindowManager>().InstancePerLifetimeScope();
+            builder.RegisterType<FakeD2RWcfManager>().As<ID2RWcfManager>().InstancePerLifetimeScope();
+            builder.RegisterType<FakeLocalDbManager>().As<ILocalDbManager>().InstancePerLifetimeScope();
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
-            builder.RegisterType<FakeWaitCursor>().As<IWaitCursor>().SingleInstance();
-            builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();  // server!!!
+            builder.RegisterType<FakeWaitCursor>().As<IWaitCursor>().InstancePerLifetimeScope();
+            builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().InstancePerLifetimeScope();  // server!!!
 
             // server's
-            builder.RegisterType<MeasurementFactory>().SingleInstance();
+            builder.RegisterType<MeasurementFactory>().InstancePerLifetimeScope();
             builder.RegisterType<EventsQueue>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
 
-            builder.RegisterType<TestSettings>().As<ISettings>().SingleInstance();
+            builder.RegisterType<TestSettings>().As<ISettings>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ClientStationsRepository>().SingleInstance();
-            builder.RegisterType<RtuStationsRepository>().SingleInstance();
-            builder.RegisterType<ClientToRtuTransmitter>().SingleInstance();
-            builder.RegisterType<BaseRefRepairmanIntermediary>().SingleInstance();
-            builder.RegisterType<SorFileRepository>().SingleInstance();
-            builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();  // server !!!
-            builder.RegisterType<D2CWcfManager>().SingleInstance();
-            builder.RegisterType<MsmqHandler>().SingleInstance();
+            builder.RegisterType<ClientStationsRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<RtuStationsRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<ClientToRtuTransmitter>().InstancePerLifetimeScope();
+            builder.RegisterType<BaseRefRepairmanIntermediary>().InstancePerLifetimeScope();
+            builder.RegisterType<SorFileRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().InstancePerLifetimeScope();  // server !!!
+            builder.RegisterType<D2CWcfManager>().InstancePerLifetimeScope();
+            builder.RegisterType<MsmqHandler>().InstancePerLifetimeScope();
 
             builder.RegisterInstance<IMyLog>(new NullLog());
 
-            builder.RegisterType<TestsDispatcherProvider>().As<IDispatcherProvider>().SingleInstance();
-
+            builder.RegisterType<TestsDispatcherProvider>().As<IDispatcherProvider>().InstancePerLifetimeScope();
             var container = builder.Build();
             ClientContainer = container.BeginLifetimeScope();
             ServerContainer = container.BeginLifetimeScope();

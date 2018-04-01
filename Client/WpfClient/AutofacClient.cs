@@ -61,17 +61,9 @@ namespace Iit.Fibertest.Client
             var iniFile = new IniFile();
             iniFile.AssignFile(@"Client.ini");
             builder.RegisterInstance(iniFile);
-            var logFile = new LogFile(iniFile);
-            builder.RegisterInstance<IMyLog>(logFile);
-
-            var currentCulture =  iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(currentCulture);
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
+            builder.RegisterType<LogFile>().As<IMyLog>().InstancePerLifetimeScope();
 
             builder.RegisterType<Aggregate>().InstancePerLifetimeScope();
-
-
-//            builder.RegisterType<ReadModel>().InstancePerLifetimeScope();
             builder.RegisterType<ReadModel>().As<ReadModel>().As<IModel>().InstancePerLifetimeScope();
 
             builder.RegisterType<EquipmentEventsOnModelExecutor>().InstancePerLifetimeScope();
