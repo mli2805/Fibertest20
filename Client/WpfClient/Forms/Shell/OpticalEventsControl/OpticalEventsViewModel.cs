@@ -122,6 +122,7 @@ namespace Iit.Fibertest.Client
             TraceStateFilters.Add(new TraceStateFilter(FiberState.NoFiber));
             TraceStateFilters.Add(new TraceStateFilter(FiberState.User));
 
+            // TODO: Optimize test suite performance!
             SelectedTraceStateFilter = TraceStateFilters.First();
         }
 
