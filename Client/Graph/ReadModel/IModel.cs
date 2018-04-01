@@ -1,12 +1,9 @@
 ﻿using System.Collections.Generic;
-using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Graph
 {
     public interface IModel
     {
-        IMyLog LogFile { get; }
-
         List<Node> Nodes { get; }
         List<Fiber> Fibers { get; }
         List<Equipment> Equipments { get; }

@@ -247,11 +247,11 @@
     <Compile Include="EventExecutors\EventsOnModelExecutor.cs" />
     <Compile Include="EventExecutors\FiberEventsOnModelExecutor.cs" />
     <Compile Include="EventExecutors\MeasurementEventOnModelExecutor.cs" />
-    <Compile Include="ReadModel\GpsCalculator.cs" />
-    <Compile Include="ReadModel\GraphGpsCalculator.cs" />
+    <Compile Include="Algorithms\GpsCalculator.cs" />
+    <Compile Include="Algorithms\GraphGpsCalculator.cs" />
     <Compile Include="ReadModel\IModel.cs" />
     <Compile Include="EventExecutors\NodeEventsOnModelExecutor.cs" />
-    <Compile Include="ReadModel\PathFinder.cs" />
+    <Compile Include="Algorithms\PathFinder.cs" />
     <Compile Include="ReadModel\ReadModel.cs" />
     <Compile Include="ReadModel\ModelExt.cs" />
     <Compile Include="EventExecutors\RtuEventsOnModelExecutor.cs" />

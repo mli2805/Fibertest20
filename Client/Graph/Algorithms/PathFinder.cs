@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Iit.Fibertest.Graph
+namespace Iit.Fibertest.Graph.Algorithms
 {
     public class PathFinder
     {

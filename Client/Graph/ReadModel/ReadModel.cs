@@ -1,13 +1,10 @@
 ﻿using System.Collections.Generic;
 using Caliburn.Micro;
-using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Graph
 {
     public class ReadModel : PropertyChangedBase, IModel
     {
-        public IMyLog LogFile { get; }
-
         public List<Node> Nodes { get; } = new List<Node>();
         public List<Fiber> Fibers { get; } = new List<Fiber>();
         public List<Equipment> Equipments { get; } = new List<Equipment>();
@@ -24,9 +21,5 @@ namespace Iit.Fibertest.Graph
 
         public int JustForNotification { get; set; }
 
-        public ReadModel(IMyLog logFile)
-        {
-            LogFile = logFile;
-        }
     }
 }

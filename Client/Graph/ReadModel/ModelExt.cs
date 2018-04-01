@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Graph
 
         public static IEnumerable<Fiber> GetTraceFibers(this IModel model, Trace trace)
         {
-            return model.GetFibersByNodes(trace.NodeIds).Select(i => model.Fibers.Single(f=>f.FiberId == i));
+            return model.GetFibersByNodes(trace.NodeIds).Select(i => model.Fibers.Single(f => f.FiberId == i));
         }
 
         public static IEnumerable<Guid> GetFibersByNodes(this IModel model, List<Guid> nodes)
@@ -54,41 +54,24 @@ namespace Iit.Fibertest.Graph
 
         public static IEnumerable<Node> GetTraceNodes(this IModel model, Trace trace)
         {
-            try
-            {
-                return trace.NodeIds.Select(i => model.Nodes.Single(eq => eq.NodeId == i));
-            }
-            catch (Exception e)
-            {
-                model.LogFile.AppendLine(e.Message);
-                return null;
-            }
-
+            return trace.NodeIds.Select(i => model.Nodes.Single(eq => eq.NodeId == i));
         }
 
         public static IEnumerable<Guid> GetTraceNodesExcludingAdjustmentPoints(this IModel model, Guid traceId)
         {
-                var trace = model.Traces.First(t => t.TraceId == traceId);
-                foreach (var nodeId in trace.NodeIds)
-                {
-                    var node = model.Nodes.FirstOrDefault(n =>
-                        n.NodeId == nodeId && n.TypeOfLastAddedEquipment != EquipmentType.AdjustmentPoint);
-                    if (node != null)
-                        yield return node.NodeId;
-                }
+            var trace = model.Traces.First(t => t.TraceId == traceId);
+            foreach (var nodeId in trace.NodeIds)
+            {
+                var node = model.Nodes.FirstOrDefault(n =>
+                    n.NodeId == nodeId && n.TypeOfLastAddedEquipment != EquipmentType.AdjustmentPoint);
+                if (node != null)
+                    yield return node.NodeId;
+            }
         }
 
         public static IEnumerable<Equipment> GetTraceEquipments(this IModel model, Trace trace)
         {
-            try
-            {
-                return trace.EquipmentIds.Skip(1).Select(i => model.Equipments.Single(eq => eq.EquipmentId == i));
-            }
-            catch (Exception e)
-            {
-                model.LogFile.AppendLine(e.Message);
-                return null;
-            }
+            return trace.EquipmentIds.Skip(1).Select(i => model.Equipments.Single(eq => eq.EquipmentId == i));
         }
 
         public static IEnumerable<Equipment> GetTraceEquipmentsExcludingAdjustmentPoints(this IModel model, Guid traceId)

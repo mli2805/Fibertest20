@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Client
     {
         public Map MainMap { get; set; }
 
+        public IMyLog LogFile { get; }
         public CurrentGpsInputMode CurrentGpsInputMode { get; }
         public CurrentUser CurrentUser { get; }
         public CommonStatusBarViewModel CommonStatusBarViewModel { get; }
@@ -43,7 +44,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, 
+        public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, 
             CurrentGpsInputMode currentGpsInputMode, CurrentUser currentUser,
             CommonStatusBarViewModel commonStatusBarViewModel,
             GrmNodeRequests grmNodeRequests, GrmEquipmentRequests grmEquipmentRequests,
@@ -52,6 +53,7 @@ namespace Iit.Fibertest.Client
 
             IWindowManager windowManager, IModel model)
         {
+            LogFile = logFile;
             CurrentGpsInputMode = currentGpsInputMode;
             CurrentUser = currentUser;
             CommonStatusBarViewModel = commonStatusBarViewModel;

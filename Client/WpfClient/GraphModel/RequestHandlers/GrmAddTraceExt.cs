@@ -4,6 +4,7 @@ using System.Linq;
 using Autofac;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.Graph.Requests;
 using Iit.Fibertest.StringResources;
 

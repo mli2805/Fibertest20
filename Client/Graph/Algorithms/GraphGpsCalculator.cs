@@ -2,7 +2,7 @@
 using System.Linq;
 using Iit.Fibertest.Dto;
 
-namespace Iit.Fibertest.Graph
+namespace Iit.Fibertest.Graph.Algorithms
 {
     public class GraphGpsCalculator
     {
