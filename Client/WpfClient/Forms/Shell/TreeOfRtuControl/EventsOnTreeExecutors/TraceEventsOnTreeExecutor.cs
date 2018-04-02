@@ -68,18 +68,18 @@ namespace Iit.Fibertest.Client
 
         public void CleanTrace(TraceCleaned e)
         {
-            if (ShouldAcceptEventForTrace(e.TraceId) == EventAcceptability.No) return;
-
             var traceLeaf = _treeOfRtuModel.GetById(e.TraceId);
+            if (traceLeaf == null) return;
+
             var rtuLeaf = traceLeaf.Parent is RtuLeaf ? (RtuLeaf)traceLeaf.Parent : (RtuLeaf)traceLeaf.Parent.Parent;
             rtuLeaf.ChildrenImpresario.Children.Remove(traceLeaf);
         }
 
         public void RemoveTrace(TraceRemoved e)
         {
-            if (ShouldAcceptEventForTrace(e.TraceId) == EventAcceptability.No) return;
-
             var traceLeaf = _treeOfRtuModel.GetById(e.TraceId);
+            if (traceLeaf == null) return;
+
             var rtuLeaf = traceLeaf.Parent is RtuLeaf ? (RtuLeaf)traceLeaf.Parent : (RtuLeaf)traceLeaf.Parent.Parent;
             rtuLeaf.ChildrenImpresario.Children.Remove(traceLeaf);
         }

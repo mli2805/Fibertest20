@@ -12,7 +12,7 @@
             <GroupBox Header="{x:Static stringResources:Resources.SID_Node}" Margin="5">
                 <DockPanel>
                     <TextBlock  Text="{x:Static stringResources:Resources.SID_Title}" Margin="5" />
-                    <TextBox Name="NodeTitle" Text="{Binding NodeTitle}" Margin="5,7" />
+                    <TextBox Name="NodeTitle" Text="{Binding NodeTitle, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Margin="5,7" />
                 </DockPanel>
             </GroupBox>
             <GroupBox Header="" Margin="5">
@@ -29,9 +29,9 @@
                                     <DockPanel>
                                         <RadioButton DockPanel.Dock="Left" Content="{Binding TypeOfEquipment}" IsChecked="{Binding IsSelected, Mode=TwoWay}"
                                          IsEnabled="{Binding IsRadioButtonEnabled}" Margin="5" Width="120" KeyboardNavigation.IsTabStop="False"/>
-                                        <TextBox Text="{Binding TitleOfEquipment}" Width="120" Margin="5" />
-                                        <TextBox Text="{Binding LeftCableReserve}" Width="35" Margin="5" />
-                                        <TextBox Text="{Binding RightCableReserve}" Width="35" Margin="5" Visibility="{Binding RightCableReserveVisible}" />
+                                        <TextBox Text="{Binding TitleOfEquipment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="120" Margin="5" />
+                                        <TextBox Text="{Binding LeftCableReserve, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="35" Margin="5" />
+                                        <TextBox Text="{Binding RightCableReserve, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="35" Margin="5" Visibility="{Binding RightCableReserveVisible}" />
                                     </DockPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
