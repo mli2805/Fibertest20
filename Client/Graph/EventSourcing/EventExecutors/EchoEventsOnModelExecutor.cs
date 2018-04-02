@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AutoMapper;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
@@ -7,7 +8,9 @@ namespace Iit.Fibertest.Graph
  
     public class EchoEventsOnModelExecutor
     {
-            private readonly IMyLog _logFile;
+        private static readonly IMapper Mapper = new MapperConfiguration(
+            cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
+        private readonly IMyLog _logFile;
         private readonly Model _model;
 
         public EchoEventsOnModelExecutor(Model model, IMyLog logFile)
@@ -113,7 +116,7 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        private static void InitializeRtuFirstTime(RtuInitialized e, Rtu rtu)
+        private void InitializeRtuFirstTime(RtuInitialized e, Rtu rtu)
         {
             rtu.OwnPortCount = e.OwnPortCount;
             rtu.FullPortCount = e.FullPortCount;
@@ -128,6 +131,14 @@ namespace Iit.Fibertest.Graph
             rtu.Version = e.Version;
             rtu.MonitoringState = MonitoringState.Off;
             rtu.AcceptableMeasParams = e.AcceptableMeasParams;
+
+            if (e.Otaus != null)
+                foreach (var otauAttached in e.Otaus)
+                {
+                    Otau otau = Mapper.Map<Otau>(otauAttached);
+                    otau.NetAddressState = RtuPartState.Ok;
+                    _model.Otaus.Add(otau);
+                }
         }
 
         public string ChangeMonitoringSettings(MonitoringSettingsChanged e)

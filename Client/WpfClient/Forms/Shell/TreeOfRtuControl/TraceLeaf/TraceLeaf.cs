@@ -4,6 +4,7 @@ using System.Windows;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Brushes = System.Windows.Media.Brushes;
 
 namespace Iit.Fibertest.Client
 {
@@ -21,16 +22,17 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange(nameof(IconsVisibility));
                 NotifyOfPropertyChange(nameof(LeftMargin));
                 NotifyOfPropertyChange(nameof(Name));
+                Color = _isInZone ? PortNumber < 1 ? Brushes.Blue : Brushes.Black : Brushes.LightGray;
             }
         }
 
-        public int LeftMargin => PortNumber < 1 
-            ?  53 // not attached 
+        public int LeftMargin => PortNumber < 1
+            ? 53 // not attached 
             : Parent is RtuLeaf // attached
                 ? 53            // RTU  
                 : 74;           // BOP
 
-        public Visibility IconsVisibility => Visibility.Visible;
+        public Visibility IconsVisibility => IsInZone ? Visibility.Visible : Visibility.Hidden;
 
         public override string Name
         {
@@ -68,7 +70,25 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public Uri TraceStatePictogram => TraceState.GetPictogram();
+        private bool _isInZone;
+        public bool IsInZone
+        {
+            get => _isInZone;
+            set
+            {
+                if (value == _isInZone) return;
+                _isInZone = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IconsVisibility));
+                NotifyOfPropertyChange(nameof(TraceStatePictogram));
+                Color = _isInZone ? PortNumber < 1 ? Brushes.Blue : Brushes.Black : Brushes.LightGray;
+            }
+        }
+
+      
+        public Uri TraceStatePictogram => IsInZone
+            ? TraceState.GetPictogram()
+            : new Uri("pack://application:,,,/Resources/LeftPanel/WhiteSquare.png");
 
         private readonly TraceLeafContextMenuProvider _contextMenuProvider;
 

@@ -44,6 +44,12 @@ namespace Iit.Fibertest.Client
 
         private void RenderOneZone()
         {
+            foreach (var rtu in _model.Rtus.Where(r=>r.ZoneIds.Contains(_currentUser.ZoneId)))
+            {
+                if (_nodesForRendering.Any(n=>n.Id == rtu.NodeId)) continue;
+                var node = _model.Nodes.First(n => n.NodeId == rtu.NodeId);
+                _nodesForRendering.Add(Map(node));
+            }
             foreach (var trace in _model.Traces.Where(t => t.ZoneIds.Contains(_currentUser.ZoneId)))
             {
                 foreach (var nodeId in trace.NodeIds)

@@ -209,6 +209,7 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\EventsOnTreeExecutor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\RtuEventsOnTreeExecutor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\TraceEventsOnTreeExecutor.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\ZoneEventsOnTreeExecutor.cs" />
     <Compile Include="Forms\WpfTricks\FocusExtension.cs" />
     <Compile Include="Forms\LoginServer\Server.cs" />
     <Compile Include="Forms\LoginServer\ServersConnectView.xaml.cs">
@@ -945,6 +946,7 @@
     <Resource Include="Resources\OnMap\CriticalAccidentPlace.png" />
     <Resource Include="Resources\OnMap\MajorAccidentPlace.png" />
     <Resource Include="Resources\OnMap\MinorAccidentPlace.png" />
+    <Resource Include="Resources\LeftPanel\WhiteSquare.png" />
     <Content Include="Resources\Sounds\Accident.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

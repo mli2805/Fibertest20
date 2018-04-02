@@ -51,6 +51,7 @@ namespace Iit.Fibertest.Client
             traceLeaf.Id = e.TraceId;
             traceLeaf.Title = e.Title;
             traceLeaf.TraceState = FiberState.NotJoined;
+            traceLeaf.IsInZone = acceptable == EventAcceptability.Full;
             traceLeaf.Color = acceptable == EventAcceptability.Full ? Brushes.Blue : Brushes.LightGray;
 
             rtuLeaf.ChildrenImpresario.Children.Add(traceLeaf);
@@ -99,7 +100,8 @@ namespace Iit.Fibertest.Client
             newTraceLeaf.Id = e.TraceId;
             newTraceLeaf.TraceState = e.PreviousTraceState;
             newTraceLeaf.Title = traceLeaf.Title;
-            newTraceLeaf.Color = acceptable == EventAcceptability.Full ? Brushes.Black : Brushes.LightGray;
+            newTraceLeaf.IsInZone = acceptable == EventAcceptability.Full;
+          //  newTraceLeaf.Color = acceptable == EventAcceptability.Full ? Brushes.Black : Brushes.LightGray;
             newTraceLeaf.PortNumber = port;
 
             portOwner.ChildrenImpresario.Children[port - 1] = newTraceLeaf;
@@ -124,6 +126,7 @@ namespace Iit.Fibertest.Client
             detachedTraceLeaf.PortNumber = 0;
             detachedTraceLeaf.Title = traceLeaf.Title;
             detachedTraceLeaf.TraceState = FiberState.NotJoined;
+            detachedTraceLeaf.IsInZone = acceptable == EventAcceptability.Full;
             detachedTraceLeaf.Color = acceptable == EventAcceptability.Full ? Brushes.Blue : Brushes.LightGray;
 
             detachedTraceLeaf.BaseRefsSet = traceLeaf.BaseRefsSet;

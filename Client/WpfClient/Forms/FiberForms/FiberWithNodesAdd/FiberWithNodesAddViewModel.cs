@@ -11,11 +11,11 @@ namespace Iit.Fibertest.Client
 
         public RadioButtonModel AdjustmentPoint { get; } = new RadioButtonModel { Title = Resources.SID_Adjustment_point, IsChecked = false };
         public RadioButtonModel NodeWithoutEquipment { get; set; } = new RadioButtonModel { Title = Resources.SID_Node_without_equipment, IsChecked = false };
-        public RadioButtonModel CableReserve { get; set; } = new RadioButtonModel { Title = Resources.SID_CableReserve, IsChecked = false };
         public RadioButtonModel Closure { get; } = new RadioButtonModel { Title = Resources.SID_Closure, IsChecked = true };
         public RadioButtonModel Cross { get; } = new RadioButtonModel { Title = Resources.SID_Cross, IsChecked = false };
-        public RadioButtonModel Other { get; } = new RadioButtonModel { Title = Resources.SID_Other, IsChecked = false };
         public RadioButtonModel Terminal { get; } = new RadioButtonModel { Title = Resources.SID_Terminal, IsChecked = false };
+        public RadioButtonModel CableReserve { get; set; } = new RadioButtonModel { Title = Resources.SID_CableReserve, IsChecked = false };
+        public RadioButtonModel Other { get; } = new RadioButtonModel { Title = Resources.SID_Other, IsChecked = false };
 
         protected override void OnViewLoaded(object view)
         {

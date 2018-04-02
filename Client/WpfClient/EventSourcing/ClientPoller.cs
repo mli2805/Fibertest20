@@ -44,8 +44,8 @@ namespace Iit.Fibertest.Client
             IMyLog logFile, IniFile iniFile, EventArrivalNotifier eventArrivalNotifier, ILocalDbManager localDbManager)
         {
             _wcfConnection = wcfConnection;
-            _eventsOnGraphExecutor = eventsOnGraphExecutor;
             _eventsOnModelExecutor = eventsOnModelExecutor;
+            _eventsOnGraphExecutor = eventsOnGraphExecutor;
             _eventsOnTreeExecutor = eventsOnTreeExecutor;
             _opticalEventsExecutor = opticalEventsExecutor;
             _traceStateViewsManager = traceStateViewsManager;
@@ -117,7 +117,7 @@ namespace Iit.Fibertest.Client
                         _traceStateViewsManager.UpdateMeasurement(mue);
                         _traceStatisticsViewsManager.UpdateMeasurement(mue);
                     }
-                    // TODO both forms should react TraceUpdated (Title)
+                    // TODO both forms should react TraceUpdated (Title), ResponsibilityChanged
 
 
                     if (evnt is BopNetworkEventAdded bee)

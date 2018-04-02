@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Client
         {
             _mode = ViewMode.Add;
             NodeId = nodeId;
-            Model.SetSelectedRadioButton(EquipmentType.Cross);
+            Model.SetSelectedRadioButton(EquipmentType.Closure);
             Model.IsRightCableReserveEnabled = true;
         }
 

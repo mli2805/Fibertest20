@@ -117,6 +117,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<EchoEventsOnTreeExecutor>().InstancePerLifetimeScope();
             builder.RegisterType<TraceEventsOnTreeExecutor>().InstancePerLifetimeScope();
             builder.RegisterType<RtuEventsOnTreeExecutor>().InstancePerLifetimeScope();
+            builder.RegisterType<ZoneEventsOnTreeExecutor>().InstancePerLifetimeScope();
             builder.RegisterType<EventsOnTreeExecutor>().InstancePerLifetimeScope();
             builder.RegisterType<TreeOfRtuModel>().InstancePerLifetimeScope();
             builder.RegisterType<TreeOfRtuViewModel>().InstancePerLifetimeScope();
