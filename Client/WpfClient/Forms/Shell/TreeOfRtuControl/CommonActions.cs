@@ -126,6 +126,8 @@ namespace Iit.Fibertest.Client
             if (_currentUser.Role > Role.Operator)
                 return false;
 
+            if (param is TraceLeaf traceLeaf && !traceLeaf.IsInZone) return false;
+
             var parent = GetParent(param);
             if (parent == null)
                 return false;
@@ -138,6 +140,8 @@ namespace Iit.Fibertest.Client
         {
             if (_currentUser.Role > Role.Operator)
                 return false;
+
+            if (param is TraceLeaf traceLeaf && !traceLeaf.IsInZone) return false;
 
             var parent = GetParent(param);
             if (parent == null)

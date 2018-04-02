@@ -20,7 +20,6 @@ namespace Iit.Fibertest.Client
         public List<MenuItemVm> GetMenu(TraceLeaf traceLeaf)
         {
             var menu = new List<MenuItemVm>();
-
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Information,
