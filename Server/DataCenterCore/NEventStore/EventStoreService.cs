@@ -7,7 +7,6 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json;
 using NEventStore;
-using PrivateReflectionUsingDynamic;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -16,7 +15,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly IEventStoreInitializer _eventStoreInitializer;
         private IStoreEvents _storeEvents;
-        private Aggregate _aggregate;
+        private CommandAggregator _commandAggregator;
         private readonly EventsQueue _eventsQueue;
         private readonly EventsOnModelExecutor _eventsOnModelExecutor;
 
@@ -32,12 +31,12 @@ namespace Iit.Fibertest.DataCenterCore
         };
 
         public EventStoreService(IniFile iniFile, IMyLog logFile, IEventStoreInitializer eventStoreInitializer, 
-             Aggregate aggregate, EventsQueue eventsQueue, EventsOnModelExecutor eventsOnModelExecutor)
+             CommandAggregator commandAggregator, EventsQueue eventsQueue, EventsOnModelExecutor eventsOnModelExecutor)
         {
             _eventsPortion = iniFile.Read(IniSection.General, IniKey.EventSourcingPortion, 100);
             _logFile = logFile;
             _eventStoreInitializer = eventStoreInitializer;
-            _aggregate = aggregate;
+            _commandAggregator = commandAggregator;
             _eventsQueue = eventsQueue;
             _eventsOnModelExecutor = eventsOnModelExecutor;
         }
@@ -50,7 +49,6 @@ namespace Iit.Fibertest.DataCenterCore
             if (!AssignGraphDbVersion(eventStream)) return;
 
             var events = eventStream.CommittedEvents.Select(x => x.Body).ToList();
-//            _writeModel.Init(events);
             foreach (var evnt in events)
             {
                 _eventsOnModelExecutor.Apply(evnt);
@@ -97,7 +95,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             foreach (var cmd in cmds)
             {
-                _aggregate.AsDynamic().When(cmd);
+                _commandAggregator.Validate(cmd);
             }
 
             StoreEventsInDb(username, clientIp);
@@ -107,7 +105,7 @@ namespace Iit.Fibertest.DataCenterCore
         public Task<string> SendCommand(object cmd, string username, string clientIp)
         {
             // ilya: can pass user id\role as an argument to When to check permissions
-            var result = (string)_aggregate.AsDynamic().When(cmd); // Aggregate checks if command is valid
+            var result = _commandAggregator.Validate(cmd); // Aggregate checks if command is valid
                                                                    // and if so, transforms command into event and passes it to WriteModel
                                                                    // WriteModel applies event and returns whether event was applied successfully
 

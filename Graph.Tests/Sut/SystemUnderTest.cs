@@ -83,7 +83,7 @@ namespace Graph.Tests
             builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().InstancePerLifetimeScope();  // server!!!
 
             // server's
-            builder.RegisterType<Aggregate>().InstancePerLifetimeScope();
+            builder.RegisterType<CommandAggregator>().InstancePerLifetimeScope();
             builder.RegisterType<MeasurementFactory>().InstancePerLifetimeScope();
             builder.RegisterType<EventsQueue>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();

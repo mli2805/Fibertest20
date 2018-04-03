@@ -1,7 +1,6 @@
 ﻿using System.Linq;
 using Autofac;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
