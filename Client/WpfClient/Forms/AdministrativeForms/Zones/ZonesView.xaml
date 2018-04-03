@@ -26,7 +26,7 @@
                 <Label Grid.Column="0" Content="{x:Static stringResources:Resources.SID_Title}" Margin="0,-5,0,0" />
                 <Label Grid.Column="1" Content="{x:Static stringResources:Resources.SID_Comment}" Margin="0,-5,0,0" />
             </Grid>
-            <ListBox ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedZone, Mode=TwoWay}">
+            <ListBox ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedZone, Mode=TwoWay}" IsEnabled="{Binding IsEnabled}">
             <ListBox.ContextMenu>
                 <ContextMenu>
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Update}" cal:Message.Attach="UpdateZone" />

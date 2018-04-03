@@ -17,7 +17,7 @@
         <DataGrid Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
                    AutoGenerateColumns="False" IsReadOnly="True" >
             <DataGrid.ContextMenu>
-                <ContextMenu>
+                <ContextMenu IsEnabled="{Binding IsEnabled}">
                     <MenuItem Header="{x:Static stringResources:Resources.SID_Add_user}" cal:Message.Attach="AddNewUser"/>
                     <MenuItem Header="{x:Static stringResources:Resources.SID_Change_user}" cal:Message.Attach="ChangeUser"/>
                     <MenuItem Header="{x:Static stringResources:Resources.SID_Remove_user}" cal:Message.Attach="RemoveUser" IsEnabled="{Binding IsRemovable}"/>

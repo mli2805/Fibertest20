@@ -13,30 +13,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private CurrentUser _currentUser;
 
-        private bool _isZonesEnabled;
-        public bool IsZonesEnabled
-        {
-            get => _isZonesEnabled;
-            set
-            {
-                if (value == _isZonesEnabled) return;
-                _isZonesEnabled = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        private bool _isUsersEnabled;
-        public bool IsUsersEnabled
-        {
-            get => _isUsersEnabled;
-            set
-            {
-                if (value == _isUsersEnabled) return;
-                _isUsersEnabled = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
+      
         public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager, Model readModel)
         {
             _globalScope = globalScope;
@@ -47,8 +24,6 @@ namespace Iit.Fibertest.Client
         public void Initialize(CurrentUser currentUser)
         {
             _currentUser = currentUser;
-            IsZonesEnabled = _currentUser.Role <= Role.Root;
-            IsUsersEnabled = _currentUser.Role <= Role.Root;
         }
 
         public void LaunchResponsibilityZonesView()

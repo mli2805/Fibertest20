@@ -47,9 +47,10 @@ namespace Iit.Fibertest.Client
         public bool IsRemovable => SelectedUser?.Role != Role.Root;
 
         public static List<Role> Roles { get; set; }
+        public bool IsEnabled { get; set; }
 
         public UserListViewModel(ILifetimeScope globalScope, Model readModel, EventArrivalNotifier eventArrivalNotifier,
-            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
+            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, CurrentUser currentUser)
         {
             _globalScope = globalScope;
             _readModel = readModel;
@@ -58,6 +59,8 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
 
             Initialize();
+
+            IsEnabled = currentUser.Role <= Role.Root;
         }
 
         private void Initialize()

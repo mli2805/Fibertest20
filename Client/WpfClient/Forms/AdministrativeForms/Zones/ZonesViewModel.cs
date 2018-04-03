@@ -2,6 +2,7 @@
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -43,8 +44,10 @@ namespace Iit.Fibertest.Client
 
         public bool IsRemoveEnabled => !SelectedZone.IsDefaultZone;
 
+        public bool IsEnabled { get; set; }
+
         public ZonesViewModel(ILifetimeScope globalScope, Model readModel, EventArrivalNotifier eventArrivalNotifier,
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, CurrentUser currentUser )
         {
             _globalScope = globalScope;
             _readModel = readModel;
@@ -53,6 +56,7 @@ namespace Iit.Fibertest.Client
             Rows = new ObservableCollection<Zone>(readModel.Zones);
             SelectedZone = Rows.First();
             eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
+            IsEnabled = currentUser.Role <= Role.Root;
         }
 
         private void _eventArrivalNotifier_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

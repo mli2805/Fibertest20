@@ -16,13 +16,13 @@ namespace Iit.Fibertest.Client
         public List<ObjectToZonesModel> Rows { get; set; } = new List<ObjectToZonesModel>();
         public ObjectToZonesModel SelectedRow { get; set; }
 
-        public bool IsReadOnly { get; set; }
+        public bool IsEnabled { get; set; }
 
         public ObjectsAsTreeToZonesViewModel(Model readModel, CurrentUser currentUser, IWcfServiceForClient c2DWcfManager)
         {
             _c2DWcfManager = c2DWcfManager;
             ReadModel = readModel;
-            IsReadOnly = currentUser.Role > Role.Root;
+            IsEnabled = currentUser.Role <= Role.Root;
 
             FillInRows();
         }
@@ -111,7 +111,6 @@ namespace Iit.Fibertest.Client
 
         public async void Save()
         {
-            if (!IsReadOnly)
                 await _c2DWcfManager.SendCommandAsObj(PrepareCommand());
 
             TryClose();
