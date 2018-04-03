@@ -11,6 +11,7 @@ namespace Iit.Fibertest.Client
 {
     public class ObjectsAsTreeToZonesViewModel : Screen
     {
+        private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         public Model ReadModel { get; }
         public List<ObjectToZonesModel> Rows { get; set; } = new List<ObjectToZonesModel>();
@@ -18,27 +19,40 @@ namespace Iit.Fibertest.Client
 
         public bool IsEnabled { get; set; }
 
-        public ObjectsAsTreeToZonesViewModel(Model readModel, CurrentUser currentUser, IWcfServiceForClient c2DWcfManager)
+        public ObjectsAsTreeToZonesViewModel(Model readModel, TreeOfRtuModel treeOfRtuModel, CurrentUser currentUser, IWcfServiceForClient c2DWcfManager)
         {
+            _treeOfRtuModel = treeOfRtuModel;
             _c2DWcfManager = c2DWcfManager;
             ReadModel = readModel;
             IsEnabled = currentUser.Role <= Role.Root;
 
-            FillInRows();
+            FillInSortedRows();
         }
+        
 
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Responsibility_zones_subjects;
         }
 
-        private void FillInRows()
+        private void FillInSortedRows()
         {
             foreach (var rtu in ReadModel.Rtus)
             {
                 Rows.Add(RtuToLine(rtu));
-                foreach (var trace in ReadModel.Traces.Where(t => t.RtuId == rtu.Id))
-                    Rows.Add(TraceToLine(trace));
+                var rtuLeaf = (IPortOwner)_treeOfRtuModel.GetById(rtu.Id);
+                FillInRtuSortedTraces(rtuLeaf);
+            }
+        }
+
+        private void FillInRtuSortedTraces(IPortOwner portOwner)
+        {
+            foreach (var child in portOwner.ChildrenImpresario.Children)
+            {
+                if (child is TraceLeaf traceLeaf)
+                    Rows.Add(TraceToLine(traceLeaf));
+                else if (child is OtauLeaf otauLeaf)
+                    FillInRtuSortedTraces(otauLeaf);
             }
         }
 
@@ -51,21 +65,22 @@ namespace Iit.Fibertest.Client
                 IsRtu = true,
             };
             foreach (var zone in ReadModel.Zones)
-                rtuLine.IsInZones.Add(new BoolWithNotification(){IsChecked = rtu.ZoneIds.Contains(zone.ZoneId)});
+                rtuLine.IsInZones.Add(new BoolWithNotification() { IsChecked = rtu.ZoneIds.Contains(zone.ZoneId) });
             return rtuLine;
         }
 
-        private ObjectToZonesModel TraceToLine(Trace trace)
+        private ObjectToZonesModel TraceToLine(TraceLeaf traceLeaf)
         {
+            var trace = ReadModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             var traceLine = new ObjectToZonesModel()
             {
-                SubjectTitle = @"  " + trace.Title,
+                SubjectTitle = @"  " + traceLeaf.Name,
                 TraceId = trace.TraceId,
                 RtuId = trace.RtuId,
                 IsRtu = false,
             };
             foreach (var zone in ReadModel.Zones)
-                traceLine.IsInZones.Add(new BoolWithNotification() { IsChecked = trace.ZoneIds.Contains(zone.ZoneId)});
+                traceLine.IsInZones.Add(new BoolWithNotification() { IsChecked = trace.ZoneIds.Contains(zone.ZoneId) });
 
             return traceLine;
         }
@@ -111,7 +126,7 @@ namespace Iit.Fibertest.Client
 
         public async void Save()
         {
-                await _c2DWcfManager.SendCommandAsObj(PrepareCommand());
+            await _c2DWcfManager.SendCommandAsObj(PrepareCommand());
 
             TryClose();
         }
