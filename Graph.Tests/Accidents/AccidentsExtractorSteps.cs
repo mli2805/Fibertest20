@@ -37,7 +37,7 @@ namespace Graph.Tests
         [Then(@"Получен список эксидентов для BreakBnode2")]
         public void ThenПолученСписокЭксидентов()
         {
-            var accidents = _sut.AccidentsExtractorFromSor.GetAccidents(_sorData, false);
+            var accidents = _sut.AccidentsFromSorExtractor.GetAccidents(_sorData, false);
             accidents.Count.Should().Be(1);
             var accident = accidents[0].Should().BeOfType<AccidentInOldEvent>().Subject;
 
@@ -56,7 +56,7 @@ namespace Graph.Tests
         [Then(@"Получен список эксидентов для BreakBnode2-MinorRnode1")]
         public void ThenПолученДругойСписокЭксидентов()
         {
-            var accidents = _sut.AccidentsExtractorFromSor.GetAccidents(_sorData, false);
+            var accidents = _sut.AccidentsFromSorExtractor.GetAccidents(_sorData, false);
             accidents.Count.Should().Be(2);
             var accident0 = accidents[0].Should().BeOfType<AccidentInOldEvent>().Subject;
 
@@ -86,7 +86,7 @@ namespace Graph.Tests
         [Then(@"Получен список эксидентов для MajorLnode2-MinorRnode1")]
         public void ThenПолученСписокЭксидентовДляMajorLnode_MinorRnode()
         {
-            var accidents = _sut.AccidentsExtractorFromSor.GetAccidents(_sorData, false);
+            var accidents = _sut.AccidentsFromSorExtractor.GetAccidents(_sorData, false);
             accidents.Count.Should().Be(2);
             var accident0 = accidents[0].Should().BeOfType<AccidentInOldEvent>().Subject;
 
@@ -116,7 +116,7 @@ namespace Graph.Tests
         [Then(@"Получен список эксидентов для MinorRnode1")]
         public void ThenПолученСписокЭксидентовДляMinorRnode()
         {
-            var accidents = _sut.AccidentsExtractorFromSor.GetAccidents(_sorData, false);
+            var accidents = _sut.AccidentsFromSorExtractor.GetAccidents(_sorData, false);
             accidents.Count.Should().Be(1);
             var accident0 = accidents[0].Should().BeOfType<AccidentInOldEvent>().Subject;
 
@@ -134,7 +134,7 @@ namespace Graph.Tests
         [Then(@"Получен список эксидентов для DoubleMinorNode3")]
         public void ThenПолученСписокЭксидентовДляDoubleMinorNode3()
         {
-            var accidents = _sut.AccidentsExtractorFromSor.GetAccidents(_sorData, false);
+            var accidents = _sut.AccidentsFromSorExtractor.GetAccidents(_sorData, false);
             accidents.Count.Should().Be(2);
         }
 

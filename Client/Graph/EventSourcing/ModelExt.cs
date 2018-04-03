@@ -171,5 +171,20 @@ namespace Iit.Fibertest.Graph
             return $@"RemoveNodeWithAllHis: Node {nodeId.First6()} not found";
         }
 
+        /// <returns>The zero-based index of the first occurrence of the fiber within the entire list of fibers in trace if found; otherwise, -1</returns>
+        public static int GetFiberIndexInTrace(this Model model, Trace trace, Fiber fiber)
+        {
+            var idxInTrace1 = trace.NodeIds.IndexOf(fiber.NodeId1);
+            if (idxInTrace1 == -1)
+                return -1;
+            var idxInTrace2 = trace.NodeIds.IndexOf(fiber.NodeId2);
+            if (idxInTrace2 == -1)
+                return -1;
+            if (idxInTrace2 - idxInTrace1 == 1)
+                return idxInTrace1;
+            if (idxInTrace1 - idxInTrace2 == 1)
+                return idxInTrace2;
+            return -1;
+        }
     }
 }

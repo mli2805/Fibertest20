@@ -110,7 +110,7 @@ namespace Iit.Fibertest.DataCenterCore
         private List<AccidentOnTrace> ExtractAccidents(byte[] sorBytes, Guid traceId)
         {
             var sorData = SorData.FromBytes(sorBytes);
-            var accidents = _globalScope.Resolve<AccidentsExtractorFromSor>().GetAccidents(sorData, false);
+            var accidents = _globalScope.Resolve<AccidentsFromSorExtractor>().GetAccidents(sorData, false);
             accidents.ForEach(a => { a.TraceId = traceId; });
             return accidents;
         }

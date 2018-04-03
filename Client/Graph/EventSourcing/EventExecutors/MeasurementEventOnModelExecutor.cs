@@ -10,18 +10,18 @@ namespace Iit.Fibertest.Graph
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         private readonly Model _model;
-        private readonly AccidentsOnTraceApplierToModel _accidentsOnTraceApplierToModel;
+        private readonly AccidentsOnTraceToModelApplier _accidentsOnTraceToModelApplier;
 
-        public MeasurementEventOnModelExecutor(Model model, AccidentsOnTraceApplierToModel accidentsOnTraceApplierToModel)
+        public MeasurementEventOnModelExecutor(Model model, AccidentsOnTraceToModelApplier accidentsOnTraceToModelApplier)
         {
             _model = model;
-            _accidentsOnTraceApplierToModel = accidentsOnTraceApplierToModel;
+            _accidentsOnTraceToModelApplier = accidentsOnTraceToModelApplier;
         }
 
         public string AddMeasurement(MeasurementAdded e)
         {
             _model.Measurements.Add(Mapper.Map<Measurement>(e));
-            _accidentsOnTraceApplierToModel.ShowMonitoringResult(e);
+            _accidentsOnTraceToModelApplier.ShowMonitoringResult(e);
             return null;
         }
 

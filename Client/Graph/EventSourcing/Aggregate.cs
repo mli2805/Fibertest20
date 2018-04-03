@@ -144,7 +144,7 @@ namespace Iit.Fibertest.Graph
         {
             var tracesWithBase = _writeModel.Traces.Where(t => t.HasAnyBaseRef);
             var fiber = _writeModel.Fibers.First(f => f.FiberId == fiberId);
-            return tracesWithBase.Any(trace => Topo.GetFiberIndexInTrace(trace, fiber) != -1);
+            return tracesWithBase.Any(trace => _writeModel.GetFiberIndexInTrace(trace, fiber) != -1);
         }
         #endregion
 

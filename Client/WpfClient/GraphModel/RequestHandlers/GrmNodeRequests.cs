@@ -64,7 +64,7 @@ namespace Iit.Fibertest.Client
         {
             var fiber = _model.Fibers.FirstOrDefault(f => f.FiberId == fiberId);
             if (fiber == null) return false;
-            return _model.Traces.Where(t => t.HasAnyBaseRef).ToList().Any(trace => Topo.GetFiberIndexInTrace(trace, fiber) != -1);
+            return _model.Traces.Where(t => t.HasAnyBaseRef).ToList().Any(trace => _model.GetFiberIndexInTrace(trace, fiber) != -1);
         }
 
         public async Task RemoveNode(Guid nodeId, EquipmentType type)

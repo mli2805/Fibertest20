@@ -128,9 +128,9 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<GrmFiberRequests>().InstancePerLifetimeScope();
             builder.RegisterType<GrmRtuRequests>().InstancePerLifetimeScope();
 
-            builder.RegisterType<AccidentsExtractorFromSor>().InstancePerLifetimeScope();
+            builder.RegisterType<AccidentsFromSorExtractor>().InstancePerLifetimeScope();
             builder.RegisterType<AccidentPlaceLocator>().InstancePerLifetimeScope();
-            builder.RegisterType<AccidentsOnTraceApplierToModel>().InstancePerLifetimeScope();
+            builder.RegisterType<AccidentsOnTraceToModelApplier>().InstancePerLifetimeScope();
             builder.RegisterType<NodeEventsOnGraphExecutor>().InstancePerLifetimeScope();
             builder.RegisterType<FiberEventsOnGraphExecutor>().InstancePerLifetimeScope();
             builder.RegisterType<EquipmentEventsOnGraphExecutor>().InstancePerLifetimeScope();

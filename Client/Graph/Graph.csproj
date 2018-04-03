@@ -119,14 +119,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\AccidentPlaceLocator.cs" />
-    <Compile Include="Algorithms\RftsLevelTypeExt.cs" />
-    <Compile Include="Algorithms\AccidentsExtractorFromSor.cs" />
-    <Compile Include="Algorithms\SorDataExt.cs" />
-    <Compile Include="Algorithms\ToolKit\BaseRefAdjuster.cs" />
-    <Compile Include="Algorithms\ToolKit\BaseRefDtoFactory.cs" />
-    <Compile Include="Algorithms\ToolKit\BaseRefLandmarksTool.cs" />
-    <Compile Include="Algorithms\ToolKit\TraceModelBuilder.cs" />
-    <Compile Include="Algorithms\ToolKit\TraceModelForBaseRef.cs" />
+    <Compile Include="DomainEntities\Enums\RftsLevelTypeExt.cs" />
+    <Compile Include="Algorithms\AccidentsFromSorExtractor.cs" />
+    <Compile Include="DomainEntities\Extensions\SorDataExt.cs" />
+    <Compile Include="Algorithms\BaseRefToolKit\BaseRefAdjuster.cs" />
+    <Compile Include="Algorithms\BaseRefToolKit\BaseRefDtoFactory.cs" />
+    <Compile Include="Algorithms\BaseRefToolKit\BaseRefLandmarksTool.cs" />
+    <Compile Include="Algorithms\BaseRefToolKit\TraceModelBuilder.cs" />
+    <Compile Include="Algorithms\BaseRefToolKit\TraceModelForBaseRef.cs" />
     <Compile Include="Commands\ChangeResponsibilities.cs" />
     <Compile Include="Commands\Equipment\AddEquipmentAtGpsLocationWithNodeTitle.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\ChangeMonitoringSettings.cs" />
@@ -172,7 +172,6 @@
     <Compile Include="DomainEntities\Extensions\RtuPartStateExt.cs" />
     <Compile Include="DomainEntities\Zone.cs" />
     <Compile Include="EventSourcing\Aggregate.cs" />
-    <Compile Include="Algorithms\Topo.cs" />
     <Compile Include="Commands\Equipment\AddEquipmentAtGpsLocation.cs" />
     <Compile Include="Commands\Equipment\RemoveEquipment.cs" />
     <Compile Include="Commands\Equipment\UpdateEquipment.cs" />
@@ -239,7 +238,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DomainEntities\Rtu.cs" />
     <Compile Include="DomainEntities\Trace.cs" />
-    <Compile Include="Algorithms\AccidentsOnTraceApplierToModel.cs" />
+    <Compile Include="Algorithms\AccidentsOnTraceToModelApplier.cs" />
     <Compile Include="EventSourcing\EventExecutors\EchoEventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\EventExecutors\EquipmentEventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\EventExecutors\EventsOnModelExecutor.cs" />

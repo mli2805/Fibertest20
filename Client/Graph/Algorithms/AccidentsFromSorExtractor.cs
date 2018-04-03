@@ -11,14 +11,14 @@ using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
 namespace Iit.Fibertest.Graph.Algorithms
 {
-    public class AccidentsExtractorFromSor
+    public class AccidentsFromSorExtractor
     {
         private readonly IMyLog _logFile;
         private OtdrDataKnownBlocks _sorData;
         private OtdrDataKnownBlocks _baseSorData;
         private readonly List<string> _report = new List<string>();
 
-        public AccidentsExtractorFromSor(IMyLog logFile)
+        public AccidentsFromSorExtractor(IMyLog logFile)
         {
             _logFile = logFile;
         }

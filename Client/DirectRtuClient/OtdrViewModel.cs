@@ -397,7 +397,7 @@ namespace DirectRtuClient
             var measBytes = File.ReadAllBytes(ResultFileName);
             var sorData = SorData.FromBytes(measBytes);
 
-            var accidentExtractor = new AccidentsExtractorFromSor(_rtuLogger);
+            var accidentExtractor = new AccidentsFromSorExtractor(_rtuLogger);
             var accidents = accidentExtractor.GetAccidents(sorData, true);
             _rtuLogger.AppendLine($@"{accidents.Count} accidents found");
         }

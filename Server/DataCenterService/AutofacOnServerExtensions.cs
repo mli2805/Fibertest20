@@ -30,7 +30,7 @@ namespace Iit.Fibertest.DataCenterService
 
 
             builder.RegisterType<AccidentPlaceLocator>().SingleInstance();
-            builder.RegisterType<AccidentsOnTraceApplierToModel>().SingleInstance();
+            builder.RegisterType<AccidentsOnTraceToModelApplier>().SingleInstance();
             builder.RegisterType<EquipmentEventsOnModelExecutor>().SingleInstance();
             builder.RegisterType<NodeEventsOnModelExecutor>().SingleInstance();
             builder.RegisterType<FiberEventsOnModelExecutor>().SingleInstance();
@@ -70,7 +70,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<WcfServiceForClientBootstrapper>().SingleInstance();
             builder.RegisterType<WcfServiceForRtu>().As<IWcfServiceForRtu>().SingleInstance();
             builder.RegisterType<WcfServiceForRtuBootstrapper>().SingleInstance();
-            builder.RegisterType<AccidentsExtractorFromSor>();
+            builder.RegisterType<AccidentsFromSorExtractor>();
             builder.RegisterType<MsmqHandler>().SingleInstance();
 
             builder.RegisterType<Service1>().As<ServiceBase>().SingleInstance();

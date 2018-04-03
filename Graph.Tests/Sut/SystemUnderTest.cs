@@ -28,7 +28,7 @@ namespace Graph.Tests
         public FakeWindowManager FakeWindowManager { get; }
         public ShellViewModel ShellVm { get; }
 
-        public AccidentsExtractorFromSor AccidentsExtractorFromSor { get; }
+        public AccidentsFromSorExtractor AccidentsFromSorExtractor { get; }
         public MsmqHandler MsmqHandler { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
 
@@ -59,7 +59,7 @@ namespace Graph.Tests
             GraphReadModel = ClientContainer.Resolve<GraphReadModel>();
             TreeOfRtuModel = ClientContainer.Resolve<TreeOfRtuModel>();
             TreeOfRtuViewModel = ClientContainer.Resolve<TreeOfRtuViewModel>();
-            AccidentsExtractorFromSor = ClientContainer.Resolve<AccidentsExtractorFromSor>();
+            AccidentsFromSorExtractor = ClientContainer.Resolve<AccidentsFromSorExtractor>();
             MsmqHandler = ServerContainer.Resolve<MsmqHandler>();
             
 

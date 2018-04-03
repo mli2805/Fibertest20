@@ -15,14 +15,14 @@ namespace Iit.Fibertest.Graph
 
         private readonly Model _model;
         private readonly IMyLog _logFile;
-        private readonly AccidentsOnTraceApplierToModel _accidentsOnTraceApplierToModel;
+        private readonly AccidentsOnTraceToModelApplier _accidentsOnTraceToModelApplier;
 
         public TraceEventsOnModelExecutor(Model model, IMyLog logFile,
-            AccidentsOnTraceApplierToModel accidentsOnTraceApplierToModel)
+            AccidentsOnTraceToModelApplier accidentsOnTraceToModelApplier)
         {
             _model = model;
             _logFile = logFile;
-            _accidentsOnTraceApplierToModel = accidentsOnTraceApplierToModel;
+            _accidentsOnTraceToModelApplier = accidentsOnTraceToModelApplier;
         }
         public string AddTrace(TraceAdded e)
         {
@@ -88,7 +88,7 @@ namespace Iit.Fibertest.Graph
             var traceFibers = GetTraceFibersByNodes(trace.NodeIds).ToList();
             foreach (var fiber in traceFibers)
             {
-                if (_model.Traces.Where(t => t.TraceId != e.TraceId).All(t => Topo.GetFiberIndexInTrace(t, fiber) == -1))
+                if (_model.Traces.Where(t => t.TraceId != e.TraceId).All(t => _model.GetFiberIndexInTrace(t, fiber) == -1))
                     _model.Fibers.Remove(fiber);
             }
 
@@ -119,7 +119,7 @@ namespace Iit.Fibertest.Graph
             trace.Port = e.OtauPortDto.OpticalPort;
             trace.OtauPort = e.OtauPortDto;
 
-            _accidentsOnTraceApplierToModel.ShowMonitoringResult(new MeasurementAdded()
+            _accidentsOnTraceToModelApplier.ShowMonitoringResult(new MeasurementAdded()
             {
                 TraceId = e.TraceId,
                 TraceState = e.PreviousTraceState,
@@ -146,7 +146,7 @@ namespace Iit.Fibertest.Graph
                 fiber.SetState(trace.TraceId, FiberState.NotJoined);
             }
 
-            _accidentsOnTraceApplierToModel.CleanAccidentPlacesOnTrace(trace.TraceId);
+            _accidentsOnTraceToModelApplier.CleanAccidentPlacesOnTrace(trace.TraceId);
             return null;
         }
     }
