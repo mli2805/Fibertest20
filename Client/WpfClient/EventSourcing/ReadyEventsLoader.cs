@@ -86,8 +86,8 @@ namespace Iit.Fibertest.Client
                     _eventsOnModelExecutor.Apply(evnt);
                     _eventsOnTreeExecutor.Apply(evnt);
                     _opticalEventsExecutor.Apply(evnt);
-                    if (evnt is NetworkEventAdded ee) _networkEventsDoubleViewModel.Apply(ee);
-                    if (evnt is BopNetworkEventAdded bee) _bopNetworkEventsDoubleViewModel.Apply(bee);
+                    _networkEventsDoubleViewModel.Apply(evnt);
+                    _bopNetworkEventsDoubleViewModel.Apply(evnt);
                 }
                 catch (Exception e)
                 {

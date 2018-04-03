@@ -26,7 +26,15 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
         }
 
-        public void Apply(BopNetworkEventAdded evnt)
+        public void Apply(object e)
+        {
+            switch (e)
+            {
+                case BopNetworkEventAdded evnt: AddBopNetworkEvent(evnt); return;
+            }
+        }
+
+        private void AddBopNetworkEvent(BopNetworkEventAdded evnt)
         {
             var bopNetworkEvent = Mapper.Map<BopNetworkEvent>(evnt);
             var rtu = _readModel.Rtus.FirstOrDefault(t => t.Id == bopNetworkEvent.RtuId);

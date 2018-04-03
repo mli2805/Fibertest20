@@ -108,9 +108,7 @@ namespace Iit.Fibertest.Client
                     _rtuStateViewsManager.Apply(evnt);
                     _traceStateViewsManager.Apply(evnt);
                     _traceStatisticsViewsManager.Apply(evnt);
-
-                    if (evnt is BopNetworkEventAdded bee)
-                        _bopNetworkEventsDoubleViewModel.Apply(bee);
+                    _bopNetworkEventsDoubleViewModel.Apply(evnt);
 
                     // some forms refresh their view because they have sent command previously and are waiting event's arrival
                     _eventArrivalNotifier.NeverMind = CurrentEventNumber;
