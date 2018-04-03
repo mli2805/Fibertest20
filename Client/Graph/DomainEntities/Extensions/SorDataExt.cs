@@ -1,6 +1,6 @@
 ﻿using Optixsoft.SorExaminer.OtdrDataFormat;
 
-namespace Iit.Fibertest.Graph.Algorithms
+namespace Iit.Fibertest.Graph
 {
     public static class SorDataExt
     {

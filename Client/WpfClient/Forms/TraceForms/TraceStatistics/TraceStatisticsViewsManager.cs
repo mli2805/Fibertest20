@@ -11,12 +11,14 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
+        private readonly Model _readModel;
         private Dictionary<Guid, TraceStatisticsViewModel> LaunchedViews { get; } = new Dictionary<Guid, TraceStatisticsViewModel>();
 
-        public TraceStatisticsViewsManager(ILifetimeScope globalScope, IWindowManager windowManager)
+        public TraceStatisticsViewsManager(ILifetimeScope globalScope, IWindowManager windowManager, Model readModel)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
+            _readModel = readModel;
         }
 
         public void Apply(object e)
@@ -24,8 +26,8 @@ namespace Iit.Fibertest.Client
             switch (e)
             {
                 case MeasurementAdded evnt: AddMeasurement(evnt); return;
-                case MeasurementUpdated evnt: UpdateMeasurement(evnt); return;
                 case TraceUpdated evnt: UpdateTrace(evnt); return;
+                case RtuUpdated evnt: UpdateRtu(evnt); return;
                 case ResponsibilitiesChanged evnt: ChangeResponsibility(evnt); return;
             }
         }
@@ -64,14 +66,19 @@ namespace Iit.Fibertest.Client
                 vm.AddNewMeasurement();
         }
 
-        private void UpdateMeasurement(MeasurementUpdated evnt)
-        {
-
-        }
-
         private void UpdateTrace(TraceUpdated evnt)
         {
-
+            if (LaunchedViews.TryGetValue(evnt.Id, out var vm))
+                vm.TraceTitle = evnt.Title;
+        }
+        private void UpdateRtu(RtuUpdated evnt)
+        {
+            foreach (var pair in LaunchedViews)
+            {
+                var trace = _readModel.Traces.First(t => t.TraceId == pair.Key);
+                if (trace.RtuId == evnt.RtuId)
+                    pair.Value.RtuTitle = evnt.Title;
+            }
         }
 
         private void ChangeResponsibility(ResponsibilitiesChanged evnt)

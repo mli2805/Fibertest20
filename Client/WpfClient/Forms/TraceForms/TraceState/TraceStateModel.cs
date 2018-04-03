@@ -10,12 +10,36 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-    public class TraceStateModelHeader
+    public class TraceStateModelHeader : PropertyChangedBase
     {
-        public string TraceTitle { get; set; } = "";
-        public string RtuTitle { get; set; } = "";
+        private string _traceTitle = "";
+        private string _rtuTitle = "";
+
+        public string TraceTitle
+        {
+            get => _traceTitle;
+            set
+            {
+                if (value == _traceTitle) return;
+                _traceTitle = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public string RtuTitle
+        {
+            get => _rtuTitle;
+            set
+            {
+                if (value == _rtuTitle) return;
+                _rtuTitle = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public string PortTitle { get; set; } = "";
     }
+
     public class TraceStateModel : PropertyChangedBase
     {
         public Guid TraceId { get; set; }

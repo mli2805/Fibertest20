@@ -43,6 +43,7 @@ namespace Iit.Fibertest.Client
                 case MeasurementAdded evnt: AddMeasurement(evnt); return;
                 case MeasurementUpdated evnt: UpdateMeasurement(evnt); return;
                 case TraceUpdated evnt: UpdateTrace(evnt); return;
+                case RtuUpdated evnt: UpdateRtu(evnt); return;
                 case ResponsibilitiesChanged evnt: ChangeResponsibility(evnt); return;
             }
         }
@@ -65,7 +66,24 @@ namespace Iit.Fibertest.Client
 
         }
 
-        private void UpdateTrace(TraceUpdated evnt) { }
+        private void UpdateTrace(TraceUpdated evnt)
+        {
+            foreach (var traceStateViewModel in LaunchedViews.Where(m=>m.Model.TraceId == evnt.Id))
+            {
+                traceStateViewModel.Model.Header.TraceTitle = evnt.Title;
+            }
+        }
+
+        private void UpdateRtu(RtuUpdated evnt)
+        {
+            foreach (var traceStateViewModel in LaunchedViews)
+            {
+                var trace = _readModel.Traces.First(t => t.TraceId == traceStateViewModel.Model.TraceId);
+                if (trace.RtuId == evnt.RtuId)
+                    traceStateViewModel.Model.Header.RtuTitle = evnt.Title;
+            }
+        }
+
         private void ChangeResponsibility(ResponsibilitiesChanged evnt) { }
 
         // User clicked on TraceLeaf - State

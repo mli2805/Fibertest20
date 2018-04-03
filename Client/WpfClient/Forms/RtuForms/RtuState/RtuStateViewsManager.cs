@@ -20,7 +20,9 @@ namespace Iit.Fibertest.Client
         private readonly CurrentUser _currentUser;
         private readonly RtuStateModelFactory _rtuStateModelFactory;
         private readonly TreeOfRtuModel _treeOfRtuModel;
-        private Dictionary<Guid, RtuStateViewModel> LaunchedViews { get; set; } = new Dictionary<Guid, RtuStateViewModel>();
+
+        private Dictionary<Guid, RtuStateViewModel> LaunchedViews { get; set; } =
+            new Dictionary<Guid, RtuStateViewModel>();
 
         public RtuStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager,
             Model reaModel, CurrentUser currentUser,
@@ -62,7 +64,7 @@ namespace Iit.Fibertest.Client
             if (rtu == null || !rtu.ZoneIds.Contains(_currentUser.ZoneId)) return;
 
             var networkEvent = Mapper.Map<NetworkEvent>(networkEventAdded);
-            RtuLeaf rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(networkEvent.RtuId);
+            var rtuLeaf = (RtuLeaf) _treeOfRtuModel.GetById(networkEvent.RtuId);
             Show(rtuLeaf, isUserAskedToOpenView: false, changes: networkEventAdded.RtuPartStateChanges);
         }
 
@@ -73,7 +75,7 @@ namespace Iit.Fibertest.Client
                 vm.NotifyUserCurrentMonitoringStep(dto);
         }
 
-        public void NotifyUserMonitoringResult(MeasurementAdded dto)
+        private void NotifyUserMonitoringResult(MeasurementAdded dto)
         {
             ClearClosedViews();
             if (LaunchedViews.TryGetValue(dto.RtuId, out var vm))
@@ -97,14 +99,14 @@ namespace Iit.Fibertest.Client
             var traceLeaf = _treeOfRtuModel.GetById(traceId);
             if (traceLeaf == null) return; // trace\RTU could be not in zone
 
-            var rtuLeaf = (RtuLeaf)(traceLeaf.Parent is RtuLeaf ? traceLeaf.Parent : traceLeaf.Parent.Parent);
+            var rtuLeaf = (RtuLeaf) (traceLeaf.Parent is RtuLeaf ? traceLeaf.Parent : traceLeaf.Parent.Parent);
             if (LaunchedViews.TryGetValue(rtuLeaf.Id, out var vm))
                 vm.RefreshModel(rtuLeaf);
         }
 
         private void NotifyUserRtuUpdated(Guid rtuId)
         {
-            var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(rtuId);
+            var rtuLeaf = (RtuLeaf) _treeOfRtuModel.GetById(rtuId);
             if (rtuLeaf == null) return; // trace\RTU could be not in zone
 
             if (LaunchedViews.TryGetValue(rtuId, out var vm))
@@ -142,7 +144,6 @@ namespace Iit.Fibertest.Client
 
         private void ChangeResponsibilities(ResponsibilitiesChanged e)
         {
-
         }
     }
 }

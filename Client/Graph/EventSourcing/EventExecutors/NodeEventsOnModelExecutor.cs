@@ -3,7 +3,6 @@ using System.Linq;
 using AutoMapper;
 using GMap.NET;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Graph
