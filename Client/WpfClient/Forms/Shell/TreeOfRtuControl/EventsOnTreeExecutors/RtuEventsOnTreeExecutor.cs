@@ -115,17 +115,6 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public void AddMeasurement(MeasurementAdded e)
-        {
-            if (_currentUser.ZoneId != Guid.Empty &&
-                !_readModel.Rtus.First(r => r.Id == e.RtuId).ZoneIds.Contains(_currentUser.ZoneId)) return;
-
-            var traceLeaf = (TraceLeaf)_treeOfRtuModel.GetById(e.TraceId);
-            if (traceLeaf == null || traceLeaf.TraceState == FiberState.NotJoined)
-                return;
-
-            traceLeaf.TraceState = e.TraceState != FiberState.Ok && e.BaseRefType == BaseRefType.Fast
-                ? FiberState.Suspicion : e.TraceState;
-        }
+      
     }
 }

@@ -29,7 +29,6 @@ namespace Iit.Fibertest.Client
                 case OtauAttached evnt: _rtuEventsOnTreeExecutor.AttachOtau(evnt); return;
                 case OtauDetached evnt: _rtuEventsOnTreeExecutor.DetachOtau(evnt); return;
                 case NetworkEventAdded evnt: _rtuEventsOnTreeExecutor.AddNetworkEvent(evnt); return;
-                case MeasurementAdded evnt: _rtuEventsOnTreeExecutor.AddMeasurement(evnt); return;
 
                 case TraceAdded evnt: _traceEventsOnTreeExecutor.AddTrace(evnt); return;
                 case TraceUpdated evnt: _traceEventsOnTreeExecutor.UpdateTrace(evnt); return;
@@ -37,6 +36,7 @@ namespace Iit.Fibertest.Client
                 case TraceRemoved evnt: _traceEventsOnTreeExecutor.RemoveTrace(evnt); return;
                 case TraceAttached evnt: _traceEventsOnTreeExecutor.AttaceTrace(evnt); return;
                 case TraceDetached evnt: _traceEventsOnTreeExecutor.DetachTrace(evnt); return;
+                case MeasurementAdded evnt: _traceEventsOnTreeExecutor.AddMeasurement(evnt); return;
 
                 case BaseRefAssigned evnt: _echoEventsOnTreeExecutor.AssignBaseRef(evnt); return;
                 case RtuInitialized evnt: _echoEventsOnTreeExecutor.InitializeRtu(evnt); return;
