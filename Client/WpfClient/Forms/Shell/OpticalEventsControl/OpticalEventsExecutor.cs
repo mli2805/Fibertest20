@@ -34,6 +34,8 @@ namespace Iit.Fibertest.Client
                 case RtuUpdated evnt: _opticalEventsDoubleViewModel.UpdateRtu(evnt); return;
                 case TraceUpdated evnt: _opticalEventsDoubleViewModel.UpdateTrace(evnt); return;
 
+                case ResponsibilitiesChanged evnt: _opticalEventsDoubleViewModel.ChangeResponsibilities(evnt); return;
+
                 default: return;
             }
         }

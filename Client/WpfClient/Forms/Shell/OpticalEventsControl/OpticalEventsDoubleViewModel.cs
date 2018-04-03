@@ -13,15 +13,17 @@ namespace Iit.Fibertest.Client
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
         private readonly Model _readModel;
+        private readonly CurrentUser _currentUser;
 
         public OpticalEventsViewModel AllOpticalEventsViewModel { get; set; }
         public OpticalEventsViewModel ActualOpticalEventsViewModel { get; set; }
 
-        public OpticalEventsDoubleViewModel(Model readModel,
+        public OpticalEventsDoubleViewModel(Model readModel, CurrentUser currentUser,
             OpticalEventsViewModel allOpticalEventsViewModel,
             OpticalEventsViewModel actualOpticalEventsViewModel)
         {
             _readModel = readModel;
+            _currentUser = currentUser;
             ActualOpticalEventsViewModel = actualOpticalEventsViewModel;
             ActualOpticalEventsViewModel.TableTitle = Resources.SID_Current_accidents;
             AllOpticalEventsViewModel = allOpticalEventsViewModel;
@@ -30,12 +32,11 @@ namespace Iit.Fibertest.Client
 
         public void AddMeasurement(MeasurementAdded measurementAdded)
         {
-            var measurement = Mapper.Map<Measurement>(measurementAdded);
-
-            var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == measurement.TraceId);
-            if (trace == null || !trace.IsAttached)
+            var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == measurementAdded.TraceId);
+            if (trace == null || !trace.ZoneIds.Contains(_currentUser.ZoneId) || !trace.IsAttached)
                 return;
 
+            var measurement = Mapper.Map<Measurement>(measurementAdded);
             AllOpticalEventsViewModel.AddEvent(measurement);
 
             ActualOpticalEventsViewModel.RemovePreviousEventForTraceIfExists(measurement.TraceId);
@@ -51,6 +52,10 @@ namespace Iit.Fibertest.Client
 
         public void AttachTrace(TraceAttached evnt)
         {
+            var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == evnt.TraceId);
+            if (trace == null || !trace.ZoneIds.Contains(_currentUser.ZoneId))
+                return;
+
             var lastMeasurementOnThisTrace = _readModel.Measurements.LastOrDefault(m => m.TraceId == evnt.TraceId);
             if (lastMeasurementOnThisTrace != null && lastMeasurementOnThisTrace.TraceState != FiberState.Ok)
                 ActualOpticalEventsViewModel.AddEvent(lastMeasurementOnThisTrace);
@@ -83,6 +88,11 @@ namespace Iit.Fibertest.Client
         {
             ActualOpticalEventsViewModel.RefreshRowsWithUpdatedTrace(evnt.Id);
             AllOpticalEventsViewModel.RefreshRowsWithUpdatedTrace(evnt.Id);
+        }
+
+        public void ChangeResponsibilities(ResponsibilitiesChanged evnt)
+        {
+
         }
       
     }

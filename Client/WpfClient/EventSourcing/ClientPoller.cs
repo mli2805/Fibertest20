@@ -106,19 +106,8 @@ namespace Iit.Fibertest.Client
                     _opticalEventsExecutor.Apply(evnt);
                     _networkEventsDoubleViewModel.Apply(evnt);
                     _rtuStateViewsManager.Apply(evnt);
-
-                    if (evnt is MeasurementAdded mee)
-                    {
-                        _traceStateViewsManager.AddMeasurement(mee);
-                        _traceStatisticsViewsManager.AddMeasurement(mee);
-                    }
-                    if (evnt is MeasurementUpdated mue)
-                    {
-                        _traceStateViewsManager.UpdateMeasurement(mue);
-                        _traceStatisticsViewsManager.UpdateMeasurement(mue);
-                    }
-                    // TODO both forms should react TraceUpdated (Title), ResponsibilityChanged
-
+                    _traceStateViewsManager.Apply(evnt);
+                    _traceStatisticsViewsManager.Apply(evnt);
 
                     if (evnt is BopNetworkEventAdded bee)
                         _bopNetworkEventsDoubleViewModel.Apply(bee);

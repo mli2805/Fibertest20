@@ -16,15 +16,20 @@ namespace Iit.Fibertest.Client
 
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
+        private readonly Model _reaModel;
+        private readonly CurrentUser _currentUser;
         private readonly RtuStateModelFactory _rtuStateModelFactory;
         private readonly TreeOfRtuModel _treeOfRtuModel;
         private Dictionary<Guid, RtuStateViewModel> LaunchedViews { get; set; } = new Dictionary<Guid, RtuStateViewModel>();
 
         public RtuStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager,
+            Model reaModel, CurrentUser currentUser,
             RtuStateModelFactory rtuStateModelFactory, TreeOfRtuModel treeOfRtuModel)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
+            _reaModel = reaModel;
+            _currentUser = currentUser;
             _rtuStateModelFactory = rtuStateModelFactory;
             _treeOfRtuModel = treeOfRtuModel;
         }
@@ -45,6 +50,7 @@ namespace Iit.Fibertest.Client
                 case TraceDetached e: NotifyUserTraceChanged(e.TraceId); return;
                 case TraceUpdated e: NotifyUserTraceChanged(e.Id); return;
                 case RtuUpdated e: NotifyUserRtuUpdated(e.RtuId); return;
+                case ResponsibilitiesChanged e: ChangeResponsibilities(e); return;
                 default: return;
             }
         }
@@ -52,6 +58,9 @@ namespace Iit.Fibertest.Client
         // Server sent network event
         private void NotifyUserRtuAvailabilityChanged(NetworkEventAdded networkEventAdded)
         {
+            var rtu = _reaModel.Rtus.FirstOrDefault(r => r.Id == networkEventAdded.RtuId);
+            if (rtu == null || !rtu.ZoneIds.Contains(_currentUser.ZoneId)) return;
+
             var networkEvent = Mapper.Map<NetworkEvent>(networkEventAdded);
             RtuLeaf rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(networkEvent.RtuId);
             Show(rtuLeaf, isUserAskedToOpenView: false, changes: networkEventAdded.RtuPartStateChanges);
@@ -60,16 +69,14 @@ namespace Iit.Fibertest.Client
         public void NotifyUserRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto)
         {
             ClearClosedViews();
-            RtuStateViewModel vm;
-            if (LaunchedViews.TryGetValue(dto.RtuId, out vm))
+            if (LaunchedViews.TryGetValue(dto.RtuId, out var vm))
                 vm.NotifyUserCurrentMonitoringStep(dto);
         }
 
         public void NotifyUserMonitoringResult(MeasurementAdded dto)
         {
             ClearClosedViews();
-            RtuStateViewModel vm;
-            if (LaunchedViews.TryGetValue(dto.RtuId, out vm))
+            if (LaunchedViews.TryGetValue(dto.RtuId, out var vm))
                 vm.NotifyUserMonitoringResult(dto);
         }
 
@@ -88,6 +95,8 @@ namespace Iit.Fibertest.Client
         public void NotifyUserTraceChanged(Guid traceId)
         {
             var traceLeaf = _treeOfRtuModel.GetById(traceId);
+            if (traceLeaf == null) return; // trace\RTU could be not in zone
+
             var rtuLeaf = (RtuLeaf)(traceLeaf.Parent is RtuLeaf ? traceLeaf.Parent : traceLeaf.Parent.Parent);
             if (LaunchedViews.TryGetValue(rtuLeaf.Id, out var vm))
                 vm.RefreshModel(rtuLeaf);
@@ -96,6 +105,8 @@ namespace Iit.Fibertest.Client
         private void NotifyUserRtuUpdated(Guid rtuId)
         {
             var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(rtuId);
+            if (rtuLeaf == null) return; // trace\RTU could be not in zone
+
             if (LaunchedViews.TryGetValue(rtuId, out var vm))
                 vm.RefreshModel(rtuLeaf);
         }
@@ -115,8 +126,7 @@ namespace Iit.Fibertest.Client
 
             var rtuId = rtuLeaf.Id;
 
-            RtuStateViewModel vm;
-            if (LaunchedViews.TryGetValue(rtuId, out vm))
+            if (LaunchedViews.TryGetValue(rtuId, out var vm))
             {
                 vm.Close();
                 LaunchedViews.Remove(rtuId);
@@ -130,5 +140,9 @@ namespace Iit.Fibertest.Client
             LaunchedViews.Add(rtuId, vm);
         }
 
+        private void ChangeResponsibilities(ResponsibilitiesChanged e)
+        {
+
+        }
     }
 }

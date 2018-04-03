@@ -18,12 +18,13 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly C2DWcfManager _c2DWcfManager;
         private readonly Model _readModel;
+        private readonly CurrentUser _currentUser;
 
         private List<TraceStateViewModel> LaunchedViews { get; } = new List<TraceStateViewModel>();
 
 
         public TraceStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager,
-            C2DWcfManager c2DWcfManager, Model readModel, TraceStateModelFactory traceStateModelFactory,
+            C2DWcfManager c2DWcfManager, Model readModel, CurrentUser currentUser, TraceStateModelFactory traceStateModelFactory,
             OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel)
         {
             _globalScope = globalScope;
@@ -32,10 +33,25 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
             _readModel = readModel;
+            _currentUser = currentUser;
         }
 
-        public void AddMeasurement(MeasurementAdded evnt)
+        public void Apply(object e)
         {
+            switch (e)
+            {
+                case MeasurementAdded evnt: AddMeasurement(evnt); return;
+                case MeasurementUpdated evnt: UpdateMeasurement(evnt); return;
+                case TraceUpdated evnt: UpdateTrace(evnt); return;
+                case ResponsibilitiesChanged evnt: ChangeResponsibility(evnt); return;
+            }
+        }
+
+        private void AddMeasurement(MeasurementAdded evnt)
+        {
+            var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == evnt.TraceId);
+            if (trace == null || !trace.ZoneIds.Contains(_currentUser.ZoneId)) return;
+
             var lastMeasurement = _readModel.Measurements.LastOrDefault(m => m.TraceId == evnt.TraceId);
             if (lastMeasurement == null)
                 return;
@@ -43,10 +59,14 @@ namespace Iit.Fibertest.Client
             var traceStateModel = _traceStateModelFactory.CreateModel(lastMeasurement);
             Show(traceStateModel, true, false, lastMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent);
         }
-        public void UpdateMeasurement(MeasurementUpdated evnt)
+
+        private void UpdateMeasurement(MeasurementUpdated evnt)
         {
 
         }
+
+        private void UpdateTrace(TraceUpdated evnt) { }
+        private void ChangeResponsibility(ResponsibilitiesChanged evnt) { }
 
         // User clicked on TraceLeaf - State
         public void ShowTraceState(Guid traceId)

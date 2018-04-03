@@ -59,7 +59,7 @@ namespace Iit.Fibertest.Client
             if (!(param is TraceLeaf traceLeaf))
                 return false;
 
-            return traceLeaf.IsInZone; return true;
+            return traceLeaf.IsInZone;
         }
 
         public bool CanShowTraceLandmarks(object param)

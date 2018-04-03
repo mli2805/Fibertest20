@@ -19,6 +19,17 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
         }
 
+        public void Apply(object e)
+        {
+            switch (e)
+            {
+                case MeasurementAdded evnt: AddMeasurement(evnt); return;
+                case MeasurementUpdated evnt: UpdateMeasurement(evnt); return;
+                case TraceUpdated evnt: UpdateTrace(evnt); return;
+                case ResponsibilitiesChanged evnt: ChangeResponsibility(evnt); return;
+            }
+        }
+
         private void ClearClosedViews()
         {
             var closed = (from pair in LaunchedViews where !pair.Value.IsOpen select pair.Key).ToList();
@@ -44,17 +55,26 @@ namespace Iit.Fibertest.Client
             LaunchedViews.Add(traceId, vm);
         }
 
-        public void AddMeasurement(MeasurementAdded evnt)
+        private void AddMeasurement(MeasurementAdded evnt)
         {
             ClearClosedViews();
             var traceId = evnt.TraceId;
 
-            TraceStatisticsViewModel vm;
-            if (LaunchedViews.TryGetValue(traceId, out vm))
+            if (LaunchedViews.TryGetValue(traceId, out var vm))
                 vm.AddNewMeasurement();
         }
 
-        public void UpdateMeasurement(MeasurementUpdated evnt)
+        private void UpdateMeasurement(MeasurementUpdated evnt)
+        {
+
+        }
+
+        private void UpdateTrace(TraceUpdated evnt)
+        {
+
+        }
+
+        private void ChangeResponsibility(ResponsibilitiesChanged evnt)
         {
 
         }
