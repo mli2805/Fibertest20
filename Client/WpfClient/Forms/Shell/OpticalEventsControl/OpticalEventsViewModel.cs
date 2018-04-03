@@ -13,7 +13,7 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-    public class OpticalEventsViewModel : PropertyChangedBase
+    public class OpticalEventsViewModel : Screen
     {
         private readonly Model _readModel;
         private readonly ReflectogramManager _reflectogramManager;
@@ -102,6 +102,10 @@ namespace Iit.Fibertest.Client
             _rtuFilterViewModel = rtuFilterViewModel;
             _windowManager = windowManager;
 
+        }
+
+        protected override void OnViewLoaded(object o)
+        {
             InitializeTraceStateFilters();
             SelectedRtuFilter = new RtuGuidFilter();
             InitializeEventStatusFilters();
@@ -122,7 +126,6 @@ namespace Iit.Fibertest.Client
             TraceStateFilters.Add(new TraceStateFilter(FiberState.NoFiber));
             TraceStateFilters.Add(new TraceStateFilter(FiberState.User));
 
-            // TODO: Optimize test suite performance!
             SelectedTraceStateFilter = TraceStateFilters.First();
         }
 
@@ -149,8 +152,6 @@ namespace Iit.Fibertest.Client
                     (SelectedRtuFilter.IsOn == false ||
                 SelectedRtuFilter.RtuId == opticalEventVm.RtuId);
         }
-
-
 
         public void RefreshRowsWithUpdatedRtu(Guid rtuId)
         {
