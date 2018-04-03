@@ -15,7 +15,6 @@ namespace Graph.Tests
     
     public class SystemUnderTest
     {
-       // public IContainer Container { get; set; }
         public ILifetimeScope ClientContainer { get; set; }
         public ILifetimeScope ServerContainer { get; set; }
 
@@ -30,6 +29,7 @@ namespace Graph.Tests
 
         public AccidentsFromSorExtractor AccidentsFromSorExtractor { get; }
         public MsmqHandler MsmqHandler { get; }
+        public WcfServiceForClient WcfService { get; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
 
         public const string NewTitleForTest = "New name for old equipment";
@@ -51,7 +51,12 @@ namespace Graph.Tests
         {
             AutofacMess();
 
+            var eventStoreService = ServerContainer.Resolve<EventStoreService>();
+            eventStoreService.Init();
+
+            ReadModel = ClientContainer.Resolve<Model>();  // 1
             Poller = ClientContainer.Resolve<ClientPoller>();
+
             FakeWindowManager = (FakeWindowManager)ClientContainer.Resolve<IWindowManager>();
             MyLogFile = ClientContainer.Resolve<IMyLog>();
             ShellVm = (ShellViewModel)ClientContainer.Resolve<IShell>();
@@ -60,11 +65,9 @@ namespace Graph.Tests
             TreeOfRtuModel = ClientContainer.Resolve<TreeOfRtuModel>();
             TreeOfRtuViewModel = ClientContainer.Resolve<TreeOfRtuViewModel>();
             AccidentsFromSorExtractor = ClientContainer.Resolve<AccidentsFromSorExtractor>();
-            MsmqHandler = ServerContainer.Resolve<MsmqHandler>();
-            
 
-            var ev = ServerContainer.Resolve<EventStoreService>();
-            ev.Init();
+            MsmqHandler = ServerContainer.Resolve<MsmqHandler>();
+            WcfService = (WcfServiceForClient)ClientContainer.Resolve<IWcfServiceForClient>();
         }
 
         private void AutofacMess()
@@ -83,10 +86,13 @@ namespace Graph.Tests
             builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().InstancePerLifetimeScope();  // server!!!
 
             // server's
+            builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().InstancePerLifetimeScope();  // server !!!
+
+            builder.RegisterType<EventsQueue>().InstancePerLifetimeScope();
+            builder.RegisterType<EventStoreService>().InstancePerLifetimeScope();
+
             builder.RegisterType<CommandAggregator>().InstancePerLifetimeScope();
             builder.RegisterType<MeasurementFactory>().InstancePerLifetimeScope();
-            builder.RegisterType<EventsQueue>().SingleInstance();
-            builder.RegisterType<EventStoreService>().SingleInstance();
 
             builder.RegisterType<TestSettings>().As<ISettings>().InstancePerLifetimeScope();
 
@@ -95,7 +101,6 @@ namespace Graph.Tests
             builder.RegisterType<ClientToRtuTransmitter>().InstancePerLifetimeScope();
             builder.RegisterType<BaseRefRepairmanIntermediary>().InstancePerLifetimeScope();
             builder.RegisterType<SorFileRepository>().InstancePerLifetimeScope();
-            builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().InstancePerLifetimeScope();  // server !!!
             builder.RegisterType<D2CWcfManager>().InstancePerLifetimeScope();
             builder.RegisterType<MsmqHandler>().InstancePerLifetimeScope();
 
@@ -103,8 +108,9 @@ namespace Graph.Tests
 
             builder.RegisterType<TestsDispatcherProvider>().As<IDispatcherProvider>().InstancePerLifetimeScope();
             var container = builder.Build();
-            ClientContainer = container.BeginLifetimeScope();
             ServerContainer = container.BeginLifetimeScope();
+            ClientContainer = container.BeginLifetimeScope(cfg =>
+                cfg.RegisterInstance(ServerContainer.Resolve<IWcfServiceForClient>()));
         }
     }
 }

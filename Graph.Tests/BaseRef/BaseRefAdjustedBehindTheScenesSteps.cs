@@ -3,6 +3,7 @@ using System.Linq;
 using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
+using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -93,10 +94,9 @@ namespace Graph.Tests
         [Then(@"Изменилось положение ориентиров")]
         public async void ThenИзменилосьПоложениеОриентиров()
         {
-            var wcf = _sut.ServerContainer.Resolve<IWcfServiceForClient>();
             var baseRefs = _sut.ReadModel.BaseRefs.Where(b => b.TraceId == _trace.TraceId).ToList();
             baseRefs.Count.Should().Be(1);
-            var sorBytes = await wcf.GetSorBytes(baseRefs[0].SorFileId);
+            var sorBytes = await _sut.WcfService.GetSorBytes(baseRefs[0].SorFileId);
             var otdrDataKnownBlocks = SorData.FromBytes(sorBytes);
 
             otdrDataKnownBlocks.LinkParameters.LandmarkBlocks[3].Location.Should().NotBe(_closureLocation);
