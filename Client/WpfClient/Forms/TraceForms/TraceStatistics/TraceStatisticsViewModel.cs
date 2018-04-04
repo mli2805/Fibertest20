@@ -142,5 +142,10 @@ namespace Iit.Fibertest.Client
             IsOpen = false;
             base.CanClose(callback);
         }
+
+        public void Close()
+        {
+            TryClose();
+        }
     }
 }

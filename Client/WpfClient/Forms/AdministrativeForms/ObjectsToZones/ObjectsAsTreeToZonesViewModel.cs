@@ -40,6 +40,8 @@ namespace Iit.Fibertest.Client
             foreach (var rtu in ReadModel.Rtus)
             {
                 Rows.Add(RtuToLine(rtu));
+
+                // TODO doesn't work if zone user opens a form just to see - some rtu/traces are not represented in tree - exception
                 var rtuLeaf = (IPortOwner)_treeOfRtuModel.GetById(rtu.Id);
                 FillInRtuSortedTraces(rtuLeaf);
             }

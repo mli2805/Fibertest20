@@ -1,7 +1,13 @@
-﻿namespace Iit.Fibertest.Graph
+﻿using AutoMapper;
+
+namespace Iit.Fibertest.Graph
 {
     public class EventsOnModelExecutor
     {
+        private static readonly IMapper Mapper = new MapperConfiguration(
+            cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
+
+        private readonly Model _model;
         private readonly EquipmentEventsOnModelExecutor _equipmentEventsOnModelExecutor;
         private readonly NodeEventsOnModelExecutor _nodeEventsOnModelExecutor;
         private readonly FiberEventsOnModelExecutor _fiberEventsOnModelExecutor;
@@ -12,12 +18,14 @@
         private readonly EchoEventsOnModelExecutor _echoEventsOnModelExecutor;
         private readonly MeasurementEventOnModelExecutor _measurementEventOnModelExecutor;
 
-        public EventsOnModelExecutor(EquipmentEventsOnModelExecutor equipmentEventsOnModelExecutor, NodeEventsOnModelExecutor nodeEventsOnModelExecutor,
+        public EventsOnModelExecutor(Model model, EquipmentEventsOnModelExecutor equipmentEventsOnModelExecutor, 
+            NodeEventsOnModelExecutor nodeEventsOnModelExecutor,
             FiberEventsOnModelExecutor fiberEventsOnModelExecutor, TraceEventsOnModelExecutor traceEventsOnModelExecutor,
             RtuEventsOnModelExecutor rtuEventsOnModelExecutor, UserEventsOnModelExecutor userEventsOnModelExecutor,
             ZoneEventsOnModelExecutor zoneEventsOnModelExecutor, EchoEventsOnModelExecutor echoEventsOnModelExecutor,
             MeasurementEventOnModelExecutor measurementEventOnModelExecutor)
         {
+            _model = model;
             _equipmentEventsOnModelExecutor = equipmentEventsOnModelExecutor;
             _nodeEventsOnModelExecutor = nodeEventsOnModelExecutor;
             _fiberEventsOnModelExecutor = fiberEventsOnModelExecutor;
@@ -77,7 +85,9 @@
                 case MonitoringStopped evnt: return _echoEventsOnModelExecutor.StopMonitoring(evnt); 
 
                 case MeasurementAdded evnt: return _measurementEventOnModelExecutor.AddMeasurement(evnt); 
-                case MeasurementUpdated evnt: return _measurementEventOnModelExecutor.UpdateMeasurement(evnt); 
+                case MeasurementUpdated evnt: return _measurementEventOnModelExecutor.UpdateMeasurement(evnt);
+
+                case NetworkEventAdded evnt: _model.NetworkEvents.Add(Mapper.Map<NetworkEvent>(evnt)); return null;
 
                 default: return @"Unknown event";
             }

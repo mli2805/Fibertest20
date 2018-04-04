@@ -102,14 +102,13 @@ namespace Iit.Fibertest.Client
             _rtuFilterViewModel = rtuFilterViewModel;
             _windowManager = windowManager;
 
+            InitializeTraceStateFilters();
+            SelectedRtuFilter = new RtuGuidFilter();
+            InitializeEventStatusFilters();
         }
 
         protected override void OnViewLoaded(object o)
         {
-            InitializeTraceStateFilters();
-            SelectedRtuFilter = new RtuGuidFilter();
-            InitializeEventStatusFilters();
-
             var view = CollectionViewSource.GetDefaultView(Rows);
             view.Filter += OnFilter;
             view.SortDescriptions.Add(new SortDescription(@"Nomer", ListSortDirection.Descending));

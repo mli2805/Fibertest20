@@ -142,8 +142,15 @@ namespace Iit.Fibertest.Client
             LaunchedViews.Add(rtuId, vm);
         }
 
+        // ReSharper disable once UnusedParameter.Local
         private void ChangeResponsibilities(ResponsibilitiesChanged e)
         {
+            foreach (var pair in LaunchedViews)
+            {
+                var rtu = _reaModel.Rtus.First(r => r.Id == pair.Key);
+                if (!rtu.ZoneIds.Contains(_currentUser.ZoneId))
+                    pair.Value.Close();
+            }
         }
     }
 }

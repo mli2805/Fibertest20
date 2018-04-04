@@ -54,6 +54,15 @@ namespace Iit.Fibertest.Client
                 Rows.Remove(oldEvent);
         }
 
+        public void RemoveAllEventsForRtu(Guid rtuId)
+        {
+            for (var i = Rows.Count - 1; i >= 0; i--)
+            {
+                if (Rows[i].RtuId == rtuId)
+                    Rows.RemoveAt(i);
+            }
+        }
+
         public void RefreshRowsWithUpdatedRtu(Guid rtuId)
         {
             foreach (var networkEventModel in Rows.Where(m => m.RtuId == rtuId).ToList())

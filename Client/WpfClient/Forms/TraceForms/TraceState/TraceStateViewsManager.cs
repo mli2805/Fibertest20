@@ -63,7 +63,14 @@ namespace Iit.Fibertest.Client
 
         private void UpdateMeasurement(MeasurementUpdated evnt)
         {
-
+            foreach (var viewModel in LaunchedViews)
+            {
+                if (viewModel.Model.SorFileId == evnt.SorFileId)
+                {
+                    viewModel.Model.EventStatus = evnt.EventStatus;
+                    viewModel.Model.Comment = evnt.Comment;
+                }
+            }
         }
 
         private void UpdateTrace(TraceUpdated evnt)
@@ -84,7 +91,16 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private void ChangeResponsibility(ResponsibilitiesChanged evnt) { }
+        // ReSharper disable once UnusedParameter.Local
+        private void ChangeResponsibility(ResponsibilitiesChanged evnt)
+        {
+            foreach (var viewModel in LaunchedViews)
+            {
+                var trace = _readModel.Traces.First(t => t.TraceId == viewModel.Model.TraceId);
+                if (!trace.ZoneIds.Contains(_currentUser.ZoneId))
+                    viewModel.Close();
+            }
+        }
 
         // User clicked on TraceLeaf - State
         public void ShowTraceState(Guid traceId)

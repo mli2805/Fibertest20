@@ -12,13 +12,16 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
         private readonly Model _readModel;
+        private readonly CurrentUser _currentUser;
         private Dictionary<Guid, TraceStatisticsViewModel> LaunchedViews { get; } = new Dictionary<Guid, TraceStatisticsViewModel>();
 
-        public TraceStatisticsViewsManager(ILifetimeScope globalScope, IWindowManager windowManager, Model readModel)
+        public TraceStatisticsViewsManager(ILifetimeScope globalScope, IWindowManager windowManager, 
+            Model readModel, CurrentUser currentUser)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
             _readModel = readModel;
+            _currentUser = currentUser;
         }
 
         public void Apply(object e)
@@ -81,10 +84,15 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        // ReSharper disable once UnusedParameter.Local
         private void ChangeResponsibility(ResponsibilitiesChanged evnt)
         {
-
+            foreach (var pair in LaunchedViews)
+            {
+                var trace = _readModel.Traces.First(t => t.TraceId == pair.Key);
+                if (!trace.ZoneIds.Contains(_currentUser.ZoneId))
+                    pair.Value.Close();
+            }
         }
-
     }
 }

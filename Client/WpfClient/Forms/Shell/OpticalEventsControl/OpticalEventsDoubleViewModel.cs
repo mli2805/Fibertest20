@@ -92,6 +92,27 @@ namespace Iit.Fibertest.Client
 
         public void ChangeResponsibilities(ResponsibilitiesChanged evnt)
         {
+            foreach (var pair in evnt.ResponsibilitiesDictionary)
+            {
+                var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == pair.Key);
+                if (trace == null) continue; // not interested here in RTU
+                if (!pair.Value.Contains(_currentUser.ZoneId)) continue; // for current zone this trace doesn't change
+
+                if (trace.ZoneIds.Contains(_currentUser.ZoneId)) // was NOT became YES
+                {
+                    var lastMeasurementOnThisTrace = _readModel.Measurements.LastOrDefault(m => m.TraceId == trace.TraceId);
+                    if (lastMeasurementOnThisTrace != null && lastMeasurementOnThisTrace.TraceState != FiberState.Ok)
+                        ActualOpticalEventsViewModel.AddEvent(lastMeasurementOnThisTrace);
+
+                    foreach(var measurement in _readModel.Measurements.Where(m=>m.TraceId == trace.TraceId && m.EventStatus > EventStatus.JustMeasurementNotAnEvent))
+                        AllOpticalEventsViewModel.AddEvent(measurement);
+                }
+                else // was YES became NOT
+                {
+                    ActualOpticalEventsViewModel.RemoveEventsOfTrace(trace.TraceId);
+                    AllOpticalEventsViewModel.RemoveEventsOfTrace(trace.TraceId);
+                }
+            }
 
         }
       

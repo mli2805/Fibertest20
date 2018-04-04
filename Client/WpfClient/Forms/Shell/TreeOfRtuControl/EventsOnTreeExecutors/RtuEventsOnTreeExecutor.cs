@@ -44,10 +44,9 @@ namespace Iit.Fibertest.Client
 
         public void RemoveRtu(RtuRemoved e)
         {
-            if (_currentUser.ZoneId != Guid.Empty &&
-                !_readModel.Rtus.First(r => r.Id == e.RtuId).ZoneIds.Contains(_currentUser.ZoneId)) return;
-
             var rtu = _treeOfRtuModel.GetById(e.RtuId);
+            if (rtu == null) return;
+
             RemoveWithAdditionalOtaus(rtu);
         }
 
