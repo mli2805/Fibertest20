@@ -84,12 +84,12 @@ namespace Iit.Fibertest.Client
             _traceStatisticsViewsManager.Show(traceLeaf.Id);
         }
 
-        public void ShowTraceLandmarks(object param)
+        public async void ShowTraceLandmarks(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
 
-            _landmarksViewModel.Initialize(traceLeaf.Id, false);
+            await _landmarksViewModel.Initialize(traceLeaf.Id, false);
             _windowManager.ShowWindowWithAssignedOwner(_landmarksViewModel);
         }
 

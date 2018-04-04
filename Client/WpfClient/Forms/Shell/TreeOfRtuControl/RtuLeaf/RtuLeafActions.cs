@@ -70,12 +70,12 @@ namespace Iit.Fibertest.Client
                 _rtuStateViewsManager.ShowRtuState(rtuLeaf);
         }
 
-        public void ShowRtuLandmarks(object param)
+        public async void ShowRtuLandmarks(object param)
         {
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-            _landmarksViewModel.Initialize(rtuLeaf.Id, true);
+            await _landmarksViewModel.Initialize(rtuLeaf.Id, true);
             _windowManager.ShowWindowWithAssignedOwner(_landmarksViewModel);
         }
 

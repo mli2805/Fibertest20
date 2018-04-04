@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WcfServiceForClientInterface;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.Client
@@ -27,7 +29,7 @@ namespace Iit.Fibertest.Client
             {
                 if (Equals(value, _selectedGpsInputMode)) return;
                 _selectedGpsInputMode = value;
-               Rows = LandmarksToRows();
+                Rows = LandmarksToRows();
             }
         }
 
@@ -41,11 +43,7 @@ namespace Iit.Fibertest.Client
             {
                 if (Equals(value, _selectedTrace)) return;
                 _selectedTrace = value;
-                _landmarks = (SelectedTrace.PreciseId == Guid.Empty) ?
-                    new LandmarksGraphParser(_readModel).GetLandmarks(SelectedTrace) :
-                    new LandmarksBaseParser().GetLandmarks(GetBase(SelectedTrace.PreciseId));
-                Rows = LandmarksToRows();
-                DisplayName = string.Format(Resources.SID_Landmarks_of_trace__0_, SelectedTrace.Title);
+
             }
         }
 
@@ -70,6 +68,7 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
+        private readonly IWcfServiceForClient _c2DWcfManager;
         private List<Landmark> _landmarks;
 
         private ObservableCollection<LandmarkRow> _rows;
@@ -86,36 +85,64 @@ namespace Iit.Fibertest.Client
 
         public LandmarkRow SelectedRow { get; set; }
 
-        public LandmarksViewModel(ILifetimeScope globalScope, Model readModel, IWindowManager windowManager)
+        public LandmarksViewModel(ILifetimeScope globalScope, Model readModel,
+            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
         {
             _globalScope = globalScope;
             _readModel = readModel;
             _windowManager = windowManager;
+            _c2DWcfManager = c2DWcfManager;
             _selectedGpsInputMode = GpsInputModes.Last();
         }
 
-        public void Initialize(Guid id, bool isUserClickedOnRtu)
+        public async Task<int> Initialize(Guid id, bool isUserClickedOnRtu)
         {
             if (isUserClickedOnRtu)
             {
                 Traces = _readModel.Traces.Where(t => t.RtuId == id).ToList();
-                SelectedTrace = Traces.First();
+                _selectedTrace = Traces.First();
             }
             else
             {
-                SelectedTrace = _readModel.Traces.First(t => t.TraceId == id);
-                Traces = _readModel.Traces.Where(t => t.RtuId == SelectedTrace.RtuId).ToList();
+                var trace = _readModel.Traces.First(t => t.TraceId == id);
+                Traces = _readModel.Traces.Where(t => t.RtuId == trace.RtuId).ToList();
+                _selectedTrace = _readModel.Traces.First(t => t.TraceId == id);
             }
+            return await PrepareLandmarks();
         }
 
-        private OtdrDataKnownBlocks GetBase(Guid baseId)
+        protected override void OnViewLoaded(object view)
+        {
+            DisplayName = string.Format(Resources.SID_Landmarks_of_trace__0_, SelectedTrace.Title);
+        }
+
+        private async Task<int> PrepareLandmarks()
+        {
+            if (SelectedTrace.PreciseId == Guid.Empty)
+                _landmarks = new LandmarksGraphParser(_readModel).GetLandmarks(SelectedTrace);
+            else
+            {
+                var sorData = await GetBase(SelectedTrace.PreciseId);
+                _landmarks = new LandmarksBaseParser().GetLandmarks(sorData);
+            }
+            Rows = LandmarksToRows();
+            return 0;
+        }
+
+        private async Task<OtdrDataKnownBlocks> GetBase(Guid baseId)
         {
             if (baseId == Guid.Empty)
                 return null;
 
-            var bytes = File.ReadAllBytes(@"c:\temp\base.sor");
-            // TODO get sordata from database
-            return SorData.FromBytes(bytes);
+            var baseRef = _readModel.BaseRefs.First(b => b.Id == baseId);
+            var sorBytes = await _c2DWcfManager.GetSorBytes(baseRef.SorFileId);
+            return SorData.FromBytes(sorBytes);
+        }
+
+        public async void ChangeTrace()
+        {
+            await PrepareLandmarks();
+            DisplayName = string.Format(Resources.SID_Landmarks_of_trace__0_, SelectedTrace.Title);
         }
 
         public void ShowReflectogram() { }
