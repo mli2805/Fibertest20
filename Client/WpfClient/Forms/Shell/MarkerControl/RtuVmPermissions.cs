@@ -22,10 +22,10 @@ namespace Iit.Fibertest.Client
             if (_currentUser.Role > Role.Root || parameter == null)
                 return false;
             var marker = (MarkerControl)parameter;
-            var rtuVm = marker.Owner.GraphReadModel.Model.Rtus.FirstOrDefault(r => r.NodeId == marker.GMapMarker.Id);
+            var rtuVm = marker.Owner.GraphReadModel.ReadModel.Rtus.FirstOrDefault(r => r.NodeId == marker.GMapMarker.Id);
             if (rtuVm == null) return false;
 
-            return !marker.Owner.GraphReadModel.Model.Traces.Any(t => t.RtuId == rtuVm.Id && t.Port > 0);
+            return !marker.Owner.GraphReadModel.ReadModel.Traces.Any(t => t.RtuId == rtuVm.Id && t.Port > 0);
         }
 
         public bool CanStartAddFiber(object parameter)
@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
             if (_currentUser.Role > Role.Root || parameter == null)
                 return false;
             var marker = (MarkerControl) parameter;
-            var rtuVm = marker.Owner.GraphReadModel.Model.Rtus.FirstOrDefault(r => r.NodeId == marker.GMapMarker.Id);
+            var rtuVm = marker.Owner.GraphReadModel.ReadModel.Rtus.FirstOrDefault(r => r.NodeId == marker.GMapMarker.Id);
             return rtuVm != null;
         }
     }

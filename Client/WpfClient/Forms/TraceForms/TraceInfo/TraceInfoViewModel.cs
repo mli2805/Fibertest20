@@ -83,7 +83,7 @@ namespace Iit.Fibertest.Client
                 await SendAddTraceCommand();
             else
                 await SendUpdateTraceCommand();
-            TryClose();
+            TryClose(true);
         }
 
         private bool IsTitleValid()
@@ -127,7 +127,7 @@ namespace Iit.Fibertest.Client
 
         public void Cancel()
         {
-            TryClose();
+            TryClose(false);
         }
 
         public string this[string columnName]

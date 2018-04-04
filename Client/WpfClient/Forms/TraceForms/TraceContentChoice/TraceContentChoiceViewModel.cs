@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-     
+
         public bool ShouldWeContinue { get; set; }
 
         public TraceContentChoiceViewModel(ILifetimeScope globalScope, IniFile iniFile, IWcfServiceForClient c2DWcfManager,
@@ -97,6 +97,15 @@ namespace Iit.Fibertest.Client
                 if (mo.IsSelected)
                     return mo.EquipmentId;
             return NoEquipmentInNodeChoice.EquipmentId;
+        }
+
+        public string GetSelectedDualName()
+        {
+            var result = NodeTitle;
+            var selectedModel = EquipmentChoices.FirstOrDefault(m => m.IsSelected);
+            if (selectedModel == null) return result;
+            result = result + @" / " + selectedModel.TitleOfEquipment;// even if equipment title is empty
+            return result;
         }
 
 

@@ -210,6 +210,7 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\RtuEventsOnTreeExecutor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\TraceEventsOnTreeExecutor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\ZoneEventsOnTreeExecutor.cs" />
+    <Compile Include="Forms\TraceForms\TraceStepByStep\StepModel.cs" />
     <Compile Include="Forms\WpfTricks\FocusExtension.cs" />
     <Compile Include="Forms\LoginServer\Server.cs" />
     <Compile Include="Forms\LoginServer\ServersConnectView.xaml.cs">

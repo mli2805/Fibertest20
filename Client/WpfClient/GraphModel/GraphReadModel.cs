@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client
         public GrmFiberWithNodesRequest GrmFiberWithNodesRequest { get; }
         public GrmRtuRequests GrmRtuRequests { get; }
         public IWindowManager WindowManager { get; }
-        public Model Model { get; }
+        public Model ReadModel { get; }
         public readonly ILifetimeScope GlobalScope;
         public readonly IniFile IniFile;
 
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.Client
             GrmFiberRequests grmFiberRequests, GrmFiberWithNodesRequest grmFiberWithNodesRequest,
              GrmRtuRequests grmRtuRequests,
 
-            IWindowManager windowManager, Model model)
+            IWindowManager windowManager, Model readModel)
         {
             LogFile = logFile;
             CurrentGpsInputMode = currentGpsInputMode;
@@ -63,7 +63,7 @@ namespace Iit.Fibertest.Client
             GrmFiberWithNodesRequest = grmFiberWithNodesRequest;
             GrmRtuRequests = grmRtuRequests;
             WindowManager = windowManager;
-            Model = model;
+            ReadModel = readModel;
             GlobalScope = globalScope;
             IniFile = iniFile;
             Data.Nodes = new ObservableCollection<NodeVm>();
@@ -86,7 +86,7 @@ namespace Iit.Fibertest.Client
 
         public void PlaceRtuIntoScreenCenter(Guid rtuId)
         {
-            var rtu = Model.Rtus.First(r => r.Id == rtuId);
+            var rtu = ReadModel.Rtus.First(r => r.Id == rtuId);
             var nodeVm = Data.Nodes.First(n => n.Id == rtu.NodeId);
             nodeVm.IsHighlighted = true;
             MainMap.Position = nodeVm.Position;
@@ -101,10 +101,10 @@ namespace Iit.Fibertest.Client
 
         public void ChangeTraceColor(Guid traceId, FiberState state)
         {
-            var trace = Model.Traces.FirstOrDefault(t => t.TraceId == traceId);
+            var trace = ReadModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
             if (trace == null) return;
 
-            var fibers = Model.GetTraceFibers(trace);
+            var fibers = ReadModel.GetTraceFibers(trace);
             foreach (var fiber in fibers)
             {
                 var fiberVm = Data.Fibers.First(f => f.Id == fiber.FiberId);
