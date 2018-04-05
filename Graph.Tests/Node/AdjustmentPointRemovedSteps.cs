@@ -13,7 +13,7 @@ namespace Graph.Tests
     {
         private SystemUnderTest _sut = new SystemUnderTest();
         private Guid _fiberId;
-        private Guid _n1, _n2, _nodeWithPointId;
+        private Guid _n1, _n2, _nodeWithPointId, _middleNodeForDeletion;
 
         [Given(@"Существует два узела и отрезок между ними")]
         public void GivenСуществуетДваУзелаИОтрезокМеждуНими()
@@ -73,6 +73,31 @@ namespace Graph.Tests
 
             _sut.ReadModel.Nodes.Count.Should().Be(1);
             _sut.ReadModel.Nodes[0].NodeId.Should().Be(_n1);
+        }
+
+        [Given(@"Между точкой и крайним узлом добавлен еще узел")]
+        public void GivenМеждуТочкойИКрайнимУзломДобавленЕщеУзел()
+        {
+            var fiber = _sut.ReadModel.Fibers.First(f => f.NodeId1 == _n1 && f.NodeId2 == _nodeWithPointId ||
+                                                         f.NodeId2 == _n1 && f.NodeId1 == _nodeWithPointId);
+
+            _sut.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber() { FiberId = fiber.FiberId, InjectionType = EquipmentType.EmptyNode }).Wait();
+            _sut.Poller.EventSourcingTick().Wait();
+            _middleNodeForDeletion = _sut.GraphReadModel.Data.Nodes.Last().Id;
+        }
+
+        [When(@"Удаляем этот узел")]
+        public void WhenУдаляемЭтотУзел()
+        {
+            _sut.GraphReadModel.GrmNodeRequests.RemoveNode(_middleNodeForDeletion, EquipmentType.EmptyNode).Wait();
+            _sut.Poller.EventSourcingTick().Wait();
+        }
+
+        [Then(@"Удаляются все волокна и точка привязки")]
+        public void ThenУдаляютсяВсеВолокнаИТочкаПривязки()
+        {
+            _sut.GraphReadModel.Data.Fibers.Count.Should().Be(0);
+            _sut.GraphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == _nodeWithPointId).Should().BeNull();
         }
 
     }

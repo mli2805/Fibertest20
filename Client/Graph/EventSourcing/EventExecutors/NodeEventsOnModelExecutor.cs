@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 using GMap.NET;
@@ -22,10 +23,6 @@ namespace Iit.Fibertest.Graph
         }
         public string AddNodeIntoFiber(NodeIntoFiberAdded e)
         {
-            _model.Nodes.Add(new Node() { NodeId = e.Id, Position = e.Position, TypeOfLastAddedEquipment = e.InjectionType });
-            _model.Equipments.Add(new Equipment() { EquipmentId = e.EquipmentId, Type = e.InjectionType, NodeId = e.Id });
-            AddTwoFibersToNewNode(e);
-            FixTracesWhichContainedOldFiber(e);
             var fiber = _model.Fibers.FirstOrDefault(f => f.FiberId == e.FiberId);
             if (fiber == null)
             {
@@ -33,6 +30,12 @@ namespace Iit.Fibertest.Graph
                 _logFile.AppendLine(message);
                 return message;
             }
+
+            _model.Nodes.Add(new Node() { NodeId = e.Id, Position = e.Position, TypeOfLastAddedEquipment = e.InjectionType });
+            _model.Equipments.Add(new Equipment() { EquipmentId = e.EquipmentId, Type = e.InjectionType, NodeId = e.Id });
+            AddTwoFibersToNewNode(e, fiber);
+            FixTracesWhichContainedOldFiber(e);
+         
             _model.Fibers.Remove(fiber);
             return null;
         }
@@ -48,13 +51,24 @@ namespace Iit.Fibertest.Graph
                 }
             }
         }
-        private void AddTwoFibersToNewNode(NodeIntoFiberAdded e)
+        private void AddTwoFibersToNewNode(NodeIntoFiberAdded e, Fiber oldFiber)
         {
             Guid nodeId1 = _model.Fibers.First(f => f.FiberId == e.FiberId).NodeId1;
             Guid nodeId2 = _model.Fibers.First(f => f.FiberId == e.FiberId).NodeId2;
 
-            _model.Fibers.Add(new Fiber() { FiberId = e.NewFiberId1, NodeId1 = nodeId1, NodeId2 = e.Id });
-            _model.Fibers.Add(new Fiber() { FiberId = e.NewFiberId2, NodeId1 = e.Id, NodeId2 = nodeId2 });
+            var fiber1 = new Fiber() { FiberId = e.NewFiberId1, NodeId1 = nodeId1, NodeId2 = e.Id };
+            foreach (var pair in oldFiber.States)
+                fiber1.States.Add(pair.Key, pair.Value);
+            foreach (var guid in oldFiber.TracesWithExceededLossCoeff)
+                fiber1.TracesWithExceededLossCoeff.Add(guid);
+            _model.Fibers.Add(fiber1);
+
+            var fiber2 = new Fiber() { FiberId = e.NewFiberId2, NodeId1 = e.Id, NodeId2 = nodeId2 };
+            foreach (var pair in oldFiber.States)
+                fiber2.States.Add(pair.Key, pair.Value);
+            foreach (var guid in oldFiber.TracesWithExceededLossCoeff)
+                fiber2.TracesWithExceededLossCoeff.Add(guid);
+            _model.Fibers.Add(fiber2);
         }
 
         public string UpdateNode(NodeUpdated source)
@@ -101,10 +115,12 @@ namespace Iit.Fibertest.Graph
             if (e.FiberIdToDetourAdjustmentPoint != Guid.Empty)
                 return ExcludeAdjustmentPoint(e.NodeId, e.FiberIdToDetourAdjustmentPoint);
 
-            if (e.TraceWithNewFiberForDetourRemovedNode.Count == 0 &&
-                _model.Fibers.Count(f => f.NodeId1 == e.NodeId || f.NodeId2 == e.NodeId) == 1)
-                return RemoveNodeOnEdgeWhereNoTraces(e.NodeId);
-            return _model.RemoveNodeWithAllHis(e.NodeId);
+//            if (e.TraceWithNewFiberForDetourRemovedNode.Count == 0 &&
+//                _model.Fibers.Count(f => f.NodeId1 == e.NodeId || f.NodeId2 == e.NodeId) == 1)
+//                return RemoveNodeOnEdgeWhereNoTraces(e.NodeId);
+            return e.TraceWithNewFiberForDetourRemovedNode.Count == 0 
+                ? _model.RemoveNodeWithAllHisFibersUptoRealNode(e.NodeId) 
+                : _model.RemoveNodeWithAllHisFibers(e.NodeId);
         }
 
         private void ExcludeNodeFromTrace(Trace trace, Guid fiberId, Guid nodeId)
@@ -166,15 +182,12 @@ namespace Iit.Fibertest.Graph
 
                 nodeId = neighbourId;
             }
-            while (IsAdjustmentPoint(nodeId));
+            while (_model.IsAdjustmentPoint(nodeId));
 
             return null;
         }
 
-        private bool IsAdjustmentPoint(Guid nodeId)
-        {
-            return _model.Equipments.FirstOrDefault(e => e.NodeId == nodeId && e.Type == EquipmentType.AdjustmentPoint) != null;
-        }
+     
 
         private void CreateDetourIfAbsent(Trace trace, Guid fiberId, int idxInTrace)
         {
@@ -183,7 +196,13 @@ namespace Iit.Fibertest.Graph
 
             if (!_model.Fibers.Any(f => f.NodeId1 == nodeBefore && f.NodeId2 == nodeAfter
                                         || f.NodeId2 == nodeBefore && f.NodeId1 == nodeAfter))
-                _model.Fibers.Add(new Fiber() { FiberId = fiberId, NodeId1 = nodeBefore, NodeId2 = nodeAfter });
+                _model.Fibers.Add(new Fiber()
+                {
+                    FiberId = fiberId,
+                    NodeId1 = nodeBefore,
+                    NodeId2 = nodeAfter,
+                    States = new Dictionary<Guid, FiberState>{{trace.TraceId, trace.State}}
+                });
         }
     }
 }

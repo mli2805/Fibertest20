@@ -7,12 +7,6 @@ namespace Iit.Fibertest.Client
 {
     public static class GraphReadModelExt
     {
-//        public static IEnumerable<FiberVm> GetFibersByNodes(this GraphReadModel model, List<Guid> nodes)
-//        {
-//            for (int i = 1; i < nodes.Count; i++)
-//                yield return GetFiberByNodes(model, nodes[i - 1], nodes[i]);
-//        }
-
         public static NodeVm GetNodeByLandmarkIndex(this GraphReadModel model, Guid traceId, int landmarkIndex)
         {
             var trace = model.ReadModel.Traces.First(t => t.TraceId == traceId);

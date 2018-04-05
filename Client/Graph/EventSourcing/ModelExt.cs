@@ -157,18 +157,41 @@ namespace Iit.Fibertest.Graph
             return newList;
         }
 
-        public static string RemoveNodeWithAllHis(this Model model, Guid nodeId)
+        public static string RemoveNodeWithAllHisFibersUptoRealNode(this Model model, Guid nodeId)
+        {
+            foreach (var fiber in model.Fibers.Where(f => f.NodeId1 == nodeId || f.NodeId2 == nodeId).ToList())
+            {
+                var fiberForDeletion = fiber;
+                var nodeForDeletionId = nodeId;
+                while (true)
+                {
+                    var anotherNodeId = fiberForDeletion.NodeId1 == nodeForDeletionId ? fiberForDeletion.NodeId2 : fiberForDeletion.NodeId1;
+                    model.Fibers.Remove(fiberForDeletion);
+                    if (!model.IsAdjustmentPoint(anotherNodeId)) break;
+
+                    fiberForDeletion = model.Fibers.First(f => f.NodeId1 == anotherNodeId || f.NodeId2 == anotherNodeId);
+                    model.Nodes.RemoveAll(n => n.NodeId == anotherNodeId);
+                    model.Equipments.RemoveAll(e => e.NodeId == anotherNodeId);
+                    nodeForDeletionId = anotherNodeId;
+                }
+            }
+
+            model.Equipments.RemoveAll(e => e.NodeId == nodeId);
+            model.Nodes.RemoveAll(n => n.NodeId == nodeId);
+            return null;
+        }
+
+        public static string RemoveNodeWithAllHisFibers(this Model model, Guid nodeId)
         {
             model.Fibers.RemoveAll(f => f.NodeId1 == nodeId || f.NodeId2 == nodeId);
             model.Equipments.RemoveAll(e => e.NodeId == nodeId);
-            var node = model.Nodes.FirstOrDefault(n => n.NodeId == nodeId);
-            if (node != null)
-            {
-                model.Nodes.Remove(node);
-                return null;
-            }
+            model.Nodes.RemoveAll(n => n.NodeId == nodeId);
+            return null;
+        }
 
-            return $@"RemoveNodeWithAllHis: Node {nodeId.First6()} not found";
+        public static bool IsAdjustmentPoint(this Model model, Guid nodeId)
+        {
+            return model.Equipments.FirstOrDefault(e => e.NodeId == nodeId && e.Type == EquipmentType.AdjustmentPoint) != null;
         }
 
         /// <returns>The zero-based index of the first occurrence of the fiber within the entire list of fibers in trace if found; otherwise, -1</returns>

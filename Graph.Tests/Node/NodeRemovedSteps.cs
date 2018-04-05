@@ -74,6 +74,16 @@ namespace Graph.Tests
             _nodeId = _trace.NodeIds[1];
         }
 
+        [Given(@"На трассу добавлена точка привязки")]
+        public void GivenНаТрассуДобавленаТочкаПривязки()
+        {
+            var fiber = _sut.ReadModel.Fibers.First(f => f.NodeId1 == _nodeId && f.NodeId2 == _lastNodeId ||
+                                                         f.NodeId2 == _nodeId && f.NodeId1 == _lastNodeId);
+            _sut.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber() { FiberId = fiber.FiberId, InjectionType = EquipmentType.AdjustmentPoint }).Wait();
+            _sut.Poller.EventSourcingTick().Wait();
+            _adjustmentPointNodeId = _sut.ReadModel.Nodes.Last().NodeId;
+        }
+
         [Given(@"Для трассы задана базовая")]
         public void GivenДляТрассыЗаданаБазовая()
         {
@@ -115,6 +125,20 @@ namespace Graph.Tests
             fiberVm.Should().NotBeNull();
             fiberVm?.States.Should().ContainKey(_trace.TraceId);
         }
+
+        [Then(@"Создается отрезок между RTU и точкой привязки")]
+        public void ThenСоздаетсяОтрезокМеждуRtuиТочкойПривязки()
+        {
+            var fiber = _sut.ReadModel.Fibers.FirstOrDefault(f =>
+                f.NodeId1 == _rtuNodeId && f.NodeId2 == _adjustmentPointNodeId ||
+                f.NodeId1 == _adjustmentPointNodeId && f.NodeId2 == _rtuNodeId);
+            fiber.Should().NotBeNull();
+
+            var fiberVm = _sut.GraphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == fiber?.FiberId);
+            fiberVm.Should().NotBeNull();
+            fiberVm?.States.Should().ContainKey(_trace.TraceId);
+        }
+
 
         [Then(@"Корректируются списки узлов и оборудования трассы")]
         public void ThenКорректируютсяСпискиУзловИОборудованияТрассы()

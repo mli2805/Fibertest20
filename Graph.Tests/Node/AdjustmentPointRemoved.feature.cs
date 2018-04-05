@@ -62,6 +62,16 @@ namespace Graph.Tests.Node
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+#line 3
+#line 4
+ testRunner.Given("Существует два узела и отрезок между ними", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 5
+ testRunner.Given("На отрезке добавлена точка привязки", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+        }
+        
         public virtual void SetFixture(AdjustmentPointRemovedFeature.FixtureData fixtureData)
         {
         }
@@ -77,15 +87,13 @@ namespace Graph.Tests.Node
         public virtual void УдалениеТочкиПривязки()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление точки привязки", ((string[])(null)));
-#line 4
-this.ScenarioSetup(scenarioInfo);
-#line 5
- testRunner.Given("Существует два узела и отрезок между ними", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 6
- testRunner.Given("На отрезке добавлена точка привязки", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 7
- testRunner.When("Пользователь удаляет точку привязки", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
 #line 8
+ testRunner.When("Пользователь удаляет точку привязки", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 9
  testRunner.Then("Узел с точкой удаляется, но между узлами создается новое волокно", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -97,16 +105,34 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void УдалениеУзлаСоседствующегоСТочкойПривязки()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление узла соседствующего с точкой привязки", ((string[])(null)));
-#line 11
-this.ScenarioSetup(scenarioInfo);
 #line 12
- testRunner.Given("Существует два узела и отрезок между ними", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
 #line 13
- testRunner.Given("На отрезке добавлена точка привязки", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 14
  testRunner.When("Пользователь удаляет крайний узел", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 15
+#line 14
  testRunner.Then("Удаляются узел, точка привязки и оба куска волокна", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Удаление срединного узла соседствующего с точкой привязки")]
+        [Xunit.TraitAttribute("FeatureTitle", "AdjustmentPointRemoved")]
+        [Xunit.TraitAttribute("Description", "Удаление срединного узла соседствующего с точкой привязки")]
+        public virtual void УдалениеСрединногоУзлаСоседствующегоСТочкойПривязки()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление срединного узла соседствующего с точкой привязки", ((string[])(null)));
+#line 16
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 17
+ testRunner.Given("Между точкой и крайним узлом добавлен еще узел", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 18
+ testRunner.When("Удаляем этот узел", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 19
+ testRunner.Then("Удаляются все волокна и точка привязки", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

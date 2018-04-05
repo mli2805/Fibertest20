@@ -64,7 +64,7 @@ namespace Iit.Fibertest.Graph
             }
 
             _model.Rtus.Remove(rtu);
-            _model.RemoveNodeWithAllHis(nodeId);
+            _model.RemoveNodeWithAllHisFibersUptoRealNode(nodeId);
             return null;
         }
 

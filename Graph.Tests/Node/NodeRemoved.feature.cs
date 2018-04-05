@@ -195,12 +195,12 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
-        [Xunit.FactAttribute(DisplayName="Попытка удаления узла из трассы с базовой")]
+        [Xunit.FactAttribute(DisplayName="Удаление НЕ последнего узла рядом с точкой привязки")]
         [Xunit.TraitAttribute("FeatureTitle", "NodeRemoved")]
-        [Xunit.TraitAttribute("Description", "Попытка удаления узла из трассы с базовой")]
-        public virtual void ПопыткаУдаленияУзлаИзТрассыСБазовой()
+        [Xunit.TraitAttribute("Description", "Удаление НЕ последнего узла рядом с точкой привязки")]
+        public virtual void УдалениеНЕПоследнегоУзлаРядомСТочкойПривязки()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Попытка удаления узла из трассы с базовой", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление НЕ последнего узла рядом с точкой привязки", ((string[])(null)));
 #line 39
 this.ScenarioSetup(scenarioInfo);
 #line 3
@@ -210,10 +210,40 @@ this.FeatureBackground();
 #line 41
  testRunner.Given("Данный узел НЕ последний в трассе", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 42
- testRunner.Given("Для трассы задана базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.And("На трассу добавлена точка привязки", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 43
  testRunner.When("Пользователь кликает удалить узел", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 44
+ testRunner.Then("Создается отрезок между RTU и точкой привязки", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 45
+ testRunner.Then("Корректируются списки узлов и оборудования трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 46
+ testRunner.Then("Отрезки связанные с исходным узлом удаляются", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 47
+ testRunner.Then("Узел удаляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Попытка удаления узла из трассы с базовой")]
+        [Xunit.TraitAttribute("FeatureTitle", "NodeRemoved")]
+        [Xunit.TraitAttribute("Description", "Попытка удаления узла из трассы с базовой")]
+        public virtual void ПопыткаУдаленияУзлаИзТрассыСБазовой()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Попытка удаления узла из трассы с базовой", ((string[])(null)));
+#line 49
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 50
+ testRunner.Given("Задана трасса", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 51
+ testRunner.Given("Данный узел НЕ последний в трассе", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 52
+ testRunner.Given("Для трассы задана базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 53
+ testRunner.When("Пользователь кликает удалить узел", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 54
  testRunner.Then("Удаление не происходит", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
