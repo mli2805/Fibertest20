@@ -18,6 +18,7 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly TraceInfoCalculator _traceInfoCalculator;
+        public bool IsSavePressed { get; set; }
 
         public TraceInfoModel Model { get; set; } = new TraceInfoModel();
         
@@ -83,7 +84,8 @@ namespace Iit.Fibertest.Client
                 await SendAddTraceCommand();
             else
                 await SendUpdateTraceCommand();
-            TryClose(true);
+            IsSavePressed = true;
+            TryClose();
         }
 
         private bool IsTitleValid()
@@ -127,7 +129,8 @@ namespace Iit.Fibertest.Client
 
         public void Cancel()
         {
-            TryClose(false);
+            IsSavePressed = false;
+            TryClose();
         }
 
         public string this[string columnName]

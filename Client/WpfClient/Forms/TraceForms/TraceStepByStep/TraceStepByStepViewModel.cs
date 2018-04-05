@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Client
             _graphReadModel.MainMap.Position = rtuNode.Position;
             _currentHighlightedNode = _graphReadModel.Data.Nodes.First(n => n.Id == rtuNodeId);
             _currentHighlightedNode.IsHighlighted = true;
-            var firstStepRtu = new StepModel() { NodeId = rtuNode.NodeId, Title = rtuTitle, EquipmentId = rtuNodeId };
+            var firstStepRtu = new StepModel() { NodeId = rtuNode.NodeId, Title = rtuTitle, EquipmentId = _readModel.Rtus.First(r=>r.NodeId == rtuNodeId).Id };
             Steps.Add(firstStepRtu);
         }
 
@@ -137,11 +137,12 @@ namespace Iit.Fibertest.Client
             GetListsAugmentedWithAdjustmentPoints(out var traceNodes, out var traceEquipments);
             var traceAddViewModel = _globalScope.Resolve<TraceInfoViewModel>();
             traceAddViewModel.Initialize(Guid.Empty, traceEquipments, traceNodes);
-            if (_windowManager.ShowDialogWithAssignedOwner(traceAddViewModel) == true)
-            {
-                _currentHighlightedNode.IsHighlighted = false;
-                TryClose();
-            }
+            _windowManager.ShowDialogWithAssignedOwner(traceAddViewModel);
+
+            if (!traceAddViewModel.IsSavePressed) return;
+
+            _currentHighlightedNode.IsHighlighted = false;
+            TryClose();
         }
 
         private void GetListsAugmentedWithAdjustmentPoints(out List<Guid> nodes, out List<Guid> equipments)
@@ -153,49 +154,18 @@ namespace Iit.Fibertest.Client
             {
                 if (_readModel.Fibers.FirstOrDefault(f =>
                         f.NodeId1 == Steps[i - 1].NodeId && f.NodeId2 == Steps[i].NodeId ||
-                        f.NodeId2 == Steps[i - 1].NodeId && f.NodeId1 == Steps[i].NodeId) != null)
+                        f.NodeId2 == Steps[i - 1].NodeId && f.NodeId1 == Steps[i].NodeId) == null)
                 {
-                    nodes.Add(Steps[i].NodeId);
-                    equipments.Add(Steps[i].EquipmentId);
-                }
-                else
-                {
-                    FindPathWhereAdjustmentPointsOnly(Steps[i - 1].NodeId, Steps[i].NodeId, out var pathNodeIds, out var pathEquipmentIds);
-                    for (int j = 0; j < pathNodeIds.Count; j++)
+                    _graphReadModel.FindPathWhereAdjustmentPointsOnly(Steps[i - 1].NodeId, Steps[i].NodeId, out var pathNodeIds);
+                    foreach (var nodeId in pathNodeIds)
                     {
-                        nodes.Add(pathNodeIds[j]);
-                        equipments.Add(pathEquipmentIds[j]);
+                        nodes.Add(nodeId);
+                        equipments.Add(_readModel.Equipments.First(e => e.NodeId == nodeId).EquipmentId);
                     }
                 }
-            }
-        }
 
-        // start and finish are NOT included
-        private void FindPathWhereAdjustmentPointsOnly(Guid start, Guid finish, out List<Guid> pathNodeIds, out List<Guid> pathEquipmentIds)
-        {
-            pathNodeIds = new List<Guid>();
-            pathEquipmentIds = new List<Guid>();
-
-            foreach (var nodeVm in _graphReadModel.GetNeighbours(start))
-            {
-                pathNodeIds = new List<Guid>();
-                pathEquipmentIds = new List<Guid>();
-
-                var previousNodeId = start;
-                var currentNodeVm = nodeVm;
-                while (true)
-                {
-                    if (currentNodeVm.Id == finish) return;
-                    if (currentNodeVm.Type != EquipmentType.AdjustmentPoint) break;
-
-                    pathNodeIds.Add(currentNodeVm.Id);
-                    pathEquipmentIds.Add(_readModel.Equipments.First(e => e.NodeId == currentNodeVm.Id).EquipmentId);
-
-                    var fiber = _graphReadModel.Data.Fibers.First(f =>
-                        f.Node1.Id == currentNodeVm.Id && f.Node2.Id != previousNodeId ||
-                        f.Node2.Id == currentNodeVm.Id && f.Node1.Id != previousNodeId);
-                    currentNodeVm = fiber.Node1.Id == currentNodeVm.Id ? fiber.Node2 : fiber.Node1;
-                }
+                nodes.Add(Steps[i].NodeId);
+                equipments.Add(Steps[i].EquipmentId);
             }
         }
 

@@ -7,11 +7,11 @@ namespace Iit.Fibertest.Client
 {
     public static class GraphReadModelExt
     {
-        public static IEnumerable<FiberVm> GetFibersByNodes(this GraphReadModel model, List<Guid> nodes)
-        {
-            for (int i = 1; i < nodes.Count; i++)
-                yield return GetFiberByNodes(model, nodes[i - 1], nodes[i]);
-        }
+//        public static IEnumerable<FiberVm> GetFibersByNodes(this GraphReadModel model, List<Guid> nodes)
+//        {
+//            for (int i = 1; i < nodes.Count; i++)
+//                yield return GetFiberByNodes(model, nodes[i - 1], nodes[i]);
+//        }
 
         public static NodeVm GetNodeByLandmarkIndex(this GraphReadModel model, Guid traceId, int landmarkIndex)
         {
@@ -45,21 +45,49 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public static FiberVm GetFiberByNodes(this GraphReadModel model, Guid node1, Guid node2)
+        private static FiberVm GetFiberByNodes(this GraphReadModel model, Guid node1, Guid node2)
         {
             return model.Data.Fibers.FirstOrDefault(
                 f => f.Node1.Id == node1 && f.Node2.Id == node2 ||
                      f.Node1.Id == node2 && f.Node2.Id == node1);
         }
 
+        // start and finish are NOT included
+        public static bool FindPathWhereAdjustmentPointsOnly(this GraphReadModel model, Guid start, Guid finish, out List<Guid> pathNodeIds)
+        {
+            pathNodeIds = new List<Guid>();
 
-        public static List<NodeVm> GetNeighbours(this GraphReadModel model, Guid nodeId)
+            foreach (var nodeVm in model.GetNeighbours(start))
+            {
+                pathNodeIds = new List<Guid>();
+                var previousNodeId = start;
+                var currentNodeVm = nodeVm;
+
+                while (true)
+                {
+                    if (currentNodeVm.Id == finish) return true;
+                    if (currentNodeVm.Type != EquipmentType.AdjustmentPoint) break;
+
+                    pathNodeIds.Add(currentNodeVm.Id);
+
+                    var fiber = model.Data.Fibers.First(f =>
+                        f.Node1.Id == currentNodeVm.Id && f.Node2.Id != previousNodeId ||
+                        f.Node2.Id == currentNodeVm.Id && f.Node1.Id != previousNodeId);
+                    currentNodeVm = fiber.Node1.Id == currentNodeVm.Id ? fiber.Node2 : fiber.Node1;
+                }
+            }
+
+            return false;
+        }
+
+        private static List<NodeVm> GetNeighbours(this GraphReadModel model, Guid nodeId)
         {
             var nodeVms = model.Data.Fibers.Where(f => f.Node1.Id == nodeId).Select(f => f.Node2).ToList();
             nodeVms.AddRange(model.Data.Fibers.Where(f => f.Node2.Id == nodeId).Select(f => f.Node1));
             return nodeVms;
         }
 
+        // if some of neighbours are AdjustmentPoints - step farther a find first node on this way
         public static List<NodeVm> GetNeiboursExcludingAdjustmentPoints(this GraphReadModel model, Guid nodeId)
         {
             var result = new List<NodeVm>();
