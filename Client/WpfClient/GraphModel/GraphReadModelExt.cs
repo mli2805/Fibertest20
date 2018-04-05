@@ -55,9 +55,24 @@ namespace Iit.Fibertest.Client
     
         public static List<NodeVm> GetNeighbours(this GraphReadModel model, Guid nodeId)
         {
-            var nodes = model.Data.Fibers.Where(f => f.Node1.Id == nodeId).Select(f => f.Node2).ToList();
-            nodes.AddRange(model.Data.Fibers.Where(f => f.Node2.Id == nodeId).Select(f => f.Node1));
-            return nodes;
+            var nodeVms = model.Data.Fibers.Where(f => f.Node1.Id == nodeId).Select(f => f.Node2).ToList();
+            nodeVms.AddRange(model.Data.Fibers.Where(f => f.Node2.Id == nodeId).Select(f => f.Node1));
+            return nodeVms;
+        }
+
+        public static List<NodeVm> GetNeiboursExcludingAdjustmentPoints(this GraphReadModel model, Guid nodeId)
+        {
+            var firstVms = model.GetNeighbours(nodeId);
+            var result = new List<NodeVm>();
+            foreach (var nodeVm in firstVms)
+            {
+                while (nodeVm.Type == EquipmentType.AdjustmentPoint)
+                {
+                    
+                }
+            }
+
+            return result;
         }
 
         public static void CleanAccidentPlacesOnTrace(this GraphReadModel model, Guid traceId)

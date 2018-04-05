@@ -205,6 +205,9 @@
     <Compile Include="Forms\AdministrativeForms\ObjectsToZones\ObjectsAsTreeToZonesView.xaml.cs">
       <DependentUpon>ObjectsAsTreeToZonesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Shell\MarkerControl\HighlightingRtuControl.xaml.cs">
+      <DependentUpon>HighlightingRtuControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\EchoEventsOnTreeExecutor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\EventsOnTreeExecutor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\RtuEventsOnTreeExecutor.cs" />
@@ -561,6 +564,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Shell\MarkerControl\HighlightingControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Shell\MarkerControl\HighlightingRtuControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -935,7 +942,6 @@
     <Resource Include="Resources\EmptyNode\EmptyNodeSuspected.png" />
     <Resource Include="Resources\EmptyNode\EmptyNodeUser.png" />
     <Resource Include="Resources\AdjustmentPoint\AdjustmentPointOk.png" />
-    <Resource Include="Resources\OnMap\NodeSelection.png" />
     <Resource Include="Resources\OnMap\NodeHighlighting.png" />
     <Resource Include="Resources\AccidentSchemes\AccidentBetweenNodes.png" />
     <Resource Include="Resources\AccidentSchemes\AccidentInLastNode.png" />
@@ -948,6 +954,7 @@
     <Resource Include="Resources\OnMap\MajorAccidentPlace.png" />
     <Resource Include="Resources\OnMap\MinorAccidentPlace.png" />
     <Resource Include="Resources\LeftPanel\WhiteSquare.png" />
+    <Resource Include="Resources\OnMap\RtuHighlighting.png" />
     <Content Include="Resources\Sounds\Accident.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

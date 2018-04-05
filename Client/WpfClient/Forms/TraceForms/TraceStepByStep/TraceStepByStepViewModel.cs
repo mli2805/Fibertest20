@@ -58,7 +58,7 @@ namespace Iit.Fibertest.Client
             JustStep(_graphReadModel.Data.Nodes.First(n => n.Id == backwardNodeId));
         }
 
-        public bool StepForward() // public cos it is button handler
+        public bool StepForward() // public because it is button handler
         {
             var neighbours = _graphReadModel.GetNeighbours(Steps.Last().NodeId);
             Guid previousNodeId = Steps.Count == 1 ? Guid.Empty : Steps[Steps.Count - 2].NodeId;
@@ -135,13 +135,14 @@ namespace Iit.Fibertest.Client
 
         public void Accept()
         {
+            if (_stepsWithAdjustmentPoints.Count <= 1) return;
+
             var equipment = _readModel.Equipments.First(e => e.EquipmentId == _stepsWithAdjustmentPoints.Last().EquipmentId);
             if (equipment.Type <= EquipmentType.EmptyNode)
             {
                 _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Last_node_of_trace_must_contain_some_equipment));
                 return;
             }
-
 
             var traceEquipments = _stepsWithAdjustmentPoints.Select(s => s.EquipmentId).ToList();
             var traceNodes = _stepsWithAdjustmentPoints.Select(s => s.NodeId).ToList();

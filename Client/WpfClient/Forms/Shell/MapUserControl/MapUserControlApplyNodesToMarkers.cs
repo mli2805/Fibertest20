@@ -91,11 +91,11 @@ namespace Iit.Fibertest.Client
 
         private void Highlight(NodeVm nodeVm)
         {
-            var marker = new GMapMarker(nodeVm.Id, nodeVm.Position, true);
-            marker.ZIndex = 2;
-            var highlightingControl = new HighlightingControl();
+            var marker = new GMapMarker(nodeVm.Id, nodeVm.Position, true) {ZIndex = 2};
+
+            var highlightingControl = nodeVm.Type == EquipmentType.Rtu ? new HighlightingRtuControl() : (UIElement)new HighlightingControl();
             marker.Shape = highlightingControl;
-            marker.Offset = new Point(-24, -24);
+            marker.Offset = nodeVm.Type == EquipmentType.Rtu ? new Point(-24, -24) : new Point(-16, -16);
             MainMap.Markers.Add(marker);
         }
 
