@@ -17,6 +17,7 @@ namespace Graph.Tests
         private const EquipmentType Type = EquipmentType.Closure;
         private Guid _rtuNodeId;
         private Guid _anotherNodeId;
+        private Guid _adjustmentPointNodeId;
         private Guid _lastNodeId;
         private Iit.Fibertest.Graph.Trace _trace;
 
@@ -38,6 +39,18 @@ namespace Graph.Tests
             _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = _nodeId, NodeId2 = _anotherNodeId }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
+
+        [Given(@"На отрезкок добавлена точка привязки")]
+        public void GivenНаОтрезкокДобавленаТочкаПривязки()
+        {
+            var fiber = _sut.ReadModel.Fibers.Last();
+            _sut.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber(){FiberId = fiber.FiberId, InjectionType = EquipmentType.AdjustmentPoint}).Wait();
+            _sut.Poller.EventSourcingTick().Wait();
+            _adjustmentPointNodeId = _sut.ReadModel.Nodes.Last().NodeId;
+            _sut.GraphReadModel.FindPathWhereAdjustmentPointsOnly(_nodeId, _anotherNodeId, out var pathIds).Should().BeTrue();
+            pathIds.Contains(_adjustmentPointNodeId).Should().BeTrue();
+        }
+
 
         [Given(@"Задана трасса")]
         public void GivenЗаданаТрасса()
@@ -76,6 +89,19 @@ namespace Graph.Tests
             _sut.GraphReadModel.GrmNodeRequests.RemoveNode(_nodeId, Type).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
+
+        [Then(@"Удаляется весь отрезок вплоть до соседнего узла-не точки")]
+        public void ThenУдаляетсяВесьОтрезокВплотьДоСоседнегоУзла_НеТочки()
+        {
+            _sut.GraphReadModel.FindPathWhereAdjustmentPointsOnly(_nodeId, _anotherNodeId, out var _).Should().BeFalse();
+        }
+
+        [Then(@"Удаляется точка привязки")]
+        public void ThenУдаляетсяТочкаПривязки()
+        {
+            _sut.GraphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == _adjustmentPointNodeId).Should().BeNull();
+        }
+
 
         [Then(@"Создается отрезок между соседними с данным узлами")]
         public void ThenСоздаетсяОтрезокМеждуСоседнимиСДаннымУзлами()
