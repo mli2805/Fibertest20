@@ -73,6 +73,8 @@ namespace Iit.Fibertest.Client
                 }
                 else if (marker is GMapMarker gMapMarker) // GMapMarker - node
                 {
+                    if (gMapMarker.IsHighlighting) continue;
+
                     gMapMarker.Shape.Visibility =
                         selectedLevel >= ((MarkerControl)gMapMarker.Shape).EqType.GetEnabledVisibilityLevel()
                         ? Visibility.Visible

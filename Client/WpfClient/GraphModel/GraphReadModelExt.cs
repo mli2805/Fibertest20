@@ -52,7 +52,7 @@ namespace Iit.Fibertest.Client
                      f.Node1.Id == node2 && f.Node2.Id == node1);
         }
 
-    
+
         public static List<NodeVm> GetNeighbours(this GraphReadModel model, Guid nodeId)
         {
             var nodeVms = model.Data.Fibers.Where(f => f.Node1.Id == nodeId).Select(f => f.Node2).ToList();
@@ -62,17 +62,32 @@ namespace Iit.Fibertest.Client
 
         public static List<NodeVm> GetNeiboursExcludingAdjustmentPoints(this GraphReadModel model, Guid nodeId)
         {
-            var firstVms = model.GetNeighbours(nodeId);
             var result = new List<NodeVm>();
-            foreach (var nodeVm in firstVms)
+
+            var fiberVms = model.Data.Fibers.Where(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId);
+            foreach (var fiberVm in fiberVms)
             {
-                while (nodeVm.Type == EquipmentType.AdjustmentPoint)
+                var previousNodeId = nodeId;
+                var currentFiberVm = fiberVm;
+                NodeVm neighbourVm;
+                while (true)
                 {
-                    
+                    neighbourVm = currentFiberVm.Node1.Id == previousNodeId ? currentFiberVm.Node2 : currentFiberVm.Node1;
+                    if (neighbourVm.Type != EquipmentType.AdjustmentPoint)
+                        break;
+
+                    previousNodeId = neighbourVm.Id;
+                    currentFiberVm = model.GetAnotherFiberOfAdjustmentPoint(neighbourVm, currentFiberVm.Id);
                 }
+                result.Add(neighbourVm);
             }
 
             return result;
+        }
+
+        public static FiberVm GetAnotherFiberOfAdjustmentPoint(this GraphReadModel model, NodeVm adjustmentPoint, Guid fiberId)
+        {
+            return model.Data.Fibers.First(f => (f.Node1 == adjustmentPoint || f.Node2 == adjustmentPoint) && f.Id != fiberId);
         }
 
         public static void CleanAccidentPlacesOnTrace(this GraphReadModel model, Guid traceId)

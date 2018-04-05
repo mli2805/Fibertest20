@@ -18,7 +18,6 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private NodeVm _currentHighlightedNode;
         public ObservableCollection<StepModel> Steps { get; set; }
-        private List<StepModel> _stepsWithAdjustmentPoints;
 
         public TraceStepByStepViewModel(ILifetimeScope globalScope, GraphReadModel graphReadModel, Model readModel, IWindowManager windowManager)
         {
@@ -31,14 +30,12 @@ namespace Iit.Fibertest.Client
         public void Initialize(Guid rtuNodeId, string rtuTitle)
         {
             Steps = new ObservableCollection<StepModel>();
-            _stepsWithAdjustmentPoints = new List<StepModel>();
             var rtuNode = _readModel.Nodes.First(n => n.NodeId == rtuNodeId);
             _graphReadModel.MainMap.Position = rtuNode.Position;
             _currentHighlightedNode = _graphReadModel.Data.Nodes.First(n => n.Id == rtuNodeId);
             _currentHighlightedNode.IsHighlighted = true;
             var firstStepRtu = new StepModel() { NodeId = rtuNode.NodeId, Title = rtuTitle, EquipmentId = rtuNodeId };
             Steps.Add(firstStepRtu);
-            _stepsWithAdjustmentPoints.Add(firstStepRtu);
         }
 
         protected override void OnViewLoaded(object view)
@@ -60,7 +57,7 @@ namespace Iit.Fibertest.Client
 
         public bool StepForward() // public because it is button handler
         {
-            var neighbours = _graphReadModel.GetNeighbours(Steps.Last().NodeId);
+            var neighbours = _graphReadModel.GetNeiboursExcludingAdjustmentPoints(Steps.Last().NodeId);
             Guid previousNodeId = Steps.Count == 1 ? Guid.Empty : Steps[Steps.Count - 2].NodeId;
 
             switch (neighbours.Count)
@@ -135,17 +132,9 @@ namespace Iit.Fibertest.Client
 
         public void Accept()
         {
-            if (_stepsWithAdjustmentPoints.Count <= 1) return;
+            if (!Validate()) return;
 
-            var equipment = _readModel.Equipments.First(e => e.EquipmentId == _stepsWithAdjustmentPoints.Last().EquipmentId);
-            if (equipment.Type <= EquipmentType.EmptyNode)
-            {
-                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Last_node_of_trace_must_contain_some_equipment));
-                return;
-            }
-
-            var traceEquipments = _stepsWithAdjustmentPoints.Select(s => s.EquipmentId).ToList();
-            var traceNodes = _stepsWithAdjustmentPoints.Select(s => s.NodeId).ToList();
+            GetListsAugmentedWithAdjustmentPoints(out var traceNodes, out var traceEquipments);
             var traceAddViewModel = _globalScope.Resolve<TraceInfoViewModel>();
             traceAddViewModel.Initialize(Guid.Empty, traceEquipments, traceNodes);
             if (_windowManager.ShowDialogWithAssignedOwner(traceAddViewModel) == true)
@@ -153,6 +142,73 @@ namespace Iit.Fibertest.Client
                 _currentHighlightedNode.IsHighlighted = false;
                 TryClose();
             }
+        }
+
+        private void GetListsAugmentedWithAdjustmentPoints(out List<Guid> nodes, out List<Guid> equipments)
+        {
+            nodes = new List<Guid> { Steps.First().NodeId };
+            equipments = new List<Guid>() { Steps.First().EquipmentId };
+
+            for (int i = 1; i < Steps.Count; i++)
+            {
+                if (_readModel.Fibers.FirstOrDefault(f =>
+                        f.NodeId1 == Steps[i - 1].NodeId && f.NodeId2 == Steps[i].NodeId ||
+                        f.NodeId2 == Steps[i - 1].NodeId && f.NodeId1 == Steps[i].NodeId) != null)
+                {
+                    nodes.Add(Steps[i].NodeId);
+                    equipments.Add(Steps[i].EquipmentId);
+                }
+                else
+                {
+                    FindPathWhereAdjustmentPointsOnly(Steps[i - 1].NodeId, Steps[i].NodeId, out var pathNodeIds, out var pathEquipmentIds);
+                    for (int j = 0; j < pathNodeIds.Count; j++)
+                    {
+                        nodes.Add(pathNodeIds[j]);
+                        equipments.Add(pathEquipmentIds[j]);
+                    }
+                }
+            }
+        }
+
+        // start and finish are NOT included
+        private void FindPathWhereAdjustmentPointsOnly(Guid start, Guid finish, out List<Guid> pathNodeIds, out List<Guid> pathEquipmentIds)
+        {
+            pathNodeIds = new List<Guid>();
+            pathEquipmentIds = new List<Guid>();
+
+            foreach (var nodeVm in _graphReadModel.GetNeighbours(start))
+            {
+                pathNodeIds = new List<Guid>();
+                pathEquipmentIds = new List<Guid>();
+
+                var previousNodeId = start;
+                var currentNodeVm = nodeVm;
+                while (true)
+                {
+                    if (currentNodeVm.Id == finish) return;
+                    if (currentNodeVm.Type != EquipmentType.AdjustmentPoint) break;
+
+                    pathNodeIds.Add(currentNodeVm.Id);
+                    pathEquipmentIds.Add(_readModel.Equipments.First(e => e.NodeId == currentNodeVm.Id).EquipmentId);
+
+                    var fiber = _graphReadModel.Data.Fibers.First(f =>
+                        f.Node1.Id == currentNodeVm.Id && f.Node2.Id != previousNodeId ||
+                        f.Node2.Id == currentNodeVm.Id && f.Node1.Id != previousNodeId);
+                    currentNodeVm = fiber.Node1.Id == currentNodeVm.Id ? fiber.Node2 : fiber.Node1;
+                }
+            }
+        }
+
+        private bool Validate()
+        {
+            if (Steps.Count <= 1) return false;
+            var equipment = _readModel.Equipments.First(e => e.EquipmentId == Steps.Last().EquipmentId);
+            if (equipment.Type <= EquipmentType.EmptyNode)
+            {
+                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Last_node_of_trace_must_contain_some_equipment));
+                return false;
+            }
+            return true;
         }
 
         public void Cancel()
