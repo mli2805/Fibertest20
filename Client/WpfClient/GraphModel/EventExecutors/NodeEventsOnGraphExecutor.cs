@@ -143,27 +143,27 @@ namespace Iit.Fibertest.Client
             _model.Data.Nodes.Remove(node);
         }
 
-        private void RemoveNodeOnEdgeWhereNoTraces(Guid nodeId)
-        {
-            NodeVm neighbour;
-            do
-            {
-                var node = _model.Data.Nodes.First(n => n.Id == nodeId);
-                var fiber = _model.Data.Fibers.First(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId);
-                neighbour = fiber.Node1.Id == nodeId ? fiber.Node2 : fiber.Node1;
+//        private void RemoveNodeOnEdgeWhereNoTraces(Guid nodeId)
+//        {
+//            NodeVm neighbour;
+//            do
+//            {
+//                var node = _model.Data.Nodes.First(n => n.Id == nodeId);
+//                var fiber = _model.Data.Fibers.First(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId);
+//                neighbour = fiber.Node1.Id == nodeId ? fiber.Node2 : fiber.Node1;
+//
+//                _model.Data.Fibers.Remove(fiber);
+//                _model.Data.Nodes.Remove(node);
+//
+//                nodeId = neighbour.Id;
+//            }
+//            while (neighbour.Type == EquipmentType.AdjustmentPoint);
+//        }
 
-                _model.Data.Fibers.Remove(fiber);
-                _model.Data.Nodes.Remove(node);
-
-                nodeId = neighbour.Id;
-            }
-            while (neighbour.Type == EquipmentType.AdjustmentPoint);
-        }
-
-        private bool IsAdjustmentPoint(Guid nodeId)
-        {
-            return _model.Data.Nodes.FirstOrDefault(e => e.Id == nodeId && e.Type == EquipmentType.AdjustmentPoint) != null;
-        }
+//        private bool IsAdjustmentPoint(Guid nodeId)
+//        {
+//            return _model.Data.Nodes.FirstOrDefault(e => e.Id == nodeId && e.Type == EquipmentType.AdjustmentPoint) != null;
+//        }
 
         private void RemoveNodeWithAllHisFibers(Guid nodeId)
         {

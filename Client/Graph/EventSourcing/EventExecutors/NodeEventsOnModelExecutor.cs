@@ -168,26 +168,26 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        private string RemoveNodeOnEdgeWhereNoTraces(Guid nodeId)
-        {
-            do
-            {
-                var node = _model.Nodes.First(n => n.NodeId == nodeId);
-                var fiber = _model.Fibers.First(f => f.NodeId1 == nodeId || f.NodeId2 == nodeId);
-                var neighbourId = fiber.NodeId1 == nodeId ? fiber.NodeId2 : fiber.NodeId1;
-
-                _model.Fibers.Remove(fiber);
-                _model.Equipments.RemoveAll(e => e.NodeId == nodeId);
-                _model.Nodes.Remove(node);
-
-                nodeId = neighbourId;
-            }
-            while (_model.IsAdjustmentPoint(nodeId));
-
-            return null;
-        }
-
-     
+//        private string RemoveNodeOnEdgeWhereNoTraces(Guid nodeId)
+//        {
+//            do
+//            {
+//                var node = _model.Nodes.First(n => n.NodeId == nodeId);
+//                var fiber = _model.Fibers.First(f => f.NodeId1 == nodeId || f.NodeId2 == nodeId);
+//                var neighbourId = fiber.NodeId1 == nodeId ? fiber.NodeId2 : fiber.NodeId1;
+//
+//                _model.Fibers.Remove(fiber);
+//                _model.Equipments.RemoveAll(e => e.NodeId == nodeId);
+//                _model.Nodes.Remove(node);
+//
+//                nodeId = neighbourId;
+//            }
+//            while (_model.IsAdjustmentPoint(nodeId));
+//
+//            return null;
+//        }
+//
+//     
 
         private void CreateDetourIfAbsent(Trace trace, Guid fiberId, int idxInTrace)
         {

@@ -17,6 +17,7 @@ namespace Graph.Tests
         private Guid _leftNodeId;
         private Guid _rightNodeId;
         private int _cutOff;
+        private Guid _fiberId;
 
 
         [Given(@"Левый и правый узлы созданы")]
@@ -34,10 +35,20 @@ namespace Graph.Tests
         [Given(@"Отрезок между левым и правым узлом уже добавлен")]
         public void AddFiber()
         {
-            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() {NodeId1 = _leftNodeId, NodeId2 = _rightNodeId}).Wait();
+            _sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() {FiberId = _fiberId, NodeId1 = _leftNodeId, NodeId2 = _rightNodeId}).Wait();
+            _sut.Poller.EventSourcingTick().Wait();
+            _cutOff = _sut.CurrentEventNumber;
+            _fiberId = _sut.ReadModel.Fibers.Last().FiberId;
+        }
+
+        [Given(@"На нем есть точка привязки")]
+        public void GivenНаНемЕстьТочкаПривязки()
+        {
+            _sut.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber() { FiberId = _fiberId, InjectionType = EquipmentType.AdjustmentPoint }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _cutOff = _sut.CurrentEventNumber;
         }
+
 
         [When(@"Пользователь кликает добавить отрезок")]
         public void WhenUserClickedAddFiber()

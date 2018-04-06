@@ -60,7 +60,6 @@ namespace Graph.Tests
             FakeWindowManager = (FakeWindowManager)ClientContainer.Resolve<IWindowManager>();
             MyLogFile = ClientContainer.Resolve<IMyLog>();
             ShellVm = (ShellViewModel)ClientContainer.Resolve<IShell>();
-            ReadModel = ClientContainer.Resolve<Model>();
             GraphReadModel = ClientContainer.Resolve<GraphReadModel>();
             TreeOfRtuModel = ClientContainer.Resolve<TreeOfRtuModel>();
             TreeOfRtuViewModel = ClientContainer.Resolve<TreeOfRtuViewModel>();

@@ -35,7 +35,7 @@ namespace Iit.Fibertest.Graph
                 yield return GetFiberByNodes(model, nodes[i - 1], nodes[i]);
         }
 
-        public static Guid GetFiberByNodes(this Model model, Guid node1, Guid node2)
+        private static Guid GetFiberByNodes(this Model model, Guid node1, Guid node2)
         {
             return model.Fibers.First(
                 f => f.NodeId1 == node1 && f.NodeId2 == node2 ||
@@ -95,12 +95,12 @@ namespace Iit.Fibertest.Graph
             return model.GetNodeFibers(adjustmentPoint).First(f => f.FiberId != fiberId);
         }
 
-        public static List<Guid> GetNeighbours(this Model model, Guid nodeId)
-        {
-            var nodes = model.Fibers.Where(f => f.NodeId1 == nodeId).Select(f => f.NodeId2).ToList();
-            nodes.AddRange(model.Fibers.Where(f => f.NodeId2 == nodeId).Select(f => f.NodeId1));
-            return nodes;
-        }
+//        public static List<Guid> GetNeighbours(this Model model, Guid nodeId)
+//        {
+//            var nodes = model.Fibers.Where(f => f.NodeId1 == nodeId).Select(f => f.NodeId2).ToList();
+//            nodes.AddRange(model.Fibers.Where(f => f.NodeId2 == nodeId).Select(f => f.NodeId1));
+//            return nodes;
+//        }
 
 
         public static void RemoveFiberUptoRealNodesNotPoints(this Model model, Fiber fiber)
@@ -209,5 +209,29 @@ namespace Iit.Fibertest.Graph
                 return idxInTrace2;
             return -1;
         }
+
+        // returns true if there's a fiber between start and finish or they are separated by adjustment points only
+        public static bool HasDirectFiberDontMindPoints(this Model model, Guid start, Guid finish)
+        {
+            foreach (var neighbourNodeId in model.Fibers.Where(f=>f.NodeId1 == start || f.NodeId2 == start).Select(n=>n.NodeId1 == start ? n.NodeId2 : n.NodeId1))
+            {
+                var previousNodeId = start;
+                var currentNodeId = neighbourNodeId;
+
+                while (true)
+                {
+                    if (currentNodeId == finish) return true;
+                    if (!model.IsAdjustmentPoint(currentNodeId)) break;
+
+                    var fiber = model.Fibers.First(f => f.NodeId1 == currentNodeId && f.NodeId2 != previousNodeId 
+                                                     || f.NodeId2 == currentNodeId && f.NodeId1 != previousNodeId);
+                    currentNodeId = fiber.NodeId1 == currentNodeId ? fiber.NodeId2 : fiber.NodeId1;
+                }
+            }
+
+            return false;
+        }
+
+     
     }
 }

@@ -119,6 +119,30 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
+        [Xunit.FactAttribute(DisplayName="Добавление отрезка там где есть связь через точки привязки")]
+        [Xunit.TraitAttribute("FeatureTitle", "FiberAdded")]
+        [Xunit.TraitAttribute("Description", "Добавление отрезка там где есть связь через точки привязки")]
+        public virtual void ДобавлениеОтрезкаТамГдеЕстьСвязьЧерезТочкиПривязки()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление отрезка там где есть связь через точки привязки", ((string[])(null)));
+#line 16
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 17
+ testRunner.Given("Отрезок между левым и правым узлом уже добавлен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 18
+ testRunner.And("На нем есть точка привязки", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 19
+ testRunner.When("Пользователь кликает добавить отрезок", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 20
+ testRunner.Then("Появится сообщение что есть такое волокно", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 21
+ testRunner.Then("Новый отрезок не создается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

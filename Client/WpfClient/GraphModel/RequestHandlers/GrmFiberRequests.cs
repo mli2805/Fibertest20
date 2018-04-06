@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
@@ -37,11 +36,13 @@ namespace Iit.Fibertest.Client
         {
             if (cmd.NodeId1 == cmd.NodeId2)
                 return false;
-            var fiber =
-                _model.Fibers.FirstOrDefault(f =>
-                        f.NodeId1 == cmd.NodeId1 && f.NodeId2 == cmd.NodeId2 ||
-                        f.NodeId1 == cmd.NodeId2 && f.NodeId2 == cmd.NodeId1);
-            if (fiber == null)
+//            var fiber =
+//                _model.Fibers.FirstOrDefault(f =>
+//                        f.NodeId1 == cmd.NodeId1 && f.NodeId2 == cmd.NodeId2 ||
+//                        f.NodeId1 == cmd.NodeId2 && f.NodeId2 == cmd.NodeId1);
+//            if (fiber == null)
+
+            if (!_model.HasDirectFiberDontMindPoints(cmd.NodeId1, cmd.NodeId2))
                 return true;
             _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Section_already_exists));
             return false;
