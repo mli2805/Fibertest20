@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
 using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -11,16 +9,17 @@ using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
 namespace Iit.Fibertest.Graph.Algorithms
 {
+   
     public class AccidentsFromSorExtractor
     {
         private readonly IMyLog _logFile;
+        private readonly SorDataParsingReporter _sorDataParsingReporter;
         private OtdrDataKnownBlocks _sorData;
-        private OtdrDataKnownBlocks _baseSorData;
-        private readonly List<string> _report = new List<string>();
 
-        public AccidentsFromSorExtractor(IMyLog logFile)
+        public AccidentsFromSorExtractor(IMyLog logFile, SorDataParsingReporter sorDataParsingReporter)
         {
             _logFile = logFile;
+            _sorDataParsingReporter = sorDataParsingReporter;
         }
 
         public List<AccidentOnTrace> GetAccidents(OtdrDataKnownBlocks sorData, bool isClient)
@@ -40,13 +39,12 @@ namespace Iit.Fibertest.Graph.Algorithms
 
         private List<AccidentOnTrace> GetAccidents(bool isClient)
         {
-            _baseSorData = _sorData.GetBase();
-            var rftsEventsBlocks = _sorData.GetRftsEventsBlockForEveryLevel().ToList();
-
-            if (isClient) ReportBaseAndMeasEventsParsing(rftsEventsBlocks);
+            if (isClient)
+                _sorDataParsingReporter.DoReport(_sorData);
 
             var levels = new List<RftsLevelType>() {RftsLevelType.Critical, RftsLevelType.Major, RftsLevelType.Minor};
             var result = new List<AccidentOnTrace>();
+            var rftsEventsBlocks = _sorData.GetRftsEventsBlockForEveryLevel().ToList();
 
             foreach (var level in levels)
             {
@@ -168,8 +166,6 @@ namespace Iit.Fibertest.Graph.Algorithms
         {
             if ((rftsEvent.EventTypes & RftsEventTypes.IsFiberBreak) != 0)
                 yield return OpticalAccidentType.Break;
-//            else if ((rftsEvent.EventTypes & RftsEventTypes.IsNew) != 0)
-//                yield return OpticalAccidentType.Loss;
             else
             {
                 if ((rftsEvent.ReflectanceThreshold.Type & ShortDeviationTypes.IsExceeded) != 0)
@@ -180,74 +176,5 @@ namespace Iit.Fibertest.Graph.Algorithms
                     yield return OpticalAccidentType.LossCoeff;
             }
         }
-
-#region Log
-        [Localizable(false)]
-        private void ReportBaseAndMeasEventsParsing(List<RftsEventsBlock> levels)
-        {
-            ReportLandmarks(_baseSorData);
-            ReportKeyAndRftsEvents(_baseSorData, null);
-            ReportLandmarks(_sorData);
-            ReportKeyAndRftsEvents(_sorData, levels);
-
-            var tempFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Temp\");
-            if (!Directory.Exists(tempFolder))
-                Directory.CreateDirectory(tempFolder);
-            var filename = Guid.NewGuid() + ".txt";
-            var fullFilename = Path.Combine(tempFolder, filename);
-            File.WriteAllLines(fullFilename, _report);
-        }
-
-        [Localizable(false)]
-        private void ReportLandmarks(OtdrDataKnownBlocks sorData)
-        {
-            _report.Add("");
-            _report.Add("   Landmarks");
-            for (int i = 0; i < sorData.LinkParameters.LandmarksCount; i++)
-            {
-                var lm = sorData.LinkParameters.LandmarkBlocks[i];
-                var line = $"index {i}  owt {lm.Location:D6} ({sorData.OwtToLenKm(lm.Location),7:F3} km)";
-                if (lm.RelatedEventNumber != 0)
-                    line = line + $"  related event Number {lm.RelatedEventNumber}";
-                _report.Add(line);
-            }
-        }
-
-
-        [Localizable(false)]
-        private void ReportKeyAndRftsEvents(OtdrDataKnownBlocks sorData, List<RftsEventsBlock> rftsEventsBlocks)
-        {
-            var dict = new Dictionary<string, List<string>>();
-            if (rftsEventsBlocks != null) // base
-                foreach (var rftsEventsForOneLevel in rftsEventsBlocks)
-                {
-                    var list = rftsEventsForOneLevel.Events.Select(rftsEvent => EventStateToString(rftsEvent.EventTypes)).ToList();
-                    dict.Add(rftsEventsForOneLevel.LevelName.ToString(), list);
-                }
-
-            _report.Add("");
-            _report.Add("    Events (Minor / Major / Critical)");
-            for (var i = 0; i < sorData.KeyEvents.KeyEvents.Length; i++)
-            {
-                var keyEvent = sorData.KeyEvents.KeyEvents[i];
-                var line = $@"Number {i + 1}  owt {keyEvent.EventPropagationTime:D6} ({sorData.KeyEventDistanceKm(i),7:F3} km)";
-                if (dict.ContainsKey("Minor")) line = line + "   " + $"{dict["Minor"][i],21}";
-                if (dict.ContainsKey("Major")) line = line + "   " + $"{dict["Major"][i],21}";
-                if (dict.ContainsKey("Critical")) line = line + "   " + $"{dict["Critical"][i],21}";
-                _report.Add(line);
-            }
-            _report.Add("");
-        }
-
-        private string EventStateToString(RftsEventTypes state)
-        {
-            var result = "";
-            if ((state & RftsEventTypes.IsNew) != 0) result = result + @" IsNew";
-            if ((state & RftsEventTypes.IsFailed) != 0) result = result + @" IsFailed";
-            if ((state & RftsEventTypes.IsFiberBreak) != 0) result = result + @" IsFiberBreak";
-            if (result == "") result = @" IsMonitored";
-            return result;
-        }
-#endregion
     }
 }

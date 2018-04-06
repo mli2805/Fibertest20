@@ -119,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\AccidentPlaceLocator.cs" />
+    <Compile Include="Algorithms\SorDataParsingReporter.cs" />
     <Compile Include="DomainEntities\Enums\RftsLevelTypeExt.cs" />
     <Compile Include="Algorithms\AccidentsFromSorExtractor.cs" />
     <Compile Include="DomainEntities\Extensions\SorDataExt.cs" />
