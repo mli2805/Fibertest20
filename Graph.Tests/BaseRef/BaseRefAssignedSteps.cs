@@ -1,8 +1,13 @@
 ﻿using System;
 using System.Linq;
+using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
+using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
+using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
+using Optixsoft.SorExaminer.OtdrDataFormat;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -16,13 +21,18 @@ namespace Graph.Tests
         private TraceLeaf _traceLeaf;
         private Guid _oldPreciseId;
         private Guid _oldFastId;
+        private Guid _terminalNodeId;
+        private Guid _terminalId;
+        private NodeUpdateViewModel nodeUpdateViewModel;
 
         [Given(@"Была создана трасса")]
         public void GivenБылаСозданаТрасса()
         {
             _trace = _sut.CreateTraceRtuEmptyTerminal();
             _traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(_trace.TraceId);
-            _rtuLeaf = (RtuLeaf) _traceLeaf.Parent;
+            _rtuLeaf = (RtuLeaf)_traceLeaf.Parent;
+            _terminalNodeId = _sut.ReadModel.Nodes.First(n => n.NodeId == _trace.NodeIds.Last()).NodeId;
+            _terminalId = _sut.ReadModel.Equipments.First(e => e.NodeId == _terminalNodeId).EquipmentId;
         }
 
         [Then(@"Пункт Задать базовые недоступен")]
@@ -88,5 +98,40 @@ namespace Graph.Tests
             _trace.PreciseId.Should().Be(Guid.Empty);
             _trace.AdditionalId.Should().NotBe(Guid.Empty);
         }
+
+        [Given(@"Задается имя (.*) для узла с оконечным кроссом")]
+        public void GivenЗадаетсяИмяПосленийУзелДляУзлаСОконечнымКроссом(string p0)
+        {
+            nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
+            nodeUpdateViewModel.Initialize(_terminalNodeId);
+            nodeUpdateViewModel.Title = p0;
+            nodeUpdateViewModel.Save();
+            _sut.Poller.EventSourcingTick().Wait();
+        }
+
+        [Given(@"Оконечный кросс меняется на Другое и имя оборудования (.*)")]
+        public void GivenОконечныйКроссМеняетсяНаДругоеИИмяОборудованияДр(string p0)
+        {
+            nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
+            nodeUpdateViewModel.Initialize(_terminalNodeId);
+
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentInfoViewModelHandler(model, Answer.Yes, EquipmentType.Other, 0, 0, p0));
+
+            var item = nodeUpdateViewModel.EquipmentsInNode.First(i => i.Id == _terminalId);
+            item.Command = new UpdateEquipment() { EquipmentId = _terminalId };
+            _sut.Poller.EventSourcingTick().Wait();
+        }
+
+        [Then(@"У сохраненных на сервере базовых третий ориентир имеет имя (.*) и тип Другое")]
+        public void ThenУСохраненныхНаСервереБазовыхТретийОриентирИмеетИмяПоследнийУзелДрИТипДругое(string p0)
+        {
+            var sorFileId = _sut.ReadModel.BaseRefs.First(b=>b.Id == _trace.PreciseId).SorFileId;
+            var sorbBytes = _sut.WcfService.GetSorBytes(sorFileId).Result;
+            var sorData = SorData.FromBytes(sorbBytes);
+
+            sorData.LinkParameters.LandmarkBlocks[2].Comment.Should().Be(p0);
+            sorData.LinkParameters.LandmarkBlocks[2].Code.Should().Be(LandmarkCode.Other);
+        }
+
     }
 }

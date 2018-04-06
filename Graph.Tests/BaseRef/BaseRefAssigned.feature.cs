@@ -111,6 +111,29 @@ this.FeatureBackground();
             this.ScenarioCleanup();
         }
         
+        [Xunit.FactAttribute(DisplayName="Сохранение имен узлов и оборудования в базовой рефлектограмме")]
+        [Xunit.TraitAttribute("FeatureTitle", "BaseRefAssigned")]
+        [Xunit.TraitAttribute("Description", "Сохранение имен узлов и оборудования в базовой рефлектограмме")]
+        public virtual void СохранениеИменУзловИОборудованияВБазовойРефлектограмме()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сохранение имен узлов и оборудования в базовой рефлектограмме", ((string[])(null)));
+#line 17
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 18
+ testRunner.Given("Задается имя Последний узел для узла с оконечным кроссом", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 19
+ testRunner.Given("Оконечный кросс меняется на Другое и имя оборудования Др-1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 20
+ testRunner.When("Пользователь указывает пути к точной и быстрой базовам и жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 21
+ testRunner.Then("У сохраненных на сервере базовых третий ориентир имеет имя Последний узел / Др-1 " +
+                    "и тип Другое", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
         [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
         [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
         public class FixtureData : System.IDisposable

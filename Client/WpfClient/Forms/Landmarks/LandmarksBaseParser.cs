@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Client
                     NodeTitle = titles.Length > 0 ? titles[0].Trim() : "",
                     EquipmentTitle = titles.Length > 1 ? titles[1].Trim() : "",
                     EquipmentType = ToEquipmentType(sorLandmark.Code),
-                    EventNumber = sorLandmark.RelatedEventNumber,
+                    EventNumber = sorLandmark.RelatedEventNumber - 1,
                     Location = sorData.OwtToLenKm(sorLandmark.Location),
                     GpsCoors = GetPointLatLng(sorLandmark),
                 };

@@ -117,11 +117,13 @@ namespace Graph.Tests
 
         public static bool EquipmentInfoViewModelHandler(this SystemUnderTest sut, object model, Answer button, 
             EquipmentType equipmentType = SystemUnderTest.NewTypeForTest, 
-            int cableReserveLeft = SystemUnderTest.NewLeftCableReserve, int cableReserveRight = SystemUnderTest.NewRightCableReserve)
+            int cableReserveLeft = SystemUnderTest.NewLeftCableReserve, 
+            int cableReserveRight = SystemUnderTest.NewRightCableReserve,
+            string newEquipmentTitle = "")
         {
             if (!(model is EquipmentInfoViewModel vm)) return false;
 
-            vm.Model.Title = SystemUnderTest.NewTitleForTest;
+            vm.Model.Title = newEquipmentTitle == "" ? SystemUnderTest.NewTitleForTest : newEquipmentTitle;
             vm.Model.SetSelectedRadioButton(equipmentType);
             vm.Model.CableReserveLeft = cableReserveLeft;
             vm.Model.CableReserveRight = cableReserveRight;
