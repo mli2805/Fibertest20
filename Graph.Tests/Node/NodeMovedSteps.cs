@@ -19,7 +19,7 @@ namespace Graph.Tests
         [Given(@"Создан узел")]
         public void GivenNodeAdded()
         {
-            _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode }).Wait();
+            _sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.EmptyNode, Latitude = 55.1, Longitude = 30.1 }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _cutOff = _sut.CurrentEventNumber;
             _nodeId = _sut.ReadModel.Nodes.Last().NodeId;
@@ -28,7 +28,7 @@ namespace Graph.Tests
         [When(@"Пользователь подвинул узел")]
         public void WhenUserMovedNode()
         {
-            _sut.GraphReadModel.GrmNodeRequests.MoveNode(new MoveNode() {NodeId = _nodeId}).Wait();
+            _sut.GraphReadModel.GrmNodeRequests.MoveNode(new MoveNode() {NodeId = _nodeId, Latitude = 55.2, Longitude = 30.2 }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

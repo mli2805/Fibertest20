@@ -90,9 +90,9 @@ this.ScenarioSetup(scenarioInfo);
 #line 4
 this.FeatureBackground();
 #line 8
- testRunner.When("Пользователь открыл форму редактирования и нажал сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Пользователь ввел длину участка 3456 и нажал сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
- testRunner.Then("Отрезок должен измениться", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Сохраняется длина участка", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -108,7 +108,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 4
 this.FeatureBackground();
 #line 12
- testRunner.When("Пользователь открыл форму редактирования и нажал отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Пользователь ввел длину участка 3456 и нажал отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 13
  testRunner.Then("Команда не отсылается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden

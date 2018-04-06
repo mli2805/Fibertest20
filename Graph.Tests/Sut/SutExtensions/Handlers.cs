@@ -103,9 +103,10 @@ namespace Graph.Tests
                 vm.Cancel();
             return true;
         }
-        public static bool FiberUpdateHandler(this SystemUnderTest sut, object model, Answer answer)
+        public static bool FiberUpdateHandler(this SystemUnderTest sut, object model, int userInputedLength, Answer answer)
         {
             if (!(model is FiberUpdateViewModel vm)) return false;
+            vm.UserInputedLength = userInputedLength.ToString();
             if (answer == Answer.Yes)
                 vm.Save();
             else

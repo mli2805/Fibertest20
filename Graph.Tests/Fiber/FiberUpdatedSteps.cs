@@ -13,6 +13,7 @@ namespace Graph.Tests
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _saidFiberId;
         private int _cutOff;
+        private int _userInputLength;
 
         
         [Given(@"Существует отрезок")]
@@ -33,27 +34,29 @@ namespace Graph.Tests
             _cutOff = _sut.CurrentEventNumber;
         }
 
-        [When(@"Пользователь открыл форму редактирования и нажал сохранить")]
-        public void WhenПользовательНажалСохранить()
+        [When(@"Пользователь ввел длину участка (.*) и нажал сохранить")]
+        public void WhenПользовательВвелДлинуУчасткаИНажалСохранить(int p0)
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberUpdateHandler(model, Answer.Yes));
+            _userInputLength = p0;
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberUpdateHandler(model, _userInputLength, Answer.Yes));
             _sut.GraphReadModel.GrmFiberRequests.UpdateFiber(new RequestUpdateFiber() {Id = _saidFiberId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
-        [When(@"Пользователь открыл форму редактирования и нажал отмена")]
-        public void WhenПользовательНажалОтмена()
+        [When(@"Пользователь ввел длину участка (.*) и нажал отмена")]
+        public void WhenПользовательВвелДлинуУчасткаИНажалОтмена(int p0)
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberUpdateHandler(model, Answer.Cancel));
+            _userInputLength = p0;
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.FiberUpdateHandler(model, _userInputLength, Answer.Cancel));
             _sut.GraphReadModel.GrmFiberRequests.UpdateFiber(new RequestUpdateFiber() { Id = _saidFiberId }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
-        [Then(@"Отрезок должен измениться")]
-        public void ThenОтрезокДолженИзмениться()
+        [Then(@"Сохраняется длина участка")]
+        public void ThenСохраняетсяДлинаУчастка()
         {
             _sut.Poller.EventSourcingTick().Wait();
-            _sut.CurrentEventNumber.Should().Be(_cutOff+1);
+            _sut.ReadModel.Fibers.First(f => f.FiberId == _saidFiberId).UserInputedLength.Should().Be(_userInputLength);
         }
 
         [Then(@"Команда не отсылается")]

@@ -204,6 +204,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EquipmentRemovedLight.feature</DependentUpon>
     </Compile>
+    <Compile Include="Node\AdjustmentPointIntoFiberAdded.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AdjustmentPointIntoFiberAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\AdjustmentPointIntoFiberAddedSteps.cs">
+      <DependentUpon>AdjustmentPointIntoFiberAdded.feature</DependentUpon>
+    </Compile>
     <Compile Include="Node\AdjustmentPointRemoved.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -557,6 +565,10 @@
     <None Include="Fiber\FiberWithNodesAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>FiberWithNodesAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Node\AdjustmentPointIntoFiberAdded.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>AdjustmentPointIntoFiberAdded.feature.cs</LastGenOutput>
     </None>
     <None Include="Node\AdjustmentPointRemoved.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
