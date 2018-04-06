@@ -8,13 +8,12 @@ namespace Iit.Fibertest.Client
 {
     public class FiberVm : PropertyChangedBase
     {
-        private NodeVm _node1;
-        private NodeVm _node2;
         public Guid Id { get; set; }
 
+        private NodeVm _node1;
         public NodeVm Node1
         {
-            get { return _node1; }
+            get => _node1;
             set
             {
                 if (Equals(value, _node1)) return;
@@ -23,11 +22,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public NodeVm Node2
-        {
-            get { return _node2; }
-            set { _node2 = value; }
-        }
+        public NodeVm Node2 { get; set; }
 
 
         // if empty - fiber is not in any trace
@@ -51,30 +46,34 @@ namespace Iit.Fibertest.Client
             NotifyOfPropertyChange(nameof(State));
         }
 
-        public FiberState State => States.Count == 0 ? FiberState.NotInTrace : States.Values.Max();
+        public FiberState State => TracesWithExceededLossCoeff.Any() 
+            ? TracesWithExceededLossCoeff.Values.Max()
+            : States.Count == 0 
+                    ? FiberState.NotInTrace 
+                    : States.Values.Max();
 
-        public List<Guid> TracesWithExceededLossCoeff { get; set; } = new List<Guid>();
+        public Dictionary<Guid, FiberState> TracesWithExceededLossCoeff { get; set; } = new Dictionary<Guid, FiberState>();
+
+        public void SetBadSegment(Guid traceId, FiberState lossCoeffSeriousness)
+        {
+            if (TracesWithExceededLossCoeff.ContainsKey(traceId))
+                TracesWithExceededLossCoeff[traceId] = lossCoeffSeriousness;
+            else
+                TracesWithExceededLossCoeff.Add(traceId, lossCoeffSeriousness);
+
+            NotifyOfPropertyChange(nameof(IsBadSegment));
+            NotifyOfPropertyChange(nameof(State));
+        }
+
+        public void RemoveBadSegment(Guid traceId)
+        {
+            if (TracesWithExceededLossCoeff.ContainsKey(traceId))
+                TracesWithExceededLossCoeff.Remove(traceId);
+
+            NotifyOfPropertyChange(nameof(IsBadSegment));
+            NotifyOfPropertyChange(nameof(State));
+        }
+
         public bool IsBadSegment => TracesWithExceededLossCoeff.Any();
-
-        public void AddBadSegment(Guid traceId)
-        {
-            if (TracesWithExceededLossCoeff.Contains(traceId)) return;
-
-            TracesWithExceededLossCoeff.Add(traceId);
-            if (TracesWithExceededLossCoeff.Count > 1) return;
-
-            NotifyOfPropertyChange(nameof(IsBadSegment));
-        }
-
-        public void CleanBadSegment(Guid traceId)
-        {
-            if (!TracesWithExceededLossCoeff.Contains(traceId)) return;
-
-            TracesWithExceededLossCoeff.Remove(traceId);
-            if (TracesWithExceededLossCoeff.Count > 0) return;
-
-            NotifyOfPropertyChange(nameof(IsBadSegment));
-        }
-
     }
 }

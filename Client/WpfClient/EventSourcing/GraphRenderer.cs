@@ -69,8 +69,8 @@ namespace Iit.Fibertest.Client
                     if (fiberVm == null)
                         fiberVm = Map(fiber);
                     fiberVm.States.Add(trace.TraceId, trace.State);
-                    if (fiber.TracesWithExceededLossCoeff.Contains(trace.TraceId))
-                        fiberVm.TracesWithExceededLossCoeff.Add(trace.TraceId);
+                    if (fiber.TracesWithExceededLossCoeff.ContainsKey(trace.TraceId))
+                        fiberVm.TracesWithExceededLossCoeff.Add(trace.TraceId, fiber.TracesWithExceededLossCoeff[trace.TraceId]);
                     _fibersForRendering.Add(fiberVm);
                 }
             }
@@ -168,7 +168,8 @@ namespace Iit.Fibertest.Client
             var fiberVm = Map(fiber);
             foreach (var pair in fiber.States)
                 fiberVm.States.Add(pair.Key, pair.Value);
-            fiber.TracesWithExceededLossCoeff.ForEach(e => fiberVm.TracesWithExceededLossCoeff.Add(e));
+            foreach (var pair in fiber.TracesWithExceededLossCoeff)
+                fiberVm.TracesWithExceededLossCoeff.Add(pair.Key, pair.Value);
             return fiberVm;
         }
     }

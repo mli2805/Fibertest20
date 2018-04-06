@@ -50,15 +50,16 @@ namespace Iit.Fibertest.Client
             var fiberVm1 = new FiberVm() { Id = e.NewFiberId1, Node1 = node1, Node2 = _model.Data.Nodes.First(n => n.Id == e.Id)};
             foreach (var pair in oldFiberVm.States)
                 fiberVm1.States.Add(pair.Key, pair.Value);
-            foreach (var guid in oldFiberVm.TracesWithExceededLossCoeff)
-                fiberVm1.TracesWithExceededLossCoeff.Add(guid);
+            foreach (var pair in oldFiberVm.TracesWithExceededLossCoeff)
+                fiberVm1.TracesWithExceededLossCoeff.Add(pair.Key, pair.Value);
             _model.Data.Fibers.Add(fiberVm1);
 
             var fiberVm2 = new FiberVm() { Id = e.NewFiberId2, Node1 = _model.Data.Nodes.First(n => n.Id == e.Id), Node2 = node2 };
             foreach (var pair in oldFiberVm.States)
                 fiberVm2.States.Add(pair.Key, pair.Value);
-            foreach (var guid in oldFiberVm.TracesWithExceededLossCoeff)
-                fiberVm2.TracesWithExceededLossCoeff.Add(guid); _model.Data.Fibers.Add(fiberVm2);
+            foreach (var pair in oldFiberVm.TracesWithExceededLossCoeff)
+                fiberVm2.TracesWithExceededLossCoeff.Add(pair.Key, pair.Value);
+            _model.Data.Fibers.Add(fiberVm2);
         }
 
         public void MoveNode(NodeMoved evnt)

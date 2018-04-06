@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
@@ -14,7 +13,7 @@ namespace Iit.Fibertest.Graph
         public double UserInputedLength { get; set; }
         public double OpticalLength { get; set; }
 
-        // if empty - fiber is not in any trace
+        // if empty - fiber is not in any trace; pair contains trace.TraceId : trace.TraceState
         public Dictionary<Guid, FiberState> States { get; set; } = new Dictionary<Guid, FiberState>();
 
         public void SetState(Guid traceId, FiberState traceState)
@@ -31,23 +30,21 @@ namespace Iit.Fibertest.Graph
                 States.Remove(traceId);
         }
 
-        public FiberState State => States.Count == 0 ? FiberState.NotInTrace : States.Values.Max();
+        public Dictionary<Guid, FiberState> TracesWithExceededLossCoeff { get; set; } = new Dictionary<Guid, FiberState>();
 
-        public List<Guid> TracesWithExceededLossCoeff { get; set; } = new List<Guid>();
-        public bool IsBadSegment => TracesWithExceededLossCoeff.Any();
-
-        public void AddBadSegment(Guid traceId)
+        public void SetBadSegment(Guid traceId, FiberState lossCoeffSeriousness)
         {
-            if (TracesWithExceededLossCoeff.Contains(traceId)) return;
-
-            TracesWithExceededLossCoeff.Add(traceId);
+            if (TracesWithExceededLossCoeff.ContainsKey(traceId))
+                TracesWithExceededLossCoeff[traceId] = lossCoeffSeriousness; 
+            else
+                TracesWithExceededLossCoeff.Add(traceId, lossCoeffSeriousness);
         }
 
-        public void CleanBadSegment(Guid traceId)
+        public void RemoveBadSegment(Guid traceId)
         {
-            if (!TracesWithExceededLossCoeff.Contains(traceId)) return;
-
-            TracesWithExceededLossCoeff.Remove(traceId);
+            if (TracesWithExceededLossCoeff.ContainsKey(traceId))
+                TracesWithExceededLossCoeff.Remove(traceId);
         }
+
     }
 }

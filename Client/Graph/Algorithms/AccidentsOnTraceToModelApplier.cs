@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Graph.Algorithms
 
             foreach (var fiber in _model.Fibers)
             {
-                fiber.CleanBadSegment(traceId);
+                fiber.RemoveBadSegment(traceId);
             }
         }
 
@@ -100,7 +100,7 @@ namespace Iit.Fibertest.Graph.Algorithms
 
             foreach (var fiber in fibers)
             {
-                fiber.AddBadSegment(traceId);
+                fiber.SetBadSegment(traceId, accidentInOldEvent.AccidentSeriousness);
             }
         }
 

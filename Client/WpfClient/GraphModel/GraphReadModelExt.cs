@@ -130,7 +130,7 @@ namespace Iit.Fibertest.Client
 
             foreach (var fiberVm in model.Data.Fibers)
             {
-                fiberVm.CleanBadSegment(traceId);
+                fiberVm.RemoveBadSegment(traceId);
             }
         }
     }

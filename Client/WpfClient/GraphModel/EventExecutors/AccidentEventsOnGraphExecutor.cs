@@ -87,7 +87,7 @@ namespace Iit.Fibertest.Client
             var fiberVm = _model.GetFiberByLandmarkIndexes(traceId, accidentInOldEvent.BrokenLandmarkIndex - 1,
                 accidentInOldEvent.BrokenLandmarkIndex);
 
-            fiberVm.AddBadSegment(traceId);
+            fiberVm.SetBadSegment(traceId, accidentInOldEvent.AccidentSeriousness);
         }
 
     }

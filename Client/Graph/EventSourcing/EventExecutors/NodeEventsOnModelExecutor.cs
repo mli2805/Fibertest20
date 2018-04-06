@@ -59,15 +59,15 @@ namespace Iit.Fibertest.Graph
             var fiber1 = new Fiber() { FiberId = e.NewFiberId1, NodeId1 = nodeId1, NodeId2 = e.Id };
             foreach (var pair in oldFiber.States)
                 fiber1.States.Add(pair.Key, pair.Value);
-            foreach (var guid in oldFiber.TracesWithExceededLossCoeff)
-                fiber1.TracesWithExceededLossCoeff.Add(guid);
+            foreach (var pair in oldFiber.TracesWithExceededLossCoeff)
+                fiber1.TracesWithExceededLossCoeff.Add(pair.Key, pair.Value);
             _model.Fibers.Add(fiber1);
 
             var fiber2 = new Fiber() { FiberId = e.NewFiberId2, NodeId1 = e.Id, NodeId2 = nodeId2 };
             foreach (var pair in oldFiber.States)
                 fiber2.States.Add(pair.Key, pair.Value);
-            foreach (var guid in oldFiber.TracesWithExceededLossCoeff)
-                fiber2.TracesWithExceededLossCoeff.Add(guid);
+            foreach (var pair in oldFiber.TracesWithExceededLossCoeff)
+                fiber2.TracesWithExceededLossCoeff.Add(pair.Key, pair.Value);
             _model.Fibers.Add(fiber2);
         }
 
