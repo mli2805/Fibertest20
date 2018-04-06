@@ -48,25 +48,29 @@ namespace Iit.Fibertest.Graph.Algorithms
             sorData.LinkParameters.LandmarksCount = (short)newLandmarks.Length;
         }
 
-        public void AddNamesAndTypesForLandmarks(OtdrDataKnownBlocks sorData, Trace trace)
+        public void AddNamesAndTypesForLandmarks(OtdrDataKnownBlocks sorData, Trace trace, TraceModelForBaseRef model)
         {
-            var nodes = _model.GetTraceNodes(trace).ToList();
-            var equipments = _model.GetTraceEquipments(trace).ToList(); // without RTU
-            var rtu = _model.Rtus.First(r => r.NodeId == nodes[0].NodeId);
+//            var nodes = _model.GetTraceNodes(trace).ToList();
+//            var equipments = _model.GetTraceEquipments(trace).ToList(); // without RTU
+//            var rtu = _model.Rtus.First(r => r.NodeId == nodes[0].NodeId);
 
             var landmarks = sorData.LinkParameters.LandmarkBlocks;
-            landmarks[0].Comment = rtu.Title;
+//            landmarks[0].Comment = rtu.Title;
+            landmarks[0].Comment = model.EquipArray[0].Title;
             for (int i = 1; i < landmarks.Length; i++)
             {
-                var landmarkTitle = nodes[i].Title;
-                if (!string.IsNullOrEmpty(equipments[i - 1].Title))
-                    landmarkTitle = landmarkTitle + $@" / {equipments[i - 1].Title}";
+                var landmarkTitle = model.NodeArray[i].Title;
+
+//                if (!string.IsNullOrEmpty(equipments[i - 1].Title))
+//                    landmarkTitle = landmarkTitle + $@" / {equipments[i - 1].Title}";
+                if (!string.IsNullOrEmpty(model.EquipArray[i].Title))
+                    landmarkTitle = landmarkTitle + $@" / {model.EquipArray[i].Title}";
 
                 landmarks[i].Comment = landmarkTitle; // utf8, TODO reflect.exe should understand this
-                landmarks[i].Code = equipments[i - 1].Type.ToLandmarkCode();
+                landmarks[i].Code = model.EquipArray[i].Type.ToLandmarkCode();
 
-                landmarks[i].GpsLatitude = GpsCalculator.GpsInSorFormat(nodes[i].Position.Lat);
-                landmarks[i].GpsLongitude = GpsCalculator.GpsInSorFormat(nodes[i].Position.Lng);
+                landmarks[i].GpsLatitude = GpsCalculator.GpsInSorFormat(model.NodeArray[i].Position.Lat);
+                landmarks[i].GpsLongitude = GpsCalculator.GpsInSorFormat(model.NodeArray[i].Position.Lng);
             }
         }
         private double GetRatioBaseRefToGraphAroundEmptyNode(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model, int emptyNodeIndex)

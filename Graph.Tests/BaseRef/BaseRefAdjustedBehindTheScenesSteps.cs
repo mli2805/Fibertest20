@@ -114,7 +114,7 @@ namespace Graph.Tests
             nodeUpdateViewModel.Initialize(nodeId);
             nodeUpdateViewModel.Title = NodeNewTitle;
 
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentInfoViewModelHandler(model, Answer.Yes, EquipmentType.Other, 0, 0, EquipmentNewTitle));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentInfoViewModelHandler(model, Answer.Yes, EquipmentType.Cross, 0, 0, EquipmentNewTitle));
 
             var item = nodeUpdateViewModel.EquipmentsInNode.First(i => i.Id == equipmentId);
             item.Command = new UpdateEquipment() { EquipmentId = equipmentId };
@@ -131,7 +131,7 @@ namespace Graph.Tests
             var sorData = SorData.FromBytes(sorbBytes);
 
             sorData.LinkParameters.LandmarkBlocks[5].Comment.Should().Be($@"{NodeNewTitle} / {EquipmentNewTitle}");
-            sorData.LinkParameters.LandmarkBlocks[5].Code.Should().Be(LandmarkCode.Other);
+            sorData.LinkParameters.LandmarkBlocks[5].Code.Should().Be(LandmarkCode.WiringCloset);
         }
 
     }

@@ -69,7 +69,7 @@ namespace Iit.Fibertest.Client
 
                 _baseRefLandmarksTool.SetLandmarksLocation(otdrKnownBlocks, modelWithoutAdjustmentPoint);
 
-                _baseRefLandmarksTool.AddNamesAndTypesForLandmarks(otdrKnownBlocks, trace);
+                _baseRefLandmarksTool.AddNamesAndTypesForLandmarks(otdrKnownBlocks, trace, modelWithoutAdjustmentPoint);
 
                 baseRefDto.SorBytes = otdrKnownBlocks.ToBytes();
 

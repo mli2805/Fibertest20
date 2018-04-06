@@ -125,7 +125,7 @@ namespace Iit.Fibertest.DataCenterCore
             var modelWithDistances = _traceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
             var sorData = SorData.FromBytes(baseRefDto.SorBytes);
             _baseRefLandmarksTool.SetLandmarksLocation(sorData, modelWithDistances);
-            _baseRefLandmarksTool.AddNamesAndTypesForLandmarks(sorData, trace);
+            _baseRefLandmarksTool.AddNamesAndTypesForLandmarks(sorData, trace, modelWithDistances);
             baseRefDto.SorBytes = sorData.ToBytes();
         }
 
