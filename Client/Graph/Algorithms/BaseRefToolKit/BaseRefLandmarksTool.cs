@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using Iit.Fibertest.Dto;
+﻿using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
@@ -8,13 +7,6 @@ namespace Iit.Fibertest.Graph.Algorithms
 {
     public class BaseRefLandmarksTool
     {
-        private readonly Model _model;
-
-        public BaseRefLandmarksTool(Model model)
-        {
-            _model = model;
-        }
-
         public void SetLandmarksLocation(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
         {
             var landmarks = sorData.LinkParameters.LandmarkBlocks;
@@ -50,19 +42,11 @@ namespace Iit.Fibertest.Graph.Algorithms
 
         public void AddNamesAndTypesForLandmarks(OtdrDataKnownBlocks sorData, Trace trace, TraceModelForBaseRef model)
         {
-//            var nodes = _model.GetTraceNodes(trace).ToList();
-//            var equipments = _model.GetTraceEquipments(trace).ToList(); // without RTU
-//            var rtu = _model.Rtus.First(r => r.NodeId == nodes[0].NodeId);
-
             var landmarks = sorData.LinkParameters.LandmarkBlocks;
-//            landmarks[0].Comment = rtu.Title;
             landmarks[0].Comment = model.EquipArray[0].Title;
             for (int i = 1; i < landmarks.Length; i++)
             {
                 var landmarkTitle = model.NodeArray[i].Title;
-
-//                if (!string.IsNullOrEmpty(equipments[i - 1].Title))
-//                    landmarkTitle = landmarkTitle + $@" / {equipments[i - 1].Title}";
                 if (!string.IsNullOrEmpty(model.EquipArray[i].Title))
                     landmarkTitle = landmarkTitle + $@" / {model.EquipArray[i].Title}";
 
@@ -94,6 +78,5 @@ namespace Iit.Fibertest.Graph.Algorithms
             return model.DistancesMm[leftEquipmentIndex] +
                    GetDistanceBetweenRealEquipmentsOnGraphMm(model, leftEquipmentIndex + 1, rightEquipmentIndex);
         }
-
     }
 }
