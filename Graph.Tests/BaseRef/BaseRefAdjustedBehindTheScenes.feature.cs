@@ -93,6 +93,11 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.Then("Имя и время пользователя не изменились", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 12
  testRunner.And("Изменилось положение ориентиров", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 14
+ testRunner.When("Пользователь меняет название узла а также название и тип оборудования в узле для " +
+                    "трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 15
+ testRunner.Then("Меняется тип и название ориентира", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

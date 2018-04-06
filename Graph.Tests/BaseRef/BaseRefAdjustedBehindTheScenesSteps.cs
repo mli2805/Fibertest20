@@ -7,6 +7,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.WcfServiceForClientInterface;
+using Optixsoft.SorExaminer.OtdrDataFormat;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -14,6 +15,9 @@ namespace Graph.Tests
     [Binding]
     public sealed class BaseRefAdjustedBehindTheScenesSteps
     {
+        private const string NodeNewTitle = @"Node with changes";
+        private const string EquipmentNewTitle = @"Equipment with changes";
+
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Iit.Fibertest.Graph.Rtu _rtu;
         private Iit.Fibertest.Graph.Trace _trace;
@@ -100,5 +104,35 @@ namespace Graph.Tests
 
             otdrDataKnownBlocks.LinkParameters.LandmarkBlocks[3].Location.Should().NotBe(_closureLocation);
         }
+
+        [When(@"Пользователь меняет название узла а также название и тип оборудования в узле для трассы")]
+        public void WhenПользовательМеняетНазваниеУзлаАТакжеНазваниеИТипОборудованияВУзлеДляТрассы()
+        {
+            var nodeId = _trace.NodeIds[5];
+            var equipmentId = _trace.EquipmentIds[5];
+            var nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
+            nodeUpdateViewModel.Initialize(nodeId);
+            nodeUpdateViewModel.Title = NodeNewTitle;
+
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentInfoViewModelHandler(model, Answer.Yes, EquipmentType.Other, 0, 0, EquipmentNewTitle));
+
+            var item = nodeUpdateViewModel.EquipmentsInNode.First(i => i.Id == equipmentId);
+            item.Command = new UpdateEquipment() { EquipmentId = equipmentId };
+            _sut.Poller.EventSourcingTick().Wait();
+            nodeUpdateViewModel.Save();
+            _sut.Poller.EventSourcingTick().Wait();
+        }
+
+        [Then(@"Меняется тип и название ориентира")]
+        public void ThenМеняетсяТипИНазваниеОриентира()
+        {
+            var sorFileId = _sut.ReadModel.BaseRefs.First(b => b.Id == _trace.PreciseId).SorFileId;
+            var sorbBytes = _sut.WcfService.GetSorBytes(sorFileId).Result;
+            var sorData = SorData.FromBytes(sorbBytes);
+
+            sorData.LinkParameters.LandmarkBlocks[2].Comment.Should().Be($@"{NodeNewTitle} / {EquipmentNewTitle}");
+            sorData.LinkParameters.LandmarkBlocks[2].Code.Should().Be(LandmarkCode.Other);
+        }
+
     }
 }
