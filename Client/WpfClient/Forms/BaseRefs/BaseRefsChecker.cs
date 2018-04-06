@@ -20,13 +20,12 @@ namespace Iit.Fibertest.Client
         private readonly BaseRefLandmarksChecker _baseRefLandmarksChecker;
         private readonly GraphGpsCalculator _graphGpsCalculator;
         private readonly TraceModelBuilder _traceModelBuilder;
-        private readonly BaseRefAdjuster _baseRefAdjuster;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
 
         public BaseRefsChecker(Model readModel, IWindowManager windowManager,
             BaseRefMeasParamsChecker baseRefMeasParamsChecker, BaseRefLandmarksChecker baseRefLandmarksChecker,
             GraphGpsCalculator graphGpsCalculator, TraceModelBuilder traceModelBuilder, 
-            BaseRefAdjuster baseRefAdjuster, BaseRefLandmarksTool baseRefLandmarksTool)
+            BaseRefLandmarksTool baseRefLandmarksTool)
         {
             _readModel = readModel;
             _windowManager = windowManager;
@@ -34,7 +33,6 @@ namespace Iit.Fibertest.Client
             _baseRefLandmarksChecker = baseRefLandmarksChecker;
             _graphGpsCalculator = graphGpsCalculator;
             _traceModelBuilder = traceModelBuilder;
-            _baseRefAdjuster = baseRefAdjuster;
             _baseRefLandmarksTool = baseRefLandmarksTool;
         }
 
@@ -67,10 +65,12 @@ namespace Iit.Fibertest.Client
                 var modelWithoutAdjustmentPoint = _traceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
 
                 if (comparisonResult == CountMatch.LandmarksMatchEquipments)
-                    _baseRefAdjuster.InsertLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
+                    _baseRefLandmarksTool.InsertLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
+
                 _baseRefLandmarksTool.SetLandmarksLocation(otdrKnownBlocks, modelWithoutAdjustmentPoint);
 
-                _baseRefAdjuster.AddNamesAndTypesForLandmarks(otdrKnownBlocks, trace);
+                _baseRefLandmarksTool.AddNamesAndTypesForLandmarks(otdrKnownBlocks, trace);
+
                 baseRefDto.SorBytes = otdrKnownBlocks.ToBytes();
 
                 if (baseRefDto.BaseRefType == BaseRefType.Precise)

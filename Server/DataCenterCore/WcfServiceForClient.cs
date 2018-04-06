@@ -91,14 +91,16 @@ namespace Iit.Fibertest.DataCenterCore
                 return await _rtuStationsRepository.RemoveRtuAsync(removeRtu.RtuId);
 
             #region Base ref amend
+            if (cmd is UpdateNode updateNode)
+                return await _baseRefRepairmanIntermediary.AmendForTracesWhichUseThisNode(updateNode.NodeId);
             if (cmd is MoveNode moveNode)
-                return await _baseRefRepairmanIntermediary.ProcessNodeMoved(moveNode.NodeId);
+                return await _baseRefRepairmanIntermediary.AmendForTracesWhichUseThisNode(moveNode.NodeId);
             if (cmd is UpdateEquipment updateEquipment)
                 return await _baseRefRepairmanIntermediary.ProcessUpdateEquipment(updateEquipment.EquipmentId);
             if (cmd is UpdateFiber updateFiber)
                 return await _baseRefRepairmanIntermediary.ProcessUpdateFiber(updateFiber.Id);
             if (cmd is AddNodeIntoFiber addNodeIntoFiber)
-                return await _baseRefRepairmanIntermediary.ProcessAddIntoFiber(addNodeIntoFiber.Id);
+                return await _baseRefRepairmanIntermediary.AmendForTracesWhichUseThisNode(addNodeIntoFiber.Id);
             if (cmd is RemoveNode removeNode && removeNode.Type == EquipmentType.AdjustmentPoint)
                 return await _baseRefRepairmanIntermediary.ProcessNodeRemoved(removeNode.TraceWithNewFiberForDetourRemovedNode.Keys.ToList());
             #endregion

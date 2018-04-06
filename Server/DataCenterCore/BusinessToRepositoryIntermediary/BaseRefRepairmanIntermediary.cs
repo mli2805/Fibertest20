@@ -20,7 +20,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
 
-        public BaseRefRepairmanIntermediary(Model writeModel, 
+        public BaseRefRepairmanIntermediary(Model writeModel,
             SorFileRepository sorFileRepository, BaseRefDtoFactory baseRefDtoFactory,
             TraceModelBuilder traceModelBuilder, BaseRefLandmarksTool baseRefLandmarksTool,
             ClientToRtuTransmitter clientToRtuTransmitter)
@@ -33,7 +33,7 @@ namespace Iit.Fibertest.DataCenterCore
             _clientToRtuTransmitter = clientToRtuTransmitter;
         }
 
-        public async Task<string> ProcessNodeMoved(Guid nodeId)
+        public async Task<string> AmendForTracesWhichUseThisNode(Guid nodeId)
         {
             var tracesWhichUseThisNode = _writeModel.Traces.Where(t => t.NodeIds.Contains(nodeId) && t.HasAnyBaseRef).ToList();
             return await AmendBaseRefs(tracesWhichUseThisNode);
@@ -55,14 +55,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<string> ProcessUpdateFiber(Guid fiberId)
         {
-            var tracesWhichUseThisFiber = _writeModel.GetTracesPassingFiber(fiberId).Where(t=>t.HasAnyBaseRef).ToList();
+            var tracesWhichUseThisFiber = _writeModel.GetTracesPassingFiber(fiberId).Where(t => t.HasAnyBaseRef).ToList();
             return await AmendBaseRefs(tracesWhichUseThisFiber);
-        }
-
-        public async Task<string> ProcessAddIntoFiber(Guid nodeId)
-        {
-            var tracesWhichUseThisNode = _writeModel.Traces.Where(t => t.NodeIds.Contains(nodeId) && t.HasAnyBaseRef).ToList();
-            return await AmendBaseRefs(tracesWhichUseThisNode);
         }
 
         public async Task<string> ProcessNodeRemoved(List<Guid> traceIds)
@@ -131,6 +125,7 @@ namespace Iit.Fibertest.DataCenterCore
             var modelWithDistances = _traceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
             var sorData = SorData.FromBytes(baseRefDto.SorBytes);
             _baseRefLandmarksTool.SetLandmarksLocation(sorData, modelWithDistances);
+            _baseRefLandmarksTool.AddNamesAndTypesForLandmarks(sorData, trace);
             baseRefDto.SorBytes = sorData.ToBytes();
         }
 

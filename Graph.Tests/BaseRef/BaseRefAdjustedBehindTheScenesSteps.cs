@@ -130,8 +130,8 @@ namespace Graph.Tests
             var sorbBytes = _sut.WcfService.GetSorBytes(sorFileId).Result;
             var sorData = SorData.FromBytes(sorbBytes);
 
-            sorData.LinkParameters.LandmarkBlocks[2].Comment.Should().Be($@"{NodeNewTitle} / {EquipmentNewTitle}");
-            sorData.LinkParameters.LandmarkBlocks[2].Code.Should().Be(LandmarkCode.Other);
+            sorData.LinkParameters.LandmarkBlocks[5].Comment.Should().Be($@"{NodeNewTitle} / {EquipmentNewTitle}");
+            sorData.LinkParameters.LandmarkBlocks[5].Code.Should().Be(LandmarkCode.Other);
         }
 
     }

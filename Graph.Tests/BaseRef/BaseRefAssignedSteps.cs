@@ -23,7 +23,7 @@ namespace Graph.Tests
         private Guid _oldFastId;
         private Guid _terminalNodeId;
         private Guid _terminalId;
-        private NodeUpdateViewModel nodeUpdateViewModel;
+        private NodeUpdateViewModel _nodeUpdateViewModel;
 
         [Given(@"Была создана трасса")]
         public void GivenБылаСозданаТрасса()
@@ -102,22 +102,22 @@ namespace Graph.Tests
         [Given(@"Задается имя (.*) для узла с оконечным кроссом")]
         public void GivenЗадаетсяИмяПосленийУзелДляУзлаСОконечнымКроссом(string p0)
         {
-            nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
-            nodeUpdateViewModel.Initialize(_terminalNodeId);
-            nodeUpdateViewModel.Title = p0;
-            nodeUpdateViewModel.Save();
+            _nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
+            _nodeUpdateViewModel.Initialize(_terminalNodeId);
+            _nodeUpdateViewModel.Title = p0;
+            _nodeUpdateViewModel.Save();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
         [Given(@"Оконечный кросс меняется на Другое и имя оборудования (.*)")]
         public void GivenОконечныйКроссМеняетсяНаДругоеИИмяОборудованияДр(string p0)
         {
-            nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
-            nodeUpdateViewModel.Initialize(_terminalNodeId);
+            _nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
+            _nodeUpdateViewModel.Initialize(_terminalNodeId);
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentInfoViewModelHandler(model, Answer.Yes, EquipmentType.Other, 0, 0, p0));
 
-            var item = nodeUpdateViewModel.EquipmentsInNode.First(i => i.Id == _terminalId);
+            var item = _nodeUpdateViewModel.EquipmentsInNode.First(i => i.Id == _terminalId);
             item.Command = new UpdateEquipment() { EquipmentId = _terminalId };
             _sut.Poller.EventSourcingTick().Wait();
         }
