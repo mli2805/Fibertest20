@@ -11,8 +11,9 @@ namespace Iit.Fibertest.Graph
         public static TraceModelForBaseRef GetTraceComponentsByIds(this Model model, Trace trace)
         {
             var nodes = model.GetTraceNodes(trace).ToArray();
+            var rtu = model.Rtus.First(r => r.Id == trace.RtuId);
             var equipList =
-                new List<Equipment>() { new Equipment() { Type = EquipmentType.Rtu } }; // fake RTU, just for indexes match
+                new List<Equipment>() { new Equipment() { Type = EquipmentType.Rtu, Title = rtu.Title } }; // fake RTU, just for indexes match
             equipList.AddRange(model.GetTraceEquipments(trace).ToList()); // without RTU
             var fibers = model.GetTraceFibers(trace).ToArray();
 

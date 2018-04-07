@@ -40,7 +40,7 @@ namespace Iit.Fibertest.Graph.Algorithms
             sorData.LinkParameters.LandmarksCount = (short)newLandmarks.Length;
         }
 
-        public void AddNamesAndTypesForLandmarks(OtdrDataKnownBlocks sorData, Trace trace, TraceModelForBaseRef model)
+        public void AddNamesAndTypesForLandmarks(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
         {
             var landmarks = sorData.LinkParameters.LandmarkBlocks;
             landmarks[0].Comment = model.EquipArray[0].Title;

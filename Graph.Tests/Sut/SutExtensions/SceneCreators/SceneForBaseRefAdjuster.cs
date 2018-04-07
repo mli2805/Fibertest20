@@ -12,7 +12,7 @@ namespace Graph.Tests
     {
         public static Iit.Fibertest.Graph.Rtu SetInitializedRtu(this SystemUnderTest sut)
         {
-            sut.FakeWindowManager.RegisterHandler(model => sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Yes));
+            sut.FakeWindowManager.RegisterHandler(model => sut.RtuUpdateHandler(model, @"Some title of RTU", @"doesn't matter", Answer.Yes));
             sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 });
             sut.Poller.EventSourcingTick().Wait();
             var rtu = sut.ReadModel.Rtus.Last();
