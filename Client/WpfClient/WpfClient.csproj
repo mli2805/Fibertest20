@@ -250,7 +250,6 @@
     <Compile Include="GraphModel\EventExecutors\RtuEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\TraceEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\GrmData.cs" />
-    <Compile Include="GraphModel\GrmSerializer.cs" />
     <Compile Include="GraphModel\Visibility\GraphVisibilityLevel.cs" />
     <Compile Include="GraphModel\Visibility\GraphVisibilityExt.cs" />
     <Compile Include="GraphModel\Visibility\GraphVisibilityLevelItem.cs" />
