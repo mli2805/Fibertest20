@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Algorithms;
 
 namespace Iit.Fibertest.Client
 {
@@ -17,41 +18,52 @@ namespace Iit.Fibertest.Client
 
         public List<Landmark> GetLandmarks(Trace trace)
         {
-            var list = trace.NodeIds.Select((t, i) => CombineLandmark(t, trace.EquipmentIds[i], i)).ToList();
-            for (var i = 1; i < list.Count; i++)
-                list[i].Location = list[i].GpsCoors.GetDistanceKm(list[i - 1].GpsCoors) + list[i - 1].Location;
-            return list;
-        }
+            var previousNode = _readModel.Nodes.First(n => n.NodeId == trace.NodeIds[0]);
+            var result = new List<Landmark> { CreateRtuLandmark(previousNode) };
 
-        private Landmark CombineLandmark(Guid nodeId, Guid equipmentId, int number)
-        {
-            var node = _readModel.Nodes.First(n => n.NodeId == nodeId);
-            var result = new Landmark()
+            var distance = 0.0;
+            for (var i = 1; i < trace.NodeIds.Count; i++)
             {
-                Number = number,
-                NodeTitle = node.Title,
-                EventNumber = 0,
-                GpsCoors = node.Position,
-            };
+                var nodeId = trace.NodeIds[i];
+                var node = _readModel.Nodes.First(n => n.NodeId == nodeId);
+                distance = distance + GpsCalculator.GetDistanceBetweenPointLatLng(previousNode.Position, node.Position);
+                previousNode = node;
+                if (node.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint) continue;
 
-            if (number == 0)
-            {
-                var rtu = _readModel.Rtus.First(e => e.Id == equipmentId);
-                result.EquipmentTitle = rtu.Title;
-                result.EquipmentType = EquipmentType.Rtu;
+                var lm = CreateLandmark(node, trace.EquipmentIds[i], i);
+                lm.Distance = distance;
+                result.Add(lm);
             }
-            else
-            {
-                if (equipmentId != Guid.Empty)
-                {
-                    var equipment = _readModel.Equipments.First(e => e.EquipmentId == equipmentId);
-                    result.EquipmentTitle = equipment.Title;
-                    result.EquipmentType = equipment.Type;
-                }
-                else result.EquipmentType = EquipmentType.EmptyNode;
-            }
+
             return result;
         }
 
+        private Landmark CreateLandmark(Node node, Guid equipmentId, int number)
+        {
+            var equipment = _readModel.Equipments.First(e => e.EquipmentId == equipmentId);
+            return new Landmark()
+            {
+                Number = number,
+                NodeTitle = node.Title,
+                EquipmentTitle = equipment.Title,
+                EquipmentType = equipment.Type,
+                EventNumber = -1,
+                GpsCoors = node.Position,
+            };
+        }
+
+        private Landmark CreateRtuLandmark(Node node)
+        {
+            var rtu = _readModel.Rtus.First(e => e.NodeId == node.NodeId);
+            return new Landmark()
+            {
+                Number = 0,
+                NodeTitle = rtu.Title,
+                EquipmentType = EquipmentType.Rtu,
+                Distance = 0,
+                EventNumber = -1,
+                GpsCoors = node.Position,
+            };
+        }
     }
 }

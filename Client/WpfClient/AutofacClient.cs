@@ -158,6 +158,7 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<AddEquipmentIntoNodeBuilder>();
             builder.RegisterType<GpsInputViewModel>();
+            builder.RegisterType<LandmarksGraphParser>();
             builder.RegisterType<LandmarkViewModel>();
             builder.RegisterType<LandmarksViewModel>();
             builder.RegisterType<NodeUpdateViewModel>();

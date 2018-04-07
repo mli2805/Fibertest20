@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Client
         public string NodeTitle { get; set; }
         public string EquipmentTitle { get; set; }
         public EquipmentType EquipmentType { get; set; }
-        public double Location { get; set; }
+        public double Distance { get; set; }
         public int EventNumber { get; set; }
         public PointLatLng GpsCoors { get; set; }
 
@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Client
                 NodeTitle = NodeTitle,
                 EquipmentTitle = EquipmentTitle,
                 EquipmentType = EquipmentType.ToLocalizedString(),
-                Location = $@"{Location : 0.000}",
+                Distance = $@"{Distance : #,0}",
                 EventNumber = EventNumber == -1 ? Resources.SID_no : $@"{EventNumber}",
                 GpsCoors = GpsCoors.ToDetailedString(mode)
             };

@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Client
         private GpsInputModeComboItem _selectedGpsInputMode;
         public GpsInputModeComboItem SelectedGpsInputMode
         {
-            get { return _selectedGpsInputMode; }
+            get => _selectedGpsInputMode;
             set
             {
                 if (Equals(value, _selectedGpsInputMode)) return;
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.Client
         private Trace _selectedTrace;
         public Trace SelectedTrace
         {
-            get { return _selectedTrace; }
+            get => _selectedTrace;
             set
             {
                 if (Equals(value, _selectedTrace)) return;
@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Client
         private bool _isFilterOn;
         public bool IsFilterOn
         {
-            get { return _isFilterOn; }
+            get => _isFilterOn;
             set
             {
                 if (value == _isFilterOn) return;
@@ -73,7 +73,7 @@ namespace Iit.Fibertest.Client
         private ObservableCollection<LandmarkRow> _rows;
         public ObservableCollection<LandmarkRow> Rows
         {
-            get { return _rows; }
+            get => _rows;
             set
             {
                 if (Equals(value, _rows)) return;

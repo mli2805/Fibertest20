@@ -38,9 +38,9 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="No" Binding="{Binding Number}"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Node}" Binding="{Binding NodeTitle}"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Equipment}" Binding="{Binding EquipmentTitle}"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Type}" Binding="{Binding EquipmentType}"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Location}" Binding="{Binding Location}"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Equipment}" Binding="{Binding EquipmentTitle}"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Location}" Binding="{Binding Distance}"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event}" Binding="{Binding EventNumber}"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" Binding="{Binding GpsCoors}"/>
                 </DataGrid.Columns>

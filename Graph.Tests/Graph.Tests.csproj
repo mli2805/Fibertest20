@@ -212,6 +212,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EquipmentRemovedLight.feature</DependentUpon>
     </Compile>
+    <Compile Include="Landmarks\LandmaksFormGetDataSteps.cs">
+      <DependentUpon>LandmarksFormGetData.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Landmarks\LandmarksFormGetData.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>LandmarksFormGetData.feature</DependentUpon>
+    </Compile>
     <Compile Include="Node\AdjustmentPointIntoFiberAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -284,6 +292,7 @@
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneBasicTraceRtuEmptyTerminal.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForAccidentsExtractor.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForBaseRefAdjuster.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForLandmarksForm.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForLossCoef.cs" />
     <Compile Include="Sut\SutExtensions\Tools\OtauAttacher.cs" />
     <Compile Include="Sut\SutExtensions\Tools\BaseRefAssigner.cs" />
@@ -578,6 +587,10 @@
     <None Include="Fiber\FiberWithNodesAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>FiberWithNodesAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Landmarks\LandmarksFormGetData.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>LandmarksFormGetData.feature.cs</LastGenOutput>
     </None>
     <None Include="Node\AdjustmentPointIntoFiberAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
