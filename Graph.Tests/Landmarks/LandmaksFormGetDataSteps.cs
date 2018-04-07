@@ -39,5 +39,24 @@ namespace Graph.Tests
             _vm.Rows[6].EquipmentType.Should().Be(Resources.SID_Terminal);
         }
 
+        [When(@"Задается базовая")]
+        public void WhenЗадаетсяБазовая()
+        {
+            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuModel.GetById(_trace.TraceId);
+            _sut.AssignBaseRef(traceLeaf, SystemUnderTest.BaseTrace7, SystemUnderTest.BaseTrace7, null, Answer.Yes);
+        }
+
+        [Then(@"Проверяем ориентиры из базовой")]
+        public void ThenПроверяемОриентирыИзБазовой()
+        {
+            _vm.Rows.Count.Should().Be(7);
+            _vm.Rows[0].EquipmentType.Should().Be(@"RTU");
+            _vm.Rows[1].EquipmentType.Should().Be(Resources.SID_Closure);
+            _vm.Rows[2].EquipmentType.Should().Be(Resources.SID_Other);
+            _vm.Rows[3].EquipmentType.Should().Be(Resources.SID_Cross);
+            _vm.Rows[4].EquipmentType.Should().Be(Resources.SID_CableReserve);
+            _vm.Rows[5].EquipmentType.Should().Be(Resources.SID_Node_without_equipment);
+            _vm.Rows[6].EquipmentType.Should().Be(Resources.SID_Terminal);
+        }
     }
 }

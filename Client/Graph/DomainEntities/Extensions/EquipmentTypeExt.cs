@@ -74,6 +74,8 @@ namespace Iit.Fibertest.Graph
                     return LandmarkCode.Coupler;
                 case EquipmentType.Cross:
                     return LandmarkCode.WiringCloset;
+                case EquipmentType.CableReserve:
+                    return LandmarkCode.CableSlackLoop;
                 case EquipmentType.Terminal:
                     return LandmarkCode.RemoteTerminal;
 

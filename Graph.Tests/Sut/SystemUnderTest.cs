@@ -38,6 +38,7 @@ namespace Graph.Tests
         public const int NewRightCableReserve = 7;
         public const string NewCommentForTest = "New comment for old equipment";
 
+        public const string BaseTrace7 = @"..\..\Sut\BaseSorFiles\base-trace7.sor";
         public const string Base1625 = @"..\..\Sut\BaseSorFiles\base1625.sor";
         public const string Base1625Lm3 = @"..\..\Sut\BaseSorFiles\base1625-3lm.sor";
         public const string Base1550Lm2NoThresholds = @"..\..\Sut\BaseSorFiles\base1550-2lm-no-thresholds.sor";

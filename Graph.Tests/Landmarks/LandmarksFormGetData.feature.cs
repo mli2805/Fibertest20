@@ -62,6 +62,14 @@ namespace Graph.Tests.Landmarks
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+#line 3
+#line 4
+ testRunner.Given("Задана трасса с поинтами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+        }
+        
         public virtual void SetFixture(LandmarksFormGetDataFeature.FixtureData fixtureData)
         {
         }
@@ -71,20 +79,40 @@ namespace Graph.Tests.Landmarks
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Landmarks form gets data from graph")]
+        [Xunit.FactAttribute(DisplayName="Извлечение ориентиров из графа")]
         [Xunit.TraitAttribute("FeatureTitle", "LandmarksFormGetData")]
-        [Xunit.TraitAttribute("Description", "Landmarks form gets data from graph")]
-        public virtual void LandmarksFormGetsDataFromGraph()
+        [Xunit.TraitAttribute("Description", "Извлечение ориентиров из графа")]
+        public virtual void ИзвлечениеОриентировИзГрафа()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Landmarks form gets data from graph", ((string[])(null)));
-#line 3
-this.ScenarioSetup(scenarioInfo);
-#line 4
- testRunner.Given("Задана трасса с поинтами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 5
- testRunner.When("Пользователь открывает форму ориентиров", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Извлечение ориентиров из графа", ((string[])(null)));
 #line 6
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 7
+ testRunner.When("Пользователь открывает форму ориентиров", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 8
  testRunner.Then("Проверяем вьюмодель", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Извлечение ориентиров из базовой")]
+        [Xunit.TraitAttribute("FeatureTitle", "LandmarksFormGetData")]
+        [Xunit.TraitAttribute("Description", "Извлечение ориентиров из базовой")]
+        public virtual void ИзвлечениеОриентировИзБазовой()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Извлечение ориентиров из базовой", ((string[])(null)));
+#line 10
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 11
+ testRunner.When("Задается базовая", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 12
+ testRunner.When("Пользователь открывает форму ориентиров", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 13
+ testRunner.Then("Проверяем ориентиры из базовой", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

@@ -1,6 +1,13 @@
 ﻿Feature: LandmarksFormGetData
 
-Scenario: Landmarks form gets data from graph
+Background: 
 	Given Задана трасса с поинтами
+
+Scenario: Извлечение ориентиров из графа
 	When Пользователь открывает форму ориентиров
 	Then Проверяем вьюмодель
+
+Scenario: Извлечение ориентиров из базовой
+	When Задается базовая
+	When Пользователь открывает форму ориентиров
+	Then Проверяем ориентиры из базовой

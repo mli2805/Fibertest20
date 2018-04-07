@@ -55,6 +55,7 @@ namespace Iit.Fibertest.Client
                 case LandmarkCode.Coupler: return EquipmentType.Closure;
                 case LandmarkCode.WiringCloset: return EquipmentType.Cross;
                 case LandmarkCode.Manhole: return EquipmentType.EmptyNode;
+                case LandmarkCode.CableSlackLoop: return EquipmentType.CableReserve;
                 case LandmarkCode.RemoteTerminal: return EquipmentType.Terminal;
                 case LandmarkCode.Other: return EquipmentType.Other;
             }
