@@ -21,12 +21,6 @@ namespace Graph.Tests
             .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, Precision))
             .WhenTypeIs<double>();
 
-        [Given(@"Включен мониторинг трассы")]
-        public void GivenВключенМониторингТрассы()
-        {
-            _sut.SetTraceWithAccidentInOldNode();
-        }
-
         [When(@"Пришел (.*)\.sor")]
         public void WhenПришелMoniResult_Sor(string filename)
         {

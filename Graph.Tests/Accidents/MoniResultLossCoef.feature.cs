@@ -17,15 +17,15 @@ namespace Graph.Tests.Accidents
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class MoniResultAccidentBetweenNodesFeature : Xunit.IClassFixture<MoniResultAccidentBetweenNodesFeature.FixtureData>, System.IDisposable
+    public partial class MoniResultLossCoefFeature : Xunit.IClassFixture<MoniResultLossCoefFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
-#line 1 "MoniResultAccidentBetweenNodes.feature"
+#line 1 "MoniResultLossCoef.feature"
 #line hidden
         
-        public MoniResultAccidentBetweenNodesFeature()
+        public MoniResultLossCoefFeature()
         {
             this.TestInitialize();
         }
@@ -33,7 +33,7 @@ namespace Graph.Tests.Accidents
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "MoniResultAccidentBetweenNodes", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "MoniResultLossCoef", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -62,7 +62,7 @@ namespace Graph.Tests.Accidents
             testRunner.CollectScenarioErrors();
         }
         
-        public virtual void SetFixture(MoniResultAccidentBetweenNodesFeature.FixtureData fixtureData)
+        public virtual void SetFixture(MoniResultLossCoefFeature.FixtureData fixtureData)
         {
         }
         
@@ -71,20 +71,21 @@ namespace Graph.Tests.Accidents
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Приход результатов мониторинга для трассы с аварией между узлами")]
-        [Xunit.TraitAttribute("FeatureTitle", "MoniResultAccidentBetweenNodes")]
-        [Xunit.TraitAttribute("Description", "Приход результатов мониторинга для трассы с аварией между узлами")]
-        public virtual void ПриходРезультатовМониторингаДляТрассыСАвариейМеждуУзлами()
+        [Xunit.FactAttribute(DisplayName="Легкое превышение коэффициента затухания на фоне более серьезной аварии")]
+        [Xunit.TraitAttribute("FeatureTitle", "MoniResultLossCoef")]
+        [Xunit.TraitAttribute("Description", "Легкое превышение коэффициента затухания на фоне более серьезной аварии")]
+        public virtual void ЛегкоеПревышениеКоэффициентаЗатуханияНаФонеБолееСерьезнойАварии()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Приход результатов мониторинга для трассы с аварией между узлами", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Легкое превышение коэффициента затухания на фоне более серьезной аварии", ((string[])(null)));
 #line 3
 this.ScenarioSetup(scenarioInfo);
 #line 5
- testRunner.Given("Трасса с 5 ориентирами на мониторинге", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Трасса с 6 ориентирами на мониторинге", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 6
+ testRunner.When("Приходит резалт с файлом CriticalRnode5-MinorLnode3-MinorCnode3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 7
- testRunner.When("Приходи результат Fast FiberBreak с файлом Trace5lm\\BreakBbetween2and3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 8
- testRunner.Then("Все красное и Крест между муфтой и проключением", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Все красное а отрезок с превышением затухания сиреневый и его правый узел с сирен" +
+                    "евым крестом", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -96,12 +97,12 @@ this.ScenarioSetup(scenarioInfo);
             
             public FixtureData()
             {
-                MoniResultAccidentBetweenNodesFeature.FeatureSetup();
+                MoniResultLossCoefFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                MoniResultAccidentBetweenNodesFeature.FeatureTearDown();
+                MoniResultLossCoefFeature.FeatureTearDown();
             }
         }
     }

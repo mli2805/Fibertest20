@@ -156,6 +156,14 @@
     <Compile Include="Accidents\MoniResultComesSteps.cs">
       <DependentUpon>MoniResultComes.feature</DependentUpon>
     </Compile>
+    <Compile Include="Accidents\MoniResultLossCoef.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MoniResultLossCoef.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Accidents\MoniResultLossCoefSteps.cs">
+      <DependentUpon>MoniResultLossCoef.feature</DependentUpon>
+    </Compile>
     <Compile Include="BaseRef\BaseRefAdjustedBehindTheScenes.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -276,6 +284,7 @@
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneBasicTraceRtuEmptyTerminal.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForAccidentsExtractor.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForBaseRefAdjuster.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForLossCoef.cs" />
     <Compile Include="Sut\SutExtensions\Tools\OtauAttacher.cs" />
     <Compile Include="Sut\SutExtensions\Tools\BaseRefAssigner.cs" />
     <Compile Include="Sut\Enums\EquipmentChoiceAnswer.cs" />
@@ -506,6 +515,10 @@
     <None Include="Accidents\MoniResultComes.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>MoniResultComes.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Accidents\MoniResultLossCoef.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>MoniResultLossCoef.feature.cs</LastGenOutput>
     </None>
     <None Include="BaseRef\BaseRefAdjustedBehindTheScenes.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

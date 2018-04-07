@@ -68,8 +68,9 @@ namespace Graph.Tests
             var fibers = sut.ReadModel.GetTraceFibers(trace).ToList();
             foreach (var fiber in fibers)
             {
-                fiber.States.Contains(new KeyValuePair<Guid, FiberState>(trace.TraceId, trace.State)).Should().Be(true);
                 var fiberVm = sut.GraphReadModel.Data.Fibers.First(f => f.Id == fiber.FiberId);
+
+                fiber.States.Contains(new KeyValuePair<Guid, FiberState>(trace.TraceId, trace.State)).Should().Be(true);
                 fiberVm.States.Contains(new KeyValuePair<Guid, FiberState>(trace.TraceId, trace.State)).Should().Be(true);
             }
         }

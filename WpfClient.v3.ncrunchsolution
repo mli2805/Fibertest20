@@ -5,6 +5,8 @@
       <Value>GMap.NET.Core\GMap.NET.Core.csproj</Value>
       <Value>GMap.NET.WindowsPresentation\GMap.NET.WindowsPresentation.csproj</Value>
       <Value>Algorithms\SorDataParsingReporter.cs:Client\Graph\Graph.csproj</Value>
+      <Value>Client\DirectRtuClient\DirectRtuClient.csproj</Value>
+      <Value>Client\DbMigrator\DbMigrator.csproj</Value>
     </MetricsExclusionList>
     <SolutionConfigured>True</SolutionConfigured>
   </Settings>
