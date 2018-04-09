@@ -25,16 +25,20 @@ namespace Iit.Fibertest.DbMigrator
             _graphFetcher = new GraphFetcher(logFile, _graphModel);
 
             var oldFibertestServerIp = iniFile.Read(IniSection.Migrator, IniKey.OldFibertestServerIp, "0.0.0.0");
+            Console.WriteLine($"oldFibertestServerIp is {oldFibertestServerIp}  (base refs will be read from this server)");
             _traceBaseFetcher = new TraceBaseFetcher(oldFibertestServerIp); 
             // set TRUE for little bases only. on big base could crash 
             _shouldTransferMeasurements = iniFile.Read(IniSection.Migrator, IniKey.ShouldTransferMeasurements, false);
             _measurementsFetcher = new MeasurementsFetcher(oldFibertestServerIp, logFile);
+            Console.WriteLine($"_shouldTransferMeasurements is {_shouldTransferMeasurements}");
 
             _c2DWcfManager = new C2DWcfManager(iniFile, _logFile);
             DoubleAddress serverAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
             NetAddress clientAddress = iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
             _c2DWcfManager.SetServerAddresses(serverAddress, @"migrator", clientAddress.Ip4Address);
+            Console.WriteLine($"newFibertestServerMainAddressIp is {serverAddress.Main.Ip4Address}");
 
+            Console.ReadLine();
         }
 
         public void Go()
