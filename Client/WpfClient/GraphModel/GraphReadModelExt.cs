@@ -81,8 +81,9 @@ namespace Iit.Fibertest.Client
             return nodeVms;
         }
 
+        // if RTU is neighbour - exclude it
         // if some of neighbours are AdjustmentPoints - step farther a find first node on this way
-        public static List<NodeVm> GetNeiboursExcludingAdjustmentPoints(this GraphReadModel model, Guid nodeId)
+        public static List<NodeVm> GetNeiboursExcludingRtuAndPassingThroughAdjustmentPoints(this GraphReadModel model, Guid nodeId)
         {
             var result = new List<NodeVm>();
 
@@ -101,6 +102,7 @@ namespace Iit.Fibertest.Client
                     previousNodeId = neighbourVm.Id;
                     currentFiberVm = model.GetAnotherFiberOfAdjustmentPoint(neighbourVm, currentFiberVm.Id);
                 }
+                if (neighbourVm.Type == EquipmentType.Rtu) continue;
                 result.Add(neighbourVm);
             }
 

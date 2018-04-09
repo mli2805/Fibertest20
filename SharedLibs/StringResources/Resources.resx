@@ -1709,4 +1709,7 @@ RTU is initializing right now!</value>
 	<data name="SID____noname_node_" xml:space="preserve">
     <value>  &lt;noname node&gt;</value>
   </data>
+  <data name="SID_Trace_cannot_be_terminated_by_or_pass_through_RTU_" xml:space="preserve">
+    <value>Trace cannot be terminated by or pass through RTU!</value>
+  </data>
 </root>

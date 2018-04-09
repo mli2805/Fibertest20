@@ -52,12 +52,18 @@ namespace Iit.Fibertest.Client
         {
             if (Steps.Count == 1) return;
             Guid backwardNodeId = Steps[Steps.Count - 2].NodeId;
+            if (_readModel.Rtus.Any(r => r.NodeId == backwardNodeId))
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Trace_cannot_be_terminated_by_or_pass_through_RTU_) ;
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return;
+            }
             JustStep(_graphReadModel.Data.Nodes.First(n => n.Id == backwardNodeId));
         }
 
         public bool StepForward() // public because it is button handler
         {
-            var neighbours = _graphReadModel.GetNeiboursExcludingAdjustmentPoints(Steps.Last().NodeId);
+            var neighbours = _graphReadModel.GetNeiboursExcludingRtuAndPassingThroughAdjustmentPoints(Steps.Last().NodeId);
             Guid previousNodeId = Steps.Count == 1 ? Guid.Empty : Steps[Steps.Count - 2].NodeId;
 
             switch (neighbours.Count)
@@ -65,6 +71,8 @@ namespace Iit.Fibertest.Client
                 case 1:
                     if (neighbours[0].Id != previousNodeId)
                         return JustStep(neighbours[0]);
+                    var vm = new MyMessageBoxViewModel(MessageType.Error, "It's an end node. If you want to continue, press <Step backward>");
+                    _windowManager.ShowDialogWithAssignedOwner(vm);
                     return false;
                 case 2:
                     if (previousNodeId != Guid.Empty)

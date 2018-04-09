@@ -1503,20 +1503,11 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to , title.
+        ///   Looks up a localized string similar to Equipment title.
         /// </summary>
         public static string SID_Equipm__title {
             get {
                 return ResourceManager.GetString("SID_Equipm__title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Equipment, type.
-        /// </summary>
-        public static string SID_Equipm__type {
-            get {
-                return ResourceManager.GetString("SID_Equipm__type", resourceCulture);
             }
         }
         
@@ -4381,6 +4372,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Trace__0__statistics {
             get {
                 return ResourceManager.GetString("SID_Trace__0__statistics", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace cannot be terminated by or pass through RTU!.
+        /// </summary>
+        public static string SID_Trace_cannot_be_terminated_by_or_pass_through_RTU_ {
+            get {
+                return ResourceManager.GetString("SID_Trace_cannot_be_terminated_by_or_pass_through_RTU_", resourceCulture);
             }
         }
         
