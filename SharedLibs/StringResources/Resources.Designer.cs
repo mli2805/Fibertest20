@@ -1494,6 +1494,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to , title.
+        /// </summary>
+        public static string SID_Equipm__title {
+            get {
+                return ResourceManager.GetString("SID_Equipm__title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Equipment, type.
+        /// </summary>
+        public static string SID_Equipm__type {
+            get {
+                return ResourceManager.GetString("SID_Equipm__type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Equipment.
         /// </summary>
         public static string SID_Equipment {
@@ -3354,6 +3372,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Refractive_index {
             get {
                 return ResourceManager.GetString("SID_Refractive_index", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Refresh.
+        /// </summary>
+        public static string SID_Refresh {
+            get {
+                return ResourceManager.GetString("SID_Refresh", resourceCulture);
             }
         }
         

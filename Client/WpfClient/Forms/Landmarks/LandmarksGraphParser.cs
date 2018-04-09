@@ -26,7 +26,7 @@ namespace Iit.Fibertest.Client
             {
                 var nodeId = trace.NodeIds[i];
                 var node = _readModel.Nodes.First(n => n.NodeId == nodeId);
-                distance = distance + GpsCalculator.GetDistanceBetweenPointLatLng(previousNode.Position, node.Position);
+                distance = distance + GpsCalculator.GetDistanceBetweenPointLatLng(previousNode.Position, node.Position) / 1000;
                 previousNode = node;
                 if (node.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint) continue;
 

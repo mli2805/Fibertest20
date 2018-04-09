@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Client
                 NodeTitle = NodeTitle,
                 EquipmentTitle = EquipmentTitle,
                 EquipmentType = EquipmentType.ToLocalizedString(),
-                Distance = $@"{Distance : #,0}",
+                Distance = $@"{Distance : 0.000}",
                 EventNumber = EventNumber == -1 ? Resources.SID_no : $@"{EventNumber}",
                 GpsCoors = GpsCoors.ToDetailedString(mode)
             };

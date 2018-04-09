@@ -42,7 +42,8 @@ namespace Iit.Fibertest.Graph
                 case EquipmentType.AdjustmentPoint:
                     return Resources.SID_Adjustment_point;
                 case EquipmentType.EmptyNode:
-                    return Resources.SID_Node_without_equipment;
+//                    return Resources.SID_Node_without_equipment;
+                    return Resources.SID_Node;
                 case EquipmentType.CableReserve:
                     return Resources.SID_CableReserve;
                 case EquipmentType.Other:

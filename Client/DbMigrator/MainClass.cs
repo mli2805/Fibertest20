@@ -38,6 +38,7 @@ namespace Iit.Fibertest.DbMigrator
             _c2DWcfManager.SetServerAddresses(serverAddress, @"migrator", clientAddress.Ip4Address);
             Console.WriteLine($"newFibertestServerMainAddressIp is {serverAddress.Main.Ip4Address}");
 
+            Console.WriteLine("Press Enter to continue...");
             Console.ReadLine();
         }
 
@@ -63,35 +64,37 @@ namespace Iit.Fibertest.DbMigrator
         private void TransferBaseRefs()
         {
             var i = 0;
+            var totalTraces = _graphModel.TracesDictionary.Count;
             foreach (var pair in _graphModel.TracesDictionary)
             {
                 var rtuGuid = _graphModel.AddTraceCommands.First(c => c.TraceId == pair.Value).RtuId;
                 var assignBaseRefCommand = _traceBaseFetcher.GetAssignBaseRefsDto(pair.Key, pair.Value, rtuGuid);
                 _c2DWcfManager.AssignBaseRefAsync(assignBaseRefCommand).Wait();
 
-                Console.WriteLine($"{DateTime.Now}  {++i} assign base ref commands sent");
+                Console.WriteLine($"{DateTime.Now}  {++i}/{totalTraces} assign base ref commands sent");
             }
         }
 
         private void SendCommandsExcludingAttachTrace()
         {
             Console.WriteLine();
-            Console.WriteLine($"{DateTime.Now}   {_graphModel.Commands.Count} commands prepared. Sending...");
+            var totalCmds = _graphModel.Commands.Count;
+            Console.WriteLine($"{DateTime.Now}   {totalCmds} commands prepared. Sending...");
 
             var list = new List<object>();
-            for (var i = 0; i < _graphModel.Commands.Count; i++)
+            for (var i = 0; i < totalCmds; i++)
             {
                 list.Add(_graphModel.Commands[i]);
                 if (list.Count == 100) // no more please, max size of wcf operation could be exceeded, anyway check the log if are some errors
                 {
                     _c2DWcfManager.SendCommandsAsObjs(list).Wait();
                     list = new List<object>();
-                    Console.WriteLine($"{DateTime.Now}   {i + 1} commands sent");
+                    Console.WriteLine($"{DateTime.Now}   {i + 1}/{totalCmds} commands sent");
                 }
             }
             if (list.Count > 0)
                 _c2DWcfManager.SendCommandsAsObjs(list).Wait();
-            Console.WriteLine($"{DateTime.Now}   {_graphModel.Commands.Count} commands sent");
+            Console.WriteLine($"{DateTime.Now}   {totalCmds} commands sent");
         }
 
         private void SendCommandsAttachTrace()

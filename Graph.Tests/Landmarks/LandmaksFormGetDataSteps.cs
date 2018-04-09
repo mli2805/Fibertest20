@@ -39,9 +39,10 @@ namespace Graph.Tests
             _vm.Rows[2].EquipmentType.Should().Be(Resources.SID_Other);
             _vm.Rows[3].EquipmentType.Should().Be(Resources.SID_CableReserve);
             _vm.Rows[4].EquipmentType.Should().Be(Resources.SID_Cross);
-            _vm.Rows[5].EquipmentType.Should().Be(Resources.SID_Node_without_equipment);
+//            _vm.Rows[5].EquipmentType.Should().Be(Resources.SID_Node_without_equipment);
+            _vm.Rows[5].EquipmentType.Should().Be(Resources.SID_Node);
             _vm.Rows[6].EquipmentType.Should().Be(Resources.SID_Terminal);
-            _vm.Rows[6].Distance.Should().Be(@" 17,431");
+            _vm.Rows[6].Distance.Should().Be(@" 17.431");
         }
 
         [When(@"Задается базовая")]
@@ -60,20 +61,21 @@ namespace Graph.Tests
             _vm.Rows[1].EquipmentType.Should().Be(Resources.SID_Closure);
 
             _vm.Rows[2].EquipmentType.Should().Be(Resources.SID_Other);
-            _vm.Rows[2].Distance.Should().Be(@" 8,758");
+            _vm.Rows[2].Distance.Should().Be(@" 8.758");
 
             _vm.Rows[3].EquipmentType.Should().Be(Resources.SID_CableReserve);
-            _vm.Rows[3].Distance.Should().Be(@" 9,454");
+            _vm.Rows[3].Distance.Should().Be(@" 9.454");
 
             _vm.Rows[4].EquipmentType.Should().Be(Resources.SID_Cross);
             _vm.Rows[4].NodeTitle.Should().Be("");
-            _vm.Rows[4].Distance.Should().Be(@" 10,150");
+            _vm.Rows[4].Distance.Should().Be(@" 10.150");
 
-            _vm.Rows[5].EquipmentType.Should().Be(Resources.SID_Node_without_equipment);
-            _vm.Rows[5].Distance.Should().Be(@" 11,153");
+//            _vm.Rows[5].EquipmentType.Should().Be(Resources.SID_Node_without_equipment);
+            _vm.Rows[5].EquipmentType.Should().Be(Resources.SID_Node);
+            _vm.Rows[5].Distance.Should().Be(@" 11.153");
 
             _vm.Rows[6].EquipmentType.Should().Be(Resources.SID_Terminal);
-            _vm.Rows[6].Distance.Should().Be(@" 12,157");
+            _vm.Rows[6].Distance.Should().Be(@" 12.157");
 
             _vm.TryClose();
         }
@@ -106,14 +108,14 @@ namespace Graph.Tests
         [Then(@"Расстояние до ориентира не меняется т к он привязан к событию")]
         public void ThenРасстояниеДоОриентираНеМеняетсяТкОнПривязанКСобытию()
         {
-            _vm.Rows[4].Distance.Should().Be(@" 10,150");
+            _vm.Rows[4].Distance.Should().Be(@" 10.150");
         }
 
         [Then(@"Растояние до соседних ориентиров меняется т к они не привязаны")]
         public void ThenРастояниеДоСоседнихОриентировМеняетсяТкОниНеПривязаны()
         {
-            _vm.Rows[3].Distance.Should().NotBe(@" 9,454");
-            _vm.Rows[5].Distance.Should().NotBe(@" 11,153");
+            _vm.Rows[3].Distance.Should().NotBe(@" 9.454");
+            _vm.Rows[5].Distance.Should().NotBe(@" 11.153");
         }
 
     }

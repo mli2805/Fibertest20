@@ -43,16 +43,15 @@ namespace Iit.Fibertest.Graph.Algorithms
         public void AddNamesAndTypesForLandmarks(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
         {
             var landmarks = sorData.LinkParameters.LandmarkBlocks;
-            landmarks[0].Comment = model.EquipArray[0].Title;
-            for (int i = 1; i < landmarks.Length; i++)
+
+            for (int i = 0; i < landmarks.Length; i++)
             {
                 var landmarkTitle = model.NodeArray[i].Title;
-                if (!string.IsNullOrEmpty(model.EquipArray[i].Title))
+                if (i != 0 && !string.IsNullOrEmpty(model.EquipArray[i].Title))
                     landmarkTitle = landmarkTitle + $@" / {model.EquipArray[i].Title}";
 
                 landmarks[i].Comment = landmarkTitle; // utf8, TODO reflect.exe should understand this
                 landmarks[i].Code = model.EquipArray[i].Type.ToLandmarkCode();
-
                 landmarks[i].GpsLatitude = GpsCalculator.GpsInSorFormat(model.NodeArray[i].Position.Lat);
                 landmarks[i].GpsLongitude = GpsCalculator.GpsInSorFormat(model.NodeArray[i].Position.Lng);
             }

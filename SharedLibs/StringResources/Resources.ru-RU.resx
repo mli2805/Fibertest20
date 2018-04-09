@@ -1697,4 +1697,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Responsibility_zones_subjects" xml:space="preserve">
 		<value>Объекты в зонах ответственности</value>
 	</data>
+	<data name="SID_Refresh" xml:space="preserve">
+		<value>Обновить</value>
+	</data>
+	<data name="SID_Equipm__type" xml:space="preserve">
+		<value>Оборудование, тип</value>
+	</data>
+	<data name="SID_Equipm__title" xml:space="preserve">
+		<value>, название</value>
+	</data>
 </root>
