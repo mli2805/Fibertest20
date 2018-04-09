@@ -1700,10 +1700,13 @@ RTU is initializing right now!</value>
 	<data name="SID_Refresh" xml:space="preserve">
     <value>Refresh</value>
   </data>
-	<data name="SID_Equipm__type" xml:space="preserve">
-    <value>Equipment, type</value>
-  </data>
 	<data name="SID_Equipm__title" xml:space="preserve">
-    <value>, title</value>
+    <value>Equipment title</value>
+  </data>
+	<data name="SID_Go_to_the_fork" xml:space="preserve">
+    <value>Go to the fork</value>
+  </data>
+	<data name="SID____noname_node_" xml:space="preserve">
+    <value>  &lt;noname node&gt;</value>
   </data>
 </root>

@@ -1700,10 +1700,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Refresh" xml:space="preserve">
 		<value>Обновить</value>
 	</data>
-	<data name="SID_Equipm__type" xml:space="preserve">
-		<value>Оборудование, тип</value>
-	</data>
 	<data name="SID_Equipm__title" xml:space="preserve">
-		<value>, название</value>
+		<value>Название оборуд.</value>
+	</data>
+	<data name="SID_Go_to_the_fork" xml:space="preserve">
+		<value>Идти до развилки</value>
+	</data>
+	<data name="SID____noname_node_" xml:space="preserve">
+		<value>  &lt;узел без названия&gt;</value>
 	</data>
 </root>

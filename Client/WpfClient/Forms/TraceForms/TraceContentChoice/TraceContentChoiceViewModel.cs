@@ -105,7 +105,7 @@ namespace Iit.Fibertest.Client
             var selectedModel = EquipmentChoices.FirstOrDefault(m => m.IsSelected);
             if (selectedModel == null) return result;
             result = result + @" / " + selectedModel.TitleOfEquipment;// even if equipment title is empty
-            return result;
+            return result == @" / " ? null : result;
         }
 
 

@@ -18,7 +18,7 @@
                     <DataTemplate DataType="client:RadioButtonModel">
                         <StackPanel Orientation="Horizontal">
                             <RadioButton IsChecked="{Binding IsChecked}" Content="{Binding Title}" 
-                                         GroupName="1" Margin="5"/>
+                                         GroupName="1" Margin="5" Width="250"/>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

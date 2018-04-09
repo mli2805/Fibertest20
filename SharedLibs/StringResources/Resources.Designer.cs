@@ -106,6 +106,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to   &lt;noname node&gt;.
+        /// </summary>
+        public static string SID____noname_node_ {
+            get {
+                return ResourceManager.GetString("SID____noname_node_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Service is not available.  Ping passed..
         /// </summary>
         public static string SID____Ping_passed__OK {
@@ -1859,6 +1868,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Gis {
             get {
                 return ResourceManager.GetString("SID_Gis", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Go to the fork.
+        /// </summary>
+        public static string SID_Go_to_the_fork {
+            get {
+                return ResourceManager.GetString("SID_Go_to_the_fork", resourceCulture);
             }
         }
         

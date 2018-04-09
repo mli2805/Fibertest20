@@ -37,11 +37,11 @@
                       AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="No" Binding="{Binding Number}"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Node}" Binding="{Binding NodeTitle}" Width="100"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Equipm__type}" Binding="{Binding EquipmentType}" Width="120"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Node}" Binding="{Binding NodeTitle}" Width="120"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Type}" Binding="{Binding EquipmentType}" Width="120"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Equipm__title}" Binding="{Binding EquipmentTitle}" Width="120"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Distance__km}" Binding="{Binding Distance}" Width="100"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event}" Binding="{Binding EventNumber}" Width="40"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event}" Binding="{Binding EventNumber}" Width="60"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" Binding="{Binding GpsCoors}"/>
                 </DataGrid.Columns>
                 <DataGrid.ContextMenu>
