@@ -15,7 +15,7 @@
         <GroupBox Margin="5" Padding="0,10,0,5">
             <RadioButton Margin="5" GroupName="1" IsChecked="{Binding AdjustmentPoint.IsChecked}" Content="{Binding AdjustmentPoint.Title}" />
         </GroupBox>
-        <GroupBox Header="{x:Static stringResources:Resources.SID_Nodes}" Margin="5" Padding="0,10,0,5">
+        <GroupBox Margin="5" Padding="0,10,0,5">
             <StackPanel>
                 <RadioButton Margin="5" GroupName="1" IsChecked="{Binding NodeWithoutEquipment.IsChecked}" Content="{Binding NodeWithoutEquipment.Title}" />
             </StackPanel>

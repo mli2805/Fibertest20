@@ -31,7 +31,9 @@ namespace Iit.Fibertest.Client
         public MyMessageBoxViewModel(MessageType messageType, List<string> strs, int focusedString = Int32.MaxValue)
         {
             Lines = strs.Select(s => new MyMessageBoxLineModel() {Line = s}).ToList();
-            if (focusedString < Lines.Count)
+            if (focusedString == -1)
+                Lines.ForEach(l=>l.FontWeight = FontWeights.Bold);
+            else if (focusedString < Lines.Count)
                 Lines[focusedString].FontWeight = FontWeights.Bold;
 
             _caption = messageType.GetLocalizedString();

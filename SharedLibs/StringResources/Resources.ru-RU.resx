@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -1708,5 +1708,14 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID____noname_node_" xml:space="preserve">
 		<value>  &lt;узел без названия&gt;</value>
+	</data>
+	<data name="SID_Trace_cannot_be_terminated_by_or_pass_through_RTU_" xml:space="preserve">
+		<value>Трасса не может заканчиваться или проходить через RTU!</value>
+	</data>
+	<data name="SID_It_s_an_end_node_" xml:space="preserve">
+		<value>Это конечный узел.</value>
+	</data>
+	<data name="SID_If_you_need_to_continue__press__Step_backward_" xml:space="preserve">
+		<value>Если Вам необходимо продолжить, нажмите &lt;Шаг назад&gt;.</value>
 	</data>
 </root>

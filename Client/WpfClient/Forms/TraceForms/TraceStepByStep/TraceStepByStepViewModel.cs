@@ -45,7 +45,7 @@ namespace Iit.Fibertest.Client
 
         public void SemiautomaticMode()
         {
-            while (StepForward()) { }
+            while (MakeStepForward(false)) { }
         }
 
         public void StepBackward()
@@ -61,26 +61,41 @@ namespace Iit.Fibertest.Client
             JustStep(_graphReadModel.Data.Nodes.First(n => n.Id == backwardNodeId));
         }
 
-        public bool StepForward() // public because it is button handler
+        public bool StepForward() 
         {
-            var neighbours = _graphReadModel.GetNeiboursExcludingRtuAndPassingThroughAdjustmentPoints(Steps.Last().NodeId);
+            return MakeStepForward(true);
+        }
+
+        private bool MakeStepForward(bool isButtonPressed)
+        {
+                                                 // return a previous node among others
+            var neighbours = _graphReadModel.GetNeiboursPassingThroughAdjustmentPoints(Steps.Last().NodeId);
             Guid previousNodeId = Steps.Count == 1 ? Guid.Empty : Steps[Steps.Count - 2].NodeId;
 
             switch (neighbours.Count)
             {
                 case 1:
-                    if (neighbours[0].Id != previousNodeId)
-                        return JustStep(neighbours[0]);
-                    var vm = new MyMessageBoxViewModel(MessageType.Error, "It's an end node. If you want to continue, press <Step backward>");
+                    if (!isButtonPressed) return false;
+                    var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>()
+                        { Resources.SID_It_s_an_end_node_, Resources.SID_If_you_need_to_continue__press__Step_backward_ }, -1 );
                     _windowManager.ShowDialogWithAssignedOwner(vm);
                     return false;
                 case 2:
                     if (previousNodeId != Guid.Empty)
-                        return JustStep(nextNode: neighbours[0].Id != previousNodeId ? neighbours[0] : neighbours[1]);
+                    {
+                        var nextNode = neighbours[0].Id != previousNodeId ? neighbours[0] : neighbours[1];
+                        if (nextNode.Type != EquipmentType.Rtu)
+                            return JustStep(nextNode: nextNode);
+
+                        var vm2 = new MyMessageBoxViewModel(MessageType.Error,
+                            Resources.SID_Trace_cannot_be_terminated_by_or_pass_through_RTU_);
+                        _windowManager.ShowDialogWithAssignedOwner(vm2);
+                        return false;
+                    }
                     else
                         return ForkIt(neighbours, previousNodeId);
                 default:
-                    return ForkIt(neighbours, previousNodeId);
+                    return ForkIt(neighbours.Where(n => n.Type != EquipmentType.Rtu).ToList(), previousNodeId);
             }
         }
 

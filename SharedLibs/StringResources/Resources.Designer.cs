@@ -1926,6 +1926,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If you need to continue, press &lt;Step backward&gt;.
+        /// </summary>
+        public static string SID_If_you_need_to_continue__press__Step_backward_ {
+            get {
+                return ResourceManager.GetString("SID_If_you_need_to_continue__press__Step_backward_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In node are placed:.
         /// </summary>
         public static string SID_In_node_are_placed_ {
@@ -2066,6 +2075,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_IP_address {
             get {
                 return ResourceManager.GetString("SID_IP_address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to It&apos;s an end node..
+        /// </summary>
+        public static string SID_It_s_an_end_node_ {
+            get {
+                return ResourceManager.GetString("SID_It_s_an_end_node_", resourceCulture);
             }
         }
         
