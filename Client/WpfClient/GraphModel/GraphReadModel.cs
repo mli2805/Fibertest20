@@ -92,10 +92,23 @@ namespace Iit.Fibertest.Client
             MainMap.Position = nodeVm.Position;
         }
 
+        public void HighlightTrace(List<Guid> fibers)
+        {
+            foreach (var fiberId in fibers)
+                Data.Fibers.First(f => f.Id == fiberId).IsHighlighted = true;
+        }
+
+        public void Extinguish()
+        {
+            foreach (var nodeVm in Data.Nodes.Where(n => n.IsHighlighted))
+                nodeVm.IsHighlighted = false;
+
+            foreach (var fiberVm in Data.Fibers.Where(f=>f.IsHighlighted))
+                fiberVm.IsHighlighted = false;
+        }
         public void ExtinguishNode()
         {
-            var nodeVm = Data.Nodes.FirstOrDefault(n => n.IsHighlighted);
-            if (nodeVm != null)
+            foreach (var nodeVm in Data.Nodes.Where(n=>n.IsHighlighted))
                 nodeVm.IsHighlighted = false;
         }
 

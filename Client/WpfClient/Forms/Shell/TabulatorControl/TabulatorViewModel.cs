@@ -177,7 +177,7 @@ namespace Iit.Fibertest.Client
 
         public void Extinguish()
         {
-            GraphReadModel.ExtinguishNode();
+            GraphReadModel.Extinguish();
         }
 
     }

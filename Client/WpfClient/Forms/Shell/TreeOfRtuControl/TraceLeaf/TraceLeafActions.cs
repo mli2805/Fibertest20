@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
+        private readonly GraphReadModel _graphReadModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly TraceStateViewsManager _traceStateViewsManager;
@@ -23,7 +24,7 @@ namespace Iit.Fibertest.Client
         private readonly OutOfTurnPreciseMeasurementViewModel _outOfTurnPreciseMeasurementViewModel;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
 
-        public TraceLeafActions(ILifetimeScope globalScope, Model readModel,
+        public TraceLeafActions(ILifetimeScope globalScope, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             BaseRefsAssignViewModel baseRefsAssignViewModel, LandmarksViewModel landmarksViewModel,
@@ -32,6 +33,7 @@ namespace Iit.Fibertest.Client
         {
             _globalScope = globalScope;
             _readModel = readModel;
+            _graphReadModel = graphReadModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
             _traceStateViewsManager = traceStateViewsManager;
@@ -56,6 +58,11 @@ namespace Iit.Fibertest.Client
 
         public void ShowTrace(object param)
         {
+            if (!(param is TraceLeaf traceLeaf))
+                return;
+            var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
+            var fiberIds = _readModel.GetFibersByNodes(trace.NodeIds).ToList();
+            _graphReadModel.HighlightTrace(fiberIds);
         }
 
         public void AssignBaseRefs(object param)

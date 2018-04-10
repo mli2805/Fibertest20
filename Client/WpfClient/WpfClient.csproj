@@ -954,6 +954,7 @@
     <Resource Include="Resources\OnMap\MinorAccidentPlace.png" />
     <Resource Include="Resources\LeftPanel\WhiteSquare.png" />
     <Resource Include="Resources\OnMap\RtuHighlighting.png" />
+    <Resource Include="Resources\Buttons\Extinguish.png" />
     <Content Include="Resources\Sounds\Accident.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

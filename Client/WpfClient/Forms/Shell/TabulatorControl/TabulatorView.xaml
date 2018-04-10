@@ -39,7 +39,14 @@
             <TabItem.Header>
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Left" Text="{x:Static stringResources:Resources.SID_Gis}" Margin="10,4,30,0"/>
-                    <Button DockPanel.Dock="Right" Content="Gasi!" cal:Message.Attach="Extinguish" Width="50" Margin="5,0,0,0" Background="WhiteSmoke"/>
+                    <Button DockPanel.Dock="Right" cal:Message.Attach="Extinguish" Width="50" Margin="5,0,0,0" Background="WhiteSmoke">
+                        <Button.Content>
+                            <ContentControl>
+                                <Image Name="Icon" Source="../../../Resources/Buttons/Extinguish.png"  
+                                       VerticalAlignment="Center" HorizontalAlignment="Center" Width="22" Height="22"  />
+                            </ContentControl>
+                        </Button.Content>
+                    </Button>
                     <ComboBox Margin="0" FontSize="14" VerticalContentAlignment="Center"
                               ItemsSource="{Binding GraphReadModel.GraphVisibilityItems}" 
                               SelectedItem="{Binding GraphReadModel.SelectedGraphVisibilityItem}"/>
