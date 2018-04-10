@@ -1926,7 +1926,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to If you need to continue, press &lt;Step backward&gt;.
+        ///   Looks up a localized string similar to If you need to continue, press &lt;Step backward&gt;..
         /// </summary>
         public static string SID_If_you_need_to_continue__press__Step_backward_ {
             get {
@@ -3958,6 +3958,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Show {
             get {
                 return ResourceManager.GetString("SID_Show", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show on map.
+        /// </summary>
+        public static string SID_Show_on_map {
+            get {
+                return ResourceManager.GetString("SID_Show_on_map", resourceCulture);
             }
         }
         

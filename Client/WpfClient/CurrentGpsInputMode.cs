@@ -1,9 +1,10 @@
-﻿using Iit.Fibertest.Graph;
+﻿using Caliburn.Micro;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
-    public class CurrentGpsInputMode
+    public class CurrentGpsInputMode :PropertyChangedBase
     {
         private readonly IniFile _iniFile;
         private GpsInputMode _mode;
@@ -16,6 +17,7 @@ namespace Iit.Fibertest.Client
                 if (value == _mode) return;
                 _mode = value;
                 _iniFile.Write(IniSection.Miscellaneous, IniKey.GpsInputMode, (int)_mode);
+                NotifyOfPropertyChange(nameof(Mode));
             }
         }
 

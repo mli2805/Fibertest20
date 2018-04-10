@@ -10,39 +10,78 @@
         Title="LandmarksView" SizeToContent="Width" Height="708" ResizeMode="CanMinimize"
         d:DataContext="{d:DesignInstance client:LandmarksViewModel}">
     <DockPanel>
-        <StackPanel DockPanel.Dock="Bottom" Margin="5,10,5,20" HorizontalAlignment="Center"  Orientation="Horizontal">
-            <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Traces}"/>
-            <ComboBox ItemsSource="{Binding Traces}" SelectedItem="{Binding SelectedTrace}" Width="300" Margin="5"/>
-            <Button Margin="5" Content="{x:Static stringResources:Resources.SID_Refresh}" Width="80" Name="ChangeTrace"/>
-        </StackPanel>
-        <Grid DockPanel.Dock="Bottom" Margin="5" >
+        <Grid DockPanel.Dock="Top" Margin="5" >
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="12*"/>
                 <ColumnDefinition Width="7*"/>
                 <ColumnDefinition Width="5*"/>
             </Grid.ColumnDefinitions>
-            <GroupBox Header="{x:Static stringResources:Resources.SID_GPS_coordinates}">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-                    <TextBlock Margin="5,7,5,3" Text="{x:Static stringResources:Resources.SID_GPS_coordinates_format}"/>
-                    <ComboBox ItemsSource="{Binding GpsInputModes}" SelectedItem="{Binding SelectedGpsInputMode}" 
-                              Width="150" Margin="5,5,5,5"/>
+            <GroupBox  Grid.Column="0" Header="{x:Static stringResources:Resources.SID_Traces}">
+                <StackPanel>
+                    <StackPanel Orientation="Horizontal">
+                        <ComboBox ItemsSource="{Binding Traces}" SelectedItem="{Binding SelectedTrace}" Width="230" Height="25" Margin="5"/>
+                        <Button Margin="5" Content="{x:Static stringResources:Resources.SID_Refresh}" Width="80" Name="ChangeTrace"/>
+                    </StackPanel>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Grid.Column="1" Header="{x:Static stringResources:Resources.SID_Filter}">
-                <CheckBox Margin="5,7,5,3" IsChecked="{Binding IsFilterOn, Mode=TwoWay}" HorizontalAlignment="Center"
-                          Content="{x:Static stringResources:Resources.SID_Nodes_with_equipment_only}"/>
+            <GroupBox  Grid.Column="1" Header="{x:Static stringResources:Resources.SID_GPS_coordinates_format}">
+                <StackPanel HorizontalAlignment="Center">
+                    <ComboBox ItemsSource="{Binding GpsInputModes}" SelectedItem="{Binding SelectedGpsInputMode}" 
+                              Width="150" Height="25" Margin="5,5,5,5"/>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox  Grid.Column="2" Header="{x:Static stringResources:Resources.SID_Filter}">
+                <StackPanel >
+                    <CheckBox Margin="5,11,5,3" IsChecked="{Binding IsFilterOn, Mode=TwoWay}" HorizontalAlignment="Center"
+                              Content="{x:Static stringResources:Resources.SID_Nodes_with_equipment_only}"/>
+                </StackPanel>
             </GroupBox>
         </Grid>
+        <GroupBox DockPanel.Dock="Bottom" Header="{x:Static stringResources:Resources.SID_Landmark}" Margin="5,0,5,15">
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <GroupBox Header="{x:Static stringResources:Resources.SID_Node}" Margin="5,0" DockPanel.Dock="Top">
+                    <StackPanel>
+                        <TextBox Margin="5" Height="25" Text="{Binding NodeTitle}"/>
+                        <TextBox Margin="5" Height="25" />
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Grid.Column="1"  Grid.Row="0"  Header="{x:Static stringResources:Resources.SID_Equipment}" Margin="5,0">
+                    <StackPanel>
+                        <TextBox Margin="5" Height="25" Text="{Binding EquipmentTitle}"/>
+                        <ComboBox Margin="5" Height="25" />
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Grid.Row="0"  Grid.Column="2" Header="GPS coordinates" >
+                    <client:GpsInputSmallView DataContext="{Binding GpsInputSmallViewModel}"/>
+                </GroupBox>
+                <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="5,5,0,0" Orientation="Horizontal">
+                    <Button Width="120" Height="25" Margin="5" Content="{x:Static stringResources:Resources.SID_Apply}"/>
+                    <Button Width="120" Height="25" Margin="5" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
+                    <Button Width="120" Height="25" Margin="5" Content="{x:Static stringResources:Resources.SID_Show_on_map}"/>
+                </StackPanel>
+            </Grid>
+        </GroupBox>
+
         <GroupBox Header="{x:Static stringResources:Resources.SID_Landmarks}" Margin="5">
             <DataGrid Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow}"
                       AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="No" Binding="{Binding Number}"/>
+                    <DataGridTextColumn Header="No" Binding="{Binding Number}" Width="30"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Node}" Binding="{Binding NodeTitle}" Width="120"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Type}" Binding="{Binding EquipmentType}" Width="120"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Equipm__title}" Binding="{Binding EquipmentTitle}" Width="120"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Distance__km}" Binding="{Binding Distance}" Width="100"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event}" Binding="{Binding EventNumber}" Width="60"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" Binding="{Binding GpsCoors}"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" Binding="{Binding GpsCoors}" Width="170"/>
                 </DataGrid.Columns>
                 <DataGrid.ContextMenu>
                     <ContextMenu>

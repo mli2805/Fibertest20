@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="Iit.Fibertest.Client.GpsInputSmallView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:client="clr-namespace:Iit.Fibertest.Client"
+             mc:Ignorable="d" 
+             d:DesignHeight="180" d:DesignWidth="400" d:DataContext="{d:DesignInstance client:GpsInputSmallViewModel}">
+    <StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
+            <TextBlock Text="Широта" VerticalAlignment="Center" Margin="5" ToolTip="-90..90"/>
+            <client:OneCoorView Margin="5" DataContext="{Binding OneCoorViewModelLatitude}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
+            <TextBlock Text="Долгота" VerticalAlignment="Center" Margin="5" ToolTip="-180..180"/>
+            <client:OneCoorView Margin="5" DataContext="{Binding OneCoorViewModelLongitude}"/>
+        </StackPanel>
+    </StackPanel>
+</UserControl>

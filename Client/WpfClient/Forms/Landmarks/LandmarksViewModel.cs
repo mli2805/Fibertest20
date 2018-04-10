@@ -16,6 +16,8 @@ namespace Iit.Fibertest.Client
 {
     public class LandmarksViewModel : Screen
     {
+        public CurrentGpsInputMode CurrentGpsInputMode { get; }
+
         public List<GpsInputModeComboItem> GpsInputModes { get; set; } =
             (from mode in Enum.GetValues(typeof(GpsInputMode)).OfType<GpsInputMode>()
              select new GpsInputModeComboItem(mode)).ToList();
@@ -28,6 +30,7 @@ namespace Iit.Fibertest.Client
             {
                 if (Equals(value, _selectedGpsInputMode)) return;
                 _selectedGpsInputMode = value;
+                CurrentGpsInputMode.Mode = _selectedGpsInputMode.Mode;
                 Rows = LandmarksToRows();
             }
         }
@@ -45,6 +48,8 @@ namespace Iit.Fibertest.Client
 
             }
         }
+
+        public GpsInputSmallViewModel GpsInputSmallViewModel { get; set; }
 
         private ObservableCollection<LandmarkRow> LandmarksToRows()
         {
@@ -84,14 +89,15 @@ namespace Iit.Fibertest.Client
 
         public LandmarkRow SelectedRow { get; set; }
 
-        public LandmarksViewModel(ILifetimeScope globalScope, Model readModel,
+        public LandmarksViewModel(ILifetimeScope globalScope, Model readModel, CurrentGpsInputMode currentGpsInputMode,
             IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
         {
+            CurrentGpsInputMode = currentGpsInputMode;
             _globalScope = globalScope;
             _readModel = readModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
-            _selectedGpsInputMode = GpsInputModes.Last();
+            _selectedGpsInputMode = GpsInputModes.First(i=>i.Mode ==  CurrentGpsInputMode.Mode);
         }
 
         public async Task<int> Initialize(Guid id, bool isUserClickedOnRtu)
@@ -107,7 +113,12 @@ namespace Iit.Fibertest.Client
                 Traces = _readModel.Traces.Where(t => t.RtuId == trace.RtuId).ToList();
                 _selectedTrace = _readModel.Traces.First(t => t.TraceId == id);
             }
-            return await PrepareLandmarks();
+
+            var res = await PrepareLandmarks();
+            SelectedRow = Rows.First();
+            GpsInputSmallViewModel = _globalScope.Resolve<GpsInputSmallViewModel>();
+            GpsInputSmallViewModel.Initialize(_landmarks.First().GpsCoors);
+            return res;
         }
 
         protected override void OnViewLoaded(object view)

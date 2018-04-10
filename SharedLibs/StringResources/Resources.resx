@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
 	<!-- 
     Microsoft ResX Schema 
@@ -1717,5 +1717,8 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_If_you_need_to_continue__press__Step_backward_" xml:space="preserve">
     <value>If you need to continue, press &lt;Step backward&gt;.</value>
+  </data>
+	<data name="SID_Show_on_map" xml:space="preserve">
+    <value>Show on map</value>
   </data>
 </root>
