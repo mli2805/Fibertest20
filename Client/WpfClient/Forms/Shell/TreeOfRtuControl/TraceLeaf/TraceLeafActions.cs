@@ -62,7 +62,7 @@ namespace Iit.Fibertest.Client
                 return;
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             var fiberIds = _readModel.GetFibersByNodes(trace.NodeIds).ToList();
-            _graphReadModel.HighlightTrace(fiberIds);
+            _graphReadModel.ShowTrace(trace.NodeIds[0], fiberIds);
         }
 
         public void AssignBaseRefs(object param)
