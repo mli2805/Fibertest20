@@ -84,6 +84,19 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
+        public string UpdateAndMoveNode(NodeUpdatedAndMoved source)
+        {
+            Node destination = _model.Nodes.FirstOrDefault(n => n.NodeId == source.NodeId);
+            if (destination == null)
+            {
+                var message = $@"NodeUpdated: Node {source.NodeId.First6()} not found";
+                _logFile.AppendLine(message);
+                return message;
+            }
+            Mapper.Map(source, destination);
+            return null;
+        }
+
         public string MoveNode(NodeMoved newLocation)
         {
             Node node = _model.Nodes.FirstOrDefault(n => n.NodeId == newLocation.NodeId);

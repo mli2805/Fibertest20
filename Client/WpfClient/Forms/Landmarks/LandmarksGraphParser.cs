@@ -50,6 +50,7 @@ namespace Iit.Fibertest.Client
                 NodeId = node.NodeId,
                 NodeTitle = node.Title,
                 NodeComment = comment,
+                EquipmentId = equipmentId,
                 EquipmentTitle = equipment.Title,
                 EquipmentType = equipment.Type,
                 EventNumber = -1,

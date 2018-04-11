@@ -6,12 +6,13 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-    public class Landmark
+    public class Landmark : ICloneable
     {
         public int Number { get; set; }
         public Guid NodeId { get; set; }
         public string NodeTitle { get; set; }
         public string NodeComment { get; set; }
+        public Guid EquipmentId { get; set; }
         public string EquipmentTitle { get; set; }
         public EquipmentType EquipmentType { get; set; }
         public double Distance { get; set; }
@@ -26,11 +27,29 @@ namespace Iit.Fibertest.Client
                 NodeId = NodeId,
                 NodeTitle = NodeTitle,
                 NodeComment = NodeComment,
+                EquipmentId = EquipmentId,
                 EquipmentTitle = EquipmentTitle,
                 EquipmentType = EquipmentType.ToLocalizedString(),
                 Distance = $@"{Distance : 0.000}",
                 EventNumber = EventNumber == -1 ? Resources.SID_no : $@"{EventNumber}",
                 GpsCoors = GpsCoors.ToDetailedString(mode)
+            };
+        }
+
+        public object Clone()
+        {
+            return new Landmark()
+            {
+                Number = Number,
+                NodeId = NodeId,
+                NodeTitle = NodeTitle,
+                NodeComment = NodeComment,
+                EquipmentId = EquipmentId,
+                EquipmentTitle = EquipmentTitle,
+                EquipmentType = EquipmentType,
+                Distance = Distance,
+                EventNumber = EventNumber,
+                GpsCoors = new PointLatLng(GpsCoors.Lat, GpsCoors.Lng),
             };
         }
     }

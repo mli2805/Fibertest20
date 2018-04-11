@@ -40,6 +40,7 @@ namespace Iit.Fibertest.Graph
 
                 case AddNodeIntoFiber command: return _eventsQueue.Add(Mapper.Map<NodeIntoFiberAdded>(command));
                 case UpdateNode command: return _eventsQueue.Add(Mapper.Map<NodeUpdated>(command));
+                case UpdateAndMoveNode command: return _eventsQueue.Add(Mapper.Map<NodeUpdatedAndMoved>(command));
                 case MoveNode command: return _eventsQueue.Add(Mapper.Map<NodeMoved>(command));
                 case RemoveNode command: return Validate(command);
 

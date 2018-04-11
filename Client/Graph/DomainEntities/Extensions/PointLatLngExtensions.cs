@@ -41,25 +41,5 @@ namespace Iit.Fibertest.Graph
             return "";
         }
 
-        public static double GetDistanceKm(this PointLatLng a, PointLatLng b)
-        {
-            const double r = 6371;
-            var lat1 = DegreeToRadian(a.Lat);
-            var lat2 = DegreeToRadian(b.Lat);
-            var deltaLat = DegreeToRadian(b.Lat - a.Lat);
-            var deltaLng = DegreeToRadian(b.Lng - a.Lng);
-
-            var h = Math.Sin(deltaLat / 2) * Math.Sin(deltaLat / 2) +
-                    Math.Cos(lat1) * Math.Cos(lat2) * Math.Sin(deltaLng / 2) * Math.Sin(deltaLng / 2);
-            var c = 2 * Math.Atan2(Math.Sqrt(h), Math.Sqrt(1 - h));
-            return r * c;
-        }
-
-        private static double DegreeToRadian(double degrees)
-        {
-            return Math.PI * degrees / 180.0;
-        }
-
-
     }
 }

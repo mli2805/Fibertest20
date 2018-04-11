@@ -120,6 +120,7 @@
   <ItemGroup>
     <Compile Include="Algorithms\AccidentPlaceLocator.cs" />
     <Compile Include="Algorithms\SorDataParsingReporter.cs" />
+    <Compile Include="Commands\Node\UpdateAndMoveNode.cs" />
     <Compile Include="DomainEntities\Enums\CountMatch.cs" />
     <Compile Include="DomainEntities\Enums\RftsLevelTypeExt.cs" />
     <Compile Include="Algorithms\AccidentsFromSorExtractor.cs" />
@@ -135,6 +136,7 @@
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StartMonitoring.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StopMonitoring.cs" />
     <Compile Include="EventSourcing\EventsQueue.cs" />
+    <Compile Include="Events\Node\NodeUpdatedAndMoved.cs" />
     <Compile Include="Events\ResponsibilitiesChanged.cs" />
     <Compile Include="Commands\UpdateMeasurement.cs" />
     <Compile Include="Commands\User\AddUser.cs" />

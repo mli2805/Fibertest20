@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Client
             NodeVm node1 = _model.Data.Fibers.First(f => f.Id == e.FiberId).Node1;
             NodeVm node2 = _model.Data.Fibers.First(f => f.Id == e.FiberId).Node2;
 
-            var fiberVm1 = new FiberVm() { Id = e.NewFiberId1, Node1 = node1, Node2 = _model.Data.Nodes.First(n => n.Id == e.Id)};
+            var fiberVm1 = new FiberVm() { Id = e.NewFiberId1, Node1 = node1, Node2 = _model.Data.Nodes.First(n => n.Id == e.Id) };
             foreach (var pair in oldFiberVm.States)
                 fiberVm1.States.Add(pair.Key, pair.Value);
             foreach (var pair in oldFiberVm.TracesWithExceededLossCoeff)
@@ -82,6 +82,18 @@ namespace Iit.Fibertest.Client
             if (nodeVm == null)
                 return;
             nodeVm.Title = evnt.Title;
+        }
+
+        public void UpdateAndMoveNode(NodeUpdatedAndMoved evnt)
+        {
+            if (_currentUser.ZoneId != Guid.Empty
+                   && _model.Data.Nodes.All(f => f.Id != evnt.NodeId)) return;
+
+            var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == evnt.NodeId);
+            if (nodeVm == null)
+                return;
+            nodeVm.Title = evnt.Title;
+            nodeVm.Position = evnt.GpsCoors;
         }
 
         public void RemoveNode(NodeRemoved evnt)
@@ -144,27 +156,27 @@ namespace Iit.Fibertest.Client
             _model.Data.Nodes.Remove(node);
         }
 
-//        private void RemoveNodeOnEdgeWhereNoTraces(Guid nodeId)
-//        {
-//            NodeVm neighbour;
-//            do
-//            {
-//                var node = _model.Data.Nodes.First(n => n.Id == nodeId);
-//                var fiber = _model.Data.Fibers.First(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId);
-//                neighbour = fiber.Node1.Id == nodeId ? fiber.Node2 : fiber.Node1;
-//
-//                _model.Data.Fibers.Remove(fiber);
-//                _model.Data.Nodes.Remove(node);
-//
-//                nodeId = neighbour.Id;
-//            }
-//            while (neighbour.Type == EquipmentType.AdjustmentPoint);
-//        }
+        //        private void RemoveNodeOnEdgeWhereNoTraces(Guid nodeId)
+        //        {
+        //            NodeVm neighbour;
+        //            do
+        //            {
+        //                var node = _model.Data.Nodes.First(n => n.Id == nodeId);
+        //                var fiber = _model.Data.Fibers.First(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId);
+        //                neighbour = fiber.Node1.Id == nodeId ? fiber.Node2 : fiber.Node1;
+        //
+        //                _model.Data.Fibers.Remove(fiber);
+        //                _model.Data.Nodes.Remove(node);
+        //
+        //                nodeId = neighbour.Id;
+        //            }
+        //            while (neighbour.Type == EquipmentType.AdjustmentPoint);
+        //        }
 
-//        private bool IsAdjustmentPoint(Guid nodeId)
-//        {
-//            return _model.Data.Nodes.FirstOrDefault(e => e.Id == nodeId && e.Type == EquipmentType.AdjustmentPoint) != null;
-//        }
+        //        private bool IsAdjustmentPoint(Guid nodeId)
+        //        {
+        //            return _model.Data.Nodes.FirstOrDefault(e => e.Id == nodeId && e.Type == EquipmentType.AdjustmentPoint) != null;
+        //        }
 
         private void RemoveNodeWithAllHisFibers(Guid nodeId)
         {

@@ -18,8 +18,10 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
         }
 
-        public List<Landmark> GetLandmarks(OtdrDataKnownBlocks sorData, List<Guid> nodesWithoutPoint)
+        public List<Landmark> GetLandmarks(OtdrDataKnownBlocks sorData, Trace trace)
         {
+            var nodesWithoutPoints = _readModel.GetTraceNodesExcludingAdjustmentPoints(trace.TraceId).ToList();
+
             var result = new List<Landmark>();
             var linkParameters = sorData.LinkParameters;
             for (int i = 0; i < linkParameters.LandmarksCount; i++)
@@ -27,14 +29,20 @@ namespace Iit.Fibertest.Client
                 var sorLandmark = linkParameters.LandmarkBlocks[i];
                 var titles = sorLandmark.Comment.Split('/');
                 var comment = i == 0
-                        ? _readModel.Rtus.First(r => r.NodeId == nodesWithoutPoint[i]).Comment
-                        : _readModel.Nodes.First(n => n.NodeId == nodesWithoutPoint[i]).Comment;
+                        ? _readModel.Rtus.First(r => r.NodeId == nodesWithoutPoints[i]).Comment
+                        : _readModel.Nodes.First(n => n.NodeId == nodesWithoutPoints[i]).Comment;
+                var equipmentId = Guid.Empty;
+                if (i != 0)
+                {
+                    equipmentId = trace.EquipmentIds[trace.NodeIds.IndexOf(nodesWithoutPoints[i])];
+                }
                 var landmark = new Landmark
                 {
                     Number = i,
-                    NodeId = nodesWithoutPoint[i],
+                    NodeId = nodesWithoutPoints[i],
                     NodeTitle = titles.Length > 0 ? titles[0].Trim() : "",
                     NodeComment = comment,
+                    EquipmentId = trace.EquipmentIds[trace.NodeIds.IndexOf(nodesWithoutPoints[i])],
                     EquipmentTitle = titles.Length > 1 ? titles[1].Trim() : "",
                     EquipmentType = ToEquipmentType(sorLandmark.Code),
                     EventNumber = sorLandmark.RelatedEventNumber - 1,

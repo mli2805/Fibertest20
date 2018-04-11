@@ -8,6 +8,7 @@ namespace Iit.Fibertest.Graph
         {
             CreateMap<AddNodeIntoFiber, NodeIntoFiberAdded>();
             CreateMap<UpdateNode, NodeUpdated>();
+            CreateMap<UpdateAndMoveNode, NodeUpdatedAndMoved>();
             CreateMap<MoveNode, NodeMoved>();
             CreateMap<RemoveNode, NodeRemoved>();
 

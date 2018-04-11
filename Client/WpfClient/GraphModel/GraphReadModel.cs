@@ -92,6 +92,13 @@ namespace Iit.Fibertest.Client
             MainMap.Position = nodeVm.Position;
         }
 
+        public void PlaceNodeIntoScreenCenter(Guid nodeId)
+        {
+            var nodeVm = Data.Nodes.First(n => n.Id == nodeId);
+            nodeVm.IsHighlighted = true;
+            MainMap.Position = nodeVm.Position;
+        }
+
         public void ShowTrace(Guid rtuNodeId, List<Guid> fibers)
         {
             var nodeVm = Data.Nodes.First(n => n.Id == rtuNodeId);

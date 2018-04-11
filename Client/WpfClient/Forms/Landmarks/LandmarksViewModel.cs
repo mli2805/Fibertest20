@@ -173,8 +173,7 @@ namespace Iit.Fibertest.Client
             else
             {
                 var sorData = await GetBase(SelectedTrace.PreciseId);
-                var nodesWithoutPoints = _readModel.GetTraceNodesExcludingAdjustmentPoints(SelectedTrace.TraceId).ToList();
-                _landmarks = _landmarksBaseParser.GetLandmarks(sorData, nodesWithoutPoints);
+                _landmarks = _landmarksBaseParser.GetLandmarks(sorData, SelectedTrace);
             }
             Rows = LandmarksToRows();
             return 0;

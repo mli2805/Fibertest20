@@ -91,6 +91,8 @@ namespace Iit.Fibertest.DataCenterCore
                 return await _rtuStationsRepository.RemoveRtuAsync(removeRtu.RtuId);
 
             #region Base ref amend
+            if (cmd is UpdateAndMoveNode updateAndMoveNode)
+                return await _baseRefRepairmanIntermediary.AmendForTracesWhichUseThisNode(updateAndMoveNode.NodeId);
             if (cmd is UpdateNode updateNode)
                 return await _baseRefRepairmanIntermediary.AmendForTracesWhichUseThisNode(updateNode.NodeId);
             if (cmd is MoveNode moveNode)

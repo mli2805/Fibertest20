@@ -5,9 +5,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:OneLandmarkViewModel}"
-             >
-
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance client:OneLandmarkViewModel}"
+             cal:Bind.ModelWithoutContext="{Binding .}" >
     <GroupBox DockPanel.Dock="Bottom" Header="{x:Static stringResources:Resources.SID_Landmark}" Margin="5,0,5,15">
         <Grid >
             <Grid.ColumnDefinitions>

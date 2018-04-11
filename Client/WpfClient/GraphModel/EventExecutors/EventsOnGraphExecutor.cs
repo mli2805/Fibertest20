@@ -34,6 +34,7 @@ namespace Iit.Fibertest.Client
                 case NodeIntoFiberAdded evnt: _nodeEventsOnGraphExecutor.AddNodeIntoFiber(evnt); return;
                 case NodeMoved evnt: _nodeEventsOnGraphExecutor.MoveNode(evnt); return;
                 case NodeUpdated evnt: _nodeEventsOnGraphExecutor.UpdateNode(evnt); return;
+                case NodeUpdatedAndMoved evnt: _nodeEventsOnGraphExecutor.UpdateAndMoveNode(evnt); return;
                 case NodeRemoved evnt: _nodeEventsOnGraphExecutor.RemoveNode(evnt); return;
 
                 case FiberAdded evnt: _fiberEventsOnGraphExecutor.AddFiber(evnt); return;
