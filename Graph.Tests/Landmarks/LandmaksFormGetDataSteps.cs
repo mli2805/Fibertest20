@@ -26,7 +26,7 @@ namespace Graph.Tests
         public void WhenПользовательОткрываетФормуОриентиров()
         {
             _vm = _sut.ClientContainer.Resolve<LandmarksViewModel>();
-            _vm.Initialize(_trace.TraceId, false).Wait();
+            _vm.InitializeFromTrace(_trace.TraceId).Wait();
         }
 
         [Then(@"Проверяем вьюмодель")]
@@ -100,7 +100,7 @@ namespace Graph.Tests
         public void ThenНаФормеОриентировИмяУзлаМеняется()
         {
             _vm = _sut.ClientContainer.Resolve<LandmarksViewModel>();
-            _vm.Initialize(_trace.TraceId, false).Wait();
+            _vm.InitializeFromTrace(_trace.TraceId).Wait();
 
             _vm.Rows[4].NodeTitle.Should().Be(@"Node 4");
         }

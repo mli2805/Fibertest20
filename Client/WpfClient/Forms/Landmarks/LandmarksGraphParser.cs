@@ -44,6 +44,7 @@ namespace Iit.Fibertest.Client
             return new Landmark()
             {
                 Number = number,
+                NodeId = node.NodeId,
                 NodeTitle = node.Title,
                 EquipmentTitle = equipment.Title,
                 EquipmentType = equipment.Type,
@@ -58,6 +59,7 @@ namespace Iit.Fibertest.Client
             return new Landmark()
             {
                 Number = 0,
+                NodeId = rtu.NodeId,
                 NodeTitle = rtu.Title,
                 EquipmentType = EquipmentType.Rtu,
                 Distance = 0,

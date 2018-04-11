@@ -75,7 +75,7 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-            await _landmarksViewModel.Initialize(rtuLeaf.Id, true);
+            await _landmarksViewModel.InitializeFromRtu(rtuLeaf.Id);
             _windowManager.ShowWindowWithAssignedOwner(_landmarksViewModel);
         }
 

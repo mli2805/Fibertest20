@@ -37,42 +37,10 @@
                 </StackPanel>
             </GroupBox>
         </Grid>
-        <GroupBox DockPanel.Dock="Bottom" Header="{x:Static stringResources:Resources.SID_Landmark}" Margin="5,0,5,15">
-            <Grid >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <GroupBox Header="{x:Static stringResources:Resources.SID_Node}" Margin="5,0" DockPanel.Dock="Top">
-                    <StackPanel>
-                        <TextBox Margin="5" Height="25" Text="{Binding NodeTitle}"/>
-                        <TextBox Margin="5" Height="25" />
-                    </StackPanel>
-                </GroupBox>
-                <GroupBox Grid.Column="1"  Grid.Row="0"  Header="{x:Static stringResources:Resources.SID_Equipment}" Margin="5,0">
-                    <StackPanel>
-                        <TextBox Margin="5" Height="25" Text="{Binding EquipmentTitle}"/>
-                        <ComboBox Margin="5" Height="25" />
-                    </StackPanel>
-                </GroupBox>
-                <GroupBox Grid.Row="0"  Grid.Column="2" Header="GPS coordinates" >
-                    <client:GpsInputSmallView DataContext="{Binding GpsInputSmallViewModel}"/>
-                </GroupBox>
-                <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="2" Margin="5,5,0,0" Orientation="Horizontal">
-                    <Button Width="120" Height="25" Margin="5" Content="{x:Static stringResources:Resources.SID_Apply}"/>
-                    <Button Width="120" Height="25" Margin="5" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
-                    <Button Width="120" Height="25" Margin="5" Content="{x:Static stringResources:Resources.SID_Show_on_map}"/>
-                </StackPanel>
-            </Grid>
-        </GroupBox>
-
+        <client:OneLandmarkView DockPanel.Dock="Bottom" DataContext="{Binding OneLandmarkViewModel}" />
+      
         <GroupBox Header="{x:Static stringResources:Resources.SID_Landmarks}" Margin="5">
-            <DataGrid Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow}"
+            <DataGrid Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow, Mode=TwoWay}" CanUserSortColumns="False" 
                       AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="No" Binding="{Binding Number}" Width="30"/>

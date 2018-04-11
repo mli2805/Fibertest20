@@ -1,4 +1,5 @@
-﻿using GMap.NET;
+﻿using System;
+using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -8,6 +9,7 @@ namespace Iit.Fibertest.Client
     public class Landmark
     {
         public int Number { get; set; }
+        public Guid NodeId { get; set; }
         public string NodeTitle { get; set; }
         public string EquipmentTitle { get; set; }
         public EquipmentType EquipmentType { get; set; }
@@ -20,6 +22,7 @@ namespace Iit.Fibertest.Client
             return new LandmarkRow()
             {
                 Number = Number,
+                NodeId = NodeId,
                 NodeTitle = NodeTitle,
                 EquipmentTitle = EquipmentTitle,
                 EquipmentType = EquipmentType.ToLocalizedString(),

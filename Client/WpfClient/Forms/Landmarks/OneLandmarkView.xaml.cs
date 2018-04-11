@@ -1,11 +1,11 @@
 ﻿namespace Iit.Fibertest.Client
 {
     /// <summary>
-    /// Interaction logic for LandmarkView.xaml
+    /// Interaction logic for OneLandmarkView.xaml
     /// </summary>
-    public partial class LandmarkView
+    public partial class OneLandmarkView
     {
-        public LandmarkView()
+        public OneLandmarkView()
         {
             InitializeComponent();
         }

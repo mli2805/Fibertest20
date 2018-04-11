@@ -22,19 +22,6 @@ namespace Iit.Fibertest.Client
             (from mode in Enum.GetValues(typeof(GpsInputMode)).OfType<GpsInputMode>()
              select new GpsInputModeComboItem(mode)).ToList();
 
-        private GpsInputModeComboItem _selectedGpsInputMode;
-        public GpsInputModeComboItem SelectedGpsInputMode
-        {
-            get => _selectedGpsInputMode;
-            set
-            {
-                if (Equals(value, _selectedGpsInputMode)) return;
-                _selectedGpsInputMode = value;
-                CurrentGpsInputMode.Mode = _selectedGpsInputMode.Mode;
-                Rows = LandmarksToRows();
-            }
-        }
-
         public List<Trace> Traces { get; set; }
 
         private Trace _selectedTrace;
@@ -49,7 +36,27 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public GpsInputSmallViewModel GpsInputSmallViewModel { get; set; }
+        private GpsInputModeComboItem _selectedGpsInputMode;
+        public GpsInputModeComboItem SelectedGpsInputMode
+        {
+            get => _selectedGpsInputMode;
+            set
+            {
+                if (Equals(value, _selectedGpsInputMode)) return;
+                _selectedGpsInputMode = value;
+                CurrentGpsInputMode.Mode = _selectedGpsInputMode.Mode;
+                RefreshCoorsInRows();
+            }
+        }
+
+        private void RefreshCoorsInRows()
+        {
+            foreach (var row in Rows)
+            {
+                var landmark = _landmarks.First(l => l.NodeId == row.NodeId);
+                row.GpsCoors = landmark.GpsCoors.ToDetailedString(_selectedGpsInputMode.Mode);
+            }
+        }
 
         private ObservableCollection<LandmarkRow> LandmarksToRows()
         {
@@ -71,8 +78,8 @@ namespace Iit.Fibertest.Client
 
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
-        private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly ReflectogramManager _reflectogramManager;
         private List<Landmark> _landmarks;
 
         private ObservableCollection<LandmarkRow> _rows;
@@ -87,37 +94,67 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public LandmarkRow SelectedRow { get; set; }
+        private LandmarkRow _selectedRow;
+        public LandmarkRow SelectedRow
+        {
+            get => _selectedRow;
+            set
+            {
+                if (Equals(value, _selectedRow) || value == null) return;
+                _selectedRow = value;
+                OneLandmarkViewModel.SelectedLandmark = _landmarks.First(l => l.NodeId == SelectedRow.NodeId);
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public OneLandmarkViewModel OneLandmarkViewModel { get; set; }
 
         public LandmarksViewModel(ILifetimeScope globalScope, Model readModel, CurrentGpsInputMode currentGpsInputMode,
-            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
+             IWcfServiceForClient c2DWcfManager, ReflectogramManager reflectogramManager)
         {
             CurrentGpsInputMode = currentGpsInputMode;
             _globalScope = globalScope;
             _readModel = readModel;
-            _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
-            _selectedGpsInputMode = GpsInputModes.First(i=>i.Mode ==  CurrentGpsInputMode.Mode);
+            _reflectogramManager = reflectogramManager;
+            _selectedGpsInputMode = GpsInputModes.First(i => i.Mode == CurrentGpsInputMode.Mode);
         }
 
-        public async Task<int> Initialize(Guid id, bool isUserClickedOnRtu)
+        private async Task<int> Initialize()
         {
-            if (isUserClickedOnRtu)
-            {
-                Traces = _readModel.Traces.Where(t => t.RtuId == id).ToList();
-                _selectedTrace = Traces.First();
-            }
-            else
-            {
-                var trace = _readModel.Traces.First(t => t.TraceId == id);
-                Traces = _readModel.Traces.Where(t => t.RtuId == trace.RtuId).ToList();
-                _selectedTrace = _readModel.Traces.First(t => t.TraceId == id);
-            }
-
             var res = await PrepareLandmarks();
+            OneLandmarkViewModel = _globalScope.Resolve<OneLandmarkViewModel>();
             SelectedRow = Rows.First();
-            GpsInputSmallViewModel = _globalScope.Resolve<GpsInputSmallViewModel>();
-            GpsInputSmallViewModel.Initialize(_landmarks.First().GpsCoors);
+            return res;
+        }
+
+        public async Task<int> InitializeFromRtu(Guid rtuId)
+        {
+            Traces = _readModel.Traces.Where(t => t.RtuId == rtuId).ToList();
+            if (Traces.Count == 0) return -1;
+            _selectedTrace = Traces.First();
+
+            return await Initialize();
+        }
+
+        public async Task<int> InitializeFromTrace(Guid traceId)
+        {
+            var trace = _readModel.Traces.First(t => t.TraceId == traceId);
+            Traces = _readModel.Traces.Where(t => t.RtuId == trace.RtuId).ToList();
+            _selectedTrace = _readModel.Traces.First(t => t.TraceId == traceId);
+
+            return await Initialize();
+        }
+
+        public async Task<int> InitializeFromNode(Guid nodeId)
+        {
+            var trace = _readModel.Traces.FirstOrDefault(t => t.NodeIds.Contains(nodeId));
+            if (trace == null) return -1;
+            Traces = _readModel.Traces.Where(t => t.RtuId == trace.RtuId).ToList();
+            _selectedTrace = Traces.First(t => t.NodeIds.Contains(nodeId));
+
+            var res = await Initialize();
+            SelectedRow = Rows.First(r => r.NodeId == nodeId);
             return res;
         }
 
@@ -133,19 +170,22 @@ namespace Iit.Fibertest.Client
             else
             {
                 var sorData = await GetBase(SelectedTrace.PreciseId);
-                _landmarks = new LandmarksBaseParser().GetLandmarks(sorData);
+                var nodesWithoutPoints = _readModel.GetTraceNodesExcludingAdjustmentPoints(SelectedTrace.TraceId).ToList();
+                _landmarks = new LandmarksBaseParser().GetLandmarks(sorData, nodesWithoutPoints);
             }
             Rows = LandmarksToRows();
             return 0;
         }
 
+        private int _sorFileId; 
         private async Task<OtdrDataKnownBlocks> GetBase(Guid baseId)
         {
             if (baseId == Guid.Empty)
                 return null;
 
             var baseRef = _readModel.BaseRefs.First(b => b.Id == baseId);
-            var sorBytes = await _c2DWcfManager.GetSorBytes(baseRef.SorFileId);
+            _sorFileId = baseRef.SorFileId;
+            var sorBytes = await _c2DWcfManager.GetSorBytes(_sorFileId);
             return SorData.FromBytes(sorBytes);
         }
 
@@ -155,16 +195,9 @@ namespace Iit.Fibertest.Client
             DisplayName = string.Format(Resources.SID_Landmarks_of_trace__0_, SelectedTrace.Title);
         }
 
-        public void ShowReflectogram() { }
-
-        public void ShowInformation()
+        public void ShowReflectogram()
         {
-            var vm = _globalScope.Resolve<LandmarkViewModel>();
-            var landmark = _landmarks.First(l => l.Number == SelectedRow.Number);
-            vm.Initialize(landmark);
-            vm.RtuTitle = _readModel.Rtus.First(r => r.Id == _selectedTrace.RtuId).Title;
-            vm.TraceTitle = _selectedTrace.Title;
-            _windowManager.ShowWindowWithAssignedOwner(vm);
+            _reflectogramManager.ShowBaseReflectogram(_sorFileId);
         }
     }
 }

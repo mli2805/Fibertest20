@@ -96,7 +96,7 @@ namespace Iit.Fibertest.Client
             if (!(param is TraceLeaf traceLeaf))
                 return;
 
-            await _landmarksViewModel.Initialize(traceLeaf.Id, false);
+            await _landmarksViewModel.InitializeFromTrace(traceLeaf.Id);
             _windowManager.ShowWindowWithAssignedOwner(_landmarksViewModel);
         }
 

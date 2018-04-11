@@ -209,6 +209,10 @@
     <Compile Include="Forms\AdministrativeForms\ObjectsToZones\ObjectsAsTreeToZonesView.xaml.cs">
       <DependentUpon>ObjectsAsTreeToZonesView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Forms\Landmarks\OneLandmarkView.xaml.cs">
+      <DependentUpon>OneLandmarkView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Landmarks\OneLandmarkViewModel.cs" />
     <Compile Include="Forms\Shell\MarkerControl\HighlightingRtuControl.xaml.cs">
       <DependentUpon>HighlightingRtuControl.xaml</DependentUpon>
     </Compile>
@@ -428,7 +432,6 @@
     <Compile Include="Forms\Landmarks\LandmarksBaseParser.cs" />
     <Compile Include="Forms\Landmarks\LandmarksGraphParser.cs" />
     <Compile Include="Forms\Landmarks\LandmarksViewModel.cs" />
-    <Compile Include="Forms\Landmarks\LandmarkViewModel.cs" />
     <Compile Include="Forms\LoginServer\LoginViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\Users\UserVm.cs" />
     <Compile Include="Forms\AdministrativeForms\Users\UserListViewModel.cs" />
@@ -443,9 +446,6 @@
     </Compile>
     <Compile Include="Forms\Landmarks\LandmarksView.xaml.cs">
       <DependentUpon>LandmarksView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\Landmarks\LandmarkView.xaml.cs">
-      <DependentUpon>LandmarkView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\LoginServer\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
@@ -559,6 +559,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Controls\GpsInputControl\GpsInputSmallView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Landmarks\OneLandmarkView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -691,10 +695,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Landmarks\LandmarksView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Forms\Landmarks\LandmarkView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

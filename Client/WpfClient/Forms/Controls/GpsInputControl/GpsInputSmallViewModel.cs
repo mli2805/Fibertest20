@@ -1,13 +1,35 @@
-﻿using GMap.NET;
-using Iit.Fibertest.Graph;
+﻿using Caliburn.Micro;
+using GMap.NET;
 
 namespace Iit.Fibertest.Client
 {
-    public class GpsInputSmallViewModel
+    public class GpsInputSmallViewModel : PropertyChangedBase
     {
         private readonly CurrentGpsInputMode _currentGpsInputMode;
-        public OneCoorViewModel OneCoorViewModelLatitude { get; set; }
-        public OneCoorViewModel OneCoorViewModelLongitude { get; set; }
+
+        private OneCoorViewModel _oneCoorViewModelLatitude;
+        public OneCoorViewModel OneCoorViewModelLatitude
+        {
+            get => _oneCoorViewModelLatitude;
+            set
+            {
+                if (Equals(value, _oneCoorViewModelLatitude)) return;
+                _oneCoorViewModelLatitude = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private OneCoorViewModel _oneCoorViewModelLongitude;
+        public OneCoorViewModel OneCoorViewModelLongitude
+        {
+            get => _oneCoorViewModelLongitude;
+            set
+            {
+                if (Equals(value, _oneCoorViewModelLongitude)) return;
+                _oneCoorViewModelLongitude = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public PointLatLng Coors { get; set; }
 

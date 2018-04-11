@@ -27,7 +27,12 @@ namespace Iit.Fibertest.Client
             return HasPrevilegesAndNotAdjustmentPoint(parameter);
         }
 
-        public bool CanLandmarks(object parameter) { return false; }
+        public bool CanLandmarks(object parameter)
+        {
+            if (parameter == null) return false;
+            var marker = (MarkerControl) parameter;
+            return marker.Type != EquipmentType.AdjustmentPoint;
+        }
 
         public bool CanRemoveNode(object parameter)
         {

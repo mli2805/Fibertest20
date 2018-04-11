@@ -38,8 +38,12 @@ namespace Iit.Fibertest.Client
                     { NodeId = marker.GMapMarker.Id, IsCableReserveRequested = true });
         }
 
-        public void AskLandmarks(object parameter)
+        public async void AskLandmarks(object parameter)
         {
+            var marker = (MarkerControl)parameter;
+            var vm = _globalScope.Resolve<LandmarksViewModel>();
+            await vm.InitializeFromNode(marker.GMapMarker.Id);
+            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
         public async void AskRemoveNode(object parameter)

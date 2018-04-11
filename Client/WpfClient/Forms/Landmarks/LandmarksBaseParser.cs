@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Client
 {
     public class LandmarksBaseParser
     {
-        public List<Landmark> GetLandmarks(OtdrDataKnownBlocks sorData)
+        public List<Landmark> GetLandmarks(OtdrDataKnownBlocks sorData, List<Guid> nodesWithoutPoint)
         {
             var result =  new List<Landmark>();
             var linkParameters = sorData.LinkParameters;
@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Client
                 var landmark = new Landmark
                 {
                     Number = i,
+                    NodeId = nodesWithoutPoint[i],
                     NodeTitle = titles.Length > 0 ? titles[0].Trim() : "",
                     EquipmentTitle = titles.Length > 1 ? titles[1].Trim() : "",
                     EquipmentType = ToEquipmentType(sorLandmark.Code),
