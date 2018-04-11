@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GMap.NET;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.IitOtdrLibrary;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
@@ -9,19 +11,30 @@ namespace Iit.Fibertest.Client
 {
     public class LandmarksBaseParser
     {
+        private readonly Model _readModel;
+
+        public LandmarksBaseParser(Model readModel)
+        {
+            _readModel = readModel;
+        }
+
         public List<Landmark> GetLandmarks(OtdrDataKnownBlocks sorData, List<Guid> nodesWithoutPoint)
         {
-            var result =  new List<Landmark>();
+            var result = new List<Landmark>();
             var linkParameters = sorData.LinkParameters;
             for (int i = 0; i < linkParameters.LandmarksCount; i++)
             {
                 var sorLandmark = linkParameters.LandmarkBlocks[i];
                 var titles = sorLandmark.Comment.Split('/');
+                var comment = i == 0
+                        ? _readModel.Rtus.First(r => r.NodeId == nodesWithoutPoint[i]).Comment
+                        : _readModel.Nodes.First(n => n.NodeId == nodesWithoutPoint[i]).Comment;
                 var landmark = new Landmark
                 {
                     Number = i,
                     NodeId = nodesWithoutPoint[i],
                     NodeTitle = titles.Length > 0 ? titles[0].Trim() : "",
+                    NodeComment = comment,
                     EquipmentTitle = titles.Length > 1 ? titles[1].Trim() : "",
                     EquipmentType = ToEquipmentType(sorLandmark.Code),
                     EventNumber = sorLandmark.RelatedEventNumber - 1,

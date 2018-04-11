@@ -41,11 +41,15 @@ namespace Iit.Fibertest.Client
         private Landmark CreateLandmark(Node node, Guid equipmentId, int number)
         {
             var equipment = _readModel.Equipments.First(e => e.EquipmentId == equipmentId);
+            var comment = number == 0
+                ? _readModel.Rtus.First(r => r.NodeId == node.NodeId).Comment
+                : node.Comment;
             return new Landmark()
             {
                 Number = number,
                 NodeId = node.NodeId,
                 NodeTitle = node.Title,
+                NodeComment = comment,
                 EquipmentTitle = equipment.Title,
                 EquipmentType = equipment.Type,
                 EventNumber = -1,
@@ -61,6 +65,7 @@ namespace Iit.Fibertest.Client
                 Number = 0,
                 NodeId = rtu.NodeId,
                 NodeTitle = rtu.Title,
+                NodeComment = rtu.Comment,
                 EquipmentType = EquipmentType.Rtu,
                 Distance = 0,
                 EventNumber = -1,

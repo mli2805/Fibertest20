@@ -11,6 +11,7 @@ namespace Iit.Fibertest.Client
         public int Number { get; set; }
         public Guid NodeId { get; set; }
         public string NodeTitle { get; set; }
+        public string NodeComment { get; set; }
         public string EquipmentTitle { get; set; }
         public EquipmentType EquipmentType { get; set; }
         public double Distance { get; set; }
@@ -24,6 +25,7 @@ namespace Iit.Fibertest.Client
                 Number = Number,
                 NodeId = NodeId,
                 NodeTitle = NodeTitle,
+                NodeComment = NodeComment,
                 EquipmentTitle = EquipmentTitle,
                 EquipmentType = EquipmentType.ToLocalizedString(),
                 Distance = $@"{Distance : 0.000}",

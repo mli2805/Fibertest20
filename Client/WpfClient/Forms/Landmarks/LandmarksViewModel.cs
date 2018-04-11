@@ -78,6 +78,8 @@ namespace Iit.Fibertest.Client
 
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
+        private readonly LandmarksBaseParser _landmarksBaseParser;
+        private readonly LandmarksGraphParser _landmarksGraphParser;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private List<Landmark> _landmarks;
 
@@ -109,11 +111,14 @@ namespace Iit.Fibertest.Client
         public OneLandmarkViewModel OneLandmarkViewModel { get; set; }
 
         public LandmarksViewModel(ILifetimeScope globalScope, Model readModel, CurrentGpsInputMode currentGpsInputMode,
+            LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,
              IWcfServiceForClient c2DWcfManager)
         {
             CurrentGpsInputMode = currentGpsInputMode;
             _globalScope = globalScope;
             _readModel = readModel;
+            _landmarksBaseParser = landmarksBaseParser;
+            _landmarksGraphParser = landmarksGraphParser;
             _c2DWcfManager = c2DWcfManager;
             _selectedGpsInputMode = GpsInputModes.First(i => i.Mode == CurrentGpsInputMode.Mode);
         }
@@ -164,12 +169,12 @@ namespace Iit.Fibertest.Client
         private async Task<int> PrepareLandmarks()
         {
             if (SelectedTrace.PreciseId == Guid.Empty)
-                _landmarks = new LandmarksGraphParser(_readModel).GetLandmarks(SelectedTrace);
+                _landmarks = _landmarksGraphParser.GetLandmarks(SelectedTrace);
             else
             {
                 var sorData = await GetBase(SelectedTrace.PreciseId);
                 var nodesWithoutPoints = _readModel.GetTraceNodesExcludingAdjustmentPoints(SelectedTrace.TraceId).ToList();
-                _landmarks = new LandmarksBaseParser().GetLandmarks(sorData, nodesWithoutPoints);
+                _landmarks = _landmarksBaseParser.GetLandmarks(sorData, nodesWithoutPoints);
             }
             Rows = LandmarksToRows();
             return 0;

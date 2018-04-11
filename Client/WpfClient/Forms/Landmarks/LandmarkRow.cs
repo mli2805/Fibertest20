@@ -8,6 +8,7 @@ namespace Iit.Fibertest.Client
         public Guid NodeId { get; set; }
         public int Number { get; set; }
         public string NodeTitle { get; set; }
+        public string NodeComment { get; set; }
         public string EquipmentTitle { get; set; }
         public string EquipmentType { get; set; }
         public string Distance { get; set; }

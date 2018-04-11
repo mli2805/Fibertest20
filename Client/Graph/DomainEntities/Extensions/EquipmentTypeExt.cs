@@ -63,6 +63,7 @@ namespace Iit.Fibertest.Graph
             return Resources.SID_Switch_ended_unexpectedly;
         }
 
+      
         public static LandmarkCode ToLandmarkCode(this EquipmentType type)
         {
             switch (type)
