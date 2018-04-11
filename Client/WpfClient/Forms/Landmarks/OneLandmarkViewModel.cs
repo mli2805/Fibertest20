@@ -4,6 +4,7 @@ namespace Iit.Fibertest.Client
 {
     public class OneLandmarkViewModel : PropertyChangedBase
     {
+        private readonly ReflectogramManager _reflectogramManager;
         private GpsInputSmallViewModel _gpsInputSmallViewModel;
         private Landmark _selectedLandmark;
 
@@ -30,12 +31,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public OneLandmarkViewModel(GpsInputSmallViewModel gpsInputSmallViewModel)
+        public OneLandmarkViewModel(GpsInputSmallViewModel gpsInputSmallViewModel, ReflectogramManager reflectogramManager)
         {
+            _reflectogramManager = reflectogramManager;
             GpsInputSmallViewModel = gpsInputSmallViewModel;
         }
-
-     
 
         public void Apply()
         {
@@ -45,6 +45,14 @@ namespace Iit.Fibertest.Client
         public void Cancel()
         {
 
+        }
+
+        public void ShowLandmarkOnMap()
+        {
+
+        }
+        public void ShowReflectogram()
+        {
         }
     }
 }

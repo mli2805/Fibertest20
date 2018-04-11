@@ -79,7 +79,6 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly ReflectogramManager _reflectogramManager;
         private List<Landmark> _landmarks;
 
         private ObservableCollection<LandmarkRow> _rows;
@@ -110,13 +109,12 @@ namespace Iit.Fibertest.Client
         public OneLandmarkViewModel OneLandmarkViewModel { get; set; }
 
         public LandmarksViewModel(ILifetimeScope globalScope, Model readModel, CurrentGpsInputMode currentGpsInputMode,
-             IWcfServiceForClient c2DWcfManager, ReflectogramManager reflectogramManager)
+             IWcfServiceForClient c2DWcfManager)
         {
             CurrentGpsInputMode = currentGpsInputMode;
             _globalScope = globalScope;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
-            _reflectogramManager = reflectogramManager;
             _selectedGpsInputMode = GpsInputModes.First(i => i.Mode == CurrentGpsInputMode.Mode);
         }
 
@@ -195,9 +193,6 @@ namespace Iit.Fibertest.Client
             DisplayName = string.Format(Resources.SID_Landmarks_of_trace__0_, SelectedTrace.Title);
         }
 
-        public void ShowReflectogram()
-        {
-            _reflectogramManager.ShowBaseReflectogram(_sorFileId);
-        }
+      
     }
 }
