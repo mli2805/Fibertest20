@@ -31,11 +31,6 @@ namespace Iit.Fibertest.Client
                 var comment = i == 0
                         ? _readModel.Rtus.First(r => r.NodeId == nodesWithoutPoints[i]).Comment
                         : _readModel.Nodes.First(n => n.NodeId == nodesWithoutPoints[i]).Comment;
-                var equipmentId = Guid.Empty;
-                if (i != 0)
-                {
-                    equipmentId = trace.EquipmentIds[trace.NodeIds.IndexOf(nodesWithoutPoints[i])];
-                }
                 var landmark = new Landmark
                 {
                     Number = i,

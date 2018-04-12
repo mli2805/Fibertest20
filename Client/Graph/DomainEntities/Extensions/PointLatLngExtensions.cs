@@ -1,5 +1,4 @@
-﻿using System;
-using GMap.NET;
+﻿using GMap.NET;
 
 namespace Iit.Fibertest.Graph
 {
