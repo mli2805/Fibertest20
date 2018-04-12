@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Client
 
         public Guid Id { get; set; }
 
+        public Guid NodeId { get; set; }
         public string Type
         {
             get => _type;
@@ -113,7 +114,7 @@ namespace Iit.Fibertest.Client
 
         public void RemoveEquipment()
         {
-            Command = new RemoveEquipment { EquipmentId = Id };
+            Command = new RemoveEquipment { EquipmentId = Id, NodeId = NodeId };
         }
 
         public void AddEquipment() { Command = false; }

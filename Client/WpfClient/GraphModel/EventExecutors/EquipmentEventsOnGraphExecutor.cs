@@ -70,13 +70,11 @@ namespace Iit.Fibertest.Client
 
         public void RemoveEquipment(EquipmentRemoved evnt)
         {
-            var equipment = _readModel.Equipments.First(e => e.EquipmentId == evnt.EquipmentId);
-
             if (_currentUser.ZoneId != Guid.Empty
-                && _model.Data.Nodes.All(f => f.Id != equipment.NodeId)) return;
+                && _model.Data.Nodes.All(f => f.Id != evnt.NodeId)) return;
 
-            var nodeVm = _model.Data.Nodes.First(n => n.Id == equipment.NodeId);
-            var majorEquipmentInNode = _readModel.Equipments.Where(e => e.NodeId == nodeVm.Id && e.EquipmentId != equipment.EquipmentId).Max(e => e.Type);
+            var nodeVm = _model.Data.Nodes.First(n => n.Id == evnt.NodeId);
+            var majorEquipmentInNode = _readModel.Equipments.Last(e => e.NodeId == nodeVm.Id).Type;
             nodeVm.Type = majorEquipmentInNode;
         }
 

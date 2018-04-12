@@ -171,6 +171,7 @@ namespace Iit.Fibertest.Client
             var eqItem = new ItemOfEquipmentTableModel()
             {
                 Id = equipment.EquipmentId,
+                NodeId = _originalNode.NodeId,
                 Type = equipment.Type.ToLocalizedString(),
                 Title = equipment.Title,
                 CableReserveLeft = equipment.CableReserveLeft.ToString(),
