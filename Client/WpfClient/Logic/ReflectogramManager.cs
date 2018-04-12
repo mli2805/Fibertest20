@@ -40,35 +40,43 @@ namespace Iit.Fibertest.Client
             _tempSorFile = $@"{traceTitle} - {baseType} - {timestamp:dd-MM-yyyy-HH-mm-ss}";
         }
 
-        private void SaveInTempFolderAndOpenInReflect(byte[] sorBytes)
+        private string SaveInTempFolderAndOpenInReflect(byte[] sorBytes)
         {
             var tempFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Temp\");
             if (!Directory.Exists(tempFolder))
                 Directory.CreateDirectory(tempFolder);
             var fullFilename = Path.Combine(tempFolder, _tempSorFile);
             File.WriteAllBytes(fullFilename, sorBytes);
-            OpenSorInReflect(fullFilename);
+            return fullFilename;
         }
 
         public async void ShowRefWithBase(int sorFileId)
         {
             byte[] sorbytes = await GetSorBytes(sorFileId);
-            SaveInTempFolderAndOpenInReflect(sorbytes);
+            var fullFilename = SaveInTempFolderAndOpenInReflect(sorbytes);
+            OpenSorInReflect(fullFilename);
         }
 
         public async void ShowOnlyCurrentMeasurement(int sorFileId)
         {
             byte[] sorbytesWithBase = await GetSorBytes(sorFileId);
             byte[] sorbytes = GetRidOfBase(sorbytesWithBase);
-            SaveInTempFolderAndOpenInReflect(sorbytes);
+            var fullFilename = SaveInTempFolderAndOpenInReflect(sorbytes);
+            OpenSorInReflect(fullFilename);
         }
 
         public async void ShowBaseReflectogram(int sorFileId)
         {
             byte[] sorbytes = await GetSorBytes(sorFileId);
-            SaveInTempFolderAndOpenInReflect(sorbytes);
+            var fullFilename = SaveInTempFolderAndOpenInReflect(sorbytes);
+            OpenSorInReflect(fullFilename);
         }
-
+        public async void ShowBaseReflectogramWithSelectedLandmark(int sorFileId, int lmNumber)
+        {
+            byte[] sorbytes = await GetSorBytes(sorFileId);
+            var fullFilename = SaveInTempFolderAndOpenInReflect(sorbytes);
+            OpenSorInReflect(fullFilename, $@"-lm {lmNumber}");
+        }
 
         public async void SaveReflectogramAs(int sorFileId, bool shouldBaseRefBeExcluded)
         {
@@ -98,7 +106,7 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
-     //------------------------------------------------------------------------------------------------
+        //------------------------------------------------------------------------------------------------
         private async Task<byte[]> GetSorBytes(int sorFileId)
         {
             var sorbytes = await _c2DWcfManager.GetSorBytes(sorFileId);
@@ -109,7 +117,7 @@ namespace Iit.Fibertest.Client
             }
             return sorbytes;
         }
-       
+
         private byte[] GetRidOfBase(byte[] sorbytes)
         {
             var result = SorData.TryGetFromBytes(sorbytes, out var otdrDataKnownBlocks);
@@ -124,11 +132,11 @@ namespace Iit.Fibertest.Client
             return otdrDataKnownBlocks.ToBytes();
         }
 
-        private void OpenSorInReflect(string sorFilename)
+        private void OpenSorInReflect(string sorFilename, string options = "")
         {
             Process process = new Process();
             process.StartInfo.FileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\RFTSReflect\reflect.exe");
-            process.StartInfo.Arguments = '"' + sorFilename + '"';
+            process.StartInfo.Arguments = $"{options} " + '"' + sorFilename + '"';
             process.Start();
         }
 

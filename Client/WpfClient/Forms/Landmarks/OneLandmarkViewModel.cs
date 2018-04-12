@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
@@ -10,6 +11,10 @@ namespace Iit.Fibertest.Client
 {
     public class OneLandmarkViewModel : PropertyChangedBase
     {
+        public string TraceTitle;
+        public DateTime PreciseTimestamp;
+        public int SorFileId;
+
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly GraphReadModel _graphReadModel;
         private readonly ReflectogramManager _reflectogramManager;
@@ -132,6 +137,8 @@ namespace Iit.Fibertest.Client
         }
         public void ShowReflectogram()
         {
+            _reflectogramManager.SetTempFileName(TraceTitle, BaseRefType.Precise.ToString(), PreciseTimestamp);
+            _reflectogramManager.ShowBaseReflectogramWithSelectedLandmark(SorFileId, SelectedLandmark.Number);
         }
     }
 }

@@ -125,8 +125,8 @@ namespace Iit.Fibertest.Client
 
         private async Task<int> Initialize()
         {
-            var res = await PrepareLandmarks();
             OneLandmarkViewModel = _globalScope.Resolve<OneLandmarkViewModel>();
+            var res = await PrepareLandmarks();
             SelectedRow = Rows.First();
             return res;
         }
@@ -168,6 +168,7 @@ namespace Iit.Fibertest.Client
 
         private async Task<int> PrepareLandmarks()
         {
+            OneLandmarkViewModel.TraceTitle = SelectedTrace.Title;
             if (SelectedTrace.PreciseId == Guid.Empty)
                 _landmarks = _landmarksGraphParser.GetLandmarks(SelectedTrace);
             else
@@ -179,15 +180,15 @@ namespace Iit.Fibertest.Client
             return 0;
         }
 
-        private int _sorFileId; 
         private async Task<OtdrDataKnownBlocks> GetBase(Guid baseId)
         {
             if (baseId == Guid.Empty)
                 return null;
 
             var baseRef = _readModel.BaseRefs.First(b => b.Id == baseId);
-            _sorFileId = baseRef.SorFileId;
-            var sorBytes = await _c2DWcfManager.GetSorBytes(_sorFileId);
+            OneLandmarkViewModel.SorFileId = baseRef.SorFileId;
+            OneLandmarkViewModel.PreciseTimestamp = baseRef.SaveTimestamp;
+            var sorBytes = await _c2DWcfManager.GetSorBytes(baseRef.SorFileId);
             return SorData.FromBytes(sorBytes);
         }
 
