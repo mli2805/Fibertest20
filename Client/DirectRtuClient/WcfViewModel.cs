@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Net;
+using System.Net.Mail;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
@@ -21,6 +24,8 @@ namespace DirectRtuClient
 
         private readonly DoubleAddress _serverDoubleAddress;
         public string ServerAddress { get; set; }
+        public List<string> Emails { get; set; }
+        public string Email { get; set; }
 
         public WcfViewModel(IniFile iniFile, IMyLog logFile)
         {
@@ -136,6 +141,40 @@ namespace DirectRtuClient
             {
                 _logFile.AppendLine(e.Message);
             }
+        }
+
+        // sslPort = 465; tlsPort = 587; tcpPort = 25;
+        public async void SendEmails()
+        {
+            try
+            {
+                using (SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587))
+                {
+                    smtpClient.EnableSsl = true;
+                    smtpClient.Timeout = 10000;
+                    smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+                    smtpClient.UseDefaultCredentials = false;
+                    // got letter from Gmail with request to allow to access my mail box from unsafe application, 
+                    // after getting permission works fine
+                    smtpClient.Credentials = new NetworkCredential("mli2805@gmail.com", "cde34rfV");
+
+                    MailMessage mail = new MailMessage();
+                    mail.From = new MailAddress("mli2805@gmail.com");
+                    mail.To.Add(@"mli2805@yandex.rw");
+                    mail.To.Add(@"mli2805@mail.ru");
+
+                    mail.Subject = @"Test email";
+                    mail.Body = @"Test email content";
+
+                    await smtpClient.SendMailAsync(mail);
+                }
+            }
+            catch (Exception e)
+            {
+                    Console.WriteLine(e);
+                    throw;
+            }
+           
         }
     }
 }

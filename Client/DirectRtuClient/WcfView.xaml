@@ -3,9 +3,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:directRtuClient="clr-namespace:DirectRtuClient"
         mc:Ignorable="d"
-        Height="300" Width="300" WindowStartupLocation="CenterScreen"
-        >
+        Height="300" Width="300" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignInstance directRtuClient:WcfViewModel}">
     <StackPanel>
         <DockPanel>
             <Button DockPanel.Dock="Right" Name="SaveAddress" Content="Save address" Margin="5" Width="100"/>
@@ -14,5 +14,10 @@
         <Button Name="Register" Content="Register" Margin="5"/>
         <Button Name="SendHeartbeat" Content="Send heartbeat" Margin="5"/>
         <Button Name="GetEvents" Content="Get events" Margin="5"/>
+
+        <TextBox Text="{Binding Email}" Margin="5" Height="25"/>
+        <ListBox Margin="5" Height="40" ItemsSource="{Binding Emails}"/>
+        <Button Name="SendEmails" Content="Send emails" Margin="5"/>
+
     </StackPanel>
 </Window>
