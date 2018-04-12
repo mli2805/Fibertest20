@@ -59,5 +59,10 @@ namespace Iit.Fibertest.Client
             SelectedGpsInputModeComboItem = GpsInputModes.FirstOrDefault(i=>i.Mode == _modeInIniFile);
         }
 
+        public PointLatLng Get()
+        {
+            return new PointLatLng(OneCoorViewModelLatitude.StringsToValue(), OneCoorViewModelLongitude.StringsToValue());
+        }
+
     }
 }

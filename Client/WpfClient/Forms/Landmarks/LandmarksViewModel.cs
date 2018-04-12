@@ -201,7 +201,19 @@ namespace Iit.Fibertest.Client
 
         //----------------
 
-        public void UpdateAndMoveNode(NodeUpdatedAndMoved evnt) { }
+        public void UpdateAndMoveNode(NodeUpdatedAndMoved evnt)
+        {
+            var row = Rows.FirstOrDefault(r => r.NodeId == evnt.NodeId);
+            if (row == null) return;
+            var lm = _landmarks.First(l => l.NodeId == evnt.NodeId);
+
+            row.NodeTitle = lm.NodeTitle = evnt.Title;
+            row.NodeComment = lm.NodeComment = evnt.Comment;
+            lm.GpsCoors = evnt.GpsCoors;
+            row.GpsCoors = evnt.GpsCoors.ToDetailedString(CurrentGpsInputMode.Mode);
+
+            OneLandmarkViewModel.SelectedLandmark = lm;
+        }
         public void UpdateEquipment(EquipmentUpdated evnt) { }
 
     }

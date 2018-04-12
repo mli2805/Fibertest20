@@ -57,13 +57,14 @@ namespace Iit.Fibertest.Client
         }
 
         private Landmark _landmarkBeforeChanges;
+
         private Landmark _selectedLandmark;
         public Landmark SelectedLandmark
         {
             get => _selectedLandmark;
             set
             {
-                if (Equals(value, _selectedLandmark) || value == null) return;
+              //  if (Equals(value, _selectedLandmark) || value == null) return;
                 _selectedLandmark = value;
                 _landmarkBeforeChanges = (Landmark) value.Clone();
                 GpsInputSmallViewModel.Initialize(SelectedLandmark.GpsCoors);
@@ -75,6 +76,7 @@ namespace Iit.Fibertest.Client
         }
 
         private bool _isEquipmentEnabled;
+
         public bool IsEquipmentEnabled
         {
             get => _isEquipmentEnabled;
@@ -85,6 +87,7 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
             }
         }
+
 
         public OneLandmarkViewModel(GpsInputSmallViewModel gpsInputSmallViewModel, IWcfServiceForClient c2DWcfManager,
             GraphReadModel graphReadModel,  ReflectogramManager reflectogramManager)
@@ -117,22 +120,28 @@ namespace Iit.Fibertest.Client
         {
             if (_landmarkBeforeChanges.NodeTitle != SelectedLandmark.NodeTitle ||
                 _landmarkBeforeChanges.NodeComment != SelectedLandmark.NodeComment ||
-                _landmarkBeforeChanges.GpsCoors != SelectedLandmark.GpsCoors)
+                _landmarkBeforeChanges.GpsCoors != GpsInputSmallViewModel.Get())
             {
                 return await _c2DWcfManager.SendCommandAsObj(
                     new UpdateAndMoveNode{NodeId = SelectedLandmark.NodeId, Title = SelectedLandmark.NodeTitle,
-                        Comment = SelectedLandmark.NodeComment, GpsCoors = GpsInputSmallViewModel.Coors});
+                        Comment = SelectedLandmark.NodeComment, GpsCoors = GpsInputSmallViewModel.Get()});
             }
+            _graphReadModel.Extinguish();
             return null;
         }
 
         public void Cancel()
         {
             SelectedLandmark = _landmarkBeforeChanges;
+            var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
+            nodeVm.Position = GpsInputSmallViewModel.Get();
+            _graphReadModel.Extinguish();
         }
 
         public void ShowLandmarkOnMap()
         {
+            var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
+            nodeVm.Position = GpsInputSmallViewModel.Get();
             _graphReadModel.PlaceNodeIntoScreenCenter(SelectedLandmark.NodeId);
         }
         public void ShowReflectogram()

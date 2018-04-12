@@ -25,6 +25,7 @@ namespace Iit.Fibertest.Client
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
+        private readonly LandmarksViewsManager _landmarksViewsManager;
         private Thread _pollerThread;
         private readonly IDispatcherProvider _dispatcherProvider;
         private readonly IMyLog _logFile;
@@ -40,7 +41,7 @@ namespace Iit.Fibertest.Client
             EventsOnModelExecutor eventsOnModelExecutor, EventsOnTreeExecutor eventsOnTreeExecutor, OpticalEventsExecutor opticalEventsExecutor,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel, RtuStateViewsManager rtuStateViewsManager,
-            BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
+            BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel, LandmarksViewsManager landmarksViewsManager,
             IMyLog logFile, IniFile iniFile, EventArrivalNotifier eventArrivalNotifier, ILocalDbManager localDbManager)
         {
             _wcfConnection = wcfConnection;
@@ -53,6 +54,7 @@ namespace Iit.Fibertest.Client
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _rtuStateViewsManager = rtuStateViewsManager;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
+            _landmarksViewsManager = landmarksViewsManager;
             _dispatcherProvider = dispatcherProvider;
             _logFile = logFile;
             _eventArrivalNotifier = eventArrivalNotifier;
@@ -108,6 +110,7 @@ namespace Iit.Fibertest.Client
                     _rtuStateViewsManager.Apply(evnt);
                     _traceStateViewsManager.Apply(evnt);
                     _traceStatisticsViewsManager.Apply(evnt);
+                    _landmarksViewsManager.Apply(evnt);
                     _bopNetworkEventsDoubleViewModel.Apply(evnt);
 
                     // some forms refresh their view because they have sent command previously and are waiting event's arrival

@@ -36,8 +36,8 @@
                 <client:GpsInputSmallView DataContext="{Binding GpsInputSmallViewModel}"/>
             </GroupBox>
             <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Margin="5,5,0,0" Orientation="Horizontal">
-                <Button Width="120" Height="25" Margin="5" Name="Apply" Content="{x:Static stringResources:Resources.SID_Apply}"/>
-                <Button Width="120" Height="25" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
+                <Button Width="120" Height="25" Margin="5" Name="Apply" Content="{x:Static stringResources:Resources.SID_Apply}" />
+                <Button Width="120" Height="25" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" />
                 <Button Width="120" Height="25" Margin="5" Name="ShowLandmarkOnMap" Content="{x:Static stringResources:Resources.SID_Show_on_map}"/>
                 <Button Width="120" Height="25" Margin="5" Name="ShowReflectogram" Content="{x:Static stringResources:Resources.SID_Reflectogram}"/>
             </StackPanel>
