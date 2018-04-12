@@ -22,6 +22,7 @@ namespace Iit.Fibertest.Client
             var result = new List<Landmark> { CreateRtuLandmark(previousNode) };
 
             var distance = 0.0;
+            var j = 1;
             for (var i = 1; i < trace.NodeIds.Count; i++)
             {
                 var nodeId = trace.NodeIds[i];
@@ -30,7 +31,7 @@ namespace Iit.Fibertest.Client
                 previousNode = node;
                 if (node.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint) continue;
 
-                var lm = CreateLandmark(node, trace.EquipmentIds[i], i);
+                var lm = CreateLandmark(node, trace.EquipmentIds[i], j++);
                 lm.Distance = distance;
                 result.Add(lm);
             }

@@ -19,7 +19,7 @@
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <ComboBox ItemsSource="{Binding Traces}" SelectedItem="{Binding SelectedTrace}" Width="230" Height="25" Margin="5"/>
-                        <Button Margin="5" Content="{x:Static stringResources:Resources.SID_Refresh}" Width="80" Name="ChangeTrace"/>
+                        <Button Margin="5" Content="{x:Static stringResources:Resources.SID_Refresh}" Width="80" Name="RefreshTrace"/>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>

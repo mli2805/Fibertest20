@@ -192,7 +192,7 @@ namespace Iit.Fibertest.Client
             return SorData.FromBytes(sorBytes);
         }
 
-        public async void ChangeTrace()
+        public async void RefreshTrace()
         {
             await PrepareLandmarks();
             DisplayName = string.Format(Resources.SID_Landmarks_of_trace__0_, SelectedTrace.Title);
@@ -205,16 +205,20 @@ namespace Iit.Fibertest.Client
         {
             var row = Rows.FirstOrDefault(r => r.NodeId == evnt.NodeId);
             if (row == null) return;
-            var lm = _landmarks.First(l => l.NodeId == evnt.NodeId);
-
-            row.NodeTitle = lm.NodeTitle = evnt.Title;
-            row.NodeComment = lm.NodeComment = evnt.Comment;
-            lm.GpsCoors = evnt.GpsCoors;
-            row.GpsCoors = evnt.GpsCoors.ToDetailedString(CurrentGpsInputMode.Mode);
-
-            OneLandmarkViewModel.SelectedLandmark = lm;
+            var index = Rows.IndexOf(SelectedRow);
+            RefreshTrace();
+            SelectedRow = Rows[index];
         }
-        public void UpdateEquipment(EquipmentUpdated evnt) { }
+
+        public void UpdateEquipment(EquipmentUpdated evnt)
+        {
+            var nodeId = _readModel.Equipments.First(e => e.EquipmentId == evnt.EquipmentId).NodeId;
+            var row = Rows.FirstOrDefault(r => r.NodeId == nodeId);
+            if (row == null) return;
+            var index = Rows.IndexOf(SelectedRow);
+            RefreshTrace();
+            SelectedRow = Rows[index];
+        }
 
     }
 }
