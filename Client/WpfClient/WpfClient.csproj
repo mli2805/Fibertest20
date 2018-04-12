@@ -210,6 +210,7 @@
       <DependentUpon>ObjectsAsTreeToZonesView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Landmarks\EquipmentTypeComboItem.cs" />
+    <Compile Include="Forms\Landmarks\LandmarksViewsManager.cs" />
     <Compile Include="Forms\Landmarks\OneLandmarkView.xaml.cs">
       <DependentUpon>OneLandmarkView.xaml</DependentUpon>
     </Compile>

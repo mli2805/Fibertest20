@@ -21,11 +21,11 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
-        private readonly LandmarksViewModel _landmarksViewModel;
+        private readonly LandmarksViewsManager _landmarksViewsManager;
 
         public RtuLeafActions(ILifetimeScope globalScope, IMyLog logFile, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, 
-            RtuStateViewsManager rtuStateViewsManager, LandmarksViewModel landmarksViewModel)
+            RtuStateViewsManager rtuStateViewsManager, LandmarksViewsManager landmarksViewsManager)
         {
             _globalScope = globalScope;
             _logFile = logFile;
@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
             _rtuStateViewsManager = rtuStateViewsManager;
-            _landmarksViewModel = landmarksViewModel;
+            _landmarksViewsManager = landmarksViewsManager;
         }
 
         public void UpdateRtu(object param)
@@ -75,8 +75,7 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-            await _landmarksViewModel.InitializeFromRtu(rtuLeaf.Id);
-            _windowManager.ShowWindowWithAssignedOwner(_landmarksViewModel);
+            await _landmarksViewsManager.InitializeFromRtu(rtuLeaf.Id);
         }
 
         public void ShowMonitoringSettings(object param)

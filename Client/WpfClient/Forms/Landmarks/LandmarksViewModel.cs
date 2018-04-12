@@ -198,6 +198,11 @@ namespace Iit.Fibertest.Client
             DisplayName = string.Format(Resources.SID_Landmarks_of_trace__0_, SelectedTrace.Title);
         }
 
-      
+
+        //----------------
+
+        public void UpdateAndMoveNode(NodeUpdatedAndMoved evnt) { }
+        public void UpdateEquipment(EquipmentUpdated evnt) { }
+
     }
 }

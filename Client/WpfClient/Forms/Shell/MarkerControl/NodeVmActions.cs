@@ -41,9 +41,8 @@ namespace Iit.Fibertest.Client
         public async void AskLandmarks(object parameter)
         {
             var marker = (MarkerControl)parameter;
-            var vm = _globalScope.Resolve<LandmarksViewModel>();
+            var vm = _globalScope.Resolve<LandmarksViewsManager>();
             await vm.InitializeFromNode(marker.GMapMarker.Id);
-            _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
         public async void AskRemoveNode(object parameter)
