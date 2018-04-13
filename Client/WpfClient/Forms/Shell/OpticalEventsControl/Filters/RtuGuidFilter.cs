@@ -1,4 +1,5 @@
 using System;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -19,7 +20,7 @@ namespace Iit.Fibertest.Client
 
         public override string ToString()
         {
-            return IsOn ? RtuTitle : @"<no filter>";
+            return IsOn ? RtuTitle : Resources.SID__no_filter_;
         }
     }
 }

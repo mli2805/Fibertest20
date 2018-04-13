@@ -1721,4 +1721,19 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Show_on_map" xml:space="preserve">
 		<value>Показать на карте</value>
 	</data>
+	<data name="SID_Cancel_changes" xml:space="preserve">
+		<value>Отменить изменения</value>
+	</data>
+	<data name="SID_Sent_successfully_" xml:space="preserve">
+		<value>Отправлено успешно!</value>
+	</data>
+	<data name="SID_Sending_failed_" xml:space="preserve">
+		<value>Отправка не удалась!</value>
+	</data>
+	<data name="SID_Check_e_mail_notification" xml:space="preserve">
+		<value>Проверить почтовую рассылку</value>
+	</data>
+	<data name="SID__no_filter_" xml:space="preserve">
+		<value>&lt;нет фильтра&gt;</value>
+	</data>
 </root>

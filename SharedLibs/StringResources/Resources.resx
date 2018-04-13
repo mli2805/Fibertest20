@@ -1721,7 +1721,19 @@ RTU is initializing right now!</value>
 	<data name="SID_Show_on_map" xml:space="preserve">
     <value>Show on map</value>
   </data>
-  <data name="SID_Test_dispatch" xml:space="preserve">
-    <value>Test dispatch</value>
+	<data name="SID_Cancel_changes" xml:space="preserve">
+    <value>Cancel changes</value>
+  </data>
+	<data name="SID_Sent_successfully_" xml:space="preserve">
+    <value>Sent successfully!</value>
+  </data>
+	<data name="SID_Sending_failed_" xml:space="preserve">
+    <value>Sending failed!</value>
+  </data>
+	<data name="SID_Check_e_mail_notification" xml:space="preserve">
+    <value>Check e-mail notification</value>
+  </data>
+	<data name="SID__no_filter_" xml:space="preserve">
+    <value>&lt;no filter&gt;</value>
   </data>
 </root>

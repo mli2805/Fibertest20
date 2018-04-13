@@ -101,7 +101,7 @@ namespace Iit.Fibertest.Client
             get => _selectedRow;
             set
             {
-                if (Equals(value, _selectedRow) || value == null) return;
+                if ( value == null) return;
                 _selectedRow = value;
                 OneLandmarkViewModel.SelectedLandmark = _landmarks.First(l => l.NodeId == SelectedRow.NodeId);
                 NotifyOfPropertyChange();
@@ -192,31 +192,32 @@ namespace Iit.Fibertest.Client
             return SorData.FromBytes(sorBytes);
         }
 
-        public async void RefreshTrace()
+        public async Task<int> RefreshOrChangeTrace() // button
         {
             await PrepareLandmarks();
+            SelectedRow = Rows.First();
             DisplayName = string.Format(Resources.SID_Landmarks_of_trace__0_, SelectedTrace.Title);
+            return 0;
         }
-
 
         //----------------
 
-        public void UpdateAndMoveNode(NodeUpdatedAndMoved evnt)
+        public async void UpdateAndMoveNode(NodeUpdatedAndMoved evnt)
         {
             var row = Rows.FirstOrDefault(r => r.NodeId == evnt.NodeId);
             if (row == null) return;
-            var index = Rows.IndexOf(SelectedRow);
-            RefreshTrace();
+            var index = Rows.IndexOf(row);
+            await PrepareLandmarks();
             SelectedRow = Rows[index];
         }
 
-        public void UpdateEquipment(EquipmentUpdated evnt)
+        public async void UpdateEquipment(EquipmentUpdated evnt)
         {
             var nodeId = _readModel.Equipments.First(e => e.EquipmentId == evnt.EquipmentId).NodeId;
             var row = Rows.FirstOrDefault(r => r.NodeId == nodeId);
             if (row == null) return;
-            var index = Rows.IndexOf(SelectedRow);
-            RefreshTrace();
+            var index = Rows.IndexOf(row);
+            await PrepareLandmarks();
             SelectedRow = Rows[index];
         }
 

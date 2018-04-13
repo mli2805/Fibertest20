@@ -80,7 +80,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private string _rtuFilterNow = @"no filter";
+        private string _rtuFilterNow = Resources.SID__no_filter_;
         public string RtuFilterNow
         {
             get => _rtuFilterNow;

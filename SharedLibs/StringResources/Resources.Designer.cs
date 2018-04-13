@@ -206,6 +206,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;no filter&gt;.
+        /// </summary>
+        public static string SID__no_filter_ {
+            get {
+                return ResourceManager.GetString("SID__no_filter_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;not attached&gt;.
         /// </summary>
         public static string SID__not_attached_ {
@@ -872,6 +881,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel changes.
+        /// </summary>
+        public static string SID_Cancel_changes {
+            get {
+                return ResourceManager.GetString("SID_Cancel_changes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cancel step.
         /// </summary>
         public static string SID_Cancel_step {
@@ -1039,6 +1057,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_charon__0__has__1___2__ports {
             get {
                 return ResourceManager.GetString("SID_charon__0__has__1___2__ports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Check e-mail notification.
+        /// </summary>
+        public static string SID_Check_e_mail_notification {
+            get {
+                return ResourceManager.GetString("SID_Check_e_mail_notification", resourceCulture);
             }
         }
         
@@ -3890,6 +3917,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Sending failed!.
+        /// </summary>
+        public static string SID_Sending_failed_ {
+            get {
+                return ResourceManager.GetString("SID_Sending_failed_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sent successfully!.
+        /// </summary>
+        public static string SID_Sent_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Sent_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Serial.
         /// </summary>
         public static string SID_Serial {
@@ -4201,15 +4246,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Test {
             get {
                 return ResourceManager.GetString("SID_Test", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Test dispatch.
-        /// </summary>
-        public static string SID_Test_dispatch {
-            get {
-                return ResourceManager.GetString("SID_Test_dispatch", resourceCulture);
             }
         }
         

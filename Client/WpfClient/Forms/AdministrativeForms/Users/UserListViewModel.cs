@@ -118,7 +118,7 @@ namespace Iit.Fibertest.Client
             {
                 res = await _c2DWcfManager.SendTestDispatch();
             }
-            var message = res ? "Test email dispatch success!" : "Test email dispatch failed!";
+            var message = res ? Resources.SID_Sent_successfully_ : Resources.SID_Sending_failed_;
             var vm = new MyMessageBoxViewModel(res ? MessageType.Information : MessageType.Error, message);
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }

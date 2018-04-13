@@ -19,7 +19,7 @@
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <ComboBox ItemsSource="{Binding Traces}" SelectedItem="{Binding SelectedTrace}" Width="230" Height="25" Margin="5"/>
-                        <Button Margin="5" Content="{x:Static stringResources:Resources.SID_Refresh}" Width="80" Name="RefreshTrace"/>
+                        <Button Margin="5" Content="{x:Static stringResources:Resources.SID_Refresh}" Width="80" Name="RefreshOrChangeTrace"/>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
@@ -40,7 +40,7 @@
       
         <GroupBox Header="{x:Static stringResources:Resources.SID_Landmarks}" Margin="5">
             <DataGrid Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow, Mode=TwoWay}" CanUserSortColumns="False" 
-                      AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
+                      AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="No" Binding="{Binding Number}" Width="30"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Node}" Binding="{Binding NodeTitle}" Width="120"/>
@@ -50,6 +50,21 @@
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event}" Binding="{Binding EventNumber}" Width="60"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" Binding="{Binding GpsCoors}" Width="170"/>
                 </DataGrid.Columns>
+                <DataGrid.Resources>
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="LightBlue" />
+                    <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="Black" />
+                </DataGrid.Resources>
+                <DataGrid.RowStyle>
+                        <Style TargetType="DataGridRow">
+                            <Style.Triggers>
+                                <Trigger Property="IsSelected" Value="True">
+                                    <Setter Property="Background" Value="AliceBlue"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGrid.RowStyle>
             </DataGrid>
         </GroupBox>
     </DockPanel>

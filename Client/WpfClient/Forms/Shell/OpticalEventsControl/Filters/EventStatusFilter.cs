@@ -1,4 +1,5 @@
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -24,7 +25,7 @@ namespace Iit.Fibertest.Client
 
         public override string ToString()
         {
-            return IsOn ? EventStatus.GetLocalizedString() : @"<no filter>";
+            return IsOn ? EventStatus.GetLocalizedString() : Resources.SID__no_filter_;
         }
     }
 }
