@@ -22,7 +22,24 @@ namespace Iit.Fibertest.Client
        
 
         #region Current mouse coordinates
-        public CurrentGpsInputMode CurrentGpsInputMode { get; set; }
+
+        public CurrentGpsInputMode CurrentGpsInputMode
+        {
+            get => _currentGpsInputMode;
+            set
+            {
+                if (Equals(value, _currentGpsInputMode)) return;
+                _currentGpsInputMode = value;
+                OnPropertyChanged();
+                _currentGpsInputMode.PropertyChanged += _currentGpsInputMode_PropertyChanged;
+                OnPropertyChanged(nameof(MouseCurrentCoorsString));
+            }
+        }
+
+        private void _currentGpsInputMode_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(MouseCurrentCoorsString));
+        }
 
         private PointLatLng _mouseCurrentCoors;
         public PointLatLng MouseCurrentCoors
@@ -49,6 +66,8 @@ namespace Iit.Fibertest.Client
         public List<int> Distances;
 
         private int _lastDistance;
+        private CurrentGpsInputMode _currentGpsInputMode;
+
         public int LastDistance
         {
             get => _lastDistance;
