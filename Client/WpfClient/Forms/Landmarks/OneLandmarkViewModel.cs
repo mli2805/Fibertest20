@@ -65,6 +65,7 @@ namespace Iit.Fibertest.Client
             set
             {
               //  if (Equals(value, _selectedLandmark) || value == null) return;
+                if (value == null) return;
                 _selectedLandmark = value;
                 _landmarkBeforeChanges = (Landmark) value.Clone();
                 GpsInputSmallViewModel.Initialize(SelectedLandmark.GpsCoors);
@@ -132,6 +133,8 @@ namespace Iit.Fibertest.Client
 
         public void Cancel()
         {
+            if (_landmarkBeforeChanges == null) return;
+
             SelectedLandmark = _landmarkBeforeChanges;
             var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
             nodeVm.Position = GpsInputSmallViewModel.Get();
@@ -140,6 +143,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowLandmarkOnMap()
         {
+            _graphReadModel.Extinguish();
             var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
             nodeVm.Position = GpsInputSmallViewModel.Get();
             _graphReadModel.PlaceNodeIntoScreenCenter(SelectedLandmark.NodeId);

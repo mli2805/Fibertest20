@@ -103,6 +103,7 @@ namespace Iit.Fibertest.Client
             {
                 if ( value == null) return;
                 _selectedRow = value;
+                OneLandmarkViewModel.Cancel();
                 OneLandmarkViewModel.SelectedLandmark = _landmarks.First(l => l.NodeId == SelectedRow.NodeId);
                 NotifyOfPropertyChange();
             }
@@ -221,5 +222,10 @@ namespace Iit.Fibertest.Client
             SelectedRow = Rows[index];
         }
 
+        public override void CanClose(Action<bool> callback)
+        {
+            OneLandmarkViewModel.Cancel();
+            base.CanClose(callback);
+        }
     }
 }
