@@ -69,8 +69,8 @@ namespace Iit.Fibertest.Client
             _zones = _readModel.Zones;
 
             Roles = Enum.GetValues(typeof(Role)).Cast<Role>().ToList();
-            foreach (var user in _users.Where(u=>u.Role > Role.Developer))
-                Rows.Add(new UserVm(user, _zones.First(z=>z.ZoneId == user.ZoneId).Title));
+            foreach (var user in _users.Where(u => u.Role > Role.Developer))
+                Rows.Add(new UserVm(user, _zones.First(z => z.ZoneId == user.ZoneId).Title));
 
             _eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
             SelectedUser = Rows.First();
@@ -106,10 +106,22 @@ namespace Iit.Fibertest.Client
 
         public async void RemoveUser()
         {
-            var cmd = new RemoveUser(){UserId = SelectedUser.UserId};
+            var cmd = new RemoveUser() { UserId = SelectedUser.UserId };
             await _c2DWcfManager.SendCommandAsObj(cmd);
         }
         #endregion
+
+        public async void SendTest()
+        {
+            bool res;
+            using (new WaitCursor())
+            {
+                res = await _c2DWcfManager.SendTestDispatch();
+            }
+            var message = res ? "Test email dispatch success!" : "Test email dispatch failed!";
+            var vm = new MyMessageBoxViewModel(res ? MessageType.Information : MessageType.Error, message);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
 
         public void Close()
         {

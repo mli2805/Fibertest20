@@ -148,19 +148,25 @@ namespace DirectRtuClient
         {
             try
             {
-                using (SmtpClient smtpClient = new SmtpClient("smtp.gmail.com", 587))
+                var smtpHost = _iniFile.Read(IniSection.Smtp, IniKey.SmtpHost, @"smtp.yandex.ru");
+                var smtpPort = _iniFile.Read(IniSection.Smtp, IniKey.SmtpPort, 587);
+
+                var mailFrom = _iniFile.Read(IniSection.Smtp, IniKey.MailFrom, @"mli2805@yandex.ru");
+                var password = _iniFile.Read(IniSection.Smtp, IniKey.MailFromPassword, @"zaq1@WSX");
+
+                using (SmtpClient smtpClient = new SmtpClient(smtpHost, smtpPort))
                 {
                     smtpClient.EnableSsl = true;
-                    smtpClient.Timeout = 10000;
+                    smtpClient.Timeout = _iniFile.Read(IniSection.Smtp, IniKey.SmtpTimeoutMs, 10000);
                     smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
                     smtpClient.UseDefaultCredentials = false;
-                    // got letter from Gmail with request to allow to access my mail box from unsafe application, 
+                    // I got letter from Gmail with request to allow to access my mail box from unsafe application, 
                     // after getting permission works fine
-                    smtpClient.Credentials = new NetworkCredential("mli2805@gmail.com", "cde34rfV");
+                    smtpClient.Credentials = new NetworkCredential(mailFrom, password);
 
                     MailMessage mail = new MailMessage();
-                    mail.From = new MailAddress("mli2805@gmail.com");
-                    mail.To.Add(@"mli2805@yandex.rw");
+                    mail.From = new MailAddress(mailFrom);
+                    mail.To.Add(@"mli2805@gmail.com");
                     mail.To.Add(@"mli2805@mail.ru");
 
                     mail.Subject = @"Test email";
@@ -176,5 +182,44 @@ namespace DirectRtuClient
             }
            
         }
+
+//        public async void SendEmails()
+//        {
+//            try
+//            {
+//                var smtpHost = _iniFile.Read(IniSection.Smtp, IniKey.SmtpHost, @"smtp.gmail.com");
+//                var smtpPort = _iniFile.Read(IniSection.Smtp, IniKey.SmtpPort, 587);
+//
+//                var mailFrom = _iniFile.Read(IniSection.Smtp, IniKey.MailFrom, @"fibertest2018@gmail.com");
+//                var password = _iniFile.Read(IniSection.Smtp, IniKey.MailFromPassword, @"Fibertest2018!");
+//
+//                using (SmtpClient smtpClient = new SmtpClient(smtpHost, smtpPort))
+//                {
+//                    smtpClient.EnableSsl = true;
+//                    smtpClient.Timeout = _iniFile.Read(IniSection.Smtp, IniKey.SmtpTimeoutMs, 10000);
+//                    smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+//                    smtpClient.UseDefaultCredentials = false;
+//                    // got letter from Gmail with request to allow to access my mail box from unsafe application, 
+//                    // after getting permission works fine
+//                    smtpClient.Credentials = new NetworkCredential(mailFrom, password);
+//
+//                    MailMessage mail = new MailMessage();
+//                    mail.From = new MailAddress(mailFrom);
+//                    mail.To.Add(@"mli2805@yandex.rw");
+//                    mail.To.Add(@"mli2805@mail.ru");
+//
+//                    mail.Subject = @"Test email";
+//                    mail.Body = @"Test email content";
+//
+//                    await smtpClient.SendMailAsync(mail);
+//                }
+//            }
+//            catch (Exception e)
+//            {
+//                    Console.WriteLine(e);
+//                    throw;
+//            }
+//           
+//        }
     }
 }

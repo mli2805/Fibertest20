@@ -25,6 +25,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly SorFileRepository _sorFileRepository;
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
+        private readonly Smtp _smtp;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -33,9 +34,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService, MeasurementFactory measurementFactory,
             ClientStationsRepository clientStationsRepository, ClientToRtuTransmitter clientToRtuTransmitter,
-            RtuStationsRepository rtuStationsRepository, 
-             BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
-            SorFileRepository sorFileRepository)
+            RtuStationsRepository rtuStationsRepository, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
+            SorFileRepository sorFileRepository, Smtp smtp)
         {
             _logFile = logFile;
             _eventStoreService = eventStoreService;
@@ -45,6 +45,7 @@ namespace Iit.Fibertest.DataCenterCore
             _rtuStationsRepository = rtuStationsRepository;
             _sorFileRepository = sorFileRepository;
             _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
+            _smtp = smtp;
         }
 
         public async Task<int> SendCommands(List<string> jsons, string username, string clientIp) // especially for Migrator.exe
@@ -140,6 +141,12 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine($"Client {dto.ClientId.First6()} checked server connection");
             await Task.Delay(1);
             return true;
+        }
+
+        public async Task<bool> SendTestDispatch()
+        {
+            _logFile.AppendLine("Client asked test dispatch");
+            return await _smtp.SendTestDispatch();
         }
 
         public  async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)

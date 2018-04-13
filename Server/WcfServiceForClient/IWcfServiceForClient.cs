@@ -26,7 +26,7 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         // C2Database
         [OperationContract]
         Task<byte[]> GetSorBytes(int sorFileId);
-      
+
         // C2D
         [OperationContract]
         Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto);
@@ -36,6 +36,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
 
         [OperationContract]
         Task<bool> CheckServerConnection(CheckServerConnectionDto dto);
+
+        [OperationContract]
+        Task<bool> SendTestDispatch();
 
 
         // C2D2R

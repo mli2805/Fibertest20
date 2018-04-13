@@ -1721,4 +1721,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Show_on_map" xml:space="preserve">
     <value>Show on map</value>
   </data>
+  <data name="SID_Test_dispatch" xml:space="preserve">
+    <value>Test dispatch</value>
+  </data>
 </root>

@@ -72,6 +72,13 @@
         MySqlTcpPort,
         MySqlDbSchemePostfix,
 
+        // Smtp
+        SmtpHost,
+        SmtpPort,
+        MailFrom,
+        MailFromPassword,
+        SmtpTimeoutMs,
+
         // Map
         Zoom,
         CenterLatitude,

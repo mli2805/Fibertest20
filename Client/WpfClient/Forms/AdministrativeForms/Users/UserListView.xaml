@@ -12,6 +12,7 @@
     <DockPanel>
         <DockPanel DockPanel.Dock="Bottom">
             <Button DockPanel.Dock="Right" Name="Close" Content="{x:Static stringResources:Resources.SID_Close}"  IsDefault="True" Width="100" Margin="0,20,30,15"/>
+            <Button DockPanel.Dock="Right" Name="SendTest" Content="{x:Static stringResources:Resources.SID_Test_dispatch}"  IsDefault="True" Width="100" Margin="0,20,30,15"/>
             <Button Visibility="Hidden" />
         </DockPanel>
         <DataGrid Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedUser, Mode=TwoWay}"

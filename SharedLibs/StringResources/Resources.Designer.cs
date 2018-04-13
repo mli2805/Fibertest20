@@ -4205,6 +4205,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Test dispatch.
+        /// </summary>
+        public static string SID_Test_dispatch {
+            get {
+                return ResourceManager.GetString("SID_Test_dispatch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Test RTU communication functions.
         /// </summary>
         public static string SID_Test_RTU_communication_functions {

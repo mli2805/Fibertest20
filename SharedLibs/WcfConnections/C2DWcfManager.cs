@@ -220,6 +220,26 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<bool> SendTestDispatch()
+        {
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            if (wcfConnection == null)
+                return false;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.SendTestDispatch();
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return false;
+            }
+        }
+
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
             _logFile.AppendLine($@"Checking connection with RTU {dto.NetAddress.ToStringA()}");

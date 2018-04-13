@@ -13,6 +13,7 @@
         Watchdog,
         NetTcpBinding,
         MySql,
+        Smtp,
         Map,
         Miscellaneous,
         Migrator,
