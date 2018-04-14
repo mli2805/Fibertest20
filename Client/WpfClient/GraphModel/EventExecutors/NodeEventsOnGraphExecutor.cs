@@ -93,7 +93,7 @@ namespace Iit.Fibertest.Client
             if (nodeVm == null)
                 return;
             nodeVm.Title = evnt.Title;
-            nodeVm.Position = evnt.GpsCoors;
+            nodeVm.Position = evnt.Position;
         }
 
         public void RemoveNode(NodeRemoved evnt)

@@ -70,14 +70,15 @@ namespace Iit.Fibertest.Client
                 _landmarkBeforeChanges = (Landmark) value.Clone();
                 GpsInputSmallViewModel.Initialize(SelectedLandmark.GpsCoors);
                 SelectedEquipmentTypeItem = ComboItems.First(i => i.Type == SelectedLandmark.EquipmentType);
-                IsEquipmentEnabled = SelectedLandmark.EquipmentType != EquipmentType.EmptyNode &&
+                IsEquipmentEnabled = IsEditEnabled && SelectedLandmark.EquipmentType != EquipmentType.EmptyNode &&
                                      SelectedLandmark.EquipmentType != EquipmentType.Rtu;
                 NotifyOfPropertyChange();
             }
         }
 
-        private bool _isEquipmentEnabled;
+        public bool IsEditEnabled { get; set; }
 
+        private bool _isEquipmentEnabled;
         public bool IsEquipmentEnabled
         {
             get => _isEquipmentEnabled;
@@ -90,9 +91,10 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public OneLandmarkViewModel(GpsInputSmallViewModel gpsInputSmallViewModel, IWcfServiceForClient c2DWcfManager,
+        public OneLandmarkViewModel(CurrentUser currentUser, GpsInputSmallViewModel gpsInputSmallViewModel, IWcfServiceForClient c2DWcfManager,
             GraphReadModel graphReadModel,  ReflectogramManager reflectogramManager)
         {
+            IsEditEnabled = currentUser.Role <= Role.Root;
             _c2DWcfManager = c2DWcfManager;
             _graphReadModel = graphReadModel;
             _reflectogramManager = reflectogramManager;
@@ -123,9 +125,9 @@ namespace Iit.Fibertest.Client
                 _landmarkBeforeChanges.NodeComment != SelectedLandmark.NodeComment ||
                 _landmarkBeforeChanges.GpsCoors != GpsInputSmallViewModel.Get())
             {
-                return await _c2DWcfManager.SendCommandAsObj(
-                    new UpdateAndMoveNode{NodeId = SelectedLandmark.NodeId, Title = SelectedLandmark.NodeTitle,
-                        Comment = SelectedLandmark.NodeComment, GpsCoors = GpsInputSmallViewModel.Get()});
+                var cmd  = new UpdateAndMoveNode{NodeId = SelectedLandmark.NodeId, Title = SelectedLandmark.NodeTitle,
+                    Comment = SelectedLandmark.NodeComment, Position = GpsInputSmallViewModel.Get()};
+                return await _c2DWcfManager.SendCommandAsObj(cmd);
             }
             _graphReadModel.Extinguish();
             return null;

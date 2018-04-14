@@ -20,7 +20,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <GroupBox Header="{x:Static stringResources:Resources.SID_Node}" Margin="5,0" DockPanel.Dock="Top">
+            <GroupBox Header="{x:Static stringResources:Resources.SID_Node}" Margin="5,0" DockPanel.Dock="Top" IsEnabled="{Binding IsEditEnabled}">
                 <StackPanel>
                     <TextBox Margin="5" Height="25" Text="{Binding SelectedLandmark.NodeTitle}"/>
                     <TextBox Margin="5" Height="25" Text="{Binding SelectedLandmark.NodeComment}" />
@@ -32,12 +32,12 @@
                     <ComboBox Margin="5" Height="25" ItemsSource="{Binding ComboItems}" SelectedItem="{Binding SelectedEquipmentTypeItem}" />
                 </StackPanel>
             </GroupBox>
-            <GroupBox Grid.Row="0"  Grid.Column="2" Header="GPS coordinates" >
+            <GroupBox Grid.Row="0"  Grid.Column="2" Header="GPS coordinates"  IsEnabled="{Binding IsEditEnabled}">
                 <client:GpsInputSmallView DataContext="{Binding GpsInputSmallViewModel}"/>
             </GroupBox>
             <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Margin="5,5,0,0" Orientation="Horizontal">
-                <Button Width="140" Height="25" Margin="5" Name="Apply" Content="{x:Static stringResources:Resources.SID_Apply}" />
-                <Button Width="140" Height="25" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel_changes}" />
+                <Button Width="140" Height="25" Margin="5" Name="Apply" Content="{x:Static stringResources:Resources.SID_Apply}" IsEnabled="{Binding IsEditEnabled}"/>
+                <Button Width="140" Height="25" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel_changes}" IsEnabled="{Binding IsEditEnabled}"/>
                 <Button Width="140" Height="25" Margin="5" Name="ShowLandmarkOnMap" Content="{x:Static stringResources:Resources.SID_Show_on_map}"/>
                 <Button Width="140" Height="25" Margin="5" Name="ShowReflectogram" Content="{x:Static stringResources:Resources.SID_Reflectogram}"/>
             </StackPanel>

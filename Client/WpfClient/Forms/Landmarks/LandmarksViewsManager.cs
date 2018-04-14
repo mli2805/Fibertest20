@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Autofac;
+using Autofac.Core.Activators.Reflection;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
@@ -50,19 +51,12 @@ namespace Iit.Fibertest.Client
         {
             switch (e)
             {
-                case NodeUpdatedAndMoved evnt: UpdateAndMoveNode(evnt); return;
-                case EquipmentUpdated evnt: UpdateEquipment(evnt); return;
+                case EquipmentUpdated _: 
+                case NodeUpdatedAndMoved _:
+                case NodeUpdated _: 
+                case NodeMoved _: LaunchedViews.ForEach(v=>v.RefreshAsChangesReaction()); return;
             }
         }
 
-        private void UpdateAndMoveNode(NodeUpdatedAndMoved evnt)
-        {
-            LaunchedViews.ForEach(v=>v.UpdateAndMoveNode(evnt));
-        }
-
-        private void UpdateEquipment(EquipmentUpdated evnt)
-        {
-            LaunchedViews.ForEach(v => v.UpdateEquipment(evnt));
-        }
     }
 }

@@ -7,7 +7,7 @@ namespace Iit.Fibertest.Graph
     {
         public Guid NodeId { get; set; }
         public string Title { get; set; }
-        public PointLatLng GpsCoors { get; set; }
+        public PointLatLng Position { get; set; }
         public string Comment { get; set; }
     }
 }

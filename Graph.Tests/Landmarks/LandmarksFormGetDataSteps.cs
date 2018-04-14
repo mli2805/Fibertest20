@@ -27,6 +27,7 @@ namespace Graph.Tests
         {
             _vm = _sut.ClientContainer.Resolve<LandmarksViewModel>();
             _vm.InitializeFromTrace(_trace.TraceId).Wait();
+            _vm.SelectedGpsInputMode = _vm.GpsInputModes[0];
         }
 
         [Then(@"Проверяем вьюмодель")]
@@ -39,6 +40,7 @@ namespace Graph.Tests
             _vm.Rows[2].EquipmentType.Should().Be(Resources.SID_Other);
             _vm.Rows[3].EquipmentType.Should().Be(Resources.SID_CableReserve);
             _vm.Rows[4].EquipmentType.Should().Be(Resources.SID_Cross);
+            _vm.Rows[4].GpsCoors.Should().StartWith(@"55.1220");
 //            _vm.Rows[5].EquipmentType.Should().Be(Resources.SID_Node_without_equipment);
             _vm.Rows[5].EquipmentType.Should().Be(Resources.SID_Node);
             _vm.Rows[6].EquipmentType.Should().Be(Resources.SID_Terminal);
@@ -70,18 +72,15 @@ namespace Graph.Tests
             _vm.Rows[4].NodeTitle.Should().Be("");
             _vm.Rows[4].Distance.Should().Be(@" 10.150");
 
-//            _vm.Rows[5].EquipmentType.Should().Be(Resources.SID_Node_without_equipment);
             _vm.Rows[5].EquipmentType.Should().Be(Resources.SID_Node);
             _vm.Rows[5].Distance.Should().Be(@" 11.153");
 
             _vm.Rows[6].EquipmentType.Should().Be(Resources.SID_Terminal);
             _vm.Rows[6].Distance.Should().Be(@" 12.157");
-
-            _vm.TryClose();
         }
 
-        [When(@"Двигаем узел с проключением и меняем ему название")]
-        public void WhenДвигаемУзелСПроключениемИМеняемЕмуНазвание()
+        [When(@"При открытой форме ориентиров на карте двигаем узел с проключением и на форме узла меняем ему название")]
+        public void WhenПриОткрытойФормеОриентировНаКартеДвигаемУзелСПроключениемИНаФормеУзлаМеняемЕмуНазвание()
         {
             var nodeId = _sut.ReadModel.Nodes.First(n => n.TypeOfLastAddedEquipment == EquipmentType.Cross).NodeId;
 
@@ -96,13 +95,13 @@ namespace Graph.Tests
             _sut.Poller.EventSourcingTick().Wait();
         }
 
-        [Then(@"На форме ориентиров имя узла меняется")]
-        public void ThenНаФормеОриентировИмяУзлаМеняется()
+        [Then(@"После обновления формы ориентиров имя узла и его координаты меняются")]
+        public void ThenПослеОбновленияФормыОриентировИмяУзлаИЕгоКоординатыМеняются()
         {
-            _vm = _sut.ClientContainer.Resolve<LandmarksViewModel>();
-            _vm.InitializeFromTrace(_trace.TraceId).Wait();
+            _vm.RefreshOrChangeTrace().Wait();
 
             _vm.Rows[4].NodeTitle.Should().Be(@"Node 4");
+            _vm.Rows[4].GpsCoors.Should().StartWith(@"55.2000");
         }
 
         [Then(@"Расстояние до ориентира не меняется т к он привязан к событию")]
@@ -116,6 +115,63 @@ namespace Graph.Tests
         {
             _vm.Rows[3].Distance.Should().NotBe(@" 9.454");
             _vm.Rows[5].Distance.Should().NotBe(@" 11.153");
+        }
+
+        [When(@"Изменяет название первого узла")]
+        public void WhenИзменяетНазваниеПервогоУзла()
+        {
+            _vm.SelectedRow = _vm.Rows[1];
+            _vm.OneLandmarkViewModel.SelectedLandmark.NodeTitle = "some changes";
+        }
+
+        [When(@"Щелкает на любой другой строчке а затем назад на первом узле")]
+        public void WhenЩелкаетНаЛюбойДругойСтрочкеАЗатемНазадНаПервомУзле()
+        {
+            _vm.SelectedRow = _vm.Rows[0];
+            _vm.SelectedRow = _vm.Rows[1];
+
+        }
+
+        [Then(@"Название первого узла должно быть первоначальным")]
+        public void ThenНазваниеПервогоУзлаДолжноБытьПервоначальным()
+        {
+            _vm.OneLandmarkViewModel.SelectedLandmark.NodeTitle.Should().Be(null);
+        }
+
+        [When(@"Изменяет название и тип оборудования в первом узле")]
+        public void WhenИзменяетНазваниеИТипОборудованияВПервомУзле()
+        {
+            _vm.SelectedRow = _vm.Rows[1];
+            _vm.OneLandmarkViewModel.SelectedLandmark.EquipmentTitle = "New title for equipment in node 1";
+            _vm.OneLandmarkViewModel.SelectedLandmark.EquipmentType = EquipmentType.Other;
+      
+        }
+
+        [When(@"Изменяет название и координаты первого узла и жмет Применить")]
+        public void WhenИзменяетНазваниеИКоординатыПервогоУзлаИЖметПрименить()
+        {
+            _vm.OneLandmarkViewModel.SelectedLandmark.NodeTitle = "New title for node 1";
+            _vm.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLatitude.Degrees = "44";
+
+            _vm.OneLandmarkViewModel.Apply();
+            _sut.Poller.EventSourcingTick().Wait();
+            _vm.RefreshAsChangesReaction(); //TODO refactor tests to use LandmarkViewsManager
+        }
+
+        [Then(@"Меняются поля в строке на форме ориентиров")]
+        public void ThenМеняютсяПоляВСтрокеНаФормеОриентиров()
+        {
+            _vm.Rows[1].NodeTitle.Should().Be("New title for node 1");
+            _vm.Rows[1].EquipmentTitle.Should().Be("New title for equipment in node 1");
+            _vm.Rows[1].EquipmentType.Should().Be(EquipmentType.Other.ToLocalizedString());
+            _vm.Rows[1].GpsCoors.Should().StartWith("44");
+        }
+
+        [Then(@"Меняется положение узла на карте")]
+        public void ThenМеняетсяПоложениеУзлаНаКарте()
+        {
+            var nodeVm = _sut.GraphReadModel.Data.Nodes.First(n => n.Id == _vm.Rows[1].NodeId);
+            nodeVm.Position.ToDetailedString(_vm.SelectedGpsInputMode.Mode).Should().StartWith("44");
         }
 
     }

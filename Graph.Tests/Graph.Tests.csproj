@@ -212,12 +212,12 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EquipmentRemovedLight.feature</DependentUpon>
     </Compile>
-    <Compile Include="Landmarks\LandmaksFormGetDataSteps.cs">
-      <DependentUpon>LandmarksFormGetData.feature</DependentUpon>
-    </Compile>
     <Compile Include="Landmarks\LandmarksFormGetData.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>LandmarksFormGetData.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Landmarks\LandmarksFormGetDataSteps.cs">
       <DependentUpon>LandmarksFormGetData.feature</DependentUpon>
     </Compile>
     <Compile Include="Node\AdjustmentPointIntoFiberAdded.feature.cs">
