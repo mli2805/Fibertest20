@@ -96,6 +96,8 @@ namespace Iit.Fibertest.Client
         }
 
         private LandmarkRow _selectedRow;
+        private OneLandmarkViewModel _oneLandmarkViewModel;
+
         public LandmarkRow SelectedRow
         {
             get => _selectedRow;
@@ -109,7 +111,16 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public OneLandmarkViewModel OneLandmarkViewModel { get; set; }
+        public OneLandmarkViewModel OneLandmarkViewModel
+        {
+            get => _oneLandmarkViewModel;
+            set
+            {
+                if (Equals(value, _oneLandmarkViewModel)) return;
+                _oneLandmarkViewModel = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public LandmarksViewModel(ILifetimeScope globalScope, Model readModel, CurrentGpsInputMode currentGpsInputMode,
             LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,

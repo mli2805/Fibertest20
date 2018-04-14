@@ -103,6 +103,7 @@ namespace Iit.Fibertest.Client
 
         public async void Apply()
         {
+            _graphReadModel.Extinguish();
             await ApplyEquipment();
             await ApplyNode();
         }
@@ -129,7 +130,6 @@ namespace Iit.Fibertest.Client
                     Comment = SelectedLandmark.NodeComment, Position = GpsInputSmallViewModel.Get()};
                 return await _c2DWcfManager.SendCommandAsObj(cmd);
             }
-            _graphReadModel.Extinguish();
             return null;
         }
 
