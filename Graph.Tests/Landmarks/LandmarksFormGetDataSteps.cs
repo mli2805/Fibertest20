@@ -121,7 +121,7 @@ namespace Graph.Tests
         public void WhenИзменяетНазваниеПервогоУзла()
         {
             _vm.SelectedRow = _vm.Rows[1];
-            _vm.OneLandmarkViewModel.SelectedLandmark.NodeTitle = "some changes";
+            _vm.OneLandmarkViewModel.SelectedLandmark.NodeTitle = @"some changes";
         }
 
         [When(@"Щелкает на любой другой строчке а затем назад на первом узле")]
@@ -142,7 +142,7 @@ namespace Graph.Tests
         public void WhenИзменяетНазваниеИТипОборудованияВПервомУзле()
         {
             _vm.SelectedRow = _vm.Rows[1];
-            _vm.OneLandmarkViewModel.SelectedLandmark.EquipmentTitle = "New title for equipment in node 1";
+            _vm.OneLandmarkViewModel.SelectedLandmark.EquipmentTitle = @"New title for equipment in node 1";
             _vm.OneLandmarkViewModel.SelectedLandmark.EquipmentType = EquipmentType.Other;
       
         }
@@ -150,8 +150,8 @@ namespace Graph.Tests
         [When(@"Изменяет название и координаты первого узла и жмет Применить")]
         public void WhenИзменяетНазваниеИКоординатыПервогоУзлаИЖметПрименить()
         {
-            _vm.OneLandmarkViewModel.SelectedLandmark.NodeTitle = "New title for node 1";
-            _vm.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLatitude.Degrees = "44";
+            _vm.OneLandmarkViewModel.SelectedLandmark.NodeTitle = @"New title for node 1";
+            _vm.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLatitude.Degrees = @"44";
 
             _vm.OneLandmarkViewModel.Apply();
             _sut.Poller.EventSourcingTick().Wait();
@@ -161,17 +161,17 @@ namespace Graph.Tests
         [Then(@"Меняются поля в строке на форме ориентиров")]
         public void ThenМеняютсяПоляВСтрокеНаФормеОриентиров()
         {
-            _vm.Rows[1].NodeTitle.Should().Be("New title for node 1");
-            _vm.Rows[1].EquipmentTitle.Should().Be("New title for equipment in node 1");
+            _vm.Rows[1].NodeTitle.Should().Be(@"New title for node 1");
+            _vm.Rows[1].EquipmentTitle.Should().Be(@"New title for equipment in node 1");
             _vm.Rows[1].EquipmentType.Should().Be(EquipmentType.Other.ToLocalizedString());
-            _vm.Rows[1].GpsCoors.Should().StartWith("44");
+            _vm.Rows[1].GpsCoors.Should().StartWith(@"44");
         }
 
         [Then(@"Меняется положение узла на карте")]
         public void ThenМеняетсяПоложениеУзлаНаКарте()
         {
             var nodeVm = _sut.GraphReadModel.Data.Nodes.First(n => n.Id == _vm.Rows[1].NodeId);
-            nodeVm.Position.ToDetailedString(_vm.SelectedGpsInputMode.Mode).Should().StartWith("44");
+            nodeVm.Position.ToDetailedString(_vm.SelectedGpsInputMode.Mode).Should().StartWith(@"44");
         }
 
     }

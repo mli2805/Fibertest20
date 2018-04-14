@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Autofac;
-using Autofac.Core.Activators.Reflection;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
