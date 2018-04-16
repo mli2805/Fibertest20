@@ -187,8 +187,12 @@
     <Compile Include="ClientHeartbeat.cs" />
     <Compile Include="CurrentUser.cs" />
     <Compile Include="EventSourcing\EventArrivalNotifier.cs" />
-    <Compile Include="EventSourcing\GraphRenderer.cs" />
+    <Compile Include="EventSourcing\Rendering\CurrentZoneRenderer.cs" />
+    <Compile Include="EventSourcing\Rendering\ElementRenderer.cs" />
+    <Compile Include="EventSourcing\Rendering\RenderingManager.cs" />
     <Compile Include="EventSourcing\ReadyEventsLoader.cs" />
+    <Compile Include="EventSourcing\Rendering\RenderingApplier.cs" />
+    <Compile Include="EventSourcing\Rendering\RenderingResult.cs" />
     <Compile Include="Forms\AdministrativeForms\ChangePasswordView.xaml.cs">
       <DependentUpon>ChangePasswordView.xaml</DependentUpon>
     </Compile>

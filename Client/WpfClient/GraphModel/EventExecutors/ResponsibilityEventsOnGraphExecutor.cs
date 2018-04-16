@@ -7,14 +7,14 @@ namespace Iit.Fibertest.Client
     {
         private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
-        private readonly GraphRenderer _graphRenderer;
+        private readonly RenderingManager _renderingManager;
 
         public ResponsibilityEventsOnGraphExecutor(CurrentUser currentUser, Model readModel,
-            GraphRenderer graphRenderer)
+            RenderingManager renderingManager)
         {
             _currentUser = currentUser;
             _readModel = readModel;
-            _graphRenderer = graphRenderer;
+            _renderingManager = renderingManager;
         }
 
         public void ChangeResponsibilities(ResponsibilitiesChanged e)
@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Client
                 if (!pair.Value.Contains(_currentUser.ZoneId))
                     continue; // it's not current user's problem (other zones were changed)
 
-                _graphRenderer.ReRenderOneZoneOnResponsibilitiesChanged();
+                _renderingManager.ReRenderCurrentZoneOnResponsibilitiesChanged();
                 return;
             }
         }

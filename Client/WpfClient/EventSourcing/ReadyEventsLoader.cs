@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
         private readonly OpticalEventsExecutor _opticalEventsExecutor;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
-        private readonly GraphRenderer _graphRenderer;
+        private readonly RenderingManager _renderingManager;
 
         public ReadyEventsLoader(IMyLog logFile, ILocalDbManager localDbManager, IWcfServiceForClient c2DWcfManager, 
              EventsOnTreeExecutor eventsOnTreeExecutor,
@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Client
             OpticalEventsExecutor opticalEventsExecutor, 
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,  
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
-            GraphRenderer graphRenderer)
+            RenderingManager renderingManager)
         {
             _logFile = logFile;
             _localDbManager = localDbManager;
@@ -39,7 +39,7 @@ namespace Iit.Fibertest.Client
             _opticalEventsExecutor = opticalEventsExecutor;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
-            _graphRenderer = graphRenderer;
+            _renderingManager = renderingManager;
         }
 
         public async Task<int> Load()
@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Client
             var currentEventNumber = await LoadFromCache();
             currentEventNumber = await LoadFromDb(currentEventNumber);
             // some sort of parsing snapshot
-            _graphRenderer.RenderGraphOnApplicationStart();
+            _renderingManager.RenderGraphOnApplicationStart();
             _logFile.AppendLine(@"Rendering finished");
             return currentEventNumber;
         }
