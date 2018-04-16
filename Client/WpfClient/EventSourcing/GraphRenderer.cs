@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
@@ -11,15 +12,17 @@ namespace Iit.Fibertest.Client
         private readonly Model _model;
         private readonly GraphReadModel _graphReadModel;
         private readonly CurrentUser _currentUser;
+        private readonly IMyLog _logFile;
 
         private List<NodeVm> _nodesForRendering = new List<NodeVm>();
         private List<FiberVm> _fibersForRendering = new List<FiberVm>();
 
-        public GraphRenderer(Model model, GraphReadModel graphReadModel, CurrentUser currentUser)
+        public GraphRenderer(Model model, GraphReadModel graphReadModel, CurrentUser currentUser, IMyLog logFile)
         {
             _model = model;
             _graphReadModel = graphReadModel;
             _currentUser = currentUser;
+            _logFile = logFile;
         }
 
         public void RenderGraphOnApplicationStart()
@@ -44,9 +47,9 @@ namespace Iit.Fibertest.Client
 
         private void RenderOneZone()
         {
-            foreach (var rtu in _model.Rtus.Where(r=>r.ZoneIds.Contains(_currentUser.ZoneId)))
+            foreach (var rtu in _model.Rtus.Where(r => r.ZoneIds.Contains(_currentUser.ZoneId)))
             {
-                if (_nodesForRendering.Any(n=>n.Id == rtu.NodeId)) continue;
+                if (_nodesForRendering.Any(n => n.Id == rtu.NodeId)) continue;
                 var node = _model.Nodes.First(n => n.NodeId == rtu.NodeId);
                 _nodesForRendering.Add(Map(node));
             }
@@ -67,11 +70,15 @@ namespace Iit.Fibertest.Client
                 {
                     var fiberVm = _fibersForRendering.FirstOrDefault(f => f.Id == fiber.FiberId);
                     if (fiberVm == null)
+                    {
                         fiberVm = Map(fiber);
-                    fiberVm.States.Add(trace.TraceId, trace.State);
-                    if (fiber.TracesWithExceededLossCoeff.ContainsKey(trace.TraceId))
+                        _fibersForRendering.Add(fiberVm);
+                    }
+                    if (!fiberVm.States.ContainsKey(trace.TraceId)) // trace could contains loop (pass the same fiber twice or more)
+                        fiberVm.States.Add(trace.TraceId, trace.State);
+                    if (fiber.TracesWithExceededLossCoeff.ContainsKey(trace.TraceId) &&
+                        !fiberVm.TracesWithExceededLossCoeff.ContainsKey(trace.TraceId))
                         fiberVm.TracesWithExceededLossCoeff.Add(trace.TraceId, fiber.TracesWithExceededLossCoeff[trace.TraceId]);
-                    _fibersForRendering.Add(fiberVm);
                 }
             }
         }
@@ -87,8 +94,11 @@ namespace Iit.Fibertest.Client
 
         private void Transfer()
         {
+            _logFile.AppendLine($@"{_nodesForRendering.Count} nodes ready");
             foreach (var nodeVm in _nodesForRendering)
                 _graphReadModel.Data.Nodes.Add(nodeVm);
+
+            _logFile.AppendLine($@"{_fibersForRendering.Count} fibers ready");
             foreach (var fiberVm in _fibersForRendering)
                 _graphReadModel.Data.Fibers.Add(fiberVm);
         }
