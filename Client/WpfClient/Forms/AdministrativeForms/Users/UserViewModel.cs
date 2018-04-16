@@ -119,7 +119,8 @@ namespace Iit.Fibertest.Client
             IsPasswordsEnabled = false;
 
             Zones = _readModel.Zones;
-            SelectedZone = (UserInWork.IsDefaultZoneUser) ? Zones.First() : Zones.First(z=>z.ZoneId == user.ZoneId);
+//            SelectedZone = (UserInWork.IsDefaultZoneUser) ? Zones.First() : Zones.First(z=>z.ZoneId == user.ZoneId);
+            SelectedZone = Zones.First(z=>z.ZoneId == user.ZoneId);
         }
 
         protected override void OnViewLoaded(object view)
@@ -139,7 +140,6 @@ namespace Iit.Fibertest.Client
                     Email = UserInWork.Email,
                     IsEmailActivated = UserInWork.IsEmailActivated,
                     EncodedPassword = UserExt.FlipFlop(Password1),
-                    IsDefaultZoneUser = SelectedZone.IsDefaultZone,
                     ZoneId = SelectedZone.ZoneId,
                 };
             else
@@ -151,7 +151,6 @@ namespace Iit.Fibertest.Client
                     Email = UserInWork.Email,
                     IsEmailActivated = UserInWork.IsEmailActivated,
                     EncodedPassword = UserExt.FlipFlop(UserInWork.Password), // cannot be changed via this form
-                    IsDefaultZoneUser = SelectedZone.IsDefaultZone,
                     ZoneId = SelectedZone.ZoneId,
                 };
 

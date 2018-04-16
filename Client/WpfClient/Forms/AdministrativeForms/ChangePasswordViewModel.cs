@@ -147,7 +147,6 @@ namespace Iit.Fibertest.Client
                 Email = _user.Email,
                 IsEmailActivated = _user.IsEmailActivated,
                 EncodedPassword = UserExt.FlipFlop(Password1),
-                IsDefaultZoneUser = _user.IsDefaultZoneUser,
                 ZoneId = _user.ZoneId,
             };
             await _c2DWcfManager.SendCommandAsObj(cmd);

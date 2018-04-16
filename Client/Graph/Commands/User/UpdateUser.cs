@@ -12,6 +12,5 @@ namespace Iit.Fibertest.Graph
         public bool IsEmailActivated { get; set; }
         public Role Role { get; set; }
         public Guid ZoneId { get; set; }
-        public bool IsDefaultZoneUser { get; set; }
     }
 }

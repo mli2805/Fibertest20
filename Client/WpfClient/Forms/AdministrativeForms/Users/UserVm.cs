@@ -12,7 +12,6 @@ namespace Iit.Fibertest.Client
         private string _email;
         private bool _isEmailActivated;
         private Guid _zoneId;
-        private bool _isDefaultZoneUser;
         private string _zoneTitle;
 
         public Guid UserId { get; set; }
@@ -74,17 +73,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public bool IsDefaultZoneUser
-        {
-            get { return _isDefaultZoneUser; }
-            set
-            {
-                if (value == _isDefaultZoneUser) return;
-                _isDefaultZoneUser = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
         public string ZoneTitle
         {
             get { return _zoneTitle; }
@@ -109,7 +97,6 @@ namespace Iit.Fibertest.Client
             Role = user.Role;
             Email = user.Email;
             IsEmailActivated = user.IsEmailActivated;
-            IsDefaultZoneUser = user.IsDefaultZoneUser;
             ZoneTitle = zoneTitle;
             ZoneId = user.ZoneId;
         }
@@ -119,17 +106,6 @@ namespace Iit.Fibertest.Client
             return MemberwiseClone();
         }
 
-        public void CopyTo(UserVm destination)
-        {
-            destination.UserId = UserId;
-            destination.Title = Title;
-            destination.Role = Role;
-            destination.Password = Password;
-            destination.Email = Email;
-            destination.IsEmailActivated = IsEmailActivated;
-            destination.ZoneId = ZoneId;
-            destination.IsDefaultZoneUser = IsDefaultZoneUser;
-            destination.ZoneTitle = ZoneTitle;
-        }
+     
     }
 }

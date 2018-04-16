@@ -31,6 +31,7 @@ namespace Iit.Fibertest.Graph
                 case AddUser command: return _eventsQueue.Add(Mapper.Map<UserAdded>(command));
                 case UpdateUser command: return _eventsQueue.Add(Mapper.Map<UserUpdated>(command));
                 case RemoveUser command: return _eventsQueue.Add(Mapper.Map<UserRemoved>(command));
+                case UsersHiddenRtusSaved command: return _eventsQueue.Add(Mapper.Map<UsersHiddenRtusSaved>(command));
 
                 case AddZone command: return _eventsQueue.Add(Mapper.Map<ZoneAdded>(command));
                 case UpdateZone command: return _eventsQueue.Add(Mapper.Map<ZoneUpdated>(command));

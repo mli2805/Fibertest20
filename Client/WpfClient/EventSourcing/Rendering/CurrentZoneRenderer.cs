@@ -1,18 +1,21 @@
 ﻿using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
     public class CurrentZoneRenderer
     {
         private readonly Model _model;
+        private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
         private readonly RenderingResult _renderingResult = new RenderingResult();
 
-        public CurrentZoneRenderer(Model model, CurrentUser currentUser)
+        public CurrentZoneRenderer(Model model, IMyLog logFile, CurrentUser currentUser)
         {
             _model = model;
+            _logFile = logFile;
             _currentUser = currentUser;
         }
 
@@ -28,6 +31,8 @@ namespace Iit.Fibertest.Client
                 RenderFibersOfTrace(trace);
             }
 
+            _logFile.AppendLine($@"{_renderingResult.NodeVms.Count} nodes ready");
+            _logFile.AppendLine($@"{_renderingResult.FiberVms.Count} fibers ready");
             return _renderingResult;
         }
 

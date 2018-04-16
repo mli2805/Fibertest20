@@ -1,26 +1,21 @@
 ﻿using System.Linq;
-using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
     public class RenderingApplier
     {
-        private readonly IMyLog _logFile;
         private readonly GraphReadModel _graphReadModel;
 
-        public RenderingApplier(IMyLog logFile, GraphReadModel graphReadModel)
+        public RenderingApplier(GraphReadModel graphReadModel)
         {
-            _logFile = logFile;
             _graphReadModel = graphReadModel;
         }
 
         public void ToEmptyGraph(RenderingResult renderingResult)
         {
-            _logFile.AppendLine($@"{renderingResult.NodeVms.Count} nodes ready");
             foreach (var nodeVm in renderingResult.NodeVms)
                 _graphReadModel.Data.Nodes.Add(nodeVm);
 
-            _logFile.AppendLine($@"{renderingResult.FiberVms.Count} fibers ready");
             foreach (var fiberVm in renderingResult.FiberVms)
                 _graphReadModel.Data.Fibers.Add(fiberVm);
         }

@@ -31,5 +31,11 @@ namespace Iit.Fibertest.Graph
             _model.Users.Remove( _model.Users.First(f => f.UserId == e.UserId));
             return null;
         }
+
+        public string SaveUsersHiddenRtus(UsersHiddenRtusSaved e)
+        {
+            _model.Users.First(f => f.UserId == e.UserId).HiddenRtus = e.HiddenRtus;
+            return null;
+        }
     }
 }

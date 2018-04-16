@@ -121,6 +121,7 @@
     <Compile Include="Algorithms\AccidentPlaceLocator.cs" />
     <Compile Include="Algorithms\SorDataParsingReporter.cs" />
     <Compile Include="Commands\Node\UpdateAndMoveNode.cs" />
+    <Compile Include="Commands\User\SaveUsersHiddentRtus.cs" />
     <Compile Include="DomainEntities\Enums\CountMatch.cs" />
     <Compile Include="DomainEntities\Enums\RftsLevelTypeExt.cs" />
     <Compile Include="Algorithms\AccidentsFromSorExtractor.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="Events\MeasurementUpdated.cs" />
     <Compile Include="Events\User\UserAdded.cs" />
     <Compile Include="Events\User\UserRemoved.cs" />
+    <Compile Include="Events\User\UsersHiddenRtusSaved.cs" />
     <Compile Include="Events\User\UserUpdated.cs" />
     <Compile Include="DomainEntities\User.cs" />
     <Compile Include="Events\Zone\ZoneAdded.cs" />
