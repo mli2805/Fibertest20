@@ -64,6 +64,7 @@ namespace Iit.Fibertest.Client
         {
             if (dto.ReturnCode == ReturnCode.ClientRegisteredSuccessfully)
             {
+                _currentUser.UserId = dto.UserId;
                 _currentUser.UserName = UserName;
                 _currentUser.Role = dto.Role;
                 _currentUser.ZoneId = dto.ZoneId;

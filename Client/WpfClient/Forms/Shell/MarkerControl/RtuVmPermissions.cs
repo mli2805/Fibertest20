@@ -56,5 +56,10 @@ namespace Iit.Fibertest.Client
             var rtuVm = marker.Owner.GraphReadModel.ReadModel.Rtus.FirstOrDefault(r => r.NodeId == marker.GMapMarker.Id);
             return rtuVm != null;
         }
+
+        public bool CanHideTraces(object _)
+        {
+            return true;
+        }
     }
 }

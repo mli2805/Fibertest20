@@ -27,5 +27,10 @@ namespace Iit.Fibertest.Client
             marker.Owner.GraphReadModel.GrmRtuRequests.DefineTraceStepByStep(marker.GMapMarker.Id, marker.Title);
         }
 
+        public async void HideTraces(object parameter)
+        {
+            var marker = (MarkerControl)parameter;
+            await marker.Owner.GraphReadModel.GrmRtuRequests.SaveUsersHiddenRtus(marker.GMapMarker.Id);
+        }
     }
 }

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
@@ -11,6 +13,7 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
         private readonly RenderingResult _renderingResult = new RenderingResult();
+        private List<Guid> _hiddenRtus;
 
         public CurrentZoneRenderer(Model model, IMyLog logFile, CurrentUser currentUser)
         {
@@ -21,10 +24,12 @@ namespace Iit.Fibertest.Client
 
         public RenderingResult Do()
         {
+            _hiddenRtus = _model.Users.First(u => u.UserId == _currentUser.UserId).HiddenRtus;
+
             foreach (var rtu in _model.Rtus.Where(r => r.ZoneIds.Contains(_currentUser.ZoneId)))
                 RenderRtus(rtu);
 
-            foreach (var trace in _model.Traces.Where(t => t.ZoneIds.Contains(_currentUser.ZoneId)))
+            foreach (var trace in _model.Traces.Where(t => t.ZoneIds.Contains(_currentUser.ZoneId) && !_hiddenRtus.Contains(t.RtuId)))
             {
                 RenderNodesOfTrace(trace);
                 RenderAccidentNodesOfTrace(trace);

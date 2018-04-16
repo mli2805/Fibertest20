@@ -13,13 +13,16 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly Model _model;
+        private readonly CurrentUser _currentUser;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 
-        public GrmRtuRequests(ILifetimeScope globalScope, Model model, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+        public GrmRtuRequests(ILifetimeScope globalScope, Model model, CurrentUser currentUser,
+            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _model = model;
+            _currentUser = currentUser;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
         }
@@ -41,9 +44,7 @@ namespace Iit.Fibertest.Client
 
         public async Task RemoveRtu(RequestRemoveRtu request)
         {
-            var rtu = _model.Rtus.FirstOrDefault(r => r.NodeId == request.NodeId);
-            if (rtu == null)
-                return;
+            var rtu = _model.Rtus.First(r => r.NodeId == request.NodeId);
             var cmd = new RemoveRtu() { RtuId = rtu.Id, RtuNodeId = request.NodeId };
             await _c2DWcfManager.SendCommandAsObj(cmd);
         }
@@ -53,6 +54,18 @@ namespace Iit.Fibertest.Client
             var vm = _globalScope.Resolve<TraceStepByStepViewModel>();
             vm.Initialize(rtuNodeId, rtuTitle);
             _windowManager.ShowWindowWithAssignedOwner(vm);
+        }
+
+        public async Task SaveUsersHiddenRtus(Guid rtuNodeId)
+        {
+            var rtu = _model.Rtus.First(r => r.NodeId == rtuNodeId);
+            var user = _model.Users.First(u => u.UserId == _currentUser.UserId);
+            if (user.HiddenRtus.Contains(rtu.Id))
+                user.HiddenRtus.Remove(rtu.Id);
+            else
+                user.HiddenRtus.Add(rtu.Id);
+            var cmd = new SaveUsersHiddentRtus(){UserId = user.UserId, HiddenRtus = user.HiddenRtus};
+            await _c2DWcfManager.SendCommandAsObj(cmd);
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly IEventStoreInitializer _eventStoreInitializer;
         private IStoreEvents _storeEvents;
-        private CommandAggregator _commandAggregator;
+        private readonly CommandAggregator _commandAggregator;
         private readonly EventsQueue _eventsQueue;
         private readonly EventsOnModelExecutor _eventsOnModelExecutor;
 
