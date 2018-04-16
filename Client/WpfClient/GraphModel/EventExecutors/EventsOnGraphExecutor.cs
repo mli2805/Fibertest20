@@ -11,12 +11,13 @@ namespace Iit.Fibertest.Client
         private readonly RtuEventsOnGraphExecutor _rtuEventsOnGraphExecutor;
         private readonly AccidentEventsOnGraphExecutor _accidentEventsOnGraphExecutor;
         private readonly ResponsibilityEventsOnGraphExecutor _responsibilityEventsOnGraphExecutor;
+        private readonly RenderingManager _renderingManager;
 
         public EventsOnGraphExecutor(NodeEventsOnGraphExecutor nodeEventsOnGraphExecutor, 
             FiberEventsOnGraphExecutor fiberEventsOnGraphExecutor,
             EquipmentEventsOnGraphExecutor equipmentsExtor, TraceEventsOnGraphExecutor traceEventsOnGraphExecutor, 
             RtuEventsOnGraphExecutor rtuEventsOnGraphExecutor, AccidentEventsOnGraphExecutor accidentEventsOnGraphExecutor,
-            ResponsibilityEventsOnGraphExecutor responsibilityEventsOnGraphExecutor)
+            ResponsibilityEventsOnGraphExecutor responsibilityEventsOnGraphExecutor, RenderingManager renderingManager)
         {
             _nodeEventsOnGraphExecutor = nodeEventsOnGraphExecutor;
             _equipmentsExtor = equipmentsExtor;
@@ -25,6 +26,7 @@ namespace Iit.Fibertest.Client
             _rtuEventsOnGraphExecutor = rtuEventsOnGraphExecutor;
             _accidentEventsOnGraphExecutor = accidentEventsOnGraphExecutor;
             _responsibilityEventsOnGraphExecutor = responsibilityEventsOnGraphExecutor;
+            _renderingManager = renderingManager;
         }
 
         public void Apply(object e)
@@ -59,6 +61,7 @@ namespace Iit.Fibertest.Client
                 case RtuRemoved evnt: _rtuEventsOnGraphExecutor.RemoveRtu(evnt); return;
 
                 case ResponsibilitiesChanged evnt: _responsibilityEventsOnGraphExecutor.ChangeResponsibilities(evnt); return;
+                case UsersHiddenRtusSaved _: _renderingManager.ReRenderCurrentZoneOnUsersHiddenTracesChanged(); return;
 
                 default: return;
             }

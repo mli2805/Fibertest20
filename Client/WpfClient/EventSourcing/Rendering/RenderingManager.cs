@@ -25,8 +25,12 @@
         }
 
         // Hide traces of RTU
-        public void ReRenderCurrentZoneOnUserHideRtuTraces() { }
-      
+        public void ReRenderCurrentZoneOnUsersHiddenTracesChanged()
+        {
+            var renderingResult = _currentZoneRenderer.Do();
+            _renderingApplier.ToExistingGraph(renderingResult);
+        }
+
         // Show traces of RTU
 
     }
