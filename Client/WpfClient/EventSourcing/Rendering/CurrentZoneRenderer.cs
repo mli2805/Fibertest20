@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _model;
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
-        private readonly RenderingResult _renderingResult = new RenderingResult();
+        private RenderingResult _renderingResult;
         private List<Guid> _hiddenRtus;
 
         public CurrentZoneRenderer(Model model, IMyLog logFile, CurrentUser currentUser)
@@ -24,6 +24,7 @@ namespace Iit.Fibertest.Client
 
         public RenderingResult Do()
         {
+            _renderingResult = new RenderingResult();
             _hiddenRtus = _model.Users.First(u => u.UserId == _currentUser.UserId).HiddenRtus;
 
             foreach (var rtu in _model.Rtus.Where(r => r.ZoneIds.Contains(_currentUser.ZoneId)))
