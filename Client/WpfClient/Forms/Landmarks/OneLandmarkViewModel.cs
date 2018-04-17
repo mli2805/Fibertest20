@@ -14,35 +14,12 @@ namespace Iit.Fibertest.Client
         public string TraceTitle;
         public DateTime PreciseTimestamp;
         public int SorFileId;
+        public Guid RtuId;
 
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly GraphReadModel _graphReadModel;
         private readonly ReflectogramManager _reflectogramManager;
 
-        public List<EquipmentTypeComboItem> ComboItems { get; set; } 
-            = new List<EquipmentTypeComboItem>()
-            {
-                new EquipmentTypeComboItem(EquipmentType.EmptyNode),
-                new EquipmentTypeComboItem(EquipmentType.CableReserve),
-                new EquipmentTypeComboItem(EquipmentType.Closure),
-                new EquipmentTypeComboItem(EquipmentType.Cross),
-                new EquipmentTypeComboItem(EquipmentType.Other),
-                new EquipmentTypeComboItem(EquipmentType.Terminal),
-                new EquipmentTypeComboItem(EquipmentType.Rtu)
-            };
-
-        private EquipmentTypeComboItem _selectedEquipmentTypeItem;
-        public EquipmentTypeComboItem SelectedEquipmentTypeItem
-        {
-            get => _selectedEquipmentTypeItem;
-            set
-            {
-                if (Equals(value, _selectedEquipmentTypeItem)) return;
-                _selectedEquipmentTypeItem = value;
-                SelectedLandmark.EquipmentType = value.Type;
-                NotifyOfPropertyChange();
-            }
-        }
 
         private GpsInputSmallViewModel _gpsInputSmallViewModel;
         public GpsInputSmallViewModel GpsInputSmallViewModel
@@ -58,27 +35,72 @@ namespace Iit.Fibertest.Client
 
         private Landmark _landmarkBeforeChanges;
 
+        private EquipmentTypeComboItem _selectedEquipmentTypeItem;
+        public EquipmentTypeComboItem SelectedEquipmentTypeItem
+        {
+            get => _selectedEquipmentTypeItem;
+            set
+            {
+                if (Equals(value, _selectedEquipmentTypeItem) || value == null) return;
+                _selectedEquipmentTypeItem = value;
+                SelectedLandmark.EquipmentType = value.Type;
+                NotifyOfPropertyChange();
+            }
+        }
+
         private Landmark _selectedLandmark;
         public Landmark SelectedLandmark
         {
             get => _selectedLandmark;
             set
             {
-              //  if (Equals(value, _selectedLandmark) || value == null) return;
                 if (value == null) return;
                 _selectedLandmark = value;
-                _landmarkBeforeChanges = (Landmark) value.Clone();
-                GpsInputSmallViewModel.Initialize(SelectedLandmark.GpsCoors);
-                SelectedEquipmentTypeItem = ComboItems.First(i => i.Type == SelectedLandmark.EquipmentType);
-                IsEquipmentEnabled = IsEditEnabled && SelectedLandmark.EquipmentType != EquipmentType.EmptyNode &&
-                                     SelectedLandmark.EquipmentType != EquipmentType.Rtu;
+                InitializeUserControl();
                 NotifyOfPropertyChange();
             }
+        }
+
+        private void InitializeUserControl()
+        {
+            _landmarkBeforeChanges = (Landmark) _selectedLandmark.Clone();
+            GpsInputSmallViewModel.Initialize(SelectedLandmark.GpsCoors);
+            ComboItems = GetItems(SelectedLandmark.EquipmentType);
+            SelectedEquipmentTypeItem = ComboItems.First(i => i.Type == SelectedLandmark.EquipmentType);
+            IsEquipmentEnabled = IsEditEnabled && SelectedLandmark.EquipmentType != EquipmentType.EmptyNode &&
+                                 SelectedLandmark.EquipmentType != EquipmentType.Rtu;
+        }
+
+        private List<EquipmentTypeComboItem> _comboItems;
+        public List<EquipmentTypeComboItem> ComboItems
+        {
+            get => _comboItems;
+            set
+            {
+                if (Equals(value, _comboItems)) return;
+                _comboItems = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private List<EquipmentTypeComboItem> GetItems(EquipmentType type)
+        {
+            if (type == EquipmentType.Rtu) return new List<EquipmentTypeComboItem> { new EquipmentTypeComboItem(EquipmentType.Rtu) };
+            if (type == EquipmentType.EmptyNode) return new List<EquipmentTypeComboItem> { new EquipmentTypeComboItem(EquipmentType.EmptyNode) };
+            return new List<EquipmentTypeComboItem>
+            {
+                new EquipmentTypeComboItem(EquipmentType.Closure),
+                new EquipmentTypeComboItem(EquipmentType.Cross),
+                new EquipmentTypeComboItem(EquipmentType.Terminal),
+                new EquipmentTypeComboItem(EquipmentType.CableReserve),
+                new EquipmentTypeComboItem(EquipmentType.Other)
+            };
         }
 
         public bool IsEditEnabled { get; set; }
 
         private bool _isEquipmentEnabled;
+
         public bool IsEquipmentEnabled
         {
             get => _isEquipmentEnabled;
@@ -92,7 +114,7 @@ namespace Iit.Fibertest.Client
 
 
         public OneLandmarkViewModel(CurrentUser currentUser, GpsInputSmallViewModel gpsInputSmallViewModel, IWcfServiceForClient c2DWcfManager,
-            GraphReadModel graphReadModel,  ReflectogramManager reflectogramManager)
+            GraphReadModel graphReadModel, ReflectogramManager reflectogramManager)
         {
             IsEditEnabled = currentUser.Role <= Role.Root;
             _c2DWcfManager = c2DWcfManager;
@@ -114,8 +136,12 @@ namespace Iit.Fibertest.Client
                 _landmarkBeforeChanges.EquipmentType != SelectedLandmark.EquipmentType)
             {
                 return await _c2DWcfManager.SendCommandAsObj(
-                    new UpdateEquipment{EquipmentId = SelectedLandmark.EquipmentId,
-                        Title = SelectedLandmark.EquipmentTitle, Type = SelectedLandmark.EquipmentType});
+                    new UpdateEquipment
+                    {
+                        EquipmentId = SelectedLandmark.EquipmentId,
+                        Title = SelectedLandmark.EquipmentTitle,
+                        Type = SelectedLandmark.EquipmentType
+                    });
             }
             return null;
         }
@@ -126,8 +152,21 @@ namespace Iit.Fibertest.Client
                 _landmarkBeforeChanges.NodeComment != SelectedLandmark.NodeComment ||
                 _landmarkBeforeChanges.GpsCoors != GpsInputSmallViewModel.Get())
             {
-                var cmd  = new UpdateAndMoveNode{NodeId = SelectedLandmark.NodeId, Title = SelectedLandmark.NodeTitle,
-                    Comment = SelectedLandmark.NodeComment, Position = GpsInputSmallViewModel.Get()};
+                var cmd = SelectedLandmark.EquipmentType == EquipmentType.Rtu
+                    ? (object)new UpdateRtu()
+                    {
+                        RtuId = RtuId,
+                        Title = SelectedLandmark.NodeTitle,
+                        Comment = SelectedLandmark.NodeComment,
+                        Position = GpsInputSmallViewModel.Get()
+                    }
+                    : new UpdateAndMoveNode
+                    {
+                        NodeId = SelectedLandmark.NodeId,
+                        Title = SelectedLandmark.NodeTitle,
+                        Comment = SelectedLandmark.NodeComment,
+                        Position = GpsInputSmallViewModel.Get()
+                    };
                 return await _c2DWcfManager.SendCommandAsObj(cmd);
             }
             return null;

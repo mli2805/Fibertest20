@@ -96,8 +96,6 @@ namespace Iit.Fibertest.Client
         }
 
         private LandmarkRow _selectedRow;
-        private OneLandmarkViewModel _oneLandmarkViewModel;
-
         public LandmarkRow SelectedRow
         {
             get => _selectedRow;
@@ -111,6 +109,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private OneLandmarkViewModel _oneLandmarkViewModel;
         public OneLandmarkViewModel OneLandmarkViewModel
         {
             get => _oneLandmarkViewModel;
@@ -138,6 +137,7 @@ namespace Iit.Fibertest.Client
         private async Task<int> Initialize()
         {
             OneLandmarkViewModel = _globalScope.Resolve<OneLandmarkViewModel>();
+            OneLandmarkViewModel.RtuId = _selectedTrace.RtuId;
             var res = await PrepareLandmarks();
             SelectedRow = Rows.First();
             return res;
