@@ -20,6 +20,28 @@ namespace Iit.Fibertest.Client
         private readonly GraphReadModel _graphReadModel;
         private readonly ReflectogramManager _reflectogramManager;
 
+        public bool IsIncludeEquipmentEnabled
+        {
+            get => _isIncludeEquipmentEnabled;
+            set
+            {
+                if (value == _isIncludeEquipmentEnabled) return;
+                _isIncludeEquipmentEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsExcludeEquipmentEnabled
+        {
+            get => _isExcludeEquipmentEnabled;
+            set
+            {
+                if (value == _isExcludeEquipmentEnabled) return;
+                _isExcludeEquipmentEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
 
         private GpsInputSmallViewModel _gpsInputSmallViewModel;
         public GpsInputSmallViewModel GpsInputSmallViewModel
@@ -69,6 +91,8 @@ namespace Iit.Fibertest.Client
             SelectedEquipmentTypeItem = ComboItems.First(i => i.Type == SelectedLandmark.EquipmentType);
             IsEquipmentEnabled = IsEditEnabled && SelectedLandmark.EquipmentType != EquipmentType.EmptyNode &&
                                  SelectedLandmark.EquipmentType != EquipmentType.Rtu;
+
+            
         }
 
         private List<EquipmentTypeComboItem> _comboItems;
@@ -100,6 +124,8 @@ namespace Iit.Fibertest.Client
         public bool IsEditEnabled { get; set; }
 
         private bool _isEquipmentEnabled;
+        private bool _isIncludeEquipmentEnabled;
+        private bool _isExcludeEquipmentEnabled;
 
         public bool IsEquipmentEnabled
         {
@@ -194,5 +220,7 @@ namespace Iit.Fibertest.Client
             _reflectogramManager.SetTempFileName(TraceTitle, BaseRefType.Precise.ToString(), PreciseTimestamp);
             _reflectogramManager.ShowBaseReflectogramWithSelectedLandmark(SorFileId, SelectedLandmark.Number);
         }
+
+     
     }
 }

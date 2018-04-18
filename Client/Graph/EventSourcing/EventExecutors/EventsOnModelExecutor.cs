@@ -56,6 +56,8 @@ namespace Iit.Fibertest.Graph
                 case EquipmentAtGpsLocationWithNodeTitleAdded evnt: return _equipmentEventsOnModelExecutor.AddEquipmentAtGpsLocationWithNodeTitle(evnt); 
                 case EquipmentUpdated evnt: return _equipmentEventsOnModelExecutor.UpdateEquipment(evnt); 
                 case EquipmentRemoved evnt: return _equipmentEventsOnModelExecutor.RemoveEquipment(evnt); 
+                case EquipmentIntoTraceIncluded evnt: return _equipmentEventsOnModelExecutor.IncludeEquipmentIntoTrace(evnt); 
+                case EquipmentFromTraceExcluded evnt: return _equipmentEventsOnModelExecutor.ExcludeEquipmentFromTrace(evnt); 
 
                 case RtuAtGpsLocationAdded evnt: return _rtuEventsOnModelExecutor.AddRtuAtGpsLocation(evnt); 
                 case RtuUpdated evnt: return _rtuEventsOnModelExecutor.UpdateRtu(evnt); 

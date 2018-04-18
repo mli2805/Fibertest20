@@ -122,5 +122,21 @@ namespace Iit.Fibertest.Graph
             node.TypeOfLastAddedEquipment = _model.Equipments.Where(p => p.NodeId == node.NodeId).Max(q => q.Type);
             return null;
         }
+
+        public string IncludeEquipmentIntoTrace(EquipmentIntoTraceIncluded e)
+        {
+            var trace = _model.Traces.First(t => t.TraceId == e.TraceId);
+            trace.EquipmentIds[e.IndexInTrace] = e.EquipmentId;
+            return null;
+        }
+
+        public string ExcludeEquipmentFromTrace(EquipmentFromTraceExcluded e)
+        {
+            var trace = _model.Traces.First(t => t.TraceId == e.TraceId);
+            var nodeId = _model.Equipments.First(eq => eq.EquipmentId == e.EquipmentId).NodeId;
+            var emptyEqId = _model.Equipments.First(eq => eq.NodeId == nodeId && eq.Type == EquipmentType.EmptyNode).EquipmentId;
+            trace.EquipmentIds[e.IndexInTrace] = emptyEqId;
+            return null;
+        }
     }
 }

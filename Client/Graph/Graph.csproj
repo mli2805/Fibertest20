@@ -120,6 +120,10 @@
   <ItemGroup>
     <Compile Include="Algorithms\AccidentPlaceLocator.cs" />
     <Compile Include="Algorithms\SorDataParsingReporter.cs" />
+    <Compile Include="Events\Equipment\EquipmentFromTraceExcluded.cs" />
+    <Compile Include="Events\Equipment\EquipmentIntoTraceIncluded.cs" />
+    <Compile Include="Commands\Equipment\ExcludeEquipmentFromTrace.cs" />
+    <Compile Include="Commands\Equipment\IncludeEquipmentIntoTrace.cs" />
     <Compile Include="Commands\Node\UpdateAndMoveNode.cs" />
     <Compile Include="Commands\User\SaveUsersHiddentRtus.cs" />
     <Compile Include="DomainEntities\Enums\CountMatch.cs" />

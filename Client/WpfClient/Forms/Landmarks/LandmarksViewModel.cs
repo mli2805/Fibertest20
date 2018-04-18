@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
     public class LandmarksViewModel : Screen
     {
         public CurrentGpsInputMode CurrentGpsInputMode { get; }
-
+        private bool _isLandmarksFromBase;
         public List<GpsInputModeComboItem> GpsInputModes { get; set; } =
             (from mode in Enum.GetValues(typeof(GpsInputMode)).OfType<GpsInputMode>()
              select new GpsInputModeComboItem(mode)).ToList();
@@ -103,9 +103,26 @@ namespace Iit.Fibertest.Client
             {
                 if (value == null) return;
                 _selectedRow = value;
-                OneLandmarkViewModel.Cancel();
-                OneLandmarkViewModel.SelectedLandmark = (Landmark)_landmarks.First(l => l.NodeId == SelectedRow.NodeId).Clone();
+                InitiateOneLandmarkControl();
                 NotifyOfPropertyChange();
+            }
+        }
+
+        private void InitiateOneLandmarkControl()
+        {
+            OneLandmarkViewModel.Cancel();
+            var landmark = _landmarks.First(l => l.NodeId == SelectedRow.NodeId);
+            OneLandmarkViewModel.SelectedLandmark = (Landmark)landmark.Clone();
+
+            if (_isLandmarksFromBase || SelectedRow.Number == 0 || SelectedRow.Number == _landmarks.Last().Number)
+            {
+                OneLandmarkViewModel.IsIncludeEquipmentEnabled = false;
+                OneLandmarkViewModel.IsExcludeEquipmentEnabled = false;
+            }
+            else
+            {
+                OneLandmarkViewModel.IsIncludeEquipmentEnabled = landmark.EquipmentType == EquipmentType.EmptyNode;
+                OneLandmarkViewModel.IsExcludeEquipmentEnabled = !OneLandmarkViewModel.IsIncludeEquipmentEnabled;
             }
         }
 
@@ -181,6 +198,7 @@ namespace Iit.Fibertest.Client
         private async Task<int> PrepareLandmarks()
         {
             OneLandmarkViewModel.TraceTitle = SelectedTrace.Title;
+            _isLandmarksFromBase = SelectedTrace.PreciseId != Guid.Empty;
             if (SelectedTrace.PreciseId == Guid.Empty)
                 _landmarks = _landmarksGraphParser.GetLandmarks(SelectedTrace);
             else
@@ -226,6 +244,16 @@ namespace Iit.Fibertest.Client
         {
             OneLandmarkViewModel.Cancel();
             base.CanClose(callback);
+        }
+
+        public void IncludeEquipment()
+        {
+
+        }
+
+        public void ExcludeEquipment()
+        {
+
         }
     }
 }

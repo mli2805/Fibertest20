@@ -51,7 +51,9 @@ namespace Iit.Fibertest.Client
             switch (e)
             {
                 case RtuUpdated _: 
-                case EquipmentUpdated _: 
+                case EquipmentUpdated _:
+                case EquipmentIntoTraceIncluded _:
+                case EquipmentFromTraceExcluded _:
                 case NodeUpdatedAndMoved _:
                 case NodeUpdated _: 
                 case NodeMoved _: LaunchedViews.ForEach(v=>v.RefreshAsChangesReaction()); return;
