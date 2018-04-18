@@ -8,6 +8,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
     [ServiceContract]
     public interface IWcfServiceForClient
     {
+        void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp);
+
+
         [OperationContract]
         Task<int> SendCommands(List<string> jsons, string username, string clientIp); // especially for Migrator.exe
 

@@ -511,6 +511,22 @@
     <Compile Include="Trace\TraceUpdatedSteps.cs">
       <DependentUpon>TraceUpdated.feature</DependentUpon>
     </Compile>
+    <Compile Include="UsersAndZones\UsersPrivileges.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UsersPrivileges.feature</DependentUpon>
+    </Compile>
+    <Compile Include="UsersAndZones\UsersPrivilegesSteps.cs">
+      <DependentUpon>UsersPrivileges.feature</DependentUpon>
+    </Compile>
+    <Compile Include="UsersAndZones\Zones.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Zones.feature</DependentUpon>
+    </Compile>
+    <Compile Include="UsersAndZones\ZonesSteps.cs">
+      <DependentUpon>Zones.feature</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Accidents\AccidentsExtractor.feature">
@@ -692,6 +708,14 @@
     <None Include="Trace\TraceUpdated.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>TraceUpdated.feature.cs</LastGenOutput>
+    </None>
+    <None Include="UsersAndZones\UsersPrivileges.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>UsersPrivileges.feature.cs</LastGenOutput>
+    </None>
+    <None Include="UsersAndZones\Zones.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Zones.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

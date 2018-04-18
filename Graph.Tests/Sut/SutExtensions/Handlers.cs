@@ -103,6 +103,7 @@ namespace Graph.Tests
                 vm.Cancel();
             return true;
         }
+
         public static bool FiberUpdateHandler(this SystemUnderTest sut, object model, int userInputedLength, Answer answer)
         {
             if (!(model is FiberUpdateViewModel vm)) return false;
@@ -114,10 +115,37 @@ namespace Graph.Tests
             return true;
         }
 
+        public static bool ZoneHandler(this SystemUnderTest sut, object model, string zoneTitle, Answer answer)
+        {
+            if (!(model is ZoneViewModel vm)) return false;
+            vm.Title = zoneTitle;
+            if (answer == Answer.Yes)
+                vm.Save();
+            else
+                vm.Cancel();
+            return true;
+        }
 
-        public static bool EquipmentInfoViewModelHandler(this SystemUnderTest sut, object model, Answer button, 
-            EquipmentType equipmentType = SystemUnderTest.NewTypeForTest, 
-            int cableReserveLeft = SystemUnderTest.NewLeftCableReserve, 
+        public static bool UserHandler(this SystemUnderTest sut, object model, string username, string password, Guid zoneId, Answer answer)
+        {
+            if (!(model is UserViewModel vm)) return false;
+            vm.InitializeForCreate();
+            vm.UserInWork.Title = username;
+            vm.Password1 = password;
+            vm.Password2 = password;
+            vm.UserInWork.Role = Role.Operator;
+            vm.UserInWork.ZoneId = zoneId;
+            if (answer == Answer.Yes)
+                vm.Save();
+            else
+                vm.Cancel();
+            return true;
+        }
+
+
+        public static bool EquipmentInfoViewModelHandler(this SystemUnderTest sut, object model, Answer button,
+            EquipmentType equipmentType = SystemUnderTest.NewTypeForTest,
+            int cableReserveLeft = SystemUnderTest.NewLeftCableReserve,
             int cableReserveRight = SystemUnderTest.NewRightCableReserve,
             string newEquipmentTitle = "")
         {

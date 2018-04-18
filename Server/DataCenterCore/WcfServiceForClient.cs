@@ -48,6 +48,10 @@ namespace Iit.Fibertest.DataCenterCore
             _smtp = smtp;
         }
 
+        public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp) {
+            // tests need this function exists 
+        }
+
         public async Task<int> SendCommands(List<string> jsons, string username, string clientIp) // especially for Migrator.exe
         {
             var cmds = jsons.Select(json => JsonConvert.DeserializeObject(json, JsonSerializerSettings)).ToList();

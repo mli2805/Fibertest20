@@ -7,7 +7,6 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
@@ -97,7 +96,7 @@ namespace Iit.Fibertest.Client
 #endif
             _logFile.AppendLine(@"Client registration attempt");
             Status = Resources.SID_Client_registraion_is_performing;
-            using (new WaitCursor())
+            using (_globalScope.Resolve<IWaitCursor>())
             {
                 var result = await RegisterClientAsync();
                 ParseServerAnswer(result);
@@ -108,7 +107,8 @@ namespace Iit.Fibertest.Client
         {
             var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
             var clientAddresses = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
-            ((C2DWcfManager)_c2DWcfManager).SetServerAddresses(dcServiceAddresses, UserName, clientAddresses.Ip4Address);
+//            ((C2DWcfManager)_c2DWcfManager).SetServerAddresses(dcServiceAddresses, UserName, clientAddresses.Ip4Address);
+           _c2DWcfManager.SetServerAddresses(dcServiceAddresses, UserName, clientAddresses.Ip4Address);
 
             var result = await _c2DWcfManager.RegisterClientAsync(
                 new RegisterClientDto()

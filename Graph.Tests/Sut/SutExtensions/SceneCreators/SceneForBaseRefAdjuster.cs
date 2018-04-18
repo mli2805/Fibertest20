@@ -8,6 +8,31 @@ using Iit.Fibertest.Graph.Requests;
 
 namespace Graph.Tests
 {
+    public static class SceneForResponsibilityZones
+    {
+        public static Iit.Fibertest.Graph.Rtu SetInitializedRtuForZone1(this SystemUnderTest sut)
+        {
+            sut.FakeWindowManager.RegisterHandler(model => sut.RtuUpdateHandler(model, @"RTU for zone 1", @"doesn't matter", Answer.Yes));
+            sut.GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = 56, Longitude = 31 });
+            sut.Poller.EventSourcingTick().Wait();
+            var rtu = sut.ReadModel.Rtus.Last();
+
+            sut.InitializeRtu(rtu.Id, @"2.2.2.2", "", @"SM1550");
+            return rtu;
+        }
+
+        public static Iit.Fibertest.Graph.Trace SetTraceForZone(this SystemUnderTest sut, Guid rtuNodeId, string title)
+        {
+            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation() { Type = EquipmentType.Terminal }).Wait();
+            sut.Poller.EventSourcingTick().Wait();
+            var terminalNodeId = sut.ReadModel.Nodes.Last().NodeId;
+            sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = rtuNodeId, NodeId2 = terminalNodeId }).Wait();
+            sut.Poller.EventSourcingTick().Wait();
+
+            return sut.DefineTrace(terminalNodeId, rtuNodeId, title, 1);
+        }
+
+    }
     public static class SceneForBaseRefAdjuster
     {
         public static Iit.Fibertest.Graph.Rtu SetInitializedRtu(this SystemUnderTest sut)
@@ -70,18 +95,18 @@ namespace Graph.Tests
         public static void AddAdjustmentPoints(this SystemUnderTest sut, Iit.Fibertest.Graph.Trace trace)
         {
             var fibers = sut.ReadModel.GetTraceFibers(trace).ToArray();
-            sut.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber(){FiberId = fibers[1].FiberId, InjectionType = EquipmentType.AdjustmentPoint, Position = new PointLatLng(55.01,30.01)}).Wait();
+            sut.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber() { FiberId = fibers[1].FiberId, InjectionType = EquipmentType.AdjustmentPoint, Position = new PointLatLng(55.01, 30.01) }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var nodeOfPointId = sut.ReadModel.Nodes.Last().NodeId;
 
-            sut.GraphReadModel.GrmNodeRequests.MoveNode(new MoveNode() { NodeId = nodeOfPointId, Latitude = 55.0086, Longitude = 30.0114}).Wait();
+            sut.GraphReadModel.GrmNodeRequests.MoveNode(new MoveNode() { NodeId = nodeOfPointId, Latitude = 55.0086, Longitude = 30.0114 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
-            sut.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber(){FiberId = fibers[2].FiberId, InjectionType = EquipmentType.AdjustmentPoint, Position = new PointLatLng(55.0306,30.0298)}).Wait();
+            sut.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber() { FiberId = fibers[2].FiberId, InjectionType = EquipmentType.AdjustmentPoint, Position = new PointLatLng(55.0306, 30.0298) }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             nodeOfPointId = sut.ReadModel.Nodes.Last().NodeId;
 
-            sut.GraphReadModel.GrmNodeRequests.MoveNode(new MoveNode() { NodeId = nodeOfPointId, Latitude = 55.0326, Longitude = 30.0314}).Wait();
+            sut.GraphReadModel.GrmNodeRequests.MoveNode(new MoveNode() { NodeId = nodeOfPointId, Latitude = 55.0326, Longitude = 30.0314 }).Wait();
             sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -89,7 +114,7 @@ namespace Graph.Tests
         {
             sut.FakeWindowManager.RegisterHandler(model => sut.TraceChoiceHandler(model, new List<Guid>() { trace.TraceId }, Answer.Yes));
             sut.FakeWindowManager.RegisterHandler(model => sut.EquipmentInfoViewModelHandler(model, Answer.Yes, EquipmentType.CableReserve, 100));
-            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentIntoNode(new RequestAddEquipmentIntoNode() { NodeId = trace.NodeIds[5], IsCableReserveRequested = true}).Wait();
+            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentIntoNode(new RequestAddEquipmentIntoNode() { NodeId = trace.NodeIds[5], IsCableReserveRequested = true }).Wait();
             sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -97,7 +122,7 @@ namespace Graph.Tests
         {
             sut.FakeWindowManager.RegisterHandler(model => sut.TraceChoiceHandler(model, new List<Guid>() { trace.TraceId }, Answer.Yes));
             sut.FakeWindowManager.RegisterHandler(model => sut.EquipmentInfoViewModelHandler(model, Answer.Yes, EquipmentType.CableReserve, 40, 30));
-            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentIntoNode(new RequestAddEquipmentIntoNode() { NodeId = trace.NodeIds[5], IsCableReserveRequested = false}).Wait();
+            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentIntoNode(new RequestAddEquipmentIntoNode() { NodeId = trace.NodeIds[5], IsCableReserveRequested = false }).Wait();
             sut.Poller.EventSourcingTick().Wait();
         }
     }
