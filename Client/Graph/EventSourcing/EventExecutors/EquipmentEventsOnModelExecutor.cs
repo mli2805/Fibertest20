@@ -109,17 +109,17 @@ namespace Iit.Fibertest.Graph
             var traces = _model.Traces.Where(t => t.EquipmentIds.Contains(e.EquipmentId)).ToList();
             foreach (var trace in traces)
             {
-                var idx = trace.EquipmentIds.IndexOf(e.EquipmentId);
-                trace.EquipmentIds[idx] = emptyEquipment.EquipmentId;
+                while (true)
+                {
+                    var idx = trace.EquipmentIds.IndexOf(e.EquipmentId);
+                    if (idx == -1) break;
+                    trace.EquipmentIds[idx] = emptyEquipment.EquipmentId;
+                }
             }
 
             var node = _model.Nodes.First(n => n.NodeId == equipment.NodeId);
-
-//            _model.Equipments.Remove(_model.Equipments.First(eq => eq.Id == e.Id));
             _model.Equipments.Remove(equipment);
-
             node.TypeOfLastAddedEquipment = _model.Equipments.Where(p => p.NodeId == node.NodeId).Max(q => q.Type);
-
             return null;
         }
     }
