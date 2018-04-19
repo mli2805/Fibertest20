@@ -104,31 +104,37 @@ namespace Iit.Fibertest.Client
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (isAuthenticationSuccessfull == true)
             {
-                TabulatorViewModel.SelectedTabIndex = 4;
-                using (_globalScope.Resolve<IWaitCursor>())
-                {
-                    MainMenuViewModel.Initialize(_currentUser);
-                    var da = _iniFile.ReadDoubleAddress(11840);
-                    _server = da.Main.GetAddress();
-
-                    var localDbManager = (LocalDbManager)_globalScope.Resolve<ILocalDbManager>();
-                    localDbManager.Initialize(_server, _loginViewModel.GraphDbVersionOnServer);
-                    _clientPoller.CurrentEventNumber = await _readyEventsLoader.Load();
-                    _clientPoller.CancellationToken = _clientPollerCts.Token;
-                    _clientPoller.Start(); // graph events including monitoring results events
-
-                    _host.StartWcfListener(); // Accepts only monitoring step messages and out of turn measurements results
-
-                    _clientHeartbeat.Start();
-
-                    IsEnabled = true;
-                    DisplayName = $@"Fibertest v2.0 {_currentUser.UserName} as {_currentUser.Role.ToString()} [{_currentUser.ZoneTitle}]";
-                    TabulatorViewModel.SelectedTabIndex = 0; // the same value should be in TabulatorViewModel c-tor !!!
-                }
+                await InitializeModels();
             }
 
             else
                 TryClose();
+        }
+
+        private async Task InitializeModels()
+        {
+            TabulatorViewModel.SelectedTabIndex = 4;
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                MainMenuViewModel.Initialize(_currentUser);
+                var da = _iniFile.ReadDoubleAddress(11840);
+                _server = da.Main.GetAddress();
+
+                var localDbManager = (LocalDbManager) _globalScope.Resolve<ILocalDbManager>();
+                localDbManager.Initialize(_server, _loginViewModel.GraphDbVersionOnServer);
+                _clientPoller.CurrentEventNumber = await _readyEventsLoader.Load();
+                _clientPoller.CancellationToken = _clientPollerCts.Token;
+                _clientPoller.Start(); // graph events including monitoring results events
+
+                _host.StartWcfListener(); // Accepts only monitoring step messages and out of turn measurements results
+
+                _clientHeartbeat.Start();
+
+                IsEnabled = true;
+                DisplayName =
+                    $@"Fibertest v2.0 {_currentUser.UserName} as {_currentUser.Role.ToString()} [{_currentUser.ZoneTitle}]";
+                TabulatorViewModel.SelectedTabIndex = 0; // the same value should be in TabulatorViewModel c-tor !!!
+            }
         }
     }
 }

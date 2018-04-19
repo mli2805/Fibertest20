@@ -96,7 +96,7 @@ namespace Iit.Fibertest.Client
         private void InitializeView()
         {
             Servers = ServerList.Load(_logFile);
-            SelectedServer = Servers.FirstOrDefault(s=>s.IsLastSelected) ?? Servers.FirstOrDefault();
+            SelectedServer = Servers.FirstOrDefault(s => s.IsLastSelected) ?? Servers.FirstOrDefault();
             if (SelectedServer == null)
                 ToggleToAddServerMode();
             else
@@ -130,7 +130,7 @@ namespace Iit.Fibertest.Client
         public void ButtonPlus()
         {
             if (!_isInAddMode)
-             ToggleToAddServerMode();
+                ToggleToAddServerMode();
         }
 
         private void ToggleToAddServerMode()
@@ -169,7 +169,7 @@ namespace Iit.Fibertest.Client
             var newServer = new Server()
             {
                 Title = NewServerTitle,
-                ServerAddress = new DoubleAddress() { Main = _serverInWorkAddress },
+                ServerAddress = new DoubleAddress() { Main = (NetAddress)ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress().Clone() },
                 ClientIpAddress = _clientAddress,
                 IsLastSelected = true,
             };
@@ -182,9 +182,8 @@ namespace Iit.Fibertest.Client
         {
             if (_isInAddMode)
                 AddServerIntoList();
-            else
-                Servers.ForEach(s => s.IsLastSelected = s.Equals(SelectedServer));
 
+            Servers.ForEach(s => s.IsLastSelected = s.Equals(SelectedServer));
             SelectedServer.ServerAddress.Main = (NetAddress)ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress().Clone();
             _iniFile.WriteServerAddresses(SelectedServer.ServerAddress);
 

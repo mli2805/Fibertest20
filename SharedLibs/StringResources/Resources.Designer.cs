@@ -1746,6 +1746,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exclude equipment from trace.
+        /// </summary>
+        public static string SID_Exclude_equipment_from_trace {
+            get {
+                return ResourceManager.GetString("SID_Exclude_equipment_from_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exit.
         /// </summary>
         public static string SID_Exit {
@@ -1985,6 +1994,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_In_total__including_RTU {
             get {
                 return ResourceManager.GetString("SID_In_total__including_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Include equipment into trace.
+        /// </summary>
+        public static string SID_Include_equipment_into_trace {
+            get {
+                return ResourceManager.GetString("SID_Include_equipment_into_trace", resourceCulture);
             }
         }
         

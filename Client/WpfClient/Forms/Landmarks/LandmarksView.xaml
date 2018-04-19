@@ -68,8 +68,8 @@
                 </DataGrid.RowStyle>
                 <DataGrid.ContextMenu>
                     <ContextMenu>
-                        <MenuItem Header="Include equipment into trace" cal:Message.Attach="IncludeEquipment" IsEnabled="{Binding OneLandmarkViewModel.IsIncludeEquipmentEnabled}"/>
-                        <MenuItem Header="Exclude equipment from trace" cal:Message.Attach="ExcludeEquipment" IsEnabled="{Binding OneLandmarkViewModel.IsExcludeEquipmentEnabled}"/>
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Include_equipment_into_trace}" cal:Message.Attach="IncludeEquipment" IsEnabled="{Binding OneLandmarkViewModel.IsIncludeEquipmentEnabled}"/>
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Exclude_equipment_from_trace}" cal:Message.Attach="ExcludeEquipment" IsEnabled="{Binding OneLandmarkViewModel.IsExcludeEquipmentEnabled}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
             </DataGrid>

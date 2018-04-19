@@ -1742,4 +1742,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Longitude" xml:space="preserve">
 		<value>Долгота</value>
 	</data>
+	<data name="SID_Include_equipment_into_trace" xml:space="preserve">
+		<value>Включить оборудование в трассу</value>
+	</data>
+	<data name="SID_Exclude_equipment_from_trace" xml:space="preserve">
+		<value>Исключить оборудование из трассы</value>
+	</data>
 </root>
