@@ -80,8 +80,9 @@ namespace Iit.Fibertest.Client
             foreach (var nodeId in trace.NodeIds)
             {
                 if (_renderingResult.NodeVms.Any(n => n.Id == nodeId)) continue;
-                var node = _model.Nodes.First(n => n.NodeId == nodeId);
-                _renderingResult.NodeVms.Add(ElementRenderer.Map(node));
+                var node = _model.Nodes.FirstOrDefault(n => n.NodeId == nodeId);
+                if (node != null)
+                    _renderingResult.NodeVms.Add(ElementRenderer.Map(node));
             }
         }
 

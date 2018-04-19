@@ -5,7 +5,7 @@ using Iit.Fibertest.Graph.Requests;
 
 namespace Graph.Tests
 {
-    public static class SceneBasicTraceRtuEmptyTerminal
+    public static class TraceRtuEmptyTerminal
     {
         public static Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal(this SystemUnderTest sut, string title = @"some title")
         {

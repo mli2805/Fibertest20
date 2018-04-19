@@ -33,14 +33,17 @@ namespace Iit.Fibertest.Graph
         public static IEnumerable<Guid> GetFibersByNodes(this Model model, List<Guid> nodes)
         {
             for (int i = 1; i < nodes.Count; i++)
-                yield return GetFiberByNodes(model, nodes[i - 1], nodes[i]);
-        }
+            {
+                var fiber = model.Fibers.FirstOrDefault(
+                    f => f.NodeId1 == nodes[i - 1] && f.NodeId2 == nodes[i] ||
+                         f.NodeId1 == nodes[i] && f.NodeId2 == nodes[i - 1]);
 
-        private static Guid GetFiberByNodes(this Model model, Guid node1, Guid node2)
-        {
-            return model.Fibers.First(
-                f => f.NodeId1 == node1 && f.NodeId2 == node2 ||
-                     f.NodeId1 == node2 && f.NodeId2 == node1).FiberId;
+                if (fiber != null)
+                    yield return fiber.FiberId;
+
+//                var fiberId = fiber?.FiberId ?? Guid.Empty;
+//                yield return fiberId;
+            }
         }
 
         public static IEnumerable<Trace> GetTracesPassingFiber(this Model model, Guid fiberId)

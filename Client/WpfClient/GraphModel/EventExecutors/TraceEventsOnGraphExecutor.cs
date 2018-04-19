@@ -62,7 +62,8 @@ namespace Iit.Fibertest.Client
 
             foreach (var fiberId in evnt.FiberIds)
             {
-                var fiberVm = _model.Data.Fibers.First(f => f.Id == fiberId);
+                var fiberVm = _model.Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
+                if (fiberVm == null) continue;
                 fiberVm.RemoveState(evnt.TraceId);
                 if (fiberVm.State == FiberState.NotInTrace)
                     _model.Data.Fibers.Remove(fiberVm);
@@ -71,8 +72,8 @@ namespace Iit.Fibertest.Client
             {
                 if (_model.Data.Fibers.Any(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId))
                     continue;
-                var nodeVm = _model.Data.Nodes.First(n => n.Id == nodeId);
-                if (nodeVm.Type != EquipmentType.Rtu)
+                var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
+                if (nodeVm?.Type != EquipmentType.Rtu)
                     _model.Data.Nodes.Remove(nodeVm);
             }
         }

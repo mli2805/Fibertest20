@@ -9,5 +9,9 @@
         {
             InitializeComponent();
         }
+
+        private void UserControl_PreviewMouseRightButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+        }
     }
 }

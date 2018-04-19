@@ -289,11 +289,12 @@
     </Compile>
     <Compile Include="Sut\Enums\Answer.cs" />
     <Compile Include="Sut\SutExtensions\Handlers.cs" />
-    <Compile Include="Sut\SutExtensions\SceneCreators\SceneBasicTraceRtuEmptyTerminal.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\TraceRtuEmptyTerminal.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForAccidentsExtractor.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForBaseRefAdjuster.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForLandmarksForm.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForLossCoef.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\TraceWithLoop.cs" />
     <Compile Include="Sut\SutExtensions\Tools\OtauAttacher.cs" />
     <Compile Include="Sut\SutExtensions\Tools\BaseRefAssigner.cs" />
     <Compile Include="Sut\Enums\EquipmentChoiceAnswer.cs" />
@@ -511,6 +512,14 @@
     <Compile Include="Trace\TraceUpdatedSteps.cs">
       <DependentUpon>TraceUpdated.feature</DependentUpon>
     </Compile>
+    <Compile Include="Trace\TraceWithLoopCleanOrRemove.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>TraceWithLoopCleanOrRemove.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Trace\TraceWithLoopCleanOrRemoveSteps.cs">
+      <DependentUpon>TraceWithLoopCleanOrRemove.feature</DependentUpon>
+    </Compile>
     <Compile Include="UsersAndZones\UsersPrivileges.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -708,6 +717,10 @@
     <None Include="Trace\TraceUpdated.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>TraceUpdated.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Trace\TraceWithLoopCleanOrRemove.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>TraceWithLoopCleanOrRemove.feature.cs</LastGenOutput>
     </None>
     <None Include="UsersAndZones\UsersPrivileges.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

@@ -97,8 +97,8 @@ namespace Iit.Fibertest.Graph
                 if (_model.Fibers.Any(f => f.NodeId1 == traceNodeId || f.NodeId2 == traceNodeId))
                     continue;
 
-                var node = _model.Nodes.First(n => n.NodeId == traceNodeId);
-                if (node.TypeOfLastAddedEquipment != EquipmentType.Rtu)
+                var node = _model.Nodes.FirstOrDefault(n => n.NodeId == traceNodeId); // FirstOrDefault because of possible repetitions in trace
+                if (node?.TypeOfLastAddedEquipment != EquipmentType.Rtu)
                     _model.Nodes.Remove(node);
             }
 
