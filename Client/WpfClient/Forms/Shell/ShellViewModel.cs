@@ -68,6 +68,12 @@ namespace Iit.Fibertest.Client
 
         public override void CanClose(Action<bool> callback)
         {
+            var question = @"Close application?";
+            var vm = new MyMessageBoxViewModel(MessageType.Confirmation, question);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+
+            if (!vm.IsAnswerPositive) return;
+
             base.CanClose(callback);
             Task.Factory.StartNew(() =>
             {
@@ -120,7 +126,7 @@ namespace Iit.Fibertest.Client
                 var da = _iniFile.ReadDoubleAddress(11840);
                 _server = da.Main.GetAddress();
 
-                var localDbManager = (LocalDbManager) _globalScope.Resolve<ILocalDbManager>();
+                var localDbManager = (LocalDbManager)_globalScope.Resolve<ILocalDbManager>();
                 localDbManager.Initialize(_server, _loginViewModel.GraphDbVersionOnServer);
                 _clientPoller.CurrentEventNumber = await _readyEventsLoader.Load();
                 _clientPoller.CancellationToken = _clientPollerCts.Token;
@@ -136,5 +142,6 @@ namespace Iit.Fibertest.Client
                 TabulatorViewModel.SelectedTabIndex = 0; // the same value should be in TabulatorViewModel c-tor !!!
             }
         }
+
     }
 }
