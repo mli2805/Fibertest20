@@ -126,6 +126,7 @@ namespace Iit.Fibertest.Client
         private bool _isEquipmentEnabled;
         private bool _isIncludeEquipmentEnabled;
         private bool _isExcludeEquipmentEnabled;
+        private bool _isFromBaseRef;
 
         public bool IsEquipmentEnabled
         {
@@ -134,6 +135,17 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _isEquipmentEnabled) return;
                 _isEquipmentEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsFromBaseRef
+        {
+            get => _isFromBaseRef;
+            set
+            {
+                if (value == _isFromBaseRef) return;
+                _isFromBaseRef = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -218,7 +230,7 @@ namespace Iit.Fibertest.Client
         public void ShowReflectogram()
         {
             _reflectogramManager.SetTempFileName(TraceTitle, BaseRefType.Precise.ToString(), PreciseTimestamp);
-            _reflectogramManager.ShowBaseReflectogramWithSelectedLandmark(SorFileId, SelectedLandmark.Number);
+            _reflectogramManager.ShowBaseReflectogramWithSelectedLandmark(SorFileId, SelectedLandmark.Number+1);
         }
 
      

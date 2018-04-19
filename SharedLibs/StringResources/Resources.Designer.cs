@@ -2232,6 +2232,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Latitude.
+        /// </summary>
+        public static string SID_Latitude {
+            get {
+                return ResourceManager.GetString("SID_Latitude", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Left node.
         /// </summary>
         public static string SID_Left_node {
@@ -2291,6 +2300,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Long_operation__Removing_trace_s_measurements____Please_wait_ {
             get {
                 return ResourceManager.GetString("SID_Long_operation__Removing_trace_s_measurements____Please_wait_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Longitude.
+        /// </summary>
+        public static string SID_Longitude {
+            get {
+                return ResourceManager.GetString("SID_Longitude", resourceCulture);
             }
         }
         

@@ -39,7 +39,7 @@
                 <Button Width="140" Height="25" Margin="5" Name="Apply" Content="{x:Static stringResources:Resources.SID_Apply}" IsEnabled="{Binding IsEditEnabled}"/>
                 <Button Width="140" Height="25" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel_changes}" IsEnabled="{Binding IsEditEnabled}"/>
                 <Button Width="140" Height="25" Margin="5" Name="ShowLandmarkOnMap" Content="{x:Static stringResources:Resources.SID_Show_on_map}"/>
-                <Button Width="140" Height="25" Margin="5" Name="ShowReflectogram" Content="{x:Static stringResources:Resources.SID_Reflectogram}"/>
+                <Button Width="140" Height="25" Margin="5" Name="ShowReflectogram" Content="{x:Static stringResources:Resources.SID_Reflectogram}" IsEnabled="{Binding IsFromBaseRef}"/>
             </StackPanel>
         </Grid>
     </GroupBox>

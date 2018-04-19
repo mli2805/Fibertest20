@@ -5,19 +5,20 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
+             xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              mc:Ignorable="d" 
              d:DesignHeight="240" d:DesignWidth="400" d:DataContext="{d:DesignInstance client:GpsInputViewModel}"
              cal:Bind.ModelWithoutContext="{Binding .}">
     <StackPanel>
         <ComboBox ItemsSource="{Binding GpsInputModes}" SelectedItem="{Binding SelectedGpsInputModeComboItem, Mode=TwoWay}" Width="150" Height="25" Margin="5"/>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
-            <TextBlock Text="Широта" VerticalAlignment="Center" Margin="5" ToolTip="-90..90"/>
+            <TextBlock Text="{x:Static stringResources:Resources.SID_Latitude}" VerticalAlignment="Center" Width="55" Margin="5" ToolTip="-90..90"/>
             <client:OneCoorView Margin="5" DataContext="{Binding OneCoorViewModelLatitude}"/>
         </StackPanel>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,0">
-            <TextBlock Text="Долгота" VerticalAlignment="Center" Margin="5" ToolTip="-180..180"/>
+            <TextBlock Text="{x:Static stringResources:Resources.SID_Longitude}" VerticalAlignment="Center" Width="55" Margin="5" ToolTip="-180..180"/>
             <client:OneCoorView Margin="5" DataContext="{Binding OneCoorViewModelLongitude}"/>
         </StackPanel>
-        <Button Name="DropChanges" Content="Отменить изменения" Width="150" Margin="5" Height="25"/>
+        <Button Name="DropChanges" Content="{x:Static stringResources:Resources.SID_Cancel_changes}" Width="150" Margin="5" Height="25"/>
     </StackPanel>
 </UserControl>

@@ -81,6 +81,7 @@ namespace Iit.Fibertest.Client
         private readonly LandmarksBaseParser _landmarksBaseParser;
         private readonly LandmarksGraphParser _landmarksGraphParser;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWindowManager _windowManager;
         private List<Landmark> _landmarks;
 
         private ObservableCollection<LandmarkRow> _rows;
@@ -111,7 +112,7 @@ namespace Iit.Fibertest.Client
         private void InitiateOneLandmarkControl()
         {
             OneLandmarkViewModel.Cancel();
-            var landmark = _landmarks.First(l => l.NodeId == SelectedRow.NodeId);
+            var landmark = _landmarks.First(l => l.Number == SelectedRow.Number);
             OneLandmarkViewModel.SelectedLandmark = (Landmark)landmark.Clone();
 
             if (_isLandmarksFromBase || SelectedRow.Number == 0 || SelectedRow.Number == _landmarks.Last().Number)
@@ -124,6 +125,8 @@ namespace Iit.Fibertest.Client
                 OneLandmarkViewModel.IsIncludeEquipmentEnabled = landmark.EquipmentType == EquipmentType.EmptyNode;
                 OneLandmarkViewModel.IsExcludeEquipmentEnabled = !OneLandmarkViewModel.IsIncludeEquipmentEnabled;
             }
+
+            OneLandmarkViewModel.IsFromBaseRef = _isFromBaseRef;
         }
 
         private OneLandmarkViewModel _oneLandmarkViewModel;
@@ -140,7 +143,7 @@ namespace Iit.Fibertest.Client
 
         public LandmarksViewModel(ILifetimeScope globalScope, Model readModel, CurrentGpsInputMode currentGpsInputMode,
             LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,
-             IWcfServiceForClient c2DWcfManager)
+             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             CurrentGpsInputMode = currentGpsInputMode;
             _globalScope = globalScope;
@@ -148,6 +151,7 @@ namespace Iit.Fibertest.Client
             _landmarksBaseParser = landmarksBaseParser;
             _landmarksGraphParser = landmarksGraphParser;
             _c2DWcfManager = c2DWcfManager;
+            _windowManager = windowManager;
             _selectedGpsInputMode = GpsInputModes.First(i => i.Mode == CurrentGpsInputMode.Mode);
         }
 
@@ -195,16 +199,21 @@ namespace Iit.Fibertest.Client
             DisplayName = string.Format(Resources.SID_Landmarks_of_trace__0_, SelectedTrace.Title);
         }
 
+        private bool _isFromBaseRef;
         private async Task<int> PrepareLandmarks()
         {
             OneLandmarkViewModel.TraceTitle = SelectedTrace.Title;
             _isLandmarksFromBase = SelectedTrace.PreciseId != Guid.Empty;
             if (SelectedTrace.PreciseId == Guid.Empty)
+            {
                 _landmarks = _landmarksGraphParser.GetLandmarks(SelectedTrace);
+                _isFromBaseRef = false;
+            }
             else
             {
                 var sorData = await GetBase(SelectedTrace.PreciseId);
                 _landmarks = _landmarksBaseParser.GetLandmarks(sorData, SelectedTrace);
+                _isFromBaseRef = true;
             }
             Rows = LandmarksToRows();
             return 0;
@@ -224,8 +233,8 @@ namespace Iit.Fibertest.Client
 
         public async Task<int> RefreshOrChangeTrace() // button
         {
-            await PrepareLandmarks();
             OneLandmarkViewModel = _globalScope.Resolve<OneLandmarkViewModel>();
+            await PrepareLandmarks();
             SelectedRow = Rows.First();
             DisplayName = string.Format(Resources.SID_Landmarks_of_trace__0_, SelectedTrace.Title);
             return 0;
@@ -246,14 +255,34 @@ namespace Iit.Fibertest.Client
             base.CanClose(callback);
         }
 
-        public void IncludeEquipment()
+        public async void IncludeEquipment()
         {
+            var node = _readModel.Nodes.First(n => n.NodeId == SelectedRow.NodeId);
+            var allEquipmentInNode = _readModel.Equipments.Where(e => e.NodeId == node.NodeId).ToList();
+            var traceContentChoiceViewModel = _globalScope.Resolve<TraceContentChoiceViewModel>();
+            traceContentChoiceViewModel.Initialize(allEquipmentInNode, node, false);
+            _windowManager.ShowDialogWithAssignedOwner(traceContentChoiceViewModel);
+            if (!traceContentChoiceViewModel.ShouldWeContinue || 
+                traceContentChoiceViewModel.GetSelectedEquipmentGuid() == SelectedRow.EquipmentId) return;
 
+            var cmd = new IncludeEquipmentIntoTrace()
+                {
+                    TraceId = SelectedTrace.TraceId,
+                    IndexInTrace = SelectedRow.Number,
+                    EquipmentId = traceContentChoiceViewModel.GetSelectedEquipmentGuid()
+                };
+            await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
-        public void ExcludeEquipment()
+        public async void ExcludeEquipment()
         {
-
+            var cmd = new ExcludeEquipmentFromTrace()
+            {
+                TraceId = SelectedTrace.TraceId,
+                IndexInTrace = SelectedRow.Number,
+                EquipmentId = SelectedRow.EquipmentId,
+            };
+            await _c2DWcfManager.SendCommandAsObj(cmd);
         }
     }
 }

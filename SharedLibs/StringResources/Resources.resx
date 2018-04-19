@@ -1736,4 +1736,10 @@ RTU is initializing right now!</value>
 	<data name="SID__no_filter_" xml:space="preserve">
     <value>&lt;no filter&gt;</value>
   </data>
+	<data name="SID_Latitude" xml:space="preserve">
+    <value>Latitude</value>
+  </data>
+	<data name="SID_Longitude" xml:space="preserve">
+    <value>Longitude</value>
+  </data>
 </root>

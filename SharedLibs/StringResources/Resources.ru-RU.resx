@@ -1736,4 +1736,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID__no_filter_" xml:space="preserve">
 		<value>&lt;нет фильтра&gt;</value>
 	</data>
+	<data name="SID_Latitude" xml:space="preserve">
+		<value>Широта</value>
+	</data>
+	<data name="SID_Longitude" xml:space="preserve">
+		<value>Долгота</value>
+	</data>
 </root>

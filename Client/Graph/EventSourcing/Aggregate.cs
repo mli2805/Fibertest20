@@ -55,6 +55,8 @@ namespace Iit.Fibertest.Graph
                 case AddEquipmentAtGpsLocationWithNodeTitle command: return _eventsQueue.Add(Mapper.Map<EquipmentAtGpsLocationWithNodeTitleAdded>(command));
                 case UpdateEquipment command: return _eventsQueue.Add(Mapper.Map<EquipmentUpdated>(command));
                 case RemoveEquipment command: return _eventsQueue.Add(Mapper.Map<EquipmentRemoved>(command));
+                case IncludeEquipmentIntoTrace command: return _eventsQueue.Add(Mapper.Map<EquipmentIntoTraceIncluded>(command));
+                case ExcludeEquipmentFromTrace command: return _eventsQueue.Add(Mapper.Map<EquipmentFromTraceExcluded>(command));
 
                 case AddRtuAtGpsLocation command: return _eventsQueue.Add(Mapper.Map<RtuAtGpsLocationAdded>(command));
                 case UpdateRtu command: return _eventsQueue.Add(Mapper.Map<RtuUpdated>(command));
