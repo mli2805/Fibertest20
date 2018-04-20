@@ -23,14 +23,27 @@ namespace Iit.Fibertest.Client
 
         public static FiberVm Map(Fiber fiber, List<NodeVm> nodesForRendering)
         {
+            var nodeVm1 = nodesForRendering.FirstOrDefault(n => n.Id == fiber.NodeId1);
+            var nodeVm2 = nodesForRendering.FirstOrDefault(n => n.Id == fiber.NodeId2);
+            if (nodeVm1 == null || nodeVm2 == null) return null;
             return new FiberVm()
             {
                 Id = fiber.FiberId,
-                Node1 = nodesForRendering.First(n => n.Id == fiber.NodeId1),
-                Node2 = nodesForRendering.First(n => n.Id == fiber.NodeId2),
+                Node1 = nodeVm1,
+                Node2 = nodeVm2,
                 States = new Dictionary<Guid, FiberState>(),
                 TracesWithExceededLossCoeff = new Dictionary<Guid, FiberState>(),
             };
+        }
+
+        public static FiberVm MapWithStates(Fiber fiber, List<NodeVm> nodesForRendering)
+        {
+            var fiberVm = Map(fiber, nodesForRendering);
+            foreach (var pair in fiber.States)
+                fiberVm.States.Add(pair.Key, pair.Value);
+            foreach (var pair in fiber.TracesWithExceededLossCoeff)
+                fiberVm.TracesWithExceededLossCoeff.Add(pair.Key, pair.Value);
+            return fiberVm;
         }
     }
 }

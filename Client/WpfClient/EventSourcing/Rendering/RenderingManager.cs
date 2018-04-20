@@ -14,26 +14,21 @@
 
         public void RenderCurrentZoneOnApplicationStart()
         {
-            var renderingResult = _currentZoneRenderer.Do();
+            var renderingResult = _currentZoneRenderer.GetRendering();
             _renderingApplier.ToEmptyGraph(renderingResult);
         }
 
         public void ReRenderCurrentZoneOnResponsibilitiesChanged()
         {
-            var renderingResult = _currentZoneRenderer.Do();
+            var renderingResult = _currentZoneRenderer.GetRendering();
             _renderingApplier.ToExistingGraph(renderingResult);
         }
 
-        // Hide traces of RTU
+        // Show-Hide traces of RTU
         public void ReRenderCurrentZoneOnUsersHiddenTracesChanged()
         {
-            var renderingResult = _currentZoneRenderer.Do();
+            var renderingResult = _currentZoneRenderer.GetRendering();
             _renderingApplier.ToExistingGraph(renderingResult);
         }
-
-        // Show traces of RTU
-
     }
-
-  
 }

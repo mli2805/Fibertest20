@@ -1097,6 +1097,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Close application?.
+        /// </summary>
+        public static string SID_Close_application_ {
+            get {
+                return ResourceManager.GetString("SID_Close_application_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Closure.
         /// </summary>
         public static string SID_Closure {
@@ -1332,7 +1341,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Define trace strp by step.
+        ///   Looks up a localized string similar to Define trace step by step.
         /// </summary>
         public static string SID_Define_trace_step_by_step {
             get {

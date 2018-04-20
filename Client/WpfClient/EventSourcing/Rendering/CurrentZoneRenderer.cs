@@ -22,9 +22,22 @@ namespace Iit.Fibertest.Client
             _currentUser = currentUser;
         }
 
-        public RenderingResult Do()
+        public RenderingResult GetRendering()
         {
             _renderingResult = new RenderingResult();
+            if  (_currentUser.Role <= Role.Root)
+                RenderAllMinusHiddenTraces();
+            else
+                RenderVisibleRtusAndTraces();
+
+            _logFile.AppendLine($@"{_renderingResult.NodeVms.Count} nodes ready");
+            _logFile.AppendLine($@"{_renderingResult.FiberVms.Count} fibers ready");
+
+            return _renderingResult;
+        }
+
+        private void RenderVisibleRtusAndTraces()
+        {
             _hiddenRtus = _model.Users.First(u => u.UserId == _currentUser.UserId).HiddenRtus;
 
             foreach (var rtu in _model.Rtus.Where(r => r.ZoneIds.Contains(_currentUser.ZoneId)))
@@ -36,10 +49,57 @@ namespace Iit.Fibertest.Client
                 RenderAccidentNodesOfTrace(trace);
                 RenderFibersOfTrace(trace);
             }
+        }
 
-            _logFile.AppendLine($@"{_renderingResult.NodeVms.Count} nodes ready");
-            _logFile.AppendLine($@"{_renderingResult.FiberVms.Count} fibers ready");
-            return _renderingResult;
+        private void RenderAllMinusHiddenTraces()
+        {
+            RenderAll();
+
+            MinusHiddenTraces();
+        }
+
+        private void MinusHiddenTraces()
+        {
+            _hiddenRtus = _model.Users.First(u => u.UserId == _currentUser.UserId).HiddenRtus;
+            foreach (var trace in _model.Traces.Where(t => _hiddenRtus.Contains(t.RtuId)))
+            {
+                var fibers = _model.GetTraceFibers(trace);
+                foreach (var fiber in fibers)
+                {
+                    var fiberVm = _renderingResult.FiberVms.FirstOrDefault(f => f.Id == fiber.FiberId);
+                    if (fiberVm == null) continue;
+                    if (fiberVm.States.Count > 1)
+                    {
+                        fiberVm.States.Remove(trace.TraceId);
+                        if (fiberVm.TracesWithExceededLossCoeff.ContainsKey(trace.TraceId))
+                            fiberVm.TracesWithExceededLossCoeff.Remove(trace.TraceId);
+                    }
+                    else _renderingResult.FiberVms.Remove(fiberVm);
+                }
+
+                foreach (var nodeId in trace.NodeIds)
+                {
+                    if (_renderingResult.FiberVms.Any(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId)) continue;
+                    var nodeVm = _renderingResult.NodeVms.FirstOrDefault(n => n.Id == nodeId);
+                    if (nodeVm != null) _renderingResult.NodeVms.Remove(nodeVm);
+                }
+
+                foreach (var nodeVm in _renderingResult.NodeVms.Where(n => n.AccidentOnTraceVmId == trace.TraceId).ToList())
+                    _renderingResult.NodeVms.Remove(nodeVm);
+            }
+        }
+
+        private void RenderAll()
+        {
+            foreach (var node in _model.Nodes)
+                _renderingResult.NodeVms.Add(ElementRenderer.Map(node));
+
+            foreach (var fiber in _model.Fibers)
+            {
+                var fiberVm = ElementRenderer.MapWithStates(fiber, _renderingResult.NodeVms);
+                if (fiberVm != null)
+                    _renderingResult.FiberVms.Add(fiberVm);
+            }
         }
 
         private void RenderRtus(Rtu rtu)
@@ -53,10 +113,12 @@ namespace Iit.Fibertest.Client
             var fibers = _model.GetTraceFibers(trace);
             foreach (var fiber in fibers)
             {
-                var fiberVm = _renderingResult.FiberVms.FirstOrDefault(f => f.Id == fiber.FiberId);
+                var fiberVm = _renderingResult.FiberVms.FirstOrDefault(f => f.Id == fiber.FiberId); // prevent repeating fibers if trace has loop
                 if (fiberVm == null)
                 {
                     fiberVm = ElementRenderer.Map(fiber, _renderingResult.NodeVms);
+                    if (fiberVm == null) continue; // something goes wrong, nodeVms not found to define fiberVm
+
                     _renderingResult.FiberVms.Add(fiberVm);
                 }
 

@@ -378,7 +378,7 @@ If chosen trace use some equipment in this node it will be replaced</value>
     <value>Automatic mode</value>
   </data>
 	<data name="SID_Define_trace_step_by_step" xml:space="preserve">
-    <value>Define trace strp by step</value>
+    <value>Define trace step by step</value>
   </data>
 	<data name="SID_Attach_optical_switch" xml:space="preserve">
     <value>Attach optical switch</value>
@@ -417,7 +417,7 @@ If chosen trace use some equipment in this node it will be replaced</value>
     <value>Add node with cable reserve</value>
   </data>
 	<data name="SID_Add_node_with_sleeve" xml:space="preserve">
-    <value>Add node with sleeve</value>
+    <value>Add node with closure</value>
   </data>
 	<data name="SID_Add_node_with_cross" xml:space="preserve">
     <value>Add node with cross</value>
@@ -1747,5 +1747,8 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Exclude_equipment_from_trace" xml:space="preserve">
     <value>Exclude equipment from trace</value>
+  </data>
+	<data name="SID_Close_application_" xml:space="preserve">
+    <value>Close application?</value>
   </data>
 </root>

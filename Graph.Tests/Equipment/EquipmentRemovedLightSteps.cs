@@ -82,14 +82,14 @@ namespace Graph.Tests
         [When(@"Пользователь жмет удалить оборудование")]
         public void WhenПользовательЖметУдалитьОборудование()
         {
-            _vm.RemoveEquipment(new RemoveEquipment() { EquipmentId = _equipmentA1Id });
+            _vm.RemoveEquipment(new RemoveEquipment() { EquipmentId = _equipmentA1Id }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
         [When(@"Пользователь жмет удалить неиспользуемое оборудование")]
         public void WhenПользовательЖметУдалитьНеиспользуемоеОборудование()
         {
-            _vm.RemoveEquipment(new RemoveEquipment() { EquipmentId = _vm.EquipmentsInNode.First(item => item.Id == _notInTraceEquipmentId).Id });
+            _vm.RemoveEquipment(new RemoveEquipment() { EquipmentId = _vm.EquipmentsInNode.First(item => item.Id == _notInTraceEquipmentId).Id }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

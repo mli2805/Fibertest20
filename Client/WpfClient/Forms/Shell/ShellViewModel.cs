@@ -5,6 +5,7 @@ using System.Windows;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
@@ -68,7 +69,7 @@ namespace Iit.Fibertest.Client
 
         public override void CanClose(Action<bool> callback)
         {
-            var question = @"Close application?";
+            var question = Resources.SID_Close_application_;
             var vm = new MyMessageBoxViewModel(MessageType.Confirmation, question);
             _windowManager.ShowDialogWithAssignedOwner(vm);
 
@@ -109,10 +110,7 @@ namespace Iit.Fibertest.Client
             var isAuthenticationSuccessfull = _windowManager.ShowDialog(_loginViewModel);
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
             if (isAuthenticationSuccessfull == true)
-            {
                 await InitializeModels();
-            }
-
             else
                 TryClose();
         }

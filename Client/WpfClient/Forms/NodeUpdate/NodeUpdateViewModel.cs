@@ -190,7 +190,7 @@ namespace Iit.Fibertest.Client
             if (cmd is UpdateEquipment equipment)
                 LaunchUpdateEquipmentView(equipment.EquipmentId);
             else if (cmd is RemoveEquipment)
-                RemoveEquipment((RemoveEquipment)cmd);
+                await RemoveEquipment((RemoveEquipment)cmd);
             else
                 await AddEquipmentIntoNode();
         }
@@ -221,7 +221,7 @@ namespace Iit.Fibertest.Client
             await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
-        public async void RemoveEquipment(RemoveEquipment cmd)
+        public async Task RemoveEquipment(RemoveEquipment cmd)
         {
             await _c2DWcfManager.SendCommandAsObj(cmd);
         }

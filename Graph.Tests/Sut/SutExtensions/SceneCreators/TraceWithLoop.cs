@@ -35,12 +35,19 @@ namespace Graph.Tests
             var terminalId = sut.ReadModel.Equipments.Last(e => e.Type == EquipmentType.Terminal).EquipmentId;
 
             sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = nodeForRtuId, NodeId2 = closureNodeId }).Wait();
+            sut.Poller.EventSourcingTick().Wait();
+            var fiber = sut.ReadModel.Fibers.Last();
+            sut.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber(){FiberId = fiber.FiberId, InjectionType = EquipmentType.AdjustmentPoint}).Wait();
+            sut.Poller.EventSourcingTick().Wait();
+            var adjustmentNodeId1 = sut.ReadModel.Nodes.Last().NodeId;
+            var adjustmentEquipmentId1 = sut.ReadModel.Equipments.Last(e => e.Type == EquipmentType.AdjustmentPoint).EquipmentId;
+
             sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = closureNodeId, NodeId2 = crossNodeId }).Wait();
             sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = closureNodeId, NodeId2 = terminalNodeId }).Wait();
             sut.Poller.EventSourcingTick().Wait();
 
-            var traceNodes = new List<Guid>() { nodeForRtuId, closureNodeId, crossNodeId, closureNodeId, terminalNodeId };
-            var traceEquipments = new List<Guid>() { rtuId, closureId, crossId, closureId, terminalId };
+            var traceNodes = new List<Guid>() { nodeForRtuId, adjustmentNodeId1, closureNodeId, crossNodeId, closureNodeId, terminalNodeId };
+            var traceEquipments = new List<Guid>() { rtuId, adjustmentEquipmentId1, closureId, crossId, closureId, terminalId };
 
             var traceAddViewModel = sut.ClientContainer.Resolve<TraceInfoViewModel>();
             traceAddViewModel.Initialize(Guid.Empty, traceEquipments, traceNodes);

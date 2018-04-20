@@ -24,15 +24,7 @@ namespace Graph.Tests
             _trace = _sut.SetTraceFromRtuThrouhgAtoB(out _nodeAId, out _equipmentA1Id, out _nodeBId, out _equipmentB1Id);
         }
 
-        [Given(@"Трасса использует муфту А1 дважды")]
-        public void GivenТрассаИспользуетМуфтуА1Дважды()
-        {
-            _trace = _sut.CreateTraceDoublePassingClosure();
-            _nodeAId =  _trace.NodeIds[1];
-            _equipmentA1Id = _trace.EquipmentIds[1];
-        }
-
-
+      
         [Given(@"Для этой трассы задана базовая")]
         public void GivenДляЭтойТрассыЗаданаБазовая()
         {

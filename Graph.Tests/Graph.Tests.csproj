@@ -212,6 +212,14 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>EquipmentRemovedLight.feature</DependentUpon>
     </Compile>
+    <Compile Include="Equipment\EquipmentRemovedWithLoop.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EquipmentRemovedWithLoop.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Equipment\EquipmentRemovedWithLoopSteps.cs">
+      <DependentUpon>EquipmentRemovedWithLoop.feature</DependentUpon>
+    </Compile>
     <Compile Include="Landmarks\LandmarksFormGetData.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -592,6 +600,10 @@
     <None Include="Equipment\EquipmentRemovedLight.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>EquipmentRemovedLight.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Equipment\EquipmentRemovedWithLoop.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>EquipmentRemovedWithLoop.feature.cs</LastGenOutput>
     </None>
     <None Include="Equipment\EquipmentUpdated.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

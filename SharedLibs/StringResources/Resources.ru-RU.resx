@@ -1748,4 +1748,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Exclude_equipment_from_trace" xml:space="preserve">
 		<value>Исключить оборудование из трассы</value>
 	</data>
+	<data name="SID_Close_application_" xml:space="preserve">
+		<value>Закрыть приложение?</value>
+	</data>
 </root>
