@@ -62,6 +62,14 @@ namespace Graph.Tests.Equipment
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+#line 3
+#line 4
+ testRunner.Given("Трасса использует муфту А1 дважды", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+        }
+        
         public virtual void SetFixture(EquipmentRemovedWithLoopFeature.FixtureData fixtureData)
         {
         }
@@ -77,16 +85,38 @@ namespace Graph.Tests.Equipment
         public virtual void УдалениеОборудованияВходящегоВТрассуДваждыНоНеПоследнего()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление оборудования входящего в трассу дважды но не последнего", ((string[])(null)));
-#line 3
-this.ScenarioSetup(scenarioInfo);
-#line 4
- testRunner.Given("Трасса использует муфту А1 дважды", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 5
- testRunner.Given("Открыта форма для редактирования узла с муфтой А1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 6
- testRunner.When("Пользователь удаляет оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
 #line 7
+ testRunner.Given("Открыта форма для редактирования узла с муфтой А1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 8
+ testRunner.When("Пользователь удаляет оборудование", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 9
  testRunner.Then("Оборудование удаляется из обоих мест в трассе и в целом из графа", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Удаление двойного оборудования из одного шага")]
+        [Xunit.TraitAttribute("FeatureTitle", "EquipmentRemovedWithLoop")]
+        [Xunit.TraitAttribute("Description", "Удаление двойного оборудования из одного шага")]
+        public virtual void УдалениеДвойногоОборудованияИзОдногоШага()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление двойного оборудования из одного шага", ((string[])(null)));
+#line 11
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 12
+ testRunner.Given("Открыта форма ориентиров", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 13
+ testRunner.And("Две строки содержат муфту", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 14
+ testRunner.When("Пользователь исключает муфту из трассы на первом проходе", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 15
+ testRunner.Then("На первом проходе муфты нет на обратном есть", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

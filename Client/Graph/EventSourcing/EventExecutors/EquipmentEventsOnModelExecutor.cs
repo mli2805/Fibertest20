@@ -133,7 +133,7 @@ namespace Iit.Fibertest.Graph
         public string ExcludeEquipmentFromTrace(EquipmentFromTraceExcluded e)
         {
             var trace = _model.Traces.First(t => t.TraceId == e.TraceId);
-            var nodeId = _model.Equipments.First(eq => eq.EquipmentId == e.EquipmentId).NodeId;
+            var nodeId = trace.NodeIds[e.IndexInTrace];
             var emptyEqId = _model.Equipments.First(eq => eq.NodeId == nodeId && eq.Type == EquipmentType.EmptyNode).EquipmentId;
             trace.EquipmentIds[e.IndexInTrace] = emptyEqId;
             return null;

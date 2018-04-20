@@ -7,6 +7,7 @@ namespace Iit.Fibertest.Client
     {
         public Guid NodeId { get; set; }
         public int Number { get; set; }
+        public int NumberIncludingAdjustmentPoints { get; set; }
 
         public string NodeTitle
         {

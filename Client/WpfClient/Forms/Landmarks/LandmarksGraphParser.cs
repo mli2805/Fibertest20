@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Client
                 previousNode = node;
                 if (node.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint) continue;
 
-                var lm = CreateLandmark(node, trace.EquipmentIds[i], j++);
+                var lm = CreateLandmark(node, trace.EquipmentIds[i], j++, i);
                 lm.Distance = distance;
                 result.Add(lm);
             }
@@ -39,7 +39,7 @@ namespace Iit.Fibertest.Client
             return result;
         }
 
-        private Landmark CreateLandmark(Node node, Guid equipmentId, int number)
+        private Landmark CreateLandmark(Node node, Guid equipmentId, int number, int numberIncludingAdjustmentPoints)
         {
             var equipment = _readModel.Equipments.First(e => e.EquipmentId == equipmentId);
             var comment = number == 0
@@ -48,6 +48,7 @@ namespace Iit.Fibertest.Client
             return new Landmark()
             {
                 Number = number,
+                NumberIncludingAdjustmentPoints = numberIncludingAdjustmentPoints,
                 NodeId = node.NodeId,
                 NodeTitle = node.Title,
                 NodeComment = comment,

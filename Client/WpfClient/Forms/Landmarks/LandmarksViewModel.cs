@@ -32,7 +32,6 @@ namespace Iit.Fibertest.Client
             {
                 if (Equals(value, _selectedTrace)) return;
                 _selectedTrace = value;
-
             }
         }
 
@@ -279,7 +278,7 @@ namespace Iit.Fibertest.Client
             var cmd = new ExcludeEquipmentFromTrace()
             {
                 TraceId = SelectedTrace.TraceId,
-                IndexInTrace = SelectedRow.Number,
+                IndexInTrace = SelectedRow.NumberIncludingAdjustmentPoints,
                 EquipmentId = SelectedRow.EquipmentId,
             };
             await _c2DWcfManager.SendCommandAsObj(cmd);

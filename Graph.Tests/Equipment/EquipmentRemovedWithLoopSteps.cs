@@ -15,6 +15,7 @@ namespace Graph.Tests
         private Guid _nodeAId, _equipmentA1Id;
         private Iit.Fibertest.Graph.Trace _trace;
         private NodeUpdateViewModel _vm;
+        private LandmarksViewModel _lvm;
 
 
         [Given(@"Трасса использует муфту А1 дважды")]
@@ -48,6 +49,37 @@ namespace Graph.Tests
             _trace.EquipmentIds.Count.ShouldBeEquivalentTo(_trace.NodeIds.Count);
             _sut.ReadModel.Equipments.First(e => e.NodeId == _nodeAId).EquipmentId.ShouldBeEquivalentTo(_trace.EquipmentIds[2]);
             _trace.EquipmentIds.Contains(Guid.Empty).Should().BeFalse();
+        }
+
+        [Given(@"Открыта форма ориентиров")]
+        public void GivenОткрытаФормаОриентиров()
+        {
+            _lvm = _sut.ClientContainer.Resolve<LandmarksViewModel>();
+            _lvm.InitializeFromTrace(_trace.TraceId).Wait();
+            _lvm.Rows.Count.Should().Be(5);
+        }
+
+        [Given(@"Две строки содержат муфту")]
+        public void GivenДвеСтрокиСодержатМуфту()
+        {
+            _lvm.Rows[1].EquipmentId.Should().Be(_equipmentA1Id);
+            _lvm.Rows[3].EquipmentId.Should().Be(_equipmentA1Id);
+        }
+
+        [When(@"Пользователь исключает муфту из трассы на первом проходе")]
+        public void WhenПользовательИсключаетМуфтуИзТрассыНаПервомПроходе()
+        {
+            _lvm.SelectedRow = _lvm.Rows[1];
+            _lvm.ExcludeEquipment();
+            _sut.Poller.EventSourcingTick().Wait();
+            _lvm.RefreshAsChangesReaction(); // TODO start LandmarkViewModel through LandmarksViewsManager
+        }
+
+        [Then(@"На первом проходе муфты нет на обратном есть")]
+        public void ThenНаПервомПроходеМуфтыНетНаОбратномЕсть()
+        {
+            _lvm.Rows[1].EquipmentId.Should().NotBe(_equipmentA1Id);
+            _lvm.Rows[3].EquipmentId.Should().Be(_equipmentA1Id);
         }
 
     }
