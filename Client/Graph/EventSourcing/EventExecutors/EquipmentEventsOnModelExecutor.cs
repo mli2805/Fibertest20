@@ -134,7 +134,15 @@ namespace Iit.Fibertest.Graph
         {
             var trace = _model.Traces.First(t => t.TraceId == e.TraceId);
             var nodeId = trace.NodeIds[e.IndexInTrace];
-            var emptyEqId = _model.Equipments.First(eq => eq.NodeId == nodeId && eq.Type == EquipmentType.EmptyNode).EquipmentId;
+            var emptyEquipment = _model.Equipments.FirstOrDefault(eq => eq.NodeId == nodeId && eq.Type == EquipmentType.EmptyNode);
+            if (emptyEquipment == null)
+            {
+                var message = $@"EquipmentRemoved: There is no empty equipment in node {nodeId.First6()}";
+                _logFile.AppendLine(message);
+                return message;
+            }
+
+            var emptyEqId = emptyEquipment.EquipmentId;
             trace.EquipmentIds[e.IndexInTrace] = emptyEqId;
             return null;
         }
