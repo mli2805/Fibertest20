@@ -11,7 +11,6 @@ namespace Iit.Fibertest.Client
         private string _statistics;
 
         public ObservableCollection<Leaf> Tree { get; set; } = new ObservableCollection<Leaf>();
-        public FreePorts FreePorts { get; }
 
         public string Statistics
         {
@@ -24,14 +23,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TreeOfRtuModel(FreePorts freePorts, EventArrivalNotifier eventArrivalNotifier)
-        {
-            eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
-            FreePorts = freePorts;
-            FreePorts.AreVisible = true;
-        }
-
-        private void _eventArrivalNotifier_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        public void RefreshStatistics()
         {
             Statistics =
                 string.Format(Resources.SID_Tree_statistics, Tree.Count,

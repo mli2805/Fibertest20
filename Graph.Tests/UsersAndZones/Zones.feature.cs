@@ -88,8 +88,10 @@ this.ScenarioSetup(scenarioInfo);
 #line 7
  testRunner.And("В доп зону включаем только одна из трасс второго RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 8
- testRunner.When("Вход как оператор доп зоны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("Рут выходит из приложения", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 9
+ testRunner.When("Вход как оператор доп зоны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 10
  testRunner.Then("Видна только часть графа входящая в зону", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

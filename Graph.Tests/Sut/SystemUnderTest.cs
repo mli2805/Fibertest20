@@ -18,10 +18,10 @@ namespace Graph.Tests
         public ILifetimeScope ClientContainer { get; set; }
         public ILifetimeScope ServerContainer { get; set; }
 
-        public Model ReadModel { get; }
-        public GraphReadModel GraphReadModel { get; }
-        public TreeOfRtuModel TreeOfRtuModel { get; }
-        public TreeOfRtuViewModel TreeOfRtuViewModel { get; }
+        public Model ReadModel { get; set; }
+        public GraphReadModel GraphReadModel { get; set; }
+        public TreeOfRtuModel TreeOfRtuModel { get; set; }
+        public TreeOfRtuViewModel TreeOfRtuViewModel { get;  }
         public IMyLog MyLogFile { get; set; }
         public ClientPoller Poller { get; }
         public FakeWindowManager FakeWindowManager { get; }

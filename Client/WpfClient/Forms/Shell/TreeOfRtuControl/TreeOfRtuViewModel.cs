@@ -1,19 +1,32 @@
-﻿using Caliburn.Micro;
+﻿using System.Linq;
+using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
     public class TreeOfRtuViewModel : PropertyChangedBase
     {
         public TreeOfRtuModel TreeOfRtuModel { get; set; }
+        public FreePorts FreePorts { get; }
 
-        public TreeOfRtuViewModel(TreeOfRtuModel treeOfRtuModel)
+        public TreeOfRtuViewModel(TreeOfRtuModel treeOfRtuModel, FreePorts freePorts, EventArrivalNotifier eventArrivalNotifier)
         {
             TreeOfRtuModel = treeOfRtuModel;
+            TreeOfRtuModel.RefreshStatistics();
+
+            FreePorts = freePorts;
+            FreePorts.AreVisible = true;
+
+            eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
         }
 
         public void ChangeFreePortsVisibility()
         {
-            TreeOfRtuModel.FreePorts.AreVisible = !TreeOfRtuModel.FreePorts.AreVisible;
+            FreePorts.AreVisible = !FreePorts.AreVisible;
+        }
+        private void _eventArrivalNotifier_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            TreeOfRtuModel.RefreshStatistics();
         }
 
     }

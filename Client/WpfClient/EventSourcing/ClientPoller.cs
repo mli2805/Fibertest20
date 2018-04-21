@@ -34,7 +34,17 @@ namespace Iit.Fibertest.Client
         private readonly int _pollingRate;
         public CancellationToken CancellationToken { get; set; }
 
-        public int CurrentEventNumber { get; set; }
+        private int _currentEventNumber;
+        public int CurrentEventNumber
+        {
+            get => _currentEventNumber;
+            set
+            {
+                _currentEventNumber = value;
+                // some forms refresh their view because they have sent command previously and are waiting event's arrival
+                _eventArrivalNotifier.NeverMind = _currentEventNumber;
+            }
+        }
 
         public ClientPoller(IWcfServiceForClient wcfConnection, IDispatcherProvider dispatcherProvider,
             EventsOnGraphExecutor eventsOnGraphExecutor,
@@ -112,9 +122,6 @@ namespace Iit.Fibertest.Client
                     _traceStatisticsViewsManager.Apply(evnt);
                     _landmarksViewsManager.Apply(evnt);
                     _bopNetworkEventsDoubleViewModel.Apply(evnt);
-
-                    // some forms refresh their view because they have sent command previously and are waiting event's arrival
-                    _eventArrivalNotifier.NeverMind = CurrentEventNumber;
                 }
                 catch (Exception e)
                 {

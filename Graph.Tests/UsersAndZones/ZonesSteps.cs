@@ -3,6 +3,7 @@ using System.Linq;
 using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
+using Iit.Fibertest.Graph;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests.UsersAndZones
@@ -25,8 +26,8 @@ namespace Graph.Tests.UsersAndZones
             vm.UserName = @"root";
             vm.Password = @"root";
             vm.Login();
-            _sut.Poller.EventSourcingTick().Wait();
             _sut.ShellVm.InitializeModels().Wait();
+            _sut.ReadModel.Users.Count.Should().Be(5);
         }
 
         [Given(@"Настройка доп зоны и оператора этой доп зоны")]
@@ -62,6 +63,15 @@ namespace Graph.Tests.UsersAndZones
         {
 
         }
+
+        [Then(@"Рут выходит из приложения")]
+        public void ThenРутВыходитИзПриложения()
+        {
+            _sut.ReadModel = new Model();
+            _sut.TreeOfRtuModel = new TreeOfRtuModel();
+//            _sut.GraphReadModel = new GraphReadModel();
+        }
+
 
         [When(@"Вход как оператор доп зоны")]
         public void WhenВходКакОператорДопЗоны()
