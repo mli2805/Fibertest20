@@ -26,6 +26,7 @@ namespace Graph.Tests.UsersAndZones
             vm.Password = @"root";
             vm.Login();
             _sut.Poller.EventSourcingTick().Wait();
+            _sut.ShellVm.InitializeModels().Wait();
         }
 
         [Given(@"Настройка доп зоны и оператора этой доп зоны")]

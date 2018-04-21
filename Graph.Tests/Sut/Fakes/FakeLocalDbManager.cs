@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Client;
@@ -30,6 +31,11 @@ namespace Graph.Tests
         public Task<string[]> LoadEvents()
         {
             return Task.FromResult(_localBase.Values.ToArray());
+        }
+
+        public void Initialize(string serverAddress, Guid graphDbVersionOnServer)
+        {
+            
         }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using System.Threading.Tasks;
 
 namespace Iit.Fibertest.Client
@@ -6,6 +7,7 @@ namespace Iit.Fibertest.Client
     {
         Task SaveEvents(string[] events);
         Task<string[]> LoadEvents();
+        void Initialize(string serverAddress, Guid graphDbVersionOnServer);
 
     }
 }

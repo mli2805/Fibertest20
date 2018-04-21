@@ -25,6 +25,7 @@ namespace Iit.Fibertest.Client
         private readonly IClientWcfServiceHost _host;
         private readonly ILifetimeScope _globalScope;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly ILocalDbManager _localDbManager;
 
         public GraphReadModel GraphReadModel { get; set; }
         public MainMenuViewModel MainMenuViewModel { get; }
@@ -36,7 +37,7 @@ namespace Iit.Fibertest.Client
         public BopNetworkEventsDoubleViewModel BopNetworkEventsDoubleViewModel { get; }
 
         public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host,
-            GraphReadModel graphReadModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
+            GraphReadModel graphReadModel, IWcfServiceForClient c2DWcfManager, ILocalDbManager localDbManager, IWindowManager windowManager,
             LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, ReadyEventsLoader readyEventsLoader, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
             TabulatorViewModel tabulatorViewModel, CommonStatusBarViewModel commonStatusBarViewModel,
@@ -55,6 +56,7 @@ namespace Iit.Fibertest.Client
             BopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
             _globalScope = globalScope;
             _c2DWcfManager = c2DWcfManager;
+            _localDbManager = localDbManager;
             _windowManager = windowManager;
             _loginViewModel = loginViewModel;
             _clientHeartbeat = clientHeartbeat;
@@ -115,7 +117,7 @@ namespace Iit.Fibertest.Client
                 TryClose();
         }
 
-        private async Task InitializeModels()
+        public async Task InitializeModels()
         {
             TabulatorViewModel.SelectedTabIndex = 4;
             using (_globalScope.Resolve<IWaitCursor>())
@@ -124,8 +126,7 @@ namespace Iit.Fibertest.Client
                 var da = _iniFile.ReadDoubleAddress(11840);
                 _server = da.Main.GetAddress();
 
-                var localDbManager = (LocalDbManager)_globalScope.Resolve<ILocalDbManager>();
-                localDbManager.Initialize(_server, _loginViewModel.GraphDbVersionOnServer);
+                _localDbManager.Initialize(_server, _loginViewModel.GraphDbVersionOnServer);
                 _clientPoller.CurrentEventNumber = await _readyEventsLoader.Load();
                 _clientPoller.CancellationToken = _clientPollerCts.Token;
                 _clientPoller.Start(); // graph events including monitoring results events
