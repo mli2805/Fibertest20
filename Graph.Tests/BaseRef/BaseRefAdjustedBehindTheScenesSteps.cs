@@ -40,7 +40,7 @@ namespace Graph.Tests
         [When(@"Пользователь открывает статистику по трассе")]
         public void WhenПользовательОткрываетСтатистикуПоТрассе()
         {
-            _vm = _sut.ClientContainer.Resolve<TraceStatisticsViewModel>();
+            _vm = _sut.ClientScope.Resolve<TraceStatisticsViewModel>();
             _vm.Initialize(_trace.TraceId);
         }
 
@@ -55,7 +55,7 @@ namespace Graph.Tests
             var baseRefs = _sut.ReadModel.BaseRefs.Where(b => b.TraceId == _trace.TraceId).ToList();
             baseRefs.Count.Should().Be(1);
 
-            var wcf = _sut.ServerContainer.Resolve<IWcfServiceForClient>();
+            var wcf = _sut.ServerScope.Resolve<IWcfServiceForClient>();
             var sorBytes = await wcf.GetSorBytes(baseRefs[0].SorFileId);
 
             var otdrDataKnownBlocks = SorData.FromBytes(sorBytes);
@@ -80,7 +80,7 @@ namespace Graph.Tests
         [When(@"Снова открывает статистику")]
         public void WhenСноваОткрываетСтатистику()
         {
-            _vm = _sut.ClientContainer.Resolve<TraceStatisticsViewModel>();
+            _vm = _sut.ClientScope.Resolve<TraceStatisticsViewModel>();
             _vm.Initialize(_trace.TraceId);
         }
 
@@ -110,7 +110,7 @@ namespace Graph.Tests
         {
             var nodeId = _trace.NodeIds[5];
             var equipmentId = _trace.EquipmentIds[5];
-            var nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
+            var nodeUpdateViewModel = _sut.ClientScope.Resolve<NodeUpdateViewModel>();
             nodeUpdateViewModel.Initialize(nodeId);
             nodeUpdateViewModel.Title = NodeNewTitle;
 

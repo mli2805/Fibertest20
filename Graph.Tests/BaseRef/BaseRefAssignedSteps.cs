@@ -102,7 +102,7 @@ namespace Graph.Tests
         [Given(@"Задается имя (.*) для узла с оконечным кроссом")]
         public void GivenЗадаетсяИмяПосленийУзелДляУзлаСОконечнымКроссом(string p0)
         {
-            _nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
+            _nodeUpdateViewModel = _sut.ClientScope.Resolve<NodeUpdateViewModel>();
             _nodeUpdateViewModel.Initialize(_terminalNodeId);
             _nodeUpdateViewModel.Title = p0;
             _nodeUpdateViewModel.Save();
@@ -112,7 +112,7 @@ namespace Graph.Tests
         [Given(@"Оконечный кросс меняется на Другое и имя оборудования (.*)")]
         public void GivenОконечныйКроссМеняетсяНаДругоеИИмяОборудованияДр(string p0)
         {
-            _nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
+            _nodeUpdateViewModel = _sut.ClientScope.Resolve<NodeUpdateViewModel>();
             _nodeUpdateViewModel.Initialize(_terminalNodeId);
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.EquipmentInfoViewModelHandler(model, Answer.Yes, EquipmentType.Other, 0, 0, p0));

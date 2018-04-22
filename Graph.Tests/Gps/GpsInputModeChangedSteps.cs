@@ -20,7 +20,7 @@ namespace Graph.Tests
         [Given(@"Ранее пользователь установил формат градусы-минуты")]
         public void GivenРанееПользовательУстановилФорматГрадусы_Минуты()
         {
-            var iniFile = _sut.ClientContainer.Resolve<IniFile>();
+            var iniFile = _sut.ClientScope.Resolve<IniFile>();
             iniFile.Write(IniSection.Miscellaneous, IniKey.GpsInputMode, 1);
         }
 
@@ -36,7 +36,7 @@ namespace Graph.Tests
         [When(@"Открывается окно для редактирования")]
         public void WhenОткрываетсяОкноДляРедактирования()
         {
-             _rtuUpdateViewModel = _sut.ClientContainer.Resolve<RtuUpdateViewModel>();
+             _rtuUpdateViewModel = _sut.ClientScope.Resolve<RtuUpdateViewModel>();
             _rtuUpdateViewModel.Initialize(_rtuId);
             _rtuUpdateViewModel.GpsInputViewModel.SelectedGpsInputModeComboItem =
                 _rtuUpdateViewModel.GpsInputViewModel.GpsInputModes.First(i =>

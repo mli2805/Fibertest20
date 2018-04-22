@@ -39,7 +39,7 @@ namespace Graph.Tests
         [Given(@"Открыта форма для редактирования узла где оборудование А1")]
         public void GivenОткрытаФормаДляРедактированияУзлаГдеОборудованиеА1()
         {
-            _vm = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
+            _vm = _sut.ClientScope.Resolve<NodeUpdateViewModel>();
             _vm.Initialize(_nodeAId);
         }
 
@@ -47,7 +47,7 @@ namespace Graph.Tests
         [Given(@"Открыта форма для редактирования узла где оборудование B1")]
         public void GivenОткрытаФормаДляРедактированияУзлаГдеОборудованиеB1()
         {
-            _vm = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
+            _vm = _sut.ClientScope.Resolve<NodeUpdateViewModel>();
             _vm.Initialize(_nodeBId);
         }
 
@@ -72,7 +72,7 @@ namespace Graph.Tests
         [When(@"Пользователь нажимает удалить оборудование")]
         public void WhenПользовательНажимаетУдалитьОборудование()
         {
-            var vm = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
+            var vm = _sut.ClientScope.Resolve<NodeUpdateViewModel>();
             vm.Initialize(_nodeAId);
             vm.EquipmentsInNode.First(it=>it.Id == _equipmentA1Id).Command = new RemoveEquipment() { EquipmentId = _equipmentA1Id};
             _sut.Poller.EventSourcingTick().Wait();

@@ -81,10 +81,13 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(IconsVisibility));
                 NotifyOfPropertyChange(nameof(TraceStatePictogram));
-                Color = _isInZone ? PortNumber < 1 ? Brushes.Blue : Brushes.Black : Brushes.LightGray;
+                Color = _isInZone 
+                    ? PortNumber < 1 
+                        ? FiberState.NotJoined.GetBrush(true) 
+                        : FiberState.Ok.GetBrush(true) 
+                    : FiberState.NotInZone.GetBrush(true);
             }
         }
-
       
         public Uri TraceStatePictogram => IsInZone
             ? TraceState.GetPictogram()

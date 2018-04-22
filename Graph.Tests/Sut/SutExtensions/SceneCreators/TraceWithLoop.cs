@@ -49,7 +49,7 @@ namespace Graph.Tests
             var traceNodes = new List<Guid>() { nodeForRtuId, adjustmentNodeId1, closureNodeId, crossNodeId, closureNodeId, terminalNodeId };
             var traceEquipments = new List<Guid>() { rtuId, adjustmentEquipmentId1, closureId, crossId, closureId, terminalId };
 
-            var traceAddViewModel = sut.ClientContainer.Resolve<TraceInfoViewModel>();
+            var traceAddViewModel = sut.ClientScope.Resolve<TraceInfoViewModel>();
             traceAddViewModel.Initialize(Guid.Empty, traceEquipments, traceNodes);
             traceAddViewModel.Model.Title = title;
             traceAddViewModel.Save();

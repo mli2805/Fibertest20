@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Caliburn.Micro;
+using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DataCenterCore;
@@ -15,21 +16,22 @@ namespace Graph.Tests
     
     public class SystemUnderTest
     {
-        public ILifetimeScope ClientContainer { get; set; }
-        public ILifetimeScope ServerContainer { get; set; }
+        public IContainer Container { get; set; }
+        public ILifetimeScope ClientScope { get; set; }
+        public ILifetimeScope ServerScope { get; set; }
 
         public Model ReadModel { get; set; }
         public GraphReadModel GraphReadModel { get; set; }
         public TreeOfRtuModel TreeOfRtuModel { get; set; }
-        public TreeOfRtuViewModel TreeOfRtuViewModel { get;  }
+        public TreeOfRtuViewModel TreeOfRtuViewModel { get; set; }
         public IMyLog MyLogFile { get; set; }
-        public ClientPoller Poller { get; }
-        public FakeWindowManager FakeWindowManager { get; }
-        public ShellViewModel ShellVm { get; }
+        public ClientPoller Poller { get; set; }
+        public FakeWindowManager FakeWindowManager { get; set; }
+        public ShellViewModel ShellVm { get; set; }
 
-        public AccidentsFromSorExtractor AccidentsFromSorExtractor { get; }
+        public AccidentsFromSorExtractor AccidentsFromSorExtractor { get; set; }
         public MsmqHandler MsmqHandler { get; }
-        public WcfServiceForClient WcfService { get; }
+        public WcfServiceForClient WcfService { get; set; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
 
         public const string NewTitleForTest = "New name for old equipment";
@@ -52,22 +54,37 @@ namespace Graph.Tests
         {
             AutofacMess();
 
-            var eventStoreService = ServerContainer.Resolve<EventStoreService>();
+            var eventStoreService = ServerScope.Resolve<EventStoreService>();
             eventStoreService.Init();
+            MsmqHandler = ServerScope.Resolve<MsmqHandler>();
 
-            ReadModel = ClientContainer.Resolve<Model>();  // 1
-            Poller = ClientContainer.Resolve<ClientPoller>();
+            ResolveClientsPartsOnStart();
+        }
 
-            FakeWindowManager = (FakeWindowManager)ClientContainer.Resolve<IWindowManager>();
-            MyLogFile = ClientContainer.Resolve<IMyLog>();
-            ShellVm = (ShellViewModel)ClientContainer.Resolve<IShell>();
-            GraphReadModel = ClientContainer.Resolve<GraphReadModel>();
-            TreeOfRtuModel = ClientContainer.Resolve<TreeOfRtuModel>();
-            TreeOfRtuViewModel = ClientContainer.Resolve<TreeOfRtuViewModel>();
-            AccidentsFromSorExtractor = ClientContainer.Resolve<AccidentsFromSorExtractor>();
+        private void ResolveClientsPartsOnStart()
+        {
+            ReadModel = ClientScope.Resolve<Model>();
+            Poller = ClientScope.Resolve<ClientPoller>();
 
-            MsmqHandler = ServerContainer.Resolve<MsmqHandler>();
-            WcfService = (WcfServiceForClient)ClientContainer.Resolve<IWcfServiceForClient>();
+            FakeWindowManager = (FakeWindowManager) ClientScope.Resolve<IWindowManager>();
+            MyLogFile = ClientScope.Resolve<IMyLog>();
+            ShellVm = (ShellViewModel) ClientScope.Resolve<IShell>();
+            GraphReadModel = ClientScope.Resolve<GraphReadModel>();
+            TreeOfRtuModel = ClientScope.Resolve<TreeOfRtuModel>();
+            TreeOfRtuViewModel = ClientScope.Resolve<TreeOfRtuViewModel>();
+            AccidentsFromSorExtractor = ClientScope.Resolve<AccidentsFromSorExtractor>();
+
+            WcfService = (WcfServiceForClient) ClientScope.Resolve<IWcfServiceForClient>();
+        }
+
+        public void RestartClient()
+        {
+            ClientScope = Container.BeginLifetimeScope(cfg =>
+                cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceForClient>()));
+            ResolveClientsPartsOnStart();
+
+            ReadModel.Nodes.Count.Should().Be(0);
+            GraphReadModel.Data.Nodes.Count.Should().Be(0);
         }
 
         private void AutofacMess()
@@ -108,10 +125,10 @@ namespace Graph.Tests
             builder.RegisterInstance<IMyLog>(new NullLog());
 
             builder.RegisterType<TestsDispatcherProvider>().As<IDispatcherProvider>().InstancePerLifetimeScope();
-            var container = builder.Build();
-            ServerContainer = container.BeginLifetimeScope();
-            ClientContainer = container.BeginLifetimeScope(cfg =>
-                cfg.RegisterInstance(ServerContainer.Resolve<IWcfServiceForClient>()));
+            Container = builder.Build();
+            ServerScope = Container.BeginLifetimeScope();
+            ClientScope = Container.BeginLifetimeScope(cfg =>
+                cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceForClient>()));
         }
     }
 }

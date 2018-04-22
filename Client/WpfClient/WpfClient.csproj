@@ -190,13 +190,14 @@
     <Compile Include="EventSourcing\Rendering\CurrentZoneRenderer.cs" />
     <Compile Include="EventSourcing\Rendering\ElementRenderer.cs" />
     <Compile Include="EventSourcing\Rendering\RenderingManager.cs" />
-    <Compile Include="EventSourcing\ReadyEventsLoader.cs" />
+    <Compile Include="EventSourcing\StoredEventsLoader.cs" />
     <Compile Include="EventSourcing\Rendering\RenderingApplier.cs" />
     <Compile Include="EventSourcing\Rendering\RenderingResult.cs" />
     <Compile Include="Forms\AdministrativeForms\ChangePasswordView.xaml.cs">
       <DependentUpon>ChangePasswordView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\AdministrativeForms\ChangePasswordViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\ObjectsToZones\BoolWithNotification.cs" />
     <Compile Include="Forms\AdministrativeForms\ObjectsToZones\ObjectsAsTreeToZonesViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\ObjectsToZones\ObjectToZonesModel.cs" />
     <Compile Include="Forms\AdministrativeForms\Zones\ZoneView.xaml.cs">

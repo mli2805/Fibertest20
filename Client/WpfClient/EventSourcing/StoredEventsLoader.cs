@@ -8,7 +8,7 @@ using NEventStore;
 
 namespace Iit.Fibertest.Client
 {
-    public class ReadyEventsLoader
+    public class StoredEventsLoader
     {
         private static readonly JsonSerializerSettings JsonSerializerSettings =
             new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Client
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
         private readonly RenderingManager _renderingManager;
 
-        public ReadyEventsLoader(IMyLog logFile, ILocalDbManager localDbManager, IWcfServiceForClient c2DWcfManager, 
+        public StoredEventsLoader(IMyLog logFile, ILocalDbManager localDbManager, IWcfServiceForClient c2DWcfManager, 
              EventsOnTreeExecutor eventsOnTreeExecutor,
             EventsOnModelExecutor eventsOnModelExecutor,
             OpticalEventsExecutor opticalEventsExecutor, 

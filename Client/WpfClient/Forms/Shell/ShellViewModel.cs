@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly LoginViewModel _loginViewModel;
         private readonly ClientHeartbeat _clientHeartbeat;
-        private readonly ReadyEventsLoader _readyEventsLoader;
+        private readonly StoredEventsLoader _storedEventsLoader;
         private readonly ClientPoller _clientPoller;
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
@@ -36,7 +36,7 @@ namespace Iit.Fibertest.Client
 
         public ShellViewModel(ILifetimeScope globalScope, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host,
             GraphReadModel graphReadModel, IWcfServiceForClient c2DWcfManager, ILocalDbManager localDbManager, IWindowManager windowManager,
-            LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, ReadyEventsLoader readyEventsLoader, ClientPoller clientPoller,
+            LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, StoredEventsLoader storedEventsLoader, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
             TabulatorViewModel tabulatorViewModel, CommonStatusBarViewModel commonStatusBarViewModel,
              OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
@@ -58,7 +58,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _loginViewModel = loginViewModel;
             _clientHeartbeat = clientHeartbeat;
-            _readyEventsLoader = readyEventsLoader;
+            _storedEventsLoader = storedEventsLoader;
             _clientPoller = clientPoller;
             _logFile = logFile;
             _currentUser = currentUser;
@@ -99,7 +99,7 @@ namespace Iit.Fibertest.Client
                 TabulatorViewModel.SelectedTabIndex = 4;
                 MainMenuViewModel.Initialize(_currentUser);
 
-                await GetLocalCacheData();
+                await GetStoredData();
                 StartCommunicationWithServer();
 
                 IsEnabled = true;
@@ -111,12 +111,12 @@ namespace Iit.Fibertest.Client
                 TryClose();
         }
 
-        public async Task GetLocalCacheData()
+        public async Task GetStoredData()
         {
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 _localDbManager.Initialize(_loginViewModel.GraphDbVersionOnServer);
-                _clientPoller.CurrentEventNumber = await _readyEventsLoader.Load();
+                _clientPoller.CurrentEventNumber = await _storedEventsLoader.Load();
             }
         }
 

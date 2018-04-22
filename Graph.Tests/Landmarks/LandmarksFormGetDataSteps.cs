@@ -25,7 +25,7 @@ namespace Graph.Tests
         [When(@"Пользователь открывает форму ориентиров")]
         public void WhenПользовательОткрываетФормуОриентиров()
         {
-            _vm = _sut.ClientContainer.Resolve<LandmarksViewModel>();
+            _vm = _sut.ClientScope.Resolve<LandmarksViewModel>();
             _vm.InitializeFromTrace(_trace.TraceId).Wait();
             _vm.SelectedGpsInputMode = _vm.GpsInputModes[0];
         }
@@ -88,7 +88,7 @@ namespace Graph.Tests
                 .MoveNode(new MoveNode() {NodeId = nodeId, Latitude = 55.2, Longitude = 30.2}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
 
-            var nodeUpdateViewModel = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
+            var nodeUpdateViewModel = _sut.ClientScope.Resolve<NodeUpdateViewModel>();
             nodeUpdateViewModel.Initialize(nodeId);
             nodeUpdateViewModel.Title = @"Node 4";
             nodeUpdateViewModel.Save();

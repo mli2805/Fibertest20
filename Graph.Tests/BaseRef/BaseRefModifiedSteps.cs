@@ -36,7 +36,7 @@ namespace Graph.Tests
         [When(@"Пользователь задает рефлектограмму BaseRef1")]
         public void WhenПользовательЗадаетРефлектограмму()
         {
-            var vm = _sut.ClientContainer.Resolve<BaseRefsAssignViewModel>();
+            var vm = _sut.ClientScope.Resolve<BaseRefsAssignViewModel>();
             vm.Initialize(_trace);
             vm.PreciseBaseFilename = SystemUnderTest.Base1550Lm4YesThresholds;
             _baseRefs = vm.PrepareDto(_trace).BaseRefs;
@@ -47,7 +47,7 @@ namespace Graph.Tests
             _closureLocationOnOriginalBaseRef = landmark.Location;  // 497035
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            var baseRefChecker = _sut.ClientContainer.Resolve<BaseRefsChecker>();
+            var baseRefChecker = _sut.ClientScope.Resolve<BaseRefsChecker>();
             baseRefChecker.IsBaseRefsAcceptable(_baseRefs, _trace).Should().BeTrue();
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));

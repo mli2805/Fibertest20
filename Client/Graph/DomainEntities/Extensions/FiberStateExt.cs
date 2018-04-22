@@ -54,6 +54,8 @@ namespace Iit.Fibertest.Graph
                 case FiberState.DistanceMeasurement:
                     return Brushes.Blue;
 
+                case FiberState.NotInZone:
+                    return Brushes.LightGray;
                 case FiberState.Unknown:
                 case FiberState.Ok:
                     return isForeground ? Brushes.Black : Brushes.Transparent;

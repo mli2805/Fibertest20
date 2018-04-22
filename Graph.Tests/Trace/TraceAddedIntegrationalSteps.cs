@@ -41,7 +41,7 @@ namespace Graph.Tests
         [When(@"Открылась форма сохранения трассы")]
         public void WhenОткрыласьФормаСохраненияТрассы()
         {
-            _traceInfoViewModel = _sut.ClientContainer.Resolve<TraceInfoViewModel>();
+            _traceInfoViewModel = _sut.ClientScope.Resolve<TraceInfoViewModel>();
         }
 
         [Then(@"Кнопка Сохранить недоступна пока поле названия трассы пустое")]

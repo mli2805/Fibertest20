@@ -4,20 +4,6 @@ using Caliburn.Micro;
 
 namespace Iit.Fibertest.Client
 {
-    public class BoolWithNotification : PropertyChangedBase
-    {
-        private bool _isChecked;
-        public bool IsChecked
-        {
-            get => _isChecked;
-            set
-            {
-//                if (value == _isChecked) return;
-                _isChecked = value;
-                NotifyOfPropertyChange();
-            }
-        }
-    }
     public class ObjectToZonesModel : PropertyChangedBase
     {
         public string SubjectTitle { get; set; }

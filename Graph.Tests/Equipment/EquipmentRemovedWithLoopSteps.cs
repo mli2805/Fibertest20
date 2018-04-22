@@ -29,7 +29,7 @@ namespace Graph.Tests
         [Given(@"Открыта форма для редактирования узла с муфтой А1")]
         public void GivenОткрытаФормаДляРедактированияУзлаСМуфтойА1()
         {
-            _vm = _sut.ClientContainer.Resolve<NodeUpdateViewModel>();
+            _vm = _sut.ClientScope.Resolve<NodeUpdateViewModel>();
             _vm.Initialize(_nodeAId);
         }
 
@@ -54,7 +54,7 @@ namespace Graph.Tests
         [Given(@"Открыта форма ориентиров")]
         public void GivenОткрытаФормаОриентиров()
         {
-            _lvm = _sut.ClientContainer.Resolve<LandmarksViewModel>();
+            _lvm = _sut.ClientScope.Resolve<LandmarksViewModel>();
             _lvm.InitializeFromTrace(_trace.TraceId).Wait();
             _lvm.Rows.Count.Should().Be(5);
         }

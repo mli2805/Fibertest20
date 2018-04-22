@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
 
@@ -135,7 +136,7 @@ namespace Graph.Tests
             vm.Password1 = password;
             vm.Password2 = password;
             vm.UserInWork.Role = Role.Operator;
-            vm.UserInWork.ZoneId = zoneId;
+            vm.SelectedZone = vm.Zones.First(z => z.ZoneId == zoneId);
             if (answer == Answer.Yes)
                 vm.Save();
             else

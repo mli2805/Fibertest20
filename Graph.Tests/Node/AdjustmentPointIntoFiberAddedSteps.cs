@@ -40,7 +40,7 @@ namespace Graph.Tests
         [Given(@"Запоминаем его GPS длину")]
         public void GivenЗапоминаемЕгоGpsДлину()
         {
-            var vm = _sut.ClientContainer.Resolve<FiberUpdateViewModel>();
+            var vm = _sut.ClientScope.Resolve<FiberUpdateViewModel>();
             vm.Initialize(_fiberId);
             _initialGpsLength = vm.GpsLength;
         }
@@ -61,7 +61,7 @@ namespace Graph.Tests
         {
             foreach (var fiber in _sut.ReadModel.Fibers)
             {
-                var vm = _sut.ClientContainer.Resolve<FiberUpdateViewModel>();
+                var vm = _sut.ClientScope.Resolve<FiberUpdateViewModel>();
                 vm.Initialize(fiber.FiberId);
                 vm.GpsLength.Should().Be(_initialGpsLength);
             }
@@ -79,11 +79,11 @@ namespace Graph.Tests
         {
             var initialGpsInt = int.Parse(_initialGpsLength, NumberStyles.Any, CultureInfo.CurrentUICulture);
 
-            var vm1 = _sut.ClientContainer.Resolve<FiberUpdateViewModel>();
+            var vm1 = _sut.ClientScope.Resolve<FiberUpdateViewModel>();
             vm1.Initialize(_fiberId1);
             var gpsInt1 = int.Parse(vm1.GpsLength, NumberStyles.Any, CultureInfo.CurrentUICulture);
 
-            var vm2 = _sut.ClientContainer.Resolve<FiberUpdateViewModel>();
+            var vm2 = _sut.ClientScope.Resolve<FiberUpdateViewModel>();
             vm2.Initialize(_fiberId2);
             var gpsInt2 = int.Parse(vm2.GpsLength, NumberStyles.Any, CultureInfo.CurrentUICulture);
 
