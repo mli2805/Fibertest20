@@ -13,13 +13,11 @@ namespace Iit.Fibertest.Client
 {
     public class ShellViewModel : Screen, IShell
     {
-        private string _server;
         private readonly IWindowManager _windowManager;
         private readonly LoginViewModel _loginViewModel;
         private readonly ClientHeartbeat _clientHeartbeat;
         private readonly ReadyEventsLoader _readyEventsLoader;
         private readonly ClientPoller _clientPoller;
-        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
         private readonly IClientWcfServiceHost _host;
@@ -36,7 +34,7 @@ namespace Iit.Fibertest.Client
         public NetworkEventsDoubleViewModel NetworkEventsDoubleViewModel { get; }
         public BopNetworkEventsDoubleViewModel BopNetworkEventsDoubleViewModel { get; }
 
-        public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host,
+        public ShellViewModel(ILifetimeScope globalScope, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host,
             GraphReadModel graphReadModel, IWcfServiceForClient c2DWcfManager, ILocalDbManager localDbManager, IWindowManager windowManager,
             LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, ReadyEventsLoader readyEventsLoader, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
@@ -62,29 +60,11 @@ namespace Iit.Fibertest.Client
             _clientHeartbeat = clientHeartbeat;
             _readyEventsLoader = readyEventsLoader;
             _clientPoller = clientPoller;
-            _iniFile = iniFile;
             _logFile = logFile;
             _currentUser = currentUser;
             _host = host;
         }
 
-
-        public override void CanClose(Action<bool> callback)
-        {
-            var question = Resources.SID_Close_application_;
-            var vm = new MyMessageBoxViewModel(MessageType.Confirmation, question);
-            _windowManager.ShowDialogWithAssignedOwner(vm);
-
-            if (!vm.IsAnswerPositive) return;
-
-            base.CanClose(callback);
-            Task.Factory.StartNew(() =>
-            {
-                _clientPollerCts.Cancel();
-                _c2DWcfManager?.UnregisterClientAsync(new UnRegisterClientDto());
-                _logFile.AppendLine(@"Client application finished!");
-            });
-        }
 
         private readonly CancellationTokenSource _clientPollerCts = new CancellationTokenSource();
 
@@ -103,44 +83,70 @@ namespace Iit.Fibertest.Client
         protected override async void OnViewLoaded(object view)
         {
             TabulatorViewModel.MessageVisibility = Visibility.Collapsed;
-
             DisplayName = @"Fibertest v2.0";
+
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
             _logFile.AssignFile(@"Client.log");
-
             _logFile.AppendLine(@"Client application started!");
+
             var isAuthenticationSuccessfull = _windowManager.ShowDialog(_loginViewModel);
+
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
+
             if (isAuthenticationSuccessfull == true)
-                await InitializeModels();
-            else
-                TryClose();
-        }
-
-        public async Task InitializeModels()
-        {
-            TabulatorViewModel.SelectedTabIndex = 4;
-            using (_globalScope.Resolve<IWaitCursor>())
             {
+                TabulatorViewModel.SelectedTabIndex = 4;
                 MainMenuViewModel.Initialize(_currentUser);
-                var da = _iniFile.ReadDoubleAddress(11840);
-                _server = da.Main.GetAddress();
 
-                _localDbManager.Initialize(_server, _loginViewModel.GraphDbVersionOnServer);
-                _clientPoller.CurrentEventNumber = await _readyEventsLoader.Load();
-                _clientPoller.CancellationToken = _clientPollerCts.Token;
-                _clientPoller.Start(); // graph events including monitoring results events
-
-                _host.StartWcfListener(); // Accepts only monitoring step messages and out of turn measurements results
-
-                _clientHeartbeat.Start();
+                await GetLocalCacheData();
+                StartCommunicationWithServer();
 
                 IsEnabled = true;
                 DisplayName =
                     $@"Fibertest v2.0 {_currentUser.UserName} as {_currentUser.Role.ToString()} [{_currentUser.ZoneTitle}]";
                 TabulatorViewModel.SelectedTabIndex = 0; // the same value should be in TabulatorViewModel c-tor !!!
             }
+            else
+                TryClose();
         }
 
+        public async Task GetLocalCacheData()
+        {
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                _localDbManager.Initialize(_loginViewModel.GraphDbVersionOnServer);
+                _clientPoller.CurrentEventNumber = await _readyEventsLoader.Load();
+            }
+        }
+
+        private void StartCommunicationWithServer()
+        {
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                _clientPoller.CancellationToken = _clientPollerCts.Token;
+                _clientPoller.Start(); // graph events including monitoring results events
+
+                _host.StartWcfListener(); // Accepts only monitoring step messages and out of turn measurements results
+                _clientHeartbeat.Start();
+            }
+        }
+
+        public override void CanClose(Action<bool> callback)
+        {
+            var question = Resources.SID_Close_application_;
+            var vm = new MyMessageBoxViewModel(MessageType.Confirmation, question);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+
+            if (!vm.IsAnswerPositive) return;
+
+            base.CanClose(callback);
+            Task.Factory.StartNew(() =>
+            {
+                _clientPollerCts.Cancel();
+                _c2DWcfManager?.UnregisterClientAsync(new UnRegisterClientDto());
+                _logFile.AppendLine(@"Client application finished!");
+            });
+        }
     }
 }

@@ -7,7 +7,7 @@ namespace Iit.Fibertest.Client
     {
         Task SaveEvents(string[] events);
         Task<string[]> LoadEvents();
-        void Initialize(string serverAddress, Guid graphDbVersionOnServer);
+        void Initialize(Guid graphDbVersionOnServer);
 
     }
 }

@@ -10,21 +10,24 @@ namespace Iit.Fibertest.Client
 {
     public class LocalDbManager : ILocalDbManager
     {
+        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
 
         private string _serverAddress;
         private string _filename;
         private string _connectionString;
 
-        public LocalDbManager(IMyLog logFile)
+        public LocalDbManager(IniFile iniFile, IMyLog logFile)
         {
+            _iniFile = iniFile;
             _logFile = logFile;
         }
 
-        public void Initialize(string serverAddress, Guid graphDbVersionOnServer)
+        public void Initialize(Guid graphDbVersionOnServer)
         {
-            _serverAddress = serverAddress;
-            _filename = $@"..\Cache\GraphDb\{serverAddress}\{graphDbVersionOnServer.ToString()}.sqlite3";
+            var serverDoubleAddress = _iniFile.ReadDoubleAddress(11840);
+            _serverAddress = serverDoubleAddress.Main.GetAddress();
+            _filename = $@"..\Cache\GraphDb\{_serverAddress}\{graphDbVersionOnServer.ToString()}.sqlite3";
             _connectionString = $@"Data Source={_filename}; Version=3;";
         }
 

@@ -33,7 +33,7 @@ namespace Graph.Tests
             return Task.FromResult(_localBase.Values.ToArray());
         }
 
-        public void Initialize(string serverAddress, Guid graphDbVersionOnServer)
+        public void Initialize(Guid graphDbVersionOnServer)
         {
             
         }

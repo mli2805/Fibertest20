@@ -26,7 +26,7 @@ namespace Graph.Tests.UsersAndZones
             vm.UserName = @"root";
             vm.Password = @"root";
             vm.Login();
-            _sut.ShellVm.InitializeModels().Wait();
+            _sut.ShellVm.GetLocalCacheData().Wait();
             _sut.ReadModel.Users.Count.Should().Be(5);
         }
 
@@ -69,7 +69,7 @@ namespace Graph.Tests.UsersAndZones
         {
             _sut.ReadModel = new Model();
             _sut.TreeOfRtuModel = new TreeOfRtuModel();
-//            _sut.GraphReadModel = new GraphReadModel();
+            _sut.GraphReadModel.Data = new GrmData();
         }
 
 
@@ -80,7 +80,7 @@ namespace Graph.Tests.UsersAndZones
             vm.UserName = @"OpZone1";
             vm.Password = @"123";
             vm.Login();
-            _sut.Poller.EventSourcingTick().Wait();
+       //     _sut.ShellVm.InitializeModels().Wait();
 
             _sut.ClientContainer.Resolve<CurrentUser>().UserId.Should().Be(_opZone1UserId);
         }

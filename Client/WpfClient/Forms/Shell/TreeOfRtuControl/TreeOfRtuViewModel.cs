@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using Caliburn.Micro;
-using Iit.Fibertest.StringResources;
+﻿using Caliburn.Micro;
 
 namespace Iit.Fibertest.Client
 {

@@ -118,6 +118,7 @@ namespace Graph.Tests
         public static bool ZoneHandler(this SystemUnderTest sut, object model, string zoneTitle, Answer answer)
         {
             if (!(model is ZoneViewModel vm)) return false;
+            vm.Initialize();
             vm.Title = zoneTitle;
             if (answer == Answer.Yes)
                 vm.Save();
