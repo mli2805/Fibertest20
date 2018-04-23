@@ -39,8 +39,8 @@ namespace Graph.Tests
         [Then(@"Трасса укорачивается на два узла")]
         public void ThenТрассаУкорачиваетсяНаДваУзла()
         {
-//            _trace.NodeIds.Count.Should().Be(4);
-//            _trace.EquipmentIds.Count.Should().Be(4);
+            _trace.NodeIds.Count.Should().Be(4);
+            _trace.EquipmentIds.Count.Should().Be(4);
 
         }
 

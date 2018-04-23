@@ -68,40 +68,47 @@ namespace Iit.Fibertest.Client
 
         public async Task RemoveNode(Guid nodeId, EquipmentType type)
         {
-            if (_model.Traces.Any(t => t.NodeIds.Last() == nodeId))
-                return;
-            if (_model.Traces.Any(t => t.NodeIds.Contains(nodeId) && t.HasAnyBaseRef) && type != EquipmentType.AdjustmentPoint)
-                return;
+            if (!IsRemoveThisNodePermitted(nodeId, type)) return;
 
             var detoursForGraph = new List<NodeDetour>();
-            var detoursForTracesInModel = new Dictionary<Guid, Guid>();
             foreach (var trace in _model.Traces.Where(t => t.NodeIds.Contains(nodeId)))
             {
-                var removedNodeIndex = trace.NodeIds.IndexOf(nodeId);
-                var detourFiberId = Guid.NewGuid();
-
-                detoursForTracesInModel.Add(trace.TraceId, detourFiberId);
-                var detour = new NodeDetour()
-                {
-                    FiberId = detourFiberId,
-                    NodeId1 = trace.NodeIds[removedNodeIndex-1],
-                    NodeId2 = trace.NodeIds[removedNodeIndex+1],
-                    TraceState = trace.State,
-                    TraceId = trace.TraceId,
-                };
-                detoursForGraph.Add(detour);
+               AddDetoursForTrace(nodeId, trace, detoursForGraph);
             }
+            var cmd = new RemoveNode { NodeId = nodeId, Type = type, DetoursForGraph = detoursForGraph };
 
-           
-            var cmd = new RemoveNode { NodeId = nodeId, Type = type,  DetoursForGraph = detoursForGraph};
-            if (detoursForTracesInModel.Count == 0 && type == EquipmentType.AdjustmentPoint)
-            {
+            if (detoursForGraph.Count == 0 && type == EquipmentType.AdjustmentPoint)
                 cmd.FiberIdToDetourAdjustmentPoint = Guid.NewGuid();
-            }
 
             var message = await _c2DWcfManager.SendCommandAsObj(cmd);
             if (message != null)
                 _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, message));
+        }
+
+
+        private void AddDetoursForTrace(Guid nodeId, Trace trace, List<NodeDetour> alreadyMadeDetours)
+        {
+            for (int i = 1; i < trace.NodeIds.Count; i++)
+            {
+                if (trace.NodeIds[i] != nodeId) continue;
+
+                var detour = new NodeDetour()
+                {
+                    FiberId = Guid.NewGuid(), // if there is a fiber between NodeId1 and NodeId2 already - this fiberId just won't be used
+                    NodeId1 = trace.NodeIds[i - 1],
+                    NodeId2 = trace.NodeIds[i + 1],
+                    TraceState = trace.State,
+                    TraceId = trace.TraceId,
+                };
+                alreadyMadeDetours.Add(detour);
+            }
+        }
+
+        private bool IsRemoveThisNodePermitted(Guid nodeId, EquipmentType type)
+        {
+            if (_model.Traces.Any(t => t.NodeIds.Contains(nodeId) && t.HasAnyBaseRef) && type != EquipmentType.AdjustmentPoint)
+                return false;
+            return _model.Traces.All(t => t.NodeIds.Last() != nodeId);
         }
     }
 }
