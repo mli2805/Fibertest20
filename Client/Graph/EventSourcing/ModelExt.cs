@@ -40,10 +40,13 @@ namespace Iit.Fibertest.Graph
 
                 if (fiber != null)
                     yield return fiber.FiberId;
-
-//                var fiberId = fiber?.FiberId ?? Guid.Empty;
-//                yield return fiberId;
             }
+        }
+
+        public static int GetFiberIndexInTrace(this Model model, Trace trace, Fiber fiber)
+        {
+            var fiberIds = model.GetFibersByNodes(trace.NodeIds).ToList();
+            return fiberIds.IndexOf(fiber.FiberId);
         }
 
         public static IEnumerable<Trace> GetTracesPassingFiber(this Model model, Guid fiberId)
@@ -98,13 +101,6 @@ namespace Iit.Fibertest.Graph
         {
             return model.GetNodeFibers(adjustmentPoint).First(f => f.FiberId != fiberId);
         }
-
-//        public static List<Guid> GetNeighbours(this Model model, Guid nodeId)
-//        {
-//            var nodes = model.Fibers.Where(f => f.NodeId1 == nodeId).Select(f => f.NodeId2).ToList();
-//            nodes.AddRange(model.Fibers.Where(f => f.NodeId2 == nodeId).Select(f => f.NodeId1));
-//            return nodes;
-//        }
 
 
         public static void RemoveFiberUptoRealNodesNotPoints(this Model model, Fiber fiber)
@@ -198,22 +194,7 @@ namespace Iit.Fibertest.Graph
             return model.Equipments.FirstOrDefault(e => e.NodeId == nodeId && e.Type == EquipmentType.AdjustmentPoint) != null;
         }
 
-        /// <returns>The zero-based index of the first occurrence of the fiber within the entire list of fibers in trace if found; otherwise, -1</returns>
-        public static int GetFiberIndexInTrace(this Model model, Trace trace, Fiber fiber)
-        {
-            var idxInTrace1 = trace.NodeIds.IndexOf(fiber.NodeId1);
-            if (idxInTrace1 == -1)
-                return -1;
-            var idxInTrace2 = trace.NodeIds.IndexOf(fiber.NodeId2);
-            if (idxInTrace2 == -1)
-                return -1;
-            if (idxInTrace2 - idxInTrace1 == 1)
-                return idxInTrace1;
-            if (idxInTrace1 - idxInTrace2 == 1)
-                return idxInTrace2;
-            return -1;
-        }
-
+      
         // returns true if there's a fiber between start and finish or they are separated by adjustment points only
         public static bool HasDirectFiberDontMindPoints(this Model model, Guid start, Guid finish)
         {

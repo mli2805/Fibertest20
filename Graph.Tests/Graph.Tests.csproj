@@ -244,6 +244,14 @@
     <Compile Include="Node\AdjustmentPointRemovedSteps.cs">
       <DependentUpon>AdjustmentPointRemoved.feature</DependentUpon>
     </Compile>
+    <Compile Include="Node\NodeIntoLoopOfTrace.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NodeIntoLoopOfTrace.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeIntoLoopOfTraceSteps.cs">
+      <DependentUpon>NodeIntoLoopOfTrace.feature</DependentUpon>
+    </Compile>
     <Compile Include="Node\NodeRemovedSteps.cs">
       <DependentUpon>NodeRemoved.feature</DependentUpon>
     </Compile>
@@ -640,6 +648,10 @@
     <None Include="Node\NodeIntoFiberAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>NodeIntoFiberAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Node\NodeIntoLoopOfTrace.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>NodeIntoLoopOfTrace.feature.cs</LastGenOutput>
     </None>
     <None Include="Node\NodeMoved.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

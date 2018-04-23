@@ -11,7 +11,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeIntoFiberAddedSteps
     {
-        private readonly SystemUnderTest _scene = new SystemUnderTest();
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Guid _a1Id;
         private Guid _b1Id;
         private Guid _nodeId;
@@ -22,40 +22,40 @@ namespace Graph.Tests
         [Given(@"Две трассы проходят через отрезок и две нет")]
         public void GivenЕстьДвеТрассыПроходящиеЧерезОтрезокИОднаНе()
         {
-            _scene.CreatePositionForAddNodeIntoFiberTest(out _fiber, out _trace);
+            _sut.CreatePositionForAddNodeIntoFiberTest(out _fiber, out _trace);
             _a1Id = _fiber.NodeId1;
             _b1Id = _fiber.NodeId2;
 
-            _scene.InitializeRtu(_trace.RtuId);
+            _sut.InitializeRtu(_trace.RtuId);
         }
 
         [Given(@"Для трассы проходящей по данному отрезку задана базовая")]
         public void GivenДляДаннойТрассыЗаданаБазовая()
         {
-            var traceLeaf = (TraceLeaf)_scene.TreeOfRtuViewModel.TreeOfRtuModel.GetById(_trace.TraceId);
+            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(_trace.TraceId);
 
-            _scene.AssignBaseRef(traceLeaf, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes);
+            _sut.AssignBaseRef(traceLeaf, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes);
             traceLeaf.BaseRefsSet.PreciseId.Should().NotBe(Guid.Empty);
         }
 
         [When(@"Пользователь кликает добавить узел в первый отрезок этой трассы")]
         public void WhenПользовательКликаетДобавитьУзелВОтрезок()
         {
-            _scene.FakeWindowManager.RegisterHandler(model => _scene.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            _scene.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber() {FiberId = _fiber.FiberId}).Wait();
-            _scene.Poller.EventSourcingTick().Wait();
-            _nodeId = _scene.ReadModel.Nodes.Last().NodeId;
-            _equipmentId = _scene.ReadModel.Equipments.Last().EquipmentId;
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            _sut.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber() {FiberId = _fiber.FiberId}).Wait();
+            _sut.Poller.EventSourcingTick().Wait();
+            _nodeId = _sut.ReadModel.Nodes.Last().NodeId;
+            _equipmentId = _sut.ReadModel.Equipments.Last().EquipmentId;
         }
 
         [Then(@"Старый отрезок удаляется и добавляются два новых и новый узел связывает их")]
         public void ThenВместоОтрезкаОбразуетсяДваНовыхИНовыйУзелСвязывающийИх()
         {
-            _scene.ReadModel.Fibers.FirstOrDefault(f => f.FiberId == _fiber.FiberId).Should().Be(null);
-            _scene.ReadModel.Fibers.Any(f =>
+            _sut.ReadModel.Fibers.FirstOrDefault(f => f.FiberId == _fiber.FiberId).Should().Be(null);
+            _sut.ReadModel.Fibers.Any(f =>
                 f.NodeId1 == _b1Id && f.NodeId2 == _nodeId ||
                 f.NodeId1 == _nodeId && f.NodeId2 == _b1Id).Should().BeTrue();
-            _scene.ReadModel.Fibers.Any(f =>
+            _sut.ReadModel.Fibers.Any(f =>
                 f.NodeId1 == _a1Id && f.NodeId2 == _nodeId ||
                 f.NodeId1 == _nodeId && f.NodeId2 == _a1Id).Should().BeTrue();
         }
@@ -72,7 +72,7 @@ namespace Graph.Tests
         [Then(@"Cообщением об невозможности")]
         public void ThenCообщениемОбНевозможности()
         {
-            _scene.FakeWindowManager.Log
+            _sut.FakeWindowManager.Log
                 .OfType<MyMessageBoxViewModel>()
                 .Last()
                 .Lines[0].Line
