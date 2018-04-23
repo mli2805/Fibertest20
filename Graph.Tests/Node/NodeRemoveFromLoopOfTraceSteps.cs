@@ -13,7 +13,6 @@ namespace Graph.Tests
         private Iit.Fibertest.Graph.Fiber _doublePassedFiber;
         private Iit.Fibertest.Graph.Trace _trace;
         private Guid _nodeId;
-        private Guid _equipmentId;
 
         [Given(@"Задана трасса проходящая по волокну дважды")]
         public void GivenЗаданаТрассаПроходящаяПоВолокнуДважды()
@@ -41,13 +40,12 @@ namespace Graph.Tests
         {
             _trace.NodeIds.Count.Should().Be(4);
             _trace.EquipmentIds.Count.Should().Be(4);
-
         }
 
         [Then(@"Дважды использованное волокно удаляется из графа")]
         public void ThenДваждыИспользованноеВолокноУдаляетсяИзГрафа()
         {
-
+            _sut.ReadModel.Fibers.FirstOrDefault(f => f.FiberId == _doublePassedFiber.FiberId).Should().BeNull();
         }
 
     }
