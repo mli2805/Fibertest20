@@ -9,9 +9,8 @@ namespace Iit.Fibertest.Graph
     {
         public Guid NodeId { get; set; }
         public EquipmentType Type { get; set; }
-        public Dictionary<Guid,Guid> TraceWithNewFiberForDetourRemovedNode { get; set; }
-        public Guid FiberIdToDetourAdjustmentPoint { get; set; } // if there are no traces passing through this point
 
-        public List<NodeDetour> DetoursForGraph { get; set; }
+        public List<NodeDetour> DetoursForGraph { get; set; } // mapper copies dictionary and list successfully
+        public Guid FiberIdToDetourAdjustmentPoint { get; set; } // if there are no traces passing through this point
     }
 }

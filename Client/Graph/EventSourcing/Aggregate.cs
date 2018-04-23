@@ -92,7 +92,8 @@ namespace Iit.Fibertest.Graph
             if (_writeModel.Traces.Any(t => t.HasAnyBaseRef && t.NodeIds.Contains(cmd.NodeId) && cmd.Type != EquipmentType.AdjustmentPoint))
                 return Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram;
 
-            return _eventsQueue.Add(Mapper.Map<NodeRemoved>(cmd));
+            var evnt = Mapper.Map<NodeRemoved>(cmd); // mapper copies dictionary and list successfully
+            return _eventsQueue.Add(evnt);
         }
 
         #region Fiber

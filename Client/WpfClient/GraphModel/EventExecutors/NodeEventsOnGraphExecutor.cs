@@ -110,13 +110,7 @@ namespace Iit.Fibertest.Client
                 return;
             }
 
-            //            if (evnt.TraceWithNewFiberForDetourRemovedNode.Count == 0 &&
-            //                _model.Data.Fibers.Count(f => f.Node1.Id == evnt.NodeId || f.Node2.Id == evnt.NodeId) == 1)
-            //                RemoveNodeOnEdgeWhereNoTraces(evnt.NodeId);
-            //            else
-            //                RemoveNodeWithAllHisFibersUptoRealNode(evnt.NodeId);
-
-            if (evnt.TraceWithNewFiberForDetourRemovedNode.Count == 0)
+            if (evnt.DetoursForGraph.Count == 0)
                 RemoveNodeWithAllHisFibersUptoRealNode(evnt.NodeId);
             else
                 RemoveNodeWithAllHisFibers(evnt.NodeId);

@@ -93,7 +93,7 @@ namespace Iit.Fibertest.Client
             }
 
            
-            var cmd = new RemoveNode { NodeId = nodeId, Type = type, TraceWithNewFiberForDetourRemovedNode = detoursForTracesInModel, DetoursForGraph = detoursForGraph};
+            var cmd = new RemoveNode { NodeId = nodeId, Type = type,  DetoursForGraph = detoursForGraph};
             if (detoursForTracesInModel.Count == 0 && type == EquipmentType.AdjustmentPoint)
             {
                 cmd.FiberIdToDetourAdjustmentPoint = Guid.NewGuid();

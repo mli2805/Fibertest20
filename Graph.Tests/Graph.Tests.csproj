@@ -255,6 +255,14 @@
     <Compile Include="Node\NodeRemovedSteps.cs">
       <DependentUpon>NodeRemoved.feature</DependentUpon>
     </Compile>
+    <Compile Include="Node\NodeRemoveFromLoopOfTrace.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>NodeRemoveFromLoopOfTrace.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Node\NodeRemoveFromLoopOfTraceSteps.cs">
+      <DependentUpon>NodeRemoveFromLoopOfTrace.feature</DependentUpon>
+    </Compile>
     <Compile Include="Rtu\OtauAttached.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -660,6 +668,10 @@
     <None Include="Node\NodeRemoved.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>NodeRemoved.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Node\NodeRemoveFromLoopOfTrace.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>NodeRemoveFromLoopOfTrace.feature.cs</LastGenOutput>
     </None>
     <None Include="Node\NodeUpdated.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

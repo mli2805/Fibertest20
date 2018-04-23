@@ -114,24 +114,21 @@ namespace Iit.Fibertest.Graph
         {
             foreach (var trace in _model.Traces.Where(t => t.NodeIds.Contains(e.NodeId)))
             {
-                if (e.TraceWithNewFiberForDetourRemovedNode == null ||
-                    !e.TraceWithNewFiberForDetourRemovedNode.ContainsKey(trace.TraceId))
+                if (e.DetoursForGraph == null ||
+                    e.DetoursForGraph.All(d => d.TraceId != trace.TraceId))
                 {
                     var message = $@"NodeRemoved: No fiber prepared to detour trace {trace.TraceId}";
                     _logFile.AppendLine(message);
                     return message;
                 }
                 else
-                    ExcludeNodeFromTrace(trace, e.TraceWithNewFiberForDetourRemovedNode[trace.TraceId], e.NodeId);
+                    ExcludeNodeFromTrace(trace, e.DetoursForGraph.First(d=>d.TraceId == trace.TraceId).FiberId, e.NodeId);
             }
 
             if (e.FiberIdToDetourAdjustmentPoint != Guid.Empty)
                 return ExcludeAdjustmentPoint(e.NodeId, e.FiberIdToDetourAdjustmentPoint);
 
-//            if (e.TraceWithNewFiberForDetourRemovedNode.Count == 0 &&
-//                _model.Fibers.Count(f => f.NodeId1 == e.NodeId || f.NodeId2 == e.NodeId) == 1)
-//                return RemoveNodeOnEdgeWhereNoTraces(e.NodeId);
-            return e.TraceWithNewFiberForDetourRemovedNode.Count == 0 
+            return e.DetoursForGraph.Count == 0 
                 ? _model.RemoveNodeWithAllHisFibersUptoRealNode(e.NodeId) 
                 : _model.RemoveNodeWithAllHisFibers(e.NodeId);
         }
