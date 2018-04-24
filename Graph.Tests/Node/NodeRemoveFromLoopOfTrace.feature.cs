@@ -102,10 +102,17 @@ this.ScenarioSetup(scenarioInfo);
 #line 10
  testRunner.Given("Задана трасса проходящая по волокну дважды", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 11
- testRunner.When("Пользователь удаляет узел в котором повернули в петлю", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Пользователь кликает удалить узел в котором повернули в петлю", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 12
+ testRunner.Then("Предложено удалить точки привязки или добавить узлы трасса не меняется узел не уд" +
+                    "аляется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 14
+ testRunner.When("Пользователь добавляет узел между удаляемым и точкой привязки", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 15
+ testRunner.When("И снова кликает удалить узел в котором повернули в петлю", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 16
  testRunner.Then("Трасса укорачивается на два узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 13
+#line 17
  testRunner.And("Ближнее дважды использованное волокно удаляется из графа", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
@@ -117,17 +124,17 @@ this.ScenarioSetup(scenarioInfo);
         public virtual void УдалениеУзлаВнутриУчасткаГдеТрассаПроходитДважды()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление узла внутри участка где трасса проходит дважды", ((string[])(null)));
-#line 15
-this.ScenarioSetup(scenarioInfo);
-#line 16
- testRunner.Given("Задана трасса проходящая по волокну дважды", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 17
- testRunner.When("Пользователь удаляет узел из этого участка", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 18
- testRunner.Then("Трасса укорачивается на два узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 19
- testRunner.And("Ближнее дважды использованное волокно удаляется из графа", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+this.ScenarioSetup(scenarioInfo);
 #line 20
+ testRunner.Given("Задана трасса проходящая по волокну дважды", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 21
+ testRunner.When("Пользователь удаляет узел из этого участка", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 22
+ testRunner.Then("Трасса укорачивается на два узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 23
+ testRunner.And("Ближнее дважды использованное волокно удаляется из графа", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 24
  testRunner.And("Дальнее дважды использованное волокно удаляется из графа", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
