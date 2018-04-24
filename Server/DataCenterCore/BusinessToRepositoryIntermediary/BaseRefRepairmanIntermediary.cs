@@ -80,7 +80,7 @@ namespace Iit.Fibertest.DataCenterCore
                 if (!listOfBaseRef.Any())
                     return string.Format(Resources.SID_Can_t_get_base_refs_for_trace__0_, trace.TraceId.First6());
 
-                foreach (var baseRefDto in listOfBaseRef)
+                foreach (var baseRefDto in listOfBaseRef.Where(b=>b.SorFileId > 0))
                 {
                     Modify(trace, baseRefDto);
                     if (await _sorFileRepository.UpdateSorBytesAsync(baseRefDto.SorFileId, baseRefDto.SorBytes) == -1)

@@ -168,8 +168,20 @@ namespace Iit.Fibertest.Client
             if (!dto.BaseRefs.Any())
                 return;
 
-            if (!_baseRefsChecker.IsBaseRefsAcceptable(dto.BaseRefs, _trace))
+            try
+            {
+                if (!_baseRefsChecker.IsBaseRefsAcceptable(dto.BaseRefs, _trace))
+                    return;
+            }
+            catch (Exception e)
+            {
+                var mess = Resources.SID_Error_while_base_ref_acceptability_checking_;
+                var strs = new List<string>(){mess, "", e.Message};
+                var vm = new MyMessageBoxViewModel(MessageType.Error, strs, 2);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
                 return;
+            }
+           
 
             var result = await _c2DWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)

@@ -1751,4 +1751,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Close_application_" xml:space="preserve">
     <value>Close application?</value>
   </data>
+	<data name="SID_Error_while_base_ref_acceptability_checking_" xml:space="preserve">
+    <value>Error while base ref acceptability checking!</value>
+  </data>
 </root>

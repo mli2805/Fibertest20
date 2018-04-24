@@ -368,7 +368,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add node with sleeve.
+        ///   Looks up a localized string similar to Add node with closure.
         /// </summary>
         public static string SID_Add_node_with_sleeve {
             get {
@@ -1616,6 +1616,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Error_during_Datacenter_Rtu_connection {
             get {
                 return ResourceManager.GetString("SID_Error_during_Datacenter_Rtu_connection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error while base ref acceptability checking!.
+        /// </summary>
+        public static string SID_Error_while_base_ref_acceptability_checking_ {
+            get {
+                return ResourceManager.GetString("SID_Error_while_base_ref_acceptability_checking_", resourceCulture);
             }
         }
         

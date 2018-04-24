@@ -13,6 +13,7 @@ namespace Graph.Tests
         private Iit.Fibertest.Graph.Fiber _doublePassedFiber1, _doublePassedFiber2;
         private Iit.Fibertest.Graph.Trace _trace;
         private Guid _nodeId;
+        private int _allFibersInModel;
 
         [Given(@"Задана трасса проходящая по волокну дважды")]
         public void GivenЗаданаТрассаПроходящаяПоВолокнуДважды()
@@ -30,6 +31,9 @@ namespace Graph.Tests
             _doublePassedFiber2 = _sut.ReadModel.Fibers.First(
                 f => f.NodeId1 == n4 && f.NodeId2 == n3 ||
                      f.NodeId1 == n3 && f.NodeId2 == n4);
+
+            _allFibersInModel = _sut.ReadModel.Fibers.Count;
+            _allFibersInModel.Should().Be(5);
         }
 
         [When(@"Пользователь удаляет разворотный узел")]
@@ -65,6 +69,8 @@ namespace Graph.Tests
         {
             _trace.NodeIds.Count.Should().Be(6);
             _trace.EquipmentIds.Count.Should().Be(6);
+
+            _sut.ReadModel.Fibers.Count.Should().Be(4);
         }
 
         [Then(@"Ближнее дважды использованное волокно удаляется из графа")]
