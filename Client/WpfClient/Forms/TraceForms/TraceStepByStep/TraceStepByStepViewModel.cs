@@ -45,7 +45,11 @@ namespace Iit.Fibertest.Client
 
         public void SemiautomaticMode()
         {
-            while (MakeStepForward(false)) { }
+            var isButtonPressed = true;
+            while (MakeStepForward(isButtonPressed))
+            {
+                isButtonPressed = false;
+            }
         }
 
         public void StepBackward()
@@ -75,7 +79,9 @@ namespace Iit.Fibertest.Client
             switch (neighbours.Count)
             {
                 case 1:
+                    if (neighbours[0].Id != previousNodeId) return JustStep(neighbours[0]);
                     if (!isButtonPressed) return false;
+
                     var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>()
                         { Resources.SID_It_s_an_end_node_, Resources.SID_If_you_need_to_continue__press__Step_backward_ }, -1 );
                     _windowManager.ShowDialogWithAssignedOwner(vm);
