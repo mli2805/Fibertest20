@@ -2754,6 +2754,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to next to the node your are going to remove.
+        /// </summary>
+        public static string SID_next_to_the_node_your_are_going_to_remove {
+            get {
+                return ResourceManager.GetString("SID_next_to_the_node_your_are_going_to_remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to no.
         /// </summary>
         public static string SID_no {
@@ -3516,6 +3525,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Remove_adjustment_point {
             get {
                 return ResourceManager.GetString("SID_Remove_adjustment_point", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove adjustment points or add nodes.
+        /// </summary>
+        public static string SID_Remove_adjustment_points_or_add_nodes {
+            get {
+                return ResourceManager.GetString("SID_Remove_adjustment_points_or_add_nodes", resourceCulture);
             }
         }
         

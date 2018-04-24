@@ -98,8 +98,11 @@ namespace Iit.Fibertest.Client
             var hasProblems = IsForkWithAdjustmentPointsNearby(nodeId) || IsUturnWithAdjustmentPointsNearby(nodeId);
             if (!hasProblems) return false;
 
-            var vm = new MyMessageBoxViewModel(MessageType.Information,
-                Resources.SID_Remove_adjustment_points_or_add_nodes_nearby_the_node_to_remove);
+            var strs = new List<string> {
+                Resources.SID_Remove_adjustment_points_or_add_nodes,
+                Resources.SID_next_to_the_node_your_are_going_to_remove
+            };
+            var vm = new MyMessageBoxViewModel(MessageType.Information, strs, -1);
             _windowManager.ShowDialogWithAssignedOwner(vm);
             return true;
         }

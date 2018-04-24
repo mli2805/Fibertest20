@@ -1754,7 +1754,10 @@ RTU is initializing right now!</value>
 	<data name="SID_Error_while_base_ref_acceptability_checking_" xml:space="preserve">
     <value>Error while base ref acceptability checking!</value>
   </data>
-	<data name="SID_Remove_adjustment_points_or_add_nodes_nearby_the_node_to_remove" xml:space="preserve">
-    <value>Remove adjustment points or add nodes nearby the node to remove</value>
+	<data name="SID_Remove_adjustment_points_or_add_nodes" xml:space="preserve">
+    <value>Remove adjustment points or add nodes</value>
+  </data>
+	<data name="SID_next_to_the_node_your_are_going_to_remove" xml:space="preserve">
+    <value>next to the node your are going to remove</value>
   </data>
 </root>
