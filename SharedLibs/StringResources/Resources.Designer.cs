@@ -3520,6 +3520,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove adjustment points or add nodes nearby the node to remove.
+        /// </summary>
+        public static string SID_Remove_adjustment_points_or_add_nodes_nearby_the_node_to_remove {
+            get {
+                return ResourceManager.GetString("SID_Remove_adjustment_points_or_add_nodes_nearby_the_node_to_remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove node.
         /// </summary>
         public static string SID_Remove_node {

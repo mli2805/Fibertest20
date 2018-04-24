@@ -69,11 +69,12 @@ namespace Iit.Fibertest.Client
         public async Task RemoveNode(Guid nodeId, EquipmentType type)
         {
             if (!IsRemoveThisNodePermitted(nodeId, type)) return;
+            if (HasProblems(nodeId)) return;
 
             var detoursForGraph = new List<NodeDetour>();
             foreach (var trace in _model.Traces.Where(t => t.NodeIds.Contains(nodeId)))
             {
-               AddDetoursForTrace(nodeId, trace, detoursForGraph);
+                AddDetoursForTrace(nodeId, trace, detoursForGraph);
             }
             var cmd = new RemoveNode { NodeId = nodeId, Type = type, DetoursForGraph = detoursForGraph };
 
@@ -85,21 +86,59 @@ namespace Iit.Fibertest.Client
                 _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, message));
         }
 
+        // if node has 3 or more neighbours (it's a fork) and one or more from them are adjustment point 
+        // or 
+        // if it is a U-turn in trace and previous node in trace is adjustment point
+        // then
+        // those adjustment points near this node should be removed before node removal
+        // or
+        // empty nodes could be added between them and node to remove
+        private bool HasProblems(Guid nodeId)
+        {
+            var hasProblems = IsForkWithAdjustmentPointsNearby(nodeId) || IsUturnWithAdjustmentPointsNearby(nodeId);
+            if (!hasProblems) return false;
+
+            var vm = new MyMessageBoxViewModel(MessageType.Information,
+                Resources.SID_Remove_adjustment_points_or_add_nodes_nearby_the_node_to_remove);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+            return true;
+        }
+
+        private bool IsUturnWithAdjustmentPointsNearby(Guid nodeId)
+        {
+            foreach (var trace in _model.Traces.Where(t=>t.NodeIds.Contains(nodeId)))
+            {
+                for (int i = 0; i < trace.NodeIds.Count-1; i++)
+                {
+                    if (trace.NodeIds[i] != nodeId) continue;
+                    if (trace.NodeIds[i - 1] == trace.NodeIds[i + 1] &&
+                        _model.Nodes.First(n=>n.NodeId == trace.NodeIds[i-1]).TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint) return true;
+                }
+            }
+            return false;
+        }
+        private bool IsForkWithAdjustmentPointsNearby(Guid nodeId)
+        {
+            var neighbourIds = _model.Fibers.Where(f => f.NodeId1 == nodeId || f.NodeId2 == nodeId)
+                .Select(f => f.NodeId1 == nodeId ? f.NodeId2 : f.NodeId1).ToList();
+            if (neighbourIds.Count <= 2) return false;
+
+            foreach (var neighbourId in neighbourIds)
+            {
+                var neighbour = _model.Nodes.Single(n => n.NodeId == neighbourId);
+                if (neighbour.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint)
+                    return true;
+            }
+
+            // there are no adjustment points around
+            return false;
+        }
 
         private void AddDetoursForTrace(Guid nodeId, Trace trace, List<NodeDetour> alreadyMadeDetours)
         {
             for (int i = 1; i < trace.NodeIds.Count; i++)
             {
                 if (trace.NodeIds[i] != nodeId) continue;
-
-                if (trace.NodeIds[i - 1] == trace.NodeIds[i + 1] &&
-                    _model.Equipments.First(e => e.EquipmentId == trace.EquipmentIds[i - 1]).Type ==
-                    EquipmentType.AdjustmentPoint)
-                {
-                    var result = _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Confirmation, "It's a trace turn. To remove the turn adjustment points will be deleted. Continue?"));
-
-                }
-
                 var detour = new NodeDetour()
                 {
                     FiberId = Guid.NewGuid(), // if there is a fiber between NodeId1 and NodeId2 already - new fiberId just won't be used
