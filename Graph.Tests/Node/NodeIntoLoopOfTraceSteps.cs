@@ -14,6 +14,7 @@ namespace Graph.Tests
         private Iit.Fibertest.Graph.Trace _trace;
         private Guid _nodeId;
         private Guid _equipmentId;
+        private int _nodeCount;
 
         [Given(@"Трасса проходит по волокну дважды")]
         public void GivenТрассаПроходитПоВолокнуДважды()
@@ -24,6 +25,8 @@ namespace Graph.Tests
             _doublePassedFiber =  _sut.ReadModel.Fibers.First(
                 f => f.NodeId1 == n1 && f.NodeId2 == n2 ||
                      f.NodeId1 == n2 && f.NodeId2 == n1);
+            _nodeCount = _trace.NodeIds.Count;
+            _nodeCount.Should().Be(8);
         }
 
         [When(@"Пользователь добавляет в это волокно узел")]
@@ -39,14 +42,14 @@ namespace Graph.Tests
         [Then(@"Трасса удлиняется на два узла")]
         public void ThenТрассаУдлиняетсяНаДваУзла()
         {
-            _trace.NodeIds.Count.Should().Be(8);
-            _trace.EquipmentIds.Count.Should().Be(8);
+            _trace.NodeIds.Count.Should().Be(_nodeCount+2);
+            _trace.EquipmentIds.Count.Should().Be(_nodeCount + 2);
 
             _trace.NodeIds[3].Should().Be(_nodeId);
-            _trace.NodeIds[5].Should().Be(_nodeId);
+            _trace.NodeIds[7].Should().Be(_nodeId);
 
             _trace.EquipmentIds[3].Should().Be(_equipmentId);
-            _trace.EquipmentIds[5].Should().Be(_equipmentId);
+            _trace.EquipmentIds[7].Should().Be(_equipmentId);
         }
 
      

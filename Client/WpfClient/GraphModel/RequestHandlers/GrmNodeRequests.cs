@@ -92,9 +92,17 @@ namespace Iit.Fibertest.Client
             {
                 if (trace.NodeIds[i] != nodeId) continue;
 
+                if (trace.NodeIds[i - 1] == trace.NodeIds[i + 1] &&
+                    _model.Equipments.First(e => e.EquipmentId == trace.EquipmentIds[i - 1]).Type ==
+                    EquipmentType.AdjustmentPoint)
+                {
+                    var result = _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Confirmation, "It's a trace turn. To remove the turn adjustment points will be deleted. Continue?"));
+
+                }
+
                 var detour = new NodeDetour()
                 {
-                    FiberId = Guid.NewGuid(), // if there is a fiber between NodeId1 and NodeId2 already - this fiberId just won't be used
+                    FiberId = Guid.NewGuid(), // if there is a fiber between NodeId1 and NodeId2 already - new fiberId just won't be used
                     NodeId1 = trace.NodeIds[i - 1],
                     NodeId2 = trace.NodeIds[i + 1],
                     TraceState = trace.State,

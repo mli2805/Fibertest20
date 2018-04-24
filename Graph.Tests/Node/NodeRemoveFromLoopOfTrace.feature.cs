@@ -71,12 +71,12 @@ namespace Graph.Tests.Node
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Удаление узла из волокна где трасса проходит дважды")]
+        [Xunit.FactAttribute(DisplayName="Удаление разворотного узла из трассы с повторами")]
         [Xunit.TraitAttribute("FeatureTitle", "NodeRemoveFromLoopOfTrace")]
-        [Xunit.TraitAttribute("Description", "Удаление узла из волокна где трасса проходит дважды")]
-        public virtual void УдалениеУзлаИзВолокнаГдеТрассаПроходитДважды()
+        [Xunit.TraitAttribute("Description", "Удаление разворотного узла из трассы с повторами")]
+        public virtual void УдалениеРазворотногоУзлаИзТрассыСПовторами()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление узла из волокна где трасса проходит дважды", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление разворотного узла из трассы с повторами", ((string[])(null)));
 #line 3
 this.ScenarioSetup(scenarioInfo);
 #line 4
@@ -86,7 +86,49 @@ this.ScenarioSetup(scenarioInfo);
 #line 6
  testRunner.Then("Трасса укорачивается на два узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 7
- testRunner.And("Дважды использованное волокно удаляется из графа", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Дальнее дважды использованное волокно удаляется из графа", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Удаление узла где повернули на волокно где трасса проходит дважды")]
+        [Xunit.TraitAttribute("FeatureTitle", "NodeRemoveFromLoopOfTrace")]
+        [Xunit.TraitAttribute("Description", "Удаление узла где повернули на волокно где трасса проходит дважды")]
+        public virtual void УдалениеУзлаГдеПовернулиНаВолокноГдеТрассаПроходитДважды()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление узла где повернули на волокно где трасса проходит дважды", ((string[])(null)));
+#line 9
+this.ScenarioSetup(scenarioInfo);
+#line 10
+ testRunner.Given("Задана трасса проходящая по волокну дважды", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 11
+ testRunner.When("Пользователь удаляет узел в котором повернули в петлю", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 12
+ testRunner.Then("Трасса укорачивается на два узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 13
+ testRunner.And("Ближнее дважды использованное волокно удаляется из графа", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Удаление узла внутри участка где трасса проходит дважды")]
+        [Xunit.TraitAttribute("FeatureTitle", "NodeRemoveFromLoopOfTrace")]
+        [Xunit.TraitAttribute("Description", "Удаление узла внутри участка где трасса проходит дважды")]
+        public virtual void УдалениеУзлаВнутриУчасткаГдеТрассаПроходитДважды()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Удаление узла внутри участка где трасса проходит дважды", ((string[])(null)));
+#line 15
+this.ScenarioSetup(scenarioInfo);
+#line 16
+ testRunner.Given("Задана трасса проходящая по волокну дважды", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 17
+ testRunner.When("Пользователь удаляет узел из этого участка", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 18
+ testRunner.Then("Трасса укорачивается на два узла", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 19
+ testRunner.And("Ближнее дважды использованное волокно удаляется из графа", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 20
+ testRunner.And("Дальнее дважды использованное волокно удаляется из графа", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

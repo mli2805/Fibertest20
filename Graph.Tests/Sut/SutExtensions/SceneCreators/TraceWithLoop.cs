@@ -37,17 +37,25 @@ namespace Graph.Tests
             sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = nodeForRtuId, NodeId2 = closureNodeId }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var fiber = sut.ReadModel.Fibers.Last();
-            sut.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber(){FiberId = fiber.FiberId, InjectionType = EquipmentType.AdjustmentPoint}).Wait();
+            sut.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber() { FiberId = fiber.FiberId, InjectionType = EquipmentType.AdjustmentPoint }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             var adjustmentNodeId1 = sut.ReadModel.Nodes.Last().NodeId;
             var adjustmentEquipmentId1 = sut.ReadModel.Equipments.Last(e => e.Type == EquipmentType.AdjustmentPoint).EquipmentId;
 
+
             sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = closureNodeId, NodeId2 = crossNodeId }).Wait();
+            sut.Poller.EventSourcingTick().Wait();
+            fiber = sut.ReadModel.Fibers.Last();
+            sut.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber() { FiberId = fiber.FiberId, InjectionType = EquipmentType.EmptyNode }).Wait();
+            sut.Poller.EventSourcingTick().Wait();
+            var emptyNodeId1 = sut.ReadModel.Nodes.Last().NodeId;
+            var emptyEquipmentId1 = sut.ReadModel.Equipments.Last(e => e.Type == EquipmentType.AdjustmentPoint).EquipmentId;
+
             sut.GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = closureNodeId, NodeId2 = terminalNodeId }).Wait();
             sut.Poller.EventSourcingTick().Wait();
-
-            var traceNodes = new List<Guid>() { nodeForRtuId, adjustmentNodeId1, closureNodeId, crossNodeId, closureNodeId, terminalNodeId };
-            var traceEquipments = new List<Guid>() { rtuId, adjustmentEquipmentId1, closureId, crossId, closureId, terminalId };
+        
+            var traceNodes = new List<Guid>() { nodeForRtuId, adjustmentNodeId1, closureNodeId, emptyNodeId1, crossNodeId, emptyNodeId1, closureNodeId, terminalNodeId };
+            var traceEquipments = new List<Guid>() { rtuId, adjustmentEquipmentId1, closureId, emptyEquipmentId1, crossId, emptyEquipmentId1, closureId, terminalId };
 
             var traceAddViewModel = sut.ClientScope.Resolve<TraceInfoViewModel>();
             traceAddViewModel.Initialize(Guid.Empty, traceEquipments, traceNodes);
@@ -57,6 +65,5 @@ namespace Graph.Tests
 
             return sut.ReadModel.Traces.Last();
         }
-
     }
 }

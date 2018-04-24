@@ -192,8 +192,8 @@ namespace Iit.Fibertest.Graph
                     States = new Dictionary<Guid, FiberState> { { detour.TraceId, detour.TraceState } }
                 };
             }
-            else
-                fiber.States.Add(detour.TraceId, detour.TraceState);
+            else if (!fiber.States.ContainsKey(detour.TraceId))
+                        fiber.States.Add(detour.TraceId, detour.TraceState);
             _model.Fibers.Add(fiber);
 
         }

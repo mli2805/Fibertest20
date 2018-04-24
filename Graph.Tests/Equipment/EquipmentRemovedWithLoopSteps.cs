@@ -24,6 +24,8 @@ namespace Graph.Tests
             _trace = _sut.CreateTraceDoublePassingClosure();
             _nodeAId = _trace.NodeIds[2];
             _equipmentA1Id = _trace.EquipmentIds[2];
+
+            _trace.NodeIds.Count.Should().Be(8);
         }
 
         [Given(@"Открыта форма для редактирования узла с муфтой А1")]
@@ -56,14 +58,14 @@ namespace Graph.Tests
         {
             _lvm = _sut.ClientScope.Resolve<LandmarksViewModel>();
             _lvm.InitializeFromTrace(_trace.TraceId).Wait();
-            _lvm.Rows.Count.Should().Be(5);
+            _lvm.Rows.Count.Should().Be(7); // + one point 
         }
 
         [Given(@"Две строки содержат муфту")]
         public void GivenДвеСтрокиСодержатМуфту()
         {
             _lvm.Rows[1].EquipmentId.Should().Be(_equipmentA1Id);
-            _lvm.Rows[3].EquipmentId.Should().Be(_equipmentA1Id);
+            _lvm.Rows[5].EquipmentId.Should().Be(_equipmentA1Id);
         }
 
         [When(@"Пользователь исключает муфту из трассы на первом проходе")]
@@ -79,7 +81,7 @@ namespace Graph.Tests
         public void ThenНаПервомПроходеМуфтыНетНаОбратномЕсть()
         {
             _lvm.Rows[1].EquipmentId.Should().NotBe(_equipmentA1Id);
-            _lvm.Rows[3].EquipmentId.Should().Be(_equipmentA1Id);
+            _lvm.Rows[5].EquipmentId.Should().Be(_equipmentA1Id);
         }
 
     }
