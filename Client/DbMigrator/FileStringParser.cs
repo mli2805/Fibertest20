@@ -55,8 +55,8 @@ namespace Iit.Fibertest.DbMigrator
                 {
                     NodeId = nodeGuid,
                     Type = EquipmentType.EmptyNode,
-                    RequestedEquipmentId = Guid.NewGuid(),
-                    EmptyNodeEquipmentId = emptyNodeEquipmentGuid,
+                    RequestedEquipmentId = emptyNodeEquipmentGuid,
+                    EmptyNodeEquipmentId = Guid.Empty,
                     Latitude = double.Parse(parts[3]),
                     Longitude = double.Parse(parts[4]),
                     Title = parts[5].Trim(),
