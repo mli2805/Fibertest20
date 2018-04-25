@@ -106,13 +106,20 @@ namespace Iit.Fibertest.Client
         private async Task<ClientRegisteredDto> RegisterClientAsync()
         {
             var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
-            var clientAddresses = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
-           _c2DWcfManager.SetServerAddresses(dcServiceAddresses, UserName, clientAddresses.Ip4Address);
+            var clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
+            if (clientAddress.IsAddressSetAsIp && clientAddress.Ip4Address == @"0.0.0.0" &&
+                dcServiceAddresses.Main.Ip4Address != @"0.0.0.0")
+            {
+                clientAddress.Ip4Address = LocalAddressResearcher.GetLocalAddressToConnectServer(dcServiceAddresses.Main.Ip4Address);
+                _iniFile.Write(clientAddress, IniSection.ClientLocalAddress);
+            }
+
+            _c2DWcfManager.SetServerAddresses(dcServiceAddresses, UserName, clientAddress.Ip4Address);
 
             var result = await _c2DWcfManager.RegisterClientAsync(
                 new RegisterClientDto()
                 {
-                    Addresses = new DoubleAddress() { Main = clientAddresses, HasReserveAddress = false },
+                    Addresses = new DoubleAddress() { Main = clientAddress, HasReserveAddress = false },
                     UserName = UserName,
                     Password = Password,
                 });
