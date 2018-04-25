@@ -1,6 +1,6 @@
 ﻿using TechTalk.SpecFlow;
 
-namespace Graph.Tests.UsersAndZones
+namespace Graph.Tests
 {
     [Binding]
     public sealed class UsersPrivilegesSteps
@@ -9,6 +9,5 @@ namespace Graph.Tests.UsersAndZones
         public void GivenСуществуетRtuсТрассами()
         {
         }
-
     }
 }

@@ -9,12 +9,12 @@
 //  </auto-generated>
 // ------------------------------------------------------------------------------
 #region Designer generated code
-
-using TechTalk.SpecFlow;
-
 #pragma warning disable
-namespace Graph.Tests
+namespace Graph.Tests.UsersAndZones
 {
+    using TechTalk.SpecFlow;
+    
+    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public partial class ZonesFeature : Xunit.IClassFixture<ZonesFeature.FixtureData>, System.IDisposable
@@ -80,28 +80,26 @@ namespace Graph.Tests
 #line 3
 this.ScenarioSetup(scenarioInfo);
 #line 4
- testRunner.Given("Вход как рут", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 5
  testRunner.And("Добавляем Зона1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 6
+#line 5
  testRunner.And("Добавляем Оператора для Зона1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 7
+#line 6
  testRunner.And("Создаем RTU1 и трассу", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 8
+#line 7
  testRunner.And("Создаем RTU2 и трассу1 и трассу2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 10
+#line 9
  testRunner.When("Щелкаем включить трассу2 у RTU2 в Зона1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 11
+#line 10
  testRunner.Then("У RTU2 тоже появляется птичка в столбце Зона1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 13
+#line 12
  testRunner.Given("Сохраняем зоны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 14
+#line 13
  testRunner.When("Перезапускаем клиентское приложение", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 15
+#line 14
  testRunner.When("Вход как Оператор для Зона1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 16
+#line 15
  testRunner.Then("На карте видна только трасса2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 17
+#line 16
  testRunner.And("В дереве только RTU2 трасса1 серая трасса2 синяя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();

@@ -313,6 +313,7 @@
     </Compile>
     <Compile Include="Sut\Enums\Answer.cs" />
     <Compile Include="Sut\SutExtensions\Handlers.cs" />
+    <Compile Include="Sut\SutExtensions\SceneCreators\SceneForHideTraces.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\TraceRtuEmptyTerminal.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForAccidentsExtractor.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForBaseRefAdjuster.cs" />

@@ -70,7 +70,7 @@ namespace Iit.Fibertest.Client
             });
             contextMenu.Items.Add(new MenuItem()
             {
-                Header = @"Hide traces",
+                Header = Resources.SID_Hide_traces,
                 Command = new ContextMenuAction(_rtuVmActions.HideTraces, _rtuVmPermissions.CanHideTraces),
                 CommandParameter = marker,
                 IsChecked = user.HiddenRtus.Contains(rtu.Id),

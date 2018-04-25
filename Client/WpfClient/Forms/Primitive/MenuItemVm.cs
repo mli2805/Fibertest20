@@ -9,6 +9,8 @@ namespace Iit.Fibertest.Client
         public List<MenuItemVm> Children { get; private set; }
         public ICommand Command { get; set; }
         public object CommandParameter { get; set; }
+        public bool IsChecked { get; set; }
+
 
         public MenuItemVm()
         {

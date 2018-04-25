@@ -9,12 +9,12 @@
 //  </auto-generated>
 // ------------------------------------------------------------------------------
 #region Designer generated code
+
+using TechTalk.SpecFlow;
+
 #pragma warning disable
-namespace Graph.Tests.UsersAndZones
+namespace Graph.Tests
 {
-    using TechTalk.SpecFlow;
-    
-    
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.1.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public partial class UsersPrivilegesFeature : Xunit.IClassFixture<UsersPrivilegesFeature.FixtureData>, System.IDisposable

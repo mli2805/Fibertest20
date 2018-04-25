@@ -90,50 +90,44 @@ this.ScenarioSetup(scenarioInfo);
 #line 8
  testRunner.Given("Рисует отдельные узлы B и C и отрезок между ними", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 10
- testRunner.Then("Перезапускаем клиента", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Given("Входит пользователь operator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 11
+ testRunner.Then("В дереве видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 12
- testRunner.Given("Входит пользователь operator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Then("В карте видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 13
- testRunner.Then("В дереве видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 14
- testRunner.Then("В карте видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("Не включенные в трассы элементы НЕ видны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 15
- testRunner.And("Не включенные в трассы элементы НЕ видны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 17
  testRunner.When("Operator кликает на RTU2 пункт меню Скрыть трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 19
+#line 17
  testRunner.Then("В дереве видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 20
+#line 18
  testRunner.Then("В карте видны оба RTU и трасса1 НО трасса2 от RTU2 не видна", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 19
+ testRunner.And("Не включенные в трассы элементы НЕ видны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 21
- testRunner.And("Не включенные в трассы элементы НЕ видны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 23
- testRunner.Then("Перезапускаем клиента", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 25
  testRunner.Given("Входит пользователь supervisor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 26
+#line 22
  testRunner.Then("В дереве видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 27
+#line 23
  testRunner.Then("В карте видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 28
+#line 24
  testRunner.And("Не включенные в трассы элементы НЕ видны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 30
- testRunner.Then("Перезапускаем клиента", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 32
+#line 26
  testRunner.Given("Входит пользователь operator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 27
+ testRunner.Then("В дереве видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 28
+ testRunner.Then("В карте видны оба RTU и трасса1 НО трасса2 от RTU2 не видна", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 29
+ testRunner.And("Не включенные в трассы элементы НЕ видны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 31
+ testRunner.When("Operator кликает на RTU2 пункт меню Скрыть трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 33
  testRunner.Then("В дереве видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 34
- testRunner.Then("В карте видны оба RTU и трасса1 НО трасса2 от RTU2 не видна", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 35
- testRunner.And("Не включенные в трассы элементы НЕ видны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 37
- testRunner.When("Operator кликает на RTU2 пункт меню Скрыть трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 39
- testRunner.Then("В дереве видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 40
  testRunner.Then("В карте видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 41
+#line 35
  testRunner.And("Не включенные в трассы элементы НЕ видны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();

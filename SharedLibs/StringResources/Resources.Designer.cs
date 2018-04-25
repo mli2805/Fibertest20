@@ -1962,6 +1962,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Hide traces.
+        /// </summary>
+        public static string SID_Hide_traces {
+            get {
+                return ResourceManager.GetString("SID_Hide_traces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Highlighted.
         /// </summary>
         public static string SID_Highlighted {
@@ -3534,15 +3543,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Remove_adjustment_points_or_add_nodes {
             get {
                 return ResourceManager.GetString("SID_Remove_adjustment_points_or_add_nodes", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Remove adjustment points or add nodes nearby the node to remove.
-        /// </summary>
-        public static string SID_Remove_adjustment_points_or_add_nodes_nearby_the_node_to_remove {
-            get {
-                return ResourceManager.GetString("SID_Remove_adjustment_points_or_add_nodes_nearby_the_node_to_remove", resourceCulture);
             }
         }
         

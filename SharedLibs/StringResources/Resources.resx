@@ -1760,4 +1760,7 @@ RTU is initializing right now!</value>
 	<data name="SID_next_to_the_node_your_are_going_to_remove" xml:space="preserve">
     <value>next to the node your are going to remove</value>
   </data>
+	<data name="SID_Hide_traces" xml:space="preserve">
+    <value>Hide traces</value>
+  </data>
 </root>

@@ -1,95 +1,12 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Requests;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
 {
-    public class SceneForHideTraces : SystemUnderTest
-    {
-        public Guid EmptyNode1Id, EmptyNode2Id;
-        public Guid CommonClosureNodeId { get; set; }
-        public Guid CommonTerminalNodeId { get; set; }
-
-        public Guid NodeAId, NodeBId, NodeCId;
-        public Iit.Fibertest.Graph.Rtu Rtu1, Rtu2;
-        public Iit.Fibertest.Graph.Trace Trace1 { get; set; }
-        public Iit.Fibertest.Graph.Trace Trace2 { get; set; }
-
-
-        public void CreateRtu1WithTrace1()
-        {
-            FakeWindowManager.RegisterHandler(model => this.RtuUpdateHandler(model, @"RTU2", @"doesn't matter", Answer.Yes));
-            GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 });
-            Poller.EventSourcingTick().Wait();
-            Rtu1 = ReadModel.Rtus.Last();
-
-            GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation { Type = EquipmentType.EmptyNode }).Wait();
-            Poller.EventSourcingTick().Wait();
-            EmptyNode1Id = ReadModel.Nodes.Last().NodeId;
-
-            GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation { Type = EquipmentType.Closure }).Wait();
-            Poller.EventSourcingTick().Wait();
-            CommonClosureNodeId = ReadModel.Nodes.Last().NodeId;
-
-            GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation { Type = EquipmentType.Terminal }).Wait();
-            Poller.EventSourcingTick().Wait();
-            CommonTerminalNodeId = ReadModel.Nodes.Last().NodeId;
-
-            GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = Rtu1.NodeId, NodeId2 = EmptyNode1Id }).Wait();
-            GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = EmptyNode1Id, NodeId2 = CommonClosureNodeId }).Wait();
-            GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = CommonClosureNodeId, NodeId2 = CommonTerminalNodeId }).Wait();
-            Poller.EventSourcingTick().Wait();
-
-            Trace1 = this.DefineTrace(CommonTerminalNodeId, Rtu1.NodeId, @"trace1", 3);
-        }
-
-        public void CreateRtu2WithTrace2PartlyOverlappingTrace1()
-        {
-            FakeWindowManager.RegisterHandler(model => this.RtuUpdateHandler(model, @"RTU1", @"doesn't matter", Answer.Yes));
-            GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 });
-            Poller.EventSourcingTick().Wait();
-            Rtu2 = ReadModel.Rtus.Last();
-
-            GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation { Type = EquipmentType.EmptyNode }).Wait();
-            Poller.EventSourcingTick().Wait();
-            EmptyNode2Id = ReadModel.Nodes.Last().NodeId;
-
-            GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = Rtu2.NodeId, NodeId2 = EmptyNode2Id }).Wait();
-            GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = EmptyNode2Id, NodeId2 = CommonClosureNodeId }).Wait();
-            Poller.EventSourcingTick().Wait();
-
-            Trace2 = this.DefineTrace(CommonTerminalNodeId, Rtu2.NodeId, @"trace2", 3);
-        }
-
-        public void CreateFiberToRtu2()
-        {
-            GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation { Type = EquipmentType.Other }).Wait();
-            Poller.EventSourcingTick().Wait();
-            NodeAId = ReadModel.Nodes.Last().NodeId;
-
-            GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = Rtu2.NodeId, NodeId2 = NodeAId }).Wait();
-        }
-
-        public void CreateFiberBtoC()
-        {
-            GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation { Type = EquipmentType.Other }).Wait();
-            Poller.EventSourcingTick().Wait();
-            NodeBId = ReadModel.Nodes.Last().NodeId;
-
-            GraphReadModel.GrmEquipmentRequests.AddEquipmentAtGpsLocation(new RequestAddEquipmentAtGpsLocation { Type = EquipmentType.Other }).Wait();
-            Poller.EventSourcingTick().Wait();
-            NodeCId = ReadModel.Nodes.Last().NodeId;
-
-            GraphReadModel.GrmFiberRequests.AddFiber(new AddFiber() { NodeId1 = NodeBId, NodeId2 = NodeCId }).Wait();
-        }
-    }
-
     [Binding]
     public sealed class UserHidesTracesSteps
     {
@@ -98,6 +15,8 @@ namespace Graph.Tests
         [Given(@"Входит пользователь (.*)")]
         public void GivenВходитПользователь(string user)
         {
+            _sut.RestartClient();
+
             var vm = _sut.ClientScope.Resolve<LoginViewModel>();
             vm.UserName = user;
             vm.Password = user;
@@ -106,11 +25,6 @@ namespace Graph.Tests
             _sut.ReadModel.Users.Count.Should().Be(5);
         }
 
-        [Then(@"Перезапускаем клиента")]
-        public void ThenПерезапускаемКлиента()
-        {
-            _sut.RestartClient();
-        }
 
         [Given(@"Рисует RTU1 с трассой1")]
         public void GivenРисуетRtu1СТрассой1()
@@ -188,7 +102,8 @@ namespace Graph.Tests
             _sut.GraphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == _sut.NodeBId).Should().BeNull();
             _sut.GraphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == _sut.NodeCId).Should().BeNull();
 
-            var fiberRtu2ToA = _sut.ReadModel.Fibers.First(f => f.NodeId1 == _sut.Rtu2.NodeId && f.NodeId2 == _sut.NodeAId);
+            var fiberRtu2ToA =
+                _sut.ReadModel.Fibers.First(f => f.NodeId1 == _sut.Rtu2.NodeId && f.NodeId2 == _sut.NodeAId);
             _sut.GraphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == fiberRtu2ToA.FiberId).Should().BeNull();
 
             var fiberBtoC = _sut.ReadModel.Fibers.First(f => f.NodeId1 == _sut.NodeBId && f.NodeId2 == _sut.NodeCId);
@@ -202,7 +117,5 @@ namespace Graph.Tests
             _sut.GraphReadModel.GrmRtuRequests.SaveUsersHiddenRtus(_sut.Rtu2.NodeId).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
-
-
     }
 }

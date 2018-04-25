@@ -199,5 +199,14 @@ namespace Iit.Fibertest.Client
             var rtuNodeId = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id).NodeId;
             _graphReadModel.GrmRtuRequests.DefineTraceStepByStep(rtuNodeId, rtuLeaf.Title);
         }
+
+        public async void HideTraces(object parameter)
+        {
+            if (!(parameter is RtuLeaf rtuLeaf))
+                return;
+
+            var rtuNodeId = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id).NodeId;
+            await _graphReadModel.GrmRtuRequests.SaveUsersHiddenRtus(rtuNodeId);
+        }
     }
 }

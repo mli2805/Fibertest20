@@ -59,6 +59,18 @@ namespace Graph.Tests
             MsmqHandler = ServerScope.Resolve<MsmqHandler>();
 
             ResolveClientsPartsOnStart();
+
+            LoginAsRoot();
+        }
+
+        private void LoginAsRoot()
+        {
+            var vm = ClientScope.Resolve<LoginViewModel>();
+            vm.UserName = @"root";
+            vm.Password = @"root";
+            vm.Login();
+            ShellVm.GetStoredData().Wait();
+            ReadModel.Users.Count.Should().Be(5);
         }
 
         private void ResolveClientsPartsOnStart()
