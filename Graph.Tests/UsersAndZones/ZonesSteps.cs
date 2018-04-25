@@ -7,7 +7,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using TechTalk.SpecFlow;
 
-namespace Graph.Tests.UsersAndZones
+namespace Graph.Tests
 {
     [Binding]
     public sealed class ZonesSteps

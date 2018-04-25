@@ -544,6 +544,14 @@
     <Compile Include="Trace\TraceWithLoopCleanOrRemoveSteps.cs">
       <DependentUpon>TraceWithLoopCleanOrRemove.feature</DependentUpon>
     </Compile>
+    <Compile Include="UsersAndZones\UserHidesTraces.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>UserHidesTraces.feature</DependentUpon>
+    </Compile>
+    <Compile Include="UsersAndZones\UserHidesTracesSteps.cs">
+      <DependentUpon>UserHidesTraces.feature</DependentUpon>
+    </Compile>
     <Compile Include="UsersAndZones\UsersPrivileges.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -757,6 +765,10 @@
     <None Include="Trace\TraceWithLoopCleanOrRemove.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>TraceWithLoopCleanOrRemove.feature.cs</LastGenOutput>
+    </None>
+    <None Include="UsersAndZones\UserHidesTraces.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>UserHidesTraces.feature.cs</LastGenOutput>
     </None>
     <None Include="UsersAndZones\UsersPrivileges.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
