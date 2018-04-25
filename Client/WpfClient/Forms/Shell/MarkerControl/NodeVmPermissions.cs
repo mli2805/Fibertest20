@@ -39,6 +39,7 @@ namespace Iit.Fibertest.Client
             if (_currentUser.Role > Role.Root || parameter == null)
                 return false;
             var marker = (MarkerControl)parameter;
+            if (marker.Owner.GraphReadModel.ReadModel.Traces.Any(t => t.NodeIds.Contains(marker.GMapMarker.Id) && t.HasAnyBaseRef)) return false;
             return marker.Owner.GraphReadModel.ReadModel.Traces.All(t => t.NodeIds.Last() != marker.GMapMarker.Id);
         }
 
