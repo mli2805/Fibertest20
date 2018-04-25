@@ -3,6 +3,7 @@ using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -95,6 +96,30 @@ namespace Graph.Tests
             }
         }
 
+        [Then(@"В карте видны оба RTU и трасса2 A трасса1 от RTU1 не видна")]
+        public void ThenВКартеВидныОбаRtuиТрасса2AТрасса1ОтRtu1НеВидна()
+        {
+            {
+                // RTU2 & Trace2
+                foreach (var nodeId in _sut.Trace2.NodeIds)
+                    _sut.GraphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == nodeId).Should().NotBeNull();
+
+                foreach (var fiber in _sut.ReadModel.GetTraceFibers(_sut.Trace2))
+                    _sut.GraphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == fiber.FiberId).Should().NotBeNull();
+            }
+
+            {
+                // RTU1
+                _sut.GraphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == _sut.Rtu1.NodeId).Should().NotBeNull();
+                // Trace1
+                _sut.GraphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == _sut.EmptyNode1Id).Should().BeNull();
+                var trace1Fibers = _sut.ReadModel.GetTraceFibers(_sut.Trace1).ToList();
+                _sut.GraphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == trace1Fibers[0].FiberId).Should().BeNull();
+                _sut.GraphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == trace1Fibers[1].FiberId).Should().BeNull();
+            }
+        }
+
+
         [Then(@"Не включенные в трассы элементы НЕ видны")]
         public void ThenНеВключенныеВТрассыЭлементыНеВидны()
         {
@@ -110,12 +135,37 @@ namespace Graph.Tests
             _sut.GraphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == fiberBtoC.FiberId).Should().BeNull();
         }
 
-
-        [When(@"Operator кликает на RTU2 пункт меню Скрыть трассы")]
-        public void WhenOperatorКликаетНаRtu2ПунктМенюСкрытьТрассы()
+        [Then(@"Не включенные в трассы элементы ВИДНЫ")]
+        public void ThenНеВключенныеВТрассыЭлементыВидны()
         {
-            _sut.GraphReadModel.GrmRtuRequests.SaveUsersHiddenRtus(_sut.Rtu2.NodeId).Wait();
+            _sut.GraphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == _sut.NodeAId).Should().NotBeNull();
+            _sut.GraphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == _sut.NodeBId).Should().NotBeNull();
+            _sut.GraphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == _sut.NodeCId).Should().NotBeNull();
+
+            var fiberRtu2ToA =
+                _sut.ReadModel.Fibers.First(f => f.NodeId1 == _sut.Rtu2.NodeId && f.NodeId2 == _sut.NodeAId);
+            _sut.GraphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == fiberRtu2ToA.FiberId).Should().NotBeNull();
+
+            var fiberBtoC = _sut.ReadModel.Fibers.First(f => f.NodeId1 == _sut.NodeBId && f.NodeId2 == _sut.NodeCId);
+            _sut.GraphReadModel.Data.Fibers.FirstOrDefault(f => f.Id == fiberBtoC.FiberId).Should().NotBeNull();
+        }
+
+        [When(@"Кликает на карте на иконке RTU(.*) пункт меню Скрыть трассы")]
+        public void WhenКликаетНаКартеНаИконкеRtuПунктМенюСкрытьТрассы(int p0)
+        {
+             var rtuNodeId = p0 == 1 ? _sut.Rtu1.NodeId : _sut.Rtu2.NodeId;
+            _sut.GraphReadModel.GrmRtuRequests.SaveUsersHiddenRtus(rtuNodeId).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
+
+        [When(@"Кликает в дереве на RTU(.*) пункт меню Скрыть трассы")]
+        public void WhenКликаетВДеревеНаRtuПунктМенюСкрытьТрассы(int p0)
+        {
+            var rtuLeaf = _sut.TreeOfRtuModel.GetById(p0 == 1 ? _sut.Rtu1.Id : _sut.Rtu2.Id);
+            rtuLeaf.MyContextMenu.First(i => i?.Header == Resources.SID_Hide_traces).Command.Execute(rtuLeaf);
+            _sut.Poller.EventSourcingTick().Wait();
+        }
+
+
     }
 }

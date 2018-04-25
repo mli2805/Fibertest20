@@ -79,9 +79,11 @@ namespace Iit.Fibertest.Client
 
                 foreach (var nodeId in trace.NodeIds)
                 {
-                    if (_renderingResult.FiberVms.Any(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId)) continue;
                     var nodeVm = _renderingResult.NodeVms.FirstOrDefault(n => n.Id == nodeId);
-                    if (nodeVm != null) _renderingResult.NodeVms.Remove(nodeVm);
+                    if (nodeVm == null) continue;
+                    if (nodeVm.Type == EquipmentType.Rtu) continue;
+                    if (_renderingResult.FiberVms.Any(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId)) continue;
+                    _renderingResult.NodeVms.Remove(nodeVm);
                 }
 
                 foreach (var nodeVm in _renderingResult.NodeVms.Where(n => n.AccidentOnTraceVmId == trace.TraceId).ToList())

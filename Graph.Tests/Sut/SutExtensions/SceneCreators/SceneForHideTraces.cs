@@ -20,7 +20,7 @@ namespace Graph.Tests
 
         public void CreateRtu1WithTrace1()
         {
-            FakeWindowManager.RegisterHandler(model => this.RtuUpdateHandler(model, @"RTU2", @"doesn't matter", Answer.Yes));
+            FakeWindowManager.RegisterHandler(model => this.RtuUpdateHandler(model, @"RTU1", @"RTU1 comment", Answer.Yes));
             GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 });
             Poller.EventSourcingTick().Wait();
             Rtu1 = ReadModel.Rtus.Last();
@@ -47,7 +47,7 @@ namespace Graph.Tests
 
         public void CreateRtu2WithTrace2PartlyOverlappingTrace1()
         {
-            FakeWindowManager.RegisterHandler(model => this.RtuUpdateHandler(model, @"RTU1", @"doesn't matter", Answer.Yes));
+            FakeWindowManager.RegisterHandler(model => this.RtuUpdateHandler(model, @"RTU2", @"RTU2 comment", Answer.Yes));
             GraphReadModel.GrmRtuRequests.AddRtuAtGpsLocation(new RequestAddRtuAtGpsLocation() { Latitude = 55, Longitude = 30 });
             Poller.EventSourcingTick().Wait();
             Rtu2 = ReadModel.Rtus.Last();

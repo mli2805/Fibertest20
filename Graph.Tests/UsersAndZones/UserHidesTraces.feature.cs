@@ -98,7 +98,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 13
  testRunner.And("Не включенные в трассы элементы НЕ видны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 15
- testRunner.When("Operator кликает на RTU2 пункт меню Скрыть трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Кликает на карте на иконке RTU2 пункт меню Скрыть трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 17
  testRunner.Then("В дереве видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 18
@@ -122,13 +122,23 @@ this.ScenarioSetup(scenarioInfo);
 #line 29
  testRunner.And("Не включенные в трассы элементы НЕ видны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 31
- testRunner.When("Operator кликает на RTU2 пункт меню Скрыть трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Кликает на карте на иконке RTU2 пункт меню Скрыть трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 33
  testRunner.Then("В дереве видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 34
  testRunner.Then("В карте видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 35
  testRunner.And("Не включенные в трассы элементы НЕ видны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 37
+ testRunner.Given("Входит пользователь root", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 38
+ testRunner.When("Кликает в дереве на RTU1 пункт меню Скрыть трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 40
+ testRunner.Then("В дереве видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 41
+ testRunner.Then("В карте видны оба RTU и трасса2 A трасса1 от RTU1 не видна", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 42
+ testRunner.And("Не включенные в трассы элементы ВИДНЫ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
