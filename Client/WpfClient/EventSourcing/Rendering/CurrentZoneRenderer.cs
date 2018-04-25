@@ -63,7 +63,7 @@ namespace Iit.Fibertest.Client
             _hiddenRtus = _model.Users.First(u => u.UserId == _currentUser.UserId).HiddenRtus;
             foreach (var trace in _model.Traces.Where(t => _hiddenRtus.Contains(t.RtuId)))
             {
-                var fibers = _model.GetTraceFibers(trace);
+                var fibers = _model.GetTraceFibers(trace).ToList();
                 foreach (var fiber in fibers)
                 {
                     var fiberVm = _renderingResult.FiberVms.FirstOrDefault(f => f.Id == fiber.FiberId);

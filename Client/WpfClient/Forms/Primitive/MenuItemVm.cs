@@ -11,7 +11,6 @@ namespace Iit.Fibertest.Client
         public object CommandParameter { get; set; }
         public bool IsChecked { get; set; }
 
-
         public MenuItemVm()
         {
             Children = new List<MenuItemVm>();
