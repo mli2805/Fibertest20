@@ -40,9 +40,8 @@ namespace Iit.Fibertest.WcfConnections
                 try
                 {
                     var channel = wcfConnection.CreateChannel();
-                    var result = await channel.NotifyUsersRtuCurrentMonitoringStep(dto);
+                    await channel.NotifyUsersRtuCurrentMonitoringStep(dto);
                     wcfConnection.Close();
-                    return result;
                 }
                 catch (Exception e)
                 {
