@@ -5,15 +5,17 @@ namespace Iit.Fibertest.Client
     public class EventsOnTreeExecutor
     {
         private readonly RtuEventsOnTreeExecutor _rtuEventsOnTreeExecutor;
+        private readonly InitializeRtuEventOnTreeExecutor _initializeRtuEventOnTreeExecutor;
         private readonly TraceEventsOnTreeExecutor _traceEventsOnTreeExecutor;
         private readonly EchoEventsOnTreeExecutor _echoEventsOnTreeExecutor;
         private readonly ZoneEventsOnTreeExecutor _zoneEventsOnTreeExecutor;
 
-        public EventsOnTreeExecutor(RtuEventsOnTreeExecutor rtuEventsOnTreeExecutor, 
+        public EventsOnTreeExecutor(RtuEventsOnTreeExecutor rtuEventsOnTreeExecutor, InitializeRtuEventOnTreeExecutor initializeRtuEventOnTreeExecutor,
             TraceEventsOnTreeExecutor traceEventsOnTreeExecutor, EchoEventsOnTreeExecutor echoEventsOnTreeExecutor,
             ZoneEventsOnTreeExecutor zoneEventsOnTreeExecutor)
         {
             _rtuEventsOnTreeExecutor = rtuEventsOnTreeExecutor;
+            _initializeRtuEventOnTreeExecutor = initializeRtuEventOnTreeExecutor;
             _traceEventsOnTreeExecutor = traceEventsOnTreeExecutor;
             _echoEventsOnTreeExecutor = echoEventsOnTreeExecutor;
             _zoneEventsOnTreeExecutor = zoneEventsOnTreeExecutor;
@@ -30,6 +32,8 @@ namespace Iit.Fibertest.Client
                 case OtauDetached evnt: _rtuEventsOnTreeExecutor.DetachOtau(evnt); return;
                 case NetworkEventAdded evnt: _rtuEventsOnTreeExecutor.AddNetworkEvent(evnt); return;
 
+                case RtuInitialized evnt: _initializeRtuEventOnTreeExecutor.InitializeRtu(evnt); return;
+
                 case TraceAdded evnt: _traceEventsOnTreeExecutor.AddTrace(evnt); return;
                 case TraceUpdated evnt: _traceEventsOnTreeExecutor.UpdateTrace(evnt); return;
                 case TraceCleaned evnt: _traceEventsOnTreeExecutor.CleanTrace(evnt); return;
@@ -39,7 +43,6 @@ namespace Iit.Fibertest.Client
                 case MeasurementAdded evnt: _traceEventsOnTreeExecutor.AddMeasurement(evnt); return;
 
                 case BaseRefAssigned evnt: _echoEventsOnTreeExecutor.AssignBaseRef(evnt); return;
-                case RtuInitialized evnt: _echoEventsOnTreeExecutor.InitializeRtu(evnt); return;
                 case MonitoringSettingsChanged evnt: _echoEventsOnTreeExecutor.ChangeMonitoringSettings(evnt); return;
                 case MonitoringStarted evnt: _echoEventsOnTreeExecutor.StartMonitoring(evnt); return;
                 case MonitoringStopped evnt: _echoEventsOnTreeExecutor.StopMonitoring(evnt); return;

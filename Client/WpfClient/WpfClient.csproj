@@ -225,6 +225,7 @@
     </Compile>
     <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\EchoEventsOnTreeExecutor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\EventsOnTreeExecutor.cs" />
+    <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\InitializeRtuEventOnTreeExecutor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\RtuEventsOnTreeExecutor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\TraceEventsOnTreeExecutor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\ZoneEventsOnTreeExecutor.cs" />
