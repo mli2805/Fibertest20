@@ -68,13 +68,13 @@ namespace Iit.Fibertest.Client
                 {
                     var fiberVm = _renderingResult.FiberVms.FirstOrDefault(f => f.Id == fiber.FiberId);
                     if (fiberVm == null) continue;
-                    if (fiberVm.States.Count > 1)
-                    {
+                    if (fiberVm.States.ContainsKey(trace.TraceId))
                         fiberVm.States.Remove(trace.TraceId);
-                        if (fiberVm.TracesWithExceededLossCoeff.ContainsKey(trace.TraceId))
-                            fiberVm.TracesWithExceededLossCoeff.Remove(trace.TraceId);
-                    }
-                    else _renderingResult.FiberVms.Remove(fiberVm);
+                    if (fiberVm.TracesWithExceededLossCoeff.ContainsKey(trace.TraceId))
+                        fiberVm.TracesWithExceededLossCoeff.Remove(trace.TraceId);
+
+                    if (fiberVm.States.Count == 0)
+                       _renderingResult.FiberVms.Remove(fiberVm);
                 }
 
                 foreach (var nodeId in trace.NodeIds)
