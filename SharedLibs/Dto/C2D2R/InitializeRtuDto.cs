@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
@@ -18,5 +19,13 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public bool ShouldMonitoringBeStopped { get; set; }
+
+        // RTU properties after previous initialization
+        [DataMember]
+        public string Serial { get; set; }
+        [DataMember]
+        public int OwnPortCount { get; set; }
+        [DataMember]
+        public Dictionary<int, OtauDto> Children { get; set; }
     }
 }

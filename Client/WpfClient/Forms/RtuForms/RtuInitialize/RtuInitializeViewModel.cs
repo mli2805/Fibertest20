@@ -116,6 +116,11 @@ namespace Iit.Fibertest.Client
             var dto = new InitializeRtuDto()
             {
                 RtuId = OriginalRtu.Id,
+
+                Serial = OriginalRtu.Serial,         // properties after previous initialization (if it was)
+                OwnPortCount = OriginalRtu.OwnPortCount,
+                Children = OriginalRtu.Children,
+
                 RtuAddresses = new DoubleAddress()
                 {
                     Main = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),

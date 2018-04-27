@@ -12,14 +12,10 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public bool IsInitialized { get; set; }
-
         [DataMember]
         public ReturnCode ReturnCode { get; set; }
         [DataMember]
         public string ErrorMessage { get; set; }
-
-        [DataMember]
-        public string Serial { get; set; }
 
         [DataMember]
         public DoubleAddress RtuAddresses { get; set; }
@@ -28,11 +24,11 @@ namespace Iit.Fibertest.Dto
         public NetAddress OtdrAddress { get; set; }
 
         [DataMember]
+        public string Serial { get; set; }
+        [DataMember]
         public int OwnPortCount { get; set; }
-
         [DataMember]
         public int FullPortCount { get; set; }
-
         [DataMember]
         public string Version { get; set; }
 
