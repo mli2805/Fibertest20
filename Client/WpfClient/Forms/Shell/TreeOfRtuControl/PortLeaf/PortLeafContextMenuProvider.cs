@@ -27,8 +27,8 @@ namespace Iit.Fibertest.Client
         {
             yield return new MenuItemVm()
             {
-                Header = Resources.SID_Attach_from_list,
-                Command = new ContextMenuAction(_portLeafActions.AttachFromListAction, _portLeafActions.CanAttachTraceAction),
+                Header = Resources.SID_Attach_trace,
+                Command = new ContextMenuAction(_portLeafActions.AttachTraceFromListAction, _portLeafActions.CanAttachTraceAction),
                 CommandParameter = portLeaf,
             };
 

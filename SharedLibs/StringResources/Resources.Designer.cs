@@ -566,6 +566,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attach trace.
+        /// </summary>
+        public static string SID_Attach_trace {
+            get {
+                return ResourceManager.GetString("SID_Attach_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attached successfully. Press initialize main otau..
         /// </summary>
         public static string SID_Attached_successfully__Press_initialize_main_otau_ {

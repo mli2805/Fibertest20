@@ -12,7 +12,7 @@ namespace Graph.Tests
             sut.FakeWindowManager.RegisterHandler(model => TraceToAttachHandler(model, traceId, answer));
 
             var portLeaf = (PortLeaf)(owner.ChildrenImpresario.Children[port - 1]);
-            portLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Attach_from_list).Command.Execute(portLeaf);
+            portLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Attach_trace).Command.Execute(portLeaf);
             sut.Poller.EventSourcingTick().Wait();
             return (TraceLeaf)sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(traceId);
         }

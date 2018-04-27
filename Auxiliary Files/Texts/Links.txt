@@ -1,6 +1,4 @@
 ﻿Event sourcing scheme 3 https://docs.google.com/open?id=1elmGMdKnNYGCkMavLgT6ViI1W9wa8NUw2IzEFd-DosM
-Client scheme https://docs.google.com/document/d/1kkl5jx77wnFhvV_w8EABgECvDMlZLrUQbxPXnEtfYIU/edit
-Fibersharp Questions https://docs.google.com/open?id=1fpcAJ7QSX-rCtszrXCOTOPGTlFtQffganXN_LgeUeQk
 Операции https://docs.google.com/open?id=1vEk-U0RBY3aNtYu4amWjvQSyVfcIrcAhglXG35Nf6PQ
-
+Инициализация RTU https://docs.google.com/spreadsheets/d/1cgkEadtSrXNkQD2i0TMQoeOZ6gwmBGKzZkEBZAJ9ATg/edit#gid=1106153752
 

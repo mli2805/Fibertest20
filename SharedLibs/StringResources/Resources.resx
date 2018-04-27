@@ -314,9 +314,6 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Update" xml:space="preserve">
     <value>Update</value>
   </data>
-	<data name="SID_Attach_from_list" xml:space="preserve">
-    <value>Attach from list</value>
-  </data>
 	<data name="SID_Port_N" xml:space="preserve">
     <value>N{0}</value>
   </data>
@@ -1762,5 +1759,8 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Hide_traces" xml:space="preserve">
     <value>Hide traces</value>
+  </data>
+	<data name="SID_Attach_trace" xml:space="preserve">
+    <value>Attach trace</value>
   </data>
 </root>

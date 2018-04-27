@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
             _traceToAttachViewModel = traceToAttachViewModel;
         }
 
-        public void AttachFromListAction(object param)
+        public void AttachTraceFromListAction(object param)
         {
             if (!(param is PortLeaf portLeaf))
                 return;
@@ -56,7 +56,7 @@ namespace Iit.Fibertest.Client
             if (portLeaf.Parent is OtauLeaf)
                 return false;
             var rtuLeaf = (RtuLeaf)portLeaf.Parent;
-            return rtuLeaf.IsAvailable && !rtuLeaf.HasAttachedTraces;
+            return rtuLeaf.IsAvailable;
         }
 
         public bool CanAttachTraceAction(object param)

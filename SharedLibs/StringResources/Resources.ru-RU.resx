@@ -314,9 +314,6 @@
 	<data name="SID_Update" xml:space="preserve">
     <value>Изменить</value>
   </data>
-	<data name="SID_Attach_from_list" xml:space="preserve">
-    <value>Подключить из списка</value>
-  </data>
 	<data name="SID_Port_N" xml:space="preserve">
     <value>N{0}</value>
   </data>
@@ -1762,5 +1759,8 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Hide_traces" xml:space="preserve">
 		<value>Скрыть трассы</value>
+	</data>
+	<data name="SID_Attach_trace" xml:space="preserve">
+		<value>Подключить трассу</value>
 	</data>
 </root>
