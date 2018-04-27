@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -50,26 +51,40 @@ namespace Iit.Fibertest.Client
 
         public async void OtauRemoveAction(object param)
         {
+            if (!(param is OtauLeaf otauLeaf)) return;
+
             var dto = new DetachOtauDto() {OtauId = Id, RtuId = Parent.Id, OpticalPort = MasterPort};
             using (new WaitCursor())
             {
                 var result = await C2DWcfManager.DetachOtauAsync(dto);
                 if (result.IsDetached)
                 {
-                    RemoveOtauFromGraph();
+                    RemoveOtauFromGraph(otauLeaf);
                 }
             }
         }
 
-        public async void RemoveOtauFromGraph()
+        public async void RemoveOtauFromGraph(OtauLeaf otauLeaf)
         {
-            await C2DWcfManager.SendCommandAsObj(new DetachOtau() {Id = Id, RtuId = Parent.Id});
+            var cmd = new DetachOtau() {Id = Id, RtuId = Parent.Id, TracesOnOtau = new List<Guid>()};
+            foreach (var child in otauLeaf.ChildrenImpresario.Children)
+            {
+                if (child is TraceLeaf traceLeaf)
+                    cmd.TracesOnOtau.Add(traceLeaf.Id);
+            }
+            await C2DWcfManager.SendCommandAsObj(cmd);
         }
 
         private bool CanOtauRemoveAction(object param)
         {
+            if (!(param is OtauLeaf otauLeaf)) return false;
+
+            var rtuLeaf = (RtuLeaf)otauLeaf.Parent;
+
+
             return _currentUser.Role <= Role.Root
-                   && ChildrenImpresario.Children.All(c => c is PortLeaf);
+                   && rtuLeaf.IsAvailable
+                   && rtuLeaf.MonitoringState == MonitoringState.Off;
         }
     }
 }

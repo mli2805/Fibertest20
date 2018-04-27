@@ -59,6 +59,7 @@ namespace Iit.Fibertest.Client
                 case RtuAtGpsLocationAdded evnt: _rtuEventsOnGraphExecutor.AddRtuAtGpsLocation(evnt); return;
                 case RtuUpdated evnt: _rtuEventsOnGraphExecutor. UpdateRtu(evnt); return;
                 case RtuRemoved evnt: _rtuEventsOnGraphExecutor.RemoveRtu(evnt); return;
+                case OtauDetached evnt: _rtuEventsOnGraphExecutor.DetachOtau(evnt); return;
 
                 case ResponsibilitiesChanged evnt: _responsibilityEventsOnGraphExecutor.ChangeResponsibilities(evnt); return;
                 case UsersHiddenRtusSaved _: _renderingManager.ReRenderCurrentZoneOnUsersHiddenTracesChanged(); return;

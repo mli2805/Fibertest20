@@ -12,14 +12,16 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
         private readonly NodeEventsOnGraphExecutor _nodeEventsOnGraphExecutor;
+        private readonly TraceEventsOnGraphExecutor _traceEventsOnGraphExecutor;
 
-        public RtuEventsOnGraphExecutor(GraphReadModel model, Model readModel,
-            CurrentUser currentUser, NodeEventsOnGraphExecutor nodeEventsOnGraphExecutor)
+        public RtuEventsOnGraphExecutor(GraphReadModel model, Model readModel, CurrentUser currentUser, 
+            NodeEventsOnGraphExecutor nodeEventsOnGraphExecutor, TraceEventsOnGraphExecutor traceEventsOnGraphExecutor)
         {
             _model = model;
             _readModel = readModel;
             _currentUser = currentUser;
             _nodeEventsOnGraphExecutor = nodeEventsOnGraphExecutor;
+            _traceEventsOnGraphExecutor = traceEventsOnGraphExecutor;
         }
 
         public void AddRtuAtGpsLocation(RtuAtGpsLocationAdded evnt)
@@ -60,6 +62,14 @@ namespace Iit.Fibertest.Client
                 _model.Data.Fibers.First(f=>f.Id == pair.Key).RemoveState(pair.Value);
             }
             _nodeEventsOnGraphExecutor.RemoveNodeWithAllHisFibersUptoRealNode(evnt.RtuNodeId);
+        }
+
+        public void DetachOtau(OtauDetached evnt)
+        {
+            foreach (var traceId in evnt.TracesOnOtau)
+            {
+                _traceEventsOnGraphExecutor.DetachTrace(traceId);
+            }
         }
     }
 }

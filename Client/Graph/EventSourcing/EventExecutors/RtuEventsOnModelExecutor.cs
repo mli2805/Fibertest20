@@ -92,6 +92,10 @@ namespace Iit.Fibertest.Graph
                 return message;
             }
 
+            foreach (var trace in _model.Traces.Where(t=>t.OtauPort.OtauIp == otau.NetAddress.Ip4Address && t.OtauPort.OtauTcpPort == otau.NetAddress.Port))
+            {
+                _traceEventsOnModelExecutor.DetachTrace(trace);
+            }
             rtu.FullPortCount -= otau.PortCount;
             _model.Otaus.Remove(otau);
             return null;

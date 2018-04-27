@@ -111,15 +111,20 @@ namespace Iit.Fibertest.Client
 
         public void DetachTrace(TraceDetached e)
         {
-            var acceptable = ShouldAcceptEventForTrace(e.TraceId);
+            DetachTrace(e.TraceId);
+        }
+
+        public void DetachTrace(Guid traceId)
+        {
+            var acceptable = ShouldAcceptEventForTrace(traceId);
             if (acceptable == EventAcceptability.No) return;
 
-            var traceLeaf = (TraceLeaf)_treeOfRtuModel.GetById(e.TraceId);
+            var traceLeaf = (TraceLeaf) _treeOfRtuModel.GetById(traceId);
             var owner = _treeOfRtuModel.GetById(traceLeaf.Parent.Id);
-            var rtuLeaf = owner is RtuLeaf ? (RtuLeaf)owner : (RtuLeaf)(owner.Parent);
+            var rtuLeaf = owner is RtuLeaf ? (RtuLeaf) owner : (RtuLeaf) (owner.Parent);
             int port = traceLeaf.PortNumber;
             if (port <= 0)
-                return; // some error
+                return;
 
             var detachedTraceLeaf = _globalScope.Resolve<TraceLeaf>(new NamedParameter(@"parent", rtuLeaf));
             detachedTraceLeaf.Id = traceLeaf.Id;
@@ -132,8 +137,8 @@ namespace Iit.Fibertest.Client
             detachedTraceLeaf.BaseRefsSet = traceLeaf.BaseRefsSet;
             detachedTraceLeaf.BaseRefsSet.IsInMonitoringCycle = false;
 
-            ((IPortOwner)owner).ChildrenImpresario.Children.RemoveAt(port - 1);
-            ((IPortOwner)owner).ChildrenImpresario.Children.Insert(port - 1,
+            ((IPortOwner) owner).ChildrenImpresario.Children.RemoveAt(port - 1);
+            ((IPortOwner) owner).ChildrenImpresario.Children.Insert(port - 1,
                 _globalScope.Resolve<PortLeaf>(new NamedParameter(@"parent", owner), new NamedParameter(@"portNumber", port)));
 
             rtuLeaf.ChildrenImpresario.Children.Add(detachedTraceLeaf);

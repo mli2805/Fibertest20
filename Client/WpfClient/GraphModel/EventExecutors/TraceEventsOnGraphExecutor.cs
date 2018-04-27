@@ -93,14 +93,18 @@ namespace Iit.Fibertest.Client
 
         public void DetachTrace(TraceDetached evnt)
         {
-            if (_currentUser.ZoneId != Guid.Empty &&
-                !_readModel.Traces.First(t => t.TraceId == evnt.TraceId).ZoneIds.Contains(_currentUser.ZoneId)) return;
-
-            var trace = _readModel.Traces.First(t => t.TraceId == evnt.TraceId);
-            foreach (var fiberVm in GetTraceFibersByNodes(trace.NodeIds))
-                fiberVm.SetState(trace.TraceId, trace.State);
-            _model.CleanAccidentPlacesOnTrace(evnt.TraceId);
+            DetachTrace(evnt.TraceId);
         }
 
+        public void DetachTrace(Guid traceId)
+        {
+            if (_currentUser.ZoneId != Guid.Empty &&
+                !_readModel.Traces.First(t => t.TraceId == traceId).ZoneIds.Contains(_currentUser.ZoneId)) return;
+
+            var trace = _readModel.Traces.First(t => t.TraceId == traceId);
+            foreach (var fiberVm in GetTraceFibersByNodes(trace.NodeIds))
+                fiberVm.SetState(trace.TraceId, trace.State);
+            _model.CleanAccidentPlacesOnTrace(traceId);
+        }
     }
 }

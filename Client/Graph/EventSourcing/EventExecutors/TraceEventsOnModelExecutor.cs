@@ -137,17 +137,21 @@ namespace Iit.Fibertest.Graph
                 _logFile.AppendLine(message);
                 return message;
             }
+
+            DetachTrace(trace);
+            return null;
+        }
+
+        public void DetachTrace(Trace trace)
+        {
             trace.Port = -1;
             trace.OtauPort = null;
             trace.IsIncludedInMonitoringCycle = false;
             trace.State = FiberState.NotJoined;
             foreach (var fiber in GetTraceFibersByNodes(trace.NodeIds))
-            {
                 fiber.SetState(trace.TraceId, FiberState.NotJoined);
-            }
 
             _accidentsOnTraceToModelApplier.CleanAccidentPlacesOnTrace(trace.TraceId);
-            return null;
         }
     }
 }

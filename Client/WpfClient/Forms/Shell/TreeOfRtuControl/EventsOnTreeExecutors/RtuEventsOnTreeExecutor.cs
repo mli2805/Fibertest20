@@ -12,13 +12,16 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly TreeOfRtuModel _treeOfRtuModel;
+        private readonly TraceEventsOnTreeExecutor _traceEventsOnTreeExecutor;
         private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
 
-        public RtuEventsOnTreeExecutor(ILifetimeScope globalScope, TreeOfRtuModel treeOfRtuModel, CurrentUser currentUser, Model readModel)
+        public RtuEventsOnTreeExecutor(ILifetimeScope globalScope, Model readModel, CurrentUser currentUser, 
+            TreeOfRtuModel treeOfRtuModel, TraceEventsOnTreeExecutor traceEventsOnTreeExecutor)
         {
             _globalScope = globalScope;
             _treeOfRtuModel = treeOfRtuModel;
+            _traceEventsOnTreeExecutor = traceEventsOnTreeExecutor;
             _currentUser = currentUser;
             _readModel = readModel;
         }
@@ -92,6 +95,10 @@ namespace Iit.Fibertest.Client
             var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(e.RtuId);
             var otauLeaf = (OtauLeaf)_treeOfRtuModel.GetById(e.Id);
             var port = otauLeaf.MasterPort;
+
+            foreach (var traceId in e.TracesOnOtau)
+                    _traceEventsOnTreeExecutor.DetachTrace(traceId);
+
             rtuLeaf.FullPortCount -= otauLeaf.OwnPortCount;
             rtuLeaf.ChildrenImpresario.Children.Remove(otauLeaf);
 
