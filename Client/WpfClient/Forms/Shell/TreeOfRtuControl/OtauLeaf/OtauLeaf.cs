@@ -77,10 +77,10 @@ namespace Iit.Fibertest.Client
 
         private bool CanOtauRemoveAction(object param)
         {
-            if (!(param is OtauLeaf otauLeaf)) return false;
+            if (!(param is OtauLeaf otauLeaf))
+                return false;
 
             var rtuLeaf = (RtuLeaf)otauLeaf.Parent;
-
 
             return _currentUser.Role <= Role.Root
                    && rtuLeaf.IsAvailable

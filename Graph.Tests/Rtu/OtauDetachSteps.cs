@@ -2,6 +2,8 @@
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Client;
+using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using TechTalk.SpecFlow;
 
@@ -38,14 +40,27 @@ namespace Graph.Tests
             _sut.AttachTraceTo(_trace.TraceId, _otauLeaf, 3, Answer.Yes);
         }
 
-        [Then(@"Пункт удаление переключателя недоступен")]
-        public void ThenПунктУдалениеПереключателяНедоступен()
+        [Given(@"RTU в мониторинге")]
+        public void GivenRtuвМониторинге()
+        {
+            _rtuLeaf.MonitoringState = MonitoringState.On;
+        }
+
+
+        [Then(@"Пункт удаление переключателя доступен")]
+        public void ThenПунктУдалениеПереключателяДоступен()
         {
             _otauLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Remove)
-                .Command.CanExecute(null)
-                .Should()
-                .BeFalse();
+                .Command.CanExecute(_otauLeaf).Should().BeTrue();
         }
+
+        [Then(@"Пункт удаление переключателя не доступен")]
+        public void ThenПунктУдалениеПереключателяНеДоступен()
+        {
+            _otauLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Remove)
+                .Command.CanExecute(_otauLeaf).Should().BeFalse();
+        }
+
 
         [Given(@"Пользователь жмет удалить оптический переключатель")]
         public void GivenПользовательЖметУдалитьОптическийПереключатель()
@@ -61,5 +76,14 @@ namespace Graph.Tests
             _rtuLeaf.ChildrenImpresario.Children.Contains(_otauLeaf).Should().BeFalse();
             _rtuLeaf.FullPortCount.Should().Be(8);
         }
+
+        [Then(@"Трасса отсоединена от доп переключателя")]
+        public void ThenТрассаОтсоединенаОтДопПереключателя()
+        {
+            var traceLeaf = _sut.TreeOfRtuModel.GetById(_trace.TraceId);
+            traceLeaf.Color.Should().Be(FiberState.NotJoined.GetBrush(true));
+            _sut.ReadModel.Traces.First(t => t.TraceId == _trace.TraceId).State.Should().Be(FiberState.NotJoined);
+        }
+
     }
 }
