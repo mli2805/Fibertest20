@@ -29,7 +29,7 @@ namespace Graph.Tests
             vm.UserName = @"root";
             vm.Password = @"root";
             vm.Login();
-            _sut.ShellVm.GetStoredData().Wait();
+            _sut.ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
             _sut.ReadModel.Users.Count.Should().Be(5);
         }
 
@@ -117,7 +117,7 @@ namespace Graph.Tests
             _sut.TreeOfRtuModel.Tree.Count.Should().Be(0);
             _sut.GraphReadModel.Data.Nodes.Count.Should().Be(0);
 
-            _sut.ShellVm.GetStoredData().Wait();
+            _sut.ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
 
             _sut.ReadModel.Nodes.Count.Should().Be(12);
 

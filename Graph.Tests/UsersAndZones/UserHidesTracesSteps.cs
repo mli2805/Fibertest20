@@ -22,7 +22,7 @@ namespace Graph.Tests
             vm.UserName = user;
             vm.Password = user;
             vm.Login();
-            _sut.ShellVm.GetStoredData().Wait();
+            _sut.ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
             _sut.ReadModel.Users.Count.Should().Be(5);
         }
 

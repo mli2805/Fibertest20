@@ -99,8 +99,8 @@ namespace Iit.Fibertest.Client
                 TabulatorViewModel.SelectedTabIndex = 4;
                 MainMenuViewModel.Initialize(_currentUser);
 
-                await GetStoredData();
-                StartCommunicationWithServer();
+                await GetAlreadyStoredInCacheAndOnServerData();
+                StartRegularCommunicationWithServer();
 
                 IsEnabled = true;
                 DisplayName =
@@ -111,7 +111,7 @@ namespace Iit.Fibertest.Client
                 TryClose();
         }
 
-        public async Task GetStoredData()
+        public async Task GetAlreadyStoredInCacheAndOnServerData()
         {
             using (_globalScope.Resolve<IWaitCursor>())
             {
@@ -120,7 +120,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private void StartCommunicationWithServer()
+        private void StartRegularCommunicationWithServer()
         {
             using (_globalScope.Resolve<IWaitCursor>())
             {

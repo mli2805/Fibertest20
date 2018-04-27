@@ -69,7 +69,7 @@ namespace Graph.Tests
             vm.UserName = @"root";
             vm.Password = @"root";
             vm.Login();
-            ShellVm.GetStoredData().Wait();
+            ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
             ReadModel.Users.Count.Should().Be(5);
         }
 
