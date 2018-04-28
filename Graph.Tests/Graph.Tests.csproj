@@ -287,6 +287,14 @@
     <Compile Include="Rtu\RtuInitializedSteps.cs">
       <DependentUpon>RtuInitialized.feature</DependentUpon>
     </Compile>
+    <Compile Include="Rtu\RtuReInitialized.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RtuReInitialized.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\RtuReInitializedSteps.cs">
+      <DependentUpon>RtuReInitialized.feature</DependentUpon>
+    </Compile>
     <Compile Include="Rtu\RtuRemovedNoTraces.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -706,6 +714,10 @@
     <None Include="Rtu\RtuInitialized.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>RtuInitialized.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Rtu\RtuReInitialized.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RtuReInitialized.feature.cs</LastGenOutput>
     </None>
     <None Include="Rtu\RtuRemoved.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

@@ -15,7 +15,8 @@ namespace Graph.Tests
         private Iit.Fibertest.Graph.Trace _trace;
         private RtuLeaf _rtuLeaf;
         private OtauLeaf _otauLeaf;
-        private int portNumber = 3;
+        private int _portNumberForTrace;
+        private int _portNumberForOtau;
 
         [Given(@"Существует и инициализирован RTU с неприсоединенной трассой")]
         public void GivenСуществуетИИнициализированRtuсНеприсоединеннойТрассой()
@@ -25,26 +26,27 @@ namespace Graph.Tests
             _rtuLeaf = _sut.InitializeRtu(_rtuId);
         }
 
-        [Given(@"Трасса подключена к порту")]
-        public void GivenТрассаПодключенаКПорту()
+        [Given(@"Трасса подключена к порту (.*)")]
+        public void GivenТрассаПодключенаКПорту(int p0)
         {
-            _sut.AttachTraceTo(_trace.TraceId, _rtuLeaf, 2, Answer.Yes);
+            _portNumberForTrace = p0;
+            var traceLeaf = _sut.AttachTraceTo(_trace.TraceId, _rtuLeaf, _portNumberForTrace, Answer.Yes);
+            traceLeaf.PortNumber.Should().Be(_portNumberForTrace);
         }
 
-        [Then(@"Пункт подключить переключатель не доступен")]
-        public void ThenПунктПодключитьПереключательНеДоступен()
+        [Then(@"Пункт подключить переключатель доступен для остальных портов")]
+        public void ThenПунктПодключитьПереключательДоступенДляОстальныхПортов()
         {
-            _rtuLeaf.ChildrenImpresario.Children.Any(port => port is PortLeaf && port.MyContextMenu.First(i => i.Header == Resources.SID_Attach_optical_switch)
-                .Command.CanExecute(null))
-                .Should()
-                .BeFalse();
+            var freePorts = _rtuLeaf.ChildrenImpresario.Children.Where(port => port is PortLeaf);
+            freePorts.All(port => port is PortLeaf portLeaf && port.MyContextMenu.First(i => i.Header == Resources.SID_Attach_optical_switch)
+                .Command.CanExecute(portLeaf)).Should().BeTrue();
         }
 
-        [Given(@"Пользователь подключает доп переключатель к порту RTU")]
-        public void GivenПользовательПодключаетДопПереключательКПортуRtu()
+        [Given(@"Пользователь подключает доп переключатель к порту RTU (.*)")]
+        public void GivenПользовательПодключаетДопПереключательКПортуRtu(int p0)
         {
-            
-            _otauLeaf = _sut.AttachOtau(_rtuLeaf, portNumber);
+            _portNumberForOtau = p0;
+            _otauLeaf = _sut.AttachOtau(_rtuLeaf, p0);
         }
 
         [Then(@"Переключатель подключен")]
@@ -53,13 +55,12 @@ namespace Graph.Tests
             _sut.ReadModel.Otaus.FirstOrDefault(o => o.Id == _otauLeaf.Id).Should().NotBeNull();
 
             _rtuLeaf.FullPortCount.Should().Be(24);
-            _rtuLeaf.ChildrenImpresario.Children[portNumber-1].Should().Be(_otauLeaf);
+            _rtuLeaf.ChildrenImpresario.Children[_portNumberForOtau-1].Should().Be(_otauLeaf);
             _otauLeaf.ChildrenImpresario.Children.Count.Should().Be(16);
 
             _otauLeaf.ChildrenImpresario.Children.Any(
-                port =>
-                    port.MyContextMenu.First(i => i.Header == Resources.SID_Attach_optical_switch)
-                        .Command.CanExecute(null)).Should().BeFalse();
+                port => port.MyContextMenu.First(i => i.Header == Resources.SID_Attach_optical_switch)
+                            .Command.CanExecute(port)).Should().BeFalse();
         }
     }
 }

@@ -11,7 +11,7 @@ namespace Graph.Tests
     public static class RtuInitializer
     {
         public static RtuLeaf InitializeRtu(this SystemUnderTest sut, Guid rtuId, 
-            string mainIpAddress = "", string reserveIpAddress = "", string waveLength = "SM1625")
+            string mainIpAddress = "", string reserveIpAddress = "", string waveLength = "SM1625", int ownPortCount = 8)
         {
             var rtu = sut.ReadModel.Rtus.First(r => r.Id == rtuId);
             var rtuLeaf = (RtuLeaf)sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(rtuId);
@@ -32,6 +32,14 @@ namespace Graph.Tests
                 rtuLeaf.TreeOfAcceptableMeasParams.Units.Add(waveLength, new BranchOfAcceptableMeasParams());
             }
             rtuLeaf.TreeOfAcceptableMeasParams.Units.ContainsKey(waveLength).Should().BeTrue();
+
+            if (ownPortCount != 8)
+            {
+                rtuLeaf.OwnPortCount = ownPortCount;
+                rtuLeaf.FullPortCount = ownPortCount;
+                rtu.OwnPortCount = ownPortCount;
+                rtu.FullPortCount = ownPortCount;
+            }
             return rtuLeaf;
         }
 

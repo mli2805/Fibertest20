@@ -59,7 +59,6 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-//            var localScope = _globalScope.BeginLifetimeScope(ctx => ctx.RegisterInstance(rtuLeaf));
             var vm = _globalScope.Resolve<RtuInitializeViewModel>(new NamedParameter(@"rtuLeaf", rtuLeaf));
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }

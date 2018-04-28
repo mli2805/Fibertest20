@@ -79,37 +79,23 @@ namespace Graph.Tests.Rtu
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Запрещено подключать переключатель при присоединенных трассах")]
+        [Xunit.FactAttribute(DisplayName="Разрешено подключать переключатель при присоединенных трассах")]
         [Xunit.TraitAttribute("FeatureTitle", "OtauAttached")]
-        [Xunit.TraitAttribute("Description", "Запрещено подключать переключатель при присоединенных трассах")]
-        public virtual void ЗапрещеноПодключатьПереключательПриПрисоединенныхТрассах()
+        [Xunit.TraitAttribute("Description", "Разрешено подключать переключатель при присоединенных трассах")]
+        public virtual void РазрешеноПодключатьПереключательПриПрисоединенныхТрассах()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Запрещено подключать переключатель при присоединенных трассах", ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Разрешено подключать переключатель при присоединенных трассах", ((string[])(null)));
 #line 6
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 7
- testRunner.Given("Трасса подключена к порту", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Трасса подключена к порту 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 8
- testRunner.Then("Пункт подключить переключатель не доступен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Подключение дополнительного переключателя")]
-        [Xunit.TraitAttribute("FeatureTitle", "OtauAttached")]
-        [Xunit.TraitAttribute("Description", "Подключение дополнительного переключателя")]
-        public virtual void ПодключениеДополнительногоПереключателя()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Подключение дополнительного переключателя", ((string[])(null)));
+ testRunner.Then("Пункт подключить переключатель доступен для остальных портов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 9
+ testRunner.Given("Пользователь подключает доп переключатель к порту RTU 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 10
-this.ScenarioSetup(scenarioInfo);
-#line 3
-this.FeatureBackground();
-#line 11
- testRunner.Given("Пользователь подключает доп переключатель к порту RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 12
  testRunner.Then("Переключатель подключен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
