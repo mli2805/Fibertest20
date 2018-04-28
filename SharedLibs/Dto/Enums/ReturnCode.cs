@@ -17,6 +17,7 @@
         RtuDetachOtauError = 1009,
         RtuToggleToPortError = 1010,
         RtuMeasurementError = 1011,
+        RtuDoesntSupportBop = 1012,
 
         MeasurementError = 1100,
         MeasurementEndedNormally = 1101,

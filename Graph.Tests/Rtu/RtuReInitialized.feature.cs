@@ -88,9 +88,9 @@ this.ScenarioSetup(scenarioInfo);
 #line 7
  testRunner.And("Трасса подключена к порту БОПа 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 8
- testRunner.When("Пользователь жмет переинициализировать RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("RTU заменен на старинный не поддерживающий БОПы RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
- testRunner.And("RTU заменен на старинный не поддерживающий БОПы RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Пользователь жмет переинициализировать RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 10
  testRunner.Then("Выдается сообщение с требование вручную отсоединить БОП и повторить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 11

@@ -8,6 +8,22 @@ namespace Graph.Tests
 {
     public class FakeD2RWcfManager : ID2RWcfManager
     {
+        private ReturnCode _fakeInitializationReturnCode;
+        private string _serial;
+        private int _ownPortCount;
+        private int _fullPortCount;
+        private string _waveLength;
+
+        public void SetFakeInitializationAnswer(ReturnCode returnCode = ReturnCode.Ok, string serial = "123456", 
+            int ownPortCount = 8, int fullPortCount = 8, string waveLength = "SM1625")
+        {
+            _fakeInitializationReturnCode = returnCode;
+            _serial = serial;
+            _ownPortCount = ownPortCount;
+            _fullPortCount = fullPortCount;
+            _waveLength = waveLength;
+        }
+
         public ID2RWcfManager SetRtuAddresses(DoubleAddress rtuAddress, IniFile iniFile, IMyLog logFile)
         {
             return this;
@@ -24,16 +40,17 @@ namespace Graph.Tests
             });
         }
 
+
         public Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)
         {
             return Task.FromResult(new RtuInitializedDto()
             {
                 RtuId = dto.RtuId,
                 IsInitialized = true,
-                ReturnCode = ReturnCode.Ok,
-                FullPortCount = 8,
-                OwnPortCount = 8,
-                Serial = @"123456",
+                ReturnCode = _fakeInitializationReturnCode,
+                Serial = _serial,
+                FullPortCount = _fullPortCount,
+                OwnPortCount = _ownPortCount,
                 RtuAddresses = dto.RtuAddresses,
                 OtdrAddress =  new NetAddress(dto.RtuAddresses.Main.Ip4Address, 23),
                 Version = @"2.0.1.0",
@@ -41,7 +58,7 @@ namespace Graph.Tests
                 IsMonitoringOn = false,
                 AcceptableMeasParams = new TreeOfAcceptableMeasParams()
                 {
-                    Units = new Dictionary<string, BranchOfAcceptableMeasParams>(){{ @"SM1625", new BranchOfAcceptableMeasParams()}},
+                    Units = new Dictionary<string, BranchOfAcceptableMeasParams>(){{ _waveLength, new BranchOfAcceptableMeasParams()}},
                 },
             });
         }

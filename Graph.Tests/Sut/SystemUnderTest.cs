@@ -27,6 +27,7 @@ namespace Graph.Tests
         public IMyLog MyLogFile { get; set; }
         public ClientPoller Poller { get; set; }
         public FakeWindowManager FakeWindowManager { get; set; }
+        public FakeD2RWcfManager FakeD2RWcfManager { get; set; }
         public ShellViewModel ShellVm { get; set; }
 
         public AccidentsFromSorExtractor AccidentsFromSorExtractor { get; set; }
@@ -57,9 +58,10 @@ namespace Graph.Tests
             var eventStoreService = ServerScope.Resolve<EventStoreService>();
             eventStoreService.Init();
             MsmqHandler = ServerScope.Resolve<MsmqHandler>();
+            FakeD2RWcfManager = (FakeD2RWcfManager)ServerScope.Resolve<ID2RWcfManager>();
+            FakeD2RWcfManager.SetFakeInitializationAnswer();
 
             ResolveClientsPartsOnStart();
-
             LoginAsRoot();
         }
 
@@ -79,6 +81,7 @@ namespace Graph.Tests
             Poller = ClientScope.Resolve<ClientPoller>();
 
             FakeWindowManager = (FakeWindowManager) ClientScope.Resolve<IWindowManager>();
+      
             MyLogFile = ClientScope.Resolve<IMyLog>();
             ShellVm = (ShellViewModel) ClientScope.Resolve<IShell>();
             GraphReadModel = ClientScope.Resolve<GraphReadModel>();
