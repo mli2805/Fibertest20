@@ -3,6 +3,7 @@ using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Requests;
+using Iit.Fibertest.StringResources;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -25,7 +26,7 @@ namespace Graph.Tests
             _rtu = _sut.ReadModel.Rtus.Last();
             _sut.FakeD2RWcfManager.SetFakeInitializationAnswer(waveLength:p1, ownPortCount:p2);
             _rtuAddress = p0;
-            _rtuLeaf = _sut.InitializeRtu(_rtu.Id, _rtuAddress);
+            _rtuLeaf = _sut.SetNameAndAskInitializationRtu(_rtu.Id, _rtuAddress);
         }
 
         [Given(@"БОП подключен к порту RTU (.*)")]
@@ -71,7 +72,10 @@ namespace Graph.Tests
         [When(@"Пользователь жмет переинициализировать RTU")]
         public void WhenПользовательЖметПереинициализироватьRtu()
         {
-            _rtuLeaf = _sut.InitializeRtu(_rtu.Id, _rtuAddress);
+            _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuAddress, "", Answer.Yes));
+            _rtuLeaf.MyContextMenu.First(i => i?.Header == Resources.SID_Network_settings).Command.Execute(_rtuLeaf);
+
         }
 
         [Then(@"Выдается сообщение с требование вручную отсоединить БОП и повторить")]

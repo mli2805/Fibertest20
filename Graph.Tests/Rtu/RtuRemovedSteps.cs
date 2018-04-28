@@ -63,7 +63,7 @@ namespace Graph.Tests
         [Given(@"Трасса присоединенна к порту РТУ")]
         public void GivenТрассаПрисоединеннаКПортуРту()
         {
-            _sut.InitializeRtu(_rtu.Id);
+            _sut.SetNameAndAskInitializationRtu(_rtu.Id);
             _sut.AttachTraceTo(_traceId, _rtuLeaf, 2, Answer.Yes);
         }
 

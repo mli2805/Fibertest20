@@ -8,7 +8,7 @@ namespace Graph.Tests
 {
     public static class RtuInitializer
     {
-        public static RtuLeaf InitializeRtu(this SystemUnderTest sut, Guid rtuId, 
+        public static RtuLeaf SetNameAndAskInitializationRtu(this SystemUnderTest sut, Guid rtuId, 
             string mainIpAddress = "", string reserveIpAddress = "")
         {
             var rtu = sut.ReadModel.Rtus.First(r => r.Id == rtuId);
@@ -19,14 +19,14 @@ namespace Graph.Tests
             sut.Poller.EventSourcingTick().Wait();
 
             sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
-            sut.FakeWindowManager.RegisterHandler(model => sut.RtuInitializeHandler2(model, mainIpAddress, reserveIpAddress, Answer.Yes));
+            sut.FakeWindowManager.RegisterHandler(model => sut.RtuInitializeHandler(model, mainIpAddress, reserveIpAddress, Answer.Yes));
             rtuLeaf.MyContextMenu.First(i => i?.Header == Resources.SID_Network_settings).Command.Execute(rtuLeaf);
 
             sut.Poller.EventSourcingTick().Wait();
             return rtuLeaf;
         }
 
-        public static bool RtuInitializeHandler2(this SystemUnderTest sut, object model, 
+        public static bool RtuInitializeHandler(this SystemUnderTest sut, object model, 
             string mainIpAddress, string reserveIpAddress, Answer answer)
         {
             if (!(model is RtuInitializeViewModel vm)) return false;

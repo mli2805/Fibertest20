@@ -26,7 +26,7 @@ namespace Graph.Tests
             _a1Id = _fiber.NodeId1;
             _b1Id = _fiber.NodeId2;
 
-            _sut.InitializeRtu(_trace.RtuId);
+            _sut.SetNameAndAskInitializationRtu(_trace.RtuId);
         }
 
         [Given(@"Для трассы проходящей по данному отрезку задана базовая")]

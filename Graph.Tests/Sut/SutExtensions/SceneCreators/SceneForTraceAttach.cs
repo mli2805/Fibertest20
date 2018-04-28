@@ -11,7 +11,7 @@ namespace Graph.Tests
             traceId = sut.CreateTraceRtuEmptyTerminal(traceTitle).TraceId;
             var id = traceId;
             rtuId = sut.ReadModel.Traces.First(t => t.TraceId == id).RtuId;
-            return sut.InitializeRtu(rtuId, @"192.168.96.58");
+            return sut.SetNameAndAskInitializationRtu(rtuId, @"192.168.96.58");
         }
     }
 }

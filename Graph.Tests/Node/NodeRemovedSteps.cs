@@ -56,7 +56,7 @@ namespace Graph.Tests
         public void GivenЗаданаТрасса()
         {
             _trace = _sut.CreateTraceRtuEmptyTerminal();
-            _sut.InitializeRtu(_trace.RtuId);
+            _sut.SetNameAndAskInitializationRtu(_trace.RtuId);
 
             _rtuNodeId = _trace.NodeIds[0];
             _lastNodeId = _trace.NodeIds.Last();

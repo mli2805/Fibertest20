@@ -16,7 +16,7 @@ namespace Graph.Tests
             var rtu = sut.ReadModel.Rtus.Last();
 
             sut.FakeD2RWcfManager.SetFakeInitializationAnswer(waveLength: @"SM1550");
-            sut.InitializeRtu(rtu.Id, @"2.2.2.2");
+            sut.SetNameAndAskInitializationRtu(rtu.Id, @"2.2.2.2");
             return rtu;
         }
 

@@ -31,7 +31,7 @@ namespace Graph.Tests
         {
             var rtu = _sut.SetRtuAndOthers(_oldEquipment.NodeId, out _anotherNodeId, out _anotherNodeId2);
             _rtuNodeId = rtu.NodeId;
-            _sut.InitializeRtu(rtu.Id);
+            _sut.SetNameAndAskInitializationRtu(rtu.Id);
         }
 
         [Given(@"Одна трасса заканчивается в данном узле")]

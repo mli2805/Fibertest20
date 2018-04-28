@@ -23,7 +23,7 @@ namespace Graph.Tests
         {
             _trace = _sut.CreateTraceRtuEmptyTerminal();
             _rtuId = _trace.RtuId;
-            _rtuLeaf = _sut.InitializeRtu(_rtuId);
+            _rtuLeaf = _sut.SetNameAndAskInitializationRtu(_rtuId);
         }
 
         [Given(@"Трасса подключена к порту (.*)")]

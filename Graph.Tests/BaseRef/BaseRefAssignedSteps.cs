@@ -44,7 +44,7 @@ namespace Graph.Tests
         [When(@"RTU успешно инициализируется c длинной волны (.*)")]
         public void WhenRtuУспешноИнициализируетсяCДлиннойВолны(string p0)
         {
-            _sut.InitializeRtu(_rtuLeaf.Id, p0);
+            _sut.SetNameAndAskInitializationRtu(_rtuLeaf.Id, p0);
             _rtuLeaf.TreeOfAcceptableMeasParams.Units.ContainsKey(p0).Should().BeTrue();
         }
 

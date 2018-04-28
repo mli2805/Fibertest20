@@ -30,7 +30,7 @@ namespace Graph.Tests
         {
             var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(_trace.TraceId);
             var rtuId = traceLeaf.Parent.Id;
-            _sut.InitializeRtu(rtuId);
+            _sut.SetNameAndAskInitializationRtu(rtuId);
 
             _sut.AssignBaseRef(traceLeaf, SystemUnderTest.Base1625Lm3, SystemUnderTest.Base1625Lm3, null, Answer.Yes);
             traceLeaf.BaseRefsSet.PreciseId.Should().NotBe(Guid.Empty);
