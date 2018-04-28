@@ -1763,4 +1763,16 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Attach_trace" xml:space="preserve">
 		<value>Подключить трассу</value>
 	</data>
+	<data name="SID_RTU_does_not_support_BOP" xml:space="preserve">
+		<value>Данный RTU не поддерживает подключение БОП</value>
+	</data>
+	<data name="SID_Too_big_port_number_for_BOP_attachment" xml:space="preserve">
+		<value>Слишком большой номер порта для подключения БОПа</value>
+	</data>
+	<data name="SID_Detach_BOP_manually" xml:space="preserve">
+		<value>Отсоедините переключатель вручную</value>
+	</data>
+	<data name="SID_and_start_initialization_again_" xml:space="preserve">
+		<value>и запустите инициализацию снова</value>
+	</data>
 </root>

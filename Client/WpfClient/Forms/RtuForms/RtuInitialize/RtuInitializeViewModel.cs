@@ -162,14 +162,11 @@ namespace Iit.Fibertest.Client
         private void ProcessRtuInitialized(RtuInitializedDto dto)
         {
             var message = dto.IsInitialized
-                ? $@"RTU {dto.RtuId.First6()} initialized successfully."
-                : dto.ReturnCode.GetLocalizedString(dto.ErrorMessage);
-
+                ? $@"RTU {dto.RtuAddresses.Main.Ip4Address} initialized successfully."
+                : $@"RTU {dto.RtuAddresses.Main.Ip4Address} initialization failed. " + dto.ErrorMessage;
             _logFile.AppendLine(message);
-            var vm = dto.IsInitialized
-                ? new MyMessageBoxViewModel(MessageType.Information, Resources.SID_RTU_initialized_successfully_)
-                : new MyMessageBoxViewModel(MessageType.Error, message);
-            _windowManager.ShowDialogWithAssignedOwner(vm);
+
+            ShowInitializationResultMessageBox(dto);
 
             if (!dto.IsInitialized)
                 return;
@@ -177,6 +174,28 @@ namespace Iit.Fibertest.Client
             // apply initialization to graph
             _c2DWcfManager.SendCommandAsObj(ParseInitializationResult(dto));
             ShowNewRtuInfo(dto);
+        }
+
+        private void ShowInitializationResultMessageBox(RtuInitializedDto dto)
+        {
+            MyMessageBoxViewModel vm;
+            switch (dto.ReturnCode)
+            {
+                case ReturnCode.Ok:
+                    vm = new MyMessageBoxViewModel(MessageType.Information,
+                        Resources.SID_RTU_initialized_successfully_);
+                    break;
+                case ReturnCode.RtuDoesntSupportBop:
+                case ReturnCode.RtuTooBigPortNumber:
+                    var strs = new List<string>() { dto.ReturnCode.GetLocalizedString(), "", Resources.SID_Detach_BOP_manually, Resources.SID_and_start_initialization_again_ };
+                    vm = new MyMessageBoxViewModel(MessageType.Error, strs);
+                    break;
+                default:
+                    vm = new MyMessageBoxViewModel(MessageType.Error,
+                        ReturnCode.RtuInitializationError.GetLocalizedString());
+                    break;
+            }
+            _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
         private void ShowNewRtuInfo(RtuInitializedDto dto)

@@ -485,6 +485,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to and start initialization again..
+        /// </summary>
+        public static string SID_and_start_initialization_again_ {
+            get {
+                return ResourceManager.GetString("SID_and_start_initialization_again_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Apply.
         /// </summary>
         public static string SID_Apply {
@@ -535,15 +544,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Attach {
             get {
                 return ResourceManager.GetString("SID_Attach", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Attach from list.
-        /// </summary>
-        public static string SID_Attach_from_list {
-            get {
-                return ResourceManager.GetString("SID_Attach_from_list", resourceCulture);
             }
         }
         
@@ -1373,6 +1373,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Detach {
             get {
                 return ResourceManager.GetString("SID_Detach", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Detach BOP manually.
+        /// </summary>
+        public static string SID_Detach_BOP_manually {
+            get {
+                return ResourceManager.GetString("SID_Detach_BOP_manually", resourceCulture);
             }
         }
         
@@ -3727,6 +3736,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This RTU does not support BOP attachment.
+        /// </summary>
+        public static string SID_RTU_does_not_support_BOP {
+            get {
+                return ResourceManager.GetString("SID_RTU_does_not_support_BOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU Information.
         /// </summary>
         public static string SID_RTU_Information {
@@ -4498,6 +4516,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Toggling_to_the_port__0_ {
             get {
                 return ResourceManager.GetString("SID_Toggling_to_the_port__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Too big port number for BOP attachment.
+        /// </summary>
+        public static string SID_Too_big_port_number_for_BOP_attachment {
+            get {
+                return ResourceManager.GetString("SID_Too_big_port_number_for_BOP_attachment", resourceCulture);
             }
         }
         

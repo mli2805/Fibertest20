@@ -168,4 +168,10 @@ END;</value>
   <data name="SID__own_total___0_____1_" xml:space="preserve">
     <value>(own/total) {0} / {1}</value>
   </data>
+  <data name="SID_RTU_with_address__0__doesn_t_support_BOP" xml:space="preserve">
+    <value>RTU with address {0} doesn't support BOP</value>
+  </data>
+  <data name="SID_RTU_initialized_successfully" xml:space="preserve">
+    <value>RTU initialized successfully</value>
+  </data>
 </root>

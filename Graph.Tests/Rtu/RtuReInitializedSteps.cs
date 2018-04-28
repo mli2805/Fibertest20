@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -16,6 +17,7 @@ namespace Graph.Tests
         private RtuLeaf _rtuLeaf;
         private OtauLeaf _otauLeaf;
         private string _rtuAddress;
+        private int _portWithBop;
 
         [Given(@"Существует RTU с адресом (.*) с длиной волны (.*) и с (.*) портами")]
         public void GivenСуществуетRtuсАдресомСДлинойВолныИсПортами(string p0, string p1, int p2)
@@ -32,7 +34,8 @@ namespace Graph.Tests
         [Given(@"БОП подключен к порту RTU (.*)")]
         public void GivenБопПодключенКПортуRtu(int p0)
         {
-            _otauLeaf = _sut.AttachOtau(_rtuLeaf, p0);
+            _portWithBop = p0;
+            _otauLeaf = _sut.AttachOtau(_rtuLeaf, _portWithBop);
         }
 
         [Given(@"Трасса подключена к порту RTU (.*)")]
@@ -69,19 +72,43 @@ namespace Graph.Tests
             _sut.FakeD2RWcfManager.SetFakeInitializationAnswer(ReturnCode.RtuDoesntSupportBop);
         }
 
+        [When(@"RTU заменяется на свежий c (.*) портами")]
+        public void WhenRtuЗаменяетсяНаСвежийCПортами(int p0)
+        {
+            if (_portWithBop > p0)
+                _sut.FakeD2RWcfManager.SetFakeInitializationAnswer(ReturnCode.RtuTooBigPortNumber);
+            else
+                _sut.FakeD2RWcfManager.SetFakeInitializationAnswer(ReturnCode.Ok, ownPortCount:p0);
+        }
+
         [When(@"Пользователь жмет переинициализировать RTU")]
         public void WhenПользовательЖметПереинициализироватьRtu()
         {
             _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuAddress, "", Answer.Yes));
             _rtuLeaf.MyContextMenu.First(i => i?.Header == Resources.SID_Network_settings).Command.Execute(_rtuLeaf);
-
         }
 
-        [Then(@"Выдается сообщение с требование вручную отсоединить БОП и повторить")]
-        public void ThenВыдаетсяСообщениеСТребованиеВручнуюОтсоединитьБопиПовторить()
+        [Then(@"Выдается сообщение что подключение БОПов не поддерживается")]
+        public void ThenВыдаетсяСообщениеЧтоПодключениеБоПовНеПоддерживается()
         {
+            _sut.FakeWindowManager.Log
+                .OfType<MyMessageBoxViewModel>()
+                .Last()
+                .Lines[0].Line
+                .Should().Be(Resources.SID_RTU_does_not_support_BOP);
         }
+
+        [Then(@"Выдается сообщение что слишком большой номер порта")]
+        public void ThenВыдаетсяСообщениеЧтоСлишкомБольшойНомерПорта()
+        {
+            _sut.FakeWindowManager.Log
+                .OfType<MyMessageBoxViewModel>()
+                .Last()
+                .Lines[0].Line
+                .Should().Be(Resources.SID_Too_big_port_number_for_BOP_attachment);
+        }
+
 
         [Then(@"В дереве ничего не меняется")]
         public void ThenВДеревеНичегоНеМеняется()

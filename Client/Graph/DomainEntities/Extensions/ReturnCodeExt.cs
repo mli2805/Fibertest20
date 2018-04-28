@@ -15,10 +15,16 @@ namespace Iit.Fibertest.Graph
                 // 1000
                 case ReturnCode.RtuInitializationError:
                     return Resources.SID_RTU_initialization_error_ + $@" {exceptionMessage}";
+                case ReturnCode.RtuInitializedSuccessfully:
+                    return Resources.SID_RTU_initialized_successfully_;
                 case ReturnCode.OtdrInitializationCannotLoadDll:
                     return Resources.SID_Cannot_find_dll_file_;
                 case ReturnCode.OtdrInitializationCannotInitializeDll:
                     return Resources.SID_Cannot_initialize_dll_;
+                case ReturnCode.RtuDoesntSupportBop:
+                    return Resources.SID_RTU_does_not_support_BOP;
+                case ReturnCode.RtuTooBigPortNumber:
+                    return Resources.SID_Too_big_port_number_for_BOP_attachment;
 
                 // 2000
                 case ReturnCode.C2DWcfConnectionError:

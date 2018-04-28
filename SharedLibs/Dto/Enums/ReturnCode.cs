@@ -6,7 +6,7 @@
         Ok = 1,
 
         RtuInitializationError = 1000,
-        OtdrInitializedSuccessfully = 1001,
+        RtuInitializedSuccessfully = 1001,
         OtdrInitializationCannotLoadDll = 1002,
         OtdrInitializationCannotInitializeDll = 1003,
         RtuIsBusy = 1004,
@@ -18,6 +18,7 @@
         RtuToggleToPortError = 1010,
         RtuMeasurementError = 1011,
         RtuDoesntSupportBop = 1012,
+        RtuTooBigPortNumber = 1013,
 
         MeasurementError = 1100,
         MeasurementEndedNormally = 1101,
