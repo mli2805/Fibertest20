@@ -62,6 +62,16 @@ namespace Graph.Tests.Rtu
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+#line 3
+#line 4
+ testRunner.Given("Задан RTU с адресом 192.168.96.58 с длиной волны SM1625 и с 16 портами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 5
+ testRunner.And("БОП подключен к RTU к порту  3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+        }
+        
         public virtual void SetFixture(RtuReInitializedFeature.FixtureData fixtureData)
         {
         }
@@ -77,32 +87,16 @@ namespace Graph.Tests.Rtu
         public virtual void ПереинициализацияRTUВСвязиСПодменой()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Переинициализация RTU в связи с подменой", ((string[])(null)));
-#line 3
-this.ScenarioSetup(scenarioInfo);
-#line 4
- testRunner.Given("Существует RTU с адресом 192.168.96.58 с длиной волны SM1625 и с 16 портами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 5
- testRunner.And("БОП подключен к порту RTU 13", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 6
- testRunner.And("Трасса подключена к порту RTU 4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 7
- testRunner.And("Трасса подключена к порту БОПа 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
 #line 8
- testRunner.When("RTU заменен на старинный не поддерживающий БОПы RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("Трасса подключена к порту RTU 4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 9
- testRunner.And("Пользователь жмет переинициализировать RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Трасса подключена к порту RTU 11", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 10
- testRunner.Then("Выдается сообщение что подключение БОПов не поддерживается", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 11
- testRunner.Then("В дереве ничего не меняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 13
- testRunner.When("RTU заменяется на свежий c 8 портами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 14
- testRunner.And("Пользователь жмет переинициализировать RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 15
- testRunner.Then("Выдается сообщение что слишком большой номер порта", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 16
- testRunner.Then("В дереве ничего не меняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("Трасса подключена к порту БОПа 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }
