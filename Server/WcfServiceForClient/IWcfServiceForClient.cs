@@ -18,6 +18,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<int> SendMeas(List<AddMeasurementFromOldBase> list); // especially for Migrator.exe
 
         [OperationContract]
+        Task<int> SendCommandsAsObjs(List<object> cmds);
+
+        [OperationContract]
         Task<string> SendCommandAsObj(object cmd);
 
         [OperationContract]

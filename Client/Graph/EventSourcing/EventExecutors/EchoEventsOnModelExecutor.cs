@@ -78,45 +78,11 @@ namespace Iit.Fibertest.Graph
                 return message;
             }
 
-            InitializeRtuFirstTime(e, rtu);
-
-            if (rtu.Serial == null)
-            {
-                return null;
-            }
-
-            if (rtu.Serial == e.Serial)
-            {
-                if (rtu.OwnPortCount != e.OwnPortCount)
-                {
-                    // main otdr problem
-                    // TODO
-                    return null;
-                }
-
-                if (rtu.FullPortCount != e.FullPortCount)
-                {
-                    // bop changes
-                    // TODO
-                    return null;
-                }
-
-                if (rtu.FullPortCount == e.FullPortCount)
-                {
-                    // just re-initialization, nothing should be done?
-                    rtu.Version = e.Version;
-                }
-            }
-
-            if (rtu.Serial != e.Serial)
-            {
-                //TODO discuss and implement rtu replacement scenario
-            }
-
+            SetRtuProperties(rtu, e);
             return null;
         }
 
-        private void InitializeRtuFirstTime(RtuInitialized e, Rtu rtu)
+        private void SetRtuProperties(Rtu rtu, RtuInitialized e)
         {
             rtu.OwnPortCount = e.OwnPortCount;
             rtu.FullPortCount = e.FullPortCount;

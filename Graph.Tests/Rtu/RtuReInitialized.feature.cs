@@ -66,9 +66,16 @@ namespace Graph.Tests.Rtu
         {
 #line 3
 #line 4
- testRunner.Given("Задан RTU с адресом 192.168.96.58 с длиной волны SM1625 и с 16 портами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Задан RTU с серийником 333333 с адресом 192.168.96.58 с длиной волны SM1625 и с 1" +
+                    "6 портами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 5
  testRunner.And("БОП подключен к RTU к порту  3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 6
+ testRunner.And("Трасса Trace4 подключена к порту RTU 4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 7
+ testRunner.And("Трасса Trace11 подключена к порту RTU 11", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 8
+ testRunner.And("Трасса подключена к порту БОПа 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
         
@@ -81,22 +88,26 @@ namespace Graph.Tests.Rtu
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Переинициализация RTU в связи с подменой")]
+        [Xunit.FactAttribute(DisplayName="Переинициализация RTU в связи с поломкой")]
         [Xunit.TraitAttribute("FeatureTitle", "RtuReInitialized")]
-        [Xunit.TraitAttribute("Description", "Переинициализация RTU в связи с подменой")]
-        public virtual void ПереинициализацияRTUВСвязиСПодменой()
+        [Xunit.TraitAttribute("Description", "Переинициализация RTU в связи с поломкой")]
+        public virtual void ПереинициализацияRTUВСвязиСПоломкой()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Переинициализация RTU в связи с подменой", ((string[])(null)));
-#line 7
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Переинициализация RTU в связи с поломкой", ((string[])(null)));
+#line 10
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 8
- testRunner.And("Трасса подключена к порту RTU 4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 9
- testRunner.And("Трасса подключена к порту RTU 11", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 10
- testRunner.And("Трасса подключена к порту БОПа 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 11
+ testRunner.When("Заменяем RTU на свежий с серийником 444444 и с 8 портами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 12
+ testRunner.And("Пользователь нажимает переинициализировать RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 13
+ testRunner.Then("Выдается сообщение что RTU инициализирован успешно", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 14
+ testRunner.And("Trace11 отсоединена и окрашена синим", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 15
+ testRunner.And("Серийный номер и количество портов RTU изменяются на новые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

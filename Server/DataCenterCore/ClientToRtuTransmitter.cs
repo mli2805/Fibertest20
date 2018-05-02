@@ -34,7 +34,6 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)
         {
             dto.ServerAddresses = _serverDoubleAddress;
-            //var rtuInitializedDto = await new D2RWcfManager(dto.RtuAddresses, _iniFile, _logFile).InitializeAsync(dto);
             var rtuInitializedDto = await _d2RWcfManager.SetRtuAddresses(dto.RtuAddresses, _iniFile, _logFile).InitializeAsync(dto);
             if (rtuInitializedDto.IsInitialized)
             {

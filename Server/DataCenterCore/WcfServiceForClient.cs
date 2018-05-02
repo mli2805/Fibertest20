@@ -74,6 +74,21 @@ namespace Iit.Fibertest.DataCenterCore
             return 0;
         }
 
+        public async Task<int> SendCommandsAsObjs(List<object> cmds)
+        {
+            // during the tests "client" invokes not the C2DWcfManager's method to communicate by network
+            // but right server's method from WcfServiceForClient
+            var username = "NCrunch";
+            var clientIp = "127.0.0.1"; var list = new List<string>();
+
+            foreach (var cmd in cmds)
+            {
+                list.Add(JsonConvert.SerializeObject(cmd, cmd.GetType(), JsonSerializerSettings));
+            }
+
+            return await SendCommands(list, username, clientIp);
+        }
+
         public async Task<string> SendCommandAsObj(object cmd)
         {
             // during the tests "client" invokes not the C2DWcfManager's method to communicate by network

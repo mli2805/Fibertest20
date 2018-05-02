@@ -171,8 +171,21 @@ namespace Iit.Fibertest.Client
             if (!dto.IsInitialized)
                 return;
 
+            var commandList = new List<object>();
+            if (_originalRtu.OwnPortCount > dto.OwnPortCount)
+            {
+                var traces = _readModel.Traces.Where(t => t.RtuId == dto.RtuId && t.OtauPort.IsPortOnMainCharon && t.Port >= dto.OwnPortCount);
+                foreach (var trace in traces)
+                {
+                    var cmd = new DetachTrace(){TraceId =  trace.TraceId};
+                    commandList.Add(cmd);
+                }
+            }
+            commandList.Add(ParseInitializationResult(dto));
+
             // apply initialization to graph
-            _c2DWcfManager.SendCommandAsObj(ParseInitializationResult(dto));
+            _c2DWcfManager.SendCommandsAsObjs(commandList);
+
             ShowNewRtuInfo(dto);
         }
 

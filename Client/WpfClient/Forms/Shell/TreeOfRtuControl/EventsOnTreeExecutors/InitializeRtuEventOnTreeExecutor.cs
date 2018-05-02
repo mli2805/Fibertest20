@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Client
         private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly RtuEventsOnTreeExecutor _rtuEventsOnTreeExecutor;
 
-        public InitializeRtuEventOnTreeExecutor(ILifetimeScope globalScope, CurrentUser currentUser, 
+        public InitializeRtuEventOnTreeExecutor(ILifetimeScope globalScope, CurrentUser currentUser,
             Model readModel, TreeOfRtuModel treeOfRtuModel, RtuEventsOnTreeExecutor rtuEventsOnTreeExecutor)
         {
             _globalScope = globalScope;
@@ -32,46 +32,14 @@ namespace Iit.Fibertest.Client
 
             var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(e.Id);
 
-            if (rtuLeaf.Serial == null)
-            {
-                InitializeRtuFirstTime(e, rtuLeaf);
-                return;
-            }
-
-            if (rtuLeaf.Serial == e.Serial)
-            {
-                if (rtuLeaf.OwnPortCount != e.OwnPortCount)
-                {
-                    // main OTDR problem ?
-                    // TODO
-                    return;
-                }
-
-                if (rtuLeaf.FullPortCount != e.FullPortCount)
-                {
-                    // bop changes
-                    // TODO
-                    return;
-                }
-
-                if (rtuLeaf.FullPortCount == e.FullPortCount)
-                {
-                    // just re-initialization, nothing should be done?
-                }
-            }
-
-            if (rtuLeaf.Serial != e.Serial)
-            {
-                //TODO discuss and implement RTU replacement scenario
-            }
-
+            SetRtuProperties(rtuLeaf, e);
             rtuLeaf.MonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
         }
 
-        private void InitializeRtuFirstTime(RtuInitialized e, RtuLeaf rtuLeaf)
+        private void SetRtuProperties(RtuLeaf rtuLeaf, RtuInitialized e)
         {
             rtuLeaf.OwnPortCount = e.OwnPortCount;
-            rtuLeaf.FullPortCount = e.OwnPortCount; // otauAttached then will increase 
+            rtuLeaf.FullPortCount = e.FullPortCount;
             rtuLeaf.Serial = e.Serial;
             rtuLeaf.MainChannelState = e.MainChannelState;
             rtuLeaf.ReserveChannelState = e.ReserveChannelState;
