@@ -25,17 +25,12 @@ namespace Iit.Fibertest.DatabaseLibrary
             {
                 using (var dbContext = new FtDbContext(_settings.Options))
                 {
-                    var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuStation.RtuGuid);
-                    if (rtu == null)
-                    {
-                        dbContext.RtuStations.Add(rtuStation);
-                        _logFile.AppendLine("New RTU registered.");
-                    }
-                    else
-                    {
-                        rtu.LastConnectionByMainAddressTimestamp = DateTime.Now;
-                        _logFile.AppendLine("Existing RTU re-registered");
-                    }
+                    var previousRtuStationRow = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuStation.RtuGuid);
+                    if (previousRtuStationRow != null)
+                        dbContext.RtuStations.Remove(previousRtuStationRow);
+                    dbContext.RtuStations.Add(rtuStation);
+
+                    _logFile.AppendLine($"RtuStation {rtuStation.RtuGuid.First6()} successfully registered with main address {rtuStation.MainAddress}.");
                     return await dbContext.SaveChangesAsync();
                 }
             }

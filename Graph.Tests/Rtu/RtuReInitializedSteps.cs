@@ -129,5 +129,12 @@ namespace Graph.Tests
             _rtuLeaf.Serial.Should().Be(_newSerial);
             _rtuLeaf.OwnPortCount.Should().Be(_newOwnPortCount);
         }
+
+        [Then(@"В дереве у RTU изменяется количество веток-портов")]
+        public void ThenВДеревеУRTUИзменяетсяКоличествоВеток_Портов()
+        {
+            _rtuLeaf.ChildrenImpresario.Children.Count.Should().Be(9);
+        }
+
     }
 }

@@ -11,5 +11,7 @@ namespace Iit.Fibertest.Dto
         public NetAddress NetAddress { get; set; }
         [DataMember]
         public int OwnPortCount { get; set; }
+        [DataMember]
+        public bool IsOk { get; set; }
     }
 }

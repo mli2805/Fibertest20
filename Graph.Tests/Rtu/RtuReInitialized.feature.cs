@@ -108,6 +108,8 @@ this.FeatureBackground();
  testRunner.And("Trace11 отсоединена и окрашена синим", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 15
  testRunner.And("Серийный номер и количество портов RTU изменяются на новые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 16
+ testRunner.And("В дереве у RTU изменяется количество веток-портов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
             this.ScenarioCleanup();
         }

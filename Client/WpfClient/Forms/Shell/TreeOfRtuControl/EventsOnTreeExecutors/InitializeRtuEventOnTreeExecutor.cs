@@ -32,22 +32,43 @@ namespace Iit.Fibertest.Client
 
             var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(e.Id);
 
-            SetRtuProperties(rtuLeaf, e);
+            if (rtuLeaf.Serial == null)
+                InitializeFirstTime(rtuLeaf, e);
+            else
+                ReInitialize(rtuLeaf, e);
+
             rtuLeaf.MonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
         }
 
-        private void SetRtuProperties(RtuLeaf rtuLeaf, RtuInitialized e)
+        private void ReInitialize(RtuLeaf rtuLeaf, RtuInitialized e)
         {
-            rtuLeaf.OwnPortCount = e.OwnPortCount;
-            rtuLeaf.FullPortCount = e.FullPortCount;
-            rtuLeaf.Serial = e.Serial;
-            rtuLeaf.MainChannelState = e.MainChannelState;
-            rtuLeaf.ReserveChannelState = e.ReserveChannelState;
-            rtuLeaf.MonitoringState = MonitoringState.Off;
-            rtuLeaf.OtauNetAddress = e.OtauNetAddress;
 
-            rtuLeaf.Color = Brushes.Black;
-            for (int i = 1; i <= rtuLeaf.OwnPortCount; i++)
+            if (rtuLeaf.OwnPortCount < e.OwnPortCount)
+            {
+                for (int i = rtuLeaf.OwnPortCount+1; i <= e.OwnPortCount; i++)
+                {
+                    var port = _globalScope.Resolve<PortLeaf>(new NamedParameter(@"parent", rtuLeaf), new NamedParameter(@"portNumber", i));
+                    rtuLeaf.ChildrenImpresario.Children.Insert(i - 1, port);
+                    port.Parent = rtuLeaf;
+                }
+            }
+
+            if (rtuLeaf.OwnPortCount > e.OwnPortCount)
+            {
+                for (int i = rtuLeaf.OwnPortCount - 1; i >= e.OwnPortCount; i--)
+                {
+                    rtuLeaf.ChildrenImpresario.Children.RemoveAt(i);
+                }
+            }
+
+            SetRtuProperties(rtuLeaf, e);
+        }
+
+        private void InitializeFirstTime(RtuLeaf rtuLeaf, RtuInitialized e)
+        {
+            SetRtuProperties(rtuLeaf, e);
+
+            for (int i = 1; i <= e.OwnPortCount; i++)
             {
                 var port = _globalScope.Resolve<PortLeaf>(new NamedParameter(@"parent", rtuLeaf), new NamedParameter(@"portNumber", i));
                 rtuLeaf.ChildrenImpresario.Children.Insert(i - 1, port);
@@ -57,9 +78,18 @@ namespace Iit.Fibertest.Client
                 foreach (var otauAttached in e.Otaus)
                     _rtuEventsOnTreeExecutor.AttachOtau(otauAttached);
 
-            rtuLeaf.TreeOfAcceptableMeasParams = e.AcceptableMeasParams;
         }
 
-
+        private static void SetRtuProperties(RtuLeaf rtuLeaf, RtuInitialized e)
+        {
+            rtuLeaf.OwnPortCount = e.OwnPortCount;
+            rtuLeaf.FullPortCount = e.FullPortCount;
+            rtuLeaf.Serial = e.Serial;
+            rtuLeaf.MainChannelState = e.MainChannelState;
+            rtuLeaf.ReserveChannelState = e.ReserveChannelState;
+            rtuLeaf.OtauNetAddress = e.OtauNetAddress;
+            rtuLeaf.Color = Brushes.Black;
+            rtuLeaf.TreeOfAcceptableMeasParams = e.AcceptableMeasParams;
+        }
     }
 }
