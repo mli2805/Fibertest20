@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Client
         private Rtu _originalRtu;
         public Rtu OriginalRtu
         {
-            get { return _originalRtu; }
+            get => _originalRtu;
             set
             {
                 if (Equals(value, _originalRtu)) return;
@@ -166,27 +166,32 @@ namespace Iit.Fibertest.Client
                 : $@"RTU {dto.RtuAddresses.Main.Ip4Address} initialization failed. " + dto.ErrorMessage;
             _logFile.AppendLine(message);
 
+            if (dto.IsInitialized)
+            {
+                // apply initialization to graph
+                _c2DWcfManager.SendCommandsAsObjs(DtoToCommandList(dto));
+                UpdateThisViewModel(dto);
+            }
+
             ShowInitializationResultMessageBox(dto);
+        }
 
-            if (!dto.IsInitialized)
-                return;
-
+        private List<object> DtoToCommandList(RtuInitializedDto dto)
+        {
             var commandList = new List<object>();
             if (_originalRtu.OwnPortCount > dto.OwnPortCount)
             {
-                var traces = _readModel.Traces.Where(t => t.RtuId == dto.RtuId && t.OtauPort.IsPortOnMainCharon && t.Port >= dto.OwnPortCount);
+                var traces = _readModel.Traces.Where(t =>
+                    t.RtuId == dto.RtuId && t.OtauPort.IsPortOnMainCharon && t.Port >= dto.OwnPortCount);
                 foreach (var trace in traces)
                 {
-                    var cmd = new DetachTrace(){TraceId =  trace.TraceId};
+                    var cmd = new DetachTrace() {TraceId = trace.TraceId};
                     commandList.Add(cmd);
                 }
             }
-            commandList.Add(ParseInitializationResult(dto));
 
-            // apply initialization to graph
-            _c2DWcfManager.SendCommandsAsObjs(commandList);
-
-            ShowNewRtuInfo(dto);
+            commandList.Add(GetInitializeRtuCommand(dto));
+            return commandList;
         }
 
         private void ShowInitializationResultMessageBox(RtuInitializedDto dto)
@@ -211,9 +216,9 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
-        private void ShowNewRtuInfo(RtuInitializedDto dto)
+        private void UpdateThisViewModel(RtuInitializedDto dto)
         {
-            var originalRtu1 = new Rtu
+            OriginalRtu = new Rtu
             {
                 Id = dto.RtuId,
                 Title = OriginalRtu.Title,
@@ -226,7 +231,6 @@ namespace Iit.Fibertest.Client
                 Children = dto.Children,
                 Comment = OriginalRtu.Comment,
             };
-            OriginalRtu = originalRtu1;
         }
 
         public bool CheckAddressUniqueness()
@@ -250,7 +254,7 @@ namespace Iit.Fibertest.Client
             return true;
         }
 
-        private InitializeRtu ParseInitializationResult(RtuInitializedDto dto)
+        private InitializeRtu GetInitializeRtuCommand(RtuInitializedDto dto)
         {
             var cmd = new InitializeRtu
             {
@@ -258,7 +262,9 @@ namespace Iit.Fibertest.Client
                 MainChannel = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
                 MainChannelState = RtuPartState.Ok,
                 IsReserveChannelSet = IsReserveChannelEnabled,
-                ReserveChannel = IsReserveChannelEnabled ? ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress() : null,
+                ReserveChannel = IsReserveChannelEnabled
+                    ? ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress()
+                    : null,
                 ReserveChannelState = IsReserveChannelEnabled ? RtuPartState.Ok : RtuPartState.NotSetYet,
                 OtauNetAddress = dto.OtdrAddress,
                 OwnPortCount = dto.OwnPortCount,
