@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.RtuManagement;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
@@ -10,6 +11,7 @@ namespace Iit.Fibertest.RtuService
     {
         private readonly IniFile _serviceIni;
         private readonly IMyLog _serviceLog;
+        private readonly RtuManager _rtuManager;
 
         private Guid _rtuId;
         private string _version;
@@ -17,10 +19,11 @@ namespace Iit.Fibertest.RtuService
         private DoubleAddress _reserveAddressOnly;
         private bool _hasReserveAddress;
 
-        public Heartbeat(IniFile serviceIni, IMyLog serviceLog)
+        public Heartbeat(IniFile serviceIni, IMyLog serviceLog, RtuManager rtuManager)
         {
             _serviceIni = serviceIni;
             _serviceLog = serviceLog;
+            _rtuManager = rtuManager;
         }
 
         // ReSharper disable once FunctionNeverReturns 
@@ -38,6 +41,11 @@ namespace Iit.Fibertest.RtuService
 
             while (true)
             {
+                while (!_rtuManager.ShouldSendHeartbeat.TryPeek(out object _))
+                {
+                    Thread.Sleep(3000);
+                }
+
                 ReadMutableParameters();
 
                 SendHeartbeatByOneChannel(_mainAddressOnly, true, ref isLastConnectionOnMainChannelSuccessful);

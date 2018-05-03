@@ -17,6 +17,8 @@ namespace Iit.Fibertest.DirectCharonLibrary
         public string Serial { get; set; }
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }
+        public bool IsBopSupported { get; set; } // for main charon
+        public bool IsOk { get; set; } // for child charons
 
         public Dictionary<int, Charon> Children { get; set; }
 
@@ -35,11 +37,36 @@ namespace Iit.Fibertest.DirectCharonLibrary
             NetAddress = netAddress;
         }
 
+        public bool InitializeOnlyThisOtau()
+        {
+            _rtuLogFile.AppendLine($"Initializing OTAU on {NetAddress.ToStringA()}");
+            Serial = GetSerial();
+            if (!IsLastCommandSuccessful)
+            {
+                LedDisplay.Show(_iniFile35, _rtuLogFile, LedDisplayCode.ErrorConnectOtau);
+                LastErrorMessage = $"Get Serial error {LastErrorMessage}";
+                _rtuLogFile.AppendLine(LastErrorMessage, 2);
+                return false;
+            }
+            Serial = Serial.Substring(0, Serial.Length - 2); // "\r\n"
+            _rtuLogFile.AppendLine($"Serial {Serial}", 2);
+
+            OwnPortCount = GetOwnPortCount();
+            if (!IsLastCommandSuccessful)
+            {
+                LastErrorMessage = $"Get own port count error {LastErrorMessage}";
+                _rtuLogFile.AppendLine(LastErrorMessage, 2);
+                return false;
+            }
+            _rtuLogFile.AppendLine($"Own port count  {OwnPortCount}", 2);
+            return true;
+        }
+
         /// <summary>
-        /// 
+        /// Initialized OTAU recursively
         /// </summary>
-        /// <returns>null if initialization is successfull, damaged otau address otherwise</returns>
-        public NetAddress InitializeOtau()
+        /// <returns>null if initialization is successful, damaged OTAU address otherwise</returns>
+        public NetAddress InitializeOtauRecursively()
         {
             _rtuLogFile.AppendLine($"Initializing OTAU on {NetAddress.ToStringA()}");
             Children = new Dictionary<int, Charon>();
@@ -81,7 +108,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 {
                     var childCharon = new Charon(expendedPort.Value, _iniFile35, _rtuLogFile);
                     Children.Add(expendedPort.Key, childCharon);
-                    if (childCharon.InitializeOtau() != null)
+                    if (childCharon.InitializeOtauRecursively() != null)
                     {
                         LedDisplay.Show(_iniFile35, _rtuLogFile, LedDisplayCode.ErrorConnectBop);
                         IsLastCommandSuccessful = true; // child initialization should'n break full process

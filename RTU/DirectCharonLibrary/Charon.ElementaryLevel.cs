@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DirectCharonLibrary
 {
@@ -54,7 +55,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             return !IsLastCommandSuccessful ? LastErrorMessage : "";
         }
 
-        private Dictionary<int, NetAddress> GetExtentedPorts()
+        public Dictionary<int, NetAddress> GetExtentedPorts()
         {
             try
             {

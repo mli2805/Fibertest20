@@ -72,7 +72,7 @@ namespace Iit.Fibertest.RtuManagement
             if (lastSorDataBuffer == null)
                 return new ClientMeasurementDoneDto()
                 {
-                    ReturnCode = ReturnCode.RtuMeasurementError,
+                    ReturnCode = ReturnCode.MeasurementError,
                     ClientId = dto.ClientId,
                 };
             return new ClientMeasurementDoneDto()

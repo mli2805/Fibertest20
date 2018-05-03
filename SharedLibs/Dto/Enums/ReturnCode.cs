@@ -9,21 +9,26 @@
         RtuInitializedSuccessfully = 1001,
         OtdrInitializationCannotLoadDll = 1002,
         OtdrInitializationCannotInitializeDll = 1003,
-        RtuIsBusy = 1004,
-        RtuCantGetAppFolder = 1005,
-        RtuBaseRefAssignmentError = 1006,
-        RtuMonitoringSettingsApplyError = 1007,
-        RtuAttachOtauError = 1008,
-        RtuDetachOtauError = 1009,
-        RtuToggleToPortError = 1010,
-        RtuMeasurementError = 1011,
+        OtdrCannontConnect = 1004,
+        OtauInitializationError = 1005,
+
         RtuDoesntSupportBop = 1012,
         RtuTooBigPortNumber = 1013,
 
-        MeasurementError = 1100,
-        MeasurementEndedNormally = 1101,
-        MeasurementPreparationError = 1102,
-        MeasurementInterrupted = 1103,
+
+        RtuIsBusy = 1100,
+        RtuBaseRefAssignmentError = 1106,
+        RtuMonitoringSettingsApplyError = 1107,
+        RtuAttachOtauError = 1108,
+        RtuDetachOtauError = 1109,
+        RtuToggleToPortError = 1110,
+
+    
+
+        MeasurementError = 1500,
+        MeasurementEndedNormally = 1501,
+        MeasurementPreparationError = 1502,
+        MeasurementInterrupted = 1503,
 
         TcpConnectionError = 2000,
         C2DWcfConnectionError = 2001,

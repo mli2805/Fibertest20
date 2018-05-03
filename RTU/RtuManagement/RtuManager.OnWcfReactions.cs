@@ -11,8 +11,10 @@ namespace Iit.Fibertest.RtuManagement
     public partial class RtuManager
     {
         // could contain only one element at any time
-        // used as thread safe way to exchange between Wcf thread and Measurement thread
+        // used as thread safe way to exchange between WCF thread and Measurement thread
         public ConcurrentQueue<object> WcfCommandsQueue = new ConcurrentQueue<object>();
+
+        public ConcurrentQueue<object> ShouldSendHeartbeat = new ConcurrentQueue<object>();
 
         public void Initialize(InitializeRtuDto param, Action callback)
         {
@@ -33,14 +35,14 @@ namespace Iit.Fibertest.RtuManagement
                     _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
             }
 
-            _rtuInitializationResult = InitializeRtuManager();
+            _rtuInitializationResult = InitializeRtuManager(param);
             if (_rtuInitializationResult != ReturnCode.Ok)
             {
-                // usualy can't find some file
-                // in other cases if there is a way to recover it doesn't come here but start recover procedure
                 callback?.Invoke();
                 return;
             }
+            // permit send heartbeats
+            ShouldSendHeartbeat.Enqueue(new object());
 
             IsRtuInitialized = true;
             callback?.Invoke();
@@ -65,7 +67,7 @@ namespace Iit.Fibertest.RtuManagement
         {
             _id = rtu.RtuId;
             _serviceIni.Write(IniSection.Server, IniKey.RtuGuid, _id.ToString());
-            _rtuLog.AppendLine($@"Server sent guid for RTU {_id.First6()}");
+            _rtuLog.AppendLine($@"Server sent GUID for RTU {_id.First6()}");
 
             _serverAddresses = (DoubleAddress)rtu.ServerAddresses.Clone();
             _serviceIni.WriteServerAddresses(_serverAddresses);
@@ -77,7 +79,7 @@ namespace Iit.Fibertest.RtuManagement
             _rtuLog.EmptyLine();
             if (_mainCharon.AttachOtauToPort(param.OtauAddresses, param.OpticalPort))
             {
-                _mainCharon.InitializeOtau();
+                _mainCharon.InitializeOtauRecursively();
                 var child = _mainCharon.GetBopCharonWithLogging(param.OtauAddresses);
                 OtauAttachedDto = new OtauAttachedDto()
                 {
@@ -105,7 +107,7 @@ namespace Iit.Fibertest.RtuManagement
             _rtuLog.EmptyLine();
             if (_mainCharon.DetachOtauFromPort(param.OpticalPort))
             {
-                _mainCharon.InitializeOtau();
+                _mainCharon.InitializeOtauRecursively();
                 OtauDetachedDto = new OtauDetachedDto()
                 {
                     IsDetached = true,
@@ -127,13 +129,13 @@ namespace Iit.Fibertest.RtuManagement
         public void StartMonitoring(Action callback, bool wasMonitoringOn)
         {
             IsRtuInitialized = false;
-            InitializeRtuManager();
+            InitializeRtuManager(null);
             if (!wasMonitoringOn)
                 _monitoringQueue.RaiseMonitoringModeChangedFlag();
             IsRtuInitialized = true;
 
             _rtuLog.EmptyLine();
-            _rtuLog.AppendLine("Rtu is turned into AUTOMATIC mode.");
+            _rtuLog.AppendLine("RTU is turned into AUTOMATIC mode.");
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
             IsMonitoringOn = true;
             callback?.Invoke();

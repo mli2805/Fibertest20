@@ -195,7 +195,7 @@ namespace Iit.Fibertest.RtuManagement
             }
 
             if (result != ReturnCode.MeasurementEndedNormally)
-            {                                 // Error 814 during measurement prepare
+            {                                 // IIT Error 814 during measurement prepare
                 RunMainCharonRecovery();
                 return null;
             }
