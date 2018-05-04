@@ -13,7 +13,6 @@ namespace Iit.Fibertest.Graph
         public string Serial { get; set; }
         public int PortCount { get; set; }
 
-        public int FirstPortNumber { get; set; }
         public int MasterPort { get; set; }
 
     }

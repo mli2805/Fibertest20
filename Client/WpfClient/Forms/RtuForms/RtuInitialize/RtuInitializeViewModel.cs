@@ -182,7 +182,7 @@ namespace Iit.Fibertest.Client
             if (_originalRtu.OwnPortCount > dto.OwnPortCount)
             {
                 var traces = _readModel.Traces.Where(t =>
-                    t.RtuId == dto.RtuId && t.OtauPort.IsPortOnMainCharon && t.Port >= dto.OwnPortCount);
+                    t.RtuId == dto.RtuId && t.Port >= dto.OwnPortCount && t.OtauPort.IsPortOnMainCharon);
                 foreach (var trace in traces)
                 {
                     var cmd = new DetachTrace() {TraceId = trace.TraceId};
