@@ -57,6 +57,10 @@ namespace Iit.Fibertest.Graph
             }
             var nodeId = rtu.NodeId;
 
+            foreach (var otau in _model.Otaus.Where(o=>o.RtuId == rtu.Id).ToList())
+            {
+                _model.Otaus.Remove(otau);
+            }
             foreach (var trace in _model.Traces.Where(t => t.RtuId == rtu.Id).ToList())
             {
                 _traceEventsOnModelExecutor.CleanTrace(new TraceCleaned(){TraceId = trace.TraceId});

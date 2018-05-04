@@ -92,6 +92,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             }
             _rtuLogFile.AppendLine($"Own port count  {OwnPortCount}", 2);
 
+            IsBopSupported = false;
             var expendedPorts = GetExtentedPorts();
             if (!IsLastCommandSuccessful)
             {
@@ -103,6 +104,8 @@ namespace Iit.Fibertest.DirectCharonLibrary
             {
                 _rtuLogFile.AppendLine("Charon too old, knows nothing about extensions", 2);
             }
+            IsBopSupported = true;
+
             if (expendedPorts != null)
                 foreach (var expendedPort in expendedPorts)
                 {

@@ -159,7 +159,7 @@ namespace Iit.Fibertest.Client
             OtauPortCount = result.PortCount;
         }
 
-        public bool CheckAddressUniqueness()
+        private bool CheckAddressUniqueness()
         {
             if (!_readModel.Otaus.Any(o =>
                 o.NetAddress.Ip4Address == NetAddressInputViewModel.GetNetAddress().Ip4Address &&

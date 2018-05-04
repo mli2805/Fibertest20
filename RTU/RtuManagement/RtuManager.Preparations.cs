@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
@@ -24,7 +23,7 @@ namespace Iit.Fibertest.RtuManagement
             }
 
             var otauInitializationResult = dto != null 
-                ? ReInitializeOtauOnUsersRequest(dto.Children)
+                ? ReInitializeOtauOnUsersRequest(dto)
                 : InitializeOtau();
             if (otauInitializationResult != ReturnCode.Ok)
             {
@@ -53,38 +52,34 @@ namespace Iit.Fibertest.RtuManagement
                 return ReturnCode.OtdrInitializationCannotInitializeDll;
 
             var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
-            Thread.Sleep(3000);
-            var res = _otdrManager.ConnectOtdr(otdrAddress);
-//            if (!res)
-//            {
-//                RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-//                res = _otdrManager.ConnectOtdr(otdrAddress);
-//                if (!res)
-//                    RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-//            }
-//            _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, 0);
-            return res ? ReturnCode.Ok : ReturnCode.OtdrCannontConnect;
+            Thread.Sleep(300);
+            return _otdrManager.ConnectOtdr(otdrAddress) ? ReturnCode.Ok : ReturnCode.OtdrCannontConnect;
         }
 
-        private ReturnCode ReInitializeOtauOnUsersRequest(Dictionary<int, OtauDto> children)
+        private ReturnCode ReInitializeOtauOnUsersRequest(InitializeRtuDto dto)
         {
             if (!_mainCharon.IsBopSupported)
-                return children.Count > 0 ? ReturnCode.RtuDoesntSupportBop : ReturnCode.Ok;
+                return dto.Children.Count > 0 ? ReturnCode.RtuDoesntSupportBop : ReturnCode.Ok;
 
             // detach bops if they are not attached in client
             foreach (var pair in _mainCharon.Children)
             {
-
+                if (!dto.Children.ContainsKey(pair.Key) ||
+                    pair.Value.Serial != dto.Children[pair.Key].Serial)
+                {
+                    _mainCharon.DetachOtauFromPort(pair.Key);
+                }
             }
 
             // attach bops if they are attached in client (even if there are no such bop in reality)
             // initialize all child bops to get their states
-            foreach (var pair in children)
+            foreach (var pair in dto.Children)
             {
-                
+                if (!_mainCharon.Children.ContainsKey(pair.Key))
+                    _mainCharon.AttachOtauToPort(pair.Value.NetAddress, pair.Key);
             }
 
-            return ReturnCode.Ok;
+            return InitializeOtau();
         }
         private ReturnCode InitializeOtau()
         {
@@ -93,20 +88,6 @@ namespace Iit.Fibertest.RtuManagement
             var res = _mainCharon.InitializeOtauRecursively();
 
             return res == null ? ReturnCode.Ok : ReturnCode.OtauInitializationError;
-
-//            if (!res.Equals(_mainCharon.NetAddress))
-//            {
-//                RunAdditionalOtauRecovery(null, res.Ip4Address);
-//                return ReturnCode.Ok;
-//            }
-//            else // main charon
-//            {
-//                RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-//                res = _mainCharon.InitializeOtauRecursively();
-//                if (res != null)
-//                    RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-//            }
-//            return ReturnCode.Ok;
         }
       
         private void GetMonitoringParams()

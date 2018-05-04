@@ -26,7 +26,7 @@ namespace Iit.Fibertest.Graph
 
         public string Version { get; set; }
 
-        public Dictionary<int, OtauDto> Children { get; set; }
+        public Dictionary<int, OtauDto> Children { get; set; } = new Dictionary<int, OtauDto>();
 
         public MonitoringState MonitoringState { get; set; }
         public Frequency PreciseMeas { get; set; } = Frequency.EveryHour;
