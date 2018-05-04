@@ -6,19 +6,22 @@ namespace Iit.Fibertest.WcfConnections
 {
     public class R2DWcfManager
     {
+        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
 
         private readonly WcfFactory _wcfFactory;
 
         public R2DWcfManager(DoubleAddress dataCenterAddresses, IniFile iniFile, IMyLog logFile)
         {
+            _iniFile = iniFile;
             _logFile = logFile;
             _wcfFactory = new WcfFactory(dataCenterAddresses, iniFile, _logFile);
         }
 
         public bool SendHeartbeat(RtuChecksChannelDto dto)
         {
-            var wcfConnection = _wcfFactory.GetR2DChannelFactory(false);
+            var shouldLogProblems = _iniFile.Read(IniSection.RtuManager, IniKey.ShouldLogHeartbeatProblems, false);
+            var wcfConnection = _wcfFactory.GetR2DChannelFactory(shouldLogProblems);
             if (wcfConnection == null)
                 return false;
 

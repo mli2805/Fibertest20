@@ -192,7 +192,7 @@ namespace Iit.Fibertest.RtuManagement
         public bool ToggleToPort(OtauPortDto port)
         {
             if (port.OtauTcpPort == 23)
-                port.OtauIp = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
+                port.OtauIp = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, "192.168.88.101");
             var toggleResult = _mainCharon.SetExtendedActivePort(new NetAddress(port.OtauIp, port.OtauTcpPort), port.OpticalPort);
 
             return toggleResult == CharonOperationResult.Ok;

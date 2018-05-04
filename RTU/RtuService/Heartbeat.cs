@@ -65,7 +65,7 @@ namespace Iit.Fibertest.RtuService
                 return;
 
             var channelName = isMainChannel ? "main" : "reserve";
-            _serviceLog.AppendLine(isSuccess ? $"Heartbeat sent by {channelName} channel" : $"Can't send heartbeat by {channelName} channel");
+            _serviceLog.AppendLine(isSuccess ? $"Heartbeat sent by {channelName} channel" : $"Can't send heartbeat by {channelName} channel {oneChannelAddressOnly.Main.ToStringA()}");
             isLastSuccess = isSuccess;
         }
 

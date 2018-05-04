@@ -45,7 +45,7 @@ namespace Iit.Fibertest.RtuManagement
 
             _rtuLog.AppendLine("Monitoring stopped.");
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
-            var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
+            var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, DefaultIp);
             _otdrManager.DisconnectOtdr(otdrAddress);
             IsMonitoringOn = false;
             _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");

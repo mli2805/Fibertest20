@@ -6,7 +6,6 @@
         ClientGuidOnServer,
         RtuGuid,
         HasReserveAddress,
-        ServerTcpPort,
         Ip,
         Host,
         IsAddressIp,
@@ -14,14 +13,17 @@
 
         // General
         Version,
-        LocalIp,
         Culture,
         LogFileSizeLimitKb,
+        LogLevel,
+
+        // RtuManager
         OtdrIp,
         OtdrPort,
         OtauIp,
         OtauPort,
-        LogLevel,
+        PreviousOwnPortCount,
+        ShouldLogHeartbeatProblems,
 
         // Migrator
         OldFibertestServerIp,  

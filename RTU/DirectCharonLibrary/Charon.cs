@@ -18,7 +18,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }
         public bool IsBopSupported { get; set; } // for main charon
-        public bool IsOk { get; set; } // for child charons
+        public bool IsOk { get; set; } 
 
         public Dictionary<int, Charon> Children { get; set; }
 
@@ -35,31 +35,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
             _writeTimeout = _iniFile35.Read(IniSection.Charon, IniKey.WriteTimeout, 2);
             _pauseBetweenCommands = _iniFile35.Read(IniSection.Charon, IniKey.PauseBetweenCommandsMs, 200);
             NetAddress = netAddress;
-        }
-
-        public bool InitializeOnlyThisOtau()
-        {
-            _rtuLogFile.AppendLine($"Initializing OTAU on {NetAddress.ToStringA()}");
-            Serial = GetSerial();
-            if (!IsLastCommandSuccessful)
-            {
-                LedDisplay.Show(_iniFile35, _rtuLogFile, LedDisplayCode.ErrorConnectOtau);
-                LastErrorMessage = $"Get Serial error {LastErrorMessage}";
-                _rtuLogFile.AppendLine(LastErrorMessage, 2);
-                return false;
-            }
-            Serial = Serial.Substring(0, Serial.Length - 2); // "\r\n"
-            _rtuLogFile.AppendLine($"Serial {Serial}", 2);
-
-            OwnPortCount = GetOwnPortCount();
-            if (!IsLastCommandSuccessful)
-            {
-                LastErrorMessage = $"Get own port count error {LastErrorMessage}";
-                _rtuLogFile.AppendLine(LastErrorMessage, 2);
-                return false;
-            }
-            _rtuLogFile.AppendLine($"Own port count  {OwnPortCount}", 2);
-            return true;
         }
 
         /// <summary>
@@ -91,6 +66,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 return NetAddress;
             }
             _rtuLogFile.AppendLine($"Own port count  {OwnPortCount}", 2);
+            IsOk = true;
 
             IsBopSupported = false;
             var expendedPorts = GetExtentedPorts();
@@ -114,10 +90,10 @@ namespace Iit.Fibertest.DirectCharonLibrary
                     if (childCharon.InitializeOtauRecursively() != null)
                     {
                         LedDisplay.Show(_iniFile35, _rtuLogFile, LedDisplayCode.ErrorConnectBop);
-                        IsLastCommandSuccessful = true; // child initialization should'n break full process
+                        IsLastCommandSuccessful = true; // child initialization shouldn't break full process
                         LastErrorMessage = $"Child charon {expendedPort.Value.ToStringA()} initialization failed";
                         _rtuLogFile.AppendLine(LastErrorMessage, 2);
-                        return childCharon.NetAddress;
+                        continue;
                     }
                     FullPortCount += childCharon.FullPortCount;
                 }

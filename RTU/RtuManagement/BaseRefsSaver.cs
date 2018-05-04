@@ -58,7 +58,7 @@ namespace Iit.Fibertest.RtuManagement
 
         private string GetPortFolder(OtauPortDto otauPortDto)
         {
-            var otdrIp = _iniFile.Read(IniSection.General, IniKey.OtdrIp, "192.168.88.101");
+            var otdrIp = _iniFile.Read(IniSection.RtuManager, IniKey.OtdrIp, "192.168.88.101");
             return otauPortDto.IsPortOnMainCharon
                 ? $@"{otdrIp}t{otauPortDto.OtauTcpPort}p{otauPortDto.OpticalPort}\"
                 : $@"{otauPortDto.OtauIp}t{otauPortDto.OtauTcpPort}p{otauPortDto.OpticalPort}\";

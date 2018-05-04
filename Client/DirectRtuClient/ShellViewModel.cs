@@ -18,7 +18,7 @@ namespace DirectRtuClient
 
             _rtuLogger = new LogFile(_iniFile35).AssignFile(@"rtu.log");
 
-            IpAddress = _iniFile35.Read(IniSection.General, IniKey.OtauIp, @"172.16.5.53");
+            IpAddress = _iniFile35.Read(IniSection.RtuManager, IniKey.OtauIp, @"172.16.5.53");
 
         }
 
@@ -30,7 +30,7 @@ namespace DirectRtuClient
         }
         public void OtauView()
         {
-            var otauPort = _iniFile35.Read(IniSection.General, IniKey.OtauPort, 23);
+            var otauPort = _iniFile35.Read(IniSection.RtuManager, IniKey.OtauPort, 23);
             var vm = new OtauViewModel(IpAddress, otauPort, _iniFile35, _rtuLogger);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowWindow(vm);

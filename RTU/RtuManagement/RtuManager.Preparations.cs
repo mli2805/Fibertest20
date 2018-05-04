@@ -22,7 +22,7 @@ namespace Iit.Fibertest.RtuManagement
                 return otdrInitializationResult;
             }
 
-            var otauInitializationResult = dto != null 
+            var otauInitializationResult = dto != null
                 ? ReInitializeOtauOnUsersRequest(dto)
                 : InitializeOtau();
             if (otauInitializationResult != ReturnCode.Ok)
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.RtuManagement
             if (!_otdrManager.InitializeLibrary())
                 return ReturnCode.OtdrInitializationCannotInitializeDll;
 
-            var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
+            var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, DefaultIp);
             Thread.Sleep(300);
             return _otdrManager.ConnectOtdr(otdrAddress) ? ReturnCode.Ok : ReturnCode.OtdrCannontConnect;
         }
@@ -83,13 +83,29 @@ namespace Iit.Fibertest.RtuManagement
         }
         private ReturnCode InitializeOtau()
         {
-            var otauIpAddress = _rtuIni.Read(IniSection.General, IniKey.OtauIp, DefaultIp);
+            var otauIpAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtauIp, DefaultIp);
             _mainCharon = new Charon(new NetAddress(otauIpAddress, 23), _rtuIni, _rtuLog);
             var res = _mainCharon.InitializeOtauRecursively();
 
+            var previousOwnPortCount = _rtuIni.Read(IniSection.RtuManager, IniKey.PreviousOwnPortCount, -1);
+            if (previousOwnPortCount == -1)
+                _rtuIni.Write(IniSection.RtuManager, IniKey.PreviousOwnPortCount, _mainCharon.OwnPortCount);
+            if (previousOwnPortCount != _mainCharon.OwnPortCount)
+            {
+                if (_mainCharon.OwnPortCount != 1) // OTAU is changed - not broken
+                {
+                    _rtuIni.Write(IniSection.RtuManager, IniKey.PreviousOwnPortCount, _mainCharon.OwnPortCount);
+                    _mainCharon.IsOk = true;
+                }
+                else
+                {
+                    _mainCharon.IsOk = false;
+                }
+            }
+
             return res == null ? ReturnCode.Ok : ReturnCode.OtauInitializationError;
         }
-      
+
         private void GetMonitoringParams()
         {
             _preciseMakeTimespan =
@@ -102,7 +118,7 @@ namespace Iit.Fibertest.RtuManagement
 
         private void DisconnectOtdr()
         {
-            var otdrAddress = _rtuIni.Read(IniSection.General, IniKey.OtdrIp, DefaultIp);
+            var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, DefaultIp);
             _otdrManager.DisconnectOtdr(otdrAddress);
             _rtuLog.AppendLine("Rtu is in MANUAL mode.");
         }

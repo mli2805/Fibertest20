@@ -4,6 +4,7 @@
     {
         General,
         Server,
+        RtuManager,
         ServerMainAddress,
         ServerReserveAddress,
         ClientLocalAddress,
