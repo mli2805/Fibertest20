@@ -26,9 +26,17 @@ namespace Iit.Fibertest.DatabaseLibrary
                 using (var dbContext = new FtDbContext(_settings.Options))
                 {
                     var previousRtuStationRow = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuStation.RtuGuid);
-                    if (previousRtuStationRow != null)
-                        dbContext.RtuStations.Remove(previousRtuStationRow);
-                    dbContext.RtuStations.Add(rtuStation);
+                    if (previousRtuStationRow == null)
+                        dbContext.RtuStations.Add(rtuStation);
+                    else
+                    {
+                        previousRtuStationRow.Version = rtuStation.Version;
+                        previousRtuStationRow.MainAddress = rtuStation.MainAddress;
+                        previousRtuStationRow.MainAddressPort = rtuStation.MainAddressPort;
+                        previousRtuStationRow.IsReserveAddressSet = rtuStation.IsReserveAddressSet;
+                        previousRtuStationRow.ReserveAddress = rtuStation.ReserveAddress;
+                        previousRtuStationRow.ReserveAddressPort = rtuStation.ReserveAddressPort;
+                    }
 
                     _logFile.AppendLine($"RtuStation {rtuStation.RtuGuid.First6()} successfully registered with main address {rtuStation.MainAddress}.");
                     return await dbContext.SaveChangesAsync();

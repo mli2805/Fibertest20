@@ -38,6 +38,17 @@ namespace Iit.Fibertest.Client
                 ReInitialize(rtuLeaf, e);
 
             rtuLeaf.MonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
+            foreach (var child in rtuLeaf.ChildrenImpresario.Children)
+            {
+                if (child is TraceLeaf traceLeaf)
+                    traceLeaf.BaseRefsSet.RtuMonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
+                else if (child is OtauLeaf otauLeaf)
+                    foreach (var leaf in otauLeaf.ChildrenImpresario.Children)
+                    {
+                        if (leaf is TraceLeaf traceLeaf1)
+                            traceLeaf1.BaseRefsSet.RtuMonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
+                    }
+            }
         }
 
         private void ReInitialize(RtuLeaf rtuLeaf, RtuInitialized e)

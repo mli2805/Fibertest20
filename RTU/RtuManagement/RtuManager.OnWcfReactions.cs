@@ -18,6 +18,9 @@ namespace Iit.Fibertest.RtuManagement
 
         public void Initialize(InitializeRtuDto param, Action callback)
         {
+            // prohibit to send heartbeats
+            ShouldSendHeartbeat.TryDequeue(out _);
+
             if (IsMonitoringOn || _wasMonitoringOn)
             {
                 StopMonitoring("Initialize");
@@ -41,7 +44,8 @@ namespace Iit.Fibertest.RtuManagement
                 callback?.Invoke();
                 return;
             }
-            // permit send heartbeats
+
+            // permit to send heartbeats
             ShouldSendHeartbeat.Enqueue(new object());
 
             IsRtuInitialized = true;

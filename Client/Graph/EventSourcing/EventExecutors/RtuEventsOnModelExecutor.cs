@@ -98,11 +98,17 @@ namespace Iit.Fibertest.Graph
                 return message;
             }
 
-            foreach (var trace in _model.Traces.Where(t=>t.OtauPort.OtauIp == otau.NetAddress.Ip4Address && t.OtauPort.OtauTcpPort == otau.NetAddress.Port))
+            foreach (var trace in _model.Traces.Where(t=>t.OtauPort != null && 
+              t.OtauPort.OtauIp == otau.NetAddress.Ip4Address && t.OtauPort.OtauTcpPort == otau.NetAddress.Port))
             {
                 _traceEventsOnModelExecutor.DetachTrace(trace);
             }
             rtu.FullPortCount -= otau.PortCount;
+            foreach (var port in rtu.Children.Keys.ToList())
+            {
+                if (rtu.Children[port].NetAddress == otau.NetAddress)
+                    rtu.Children.Remove(port);
+            }
             _model.Otaus.Remove(otau);
             return null;
         }

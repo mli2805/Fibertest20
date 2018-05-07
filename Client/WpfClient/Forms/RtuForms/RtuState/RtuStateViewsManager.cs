@@ -52,7 +52,8 @@ namespace Iit.Fibertest.Client
                 case TraceDetached e: NotifyUserTraceChanged(e.TraceId); return;
                 case TraceUpdated e: NotifyUserTraceChanged(e.Id); return;
                 case RtuUpdated e: NotifyUserRtuUpdated(e.RtuId); return;
-                case ResponsibilitiesChanged e: ChangeResponsibilities(e); return;
+                case RtuInitialized e: NotifyUserRtuUpdated(e.Id); return;
+                case ResponsibilitiesChanged _: ChangeResponsibilities(); return;
                 default: return;
             }
         }
@@ -142,8 +143,8 @@ namespace Iit.Fibertest.Client
             LaunchedViews.Add(rtuId, vm);
         }
 
-        // ReSharper disable once UnusedParameter.Local
-        private void ChangeResponsibilities(ResponsibilitiesChanged e)
+
+        private void ChangeResponsibilities()
         {
             foreach (var pair in LaunchedViews)
             {
@@ -152,5 +153,6 @@ namespace Iit.Fibertest.Client
                     pair.Value.Close();
             }
         }
+
     }
 }

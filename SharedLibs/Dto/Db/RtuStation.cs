@@ -25,14 +25,14 @@ namespace Iit.Fibertest.Dto
     {
         public static DoubleAddress GetRtuDoubleAddress(this RtuStation rtuStation)
         {
-            var rtuAddress = new DoubleAddress()
+            var rtuAddresses = new DoubleAddress()
             {
                 Main = GetAddress(rtuStation.MainAddress, rtuStation.MainAddressPort),
                 HasReserveAddress = rtuStation.IsReserveAddressSet,
             };
-            if (rtuAddress.HasReserveAddress)
-                rtuAddress.Reserve = GetAddress(rtuStation.ReserveAddress, rtuStation.ReserveAddressPort);
-            return rtuAddress;
+            if (rtuAddresses.HasReserveAddress)
+                rtuAddresses.Reserve = GetAddress(rtuStation.ReserveAddress, rtuStation.ReserveAddressPort);
+            return rtuAddresses;
         }
 
         private static NetAddress GetAddress(string address, int port)

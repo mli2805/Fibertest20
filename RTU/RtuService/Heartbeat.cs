@@ -18,6 +18,7 @@ namespace Iit.Fibertest.RtuService
         private DoubleAddress _mainAddressOnly;
         private DoubleAddress _reserveAddressOnly;
         private bool _hasReserveAddress;
+        private bool _initializationInProgress;
 
         public Heartbeat(IniFile serviceIni, IMyLog serviceLog, RtuManager rtuManager)
         {
@@ -43,6 +44,11 @@ namespace Iit.Fibertest.RtuService
             {
                 while (!_rtuManager.ShouldSendHeartbeat.TryPeek(out object _))
                 {
+                    if (!_initializationInProgress)
+                    {
+                        _initializationInProgress = true;
+                        _serviceLog.AppendLine("Heartbeats are suspended during RTU initialization.");
+                    }
                     Thread.Sleep(3000);
                 }
 
@@ -61,11 +67,14 @@ namespace Iit.Fibertest.RtuService
             var dto = new RtuChecksChannelDto() { RtuId = _rtuId, Version = _version, IsMainChannel = isMainChannel };
             var channel = new R2DWcfManager(oneChannelAddressOnly, _serviceIni, _serviceLog);
             var isSuccess = channel.SendHeartbeat(dto);
-            if (isSuccess == isLastSuccess)
+            if (isSuccess == isLastSuccess && !_initializationInProgress)
                 return;
 
+            _initializationInProgress = false;
             var channelName = isMainChannel ? "main" : "reserve";
-            _serviceLog.AppendLine(isSuccess ? $"Heartbeat sent by {channelName} channel" : $"Can't send heartbeat by {channelName} channel {oneChannelAddressOnly.Main.ToStringA()}");
+            _serviceLog.AppendLine(isSuccess 
+                ? $"RTU {_rtuId.First6()} sent heartbeat by {channelName} channel" 
+                : $"Can't send heartbeat by {channelName} channel {oneChannelAddressOnly.Main.ToStringA()}");
             isLastSuccess = isSuccess;
         }
 
