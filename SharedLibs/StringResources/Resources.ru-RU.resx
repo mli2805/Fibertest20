@@ -1775,4 +1775,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_and_start_initialization_again_" xml:space="preserve">
 		<value>и запустите инициализацию снова</value>
 	</data>
+	<data name="SID_Remove_RTU___0____" xml:space="preserve">
+		<value>Удалить RTU "{0}" ?</value>
+	</data>
 </root>

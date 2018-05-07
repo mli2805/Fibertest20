@@ -16,15 +16,17 @@ namespace Iit.Fibertest.Client
         private readonly CurrentUser _currentUser;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
+        private readonly RtuRemover _rtuRemover;
 
         public GrmRtuRequests(ILifetimeScope globalScope, Model model, CurrentUser currentUser,
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, RtuRemover rtuRemover)
         {
             _globalScope = globalScope;
             _model = model;
             _currentUser = currentUser;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
+            _rtuRemover = rtuRemover;
         }
 
         public void AddRtuAtGpsLocation(RequestAddRtuAtGpsLocation request)
@@ -42,11 +44,10 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
-        public async Task RemoveRtu(RequestRemoveRtu request)
+        public async Task<string> RemoveRtu(RequestRemoveRtu request)
         {
             var rtu = _model.Rtus.First(r => r.NodeId == request.NodeId);
-            var cmd = new RemoveRtu() { RtuId = rtu.Id, RtuNodeId = request.NodeId };
-            await _c2DWcfManager.SendCommandAsObj(cmd);
+            return await _rtuRemover.Fire(rtu);
         }
 
         public void DefineTraceStepByStep(Guid rtuNodeId, string rtuTitle)

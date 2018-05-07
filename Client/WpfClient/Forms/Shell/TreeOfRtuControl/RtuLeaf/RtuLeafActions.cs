@@ -20,11 +20,12 @@ namespace Iit.Fibertest.Client
         private readonly GraphReadModel _graphReadModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly RtuRemover _rtuRemover;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly LandmarksViewsManager _landmarksViewsManager;
 
         public RtuLeafActions(ILifetimeScope globalScope, IMyLog logFile, Model readModel, GraphReadModel graphReadModel,
-            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, 
+            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, RtuRemover rtuRemover, 
             RtuStateViewsManager rtuStateViewsManager, LandmarksViewsManager landmarksViewsManager)
         {
             _globalScope = globalScope;
@@ -33,6 +34,7 @@ namespace Iit.Fibertest.Client
             _graphReadModel = graphReadModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
+            _rtuRemover = rtuRemover;
             _rtuStateViewsManager = rtuStateViewsManager;
             _landmarksViewsManager = landmarksViewsManager;
         }
@@ -184,10 +186,10 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public void RemoveRtu(object param)
+        public async void RemoveRtu(object param)
         {
             if (param is RtuLeaf rtuLeaf)
-                _c2DWcfManager.SendCommandAsObj(new RemoveRtu() { RtuId = rtuLeaf.Id, RtuNodeId = _readModel.Rtus.First(r=>r.Id == rtuLeaf.Id).NodeId});
+                await _rtuRemover.Fire(_readModel.Rtus.First(r => r.Id == rtuLeaf.Id));
         }
 
         public void DefineTraceStepByStep(object param)

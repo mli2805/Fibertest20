@@ -3574,6 +3574,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remove RTU &quot;{0}&quot; ?.
+        /// </summary>
+        public static string SID_Remove_RTU___0____ {
+            get {
+                return ResourceManager.GetString("SID_Remove_RTU___0____", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove section.
         /// </summary>
         public static string SID_Remove_section {

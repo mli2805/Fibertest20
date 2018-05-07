@@ -49,6 +49,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает удалить первый RTU")]
         public void WhenПользовательКликаетУдалитьПервыйRtu()
         {
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             _sut.GraphReadModel.GrmRtuRequests.RemoveRtu(new RequestRemoveRtu() { NodeId = _rtu.NodeId }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
@@ -56,6 +57,7 @@ namespace Graph.Tests
         [When(@"Пользователь кликает на первом RTU в дереве удалить")]
         public void WhenПользовательКликаетНаПервомRtuвДеревеУдалить()
         {
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             _rtuLeaf.MyContextMenu.FirstOrDefault(i => i?.Header == Resources.SID_Remove)?.Command.Execute(_rtuLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }

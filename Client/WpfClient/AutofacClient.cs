@@ -96,6 +96,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<CommonActions>().InstancePerLifetimeScope();
 
             builder.RegisterType<SoundManager>().InstancePerLifetimeScope();
+            builder.RegisterType<RtuRemover>().InstancePerLifetimeScope();
             builder.RegisterType<RtuFilterViewModel>().InstancePerLifetimeScope();
 
             builder.RegisterType<RtuStateModelFactory>().InstancePerLifetimeScope();

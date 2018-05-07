@@ -75,8 +75,11 @@ namespace Iit.Fibertest.RtuManagement
             // initialize all child bops to get their states
             foreach (var pair in dto.Children)
             {
-                if (!_mainCharon.Children.ContainsKey(pair.Key))
+                if (!_mainCharon.Children.ContainsKey(pair.Key)
+                    || _mainCharon.Children[pair.Key].Serial != pair.Value.Serial)
+                {
                     _mainCharon.AttachOtauToPort(pair.Value.NetAddress, pair.Key);
+                }
             }
 
             return InitializeOtau();
