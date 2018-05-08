@@ -22,11 +22,6 @@ namespace Iit.Fibertest.Client
             return HasPrevilegesAndNotAdjustmentPoint(parameter);
         }
 
-        public bool CanAddCableReserve(object parameter)
-        {
-            return HasPrevilegesAndNotAdjustmentPoint(parameter);
-        }
-
         public bool CanLandmarks(object parameter)
         {
             if (parameter == null) return false;
@@ -39,6 +34,7 @@ namespace Iit.Fibertest.Client
             if (_currentUser.Role > Role.Root || parameter == null)
                 return false;
             var marker = (MarkerControl)parameter;
+            if (marker.Type == EquipmentType.AdjustmentPoint) return true;
             if (marker.Owner.GraphReadModel.ReadModel.Traces.Any(t => t.NodeIds.Contains(marker.GMapMarker.Id) && t.HasAnyBaseRef)) return false;
             return marker.Owner.GraphReadModel.ReadModel.Traces.All(t => t.NodeIds.Last() != marker.GMapMarker.Id);
         }
