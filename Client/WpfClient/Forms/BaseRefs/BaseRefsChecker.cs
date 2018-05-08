@@ -19,12 +19,11 @@ namespace Iit.Fibertest.Client
         private readonly BaseRefMeasParamsChecker _baseRefMeasParamsChecker;
         private readonly BaseRefLandmarksChecker _baseRefLandmarksChecker;
         private readonly GraphGpsCalculator _graphGpsCalculator;
-        private readonly TraceModelBuilder _traceModelBuilder;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
 
         public BaseRefsChecker(Model readModel, IWindowManager windowManager,
             BaseRefMeasParamsChecker baseRefMeasParamsChecker, BaseRefLandmarksChecker baseRefLandmarksChecker,
-            GraphGpsCalculator graphGpsCalculator, TraceModelBuilder traceModelBuilder, 
+            GraphGpsCalculator graphGpsCalculator,  
             BaseRefLandmarksTool baseRefLandmarksTool)
         {
             _readModel = readModel;
@@ -32,7 +31,6 @@ namespace Iit.Fibertest.Client
             _baseRefMeasParamsChecker = baseRefMeasParamsChecker;
             _baseRefLandmarksChecker = baseRefLandmarksChecker;
             _graphGpsCalculator = graphGpsCalculator;
-            _traceModelBuilder = traceModelBuilder;
             _baseRefLandmarksTool = baseRefLandmarksTool;
         }
 
@@ -61,21 +59,12 @@ namespace Iit.Fibertest.Client
                 if (comparisonResult == CountMatch.Error)
                         return false;
 
-                var traceModel = _readModel.GetTraceComponentsByIds(trace);
-                var modelWithoutAdjustmentPoint = _traceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
-
-                if (comparisonResult == CountMatch.LandmarksMatchEquipments)
-                    _baseRefLandmarksTool.InsertLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
-
-                _baseRefLandmarksTool.SetLandmarksLocation(otdrKnownBlocks, modelWithoutAdjustmentPoint);
-
-                _baseRefLandmarksTool.AddNamesAndTypesForLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
-
-                baseRefDto.SorBytes = otdrKnownBlocks.ToBytes();
-
                 if (baseRefDto.BaseRefType == BaseRefType.Precise)
-                    if (!IsDistanceLengthAcceptable(otdrKnownBlocks, trace, baseRefDto))
+                    if (!IsDistanceLengthAcceptable(otdrKnownBlocks, trace))
                         return false;
+
+                baseRefDto.SorBytes = _baseRefLandmarksTool.ApplyTraceToBaseRef(otdrKnownBlocks, trace,
+                    comparisonResult == CountMatch.LandmarksMatchEquipments);
             }
             return true;
         }
@@ -103,22 +92,22 @@ namespace Iit.Fibertest.Client
             return true;
         }
 
-        private bool IsDistanceLengthAcceptable(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace, BaseRefDto baseRefDto)
+        private bool IsDistanceLengthAcceptable(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace)
         {
             var gpsDistance = $@"{_graphGpsCalculator.CalculateTraceGpsLengthKm(trace):#,0.##}";
             var opticalLength = $@"{otdrKnownBlocks.GetTraceLengthKm():#,0.##}";
             var message = string.Format(Resources.SID_Trace_length_on_map_is__0__km, gpsDistance) +
                    Environment.NewLine + string.Format(Resources.SID_Optical_length_is__0__km, opticalLength);
             var vmc = new MyMessageBoxViewModel(MessageType.Confirmation,
-                AssembleConfirmation(baseRefDto, message));
+                AssembleConfirmation(message));
             _windowManager.ShowDialogWithAssignedOwner(vmc);
             return vmc.IsAnswerPositive;
         }
 
-        private List<MyMessageBoxLineModel> AssembleConfirmation(BaseRefDto baseRefDto, string message)
+        private List<MyMessageBoxLineModel> AssembleConfirmation(string message)
         {
             var result = new List<MyMessageBoxLineModel>();
-            result.Add(new MyMessageBoxLineModel() { Line = baseRefDto.BaseRefType.GetLocalizedFemaleString() + Resources.SID__base_ });
+            result.Add(new MyMessageBoxLineModel() { Line = BaseRefType.Precise.GetLocalizedFemaleString() + Resources.SID__base_ });
             result.Add(new MyMessageBoxLineModel() { Line = "" });
             result.Add(new MyMessageBoxLineModel() { Line = "" });
             result.Add(new MyMessageBoxLineModel() { Line = message, FontWeight = FontWeights.Bold });

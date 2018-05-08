@@ -7,6 +7,30 @@ namespace Iit.Fibertest.Graph.Algorithms
 {
     public class BaseRefLandmarksTool
     {
+        private readonly Model _readModel;
+        private readonly TraceModelBuilder _traceModelBuilder;
+
+        public BaseRefLandmarksTool(Model readModel, TraceModelBuilder traceModelBuilder)
+        {
+            _readModel = readModel;
+            _traceModelBuilder = traceModelBuilder;
+        }
+
+        public byte[] ApplyTraceToBaseRef(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace,
+            bool needToInsertLandmarksForEmptyNodes)
+        {
+            var traceModel = _readModel.GetTraceComponentsByIds(trace);
+            var modelWithoutAdjustmentPoint = _traceModelBuilder.GetTraceModelWithoutAdjustmentPoints(traceModel);
+            if (needToInsertLandmarksForEmptyNodes)
+                InsertLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
+
+            SetLandmarksLocation(otdrKnownBlocks, modelWithoutAdjustmentPoint);
+
+            AddNamesAndTypesForLandmarks(otdrKnownBlocks, modelWithoutAdjustmentPoint);
+
+            return otdrKnownBlocks.ToBytes();
+        }
+
         public void SetLandmarksLocation(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
         {
             var landmarks = sorData.LinkParameters.LandmarkBlocks;
