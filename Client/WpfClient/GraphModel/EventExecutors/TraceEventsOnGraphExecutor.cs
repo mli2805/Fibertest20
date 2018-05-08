@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Client
         private readonly CurrentUser _currentUser;
         private readonly AccidentEventsOnGraphExecutor _accidentEventsOnGraphExecutor;
 
-        public TraceEventsOnGraphExecutor(GraphReadModel model, Model readModel, 
+        public TraceEventsOnGraphExecutor(GraphReadModel model, Model readModel,
             CurrentUser currentUser, AccidentEventsOnGraphExecutor accidentEventsOnGraphExecutor)
         {
             _model = model;
@@ -43,23 +43,21 @@ namespace Iit.Fibertest.Client
                      f.Node1.Id == node2 && f.Node2.Id == node1);
         }
 
+        // event applied to ReadModel firstly and at this moment trace could be cleaned/removed, so fibers list should be prepared beforehand
+        // but in case trace was hidden check fiberVm/nodeVm on null before operations
         public void CleanTrace(TraceCleaned evnt)
         {
-            if (_currentUser.ZoneId != Guid.Empty && 
-                !_readModel.Traces.First(t=>t.TraceId == evnt.TraceId).ZoneIds.Contains(_currentUser.ZoneId)) return;
-
             foreach (var fiberId in evnt.FiberIds)
             {
-                var fiberVm = _model.Data.Fibers.First(f => f.Id == fiberId);
-                fiberVm.RemoveState(evnt.TraceId);
+                var fiberVm = _model.Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
+                fiberVm?.RemoveState(evnt.TraceId);
             }
         }
 
+        // event applied to ReadModel firstly and at this moment trace could be cleaned/removed, so fibers list should be prepared beforehand
+        // but in case trace was hidden check fiberVm/nodeVm on null before operations
         public void RemoveTrace(TraceRemoved evnt)
         {
-            if (_currentUser.ZoneId != Guid.Empty &&
-                !_readModel.Traces.First(t => t.TraceId == evnt.TraceId).ZoneIds.Contains(_currentUser.ZoneId)) return;
-
             foreach (var fiberId in evnt.FiberIds)
             {
                 var fiberVm = _model.Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
@@ -80,8 +78,7 @@ namespace Iit.Fibertest.Client
 
         public void AttachTrace(TraceAttached evnt)
         {
-            if (_currentUser.ZoneId != Guid.Empty &&
-                !_readModel.Traces.First(t => t.TraceId == evnt.TraceId).ZoneIds.Contains(_currentUser.ZoneId)) return;
+            if (!ShouldAcceptEventForTrace(evnt.TraceId)) return;
 
             _accidentEventsOnGraphExecutor.ShowMonitoringResult(new MeasurementAdded()
             {
@@ -98,13 +95,23 @@ namespace Iit.Fibertest.Client
 
         public void DetachTrace(Guid traceId)
         {
-            if (_currentUser.ZoneId != Guid.Empty &&
-                !_readModel.Traces.First(t => t.TraceId == traceId).ZoneIds.Contains(_currentUser.ZoneId)) return;
+            if (!ShouldAcceptEventForTrace(traceId)) return;
 
             var trace = _readModel.Traces.First(t => t.TraceId == traceId);
             foreach (var fiberVm in GetTraceFibersByNodes(trace.NodeIds))
                 fiberVm.SetState(trace.TraceId, trace.State);
             _model.CleanAccidentPlacesOnTrace(traceId);
+        }
+
+        private bool ShouldAcceptEventForTrace(Guid traceId)
+        {
+            if (_currentUser.ZoneId != Guid.Empty &&
+                !_readModel.Traces.First(t => t.TraceId == traceId).ZoneIds.Contains(_currentUser.ZoneId)) return false;
+
+            var trace = _readModel.Traces.First(t => t.TraceId == traceId);
+            var rtu = _readModel.Rtus.First(r => r.Id == trace.RtuId);
+            var user = _readModel.Users.First(u => u.UserId == _currentUser.UserId);
+            return !user.HiddenRtus.Contains(rtu.Id);
         }
     }
 }

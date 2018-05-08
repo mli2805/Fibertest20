@@ -9,9 +9,9 @@ namespace Iit.Fibertest.Client
 {
     public enum EventAcceptability
     {
-        Full,
-        Partly,
-        No,
+        Full, // trace is included in current user's zone 
+        Partly, // RTU is included but trace is not
+        No, // neither RTU nor trace are included 
     }
     public class TraceEventsOnTreeExecutor
     {
