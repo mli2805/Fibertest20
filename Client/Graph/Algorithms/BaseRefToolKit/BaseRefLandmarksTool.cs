@@ -1,4 +1,6 @@
-﻿using Iit.Fibertest.Dto;
+﻿using System;
+using System.Linq;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
@@ -14,6 +16,14 @@ namespace Iit.Fibertest.Graph.Algorithms
         {
             _readModel = readModel;
             _traceModelBuilder = traceModelBuilder;
+        }
+
+        public void AugmentFastBaseRefSentByMigrator(Guid traceId, BaseRefDto baseRefDto)
+        {
+            var trace = _readModel.Traces.First(t => t.TraceId == traceId);
+            var message = SorData.TryGetFromBytes(baseRefDto.SorBytes, out var otdrKnownBlocks);
+            if (message != "") return;
+            baseRefDto.SorBytes = ApplyTraceToBaseRef(otdrKnownBlocks, trace, otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length < trace.NodeIds.Count);
         }
 
         public byte[] ApplyTraceToBaseRef(OtdrDataKnownBlocks otdrKnownBlocks, Trace trace,

@@ -153,8 +153,8 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-    
-     
+
+
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
@@ -173,7 +173,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return new ClientRegisteredDto() { ReturnCode = ReturnCode.C2DWcfOperationError, ExceptionMessage = e.Message};
+                return new ClientRegisteredDto() { ReturnCode = ReturnCode.C2DWcfOperationError, ExceptionMessage = e.Message };
             }
         }
 
@@ -266,7 +266,7 @@ namespace Iit.Fibertest.WcfConnections
         {
             var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
-                return new RtuInitializedDto() { IsInitialized = false, ReturnCode = ReturnCode.C2DWcfConnectionError, ErrorMessage = "Can't establish connection with DataCenter"};
+                return new RtuInitializedDto() { IsInitialized = false, ReturnCode = ReturnCode.C2DWcfConnectionError, ErrorMessage = "Can't establish connection with DataCenter" };
 
             try
             {
@@ -280,7 +280,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return new RtuInitializedDto() { IsInitialized = false, ReturnCode = ReturnCode.C2DWcfOperationError, ErrorMessage = e.Message};
+                return new RtuInitializedDto() { IsInitialized = false, ReturnCode = ReturnCode.C2DWcfOperationError, ErrorMessage = e.Message };
             }
         }
 
@@ -354,7 +354,7 @@ namespace Iit.Fibertest.WcfConnections
         {
             var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
-                return new MonitoringSettingsAppliedDto() {ReturnCode = ReturnCode.C2DWcfConnectionError};
+                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError };
 
             try
             {
@@ -368,7 +368,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError, ExceptionMessage = e.Message};
+                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError, ExceptionMessage = e.Message };
             }
         }
 
@@ -376,7 +376,7 @@ namespace Iit.Fibertest.WcfConnections
         {
             var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
-                return new BaseRefAssignedDto() {ReturnCode = ReturnCode.C2DWcfConnectionError};
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError };
 
             try
             {
@@ -390,7 +390,29 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError, ExceptionMessage = e.Message};
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError, ExceptionMessage = e.Message };
+            }
+        }
+
+        public async Task<BaseRefAssignedDto> AssignBaseRefAsyncFromMigrator(AssignBaseRefsDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            if (wcfConnection == null)
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError };
+
+            try
+            {
+                _logFile.AppendLine($@"Sending base ref for trace {dto.TraceId.First6()}...");
+                dto.ClientId = _clientId;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.AssignBaseRefAsyncFromMigrator(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError, ExceptionMessage = e.Message };
             }
         }
 

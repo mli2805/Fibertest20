@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Newtonsoft.Json;
@@ -25,6 +26,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly SorFileRepository _sorFileRepository;
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
+        private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly Smtp _smtp;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
@@ -35,7 +37,7 @@ namespace Iit.Fibertest.DataCenterCore
         public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService, MeasurementFactory measurementFactory,
             ClientStationsRepository clientStationsRepository, ClientToRtuTransmitter clientToRtuTransmitter,
             RtuStationsRepository rtuStationsRepository, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
-            SorFileRepository sorFileRepository, Smtp smtp)
+            BaseRefLandmarksTool baseRefLandmarksTool, SorFileRepository sorFileRepository, Smtp smtp)
         {
             _logFile = logFile;
             _eventStoreService = eventStoreService;
@@ -45,10 +47,12 @@ namespace Iit.Fibertest.DataCenterCore
             _rtuStationsRepository = rtuStationsRepository;
             _sorFileRepository = sorFileRepository;
             _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
+            _baseRefLandmarksTool = baseRefLandmarksTool;
             _smtp = smtp;
         }
 
-        public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp) {
+        public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
+        {
             // tests need this function exists 
         }
 
@@ -70,7 +74,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var command = _measurementFactory.CreateCommand(dto, sorId);
                 await _eventStoreService.SendCommand(command, "migrator", "OnServer");
             }
-          
+
             return 0;
         }
 
@@ -124,7 +128,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (cmd is AddNodeIntoFiber addNodeIntoFiber)
                 return await _baseRefRepairmanIntermediary.AmendForTracesWhichUseThisNode(addNodeIntoFiber.Id);
             if (cmd is RemoveNode removeNode && removeNode.Type == EquipmentType.AdjustmentPoint)
-                return await _baseRefRepairmanIntermediary.ProcessNodeRemoved(removeNode.DetoursForGraph.Select(d=>d.TraceId).ToList());
+                return await _baseRefRepairmanIntermediary.ProcessNodeRemoved(removeNode.DetoursForGraph.Select(d => d.TraceId).ToList());
             #endregion
 
             return null;
@@ -140,7 +144,7 @@ namespace Iit.Fibertest.DataCenterCore
             return await _sorFileRepository.GetSorBytesAsync(sorFileId);
         }
 
-      
+
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             var result = await _clientStationsRepository.RegisterClientAsync(dto);
@@ -168,7 +172,7 @@ namespace Iit.Fibertest.DataCenterCore
             return await _smtp.SendTestDispatch();
         }
 
-        public  async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
+        public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} check RTU {dto.NetAddress.ToStringA()} connection");
             return await _clientToRtuTransmitter.CheckRtuConnection(dto);
@@ -194,7 +198,7 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public  async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
+        public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent detach OTAU {dto.OtauId.First6()} request");
             var result = await _clientToRtuTransmitter.DetachOtauAsync(dto);
@@ -203,7 +207,7 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-    
+
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent stop monitoring on RTU {dto.RtuId.First6()} request");
@@ -227,11 +231,11 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 await _sorFileRepository.RemoveSorBytesAsync(sorFileId);
             }
-            var command = new AssignBaseRef(){TraceId = dto.TraceId, BaseRefs = new List<BaseRef>()};
+            var command = new AssignBaseRef() { TraceId = dto.TraceId, BaseRefs = new List<BaseRef>() };
             foreach (var baseRefDto in dto.BaseRefs)
             {
                 var sorFileId = 0;
-                if (baseRefDto.Id != Guid.Empty)  
+                if (baseRefDto.Id != Guid.Empty)
                     sorFileId = await _sorFileRepository.AddSorBytesAsync(baseRefDto.SorBytes);
 
                 var baseRef = new BaseRef()
@@ -241,7 +245,7 @@ namespace Iit.Fibertest.DataCenterCore
                     Id = baseRefDto.Id,
                     BaseRefType = baseRefDto.BaseRefType,
                     SaveTimestamp = baseRefDto.SaveTimestamp,
-                    Duration =  baseRefDto.Duration,
+                    Duration = baseRefDto.Duration,
                     UserName = baseRefDto.UserName,
 
                     SorFileId = sorFileId,
@@ -251,9 +255,46 @@ namespace Iit.Fibertest.DataCenterCore
             await _eventStoreService.SendCommand(command, "system", "OnServer");
 
             if (dto.OtauPortDto == null) // unattached trace
-                return new BaseRefAssignedDto(){ReturnCode = ReturnCode.BaseRefAssignedSuccessfully};
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
 
             return await _clientToRtuTransmitter.AssignBaseRefAsync(dto);
+        }
+
+        public async Task<BaseRefAssignedDto> AssignBaseRefAsyncFromMigrator(AssignBaseRefsDto dto)
+        {
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace {dto.TraceId.First6()}");
+            foreach (var sorFileId in dto.DeleteOldSorFileIds)
+            {
+                await _sorFileRepository.RemoveSorBytesAsync(sorFileId);
+            }
+            var command = new AssignBaseRef() { TraceId = dto.TraceId, BaseRefs = new List<BaseRef>() };
+            foreach (var baseRefDto in dto.BaseRefs)
+            {
+                var sorFileId = 0;
+                if (baseRefDto.Id != Guid.Empty)
+                {
+                    if (baseRefDto.BaseRefType == BaseRefType.Fast)
+                        _baseRefLandmarksTool.AugmentFastBaseRefSentByMigrator(dto.TraceId, baseRefDto);
+
+                    sorFileId = await _sorFileRepository.AddSorBytesAsync(baseRefDto.SorBytes);
+                }
+
+                var baseRef = new BaseRef()
+                {
+                    TraceId = dto.TraceId,
+
+                    Id = baseRefDto.Id,
+                    BaseRefType = baseRefDto.BaseRefType,
+                    SaveTimestamp = baseRefDto.SaveTimestamp,
+                    Duration = baseRefDto.Duration,
+                    UserName = baseRefDto.UserName,
+
+                    SorFileId = sorFileId,
+                };
+                command.BaseRefs.Add(baseRef);
+            }
+            await _eventStoreService.SendCommand(command, "migrator", "OnServer");
+            return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
         }
 
         // Base refs had been assigned earlier (and saved in Db) and now user attached trace to the port
@@ -266,9 +307,9 @@ namespace Iit.Fibertest.DataCenterCore
             var convertedDto = await Convert(dto);
 
             if (convertedDto?.BaseRefs == null)
-                return new BaseRefAssignedDto() {ReturnCode = ReturnCode.DbCannotConvertThisReSendToAssign};
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.DbCannotConvertThisReSendToAssign };
             if (!convertedDto.BaseRefs.Any())
-                return new BaseRefAssignedDto() {ReturnCode = ReturnCode.BaseRefAssignedSuccessfully};
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
 
             return await _clientToRtuTransmitter.AssignBaseRefAsync(convertedDto);
         }
@@ -289,7 +330,7 @@ namespace Iit.Fibertest.DataCenterCore
                 baseRefDto.SorBytes = await _sorFileRepository.GetSorBytesAsync(baseRefDto.SorFileId);
                 result.BaseRefs.Add(baseRefDto);
             }
-            
+
             return result;
         }
 

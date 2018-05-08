@@ -70,6 +70,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto baseRefs);
 
         [OperationContract]
+        Task<BaseRefAssignedDto> AssignBaseRefAsyncFromMigrator(AssignBaseRefsDto baseRefs);
+
+        [OperationContract]
         Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto baseRefs);
 
         [OperationContract]

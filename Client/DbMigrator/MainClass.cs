@@ -18,6 +18,7 @@ namespace Iit.Fibertest.DbMigrator
         private readonly C2DWcfManager _c2DWcfManager;
 
         private bool _shouldTransferMeasurements;
+
         public MainClass(IniFile iniFile, LogFile logFile)
         {
             _logFile = logFile;
@@ -69,7 +70,7 @@ namespace Iit.Fibertest.DbMigrator
             {
                 var rtuGuid = _graphModel.AddTraceCommands.First(c => c.TraceId == pair.Value).RtuId;
                 var assignBaseRefCommand = _traceBaseFetcher.GetAssignBaseRefsDto(pair.Key, pair.Value, rtuGuid);
-                _c2DWcfManager.AssignBaseRefAsync(assignBaseRefCommand).Wait();
+                _c2DWcfManager.AssignBaseRefAsyncFromMigrator(assignBaseRefCommand).Wait();
 
                 Console.WriteLine($"{DateTime.Now}  {++i}/{totalTraces} assign base ref commands sent");
             }
