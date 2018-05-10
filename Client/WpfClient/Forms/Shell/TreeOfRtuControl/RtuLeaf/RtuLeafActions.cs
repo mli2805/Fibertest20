@@ -201,7 +201,7 @@ namespace Iit.Fibertest.Client
             _graphReadModel.GrmRtuRequests.DefineTraceStepByStep(rtuNodeId, rtuLeaf.Title);
         }
 
-        public async void HideTraces(object parameter)
+        public void HideTraces(object parameter)
         {
             if (!(parameter is RtuLeaf rtuLeaf))
                 return;
@@ -209,7 +209,7 @@ namespace Iit.Fibertest.Client
             var item = rtuLeaf.MyContextMenu.First(i => i?.Header == Resources.SID_Hide_traces);
             item.IsChecked = !item.IsChecked;
             var rtuNodeId = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id).NodeId;
-            await _graphReadModel.GrmRtuRequests.SaveUsersHiddenRtus(rtuNodeId);
+            _graphReadModel.GrmRtuRequests.ChangeRtuTracesVisibility(rtuNodeId);
         }
     }
 }

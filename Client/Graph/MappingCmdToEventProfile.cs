@@ -52,7 +52,6 @@ namespace Iit.Fibertest.Graph
             CreateMap<AddUser, UserAdded>();
             CreateMap<UpdateUser, UserUpdated>();
             CreateMap<RemoveUser, UserRemoved>();
-            CreateMap<SaveUsersHiddentRtus, UsersHiddenRtusSaved>();
 
             CreateMap<AddMeasurement, MeasurementAdded>();
             CreateMap<UpdateMeasurement, MeasurementUpdated>();

@@ -10,16 +10,16 @@ namespace Iit.Fibertest.Client
         private readonly RtuVmActions _rtuVmActions;
         private readonly CommonVmActions _commonVmActions;
         private readonly RtuVmPermissions _rtuVmPermissions;
-        private readonly CurrentUser _currentUser;
+        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly Model _readModel;
 
         public RtuVmContextMenuProvider(RtuVmActions rtuVmActions, CommonVmActions commonVmActions, RtuVmPermissions rtuVmPermissions, 
-            CurrentUser currentUser, Model readModel)
+            CurrentlyHiddenRtu currentlyHiddenRtu, Model readModel)
         {
             _rtuVmActions = rtuVmActions;
             _commonVmActions = commonVmActions;
             _rtuVmPermissions = rtuVmPermissions;
-            _currentUser = currentUser;
+            _currentlyHiddenRtu = currentlyHiddenRtu;
             _readModel = readModel;
         }
 
@@ -28,7 +28,6 @@ namespace Iit.Fibertest.Client
             var contextMenu = new ContextMenu();
             var rtuNodeId = marker.GMapMarker.Id;
             var rtu = _readModel.Rtus.First(r => r.NodeId == rtuNodeId);
-            var user = _readModel.Users.First(u => u.UserId == _currentUser.UserId);
 
             contextMenu.Items.Add(new MenuItem()
             {
@@ -73,7 +72,7 @@ namespace Iit.Fibertest.Client
                 Header = Resources.SID_Hide_traces,
                 Command = new ContextMenuAction(_rtuVmActions.HideTraces, _rtuVmPermissions.CanHideTraces),
                 CommandParameter = marker,
-                IsChecked = user.HiddenRtus.Contains(rtu.Id),
+                IsChecked = _currentlyHiddenRtu.Collection.Contains(rtu.Id),
             });
             return contextMenu;
         }

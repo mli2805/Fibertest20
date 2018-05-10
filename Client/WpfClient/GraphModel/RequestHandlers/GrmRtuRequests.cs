@@ -5,7 +5,6 @@ using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Requests;
-using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -13,18 +12,16 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly Model _model;
-        private readonly CurrentUser _currentUser;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly IWindowManager _windowManager;
         private readonly RtuRemover _rtuRemover;
 
-        public GrmRtuRequests(ILifetimeScope globalScope, Model model, CurrentUser currentUser,
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, RtuRemover rtuRemover)
+        public GrmRtuRequests(ILifetimeScope globalScope, Model model, CurrentlyHiddenRtu currentlyHiddenRtu,
+           IWindowManager windowManager, RtuRemover rtuRemover)
         {
             _globalScope = globalScope;
             _model = model;
-            _currentUser = currentUser;
-            _c2DWcfManager = c2DWcfManager;
+            _currentlyHiddenRtu = currentlyHiddenRtu;
             _windowManager = windowManager;
             _rtuRemover = rtuRemover;
         }
@@ -57,16 +54,14 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
-        public async Task SaveUsersHiddenRtus(Guid rtuNodeId)
+        public void ChangeRtuTracesVisibility(Guid rtuNodeId)
         {
             var rtu = _model.Rtus.First(r => r.NodeId == rtuNodeId);
-            var user = _model.Users.First(u => u.UserId == _currentUser.UserId);
-            if (user.HiddenRtus.Contains(rtu.Id))
-                user.HiddenRtus.Remove(rtu.Id);
+            if (_currentlyHiddenRtu.Collection.Contains(rtu.Id))
+                _currentlyHiddenRtu.Collection.Remove(rtu.Id);
             else
-                user.HiddenRtus.Add(rtu.Id);
-            var cmd = new SaveUsersHiddentRtus(){UserId = user.UserId, HiddenRtus = user.HiddenRtus};
-            await _c2DWcfManager.SendCommandAsObj(cmd);
+                _currentlyHiddenRtu.Collection.Add(rtu.Id);
+          //  _renderingManager.ReRenderCurrentZoneOnUsersHiddenTracesChanged();
         }
     }
 }

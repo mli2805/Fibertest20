@@ -185,6 +185,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClientHeartbeat.cs" />
+    <Compile Include="CurrentlyHiddenRtu.cs" />
     <Compile Include="CurrentUser.cs" />
     <Compile Include="EventSourcing\EventArrivalNotifier.cs" />
     <Compile Include="EventSourcing\Rendering\CurrentZoneRenderer.cs" />

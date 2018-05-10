@@ -91,5 +91,6 @@
         MaxCableReserve,
         GpsInputMode,
         GraphVisibilityLevel,
+        IsGraphVisibleOnStart,
     }
 }

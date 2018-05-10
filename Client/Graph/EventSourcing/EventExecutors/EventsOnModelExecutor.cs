@@ -75,7 +75,6 @@ namespace Iit.Fibertest.Graph
                 case UserAdded evnt: return _userEventsOnModelExecutor.AddUser(evnt); 
                 case UserUpdated evnt: return _userEventsOnModelExecutor.UpdateUser(evnt); 
                 case UserRemoved evnt: return _userEventsOnModelExecutor.RemoveUser(evnt); 
-                case UsersHiddenRtusSaved evnt: return _userEventsOnModelExecutor.SaveUsersHiddenRtus(evnt); 
 
                 case ZoneAdded evnt: return _zoneEventsOnModelExecutor.AddZone(evnt); 
                 case ZoneUpdated evnt: return _zoneEventsOnModelExecutor.UpdateZone(evnt); 

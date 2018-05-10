@@ -11,14 +11,16 @@ namespace Iit.Fibertest.Client
         private readonly GraphReadModel _model;
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
+        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly AccidentEventsOnGraphExecutor _accidentEventsOnGraphExecutor;
 
         public TraceEventsOnGraphExecutor(GraphReadModel model, Model readModel,
-            CurrentUser currentUser, AccidentEventsOnGraphExecutor accidentEventsOnGraphExecutor)
+            CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu, AccidentEventsOnGraphExecutor accidentEventsOnGraphExecutor)
         {
             _model = model;
             _readModel = readModel;
             _currentUser = currentUser;
+            _currentlyHiddenRtu = currentlyHiddenRtu;
             _accidentEventsOnGraphExecutor = accidentEventsOnGraphExecutor;
         }
 
@@ -110,8 +112,7 @@ namespace Iit.Fibertest.Client
 
             var trace = _readModel.Traces.First(t => t.TraceId == traceId);
             var rtu = _readModel.Rtus.First(r => r.Id == trace.RtuId);
-            var user = _readModel.Users.First(u => u.UserId == _currentUser.UserId);
-            return !user.HiddenRtus.Contains(rtu.Id);
+            return !_currentlyHiddenRtu.Collection.Contains(rtu.Id);
         }
     }
 }

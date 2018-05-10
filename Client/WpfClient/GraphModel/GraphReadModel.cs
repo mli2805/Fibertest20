@@ -50,7 +50,6 @@ namespace Iit.Fibertest.Client
             GrmNodeRequests grmNodeRequests, GrmEquipmentRequests grmEquipmentRequests,
             GrmFiberRequests grmFiberRequests, GrmFiberWithNodesRequest grmFiberWithNodesRequest,
              GrmRtuRequests grmRtuRequests,
-
             IWindowManager windowManager, Model readModel)
         {
             LogFile = logFile;

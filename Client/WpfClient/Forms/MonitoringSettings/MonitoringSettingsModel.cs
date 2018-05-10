@@ -26,7 +26,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 
         private void Charon_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "CycleTime")
+            if (e.PropertyName == @"CycleTime")
                 CycleTime = TimeSpan.FromSeconds(Charons.Sum(c => c.CycleTime)).ToString();
         }
 

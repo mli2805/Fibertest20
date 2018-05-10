@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
@@ -12,14 +10,15 @@ namespace Iit.Fibertest.Client
         private readonly Model _model;
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
+        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private RenderingResult _renderingResult;
-        private List<Guid> _hiddenRtus;
 
-        public CurrentZoneRenderer(Model model, IMyLog logFile, CurrentUser currentUser)
+        public CurrentZoneRenderer(Model model, IMyLog logFile, CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu)
         {
             _model = model;
             _logFile = logFile;
             _currentUser = currentUser;
+            _currentlyHiddenRtu = currentlyHiddenRtu;
         }
 
         public RenderingResult GetRendering()
@@ -38,12 +37,10 @@ namespace Iit.Fibertest.Client
 
         private void RenderVisibleRtusAndTraces()
         {
-            _hiddenRtus = _model.Users.First(u => u.UserId == _currentUser.UserId).HiddenRtus;
-
             foreach (var rtu in _model.Rtus.Where(r => r.ZoneIds.Contains(_currentUser.ZoneId)))
                 RenderRtus(rtu);
 
-            foreach (var trace in _model.Traces.Where(t => t.ZoneIds.Contains(_currentUser.ZoneId) && !_hiddenRtus.Contains(t.RtuId)))
+            foreach (var trace in _model.Traces.Where(t => t.ZoneIds.Contains(_currentUser.ZoneId) && !_currentlyHiddenRtu.Collection.Contains(t.RtuId)))
             {
                 RenderNodesOfTrace(trace);
                 RenderAccidentNodesOfTrace(trace);
@@ -60,8 +57,7 @@ namespace Iit.Fibertest.Client
 
         private void MinusHiddenTraces()
         {
-            _hiddenRtus = _model.Users.First(u => u.UserId == _currentUser.UserId).HiddenRtus;
-            foreach (var trace in _model.Traces.Where(t => _hiddenRtus.Contains(t.RtuId)))
+            foreach (var trace in _model.Traces.Where(t => _currentlyHiddenRtu.Collection.Contains(t.RtuId)))
             {
                 var fibers = _model.GetTraceFibers(trace).ToList();
                 foreach (var fiber in fibers)

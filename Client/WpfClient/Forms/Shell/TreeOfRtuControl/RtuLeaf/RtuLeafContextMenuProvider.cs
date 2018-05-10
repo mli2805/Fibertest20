@@ -1,30 +1,24 @@
 using System.Collections.Generic;
-using System.Linq;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
     public class RtuLeafContextMenuProvider
     {
-        private readonly CurrentUser _currentUser;
-        private readonly Model _readModel;
+        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly RtuLeafActions _rtuLeafActions;
         private readonly RtuLeafActionsPermissions _rtuLeafActionsPermissions;
 
-        public RtuLeafContextMenuProvider(CurrentUser currentUser, Model readModel, RtuLeafActions rtuLeafActions, 
-            RtuLeafActionsPermissions rtuLeafActionsPermissions)
+        public RtuLeafContextMenuProvider( RtuLeafActions rtuLeafActions,  RtuLeafActionsPermissions rtuLeafActionsPermissions, 
+            CurrentlyHiddenRtu currentlyHiddenRtu)
         {
-            _currentUser = currentUser;
-            _readModel = readModel;
+            _currentlyHiddenRtu = currentlyHiddenRtu;
             _rtuLeafActions = rtuLeafActions;
             _rtuLeafActionsPermissions = rtuLeafActionsPermissions;
         }
 
         public List<MenuItemVm> GetMenu(RtuLeaf rtuLeaf)
         {
-            var user = _readModel.Users.First(u => u.UserId == _currentUser.UserId);
-
             var menu = new List<MenuItemVm>();
             menu.Add(new MenuItemVm()
             {
@@ -106,7 +100,7 @@ namespace Iit.Fibertest.Client
                 Header = Resources.SID_Hide_traces,
                 Command = new ContextMenuAction(_rtuLeafActions.HideTraces, _rtuLeafActionsPermissions.CanHideTraces),
                 CommandParameter = rtuLeaf,
-                IsChecked = user.HiddenRtus.Contains(rtuLeaf.Id),
+                IsChecked = _currentlyHiddenRtu.Collection.Contains(rtuLeaf.Id),
             }); return menu;
         }
     }

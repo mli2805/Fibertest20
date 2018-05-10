@@ -15,6 +15,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<GraphGpsCalculator>().InstancePerLifetimeScope();
 
             builder.RegisterType<CurrentUser>().InstancePerLifetimeScope();
+            builder.RegisterType<CurrentlyHiddenRtu>().InstancePerLifetimeScope();
             builder.RegisterType<CurrentGpsInputMode>().InstancePerLifetimeScope();
             builder.RegisterType<WindowManager>().As<IWindowManager>().InstancePerLifetimeScope();
 

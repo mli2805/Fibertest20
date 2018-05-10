@@ -154,7 +154,7 @@ namespace Graph.Tests
         public void WhenКликаетНаКартеНаИконкеRtuПунктМенюСкрытьТрассы(int p0)
         {
              var rtuNodeId = p0 == 1 ? _sut.Rtu1.NodeId : _sut.Rtu2.NodeId;
-            _sut.GraphReadModel.GrmRtuRequests.SaveUsersHiddenRtus(rtuNodeId).Wait();
+            _sut.GraphReadModel.GrmRtuRequests.ChangeRtuTracesVisibility(rtuNodeId);
             _sut.Poller.EventSourcingTick().Wait();
         }
 
