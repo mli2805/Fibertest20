@@ -54,8 +54,8 @@
                 </ToggleButton>
             </ToolBar>
             <ToolBar Name="AllVisible">
-                <Button Width="30" Height="20" Content="4"/>
-                <Button Width="30" Height="20" Content="5"/>
+                <Button Name="ShowAllGraph" Width="30" Height="20" Content="++"/>
+                <Button Name="HideAllGraph" Width="30" Height="20" Content="--"/>
             </ToolBar>
         </ToolBarTray>
         <StatusBar DockPanel.Dock="Bottom" Height="25">

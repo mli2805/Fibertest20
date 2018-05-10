@@ -18,6 +18,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<CurrentlyHiddenRtu>().InstancePerLifetimeScope();
             builder.RegisterType<CurrentGpsInputMode>().InstancePerLifetimeScope();
             builder.RegisterType<WindowManager>().As<IWindowManager>().InstancePerLifetimeScope();
+            builder.RegisterType<ConfigurationViewModel>().InstancePerLifetimeScope();
 
             builder.RegisterType<LocalDbManager>().As<ILocalDbManager>().InstancePerLifetimeScope();
             builder.RegisterType<ReflectogramManager>().InstancePerLifetimeScope();

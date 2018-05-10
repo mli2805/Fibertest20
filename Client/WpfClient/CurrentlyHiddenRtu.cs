@@ -9,14 +9,31 @@ namespace Iit.Fibertest.Client
 {
     public class CurrentlyHiddenRtu : PropertyChangedBase
     {
-//        public List<Guid> List { get; set; }
+        private readonly IniFile _iniFile;
+        private readonly Model _readModel;
+        private ObservableCollection<Guid> _collection;
 
-        public ObservableCollection<Guid> Collection { get; set; }
-
-        public CurrentlyHiddenRtu(IniFile iniFile, Model reaModel)
+        public ObservableCollection<Guid> Collection
         {
-            var isGraphVisibleOnStart = iniFile.Read(IniSection.Miscellaneous, IniKey.IsGraphVisibleOnStart, true);
-            Collection = isGraphVisibleOnStart ? new ObservableCollection<Guid>() : new ObservableCollection<Guid>(reaModel.Rtus.Select(r => r.Id));
+            get => _collection;
+            set
+            {
+                if (Equals(value, _collection)) return;
+                _collection = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public CurrentlyHiddenRtu(IniFile iniFile, Model readModel)
+        {
+            _iniFile = iniFile;
+            _readModel = readModel;
+        }
+
+        public void Initialize()
+        {
+            var isGraphVisibleOnStart = _iniFile.Read(IniSection.Miscellaneous, IniKey.IsGraphVisibleOnStart, true);
+            Collection = isGraphVisibleOnStart ? new ObservableCollection<Guid>() : new ObservableCollection<Guid>(_readModel.Rtus.Select(r => r.Id));
         }
     }
 }
