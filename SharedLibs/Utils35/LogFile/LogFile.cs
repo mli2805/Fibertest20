@@ -22,7 +22,7 @@ namespace Iit.Fibertest.UtilsLib
         {
             Culture = config.Read(IniSection.General, IniKey.Culture, "ru-RU");
             SizeLimitKb = config.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
-            LogLevel = config.Read(IniSection.Charon, IniKey.LogLevel, 2);
+            LogLevel = config.Read(IniSection.General, IniKey.LogLevel, 2);
         }
 
         public IMyLog AssignFile(string filename)

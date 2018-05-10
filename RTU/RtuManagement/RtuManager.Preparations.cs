@@ -58,12 +58,17 @@ namespace Iit.Fibertest.RtuManagement
 
         private ReturnCode ReInitializeOtauOnUsersRequest(InitializeRtuDto dto)
         {
+            _rtuLog.AppendLine($"RTU hardware has {_mainCharon.Children.Count} additional OTAU ", messageLevel:3);
+            _rtuLog.AppendLine($"RTU in client has {dto.Children.Count} additional OTAU", messageLevel:3);
+
             if (!_mainCharon.IsBopSupported)
                 return dto.Children.Count > 0 ? ReturnCode.RtuDoesntSupportBop : ReturnCode.Ok;
 
             // detach bops if they are not attached in client
             foreach (var pair in _mainCharon.Children)
             {
+                _rtuLog.AppendLine($"RTU hardware has additional OTAU {pair.Value.Serial} on port {pair.Key}", messageLevel: 3);
+
                 if (!dto.Children.ContainsKey(pair.Key) ||
                     pair.Value.Serial != dto.Children[pair.Key].Serial)
                 {
@@ -75,6 +80,8 @@ namespace Iit.Fibertest.RtuManagement
             // initialize all child bops to get their states
             foreach (var pair in dto.Children)
             {
+                _rtuLog.AppendLine($"RTU in client has additional OTAU {pair.Value.Serial} on port {pair.Key}", messageLevel: 3);
+
                 if (!_mainCharon.Children.ContainsKey(pair.Key)
                     || _mainCharon.Children[pair.Key].Serial != pair.Value.Serial)
                 {
