@@ -187,12 +187,12 @@ namespace Iit.Fibertest.Graph
         private string Validate(RemoveRtu cmd)
         {
             var evnt = Mapper.Map<RtuRemoved>(cmd);
-            evnt.FibersFromCleanedTraces = new Dictionary<Guid, Guid>();
+            evnt.FibersFromCleanedTraces = new List<KeyValuePair<Guid, Guid>>();
             foreach (var trace in _writeModel.Traces.Where(t => t.RtuId == cmd.RtuId))
             {
                 foreach (var fiberId in _writeModel.GetFibersByNodes(trace.NodeIds))
                 {
-                    evnt.FibersFromCleanedTraces.Add(fiberId, trace.TraceId);
+                    evnt.FibersFromCleanedTraces.Add(new KeyValuePair<Guid, Guid>(fiberId, trace.TraceId));
                 }
             }
             return _eventsQueue.Add(evnt);
