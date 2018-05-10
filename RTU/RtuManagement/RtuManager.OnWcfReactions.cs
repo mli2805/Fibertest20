@@ -81,7 +81,12 @@ namespace Iit.Fibertest.RtuManagement
         public void AttachOtau(AttachOtauDto param, Action callback)
         {
             _rtuLog.EmptyLine();
-            if (_mainCharon.AttachOtauToPort(param.OtauAddresses, param.OpticalPort))
+
+            _rtuLog.AppendLine($"Check connection with OTAU {param.OtauAddresses.ToStringA()}");
+            var newCharon = new Charon(param.OtauAddresses, _rtuIni, _rtuLog);
+            newCharon.GetSerial();
+
+            if (newCharon.IsLastCommandSuccessful && _mainCharon.AttachOtauToPort(param.OtauAddresses, param.OpticalPort))
             {
                 _mainCharon.InitializeOtauRecursively();
                 var child = _mainCharon.GetBopCharonWithLogging(param.OtauAddresses);

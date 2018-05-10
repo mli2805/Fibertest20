@@ -557,6 +557,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attach OTAU error!.
+        /// </summary>
+        public static string SID_Attach_OTAU_error_ {
+            get {
+                return ResourceManager.GetString("SID_Attach_OTAU_error_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Attach to.
         /// </summary>
         public static string SID_Attach_to {

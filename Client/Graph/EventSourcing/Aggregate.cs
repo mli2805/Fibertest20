@@ -243,25 +243,8 @@ namespace Iit.Fibertest.Graph
             var networkEventAdded = Mapper.Map<NetworkEventAdded>(cmd);
             var lastEventOrdial = _writeModel.NetworkEvents.Any() ? _writeModel.NetworkEvents.Max(n => n.Ordinal) : 1;
             networkEventAdded.Ordinal = lastEventOrdial + 1;
-            var rtu = _writeModel.Rtus.First(r => r.Id == networkEventAdded.RtuId);
-            networkEventAdded.RtuPartStateChanges = IsStateWorseOrBetterThanBefore(rtu, networkEventAdded);
+            networkEventAdded.RtuPartStateChanges = _writeModel.IsStateWorseOrBetterThanBefore(networkEventAdded);
             return _eventsQueue.Add(networkEventAdded);
-        }
-
-        private RtuPartStateChanges IsStateWorseOrBetterThanBefore(Rtu rtu, NetworkEventAdded networkEvent)
-        {
-            List<WorseOrBetter> parts = new List<WorseOrBetter> {
-                rtu.MainChannelState.BecomeBetterOrWorse(networkEvent.MainChannelState),
-                rtu.ReserveChannelState.BecomeBetterOrWorse(networkEvent.ReserveChannelState),
-            };
-
-            if (parts.Contains(WorseOrBetter.Worse) && parts.Contains(WorseOrBetter.Better))
-                return RtuPartStateChanges.DifferentPartsHaveDifferentChanges;
-            if (parts.Contains(WorseOrBetter.Worse))
-                return RtuPartStateChanges.OnlyWorse;
-            if (parts.Contains(WorseOrBetter.Better))
-                return RtuPartStateChanges.OnlyBetter;
-            return RtuPartStateChanges.NoChanges;
         }
     }
 }

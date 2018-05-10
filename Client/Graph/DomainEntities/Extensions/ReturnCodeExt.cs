@@ -25,6 +25,8 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_RTU_does_not_support_BOP;
                 case ReturnCode.RtuTooBigPortNumber:
                     return Resources.SID_Too_big_port_number_for_BOP_attachment;
+                case ReturnCode.RtuAttachOtauError:
+                    return Resources.SID_Attach_OTAU_error_;
 
                 // 2000
                 case ReturnCode.C2DWcfConnectionError:

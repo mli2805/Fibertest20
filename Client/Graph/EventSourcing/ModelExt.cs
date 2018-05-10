@@ -217,6 +217,21 @@ namespace Iit.Fibertest.Graph
             return false;
         }
 
-     
+        public static RtuPartStateChanges IsStateWorseOrBetterThanBefore(this Model model, NetworkEventAdded networkEvent)
+        {
+            var rtu = model.Rtus.First(r => r.Id == networkEvent.RtuId);
+            List<WorseOrBetter> parts = new List<WorseOrBetter> {
+                rtu.MainChannelState.BecomeBetterOrWorse(networkEvent.MainChannelState),
+                rtu.ReserveChannelState.BecomeBetterOrWorse(networkEvent.ReserveChannelState),
+            };
+
+            if (parts.Contains(WorseOrBetter.Worse) && parts.Contains(WorseOrBetter.Better))
+                return RtuPartStateChanges.DifferentPartsHaveDifferentChanges;
+            if (parts.Contains(WorseOrBetter.Worse))
+                return RtuPartStateChanges.OnlyWorse;
+            if (parts.Contains(WorseOrBetter.Better))
+                return RtuPartStateChanges.OnlyBetter;
+            return RtuPartStateChanges.NoChanges;
+        }
     }
 }

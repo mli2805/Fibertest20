@@ -1778,4 +1778,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Remove_RTU___0____" xml:space="preserve">
     <value>Remove RTU "{0}" ?</value>
   </data>
+	<data name="SID_Attach_OTAU_error_" xml:space="preserve">
+    <value>Attach OTAU error!</value>
+  </data>
 </root>

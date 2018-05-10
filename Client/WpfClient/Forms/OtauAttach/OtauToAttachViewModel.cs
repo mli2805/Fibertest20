@@ -103,24 +103,25 @@ namespace Iit.Fibertest.Client
         public async Task AttachOtau()
         {
             if (!CheckAddressUniqueness()) return;
-          
+
+            OtauAttachedDto result;
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 AttachmentProgress = Resources.SID_Please__wait_;
-                var result = await AttachOtauIntoRtu();
-                if (result.IsAttached)
-                {
-                    AttachmentProgress = Resources.SID_Successful_;
-                    var eventSourcingResult = await AttachOtauIntoGraph(result);
-                    if (eventSourcingResult == null)
-                        UpdateView(result);
-                }
-                else
-                {
-                    AttachmentProgress = Resources.SID_Failed_;
-                    var vm = new MyMessageBoxViewModel(MessageType.Error, $@"{result.ErrorMessage}");
-                    _windowManager.ShowDialogWithAssignedOwner(vm);
-                }
+                result = await AttachOtauIntoRtu();
+            }
+            if (result.IsAttached)
+            {
+                AttachmentProgress = Resources.SID_Successful_;
+                var eventSourcingResult = await AttachOtauIntoGraph(result);
+                if (eventSourcingResult == null)
+                    UpdateView(result);
+            }
+            else
+            {
+                AttachmentProgress = Resources.SID_Failed_;
+                var vm = new MyMessageBoxViewModel(MessageType.Error, $@"{result.ReturnCode.GetLocalizedString()}");
+                _windowManager.ShowDialogWithAssignedOwner(vm);
             }
         }
 
