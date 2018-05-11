@@ -42,11 +42,17 @@ namespace Graph.Tests
                 .Command.CanExecute(portLeaf)).Should().BeTrue();
         }
 
-        [Given(@"Пользователь подключает доп переключатель к порту RTU (.*)")]
-        public void GivenПользовательПодключаетДопПереключательКПортуRtu(int p0)
+        [Given(@"Пользователь подключает доп переключатель (.*) (.*) к порту RTU (.*)")]
+        public void GivenПользовательПодключаетДопПереключатель_КПортуRTU(string p0, int p1, int p2)
         {
-            _portNumberForOtau = p0;
-            _otauLeaf = _sut.AttachOtau(_rtuLeaf, p0);
+            _portNumberForOtau = p2;
+            _otauLeaf = _sut.AttachOtau(_rtuLeaf, p2, p0, p1);
+        }
+
+        [Then(@"Повторно к другому порту с таким же адресом не получится")]
+        public void ThenПовторноКДругомуПортуСТакимЖеАдресомНеПолучится()
+        {
+            _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
         }
 
         [Then(@"Переключатель подключен")]
@@ -62,5 +68,23 @@ namespace Graph.Tests
                 port => port.MyContextMenu.First(i => i.Header == Resources.SID_Attach_optical_switch)
                             .Command.CanExecute(port)).Should().BeFalse();
         }
+
+        [Then(@"Выдается сообщение что такой адрес уже существует")]
+        public void ThenВыдаетсяСообщениеЧтоТакойАдресУжеСуществует()
+        {
+            _sut.FakeWindowManager.Log
+                .OfType<MyMessageBoxViewModel>()
+                .Last()
+                .Lines[0].Line
+                .Should().Be(Resources.SID_There_is_optical_switch_with_the_same_tcp_address_);
+        }
+
+        [Then(@"Подключено два переключателя")]
+        public void ThenПодключеноДваПереключателя()
+        {
+            _rtuLeaf.FullPortCount.Should().Be(40);
+        }
+
+
     }
 }

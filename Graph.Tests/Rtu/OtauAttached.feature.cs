@@ -67,6 +67,8 @@ namespace Graph.Tests.Rtu
 #line 3
 #line 4
  testRunner.Given("Существует и инициализирован RTU с неприсоединенной трассой", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 5
+ testRunner.Given("Трасса подключена к порту 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
         
@@ -85,18 +87,44 @@ namespace Graph.Tests.Rtu
         public virtual void РазрешеноПодключатьПереключательПриПрисоединенныхТрассах()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Разрешено подключать переключатель при присоединенных трассах", ((string[])(null)));
-#line 6
+#line 7
 this.ScenarioSetup(scenarioInfo);
 #line 3
 this.FeatureBackground();
-#line 7
- testRunner.Given("Трасса подключена к порту 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 8
  testRunner.Then("Пункт подключить переключатель доступен для остальных портов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 9
- testRunner.Given("Пользователь подключает доп переключатель к порту RTU 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Пользователь подключает доп переключатель 2.2.2.2 11834 к порту RTU 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 10
  testRunner.Then("Переключатель подключен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Запрещено подключать переключатель с тем же адресом и портом")]
+        [Xunit.TraitAttribute("FeatureTitle", "OtauAttached")]
+        [Xunit.TraitAttribute("Description", "Запрещено подключать переключатель с тем же адресом и портом")]
+        public virtual void ЗапрещеноПодключатьПереключательСТемЖеАдресомИПортом()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Запрещено подключать переключатель с тем же адресом и портом", ((string[])(null)));
+#line 12
+this.ScenarioSetup(scenarioInfo);
+#line 3
+this.FeatureBackground();
+#line 13
+ testRunner.Given("Пользователь подключает доп переключатель 2.2.2.2 11834 к порту RTU 3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 14
+ testRunner.Then("Переключатель подключен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 15
+ testRunner.And("Повторно к другому порту с таким же адресом не получится", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 16
+ testRunner.Given("Пользователь подключает доп переключатель 2.2.2.2 11834 к порту RTU 4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 17
+ testRunner.Then("Выдается сообщение что такой адрес уже существует", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 18
+ testRunner.Given("Пользователь подключает доп переключатель 2.2.2.2 11835 к порту RTU 4", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 19
+ testRunner.Then("Подключено два переключателя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
