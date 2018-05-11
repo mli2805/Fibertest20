@@ -37,7 +37,7 @@ namespace Iit.Fibertest.Client
                     return;
 
                 var traceAddViewModel = model.GlobalScope.Resolve<TraceInfoViewModel>();
-                traceAddViewModel.Initialize(Guid.Empty, traceEquipments, traceNodes);
+                traceAddViewModel.Initialize(traceId, traceEquipments, traceNodes, true);
                 model.WindowManager.ShowDialogWithAssignedOwner(traceAddViewModel);
             }
             finally

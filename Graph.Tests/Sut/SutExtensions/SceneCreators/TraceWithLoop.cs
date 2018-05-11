@@ -58,7 +58,7 @@ namespace Graph.Tests
             var traceEquipments = new List<Guid>() { rtuId, adjustmentEquipmentId1, closureId, emptyEquipmentId1, crossId, emptyEquipmentId1, closureId, terminalId };
 
             var traceAddViewModel = sut.ClientScope.Resolve<TraceInfoViewModel>();
-            traceAddViewModel.Initialize(Guid.Empty, traceEquipments, traceNodes);
+            traceAddViewModel.Initialize(Guid.NewGuid(), traceEquipments, traceNodes, true);
             traceAddViewModel.Model.Title = title;
             traceAddViewModel.Save();
             sut.Poller.EventSourcingTick().Wait();

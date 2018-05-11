@@ -4529,6 +4529,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To adjust trace drawing were used {0} point(s).
+        /// </summary>
+        public static string SID_To_adjust_trace_drawing_were_used__0__point_s_ {
+            get {
+                return ResourceManager.GetString("SID_To_adjust_trace_drawing_were_used__0__point_s_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To optical port.
         /// </summary>
         public static string SID_To_optical_port {

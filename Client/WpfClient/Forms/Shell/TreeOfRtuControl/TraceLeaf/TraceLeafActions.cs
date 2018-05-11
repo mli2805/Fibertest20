@@ -52,7 +52,7 @@ namespace Iit.Fibertest.Client
             if (trace == null)
                 return;
             var vm = _globalScope.Resolve<TraceInfoViewModel>();
-            vm.Initialize(traceLeaf.Id, trace.EquipmentIds, trace.NodeIds);
+            vm.Initialize(traceLeaf.Id, trace.EquipmentIds, trace.NodeIds, false);
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 

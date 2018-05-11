@@ -1790,4 +1790,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Configuration" xml:space="preserve">
     <value>Configuration</value>
   </data>
+	<data name="SID_To_adjust_trace_drawing_were_used__0__point_s_" xml:space="preserve">
+    <value>To adjust trace drawing were used {0} point(s)</value>
+  </data>
 </root>

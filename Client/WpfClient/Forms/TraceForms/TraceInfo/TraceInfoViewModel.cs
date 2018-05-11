@@ -20,6 +20,9 @@ namespace Iit.Fibertest.Client
         private readonly TraceInfoCalculator _traceInfoCalculator;
         public bool IsSavePressed { get; set; }
 
+        private bool _isInCreationMode;
+
+
         public TraceInfoModel Model { get; set; } = new TraceInfoModel();
         
         public TraceInfoViewModel(Model readModel, IWcfServiceForClient c2DWcfManager,
@@ -33,8 +36,9 @@ namespace Iit.Fibertest.Client
 
 
         /// Setup traceId (for existing trace) or traceEquipments for trace creation moment
-        public void Initialize(Guid traceId, List<Guid> traceEquipments, List<Guid> traceNodes)
+        public void Initialize(Guid traceId, List<Guid> traceEquipments, List<Guid> traceNodes, bool isInCreationMode)
         {
+            _isInCreationMode = isInCreationMode;
             Model.TraceId = traceId;
             Model.TraceEquipments = traceEquipments;
             Model.TraceNodes = traceNodes;
@@ -47,12 +51,11 @@ namespace Iit.Fibertest.Client
 
             if (dict.ContainsKey(EquipmentType.AdjustmentPoint))
             {
-                // Model.AdjustmentPointsLine = $"To adjust trace drawing were used {dict[EquipmentType.AdjustmentPoint]} point(s)";
-                Model.AdjustmentPointsLine = $@"Для украшения трассы было использовано точек привязки: {dict[EquipmentType.AdjustmentPoint]} шт.";
+                Model.AdjustmentPointsLine = string.Format(Resources.SID_To_adjust_trace_drawing_were_used__0__point_s_, dict[EquipmentType.AdjustmentPoint]);
                 Model.AdjustmentPointsLineVisibility = Visibility.Visible;
             }
 
-            if (traceId == Guid.Empty)
+            if (_isInCreationMode)
                 Model.IsTraceModeDark = true;
             else
                GetOtherPropertiesOfExistingTrace();
@@ -80,7 +83,7 @@ namespace Iit.Fibertest.Client
         {
             if (!IsTitleValid())
                 return;
-            if (Model.TraceId == Guid.Empty)
+            if (_isInCreationMode)
                 await SendAddTraceCommand();
             else
                 await SendUpdateTraceCommand();
@@ -102,7 +105,7 @@ namespace Iit.Fibertest.Client
         {
             var cmd = new AddTrace()
             {
-                TraceId = Guid.NewGuid(),
+                TraceId = Model.TraceId,
                 RtuId = Model.Rtu.Id,
                 Title = Model.Title,
                 NodeIds = Model.TraceNodes,
