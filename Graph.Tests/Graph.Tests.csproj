@@ -236,6 +236,14 @@
     <Compile Include="Landmarks\LandmarksFormGetDataSteps.cs">
       <DependentUpon>LandmarksFormGetData.feature</DependentUpon>
     </Compile>
+    <Compile Include="NetworkEvent\BopEventAdded.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BopEventAdded.feature</DependentUpon>
+    </Compile>
+    <Compile Include="NetworkEvent\BopEventAddedSteps.cs">
+      <DependentUpon>BopEventAdded.feature</DependentUpon>
+    </Compile>
     <Compile Include="Node\AdjustmentPointIntoFiberAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -682,6 +690,10 @@
     <None Include="Landmarks\LandmarksFormGetData.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>LandmarksFormGetData.feature.cs</LastGenOutput>
+    </None>
+    <None Include="NetworkEvent\BopEventAdded.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BopEventAdded.feature.cs</LastGenOutput>
     </None>
     <None Include="Node\AdjustmentPointIntoFiberAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

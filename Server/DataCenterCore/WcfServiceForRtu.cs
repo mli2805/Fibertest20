@@ -72,5 +72,11 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine("WcfServiceForRtu.TransmitClientMeasurementResult: " + e.Message);
             }
         }
+
+        public void NotifyUserBopStateChanged(BopStateChangedDto dto)
+        {
+            _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.Serial} state changed to {dto.IsOk}");
+          // TODO convert to event in event sourcing
+        }
     }
 }

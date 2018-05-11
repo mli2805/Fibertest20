@@ -8,8 +8,6 @@ namespace Iit.Fibertest.ClientWcfServiceInterface
     [ServiceContract]
     public interface IClientWcfService
     {
-
-        // Notifications
         [OperationContract]
         Task<int> NotifyUsersRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto);
 

@@ -5,7 +5,7 @@ using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.WpfCommonViews;
 using TechTalk.SpecFlow;
 
-namespace Graph.Tests.Forms
+namespace Graph.Tests
 {
     [Binding]
     public sealed class RftsEventsViewModelSteps

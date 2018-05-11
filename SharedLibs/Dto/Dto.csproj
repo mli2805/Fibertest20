@@ -59,6 +59,7 @@
     <Compile Include="Enums\MonitoringStateExt.cs" />
     <Compile Include="Enums\RtuPartStateChanges.cs" />
     <Compile Include="Enums\WorseOrBetter.cs" />
+    <Compile Include="R2D2C\BopStateChangedDto.cs" />
     <Compile Include="R2D2C\ClientMeasurementDoneDto.cs" />
     <Compile Include="R2D2C\ClientMeasurementStartedDto.cs" />
     <Compile Include="R2D2C\OtauAttachedDto.cs" />
@@ -77,7 +78,7 @@
     <Compile Include="Enums\Role.cs" />
     <Compile Include="Enums\RtuPartState.cs" />
     <Compile Include="R2D2C\BaseRefAssignedDto.cs" />
-    <Compile Include="R2D\CurrentMonitoringStepDto.cs" />
+    <Compile Include="R2D2C\CurrentMonitoringStepDto.cs" />
     <Compile Include="Enums\MonitoringCurrentStep.cs" />
     <Compile Include="R2D\RtuChecksChannelDto.cs" />
     <Compile Include="Underlying\BaseRefDto.cs" />

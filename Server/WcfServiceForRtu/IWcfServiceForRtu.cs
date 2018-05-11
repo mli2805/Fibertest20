@@ -6,9 +6,6 @@ namespace Iit.Fibertest.WcfServiceForRtuInterface
     [ServiceContract]
     public interface IWcfServiceForRtu
     {
-
-        // RTU notifies
-
         [OperationContract]
         void NotifyUserCurrentMonitoringStep(CurrentMonitoringStepDto monitoringStep);
 
@@ -17,6 +14,8 @@ namespace Iit.Fibertest.WcfServiceForRtuInterface
        
         [OperationContract]
         void TransmitClientMeasurementResult(ClientMeasurementDoneDto result);
-       
+
+        [OperationContract]
+        void NotifyUserBopStateChanged(BopStateChangedDto dto);
     }
 }
