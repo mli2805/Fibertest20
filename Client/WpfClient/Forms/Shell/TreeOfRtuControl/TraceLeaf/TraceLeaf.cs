@@ -91,7 +91,7 @@ namespace Iit.Fibertest.Client
       
         public Uri TraceStatePictogram => IsInZone
             ? TraceState.GetPictogram()
-            : new Uri("pack://application:,,,/Resources/LeftPanel/WhiteSquare.png");
+            : new Uri(@"pack://application:,,,/Resources/LeftPanel/WhiteSquare.png");
 
         private readonly TraceLeafContextMenuProvider _contextMenuProvider;
 

@@ -73,7 +73,7 @@ namespace Iit.Fibertest.Client
 
         private void ReserveChannelTestViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Result")
+            if (e.PropertyName == @"Result")
             {
                 if (ReserveChannelTestViewModel.Result == true)
                     _windowManager.ShowDialogWithAssignedOwner(
@@ -86,7 +86,7 @@ namespace Iit.Fibertest.Client
 
         private void MainChannelTestViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Result")
+            if (e.PropertyName == @"Result")
             {
                 if (MainChannelTestViewModel.Result == true)
                     _windowManager.ShowDialogWithAssignedOwner(

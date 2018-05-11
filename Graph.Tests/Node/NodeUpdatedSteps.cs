@@ -52,7 +52,7 @@ namespace Graph.Tests
         [Then(@"Кнопка Сохранить запрещена")]
         public void ThenКнопкаСохранитьЗапрещена()
         {
-            _nodeUpdateViewModel["Title"].Should().Be(Resources.SID_Title_is_required);
+            _nodeUpdateViewModel[@"Title"].Should().Be(Resources.SID_Title_is_required);
             _nodeUpdateViewModel.IsButtonSaveEnabled.Should().BeFalse();
         }
 
@@ -65,7 +65,7 @@ namespace Graph.Tests
         [Then(@"Кнопка Сохранить разрешена")]
         public void ThenКнопкаСохранитьРазрешена()
         {
-            _nodeUpdateViewModel["Title"].Should().BeNullOrEmpty();
+            _nodeUpdateViewModel[@"Title"].Should().BeNullOrEmpty();
             _nodeUpdateViewModel.IsButtonSaveEnabled.Should().BeTrue();
         }
 

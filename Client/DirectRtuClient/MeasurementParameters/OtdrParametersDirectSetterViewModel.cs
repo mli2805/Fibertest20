@@ -242,8 +242,8 @@ namespace DirectRtuClient
             Units = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Unit).ToList();
             _selectedUnit = Units.First();
 
-            _backscatteredCoefficient = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Bc)[0], new CultureInfo("en-US"));
-            _refractiveIndex = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Ri)[0], new CultureInfo("en-US"));
+            _backscatteredCoefficient = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Bc)[0], new CultureInfo(@"en-US"));
+            _refractiveIndex = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Ri)[0], new CultureInfo(@"en-US"));
 
             Distances = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Lmax).ToList();
             var activeDistance = _interOpWrapper.GetLineOfVariantsForParam(ServiceFunctionFirstParam.ActiveLmax);
@@ -286,8 +286,8 @@ namespace DirectRtuClient
 
         private void InitializeForSelectedUnit()
         {
-            _backscatteredCoefficient = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Bc)[0], new CultureInfo("en-US"));
-            _refractiveIndex = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Ri)[0], new CultureInfo("en-US"));
+            _backscatteredCoefficient = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Bc)[0], new CultureInfo(@"en-US"));
+            _refractiveIndex = double.Parse(_interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Ri)[0], new CultureInfo(@"en-US"));
             Distances = _interOpWrapper.ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Lmax).ToList();
             var activeDistance = _interOpWrapper.GetLineOfVariantsForParam(ServiceFunctionFirstParam.ActiveLmax);
             var index = Distances.IndexOf(activeDistance);

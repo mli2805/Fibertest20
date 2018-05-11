@@ -58,7 +58,7 @@ namespace Iit.Fibertest.Client
         {
             var nodeVm = (NodeVm)sender;
 
-            if (e.PropertyName == "Position")
+            if (e.PropertyName == @"Position")
             {
                 MainMap.Markers.First(m => m.Id == nodeVm.Id).Position = nodeVm.Position;
                 foreach (var route in MainMap.Markers.OfType<GMapRoute>().Where(r => r.LeftId == nodeVm.Id))
@@ -72,16 +72,16 @@ namespace Iit.Fibertest.Client
                     route.RegenerateShape(MainMap);
                 }
             }
-            if (e.PropertyName == "Title")
+            if (e.PropertyName == @"Title")
             {
                 ((MarkerControl)MainMap.Markers.First(m => m.Id == nodeVm.Id).Shape).Title = nodeVm.Title;
             }
-            if (e.PropertyName == "Type")
+            if (e.PropertyName == @"Type")
             {
                 ((MarkerControl)MainMap.Markers.First(m => m.Id == nodeVm.Id).Shape).Type = nodeVm.Type;
             }
 
-            if (e.PropertyName == "IsHighlighted")
+            if (e.PropertyName == @"IsHighlighted")
             {
                 if (nodeVm.IsHighlighted) Highlight(nodeVm);
                 else

@@ -61,10 +61,10 @@ namespace Iit.Fibertest.Client
             model.Bottom2 = nodeCoors;
 
             model.Scheme = accidentInOldEvent.AccidentSeriousness == FiberState.FiberBreak
-                ? new Uri("pack://application:,,,/Resources/AccidentSchemes/FiberBrokenInNode.png")
+                ? new Uri(@"pack://application:,,,/Resources/AccidentSchemes/FiberBrokenInNode.png")
                 : isLastNode
-                    ? new Uri("pack://application:,,,/Resources/AccidentSchemes/AccidentInLastNode.png")
-                    : new Uri("pack://application:,,,/Resources/AccidentSchemes/AccidentInNode.png");
+                    ? new Uri(@"pack://application:,,,/Resources/AccidentSchemes/AccidentInLastNode.png")
+                    : new Uri(@"pack://application:,,,/Resources/AccidentSchemes/AccidentInNode.png");
             return model;
         }
 
@@ -97,8 +97,8 @@ namespace Iit.Fibertest.Client
             model.Bottom3 = $@"{accidentAsNewEvent.RightNodeKm - accidentAsNewEvent.AccidentDistanceKm:0.000} {Resources.SID_km}";
 
             model.Scheme = accidentAsNewEvent.AccidentSeriousness == FiberState.FiberBreak
-                            ? new Uri("pack://application:,,,/Resources/AccidentSchemes/FiberBrokenBetweenNodes.png")
-                            : new Uri("pack://application:,,,/Resources/AccidentSchemes/AccidentBetweenNodes.png");
+                            ? new Uri(@"pack://application:,,,/Resources/AccidentSchemes/FiberBrokenBetweenNodes.png")
+                            : new Uri(@"pack://application:,,,/Resources/AccidentSchemes/AccidentBetweenNodes.png");
 
             return model;
         }
@@ -124,7 +124,7 @@ namespace Iit.Fibertest.Client
             model.Bottom0 = $@"{accidentInOldEvent.PreviousLandmarkDistanceKm:0.000} {Resources.SID_km}";
             model.Bottom4 = $@"{accidentInOldEvent.AccidentDistanceKm:0.000} {Resources.SID_km}";
 
-            model.Scheme = new Uri("pack://application:,,,/Resources/AccidentSchemes/BadSegment.png");
+            model.Scheme = new Uri(@"pack://application:,,,/Resources/AccidentSchemes/BadSegment.png");
             return model;
         }
 

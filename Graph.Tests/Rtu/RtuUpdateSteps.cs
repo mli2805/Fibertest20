@@ -93,7 +93,7 @@ namespace Graph.Tests
         public void ThenКнопкаСохранитьЗаблокированаПолеНазваниеПодсвечено()
         {
             _rtuUpdateViewModel.IsButtonSaveEnabled.Should().BeFalse();
-            _rtuUpdateViewModel["Title"].Should().Be(Resources.SID_There_is_a_rtu_with_the_same_title);
+            _rtuUpdateViewModel[@"Title"].Should().Be(Resources.SID_There_is_a_rtu_with_the_same_title);
         }
 
         [When(@"Пользователь открыл окно редактирования нового RTU")]
@@ -107,7 +107,7 @@ namespace Graph.Tests
         [Then(@"Кнопка Сохранить становится недоступна")]
         public void ThenКнопкаСохранитьСтановитсяНедоступна()
         {
-            _rtuUpdateViewModel["Title"].Should().Be(Resources.SID_Title_is_required);
+            _rtuUpdateViewModel[@"Title"].Should().Be(Resources.SID_Title_is_required);
             _rtuUpdateViewModel.IsButtonSaveEnabled.Should().BeFalse();
         }
 

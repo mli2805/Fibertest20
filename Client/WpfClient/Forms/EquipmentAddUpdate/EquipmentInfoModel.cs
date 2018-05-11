@@ -91,7 +91,7 @@ namespace Iit.Fibertest.Client
 
         private void RadioButtonPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != "IsChecked") return;
+            if (e.PropertyName != @"IsChecked") return;
             var model = (RadioButtonModel) sender;
             if (!model.IsChecked) return;
             IsRightCableReserveEnabled =

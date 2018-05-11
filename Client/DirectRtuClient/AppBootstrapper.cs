@@ -14,8 +14,8 @@ namespace DirectRtuClient {
         }
 
         protected override void Configure() {
-            Thread.CurrentThread.CurrentCulture = new CultureInfo("ru-RU");
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo("ru-RU");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(@"ru-RU");
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(@"ru-RU");
 
             _container = new SimpleContainer();
 

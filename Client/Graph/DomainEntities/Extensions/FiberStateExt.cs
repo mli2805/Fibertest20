@@ -85,23 +85,23 @@ namespace Iit.Fibertest.Graph
             {
                 case FiberState.NotJoined:
                 case FiberState.Unknown:
-                    return new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png");
+                    return new Uri(@"pack://application:,,,/Resources/LeftPanel/EmptySquare.png");
                 case FiberState.Ok:
-                    return new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png");
+                    return new Uri(@"pack://application:,,,/Resources/LeftPanel/GreenSquare.png");
                 case FiberState.Suspicion:
-                    return new Uri("pack://application:,,,/Resources/LeftPanel/YellowSquare.png");
+                    return new Uri(@"pack://application:,,,/Resources/LeftPanel/YellowSquare.png");
                 case FiberState.Minor:
-                    return new Uri("pack://application:,,,/Resources/LeftPanel/MinorSquare.png");
+                    return new Uri(@"pack://application:,,,/Resources/LeftPanel/MinorSquare.png");
                 case FiberState.Major:
-                    return new Uri("pack://application:,,,/Resources/LeftPanel/FuchsiaSquare.png");
+                    return new Uri(@"pack://application:,,,/Resources/LeftPanel/FuchsiaSquare.png");
                 case FiberState.User:
-                    return new Uri("pack://application:,,,/Resources/LeftPanel/GreenSquare.png");
+                    return new Uri(@"pack://application:,,,/Resources/LeftPanel/GreenSquare.png");
                 case FiberState.Critical:
                 case FiberState.FiberBreak:
                 case FiberState.NoFiber:
-                    return new Uri("pack://application:,,,/Resources/LeftPanel/RedSquare.png");
+                    return new Uri(@"pack://application:,,,/Resources/LeftPanel/RedSquare.png");
                 default:
-                    return new Uri("pack://application:,,,/Resources/LeftPanel/EmptySquare.png");
+                    return new Uri(@"pack://application:,,,/Resources/LeftPanel/EmptySquare.png");
             }
         }
     }

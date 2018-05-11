@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 
         private void Port_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsIncluded")
+            if (e.PropertyName == @"IsIncluded")
                 NotifyOfPropertyChange(nameof(CycleTime));
         }
 

@@ -68,7 +68,7 @@ namespace Iit.Fibertest.Client
 
         private void Route_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "AskContextMenu")
+            if (e.PropertyName == @"AskContextMenu")
             {
                 var route = (GMapRoute)sender;
                 SetupContextMenu(route);

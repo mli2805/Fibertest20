@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Client
 
         private static void Log(Exception eException)
         {
-            File.AppendAllText("crash.txt",
+            File.AppendAllText(@"crash.txt",
                 Environment.NewLine +
                 Environment.NewLine +
                 Environment.NewLine +

@@ -6,16 +6,16 @@ namespace Iit.Fibertest.Client
     public static class PasswordHelper
     {
         public static readonly DependencyProperty PasswordProperty =
-            DependencyProperty.RegisterAttached("Password",
+            DependencyProperty.RegisterAttached(@"Password",
                 typeof(string), typeof(PasswordHelper),
                 new FrameworkPropertyMetadata(string.Empty, OnPasswordPropertyChanged));
 
         public static readonly DependencyProperty AttachProperty =
-            DependencyProperty.RegisterAttached("Attach",
+            DependencyProperty.RegisterAttached(@"Attach",
                 typeof(bool), typeof(PasswordHelper), new PropertyMetadata(false, Attach));
 
         private static readonly DependencyProperty IsUpdatingProperty =
-            DependencyProperty.RegisterAttached("IsUpdating", typeof(bool),
+            DependencyProperty.RegisterAttached(@"IsUpdating", typeof(bool),
                 typeof(PasswordHelper));
 
 

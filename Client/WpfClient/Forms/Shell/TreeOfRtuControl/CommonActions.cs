@@ -107,7 +107,7 @@ namespace Iit.Fibertest.Client
 
             var otdrPort = 1500;
             System.Diagnostics.Process.Start(@"..\RftsReflect\Reflect.exe",
-                $"-fnw -n {mainCharonAddress.Ip4Address} -p {otdrPort}");
+                $@"-fnw -n {mainCharonAddress.Ip4Address} -p {otdrPort}");
         }
 
         private bool ToggleToPort(Charon mainCharon, NetAddress addressOfCharonWithThisPort, int portNumber)

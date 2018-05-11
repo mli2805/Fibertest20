@@ -105,7 +105,7 @@ namespace Iit.Fibertest.Client
 
         private void ServerConnectionTestViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Result")
+            if (e.PropertyName == @"Result")
             {
                 if (ServerConnectionTestViewModel.Result == true)
                 {

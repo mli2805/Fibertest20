@@ -82,7 +82,7 @@ namespace Iit.Fibertest.Client
         private void EquipmentOfChoiceModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             EquipmentOfChoiceModel model = (EquipmentOfChoiceModel)sender;
-            if (e.PropertyName == "IsSelected" && model.IsSelected)
+            if (e.PropertyName == @"IsSelected" && model.IsSelected)
             {
                 foreach (var mo in EquipmentChoices.Where(m => m != model))
                     mo.IsSelected = false;
