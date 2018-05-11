@@ -85,6 +85,7 @@ namespace Iit.Fibertest.Client
             rtuLeaf.ChildrenImpresario.Children.Remove(rtuLeaf.ChildrenImpresario.Children[e.MasterPort - 1]);
             rtuLeaf.ChildrenImpresario.Children.Insert(e.MasterPort - 1, otauLeaf);
             rtuLeaf.FullPortCount += otauLeaf.OwnPortCount;
+            rtuLeaf.SetOtauState(otauLeaf.Id, otauLeaf.OtauState == RtuPartState.Ok);
         }
 
         public void DetachOtau(OtauDetached e)
@@ -105,6 +106,7 @@ namespace Iit.Fibertest.Client
             var portLeaf = _globalScope.Resolve<PortLeaf>(new NamedParameter(@"parent", rtuLeaf), new NamedParameter(@"portNumber", port));
             rtuLeaf.ChildrenImpresario.Children.Insert(port - 1, portLeaf);
             portLeaf.Parent = rtuLeaf;
+            rtuLeaf.RemoveOtauState(otauLeaf.Id);
         }
 
         public void AddNetworkEvent(NetworkEventAdded e)

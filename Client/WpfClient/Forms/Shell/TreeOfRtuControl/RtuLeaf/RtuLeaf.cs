@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Media;
 using Iit.Fibertest.Dto;
@@ -25,17 +26,36 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private RtuPartState _bopState;
+        // pair OTAU ID - is OK or not
+        private Dictionary<Guid, bool> _otauStates = new Dictionary<Guid, bool>();
+        public void SetOtauState(Guid otauId, bool isOkOrNot)
+        {
+            if (_otauStates.ContainsKey(otauId))
+                _otauStates[otauId] = isOkOrNot;
+            else
+                _otauStates.Add(otauId, isOkOrNot);
+
+            NotifyOfPropertyChange(nameof(BopPictogram));
+        }
+
+        public void RemoveOtauState(Guid otauId)
+        {
+            if (_otauStates.ContainsKey(otauId))
+                _otauStates.Remove(otauId);
+
+            NotifyOfPropertyChange(nameof(BopPictogram));
+        }
         public RtuPartState BopState
         {
-            get => _bopState;
-            set
+            get
             {
-                if (value == _bopState) return;
-                _bopState = value;
-                NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(BopPictogram));
+                return _otauStates.Count == 0
+                    ? RtuPartState.NotSetYet
+                    : _otauStates.Any(s => s.Value != true)
+                        ? RtuPartState.Broken
+                        : RtuPartState.Ok;
             }
+           
         }
 
         private RtuPartState _mainChannelState;
@@ -81,8 +101,8 @@ namespace Iit.Fibertest.Client
         public TreeOfAcceptableMeasParams TreeOfAcceptableMeasParams { get; set; }
 
         public ChildrenImpresario ChildrenImpresario { get; }
-        public bool HasAttachedTraces =>  ChildrenImpresario.Children.Any(l => l is TraceLeaf && ((TraceLeaf) l).PortNumber > 0) 
-                   || ChildrenImpresario.Children.Any(c => c is OtauLeaf && ((OtauLeaf) c).HasAttachedTraces);
+        public bool HasAttachedTraces => ChildrenImpresario.Children.Any(l => l is TraceLeaf && ((TraceLeaf)l).PortNumber > 0)
+                   || ChildrenImpresario.Children.Any(c => c is OtauLeaf && ((OtauLeaf)c).HasAttachedTraces);
 
         public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf) +
                 ChildrenImpresario.Children.Where(c => c is OtauLeaf).Sum(otauLeaf => ((OtauLeaf)otauLeaf).TraceCount);
