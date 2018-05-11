@@ -6,7 +6,7 @@
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
-             mc:Ignorable="d" d:DesignWidth="300" d:DataContext="{d:DesignInstance client:MainMenuViewModel}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:MainMenuViewModel}">
     <Grid>
         <Menu Margin="10,-1,0,11" FontSize="14" Background="White" VerticalAlignment="Center">
             <MenuItem Header="{x:Static stringResources:Resources.SID_Administrative}">
@@ -15,7 +15,7 @@
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Responsibility_zones_settings}" cal:Message.Attach="LaunchObjectsToZonesView"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Change_password}" cal:Message.Attach="LaunchChangePasswordView"/>
             </MenuItem>
-            <MenuItem Header="Configuration" cal:Message.Attach="LaunchConfigurationView"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Configuration}" cal:Message.Attach="LaunchConfigurationView"/>
             <MenuItem Header="Help">
                 <MenuItem Header="Help me!"/>
                 <Separator/>

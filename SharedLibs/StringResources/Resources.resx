@@ -1781,4 +1781,13 @@ RTU is initializing right now!</value>
 	<data name="SID_Attach_OTAU_error_" xml:space="preserve">
     <value>Attach OTAU error!</value>
   </data>
+	<data name="SID_Change_the_language" xml:space="preserve">
+    <value>Change the language</value>
+  </data>
+	<data name="SID_Show_all_graph_on_application_start" xml:space="preserve">
+    <value>Show all graph on application start</value>
+  </data>
+	<data name="SID_Configuration" xml:space="preserve">
+    <value>Configuration</value>
+  </data>
 </root>

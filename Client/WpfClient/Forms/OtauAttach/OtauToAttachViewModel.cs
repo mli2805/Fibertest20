@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Client
         private NetAddressInputViewModel _netAddressInputViewModel;
         public NetAddressInputViewModel NetAddressInputViewModel
         {
-            get { return _netAddressInputViewModel; }
+            get => _netAddressInputViewModel;
             set
             {
                 if (Equals(value, _netAddressInputViewModel)) return;
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.Client
         private string _otauSerial;
         public string OtauSerial
         {
-            get { return _otauSerial; }
+            get => _otauSerial;
             set
             {
                 if (value == _otauSerial) return;
@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
         private int _otauPortCount;
         public int OtauPortCount
         {
-            get { return _otauPortCount; }
+            get => _otauPortCount;
             set
             {
                 if (value == _otauPortCount) return;
@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Client
         private string _attachmentProgress;
         public string AttachmentProgress
         {
-            get { return _attachmentProgress; }
+            get => _attachmentProgress;
             set
             {
                 if (value == _attachmentProgress) return;
@@ -89,9 +89,10 @@ namespace Iit.Fibertest.Client
         {
             RtuTitle = _readModel.Rtus.First(r => r.Id == _rtuId).Title;
             RtuPortNumber = _portNumberForAttachment;
+            OtauSerial = "";
+            OtauPortCount = 0;
 
             NetAddressInputViewModel = new NetAddressInputViewModel(
-                //                new NetAddress() {Ip4Address = @"192.168.96.57", Port = 11834, IsAddressSetAsIp = true});
                 new NetAddress() { Ip4Address = @"172.16.5.57", Port = 11834, IsAddressSetAsIp = true });
         }
 

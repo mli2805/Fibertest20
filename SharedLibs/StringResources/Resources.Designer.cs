@@ -1061,6 +1061,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change the language.
+        /// </summary>
+        public static string SID_Change_the_language {
+            get {
+                return ResourceManager.GetString("SID_Change_the_language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change user.
         /// </summary>
         public static string SID_Change_user {
@@ -1183,6 +1192,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Comparison_end__ {
             get {
                 return ResourceManager.GetString("SID_Comparison_end__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Configuration.
+        /// </summary>
+        public static string SID_Configuration {
+            get {
+                return ResourceManager.GetString("SID_Configuration", resourceCulture);
             }
         }
         
@@ -4129,6 +4147,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Show {
             get {
                 return ResourceManager.GetString("SID_Show", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show all graph on application start.
+        /// </summary>
+        public static string SID_Show_all_graph_on_application_start {
+            get {
+                return ResourceManager.GetString("SID_Show_all_graph_on_application_start", resourceCulture);
             }
         }
         

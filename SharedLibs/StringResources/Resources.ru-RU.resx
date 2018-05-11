@@ -1781,4 +1781,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Attach_OTAU_error_" xml:space="preserve">
 		<value>Ошибка подключения переключателя!</value>
 	</data>
+	<data name="SID_Change_the_language" xml:space="preserve">
+		<value>Изменить язык</value>
+	</data>
+	<data name="SID_Show_all_graph_on_application_start" xml:space="preserve">
+		<value>Показывать граф при запуске приложения</value>
+	</data>
+	<data name="SID_Configuration" xml:space="preserve">
+		<value>Конфигурация</value>
+	</data>
 </root>
