@@ -220,6 +220,14 @@
     <Compile Include="Equipment\EquipmentRemovedWithLoopSteps.cs">
       <DependentUpon>EquipmentRemovedWithLoop.feature</DependentUpon>
     </Compile>
+    <Compile Include="Forms\RftsEventsViewModel.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>RftsEventsViewModel.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RftsEventsViewModelSteps.cs">
+      <DependentUpon>RftsEventsViewModel.feature</DependentUpon>
+    </Compile>
     <Compile Include="Landmarks\LandmarksFormGetData.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -666,6 +674,10 @@
     <None Include="Fiber\FiberWithNodesAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>FiberWithNodesAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Forms\RftsEventsViewModel.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>RftsEventsViewModel.feature.cs</LastGenOutput>
     </None>
     <None Include="Landmarks\LandmarksFormGetData.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
