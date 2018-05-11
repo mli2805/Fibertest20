@@ -291,6 +291,7 @@ namespace Iit.Fibertest.Client
                 NetAddress = pair.Value.NetAddress,
                 PortCount = pair.Value.OwnPortCount,
                 Serial = pair.Value.Serial,
+                IsOk = pair.Value.IsOk,
             };
             return otau;
         }

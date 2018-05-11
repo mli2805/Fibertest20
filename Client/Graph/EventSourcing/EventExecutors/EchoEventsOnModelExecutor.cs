@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using AutoMapper;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
@@ -8,8 +7,6 @@ namespace Iit.Fibertest.Graph
  
     public class EchoEventsOnModelExecutor
     {
-        private static readonly IMapper Mapper = new MapperConfiguration(
-            cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
         private readonly IMyLog _logFile;
         private readonly Model _model;
 
@@ -101,9 +98,8 @@ namespace Iit.Fibertest.Graph
             if (e.Otaus != null)
                 foreach (var otauAttached in e.Otaus)
                 {
-                    Otau otau = Mapper.Map<Otau>(otauAttached);
-                    otau.NetAddressState = RtuPartState.Ok;
-                    _model.Otaus.Add(otau);
+                    var otau = _model.Otaus.First(o => o.Serial == otauAttached.Serial);
+                    otau.IsOk = otauAttached.IsOk;
                 }
         }
 

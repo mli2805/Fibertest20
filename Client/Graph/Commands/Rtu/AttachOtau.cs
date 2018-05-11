@@ -14,5 +14,6 @@ namespace Iit.Fibertest.Graph
         public int PortCount { get; set; }
 
         public int MasterPort { get; set; }
+        public bool IsOk { get; set; }
     }
 }

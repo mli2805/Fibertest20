@@ -45,6 +45,11 @@ namespace Iit.Fibertest.RtuManagement
                 return;
             }
 
+            if (param != null && param.Serial != _mainCharon.Serial)
+            {
+                _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
+            }
+
             // permit to send heartbeats
             ShouldSendHeartbeat.Enqueue(new object());
 

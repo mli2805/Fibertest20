@@ -52,7 +52,7 @@ namespace Iit.Fibertest.Client
         {
             return _currentUser.Role <= Role.Root 
                    && param is RtuLeaf rtuLeaf 
-                   && !rtuLeaf.HasAttachedTraces;
+                   && (!rtuLeaf.HasAttachedTraces || !rtuLeaf.IsAvailable);
         }
 
         public bool CanDefineTraceStepByStep(object param)

@@ -22,10 +22,12 @@ namespace Iit.Fibertest.Client
             if (_currentUser.Role > Role.Root || parameter == null)
                 return false;
             var marker = (MarkerControl)parameter;
-            var rtuVm = marker.Owner.GraphReadModel.ReadModel.Rtus.FirstOrDefault(r => r.NodeId == marker.GMapMarker.Id);
+            var readModel = marker.Owner.GraphReadModel.ReadModel;
+            var rtuVm = readModel.Rtus.FirstOrDefault(r => r.NodeId == marker.GMapMarker.Id);
             if (rtuVm == null) return false;
 
-            return !marker.Owner.GraphReadModel.ReadModel.Traces.Any(t => t.RtuId == rtuVm.Id && t.Port > 0);
+            return (!readModel.Traces.Any(t => t.RtuId == rtuVm.Id && t.Port > 0)
+                || !readModel.Rtus.First(r=>r.Id == rtuVm.Id).IsAvailable);
         }
 
         public bool CanStartAddFiber(object parameter)

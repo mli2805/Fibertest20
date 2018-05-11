@@ -109,7 +109,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             return Children.ToDictionary(
                 pair => pair.Key,
                 pair => new OtauDto()
-                { Serial = pair.Value.Serial, OwnPortCount = pair.Value.OwnPortCount, NetAddress = pair.Value.NetAddress });
+                { Serial = pair.Value.Serial, OwnPortCount = pair.Value.OwnPortCount, NetAddress = pair.Value.NetAddress, IsOk = pair.Value.IsOk});
         }
     }
 
