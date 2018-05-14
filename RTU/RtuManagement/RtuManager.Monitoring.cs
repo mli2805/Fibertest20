@@ -240,7 +240,16 @@ namespace Iit.Fibertest.RtuManagement
             var address = _serviceIni.Read(IniSection.ServerMainAddress, IniKey.Ip, "192.168.96.0");
             var connectionString = $@"FormatName:DIRECT=TCP:{address}\private$\Fibertest20";
             var queue = new MessageQueue(connectionString);
-            // get address from settings
+            Message message = new Message(dto, new BinaryMessageFormatter());
+            queue.Send(message, MessageQueueTransactionType.Single);
+        }
+
+        private void SendByMsmq(BopStateChangedDto dto)
+        {
+            _rtuLog.AppendLine("sending bop changes by msmq");
+            var address = _serviceIni.Read(IniSection.ServerMainAddress, IniKey.Ip, "192.168.96.0");
+            var connectionString = $@"FormatName:DIRECT=TCP:{address}\private$\Fibertest20";
+            var queue = new MessageQueue(connectionString);
             Message message = new Message(dto, new BinaryMessageFormatter());
             queue.Send(message, MessageQueueTransactionType.Single);
         }
@@ -252,10 +261,19 @@ namespace Iit.Fibertest.RtuManagement
             DamagedOtau damagedOtau = monitorigPort.NetAddress.Equals(_mainCharon.NetAddress)
                 ? null
                 : _damagedOtaus.FirstOrDefault(b => b.Ip == otauIp);
-            if (damagedOtau != null && (DateTime.Now - damagedOtau.RebootStarted < _mikrotikRebootTimeout))
+            if (damagedOtau != null)
             {
-                _rtuLog.AppendLine("Mikrotik is rebooting, step to the next port");
-                return false;
+                if (DateTime.Now - damagedOtau.RebootStarted < _mikrotikRebootTimeout)
+                {
+                    _rtuLog.AppendLine("Mikrotik is rebooting, step to the next port");
+                    return false;
+                }
+                else
+                {
+                    var ch = _mainCharon.GetBopCharonWithLogging(monitorigPort.NetAddress);
+                    if (ch.OwnPortCount == 0)
+                        InitializeOtau();
+                }
             }
 
             SendCurrentMonitoringStep(MonitoringCurrentStep.Toggle, monitorigPort);
@@ -269,7 +287,13 @@ namespace Iit.Fibertest.RtuManagement
                         if (damagedOtau != null)
                         {
                             _rtuLog.AppendLine($"OTAU {otauIp} recovered, send notification to server.");
-                            SendBopState(otauIp, true);
+                            var dto = new BopStateChangedDto()
+                            {
+                                RtuId = _id,
+                                OtauIp = otauIp,
+                                IsOk = true,
+                            };
+                            SendByMsmq(dto);
                             _damagedOtaus.Remove(damagedOtau);
                         }
                         else

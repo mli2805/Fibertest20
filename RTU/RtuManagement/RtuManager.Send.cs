@@ -58,24 +58,5 @@ namespace Iit.Fibertest.RtuManagement
 
             IsSenderBusy = false;
         }
-
-        private void SendBopState(string otauIp, bool isOtauOk)
-        {
-            if (IsSenderBusy)
-                return;
-
-            IsSenderBusy = true;
-
-            var dto = new BopStateChangedDto()
-            {
-                RtuId = _id,
-                OtauIp = otauIp,
-                IsOk = isOtauOk,
-            };
-            new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendBopStateChanged(dto);
-
-            IsSenderBusy = false;
-        }
-
     }
 }

@@ -16,18 +16,16 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientStationsRepository _clientStationsRepository;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly D2CWcfManager _d2CWcfManager;
-        private readonly EventStoreService _eventStoreService;
 
         public WcfServiceForRtu(IMyLog logFile, Model writeModel,
             ClientStationsRepository clientStationsRepository,
             RtuStationsRepository rtuStationsRepository,
-            D2CWcfManager d2CWcfManager, EventStoreService eventStoreService)
+            D2CWcfManager d2CWcfManager)
         {
             _logFile = logFile;
             _clientStationsRepository = clientStationsRepository;
             _rtuStationsRepository = rtuStationsRepository;
             _d2CWcfManager = d2CWcfManager;
-            _eventStoreService = eventStoreService;
         }
 
         public void NotifyUserCurrentMonitoringStep(CurrentMonitoringStepDto dto)
@@ -74,19 +72,6 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 _logFile.AppendLine("WcfServiceForRtu.TransmitClientMeasurementResult: " + e.Message);
             }
-        }
-
-        public void NotifyUserBopStateChanged(BopStateChangedDto dto)
-        {
-            _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.OtauIp} state changed to {dto.IsOk}");
-            var cmd = new AddBopNetworkEvent()
-            {
-                EventTimestamp = DateTime.Now,
-                RtuId = dto.RtuId,
-                OtauIp = dto.OtauIp,
-                IsOk = dto.IsOk,
-            };
-            _eventStoreService.SendCommand(cmd, "system", "OnServer");
         }
     }
 }

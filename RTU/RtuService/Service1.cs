@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using System.ServiceProcess;
 using System.Threading;
 using Iit.Fibertest.RtuManagement;
@@ -50,6 +51,14 @@ namespace Iit.Fibertest.RtuService
 
             // works very fast but trigger a window with swearing - demands one more click to close it
             // Environment.FailFast("Fast termination of service.");
+        }
+
+        // used for Debug as console application
+        internal void TestStartupAndStop(string[] args)
+        {
+            OnStart(args);
+            Console.ReadLine();
+            OnStop();
         }
     }
 }

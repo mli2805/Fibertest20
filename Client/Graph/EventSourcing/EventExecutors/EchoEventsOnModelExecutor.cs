@@ -95,12 +95,14 @@ namespace Iit.Fibertest.Graph
             rtu.MonitoringState = MonitoringState.Off;
             rtu.AcceptableMeasParams = e.AcceptableMeasParams;
 
-            if (e.Otaus != null)
-                foreach (var otauAttached in e.Otaus)
-                {
-                    var otau = _model.Otaus.First(o => o.Serial == otauAttached.Serial);
-                    otau.IsOk = otauAttached.IsOk;
-                }
+            if (e.Otaus == null) return;
+
+            foreach (var otauAttached in e.Otaus)
+            {
+                var otau = _model.Otaus.First(o => o.NetAddress.Ip4Address == otauAttached.NetAddress.Ip4Address
+                                                   && o.NetAddress.Port == otauAttached.NetAddress.Port);
+                otau.IsOk = otauAttached.IsOk;
+            }
         }
 
         public string ChangeMonitoringSettings(MonitoringSettingsChanged e)

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.RtuManagement
@@ -66,7 +67,7 @@ namespace Iit.Fibertest.RtuManagement
 
             var mikrotikRebootAttemptsBeforeNotification = _rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootAttemptsBeforeNotification, 1);
             if (damagedOtau.RebootAttempts == mikrotikRebootAttemptsBeforeNotification)
-                SendBopState(damagedOtau.Ip, false);
+                SendByMsmq(new BopStateChangedDto(){RtuId = _id, OtauIp = damagedOtau.Ip, IsOk = false});
 
             _serviceLog.AppendLine($"Mikrotik {damagedOtau.Ip} reboot N{damagedOtau.RebootAttempts}");
             _rtuLog.AppendLine($"Reboot attempt N{damagedOtau.RebootAttempts}");

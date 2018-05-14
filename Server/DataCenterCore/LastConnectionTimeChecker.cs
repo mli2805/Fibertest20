@@ -43,6 +43,9 @@ namespace Iit.Fibertest.DataCenterCore
             _rtuHeartbeatPermittedGap = TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.RtuHeartbeatPermittedGap, 70));
             _clientHeartbeatPermittedGap = TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.ClientHeartbeatPermittedGap, 180));
 
+            // if server just started it should give RTUs time to check-in
+            Thread.Sleep(_rtuHeartbeatPermittedGap);
+
             while (true)
             {
                 Tick().Wait();

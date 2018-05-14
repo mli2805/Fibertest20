@@ -4,6 +4,7 @@ using System.Messaging;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterCore
@@ -77,10 +78,26 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<int> ProcessMessage(Message message)
         {
-            if (!(message.Body is MonitoringResultDto monitoringResultDto))
-                return -1;
+            if (message.Body is MonitoringResultDto monitoringResultDto)
+                return await ProcessMonitoringResult(monitoringResultDto);
+            if (message.Body is BopStateChangedDto bopStateChangedDto)
+                return await ProcessBopStateChanges(bopStateChangedDto);
+            return -1;
 
-            return await ProcessMonitoringResult(monitoringResultDto);
+        }
+
+        private async Task<int> ProcessBopStateChanges(BopStateChangedDto dto)
+        {
+            _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.OtauIp} state changed to {dto.IsOk}");
+            var cmd = new AddBopNetworkEvent()
+            {
+                EventTimestamp = DateTime.Now,
+                RtuId = dto.RtuId,
+                OtauIp = dto.OtauIp,
+                IsOk = dto.IsOk,
+            };
+            await _eventStoreService.SendCommand(cmd, "system", "OnServer");
+            return 0;
         }
 
         public async Task<int> ProcessMonitoringResult(MonitoringResultDto dto)
@@ -92,7 +109,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return -1;
             }
 
-            _logFile.AppendLine($@"MSMQ message, measure time: {dto.TimeStamp:dd-MM-yyyy hh:mm:ss}, RTU { dto.RtuId.First6() 
+            _logFile.AppendLine($@"MSMQ message, measure time: {dto.TimeStamp:dd-MM-yyyy hh:mm:ss}, RTU { dto.RtuId.First6()
                     }, Trace {dto.PortWithTrace.TraceId.First6()} - {dto.TraceState} ({ dto.BaseRefType })");
 
             var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);

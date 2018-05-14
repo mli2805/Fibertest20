@@ -14,8 +14,5 @@ namespace Iit.Fibertest.WcfServiceForRtuInterface
        
         [OperationContract]
         void TransmitClientMeasurementResult(ClientMeasurementDoneDto result);
-
-        [OperationContract]
-        void NotifyUserBopStateChanged(BopStateChangedDto dto);
     }
 }

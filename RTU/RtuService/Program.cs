@@ -1,4 +1,5 @@
-﻿using System.ServiceProcess;
+﻿using System;
+using System.ServiceProcess;
 using Autofac;
 
 namespace Iit.Fibertest.RtuService
@@ -14,7 +15,15 @@ namespace Iit.Fibertest.RtuService
             var builder = new ContainerBuilder().ForRtu();
             var container = builder.Build();
 
-            ServiceBase.Run(container.Resolve<ServiceBase>());
+            if (Environment.UserInteractive)
+            {
+                Service1 service1 = (Service1)container.Resolve<ServiceBase>();
+                service1.TestStartupAndStop(null);
+            }
+            else
+            {
+                ServiceBase.Run(container.Resolve<ServiceBase>());
+            }
         }
     }
 }
