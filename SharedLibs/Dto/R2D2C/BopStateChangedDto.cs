@@ -4,6 +4,7 @@ using System.Runtime.Serialization;
 namespace Iit.Fibertest.Dto
 {
     [DataContract]
+    [Serializable]
     public class BopStateChangedDto
     {
         [DataMember]

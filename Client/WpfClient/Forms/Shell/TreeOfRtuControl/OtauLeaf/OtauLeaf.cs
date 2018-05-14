@@ -12,10 +12,23 @@ namespace Iit.Fibertest.Client
     {
         public IWcfServiceForClient C2DWcfManager { get; }
         private readonly CurrentUser _currentUser;
+        private RtuPartState _otauState;
         public int OwnPortCount { get; set; }
         public int MasterPort { get; set; }
         public NetAddress OtauNetAddress { get; set; }
-        public RtuPartState OtauState { get; set; }
+
+        public RtuPartState OtauState
+        {
+            get => _otauState;
+            set
+            {
+                if (value == _otauState) return;
+                _otauState = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(OtauStatePictogram));
+            }
+        }
+
         public string OtauStatePictogram => OtauState.GetPathToPictogram();
 
         public bool HasAttachedTraces =>
