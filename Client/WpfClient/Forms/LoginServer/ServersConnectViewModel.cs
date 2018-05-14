@@ -109,7 +109,14 @@ namespace Iit.Fibertest.Client
             {
                 if (ServerConnectionTestViewModel.Result == true)
                 {
-                    var serverAddress = ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address;
+                    var netAddress = ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress();
+                    var serverAddress =  netAddress.IsAddressSetAsIp ? netAddress.Ip4Address : netAddress.HostName;
+                    if (serverAddress == @"localhost")
+                    {
+                        var serverIp = LocalAddressResearcher.GetAllLocalAddresses().First();
+                        ServerConnectionTestViewModel.NetAddressInputViewModel = new NetAddressInputViewModel(new NetAddress(serverIp, TcpPorts.ServerListenToClient));
+                        serverAddress = serverIp;
+                    }
                     _clientAddress = LocalAddressResearcher.GetLocalAddressToConnectServer(serverAddress);
                     Message = Resources.SID_Connection_established_successfully_
                               + System.Environment.NewLine + string.Format(Resources.SID___Client_s_address__0_, _clientAddress);
@@ -159,7 +166,7 @@ namespace Iit.Fibertest.Client
 
         public void Cancel()
         {
-            if (!_isInAddMode || !Servers.Any()) TryClose();
+            if (!_isInAddMode) TryClose();
 
             ToggleToSelectServerMode();
         }
