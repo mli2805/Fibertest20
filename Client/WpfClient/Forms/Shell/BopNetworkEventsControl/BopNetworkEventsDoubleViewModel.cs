@@ -1,7 +1,5 @@
 ﻿using System.Linq;
-using AutoMapper;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -9,14 +7,13 @@ namespace Iit.Fibertest.Client
 {
     public class BopNetworkEventsDoubleViewModel : PropertyChangedBase
     {
-        private static readonly IMapper Mapper = new MapperConfiguration(
-            cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
         private readonly Model _readModel;
+        private readonly CurrentUser _currentUser;
 
         public BopNetworkEventsViewModel ActualBopNetworkEventsViewModel { get; set; }
         public BopNetworkEventsViewModel AllBopNetworkEventsViewModel { get; set; }
 
-        public BopNetworkEventsDoubleViewModel(Model readModel, 
+        public BopNetworkEventsDoubleViewModel(Model readModel, CurrentUser currentUser,
             BopNetworkEventsViewModel actualBopNetworkEventsViewModel, BopNetworkEventsViewModel allBopNetworkEventsViewModel)
         {
             ActualBopNetworkEventsViewModel = actualBopNetworkEventsViewModel;
@@ -24,6 +21,7 @@ namespace Iit.Fibertest.Client
             AllBopNetworkEventsViewModel = allBopNetworkEventsViewModel;
             AllBopNetworkEventsViewModel.TableTitle = @"All Bop network events";
             _readModel = readModel;
+            _currentUser = currentUser;
         }
 
         public void Apply(object e)
@@ -36,22 +34,22 @@ namespace Iit.Fibertest.Client
 
         private void AddBopNetworkEvent(BopNetworkEventAdded evnt)
         {
-            var bopNetworkEvent = Mapper.Map<BopNetworkEvent>(evnt);
-            var rtu = _readModel.Rtus.FirstOrDefault(t => t.Id == bopNetworkEvent.RtuId);
-            if (rtu == null)
+            var rtu = _readModel.Rtus.FirstOrDefault(t => t.Id == evnt.RtuId);
+            if (rtu == null || !rtu.ZoneIds.Contains(_currentUser.ZoneId))
                 return;
 
-            ActualBopNetworkEventsViewModel.RemoveOldEventForBopIfExists(bopNetworkEvent.RtuId);
+            AllBopNetworkEventsViewModel.AddEvent(evnt);
+            ActualBopNetworkEventsViewModel.RemoveOldEventForBopIfExists(evnt.OtauIp);
 
-            if (bopNetworkEvent.State == RtuPartState.Ok)
+            if (evnt.IsOk)
                 return;
 
-            ActualBopNetworkEventsViewModel.AddEvent(bopNetworkEvent);
+            ActualBopNetworkEventsViewModel.AddEvent(evnt);
         }
 
-        public void ApplyToTableAll(BopNetworkEvent bopNetworkEvent)
+        public void ApplyToTableAll(BopNetworkEventAdded bopNetworkEventAdded)
         {
-            AllBopNetworkEventsViewModel.AddEvent(bopNetworkEvent);
+            AllBopNetworkEventsViewModel.AddEvent(bopNetworkEventAdded);
         }
     }
 }

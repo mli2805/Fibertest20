@@ -12,7 +12,7 @@ namespace Iit.Fibertest.RtuManagement
         {
             Ip = ip;
             RebootStarted = DateTime.Now;
-            RebootAttempts = 1;
+            RebootAttempts = 0;
         }
     }
 }

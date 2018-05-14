@@ -78,7 +78,7 @@ namespace Iit.Fibertest.Graph
                 case AddMeasurement command: return Validate(command);
                 case UpdateMeasurement command: return _eventsQueue.Add(Mapper.Map<MeasurementUpdated>(command));
                 case AddNetworkEvent command: return Validate(command);
-                case AddBopNetworkEvent command: return _eventsQueue.Add(Mapper.Map<BopNetworkEventAdded>(command));
+                case AddBopNetworkEvent command: return Validate(command);
 
                 default: return @"Unknown command";
             }
@@ -245,6 +245,18 @@ namespace Iit.Fibertest.Graph
             networkEventAdded.Ordinal = lastEventOrdial + 1;
             networkEventAdded.RtuPartStateChanges = _writeModel.IsStateWorseOrBetterThanBefore(networkEventAdded);
             return _eventsQueue.Add(networkEventAdded);
+        }
+
+        private string Validate(AddBopNetworkEvent cmd)
+        {
+            var otau = _writeModel.Otaus.FirstOrDefault(o => o.NetAddress.Ip4Address == cmd.OtauIp);
+            if (otau == null) return $@"OTAU with IP address {cmd.OtauIp} not found";
+
+            var bopNetworkEventAdded = Mapper.Map<BopNetworkEventAdded>(cmd);
+            var lastEventOrdial = _writeModel.BopNetworkEvents.Any() ? _writeModel.BopNetworkEvents.Max(n => n.Ordinal) : 1;
+            bopNetworkEventAdded.Ordinal = lastEventOrdial + 1;
+
+            return _eventsQueue.Add(bopNetworkEventAdded);
         }
     }
 }

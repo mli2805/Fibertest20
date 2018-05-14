@@ -12,7 +12,7 @@
             <DataGrid.Columns>
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event_Id}" Binding="{Binding Nomer}" Width="120"/>
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event_timestamp}" Binding="{Binding EventTimestamp}" Width="120"/>
-                <DataGridTextColumn Header="BOP" Binding="{Binding BopTitle}" Width="200*"/>
+                <DataGridTextColumn Header="BOP" Binding="{Binding OtauIp}" Width="120"/>
                 <DataGridTextColumn Header="RTU" Binding="{Binding RtuTitle}" Width="200*"/>
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_State}" Binding="{Binding StateString}" Width="100">
                     <DataGridTextColumn.CellStyle>

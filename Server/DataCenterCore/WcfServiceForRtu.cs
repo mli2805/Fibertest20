@@ -2,6 +2,7 @@
 using System.ServiceModel;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForRtuInterface;
@@ -15,16 +16,18 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientStationsRepository _clientStationsRepository;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly D2CWcfManager _d2CWcfManager;
+        private readonly EventStoreService _eventStoreService;
 
-        public WcfServiceForRtu(IMyLog logFile,
+        public WcfServiceForRtu(IMyLog logFile, Model writeModel,
             ClientStationsRepository clientStationsRepository,
             RtuStationsRepository rtuStationsRepository,
-            D2CWcfManager d2CWcfManager)
+            D2CWcfManager d2CWcfManager, EventStoreService eventStoreService)
         {
             _logFile = logFile;
             _clientStationsRepository = clientStationsRepository;
             _rtuStationsRepository = rtuStationsRepository;
             _d2CWcfManager = d2CWcfManager;
+            _eventStoreService = eventStoreService;
         }
 
         public void NotifyUserCurrentMonitoringStep(CurrentMonitoringStepDto dto)
@@ -75,8 +78,15 @@ namespace Iit.Fibertest.DataCenterCore
 
         public void NotifyUserBopStateChanged(BopStateChangedDto dto)
         {
-            _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.Serial} state changed to {dto.IsOk}");
-          // TODO convert to event in event sourcing
+            _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.OtauIp} state changed to {dto.IsOk}");
+            var cmd = new AddBopNetworkEvent()
+            {
+                EventTimestamp = DateTime.Now,
+                RtuId = dto.RtuId,
+                OtauIp = dto.OtauIp,
+                IsOk = dto.IsOk,
+            };
+            _eventStoreService.SendCommand(cmd, "system", "OnServer");
         }
     }
 }

@@ -69,8 +69,7 @@ namespace Iit.Fibertest.Client
                     traceCount++;
                 }
 
-                var bopLeaf = leaf as OtauLeaf;
-                if (bopLeaf != null)
+                if (leaf is OtauLeaf bopLeaf)
                 {
                     bopCount++;
                     hasBrokenBop = bopLeaf.OtauState == RtuPartState.Broken;

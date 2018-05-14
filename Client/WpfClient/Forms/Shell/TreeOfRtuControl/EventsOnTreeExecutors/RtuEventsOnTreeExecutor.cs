@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
         private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
 
-        public RtuEventsOnTreeExecutor(ILifetimeScope globalScope, Model readModel, CurrentUser currentUser, 
+        public RtuEventsOnTreeExecutor(ILifetimeScope globalScope, Model readModel, CurrentUser currentUser,
             TreeOfRtuModel treeOfRtuModel, TraceEventsOnTreeExecutor traceEventsOnTreeExecutor)
         {
             _globalScope = globalScope;
@@ -39,7 +39,7 @@ namespace Iit.Fibertest.Client
         public void UpdateRtu(RtuUpdated e)
         {
             if (_currentUser.ZoneId != Guid.Empty &&
-                !_readModel.Rtus.First(r=>r.Id == e.RtuId).ZoneIds.Contains(_currentUser.ZoneId)) return;
+                !_readModel.Rtus.First(r => r.Id == e.RtuId).ZoneIds.Contains(_currentUser.ZoneId)) return;
 
             var rtu = _treeOfRtuModel.GetById(e.RtuId);
             rtu.Title = e.Title;
@@ -98,7 +98,7 @@ namespace Iit.Fibertest.Client
             var port = otauLeaf.MasterPort;
 
             foreach (var traceId in e.TracesOnOtau)
-                    _traceEventsOnTreeExecutor.DetachTrace(traceId);
+                _traceEventsOnTreeExecutor.DetachTrace(traceId);
 
             rtuLeaf.FullPortCount -= otauLeaf.OwnPortCount;
             rtuLeaf.ChildrenImpresario.Children.Remove(otauLeaf);
@@ -122,7 +122,25 @@ namespace Iit.Fibertest.Client
             rtuLeaf.ReserveChannelState = e.ReserveChannelState;
         }
 
+        public void AddBopNetworkEvent(BopNetworkEventAdded e)
+        {
+            if (_currentUser.ZoneId != Guid.Empty &&
+                !_readModel.Rtus.First(r => r.Id == e.RtuId).ZoneIds.Contains(_currentUser.ZoneId)) return;
 
-      
+            var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(e.RtuId);
+            if (rtuLeaf == null)
+                return;
+
+            foreach (var child in rtuLeaf.ChildrenImpresario.Children)
+            {
+                if (child is OtauLeaf otauLeaf && otauLeaf.OtauNetAddress.Ip4Address == e.OtauIp)
+                {
+                    otauLeaf.OtauState = e.IsOk ? RtuPartState.Ok : RtuPartState.Broken;
+                }
+            }
+        }
+
+
+
     }
 }

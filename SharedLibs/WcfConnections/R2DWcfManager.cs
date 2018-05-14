@@ -74,5 +74,23 @@ namespace Iit.Fibertest.WcfConnections
                 _logFile.AppendLine("SendClientMeasurementDone: " + e.Message);
             }
         }
+
+        public void SendBopStateChanged(BopStateChangedDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetR2DChannelFactory(false);
+            if (wcfConnection == null)
+                return;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                channel.NotifyUserBopStateChanged(dto);
+                wcfConnection.Close();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("SendBopStateChanged: " + e.Message);
+            }
+        }
     }
 }

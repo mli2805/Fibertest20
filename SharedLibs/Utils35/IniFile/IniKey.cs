@@ -56,6 +56,7 @@
 
         // Recovering
         MikrotikRebootTimeout,
+        MikrotikRebootAttemptsBeforeNotification,
         RecoveryStep,
         RebootSystemEnabled,
         RebootSystemDelay,

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
@@ -34,23 +33,22 @@ namespace Iit.Fibertest.Client
             view.SortDescriptions.Add(new SortDescription(@"Nomer", ListSortDirection.Descending));
         }
 
-        public void AddEvent(BopNetworkEvent bopNetworkEvent)
+        public void AddEvent(BopNetworkEventAdded bopNetworkEventAdded)
         {
             Rows.Add(new BopNetworkEventModel()
             {
-                Nomer = 1,
-                EventTimestamp = bopNetworkEvent.EventTimestamp,
-                BopId = bopNetworkEvent.BopId,
-                RtuId = bopNetworkEvent.RtuId,
-                BopTitle = _readModel.Otaus.FirstOrDefault(o=>o.Id == bopNetworkEvent.BopId)?.NetAddress.ToStringA(),
-                RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == bopNetworkEvent.RtuId)?.Title,
-                State = bopNetworkEvent.State,
+                Nomer = bopNetworkEventAdded.Ordinal,
+                EventTimestamp = bopNetworkEventAdded.EventTimestamp,
+                OtauIp = bopNetworkEventAdded.OtauIp,
+                RtuId = bopNetworkEventAdded.RtuId,
+                RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == bopNetworkEventAdded.RtuId)?.Title,
+                IsOk = bopNetworkEventAdded.IsOk,
             });
         }
 
-        public void RemoveOldEventForBopIfExists(Guid bopId)
+        public void RemoveOldEventForBopIfExists(string otauIp)
         {
-            var oldEvent = Rows.FirstOrDefault(r => r.BopId == bopId);
+            var oldEvent = Rows.FirstOrDefault(r => r.OtauIp == otauIp);
             if (oldEvent != null)
                 Rows.Remove(oldEvent);
         }

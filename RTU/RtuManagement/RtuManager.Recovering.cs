@@ -47,7 +47,7 @@ namespace Iit.Fibertest.RtuManagement
                         _rtuLog.AppendLine("Recovery procedure: Reboot system.");
                         _serviceLog.AppendLine("Recovery procedure: Reboot system.");
                         RestoreFunctions.RebootSystem(_serviceLog, delay);
-                        Thread.Sleep(TimeSpan.FromSeconds(delay+5));
+                        Thread.Sleep(TimeSpan.FromSeconds(delay + 5));
                     }
                     else
                     {
@@ -58,30 +58,30 @@ namespace Iit.Fibertest.RtuManagement
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="damagedOtau">check in damaged otau list, while initialization is surely is null</param>
-        /// <param name="damagedOtauIp"></param>
-        private void RunAdditionalOtauRecovery(DamagedOtau damagedOtau, string damagedOtauIp)
-        {
-            if (damagedOtau != null)
-            {
-                damagedOtau.RebootStarted = DateTime.Now;
-                damagedOtau.RebootAttempts++;
-            }
-            else
-            {
-                damagedOtau = new DamagedOtau(damagedOtauIp);
-                _damagedOtaus.Add(damagedOtau);
-            }
 
-            _serviceLog.AppendLine($"Mikrotik {damagedOtauIp} reboot N{damagedOtau.RebootAttempts}");
+        private void RunAdditionalOtauRecovery(DamagedOtau damagedOtau)
+        {
+            damagedOtau.RebootStarted = DateTime.Now;
+            damagedOtau.RebootAttempts++;
+
+            var mikrotikRebootAttemptsBeforeNotification = _rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootAttemptsBeforeNotification, 1);
+            if (damagedOtau.RebootAttempts == mikrotikRebootAttemptsBeforeNotification)
+                SendBopState(damagedOtau.Ip, false);
+
+            _serviceLog.AppendLine($"Mikrotik {damagedOtau.Ip} reboot N{damagedOtau.RebootAttempts}");
             _rtuLog.AppendLine($"Reboot attempt N{damagedOtau.RebootAttempts}");
             var connectionTimeout = _rtuIni.Read(IniSection.Charon, IniKey.ConnectionTimeout, 30);
-            var mikrotik = new MikrotikInBop(_rtuLog, damagedOtauIp, connectionTimeout);
-            if (mikrotik.Connect())
-                mikrotik.Reboot();
+            var mikrotik = new MikrotikInBop(_rtuLog, damagedOtau.Ip, connectionTimeout);
+            try
+            {
+                if (mikrotik.Connect())
+                    mikrotik.Reboot();
+            }
+            catch (Exception e)
+            {
+                _rtuLog.AppendLine($"Cannot connect Mikrotik {damagedOtau.Ip}" + e.Message);
+            }
+
         }
     }
 }

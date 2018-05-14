@@ -84,6 +84,7 @@
                 case MeasurementUpdated evnt: return _measurementEventOnModelExecutor.UpdateMeasurement(evnt);
 
                 case NetworkEventAdded evnt: return _measurementEventOnModelExecutor.AddNetworkEvent(evnt);
+                case BopNetworkEventAdded evnt: return _measurementEventOnModelExecutor.AddBopNetworkEvent(evnt);
 
                 default: return @"Unknown event";
             }

@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public Guid RtuId { get; set; }
         [DataMember]
-        public string Serial { get; set; }
+        public string OtauIp { get; set; }
         [DataMember]
         public bool IsOk { get; set; }
             

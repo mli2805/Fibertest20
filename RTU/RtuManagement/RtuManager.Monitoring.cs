@@ -267,8 +267,15 @@ namespace Iit.Fibertest.RtuManagement
                     {
                         _rtuLog.AppendLine("Toggled Ok.");
                         if (damagedOtau != null)
-                            damagedOtau.RebootAttempts = 0;
-                        _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
+                        {
+                            _rtuLog.AppendLine($"OTAU {otauIp} recovered, send notification to server.");
+                            SendBopState(otauIp, true);
+                            _damagedOtaus.Remove(damagedOtau);
+                        }
+                        else
+                        {
+                            _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
+                        }
                         return true;
                     }
                 case CharonOperationResult.MainOtauError:
@@ -279,7 +286,12 @@ namespace Iit.Fibertest.RtuManagement
                     }
                 case CharonOperationResult.AdditionalOtauError:
                     {
-                        RunAdditionalOtauRecovery(damagedOtau, otauIp);
+                        if (damagedOtau == null)
+                        {
+                            damagedOtau = new DamagedOtau(otauIp);
+                            _damagedOtaus.Add(damagedOtau);
+                        }
+                        RunAdditionalOtauRecovery(damagedOtau);
                         return false;
                     }
                 default:

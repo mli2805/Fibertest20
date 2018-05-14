@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
-using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -11,9 +10,6 @@ namespace Iit.Fibertest.Client
 {
     public class RtuStateViewsManager
     {
-        private static readonly IMapper Mapper = new MapperConfiguration(
-            cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
-
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
         private readonly Model _reaModel;
@@ -47,6 +43,7 @@ namespace Iit.Fibertest.Client
             switch (evnt)
             {
                 case NetworkEventAdded e: NotifyUserRtuAvailabilityChanged(e); return;
+                case BopNetworkEventAdded e: NotifyUserBopStateChanged(e); return;
                 case MeasurementAdded e: NotifyUserMonitoringResult(e); return;
                 case TraceAttached e: NotifyUserTraceChanged(e.TraceId); return;
                 case TraceDetached e: NotifyUserTraceChanged(e.TraceId); return;
@@ -64,9 +61,18 @@ namespace Iit.Fibertest.Client
             var rtu = _reaModel.Rtus.FirstOrDefault(r => r.Id == networkEventAdded.RtuId);
             if (rtu == null || !rtu.ZoneIds.Contains(_currentUser.ZoneId)) return;
 
-            var networkEvent = Mapper.Map<NetworkEvent>(networkEventAdded);
-            var rtuLeaf = (RtuLeaf) _treeOfRtuModel.GetById(networkEvent.RtuId);
+            var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(networkEventAdded.RtuId);
             Show(rtuLeaf, isUserAskedToOpenView: false, changes: networkEventAdded.RtuPartStateChanges);
+        }
+
+        // Server sent BOP network event
+        private void NotifyUserBopStateChanged(BopNetworkEventAdded bopNetworkEventAdded)
+        {
+            var rtu = _reaModel.Rtus.FirstOrDefault(r => r.Id == bopNetworkEventAdded.RtuId);
+            if (rtu == null || !rtu.ZoneIds.Contains(_currentUser.ZoneId)) return;
+
+            var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(bopNetworkEventAdded.RtuId);
+            Show(rtuLeaf, isUserAskedToOpenView: false, changes: bopNetworkEventAdded.IsOk ? RtuPartStateChanges.OnlyBetter : RtuPartStateChanges.OnlyWorse);
         }
 
         public void NotifyUserRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto)
@@ -100,14 +106,14 @@ namespace Iit.Fibertest.Client
             var traceLeaf = _treeOfRtuModel.GetById(traceId);
             if (traceLeaf == null) return; // trace\RTU could be not in zone
 
-            var rtuLeaf = (RtuLeaf) (traceLeaf.Parent is RtuLeaf ? traceLeaf.Parent : traceLeaf.Parent.Parent);
+            var rtuLeaf = (RtuLeaf)(traceLeaf.Parent is RtuLeaf ? traceLeaf.Parent : traceLeaf.Parent.Parent);
             if (LaunchedViews.TryGetValue(rtuLeaf.Id, out var vm))
                 vm.RefreshModel(rtuLeaf);
         }
 
         private void NotifyUserRtuUpdated(Guid rtuId)
         {
-            var rtuLeaf = (RtuLeaf) _treeOfRtuModel.GetById(rtuId);
+            var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(rtuId);
             if (rtuLeaf == null) return; // trace\RTU could be not in zone
 
             if (LaunchedViews.TryGetValue(rtuId, out var vm))

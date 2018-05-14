@@ -40,5 +40,13 @@ namespace Iit.Fibertest.Graph
             rtu.ReserveChannelState = e.ReserveChannelState;
             return null;
         }
+        public string AddBopNetworkEvent(BopNetworkEventAdded e)
+        {
+            _model.BopNetworkEvents.Add(Mapper.Map<BopNetworkEvent>(e));
+            var otau = _model.Otaus.First(o=>o.NetAddress.Ip4Address == e.OtauIp);
+            otau.IsOk = e.IsOk;
+            return null;
+        }
+
     }
 }
