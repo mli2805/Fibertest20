@@ -41,6 +41,7 @@ namespace Iit.Fibertest.Client
         {
             var vm = _globalScope.Resolve<LandmarksViewModel>();
             var res = await vm.InitializeFromNode(nodeId);
+            if (vm.SelectedTrace == null) return -1;
             LaunchedViews.Add(vm);
             _windowManager.ShowWindowWithAssignedOwner(vm);
             return res;

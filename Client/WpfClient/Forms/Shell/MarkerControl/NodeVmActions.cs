@@ -30,19 +30,11 @@ namespace Iit.Fibertest.Client
                     { NodeId = marker.GMapMarker.Id, IsCableReserveRequested = false });
         }
 
-        public async void AskAddCableReserve(object parameter)
-        {
-            var marker = (MarkerControl)parameter;
-            await marker.Owner.GraphReadModel.GrmEquipmentRequests.
-                AddEquipmentIntoNode(new RequestAddEquipmentIntoNode()
-                    { NodeId = marker.GMapMarker.Id, IsCableReserveRequested = true });
-        }
-
         public async void AskLandmarks(object parameter)
         {
             var marker = (MarkerControl)parameter;
-            var vm = _globalScope.Resolve<LandmarksViewsManager>();
-            await vm.InitializeFromNode(marker.GMapMarker.Id);
+            var landmarksViewsManager = _globalScope.Resolve<LandmarksViewsManager>();
+            await landmarksViewsManager.InitializeFromNode(marker.GMapMarker.Id);
         }
 
         public async void AskRemoveNode(object parameter)
