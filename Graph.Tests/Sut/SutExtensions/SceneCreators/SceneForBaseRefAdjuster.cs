@@ -93,14 +93,6 @@ namespace Graph.Tests
             sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentIntoNode(new RequestAddEquipmentIntoNode() { NodeId = trace.NodeIds[5], IsCableReserveRequested = true }).Wait();
             sut.Poller.EventSourcingTick().Wait();
         }
-
-        public static void AddEquipmentWithCableReserve(this SystemUnderTest sut, Iit.Fibertest.Graph.Trace trace)
-        {
-            sut.FakeWindowManager.RegisterHandler(model => sut.TraceChoiceHandler(model, new List<Guid>() { trace.TraceId }, Answer.Yes));
-            sut.FakeWindowManager.RegisterHandler(model => sut.EquipmentInfoViewModelHandler(model, Answer.Yes, EquipmentType.CableReserve, 40, 30));
-            sut.GraphReadModel.GrmEquipmentRequests.AddEquipmentIntoNode(new RequestAddEquipmentIntoNode() { NodeId = trace.NodeIds[5], IsCableReserveRequested = false }).Wait();
-            sut.Poller.EventSourcingTick().Wait();
-        }
     }
 
 }

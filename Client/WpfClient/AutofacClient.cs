@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.Client.MonitoringSettings;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.UtilsLib;
@@ -173,6 +174,9 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<NodeUpdateViewModel>();
             builder.RegisterType<FiberUpdateViewModel>();
             builder.RegisterType<EquipmentInfoViewModel>();
+
+            builder.RegisterType<MonitoringSettingsModelFactory>();
+            builder.RegisterType<MonitoringSettingsViewModel>();
 
             builder.RegisterType<LoginViewModel>();
             builder.RegisterType<ServersConnectViewModel>();

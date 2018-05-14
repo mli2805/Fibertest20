@@ -1,5 +1,8 @@
 ﻿<ProjectConfiguration>
   <Settings>
+    <HiddenComponentWarnings>
+      <Value>AbnormalReferenceResolution</Value>
+    </HiddenComponentWarnings>
     <IgnoredTests>
       <NamedTestSelector>
         <TestName>Graph.Tests.Equipment.EquipmentRemovedFeature.УдалениеОборудованияВУзлеНевходящемВТрассы</TestName>

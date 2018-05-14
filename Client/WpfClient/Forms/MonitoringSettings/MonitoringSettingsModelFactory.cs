@@ -5,19 +5,19 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client.MonitoringSettings
 {
-    public class MonitoringSettingsManager
+    public class MonitoringSettingsModelFactory
     {
-        private readonly RtuLeaf _rtuLeaf;
+        private RtuLeaf _rtuLeaf;
         private readonly Model _readModel;
 
-        public MonitoringSettingsManager(RtuLeaf rtuLeaf, Model readModel)
+        public MonitoringSettingsModelFactory(Model readModel)
         {
-            _rtuLeaf = rtuLeaf;
             _readModel = readModel;
         }
 
-        public MonitoringSettingsModel PrepareMonitoringSettingsModel()
+        public MonitoringSettingsModel Create(RtuLeaf rtuLeaf)
         {
+            _rtuLeaf = rtuLeaf;
             var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == _rtuLeaf.Id);
             if (rtu == null)
                 return null;

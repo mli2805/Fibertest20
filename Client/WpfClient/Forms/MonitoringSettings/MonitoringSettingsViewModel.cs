@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -12,6 +13,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 {
     public class MonitoringSettingsViewModel : Screen
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         public MonitoringSettingsModel Model { get; set; }
@@ -30,12 +32,13 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             }
         }
 
-        public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, Model readModel, IWcfServiceForClient c2DWcfManager)
+        public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, ILifetimeScope globalScope, Model readModel, IWcfServiceForClient c2DWcfManager)
         {
+            _globalScope = globalScope;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
 
-            Model = new MonitoringSettingsManager(rtuLeaf, readModel).PrepareMonitoringSettingsModel();
+            Model = new MonitoringSettingsModelFactory(readModel).Create(rtuLeaf);
             Model.CalculateCycleTime();
             SelectedTabIndex = 0; // strange but it's necessary
         }
@@ -47,7 +50,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 
         public async void Apply()
         {
-            using (new WaitCursor())
+            using (_globalScope.Resolve<IWaitCursor>())
             {
                 MessageProp = Resources.SID_Command_is_processing___;
                 var dto = ConvertSettingsToDto();
@@ -61,7 +64,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                 {
                     var cmd = PrepareCommand(dto);
                     var result = await _c2DWcfManager.SendCommandAsObj(cmd);
-                    MessageProp = result == null ? resultDto.ReturnCode.GetLocalizedString() : result;
+                    MessageProp = result ?? resultDto.ReturnCode.GetLocalizedString();
                 }
                 else
                     MessageProp = resultDto.ReturnCode.GetLocalizedString(resultDto.ExceptionMessage);

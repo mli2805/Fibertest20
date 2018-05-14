@@ -220,6 +220,14 @@
     <Compile Include="Equipment\EquipmentRemovedWithLoopSteps.cs">
       <DependentUpon>EquipmentRemovedWithLoop.feature</DependentUpon>
     </Compile>
+    <Compile Include="Forms\MonitoringSettingsViewModel.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MonitoringSettingsViewModel.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MonitoringSettingsViewModelSteps.cs">
+      <DependentUpon>MonitoringSettingsViewModel.feature</DependentUpon>
+    </Compile>
     <Compile Include="Forms\RftsEventsViewModel.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -682,6 +690,10 @@
     <None Include="Fiber\FiberWithNodesAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>FiberWithNodesAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Forms\MonitoringSettingsViewModel.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>MonitoringSettingsViewModel.feature.cs</LastGenOutput>
     </None>
     <None Include="Forms\RftsEventsViewModel.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
