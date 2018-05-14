@@ -1,4 +1,6 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 
 namespace Iit.Fibertest.Client
@@ -14,21 +16,11 @@ namespace Iit.Fibertest.Client
                 return endPoint?.Address.ToString();
             }
         }
-
-        /*
-        private static void GetAllLocalAddresses()
+        
+        public static IEnumerable<string> GetAllLocalAddresses()
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                var family = "";
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                    family = @"IPv4";
-                if (ip.AddressFamily == AddressFamily.InterNetworkV6)
-                    family = @"IPv6";
-                Console.WriteLine($@"{family}:   {ip}");
-            }
+            return host.AddressList.Where(a => a.AddressFamily == AddressFamily.InterNetwork).Select(a => a.ToString());
         }
-        */
     }
 }

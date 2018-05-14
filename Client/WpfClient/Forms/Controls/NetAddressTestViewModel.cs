@@ -13,7 +13,18 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly NetAddressForConnectionTest _netAddressForConnectionTest;
         private bool? _result;
-        public NetAddressInputViewModel NetAddressInputViewModel { get; set; }
+        private NetAddressInputViewModel _netAddressInputViewModel;
+
+        public NetAddressInputViewModel NetAddressInputViewModel
+        {
+            get => _netAddressInputViewModel;
+            set
+            {
+                if (Equals(value, _netAddressInputViewModel)) return;
+                _netAddressInputViewModel = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
 
         public bool? Result
