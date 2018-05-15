@@ -1793,4 +1793,13 @@ RTU is initializing right now!</value>
 	<data name="SID_To_adjust_trace_drawing_were_used__0__point_s_" xml:space="preserve">
     <value>To adjust trace drawing were used {0} point(s)</value>
   </data>
+	<data name="SID_The_changes_will_be_applied_after_application_restart" xml:space="preserve">
+    <value>* The changes will be applied after application restart</value>
+  </data>
+	<data name="SID_Help" xml:space="preserve">
+    <value>Help</value>
+  </data>
+	<data name="SID_About" xml:space="preserve">
+    <value>About</value>
+  </data>
 </root>

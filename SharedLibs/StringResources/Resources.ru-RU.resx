@@ -1793,4 +1793,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_To_adjust_trace_drawing_were_used__0__point_s_" xml:space="preserve">
 		<value>Для уточнения трассы было использовано точек: {0}</value>
 	</data>
+	<data name="SID_The_changes_will_be_applied_after_application_restart" xml:space="preserve">
+		<value>* Изменения будут применены после перезагрузки</value>
+	</data>
+	<data name="SID_Help" xml:space="preserve">
+		<value>Помощь</value>
+	</data>
+	<data name="SID_About" xml:space="preserve">
+		<value>О программе</value>
+	</data>
 </root>

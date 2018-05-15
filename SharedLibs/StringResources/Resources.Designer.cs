@@ -251,6 +251,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to About.
+        /// </summary>
+        public static string SID_About {
+            get {
+                return ResourceManager.GetString("SID_About", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Accept.
         /// </summary>
         public static string SID_Accept {
@@ -2003,6 +2012,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Graph_Db_saved_successfully_ {
             get {
                 return ResourceManager.GetString("SID_Graph_Db_saved_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Help.
+        /// </summary>
+        public static string SID_Help {
+            get {
+                return ResourceManager.GetString("SID_Help", resourceCulture);
             }
         }
         
@@ -4408,6 +4426,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Test_RTU_communication_functions {
             get {
                 return ResourceManager.GetString("SID_Test_RTU_communication_functions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to * The changes will be applied after application restart.
+        /// </summary>
+        public static string SID_The_changes_will_be_applied_after_application_restart {
+            get {
+                return ResourceManager.GetString("SID_The_changes_will_be_applied_after_application_restart", resourceCulture);
             }
         }
         

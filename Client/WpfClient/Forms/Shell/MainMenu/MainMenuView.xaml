@@ -16,10 +16,10 @@
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Change_password}" cal:Message.Attach="LaunchChangePasswordView"/>
             </MenuItem>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Configuration}" cal:Message.Attach="LaunchConfigurationView"/>
-            <MenuItem Header="Help">
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Help}">
                 <MenuItem Header="Help me!"/>
                 <Separator/>
-                <MenuItem Header="About"/>
+                <MenuItem Header="{x:Static stringResources:Resources.SID_About}"/>
             </MenuItem>
         </Menu>
     </Grid>

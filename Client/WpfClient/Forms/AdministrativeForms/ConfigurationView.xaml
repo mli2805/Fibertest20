@@ -17,7 +17,7 @@
             <CheckBox IsChecked="{Binding IsGraphVisibleOnStart}" 
                       Content="{x:Static stringResources:Resources.SID_Show_all_graph_on_application_start}" Margin="5"/>
             <Separator></Separator>
-            <TextBlock Text="* Parameters will be applied after application restart" Margin="5"/>
+            <TextBlock Text="{x:Static stringResources:Resources.SID_The_changes_will_be_applied_after_application_restart}" Margin="5"/>
         </StackPanel>
 
     </DockPanel>
