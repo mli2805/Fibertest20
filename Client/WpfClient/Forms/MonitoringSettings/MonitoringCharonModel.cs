@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         private bool _groupenCheck;
         public bool GroupenCheck
         {
-            get { return _groupenCheck; }
+            get => _groupenCheck;
             set
             {
                 _groupenCheck = value;

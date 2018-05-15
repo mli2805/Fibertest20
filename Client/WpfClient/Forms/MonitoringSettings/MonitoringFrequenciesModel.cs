@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         private Frequency _selectedPreciseMeasFreq;
         public Frequency SelectedPreciseMeasFreq
         {
-            get { return _selectedPreciseMeasFreq; }
+            get => _selectedPreciseMeasFreq;
             set
             {
                 if (_selectedPreciseMeasFreq == value)
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         private List<Frequency> _preciseSaveFreqs;
         public List<Frequency> PreciseSaveFreqs
         {
-            get { return _preciseSaveFreqs; }
+            get => _preciseSaveFreqs;
             set
             {
                 if (Equals(value, _preciseSaveFreqs)) return;
@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         private Frequency _selectedPreciseSaveFreq;
         public Frequency SelectedPreciseSaveFreq
         {
-            get { return _selectedPreciseSaveFreq; }
+            get => _selectedPreciseSaveFreq;
             set
             {
                 if (value == _selectedPreciseSaveFreq) return;

@@ -90,13 +90,33 @@ this.ScenarioSetup(scenarioInfo);
 #line 8
  testRunner.And("Создана трасса подключена к 3 порту RTU и заданы базовые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 9
- testRunner.And("Еще трасса с базовыми подключена к 4 порту БОПа", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 10
- testRunner.When("Пользователь открывает форма Настройки мониторинга и жмет применить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.And("Еще трасса только с точной базовой подключена к 4 порту БОПа", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 11
- testRunner.And("Включает обе трассы в цикл мониторинга", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("Пользователь открывает Настройки мониторинга - вторая трасса недоступна для включ" +
+                    "ения в цикл мониторинга", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 12
- testRunner.Then("Рассчитывается длительность цикла мониторинга", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.When("Пользователь включает автоматический режим и жмет применить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 13
+ testRunner.Then("Сообщение что не задана ни одна трасса для мониторинга", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 15
+ testRunner.Given("Задаем второй трассе быструю базовую", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 16
+ testRunner.Then("Теперь вторую трассу разрешено включить в цикл мониторинга", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 18
+ testRunner.When("Пользователь ставит птичку включить все трассы главного переключателя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 19
+ testRunner.And("Птичку включить именно вторую трассу на четвертом порту БОПа", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 20
+ testRunner.Then("Длительность точных базовых обоих трасс включена в длительность цикла мониторинга" +
+                    "", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 22
+ testRunner.When("Пользователь уменьшает частоту измерения по точной", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 23
+ testRunner.Then("Частота сохранения по точной изменяется соответственно", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 24
+ testRunner.When("Пользователь включает авто режим и жмет применить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 26
+ testRunner.When("Пользователь жмет секретную комбинацию Ctrl-B для пересылки базовых на RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
             this.ScenarioCleanup();
         }

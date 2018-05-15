@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Windows;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -16,6 +15,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWindowManager _windowManager;
         public MonitoringSettingsModel Model { get; set; }
 
         public int SelectedTabIndex { get; set; }
@@ -32,11 +32,13 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             }
         }
 
-        public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, ILifetimeScope globalScope, Model readModel, IWcfServiceForClient c2DWcfManager)
+        public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, ILifetimeScope globalScope, 
+            Model readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
+            _windowManager = windowManager;
 
             Model = new MonitoringSettingsModelFactory(readModel).Create(rtuLeaf);
             Model.CalculateCycleTime();
@@ -56,7 +58,8 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                 var dto = ConvertSettingsToDto();
                 if (dto.IsMonitoringOn && !dto.Ports.Any())
                 {
-                    MessageBox.Show(Resources.SID_There_are_no_ports_for_monitoring_, Resources.SID_Error_);
+                    var mb = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_There_are_no_ports_for_monitoring_);
+                    _windowManager.ShowDialogWithAssignedOwner(mb);
                     return;
                 }
                 var resultDto = await _c2DWcfManager.ApplyMonitoringSettingsAsync(dto);

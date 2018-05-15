@@ -88,6 +88,13 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<int> ProcessBopStateChanges(BopStateChangedDto dto)
         {
+            var rtus = await _rtuStationsRepository.GetAllRtuStations();
+            if (rtus.FirstOrDefault(r => r.RtuGuid == dto.RtuId) == null)
+            {
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
+                return -1;
+            }
+
             _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.OtauIp} state changed to {dto.IsOk}");
             var cmd = new AddBopNetworkEvent()
             {
