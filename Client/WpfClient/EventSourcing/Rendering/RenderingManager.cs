@@ -1,6 +1,4 @@
-﻿using Iit.Fibertest.UtilsLib;
-
-namespace Iit.Fibertest.Client
+﻿namespace Iit.Fibertest.Client
 {
     public class RenderingManager
     {
