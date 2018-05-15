@@ -1,13 +1,16 @@
 ﻿using System.Linq;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
     public class RenderingApplier
     {
+        private readonly IMyLog _logFile;
         private readonly GraphReadModel _graphReadModel;
 
-        public RenderingApplier(GraphReadModel graphReadModel)
+        public RenderingApplier(IMyLog logFile, GraphReadModel graphReadModel)
         {
+            _logFile = logFile;
             _graphReadModel = graphReadModel;
         }
 
@@ -18,6 +21,7 @@ namespace Iit.Fibertest.Client
 
             foreach (var fiberVm in renderingResult.FiberVms)
                 _graphReadModel.Data.Fibers.Add(fiberVm);
+            _logFile.AppendLine(@"Drawing finished");
         }
 
         public void ToExistingGraph(RenderingResult renderingResult)
@@ -65,6 +69,7 @@ namespace Iit.Fibertest.Client
                     }
                 }
             }
+            _logFile.AppendLine(@"Drawing finished");
         }
 
     }

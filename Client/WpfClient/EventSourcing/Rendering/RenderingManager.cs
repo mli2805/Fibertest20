@@ -1,4 +1,6 @@
-﻿namespace Iit.Fibertest.Client
+﻿using Iit.Fibertest.UtilsLib;
+
+namespace Iit.Fibertest.Client
 {
     public class RenderingManager
     {
@@ -14,6 +16,16 @@
             _currentlyHiddenRtu = currentlyHiddenRtu;
         }
 
+        public void RenderCurrentZoneOnApplicationStart()
+        {
+            _currentlyHiddenRtu.Initialize();
+            _currentlyHiddenRtu.PropertyChanged += _currentlyHiddenRtu_PropertyChanged; // show/hide one RTU traces
+            _currentlyHiddenRtu.Collection.CollectionChanged += HiddenRtu_CollectionChanged; // show/hide all graph
+            var renderingResult = _currentZoneRenderer.GetRendering();
+            _renderingApplier.ToEmptyGraph(renderingResult);
+        }
+
+        // show/hide all graph
         private void HiddenRtu_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             // Show-Hide traces of RTU
@@ -21,15 +33,7 @@
             _renderingApplier.ToExistingGraph(renderingResult);
         }
 
-        public void RenderCurrentZoneOnApplicationStart()
-        {
-            _currentlyHiddenRtu.Initialize();
-            _currentlyHiddenRtu.PropertyChanged += _currentlyHiddenRtu_PropertyChanged;
-            _currentlyHiddenRtu.Collection.CollectionChanged += HiddenRtu_CollectionChanged;
-            var renderingResult = _currentZoneRenderer.GetRendering();
-            _renderingApplier.ToEmptyGraph(renderingResult);
-        }
-
+        // show/hide one RTU traces
         private void _currentlyHiddenRtu_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             // Show-Hide traces of RTU

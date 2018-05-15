@@ -31,6 +31,7 @@ namespace Iit.Fibertest.Client
 
             _logFile.AppendLine($@"{_renderingResult.NodeVms.Count} nodes ready");
             _logFile.AppendLine($@"{_renderingResult.FiberVms.Count} fibers ready");
+            _logFile.AppendLine(@"Rendering finished");
 
             return _renderingResult;
         }

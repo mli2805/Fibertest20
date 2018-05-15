@@ -48,7 +48,6 @@ namespace Iit.Fibertest.Client
             currentEventNumber = await LoadFromDb(currentEventNumber);
             // some sort of parsing snapshot
             _renderingManager.RenderCurrentZoneOnApplicationStart();
-            _logFile.AppendLine(@"Rendering finished");
             return currentEventNumber;
         }
 
