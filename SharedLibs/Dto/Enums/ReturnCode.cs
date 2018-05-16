@@ -52,6 +52,7 @@
         ThisUserRegisteredOnAnotherPc = 9002,
         NoSuchClientStation = 9003,
         NoSuchRtu = 9004,
+        ExceededNumberOfClients = 9005,
         ClientRegisteredSuccessfully = 9011,
     }
 }

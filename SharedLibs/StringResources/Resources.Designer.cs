@@ -1818,6 +1818,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exceeded the number of clients registered simultaneously.
+        /// </summary>
+        public static string SID_Exceeded_the_number_of_clients_registered_simultaneously {
+            get {
+                return ResourceManager.GetString("SID_Exceeded_the_number_of_clients_registered_simultaneously", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exceeded the number of RTU for an existing license.
         /// </summary>
         public static string SID_Exceeded_the_number_of_RTU_for_an_existing_license {

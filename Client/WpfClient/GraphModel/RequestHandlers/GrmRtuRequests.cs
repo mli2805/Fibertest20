@@ -5,6 +5,7 @@ using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Requests;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -28,6 +29,12 @@ namespace Iit.Fibertest.Client
 
         public void AddRtuAtGpsLocation(RequestAddRtuAtGpsLocation request)
         {
+            if (_model.License.RtuCount <= _model.Rtus.Count)
+            {
+                var mb = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Exceeded_the_number_of_RTU_for_an_existing_license);
+                _windowManager.ShowDialogWithAssignedOwner(mb);
+                return;
+            }
             var vm = _globalScope.Resolve<RtuUpdateViewModel>();
             vm.Initialize(request);
             _windowManager.ShowDialogWithAssignedOwner(vm);

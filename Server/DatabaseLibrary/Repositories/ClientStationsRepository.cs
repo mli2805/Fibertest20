@@ -59,6 +59,13 @@ namespace Iit.Fibertest.DatabaseLibrary
                         return result;
                     }
 
+                    if (dbContext.ClientStations.Count() >= _writeModel.License.ClientStationCount)
+                    {
+                        _logFile.AppendLine("Exceeded the number of clients registered simultaneously");
+                        result.ReturnCode = ReturnCode.ExceededNumberOfClients;
+                        return result;
+                    }
+
                     var station = dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
                     if (station != null)
                     {

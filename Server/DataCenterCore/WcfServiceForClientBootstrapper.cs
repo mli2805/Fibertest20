@@ -12,15 +12,15 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public class WcfServiceForClientBootstrapper : IDisposable
     {
-        private readonly IniFile _config;
-        private readonly IMyLog _log;
+        private readonly IniFile _iniFile;
+        private readonly IMyLog _logFile;
         private readonly ILifetimeScope _container;
         private ServiceHost _host;
 
-        public WcfServiceForClientBootstrapper(IniFile config, IMyLog log, ILifetimeScope container)
+        public WcfServiceForClientBootstrapper(IniFile iniFile, IMyLog logFile, ILifetimeScope container)
         {
-            _config = config;
-            _log = log;
+            _iniFile = iniFile;
+            _logFile = logFile;
             _container = container;
         }
 
@@ -33,7 +33,7 @@ namespace Iit.Fibertest.DataCenterCore
 
                 _host = new ServiceHost(typeof(WcfServiceForClient));
                 _host.AddServiceEndpoint(typeof(IWcfServiceForClient),
-                    WcfFactory.CreateDefaultNetTcpBinding(_config), uri);
+                    WcfFactory.CreateDefaultNetTcpBinding(_iniFile), uri);
                 _host.AddDependencyInjectionBehavior<IWcfServiceForClient>(_container);
 
                 var behavior = _host.Description.Behaviors.Find<ServiceDebugBehavior>();
@@ -43,11 +43,11 @@ namespace Iit.Fibertest.DataCenterCore
                     behavior.IncludeExceptionDetailInFaults = true;
 
                 _host.Open();
-                _log.AppendLine("Clients listener started successfully");
+                _logFile.AppendLine("Clients listener started successfully");
             }
             catch (Exception e)
             {
-                _log.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
                 throw;
             }
         }
