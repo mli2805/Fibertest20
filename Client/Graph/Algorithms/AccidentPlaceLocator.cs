@@ -5,7 +5,7 @@ using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.Graph.Algorithms
+namespace Iit.Fibertest.Graph
 {
     public class AccidentPlaceLocator
     {

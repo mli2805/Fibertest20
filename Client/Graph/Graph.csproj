@@ -119,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\AccidentPlaceLocator.cs" />
+    <Compile Include="Algorithms\LicenseManager.cs" />
     <Compile Include="Algorithms\SorDataParsingReporter.cs" />
     <Compile Include="DomainEntities\License.cs" />
     <Compile Include="Events\Equipment\EquipmentFromTraceExcluded.cs" />

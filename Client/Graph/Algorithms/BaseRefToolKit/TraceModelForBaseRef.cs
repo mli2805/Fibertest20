@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.Graph.Algorithms
+﻿namespace Iit.Fibertest.Graph
 {
     public class TraceModelForBaseRef
     {

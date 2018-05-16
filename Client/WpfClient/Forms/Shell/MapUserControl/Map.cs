@@ -8,7 +8,6 @@ using System.Windows.Media;
 using GMap.NET;
 using GMap.NET.WindowsPresentation;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Algorithms;
 using JetBrains.Annotations;
 
 namespace Iit.Fibertest.Client

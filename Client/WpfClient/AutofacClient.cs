@@ -2,7 +2,6 @@
 using Caliburn.Micro;
 using Iit.Fibertest.Client.MonitoringSettings;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;

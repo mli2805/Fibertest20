@@ -5,7 +5,7 @@ using Iit.Fibertest.IitOtdrLibrary;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
-namespace Iit.Fibertest.Graph.Algorithms
+namespace Iit.Fibertest.Graph
 {
     public class BaseRefLandmarksTool
     {

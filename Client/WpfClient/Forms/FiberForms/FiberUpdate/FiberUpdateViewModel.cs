@@ -4,7 +4,6 @@ using System.Globalization;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.Graph.Algorithms;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client

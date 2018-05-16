@@ -1,7 +1,7 @@
 ﻿using System;
 using GMap.NET;
 
-namespace Iit.Fibertest.Graph.Algorithms
+namespace Iit.Fibertest.Graph
 {
     public static class GpsCalculator
     {

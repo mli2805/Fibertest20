@@ -4,7 +4,7 @@ using System.Linq;
 using GMap.NET;
 using Iit.Fibertest.Dto;
 
-namespace Iit.Fibertest.Graph.Algorithms
+namespace Iit.Fibertest.Graph
 {
     public  class AccidentsOnTraceToModelApplier
     {
