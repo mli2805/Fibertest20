@@ -99,7 +99,7 @@ namespace Graph.Tests
         {
             var baseRefs = _sut.ReadModel.BaseRefs.Where(b => b.TraceId == _trace.TraceId).ToList();
             baseRefs.Count.Should().Be(1);
-            var sorBytes = await _sut.WcfService.GetSorBytes(baseRefs[0].SorFileId);
+            var sorBytes = await _sut.WcfServiceForClient.GetSorBytes(baseRefs[0].SorFileId);
             var otdrDataKnownBlocks = SorData.FromBytes(sorBytes);
 
             otdrDataKnownBlocks.LinkParameters.LandmarkBlocks[3].Location.Should().NotBe(_closureLocation);
@@ -127,7 +127,7 @@ namespace Graph.Tests
         public void ThenМеняетсяТипИНазваниеОриентира()
         {
             var sorFileId = _sut.ReadModel.BaseRefs.First(b => b.Id == _trace.PreciseId).SorFileId;
-            var sorbBytes = _sut.WcfService.GetSorBytes(sorFileId).Result;
+            var sorbBytes = _sut.WcfServiceForClient.GetSorBytes(sorFileId).Result;
             var sorData = SorData.FromBytes(sorbBytes);
 
             sorData.LinkParameters.LandmarkBlocks[5].Comment.Should().Be($@"{NodeNewTitle} / {EquipmentNewTitle}");

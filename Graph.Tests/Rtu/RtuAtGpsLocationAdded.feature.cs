@@ -74,16 +74,26 @@ namespace Graph.Tests.Rtu
         [Xunit.FactAttribute(DisplayName="Добавление РТУ")]
         [Xunit.TraitAttribute("FeatureTitle", "RtuAddedAtGpsLocation")]
         [Xunit.TraitAttribute("Description", "Добавление РТУ")]
-        [Xunit.TraitAttribute("Category", "mytag")]
         public virtual void ДобавлениеРТУ()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление РТУ", new string[] {
-                        "mytag"});
-#line 5
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление РТУ", ((string[])(null)));
+#line 3
 this.ScenarioSetup(scenarioInfo);
-#line 6
+#line 4
+ testRunner.Given("На сервере применена демо лицензия с одним RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 5
  testRunner.When("Пользователь кликает добавить РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 7
+#line 6
+ testRunner.Then("Новый РТУ сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 8
+ testRunner.When("Пользователь кликает добавить РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 9
+ testRunner.Then("Выдается сообщение о превышеном лимите", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 11
+ testRunner.When("На сервере применена другая лицензия с двумя RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 12
+ testRunner.When("Пользователь кликает добавить РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 13
  testRunner.Then("Новый РТУ сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

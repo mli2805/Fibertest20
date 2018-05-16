@@ -126,7 +126,7 @@ namespace Graph.Tests
         public void ThenУСохраненныхНаСервереБазовыхТретийОриентирИмеетИмяПоследнийУзелДрИТипДругое(string p0)
         {
             var sorFileId = _sut.ReadModel.BaseRefs.First(b=>b.Id == _trace.PreciseId).SorFileId;
-            var sorbBytes = _sut.WcfService.GetSorBytes(sorFileId).Result;
+            var sorbBytes = _sut.WcfServiceForClient.GetSorBytes(sorFileId).Result;
             var sorData = SorData.FromBytes(sorbBytes);
 
             sorData.LinkParameters.LandmarkBlocks[2].Comment.Should().Be(p0);

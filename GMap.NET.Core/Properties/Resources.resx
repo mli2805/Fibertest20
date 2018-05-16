@@ -174,4 +174,7 @@ END;</value>
   <data name="SID_RTU_initialized_successfully" xml:space="preserve">
     <value>RTU initialized successfully</value>
   </data>
+  <data name="SID_Exceeded_the_number_of_RTU_for_an_existing_license" xml:space="preserve">
+    <value>Exceeded the number of RTU for an existing license</value>
+  </data>
 </root>

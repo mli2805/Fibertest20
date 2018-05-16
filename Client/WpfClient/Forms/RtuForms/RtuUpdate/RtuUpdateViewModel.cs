@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWindowManager _windowManager;
         private bool _isInCreationMode;
 
         private string _title;
@@ -61,11 +62,12 @@ namespace Iit.Fibertest.Client
         }
         public GpsInputViewModel GpsInputViewModel { get; set; }
 
-        public RtuUpdateViewModel(ILifetimeScope globalScope, Model readModel, IWcfServiceForClient c2DWcfManager)
+        public RtuUpdateViewModel(ILifetimeScope globalScope, Model readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
+            _windowManager = windowManager;
         }
 
         public void Initialize(Guid rtuId)
@@ -118,7 +120,13 @@ namespace Iit.Fibertest.Client
                 Title = Title,
                 Comment = Comment,
             };
-            await _c2DWcfManager.SendCommandAsObj(cmd);
+            var result = await _c2DWcfManager.SendCommandAsObj(cmd);
+            if (result != null)
+            {
+                var mb = new MyMessageBoxViewModel(MessageType.Error, result);
+                _windowManager.ShowDialogWithAssignedOwner(mb);
+                TryClose();
+            }
         }
 
         private async Task UpdateRtu()

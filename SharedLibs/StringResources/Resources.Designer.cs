@@ -1818,6 +1818,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exceeded the number of RTU for an existing license.
+        /// </summary>
+        public static string SID_Exceeded_the_number_of_RTU_for_an_existing_license {
+            get {
+                return ResourceManager.GetString("SID_Exceeded_the_number_of_RTU_for_an_existing_license", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exclude equipment from trace.
         /// </summary>
         public static string SID_Exclude_equipment_from_trace {

@@ -31,7 +31,7 @@ namespace Graph.Tests
 
         public AccidentsFromSorExtractor AccidentsFromSorExtractor { get; set; }
         public MsmqHandler MsmqHandler { get; }
-        public WcfServiceForClient WcfService { get; set; }
+        public WcfServiceForClient WcfServiceForClient { get; set; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
 
         public const string NewTitleForTest = "New name for old equipment";
@@ -72,7 +72,9 @@ namespace Graph.Tests
             vm.Login();
             ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
             ReadModel.Users.Count.Should().Be(5);
+            WcfServiceForClient.SendCommandAsObj(new ApplyLicense(){RtuCount = 2, ClientStationCount = 2}).Wait();
         }
+
 
         private void ResolveClientsPartsOnStart()
         {
@@ -88,7 +90,7 @@ namespace Graph.Tests
             TreeOfRtuViewModel = ClientScope.Resolve<TreeOfRtuViewModel>();
             AccidentsFromSorExtractor = ClientScope.Resolve<AccidentsFromSorExtractor>();
 
-            WcfService = (WcfServiceForClient) ClientScope.Resolve<IWcfServiceForClient>();
+            WcfServiceForClient = (WcfServiceForClient) ClientScope.Resolve<IWcfServiceForClient>();
         }
 
         public void RestartClient()

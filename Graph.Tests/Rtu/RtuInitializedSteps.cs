@@ -10,15 +10,10 @@ namespace Graph.Tests
     [Binding]
     public sealed class RtuInitializedSteps
     {
-        private readonly SystemUnderTest _sut;
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private RtuLeaf _rtuLeaf;
         private Iit.Fibertest.Graph.Rtu _rtu;
         private string _mainAddress, _reserveAddress;
-
-        public RtuInitializedSteps(SystemUnderTest sut)
-        {
-            _sut = sut;
-        }
 
         [Given(@"Существует RTU с основным (.*) и резервным (.*) адресами")]
         public void GivenСуществуетRTUСОсновным_ИРезервным_Адресами(string p0, string p1)

@@ -95,6 +95,15 @@ namespace GMap.NET.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exceeded the number of RTU for an existing license.
+        /// </summary>
+        internal static string SID_Exceeded_the_number_of_RTU_for_an_existing_license {
+            get {
+                return ResourceManager.GetString("SID_Exceeded_the_number_of_RTU_for_an_existing_license", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manual.
         /// </summary>
         internal static string SID_Manual {

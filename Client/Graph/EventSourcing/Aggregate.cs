@@ -88,7 +88,7 @@ namespace Iit.Fibertest.Graph
         private string Validate(AddRtuAtGpsLocation cmd)
         {
             if (_writeModel.License.RtuCount <= _writeModel.Rtus.Count)
-                return "RTU count limit for license is exceeded";
+                return Resources.SID_Exceeded_the_number_of_RTU_for_an_existing_license;
             return _eventsQueue.Add(Mapper.Map<RtuAtGpsLocationAdded>(cmd));
         }
         private string Validate(RemoveNode cmd)
