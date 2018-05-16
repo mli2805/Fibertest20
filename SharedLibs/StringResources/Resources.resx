@@ -1802,4 +1802,16 @@ RTU is initializing right now!</value>
 	<data name="SID_About" xml:space="preserve">
     <value>About</value>
   </data>
+	<data name="SID_License" xml:space="preserve">
+    <value>License</value>
+  </data>
+	<data name="SID_I_have_a_license_file" xml:space="preserve">
+    <value>I have a license file</value>
+  </data>
+	<data name="SID_License_owner" xml:space="preserve">
+    <value>License owner</value>
+  </data>
+	<data name="SID_Maximum_Rtu_Count" xml:space="preserve">
+    <value>Maximum RTU count</value>
+  </data>
 </root>

@@ -1802,4 +1802,16 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_About" xml:space="preserve">
 		<value>О программе</value>
 	</data>
+	<data name="SID_License" xml:space="preserve">
+		<value>Лицензия</value>
+	</data>
+	<data name="SID_I_have_a_license_file" xml:space="preserve">
+		<value>Применить лицензию</value>
+	</data>
+	<data name="SID_License_owner" xml:space="preserve">
+		<value>Владелец лицензии</value>
+	</data>
+	<data name="SID_Maximum_Rtu_Count" xml:space="preserve">
+		<value>Максимальное количество RTU</value>
+	</data>
 </root>

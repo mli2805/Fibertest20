@@ -42,6 +42,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<BaseRefModelFactory>();
             builder.RegisterType<TraceStatisticsViewModel>();
 
+            builder.RegisterType<LicenseViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<MainMenuViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<ShellViewModel>().As<IShell>();
             builder.RegisterType<OtauToAttachViewModel>().InstancePerLifetimeScope();

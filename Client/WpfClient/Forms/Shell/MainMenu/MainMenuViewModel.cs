@@ -56,5 +56,11 @@ namespace Iit.Fibertest.Client
             var vm = _globalScope.Resolve<ConfigurationViewModel>();
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
+
+        public void LaunchLicenseView()
+        {
+            var vm = _globalScope.Resolve<LicenseViewModel>();
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
     }
 }

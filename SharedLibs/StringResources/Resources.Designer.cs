@@ -2052,6 +2052,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I have a license file.
+        /// </summary>
+        public static string SID_I_have_a_license_file {
+            get {
+                return ResourceManager.GetString("SID_I_have_a_license_file", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to If you need to continue, press &lt;Step backward&gt;..
         /// </summary>
         public static string SID_If_you_need_to_continue__press__Step_backward_ {
@@ -2367,6 +2376,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to License.
+        /// </summary>
+        public static string SID_License {
+            get {
+                return ResourceManager.GetString("SID_License", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to License owner.
+        /// </summary>
+        public static string SID_License_owner {
+            get {
+                return ResourceManager.GetString("SID_License_owner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In service.
         /// </summary>
         public static string SID_Light_OF {
@@ -2471,6 +2498,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Manual_mode {
             get {
                 return ResourceManager.GetString("SID_Manual_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Maximum RTU count.
+        /// </summary>
+        public static string SID_Maximum_Rtu_Count {
+            get {
+                return ResourceManager.GetString("SID_Maximum_Rtu_Count", resourceCulture);
             }
         }
         

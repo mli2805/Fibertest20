@@ -202,6 +202,10 @@
       <DependentUpon>ConfigurationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\AdministrativeForms\ConfigurationViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\LicenseView.xaml.cs">
+      <DependentUpon>LicenseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AdministrativeForms\LicenseViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\ObjectsToZones\BoolWithNotification.cs" />
     <Compile Include="Forms\AdministrativeForms\ObjectsToZones\ObjectsAsTreeToZonesViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\ObjectsToZones\ObjectToZonesModel.cs" />
@@ -569,6 +573,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\AdministrativeForms\ConfigurationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\AdministrativeForms\LicenseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
