@@ -19,16 +19,22 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
+        public string ApplyLicense(LicenseApplied e)
+        {
+            _model.License = Mapper.Map<License>(e);
+            return null;
+        }
+
         public string UpdateUser(UserUpdated source)
         {
-            var destination =  _model.Users.First(f => f.UserId == source.UserId);
+            var destination = _model.Users.First(f => f.UserId == source.UserId);
             Mapper.Map(source, destination);
             return null;
         }
 
         public string RemoveUser(UserRemoved e)
         {
-            _model.Users.Remove( _model.Users.First(f => f.UserId == e.UserId));
+            _model.Users.Remove(_model.Users.First(f => f.UserId == e.UserId));
             return null;
         }
     }

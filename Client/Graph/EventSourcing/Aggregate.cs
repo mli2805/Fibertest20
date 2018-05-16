@@ -57,7 +57,7 @@ namespace Iit.Fibertest.Graph
                 case IncludeEquipmentIntoTrace command: return _eventsQueue.Add(Mapper.Map<EquipmentIntoTraceIncluded>(command));
                 case ExcludeEquipmentFromTrace command: return _eventsQueue.Add(Mapper.Map<EquipmentFromTraceExcluded>(command));
 
-                case AddRtuAtGpsLocation command: return _eventsQueue.Add(Mapper.Map<RtuAtGpsLocationAdded>(command));
+                case AddRtuAtGpsLocation command: return Validate(command);
                 case UpdateRtu command: return _eventsQueue.Add(Mapper.Map<RtuUpdated>(command));
                 case RemoveRtu command: return Validate(command);
                 case AttachOtau command: return _eventsQueue.Add(Mapper.Map<OtauAttached>(command));
@@ -77,6 +77,7 @@ namespace Iit.Fibertest.Graph
                 case StopMonitoring command: return _eventsQueue.Add(Mapper.Map<MonitoringStopped>(command));
                 case AddMeasurement command: return Validate(command);
                 case UpdateMeasurement command: return _eventsQueue.Add(Mapper.Map<MeasurementUpdated>(command));
+                case ApplyLicense command: return _eventsQueue.Add(Mapper.Map<LicenseApplied>(command));
                 case AddNetworkEvent command: return Validate(command);
                 case AddBopNetworkEvent command: return Validate(command);
 
@@ -84,6 +85,12 @@ namespace Iit.Fibertest.Graph
             }
         }
 
+        private string Validate(AddRtuAtGpsLocation cmd)
+        {
+            if (_writeModel.License.RtuCount <= _writeModel.Rtus.Count)
+                return "RTU count limit for license is exceeded";
+            return _eventsQueue.Add(Mapper.Map<RtuAtGpsLocationAdded>(cmd));
+        }
         private string Validate(RemoveNode cmd)
         {
             if (_writeModel.Traces.Any(t => t.NodeIds.Last() == cmd.NodeId))

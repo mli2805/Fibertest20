@@ -4,6 +4,7 @@ namespace Iit.Fibertest.Graph
 {
     public class Model 
     {
+        public License License { get; set; }
         public List<Node> Nodes { get; } = new List<Node>();
         public List<Fiber> Fibers { get; } = new List<Fiber>();
         public List<Equipment> Equipments { get; } = new List<Equipment>();

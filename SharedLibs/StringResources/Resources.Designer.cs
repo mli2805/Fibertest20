@@ -4259,6 +4259,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Simultaneous client connections.
+        /// </summary>
+        public static string SID_Simultaneous_client_connections {
+            get {
+                return ResourceManager.GetString("SID_Simultaneous_client_connections", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to State.
         /// </summary>
         public static string SID_State {

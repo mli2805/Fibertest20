@@ -1814,4 +1814,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Maximum_Rtu_Count" xml:space="preserve">
     <value>Maximum RTU count</value>
   </data>
+	<data name="SID_Simultaneous_client_connections" xml:space="preserve">
+    <value>Simultaneous client connections</value>
+  </data>
 </root>

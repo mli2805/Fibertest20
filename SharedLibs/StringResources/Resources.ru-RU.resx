@@ -1806,12 +1806,15 @@ RTU инициализируется в данный момент!</value>
 		<value>Лицензия</value>
 	</data>
 	<data name="SID_I_have_a_license_file" xml:space="preserve">
-		<value>Применить лицензию</value>
+		<value>Применить файл лицензии</value>
 	</data>
 	<data name="SID_License_owner" xml:space="preserve">
 		<value>Владелец лицензии</value>
 	</data>
 	<data name="SID_Maximum_Rtu_Count" xml:space="preserve">
 		<value>Максимальное количество RTU</value>
+	</data>
+	<data name="SID_Simultaneous_client_connections" xml:space="preserve">
+		<value>Одновременных клиентских подключений</value>
 	</data>
 </root>

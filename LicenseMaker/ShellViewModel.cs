@@ -26,25 +26,12 @@ namespace LicenseMaker
 
         public void LoadFromFile()
         {
-            var encoded = ReadLicenseFromFile();
-            if (encoded == null) return;
-            var license = new LicenseCryptoManager().Decode(encoded);
-            LicenseModel = new LicenseModel(license);
+            var license = new LicenseManager().ReadLicenseFromFile();
+            if (license != null)
+                LicenseModel = new LicenseModel(license);
         }
 
-        private static byte[] ReadLicenseFromFile()
-        {
-            OpenFileDialog dlg = new OpenFileDialog();
-            dlg.DefaultExt = ".lic";
-            dlg.Filter = "License file (.lic)|*.lic";
-            if (dlg.ShowDialog() == true)
-            {
-                string filename = dlg.FileName;
-                return File.ReadAllBytes(filename);
-            }
-            return null;
-        }
-
+       
         public void SaveAsFile()
         {
             var encoded = EncodeLicense();
@@ -74,7 +61,7 @@ namespace LicenseMaker
                 ClientStationCount = LicenseModel.ClientStationCount,
                 SuperClientEnabled = LicenseModel.SuperClientEnabled,
             };
-            return new LicenseCryptoManager().Encode(_license);
+            return new LicenseManager().Encode(_license);
         }
 
         public void Close()

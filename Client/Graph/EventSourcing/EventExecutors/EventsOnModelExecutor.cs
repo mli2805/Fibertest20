@@ -68,6 +68,7 @@
                 case UserAdded evnt: return _userEventsOnModelExecutor.AddUser(evnt); 
                 case UserUpdated evnt: return _userEventsOnModelExecutor.UpdateUser(evnt); 
                 case UserRemoved evnt: return _userEventsOnModelExecutor.RemoveUser(evnt); 
+                case LicenseApplied evnt: return _userEventsOnModelExecutor.ApplyLicense(evnt); 
 
                 case ZoneAdded evnt: return _zoneEventsOnModelExecutor.AddZone(evnt); 
                 case ZoneUpdated evnt: return _zoneEventsOnModelExecutor.UpdateZone(evnt); 
