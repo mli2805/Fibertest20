@@ -3,9 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        Title="AboutView" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        SizeToContent="Height" Width="400" d:DataContext="{d:DesignInstance client:AboutViewModel}">
+    <StackPanel>
+        <client:IitOfficialHeader/>
+        <StackPanel Margin="25,5,5,5">
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Data-center version" Width="120"/>
+                <TextBlock Margin="10,0,0,0" Text="{Binding ServerVersion}" Background="AliceBlue"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Margin="5">
+                <TextBlock Text="Client version"  Width="120"/>
+                <TextBlock Margin="10,0,0,0" Text="{Binding ClientVersion}" Background="AliceBlue"/>
+            </StackPanel>
+            <Button Content="Close" Name="Close" Width="100" Margin="5,15,5,10"/>
+        </StackPanel>
+    </StackPanel>
 </Window>

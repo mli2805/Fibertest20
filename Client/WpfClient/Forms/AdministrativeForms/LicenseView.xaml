@@ -10,14 +10,11 @@
         d:DataContext="{d:DesignInstance client:LicenseViewModel}">
     <StackPanel>
         <client:IitOfficialHeader/>
-        <Border BorderThickness="0,2,0,0" BorderBrush="LightGray" Margin="5,0,5,10"/>
         <DockPanel  Margin="10,0">
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="10,5,5,10" HorizontalAlignment="Center">
                 <Button Name="ApplyLicFile" Content="{x:Static stringResources:Resources.SID_I_have_a_license_file}" Width="180" Margin="5"/>
                 <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Width="80" Margin="5"/>
             </StackPanel>
-
-          
             <StackPanel Margin="5">
                 <TextBlock Text="{x:Static stringResources:Resources.SID_License_owner}" Margin="5,0" HorizontalAlignment="Left"/>
                 <TextBlock Text="{Binding License.Owner}" Margin="5" Background="Azure" HorizontalAlignment="Center"/>

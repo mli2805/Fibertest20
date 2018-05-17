@@ -26,5 +26,8 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public Guid GraphDbVersionId { get; set; }
+
+        [DataMember]
+        public string DatacenterVersion { get; set; }
     }
 }

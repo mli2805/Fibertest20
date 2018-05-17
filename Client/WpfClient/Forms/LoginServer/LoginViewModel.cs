@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
 using Caliburn.Micro;
@@ -19,6 +18,7 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly CurrentUser _currentUser;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
 
         private string _userName;
         public string UserName
@@ -46,10 +46,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public Guid GraphDbVersionOnServer { get; set; }
-
         public LoginViewModel(ILifetimeScope globalScope, IWindowManager windowManager, IniFile iniFile, IMyLog logFile,
-            IWcfServiceForClient c2DWcfManager, CurrentUser currentUser)
+            IWcfServiceForClient c2DWcfManager, CurrentUser currentUser, CurrentDatacenterParameters currentDatacenterParameters)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
@@ -57,25 +55,27 @@ namespace Iit.Fibertest.Client
             _logFile = logFile;
             _c2DWcfManager = c2DWcfManager;
             _currentUser = currentUser;
+            _currentDatacenterParameters = currentDatacenterParameters;
         }
 
-        private void ParseServerAnswer(ClientRegisteredDto dto)
-        {
-            if (dto.ReturnCode == ReturnCode.ClientRegisteredSuccessfully)
+        private void ParseServerAnswer(ClientRegisteredDto result)
+    {
+            if (result.ReturnCode == ReturnCode.ClientRegisteredSuccessfully)
             {
-                _currentUser.UserId = dto.UserId;
+                _currentUser.UserId = result.UserId;
                 _currentUser.UserName = UserName;
-                _currentUser.Role = dto.Role;
-                _currentUser.ZoneId = dto.ZoneId;
-                _currentUser.ZoneTitle = dto.ZoneTitle;
-                GraphDbVersionOnServer = dto.GraphDbVersionId;
+                _currentUser.Role = result.Role;
+                _currentUser.ZoneId = result.ZoneId;
+                _currentUser.ZoneTitle = result.ZoneTitle;
+                _currentDatacenterParameters.DatacenterVersion = result.DatacenterVersion;
+                _currentDatacenterParameters.GraphDbVersionId = result.GraphDbVersionId;
                 _logFile.AppendLine(@"Registered successfully");
                 TryClose(true);
             }
             else
             {
-                _logFile.AppendLine(dto.ReturnCode.ToString());
-                Status = dto.ReturnCode.GetLocalizedString();
+                _logFile.AppendLine(result.ReturnCode.ToString());
+                Status = result.ReturnCode.GetLocalizedString();
             }
         }
 

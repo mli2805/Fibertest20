@@ -10,8 +10,6 @@
         d:DataContext="{d:DesignInstance client:ServersConnectViewModel}">
     <StackPanel>
         <client:IitOfficialHeader></client:IitOfficialHeader>
-        <Border BorderThickness="0,2,0,0" BorderBrush="LightGray" Margin="5,0,5,10"/>
-
         <StackPanel  Margin="30,0">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <ComboBox Width="190" Margin="66,0,5,0" ItemsSource="{Binding Servers}" 

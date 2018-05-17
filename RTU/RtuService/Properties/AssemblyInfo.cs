@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("IIT")]
 [assembly: AssemblyProduct("RTU Service")]
-[assembly: AssemblyCopyright("Copyright © IIT Minsk 2017")]
+[assembly: AssemblyCopyright("Copyright © IIT Minsk 2017-2018")]
 [assembly: AssemblyTrademark("Fibertest TM")]
 [assembly: AssemblyCulture("")]
 
@@ -32,4 +32,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
 [assembly: AssemblyVersion("2.0.0.0")]
-[assembly: AssemblyFileVersion("2.0.1.0")]
+[assembly: AssemblyFileVersion("2.0.1.1")]

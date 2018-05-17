@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -45,70 +46,88 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        private async Task<ClientRegisteredDto> RegisterClientStation(RegisterClientDto dto, User user)
+        private ClientRegisteredDto ExceededNumber()
+        {
+            _logFile.AppendLine("Exceeded the number of clients registered simultaneously");
+            return new ClientRegisteredDto(){ReturnCode = ReturnCode.ExceededNumberOfClients};
+        }
+
+        private ClientRegisteredDto TheSameUser(string username)
+        {
+            _logFile.AppendLine($"User {username} registered on another PC");
+            return new ClientRegisteredDto() { ReturnCode = ReturnCode.ThisUserRegisteredOnAnotherPc };
+        }
+
+        private async Task ReRegister(FtDbContext dbContext, RegisterClientDto dto, ClientStation station, User user)
+        {
+            station.UserId = user.UserId;
+            station.UserName = dto.UserName;
+            station.LastConnectionTimestamp = DateTime.Now;
+            await dbContext.SaveChangesAsync();
+            _logFile.AppendLine($"Station {dto.ClientId.First6()} was registered already. Re-registered.");
+        }
+
+        private async Task RegisterNew(FtDbContext dbContext, RegisterClientDto dto, User user)
+        {
+            var station = new ClientStation()
+            {
+                UserId = user.UserId,
+                UserName = dto.UserName,
+                ClientGuid = dto.ClientId,
+                ClientAddress = dto.Addresses.Main.GetAddress(),
+                ClientAddressPort = dto.Addresses.Main.Port,
+                LastConnectionTimestamp = DateTime.Now,
+            };
+            dbContext.ClientStations.Add(station);
+            await dbContext.SaveChangesAsync();
+            if (!dto.IsHeartbeat)
+                _logFile.AppendLine($"Client station {dto.ClientId.First6()} registered");
+        }
+
+        private ClientRegisteredDto FillInSuccessfulResult(User user)
         {
             var result = new ClientRegisteredDto();
+            result.UserId = user.UserId;
+            result.Role = user.Role;
+            var zone = _writeModel.Zones.First(z => z.ZoneId == user.ZoneId);
+            result.ZoneId = zone.ZoneId;
+            result.ZoneTitle = zone.Title;
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            result.DatacenterVersion = fvi.FileVersion;
+            result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
+            return result;
+        }
+
+        private async Task<ClientRegisteredDto> RegisterClientStation(RegisterClientDto dto, User user)
+        {
             try
             {
                 using (var dbContext = new FtDbContext(_settings.Options))
                 {
                     if (dbContext.ClientStations.Count() >= _writeModel.License.ClientStationCount)
-                    {
-                        _logFile.AppendLine("Exceeded the number of clients registered simultaneously");
-                        result.ReturnCode = ReturnCode.ExceededNumberOfClients;
-                        return result;
-                    }
-
+                        return ExceededNumber();
                     if (dbContext.ClientStations.Any(s => s.UserId == user.UserId && s.ClientGuid != dto.ClientId))
-                    {
-                        _logFile.AppendLine($"User {dto.UserName} registered on another PC");
-                        result.ReturnCode = ReturnCode.ThisUserRegisteredOnAnotherPc;
-                        return result;
-                    }
-
+                        return TheSameUser(dto.UserName);
                   
                     var station = dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
                     if (station != null)
-                    {
-                        station.UserId = user.UserId;
-                        station.UserName = dto.UserName;
-                        station.LastConnectionTimestamp = DateTime.Now;
-                        await dbContext.SaveChangesAsync();
-                        _logFile.AppendLine($"Station {dto.ClientId.First6()} was registered already. Re-registered.");
-                    }
+                        await ReRegister(dbContext, dto, station, user);
                     else
-                    {
-                        station = new ClientStation()
-                        {
-                            UserId = user.UserId,
-                            UserName = dto.UserName,
-                            ClientGuid = dto.ClientId,
-                            ClientAddress = dto.Addresses.Main.GetAddress(),
-                            ClientAddressPort = dto.Addresses.Main.Port,
-                            LastConnectionTimestamp = DateTime.Now,
-                        };
-                        dbContext.ClientStations.Add(station);
-                        await dbContext.SaveChangesAsync();
-                        if (!dto.IsHeartbeat)
-                            _logFile.AppendLine($"Client station {dto.ClientId.First6()} registered");
-                    }
+                        await RegisterNew(dbContext, dto, user);
 
                     _logFile.AppendLine($"There are {dbContext.ClientStations.Count()} client(s)");
-                    result.UserId = user.UserId;
-                    result.Role = user.Role;
-                    var zone = _writeModel.Zones.First(z => z.ZoneId == user.ZoneId);
-                    result.ZoneId = zone.ZoneId;
-                    result.ZoneTitle = zone.Title;
-                    result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
-                    return result;
+                    return FillInSuccessfulResult(user);
                 }
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("RegisterClientStation:" + e.Message);
-                result.ReturnCode = ReturnCode.DbError;
-                result.ExceptionMessage = e.Message;
-                return result;
+                return new ClientRegisteredDto
+                {
+                    ReturnCode = ReturnCode.DbError,
+                    ExceptionMessage = e.Message
+                };
             }
         }
 

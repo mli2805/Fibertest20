@@ -5006,6 +5006,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User operations log.
+        /// </summary>
+        public static string SID_User_operations_log {
+            get {
+                return ResourceManager.GetString("SID_User_operations_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User&apos;s.
         /// </summary>
         public static string SID_User_s {

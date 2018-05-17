@@ -4,7 +4,7 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
-    public class CurrentGpsInputMode :PropertyChangedBase
+    public class CurrentGpsInputMode : PropertyChangedBase
     {
         private readonly IniFile _iniFile;
         private GpsInputMode _mode;

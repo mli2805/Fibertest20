@@ -1826,4 +1826,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Event_log" xml:space="preserve">
     <value>Event log</value>
   </data>
+	<data name="SID_User_operations_log" xml:space="preserve">
+    <value>User operations log</value>
+  </data>
 </root>

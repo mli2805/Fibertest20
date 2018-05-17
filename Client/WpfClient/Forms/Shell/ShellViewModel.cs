@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly ClientPoller _clientPoller;
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly IClientWcfServiceHost _host;
         private readonly ILifetimeScope _globalScope;
         private readonly IWcfServiceForClient _c2DWcfManager;
@@ -34,7 +35,8 @@ namespace Iit.Fibertest.Client
         public NetworkEventsDoubleViewModel NetworkEventsDoubleViewModel { get; }
         public BopNetworkEventsDoubleViewModel BopNetworkEventsDoubleViewModel { get; }
 
-        public ShellViewModel(ILifetimeScope globalScope, IMyLog logFile, CurrentUser currentUser, IClientWcfServiceHost host,
+        public ShellViewModel(ILifetimeScope globalScope, IMyLog logFile, CurrentUser currentUser, 
+            CurrentDatacenterParameters currentDatacenterParameters, IClientWcfServiceHost host,
             GraphReadModel graphReadModel, IWcfServiceForClient c2DWcfManager, ILocalDbManager localDbManager, IWindowManager windowManager,
             LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, StoredEventsLoader storedEventsLoader, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
@@ -62,6 +64,7 @@ namespace Iit.Fibertest.Client
             _clientPoller = clientPoller;
             _logFile = logFile;
             _currentUser = currentUser;
+            _currentDatacenterParameters = currentDatacenterParameters;
             _host = host;
         }
 
@@ -115,7 +118,7 @@ namespace Iit.Fibertest.Client
         {
             using (_globalScope.Resolve<IWaitCursor>())
             {
-                _localDbManager.Initialize(_loginViewModel.GraphDbVersionOnServer);
+                _localDbManager.Initialize(_currentDatacenterParameters.GraphDbVersionId);
                 _clientPoller.CurrentEventNumber = await _storedEventsLoader.Load();
             }
         }
