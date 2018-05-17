@@ -16,11 +16,12 @@
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Change_password}" cal:Message.Attach="LaunchChangePasswordView"/>
             </MenuItem>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Configuration}" cal:Message.Attach="LaunchConfigurationView"/>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Event_log}" cal:Message.Attach="LaunchEventLogView"/>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Help}">
                 <MenuItem Header="Help me!"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_License}" cal:Message.Attach="LaunchLicenseView"/>
                 <Separator/>
-                <MenuItem Header="{x:Static stringResources:Resources.SID_About}"/>
+                <MenuItem Header="{x:Static stringResources:Resources.SID_About}" cal:Message.Attach="LaunchAboutView"/>
             </MenuItem>
         </Menu>
     </Grid>

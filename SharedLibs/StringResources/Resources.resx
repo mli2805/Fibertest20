@@ -1823,4 +1823,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Exceeded_the_number_of_clients_registered_simultaneously" xml:space="preserve">
     <value>Exceeded the number of clients registered simultaneously</value>
   </data>
+	<data name="SID_Event_log" xml:space="preserve">
+    <value>Event log</value>
+  </data>
 </root>

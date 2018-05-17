@@ -52,13 +52,6 @@ namespace Iit.Fibertest.DatabaseLibrary
             {
                 using (var dbContext = new FtDbContext(_settings.Options))
                 {
-                    if (dbContext.ClientStations.Any(s => s.UserId == user.UserId && s.ClientGuid != dto.ClientId))
-                    {
-                        _logFile.AppendLine($"User {dto.UserName} registered on another PC");
-                        result.ReturnCode = ReturnCode.ThisUserRegisteredOnAnotherPc;
-                        return result;
-                    }
-
                     if (dbContext.ClientStations.Count() >= _writeModel.License.ClientStationCount)
                     {
                         _logFile.AppendLine("Exceeded the number of clients registered simultaneously");
@@ -66,6 +59,14 @@ namespace Iit.Fibertest.DatabaseLibrary
                         return result;
                     }
 
+                    if (dbContext.ClientStations.Any(s => s.UserId == user.UserId && s.ClientGuid != dto.ClientId))
+                    {
+                        _logFile.AppendLine($"User {dto.UserName} registered on another PC");
+                        result.ReturnCode = ReturnCode.ThisUserRegisteredOnAnotherPc;
+                        return result;
+                    }
+
+                  
                     var station = dbContext.ClientStations.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
                     if (station != null)
                     {

@@ -194,10 +194,18 @@
     <Compile Include="EventSourcing\StoredEventsLoader.cs" />
     <Compile Include="EventSourcing\Rendering\RenderingApplier.cs" />
     <Compile Include="EventSourcing\Rendering\RenderingResult.cs" />
-    <Compile Include="Forms\AdministrativeForms\ChangePasswordView.xaml.cs">
+    <Compile Include="Forms\AdministrativeForms\AboutView.xaml.cs">
+      <DependentUpon>AboutView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AdministrativeForms\AboutViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\EventLogView.xaml.cs">
+      <DependentUpon>EventLogView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AdministrativeForms\EventLogViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\Users\ChangePasswordView.xaml.cs">
       <DependentUpon>ChangePasswordView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AdministrativeForms\ChangePasswordViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\Users\ChangePasswordViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\ConfigurationView.xaml.cs">
       <DependentUpon>ConfigurationView.xaml</DependentUpon>
     </Compile>
@@ -218,6 +226,9 @@
       <DependentUpon>GpsInputSmallView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Controls\GpsInputControl\GpsInputSmallViewModel.cs" />
+    <Compile Include="Forms\Controls\IitOfficialHeader.xaml.cs">
+      <DependentUpon>IitOfficialHeader.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Forms\EquipmentAddUpdate\EquipmentInfoModel.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\ViewMode.cs" />
     <Compile Include="Forms\AdministrativeForms\ObjectsToZones\ObjectsAsTreeToZonesView.xaml.cs">
@@ -568,7 +579,15 @@
     <Compile Include="Forms\AdministrativeForms\Users\UserListView.xaml.cs">
       <DependentUpon>UserListView.xaml</DependentUpon>
     </Compile>
-    <Page Include="Forms\AdministrativeForms\ChangePasswordView.xaml">
+    <Page Include="Forms\AdministrativeForms\AboutView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\AdministrativeForms\EventLogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\AdministrativeForms\Users\ChangePasswordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -585,6 +604,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Controls\GpsInputControl\GpsInputSmallView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Controls\IitOfficialHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

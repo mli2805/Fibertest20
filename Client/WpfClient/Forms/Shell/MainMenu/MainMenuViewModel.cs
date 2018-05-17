@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private CurrentUser _currentUser;
 
-      
+
         public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager, Model readModel)
         {
             _globalScope = globalScope;
@@ -57,9 +57,21 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
+        public void LaunchEventLogView()
+        {
+            var vm = _globalScope.Resolve<EventLogViewModel>();
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
         public void LaunchLicenseView()
         {
             var vm = _globalScope.Resolve<LicenseViewModel>();
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
+        public void LaunchAboutView()
+        {
+            var vm = _globalScope.Resolve<AboutViewModel>();
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
     }
