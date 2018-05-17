@@ -3,10 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        Title="EventLogView" Height="450" Width="800">
+        Title="EventLogView" Height="450" Width="800" d:DataContext="{d:DesignInstance client:EventLogViewModel}">
     <DockPanel>
-        <DataGrid IsReadOnly="True">
+        <StackPanel DockPanel.Dock="Bottom" Height="40">
+            <Button Content="Close" Name="Close" Width="100" Margin="10" HorizontalAlignment="Right"/>
+        </StackPanel>
+        <DataGrid ItemsSource="{Binding Rows}" IsReadOnly="True">
 
         </DataGrid>
     </DockPanel>

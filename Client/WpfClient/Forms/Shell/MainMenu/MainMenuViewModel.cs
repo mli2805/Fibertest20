@@ -57,9 +57,10 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
-        public void LaunchEventLogView()
+        public async void LaunchEventLogView()
         {
             var vm = _globalScope.Resolve<EventLogViewModel>();
+            await vm.Initialize();
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 

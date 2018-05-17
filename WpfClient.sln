@@ -87,7 +87,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RtuWcfServiceInterface", "R
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DatabaseLibrary", "Server\DatabaseLibrary\DatabaseLibrary.csproj", "{84EDD696-9478-4CDC-ABD1-E4C83A764072}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LicenseMaker", "LicenseMaker\LicenseMaker.csproj", "{81DC7363-7379-4C23-8970-3CFEE77DB44C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LicenseMaker", "Client\LicenseMaker\LicenseMaker.csproj", "{81DC7363-7379-4C23-8970-3CFEE77DB44C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

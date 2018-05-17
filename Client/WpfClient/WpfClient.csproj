@@ -185,6 +185,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClientHeartbeat.cs" />
+    <Compile Include="Forms\AdministrativeForms\EventLog\LogLine.cs" />
     <Compile Include="GlobalVars\CurrentDatacenterParameters.cs" />
     <Compile Include="GlobalVars\CurrentlyHiddenRtu.cs" />
     <Compile Include="GlobalVars\CurrentUser.cs" />
@@ -199,10 +200,10 @@
       <DependentUpon>AboutView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\AdministrativeForms\AboutViewModel.cs" />
-    <Compile Include="Forms\AdministrativeForms\EventLogView.xaml.cs">
+    <Compile Include="Forms\AdministrativeForms\EventLog\EventLogView.xaml.cs">
       <DependentUpon>EventLogView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AdministrativeForms\EventLogViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\EventLog\EventLogViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\Users\ChangePasswordView.xaml.cs">
       <DependentUpon>ChangePasswordView.xaml</DependentUpon>
     </Compile>
@@ -584,7 +585,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\AdministrativeForms\EventLogView.xaml">
+    <Page Include="Forms\AdministrativeForms\EventLog\EventLogView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
