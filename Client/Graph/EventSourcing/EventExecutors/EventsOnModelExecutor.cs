@@ -34,6 +34,9 @@
         {
             switch (e)
             {
+                case ClientStationRegistered _: return null;
+                case ClientStationUnregistered _: return null;
+
                 case NodeIntoFiberAdded evnt: return _nodeEventsOnModelExecutor.AddNodeIntoFiber(evnt);
                 case NodeUpdated evnt: return _nodeEventsOnModelExecutor.UpdateNode(evnt); 
                 case NodeUpdatedAndMoved evnt: return _nodeEventsOnModelExecutor.UpdateAndMoveNode(evnt); 

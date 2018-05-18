@@ -8,6 +8,10 @@ namespace Iit.Fibertest.Dto
     {
         [DataMember]
         public Guid ClientId { get; set; }
+        [DataMember]
+        public string Username { get; set; }
+        [DataMember]
+        public string ClientIp { get; set; }
 
         [DataMember]
         public DoubleAddress Addresses { get; set; }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Newtonsoft.Json;
@@ -10,11 +9,6 @@ using NEventStore;
 
 namespace Iit.Fibertest.Client
 {
-    public class EventToLogLineParser
-    {
-        public LogLine Parse(RtuAtGpsLocationAdded e) { return new LogLine() { OperationName = @"RTU added", RtuTitle = e.Title }; }
-        public LogLine Parse(BaseRefAssigned e) { return new LogLine() { OperationName = @"Base ref assigned", OperationParams = e.TraceId.First6() }; }
-    }
     public class EventLogViewModel : Screen
     {
         private readonly ILocalDbManager _localDbManager;
@@ -33,6 +27,7 @@ namespace Iit.Fibertest.Client
 
         public async Task Initialize()
         {
+            _eventToLogLineParser.Initialize();
             var jsonsInCache = await _localDbManager.LoadEvents();
             var ordinal = 1;
             foreach (var json in jsonsInCache)
@@ -57,7 +52,23 @@ namespace Iit.Fibertest.Client
             switch (body)
             {
                 case RtuAtGpsLocationAdded evnt: return _eventToLogLineParser.Parse(evnt);
+                case RtuUpdated evnt: return _eventToLogLineParser.Parse(evnt);
+                case RtuInitialized evnt: return _eventToLogLineParser.Parse(evnt);
+
+                case TraceAdded evnt: return _eventToLogLineParser.Parse(evnt);
+                case TraceUpdated evnt: return _eventToLogLineParser.Parse(evnt);
+                case TraceAttached evnt: return _eventToLogLineParser.Parse(evnt);
+                case TraceDetached evnt: return _eventToLogLineParser.Parse(evnt);
+                case TraceCleaned evnt: return _eventToLogLineParser.Parse(evnt);
+                case TraceRemoved evnt: return _eventToLogLineParser.Parse(evnt);
                 case BaseRefAssigned evnt: return _eventToLogLineParser.Parse(evnt);
+
+                case MonitoringSettingsChanged evnt: return _eventToLogLineParser.Parse(evnt);
+                case MonitoringStopped evnt: return _eventToLogLineParser.Parse(evnt);
+
+                case ClientStationRegistered evnt: return _eventToLogLineParser.Parse(evnt);
+                case ClientStationUnregistered evnt: return _eventToLogLineParser.Parse(evnt);
+                //    default: return new LogLine(){OperationName = body.GetType().Name};
                 default: return null;
             }
         }

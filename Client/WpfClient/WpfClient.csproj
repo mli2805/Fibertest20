@@ -185,6 +185,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClientHeartbeat.cs" />
+    <Compile Include="Forms\AdministrativeForms\EventLog\EventToLogLineParser.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\LogLine.cs" />
     <Compile Include="GlobalVars\CurrentDatacenterParameters.cs" />
     <Compile Include="GlobalVars\CurrentlyHiddenRtu.cs" />

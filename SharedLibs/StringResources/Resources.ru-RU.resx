@@ -1829,4 +1829,46 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_User_operations_log" xml:space="preserve">
 		<value>Журнал операций пользователя</value>
 	</data>
+	<data name="SID_RTU_added" xml:space="preserve">
+		<value>RTU добавлен</value>
+	</data>
+	<data name="SID_RTU_updated" xml:space="preserve">
+		<value>RTU изменен</value>
+	</data>
+	<data name="SID_Trace_added" xml:space="preserve">
+		<value>Трасса добавлена</value>
+	</data>
+	<data name="SID_Trace_updated" xml:space="preserve">
+		<value>Трасса изменена</value>
+	</data>
+	<data name="SID_Trace_attached" xml:space="preserve">
+		<value>Трасса присоединена</value>
+	</data>
+	<data name="SID_Monitoring_settings_changed" xml:space="preserve">
+		<value>Настройки мониторинга изменены</value>
+	</data>
+	<data name="SID_Monitoring_stopped" xml:space="preserve">
+		<value>Мониторинг остановлен</value>
+	</data>
+	<data name="SID_Base_ref_assigned" xml:space="preserve">
+		<value>Базовая задана</value>
+	</data>
+	<data name="SID_Client_started" xml:space="preserve">
+		<value>Клиент запущен</value>
+	</data>
+	<data name="SID_Client_exited" xml:space="preserve">
+		<value>Клиент закрыт</value>
+	</data>
+	<data name="SID_Trace_removed" xml:space="preserve">
+		<value>Трасса удалена</value>
+	</data>
+	<data name="SID_Trace_cleaned" xml:space="preserve">
+		<value>Трасса очищена</value>
+	</data>
+	<data name="SID_Trace_detached" xml:space="preserve">
+		<value>Трасса отсоединена</value>
+	</data>
+	<data name="SID_RTU_initialized2" xml:space="preserve">
+		<value>RTU инициализирован</value>
+	</data>
 </root>

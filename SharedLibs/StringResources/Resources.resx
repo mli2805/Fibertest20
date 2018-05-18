@@ -1829,4 +1829,46 @@ RTU is initializing right now!</value>
 	<data name="SID_User_operations_log" xml:space="preserve">
     <value>User operations log</value>
   </data>
+	<data name="SID_RTU_added" xml:space="preserve">
+    <value>RTU added</value>
+  </data>
+	<data name="SID_RTU_updated" xml:space="preserve">
+    <value>RTU updated</value>
+  </data>
+	<data name="SID_Trace_added" xml:space="preserve">
+    <value>Trace added</value>
+  </data>
+	<data name="SID_Trace_updated" xml:space="preserve">
+    <value>Trace updated</value>
+  </data>
+	<data name="SID_Trace_attached" xml:space="preserve">
+    <value>Trace attached</value>
+  </data>
+	<data name="SID_Monitoring_settings_changed" xml:space="preserve">
+    <value>Monitoring settings changed</value>
+  </data>
+	<data name="SID_Monitoring_stopped" xml:space="preserve">
+    <value>Monitoring stopped</value>
+  </data>
+	<data name="SID_Base_ref_assigned" xml:space="preserve">
+    <value>Base ref assigned</value>
+  </data>
+	<data name="SID_Client_started" xml:space="preserve">
+    <value>Client started</value>
+  </data>
+	<data name="SID_Client_exited" xml:space="preserve">
+    <value>Client exited</value>
+  </data>
+	<data name="SID_Trace_removed" xml:space="preserve">
+    <value>Trace removed</value>
+  </data>
+	<data name="SID_Trace_cleaned" xml:space="preserve">
+    <value>Trace cleaned</value>
+  </data>
+	<data name="SID_Trace_detached" xml:space="preserve">
+    <value>Trace detached</value>
+  </data>
+	<data name="SID_RTU_initialized2" xml:space="preserve">
+    <value>RTU initialized</value>
+  </data>
 </root>

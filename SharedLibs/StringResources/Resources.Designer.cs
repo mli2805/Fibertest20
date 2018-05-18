@@ -683,6 +683,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Base ref assigned.
+        /// </summary>
+        public static string SID_Base_ref_assigned {
+            get {
+                return ResourceManager.GetString("SID_Base_ref_assigned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Base ref assigned successfully: {0}.
         /// </summary>
         public static string SID_Base_ref_assigned_successfully___0_ {
@@ -1115,11 +1124,29 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Client exited.
+        /// </summary>
+        public static string SID_Client_exited {
+            get {
+                return ResourceManager.GetString("SID_Client_exited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client registraion is performing.
         /// </summary>
         public static string SID_Client_registraion_is_performing {
             get {
                 return ResourceManager.GetString("SID_Client_registraion_is_performing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client started.
+        /// </summary>
+        public static string SID_Client_started {
+            get {
+                return ResourceManager.GetString("SID_Client_started", resourceCulture);
             }
         }
         
@@ -2763,11 +2790,29 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monitoring settings changed.
+        /// </summary>
+        public static string SID_Monitoring_settings_changed {
+            get {
+                return ResourceManager.GetString("SID_Monitoring_settings_changed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monitoring started: {0}.
         /// </summary>
         public static string SID_Monitoring_started___0_ {
             get {
                 return ResourceManager.GetString("SID_Monitoring_started___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monitoring stopped.
+        /// </summary>
+        public static string SID_Monitoring_stopped {
+            get {
+                return ResourceManager.GetString("SID_Monitoring_stopped", resourceCulture);
             }
         }
         
@@ -3826,6 +3871,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU added.
+        /// </summary>
+        public static string SID_RTU_added {
+            get {
+                return ResourceManager.GetString("SID_RTU_added", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU and traces.
         /// </summary>
         public static string SID_RTU_and_traces {
@@ -3907,6 +3961,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU initialized.
+        /// </summary>
+        public static string SID_RTU_initialized2 {
+            get {
+                return ResourceManager.GetString("SID_RTU_initialized2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU is being initialized....
         /// </summary>
         public static string SID_RTU_is_being_initialized___ {
@@ -3957,6 +4020,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_RTU_Title {
             get {
                 return ResourceManager.GetString("SID_RTU_Title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU updated.
+        /// </summary>
+        public static string SID_RTU_updated {
+            get {
+                return ResourceManager.GetString("SID_RTU_updated", resourceCulture);
             }
         }
         
@@ -4718,11 +4790,38 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Trace added.
+        /// </summary>
+        public static string SID_Trace_added {
+            get {
+                return ResourceManager.GetString("SID_Trace_added", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace attached.
+        /// </summary>
+        public static string SID_Trace_attached {
+            get {
+                return ResourceManager.GetString("SID_Trace_attached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Trace cannot be terminated by or pass through RTU!.
         /// </summary>
         public static string SID_Trace_cannot_be_terminated_by_or_pass_through_RTU_ {
             get {
                 return ResourceManager.GetString("SID_Trace_cannot_be_terminated_by_or_pass_through_RTU_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace cleaned.
+        /// </summary>
+        public static string SID_Trace_cleaned {
+            get {
+                return ResourceManager.GetString("SID_Trace_cleaned", resourceCulture);
             }
         }
         
@@ -4754,6 +4853,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Trace detached.
+        /// </summary>
+        public static string SID_Trace_detached {
+            get {
+                return ResourceManager.GetString("SID_Trace_detached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Trace information.
         /// </summary>
         public static string SID_Trace_information {
@@ -4777,6 +4885,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Trace_monitoring_mode {
             get {
                 return ResourceManager.GetString("SID_Trace_monitoring_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace removed.
+        /// </summary>
+        public static string SID_Trace_removed {
+            get {
+                return ResourceManager.GetString("SID_Trace_removed", resourceCulture);
             }
         }
         
@@ -4849,6 +4966,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Trace_title_contains_forbidden_symbols {
             get {
                 return ResourceManager.GetString("SID_Trace_title_contains_forbidden_symbols", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace updated.
+        /// </summary>
+        public static string SID_Trace_updated {
+            get {
+                return ResourceManager.GetString("SID_Trace_updated", resourceCulture);
             }
         }
         

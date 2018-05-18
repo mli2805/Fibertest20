@@ -148,6 +148,13 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var result = await _clientStationsRepository.RegisterClientAsync(dto);
             result.GraphDbVersionId = _eventStoreService.GraphDbVersionId;
+
+            if (!dto.IsHeartbeat)
+            {
+                var command = new RegisterClientStation();
+                await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
+            }
+
             return result;
         }
 
@@ -155,6 +162,10 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var result = await _clientStationsRepository.UnregisterClientAsync(dto);
             _logFile.AppendLine($"Client {dto.ClientId.First6()} exited");
+
+            var command = new UnregisterClientStation();
+            await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
+
             return result;
         }
 
@@ -251,7 +262,7 @@ namespace Iit.Fibertest.DataCenterCore
                 };
                 command.BaseRefs.Add(baseRef);
             }
-            await _eventStoreService.SendCommand(command, "system", "OnServer");
+            await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
 
             if (dto.OtauPortDto == null) // unattached trace
                 return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };

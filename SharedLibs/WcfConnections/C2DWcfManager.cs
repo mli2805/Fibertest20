@@ -165,6 +165,8 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 dto.ClientId = _clientId;
+                dto.Username = _username;
+                dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.RegisterClientAsync(dto);
                 wcfConnection.Close();
@@ -186,6 +188,8 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 dto.ClientId = _clientId;
+                dto.Username = _username;
+                dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.UnregisterClientAsync(dto);
                 _logFile.AppendLine($@"Unregistered on server");
@@ -382,6 +386,8 @@ namespace Iit.Fibertest.WcfConnections
             {
                 _logFile.AppendLine($@"Sending base ref for trace {dto.TraceId.First6()}...");
                 dto.ClientId = _clientId;
+                dto.Username = _username;
+                dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.AssignBaseRefAsync(dto);
                 wcfConnection.Close();
