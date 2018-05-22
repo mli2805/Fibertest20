@@ -19,6 +19,7 @@
                 <CheckBox Content="{x:Static stringResources:Resources.SID_RTU_added}" Margin="5" IsChecked="{Binding IsRtuAdded, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_RTU_updated}" Margin="5" IsChecked="{Binding IsRtuUpdated, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_RTU_initialized2}" Margin="5" IsChecked="{Binding IsRtuInitialized, Mode=TwoWay}"/>
+                <CheckBox Content="{x:Static stringResources:Resources.SID_RTU_removed}" Margin="5" IsChecked="{Binding IsRtuRemoved, Mode=TwoWay}"/>
                 <Separator/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Trace_added}" Margin="5" IsChecked="{Binding IsTraceAdded, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Trace_updated}" Margin="5" IsChecked="{Binding IsTraceUpdated, Mode=TwoWay}"/>
@@ -29,6 +30,7 @@
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Base_ref_assigned}" Margin="5" IsChecked="{Binding IsBaseRefAssined, Mode=TwoWay}"/>
                 <Separator/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Monitoring_settings_changed}" Margin="5" IsChecked="{Binding IsMonitoringSettingsChanged, Mode=TwoWay}"/>
+                <CheckBox Content="{x:Static stringResources:Resources.SID_Monitoring_started}" Margin="5" IsChecked="{Binding IsMonitoringStarted, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Monitoring_stopped}" Margin="5" IsChecked="{Binding IsMonitoringStopped, Mode=TwoWay}"/>
             </StackPanel>
         </Border>

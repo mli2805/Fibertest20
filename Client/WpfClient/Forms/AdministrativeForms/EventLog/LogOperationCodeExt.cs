@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Client
                 case LogOperationCode.RtuAdded: return Resources.SID_RTU_added;
                 case LogOperationCode.RtuUpdated: return Resources.SID_RTU_updated;
                 case LogOperationCode.RtuInitialized: return Resources.SID_RTU_initialized2;
+                case LogOperationCode.RtuRemoved: return Resources.SID_RTU_removed;
 
                 case LogOperationCode.TraceAdded: return Resources.SID_Trace_added;
                 case LogOperationCode.TraceUpdated: return Resources.SID_Trace_updated;
@@ -24,6 +25,7 @@ namespace Iit.Fibertest.Client
 
                 case LogOperationCode.BaseRefAssigned: return Resources.SID_Base_ref_assigned;
                 case LogOperationCode.MonitoringSettingsChanged: return Resources.SID_Monitoring_settings_changed;
+                case LogOperationCode.MonitoringStarted: return Resources.SID_Monitoring_started;
                 case LogOperationCode.MonitoringStopped: return Resources.SID_Monitoring_stopped;
 
                 default: return Resources.SID_Unknown_code;

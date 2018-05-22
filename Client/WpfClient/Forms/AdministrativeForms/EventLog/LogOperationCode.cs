@@ -8,6 +8,7 @@
         RtuAdded = 201,
         RtuUpdated,
         RtuInitialized,
+        RtuRemoved,
 
         TraceAdded = 301,
         TraceUpdated,
@@ -18,6 +19,7 @@
 
         BaseRefAssigned = 401,
         MonitoringSettingsChanged,
+        MonitoringStarted,
         MonitoringStopped,
     }
 }

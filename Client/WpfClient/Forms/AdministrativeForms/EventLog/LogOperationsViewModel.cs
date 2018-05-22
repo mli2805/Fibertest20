@@ -11,6 +11,7 @@ namespace Iit.Fibertest.Client
         private bool _isRtuAdded = true;
         private bool _isRtuUpdated = true;
         private bool _isRtuInitialized = true;
+        private bool _isRtuRemoved = true;
         private bool _isTraceAdded = true;
         private bool _isTraceUpdated = true;
         private bool _isTraceAttached = true;
@@ -19,6 +20,7 @@ namespace Iit.Fibertest.Client
         private bool _isTraceRemoved = true;
         private bool _isBaseRefAssined = true;
         private bool _isMonitoringSettingsChanged = true;
+        private bool _isMonitoringStarted = true;
         private bool _isMonitoringStopped = true;
 
         public bool IsAll
@@ -40,6 +42,7 @@ namespace Iit.Fibertest.Client
             IsRtuAdded = IsAll;
             IsRtuUpdated = IsAll;
             IsRtuInitialized = IsAll;
+            IsRtuRemoved = IsAll;
 
             IsTraceAdded = IsAll;
             IsTraceUpdated = IsAll;
@@ -50,6 +53,7 @@ namespace Iit.Fibertest.Client
 
             IsBaseRefAssined = IsAll;
             IsMonitoringSettingsChanged = IsAll;
+            IsMonitoringStarted = IsAll;
             IsMonitoringStopped = IsAll;
         }
 
@@ -104,6 +108,17 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _isRtuInitialized) return;
                 _isRtuInitialized = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsRtuRemoved
+        {
+            get => _isRtuRemoved;
+            set
+            {
+                if (value == _isRtuRemoved) return;
+                _isRtuRemoved = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -192,6 +207,17 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _isMonitoringSettingsChanged) return;
                 _isMonitoringSettingsChanged = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsMonitoringStarted
+        {
+            get => _isMonitoringStarted;
+            set
+            {
+                if (value == _isMonitoringStarted) return;
+                _isMonitoringStarted = value;
                 NotifyOfPropertyChange();
             }
         }

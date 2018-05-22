@@ -86,6 +86,7 @@ namespace Iit.Fibertest.Client
                 case LogOperationCode.RtuAdded: return _logOperationsViewModel.IsRtuAdded;
                 case LogOperationCode.RtuUpdated: return _logOperationsViewModel.IsRtuUpdated;
                 case LogOperationCode.RtuInitialized: return _logOperationsViewModel.IsRtuInitialized;
+                case LogOperationCode.RtuRemoved: return _logOperationsViewModel.IsRtuRemoved;
 
                 case LogOperationCode.TraceAdded: return _logOperationsViewModel.IsTraceAdded;
                 case LogOperationCode.TraceUpdated: return _logOperationsViewModel.IsTraceUpdated;
@@ -96,6 +97,7 @@ namespace Iit.Fibertest.Client
 
                 case LogOperationCode.BaseRefAssigned: return _logOperationsViewModel.IsBaseRefAssined;
                 case LogOperationCode.MonitoringSettingsChanged: return _logOperationsViewModel.IsMonitoringSettingsChanged;
+                case LogOperationCode.MonitoringStarted: return _logOperationsViewModel.IsMonitoringStarted;
                 case LogOperationCode.MonitoringStopped: return _logOperationsViewModel.IsMonitoringStopped;
 
                 default: return false;

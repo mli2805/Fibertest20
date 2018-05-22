@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Client
                 case RtuAtGpsLocationAdded evnt: return Parse(evnt);
                 case RtuUpdated evnt: return Parse(evnt);
                 case RtuInitialized evnt: return Parse(evnt);
+                case RtuRemoved evnt: return Parse(evnt);
 
                 case TraceAdded evnt: return Parse(evnt);
                 case TraceUpdated evnt: return Parse(evnt);
@@ -30,6 +31,7 @@ namespace Iit.Fibertest.Client
                 case BaseRefAssigned evnt: return Parse(evnt);
 
                 case MonitoringSettingsChanged evnt: return Parse(evnt);
+                case MonitoringStarted evnt: return Parse(evnt);
                 case MonitoringStopped evnt: return Parse(evnt);
 
                 case ClientStationRegistered evnt: return Parse(evnt);
@@ -59,6 +61,11 @@ namespace Iit.Fibertest.Client
         private LogLine Parse(RtuInitialized e)
         {
             return new LogLine { OperationCode = LogOperationCode.RtuInitialized, RtuTitle = _rtuTitles[e.Id] };
+        }
+
+        private LogLine Parse(RtuRemoved e)
+        {
+            return new LogLine { OperationCode = LogOperationCode.RtuRemoved, RtuTitle = _rtuTitles[e.RtuId] };
         }
 
         private LogLine Parse(TraceAdded e)
@@ -126,7 +133,7 @@ namespace Iit.Fibertest.Client
             }
             return new LogLine()
             {
-                OperationCode =LogOperationCode.BaseRefAssigned,
+                OperationCode = LogOperationCode.BaseRefAssigned,
                 RtuTitle = _rtuTitles[_traces[e.TraceId].Item2],
                 TraceTitle = _traces[e.TraceId].Item1,
                 OperationParams = additionalInfo,
@@ -142,6 +149,11 @@ namespace Iit.Fibertest.Client
                 RtuTitle = _rtuTitles[e.RtuId],
                 OperationParams = $@"Mode - {mode}",
             };
+        }
+
+        private LogLine Parse(MonitoringStarted e)
+        {
+            return new LogLine() { OperationCode = LogOperationCode.MonitoringStarted, RtuTitle = _rtuTitles[e.RtuId] };
         }
 
         private LogLine Parse(MonitoringStopped e)

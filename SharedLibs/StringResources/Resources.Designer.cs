@@ -2835,6 +2835,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monitoring started.
+        /// </summary>
+        public static string SID_Monitoring_started {
+            get {
+                return ResourceManager.GetString("SID_Monitoring_started", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monitoring started: {0}.
         /// </summary>
         public static string SID_Monitoring_started___0_ {
@@ -4065,6 +4074,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_RTU_Manager_software_version {
             get {
                 return ResourceManager.GetString("SID_RTU_Manager_software_version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU removed.
+        /// </summary>
+        public static string SID_RTU_removed {
+            get {
+                return ResourceManager.GetString("SID_RTU_removed", resourceCulture);
             }
         }
         

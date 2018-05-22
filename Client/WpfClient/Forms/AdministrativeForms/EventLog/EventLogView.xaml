@@ -15,7 +15,7 @@
         <DataGrid ItemsSource="{Binding Rows}" AutoGenerateColumns="False" IsReadOnly="True" Margin="5">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Ordinal}" Binding="{Binding Ordinal}" Width="50"/>
-                <DataGridTextColumn Binding="{Binding Username}" Width="100">
+                <DataGridTextColumn Binding="{Binding Username}" Width="120">
                     <DataGridTextColumn.HeaderTemplate>
                         <DataTemplate>
                             <DockPanel>

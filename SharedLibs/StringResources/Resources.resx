@@ -1892,4 +1892,10 @@ RTU is initializing right now!</value>
 	<data name="SID_All_operations" xml:space="preserve">
     <value>All operations</value>
   </data>
+	<data name="SID_RTU_removed" xml:space="preserve">
+    <value>RTU removed</value>
+  </data>
+	<data name="SID_Monitoring_started" xml:space="preserve">
+    <value>Monitoring started</value>
+  </data>
 </root>
