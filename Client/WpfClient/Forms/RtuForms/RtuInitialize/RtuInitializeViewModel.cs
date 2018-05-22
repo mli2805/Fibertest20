@@ -104,20 +104,49 @@ namespace Iit.Fibertest.Client
 
         public async void InitializeRtu()
         {
+            if (!Validate()) return;
+
+            try
+            {
+                RtuInitializedDto result;
+                using (_globalScope.Resolve<IWaitCursor>())
+                {
+                    if (!await CheckConnectionBeforeInitializaion()) return;
+
+                    _commonStatusBarViewModel.StatusBarMessage2 = Resources.SID_RTU_is_being_initialized___;
+                    result = await _c2DWcfManager.InitializeRtuAsync(CreateDto());
+                    _commonStatusBarViewModel.StatusBarMessage2 = "";
+                }
+                ProcessRtuInitialized(result);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($@"InitializeRtu : {e.Message}");
+                var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_RTU_initialization_error_);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+            }
+        }
+
+        private bool Validate()
+        {
             if (string.IsNullOrEmpty(OriginalRtu.Title))
             {
                 var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Title_should_be_set_);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
-                return;
+                return false;
             }
-            if (!CheckAddressUniqueness())
-                return;
 
-            var dto = new InitializeRtuDto()
+            if (!CheckAddressUniqueness())
+                return false;
+            return true;
+        }
+
+        private InitializeRtuDto CreateDto()
+        {
+            return new InitializeRtuDto()
             {
                 RtuId = OriginalRtu.Id,
-
-                Serial = OriginalRtu.Serial,         // properties after previous initialization (if it was)
+                Serial = OriginalRtu.Serial, // properties after previous initialization (if it was)
                 OwnPortCount = OriginalRtu.OwnPortCount,
                 Children = OriginalRtu.Children,
 
@@ -125,20 +154,14 @@ namespace Iit.Fibertest.Client
                 {
                     Main = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
                     HasReserveAddress = IsReserveChannelEnabled,
-                    Reserve = IsReserveChannelEnabled ? ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress() : null,
+                    Reserve = IsReserveChannelEnabled
+                        ? ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress()
+                        : null,
                 },
-                ShouldMonitoringBeStopped = OriginalRtu.OwnPortCount == 0, // if it's first initialization for this RTU - monitoring should be stopped - in case it's running somehow
+                ShouldMonitoringBeStopped =
+                    OriginalRtu.OwnPortCount ==
+                    0, // if it's first initialization for this RTU - monitoring should be stopped - in case it's running somehow
             };
-            RtuInitializedDto result;
-            using (_globalScope.Resolve<IWaitCursor>())
-            {
-                if (!await CheckConnectionBeforeInitializaion()) return;
-
-                _commonStatusBarViewModel.StatusBarMessage2 = Resources.SID_RTU_is_being_initialized___;
-                result = await _c2DWcfManager.InitializeRtuAsync(dto);
-                _commonStatusBarViewModel.StatusBarMessage2 = "";
-            }
-            ProcessRtuInitialized(result);
         }
 
         private async Task<bool> CheckConnectionBeforeInitializaion()

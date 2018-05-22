@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Graph
         {
             switch (cmd)
             {
-                case RegisterClientStation _: return _eventsQueue.Add(new ClientStationRegistered());
+                case RegisterClientStation command: return _eventsQueue.Add(Mapper.Map<ClientStationRegistered>(command));
                 case UnregisterClientStation _: return _eventsQueue.Add(new ClientStationUnregistered());
 
                 case AddUser command: return _eventsQueue.Add(Mapper.Map<UserAdded>(command));

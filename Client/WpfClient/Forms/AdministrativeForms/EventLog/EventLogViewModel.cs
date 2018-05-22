@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Data;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -13,20 +16,98 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILocalDbManager _localDbManager;
         private readonly EventToLogLineParser _eventToLogLineParser;
+        private readonly Model _readModel;
+        private readonly LogOperationsViewModel _logOperationsViewModel;
+        private readonly IWindowManager _windowManager;
+        private UserFilter _selectedUserFilter;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings =
             new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
-        public List<LogLine> Rows { get; set; } = new List<LogLine>();
+        public List<UserFilter> UserFilters { get; set; }
 
-        public EventLogViewModel(ILocalDbManager localDbManager, EventToLogLineParser eventToLogLineParser)
+        public UserFilter SelectedUserFilter
+        {
+            get => _selectedUserFilter;
+            set
+            {
+                if (Equals(value, _selectedUserFilter)) return;
+                _selectedUserFilter = value;
+                NotifyOfPropertyChange();
+                var view = CollectionViewSource.GetDefaultView(Rows);
+                view.Refresh();
+            }
+        }
+
+        public List<LogLine> Rows { get; set; }
+
+        public EventLogViewModel(ILocalDbManager localDbManager, EventToLogLineParser eventToLogLineParser,
+            Model readModel, LogOperationsViewModel logOperationsViewModel, IWindowManager windowManager)
         {
             _localDbManager = localDbManager;
             _eventToLogLineParser = eventToLogLineParser;
+            _readModel = readModel;
+            _logOperationsViewModel = logOperationsViewModel;
+            _windowManager = windowManager;
         }
 
+        private void InitializeUserFilter()
+        {
+            UserFilters = new List<UserFilter>() { new UserFilter() };
+            foreach (var user in _readModel.Users)
+                UserFilters.Add(new UserFilter(user));
+            SelectedUserFilter = UserFilters.First();
+        }
+       
+        protected override void OnViewLoaded(object o)
+        {
+            DisplayName = Resources.SID_User_operations_log;
+            var view = CollectionViewSource.GetDefaultView(Rows);
+            view.Filter += OnFilter;
+            view.SortDescriptions.Add(new SortDescription(@"Ordinal", ListSortDirection.Descending));
+        }
+
+        private bool OnFilter(object o)
+        {
+            var logLine = (LogLine)o;
+            return
+                   (SelectedUserFilter.IsOn == false ||
+                    SelectedUserFilter.User.Title == logLine.Username) 
+                   && IsIncludedInOperationFilter(logLine.OperationCode);
+        }
+
+        private bool IsIncludedInOperationFilter(LogOperationCode operationCode)
+        {
+            switch (operationCode)
+            {
+                case LogOperationCode.ClientStarted: return _logOperationsViewModel.IsClientStarted;
+                case LogOperationCode.ClientExited: return _logOperationsViewModel.IsClientExited;
+
+                case LogOperationCode.RtuAdded: return _logOperationsViewModel.IsRtuAdded;
+                case LogOperationCode.RtuUpdated: return _logOperationsViewModel.IsRtuUpdated;
+                case LogOperationCode.RtuInitialized: return _logOperationsViewModel.IsRtuInitialized;
+
+                case LogOperationCode.TraceAdded: return _logOperationsViewModel.IsTraceAdded;
+                case LogOperationCode.TraceUpdated: return _logOperationsViewModel.IsTraceUpdated;
+                case LogOperationCode.TraceAttached: return _logOperationsViewModel.IsTraceAttached;
+                case LogOperationCode.TraceDetached: return _logOperationsViewModel.IsTraceDetached;
+                case LogOperationCode.TraceCleaned: return _logOperationsViewModel.IsTraceCleaned;
+                case LogOperationCode.TraceRemoved: return _logOperationsViewModel.IsTraceRemoved;
+
+                case LogOperationCode.BaseRefAssigned: return _logOperationsViewModel.IsBaseRefAssined;
+                case LogOperationCode.MonitoringSettingsChanged: return _logOperationsViewModel.IsMonitoringSettingsChanged;
+                case LogOperationCode.MonitoringStopped: return _logOperationsViewModel.IsMonitoringStopped;
+
+                default: return false;
+            }
+        }
+
+        // do before show form!
         public async Task Initialize()
         {
+            Rows = new List<LogLine>();
+            InitializeUserFilter();
+
             _eventToLogLineParser.Initialize();
             var jsonsInCache = await _localDbManager.LoadEvents();
             var ordinal = 1;
@@ -35,7 +116,7 @@ namespace Iit.Fibertest.Client
                 var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
                 if ((string)msg.Headers[@"Username"] == @"system") continue;
 
-                var line = ParseEventBody(msg.Body);
+                var line = _eventToLogLineParser.ParseEventBody(msg.Body);
                 if (line == null) continue;
 
                 line.Ordinal = ordinal;
@@ -47,35 +128,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private LogLine ParseEventBody(object body)
+        public void ShowOperationFilter()
         {
-            switch (body)
-            {
-                case RtuAtGpsLocationAdded evnt: return _eventToLogLineParser.Parse(evnt);
-                case RtuUpdated evnt: return _eventToLogLineParser.Parse(evnt);
-                case RtuInitialized evnt: return _eventToLogLineParser.Parse(evnt);
-
-                case TraceAdded evnt: return _eventToLogLineParser.Parse(evnt);
-                case TraceUpdated evnt: return _eventToLogLineParser.Parse(evnt);
-                case TraceAttached evnt: return _eventToLogLineParser.Parse(evnt);
-                case TraceDetached evnt: return _eventToLogLineParser.Parse(evnt);
-                case TraceCleaned evnt: return _eventToLogLineParser.Parse(evnt);
-                case TraceRemoved evnt: return _eventToLogLineParser.Parse(evnt);
-                case BaseRefAssigned evnt: return _eventToLogLineParser.Parse(evnt);
-
-                case MonitoringSettingsChanged evnt: return _eventToLogLineParser.Parse(evnt);
-                case MonitoringStopped evnt: return _eventToLogLineParser.Parse(evnt);
-
-                case ClientStationRegistered evnt: return _eventToLogLineParser.Parse(evnt);
-                case ClientStationUnregistered evnt: return _eventToLogLineParser.Parse(evnt);
-                //    default: return new LogLine(){OperationName = body.GetType().Name};
-                default: return null;
-            }
-        }
-
-        protected override void OnViewLoaded(object view)
-        {
-            DisplayName = Resources.SID_User_operations_log;
+            _windowManager.ShowDialogWithAssignedOwner(_logOperationsViewModel);
+            var view = CollectionViewSource.GetDefaultView(Rows);
+            view.Refresh();
         }
 
         public void Close() { TryClose(); }

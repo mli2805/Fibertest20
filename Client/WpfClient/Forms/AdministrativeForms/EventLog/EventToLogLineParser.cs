@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -12,105 +12,153 @@ namespace Iit.Fibertest.Client
         // ID - <Title, RTU-ID>
         private Dictionary<Guid, Tuple<string, Guid>> _traces;
 
+
+        public LogLine ParseEventBody(object body)
+        {
+            switch (body)
+            {
+                case RtuAtGpsLocationAdded evnt: return Parse(evnt);
+                case RtuUpdated evnt: return Parse(evnt);
+                case RtuInitialized evnt: return Parse(evnt);
+
+                case TraceAdded evnt: return Parse(evnt);
+                case TraceUpdated evnt: return Parse(evnt);
+                case TraceAttached evnt: return Parse(evnt);
+                case TraceDetached evnt: return Parse(evnt);
+                case TraceCleaned evnt: return Parse(evnt);
+                case TraceRemoved evnt: return Parse(evnt);
+                case BaseRefAssigned evnt: return Parse(evnt);
+
+                case MonitoringSettingsChanged evnt: return Parse(evnt);
+                case MonitoringStopped evnt: return Parse(evnt);
+
+                case ClientStationRegistered evnt: return Parse(evnt);
+                case ClientStationUnregistered _: return Parse();
+
+                default: return null;
+            }
+        }
         public void Initialize()
         {
             _rtuTitles = new Dictionary<Guid, string>();
             _traces = new Dictionary<Guid, Tuple<string, Guid>>();
         }
 
-        public LogLine Parse(RtuAtGpsLocationAdded e)
+        private LogLine Parse(RtuAtGpsLocationAdded e)
         {
             _rtuTitles.Add(e.Id, e.Title);
-            return new LogLine() { OperationName = Resources.SID_RTU_added, RtuTitle = e.Title };
+            return new LogLine() { OperationCode = LogOperationCode.RtuAdded, RtuTitle = e.Title };
         }
 
-        public LogLine Parse(RtuUpdated e)
+        private LogLine Parse(RtuUpdated e)
         {
             _rtuTitles[e.RtuId] = e.Title;
-            return new LogLine { OperationName = Resources.SID_RTU_updated, RtuTitle = e.Title };
+            return new LogLine { OperationCode = LogOperationCode.RtuUpdated, RtuTitle = e.Title };
         }
 
-        public LogLine Parse(RtuInitialized e)
+        private LogLine Parse(RtuInitialized e)
         {
-            return new LogLine { OperationName = Resources.SID_RTU_initialized2, RtuTitle = _rtuTitles[e.Id] };
+            return new LogLine { OperationCode = LogOperationCode.RtuInitialized, RtuTitle = _rtuTitles[e.Id] };
         }
 
-        public LogLine Parse(TraceAdded e)
+        private LogLine Parse(TraceAdded e)
         {
             _traces.Add(e.TraceId, new Tuple<string, Guid>(e.Title, e.RtuId));
-            return new LogLine() { OperationName = Resources.SID_Trace_added, RtuTitle = _rtuTitles[e.RtuId], TraceTitle = e.Title };
+            return new LogLine() { OperationCode = LogOperationCode.TraceAdded, RtuTitle = _rtuTitles[e.RtuId], TraceTitle = e.Title };
         }
 
-        public LogLine Parse(TraceUpdated e)
+        private LogLine Parse(TraceUpdated e)
         {
             var rtuId = _traces[e.Id].Item2;
             _traces[e.Id] = new Tuple<string, Guid>(e.Title, rtuId);
             return new LogLine
             {
-                OperationName = Resources.SID_Trace_updated,
+                OperationCode = LogOperationCode.TraceUpdated,
                 RtuTitle = _rtuTitles[_traces[e.Id].Item2],
                 TraceTitle = e.Title,
             };
         }
 
-        public LogLine Parse(TraceAttached e)
+        private LogLine Parse(TraceAttached e)
         {
             return new LogLine
             {
-                OperationName = Resources.SID_Trace_attached,
+                OperationCode = LogOperationCode.TraceAttached,
+                RtuTitle = _rtuTitles[_traces[e.TraceId].Item2],
+                TraceTitle = _traces[e.TraceId].Item1,
+                OperationParams = $@"port {e.OtauPortDto.OpticalPort}",
+            };
+        }
+        private LogLine Parse(TraceDetached e)
+        {
+            return new LogLine
+            {
+                OperationCode = LogOperationCode.TraceDetached,
                 RtuTitle = _rtuTitles[_traces[e.TraceId].Item2],
                 TraceTitle = _traces[e.TraceId].Item1,
             };
         }
-        public LogLine Parse(TraceDetached e)
+        private LogLine Parse(TraceCleaned e)
         {
             return new LogLine
             {
-                OperationName = Resources.SID_Trace_detached,
+                OperationCode = LogOperationCode.TraceCleaned,
                 RtuTitle = _rtuTitles[_traces[e.TraceId].Item2],
                 TraceTitle = _traces[e.TraceId].Item1,
             };
         }
-        public LogLine Parse(TraceCleaned e)
+        private LogLine Parse(TraceRemoved e)
         {
             return new LogLine
             {
-                OperationName = Resources.SID_Trace_cleaned,
-                RtuTitle = _rtuTitles[_traces[e.TraceId].Item2],
-                TraceTitle = _traces[e.TraceId].Item1,
-            };
-        }
-        public LogLine Parse(TraceRemoved e)
-        {
-            return new LogLine
-            {
-                OperationName = Resources.SID_Trace_removed,
+                OperationCode = LogOperationCode.TraceRemoved,
                 RtuTitle = _rtuTitles[_traces[e.TraceId].Item2],
                 TraceTitle = _traces[e.TraceId].Item1,
             };
         }
 
-        public LogLine Parse(BaseRefAssigned e)
+        private LogLine Parse(BaseRefAssigned e)
+        {
+            var additionalInfo = "";
+            foreach (var baseRef in e.BaseRefs)
+            {
+                additionalInfo = additionalInfo + baseRef.BaseRefType.GetLocalizedFemaleString() + @"; ";
+            }
+            return new LogLine()
+            {
+                OperationCode =LogOperationCode.BaseRefAssigned,
+                RtuTitle = _rtuTitles[_traces[e.TraceId].Item2],
+                TraceTitle = _traces[e.TraceId].Item1,
+                OperationParams = additionalInfo,
+            };
+        }
+
+        private LogLine Parse(MonitoringSettingsChanged e)
+        {
+            var mode = e.IsMonitoringOn ? @"AUTO" : @"MANUAL";
+            return new LogLine()
+            {
+                OperationCode = LogOperationCode.MonitoringSettingsChanged,
+                RtuTitle = _rtuTitles[e.RtuId],
+                OperationParams = $@"Mode - {mode}",
+            };
+        }
+
+        private LogLine Parse(MonitoringStopped e)
+        {
+            return new LogLine() { OperationCode = LogOperationCode.MonitoringStopped, RtuTitle = _rtuTitles[e.RtuId] };
+        }
+
+        private LogLine Parse(ClientStationRegistered e)
         {
             return new LogLine()
             {
-                OperationName = Resources.SID_Base_ref_assigned,
-                RtuTitle = _rtuTitles[_traces[e.TraceId].Item2],
-                TraceTitle = _traces[e.TraceId].Item1,
+                OperationCode = LogOperationCode.ClientStarted,
+                OperationParams = e.RegistrationResult.GetLocalizedString(),
             };
         }
 
-        public LogLine Parse(MonitoringSettingsChanged e)
-        {
-            return new LogLine() { OperationName = Resources.SID_Monitoring_settings_changed, RtuTitle = _rtuTitles[e.RtuId] };
-        }
-
-        public LogLine Parse(MonitoringStopped e)
-        {
-            return new LogLine() { OperationName = Resources.SID_Monitoring_stopped, RtuTitle = _rtuTitles[e.RtuId] };
-        }
-
-        public LogLine Parse(ClientStationRegistered e) { return new LogLine() { OperationName = Resources.SID_Client_started }; }
-        public LogLine Parse(ClientStationUnregistered e) { return new LogLine() { OperationName = Resources.SID_Client_exited }; }
+        // ClientStationUnregistered
+        private LogLine Parse() { return new LogLine() { OperationCode = LogOperationCode.ClientExited }; }
     }
 }

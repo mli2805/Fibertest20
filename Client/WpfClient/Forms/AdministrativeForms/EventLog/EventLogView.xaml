@@ -4,22 +4,50 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
-        Title="EventLogView" Height="450" Width="1000" d:DataContext="{d:DesignInstance client:EventLogViewModel}">
+        Title="EventLogView" Height="450" Width="1100" d:DataContext="{d:DesignInstance client:EventLogViewModel}">
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Height="40">
-            <Button Content="Close" Name="Close" Width="100" Margin="10" HorizontalAlignment="Right"/>
+            <Button Content="{x:Static stringResources:Resources.SID_Close}" Name="Close" Width="100" Margin="10" HorizontalAlignment="Right"/>
         </StackPanel>
         <DataGrid ItemsSource="{Binding Rows}" AutoGenerateColumns="False" IsReadOnly="True" Margin="5">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Ordinal" Binding="{Binding Ordinal}" Width="50"/>
-                <DataGridTextColumn Header="User name" Binding="{Binding Username}" Width="80"/>
-                <DataGridTextColumn Header="Client IP" Binding="{Binding ClientIp}" Width="100"/>
-                <DataGridTextColumn Header="Timestamp" Binding="{Binding Timestamp}" Width="120"/>
-                <DataGridTextColumn Header="Operation" Binding="{Binding OperationName}" Width="200"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Ordinal}" Binding="{Binding Ordinal}" Width="50"/>
+                <DataGridTextColumn Binding="{Binding Username}" Width="100">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBlock DockPanel.Dock="Top" Width="10000" Height="1"/>
+                                <TextBlock DockPanel.Dock="Top" Text="{x:Static stringResources:Resources.SID_User}" Margin="5,0,0,5"/>
+                                <ComboBox Height="23" HorizontalAlignment="Stretch"
+                                    ItemsSource="{Binding Path=DataContext.UserFilters, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"  
+                                    SelectedItem="{Binding Path=DataContext.SelectedUserFilter,
+                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window},
+                                    Mode=TwoWay}"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Client_Ip}" Binding="{Binding ClientIp}" Width="100"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Timestamp}" Binding="{Binding Timestamp}" Width="120"/>
+                <DataGridTextColumn Binding="{Binding OperationName}" Width="200">
+                    <DataGridTextColumn.HeaderTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBlock DockPanel.Dock="Top" Width="10000" Height="1"/>
+                                <TextBlock DockPanel.Dock="Top" Text="{x:Static stringResources:Resources.SID_Operation}" Margin="5,0,0,5"/>
+                                <Button Height="23" HorizontalAlignment="Stretch"
+                                    Content="{x:Static stringResources:Resources.SID_Filter}" cal:Message.Attach="ShowOperationFilter"/>
+                            </DockPanel>
+                        </DataTemplate>
+                    </DataGridTextColumn.HeaderTemplate>
+                </DataGridTextColumn>
                 <DataGridTextColumn Header="RTU" Binding="{Binding RtuTitle}" Width="150"/>
-                <DataGridTextColumn Header="Trace" Binding="{Binding TraceTitle}" Width="150"/>
-                <DataGridTextColumn Header="Additional info" Binding="{Binding OperationParams}" Width="150*"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Trace}" Binding="{Binding TraceTitle}" Width="150"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Additional_info}" Binding="{Binding OperationParams}" Width="*"/>
             </DataGrid.Columns>
         </DataGrid>
     </DockPanel>

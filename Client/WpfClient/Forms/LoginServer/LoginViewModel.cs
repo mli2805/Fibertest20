@@ -89,9 +89,11 @@ namespace Iit.Fibertest.Client
 #if DEBUG
             if (string.IsNullOrEmpty(UserName))
                 UserName = @"developer";
+//                UserName = @"root";
 //                UserName = @"Op";
             if (string.IsNullOrEmpty(Password))
                 Password = @"developer";
+//                Password = @"root";
 //                Password = @"1";
 #endif
             _logFile.AppendLine(@"Client registration attempt");

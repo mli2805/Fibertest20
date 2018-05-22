@@ -1871,4 +1871,25 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_RTU_initialized2" xml:space="preserve">
 		<value>RTU инициализирован</value>
 	</data>
+	<data name="SID_Ordinal" xml:space="preserve">
+		<value>Номер</value>
+	</data>
+	<data name="SID_Client_Ip" xml:space="preserve">
+		<value>IP клиента</value>
+	</data>
+	<data name="SID_Operation" xml:space="preserve">
+		<value>Операция</value>
+	</data>
+	<data name="SID_Additional_info" xml:space="preserve">
+		<value>Доп информация</value>
+	</data>
+	<data name="SID_Choose_operations" xml:space="preserve">
+		<value>Выберите операции</value>
+	</data>
+	<data name="SID_Unknown_code" xml:space="preserve">
+		<value>Неизвестный код</value>
+	</data>
+	<data name="SID_All_operations" xml:space="preserve">
+		<value>Все операции</value>
+	</data>
 </root>

@@ -1871,4 +1871,25 @@ RTU is initializing right now!</value>
 	<data name="SID_RTU_initialized2" xml:space="preserve">
     <value>RTU initialized</value>
   </data>
+	<data name="SID_Ordinal" xml:space="preserve">
+    <value>Ordinal</value>
+  </data>
+	<data name="SID_Client_Ip" xml:space="preserve">
+    <value>Client IP</value>
+  </data>
+	<data name="SID_Operation" xml:space="preserve">
+    <value>Operation</value>
+  </data>
+	<data name="SID_Additional_info" xml:space="preserve">
+    <value>Additional info</value>
+  </data>
+	<data name="SID_Choose_operations" xml:space="preserve">
+    <value>Choose operations</value>
+  </data>
+	<data name="SID_Unknown_code" xml:space="preserve">
+    <value>Unknown code</value>
+  </data>
+	<data name="SID_All_operations" xml:space="preserve">
+    <value>All operations</value>
+  </data>
 </root>

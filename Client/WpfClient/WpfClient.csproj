@@ -187,6 +187,13 @@
     <Compile Include="ClientHeartbeat.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\EventToLogLineParser.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\LogLine.cs" />
+    <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationCode.cs" />
+    <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationCodeExt.cs" />
+    <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsView.xaml.cs">
+      <DependentUpon>LogOperationsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\EventLog\UserFilter.cs" />
     <Compile Include="GlobalVars\CurrentDatacenterParameters.cs" />
     <Compile Include="GlobalVars\CurrentlyHiddenRtu.cs" />
     <Compile Include="GlobalVars\CurrentUser.cs" />
@@ -587,6 +594,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\AdministrativeForms\EventLog\EventLogView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\AdministrativeForms\EventLog\LogOperationsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

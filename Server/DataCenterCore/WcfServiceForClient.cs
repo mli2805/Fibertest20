@@ -151,7 +151,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             if (!dto.IsHeartbeat)
             {
-                var command = new RegisterClientStation();
+                var command = new RegisterClientStation(){RegistrationResult = result.ReturnCode};
                 await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
             }
 

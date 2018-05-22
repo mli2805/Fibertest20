@@ -413,6 +413,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional info.
+        /// </summary>
+        public static string SID_Additional_info {
+            get {
+                return ResourceManager.GetString("SID_Additional_info", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Additional optical switch.
         /// </summary>
         public static string SID_Additional_optical_switch {
@@ -463,6 +472,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_All_network_events {
             get {
                 return ResourceManager.GetString("SID_All_network_events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to All operations.
+        /// </summary>
+        public static string SID_All_operations {
+            get {
+                return ResourceManager.GetString("SID_All_operations", resourceCulture);
             }
         }
         
@@ -1115,6 +1133,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose operations.
+        /// </summary>
+        public static string SID_Choose_operations {
+            get {
+                return ResourceManager.GetString("SID_Choose_operations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clean.
         /// </summary>
         public static string SID_Clean {
@@ -1129,6 +1156,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Client_exited {
             get {
                 return ResourceManager.GetString("SID_Client_exited", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client IP.
+        /// </summary>
+        public static string SID_Client_Ip {
+            get {
+                return ResourceManager.GetString("SID_Client_Ip", resourceCulture);
             }
         }
         
@@ -3223,6 +3259,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Operation.
+        /// </summary>
+        public static string SID_Operation {
+            get {
+                return ResourceManager.GetString("SID_Operation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Optical event.
         /// </summary>
         public static string SID_Optical_event {
@@ -3273,6 +3318,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Optical_switch_with_Address {
             get {
                 return ResourceManager.GetString("SID_Optical_switch_with_Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ordinal.
+        /// </summary>
+        public static string SID_Ordinal {
+            get {
+                return ResourceManager.GetString("SID_Ordinal", resourceCulture);
             }
         }
         
@@ -5047,6 +5101,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Unknown {
             get {
                 return ResourceManager.GetString("SID_Unknown", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unknown code.
+        /// </summary>
+        public static string SID_Unknown_code {
+            get {
+                return ResourceManager.GetString("SID_Unknown_code", resourceCulture);
             }
         }
         

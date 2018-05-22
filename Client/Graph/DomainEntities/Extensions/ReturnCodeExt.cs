@@ -9,6 +9,7 @@ namespace Iit.Fibertest.Graph
         {
             switch (returnCode)
             {
+                case ReturnCode.Ok: return @"OK";
                 case ReturnCode.Error:
                     return Resources.SID_Error_;
 
@@ -54,6 +55,9 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_User_with_the_same_name_is_registered_on_another_PC;
                 case ReturnCode.ExceededNumberOfClients:
                     return Resources.SID_Exceeded_the_number_of_clients_registered_simultaneously;
+                case ReturnCode.ClientRegisteredSuccessfully:
+                    return @"OK";
+
                 default: return Resources.SID_Unknown_return_code;
             }
         }
