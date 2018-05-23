@@ -56,12 +56,12 @@ namespace Iit.Fibertest.Client
             if (portLeaf.Parent is OtauLeaf)
                 return false;
             var rtuLeaf = (RtuLeaf)portLeaf.Parent;
-            return rtuLeaf.IsAvailable;
+            return rtuLeaf.IsAvailable && rtuLeaf.MonitoringState == MonitoringState.Off ;
         }
 
         public bool CanAttachTraceAction(object param)
         {
-            if (_currentUser.Role > Role.Root)
+            if (_currentUser.Role > Role.Operator)
                 return false;
             if (!(param is PortLeaf portLeaf))
                 return false;

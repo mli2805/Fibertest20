@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
+        private readonly CurrentUser _currentUser;
         private OtauPortDto _otauPortDto;
         private Trace _selectedTrace;
 
@@ -31,17 +32,18 @@ namespace Iit.Fibertest.Client
         }
 
         public TraceToAttachViewModel(Model readModel, IWcfServiceForClient c2DWcfManager,
-            IWindowManager windowManager)
+            IWindowManager windowManager, CurrentUser currentUser)
         {
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
+            _currentUser = currentUser;
         }
 
         public void Initialize(Guid rtuId, OtauPortDto otauPortDto)
         {
             _otauPortDto = otauPortDto;
-            Choices = _readModel.Traces.Where(t => t.RtuId == rtuId && t.Port < 1).ToList();
+            Choices = _readModel.Traces.Where(t => t.RtuId == rtuId && t.Port < 1 && t.ZoneIds.Contains(_currentUser.ZoneId)).ToList();
             SelectedTrace = Choices.FirstOrDefault();
         }
 

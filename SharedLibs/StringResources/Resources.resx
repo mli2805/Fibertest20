@@ -1898,4 +1898,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Monitoring_started" xml:space="preserve">
     <value>Monitoring started</value>
   </data>
+	<data name="SID_Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
 </root>

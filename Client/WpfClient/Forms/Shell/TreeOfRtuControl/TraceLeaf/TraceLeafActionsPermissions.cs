@@ -72,7 +72,7 @@ namespace Iit.Fibertest.Client
 
         public bool CanDetachTrace(object param)
         {
-            if (_currentUser.Role > Role.Root)
+            if (_currentUser.Role > Role.Operator)
                 return false;
             if (!(param is TraceLeaf traceLeaf) || !traceLeaf.IsInZone)
                 return false;

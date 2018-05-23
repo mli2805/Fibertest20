@@ -1898,4 +1898,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Monitoring_started" xml:space="preserve">
 		<value>Мониторинг запущен</value>
 	</data>
+	<data name="SID_Date" xml:space="preserve">
+		<value>Дата</value>
+	</data>
 </root>
