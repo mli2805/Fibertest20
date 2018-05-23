@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Messaging;
 using System.Threading;
@@ -172,6 +173,7 @@ namespace Iit.Fibertest.RtuManagement
         private MoniResult DoMeasurement(BaseRefType baseRefType, MonitorigPort monitorigPort, bool shouldChangePort = true)
         {
             _cancellationTokenSource = new CancellationTokenSource();
+            _rtuIni.Write(IniSection.Monitoring, IniKey.LastMeasurementTimestamp, DateTime.Now.ToString(CultureInfo.CurrentCulture));
 
             if (shouldChangePort && !ToggleToPort(monitorigPort))
                 return null;

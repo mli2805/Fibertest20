@@ -53,6 +53,7 @@
         PreciseMakeTimespan,
         PreciseSaveTimespan,
         FastSaveTimespan,
+        LastMeasurementTimestamp,
 
         // Recovering
         MikrotikRebootTimeout,
@@ -64,6 +65,8 @@
 
         // Watchdog
         RtuServiceName,
+        LastRestartTime,
+        MaxGapBetweenMeasurements,
 
         // NetTcpBinding
         OpenTimeoutMs,

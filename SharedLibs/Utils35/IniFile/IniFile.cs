@@ -55,6 +55,16 @@ namespace Iit.Fibertest.UtilsLib
             }
         }
 
+        public string ReadForeignIni(string filepath, IniSection section, IniKey key)
+        {
+            StringBuilder temp = new StringBuilder(255);
+            if (GetPrivateProfileString(section.ToString(), key.ToString(), "", temp, 255, filepath) != 0)
+            {
+                return temp.ToString();
+            }
+            return null;
+        }
+
         public void DeleteKey(IniSection section, IniKey key)
         {
             lock (_obj)
