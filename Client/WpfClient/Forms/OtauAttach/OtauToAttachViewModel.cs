@@ -91,6 +91,7 @@ namespace Iit.Fibertest.Client
             RtuPortNumber = _portNumberForAttachment;
             OtauSerial = "";
             OtauPortCount = 0;
+            AttachmentProgress = "";
 
             NetAddressInputViewModel = new NetAddressInputViewModel(
                 new NetAddress() { Ip4Address = @"172.16.5.57", Port = 11834, IsAddressSetAsIp = true });

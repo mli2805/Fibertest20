@@ -37,45 +37,31 @@ namespace Iit.Fibertest.Client
             rtuStateVm.MonitoringMode = rtuLeaf.MonitoringState.ToLocalizedString();
 
             var bopCount = 0;
-            var hasBrokenBop = false;
             var traceCount = 0;
-            rtuStateVm.Ports = PreparePortLines(rtuLeaf.ChildrenImpresario.Children, "", ref bopCount, ref hasBrokenBop, ref traceCount);
+            rtuStateVm.Ports = PreparePortLines(rtuLeaf.ChildrenImpresario.Children, "",  ref traceCount);
             rtuStateVm.SetWorstTraceStateAsAggregate();
             rtuStateVm.TraceCount = traceCount;
             rtuStateVm.BopCount = bopCount;
-            rtuStateVm.BopState = bopCount == 0
-                ? RtuPartState.NotSetYet
-                : hasBrokenBop
-                    ? RtuPartState.Broken
-                    : RtuPartState.Ok;
+            rtuStateVm.BopState = rtuLeaf.BopState;
 
-            rtuStateVm.CurrentMeasurementStep = rtuLeaf.MonitoringState == MonitoringState.Off ? Resources.SID_No_measurement : Resources.SID_Waiting_for_data;
+            rtuStateVm.CurrentMeasurementStep = rtuLeaf.MonitoringState == MonitoringState.Off 
+                ? Resources.SID_No_measurement 
+                : Resources.SID_Waiting_for_data;
             return rtuStateVm;
         }
 
-        private List<PortLineModel> PreparePortLines(ObservableCollection<Leaf> leaves, string mainPort, ref int bopCount, ref bool hasBrokenBop, ref int traceCount)
+        private List<PortLineModel> PreparePortLines(ObservableCollection<Leaf> leaves, string mainPort,  ref int traceCount)
         {
             var result = new List<PortLineModel>();
             foreach (var leaf in leaves)
             {
-                var portLeaf = leaf as PortLeaf;
-                if (portLeaf != null)
+                if (leaf is PortLeaf portLeaf)
                     result.Add(PreparePortLine(portLeaf, mainPort));
 
-                var traceLeaf = leaf as TraceLeaf;
-                if (traceLeaf != null && traceLeaf.PortNumber > 0)
+                if (leaf is TraceLeaf traceLeaf && traceLeaf.PortNumber > 0)
                 {
                     result.Add(PreparePortLine(traceLeaf, mainPort));
                     traceCount++;
-                }
-
-                if (leaf is OtauLeaf bopLeaf)
-                {
-                    bopCount++;
-                    hasBrokenBop = bopLeaf.OtauState == RtuPartState.Broken;
-                    result.AddRange(
-                        PreparePortLines(bopLeaf.ChildrenImpresario.Children,
-                            mainPort + bopLeaf.MasterPort + @"-", ref bopCount, ref hasBrokenBop, ref traceCount));
                 }
             }
             return result;
