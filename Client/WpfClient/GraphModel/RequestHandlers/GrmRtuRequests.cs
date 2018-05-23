@@ -68,7 +68,6 @@ namespace Iit.Fibertest.Client
                 _currentlyHiddenRtu.Collection.Remove(rtu.Id);
             else
                 _currentlyHiddenRtu.Collection.Add(rtu.Id);
-          //  _renderingManager.ReRenderCurrentZoneOnUsersHiddenTracesChanged();
         }
     }
 }

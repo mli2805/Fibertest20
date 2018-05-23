@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Linq;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
@@ -39,12 +36,14 @@ namespace Iit.Fibertest.Client
 
         public void ShowAllGraph()
         {
-            _currentlyHiddenRtu.Collection = new ObservableCollection<Guid>();
+            _currentlyHiddenRtu.Collection.Clear();
         }
 
         public void HideAllGraph()
         {
-            _currentlyHiddenRtu.Collection = new ObservableCollection<Guid>(_reaModel.Rtus.Select(r=>r.Id));
+            _currentlyHiddenRtu.Collection.Clear();
+            foreach (var rtu in _reaModel.Rtus)
+                _currentlyHiddenRtu.Collection.Add(rtu.Id);
         }
     }
 }

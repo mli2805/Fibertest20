@@ -176,7 +176,7 @@ namespace Iit.Fibertest.DataCenterCore
             return true;
         }
 
-        public async Task<bool> SendTestDispatch()
+        public async Task<bool> SendTestEmail()
         {
             _logFile.AppendLine("Client asked test dispatch");
             return await _smtp.SendTestDispatch();

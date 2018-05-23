@@ -16,7 +16,6 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         public TimeSpan AdditionalBaseSpan { get; set; } = TimeSpan.Zero;
         public bool IsInCurrentUserZone { get; set; }
 
-
         public bool IsIncluded
         {
             get => _isIncluded;
