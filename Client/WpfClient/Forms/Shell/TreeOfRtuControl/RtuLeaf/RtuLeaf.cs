@@ -55,7 +55,6 @@ namespace Iit.Fibertest.Client
                         ? RtuPartState.Broken
                         : RtuPartState.Ok;
             }
-           
         }
 
         private RtuPartState _mainChannelState;

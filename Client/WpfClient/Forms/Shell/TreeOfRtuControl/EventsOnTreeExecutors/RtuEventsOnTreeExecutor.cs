@@ -135,12 +135,10 @@ namespace Iit.Fibertest.Client
             {
                 if (child is OtauLeaf otauLeaf && otauLeaf.OtauNetAddress.Ip4Address == e.OtauIp)
                 {
-                    otauLeaf.OtauState = e.IsOk ? RtuPartState.Ok : RtuPartState.Broken;
+                    rtuLeaf.SetOtauState(child.Id, e.IsOk);
                 }
             }
+
         }
-
-
-
     }
 }
