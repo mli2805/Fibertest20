@@ -32,15 +32,15 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             }
         }
 
-        public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, ILifetimeScope globalScope, 
-            Model readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+        public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, ILifetimeScope globalScope, Model readModel, 
+            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, MonitoringSettingsModelFactory monitoringSettingsModelFactory)
         {
             _globalScope = globalScope;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
 
-            Model = new MonitoringSettingsModelFactory(readModel).Create(rtuLeaf);
+            Model = monitoringSettingsModelFactory.Create(rtuLeaf);
             Model.CalculateCycleTime();
             SelectedTabIndex = 0; // strange but it's necessary
         }

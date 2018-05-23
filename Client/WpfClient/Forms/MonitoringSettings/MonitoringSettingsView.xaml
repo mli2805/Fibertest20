@@ -76,10 +76,11 @@
                 <DataTemplate DataType="monitoringSettings:MonitoringCharonModel">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel>
-                            <DockPanel Margin="10,0">
-                                <CheckBox Margin="7,2,0,0" DockPanel.Dock="Left"  IsChecked="{Binding GroupenCheck}" ></CheckBox>
+                            <DockPanel Margin="10,0" Name="Header">
+                                <CheckBox Margin="7,2,0,0" DockPanel.Dock="Left"  IsChecked="{Binding GroupenCheck}" />
                                 <TextBlock Text="N" DockPanel.Dock="Left" Width="18" TextAlignment="Center" FontWeight="Bold"/>
-                                <TextBlock Text="{x:Static stringResources:Resources.SID_Fast___Precise}" DockPanel.Dock="Right"  TextAlignment="Right" FontWeight="Bold"/>
+                                <TextBlock Text="{x:Static stringResources:Resources.SID_Fast___Precise}" 
+                                           DockPanel.Dock="Right"  TextAlignment="Right" FontWeight="Bold"/>
                                 <TextBlock Text="{x:Static stringResources:Resources.SID_Trace_title}" TextAlignment="Center" FontWeight="Bold"/>
                             </DockPanel>
                             <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -89,13 +90,14 @@
                                             <DockPanel >
                                                 <Border DockPanel.Dock="Left" BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
                                                     <CheckBox Margin="5,2" IsChecked="{Binding IsIncluded, Mode=TwoWay}" VerticalAlignment="Center"
-                                                          Content="{Binding PortNumber}" Width="40" IsEnabled="{Binding IsReadyForMonitoring}"/>
+                                                          Content="{Binding PortNumber}" Width="40" IsEnabled="{Binding IsCheckboxEnabled}"/>
                                                 </Border>
                                                 <Border DockPanel.Dock="Right" BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
                                                     <TextBlock Margin="5,1" Width="70" Text="{Binding Duration}"/>
                                                 </Border>
                                                 <Border BorderBrush="LightGray" BorderThickness="1" Margin="0,3">
-                                                    <TextBlock  Margin="5,1" Text="{Binding TraceTitle}" TextWrapping="Wrap"/>
+                                                    <TextBlock  Margin="5,1" Text="{Binding TraceTitle}" TextWrapping="Wrap" 
+                                                                Foreground="{Binding TraceTitleBrush}"/>
                                                 </Border>
                                             </DockPanel>
                                         </DataTemplate>

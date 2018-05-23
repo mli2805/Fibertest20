@@ -9,10 +9,12 @@ namespace Iit.Fibertest.Client.MonitoringSettings
     {
         private RtuLeaf _rtuLeaf;
         private readonly Model _readModel;
+        private readonly CurrentUser _currentUser;
 
-        public MonitoringSettingsModelFactory(Model readModel)
+        public MonitoringSettingsModelFactory(Model readModel, CurrentUser currentUser)
         {
             _readModel = readModel;
+            _currentUser = currentUser;
         }
 
         public MonitoringSettingsModel Create(RtuLeaf rtuLeaf)
@@ -94,6 +96,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                         FastBaseSpan = trace.FastDuration,
                         AdditionalBaseSpan = trace.AdditionalDuration,
                         IsIncluded = trace.IsIncludedInMonitoringCycle,
+                        IsInCurrentUserZone = trace.ZoneIds.Contains(_currentUser.ZoneId),
                     });
                 }
                 else
