@@ -29,6 +29,21 @@ namespace Iit.Fibertest.Graph
 
         public string RemoveZone(ZoneRemoved e)
         {
+            foreach (var trace in _model.Traces)
+            {
+                if (trace.ZoneIds.Contains(e.ZoneId))
+                    trace.ZoneIds.Remove(e.ZoneId);
+            }
+
+            foreach (var rtu in _model.Rtus)
+            {
+                if (rtu.ZoneIds.Contains(e.ZoneId))
+                    rtu.ZoneIds.Remove(e.ZoneId);
+            }
+
+            foreach (var user in _model.Users.Where(u=>u.ZoneId == e.ZoneId).ToList())
+                _model.Users.Remove(user);
+
             _model.Zones.Remove( _model.Zones.First(f => f.ZoneId == e.ZoneId));
             return null;
         }

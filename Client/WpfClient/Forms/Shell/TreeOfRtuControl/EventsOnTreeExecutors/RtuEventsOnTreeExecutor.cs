@@ -71,7 +71,7 @@ namespace Iit.Fibertest.Client
 
             otauLeaf.Id = e.Id;
             otauLeaf.Parent = rtuLeaf;
-            otauLeaf.Title = string.Format(Resources.SID_Optical_switch_with_Address, e.NetAddress.ToStringB());
+            otauLeaf.Title = string.Format(Resources.SID_Optical_switch_with_Address, e.NetAddress.ToStringA());
             otauLeaf.Color = Brushes.Black;
             otauLeaf.MasterPort = e.MasterPort;
             otauLeaf.OwnPortCount = e.PortCount;
@@ -133,8 +133,9 @@ namespace Iit.Fibertest.Client
 
             foreach (var child in rtuLeaf.ChildrenImpresario.Children)
             {
-                if (child is OtauLeaf otauLeaf && otauLeaf.OtauNetAddress.Ip4Address == e.OtauIp)
+                if (child is OtauLeaf otauLeaf && otauLeaf.OtauNetAddress.Ip4Address == e.OtauIp && otauLeaf.OtauNetAddress.Port == e.TcpPort)
                 {
+                    otauLeaf.OtauState = e.IsOk ? RtuPartState.Ok : RtuPartState.Broken;
                     rtuLeaf.SetOtauState(child.Id, e.IsOk);
                 }
             }

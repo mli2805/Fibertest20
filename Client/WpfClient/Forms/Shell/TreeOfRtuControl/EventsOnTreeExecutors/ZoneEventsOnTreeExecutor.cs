@@ -78,7 +78,7 @@ namespace Iit.Fibertest.Client
                 var otauLeaf = _globalScope.Resolve<OtauLeaf>();
                 otauLeaf.Id = otau.Id;
                 otauLeaf.Parent = rtuLeaf;
-                otauLeaf.Title = string.Format(Resources.SID_Optical_switch_with_Address, otau.NetAddress.ToStringB());
+                otauLeaf.Title = string.Format(Resources.SID_Optical_switch_with_Address, otau.NetAddress.ToStringA());
                 otauLeaf.Color = Brushes.Black;
                 otauLeaf.MasterPort = otau.MasterPort;
                 otauLeaf.OwnPortCount = otau.PortCount;

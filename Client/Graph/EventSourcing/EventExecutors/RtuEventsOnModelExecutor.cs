@@ -109,6 +109,13 @@ namespace Iit.Fibertest.Graph
                 if (rtu.Children[port].NetAddress == otau.NetAddress)
                     rtu.Children.Remove(port);
             }
+
+            foreach (var bopNetworkEvent in _model.BopNetworkEvents.Where(b => 
+                b.RtuId == e.RtuId && b.OtauIp == otau.NetAddress.Ip4Address && b.TcpPort == otau.NetAddress.Port).ToList())
+            {
+                _model.BopNetworkEvents.Remove(bopNetworkEvent);
+            }
+            
             _model.Otaus.Remove(otau);
             return null;
         }

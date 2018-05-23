@@ -29,6 +29,7 @@ namespace Iit.Fibertest.Client
             switch (e)
             {
                 case BopNetworkEventAdded evnt: AddBopNetworkEvent(evnt); return;
+                case OtauDetached evnt: DetachOtau(evnt); return;
             }
         }
 
@@ -47,9 +48,11 @@ namespace Iit.Fibertest.Client
             ActualBopNetworkEventsViewModel.AddEvent(evnt);
         }
 
-        public void ApplyToTableAll(BopNetworkEventAdded bopNetworkEventAdded)
+        private void DetachOtau(OtauDetached evnt)
         {
-            AllBopNetworkEventsViewModel.AddEvent(bopNetworkEventAdded);
+            ActualBopNetworkEventsViewModel.RemoveEvents(evnt);
+            AllBopNetworkEventsViewModel.RemoveEvents(evnt);
         }
+
     }
 }

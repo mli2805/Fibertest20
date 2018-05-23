@@ -5267,6 +5267,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Users associated with this zone will be removed.
+        /// </summary>
+        public static string SID_Users_associated_with_this_zone_will_be_removed {
+            get {
+                return ResourceManager.GetString("SID_Users_associated_with_this_zone_will_be_removed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Users Db saved successfully..
         /// </summary>
         public static string SID_Users_Db_saved_successfully_ {
@@ -5398,6 +5407,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Zone {
             get {
                 return ResourceManager.GetString("SID_Zone", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Zone &lt;{0}&gt; removal!.
+        /// </summary>
+        public static string SID_Zone___0___removal_ {
+            get {
+                return ResourceManager.GetString("SID_Zone___0___removal_", resourceCulture);
             }
         }
     }

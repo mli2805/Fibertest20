@@ -101,6 +101,7 @@ namespace Iit.Fibertest.DataCenterCore
                 EventTimestamp = DateTime.Now,
                 RtuId = dto.RtuId,
                 OtauIp = dto.OtauIp,
+                TcpPort = dto.TcpPort,
                 IsOk = dto.IsOk,
             };
             await _eventStoreService.SendCommand(cmd, "system", "OnServer");

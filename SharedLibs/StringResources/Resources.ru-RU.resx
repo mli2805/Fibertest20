@@ -1901,4 +1901,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Date" xml:space="preserve">
 		<value>Дата</value>
 	</data>
+	<data name="SID_Zone___0___removal_" xml:space="preserve">
+		<value>Удаление зоны &lt;{0}&gt;!</value>
+	</data>
+	<data name="SID_Users_associated_with_this_zone_will_be_removed" xml:space="preserve">
+		<value>Пользователи ассоциированные с данной зоной, будут удалены</value>
+	</data>
 </root>

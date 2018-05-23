@@ -12,6 +12,8 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public string OtauIp { get; set; }
         [DataMember]
+        public int TcpPort { get; set; }
+        [DataMember]
         public bool IsOk { get; set; }
             
     }

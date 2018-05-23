@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Client
             rtuStateVm.MainAddressState = rtuLeaf.MainChannelState;
 
             rtuStateVm.HasReserveAddress = rtu.IsReserveChannelSet;
-            rtuStateVm.ReserveAddress = rtu.IsReserveChannelSet ? rtu.ReserveChannel.ToStringB() : Resources.SID_None;
+            rtuStateVm.ReserveAddress = rtu.IsReserveChannelSet ? rtu.ReserveChannel.ToStringA() : Resources.SID_None;
             rtuStateVm.ReserveAddressState = rtuLeaf.ReserveChannelState;
 
             rtuStateVm.FullPortCount = rtuLeaf.FullPortCount;

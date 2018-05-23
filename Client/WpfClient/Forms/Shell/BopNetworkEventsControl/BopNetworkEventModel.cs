@@ -11,6 +11,7 @@ namespace Iit.Fibertest.Client
         public DateTime EventTimestamp { get; set; }
 
         public string OtauIp { get; set; }
+        public int TcpPort { get; set; }
 
         public string RtuTitle { get; set; }
         public Guid RtuId { get; set; }

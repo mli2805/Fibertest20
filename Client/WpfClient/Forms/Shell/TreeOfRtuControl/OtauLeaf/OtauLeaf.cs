@@ -32,7 +32,7 @@ namespace Iit.Fibertest.Client
         public string OtauStatePictogram => OtauState.GetPathToPictogram();
 
         public bool HasAttachedTraces =>
-            ChildrenImpresario.Children.Any(l => l is TraceLeaf && ((TraceLeaf) l).PortNumber > 0);
+            ChildrenImpresario.Children.Any(l => l is TraceLeaf && ((TraceLeaf)l).PortNumber > 0);
 
         public override string Name => string.Format(Resources.SID_Port_trace, MasterPort, Title);
 
@@ -66,7 +66,7 @@ namespace Iit.Fibertest.Client
         {
             if (!(param is OtauLeaf otauLeaf)) return;
 
-            var dto = new DetachOtauDto() {OtauId = Id, RtuId = Parent.Id, OpticalPort = MasterPort};
+            var dto = new DetachOtauDto() { OtauId = Id, RtuId = Parent.Id, OpticalPort = MasterPort };
             using (new WaitCursor())
             {
                 var result = await C2DWcfManager.DetachOtauAsync(dto);
@@ -77,9 +77,21 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private DetachOtau CreateCmd()
+        {
+            return new DetachOtau()
+            {
+                Id = Id,
+                RtuId = Parent.Id,
+                OtauIp = OtauNetAddress.Ip4Address,
+                TcpPort = OtauNetAddress.Port,
+                TracesOnOtau = new List<Guid>()
+            };
+        }
+
         public async void RemoveOtauFromGraph(OtauLeaf otauLeaf)
         {
-            var cmd = new DetachOtau() {Id = Id, RtuId = Parent.Id, TracesOnOtau = new List<Guid>()};
+            var cmd = CreateCmd();
             foreach (var child in otauLeaf.ChildrenImpresario.Children)
             {
                 if (child is TraceLeaf traceLeaf)

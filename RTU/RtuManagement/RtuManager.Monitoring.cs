@@ -315,6 +315,7 @@ namespace Iit.Fibertest.RtuManagement
                         if (damagedOtau == null)
                         {
                             damagedOtau = new DamagedOtau(otauIp);
+                            damagedOtau.TcpPort = monitorigPort.NetAddress.Port;
                             _damagedOtaus.Add(damagedOtau);
                         }
                         RunAdditionalOtauRecovery(damagedOtau);

@@ -40,6 +40,7 @@ namespace Iit.Fibertest.Client
                 Nomer = bopNetworkEventAdded.Ordinal,
                 EventTimestamp = bopNetworkEventAdded.EventTimestamp,
                 OtauIp = bopNetworkEventAdded.OtauIp,
+                TcpPort = bopNetworkEventAdded.TcpPort,
                 RtuId = bopNetworkEventAdded.RtuId,
                 RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == bopNetworkEventAdded.RtuId)?.Title,
                 IsOk = bopNetworkEventAdded.IsOk,
@@ -51,6 +52,14 @@ namespace Iit.Fibertest.Client
             var oldEvent = Rows.FirstOrDefault(r => r.OtauIp == otauIp);
             if (oldEvent != null)
                 Rows.Remove(oldEvent);
+        }
+
+        public void RemoveEvents(OtauDetached evnt)
+        {
+            foreach (var bopNetworkEventModel in Rows.Where(r=>r.OtauIp == evnt.OtauIp && r.TcpPort == evnt.TcpPort).ToList())
+            {
+                Rows.Remove(bopNetworkEventModel);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
@@ -30,7 +31,7 @@ namespace Iit.Fibertest.Client
         }
 
         private Zone _selectedZone;
-        public Zone SelectedZone    
+        public Zone SelectedZone
         {
             get { return _selectedZone; }
             set
@@ -47,7 +48,7 @@ namespace Iit.Fibertest.Client
         public bool IsEnabled { get; set; }
 
         public ZonesViewModel(ILifetimeScope globalScope, Model readModel, EventArrivalNotifier eventArrivalNotifier,
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, CurrentUser currentUser )
+            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, CurrentUser currentUser)
         {
             _globalScope = globalScope;
             _readModel = readModel;
@@ -85,14 +86,33 @@ namespace Iit.Fibertest.Client
 
         public async void RemoveZone()
         {
-            var cmd = new RemoveZone(){ZoneId = SelectedZone.ZoneId};
+            if (!ConfirmZoneRemove()) return;
+
+            var cmd = new RemoveZone() { ZoneId = SelectedZone.ZoneId };
             if (await _c2DWcfManager.SendCommandAsObj(cmd) == null)
-                Rows.Remove(SelectedZone);
+            {
+                var zone = SelectedZone;
+                SelectedZone = Rows.First();
+                Rows.Remove(zone);
+            }
+        }
+
+        private bool ConfirmZoneRemove()
+        {
+            var strs = new List<string>()
+            {
+                string.Format(Resources.SID_Zone___0___removal_, SelectedZone.Title),
+                "",
+                Resources.SID_Users_associated_with_this_zone_will_be_removed
+            };
+            var vm = new MyMessageBoxViewModel(MessageType.Confirmation, strs, 0);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+            return vm.IsAnswerPositive;
         }
 
         public void Close()
         {
-                TryClose();
+            TryClose();
         }
 
     }
