@@ -63,6 +63,11 @@ namespace Iit.Fibertest.Client
                     result.Add(PreparePortLine(traceLeaf, mainPort));
                     traceCount++;
                 }
+
+                if (leaf is OtauLeaf bopLeaf)
+                    result.AddRange(
+                        PreparePortLines(bopLeaf.ChildrenImpresario.Children,
+                            mainPort + bopLeaf.MasterPort + @"-", ref traceCount));
             }
             return result;
         }
