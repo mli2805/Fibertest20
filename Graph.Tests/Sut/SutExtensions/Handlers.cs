@@ -105,6 +105,12 @@ namespace Graph.Tests
             return true;
         }
 
+        public static bool RtuStateHandler(this SystemUnderTest sut, object model)
+        {
+            if (!(model is RtuStateViewModel)) return false;
+            return true;
+        }
+
         public static bool FiberUpdateHandler(this SystemUnderTest sut, object model, int userInputedLength, Answer answer)
         {
             if (!(model is FiberUpdateViewModel vm)) return false;

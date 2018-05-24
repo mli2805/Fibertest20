@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly RtuStateModelFactory _rtuStateModelFactory;
         private readonly TreeOfRtuModel _treeOfRtuModel;
 
-        private Dictionary<Guid, RtuStateViewModel> LaunchedViews { get; set; } =
+        public Dictionary<Guid, RtuStateViewModel> LaunchedViews { get; set; } =
             new Dictionary<Guid, RtuStateViewModel>();
 
         public RtuStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager,

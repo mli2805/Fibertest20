@@ -79,6 +79,28 @@ namespace Graph.Tests.NetworkEvent
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Приход сообщений о исправности БОПа", ((string[])(null)));
 #line 3
 this.ScenarioSetup(scenarioInfo);
+#line 4
+ testRunner.Given("Есть инициализированный RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 5
+ testRunner.When("Пользователь присоединяет OTAU с адресом 2.2.2.2 11834", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 6
+ testRunner.Then("У OTAU зеленый квадрат и у RTU на месте для БОПа зеленый квадрат", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 8
+ testRunner.When("Приходит сообщение OTAU 2.2.2.2 НЕисправен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 9
+ testRunner.Then("Событие отражается в обеих таблицах на вкладке сетевых событий БОП", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 10
+ testRunner.Then("Открывается форма Состояние RTU - в поле БОП авария", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 11
+ testRunner.Then("В дереве у RTU для БОПа красный квадрат и у самого OTAU красный квадрат", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 13
+ testRunner.When("Приходит сообщение OTAU 2.2.2.2 исправен", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 14
+ testRunner.Then("В актуальных аварийное событие пропадает а во всех появляется событие ок", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 15
+ testRunner.Then("На форме RTU состояние БОП становится ОК", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 16
+ testRunner.Then("У OTAU зеленый квадрат и у RTU на месте для БОПа зеленый квадрат", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

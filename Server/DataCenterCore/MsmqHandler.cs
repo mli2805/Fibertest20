@@ -86,7 +86,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         }
 
-        private async Task<int> ProcessBopStateChanges(BopStateChangedDto dto)
+        public async Task<int> ProcessBopStateChanges(BopStateChangedDto dto)
         {
             var rtus = await _rtuStationsRepository.GetAllRtuStations();
             if (rtus.FirstOrDefault(r => r.RtuGuid == dto.RtuId) == null)
