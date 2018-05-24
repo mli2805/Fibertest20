@@ -157,14 +157,6 @@ namespace Graph.Tests
             _sut.Poller.EventSourcingTick().Wait();
         }
 
-        [When(@"Кликает в дереве на RTU(.*) пункт меню Скрыть трассы")]
-        public void WhenКликаетВДеревеНаRtuПунктМенюСкрытьТрассы(int p0)
-        {
-            var rtuLeaf = _sut.TreeOfRtuModel.GetById(p0 == 1 ? _sut.Rtu1.Id : _sut.Rtu2.Id);
-            rtuLeaf.MyContextMenu.First(i => i?.Header == Resources.SID_Hide_traces).Command.Execute(rtuLeaf);
-            _sut.Poller.EventSourcingTick().Wait();
-        }
-
-
+       
     }
 }

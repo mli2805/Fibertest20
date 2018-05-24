@@ -132,7 +132,7 @@ this.ScenarioSetup(scenarioInfo);
 #line 37
  testRunner.Given("Входит пользователь root", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 38
- testRunner.When("Кликает в дереве на RTU1 пункт меню Скрыть трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Кликает на карте на иконке RTU1 пункт меню Скрыть трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 40
  testRunner.Then("В дереве видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 41
