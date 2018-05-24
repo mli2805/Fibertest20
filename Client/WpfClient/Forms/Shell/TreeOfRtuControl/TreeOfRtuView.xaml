@@ -53,10 +53,6 @@
                           RenderOptions.BitmapScalingMode="NearestNeighbor">
                 </ToggleButton>
             </ToolBar>
-            <ToolBar Name="AllVisible">
-                <Button Name="ShowAllGraph" Width="30" Height="20" Content="++"/>
-                <Button Name="HideAllGraph" Width="30" Height="20" Content="--"/>
-            </ToolBar>
         </ToolBarTray>
         <StatusBar DockPanel.Dock="Bottom" Height="25">
             <StatusBarItem>

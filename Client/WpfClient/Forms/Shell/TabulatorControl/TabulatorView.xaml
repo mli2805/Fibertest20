@@ -47,7 +47,9 @@
                             </ContentControl>
                         </Button.Content>
                     </Button>
-                    <ComboBox Margin="0" FontSize="14" VerticalContentAlignment="Center"
+                    <Button  cal:Message.Attach="ShowAllGraph" Width="30" Margin="5,0,0,0" Content="++"/>
+                    <Button  cal:Message.Attach="HideAllGraph" Width="30" Margin="5,0,0,0" Content="--"/>
+                    <ComboBox Margin="5,0,0,0" FontSize="14" VerticalContentAlignment="Center"
                               ItemsSource="{Binding GraphReadModel.GraphVisibilityItems}" 
                               SelectedItem="{Binding GraphReadModel.SelectedGraphVisibilityItem}"/>
                 </DockPanel>

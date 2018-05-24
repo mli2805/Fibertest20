@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
@@ -10,6 +11,8 @@ namespace Iit.Fibertest.Client
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
+        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
+        private readonly Model _readModel;
 
         private int _selectedTabIndex;
         public int SelectedTabIndex
@@ -98,12 +101,14 @@ namespace Iit.Fibertest.Client
         public TabulatorViewModel(OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
-            GraphReadModel graphReadModel)
+            GraphReadModel graphReadModel, CurrentlyHiddenRtu currentlyHiddenRtu, Model readModel)
         {
             GraphReadModel = graphReadModel;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
+            _currentlyHiddenRtu = currentlyHiddenRtu;
+            _readModel = readModel;
             SubscribeActualEventsRowChanged();
             SelectedTabIndex = 0;
         }
@@ -179,6 +184,16 @@ namespace Iit.Fibertest.Client
         {
             GraphReadModel.Extinguish();
         }
+        public void ShowAllGraph()
+        {
+            _currentlyHiddenRtu.Collection.Clear();
+        }
 
+        public void HideAllGraph()
+        {
+            _currentlyHiddenRtu.Collection.Clear();
+            foreach (var rtu in _readModel.Rtus)
+                _currentlyHiddenRtu.Collection.Add(rtu.Id);
+        }
     }
 }
