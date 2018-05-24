@@ -1,0 +1,17 @@
+<Window x:Class="DbMigrationWpf.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="400">
+
+ <StackPanel Margin="5">
+     <StackPanel Orientation="Horizontal" Margin="5">
+         <TextBlock Text="Fibertest 2.0 Server" Margin="5"/>
+         <TextBox Text="" Margin="5" Width="120"/>
+     </StackPanel>
+     <StackPanel Orientation="Horizontal" Margin="5">
+        <Button Width="120" Height="25" Content="Apply license" Name="ApplyLicense"/>
+         <TextBlock Margin="20,5,5,5" Text="Cr"></TextBlock>
+     </StackPanel>
+ </StackPanel>
+
+</Window>

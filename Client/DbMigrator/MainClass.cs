@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
@@ -28,7 +27,7 @@ namespace Iit.Fibertest.DbMigrator
 
             var oldFibertestServerIp = iniFile.Read(IniSection.Migrator, IniKey.OldFibertestServerIp, "0.0.0.0");
             Console.WriteLine($"oldFibertestServerIp is {oldFibertestServerIp}  (base refs will be read from this server)");
-            _traceBaseFetcher = new TraceBaseFetcher(oldFibertestServerIp); 
+            _traceBaseFetcher = new TraceBaseFetcher(oldFibertestServerIp);
             // set TRUE for little bases only. on big base could crash 
             _shouldTransferMeasurements = iniFile.Read(IniSection.Migrator, IniKey.ShouldTransferMeasurements, false);
             _measurementsFetcher = new MeasurementsFetcher(oldFibertestServerIp, logFile);
@@ -52,16 +51,16 @@ namespace Iit.Fibertest.DbMigrator
             SendCommandsExcludingAttachTrace();
             _logFile.AppendLine("Graph is sent");
 
-//            TransferBaseRefs();
-//            _logFile.AppendLine("Base refs are sent");
+            TransferBaseRefs();
+            _logFile.AppendLine("Base refs are sent");
 
-//            if (_shouldTransferMeasurements)
-//                _measurementsFetcher.TransferMeasurements(_graphModel, _c2DWcfManager);
+            if (_shouldTransferMeasurements)
+                _measurementsFetcher.TransferMeasurements(_graphModel, _c2DWcfManager);
 
-//            SendCommandsAttachTrace();
-//            _logFile.AppendLine("Migration is terminated");
+            SendCommandsAttachTrace();
+            _logFile.AppendLine("Migration is terminated");
         }
-       
+
 
         private void TransferBaseRefs()
         {
@@ -84,16 +83,15 @@ namespace Iit.Fibertest.DbMigrator
             Console.WriteLine($"{DateTime.Now}   {totalCmds} commands prepared. Sending...");
 
             var list = new List<object>();
-            var portion = 1; // no more than 100 please, max size of wcf operation could be exceeded, anyway check the log if are some errors
+            var portion = 100; // no more than 100 please, max size of wcf operation could be exceeded, anyway check the log if are some errors
             for (var i = 0; i < totalCmds; i++)
             {
-                if ((_graphModel.Commands[i] is AddRtuAtGpsLocation) || _graphModel.Commands[i] is AddEquipmentAtGpsLocation)
-                    list.Add(_graphModel.Commands[i]);
-                if (list.Count == portion) 
+                list.Add(_graphModel.Commands[i]);
+                if (list.Count == portion)
                 {
                     var result = _c2DWcfManager.SendCommandsAsObjs(list).Result;
                     if (result != portion)
-                    _logFile.AppendLine($"i = {i};   commands accepted = {result}");
+                        _logFile.AppendLine($"i = {i};   commands accepted = {result}");
                     list = new List<object>();
                     Console.WriteLine($"{DateTime.Now}   {i + 1}/{totalCmds} commands sent");
                 }

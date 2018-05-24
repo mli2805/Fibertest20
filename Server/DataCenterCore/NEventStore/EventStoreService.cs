@@ -96,7 +96,9 @@ namespace Iit.Fibertest.DataCenterCore
         {
             foreach (var cmd in cmds)
             {
-                _commandAggregator.Validate(cmd);
+                var result = _commandAggregator.Validate(cmd);
+                if (!string.IsNullOrEmpty(result))
+                    _logFile.AppendLine(result);
             }
 
             StoreEventsInDb(username, clientIp);

@@ -30,6 +30,17 @@ namespace Iit.Fibertest.DbMigrator
             System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 
             Encoding win1251 = Encoding.GetEncoding("Windows-1251");
+            var bytesL = File.ReadAllBytes(@"..\db\ForMigratorDeveloper.lic");
+            var license = new LicenseManager().Decode(bytesL);
+            _graphModel.Commands.Add(new ApplyLicense()
+            {
+                Owner = license.Owner,
+                RtuCount = license.RtuCount,
+                ClientStationCount = license.ClientStationCount,
+                SuperClientEnabled = license.SuperClientEnabled,
+                Version = license.Version,
+            });
+
             string[] lines = File.ReadAllLines(@"..\db\export.txt", win1251);
             _logFile.AppendLine($"Export.txt contains {lines.Length} lines");
 
