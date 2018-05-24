@@ -71,9 +71,5 @@ namespace Iit.Fibertest.Client
             return _currentUser.Role <= Role.Root;
         }
 
-        public bool CanHideTraces(object _)
-        {
-            return true;
-        }
     }
 }

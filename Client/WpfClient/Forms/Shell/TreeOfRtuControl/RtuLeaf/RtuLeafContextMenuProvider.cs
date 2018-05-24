@@ -5,14 +5,11 @@ namespace Iit.Fibertest.Client
 {
     public class RtuLeafContextMenuProvider
     {
-        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly RtuLeafActions _rtuLeafActions;
         private readonly RtuLeafActionsPermissions _rtuLeafActionsPermissions;
 
-        public RtuLeafContextMenuProvider( RtuLeafActions rtuLeafActions,  RtuLeafActionsPermissions rtuLeafActionsPermissions, 
-            CurrentlyHiddenRtu currentlyHiddenRtu)
+        public RtuLeafContextMenuProvider( RtuLeafActions rtuLeafActions,  RtuLeafActionsPermissions rtuLeafActionsPermissions)
         {
-            _currentlyHiddenRtu = currentlyHiddenRtu;
             _rtuLeafActions = rtuLeafActions;
             _rtuLeafActionsPermissions = rtuLeafActionsPermissions;
         }
@@ -95,13 +92,7 @@ namespace Iit.Fibertest.Client
                 Command = new ContextMenuAction(_rtuLeafActions.DefineTraceStepByStep, _rtuLeafActionsPermissions.CanDefineTraceStepByStep),
                 CommandParameter = rtuLeaf
             });
-            menu.Add(new MenuItemVm()
-            {
-                Header = Resources.SID_Hide_traces,
-                Command = new ContextMenuAction(_rtuLeafActions.HideTraces, _rtuLeafActionsPermissions.CanHideTraces),
-                CommandParameter = rtuLeaf,
-                IsChecked = _currentlyHiddenRtu.Collection.Contains(rtuLeaf.Id),
-            }); return menu;
+            return menu;
         }
     }
 }
