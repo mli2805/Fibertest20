@@ -21,11 +21,12 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly RtuRemover _rtuRemover;
+        private readonly TabulatorViewModel _tabulatorViewModel;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly LandmarksViewsManager _landmarksViewsManager;
 
         public RtuLeafActions(ILifetimeScope globalScope, IMyLog logFile, Model readModel, GraphReadModel graphReadModel,
-            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, RtuRemover rtuRemover, 
+            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, RtuRemover rtuRemover, TabulatorViewModel tabulatorViewModel,
             RtuStateViewsManager rtuStateViewsManager, LandmarksViewsManager landmarksViewsManager)
         {
             _globalScope = globalScope;
@@ -35,6 +36,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
             _rtuRemover = rtuRemover;
+            _tabulatorViewModel = tabulatorViewModel;
             _rtuStateViewsManager = rtuStateViewsManager;
             _landmarksViewsManager = landmarksViewsManager;
         }
@@ -52,8 +54,12 @@ namespace Iit.Fibertest.Client
         public void ShowRtu(object param)
         {
             if (param is RtuLeaf rtuLeaf)
-                //   rtuLeaf.PostOffice.Message = new CenterToRtu() { RtuId = rtuLeaf.Id };
+            {
+
                 _graphReadModel.PlaceRtuIntoScreenCenter(rtuLeaf.Id);
+                if (_tabulatorViewModel.SelectedTabIndex != 3)
+                    _tabulatorViewModel.SelectedTabIndex = 3;
+            }
         }
 
         public void InitializeRtu(object param)

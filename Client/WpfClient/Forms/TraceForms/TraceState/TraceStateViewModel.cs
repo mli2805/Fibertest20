@@ -18,6 +18,7 @@ namespace Iit.Fibertest.Client
         private readonly ReflectogramManager _reflectogramManager;
         private readonly SoundManager _soundManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly TabulatorViewModel _tabulatorViewModel;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private bool _isSoundForThisVmInstanceOn;
         private bool _isTraceStateChanged;
@@ -30,7 +31,7 @@ namespace Iit.Fibertest.Client
         public EventStatusComboItem SelectedEventStatus { get; set; }
 
         public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser, ReflectogramManager reflectogramManager, 
-            SoundManager soundManager, IWcfServiceForClient c2DWcfManager, 
+            SoundManager soundManager, IWcfServiceForClient c2DWcfManager, TabulatorViewModel tabulatorViewModel,
             TraceStatisticsViewsManager traceStatisticsViewsManager)
         {
             _logFile = logFile;
@@ -38,6 +39,7 @@ namespace Iit.Fibertest.Client
             _reflectogramManager = reflectogramManager;
             _soundManager = soundManager;
             _c2DWcfManager = c2DWcfManager;
+            _tabulatorViewModel = tabulatorViewModel;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
         }
 
@@ -103,7 +105,12 @@ namespace Iit.Fibertest.Client
             callback(true);
         }
 
-        public void ShowAccidentPlace() { }
+        public void ShowAccidentPlace()
+        {
+
+            if (_tabulatorViewModel.SelectedTabIndex != 3)
+                _tabulatorViewModel.SelectedTabIndex = 3;
+        }
 
         public void ShowReflectogram()
         {

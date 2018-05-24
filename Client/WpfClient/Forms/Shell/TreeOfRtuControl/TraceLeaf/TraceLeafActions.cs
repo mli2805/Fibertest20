@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly GraphReadModel _graphReadModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly TabulatorViewModel _tabulatorViewModel;
         private readonly TraceStateViewsManager _traceStateViewsManager;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private readonly BaseRefsAssignViewModel _baseRefsAssignViewModel;
@@ -25,7 +26,7 @@ namespace Iit.Fibertest.Client
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
 
         public TraceLeafActions(ILifetimeScope globalScope, Model readModel, GraphReadModel graphReadModel,
-            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
+            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, TabulatorViewModel tabulatorViewModel,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             BaseRefsAssignViewModel baseRefsAssignViewModel, LandmarksViewsManager landmarksViewsManager,
             OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel,
@@ -36,6 +37,7 @@ namespace Iit.Fibertest.Client
             _graphReadModel = graphReadModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
+            _tabulatorViewModel = tabulatorViewModel;
             _traceStateViewsManager = traceStateViewsManager;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
             _baseRefsAssignViewModel = baseRefsAssignViewModel;
@@ -63,6 +65,9 @@ namespace Iit.Fibertest.Client
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             var fiberIds = _readModel.GetFibersByNodes(trace.NodeIds).ToList();
             _graphReadModel.ShowTrace(trace.NodeIds[0], fiberIds);
+
+            if (_tabulatorViewModel.SelectedTabIndex != 3)
+                _tabulatorViewModel.SelectedTabIndex = 3;
         }
 
         public void AssignBaseRefs(object param)
