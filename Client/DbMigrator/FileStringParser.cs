@@ -86,6 +86,8 @@ namespace Iit.Fibertest.DbMigrator
                     Port = 23 // main charon always 23
                 },
                 ReserveChannel = new NetAddress() { Ip4Address = parts[9], Port = int.Parse(parts[10]) },
+                Version = "",
+                AcceptableMeasParams = new TreeOfAcceptableMeasParams(),
             };
 
             _graphModel.Commands.Add(initializeRtu);

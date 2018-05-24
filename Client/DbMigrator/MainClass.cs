@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
@@ -51,14 +52,14 @@ namespace Iit.Fibertest.DbMigrator
             SendCommandsExcludingAttachTrace();
             _logFile.AppendLine("Graph is sent");
 
-            TransferBaseRefs();
-            _logFile.AppendLine("Base refs are sent");
+//            TransferBaseRefs();
+//            _logFile.AppendLine("Base refs are sent");
 
-            if (_shouldTransferMeasurements)
-                _measurementsFetcher.TransferMeasurements(_graphModel, _c2DWcfManager);
+//            if (_shouldTransferMeasurements)
+//                _measurementsFetcher.TransferMeasurements(_graphModel, _c2DWcfManager);
 
-            SendCommandsAttachTrace();
-            _logFile.AppendLine("Migration is terminated");
+//            SendCommandsAttachTrace();
+//            _logFile.AppendLine("Migration is terminated");
         }
        
 
@@ -83,12 +84,16 @@ namespace Iit.Fibertest.DbMigrator
             Console.WriteLine($"{DateTime.Now}   {totalCmds} commands prepared. Sending...");
 
             var list = new List<object>();
+            var portion = 1; // no more than 100 please, max size of wcf operation could be exceeded, anyway check the log if are some errors
             for (var i = 0; i < totalCmds; i++)
             {
-                list.Add(_graphModel.Commands[i]);
-                if (list.Count == 100) // no more please, max size of wcf operation could be exceeded, anyway check the log if are some errors
+                if (!(_graphModel.Commands[i] is InitializeRtu))
+                    list.Add(_graphModel.Commands[i]);
+                if (list.Count == portion) 
                 {
-                    _c2DWcfManager.SendCommandsAsObjs(list).Wait();
+                    var result = _c2DWcfManager.SendCommandsAsObjs(list).Result;
+                    if (result != portion)
+                    _logFile.AppendLine($"i = {i};   commands accepted = {result}");
                     list = new List<object>();
                     Console.WriteLine($"{DateTime.Now}   {i + 1}/{totalCmds} commands sent");
                 }
