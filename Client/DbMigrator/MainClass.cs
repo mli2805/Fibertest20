@@ -87,7 +87,7 @@ namespace Iit.Fibertest.DbMigrator
             var portion = 1; // no more than 100 please, max size of wcf operation could be exceeded, anyway check the log if are some errors
             for (var i = 0; i < totalCmds; i++)
             {
-                if (!(_graphModel.Commands[i] is InitializeRtu))
+                if ((_graphModel.Commands[i] is AddRtuAtGpsLocation) || _graphModel.Commands[i] is AddEquipmentAtGpsLocation)
                     list.Add(_graphModel.Commands[i]);
                 if (list.Count == portion) 
                 {
