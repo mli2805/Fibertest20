@@ -13,17 +13,19 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
+        private readonly Model _writeModel;
         private readonly SorFileRepository _sorFileRepository;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly MeasurementFactory _measurementFactory;
         private readonly EventStoreService _eventStoreService;
 
-        public MsmqHandler(IniFile iniFile, IMyLog logFile,
+        public MsmqHandler(IniFile iniFile, IMyLog logFile, Model writeModel,
             SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository, MeasurementFactory measurementFactory,
             EventStoreService eventStoreService)
         {
             _iniFile = iniFile;
             _logFile = logFile;
+            _writeModel = writeModel;
             _sorFileRepository = sorFileRepository;
             _rtuStationsRepository = rtuStationsRepository;
             _measurementFactory = measurementFactory;
@@ -95,16 +97,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return -1;
             }
 
-            _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.OtauIp} state changed to {dto.IsOk}");
-            var cmd = new AddBopNetworkEvent()
-            {
-                EventTimestamp = DateTime.Now,
-                RtuId = dto.RtuId,
-                OtauIp = dto.OtauIp,
-                TcpPort = dto.TcpPort,
-                IsOk = dto.IsOk,
-            };
-            await _eventStoreService.SendCommand(cmd, "system", "OnServer");
+            await CheckAndSendBopNetworkEventIfNeeded(dto);
             return 0;
         }
 
@@ -132,12 +125,54 @@ namespace Iit.Fibertest.DataCenterCore
                 return -1;
             }
 
+            await CheckAndSendBopNetworkIfNeeded(dto);
+
             // TODO snmp, email, sms
             if (command.EventStatus > EventStatus.JustMeasurementNotAnEvent)
             {
             }
 
             return 0;
+        }
+
+        private async Task CheckAndSendBopNetworkEventIfNeeded(BopStateChangedDto dto)
+        {
+            if (_writeModel.Otaus.Any(o =>
+                o.NetAddress.Ip4Address == dto.OtauIp
+                && o.NetAddress.Port == dto.TcpPort
+                && o.IsOk != dto.IsOk))
+            {
+                _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.OtauIp} state changed to {dto.IsOk}");
+                var cmd = new AddBopNetworkEvent()
+                {
+                    EventTimestamp = DateTime.Now,
+                    RtuId = dto.RtuId,
+                    OtauIp = dto.OtauIp,
+                    TcpPort = dto.TcpPort,
+                    IsOk = dto.IsOk,
+                };
+                await _eventStoreService.SendCommand(cmd, "system", "OnServer");
+            }
+        }
+
+        private async Task CheckAndSendBopNetworkIfNeeded(MonitoringResultDto dto)
+        {
+            if (_writeModel.Otaus.Any(o =>
+                o.NetAddress.Ip4Address == dto.PortWithTrace.OtauPort.OtauIp
+                && o.NetAddress.Port == dto.PortWithTrace.OtauPort.OtauTcpPort
+                && !o.IsOk))
+            {
+                _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.PortWithTrace.OtauPort.OtauIp} state changed to OK");
+                var cmd = new AddBopNetworkEvent()
+                {
+                    EventTimestamp = DateTime.Now,
+                    RtuId = dto.RtuId,
+                    OtauIp = dto.PortWithTrace.OtauPort.OtauIp,
+                    TcpPort = dto.PortWithTrace.OtauPort.OtauTcpPort,
+                    IsOk = true,
+                };
+                await _eventStoreService.SendCommand(cmd, "system", "OnServer");
+            }
         }
     }
 }

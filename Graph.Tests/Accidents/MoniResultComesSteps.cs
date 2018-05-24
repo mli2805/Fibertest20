@@ -47,7 +47,7 @@ namespace Graph.Tests
             var dto = new MonitoringResultDto()
             {
                 RtuId = _trace.RtuId,
-                PortWithTrace = new PortWithTraceDto() { TraceId = _trace.TraceId },
+                PortWithTrace = new PortWithTraceDto() { TraceId = _trace.TraceId, OtauPort = new OtauPortDto()},
                 TraceState = traceState,
                 BaseRefType = baseType,
                 SorBytes = sorBytes,

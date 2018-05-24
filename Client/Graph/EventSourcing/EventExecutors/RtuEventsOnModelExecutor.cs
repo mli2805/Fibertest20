@@ -75,6 +75,7 @@ namespace Iit.Fibertest.Graph
         public string AttachOtau(OtauAttached e)
         {
             Otau otau = Mapper.Map<Otau>(e);
+            otau.IsOk = true;
             _model.Otaus.Add(otau);
             var otauDto = new OtauDto { Serial = otau.Serial, NetAddress = otau.NetAddress, OwnPortCount = otau.PortCount };
             _model.Rtus.First(r=>r.Id == otau.RtuId).Children.Add(otau.MasterPort, otauDto);

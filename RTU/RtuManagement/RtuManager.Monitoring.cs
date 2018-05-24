@@ -293,6 +293,7 @@ namespace Iit.Fibertest.RtuManagement
                             {
                                 RtuId = _id,
                                 OtauIp = otauIp,
+                                TcpPort = monitorigPort.NetAddress.Port,
                                 IsOk = true,
                             };
                             SendByMsmq(dto);

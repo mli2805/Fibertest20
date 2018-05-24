@@ -40,6 +40,7 @@ namespace Graph.Tests
         [Then(@"У OTAU зеленый квадрат и у RTU на месте для БОПа зеленый квадрат")]
         public void ThenУotauЗеленыйКвадратИуrtuНаМестеДляБоПаЗеленыйКвадрат()
         {
+            _sut.ReadModel.Otaus.First().IsOk.Should().Be(true);
             _rtuLeaf.BopState.Should().Be(RtuPartState.Ok);
             _otauLeaf.OtauState.Should().Be(RtuPartState.Ok);
         }
