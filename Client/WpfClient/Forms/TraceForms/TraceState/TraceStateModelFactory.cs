@@ -75,7 +75,10 @@ namespace Iit.Fibertest.Client
                 return result;
 
             result.TraceTitle = trace.Title;
-            result.RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
+            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
+            if (rtu != null)
+                result.RtuPosition = _readModel.Nodes.First(n => n.NodeId == rtu.NodeId).Position;
+            result.RtuTitle = rtu?.Title;
             result.PortTitle = trace.OtauPort == null ? Resources.SID__not_attached_ : trace.OtauPort.IsPortOnMainCharon
                 ? trace.OtauPort.OpticalPort.ToString()
                 : $@"{trace.OtauPort.OtauIp}:{trace.OtauPort.OtauTcpPort}-{trace.OtauPort.OpticalPort}";

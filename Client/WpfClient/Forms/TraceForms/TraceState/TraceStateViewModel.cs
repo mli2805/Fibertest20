@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
+using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -20,6 +21,7 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly TabulatorViewModel _tabulatorViewModel;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
+        private readonly GraphReadModel _graphReadModel;
         private bool _isSoundForThisVmInstanceOn;
         private bool _isTraceStateChanged;
         public bool IsOpen { get; private set; }
@@ -32,7 +34,7 @@ namespace Iit.Fibertest.Client
 
         public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser, ReflectogramManager reflectogramManager, 
             SoundManager soundManager, IWcfServiceForClient c2DWcfManager, TabulatorViewModel tabulatorViewModel,
-            TraceStatisticsViewsManager traceStatisticsViewsManager)
+            TraceStatisticsViewsManager traceStatisticsViewsManager, GraphReadModel graphReadModel)
         {
             _logFile = logFile;
             _currentUser = currentUser;
@@ -41,6 +43,7 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
             _tabulatorViewModel = tabulatorViewModel;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
+            _graphReadModel = graphReadModel;
         }
 
         public void Initialize(TraceStateModel model, bool isLastStateForThisTrace, bool isTraceStateChanged)
@@ -107,7 +110,12 @@ namespace Iit.Fibertest.Client
 
         public void ShowAccidentPlace()
         {
+            PointLatLng accidentPoint;
+            if (Model.Accidents.Count == 0 || Model.SelectedAccident == null)
+                accidentPoint = Model.Header.RtuPosition;
+            else accidentPoint = Model.SelectedAccident.Position;
 
+            _graphReadModel.PlacePointIntoScreenCenter(accidentPoint);
             if (_tabulatorViewModel.SelectedTabIndex != 3)
                 _tabulatorViewModel.SelectedTabIndex = 3;
         }

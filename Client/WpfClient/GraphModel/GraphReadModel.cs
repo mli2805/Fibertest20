@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
+using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
@@ -96,6 +97,11 @@ namespace Iit.Fibertest.Client
             var nodeVm = Data.Nodes.First(n => n.Id == nodeId);
             nodeVm.IsHighlighted = true;
             MainMap.Position = nodeVm.Position;
+        }
+
+        public void PlacePointIntoScreenCenter(PointLatLng position)
+        {
+            MainMap.Position = position;
         }
 
         public void ShowTrace(Guid rtuNodeId, List<Guid> fibers)

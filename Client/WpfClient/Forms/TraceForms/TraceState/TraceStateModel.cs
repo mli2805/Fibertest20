@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
 using Caliburn.Micro;
+using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -38,6 +39,8 @@ namespace Iit.Fibertest.Client
         }
 
         public string PortTitle { get; set; } = "";
+
+        public PointLatLng RtuPosition { get; set; }
     }
 
     public class TraceStateModel : PropertyChangedBase
@@ -79,6 +82,7 @@ namespace Iit.Fibertest.Client
             => EventStatus > EventStatus.EventButNotAnAccident ? Visibility.Visible : Visibility.Collapsed;
 
         public List<AccidentLineModel> Accidents { get; set; } = new List<AccidentLineModel>();
+        public AccidentLineModel SelectedAccident { get; set; }
 
        
         public Visibility AccidentsPanelVisibility

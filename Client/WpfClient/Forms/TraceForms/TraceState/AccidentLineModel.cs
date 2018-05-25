@@ -1,4 +1,5 @@
 ﻿using System;
+using GMap.NET;
 
 namespace Iit.Fibertest.Client
 {
@@ -14,5 +15,7 @@ namespace Iit.Fibertest.Client
         public string Bottom3 { get; set; }
         public string Bottom4 { get; set; }
         public Uri Scheme { get; set; }
+
+        public PointLatLng Position { get; set; }
     }
 }

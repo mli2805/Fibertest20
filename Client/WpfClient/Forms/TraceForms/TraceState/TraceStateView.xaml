@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-        mc:Ignorable="d" Width="520" SizeToContent="Height" ResizeMode="NoResize"
+        mc:Ignorable="d" Width="540" SizeToContent="Height" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:TraceStateViewModel}" >
     <Window.Resources>
         <SolidColorBrush x:Key="TransparentBrush" Color="Transparent"/>
@@ -59,10 +59,10 @@
                 </StackPanel>
             </GroupBox>
         </DockPanel>
-        <GroupBox Margin="5,0,5,5" Header="{Binding Model.AccidentsHeader}" Visibility="{Binding Model.AccidentsPanelVisibility}" MaxHeight="216">
+        <GroupBox Margin="5,0,5,5" Header="{Binding Model.AccidentsHeader}" Visibility="{Binding Model.AccidentsPanelVisibility}" MaxHeight="226">
             <DockPanel HorizontalAlignment="Center" Margin="0,3">
                 <ScrollViewer VerticalScrollBarVisibility="Auto" >
-                    <ItemsControl DockPanel.Dock="Top" ItemsSource="{Binding Model.Accidents}">
+                    <ListView DockPanel.Dock="Top" ItemsSource="{Binding Model.Accidents}" SelectedItem="{Binding Model.SelectedAccident}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="client:AccidentLineModel">
                                 <Border BorderThickness="0,0,0,1" BorderBrush="Gray" Padding="0,3,0,0">
@@ -101,7 +101,7 @@
                                 </Border>
                             </DataTemplate>
                         </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                    </ListView>
                 </ScrollViewer>
             </DockPanel>
         </GroupBox>

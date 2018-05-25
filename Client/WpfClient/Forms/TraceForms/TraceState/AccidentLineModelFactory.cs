@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -64,6 +65,8 @@ namespace Iit.Fibertest.Client
                 : isLastNode
                     ? new Uri(@"pack://application:,,,/Resources/AccidentSchemes/AccidentInLastNode.png")
                     : new Uri(@"pack://application:,,,/Resources/AccidentSchemes/AccidentInNode.png");
+            if (nodeVm != null)
+                model.Position = nodeVm.Position;
             return model;
         }
 
@@ -98,7 +101,8 @@ namespace Iit.Fibertest.Client
             model.Scheme = accidentAsNewEvent.AccidentSeriousness == FiberState.FiberBreak
                             ? new Uri(@"pack://application:,,,/Resources/AccidentSchemes/FiberBrokenBetweenNodes.png")
                             : new Uri(@"pack://application:,,,/Resources/AccidentSchemes/AccidentBetweenNodes.png");
-
+            if (accidentGps != null)
+                model.Position = (PointLatLng)accidentGps; 
             return model;
         }
 
@@ -124,6 +128,8 @@ namespace Iit.Fibertest.Client
             model.Bottom4 = $@"{accidentInOldEvent.AccidentDistanceKm:0.000} {Resources.SID_km}";
 
             model.Scheme = new Uri(@"pack://application:,,,/Resources/AccidentSchemes/BadSegment.png");
+            if (leftNodeVm != null)
+                model.Position = leftNodeVm.Position;
             return model;
         }
 
