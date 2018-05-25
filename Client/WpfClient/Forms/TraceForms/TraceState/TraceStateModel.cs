@@ -40,7 +40,7 @@ namespace Iit.Fibertest.Client
 
         public string PortTitle { get; set; } = "";
 
-        public PointLatLng RtuPosition { get; set; }
+        public PointLatLng? RtuPosition { get; set; }
     }
 
     public class TraceStateModel : PropertyChangedBase

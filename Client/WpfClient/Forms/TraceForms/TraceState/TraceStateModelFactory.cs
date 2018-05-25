@@ -62,7 +62,7 @@ namespace Iit.Fibertest.Client
             var lines = new List<AccidentLineModel>();
             for (var i = 0; i < accidents.Count; i++)
             {
-                lines.Add(_accidentLineModelFactory.Create(accidents[i], i+1));
+                lines.Add(_accidentLineModelFactory.Create(accidents[i], i + 1));
             }
             return lines;
         }
@@ -76,8 +76,7 @@ namespace Iit.Fibertest.Client
 
             result.TraceTitle = trace.Title;
             var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
-            if (rtu != null)
-                result.RtuPosition = _readModel.Nodes.First(n => n.NodeId == rtu.NodeId).Position;
+            result.RtuPosition = _readModel.Nodes.FirstOrDefault(n => n.NodeId == rtu?.NodeId)?.Position;
             result.RtuTitle = rtu?.Title;
             result.PortTitle = trace.OtauPort == null ? Resources.SID__not_attached_ : trace.OtauPort.IsPortOnMainCharon
                 ? trace.OtauPort.OpticalPort.ToString()

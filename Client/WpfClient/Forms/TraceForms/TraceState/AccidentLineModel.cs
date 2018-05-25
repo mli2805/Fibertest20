@@ -16,6 +16,6 @@ namespace Iit.Fibertest.Client
         public string Bottom4 { get; set; }
         public Uri Scheme { get; set; }
 
-        public PointLatLng Position { get; set; }
+        public PointLatLng? Position { get; set; }
     }
 }

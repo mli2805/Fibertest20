@@ -110,12 +110,13 @@ namespace Iit.Fibertest.Client
 
         public void ShowAccidentPlace()
         {
-            PointLatLng accidentPoint;
+            PointLatLng? accidentPoint;
             if (Model.Accidents.Count == 0 || Model.SelectedAccident == null)
                 accidentPoint = Model.Header.RtuPosition;
             else accidentPoint = Model.SelectedAccident.Position;
 
-            _graphReadModel.PlacePointIntoScreenCenter(accidentPoint);
+            if (accidentPoint != null)
+             _graphReadModel.PlacePointIntoScreenCenter((PointLatLng)accidentPoint);
             if (_tabulatorViewModel.SelectedTabIndex != 3)
                 _tabulatorViewModel.SelectedTabIndex = 3;
         }
