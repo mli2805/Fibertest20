@@ -1,11 +1,13 @@
 <Window x:Class="DbMigrationWpf.ShellView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Width="400" Height="400">
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:d="clr-namespace:DbMigrationWpf"
+        Width="600" Height="400">
 
     <DockPanel Margin="5">
         <StackPanel DockPanel.Dock="Bottom"  Orientation="Horizontal" Margin="5">
-            <Button Width="120" Height="25" Margin="5" Content="Migrate!" Name="Migrate"/>
+            <Button Width="120" Height="25" Margin="5" Content="Migrate!" Name="Migrate" IsEnabled="{Binding IsAllReadyForMigration}"/>
             <Button Width="120" Height="25" Margin="5" Content="Close" Name="Close"/>
         </StackPanel>
 
@@ -17,7 +19,17 @@
             <Button Width="120" Height="25" Margin="5"  Content="Load license" Name="LoadLicense"/>
             <TextBlock Margin="20,10,5,5" Text="{Binding CurrentLicenseText}" Width="200" />
         </StackPanel>
-        <Border/>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Fibertest 1.5 Server (read base refs)" Margin="5"/>
+            <TextBox Text="{Binding Ft15ServerAddress}" Margin="5" Width="120"/>
+        </StackPanel> 
+        <Border>
+            <ListView Margin="5" ItemsSource="{Binding ProgressLines}" >
+                <i:Interaction.Behaviors>
+                    <d:ScrollToBottomOnAddBehavior/>
+                </i:Interaction.Behaviors>
+            </ListView>
+        </Border>
     </DockPanel>
 
 </Window>

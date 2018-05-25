@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.IO;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -13,10 +14,15 @@ namespace DbMigrationWpf
         private readonly LogFile _logFile;
         private DoubleAddress _serverDoubleAddress;
         private readonly C2DWcfManager _c2DWcfManager;
+        private readonly GraphModel _graphModel = new GraphModel();
+
 
         public string Ft20ServerAddress { get; set; }
-        private string _currentLicenseText;
+        public string Ft15ServerAddress { get; set; }
 
+        public ObservableCollection<string> ProgressLines { get; set; } = new ObservableCollection<string>();
+
+        private string _currentLicenseText = "";
         public string CurrentLicenseText
         {
             get => _currentLicenseText;
@@ -25,7 +31,14 @@ namespace DbMigrationWpf
                 if (Equals(value, _currentLicenseText)) return;
                 _currentLicenseText = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IsAllReadyForMigration));
             }
+        }
+
+        public bool IsAllReadyForMigration
+        {
+            get => CurrentLicenseText != "";
+            
         }
 
         public ShellViewModel()
@@ -46,7 +59,7 @@ namespace DbMigrationWpf
         private void Initialize()
         {
             Ft20ServerAddress = _serverDoubleAddress.Main.Ip4Address;
-
+            Ft15ServerAddress = _iniFile.Read(IniSection.Migrator, IniKey.OldFibertestServerIp, "0.0.0.0");
         }
 
         public async void LoadLicense()
@@ -75,9 +88,11 @@ namespace DbMigrationWpf
             CurrentLicenseText = $"RTU - {license.RtuCount}";
         }
 
-        public void Migrate()
+        public async void Migrate()
         {
-
+            var migrationManager = new MigrationManager(_logFile, _graphModel, _c2DWcfManager, ProgressLines);
+            await migrationManager.Migrate(false, Ft15ServerAddress);
+            File.WriteAllLines(@"..\log\progress.txt", ProgressLines);
         }
 
         public void Close()
