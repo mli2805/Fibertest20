@@ -11,20 +11,23 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
+        private readonly OneTraceRenderer _oneTraceRenderer;
         private RenderingResult _renderingResult;
 
-        public CurrentZoneRenderer(Model model, IMyLog logFile, CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu)
+        public CurrentZoneRenderer(Model model, IMyLog logFile, CurrentUser currentUser,
+            CurrentlyHiddenRtu currentlyHiddenRtu, OneTraceRenderer oneTraceRenderer)
         {
             _model = model;
             _logFile = logFile;
             _currentUser = currentUser;
             _currentlyHiddenRtu = currentlyHiddenRtu;
+            _oneTraceRenderer = oneTraceRenderer;
         }
 
         public RenderingResult GetRendering()
         {
             _renderingResult = new RenderingResult();
-            if  (_currentUser.Role <= Role.Root)
+            if (_currentUser.Role <= Role.Root)
                 RenderAllMinusHiddenTraces();
             else
                 RenderVisibleRtusAndTraces();
@@ -43,9 +46,7 @@ namespace Iit.Fibertest.Client
 
             foreach (var trace in _model.Traces.Where(t => t.ZoneIds.Contains(_currentUser.ZoneId) && !_currentlyHiddenRtu.Collection.Contains(t.RtuId)))
             {
-                RenderNodesOfTrace(trace);
-                RenderAccidentNodesOfTrace(trace);
-                RenderFibersOfTrace(trace);
+                _oneTraceRenderer.GetRendering(trace, _renderingResult);
             }
         }
 
@@ -71,7 +72,7 @@ namespace Iit.Fibertest.Client
                         fiberVm.TracesWithExceededLossCoeff.Remove(trace.TraceId);
 
                     if (fiberVm.States.Count == 0)
-                       _renderingResult.FiberVms.Remove(fiberVm);
+                        _renderingResult.FiberVms.Remove(fiberVm);
                 }
 
                 foreach (var nodeId in trace.NodeIds)
@@ -107,45 +108,6 @@ namespace Iit.Fibertest.Client
             _renderingResult.NodeVms.Add(ElementRenderer.Map(node));
         }
 
-        private void RenderFibersOfTrace(Trace trace)
-        {
-            var fibers = _model.GetTraceFibers(trace);
-            foreach (var fiber in fibers)
-            {
-                var fiberVm = _renderingResult.FiberVms.FirstOrDefault(f => f.Id == fiber.FiberId); // prevent repeating fibers if trace has loop
-                if (fiberVm == null)
-                {
-                    fiberVm = ElementRenderer.Map(fiber, _renderingResult.NodeVms);
-                    if (fiberVm == null) continue; // something goes wrong, nodeVms not found to define fiberVm
-
-                    _renderingResult.FiberVms.Add(fiberVm);
-                }
-
-                if (!fiberVm.States.ContainsKey(trace.TraceId)) // trace could contains loop (pass the same fiber twice or more)
-                    fiberVm.States.Add(trace.TraceId, trace.State);
-                if (fiber.TracesWithExceededLossCoeff.ContainsKey(trace.TraceId) &&
-                    !fiberVm.TracesWithExceededLossCoeff.ContainsKey(trace.TraceId))
-                    fiberVm.TracesWithExceededLossCoeff.Add(trace.TraceId, fiber.TracesWithExceededLossCoeff[trace.TraceId]);
-            }
-        }
-
-        private void RenderAccidentNodesOfTrace(Trace trace)
-        {
-            foreach (var node in _model.Nodes.Where(n =>
-                n.TypeOfLastAddedEquipment == EquipmentType.AccidentPlace && n.AccidentOnTraceId == trace.TraceId))
-                _renderingResult.NodeVms.Add(ElementRenderer.Map(node));
-        }
-
-        private void RenderNodesOfTrace(Trace trace)
-        {
-            foreach (var nodeId in trace.NodeIds)
-            {
-                if (_renderingResult.NodeVms.Any(n => n.Id == nodeId)) continue;
-                var node = _model.Nodes.FirstOrDefault(n => n.NodeId == nodeId);
-                if (node != null)
-                    _renderingResult.NodeVms.Add(ElementRenderer.Map(node));
-            }
-        }
 
     }
 }

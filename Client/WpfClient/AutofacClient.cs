@@ -163,6 +163,7 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<UiDispatcherProvider>().As<IDispatcherProvider>().InstancePerLifetimeScope();
             builder.RegisterType<RenderingApplier>();
+            builder.RegisterType<OneTraceRenderer>();
             builder.RegisterType<CurrentZoneRenderer>();
             builder.RegisterType<RenderingManager>();
             builder.RegisterType<StoredEventsLoader>().InstancePerLifetimeScope();

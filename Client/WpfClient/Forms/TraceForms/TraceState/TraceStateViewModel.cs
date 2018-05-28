@@ -16,9 +16,11 @@ namespace Iit.Fibertest.Client
     {
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
+        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly SoundManager _soundManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly RenderingManager _renderingManager;
         private readonly TabulatorViewModel _tabulatorViewModel;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private readonly GraphReadModel _graphReadModel;
@@ -32,15 +34,19 @@ namespace Iit.Fibertest.Client
         public List<EventStatusComboItem> StatusRows { get; set; }
         public EventStatusComboItem SelectedEventStatus { get; set; }
 
-        public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser, ReflectogramManager reflectogramManager, 
-            SoundManager soundManager, IWcfServiceForClient c2DWcfManager, TabulatorViewModel tabulatorViewModel,
+        public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser, 
+            CurrentlyHiddenRtu currentlyHiddenRtu, ReflectogramManager reflectogramManager, 
+            SoundManager soundManager, IWcfServiceForClient c2DWcfManager, 
+            RenderingManager renderingManager, TabulatorViewModel tabulatorViewModel,
             TraceStatisticsViewsManager traceStatisticsViewsManager, GraphReadModel graphReadModel)
         {
             _logFile = logFile;
             _currentUser = currentUser;
+            _currentlyHiddenRtu = currentlyHiddenRtu;
             _reflectogramManager = reflectogramManager;
             _soundManager = soundManager;
             _c2DWcfManager = c2DWcfManager;
+            _renderingManager = renderingManager;
             _tabulatorViewModel = tabulatorViewModel;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
             _graphReadModel = graphReadModel;
@@ -115,6 +121,8 @@ namespace Iit.Fibertest.Client
                 accidentPoint = Model.Header.RtuPosition;
             else accidentPoint = Model.SelectedAccident.Position;
 
+            if (_currentlyHiddenRtu.Collection.Contains(Model.Trace.RtuId))
+                _renderingManager.ShowBrokenTrace(Model.Trace);
             if (accidentPoint != null)
              _graphReadModel.PlacePointIntoScreenCenter((PointLatLng)accidentPoint);
             if (_tabulatorViewModel.SelectedTabIndex != 3)

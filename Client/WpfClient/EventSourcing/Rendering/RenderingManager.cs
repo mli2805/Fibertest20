@@ -1,15 +1,19 @@
-﻿namespace Iit.Fibertest.Client
+﻿using Iit.Fibertest.Graph;
+
+namespace Iit.Fibertest.Client
 {
     public class RenderingManager
     {
         private readonly CurrentZoneRenderer _currentZoneRenderer;
+        private readonly OneTraceRenderer _oneTraceRenderer;
         private readonly RenderingApplier _renderingApplier;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
 
-        public RenderingManager(CurrentZoneRenderer currentZoneRenderer,
+        public RenderingManager(CurrentZoneRenderer currentZoneRenderer, OneTraceRenderer oneTraceRenderer,
              RenderingApplier renderingApplier, CurrentlyHiddenRtu currentlyHiddenRtu)
         {
             _currentZoneRenderer = currentZoneRenderer;
+            _oneTraceRenderer = oneTraceRenderer;
             _renderingApplier = renderingApplier;
             _currentlyHiddenRtu = currentlyHiddenRtu;
         }
@@ -42,6 +46,13 @@
         public void ReRenderCurrentZoneOnResponsibilitiesChanged()
         {
             var renderingResult = _currentZoneRenderer.GetRendering();
+            _renderingApplier.ToExistingGraph(renderingResult);
+        }
+
+        public void ShowBrokenTrace(Trace trace)
+        {
+            var renderingResult = new RenderingResult();
+            _oneTraceRenderer.GetRendering(trace, renderingResult);
             _renderingApplier.ToExistingGraph(renderingResult);
         }
 

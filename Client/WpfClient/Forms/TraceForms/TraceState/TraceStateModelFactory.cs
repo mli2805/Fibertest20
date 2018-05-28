@@ -27,6 +27,7 @@ namespace Iit.Fibertest.Client
             {
                 Header = PrepareHeader(measurement.TraceId),
                 TraceId = measurement.TraceId,
+                Trace = _readModel.Traces.First(t=>t.TraceId == measurement.TraceId),
                 TraceState = measurement.TraceState,
                 BaseRefType = measurement.BaseRefType,
                 MeasurementTimestamp = measurement.MeasurementTimestamp,
@@ -46,6 +47,7 @@ namespace Iit.Fibertest.Client
             {
                 Header = PrepareHeader(opticalEventModel.TraceId),
                 TraceId = opticalEventModel.TraceId,
+                Trace = _readModel.Traces.First(t=>t.TraceId == opticalEventModel.TraceId),
                 TraceState = opticalEventModel.TraceState,
                 BaseRefType = opticalEventModel.BaseRefType,
                 MeasurementTimestamp = opticalEventModel.MeasurementTimestamp,

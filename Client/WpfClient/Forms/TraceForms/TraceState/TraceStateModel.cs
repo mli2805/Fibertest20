@@ -46,6 +46,7 @@ namespace Iit.Fibertest.Client
     public class TraceStateModel : PropertyChangedBase
     {
         public Guid TraceId { get; set; }
+        public Trace Trace { get; set; }
         public TraceStateModelHeader Header { get; set; }
         public FiberState TraceState { get; set; }
         public BaseRefType BaseRefType { get; set; }

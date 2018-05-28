@@ -181,6 +181,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="ClientHeartbeat.cs" />
+    <Compile Include="EventSourcing\Rendering\OneTraceRenderer.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\EventToLogLineParser.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\LogLine.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationCode.cs" />
