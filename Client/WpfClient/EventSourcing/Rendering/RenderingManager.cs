@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
         {
             var renderingResult = new RenderingResult();
             _oneTraceRenderer.GetRendering(trace, renderingResult);
-            _renderingApplier.ToExistingGraph(renderingResult);
+            _renderingApplier.AddElementsOfShownTraces(renderingResult);
         }
 
     }

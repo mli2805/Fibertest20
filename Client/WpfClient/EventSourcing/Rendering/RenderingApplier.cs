@@ -26,25 +26,20 @@ namespace Iit.Fibertest.Client
 
         public void ToExistingGraph(RenderingResult renderingResult)
         {
-            // remove nodes for deleted traces
-            foreach (var nodeVm in _graphReadModel.Data.Nodes.ToList())
-            {
-                if (renderingResult.NodeVms.All(n => n.Id != nodeVm.Id))
-                    _graphReadModel.Data.Nodes.Remove(nodeVm);
-            }
+            RemoveElementsOfHiddenTraces(renderingResult);
 
+            AddElementsOfShownTraces(renderingResult);
+
+            _logFile.AppendLine(@"Drawing finished");
+        }
+
+        public void AddElementsOfShownTraces(RenderingResult renderingResult)
+        {
             // add nodes for added traces
             foreach (var nodeVm in renderingResult.NodeVms)
             {
                 if (_graphReadModel.Data.Nodes.All(n => n.Id != nodeVm.Id))
                     _graphReadModel.Data.Nodes.Add(nodeVm);
-            }
-
-            // remove fibers for deleted traces
-            foreach (var fiberVm in _graphReadModel.Data.Fibers.ToList())
-            {
-                if (renderingResult.FiberVms.All(f => f.Id != fiberVm.Id))
-                    _graphReadModel.Data.Fibers.Remove(fiberVm);
             }
 
             // add fibers for added traces
@@ -69,8 +64,23 @@ namespace Iit.Fibertest.Client
                     }
                 }
             }
-            _logFile.AppendLine(@"Drawing finished");
         }
 
+        private void RemoveElementsOfHiddenTraces(RenderingResult renderingResult)
+        {
+            // remove nodes for deleted traces
+            foreach (var nodeVm in _graphReadModel.Data.Nodes.ToList())
+            {
+                if (renderingResult.NodeVms.All(n => n.Id != nodeVm.Id))
+                    _graphReadModel.Data.Nodes.Remove(nodeVm);
+            }
+
+            // remove fibers for deleted traces
+            foreach (var fiberVm in _graphReadModel.Data.Fibers.ToList())
+            {
+                if (renderingResult.FiberVms.All(f => f.Id != fiberVm.Id))
+                    _graphReadModel.Data.Fibers.Remove(fiberVm);
+            }
+        }
     }
 }

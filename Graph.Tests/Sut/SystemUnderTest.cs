@@ -109,6 +109,10 @@ namespace Graph.Tests
 
             // client's 
             builder.RegisterModule<AutofacClient>();
+            var iniFile = new IniFile();
+            iniFile.AssignFile(@"client.ini");
+
+            builder.RegisterInstance(iniFile);
 
             // fakes
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().InstancePerLifetimeScope();

@@ -20,12 +20,23 @@ namespace Iit.Fibertest.Client {
 
         protected override void Configure()
         {
+        }
+
+        private void SomeInitialActions(string iniFileName, string clientOrdinal)
+        {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacClient>();
+
+            //            var iniFile = _container.Resolve<IniFile>();
+            var iniFile = new IniFile();
+            iniFile.AssignFile(iniFileName);
+
+            builder.RegisterInstance(iniFile);
+            iniFile.Write(IniSection.Client, IniKey.ClientOrdinal, clientOrdinal);
+
             _container = builder.Build();
-            
-            var iniFile = _container.Resolve<IniFile>();
-            var currentCulture =  iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
+
+            var currentCulture = iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
             Thread.CurrentThread.CurrentCulture = new CultureInfo(currentCulture);
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
 
@@ -56,7 +67,13 @@ namespace Iit.Fibertest.Client {
             _container.InjectProperties(instance);
         }
 
-        protected override void OnStartup(object sender, StartupEventArgs e) {
+        protected override void OnStartup(object sender, StartupEventArgs e)
+        {
+            var postfix = e.Args.Length == 0 ? "" : e.Args[0];
+            var iniFileName = $@"client{postfix}.ini";
+
+            SomeInitialActions(iniFileName, postfix);
+
             DisplayRootViewFor<IShell>();
         }
 

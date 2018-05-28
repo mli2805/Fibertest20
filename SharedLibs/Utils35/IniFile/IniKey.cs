@@ -25,6 +25,9 @@
         PreviousOwnPortCount,
         ShouldLogHeartbeatProblems,
 
+        // Client
+        ClientOrdinal,
+
         // Migrator
         OldFibertestServerIp,  
         ShouldTransferMeasurements,

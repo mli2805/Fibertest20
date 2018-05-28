@@ -65,9 +65,9 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<WaitCursor>().As<IWaitCursor>();
 
-            var iniFile = new IniFile();
-            iniFile.AssignFile(@"Client.ini");
-            builder.RegisterInstance(iniFile);
+//            var iniFile = new IniFile();
+//            iniFile.AssignFile(@"Client.ini");
+//            builder.RegisterInstance(iniFile);
             builder.RegisterType<LogFile>().As<IMyLog>().InstancePerLifetimeScope();
 
             builder.RegisterType<Model>().InstancePerLifetimeScope();

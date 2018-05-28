@@ -28,13 +28,15 @@ namespace Iit.Fibertest.Client
             TypeNameHandling = TypeNameHandling.All
         };
 
-        private static readonly string ServerListFile = Utils.FileNameForSure(@"..\ini\", @"servers.list", false);
+//        private static readonly string ServerListFile = Utils.FileNameForSure(@"..\ini\", @"servers.list", false);
 
-        public static List<Server> Load(IMyLog logFile)
+        public static List<Server> Load(IniFile iniFile, IMyLog logFile)
         {
             try
             {
-                var contents = File.ReadAllLines(ServerListFile);
+                var postfix = iniFile.Read(IniSection.Client, IniKey.ClientOrdinal, "");
+                string serverListFile = Utils.FileNameForSure(@"..\ini\", $@"servers{postfix}.list", false);
+                var contents = File.ReadAllLines(serverListFile);
                 var servers = contents.Select(s => (Server)JsonConvert.DeserializeObject(s, JsonSerializerSettings)).ToList();
                 logFile.AppendLine($@"{servers.Count} servers in my list.");
                 return servers;
@@ -46,12 +48,14 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public static void Save(List<Server> servers, IMyLog logFile)
+        public static void Save(List<Server> servers, IniFile iniFile, IMyLog logFile)
         {
             try
             {
+                var postfix = iniFile.Read(IniSection.Client, IniKey.ClientOrdinal, "");
+                string serverListFile = Utils.FileNameForSure(@"..\ini\", $@"servers{postfix}.list", false);
                 var list = servers.Select(p => JsonConvert.SerializeObject(p, JsonSerializerSettings));
-                File.WriteAllLines(ServerListFile, list);
+                File.WriteAllLines(serverListFile, list);
             }
             catch (Exception e)
             {

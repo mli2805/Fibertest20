@@ -95,7 +95,7 @@ namespace Iit.Fibertest.Client
 
         private void InitializeView()
         {
-            Servers = ServerList.Load(_logFile);
+            Servers = ServerList.Load(_iniFile, _logFile);
             SelectedServer = Servers.FirstOrDefault(s => s.IsLastSelected) ?? Servers.FirstOrDefault();
             if (SelectedServer == null)
                 ToggleToAddServerMode();
@@ -197,7 +197,7 @@ namespace Iit.Fibertest.Client
             var clientAddress = new NetAddress(_clientAddress, TcpPorts.ClientListenTo);
             _iniFile.Write(clientAddress, IniSection.ClientLocalAddress);
 
-            ServerList.Save(Servers, _logFile);
+            ServerList.Save(Servers, _iniFile, _logFile);
 
             TryClose(true);
         }
