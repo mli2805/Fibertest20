@@ -1,7 +1,6 @@
 using System;
 using System.ServiceModel;
 using Iit.Fibertest.ClientWcfServiceInterface;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
@@ -26,11 +25,12 @@ namespace Iit.Fibertest.Client
         {
             try
             {
-                var uri = new Uri(WcfFactory.CombineUriString(@"localhost", (int)TcpPorts.ClientListenTo, @"ClientWcfService"));
+                var clientTcpPort = _iniFile.Read(IniSection.ClientLocalAddress, IniKey.TcpPort, 11843);
+                var uri = new Uri(WcfFactory.CombineUriString(@"localhost", clientTcpPort, @"ClientWcfService"));
                 _wcfHost = new ServiceHost(_clientWcfService);
                 _wcfHost.AddServiceEndpoint(typeof(IClientWcfService), WcfFactory.CreateDefaultNetTcpBinding(_iniFile), uri );
                 _wcfHost.Open();
-                _logFile.AppendLine(@"Datacenter listener started successfully");
+                _logFile.AppendLine(@"DataCenter listener started successfully");
             }
             catch (Exception e)
             {

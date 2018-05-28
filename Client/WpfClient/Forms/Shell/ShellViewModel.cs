@@ -23,6 +23,7 @@ namespace Iit.Fibertest.Client
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly IClientWcfServiceHost _host;
         private readonly ILifetimeScope _globalScope;
+        private readonly IniFile _iniFile;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly ILocalDbManager _localDbManager;
 
@@ -35,7 +36,7 @@ namespace Iit.Fibertest.Client
         public NetworkEventsDoubleViewModel NetworkEventsDoubleViewModel { get; }
         public BopNetworkEventsDoubleViewModel BopNetworkEventsDoubleViewModel { get; }
 
-        public ShellViewModel(ILifetimeScope globalScope, IMyLog logFile, CurrentUser currentUser, 
+        public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, CurrentUser currentUser, 
             CurrentDatacenterParameters currentDatacenterParameters, IClientWcfServiceHost host,
             GraphReadModel graphReadModel, IWcfServiceForClient c2DWcfManager, ILocalDbManager localDbManager, IWindowManager windowManager,
             LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, StoredEventsLoader storedEventsLoader, ClientPoller clientPoller,
@@ -55,6 +56,7 @@ namespace Iit.Fibertest.Client
             NetworkEventsDoubleViewModel = networkEventsDoubleViewModel;
             BopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
             _globalScope = globalScope;
+            _iniFile = iniFile;
             _c2DWcfManager = c2DWcfManager;
             _localDbManager = localDbManager;
             _windowManager = windowManager;
@@ -90,7 +92,8 @@ namespace Iit.Fibertest.Client
 
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-            _logFile.AssignFile(@"Client.log");
+            var postfix = _iniFile.Read(IniSection.Client, IniKey.ClientOrdinal, "");
+            _logFile.AssignFile($@"client{postfix}.log");
             _logFile.AppendLine(@"Client application started!");
 
             var isAuthenticationSuccessfull = _windowManager.ShowDialog(_loginViewModel);

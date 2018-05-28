@@ -16,10 +16,9 @@ namespace Iit.Fibertest.Client
             AppDomain.CurrentDomain.UnhandledException +=
                 (s, e) => Log((Exception)e.ExceptionObject);
 
-            String thisprocessname = Process.GetCurrentProcess().ProcessName;
-
-            if (Process.GetProcesses().Count(p => p.ProcessName == thisprocessname) > 1)
-                throw new Exception();
+//            String thisprocessname = Process.GetCurrentProcess().ProcessName;
+//            if (Process.GetProcesses().Count(p => p.ProcessName == thisprocessname) > 1)
+//                throw new Exception();
         }
         public App()
         {
