@@ -22,6 +22,7 @@ namespace Iit.Fibertest.Client
             {
 //                if (value == _selectedTabIndex) return;
                 _selectedTabIndex = value;
+                NotifyOfPropertyChange();
                 ChangeTabVisibility();
             }
         }
