@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Globalization;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Windows;
@@ -9,12 +11,14 @@ using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.Client {
+namespace Iit.Fibertest.Client
+{
     public class AppBootstrapper : BootstrapperBase
     {
         private ILifetimeScope _container;
 
-        public AppBootstrapper() {
+        public AppBootstrapper()
+        {
             Initialize();
         }
 
@@ -70,6 +74,11 @@ namespace Iit.Fibertest.Client {
         protected override void OnStartup(object sender, StartupEventArgs e)
         {
             var postfix = e.Args.Length == 0 ? "" : e.Args[0];
+
+            String thisprocessname = Process.GetCurrentProcess().ProcessName;
+            if ((postfix == "") && (Process.GetProcesses().Count(p => p.ProcessName == thisprocessname) > 1))
+                Environment.FailFast(@"Fast termination of application.");
+
             var iniFileName = $@"client{postfix}.ini";
 
             SomeInitialActions(iniFileName, postfix);

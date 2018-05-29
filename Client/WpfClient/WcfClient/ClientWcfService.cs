@@ -1,13 +1,28 @@
-﻿using System.ServiceModel;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.ClientWcfServiceInterface;
 using Iit.Fibertest.Dto;
+using JetBrains.Annotations;
 
 namespace Iit.Fibertest.Client
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    public class ClientWcfService : IClientWcfService
+    public class ClientWcfService : IClientWcfService, INotifyPropertyChanged
     {
+        private int _cmd;
+        public int Cmd
+        {
+            get => _cmd;
+            set
+            {
+                if (value == _cmd) return;
+                _cmd = value;
+                OnPropertyChanged();
+            }
+        }
+
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly ClientMeasurementViewModel _clientMeasurementViewModel;
 
@@ -30,7 +45,14 @@ namespace Iit.Fibertest.Client
             return Task.FromResult(0);
         }
 
-      
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        [NotifyPropertyChangedInvocator]
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
 }

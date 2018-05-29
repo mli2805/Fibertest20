@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
+        private readonly ClientWcfService _clientWcfService;
         private readonly IClientWcfServiceHost _host;
         private readonly ILifetimeScope _globalScope;
         private readonly IniFile _iniFile;
@@ -37,7 +38,7 @@ namespace Iit.Fibertest.Client
         public BopNetworkEventsDoubleViewModel BopNetworkEventsDoubleViewModel { get; }
 
         public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, CurrentUser currentUser, 
-            CurrentDatacenterParameters currentDatacenterParameters, IClientWcfServiceHost host,
+            CurrentDatacenterParameters currentDatacenterParameters, ClientWcfService clientWcfService, IClientWcfServiceHost host,
             GraphReadModel graphReadModel, IWcfServiceForClient c2DWcfManager, ILocalDbManager localDbManager, IWindowManager windowManager,
             LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, StoredEventsLoader storedEventsLoader, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
@@ -67,6 +68,7 @@ namespace Iit.Fibertest.Client
             _logFile = logFile;
             _currentUser = currentUser;
             _currentDatacenterParameters = currentDatacenterParameters;
+            _clientWcfService = clientWcfService;
             _host = host;
         }
 
@@ -134,7 +136,19 @@ namespace Iit.Fibertest.Client
                 _clientPoller.Start(); // graph events including monitoring results events
 
                 _host.StartWcfListener(); // Accepts only monitoring step messages and out of turn measurements results
+                _clientWcfService.PropertyChanged += _clientWcfService_PropertyChanged;
                 _clientHeartbeat.Start();
+            }
+        }
+
+        private void _clientWcfService_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Cmd")
+            {
+                if (_clientWcfService.Cmd == 1)
+                    this.ActivateWith(null);
+                if (_clientWcfService.Cmd == 99)
+                    TryClose();
             }
         }
 
