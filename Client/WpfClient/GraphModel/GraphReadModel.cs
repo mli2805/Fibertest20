@@ -109,7 +109,7 @@ namespace Iit.Fibertest.Client
             var nodeVm = Data.Nodes.First(n => n.Id == rtuNodeId);
             MainMap.Position = nodeVm.Position;
             foreach (var fiberId in fibers)
-                Data.Fibers.First(f => f.Id == fiberId).IsHighlighted = true;
+                Data.Fibers.First(f => f.Id == fiberId).IsHighlighted = true; 
         }
       
         public void Extinguish()
