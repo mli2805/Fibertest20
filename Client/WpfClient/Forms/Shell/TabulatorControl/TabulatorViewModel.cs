@@ -15,7 +15,6 @@ namespace Iit.Fibertest.Client
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly Model _readModel;
-        private readonly IWindowManager _windowManager;
 
         private int _selectedTabIndex;
         public int SelectedTabIndex
@@ -110,7 +109,7 @@ namespace Iit.Fibertest.Client
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
             GraphReadModel graphReadModel, CurrentlyHiddenRtu currentlyHiddenRtu, 
-            Model readModel, IWindowManager windowManager)
+            Model readModel)
         {
             GraphReadModel = graphReadModel;
             _globalScope = globalScope;
@@ -119,7 +118,6 @@ namespace Iit.Fibertest.Client
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
             _currentlyHiddenRtu = currentlyHiddenRtu;
             _readModel = readModel;
-            _windowManager = windowManager;
             SubscribeActualEventsRowChanged();
             SelectedTabIndex = 0;
         }
@@ -200,13 +198,7 @@ namespace Iit.Fibertest.Client
         {
             using (_globalScope.Resolve<IWaitCursor>())
             {
-                var vm = new MyMessageBoxViewModel(MessageType.LongOperation, @"----------------------------------------------------");
-                _windowManager.ShowWindowWithAssignedOwner(vm);
-
                 _currentlyHiddenRtu.Collection.Clear();
-
-                vm.TryClose();
-
             }
 
         }
@@ -215,14 +207,9 @@ namespace Iit.Fibertest.Client
         {
             using (_globalScope.Resolve<IWaitCursor>())
             {
-                var vm = new MyMessageBoxViewModel(MessageType.LongOperation, @"----------------------------------------------");
-                _windowManager.ShowWindowWithAssignedOwner(vm);
-
                 _currentlyHiddenRtu.Collection.Clear();
                 foreach (var rtu in _readModel.Rtus)
                     _currentlyHiddenRtu.Collection.Add(rtu.Id);
-
-                vm.TryClose();
             }
         }
     }
