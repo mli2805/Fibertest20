@@ -2,6 +2,6 @@
 {
     public enum MessageType
     {
-        Error, Information, Confirmation
+        Error, Information, Confirmation, LongOperation
     }
 }

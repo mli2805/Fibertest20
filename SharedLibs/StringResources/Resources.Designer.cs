@@ -2529,6 +2529,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Long operation, please wait.
+        /// </summary>
+        public static string SID_Long_operation__please_wait {
+            get {
+                return ResourceManager.GetString("SID_Long_operation__please_wait", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Long operation: Removing trace&apos;s measurements... Please wait..
         /// </summary>
         public static string SID_Long_operation__Removing_trace_s_measurements____Please_wait_ {

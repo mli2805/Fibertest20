@@ -12,6 +12,7 @@ namespace Iit.Fibertest.Client
                 case MessageType.Error: return Resources.SID_Error_;
                 case MessageType.Information: return Resources.SID_Information;
                 case MessageType.Confirmation: return Resources.SID_Confirmation;
+                case MessageType.LongOperation: return Resources.SID_Long_operation__please_wait;
                 default: return Resources.SID_Message;
             }
         }

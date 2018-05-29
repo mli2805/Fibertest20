@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
@@ -8,11 +9,13 @@ namespace Iit.Fibertest.Client
     public class TabulatorViewModel : PropertyChangedBase
     {
         public GraphReadModel GraphReadModel { get; }
+        private readonly ILifetimeScope _globalScope;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly Model _readModel;
+        private readonly IWindowManager _windowManager;
 
         private int _selectedTabIndex;
         public int SelectedTabIndex
@@ -20,12 +23,15 @@ namespace Iit.Fibertest.Client
             get => _selectedTabIndex;
             set
             {
-//                if (value == _selectedTabIndex) return;
+                //                if (value == _selectedTabIndex) return;
                 _selectedTabIndex = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IsGisActive));
                 ChangeTabVisibility();
             }
         }
+
+        public bool IsGisActive => SelectedTabIndex == 3;
 
         #region Pictograms
 
@@ -99,17 +105,21 @@ namespace Iit.Fibertest.Client
 
         #endregion
 
-        public TabulatorViewModel(OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
+        public TabulatorViewModel(ILifetimeScope globalScope,
+            OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
-            GraphReadModel graphReadModel, CurrentlyHiddenRtu currentlyHiddenRtu, Model readModel)
+            GraphReadModel graphReadModel, CurrentlyHiddenRtu currentlyHiddenRtu, 
+            Model readModel, IWindowManager windowManager)
         {
             GraphReadModel = graphReadModel;
+            _globalScope = globalScope;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
             _currentlyHiddenRtu = currentlyHiddenRtu;
             _readModel = readModel;
+            _windowManager = windowManager;
             SubscribeActualEventsRowChanged();
             SelectedTabIndex = 0;
         }
@@ -185,16 +195,35 @@ namespace Iit.Fibertest.Client
         {
             GraphReadModel.Extinguish();
         }
+
         public void ShowAllGraph()
         {
-            _currentlyHiddenRtu.Collection.Clear();
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.LongOperation, @"----------------------------------------------------");
+                _windowManager.ShowWindowWithAssignedOwner(vm);
+
+                _currentlyHiddenRtu.Collection.Clear();
+
+                vm.TryClose();
+
+            }
+
         }
 
         public void HideAllGraph()
         {
-            _currentlyHiddenRtu.Collection.Clear();
-            foreach (var rtu in _readModel.Rtus)
-                _currentlyHiddenRtu.Collection.Add(rtu.Id);
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.LongOperation, @"----------------------------------------------");
+                _windowManager.ShowWindowWithAssignedOwner(vm);
+
+                _currentlyHiddenRtu.Collection.Clear();
+                foreach (var rtu in _readModel.Rtus)
+                    _currentlyHiddenRtu.Collection.Add(rtu.Id);
+
+                vm.TryClose();
+            }
         }
     }
 }
