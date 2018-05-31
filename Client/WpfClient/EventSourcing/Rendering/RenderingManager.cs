@@ -77,7 +77,8 @@ namespace Iit.Fibertest.Client
             _renderingApplier.ToExistingGraph(renderingResult);
         }
 
-        public void ShowBrokenTrace(Trace trace)
+        // User asks to show broken or highlight trace
+        public void ShowOneTrace(Trace trace)
         {
             var renderingResult = new RenderingResult();
             _oneTraceRenderer.GetRendering(trace, renderingResult);

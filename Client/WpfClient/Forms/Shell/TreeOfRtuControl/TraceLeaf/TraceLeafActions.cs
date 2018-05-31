@@ -24,13 +24,16 @@ namespace Iit.Fibertest.Client
         private readonly LandmarksViewsManager _landmarksViewsManager;
         private readonly OutOfTurnPreciseMeasurementViewModel _outOfTurnPreciseMeasurementViewModel;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
+        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
+        private readonly RenderingManager _renderingManager;
 
         public TraceLeafActions(ILifetimeScope globalScope, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, TabulatorViewModel tabulatorViewModel,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             BaseRefsAssignViewModel baseRefsAssignViewModel, LandmarksViewsManager landmarksViewsManager,
             OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel,
-            CommonStatusBarViewModel commonStatusBarViewModel)
+            CommonStatusBarViewModel commonStatusBarViewModel,
+            CurrentlyHiddenRtu currentlyHiddenRtu, RenderingManager renderingManager)
         {
             _globalScope = globalScope;
             _readModel = readModel;
@@ -44,6 +47,8 @@ namespace Iit.Fibertest.Client
             _landmarksViewsManager = landmarksViewsManager;
             _outOfTurnPreciseMeasurementViewModel = outOfTurnPreciseMeasurementViewModel;
             _commonStatusBarViewModel = commonStatusBarViewModel;
+            _currentlyHiddenRtu = currentlyHiddenRtu;
+            _renderingManager = renderingManager;
         }
 
         public void UpdateTrace(object param)
@@ -64,6 +69,9 @@ namespace Iit.Fibertest.Client
                 return;
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             var fiberIds = _readModel.GetFibersByNodes(trace.NodeIds).ToList();
+
+            if (_currentlyHiddenRtu.Collection.Contains(trace.RtuId))
+                _renderingManager.ShowOneTrace(trace);
             _graphReadModel.ShowTrace(trace.NodeIds[0], fiberIds);
 
             if (_tabulatorViewModel.SelectedTabIndex != 3)

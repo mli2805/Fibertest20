@@ -60,17 +60,15 @@ namespace Iit.Fibertest.Client
 
         public void HideAllOnClick()
         {
-            _logFile.AppendLine($@"1 {DateTime.Now.ToString(@"HH-mm-ss-FFF")}");
             _graphReadModel.Data.Fibers.Clear();
             _graphReadModel.Data.Nodes.Clear();
-            _logFile.AppendLine($@"2 {DateTime.Now.ToString(@"HH-mm-ss-FFF")}");
+            var start = DateTime.Now;
             for (int i = _graphReadModel.MainMap.Markers.Count - 1; i >= 0; i--)
             {
                 _graphReadModel.MainMap.Markers.RemoveAt(i);
             }
-            _logFile.AppendLine($@"3 {DateTime.Now.ToString(@"HH-mm-ss-FFF")}");
+            _logFile.AppendLine($@"MainMap.Markers are cleaned in {DateTime.Now - start}");
             HideAllOnStart();
-            _logFile.AppendLine($@"4 {DateTime.Now.ToString(@"HH-mm-ss-FFF")}");
         }
     }
 }

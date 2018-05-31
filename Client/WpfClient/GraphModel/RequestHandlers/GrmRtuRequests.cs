@@ -64,6 +64,8 @@ namespace Iit.Fibertest.Client
         public void ChangeRtuTracesVisibility(Guid rtuNodeId)
         {
             var rtu = _model.Rtus.First(r => r.NodeId == rtuNodeId);
+            _currentlyHiddenRtu.IsHideAllPressed = false;
+            _currentlyHiddenRtu.IsShowAllPressed = false;
             if (_currentlyHiddenRtu.Collection.Contains(rtu.Id))
                 _currentlyHiddenRtu.Collection.Remove(rtu.Id);
             else

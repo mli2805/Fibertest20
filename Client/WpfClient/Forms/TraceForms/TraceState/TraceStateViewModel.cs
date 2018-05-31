@@ -122,7 +122,7 @@ namespace Iit.Fibertest.Client
             else accidentPoint = Model.SelectedAccident.Position;
 
             if (_currentlyHiddenRtu.Collection.Contains(Model.Trace.RtuId))
-                _renderingManager.ShowBrokenTrace(Model.Trace);
+                _renderingManager.ShowOneTrace(Model.Trace);
             if (accidentPoint != null)
              _graphReadModel.PlacePointIntoScreenCenter((PointLatLng)accidentPoint);
             if (_tabulatorViewModel.SelectedTabIndex != 3)
