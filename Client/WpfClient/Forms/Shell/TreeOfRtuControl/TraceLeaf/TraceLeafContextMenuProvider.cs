@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Client
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Show_trace,
-                Command = new ContextMenuAction(_traceLeafActions.ShowTrace, _traceLeafActionsPermissions.CanShowTrace),
+                Command = new ContextMenuAction(_traceLeafActions.HighlightTrace, _traceLeafActionsPermissions.CanHighlightTrace),
                 CommandParameter = traceLeaf
             });
 

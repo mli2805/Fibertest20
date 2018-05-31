@@ -63,7 +63,7 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
-        public void ShowTrace(object param)
+        public void HighlightTrace(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;

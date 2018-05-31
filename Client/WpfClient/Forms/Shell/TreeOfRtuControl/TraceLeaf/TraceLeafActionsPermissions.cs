@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
             return _currentUser.Role <= Role.Root;
         }
 
-        public bool CanShowTrace(object param)
+        public bool CanHighlightTrace(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return false;

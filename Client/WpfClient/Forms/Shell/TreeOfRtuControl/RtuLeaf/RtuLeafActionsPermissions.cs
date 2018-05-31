@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
             return _currentUser.Role <= Role.Root;
         }
 
-        public bool CanShowRtu(object param) { return true; }
+        public bool CanHighlightRtu(object param) { return true; }
 
         public bool CanInitializeRtu(object param)
         {

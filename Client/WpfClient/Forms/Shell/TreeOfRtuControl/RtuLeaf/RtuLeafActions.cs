@@ -51,7 +51,7 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
-        public void ShowRtu(object param)
+        public void HigtlightRtu(object param)
         {
             if (param is RtuLeaf rtuLeaf)
             {
