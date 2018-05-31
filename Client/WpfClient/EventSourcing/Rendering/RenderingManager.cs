@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.Graph;
+﻿using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
@@ -8,39 +9,66 @@ namespace Iit.Fibertest.Client
         private readonly OneTraceRenderer _oneTraceRenderer;
         private readonly RenderingApplier _renderingApplier;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
+        private readonly CurrentUser _currentUser;
+        private readonly RootRenderAndApply _rootRenderAndApply;
 
         public RenderingManager(CurrentZoneRenderer currentZoneRenderer, OneTraceRenderer oneTraceRenderer,
-             RenderingApplier renderingApplier, CurrentlyHiddenRtu currentlyHiddenRtu)
+             RenderingApplier renderingApplier, CurrentlyHiddenRtu currentlyHiddenRtu,
+            CurrentUser currentUser, RootRenderAndApply rootRenderAndApply)
         {
             _currentZoneRenderer = currentZoneRenderer;
             _oneTraceRenderer = oneTraceRenderer;
             _renderingApplier = renderingApplier;
             _currentlyHiddenRtu = currentlyHiddenRtu;
+            _currentUser = currentUser;
+            _rootRenderAndApply = rootRenderAndApply;
         }
 
         public void RenderCurrentZoneOnApplicationStart()
         {
             _currentlyHiddenRtu.Initialize();
-            _currentlyHiddenRtu.PropertyChanged += _currentlyHiddenRtu_PropertyChanged; // show/hide one RTU traces
             _currentlyHiddenRtu.Collection.CollectionChanged += HiddenRtu_CollectionChanged; // show/hide all graph
-            var renderingResult = _currentZoneRenderer.GetRendering();
-            _renderingApplier.ToEmptyGraph(renderingResult);
+
+            if (_currentUser.Role <= Role.Root)
+            {
+                if (_currentlyHiddenRtu.Collection.Count == 0)
+                    _rootRenderAndApply.ShowAllOnStart();
+                else
+                    _rootRenderAndApply.HideAllOnStart();
+            }
+            else
+            {
+                var renderingResult = _currentZoneRenderer.GetRendering();
+                _renderingApplier.ToEmptyGraph(renderingResult);
+            }
+
         }
 
-        // show/hide all graph
-        private void HiddenRtu_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void HiddenRtu_CollectionChanged(object sender,
+            System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            // Show-Hide traces of RTU
-            var renderingResult = _currentZoneRenderer.GetRendering();
-            _renderingApplier.ToExistingGraph(renderingResult);
-        }
+            if (_currentUser.Role <= Role.Root)
+            {
+                if (_currentlyHiddenRtu.IsShowAllPressed)
+                {
+                    _currentlyHiddenRtu.IsShowAllPressed = false;
+                    _rootRenderAndApply.ShowAllOnClick();
+                    return;
+                }
 
-        // show/hide one RTU traces
-        private void _currentlyHiddenRtu_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            // Show-Hide traces of RTU
+                if (_currentlyHiddenRtu.IsHideAllPressed)
+                {
+                    _currentlyHiddenRtu.IsHideAllPressed = false;
+                    _rootRenderAndApply.HideAllOnClick();
+                    return;
+                }
+
+            }
+
+            // not All or not Root
             var renderingResult = _currentZoneRenderer.GetRendering();
             _renderingApplier.ToExistingGraph(renderingResult);
+
         }
 
         public void ReRenderCurrentZoneOnResponsibilitiesChanged()

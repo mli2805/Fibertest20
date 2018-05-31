@@ -182,6 +182,7 @@
     </ApplicationDefinition>
     <Compile Include="ClientHeartbeat.cs" />
     <Compile Include="EventSourcing\Rendering\OneTraceRenderer.cs" />
+    <Compile Include="EventSourcing\Rendering\RootRenderAndApply.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\EventToLogLineParser.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\LogLine.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationCode.cs" />
@@ -284,6 +285,7 @@
     </Compile>
     <Compile Include="Forms\TraceForms\TraceStepByStep\TraceStepByStepViewModel.cs" />
     <Compile Include="GlobalVars\CurrentGpsInputMode.cs" />
+    <Compile Include="GlobalVars\ObservableRangeCollection.cs" />
     <Compile Include="GraphModel\EventExecutors\AccidentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EquipmentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EventsOnGraphExecutor.cs" />

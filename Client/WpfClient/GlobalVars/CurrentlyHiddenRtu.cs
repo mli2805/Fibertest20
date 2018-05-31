@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -11,18 +10,12 @@ namespace Iit.Fibertest.Client
     {
         private readonly IniFile _iniFile;
         private readonly Model _readModel;
-        private ObservableCollection<Guid> _collection;
 
-        public ObservableCollection<Guid> Collection
-        {
-            get => _collection;
-            set
-            {
-                if (Equals(value, _collection)) return;
-                _collection = value;
-                NotifyOfPropertyChange();
-            }
-        }
+
+        // True if buttons ShowAll or HideAll pressed, then Rendering will clear this flag
+        public bool IsShowAllPressed { get; set; }
+        public bool IsHideAllPressed { get; set; }
+        public ObservableRangeCollection<Guid> Collection { get; set; }
 
         public CurrentlyHiddenRtu(IniFile iniFile, Model readModel)
         {
@@ -33,7 +26,9 @@ namespace Iit.Fibertest.Client
         public void Initialize()
         {
             var isGraphVisibleOnStart = _iniFile.Read(IniSection.Miscellaneous, IniKey.IsGraphVisibleOnStart, true);
-            Collection = isGraphVisibleOnStart ? new ObservableCollection<Guid>() : new ObservableCollection<Guid>(_readModel.Rtus.Select(r => r.Id));
+            Collection = isGraphVisibleOnStart 
+                ? new ObservableRangeCollection<Guid>() 
+                : new ObservableRangeCollection<Guid>(_readModel.Rtus.Select(r => r.Id));
         }
     }
 }

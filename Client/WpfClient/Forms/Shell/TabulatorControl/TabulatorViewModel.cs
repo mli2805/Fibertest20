@@ -198,6 +198,7 @@ namespace Iit.Fibertest.Client
         {
             using (_globalScope.Resolve<IWaitCursor>())
             {
+                _currentlyHiddenRtu.IsShowAllPressed = true;
                 _currentlyHiddenRtu.Collection.Clear();
             }
 
@@ -207,9 +208,9 @@ namespace Iit.Fibertest.Client
         {
             using (_globalScope.Resolve<IWaitCursor>())
             {
-                _currentlyHiddenRtu.Collection.Clear();
-                foreach (var rtu in _readModel.Rtus)
-                    _currentlyHiddenRtu.Collection.Add(rtu.Id);
+                _currentlyHiddenRtu.IsHideAllPressed = true;
+                _currentlyHiddenRtu.Collection.AddRange(
+                    _readModel.Rtus.Where(r => !_currentlyHiddenRtu.Collection.Contains(r.Id)).Select(rr => rr.Id));
             }
         }
     }
