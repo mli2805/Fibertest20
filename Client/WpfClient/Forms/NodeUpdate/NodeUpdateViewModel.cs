@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly CurrentGpsInputMode _currentGpsInputMode;
+        private readonly CurrentUser _currentUser;
         private readonly AddEquipmentIntoNodeBuilder _addEquipmentIntoNodeBuilder;
         private Node _originalNode;
         private PointLatLng _nodeCoors;
@@ -122,8 +123,12 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public NodeUpdateViewModel(ILifetimeScope globalScope, Model readModel, IWindowManager windowManager, EventArrivalNotifier eventArrivalNotifier,
-            IWcfServiceForClient c2DWcfManager, CurrentGpsInputMode currentGpsInputMode, AddEquipmentIntoNodeBuilder addEquipmentIntoNodeBuilder)
+        public bool IsEditEnabled { get; set; }
+
+        public NodeUpdateViewModel(ILifetimeScope globalScope, Model readModel, IWindowManager windowManager, 
+            EventArrivalNotifier eventArrivalNotifier, IWcfServiceForClient c2DWcfManager, 
+            CurrentGpsInputMode currentGpsInputMode, CurrentUser currentUser,
+            AddEquipmentIntoNodeBuilder addEquipmentIntoNodeBuilder)
         {
             _globalScope = globalScope;
             _readModel = readModel;
@@ -131,6 +136,8 @@ namespace Iit.Fibertest.Client
             eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
             _c2DWcfManager = c2DWcfManager;
             _currentGpsInputMode = currentGpsInputMode;
+            _currentUser = currentUser;
+            IsEditEnabled = currentUser.Role <= Role.Root;
             _addEquipmentIntoNodeBuilder = addEquipmentIntoNodeBuilder;
         }
 

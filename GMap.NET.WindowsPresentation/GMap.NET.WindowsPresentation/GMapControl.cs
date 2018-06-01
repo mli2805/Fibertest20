@@ -371,7 +371,7 @@
         }
 
         /// <summary>
-        /// map dragg button
+        /// map drag button
         /// </summary>
         [Category("GMap.NET")]
         public MouseButton DragButton = MouseButton.Left;
@@ -1633,15 +1633,29 @@
         {
             base.OnMouseDown(e);
 
-            if (IsInFiberCreationMode && e.ChangedButton == MouseButton.Left)
+            if (e.ChangedButton == MouseButton.Left)
             {
-                Markers.Remove(Markers.Single(m => m.Id == FiberUnderCreation));
-                FiberUnderCreation = Guid.Empty;
-                Cursor = cursorBefore;
-                IsInFiberCreationMode = false;
+                if (IsInFiberCreationMode)
+                {
+                    Markers.Remove(Markers.Single(m => m.Id == FiberUnderCreation));
+                    FiberUnderCreation = Guid.Empty;
+                    Cursor = cursorBefore;
+                    IsInFiberCreationMode = false;
+                }
+                else
+                {
+                    if (!isSelected)
+                    {
+                        Point p = e.GetPosition(this);
+                        isSelected = true;
+                        SelectedArea = RectLatLng.Empty;
+                        selectionEnd = PointLatLng.Empty;
+                        selectionStart = FromLocalToLatLng((int)p.X, (int)p.Y);
+                    }
+                }
             }
 
-            if (CanDragMap && e.ChangedButton == DragButton)
+            if (CanDragMap && e.ChangedButton == DragButton && Keyboard.Modifiers != ModifierKeys.Shift)
             {
                 Point p = e.GetPosition(this);
 
@@ -1657,17 +1671,17 @@
 
                 InvalidateVisual();
             }
-            else
-            {
-                if (!isSelected)
-                {
-                    Point p = e.GetPosition(this);
-                    isSelected = true;
-                    SelectedArea = RectLatLng.Empty;
-                    selectionEnd = PointLatLng.Empty;
-                    selectionStart = FromLocalToLatLng((int)p.X, (int)p.Y);
-                }
-            }
+//            else
+//            {
+//                if (!isSelected)
+//                {
+//                    Point p = e.GetPosition(this);
+//                    isSelected = true;
+//                    SelectedArea = RectLatLng.Empty;
+//                    selectionEnd = PointLatLng.Empty;
+//                    selectionStart = FromLocalToLatLng((int)p.X, (int)p.Y);
+//                }
+//            }
         }
 
         int onMouseUpTimestamp = 0;

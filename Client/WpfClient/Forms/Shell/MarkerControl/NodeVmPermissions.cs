@@ -14,7 +14,9 @@ namespace Iit.Fibertest.Client
 
         public bool CanUpdateNode(object parameter)
         {
-            return HasPrevilegesAndNotAdjustmentPoint(parameter);
+            if (parameter == null) return false;
+            var marker = (MarkerControl) parameter;
+            return marker.Type != EquipmentType.AdjustmentPoint;
         }
 
         public bool CanAddEquipment(object parameter)

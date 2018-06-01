@@ -71,7 +71,10 @@ namespace Iit.Fibertest.Client
             var fiberIds = _readModel.GetFibersByNodes(trace.NodeIds).ToList();
 
             if (_currentlyHiddenRtu.Collection.Contains(trace.RtuId))
+            {
                 _renderingManager.ShowOneTrace(trace);
+                _currentlyHiddenRtu.Collection.Remove(trace.RtuId);
+            }
             _graphReadModel.ShowTrace(trace.NodeIds[0], fiberIds);
 
             if (_tabulatorViewModel.SelectedTabIndex != 3)
