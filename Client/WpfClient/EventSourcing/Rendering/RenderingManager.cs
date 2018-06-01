@@ -24,12 +24,15 @@ namespace Iit.Fibertest.Client
             _rootRenderAndApply = rootRenderAndApply;
         }
 
-        public void RenderCurrentZoneOnApplicationStart()
+        public void Initialize()
         {
             _currentlyHiddenRtu.Initialize();
             _currentlyHiddenRtu.Collection.CollectionChanged += HiddenRtu_CollectionChanged; // show/hide all graph
+        }
 
-            if (_currentUser.Role <= Role.Root)
+        public void RenderCurrentZoneOnApplicationStart()
+        {
+             if (_currentUser.Role <= Role.Root)
             {
                 if (_currentlyHiddenRtu.Collection.Count == 0)
                     _rootRenderAndApply.ShowAllOnStart();

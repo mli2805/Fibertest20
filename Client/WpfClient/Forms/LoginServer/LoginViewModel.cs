@@ -88,11 +88,13 @@ namespace Iit.Fibertest.Client
         {
 #if DEBUG
             if (string.IsNullOrEmpty(UserName))
-                UserName = @"developer";
+//                UserName = @"developer";
+                UserName = @"operator";
 //                UserName = @"root";
 //                UserName = @"Op";
             if (string.IsNullOrEmpty(Password))
-                Password = @"developer";
+//                Password = @"developer";
+                Password = @"operator";
 //                Password = @"root";
 //                Password = @"1";
 #endif

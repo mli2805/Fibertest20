@@ -47,6 +47,7 @@ namespace Iit.Fibertest.Client
             var currentEventNumber = await LoadFromCache();
             currentEventNumber = await LoadFromDb(currentEventNumber);
             // some sort of parsing snapshot
+            _renderingManager.Initialize();
             _renderingManager.RenderCurrentZoneOnApplicationStart();
             return currentEventNumber;
         }
