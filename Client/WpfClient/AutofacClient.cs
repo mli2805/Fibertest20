@@ -177,6 +177,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<LandmarksGraphParser>();
             builder.RegisterType<LandmarksBaseParser>();
             builder.RegisterType<OneLandmarkViewModel>();
+            builder.RegisterType<TraceChoiceViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<LandmarksViewModel>();
             builder.RegisterType<LandmarksViewsManager>().InstancePerLifetimeScope();
             builder.RegisterType<NodeUpdateViewModel>();

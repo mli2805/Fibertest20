@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
@@ -11,12 +12,17 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
+        private readonly Model _readModel;
+        private readonly TraceChoiceViewModel _traceChoiceViewModel;
         private List<LandmarksViewModel> LaunchedViews { get; } = new List<LandmarksViewModel>();
 
-        public LandmarksViewsManager(ILifetimeScope globalScope, IWindowManager windowManager)
+        public LandmarksViewsManager(ILifetimeScope globalScope, IWindowManager windowManager, 
+            Model readModel, TraceChoiceViewModel traceChoiceViewModel)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
+            _readModel = readModel;
+            _traceChoiceViewModel = traceChoiceViewModel;
         }
 
         public async Task<int> InitializeFromRtu(Guid rtuId)
@@ -39,12 +45,23 @@ namespace Iit.Fibertest.Client
 
         public async Task<int> InitializeFromNode(Guid nodeId)
         {
-            var vm = _globalScope.Resolve<LandmarksViewModel>();
-            var res = await vm.InitializeFromNode(nodeId);
-            if (vm.SelectedTrace == null) return -1;
-            LaunchedViews.Add(vm);
-            _windowManager.ShowWindowWithAssignedOwner(vm);
-            return res;
+            var traces = _readModel.Traces.Where(t => t.NodeIds.Contains(nodeId)).ToList();
+            if (traces.Count == 1)
+                return await InitializeFromTrace(traces.First().TraceId);
+
+            _traceChoiceViewModel.Initialize(traces);
+            _windowManager.ShowDialogWithAssignedOwner(_traceChoiceViewModel);
+            if (!_traceChoiceViewModel.IsAnswerPositive)
+                return -1;
+            var traceId = _traceChoiceViewModel.SelectedTrace.TraceId;
+            return await InitializeFromTrace(traceId);
+
+//            var vm = _globalScope.Resolve<LandmarksViewModel>();
+//            var res = await vm.InitializeFromNode(nodeId);
+//            if (vm.SelectedTrace == null) return -1;
+//            LaunchedViews.Add(vm);
+//            _windowManager.ShowWindowWithAssignedOwner(vm);
+//            return res;
         }
 
         public void Apply(object e)

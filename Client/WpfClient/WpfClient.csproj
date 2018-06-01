@@ -192,6 +192,10 @@
     </Compile>
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\UserFilter.cs" />
+    <Compile Include="Forms\Landmarks\TraceChoiceView.xaml.cs">
+      <DependentUpon>TraceChoiceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\Landmarks\TraceChoiceViewModel.cs" />
     <Compile Include="GlobalVars\CurrentDatacenterParameters.cs" />
     <Compile Include="GlobalVars\CurrentlyHiddenRtu.cs" />
     <Compile Include="GlobalVars\CurrentUser.cs" />
@@ -625,6 +629,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Landmarks\OneLandmarkView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\Landmarks\TraceChoiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

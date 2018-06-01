@@ -181,17 +181,17 @@ namespace Iit.Fibertest.Client
             return await Initialize();
         }
 
-        public async Task<int> InitializeFromNode(Guid nodeId)
-        {
-            var trace = _readModel.Traces.FirstOrDefault(t => t.NodeIds.Contains(nodeId));
-            if (trace == null) return -1;
-            Traces = _readModel.Traces.Where(t => t.RtuId == trace.RtuId).ToList();
-            _selectedTrace = Traces.First(t => t.NodeIds.Contains(nodeId));
-
-            var res = await Initialize();
-            SelectedRow = Rows.First(r => r.NodeId == nodeId);
-            return res;
-        }
+//        public async Task<int> InitializeFromNode(Guid nodeId)
+//        {
+//            var trace = _readModel.Traces.FirstOrDefault(t => t.NodeIds.Contains(nodeId));
+//            if (trace == null) return -1;
+//            Traces = _readModel.Traces.Where(t => t.RtuId == trace.RtuId).ToList();
+//            _selectedTrace = Traces.First(t => t.NodeIds.Contains(nodeId));
+//
+//            var res = await Initialize();
+//            SelectedRow = Rows.First(r => r.NodeId == nodeId);
+//            return res;
+//        }
 
         protected override void OnViewLoaded(object view)
         {

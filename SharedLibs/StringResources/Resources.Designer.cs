@@ -2529,7 +2529,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Long operation, please wait.
+        ///   Looks up a localized string similar to Long operation, please wait....
         /// </summary>
         public static string SID_Long_operation__please_wait {
             get {
