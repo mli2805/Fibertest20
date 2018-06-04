@@ -1,27 +1,36 @@
-﻿using Iit.Fibertest.Dto;
+﻿using System;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
     public class RenderingManager
     {
+        private readonly IMyLog _logFile;
         private readonly CurrentZoneRenderer _currentZoneRenderer;
         private readonly OneTraceRenderer _oneTraceRenderer;
         private readonly RenderingApplier _renderingApplier;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly CurrentUser _currentUser;
+        private readonly GraphReadModel _graphReadModel;
         private readonly RootRenderAndApply _rootRenderAndApply;
+        private readonly LessThanRootRenderAndApply _lessThanRootRenderAndApply;
 
-        public RenderingManager(CurrentZoneRenderer currentZoneRenderer, OneTraceRenderer oneTraceRenderer,
+        public RenderingManager(IMyLog logFile, CurrentZoneRenderer currentZoneRenderer, OneTraceRenderer oneTraceRenderer,
              RenderingApplier renderingApplier, CurrentlyHiddenRtu currentlyHiddenRtu,
-            CurrentUser currentUser, RootRenderAndApply rootRenderAndApply)
+            CurrentUser currentUser, GraphReadModel graphReadModel,
+            RootRenderAndApply rootRenderAndApply, LessThanRootRenderAndApply lessThanRootRenderAndApply)
         {
+            _logFile = logFile;
             _currentZoneRenderer = currentZoneRenderer;
             _oneTraceRenderer = oneTraceRenderer;
             _renderingApplier = renderingApplier;
             _currentlyHiddenRtu = currentlyHiddenRtu;
             _currentUser = currentUser;
+            _graphReadModel = graphReadModel;
             _rootRenderAndApply = rootRenderAndApply;
+            _lessThanRootRenderAndApply = lessThanRootRenderAndApply;
         }
 
         public void Initialize()
@@ -32,40 +41,53 @@ namespace Iit.Fibertest.Client
 
         public void RenderCurrentZoneOnApplicationStart()
         {
-             if (_currentUser.Role <= Role.Root)
+            if (_currentUser.Role <= Role.Root)
             {
                 if (_currentlyHiddenRtu.Collection.Count == 0)
-                    _rootRenderAndApply.ShowAllOnStart();
+                    _rootRenderAndApply.ShowAll();
                 else
-                    _rootRenderAndApply.HideAllOnStart();
+                    _rootRenderAndApply.HideAll();
             }
             else
             {
-                var renderingResult = _currentZoneRenderer.GetRendering();
-                _renderingApplier.ToEmptyGraph(renderingResult);
+                if (_currentlyHiddenRtu.Collection.Count == 0)
+                {
+                    var renderingResult = _lessThanRootRenderAndApply.ShowAllOnStart();
+                    _renderingApplier.ToEmptyGraph(renderingResult);
+                }
+                else
+                    _lessThanRootRenderAndApply.HideAll();
             }
-
         }
 
         private void HiddenRtu_CollectionChanged(object sender,
             System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (_currentUser.Role <= Role.Root)
+            if (_currentlyHiddenRtu.IsShowAllPressed)
             {
-                if (_currentlyHiddenRtu.IsShowAllPressed)
+                _currentlyHiddenRtu.IsShowAllPressed = false;
+                FullClean();
+                if (_currentUser.Role <= Role.Root)
                 {
-                    _currentlyHiddenRtu.IsShowAllPressed = false;
-                    _rootRenderAndApply.ShowAllOnClick();
-                    return;
+                    _rootRenderAndApply.ShowAll();
                 }
-
-                if (_currentlyHiddenRtu.IsHideAllPressed)
+                else
                 {
-                    _currentlyHiddenRtu.IsHideAllPressed = false;
-                    _rootRenderAndApply.HideAllOnClick();
-                    return;
+                    var renderingResult1 = _lessThanRootRenderAndApply.ShowAllOnStart();
+                    _renderingApplier.ToEmptyGraph(renderingResult1);
                 }
+                return;
+            }
 
+            if (_currentlyHiddenRtu.IsHideAllPressed)
+            {
+                _currentlyHiddenRtu.IsHideAllPressed = false;
+                FullClean();
+                if (_currentUser.Role <= Role.Root)
+                    _rootRenderAndApply.HideAll();
+                else
+                    _lessThanRootRenderAndApply.HideAll();
+                return;
             }
 
             // not All or not Root
@@ -88,5 +110,16 @@ namespace Iit.Fibertest.Client
             _renderingApplier.AddElementsOfShownTraces(renderingResult);
         }
 
+        private void FullClean()
+        {
+            _graphReadModel.Data.Fibers.Clear();
+            _graphReadModel.Data.Nodes.Clear();
+            var start = DateTime.Now;
+            for (int i = _graphReadModel.MainMap.Markers.Count - 1; i >= 0; i--)
+            {
+                _graphReadModel.MainMap.Markers.RemoveAt(i);
+            }
+            _logFile.AppendLine($@"MainMap.Markers are cleaned in {DateTime.Now - start}");
+        }
     }
 }
