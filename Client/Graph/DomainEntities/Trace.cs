@@ -32,6 +32,7 @@ namespace Iit.Fibertest.Graph
         public bool IsIncludedInMonitoringCycle { get; set; }
 
         public List<Guid> ZoneIds { get; set; } = new List<Guid>();
+        public bool IsHighlighted { get; set; }
 
         public override string ToString()
         {

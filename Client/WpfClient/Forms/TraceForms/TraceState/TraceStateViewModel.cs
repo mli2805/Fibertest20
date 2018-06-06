@@ -20,7 +20,6 @@ namespace Iit.Fibertest.Client
         private readonly ReflectogramManager _reflectogramManager;
         private readonly SoundManager _soundManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly RenderingManager _renderingManager;
         private readonly TabulatorViewModel _tabulatorViewModel;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private readonly GraphReadModel _graphReadModel;
@@ -37,7 +36,7 @@ namespace Iit.Fibertest.Client
         public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser, 
             CurrentlyHiddenRtu currentlyHiddenRtu, ReflectogramManager reflectogramManager, 
             SoundManager soundManager, IWcfServiceForClient c2DWcfManager, 
-            RenderingManager renderingManager, TabulatorViewModel tabulatorViewModel,
+            TabulatorViewModel tabulatorViewModel,
             TraceStatisticsViewsManager traceStatisticsViewsManager, GraphReadModel graphReadModel)
         {
             _logFile = logFile;
@@ -46,7 +45,6 @@ namespace Iit.Fibertest.Client
             _reflectogramManager = reflectogramManager;
             _soundManager = soundManager;
             _c2DWcfManager = c2DWcfManager;
-            _renderingManager = renderingManager;
             _tabulatorViewModel = tabulatorViewModel;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
             _graphReadModel = graphReadModel;
@@ -122,7 +120,11 @@ namespace Iit.Fibertest.Client
             else accidentPoint = Model.SelectedAccident.Position;
 
             if (_currentlyHiddenRtu.Collection.Contains(Model.Trace.RtuId))
-                _renderingManager.ShowOneTrace(Model.Trace);
+            {
+                //                _renderingManager.ShowOneTrace(Model.Trace);
+                _currentlyHiddenRtu.Collection.Remove(Model.Trace.RtuId);
+                _currentlyHiddenRtu.ChangedRtu = Model.Trace.RtuId;
+            }
             if (accidentPoint != null)
              _graphReadModel.PlacePointIntoScreenCenter((PointLatLng)accidentPoint);
             if (_tabulatorViewModel.SelectedTabIndex != 3)

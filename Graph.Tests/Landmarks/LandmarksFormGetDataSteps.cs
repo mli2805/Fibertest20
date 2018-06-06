@@ -26,7 +26,7 @@ namespace Graph.Tests
         public void WhenПользовательОткрываетФормуОриентиров()
         {
             _vm = _sut.ClientScope.Resolve<LandmarksViewModel>();
-            _vm.InitializeFromTrace(_trace.TraceId).Wait();
+            _vm.InitializeFromTrace(_trace.TraceId, _trace.NodeIds[0]).Wait();
             _vm.SelectedGpsInputMode = _vm.GpsInputModes[0];
         }
 
@@ -41,7 +41,6 @@ namespace Graph.Tests
             _vm.Rows[3].EquipmentType.Should().Be(Resources.SID_CableReserve);
             _vm.Rows[4].EquipmentType.Should().Be(Resources.SID_Cross);
             _vm.Rows[4].GpsCoors.Should().StartWith(@"55.1220");
-//            _vm.Rows[5].EquipmentType.Should().Be(Resources.SID_Node_without_equipment);
             _vm.Rows[5].EquipmentType.Should().Be(Resources.SID_Node);
             _vm.Rows[6].EquipmentType.Should().Be(Resources.SID_Terminal);
             _vm.Rows[6].Distance.Should().Be(@" 17.431");

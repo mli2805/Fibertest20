@@ -66,10 +66,12 @@ namespace Iit.Fibertest.Client
             var rtu = _model.Rtus.First(r => r.NodeId == rtuNodeId);
             _currentlyHiddenRtu.IsHideAllPressed = false;
             _currentlyHiddenRtu.IsShowAllPressed = false;
+
             if (_currentlyHiddenRtu.Collection.Contains(rtu.Id))
                 _currentlyHiddenRtu.Collection.Remove(rtu.Id);
             else
                 _currentlyHiddenRtu.Collection.Add(rtu.Id);
+            _currentlyHiddenRtu.ChangedRtu = rtu.Id;
         }
     }
 }

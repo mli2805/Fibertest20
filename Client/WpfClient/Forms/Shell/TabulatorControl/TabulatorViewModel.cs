@@ -192,15 +192,16 @@ namespace Iit.Fibertest.Client
         public void Extinguish()
         {
             GraphReadModel.Extinguish();
+            foreach (var trace in _readModel.Traces)
+                trace.IsHighlighted = false;
         }
 
         public void ShowAllGraph()
         {
             using (_globalScope.Resolve<IWaitCursor>())
             {
-                _currentlyHiddenRtu.IsHideAllPressed = false;
-                _currentlyHiddenRtu.IsShowAllPressed = true;
                 _currentlyHiddenRtu.Collection.Clear();
+                _currentlyHiddenRtu.IsShowAllPressed = true;
             }
 
         }
@@ -209,10 +210,10 @@ namespace Iit.Fibertest.Client
         {
             using (_globalScope.Resolve<IWaitCursor>())
             {
-                _currentlyHiddenRtu.IsShowAllPressed = false;
+                var rtuToHide = _readModel.Rtus.Where(r => !_currentlyHiddenRtu.Collection.Contains(r.Id)).Select(rr => rr.Id);
+                _currentlyHiddenRtu.Collection.AddRange(rtuToHide);
+
                 _currentlyHiddenRtu.IsHideAllPressed = true;
-                _currentlyHiddenRtu.Collection.AddRange(
-                    _readModel.Rtus.Where(r => !_currentlyHiddenRtu.Collection.Contains(r.Id)).Select(rr => rr.Id));
             }
         }
     }

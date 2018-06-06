@@ -57,7 +57,7 @@ namespace Graph.Tests
         public void GivenОткрытаФормаОриентиров()
         {
             _lvm = _sut.ClientScope.Resolve<LandmarksViewModel>();
-            _lvm.InitializeFromTrace(_trace.TraceId).Wait();
+            _lvm.InitializeFromTrace(_trace.TraceId, _trace.NodeIds[0]).Wait();
             _lvm.Rows.Count.Should().Be(7); // + one point 
         }
 

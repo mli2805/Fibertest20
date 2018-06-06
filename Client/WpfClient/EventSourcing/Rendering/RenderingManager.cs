@@ -36,68 +36,55 @@ namespace Iit.Fibertest.Client
         public void Initialize()
         {
             _currentlyHiddenRtu.Initialize();
-            _currentlyHiddenRtu.Collection.CollectionChanged += HiddenRtu_CollectionChanged; // show/hide all graph
+          //  _currentlyHiddenRtu.Collection.CollectionChanged += HiddenRtu_CollectionChanged; // show/hide all graph
+            _currentlyHiddenRtu.PropertyChanged += _currentlyHiddenRtu_PropertyChanged;
+        }
+
+        private void _currentlyHiddenRtu_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsShowAllPressed" || e.PropertyName == "IsHideAllPressed")
+            {
+                FullClean();
+                ShowOrHideAllOnEmptyMap();
+            }
+
+            if (e.PropertyName == "ChangedRtu")
+            {
+                var renderingResult = _currentZoneRenderer.GetRendering();
+                _renderingApplier.ToExistingGraph(renderingResult);
+            }
+
+            _currentlyHiddenRtu.CleanFlags();
         }
 
         public void RenderCurrentZoneOnApplicationStart()
         {
+            ShowOrHideAllOnEmptyMap();
+        }
+
+     
+        private void ShowOrHideAllOnEmptyMap()
+        {
             if (_currentUser.Role <= Role.Root)
             {
-                if (_currentlyHiddenRtu.Collection.Count == 0)
-                    _rootRenderAndApply.ShowAll();
-                else
-                    _rootRenderAndApply.HideAll();
+                var renderingResult = _currentlyHiddenRtu.Collection.Count == 0
+                    ? _rootRenderAndApply.ShowAll()
+                    : _rootRenderAndApply.ShowOnlyRtusAndNotInTraces();
+                _renderingApplier.ToEmptyGraph(renderingResult);
             }
             else
             {
-                if (_currentlyHiddenRtu.Collection.Count == 0)
-                {
-                    var renderingResult = _lessThanRootRenderAndApply.ShowAllOnStart();
-                    _renderingApplier.ToEmptyGraph(renderingResult);
-                }
-                else
-                    _lessThanRootRenderAndApply.HideAll();
+                var renderingResult = _currentlyHiddenRtu.Collection.Count == 0
+                    ? _lessThanRootRenderAndApply.ShowAllOnStart()
+                    : _lessThanRootRenderAndApply.ShowOnlyRtus();
+                _renderingApplier.ToEmptyGraph(renderingResult);
             }
-        }
-
-        private void HiddenRtu_CollectionChanged(object sender,
-            System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            if (_currentlyHiddenRtu.IsShowAllPressed)
-            {
-                _currentlyHiddenRtu.IsShowAllPressed = false;
-                FullClean();
-                if (_currentUser.Role <= Role.Root)
-                {
-                    _rootRenderAndApply.ShowAll();
-                }
-                else
-                {
-                    var renderingResult1 = _lessThanRootRenderAndApply.ShowAllOnStart();
-                    _renderingApplier.ToEmptyGraph(renderingResult1);
-                }
-                return;
-            }
-
-            if (_currentlyHiddenRtu.IsHideAllPressed)
-            {
-                _currentlyHiddenRtu.IsHideAllPressed = false;
-                FullClean();
-                if (_currentUser.Role <= Role.Root)
-                    _rootRenderAndApply.HideAll();
-                else
-                    _lessThanRootRenderAndApply.HideAll();
-                return;
-            }
-
-            // not All or not Root
-            var renderingResult = _currentZoneRenderer.GetRendering();
-            _renderingApplier.ToExistingGraph(renderingResult);
-
         }
 
         public void ReRenderCurrentZoneOnResponsibilitiesChanged()
         {
+            if (_currentUser.ZoneId == Guid.Empty) return; // it is a default zone user
+
             var renderingResult = _currentZoneRenderer.GetRendering();
             _renderingApplier.ToExistingGraph(renderingResult);
         }

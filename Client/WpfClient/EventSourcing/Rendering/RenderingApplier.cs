@@ -14,6 +14,12 @@ namespace Iit.Fibertest.Client
             _graphReadModel = graphReadModel;
         }
 
+        public void ReWriteGraph(RenderingResult renderingResult)
+        {
+//            CreateMarkers()
+//            _graphReadModel.MainMap.ItemsSource = 
+        }
+
         public void ToEmptyGraph(RenderingResult renderingResult)
         {
             foreach (var nodeVm in renderingResult.NodeVms)
@@ -21,7 +27,7 @@ namespace Iit.Fibertest.Client
 
             foreach (var fiberVm in renderingResult.FiberVms)
                 _graphReadModel.Data.Fibers.Add(fiberVm);
-            _logFile.AppendLine(@"Drawing finished");
+            _logFile.AppendLine(@"Rendering applied");
         }
 
         public void ToExistingGraph(RenderingResult renderingResult)
@@ -30,7 +36,7 @@ namespace Iit.Fibertest.Client
 
             AddElementsOfShownTraces(renderingResult);
 
-            _logFile.AppendLine(@"Drawing finished");
+            _logFile.AppendLine(@"Rendering applied");
         }
 
         public void AddElementsOfShownTraces(RenderingResult renderingResult)

@@ -25,7 +25,6 @@ namespace Iit.Fibertest.Client
         private readonly OutOfTurnPreciseMeasurementViewModel _outOfTurnPreciseMeasurementViewModel;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
-        private readonly RenderingManager _renderingManager;
 
         public TraceLeafActions(ILifetimeScope globalScope, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, TabulatorViewModel tabulatorViewModel,
@@ -33,7 +32,7 @@ namespace Iit.Fibertest.Client
             BaseRefsAssignViewModel baseRefsAssignViewModel, LandmarksViewsManager landmarksViewsManager,
             OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel,
             CommonStatusBarViewModel commonStatusBarViewModel,
-            CurrentlyHiddenRtu currentlyHiddenRtu, RenderingManager renderingManager)
+            CurrentlyHiddenRtu currentlyHiddenRtu)
         {
             _globalScope = globalScope;
             _readModel = readModel;
@@ -48,7 +47,6 @@ namespace Iit.Fibertest.Client
             _outOfTurnPreciseMeasurementViewModel = outOfTurnPreciseMeasurementViewModel;
             _commonStatusBarViewModel = commonStatusBarViewModel;
             _currentlyHiddenRtu = currentlyHiddenRtu;
-            _renderingManager = renderingManager;
         }
 
         public void UpdateTrace(object param)
@@ -72,10 +70,12 @@ namespace Iit.Fibertest.Client
 
             if (_currentlyHiddenRtu.Collection.Contains(trace.RtuId))
             {
-                _renderingManager.ShowOneTrace(trace);
+//                _renderingManager.ShowOneTrace(trace);
                 _currentlyHiddenRtu.Collection.Remove(trace.RtuId);
+                _currentlyHiddenRtu.ChangedRtu = trace.RtuId;
             }
-            _graphReadModel.ShowTrace(trace.NodeIds[0], fiberIds);
+            _graphReadModel.HighlightTrace(trace.NodeIds[0], fiberIds);
+            trace.IsHighlighted = true;
 
             if (_tabulatorViewModel.SelectedTabIndex != 3)
                 _tabulatorViewModel.SelectedTabIndex = 3;
@@ -111,8 +111,8 @@ namespace Iit.Fibertest.Client
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
-
-            await _landmarksViewsManager.InitializeFromTrace(traceLeaf.Id);
+            var rtuNodeId = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id).NodeIds[0];
+            await _landmarksViewsManager.InitializeFromTrace(traceLeaf.Id, rtuNodeId);
         }
 
         public async void DetachTrace(object param)

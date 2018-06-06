@@ -172,13 +172,15 @@ namespace Iit.Fibertest.Client
             return await Initialize();
         }
 
-        public async Task<int> InitializeFromTrace(Guid traceId)
+        public async Task<int> InitializeFromTrace(Guid traceId, Guid selectedNodeId)
         {
             var trace = _readModel.Traces.First(t => t.TraceId == traceId);
             Traces = _readModel.Traces.Where(t => t.RtuId == trace.RtuId).ToList();
             _selectedTrace = _readModel.Traces.First(t => t.TraceId == traceId);
 
-            return await Initialize();
+            var res = await Initialize();
+            SelectedRow = Rows.First(r => r.NodeId == selectedNodeId);
+            return res;
         }
 
 //        public async Task<int> InitializeFromNode(Guid nodeId)

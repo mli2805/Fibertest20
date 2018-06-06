@@ -34,10 +34,10 @@ namespace Iit.Fibertest.Client
             return res;
         }
 
-        public async Task<int> InitializeFromTrace(Guid traceId)
+        public async Task<int> InitializeFromTrace(Guid traceId, Guid selectedNodeId)
         {
             var vm = _globalScope.Resolve<LandmarksViewModel>();
-            var res = await vm.InitializeFromTrace(traceId);
+            var res = await vm.InitializeFromTrace(traceId, selectedNodeId);
             LaunchedViews.Add(vm);
             _windowManager.ShowWindowWithAssignedOwner(vm);
             return res;
@@ -46,15 +46,16 @@ namespace Iit.Fibertest.Client
         public async Task<int> InitializeFromNode(Guid nodeId)
         {
             var traces = _readModel.Traces.Where(t => t.NodeIds.Contains(nodeId)).ToList();
+            if (traces.Count == 0) return -1;
             if (traces.Count == 1)
-                return await InitializeFromTrace(traces.First().TraceId);
+                return await InitializeFromTrace(traces.First().TraceId, nodeId);
 
             _traceChoiceViewModel.Initialize(traces);
             _windowManager.ShowDialogWithAssignedOwner(_traceChoiceViewModel);
             if (!_traceChoiceViewModel.IsAnswerPositive)
                 return -1;
             var traceId = _traceChoiceViewModel.SelectedTrace.TraceId;
-            return await InitializeFromTrace(traceId);
+            return await InitializeFromTrace(traceId, nodeId);
 
 //            var vm = _globalScope.Resolve<LandmarksViewModel>();
 //            var res = await vm.InitializeFromNode(nodeId);

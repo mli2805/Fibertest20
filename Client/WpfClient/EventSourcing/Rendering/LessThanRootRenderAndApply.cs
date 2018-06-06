@@ -6,15 +6,13 @@ namespace Iit.Fibertest.Client
     public class LessThanRootRenderAndApply
     {
         private readonly Model _readModel;
-        private readonly GraphReadModel _graphReadModel;
         private readonly CurrentUser _currentUser;
         private readonly OneTraceRenderer _oneTraceRenderer;
 
-        public LessThanRootRenderAndApply(Model readModel, GraphReadModel graphReadModel, 
+        public LessThanRootRenderAndApply(Model readModel, 
             CurrentUser currentUser, OneTraceRenderer oneTraceRenderer)
         {
             _readModel = readModel;
-            _graphReadModel = graphReadModel;
             _currentUser = currentUser;
             _oneTraceRenderer = oneTraceRenderer;
         }
@@ -26,17 +24,18 @@ namespace Iit.Fibertest.Client
             {
                _oneTraceRenderer.GetRendering(trace, renderingResult);
             }
-
             return renderingResult;
         }
 
-        public void HideAll()
+        public RenderingResult ShowOnlyRtus() // HideAll()
         {
+            var renderingResult = new RenderingResult();
             foreach (var rtu in _readModel.Rtus)
             {
                 var node = _readModel.Nodes.First(n => n.NodeId == rtu.NodeId);
-                _graphReadModel.Data.Nodes.Add(ElementRenderer.Map(node));
+                renderingResult.NodeVms.Add(ElementRenderer.Map(node));
             }
+            return renderingResult;
         }
     }
 }

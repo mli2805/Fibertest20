@@ -104,10 +104,10 @@ namespace Iit.Fibertest.Client
             MainMap.Position = position;
         }
 
-        public void ShowTrace(Guid rtuNodeId, List<Guid> fibers)
+        public void HighlightTrace(Guid rtuNodeId, List<Guid> fibers)
         {
-            var nodeVm = Data.Nodes.First(n => n.Id == rtuNodeId);
-            MainMap.Position = nodeVm.Position;
+            var rtuNodeVm = Data.Nodes.First(n => n.Id == rtuNodeId);
+            MainMap.Position = rtuNodeVm.Position;
             foreach (var fiberId in fibers)
                 Data.Fibers.First(f => f.Id == fiberId).IsHighlighted = true; 
         }
