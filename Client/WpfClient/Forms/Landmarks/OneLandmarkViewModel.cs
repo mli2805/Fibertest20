@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Client
         public int SorFileId;
         public Guid RtuId;
 
+        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly GraphReadModel _graphReadModel;
         private readonly ReflectogramManager _reflectogramManager;
@@ -91,8 +92,6 @@ namespace Iit.Fibertest.Client
             SelectedEquipmentTypeItem = ComboItems.First(i => i.Type == SelectedLandmark.EquipmentType);
             IsEquipmentEnabled = IsEditEnabled && SelectedLandmark.EquipmentType != EquipmentType.EmptyNode &&
                                  SelectedLandmark.EquipmentType != EquipmentType.Rtu;
-
-            
         }
 
         private List<EquipmentTypeComboItem> _comboItems;
@@ -151,10 +150,12 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public OneLandmarkViewModel(CurrentUser currentUser, GpsInputSmallViewModel gpsInputSmallViewModel, IWcfServiceForClient c2DWcfManager,
+        public OneLandmarkViewModel(CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu,
+            GpsInputSmallViewModel gpsInputSmallViewModel, IWcfServiceForClient c2DWcfManager,
             GraphReadModel graphReadModel, ReflectogramManager reflectogramManager)
         {
             IsEditEnabled = currentUser.Role <= Role.Root;
+            _currentlyHiddenRtu = currentlyHiddenRtu;
             _c2DWcfManager = c2DWcfManager;
             _graphReadModel = graphReadModel;
             _reflectogramManager = reflectogramManager;
@@ -163,7 +164,7 @@ namespace Iit.Fibertest.Client
 
         public async void Apply()
         {
-            _graphReadModel.Extinguish();
+            _graphReadModel.ExtinguishNodes();
             await ApplyEquipment();
             await ApplyNode();
         }
@@ -217,12 +218,19 @@ namespace Iit.Fibertest.Client
             SelectedLandmark = _landmarkBeforeChanges;
             var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
             nodeVm.Position = GpsInputSmallViewModel.Get();
-            _graphReadModel.Extinguish();
+            _graphReadModel.ExtinguishNodes();
         }
 
         public void ShowLandmarkOnMap()
         {
-            _graphReadModel.Extinguish();
+            _graphReadModel.ExtinguishNodes();
+            if (_currentlyHiddenRtu.Collection.Contains(RtuId))
+            {
+                //                _renderingManager.ShowOneTrace(Model.Trace);
+                _currentlyHiddenRtu.Collection.Remove(RtuId);
+                _currentlyHiddenRtu.ChangedRtu = RtuId;
+            }
+
             var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
             nodeVm.Position = GpsInputSmallViewModel.Get();
             _graphReadModel.PlaceNodeIntoScreenCenter(SelectedLandmark.NodeId);

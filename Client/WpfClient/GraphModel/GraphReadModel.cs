@@ -120,7 +120,7 @@ namespace Iit.Fibertest.Client
             foreach (var fiberVm in Data.Fibers.Where(f=>f.IsHighlighted))
                 fiberVm.IsHighlighted = false;
         }
-        public void ExtinguishNode()
+        public void ExtinguishNodes()
         {
             foreach (var nodeVm in Data.Nodes.Where(n=>n.IsHighlighted))
                 nodeVm.IsHighlighted = false;

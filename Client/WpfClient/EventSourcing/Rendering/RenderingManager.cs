@@ -9,34 +9,33 @@ namespace Iit.Fibertest.Client
     {
         private readonly IMyLog _logFile;
         private readonly CurrentZoneRenderer _currentZoneRenderer;
-        private readonly OneTraceRenderer _oneTraceRenderer;
+        private readonly OneRtuOrTraceRenderer _oneRtuOrTraceRenderer;
         private readonly RenderingApplier _renderingApplier;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly CurrentUser _currentUser;
         private readonly GraphReadModel _graphReadModel;
-        private readonly RootRenderAndApply _rootRenderAndApply;
-        private readonly LessThanRootRenderAndApply _lessThanRootRenderAndApply;
+        private readonly RootRenderer _rootRenderer;
+        private readonly LessThanRootRenderer _lessThanRootRenderer;
 
-        public RenderingManager(IMyLog logFile, CurrentZoneRenderer currentZoneRenderer, OneTraceRenderer oneTraceRenderer,
+        public RenderingManager(IMyLog logFile, CurrentZoneRenderer currentZoneRenderer, OneRtuOrTraceRenderer oneRtuOrTraceRenderer,
              RenderingApplier renderingApplier, CurrentlyHiddenRtu currentlyHiddenRtu,
             CurrentUser currentUser, GraphReadModel graphReadModel,
-            RootRenderAndApply rootRenderAndApply, LessThanRootRenderAndApply lessThanRootRenderAndApply)
+            RootRenderer rootRenderer, LessThanRootRenderer lessThanRootRenderer)
         {
             _logFile = logFile;
             _currentZoneRenderer = currentZoneRenderer;
-            _oneTraceRenderer = oneTraceRenderer;
+            _oneRtuOrTraceRenderer = oneRtuOrTraceRenderer;
             _renderingApplier = renderingApplier;
             _currentlyHiddenRtu = currentlyHiddenRtu;
             _currentUser = currentUser;
             _graphReadModel = graphReadModel;
-            _rootRenderAndApply = rootRenderAndApply;
-            _lessThanRootRenderAndApply = lessThanRootRenderAndApply;
+            _rootRenderer = rootRenderer;
+            _lessThanRootRenderer = lessThanRootRenderer;
         }
 
         public void Initialize()
         {
             _currentlyHiddenRtu.Initialize();
-          //  _currentlyHiddenRtu.Collection.CollectionChanged += HiddenRtu_CollectionChanged; // show/hide all graph
             _currentlyHiddenRtu.PropertyChanged += _currentlyHiddenRtu_PropertyChanged;
         }
 
@@ -52,6 +51,14 @@ namespace Iit.Fibertest.Client
             {
                 var renderingResult = _currentZoneRenderer.GetRendering();
                 _renderingApplier.ToExistingGraph(renderingResult);
+
+//                var isHideCommand = _currentlyHiddenRtu.Collection.Contains(_currentlyHiddenRtu.ChangedRtu);
+//                var renderingResult = new RenderingResult();
+//                _oneRtuOrTraceRenderer.GetRtuTracesRendering(_currentlyHiddenRtu.ChangedRtu, renderingResult);
+//                if (isHideCommand)
+//                    _renderingApplier.RemoveElementsOfHiddenTraces(renderingResult);
+//                else
+//                    _renderingApplier.AddElementsOfShownTraces(renderingResult);
             }
 
             _currentlyHiddenRtu.CleanFlags();
@@ -68,15 +75,15 @@ namespace Iit.Fibertest.Client
             if (_currentUser.Role <= Role.Root)
             {
                 var renderingResult = _currentlyHiddenRtu.Collection.Count == 0
-                    ? _rootRenderAndApply.ShowAll()
-                    : _rootRenderAndApply.ShowOnlyRtusAndNotInTraces();
+                    ? _rootRenderer.ShowAll()
+                    : _rootRenderer.ShowOnlyRtusAndNotInTraces();
                 _renderingApplier.ToEmptyGraph(renderingResult);
             }
             else
             {
                 var renderingResult = _currentlyHiddenRtu.Collection.Count == 0
-                    ? _lessThanRootRenderAndApply.ShowAllOnStart()
-                    : _lessThanRootRenderAndApply.ShowOnlyRtus();
+                    ? _lessThanRootRenderer.ShowAllOnStart()
+                    : _lessThanRootRenderer.ShowOnlyRtus();
                 _renderingApplier.ToEmptyGraph(renderingResult);
             }
         }
@@ -93,7 +100,7 @@ namespace Iit.Fibertest.Client
         public void ShowOneTrace(Trace trace)
         {
             var renderingResult = new RenderingResult();
-            _oneTraceRenderer.GetRendering(trace, renderingResult);
+            _oneRtuOrTraceRenderer.GetTraceRendering(trace, renderingResult);
             _renderingApplier.AddElementsOfShownTraces(renderingResult);
         }
 

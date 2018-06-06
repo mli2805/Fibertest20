@@ -3,11 +3,11 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
-    public class RootRenderAndApply
+    public class RootRenderer
     {
         private readonly Model _readModel;
 
-        public RootRenderAndApply(Model readModel)
+        public RootRenderer(Model readModel)
         {
             _readModel = readModel;
         }

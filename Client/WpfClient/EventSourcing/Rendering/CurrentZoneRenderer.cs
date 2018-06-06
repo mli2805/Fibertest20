@@ -11,17 +11,17 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
-        private readonly OneTraceRenderer _oneTraceRenderer;
+        private readonly OneRtuOrTraceRenderer _oneRtuOrTraceRenderer;
         private RenderingResult _renderingResult;
 
         public CurrentZoneRenderer(Model model, IMyLog logFile, CurrentUser currentUser,
-            CurrentlyHiddenRtu currentlyHiddenRtu, OneTraceRenderer oneTraceRenderer)
+            CurrentlyHiddenRtu currentlyHiddenRtu, OneRtuOrTraceRenderer oneRtuOrTraceRenderer)
         {
             _model = model;
             _logFile = logFile;
             _currentUser = currentUser;
             _currentlyHiddenRtu = currentlyHiddenRtu;
-            _oneTraceRenderer = oneTraceRenderer;
+            _oneRtuOrTraceRenderer = oneRtuOrTraceRenderer;
         }
 
         public RenderingResult GetRendering()
@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Client
 
             foreach (var trace in _model.Traces.Where(t => t.ZoneIds.Contains(_currentUser.ZoneId) && !_currentlyHiddenRtu.Collection.Contains(t.RtuId)))
             {
-                _oneTraceRenderer.GetRendering(trace, _renderingResult);
+                _oneRtuOrTraceRenderer.GetTraceRendering(trace, _renderingResult);
             }
         }
 

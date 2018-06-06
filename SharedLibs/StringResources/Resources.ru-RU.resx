@@ -749,9 +749,6 @@
 	<data name="SID_Parameters" xml:space="preserve">
     <value>Параметры</value>
   </data>
-	<data name="SID_Landmarks_of_trace__0_" xml:space="preserve">
-    <value>Ориентиры трассы {0}:</value>
-  </data>
 	<data name="SID_Equipment" xml:space="preserve">
     <value>Оборудование</value>
   </data>
@@ -1909,5 +1906,8 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Long_operation__please_wait" xml:space="preserve">
 		<value>Длительная операция, пожалуйста, подождите... </value>
+	</data>
+	<data name="SID_Landmarks_of_traces_of_RTU_" xml:space="preserve">
+		<value>Ориентиры трасс для RTU </value>
 	</data>
 </root>

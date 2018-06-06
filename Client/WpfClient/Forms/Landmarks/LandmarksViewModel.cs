@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Client
 {
     public class LandmarksViewModel : Screen
     {
+        private string _rtuTitle;
         public CurrentGpsInputMode CurrentGpsInputMode { get; }
         private bool _isLandmarksFromBase;
         public List<GpsInputModeComboItem> GpsInputModes { get; set; } =
@@ -165,6 +166,7 @@ namespace Iit.Fibertest.Client
 
         public async Task<int> InitializeFromRtu(Guid rtuId)
         {
+            _rtuTitle = _readModel.Rtus.First(r => r.Id == rtuId).Title;
             Traces = _readModel.Traces.Where(t => t.RtuId == rtuId).ToList();
             if (Traces.Count == 0) return -1;
             _selectedTrace = Traces.First();
@@ -175,6 +177,7 @@ namespace Iit.Fibertest.Client
         public async Task<int> InitializeFromTrace(Guid traceId, Guid selectedNodeId)
         {
             var trace = _readModel.Traces.First(t => t.TraceId == traceId);
+            _rtuTitle = _readModel.Rtus.First(r => r.Id == trace.RtuId).Title;
             Traces = _readModel.Traces.Where(t => t.RtuId == trace.RtuId).ToList();
             _selectedTrace = _readModel.Traces.First(t => t.TraceId == traceId);
 
@@ -183,21 +186,9 @@ namespace Iit.Fibertest.Client
             return res;
         }
 
-//        public async Task<int> InitializeFromNode(Guid nodeId)
-//        {
-//            var trace = _readModel.Traces.FirstOrDefault(t => t.NodeIds.Contains(nodeId));
-//            if (trace == null) return -1;
-//            Traces = _readModel.Traces.Where(t => t.RtuId == trace.RtuId).ToList();
-//            _selectedTrace = Traces.First(t => t.NodeIds.Contains(nodeId));
-//
-//            var res = await Initialize();
-//            SelectedRow = Rows.First(r => r.NodeId == nodeId);
-//            return res;
-//        }
-
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = string.Format(Resources.SID_Landmarks_of_trace__0_, SelectedTrace.Title);
+            DisplayName = Resources.SID_Landmarks_of_traces_of_RTU_ + _rtuTitle;
         }
 
         private bool _isFromBaseRef;
@@ -237,7 +228,6 @@ namespace Iit.Fibertest.Client
             OneLandmarkViewModel = _globalScope.Resolve<OneLandmarkViewModel>();
             await PrepareLandmarks();
             SelectedRow = Rows.First();
-            DisplayName = string.Format(Resources.SID_Landmarks_of_trace__0_, SelectedTrace.Title);
             return 0;
         }
 

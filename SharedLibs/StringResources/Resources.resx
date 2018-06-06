@@ -755,9 +755,6 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Parameters" xml:space="preserve">
     <value>Parameters</value>
   </data>
-	<data name="SID_Landmarks_of_trace__0_" xml:space="preserve">
-    <value>Landmarks of trace {0}:</value>
-  </data>
 	<data name="SID_Equipment" xml:space="preserve">
     <value>Equipment</value>
   </data>
@@ -1909,5 +1906,8 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Long_operation__please_wait" xml:space="preserve">
     <value>Long operation, please wait...</value>
+  </data>
+	<data name="SID_Landmarks_of_traces_of_RTU_" xml:space="preserve">
+    <value>Landmarks of traces of RTU </value>
   </data>
 </root>

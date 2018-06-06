@@ -2439,6 +2439,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Landmarks of traces of RTU .
+        /// </summary>
+        public static string SID_Landmarks_of_traces_of_RTU_ {
+            get {
+                return ResourceManager.GetString("SID_Landmarks_of_traces_of_RTU_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last node of trace must contain some equipment.
         /// </summary>
         public static string SID_Last_node_of_trace_must_contain_some_equipment {

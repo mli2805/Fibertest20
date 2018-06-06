@@ -14,11 +14,6 @@ namespace Iit.Fibertest.Client
             _graphReadModel = graphReadModel;
         }
 
-        public void ReWriteGraph(RenderingResult renderingResult)
-        {
-//            CreateMarkers()
-//            _graphReadModel.MainMap.ItemsSource = 
-        }
 
         public void ToEmptyGraph(RenderingResult renderingResult)
         {
@@ -39,6 +34,7 @@ namespace Iit.Fibertest.Client
             _logFile.AppendLine(@"Rendering applied");
         }
 
+     
         public void AddElementsOfShownTraces(RenderingResult renderingResult)
         {
             // add nodes for added traces
@@ -72,7 +68,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private void RemoveElementsOfHiddenTraces(RenderingResult renderingResult)
+        public void RemoveElementsOfHiddenTraces(RenderingResult renderingResult)
         {
             // remove nodes for deleted traces
             foreach (var nodeVm in _graphReadModel.Data.Nodes.ToList())

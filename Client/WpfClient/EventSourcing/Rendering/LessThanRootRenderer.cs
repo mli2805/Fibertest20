@@ -3,18 +3,18 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
-    public class LessThanRootRenderAndApply
+    public class LessThanRootRenderer
     {
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
-        private readonly OneTraceRenderer _oneTraceRenderer;
+        private readonly OneRtuOrTraceRenderer _oneRtuOrTraceRenderer;
 
-        public LessThanRootRenderAndApply(Model readModel, 
-            CurrentUser currentUser, OneTraceRenderer oneTraceRenderer)
+        public LessThanRootRenderer(Model readModel, 
+            CurrentUser currentUser, OneRtuOrTraceRenderer oneRtuOrTraceRenderer)
         {
             _readModel = readModel;
             _currentUser = currentUser;
-            _oneTraceRenderer = oneTraceRenderer;
+            _oneRtuOrTraceRenderer = oneRtuOrTraceRenderer;
         }
 
         public RenderingResult ShowAllOnStart()
@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Client
             var renderingResult = new RenderingResult();
             foreach (var trace in _readModel.Traces.Where(r => r.ZoneIds.Contains(_currentUser.ZoneId)))
             {
-               _oneTraceRenderer.GetRendering(trace, renderingResult);
+               _oneRtuOrTraceRenderer.GetTraceRendering(trace, renderingResult);
             }
             return renderingResult;
         }
