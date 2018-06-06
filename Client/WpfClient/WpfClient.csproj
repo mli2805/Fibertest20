@@ -412,7 +412,6 @@
     <Compile Include="GraphModel\RequestHandlers\GrmFiberWithNodesRequest.cs" />
     <Compile Include="GraphModel\RequestHandlers\GrmNodeRequests.cs" />
     <Compile Include="GraphModel\RequestHandlers\GrmRtuRequests.cs" />
-    <Compile Include="Logic\LocalAddressResearcher.cs" />
     <Compile Include="Logic\SoundManager.cs" />
     <Compile Include="Forms\UniversalForms\MyMessageBox\MyMessageBoxLineModel.cs" />
     <Compile Include="Forms\UniversalForms\MyMessageBox\MyMessageBoxView.xaml.cs">

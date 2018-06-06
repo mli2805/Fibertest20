@@ -3,7 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.UtilsLib
 {
     public static class LocalAddressResearcher
     {
