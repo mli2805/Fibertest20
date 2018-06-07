@@ -101,6 +101,14 @@ this.ScenarioSetup(scenarioInfo);
  testRunner.Then("На карте видна только трасса2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 16
  testRunner.And("В дереве только RTU2 трасса1 серая трасса2 синяя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 18
+ testRunner.Given("Пользователь выбирает в конфигурации НЕ показывать граф при старте", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 19
+ testRunner.When("Перезапускаем клиентское приложение", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 20
+ testRunner.When("Вход как Оператор для Зона1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 21
+ testRunner.Then("На карте только один RTU1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

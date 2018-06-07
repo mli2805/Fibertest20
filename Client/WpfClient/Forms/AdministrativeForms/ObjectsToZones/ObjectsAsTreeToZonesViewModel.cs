@@ -11,7 +11,6 @@ namespace Iit.Fibertest.Client
 {
     public class ObjectsAsTreeToZonesViewModel : Screen
     {
-        private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         public Model ReadModel { get; }
         public List<ObjectToZonesModel> Rows { get; set; } = new List<ObjectToZonesModel>();
@@ -19,9 +18,8 @@ namespace Iit.Fibertest.Client
 
         public bool IsEnabled { get; set; }
 
-        public ObjectsAsTreeToZonesViewModel(Model readModel, TreeOfRtuModel treeOfRtuModel, CurrentUser currentUser, IWcfServiceForClient c2DWcfManager)
+        public ObjectsAsTreeToZonesViewModel(Model readModel, CurrentUser currentUser, IWcfServiceForClient c2DWcfManager)
         {
-            _treeOfRtuModel = treeOfRtuModel;
             _c2DWcfManager = c2DWcfManager;
             ReadModel = readModel;
             IsEnabled = currentUser.Role <= Role.Root;
@@ -40,21 +38,10 @@ namespace Iit.Fibertest.Client
             foreach (var rtu in ReadModel.Rtus)
             {
                 Rows.Add(RtuToLine(rtu));
-
-                // TODO doesn't work if zone user opens a form just to see - some rtu/traces are not represented in tree - exception
-                var rtuLeaf = (IPortOwner)_treeOfRtuModel.GetById(rtu.Id);
-                FillInRtuSortedTraces(rtuLeaf);
-            }
-        }
-
-        private void FillInRtuSortedTraces(IPortOwner portOwner)
-        {
-            foreach (var child in portOwner.ChildrenImpresario.Children)
-            {
-                if (child is TraceLeaf traceLeaf)
-                    Rows.Add(TraceToLine(traceLeaf));
-                else if (child is OtauLeaf otauLeaf)
-                    FillInRtuSortedTraces(otauLeaf);
+                foreach (var trace in ReadModel.Traces.Where(t=>t.RtuId == rtu.Id))
+                {
+                    Rows.Add(TraceToLine(trace));
+                }
             }
         }
 
@@ -71,12 +58,11 @@ namespace Iit.Fibertest.Client
             return rtuLine;
         }
 
-        private ObjectToZonesModel TraceToLine(TraceLeaf traceLeaf)
+        private ObjectToZonesModel TraceToLine(Trace trace)
         {
-            var trace = ReadModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             var traceLine = new ObjectToZonesModel()
             {
-                SubjectTitle = @"  " + traceLeaf.Name,
+                SubjectTitle = @"  " + trace.Title,
                 TraceId = trace.TraceId,
                 RtuId = trace.RtuId,
                 IsRtu = false,

@@ -4,17 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        Top="400" Left="250" Height="450" SizeToContent="Width" Activated="Window_Activated">
+        Top="400" Left="250" Height="450" SizeToContent="Width" Activated="Window_Activated"
+        d:DataContext="{d:DesignInstance client:ObjectsAsTreeToZonesViewModel}">
     <DockPanel Margin="5">
         <StackPanel DockPanel.Dock="Bottom" Margin="5" HorizontalAlignment="Center" Orientation="Horizontal">
             <Button Content="{x:Static stringResources:Resources.SID_Save}" Name="Save" IsDefault="True" IsEnabled="{Binding IsEnabled}" Width="100" Height="20" Margin="5" />
             <Button Content="{x:Static stringResources:Resources.SID_Cancel}" Name="Cancel" IsCancel="True" Width="100" Height="20" Margin="5"/>
         </StackPanel>
-        <DataGrid Name="MainDataGrid" AutoGenerateColumns="False" Margin="5" 
-                  CanUserAddRows="False" CanUserSortColumns="False" CanUserReorderColumns="False"
-                  CanUserDeleteRows="False" CanUserResizeColumns="False"
-                  FrozenColumnCount="2" SelectionMode="Single" LoadingRow="MainDataGrid_LoadingRow"
-                  IsEnabled="{Binding IsEnabled}"/>
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <DataGrid Name="MainDataGrid" AutoGenerateColumns="False" Margin="5" 
+                      CanUserAddRows="False" CanUserSortColumns="False" CanUserReorderColumns="False"
+                      CanUserDeleteRows="False" CanUserResizeColumns="False"
+                      FrozenColumnCount="2" SelectionMode="Single" LoadingRow="MainDataGrid_LoadingRow"
+                      IsEnabled="{Binding IsEnabled}"
+            />
+        </ScrollViewer>
+      
     </DockPanel>
 </Window>

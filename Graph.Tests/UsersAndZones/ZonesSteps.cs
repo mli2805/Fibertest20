@@ -21,17 +21,7 @@ namespace Graph.Tests
         private Iit.Fibertest.Graph.Trace _trace2;
         private ObjectsAsTreeToZonesViewModel _objectsVm;
 
-
-        [Given(@"Вход как рут")]
-        public void GivenВходКакРут()
-        {
-            var vm = _sut.ClientScope.Resolve<LoginViewModel>();
-            vm.UserName = @"root";
-            vm.Password = @"root";
-            vm.Login();
-            _sut.ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
-            _sut.ReadModel.Users.Count.Should().Be(5);
-        }
+     
 
         [Given(@"Добавляем Зона1")]
         public void GivenДобавляемЗона1()
@@ -41,6 +31,9 @@ namespace Graph.Tests
             vm.AddZone();
             _sut.Poller.EventSourcingTick().Wait();
             _zone1Id = _sut.ReadModel.Zones[1].ZoneId;
+
+            var vm1 = _sut.ClientScope.Resolve<ConfigurationViewModel>();
+            vm1.IsGraphVisibleOnStart = true;
         }
 
         [Given(@"Добавляем Оператора для Зона1")]
@@ -139,5 +132,20 @@ namespace Graph.Tests
             var trace2Leaf = _sut.TreeOfRtuModel.GetById(_trace2.TraceId);
             trace2Leaf.Color.Should().Be(FiberState.NotJoined.GetBrush(true));
         }
+
+        [Given(@"Пользователь выбирает в конфигурации НЕ показывать граф при старте")]
+        public void GivenПользовательВыбираетВКонфигурацииНеПоказыватьГрафПриСтарте()
+        {
+            var vm = _sut.ClientScope.Resolve<ConfigurationViewModel>();
+            vm.IsGraphVisibleOnStart = false;
+        }
+
+        [Then(@"На карте только один RTU1")]
+        public void ThenНаКартеТолькоОдинRtu1()
+        {
+            _sut.GraphReadModel.Data.Nodes.Count.Should().Be(1);
+
+        }
+
     }
 }

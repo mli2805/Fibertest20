@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Client
         public RenderingResult ShowOnlyRtus() // HideAll()
         {
             var renderingResult = new RenderingResult();
-            foreach (var rtu in _readModel.Rtus)
+            foreach (var rtu in _readModel.Rtus.Where(r=>r.ZoneIds.Contains(_currentUser.ZoneId)))
             {
                 var node = _readModel.Nodes.First(n => n.NodeId == rtu.NodeId);
                 renderingResult.NodeVms.Add(ElementRenderer.Map(node));

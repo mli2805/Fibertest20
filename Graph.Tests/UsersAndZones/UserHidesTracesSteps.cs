@@ -23,6 +23,9 @@ namespace Graph.Tests
             vm.Login();
             _sut.ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
             _sut.ReadModel.Users.Count.Should().Be(5);
+
+            var vm1 = _sut.ClientScope.Resolve<ConfigurationViewModel>();
+            vm1.IsGraphVisibleOnStart = true;
         }
 
 
