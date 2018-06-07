@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly IWcfServiceForClient _c2DWcfManager;
         public Model ReadModel { get; }
-        public List<ObjectToZonesModel> Rows { get; set; } = new List<ObjectToZonesModel>();
+        public List<ObjectToZonesModel> Rows { get; set; } = new  List<ObjectToZonesModel>();
         public ObjectToZonesModel SelectedRow { get; set; }
 
         public bool IsEnabled { get; set; }
