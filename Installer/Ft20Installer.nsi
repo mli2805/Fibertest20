@@ -23,15 +23,15 @@ Unicode true
 !define pkgdir_rtuwatchdog "c:\VSProjects\Fibertest20\RTU\RtuWatchdog\bin\Release\"
 
 !include "MUI.nsh"
-SetCompressor /SOLID lzma
+;SetCompressor /SOLID lzma
+SetCompressor /SOLID zlib
+
 !define MUI_ABORTWARNING
 !define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install.ico"
 InstallDir "C:\IIT-Fibertest\"
 
 ;передвигает языковые файлы в начало архива, что улучшает время загрузки
 !insertmacro MUI_RESERVEFILE_LANGDLL
-
-!insertmacro MUI_PAGE_WELCOME
 
   !define MUI_PAGE_CUSTOMFUNCTION_PRE PreLicense
   !insertmacro MUI_PAGE_LICENSE $(MUILicense)
@@ -94,10 +94,12 @@ Section "Data Center"
   SimpleSC::ExistsService "FibertestDcService"
   Pop $0 
   !define IsExist $0
-
   IntCmp IsExist 0 serviceExists serviceDoesntExist serviceDoesntExist
   
 serviceExists:
+
+  MessageBox MB_OK|MB_ICONINFORMATION "Service exists"
+
 ; Stop a service and waits for file release. Be sure to pass the service name, not the display name.
   SimpleSC::StopService "FibertestDcService" 1 30
   Pop $0 
@@ -105,6 +107,9 @@ serviceExists:
  
 serviceStopped: 
 serviceDoesntExist:
+
+  MessageBox MB_OK|MB_ICONINFORMATION "Copying service files..."
+
   SetOutPath "$INSTDIR\DataCenter\bin"
   File /r "${pkgdir_datacenter}\*.*"
 
@@ -117,7 +122,8 @@ installService:
   IntCmp $0 0 endDcInstallation serviceError serviceError
 
 serviceError:
-  
+   MessageBox MB_OK|MB_ICONSTOP "Service error"
+   
 endDcInstallation:
 
 SetOutPath "$INSTDIR"
@@ -183,7 +189,7 @@ FunctionEnd
 
 Function PreLicense
   ; check installed fibertest
-  ReadRegStr '$R1' HKLM 'Software\Microsoft\Windows\CurrentVersion\Uninstall\FiberTest' 'UninstallString'
+  ReadRegStr '$R1' HKLM 'Software\Microsoft\Windows\CurrentVersion\Uninstall\Iit\FiberTest20' 'UninstallString'
   StrCmp $R1 '' ApplNotInstall 0 
   MessageBox MB_YESNO|MB_ICONINFORMATION "$(AppInstalled)" IDNO ApplNotInstall
   Quit
