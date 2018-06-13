@@ -1,5 +1,7 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -10,6 +12,7 @@ namespace Iit.Fibertest.Client
     {
         public GraphReadModel GraphReadModel { get; }
         private readonly ILifetimeScope _globalScope;
+        private readonly IWindowManager _windowManager;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
@@ -104,7 +107,7 @@ namespace Iit.Fibertest.Client
 
         #endregion
 
-        public TabulatorViewModel(ILifetimeScope globalScope,
+        public TabulatorViewModel(ILifetimeScope globalScope, IWindowManager windowManager,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
@@ -113,6 +116,7 @@ namespace Iit.Fibertest.Client
         {
             GraphReadModel = graphReadModel;
             _globalScope = globalScope;
+            _windowManager = windowManager;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
@@ -196,18 +200,35 @@ namespace Iit.Fibertest.Client
                 trace.IsHighlighted = false;
         }
 
-        public void ShowAllGraph()
+        public async void ShowAllGraph()
         {
+            var vm = new MyMessageBoxViewModel(MessageType.LongOperation, "Long operation, wait please ...");
+            _windowManager.ShowWindowWithAssignedOwner(vm);
+            await ShowAllLongOperation();
+            await Application.Current.Dispatcher.InvokeAsync((() => vm.TryClose()));
+        }
+
+        private async Task ShowAllLongOperation()
+        {
+            await Task.Delay(1); // just to get rid of warning
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 _currentlyHiddenRtu.Collection.Clear();
                 _currentlyHiddenRtu.IsShowAllPressed = true;
             }
-
         }
 
-        public void HideAllGraph()
+        public async void HideAllGraph()
         {
+            var vm = new MyMessageBoxViewModel(MessageType.LongOperation, "Long operation, wait please ...");
+            _windowManager.ShowWindowWithAssignedOwner(vm);
+            await HideAllLongOperation();
+            await Application.Current.Dispatcher.InvokeAsync((() => vm.TryClose()));
+        }
+
+        private async Task HideAllLongOperation()
+        {
+            await Task.Delay(1); // just to get rid of warning
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 var rtuToHide = _readModel.Rtus.Where(r => !_currentlyHiddenRtu.Collection.Contains(r.Id)).Select(rr => rr.Id);

@@ -17,6 +17,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public static Visibility ShouldOkBeVisible(this MessageType messageType)
+        {
+            return messageType == MessageType.LongOperation ? Visibility.Collapsed : Visibility.Visible;
+        }
+
         public static Visibility ShouldCancelBeVisible(this MessageType messageType)
         {
             return messageType == MessageType.Confirmation ? Visibility.Visible : Visibility.Collapsed;

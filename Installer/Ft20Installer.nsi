@@ -1,4 +1,7 @@
 Unicode true
+RequestExecutionLevel admin
+SetShellVarContext all
+
 ;им€ приложени€
 !define PRODUCT_NAME "IIT Fibertest 2.0"
 !define PRODUCT_NAME_2 "IIT_Fibertest_2.0"
@@ -68,27 +71,46 @@ OutFile "${PRODUCT_NAME_2}.${BUILD_NUMBER}.${REVISION}.exe"
 ShowInstDetails show
 
 ;--------------------------------
+;“ипы установки
+
+InstType $(ClientInstallation)
+InstType $(DataCenterInstallation)
+InstType $(RtuManagerInstallation)
+InstType /NOCUSTOM
+
+LangString ClientInstallation ${LANG_ENGLISH} "Client"
+LangString ClientInstallation ${LANG_RUSSIAN} "Client"
+
+LangString DataCenterInstallation ${LANG_ENGLISH} "Data Center"
+LangString DataCenterInstallation ${LANG_RUSSIAN} "Data Center"
+
+LangString RtuManagerInstallation ${LANG_ENGLISH} "Rtu Manager"
+LangString RtuManagerInstallation ${LANG_RUSSIAN} "Rtu Manager"
+
+;--------------------------------
+Section "CommonBeforeInstall"
+	SectionIn RO 1 2 3
+	
+	CreateDirectory "$SMPROGRAMS\IIT"
+	CreateDirectory "$SMPROGRAMS\IIT\FIBERTEST20"	
+SectionEnd
 
 Section "Client"
-
+	SectionIn RO 1 2
+	
 SetOutPath "$INSTDIR\Client\bin"
 File /r "${pkgdir_client}\*.*"
 
-	CreateDirectory "$SMPROGRAMS\IIT"
-	CreateDirectory "$SMPROGRAMS\IIT\FIBERTEST 2.0"
-	CreateShortCut "$SMPROGRAMS\IIT\FIBERTEST 2.0\FtClient20.lnk" "$INSTDIR\Client\bin\Iit.Fibertest.Client.exe"
+	
+	CreateShortCut "$SMPROGRAMS\IIT\FIBERTEST20\ClientFt20.lnk" "$INSTDIR\Client\bin\Iit.Fibertest.Client.exe"
+	CreateShortCut "$DESKTOP\ClientFt20.lnk" "$INSTDIR\Client\bin\Iit.Fibertest.Client.exe"
 	;CreateShortCut "$SMPROGRAMS\IIT\FIBERTEST 2.0\RTFS Reflect.lnk" "$R8\TraceEngine\reflect.exe"
-	
-SetOutPath "$INSTDIR"
-WriteUninstaller "$INSTDIR\Uninstall.exe"
-
-	CreateShortCut "$DESKTOP\UninstFt20.lnk" "$INSTDIR\Uninstall.exe"
-	CreateShortCut "$SMPROGRAMS\IIT\FIBERTEST 2.0\FtUninst20.lnk" "$INSTDIR\Uninstall.exe"
-	
+		
 SectionEnd
 
 Section "Data Center"
-
+	SectionIn RO 2
+	
 ; Check if the service exists
 ; returns an errorcode if the service doesn?t exists (<>0)/service exists (0)
   SimpleSC::ExistsService "FibertestDcService"
@@ -126,32 +148,30 @@ serviceError:
    
 endDcInstallation:
 
-SetOutPath "$INSTDIR"
-WriteUninstaller "$InstDir\Uninstall.exe"
-
 SectionEnd
 
 Section "RTU Manager"
-
+	SectionIn RO 3
+	
 SetOutPath "$INSTDIR\RtuManager\bin"
 File /r "${pkgdir_rtu}\*.*"
 File /r "${pkgdir_rtuwatchdog}\*.*"
 ; стартовать сервисы
 
-SetOutPath "$INSTDIR"
-WriteUninstaller "$INSTDIR\Uninstall.exe"
-CreateShortCut "$DESKTOP\UninstFt20.lnk" "$INSTDIR\Uninstall.exe"
-
 SectionEnd
 
+; установка ƒеинсталл€тора
 Section "UnInstaller"
-
+	SectionIn RO 1 2 3
+	
 SetOutPath "$INSTDIR"
 WriteUninstaller "$INSTDIR\Uninstall.exe"
 CreateShortCut "$DESKTOP\UninstFt20.lnk" "$INSTDIR\Uninstall.exe"
+CreateShortCut "$SMPROGRAMS\IIT\FIBERTEST20\UninstFt20.lnk" "$INSTDIR\Uninstall.exe"
 
 SectionEnd
 
+; а это - что делает деинсталл€тор
 Section "Uninstall"
 	; изменение контекста переменных окружени€, чтобы они относились к All users
 	; это нужно дл€ удалени€ €рлыков из меню ѕуск в Vista и Windows 7
@@ -169,11 +189,12 @@ Section "Uninstall"
 	Delete "$INSTDIR\*.*"
 	
 ;”даление €рлыков из меню ѕуск
-	Delete "$SMPROGRAMS\IIT\FIBERTEST 2.0\*.*"
-	RMDir /r "$SMPROGRAMS\IIT\FIBERTEST 2.0"
-	RMDir /r "$SMPROGRAMS\IIT"
+	Delete "$SMPROGRAMS\IIT\FIBERTEST20\*.*"
+	RMDir /r "$SMPROGRAMS\IIT\FIBERTEST20"
+	
 ;”даление €рлыков с рабочего стола
-	Delete "$DESKTOP\FtClient.lnk"
+	Delete "$DESKTOP\ClientFt20.lnk"
+	Delete "$DESKTOP\UninstFt20.lnk"
 	Delete "$DESKTOP\RFTS Reflect.lnk"
 	
 ;Deleting registry keys

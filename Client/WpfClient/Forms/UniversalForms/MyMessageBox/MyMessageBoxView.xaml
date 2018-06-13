@@ -15,7 +15,7 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,0,0,10">
-            <Button Name="OkButton" Content="OK" Margin="5" HorizontalAlignment="Center" Width="100"/>
+            <Button Name="OkButton" Visibility="{Binding OkVisibility}" Content="OK" Margin="5" HorizontalAlignment="Center" Width="100"/>
             <Button Name="CancelButton" Visibility="{Binding CancelVisibility}" Content="Cancel" Margin="5" HorizontalAlignment="Center" Width="100"/>
         </StackPanel>
     </StackPanel>

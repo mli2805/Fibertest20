@@ -12,6 +12,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly string _caption;
         public List<MyMessageBoxLineModel> Lines { get; set; }
+        public Visibility OkVisibility { get; set; }
         public Visibility CancelVisibility { get; set; }
         public bool IsAnswerPositive { get; set; }
 
@@ -24,6 +25,7 @@ namespace Iit.Fibertest.Client
             };
 
             _caption = messageType.GetLocalizedString();
+            OkVisibility = messageType.ShouldOkBeVisible();
             CancelVisibility = messageType.ShouldCancelBeVisible();
             IsAnswerPositive = false;
         }
@@ -37,6 +39,7 @@ namespace Iit.Fibertest.Client
                 Lines[focusedString].FontWeight = FontWeights.Bold;
 
             _caption = messageType.GetLocalizedString();
+            OkVisibility = messageType.ShouldOkBeVisible();
             CancelVisibility = messageType.ShouldCancelBeVisible();
             IsAnswerPositive = false;
         }
@@ -46,6 +49,7 @@ namespace Iit.Fibertest.Client
             Lines = lines;
 
             _caption = messageType.GetLocalizedString();
+            OkVisibility = messageType.ShouldOkBeVisible();
             CancelVisibility = messageType.ShouldCancelBeVisible();
             IsAnswerPositive = false;
         }
