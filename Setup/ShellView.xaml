@@ -1,0 +1,19 @@
+<Window x:Class="Setup.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:setup="clr-namespace:Setup"
+        Width="500" Height="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Bottom" Margin="5,0,5,5">
+            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="15,5,5,5" Name="Cancel" Content="Cancel"/>
+            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5,0,0,0" Name="Next" Content="Next"/>
+            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5,0,0,0" Name="Back" Content="Back"/>
+            <StackPanel></StackPanel>
+        </DockPanel>
+        <GroupBox Header="Institute of Information Technologies" Foreground="LightGray" Margin="10,0"
+                  DockPanel.Dock="Bottom" BorderThickness="0,2,0,0" BorderBrush="LightGray">
+
+        </GroupBox>
+        <setup:LicenseAgreementView />
+    </DockPanel>
+</Window>
