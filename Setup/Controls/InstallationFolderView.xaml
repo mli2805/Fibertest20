@@ -7,15 +7,15 @@
              mc:Ignorable="d" d:DataContext="{d:DesignInstance setup:InstallationFolderViewModel}">
     <DockPanel>
         <setup:HeaderView DockPanel.Dock="Top" DataContext="{Binding HeaderViewModel}"/>
-        <TextBlock DockPanel.Dock="Top" Margin="5" TextWrapping="Wrap"
+        <TextBlock DockPanel.Dock="Top" Margin="15,5" TextWrapping="Wrap"
                    Text="Setup will install IIT Fibertest 2.0 in the following folder. To install in a different folder, click ...."/>
-        <TextBlock DockPanel.Dock="Bottom" Margin="5" TextWrapping="Wrap"
-                   Text="Space available: "/>
+        <TextBlock DockPanel.Dock="Bottom" Margin="15,5" TextWrapping="Wrap"
+                   Text="{Binding SpaceAvailable}"/>
         
-        <GroupBox DockPanel.Dock="Bottom" Header="Destination Folder">
+        <GroupBox DockPanel.Dock="Bottom" Header="Destination Folder" Margin="15,0">
             <DockPanel>
                 <Button DockPanel.Dock="Right" Margin="5" Width="80" Content="Browse..."/>
-                <TextBlock Text="C:\IIT-Fibertest" Margin="5" Background="LightGray"/>
+                <TextBlock Text="C:\IIT-Fibertest" Margin="10,5"/>
             </DockPanel>
         </GroupBox>
         <StackPanel></StackPanel>

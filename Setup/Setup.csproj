@@ -70,6 +70,10 @@
       <DependentUpon>InstallationFolderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\InstallationFolderViewModel.cs" />
+    <Compile Include="Controls\InstTypeChoiceView.xaml.cs">
+      <DependentUpon>InstTypeChoiceView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\InstTypeChoiceViewModel.cs" />
     <Compile Include="Controls\LicenseAgreementView.xaml.cs">
       <DependentUpon>LicenseAgreementView.xaml</DependentUpon>
     </Compile>
@@ -86,6 +90,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\InstallationFolderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\InstTypeChoiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -116,15 +124,15 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="LicenseDocs\license_en.rtf" />
+    <None Include="LicenseDocs\license_ru.rtf" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="LicenseDocs\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Shared\StringResources\StringResources.csproj">
       <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>

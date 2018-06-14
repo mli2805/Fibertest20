@@ -2,7 +2,11 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:setup="clr-namespace:Setup"
-        Width="500" Height="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Width="500" Height="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        d:DataContext="{d:DesignInstance setup:ShellViewModel}">
     <DockPanel>
         <DockPanel DockPanel.Dock="Bottom" Margin="5,0,5,5">
             <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="15,5,5,5" Name="Cancel" Content="Cancel"/>
@@ -12,9 +16,15 @@
         </DockPanel>
         <GroupBox Header="Institute of Information Technologies" Foreground="LightGray" Margin="10,0"
                   DockPanel.Dock="Bottom" BorderThickness="0,1,0,0" BorderBrush="LightGray">
-
         </GroupBox>
-        <setup:InstallationFolderView DataContext="{Binding InstallationFolderViewModel}" Visibility="{Binding InstallationFolderViewModel.Visibility}"/>
-        <setup:LicenseAgreementView DataContext="{Binding LicenseAgreementViewModel}" Visibility="{Binding LicenseAgreementViewModel.Visibility}" />
+        <DockPanel DockPanel.Dock="Top" Visibility="{Binding InstallationFolderViewModel.Visibility}">
+            <setup:InstallationFolderView DataContext="{Binding InstallationFolderViewModel}"/>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Top"  Visibility="{Binding LicenseAgreementViewModel.Visibility}">
+            <setup:LicenseAgreementView DataContext="{Binding LicenseAgreementViewModel}"/>
+        </DockPanel>
+        <DockPanel Visibility="{Binding InstTypeChoiceViewModel.Visibility}">
+            <setup:InstTypeChoiceView DataContext="{Binding InstTypeChoiceViewModel}"/>
+        </DockPanel>
     </DockPanel>
 </Window>

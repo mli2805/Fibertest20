@@ -6,6 +6,7 @@ namespace Setup
     {
         public LicenseAgreementViewModel LicenseAgreementViewModel { get; set; } = new LicenseAgreementViewModel();
         public InstallationFolderViewModel InstallationFolderViewModel { get; set; } = new InstallationFolderViewModel();
+        public InstTypeChoiceViewModel InstTypeChoiceViewModel { get; set; } = new InstTypeChoiceViewModel();
 
         private SetupPages _currentPage;
 
@@ -38,15 +39,34 @@ namespace Setup
                 case SetupPages.Welcome:
                     LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
                     InstallationFolderViewModel.Visibility = Visibility.Collapsed;
+                    InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
                     break;
                 case SetupPages.LicenseAgreement:
                     LicenseAgreementViewModel.Visibility = Visibility.Visible;
                     InstallationFolderViewModel.Visibility = Visibility.Collapsed;
+                    InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
                     break;
                 case SetupPages.InstallationFolder:
                     LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
                     InstallationFolderViewModel.Visibility = Visibility.Visible;
+                    InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
                     break;
+                case SetupPages.InstTypeChoice:
+                    LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
+                    InstallationFolderViewModel.Visibility = Visibility.Collapsed;
+                    InstTypeChoiceViewModel.Visibility = Visibility.Visible;
+                    break;
+                case SetupPages.ProgressPage:
+                    LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
+                    InstallationFolderViewModel.Visibility = Visibility.Collapsed;
+                    InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
+                    break;
+                case SetupPages.Farewell:
+                    LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
+                    InstallationFolderViewModel.Visibility = Visibility.Collapsed;
+                    InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
+                    break;
+                    
             }
         }
 
