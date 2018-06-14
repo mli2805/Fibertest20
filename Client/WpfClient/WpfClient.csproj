@@ -859,7 +859,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Server\WcfServiceForClient\WcfServiceForClientInterface.csproj">
+    <ProjectReference Include="..\..\DataCenter\WcfServiceForClient\WcfServiceForClientInterface.csproj">
       <Project>{72f6524c-e7ee-4dfd-8ae2-15a4e5225d3b}</Project>
       <Name>WcfServiceForClientInterface</Name>
     </ProjectReference>
