@@ -192,11 +192,11 @@
       <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
       <Name>Graph</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SharedLibs\Utils35\UtilsLib.csproj">
+    <ProjectReference Include="..\..\Shared\Utils35\UtilsLib.csproj">
       <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
       <Name>UtilsLib</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SharedLibs\WcfConnections\WcfConnections.csproj">
+    <ProjectReference Include="..\..\Shared\WcfConnections\WcfConnections.csproj">
       <Project>{5194ad3b-e031-4f61-aded-c1e92999acf2}</Project>
       <Name>WcfConnections</Name>
     </ProjectReference>
