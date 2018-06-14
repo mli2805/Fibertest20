@@ -1,6 +1,5 @@
 Unicode true
 RequestExecutionLevel admin
-SetShellVarContext all
 
 ;имя приложения
 !define PRODUCT_NAME "IIT Fibertest 2.0"
@@ -26,6 +25,7 @@ SetShellVarContext all
 !define pkgdir_rtuwatchdog "c:\VSProjects\Fibertest20\RTU\RtuWatchdog\bin\Release\"
 
 !include "MUI.nsh"
+!include "LogicLib.nsh"
 ;SetCompressor /SOLID lzma
 SetCompressor /SOLID zlib
 
@@ -112,18 +112,27 @@ Section "Data Center"
 	SectionIn RO 2
 	
 ; Check if the service exists
-; returns an errorcode if the service doesn?t exists (<>0)/service exists (0)
-  SimpleSC::ExistsService "FibertestDcService"
-  Pop $0 
-  !define IsExist $0
-  IntCmp IsExist 0 serviceExists serviceDoesntExist serviceDoesntExist
+; returns an errorcode if the service doesn't exists (<>0)/service exists (0)
+  ;SimpleSC::ExistsService '243АВА4ЕФ3Ы'
+
+  ;Pop $0 
+  ;IntCmp $0 0 serviceExists serviceDoesntExist serviceDoesntExist
   
+;  !define IsExist $0
+;  IntCmp IsExist 0 serviceExists serviceDoesntExist serviceDoesntExist
+
+
+    services::IsServiceInstalled '243АВА4ЕФ3Ы' 
+	Pop $0
+	StrCmp $0 'Yes' 0 serviceDoesntExist
+
+	
 serviceExists:
 
-  MessageBox MB_OK|MB_ICONINFORMATION "Service exists"
+  MessageBox MB_OK|MB_ICONINFORMATION "Service exists, will be stopped"
 
 ; Stop a service and waits for file release. Be sure to pass the service name, not the display name.
-  SimpleSC::StopService "FibertestDcService" 1 30
+  SimpleSC::StopService "AFibertestDcService" 1 30
   Pop $0 
   IntCmp $0 0 serviceStopped serviceError serviceError
  
@@ -135,16 +144,21 @@ serviceDoesntExist:
   SetOutPath "$INSTDIR\DataCenter\bin"
   File /r "${pkgdir_datacenter}\*.*"
 
-  IntCmp IsExist 0 endDcInstallation installService installService
+  ;IntCmp IsExist 0 endDcInstallation installService installService
+  IntCmp $0 0 endDcInstallation installService installService
 
 installService:  
 ; Install a service - ServiceType own process - StartType automatic - NoDependencies - Logon as System Account
-  SimpleSC::InstallService "FibertestDcService" "Fibertest 2.0 DataCenter Server" "16" "2" "$INSTDIR\DataCenter\bin\Iit.Fibertest.DataCenterService.exe" "" "" ""
+  SimpleSC::InstallService "AFibertestDcService" "AFibertest 2.0 DataCenter Server" "16" "2" "$INSTDIR\DataCenter\bin\Iit.Fibertest.DataCenterService.exe" "" "" ""
   Pop $0 
-  IntCmp $0 0 endDcInstallation serviceError serviceError
-
+  IntCmp $0 0 installationSuccess serviceError serviceError
+ 
 serviceError:
    MessageBox MB_OK|MB_ICONSTOP "Service error"
+   Quit
+   
+installationSuccess:
+	MessageBox MB_OK|MB_ICONINFORMATION "Datacenter service installed successfully!"
    
 endDcInstallation:
 

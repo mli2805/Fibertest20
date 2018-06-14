@@ -1910,4 +1910,16 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Landmarks_of_traces_of_RTU_" xml:space="preserve">
 		<value>Ориентиры трасс для RTU </value>
 	</data>
+	<data name="SID_Drawing_graph_of_traces_" xml:space="preserve">
+		<value>Отрисовка графа трасс</value>
+	</data>
+	<data name="SID_Depending_on_graph_size_and_performance_of_your_PC" xml:space="preserve">
+		<value>В зависимости от размера графа и производительности вашего PC</value>
+	</data>
+	<data name="SID_it_could_take_a_few_minutes_" xml:space="preserve">
+		<value>может потребоваться несколько минут</value>
+	</data>
+	<data name="SID_Please__wait___" xml:space="preserve">
+		<value>Пожалуйста, подождите...</value>
+	</data>
 </root>

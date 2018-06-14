@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Threading.Tasks;
+using System.Windows.Threading;
+using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
@@ -8,6 +11,8 @@ namespace Iit.Fibertest.Client
     public class RenderingManager
     {
         private readonly IMyLog _logFile;
+        private readonly IWindowManager _windowManager;
+        private readonly IDispatcherProvider _dispatcherProvider;
         private readonly CurrentZoneRenderer _currentZoneRenderer;
         private readonly OneRtuOrTraceRenderer _oneRtuOrTraceRenderer;
         private readonly RenderingApplier _renderingApplier;
@@ -17,12 +22,15 @@ namespace Iit.Fibertest.Client
         private readonly RootRenderer _rootRenderer;
         private readonly LessThanRootRenderer _lessThanRootRenderer;
 
-        public RenderingManager(IMyLog logFile, CurrentZoneRenderer currentZoneRenderer, OneRtuOrTraceRenderer oneRtuOrTraceRenderer,
+        public RenderingManager(IMyLog logFile, IWindowManager windowManager, IDispatcherProvider dispatcherProvider,
+            CurrentZoneRenderer currentZoneRenderer, OneRtuOrTraceRenderer oneRtuOrTraceRenderer,
              RenderingApplier renderingApplier, CurrentlyHiddenRtu currentlyHiddenRtu,
             CurrentUser currentUser, GraphReadModel graphReadModel,
             RootRenderer rootRenderer, LessThanRootRenderer lessThanRootRenderer)
         {
             _logFile = logFile;
+            _windowManager = windowManager;
+            _dispatcherProvider = dispatcherProvider;
             _currentZoneRenderer = currentZoneRenderer;
             _oneRtuOrTraceRenderer = oneRtuOrTraceRenderer;
             _renderingApplier = renderingApplier;
@@ -39,39 +47,36 @@ namespace Iit.Fibertest.Client
             _currentlyHiddenRtu.PropertyChanged += _currentlyHiddenRtu_PropertyChanged;
         }
 
-        private void _currentlyHiddenRtu_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private async void _currentlyHiddenRtu_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == "IsShowAllPressed" || e.PropertyName == "IsHideAllPressed")
             {
                 FullClean();
-                ShowOrHideAllOnEmptyMap();
+                await ShowOrHideAllOnEmptyMap();
             }
 
             if (e.PropertyName == "ChangedRtu")
             {
                 var renderingResult = _currentZoneRenderer.GetRendering();
                 _renderingApplier.ToExistingGraph(renderingResult);
-
-//                var isHideCommand = _currentlyHiddenRtu.Collection.Contains(_currentlyHiddenRtu.ChangedRtu);
-//                var renderingResult = new RenderingResult();
-//                _oneRtuOrTraceRenderer.GetRtuTracesRendering(_currentlyHiddenRtu.ChangedRtu, renderingResult);
-//                if (isHideCommand)
-//                    _renderingApplier.RemoveElementsOfHiddenTraces(renderingResult);
-//                else
-//                    _renderingApplier.AddElementsOfShownTraces(renderingResult);
-            }
+             }
 
             _currentlyHiddenRtu.CleanFlags();
         }
 
-        public void RenderCurrentZoneOnApplicationStart()
+        public async Task RenderCurrentZoneOnApplicationStart()
         {
-            ShowOrHideAllOnEmptyMap();
+            var vm = MyMessageBoxExt.DrawingGraph();
+            _windowManager.ShowWindowWithAssignedOwner(vm);
+            await ShowOrHideAllOnEmptyMap();
+            // InvokeAsync hangs up all tests
+            _dispatcherProvider.GetDispatcher().Invoke(() => vm.TryClose(), DispatcherPriority.ApplicationIdle);
         }
 
-     
-        private void ShowOrHideAllOnEmptyMap()
+
+        private async Task ShowOrHideAllOnEmptyMap()
         {
+            await Task.Delay(1); // just to get rid of warning
             if (_currentUser.Role <= Role.Root)
             {
                 var renderingResult = _currentlyHiddenRtu.Collection.Count == 0

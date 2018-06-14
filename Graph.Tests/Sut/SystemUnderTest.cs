@@ -70,6 +70,7 @@ namespace Graph.Tests
             vm.UserName = @"root";
             vm.Password = @"root";
             vm.Login();
+            FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
             ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
             ReadModel.Users.Count.Should().Be(5);
             WcfServiceForClient.SendCommandAsObj(new ApplyLicense(){RtuCount = 2, ClientStationCount = 2}).Wait();

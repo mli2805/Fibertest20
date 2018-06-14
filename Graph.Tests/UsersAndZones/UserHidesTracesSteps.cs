@@ -21,6 +21,7 @@ namespace Graph.Tests
             vm.UserName = user;
             vm.Password = user;
             vm.Login();
+            _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
             _sut.ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
             _sut.ReadModel.Users.Count.Should().Be(5);
 

@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Threading;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
@@ -13,6 +13,7 @@ namespace Iit.Fibertest.Client
         public GraphReadModel GraphReadModel { get; }
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
+        private readonly IDispatcherProvider _dispatcherProvider;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
@@ -20,6 +21,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
 
         private int _selectedTabIndex;
+
         public int SelectedTabIndex
         {
             get => _selectedTabIndex;
@@ -46,6 +48,7 @@ namespace Iit.Fibertest.Client
         #region Visibilities
 
         private Visibility _opticalEventsVisibility;
+
         public Visibility OpticalEventsVisibility
         {
             get => _opticalEventsVisibility;
@@ -58,6 +61,7 @@ namespace Iit.Fibertest.Client
         }
 
         private Visibility _networkEventsVisibility;
+
         public Visibility NetworkEventsVisibility
         {
             get => _networkEventsVisibility;
@@ -70,6 +74,7 @@ namespace Iit.Fibertest.Client
         }
 
         private Visibility _bopNetworkEventsVisibility;
+
         public Visibility BopNetworkEventsVisibility
         {
             get => _bopNetworkEventsVisibility;
@@ -82,6 +87,7 @@ namespace Iit.Fibertest.Client
         }
 
         private Visibility _mapVisibility;
+
         public Visibility MapVisibility
         {
             get => _mapVisibility;
@@ -94,6 +100,7 @@ namespace Iit.Fibertest.Client
         }
 
         private Visibility _messageVisibility;
+
         public Visibility MessageVisibility
         {
             get => _messageVisibility;
@@ -107,16 +114,17 @@ namespace Iit.Fibertest.Client
 
         #endregion
 
-        public TabulatorViewModel(ILifetimeScope globalScope, IWindowManager windowManager,
+        public TabulatorViewModel(ILifetimeScope globalScope, IWindowManager windowManager, IDispatcherProvider dispatcherProvider,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
-            GraphReadModel graphReadModel, CurrentlyHiddenRtu currentlyHiddenRtu, 
+            GraphReadModel graphReadModel, CurrentlyHiddenRtu currentlyHiddenRtu,
             Model readModel)
         {
             GraphReadModel = graphReadModel;
             _globalScope = globalScope;
             _windowManager = windowManager;
+            _dispatcherProvider = dispatcherProvider;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
@@ -130,23 +138,26 @@ namespace Iit.Fibertest.Client
         {
             _opticalEventsDoubleViewModel.ActualOpticalEventsViewModel.Rows.CollectionChanged += (s, e) =>
             {
-                IsThereActualOpticalEventsPictogram = _opticalEventsDoubleViewModel.ActualOpticalEventsViewModel.Rows.Any()
-                    ? Visibility.Visible
-                    : Visibility.Hidden;
+                IsThereActualOpticalEventsPictogram =
+                    _opticalEventsDoubleViewModel.ActualOpticalEventsViewModel.Rows.Any()
+                        ? Visibility.Visible
+                        : Visibility.Hidden;
                 NotifyOfPropertyChange(nameof(IsThereActualOpticalEventsPictogram));
             };
             _networkEventsDoubleViewModel.ActualNetworkEventsViewModel.Rows.CollectionChanged += (s, e) =>
             {
-                IsThereActualNetworkEventsPictogram = _networkEventsDoubleViewModel.ActualNetworkEventsViewModel.Rows.Any()
-                    ? Visibility.Visible
-                    : Visibility.Hidden;
+                IsThereActualNetworkEventsPictogram =
+                    _networkEventsDoubleViewModel.ActualNetworkEventsViewModel.Rows.Any()
+                        ? Visibility.Visible
+                        : Visibility.Hidden;
                 NotifyOfPropertyChange(nameof(IsThereActualNetworkEventsPictogram));
             };
             _bopNetworkEventsDoubleViewModel.ActualBopNetworkEventsViewModel.Rows.CollectionChanged += (s, e) =>
             {
-                IsThereActualBopEventsPictogram = _bopNetworkEventsDoubleViewModel.ActualBopNetworkEventsViewModel.Rows.Any()
-                    ? Visibility.Visible
-                    : Visibility.Hidden;
+                IsThereActualBopEventsPictogram =
+                    _bopNetworkEventsDoubleViewModel.ActualBopNetworkEventsViewModel.Rows.Any()
+                        ? Visibility.Visible
+                        : Visibility.Hidden;
                 NotifyOfPropertyChange(nameof(IsThereActualBopEventsPictogram));
             };
         }
@@ -202,10 +213,10 @@ namespace Iit.Fibertest.Client
 
         public async void ShowAllGraph()
         {
-            var vm = new MyMessageBoxViewModel(MessageType.LongOperation, "Long operation, wait please ...");
+            var vm = MyMessageBoxExt.DrawingGraph();
             _windowManager.ShowWindowWithAssignedOwner(vm);
             await ShowAllLongOperation();
-            await Application.Current.Dispatcher.InvokeAsync((() => vm.TryClose()));
+            await _dispatcherProvider.GetDispatcher().InvokeAsync(() => vm.TryClose(), DispatcherPriority.ApplicationIdle);
         }
 
         private async Task ShowAllLongOperation()
@@ -220,10 +231,10 @@ namespace Iit.Fibertest.Client
 
         public async void HideAllGraph()
         {
-            var vm = new MyMessageBoxViewModel(MessageType.LongOperation, "Long operation, wait please ...");
+            var vm = MyMessageBoxExt.DrawingGraph();
             _windowManager.ShowWindowWithAssignedOwner(vm);
             await HideAllLongOperation();
-            await Application.Current.Dispatcher.InvokeAsync((() => vm.TryClose()));
+            await _dispatcherProvider.GetDispatcher().InvokeAsync(() => vm.TryClose(), DispatcherPriority.ApplicationIdle);
         }
 
         private async Task HideAllLongOperation()
@@ -231,7 +242,8 @@ namespace Iit.Fibertest.Client
             await Task.Delay(1); // just to get rid of warning
             using (_globalScope.Resolve<IWaitCursor>())
             {
-                var rtuToHide = _readModel.Rtus.Where(r => !_currentlyHiddenRtu.Collection.Contains(r.Id)).Select(rr => rr.Id);
+                var rtuToHide = _readModel.Rtus.Where(r => !_currentlyHiddenRtu.Collection.Contains(r.Id))
+                    .Select(rr => rr.Id);
                 _currentlyHiddenRtu.Collection.AddRange(rtuToHide);
 
                 _currentlyHiddenRtu.IsHideAllPressed = true;

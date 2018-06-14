@@ -1476,6 +1476,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Depending on graph size and performance of your PC.
+        /// </summary>
+        public static string SID_Depending_on_graph_size_and_performance_of_your_PC {
+            get {
+                return ResourceManager.GetString("SID_Depending_on_graph_size_and_performance_of_your_PC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Detach.
         /// </summary>
         public static string SID_Detach {
@@ -1616,6 +1625,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Do_not_use {
             get {
                 return ResourceManager.GetString("SID_Do_not_use", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Drawing graph of traces..
+        /// </summary>
+        public static string SID_Drawing_graph_of_traces_ {
+            get {
+                return ResourceManager.GetString("SID_Drawing_graph_of_traces_", resourceCulture);
             }
         }
         
@@ -2322,6 +2340,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to it could take a few minutes..
+        /// </summary>
+        public static string SID_it_could_take_a_few_minutes_ {
+            get {
+                return ResourceManager.GetString("SID_it_could_take_a_few_minutes_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to It&apos;s an end node..
         /// </summary>
         public static string SID_It_s_an_end_node_ {
@@ -2426,15 +2453,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Landmarks_count_in_reflectogram_is__0_ {
             get {
                 return ResourceManager.GetString("SID_Landmarks_count_in_reflectogram_is__0_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Landmarks of trace {0}:.
-        /// </summary>
-        public static string SID_Landmarks_of_trace__0_ {
-            get {
-                return ResourceManager.GetString("SID_Landmarks_of_trace__0_", resourceCulture);
             }
         }
         
@@ -3579,6 +3597,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Please__wait_ {
             get {
                 return ResourceManager.GetString("SID_Please__wait_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please, wait....
+        /// </summary>
+        public static string SID_Please__wait___ {
+            get {
+                return ResourceManager.GetString("SID_Please__wait___", resourceCulture);
             }
         }
         
