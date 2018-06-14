@@ -1,10 +1,9 @@
 ﻿using System.Windows;
 using Caliburn.Micro;
-using Iit.Fibertest.StringResources;
 
 namespace Setup
 {
-    public class LicenseAgreementViewModel : Screen
+    public class InstallationFolderViewModel : PropertyChangedBase
     {
         private Visibility _visibility = Visibility.Collapsed;
 
@@ -18,20 +17,12 @@ namespace Setup
                 NotifyOfPropertyChange();
             }
         }
-
         public HeaderViewModel HeaderViewModel { get; set; } = new HeaderViewModel();
-        public string LicenseRtf { get; set; }
 
-        public LicenseAgreementViewModel()
+        public InstallationFolderViewModel()
         {
-            HeaderViewModel.InBold = "License Agreement";
-            HeaderViewModel.Explanation = "Please review the license terms before installing IIT Fibertest 2.0.";
-        }
-
-        protected override void OnInitialize()
-        {
-            LicenseRtf = Resources.SID_license_en_rtf;
-
+            HeaderViewModel.InBold = "Choose Install Location";
+            HeaderViewModel.Explanation = "Choose folder in which to install IIT Fibertest 2.0";
         }
     }
 }

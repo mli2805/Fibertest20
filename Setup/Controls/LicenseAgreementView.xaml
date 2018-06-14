@@ -4,10 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:setup="clr-namespace:Setup"
-             mc:Ignorable="d" 
-             >
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance setup:LicenseAgreementViewModel}">
     <DockPanel>
-        <setup:HeaderView DockPanel.Dock="Top"/>
+        <setup:HeaderView DockPanel.Dock="Top" DataContext="{Binding HeaderViewModel}"/>
         <TextBlock DockPanel.Dock="Bottom" Margin="5" TextWrapping="Wrap"
                    Text="If you accept the terms of the agreement, click I Agree to continue. You must accept the agreement to install IIT Fibertest 2.0"/>
         <DocumentViewer Margin="5"></DocumentViewer>

@@ -11,9 +11,10 @@
             <StackPanel></StackPanel>
         </DockPanel>
         <GroupBox Header="Institute of Information Technologies" Foreground="LightGray" Margin="10,0"
-                  DockPanel.Dock="Bottom" BorderThickness="0,2,0,0" BorderBrush="LightGray">
+                  DockPanel.Dock="Bottom" BorderThickness="0,1,0,0" BorderBrush="LightGray">
 
         </GroupBox>
-        <setup:LicenseAgreementView />
+        <setup:InstallationFolderView DataContext="{Binding InstallationFolderViewModel}" Visibility="{Binding InstallationFolderViewModel.Visibility}"/>
+        <setup:LicenseAgreementView DataContext="{Binding LicenseAgreementViewModel}" Visibility="{Binding LicenseAgreementViewModel.Visibility}" />
     </DockPanel>
 </Window>
