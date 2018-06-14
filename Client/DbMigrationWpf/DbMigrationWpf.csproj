@@ -144,10 +144,6 @@
       <Project>{72f6524c-e7ee-4dfd-8ae2-15a4e5225d3b}</Project>
       <Name>WcfServiceForClientInterface</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\SharedLibs\Dto\Dto.csproj">
-      <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
-      <Name>Dto</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\SharedLibs\StringResources\StringResources.csproj">
       <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>
       <Name>StringResources</Name>
@@ -159,6 +155,10 @@
     <ProjectReference Include="..\..\SharedLibs\WcfConnections\WcfConnections.csproj">
       <Project>{5194ad3b-e031-4f61-aded-c1e92999acf2}</Project>
       <Name>WcfConnections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Dto\Dto.csproj">
+      <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
+      <Name>Dto</Name>
     </ProjectReference>
     <ProjectReference Include="..\Graph\Graph.csproj">
       <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>

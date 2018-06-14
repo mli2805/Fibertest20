@@ -867,6 +867,10 @@
       <Project>{5194ad3b-e031-4f61-aded-c1e92999acf2}</Project>
       <Name>WcfConnections</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Dto\Dto.csproj">
+      <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
+      <Name>Dto</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ClientWcfServiceLibrary\ClientWcfServiceInterface.csproj">
       <Project>{1822c528-4719-4c53-877e-bc57dbf6d7ff}</Project>
       <Name>ClientWcfServiceInterface</Name>
@@ -894,10 +898,6 @@
     <ProjectReference Include="..\..\RTU\IitOtdrLibrary\IitOtdrLibrary.csproj">
       <Project>{e9122bbb-b015-4710-bdd3-03243ee8cbcd}</Project>
       <Name>IitOtdrLibrary</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SharedLibs\Dto\Dto.csproj">
-      <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
-      <Name>Dto</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\SharedLibs\StringResources\StringResources.csproj">
       <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>
