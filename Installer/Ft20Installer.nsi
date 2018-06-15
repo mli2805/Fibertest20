@@ -20,7 +20,7 @@ RequestExecutionLevel admin
   
 ;папки, где где брать исходные файлы, подлежащие сжатию.
 !define pkgdir_client "c:\VSProjects\Fibertest20\Client\WpfClient\bin\x86\Release\"
-!define pkgdir_datacenter "c:\VSProjects\Fibertest20\Server\DataCenterService\bin\Release\"
+!define pkgdir_datacenter "c:\VSProjects\Fibertest20\DataCenter\DataCenterService\bin\Release\"
 !define pkgdir_rtu "c:\VSProjects\Fibertest20\RTU\RtuService\bin\x86\Release\"
 !define pkgdir_rtuwatchdog "c:\VSProjects\Fibertest20\RTU\RtuWatchdog\bin\Release\"
 
@@ -39,7 +39,8 @@ InstallDir "C:\IIT-Fibertest\"
   !define MUI_PAGE_CUSTOMFUNCTION_PRE PreLicense
   !insertmacro MUI_PAGE_LICENSE $(MUILicense)
   
-!insertmacro MUI_PAGE_DIRECTORY
+ !insertmacro MUI_PAGE_WELCOME
+ !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
@@ -113,16 +114,16 @@ Section "Data Center"
 	
 ; Check if the service exists
 ; returns an errorcode if the service doesn't exists (<>0)/service exists (0)
-  ;SimpleSC::ExistsService '243АВА4ЕФ3Ы'
+  SimpleSC::ExistsService '243АВА4ЕФ3Ы'
 
-  ;Pop $0 
-  ;IntCmp $0 0 serviceExists serviceDoesntExist serviceDoesntExist
+  Pop $0 
+  IntCmp $0 0 serviceExists serviceDoesntExist serviceDoesntExist
   
-;  !define IsExist $0
-;  IntCmp IsExist 0 serviceExists serviceDoesntExist serviceDoesntExist
+  !define IsExist $0
+  IntCmp IsExist 0 serviceExists serviceDoesntExist serviceDoesntExist
 
 
-    services::IsServiceInstalled '243АВА4ЕФ3Ы' 
+  
 	Pop $0
 	StrCmp $0 'Yes' 0 serviceDoesntExist
 
