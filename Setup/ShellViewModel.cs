@@ -30,11 +30,11 @@ namespace Setup
             ProcessProgressViewModel = processProgressViewModel;
 
             _currentPage = SetupPages.Welcome;
-            Do();
         }
         protected override void OnViewLoaded(object view)
         {
             DisplayName = $"{_currentInstallation.FullName} setup";
+            Do();
         }
 
         const string userRoot = "HKEY_LOCAL_MACHINE";
@@ -91,9 +91,9 @@ namespace Setup
                     var cu = GetInstallationCulture();
                     if (cu != null && cu != "none")
                     {
-//                        var vm = new MyMessageBoxViewModel(MessageType.Confirmation, "Fibertest 2.0 installed on your PC already. Continue?");
-//                        _windowManager.ShowDialog(vm);
-//                        if (!vm.IsAnswerPositive)
+                        var result = MessageBox.Show("Fibertest 2.0 installed on your PC already. Continue?",
+                            "Confirmation", MessageBoxButton.YesNo);
+                        if (result == MessageBoxResult.No)
                             TryClose();
                     }
                     else
