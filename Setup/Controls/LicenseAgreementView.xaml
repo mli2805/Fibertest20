@@ -7,8 +7,8 @@
              mc:Ignorable="d" d:DataContext="{d:DesignInstance setup:LicenseAgreementViewModel}">
     <DockPanel>
         <setup:HeaderView DockPanel.Dock="Top" DataContext="{Binding HeaderViewModel}"/>
-        <TextBlock DockPanel.Dock="Bottom" Margin="5" TextWrapping="Wrap" Text="{Binding Text1}"/>
-        <DocumentViewer Margin="5"></DocumentViewer>
+        <TextBlock DockPanel.Dock="Bottom" Margin="15,5" TextWrapping="Wrap" Text="{Binding Text1}"/>
+        <DocumentViewer Margin="5" Document="{Binding FixedDocumentSequence}"/>
     </DockPanel>
 </UserControl>
 

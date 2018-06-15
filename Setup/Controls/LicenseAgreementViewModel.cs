@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
+using System.Windows.Documents;
+using System.Windows.Xps.Packaging;
 using Caliburn.Micro;
-using Iit.Fibertest.StringResources;
 
 namespace Setup
 {
@@ -21,7 +23,7 @@ namespace Setup
 
         public HeaderViewModel HeaderViewModel { get; set; } = new HeaderViewModel();
         public string Text1 { get; set; }
-        public string LicenseRtf { get; set; }
+        public FixedDocumentSequence FixedDocumentSequence { get; set; }
 
         public LicenseAgreementViewModel(CurrentInstallation currentInstallation)
         {
@@ -29,12 +31,13 @@ namespace Setup
             HeaderViewModel.Explanation = $"Please review the license terms before installing {currentInstallation.MainName}.";
             Text1 =
                 $"If you accept the terms of the agreement, click I Agree to continue. You must accept the agreement to install {currentInstallation.MainName}";
+            ReadLicense();
         }
 
-        protected override void OnInitialize()
+        private void ReadLicense()
         {
-            LicenseRtf = Resources.SID_license_en_rtf;
-
+            XpsDocument document = new XpsDocument(@"..\..\LicenseDocs\license_en.xps", FileAccess.Read);
+            FixedDocumentSequence = document.GetFixedDocumentSequence();
         }
     }
 }

@@ -7,6 +7,7 @@ namespace Setup
 {
     public class InstallationFolderViewModel : PropertyChangedBase
     {
+        private readonly CurrentInstallation _currentInstallation;
         private Visibility _visibility = Visibility.Collapsed;
         public Visibility Visibility
         {
@@ -48,10 +49,11 @@ namespace Setup
 
         public InstallationFolderViewModel(CurrentInstallation currentInstallation)
         {
+            _currentInstallation = currentInstallation;
             HeaderViewModel.InBold = "Choose Install Location";
-            HeaderViewModel.Explanation = $"Choose folder in which to install {currentInstallation.MainName}";
+            HeaderViewModel.Explanation = $"Choose folder in which to install {_currentInstallation.MainName}";
             Text1 =
-                $"Setup will install {currentInstallation.MainName} in the following folder. To install in a different folder, click Browse and select another folder. Click Next to continue.";
+                $"Setup will install {_currentInstallation.MainName} in the following folder. To install in a different folder, click Browse and select another folder. Click Next to continue.";
             DestinationFolder = @"C:\IIT-Fibertest\";
             SpaceAvailable = $"Space available: {SpaceToString(GetAvailableFreeSpace(@"C:\"))}";
         }
@@ -86,8 +88,10 @@ namespace Setup
             using (var dialog = new FolderBrowserDialog(){SelectedPath = @"C:\IIT-Fibertest\", ShowNewFolderButton = true})
             {
                 var result = dialog.ShowDialog();
-                if (result == DialogResult.OK)
-                    DestinationFolder = dialog.SelectedPath;
+                if (result != DialogResult.OK) return;
+
+                DestinationFolder = dialog.SelectedPath;
+                _currentInstallation.DestinationFolder = dialog.SelectedPath;
             }
         }
     }
