@@ -20,10 +20,10 @@ namespace Setup
 
         public HeaderViewModel HeaderViewModel { get; set; } = new HeaderViewModel();
 
-        public InstTypeChoiceViewModel()
+        public InstTypeChoiceViewModel(CurrentInstallation currentInstallation)
         {
             HeaderViewModel.InBold = "Choose Installation Type";
-            HeaderViewModel.Explanation = "Choose which components of IIT Fibertest 2.0 you want to install";
+            HeaderViewModel.Explanation = $"Choose which components of {currentInstallation.MainName} you want to install";
         }
     }
 }

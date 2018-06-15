@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:setup="clr-namespace:Setup"
+             xmlns:cal="http://www.caliburnproject.org"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance setup:InstallationFolderViewModel}">
     <DockPanel>
         <setup:HeaderView DockPanel.Dock="Top" DataContext="{Binding HeaderViewModel}"/>
@@ -13,8 +14,8 @@
         
         <GroupBox DockPanel.Dock="Bottom" Header="Destination Folder" Margin="15,0">
             <DockPanel>
-                <Button DockPanel.Dock="Right" Margin="5" Width="80" Content="Browse..."/>
-                <TextBlock Text="C:\IIT-Fibertest" Margin="10,5"/>
+                <Button cal:Message.Attach="Browse" DockPanel.Dock="Right" Margin="5" Width="80" Content="Browse..."/>
+                <TextBlock Text="{Binding DestinationFolder}" Margin="10,5"/>
             </DockPanel>
         </GroupBox>
         <StackPanel></StackPanel>

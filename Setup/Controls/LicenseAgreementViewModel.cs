@@ -20,12 +20,15 @@ namespace Setup
         }
 
         public HeaderViewModel HeaderViewModel { get; set; } = new HeaderViewModel();
+        public string Text1 { get; set; }
         public string LicenseRtf { get; set; }
 
-        public LicenseAgreementViewModel()
+        public LicenseAgreementViewModel(CurrentInstallation currentInstallation)
         {
             HeaderViewModel.InBold = "License Agreement";
-            HeaderViewModel.Explanation = "Please review the license terms before installing IIT Fibertest 2.0.";
+            HeaderViewModel.Explanation = $"Please review the license terms before installing {currentInstallation.MainName}.";
+            Text1 =
+                $"If you accept the terms of the agreement, click I Agree to continue. You must accept the agreement to install {currentInstallation.MainName}";
         }
 
         protected override void OnInitialize()

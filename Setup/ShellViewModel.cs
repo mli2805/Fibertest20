@@ -5,17 +5,24 @@ namespace Setup
     public class ShellViewModel : Caliburn.Micro.Screen, IShell
     {
         private CurrentInstallation _currentInstallation;
-        public LicenseAgreementViewModel LicenseAgreementViewModel { get; set; } = new LicenseAgreementViewModel();
+        public LicenseAgreementViewModel LicenseAgreementViewModel { get; set; }
         public InstallationFolderViewModel InstallationFolderViewModel { get; set; }
-        public InstTypeChoiceViewModel InstTypeChoiceViewModel { get; set; } = new InstTypeChoiceViewModel();
-        public ProcessProgressViewModel ProcessProgressViewModel { get; set; } = new ProcessProgressViewModel();
+        public InstTypeChoiceViewModel InstTypeChoiceViewModel { get; set; }
+        public ProcessProgressViewModel ProcessProgressViewModel { get; set; }
 
         private SetupPages _currentPage;
 
-        public ShellViewModel(CurrentInstallation currentInstallation, InstallationFolderViewModel installationFolderViewModel)
+        public ShellViewModel(CurrentInstallation currentInstallation, 
+            LicenseAgreementViewModel licenseAgreementViewModel,
+            InstallationFolderViewModel installationFolderViewModel, 
+            InstTypeChoiceViewModel instTypeChoiceViewModel, 
+            ProcessProgressViewModel processProgressViewModel)
         {
             _currentInstallation = currentInstallation;
+            LicenseAgreementViewModel = licenseAgreementViewModel;
             InstallationFolderViewModel = installationFolderViewModel;
+            InstTypeChoiceViewModel = instTypeChoiceViewModel;
+            ProcessProgressViewModel = processProgressViewModel;
 
             _currentPage = SetupPages.Welcome;
             Do();

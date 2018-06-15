@@ -9,5 +9,8 @@
 
         public string FullName => $"{ProductName} {ProductVersion}.{BuildNumber}.{Revision}";
         public string MainName => $"{ProductName} {ProductVersion}";
+
+        public string DestinationFolder { get; set; }
+        public InstallationType InstallationType { get; set; }
     }
 }

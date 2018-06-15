@@ -7,8 +7,7 @@
              mc:Ignorable="d" d:DataContext="{d:DesignInstance setup:LicenseAgreementViewModel}">
     <DockPanel>
         <setup:HeaderView DockPanel.Dock="Top" DataContext="{Binding HeaderViewModel}"/>
-        <TextBlock DockPanel.Dock="Bottom" Margin="5" TextWrapping="Wrap"
-                   Text="If you accept the terms of the agreement, click I Agree to continue. You must accept the agreement to install IIT Fibertest 2.0"/>
+        <TextBlock DockPanel.Dock="Bottom" Margin="5" TextWrapping="Wrap" Text="{Binding Text1}"/>
         <DocumentViewer Margin="5"></DocumentViewer>
     </DockPanel>
 </UserControl>

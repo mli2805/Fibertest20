@@ -4,8 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:setup="clr-namespace:Setup"
-             mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance setup:InstTypeChoiceViewModel}">
     <DockPanel>
         <setup:HeaderView DockPanel.Dock="Top" DataContext="{Binding HeaderViewModel}"/>
 

@@ -11,7 +11,10 @@ namespace Setup
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
             builder.RegisterType<CurrentInstallation>().SingleInstance();
 
+            builder.RegisterType<LicenseAgreementViewModel>().SingleInstance();
             builder.RegisterType<InstallationFolderViewModel>().SingleInstance();
+            builder.RegisterType<InstTypeChoiceViewModel>().SingleInstance();
+            builder.RegisterType<ProcessProgressViewModel>().SingleInstance();
 
         }
     }
