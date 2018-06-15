@@ -6,14 +6,7 @@ namespace Setup
         LicenseAgreement = 1,
         InstallationFolder = 2,
         InstTypeChoice = 3,
-        ProgressPage,
+        ProcessProgress,
         Farewell,
-    }
-
-    public enum InstallationType
-    {
-        Client,
-        Datacenter,
-        RtuManager,
     }
 }

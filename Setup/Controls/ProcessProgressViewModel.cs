@@ -3,7 +3,7 @@ using Caliburn.Micro;
 
 namespace Setup
 {
-    public class InstTypeChoiceViewModel : PropertyChangedBase
+    public class ProcessProgressViewModel : PropertyChangedBase
     {
         private Visibility _visibility = Visibility.Collapsed;
 
@@ -20,10 +20,10 @@ namespace Setup
 
         public HeaderViewModel HeaderViewModel { get; set; } = new HeaderViewModel();
 
-        public InstTypeChoiceViewModel()
+        public ProcessProgressViewModel()
         {
-            HeaderViewModel.InBold = "Choose Installation Type";
-            HeaderViewModel.Explanation = "Choose which components of IIT Fibertest 2.0 you want to install";
+            HeaderViewModel.InBold = "Installing";
+            HeaderViewModel.Explanation = "Please wait while IIT Fibertest 2.0 is being installed.";
         }
     }
 }

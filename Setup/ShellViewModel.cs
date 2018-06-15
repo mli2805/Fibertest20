@@ -4,35 +4,40 @@ namespace Setup
 {
     public class ShellViewModel : Caliburn.Micro.Screen, IShell
     {
+        private CurrentInstallation _currentInstallation;
         public LicenseAgreementViewModel LicenseAgreementViewModel { get; set; } = new LicenseAgreementViewModel();
-        public InstallationFolderViewModel InstallationFolderViewModel { get; set; } = new InstallationFolderViewModel();
+        public InstallationFolderViewModel InstallationFolderViewModel { get; set; }
         public InstTypeChoiceViewModel InstTypeChoiceViewModel { get; set; } = new InstTypeChoiceViewModel();
+        public ProcessProgressViewModel ProcessProgressViewModel { get; set; } = new ProcessProgressViewModel();
 
         private SetupPages _currentPage;
 
-        public ShellViewModel()
+        public ShellViewModel(CurrentInstallation currentInstallation, InstallationFolderViewModel installationFolderViewModel)
         {
+            _currentInstallation = currentInstallation;
+            InstallationFolderViewModel = installationFolderViewModel;
+
             _currentPage = SetupPages.Welcome;
-            ShowPage();
+            Do();
         }
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "Fibertest 2.0 setup";
+            DisplayName = $"{_currentInstallation.FullName} setup";
         }
 
         public void Next()
         {
             _currentPage++;
-            ShowPage();
+            Do();
         }
 
         public void Back()
         {
             _currentPage--;
-            ShowPage();
+            Do();
         }
 
-        private void ShowPage()
+        private void Do()
         {
             switch (_currentPage)
             {
@@ -40,11 +45,13 @@ namespace Setup
                     LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
                     InstallationFolderViewModel.Visibility = Visibility.Collapsed;
                     InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
+                    ProcessProgressViewModel.Visibility = Visibility.Collapsed;
                     break;
                 case SetupPages.LicenseAgreement:
                     LicenseAgreementViewModel.Visibility = Visibility.Visible;
                     InstallationFolderViewModel.Visibility = Visibility.Collapsed;
                     InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
+                    ProcessProgressViewModel.Visibility = Visibility.Collapsed;
                     break;
                 case SetupPages.InstallationFolder:
                     LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
@@ -55,18 +62,14 @@ namespace Setup
                     LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
                     InstallationFolderViewModel.Visibility = Visibility.Collapsed;
                     InstTypeChoiceViewModel.Visibility = Visibility.Visible;
+                    ProcessProgressViewModel.Visibility = Visibility.Collapsed;
                     break;
-                case SetupPages.ProgressPage:
+                case SetupPages.ProcessProgress:
                     LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
                     InstallationFolderViewModel.Visibility = Visibility.Collapsed;
                     InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
+                    ProcessProgressViewModel.Visibility = Visibility.Visible;
                     break;
-                case SetupPages.Farewell:
-                    LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
-                    InstallationFolderViewModel.Visibility = Visibility.Collapsed;
-                    InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
-                    break;
-                    
             }
         }
 

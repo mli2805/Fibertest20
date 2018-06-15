@@ -4,10 +4,9 @@ using Caliburn.Micro;
 
 namespace Setup
 {
-    public class InstallationFolderViewModel : PropertyChangedBase
+    public class InstallationFolderViewModel : Screen
     {
         private Visibility _visibility = Visibility.Collapsed;
-
         public Visibility Visibility
         {
             get { return _visibility; }
@@ -20,6 +19,7 @@ namespace Setup
         }
         public HeaderViewModel HeaderViewModel { get; set; } = new HeaderViewModel();
 
+        public string Text1 { get; set; }
         private string _spaceAvailable;
         public string SpaceAvailable
         {
@@ -32,14 +32,16 @@ namespace Setup
             }
         }
 
-        public string DefaultFibertest20Folder = @"C:\IIT-Fibertest20\";
+        public string DestinationFolder { get; set; }
 
-        public InstallationFolderViewModel()
+        public InstallationFolderViewModel(CurrentInstallation currentInstallation)
         {
             HeaderViewModel.InBold = "Choose Install Location";
-            HeaderViewModel.Explanation = "Choose folder in which to install IIT Fibertest 2.0";
-
-            SpaceAvailable = $"Space available: {(int) (GetAvailableFreeSpace(@"C:\") / 1024 / 1024)} Mb";
+            HeaderViewModel.Explanation = $"Choose folder in which to install {currentInstallation.MainName}";
+            Text1 =
+                $"Setup will install {currentInstallation.MainName} in the following folder. To install in a different folder, click Browse and select another folder. Click Next to continue.";
+            DestinationFolder = @"C:\IIT-Fibertest\";
+            SpaceAvailable = $"Space available: {((int) (GetAvailableFreeSpace(@"C:\") / 1024 / 1024)):##,###} MB";
         }
 
         private long GetAvailableFreeSpace(string driveName)
@@ -53,5 +55,7 @@ namespace Setup
             }
             return -1;
         }
+
+
     }
 }
