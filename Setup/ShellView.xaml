@@ -24,7 +24,7 @@
         <DockPanel DockPanel.Dock="Top" Visibility="{Binding InstallationFolderViewModel.Visibility}">
             <setup:InstallationFolderView DataContext="{Binding InstallationFolderViewModel}"/>
         </DockPanel>
-        <DockPanel Visibility="{Binding InstTypeChoiceViewModel.Visibility}">
+        <DockPanel DockPanel.Dock="Top" Visibility="{Binding InstTypeChoiceViewModel.Visibility}">
             <setup:InstTypeChoiceView DataContext="{Binding InstTypeChoiceViewModel}"/>
         </DockPanel>
         <DockPanel Visibility="{Binding ProcessProgressViewModel.Visibility}">

@@ -1943,4 +1943,64 @@ RTU is initializing right now!</value>
 	<data name="SID_Done" xml:space="preserve">
     <value>Done</value>
   </data>
+	<data name="SID_license_en_xps" xml:space="preserve">
+    <value>license_en.xps</value>
+  </data>
+	<data name="SID_Please_review_the_license_terms_before_installing__0__" xml:space="preserve">
+    <value>Please review the license terms before installing {0}.</value>
+  </data>
+	<data name="SID_If_you_accept_0_" xml:space="preserve">
+    <value>If you accept the terms of the agreement, click I Agree to continue. You must accept the agreement to install {0}</value>
+  </data>
+	<data name="SID_Choose_Install_Location" xml:space="preserve">
+    <value>Choose Install Location</value>
+  </data>
+	<data name="SID_Choose_folder_in_which_to_install__0_" xml:space="preserve">
+    <value>Choose folder in which to install {0}</value>
+  </data>
+	<data name="SID_Setup_will_install__0__in_" xml:space="preserve">
+    <value>Setup will install {0} in the following folder. To install in a different folder, click Browse and select another folder. Click Next to continue.</value>
+  </data>
+	<data name="SID_Space_available___0_" xml:space="preserve">
+    <value>Space available: {0}</value>
+  </data>
+	<data name="SID_Are_you_sure_you_want_to_quit__0__setup_" xml:space="preserve">
+    <value>Are you sure you want to quit {0} setup?</value>
+  </data>
+	<data name="SID_Please_select_a_setup_language" xml:space="preserve">
+    <value>Please select a setup language</value>
+  </data>
+	<data name="SID_Language_choice" xml:space="preserve">
+    <value>Language choice</value>
+  </data>
+	<data name="SID_Browse" xml:space="preserve">
+    <value>Browse...</value>
+  </data>
+	<data name="SID_Destination_folder" xml:space="preserve">
+    <value>Destination Folder</value>
+  </data>
+	<data name="SID_Installation_Type" xml:space="preserve">
+    <value>Installation Type</value>
+  </data>
+	<data name="SID_Select_the_type_of__0__install__Click_Next_to_continue_" xml:space="preserve">
+    <value>Select the type of {0} install. Click Next to continue.</value>
+  </data>
+	<data name="SID_Type_of_install_" xml:space="preserve">
+    <value>Type of install:</value>
+  </data>
+	<data name="SID_Please_select_the_type_of__0__install" xml:space="preserve">
+    <value>Please select the type of {0} install</value>
+  </data>
+  <data name="SID_Installation_Complete" xml:space="preserve">
+    <value>Installation Complete</value>
+  </data>
+  <data name="SID_Setup_was_completed_successfully" xml:space="preserve">
+    <value>Setup was completed successfully</value>
+  </data>
+  <data name="SID_Installing" xml:space="preserve">
+    <value>Installing</value>
+  </data>
+  <data name="SID_Please_wait_while_IIT_Fibertest_2_0_is_being_installed_" xml:space="preserve">
+    <value>Please wait while IIT Fibertest 2.0 is being installed.</value>
+  </data>
 </root>

@@ -1,11 +1,15 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 
 namespace Setup
 {
     public class InstTypeChoiceViewModel : PropertyChangedBase
     {
         private Visibility _visibility = Visibility.Collapsed;
+        private string _selectedType;
 
         public Visibility Visibility
         {
@@ -19,11 +23,29 @@ namespace Setup
         }
 
         public HeaderViewModel HeaderViewModel { get; set; } = new HeaderViewModel();
+        public string Text1 { get; set; }
+        public string Text2 { get; set; } = Resources.SID_Type_of_install_;
+        public List<string> InstTypes { get; set; }
+
+        public string SelectedType
+        {
+            get => _selectedType;
+            set
+            {
+                if (value == _selectedType) return;
+                _selectedType = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public InstTypeChoiceViewModel(CurrentInstallation currentInstallation)
         {
-            HeaderViewModel.InBold = "Choose Installation Type";
-            HeaderViewModel.Explanation = $"Choose which components of {currentInstallation.MainName} you want to install";
+            HeaderViewModel.InBold = Resources.SID_Installation_Type;
+            HeaderViewModel.Explanation = string.Format(Resources.SID_Please_select_the_type_of__0__install, currentInstallation.MainName);
+
+            Text1 = string.Format(Resources.SID_Select_the_type_of__0__install__Click_Next_to_continue_, currentInstallation.MainName);
+            InstTypes = new List<string>(){"Client", "Data Center", "RTU Manager"};
+            SelectedType = InstTypes.First();
         }
     }
 }

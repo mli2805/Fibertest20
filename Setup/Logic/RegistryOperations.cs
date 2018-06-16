@@ -17,9 +17,5 @@ namespace Setup
             var result = Registry.LocalMachine.CreateSubKey(RegistryBranch);
             result?.SetValue("Culture", culture);
         }
-
-    
-
-
     }
 }

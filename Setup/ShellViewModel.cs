@@ -205,7 +205,7 @@ namespace Setup
         
         public void Cancel()
         {
-            var result = MessageBox.Show($"Cancel {_currentInstallation.MainName} installation?", Resources.SID_Confirmation, MessageBoxButton.YesNo);
+            var result = MessageBox.Show(string.Format(Resources.SID_Are_you_sure_you_want_to_quit__0__setup_, _currentInstallation.MainName), Resources.SID_Confirmation, MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
                 TryClose();
         }

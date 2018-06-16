@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 
 namespace Setup
 {
@@ -28,7 +29,7 @@ namespace Setup
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "Choose language";
+            DisplayName = Resources.SID_Language_choice;
         }
 
         public void ButtonOk()

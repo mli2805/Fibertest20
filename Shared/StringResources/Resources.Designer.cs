@@ -548,6 +548,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Are you sure you want to quit {0} setup?.
+        /// </summary>
+        public static string SID_Are_you_sure_you_want_to_quit__0__setup_ {
+            get {
+                return ResourceManager.GetString("SID_Are_you_sure_you_want_to_quit__0__setup_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Assign base reflectogram?.
         /// </summary>
         public static string SID_Assign_base_reflectogram_ {
@@ -841,6 +850,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Broken {
             get {
                 return ResourceManager.GetString("SID_Broken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Browse....
+        /// </summary>
+        public static string SID_Browse {
+            get {
+                return ResourceManager.GetString("SID_Browse", resourceCulture);
             }
         }
         
@@ -1147,6 +1165,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Check_e_mail_notification {
             get {
                 return ResourceManager.GetString("SID_Check_e_mail_notification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose folder in which to install {0}.
+        /// </summary>
+        public static string SID_Choose_folder_in_which_to_install__0_ {
+            get {
+                return ResourceManager.GetString("SID_Choose_folder_in_which_to_install__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose Install Location.
+        /// </summary>
+        public static string SID_Choose_Install_Location {
+            get {
+                return ResourceManager.GetString("SID_Choose_Install_Location", resourceCulture);
             }
         }
         
@@ -1499,6 +1535,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Depending_on_graph_size_and_performance_of_your_PC {
             get {
                 return ResourceManager.GetString("SID_Depending_on_graph_size_and_performance_of_your_PC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Destination Folder.
+        /// </summary>
+        public static string SID_Destination_folder {
+            get {
+                return ResourceManager.GetString("SID_Destination_folder", resourceCulture);
             }
         }
         
@@ -2214,6 +2259,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to If you accept the terms of the agreement, click I Agree to continue. You must accept the agreement to install {0}.
+        /// </summary>
+        public static string SID_If_you_accept_0_ {
+            get {
+                return ResourceManager.GetString("SID_If_you_accept_0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to If you need to continue, press &lt;Step backward&gt;..
         /// </summary>
         public static string SID_If_you_need_to_continue__press__Step_backward_ {
@@ -2318,6 +2372,33 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Input_user_name_and_password {
             get {
                 return ResourceManager.GetString("SID_Input_user_name_and_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installation Complete.
+        /// </summary>
+        public static string SID_Installation_Complete {
+            get {
+                return ResourceManager.GetString("SID_Installation_Complete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installation Type.
+        /// </summary>
+        public static string SID_Installation_Type {
+            get {
+                return ResourceManager.GetString("SID_Installation_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installing.
+        /// </summary>
+        public static string SID_Installing {
+            get {
+                return ResourceManager.GetString("SID_Installing", resourceCulture);
             }
         }
         
@@ -2502,6 +2583,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Language choice.
+        /// </summary>
+        public static string SID_Language_choice {
+            get {
+                return ResourceManager.GetString("SID_Language_choice", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Last node of trace must contain some equipment.
         /// </summary>
         public static string SID_Last_node_of_trace_must_contain_some_equipment {
@@ -2561,6 +2651,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_license_en_rtf {
             get {
                 return ResourceManager.GetString("SID_license_en_rtf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to license_en.xps.
+        /// </summary>
+        public static string SID_license_en_xps {
+            get {
+                return ResourceManager.GetString("SID_license_en_xps", resourceCulture);
             }
         }
         
@@ -3664,6 +3763,42 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please review the license terms before installing {0}..
+        /// </summary>
+        public static string SID_Please_review_the_license_terms_before_installing__0__ {
+            get {
+                return ResourceManager.GetString("SID_Please_review_the_license_terms_before_installing__0__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select a setup language.
+        /// </summary>
+        public static string SID_Please_select_a_setup_language {
+            get {
+                return ResourceManager.GetString("SID_Please_select_a_setup_language", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please select the type of {0} install.
+        /// </summary>
+        public static string SID_Please_select_the_type_of__0__install {
+            get {
+                return ResourceManager.GetString("SID_Please_select_the_type_of__0__install", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please wait while IIT Fibertest 2.0 is being installed..
+        /// </summary>
+        public static string SID_Please_wait_while_IIT_Fibertest_2_0_is_being_installed_ {
+            get {
+                return ResourceManager.GetString("SID_Please_wait_while_IIT_Fibertest_2_0_is_being_installed_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Port.
         /// </summary>
         public static string SID_Port {
@@ -4348,6 +4483,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select the type of {0} install. Click Next to continue..
+        /// </summary>
+        public static string SID_Select_the_type_of__0__install__Click_Next_to_continue_ {
+            get {
+                return ResourceManager.GetString("SID_Select_the_type_of__0__install__Click_Next_to_continue_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select traces for equipment.
         /// </summary>
         public static string SID_Select_traces_for_equipment {
@@ -4484,6 +4628,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Setup was completed successfully.
+        /// </summary>
+        public static string SID_Setup_was_completed_successfully {
+            get {
+                return ResourceManager.GetString("SID_Setup_was_completed_successfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Setup will install {0} in the following folder. To install in a different folder, click Browse and select another folder. Click Next to continue..
+        /// </summary>
+        public static string SID_Setup_will_install__0__in_ {
+            get {
+                return ResourceManager.GetString("SID_Setup_will_install__0__in_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show.
         /// </summary>
         public static string SID_Show {
@@ -4552,6 +4714,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Simultaneous_client_connections {
             get {
                 return ResourceManager.GetString("SID_Simultaneous_client_connections", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Space available: {0}.
+        /// </summary>
+        public static string SID_Space_available___0_ {
+            get {
+                return ResourceManager.GetString("SID_Space_available___0_", resourceCulture);
             }
         }
         
@@ -5218,6 +5389,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Type {
             get {
                 return ResourceManager.GetString("SID_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Type of install:.
+        /// </summary>
+        public static string SID_Type_of_install_ {
+            get {
+                return ResourceManager.GetString("SID_Type_of_install_", resourceCulture);
             }
         }
         

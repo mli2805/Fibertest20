@@ -29,15 +29,15 @@ namespace Setup
         public LicenseAgreementViewModel(CurrentInstallation currentInstallation)
         {
             HeaderViewModel.InBold = Resources.SID_License_Agreement;
-            HeaderViewModel.Explanation = $"Please review the license terms before installing {currentInstallation.MainName}.";
-            Text1 =
-                $"If you accept the terms of the agreement, click I Agree to continue. You must accept the agreement to install {currentInstallation.MainName}";
+            HeaderViewModel.Explanation = string.Format(Resources.SID_Please_review_the_license_terms_before_installing__0__, currentInstallation.MainName);
+            Text1 = string.Format(Resources.SID_If_you_accept_0_, currentInstallation.MainName);
             ReadLicense();
         }
 
         private void ReadLicense()
         {
-            XpsDocument document = new XpsDocument(@"..\..\LicenseDocs\license_en.xps", FileAccess.Read);
+            var filename = Resources.SID_license_en_xps;
+            XpsDocument document = new XpsDocument($@"..\..\LicenseDocs\{filename}", FileAccess.Read);
             FixedDocumentSequence = document.GetFixedDocumentSequence();
         }
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 
 namespace Setup
 {
@@ -27,14 +28,15 @@ namespace Setup
 
         public ProcessProgressViewModel()
         {
-            HeaderViewModel.InBold = "Installing";
-            HeaderViewModel.Explanation = "Please wait while IIT Fibertest 2.0 is being installed.";
+            HeaderViewModel.InBold = Resources.SID_Installing;
+            HeaderViewModel.Explanation = Resources.SID_Please_wait_while_IIT_Fibertest_2_0_is_being_installed_;
+
         }
 
         public void SayGoodbye()
         {
-            HeaderViewModel.InBold = "Installation Complete";
-            HeaderViewModel.Explanation = "Setup was completed successfully";
+            HeaderViewModel.InBold = Resources.SID_Installation_Complete;
+            HeaderViewModel.Explanation = Resources.SID_Setup_was_completed_successfully;
         }
     }
 }

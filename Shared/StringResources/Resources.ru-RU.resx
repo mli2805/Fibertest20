@@ -1943,4 +1943,52 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Done" xml:space="preserve">
 		<value>Готово</value>
 	</data>
+	<data name="SID_license_en_xps" xml:space="preserve">
+		<value>license_ru.xps</value>
+	</data>
+	<data name="SID_Please_review_the_license_terms_before_installing__0__" xml:space="preserve">
+		<value>Перед установкой {0} ознакомьтесь с лизензионным соглашением.</value>
+	</data>
+	<data name="SID_If_you_accept_0_" xml:space="preserve">
+		<value>Если вы принимаете условия соглашения, нажмите кнопку "Я согласен". Чтобы установить {0} необходимо принять соглашение.</value>
+	</data>
+	<data name="SID_Choose_Install_Location" xml:space="preserve">
+		<value>Выбор папки установки</value>
+	</data>
+	<data name="SID_Choose_folder_in_which_to_install__0_" xml:space="preserve">
+		<value>Выберите папку для установки {0}</value>
+	</data>
+	<data name="SID_Setup_will_install__0__in_" xml:space="preserve">
+		<value>{0} будет установлен в указанную папку. Чтобы установить приложение в другую папку, нажмите кнопку "Обзор" и укажите ее. Нажмите "Далее" для продолжения.</value>
+	</data>
+	<data name="SID_Space_available___0_" xml:space="preserve">
+		<value>Доступно на диске: {0}</value>
+	</data>
+	<data name="SID_Are_you_sure_you_want_to_quit__0__setup_" xml:space="preserve">
+		<value>Вы действительно хотите покинуть установку {0}?</value>
+	</data>
+	<data name="SID_Please_select_a_setup_language" xml:space="preserve">
+		<value>Пожалуйста, выберите язык установки</value>
+	</data>
+	<data name="SID_Language_choice" xml:space="preserve">
+		<value>Выбор языка</value>
+	</data>
+	<data name="SID_Browse" xml:space="preserve">
+		<value>Обзор...</value>
+	</data>
+	<data name="SID_Destination_folder" xml:space="preserve">
+		<value>Папка установки</value>
+	</data>
+	<data name="SID_Installation_Type" xml:space="preserve">
+		<value>Тип установки</value>
+	</data>
+	<data name="SID_Select_the_type_of__0__install__Click_Next_to_continue_" xml:space="preserve">
+		<value>Выберите тип установки {0}. Для продолжения нажмите "Далее".</value>
+	</data>
+	<data name="SID_Type_of_install_" xml:space="preserve">
+		<value>Тип установки:</value>
+	</data>
+	<data name="SID_Please_select_the_type_of__0__install" xml:space="preserve">
+		<value>Пожалуйста, выберите тип установки {0}</value>
+	</data>
 </root>

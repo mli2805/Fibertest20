@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Forms;
 using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 
 namespace Setup
 {
@@ -50,12 +51,12 @@ namespace Setup
         public InstallationFolderViewModel(CurrentInstallation currentInstallation)
         {
             _currentInstallation = currentInstallation;
-            HeaderViewModel.InBold = "Choose Install Location";
-            HeaderViewModel.Explanation = $"Choose folder in which to install {_currentInstallation.MainName}";
+            HeaderViewModel.InBold = Resources.SID_Choose_Install_Location;
+            HeaderViewModel.Explanation = string.Format(Resources.SID_Choose_folder_in_which_to_install__0_, _currentInstallation.MainName);
             Text1 =
-                $"Setup will install {_currentInstallation.MainName} in the following folder. To install in a different folder, click Browse and select another folder. Click Next to continue.";
+                string.Format(Resources.SID_Setup_will_install__0__in_, _currentInstallation.MainName);
             DestinationFolder = @"C:\IIT-Fibertest\";
-            SpaceAvailable = $"Space available: {SpaceToString(GetAvailableFreeSpace(@"C:\"))}";
+            SpaceAvailable = string.Format(Resources.SID_Space_available___0_, SpaceToString(GetAvailableFreeSpace(@"C:\")));
         }
 
         private long GetAvailableFreeSpace(string driveName)
@@ -85,7 +86,7 @@ namespace Setup
 
         public void Browse()
         {
-            using (var dialog = new FolderBrowserDialog(){SelectedPath = @"C:\IIT-Fibertest\", ShowNewFolderButton = true})
+            using (var dialog = new FolderBrowserDialog(){SelectedPath = DestinationFolder, ShowNewFolderButton = true})
             {
                 var result = dialog.ShowDialog();
                 if (result != DialogResult.OK) return;
