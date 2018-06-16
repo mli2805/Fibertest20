@@ -7,6 +7,7 @@ namespace Setup
 {
     public class ProcessProgressViewModel : PropertyChangedBase
     {
+        private readonly SetupOperations _setupOperations;
         private Visibility _visibility = Visibility.Collapsed;
 
         public Visibility Visibility
@@ -26,13 +27,18 @@ namespace Setup
 
         public string Text1 { get; set; }
 
-        public ProcessProgressViewModel()
+        public ProcessProgressViewModel(SetupOperations setupOperations)
         {
+            _setupOperations = setupOperations;
             HeaderViewModel.InBold = Resources.SID_Installing;
             HeaderViewModel.Explanation = Resources.SID_Please_wait_while_IIT_Fibertest_2_0_is_being_installed_;
 
         }
 
+        public void RunSetup()
+        {
+            _setupOperations.Run(ProgressLines);
+        }
         public void SayGoodbye()
         {
             HeaderViewModel.InBold = Resources.SID_Installation_Complete;

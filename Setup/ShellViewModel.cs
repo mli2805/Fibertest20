@@ -187,9 +187,10 @@ namespace Setup
                     ButtonCancelContent = Resources.SID_Cancel;
                     IsButtonCancelEnabled = false;
 
-                    Install();
+                    ProcessProgressViewModel.RunSetup();
 
                     ProcessProgressViewModel.SayGoodbye();
+
                     ButtonBackContent = Resources.SID_Back;
                     IsButtonBackEnabled = false;
                     ButtonNextContent = Resources.SID_Done;
@@ -201,8 +202,7 @@ namespace Setup
             }
         }
 
-        private void Install() { }
-        
+      
         public void Cancel()
         {
             var result = MessageBox.Show(string.Format(Resources.SID_Are_you_sure_you_want_to_quit__0__setup_, _currentInstallation.MainName), Resources.SID_Confirmation, MessageBoxButton.YesNo);

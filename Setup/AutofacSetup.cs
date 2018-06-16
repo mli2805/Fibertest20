@@ -18,6 +18,8 @@ namespace Setup
 
             builder.RegisterType<InstallationLanguageViewModel>().SingleInstance();
 
+            builder.RegisterType<SetupOperations>().SingleInstance();
+
         }
     }
 }
