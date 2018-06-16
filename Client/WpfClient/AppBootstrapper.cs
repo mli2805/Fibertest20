@@ -31,7 +31,6 @@ namespace Iit.Fibertest.Client
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacClient>();
 
-            //            var iniFile = _container.Resolve<IniFile>();
             var iniFile = new IniFile();
             iniFile.AssignFile(iniFileName);
 

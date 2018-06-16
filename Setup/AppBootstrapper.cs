@@ -1,9 +1,13 @@
 using Autofac;
+using System.Windows;
+using Iit.Fibertest.StringResources;
 
 namespace Setup
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
+    using System.Threading;
     using Caliburn.Micro;
 
     public class AppBootstrapper : BootstrapperBase
@@ -11,6 +15,7 @@ namespace Setup
         SimpleContainer container;
 
         private ILifetimeScope _container;
+        private CurrentInstallation _currentInstallation;
 
         public AppBootstrapper() {
             Initialize();
@@ -51,13 +56,48 @@ namespace Setup
             builder.RegisterModule<AutofacInSetup>();
             _container = builder.Build();
 
-            var currentInstallation = _container.Resolve<CurrentInstallation>();
-            currentInstallation.ProductName = "IIT Fibertest";
-            currentInstallation.ProductVersion = "2.0";
-            currentInstallation.BuildNumber = "1";
-            currentInstallation.Revision = "777";
+            _currentInstallation = _container.Resolve<CurrentInstallation>();
+            _currentInstallation.ProductName = "IIT Fibertest";
+            _currentInstallation.ProductVersion = "2.0";
+            _currentInstallation.BuildNumber = "1";
+            _currentInstallation.Revision = "777";
+
+            SetCurrentCulture();
 
             DisplayRootViewFor<IShell>();
+        }
+
+        private void SetCurrentCulture()
+        {
+            var culture = RegistryOperations.GetPreviousInstallationCulture();
+            if (string.IsNullOrEmpty(culture))
+                AskAndSetCulture();
+            else
+                SetCultureAskContinuation(culture);
+        }
+
+        private void SetCultureAskContinuation(string culture)
+        {
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
+
+            var result = MessageBox.Show(
+                string.Format(Resources.SID__0__installed_on_your_PC_already__Continue_, _currentInstallation.MainName),
+                Resources.SID_Confirmation, MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.No)
+                Application.Current.Shutdown();
+        }
+
+        private void AskAndSetCulture()
+        {
+            var vm = _container.Resolve<InstallationLanguageViewModel>();
+            var wm = _container.Resolve<IWindowManager>();
+            wm.ShowDialog(vm);
+            var culture = (vm.SelectedLanguage == "English") ? "en-US" : "ru-RU";
+            RegistryOperations.SaveSetupCultureInRegistry(culture);
+
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
         }
     }
 }

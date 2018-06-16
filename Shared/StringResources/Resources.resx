@@ -1925,4 +1925,10 @@ RTU is initializing right now!</value>
 	<data name="SID_license_en_rtf" xml:space="preserve">
     <value>license_en.rtf</value>
   </data>
+	<data name="SID__0__installed_on_your_PC_already__Continue_" xml:space="preserve">
+    <value>{0} installed on your PC already. Continue?</value>
+  </data>
+	<data name="SID_License_Agreement" xml:space="preserve">
+    <value>License Agreement</value>
+  </data>
 </root>

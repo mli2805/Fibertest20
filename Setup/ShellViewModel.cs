@@ -37,35 +37,6 @@ namespace Setup
             Do();
         }
 
-        const string userRoot = "HKEY_LOCAL_MACHINE";
-        const string RegistryBranch = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Iit\FiberTest20\";
-        const string RegistryInstallerCultureKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\Iit\FiberTest20\Culture\";
-
-        private bool IsFibertestInstalled(out string culture)
-        {
-            culture = "";
-            Dictionary<string, object> valuesBynames = new Dictionary<string, object>();
-            using (RegistryKey rootKey = Registry.LocalMachine.OpenSubKey(RegistryBranch))
-            {
-                if (rootKey == null) return false;
-
-//                culture = (string)Registry.GetValue(RegistryBranch2, "Culture", "none");
-                culture = (string)Registry.GetValue(userRoot+"\\"+RegistryBranch, "Culture", "none");
-               
-                return true;
-            }
-        }
-
-        private string GetInstallationCulture()
-        {
-            return (string)Registry.GetValue(userRoot + "\\" + RegistryBranch, "Culture", "none");
-        }
-
-        private void SaveSetupCultureInRegistry(string culture)
-        {
-            var result = Registry.LocalMachine.CreateSubKey(RegistryBranch);
-            result.SetValue("Culture", culture);
-        }
 
         public void Next()
         {
@@ -88,18 +59,6 @@ namespace Setup
                     InstallationFolderViewModel.Visibility = Visibility.Collapsed;
                     InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
                     ProcessProgressViewModel.Visibility = Visibility.Collapsed;
-                    var cu = GetInstallationCulture();
-                    if (cu != null && cu != "none")
-                    {
-                        var result = MessageBox.Show("Fibertest 2.0 installed on your PC already. Continue?",
-                            "Confirmation", MessageBoxButton.YesNo);
-                        if (result == MessageBoxResult.No)
-                            TryClose();
-                    }
-                    else
-                    {
-                        SaveSetupCultureInRegistry("en-US");
-                    }
                     break;
                 case SetupPages.LicenseAgreement:
                     LicenseAgreementViewModel.Visibility = Visibility.Visible;
@@ -127,6 +86,7 @@ namespace Setup
             }
         }
 
+        
         public void Cancel()
         {
             TryClose();

@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Xps.Packaging;
 using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 
 namespace Setup
 {
@@ -27,7 +28,7 @@ namespace Setup
 
         public LicenseAgreementViewModel(CurrentInstallation currentInstallation)
         {
-            HeaderViewModel.InBold = "License Agreement";
+            HeaderViewModel.InBold = Resources.SID_License_Agreement;
             HeaderViewModel.Explanation = $"Please review the license terms before installing {currentInstallation.MainName}.";
             Text1 =
                 $"If you accept the terms of the agreement, click I Agree to continue. You must accept the agreement to install {currentInstallation.MainName}";

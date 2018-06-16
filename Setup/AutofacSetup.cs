@@ -16,6 +16,8 @@ namespace Setup
             builder.RegisterType<InstTypeChoiceViewModel>().SingleInstance();
             builder.RegisterType<ProcessProgressViewModel>().SingleInstance();
 
+            builder.RegisterType<InstallationLanguageViewModel>().SingleInstance();
+
         }
     }
 }

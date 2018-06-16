@@ -94,7 +94,12 @@
     <Compile Include="Controls\ProcessProgressViewModel.cs" />
     <Compile Include="CurrentInstallation.cs" />
     <Compile Include="Enums\InstallationType.cs" />
+    <Compile Include="InstallationLanguageView.xaml.cs">
+      <DependentUpon>InstallationLanguageView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="InstallationLanguageViewModel.cs" />
     <Compile Include="IShell.cs" />
+    <Compile Include="RegistryOperations.cs" />
     <Compile Include="ServiceManager\ScmAccessRights.cs" />
     <Compile Include="ServiceManager\ServiceAccessRights.cs" />
     <Compile Include="ServiceManager\ServiceBootFlag.cs" />
@@ -129,6 +134,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ProcessProgressView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InstallationLanguageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

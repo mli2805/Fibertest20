@@ -169,6 +169,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} installed on your PC already. Continue?.
+        /// </summary>
+        public static string SID__0__installed_on_your_PC_already__Continue_ {
+            get {
+                return ResourceManager.GetString("SID__0__installed_on_your_PC_already__Continue_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0}th measurement is finished..
         /// </summary>
         public static string SID__0_th_measurement_is_finished_ {
@@ -2507,6 +2516,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_License {
             get {
                 return ResourceManager.GetString("SID_License", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to License Agreement.
+        /// </summary>
+        public static string SID_License_Agreement {
+            get {
+                return ResourceManager.GetString("SID_License_Agreement", resourceCulture);
             }
         }
         
