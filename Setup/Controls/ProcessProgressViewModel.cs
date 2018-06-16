@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using Caliburn.Micro;
 
 namespace Setup
@@ -19,6 +20,10 @@ namespace Setup
         }
 
         public HeaderViewModel HeaderViewModel { get; set; } = new HeaderViewModel();
+
+        public ObservableCollection<string> ProgressLines { get; set; } = new ObservableCollection<string>();
+
+        public string Text1 { get; set; }
 
         public ProcessProgressViewModel()
         {

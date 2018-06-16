@@ -4,6 +4,7 @@
         xmlns:setup="clr-namespace:Setup"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:StringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         Width="500" Height="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance setup:ShellViewModel}">
@@ -14,17 +15,20 @@
             <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5,0,0,0" Name="Back" Content="{Binding ButtonBackContent}" IsEnabled="{Binding IsButtonBackEnabled}"/>
             <StackPanel></StackPanel>
         </DockPanel>
-        <GroupBox Header="Institute of Information Technologies" Foreground="LightGray" Margin="10,0"
+        <GroupBox Header="{x:Static StringResources:Resources.SID_Institute_of_Information_Technologies}" Foreground="LightGray" Margin="10,0"
                   DockPanel.Dock="Bottom" BorderThickness="0,1,0,0" BorderBrush="LightGray">
         </GroupBox>
-        <DockPanel DockPanel.Dock="Top" Visibility="{Binding InstallationFolderViewModel.Visibility}">
-            <setup:InstallationFolderView DataContext="{Binding InstallationFolderViewModel}"/>
-        </DockPanel>
         <DockPanel DockPanel.Dock="Top"  Visibility="{Binding LicenseAgreementViewModel.Visibility}">
             <setup:LicenseAgreementView DataContext="{Binding LicenseAgreementViewModel}"/>
         </DockPanel>
+        <DockPanel DockPanel.Dock="Top" Visibility="{Binding InstallationFolderViewModel.Visibility}">
+            <setup:InstallationFolderView DataContext="{Binding InstallationFolderViewModel}"/>
+        </DockPanel>
         <DockPanel Visibility="{Binding InstTypeChoiceViewModel.Visibility}">
             <setup:InstTypeChoiceView DataContext="{Binding InstTypeChoiceViewModel}"/>
+        </DockPanel>
+        <DockPanel Visibility="{Binding ProcessProgressViewModel.Visibility}">
+            <setup:ProcessProgressView DataContext="{Binding ProcessProgressViewModel}"/>
         </DockPanel>
     </DockPanel>
 </Window>

@@ -1,3 +1,4 @@
+using System.Threading;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
@@ -116,6 +117,8 @@ namespace Setup
         public void Next()
         {
             _currentPage++;
+            if (_currentPage > SetupPages.ProcessProgress)
+                TryClose();
             Do();
         }
 
@@ -186,6 +189,7 @@ namespace Setup
 
                     Install();
 
+                    ProcessProgressViewModel.SayGoodbye();
                     ButtonBackContent = Resources.SID_Back;
                     IsButtonBackEnabled = false;
                     ButtonNextContent = Resources.SID_Done;

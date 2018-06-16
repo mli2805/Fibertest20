@@ -88,14 +88,15 @@
       <DependentUpon>ProcessProgressView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ProcessProgressViewModel.cs" />
+    <Compile Include="Controls\ScrollToBottomOnAddBehavior.cs" />
     <Compile Include="CurrentInstallation.cs" />
     <Compile Include="Enums\InstallationType.cs" />
-    <Compile Include="InstallationLanguageView.xaml.cs">
+    <Compile Include="Forms\InstallationLanguageView.xaml.cs">
       <DependentUpon>InstallationLanguageView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="InstallationLanguageViewModel.cs" />
+    <Compile Include="Forms\InstallationLanguageViewModel.cs" />
     <Compile Include="IShell.cs" />
-    <Compile Include="RegistryOperations.cs" />
+    <Compile Include="Logic\RegistryOperations.cs" />
     <Compile Include="ServiceManager\ScmAccessRights.cs" />
     <Compile Include="ServiceManager\ServiceAccessRights.cs" />
     <Compile Include="ServiceManager\ServiceBootFlag.cs" />
@@ -129,7 +130,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="InstallationLanguageView.xaml">
+    <Page Include="Forms\InstallationLanguageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

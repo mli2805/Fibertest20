@@ -1940,4 +1940,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_I_Agree" xml:space="preserve">
 		<value>Я согласен</value>
 	</data>
+	<data name="SID_Done" xml:space="preserve">
+		<value>Готово</value>
+	</data>
 </root>
