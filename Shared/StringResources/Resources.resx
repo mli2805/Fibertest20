@@ -1931,4 +1931,16 @@ RTU is initializing right now!</value>
 	<data name="SID_License_Agreement" xml:space="preserve">
     <value>License Agreement</value>
   </data>
+	<data name="SID_Setup_caption" xml:space="preserve">
+    <value>{0} setup</value>
+  </data>
+	<data name="SID_Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+	<data name="SID_I_Agree" xml:space="preserve">
+    <value>I Agree</value>
+  </data>
+  <data name="SID_Done" xml:space="preserve">
+    <value>Done</value>
+  </data>
 </root>

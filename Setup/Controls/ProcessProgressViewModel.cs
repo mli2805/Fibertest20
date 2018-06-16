@@ -25,5 +25,11 @@ namespace Setup
             HeaderViewModel.InBold = "Installing";
             HeaderViewModel.Explanation = "Please wait while IIT Fibertest 2.0 is being installed.";
         }
+
+        public void SayGoodbye()
+        {
+            HeaderViewModel.InBold = "Installation Complete";
+            HeaderViewModel.Explanation = "Setup was completed successfully";
+        }
     }
 }

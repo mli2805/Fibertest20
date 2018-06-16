@@ -701,6 +701,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Back.
+        /// </summary>
+        public static string SID_Back {
+            get {
+                return ResourceManager.GetString("SID_Back", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Backscattered Coefficient:.
         /// </summary>
         public static string SID_Backscattered_Coefficient {
@@ -1638,6 +1647,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Done.
+        /// </summary>
+        public static string SID_Done {
+            get {
+                return ResourceManager.GetString("SID_Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Drawing graph of traces..
         /// </summary>
         public static string SID_Drawing_graph_of_traces_ {
@@ -2174,6 +2192,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Host {
             get {
                 return ResourceManager.GetString("SID_Host", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I Agree.
+        /// </summary>
+        public static string SID_I_Agree {
+            get {
+                return ResourceManager.GetString("SID_I_Agree", resourceCulture);
             }
         }
         
@@ -4444,6 +4471,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Settings_weren_t_transferred__See_logs_ {
             get {
                 return ResourceManager.GetString("SID_Settings_weren_t_transferred__See_logs_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} setup.
+        /// </summary>
+        public static string SID_Setup_caption {
+            get {
+                return ResourceManager.GetString("SID_Setup_caption", resourceCulture);
             }
         }
         

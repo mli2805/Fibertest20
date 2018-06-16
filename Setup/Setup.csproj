@@ -68,10 +68,6 @@
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="AutofacSetup.cs" />
-    <Compile Include="Controls\FarewellView.xaml.cs">
-      <DependentUpon>FarewellView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\FarewellViewModel.cs" />
     <Compile Include="Controls\HeaderView.xaml.cs">
       <DependentUpon>HeaderView.xaml</DependentUpon>
     </Compile>
@@ -113,10 +109,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Controls\FarewellView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Controls\HeaderView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

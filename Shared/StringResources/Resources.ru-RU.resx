@@ -1931,4 +1931,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_License_Agreement" xml:space="preserve">
 		<value>Лицензионное соглашение</value>
 	</data>
+	<data name="SID_Setup_caption" xml:space="preserve">
+		<value>Установка {0}</value>
+	</data>
+	<data name="SID_Back" xml:space="preserve">
+		<value>Назад</value>
+	</data>
+	<data name="SID_I_Agree" xml:space="preserve">
+		<value>Я согласен</value>
+	</data>
 </root>

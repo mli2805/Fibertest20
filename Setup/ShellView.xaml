@@ -9,9 +9,9 @@
         d:DataContext="{d:DesignInstance setup:ShellViewModel}">
     <DockPanel>
         <DockPanel DockPanel.Dock="Bottom" Margin="5,0,5,5">
-            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="15,5,5,5" Name="Cancel" Content="Cancel"/>
-            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5,0,0,0" Name="Next" Content="Next"/>
-            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5,0,0,0" Name="Back" Content="Back"/>
+            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="15,5,5,5" Name="Cancel" Content="{Binding ButtonCancelContent}" IsEnabled="{Binding IsButtonCancelEnabled}"/>
+            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5,0,0,0" Name="Next" Content="{Binding ButtonNextContent}" IsEnabled="{Binding IsButtonNextEnabled}"/>
+            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5,0,0,0" Name="Back" Content="{Binding ButtonBackContent}" IsEnabled="{Binding IsButtonBackEnabled}"/>
             <StackPanel></StackPanel>
         </DockPanel>
         <GroupBox Header="Institute of Information Technologies" Foreground="LightGray" Margin="10,0"

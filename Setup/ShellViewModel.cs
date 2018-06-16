@@ -1,11 +1,10 @@
-using System.Collections.Generic;
 using System.Windows;
 using Caliburn.Micro;
-using Microsoft.Win32;
+using Iit.Fibertest.StringResources;
 
 namespace Setup
 {
-    public class ShellViewModel : Caliburn.Micro.Screen, IShell
+    public class ShellViewModel : Screen, IShell
     {
         private CurrentInstallation _currentInstallation;
         private IWindowManager _windowManager;
@@ -15,6 +14,82 @@ namespace Setup
         public ProcessProgressViewModel ProcessProgressViewModel { get; set; }
 
         private SetupPages _currentPage;
+
+        #region Buttons
+        private string _buttonNextContent;
+        private string _buttonCancelContent;
+        private string _buttonBackContent;
+        private bool _isButtonBackEnabled;
+        private bool _isButtonNextEnabled;
+        private bool _isButtonCancelEnabled;
+
+        public string ButtonBackContent
+        {
+            get => _buttonBackContent;
+            set
+            {
+                if (value == _buttonBackContent) return;
+                _buttonBackContent = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsButtonBackEnabled
+        {
+            get => _isButtonBackEnabled;
+            set
+            {
+                if (value == _isButtonBackEnabled) return;
+                _isButtonBackEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public string ButtonNextContent
+        {
+            get => _buttonNextContent;
+            set
+            {
+                if (value == _buttonNextContent) return;
+                _buttonNextContent = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsButtonNextEnabled
+        {
+            get => _isButtonNextEnabled;
+            set
+            {
+                if (value == _isButtonNextEnabled) return;
+                _isButtonNextEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public string ButtonCancelContent
+        {
+            get => _buttonCancelContent;
+            set
+            {
+                if (value == _buttonCancelContent) return;
+                _buttonCancelContent = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsButtonCancelEnabled
+        {
+            get => _isButtonCancelEnabled;
+            set
+            {
+                if (value == _isButtonCancelEnabled) return;
+                _isButtonCancelEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        #endregion
 
         public ShellViewModel(CurrentInstallation currentInstallation, IWindowManager windowManager,
             LicenseAgreementViewModel licenseAgreementViewModel,
@@ -29,11 +104,11 @@ namespace Setup
             InstTypeChoiceViewModel = instTypeChoiceViewModel;
             ProcessProgressViewModel = processProgressViewModel;
 
-            _currentPage = SetupPages.Welcome;
+            _currentPage = SetupPages.LicenseAgreement;
         }
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = $"{_currentInstallation.FullName} setup";
+            DisplayName = string.Format(Resources.SID_Setup_caption, _currentInstallation.FullName);
             Do();
         }
 
@@ -54,42 +129,81 @@ namespace Setup
         {
             switch (_currentPage)
             {
-                case SetupPages.Welcome:
-                    LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
-                    InstallationFolderViewModel.Visibility = Visibility.Collapsed;
-                    InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
-                    ProcessProgressViewModel.Visibility = Visibility.Collapsed;
-                    break;
                 case SetupPages.LicenseAgreement:
                     LicenseAgreementViewModel.Visibility = Visibility.Visible;
                     InstallationFolderViewModel.Visibility = Visibility.Collapsed;
                     InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
                     ProcessProgressViewModel.Visibility = Visibility.Collapsed;
+
+                    ButtonBackContent = Resources.SID_Back;
+                    IsButtonBackEnabled = false;
+                    ButtonNextContent = Resources.SID_I_Agree;
+                    IsButtonNextEnabled = true;
+                    ButtonCancelContent = Resources.SID_Cancel;
+                    IsButtonCancelEnabled = true;
+
                     break;
+
                 case SetupPages.InstallationFolder:
                     LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
                     InstallationFolderViewModel.Visibility = Visibility.Visible;
                     InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
+
+                    ButtonBackContent = Resources.SID_Back;
+                    IsButtonBackEnabled = true;
+                    ButtonNextContent = Resources.SID_Next;
+                    IsButtonNextEnabled = true;
+                    ButtonCancelContent = Resources.SID_Cancel;
+                    IsButtonCancelEnabled = true;
+
                     break;
                 case SetupPages.InstTypeChoice:
                     LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
                     InstallationFolderViewModel.Visibility = Visibility.Collapsed;
                     InstTypeChoiceViewModel.Visibility = Visibility.Visible;
                     ProcessProgressViewModel.Visibility = Visibility.Collapsed;
+
+                    ButtonBackContent = Resources.SID_Back;
+                    IsButtonBackEnabled = true;
+                    ButtonNextContent = Resources.SID_Next;
+                    IsButtonNextEnabled = true;
+                    ButtonCancelContent = Resources.SID_Cancel;
+                    IsButtonCancelEnabled = true;
+
                     break;
                 case SetupPages.ProcessProgress:
                     LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
                     InstallationFolderViewModel.Visibility = Visibility.Collapsed;
                     InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
                     ProcessProgressViewModel.Visibility = Visibility.Visible;
+
+                    ButtonBackContent = Resources.SID_Back;
+                    IsButtonBackEnabled = false;
+                    ButtonNextContent = Resources.SID_Next;
+                    IsButtonNextEnabled = false;
+                    ButtonCancelContent = Resources.SID_Cancel;
+                    IsButtonCancelEnabled = false;
+
+                    Install();
+
+                    ButtonBackContent = Resources.SID_Back;
+                    IsButtonBackEnabled = false;
+                    ButtonNextContent = Resources.SID_Done;
+                    IsButtonNextEnabled = true;
+                    ButtonCancelContent = Resources.SID_Cancel;
+                    IsButtonCancelEnabled = false;
+
                     break;
             }
         }
 
+        private void Install() { }
         
         public void Cancel()
         {
-            TryClose();
+            var result = MessageBox.Show($"Cancel {_currentInstallation.MainName} installation?", Resources.SID_Confirmation, MessageBoxButton.YesNo);
+            if (result == MessageBoxResult.Yes)
+                TryClose();
         }
     }
 }
