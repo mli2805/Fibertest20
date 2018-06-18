@@ -1991,16 +1991,16 @@ RTU is initializing right now!</value>
 	<data name="SID_Please_select_the_type_of__0__install" xml:space="preserve">
     <value>Please select the type of {0} install</value>
   </data>
-  <data name="SID_Installation_Complete" xml:space="preserve">
+	<data name="SID_Installation_Complete" xml:space="preserve">
     <value>Installation Complete</value>
   </data>
-  <data name="SID_Setup_was_completed_successfully" xml:space="preserve">
+	<data name="SID_Setup_was_completed_successfully" xml:space="preserve">
     <value>Setup was completed successfully</value>
   </data>
-  <data name="SID_Installing" xml:space="preserve">
+	<data name="SID_Installing" xml:space="preserve">
     <value>Installing</value>
   </data>
-  <data name="SID_Please_wait_while_IIT_Fibertest_2_0_is_being_installed_" xml:space="preserve">
-    <value>Please wait while IIT Fibertest 2.0 is being installed.</value>
+	<data name="SID_Please_wait_while__0__is_being_installed" xml:space="preserve">
+    <value>Please wait while {0} is being installed</value>
   </data>
 </root>

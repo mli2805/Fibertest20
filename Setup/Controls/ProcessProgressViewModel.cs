@@ -27,18 +27,19 @@ namespace Setup
 
         public string Text1 { get; set; }
 
-        public ProcessProgressViewModel(SetupOperations setupOperations)
+        public ProcessProgressViewModel(CurrentInstallation currentInstallation, SetupOperations setupOperations)
         {
             _setupOperations = setupOperations;
             HeaderViewModel.InBold = Resources.SID_Installing;
-            HeaderViewModel.Explanation = Resources.SID_Please_wait_while_IIT_Fibertest_2_0_is_being_installed_;
-
+            HeaderViewModel.Explanation = string.Format(Resources.SID_Please_wait_while__0__is_being_installed,
+                currentInstallation.MainName);
         }
 
         public void RunSetup()
         {
             _setupOperations.Run(ProgressLines);
         }
+
         public void SayGoodbye()
         {
             HeaderViewModel.InBold = Resources.SID_Installation_Complete;

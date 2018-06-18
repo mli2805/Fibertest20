@@ -3790,11 +3790,11 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please wait while IIT Fibertest 2.0 is being installed..
+        ///   Looks up a localized string similar to Please wait while {0} is being installed.
         /// </summary>
-        public static string SID_Please_wait_while_IIT_Fibertest_2_0_is_being_installed_ {
+        public static string SID_Please_wait_while__0__is_being_installed {
             get {
-                return ResourceManager.GetString("SID_Please_wait_while_IIT_Fibertest_2_0_is_being_installed_", resourceCulture);
+                return ResourceManager.GetString("SID_Please_wait_while__0__is_being_installed", resourceCulture);
             }
         }
         

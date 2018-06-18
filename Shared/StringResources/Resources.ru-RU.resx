@@ -1991,4 +1991,16 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Please_select_the_type_of__0__install" xml:space="preserve">
 		<value>Пожалуйста, выберите тип установки {0}</value>
 	</data>
+	<data name="SID_Installation_Complete" xml:space="preserve">
+		<value>Установка завершена</value>
+	</data>
+	<data name="SID_Setup_was_completed_successfully" xml:space="preserve">
+		<value>Установка завершена успешно</value>
+	</data>
+	<data name="SID_Installing" xml:space="preserve">
+		<value>Идет установка</value>
+	</data>
+	<data name="SID_Please_wait_while__0__is_being_installed" xml:space="preserve">
+		<value>Идет установка {0}, пожалуйста, подождите</value>
+	</data>
 </root>
