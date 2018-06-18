@@ -97,7 +97,11 @@
     <Compile Include="Forms\InstallationLanguageViewModel.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="Logic\RegistryOperations.cs" />
+    <Compile Include="Logic\SetupDatacenterOperations.cs" />
     <Compile Include="Logic\SetupOperations.cs" />
+    <Compile Include="Logic\SetupClientOperations.cs" />
+    <Compile Include="Logic\SetupManager.cs" />
+    <Compile Include="Logic\SetupRtuManagerOperations.cs" />
     <Compile Include="ServiceManager\ScmAccessRights.cs" />
     <Compile Include="ServiceManager\ServiceAccessRights.cs" />
     <Compile Include="ServiceManager\ServiceBootFlag.cs" />

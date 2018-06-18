@@ -7,7 +7,7 @@ namespace Setup
 {
     public class ProcessProgressViewModel : PropertyChangedBase
     {
-        private readonly SetupOperations _setupOperations;
+        private readonly SetupManager _setupManager;
         private Visibility _visibility = Visibility.Collapsed;
 
         public Visibility Visibility
@@ -27,9 +27,9 @@ namespace Setup
 
         public string Text1 { get; set; }
 
-        public ProcessProgressViewModel(CurrentInstallation currentInstallation, SetupOperations setupOperations)
+        public ProcessProgressViewModel(CurrentInstallation currentInstallation, SetupManager setupManager)
         {
-            _setupOperations = setupOperations;
+            _setupManager = setupManager;
             HeaderViewModel.InBold = Resources.SID_Installing;
             HeaderViewModel.Explanation = string.Format(Resources.SID_Please_wait_while__0__is_being_installed,
                 currentInstallation.MainName);
@@ -37,7 +37,7 @@ namespace Setup
 
         public void RunSetup()
         {
-            _setupOperations.Run(ProgressLines);
+            _setupManager.Run(ProgressLines);
         }
 
         public void SayGoodbye()

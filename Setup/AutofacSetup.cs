@@ -18,7 +18,9 @@ namespace Setup
 
             builder.RegisterType<InstallationLanguageViewModel>().SingleInstance();
 
-            builder.RegisterType<SetupOperations>().SingleInstance();
+            builder.RegisterType<SetupManager>().SingleInstance();
+            builder.RegisterType<SetupClientOperations>().SingleInstance();
+            builder.RegisterType<SetupDatacenterOperations>().SingleInstance();
 
         }
     }
