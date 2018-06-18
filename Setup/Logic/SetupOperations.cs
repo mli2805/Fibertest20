@@ -22,16 +22,21 @@ namespace Setup
             switch (_currentInstallation.InstallationType)
             {
                 case InstallationType.Client:
-                    SetupDataCenter();
+                    SetupClient();
                     break;
                 case InstallationType.Datacenter:
                     SetupDataCenter();
                     break;
                 case InstallationType.RtuManager:
-                    SetupDataCenter();
+                    SetupRtuManager();
                     break;
 
             }
+        }
+
+        private void SetupClient()
+        {
+            _progressLines.Add("Client setup started.");
         }
 
         private void SetupDataCenter()
@@ -39,8 +44,11 @@ namespace Setup
             _progressLines.Add("Data Center setup started.");
 
             UninstallDcServiceIfNeeded();
+        }
 
-
+        private void SetupRtuManager()
+        {
+            _progressLines.Add("RTU Manager setup started.");
         }
 
         private void UninstallDcServiceIfNeeded()
@@ -57,7 +65,7 @@ namespace Setup
                 return;
             }
 
-            _progressLines.Add($"Service {DataCenterDisplayName} uninstalled succesfully.");
+            _progressLines.Add($"Service {DataCenterDisplayName} uninstalled successfully.");
         }
 
         private bool StopServiceIfRunning()

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Xps.Packaging;
@@ -37,8 +38,15 @@ namespace Setup
         private void ReadLicense()
         {
             var filename = Resources.SID_license_en_xps;
-            XpsDocument document = new XpsDocument($@"..\..\LicenseDocs\{filename}", FileAccess.Read);
-            FixedDocumentSequence = document.GetFixedDocumentSequence();
+            try
+            {
+                XpsDocument document = new XpsDocument($@"..\LicenseDocs\{filename}", FileAccess.Read);
+                FixedDocumentSequence = document.GetFixedDocumentSequence();
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("License file not found!", "Error", MessageBoxButton.OK);
+            }
         }
     }
 }
