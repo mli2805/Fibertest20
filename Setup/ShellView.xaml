@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:StringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        Width="500" Height="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Width="600" Height="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance setup:ShellViewModel}">
     <DockPanel>
         <DockPanel DockPanel.Dock="Bottom" Margin="5,0,5,5">

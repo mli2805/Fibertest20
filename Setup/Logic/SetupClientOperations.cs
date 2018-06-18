@@ -7,16 +7,19 @@ namespace Setup
         private const string SourcePathClient = @"..\ClientFiles";
         private const string TargetPathClient = @"C:\IIT-Fibertest\Client\bin";
 
-        public void SetupClient(ObservableCollection<string> progressLines)
+        public bool SetupClient(ObservableCollection<string> progressLines)
         {
             progressLines.Add("Client setup started.");
 
-            if (!SetupOperations.DirectoryCopyWithDecorations(SourcePathClient, TargetPathClient, progressLines))
-                return;
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathClient, TargetPathClient, progressLines))
+                return false;
 
             progressLines.Add("Shortcuts are created...");
-            SetupOperations.CreateShortcuts(TargetPathClient);
+            FileOperations.CreateShortcuts(TargetPathClient);
             progressLines.Add("Shortcuts are created successfully.");
+
+            progressLines.Add("Client setup completed successfully.");
+            return true;
         }
     }
 }

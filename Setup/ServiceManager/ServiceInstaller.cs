@@ -77,7 +77,7 @@ namespace Setup
         }
 
 
-        public static void Install(string serviceName, string displayName, string fileName)
+        public static void Install(string serviceName, string displayName, string description, string fileName)
         {
             IntPtr scm = OpenScManager(ScmAccessRights.AllAccess);
 
@@ -94,7 +94,7 @@ namespace Setup
                     throw new ApplicationException("Failed to install service.");
 
                 int SERVICE_CONFIG_DESCRIPTION = 0x01;
-                var pinfo = new SERVICE_DESCRIPTION(){lpDescription = displayName};
+                var pinfo = new SERVICE_DESCRIPTION(){lpDescription = description };
                 ChangeServiceConfig2(service, SERVICE_CONFIG_DESCRIPTION, ref pinfo);
             }
             finally

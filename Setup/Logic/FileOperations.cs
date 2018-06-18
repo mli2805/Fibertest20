@@ -4,9 +4,8 @@ using IWshRuntimeLibrary;
 
 namespace Setup
 {
-    public static class SetupOperations
+    public static class FileOperations
     {
-
         public static void CreateShortcuts(string clientPath)
         {
             object shDesktop = "Desktop";
