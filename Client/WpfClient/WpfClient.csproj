@@ -38,7 +38,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationIcon>Resources\Ico\ftClient3.ico</ApplicationIcon>
+    <ApplicationIcon>FtClient6sizes.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'ForRtuXP|AnyCPU'">
     <OutputPath>bin\ForRtuXP\</OutputPath>
@@ -993,7 +993,6 @@
     <Resource Include="Resources\Buttons\ShowPorts.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Resources\Ico\ftClient3.ico" />
     <Resource Include="Resources\Ico\IIT.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -1033,6 +1032,8 @@
     <Resource Include="Resources\LeftPanel\WhiteSquare.png" />
     <Resource Include="Resources\OnMap\RtuHighlighting.png" />
     <Resource Include="Resources\Buttons\Extinguish.png" />
+    <Resource Include="FtClient6sizes.ico" />
+    <Resource Include="Resources\Ico\FtClient6sizes.ico" />
     <Content Include="Resources\Sounds\Accident.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
