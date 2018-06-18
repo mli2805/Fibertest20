@@ -66,6 +66,43 @@ namespace Setup
         private static extern int StartService(IntPtr hService, int dwNumServiceArgs, int lpServiceArgVectors);
         #endregion
 
+        [DllImport("advapi32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool ChangeServiceConfig2(IntPtr hService, int dwInfoLevel, [MarshalAs(UnmanagedType.Struct)] ref SERVICE_DESCRIPTION lpInfo);
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        public struct SERVICE_DESCRIPTION
+        {
+            public string lpDescription;
+        }
+
+
+        public static void Install(string serviceName, string displayName, string fileName)
+        {
+            IntPtr scm = OpenScManager(ScmAccessRights.AllAccess);
+
+            try
+            {
+                IntPtr service = OpenService(scm, serviceName, ServiceAccessRights.AllAccess);
+
+                if (service == IntPtr.Zero)
+                    service = CreateService(scm, serviceName, displayName, ServiceAccessRights.AllAccess, 
+                        ServiceWin32OwnProcess, ServiceBootFlag.AutoStart, ServiceError.Normal, fileName, 
+                        null, IntPtr.Zero, null, null, null);
+
+                if (service == IntPtr.Zero)
+                    throw new ApplicationException("Failed to install service.");
+
+                int SERVICE_CONFIG_DESCRIPTION = 0x01;
+                var pinfo = new SERVICE_DESCRIPTION(){lpDescription = displayName};
+                ChangeServiceConfig2(service, SERVICE_CONFIG_DESCRIPTION, ref pinfo);
+            }
+            finally
+            {
+                CloseServiceHandle(scm);
+            }
+        }
+
         public static void Uninstall(string serviceName)
         {
             IntPtr scm = OpenScManager(ScmAccessRights.AllAccess);

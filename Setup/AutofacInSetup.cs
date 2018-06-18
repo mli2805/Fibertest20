@@ -21,6 +21,7 @@ namespace Setup
             builder.RegisterType<SetupManager>().SingleInstance();
             builder.RegisterType<SetupClientOperations>().SingleInstance();
             builder.RegisterType<SetupDatacenterOperations>().SingleInstance();
+            builder.RegisterType<SetupRtuManagerOperations>().SingleInstance();
 
         }
     }

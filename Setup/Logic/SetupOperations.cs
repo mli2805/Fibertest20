@@ -6,7 +6,7 @@ namespace Setup
 {
     public static class SetupOperations
     {
-       
+
         public static void CreateShortcuts(string clientPath)
         {
             object shDesktop = "Desktop";
@@ -19,7 +19,17 @@ namespace Setup
             shortcut.Save();
         }
 
-        public static bool DirectoryCopy(string sourceDirName, string destDirName, ObservableCollection<string> progressLines)
+        public static bool DirectoryCopyWithDecorations(string sourceDirName, string destDirName,
+            ObservableCollection<string> progressLines)
+        {
+            progressLines.Add("Files are copied...");
+            var result = DirectoryCopyRecursively(sourceDirName, destDirName, progressLines);
+            if (result)
+                progressLines.Add("Files are copied successfully.");
+            return result;
+        }
+
+        private static bool DirectoryCopyRecursively(string sourceDirName, string destDirName, ObservableCollection<string> progressLines)
         {
             // Get the subdirectories for the specified directory.
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
@@ -46,7 +56,7 @@ namespace Setup
             foreach (DirectoryInfo subdir in dirs)
             {
                 string temppath = Path.Combine(destDirName, subdir.Name);
-                DirectoryCopy(subdir.FullName, temppath, progressLines);
+                DirectoryCopyRecursively(subdir.FullName, temppath, progressLines);
             }
 
             return true;

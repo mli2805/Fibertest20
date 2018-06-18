@@ -67,7 +67,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="AutofacSetup.cs" />
+    <Compile Include="AutofacInSetup.cs" />
     <Compile Include="Controls\HeaderView.xaml.cs">
       <DependentUpon>HeaderView.xaml</DependentUpon>
     </Compile>

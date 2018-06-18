@@ -187,9 +187,8 @@ namespace Setup
                     ButtonCancelContent = Resources.SID_Cancel;
                     IsButtonCancelEnabled = false;
 
+                    _currentInstallation.InstallationType = InstTypeChoiceViewModel.GetSelectedType();
                     ProcessProgressViewModel.RunSetup();
-
-                    ProcessProgressViewModel.SayGoodbye();
 
                     ButtonBackContent = Resources.SID_Back;
                     IsButtonBackEnabled = false;

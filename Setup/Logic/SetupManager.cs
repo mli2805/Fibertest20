@@ -19,7 +19,7 @@ namespace Setup
             _setupRtuManagerOperations = setupRtuManagerOperations;
         }
 
-        public void Run(ObservableCollection<string> progressLines)
+        public bool Run(ObservableCollection<string> progressLines)
         {
             switch (_currentInstallation.InstallationType)
             {
@@ -27,12 +27,13 @@ namespace Setup
                     _setupClientOperations.SetupClient(progressLines);
                     break;
                 case InstallationType.Datacenter:
-                    _setupDatacenterOperations.SetupDataCenter(progressLines);
-                    break;
+                    return _setupDatacenterOperations.SetupDataCenter(progressLines);
                 case InstallationType.RtuManager:
                     _setupRtuManagerOperations.SetupRtuManager(progressLines);
                     break;
             }
+
+            return false;
         }
     }
 }

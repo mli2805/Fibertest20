@@ -11,9 +11,8 @@ namespace Setup
         {
             progressLines.Add("Client setup started.");
 
-            progressLines.Add("Files are copied...");
-            if (SetupOperations.DirectoryCopy(SourcePathClient, TargetPathClient, progressLines))
-                progressLines.Add("Files are copied successfully.");
+            if (!SetupOperations.DirectoryCopyWithDecorations(SourcePathClient, TargetPathClient, progressLines))
+                return;
 
             progressLines.Add("Shortcuts are created...");
             SetupOperations.CreateShortcuts(TargetPathClient);

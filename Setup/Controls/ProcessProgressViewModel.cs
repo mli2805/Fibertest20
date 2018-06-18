@@ -7,6 +7,7 @@ namespace Setup
 {
     public class ProcessProgressViewModel : PropertyChangedBase
     {
+        private readonly CurrentInstallation _currentInstallation;
         private readonly SetupManager _setupManager;
         private Visibility _visibility = Visibility.Collapsed;
 
@@ -29,21 +30,30 @@ namespace Setup
 
         public ProcessProgressViewModel(CurrentInstallation currentInstallation, SetupManager setupManager)
         {
+            _currentInstallation = currentInstallation;
             _setupManager = setupManager;
             HeaderViewModel.InBold = Resources.SID_Installing;
             HeaderViewModel.Explanation = string.Format(Resources.SID_Please_wait_while__0__is_being_installed,
-                currentInstallation.MainName);
+                _currentInstallation.MainName);
         }
 
         public void RunSetup()
         {
-            _setupManager.Run(ProgressLines);
+            if (_setupManager.Run(ProgressLines))
+                SaySuccess();
+            else SayFail();
         }
 
-        public void SayGoodbye()
+        private void SaySuccess()
         {
             HeaderViewModel.InBold = Resources.SID_Installation_Complete;
             HeaderViewModel.Explanation = Resources.SID_Setup_was_completed_successfully;
+        }
+
+        private void SayFail()
+        {
+            HeaderViewModel.InBold = "Installation failed";
+            HeaderViewModel.Explanation = $"{_currentInstallation.MainName} installation failed.";
         }
     }
 }

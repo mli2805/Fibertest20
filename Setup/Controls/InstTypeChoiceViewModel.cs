@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
@@ -44,8 +43,20 @@ namespace Setup
             HeaderViewModel.Explanation = string.Format(Resources.SID_Please_select_the_type_of__0__install, currentInstallation.MainName);
 
             Text1 = string.Format(Resources.SID_Select_the_type_of__0__install__Click_Next_to_continue_, currentInstallation.MainName);
-            InstTypes = new List<string>(){"Client", "Data Center", "RTU Manager"};
-            SelectedType = InstTypes.First();
+            InstTypes = new List<string>() { "Client", "Data Center", "RTU Manager" };
+            SelectedType = InstTypes[1];
+        }
+
+        public InstallationType GetSelectedType()
+        {
+            switch (SelectedType)
+            {
+                case "Client": return InstallationType.Client;
+                case "Data Center": return InstallationType.Datacenter;
+                case "RTU Manager": return InstallationType.RtuManager;
+                default: return InstallationType.Client;
+            }
+
         }
     }
 }
