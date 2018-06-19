@@ -3,8 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:uninstall="clr-namespace:Uninstall"
         xmlns:StringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
         Width="600" Height="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        >
+        d:DataContext="{d:DesignInstance uninstall:ShellViewModel}">
 
    <DockPanel>
        <uninstall:HeaderView DockPanel.Dock="Top" DataContext="{Binding HeaderViewModel}"/>
@@ -19,7 +22,7 @@
                  DockPanel.Dock="Bottom" BorderThickness="0,1,0,0" BorderBrush="LightGray">
        </GroupBox>
         <StackPanel Margin="15,5">
-            <TextBlock Text="{Binding Text1}"/>
+            <uninstall:UnInstallFolderView DataContext="{Binding UnInstallFolderViewModel}"/>
         </StackPanel>
     </DockPanel>
 

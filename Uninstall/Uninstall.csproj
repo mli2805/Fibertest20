@@ -66,6 +66,10 @@
       <DependentUpon>HeaderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\HeaderViewModel.cs" />
+    <Compile Include="Controls\UnInstallFolderView.xaml.cs">
+      <DependentUpon>UnInstallFolderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\UnInstallFolderViewModel.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
@@ -75,6 +79,10 @@
     <Page Include="Controls\HeaderView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\UnInstallFolderView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
