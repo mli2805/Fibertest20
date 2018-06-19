@@ -84,6 +84,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfServiceForRtuInterface",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Setup", "Setup\Setup.csproj", "{7B8B504D-36D3-4AAF-8201-CB9D2A8A1E38}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Uninstall", "Uninstall\Uninstall.csproj", "{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -658,6 +660,26 @@ Global
 		{7B8B504D-36D3-4AAF-8201-CB9D2A8A1E38}.v4.0-Release|Any CPU.Build.0 = Release|Any CPU
 		{7B8B504D-36D3-4AAF-8201-CB9D2A8A1E38}.v4.0-Release|x86.ActiveCfg = Release|Any CPU
 		{7B8B504D-36D3-4AAF-8201-CB9D2A8A1E38}.v4.0-Release|x86.Build.0 = Release|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.Debug|x86.Build.0 = Debug|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.ForRtuXP|Any CPU.ActiveCfg = Release|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.ForRtuXP|Any CPU.Build.0 = Release|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.ForRtuXP|x86.ActiveCfg = Release|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.ForRtuXP|x86.Build.0 = Release|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.Release|x86.ActiveCfg = Release|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.Release|x86.Build.0 = Release|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.v4.0-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.v4.0-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.v4.0-Debug|x86.ActiveCfg = Debug|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.v4.0-Debug|x86.Build.0 = Debug|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.v4.0-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.v4.0-Release|Any CPU.Build.0 = Release|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.v4.0-Release|x86.ActiveCfg = Release|Any CPU
+		{8CF2E31C-D62F-4D57-92B4-733DA2FA28B5}.v4.0-Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
