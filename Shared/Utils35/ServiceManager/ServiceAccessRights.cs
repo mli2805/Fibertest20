@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Setup
+namespace Iit.Fibertest.UtilsLib.ServiceManager
 {
     [Flags]
     public enum ServiceAccessRights

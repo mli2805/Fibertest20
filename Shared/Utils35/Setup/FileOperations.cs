@@ -2,7 +2,7 @@
 using System.IO;
 using IWshRuntimeLibrary;
 
-namespace Setup
+namespace Iit.Fibertest.UtilsLib
 {
     public static class FileOperations
     {

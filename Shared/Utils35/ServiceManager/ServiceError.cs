@@ -1,4 +1,4 @@
-﻿namespace Setup
+﻿namespace Iit.Fibertest.UtilsLib.ServiceManager
 {
     public enum ServiceError
     {

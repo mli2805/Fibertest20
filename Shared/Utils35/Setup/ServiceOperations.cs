@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using Iit.Fibertest.UtilsLib.ServiceManager;
 
-namespace Setup
+namespace Iit.Fibertest.UtilsLib
 {
     public static class ServiceOperations
     {
