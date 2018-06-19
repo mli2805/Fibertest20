@@ -1,0 +1,10 @@
+192.168.96.24 Git repository rhode
+в броузере ip - открывается интерфейс репозитория
+
+192.168.96.15 fbuilder 
+в броузере fbuilder - открывается teamsity
+проект Fibertest, у него есть build configuration Fibertest
+ у нее есть Build steps
+	1. VersionPatcher.exe
+	2. Nuget
+	3. Build WpfClient.sln
