@@ -167,7 +167,8 @@ namespace Setup
                     InstTypeChoiceViewModel.Visibility = Visibility.Visible;
                     ProcessProgressViewModel.Visibility = Visibility.Collapsed;
 
-                    RegistryOperations.SaveFibertestValue("InstallationFolder", _currentInstallation.InstallationFolder);
+                    RegistryOperations.SaveFibertestValue("InstallationFolder", InstallationFolderViewModel.InstallationFolder);
+                    _currentInstallation.InstallationFolder = InstallationFolderViewModel.InstallationFolder;
 
                     ButtonBackContent = Resources.SID_Back;
                     IsButtonBackEnabled = true;

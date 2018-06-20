@@ -14,7 +14,7 @@
         <GroupBox DockPanel.Dock="Bottom" Header="{x:Static stringResources:Resources.SID_Destination_folder}" Margin="15,0">
             <DockPanel>
                 <Button cal:Message.Attach="Browse" DockPanel.Dock="Right" Margin="5" Width="80" Content="{x:Static stringResources:Resources.SID_Browse}"/>
-                <TextBlock Text="{Binding DestinationFolder}" Margin="10,5"/>
+                <TextBlock Text="{Binding InstallationFolder}" Margin="10,5"/>
             </DockPanel>
         </GroupBox>
         <TextBlock Margin="15,5,15,25" TextWrapping="Wrap" Text="{Binding Text1}"/>
