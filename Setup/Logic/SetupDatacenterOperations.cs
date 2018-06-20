@@ -17,7 +17,7 @@ namespace Setup
         public bool SetupDataCenter(ObservableCollection<string> progressLines)
         {
             progressLines.Add("Data Center setup started.");
-            if (!ServiceOperations.UninstallServiceIfNeeded(DataCenterServiceName, DataCenterDisplayName, progressLines))
+            if (!ServiceOperations.UninstallServiceIfExist(DataCenterServiceName, DataCenterDisplayName, progressLines))
                 return false;
 
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDatacenter, TargetPathDatacenter, progressLines))

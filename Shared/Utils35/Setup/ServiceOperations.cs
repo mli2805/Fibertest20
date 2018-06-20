@@ -24,7 +24,7 @@ namespace Iit.Fibertest.UtilsLib
             return true;
         }
 
-        public static bool UninstallServiceIfNeeded(string serviceName, string serviceDisplayName, ObservableCollection<string> progressLines)
+        public static bool UninstallServiceIfExist(string serviceName, string serviceDisplayName, ObservableCollection<string> progressLines)
         {
             if (!ServiceInstaller.ServiceIsInstalled(serviceName)) return true;
 

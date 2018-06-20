@@ -68,7 +68,7 @@ namespace Uninstall
             UnInstallFolderViewModel.Visibility = Visibility.Collapsed;
             ProcessProgressViewModel.Visibility = Visibility.Visible;
 
-            Do();
+            ProcessProgressViewModel.RunUninstall(UnInstallFolderViewModel.InstallationFolder);
 
             LastButtonContent = "Close";
             IsButtonCancelEnabled = true;
@@ -77,11 +77,6 @@ namespace Uninstall
         public void Cancel()
         {
             TryClose();
-        }
-
-        private void Do()
-        {
-            new UninstallOperations().Do();
         }
     }
 }

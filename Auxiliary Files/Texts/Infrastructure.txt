@@ -5,12 +5,18 @@
 192.168.96.15 fbuilder 
 аутентификация как l.marholin пароль в Lastpass сгенеренный
 в броузере fbuilder - открывается teamsity
-проект Fibertest, у него есть build configuration Fibertest
+проект Fibertest, у него есть две build configuration 
+Iit_Otdr_Vs
+	тут только сбилдить iit_otdr libraries
+Fibertest itself
  у нее есть Build steps
 	1. VersionPatcher.exe
 	2. Nuget
 	3. Build WpfClient.sln
-	
+	надо шаг 4. Упаковка раром в самораспаковывающийся архив из папок
+		инсталятора
+		файбертеста
+		и iit_otdr
 	
 Iit_otdr
  папка OtdrMeasEngine (http://server2.optixsoft.com/svn/OptixSoft-OTDR_Repos/OtdrMeasEngine/trunk) у меня на компе

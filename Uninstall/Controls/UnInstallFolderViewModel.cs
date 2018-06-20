@@ -28,7 +28,9 @@ namespace Uninstall
         public UnInstallFolderViewModel()
         {
             Text1 = $"{MainName} will be uninstalled from the following folder. Click Uninstall to start the uninstallation.";
-            InstallationFolder = RegistryOperations.GetFibertestValue("InstallationFolder", @"C:\IIT-Fibertest\");
+            InstallationFolder = RegistryOperations.GetFibertestValue("InstallationFolder", "");
+            if (string.IsNullOrEmpty(InstallationFolder))
+                InstallationFolder = @"C:\IIT-Fibertest\";
         }
     }
 }

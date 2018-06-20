@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.ObjectModel;
+using System.Windows;
 using Caliburn.Micro;
 
 namespace Uninstall
@@ -18,5 +19,12 @@ namespace Uninstall
             }
         }
 
+        public ObservableCollection<string> ProgressLines { get; set; } = new ObservableCollection<string>();
+
+
+        public void RunUninstall(string fibertestFolder)
+        {
+            new UninstallOperations().Do(ProgressLines, fibertestFolder);
+        }
     }
 }

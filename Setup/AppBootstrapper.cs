@@ -64,6 +64,7 @@ namespace Setup
             _currentInstallation.Revision = "777";
 
             SetCurrentCulture();
+            
 
             DisplayRootViewFor<IShell>();
         }
@@ -73,8 +74,9 @@ namespace Setup
             var culture = RegistryOperations.GetPreviousInstallationCulture();
             if (string.IsNullOrEmpty(culture))
                 AskAndSetCulture();
-            else
-                SetCultureAskContinuation(culture);
+      else
+            //culture = RegistryOperations.GetPreviousInstallationCulture();
+            SetCultureAskContinuation(culture);
         }
 
         private void SetCultureAskContinuation(string culture)

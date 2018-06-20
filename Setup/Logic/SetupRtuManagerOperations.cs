@@ -23,9 +23,9 @@ namespace Setup
         {
             progressLines.Add("RTU Manager setup started.");
 
-            if (!ServiceOperations.UninstallServiceIfNeeded(RtuWatchdogServiceName, RtuWatchdogDisplayName, progressLines))
+            if (!ServiceOperations.UninstallServiceIfExist(RtuWatchdogServiceName, RtuWatchdogDisplayName, progressLines))
                 return false;
-            if (!ServiceOperations.UninstallServiceIfNeeded(RtuManagerServiceName, RtuManagerDisplayName, progressLines))
+            if (!ServiceOperations.UninstallServiceIfExist(RtuManagerServiceName, RtuManagerDisplayName, progressLines))
                 return false;
 
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDatacenter, TargetPathDatacenter, progressLines))
