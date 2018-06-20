@@ -18,17 +18,18 @@ namespace Setup
         private ILifetimeScope _container;
         private CurrentInstallation _currentInstallation;
 
-        public AppBootstrapper() {
+        public AppBootstrapper()
+        {
             Initialize();
         }
 
         protected override void Configure()
         {
-//            container = new SimpleContainer();
+            //            container = new SimpleContainer();
 
-//            container.Singleton<IWindowManager, WindowManager>();
-//            container.Singleton<IEventAggregator, EventAggregator>();
-//            container.PerRequest<IShell, ShellViewModel>();
+            //            container.Singleton<IWindowManager, WindowManager>();
+            //            container.Singleton<IEventAggregator, EventAggregator>();
+            //            container.PerRequest<IShell, ShellViewModel>();
         }
 
         protected override object GetInstance(Type service, string key)
@@ -41,13 +42,13 @@ namespace Setup
 
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
-//            return container.GetAllInstances(service);
+            //            return container.GetAllInstances(service);
             return _container.Resolve(typeof(IEnumerable<>).MakeGenericType(service)) as IEnumerable<object>;
         }
 
         protected override void BuildUp(object instance)
         {
-//            container.BuildUp(instance);
+            //            container.BuildUp(instance);
             _container.InjectProperties(instance);
         }
 
@@ -64,7 +65,7 @@ namespace Setup
             _currentInstallation.Revision = "777";
 
             SetCurrentCulture();
-            
+
 
             DisplayRootViewFor<IShell>();
         }
@@ -74,9 +75,8 @@ namespace Setup
             var culture = RegistryOperations.GetPreviousInstallationCulture();
             if (string.IsNullOrEmpty(culture))
                 AskAndSetCulture();
-      else
-            //culture = RegistryOperations.GetPreviousInstallationCulture();
-            SetCultureAskContinuation(culture);
+            else
+                SetCultureAskContinuation(culture);
         }
 
         private void SetCultureAskContinuation(string culture)
@@ -93,6 +93,8 @@ namespace Setup
 
         private void AskAndSetCulture()
         {
+            ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
+
             var vm = _container.Resolve<InstallationLanguageViewModel>();
             var wm = _container.Resolve<IWindowManager>();
             wm.ShowDialog(vm);
@@ -101,6 +103,8 @@ namespace Setup
 
             Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
+
+            ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
     }
 }
