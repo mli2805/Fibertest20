@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Setup
             }
         }
 
-        public bool IsOkPressed = false;
+        public bool IsOkPressed;
 
         public InstallationLanguageViewModel()
         {
