@@ -2,7 +2,7 @@
 using System.Windows;
 using Caliburn.Micro;
 
-namespace Uninstall
+namespace Iit.Fibertest.Uninstall
 {
     public class ProcessProgressViewModel : PropertyChangedBase
     {

@@ -1,7 +1,8 @@
 ﻿using Autofac;
 using Caliburn.Micro;
+using Setup;
 
-namespace Setup
+namespace Iit.Fibertest.Setup
 {
     public sealed class AutofacInSetup : Module
     {
@@ -20,8 +21,9 @@ namespace Setup
 
             builder.RegisterType<SetupManager>().SingleInstance();
             builder.RegisterType<SetupClientOperations>().SingleInstance();
-            builder.RegisterType<SetupDatacenterOperations>().SingleInstance();
+            builder.RegisterType<SetupDataCenterOperations>().SingleInstance();
             builder.RegisterType<SetupRtuManagerOperations>().SingleInstance();
+            builder.RegisterType<SetupUninstallOperations>().SingleInstance();
 
         }
     }

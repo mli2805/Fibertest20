@@ -6,7 +6,7 @@ using System.Windows.Xps.Packaging;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 
-namespace Setup
+namespace Iit.Fibertest.Setup
 {
     public class LicenseAgreementViewModel : Screen
     {

@@ -1,5 +1,6 @@
 using System.Windows;
 using Caliburn.Micro;
+using Iit.Fibertest.Uninstall;
 
 namespace Uninstall
 {

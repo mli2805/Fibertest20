@@ -1,4 +1,4 @@
-namespace Setup
+namespace Iit.Fibertest.Setup
 {
     public enum SetupPages
     {

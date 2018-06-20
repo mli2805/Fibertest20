@@ -1,22 +1,25 @@
 ﻿using System.Collections.ObjectModel;
 
-namespace Setup
+namespace Iit.Fibertest.Setup
 {
     public class SetupManager
     {
        
         private readonly CurrentInstallation _currentInstallation;
         private readonly SetupClientOperations _setupClientOperations;
-        private readonly SetupDatacenterOperations _setupDatacenterOperations;
+        private readonly SetupDataCenterOperations _setupDataCenterOperations;
         private readonly SetupRtuManagerOperations _setupRtuManagerOperations;
+        private readonly SetupUninstallOperations _setupUninstallOperations;
 
         public SetupManager(CurrentInstallation currentInstallation, SetupClientOperations setupClientOperations,
-            SetupDatacenterOperations setupDatacenterOperations, SetupRtuManagerOperations setupRtuManagerOperations)
+            SetupDataCenterOperations setupDataCenterOperations, SetupRtuManagerOperations setupRtuManagerOperations,
+            SetupUninstallOperations setupUninstallOperations)
         {
             _currentInstallation = currentInstallation;
             _setupClientOperations = setupClientOperations;
-            _setupDatacenterOperations = setupDatacenterOperations;
+            _setupDataCenterOperations = setupDataCenterOperations;
             _setupRtuManagerOperations = setupRtuManagerOperations;
+            _setupUninstallOperations = setupUninstallOperations;
         }
 
         public bool Run(ObservableCollection<string> progressLines)
@@ -24,16 +27,21 @@ namespace Setup
             switch (_currentInstallation.InstallationType)
             {
                 case InstallationType.Client:
-                    _setupClientOperations.SetupClient(progressLines);
+                    if (!_setupClientOperations.SetupClient(progressLines, _currentInstallation.InstallationFolder))
+                        return false;
                     break;
                 case InstallationType.Datacenter:
-                    return _setupDatacenterOperations.SetupDataCenter(progressLines);
+                    if (!_setupDataCenterOperations.SetupDataCenter(progressLines, _currentInstallation.InstallationFolder))
+                        return false;
+                    break;
                 case InstallationType.RtuManager:
-                    _setupRtuManagerOperations.SetupRtuManager(progressLines);
+                    if (!_setupRtuManagerOperations.SetupRtuManager(progressLines, _currentInstallation.InstallationFolder))
+                        return false;
                     break;
             }
 
-            return false;
+            _setupUninstallOperations.SetupUninstall(progressLines, _currentInstallation.InstallationFolder);
+            return true;
         }
     }
 }

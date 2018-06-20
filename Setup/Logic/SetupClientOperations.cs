@@ -1,22 +1,25 @@
 ﻿using System.Collections.ObjectModel;
+using System.IO;
 using Iit.Fibertest.UtilsLib;
 
-namespace Setup
+namespace Iit.Fibertest.Setup
 {
     public class SetupClientOperations
     {
         private const string SourcePathClient = @"..\ClientFiles";
-        private const string TargetPathClient = @"C:\IIT-Fibertest\Client\bin";
+        private const string ClientSubdir = @"Client\bin";
 
-        public bool SetupClient(ObservableCollection<string> progressLines)
+        public bool SetupClient(ObservableCollection<string> progressLines, string installationFolder)
         {
+            var fullClientPath = Path.Combine(installationFolder, ClientSubdir);
+
             progressLines.Add("Client setup started.");
 
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathClient, TargetPathClient, progressLines))
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathClient, fullClientPath, progressLines))
                 return false;
 
             progressLines.Add("Shortcuts are created...");
-            FileOperations.CreateShortcuts(TargetPathClient);
+            FileOperations.CreateClientShortcut(fullClientPath);
             progressLines.Add("Shortcuts are created successfully.");
 
             progressLines.Add("Client setup completed successfully.");

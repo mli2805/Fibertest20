@@ -2,7 +2,7 @@
 using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
 
-namespace Uninstall
+namespace Iit.Fibertest.Uninstall
 {
     public class UnInstallFolderViewModel : PropertyChangedBase
     {

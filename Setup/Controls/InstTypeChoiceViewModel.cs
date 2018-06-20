@@ -3,7 +3,7 @@ using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 
-namespace Setup
+namespace Iit.Fibertest.Setup
 {
     public class InstTypeChoiceViewModel : PropertyChangedBase
     {

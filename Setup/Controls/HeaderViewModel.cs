@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
 
-namespace Setup
+namespace Iit.Fibertest.Setup
 {
     public class HeaderViewModel : PropertyChangedBase
     {

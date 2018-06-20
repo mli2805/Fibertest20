@@ -1,6 +1,6 @@
 ﻿using Caliburn.Micro;
 
-namespace Uninstall
+namespace Iit.Fibertest.Uninstall
 {
     public class HeaderViewModel : PropertyChangedBase
     {

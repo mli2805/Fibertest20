@@ -1,4 +1,4 @@
-﻿namespace Uninstall
+﻿namespace Iit.Fibertest.Uninstall
 {
     /// <summary>
     /// Interaction logic for App.xaml

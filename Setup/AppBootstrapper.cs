@@ -1,5 +1,6 @@
 using Autofac;
 using System.Windows;
+using Iit.Fibertest.Setup;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 
@@ -93,7 +94,7 @@ namespace Setup
 
         private void AskAndSetCulture()
         {
-            ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
+            ((Iit.Fibertest.Setup.App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
             var vm = _container.Resolve<InstallationLanguageViewModel>();
             var wm = _container.Resolve<IWindowManager>();
@@ -104,7 +105,7 @@ namespace Setup
             Thread.CurrentThread.CurrentCulture = new CultureInfo(culture);
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
 
-            ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
+            ((Iit.Fibertest.Setup.App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
         }
     }
 }

@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
-namespace Setup
+namespace Iit.Fibertest.Setup
 {
     class ScrollToBottomOnAddBehavior : Behavior<ListView>
     {

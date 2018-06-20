@@ -4,7 +4,7 @@ using System.IO;
 using System.Windows;
 using Iit.Fibertest.UtilsLib;
 
-namespace Uninstall
+namespace Iit.Fibertest.Uninstall
 {
     public class UninstallOperations
     {
@@ -24,6 +24,7 @@ namespace Uninstall
             if (!UninstallServices(progressLines)) return;
 
             if (!DeleteFiles(progressLines, fibertestFolder)) return;
+            DeleteShortcuts();
 
             RegistryOperations.RemoveFibertestBranch();
             progressLines.Add("Registry cleaned");

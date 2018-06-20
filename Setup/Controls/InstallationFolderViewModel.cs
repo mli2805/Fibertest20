@@ -5,7 +5,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 
-namespace Setup
+namespace Iit.Fibertest.Setup
 {
     public class InstallationFolderViewModel : PropertyChangedBase
     {

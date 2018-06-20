@@ -1,4 +1,4 @@
-﻿namespace Setup
+﻿namespace Iit.Fibertest.Setup
 {
     /// <summary>
     /// Interaction logic for InstallationLanguageView.xaml

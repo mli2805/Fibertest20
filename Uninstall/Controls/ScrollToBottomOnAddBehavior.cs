@@ -2,7 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
-namespace Uninstall
+namespace Iit.Fibertest.Uninstall
 {
     class ScrollToBottomOnAddBehavior : Behavior<ListView>
     {
