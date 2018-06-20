@@ -2,6 +2,7 @@ using System.Threading;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 
 namespace Setup
 {
@@ -165,6 +166,8 @@ namespace Setup
                     InstallationFolderViewModel.Visibility = Visibility.Collapsed;
                     InstTypeChoiceViewModel.Visibility = Visibility.Visible;
                     ProcessProgressViewModel.Visibility = Visibility.Collapsed;
+
+                    RegistryOperations.SaveFibertestValue("InstallationFolder", _currentInstallation.InstallationFolder);
 
                     ButtonBackContent = Resources.SID_Back;
                     IsButtonBackEnabled = true;

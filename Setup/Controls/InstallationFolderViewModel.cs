@@ -92,7 +92,7 @@ namespace Setup
                 if (result != DialogResult.OK) return;
 
                 DestinationFolder = dialog.SelectedPath;
-                _currentInstallation.DestinationFolder = dialog.SelectedPath;
+                _currentInstallation.InstallationFolder = dialog.SelectedPath;
             }
         }
     }

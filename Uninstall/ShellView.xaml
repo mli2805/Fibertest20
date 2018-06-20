@@ -13,17 +13,20 @@
        <uninstall:HeaderView DockPanel.Dock="Top" DataContext="{Binding HeaderViewModel}"/>
        <DockPanel DockPanel.Dock="Bottom" Margin="5,0,5,5">
            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="15,5,5,5" Name="Cancel" 
-                   Content="Cancel" IsEnabled="{Binding IsButtonCancelEnabled}"/>
-           <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5,0,0,0" Name="Next" 
-                   Content="Uninstall" IsEnabled="{Binding IsButtonNextEnabled}"/>
+                   Content="{Binding LastButtonContent}" IsEnabled="{Binding IsButtonCancelEnabled}"/>
+            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5,0,0,0" Name="Uninstall" 
+                   Content="Uninstall" IsEnabled="{Binding IsButtonUninstallEnabled}"/>
            <StackPanel/>
        </DockPanel>
         <GroupBox Header="{x:Static StringResources:Resources.SID_Institute_of_Information_Technologies}" Foreground="LightGray" Margin="10,0"
                  DockPanel.Dock="Bottom" BorderThickness="0,1,0,0" BorderBrush="LightGray">
        </GroupBox>
-        <StackPanel Margin="15,5">
+        <StackPanel Margin="15,5" DockPanel.Dock="Top" Visibility="{Binding UnInstallFolderViewModel.Visibility}">
             <uninstall:UnInstallFolderView DataContext="{Binding UnInstallFolderViewModel}"/>
         </StackPanel>
-    </DockPanel>
+       <DockPanel Visibility="{Binding ProcessProgressViewModel.Visibility}">
+            <uninstall:ProcessProgressView DataContext="{Binding ProcessProgressViewModel}"/>
+       </DockPanel>
+   </DockPanel>
 
 </Window>
