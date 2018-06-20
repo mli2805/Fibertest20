@@ -24,10 +24,11 @@ namespace Iit.Fibertest.Uninstall
             if (!UninstallServices(progressLines)) return;
 
             if (!DeleteFiles(progressLines, fibertestFolder)) return;
-            DeleteShortcuts();
+            ShortcutOperatios.DeleteAllShortcuts();
+            progressLines.Add("Shortcuts deleted.");
 
             RegistryOperations.RemoveFibertestBranch();
-            progressLines.Add("Registry cleaned");
+            progressLines.Add("Registry cleaned.");
 
             progressLines.Add("Uninstall finished.");
         }
@@ -69,9 +70,5 @@ namespace Iit.Fibertest.Uninstall
             return true;
         }
 
-        private void DeleteShortcuts()
-        {
-
-        }
     }
 }

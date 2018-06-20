@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Setup
                 return;
 
             progressLines.Add("Shortcuts are created...");
-            FileOperations.CreateUninstallShortcut(fullUninstallPath);
+            ShortcutOperatios.CreateUninstallShortcut(fullUninstallPath);
             progressLines.Add("Shortcuts are created successfully.");
 
             progressLines.Add("Uninstall setup completed successfully.");

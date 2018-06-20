@@ -88,7 +88,7 @@ namespace Setup
             var result = MessageBox.Show(
                 string.Format(Resources.SID__0__installed_on_your_PC_already__Continue_, _currentInstallation.MainName),
                 Resources.SID_Confirmation, MessageBoxButton.YesNo);
-            if (result == MessageBoxResult.No)
+            if (result != MessageBoxResult.Yes)
                 Application.Current.Shutdown();
         }
 
@@ -99,6 +99,11 @@ namespace Setup
             var vm = _container.Resolve<InstallationLanguageViewModel>();
             var wm = _container.Resolve<IWindowManager>();
             wm.ShowDialog(vm);
+            if (!vm.IsOkPressed)
+            {
+                Application.Current.Shutdown();
+                return;
+            }
             var culture = (vm.SelectedLanguage == "English") ? "en-US" : "ru-RU";
             RegistryOperations.SaveSetupCultureInRegistry(culture);
 

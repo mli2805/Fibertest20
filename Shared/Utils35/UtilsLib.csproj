@@ -101,6 +101,7 @@
     <Compile Include="Setup\FileOperations.cs" />
     <Compile Include="Setup\RegistryOperations.cs" />
     <Compile Include="Setup\ServiceOperations.cs" />
+    <Compile Include="Setup\ShortcutOperatios.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -60,6 +60,7 @@ namespace Uninstall
             ProcessProgressViewModel = new ProcessProgressViewModel() { Visibility = Visibility.Collapsed };
             LastButtonContent = "Cancel";
             IsButtonUninstallEnabled = true;
+            IsButtonCancelEnabled = true;
         }
 
         public void Uninstall()

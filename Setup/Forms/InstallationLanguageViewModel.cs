@@ -21,6 +21,8 @@ namespace Iit.Fibertest.Setup
             }
         }
 
+        public bool IsOkPressed = false;
+
         public InstallationLanguageViewModel()
         {
             Languages = new List<string>(){"English", "Русский"};
@@ -34,6 +36,7 @@ namespace Iit.Fibertest.Setup
 
         public void ButtonOk()
         {
+            IsOkPressed = true;
             TryClose();
         }
     }

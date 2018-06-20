@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Setup
                 return false;
 
             progressLines.Add("Shortcuts are created...");
-            FileOperations.CreateClientShortcut(fullClientPath);
+            ShortcutOperatios.CreateClientShortcut(fullClientPath);
             progressLines.Add("Shortcuts are created successfully.");
 
             progressLines.Add("Client setup completed successfully.");
