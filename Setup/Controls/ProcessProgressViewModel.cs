@@ -1,4 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using System.IO;
+using System.Reflection;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
@@ -40,7 +43,10 @@ namespace Iit.Fibertest.Setup
         public void RunSetup()
         {
             if (_setupManager.Run(ProgressLines))
+            {
                 SaySuccess();
+                CleanTempFolder();
+            }
             else SayFail();
         }
 
@@ -48,6 +54,11 @@ namespace Iit.Fibertest.Setup
         {
             HeaderViewModel.InBold = Resources.SID_Installation_Complete;
             HeaderViewModel.Explanation = Resources.SID_Setup_was_completed_successfully;
+        }
+
+        private void CleanTempFolder()
+        {
+              Directory.Delete(@"C:\4ae45b-43012f\", true);
         }
 
         private void SayFail()
