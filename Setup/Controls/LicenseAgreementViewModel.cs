@@ -40,12 +40,15 @@ namespace Iit.Fibertest.Setup
             var filename = Resources.SID_license_en_xps;
             try
             {
-                XpsDocument document = new XpsDocument($@"..\LicenseDocs\{filename}", FileAccess.Read);
+                var currentDomain = AppDomain.CurrentDomain.BaseDirectory;
+                var xpsFile = Path.Combine(currentDomain, $@"..\LicenseDocs\{filename}");
+
+                XpsDocument document = new XpsDocument(xpsFile, FileAccess.Read);
                 FixedDocumentSequence = document.GetFixedDocumentSequence();
             }
-            catch (Exception)
+            catch (Exception e )
             {
-                MessageBox.Show("License file not found!", "Error", MessageBoxButton.OK);
+                MessageBox.Show("License file not found!" + e.Message, "Error", MessageBoxButton.OK);
             }
         }
     }

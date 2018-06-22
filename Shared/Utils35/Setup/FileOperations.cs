@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.IO;
 
 namespace Iit.Fibertest.UtilsLib
@@ -11,7 +12,10 @@ namespace Iit.Fibertest.UtilsLib
             ObservableCollection<string> progressLines)
         {
             progressLines.Add("Files are copied...");
-            var result = DirectoryCopyRecursively(sourceDirName, destDirName, progressLines);
+
+            var currentDomain = AppDomain.CurrentDomain.BaseDirectory;
+            var fullSourcePath = Path.Combine(currentDomain, sourceDirName);
+            var result = DirectoryCopyRecursively(fullSourcePath, destDirName, progressLines);
             if (result)
                 progressLines.Add("Files are copied successfully.");
             return result;

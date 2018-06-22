@@ -1,4 +1,4 @@
-using System.Threading;
+using System.IO;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Setup;
@@ -9,6 +9,7 @@ namespace Setup
 {
     public class ShellViewModel : Screen, IShell
     {
+        private IMyLog _logFile;
         private CurrentInstallation _currentInstallation;
         private IWindowManager _windowManager;
         public LicenseAgreementViewModel LicenseAgreementViewModel { get; set; }
@@ -94,12 +95,14 @@ namespace Setup
 
         #endregion
 
-        public ShellViewModel(CurrentInstallation currentInstallation, IWindowManager windowManager,
+        public ShellViewModel(CurrentInstallation currentInstallation, 
+            IWindowManager windowManager, IMyLog logFile,
             LicenseAgreementViewModel licenseAgreementViewModel,
             InstallationFolderViewModel installationFolderViewModel,
             InstTypeChoiceViewModel instTypeChoiceViewModel,
             ProcessProgressViewModel processProgressViewModel)
         {
+            _logFile = logFile;
             _currentInstallation = currentInstallation;
             _windowManager = windowManager;
             LicenseAgreementViewModel = licenseAgreementViewModel;
@@ -112,6 +115,8 @@ namespace Setup
         protected override void OnViewLoaded(object view)
         {
             DisplayName = string.Format(Resources.SID_Setup_caption, _currentInstallation.FullName);
+            _logFile.AssignFile(@"Setup.log");
+            _logFile.AppendLine(@"Setup application started!");
             Do();
         }
 
@@ -120,7 +125,9 @@ namespace Setup
         {
             _currentPage++;
             if (_currentPage > SetupPages.ProcessProgress)
+            {
                 TryClose();
+            }
             Do();
         }
 
@@ -206,7 +213,6 @@ namespace Setup
             }
         }
 
-      
         public void Cancel()
         {
             var result = MessageBox.Show(string.Format(Resources.SID_Are_you_sure_you_want_to_quit__0__setup_, 

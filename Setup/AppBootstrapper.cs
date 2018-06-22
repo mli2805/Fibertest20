@@ -57,6 +57,11 @@ namespace Setup
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacInSetup>();
+
+            var iniFile = new IniFile();
+            iniFile.AssignFile("setup.ini");
+            builder.RegisterInstance(iniFile);
+
             _container = builder.Build();
 
             _currentInstallation = _container.Resolve<CurrentInstallation>();

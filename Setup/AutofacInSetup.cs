@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.UtilsLib;
 using Setup;
 
 namespace Iit.Fibertest.Setup
@@ -9,6 +10,8 @@ namespace Iit.Fibertest.Setup
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<ShellViewModel>().As<IShell>();
+
+            builder.RegisterType<LogFile>().As<IMyLog>().SingleInstance();
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
             builder.RegisterType<CurrentInstallation>().SingleInstance();
 
