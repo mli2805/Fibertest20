@@ -7,9 +7,16 @@
 в броузере fbuilder - открываетс€ teamsity
 проект Fibertest, у него есть две build configuration 
 Iit_Otdr_Vs
-	тут только сбилдить iit_otdr libraries
-Fibertest itself
+	0. выкачивает http://server2.optixsoft.com/svn/OptixSoft-OTDR_Repos/OtdrMeasEngine/trunk
+		исходники и папка etc_default
+		аутентификаци€ как mli - первый технологический
+	билдит iit_otdr libraries
+    там solution iitotdr_vs2017_win32forFt20
+     билдитс€ только вижлой 2015 (у мен€ на компе и 2017€ может, возможно потому что там нет тулсета)
+ 
+ Fibertest itself
  у нее есть Build steps
+	0. выкачивает с 192.168.96.24 Git repository rhode 
 	1. VersionPatcher.exe
 	2. Nuget
 	3. Build WpfClient.sln
@@ -17,14 +24,3 @@ Fibertest itself
 		инстал€тора
 		файбертеста
 		и iit_otdr
-	
-Iit_otdr
- папка OtdrMeasEngine (http://server2.optixsoft.com/svn/OptixSoft-OTDR_Repos/OtdrMeasEngine/trunk) у мен€ на компе
- аутентификаци€ как mli - первый технологический
- 
- создал на fbuilder новый проект , который выт€гивает этот репо
- там solution iitotdr_vs2017_win32forFt20
- билдитс€ только вижлой 2015 (у мен€ на компе и 2017€ может, возможно потому что там нет тулсета)
- 
- 
- 

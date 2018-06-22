@@ -17,13 +17,13 @@ namespace Iit.Fibertest.Uninstall
         private const string RtuWatchdogServiceName = "FibertestRtuWatchdog";
         private const string RtuWatchdogDisplayName = "Fibertest 2.0 RTU Watchdog";
 
-        public void Do(ObservableCollection<string> progressLines, string fibertestFolder)
+        public void Do(ObservableCollection<string> progressLines, string fibertestFolder, bool isFullUninstall)
         {
             progressLines.Add("Uninstall started...");
 
             if (!UninstallServices(progressLines)) return;
 
-            if (!DeleteFiles(progressLines, fibertestFolder)) return;
+            if (!DeleteFiles(progressLines, fibertestFolder, isFullUninstall)) return;
             ShortcutOperatios.DeleteAllShortcuts();
             progressLines.Add("Shortcuts deleted.");
 
@@ -44,19 +44,28 @@ namespace Iit.Fibertest.Uninstall
             return true;
         }
 
-        private bool DeleteFiles(ObservableCollection<string> progressLines, string fibertestFolder)
+        private bool DeleteFiles(ObservableCollection<string> progressLines, string fibertestFolder, bool isFullUninstall)
         {
             progressLines.Add("Deleting files...");
             try
             {
-                if (Directory.Exists(fibertestFolder + @"\Client\bin"))
-                    Directory.Delete(fibertestFolder + @"\Client\bin", true);
+                if (isFullUninstall)
+                {
+                    if (Directory.Exists(fibertestFolder))
+                        Directory.Delete(fibertestFolder, true);
+                }
+                else
+                {
 
-                if (Directory.Exists(fibertestFolder + @"\DataCenter\bin"))
-                    Directory.Delete(fibertestFolder + @"\DataCenter\bin", true);
+                    if (Directory.Exists(fibertestFolder + @"\Client\bin"))
+                        Directory.Delete(fibertestFolder + @"\Client\bin", true);
 
-                if (Directory.Exists(fibertestFolder + @"\RtuManager\bin"))
-                    Directory.Delete(fibertestFolder + @"\RtuManager\bin", true);
+                    if (Directory.Exists(fibertestFolder + @"\DataCenter\bin"))
+                        Directory.Delete(fibertestFolder + @"\DataCenter\bin", true);
+
+                    if (Directory.Exists(fibertestFolder + @"\RtuManager\bin"))
+                        Directory.Delete(fibertestFolder + @"\RtuManager\bin", true);
+                }
             }
             catch (Exception e)
             {

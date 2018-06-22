@@ -22,9 +22,9 @@ namespace Iit.Fibertest.Uninstall
         public ObservableCollection<string> ProgressLines { get; set; } = new ObservableCollection<string>();
 
 
-        public void RunUninstall(string fibertestFolder)
+        public void RunUninstall(string fibertestFolder, bool isFullUninstall)
         {
-            new UninstallOperations().Do(ProgressLines, fibertestFolder);
+            new UninstallOperations().Do(ProgressLines, fibertestFolder, isFullUninstall);
         }
     }
 }

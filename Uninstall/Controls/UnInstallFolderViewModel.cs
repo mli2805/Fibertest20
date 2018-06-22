@@ -24,6 +24,10 @@ namespace Iit.Fibertest.Uninstall
 
         public string Text1 { get; set; }
         public string InstallationFolder { get; set; }
+        public bool IsFullUninstall { get; set; }
+
+        public string CheckContent { get; set; }
+
 
         public UnInstallFolderViewModel()
         {
@@ -31,6 +35,7 @@ namespace Iit.Fibertest.Uninstall
             InstallationFolder = RegistryOperations.GetFibertestValue("InstallationFolder", "");
             if (string.IsNullOrEmpty(InstallationFolder))
                 InstallationFolder = @"C:\IIT-Fibertest\";
+            CheckContent = "Full uninstall (Will be deleted all user data - ini, log, etc.)";
         }
     }
 }
