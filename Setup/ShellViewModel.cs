@@ -187,19 +187,7 @@ namespace Setup
 
                     break;
                 case SetupPages.ProcessProgress:
-                    LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
-                    InstallationFolderViewModel.Visibility = Visibility.Collapsed;
-                    InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
-                    ProcessProgressViewModel.Visibility = Visibility.Visible;
-
-                    ButtonBackContent = Resources.SID_Back;
-                    IsButtonBackEnabled = false;
-                    ButtonNextContent = Resources.SID_Next;
-                    IsButtonNextEnabled = false;
-                    ButtonCancelContent = Resources.SID_Cancel;
-                    IsButtonCancelEnabled = false;
-
-                    _currentInstallation.InstallationType = InstTypeChoiceViewModel.GetSelectedType();
+                    OpenProgressView();
                     ProcessProgressViewModel.RunSetup();
 
                     ButtonBackContent = Resources.SID_Back;
@@ -211,6 +199,23 @@ namespace Setup
 
                     break;
             }
+        }
+
+        private void OpenProgressView()
+        {
+            LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
+            InstallationFolderViewModel.Visibility = Visibility.Collapsed;
+            InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
+            ProcessProgressViewModel.Visibility = Visibility.Visible;
+
+            ButtonBackContent = Resources.SID_Back;
+            IsButtonBackEnabled = false;
+            ButtonNextContent = Resources.SID_Next;
+            IsButtonNextEnabled = false;
+            ButtonCancelContent = Resources.SID_Cancel;
+            IsButtonCancelEnabled = false;
+
+            _currentInstallation.InstallationType = InstTypeChoiceViewModel.GetSelectedType();
         }
 
         public void Cancel()

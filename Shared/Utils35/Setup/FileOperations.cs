@@ -8,7 +8,7 @@ namespace Iit.Fibertest.UtilsLib
     {
       
 
-        public static bool DirectoryCopyWithDecorations(string sourceDirName, string destDirName,
+        public static int DirectoryCopyWithDecorations(string sourceDirName, string destDirName,
             ObservableCollection<string> progressLines)
         {
             progressLines.Add("Files are copied...");
@@ -16,19 +16,19 @@ namespace Iit.Fibertest.UtilsLib
             var currentDomain = AppDomain.CurrentDomain.BaseDirectory;
             var fullSourcePath = Path.Combine(currentDomain, sourceDirName);
             var result = DirectoryCopyRecursively(fullSourcePath, destDirName, progressLines);
-            if (result)
+            if (result > -1)
                 progressLines.Add("Files are copied successfully.");
             return result;
         }
 
-        private static bool DirectoryCopyRecursively(string sourceDirName, string destDirName, ObservableCollection<string> progressLines)
+        private static int DirectoryCopyRecursively(string sourceDirName, string destDirName, ObservableCollection<string> progressLines)
         {
             // Get the subdirectories for the specified directory.
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
             if (!dir.Exists)
             {
                 progressLines.Add("Error! Source folder not found!");
-                return false;
+                return -1;
             }
 
             // If the destination directory doesn't exist, create it.
@@ -37,11 +37,13 @@ namespace Iit.Fibertest.UtilsLib
 
             // Get the files in the directory and copy them to the new location.
             FileInfo[] files = dir.GetFiles();
+            var count = 0;
             foreach (FileInfo file in files)
             {
                 string temppath = Path.Combine(destDirName, file.Name);
-                progressLines.Add(temppath);
-                file.CopyTo(temppath, true);
+                var ss = file.CopyTo(temppath, true);
+                progressLines.Add(ss.Name);
+                count++;
             }
 
             DirectoryInfo[] dirs = dir.GetDirectories();
@@ -51,7 +53,7 @@ namespace Iit.Fibertest.UtilsLib
                 DirectoryCopyRecursively(subdir.FullName, temppath, progressLines);
             }
 
-            return true;
+            return count;
         }
 
     }

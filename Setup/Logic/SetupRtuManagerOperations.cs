@@ -19,29 +19,30 @@ namespace Iit.Fibertest.Setup
         private const string RtuServiceFilename = @"Iit.Fibertest.RtuService.exe";
         private const string RtuWatchdogServiceFilename = @"Iit.Fibertest.RtuWatchdog.exe";
 
-        public bool SetupRtuManager(ObservableCollection<string> progressLines, string installationFolder)
+        public int SetupRtuManager(ObservableCollection<string> progressLines, string installationFolder)
         {
             var fullRtuManagerPath = Path.Combine(installationFolder, RtuManagerSubdir);
             progressLines.Add("RTU Manager setup started.");
 
             if (!ServiceOperations.UninstallServiceIfExist(RtuWatchdogServiceName, RtuWatchdogDisplayName, progressLines))
-                return false;
+                return -1;
             if (!ServiceOperations.UninstallServiceIfExist(RtuManagerServiceName, RtuManagerDisplayName, progressLines))
-                return false;
+                return -1;
 
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDatacenter, fullRtuManagerPath, progressLines))
-                return false;
+            var count = FileOperations.DirectoryCopyWithDecorations(SourcePathDatacenter, fullRtuManagerPath, progressLines);
+            if (count == -1)
+                return -1;
 
             var filename = Path.Combine(fullRtuManagerPath, RtuServiceFilename);
             if (!ServiceOperations.InstallService(RtuManagerServiceName,
-                RtuManagerDisplayName, RtuManagerServiceDescription, filename, progressLines)) return false;
+                RtuManagerDisplayName, RtuManagerServiceDescription, filename, progressLines)) return -1;
 
             filename = Path.Combine(fullRtuManagerPath, RtuWatchdogServiceFilename);
             if (!ServiceOperations.InstallService(RtuWatchdogServiceName,
-                RtuWatchdogDisplayName, RtuWatchdogServiceDescription, filename, progressLines)) return false;
+                RtuWatchdogDisplayName, RtuWatchdogServiceDescription, filename, progressLines)) return -1;
 
             progressLines.Add("RTU Manager setup completed successfully.");
-            return true;
+            return count;
         }
     }
 }

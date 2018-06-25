@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Setup
             if (!ServiceOperations.UninstallServiceIfExist(DataCenterServiceName, DataCenterDisplayName, progressLines))
                 return false;
 
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDataCenter, fullDataCenterPath, progressLines))
+            if (FileOperations.DirectoryCopyWithDecorations(SourcePathDataCenter, fullDataCenterPath, progressLines) == -1)
                 return false;
 
             var filename = Path.Combine(fullDataCenterPath, ServiceFilename);

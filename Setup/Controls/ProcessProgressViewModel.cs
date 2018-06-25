@@ -39,15 +39,16 @@ namespace Iit.Fibertest.Setup
 
         public void RunSetup()
         {
-            if (_setupManager.Run(ProgressLines))
-                SaySuccess();
+            var count = _setupManager.Run(ProgressLines);
+            if (count != -1)
+                SaySuccess(count);
             else SayFail();
         }
 
-        private void SaySuccess()
+        private void SaySuccess(int count)
         {
             HeaderViewModel.InBold = Resources.SID_Installation_Complete;
-            HeaderViewModel.Explanation = Resources.SID_Setup_was_completed_successfully;
+            HeaderViewModel.Explanation = Resources.SID_Setup_was_completed_successfully + $" {count}";
         }
 
       

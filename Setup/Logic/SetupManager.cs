@@ -27,28 +27,29 @@ namespace Iit.Fibertest.Setup
             _setupUninstallOperations = setupUninstallOperations;
         }
 
-        public bool Run(ObservableCollection<string> progressLines)
+        public int Run(ObservableCollection<string> progressLines)
         {
             _logFile.AppendLine("Setup process started...");
+            var count = 0;
             switch (_currentInstallation.InstallationType)
             {
                 case InstallationType.Client:
                     if (!_setupClientOperations.SetupClient(progressLines, _currentInstallation.InstallationFolder))
-                        return false;
+                        return -1;
                     break;
                 case InstallationType.Datacenter:
                     if (!_setupDataCenterOperations.SetupDataCenter(progressLines, _currentInstallation.InstallationFolder))
-                        return false;
+                        return -1;
                     break;
                 case InstallationType.RtuManager:
-                    if (!_setupRtuManagerOperations.SetupRtuManager(progressLines, _currentInstallation.InstallationFolder))
-                        return false;
+                    count = _setupRtuManagerOperations.SetupRtuManager(progressLines, _currentInstallation.InstallationFolder);
+                    if (count == -1)    return -1;
                     break;
             }
 
             _logFile.AppendLine("Setup uninstall application");
             _setupUninstallOperations.SetupUninstall(progressLines, _currentInstallation.InstallationFolder);
-            return true;
+            return count;
         }
     }
 }

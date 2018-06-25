@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Setup
             _logFile.AppendLine($" full client path = {fullClientPath}");
             progressLines.Add("Client setup started.");
 
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathClient, fullClientPath, progressLines))
+            if (FileOperations.DirectoryCopyWithDecorations(SourcePathClient, fullClientPath, progressLines) == -1)
                 return false;
 
             _logFile.AppendLine("Files are copied successfully");
