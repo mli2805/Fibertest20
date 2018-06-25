@@ -1,3 +1,6 @@
+using System;
+using System.Diagnostics;
+using System.IO;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Uninstall;
@@ -7,6 +10,7 @@ namespace Uninstall
     public class ShellViewModel : Screen, IShell
     {
         public string MainName = "IIT Fibertest 2.0";
+        private bool _isFibertestUninstalled;
         public HeaderViewModel HeaderViewModel { get; set; }
         public UnInstallFolderViewModel UnInstallFolderViewModel { get; set; }
         public ProcessProgressViewModel ProcessProgressViewModel { get; set; }
@@ -74,11 +78,18 @@ namespace Uninstall
                 UnInstallFolderViewModel.InstallationFolder, UnInstallFolderViewModel.IsFullUninstall);
 
             LastButtonContent = "Close";
+            _isFibertestUninstalled = true;
             IsButtonCancelEnabled = true;
         }
 
-        public void Cancel()
+        public void LastButton()
         {
+            if (_isFibertestUninstalled)
+            {
+                Process.Start("cmd.exe", "/C ping 1.1.1.1 -n 3 -w 20 & RmDir /S /Q " +
+                                         AppDomain.CurrentDomain.BaseDirectory + "");
+                Application.Current.Shutdown();
+            }
             TryClose();
         }
     }

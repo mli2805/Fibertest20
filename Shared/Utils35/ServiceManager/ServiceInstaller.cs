@@ -282,7 +282,8 @@ namespace Iit.Fibertest.UtilsLib.ServiceManager
             return status.dwCurrentState;
         }
 
-        private static bool WaitForServiceStatus(IntPtr service, ServiceState waitStatus, ServiceState desiredStatus)
+        private static bool WaitForServiceStatus(IntPtr service, ServiceState waitStatus, 
+            ServiceState desiredStatus)
         {
             ServiceStatus status = new ServiceStatus();
 
@@ -300,7 +301,7 @@ namespace Iit.Fibertest.UtilsLib.ServiceManager
 
                 int dwWaitTime = status.dwWaitHint / 10;
 
-                if (dwWaitTime < 1000) dwWaitTime = 3000;
+                if (dwWaitTime < 1000) dwWaitTime = 7000;
                 else if (dwWaitTime > 10000) dwWaitTime = 10000;
 
                 Thread.Sleep(dwWaitTime);

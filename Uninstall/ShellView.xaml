@@ -13,7 +13,7 @@
    <DockPanel>
        <uninstall1:HeaderView DockPanel.Dock="Top" DataContext="{Binding HeaderViewModel}"/>
        <DockPanel DockPanel.Dock="Bottom" Margin="5,0,5,5">
-           <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="15,5,5,5" Name="Cancel" 
+           <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="15,5,5,5" Name="LastButton" 
                    Content="{Binding LastButtonContent}" IsEnabled="{Binding IsButtonCancelEnabled}"/>
             <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5,0,0,0" Name="Uninstall" 
                    Content="Uninstall" IsEnabled="{Binding IsButtonUninstallEnabled}"/>

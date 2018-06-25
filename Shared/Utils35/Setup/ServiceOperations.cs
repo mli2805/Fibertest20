@@ -32,7 +32,8 @@ namespace Iit.Fibertest.UtilsLib
 
             progressLines.Add($"{serviceDisplayName} service is being uninstalled...");
             ServiceInstaller.Uninstall(serviceName);
-            if (ServiceInstaller.ServiceIsInstalled(serviceName))
+            if (ServiceInstaller.ServiceIsInstalled(serviceName) 
+                && ServiceInstaller.ServiceIsInstalled(serviceName))
             {
                 progressLines.Add($"Cannot uninstall service {serviceDisplayName}");
                 return false;

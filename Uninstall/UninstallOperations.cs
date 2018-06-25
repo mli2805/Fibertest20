@@ -51,12 +51,17 @@ namespace Iit.Fibertest.Uninstall
             {
                 if (isFullUninstall)
                 {
-                    if (Directory.Exists(fibertestFolder))
-                        Directory.Delete(fibertestFolder, true);
+                    if (Directory.Exists(fibertestFolder + @"\Client"))
+                        Directory.Delete(fibertestFolder + @"\Client", true);
+
+                    if (Directory.Exists(fibertestFolder + @"\DataCenter"))
+                        Directory.Delete(fibertestFolder + @"\DataCenter", true);
+
+                    if (Directory.Exists(fibertestFolder + @"\RtuManager"))
+                        Directory.Delete(fibertestFolder + @"\RtuManager", true);
                 }
                 else
                 {
-
                     if (Directory.Exists(fibertestFolder + @"\Client\bin"))
                         Directory.Delete(fibertestFolder + @"\Client\bin", true);
 
