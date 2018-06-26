@@ -40,6 +40,8 @@ namespace Iit.Fibertest.Setup
                 case InstallationType.Datacenter:
                     if (!_setupDataCenterOperations.SetupDataCenter(progressLines, _currentInstallation.InstallationFolder))
                         return -1;
+                    if (!_setupClientOperations.SetupClient(progressLines, _currentInstallation.InstallationFolder))
+                        return -1;
                     break;
                 case InstallationType.RtuManager:
                     count = _setupRtuManagerOperations.SetupRtuManager(progressLines, _currentInstallation.InstallationFolder);
