@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-        mc:Ignorable="d" ResizeMode="NoResize"
+        mc:Ignorable="d" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" Topmost="True"
         SizeToContent="WidthAndHeight" d:DataContext="{d:DesignData InstallationLanguageViewModel}">
     <StackPanel>
         <TextBlock Margin="5,15" Text="{x:Static stringResources:Resources.SID_Please_select_a_setup_language}" HorizontalAlignment="Center"/>

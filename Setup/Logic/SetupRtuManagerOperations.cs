@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Threading;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Setup
@@ -30,6 +31,7 @@ namespace Iit.Fibertest.Setup
             if (!ServiceOperations.UninstallServiceIfExist(RtuManagerServiceName, RtuManagerDisplayName, worker))
                 return false;
 
+            Thread.Sleep(1000);
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDatacenter, fullRtuManagerPath, worker))
                 return false;
 

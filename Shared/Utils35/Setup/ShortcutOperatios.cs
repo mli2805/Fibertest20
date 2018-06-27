@@ -18,6 +18,7 @@ namespace Iit.Fibertest.UtilsLib
             shortcut.TargetPath = fullClientPath + @"\Iit.Fibertest.Client.exe";
             shortcut.IconLocation = fullClientPath + @"\Iit.Fibertest.Client.exe";
             shortcut.Save();
+
         }
         public static void CreateUninstallShortcut(string fullUninstallPath)
         {
@@ -29,6 +30,14 @@ namespace Iit.Fibertest.UtilsLib
             shortcut.TargetPath = fullUninstallPath + @"\Iit.Fibertest.Uninstall.exe";
             shortcut.IconLocation = fullUninstallPath + @"\Iit.Fibertest.Uninstall.exe";
             shortcut.Save();
+
+            //  Uninstall needs elevation to change Registry (on windows newer than windowsXP)
+            if (System.Environment.OSVersion.Version.Major < 6) return;
+            using (FileStream fs = new FileStream(shortcutAddress, FileMode.Open, FileAccess.ReadWrite))
+            {
+                fs.Seek(21, SeekOrigin.Begin);
+                fs.WriteByte(0x22);
+            }
         }
 
         public static void DeleteAllShortcuts()
