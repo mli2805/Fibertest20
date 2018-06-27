@@ -253,3 +253,4 @@ paket-files/
 *.exe
 /Pack
 /Packer/Pack
+/Deploy/Pack
