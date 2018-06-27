@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using Iit.Fibertest.UtilsLib;
 
@@ -15,22 +16,22 @@ namespace Iit.Fibertest.Setup
             _logFile = logFile;
         }
 
-        public void SetupUninstall(ObservableCollection<string> progressLines, string installationFolder)
+        public void SetupUninstall(BackgroundWorker worker, string installationFolder)
         {
-            progressLines.Add("Uninstall setup started.");
+            worker.ReportProgress(0, "Uninstall setup started.");
 
             var fullUninstallPath = Path.Combine(installationFolder, UninstallSubdir);
             _logFile.AppendLine($" full uninstall path = {fullUninstallPath}");
-            if (FileOperations.DirectoryCopyWithDecorations(SourcePathUninstall, fullUninstallPath, progressLines) == -1)
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUninstall, fullUninstallPath, worker))
                 return;
 
             _logFile.AppendLine("Files are copied successfully");
 
-            progressLines.Add("Shortcuts are created...");
+            worker.ReportProgress(0, "Shortcuts are created...");
             ShortcutOperatios.CreateUninstallShortcut(fullUninstallPath);
-            progressLines.Add("Shortcuts are created successfully.");
+            worker.ReportProgress(0, "Shortcuts are created successfully.");
 
-            progressLines.Add("Uninstall setup completed successfully.");
+            worker.ReportProgress(0, "Uninstall setup completed successfully.");
         }
 
     }

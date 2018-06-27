@@ -86,7 +86,7 @@ namespace Uninstall
         {
             if (_isFibertestUninstalled)
             {
-                Process.Start("cmd.exe", "/C ping 1.1.1.1 -n 3 -w 20 & RmDir /S /Q " +
+                Process.Start("cmd.exe", "/C ping 1.1.1.1 -n 3 -w 20 > Nul & RmDir /S /Q " +
                                          AppDomain.CurrentDomain.BaseDirectory + "");
                 Application.Current.Shutdown();
             }

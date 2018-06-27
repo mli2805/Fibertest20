@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Setup
@@ -27,31 +28,30 @@ namespace Iit.Fibertest.Setup
             _setupUninstallOperations = setupUninstallOperations;
         }
 
-        public int Run(ObservableCollection<string> progressLines)
+        public bool Run(BackgroundWorker worker)
         {
             _logFile.AppendLine("Setup process started...");
-            var count = 0;
             switch (_currentInstallation.InstallationType)
             {
                 case InstallationType.Client:
-                    if (!_setupClientOperations.SetupClient(progressLines, _currentInstallation.InstallationFolder))
-                        return -1;
+                    if (!_setupClientOperations.SetupClient(worker, _currentInstallation.InstallationFolder))
+                        return false;
                     break;
                 case InstallationType.Datacenter:
-                    if (!_setupDataCenterOperations.SetupDataCenter(progressLines, _currentInstallation.InstallationFolder))
-                        return -1;
-                    if (!_setupClientOperations.SetupClient(progressLines, _currentInstallation.InstallationFolder))
-                        return -1;
+                    if (!_setupDataCenterOperations.SetupDataCenter(worker, _currentInstallation.InstallationFolder))
+                        return false;
+                    if (!_setupClientOperations.SetupClient(worker, _currentInstallation.InstallationFolder))
+                        return false;
                     break;
                 case InstallationType.RtuManager:
-                    count = _setupRtuManagerOperations.SetupRtuManager(progressLines, _currentInstallation.InstallationFolder);
-                    if (count == -1)    return -1;
+                    if (!_setupRtuManagerOperations.SetupRtuManager(worker, _currentInstallation.InstallationFolder))
+                        return false;
                     break;
             }
 
             _logFile.AppendLine("Setup uninstall application");
-            _setupUninstallOperations.SetupUninstall(progressLines, _currentInstallation.InstallationFolder);
-            return count;
+            _setupUninstallOperations.SetupUninstall(worker, _currentInstallation.InstallationFolder);
+            return true;
         }
     }
 }

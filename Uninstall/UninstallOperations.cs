@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using Iit.Fibertest.UtilsLib;
@@ -17,36 +18,36 @@ namespace Iit.Fibertest.Uninstall
         private const string RtuWatchdogServiceName = "FibertestRtuWatchdog";
         private const string RtuWatchdogDisplayName = "Fibertest 2.0 RTU Watchdog";
 
-        public void Do(ObservableCollection<string> progressLines, string fibertestFolder, bool isFullUninstall)
+        public void Do(BackgroundWorker worker, string fibertestFolder, bool isFullUninstall)
         {
-            progressLines.Add("Uninstall started...");
+            worker.ReportProgress(0, "Uninstall started...");
 
-            if (!UninstallServices(progressLines)) return;
+            if (!UninstallServices(worker)) return;
 
-            if (!DeleteFiles(progressLines, fibertestFolder, isFullUninstall)) return;
+            if (!DeleteFiles(worker, fibertestFolder, isFullUninstall)) return;
             ShortcutOperatios.DeleteAllShortcuts();
-            progressLines.Add("Shortcuts deleted.");
+            worker.ReportProgress(0, "Shortcuts deleted.");
 
             RegistryOperations.RemoveFibertestBranch();
-            progressLines.Add("Registry cleaned.");
+            worker.ReportProgress(0, "Registry cleaned.");
 
-            progressLines.Add("Uninstall finished.");
+            worker.ReportProgress(0, "Uninstall finished.");
         }
 
-        private bool UninstallServices(ObservableCollection<string> progressLines)
+        private bool UninstallServices(BackgroundWorker worker)
         {
-            if (!ServiceOperations.UninstallServiceIfExist(DataCenterServiceName, DataCenterDisplayName, progressLines))
+            if (!ServiceOperations.UninstallServiceIfExist(DataCenterServiceName, DataCenterDisplayName, worker))
                 return false;
-            if (!ServiceOperations.UninstallServiceIfExist(RtuWatchdogServiceName, RtuWatchdogDisplayName, progressLines))
+            if (!ServiceOperations.UninstallServiceIfExist(RtuWatchdogServiceName, RtuWatchdogDisplayName, worker))
                 return false;
-            if (!ServiceOperations.UninstallServiceIfExist(RtuManagerServiceName, RtuManagerDisplayName, progressLines))
+            if (!ServiceOperations.UninstallServiceIfExist(RtuManagerServiceName, RtuManagerDisplayName, worker))
                 return false;
             return true;
         }
 
-        private bool DeleteFiles(ObservableCollection<string> progressLines, string fibertestFolder, bool isFullUninstall)
+        private bool DeleteFiles(BackgroundWorker worker, string fibertestFolder, bool isFullUninstall)
         {
-            progressLines.Add("Deleting files...");
+            worker.ReportProgress(0, "Deleting files...");
             try
             {
                 if (isFullUninstall)
@@ -74,13 +75,13 @@ namespace Iit.Fibertest.Uninstall
             }
             catch (Exception e)
             {
-                progressLines.Add("Cannot delete specified folder!");
-                progressLines.Add(e.Message);
+                worker.ReportProgress(0, "Cannot delete specified folder!");
+                worker.ReportProgress(0, e.Message);
                 MessageBox.Show("Cannot delete specified folder!", "Error!", MessageBoxButton.OK);
                 return false;
             }
 
-            progressLines.Add("Files are deleted successfully.");
+            worker.ReportProgress(0, "Files are deleted successfully.");
             return true;
         }
 

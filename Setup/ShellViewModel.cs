@@ -188,15 +188,8 @@ namespace Setup
                     break;
                 case SetupPages.ProcessProgress:
                     OpenProgressView();
+                    ProcessProgressViewModel.PropertyChanged += ProcessProgressViewModel_PropertyChanged;
                     ProcessProgressViewModel.RunSetup();
-
-                    ButtonBackContent = Resources.SID_Back;
-                    IsButtonBackEnabled = false;
-                    ButtonNextContent = Resources.SID_Done;
-                    IsButtonNextEnabled = true;
-                    ButtonCancelContent = Resources.SID_Cancel;
-                    IsButtonCancelEnabled = false;
-
                     break;
             }
         }
@@ -210,12 +203,25 @@ namespace Setup
 
             ButtonBackContent = Resources.SID_Back;
             IsButtonBackEnabled = false;
-            ButtonNextContent = Resources.SID_Next;
+            ButtonNextContent = "Wait...";
             IsButtonNextEnabled = false;
             ButtonCancelContent = Resources.SID_Cancel;
             IsButtonCancelEnabled = false;
 
             _currentInstallation.InstallationType = InstTypeChoiceViewModel.GetSelectedType();
+        }
+
+        private void ProcessProgressViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsDone")
+            {
+                ButtonBackContent = Resources.SID_Back;
+                IsButtonBackEnabled = false;
+                ButtonNextContent = Resources.SID_Done;
+                IsButtonNextEnabled = true;
+                ButtonCancelContent = Resources.SID_Cancel;
+                IsButtonCancelEnabled = false;
+            }
         }
 
         public void Cancel()

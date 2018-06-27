@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using Iit.Fibertest.UtilsLib.ServiceManager;
 
 namespace Iit.Fibertest.UtilsLib
@@ -7,55 +8,55 @@ namespace Iit.Fibertest.UtilsLib
     public static class ServiceOperations
     {
         public static bool InstallService(string serviceName, string serviceDisplayName,
-            string serviceDescription, string filename, ObservableCollection<string> progressLines)
+            string serviceDescription, string filename, BackgroundWorker worker)
         {
-            progressLines.Add($"{serviceDisplayName} service is being installed...");
+            worker.ReportProgress(0, $"{serviceDisplayName} service is being installed...");
             try
             {
                 ServiceInstaller.Install(serviceName, serviceDisplayName, serviceDescription, filename);
             }
             catch (Exception)
             {
-                progressLines.Add($"Cannot install service {serviceDisplayName}");
+                worker.ReportProgress(0, $"Cannot install service {serviceDisplayName}");
                 return false;
             }
 
-            progressLines.Add($"{serviceDisplayName} service installed successfully");
+            worker.ReportProgress(0, $"{serviceDisplayName} service installed successfully");
             return true;
         }
 
-        public static bool UninstallServiceIfExist(string serviceName, string serviceDisplayName, ObservableCollection<string> progressLines)
+        public static bool UninstallServiceIfExist(string serviceName, string serviceDisplayName, BackgroundWorker worker)
         {
             if (!ServiceInstaller.ServiceIsInstalled(serviceName)) return true;
 
-            if (!StopServiceIfRunning(serviceName, serviceDisplayName, progressLines)) return false;
+            if (!StopServiceIfRunning(serviceName, serviceDisplayName, worker)) return false;
 
-            progressLines.Add($"{serviceDisplayName} service is being uninstalled...");
+            worker.ReportProgress(0, $"{serviceDisplayName} service is being uninstalled...");
             ServiceInstaller.Uninstall(serviceName);
             if (ServiceInstaller.ServiceIsInstalled(serviceName) 
                 && ServiceInstaller.ServiceIsInstalled(serviceName))
             {
-                progressLines.Add($"Cannot uninstall service {serviceDisplayName}");
+                worker.ReportProgress(0, $"Cannot uninstall service {serviceDisplayName}");
                 return false;
             }
 
-            progressLines.Add($"Service {serviceDisplayName} uninstalled successfully.");
+            worker.ReportProgress(0, $"Service {serviceDisplayName} uninstalled successfully.");
             return true;
         }
 
-        private static bool StopServiceIfRunning(string serviceName, string serviceDisplayName, ObservableCollection<string> progressLines)
+        private static bool StopServiceIfRunning(string serviceName, string serviceDisplayName, BackgroundWorker worker)
         {
             if (ServiceInstaller.GetServiceStatus(serviceName) != ServiceState.Running) return true;
 
-            progressLines.Add($"{serviceDisplayName} service is being stopped...");
+            worker.ReportProgress(0, $"{serviceDisplayName} service is being stopped...");
             ServiceInstaller.StopService(serviceName);
             if (ServiceInstaller.GetServiceStatus(serviceName) != ServiceState.Stopped)
             {
-                progressLines.Add($"Cannot stop service {serviceDisplayName}");
+                worker.ReportProgress(0, $"Cannot stop service {serviceDisplayName}");
                 return false;
             }
 
-            progressLines.Add($"Service {serviceDisplayName} stopped successfully.");
+            worker.ReportProgress(0, $"Service {serviceDisplayName} stopped successfully.");
             return true;
         }
 

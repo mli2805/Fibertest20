@@ -1,7 +1,7 @@
-xcopy c:\VSProjects\Fibertest20\Client\WpfClient\bin\Debug\*.* c:\VSProjects\Fibertest20\Setup\bin\ClientFiles\*.* /S/D/Y
-xcopy c:\VSProjects\Fibertest20\DataCenter\DataCenterService\bin\Debug\*.* c:\VSProjects\Fibertest20\Setup\bin\DcFiles\*.* /S/D/Y
-xcopy c:\VSProjects\Fibertest20\RTU\RtuService\bin\Debug\*.* c:\VSProjects\Fibertest20\Setup\bin\RtuFiles\*.* /S/D/Y
-xcopy c:\VSProjects\Fibertest20\RTU\RtuWatchdog\bin\Debug\*.* c:\VSProjects\Fibertest20\Setup\bin\RtuFiles\*.* /S/D/Y
-xcopy c:\VSProjects\Fibertest20\Uninstall\bin\Debug\*.* c:\VSProjects\Fibertest20\Setup\bin\UninstallFiles\*.* /S/D/Y
+xcopy c:\VsGitProjects\Fibertest\Client\WpfClient\bin\Debug\*.* c:\VsGitProjects\Fibertest\Setup\bin\ClientFiles\*.* /S/D/Y
+xcopy c:\VsGitProjects\Fibertest\DataCenter\DataCenterService\bin\Debug\*.* c:\VsGitProjects\Fibertest\Setup\bin\DcFiles\*.* /S/D/Y
+xcopy c:\VsGitProjects\Fibertest\RTU\RtuService\bin\Debug\*.* c:\VsGitProjects\Fibertest\Setup\bin\RtuFiles\*.* /S/D/Y
+xcopy c:\VsGitProjects\Fibertest\RTU\RtuWatchdog\bin\Debug\*.* c:\VsGitProjects\Fibertest\Setup\bin\RtuFiles\*.* /S/D/Y
+xcopy c:\VsGitProjects\Fibertest\Uninstall\bin\Debug\*.* c:\VsGitProjects\Fibertest\Setup\bin\UninstallFiles\*.* /S/D/Y
 pause
 

@@ -1,4 +1,6 @@
-﻿using Microsoft.Win32;
+﻿using System;
+using System.Windows.Forms;
+using Microsoft.Win32;
 
 namespace Iit.Fibertest.UtilsLib
 {
@@ -19,14 +21,29 @@ namespace Iit.Fibertest.UtilsLib
 
         public static void SaveSetupCultureInRegistry(string culture)
         {
-            var result = Registry.LocalMachine.CreateSubKey(FibertestBranch);
-            result?.SetValue("Culture", culture);
+            try
+            {
+                var result = Registry.LocalMachine.CreateSubKey(FibertestBranch);
+                result?.SetValue("Culture", culture);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Save in Registry problem " + e.Message);
+            }
+
         }
 
         public static void SaveFibertestValue(string key, string value)
         {
-            var result = Registry.LocalMachine.CreateSubKey(FibertestBranch);
-            result?.SetValue(key, value);
+            try
+            {
+                var result = Registry.LocalMachine.CreateSubKey(FibertestBranch);
+                result?.SetValue(key, value);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show("Save in Registry problem " + e.Message);
+            }
         }
 
         public static void RemoveFibertestBranch()

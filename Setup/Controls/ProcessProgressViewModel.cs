@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
@@ -22,6 +23,17 @@ namespace Iit.Fibertest.Setup
             }
         }
 
+        public bool IsDone
+        {
+            get { return _isDone; }
+            set
+            {
+                if (value == _isDone) return;
+                _isDone = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public HeaderViewModel HeaderViewModel { get; set; } = new HeaderViewModel();
 
         public ObservableCollection<string> ProgressLines { get; set; } = new ObservableCollection<string>();
@@ -37,18 +49,44 @@ namespace Iit.Fibertest.Setup
                 _currentInstallation.MainName);
         }
 
+        private bool _setupResult;
+        private bool _isDone;
+
         public void RunSetup()
         {
-            var count = _setupManager.Run(ProgressLines);
-            if (count != -1)
-                SaySuccess(count);
-            else SayFail();
+            var bw = new BackgroundWorker();
+            bw.WorkerReportsProgress = true;
+            bw.DoWork += Bw_DoWork;
+            bw.ProgressChanged += Bw_ProgressChanged;
+            bw.RunWorkerCompleted += Bw_RunWorkerCompleted;
+
+            bw.RunWorkerAsync();
         }
 
-        private void SaySuccess(int count)
+        private void Bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            if (_setupResult)
+                SaySuccess();
+            else SayFail();
+            IsDone = true;
+        }
+
+        private void Bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            var st = (string) e.UserState;
+            ProgressLines.Add(st);
+        }
+
+        private void Bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var worker = sender as BackgroundWorker;
+            _setupResult = _setupManager.Run(worker);
+        }
+
+        private void SaySuccess()
         {
             HeaderViewModel.InBold = Resources.SID_Installation_Complete;
-            HeaderViewModel.Explanation = Resources.SID_Setup_was_completed_successfully + $" {count}";
+            HeaderViewModel.Explanation = Resources.SID_Setup_was_completed_successfully;
         }
 
       

@@ -9,4 +9,5 @@ xcopy RTU\RtuWatchdog\bin\Debug\*.* Pack\RtuFiles\*.* /S/D/Y
 pause
 xcopy Uninstall\bin\Debug\*.* Pack\UninstallFiles\*.* /S/D/Y
 
-"C:\Program Files\WinRAR\rar.exe" a -r -cfg- -sfx -z"PackSetup.conf" FtSetupDebug_2.0.1.%1.exe Pack\*.*
+"C:\Program Files\WinRAR\rar.exe" a -r -cfg- -sfx -z"PackSetup.conf" -iiconinstall.ico FtSetupDebug_2.0.1.%1.exe Pack\*.*
+pause

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.IO;
 using Iit.Fibertest.UtilsLib;
 
@@ -19,30 +20,29 @@ namespace Iit.Fibertest.Setup
         private const string RtuServiceFilename = @"Iit.Fibertest.RtuService.exe";
         private const string RtuWatchdogServiceFilename = @"Iit.Fibertest.RtuWatchdog.exe";
 
-        public int SetupRtuManager(ObservableCollection<string> progressLines, string installationFolder)
+        public bool SetupRtuManager(BackgroundWorker worker, string installationFolder)
         {
             var fullRtuManagerPath = Path.Combine(installationFolder, RtuManagerSubdir);
-            progressLines.Add("RTU Manager setup started.");
+            worker.ReportProgress(0, "RTU Manager setup started.");
 
-            if (!ServiceOperations.UninstallServiceIfExist(RtuWatchdogServiceName, RtuWatchdogDisplayName, progressLines))
-                return -1;
-            if (!ServiceOperations.UninstallServiceIfExist(RtuManagerServiceName, RtuManagerDisplayName, progressLines))
-                return -1;
+            if (!ServiceOperations.UninstallServiceIfExist(RtuWatchdogServiceName, RtuWatchdogDisplayName, worker))
+                return false;
+            if (!ServiceOperations.UninstallServiceIfExist(RtuManagerServiceName, RtuManagerDisplayName, worker))
+                return false;
 
-            var count = FileOperations.DirectoryCopyWithDecorations(SourcePathDatacenter, fullRtuManagerPath, progressLines);
-            if (count == -1)
-                return -1;
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDatacenter, fullRtuManagerPath, worker))
+                return false;
 
             var filename = Path.Combine(fullRtuManagerPath, RtuServiceFilename);
             if (!ServiceOperations.InstallService(RtuManagerServiceName,
-                RtuManagerDisplayName, RtuManagerServiceDescription, filename, progressLines)) return -1;
+                RtuManagerDisplayName, RtuManagerServiceDescription, filename, worker)) return false;
 
             filename = Path.Combine(fullRtuManagerPath, RtuWatchdogServiceFilename);
             if (!ServiceOperations.InstallService(RtuWatchdogServiceName,
-                RtuWatchdogDisplayName, RtuWatchdogServiceDescription, filename, progressLines)) return -1;
+                RtuWatchdogDisplayName, RtuWatchdogServiceDescription, filename, worker)) return false;
 
-            progressLines.Add("RTU Manager setup completed successfully.");
-            return count;
+            worker.ReportProgress(0, "RTU Manager setup completed successfully.");
+            return true;
         }
     }
 }

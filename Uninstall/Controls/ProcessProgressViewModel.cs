@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Windows;
 using Caliburn.Micro;
 
@@ -22,9 +23,38 @@ namespace Iit.Fibertest.Uninstall
         public ObservableCollection<string> ProgressLines { get; set; } = new ObservableCollection<string>();
 
 
+        private string _fibertestFolder;
+        private bool _isFullUninstall;
         public void RunUninstall(string fibertestFolder, bool isFullUninstall)
         {
-            new UninstallOperations().Do(ProgressLines, fibertestFolder, isFullUninstall);
+            _fibertestFolder = fibertestFolder;
+            _isFullUninstall = isFullUninstall;
+
+            var bw = new BackgroundWorker();
+            bw.WorkerReportsProgress = true;
+            bw.DoWork += Bw_DoWork;
+            bw.ProgressChanged += Bw_ProgressChanged;
+            bw.RunWorkerCompleted += Bw_RunWorkerCompleted;
+
+            bw.RunWorkerAsync();
         }
+
+        private void Bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+           
+        }
+
+        private void Bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            var st = (string)e.UserState;
+            ProgressLines.Add(st);
+        }
+
+        private void Bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var worker = sender as BackgroundWorker;
+            new UninstallOperations().Do(worker, _fibertestFolder, _isFullUninstall);
+        }
+
     }
 }
