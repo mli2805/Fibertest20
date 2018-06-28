@@ -14,5 +14,5 @@ xcopy ..\OtdrMeasEngine\*.* Pack\RtuFiles\OtdrMeasEngine\*.* /S/D/Y
       
 xcopy ..\Uninstall\bin\Release\*.* Pack\UninstallFiles\*.* /S/D/Y
 
-"C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackSetup.conf" FtSetup_%1.exe Pack\*.*
+"C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackSetup.conf" Ft_%1.exe Pack\*.*
 
