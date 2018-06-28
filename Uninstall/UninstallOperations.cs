@@ -2,6 +2,7 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Threading;
 using System.Windows;
 using Iit.Fibertest.UtilsLib;
 
@@ -59,7 +60,10 @@ namespace Iit.Fibertest.Uninstall
                         Directory.Delete(fibertestFolder + @"\DataCenter", true);
 
                     if (Directory.Exists(fibertestFolder + @"\RtuManager"))
+                    {
+                        Thread.Sleep(500);
                         Directory.Delete(fibertestFolder + @"\RtuManager", true);
+                    }
                 }
                 else
                 {
@@ -70,7 +74,10 @@ namespace Iit.Fibertest.Uninstall
                         Directory.Delete(fibertestFolder + @"\DataCenter\bin", true);
 
                     if (Directory.Exists(fibertestFolder + @"\RtuManager\bin"))
+                    {
+                        Thread.Sleep(500);
                         Directory.Delete(fibertestFolder + @"\RtuManager\bin", true);
+                    }
                 }
             }
             catch (Exception e)
