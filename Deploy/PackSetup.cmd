@@ -1,7 +1,7 @@
 rem TeamCity starts in root folder
 cd Deploy\
 
-del FtSetup*.exe
+del Ft*.exe
 
 xcopy ..\Setup\bin\Release\*.* Pack\bin\*.* /S/D/Y
 xcopy ..\Setup\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
@@ -10,7 +10,7 @@ xcopy ..\DataCenter\DataCenterService\bin\Release\*.* Pack\DcFiles\*.* /S/D/Y
 xcopy ..\Client\WpfClient\bin\Release\*.* Pack\ClientFiles\*.* /S/D/Y
 xcopy ..\RTU\RtuService\bin\Release\*.* Pack\RtuFiles\*.* /S/D/Y
 xcopy ..\RTU\RtuWatchdog\bin\Release\*.* Pack\RtuFiles\*.* /S/D/Y
-xcopy ..\OtdrMeasEngine\*.* Pack\RtuFiles\OtdrMeasEngine\*.* /S/D/Y
+rem OtdrMeasEngine folder should be copied from another build on TeamCity
       
 xcopy ..\Uninstall\bin\Release\*.* Pack\UninstallFiles\*.* /S/D/Y
 
