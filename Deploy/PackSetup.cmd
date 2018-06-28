@@ -1,3 +1,6 @@
+; TeamCity starts in root folder
+cd Deploy\
+
 del FtSetup*.exe
 
 xcopy ..\Setup\bin\Release\*.* Pack\bin\*.* /S/D/Y
