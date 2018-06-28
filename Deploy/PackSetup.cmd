@@ -1,4 +1,4 @@
-; TeamCity starts in root folder
+rem TeamCity starts in root folder
 cd Deploy\
 
 del FtSetup*.exe
