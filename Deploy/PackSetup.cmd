@@ -1,6 +1,7 @@
 rem TeamCity starts in root folder
 cd Deploy\
 
+rmdir /S/Q Pack\
 del Ft*.exe
 
 xcopy ..\Setup\bin\Release\*.* Pack\bin\*.* /S/D/Y
