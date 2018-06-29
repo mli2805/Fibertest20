@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Setup
             _logFile.AppendLine("Files are copied successfully");
 
             worker.ReportProgress(0, "Shortcuts are created...");
-            ShortcutOperatios.CreateUninstallShortcut(fullUninstallPath);
+            ShortcutOperatios.CreateUninstallShortcut(fullUninstallPath, worker);
             worker.ReportProgress(0, "Shortcuts are created successfully.");
 
             worker.ReportProgress(0, "Uninstall setup completed successfully.");

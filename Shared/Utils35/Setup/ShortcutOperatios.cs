@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using IWshRuntimeLibrary;
 
@@ -20,7 +21,7 @@ namespace Iit.Fibertest.UtilsLib
             shortcut.Save();
 
         }
-        public static void CreateUninstallShortcut(string fullUninstallPath)
+        public static void CreateUninstallShortcut(string fullUninstallPath, BackgroundWorker worker)
         {
             object shDesktop = "Desktop";
             WshShell shell = new WshShell();
@@ -32,7 +33,9 @@ namespace Iit.Fibertest.UtilsLib
             shortcut.Save();
 
             //  Uninstall needs elevation to change Registry (on windows newer than windowsXP)
+            worker.ReportProgress(0, $"System.Environment.OSVersion.Version.Major {System.Environment.OSVersion.Version.Major}");
             if (System.Environment.OSVersion.Version.Major < 6) return;
+            worker.ReportProgress(0, "Uninstall shortcut will be elevated");
             using (FileStream fs = new FileStream(shortcutAddress, FileMode.Open, FileAccess.ReadWrite))
             {
                 fs.Seek(21, SeekOrigin.Begin);
