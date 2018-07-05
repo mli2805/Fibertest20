@@ -250,7 +250,8 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
-*.exe
+
 /Pack
 /Packer/Pack
 /Deploy/Pack
+/Deploy/Ft*.exe

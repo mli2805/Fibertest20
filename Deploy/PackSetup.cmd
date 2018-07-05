@@ -16,5 +16,7 @@ xcopy Temp\OtdrMeasEngine\*.* Pack\RtuFiles\OtdrMeasEngine\*.* /S/D/Y
       
 xcopy ..\Uninstall\bin\Release\*.* Pack\UninstallFiles\*.* /S/D/Y
 
+curl --user mli:zaq1@WSX http://192.168.96.8:8888/job/RFTSViewer/lastSuccessfulBuild/artifact/trunk/Installer/Setup.exe --output Pack\ReflectSetup.exe
+
 "C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackSetup.conf" Ft_%1.exe Pack\*.*
 
