@@ -8,6 +8,7 @@ namespace Iit.Fibertest.UtilsLib
     public static class ShortcutOperatios
     {
         private static string _clientLnk = @"FtClient20.lnk";
+        private static string _reflectLnk = @"RftsReflect.lnk";
         private static string _uninstallLnk = @"FtUninstall20.lnk";
         public static void CreateClientShortcut(string fullClientPath)
         {
@@ -19,8 +20,20 @@ namespace Iit.Fibertest.UtilsLib
             shortcut.TargetPath = fullClientPath + @"\Iit.Fibertest.Client.exe";
             shortcut.IconLocation = fullClientPath + @"\Iit.Fibertest.Client.exe";
             shortcut.Save();
-
         }
+
+        public static void CreateReflectShortcut(string fullReflectPath)
+        {
+            object shDesktop = "Desktop";
+            WshShell shell = new WshShell();
+            string shortcutAddress = (string)shell.SpecialFolders.Item(ref shDesktop) + "\\" + _reflectLnk;
+            IWshShortcut shortcut = (IWshShortcut)shell.CreateShortcut(shortcutAddress);
+            shortcut.Description = "Fibertest 2.0 Client";
+            shortcut.TargetPath = fullReflectPath + @"\reflect.exe";
+            shortcut.IconLocation = fullReflectPath + @"\reflect.exe";
+            shortcut.Save();
+        }
+
         public static void CreateUninstallShortcut(string fullUninstallPath, BackgroundWorker worker)
         {
             object shDesktop = "Desktop";

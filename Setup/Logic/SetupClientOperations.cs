@@ -10,6 +10,9 @@ namespace Iit.Fibertest.Setup
         private readonly IMyLog _logFile;
         private const string SourcePathClient = @"..\ClientFiles";
         private const string ClientSubdir = @"Client\bin";
+        private const string SourcePathReflect = @"..\RftsReflect";
+        private const string ReflectSubdir = @"RftsReflect";
+
 
         public SetupClientOperations(IMyLog logFile)
         {
@@ -18,17 +21,23 @@ namespace Iit.Fibertest.Setup
 
         public bool SetupClient(BackgroundWorker worker, string installationFolder)
         {
-            var fullClientPath = Path.Combine(installationFolder, ClientSubdir);
-            _logFile.AppendLine($" full client path = {fullClientPath}");
             worker.ReportProgress(0, "Client setup started.");
 
+            var fullClientPath = Path.Combine(installationFolder, ClientSubdir);
+            _logFile.AppendLine($" full client path = {fullClientPath}");
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathClient, fullClientPath, worker))
+                return false;
+
+            var fullReflectPath = Path.Combine(installationFolder, ReflectSubdir);
+            _logFile.AppendLine($" full Reflect path = {fullReflectPath}");
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, fullReflectPath, worker))
                 return false;
 
             _logFile.AppendLine("Files are copied successfully");
 
             worker.ReportProgress(0, "Shortcuts are created...");
             ShortcutOperatios.CreateClientShortcut(fullClientPath);
+            ShortcutOperatios.CreateReflectShortcut(fullReflectPath);
             worker.ReportProgress(0, "Shortcuts are created successfully.");
 
             _logFile.AppendLine("Shortcuts are created successfully.");

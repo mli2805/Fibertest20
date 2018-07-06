@@ -18,12 +18,15 @@ namespace Iit.Fibertest.Setup
 
         private const string SourcePathDatacenter = @"..\RtuFiles";
         private const string RtuManagerSubdir = @"RtuManager\bin";
+        private const string SourcePathReflect = @"..\RftsReflect";
+        private const string ReflectSubdir = @"RftsReflect";
         private const string RtuServiceFilename = @"Iit.Fibertest.RtuService.exe";
         private const string RtuWatchdogServiceFilename = @"Iit.Fibertest.RtuWatchdog.exe";
 
         public bool SetupRtuManager(BackgroundWorker worker, string installationFolder)
         {
             var fullRtuManagerPath = Path.Combine(installationFolder, RtuManagerSubdir);
+            var fullReflectPath = Path.Combine(installationFolder, ReflectSubdir);
             worker.ReportProgress(0, "RTU Manager setup started.");
 
             if (!ServiceOperations.UninstallServiceIfExist(RtuWatchdogServiceName, RtuWatchdogDisplayName, worker))
@@ -33,6 +36,8 @@ namespace Iit.Fibertest.Setup
 
             Thread.Sleep(1000);
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDatacenter, fullRtuManagerPath, worker))
+                return false;
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, fullReflectPath, worker))
                 return false;
 
             var filename = Path.Combine(fullRtuManagerPath, RtuServiceFilename);
