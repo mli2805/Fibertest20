@@ -1,4 +1,5 @@
-cd ..\Source\
+rem start folder is RFTSViewer\workspace\
+cd trunk\Source\
 del RftsReflect.zip
 
 mkdir RftsReflect\
