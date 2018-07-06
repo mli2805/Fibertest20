@@ -106,7 +106,7 @@ namespace Iit.Fibertest.Client
             if (!ToggleToPort(mainCharon, addressOfCharonWithThisPort, portNumber)) return;
 
             var otdrPort = 1500;
-            System.Diagnostics.Process.Start(@"..\RftsReflect\Reflect.exe",
+            System.Diagnostics.Process.Start(@"C:\Iit-Fibertest\RftsReflect\Reflect.exe",
                 $@"-fnw -n {mainCharonAddress.Ip4Address} -p {otdrPort}");
         }
 

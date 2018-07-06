@@ -27,6 +27,10 @@ namespace Iit.Fibertest.Client
         {
             var serverDoubleAddress = _iniFile.ReadDoubleAddress(11840);
             _serverAddress = serverDoubleAddress.Main.GetAddress();
+
+            var appPath = AppDomain.CurrentDomain.BaseDirectory;
+            _logFile.AppendLine($@"Application path {appPath}");
+
             _filename = $@"..\Cache\GraphDb\{_serverAddress}\{graphDbVersionOnServer.ToString()}.sqlite3";
             _connectionString = $@"Data Source={_filename}; Version=3;";
         }

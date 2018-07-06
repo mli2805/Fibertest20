@@ -59,6 +59,9 @@ namespace Iit.Fibertest.Uninstall
                     if (Directory.Exists(fibertestFolder + @"\DataCenter"))
                         Directory.Delete(fibertestFolder + @"\DataCenter", true);
 
+                    if (Directory.Exists(fibertestFolder + @"\RftsReflect"))
+                        Directory.Delete(fibertestFolder + @"\RftsReflect", true);
+
                     if (Directory.Exists(fibertestFolder + @"\RtuManager"))
                     {
                         Thread.Sleep(500);
@@ -72,6 +75,9 @@ namespace Iit.Fibertest.Uninstall
 
                     if (Directory.Exists(fibertestFolder + @"\DataCenter\bin"))
                         Directory.Delete(fibertestFolder + @"\DataCenter\bin", true);
+
+                    if (Directory.Exists(fibertestFolder + @"\RftsReflect"))
+                        Directory.Delete(fibertestFolder + @"\RftsReflect", true);
 
                     if (Directory.Exists(fibertestFolder + @"\RtuManager\bin"))
                     {
