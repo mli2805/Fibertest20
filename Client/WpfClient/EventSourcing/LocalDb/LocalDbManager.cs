@@ -32,7 +32,11 @@ namespace Iit.Fibertest.Client
             _logFile.AppendLine($@"Application path {appPath}");
 
             _filename = $@"..\Cache\GraphDb\{_serverAddress}\{graphDbVersionOnServer.ToString()}.sqlite3";
-            _connectionString = $@"Data Source={_filename}; Version=3;";
+
+            var dbFullFilename = Path.Combine(appPath, _filename);
+            _logFile.AppendLine($@"Db full filename {dbFullFilename}");
+
+            _connectionString = $@"Data Source={dbFullFilename}; Version=3;";
         }
 
         public async Task SaveEvents(string[] jsons)
