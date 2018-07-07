@@ -43,8 +43,8 @@ namespace Iit.Fibertest.Setup
             HeaderViewModel.Explanation = string.Format(Resources.SID_Please_select_the_type_of__0__install, currentInstallation.MainName);
 
             Text1 = string.Format(Resources.SID_Select_the_type_of__0__install__Click_Next_to_continue_, currentInstallation.MainName);
-            InstTypes = new List<string>() { "Client", "Data Center", "RTU Manager" };
-            SelectedType = InstTypes[1];
+            InstTypes = new List<string>() { "RTU Manager", "Client", "Data Center" };
+            SelectedType = InstTypes[0];
         }
 
         public InstallationType GetSelectedType()

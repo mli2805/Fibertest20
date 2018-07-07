@@ -7,7 +7,7 @@
         xmlns:StringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:setup1="clr-namespace:Iit.Fibertest.Setup"
         mc:Ignorable="d"
-        Width="600" Height="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Width="620" Height="450" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance setup:ShellViewModel}">
     <DockPanel>
         <DockPanel DockPanel.Dock="Bottom" Margin="5,0,5,5">
