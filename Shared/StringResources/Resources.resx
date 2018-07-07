@@ -2003,4 +2003,85 @@ RTU is initializing right now!</value>
 	<data name="SID_Please_wait_while__0__is_being_installed" xml:space="preserve">
     <value>Please wait while {0} is being installed</value>
   </data>
+	<data name="SID_Installation_failed" xml:space="preserve">
+    <value>Installation failed</value>
+  </data>
+	<data name="SID__0__installation_failed_" xml:space="preserve">
+    <value>{0} installation failed.</value>
+  </data>
+	<data name="SID__0__will_be_uninstalled_from_the_following_folder__Click_Uninstall_to_start_the_uninstallation_" xml:space="preserve">
+    <value>{0} will be uninstalled from the following folder. Click Uninstall to start the uninstallation.</value>
+  </data>
+	<data name="SID_Full_uninstall__Will_be_deleted_all_user_data___ini__log__map__etc__" xml:space="preserve">
+    <value>Full uninstall (Will be deleted all user data - ini, log, map, etc.)</value>
+  </data>
+	<data name="SID_Uninstall__0_" xml:space="preserve">
+    <value>Uninstall {0}</value>
+  </data>
+	<data name="SID_Remove__0__from_your_computer" xml:space="preserve">
+    <value>Remove {0} from your computer</value>
+  </data>
+	<data name="SID_Uninstall_started___" xml:space="preserve">
+    <value>Uninstall started...</value>
+  </data>
+	<data name="SID_Shortcuts_deleted_" xml:space="preserve">
+    <value>Shortcuts deleted.</value>
+  </data>
+	<data name="SID_Registry_cleaned_" xml:space="preserve">
+    <value>Registry cleaned.</value>
+  </data>
+	<data name="SID_Uninstall_finished_" xml:space="preserve">
+    <value>Uninstall finished.</value>
+  </data>
+	<data name="SID_Deleting_files___" xml:space="preserve">
+    <value>Deleting files...</value>
+  </data>
+	<data name="SID_Cannot_delete_specified_folder_" xml:space="preserve">
+    <value>Cannot delete specified folder!</value>
+  </data>
+	<data name="SID_Files_are_deleted_successfully_" xml:space="preserve">
+    <value>Files are deleted successfully.</value>
+  </data>
+	<data name="SID_Uninstall" xml:space="preserve">
+    <value>Uninstall</value>
+  </data>
+	<data name="SID_Files_are_copied_successfully_" xml:space="preserve">
+    <value>Files are copied successfully.</value>
+  </data>
+	<data name="SID_Copy_files_error___0_" xml:space="preserve">
+    <value>Copy files error: {0}</value>
+  </data>
+	<data name="SID_Error__Source_folder__0__not_found_" xml:space="preserve">
+    <value>Error! Source folder {0} not found!</value>
+  </data>
+	<data name="SID_Save_in_Registry_problem_" xml:space="preserve">
+    <value>Save in Registry problem </value>
+  </data>
+	<data name="SID__0__service_is_being_installed___" xml:space="preserve">
+    <value>{0} service is being installed...</value>
+  </data>
+	<data name="SID_Cannot_install_service__0_" xml:space="preserve">
+    <value>Cannot install service {0}</value>
+  </data>
+	<data name="SID__0__service_installed_successfully" xml:space="preserve">
+    <value>{0} service installed successfully</value>
+  </data>
+	<data name="SID__0__service_is_being_uninstalled___" xml:space="preserve">
+    <value>{0} service is being uninstalled...</value>
+  </data>
+	<data name="SID_Cannot_uninstall_service__0_" xml:space="preserve">
+    <value>Cannot uninstall service {0}</value>
+  </data>
+	<data name="SID_Service__0__uninstalled_successfully_" xml:space="preserve">
+    <value>Service {0} uninstalled successfully.</value>
+  </data>
+	<data name="SID__0__service_is_being_stopped___" xml:space="preserve">
+    <value>{0} service is being stopped...</value>
+  </data>
+	<data name="SID_Cannot_stop_service__0_" xml:space="preserve">
+    <value>Cannot stop service {0}</value>
+  </data>
+	<data name="SID_Service__0__stopped_successfully_" xml:space="preserve">
+    <value>Service {0} stopped successfully.</value>
+  </data>
 </root>

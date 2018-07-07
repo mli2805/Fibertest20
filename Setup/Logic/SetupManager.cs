@@ -1,5 +1,6 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.Globalization;
+using System.Threading;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Setup
@@ -28,8 +29,11 @@ namespace Iit.Fibertest.Setup
             _setupUninstallOperations = setupUninstallOperations;
         }
 
-        public bool Run(BackgroundWorker worker)
+        public bool Run(BackgroundWorker worker, CultureInfo culture)
         {
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
+
             _logFile.AppendLine("Setup process started...");
             switch (_currentInstallation.InstallationType)
             {

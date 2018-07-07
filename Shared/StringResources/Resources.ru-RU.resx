@@ -2003,4 +2003,85 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Please_wait_while__0__is_being_installed" xml:space="preserve">
 		<value>Идет установка {0}, пожалуйста, подождите</value>
 	</data>
+	<data name="SID_Installation_failed" xml:space="preserve">
+		<value>Установка не удалась</value>
+	</data>
+	<data name="SID__0__installation_failed_" xml:space="preserve">
+		<value>Установка {0} не удалась</value>
+	</data>
+	<data name="SID_Full_uninstall__Will_be_deleted_all_user_data___ini__log__map__etc__" xml:space="preserve">
+		<value>Полное удаление (Будут удалены все пользовательские данные - ини, логи, карты и т.д.)</value>
+	</data>
+	<data name="SID_Uninstall__0_" xml:space="preserve">
+		<value>Удаление {0}</value>
+	</data>
+	<data name="SID_Remove__0__from_your_computer" xml:space="preserve">
+		<value>Удаление {0} с Вашего компьютера</value>
+	</data>
+	<data name="SID_Uninstall_started___" xml:space="preserve">
+		<value>Удаление программы...</value>
+	</data>
+	<data name="SID_Shortcuts_deleted_" xml:space="preserve">
+		<value>Ярлыки удалены.</value>
+	</data>
+	<data name="SID_Registry_cleaned_" xml:space="preserve">
+		<value>Реестр очищен.</value>
+	</data>
+	<data name="SID_Uninstall_finished_" xml:space="preserve">
+		<value>Удаление программы завершено.</value>
+	</data>
+	<data name="SID_Deleting_files___" xml:space="preserve">
+		<value>Удаляются файлы...</value>
+	</data>
+	<data name="SID_Cannot_delete_specified_folder_" xml:space="preserve">
+		<value>Не удается удалить данную папку!</value>
+	</data>
+	<data name="SID_Files_are_deleted_successfully_" xml:space="preserve">
+		<value>Файлы удалены успешно.</value>
+	</data>
+	<data name="SID_Uninstall" xml:space="preserve">
+		<value>Удалить</value>
+	</data>
+	<data name="SID__0__will_be_uninstalled_from_the_following_folder__Click_Uninstall_to_start_the_uninstallation_" xml:space="preserve">
+		<value>{0} будет удален из следующей папки. Нажмите Удалить, чтобы начать.</value>
+	</data>
+	<data name="SID_Files_are_copied_successfully_" xml:space="preserve">
+		<value>Файлы скопированы успешно</value>
+	</data>
+	<data name="SID_Copy_files_error___0_" xml:space="preserve">
+		<value>Ошибка копирования файлов: {0}</value>
+	</data>
+	<data name="SID_Error__Source_folder__0__not_found_" xml:space="preserve">
+		<value>Ошибка! Исходная папка {0} не найдена!</value>
+	</data>
+	<data name="SID_Save_in_Registry_problem_" xml:space="preserve">
+		<value>Ошибка сохранения в реестре</value>
+	</data>
+	<data name="SID__0__service_is_being_installed___" xml:space="preserve">
+		<value>Служба {0} устанавливается...</value>
+	</data>
+	<data name="SID_Cannot_install_service__0_" xml:space="preserve">
+		<value>Не удалось инсталлировать службу {0}</value>
+	</data>
+	<data name="SID__0__service_installed_successfully" xml:space="preserve">
+		<value>Служба {0} инсталлирована успешно</value>
+	</data>
+	<data name="SID__0__service_is_being_uninstalled___" xml:space="preserve">
+		<value>Служба {0} деинсталлируется...</value>
+	</data>
+	<data name="SID_Cannot_uninstall_service__0_" xml:space="preserve">
+		<value>Не удается деинсталлировать службу {0}</value>
+	</data>
+	<data name="SID_Service__0__uninstalled_successfully_" xml:space="preserve">
+		<value>Служба {0} деинсталлирована успешно</value>
+	</data>
+	<data name="SID__0__service_is_being_stopped___" xml:space="preserve">
+		<value>Служба {0} останавливается...</value>
+	</data>
+	<data name="SID_Cannot_stop_service__0_" xml:space="preserve">
+		<value>Не удается остановить службу {0}</value>
+	</data>
+	<data name="SID_Service__0__stopped_successfully_" xml:space="preserve">
+		<value>Служба {0} остановлена успешно.</value>
+	</data>
 </root>

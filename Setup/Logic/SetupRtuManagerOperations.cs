@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
 using System.Threading;
 using Iit.Fibertest.UtilsLib;
@@ -35,10 +34,12 @@ namespace Iit.Fibertest.Setup
                 return false;
 
             Thread.Sleep(1000);
+            worker.ReportProgress(0, "Files are copied...");
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDatacenter, fullRtuManagerPath, worker))
                 return false;
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, fullReflectPath, worker))
                 return false;
+            worker.ReportProgress(1, "");
 
             var filename = Path.Combine(fullRtuManagerPath, RtuServiceFilename);
             if (!ServiceOperations.InstallService(RtuManagerServiceName,

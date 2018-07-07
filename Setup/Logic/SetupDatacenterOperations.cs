@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
 using Iit.Fibertest.UtilsLib;
 
@@ -23,8 +22,10 @@ namespace Iit.Fibertest.Setup
             if (!ServiceOperations.UninstallServiceIfExist(DataCenterServiceName, DataCenterDisplayName, worker))
                 return false;
 
+            worker.ReportProgress(0, "Files are copied...");
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDataCenter, fullDataCenterPath, worker))
                 return false;
+            worker.ReportProgress(1, "");
 
             var filename = Path.Combine(fullDataCenterPath, ServiceFilename);
             if (!ServiceOperations.InstallService(DataCenterServiceName, 

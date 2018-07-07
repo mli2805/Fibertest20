@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
@@ -40,6 +41,17 @@ namespace Iit.Fibertest.Setup
 
         public string Text1 { get; set; }
 
+        public string CopiedFile
+        {
+            get { return _copiedFile; }
+            set
+            {
+                if (value == _copiedFile) return;
+                _copiedFile = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public ProcessProgressViewModel(CurrentInstallation currentInstallation, SetupManager setupManager)
         {
             _currentInstallation = currentInstallation;
@@ -51,6 +63,7 @@ namespace Iit.Fibertest.Setup
 
         private bool _setupResult;
         private bool _isDone;
+        private string _copiedFile;
 
         public void RunSetup()
         {
@@ -74,13 +87,16 @@ namespace Iit.Fibertest.Setup
         private void Bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             var st = (string) e.UserState;
-            ProgressLines.Add(st);
+            var d = e.ProgressPercentage;
+            if (d == 0)
+                ProgressLines.Add(st);
+            else CopiedFile = st;
         }
 
         private void Bw_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = sender as BackgroundWorker;
-            _setupResult = _setupManager.Run(worker);
+            _setupResult = _setupManager.Run(worker, CultureInfo.CurrentUICulture);
         }
 
         private void SaySuccess()
@@ -92,8 +108,8 @@ namespace Iit.Fibertest.Setup
       
         private void SayFail()
         {
-            HeaderViewModel.InBold = "Installation failed";
-            HeaderViewModel.Explanation = $"{_currentInstallation.MainName} installation failed.";
+            HeaderViewModel.InBold = Resources.SID_Installation_failed;
+            HeaderViewModel.Explanation = string.Format(Resources.SID__0__installation_failed_, _currentInstallation.MainName);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+using Iit.Fibertest.StringResources;
 using Microsoft.Win32;
 
 namespace Iit.Fibertest.UtilsLib
@@ -28,7 +29,7 @@ namespace Iit.Fibertest.UtilsLib
             }
             catch (Exception e)
             {
-                MessageBox.Show("Save in Registry problem " + e.Message);
+                MessageBox.Show(Resources.SID_Save_in_Registry_problem_ + e.Message);
             }
 
         }
@@ -42,7 +43,7 @@ namespace Iit.Fibertest.UtilsLib
             }
             catch (Exception e)
             {
-                MessageBox.Show("Save in Registry problem " + e.Message);
+                MessageBox.Show(Resources.SID_Save_in_Registry_problem_ + e.Message);
             }
         }
 

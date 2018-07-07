@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
 using Iit.Fibertest.UtilsLib;
 
@@ -22,6 +21,7 @@ namespace Iit.Fibertest.Setup
         public bool SetupClient(BackgroundWorker worker, string installationFolder)
         {
             worker.ReportProgress(0, "Client setup started.");
+            worker.ReportProgress(0, "Files are copied...");
 
             var fullClientPath = Path.Combine(installationFolder, ClientSubdir);
             _logFile.AppendLine($" full client path = {fullClientPath}");
@@ -32,7 +32,8 @@ namespace Iit.Fibertest.Setup
             _logFile.AppendLine($" full Reflect path = {fullReflectPath}");
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, fullReflectPath, worker))
                 return false;
-
+            
+            worker.ReportProgress(1, "");
             _logFile.AppendLine("Files are copied successfully");
 
             worker.ReportProgress(0, "Shortcuts are created...");

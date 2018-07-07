@@ -169,11 +169,66 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} installation failed..
+        /// </summary>
+        public static string SID__0__installation_failed_ {
+            get {
+                return ResourceManager.GetString("SID__0__installation_failed_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} installed on your PC already. Continue?.
         /// </summary>
         public static string SID__0__installed_on_your_PC_already__Continue_ {
             get {
                 return ResourceManager.GetString("SID__0__installed_on_your_PC_already__Continue_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} service installed successfully.
+        /// </summary>
+        public static string SID__0__service_installed_successfully {
+            get {
+                return ResourceManager.GetString("SID__0__service_installed_successfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} service is being installed....
+        /// </summary>
+        public static string SID__0__service_is_being_installed___ {
+            get {
+                return ResourceManager.GetString("SID__0__service_is_being_installed___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} service is being stopped....
+        /// </summary>
+        public static string SID__0__service_is_being_stopped___ {
+            get {
+                return ResourceManager.GetString("SID__0__service_is_being_stopped___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} service is being uninstalled....
+        /// </summary>
+        public static string SID__0__service_is_being_uninstalled___ {
+            get {
+                return ResourceManager.GetString("SID__0__service_is_being_uninstalled___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} will be uninstalled from the following folder. Click Uninstall to start the uninstallation..
+        /// </summary>
+        public static string SID__0__will_be_uninstalled_from_the_following_folder__Click_Uninstall_to_start_the_uninstallation_ {
+            get {
+                return ResourceManager.GetString("SID__0__will_be_uninstalled_from_the_following_folder__Click_Uninstall_to_start_t" +
+                        "he_uninstallation_", resourceCulture);
             }
         }
         
@@ -998,6 +1053,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot delete specified folder!.
+        /// </summary>
+        public static string SID_Cannot_delete_specified_folder_ {
+            get {
+                return ResourceManager.GetString("SID_Cannot_delete_specified_folder_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot deliver command to RTU {0}.
         /// </summary>
         public static string SID_Cannot_deliver_command_to_RTU__0_ {
@@ -1061,6 +1125,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot install service {0}.
+        /// </summary>
+        public static string SID_Cannot_install_service__0_ {
+            get {
+                return ResourceManager.GetString("SID_Cannot_install_service__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot send base ref to RTU.
         /// </summary>
         public static string SID_Cannot_send_base_ref_to_RTU {
@@ -1075,6 +1148,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Cannot_send_base_refs_to_RTU {
             get {
                 return ResourceManager.GetString("SID_Cannot_send_base_refs_to_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot stop service {0}.
+        /// </summary>
+        public static string SID_Cannot_stop_service__0_ {
+            get {
+                return ResourceManager.GetString("SID_Cannot_stop_service__0_", resourceCulture);
             }
         }
         
@@ -1102,6 +1184,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Cannot_turn_RTU_into_manual_mode {
             get {
                 return ResourceManager.GetString("SID_Cannot_turn_RTU_into_manual_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Cannot uninstall service {0}.
+        /// </summary>
+        public static string SID_Cannot_uninstall_service__0_ {
+            get {
+                return ResourceManager.GetString("SID_Cannot_uninstall_service__0_", resourceCulture);
             }
         }
         
@@ -1404,6 +1495,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy files error: {0}.
+        /// </summary>
+        public static string SID_Copy_files_error___0_ {
+            get {
+                return ResourceManager.GetString("SID_Copy_files_error___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Critical.
         /// </summary>
         public static string SID_Critical {
@@ -1526,6 +1626,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Degrees_is_required {
             get {
                 return ResourceManager.GetString("SID_Degrees_is_required", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deleting files....
+        /// </summary>
+        public static string SID_Deleting_files___ {
+            get {
+                return ResourceManager.GetString("SID_Deleting_files___", resourceCulture);
             }
         }
         
@@ -1814,6 +1923,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Error_ {
             get {
                 return ResourceManager.GetString("SID_Error_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Error! Source folder {0} not found!.
+        /// </summary>
+        public static string SID_Error__Source_folder__0__not_found_ {
+            get {
+                return ResourceManager.GetString("SID_Error__Source_folder__0__not_found_", resourceCulture);
             }
         }
         
@@ -2133,6 +2251,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Files are copied successfully..
+        /// </summary>
+        public static string SID_Files_are_copied_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Files_are_copied_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Files are deleted successfully..
+        /// </summary>
+        public static string SID_Files_are_deleted_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Files_are_deleted_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter.
         /// </summary>
         public static string SID_Filter {
@@ -2147,6 +2283,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_from_optical_port {
             get {
                 return ResourceManager.GetString("SID_from_optical_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Full uninstall (Will be deleted all user data - ini, log, map, etc.).
+        /// </summary>
+        public static string SID_Full_uninstall__Will_be_deleted_all_user_data___ini__log__map__etc__ {
+            get {
+                return ResourceManager.GetString("SID_Full_uninstall__Will_be_deleted_all_user_data___ini__log__map__etc__", resourceCulture);
             }
         }
         
@@ -2381,6 +2526,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Installation_Complete {
             get {
                 return ResourceManager.GetString("SID_Installation_Complete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Installation failed.
+        /// </summary>
+        public static string SID_Installation_failed {
+            get {
+                return ResourceManager.GetString("SID_Installation_failed", resourceCulture);
             }
         }
         
@@ -3997,11 +4151,29 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Registry cleaned..
+        /// </summary>
+        public static string SID_Registry_cleaned_ {
+            get {
+                return ResourceManager.GetString("SID_Registry_cleaned_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remove.
         /// </summary>
         public static string SID_Remove {
             get {
                 return ResourceManager.GetString("SID_Remove", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove {0} from your computer.
+        /// </summary>
+        public static string SID_Remove__0__from_your_computer {
+            get {
+                return ResourceManager.GetString("SID_Remove__0__from_your_computer", resourceCulture);
             }
         }
         
@@ -4366,6 +4538,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save in Registry problem .
+        /// </summary>
+        public static string SID_Save_in_Registry_problem_ {
+            get {
+                return ResourceManager.GetString("SID_Save_in_Registry_problem_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save ref + base as.
         /// </summary>
         public static string SID_Save_ref_and_base_as {
@@ -4583,6 +4764,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Service {0} stopped successfully..
+        /// </summary>
+        public static string SID_Service__0__stopped_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Service__0__stopped_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Service {0} uninstalled successfully..
+        /// </summary>
+        public static string SID_Service__0__uninstalled_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Service__0__uninstalled_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Service is started, but device is not initialized..
         /// </summary>
         public static string SID_Service_alive {
@@ -4642,6 +4841,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Setup_will_install__0__in_ {
             get {
                 return ResourceManager.GetString("SID_Setup_will_install__0__in_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shortcuts deleted..
+        /// </summary>
+        public static string SID_Shortcuts_deleted_ {
+            get {
+                return ResourceManager.GetString("SID_Shortcuts_deleted_", resourceCulture);
             }
         }
         
@@ -5407,6 +5615,42 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_unexpected_input {
             get {
                 return ResourceManager.GetString("SID_unexpected_input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall.
+        /// </summary>
+        public static string SID_Uninstall {
+            get {
+                return ResourceManager.GetString("SID_Uninstall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall {0}.
+        /// </summary>
+        public static string SID_Uninstall__0_ {
+            get {
+                return ResourceManager.GetString("SID_Uninstall__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall finished..
+        /// </summary>
+        public static string SID_Uninstall_finished_ {
+            get {
+                return ResourceManager.GetString("SID_Uninstall_finished_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall started....
+        /// </summary>
+        public static string SID_Uninstall_started___ {
+            get {
+                return ResourceManager.GetString("SID_Uninstall_started___", resourceCulture);
             }
         }
         

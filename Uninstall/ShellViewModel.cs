@@ -3,7 +3,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Uninstall;
+using Iit.Fibertest.UtilsLib;
 
 namespace Uninstall
 {
@@ -57,14 +59,19 @@ namespace Uninstall
         public ShellViewModel()
         {
             HeaderViewModel = new HeaderViewModel();
-            HeaderViewModel.InBold = $"Uninstall {MainName}";
-            HeaderViewModel.Explanation = $"Remove {MainName} from your computer";
+            HeaderViewModel.InBold = string.Format(Resources.SID_Uninstall__0_, MainName);
+            HeaderViewModel.Explanation = string.Format(Resources.SID_Remove__0__from_your_computer, MainName);
 
             UnInstallFolderViewModel = new UnInstallFolderViewModel() { Visibility = Visibility.Visible };
             ProcessProgressViewModel = new ProcessProgressViewModel() { Visibility = Visibility.Collapsed };
             LastButtonContent = "Cancel";
             IsButtonUninstallEnabled = true;
             IsButtonCancelEnabled = true;
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            DisplayName = string.Format(Resources.SID_Uninstall__0_, MainName);
         }
 
         public void Uninstall()
@@ -74,12 +81,16 @@ namespace Uninstall
             UnInstallFolderViewModel.Visibility = Visibility.Collapsed;
             ProcessProgressViewModel.Visibility = Visibility.Visible;
 
+            ProcessProgressViewModel.PropertyChanged += ProcessProgressViewModel_PropertyChanged;
             ProcessProgressViewModel.RunUninstall(
                 UnInstallFolderViewModel.InstallationFolder, UnInstallFolderViewModel.IsFullUninstall);
+        }
 
-            LastButtonContent = "Close";
-            _isFibertestUninstalled = true;
+        private void ProcessProgressViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            LastButtonContent = Resources.SID_Close;
             IsButtonCancelEnabled = true;
+            _isFibertestUninstalled = ProcessProgressViewModel.IsUninstallSuccessful;
         }
 
         public void LastButton()
@@ -87,7 +98,7 @@ namespace Uninstall
             if (_isFibertestUninstalled)
             {
                 Process.Start("cmd.exe", "/C ping 1.1.1.1 -n 3 -w 20 > Nul & RmDir /S /Q " +
-                                         AppDomain.CurrentDomain.BaseDirectory + "");
+                                         FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory) + "");
                 Application.Current.Shutdown();
             }
             TryClose();

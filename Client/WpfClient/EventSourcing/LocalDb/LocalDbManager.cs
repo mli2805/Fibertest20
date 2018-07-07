@@ -40,16 +40,10 @@ namespace Iit.Fibertest.Client
             var appPath = AppDomain.CurrentDomain.BaseDirectory;
             _logFile.AppendLine($@"Application path: {appPath}");
 
-            return GetParentFolder(appPath) + 
+            return FileOperations.GetParentFolder(appPath) + 
                    $@"\Cache\GraphDb\{_serverAddress}\{graphDbVersionOnServer.ToString()}.sqlite3";
         }
-
-        private static string GetParentFolder(string path)
-        {
-            var index = path.Substring(0, path.Length - 1).LastIndexOf(@"\", StringComparison.CurrentCulture);
-            return path.Substring(0, index);
-        }
-
+        
         public async Task SaveEvents(string[] jsons)
         {
             try

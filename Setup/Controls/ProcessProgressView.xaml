@@ -9,6 +9,7 @@
     <DockPanel>
         <setup:HeaderView DockPanel.Dock="Top" DataContext="{Binding HeaderViewModel}"/>
         <TextBlock DockPanel.Dock="Bottom" Margin="15,5" TextWrapping="Wrap" Text="{Binding Text1}"/>
+        <TextBlock DockPanel.Dock="Bottom" Margin="15,5" TextWrapping="Wrap" Text="{Binding CopiedFile}"/>
         <Border>
             <ListView Margin="5" ItemsSource="{Binding ProgressLines}" >
                 <i:Interaction.Behaviors>

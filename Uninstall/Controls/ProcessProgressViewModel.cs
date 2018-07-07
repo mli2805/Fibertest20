@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.Windows;
 using Caliburn.Micro;
 
@@ -20,11 +21,25 @@ namespace Iit.Fibertest.Uninstall
             }
         }
 
+        public bool IsDone
+        {
+            get { return _isDone; }
+            set
+            {
+                if (value == _isDone) return;
+                _isDone = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public ObservableCollection<string> ProgressLines { get; set; } = new ObservableCollection<string>();
 
 
         private string _fibertestFolder;
         private bool _isFullUninstall;
+        public bool IsUninstallSuccessful { get; set; }
+        private bool _isDone;
+
         public void RunUninstall(string fibertestFolder, bool isFullUninstall)
         {
             _fibertestFolder = fibertestFolder;
@@ -41,7 +56,7 @@ namespace Iit.Fibertest.Uninstall
 
         private void Bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-           
+            IsDone = true;
         }
 
         private void Bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
@@ -53,7 +68,7 @@ namespace Iit.Fibertest.Uninstall
         private void Bw_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = sender as BackgroundWorker;
-            new UninstallOperations().Do(worker, _fibertestFolder, _isFullUninstall);
+            IsUninstallSuccessful = new UninstallOperations().Do(worker, _fibertestFolder, _isFullUninstall, CultureInfo.CurrentCulture);
         }
 
     }

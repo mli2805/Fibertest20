@@ -16,7 +16,7 @@
            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="15,5,5,5" Name="LastButton" 
                    Content="{Binding LastButtonContent}" IsEnabled="{Binding IsButtonCancelEnabled}"/>
             <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5,0,0,0" Name="Uninstall" 
-                   Content="Uninstall" IsEnabled="{Binding IsButtonUninstallEnabled}"/>
+                   Content="{x:Static StringResources:Resources.SID_Uninstall}" IsEnabled="{Binding IsButtonUninstallEnabled}"/>
            <StackPanel/>
        </DockPanel>
         <GroupBox Header="{x:Static StringResources:Resources.SID_Institute_of_Information_Technologies}" Foreground="LightGray" Margin="10,0"

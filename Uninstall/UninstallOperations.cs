@@ -1,9 +1,10 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Uninstall
@@ -19,20 +20,24 @@ namespace Iit.Fibertest.Uninstall
         private const string RtuWatchdogServiceName = "FibertestRtuWatchdog";
         private const string RtuWatchdogDisplayName = "Fibertest 2.0 RTU Watchdog";
 
-        public void Do(BackgroundWorker worker, string fibertestFolder, bool isFullUninstall)
+        public bool Do(BackgroundWorker worker, string fibertestFolder, bool isFullUninstall, CultureInfo culture)
         {
-            worker.ReportProgress(0, "Uninstall started...");
+            Thread.CurrentThread.CurrentCulture = culture;
+            Thread.CurrentThread.CurrentUICulture = culture;
 
-            if (!UninstallServices(worker)) return;
+            worker.ReportProgress(0, Resources.SID_Uninstall_started___);
 
-            if (!DeleteFiles(worker, fibertestFolder, isFullUninstall)) return;
+            if (!UninstallServices(worker)) return false;
+
+            if (!DeleteFiles(worker, fibertestFolder, isFullUninstall)) return false;
             ShortcutOperatios.DeleteAllShortcuts();
-            worker.ReportProgress(0, "Shortcuts deleted.");
+            worker.ReportProgress(0, Resources.SID_Shortcuts_deleted_);
 
             RegistryOperations.RemoveFibertestBranch();
-            worker.ReportProgress(0, "Registry cleaned.");
+            worker.ReportProgress(0, Resources.SID_Registry_cleaned_);
 
-            worker.ReportProgress(0, "Uninstall finished.");
+            worker.ReportProgress(0, Resources.SID_Uninstall_finished_);
+            return true;
         }
 
         private bool UninstallServices(BackgroundWorker worker)
@@ -48,7 +53,7 @@ namespace Iit.Fibertest.Uninstall
 
         private bool DeleteFiles(BackgroundWorker worker, string fibertestFolder, bool isFullUninstall)
         {
-            worker.ReportProgress(0, "Deleting files...");
+            worker.ReportProgress(0, Resources.SID_Deleting_files___);
             try
             {
                 if (isFullUninstall)
@@ -88,13 +93,13 @@ namespace Iit.Fibertest.Uninstall
             }
             catch (Exception e)
             {
-                worker.ReportProgress(0, "Cannot delete specified folder!");
+                worker.ReportProgress(0, Resources.SID_Cannot_delete_specified_folder_);
                 worker.ReportProgress(0, e.Message);
-                MessageBox.Show("Cannot delete specified folder!", "Error!", MessageBoxButton.OK);
+                MessageBox.Show(Resources.SID_Cannot_delete_specified_folder_, Resources.SID_Error_, MessageBoxButton.OK);
                 return false;
             }
 
-            worker.ReportProgress(0, "Files are deleted successfully.");
+            worker.ReportProgress(0, Resources.SID_Files_are_deleted_successfully_);
             return true;
         }
 

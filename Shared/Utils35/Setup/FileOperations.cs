@@ -1,25 +1,35 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.UtilsLib
 {
     public static class FileOperations
     {
-      
+        public static string GetParentFolder(string path)
+        {
+            var index = path.Substring(0, path.Length - 1).LastIndexOf(@"\", StringComparison.CurrentCulture);
+            return path.Substring(0, index);
+        }
 
         public static bool DirectoryCopyWithDecorations(string sourceDirName, string destDirName,
             BackgroundWorker worker)
         {
-            worker.ReportProgress(0, "Files are copied...");
-
             var currentDomain = AppDomain.CurrentDomain.BaseDirectory;
             var fullSourcePath = Path.Combine(currentDomain, sourceDirName);
-            var result = DirectoryCopyRecursively(fullSourcePath, destDirName, worker);
-            if (result)
-                worker.ReportProgress(0, "Files are copied successfully.");
-            return result;
+            try
+            {
+                var result = DirectoryCopyRecursively(fullSourcePath, destDirName, worker);
+                if (result)
+                    worker.ReportProgress(0, Resources.SID_Files_are_copied_successfully_);
+                return result;
+            }
+            catch (Exception e)
+            {
+                worker.ReportProgress(0, string.Format(Resources.SID_Copy_files_error___0_, e.Message));
+                return false;
+            }
         }
 
         private static bool DirectoryCopyRecursively(string sourceDirName, string destDirName, BackgroundWorker worker)
@@ -28,7 +38,7 @@ namespace Iit.Fibertest.UtilsLib
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
             if (!dir.Exists)
             {
-                worker.ReportProgress(0, $"Error! Source folder {sourceDirName} not found!");
+                worker.ReportProgress(0, string.Format(Resources.SID_Error__Source_folder__0__not_found_, sourceDirName));
                 return false;
             }
 
@@ -42,7 +52,7 @@ namespace Iit.Fibertest.UtilsLib
             {
                 string temppath = Path.Combine(destDirName, file.Name);
                 var ss = file.CopyTo(temppath, true);
-                worker.ReportProgress(0, ss.Name);
+                worker.ReportProgress(1, ss.Name);
             }
 
             DirectoryInfo[] dirs = dir.GetDirectories();
