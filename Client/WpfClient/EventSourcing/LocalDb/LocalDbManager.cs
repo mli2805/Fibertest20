@@ -28,15 +28,26 @@ namespace Iit.Fibertest.Client
             var serverDoubleAddress = _iniFile.ReadDoubleAddress(11840);
             _serverAddress = serverDoubleAddress.Main.GetAddress();
 
+            _filename = GetFullDbFilename(graphDbVersionOnServer);
+            _logFile.AppendLine($@"Db full filename: {_filename}");
+
+            _connectionString = $@"Data Source={_filename}; Version=3;";
+            _logFile.AppendLine($@"Connection string: <<{_connectionString}>>");
+        }
+
+        private string GetFullDbFilename(Guid graphDbVersionOnServer)
+        {
             var appPath = AppDomain.CurrentDomain.BaseDirectory;
-            _logFile.AppendLine($@"Application path {appPath}");
+            _logFile.AppendLine($@"Application path: {appPath}");
 
-            _filename = $@"..\Cache\GraphDb\{_serverAddress}\{graphDbVersionOnServer.ToString()}.sqlite3";
+            return GetParentFolder(appPath) + 
+                   $@"\Cache\GraphDb\{_serverAddress}\{graphDbVersionOnServer.ToString()}.sqlite3";
+        }
 
-            var dbFullFilename = Path.Combine(appPath, _filename);
-            _logFile.AppendLine($@"Db full filename {dbFullFilename}");
-
-            _connectionString = $@"Data Source={dbFullFilename}; Version=3;";
+        private static string GetParentFolder(string path)
+        {
+            var index = path.Substring(0, path.Length - 1).LastIndexOf(@"\", StringComparison.CurrentCulture);
+            return path.Substring(0, index);
         }
 
         public async Task SaveEvents(string[] jsons)
@@ -75,11 +86,10 @@ namespace Iit.Fibertest.Client
                         return dataContext.EsEvents.Select(j => j.Json).ToArray();
                     }
                 });
-
             }
             catch (Exception e)
             {
-                _logFile.AppendLine($@"SaveEvents : {e.Message}");
+                _logFile.AppendLine($@"LoadEvents : {e.Message}");
                 return new string[0];
             }
         }
@@ -102,14 +112,14 @@ namespace Iit.Fibertest.Client
                 try
                 {
                     conn.Open();
-                    string sql = @"CREATE TABLE EsEvents (Id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, Json TEXT)";
+                    const string sql = @"CREATE TABLE EsEvents (Id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, Json TEXT)";
 
                     SQLiteCommand command = new SQLiteCommand(sql, conn);
                     command.ExecuteNonQuery();
                 }
                 catch (SQLiteException ex)
                 {
-                    _logFile.AppendLine($@"{ex.Message}");
+                    _logFile.AppendLine($@"InitializeLocalBase: {ex.Message}");
                 }
 
                 if (conn.State == ConnectionState.Open)
