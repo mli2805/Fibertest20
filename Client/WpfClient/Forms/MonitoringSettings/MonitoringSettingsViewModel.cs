@@ -32,10 +32,13 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             }
         }
 
-        public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, ILifetimeScope globalScope, Model readModel, 
+        public bool IsEditEnabled { get; set; }
+        
+        public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, ILifetimeScope globalScope, CurrentUser currentUser, Model readModel, 
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, MonitoringSettingsModelFactory monitoringSettingsModelFactory)
         {
             _globalScope = globalScope;
+            IsEditEnabled = currentUser.Role <= Role.Operator;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;

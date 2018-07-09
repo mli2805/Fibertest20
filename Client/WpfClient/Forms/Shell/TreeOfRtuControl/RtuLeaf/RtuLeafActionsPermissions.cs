@@ -15,17 +15,11 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
         }
 
-        public bool CanUpdateRtu(object param)
-        {
-            return _currentUser.Role <= Role.Root;
-        }
+        public bool CanShowRtuInfoView(object param) { return true; }
 
         public bool CanHighlightRtu(object param) { return true; }
 
-        public bool CanInitializeRtu(object param)
-        {
-            return _currentUser.Role <= Role.Root && param is RtuLeaf;
-        }
+        public bool CanInitializeRtu(object param) { return param is RtuLeaf; }
 
         public bool CanShowRtuState(object param)
         {

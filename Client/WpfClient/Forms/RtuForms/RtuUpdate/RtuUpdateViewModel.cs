@@ -6,6 +6,7 @@ using Autofac;
 using AutoMapper;
 using Caliburn.Micro;
 using GMap.NET;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Requests;
 using Iit.Fibertest.StringResources;
@@ -61,13 +62,16 @@ namespace Iit.Fibertest.Client
             }
         }
         public GpsInputViewModel GpsInputViewModel { get; set; }
+        public bool IsEditEnabled { get; set; }
 
-        public RtuUpdateViewModel(ILifetimeScope globalScope, Model readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+
+        public RtuUpdateViewModel(ILifetimeScope globalScope, CurrentUser currentUser, Model readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
+            IsEditEnabled = currentUser.Role <= Role.Root;
         }
 
         public void Initialize(Guid rtuId)
@@ -77,7 +81,7 @@ namespace Iit.Fibertest.Client
 
             var node = _readModel.Nodes.First(n => n.NodeId == _originalRtu.NodeId);
             GpsInputViewModel = _globalScope.Resolve<GpsInputViewModel>();
-            GpsInputViewModel.Initialize(node.Position);
+            GpsInputViewModel.Initialize(node.Position, IsEditEnabled);
 
             Title = _originalRtu.Title;
             Comment = _originalRtu.Comment;
@@ -92,7 +96,7 @@ namespace Iit.Fibertest.Client
             _originalRtu = new Rtu() { Id = RtuId, NodeId = nodeId };
 
             GpsInputViewModel = _globalScope.Resolve<GpsInputViewModel>();
-            GpsInputViewModel.Initialize(_originalNode.Position);
+            GpsInputViewModel.Initialize(_originalNode.Position, IsEditEnabled);
         }
 
         protected override void OnViewLoaded(object view)
@@ -155,7 +159,7 @@ namespace Iit.Fibertest.Client
                             errorMessage = Resources.SID_Title_is_required;
                         if (_readModel.Rtus.Any(n => n.Title == Title && n.Id != _originalRtu.Id))
                             errorMessage = Resources.SID_There_is_a_rtu_with_the_same_title;
-                        IsButtonSaveEnabled = errorMessage == string.Empty;
+                        IsButtonSaveEnabled = IsEditEnabled && errorMessage == string.Empty;
                         break;
                 }
                 return errorMessage;

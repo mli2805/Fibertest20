@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Client
             _landmarksViewsManager = landmarksViewsManager;
         }
 
-        public void UpdateRtu(object param)
+        public void ShowRtuInfoView(object param)
         {
             if (!(param is RtuLeaf rtuLeaf))
                 return;

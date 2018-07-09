@@ -41,6 +41,8 @@ namespace Iit.Fibertest.Client
             OneCoorViewModelLongitude.ReassignValue(Coors.Lng);
         }
 
+        public bool IsEditEnabled { get; set; }
+
         public GpsInputViewModel(CurrentGpsInputMode currentGpsInputMode)
         {
             _currentGpsInputMode = currentGpsInputMode;
@@ -50,13 +52,15 @@ namespace Iit.Fibertest.Client
                 : new GpsInputModeComboItem(GpsInputMode.Degrees);
         }
 
-        public void Initialize(PointLatLng coors)
+        public void Initialize(PointLatLng coors, bool isEditEnabled)
         {
             Coors = coors;
 
             OneCoorViewModelLatitude = new OneCoorViewModel(SelectedGpsInputModeComboItem.Mode, Coors.Lat);
             OneCoorViewModelLongitude = new OneCoorViewModel(SelectedGpsInputModeComboItem.Mode, Coors.Lng);
             SelectedGpsInputModeComboItem = GpsInputModes.FirstOrDefault(i=>i.Mode == _modeInIniFile);
+
+            IsEditEnabled = isEditEnabled;
         }
 
         public PointLatLng Get()

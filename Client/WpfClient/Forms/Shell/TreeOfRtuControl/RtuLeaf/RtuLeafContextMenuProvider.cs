@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Information,
-                Command = new ContextMenuAction(_rtuLeafActions.UpdateRtu, _rtuLeafActionsPermissions.CanUpdateRtu),
+                Command = new ContextMenuAction(_rtuLeafActions.ShowRtuInfoView, _rtuLeafActionsPermissions.CanShowRtuInfoView),
                 CommandParameter = rtuLeaf
             });
 

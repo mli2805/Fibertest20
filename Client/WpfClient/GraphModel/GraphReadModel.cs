@@ -87,6 +87,7 @@ namespace Iit.Fibertest.Client
         public void PlaceRtuIntoScreenCenter(Guid rtuId)
         {
             var rtu = ReadModel.Rtus.First(r => r.Id == rtuId);
+
             var nodeVm = Data.Nodes.First(n => n.Id == rtu.NodeId);
             nodeVm.IsHighlighted = true;
             MainMap.Position = nodeVm.Position;

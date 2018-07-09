@@ -42,11 +42,13 @@ namespace Iit.Fibertest.Client
             ? OriginalRtu.MainChannel.Ip4Address
             : OriginalRtu.OtdrNetAddress.Ip4Address;
 
+        public bool IsEditEnabled { get; set; }
 
-        public RtuInitializeViewModel(ILifetimeScope globalScope, Model readModel, IWindowManager windowManager,
+        public RtuInitializeViewModel(ILifetimeScope globalScope, CurrentUser currentUser, Model readModel, IWindowManager windowManager,
             IWcfServiceForClient c2DWcfManager, IMyLog logFile, RtuLeaf rtuLeaf, CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
+            IsEditEnabled = currentUser.Role <= Role.Root;
             _readModel = readModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
