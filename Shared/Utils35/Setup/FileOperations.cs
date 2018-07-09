@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
-using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.UtilsLib
 {
@@ -20,14 +19,11 @@ namespace Iit.Fibertest.UtilsLib
             var fullSourcePath = Path.Combine(currentDomain, sourceDirName);
             try
             {
-                var result = DirectoryCopyRecursively(fullSourcePath, destDirName, worker);
-                if (result)
-                    worker.ReportProgress(0, Resources.SID_Files_are_copied_successfully_);
-                return result;
+                return DirectoryCopyRecursively(fullSourcePath, destDirName, worker);
             }
             catch (Exception e)
             {
-                worker.ReportProgress(0, string.Format(Resources.SID_Copy_files_error___0_, e.Message));
+                worker.ReportProgress((int)BwReturnProgressCode.CopyFilesError, e.Message);
                 return false;
             }
         }
@@ -38,7 +34,7 @@ namespace Iit.Fibertest.UtilsLib
             DirectoryInfo dir = new DirectoryInfo(sourceDirName);
             if (!dir.Exists)
             {
-                worker.ReportProgress(0, string.Format(Resources.SID_Error__Source_folder__0__not_found_, sourceDirName));
+                worker.ReportProgress((int)BwReturnProgressCode.ErrorSourceFolderNotFound, sourceDirName);
                 return false;
             }
 

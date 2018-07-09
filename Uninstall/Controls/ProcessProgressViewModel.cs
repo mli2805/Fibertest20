@@ -1,8 +1,8 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
 using System.Windows;
 using Caliburn.Micro;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Uninstall
 {
@@ -61,14 +61,16 @@ namespace Iit.Fibertest.Uninstall
 
         private void Bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            var code = e.ProgressPercentage;
             var st = (string)e.UserState;
-            ProgressLines.Add(st);
+            if (code >= 10)
+                ProgressLines.Add(((BwReturnProgressCode)code).GetLocalizedString(st));
         }
 
         private void Bw_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = sender as BackgroundWorker;
-            IsUninstallSuccessful = new UninstallOperations().Do(worker, _fibertestFolder, _isFullUninstall, CultureInfo.CurrentCulture);
+            IsUninstallSuccessful = new UninstallOperations().Do(worker, _fibertestFolder, _isFullUninstall);
         }
 
     }

@@ -1323,6 +1323,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Client setup completed successfully..
+        /// </summary>
+        public static string SID_Client_setup_completed_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Client_setup_completed_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Client setup started..
+        /// </summary>
+        public static string SID_Client_setup_started_ {
+            get {
+                return ResourceManager.GetString("SID_Client_setup_started_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client started.
         /// </summary>
         public static string SID_Client_started {
@@ -1554,6 +1572,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Dark_OF {
             get {
                 return ResourceManager.GetString("SID_Dark_OF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data Center setup completed successfully..
+        /// </summary>
+        public static string SID_Data_Center_setup_completed_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Data_Center_setup_completed_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data Center setup started..
+        /// </summary>
+        public static string SID_Data_Center_setup_started_ {
+            get {
+                return ResourceManager.GetString("SID_Data_Center_setup_started_", resourceCulture);
             }
         }
         
@@ -2247,6 +2283,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_File_read_error__0__1_ {
             get {
                 return ResourceManager.GetString("SID_File_read_error__0__1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Files are copied....
+        /// </summary>
+        public static string SID_Files_are_copied___ {
+            get {
+                return ResourceManager.GetString("SID_Files_are_copied___", resourceCulture);
             }
         }
         
@@ -4484,6 +4529,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU Manager setup completed successfully..
+        /// </summary>
+        public static string SID_RTU_Manager_setup_completed_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_RTU_Manager_setup_completed_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU Manager setup started..
+        /// </summary>
+        public static string SID_RTU_Manager_setup_started_ {
+            get {
+                return ResourceManager.GetString("SID_RTU_Manager_setup_started_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU Manager software version.
         /// </summary>
         public static string SID_RTU_Manager_software_version {
@@ -4841,6 +4904,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Setup_will_install__0__in_ {
             get {
                 return ResourceManager.GetString("SID_Setup_will_install__0__in_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Shortcuts are created successfully..
+        /// </summary>
+        public static string SID_Shortcuts_are_created_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Shortcuts_are_created_successfully_", resourceCulture);
             }
         }
         
@@ -5642,6 +5714,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Uninstall_finished_ {
             get {
                 return ResourceManager.GetString("SID_Uninstall_finished_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall setup completed successfully..
+        /// </summary>
+        public static string SID_Uninstall_setup_completed_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Uninstall_setup_completed_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstall setup started..
+        /// </summary>
+        public static string SID_Uninstall_setup_started_ {
+            get {
+                return ResourceManager.GetString("SID_Uninstall_setup_started_", resourceCulture);
             }
         }
         

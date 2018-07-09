@@ -8,8 +8,13 @@
              mc:Ignorable="d" d:DataContext="{d:DesignInstance setup:ProcessProgressViewModel}">
     <DockPanel>
         <setup:HeaderView DockPanel.Dock="Top" DataContext="{Binding HeaderViewModel}"/>
-        <TextBlock DockPanel.Dock="Bottom" Margin="15,5" TextWrapping="Wrap" Text="{Binding Text1}"/>
-        <TextBlock DockPanel.Dock="Bottom" Margin="15,5" TextWrapping="Wrap" Text="{Binding CopiedFile}"/>
+        <Border DockPanel.Dock="Bottom" Height="40">
+            <ListView Margin="5" ItemsSource="{Binding FileLines}" >
+                <i:Interaction.Behaviors>
+                    <setup:ScrollToBottomOnAddBehavior/>
+                </i:Interaction.Behaviors>
+            </ListView>
+        </Border>  
         <Border>
             <ListView Margin="5" ItemsSource="{Binding ProgressLines}" >
                 <i:Interaction.Behaviors>

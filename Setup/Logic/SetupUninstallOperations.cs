@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Setup
 
         public void SetupUninstall(BackgroundWorker worker, string installationFolder)
         {
-            worker.ReportProgress(0, "Uninstall setup started.");
+            worker.ReportProgress((int)BwReturnProgressCode.UninstallSetupStarted);
 
             var fullUninstallPath = Path.Combine(installationFolder, UninstallSubdir);
             _logFile.AppendLine($" full uninstall path = {fullUninstallPath}");
@@ -26,11 +26,8 @@ namespace Iit.Fibertest.Setup
 
             _logFile.AppendLine("Files are copied successfully");
 
-            worker.ReportProgress(0, "Shortcuts are created...");
-            ShortcutOperatios.CreateUninstallShortcut(fullUninstallPath, worker);
-            worker.ReportProgress(0, "Shortcuts are created successfully.");
-
-            worker.ReportProgress(0, "Uninstall setup completed successfully.");
+            ShortcutOperatios.CreateUninstallShortcut(fullUninstallPath);
+            worker.ReportProgress((int)BwReturnProgressCode.UninstallSetupCompletedSuccessfully);
         }
 
     }

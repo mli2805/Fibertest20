@@ -18,20 +18,20 @@ namespace Iit.Fibertest.Setup
         {
             var fullDataCenterPath = Path.Combine(installationFolder, DataCenterSubdir);
 
-            worker.ReportProgress(0, "Data Center setup started.");
+            worker.ReportProgress((int)BwReturnProgressCode.DataCenterSetupStarted);
             if (!ServiceOperations.UninstallServiceIfExist(DataCenterServiceName, DataCenterDisplayName, worker))
                 return false;
 
-            worker.ReportProgress(0, "Files are copied...");
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDataCenter, fullDataCenterPath, worker))
                 return false;
-            worker.ReportProgress(1, "");
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
 
             var filename = Path.Combine(fullDataCenterPath, ServiceFilename);
             if (!ServiceOperations.InstallService(DataCenterServiceName, 
                 DataCenterDisplayName, DataCenterServiceDescription, filename, worker)) return false;
 
-            worker.ReportProgress(0, "Data Center setup completed successfully.");
+            worker.ReportProgress((int)BwReturnProgressCode.DataCenterSetupCompletedSuccessfully);
             return true;
         }
     }

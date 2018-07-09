@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Globalization;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Setup
 {
@@ -38,19 +38,7 @@ namespace Iit.Fibertest.Setup
         public HeaderViewModel HeaderViewModel { get; set; } = new HeaderViewModel();
 
         public ObservableCollection<string> ProgressLines { get; set; } = new ObservableCollection<string>();
-
-        public string Text1 { get; set; }
-
-        public string CopiedFile
-        {
-            get { return _copiedFile; }
-            set
-            {
-                if (value == _copiedFile) return;
-                _copiedFile = value;
-                NotifyOfPropertyChange();
-            }
-        }
+        public ObservableCollection<string> FileLines { get; set; } = new ObservableCollection<string>();
 
         public ProcessProgressViewModel(CurrentInstallation currentInstallation, SetupManager setupManager)
         {
@@ -63,7 +51,6 @@ namespace Iit.Fibertest.Setup
 
         private bool _setupResult;
         private bool _isDone;
-        private string _copiedFile;
 
         public void RunSetup()
         {
@@ -86,17 +73,17 @@ namespace Iit.Fibertest.Setup
 
         private void Bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            var code = e.ProgressPercentage;
             var st = (string) e.UserState;
-            var d = e.ProgressPercentage;
-            if (d == 0)
-                ProgressLines.Add(st);
-            else CopiedFile = st;
+            if (code >= 10)
+                ProgressLines.Add(((BwReturnProgressCode)code).GetLocalizedString(st));
+            else FileLines.Add(st);
         }
 
         private void Bw_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = sender as BackgroundWorker;
-            _setupResult = _setupManager.Run(worker, CultureInfo.CurrentUICulture);
+            _setupResult = _setupManager.Run(worker);
         }
 
         private void SaySuccess()

@@ -26,7 +26,7 @@ namespace Iit.Fibertest.Setup
         {
             var fullRtuManagerPath = Path.Combine(installationFolder, RtuManagerSubdir);
             var fullReflectPath = Path.Combine(installationFolder, ReflectSubdir);
-            worker.ReportProgress(0, "RTU Manager setup started.");
+            worker.ReportProgress((int)BwReturnProgressCode.RtuManagerSetupStarted);
 
             if (!ServiceOperations.UninstallServiceIfExist(RtuWatchdogServiceName, RtuWatchdogDisplayName, worker))
                 return false;
@@ -34,12 +34,12 @@ namespace Iit.Fibertest.Setup
                 return false;
 
             Thread.Sleep(1000);
-            worker.ReportProgress(0, "Files are copied...");
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDatacenter, fullRtuManagerPath, worker))
                 return false;
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, fullReflectPath, worker))
                 return false;
-            worker.ReportProgress(1, "");
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
 
             var filename = Path.Combine(fullRtuManagerPath, RtuServiceFilename);
             if (!ServiceOperations.InstallService(RtuManagerServiceName,
@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Setup
             if (!ServiceOperations.InstallService(RtuWatchdogServiceName,
                 RtuWatchdogDisplayName, RtuWatchdogServiceDescription, filename, worker)) return false;
 
-            worker.ReportProgress(0, "RTU Manager setup completed successfully.");
+            worker.ReportProgress((int)BwReturnProgressCode.RtuManagerSetupCompletedSuccessfully);
             return true;
         }
     }

@@ -99,6 +99,7 @@
     <Compile Include="ServiceManager\ServiceError.cs" />
     <Compile Include="ServiceManager\ServiceInstaller.cs" />
     <Compile Include="ServiceManager\ServiceState.cs" />
+    <Compile Include="Setup\BwReturnProgressCode.cs" />
     <Compile Include="Setup\FileOperations.cs" />
     <Compile Include="Setup\RegistryOperations.cs" />
     <Compile Include="Setup\ServiceOperations.cs" />

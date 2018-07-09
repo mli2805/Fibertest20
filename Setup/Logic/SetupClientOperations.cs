@@ -20,8 +20,8 @@ namespace Iit.Fibertest.Setup
 
         public bool SetupClient(BackgroundWorker worker, string installationFolder)
         {
-            worker.ReportProgress(0, "Client setup started.");
-            worker.ReportProgress(0, "Files are copied...");
+            worker.ReportProgress((int)BwReturnProgressCode.ClientSetupStarted);
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
 
             var fullClientPath = Path.Combine(installationFolder, ClientSubdir);
             _logFile.AppendLine($" full client path = {fullClientPath}");
@@ -32,18 +32,17 @@ namespace Iit.Fibertest.Setup
             _logFile.AppendLine($" full Reflect path = {fullReflectPath}");
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, fullReflectPath, worker))
                 return false;
-            
-            worker.ReportProgress(1, "");
+
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
             _logFile.AppendLine("Files are copied successfully");
 
-            worker.ReportProgress(0, "Shortcuts are created...");
             ShortcutOperatios.CreateClientShortcut(fullClientPath);
             ShortcutOperatios.CreateReflectShortcut(fullReflectPath);
-            worker.ReportProgress(0, "Shortcuts are created successfully.");
+            worker.ReportProgress((int)BwReturnProgressCode.ShortcutsAreCreatedSuccessfully);
 
             _logFile.AppendLine("Shortcuts are created successfully.");
 
-            worker.ReportProgress(0, "Client setup completed successfully.");
+            worker.ReportProgress((int)BwReturnProgressCode.ClientSetupCompletedSuccessfully);
             return true;
         }
     }

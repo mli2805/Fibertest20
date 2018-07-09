@@ -2084,4 +2084,34 @@ RTU is initializing right now!</value>
 	<data name="SID_Service__0__stopped_successfully_" xml:space="preserve">
     <value>Service {0} stopped successfully.</value>
   </data>
+	<data name="SID_Uninstall_setup_started_" xml:space="preserve">
+    <value>Uninstall setup started.</value>
+  </data>
+	<data name="SID_Uninstall_setup_completed_successfully_" xml:space="preserve">
+    <value>Uninstall setup completed successfully.</value>
+  </data>
+	<data name="SID_Client_setup_started_" xml:space="preserve">
+    <value>Client setup started.</value>
+  </data>
+	<data name="SID_Files_are_copied___" xml:space="preserve">
+    <value>Files are copied...</value>
+  </data>
+	<data name="SID_Shortcuts_are_created_successfully_" xml:space="preserve">
+    <value>Shortcuts are created successfully.</value>
+  </data>
+	<data name="SID_Client_setup_completed_successfully_" xml:space="preserve">
+    <value>Client setup completed successfully.</value>
+  </data>
+	<data name="SID_Data_Center_setup_started_" xml:space="preserve">
+    <value>Data Center setup started.</value>
+  </data>
+	<data name="SID_Data_Center_setup_completed_successfully_" xml:space="preserve">
+    <value>Data Center setup completed successfully.</value>
+  </data>
+	<data name="SID_RTU_Manager_setup_started_" xml:space="preserve">
+    <value>RTU Manager setup started.</value>
+  </data>
+	<data name="SID_RTU_Manager_setup_completed_successfully_" xml:space="preserve">
+    <value>RTU Manager setup completed successfully.</value>
+  </data>
 </root>

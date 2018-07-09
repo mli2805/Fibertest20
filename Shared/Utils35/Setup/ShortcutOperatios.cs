@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.IO;
 using IWshRuntimeLibrary;
 
@@ -34,7 +33,7 @@ namespace Iit.Fibertest.UtilsLib
             shortcut.Save();
         }
 
-        public static void CreateUninstallShortcut(string fullUninstallPath, BackgroundWorker worker)
+        public static void CreateUninstallShortcut(string fullUninstallPath)
         {
             object shDesktop = "Desktop";
             WshShell shell = new WshShell();

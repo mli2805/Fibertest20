@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel;
-using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib.ServiceManager;
 
 namespace Iit.Fibertest.UtilsLib
@@ -10,18 +9,18 @@ namespace Iit.Fibertest.UtilsLib
         public static bool InstallService(string serviceName, string serviceDisplayName,
             string serviceDescription, string filename, BackgroundWorker worker)
         {
-            worker.ReportProgress(0, string.Format(Resources.SID__0__service_is_being_installed___, serviceDisplayName));
+            worker.ReportProgress((int)BwReturnProgressCode.ServiceIsBeingInstalled, serviceDisplayName);
             try
             {
                 ServiceInstaller.Install(serviceName, serviceDisplayName, serviceDescription, filename);
             }
             catch (Exception)
             {
-                worker.ReportProgress(0, string.Format(Resources.SID_Cannot_install_service__0_, serviceDisplayName));
+                worker.ReportProgress((int)BwReturnProgressCode.CannotInstallService, serviceDisplayName);
                 return false;
             }
 
-            worker.ReportProgress(0, string.Format(Resources.SID__0__service_installed_successfully, serviceDisplayName));
+            worker.ReportProgress((int)BwReturnProgressCode.ServiceInstalledSuccessfully, serviceDisplayName);
             return true;
         }
 
@@ -32,16 +31,16 @@ namespace Iit.Fibertest.UtilsLib
 
             if (!StopServiceIfRunning(serviceName, serviceDisplayName, worker)) return false;
 
-            worker.ReportProgress(0, string.Format(Resources.SID__0__service_is_being_uninstalled___, serviceDisplayName));
+            worker.ReportProgress((int)BwReturnProgressCode.ServiceIsBeingUninstalled, serviceDisplayName);
             ServiceInstaller.Uninstall(serviceName);
             if (ServiceInstaller.ServiceIsInstalled(serviceName) 
                 && ServiceInstaller.ServiceIsInstalled(serviceName))
             {
-                worker.ReportProgress(0, string.Format(Resources.SID_Cannot_uninstall_service__0_, serviceDisplayName));
+                worker.ReportProgress((int)BwReturnProgressCode.CannotUninstallService, serviceDisplayName);
                 return false;
             }
 
-            worker.ReportProgress(0, string.Format(Resources.SID_Service__0__uninstalled_successfully_, serviceDisplayName));
+            worker.ReportProgress((int)BwReturnProgressCode.ServiceUninstalledSuccessfully, serviceDisplayName);
             return true;
         }
 
@@ -49,15 +48,15 @@ namespace Iit.Fibertest.UtilsLib
         {
             if (ServiceInstaller.GetServiceStatus(serviceName) != ServiceState.Running) return true;
 
-            worker.ReportProgress(0, string.Format(Resources.SID__0__service_is_being_stopped___, serviceDisplayName));
+            worker.ReportProgress((int)BwReturnProgressCode.ServiceIsBeingStopped, serviceDisplayName);
             ServiceInstaller.StopService(serviceName);
             if (ServiceInstaller.GetServiceStatus(serviceName) != ServiceState.Stopped)
             {
-                worker.ReportProgress(0, string.Format(Resources.SID_Cannot_stop_service__0_, serviceDisplayName));
+                worker.ReportProgress((int)BwReturnProgressCode.CannotStopService, serviceDisplayName);
                 return false;
             }
 
-            worker.ReportProgress(0, string.Format(Resources.SID_Service__0__stopped_successfully_, serviceDisplayName));
+            worker.ReportProgress((int)BwReturnProgressCode.ServiceStoppedSuccessfully, serviceDisplayName);
             return true;
         }
 

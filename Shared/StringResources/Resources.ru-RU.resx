@@ -2073,7 +2073,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Не удается деинсталлировать службу {0}</value>
 	</data>
 	<data name="SID_Service__0__uninstalled_successfully_" xml:space="preserve">
-		<value>Служба {0} деинсталлирована успешно</value>
+		<value>Служба {0} установлена успешно</value>
 	</data>
 	<data name="SID__0__service_is_being_stopped___" xml:space="preserve">
 		<value>Служба {0} останавливается...</value>
@@ -2083,5 +2083,35 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Service__0__stopped_successfully_" xml:space="preserve">
 		<value>Служба {0} остановлена успешно.</value>
+	</data>
+	<data name="SID_Uninstall_setup_started_" xml:space="preserve">
+		<value>Установка программы деинсталляции.</value>
+	</data>
+	<data name="SID_Uninstall_setup_completed_successfully_" xml:space="preserve">
+		<value>Программа деинсталляции установлена успешно.</value>
+	</data>
+	<data name="SID_Client_setup_started_" xml:space="preserve">
+		<value>Установка компонента Client.</value>
+	</data>
+	<data name="SID_Files_are_copied___" xml:space="preserve">
+		<value>Копирование файлов...</value>
+	</data>
+	<data name="SID_Shortcuts_are_created_successfully_" xml:space="preserve">
+		<value>Ярлыки созданы успешно.</value>
+	</data>
+	<data name="SID_Client_setup_completed_successfully_" xml:space="preserve">
+		<value>Компонент Client установлен успешно.</value>
+	</data>
+	<data name="SID_Data_Center_setup_started_" xml:space="preserve">
+		<value>Установка компонента Data Center.</value>
+	</data>
+	<data name="SID_Data_Center_setup_completed_successfully_" xml:space="preserve">
+		<value>Компонент Data Center установлен успешно.</value>
+	</data>
+	<data name="SID_RTU_Manager_setup_started_" xml:space="preserve">
+		<value>Установка компонента RTU Manager.</value>
+	</data>
+	<data name="SID_RTU_Manager_setup_completed_successfully_" xml:space="preserve">
+		<value>Компонент RTU Manager установлен успешно.</value>
 	</data>
 </root>
