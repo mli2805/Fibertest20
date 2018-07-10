@@ -79,7 +79,7 @@ namespace Iit.Fibertest.Graph
         {
             var equipmentsWithoutPointsAndRtu = _model.GetTraceEquipmentsExcludingAdjustmentPoints(traceId).ToList();
             leftReserveM = GetCableReserve(equipmentsWithoutPointsAndRtu, accident.LeftLandmarkIndex, true);
-            rightReserveM = GetCableReserve(equipmentsWithoutPointsAndRtu, accident.LeftLandmarkIndex, false);
+            rightReserveM = GetCableReserve(equipmentsWithoutPointsAndRtu, accident.RightLandmarkIndex, false);
         }
 
         private double GetCableReserve(List<Equipment> equipmentsWithoutPointsAndRtu, int landmarkIndex, bool isLeftLandmark)
