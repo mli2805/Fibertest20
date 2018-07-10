@@ -47,7 +47,7 @@ namespace Graph.Tests
         [Then(@"Кнопка Сохранить недоступна пока поле названия трассы пустое")]
         public void ThenКнопкаСохранитьНедоступнаПокаПолеНазванияТрассыПустое()
         {
-            _traceInfoViewModel.Model.IsButtonSaveEnabled.Should().BeFalse();
+            _traceInfoViewModel.IsButtonSaveEnabled.Should().BeFalse();
         }
 
         [When(@"Пользователь вводит название и коммент трассы и жмет Сохранить")]

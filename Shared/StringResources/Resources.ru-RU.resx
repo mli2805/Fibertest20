@@ -2114,4 +2114,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_RTU_Manager_setup_completed_successfully_" xml:space="preserve">
 		<value>Компонент RTU Manager установлен успешно.</value>
 	</data>
+	<data name="SID_There_is_a_trace_with_the_same_title" xml:space="preserve">
+		<value>Существует трасса с таким именем</value>
+	</data>
 </root>

@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             _currentUser = currentUser;
         }
 
-        public MonitoringSettingsModel Create(RtuLeaf rtuLeaf)
+        public MonitoringSettingsModel Create(RtuLeaf rtuLeaf, bool isEditEnabled)
         {
             _rtuLeaf = rtuLeaf;
             var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == _rtuLeaf.Id);
@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                 RtuId = _rtuLeaf.Id,
                 RealOtdrAddress = GetRealOtdrAddress(),
                 IsMonitoringOn = _rtuLeaf.MonitoringState == MonitoringState.On,
-                Charons = PrepareMonitoringCharonModels(),
+                Charons = PrepareMonitoringCharonModels(isEditEnabled),
             };
             model.Frequencies.InitializeComboboxes(rtu.FastSave, rtu.PreciseMeas, rtu.PreciseSave);
             return model;
@@ -39,38 +39,40 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             return _readModel.Rtus.FirstOrDefault(r => r.Id == _rtuLeaf.Id)?.OtdrNetAddress.Ip4Address;
         }
 
-        private List<MonitoringCharonModel> PrepareMonitoringCharonModels()
+        private List<MonitoringCharonModel> PrepareMonitoringCharonModels(bool isEditEnabled)
         {
-            var charons = new List<MonitoringCharonModel> {PrepareMainCharonModel()};
+            var charons = new List<MonitoringCharonModel> {PrepareMainCharonModel(isEditEnabled)};
             foreach (var leaf in _rtuLeaf.ChildrenImpresario.Children)
             {
                 var otauLeaf = leaf as OtauLeaf;
                 if (otauLeaf != null)
                 {
-                    charons.Add(PrepareBopCharonModel(otauLeaf));
+                    charons.Add(PrepareBopCharonModel(otauLeaf, isEditEnabled));
                 }
             }
             return charons;
         }
 
-        private MonitoringCharonModel PrepareMainCharonModel()
+        private MonitoringCharonModel PrepareMainCharonModel(bool isEditEnabled)
         {
             var mainCharonModel = new MonitoringCharonModel(_rtuLeaf.OtauNetAddress.Ip4Address, 23)
             {
                 Title = _rtuLeaf.Title,
                 IsMainCharon = true,
                 Ports = PrepareMonitoringPortModels(_rtuLeaf),
+                IsEditEnabled = isEditEnabled,
             };
             return mainCharonModel;
         }
 
-        private MonitoringCharonModel PrepareBopCharonModel(OtauLeaf otauLeaf)
+        private MonitoringCharonModel PrepareBopCharonModel(OtauLeaf otauLeaf, bool isEditEnabled)
         {
             var bopCharonModel = new MonitoringCharonModel(otauLeaf.OtauNetAddress.Ip4Address, otauLeaf.OtauNetAddress.Port)
             {
                 Title = otauLeaf.OtauNetAddress.ToStringA(),
                 IsMainCharon = false,
                 Ports = PrepareMonitoringPortModels(otauLeaf),
+                IsEditEnabled = isEditEnabled,
             };
             return bopCharonModel;
         }

@@ -50,7 +50,6 @@ namespace Iit.Fibertest.Client
         }
 
         private bool _isButtonSaveEnabled;
-
         public bool IsButtonSaveEnabled
         {
             get => _isButtonSaveEnabled;

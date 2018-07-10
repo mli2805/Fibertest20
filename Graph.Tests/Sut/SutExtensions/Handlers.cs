@@ -65,7 +65,7 @@ namespace Graph.Tests
         public static bool AddTraceViewHandler(this SystemUnderTest sut, object model, string title, string comment, Answer button)
         {
             if (!(model is TraceInfoViewModel vm)) return false;
-            vm.Model.Title = title;
+            vm.Title = title;
             vm.Model.Comment = comment;
             if (button == Answer.Yes)
                 vm.Save();

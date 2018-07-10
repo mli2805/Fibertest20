@@ -2114,4 +2114,7 @@ RTU is initializing right now!</value>
 	<data name="SID_RTU_Manager_setup_completed_successfully_" xml:space="preserve">
     <value>RTU Manager setup completed successfully.</value>
   </data>
+	<data name="SID_There_is_a_trace_with_the_same_title" xml:space="preserve">
+    <value>There is a trace with the same title</value>
+  </data>
 </root>

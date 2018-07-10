@@ -5268,6 +5268,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is a trace with the same title.
+        /// </summary>
+        public static string SID_There_is_a_trace_with_the_same_title {
+            get {
+                return ResourceManager.GetString("SID_There_is_a_trace_with_the_same_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is optical switch with the same tcp address!.
         /// </summary>
         public static string SID_There_is_optical_switch_with_the_same_tcp_address_ {

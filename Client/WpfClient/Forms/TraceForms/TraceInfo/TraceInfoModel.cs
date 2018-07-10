@@ -23,19 +23,7 @@ namespace Iit.Fibertest.Client
         public string AdjustmentPointsLine { get; set; }
         public Visibility AdjustmentPointsLineVisibility { get; set; } = Visibility.Collapsed;
 
-        private string _title;
-        public string Title
-        {
-            get => _title;
-            set
-            {
-                if (value == _title) return;
-                _title = value;
-                NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(IsButtonSaveEnabled));
-            }
-        }
-
+      
         private bool _isTraceModeLight;
         public bool IsTraceModeLight
         {
@@ -72,6 +60,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public bool IsButtonSaveEnabled => !string.IsNullOrEmpty(_title);
+   
     }
 }

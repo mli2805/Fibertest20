@@ -9,12 +9,22 @@
         SizeToContent="Height" Width="400" WindowStartupLocation="CenterOwner"
         d:DataContext="{d:DesignInstance client:RtuUpdateViewModel}"
         FocusManager.FocusedElement="{Binding ElementName=TextBoxTitle}">
-    <StackPanel >
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}" x:Key="TextBoxValidationStyle">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={RelativeSource Self}, 
+                   Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources><StackPanel >
         <StackPanel>
             <TextBlock Text="{x:Static stringResources:Resources.SID_Title}" VerticalAlignment="Center" 
                        Margin="10,5,10,5" Width="80" HorizontalAlignment="Left"/>
             <TextBox Text="{Binding Title, Mode=TwoWay, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" 
-                     Name="TextBoxTitle" Margin="10,0,10,15" IsEnabled="{Binding IsEditEnabled}"/>
+                     Name="TextBoxTitle" Margin="10,0,10,15" IsEnabled="{Binding IsEditEnabled}" Style="{StaticResource TextBoxValidationStyle}"/>
         </StackPanel>
 
         <client:GpsInputView x:Name="GpsInputView" DataContext="{Binding GpsInputViewModel}"/>

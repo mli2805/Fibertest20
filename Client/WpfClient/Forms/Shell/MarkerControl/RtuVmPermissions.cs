@@ -12,10 +12,7 @@ namespace Iit.Fibertest.Client
             _currentUser = currentUser;
         }
 
-        public bool CanUpdateRtu(object parameter)
-        {
-            return HasPriveligesAndParameterValid(parameter);
-        }
+        public bool CanUpdateRtu(object parameter) { return true; }
 
         public bool CanRemoveRtu(object parameter)
         {
@@ -59,9 +56,6 @@ namespace Iit.Fibertest.Client
             return rtuVm != null;
         }
 
-        public bool CanHideTraces(object _)
-        {
-            return true;
-        }
+        public bool CanHideTraces(object _) { return true; }
     }
 }

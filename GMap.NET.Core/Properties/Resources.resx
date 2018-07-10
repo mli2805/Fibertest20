@@ -177,4 +177,7 @@ END;</value>
   <data name="SID_Exceeded_the_number_of_RTU_for_an_existing_license" xml:space="preserve">
     <value>Exceeded the number of RTU for an existing license</value>
   </data>
+  <data name="SID_There_is_a_trace_with_the_same_title" xml:space="preserve">
+    <value>There is a trace with the same title</value>
+  </data>
 </root>

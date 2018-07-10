@@ -131,6 +131,15 @@ namespace GMap.NET.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is a trace with the same title.
+        /// </summary>
+        internal static string SID_There_is_a_trace_with_the_same_title {
+            get {
+                return ResourceManager.GetString("SID_There_is_a_trace_with_the_same_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         internal static byte[] System_Data_SQLite_x64_NET2_dll {

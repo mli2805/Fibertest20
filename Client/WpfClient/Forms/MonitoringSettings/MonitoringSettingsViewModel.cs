@@ -43,7 +43,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
 
-            Model = monitoringSettingsModelFactory.Create(rtuLeaf);
+            Model = monitoringSettingsModelFactory.Create(rtuLeaf, IsEditEnabled);
             Model.CalculateCycleTime();
             SelectedTabIndex = 0; // strange but it's necessary
         }

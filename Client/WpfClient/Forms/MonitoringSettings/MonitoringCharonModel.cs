@@ -27,6 +27,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         }
 
         public List<MonitoringPortModel> Ports { get; set; } = new List<MonitoringPortModel>();
+        public bool IsEditEnabled { get; set; }
 
 
         public MonitoringCharonModel(string charonIpAddress, int charonTcpPort)

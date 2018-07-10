@@ -75,7 +75,7 @@
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                 <DataTemplate DataType="monitoringSettings:MonitoringCharonModel">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" IsEnabled="{Binding IsEditEnabled}">
                         <StackPanel>
                             <DockPanel Margin="10,0" Name="Header">
                                 <CheckBox Margin="7,2,0,0" DockPanel.Dock="Left"  IsChecked="{Binding GroupenCheck}" />

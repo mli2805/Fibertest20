@@ -9,13 +9,24 @@
         FocusManager.FocusedElement="{Binding ElementName=TraceTitleTextbox}"
         SizeToContent="Height" Width="350" WindowStartupLocation="CenterScreen"
         d:DataContext="{d:DesignData TraceInfoViewModel}">
+    <Window.Resources>
+        <Style TargetType="{x:Type TextBox}" x:Key="TextBoxValidationStyle">
+            <Style.Triggers>
+                <Trigger Property="Validation.HasError" Value="true">
+                    <Setter Property="ToolTip"
+                            Value="{Binding RelativeSource={RelativeSource Self}, 
+                   Path=(Validation.Errors)[0].ErrorContent}"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
     <StackPanel>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Information}" Margin="5">
             <StackPanel Margin="5">
                 <DockPanel>
                     <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Title}" />
-                    <TextBox Name="TraceTitleTextbox" Margin="5" TabIndex="0"
-                             Text="{Binding Model.Title, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}" />
+                    <TextBox Name="TraceTitleTextbox" Margin="5" TabIndex="0" IsEnabled="{Binding IsEditEnabled}" Style="{StaticResource TextBoxValidationStyle}"
+                             Text="{Binding Title, ValidatesOnDataErrors=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
                 <TextBlock Margin="5" Text="{Binding Model.TraceId}" HorizontalAlignment="Right" Foreground="DarkGray"/>
                 <StackPanel Orientation="Horizontal">
@@ -55,7 +66,7 @@
         <TextBlock Margin="20,0" Foreground="LightGray" TextWrapping="Wrap" 
                    Visibility="{Binding Model.AdjustmentPointsLineVisibility}" Text="{Binding Model.AdjustmentPointsLine}"/>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Trace_monitoring_mode}" Margin="5">
-            <StackPanel Orientation="Horizontal" Margin="5">
+            <StackPanel Orientation="Horizontal" Margin="5" IsEnabled="{Binding IsEditEnabled}">
                 <RadioButton GroupName="1" Name="Dark" Margin="30,5,5,5" Content="{x:Static stringResources:Resources.SID_Dark_OF}"
                              IsChecked="{Binding Model.IsTraceModeDark, Mode=TwoWay}"/>
                 <RadioButton GroupName="1" Name="Light" Margin="30,5,5,5" Content="{x:Static stringResources:Resources.SID_Light_OF}" 
@@ -63,11 +74,11 @@
             </StackPanel>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Comment}" Margin="5">
-            <TextBox Margin="5,10" Text="{Binding Model.Comment}" TextWrapping="Wrap"/>
+            <TextBox Margin="5,10" Text="{Binding Model.Comment}" TextWrapping="Wrap" IsEnabled="{Binding IsEditEnabled}"/>
         </GroupBox>
         <StackPanel Orientation="Horizontal" Margin="15,15">
             <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}" 
-                    IsDefault="True" IsEnabled="{Binding Model.IsButtonSaveEnabled}" TabIndex="1" />
+                    IsDefault="True" IsEnabled="{Binding IsButtonSaveEnabled}" TabIndex="1" />
             <Button Name="Cancel" Height="25" Width="100" IsCancel="True" 
                     Content="{x:Static stringResources:Resources.SID_Cancel}"/>
         </StackPanel>

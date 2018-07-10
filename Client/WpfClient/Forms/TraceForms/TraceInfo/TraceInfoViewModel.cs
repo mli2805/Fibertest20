@@ -15,6 +15,7 @@ namespace Iit.Fibertest.Client
     public class TraceInfoViewModel : Screen, IDataErrorInfo
     {
         private readonly Model _readModel;
+        private readonly CurrentUser _currentUser;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly TraceInfoCalculator _traceInfoCalculator;
@@ -23,12 +24,28 @@ namespace Iit.Fibertest.Client
         private bool _isInCreationMode;
 
 
+        private string _title;
+        public string Title
+        {
+            get => _title;
+            set
+            {
+                if (value == _title) return;
+                _title = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IsButtonSaveEnabled));
+            }
+        }
         public TraceInfoModel Model { get; set; } = new TraceInfoModel();
-        
-        public TraceInfoViewModel(Model readModel, IWcfServiceForClient c2DWcfManager,
+        public bool IsEditEnabled { get; set; }
+
+        public bool IsButtonSaveEnabled => IsEditEnabled && IsTitleValid() == string.Empty;
+
+        public TraceInfoViewModel(Model readModel, CurrentUser currentUser, IWcfServiceForClient c2DWcfManager,
             IWindowManager windowManager, TraceInfoCalculator traceInfoCalculator)
         {
             _readModel = readModel;
+            _currentUser = currentUser;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _traceInfoCalculator = traceInfoCalculator;
@@ -51,21 +68,23 @@ namespace Iit.Fibertest.Client
 
             if (dict.ContainsKey(EquipmentType.AdjustmentPoint))
             {
-                Model.AdjustmentPointsLine = string.Format(Resources.SID_To_adjust_trace_drawing_were_used__0__point_s_, dict[EquipmentType.AdjustmentPoint]);
+                Model.AdjustmentPointsLine = string.Format(Resources.SID_To_adjust_trace_drawing_were_used__0__point_s_,
+                    dict[EquipmentType.AdjustmentPoint]);
                 Model.AdjustmentPointsLineVisibility = Visibility.Visible;
             }
 
             if (_isInCreationMode)
                 Model.IsTraceModeDark = true;
             else
-               GetOtherPropertiesOfExistingTrace();
+                GetOtherPropertiesOfExistingTrace();
+            IsEditEnabled = _currentUser.Role <= Role.Root;
         }
 
         private void GetOtherPropertiesOfExistingTrace()
         {
             var trace = _readModel.Traces.First(t => t.TraceId == Model.TraceId);
 
-            Model.Title = trace.Title;
+            Title = trace.Title;
             if (trace.Mode == TraceMode.Light)
                 Model.IsTraceModeLight = true;
             else
@@ -81,8 +100,7 @@ namespace Iit.Fibertest.Client
 
         public async void Save()
         {
-            if (!IsTitleValid())
-                return;
+           
             if (_isInCreationMode)
                 await SendAddTraceCommand();
             else
@@ -91,23 +109,25 @@ namespace Iit.Fibertest.Client
             TryClose();
         }
 
-        private bool IsTitleValid()
+        private string IsTitleValid()
         {
-            var isTitleValid = Model.Title.IndexOfAny(@"*+:\/[];|=".ToCharArray()) == -1;
-            if (!isTitleValid)
-            {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Trace_title_contains_forbidden_symbols);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-            }
-            return isTitleValid;
+            if (string.IsNullOrEmpty(Title))
+                return Resources.SID_Title_is_required;
+            if (_readModel.Traces.Any(t => t.Title == Title && t.TraceId != Model.TraceId))
+                return Resources.SID_There_is_a_trace_with_the_same_title;
+            if (Title.IndexOfAny(@"*+:\/[];|=".ToCharArray()) != -1)
+                 return   Resources.SID_Trace_title_contains_forbidden_symbols;
+
+            return string.Empty;
         }
+
         private async Task SendAddTraceCommand()
         {
             var cmd = new AddTrace()
             {
                 TraceId = Model.TraceId,
                 RtuId = Model.Rtu.Id,
-                Title = Model.Title,
+                Title = Title,
                 NodeIds = Model.TraceNodes,
                 EquipmentIds = Model.TraceEquipments,
                 Comment = Model.Comment
@@ -123,7 +143,7 @@ namespace Iit.Fibertest.Client
             var cmd = new UpdateTrace()
             {
                 Id = Model.TraceId,
-                Title = Model.Title,
+                Title = Title,
                 Mode = Model.IsTraceModeLight ? TraceMode.Light : TraceMode.Dark,
                 Comment = Model.Comment
             };
@@ -140,17 +160,18 @@ namespace Iit.Fibertest.Client
         {
             get
             {
-                String errorMessage = String.Empty;
+                var errorMessage = string.Empty;
                 switch (columnName)
                 {
-                    case "Model.Title": if (string.IsNullOrEmpty(Model.Title))
-                                        errorMessage = Resources.SID_Title_is_required;
-                                    break;
+                    case "Title":
+                        errorMessage = IsTitleValid();
+                        break;
                 }
+
                 return errorMessage;
             }
         }
 
-        public string Error { get; } = null;
+        public string Error { get; set; }
     }
 }

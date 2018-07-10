@@ -59,7 +59,7 @@ namespace Graph.Tests
 
             var traceAddViewModel = sut.ClientScope.Resolve<TraceInfoViewModel>();
             traceAddViewModel.Initialize(Guid.NewGuid(), traceEquipments, traceNodes, true);
-            traceAddViewModel.Model.Title = title;
+            traceAddViewModel.Title = title;
             traceAddViewModel.Save();
             sut.Poller.EventSourcingTick().Wait();
 
