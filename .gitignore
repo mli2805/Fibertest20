@@ -255,3 +255,4 @@ paket-files/
 /Packer/Pack
 /Deploy/Pack
 /Deploy/Ft*.exe
+/Client/WpfClient/RftsReflect

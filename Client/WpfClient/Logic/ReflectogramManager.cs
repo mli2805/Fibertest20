@@ -135,7 +135,7 @@ namespace Iit.Fibertest.Client
         private void OpenSorInReflect(string sorFilename, string options = "")
         {
             Process process = new Process();
-            process.StartInfo.FileName =  @"C:\Iit-Fibertest\RFTSReflect\reflect.exe";
+            process.StartInfo.FileName =  @"..\..\RFTSReflect\reflect.exe";
             process.StartInfo.Arguments = $@"{options} " + '"' + sorFilename + '"';
             process.Start();
         }
