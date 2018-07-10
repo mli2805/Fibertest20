@@ -233,11 +233,12 @@ namespace Iit.Fibertest.Client
         {
             var vm = MyMessageBoxExt.DrawingGraph();
             _windowManager.ShowWindowWithAssignedOwner(vm);
-            await HideAllLongOperation();
+
+            await HideAllLongOperationAsync();
             await _dispatcherProvider.GetDispatcher().InvokeAsync(() => vm.TryClose(), DispatcherPriority.ApplicationIdle);
         }
 
-        private async Task HideAllLongOperation()
+        private async Task HideAllLongOperationAsync()
         {
             await Task.Delay(1); // just to get rid of warning
             using (_globalScope.Resolve<IWaitCursor>())
@@ -248,6 +249,6 @@ namespace Iit.Fibertest.Client
 
                 _currentlyHiddenRtu.IsHideAllPressed = true;
             }
-        }
+        } 
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
@@ -35,7 +36,7 @@ namespace Iit.Fibertest.Client
 
             foreach (var node in _readModel.Nodes)
                 if (_readModel.Rtus.Any(r => r.NodeId == node.NodeId) ||
-                    !_readModel.Traces.Any(t => t.NodeIds.Contains(node.NodeId)))
+                    (node.AccidentOnTraceId == Guid.Empty && !_readModel.Traces.Any(t => t.NodeIds.Contains(node.NodeId))))
                     renderingResult.NodeVms.Add(ElementRenderer.Map(node));
 
             foreach (var fiber in _readModel.Fibers.Where(f => f.States.Count == 0))
