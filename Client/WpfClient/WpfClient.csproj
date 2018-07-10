@@ -197,6 +197,7 @@
       <DependentUpon>TraceChoiceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Landmarks\TraceChoiceViewModel.cs" />
+    <Compile Include="Forms\UniversalForms\MyMessageBox\MyMessageBoxExt.cs" />
     <Compile Include="GlobalVars\CurrentDatacenterParameters.cs" />
     <Compile Include="GlobalVars\CurrentlyHiddenRtu.cs" />
     <Compile Include="GlobalVars\CurrentUser.cs" />
