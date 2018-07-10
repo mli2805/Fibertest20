@@ -37,7 +37,7 @@ namespace Iit.Fibertest.Client
         public NetworkEventsDoubleViewModel NetworkEventsDoubleViewModel { get; }
         public BopNetworkEventsDoubleViewModel BopNetworkEventsDoubleViewModel { get; }
 
-        public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, CurrentUser currentUser, 
+        public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, CurrentUser currentUser,
             CurrentDatacenterParameters currentDatacenterParameters, ClientWcfService clientWcfService, IClientWcfServiceHost host,
             GraphReadModel graphReadModel, IWcfServiceForClient c2DWcfManager, ILocalDbManager localDbManager, IWindowManager windowManager,
             LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, StoredEventsLoader storedEventsLoader, ClientPoller clientPoller,
@@ -160,13 +160,13 @@ namespace Iit.Fibertest.Client
 
             if (!vm.IsAnswerPositive) return;
 
-            base.CanClose(callback);
-            Task.Factory.StartNew(() =>
-            {
-                _clientPollerCts.Cancel();
-                _c2DWcfManager?.UnregisterClientAsync(new UnRegisterClientDto());
-                _logFile.AppendLine(@"Client application finished!");
-            });
+            _clientPollerCts.Cancel();
+            _logFile.AppendLine(@"Client application finished.");
+
+            if (_c2DWcfManager == null)
+                base.CanClose(callback);
+            else
+                _c2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto()).ContinueWith(ttt => { base.CanClose(callback); });
         }
     }
 }
