@@ -6,10 +6,15 @@ namespace Iit.Fibertest.UtilsLib
 {
     public static class FileOperations
     {
-        public static string GetParentFolder(string path)
+        public static string GetParentFolder(string path, int depth = 1)
         {
-            var index = path.Substring(0, path.Length - 1).LastIndexOf(@"\", StringComparison.CurrentCulture);
-            return path.Substring(0, index);
+            for (int i = 0; i < depth; i++)
+            {
+                var index = path.Substring(0, path.Length - 1).LastIndexOf(@"\", StringComparison.CurrentCulture);
+                if (index == -1) return string.Empty;
+                path = path.Substring(0, index);
+            }
+            return path;
         }
 
         public static bool DirectoryCopyWithDecorations(string sourceDirName, string destDirName,

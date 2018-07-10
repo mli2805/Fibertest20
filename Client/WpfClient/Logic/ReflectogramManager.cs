@@ -42,7 +42,7 @@ namespace Iit.Fibertest.Client
 
         private string SaveInTempFolderAndOpenInReflect(byte[] sorBytes)
         {
-            var tempFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Temp\");
+            var tempFolder = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory) + @"\Temp\";
             if (!Directory.Exists(tempFolder))
                 Directory.CreateDirectory(tempFolder);
             var fullFilename = Path.Combine(tempFolder, _tempSorFile);

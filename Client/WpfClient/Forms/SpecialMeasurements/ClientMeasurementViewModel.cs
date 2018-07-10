@@ -114,7 +114,8 @@ namespace Iit.Fibertest.Client
             _logFile.AppendLine(@"Measurement (Client) result received");
             var filename = $@"..\temp\meas-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.sor";
             SorData.Save(sorBytes, filename);
-            System.Diagnostics.Process.Start(@"..\..\RftsReflect\Reflect.exe", filename);
+            var rootPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory, 2);
+            System.Diagnostics.Process.Start(rootPath + @"\RftsReflect\Reflect.exe", filename);
             TryClose(true);
         }
 

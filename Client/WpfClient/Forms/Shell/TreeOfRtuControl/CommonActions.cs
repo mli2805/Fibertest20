@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.DirectCharonLibrary;
@@ -105,9 +106,9 @@ namespace Iit.Fibertest.Client
 
             if (!ToggleToPort(mainCharon, addressOfCharonWithThisPort, portNumber)) return;
 
-            var otdrPort = 1500;
-           // System.Diagnostics.Process.Start(@"C:\Iit-Fibertest\RftsReflect\Reflect.exe",
-            System.Diagnostics.Process.Start(@"..\..\RftsReflect\Reflect.exe",
+            const int otdrPort = 1500;
+            var rootPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory, 2);
+            System.Diagnostics.Process.Start(rootPath + @"\RftsReflect\Reflect.exe",
                 $@"-fnw -n {mainCharonAddress.Ip4Address} -p {otdrPort}");
         }
 
