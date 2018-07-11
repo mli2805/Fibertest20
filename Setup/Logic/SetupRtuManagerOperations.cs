@@ -39,6 +39,8 @@ namespace Iit.Fibertest.Setup
                 return false;
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, fullReflectPath, worker))
                 return false;
+            if (!Directory.Exists(fullReflectPath + "\\Share"))
+                Directory.CreateDirectory(fullReflectPath + "\\Share");
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
 
             var filename = Path.Combine(fullRtuManagerPath, RtuServiceFilename);
