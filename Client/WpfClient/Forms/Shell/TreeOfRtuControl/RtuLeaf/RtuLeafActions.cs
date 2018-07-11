@@ -90,7 +90,6 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-            //var vm = new MonitoringSettingsViewModel(rtuLeaf, _readModel, _c2DWcfManager);
             var vm = _globalScope.Resolve<MonitoringSettingsViewModel>(new NamedParameter(@"rtuLeaf", rtuLeaf));
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }

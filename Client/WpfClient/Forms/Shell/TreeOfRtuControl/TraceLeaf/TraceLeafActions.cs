@@ -70,7 +70,6 @@ namespace Iit.Fibertest.Client
 
             if (_currentlyHiddenRtu.Collection.Contains(trace.RtuId))
             {
-//                _renderingManager.ShowOneTrace(trace);
                 _currentlyHiddenRtu.Collection.Remove(trace.RtuId);
                 _currentlyHiddenRtu.ChangedRtu = trace.RtuId;
             }

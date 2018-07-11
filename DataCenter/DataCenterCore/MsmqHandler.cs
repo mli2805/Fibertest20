@@ -49,6 +49,7 @@ namespace Iit.Fibertest.DataCenterCore
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
+                throw;
             }
         }
 
