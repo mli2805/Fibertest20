@@ -28,8 +28,6 @@ namespace Iit.Fibertest.Client
             TypeNameHandling = TypeNameHandling.All
         };
 
-//        private static readonly string ServerListFile = Utils.FileNameForSure(@"..\ini\", @"servers.list", false);
-
         public static List<Server> Load(IniFile iniFile, IMyLog logFile)
         {
             try

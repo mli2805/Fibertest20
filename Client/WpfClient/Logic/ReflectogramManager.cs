@@ -134,8 +134,9 @@ namespace Iit.Fibertest.Client
 
         private void OpenSorInReflect(string sorFilename, string options = "")
         {
+            var rootPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory, 2);
             Process process = new Process();
-            process.StartInfo.FileName =  @"..\..\RFTSReflect\reflect.exe";
+            process.StartInfo.FileName = rootPath + @"\RftsReflect\Reflect.exe";
             process.StartInfo.Arguments = $@"{options} " + '"' + sorFilename + '"';
             process.Start();
         }

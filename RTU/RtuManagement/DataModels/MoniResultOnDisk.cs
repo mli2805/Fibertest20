@@ -23,10 +23,6 @@ namespace Iit.Fibertest.RtuManagement
 
         private string GetFilename()
         {
-//            var appDir = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
-//            if (appDir == null)
-//                return "";
-//            var storeDir = Path.Combine(appDir, @"..\ResultStore");
             var storeDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\ResultStore");
 
             if (!Directory.Exists(storeDir))

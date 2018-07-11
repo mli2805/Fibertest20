@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
@@ -112,10 +113,10 @@ namespace Iit.Fibertest.Client
         public void ShowReflectogram(byte[] sorBytes)
         {
             _logFile.AppendLine(@"Measurement (Client) result received");
-            var filename = $@"..\temp\meas-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.sor";
-            SorData.Save(sorBytes, filename);
             var rootPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory, 2);
-            System.Diagnostics.Process.Start(rootPath + @"\RftsReflect\Reflect.exe", filename);
+            var filename = rootPath + $@"\Client\temp\meas-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.sor";
+            SorData.Save(sorBytes, filename);
+            Process.Start(rootPath + @"\RftsReflect\Reflect.exe", filename);
             TryClose(true);
         }
 

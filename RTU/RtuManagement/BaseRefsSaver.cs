@@ -48,7 +48,6 @@ namespace Iit.Fibertest.RtuManagement
 
         private string GetAbsolutePortFolder(OtauPortDto otauPortDto)
         {
-//            var fullFolderName = Path.Combine(_appDir, @"..\PortData\", GetPortFolder(otauPortDto));
             var fullFolderName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\PortData\", GetPortFolder(otauPortDto));
             if (!Directory.Exists(fullFolderName))
                 Directory.CreateDirectory(fullFolderName);
@@ -63,12 +62,5 @@ namespace Iit.Fibertest.RtuManagement
                 ? $@"{otdrIp}t{otauPortDto.OtauTcpPort}p{otauPortDto.OpticalPort}\"
                 : $@"{otauPortDto.OtauIp}t{otauPortDto.OtauTcpPort}p{otauPortDto.OpticalPort}\";
         }
-
-//        private string TryGetAppFolder()
-//        {
-//            var appPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
-//            return Path.GetDirectoryName(appPath);
-//        }
-
     }
 }
