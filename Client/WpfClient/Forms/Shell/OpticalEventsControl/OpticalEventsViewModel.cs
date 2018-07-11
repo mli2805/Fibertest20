@@ -201,12 +201,12 @@ namespace Iit.Fibertest.Client
         }
 
         // it will be replaced with just arrived event
-        public void RemovePreviousEventForTraceIfExists(Guid traceId)
-        {
-            var oldEvent = Rows.FirstOrDefault(l => l.TraceId == traceId);
-            if (oldEvent != null)
-                Rows.Remove(oldEvent);
-        }
+//        public void RemovePreviousEventForTraceIfExists(Guid traceId)
+//        {
+//            var oldEvent = Rows.FirstOrDefault(l => l.TraceId == traceId);
+//            if (oldEvent != null)
+//                Rows.Remove(oldEvent);
+//        }
 
         public void RemoveEventsOfTrace(Guid traceId)
         {

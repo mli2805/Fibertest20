@@ -39,7 +39,7 @@ namespace Iit.Fibertest.Client
             var measurement = Mapper.Map<Measurement>(measurementAdded);
             AllOpticalEventsViewModel.AddEvent(measurement);
 
-            ActualOpticalEventsViewModel.RemovePreviousEventForTraceIfExists(measurement.TraceId);
+            ActualOpticalEventsViewModel.RemoveEventsOfTrace(measurement.TraceId);
             if (measurement.TraceState != FiberState.Ok)
                 ActualOpticalEventsViewModel.AddEvent(measurement);
         }
@@ -63,7 +63,8 @@ namespace Iit.Fibertest.Client
 
         public void DetachTrace(TraceDetached evnt)
         {
-            ActualOpticalEventsViewModel.RemovePreviousEventForTraceIfExists(evnt.TraceId);
+          //  ActualOpticalEventsViewModel.RemovePreviousEventForTraceIfExists(evnt.TraceId);
+            ActualOpticalEventsViewModel.RemoveEventsOfTrace(evnt.TraceId);
         }
 
         public void CleanTrace(TraceCleaned evnt)

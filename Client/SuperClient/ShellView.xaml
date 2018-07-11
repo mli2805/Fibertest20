@@ -1,12 +1,10 @@
 <Window x:Class="SuperClient.ShellView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Height="450" >
 
-    <Grid Background="White">
-        <TextBlock Text="Hello Caliburn Micro!"
-                   VerticalAlignment="Center"
-                   HorizontalAlignment="Center"
-                   FontSize="20" />
-    </Grid>
+  <StackPanel VerticalAlignment="Center">
+      <Button Name="Start" Height="25" Width="100" Content="Start"></Button>
+  </StackPanel>
 
 </Window>
