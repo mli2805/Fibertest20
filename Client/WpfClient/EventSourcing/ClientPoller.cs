@@ -96,7 +96,7 @@ namespace Iit.Fibertest.Client
                 _logFile.AppendLine(@"Cannot establish connection with data-center.");
                 return 0;
             }
-
+            _logFile.AppendLine($@"{events.Length} events received");
             await _localDbManager.SaveEvents(events);
             _dispatcherProvider.GetDispatcher().Invoke(() => ApplyEventSourcingEvents(events)); // sync, GUI thread
             return events.Length;
