@@ -46,6 +46,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public bool IsRegistrationSuccessful { get; set; }
+
         public LoginViewModel(ILifetimeScope globalScope, IWindowManager windowManager, IniFile iniFile, IMyLog logFile,
             IWcfServiceForClient c2DWcfManager, CurrentUser currentUser, CurrentDatacenterParameters currentDatacenterParameters)
         {
@@ -58,27 +60,6 @@ namespace Iit.Fibertest.Client
             _currentDatacenterParameters = currentDatacenterParameters;
         }
 
-        private void ParseServerAnswer(ClientRegisteredDto result)
-    {
-            if (result.ReturnCode == ReturnCode.ClientRegisteredSuccessfully)
-            {
-                _currentUser.UserId = result.UserId;
-                _currentUser.UserName = UserName;
-                _currentUser.Role = result.Role;
-                _currentUser.ZoneId = result.ZoneId;
-                _currentUser.ZoneTitle = result.ZoneTitle;
-                _currentDatacenterParameters.DatacenterVersion = result.DatacenterVersion;
-                _currentDatacenterParameters.GraphDbVersionId = result.GraphDbVersionId;
-                _logFile.AppendLine(@"Registered successfully");
-                TryClose(true);
-            }
-            else
-            {
-                _logFile.AppendLine(result.ReturnCode.ToString());
-                Status = result.ReturnCode.GetLocalizedString();
-            }
-        }
-
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Authentication;
@@ -89,45 +70,53 @@ namespace Iit.Fibertest.Client
 #if DEBUG
             if (string.IsNullOrEmpty(UserName))
                 UserName = @"developer";
-//                UserName = @"operator";
-//                UserName = @"supervisor";
-//                UserName = @"root";
-//                UserName = @"Op";
+            //                UserName = @"operator";
+            //                UserName = @"supervisor";
+            //                UserName = @"root";
+            //                UserName = @"Op";
             if (string.IsNullOrEmpty(Password))
                 Password = @"developer";
-//                Password = @"operator";
-//                Password = @"supervisor";
-//                Password = @"root";
-//                Password = @"1";
+            //                Password = @"operator";
+            //                Password = @"supervisor";
+            //                Password = @"root";
+            //                Password = @"1";
 #endif
-            _logFile.AppendLine(@"Client registration attempt");
             Status = Resources.SID_Client_registraion_is_performing;
-            using (_globalScope.Resolve<IWaitCursor>())
+//            using (_globalScope.Resolve<IWaitCursor>())
             {
-                var result = await RegisterClientAsync();
-                ParseServerAnswer(result);
+                await RegisterClientAsync(UserName, Password);
             }
+
         }
 
-        private async Task<ClientRegisteredDto> RegisterClientAsync()
+        // public to start under super-client
+        public async Task RegisterClientAsync(string username, string password)
         {
+            _logFile.AppendLine(@"Client registration attempt");
             var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
-            var clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
+            var result = await PureRegisterClientAsync(dcServiceAddresses, (int)TcpPorts.ClientListenTo, username, password );
+            ParseServerAnswer(result);
+        }
+
+        private async Task<ClientRegisteredDto> PureRegisterClientAsync(
+            DoubleAddress dcServiceAddresses, int clientTcpPort, string username, string password)
+        {
+            var clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, clientTcpPort);
             if (clientAddress.IsAddressSetAsIp && clientAddress.Ip4Address == @"0.0.0.0" &&
                 dcServiceAddresses.Main.Ip4Address != @"0.0.0.0")
             {
                 clientAddress.Ip4Address = LocalAddressResearcher.GetLocalAddressToConnectServer(dcServiceAddresses.Main.Ip4Address);
                 _iniFile.Write(clientAddress, IniSection.ClientLocalAddress);
             }
-
-            _c2DWcfManager.SetServerAddresses(dcServiceAddresses, UserName, clientAddress.Ip4Address);
+             
+            _c2DWcfManager.SetServerAddresses(dcServiceAddresses, username, clientAddress.Ip4Address);
 
             var result = await _c2DWcfManager.RegisterClientAsync(
                 new RegisterClientDto()
                 {
-                    Addresses = new DoubleAddress() { Main = clientAddress, HasReserveAddress = false },
-                    UserName = UserName,
-                    Password = Password,
+                    Addresses = new DoubleAddress() {Main = clientAddress, HasReserveAddress = false},
+                    UserName = username,
+                    Password = password,
                 });
 
             if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
@@ -141,6 +130,28 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
-        public void Cancel() { TryClose(false);}
+        private void ParseServerAnswer(ClientRegisteredDto result)
+        {
+            if (result.ReturnCode == ReturnCode.ClientRegisteredSuccessfully)
+            {
+                _currentUser.UserId = result.UserId;
+                _currentUser.UserName = UserName;
+                _currentUser.Role = result.Role;
+                _currentUser.ZoneId = result.ZoneId;
+                _currentUser.ZoneTitle = result.ZoneTitle;
+                _currentDatacenterParameters.DatacenterVersion = result.DatacenterVersion;
+                _currentDatacenterParameters.GraphDbVersionId = result.GraphDbVersionId;
+                _logFile.AppendLine(@"Registered successfully");
+                IsRegistrationSuccessful = true;
+                TryClose();
+            }
+            else
+            {
+                _logFile.AppendLine(result.ReturnCode.ToString());
+                Status = result.ReturnCode.GetLocalizedString();
+            }
+        }
+
+        public void Cancel() { TryClose(); }
     }
 }

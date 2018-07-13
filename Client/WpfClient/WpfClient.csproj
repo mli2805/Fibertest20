@@ -198,6 +198,7 @@
     </Compile>
     <Compile Include="Forms\Landmarks\TraceChoiceViewModel.cs" />
     <Compile Include="Forms\UniversalForms\MyMessageBox\MyMessageBoxExt.cs" />
+    <Compile Include="GlobalVars\CommandLineParameters.cs" />
     <Compile Include="GlobalVars\CurrentDatacenterParameters.cs" />
     <Compile Include="GlobalVars\CurrentlyHiddenRtu.cs" />
     <Compile Include="GlobalVars\CurrentUser.cs" />
@@ -291,7 +292,7 @@
     </Compile>
     <Compile Include="Forms\TraceForms\TraceStepByStep\TraceStepByStepViewModel.cs" />
     <Compile Include="GlobalVars\CurrentGpsInputMode.cs" />
-    <Compile Include="GlobalVars\ObservableRangeCollection.cs" />
+    <Compile Include="Forms\WpfTricks\ObservableRangeCollection.cs" />
     <Compile Include="GraphModel\EventExecutors\AccidentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EquipmentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EventsOnGraphExecutor.cs" />

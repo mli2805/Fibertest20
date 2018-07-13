@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
+        private readonly CommandLineParameters _commandLineParameters;
         private readonly ClientWcfService _clientWcfService;
         private readonly IClientWcfServiceHost _host;
         private readonly ILifetimeScope _globalScope;
@@ -38,7 +39,8 @@ namespace Iit.Fibertest.Client
         public BopNetworkEventsDoubleViewModel BopNetworkEventsDoubleViewModel { get; }
 
         public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, CurrentUser currentUser,
-            CurrentDatacenterParameters currentDatacenterParameters, ClientWcfService clientWcfService, IClientWcfServiceHost host,
+            CurrentDatacenterParameters currentDatacenterParameters, CommandLineParameters commandLineParameters,
+            ClientWcfService clientWcfService, IClientWcfServiceHost host,
             GraphReadModel graphReadModel, IWcfServiceForClient c2DWcfManager, ILocalDbManager localDbManager, IWindowManager windowManager,
             LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, StoredEventsLoader storedEventsLoader, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
@@ -68,6 +70,7 @@ namespace Iit.Fibertest.Client
             _logFile = logFile;
             _currentUser = currentUser;
             _currentDatacenterParameters = currentDatacenterParameters;
+            _commandLineParameters = commandLineParameters;
             _clientWcfService = clientWcfService;
             _host = host;
         }
@@ -98,11 +101,19 @@ namespace Iit.Fibertest.Client
             _logFile.AssignFile($@"client{postfix}.log");
             _logFile.AppendLine(@"Client application started!");
 
-            var isAuthenticationSuccessfull = _windowManager.ShowDialog(_loginViewModel);
+            if (_commandLineParameters.IsUnderSuperClientStart)
+            {
+                _iniFile.WriteServerAddresses(new DoubleAddress(){Main = _commandLineParameters.ServerNetAddress});
+                _iniFile.Write(IniSection.Client, IniKey.ClientOrdinal, _commandLineParameters.ClientOrdinal);
+                _iniFile.Write(IniSection.ClientLocalAddress, IniKey.TcpPort, (int)TcpPorts.ClientListenTo + _commandLineParameters.ClientOrdinal);
+                await _loginViewModel.RegisterClientAsync(_commandLineParameters.Username, _commandLineParameters.Password);
+            }
+            else
+                _windowManager.ShowDialog(_loginViewModel);
 
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnMainWindowClose;
 
-            if (isAuthenticationSuccessfull == true)
+            if (_loginViewModel.IsRegistrationSuccessful)
             {
                 TabulatorViewModel.SelectedTabIndex = 4;
                 MainMenuViewModel.Initialize(_currentUser);
