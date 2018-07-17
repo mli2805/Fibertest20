@@ -468,6 +468,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add server.
+        /// </summary>
+        public static string SID_Add_server {
+            get {
+                return ResourceManager.GetString("SID_Add_server", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add user.
         /// </summary>
         public static string SID_Add_user {
