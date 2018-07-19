@@ -3,54 +3,58 @@ using System.Collections.ObjectModel;
 using Caliburn.Micro;
 using System.Diagnostics;
 using System.Windows.Controls;
-using Panel = System.Windows.Forms.Panel;
-using System;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.SuperClient
 {
     public class ShellViewModel : Screen, IShell
     {
-        public ObservableCollection<TabItem> TabItems { get; set; } = new ObservableCollection<TabItem>();
-        private int _selectedItemIndex;
+        private Dictionary<int, int> _postfixToTabitem = new Dictionary<int, int>();
+        private Dictionary<int, Process> _processes = new Dictionary<int, Process>();
+        public ObservableCollection<TabItem> Children { get; set; } = new ObservableCollection<TabItem>();
 
-        public int SelectedItemIndex
+        private int _selectedTabItemIndex;
+        public int SelectedTabItemIndex
         {
-            get => _selectedItemIndex;
-          
-            set   
+            get => _selectedTabItemIndex;
+
+            set
             {
-                if (_selectedItemIndex == value) return;
-                _selectedItemIndex = value;
+                if (_selectedTabItemIndex == value) return;
+                _selectedTabItemIndex = value;
                 NotifyOfPropertyChange();
-            } 
+            }
         }
-        public List<Panel> Panels = new List<Panel>();
-        public List<Tuple<string, string>> ServersTuples;
-        public int LastUsed = -1;
-        public List<Process> Processes = new List<Process>();
+
 
 
         private readonly IMyLog _logFile;
         private IWindowManager _windowManager;
-        private readonly FtServerList _ftServerList;
         private ChildStarter _childStarter;
         private AddServerViewModel _addServerViewModel;
+        private FtServer _selectedFtServer;
+        public FtServerList FtServerList { get; set; }
 
-        public ObservableCollection<FtServer> Servers { get; set; }
+        public FtServer SelectedFtServer
+        {
+            get { return _selectedFtServer; }
+            set
+            {
+                if (Equals(value, _selectedFtServer)) return;
+                _selectedFtServer = value;
+                NotifyOfPropertyChange();
+                if (_postfixToTabitem.ContainsKey(_selectedFtServer.Entity.Postfix))
+                    SelectedTabItemIndex = _postfixToTabitem[_selectedFtServer.Entity.Postfix];
+            }
+        }
 
-        public ShellViewModel(IMyLog logFile, IWindowManager windowManager, FtServerList ftServerList, 
+        public ShellViewModel(IMyLog logFile, IWindowManager windowManager, FtServerList ftServerList,
             ChildStarter childStarter, AddServerViewModel addServerViewModel)
         {
-            ServersTuples = new List<Tuple<string, string>>();
-            ServersTuples.Add(new Tuple<string, string>("192.168.96.21", "11840"));
-            ServersTuples.Add(new Tuple<string, string>("172.16.4.105", "11840"));
-            ServersTuples.Add(new Tuple<string, string>("172.16.4.115", "11840"));
-            ServersTuples.Add(new Tuple<string, string>("172.16.4.100", "11840"));
-
             _logFile = logFile;
             _windowManager = windowManager;
-            _ftServerList = ftServerList;
+            FtServerList = ftServerList;
+            FtServerList.Read();
             _childStarter = childStarter;
             _addServerViewModel = addServerViewModel;
         }
@@ -60,27 +64,47 @@ namespace Iit.Fibertest.SuperClient
             DisplayName = "Fibertest 2.0 Superclient";
             _logFile.AssignFile(@"sc.log");
             _logFile.AppendLine(@"Super-Client application started!");
-            
-            Servers = _ftServerList.Read();
-
         }
 
-        public void AddChild()
+        public void ConnectServer()
         {
             var tabItem = new TabItem() { Header = new ContentControl() };
-            TabItems.Add(tabItem);
+            Children.Add(tabItem);
+            SelectedTabItemIndex = Children.Count -1;
+
             var panel = _childStarter.CreatePanel(tabItem);
-            Panels.Add(panel);
-            LastUsed++;
-            SelectedItemIndex = LastUsed;
-            var process = _childStarter.StartChild(LastUsed, ServersTuples[LastUsed].Item1, ServersTuples[LastUsed].Item2);
-            Processes.Add(process);
+
+            var process = _childStarter.StartChild(SelectedFtServer.Entity);
+            _processes.Add(SelectedFtServer.Entity.Postfix, process);
+
             _childStarter.PutChildOnPanel(process, panel);
+            SelectedFtServer.ServerConnectionState = FtServerState.Connected;
+            _postfixToTabitem.Add(SelectedFtServer.Entity.Postfix, SelectedTabItemIndex);
+        }
+
+        public void DisconnectServer()
+        {
+            var process = _processes[SelectedFtServer.Entity.Postfix];
+            process.Kill();
+            _processes.Remove(SelectedFtServer.Entity.Postfix);
+
+            var tabIndex = _postfixToTabitem[SelectedFtServer.Entity.Postfix];
+            Children.RemoveAt(tabIndex);
+            _postfixToTabitem.Remove(SelectedFtServer.Entity.Postfix);
+
+            SelectedFtServer.ServerConnectionState = FtServerState.Disconnected;
         }
 
         public void AddServer()
         {
             _windowManager.ShowDialog(_addServerViewModel);
+        }
+
+
+        public void RemoveServer()
+        {
+            DisconnectServer();
+            FtServerList.Remove(SelectedFtServer);
         }
     }
 }

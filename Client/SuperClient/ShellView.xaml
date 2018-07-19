@@ -3,29 +3,50 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
-        WindowState="Maximized" >
+        xmlns:sc="clr-namespace:Iit.Fibertest.SuperClient"
+        xmlns:cal="http://www.caliburnproject.org"
+        WindowState="Maximized" d:DataContext="{d:DesignInstance sc:ShellViewModel}">
     <DockPanel>
-        <GroupBox DockPanel.Dock="Left" Header="Servers" Width="200">
-            <DockPanel Margin="5">
+        <GroupBox DockPanel.Dock="Left" Header="Servers" Width="256">
+            <DockPanel Margin="2,5">
                 <Button DockPanel.Dock="Bottom" Width="150" Height="25" Content="Add server" Margin="5" Name="AddServer"/>
-                
-                <ListBox DockPanel.Dock="Top" ItemsSource="{Binding Servers}" d:DataContext="{d:DesignData FtServerList}">
+                <ListBox DockPanel.Dock="Top" ItemsSource="{Binding FtServerList.Servers}" 
+                         SelectedItem="{Binding SelectedFtServer, Mode=TwoWay}" >
+                    <ListBox.Template>
+                        <ControlTemplate>
+                            <ItemsPresenter/>
+                        </ControlTemplate>
+                    </ListBox.Template>
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel Margin="5" Orientation="Horizontal">
-                                <TextBlock Text="{Binding ServerTitle}"></TextBlock>
-                                <TextBlock Text="{Binding ServerIp}"></TextBlock>
+                            <StackPanel Margin="1" Orientation="Horizontal">
+                                <Image Source="{Binding ConnectionStatePictogram}" Width="14" Height="14" Margin="2,4,5,3" ToolTip="Connection state"/>
+                                <Image Source="{Binding TracesStatePictogram}"     Width="14" Height="14" Margin="2,4,5,3" ToolTip="Traces state"/>
+                                <TextBlock Text="{Binding ServerName}" Margin="5"/>
                             </StackPanel>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
+                    <ListBox.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="Connect" cal:Message.Attach="ConnectServer" IsEnabled="{Binding SelectedFtServer.IsConnectEnabled}"/>
+                            <MenuItem Header="Disconnect" cal:Message.Attach="DisconnectServer" IsEnabled="{Binding SelectedFtServer.IsDisconnectEnabled}"/>
+                            <Separator/>
+                            <MenuItem Header="Remove" cal:Message.Attach="RemoveServer"/>
+                        </ContextMenu>
+                    </ListBox.ContextMenu>
                 </ListBox>
-                <Button Width="150" Height="25" Content="Connect server" Margin="5" Name="AddChild"/>
             </DockPanel>
         </GroupBox>
-        <DockPanel DockPanel.Dock="Left" Background="Beige">
-
-        </DockPanel>
-        <TabControl ItemsSource="{Binding TabItems}" SelectedIndex="{Binding SelectedItemIndex}" Visibility="Visible">
+<!--       <ListBox ItemsSource="{Binding Children}">-->
+<!--           <ListBox.ItemTemplate>-->
+<!--               <DataTemplate>-->
+<!--                  <Grid>-->
+<!---->
+<!--                  </Grid>-->
+<!--               </DataTemplate>-->
+<!--           </ListBox.ItemTemplate>-->
+<!--       </ListBox>-->
+        <TabControl ItemsSource="{Binding Children}" SelectedIndex="{Binding SelectedTabItemIndex}" >
           
         </TabControl>
 

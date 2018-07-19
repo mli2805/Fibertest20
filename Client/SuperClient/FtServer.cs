@@ -1,78 +1,78 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.IO;
-using System.Linq;
-using Iit.Fibertest.UtilsLib;
-using Newtonsoft.Json;
+﻿using Caliburn.Micro;
 
 namespace Iit.Fibertest.SuperClient
 {
-    public class FtServer
+    public enum FtServerState
+    {
+        Disconnected,
+        Connected,
+        Breakdown,
+    }
+
+    public class FtServerEntity
     {
         public int Id { get; set; }
+        public int Postfix { get; set; } // used for ini and log file names
         public string ServerTitle { get; set; }
         public string ServerIp { get; set; }
         public int ServerTcpPort { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
     }
-
-    public class FtServerList
+    public class FtServer : PropertyChangedBase
     {
-        private readonly IMyLog _logFile;
+        public FtServerEntity Entity { get; set; }
 
-        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
+        public string ServerName => $"{Entity.ServerTitle} ({Entity.ServerIp})";
+
+        private FtServerState _serverConnectionState;
+        public FtServerState ServerConnectionState
         {
-            TypeNameHandling = TypeNameHandling.All
-        };
-
-        private string _filename;
-
-        public FtServerList(IMyLog logFile)
-        {
-            _logFile = logFile;
-            var path = AppDomain.CurrentDomain.BaseDirectory;
-            _filename = FileOperations.GetParentFolder(path) + @"\ini\servers.list";
+            get { return _serverConnectionState; }
+            set
+            {
+                if (value == _serverConnectionState) return;
+                _serverConnectionState = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(ConnectionStatePictogram));
+                NotifyOfPropertyChange(nameof(IsConnectEnabled));
+                NotifyOfPropertyChange(nameof(IsDisconnectEnabled));
+            }
         }
 
-        public ObservableCollection<FtServer> Read()
-        {
-            var servers = new ObservableCollection<FtServer>();
+        private FtServerState _tracesState;
 
-            try
+        public FtServerState TracesState
+        {
+            get { return _tracesState; }
+            set
             {
-                if (!File.Exists(_filename))
-                {
-                    File.Create(_filename);
-                }
-                else
-                {
-                    var contents = File.ReadAllLines(_filename);
-                    foreach (var server in contents.Select(s => (FtServer)JsonConvert.DeserializeObject(s, JsonSerializerSettings)))
-                    {
-                        servers.Add(server);
-                    }
-                }
+                if (value == _tracesState) return;
+                _tracesState = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(TracesStatePictogram));
             }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($@"Servers loading: {e.Message}");
-            }
-            _logFile.AppendLine($@"{servers.Count} server(s) in my list.");
-            return servers;
         }
 
-        private void Write(List<FtServer> servers)
+        public bool IsConnectEnabled => ServerConnectionState != FtServerState.Connected;
+        public bool IsDisconnectEnabled => ServerConnectionState == FtServerState.Connected;
+       
+
+        public string ConnectionStatePictogram => GetPathToPictogram(ServerConnectionState);
+        public string TracesStatePictogram => GetPathToPictogram(TracesState);
+
+        private string GetPathToPictogram(FtServerState state)
         {
-            try
+            switch (state)
             {
-                var list = servers.Select(p => JsonConvert.SerializeObject(p, JsonSerializerSettings));
-                File.WriteAllLines(_filename, list);
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($@"Servers saving: {e.Message}");
+                case FtServerState.Disconnected:
+                    return @"pack://application:,,,/Resources/EmptySquare.png";
+                case FtServerState.Connected:
+                    return @"pack://application:,,,/Resources/GreenSquare.png";
+                case FtServerState.Breakdown:
+                    return @"pack://application:,,,/Resources/RedSquare.png";
+                default:
+                    return @"pack://application:,,,/Resources/EmptySquare.png";
             }
         }
     }

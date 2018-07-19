@@ -28,7 +28,7 @@ namespace Iit.Fibertest.SuperClient
         private static extern bool ShowWindowAsync(HandleRef hWnd, int nCmdShow);
 
         const string ClientFilename = @"c:\VsGitProjects\SuperClientE\LittleClient\bin\Debug\LittleClient";
-        //        const string ClientFilename = @"c:\VsGitProjects\Fibertest\Client\WpfClient\bin\Debug\Iit.Fibertest.Client.exe";
+//                const string ClientFilename = @"c:\VsGitProjects\Fibertest\Client\WpfClient\bin\Debug\Iit.Fibertest.Client.exe";
 
       
         public Panel CreatePanel(TabItem tabItem)
@@ -42,6 +42,7 @@ namespace Iit.Fibertest.SuperClient
             return panel;
         }
 
+
         public void PutChildOnPanel(Process childProcess, Panel panel)
         {
             IntPtr childHandle = childProcess.MainWindowHandle;
@@ -53,21 +54,39 @@ namespace Iit.Fibertest.SuperClient
             ShowWindowAsync(childHandleRef, SwShowmaximized);
         }
 
-        public Process StartChild(int number, string serverIp, string serverPort)
+        public TabItem PutChildOnSomething(Process childProcess)
+        {
+            var tabItem = new TabItem();
+            var windowsFormsHost = new WindowsFormsHost();
+            Panel panel = new Panel();
+            windowsFormsHost.Child = panel;
+            tabItem.Content = windowsFormsHost;
+
+            IntPtr childHandle = childProcess.MainWindowHandle;
+            int oldStyle = GetWindowLong(childHandle, GwlStyle);
+            SetWindowLong(childHandle, GwlStyle, (oldStyle | WsChild) & ~WsBorder);
+            var parentHandle = new HandleRef(null, panel.Handle);
+            SetParent(new HandleRef(null, childHandle), parentHandle);
+            var childHandleRef = new HandleRef(null, childHandle);
+            ShowWindowAsync(childHandleRef, SwShowmaximized);
+
+            return tabItem;
+        }
+
+        public Process StartChild(FtServerEntity ftServerEntity)
         {
             var process = new Process
             {
                 StartInfo = {
                     FileName = ClientFilename,
-                    Arguments = $"{number} superclient superclient {serverIp} {serverPort}"
+                    Arguments = $"{ftServerEntity.Postfix} {ftServerEntity.Username} {ftServerEntity.Password} {ftServerEntity.ServerIp} {ftServerEntity.ServerTcpPort}"
                 }
             };
             process.Start();
-            //            var pause = number == 3 ? 45 : 10;
-            var pause = 2;
+                        var pause = ftServerEntity.Postfix == 4 ? 45 : 10;
+//            var pause = 2;
             Thread.Sleep(TimeSpan.FromSeconds(pause));
             return process;
-       //     return process.MainWindowHandle;
         }
     }
 }

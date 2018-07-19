@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System.Linq;
+using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.SuperClient
@@ -7,15 +8,15 @@ namespace Iit.Fibertest.SuperClient
     {
         private readonly FtServerList _ftServerList;
 
-        public string ServerTitle { get; set; } = "fff";
+        public string ServerTitle { get; set; }
 
-        public string ServerIp { get; set; } = "fff";
+        public string ServerIp { get; set; }
 
         public int ServerTcpPort { get; set; } = 11840;
 
-        public string Username { get; set; } = "fff";
+        public string Username { get; set; } = "superclient";
 
-        public string Password { get; set; } = "fff";
+        public string Password { get; set; } = "superclient";
 
         public AddServerViewModel(FtServerList ftServerList)
         {
@@ -25,6 +26,8 @@ namespace Iit.Fibertest.SuperClient
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Add_server;
+            ServerTitle = "";
+            ServerIp = "";
         }
         public void CheckConnection()
         {
@@ -32,15 +35,18 @@ namespace Iit.Fibertest.SuperClient
         }
         public void Save()
         {
-            var ftServer = new FtServer()
+            var maxPostfix = _ftServerList.Servers.Any() ? _ftServerList.Servers.Select(x => x.Entity).Max(e => e.Postfix) : 0;
+
+            var ftServerEntity = new FtServerEntity()
             {
+                Postfix = maxPostfix + 1,
                 ServerTitle = ServerTitle,
                 ServerIp = ServerIp,
                 ServerTcpPort = ServerTcpPort,
                 Username = Username,
                 Password = Password,
             };
-         //   _ftServerList.Add(ftServer);
+            _ftServerList.Add(new FtServer(){Entity = ftServerEntity});
             TryClose();
         }
 

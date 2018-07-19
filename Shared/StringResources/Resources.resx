@@ -2117,7 +2117,7 @@ RTU is initializing right now!</value>
 	<data name="SID_There_is_a_trace_with_the_same_title" xml:space="preserve">
     <value>There is a trace with the same title</value>
   </data>
-  <data name="SID_Add_server" xml:space="preserve">
+	<data name="SID_Add_server" xml:space="preserve">
     <value>Add server</value>
   </data>
 </root>
