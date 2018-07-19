@@ -59,7 +59,7 @@
                 <TextBlock Text="{Binding TreeOfRtuModel.Statistics}"/>
             </StatusBarItem>
         </StatusBar>
-        <TreeView ItemsSource="{Binding TreeOfRtuModel.Tree}" Name="MainTreeView"
+        <TreeView ItemsSource="{Binding TreeOfRtuModel.Tree}" Name="MainTreeView" Padding="3,7,0,0"
                   Background="Transparent" Foreground="Black" HorizontalAlignment="Stretch"
                   ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                   VirtualizingStackPanel.IsVirtualizing="True">

@@ -27,8 +27,8 @@ namespace Iit.Fibertest.SuperClient
         [DllImport("user32.dll")]
         private static extern bool ShowWindowAsync(HandleRef hWnd, int nCmdShow);
 
-        const string ClientFilename = @"c:\VsGitProjects\SuperClientE\LittleClient\bin\Debug\LittleClient";
-//                const string ClientFilename = @"c:\VsGitProjects\Fibertest\Client\WpfClient\bin\Debug\Iit.Fibertest.Client.exe";
+//        const string ClientFilename = @"c:\VsGitProjects\SuperClientE\LittleClient\bin\Debug\LittleClient";
+                const string ClientFilename = @"c:\VsGitProjects\Fibertest\Client\WpfClient\bin\Debug\Iit.Fibertest.Client.exe";
 
       
         public Panel CreatePanel(TabItem tabItem)

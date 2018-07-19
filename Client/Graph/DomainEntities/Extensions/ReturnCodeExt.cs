@@ -53,12 +53,14 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_No_such_user_or_wrong_password_;
                 case ReturnCode.ThisUserRegisteredOnAnotherPc:
                     return Resources.SID_User_with_the_same_name_is_registered_on_another_PC;
+                case ReturnCode.NoSuchClientStation:
+                    return @"No such client station";
                 case ReturnCode.ExceededNumberOfClients:
                     return Resources.SID_Exceeded_the_number_of_clients_registered_simultaneously;
                 case ReturnCode.ClientRegisteredSuccessfully:
                     return @"OK";
 
-                default: return Resources.SID_Unknown_return_code;
+                default: return Resources.SID_Unknown_return_code + @":  " + ((int)returnCode);
             }
         }
     }

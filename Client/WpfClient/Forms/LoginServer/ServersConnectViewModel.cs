@@ -114,7 +114,8 @@ namespace Iit.Fibertest.Client
                     if (serverAddress == @"localhost")
                     {
                         var serverIp = LocalAddressResearcher.GetAllLocalAddresses().First();
-                        ServerConnectionTestViewModel.NetAddressInputViewModel = new NetAddressInputViewModel(new NetAddress(serverIp, TcpPorts.ServerListenToClient));
+                        ServerConnectionTestViewModel.NetAddressInputViewModel = 
+                            new NetAddressInputViewModel(new NetAddress(serverIp, TcpPorts.ServerListenToClient), true);
                         serverAddress = serverIp;
                     }
                     _clientAddress = LocalAddressResearcher.GetLocalAddressToConnectServer(serverAddress);

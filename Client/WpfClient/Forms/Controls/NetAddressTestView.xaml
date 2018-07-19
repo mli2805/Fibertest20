@@ -11,6 +11,7 @@
              cal:Bind.ModelWithoutContext="{Binding .}">
     <Grid>
         <client:NetAddressInputView x:Name="Address"  DataContext="{Binding NetAddressInputViewModel}"/>
-        <Button Name="Test" Height="22" Width="80" Content="{x:Static stringResources:Resources.SID_Test}" Margin="5,5,20,0" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+        <Button Name="Test" Height="22" Width="80" Content="{x:Static stringResources:Resources.SID_Test}" 
+                Margin="5,5,20,0" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEnabled="{Binding IsButtonEnabled}"/>
     </Grid>
 </UserControl>

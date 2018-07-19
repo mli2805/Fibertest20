@@ -15,15 +15,12 @@
         RtuDoesntSupportBop = 1012,
         RtuTooBigPortNumber = 1013,
 
-
         RtuIsBusy = 1100,
         RtuBaseRefAssignmentError = 1106,
         RtuMonitoringSettingsApplyError = 1107,
         RtuAttachOtauError = 1108,
         RtuDetachOtauError = 1109,
         RtuToggleToPortError = 1110,
-
-    
 
         MeasurementError = 1500,
         MeasurementEndedNormally = 1501,
@@ -35,7 +32,6 @@
         C2DWcfOperationError = 2002,
         D2RWcfConnectionError = 2011,
         D2RWcfOperationError = 2012,
-
 
         DbError = 3000,
         DbInitializedSuccessfully = 3001,

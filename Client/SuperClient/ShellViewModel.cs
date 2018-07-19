@@ -9,15 +9,19 @@ namespace Iit.Fibertest.SuperClient
 {
     public class ShellViewModel : Screen, IShell
     {
+        private readonly IMyLog _logFile;
+        private IWindowManager _windowManager;
+        private ChildStarter _childStarter;
+        private AddServerViewModel _addServerViewModel;
+
         private Dictionary<int, int> _postfixToTabitem = new Dictionary<int, int>();
         private Dictionary<int, Process> _processes = new Dictionary<int, Process>();
-        public ObservableCollection<TabItem> Children { get; set; } = new ObservableCollection<TabItem>();
 
+        public ObservableCollection<TabItem> Children { get; set; } = new ObservableCollection<TabItem>();
         private int _selectedTabItemIndex;
         public int SelectedTabItemIndex
         {
             get => _selectedTabItemIndex;
-
             set
             {
                 if (_selectedTabItemIndex == value) return;
@@ -25,16 +29,9 @@ namespace Iit.Fibertest.SuperClient
                 NotifyOfPropertyChange();
             }
         }
-
-
-
-        private readonly IMyLog _logFile;
-        private IWindowManager _windowManager;
-        private ChildStarter _childStarter;
-        private AddServerViewModel _addServerViewModel;
-        private FtServer _selectedFtServer;
+      
         public FtServerList FtServerList { get; set; }
-
+        private FtServer _selectedFtServer;
         public FtServer SelectedFtServer
         {
             get { return _selectedFtServer; }
@@ -99,7 +96,6 @@ namespace Iit.Fibertest.SuperClient
         {
             _windowManager.ShowDialog(_addServerViewModel);
         }
-
 
         public void RemoveServer()
         {

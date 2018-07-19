@@ -15,7 +15,7 @@ namespace Graph.Tests
             if (answer == Answer.Yes)
             {
                 vm.Initialize(rtuId, masterPort);
-                vm.NetAddressInputViewModel = new NetAddressInputViewModel(new NetAddress(otauIp, otauTcpPort));
+                vm.NetAddressInputViewModel = new NetAddressInputViewModel(new NetAddress(otauIp, otauTcpPort), true);
                 vm.AttachOtau().Wait();
             }
             else

@@ -11,13 +11,15 @@ namespace Iit.Fibertest.Client
         public bool IsAddressSetAsIp { get; set; }
 
         public bool IsAddressSetAsName => !IsAddressSetAsIp;
+        public bool IsEditEnabled { get; set; }
 
-        public NetAddressInputViewModel(NetAddress netAddress)
+        public NetAddressInputViewModel(NetAddress netAddress, bool isEditEnabled)
         {
             Ip4InputViewModel = new Ip4InputViewModel(netAddress.Ip4Address);
             Host = netAddress.HostName;
             Port = netAddress.Port;
             IsAddressSetAsIp = netAddress.IsAddressSetAsIp;
+            IsEditEnabled = isEditEnabled;
         }
 
         public NetAddress GetNetAddress()

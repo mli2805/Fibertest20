@@ -26,6 +26,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public bool IsButtonEnabled { get; set; }
 
         public bool? Result
         {
@@ -38,13 +39,14 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public NetAddressTestViewModel(ILifetimeScope globalScope, IWcfServiceForClient c2DWcfManager,
-            NetAddressForConnectionTest netAddressForConnectionTest)
+        public NetAddressTestViewModel(ILifetimeScope globalScope, CurrentUser currentUser,
+            IWcfServiceForClient c2DWcfManager, NetAddressForConnectionTest netAddressForConnectionTest)
         {
             _globalScope = globalScope;
             _c2DWcfManager = c2DWcfManager;
             _netAddressForConnectionTest = netAddressForConnectionTest;
-            NetAddressInputViewModel = new NetAddressInputViewModel(netAddressForConnectionTest.Address);
+            NetAddressInputViewModel = new NetAddressInputViewModel(netAddressForConnectionTest.Address, currentUser.Role <= Role.Root);
+            IsButtonEnabled = currentUser.Role <= Role.Operator;
             Result = true;
         }
 

@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
 
         private void TextBox_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
-            ((TextBox) sender).SelectAll();
+            ((TextBox)sender).SelectAll();
         }
 
         private void TextBox_GotMouseCapture(object sender, MouseEventArgs e)
@@ -72,8 +72,8 @@ namespace Iit.Fibertest.Client
         private void OnLostFocus(object sender, RoutedEventArgs e)
         {
             var text = ((TextBox)e.Source).Text;
-            var number = int.Parse(text);
-            ((TextBox)e.Source).Text = number.ToString();
+            if (int.TryParse(text, out int number))
+                ((TextBox)e.Source).Text = number.ToString();
         }
 
     }

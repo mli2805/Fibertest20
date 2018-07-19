@@ -16,15 +16,16 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <TabControl>
-                <TabItem>
-                    <TabItem.Header>
-                        <TextBlock FontSize="14" Text="{x:Static stringResources:Resources.SID_Rtu}" Margin="5,0,30,0"/>
-                    </TabItem.Header>
-                    <client:TreeOfRtuView DataContext="{Binding TreeOfRtuViewModel}"/>
-                </TabItem>
-                <TabItem FontSize="14" Header="{x:Static stringResources:Resources.SID_Servers}"/>
-            </TabControl>
+            <client:TreeOfRtuView DataContext="{Binding TreeOfRtuViewModel}"/>
+            <!--            <TabControl>-->
+            <!--                <TabItem>-->
+            <!--                    <TabItem.Header>-->
+            <!--                        <TextBlock FontSize="14" Text="{x:Static stringResources:Resources.SID_Rtu}" Margin="5,0,30,0"/>-->
+            <!--                    </TabItem.Header>-->
+            <!--                    <client:TreeOfRtuView DataContext="{Binding TreeOfRtuViewModel}"/>-->
+            <!--                </TabItem>-->
+            <!--                <TabItem FontSize="14" Header="{x:Static stringResources:Resources.SID_Servers}"/>-->
+            <!--            </TabControl>-->
             <GridSplitter Grid.Column="1" Width="4" HorizontalAlignment="Left"/>
             <DockPanel Grid.Column="2">
                 <client:TabulatorView DockPanel.Dock="Top" DataContext="{Binding TabulatorViewModel}"/>

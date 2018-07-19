@@ -153,9 +153,6 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-
-
-
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             var wcfConnection = _wcfFactory.GetC2DChannelFactory();

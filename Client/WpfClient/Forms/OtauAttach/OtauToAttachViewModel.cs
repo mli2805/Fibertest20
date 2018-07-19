@@ -94,7 +94,7 @@ namespace Iit.Fibertest.Client
             AttachmentProgress = "";
 
             NetAddressInputViewModel = new NetAddressInputViewModel(
-                new NetAddress() { Ip4Address = @"172.16.5.57", Port = 11834, IsAddressSetAsIp = true });
+                new NetAddress() { Ip4Address = @"172.16.5.57", Port = 11834, IsAddressSetAsIp = true }, true);
         }
 
         protected override void OnViewLoaded(object view)
