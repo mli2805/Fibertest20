@@ -1,4 +1,7 @@
+using System;
+using System.Windows;
 using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.SuperClient
@@ -28,6 +31,11 @@ namespace Iit.Fibertest.SuperClient
             _superClientWcfServiceHost.StartWcfListener();
         }
 
-    
+        public override void CanClose(Action<bool> callback)
+        {
+            var res = MessageBox.Show(Resources.SID_Close_application_, "Confirmation", MessageBoxButton.YesNo);
+            if (res == MessageBoxResult.Yes)
+                base.CanClose(callback);
+        }
     }
 }

@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Threading;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.SuperClient
@@ -57,6 +59,10 @@ namespace Iit.Fibertest.SuperClient
             builder.RegisterInstance(iniFile); 
             
             _container = builder.Build();
+
+            var currentCulture = iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(currentCulture);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
 
             DisplayRootViewFor<IShell>();
         }

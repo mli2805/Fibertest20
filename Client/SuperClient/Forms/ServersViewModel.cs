@@ -70,5 +70,7 @@ namespace Iit.Fibertest.SuperClient
             DisconnectServer();
             FtServerList.Remove(SelectedFtServer);
         }
+
+    
     }
 }
