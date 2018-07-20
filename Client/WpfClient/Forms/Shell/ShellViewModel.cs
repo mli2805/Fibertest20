@@ -6,6 +6,7 @@ using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.SuperClientWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
@@ -27,6 +28,7 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly IniFile _iniFile;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceInSuperClient _c2SWcfManager;
         private readonly ILocalDbManager _localDbManager;
 
         public GraphReadModel GraphReadModel { get; set; }
@@ -41,7 +43,8 @@ namespace Iit.Fibertest.Client
         public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, CurrentUser currentUser,
             CurrentDatacenterParameters currentDatacenterParameters, CommandLineParameters commandLineParameters,
             ClientWcfService clientWcfService, IClientWcfServiceHost host,
-            GraphReadModel graphReadModel, IWcfServiceForClient c2DWcfManager, ILocalDbManager localDbManager, IWindowManager windowManager,
+            GraphReadModel graphReadModel, IWcfServiceForClient c2DWcfManager, IWcfServiceInSuperClient c2SWcfManager,
+            ILocalDbManager localDbManager, IWindowManager windowManager,
             LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, StoredEventsLoader storedEventsLoader, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
             TabulatorViewModel tabulatorViewModel, CommonStatusBarViewModel commonStatusBarViewModel,
@@ -61,6 +64,7 @@ namespace Iit.Fibertest.Client
             _globalScope = globalScope;
             _iniFile = iniFile;
             _c2DWcfManager = c2DWcfManager;
+            _c2SWcfManager = c2SWcfManager;
             _localDbManager = localDbManager;
             _windowManager = windowManager;
             _loginViewModel = loginViewModel;
@@ -120,7 +124,8 @@ namespace Iit.Fibertest.Client
 
                 await GetAlreadyStoredInCacheAndOnServerData();
                 StartRegularCommunicationWithServer();
-
+                if (postfix != "")
+                    NotifySuperClientImReady(postfix);
                 IsEnabled = true;
                 DisplayName =
                     $@"Fibertest v2.0 {_currentUser.UserName} as {_currentUser.Role.ToString()} [{_currentUser.ZoneTitle}]";
@@ -128,6 +133,15 @@ namespace Iit.Fibertest.Client
             }
             else
                 TryClose();
+        }
+
+        private void NotifySuperClientImReady(string postfix)
+        {
+            _logFile.AppendLine(@"Notify superclient I'm ready");
+            if (int.TryParse(postfix, out int number))
+            {
+                _c2SWcfManager.ClientLoaded(number);
+            }
         }
 
         public async Task GetAlreadyStoredInCacheAndOnServerData()
@@ -154,13 +168,13 @@ namespace Iit.Fibertest.Client
 
         private void _clientWcfService_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Cmd")
-            {
-                if (_clientWcfService.Cmd == 1)
-                    this.ActivateWith(null);
-                if (_clientWcfService.Cmd == 99)
-                    TryClose();
-            }
+//            if (e.PropertyName == "Cmd")
+//            {
+//                if (_clientWcfService.Cmd == 1)
+//                    this.ActivateWith(null);
+//                if (_clientWcfService.Cmd == 99)
+//                    TryClose();
+//            }
         }
 
         public override void CanClose(Action<bool> callback)

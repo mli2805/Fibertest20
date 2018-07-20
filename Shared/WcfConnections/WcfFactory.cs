@@ -5,6 +5,7 @@ using System.ServiceModel.Channels;
 using Iit.Fibertest.ClientWcfServiceInterface;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuWcfServiceInterface;
+using Iit.Fibertest.SuperClientWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WcfServiceForRtuInterface;
@@ -31,26 +32,6 @@ namespace Iit.Fibertest.WcfConnections
             _logFile = logFile;
         }
 
-        //        public IClientWcfService CreateClientConnection()
-        //        {
-        //            try
-        //            {
-        //                var netAddress = SelectNetAddressAvailableNow();
-        //                if (netAddress == null)
-        //                    return null;
-        //
-        //                var myClient = new MyClient<IClientWcfService>(
-        //                    CreateDefaultNetTcpBinding(_iniFile), 
-        //                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(),netAddress.Port, @"ClientWcfService"))));
-        //                return myClient.ChannelFactory.CreateChannel();
-        //            }
-        //            catch (Exception e)
-        //            {
-        //                _logFile.AppendLine(e.Message);
-        //                return null;
-        //            }
-        //        }
-
         public ChannelFactory<IClientWcfService> GetClientChannelFactory()
         {
             try
@@ -70,27 +51,6 @@ namespace Iit.Fibertest.WcfConnections
                 return null;
             }
         }
-
-        //        public IWcfServiceForClient CreateC2DConnection()
-        //        {
-        //            try
-        //            {
-        //                var netAddress = SelectNetAddressAvailableNow();
-        //                if (netAddress == null)
-        //                    return null;
-        //
-        //                var myClient = new MyClient<IWcfServiceForClient>(
-        //                    CreateDefaultNetTcpBinding(_iniFile),
-        //                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForClient"))));
-        //
-        //                return myClient.ChannelFactory.CreateChannel();
-        //            }
-        //            catch (Exception e)
-        //            {
-        //                _logFile.AppendLine(e.Message);
-        //                return null;
-        //            }
-        //        }
 
         public ChannelFactory<IWcfServiceForClient> GetC2DChannelFactory()
         {
@@ -113,27 +73,27 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public ChannelFactory<IWcfServiceInSuperClient> GetC2SChannelFactory()
+        {
+            try
+            {
+                var netAddress = SelectNetAddressAvailableNow();
+                if (netAddress == null)
+                    return null;
 
-        //        public IWcfServiceForRtu CreateR2DConnection(bool shouldWriteToLogProblems = true)
-        //        {
-        //            var netAddress = SelectNetAddressAvailableNow(shouldWriteToLogProblems);
-        //            if (netAddress == null)
-        //                return null;
-        //
-        //            try
-        //            {
-        //                var myClient = new MyClient<IWcfServiceForRtu>(
-        //                    CreateDefaultNetTcpBinding(_iniFile),
-        //                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForRtu"))));
-        //                return myClient.ChannelFactory.CreateChannel();
-        //            }
-        //            catch (Exception e)
-        //            {
-        //                _logFile.AppendLine($"Exception while RTU to Server {netAddress.ToStringASpace} connection creating...");
-        //                _logFile.AppendLine(e.Message);
-        //                return null;
-        //            }
-        //        }
+                var myClient = new MyClient<IWcfServiceInSuperClient>(
+                    CreateDefaultNetTcpBinding(_iniFile),
+                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceInSuperClient"))));
+
+                return myClient.ChannelFactory;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return null;
+            }
+
+        }
 
         public ChannelFactory<IWcfServiceForRtu> GetR2DChannelFactory(bool shouldWriteToLogProblems = true)
         {

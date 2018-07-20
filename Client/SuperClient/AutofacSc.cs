@@ -12,6 +12,10 @@ namespace Iit.Fibertest.SuperClient
 
             builder.RegisterType<LogFile>().As<IMyLog>().SingleInstance();
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
+
+            builder.RegisterType<SuperClientWcfService>().InstancePerLifetimeScope();
+            builder.RegisterType<SuperClientWcfServiceHost>().InstancePerLifetimeScope();
+
             builder.RegisterType<FtServerList>().SingleInstance();
             builder.RegisterType<ChildStarter>().SingleInstance();
 

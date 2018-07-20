@@ -11,17 +11,17 @@ namespace Iit.Fibertest.Client
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class ClientWcfService : IClientWcfService, INotifyPropertyChanged
     {
-        private int _cmd;
-        public int Cmd
-        {
-            get => _cmd;
-            set
-            {
-                if (value == _cmd) return;
-                _cmd = value;
-                OnPropertyChanged();
-            }
-        }
+//        private int _cmd;
+//        public int Cmd
+//        {
+//            get => _cmd;
+//            set
+//            {
+//                if (value == _cmd) return;
+//                _cmd = value;
+//                OnPropertyChanged();
+//            }
+//        }
 
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly ClientMeasurementViewModel _clientMeasurementViewModel;

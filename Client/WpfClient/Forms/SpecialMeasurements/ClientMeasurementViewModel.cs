@@ -113,10 +113,11 @@ namespace Iit.Fibertest.Client
         public void ShowReflectogram(byte[] sorBytes)
         {
             _logFile.AppendLine(@"Measurement (Client) result received");
-            var rootPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory, 2);
-            var filename = rootPath + $@"\Client\temp\meas-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.sor";
+            var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
+            var filename = clientPath + $@"\temp\meas-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.sor";
             SorData.Save(sorBytes, filename);
-            Process.Start(rootPath + @"\RftsReflect\Reflect.exe", filename);
+            var iitPath = FileOperations.GetParentFolder(clientPath);
+            Process.Start(iitPath + @"\RftsReflect\Reflect.exe", filename);
             TryClose(true);
         }
 

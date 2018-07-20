@@ -2,6 +2,7 @@
 using Caliburn.Micro;
 using Iit.Fibertest.Client.MonitoringSettings;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.SuperClientWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -158,6 +159,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<TraceContentChoiceViewModel>();
             builder.RegisterType<EquipmentOfChoiceModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<C2DWcfManager>().AsSelf().As<IWcfServiceForClient>().InstancePerLifetimeScope();
+            builder.RegisterType<C2SWcfManager>().AsSelf().As<IWcfServiceInSuperClient>().InstancePerLifetimeScope();
 
             builder.RegisterType<ClientHeartbeat>().InstancePerLifetimeScope();
 

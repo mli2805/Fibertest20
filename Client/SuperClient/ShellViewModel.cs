@@ -11,6 +11,7 @@ namespace Iit.Fibertest.SuperClient
     {
         private readonly IMyLog _logFile;
         private IWindowManager _windowManager;
+        private readonly SuperClientWcfServiceHost _superClientWcfServiceHost;
         private ChildStarter _childStarter;
         private AddServerViewModel _addServerViewModel;
 
@@ -45,11 +46,13 @@ namespace Iit.Fibertest.SuperClient
             }
         }
 
-        public ShellViewModel(IMyLog logFile, IWindowManager windowManager, FtServerList ftServerList,
+        public ShellViewModel(IMyLog logFile, IWindowManager windowManager, 
+            SuperClientWcfServiceHost superClientWcfServiceHost, FtServerList ftServerList,
             ChildStarter childStarter, AddServerViewModel addServerViewModel)
         {
             _logFile = logFile;
             _windowManager = windowManager;
+            _superClientWcfServiceHost = superClientWcfServiceHost;
             FtServerList = ftServerList;
             FtServerList.Read();
             _childStarter = childStarter;
@@ -61,6 +64,7 @@ namespace Iit.Fibertest.SuperClient
             DisplayName = "Fibertest 2.0 Superclient";
             _logFile.AssignFile(@"sc.log");
             _logFile.AppendLine(@"Super-Client application started!");
+            _superClientWcfServiceHost.StartWcfListener();
         }
 
         public void ConnectServer()
