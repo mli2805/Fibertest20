@@ -75,7 +75,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterInstance(parameters);
             _container = builder.Build();
 
-            var currentCulture = iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
+            var currentCulture = postfix == "" ? iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU") : parameters.SuperClientCulture;
             Thread.CurrentThread.CurrentCulture = new CultureInfo(currentCulture);
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
 
@@ -96,16 +96,17 @@ namespace Iit.Fibertest.Client
             {
                 if (int.TryParse(args[0], out int clientOrdinal))
                     parameters.ClientOrdinal = clientOrdinal;
-                if (args.Length >= 3)
+                parameters.SuperClientCulture = args[1];
+                if (args.Length >= 4)
                 {
-                    parameters.Username = args[1];
-                    parameters.Password = args[2];
+                    parameters.Username = args[2];
+                    parameters.Password = args[3];
                 }
 
-                if (args.Length == 5)
+                if (args.Length == 6)
                 {
-                    if (int.TryParse(args[4], out int serverPort))
-                        parameters.ServerNetAddress = new NetAddress(args[3], serverPort);
+                    if (int.TryParse(args[5], out int serverPort))
+                        parameters.ServerNetAddress = new NetAddress(args[4], serverPort);
                 }
             }
             return parameters;
