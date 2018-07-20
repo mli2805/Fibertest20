@@ -8,14 +8,24 @@ namespace Iit.Fibertest.SuperClient
     public class SuperClientWcfService : IWcfServiceInSuperClient
     {
         private readonly ChildStarter _childStarter;
-        public SuperClientWcfService(ChildStarter childStarter)
+        private readonly ServersViewModel _serversViewModel;
+
+        public SuperClientWcfService(ChildStarter childStarter, ServersViewModel serversViewModel)
         {
             _childStarter = childStarter;
+            _serversViewModel = serversViewModel;
         }
 
         public Task<int> ClientLoaded(int postfix)
         {
             _childStarter.PlaceFtClientOnPanel(postfix);
+            _serversViewModel.SetServerIsReady(postfix);
+            return Task.FromResult(0);
+        }
+
+        public Task<int> ClientClosed(int postfix)
+        {
+            _serversViewModel.SetServerIsClosed(postfix);
             return Task.FromResult(0);
         }
     }

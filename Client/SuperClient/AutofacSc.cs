@@ -16,6 +16,7 @@ namespace Iit.Fibertest.SuperClient
             builder.RegisterType<SuperClientWcfService>().InstancePerLifetimeScope();
             builder.RegisterType<SuperClientWcfServiceHost>().InstancePerLifetimeScope();
 
+            builder.RegisterType<ServersViewModel>().SingleInstance();
             builder.RegisterType<GasketViewModel>().SingleInstance();
             builder.RegisterType<FtServerList>().SingleInstance();
             builder.RegisterType<ChildStarter>().SingleInstance();

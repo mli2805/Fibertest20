@@ -94,36 +94,44 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="AddServerView.xaml.cs">
+    <Compile Include="Forms\AddServerView.xaml.cs">
       <DependentUpon>AddServerView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="AddServerViewModel.cs" />
+    <Compile Include="Forms\AddServerViewModel.cs" />
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="AutofacSc.cs" />
     <Compile Include="ChildStarter.cs" />
+    <Compile Include="Forms\ServersView.xaml.cs">
+      <DependentUpon>ServersView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\ServersViewModel.cs" />
     <Compile Include="FtServer.cs" />
     <Compile Include="FtServerList.cs" />
-    <Compile Include="GasketView.xaml.cs">
+    <Compile Include="Forms\GasketView.xaml.cs">
       <DependentUpon>GasketView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="GasketViewModel.cs" />
-    <Compile Include="IShell.cs" />
-    <Compile Include="ShellViewModel.cs" />
+    <Compile Include="Forms\GasketViewModel.cs" />
+    <Compile Include="Forms\IShell.cs" />
+    <Compile Include="Forms\ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="SuperClientWcfService.cs" />
     <Compile Include="SuperClientWcfServiceHost.cs" />
-    <Page Include="AddServerView.xaml">
+    <Page Include="Forms\AddServerView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="GasketView.xaml">
+    <Page Include="Forms\GasketView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ShellView.xaml">
+    <Page Include="Forms\ServersView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -190,5 +198,6 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
