@@ -10,6 +10,7 @@ namespace Iit.Fibertest.SuperClient
 {
     public class ChildStarter
     {
+        #region interop
         private const int GwlStyle = -16;
         private const int WsBorder = 0x00800000;
         private const int WsChild = 0x40000000;
@@ -26,9 +27,10 @@ namespace Iit.Fibertest.SuperClient
 
         [DllImport("user32.dll")]
         private static extern bool ShowWindowAsync(HandleRef hWnd, int nCmdShow);
+        #endregion
 
-//        const string ClientFilename = @"c:\VsGitProjects\SuperClientE\LittleClient\bin\Debug\LittleClient";
-                const string ClientFilename = @"c:\VsGitProjects\Fibertest\Client\WpfClient\bin\Debug\Iit.Fibertest.Client.exe";
+        const string ClientFilename = @"c:\VsGitProjects\SuperClientE\LittleClient\bin\Debug\LittleClient";
+//                const string ClientFilename = @"c:\VsGitProjects\Fibertest\Client\WpfClient\bin\Debug\Iit.Fibertest.Client.exe";
 
       
         public Panel CreatePanel(TabItem tabItem)
@@ -54,25 +56,6 @@ namespace Iit.Fibertest.SuperClient
             ShowWindowAsync(childHandleRef, SwShowmaximized);
         }
 
-        public TabItem PutChildOnSomething(Process childProcess)
-        {
-            var tabItem = new TabItem();
-            var windowsFormsHost = new WindowsFormsHost();
-            Panel panel = new Panel();
-            windowsFormsHost.Child = panel;
-            tabItem.Content = windowsFormsHost;
-
-            IntPtr childHandle = childProcess.MainWindowHandle;
-            int oldStyle = GetWindowLong(childHandle, GwlStyle);
-            SetWindowLong(childHandle, GwlStyle, (oldStyle | WsChild) & ~WsBorder);
-            var parentHandle = new HandleRef(null, panel.Handle);
-            SetParent(new HandleRef(null, childHandle), parentHandle);
-            var childHandleRef = new HandleRef(null, childHandle);
-            ShowWindowAsync(childHandleRef, SwShowmaximized);
-
-            return tabItem;
-        }
-
         public Process StartChild(FtServerEntity ftServerEntity)
         {
             var process = new Process
@@ -83,8 +66,8 @@ namespace Iit.Fibertest.SuperClient
                 }
             };
             process.Start();
-                        var pause = ftServerEntity.Postfix == 4 ? 45 : 10;
-//            var pause = 2;
+//                        var pause = ftServerEntity.Postfix == 4 ? 45 : 10;
+            var pause = 2;
             Thread.Sleep(TimeSpan.FromSeconds(pause));
             return process;
         }

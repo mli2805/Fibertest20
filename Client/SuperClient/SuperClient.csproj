@@ -103,6 +103,10 @@
     <Compile Include="ChildStarter.cs" />
     <Compile Include="FtServer.cs" />
     <Compile Include="FtServerList.cs" />
+    <Compile Include="GasketView.xaml.cs">
+      <DependentUpon>GasketView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="GasketViewModel.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
@@ -112,6 +116,10 @@
     <Compile Include="SuperClientWcfService.cs" />
     <Compile Include="SuperClientWcfServiceHost.cs" />
     <Page Include="AddServerView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="GasketView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

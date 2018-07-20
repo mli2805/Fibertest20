@@ -38,9 +38,7 @@
             </DockPanel>
         </GroupBox>
 
-        <TabControl ItemsSource="{Binding Children}" SelectedIndex="{Binding SelectedTabItemIndex}" >
-          
-        </TabControl>
+       <sc:GasketView DataContext="{Binding GasketViewModel}"/>
 
     </DockPanel>
 

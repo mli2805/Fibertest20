@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Caliburn.Micro;
 using System.Diagnostics;
 using System.Windows.Controls;
@@ -18,19 +17,8 @@ namespace Iit.Fibertest.SuperClient
         private Dictionary<int, int> _postfixToTabitem = new Dictionary<int, int>();
         private Dictionary<int, Process> _processes = new Dictionary<int, Process>();
 
-        public ObservableCollection<TabItem> Children { get; set; } = new ObservableCollection<TabItem>();
-        private int _selectedTabItemIndex;
-        public int SelectedTabItemIndex
-        {
-            get => _selectedTabItemIndex;
-            set
-            {
-                if (_selectedTabItemIndex == value) return;
-                _selectedTabItemIndex = value;
-                NotifyOfPropertyChange();
-            }
-        }
-      
+        public GasketViewModel GasketViewModel { get; set; }
+     
         public FtServerList FtServerList { get; set; }
         private FtServer _selectedFtServer;
         public FtServer SelectedFtServer
@@ -42,12 +30,13 @@ namespace Iit.Fibertest.SuperClient
                 _selectedFtServer = value;
                 NotifyOfPropertyChange();
                 if (_postfixToTabitem.ContainsKey(_selectedFtServer.Entity.Postfix))
-                    SelectedTabItemIndex = _postfixToTabitem[_selectedFtServer.Entity.Postfix];
+                    GasketViewModel.SelectedTabItemIndex = _postfixToTabitem[_selectedFtServer.Entity.Postfix];
             }
         }
 
         public ShellViewModel(IMyLog logFile, IWindowManager windowManager, 
             SuperClientWcfServiceHost superClientWcfServiceHost, FtServerList ftServerList,
+            GasketViewModel gasketViewModel,
             ChildStarter childStarter, AddServerViewModel addServerViewModel)
         {
             _logFile = logFile;
@@ -55,6 +44,7 @@ namespace Iit.Fibertest.SuperClient
             _superClientWcfServiceHost = superClientWcfServiceHost;
             FtServerList = ftServerList;
             FtServerList.Read();
+            GasketViewModel = gasketViewModel;
             _childStarter = childStarter;
             _addServerViewModel = addServerViewModel;
         }
@@ -70,8 +60,8 @@ namespace Iit.Fibertest.SuperClient
         public void ConnectServer()
         {
             var tabItem = new TabItem() { Header = new ContentControl() };
-            Children.Add(tabItem);
-            SelectedTabItemIndex = Children.Count -1;
+            GasketViewModel.Children.Add(tabItem);
+            GasketViewModel.SelectedTabItemIndex = GasketViewModel.Children.Count -1;
 
             var panel = _childStarter.CreatePanel(tabItem);
 
@@ -80,7 +70,7 @@ namespace Iit.Fibertest.SuperClient
 
             _childStarter.PutChildOnPanel(process, panel);
             SelectedFtServer.ServerConnectionState = FtServerState.Connected;
-            _postfixToTabitem.Add(SelectedFtServer.Entity.Postfix, SelectedTabItemIndex);
+            _postfixToTabitem.Add(SelectedFtServer.Entity.Postfix, GasketViewModel.SelectedTabItemIndex);
         }
 
         public void DisconnectServer()
@@ -90,7 +80,7 @@ namespace Iit.Fibertest.SuperClient
             _processes.Remove(SelectedFtServer.Entity.Postfix);
 
             var tabIndex = _postfixToTabitem[SelectedFtServer.Entity.Postfix];
-            Children.RemoveAt(tabIndex);
+            GasketViewModel.Children.RemoveAt(tabIndex);
             _postfixToTabitem.Remove(SelectedFtServer.Entity.Postfix);
 
             SelectedFtServer.ServerConnectionState = FtServerState.Disconnected;
