@@ -37,15 +37,7 @@
                 </ListBox>
             </DockPanel>
         </GroupBox>
-<!--       <ListBox ItemsSource="{Binding Children}">-->
-<!--           <ListBox.ItemTemplate>-->
-<!--               <DataTemplate>-->
-<!--                  <Grid>-->
-<!---->
-<!--                  </Grid>-->
-<!--               </DataTemplate>-->
-<!--           </ListBox.ItemTemplate>-->
-<!--       </ListBox>-->
+
         <TabControl ItemsSource="{Binding Children}" SelectedIndex="{Binding SelectedTabItemIndex}" >
           
         </TabControl>

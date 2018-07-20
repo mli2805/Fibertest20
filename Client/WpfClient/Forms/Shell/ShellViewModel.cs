@@ -23,7 +23,6 @@ namespace Iit.Fibertest.Client
         private readonly CurrentUser _currentUser;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly CommandLineParameters _commandLineParameters;
-        private readonly ClientWcfService _clientWcfService;
         private readonly IClientWcfServiceHost _host;
         private readonly ILifetimeScope _globalScope;
         private readonly IniFile _iniFile;
@@ -42,9 +41,8 @@ namespace Iit.Fibertest.Client
 
         public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, CurrentUser currentUser,
             CurrentDatacenterParameters currentDatacenterParameters, CommandLineParameters commandLineParameters,
-            ClientWcfService clientWcfService, IClientWcfServiceHost host,
-            GraphReadModel graphReadModel, IWcfServiceForClient c2DWcfManager, IWcfServiceInSuperClient c2SWcfManager,
-            ILocalDbManager localDbManager, IWindowManager windowManager,
+            IClientWcfServiceHost host, IWcfServiceForClient c2DWcfManager, IWcfServiceInSuperClient c2SWcfManager, 
+            GraphReadModel graphReadModel, ILocalDbManager localDbManager, IWindowManager windowManager,
             LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, StoredEventsLoader storedEventsLoader, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
             TabulatorViewModel tabulatorViewModel, CommonStatusBarViewModel commonStatusBarViewModel,
@@ -75,7 +73,6 @@ namespace Iit.Fibertest.Client
             _currentUser = currentUser;
             _currentDatacenterParameters = currentDatacenterParameters;
             _commandLineParameters = commandLineParameters;
-            _clientWcfService = clientWcfService;
             _host = host;
         }
 
@@ -160,21 +157,9 @@ namespace Iit.Fibertest.Client
                 _clientPoller.CancellationToken = _clientPollerCts.Token;
                 _clientPoller.Start(); // graph events including monitoring results events
 
-                _host.StartWcfListener(); // Accepts only monitoring step messages and out of turn measurements results
-                _clientWcfService.PropertyChanged += _clientWcfService_PropertyChanged;
+                _host.StartWcfListener(); // Accepts only monitoring step messages and client's measurement results
                 _clientHeartbeat.Start();
             }
-        }
-
-        private void _clientWcfService_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-//            if (e.PropertyName == "Cmd")
-//            {
-//                if (_clientWcfService.Cmd == 1)
-//                    this.ActivateWith(null);
-//                if (_clientWcfService.Cmd == 99)
-//                    TryClose();
-//            }
         }
 
         public override void CanClose(Action<bool> callback)
