@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.SuperClient
 {
@@ -11,11 +12,18 @@ namespace Iit.Fibertest.SuperClient
         private readonly Dictionary<int, Process> _processes = new Dictionary<int, Process>();
 
         //        const string ClientFilename = @"c:\VsGitProjects\SuperClientE\LittleClient\bin\Debug\LittleClient";
-        const string ClientFilename = @"c:\VsGitProjects\Fibertest\Client\WpfClient\bin\Debug\Iit.Fibertest.Client.exe";
 
-        public ChildStarter(GasketViewModel gasketViewModel)
+        private const string DebugClientFilename = @"c:\VsGitProjects\Fibertest\Client\WpfClient\bin\Debug\Iit.Fibertest.Client.exe";
+        private const string ReleaseClientFilename = @"c:\Iit-Fibertest\Client\bin\Iit.Fibertest.Client.exe";
+        private readonly string _clientFilename;
+
+        public ChildStarter(IniFile iniFile, GasketViewModel gasketViewModel)
         {
             _gasketViewModel = gasketViewModel;
+            _clientFilename = iniFile.Read(IniSection.Miscellaneous, IniKey.PathToClient, ReleaseClientFilename);
+#if DEBUG
+            _clientFilename = DebugClientFilename;
+#endif
         }
 
         public void StartFtClient(FtServerEntity ftServerEntity)
@@ -43,7 +51,7 @@ namespace Iit.Fibertest.SuperClient
             var process = new Process
             {
                 StartInfo = {
-                    FileName = ClientFilename,
+                    FileName = _clientFilename,
                     Arguments = $"{ftServerEntity.Postfix} {Thread.CurrentThread.CurrentUICulture} {ftServerEntity.Username} {ftServerEntity.Password} {ftServerEntity.ServerIp} {ftServerEntity.ServerTcpPort}"
                 }
             };

@@ -99,5 +99,6 @@
         GpsInputMode,
         GraphVisibilityLevel,
         IsGraphVisibleOnStart,
+        PathToClient,
     }
 }
