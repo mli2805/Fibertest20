@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews;assembly=Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d"
         Title="AddServerView" SizeToContent="WidthAndHeight" d:DataContext="{d:DesignData AddServerViewModel}">
     <DockPanel Margin="5">
@@ -23,7 +24,9 @@
             <TextBox Margin="5,4" Width="120" Text="{Binding ServerIp}"/>
             <TextBox Margin="5,4" Width="120" Text="{Binding ServerTcpPort}"/>
             <TextBox Margin="5,4" Width="120" Text="{Binding Username}"/>
-            <TextBox Margin="5,4" Width="120" Text="{Binding Password}"/>
+            <PasswordBox wpfCommonViews:PasswordHelper.Attach="True"
+                         wpfCommonViews:PasswordHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                         Margin="5,4" Width="120" />
         </StackPanel>
     </DockPanel>
 </Window>

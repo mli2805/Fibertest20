@@ -9,7 +9,7 @@
              mc:Ignorable="d" d:DataContext="{d:DesignData ServersViewModel}">
     <GroupBox DockPanel.Dock="Left" Header="{x:Static stringResources:Resources.SID_Servers}" Width="256">
         <DockPanel Margin="2,5">
-            <Button DockPanel.Dock="Bottom" Width="150" Height="25" Content="Add server" Margin="5" Name="AddServer"/>
+            <Button DockPanel.Dock="Bottom" Width="150" Height="25" Content="Add server" Margin="5" cal:Message.Attach="AddServer"/>
             <ListBox DockPanel.Dock="Top" ItemsSource="{Binding FtServerList.Servers}" 
                      SelectedItem="{Binding SelectedFtServer, Mode=TwoWay}" >
                 <ListBox.Template>
