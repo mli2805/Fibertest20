@@ -8,6 +8,8 @@ using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WpfCommonViews;
+
 
 namespace Iit.Fibertest.Client
 {

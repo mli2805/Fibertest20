@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Reflection;
 using System.Threading;
 using Iit.Fibertest.UtilsLib;
 
@@ -65,6 +66,12 @@ namespace Iit.Fibertest.SuperClient
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
 
             DisplayRootViewFor<IShell>();
+        }
+
+        protected override IEnumerable<Assembly> SelectAssemblies()
+        {
+            yield return typeof(ShellView).Assembly; // this Assembly (.exe)
+            yield return typeof(WpfCommonViews.RftsEventsView).Assembly; // WpfCommonViews
         }
     }
 }

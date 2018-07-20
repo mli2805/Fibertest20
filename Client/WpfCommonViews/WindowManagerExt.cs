@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Windows;
 using Caliburn.Micro;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.WpfCommonViews
 {
     public static class WindowManagerExt
     {

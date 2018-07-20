@@ -4,6 +4,8 @@ using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WpfCommonViews;
+
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.Client

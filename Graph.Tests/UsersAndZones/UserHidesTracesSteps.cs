@@ -3,6 +3,8 @@ using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.WpfCommonViews;
+
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests

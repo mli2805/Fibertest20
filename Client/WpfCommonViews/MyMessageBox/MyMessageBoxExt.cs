@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Iit.Fibertest.StringResources;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.WpfCommonViews
 {
     public static class MyMessageBoxExt
     {

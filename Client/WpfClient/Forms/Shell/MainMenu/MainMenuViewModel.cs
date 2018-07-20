@@ -2,6 +2,7 @@
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {

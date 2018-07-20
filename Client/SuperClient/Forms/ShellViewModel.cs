@@ -1,23 +1,26 @@
 using System;
-using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WpfCommonViews;
+
 
 namespace Iit.Fibertest.SuperClient
 {
     public class ShellViewModel : Screen, IShell
     {
         private readonly IMyLog _logFile;
+        private readonly IWindowManager _windowManager;
         private readonly SuperClientWcfServiceHost _superClientWcfServiceHost;
         public ServersViewModel ServersViewModel { get; set; }
         public GasketViewModel GasketViewModel { get; set; }
      
 
-        public ShellViewModel(IMyLog logFile, SuperClientWcfServiceHost superClientWcfServiceHost, 
+        public ShellViewModel(IMyLog logFile, IWindowManager windowManager, SuperClientWcfServiceHost superClientWcfServiceHost, 
             ServersViewModel serversViewModel, GasketViewModel gasketViewModel)
         {
             _logFile = logFile;
+            _windowManager = windowManager;
             _superClientWcfServiceHost = superClientWcfServiceHost;
             ServersViewModel = serversViewModel;
             GasketViewModel = gasketViewModel;
@@ -32,9 +35,13 @@ namespace Iit.Fibertest.SuperClient
         }
 
         public override void CanClose(Action<bool> callback)
-        {
-            var res = MessageBox.Show(Resources.SID_Close_application_, "Confirmation", MessageBoxButton.YesNo);
-            if (res == MessageBoxResult.Yes)
+        {  
+            var question = Resources.SID_Close_application_;
+            var vm = new MyMessageBoxViewModel(MessageType.Confirmation, question);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+
+            if (!vm.IsAnswerPositive) return;
+
                 base.CanClose(callback);
         }
     }

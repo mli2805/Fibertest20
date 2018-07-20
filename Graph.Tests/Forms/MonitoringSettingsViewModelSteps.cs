@@ -5,6 +5,8 @@ using Iit.Fibertest.Client;
 using Iit.Fibertest.Client.MonitoringSettings;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WpfCommonViews;
+
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests

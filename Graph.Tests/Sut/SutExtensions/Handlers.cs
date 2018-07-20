@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.WpfCommonViews;
+
 
 namespace Graph.Tests
 {

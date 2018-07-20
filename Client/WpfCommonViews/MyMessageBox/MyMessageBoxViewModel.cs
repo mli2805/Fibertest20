@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.WpfCommonViews
 {
     public class MyMessageBoxViewModel : Screen
     {

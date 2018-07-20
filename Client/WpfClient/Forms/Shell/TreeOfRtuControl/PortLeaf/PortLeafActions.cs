@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {

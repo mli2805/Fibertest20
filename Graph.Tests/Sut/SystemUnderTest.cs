@@ -9,6 +9,8 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WpfCommonViews;
+
 
 namespace Graph.Tests
 {
