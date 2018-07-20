@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.WpfCommonViews
 {
     public interface IWaitCursor : IDisposable
     {

@@ -261,7 +261,6 @@
     <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\TraceEventsOnTreeExecutor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\EventsOnTreeExecutors\ZoneEventsOnTreeExecutor.cs" />
     <Compile Include="Forms\TraceForms\TraceStepByStep\StepModel.cs" />
-    <Compile Include="Forms\WpfTricks\FocusExtension.cs" />
     <Compile Include="Forms\LoginServer\Server.cs" />
     <Compile Include="Forms\LoginServer\ServersConnectView.xaml.cs">
       <DependentUpon>ServersConnectView.xaml</DependentUpon>
@@ -288,7 +287,6 @@
     </Compile>
     <Compile Include="Forms\TraceForms\TraceStepByStep\TraceStepByStepViewModel.cs" />
     <Compile Include="GlobalVars\CurrentGpsInputMode.cs" />
-    <Compile Include="Forms\WpfTricks\ObservableRangeCollection.cs" />
     <Compile Include="GraphModel\EventExecutors\AccidentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EquipmentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EventsOnGraphExecutor.cs" />
@@ -431,14 +429,12 @@
     <Compile Include="EventSourcing\LocalDb\SQLiteProviderInvariantName.cs" />
     <Compile Include="Logic\ReflectogramManager.cs" />
     <Compile Include="Forms\TraceForms\TraceState\TraceStateViewsManager.cs" />
-    <Compile Include="Forms\WpfTricks\WaitCursor.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeafActions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeafActionsPermissions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeafContextMenuProvider.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeafActions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeafActionsPermissions.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TraceLeaf\TraceLeafContextMenuProvider.cs" />
-    <Compile Include="Forms\WpfTricks\PasswordHelper.cs" />
     <Compile Include="Forms\AdministrativeForms\Users\UserMappings.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\ChildrenImpresario.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\IPortOwner.cs" />

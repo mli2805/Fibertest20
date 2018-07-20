@@ -3,6 +3,7 @@ using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews;assembly=Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d"
         Width="400" Height="225" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:LoginViewModel}" FocusManager.FocusedElement="{Binding ElementName=UsernameTextBox}">
@@ -21,8 +22,8 @@
             <DockPanel Margin="0,7,0,0">
                 <Button DockPanel.Dock="Right" Name="SetServerAddress" Content="{x:Static stringResources:Resources.SID_Server}" 
                             Margin="10,0,0,0" Width="80" KeyboardNavigation.TabIndex="3"/>
-                <PasswordBox client:PasswordHelper.Attach="True"  
-                                 client:PasswordHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                <PasswordBox wpfCommonViews:PasswordHelper.Attach="True"  
+                                 wpfCommonViews:PasswordHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                  DockPanel.Dock="Right"  Width="100" Margin="10,0,0,0" KeyboardNavigation.TabIndex="1"/>
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Password}" TextAlignment="Right"/>
             </DockPanel>

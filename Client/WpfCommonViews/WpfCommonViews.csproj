@@ -127,6 +127,10 @@
     <Compile Include="RftsEvents\RftsEventsViewModel.cs" />
     <Compile Include="RftsEvents\SorDataToViewContent.cs" />
     <Compile Include="WindowManagerExt.cs" />
+    <Compile Include="WpfTricks\FocusExtension.cs" />
+    <Compile Include="WpfTricks\ObservableRangeCollection.cs" />
+    <Compile Include="WpfTricks\PasswordHelper.cs" />
+    <Compile Include="WpfTricks\WaitCursor.cs" />
     <Page Include="MyMessageBox\MyMessageBoxView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

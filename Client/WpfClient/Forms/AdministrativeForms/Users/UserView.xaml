@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews;assembly=Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:UserViewModel}" 
@@ -31,11 +32,11 @@
         </Border>
         <GroupBox Header="Password" Margin="5" Padding="0,5" IsEnabled="{Binding IsPasswordsEnabled}">
             <StackPanel>
-                <PasswordBox client:PasswordHelper.Attach="True"  
-                             client:PasswordHelper.Password="{Binding Password1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                <PasswordBox wpfCommonViews:PasswordHelper.Attach="True"  
+                             wpfCommonViews:PasswordHelper.Password="{Binding Password1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                              Margin="5" Width="150" HorizontalAlignment="Right"/>
-                <PasswordBox client:PasswordHelper.Attach="True"  
-                             client:PasswordHelper.Password="{Binding Password2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                <PasswordBox wpfCommonViews:PasswordHelper.Attach="True"  
+                             wpfCommonViews:PasswordHelper.Password="{Binding Password2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
                              Margin="5" Width="150" HorizontalAlignment="Right"/>
             </StackPanel>
         </GroupBox>

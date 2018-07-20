@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.WpfCommonViews
 {
     public static class FocusExtension
     {
