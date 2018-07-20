@@ -8,10 +8,10 @@ namespace Iit.Fibertest.SuperClient
     public class ChildStarter
     {
         private readonly GasketViewModel _gasketViewModel;
-        private Dictionary<int, Process> _processes = new Dictionary<int, Process>();
+        private readonly Dictionary<int, Process> _processes = new Dictionary<int, Process>();
 
-        const string ClientFilename = @"c:\VsGitProjects\SuperClientE\LittleClient\bin\Debug\LittleClient";
-        //                const string ClientFilename = @"c:\VsGitProjects\Fibertest\Client\WpfClient\bin\Debug\Iit.Fibertest.Client.exe";
+        //        const string ClientFilename = @"c:\VsGitProjects\SuperClientE\LittleClient\bin\Debug\LittleClient";
+        const string ClientFilename = @"c:\VsGitProjects\Fibertest\Client\WpfClient\bin\Debug\Iit.Fibertest.Client.exe";
 
         public ChildStarter(GasketViewModel gasketViewModel)
         {
@@ -22,8 +22,12 @@ namespace Iit.Fibertest.SuperClient
         {
             var process = StartChild(ftServerEntity);
             _processes.Add(ftServerEntity.Postfix, process);
+        }
 
-            _gasketViewModel.PutProcessOnPanel(process, ftServerEntity.Postfix);
+        public void PlaceFtClientOnPanel(int postfix)
+        {
+            if (_processes.ContainsKey(postfix))
+                _gasketViewModel.PutProcessOnPanel(_processes[postfix], postfix);
         }
 
         public void CloseFtClient(FtServerEntity ftServerEntity)
@@ -44,9 +48,7 @@ namespace Iit.Fibertest.SuperClient
                 }
             };
             process.Start();
-            //                        var pause = ftServerEntity.Postfix == 4 ? 45 : 10;
-            var pause = 2;
-            Thread.Sleep(TimeSpan.FromSeconds(pause));
+            Thread.Sleep(TimeSpan.FromSeconds(1));
             return process;
         }
     }

@@ -1,5 +1,4 @@
-﻿using System;
-using System.ServiceModel;
+﻿using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.SuperClientWcfServiceInterface;
 
@@ -8,9 +7,15 @@ namespace Iit.Fibertest.SuperClient
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
     public class SuperClientWcfService : IWcfServiceInSuperClient
     {
+        private readonly ChildStarter _childStarter;
+        public SuperClientWcfService(ChildStarter childStarter)
+        {
+            _childStarter = childStarter;
+        }
+
         public Task<int> ClientLoaded(int postfix)
         {
-            Console.WriteLine($@"Client {postfix} loaded.");
+            _childStarter.PlaceFtClientOnPanel(postfix);
             return Task.FromResult(0);
         }
     }
