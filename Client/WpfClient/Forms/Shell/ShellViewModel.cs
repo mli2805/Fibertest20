@@ -43,7 +43,7 @@ namespace Iit.Fibertest.Client
 
         public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, CurrentUser currentUser,
             CurrentDatacenterParameters currentDatacenterParameters, CommandLineParameters commandLineParameters,
-            IClientWcfServiceHost host, IWcfServiceForClient c2DWcfManager, IWcfServiceInSuperClient c2SWcfManager, 
+            IClientWcfServiceHost host, IWcfServiceForClient c2DWcfManager, IWcfServiceInSuperClient c2SWcfManager,
             GraphReadModel graphReadModel, ILocalDbManager localDbManager, IWindowManager windowManager,
             LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, StoredEventsLoader storedEventsLoader, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
@@ -106,7 +106,7 @@ namespace Iit.Fibertest.Client
 
             if (_commandLineParameters.IsUnderSuperClientStart)
             {
-                _iniFile.WriteServerAddresses(new DoubleAddress(){Main = _commandLineParameters.ServerNetAddress});
+                _iniFile.WriteServerAddresses(new DoubleAddress() { Main = _commandLineParameters.ServerNetAddress });
                 _iniFile.Write(IniSection.Client, IniKey.ClientOrdinal, _commandLineParameters.ClientOrdinal);
                 _iniFile.Write(IniSection.General, IniKey.Culture, _commandLineParameters.SuperClientCulture);
                 _iniFile.Write(IniSection.ClientLocalAddress, IniKey.TcpPort, (int)TcpPorts.ClientListenTo + _commandLineParameters.ClientOrdinal);
@@ -125,8 +125,8 @@ namespace Iit.Fibertest.Client
 
                 await GetAlreadyStoredInCacheAndOnServerData();
                 StartRegularCommunicationWithServer();
-                if (postfix != "")
-                    NotifySuperClientImReady(postfix);
+                if (int.TryParse(postfix, out int number))
+                    await Task.Factory.StartNew(() => NotifySuperClientImReady(number));
                 IsEnabled = true;
                 DisplayName =
                     $@"Fibertest v2.0 {_currentUser.UserName} as {_currentUser.Role.ToString()} [{_currentUser.ZoneTitle}]";
@@ -136,13 +136,11 @@ namespace Iit.Fibertest.Client
                 TryClose();
         }
 
-        private void NotifySuperClientImReady(string postfix)
+        private async Task NotifySuperClientImReady(int postfix)
         {
             _logFile.AppendLine(@"Notify superclient I'm ready");
-            if (int.TryParse(postfix, out int number))
-            {
-                _c2SWcfManager.ClientLoaded(number);
-            }
+            Thread.Sleep(TimeSpan.FromSeconds(1));
+            await _c2SWcfManager.ClientLoaded(postfix);
         }
 
         public async Task GetAlreadyStoredInCacheAndOnServerData()

@@ -13,6 +13,10 @@ namespace Iit.Fibertest.ClientWcfServiceInterface
 
         [OperationContract]
         Task<int> NotifyAboutMeasurementClientDone(ClientMeasurementDoneDto dto);
+
+
+        [OperationContract]
+        Task<int> AskClientToExit();
     }
 
 

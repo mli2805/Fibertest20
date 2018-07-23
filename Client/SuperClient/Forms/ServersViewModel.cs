@@ -1,5 +1,8 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
+using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.SuperClient
 {
@@ -9,6 +12,7 @@ namespace Iit.Fibertest.SuperClient
         private readonly GasketViewModel _gasketViewModel;
         private readonly ChildStarter _childStarter;
         private readonly AddServerViewModel _addServerViewModel;
+        private readonly D2CWcfManager _d2CWcfManager;
 
         public FtServerList FtServerList { get; set; }
         private FtServer _selectedFtServer;
@@ -26,7 +30,8 @@ namespace Iit.Fibertest.SuperClient
 
         public ServersViewModel(IWindowManager windowManager, 
             FtServerList ftServerList, GasketViewModel gasketViewModel,
-            ChildStarter childStarter, AddServerViewModel addServerViewModel)
+            ChildStarter childStarter, AddServerViewModel addServerViewModel,
+            D2CWcfManager d2CWcfManager)
         {
             _windowManager = windowManager;
             FtServerList = ftServerList;
@@ -34,6 +39,7 @@ namespace Iit.Fibertest.SuperClient
             _gasketViewModel = gasketViewModel;
             _childStarter = childStarter;
             _addServerViewModel = addServerViewModel;
+            _d2CWcfManager = d2CWcfManager;
         }
 
         public void ConnectServer()
@@ -51,6 +57,13 @@ namespace Iit.Fibertest.SuperClient
         public void DisconnectServer()
         {
             _childStarter.CloseFtClient(SelectedFtServer.Entity);
+        }
+
+        public async void CloseClient()
+        {
+            var ftClientAddress = new NetAddress(){Ip4Address = "localhost", Port = 11843 + SelectedFtServer.Entity.Postfix};
+            _d2CWcfManager.SetClientsAddresses(new List<DoubleAddress>(){new DoubleAddress(){Main = ftClientAddress}});
+            await _d2CWcfManager.AskClientToExit();
         }
 
         public void SetServerIsClosed(int postfix)

@@ -29,7 +29,7 @@
                 <ListBox.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="Connect" cal:Message.Attach="ConnectServer" IsEnabled="{Binding SelectedFtServer.IsConnectEnabled}"/>
-                        <MenuItem Header="Disconnect" cal:Message.Attach="DisconnectServer" IsEnabled="{Binding SelectedFtServer.IsDisconnectEnabled}"/>
+                        <MenuItem Header="Disconnect" cal:Message.Attach="CloseClient" IsEnabled="{Binding SelectedFtServer.IsDisconnectEnabled}"/>
                         <Separator/>
                         <MenuItem Header="Remove" cal:Message.Attach="RemoveServer"/>
                     </ContextMenu>

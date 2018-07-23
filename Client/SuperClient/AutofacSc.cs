@@ -1,6 +1,7 @@
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.SuperClient
 {
@@ -9,6 +10,7 @@ namespace Iit.Fibertest.SuperClient
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterType<ShellViewModel>().As<IShell>();
+            builder.RegisterType<D2CWcfManager>().SingleInstance();
 
             builder.RegisterType<LogFile>().As<IMyLog>().SingleInstance();
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
