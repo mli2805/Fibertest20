@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows.Controls;
 using Caliburn.Micro;
@@ -11,7 +11,7 @@ using Panel = System.Windows.Forms.Panel;
 namespace Iit.Fibertest.SuperClient
 {
     public class GasketViewModel : PropertyChangedBase
-    {  
+    {
         #region interop
         private const int GwlStyle = -16;
         private const int WsBorder = 0x00800000;
@@ -31,29 +31,26 @@ namespace Iit.Fibertest.SuperClient
         private static extern bool ShowWindowAsync(HandleRef hWnd, int nCmdShow);
         #endregion
 
-        private Dictionary<int, int> _postfixToTabitem = new Dictionary<int, int>();
-
         public ObservableCollection<TabItem> Children { get; set; } = new ObservableCollection<TabItem>();
 
-        private int _selectedTabItemIndex;
-        public int SelectedTabItemIndex
+        private TabItem _selectedTabItem;
+        public TabItem SelectedTabItem
         {
-            get => _selectedTabItemIndex;
+            get { return _selectedTabItem; }
             set
             {
-                if (_selectedTabItemIndex == value) return;
-                _selectedTabItemIndex = value;
+                if (Equals(value, _selectedTabItem)) return;
+                _selectedTabItem = value;
                 NotifyOfPropertyChange();
             }
         }
 
         private Panel CreatePanel(int postfix)
         {
-            var tabItem = new TabItem() { Header = new ContentControl() };
+            var tabItem = new TabItem() { Header = new ContentControl(), Tag = postfix };
             Children.Add(tabItem);
-            SelectedTabItemIndex = Children.Count -1;
-            _postfixToTabitem.Add(postfix, SelectedTabItemIndex);
-            
+            SelectedTabItem = tabItem;
+
             var windowsFormsHost = new WindowsFormsHost();
             tabItem.Content = windowsFormsHost;
 
@@ -83,15 +80,16 @@ namespace Iit.Fibertest.SuperClient
 
         public void RemoveTabItem(int postfix)
         {
-            var tabIndex = _postfixToTabitem[postfix];
-            Children.RemoveAt(tabIndex);
-            _postfixToTabitem.Remove(postfix); 
+            var tabItem = Children.FirstOrDefault(i => (int)(i.Tag) == postfix);
+            if (tabItem != null)
+                Children.Remove(tabItem);
         }
 
         public void BringTabItemToFront(int postfix)
         {
-            if (_postfixToTabitem.ContainsKey(postfix))
-                SelectedTabItemIndex = _postfixToTabitem[postfix];
+            var tabItem = Children.FirstOrDefault(i => (int)(i.Tag) == postfix);
+            if (tabItem != null)
+                SelectedTabItem = tabItem;
         }
     }
 }

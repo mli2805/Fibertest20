@@ -38,10 +38,8 @@ namespace Iit.Fibertest.SuperClient
                 _gasketViewModel.PutProcessOnPanel(_processes[postfix], postfix);
         }
 
-        public void CloseFtClient(FtServerEntity ftServerEntity)
+        public void CleanAfterClosing(FtServerEntity ftServerEntity)
         {
-            var process = _processes[ftServerEntity.Postfix];
-            process.Kill();
             _processes.Remove(ftServerEntity.Postfix);
             _gasketViewModel.RemoveTabItem(ftServerEntity.Postfix);
         }

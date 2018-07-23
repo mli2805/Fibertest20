@@ -54,16 +54,13 @@ namespace Iit.Fibertest.SuperClient
                 server.ServerConnectionState = FtServerState.Connected;
         }
 
-        public void DisconnectServer()
-        {
-            _childStarter.CloseFtClient(SelectedFtServer.Entity);
-        }
-
-        public async void CloseClient()
+        public async void CloseSelectedClient()
         {
             var ftClientAddress = new NetAddress(){Ip4Address = "localhost", Port = 11843 + SelectedFtServer.Entity.Postfix};
             _d2CWcfManager.SetClientsAddresses(new List<DoubleAddress>(){new DoubleAddress(){Main = ftClientAddress}});
             await _d2CWcfManager.AskClientToExit();
+            _childStarter.CleanAfterClosing(SelectedFtServer.Entity);
+            SelectedFtServer.ServerConnectionState = FtServerState.Disconnected;
         }
 
         public void SetServerIsClosed(int postfix)
@@ -80,7 +77,7 @@ namespace Iit.Fibertest.SuperClient
 
         public void RemoveServer()
         {
-            DisconnectServer();
+            CloseSelectedClient();
             FtServerList.Remove(SelectedFtServer);
         }
 
