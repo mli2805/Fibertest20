@@ -14,9 +14,9 @@ namespace Iit.Fibertest.SuperClient
         private readonly SuperClientWcfServiceHost _superClientWcfServiceHost;
         public ServersViewModel ServersViewModel { get; set; }
         public GasketViewModel GasketViewModel { get; set; }
-     
 
-        public ShellViewModel(IMyLog logFile, IWindowManager windowManager, SuperClientWcfServiceHost superClientWcfServiceHost, 
+
+        public ShellViewModel(IMyLog logFile, IWindowManager windowManager, SuperClientWcfServiceHost superClientWcfServiceHost,
             ServersViewModel serversViewModel, GasketViewModel gasketViewModel)
         {
             _logFile = logFile;
@@ -35,14 +35,15 @@ namespace Iit.Fibertest.SuperClient
         }
 
         public override void CanClose(Action<bool> callback)
-        {  
+        {
             var question = Resources.SID_Close_application_;
             var vm = new MyMessageBoxViewModel(MessageType.Confirmation, question);
             _windowManager.ShowDialogWithAssignedOwner(vm);
 
             if (!vm.IsAnswerPositive) return;
 
-                base.CanClose(callback);
+            ServersViewModel.CloseAllClients();
+            base.CanClose(callback);
         }
     }
 }

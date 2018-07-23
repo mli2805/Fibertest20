@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.WcfConnections;
@@ -28,7 +29,7 @@ namespace Iit.Fibertest.SuperClient
             }
         }
 
-        public ServersViewModel(IWindowManager windowManager, 
+        public ServersViewModel(IWindowManager windowManager,
             FtServerList ftServerList, GasketViewModel gasketViewModel,
             ChildStarter childStarter, AddServerViewModel addServerViewModel,
             D2CWcfManager d2CWcfManager)
@@ -56,11 +57,29 @@ namespace Iit.Fibertest.SuperClient
 
         public async void CloseSelectedClient()
         {
-            var ftClientAddress = new NetAddress(){Ip4Address = "localhost", Port = 11843 + SelectedFtServer.Entity.Postfix};
-            _d2CWcfManager.SetClientsAddresses(new List<DoubleAddress>(){new DoubleAddress(){Main = ftClientAddress}});
+            await CloseClient(SelectedFtServer);
+
+            var selectedFtServer =
+                FtServerList.Servers.FirstOrDefault(s => s.ServerConnectionState == FtServerState.Connected);
+            if (selectedFtServer != null)
+                SelectedFtServer = selectedFtServer;
+        }
+
+        private async Task CloseClient(FtServer ftServer)
+        {
+            var ftClientAddress = new NetAddress() { Ip4Address = "localhost", Port = 11843 + ftServer.Entity.Postfix };
+            _d2CWcfManager.SetClientsAddresses(new List<DoubleAddress>() { new DoubleAddress() { Main = ftClientAddress } });
             await _d2CWcfManager.AskClientToExit();
-            _childStarter.CleanAfterClosing(SelectedFtServer.Entity);
-            SelectedFtServer.ServerConnectionState = FtServerState.Disconnected;
+            _childStarter.CleanAfterClosing(ftServer.Entity);
+            ftServer.ServerConnectionState = FtServerState.Disconnected;
+        }
+
+        public async void CloseAllClients()
+        {
+            foreach (var ftServer in FtServerList.Servers.Where(s => s.ServerConnectionState == FtServerState.Connected))
+            {
+                await CloseClient(ftServer);
+            }
         }
 
         public void SetServerIsClosed(int postfix)
@@ -81,6 +100,6 @@ namespace Iit.Fibertest.SuperClient
             FtServerList.Remove(SelectedFtServer);
         }
 
-    
+
     }
 }
