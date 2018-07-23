@@ -24,3 +24,4 @@ cd ..\
 
 "C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackSetup.conf" Ft_%1.exe Pack\*.*
 
+7z.exe a -r SuperClient.zip "..\Client\SuperClient\bin\Release\*.*"

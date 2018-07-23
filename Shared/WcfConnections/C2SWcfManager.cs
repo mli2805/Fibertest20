@@ -14,7 +14,7 @@ namespace Iit.Fibertest.WcfConnections
         public C2SWcfManager(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
-            _wcfFactory = new WcfFactory(new DoubleAddress(){Main = new NetAddress("192.168.96.21", 11839)}, iniFile, _logFile);
+            _wcfFactory = new WcfFactory(new DoubleAddress(){Main = new NetAddress("localhost", 11839)}, iniFile, _logFile);
         }
 
         public async Task<int> ClientLoaded(int postfix)

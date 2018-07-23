@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.SuperClient
@@ -10,6 +11,7 @@ namespace Iit.Fibertest.SuperClient
     public class ServersViewModel : PropertyChangedBase
     {
         private readonly IWindowManager _windowManager;
+        private readonly IMyLog _logFile;
         private readonly GasketViewModel _gasketViewModel;
         private readonly ChildStarter _childStarter;
         private readonly AddServerViewModel _addServerViewModel;
@@ -29,15 +31,17 @@ namespace Iit.Fibertest.SuperClient
             }
         }
 
-        public ServersViewModel(IWindowManager windowManager,
+        public ServersViewModel(IWindowManager windowManager, IMyLog logFile,
             FtServerList ftServerList, GasketViewModel gasketViewModel,
             ChildStarter childStarter, AddServerViewModel addServerViewModel,
             D2CWcfManager d2CWcfManager)
         {
             _windowManager = windowManager;
+            _logFile = logFile;
             FtServerList = ftServerList;
             FtServerList.Read();
             _gasketViewModel = gasketViewModel;
+            SelectedFtServer = FtServerList.Servers.FirstOrDefault();
             _childStarter = childStarter;
             _addServerViewModel = addServerViewModel;
             _d2CWcfManager = d2CWcfManager;
@@ -45,6 +49,7 @@ namespace Iit.Fibertest.SuperClient
 
         public void ConnectServer()
         {
+            _logFile.AppendLine($"User asks connection to {SelectedFtServer.Entity.ServerTitle}");
             _childStarter.StartFtClient(SelectedFtServer.Entity);
         }
 
