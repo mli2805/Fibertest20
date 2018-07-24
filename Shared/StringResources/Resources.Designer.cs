@@ -1332,6 +1332,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Client&apos;s connection lost.
+        /// </summary>
+        public static string SID_Client_s_connection_lost {
+            get {
+                return ResourceManager.GetString("SID_Client_s_connection_lost", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client setup completed successfully..
         /// </summary>
         public static string SID_Client_setup_completed_successfully_ {

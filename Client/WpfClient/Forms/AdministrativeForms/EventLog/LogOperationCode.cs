@@ -4,6 +4,7 @@
     {
         ClientStarted = 101,
         ClientExited = 102,
+        ClientConnectionLost = 103,
 
         RtuAdded = 201,
         RtuUpdated,

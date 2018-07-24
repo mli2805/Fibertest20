@@ -35,7 +35,8 @@ namespace Iit.Fibertest.Client
                 case MonitoringStopped evnt: return Parse(evnt);
 
                 case ClientStationRegistered evnt: return Parse(evnt);
-                case ClientStationUnregistered _: return Parse();
+                case ClientStationUnregistered _: return new LogLine() { OperationCode = LogOperationCode.ClientExited };
+                case ClientConnectionLost _: return new LogLine() { OperationCode = LogOperationCode.ClientConnectionLost };
 
                 default: return null;
             }
@@ -170,7 +171,5 @@ namespace Iit.Fibertest.Client
             };
         }
 
-        // ClientStationUnregistered
-        private LogLine Parse() { return new LogLine() { OperationCode = LogOperationCode.ClientExited }; }
     }
 }

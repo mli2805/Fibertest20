@@ -55,7 +55,15 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<int> Tick()
         {
-            _clientStationsRepository.CleanDeadClients(_clientHeartbeatPermittedGap).Wait();
+            var deadStations = await _clientStationsRepository.CleanDeadClients(_clientHeartbeatPermittedGap);
+            if (deadStations != null)
+            {
+                foreach (var clientStation in deadStations)
+                {
+                    var command = new LostClientConnection();
+                    await _eventStoreService.SendCommand(command, clientStation.UserName, clientStation.ClientAddress);
+                }
+            }
 
             var networkEvents = await GetNewNetworkEvents(_rtuHeartbeatPermittedGap);
             if (networkEvents.Count == 0)

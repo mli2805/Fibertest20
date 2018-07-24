@@ -83,6 +83,7 @@ namespace Iit.Fibertest.Client
             {
                 case LogOperationCode.ClientStarted: return _logOperationsViewModel.IsClientStarted;
                 case LogOperationCode.ClientExited: return _logOperationsViewModel.IsClientExited;
+                case LogOperationCode.ClientConnectionLost: return _logOperationsViewModel.IsClientConnectionLost;
 
                 case LogOperationCode.RtuAdded: return _logOperationsViewModel.IsRtuAdded;
                 case LogOperationCode.RtuUpdated: return _logOperationsViewModel.IsRtuUpdated;

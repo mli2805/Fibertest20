@@ -8,6 +8,7 @@ namespace Iit.Fibertest.Client
         private bool _isAll = true;
         private bool _isClientStarted = true;
         private bool _isClientExited = true;
+        private bool _isClientConnectionLost = true;
         private bool _isRtuAdded = true;
         private bool _isRtuUpdated = true;
         private bool _isRtuInitialized = true;
@@ -75,6 +76,17 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _isClientExited) return;
                 _isClientExited = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsClientConnectionLost
+        {
+            get => _isClientConnectionLost;
+            set
+            {
+                if (value == _isClientConnectionLost) return;
+                _isClientConnectionLost = value;
                 NotifyOfPropertyChange();
             }
         }

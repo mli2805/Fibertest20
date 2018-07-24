@@ -2120,4 +2120,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Add_server" xml:space="preserve">
 		<value>Добавить сервер</value>
 	</data>
+	<data name="SID_Client_s_connection_lost" xml:space="preserve">
+		<value>Потеряна связь с клиентом</value>
+	</data>
 </root>

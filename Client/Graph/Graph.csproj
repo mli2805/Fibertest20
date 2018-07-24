@@ -122,11 +122,13 @@
     <Compile Include="Algorithms\LicenseManager.cs" />
     <Compile Include="Algorithms\SorDataParsingReporter.cs" />
     <Compile Include="Commands\ApplyLicense.cs" />
-    <Compile Include="Commands\RegisterClientStation.cs" />
-    <Compile Include="Commands\UnregisterClientStation.cs" />
+    <Compile Include="Commands\Client\LostClientConnection.cs" />
+    <Compile Include="Commands\Client\RegisterClientStation.cs" />
+    <Compile Include="Commands\Client\UnregisterClientStation.cs" />
     <Compile Include="DomainEntities\License.cs" />
-    <Compile Include="Events\ClientStationRegistered.cs" />
-    <Compile Include="Events\ClientStationUnregistered.cs" />
+    <Compile Include="Events\Client\ClientConnectionLost.cs" />
+    <Compile Include="Events\Client\ClientStationRegistered.cs" />
+    <Compile Include="Events\Client\ClientStationUnregistered.cs" />
     <Compile Include="Events\Equipment\EquipmentFromTraceExcluded.cs" />
     <Compile Include="Events\Equipment\EquipmentIntoTraceIncluded.cs" />
     <Compile Include="Commands\Equipment\ExcludeEquipmentFromTrace.cs" />

@@ -30,6 +30,7 @@ namespace Iit.Fibertest.Graph
             {
                 case RegisterClientStation command: return _eventsQueue.Add(Mapper.Map<ClientStationRegistered>(command));
                 case UnregisterClientStation _: return _eventsQueue.Add(new ClientStationUnregistered());
+                case LostClientConnection _: return _eventsQueue.Add(new ClientConnectionLost());
 
                 case AddUser command: return _eventsQueue.Add(Mapper.Map<UserAdded>(command));
                 case UpdateUser command: return _eventsQueue.Add(Mapper.Map<UserUpdated>(command));

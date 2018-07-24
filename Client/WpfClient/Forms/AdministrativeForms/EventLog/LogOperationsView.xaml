@@ -15,6 +15,7 @@
             <StackPanel Margin="5">
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Client_started}" Margin="5" IsChecked="{Binding IsClientStarted, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Client_exited}" Margin="5" IsChecked="{Binding IsClientExited, Mode=TwoWay}"/>
+                <CheckBox Content="{x:Static stringResources:Resources.SID_Client_s_connection_lost}" Margin="5" IsChecked="{Binding IsClientConnectionLost, Mode=TwoWay}"/>
                 <Separator/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_RTU_added}" Margin="5" IsChecked="{Binding IsRtuAdded, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_RTU_updated}" Margin="5" IsChecked="{Binding IsRtuUpdated, Mode=TwoWay}"/>

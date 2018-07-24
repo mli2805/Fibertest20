@@ -36,6 +36,7 @@
             {
                 case ClientStationRegistered _: return null;
                 case ClientStationUnregistered _: return null;
+                case ClientConnectionLost _: return null;
 
                 case NodeIntoFiberAdded evnt: return _nodeEventsOnModelExecutor.AddNodeIntoFiber(evnt);
                 case NodeUpdated evnt: return _nodeEventsOnModelExecutor.UpdateNode(evnt); 

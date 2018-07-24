@@ -16,7 +16,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
 
-        public ClientStationsRepository(ISettings settings, IMyLog logFile, Model writeModel)
+        public ClientStationsRepository(ISettings settings, IMyLog logFile, Model writeModel )
         {
             _settings = settings;
             _logFile = logFile;
@@ -199,7 +199,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<int> CleanDeadClients(TimeSpan timeSpan)
+        public async Task<List<ClientStation>> CleanDeadClients(TimeSpan timeSpan)
         {
             try
             {
@@ -212,13 +212,14 @@ namespace Iit.Fibertest.DatabaseLibrary
                         _logFile.AppendLine($"Dead station {deadStation.ClientGuid.First6()} will be removed.");
                         dbContext.ClientStations.Remove(deadStation);
                     }
-                    return await dbContext.SaveChangesAsync();
+                    await dbContext.SaveChangesAsync();
+                    return deadStations;
                 }
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("CleanDeadClients:" + e.Message);
-                return -1;
+                return null;
             }
         }
 
