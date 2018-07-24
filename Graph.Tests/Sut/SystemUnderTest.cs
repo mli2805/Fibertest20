@@ -139,7 +139,7 @@ namespace Graph.Tests
 
             builder.RegisterType<TestSettings>().As<ISettings>().InstancePerLifetimeScope();
 
-            builder.RegisterType<ClientStationsRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<ClientsCollection>().InstancePerLifetimeScope();
             builder.RegisterType<RtuStationsRepository>().InstancePerLifetimeScope();
             builder.RegisterType<ClientToRtuTransmitter>().InstancePerLifetimeScope();
             builder.RegisterType<BaseRefRepairmanIntermediary>().InstancePerLifetimeScope();

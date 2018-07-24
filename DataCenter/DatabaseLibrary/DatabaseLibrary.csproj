@@ -145,7 +145,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ISettings.cs" />
-    <Compile Include="Repositories\ClientStationsRepository.cs" />
     <Compile Include="FtDbContext.cs" />
     <Compile Include="Repositories\SorFileRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

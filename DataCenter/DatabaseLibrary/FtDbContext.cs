@@ -9,7 +9,6 @@ namespace Iit.Fibertest.DatabaseLibrary
         public FtDbContext(DbContextOptions<FtDbContext> options) : base(options) { }
 
 
-        public DbSet<ClientStation> ClientStations { get; set; }
         public DbSet<RtuStation> RtuStations { get; set; }
         public DbSet<SorFile> SorFiles { get; set; }
     }

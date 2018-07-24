@@ -27,7 +27,7 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<string> SendCommand(string json, string username, string clientIp);
 
         [OperationContract]
-        Task<string[]> GetEvents(int revision);
+        Task<string[]> GetEvents(GetEventsDto dto);
 
         // C2Database
         [OperationContract]

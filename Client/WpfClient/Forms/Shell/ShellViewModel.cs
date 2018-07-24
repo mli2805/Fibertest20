@@ -18,7 +18,6 @@ namespace Iit.Fibertest.Client
     {
         private readonly IWindowManager _windowManager;
         private readonly LoginViewModel _loginViewModel;
-        private readonly ClientHeartbeat _clientHeartbeat;
         private readonly StoredEventsLoader _storedEventsLoader;
         private readonly ClientPoller _clientPoller;
         private readonly IMyLog _logFile;
@@ -45,7 +44,7 @@ namespace Iit.Fibertest.Client
             CurrentDatacenterParameters currentDatacenterParameters, CommandLineParameters commandLineParameters,
             IClientWcfServiceHost host, IWcfServiceForClient c2DWcfManager, IWcfServiceInSuperClient c2SWcfManager,
             GraphReadModel graphReadModel, ILocalDbManager localDbManager, IWindowManager windowManager,
-            LoginViewModel loginViewModel, ClientHeartbeat clientHeartbeat, StoredEventsLoader storedEventsLoader, ClientPoller clientPoller,
+            LoginViewModel loginViewModel, StoredEventsLoader storedEventsLoader, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
             TabulatorViewModel tabulatorViewModel, CommonStatusBarViewModel commonStatusBarViewModel,
              OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
@@ -68,7 +67,6 @@ namespace Iit.Fibertest.Client
             _localDbManager = localDbManager;
             _windowManager = windowManager;
             _loginViewModel = loginViewModel;
-            _clientHeartbeat = clientHeartbeat;
             _storedEventsLoader = storedEventsLoader;
             _clientPoller = clientPoller;
             _logFile = logFile;
@@ -163,7 +161,6 @@ namespace Iit.Fibertest.Client
                 _clientPoller.Start(); // graph events including monitoring results events
 
                 _host.StartWcfListener(); // Accepts only monitoring step messages and client's measurement results
-                _clientHeartbeat.Start();
             }
         }
 

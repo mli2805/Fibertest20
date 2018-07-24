@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -90,7 +91,7 @@ namespace Iit.Fibertest.Client
 
         public async Task<int> EventSourcingTick()
         {
-            string[] events = await _wcfConnection.GetEvents(CurrentEventNumber);
+            string[] events = await _wcfConnection.GetEvents(new GetEventsDto(){Revision = CurrentEventNumber});
 
             if (events == null)
             {

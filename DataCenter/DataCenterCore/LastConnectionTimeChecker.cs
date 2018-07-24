@@ -14,19 +14,19 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly EventStoreService _eventStoreService;
-        private readonly ClientStationsRepository _clientStationsRepository;
+        private readonly ClientsCollection _clientsCollection;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private TimeSpan _checkHeartbeatEvery;
         private TimeSpan _rtuHeartbeatPermittedGap;
         private TimeSpan _clientHeartbeatPermittedGap;
 
         public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile, EventStoreService eventStoreService,
-            ClientStationsRepository clientStationsRepository, RtuStationsRepository rtuStationsRepository)
+            ClientsCollection clientsCollection, RtuStationsRepository rtuStationsRepository)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _eventStoreService = eventStoreService;
-            _clientStationsRepository = clientStationsRepository;
+            _clientsCollection = clientsCollection;
             _rtuStationsRepository = rtuStationsRepository;
         }
 
@@ -55,15 +55,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<int> Tick()
         {
-            var deadStations = await _clientStationsRepository.CleanDeadClients(_clientHeartbeatPermittedGap);
-            if (deadStations != null)
-            {
-                foreach (var clientStation in deadStations)
-                {
-                    var command = new LostClientConnection();
-                    await _eventStoreService.SendCommand(command, clientStation.UserName, clientStation.ClientAddress);
-                }
-            }
+            _clientsCollection.CleanDeadClients(_clientHeartbeatPermittedGap);
 
             var networkEvents = await GetNewNetworkEvents(_rtuHeartbeatPermittedGap);
             if (networkEvents.Count == 0)
@@ -80,7 +72,7 @@ namespace Iit.Fibertest.DataCenterCore
                 };
                 await _eventStoreService.SendCommand(command, "system", "OnServer");
             }
-        
+
             return 0;
         }
 
@@ -109,7 +101,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private NetworkEvent CheckRtuStation(RtuStation rtuStation, DateTime noLaterThan)
         {
-            var networkEvent = new NetworkEvent() { RtuId = rtuStation.RtuGuid, EventTimestamp = DateTime.Now};
+            var networkEvent = new NetworkEvent() { RtuId = rtuStation.RtuGuid, EventTimestamp = DateTime.Now };
 
             var flag = CheckMainChannel(rtuStation, noLaterThan, networkEvent);
 

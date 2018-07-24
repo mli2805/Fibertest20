@@ -167,6 +167,7 @@
     <Compile Include="BusinessToRepositoryIntermediary\BaseRefRepairmanIntermediary.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\MeasurementFactory.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\RtuStationFactory.cs" />
+    <Compile Include="ClientsCollection.cs" />
     <Compile Include="ClientToRtuTransmitter.cs" />
     <Compile Include="MsmqHandler.cs" />
     <Compile Include="NEventStore\MySqlEventStoreInitializer.cs" />

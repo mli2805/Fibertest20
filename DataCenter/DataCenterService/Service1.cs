@@ -14,7 +14,6 @@ namespace Iit.Fibertest.DataCenterService
         private readonly IMyLog _logFile;
         private readonly ISettings _serverSettings;
         private readonly EventStoreService _eventStoreService;
-        private readonly ClientStationsRepository _clientStationsRepository;
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
         private readonly WcfServiceForClientBootstrapper _wcfServiceForClientBootstrapper;
         private readonly WcfServiceForRtuBootstrapper _wcfServiceForRtuBootstrapper;
@@ -22,7 +21,6 @@ namespace Iit.Fibertest.DataCenterService
 
         public Service1(IniFile iniFile, IMyLog logFile, ISettings serverSettings,
             EventStoreService eventStoreService,
-            ClientStationsRepository clientStationsRepository,
             LastConnectionTimeChecker lastConnectionTimeChecker,
             WcfServiceForClientBootstrapper wcfServiceForClientBootstrapper,
             WcfServiceForRtuBootstrapper wcfServiceForRtuBootstrapper,
@@ -32,7 +30,6 @@ namespace Iit.Fibertest.DataCenterService
             _logFile = logFile;
             _serverSettings = serverSettings;
             _eventStoreService = eventStoreService;
-            _clientStationsRepository = clientStationsRepository;
             _logFile.AssignFile("DataCenter.log");
             _lastConnectionTimeChecker = lastConnectionTimeChecker;
             _wcfServiceForClientBootstrapper = wcfServiceForClientBootstrapper;
@@ -53,7 +50,6 @@ namespace Iit.Fibertest.DataCenterService
                 dbContext.Database.EnsureCreated();
             }
             _eventStoreService.Init();
-            _clientStationsRepository.CleanClientStationsTable().Wait();
             _lastConnectionTimeChecker.Start();
             _wcfServiceForClientBootstrapper.Start();
             _wcfServiceForRtuBootstrapper.Start();

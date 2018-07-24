@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -64,7 +65,7 @@ namespace Iit.Fibertest.Client
             string[] events;
             do
             {
-                events = await _c2DWcfManager.GetEvents(currentEventNumber);
+                events = await _c2DWcfManager.GetEvents(new GetEventsDto(){Revision = currentEventNumber});
                 await _localDbManager.SaveEvents(events);
                 currentEventNumber = currentEventNumber + ApplyBatch(events);
             }

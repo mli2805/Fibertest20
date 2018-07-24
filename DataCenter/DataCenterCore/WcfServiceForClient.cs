@@ -17,10 +17,10 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly EventStoreService _eventStoreService;
         private readonly MeasurementFactory _measurementFactory;
+        private readonly ClientsCollection _clientsCollection;
 
         private readonly IMyLog _logFile;
 
-        private readonly ClientStationsRepository _clientStationsRepository;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly SorFileRepository _sorFileRepository;
@@ -34,14 +34,14 @@ namespace Iit.Fibertest.DataCenterCore
         };
 
         public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService, MeasurementFactory measurementFactory,
-            ClientStationsRepository clientStationsRepository, ClientToRtuTransmitter clientToRtuTransmitter,
+            ClientsCollection clientsCollection, ClientToRtuTransmitter clientToRtuTransmitter,
             RtuStationsRepository rtuStationsRepository, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
             BaseRefLandmarksTool baseRefLandmarksTool, SorFileRepository sorFileRepository, Smtp smtp)
         {
             _logFile = logFile;
             _eventStoreService = eventStoreService;
             _measurementFactory = measurementFactory;
-            _clientStationsRepository = clientStationsRepository;
+            _clientsCollection = clientsCollection;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _rtuStationsRepository = rtuStationsRepository;
             _sorFileRepository = sorFileRepository;
@@ -133,9 +133,10 @@ namespace Iit.Fibertest.DataCenterCore
             return null;
         }
 
-        public async Task<string[]> GetEvents(int revision)
+        public async Task<string[]> GetEvents(GetEventsDto dto)
         {
-            return await Task.FromResult(_eventStoreService.GetEvents(revision));
+            _clientsCollection.RegisterHeartbeat(dto.ClientId);
+            return await Task.FromResult(_eventStoreService.GetEvents(dto.Revision));
         }
 
         public async Task<byte[]> GetSorBytes(int sorFileId)
@@ -146,27 +147,24 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
-            var result = await _clientStationsRepository.RegisterClientAsync(dto);
+            var result = _clientsCollection.RegisterClientAsync(dto);
             result.GraphDbVersionId = _eventStoreService.GraphDbVersionId;
 
-            if (!dto.IsHeartbeat)
-            {
-                var command = new RegisterClientStation(){RegistrationResult = result.ReturnCode};
-                await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
-            }
+            var command = new RegisterClientStation() { RegistrationResult = result.ReturnCode };
+            await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
 
             return result;
         }
 
         public async Task<int> UnregisterClientAsync(UnRegisterClientDto dto)
         {
-            var result = await _clientStationsRepository.UnregisterClientAsync(dto);
+            _clientsCollection.UnregisterClientAsync(dto);
             _logFile.AppendLine($"Client {dto.Username} from {dto.ClientIp} exited");
 
             var command = new UnregisterClientStation();
             await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
 
-            return result;
+            return 0;
         }
 
         public async Task<bool> CheckServerConnection(CheckServerConnectionDto dto)

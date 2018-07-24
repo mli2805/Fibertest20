@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Autofac;
@@ -168,7 +167,6 @@ namespace Iit.Fibertest.Client
                 ToggleToAddServerMode();
 
             IsRemoveServerEnabled = Servers.Count > 0;
-
         }
 
         private void ToggleToAddServerMode()

@@ -113,7 +113,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<string[]> GetEvents(int revision)
+        public async Task<string[]> GetEvents(GetEventsDto dto)
         {
             var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
@@ -122,7 +122,10 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.GetEvents(revision);
+                dto.ClientId = _clientId;
+                dto.Username = _username;
+                dto.ClientIp = _clientIp;
+                var result = await channel.GetEvents(dto);
                 wcfConnection.Close();
                 return result;
             }

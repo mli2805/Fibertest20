@@ -79,7 +79,7 @@ namespace DirectRtuClient
         {
             try
             {
-                var events = await _c2DWcfManager.GetEvents(currentEventsCount);
+                var events = await _c2DWcfManager.GetEvents(new GetEventsDto(){Revision = currentEventsCount});
                 if (events.Length > 0)
                 {
                     MessageBox.Show($@"{events.Length} events received");
@@ -100,7 +100,6 @@ namespace DirectRtuClient
                 ClientId = _clientId,
                 UserName = _username,
                 Password = _username,
-                IsHeartbeat = isHeartbeat,
                 Addresses = new DoubleAddress(),
             };
 
