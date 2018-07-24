@@ -91,11 +91,16 @@ namespace Iit.Fibertest.Client
         public async Task<int> EventSourcingTick()
         {
             string[] events = await _wcfConnection.GetEvents(CurrentEventNumber);
+
             if (events == null)
             {
                 _logFile.AppendLine(@"Cannot establish connection with data-center.");
-                return 0;
+                return -1;
             }
+
+            if (events.Length == 0)
+                return 0;
+
             await _localDbManager.SaveEvents(events);
             _dispatcherProvider.GetDispatcher().Invoke(() => ApplyEventSourcingEvents(events)); // sync, GUI thread
             return events.Length;
