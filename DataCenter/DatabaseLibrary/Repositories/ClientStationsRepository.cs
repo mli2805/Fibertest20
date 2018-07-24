@@ -64,7 +64,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             station.UserName = dto.UserName;
             station.LastConnectionTimestamp = DateTime.Now;
             await dbContext.SaveChangesAsync();
-            _logFile.AppendLine($"Station {dto.ClientId.First6()} was registered already. Re-registered.");
+            _logFile.AppendLine($"Client {dto.Username} from {dto.ClientIp} was registered already. Re-registered.");
         }
 
         private async Task RegisterNew(FtDbContext dbContext, RegisterClientDto dto, User user)
@@ -81,7 +81,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             dbContext.ClientStations.Add(station);
             await dbContext.SaveChangesAsync();
             if (!dto.IsHeartbeat)
-                _logFile.AppendLine($"Client station {dto.ClientId.First6()} registered");
+                _logFile.AppendLine($"Client {dto.Username} from {dto.ClientIp} registered");
         }
 
         private ClientRegisteredDto FillInSuccessfulResult(User user)
