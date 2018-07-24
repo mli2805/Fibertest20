@@ -6,6 +6,7 @@
         ClientGuidOnServer,
         RtuGuid,
         HasReserveAddress,
+        ServerTitle,
         Ip,
         Host,
         IsAddressIp,

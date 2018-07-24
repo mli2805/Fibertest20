@@ -128,8 +128,11 @@ namespace Iit.Fibertest.Client
                 if (int.TryParse(postfix, out int number))
                     await Task.Factory.StartNew(() => NotifySuperClientImReady(number));
                 IsEnabled = true;
-                DisplayName =
-                    $@"Fibertest v2.0 {_currentUser.UserName} as {_currentUser.Role.ToString()} [{_currentUser.ZoneTitle}]";
+                const string separator = @"    >>    ";
+                var server = $@"{separator}{_currentDatacenterParameters.ServerTitle} ({_currentDatacenterParameters.ServerIp})";
+                var user   = $@"{separator}{_currentUser.UserName} ({_currentUser.Role.ToString()})";
+                var zone   = $@"{separator}[{_currentUser.ZoneTitle}]";
+                DisplayName = $@"Fibertest v2.0 {server} {user} {zone}";
                 TabulatorViewModel.SelectedTabIndex = 0; // the same value should be in TabulatorViewModel c-tor !!!
             }
             else

@@ -95,6 +95,8 @@ namespace Iit.Fibertest.Client
         {
             _logFile.AppendLine(@"Client registration attempt");
             var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
+            _currentDatacenterParameters.ServerIp = dcServiceAddresses.Main.Ip4Address;
+            _currentDatacenterParameters.ServerTitle = _iniFile.Read(IniSection.Server, IniKey.ServerTitle, "");
             var result = await PureRegisterClientAsync(dcServiceAddresses, (int)TcpPorts.ClientListenTo, username, password );
             ParseServerAnswer(result);
         }

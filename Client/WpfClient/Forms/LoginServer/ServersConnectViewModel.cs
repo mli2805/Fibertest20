@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using Autofac;
@@ -27,7 +28,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public List<Server> Servers { get; set; }
+        public ObservableCollection<Server> Servers { get; set; }
 
         public Visibility ServersComboboxVisibility
         {
@@ -36,6 +37,17 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _serversComboboxVisibility) return;
                 _serversComboboxVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsRemoveServerEnabled
+        {
+            get { return _isRemoveServerEnabled; }
+            set
+            {
+                if (value == _isRemoveServerEnabled) return;
+                _isRemoveServerEnabled = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -49,7 +61,8 @@ namespace Iit.Fibertest.Client
                 if (Equals(value, _selectedServer)) return;
                 _selectedServer = value;
                 NotifyOfPropertyChange();
-                ToggleToSelectServerMode();
+                if (_selectedServer != null)
+                    ToggleToSelectServerMode();
             }
         }
 
@@ -95,8 +108,10 @@ namespace Iit.Fibertest.Client
 
         private void InitializeView()
         {
-            Servers = ServerList.Load(_iniFile, _logFile);
+            Servers = new ObservableCollection<Server>();
+            ServerList.Load(_iniFile, _logFile).ForEach(s => Servers.Add(s));
             SelectedServer = Servers.FirstOrDefault(s => s.IsLastSelected) ?? Servers.FirstOrDefault();
+            IsRemoveServerEnabled = Servers.Count > 0;
             if (SelectedServer == null)
                 ToggleToAddServerMode();
             else
@@ -110,11 +125,11 @@ namespace Iit.Fibertest.Client
                 if (ServerConnectionTestViewModel.Result == true)
                 {
                     var netAddress = ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress();
-                    var serverAddress =  netAddress.IsAddressSetAsIp ? netAddress.Ip4Address : netAddress.HostName;
+                    var serverAddress = netAddress.IsAddressSetAsIp ? netAddress.Ip4Address : netAddress.HostName;
                     if (serverAddress == @"localhost")
                     {
                         var serverIp = LocalAddressResearcher.GetAllLocalAddresses().First();
-                        ServerConnectionTestViewModel.NetAddressInputViewModel = 
+                        ServerConnectionTestViewModel.NetAddressInputViewModel =
                             new NetAddressInputViewModel(new NetAddress(serverIp, TcpPorts.ServerListenToClient), true);
                         serverAddress = serverIp;
                     }
@@ -130,15 +145,30 @@ namespace Iit.Fibertest.Client
         }
 
         private bool _isInAddMode;
-        private NetAddress _serverInWorkAddress = new NetAddress(@"0.0.0.0", TcpPorts.ServerListenToClient);
+        private readonly NetAddress _serverInWorkAddress = new NetAddress(@"0.0.0.0", TcpPorts.ServerListenToClient);
         private Visibility _serversComboboxVisibility = Visibility.Visible;
         private Visibility _newServerTitleVisibility = Visibility.Collapsed;
         private NetAddressTestViewModel _serverConnectionTestViewModel;
+        private bool _isRemoveServerEnabled;
 
         public void ButtonPlus()
         {
             if (!_isInAddMode)
                 ToggleToAddServerMode();
+        }
+
+        public void ButtonMinus()
+        {
+            Servers.Remove(SelectedServer);
+            SaveChanges();
+
+            if (Servers.Count > 0)
+                SelectedServer = Servers.First(s=>!s.Equals(SelectedServer));
+            else
+                ToggleToAddServerMode();
+
+            IsRemoveServerEnabled = Servers.Count > 0;
+
         }
 
         private void ToggleToAddServerMode()
@@ -191,16 +221,26 @@ namespace Iit.Fibertest.Client
             if (_isInAddMode)
                 AddServerIntoList();
 
-            Servers.ForEach(s => s.IsLastSelected = s.Equals(SelectedServer));
-            SelectedServer.ServerAddress.Main = (NetAddress)ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress().Clone();
-            _iniFile.WriteServerAddresses(SelectedServer.ServerAddress);
+            SaveChanges();
+            TryClose(true);
+        }
+
+        private void SaveChanges()
+        {
+            var serversList = Servers.ToList();
+            serversList.ForEach(s => s.IsLastSelected = s.Equals(SelectedServer));
+
+            if (SelectedServer != null)
+            {
+                SelectedServer.ServerAddress.Main = (NetAddress)ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress().Clone();
+                _iniFile.WriteServerAddresses(SelectedServer.ServerAddress);
+                _iniFile.Write(IniSection.Server, IniKey.ServerTitle, SelectedServer.Title);
+            }
 
             var clientAddress = new NetAddress(_clientAddress, TcpPorts.ClientListenTo);
             _iniFile.Write(clientAddress, IniSection.ClientLocalAddress);
 
-            ServerList.Save(Servers, _iniFile, _logFile);
-
-            TryClose(true);
+            ServerList.Save(serversList, _iniFile, _logFile);
         }
     }
 }
