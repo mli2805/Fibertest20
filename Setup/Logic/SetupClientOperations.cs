@@ -9,6 +9,8 @@ namespace Iit.Fibertest.Setup
         private readonly IMyLog _logFile;
         private const string SourcePathClient = @"..\ClientFiles";
         private const string ClientSubdir = @"Client\bin";
+        private const string SourcePathSuperClient = @"..\SuperClientFiles";
+        private const string SuperClientSubdir = @"SuperClient\bin";
         private const string SourcePathReflect = @"..\RftsReflect";
         private const string ReflectSubdir = @"RftsReflect";
 
@@ -26,6 +28,11 @@ namespace Iit.Fibertest.Setup
             var fullClientPath = Path.Combine(installationFolder, ClientSubdir);
             _logFile.AppendLine($" full client path = {fullClientPath}");
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathClient, fullClientPath, worker))
+                return false;
+
+           var fullSuperClientPath = Path.Combine(installationFolder, SuperClientSubdir);
+            _logFile.AppendLine($" full super-client path = {fullSuperClientPath}");
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathSuperClient, fullSuperClientPath, worker))
                 return false;
 
             var fullReflectPath = Path.Combine(installationFolder, ReflectSubdir);
