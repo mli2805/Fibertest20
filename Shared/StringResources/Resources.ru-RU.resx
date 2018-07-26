@@ -2123,4 +2123,19 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Client_s_connection_lost" xml:space="preserve">
 		<value>Потеряна связь с клиентом</value>
 	</data>
+	<data name="SID_Cannot_restore_connection_with_server___0_____1___" xml:space="preserve">
+		<value>Не удалось восстановить связь с сервером '{0}' ({1}).</value>
+	</data>
+	<data name="SID_Server_connection_lost_" xml:space="preserve">
+		<value>Потеряна связь с сервером!</value>
+	</data>
+	<data name="SID_Check_if_the_server" xml:space="preserve">
+		<value>Проверьте доступность и работоспособность сервера.</value>
+	</data>
+	<data name="SID_Restart_application" xml:space="preserve">
+		<value>Перезапустите приложение.</value>
+	</data>
+	<data name="SID_Close_application" xml:space="preserve">
+		<value>Закрыть приложение</value>
+	</data>
 </root>

@@ -20,11 +20,12 @@
 
         // General - Client
         ClientPollingRateMs,
+        FailedPollsLimit,
         // General - RTU
         RtuHeartbeatRate,
         // General - DataCenter
         CheckHeartbeatEvery,
-        ClientHeartbeatPermittedGap,
+        ClientConnectionsPermittedGap,
         RtuHeartbeatPermittedGap,
 
         EventSourcingPortion,

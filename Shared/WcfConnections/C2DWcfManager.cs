@@ -132,7 +132,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine("GetEvents: " + e.Message);
-                return new string[0];
+                return null;
             }
         }
 

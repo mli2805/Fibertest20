@@ -1143,6 +1143,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot restore connection with server &apos;{0}&apos; ({1})..
+        /// </summary>
+        public static string SID_Cannot_restore_connection_with_server___0_____1___ {
+            get {
+                return ResourceManager.GetString("SID_Cannot_restore_connection_with_server___0_____1___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot send base ref to RTU.
         /// </summary>
         public static string SID_Cannot_send_base_ref_to_RTU {
@@ -1269,6 +1278,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check if the server is accessible and functioning..
+        /// </summary>
+        public static string SID_Check_if_the_server {
+            get {
+                return ResourceManager.GetString("SID_Check_if_the_server", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose folder in which to install {0}.
         /// </summary>
         public static string SID_Choose_folder_in_which_to_install__0_ {
@@ -1373,6 +1391,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Close {
             get {
                 return ResourceManager.GetString("SID_Close", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Close application.
+        /// </summary>
+        public static string SID_Close_application {
+            get {
+                return ResourceManager.GetString("SID_Close_application", resourceCulture);
             }
         }
         
@@ -4376,6 +4403,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Restart application..
+        /// </summary>
+        public static string SID_Restart_application {
+            get {
+                return ResourceManager.GetString("SID_Restart_application", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RFTS Events.
         /// </summary>
         public static string SID_Rfts_Events {
@@ -4832,6 +4868,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Server {
             get {
                 return ResourceManager.GetString("SID_Server", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server connection lost!.
+        /// </summary>
+        public static string SID_Server_connection_lost_ {
+            get {
+                return ResourceManager.GetString("SID_Server_connection_lost_", resourceCulture);
             }
         }
         

@@ -6,6 +6,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WpfCommonViews;
 using Newtonsoft.Json;
 using NEventStore;
 
@@ -17,6 +18,8 @@ namespace Iit.Fibertest.Client
             new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
         private readonly IWcfServiceForClient _wcfConnection;
+        private readonly IWindowManager _windowManager;
+        private readonly ServerConnectionLostViewModel _serverConnectionLostViewModel;
         private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
         private readonly EventsOnModelExecutor _eventsOnModelExecutor;
         private readonly EventsOnTreeExecutor _eventsOnTreeExecutor;
@@ -29,6 +32,8 @@ namespace Iit.Fibertest.Client
         private readonly LandmarksViewsManager _landmarksViewsManager;
         private Thread _pollerThread;
         private readonly IDispatcherProvider _dispatcherProvider;
+        private int _exceptionCount;
+        private readonly int _exceptionCountLimit;
         private readonly IMyLog _logFile;
         private readonly EventArrivalNotifier _eventArrivalNotifier;
         private readonly ILocalDbManager _localDbManager;
@@ -47,8 +52,9 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ClientPoller(IWcfServiceForClient wcfConnection, IDispatcherProvider dispatcherProvider,
-            EventsOnGraphExecutor eventsOnGraphExecutor,
+        public ClientPoller(IWcfServiceForClient wcfConnection, IWindowManager windowManager, 
+            ServerConnectionLostViewModel serverConnectionLostViewModel, IDispatcherProvider dispatcherProvider,
+            EventsOnGraphExecutor eventsOnGraphExecutor, 
             EventsOnModelExecutor eventsOnModelExecutor, EventsOnTreeExecutor eventsOnTreeExecutor, OpticalEventsExecutor opticalEventsExecutor,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel, RtuStateViewsManager rtuStateViewsManager,
@@ -56,6 +62,8 @@ namespace Iit.Fibertest.Client
             IMyLog logFile, IniFile iniFile, EventArrivalNotifier eventArrivalNotifier, ILocalDbManager localDbManager)
         {
             _wcfConnection = wcfConnection;
+            _windowManager = windowManager;
+            _serverConnectionLostViewModel = serverConnectionLostViewModel;
             _eventsOnModelExecutor = eventsOnModelExecutor;
             _eventsOnGraphExecutor = eventsOnGraphExecutor;
             _eventsOnTreeExecutor = eventsOnTreeExecutor;
@@ -71,6 +79,7 @@ namespace Iit.Fibertest.Client
             _eventArrivalNotifier = eventArrivalNotifier;
             _localDbManager = localDbManager;
             _pollingRate = iniFile.Read(IniSection.General, IniKey.ClientPollingRateMs, 500);
+            _exceptionCountLimit = iniFile.Read(IniSection.General, IniKey.FailedPollsLimit, 7);
         }
 
         public void Start()
@@ -95,9 +104,14 @@ namespace Iit.Fibertest.Client
 
             if (events == null)
             {
-                _logFile.AppendLine(@"Cannot establish connection with data-center.");
+                _exceptionCount++;
+                _logFile.AppendLine($@"Cannot establish connection with data-center. Exception count: {_exceptionCount}");
+                if (_exceptionCount == _exceptionCountLimit)
+                    _dispatcherProvider.GetDispatcher().Invoke(NotifyUserConnectionProblems); // blocks current thread till user clicks to close form
                 return -1;
             }
+
+            _exceptionCount = 0;
 
             if (events.Length == 0)
                 return 0;
@@ -105,6 +119,11 @@ namespace Iit.Fibertest.Client
             await _localDbManager.SaveEvents(events);
             _dispatcherProvider.GetDispatcher().Invoke(() => ApplyEventSourcingEvents(events)); // sync, GUI thread
             return events.Length;
+        }
+
+        private void NotifyUserConnectionProblems()
+        {
+            _windowManager.ShowDialogWithAssignedOwner(_serverConnectionLostViewModel);
         }
 
         private void ApplyEventSourcingEvents(string[] events)
