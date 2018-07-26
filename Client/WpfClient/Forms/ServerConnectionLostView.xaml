@@ -6,9 +6,9 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        Height="350" Width="600" d:DataContext="{d:DesignData ServerConnectionLostViewModel}">
+        Height="350" Width="600" d:DataContext="{d:DesignData ServerConnectionLostViewModel}" Loaded="Window_Loaded">
     <StackPanel>
-        <TextBlock HorizontalAlignment="Center" Margin="0,40,0,40"
+        <TextBlock HorizontalAlignment="Center" Margin="0,25,0,40"
                    Text="{x:Static stringResources:Resources.SID_Server_connection_lost_}" FontWeight="Bold"
                    Foreground="Red" FontSize="18" />
         <Button Height="22" Width="180" Content="{x:Static stringResources:Resources.SID_Turn_alarm_off}"
