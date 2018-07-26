@@ -5,5 +5,6 @@ namespace Iit.Fibertest.Setup
         Client,
         Datacenter,
         RtuManager,
+        SuperClient,
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Threading;
@@ -10,14 +11,14 @@ namespace Iit.Fibertest.Uninstall
 {
     public class UninstallOperations
     {
-        private const string DataCenterServiceName = "FibertestDcService";
-        private const string DataCenterDisplayName = "Fibertest 2.0 DataCenter Server";
-
-        private const string RtuManagerServiceName = "FibertestRtuService";
-        private const string RtuManagerDisplayName = "Fibertest 2.0 RTU Manager";
-
-        private const string RtuWatchdogServiceName = "FibertestRtuWatchdog";
-        private const string RtuWatchdogDisplayName = "Fibertest 2.0 RTU Watchdog";
+        private readonly Dictionary<string, string> _services = new Dictionary<string, string>()
+        {
+            {"FibertestDcService", "Fibertest 2.0 DataCenter Server"},
+            {"FibertestRtuService", "Fibertest 2.0 RTU Manager"},
+            {"FibertestRtuWatchdog", "Fibertest 2.0 RTU Watchdog"},
+        };
+       
+        private readonly List<string> _componentFolders = new List<string>{"Client", "DataCenter", "RtuManager", "SuperClient"};
 
         public bool Do(BackgroundWorker worker, string fibertestFolder, bool isFullUninstall)
         {
@@ -38,12 +39,11 @@ namespace Iit.Fibertest.Uninstall
 
         private bool UninstallServices(BackgroundWorker worker)
         {
-            if (!ServiceOperations.UninstallServiceIfExist(DataCenterServiceName, DataCenterDisplayName, worker))
-                return false;
-            if (!ServiceOperations.UninstallServiceIfExist(RtuWatchdogServiceName, RtuWatchdogDisplayName, worker))
-                return false;
-            if (!ServiceOperations.UninstallServiceIfExist(RtuManagerServiceName, RtuManagerDisplayName, worker))
-                return false;
+            foreach (var pair in _services)
+            {
+                if (!ServiceOperations.UninstallServiceIfExist(pair.Key, pair.Value, worker))
+                    return false;
+            }
             return true;
         }
 
@@ -52,40 +52,21 @@ namespace Iit.Fibertest.Uninstall
             worker.ReportProgress((int)BwReturnProgressCode.DeletingFiles);
             try
             {
-                if (isFullUninstall)
+                foreach (var componentFolder in _componentFolders)
                 {
-                    if (Directory.Exists(fibertestFolder + @"\Client"))
-                        Directory.Delete(fibertestFolder + @"\Client", true);
+                    var dir = isFullUninstall
+                        ? fibertestFolder + $@"\{componentFolder}"
+                        : fibertestFolder + $@"\{componentFolder}\bin";
 
-                    if (Directory.Exists(fibertestFolder + @"\DataCenter"))
-                        Directory.Delete(fibertestFolder + @"\DataCenter", true);
+                    if (!Directory.Exists(dir)) continue;
 
-                    if (Directory.Exists(fibertestFolder + @"\RftsReflect"))
-                        Directory.Delete(fibertestFolder + @"\RftsReflect", true);
-
-                    if (Directory.Exists(fibertestFolder + @"\RtuManager"))
-                    {
-                        Thread.Sleep(500);
-                        Directory.Delete(fibertestFolder + @"\RtuManager", true);
-                    }
+                    Thread.Sleep(500); // for slow RTU PC sake
+                    Directory.Delete(dir, true);
                 }
-                else
-                {
-                    if (Directory.Exists(fibertestFolder + @"\Client\bin"))
-                        Directory.Delete(fibertestFolder + @"\Client\bin", true);
 
-                    if (Directory.Exists(fibertestFolder + @"\DataCenter\bin"))
-                        Directory.Delete(fibertestFolder + @"\DataCenter\bin", true);
+                if (Directory.Exists(fibertestFolder + @"\RftsReflect"))
+                    Directory.Delete(fibertestFolder + @"\RftsReflect", true);
 
-                    if (Directory.Exists(fibertestFolder + @"\RftsReflect"))
-                        Directory.Delete(fibertestFolder + @"\RftsReflect", true);
-
-                    if (Directory.Exists(fibertestFolder + @"\RtuManager\bin"))
-                    {
-                        Thread.Sleep(500);
-                        Directory.Delete(fibertestFolder + @"\RtuManager\bin", true);
-                    }
-                }
             }
             catch (Exception e)
             {

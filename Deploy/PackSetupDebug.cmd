@@ -26,6 +26,4 @@ rem del RftsReflect.zip
 rem cd ..\
 
 "C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackSetup.conf" FtDebug_2.0.1.%1.exe Pack\*.*
-
-rem  7z.exe a -r SuperClient.zip "..\Client\SuperClient\bin\Debug\*.*"
 pause

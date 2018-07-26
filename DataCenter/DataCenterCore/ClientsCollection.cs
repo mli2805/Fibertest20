@@ -121,6 +121,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             DateTime noLaterThan = DateTime.Now - timeSpan;
             var deadStations = _clients.Where(s => s.LastConnectionTimestamp < noLaterThan).ToList();
+            if (deadStations.Count == 0) return;
 
             foreach (var deadStation in deadStations)
             {

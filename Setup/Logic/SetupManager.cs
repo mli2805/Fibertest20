@@ -5,18 +5,20 @@ namespace Iit.Fibertest.Setup
 {
     public class SetupManager
     {
-       
+
         private readonly CurrentInstallation _currentInstallation;
         private readonly IMyLog _logFile;
         private readonly SetupClientOperations _setupClientOperations;
         private readonly SetupDataCenterOperations _setupDataCenterOperations;
         private readonly SetupRtuManagerOperations _setupRtuManagerOperations;
+        private readonly SetupSuperClientOperations _setupSuperClientOperations;
         private readonly SetupUninstallOperations _setupUninstallOperations;
 
         public SetupManager(CurrentInstallation currentInstallation, IMyLog logFile,
             SetupClientOperations setupClientOperations,
-            SetupDataCenterOperations setupDataCenterOperations, 
+            SetupDataCenterOperations setupDataCenterOperations,
             SetupRtuManagerOperations setupRtuManagerOperations,
+            SetupSuperClientOperations setupSuperClientOperations,
             SetupUninstallOperations setupUninstallOperations)
         {
             _currentInstallation = currentInstallation;
@@ -24,6 +26,7 @@ namespace Iit.Fibertest.Setup
             _setupClientOperations = setupClientOperations;
             _setupDataCenterOperations = setupDataCenterOperations;
             _setupRtuManagerOperations = setupRtuManagerOperations;
+            _setupSuperClientOperations = setupSuperClientOperations;
             _setupUninstallOperations = setupUninstallOperations;
         }
 
@@ -44,6 +47,10 @@ namespace Iit.Fibertest.Setup
                     break;
                 case InstallationType.RtuManager:
                     if (!_setupRtuManagerOperations.SetupRtuManager(worker, _currentInstallation.InstallationFolder))
+                        return false;
+                    break;
+                case InstallationType.SuperClient:
+                    if (!_setupSuperClientOperations.SetupSuperClient(worker, _currentInstallation.InstallationFolder))
                         return false;
                     break;
             }

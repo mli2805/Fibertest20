@@ -43,7 +43,7 @@ namespace Iit.Fibertest.Setup
             HeaderViewModel.Explanation = string.Format(Resources.SID_Please_select_the_type_of__0__install, currentInstallation.MainName);
 
             Text1 = string.Format(Resources.SID_Select_the_type_of__0__install__Click_Next_to_continue_, currentInstallation.MainName);
-            InstTypes = new List<string>() { "RTU Manager", "Client", "Data Center" };
+            InstTypes = new List<string>() { "RTU Manager", "Client", "Data Center", "Super Client" };
             SelectedType = InstTypes[0];
         }
 
@@ -54,6 +54,7 @@ namespace Iit.Fibertest.Setup
                 case "Client": return InstallationType.Client;
                 case "Data Center": return InstallationType.Datacenter;
                 case "RTU Manager": return InstallationType.RtuManager;
+                case "Super Client": return InstallationType.SuperClient;
                 default: return InstallationType.Client;
             }
 

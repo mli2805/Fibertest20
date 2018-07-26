@@ -18,6 +18,17 @@
         LogFileSizeLimitKb,
         LogLevel,
 
+        // General - Client
+        ClientPollingRateMs,
+        // General - RTU
+        RtuHeartbeatRate,
+        // General - DataCenter
+        CheckHeartbeatEvery,
+        ClientHeartbeatPermittedGap,
+        RtuHeartbeatPermittedGap,
+
+        EventSourcingPortion,
+
         // RtuManager
         OtdrIp,
         OtdrPort,
@@ -33,16 +44,7 @@
         OldFibertestServerIp,  
         ShouldTransferMeasurements,
 
-        ClientHeartbeatRate,
-        ClientPollingRateMs,
-        RtuHeartbeatRate,
-
-        CheckHeartbeatEvery,
-        ClientHeartbeatPermittedGap,
-        RtuHeartbeatPermittedGap,
-
-        EventSourcingPortion,
-
+      
         // Charon
         ConnectionTimeout,
         ReadTimeout,
