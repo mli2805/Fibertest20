@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Windows.Interop;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.WpfCommonViews
 {
     /// <summary>
     /// Interaction logic for ServerConnectionLostView.xaml

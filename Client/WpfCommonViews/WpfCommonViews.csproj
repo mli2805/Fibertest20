@@ -126,10 +126,15 @@
     </Compile>
     <Compile Include="RftsEvents\RftsEventsViewModel.cs" />
     <Compile Include="RftsEvents\SorDataToViewContent.cs" />
+    <Compile Include="ServerConnectionLostView.xaml.cs">
+      <DependentUpon>ServerConnectionLostView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ServerConnectionLostViewModel.cs" />
     <Compile Include="WindowManagerExt.cs" />
     <Compile Include="WpfTricks\FocusExtension.cs" />
     <Compile Include="WpfTricks\ObservableRangeCollection.cs" />
     <Compile Include="WpfTricks\PasswordHelper.cs" />
+    <Compile Include="WpfTricks\SoundManager.cs" />
     <Compile Include="WpfTricks\WaitCursor.cs" />
     <Page Include="MyMessageBox\MyMessageBoxView.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -148,6 +153,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="RftsEvents\RftsEventsView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ServerConnectionLostView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -188,6 +197,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\Sounds\Accident.mp3" />
+    <Content Include="Resources\Sounds\Ok.mp3" />
     <Content Include="SorExample\MeasWithBase.sor" />
   </ItemGroup>
   <ItemGroup />

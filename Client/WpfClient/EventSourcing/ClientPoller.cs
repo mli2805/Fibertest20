@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly ServerConnectionLostViewModel _serverConnectionLostViewModel;
         private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly EventsOnModelExecutor _eventsOnModelExecutor;
         private readonly EventsOnTreeExecutor _eventsOnTreeExecutor;
         private readonly OpticalEventsExecutor _opticalEventsExecutor;
@@ -54,7 +55,7 @@ namespace Iit.Fibertest.Client
 
         public ClientPoller(IWcfServiceForClient wcfConnection, IWindowManager windowManager, 
             ServerConnectionLostViewModel serverConnectionLostViewModel, IDispatcherProvider dispatcherProvider,
-            EventsOnGraphExecutor eventsOnGraphExecutor, 
+            EventsOnGraphExecutor eventsOnGraphExecutor, CurrentDatacenterParameters currentDatacenterParameters,
             EventsOnModelExecutor eventsOnModelExecutor, EventsOnTreeExecutor eventsOnTreeExecutor, OpticalEventsExecutor opticalEventsExecutor,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel, RtuStateViewsManager rtuStateViewsManager,
@@ -66,6 +67,7 @@ namespace Iit.Fibertest.Client
             _serverConnectionLostViewModel = serverConnectionLostViewModel;
             _eventsOnModelExecutor = eventsOnModelExecutor;
             _eventsOnGraphExecutor = eventsOnGraphExecutor;
+            _currentDatacenterParameters = currentDatacenterParameters;
             _eventsOnTreeExecutor = eventsOnTreeExecutor;
             _opticalEventsExecutor = opticalEventsExecutor;
             _traceStateViewsManager = traceStateViewsManager;
@@ -123,6 +125,7 @@ namespace Iit.Fibertest.Client
 
         private void NotifyUserConnectionProblems()
         {
+            _serverConnectionLostViewModel.Initialize(_currentDatacenterParameters.ServerTitle, _currentDatacenterParameters.ServerIp);
             _windowManager.ShowDialogWithAssignedOwner(_serverConnectionLostViewModel);
         }
 

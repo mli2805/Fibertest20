@@ -193,10 +193,6 @@
       <DependentUpon>TraceChoiceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Landmarks\TraceChoiceViewModel.cs" />
-    <Compile Include="Forms\ServerConnectionLostView.xaml.cs">
-      <DependentUpon>ServerConnectionLostView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Forms\ServerConnectionLostViewModel.cs" />
     <Compile Include="GlobalVars\CommandLineParameters.cs" />
     <Compile Include="GlobalVars\CurrentDatacenterParameters.cs" />
     <Compile Include="GlobalVars\CurrentlyHiddenRtu.cs" />
@@ -409,7 +405,6 @@
     <Compile Include="GraphModel\RequestHandlers\GrmFiberWithNodesRequest.cs" />
     <Compile Include="GraphModel\RequestHandlers\GrmNodeRequests.cs" />
     <Compile Include="GraphModel\RequestHandlers\GrmRtuRequests.cs" />
-    <Compile Include="Logic\SoundManager.cs" />
     <Compile Include="Logic\AddEquipmentIntoNodeBuilder.cs" />
     <Compile Include="Forms\TraceForms\TraceState\EventStatusComboItem.cs" />
     <Compile Include="Forms\TraceForms\TraceState\TraceStateView.xaml.cs">
@@ -632,10 +627,6 @@
     <Page Include="Forms\AdministrativeForms\ObjectsToZones\ObjectsAsTreeToZonesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Forms\ServerConnectionLostView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Forms\Shell\MarkerControl\HighlightingControl.xaml">
       <SubType>Designer</SubType>
