@@ -1143,6 +1143,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot restore connection with server..
+        /// </summary>
+        public static string SID_Cannot_restore_connection_with_server {
+            get {
+                return ResourceManager.GetString("SID_Cannot_restore_connection_with_server", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot restore connection with server &apos;{0}&apos; ({1})..
         /// </summary>
         public static string SID_Cannot_restore_connection_with_server___0_____1___ {

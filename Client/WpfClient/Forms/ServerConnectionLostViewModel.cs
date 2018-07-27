@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using Caliburn.Micro;
-using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -12,7 +11,7 @@ namespace Iit.Fibertest.Client
 
         public string ServerLine
         {
-            get { return _serverLine; }
+            get => _serverLine;
             set
             {
                 if (value == _serverLine) return;
@@ -30,9 +29,8 @@ namespace Iit.Fibertest.Client
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = Resources.SID_Error_;
-            ServerLine = string.Format(Resources.SID_Cannot_restore_connection_with_server___0_____1___,
-                _currentDatacenterParameters.ServerTitle, _currentDatacenterParameters.ServerIp);
+            DisplayName = "";
+            ServerLine = $@"{_currentDatacenterParameters.ServerTitle} ({ _currentDatacenterParameters.ServerIp})";
             _soundManager.StartAlert();
         }
 
