@@ -256,16 +256,22 @@ namespace Iit.Fibertest.RtuManagement
             queue.Send(message, MessageQueueTransactionType.Single);
         }
 
+        private bool IsPortOnBop(MonitorigPort monitorigPort)
+        {
+            return !monitorigPort.NetAddress.Equals(_mainCharon.NetAddress);
+        }
+
         private readonly List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();
         private bool ToggleToPort(MonitorigPort monitorigPort)
         {
             var otauIp = monitorigPort.NetAddress.Ip4Address;
-            DamagedOtau damagedOtau = monitorigPort.NetAddress.Equals(_mainCharon.NetAddress)
+            DamagedOtau damagedOtau = IsPortOnBop(monitorigPort)
                 ? null
                 : _damagedOtaus.FirstOrDefault(b => b.Ip == otauIp);
             if (damagedOtau != null)
             {
-                _rtuLog.AppendLine($"Port is on damaged OTAU {monitorigPort.NetAddress.ToStringA()}");
+                                            // TCP port here is not important
+                _rtuLog.AppendLine($"Port is on damaged BOP {damagedOtau.Ip}");
                 if (DateTime.Now - damagedOtau.RebootStarted < _mikrotikRebootTimeout)
                 {
                     _rtuLog.AppendLine($"Mikrotik {monitorigPort.NetAddress.Ip4Address} is rebooting, step to the next port");
@@ -287,9 +293,12 @@ namespace Iit.Fibertest.RtuManagement
                 case CharonOperationResult.Ok:
                     {
                         _rtuLog.AppendLine("Toggled Ok.");
-                        if (damagedOtau != null)
+                        // Here TCP port is important
+                        if (damagedOtau != null &&
+                            damagedOtau.Ip == monitorigPort.NetAddress.Ip4Address && 
+                            damagedOtau.TcpPort == monitorigPort.NetAddress.Port)
                         {
-                            _rtuLog.AppendLine($"OTAU {otauIp} recovered, send notification to server.");
+                            _rtuLog.AppendLine($"OTAU {monitorigPort.NetAddress.ToStringA()} recovered, send notification to server.");
                             var dto = new BopStateChangedDto()
                             {
                                 RtuId = _id,
