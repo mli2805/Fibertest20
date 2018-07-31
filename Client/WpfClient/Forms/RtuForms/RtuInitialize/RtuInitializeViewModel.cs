@@ -206,15 +206,32 @@ namespace Iit.Fibertest.Client
         private List<object> DtoToCommandList(RtuInitializedDto dto)
         {
             var commandList = new List<object>();
+
+            // Own port count changed
             if (_originalRtu.OwnPortCount > dto.OwnPortCount)
             {
                 var traces = _readModel.Traces.Where(t =>
                     t.RtuId == dto.RtuId && t.Port >= dto.OwnPortCount && t.OtauPort.IsPortOnMainCharon);
                 foreach (var trace in traces)
                 {
-                    var cmd = new DetachTrace() {TraceId = trace.TraceId};
+                    var cmd = new DetachTrace() { TraceId = trace.TraceId };
                     commandList.Add(cmd);
                 }
+            }
+
+            // BOP state changed
+            foreach (var keyValuePair in dto.Children)
+            {
+                var bop = _readModel.Otaus.First(o => o.NetAddress.Equals(keyValuePair.Value.NetAddress));
+                if (bop.IsOk != keyValuePair.Value.IsOk)
+                    commandList.Add(new AddBopNetworkEvent()
+                    {
+                        EventTimestamp = DateTime.Now,
+                        RtuId = dto.RtuId,
+                        OtauIp = keyValuePair.Value.NetAddress.Ip4Address,
+                        TcpPort = keyValuePair.Value.NetAddress.Port,
+                        IsOk = keyValuePair.Value.IsOk,
+                    });
             }
 
             commandList.Add(GetInitializeRtuCommand(dto));
@@ -299,29 +316,13 @@ namespace Iit.Fibertest.Client
                 Serial = dto.Serial,
                 Version = dto.Version,
                 IsMonitoringOn = dto.IsMonitoringOn,
+                Children = dto.Children,
                 AcceptableMeasParams = dto.AcceptableMeasParams,
             };
-
-            foreach (var portCharonPair in dto.Children)
-                cmd.Otaus.Add(ParsePortCharonPair(portCharonPair));
-
             return cmd;
         }
 
-        private AttachOtau ParsePortCharonPair(KeyValuePair<int, OtauDto> pair)
-        {
-            var otau = new AttachOtau()
-            {
-                Id = Guid.NewGuid(),
-                RtuId = OriginalRtu.Id,
-                MasterPort = pair.Key,
-                NetAddress = pair.Value.NetAddress,
-                PortCount = pair.Value.OwnPortCount,
-                Serial = pair.Value.Serial,
-                IsOk = pair.Value.IsOk,
-            };
-            return otau;
-        }
+       
 
         public void Close()
         {

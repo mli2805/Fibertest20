@@ -143,7 +143,7 @@ namespace Iit.Fibertest.DataCenterCore
                 && o.NetAddress.Port == dto.TcpPort
                 && o.IsOk != dto.IsOk))
             {
-                _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.OtauIp} state changed to {dto.IsOk}");
+                _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.OtauIp} state changed to {dto.IsOk} (because MSMQ message came)");
                 var cmd = new AddBopNetworkEvent()
                 {
                     EventTimestamp = DateTime.Now,
@@ -163,7 +163,7 @@ namespace Iit.Fibertest.DataCenterCore
                 && o.NetAddress.Port == dto.PortWithTrace.OtauPort.OtauTcpPort
                 && !o.IsOk))
             {
-                _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.PortWithTrace.OtauPort.OtauIp} state changed to OK");
+                _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.PortWithTrace.OtauPort.OtauIp} state changed to OK (because monitoring result came)");
                 var cmd = new AddBopNetworkEvent()
                 {
                     EventTimestamp = DateTime.Now,

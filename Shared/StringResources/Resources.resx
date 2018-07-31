@@ -2127,7 +2127,7 @@ RTU is initializing right now!</value>
     <value>Server connection lost!</value>
   </data>
 	<data name="SID_Check_if_the_server" xml:space="preserve">
-    <value>Check if the server is accessible and functioning.</value>
+    <value>Check if the server is available and functioning.</value>
   </data>
 	<data name="SID_Restart_application" xml:space="preserve">
     <value>Restart application.</value>

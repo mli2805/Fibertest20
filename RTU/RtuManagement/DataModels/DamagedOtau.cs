@@ -9,9 +9,10 @@ namespace Iit.Fibertest.RtuManagement
         public DateTime RebootStarted { get; set; }
         public int RebootAttempts { get; set; }
 
-        public DamagedOtau(string ip)
+        public DamagedOtau(string ip, int tcpPort)
         {
             Ip = ip;
+            TcpPort = tcpPort;
             RebootStarted = DateTime.Now;
             RebootAttempts = 0;
         }

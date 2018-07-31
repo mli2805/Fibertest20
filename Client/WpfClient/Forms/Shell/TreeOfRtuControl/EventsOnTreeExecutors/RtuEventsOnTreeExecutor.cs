@@ -5,21 +5,24 @@ using Autofac;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
     public class RtuEventsOnTreeExecutor
     {
         private readonly ILifetimeScope _globalScope;
+        private readonly IMyLog _logFile;
         private readonly TreeOfRtuModel _treeOfRtuModel;
         private readonly TraceEventsOnTreeExecutor _traceEventsOnTreeExecutor;
         private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
 
-        public RtuEventsOnTreeExecutor(ILifetimeScope globalScope, Model readModel, CurrentUser currentUser,
+        public RtuEventsOnTreeExecutor(ILifetimeScope globalScope, IMyLog logFile, Model readModel, CurrentUser currentUser,
             TreeOfRtuModel treeOfRtuModel, TraceEventsOnTreeExecutor traceEventsOnTreeExecutor)
         {
             _globalScope = globalScope;
+            _logFile = logFile;
             _treeOfRtuModel = treeOfRtuModel;
             _traceEventsOnTreeExecutor = traceEventsOnTreeExecutor;
             _currentUser = currentUser;
@@ -76,6 +79,7 @@ namespace Iit.Fibertest.Client
             otauLeaf.MasterPort = e.MasterPort;
             otauLeaf.OwnPortCount = e.PortCount;
             otauLeaf.OtauNetAddress = e.NetAddress;
+            otauLeaf.Serial = e.Serial;
             otauLeaf.OtauState = RtuPartState.Ok;
             otauLeaf.IsExpanded = true;
 
@@ -133,9 +137,11 @@ namespace Iit.Fibertest.Client
 
             foreach (var child in rtuLeaf.ChildrenImpresario.Children)
             {
-                if (child is OtauLeaf otauLeaf && otauLeaf.OtauNetAddress.Ip4Address == e.OtauIp && otauLeaf.OtauNetAddress.Port == e.TcpPort)
+                // do not check TCP port - if RTU has BOP with 2 OTAU (one address but two ports) - both OTAU should have tha same state
+                if (child is OtauLeaf otauLeaf && otauLeaf.OtauNetAddress.Ip4Address == e.OtauIp)
                 {
                     otauLeaf.OtauState = e.IsOk ? RtuPartState.Ok : RtuPartState.Broken;
+                    _logFile.AppendLine($@"OtauLeaf {otauLeaf.Serial} changed state to {otauLeaf.OtauState}");
                     rtuLeaf.SetOtauState(child.Id, e.IsOk);
                 }
             }

@@ -265,9 +265,10 @@ namespace Iit.Fibertest.RtuManagement
                 : _damagedOtaus.FirstOrDefault(b => b.Ip == otauIp);
             if (damagedOtau != null)
             {
+                _rtuLog.AppendLine($"Port is on damaged OTAU {monitorigPort.NetAddress.ToStringA()}");
                 if (DateTime.Now - damagedOtau.RebootStarted < _mikrotikRebootTimeout)
                 {
-                    _rtuLog.AppendLine("Mikrotik is rebooting, step to the next port");
+                    _rtuLog.AppendLine($"Mikrotik {monitorigPort.NetAddress.Ip4Address} is rebooting, step to the next port");
                     return false;
                 }
                 else
@@ -315,8 +316,7 @@ namespace Iit.Fibertest.RtuManagement
                     {
                         if (damagedOtau == null)
                         {
-                            damagedOtau = new DamagedOtau(otauIp);
-                            damagedOtau.TcpPort = monitorigPort.NetAddress.Port;
+                            damagedOtau = new DamagedOtau(otauIp, monitorigPort.NetAddress.Port);
                             _damagedOtaus.Add(damagedOtau);
                         }
                         RunAdditionalOtauRecovery(damagedOtau);

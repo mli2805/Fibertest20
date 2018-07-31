@@ -4,7 +4,6 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Graph
 {
- 
     public class EchoEventsOnModelExecutor
     {
         private readonly IMyLog _logFile;
@@ -95,13 +94,20 @@ namespace Iit.Fibertest.Graph
             rtu.MonitoringState = MonitoringState.Off;
             rtu.AcceptableMeasParams = e.AcceptableMeasParams;
 
-            if (e.Otaus == null) return;
+            if (e.Children == null) return;
 
-            foreach (var otauAttached in e.Otaus)
+            foreach (var childPair in e.Children)
             {
-                var otau = _model.Otaus.First(o => o.NetAddress.Ip4Address == otauAttached.NetAddress.Ip4Address
-                                                   && o.NetAddress.Port == otauAttached.NetAddress.Port);
-                otau.IsOk = otauAttached.IsOk;
+                var otau = _model.Otaus.First(o => o.NetAddress.Equals(childPair.Value.NetAddress));
+                if (otau == null)
+                {
+                    _logFile.AppendLine(@"RTU cannot return child OTAU which does not exist yet! It's a business rule");
+                    _logFile.AppendLine(@"Client sends existing OTAU list -> ");
+                    _logFile.AppendLine(@" RTU MUST detach any OTAU which are not in client's list");
+                    _logFile.AppendLine(@" and attach all OTAU from this list");
+                }
+                else
+                    otau.IsOk = childPair.Value.IsOk;
             }
         }
 

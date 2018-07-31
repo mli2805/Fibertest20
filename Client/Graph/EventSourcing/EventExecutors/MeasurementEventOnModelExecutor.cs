@@ -42,8 +42,11 @@ namespace Iit.Fibertest.Graph
         public string AddBopNetworkEvent(BopNetworkEventAdded e)
         {
             _model.BopNetworkEvents.Add(Mapper.Map<BopNetworkEvent>(e));
-            var otau = _model.Otaus.First(o=>o.NetAddress.Ip4Address == e.OtauIp);
-            otau.IsOk = e.IsOk;
+            // if BOP has 2 OTAU - both should change their state
+            foreach (var otau in _model.Otaus.Where(o=>o.NetAddress.Ip4Address == e.OtauIp))
+            {
+                otau.IsOk = e.IsOk;
+            }
             return null;
         }
 

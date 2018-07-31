@@ -45,6 +45,7 @@ namespace Iit.Fibertest.Client
 
             NotifyOfPropertyChange(nameof(BopPictogram));
         }
+
         public RtuPartState BopState
         {
             get
