@@ -256,21 +256,13 @@ namespace Iit.Fibertest.RtuManagement
             queue.Send(message, MessageQueueTransactionType.Single);
         }
 
-        private bool IsPortOnBop(MonitorigPort monitorigPort)
-        {
-            return !monitorigPort.NetAddress.Equals(_mainCharon.NetAddress);
-        }
-
         private readonly List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();
         private bool ToggleToPort(MonitorigPort monitorigPort)
         {
-            var otauIp = monitorigPort.NetAddress.Ip4Address;
-            DamagedOtau damagedOtau = IsPortOnBop(monitorigPort)
-                ? null
-                : _damagedOtaus.FirstOrDefault(b => b.Ip == otauIp);
+                                                                        // TCP port here is not important
+            DamagedOtau damagedOtau = _damagedOtaus.FirstOrDefault(b => b.Ip == monitorigPort.NetAddress.Ip4Address);
             if (damagedOtau != null)
             {
-                                            // TCP port here is not important
                 _rtuLog.AppendLine($"Port is on damaged BOP {damagedOtau.Ip}");
                 if (DateTime.Now - damagedOtau.RebootStarted < _mikrotikRebootTimeout)
                 {
@@ -295,14 +287,14 @@ namespace Iit.Fibertest.RtuManagement
                         _rtuLog.AppendLine("Toggled Ok.");
                         // Here TCP port is important
                         if (damagedOtau != null &&
-                            damagedOtau.Ip == monitorigPort.NetAddress.Ip4Address && 
+                            damagedOtau.Ip == monitorigPort.NetAddress.Ip4Address &&
                             damagedOtau.TcpPort == monitorigPort.NetAddress.Port)
                         {
                             _rtuLog.AppendLine($"OTAU {monitorigPort.NetAddress.ToStringA()} recovered, send notification to server.");
                             var dto = new BopStateChangedDto()
                             {
                                 RtuId = _id,
-                                OtauIp = otauIp,
+                                OtauIp = monitorigPort.NetAddress.Ip4Address,
                                 TcpPort = monitorigPort.NetAddress.Port,
                                 IsOk = true,
                             };
@@ -325,7 +317,7 @@ namespace Iit.Fibertest.RtuManagement
                     {
                         if (damagedOtau == null)
                         {
-                            damagedOtau = new DamagedOtau(otauIp, monitorigPort.NetAddress.Port);
+                            damagedOtau = new DamagedOtau(monitorigPort.NetAddress.Ip4Address, monitorigPort.NetAddress.Port);
                             _damagedOtaus.Add(damagedOtau);
                         }
                         RunAdditionalOtauRecovery(damagedOtau);
