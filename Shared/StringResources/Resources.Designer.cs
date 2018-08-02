@@ -900,6 +900,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BOP state.
+        /// </summary>
+        public static string SID_BOP_state {
+            get {
+                return ResourceManager.GetString("SID_BOP_state", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to BOP TCP port.
         /// </summary>
         public static string SID_BOP_TCP_port {
@@ -1152,15 +1161,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Cannot restore connection with server &apos;{0}&apos; ({1})..
-        /// </summary>
-        public static string SID_Cannot_restore_connection_with_server___0_____1___ {
-            get {
-                return ResourceManager.GetString("SID_Cannot_restore_connection_with_server___0_____1___", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Cannot send base ref to RTU.
         /// </summary>
         public static string SID_Cannot_send_base_ref_to_RTU {
@@ -1287,7 +1287,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Check if the server is accessible and functioning..
+        ///   Looks up a localized string similar to Check if the server is available and functioning..
         /// </summary>
         public static string SID_Check_if_the_server {
             get {

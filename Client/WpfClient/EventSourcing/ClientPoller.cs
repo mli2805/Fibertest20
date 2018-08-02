@@ -29,6 +29,7 @@ namespace Iit.Fibertest.Client
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
+        private readonly BopStateViewsManager _bopStateViewsManager;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
         private readonly LandmarksViewsManager _landmarksViewsManager;
         private Thread _pollerThread;
@@ -53,13 +54,17 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ClientPoller(IWcfServiceForClient wcfConnection, IWindowManager windowManager, 
-            ServerConnectionLostViewModel serverConnectionLostViewModel, IDispatcherProvider dispatcherProvider,
-            EventsOnGraphExecutor eventsOnGraphExecutor, CurrentDatacenterParameters currentDatacenterParameters,
-            EventsOnModelExecutor eventsOnModelExecutor, EventsOnTreeExecutor eventsOnTreeExecutor, OpticalEventsExecutor opticalEventsExecutor,
+        public ClientPoller(IWcfServiceForClient wcfConnection, IDispatcherProvider dispatcherProvider, IWindowManager windowManager, 
+            ServerConnectionLostViewModel serverConnectionLostViewModel, CurrentDatacenterParameters currentDatacenterParameters, 
+
+            EventsOnGraphExecutor eventsOnGraphExecutor, EventsOnModelExecutor eventsOnModelExecutor, 
+            EventsOnTreeExecutor eventsOnTreeExecutor, OpticalEventsExecutor opticalEventsExecutor,
+
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
-            NetworkEventsDoubleViewModel networkEventsDoubleViewModel, RtuStateViewsManager rtuStateViewsManager,
-            BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel, LandmarksViewsManager landmarksViewsManager,
+            RtuStateViewsManager rtuStateViewsManager, BopStateViewsManager bopStateViewsManager,
+            NetworkEventsDoubleViewModel networkEventsDoubleViewModel, BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel, 
+            LandmarksViewsManager landmarksViewsManager,
+
             IMyLog logFile, IniFile iniFile, EventArrivalNotifier eventArrivalNotifier, ILocalDbManager localDbManager)
         {
             _wcfConnection = wcfConnection;
@@ -74,6 +79,7 @@ namespace Iit.Fibertest.Client
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _rtuStateViewsManager = rtuStateViewsManager;
+            _bopStateViewsManager = bopStateViewsManager;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
             _landmarksViewsManager = landmarksViewsManager;
             _dispatcherProvider = dispatcherProvider;
@@ -148,6 +154,7 @@ namespace Iit.Fibertest.Client
                     _traceStateViewsManager.Apply(evnt);
                     _traceStatisticsViewsManager.Apply(evnt);
                     _landmarksViewsManager.Apply(evnt);
+                    _bopStateViewsManager.Apply(evnt);
                     _bopNetworkEventsDoubleViewModel.Apply(evnt);
                 }
                 catch (Exception e)

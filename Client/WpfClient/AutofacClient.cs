@@ -45,6 +45,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<TabulatorViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<CommonStatusBarViewModel>().InstancePerLifetimeScope();
 
+            builder.RegisterType<BopStateViewModel>();
             builder.RegisterType<RtuStateViewModel>();
             builder.RegisterType<TraceStateViewModel>();
             builder.RegisterType<BaseRefModelFactory>();
@@ -112,6 +113,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<RtuFilterViewModel>().InstancePerLifetimeScope();
 
             builder.RegisterType<RtuStateModelFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<BopStateViewsManager>().InstancePerLifetimeScope();
             builder.RegisterType<RtuStateViewsManager>().InstancePerLifetimeScope();
             builder.RegisterType<AccidentLineModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<TraceStateModelFactory>().InstancePerLifetimeScope();
