@@ -2064,7 +2064,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Не удалось инсталлировать службу {0}</value>
 	</data>
 	<data name="SID__0__service_installed_successfully" xml:space="preserve">
-		<value>Служба {0} инсталлирована успешно</value>
+		<value>Служба {0} установлена успешно</value>
 	</data>
 	<data name="SID__0__service_is_being_uninstalled___" xml:space="preserve">
 		<value>Служба {0} деинсталлируется...</value>
@@ -2073,7 +2073,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Не удается деинсталлировать службу {0}</value>
 	</data>
 	<data name="SID_Service__0__uninstalled_successfully_" xml:space="preserve">
-		<value>Служба {0} установлена успешно</value>
+		<value>Служба {0} деинсталлирована успешно</value>
 	</data>
 	<data name="SID__0__service_is_being_stopped___" xml:space="preserve">
 		<value>Служба {0} останавливается...</value>
