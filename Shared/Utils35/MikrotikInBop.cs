@@ -23,9 +23,9 @@
                 _rtuLogFile.AppendLine($"Couldn't establish tcp connection with Mikrotik {_ip}");
                 return false;
             }
-            if (!_mikrotik.Login(@"admin", ""))
+            if (!_mikrotik.Login("admin", ""))
             {
-                _rtuLogFile.AppendLine($@"Could not log in Mikrotik {_ip}");
+                _rtuLogFile.AppendLine($"Could not log in Mikrotik {_ip}");
                 _mikrotik.Close();
                 return false;
             }
@@ -35,7 +35,7 @@
         public void Reboot()
         {
             _rtuLogFile.AppendLine($"Reboot Mikrotik {_ip} started...");
-            _mikrotik.Send(@"/system/reboot", true);
+            _mikrotik.Send("/system/reboot", true);
         }
 
     }

@@ -90,7 +90,7 @@ namespace Iit.Fibertest.RtuManagement
             _rtuLog = new LogFile(_rtuIni).AssignFile("RtuManager.log");
 
             _mikrotikRebootTimeout =
-                TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootTimeout, 40));
+                TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootTimeout, 45));
 
             _id = Guid.Parse(_serviceIni.Read(IniSection.Server, IniKey.RtuGuid, Guid.Empty.ToString()));
 
