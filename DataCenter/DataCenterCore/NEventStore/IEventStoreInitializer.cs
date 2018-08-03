@@ -5,5 +5,6 @@ namespace Iit.Fibertest.DataCenterCore
     public interface IEventStoreInitializer
     {
         IStoreEvents Init();
+        void Delete();
     }
 }

@@ -48,11 +48,20 @@ namespace Iit.Fibertest.DataCenterService
             var resetDb = IniFile.Read(IniSection.MySql, IniKey.ResetDb, false);
             if (resetDb)
             {
-
+                _logFile.AppendLine("ResetDb flag is TRUE! DB will be deleted...");
+                using (var dbContext = new FtDbContext(_serverSettings.Options))
+                {
+                    dbContext.Database.EnsureDeleted();
+                }
+                _eventStoreService.Delete();
+                IniFile.Write(IniSection.MySql, IniKey.ResetDb, false);
+                _logFile.AppendLine("Db deleted successfully.");
             }
+
             using (var dbContext = new FtDbContext(_serverSettings.Options))
             {
                 dbContext.Database.EnsureCreated();
+                _serverSettings.LogSettings();
             }
             _eventStoreService.Init();
             _lastConnectionTimeChecker.Start();

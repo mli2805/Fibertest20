@@ -57,6 +57,11 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine($"{events.Count} events from base are applied to WriteModel");
         }
 
+        public void Delete()
+        {
+            _eventStoreInitializer.Delete();
+        }
+
         private bool AssignGraphDbVersion(IEventStream eventStream)
         {
             var firstMessage = eventStream.CommittedEvents.FirstOrDefault();

@@ -9,7 +9,6 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public sealed class MySqlEventStoreInitializer : IEventStoreInitializer
     {
-        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
 
         private int _mysqlTcpPort;
@@ -17,15 +16,15 @@ namespace Iit.Fibertest.DataCenterCore
 
         public MySqlEventStoreInitializer(IniFile iniFile, IMyLog logFile)
         {
-            _iniFile = iniFile;
             _logFile = logFile;
+            _mysqlTcpPort = iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, 3306);
+            var postfix = iniFile.Read(IniSection.MySql, IniKey.MySqlDbSchemePostfix, "");
+            _eventSourcingScheme = "ft20graph" + postfix;
         }
+
 
         public IStoreEvents Init()
         {
-            _mysqlTcpPort = _iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, 3306);
-            var postfix = _iniFile.Read(IniSection.MySql, IniKey.MySqlDbSchemePostfix, "");
-            _eventSourcingScheme = "ft20graph" + postfix;
             CreateDatabaseIfNotExists();
             try
             {
@@ -35,13 +34,31 @@ namespace Iit.Fibertest.DataCenterCore
                     .InitializeStorageEngine()
                     .Build();
 
-                _logFile.AppendLine(@"EventStoreService initialized successfully");
+                _logFile.AppendLine($"Events store: MYSQL=localhost:{_mysqlTcpPort}   Database={_eventSourcingScheme}");
                 return eventStore;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("MySqlEventStoreInitializer exception : " + e.Message);
                 return null;
+            }
+        }
+
+        public void Delete()
+        {
+            try
+            {
+                MySqlConnection connection = new MySqlConnection($"server=localhost;port={_mysqlTcpPort};user id=root;password=root;");
+                MySqlCommand command = new MySqlCommand($"drop database if exists {_eventSourcingScheme};", connection);
+                connection.Open();
+                command.ExecuteNonQuery();
+                connection.Close();
+                Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                throw;
             }
         }
 

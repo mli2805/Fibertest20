@@ -32,5 +32,10 @@ namespace Graph.Tests
                 return null;
             }
         }
+
+        public void Delete()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

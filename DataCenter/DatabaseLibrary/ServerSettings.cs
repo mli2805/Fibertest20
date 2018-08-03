@@ -7,12 +7,14 @@ namespace Iit.Fibertest.DatabaseLibrary
     public class ServerSettings : ISettings
     {
         private readonly IniFile _iniFile;
+        private readonly IMyLog _logFile;
         private int _mysqlTcpPort;
         private string _measurementsScheme;
 
-        public ServerSettings(IniFile iniFile)
+        public ServerSettings(IniFile iniFile, IMyLog logFile)
         {
             _iniFile = iniFile;
+            _logFile = logFile;
         }
 
         public void Init()
@@ -26,6 +28,11 @@ namespace Iit.Fibertest.DatabaseLibrary
             _mysqlTcpPort = _iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, 3306);
             var postfix = _iniFile.Read(IniSection.MySql, IniKey.MySqlDbSchemePostfix, "");
             _measurementsScheme = "ft20efcore" + postfix;
+        }
+
+        public void LogSettings()
+        {
+            _logFile.AppendLine($"Measurements: MYSQL=localhost:{_mysqlTcpPort}   Database={_measurementsScheme}");
         }
 
         private string MySqlConnectionString => $"server=localhost;port={_mysqlTcpPort};user id=root;password=root;database={_measurementsScheme}";
