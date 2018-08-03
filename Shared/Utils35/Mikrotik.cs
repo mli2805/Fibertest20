@@ -50,7 +50,7 @@ namespace Iit.Fibertest.UtilsLib
                 _stream.WriteByte(0);
         }
 
-        private List<string> Read()
+        public List<string> Read()
         {
             List<string> output = new List<string>();
             string o = "";

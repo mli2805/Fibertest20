@@ -36,6 +36,8 @@
         {
             _rtuLogFile.AppendLine($"Reboot Mikrotik {_ip} started...");
             _mikrotik.Send("/system/reboot", true);
+            _mikrotik.Read();
+            _mikrotik.Close();
         }
 
     }
