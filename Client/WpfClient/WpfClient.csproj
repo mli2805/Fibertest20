@@ -1026,6 +1026,7 @@
     <Resource Include="Resources\OnMap\RtuHighlighting.png" />
     <Resource Include="Resources\Buttons\Extinguish.png" />
     <Resource Include="FtClient6sizes.ico" />
+    <Resource Include="Resources\Buttons\CloseChildren.png" />
     <Content Include="Resources\Sounds\Accident.mp3">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

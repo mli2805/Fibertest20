@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              cal:Bind.ModelWithoutContext="{Binding .}"
              d:DesignHeight="300" d:DesignWidth="300">
-    
+
     <UserControl.Resources>
         <ControlTemplate x:Key="MenuSeparatorTemplate">
             <Separator />
@@ -36,7 +36,7 @@
             </Style.Triggers>
         </Style>
     </UserControl.Resources>
-    
+
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar Name="ExpandBar">
@@ -52,6 +52,12 @@
                           Style="{StaticResource MyToggleButtonStyle}"
                           RenderOptions.BitmapScalingMode="NearestNeighbor">
                 </ToggleButton>
+            </ToolBar>
+            <ToolBar>
+                <Button Name="CloseChildren" Background="Transparent" BorderThickness="0" Width="20" Height="20" 
+                        RenderOptions.BitmapScalingMode="NearestNeighbor">
+                    <Image Source="../../../Resources/Buttons/CloseChildren.png" Width="16" Height="16"/>
+                </Button>
             </ToolBar>
         </ToolBarTray>
         <StatusBar DockPanel.Dock="Bottom" Height="25">

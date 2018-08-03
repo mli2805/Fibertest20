@@ -126,6 +126,7 @@ namespace Iit.Fibertest.Client
                 if (int.TryParse(postfix, out int number))
                     await Task.Factory.StartNew(() => NotifySuperClientImReady(number));
                 IsEnabled = true;
+                TreeOfRtuViewModel.CollapseAll();
                 const string separator = @"    >>    ";
                 var server = $@"{separator}{_currentDatacenterParameters.ServerTitle} ({_currentDatacenterParameters.ServerIp})";
                 var user   = $@"{separator}{_currentUser.UserName} ({_currentUser.Role.ToString()})";

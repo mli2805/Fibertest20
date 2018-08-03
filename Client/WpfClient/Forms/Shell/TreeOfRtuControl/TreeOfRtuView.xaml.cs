@@ -1,4 +1,6 @@
-﻿namespace Iit.Fibertest.Client
+﻿using System.Windows;
+
+namespace Iit.Fibertest.Client
 {
     /// <summary>
     /// Interaction logic for TreeOfRtuView.xaml
@@ -9,7 +11,7 @@
         {
             InitializeComponent();
         }
-        private void Expand_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void Expand_Click(object sender, RoutedEventArgs e)
         {
             foreach (var item in MainTreeView.Items)
                 SetExpandTo(true, (RtuLeaf)item);
@@ -28,10 +30,12 @@
             root.IsExpanded = expand;
         }
 
-        private void Collapse_Click(object sender, System.Windows.RoutedEventArgs e)
+        private void Collapse_Click(object sender, RoutedEventArgs e)
         {
             foreach (var item in MainTreeView.Items)
                 SetExpandTo(false, (Leaf)item);
         }
+
+      
     }
 }

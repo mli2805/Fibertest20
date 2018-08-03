@@ -29,6 +29,18 @@ namespace Iit.Fibertest.Client
             TreeOfRtuModel.RefreshStatistics();
         }
 
+        public void CloseChildren()
+        {
+
+        }
+
+        public void CollapseAll()
+        {
+            foreach (var leaf in TreeOfRtuModel.Tree)
+            {
+                leaf.IsExpanded = false;
+            }
+        }
       
     }
 }
