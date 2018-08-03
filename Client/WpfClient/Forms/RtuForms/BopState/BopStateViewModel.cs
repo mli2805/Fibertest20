@@ -54,7 +54,7 @@ namespace Iit.Fibertest.Client
             StateOn = string.Format(Resources.SID_State_on__0_,
                 bopNetworkEventAdded.EventTimestamp.ToString(CultureInfo.CurrentCulture), bopNetworkEventAdded.Ordinal);
             IsOk = bopNetworkEventAdded.IsOk;
-            BopState = bopNetworkEventAdded.IsOk ? Resources.SID_Ok : Resources.SID_Critical;
+            BopState = bopNetworkEventAdded.IsOk ? Resources.SID_OK_BOP : Resources.SID_Bop_breakdown;
             BopStateBrush = bopNetworkEventAdded.IsOk ? Brushes.White : Brushes.Red;
         }
 

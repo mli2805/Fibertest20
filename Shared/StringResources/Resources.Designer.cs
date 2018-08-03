@@ -270,6 +270,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;filter applied&gt;.
+        /// </summary>
+        public static string SID__filter_applied_ {
+            get {
+                return ResourceManager.GetString("SID__filter_applied_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;no filter&gt;.
         /// </summary>
         public static string SID__no_filter_ {
@@ -878,6 +887,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Bop {
             get {
                 return ResourceManager.GetString("SID_Bop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BOP breakdown.
+        /// </summary>
+        public static string SID_Bop_breakdown {
+            get {
+                return ResourceManager.GetString("SID_Bop_breakdown", resourceCulture);
             }
         }
         
@@ -3700,6 +3718,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to OK BOP.
+        /// </summary>
+        public static string SID_OK_BOP {
+            get {
+                return ResourceManager.GetString("SID_OK_BOP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 
         ///on port {0}: charon {1} ip {2} has {3} ports.
         /// </summary>
@@ -4075,6 +4102,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Port_N {
             get {
                 return ResourceManager.GetString("SID_Port_N", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Port RTU.
+        /// </summary>
+        public static string SID_Port_Rtu {
+            get {
+                return ResourceManager.GetString("SID_Port_Rtu", resourceCulture);
             }
         }
         

@@ -21,9 +21,21 @@ namespace Iit.Fibertest.Client
         private readonly LogOperationsViewModel _logOperationsViewModel;
         private readonly IWindowManager _windowManager;
         private UserFilter _selectedUserFilter;
+        private string _operationsFilterButtonContent;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings =
             new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+
+        public string OperationsFilterButtonContent
+        {
+            get { return _operationsFilterButtonContent; }
+            set
+            {
+                if (value == _operationsFilterButtonContent) return;
+                _operationsFilterButtonContent = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public List<UserFilter> UserFilters { get; set; }
 
@@ -52,12 +64,15 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
         }
 
-        private void InitializeUserFilter()
+        private void InitializeFilters()
         {
             UserFilters = new List<UserFilter>() { new UserFilter() };
             foreach (var user in _readModel.Users)
                 UserFilters.Add(new UserFilter(user));
             SelectedUserFilter = UserFilters.First();
+
+            _logOperationsViewModel.IsAll = true;
+            OperationsFilterButtonContent = Resources.SID__no_filter_;
         }
        
         protected override void OnViewLoaded(object o)
@@ -110,7 +125,7 @@ namespace Iit.Fibertest.Client
         public async Task Initialize()
         {
             Rows = new List<LogLine>();
-            InitializeUserFilter();
+            InitializeFilters();
 
             _eventToLogLineParser.Initialize();
             var jsonsInCache = await _localDbManager.LoadEvents();
@@ -135,6 +150,7 @@ namespace Iit.Fibertest.Client
         public void ShowOperationFilter()
         {
             _windowManager.ShowDialogWithAssignedOwner(_logOperationsViewModel);
+            OperationsFilterButtonContent = _logOperationsViewModel.IsAllChecked() ? Resources.SID__no_filter_ : Resources.SID__filter_applied_;
             var view = CollectionViewSource.GetDefaultView(Rows);
             view.Refresh();
         }

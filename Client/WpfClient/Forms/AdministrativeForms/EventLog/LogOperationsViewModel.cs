@@ -35,10 +35,32 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public bool IsAllChecked()
+        {
+            return _isClientStarted &&
+                   _isClientExited &&
+                   _isClientConnectionLost &&
+                   _isRtuAdded &&
+                   _isRtuUpdated &&
+                   _isRtuInitialized &&
+                   _isRtuRemoved &&
+                   _isTraceAdded &&
+                   _isTraceUpdated &&
+                   _isTraceAttached &&
+                   _isTraceDetached &&
+                   _isTraceCleaned &&
+                   _isTraceRemoved &&
+                   _isBaseRefAssined &&
+                   _isMonitoringSettingsChanged &&
+                   _isMonitoringStarted &&
+                   _isMonitoringStopped;
+        }
+
         private void ChangeAll()
         {
             IsClientStarted = IsAll;
             IsClientExited = IsAll;
+            IsClientConnectionLost = IsAll;
 
             IsRtuAdded = IsAll;
             IsRtuUpdated = IsAll;

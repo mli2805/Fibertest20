@@ -110,7 +110,7 @@ namespace Graph.Tests
             var pair = bopStateViewsManager.LaunchedViews.First();
             pair.Key.Should().Be(_rtuId);
             var vm = pair.Value;
-            vm.BopState.Should().Be(Resources.SID_Critical);
+            vm.BopState.Should().Be(Resources.SID_Bop_breakdown);
         }
 
         [Then(@"На форме Состояние БОП в поле состояние становится ОК")]
@@ -121,7 +121,7 @@ namespace Graph.Tests
             var pair = bopStateViewsManager.LaunchedViews.First();
             pair.Key.Should().Be(_rtuId);
             var vm = pair.Value;
-            vm.BopState.Should().Be(Resources.SID_Ok);
+            vm.BopState.Should().Be(Resources.SID_OK_BOP);
         }
 
 

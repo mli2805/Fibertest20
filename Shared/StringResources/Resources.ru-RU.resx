@@ -2141,4 +2141,16 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_BOP_state" xml:space="preserve">
 		<value>Состояние БОП</value>
 	</data>
+	<data name="SID_Port_Rtu" xml:space="preserve">
+		<value>Порт RTU</value>
+	</data>
+	<data name="SID_Bop_breakdown" xml:space="preserve">
+		<value>Авария БОП</value>
+	</data>
+	<data name="SID_OK_BOP" xml:space="preserve">
+		<value>ОК БОП</value>
+	</data>
+	<data name="SID__filter_applied_" xml:space="preserve">
+		<value>&lt;фильтр применен&gt;</value>
+	</data>
 </root>

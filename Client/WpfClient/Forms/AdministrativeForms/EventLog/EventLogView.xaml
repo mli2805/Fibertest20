@@ -39,8 +39,9 @@
                             <DockPanel>
                                 <TextBlock DockPanel.Dock="Top" Width="10000" Height="1"/>
                                 <TextBlock DockPanel.Dock="Top" Text="{x:Static stringResources:Resources.SID_Operation}" Margin="5,0,0,5"/>
-                                <Button Height="23" HorizontalAlignment="Stretch"
-                                    Content="{x:Static stringResources:Resources.SID_Filter}" cal:Message.Attach="ShowOperationFilter"/>
+                                <Button Height="23" HorizontalAlignment="Stretch" cal:Message.Attach="ShowOperationFilter"
+                                        Content="{Binding Path=DataContext.OperationsFilterButtonContent, 
+                                        RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Window}}"/>
                             </DockPanel>
                         </DataTemplate>
                     </DataGridTextColumn.HeaderTemplate>

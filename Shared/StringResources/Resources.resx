@@ -2141,4 +2141,16 @@ RTU is initializing right now!</value>
 	<data name="SID_BOP_state" xml:space="preserve">
     <value>BOP state</value>
   </data>
+	<data name="SID_Port_Rtu" xml:space="preserve">
+    <value>Port RTU</value>
+  </data>
+	<data name="SID_Bop_breakdown" xml:space="preserve">
+    <value>BOP breakdown</value>
+  </data>
+	<data name="SID_OK_BOP" xml:space="preserve">
+    <value>OK BOP</value>
+  </data>
+	<data name="SID__filter_applied_" xml:space="preserve">
+    <value>&lt;filter applied&gt;</value>
+  </data>
 </root>
