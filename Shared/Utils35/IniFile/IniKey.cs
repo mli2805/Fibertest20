@@ -84,6 +84,7 @@
         //MySql
         MySqlTcpPort,
         MySqlDbSchemePostfix,
+        ResetDb,
 
         // Smtp
         SmtpHost,

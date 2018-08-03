@@ -95,6 +95,15 @@ namespace GMap.NET.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Critical.
+        /// </summary>
+        internal static string SID_Critical {
+            get {
+                return ResourceManager.GetString("SID_Critical", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exceeded the number of RTU for an existing license.
         /// </summary>
         internal static string SID_Exceeded_the_number_of_RTU_for_an_existing_license {

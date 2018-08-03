@@ -113,6 +113,12 @@ namespace Graph.Tests
             return true;
         }
 
+        public static bool BopStateHandler(this SystemUnderTest sut, object model)
+        {
+            if (!(model is BopStateViewModel)) return false;
+            return true;
+        }
+
         public static bool FiberUpdateHandler(this SystemUnderTest sut, object model, int userInputedLength, Answer answer)
         {
             if (!(model is FiberUpdateViewModel vm)) return false;

@@ -180,4 +180,7 @@ END;</value>
   <data name="SID_There_is_a_trace_with_the_same_title" xml:space="preserve">
     <value>There is a trace with the same title</value>
   </data>
+  <data name="SID_Critical" xml:space="preserve">
+    <value>Critical</value>
+  </data>
 </root>

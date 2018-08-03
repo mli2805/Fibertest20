@@ -45,6 +45,11 @@ namespace Iit.Fibertest.DataCenterService
             _logFile.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
             _serverSettings.Init();
+            var resetDb = IniFile.Read(IniSection.MySql, IniKey.ResetDb, false);
+            if (resetDb)
+            {
+
+            }
             using (var dbContext = new FtDbContext(_serverSettings.Options))
             {
                 dbContext.Database.EnsureCreated();

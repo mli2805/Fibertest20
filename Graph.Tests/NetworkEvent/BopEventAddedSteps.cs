@@ -5,6 +5,7 @@ using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.StringResources;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -45,18 +46,18 @@ namespace Graph.Tests
             _otauLeaf.OtauState.Should().Be(RtuPartState.Ok);
         }
 
-       
+
         [When(@"Приходит сообщение OTAU (.*) исправен")]
         public void WhenПриходитСообщениеOTAU_Исправен(string p0)
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuStateHandler(model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BopStateHandler(model));
             OtauStateMsmqCome(p0, true);
         }
 
         [When(@"Приходит сообщение OTAU (.*) НЕисправен")]
         public void WhenПриходитСообщениеOTAU_НЕисправен(string p0)
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuStateHandler(model));
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.BopStateHandler(model));
             OtauStateMsmqCome(p0, false);
         }
 
@@ -101,26 +102,26 @@ namespace Graph.Tests
         }
 
 
-        [Then(@"Открывается форма Состояние RTU - в поле БОП авария")]
-        public void ThenОткрываетсяФормаСостояниеRTU_ВПолеБОПАвария()
+        [Then(@"Открывается форма Состояние БОП - в поле состояние - авария")]
+        public void ThenОткрываетсяФормаСостояниеБОП_ВПолеСостояние_Авария()
         {
-            var rtuStateViewsManager = _sut.ClientScope.Resolve<RtuStateViewsManager>();
-            rtuStateViewsManager.LaunchedViews.Count.Should().Be(1);
-            var pair = rtuStateViewsManager.LaunchedViews.First();
+            var bopStateViewsManager = _sut.ClientScope.Resolve<BopStateViewsManager>();
+            bopStateViewsManager.LaunchedViews.Count.Should().Be(1);
+            var pair = bopStateViewsManager.LaunchedViews.First();
             pair.Key.Should().Be(_rtuId);
             var vm = pair.Value;
-            vm.Model.BopState.Should().Be(RtuPartState.Broken);
+            vm.BopState.Should().Be(Resources.SID_Critical);
         }
 
-        [Then(@"На форме RTU состояние БОП становится ОК")]
-        public void ThenНаФормеRtuСостояниеБопСтановитсяОк()
+        [Then(@"На форме Состояние БОП в поле состояние становится ОК")]
+        public void ThenНаФормеСостояниеБопвПолеСостояниеСтановитсяОк()
         {
-            var rtuStateViewsManager = _sut.ClientScope.Resolve<RtuStateViewsManager>();
-            rtuStateViewsManager.LaunchedViews.Count.Should().Be(1);
-            var pair = rtuStateViewsManager.LaunchedViews.First();
+            var bopStateViewsManager = _sut.ClientScope.Resolve<BopStateViewsManager>();
+            bopStateViewsManager.LaunchedViews.Count.Should().Be(1);
+            var pair = bopStateViewsManager.LaunchedViews.First();
             pair.Key.Should().Be(_rtuId);
             var vm = pair.Value;
-            vm.Model.BopState.Should().Be(RtuPartState.Ok);
+            vm.BopState.Should().Be(Resources.SID_Ok);
         }
 
 
@@ -130,6 +131,5 @@ namespace Graph.Tests
             _rtuLeaf.BopState.Should().Be(RtuPartState.Broken);
             _otauLeaf.OtauState.Should().Be(RtuPartState.Broken);
         }
-
     }
 }
