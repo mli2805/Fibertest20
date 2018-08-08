@@ -25,9 +25,9 @@ namespace DbMigrationWpf
             _lines = lines;
         }
 
-        public async Task Migrate(bool shouldTransferMeasurements, string ft15Address)
+        public async Task Migrate(string exportFileName, bool shouldTransferMeasurements, string ft15Address)
         {
-            new GraphFetcher(_logFile, _graphModel, _lines).Fetch();
+            new GraphFetcher(_logFile, _graphModel, _lines).Fetch(exportFileName);
             _logFile.AppendLine("Graph is fetched");
             _lines.Add("Graph is fetched");
 

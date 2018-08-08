@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client
         private bool _isSoundButtonEnabled;
         public bool IsSoundButtonEnabled
         {
-            get { return _isSoundButtonEnabled; }
+            get => _isSoundButtonEnabled;
             set
             {
                 if (value == _isSoundButtonEnabled) return;

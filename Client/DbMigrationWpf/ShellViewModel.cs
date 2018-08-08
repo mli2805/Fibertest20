@@ -1,10 +1,14 @@
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Microsoft.Win32;
 
 namespace DbMigrationWpf
 {
@@ -12,13 +16,38 @@ namespace DbMigrationWpf
     {
         private readonly IniFile _iniFile;
         private readonly LogFile _logFile;
+        private NetAddress _clientAddress;
         private DoubleAddress _serverDoubleAddress;
         private readonly C2DWcfManager _c2DWcfManager;
         private readonly GraphModel _graphModel = new GraphModel();
 
 
-        public string Ft20ServerAddress { get; set; }
-        public string Ft15ServerAddress { get; set; }
+        private string _ft20ServerAddress;
+        public string Ft20ServerAddress 
+        { 
+            get => _ft20ServerAddress;
+            set
+            {
+                if (value == _ft20ServerAddress) return;
+                _ft20ServerAddress = value;
+                NotifyOfPropertyChange();
+                _serverDoubleAddress.Main.Ip4Address = _ft20ServerAddress;
+                _iniFile.WriteServerAddresses(_serverDoubleAddress);
+                _c2DWcfManager.SetServerAddresses(_serverDoubleAddress, @"migrator", _clientAddress.Ip4Address);
+            }
+        }
+
+        private string _ft15ServerAddress;
+        public string Ft15ServerAddress
+        {
+            get => _ft20ServerAddress;
+            set
+            {
+                if (value == _ft15ServerAddress) return;
+                _ft15ServerAddress = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public ObservableCollection<string> ProgressLines { get; set; } = new ObservableCollection<string>();
 
@@ -31,14 +60,20 @@ namespace DbMigrationWpf
                 if (Equals(value, _currentLicenseText)) return;
                 _currentLicenseText = value;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(IsAllReadyForMigration));
             }
         }
 
-        public bool IsAllReadyForMigration
+        private string _exportFileName;
+
+        public string ExportFileName
         {
-            get => CurrentLicenseText != "";
-            
+            get => _exportFileName;
+            set
+            {
+                if (Equals(value, _exportFileName)) return;
+                _exportFileName = value;
+                NotifyOfPropertyChange();
+            }
         }
 
         public ShellViewModel()
@@ -49,19 +84,47 @@ namespace DbMigrationWpf
             _logFile.AssignFile("migrator.log");
 
             _c2DWcfManager = new C2DWcfManager(_iniFile, _logFile);
-            NetAddress clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
+
+            _clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
+            if (_clientAddress.Ip4Address == "0.0.0.0")
+            {
+                _clientAddress.Ip4Address = LocalAddressResearcher.GetAllLocalAddresses().First();
+                _iniFile.Write(IniSection.ClientLocalAddress, IniKey.Ip, _clientAddress.Ip4Address);
+            }
+
             _serverDoubleAddress = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
-            _c2DWcfManager.SetServerAddresses(_serverDoubleAddress, @"migrator", clientAddress.Ip4Address);
+            if (_serverDoubleAddress.Main.Ip4Address == "0.0.0.0")
+            {
+                _serverDoubleAddress.Main = new NetAddress(_clientAddress.Ip4Address, TcpPorts.ServerListenToClient);
+                _iniFile.WriteServerAddresses(_serverDoubleAddress);
+            }
+            _c2DWcfManager.SetServerAddresses(_serverDoubleAddress, @"migrator", _clientAddress.Ip4Address);
 
-            Initialize();
+            _ft20ServerAddress = _serverDoubleAddress.Main.Ip4Address;
+            _ft15ServerAddress = _iniFile.Read(IniSection.Migrator, IniKey.OldFibertestServerIp, "0.0.0.0");
+            if (_ft15ServerAddress == "0.0.0.0")
+            {
+                _ft15ServerAddress = _clientAddress.Ip4Address;
+                _iniFile.Write(IniSection.Migrator, IniKey.OldFibertestServerIp, _ft15ServerAddress);
+            }
+
+            _exportFileName = @"..\Db\export.txt";
         }
 
-        private void Initialize()
+        protected override void OnViewLoaded(object view)
         {
-            Ft20ServerAddress = _serverDoubleAddress.Main.Ip4Address;
-            Ft15ServerAddress = _iniFile.Read(IniSection.Migrator, IniKey.OldFibertestServerIp, "0.0.0.0");
+            DisplayName = "Migrate Fibertest_1.5 Db to Fibertest_2.0";
         }
 
+        public void ChooseExportFile()
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.InitialDirectory = AppDomain.CurrentDomain.BaseDirectory;
+            if (openFileDialog.ShowDialog() == true)
+            {
+                ExportFileName = openFileDialog.FileName;
+            }
+        }
         public async void LoadLicense()
         {
             var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
@@ -78,6 +141,7 @@ namespace DbMigrationWpf
                 SuperClientEnabled = license.SuperClientEnabled,
                 Version = license.Version,
             };
+
             var result = await _c2DWcfManager.SendCommandAsObj(cmd);
             if (result != null)
             {
@@ -85,13 +149,13 @@ namespace DbMigrationWpf
                 return;
             }
 
-            CurrentLicenseText = $"RTU - {license.RtuCount}";
+            CurrentLicenseText = $"Licensed RTU count - {license.RtuCount}";
         }
 
         public async void Migrate()
         {
             var migrationManager = new MigrationManager(_logFile, _graphModel, _c2DWcfManager, ProgressLines);
-            await migrationManager.Migrate(false, Ft15ServerAddress);
+            await migrationManager.Migrate(ExportFileName, false, Ft15ServerAddress);
             File.WriteAllLines(@"..\log\progress.txt", ProgressLines);
         }
 

@@ -24,7 +24,7 @@ namespace DbMigrationWpf
             _fileStringTraceParser = new FileStringTraceParser(graphModel);
         }
 
-        public void Fetch()
+        public void Fetch(string exportFileName)
         {
             System.Globalization.CultureInfo customCulture = (System.Globalization.CultureInfo)System.Threading.Thread.CurrentThread.CurrentCulture.Clone();
             customCulture.NumberFormat.NumberDecimalSeparator = ".";
@@ -33,7 +33,7 @@ namespace DbMigrationWpf
             System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 
             Encoding win1251 = Encoding.GetEncoding("Windows-1251");
-            string[] lines = File.ReadAllLines(@"..\db\export.txt", win1251);
+            string[] lines = File.ReadAllLines(exportFileName, win1251);
             _logFile.AppendLine($"Export.txt contains {lines.Length} lines");
            _progressLines.Add($"Export.txt contains {lines.Length} lines");
 
@@ -68,10 +68,7 @@ namespace DbMigrationWpf
             for (var i = 0; i < lines.Length; i++)
             {
                 var line = lines[i];
-                var logLineParts = line.Split('|');
-                if (logLineParts.Length == 1)
-                    continue;
-                var parts = logLineParts[1].Trim().Split(';');
+                var parts = line.Trim().Split(';');
                 switch (parts[0])
                 {
                     case "NODES::":
@@ -108,10 +105,7 @@ namespace DbMigrationWpf
             for (var i = 0; i < lines.Length; i++)
             {
                 var line = lines[i];
-                var logLineParts = line.Split('|');
-                if (logLineParts.Length == 1)
-                    continue;
-                var parts = logLineParts[1].Trim().Split(';');
+                var parts = line.Trim().Split(';');
                 switch (parts[0])
                 {
                     case "TRACES::":

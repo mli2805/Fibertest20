@@ -7,17 +7,22 @@
 
     <DockPanel Margin="5">
         <StackPanel DockPanel.Dock="Bottom"  Orientation="Horizontal" Margin="5">
-            <Button Width="120" Height="25" Margin="5" Content="Migrate!" Name="Migrate" IsEnabled="{Binding IsAllReadyForMigration}"/>
+            <Button Width="120" Height="25" Margin="5" Content="Migrate!" Name="Migrate" />
             <Button Width="120" Height="25" Margin="5" Content="Close" Name="Close"/>
         </StackPanel>
 
+        <DockPanel DockPanel.Dock="Top"  Margin="5">
+            <TextBlock Text="Text file with exported graph:" Margin="5" DockPanel.Dock="Left"/>
+            <Button Name="ChooseExportFile" Content="..." DockPanel.Dock="Right" Width="20" Margin="5"/>
+            <TextBox Margin="5" Text="{Binding ExportFileName}" IsReadOnly="True"/>
+        </DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5">
             <TextBlock Text="Fibertest 2.0 Server" Margin="5"/>
             <TextBox Text="{Binding Ft20ServerAddress}" Margin="5" Width="120"/>
         </StackPanel>
         <StackPanel DockPanel.Dock="Top"  Orientation="Horizontal" Margin="5">
             <Button Width="120" Height="25" Margin="5"  Content="Load license" Name="LoadLicense"/>
-            <TextBlock Margin="20,10,5,5" Text="{Binding CurrentLicenseText}" Width="200" />
+            <TextBlock Margin="20,10,5,5" Text="{Binding CurrentLicenseText}" Width="300" />
         </StackPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5">
             <TextBlock Text="Fibertest 1.5 Server (read base refs)" Margin="5"/>
