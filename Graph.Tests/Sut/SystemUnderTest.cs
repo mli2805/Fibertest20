@@ -78,9 +78,13 @@ namespace Graph.Tests
             ReadModel.Users.Count.Should().Be(5);
             WcfServiceForClient.SendCommandAsObj(new ApplyLicense()
             {
+                LicenseId = Guid.NewGuid(),
+                Owner = @"SystemUnderText C-tor",
                 RtuCount = new LicenseParameter(){Value = 2, ValidUntil = DateTime.MaxValue}, 
-                ClientStationCount = new LicenseParameter(){Value = 2, ValidUntil = DateTime.MaxValue}
+                ClientStationCount = new LicenseParameter(){Value = 5, ValidUntil = DateTime.MaxValue},
+                SuperClientStationCount = new LicenseParameter(){Value = 0, ValidUntil = DateTime.MaxValue},
             }).Wait();
+            Poller.EventSourcingTick().Wait();
         }
 
 

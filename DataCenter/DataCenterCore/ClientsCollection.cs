@@ -32,7 +32,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         private ClientRegisteredDto RegisterClientStation(RegisterClientDto dto, User user)
         {
-            if (_clients.Count() >= _writeModel.License.ClientStationCount.Value)
+            if (user.Role != Role.Superclient && _clients.Count(c => c.UserRole != Role.Superclient) >= _writeModel.License.ClientStationCount.Value ||
+                user.Role == Role.Superclient && _clients.Count(c => c.UserRole == Role.Superclient) >= _writeModel.License.SuperClientStationCount.Value)
                 return ExceededNumber();
             if (_clients.Any(s => s.UserId == user.UserId && s.ClientGuid != dto.ClientId))
                 return TheSameUser(dto.UserName);
@@ -73,6 +74,7 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 UserId = user.UserId,
                 UserName = dto.UserName,
+                UserRole = user.Role,
                 ClientGuid = dto.ClientId,
                 ClientAddress = dto.Addresses.Main.GetAddress(),
                 ClientAddressPort = dto.Addresses.Main.Port,

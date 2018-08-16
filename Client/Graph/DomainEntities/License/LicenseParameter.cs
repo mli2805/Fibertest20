@@ -5,7 +5,7 @@ namespace Iit.Fibertest.Graph
 {
     public class LicenseParameter
     {
-        public int Value { get; set; }
+        public int Value { get; set; } = -1;
 
         public DateTime ValidUntil { get; set; }
 

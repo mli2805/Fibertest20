@@ -21,14 +21,24 @@ namespace Graph.Tests
         [Given(@"На сервере применена демо лицензия с одним RTU")]
         public void GivenНаСервереПримененаДемоЛицензияСОднимRtu()
         {
-            _sut.WcfServiceForClient.SendCommandAsObj(new ApplyLicense() { RtuCount = new LicenseParameter(){Value = 1, ValidUntil = DateTime.MaxValue}}).Wait();
+            _sut.WcfServiceForClient.SendCommandAsObj(new ApplyLicense()
+            {
+                LicenseId = Guid.NewGuid(),
+                Owner = @"RtuAtGpsLocationAddedSteps 1 RTU",
+                RtuCount = new LicenseParameter(){Value = 1, ValidUntil = DateTime.MaxValue},
+            }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
         [When(@"На сервере применена другая лицензия с двумя RTU")]
         public void WhenНаСервереПримененаДругаяЛицензияСДвумяRtu()
         {
-            _sut.WcfServiceForClient.SendCommandAsObj(new ApplyLicense() { RtuCount = new LicenseParameter(){Value = 2, ValidUntil = DateTime.MaxValue} }).Wait();
+            _sut.WcfServiceForClient.SendCommandAsObj(new ApplyLicense()
+            {
+                LicenseId = Guid.NewGuid(),
+                Owner = @"RtuAtGpsLocationAddedSteps 2 RTU",
+                RtuCount = new LicenseParameter(){Value = 2, ValidUntil = DateTime.MaxValue}
+            }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
