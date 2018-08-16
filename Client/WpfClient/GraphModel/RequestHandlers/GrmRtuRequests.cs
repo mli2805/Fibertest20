@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Client
 
         public void AddRtuAtGpsLocation(RequestAddRtuAtGpsLocation request)
         {
-            if (_model.License.RtuCount <= _model.Rtus.Count)
+            if (_model.License.RtuCount.Value <= _model.Rtus.Count)
             {
                 var mb = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Exceeded_the_number_of_RTU_for_an_existing_license);
                 _windowManager.ShowDialogWithAssignedOwner(mb);

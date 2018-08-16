@@ -1808,12 +1808,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_License_owner" xml:space="preserve">
 		<value>Владелец лицензии</value>
 	</data>
-	<data name="SID_Maximum_Rtu_Count" xml:space="preserve">
-		<value>Максимальное количество RTU</value>
-	</data>
-	<data name="SID_Simultaneous_client_connections" xml:space="preserve">
-		<value>Одновременных клиентских подключений</value>
-	</data>
 	<data name="SID_Exceeded_the_number_of_RTU_for_an_existing_license" xml:space="preserve">
 		<value>Превышено количество RTU для имеющейся лицензии</value>
 	</data>
@@ -2152,5 +2146,20 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID__filter_applied_" xml:space="preserve">
 		<value>&lt;фильтр применен&gt;</value>
+	</data>
+	<data name="SID_Failed_to_apply_license_" xml:space="preserve">
+		<value>Не удалось применить файл лицензии!</value>
+	</data>
+	<data name="SID_License_applied_successfully_" xml:space="preserve">
+		<value>Лицензия применена успешно!</value>
+	</data>
+	<data name="SID_Invalid_license_file_" xml:space="preserve">
+		<value>Некорректный файл лицензии!</value>
+	</data>
+	<data name="SID_License_could_not_be_applied_repeatedly_" xml:space="preserve">
+		<value>Лицензионный файл не может быть применен повторно!</value>
+	</data>
+	<data name="SID_valid_until" xml:space="preserve">
+		<value>действительно до</value>
 	</data>
 </root>

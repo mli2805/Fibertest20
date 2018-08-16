@@ -1808,12 +1808,6 @@ RTU is initializing right now!</value>
 	<data name="SID_License_owner" xml:space="preserve">
     <value>License owner</value>
   </data>
-	<data name="SID_Maximum_Rtu_Count" xml:space="preserve">
-    <value>Maximum RTU count</value>
-  </data>
-	<data name="SID_Simultaneous_client_connections" xml:space="preserve">
-    <value>Simultaneous client connections</value>
-  </data>
 	<data name="SID_Exceeded_the_number_of_RTU_for_an_existing_license" xml:space="preserve">
     <value>Exceeded the number of RTU for an existing license</value>
   </data>
@@ -2152,5 +2146,20 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID__filter_applied_" xml:space="preserve">
     <value>&lt;filter applied&gt;</value>
+  </data>
+	<data name="SID_Failed_to_apply_license_" xml:space="preserve">
+    <value>Failed to apply license!</value>
+  </data>
+	<data name="SID_License_applied_successfully_" xml:space="preserve">
+    <value>License applied successfully!</value>
+  </data>
+	<data name="SID_Invalid_license_file_" xml:space="preserve">
+    <value>Invalid license file!</value>
+  </data>
+	<data name="SID_License_could_not_be_applied_repeatedly_" xml:space="preserve">
+    <value>License file could not be applied repeatedly!</value>
+  </data>
+	<data name="SID_valid_until" xml:space="preserve">
+    <value>valid until</value>
   </data>
 </root>

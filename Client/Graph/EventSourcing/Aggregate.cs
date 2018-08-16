@@ -81,7 +81,7 @@ namespace Iit.Fibertest.Graph
                 case StopMonitoring command: return _eventsQueue.Add(Mapper.Map<MonitoringStopped>(command));
                 case AddMeasurement command: return Validate(command);
                 case UpdateMeasurement command: return _eventsQueue.Add(Mapper.Map<MeasurementUpdated>(command));
-                case ApplyLicense command: return _eventsQueue.Add(Mapper.Map<LicenseApplied>(command));
+                case ApplyLicense command: return Validate(command);
                 case AddNetworkEvent command: return Validate(command);
                 case AddBopNetworkEvent command: return Validate(command);
 
@@ -89,12 +89,20 @@ namespace Iit.Fibertest.Graph
             }
         }
 
+        private string Validate(ApplyLicense cmd)
+        {
+            if (_writeModel.License != null && _writeModel.License.LicenseIds.Contains(cmd.LicenseId))
+                return Resources.SID_License_could_not_be_applied_repeatedly_;
+            return _eventsQueue.Add(Mapper.Map<LicenseApplied>(cmd));
+        }
+
         private string Validate(AddRtuAtGpsLocation cmd)
         {
-            if (_writeModel.License.RtuCount <= _writeModel.Rtus.Count)
+            if (_writeModel.License.RtuCount.Value <= _writeModel.Rtus.Count)
                 return Resources.SID_Exceeded_the_number_of_RTU_for_an_existing_license;
             return _eventsQueue.Add(Mapper.Map<RtuAtGpsLocationAdded>(cmd));
         }
+
         private string Validate(RemoveNode cmd)
         {
             if (_writeModel.Traces.Any(t => t.NodeIds.Last() == cmd.NodeId))

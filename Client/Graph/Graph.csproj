@@ -125,7 +125,10 @@
     <Compile Include="Commands\Client\LostClientConnection.cs" />
     <Compile Include="Commands\Client\RegisterClientStation.cs" />
     <Compile Include="Commands\Client\UnregisterClientStation.cs" />
-    <Compile Include="DomainEntities\License.cs" />
+    <Compile Include="DomainEntities\License\License.cs" />
+    <Compile Include="DomainEntities\License\LicenseInFile.cs" />
+    <Compile Include="DomainEntities\License\LicenseParameter.cs" />
+    <Compile Include="DomainEntities\License\LicenseParameterInFile.cs" />
     <Compile Include="Events\Client\ClientConnectionLost.cs" />
     <Compile Include="Events\Client\ClientStationRegistered.cs" />
     <Compile Include="Events\Client\ClientStationUnregistered.cs" />

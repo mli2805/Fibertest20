@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
@@ -20,14 +21,14 @@ namespace Graph.Tests
         [Given(@"На сервере применена демо лицензия с одним RTU")]
         public void GivenНаСервереПримененаДемоЛицензияСОднимRtu()
         {
-            _sut.WcfServiceForClient.SendCommandAsObj(new ApplyLicense() { RtuCount = 1}).Wait();
+            _sut.WcfServiceForClient.SendCommandAsObj(new ApplyLicense() { RtuCount = new LicenseParameter(){Value = 1, ValidUntil = DateTime.MaxValue}}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
         [When(@"На сервере применена другая лицензия с двумя RTU")]
         public void WhenНаСервереПримененаДругаяЛицензияСДвумяRtu()
         {
-            _sut.WcfServiceForClient.SendCommandAsObj(new ApplyLicense() { RtuCount = 2 }).Wait();
+            _sut.WcfServiceForClient.SendCommandAsObj(new ApplyLicense() { RtuCount = new LicenseParameter(){Value = 2, ValidUntil = DateTime.MaxValue} }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

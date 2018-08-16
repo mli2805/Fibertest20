@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.Client;
@@ -75,7 +76,11 @@ namespace Graph.Tests
             FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
             ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
             ReadModel.Users.Count.Should().Be(5);
-            WcfServiceForClient.SendCommandAsObj(new ApplyLicense(){RtuCount = 2, ClientStationCount = 2}).Wait();
+            WcfServiceForClient.SendCommandAsObj(new ApplyLicense()
+            {
+                RtuCount = new LicenseParameter(){Value = 2, ValidUntil = DateTime.MaxValue}, 
+                ClientStationCount = new LicenseParameter(){Value = 2, ValidUntil = DateTime.MaxValue}
+            }).Wait();
         }
 
 

@@ -2,6 +2,7 @@
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
@@ -9,6 +10,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly LicenseManager _licenseManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWindowManager _windowManager;
         private License _license;
         public License License
         {
@@ -21,10 +23,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public LicenseViewModel(Model readModel, LicenseManager licenseManager, IWcfServiceForClient c2DWcfManager)
+        public LicenseViewModel(Model readModel, LicenseManager licenseManager, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _licenseManager = licenseManager;
             _c2DWcfManager = c2DWcfManager;
+            _windowManager = windowManager;
             License = readModel.License;
         }
 
@@ -35,19 +38,34 @@ namespace Iit.Fibertest.Client
 
         public async void ApplyLicFile()
         {
-            var license = _licenseManager.ReadLicenseFromFile();
-            if (license != null)
+            var licenseInFile = _licenseManager.ReadLicenseFromFile();
+            if (licenseInFile == null)
             {
-                var cmd = new ApplyLicense()
-                {
-                    Owner = license.Owner,
-                    RtuCount = license.RtuCount,
-                    ClientStationCount = license.ClientStationCount,
-                    SuperClientEnabled = license.SuperClientEnabled,
-                    Version = license.Version,
-                };
-                await _c2DWcfManager.SendCommandAsObj(cmd);
-                License = license;
+                var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Invalid_license_file_);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return;
+            }
+
+            var cmd = new ApplyLicense()
+            {
+                LicenseId = licenseInFile.LicenseId,
+                Owner = licenseInFile.Owner,
+                RtuCount = new LicenseParameter(licenseInFile.RtuCount),
+                ClientStationCount = new LicenseParameter(licenseInFile.ClientStationCount),
+                SuperClientStationCount = new LicenseParameter(licenseInFile.SuperClientStationCount),
+                Version = licenseInFile.Version,
+            };
+            var result = await _c2DWcfManager.SendCommandAsObj(cmd);
+            if (result != null)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, result);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+            }
+            else
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Information, Resources.SID_License_applied_successfully_);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                TryClose();
             }
         }
     }

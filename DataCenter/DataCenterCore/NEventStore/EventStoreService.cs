@@ -85,7 +85,15 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<string> Seed()
         {
-            await SendCommand(new ApplyLicense(){Owner = "Demo license", RtuCount = 1, ClientStationCount = 2, SuperClientEnabled = false, Version = "2.0.0.0"}, "developer", "OnServer");
+            var cmd = new ApplyLicense()
+            {
+                Owner = "Demo license", 
+                RtuCount = new LicenseParameter(){Value = 1, ValidUntil = DateTime.MaxValue}, 
+                ClientStationCount = new LicenseParameter(){Value = 2, ValidUntil = DateTime.MaxValue}, 
+                SuperClientStationCount = new LicenseParameter(){Value = 1, ValidUntil = DateTime.Today.AddMonths(6)}, 
+                Version = "2.0.0.0"
+            };
+            await SendCommand(cmd, "developer", "OnServer");
             await SendCommand(new AddZone() { IsDefaultZone = true, Title = StringResources.Resources.SID_Default_Zone }, "developer", "OnServer");
 
             await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "developer",   EncodedPassword = UserExt.FlipFlop("developer"),   Email = "", IsEmailActivated = false, Role = Role.Developer, ZoneId = Guid.Empty }, "developer", "OnServer");

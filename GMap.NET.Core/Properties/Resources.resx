@@ -183,4 +183,7 @@ END;</value>
   <data name="SID_Critical" xml:space="preserve">
     <value>Critical</value>
   </data>
+  <data name="SID_License_could_not_be_applied_twice_" xml:space="preserve">
+    <value>License could not be applied twice!</value>
+  </data>
 </root>

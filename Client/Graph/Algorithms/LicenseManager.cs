@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Graph
         private readonly byte[] _key = { 0x97, 0xdc, 0xa0, 0x54, 0x89, 0x1d, 0xe6, 0xc5, 0x51, 0xf6, 0x4e, 0x62, 0x3f, 0x27, 0x00, 0xca };
         private readonly byte[] _initVector = { 0xf3, 0x5e, 0x7a, 0x81, 0xae, 0xf2, 0xe7, 0xc1, 0x8d, 0x54, 0x00, 0x8c, 0xb4, 0x92, 0xd0, 0xd8 };
 
-        public License Decode(byte[] bytes)
+        public LicenseInFile Decode(byte[] bytes)
         {
             using (MemoryStream fStream = new MemoryStream(bytes))
             {
@@ -20,12 +20,12 @@ namespace Iit.Fibertest.Graph
                 using (var cryptoStream = new CryptoStream(fStream, rmCrypto.CreateDecryptor(_key, _initVector), CryptoStreamMode.Read))
                 {
                     var binaryFormatter = new BinaryFormatter();
-                    return (License)binaryFormatter.Deserialize(cryptoStream);
+                    return (LicenseInFile)binaryFormatter.Deserialize(cryptoStream);
                 }
             }
         }
 
-        public byte[] Encode(License license)
+        public byte[] Encode(LicenseInFile license)
         {
             try
             {
@@ -49,19 +49,25 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        public License ReadLicenseFromFile(string initialDirectory = "")
+        public LicenseInFile ReadLicenseFromFile(string initialDirectory = "")
         {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.DefaultExt = @".lic";
             dlg.InitialDirectory = initialDirectory;
             dlg.Filter = @"License file  |*.lic";
-            if (dlg.ShowDialog() == true)
+            if (dlg.ShowDialog() != true) return null;
+
+            string filename = dlg.FileName;
+            var encoded = File.ReadAllBytes(filename);
+            try
             {
-                string filename = dlg.FileName;
-                var encoded = File.ReadAllBytes(filename);
                 return Decode(encoded);
             }
-            return null;
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                return null;
+            }
         }
 
     }

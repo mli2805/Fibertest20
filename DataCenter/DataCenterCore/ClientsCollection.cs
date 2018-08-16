@@ -32,7 +32,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private ClientRegisteredDto RegisterClientStation(RegisterClientDto dto, User user)
         {
-            if (_clients.Count() >= _writeModel.License.ClientStationCount)
+            if (_clients.Count() >= _writeModel.License.ClientStationCount.Value)
                 return ExceededNumber();
             if (_clients.Any(s => s.UserId == user.UserId && s.ClientGuid != dto.ClientId))
                 return TheSameUser(dto.UserName);

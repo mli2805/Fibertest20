@@ -21,7 +21,18 @@ namespace Iit.Fibertest.Graph
 
         public string ApplyLicense(LicenseApplied e)
         {
-            _model.License = Mapper.Map<License>(e);
+            if (_model.License == null)
+                _model.License = new License();
+            _model.License.LicenseIds.Add(e.LicenseId);
+
+            if (e.Owner != "")
+                _model.License.Owner = e.Owner;
+            if (e.RtuCount.Value != -1)
+                _model.License.RtuCount = e.RtuCount;
+            if (e.ClientStationCount.Value != -1)
+                _model.License.ClientStationCount = e.ClientStationCount;
+            if (e.SuperClientStationCount.Value != -1)
+                _model.License.SuperClientStationCount = e.SuperClientStationCount;
             return null;
         }
 

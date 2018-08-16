@@ -113,6 +113,15 @@ namespace GMap.NET.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to License could not be applied twice!.
+        /// </summary>
+        internal static string SID_License_could_not_be_applied_twice_ {
+            get {
+                return ResourceManager.GetString("SID_License_could_not_be_applied_twice_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Manual.
         /// </summary>
         internal static string SID_Manual {

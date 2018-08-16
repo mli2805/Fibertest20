@@ -20,6 +20,8 @@ namespace Iit.Fibertest.DataCenterCore
             _mysqlTcpPort = iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, 3306);
             var postfix = iniFile.Read(IniSection.MySql, IniKey.MySqlDbSchemePostfix, "");
             _eventSourcingScheme = "ft20graph" + postfix;
+
+        
         }
 
 

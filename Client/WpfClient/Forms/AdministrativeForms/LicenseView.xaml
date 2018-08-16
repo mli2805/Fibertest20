@@ -19,12 +19,16 @@
                 <TextBlock Text="{x:Static stringResources:Resources.SID_License_owner}" Margin="5,0" HorizontalAlignment="Left"/>
                 <TextBlock Text="{Binding License.Owner}" Margin="5" Background="Azure" HorizontalAlignment="Center"/>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Maximum_Rtu_Count}" Margin="5,0,5,5" HorizontalAlignment="Left"/>
-                    <TextBlock Text="{Binding License.RtuCount}" Background="Azure" Margin="5,1,5,5" Width="40"/>
+                    <TextBlock Text="RTUs" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
+                    <TextBlock Text="{Binding License.RtuCount}" Background="Azure" Margin="5,1,5,5" Width="200"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Simultaneous_client_connections}" Margin="5,0,5,5" HorizontalAlignment="Left"/>
-                    <TextBlock Text="{Binding License.ClientStationCount}" Background="Azure" Margin="5,1,5,5" Width="40"/>
+                    <TextBlock Text="Clients" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
+                    <TextBlock Text="{Binding License.ClientStationCount}" Background="Azure" Margin="5,1,5,5" Width="200"/>
+                </StackPanel> 
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Super-clients" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
+                    <TextBlock Text="{Binding License.SuperClientStationCount}" Background="Azure" Margin="5,1,5,5" Width="200"/>
                 </StackPanel>
                
             </StackPanel>

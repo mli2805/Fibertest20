@@ -131,15 +131,15 @@ namespace DbMigrationWpf
             var path = Path.GetDirectoryName(location);
 
             var licManager = new LicenseManager();
-            var license = licManager.ReadLicenseFromFile(path);
-            if (license == null) return;
+            var licenseInFile = licManager.ReadLicenseFromFile(path);
+            if (licenseInFile == null) return;
             var cmd = new ApplyLicense()
             {
-                Owner = license.Owner,
-                RtuCount = license.RtuCount,
-                ClientStationCount = license.ClientStationCount,
-                SuperClientEnabled = license.SuperClientEnabled,
-                Version = license.Version,
+                Owner = licenseInFile.Owner,
+                RtuCount = new LicenseParameter(licenseInFile.RtuCount),
+                ClientStationCount = new LicenseParameter(licenseInFile.ClientStationCount),
+                SuperClientStationCount = new LicenseParameter(licenseInFile.SuperClientStationCount),
+                Version = licenseInFile.Version,
             };
 
             var result = await _c2DWcfManager.SendCommandAsObj(cmd);
@@ -149,7 +149,7 @@ namespace DbMigrationWpf
                 return;
             }
 
-            CurrentLicenseText = $"Licensed RTU count - {license.RtuCount}";
+            CurrentLicenseText = $"Licensed RTU count - {licenseInFile.RtuCount.Value}";
         }
 
         public async void Migrate()

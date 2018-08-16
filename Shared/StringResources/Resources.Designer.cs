@@ -2287,6 +2287,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to apply license!.
+        /// </summary>
+        public static string SID_Failed_to_apply_license_ {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_apply_license_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fast.
         /// </summary>
         public static string SID_Fast {
@@ -2710,6 +2719,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid license file!.
+        /// </summary>
+        public static string SID_Invalid_license_file_ {
+            get {
+                return ResourceManager.GetString("SID_Invalid_license_file_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid parameter : Wave length {0}.
         /// </summary>
         public static string SID_Invalid_parameter___Wave_length__0_ {
@@ -2913,6 +2931,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_License_Agreement {
             get {
                 return ResourceManager.GetString("SID_License_Agreement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to License applied successfully!.
+        /// </summary>
+        public static string SID_License_applied_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_License_applied_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to License file could not be applied repeatedly!.
+        /// </summary>
+        public static string SID_License_could_not_be_applied_repeatedly_ {
+            get {
+                return ResourceManager.GetString("SID_License_could_not_be_applied_repeatedly_", resourceCulture);
             }
         }
         
@@ -6029,6 +6065,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Users_list {
             get {
                 return ResourceManager.GetString("SID_Users_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to valid until.
+        /// </summary>
+        public static string SID_valid_until {
+            get {
+                return ResourceManager.GetString("SID_valid_until", resourceCulture);
             }
         }
         
