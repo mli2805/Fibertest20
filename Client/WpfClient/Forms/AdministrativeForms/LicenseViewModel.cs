@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -23,12 +24,16 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public LicenseViewModel(Model readModel, LicenseManager licenseManager, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+        public bool IsApplyLicenseEnabled { get; set; }
+
+        public LicenseViewModel(Model readModel, LicenseManager licenseManager, 
+            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, CurrentUser currentUser)
         {
             _licenseManager = licenseManager;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             License = readModel.License;
+            IsApplyLicenseEnabled = currentUser.Role <= Role.Root;
         }
 
         protected override void OnViewLoaded(object view)
