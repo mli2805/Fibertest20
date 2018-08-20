@@ -32,11 +32,14 @@ namespace Iit.Fibertest.DataCenterCore
 
         private ClientRegisteredDto RegisterClientStation(RegisterClientDto dto, User user)
         {
-            if (user.Role != Role.Superclient && _clients.Count(c => c.UserRole != Role.Superclient) >= _writeModel.License.ClientStationCount.Value ||
-                user.Role == Role.Superclient && _clients.Count(c => c.UserRole == Role.Superclient) >= _writeModel.License.SuperClientStationCount.Value)
-                return ExceededNumber();
+            var licenseCheckResult = CheckLicense(user);
+            if (licenseCheckResult != null) return licenseCheckResult;
+
             if (_clients.Any(s => s.UserId == user.UserId && s.ClientGuid != dto.ClientId))
-                return TheSameUser(dto.UserName);
+            {
+                _logFile.AppendLine($"User {dto.UserName} registered on another PC");
+                return new ClientRegisteredDto() { ReturnCode = ReturnCode.ThisUserRegisteredOnAnotherPc };
+            }
 
             var station = _clients.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
             if (station != null)
@@ -48,16 +51,34 @@ namespace Iit.Fibertest.DataCenterCore
             return FillInSuccessfulResult(user);
         }
 
-        private ClientRegisteredDto ExceededNumber()
+        private ClientRegisteredDto CheckLicense(User user)
         {
-            _logFile.AppendLine("Exceeded the number of clients registered simultaneously");
-            return new ClientRegisteredDto() { ReturnCode = ReturnCode.ExceededNumberOfClients };
-        }
+            if (user.Role != Role.Superclient && _clients.Count(c => c.UserRole != Role.Superclient) >=
+                _writeModel.License.ClientStationCount.Value)
+            {
+                _logFile.AppendLine("Exceeded the number of clients registered simultaneously");
+                return new ClientRegisteredDto() { ReturnCode = ReturnCode.ClientsCountExceeded };
+            }
 
-        private ClientRegisteredDto TheSameUser(string username)
-        {
-            _logFile.AppendLine($"User {username} registered on another PC");
-            return new ClientRegisteredDto() { ReturnCode = ReturnCode.ThisUserRegisteredOnAnotherPc };
+            if (user.Role == Role.Superclient && _clients.Count(c => c.UserRole == Role.Superclient) >= _writeModel.License.SuperClientStationCount.Value)
+            {
+                _logFile.AppendLine("Exceeded the number of super-clients registered simultaneously");
+                return new ClientRegisteredDto() { ReturnCode = ReturnCode.SuperClientsCountExceeded };
+            }
+
+            if (user.Role != Role.Superclient && _writeModel.License.ClientStationCount.ValidUntil < DateTime.Today)
+            {
+                _logFile.AppendLine("Clients count license expired");
+                return new ClientRegisteredDto() { ReturnCode = ReturnCode.ClientsCountLicenseExpired };
+            }
+
+            if (user.Role == Role.Superclient && _writeModel.License.SuperClientStationCount.ValidUntil < DateTime.Today)
+            {
+                _logFile.AppendLine("Super-clients count license expired");
+                return new ClientRegisteredDto() { ReturnCode = ReturnCode.SuperClientsCountLicenseExpired };
+            }
+
+            return null;
         }
 
         private void ReRegister(RegisterClientDto dto, ClientStation station, User user)
@@ -140,11 +161,11 @@ namespace Iit.Fibertest.DataCenterCore
         public List<DoubleAddress> GetClientsAddresses(Guid? clientId = null)
         {
             if (clientId == null)
-                return _clients.Select(c => new DoubleAddress(){Main = new NetAddress(c.ClientAddress, c.ClientAddressPort)}).ToList();
+                return _clients.Select(c => new DoubleAddress() { Main = new NetAddress(c.ClientAddress, c.ClientAddressPort) }).ToList();
             var client = _clients.FirstOrDefault(c => c.ClientGuid == clientId);
-            return client == null 
-                ? null 
-                : new List<DoubleAddress>(){new DoubleAddress(){Main = new NetAddress(client.ClientAddress, client.ClientAddressPort)}};
+            return client == null
+                ? null
+                : new List<DoubleAddress>() { new DoubleAddress() { Main = new NetAddress(client.ClientAddress, client.ClientAddressPort) } };
         }
     }
 }
