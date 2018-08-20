@@ -52,6 +52,8 @@ namespace Iit.Fibertest.Setup
                 case InstallationType.SuperClient:
                     if (!_setupSuperClientOperations.SetupSuperClient(worker, _currentInstallation.InstallationFolder))
                         return false;
+                    if (!_setupClientOperations.SetupClient(worker, _currentInstallation.InstallationFolder))
+                        return false;
                     break;
             }
 
