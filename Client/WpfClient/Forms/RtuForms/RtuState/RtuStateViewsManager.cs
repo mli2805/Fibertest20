@@ -15,6 +15,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly Model _reaModel;
         private readonly CurrentUser _currentUser;
+        private readonly ChildrenViews _childrenViews;
         private readonly RtuStateModelFactory _rtuStateModelFactory;
         private readonly TreeOfRtuModel _treeOfRtuModel;
 
@@ -22,15 +23,33 @@ namespace Iit.Fibertest.Client
             new Dictionary<Guid, RtuStateViewModel>();
 
         public RtuStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager,
-            Model reaModel, CurrentUser currentUser,
+            Model reaModel, CurrentUser currentUser, ChildrenViews childrenViews,
             RtuStateModelFactory rtuStateModelFactory, TreeOfRtuModel treeOfRtuModel)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
             _reaModel = reaModel;
             _currentUser = currentUser;
+            _childrenViews = childrenViews;
             _rtuStateModelFactory = rtuStateModelFactory;
             _treeOfRtuModel = treeOfRtuModel;
+
+            childrenViews.PropertyChanged += ChildrenViews_PropertyChanged;
+        }
+
+        private void ChildrenViews_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName == nameof(ChildrenViews.ShouldBeClosed))
+            {
+                if (((ChildrenViews) sender).ShouldBeClosed)
+                {
+                    foreach (var pair in LaunchedViews.ToList())
+                    {
+                        pair.Value.TryClose();
+                        LaunchedViews.Remove(pair.Key);
+                    }
+                }
+            }
         }
 
         // user clicked on RtuLeaf
@@ -151,6 +170,7 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(vm);
 
             LaunchedViews.Add(rtuId, vm);
+            _childrenViews.ShouldBeClosed = false;
         }
 
 

@@ -14,17 +14,37 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
+        private readonly ChildrenViews _childrenViews;
 
         public Dictionary<Guid, BopStateViewModel> LaunchedViews { get; set; } =
             new Dictionary<Guid, BopStateViewModel>();
 
 
-        public BopStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager, Model readModel, CurrentUser currentUser)
+        public BopStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager, 
+            Model readModel, CurrentUser currentUser, ChildrenViews childrenViews)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
             _readModel = readModel;
             _currentUser = currentUser;
+            _childrenViews = childrenViews;
+
+            childrenViews.PropertyChanged += ChildrenViews_PropertyChanged;
+        }
+
+        private void ChildrenViews_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName == nameof(ChildrenViews.ShouldBeClosed))
+            {
+                if (((ChildrenViews) sender).ShouldBeClosed)
+                {
+                    foreach (var pair in LaunchedViews.ToList())
+                    {
+                        pair.Value.TryClose();
+                        LaunchedViews.Remove(pair.Key);
+                    }
+                }
+            }
         }
 
         public void Apply(object evnt)
@@ -59,7 +79,6 @@ namespace Iit.Fibertest.Client
         {
             ClearClosedViews();
 
-
             var vm = LaunchedViews.FirstOrDefault(m => m.Value.BopIp == bopNetworkEventAdded.OtauIp).Value;
             if (vm != null)
             {
@@ -72,6 +91,7 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(vm);
 
             LaunchedViews.Add(bopNetworkEventAdded.RtuId, vm);
+            _childrenViews.ShouldBeClosed = false;
         }
         private void ClearClosedViews()
         {

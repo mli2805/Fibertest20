@@ -15,6 +15,5 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
             }
         }
-
     }
 }

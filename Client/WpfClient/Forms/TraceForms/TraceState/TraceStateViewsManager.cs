@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Autofac;
 using Caliburn.Micro;
@@ -20,12 +21,14 @@ namespace Iit.Fibertest.Client
         private readonly C2DWcfManager _c2DWcfManager;
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
+        private readonly ChildrenViews _childrenViews;
 
         private List<TraceStateViewModel> LaunchedViews { get; } = new List<TraceStateViewModel>();
 
 
         public TraceStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager,
-            C2DWcfManager c2DWcfManager, Model readModel, CurrentUser currentUser, TraceStateModelFactory traceStateModelFactory,
+            C2DWcfManager c2DWcfManager, Model readModel, CurrentUser currentUser, 
+            ChildrenViews childrenViews, TraceStateModelFactory traceStateModelFactory,
             OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel)
         {
             _globalScope = globalScope;
@@ -35,6 +38,24 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
             _readModel = readModel;
             _currentUser = currentUser;
+            _childrenViews = childrenViews;
+
+            childrenViews.PropertyChanged += ChildrenViewsPropertyChanged;
+        }
+
+        private void ChildrenViewsPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName == nameof(ChildrenViews.ShouldBeClosed))
+            {
+                if (((ChildrenViews) sender).ShouldBeClosed)
+                {
+                    foreach (var traceStateViewModel in LaunchedViews.ToArray())
+                    {
+                        traceStateViewModel.TryClose();
+                        LaunchedViews.Remove(traceStateViewModel);
+                    }
+                }
+            }
         }
 
         public void Apply(object e)
@@ -179,6 +200,7 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(vm);
 
             LaunchedViews.Add(vm);
+            _childrenViews.ShouldBeClosed = false;
         }
     }
 }

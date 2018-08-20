@@ -4,12 +4,14 @@ namespace Iit.Fibertest.Client
 {
     public class TreeOfRtuViewModel : PropertyChangedBase
     {
+        private readonly ChildrenViews _childrenViews;
         public TreeOfRtuModel TreeOfRtuModel { get; set; }
         public FreePorts FreePorts { get; }
 
-        public TreeOfRtuViewModel( TreeOfRtuModel treeOfRtuModel, FreePorts freePorts, 
+        public TreeOfRtuViewModel( TreeOfRtuModel treeOfRtuModel, FreePorts freePorts, ChildrenViews childrenViews,
              EventArrivalNotifier eventArrivalNotifier)
         {
+            _childrenViews = childrenViews;
             TreeOfRtuModel = treeOfRtuModel;
             TreeOfRtuModel.RefreshStatistics();
 
@@ -31,7 +33,7 @@ namespace Iit.Fibertest.Client
 
         public void CloseChildren()
         {
-
+            _childrenViews.ShouldBeClosed = true;
         }
 
         public void CollapseAll()

@@ -198,6 +198,7 @@
     </Compile>
     <Compile Include="Forms\RtuForms\BopState\BopStateViewModel.cs" />
     <Compile Include="Forms\RtuForms\BopState\BopStateViewsManager.cs" />
+    <Compile Include="Forms\Shell\ChildrenViews.cs" />
     <Compile Include="GlobalVars\CommandLineParameters.cs" />
     <Compile Include="GlobalVars\CurrentDatacenterParameters.cs" />
     <Compile Include="GlobalVars\CurrentlyHiddenRtu.cs" />

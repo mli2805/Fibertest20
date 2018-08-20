@@ -13,17 +13,36 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
+        private readonly ChildrenViews _childrenViews;
         private readonly Model _readModel;
         private readonly TraceChoiceViewModel _traceChoiceViewModel;
         private List<LandmarksViewModel> LaunchedViews { get; } = new List<LandmarksViewModel>();
 
         public LandmarksViewsManager(ILifetimeScope globalScope, IWindowManager windowManager, 
-            Model readModel, TraceChoiceViewModel traceChoiceViewModel)
+            ChildrenViews childrenViews, Model readModel, TraceChoiceViewModel traceChoiceViewModel)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
+            _childrenViews = childrenViews;
             _readModel = readModel;
             _traceChoiceViewModel = traceChoiceViewModel;
+
+            childrenViews.PropertyChanged += ChildrenViews_PropertyChanged;
+        }
+
+        private void ChildrenViews_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName == nameof(ChildrenViews.ShouldBeClosed))
+            {
+                if (((ChildrenViews) sender).ShouldBeClosed)
+                {
+                    foreach (var traceStateViewModel in LaunchedViews.ToArray())
+                    {
+                        traceStateViewModel.TryClose();
+                        LaunchedViews.Remove(traceStateViewModel);
+                    }
+                }
+            }
         }
 
         public async Task<int> InitializeFromRtu(Guid rtuId)
@@ -31,6 +50,7 @@ namespace Iit.Fibertest.Client
             var vm = _globalScope.Resolve<LandmarksViewModel>();
             var res = await vm.InitializeFromRtu(rtuId);
             LaunchedViews.Add(vm);
+            _childrenViews.ShouldBeClosed = false;
             _windowManager.ShowWindowWithAssignedOwner(vm);
             return res;
         }
@@ -40,6 +60,7 @@ namespace Iit.Fibertest.Client
             var vm = _globalScope.Resolve<LandmarksViewModel>();
             var res = await vm.InitializeFromTrace(traceId, selectedNodeId);
             LaunchedViews.Add(vm);
+            _childrenViews.ShouldBeClosed = false;
             _windowManager.ShowWindowWithAssignedOwner(vm);
             return res;
         }

@@ -12,17 +12,36 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
+        private readonly ChildrenViews _childrenViews;
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
         private Dictionary<Guid, TraceStatisticsViewModel> LaunchedViews { get; } = new Dictionary<Guid, TraceStatisticsViewModel>();
 
         public TraceStatisticsViewsManager(ILifetimeScope globalScope, IWindowManager windowManager, 
-            Model readModel, CurrentUser currentUser)
+            ChildrenViews childrenViews, Model readModel, CurrentUser currentUser)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
+            _childrenViews = childrenViews;
             _readModel = readModel;
             _currentUser = currentUser;
+
+            childrenViews.PropertyChanged += ChildrenViews_PropertyChanged;
+        }
+
+        private void ChildrenViews_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs args)
+        {
+            if (args.PropertyName == nameof(ChildrenViews.ShouldBeClosed))
+            {
+                if (((ChildrenViews) sender).ShouldBeClosed)
+                {
+                    foreach (var pair in LaunchedViews.ToList())
+                    {
+                        pair.Value.TryClose();
+                        LaunchedViews.Remove(pair.Key);
+                    }
+                }
+            }
         }
 
         public void Apply(object e)
@@ -59,6 +78,7 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(vm);
 
             LaunchedViews.Add(traceId, vm);
+            _childrenViews.ShouldBeClosed = false;
         }
 
         private void AddMeasurement(MeasurementAdded evnt)

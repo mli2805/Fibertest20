@@ -158,6 +158,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<GraphReadModel>().InstancePerLifetimeScope();
 
             builder.RegisterType<FreePorts>().InstancePerLifetimeScope();
+            builder.RegisterType<ChildrenViews>().InstancePerLifetimeScope();
 
             builder.RegisterType<TraceContentChoiceViewModel>();
             builder.RegisterType<EquipmentOfChoiceModelFactory>().InstancePerLifetimeScope();
