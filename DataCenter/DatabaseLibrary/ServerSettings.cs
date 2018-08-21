@@ -21,14 +21,11 @@ namespace Iit.Fibertest.DatabaseLibrary
         public void Init()
         {
             var doubleAddress = _iniFile.ReadDoubleAddress((int) TcpPorts.ServerListenToClient);
-
-            var address = _iniFile.Read(IniSection.ServerMainAddress, IniKey.Ip, "0.0.0.0");
-            if (address == "0.0.0.0")
+            if (doubleAddress.Main.IsAddressSetAsIp && doubleAddress.Main.Ip4Address == "0.0.0.0")
             {
                 var serverIp = LocalAddressResearcher.GetAllLocalAddresses().First();
                 _iniFile.Write(IniSection.ServerMainAddress, IniKey.Ip, serverIp);
             }
-
 
             _mysqlTcpPort = _iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, 3306);
             var postfix = _iniFile.Read(IniSection.MySql, IniKey.MySqlDbSchemePostfix, "");
