@@ -11,6 +11,8 @@ namespace KadastrLoader
             builder.RegisterType<KadastrLoaderViewModel>().As<IShell>();
             builder.RegisterType<WindowManager>().As<IWindowManager>().InstancePerLifetimeScope();
             builder.RegisterType<LogFile>().As<IMyLog>().InstancePerLifetimeScope();
+
+            builder.RegisterType<KadastrDbSettings>().SingleInstance();
         }
     }
 }

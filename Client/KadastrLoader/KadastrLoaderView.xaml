@@ -23,11 +23,14 @@
                 <TextBlock Margin="10,5" Background="AliceBlue" Text="{Binding ServerMessage}"/>
             </StackPanel>
         </GroupBox>
-        
-        <StackPanel DockPanel.Dock="Top" Margin="5">
-            <Button Content="{x:Static stringResources:Resources.SID_Select_folder}" Margin="5" Width="120" Name="SelectFolder" HorizontalAlignment="Left"/>
-            <TextBlock Text="{Binding SelectedFolder}" Margin="10,5" Background="AliceBlue"/>
-        </StackPanel>
+
+        <GroupBox DockPanel.Dock="Top" Margin="5" Header="">
+            <StackPanel Margin="5">
+                <Button Content="{x:Static stringResources:Resources.SID_Select_folder}" Margin="5" Width="120" Name="SelectFolder" HorizontalAlignment="Left"/>
+                <TextBlock Text="{Binding SelectedFolder}" Margin="10,5" Background="AliceBlue"/>
+            </StackPanel>
+        </GroupBox>
+
         <StackPanel>
 
         </StackPanel>

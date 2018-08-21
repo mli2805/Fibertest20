@@ -135,6 +135,7 @@ namespace DbMigrationWpf
             if (licenseInFile == null) return;
             var cmd = new ApplyLicense()
             {
+                LicenseId = licenseInFile.LicenseId,
                 Owner = licenseInFile.Owner,
                 RtuCount = new LicenseParameter(licenseInFile.RtuCount),
                 ClientStationCount = new LicenseParameter(licenseInFile.ClientStationCount),

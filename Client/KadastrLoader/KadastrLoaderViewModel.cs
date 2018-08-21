@@ -1,14 +1,16 @@
 using System;
+using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Microsoft.Win32;
 
-namespace KadastrLoader 
+namespace KadastrLoader
 {
     public class KadastrLoaderViewModel : Screen, IShell
     {
+        private readonly KadastrDbSettings _kadastrDbSettings;
         public string ServerIp { get; set; }
 
         private string _serverMessage;
@@ -23,17 +25,7 @@ namespace KadastrLoader
             }
         }
 
-        private bool _isStartEnabled;
-        public bool IsStartEnabled
-        {
-            get => _isStartEnabled;
-            set
-            {
-                if (value == _isStartEnabled) return;
-                _isStartEnabled = value;
-                NotifyOfPropertyChange();
-            }
-        }
+        public bool IsStartEnabled => _isDbReady && _isFolderValid;
 
         private string _selectedFolder;
         public string SelectedFolder
@@ -47,16 +39,11 @@ namespace KadastrLoader
             }
         }
 
-        public KadastrLoaderViewModel(IniFile iniFile)
+        public KadastrLoaderViewModel(IniFile iniFile, KadastrDbSettings kadastrDbSettings)
         {
-            var serverAddresses = iniFile.ReadDoubleAddress((int) TcpPorts.ServerListenToClient);
+            _kadastrDbSettings = kadastrDbSettings;
+            var serverAddresses = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
             ServerIp = serverAddresses.Main.Ip4Address;
-            CreateKadastrDbIfNeeded();
-        }
-
-        private void CreateKadastrDbIfNeeded()
-        {
-
         }
 
         protected override void OnViewLoaded(object view)
@@ -64,12 +51,22 @@ namespace KadastrLoader
             DisplayName = Resources.SID_Load_from_Kadastr;
         }
 
+        private bool _isDbReady;
         public void ConnectKadastrDb()
         {
-            ServerMessage = "Kadastr DB contains: ";
-            IsStartEnabled = true;
+            _kadastrDbSettings.Init();
+            using (var dbContext = new KadastrDbContext(_kadastrDbSettings.Options))
+            {
+                dbContext.Database.EnsureCreated();
+                var count = dbContext.Wells.Count();
+                ServerMessage = $"Loaded from Kadastr so far: {count}";
+                _isDbReady = true;
+                NotifyOfPropertyChange(nameof(IsStartEnabled)); }
+
+           
         }
 
+        private bool _isFolderValid;
         public void SelectFolder()
         {
             var dlg = new OpenFileDialog
@@ -78,7 +75,11 @@ namespace KadastrLoader
                 Filter = "CSV files (*.csv)|*.csv|All files (*.*)|*.*",
             };
             if (dlg.ShowDialog() == true)
+            {
                 SelectedFolder = FileOperations.GetParentFolder(dlg.FileName);
+                _isFolderValid = true;
+                NotifyOfPropertyChange(nameof(IsStartEnabled));
+            }
         }
 
         public void Close()
