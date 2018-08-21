@@ -10,6 +10,7 @@ namespace KadastrLoader
 {
     public class KadastrLoaderViewModel : Screen, IShell
     {
+        private readonly IMyLog _logFile;
         private readonly KadastrDbSettings _kadastrDbSettings;
         public string ServerIp { get; set; }
 
@@ -39,8 +40,10 @@ namespace KadastrLoader
             }
         }
 
-        public KadastrLoaderViewModel(IniFile iniFile, KadastrDbSettings kadastrDbSettings)
+        public KadastrLoaderViewModel(IniFile iniFile, IMyLog logFile, KadastrDbSettings kadastrDbSettings)
         {
+            _logFile = logFile;
+            _logFile.AssignFile("kadastr.log");
             _kadastrDbSettings = kadastrDbSettings;
             var serverAddresses = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
             ServerIp = serverAddresses.Main.Ip4Address;
@@ -54,16 +57,23 @@ namespace KadastrLoader
         private bool _isDbReady;
         public void ConnectKadastrDb()
         {
-            _kadastrDbSettings.Init();
-            using (var dbContext = new KadastrDbContext(_kadastrDbSettings.Options))
+            try
             {
-                dbContext.Database.EnsureCreated();
-                var count = dbContext.Wells.Count();
-                ServerMessage = $"Loaded from Kadastr so far: {count}";
-                _isDbReady = true;
-                NotifyOfPropertyChange(nameof(IsStartEnabled)); }
-
-           
+                _kadastrDbSettings.Init();
+                using (var dbContext = new KadastrDbContext(_kadastrDbSettings.Options))
+                {
+                    dbContext.Database.EnsureCreated();
+                    var count = dbContext.Wells.Count();
+                    ServerMessage = $"Loaded from Kadastr so far: {count}";
+                    _isDbReady = true;
+                    NotifyOfPropertyChange(nameof(IsStartEnabled));
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                throw;
+            }
         }
 
         private bool _isFolderValid;
