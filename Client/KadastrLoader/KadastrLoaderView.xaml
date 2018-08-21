@@ -1,0 +1,16 @@
+<Window x:Class="KadastrLoader.KadastrLoaderView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Width="600" Height="350">
+    <DockPanel Margin="5">
+        <Button Content="Close" DockPanel.Dock="Bottom" Margin="5" Width="120" Name="Close"></Button>
+        <StackPanel Margin="5" Orientation="Horizontal" DockPanel.Dock="Top">
+            <Button Content="Select folder" Margin="5" Width="120"/>
+            <TextBlock/>
+        </StackPanel>
+        <StackPanel>
+
+        </StackPanel>
+        
+    </DockPanel>
+</Window>
