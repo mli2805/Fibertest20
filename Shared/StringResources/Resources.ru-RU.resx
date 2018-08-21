@@ -2162,4 +2162,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_valid_until" xml:space="preserve">
 		<value>действительно до</value>
 	</data>
+	<data name="SID_Load_from_Kadastr" xml:space="preserve">
+		<value>Загрузка из Кадастра</value>
+	</data>
+	<data name="SID_Select_folder" xml:space="preserve">
+		<value>Выберите папку</value>
+	</data>
+	<data name="SID_Start" xml:space="preserve">
+		<value>Старт</value>
+	</data>
 </root>

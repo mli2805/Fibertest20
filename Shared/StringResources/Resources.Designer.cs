@@ -2998,6 +2998,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Load from Kadastr.
+        /// </summary>
+        public static string SID_Load_from_Kadastr {
+            get {
+                return ResourceManager.GetString("SID_Load_from_Kadastr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Location.
         /// </summary>
         public static string SID_Location {
@@ -3093,15 +3102,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Manual_mode {
             get {
                 return ResourceManager.GetString("SID_Manual_mode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Maximum RTU count.
-        /// </summary>
-        public static string SID_Maximum_Rtu_Count {
-            get {
-                return ResourceManager.GetString("SID_Maximum_Rtu_Count", resourceCulture);
             }
         }
         
@@ -4853,6 +4853,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select folder.
+        /// </summary>
+        public static string SID_Select_folder {
+            get {
+                return ResourceManager.GetString("SID_Select_folder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select RTU.
         /// </summary>
         public static string SID_Select_RTU {
@@ -5133,20 +5142,20 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Simultaneous client connections.
-        /// </summary>
-        public static string SID_Simultaneous_client_connections {
-            get {
-                return ResourceManager.GetString("SID_Simultaneous_client_connections", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Space available: {0}.
         /// </summary>
         public static string SID_Space_available___0_ {
             get {
                 return ResourceManager.GetString("SID_Space_available___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start.
+        /// </summary>
+        public static string SID_Start {
+            get {
+                return ResourceManager.GetString("SID_Start", resourceCulture);
             }
         }
         
