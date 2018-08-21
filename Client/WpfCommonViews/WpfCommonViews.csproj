@@ -130,7 +130,7 @@
       <DependentUpon>ServerConnectionLostView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ServerConnectionLostViewModel.cs" />
-    <Compile Include="WindowManagerExt.cs" />
+    <Compile Include="WpfTricks\WindowManagerExt.cs" />
     <Compile Include="WpfTricks\FocusExtension.cs" />
     <Compile Include="WpfTricks\ObservableRangeCollection.cs" />
     <Compile Include="WpfTricks\PasswordHelper.cs" />
@@ -199,7 +199,7 @@
   <ItemGroup>
     <Content Include="Resources\Sounds\Accident.mp3" />
     <Content Include="Resources\Sounds\Ok.mp3" />
-    <Content Include="SorExample\MeasWithBase.sor" />
+    <Content Include="Resources\SorExample\MeasWithBase.sor" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
