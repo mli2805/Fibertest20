@@ -1,4 +1,5 @@
 using System.Linq;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,12 +20,16 @@ namespace Iit.Fibertest.DatabaseLibrary
 
         public void Init()
         {
+            var doubleAddress = _iniFile.ReadDoubleAddress((int) TcpPorts.ServerListenToClient);
+
             var address = _iniFile.Read(IniSection.ServerMainAddress, IniKey.Ip, "0.0.0.0");
             if (address == "0.0.0.0")
             {
                 var serverIp = LocalAddressResearcher.GetAllLocalAddresses().First();
                 _iniFile.Write(IniSection.ServerMainAddress, IniKey.Ip, serverIp);
             }
+
+
             _mysqlTcpPort = _iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, 3306);
             var postfix = _iniFile.Read(IniSection.MySql, IniKey.MySqlDbSchemePostfix, "");
             _measurementsScheme = "ft20efcore" + postfix;

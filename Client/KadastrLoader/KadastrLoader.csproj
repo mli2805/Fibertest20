@@ -111,6 +111,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Dto\Dto.csproj">
+      <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
+      <Name>Dto</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Shared\StringResources\StringResources.csproj">
       <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>
       <Name>StringResources</Name>
