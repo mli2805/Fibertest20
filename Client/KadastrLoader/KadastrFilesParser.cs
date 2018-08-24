@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -68,9 +69,10 @@ namespace KadastrLoader
             cmd.EmptyNodeEquipmentId = Guid.NewGuid();
             cmd.Type = EquipmentType.EmptyNode;
 
-            double.TryParse(parts[2], out double xKadastr);
+            var ds = Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator;
+            double.TryParse(parts[2].Replace('.', ds[0]).Replace(',',ds[0]), out double xKadastr);
             cmd.Latitude = Latitude0 + xKadastr * Latitude1M;
-            double.TryParse(parts[3], out double yKadastr);
+            double.TryParse(parts[3].Replace('.', ds[0]).Replace(',',ds[0]), out double yKadastr);
             cmd.Longitude = Longitude0 + yKadastr * Longitude1M;
 
             return cmd;
