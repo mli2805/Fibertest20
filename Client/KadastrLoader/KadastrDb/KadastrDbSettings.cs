@@ -1,24 +1,9 @@
-﻿using System;
-using Iit.Fibertest.Dto;
+﻿using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Microsoft.EntityFrameworkCore;
 
 namespace KadastrLoader
 {
-    public class KadastrDbContext : DbContext
-    {
-        public KadastrDbContext(DbContextOptions<KadastrDbContext> options) : base(options) { }
-
-        public DbSet<Well> Wells { get; set; }
-    }
-
-    public class Well
-    {
-        public int Id { get; set; }
-        public int InKadastrId { get; set; }
-        public Guid InFibertestId { get; set; }
-    }
-
     public class KadastrDbSettings
     {
         private readonly IniFile _iniFile;

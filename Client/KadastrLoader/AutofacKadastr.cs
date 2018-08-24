@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace KadastrLoader
 {
@@ -11,8 +13,12 @@ namespace KadastrLoader
             builder.RegisterType<KadastrLoaderViewModel>().As<IShell>();
             builder.RegisterType<WindowManager>().As<IWindowManager>().InstancePerLifetimeScope();
             builder.RegisterType<LogFile>().As<IMyLog>().InstancePerLifetimeScope();
+            builder.RegisterType<C2DWcfManager>().AsSelf().As<IWcfServiceForClient>().InstancePerLifetimeScope();
+
 
             builder.RegisterType<KadastrDbSettings>().SingleInstance();
+            builder.RegisterType<KadastrDbProvider>().SingleInstance();
+            builder.RegisterType<KadastrFilesParser>().SingleInstance();
         }
     }
 }
