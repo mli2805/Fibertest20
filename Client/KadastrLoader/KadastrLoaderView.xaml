@@ -7,7 +7,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
-        Width="600" Height="350" Left="200" Top="300"
+        Width="600" Height="400" Left="200" Top="300"
         d:DataContext="{d:DesignInstance kadastrLoader:KadastrLoaderViewModel}">
     <DockPanel Margin="5">
         <StackPanel Orientation="Horizontal" Margin="5" DockPanel.Dock="Bottom" >
@@ -15,11 +15,11 @@
                     Name="Start" IsEnabled="{Binding IsStartEnabled}"/>
             <Button Content="{x:Static stringResources:Resources.SID_Close}" Margin="5" Width="120" Name="Close"/>
         </StackPanel>
-        <GroupBox DockPanel.Dock="Top" Margin="5" Header="Server">
+        <GroupBox DockPanel.Dock="Top" Margin="5" Header="{x:Static stringResources:Resources.SID_Fibertest_2_0_Server_including_Kadastr}">
             <StackPanel>
                 <StackPanel Margin="10,5,5,5" Orientation="Horizontal" >
                     <TextBlock Text="{Binding ServerIp}" Margin="5" Width="100"/>
-                    <Button Margin="5" Width="120" Content="Connect" Name="ConnectKadastrDb"/>
+                    <Button Margin="5" Width="120" Content="{x:Static stringResources:Resources.SID_Connect}" Name="CheckConnect"/>
                 </StackPanel>
                 <TextBlock Margin="10,5" Background="AliceBlue" Text="{Binding ServerMessage}"/>
             </StackPanel>
@@ -32,12 +32,10 @@
             </StackPanel>
         </GroupBox>
 
-        <StackPanel Margin="5">
-            <ListView Margin="5" ItemsSource="{Binding ProgressLines}" >
-                <i:Interaction.Behaviors>
-                    <kadastrLoader:ScrollToBottomOnAddBehavior/>
-                </i:Interaction.Behaviors>
-            </ListView>
-        </StackPanel>
+        <ListView Margin="5" ItemsSource="{Binding ProgressLines}" >
+            <i:Interaction.Behaviors>
+                <kadastrLoader:ScrollToBottomOnAddBehavior/>
+            </i:Interaction.Behaviors>
+        </ListView>
     </DockPanel>
 </Window>

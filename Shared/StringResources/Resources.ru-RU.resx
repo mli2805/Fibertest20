@@ -2171,4 +2171,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Start" xml:space="preserve">
 		<value>Старт</value>
 	</data>
+	<data name="SID_Nodes_loaded_from_Kadastr_so_far___0_" xml:space="preserve">
+		<value>Загружено узлов из Кадастра (на данный момент): {0}</value>
+	</data>
+	<data name="SID_Connect" xml:space="preserve">
+		<value>Соединить</value>
+	</data>
+	<data name="SID_Fibertest_2_0_Server_including_Kadastr" xml:space="preserve">
+		<value>Fibertest 2.0 Сервер (включая БД Кадастр)</value>
+	</data>
 </root>

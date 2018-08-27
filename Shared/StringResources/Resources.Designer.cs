@@ -1530,6 +1530,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connect.
+        /// </summary>
+        public static string SID_Connect {
+            get {
+                return ResourceManager.GetString("SID_Connect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Connection check.
         /// </summary>
         public static string SID_Connection_check {
@@ -2355,6 +2364,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Fiber_type_wavelength {
             get {
                 return ResourceManager.GetString("SID_Fiber_type_wavelength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fibertest 2.0 Server (including Kadastr db).
+        /// </summary>
+        public static string SID_Fibertest_2_0_Server_including_Kadastr {
+            get {
+                return ResourceManager.GetString("SID_Fibertest_2_0_Server_including_Kadastr", resourceCulture);
             }
         }
         
@@ -3588,6 +3606,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Nodes {
             get {
                 return ResourceManager.GetString("SID_Nodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nodes loaded from Kadastr so far: {0}.
+        /// </summary>
+        public static string SID_Nodes_loaded_from_Kadastr_so_far___0_ {
+            get {
+                return ResourceManager.GetString("SID_Nodes_loaded_from_Kadastr_so_far___0_", resourceCulture);
             }
         }
         

@@ -30,7 +30,6 @@ namespace KadastrLoader
         {
             var count = 0;
             var filename = folder + @"\wells.csv";
-            _loadedAlready.Wells = _kadastrDbProvider.GetWells();
 
             var lines = File.ReadAllLines(filename);
             _logFile.AppendLine($"{lines.Length} lines found in wells.csv");

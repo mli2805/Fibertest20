@@ -2171,4 +2171,13 @@ RTU is initializing right now!</value>
 	<data name="SID_Start" xml:space="preserve">
     <value>Start</value>
   </data>
+	<data name="SID_Nodes_loaded_from_Kadastr_so_far___0_" xml:space="preserve">
+    <value>Nodes loaded from Kadastr so far: {0}</value>
+  </data>
+	<data name="SID_Connect" xml:space="preserve">
+    <value>Connect</value>
+  </data>
+	<data name="SID_Fibertest_2_0_Server_including_Kadastr" xml:space="preserve">
+    <value>Fibertest 2.0 Server (including Kadastr db)</value>
+  </data>
 </root>

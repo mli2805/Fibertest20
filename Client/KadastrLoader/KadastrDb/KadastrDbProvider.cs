@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace KadastrLoader
 {
@@ -13,11 +13,28 @@ namespace KadastrLoader
             _kadastrDbSettings = kadastrDbSettings;
         }
 
-        public List<Well> GetWells()
+        public void Init()
+        {
+            _kadastrDbSettings.Init();
+            using (var dbContext = new KadastrDbContext(_kadastrDbSettings.Options))
+            {
+                dbContext.Database.EnsureCreated();
+            }
+        }
+
+        public async Task<List<Well>> GetWells()
         {
             using (var dbContext = new KadastrDbContext(_kadastrDbSettings.Options))
             {
-                return dbContext.Wells.ToList();
+                return await dbContext.Wells.ToListAsync();
+            }
+        }
+
+        public async Task<List<Conpoint>> GetConpoints()
+        {
+            using (var dbContext = new KadastrDbContext(_kadastrDbSettings.Options))
+            {
+                return await dbContext.Conpoints.ToListAsync();
             }
         }
 
