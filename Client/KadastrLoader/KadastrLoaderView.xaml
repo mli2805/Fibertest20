@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:kadastrLoader="clr-namespace:KadastrLoader"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Width="600" Height="350" Left="200" Top="300"
         d:DataContext="{d:DesignInstance kadastrLoader:KadastrLoaderViewModel}">
@@ -31,8 +32,12 @@
             </StackPanel>
         </GroupBox>
 
-        <StackPanel>
-
+        <StackPanel Margin="5">
+            <ListView Margin="5" ItemsSource="{Binding ProgressLines}" >
+                <i:Interaction.Behaviors>
+                    <kadastrLoader:ScrollToBottomOnAddBehavior/>
+                </i:Interaction.Behaviors>
+            </ListView>
         </StackPanel>
     </DockPanel>
 </Window>

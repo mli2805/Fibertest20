@@ -7,5 +7,6 @@ namespace KadastrLoader
         public KadastrDbContext(DbContextOptions<KadastrDbContext> options) : base(options) { }
 
         public DbSet<Well> Wells { get; set; }
+        public DbSet<Conpoint> Conpoints { get; set; }
     }
 }

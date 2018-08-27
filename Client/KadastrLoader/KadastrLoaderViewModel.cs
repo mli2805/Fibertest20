@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -14,7 +15,6 @@ namespace KadastrLoader
         private readonly IMyLog _logFile;
         private readonly KadastrDbSettings _kadastrDbSettings;
         private readonly KadastrFilesParser _kadastrFilesParser;
-        private readonly C2DWcfManager _c2DWcfManager;
         public string ServerIp { get; set; }
 
         private string _serverMessage;
@@ -43,6 +43,8 @@ namespace KadastrLoader
             }
         }
 
+        public ObservableCollection<string> ProgressLines { get; set; } = new ObservableCollection<string>();
+
         public KadastrLoaderViewModel(IniFile iniFile, IMyLog logFile, 
             KadastrDbSettings kadastrDbSettings, KadastrFilesParser kadastrFilesParser,
             C2DWcfManager c2DWcfManager)
@@ -51,9 +53,8 @@ namespace KadastrLoader
             _logFile.AssignFile("kadastr.log");
             _kadastrDbSettings = kadastrDbSettings;
             _kadastrFilesParser = kadastrFilesParser;
-            _c2DWcfManager = c2DWcfManager;
             var serverAddresses = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
-            _c2DWcfManager.SetServerAddresses(serverAddresses, "Kadastr", "");
+            c2DWcfManager.SetServerAddresses(serverAddresses, "Kadastr", "");
             ServerIp = serverAddresses.Main.Ip4Address;
         }
 
@@ -102,7 +103,9 @@ namespace KadastrLoader
 
         public async void Start()
         {
+            ProgressLines.Add("Started...");
            await _kadastrFilesParser.Go(SelectedFolder);
+            ProgressLines.Add("Done.");
         }
 
         public void Close()

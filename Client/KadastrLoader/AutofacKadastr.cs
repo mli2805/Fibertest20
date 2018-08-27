@@ -18,7 +18,13 @@ namespace KadastrLoader
 
             builder.RegisterType<KadastrDbSettings>().SingleInstance();
             builder.RegisterType<KadastrDbProvider>().SingleInstance();
+
+
+            builder.RegisterType<LoadedAlready>().SingleInstance();
             builder.RegisterType<KadastrFilesParser>().SingleInstance();
+            builder.RegisterType<WellParser>().SingleInstance();
+            builder.RegisterType<ChannelParser>().SingleInstance();
+            builder.RegisterType<ConpointParser>().SingleInstance();
         }
     }
 }

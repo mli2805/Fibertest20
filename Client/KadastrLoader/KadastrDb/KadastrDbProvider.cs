@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace KadastrLoader
@@ -12,11 +13,11 @@ namespace KadastrLoader
             _kadastrDbSettings = kadastrDbSettings;
         }
 
-        public Well GetWellByKadastrId(int inKadastrId)
+        public List<Well> GetWells()
         {
             using (var dbContext = new KadastrDbContext(_kadastrDbSettings.Options))
             {
-                return dbContext.Wells.FirstOrDefault(w => w.InKadastrId == inKadastrId);
+                return dbContext.Wells.ToList();
             }
         }
 
@@ -25,6 +26,15 @@ namespace KadastrLoader
             using (var dbContext = new KadastrDbContext(_kadastrDbSettings.Options))
             {
                 dbContext.Wells.Add(well);
+                return await dbContext.SaveChangesAsync();
+            }
+        }
+
+        public async Task<int> AddConpoint(Conpoint conpoint)
+        {
+            using (var dbContext = new KadastrDbContext(_kadastrDbSettings.Options))
+            {
+                dbContext.Conpoints.Add(conpoint);
                 return await dbContext.SaveChangesAsync();
             }
         }

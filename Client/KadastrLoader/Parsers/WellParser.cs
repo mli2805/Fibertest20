@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -9,56 +10,57 @@ using Iit.Fibertest.WcfConnections;
 
 namespace KadastrLoader
 {
-    public class KadastrFilesParser
+    public class WellParser
     {
         private readonly IMyLog _logFile;
         private readonly KadastrDbProvider _kadastrDbProvider;
         private readonly C2DWcfManager _c2DWcfManager;
+        private readonly LoadedAlready _loadedAlready;
 
-        public KadastrFilesParser(IMyLog logFile, KadastrDbProvider kadastrDbProvider, C2DWcfManager c2DWcfManager)
+        public WellParser(IMyLog logFile, KadastrDbProvider kadastrDbProvider, 
+            C2DWcfManager c2DWcfManager, LoadedAlready loadedAlready)
         {
             _logFile = logFile;
             _kadastrDbProvider = kadastrDbProvider;
             _c2DWcfManager = c2DWcfManager;
+            _loadedAlready = loadedAlready;
         }
 
-        public async Task<int>  Go(string folder)
+        public async Task<int> ParseWells(string folder)
         {
-            return await ParseWells(folder);
-        }
-
-        private async Task<int> ParseWells(string folder)
-        {
+            var count = 0;
             var filename = folder + @"\wells.csv";
+            _loadedAlready.Wells = _kadastrDbProvider.GetWells();
+
             var lines = File.ReadAllLines(filename);
             _logFile.AppendLine($"{lines.Length} lines found in wells.csv");
             foreach (var line in lines)
             {
-                await ProcessOneLine(line);
+                if (await ProcessOneLine(line) == null) count++;
             }
 
-            return 1;
+            return count;
         }
 
-        private async Task<int> ProcessOneLine(string line)
+        private async Task<string> ProcessOneLine(string line)
         {
             var fields = line.Split(';');
-            if (fields.Length < 5) return 0;
+            if (fields.Length < 5) return "invalid line";
 
-            if (!int.TryParse(fields[0], out int inKadastrId)) return 0;
+            if (!int.TryParse(fields[0], out int inKadastrId)) return "invalid line";
 
-            if (_kadastrDbProvider.GetWellByKadastrId(inKadastrId) != null) return 0;
+            if (_loadedAlready.Wells.FirstOrDefault(w => w.InKadastrId == inKadastrId) != null) return "well exists already";
 
             var well = new Well()
             {
                 InKadastrId = inKadastrId,
                 InFibertestId = Guid.NewGuid(),
             };
+            _loadedAlready.Wells.Add(well);
             await _kadastrDbProvider.AddWell(well);
 
             var cmd = CreateNodeCmd(fields, well.InFibertestId);
-            await _c2DWcfManager.SendCommandAsObj(cmd);
-            return 1;
+            return await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
         private AddEquipmentAtGpsLocationWithNodeTitle CreateNodeCmd(string[] parts, Guid inFibertestId)
@@ -70,9 +72,9 @@ namespace KadastrLoader
             cmd.Type = EquipmentType.EmptyNode;
 
             var ds = Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator;
-            double.TryParse(parts[2].Replace('.', ds[0]).Replace(',',ds[0]), out double xKadastr);
+            double.TryParse(parts[2].Replace('.', ds[0]).Replace(',', ds[0]), out double xKadastr);
             cmd.Latitude = Latitude0 + xKadastr * Latitude1M;
-            double.TryParse(parts[3].Replace('.', ds[0]).Replace(',',ds[0]), out double yKadastr);
+            double.TryParse(parts[3].Replace('.', ds[0]).Replace(',', ds[0]), out double yKadastr);
             cmd.Longitude = Longitude0 + yKadastr * Longitude1M;
 
             return cmd;
