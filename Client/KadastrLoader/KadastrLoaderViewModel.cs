@@ -1,5 +1,6 @@
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -12,12 +13,23 @@ namespace KadastrLoader
 {
     public class KadastrLoaderViewModel : Screen, IShell
     {
-        private readonly IMyLog _logFile;
         private readonly LoadedAlready _loadedAlready;
         private readonly KadastrDbProvider _kadastrDbProvider;
         private readonly KadastrFilesParser _kadastrFilesParser;
         private readonly C2DWcfManager _c2DWcfManager;
         public string ServerIp { get; set; }
+
+        private string _kadastrMessage;
+        public string KadastrMessage
+        {
+            get { return _kadastrMessage; }
+            set
+            {
+                if (value == _kadastrMessage) return;
+                _kadastrMessage = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         private string _serverMessage;
         public string ServerMessage
@@ -47,13 +59,11 @@ namespace KadastrLoader
 
         public ObservableCollection<string> ProgressLines { get; set; } = new ObservableCollection<string>();
 
-        public KadastrLoaderViewModel(IniFile iniFile, IMyLog logFile, LoadedAlready loadedAlready,
+        public KadastrLoaderViewModel(IniFile iniFile, LoadedAlready loadedAlready,
             KadastrDbProvider kadastrDbProvider,
             KadastrFilesParser kadastrFilesParser, C2DWcfManager c2DWcfManager)
         {
-            _logFile = logFile;
             _loadedAlready = loadedAlready;
-            _logFile.AssignFile("kadastr.log");
             _kadastrDbProvider = kadastrDbProvider;
             _kadastrFilesParser = kadastrFilesParser;
             _c2DWcfManager = c2DWcfManager;
@@ -84,15 +94,13 @@ namespace KadastrLoader
                 _loadedAlready.Wells = await _kadastrDbProvider.GetWells();
                 _loadedAlready.Conpoints = await _kadastrDbProvider.GetConpoints();
                 var count = _loadedAlready.Wells.Count;
-                ServerMessage = string.Format(Resources.SID_Nodes_loaded_from_Kadastr_so_far___0_, count);
+                KadastrMessage = string.Format(Resources.SID_Nodes_loaded_from_Kadastr_so_far___0_, count);
                 NotifyOfPropertyChange(nameof(IsStartEnabled));
                 return true;
             }
             catch (Exception e)
             {
-                ProgressLines.Add("Kadastr Db connection error!");
-                ProgressLines.Add(e.Message);
-                _logFile.AppendLine(e.Message);
+                KadastrMessage = Resources.SID_Kadastr_Db_connection_error___ + e.Message;
                 return false;
             }
         }
@@ -102,14 +110,14 @@ namespace KadastrLoader
             var isReady = await _c2DWcfManager.CheckServerConnection(new CheckServerConnectionDto());
             if (!isReady)
             {
-                ProgressLines.Add("DataCenter connection failed!");
-                _logFile.AppendLine("DataCenter connection failed!");
+                ServerMessage = Resources.SID_DataCenter_connection_failed_;
             }
-            else ProgressLines.Add("DataCenter connected successfully!");
+            else ServerMessage = Resources.SID_DataCenter_connected_successfully_;
             return isReady;
         }
 
         private bool _isFolderValid;
+
         public void SelectFolder()
         {
             var dlg = new OpenFileDialog
@@ -125,11 +133,32 @@ namespace KadastrLoader
             }
         }
 
-        public async void Start()
+        public void Start()
         {
-            ProgressLines.Add("Started...");
-            await _kadastrFilesParser.Go(SelectedFolder);
-            ProgressLines.Add("Done.");
+            var bw = new BackgroundWorker();
+            bw.WorkerReportsProgress = true;
+            bw.DoWork += Bw_DoWork;
+            bw.ProgressChanged += Bw_ProgressChanged;
+            bw.RunWorkerCompleted += Bw_RunWorkerCompleted;
+
+            bw.RunWorkerAsync();
+        }
+
+        private void Bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            ProgressLines.Add(Resources.SID_Done_);
+        }
+
+        private void Bw_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            var st = (string)e.UserState;
+            ProgressLines.Add(st);
+        }
+
+        private void Bw_DoWork(object sender, DoWorkEventArgs e)
+        {
+            var worker = sender as BackgroundWorker;
+            _kadastrFilesParser.Run(SelectedFolder, worker);
         }
 
         public void Close()

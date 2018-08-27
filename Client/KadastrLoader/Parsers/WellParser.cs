@@ -1,47 +1,45 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
 
 namespace KadastrLoader
 {
     public class WellParser
     {
-        private readonly IMyLog _logFile;
         private readonly KadastrDbProvider _kadastrDbProvider;
         private readonly C2DWcfManager _c2DWcfManager;
         private readonly LoadedAlready _loadedAlready;
 
-        public WellParser(IMyLog logFile, KadastrDbProvider kadastrDbProvider, 
+        public WellParser(KadastrDbProvider kadastrDbProvider, 
             C2DWcfManager c2DWcfManager, LoadedAlready loadedAlready)
         {
-            _logFile = logFile;
             _kadastrDbProvider = kadastrDbProvider;
             _c2DWcfManager = c2DWcfManager;
             _loadedAlready = loadedAlready;
         }
 
-        public async Task<int> ParseWells(string folder)
+        public void ParseWells(string folder, BackgroundWorker worker)
         {
             var count = 0;
             var filename = folder + @"\wells.csv";
 
             var lines = File.ReadAllLines(filename);
-            _logFile.AppendLine($"{lines.Length} lines found in wells.csv");
+            worker.ReportProgress(0, string.Format(Resources.SID__0__lines_found_in_wells_csv, lines.Length));
             foreach (var line in lines)
             {
-                if (await ProcessOneLine(line) == null) count++;
+                if (ProcessOneLine(line) == null) count++;
             }
 
-            return count;
+            worker.ReportProgress(0, string.Format(Resources.SID__0__wells_applied, count));
         }
 
-        private async Task<string> ProcessOneLine(string line)
+        private string ProcessOneLine(string line)
         {
             var fields = line.Split(';');
             if (fields.Length < 5) return "invalid line";
@@ -56,10 +54,10 @@ namespace KadastrLoader
                 InFibertestId = Guid.NewGuid(),
             };
             _loadedAlready.Wells.Add(well);
-            await _kadastrDbProvider.AddWell(well);
+            _kadastrDbProvider.AddWell(well).Wait();
 
             var cmd = CreateNodeCmd(fields, well.InFibertestId);
-            return await _c2DWcfManager.SendCommandAsObj(cmd);
+            return _c2DWcfManager.SendCommandAsObj(cmd).Result;
         }
 
         private AddEquipmentAtGpsLocationWithNodeTitle CreateNodeCmd(string[] parts, Guid inFibertestId)

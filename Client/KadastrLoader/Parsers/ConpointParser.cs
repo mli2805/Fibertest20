@@ -1,45 +1,44 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
 
 namespace KadastrLoader
 {
     public class ConpointParser
     {
-        private readonly IMyLog _logFile;
         private readonly KadastrDbProvider _kadastrDbProvider;
         private readonly C2DWcfManager _c2DWcfManager;
         private readonly LoadedAlready _loadedAlready;
 
-        public ConpointParser(IMyLog logFile, KadastrDbProvider kadastrDbProvider,
+        public ConpointParser(KadastrDbProvider kadastrDbProvider,
             C2DWcfManager c2DWcfManager, LoadedAlready loadedAlready)
         {
-            _logFile = logFile;
             _kadastrDbProvider = kadastrDbProvider;
             _c2DWcfManager = c2DWcfManager;
             _loadedAlready = loadedAlready;
         }
 
-        public async Task<int> ParseConpoints(string folder)
+        public void ParseConpoints(string folder, BackgroundWorker worker)
         {
             var count = 0;
             var filename = folder + @"\conpoints.csv";
 
             var lines = File.ReadAllLines(filename);
-            _logFile.AppendLine($"{lines.Length} lines found in conpoints.csv");
+            var str = string.Format(Resources.SID__0__lines_found_in_conpoints_csv, lines.Length);
+            worker.ReportProgress(0, str);
             foreach (var line in lines)
             {
-                if (await ProcessOneLine(line) == null) count++;
+                if (ProcessOneLine(line) == null) count++;
             }
-            return count;
+            worker.ReportProgress(0, string.Format(Resources.SID__0__conpoints_applied, count));
         }
 
-        private async Task<string> ProcessOneLine(string line)
+        private string ProcessOneLine(string line)
         {
             var fields = line.Split(';');
             if (fields.Length < 4) return "invalid line";
@@ -54,7 +53,7 @@ namespace KadastrLoader
                 InKadastrId = conpointInKadastrId,
             };
             _loadedAlready.Conpoints.Add(conpoint);
-            await _kadastrDbProvider.AddConpoint(conpoint);
+            _kadastrDbProvider.AddConpoint(conpoint).Wait();
 
             if (!int.TryParse(fields[2], out int conType) || conType == 0) return "invalid line";
             
@@ -67,7 +66,7 @@ namespace KadastrLoader
             cmd.NodeId = well.InFibertestId;
             cmd.EquipmentId = Guid.NewGuid();
             cmd.Type = EquipmentType.Closure;
-            return await _c2DWcfManager.SendCommandAsObj(cmd);
+            return _c2DWcfManager.SendCommandAsObj(cmd).Result;
         }
 
     }

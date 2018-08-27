@@ -7,7 +7,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
-        Width="600" Height="400" Left="200" Top="300"
+        Width="600" Height="470" Left="200" Top="300"
         d:DataContext="{d:DesignInstance kadastrLoader:KadastrLoaderViewModel}">
     <DockPanel Margin="5">
         <StackPanel Orientation="Horizontal" Margin="5" DockPanel.Dock="Bottom" >
@@ -22,6 +22,7 @@
                     <Button Margin="5" Width="120" Content="{x:Static stringResources:Resources.SID_Connect}" Name="CheckConnect"/>
                 </StackPanel>
                 <TextBlock Margin="10,5" Background="AliceBlue" Text="{Binding ServerMessage}"/>
+                <TextBlock Margin="10,5" Background="AliceBlue" Text="{Binding KadastrMessage}"/>
             </StackPanel>
         </GroupBox>
 

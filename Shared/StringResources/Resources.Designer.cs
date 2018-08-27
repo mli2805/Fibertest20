@@ -169,6 +169,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} channels applied.
+        /// </summary>
+        public static string SID__0__channels_applied {
+            get {
+                return ResourceManager.GetString("SID__0__channels_applied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} conpoints applied.
+        /// </summary>
+        public static string SID__0__conpoints_applied {
+            get {
+                return ResourceManager.GetString("SID__0__conpoints_applied", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} installation failed..
         /// </summary>
         public static string SID__0__installation_failed_ {
@@ -183,6 +201,33 @@ namespace Iit.Fibertest.StringResources {
         public static string SID__0__installed_on_your_PC_already__Continue_ {
             get {
                 return ResourceManager.GetString("SID__0__installed_on_your_PC_already__Continue_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} lines found in channels.csv.
+        /// </summary>
+        public static string SID__0__lines_found_in_channels_csv {
+            get {
+                return ResourceManager.GetString("SID__0__lines_found_in_channels_csv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} lines found in conpoints.csv.
+        /// </summary>
+        public static string SID__0__lines_found_in_conpoints_csv {
+            get {
+                return ResourceManager.GetString("SID__0__lines_found_in_conpoints_csv", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} lines found in wells.csv.
+        /// </summary>
+        public static string SID__0__lines_found_in_wells_csv {
+            get {
+                return ResourceManager.GetString("SID__0__lines_found_in_wells_csv", resourceCulture);
             }
         }
         
@@ -219,6 +264,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID__0__service_is_being_uninstalled___ {
             get {
                 return ResourceManager.GetString("SID__0__service_is_being_uninstalled___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} wells applied.
+        /// </summary>
+        public static string SID__0__wells_applied {
+            get {
+                return ResourceManager.GetString("SID__0__wells_applied", resourceCulture);
             }
         }
         
@@ -1693,6 +1747,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to DataCenter connected successfully!.
+        /// </summary>
+        public static string SID_DataCenter_connected_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_DataCenter_connected_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DataCenter connection failed!.
+        /// </summary>
+        public static string SID_DataCenter_connection_failed_ {
+            get {
+                return ResourceManager.GetString("SID_DataCenter_connection_failed_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DataCenter Server.
         /// </summary>
         public static string SID_DataCenter_Server {
@@ -1923,6 +1995,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Done {
             get {
                 return ResourceManager.GetString("SID_Done", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Done..
+        /// </summary>
+        public static string SID_Done_ {
+            get {
+                return ResourceManager.GetString("SID_Done_", resourceCulture);
             }
         }
         
@@ -2796,6 +2877,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_It_s_prohibited_to_remove_last_node_from_trace {
             get {
                 return ResourceManager.GetString("SID_It_s_prohibited_to_remove_last_node_from_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kadastr Db connection error!  .
+        /// </summary>
+        public static string SID_Kadastr_Db_connection_error___ {
+            get {
+                return ResourceManager.GetString("SID_Kadastr_Db_connection_error___", resourceCulture);
             }
         }
         

@@ -1,4 +1,4 @@
-﻿using System.Threading.Tasks;
+﻿using System.ComponentModel;
 
 namespace KadastrLoader
 {
@@ -15,12 +15,11 @@ namespace KadastrLoader
             _conpointParser = conpointParser;
         }
 
-        public async Task<int> Go(string folder)
+        public void Run(string folder, BackgroundWorker worker)
         {
-            await _wellParser.ParseWells(folder);
-            await _channelParser.ParseChannels(folder);
-            await _conpointParser.ParseConpoints(folder);
-            return 1;
+            _wellParser.ParseWells(folder, worker);
+            _channelParser.ParseChannels(folder, worker);
+            _conpointParser.ParseConpoints(folder, worker);
         }
     }
 }

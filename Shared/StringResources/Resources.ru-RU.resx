@@ -2180,4 +2180,34 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Fibertest_2_0_Server_including_Kadastr" xml:space="preserve">
 		<value>Fibertest 2.0 Сервер (включая БД Кадастр)</value>
 	</data>
+	<data name="SID__0__lines_found_in_conpoints_csv" xml:space="preserve">
+		<value>{0} строк в файле conpoints.csv</value>
+	</data>
+	<data name="SID__0__conpoints_applied" xml:space="preserve">
+		<value>{0} муфт перенесено</value>
+	</data>
+	<data name="SID__0__lines_found_in_channels_csv" xml:space="preserve">
+		<value>{0} строк в файле channels.csv</value>
+	</data>
+	<data name="SID__0__channels_applied" xml:space="preserve">
+		<value>{0} волокон перенесено</value>
+	</data>
+	<data name="SID__0__lines_found_in_wells_csv" xml:space="preserve">
+		<value>{0} строк в файле wells.csv</value>
+	</data>
+	<data name="SID__0__wells_applied" xml:space="preserve">
+		<value>{0} колодцев перенесено</value>
+	</data>
+	<data name="SID_Done_" xml:space="preserve">
+		<value>Готово.</value>
+	</data>
+	<data name="SID_Kadastr_Db_connection_error___" xml:space="preserve">
+		<value>Ошибка соединения с БД Кадастр</value>
+	</data>
+	<data name="SID_DataCenter_connection_failed_" xml:space="preserve">
+		<value>Не удалось установить соединение с сервером!</value>
+	</data>
+	<data name="SID_DataCenter_connected_successfully_" xml:space="preserve">
+		<value>Соединение с сервером установлено успешно!</value>
+	</data>
 </root>

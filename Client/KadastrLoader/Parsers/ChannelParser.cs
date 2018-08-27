@@ -1,48 +1,45 @@
 ﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
 
 namespace KadastrLoader
 {
     public class ChannelParser
     {
-        private readonly IMyLog _logFile;
         private readonly C2DWcfManager _c2DWcfManager;
         private readonly LoadedAlready _loadedAlready;
 
-        public ChannelParser(IMyLog logFile,
-            C2DWcfManager c2DWcfManager, LoadedAlready loadedAlready)
+        public ChannelParser(C2DWcfManager c2DWcfManager, LoadedAlready loadedAlready)
         {
-            _logFile = logFile;
             _c2DWcfManager = c2DWcfManager;
             _loadedAlready = loadedAlready;
         }
 
-        public async Task<int> ParseChannels(string folder)
+        public void ParseChannels(string folder, BackgroundWorker worker)
         {
             var count = 0;
             var filename = folder + @"\channels.csv";
             var lines = File.ReadAllLines(filename);
-            _logFile.AppendLine($"{lines.Length} lines found in channels.csv");
+            worker.ReportProgress(0, string.Format(Resources.SID__0__lines_found_in_channels_csv, lines.Length));
             foreach (var line in lines)
             {
-                if (await ProcessOneLine(line) == null) count++;
+                if (ProcessOneLine(line) == null) count++;
             }
 
-            return count;
+            worker.ReportProgress(0, string.Format(Resources.SID__0__channels_applied, count));
         }
 
-        private async Task<string> ProcessOneLine(string line)
+        private string ProcessOneLine(string line)
         {
             var fields = line.Split(';');
             if (fields.Length < 4) return "invalid line";
 
             var cmd = CreateFiberCmd(fields);
-            return cmd == null ? "invalid line" : await _c2DWcfManager.SendCommandAsObj(cmd);
+            return cmd == null ? "invalid line" : _c2DWcfManager.SendCommandAsObj(cmd).Result;
         }
 
         private AddFiber CreateFiberCmd(string[] parts)
