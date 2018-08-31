@@ -1746,7 +1746,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Закрыть приложение?</value>
 	</data>
 	<data name="SID_Error_while_base_ref_acceptability_checking_" xml:space="preserve">
-		<value>Ошибка при проверки применимости базовой!</value>
+		<value>Ошибка при проверке применимости базовой!</value>
 	</data>
 	<data name="SID_Remove_adjustment_points_or_add_nodes" xml:space="preserve">
 		<value>Удалите точки привязки или добавьте узлы</value>
