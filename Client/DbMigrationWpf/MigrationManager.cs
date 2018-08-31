@@ -54,8 +54,10 @@ namespace DbMigrationWpf
 
         private void MigrateKadastr(string serverIp)
         {
-            var km = new KadastrMigrator(serverIp, _graphModel, _lines);
-            km.DoMigrate();
+            var km = new Kadastr15Fetcher(serverIp, _graphModel, _lines);
+            var model = km.Fetch();
+            if (model == null) return;
+
         }
 
         private async Task TransferBaseRefs(string ft15Address)

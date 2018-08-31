@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Iit.Fibertest.Graph;
 using Microsoft.EntityFrameworkCore;
 
 namespace KadastrLoader

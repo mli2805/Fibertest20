@@ -88,8 +88,8 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="KadastrMigration\KadastrMigrator.cs" />
-    <Compile Include="KadastrMigration\Well20.cs" />
+    <Compile Include="KadastrMigration\Kadastr15Fetcher.cs" />
+    <Compile Include="KadastrMigration\KadastrModel.cs" />
     <Compile Include="ScrollToBottomOnAddBehavior.cs" />
     <Compile Include="GraphMigration\FileStringParser.cs" />
     <Compile Include="GraphMigration\FileStringTraceParser.cs" />

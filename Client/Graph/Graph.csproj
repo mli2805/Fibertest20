@@ -125,6 +125,8 @@
     <Compile Include="Commands\Client\LostClientConnection.cs" />
     <Compile Include="Commands\Client\RegisterClientStation.cs" />
     <Compile Include="Commands\Client\UnregisterClientStation.cs" />
+    <Compile Include="DomainEntities\Kadastr\Conpoint.cs" />
+    <Compile Include="DomainEntities\Kadastr\Well.cs" />
     <Compile Include="DomainEntities\License\License.cs" />
     <Compile Include="DomainEntities\License\LicenseInFile.cs" />
     <Compile Include="DomainEntities\License\LicenseParameter.cs" />

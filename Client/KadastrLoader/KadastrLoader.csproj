@@ -175,11 +175,9 @@
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="AutofacKadastr.cs" />
     <Compile Include="IShell.cs" />
-    <Compile Include="KadastrDb\Conpoint.cs" />
     <Compile Include="KadastrDb\KadastrDbContext.cs" />
     <Compile Include="KadastrDb\KadastrDbProvider.cs" />
     <Compile Include="KadastrDb\KadastrDbSettings.cs" />
-    <Compile Include="KadastrDb\Well.cs" />
     <Compile Include="Parsers\ChannelParser.cs" />
     <Compile Include="Parsers\ConpointParser.cs" />
     <Compile Include="Parsers\KadastrFilesParser.cs" />

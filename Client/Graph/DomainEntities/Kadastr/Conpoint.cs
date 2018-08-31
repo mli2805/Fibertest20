@@ -1,4 +1,4 @@
-﻿namespace KadastrLoader
+﻿namespace Iit.Fibertest.Graph
 {
     public class Conpoint
     {
