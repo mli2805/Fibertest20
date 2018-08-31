@@ -101,6 +101,7 @@ namespace DbMigrationWpf
             _graphModel.EquipmentsDictionary.Add(equipmentId, equipmentGuid);
 
             var nodeId = int.Parse(parts[2]);
+            if (nodeId == 0) return;
             var type = OldEquipmentTypeConvertor(int.Parse(parts[3]));
 
             var evnt = new AddEquipmentIntoNode()

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Iit.Fibertest.Dto;
 using MySql.Data.MySqlClient;
 
-namespace DbMigrationWpf.Measurements
+namespace DbMigrationWpf.BaseRefMigration
 {
     public class TraceBaseFetcher
     {

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.IO;
-using System.Text;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 
@@ -32,10 +31,9 @@ namespace DbMigrationWpf
             var memory = System.Threading.Thread.CurrentThread.CurrentCulture;
             System.Threading.Thread.CurrentThread.CurrentCulture = customCulture;
 
-            Encoding win1251 = Encoding.GetEncoding("Windows-1251");
-            string[] lines = File.ReadAllLines(exportFileName, win1251);
+            string[] lines = File.ReadAllLines(exportFileName);
             _logFile.AppendLine($"Export.txt contains {lines.Length} lines");
-           _progressLines.Add($"Export.txt contains {lines.Length} lines");
+            _progressLines.Add($"Export.txt contains {lines.Length} lines");
 
             FirstPass(lines);
             // second pass - all nodes and equipment loaded, now we can process traces

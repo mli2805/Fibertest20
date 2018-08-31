@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
-using DbMigrationWpf.Measurements;
+using DbMigrationWpf.BaseRefMigration;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -12,39 +12,50 @@ namespace DbMigrationWpf
 {
     public class MigrationManager
     {
+        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly GraphModel _graphModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly ObservableCollection<string> _lines;
 
-        public MigrationManager(IMyLog logFile, GraphModel graphModel, IWcfServiceForClient c2DWcfManager, ObservableCollection<string> lines)
+        public MigrationManager(IniFile iniFile, IMyLog logFile, GraphModel graphModel, 
+            IWcfServiceForClient c2DWcfManager,  ObservableCollection<string> lines)
         {
+            _iniFile = iniFile;
             _logFile = logFile;
             _graphModel = graphModel;
             _c2DWcfManager = c2DWcfManager;
             _lines = lines;
         }
 
-        public async Task Migrate(string exportFileName, bool shouldTransferMeasurements, string ft15Address)
+        public async Task Migrate(string exportFileName, string ft15Address)
         {
-            new GraphFetcher(_logFile, _graphModel, _lines).Fetch(exportFileName);
-            _logFile.AppendLine("Graph is fetched");
-            _lines.Add("Graph is fetched");
+//            new GraphFetcher(_logFile, _graphModel, _lines).Fetch(exportFileName);
+//            _logFile.AppendLine("Graph is fetched");
+//            _lines.Add("Graph is fetched");
+//
+//            await SendCommandsExcludingAttachTrace();
+//            _logFile.AppendLine("Graph is sent");
+//            _lines.Add("Graph is sent");
+//
+//            await TransferBaseRefs(ft15Address);
+//            _logFile.AppendLine("Base refs are sent");
+//            _lines.Add("Base refs are sent");
+//
+//            await SendCommandsAttachTrace();
 
-            await SendCommandsExcludingAttachTrace();
-            _logFile.AppendLine("Graph is sent");
-            _lines.Add("Graph is sent");
+            var hasKadastr = _iniFile.Read(IniSection.Migrator, IniKey.Kadastr, false);
+            if (hasKadastr)
+                MigrateKadastr(ft15Address);
 
-            await TransferBaseRefs(ft15Address);
-            _logFile.AppendLine("Base refs are sent");
-            _lines.Add("Base refs are sent");
-
-            if (shouldTransferMeasurements)
-                await new MeasurementsFetcher(ft15Address, _logFile).TransferMeasurements(_graphModel, _c2DWcfManager);
-
-            await SendCommandsAttachTrace();
             _logFile.AppendLine("Migration is terminated");
             _lines.Add("Migration is terminated");
+        }
+
+        private void MigrateKadastr(string serverIp)
+        {
+            var km = new KadastrMigrator(serverIp, _graphModel, _lines);
+            km.DoMigrate();
         }
 
         private async Task TransferBaseRefs(string ft15Address)
@@ -76,7 +87,7 @@ namespace DbMigrationWpf
             _lines.Add($"{DateTime.Now}   {totalCmds} commands prepared. Sending...");
 
             var list = new List<object>();
-            var portion = 100; // no more than 100 please, max size of wcf operation could be exceeded, anyway check the log if are some errors
+            var portion = 50; // no more than 100 please, max size of wcf operation could be exceeded, anyway check the log if are some errors
             for (var i = 0; i < totalCmds; i++)
             {
                 list.Add(_graphModel.Commands[i]);

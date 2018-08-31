@@ -39,7 +39,7 @@ namespace DbMigrationWpf
         private string _ft15ServerAddress;
         public string Ft15ServerAddress
         {
-            get => _ft20ServerAddress;
+            get => _ft15ServerAddress;
             set
             {
                 if (value == _ft15ServerAddress) return;
@@ -154,8 +154,8 @@ namespace DbMigrationWpf
 
         public async void Migrate()
         {
-            var migrationManager = new MigrationManager(_logFile, _graphModel, _c2DWcfManager, ProgressLines);
-            await migrationManager.Migrate(ExportFileName, false, Ft15ServerAddress);
+            var migrationManager = new MigrationManager(_iniFile, _logFile, _graphModel, _c2DWcfManager, ProgressLines);
+            await migrationManager.Migrate(ExportFileName, Ft15ServerAddress);
             File.WriteAllLines(@"..\log\progress.txt", ProgressLines);
         }
 

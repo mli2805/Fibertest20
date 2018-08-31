@@ -88,23 +88,23 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="KadastrMigration\KadastrMigrator.cs" />
+    <Compile Include="KadastrMigration\Well20.cs" />
     <Compile Include="ScrollToBottomOnAddBehavior.cs" />
-    <Compile Include="Tools\FileStringParser.cs" />
-    <Compile Include="Tools\FileStringTraceParser.cs" />
-    <Compile Include="Tools\GraphFetcher.cs" />
-    <Compile Include="Tools\GraphModel.cs" />
+    <Compile Include="GraphMigration\FileStringParser.cs" />
+    <Compile Include="GraphMigration\FileStringTraceParser.cs" />
+    <Compile Include="GraphMigration\GraphFetcher.cs" />
+    <Compile Include="GraphModel.cs" />
     <Compile Include="IShell.cs" />
-    <Compile Include="Measurements\MeasurementRecord.cs" />
-    <Compile Include="Measurements\MeasurementsFetcher.cs" />
-    <Compile Include="Measurements\SorFetcher.cs" />
-    <Compile Include="Measurements\TraceBaseFetcher.cs" />
-    <Compile Include="Measurements\TraceBaseRecord.cs" />
+    <Compile Include="BaseRefMigration\SorFetcher.cs" />
+    <Compile Include="BaseRefMigration\TraceBaseFetcher.cs" />
+    <Compile Include="BaseRefMigration\TraceBaseRecord.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Tools\MigrationManager.cs" />
+    <Compile Include="MigrationManager.cs" />
     <Page Include="ShellView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -161,5 +161,6 @@
       <Name>Graph</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -56,10 +56,10 @@ namespace DbMigrationWpf
                 if (parts[i] == "")
                     continue;
                 var equipmentId = int.Parse(parts[i]);
-                var equipmetnGuid = equipmentId == -1 
+                var equipmentGuid = equipmentId == -1 
                     ? GetEmptyNodeEquipmentGuid(cmd)
                     : _graphModel.EquipmentsDictionary[equipmentId];
-                cmd.EquipmentIds.Add(equipmetnGuid);
+                cmd.EquipmentIds.Add(equipmentGuid);
             }
 
             var traceGuid = _graphModel.TracesDictionary[traceId];

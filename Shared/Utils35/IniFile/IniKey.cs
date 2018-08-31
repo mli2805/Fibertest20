@@ -44,6 +44,7 @@
         // Migrator
         OldFibertestServerIp,  
         ShouldTransferMeasurements,
+        Kadastr,
 
       
         // Charon
