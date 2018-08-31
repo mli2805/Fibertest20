@@ -28,36 +28,40 @@ namespace DbMigrationWpf
             _lines = lines;
         }
 
-        public async Task Migrate(string exportFileName, string ft15Address)
+        public async Task<int> Migrate(string exportFileName, string ft15Address, string ft20Address)
         {
-//            new GraphFetcher(_logFile, _graphModel, _lines).Fetch(exportFileName);
-//            _logFile.AppendLine("Graph is fetched");
-//            _lines.Add("Graph is fetched");
-//
-//            await SendCommandsExcludingAttachTrace();
-//            _logFile.AppendLine("Graph is sent");
-//            _lines.Add("Graph is sent");
-//
-//            await TransferBaseRefs(ft15Address);
-//            _logFile.AppendLine("Base refs are sent");
-//            _lines.Add("Base refs are sent");
-//
-//            await SendCommandsAttachTrace();
+            new GraphFetcher(_logFile, _graphModel, _lines).Fetch(exportFileName);
+            _logFile.AppendLine("Graph is fetched");
+            _lines.Add("Graph is fetched");
+
+            await SendCommandsExcludingAttachTrace();
+            _logFile.AppendLine("Graph is sent");
+            _lines.Add("Graph is sent");
+
+            await TransferBaseRefs(ft15Address);
+            _logFile.AppendLine("Base refs are sent");
+            _lines.Add("Base refs are sent");
+
+            await SendCommandsAttachTrace();
 
             var hasKadastr = _iniFile.Read(IniSection.Migrator, IniKey.Kadastr, false);
             if (hasKadastr)
-                MigrateKadastr(ft15Address);
+                await MigrateKadastr(ft15Address, ft20Address);
 
             _logFile.AppendLine("Migration is terminated");
             _lines.Add("Migration is terminated");
+            return 0;
         }
 
-        private void MigrateKadastr(string serverIp)
+        private async Task<int> MigrateKadastr(string ft15Address, string ft20Address)
         {
-            var km = new Kadastr15Fetcher(serverIp, _graphModel, _lines);
+            var km = new Kadastr15Fetcher(ft15Address, _graphModel, _lines);
             var model = km.Fetch();
-            if (model == null) return;
-
+            if (model == null) return -1;
+            var mysqlPort = _iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, 3306);
+            var kp = new Kadastr20Provider(ft20Address, mysqlPort, _lines);
+            kp.Init();
+            return await kp.Save(model);
         }
 
         private async Task TransferBaseRefs(string ft15Address)

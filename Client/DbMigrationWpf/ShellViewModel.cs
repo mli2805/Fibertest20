@@ -63,7 +63,6 @@ namespace DbMigrationWpf
         }
 
         private string _exportFileName;
-
         public string ExportFileName
         {
             get => _exportFileName;
@@ -155,7 +154,7 @@ namespace DbMigrationWpf
         public async void Migrate()
         {
             var migrationManager = new MigrationManager(_iniFile, _logFile, _graphModel, _c2DWcfManager, ProgressLines);
-            await migrationManager.Migrate(ExportFileName, Ft15ServerAddress);
+            await migrationManager.Migrate(ExportFileName, Ft15ServerAddress, Ft20ServerAddress);
             File.WriteAllLines(@"..\log\progress.txt", ProgressLines);
         }
 
