@@ -282,7 +282,22 @@ namespace Iit.Fibertest.DataCenterCore
                 if (baseRefDto.Id != Guid.Empty)
                 {
                     if (baseRefDto.BaseRefType == BaseRefType.Fast)
-                        _baseRefLandmarksTool.AugmentFastBaseRefSentByMigrator(dto.TraceId, baseRefDto);
+                    {
+                        try
+                        {
+                            _baseRefLandmarksTool.AugmentFastBaseRefSentByMigrator(dto.TraceId, baseRefDto);
+
+                        }
+                        catch (Exception e)
+                        {
+                            _logFile.AppendLine("AugmentFastBaseRefSentByMigrator: " + e.Message);
+                            return new BaseRefAssignedDto()
+                            {
+                                ReturnCode = ReturnCode.BaseRefAssignmentFailed, 
+                                ExceptionMessage = "AugmentFastBaseRefSentByMigrator " + e.Message,
+                            };
+                        }
+                    }
 
                     sorFileId = await _sorFileRepository.AddSorBytesAsync(baseRefDto.SorBytes);
                 }

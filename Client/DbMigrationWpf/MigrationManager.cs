@@ -77,6 +77,7 @@ namespace DbMigrationWpf
                 if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 {
                     _lines.Add($"Error!!! {addTraceCommand.Title}");
+                    _lines.Add(result.ExceptionMessage);
                 }
 
                 i++;

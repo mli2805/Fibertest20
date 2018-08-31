@@ -20,7 +20,7 @@ namespace Iit.Fibertest.DatabaseLibrary
 
         public void Init()
         {
-            var doubleAddress = _iniFile.ReadDoubleAddress((int) TcpPorts.ServerListenToClient);
+            var doubleAddress = _iniFile.ReadDoubleAddress((int) TcpPorts.ServerListenToRtu);
             if (doubleAddress.Main.IsAddressSetAsIp && doubleAddress.Main.Ip4Address == "0.0.0.0")
             {
                 var serverIp = LocalAddressResearcher.GetAllLocalAddresses().First();

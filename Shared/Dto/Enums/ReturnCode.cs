@@ -53,5 +53,7 @@
         SuperClientsCountExceeded = 9007,
         SuperClientsCountLicenseExpired = 9008,
         ClientRegisteredSuccessfully = 9011,
+
+        BaseRefAssignmentFailed = 9401,
     }
 }
