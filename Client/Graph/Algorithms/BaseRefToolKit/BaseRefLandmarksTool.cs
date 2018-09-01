@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Graph
 
             for (int i = 1; i < model.EquipArray.Length; i++)
             {
-                if (landmarks[i].RelatedEventNumber != 0) continue; // landmark is "tied" with keyEvent and we can't move it
+                if (landmarks[i].RelatedEventNumber != 0) continue; // landmark is associated with keyEvent and we can't move it
 
                 var ratio = GetRatioBaseRefToGraphAroundEmptyNode(sorData, model, i);
                 landmarks[i].Location = landmarks[i - 1].Location + sorData.GetOwtFromMm((int)(model.DistancesMm[i - 1] * ratio));
