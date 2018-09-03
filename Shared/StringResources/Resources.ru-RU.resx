@@ -2210,4 +2210,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_DataCenter_connected_successfully_" xml:space="preserve">
 		<value>Соединение с сервером установлено успешно!</value>
 	</data>
+	<data name="SID_First_and_last_landmarks_should_be_associated_with_key_events_" xml:space="preserve">
+		<value>Первый и последний ориентир должны быть привязаны к ключевым событиям.</value>
+	</data>
 </root>

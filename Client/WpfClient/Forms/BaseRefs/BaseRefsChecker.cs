@@ -59,6 +59,9 @@ namespace Iit.Fibertest.Client
                             otdrKnownBlocks, trace, baseRefDto.BaseRefType.GetLocalizedFemaleString());
                 if (comparisonResult == CountMatch.Error)
                         return false;
+ 
+                if (!AreFirstAndLastLandmarksAssociatedWithKeyEvents(otdrKnownBlocks, baseRefHeader))
+                    return false;
 
                 if (baseRefDto.BaseRefType == BaseRefType.Precise)
                     if (!IsDistanceLengthAcceptable(otdrKnownBlocks, trace))
@@ -78,6 +81,21 @@ namespace Iit.Fibertest.Client
             var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>() { errorHeader, "", "", message });
             _windowManager.ShowDialogWithAssignedOwner(vm);
             return null;
+        }
+
+        private bool AreFirstAndLastLandmarksAssociatedWithKeyEvents(OtdrDataKnownBlocks otdrDataKnownBlocks, string errorHeader)
+        {
+            var landmarks = otdrDataKnownBlocks.LinkParameters.LandmarkBlocks;
+            if (landmarks[0].RelatedEventNumber == 0 || landmarks[landmarks.Length - 1].RelatedEventNumber == 0)
+            {
+                var message = Resources.SID_First_and_last_landmarks_should_be_associated_with_key_events_;
+                var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>() { errorHeader, "", message }, 2);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+
+                return false;
+            }
+
+            return true;
         }
 
         private bool HasBaseThresholds(OtdrDataKnownBlocks otdrKnownBlocks, string errorHeader)

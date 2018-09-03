@@ -2503,6 +2503,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to First and last landmarks should be associated with key events..
+        /// </summary>
+        public static string SID_First_and_last_landmarks_should_be_associated_with_key_events_ {
+            get {
+                return ResourceManager.GetString("SID_First_and_last_landmarks_should_be_associated_with_key_events_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to from optical port .
         /// </summary>
         public static string SID_from_optical_port {
