@@ -19,7 +19,7 @@ mkdir Pack\RtuFiles\OtdrMeasEngine\Share
 
 xcopy ..\Uninstall\bin\Debug\*.* Pack\UninstallFiles\*.* /S/D/Y
 
-rem curl --user mli:zaq1@WSX http://192.168.96.8:8888/job/RFTSViewer/lastSuccessfulBuild/artifact/trunk/Source/RftsReflect.zip --output Pack\RftsReflect.zip
+rem curl --user mli:iNansIM6Y8Uq http://192.168.96.8:8888/job/RFTSViewer/lastSuccessfulBuild/artifact/trunk/Source/RftsReflect.zip --output Pack\RftsReflect.zip
 rem cd Pack\
 rem ..\7z.exe x RftsReflect.zip 
 rem del RftsReflect.zip
@@ -27,3 +27,12 @@ rem cd ..\
 
 "C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackSetup.conf" FtDebug_2.0.1.%1.exe Pack\*.*
 pause
+
+xcopy ..\Client\LicenseMaker\bin\Debug\*.* PackAdmin\LicenseMaker\bin\*.* /S/D/Y
+xcopy ..\Client\DbMigrationWpf\bin\Debug\*.* PackAdmin\DbMigrationWpf\bin\*.* /S/D/Y
+xcopy ..\Client\KadastrLoader\bin\Debug\*.* PackAdmin\KadastrLoader\bin\*.* /S/D/Y
+cd PackAdmin\
+"C:\Program Files\WinRAR\winrar.exe" a -r ..\FtAdminDebug_2.0.1.%1.rar *.*
+cd ..\
+pause
+

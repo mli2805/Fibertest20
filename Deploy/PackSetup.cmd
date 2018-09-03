@@ -3,6 +3,8 @@ cd Deploy\
 
 rmdir /S/Q Pack\
 del Ft*.exe
+rmdir /S/Q PackAdmin\
+del FtAdmin*.exe
 
 xcopy ..\Setup\bin\Release\*.* Pack\bin\*.* /S/D/Y
 xcopy ..\Setup\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
@@ -27,3 +29,9 @@ cd ..\
 
 "C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackSetup.conf" Ft_%1.exe Pack\*.*
 
+xcopy ..\Client\LicenseMaker\bin\Release\*.* PackAdmin\LicenseMaker\bin\*.* /S/D/Y
+xcopy ..\Client\DbMigrationWpf\bin\Release\*.* PackAdmin\DbMigrationWpf\bin\*.* /S/D/Y
+xcopy ..\Client\KadastrLoader\bin\Release\*.* PackAdmin\KadastrLoader\bin\*.* /S/D/Y
+cd PackAdmin\
+"C:\Program Files\WinRAR\winrar.exe" a -r ..\FtAdmin_%1.rar *.*
+cd ..\
