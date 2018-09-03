@@ -4,7 +4,7 @@ cd Deploy\
 rmdir /S/Q Pack\
 del Ft*.exe
 rmdir /S/Q PackAdmin\
-del FtAdmin*.exe
+del FtAdmin*.rar
 
 xcopy ..\Setup\bin\Release\*.* Pack\bin\*.* /S/D/Y
 xcopy ..\Setup\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
