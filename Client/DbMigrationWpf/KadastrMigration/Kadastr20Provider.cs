@@ -34,6 +34,7 @@ namespace DbMigrationWpf
         {
             using (var dbContext = new KadastrDbContext(Options))
             {
+                dbContext.Database.EnsureDeleted();
                 dbContext.Database.EnsureCreated();
             }
         }

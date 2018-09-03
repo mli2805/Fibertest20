@@ -17,6 +17,7 @@ namespace DbMigrationWpf
         public void ParseTrace(string[] parts)
         {
             var traceId = int.Parse(parts[1]);
+          
             var traceGuid = Guid.NewGuid();
             _graphModel.TracesDictionary.Add(traceId, traceGuid);
 
@@ -24,12 +25,46 @@ namespace DbMigrationWpf
                 new AddTrace()
                 {
                     TraceId = traceGuid,
-                    Title = parts[3],
-                    Comment = parts[4],
+                    Title = parts[4],
+                    Comment = parts[5],
                 });
 
-            var port = int.Parse(parts[2]);
-            _graphModel.TracePorts.Add(traceGuid, port);
+            var otauPortDto = GetOtauPort(int.Parse(parts[2]), int.Parse(parts[3]));
+            _graphModel.TraceEventsUnderConstruction.Add(
+                new AttachTrace()
+                {
+                    TraceId = traceGuid,
+                    OtauPortDto = otauPortDto,
+                    PreviousTraceState = FiberState.Unknown,
+                    AccidentsInLastMeasurement = null,
+                });
+        }
+
+        private OtauPortDto GetOtauPort(int rtuId, int oldPortNumber)
+        {
+            var rtuNode = _graphModel.NodesDictionary[rtuId];
+            var rtuGuid = _graphModel.NodeToRtuDictionary[rtuNode];
+            var rtuCommand = _graphModel.RtuCommands.First(c => c.Id == rtuGuid);
+
+            var otauPort = new OtauPortDto();
+            if (oldPortNumber <= rtuCommand.FullPortCount)
+            {
+                otauPort.OtauIp = rtuCommand.OtauNetAddress.Ip4Address;
+                otauPort.OtauTcpPort = rtuCommand.OtauNetAddress.Port;
+                otauPort.IsPortOnMainCharon = true;
+                otauPort.OpticalPort = oldPortNumber;
+            }
+            else
+            {
+                var charon15 = _graphModel.Charon15S.First(c =>
+                    c.RtuId == rtuId && oldPortNumber >= c.FirstPortNumber && oldPortNumber < c.FirstPortNumber + c.PortCount);
+                otauPort.OtauIp = charon15.OtauAddress.Ip4Address;
+                otauPort.OtauTcpPort = charon15.OtauAddress.Port;
+                otauPort.IsPortOnMainCharon = false;
+                otauPort.OpticalPort = oldPortNumber - charon15.FirstPortNumber + 1;
+            }
+
+            return otauPort;
         }
 
         public void ParseTraceNodes(string[] parts)
@@ -60,28 +95,6 @@ namespace DbMigrationWpf
                     ? GetEmptyNodeEquipmentGuid(cmd)
                     : _graphModel.EquipmentsDictionary[equipmentId];
                 cmd.EquipmentIds.Add(equipmentGuid);
-            }
-
-            var traceGuid = _graphModel.TracesDictionary[traceId];
-            var port = _graphModel.TracePorts[traceGuid];
-            if (port != -1)
-            {
-                var rtu = _graphModel.RtuCommands.First(c => c.Id == rtuGuid);
-
-                _graphModel.TraceEventsUnderConstruction.Add(
-                    new AttachTrace()
-                    {
-                        TraceId = traceGuid,
-                        OtauPortDto = new OtauPortDto()
-                        {
-                            OtauIp = rtu.OtauNetAddress.Ip4Address,
-                            OtauTcpPort = rtu.OtauNetAddress.Port,
-                            OpticalPort = port,
-                            IsPortOnMainCharon = true
-                        },
-                        PreviousTraceState = FiberState.Unknown,
-                        AccidentsInLastMeasurement = null,
-                    });
             }
         }
 
