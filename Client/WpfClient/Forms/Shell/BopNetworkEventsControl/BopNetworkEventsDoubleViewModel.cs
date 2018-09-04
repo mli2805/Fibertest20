@@ -9,11 +9,12 @@ namespace Iit.Fibertest.Client
     {
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
+        private readonly SystemState _systemState;
 
         public BopNetworkEventsViewModel ActualBopNetworkEventsViewModel { get; set; }
         public BopNetworkEventsViewModel AllBopNetworkEventsViewModel { get; set; }
 
-        public BopNetworkEventsDoubleViewModel(Model readModel, CurrentUser currentUser,
+        public BopNetworkEventsDoubleViewModel(Model readModel, CurrentUser currentUser, SystemState systemState,
             BopNetworkEventsViewModel actualBopNetworkEventsViewModel, BopNetworkEventsViewModel allBopNetworkEventsViewModel)
         {
             ActualBopNetworkEventsViewModel = actualBopNetworkEventsViewModel;
@@ -22,15 +23,18 @@ namespace Iit.Fibertest.Client
             AllBopNetworkEventsViewModel.TableTitle = @"All Bop network events";
             _readModel = readModel;
             _currentUser = currentUser;
+            _systemState = systemState;
         }
 
         public void Apply(object e)
         {
             switch (e)
             {
-                case BopNetworkEventAdded evnt: AddBopNetworkEvent(evnt); return;
-                case OtauDetached evnt: DetachOtau(evnt); return;
+                case BopNetworkEventAdded evnt: AddBopNetworkEvent(evnt); break;
+                case OtauDetached evnt: DetachOtau(evnt); break;
             }
+
+            _systemState.HasActualBopNetworkProblems = ActualBopNetworkEventsViewModel.Rows.Any();
         }
 
         private void AddBopNetworkEvent(BopNetworkEventAdded evnt)

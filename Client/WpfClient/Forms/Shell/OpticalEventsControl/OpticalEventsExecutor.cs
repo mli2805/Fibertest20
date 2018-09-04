@@ -1,15 +1,23 @@
+using System;
+using System.Linq;
+using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
     public class OpticalEventsExecutor
     {
+        private readonly IMyLog _logFile;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
+        private readonly SystemState _systemState;
 
-        public OpticalEventsExecutor(OpticalEventsDoubleViewModel opticalEventsDoubleViewModel)
+        public OpticalEventsExecutor(IMyLog logFile, OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, SystemState systemState)
         {
+            _logFile = logFile;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
+            _systemState = systemState;
         }
 
         public void Apply(object e)
@@ -37,13 +45,72 @@ namespace Iit.Fibertest.Client
                 case ResponsibilitiesChanged evnt: _opticalEventsDoubleViewModel.ChangeResponsibilities(evnt); break;
             }
 
-            SendSuperClientServerState();
+            try
+            {
+                _systemState.HasActualOpticalProblems =
+                    _opticalEventsDoubleViewModel.ActualOpticalEventsViewModel.Rows.Any();
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception);
+                _logFile.AppendLine(exception.Message);
+            }
+         
         }
+    }
 
-        private void SendSuperClientServerState()
+    public class SystemState : PropertyChangedBase
+    {
+        private bool _hasActualOpticalProblems;
+        private bool _hasActualNetworkProblems;
+        private bool _hasActualBopNetworkProblems;
+        private bool _hasAnyActualProblem;
+
+        public bool HasActualOpticalProblems
         {
-
+            get => _hasActualOpticalProblems;
+            set
+            {
+                if (value == _hasActualOpticalProblems) return;
+                _hasActualOpticalProblems = value;
+                HasAnyActualProblem = _hasActualOpticalProblems || _hasActualNetworkProblems ||
+                                      _hasActualBopNetworkProblems;
+            }
         }
 
+        public bool HasActualNetworkProblems
+        {
+            get => _hasActualNetworkProblems;
+            set
+            {
+                if (value == _hasActualNetworkProblems) return;
+                _hasActualNetworkProblems = value;
+                HasAnyActualProblem = _hasActualOpticalProblems || _hasActualNetworkProblems ||
+                                      _hasActualBopNetworkProblems;
+            }
+        }
+
+        public bool HasActualBopNetworkProblems
+        {
+            get => _hasActualBopNetworkProblems;
+            set
+            {
+                if (value == _hasActualBopNetworkProblems) return;
+                _hasActualBopNetworkProblems = value;
+                HasAnyActualProblem = _hasActualOpticalProblems || _hasActualNetworkProblems ||
+                                      _hasActualBopNetworkProblems;
+            }
+        }
+
+        public bool HasAnyActualProblem
+        {
+            get => _hasAnyActualProblem;
+            set
+            {
+                if (value == _hasAnyActualProblem) return;
+                _hasAnyActualProblem = value;
+                NotifyOfPropertyChange();
+            }
+        }
     }
 }

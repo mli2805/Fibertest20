@@ -27,6 +27,7 @@ namespace Iit.Fibertest.Client
             if (_currentUser.ZoneId != Guid.Empty &&
                 !_readModel.Traces.First(t => t.TraceId == evnt.TraceId).ZoneIds.Contains(_currentUser.ZoneId)) return;
 
+            // !!!!!! check whether trace is visible or not
             _model.ChangeTraceColor(evnt.TraceId, evnt.TraceState);
 
             _model.CleanAccidentPlacesOnTrace(evnt.TraceId); // accidents on trace could change, so old should be cleaned and new drawn

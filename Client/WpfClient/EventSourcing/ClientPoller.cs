@@ -24,6 +24,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly ServerConnectionLostViewModel _serverConnectionLostViewModel;
         private readonly IWcfServiceInSuperClient _c2SWcfManager;
+        private readonly SystemState _systemState;
         private readonly CommandLineParameters _commandLineParameters;
         private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
@@ -60,7 +61,8 @@ namespace Iit.Fibertest.Client
         }
 
         public ClientPoller(IWcfServiceForClient wcfConnection, IDispatcherProvider dispatcherProvider, IWindowManager windowManager, 
-            ServerConnectionLostViewModel serverConnectionLostViewModel, IWcfServiceInSuperClient c2SWcfManager, 
+            ServerConnectionLostViewModel serverConnectionLostViewModel, 
+            IWcfServiceInSuperClient c2SWcfManager, SystemState systemState,
             CommandLineParameters commandLineParameters, CurrentDatacenterParameters currentDatacenterParameters, 
 
             EventsOnGraphExecutor eventsOnGraphExecutor, EventsOnModelExecutor eventsOnModelExecutor, 
@@ -77,6 +79,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _serverConnectionLostViewModel = serverConnectionLostViewModel;
             _c2SWcfManager = c2SWcfManager;
+            _systemState = systemState;
             _commandLineParameters = commandLineParameters;
             _eventsOnModelExecutor = eventsOnModelExecutor;
             _eventsOnGraphExecutor = eventsOnGraphExecutor;
@@ -107,11 +110,19 @@ namespace Iit.Fibertest.Client
 
         private async void DoPolling()
         {
+            if (_commandLineParameters.IsUnderSuperClientStart)
+                _systemState.PropertyChanged += _systemState_PropertyChanged;
             while (!CancellationToken.IsCancellationRequested)
             {
                 await EventSourcingTick();
                 Thread.Sleep(TimeSpan.FromMilliseconds(_pollingRate));
             }
+        }
+
+        private void _systemState_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            _logFile.AppendLine(@"Notify super-client system state changed.");
+            _c2SWcfManager.SetSystemState(_commandLineParameters.ClientOrdinal, !_systemState.HasAnyActualProblem);
         }
 
         public async Task<int> EventSourcingTick()

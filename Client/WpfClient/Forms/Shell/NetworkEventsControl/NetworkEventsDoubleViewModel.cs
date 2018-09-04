@@ -13,11 +13,12 @@ namespace Iit.Fibertest.Client
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
+        private readonly SystemState _systemState;
 
         public NetworkEventsViewModel ActualNetworkEventsViewModel { get; set; }
         public NetworkEventsViewModel AllNetworkEventsViewModel { get; set; }
 
-        public NetworkEventsDoubleViewModel(Model readModel, CurrentUser currentUser,
+        public NetworkEventsDoubleViewModel(Model readModel, CurrentUser currentUser, SystemState systemState,
             NetworkEventsViewModel actualNetworkEventsViewModel, NetworkEventsViewModel allNetworkEventsViewModel)
         {
             ActualNetworkEventsViewModel = actualNetworkEventsViewModel;
@@ -26,18 +27,21 @@ namespace Iit.Fibertest.Client
             AllNetworkEventsViewModel.TableTitle = Resources.SID_All_network_events;
             _readModel = readModel;
             _currentUser = currentUser;
+            _systemState = systemState;
         }
 
         public void Apply(object evnt)
         {
             switch (evnt)
             {
-                case NetworkEventAdded e: RtuAvailabilityChanged(e); return;
-                case RtuUpdated e: RtuUpdated(e.RtuId); return;
-                case RtuRemoved e: RtuRemoved(e.RtuId); return;
-                case ResponsibilitiesChanged e: ChangeResponsibilities(e); return;
+                case NetworkEventAdded e: RtuAvailabilityChanged(e); break;
+                case RtuUpdated e: RtuUpdated(e.RtuId); break;
+                case RtuRemoved e: RtuRemoved(e.RtuId); break;
+                case ResponsibilitiesChanged e: ChangeResponsibilities(e); break;
                 default: return;
             }
+
+            _systemState.HasActualNetworkProblems = ActualNetworkEventsViewModel.Rows.Any();
         }
 
         private void RtuAvailabilityChanged(NetworkEventAdded networkEventAdded)
