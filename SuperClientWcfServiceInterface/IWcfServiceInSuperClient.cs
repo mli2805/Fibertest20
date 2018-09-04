@@ -8,7 +8,10 @@ namespace Iit.Fibertest.SuperClientWcfServiceInterface
     {
         [OperationContract]
         Task<int> ClientLoadingResult(int postfix, bool isLoadedOk, bool isStateOk);
-        
+
+        [OperationContract]
+        Task<int> NotifyConnectionBroken(int postfix);
+
         [OperationContract]
         Task<int> ClientClosed(int postfix);
 

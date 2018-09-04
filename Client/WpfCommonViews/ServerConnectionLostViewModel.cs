@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 
 namespace Iit.Fibertest.WpfCommonViews
 {
@@ -7,7 +6,19 @@ namespace Iit.Fibertest.WpfCommonViews
     {
         private readonly SoundManager _soundManager;
         public string ServerLine { get; set; }
-      
+
+        private bool _isOpen;
+        public bool IsOpen
+        {
+            get => _isOpen;
+            set
+            {
+                if (value == _isOpen) return;
+                _isOpen = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public ServerConnectionLostViewModel(SoundManager soundManager)
         {
             _soundManager = soundManager;
@@ -16,6 +27,7 @@ namespace Iit.Fibertest.WpfCommonViews
         public void Initialize(string serverTitle, string serverIp)
         {
             ServerLine = $@"{serverTitle} ({serverIp})";
+            IsOpen = true;
         }
 
         protected override void OnViewLoaded(object view)
@@ -31,7 +43,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public void CloseApplication()
         {
-            Application.Current.Shutdown();
+            IsOpen = false;
         }
     }
 }

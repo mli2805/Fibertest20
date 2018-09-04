@@ -37,6 +37,26 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<int> NotifyConnectionBroken(int postfix)
+        {
+            var wcfConnection = _wcfFactory.GetC2SChannelFactory();
+            if (wcfConnection == null)
+                return -1;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.NotifyConnectionBroken(postfix);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return -1;
+            }
+        }
+
         public async Task<int> ClientClosed(int postfix)
         {
             var wcfConnection = _wcfFactory.GetC2SChannelFactory();

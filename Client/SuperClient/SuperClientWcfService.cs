@@ -26,6 +26,12 @@ namespace Iit.Fibertest.SuperClient
             return Task.FromResult(0);
         }
 
+        public Task<int> NotifyConnectionBroken(int postfix)
+        {
+            _serversViewModel.CleanBrokenConnection(postfix);
+            return Task.FromResult(0);
+        }
+
         public Task<int> ClientClosed(int postfix)
         {
             _serversViewModel.SetServerIsClosed(postfix);

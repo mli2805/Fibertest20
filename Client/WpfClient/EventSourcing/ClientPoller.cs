@@ -1,9 +1,12 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.SuperClientWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
@@ -20,6 +23,8 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _wcfConnection;
         private readonly IWindowManager _windowManager;
         private readonly ServerConnectionLostViewModel _serverConnectionLostViewModel;
+        private readonly IWcfServiceInSuperClient _c2SWcfManager;
+        private readonly CommandLineParameters _commandLineParameters;
         private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly EventsOnModelExecutor _eventsOnModelExecutor;
@@ -55,7 +60,8 @@ namespace Iit.Fibertest.Client
         }
 
         public ClientPoller(IWcfServiceForClient wcfConnection, IDispatcherProvider dispatcherProvider, IWindowManager windowManager, 
-            ServerConnectionLostViewModel serverConnectionLostViewModel, CurrentDatacenterParameters currentDatacenterParameters, 
+            ServerConnectionLostViewModel serverConnectionLostViewModel, IWcfServiceInSuperClient c2SWcfManager, 
+            CommandLineParameters commandLineParameters, CurrentDatacenterParameters currentDatacenterParameters, 
 
             EventsOnGraphExecutor eventsOnGraphExecutor, EventsOnModelExecutor eventsOnModelExecutor, 
             EventsOnTreeExecutor eventsOnTreeExecutor, OpticalEventsExecutor opticalEventsExecutor,
@@ -70,6 +76,8 @@ namespace Iit.Fibertest.Client
             _wcfConnection = wcfConnection;
             _windowManager = windowManager;
             _serverConnectionLostViewModel = serverConnectionLostViewModel;
+            _c2SWcfManager = c2SWcfManager;
+            _commandLineParameters = commandLineParameters;
             _eventsOnModelExecutor = eventsOnModelExecutor;
             _eventsOnGraphExecutor = eventsOnGraphExecutor;
             _currentDatacenterParameters = currentDatacenterParameters;
@@ -132,7 +140,18 @@ namespace Iit.Fibertest.Client
         private void NotifyUserConnectionProblems()
         {
             _serverConnectionLostViewModel.Initialize(_currentDatacenterParameters.ServerTitle, _currentDatacenterParameters.ServerIp);
+            _serverConnectionLostViewModel.PropertyChanged += OnServerConnectionLostViewModelOnPropertyChanged;
             _windowManager.ShowDialogWithAssignedOwner(_serverConnectionLostViewModel);
+        }
+
+        private void OnServerConnectionLostViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsOpen")
+            {
+                if (_commandLineParameters.IsUnderSuperClientStart)
+                    _c2SWcfManager.NotifyConnectionBroken(_commandLineParameters.ClientOrdinal);
+                Application.Current.Shutdown();
+            }
         }
 
         private void ApplyEventSourcingEvents(string[] events)

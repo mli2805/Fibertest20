@@ -75,6 +75,16 @@ namespace Iit.Fibertest.SuperClient
             server.SystemState = isStateOk ? FtSystemState.Ok : FtSystemState.Failed;
         }
 
+        public void CleanBrokenConnection(int postfix)
+        {
+            var server = FtServerList.Servers.FirstOrDefault(s => s.Entity.Postfix == postfix);
+            if (server == null) return;
+
+            server.ServerConnectionState = FtServerConnectionState.Breakdown;
+            server.SystemState = FtSystemState.Unknown;
+            _childStarter.CleanAfterClosing(server.Entity);
+        }
+
         public async void CloseSelectedClient()
         {
             await CloseClient(SelectedFtServer);
@@ -92,6 +102,7 @@ namespace Iit.Fibertest.SuperClient
             await _d2CWcfManager.AskClientToExit();
             _childStarter.CleanAfterClosing(ftServer.Entity);
             ftServer.ServerConnectionState = FtServerConnectionState.Disconnected;
+            ftServer.SystemState = FtSystemState.Unknown;
         }
 
         public async void CloseAllClients()
