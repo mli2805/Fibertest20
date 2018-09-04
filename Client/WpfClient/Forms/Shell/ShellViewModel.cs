@@ -125,8 +125,8 @@ namespace Iit.Fibertest.Client
 
                 await GetAlreadyStoredInCacheAndOnServerData();
                 StartRegularCommunicationWithServer();
-                if (int.TryParse(postfix, out int number))
-                    await Task.Factory.StartNew(() => NotifySuperClientImReady(number));
+                if (_commandLineParameters.IsUnderSuperClientStart)
+                    await Task.Factory.StartNew(() => NotifySuperClientImReady(_commandLineParameters.ClientOrdinal));
                 IsEnabled = true;
                 TreeOfRtuViewModel.CollapseAll();
                 const string separator = @"    >>    ";
@@ -137,7 +137,11 @@ namespace Iit.Fibertest.Client
                 TabulatorViewModel.SelectedTabIndex = 0; // the same value should be in TabulatorViewModel c-tor !!!
             }
             else
+            {
+                if (_commandLineParameters.IsUnderSuperClientStart)
+                    await Task.Factory.StartNew(() => NotifySuperclientLoadingFailed(_commandLineParameters.ClientOrdinal));
                 TryClose();
+            }
         }
 
         private async Task NotifySuperClientImReady(int postfix)
@@ -147,7 +151,12 @@ namespace Iit.Fibertest.Client
             var isStateOk = !OpticalEventsDoubleViewModel.ActualOpticalEventsViewModel.Rows.Any() &&
                             !NetworkEventsDoubleViewModel.ActualNetworkEventsViewModel.Rows.Any() &&
                             !BopNetworkEventsDoubleViewModel.ActualBopNetworkEventsViewModel.Rows.Any();
-            await _c2SWcfManager.ClientLoaded(postfix, isStateOk);
+            await _c2SWcfManager.ClientLoadingResult(postfix, true, isStateOk);
+        }
+
+        private async Task NotifySuperclientLoadingFailed(int postfix)
+        {
+            await _c2SWcfManager.ClientLoadingResult(postfix, false, false);
         }
 
         public async Task GetAlreadyStoredInCacheAndOnServerData()

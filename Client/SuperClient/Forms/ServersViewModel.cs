@@ -5,6 +5,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.SuperClient
 {
@@ -53,14 +54,25 @@ namespace Iit.Fibertest.SuperClient
             _childStarter.StartFtClient(SelectedFtServer.Entity);
         }
 
-        public void SetServerIsReady(int postfix, bool isStateOk)
+        public void SetConnectionResult(int postfix, bool isLoadedOk, bool isStateOk)
         {
             var server = FtServerList.Servers.FirstOrDefault(s => s.Entity.Postfix == postfix);
-            if (server != null)
+            if (server == null) return;
+
+            if (!isLoadedOk)
             {
-                server.ServerConnectionState = FtServerConnectionState.Connected;
-                server.ServerState = isStateOk ? FtServerState.Ok : FtServerState.Failed;
-            }
+                server.ServerConnectionState = FtServerConnectionState.Breakdown;
+                var strs = new List<string>()
+                {
+                    "Failed to establish connection.",
+                    $"{server.ServerName}",
+                };
+                var vm = new MyMessageBoxViewModel(MessageType.Error, strs, 2);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return;
+            } 
+            server.ServerConnectionState = FtServerConnectionState.Connected;
+            server.SystemState = isStateOk ? FtSystemState.Ok : FtSystemState.Failed;
         }
 
         public async void CloseSelectedClient()
@@ -97,11 +109,11 @@ namespace Iit.Fibertest.SuperClient
                 server.ServerConnectionState = FtServerConnectionState.Disconnected;
         }
 
-        public void SetServerState(int postfix, bool isStateOk)
+        public void SetSystemState(int postfix, bool isStateOk)
         {
             var server = FtServerList.Servers.FirstOrDefault(s => s.Entity.Postfix == postfix);
             if (server != null)
-                server.ServerState = isStateOk ? FtServerState.Ok : FtServerState.Failed;
+                server.SystemState = isStateOk ? FtSystemState.Ok : FtSystemState.Failed;
         }
 
         public void AddServer()

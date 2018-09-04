@@ -1630,6 +1630,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Connection state.
+        /// </summary>
+        public static string SID_Connection_state {
+            get {
+                return ResourceManager.GetString("SID_Connection_state", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {{Lat={0:#0.000000}, Lng={1:#0.000000}}}.
         /// </summary>
         public static string SID_coor_in_degrees {
@@ -5453,6 +5462,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_System_events {
             get {
                 return ResourceManager.GetString("SID_System_events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to System state.
+        /// </summary>
+        public static string SID_System_state {
+            get {
+                return ResourceManager.GetString("SID_System_state", resourceCulture);
             }
         }
         

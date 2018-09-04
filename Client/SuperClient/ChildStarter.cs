@@ -36,6 +36,11 @@ namespace Iit.Fibertest.SuperClient
                 _gasketViewModel.PutProcessOnPanel(_processes[postfix], postfix);
         }
 
+        public void CleanOnLoadingFailed(int postfix)
+        {
+            _processes.Remove(postfix);
+        }
+
         public void CleanAfterClosing(FtServerEntity ftServerEntity)
         {
             _processes.Remove(ftServerEntity.Postfix);

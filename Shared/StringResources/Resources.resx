@@ -2213,4 +2213,10 @@ RTU is initializing right now!</value>
 	<data name="SID_First_and_last_landmarks_should_be_associated_with_key_events_" xml:space="preserve">
     <value>First and last landmarks should be associated with key events.</value>
   </data>
+	<data name="SID_System_state" xml:space="preserve">
+    <value>System state</value>
+  </data>
+	<data name="SID_Connection_state" xml:space="preserve">
+    <value>Connection state</value>
+  </data>
 </root>

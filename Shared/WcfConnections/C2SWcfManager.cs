@@ -17,7 +17,7 @@ namespace Iit.Fibertest.WcfConnections
             _wcfFactory = new WcfFactory(new DoubleAddress(){Main = new NetAddress("localhost", 11839)}, iniFile, _logFile);
         }
 
-        public async Task<int> ClientLoaded(int postfix, bool isStateOk)
+        public async Task<int> ClientLoadingResult(int postfix, bool isLoadedOk, bool isStateOk)
         {
             var wcfConnection = _wcfFactory.GetC2SChannelFactory();
             if (wcfConnection == null)
@@ -26,7 +26,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.ClientLoaded(postfix, isStateOk);
+                var result = await channel.ClientLoadingResult(postfix, isLoadedOk, isStateOk);
                 wcfConnection.Close();
                 return result;
             }
@@ -57,7 +57,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<int> ClientStateChanged(int postfix)
+        public async Task<int> SetSystemState(int postfix, bool isStateOk)
         {
             var wcfConnection = _wcfFactory.GetC2SChannelFactory();
             if (wcfConnection == null)
@@ -66,7 +66,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.ClientStateChanged(postfix);
+                var result = await channel.SetSystemState(postfix, isStateOk);
                 wcfConnection.Close();
                 return result;
             }

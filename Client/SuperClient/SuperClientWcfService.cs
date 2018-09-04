@@ -16,10 +16,13 @@ namespace Iit.Fibertest.SuperClient
             _serversViewModel = serversViewModel;
         }
 
-        public Task<int> ClientLoaded(int postfix, bool isStateOk)
+        public Task<int> ClientLoadingResult(int postfix, bool isLoadedOk, bool isStateOk)
         {
-            _childStarter.PlaceFtClientOnPanel(postfix);
-            _serversViewModel.SetServerIsReady(postfix, isStateOk);
+            if (isLoadedOk) 
+                _childStarter.PlaceFtClientOnPanel(postfix);
+            else
+                _childStarter.CleanOnLoadingFailed(postfix);
+            _serversViewModel.SetConnectionResult(postfix, isLoadedOk, isStateOk);
             return Task.FromResult(0);
         }
 
@@ -29,9 +32,11 @@ namespace Iit.Fibertest.SuperClient
             return Task.FromResult(0);
         }
 
-        public Task<int> ClientStateChanged(int postfix)
+        public Task<int> SetSystemState(int postfix, bool isStateOk)
         {
-            throw new System.NotImplementedException();
+            _childStarter.PlaceFtClientOnPanel(postfix);
+            _serversViewModel.SetSystemState(postfix, isStateOk);
+            return Task.FromResult(0);
         }
     }
 }

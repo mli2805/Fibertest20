@@ -1,6 +1,6 @@
 ﻿namespace Iit.Fibertest.SuperClient
 {
-    public enum FtServerState
+    public enum FtSystemState
     {
         Unknown,
         Ok,

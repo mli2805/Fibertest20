@@ -7,12 +7,12 @@ namespace Iit.Fibertest.SuperClientWcfServiceInterface
     public interface IWcfServiceInSuperClient
     {
         [OperationContract]
-        Task<int> ClientLoaded(int postfix, bool isStateOk);
+        Task<int> ClientLoadingResult(int postfix, bool isLoadedOk, bool isStateOk);
         
         [OperationContract]
         Task<int> ClientClosed(int postfix);
 
         [OperationContract]
-        Task<int> ClientStateChanged(int postfix);
+        Task<int> SetSystemState(int postfix, bool isStateOk);
     }
 }

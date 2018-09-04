@@ -23,17 +23,17 @@ namespace Iit.Fibertest.SuperClient
             }
         }
 
-        private FtServerState _serverState;
+        private FtSystemState _systemState;
 
-        public FtServerState ServerState
+        public FtSystemState SystemState
         {
-            get => _serverState;
+            get => _systemState;
             set
             {
-                if (value == _serverState) return;
-                _serverState = value;
+                if (value == _systemState) return;
+                _systemState = value;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(ServerStatePictogram));
+                NotifyOfPropertyChange(nameof(SystemStatePictogram));
             }
         }
 
@@ -42,7 +42,7 @@ namespace Iit.Fibertest.SuperClient
 
 
         public string ConnectionStatePictogram => GetPathToConnectionPictogram(ServerConnectionState);
-        public string ServerStatePictogram => GetPathToStatePictogram(ServerState);
+        public string SystemStatePictogram => GetPathToSystemStatePictogram(SystemState);
 
         private string GetPathToConnectionPictogram(FtServerConnectionState state)
         {
@@ -59,15 +59,15 @@ namespace Iit.Fibertest.SuperClient
             }
         }
 
-        private string GetPathToStatePictogram(FtServerState state)
+        private string GetPathToSystemStatePictogram(FtSystemState state)
         {
             switch (state)
             {
-                case FtServerState.Unknown:
+                case FtSystemState.Unknown:
                     return @"pack://application:,,,/Resources/EmptySquare.png";
-                case FtServerState.Ok:
+                case FtSystemState.Ok:
                     return @"pack://application:,,,/Resources/GreenSquare.png";
-                case FtServerState.Failed:
+                case FtSystemState.Failed:
                     return @"pack://application:,,,/Resources/RedSquare.png";
                 default:
                     return @"pack://application:,,,/Resources/EmptySquare.png";
