@@ -97,6 +97,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Domain\FtServerConnectionState.cs" />
+    <Compile Include="Domain\FtServerEntity.cs" />
+    <Compile Include="Domain\FtServerState.cs" />
     <Compile Include="Forms\AddServerView.xaml.cs">
       <DependentUpon>AddServerView.xaml</DependentUpon>
     </Compile>
@@ -108,8 +111,8 @@
       <DependentUpon>ServersView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\ServersViewModel.cs" />
-    <Compile Include="FtServer.cs" />
-    <Compile Include="FtServerList.cs" />
+    <Compile Include="Domain\FtServer.cs" />
+    <Compile Include="Domain\FtServerList.cs" />
     <Compile Include="Forms\GasketView.xaml.cs">
       <DependentUpon>GasketView.xaml</DependentUpon>
     </Compile>

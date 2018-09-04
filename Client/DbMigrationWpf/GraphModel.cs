@@ -22,9 +22,7 @@ namespace DbMigrationWpf
         public readonly Dictionary<int, Guid> TracesDictionary = new Dictionary<int, Guid>();
 
         public readonly List<InitializeRtu> RtuCommands = new List<InitializeRtu>();
-        public readonly Dictionary<Guid, int> CharonsFirstPortNumber = new Dictionary<Guid, int>();
         public readonly List<Charon15> Charon15S = new List<Charon15>();
-        public readonly Dictionary<Guid, OtauPortDto> TraceOtauPorts = new Dictionary<Guid, OtauPortDto>();
         public readonly Dictionary<Guid, Guid> EmptyNodes = new Dictionary<Guid, Guid>(); // nodeGuid ; emptyNodeEquipmentGuid
         public readonly List<object> TraceEventsUnderConstruction = new List<object>();
 

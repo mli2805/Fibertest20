@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -98,7 +99,8 @@ namespace Iit.Fibertest.Client
 
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-            var postfix = _iniFile.Read(IniSection.Client, IniKey.ClientOrdinal, "");
+         //   var postfix = _iniFile.Read(IniSection.Client, IniKey.ClientOrdinal, "");
+            var postfix = _commandLineParameters.IsUnderSuperClientStart ? _commandLineParameters.ClientOrdinal.ToString() : "";
             _logFile.AssignFile($@"client{postfix}.log");
             _logFile.AppendLine(@"Client application started!");
 
@@ -142,7 +144,10 @@ namespace Iit.Fibertest.Client
         {
             _logFile.AppendLine(@"Notify superclient I'm ready");
             Thread.Sleep(TimeSpan.FromSeconds(1));
-            await _c2SWcfManager.ClientLoaded(postfix);
+            var isStateOk = !OpticalEventsDoubleViewModel.ActualOpticalEventsViewModel.Rows.Any() &&
+                            !NetworkEventsDoubleViewModel.ActualNetworkEventsViewModel.Rows.Any() &&
+                            !BopNetworkEventsDoubleViewModel.ActualBopNetworkEventsViewModel.Rows.Any();
+            await _c2SWcfManager.ClientLoaded(postfix, isStateOk);
         }
 
         public async Task GetAlreadyStoredInCacheAndOnServerData()

@@ -21,7 +21,7 @@
                     <DataTemplate DataType="superClient:FtServer">
                         <StackPanel Margin="1" Orientation="Horizontal">
                             <Image Source="{Binding ConnectionStatePictogram}" Width="14" Height="14" Margin="2,4,5,3" ToolTip="Connection state"/>
-                            <Image Source="{Binding TracesStatePictogram}"     Width="14" Height="14" Margin="2,4,5,3" ToolTip="Traces state"/>
+                            <Image Source="{Binding ServerStatePictogram}"     Width="14" Height="14" Margin="2,4,5,3" ToolTip="Traces state"/>
                             <TextBlock Text="{Binding ServerName}" Margin="5"/>
                         </StackPanel>
                     </DataTemplate>

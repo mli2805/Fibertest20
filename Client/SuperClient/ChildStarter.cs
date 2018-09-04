@@ -11,8 +11,6 @@ namespace Iit.Fibertest.SuperClient
         private readonly GasketViewModel _gasketViewModel;
         private readonly Dictionary<int, Process> _processes = new Dictionary<int, Process>();
 
-        //        const string ClientFilename = @"c:\VsGitProjects\SuperClientE\LittleClient\bin\Debug\LittleClient";
-
         private const string DebugClientFilename = @"c:\VsGitProjects\Fibertest\Client\WpfClient\bin\Debug\Iit.Fibertest.Client.exe";
         private const string ReleaseClientFilename = @"c:\Iit-Fibertest\Client\bin\Iit.Fibertest.Client.exe";
         private readonly string _clientFilename;

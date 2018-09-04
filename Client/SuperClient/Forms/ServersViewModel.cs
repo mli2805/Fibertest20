@@ -53,11 +53,14 @@ namespace Iit.Fibertest.SuperClient
             _childStarter.StartFtClient(SelectedFtServer.Entity);
         }
 
-        public void SetServerIsReady(int postfix)
+        public void SetServerIsReady(int postfix, bool isStateOk)
         {
             var server = FtServerList.Servers.FirstOrDefault(s => s.Entity.Postfix == postfix);
             if (server != null)
-                server.ServerConnectionState = FtServerState.Connected;
+            {
+                server.ServerConnectionState = FtServerConnectionState.Connected;
+                server.ServerState = isStateOk ? FtServerState.Ok : FtServerState.Failed;
+            }
         }
 
         public async void CloseSelectedClient()
@@ -65,7 +68,7 @@ namespace Iit.Fibertest.SuperClient
             await CloseClient(SelectedFtServer);
 
             var selectedFtServer =
-                FtServerList.Servers.FirstOrDefault(s => s.ServerConnectionState == FtServerState.Connected);
+                FtServerList.Servers.FirstOrDefault(s => s.ServerConnectionState == FtServerConnectionState.Connected);
             if (selectedFtServer != null)
                 SelectedFtServer = selectedFtServer;
         }
@@ -76,12 +79,12 @@ namespace Iit.Fibertest.SuperClient
             _d2CWcfManager.SetClientsAddresses(new List<DoubleAddress>() { new DoubleAddress() { Main = ftClientAddress } });
             await _d2CWcfManager.AskClientToExit();
             _childStarter.CleanAfterClosing(ftServer.Entity);
-            ftServer.ServerConnectionState = FtServerState.Disconnected;
+            ftServer.ServerConnectionState = FtServerConnectionState.Disconnected;
         }
 
         public async void CloseAllClients()
         {
-            foreach (var ftServer in FtServerList.Servers.Where(s => s.ServerConnectionState == FtServerState.Connected))
+            foreach (var ftServer in FtServerList.Servers.Where(s => s.ServerConnectionState == FtServerConnectionState.Connected))
             {
                 await CloseClient(ftServer);
             }
@@ -91,7 +94,14 @@ namespace Iit.Fibertest.SuperClient
         {
             var server = FtServerList.Servers.FirstOrDefault(s => s.Entity.Postfix == postfix);
             if (server != null)
-                server.ServerConnectionState = FtServerState.Disconnected;
+                server.ServerConnectionState = FtServerConnectionState.Disconnected;
+        }
+
+        public void SetServerState(int postfix, bool isStateOk)
+        {
+            var server = FtServerList.Servers.FirstOrDefault(s => s.Entity.Postfix == postfix);
+            if (server != null)
+                server.ServerState = isStateOk ? FtServerState.Ok : FtServerState.Failed;
         }
 
         public void AddServer()
