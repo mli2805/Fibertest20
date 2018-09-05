@@ -105,9 +105,9 @@ namespace Iit.Fibertest.SuperClient
             ftServer.SystemState = FtSystemState.Unknown;
         }
 
-        public async void CloseAllClients()
+        public async Task CloseAllClients()
         {
-            foreach (var ftServer in FtServerList.Servers.Where(s => s.ServerConnectionState == FtServerConnectionState.Connected))
+            foreach (var ftServer in FtServerList.Servers.Where(s => s.ServerConnectionState == FtServerConnectionState.Connected).ToList())
             {
                 await CloseClient(ftServer);
             }

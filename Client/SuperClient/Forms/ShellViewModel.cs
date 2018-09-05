@@ -34,7 +34,7 @@ namespace Iit.Fibertest.SuperClient
             _superClientWcfServiceHost.StartWcfListener();
         }
 
-        public override void CanClose(Action<bool> callback)
+        public override async void CanClose(Action<bool> callback)
         {
             var question = Resources.SID_Close_application_;
             var vm = new MyMessageBoxViewModel(MessageType.Confirmation, question);
@@ -42,7 +42,7 @@ namespace Iit.Fibertest.SuperClient
 
             if (!vm.IsAnswerPositive) return;
 
-            ServersViewModel.CloseAllClients();
+            await ServersViewModel.CloseAllClients();
             base.CanClose(callback);
         }
     }

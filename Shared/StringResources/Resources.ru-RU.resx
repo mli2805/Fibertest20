@@ -2219,4 +2219,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Connection_state" xml:space="preserve">
 		<value>Состояние соединения</value>
 	</data>
+	<data name="SID_Exceeded_the_number_of_super_clients_registered_simultaneously" xml:space="preserve">
+		<value>Превышено количество одновременно подключенных суперклиентов</value>
+	</data>
 </root>

@@ -2332,6 +2332,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exceeded the number of super-clients registered simultaneously.
+        /// </summary>
+        public static string SID_Exceeded_the_number_of_super_clients_registered_simultaneously {
+            get {
+                return ResourceManager.GetString("SID_Exceeded_the_number_of_super_clients_registered_simultaneously", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exclude equipment from trace.
         /// </summary>
         public static string SID_Exclude_equipment_from_trace {
