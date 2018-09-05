@@ -6,12 +6,15 @@ using System.Runtime.InteropServices;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using System.Windows.Forms.Integration;
+using Iit.Fibertest.UtilsLib;
 using Panel = System.Windows.Forms.Panel;
 
 namespace Iit.Fibertest.SuperClient
 {
     public class GasketViewModel : PropertyChangedBase
     {
+        private readonly IMyLog _logFile;
+
         #region interop
         private const int GwlStyle = -16;
         private const int WsBorder = 0x00800000;
@@ -45,6 +48,11 @@ namespace Iit.Fibertest.SuperClient
             }
         }
 
+        public GasketViewModel(IMyLog logFile)
+        {
+            _logFile = logFile;
+        }
+
         private Panel CreatePanel(int postfix)
         {
             var tabItem = new TabItem() { Header = new ContentControl(), Tag = postfix };
@@ -54,7 +62,7 @@ namespace Iit.Fibertest.SuperClient
             var windowsFormsHost = new WindowsFormsHost();
             tabItem.Content = windowsFormsHost;
 
-            Panel panel = new Panel();
+            Panel panel = new Panel(){Height = 333, Width = 555};
             windowsFormsHost.Child = panel;
 
             return panel;
@@ -62,6 +70,8 @@ namespace Iit.Fibertest.SuperClient
 
         private void PutChildOnPanel(Process childProcess, Panel panel)
         {
+            _logFile.AppendLine($"PutChildOnPanel {panel.Height}  {panel.Width} ");
+
             IntPtr childHandle = childProcess.MainWindowHandle;
             int oldStyle = GetWindowLong(childHandle, GwlStyle);
             SetWindowLong(childHandle, GwlStyle, (oldStyle | WsChild) & ~WsBorder);
