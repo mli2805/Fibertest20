@@ -12,5 +12,7 @@
 
         public string InstallationFolder { get; set; }
         public InstallationType InstallationType { get; set; }
+
+        public string MySqlTcpPort { get; set; }
     }
 }

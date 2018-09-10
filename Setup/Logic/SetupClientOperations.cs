@@ -27,8 +27,7 @@ namespace Iit.Fibertest.Setup
             _logFile.AppendLine($" full client path = {fullClientPath}");
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathClient, fullClientPath, worker))
                 return false;
-
-      
+           
             var fullReflectPath = Path.Combine(installationFolder, ReflectSubdir);
             _logFile.AppendLine($" full Reflect path = {fullReflectPath}");
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, fullReflectPath, worker))

@@ -209,6 +209,7 @@ namespace Setup
             IsButtonCancelEnabled = false;
 
             _currentInstallation.InstallationType = InstTypeChoiceViewModel.GetSelectedType();
+            _currentInstallation.MySqlTcpPort = InstTypeChoiceViewModel.MySqlTcpPort;
         }
 
         private void ProcessProgressViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

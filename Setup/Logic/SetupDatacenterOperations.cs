@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using Iit.Fibertest.UtilsLib;
 
@@ -14,7 +15,7 @@ namespace Iit.Fibertest.Setup
         private const string DataCenterSubdir = @"DataCenter\bin";
         private const string ServiceFilename = @"Iit.Fibertest.DataCenterService.exe";
 
-        public bool SetupDataCenter(BackgroundWorker worker, string installationFolder)
+        public bool SetupDataCenter(BackgroundWorker worker, string installationFolder, string mysqlTcpPort)
         {
             var fullDataCenterPath = Path.Combine(installationFolder, DataCenterSubdir);
 
@@ -25,6 +26,13 @@ namespace Iit.Fibertest.Setup
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDataCenter, fullDataCenterPath, worker))
                 return false;
+            var content = new List<string>()
+            {
+                "[MySql]",
+                $"MySqlTcpPort={mysqlTcpPort}",
+            };
+            var iniFileName = Path.Combine(fullDataCenterPath, "DataCenter.ini");
+            File.WriteAllLines(iniFileName, content);
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
 
             var filename = Path.Combine(fullDataCenterPath, ServiceFilename);

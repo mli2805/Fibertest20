@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:testBench="clr-namespace:Iit.Fibertest.Client"
+             xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              mc:Ignorable="d" 
              cal:Bind.ModelWithoutContext="{Binding .}"
              d:DesignHeight="300" d:DesignWidth="300">
@@ -88,10 +89,10 @@
                                 ItemContainerStyle="{StaticResource ContextMenuItemStyle}" 
                                 ItemsSource="{Binding MyContextMenu}"/>
                         </StackPanel.ContextMenu>
-                        <Image Source="{Binding MonitoringPictogram}" Height="12" Width="12" Margin="0,0,4,0" ToolTip="Is monitoring on" />
-                        <Image Source="{Binding BopPictogram}" Height="12" Width="12" Margin="0,0,4,0" ToolTip="BOP"/>
-                        <Image Source="{Binding MainChannelPictogram}" Height="12" Width="12" Margin="0,0,4,0" ToolTip="Main channel"/>
-                        <Image Source="{Binding ReserveChannelPictogram}" Height="12" Width="12" Margin="0,0,4,0" ToolTip="Reserve channel"/>
+                        <Image Source="{Binding MonitoringPictogram}" Height="12" Width="12" Margin="0,0,4,0" ToolTip="{x:Static stringResources:Resources.SID_Monitoring_mode}" />
+                        <Image Source="{Binding BopPictogram}" Height="12" Width="12" Margin="0,0,4,0" ToolTip="{x:Static stringResources:Resources.SID_BOP_state}"/>
+                        <Image Source="{Binding MainChannelPictogram}" Height="12" Width="12" Margin="0,0,4,0" ToolTip="{x:Static stringResources:Resources.SID_Main_channel}"/>
+                        <Image Source="{Binding ReserveChannelPictogram}" Height="12" Width="12" Margin="0,0,4,0" ToolTip="{x:Static stringResources:Resources.SID_Reserve_channel}"/>
                         <TextBlock Text="{Binding Name}" Foreground="{Binding Color}" Margin="0,0,20,0" MinWidth="200"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>

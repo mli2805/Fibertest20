@@ -8,7 +8,6 @@ namespace Iit.Fibertest.Setup
     public class InstTypeChoiceViewModel : PropertyChangedBase
     {
         private Visibility _visibility = Visibility.Collapsed;
-        private string _selectedType;
 
         public Visibility Visibility
         {
@@ -21,11 +20,26 @@ namespace Iit.Fibertest.Setup
             }
         }
 
+        public string MySqlTcpPort { get; set; } = "3306";
+
+        private Visibility _mySqlTcpPortVisibility = Visibility.Collapsed;
+        public Visibility MySqlTcpPortVisibility
+        {
+            get { return _mySqlTcpPortVisibility; }
+            set
+            {
+                if (value == _mySqlTcpPortVisibility) return;
+                _mySqlTcpPortVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public HeaderViewModel HeaderViewModel { get; set; } = new HeaderViewModel();
         public string Text1 { get; set; }
         public string Text2 { get; set; } = Resources.SID_Type_of_install_;
         public List<string> InstTypes { get; set; }
 
+        private string _selectedType;
         public string SelectedType
         {
             get => _selectedType;
@@ -33,6 +47,7 @@ namespace Iit.Fibertest.Setup
             {
                 if (value == _selectedType) return;
                 _selectedType = value;
+                MySqlTcpPortVisibility = _selectedType == "Data Center" ? Visibility.Visible : Visibility.Hidden;
                 NotifyOfPropertyChange();
             }
         }

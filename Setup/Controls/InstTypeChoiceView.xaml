@@ -12,5 +12,10 @@
             <TextBlock Margin="0,5,5,5" Text="{Binding Text2}"/>
             <ComboBox Margin="10,5,5,5" Width="150" ItemsSource="{Binding InstTypes}" SelectedItem="{Binding SelectedType, Mode=TwoWay}"/>
         </StackPanel>
+        
+        <StackPanel Orientation="Horizontal" Margin="10,30,5,5" Visibility="{Binding MySqlTcpPortVisibility}">
+            <TextBlock Margin="5" Text="MySql TCP port"/>
+            <TextBox Margin="5" Text="{Binding MySqlTcpPort}" Width="50"/>
+        </StackPanel>
     </DockPanel>
 </UserControl>
