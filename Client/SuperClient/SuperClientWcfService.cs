@@ -18,8 +18,10 @@ namespace Iit.Fibertest.SuperClient
 
         public Task<int> ClientLoadingResult(int postfix, bool isLoadedOk, bool isStateOk)
         {
-            if (isLoadedOk) 
+            if (isLoadedOk)
+            {
                 _childStarter.PlaceFtClientOnPanel(postfix);
+            }
             else
                 _childStarter.CleanOnLoadingFailed(postfix);
             _serversViewModel.SetConnectionResult(postfix, isLoadedOk, isStateOk);

@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using System.Windows.Forms.Integration;
+using System.Windows.Media;
 using Iit.Fibertest.UtilsLib;
 using Panel = System.Windows.Forms.Panel;
 
@@ -56,24 +57,29 @@ namespace Iit.Fibertest.SuperClient
         public void PutProcessOnPanel(Process childProcess, int postfix)
         {
             var panel = CreatePanel(postfix);
-
             PutChildOnPanel(childProcess, panel);
         }
 
         private Panel CreatePanel(int postfix)
         {
-            var tabItem = new TabItem() { Header = new ContentControl(), Tag = postfix };
+            var tabItem = new TabItem() { Header = new ContentControl(), Tag = postfix, Background = Brushes.Bisque};
             Children.Add(tabItem);
             SelectedTabItem = tabItem;
-            _logFile.AppendLine($"tabItem {tabItem.Height}  {tabItem.Width} ");
+            _logFile.AppendLine($"tabItem {tabItem.Height}  {tabItem.Width} {tabItem.ActualHeight} {tabItem.ActualWidth}");
 
-            var windowsFormsHost = new WindowsFormsHost();
+            var windowsFormsHost = new WindowsFormsHost() { Background = Brushes.Aquamarine};
             tabItem.Content = windowsFormsHost;
-            _logFile.AppendLine($"windowsFormsHost {windowsFormsHost.Height}  {windowsFormsHost.Width} ");
+            _logFile.AppendLine($"windowsFormsHost {windowsFormsHost.Height}  {windowsFormsHost.Width} {windowsFormsHost.ActualHeight} {windowsFormsHost.ActualWidth}");
 
             Panel panel = new Panel();
+            var screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            var screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+
+            panel.Height = Convert.ToInt16(screenHeight) - 75;
+            panel.Width = Convert.ToInt16(screenWidth) - 262;
+
             windowsFormsHost.Child = panel;
-            _logFile.AppendLine($"panel {panel.Height}  {panel.Width} ");
+            _logFile.AppendLine($"panel {panel.Height}  {panel.Width} {panel.AutoSize}");
             _logFile.AppendLine($"windowsFormsHost {windowsFormsHost.Height}  {windowsFormsHost.Width} ");
 
             return panel;

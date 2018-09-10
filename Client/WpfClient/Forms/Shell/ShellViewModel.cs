@@ -146,8 +146,8 @@ namespace Iit.Fibertest.Client
 
         private async Task NotifySuperClientImReady(int postfix)
         {
-            _logFile.AppendLine(@"Notify superclient I'm ready");
-            Thread.Sleep(TimeSpan.FromSeconds(1));
+            _logFile.AppendLine(@"Notify super-client I'm ready");
+            Thread.Sleep(TimeSpan.FromMilliseconds(1));
             var isStateOk = !OpticalEventsDoubleViewModel.ActualOpticalEventsViewModel.Rows.Any() &&
                             !NetworkEventsDoubleViewModel.ActualNetworkEventsViewModel.Rows.Any() &&
                             !BopNetworkEventsDoubleViewModel.ActualBopNetworkEventsViewModel.Rows.Any();

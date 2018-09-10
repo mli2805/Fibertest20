@@ -42,6 +42,10 @@ namespace Iit.Fibertest.SuperClient
 
             if (!vm.IsAnswerPositive) return;
 
+            var info = "Wait please, while all clients will be closed.";
+            var vm2 = new MyMessageBoxViewModel(MessageType.LongOperation, info);
+            _windowManager.ShowWindowWithAssignedOwner(vm2);
+
             await ServersViewModel.CloseAllClients();
             base.CanClose(callback);
         }
