@@ -8,7 +8,6 @@ using Caliburn.Micro;
 using System.Windows.Forms.Integration;
 using System.Windows.Media;
 using Iit.Fibertest.UtilsLib;
-using Panel = System.Windows.Forms.Panel;
 
 namespace Iit.Fibertest.SuperClient
 {
@@ -56,36 +55,32 @@ namespace Iit.Fibertest.SuperClient
 
         public void PutProcessOnPanel(Process childProcess, int postfix)
         {
-            var panel = CreatePanel(postfix);
-            PutChildOnPanel(childProcess, panel);
-        }
-
-        private Panel CreatePanel(int postfix)
-        {
-            var tabItem = new TabItem() { Header = new ContentControl(), Tag = postfix, Background = Brushes.Bisque};
+            var tabItem = new TabItem() { Header = new ContentControl(), Tag = postfix};
             Children.Add(tabItem);
             SelectedTabItem = tabItem;
-            _logFile.AppendLine($"tabItem {tabItem.Height}  {tabItem.Width} {tabItem.ActualHeight} {tabItem.ActualWidth}");
 
             var windowsFormsHost = new WindowsFormsHost() { Background = Brushes.Aquamarine};
             tabItem.Content = windowsFormsHost;
-            _logFile.AppendLine($"windowsFormsHost {windowsFormsHost.Height}  {windowsFormsHost.Width} {windowsFormsHost.ActualHeight} {windowsFormsHost.ActualWidth}");
 
-            Panel panel = new Panel();
+            var panel = CreatePanel();
+            PutChildOnPanel(childProcess, panel);
+
+            windowsFormsHost.Child = panel;
+        }
+
+        private System.Windows.Forms.Panel CreatePanel()
+        {
             var screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
             var screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
 
-            panel.Height = Convert.ToInt16(screenHeight) - 75;
-            panel.Width = Convert.ToInt16(screenWidth) - 262;
-
-            windowsFormsHost.Child = panel;
-            _logFile.AppendLine($"panel {panel.Height}  {panel.Width} {panel.AutoSize}");
-            _logFile.AppendLine($"windowsFormsHost {windowsFormsHost.Height}  {windowsFormsHost.Width} ");
-
-            return panel;
+            return new System.Windows.Forms.Panel
+            {
+                Height = Convert.ToInt16(screenHeight) - 75,
+                Width = Convert.ToInt16(screenWidth) - 262
+            };
         }
 
-        private void PutChildOnPanel(Process childProcess, Panel panel)
+        private void PutChildOnPanel(Process childProcess, System.Windows.Forms.Panel panel)
         {
             IntPtr childHandle = childProcess.MainWindowHandle;
             int oldStyle = GetWindowLong(childHandle, GwlStyle);
@@ -94,7 +89,6 @@ namespace Iit.Fibertest.SuperClient
             var childHandleRef = new HandleRef(null, childHandle);
             SetParent(childHandleRef, parentHandle);
             ShowWindowAsync(childHandleRef, SwShowMaximized);
-            _logFile.AppendLine($"PutChildOnPanel: panel {panel.Height}  {panel.Width} ");
         }
 
         public void RemoveTabItem(int postfix)
