@@ -7,13 +7,11 @@ using System.Windows.Controls;
 using Caliburn.Micro;
 using System.Windows.Forms.Integration;
 using System.Windows.Media;
-using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.SuperClient
 {
     public class GasketViewModel : PropertyChangedBase
     {
-        private readonly IMyLog _logFile;
 
         #region interop
         private const int GwlStyle = -16;
@@ -46,11 +44,6 @@ namespace Iit.Fibertest.SuperClient
                 _selectedTabItem = value;
                 NotifyOfPropertyChange();
             }
-        }
-
-        public GasketViewModel(IMyLog logFile)
-        {
-            _logFile = logFile;
         }
 
         public void PutProcessOnPanel(Process childProcess, int postfix)
