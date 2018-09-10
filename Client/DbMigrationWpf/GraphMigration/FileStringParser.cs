@@ -79,7 +79,7 @@ namespace DbMigrationWpf
                 OwnPortCount = int.Parse(parts[2]),
                 FullPortCount = int.Parse(parts[2]), // FullPortCount will be increased by OtauAttached event if happened
                 Serial = int.Parse(parts[4]).ToString(),
-                MainChannel = new NetAddress() { Ip4Address = parts[5], Port = int.Parse(parts[6]) },
+                MainChannel = new NetAddress() { Ip4Address = parts[5].Trim(), Port = int.Parse(parts[6]) == 11832 ? 11842 : int.Parse(parts[6]) },
                 OtauNetAddress = new NetAddress()
                 {
                     Ip4Address = parts[5] == parts[7] ? "192.168.88.101" : parts[7],
