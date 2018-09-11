@@ -13,6 +13,7 @@ namespace Iit.Fibertest.Setup
 
         private const string SourcePathDataCenter = @"..\DcFiles";
         private const string DataCenterSubdir = @"DataCenter\bin";
+        private const string DataCenterIniSubdir = @"DataCenter\ini";
         private const string ServiceFilename = @"Iit.Fibertest.DataCenterService.exe";
 
         public bool SetupDataCenter(BackgroundWorker worker, string installationFolder, string mysqlTcpPort)
@@ -31,7 +32,8 @@ namespace Iit.Fibertest.Setup
                 "[MySql]",
                 $"MySqlTcpPort={mysqlTcpPort}",
             };
-            var iniFileName = Path.Combine(fullDataCenterPath, "DataCenter.ini");
+            var iniDataCenterPath = Path.Combine(installationFolder, DataCenterIniSubdir);
+            var iniFileName = Path.Combine(iniDataCenterPath, "DataCenter.ini");
             File.WriteAllLines(iniFileName, content);
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
 
