@@ -112,6 +112,10 @@
     <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
+    <Reference Include="Optixsoft.OtdrDataFormat, Version=1.1.4.118, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Optixsoft.OtdrDataFormat\Optixsoft.OtdrDataFormat.dll</HintPath>
+    </Reference>
     <Reference Include="Pomelo.EntityFrameworkCore.MySql, Version=2.1.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Pomelo.EntityFrameworkCore.MySql.2.1.1\lib\netstandard2.0\Pomelo.EntityFrameworkCore.MySql.dll</HintPath>
     </Reference>
@@ -238,6 +242,10 @@
     <ProjectReference Include="..\..\DataCenter\WcfServiceForClient\WcfServiceForClientInterface.csproj">
       <Project>{72f6524c-e7ee-4dfd-8ae2-15a4e5225d3b}</Project>
       <Name>WcfServiceForClientInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\RTU\IitOtdrLibrary\IitOtdrLibrary.csproj">
+      <Project>{E9122BBB-B015-4710-BDD3-03243EE8CBCD}</Project>
+      <Name>IitOtdrLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Dto\Dto.csproj">
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>

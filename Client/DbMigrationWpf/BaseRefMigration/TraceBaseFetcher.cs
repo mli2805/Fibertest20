@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.IitOtdrLibrary;
 using MySql.Data.MySqlClient;
 
 namespace DbMigrationWpf.BaseRefMigration
@@ -33,15 +34,18 @@ namespace DbMigrationWpf.BaseRefMigration
             var records = GetTraceBaseRecords(oldTraceId);
             foreach (var record in records)
             {
+                var sorBytes = SorFetcher.GetMeasBytes(_conn, record.FileId);
+                SorData.TryGetFromBytes(sorBytes, out var otdrDataKnownBlocks);
+                
                 var baseRefDto = new BaseRefDto()
                 {
                     Id = Guid.NewGuid(),
                     UserName = "migrator",
                     SaveTimestamp = record.BaseTimestamp,
-                    Duration = TimeSpan.Zero, // ?
+                    Duration = TimeSpan.FromSeconds((int) otdrDataKnownBlocks.FixedParameters.AveragingTime),
                     BaseRefType = record.BaseRefType,
                     SorFileId = -1, // ?
-                    SorBytes = SorFetcher.GetMeasBytes(_conn, record.FileId),
+                    SorBytes = sorBytes,
                 };
                 result.Add(baseRefDto);
             }
