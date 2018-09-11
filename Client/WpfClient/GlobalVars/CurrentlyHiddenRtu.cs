@@ -70,7 +70,7 @@ namespace Iit.Fibertest.Client
 
         public void Initialize()
         {
-            var isGraphVisibleOnStart = _iniFile.Read(IniSection.Miscellaneous, IniKey.IsGraphVisibleOnStart, true);
+            var isGraphVisibleOnStart = _iniFile.Read(IniSection.Miscellaneous, IniKey.IsGraphVisibleOnStart, false);
             Collection = isGraphVisibleOnStart 
                 ? new ObservableRangeCollection<Guid>() 
                 : new ObservableRangeCollection<Guid>(_readModel.Rtus.Select(r => r.Id));
