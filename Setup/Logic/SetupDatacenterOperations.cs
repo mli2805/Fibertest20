@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.IO;
 using Iit.Fibertest.UtilsLib;
 
@@ -27,14 +26,9 @@ namespace Iit.Fibertest.Setup
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDataCenter, fullDataCenterPath, worker))
                 return false;
-            var content = new List<string>()
-            {
-                "[MySql]",
-                $"MySqlTcpPort={mysqlTcpPort}",
-            };
-            var iniDataCenterPath = Path.Combine(installationFolder, DataCenterIniSubdir);
-            var iniFileName = Path.Combine(iniDataCenterPath, "DataCenter.ini");
-            File.WriteAllLines(iniFileName, content);
+
+            SaveMysqlTcpPort(installationFolder, mysqlTcpPort);
+
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
 
             var filename = Path.Combine(fullDataCenterPath, ServiceFilename);
@@ -43,6 +37,17 @@ namespace Iit.Fibertest.Setup
 
             worker.ReportProgress((int)BwReturnProgressCode.DataCenterSetupCompletedSuccessfully);
             return true;
+        }
+
+        private static void SaveMysqlTcpPort(string installationFolder, string mysqlTcpPort)
+        {
+            var iniDataCenterPath = Path.Combine(installationFolder, DataCenterIniSubdir);
+            var iniFileName = Path.Combine(iniDataCenterPath, "DataCenter.ini");
+            
+            var iniFile = new IniFile();
+            iniFile.AssignFile(iniFileName);
+
+            iniFile.Write(IniSection.MySql, IniKey.MySqlTcpPort, mysqlTcpPort);
         }
     }
 
