@@ -121,7 +121,7 @@ namespace DbMigrationWpf
             var nodeGuid = _graphModel.NodesDictionary[nodeId];
             var rtuGuid = _graphModel.NodeToRtuDictionary[nodeGuid];
 
-            var charonAddress = new NetAddress() { Ip4Address = parts[3], Port = int.Parse(parts[4]), IsAddressSetAsIp = true };
+            var charonAddress = new NetAddress() { Ip4Address = parts[3].Trim(), Port = int.Parse(parts[4]), IsAddressSetAsIp = true };
             var attachOtau = new AttachOtau()
             {
                 Id = Guid.NewGuid(),
