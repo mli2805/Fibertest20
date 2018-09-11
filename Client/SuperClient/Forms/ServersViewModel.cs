@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
@@ -50,7 +51,7 @@ namespace Iit.Fibertest.SuperClient
 
         public void ConnectServer()
         {
-            _logFile.AppendLine($"User asks connection to {SelectedFtServer.Entity.ServerTitle}");
+            _logFile.AppendLine($@"User asks connection to {SelectedFtServer.Entity.ServerTitle}");
             _childStarter.StartFtClient(SelectedFtServer.Entity);
         }
 
@@ -64,8 +65,8 @@ namespace Iit.Fibertest.SuperClient
                 server.ServerConnectionState = FtServerConnectionState.Breakdown;
                 var strs = new List<string>()
                 {
-                    "Failed to establish connection.",
-                    $"{server.ServerName}",
+                    Resources.SID_Failed_to_establish_connection_,
+                    $@"{server.ServerName}",
                 };
                 var vm = new MyMessageBoxViewModel(MessageType.Error, strs, 2);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
@@ -97,7 +98,7 @@ namespace Iit.Fibertest.SuperClient
 
         private async Task CloseClient(FtServer ftServer)
         {
-            var ftClientAddress = new NetAddress() { Ip4Address = "localhost", Port = 11843 + ftServer.Entity.Postfix };
+            var ftClientAddress = new NetAddress() { Ip4Address = @"localhost", Port = 11843 + ftServer.Entity.Postfix };
             _d2CWcfManager.SetClientsAddresses(new List<DoubleAddress>() { new DoubleAddress() { Main = ftClientAddress } });
             await _d2CWcfManager.AskClientToExit();
             _childStarter.CleanAfterClosing(ftServer.Entity);

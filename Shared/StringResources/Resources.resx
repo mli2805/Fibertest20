@@ -2222,4 +2222,31 @@ RTU is initializing right now!</value>
 	<data name="SID_Exceeded_the_number_of_super_clients_registered_simultaneously" xml:space="preserve">
     <value>Exceeded the number of super-clients registered simultaneously</value>
   </data>
+	<data name="SID_Failed_to_establish_connection_" xml:space="preserve">
+    <value>Failed to establish connection.</value>
+  </data>
+	<data name="SID_Disconnect" xml:space="preserve">
+    <value>Disconnect</value>
+  </data>
+	<data name="SID_Check_connection" xml:space="preserve">
+    <value>Check connection</value>
+  </data>
+	<data name="SID_Server_title" xml:space="preserve">
+    <value>Server title</value>
+  </data>
+	<data name="SID_Server_ip_address" xml:space="preserve">
+    <value>Server IP address</value>
+  </data>
+	<data name="SID_Server_tcp_port" xml:space="preserve">
+    <value>Server TCP port</value>
+  </data>
+	<data name="SID_User_name" xml:space="preserve">
+    <value>User name</value>
+  </data>
+	<data name="SID_User_password" xml:space="preserve">
+    <value>User password</value>
+  </data>
+	<data name="SID_Wait_please__while_all_clients_will_be_closed_" xml:space="preserve">
+    <value>Wait please, while all clients will be closed.</value>
+  </data>
 </root>

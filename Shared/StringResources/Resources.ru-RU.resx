@@ -2222,4 +2222,31 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Exceeded_the_number_of_super_clients_registered_simultaneously" xml:space="preserve">
 		<value>Превышено количество одновременно подключенных суперклиентов</value>
 	</data>
+	<data name="SID_Failed_to_establish_connection_" xml:space="preserve">
+		<value>Не удалось установить соединение.</value>
+	</data>
+	<data name="SID_Disconnect" xml:space="preserve">
+		<value>Отключить</value>
+	</data>
+	<data name="SID_Check_connection" xml:space="preserve">
+		<value>Проверить соединение</value>
+	</data>
+	<data name="SID_Server_title" xml:space="preserve">
+		<value>Название сервера</value>
+	</data>
+	<data name="SID_Server_ip_address" xml:space="preserve">
+		<value>IP адрес сервера</value>
+	</data>
+	<data name="SID_Server_tcp_port" xml:space="preserve">
+		<value>TCP порт сервера</value>
+	</data>
+	<data name="SID_User_name" xml:space="preserve">
+		<value>Имя пользователя</value>
+	</data>
+	<data name="SID_User_password" xml:space="preserve">
+		<value>Пароль пользователя</value>
+	</data>
+	<data name="SID_Wait_please__while_all_clients_will_be_closed_" xml:space="preserve">
+		<value>Закрываются соединения, пожалуйста, подождите.</value>
+	</data>
 </root>

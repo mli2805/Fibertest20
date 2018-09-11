@@ -14,9 +14,9 @@ namespace Iit.Fibertest.SuperClient
 
         public int ServerTcpPort { get; set; } = 11840;
 
-        public string Username { get; set; } = "superclient";
+        public string Username { get; set; } = @"superclient";
 
-        public string Password { get; set; } = "superclient";
+        public string Password { get; set; } = @"superclient";
 
         public AddServerViewModel(FtServerList ftServerList)
         {

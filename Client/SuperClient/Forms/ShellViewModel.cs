@@ -28,7 +28,7 @@ namespace Iit.Fibertest.SuperClient
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "Fibertest 2.0 Superclient";
+            DisplayName = @"Fibertest 2.0 Superclient";
             _logFile.AssignFile(@"sc.log");
             _logFile.AppendLine(@"Super-Client application started!");
             _superClientWcfServiceHost.StartWcfListener();
@@ -42,7 +42,7 @@ namespace Iit.Fibertest.SuperClient
 
             if (!vm.IsAnswerPositive) return;
 
-            var info = "Wait please, while all clients will be closed.";
+            var info = Resources.SID_Wait_please__while_all_clients_will_be_closed_;
             var vm2 = new MyMessageBoxViewModel(MessageType.LongOperation, info);
             _windowManager.ShowWindowWithAssignedOwner(vm2);
 

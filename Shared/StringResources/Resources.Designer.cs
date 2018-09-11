@@ -1350,6 +1350,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check connection.
+        /// </summary>
+        public static string SID_Check_connection {
+            get {
+                return ResourceManager.GetString("SID_Check_connection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Check e-mail notification.
         /// </summary>
         public static string SID_Check_e_mail_notification {
@@ -1891,6 +1900,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Disconnect.
+        /// </summary>
+        public static string SID_Disconnect {
+            get {
+                return ResourceManager.GetString("SID_Disconnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Dist. to left.
         /// </summary>
         public static string SID_Dist_to_left {
@@ -2400,6 +2418,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Failed_to_apply_license_ {
             get {
                 return ResourceManager.GetString("SID_Failed_to_apply_license_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to establish connection..
+        /// </summary>
+        public static string SID_Failed_to_establish_connection_ {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_establish_connection_", resourceCulture);
             }
         }
         
@@ -5115,6 +5142,33 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Server IP address.
+        /// </summary>
+        public static string SID_Server_ip_address {
+            get {
+                return ResourceManager.GetString("SID_Server_ip_address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server TCP port.
+        /// </summary>
+        public static string SID_Server_tcp_port {
+            get {
+                return ResourceManager.GetString("SID_Server_tcp_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server title.
+        /// </summary>
+        public static string SID_Server_title {
+            get {
+                return ResourceManager.GetString("SID_Server_title", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Servers.
         /// </summary>
         public static string SID_Servers {
@@ -6159,11 +6213,29 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User name.
+        /// </summary>
+        public static string SID_User_name {
+            get {
+                return ResourceManager.GetString("SID_User_name", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User operations log.
         /// </summary>
         public static string SID_User_operations_log {
             get {
                 return ResourceManager.GetString("SID_User_operations_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User password.
+        /// </summary>
+        public static string SID_User_password {
+            get {
+                return ResourceManager.GetString("SID_User_password", resourceCulture);
             }
         }
         
@@ -6254,6 +6326,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Wait__please___ {
             get {
                 return ResourceManager.GetString("SID_Wait__please___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wait please, while all clients will be closed..
+        /// </summary>
+        public static string SID_Wait_please__while_all_clients_will_be_closed_ {
+            get {
+                return ResourceManager.GetString("SID_Wait_please__while_all_clients_will_be_closed_", resourceCulture);
             }
         }
         
