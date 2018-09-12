@@ -6,7 +6,7 @@ namespace Iit.Fibertest.SuperClient
     {
         public FtServerEntity Entity { get; set; }
 
-        public string ServerName => $"{Entity.ServerTitle} ({Entity.ServerIp})";
+        public string ServerName => $@"{Entity.ServerTitle} ({Entity.ServerIp})";
 
         private FtServerConnectionState _serverConnectionState;
         public FtServerConnectionState ServerConnectionState
