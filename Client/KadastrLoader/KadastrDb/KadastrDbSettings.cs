@@ -24,7 +24,7 @@ namespace KadastrLoader
                 ? doubleAddress.Main.Ip4Address
                 : doubleAddress.Main.HostName;
 
-            _mysqlTcpPort = _iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, 3306);
+            _mysqlTcpPort = _iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, 33060);
             _logFile.AppendLine($"MySqlConnectionString = {MySqlConnectionString}");
         }
         private string MySqlConnectionString => $"server={_mysqlServerAddress};port={_mysqlTcpPort};user id=root;password=root;database=ft20kadastr";
