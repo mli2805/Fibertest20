@@ -116,7 +116,8 @@ namespace Iit.Fibertest.Client
             _currentHighlightedNode.IsHighlighted = false;
          
             var vm = new StepChoiceViewModel();
-            vm.Initialize(neighbours, previousNodeId);
+            if (!vm.Initialize(neighbours, previousNodeId))
+                return false;
             if (_windowManager.ShowDialogWithAssignedOwner(vm) != true)
             {
                 _currentHighlightedNode.IsHighlighted = true;

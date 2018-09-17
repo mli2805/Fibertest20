@@ -48,6 +48,9 @@ namespace DbMigrationWpf
             }
         }
 
+        public int OldMySqlPort { get; set; } = 3306;
+        public int NewMySqlPort { get; set; } = 33060;
+
         public ObservableCollection<string> ProgressLines { get; set; } = new ObservableCollection<string>();
 
         private string _currentLicenseText = "";
@@ -154,7 +157,7 @@ namespace DbMigrationWpf
         public async void Migrate()
         {
             var migrationManager = new MigrationManager(_iniFile, _logFile, _graphModel, _c2DWcfManager, ProgressLines);
-            await migrationManager.Migrate(ExportFileName, Ft15ServerAddress, Ft20ServerAddress);
+            await migrationManager.Migrate(ExportFileName, Ft15ServerAddress, OldMySqlPort, Ft20ServerAddress, NewMySqlPort);
             File.WriteAllLines(@"..\log\progress.txt", ProgressLines);
         }
 

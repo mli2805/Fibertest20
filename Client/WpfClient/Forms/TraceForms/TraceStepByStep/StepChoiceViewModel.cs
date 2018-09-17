@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Next_step;
         }
 
-        public void Initialize(List<NodeVm> neighbours, Guid previousNodeId)
+        public bool Initialize(List<NodeVm> neighbours, Guid previousNodeId)
         {
             _neighbours = neighbours;
             Models = new List<RadioButtonModel>();
@@ -29,9 +29,11 @@ namespace Iit.Fibertest.Client
                 Models.Add(model);
             }
 
-            _selectedNode = _neighbours.First();
+            _selectedNode = _neighbours.FirstOrDefault();
+            if (_selectedNode == null) return false;
             Models.First().IsChecked = true;
             _selectedNode.IsHighlighted = true;
+            return true;
         }
 
         private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

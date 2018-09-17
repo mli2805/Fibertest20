@@ -145,7 +145,6 @@ namespace Iit.Fibertest.Client
 
         public void ChangeFutureTraceColor(Guid traceId, List<Guid> fiberIds, FiberState state)
         {
-
             foreach (var fiberId in fiberIds)
             {
                 var fiberVm = Data.Fibers.First(f => f.Id == fiberId);
@@ -155,6 +154,5 @@ namespace Iit.Fibertest.Client
                     fiberVm.RemoveState(traceId);
             }
         }
-
     }
 }

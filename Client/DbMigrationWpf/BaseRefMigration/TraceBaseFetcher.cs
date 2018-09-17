@@ -9,9 +9,9 @@ namespace DbMigrationWpf.BaseRefMigration
     public class TraceBaseFetcher
     {
         private readonly MySqlConnection _conn;
-        public TraceBaseFetcher(string serverIp)
+        public TraceBaseFetcher(string serverIp, int oldMySqlPort)
         {
-            string mySqlConnectionString = $"server={serverIp};port=3306;user id=root;password=root;database=fibertest";
+            string mySqlConnectionString = $"server={serverIp};port={oldMySqlPort};user id=root;password=root;database=fibertest";
             _conn = new MySqlConnection(mySqlConnectionString);
         }
 

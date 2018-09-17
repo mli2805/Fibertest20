@@ -28,7 +28,7 @@ namespace DbMigrationWpf
             _lines = lines;
         }
 
-        public async Task<int> Migrate(string exportFileName, string ft15Address, string ft20Address)
+        public async Task<int> Migrate(string exportFileName, string ft15Address, int oldMySqlPort, string ft20Address, int newMySqlPort)
         {
             new GraphFetcher(_logFile, _graphModel, _lines).Fetch(exportFileName);
             _logFile.AppendLine("Graph is fetched");
@@ -38,7 +38,7 @@ namespace DbMigrationWpf
             _logFile.AppendLine("Graph is sent");
             _lines.Add("Graph is sent");
 
-            await TransferBaseRefs(ft15Address);
+            await TransferBaseRefs(ft15Address, oldMySqlPort);
             _logFile.AppendLine("Base refs are sent");
             _lines.Add("Base refs are sent");
 
@@ -46,25 +46,24 @@ namespace DbMigrationWpf
 
             var hasKadastr = _iniFile.Read(IniSection.Migrator, IniKey.Kadastr, false);
             if (hasKadastr)
-                await MigrateKadastr(ft15Address, ft20Address);
+                await MigrateKadastr(ft15Address, oldMySqlPort, ft20Address, newMySqlPort);
 
             _logFile.AppendLine("Migration is terminated");
             _lines.Add("Migration is terminated");
             return 0;
         }
 
-        private async Task<int> MigrateKadastr(string ft15Address, string ft20Address)
+        private async Task<int> MigrateKadastr(string ft15Address, int oldMySqlPort, string ft20Address, int newMySqlPort)
         {
-            var km = new Kadastr15Fetcher(ft15Address, _graphModel, _lines);
+            var km = new Kadastr15Fetcher(ft15Address, oldMySqlPort, _graphModel, _lines);
             var model = km.Fetch();
             if (model == null) return -1;
-            var mysqlPort = _iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, 3306);
-            var kp = new Kadastr20Provider(ft20Address, mysqlPort, _lines);
+            var kp = new Kadastr20Provider(ft20Address, newMySqlPort, _lines);
             kp.Init();
             return await kp.Save(model);
         }
 
-        private async Task TransferBaseRefs(string ft15Address)
+        private async Task TransferBaseRefs(string ft15Address, int oldMySqlPort)
         {
             var i = 0;
             var totalTraces = _graphModel.TracesDictionary.Count;
@@ -72,7 +71,7 @@ namespace DbMigrationWpf
             {
                 var addTraceCommand = _graphModel.AddTraceCommands.First(c => c.TraceId == pair.Value);
                 var rtuGuid = addTraceCommand.RtuId;
-                var assignBaseRefCommand = new TraceBaseFetcher(ft15Address).GetAssignBaseRefsDto(pair.Key, pair.Value, rtuGuid);
+                var assignBaseRefCommand = new TraceBaseFetcher(ft15Address, oldMySqlPort).GetAssignBaseRefsDto(pair.Key, pair.Value, rtuGuid);
                 var result = await _c2DWcfManager.AssignBaseRefAsyncFromMigrator(assignBaseRefCommand);
                 if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 {

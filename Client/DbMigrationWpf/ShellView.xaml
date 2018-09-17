@@ -17,17 +17,22 @@
             <TextBox Margin="5" Text="{Binding ExportFileName}" IsReadOnly="True"/>
         </DockPanel>
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5">
+            <TextBlock Text="Fibertest 1.5 Server (read base refs)" Margin="5"/>
+            <TextBox Text="{Binding Ft15ServerAddress}" Margin="5" Width="120"/>
+            <TextBlock Text="MySql port" Margin="30,5,5,5"/>
+            <TextBox Text="{Binding OldMySqlPort}" Margin="5" Width="120"/>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5">
             <TextBlock Text="Fibertest 2.0 Server" Margin="5"/>
             <TextBox Text="{Binding Ft20ServerAddress}" Margin="5" Width="120"/>
+            <TextBlock Text="MySql port" Margin="20,5,5,5"/>
+            <TextBox Text="{Binding NewMySqlPort}" Margin="5" Width="120"/>
         </StackPanel>
         <StackPanel DockPanel.Dock="Top"  Orientation="Horizontal" Margin="5">
             <Button Width="120" Height="25" Margin="5"  Content="Load license" Name="LoadLicense"/>
             <TextBlock Margin="20,10,5,5" Text="{Binding CurrentLicenseText}" Width="300" />
         </StackPanel>
-        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="5">
-            <TextBlock Text="Fibertest 1.5 Server (read base refs)" Margin="5"/>
-            <TextBox Text="{Binding Ft15ServerAddress}" Margin="5" Width="120"/>
-        </StackPanel> 
+    
         <Border>
             <ListView Margin="5" ItemsSource="{Binding ProgressLines}" >
                 <i:Interaction.Behaviors>

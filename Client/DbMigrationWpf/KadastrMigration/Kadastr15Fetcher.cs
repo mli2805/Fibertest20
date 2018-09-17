@@ -12,11 +12,11 @@ namespace DbMigrationWpf
         private readonly ObservableCollection<string> _progressLines;
         private readonly MySqlConnection _kadastr15;
 
-        public Kadastr15Fetcher(string serverIp, GraphModel graphModel, ObservableCollection<string> progressLines)
+        public Kadastr15Fetcher(string serverIp, int oldMySqlPort, GraphModel graphModel, ObservableCollection<string> progressLines)
         {
             _graphModel = graphModel;
             _progressLines = progressLines;
-            string mySqlConnectionString = $"server={serverIp};port=3306;user id=root;password=root;database=kadastr";
+            string mySqlConnectionString = $"server={serverIp};port={oldMySqlPort};user id=root;password=root;database=kadastr";
             _kadastr15 = new MySqlConnection(mySqlConnectionString);
         }
         
