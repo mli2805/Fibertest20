@@ -2638,15 +2638,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hide traces.
-        /// </summary>
-        public static string SID_Hide_traces {
-            get {
-                return ResourceManager.GetString("SID_Hide_traces", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Highlighted.
         /// </summary>
         public static string SID_Highlighted {
@@ -4660,6 +4651,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Restart_application {
             get {
                 return ResourceManager.GetString("SID_Restart_application", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reveal traces.
+        /// </summary>
+        public static string SID_Reveal_traces {
+            get {
+                return ResourceManager.GetString("SID_Reveal_traces", resourceCulture);
             }
         }
         

@@ -1754,9 +1754,6 @@ RTU is initializing right now!</value>
 	<data name="SID_next_to_the_node_your_are_going_to_remove" xml:space="preserve">
     <value>next to the node your are going to remove</value>
   </data>
-	<data name="SID_Hide_traces" xml:space="preserve">
-    <value>Hide traces</value>
-  </data>
 	<data name="SID_Attach_trace" xml:space="preserve">
     <value>Attach trace</value>
   </data>
@@ -2248,5 +2245,8 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Wait_please__while_all_clients_will_be_closed_" xml:space="preserve">
     <value>Wait please, while all clients will be closed.</value>
+  </data>
+	<data name="SID_Reveal_traces" xml:space="preserve">
+    <value>Reveal traces</value>
   </data>
 </root>

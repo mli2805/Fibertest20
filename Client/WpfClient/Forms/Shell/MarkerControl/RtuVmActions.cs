@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Client
             marker.Owner.GraphReadModel.GrmRtuRequests.DefineTraceStepByStep(marker.GMapMarker.Id, marker.Title);
         }
 
-        public void HideTraces(object parameter)
+        public void RevealTraces(object parameter)
         {
             var marker = (MarkerControl)parameter;
             marker.Owner.GraphReadModel.GrmRtuRequests.ChangeRtuTracesVisibility(marker.GMapMarker.Id);

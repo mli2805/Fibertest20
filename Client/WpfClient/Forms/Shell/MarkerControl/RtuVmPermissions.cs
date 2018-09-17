@@ -56,6 +56,6 @@ namespace Iit.Fibertest.Client
             return rtuVm != null;
         }
 
-        public bool CanHideTraces(object _) { return true; }
+        public bool CanRevealTraces(object _) { return true; }
     }
 }

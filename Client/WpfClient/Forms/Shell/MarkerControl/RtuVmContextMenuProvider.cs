@@ -69,10 +69,10 @@ namespace Iit.Fibertest.Client
             });
             contextMenu.Items.Add(new MenuItem()
             {
-                Header = Resources.SID_Hide_traces,
-                Command = new ContextMenuAction(_rtuVmActions.HideTraces, _rtuVmPermissions.CanHideTraces),
+                Header = Resources.SID_Reveal_traces,
+                Command = new ContextMenuAction(_rtuVmActions.RevealTraces, _rtuVmPermissions.CanRevealTraces),
                 CommandParameter = marker,
-                IsChecked = _currentlyHiddenRtu.Collection.Contains(rtu.Id),
+                IsChecked = !_currentlyHiddenRtu.Collection.Contains(rtu.Id),
             });
             return contextMenu;
         }
