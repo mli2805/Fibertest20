@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Client;
-using Iit.Fibertest.Graph;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -22,7 +21,7 @@ namespace Graph.Tests
         public void GivenХотяПринялПредложенныйМаршрутТрассы()
         {
             _sut.CreateFieldForPathFinderTest(out _rtuNodeId, out _lastNodeId, out _, out _);
-            new PathFinder(_sut.ReadModel).FindPath(_rtuNodeId, _lastNodeId, out _nodes);
+            new PathFinder(_sut.GraphReadModel).FindPath(_rtuNodeId, _lastNodeId, out _nodes);
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));

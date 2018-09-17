@@ -58,8 +58,16 @@ namespace Iit.Fibertest.Client
         private static List<Guid> GetPath(this GraphReadModel model, RequestAddTrace request)
         {
             List<Guid> path;
-            if (!new PathFinder(model.ReadModel).FindPath(request.NodeWithRtuId, request.LastNodeId, out path))
-                model.WindowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Path_couldn_t_be_found));
+            if (!new PathFinder(model).FindPath(request.NodeWithRtuId, request.LastNodeId, out path))
+            {
+                var strs = new List<string>()
+                {
+                    Resources.SID_Path_couldn_t_be_found,
+                    "",
+                    Resources.SID_Load_additional_data_,
+                };
+                model.WindowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, strs));
+            }
 
             return path;
         }

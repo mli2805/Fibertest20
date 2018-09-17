@@ -142,7 +142,7 @@
     <value>Последний узел трассы должен содержать оборудование</value>
   </data>
 	<data name="SID_Path_couldn_t_be_found" xml:space="preserve">
-    <value>Путь не найден</value>
+    <value>Путь не найден !</value>
   </data>
 	<data name="SID_Title_is_required" xml:space="preserve">
     <value>Не задано название</value>
@@ -2248,5 +2248,8 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Reveal_traces" xml:space="preserve">
 		<value>Отобразить трассы (загрузить в ГИС)</value>
+	</data>
+	<data name="SID_Load_additional_data_" xml:space="preserve">
+		<value>Загрузите дополнительные данные.</value>
 	</data>
 </root>

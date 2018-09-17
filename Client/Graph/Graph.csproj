@@ -269,7 +269,6 @@
     <Compile Include="Algorithms\GpsCalculator.cs" />
     <Compile Include="Algorithms\GraphGpsCalculator.cs" />
     <Compile Include="EventSourcing\EventExecutors\NodeEventsOnModelExecutor.cs" />
-    <Compile Include="Algorithms\PathFinder.cs" />
     <Compile Include="EventSourcing\Model.cs" />
     <Compile Include="EventSourcing\ModelExt.cs" />
     <Compile Include="EventSourcing\EventExecutors\RtuEventsOnModelExecutor.cs" />

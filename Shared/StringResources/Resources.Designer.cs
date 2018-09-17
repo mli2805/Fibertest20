@@ -3151,6 +3151,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Load additional data..
+        /// </summary>
+        public static string SID_Load_additional_data_ {
+            get {
+                return ResourceManager.GetString("SID_Load_additional_data_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Load from Kadastr.
         /// </summary>
         public static string SID_Load_from_Kadastr {
