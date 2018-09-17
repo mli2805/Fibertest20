@@ -227,6 +227,7 @@ namespace Iit.Fibertest.Client
         public async Task<int> RefreshOrChangeTrace() // button
         {
             OneLandmarkViewModel = _globalScope.Resolve<OneLandmarkViewModel>();
+            OneLandmarkViewModel.RtuId = _selectedTrace.RtuId;
             await PrepareLandmarks();
             SelectedRow = Rows.First();
             return 0;
@@ -238,6 +239,7 @@ namespace Iit.Fibertest.Client
 
             await PrepareLandmarks();
             OneLandmarkViewModel = _globalScope.Resolve<OneLandmarkViewModel>();
+            OneLandmarkViewModel.RtuId = _selectedTrace.RtuId;
             SelectedRow = Rows[index];
         }
 

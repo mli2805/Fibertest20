@@ -214,6 +214,7 @@ namespace Iit.Fibertest.Client
         public void Cancel()
         {
             if (_landmarkBeforeChanges == null) return;
+            if (_currentlyHiddenRtu.Collection.Contains(RtuId)) return;
 
             SelectedLandmark = _landmarkBeforeChanges;
             var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
