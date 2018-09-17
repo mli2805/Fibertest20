@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         Width="600" Height="470" Left="200" Top="300"
         d:DataContext="{d:DesignInstance kadastrLoader:KadastrLoaderViewModel}">
-    <DockPanel Margin="5">
+    <DockPanel Margin="5" IsEnabled="{Binding IsFree}">
         <StackPanel Orientation="Horizontal" Margin="5" DockPanel.Dock="Bottom" >
             <Button Content="{x:Static stringResources:Resources.SID_Start}" Margin="5" Width="120" 
                     Name="Start" IsEnabled="{Binding IsStartEnabled}"/>
@@ -18,7 +18,10 @@
         <GroupBox DockPanel.Dock="Top" Margin="5" Header="{x:Static stringResources:Resources.SID_Fibertest_2_0_Server_including_Kadastr}">
             <StackPanel>
                 <StackPanel Margin="10,5,5,5" Orientation="Horizontal" >
+                    <TextBlock Text="Fibertest 2.0 Server" Margin="5" />
                     <TextBlock Text="{Binding ServerIp}" Margin="5" Width="100"/>
+                      <TextBlock Text="MySql port" Margin="5" />
+                    <TextBlock Text="{Binding MySqlPort}" Margin="5" Width="50"/>
                     <Button Margin="5" Width="120" Content="{x:Static stringResources:Resources.SID_Connect}" Name="CheckConnect"/>
                 </StackPanel>
                 <TextBlock Margin="10,5" Background="AliceBlue" Text="{Binding ServerMessage}"/>

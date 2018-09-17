@@ -2,6 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
@@ -18,6 +19,7 @@ namespace KadastrLoader
         private readonly KadastrFilesParser _kadastrFilesParser;
         private readonly C2DWcfManager _c2DWcfManager;
         public string ServerIp { get; set; }
+        public int MySqlPort { get; set; }
 
         private string _kadastrMessage;
         public string KadastrMessage
@@ -57,6 +59,17 @@ namespace KadastrLoader
             }
         }
 
+        public bool IsFree
+        {
+            get { return _isFree; }
+            set
+            {
+                if (value == _isFree) return;
+                _isFree = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public ObservableCollection<string> ProgressLines { get; set; } = new ObservableCollection<string>();
 
         public KadastrLoaderViewModel(IniFile iniFile, LoadedAlready loadedAlready,
@@ -70,6 +83,8 @@ namespace KadastrLoader
             var serverAddresses = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
             c2DWcfManager.SetServerAddresses(serverAddresses, "Kadastr", "");
             ServerIp = serverAddresses.Main.Ip4Address;
+            MySqlPort = iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, 33060);
+            IsFree = true;
         }
 
         protected override void OnViewLoaded(object view)
@@ -117,6 +132,7 @@ namespace KadastrLoader
         }
 
         private bool _isFolderValid;
+        private bool _isFree;
 
         public void SelectFolder()
         {
@@ -141,12 +157,17 @@ namespace KadastrLoader
             bw.ProgressChanged += Bw_ProgressChanged;
             bw.RunWorkerCompleted += Bw_RunWorkerCompleted;
 
+            IsFree = false;
+            Mouse.OverrideCursor = Cursors.Wait;
+            ProgressLines.Clear();
             bw.RunWorkerAsync();
         }
 
         private void Bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
             ProgressLines.Add(Resources.SID_Done_);
+            Mouse.OverrideCursor = null;
+            IsFree = true;
         }
 
         private void Bw_ProgressChanged(object sender, ProgressChangedEventArgs e)

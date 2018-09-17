@@ -2247,6 +2247,6 @@ RTU инициализируется в данный момент!</value>
 		<value>Закрываются соединения, пожалуйста, подождите.</value>
 	</data>
 	<data name="SID_Reveal_traces" xml:space="preserve">
-		<value>Отобразить трассы</value>
+		<value>Отобразить трассы (загрузить в ГИС)</value>
 	</data>
 </root>
