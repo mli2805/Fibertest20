@@ -63,6 +63,8 @@ namespace Broadcaster
             {
                 using (new WaitCursor())
                 {
+                    _iniFile.Write(IniSection.Broadcast, IniKey.TestNumberToSms, SendToNumber);
+                    _iniFile.Write(IniSection.Broadcast, IniKey.TestSmsContent, ContentOfSms);
                     comm.Open();
                     var pdu = new SmsSubmitPdu(ContentOfSms, SendToNumber, CodeForRussian);
                     comm.SendMessage(pdu);
