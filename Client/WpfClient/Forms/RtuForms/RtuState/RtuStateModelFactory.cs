@@ -21,33 +21,32 @@ namespace Iit.Fibertest.Client
             var rtu = _model.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
             if (rtu == null) return null;
 
-            var rtuStateVm = new RtuStateModel();
-            rtuStateVm.Title = rtuLeaf.Title;
+            var rtuStateModel = new RtuStateModel();
+            rtuStateModel.Title = rtuLeaf.Title;
 
-            rtuStateVm.MainAddress = rtu.MainChannel.ToStringA();
-            rtuStateVm.MainAddressState = rtuLeaf.MainChannelState;
+            rtuStateModel.MainAddress = rtu.MainChannel.ToStringA();
+            rtuStateModel.MainAddressState = rtuLeaf.MainChannelState;
 
-            rtuStateVm.HasReserveAddress = rtu.IsReserveChannelSet;
-            rtuStateVm.ReserveAddress = rtu.IsReserveChannelSet ? rtu.ReserveChannel.ToStringA() : Resources.SID_None;
-            rtuStateVm.ReserveAddressState = rtuLeaf.ReserveChannelState;
+            rtuStateModel.HasReserveAddress = rtu.IsReserveChannelSet;
+            rtuStateModel.ReserveAddress = rtu.IsReserveChannelSet ? rtu.ReserveChannel.ToStringA() : Resources.SID_None;
+            rtuStateModel.ReserveAddressState = rtuLeaf.ReserveChannelState;
 
-            rtuStateVm.FullPortCount = rtuLeaf.FullPortCount;
-            rtuStateVm.OwnPortCount = rtuLeaf.OwnPortCount;
+            rtuStateModel.FullPortCount = rtuLeaf.FullPortCount;
+            rtuStateModel.OwnPortCount = rtuLeaf.OwnPortCount;
 
-            rtuStateVm.MonitoringMode = rtuLeaf.MonitoringState.ToLocalizedString();
+            rtuStateModel.MonitoringMode = rtuLeaf.MonitoringState.ToLocalizedString();
 
-            var bopCount = 0;
             var traceCount = 0;
-            rtuStateVm.Ports = PreparePortLines(rtuLeaf.ChildrenImpresario.Children, "",  ref traceCount);
-            rtuStateVm.SetWorstTraceStateAsAggregate();
-            rtuStateVm.TraceCount = traceCount;
-            rtuStateVm.BopCount = bopCount;
-            rtuStateVm.BopState = rtuLeaf.BopState;
+            rtuStateModel.Ports = PreparePortLines(rtuLeaf.ChildrenImpresario.Children, "",  ref traceCount);
+            rtuStateModel.SetWorstTraceStateAsAggregate();
+            rtuStateModel.TraceCount = traceCount;
+            rtuStateModel.BopCount = rtuLeaf.ChildrenImpresario.Children.Count(l=>l is OtauLeaf);
+            rtuStateModel.BopState = rtuLeaf.BopState;
 
-            rtuStateVm.CurrentMeasurementStep = rtuLeaf.MonitoringState == MonitoringState.Off 
+            rtuStateModel.CurrentMeasurementStep = rtuLeaf.MonitoringState == MonitoringState.Off 
                 ? Resources.SID_No_measurement 
                 : Resources.SID_Waiting_for_data;
-            return rtuStateVm;
+            return rtuStateModel;
         }
 
         private List<PortLineModel> PreparePortLines(ObservableCollection<Leaf> leaves, string mainPort,  ref int traceCount)

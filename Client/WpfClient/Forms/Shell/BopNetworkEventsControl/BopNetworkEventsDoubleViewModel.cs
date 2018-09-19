@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
             ActualBopNetworkEventsViewModel = actualBopNetworkEventsViewModel;
             ActualBopNetworkEventsViewModel.TableTitle = Resources.SID_Current_accidents;
             AllBopNetworkEventsViewModel = allBopNetworkEventsViewModel;
-            AllBopNetworkEventsViewModel.TableTitle = @"All Bop network events";
+            AllBopNetworkEventsViewModel.TableTitle = Resources.SID_All_BOP_network_events;
             _readModel = readModel;
             _currentUser = currentUser;
             _systemState = systemState;

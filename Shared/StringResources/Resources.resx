@@ -2252,4 +2252,10 @@ RTU is initializing right now!</value>
 	<data name="SID_Load_additional_data_" xml:space="preserve">
     <value>Load additional data.</value>
   </data>
+	<data name="SID_Trace_statistics" xml:space="preserve">
+    <value>Trace statistics</value>
+  </data>
+	<data name="SID_All_BOP_network_events" xml:space="preserve">
+    <value>All BOP network events</value>
+  </data>
 </root>

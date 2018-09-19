@@ -6,7 +6,7 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d" Width="600" Height="620"
-        Title="RtuStateView" d:DataContext="{d:DesignInstance client:RtuStateViewModel}">
+        d:DataContext="{d:DesignInstance client:RtuStateViewModel}">
     <DockPanel>
         <StackPanel DockPanel.Dock="Top">
             <GroupBox Header="RTU" Margin="5,5,5,0">

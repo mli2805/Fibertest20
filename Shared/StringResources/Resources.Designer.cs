@@ -594,6 +594,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All BOP network events.
+        /// </summary>
+        public static string SID_All_BOP_network_events {
+            get {
+                return ResourceManager.GetString("SID_All_BOP_network_events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All measurements for trace.
         /// </summary>
         public static string SID_All_measurements_for_trace {
@@ -4178,7 +4187,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Path couldn&apos;t be found.
+        ///   Looks up a localized string similar to Path couldn&apos;t be found !.
         /// </summary>
         public static string SID_Path_couldn_t_be_found {
             get {
@@ -5966,6 +5975,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Trace_state_Event_status {
             get {
                 return ResourceManager.GetString("SID_Trace_state_Event_status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace statistics.
+        /// </summary>
+        public static string SID_Trace_statistics {
+            get {
+                return ResourceManager.GetString("SID_Trace_statistics", resourceCulture);
             }
         }
         

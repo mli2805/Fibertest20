@@ -57,8 +57,7 @@ namespace Iit.Fibertest.Client
 
         private static List<Guid> GetPath(this GraphReadModel model, RequestAddTrace request)
         {
-            List<Guid> path;
-            if (!new PathFinder(model).FindPath(request.NodeWithRtuId, request.LastNodeId, out path))
+            if (!new PathFinder(model).FindPath(request.NodeWithRtuId, request.LastNodeId, out var path))
             {
                 var strs = new List<string>()
                 {

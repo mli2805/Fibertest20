@@ -169,6 +169,7 @@ namespace Iit.Fibertest.Client
 
         public void CancelStep()
         {
+            if (Steps.Count == 0) return;
             _currentHighlightedNode.IsHighlighted = false;
             var canceledNodeId = _currentHighlightedNode.Id;
             Steps.Remove(Steps.Last());

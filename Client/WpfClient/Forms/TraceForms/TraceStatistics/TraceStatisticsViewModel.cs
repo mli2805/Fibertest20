@@ -93,7 +93,7 @@ namespace Iit.Fibertest.Client
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = @"Trace statistics";
+            DisplayName = Resources.SID_Trace_statistics;
             IsOpen = true;
         }
 
