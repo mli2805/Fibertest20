@@ -106,11 +106,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Client\WpfCommonViews\WpfCommonViews.csproj">
+    <ProjectReference Include="..\WpfCommonViews\WpfCommonViews.csproj">
       <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>
       <Name>WpfCommonViews</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Shared\Utils35\UtilsLib.csproj">
+    <ProjectReference Include="..\..\Shared\Utils35\UtilsLib.csproj">
       <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
       <Name>UtilsLib</Name>
     </ProjectReference>

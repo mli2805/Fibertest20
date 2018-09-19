@@ -90,7 +90,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperClientWcfServiceInterf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KadastrLoader", "Client\KadastrLoader\KadastrLoader.csproj", "{961FD7CC-5434-4530-AD87-E0D05AC28C28}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Broadcaster", "Broadcaster\Broadcaster.csproj", "{7FEAB0A0-DFBA-453B-A008-5148DC9C4E7A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Broadcaster", "Client\Broadcaster\Broadcaster.csproj", "{7FEAB0A0-DFBA-453B-A008-5148DC9C4E7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
