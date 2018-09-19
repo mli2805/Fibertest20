@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-        SizeToContent="WidthAndHeight" MinWidth="350" Left="400" Top="250" 
+        SizeToContent="WidthAndHeight" MinWidth="350" Left="350" Top="150" 
         mc:Ignorable="d" d:DataContext="{d:DesignInstance client:TraceContentChoiceViewModel}">
     <Grid>
         <StackPanel>

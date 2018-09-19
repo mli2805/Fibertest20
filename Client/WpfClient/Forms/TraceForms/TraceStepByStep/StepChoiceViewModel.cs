@@ -21,10 +21,17 @@ namespace Iit.Fibertest.Client
         {
             _neighbours = neighbours;
             Models = new List<RadioButtonModel>();
-            foreach (var nodeVm in neighbours)
+            foreach (var nodeVm in neighbours.Where(n=>n.Id != previousNodeId))
             {
                 var model = new RadioButtonModel() { Id = nodeVm.Id, IsEnabled = true, Title = nodeVm.Title };
-                if (model.Id == previousNodeId) model.Title = model.Title + Resources.SID____previous_;
+                model.PropertyChanged += Model_PropertyChanged;
+                Models.Add(model);
+            }
+
+            var previous = neighbours.FirstOrDefault(n => n.Id == previousNodeId);
+            if (previous != null)
+            {
+                var model = new RadioButtonModel() { Id = previous.Id, IsEnabled = true, Title = previous.Title + Resources.SID____previous_ };
                 model.PropertyChanged += Model_PropertyChanged;
                 Models.Add(model);
             }
