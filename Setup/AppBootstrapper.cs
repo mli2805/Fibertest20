@@ -66,10 +66,7 @@ namespace Setup
 
             _currentInstallation = _container.Resolve<CurrentInstallation>();
             _currentInstallation.ProductName = "IIT Fibertest";
-            _currentInstallation.ProductVersion = "2.0";
-            _currentInstallation.BuildNumber = "1";
-            _currentInstallation.Revision = "777";
-
+           
             SetCurrentCulture();
 
 

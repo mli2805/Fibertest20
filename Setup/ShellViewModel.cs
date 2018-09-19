@@ -1,4 +1,5 @@
 using System.IO;
+using System.Reflection;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Setup;
@@ -114,7 +115,7 @@ namespace Setup
         }
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = string.Format(Resources.SID_Setup_caption, _currentInstallation.FullName);
+            DisplayName = string.Format(Resources.SID_Setup_caption, Assembly.GetEntryAssembly().GetName().Version);
             _logFile.AssignFile(@"Setup.log");
             _logFile.AppendLine(@"Setup application started!");
             Do();
