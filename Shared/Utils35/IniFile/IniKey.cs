@@ -87,6 +87,11 @@
         MySqlDbSchemePostfix,
         ResetDb,
 
+        //Broadcast
+        GsmModemComPort,
+        TestNumberToSms,
+        TestSmsContent,
+
         // Smtp
         SmtpHost,
         SmtpPort,

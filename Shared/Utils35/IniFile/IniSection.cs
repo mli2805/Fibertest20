@@ -15,6 +15,7 @@
         Watchdog,
         NetTcpBinding,
         MySql,
+        Broadcast,
         Smtp,
         Map,
         Miscellaneous,
