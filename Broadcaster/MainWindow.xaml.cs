@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using GsmComm.GsmCommunication;
+using GsmComm.PduConverter;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -14,7 +15,7 @@ namespace Broadcaster
         private IniFile _iniFile;
 
         public int GsmComPort { get; set; }
-      
+
         public string SendToNumber { get; set; }
         public string ContentOfSms { get; set; }
 
@@ -53,9 +54,26 @@ namespace Broadcaster
             }
         }
 
+        private const byte CodeForRussian = 8;
+        // public const byte Code7Bit = (byte) DataCodingScheme.GeneralCoding.Alpha7BitDefault;
         private void SendSms(object sender, RoutedEventArgs e)
         {
-
+            var comm = new GsmCommMain($"COM{GsmComPort}", 9600, 150);
+            try
+            {
+                using (new WaitCursor())
+                {
+                    comm.Open();
+                    var pdu = new SmsSubmitPdu(ContentOfSms, SendToNumber, CodeForRussian);
+                    comm.SendMessage(pdu);
+                }
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message);
+            }
+            comm.Close();
         }
+
     }
 }

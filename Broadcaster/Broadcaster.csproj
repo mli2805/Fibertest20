@@ -41,6 +41,10 @@
     <Reference Include="GSMCommunication">
       <HintPath>..\GsmLibraries\GSMCommunication.dll</HintPath>
     </Reference>
+    <Reference Include="PDUConverter, Version=1.21.0.0, Culture=neutral, PublicKeyToken=515d87df384dcc81, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\GsmLibraries\PDUConverter.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
