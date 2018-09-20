@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 using System.Windows;
@@ -115,7 +116,10 @@ namespace Setup
         }
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = string.Format(Resources.SID_Setup_caption, Assembly.GetEntryAssembly().GetName().Version);
+            var assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
+
+            DisplayName = string.Format(Resources.SID_Setup_caption, info.FileVersion);
             _logFile.AssignFile(@"Setup.log");
             _logFile.AppendLine(@"Setup application started!");
             Do();
