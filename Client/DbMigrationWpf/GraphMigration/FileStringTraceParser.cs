@@ -17,7 +17,7 @@ namespace DbMigrationWpf
         public void ParseTrace(string[] parts)
         {
             var traceId = int.Parse(parts[1]);
-          
+
             var traceGuid = Guid.NewGuid();
             _graphModel.TracesDictionary.Add(traceId, traceGuid);
 
@@ -30,14 +30,15 @@ namespace DbMigrationWpf
                 });
 
             var otauPortDto = GetOtauPort(int.Parse(parts[2]), int.Parse(parts[3]));
-            _graphModel.TraceEventsUnderConstruction.Add(
-                new AttachTrace()
-                {
-                    TraceId = traceGuid,
-                    OtauPortDto = otauPortDto,
-                    PreviousTraceState = FiberState.Unknown,
-                    AccidentsInLastMeasurement = null,
-                });
+            if (otauPortDto.OpticalPort != -1)
+                _graphModel.TraceEventsUnderConstruction.Add(
+                    new AttachTrace()
+                    {
+                        TraceId = traceGuid,
+                        OtauPortDto = otauPortDto,
+                        PreviousTraceState = FiberState.Unknown,
+                        AccidentsInLastMeasurement = null,
+                    });
         }
 
         private OtauPortDto GetOtauPort(int rtuId, int oldPortNumber)
@@ -91,7 +92,7 @@ namespace DbMigrationWpf
                 if (parts[i] == "")
                     continue;
                 var equipmentId = int.Parse(parts[i]);
-                var equipmentGuid = equipmentId == -1 
+                var equipmentGuid = equipmentId == -1
                     ? GetEmptyNodeEquipmentGuid(cmd)
                     : _graphModel.EquipmentsDictionary[equipmentId];
                 cmd.EquipmentIds.Add(equipmentGuid);

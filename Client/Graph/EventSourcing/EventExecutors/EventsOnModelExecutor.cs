@@ -1,7 +1,11 @@
-﻿namespace Iit.Fibertest.Graph
+﻿using System;
+using Iit.Fibertest.UtilsLib;
+
+namespace Iit.Fibertest.Graph
 {
     public class EventsOnModelExecutor
     {
+        private readonly IMyLog _logFile;
         private readonly EquipmentEventsOnModelExecutor _equipmentEventsOnModelExecutor;
         private readonly NodeEventsOnModelExecutor _nodeEventsOnModelExecutor;
         private readonly FiberEventsOnModelExecutor _fiberEventsOnModelExecutor;
@@ -12,13 +16,15 @@
         private readonly EchoEventsOnModelExecutor _echoEventsOnModelExecutor;
         private readonly MeasurementEventOnModelExecutor _measurementEventOnModelExecutor;
 
-        public EventsOnModelExecutor(EquipmentEventsOnModelExecutor equipmentEventsOnModelExecutor, 
+        public EventsOnModelExecutor(IMyLog logFile,
+            EquipmentEventsOnModelExecutor equipmentEventsOnModelExecutor,
             NodeEventsOnModelExecutor nodeEventsOnModelExecutor,
             FiberEventsOnModelExecutor fiberEventsOnModelExecutor, TraceEventsOnModelExecutor traceEventsOnModelExecutor,
             RtuEventsOnModelExecutor rtuEventsOnModelExecutor, UserEventsOnModelExecutor userEventsOnModelExecutor,
             ZoneEventsOnModelExecutor zoneEventsOnModelExecutor, EchoEventsOnModelExecutor echoEventsOnModelExecutor,
             MeasurementEventOnModelExecutor measurementEventOnModelExecutor)
         {
+            _logFile = logFile;
             _equipmentEventsOnModelExecutor = equipmentEventsOnModelExecutor;
             _nodeEventsOnModelExecutor = nodeEventsOnModelExecutor;
             _fiberEventsOnModelExecutor = fiberEventsOnModelExecutor;
@@ -32,66 +38,75 @@
 
         public string Apply(object e)
         {
-            switch (e)
+            try
             {
-                case ClientStationRegistered _: return null;
-                case ClientStationUnregistered _: return null;
-                case ClientConnectionLost _: return null;
+                switch (e)
+                {
+                    case ClientStationRegistered _: return null;
+                    case ClientStationUnregistered _: return null;
+                    case ClientConnectionLost _: return null;
 
-                case NodeIntoFiberAdded evnt: return _nodeEventsOnModelExecutor.AddNodeIntoFiber(evnt);
-                case NodeUpdated evnt: return _nodeEventsOnModelExecutor.UpdateNode(evnt); 
-                case NodeUpdatedAndMoved evnt: return _nodeEventsOnModelExecutor.UpdateAndMoveNode(evnt); 
-                case NodeMoved evnt: return _nodeEventsOnModelExecutor.MoveNode(evnt); 
-                case NodeRemoved evnt: return _nodeEventsOnModelExecutor.RemoveNode(evnt); 
+                    case NodeIntoFiberAdded evnt: return _nodeEventsOnModelExecutor.AddNodeIntoFiber(evnt);
+                    case NodeUpdated evnt: return _nodeEventsOnModelExecutor.UpdateNode(evnt);
+                    case NodeUpdatedAndMoved evnt: return _nodeEventsOnModelExecutor.UpdateAndMoveNode(evnt);
+                    case NodeMoved evnt: return _nodeEventsOnModelExecutor.MoveNode(evnt);
+                    case NodeRemoved evnt: return _nodeEventsOnModelExecutor.RemoveNode(evnt);
 
-                case FiberAdded evnt: return _fiberEventsOnModelExecutor.AddFiber(evnt); 
-                case FiberUpdated evnt: return _fiberEventsOnModelExecutor.UpdateFiber(evnt); 
-                case FiberRemoved evnt: return _fiberEventsOnModelExecutor.RemoveFiber(evnt); 
+                    case FiberAdded evnt: return _fiberEventsOnModelExecutor.AddFiber(evnt);
+                    case FiberUpdated evnt: return _fiberEventsOnModelExecutor.UpdateFiber(evnt);
+                    case FiberRemoved evnt: return _fiberEventsOnModelExecutor.RemoveFiber(evnt);
 
-                case EquipmentIntoNodeAdded evnt: return _equipmentEventsOnModelExecutor.AddEquipmentIntoNode(evnt); 
-                case EquipmentAtGpsLocationAdded evnt: return _equipmentEventsOnModelExecutor.AddEquipmentAtGpsLocation(evnt); 
-                case EquipmentAtGpsLocationWithNodeTitleAdded evnt: return _equipmentEventsOnModelExecutor.AddEquipmentAtGpsLocationWithNodeTitle(evnt); 
-                case EquipmentUpdated evnt: return _equipmentEventsOnModelExecutor.UpdateEquipment(evnt); 
-                case EquipmentRemoved evnt: return _equipmentEventsOnModelExecutor.RemoveEquipment(evnt); 
-                case EquipmentIntoTraceIncluded evnt: return _equipmentEventsOnModelExecutor.IncludeEquipmentIntoTrace(evnt); 
-                case EquipmentFromTraceExcluded evnt: return _equipmentEventsOnModelExecutor.ExcludeEquipmentFromTrace(evnt); 
+                    case EquipmentIntoNodeAdded evnt: return _equipmentEventsOnModelExecutor.AddEquipmentIntoNode(evnt);
+                    case EquipmentAtGpsLocationAdded evnt: return _equipmentEventsOnModelExecutor.AddEquipmentAtGpsLocation(evnt);
+                    case EquipmentAtGpsLocationWithNodeTitleAdded evnt: return _equipmentEventsOnModelExecutor.AddEquipmentAtGpsLocationWithNodeTitle(evnt);
+                    case EquipmentUpdated evnt: return _equipmentEventsOnModelExecutor.UpdateEquipment(evnt);
+                    case EquipmentRemoved evnt: return _equipmentEventsOnModelExecutor.RemoveEquipment(evnt);
+                    case EquipmentIntoTraceIncluded evnt: return _equipmentEventsOnModelExecutor.IncludeEquipmentIntoTrace(evnt);
+                    case EquipmentFromTraceExcluded evnt: return _equipmentEventsOnModelExecutor.ExcludeEquipmentFromTrace(evnt);
 
-                case RtuAtGpsLocationAdded evnt: return _rtuEventsOnModelExecutor.AddRtuAtGpsLocation(evnt); 
-                case RtuUpdated evnt: return _rtuEventsOnModelExecutor.UpdateRtu(evnt); 
-                case RtuRemoved evnt: return _rtuEventsOnModelExecutor.RemoveRtu(evnt); 
-                case OtauAttached evnt: return _rtuEventsOnModelExecutor.AttachOtau(evnt); 
-                case OtauDetached evnt: return _rtuEventsOnModelExecutor.DetachOtau(evnt); 
+                    case RtuAtGpsLocationAdded evnt: return _rtuEventsOnModelExecutor.AddRtuAtGpsLocation(evnt);
+                    case RtuUpdated evnt: return _rtuEventsOnModelExecutor.UpdateRtu(evnt);
+                    case RtuRemoved evnt: return _rtuEventsOnModelExecutor.RemoveRtu(evnt);
+                    case OtauAttached evnt: return _rtuEventsOnModelExecutor.AttachOtau(evnt);
+                    case OtauDetached evnt: return _rtuEventsOnModelExecutor.DetachOtau(evnt);
 
-                case TraceAdded evnt: return _traceEventsOnModelExecutor.AddTrace(evnt); 
-                case TraceUpdated evnt: return _traceEventsOnModelExecutor.UpdateTrace(evnt); 
-                case TraceCleaned evnt: return _traceEventsOnModelExecutor.CleanTrace(evnt); 
-                case TraceRemoved evnt: return _traceEventsOnModelExecutor.RemoveTrace(evnt); 
-                case TraceAttached evnt: return _traceEventsOnModelExecutor.AttachTrace(evnt); 
-                case TraceDetached evnt: return _traceEventsOnModelExecutor.DetachTrace(evnt); 
+                    case TraceAdded evnt: return _traceEventsOnModelExecutor.AddTrace(evnt);
+                    case TraceUpdated evnt: return _traceEventsOnModelExecutor.UpdateTrace(evnt);
+                    case TraceCleaned evnt: return _traceEventsOnModelExecutor.CleanTrace(evnt);
+                    case TraceRemoved evnt: return _traceEventsOnModelExecutor.RemoveTrace(evnt);
+                    case TraceAttached evnt: return _traceEventsOnModelExecutor.AttachTrace(evnt);
+                    case TraceDetached evnt: return _traceEventsOnModelExecutor.DetachTrace(evnt);
 
-                case UserAdded evnt: return _userEventsOnModelExecutor.AddUser(evnt); 
-                case UserUpdated evnt: return _userEventsOnModelExecutor.UpdateUser(evnt); 
-                case UserRemoved evnt: return _userEventsOnModelExecutor.RemoveUser(evnt); 
-                case LicenseApplied evnt: return _userEventsOnModelExecutor.ApplyLicense(evnt); 
+                    case UserAdded evnt: return _userEventsOnModelExecutor.AddUser(evnt);
+                    case UserUpdated evnt: return _userEventsOnModelExecutor.UpdateUser(evnt);
+                    case UserRemoved evnt: return _userEventsOnModelExecutor.RemoveUser(evnt);
+                    case LicenseApplied evnt: return _userEventsOnModelExecutor.ApplyLicense(evnt);
 
-                case ZoneAdded evnt: return _zoneEventsOnModelExecutor.AddZone(evnt); 
-                case ZoneUpdated evnt: return _zoneEventsOnModelExecutor.UpdateZone(evnt); 
-                case ZoneRemoved evnt: return _zoneEventsOnModelExecutor.RemoveZone(evnt); 
-                case ResponsibilitiesChanged evnt: return _zoneEventsOnModelExecutor.ChangeResponsibilities(evnt); 
+                    case ZoneAdded evnt: return _zoneEventsOnModelExecutor.AddZone(evnt);
+                    case ZoneUpdated evnt: return _zoneEventsOnModelExecutor.UpdateZone(evnt);
+                    case ZoneRemoved evnt: return _zoneEventsOnModelExecutor.RemoveZone(evnt);
+                    case ResponsibilitiesChanged evnt: return _zoneEventsOnModelExecutor.ChangeResponsibilities(evnt);
 
-                case BaseRefAssigned evnt: return _echoEventsOnModelExecutor.AssignBaseRef(evnt); 
-                case RtuInitialized evnt: return _echoEventsOnModelExecutor.InitializeRtu(evnt); 
-                case MonitoringSettingsChanged evnt: return _echoEventsOnModelExecutor.ChangeMonitoringSettings(evnt); 
-                case MonitoringStarted evnt: return _echoEventsOnModelExecutor.StartMonitoring(evnt); 
-                case MonitoringStopped evnt: return _echoEventsOnModelExecutor.StopMonitoring(evnt); 
+                    case BaseRefAssigned evnt: return _echoEventsOnModelExecutor.AssignBaseRef(evnt);
+                    case RtuInitialized evnt: return _echoEventsOnModelExecutor.InitializeRtu(evnt);
+                    case MonitoringSettingsChanged evnt: return _echoEventsOnModelExecutor.ChangeMonitoringSettings(evnt);
+                    case MonitoringStarted evnt: return _echoEventsOnModelExecutor.StartMonitoring(evnt);
+                    case MonitoringStopped evnt: return _echoEventsOnModelExecutor.StopMonitoring(evnt);
 
-                case MeasurementAdded evnt: return _measurementEventOnModelExecutor.AddMeasurement(evnt); 
-                case MeasurementUpdated evnt: return _measurementEventOnModelExecutor.UpdateMeasurement(evnt);
+                    case MeasurementAdded evnt: return _measurementEventOnModelExecutor.AddMeasurement(evnt);
+                    case MeasurementUpdated evnt: return _measurementEventOnModelExecutor.UpdateMeasurement(evnt);
 
-                case NetworkEventAdded evnt: return _measurementEventOnModelExecutor.AddNetworkEvent(evnt);
-                case BopNetworkEventAdded evnt: return _measurementEventOnModelExecutor.AddBopNetworkEvent(evnt);
+                    case NetworkEventAdded evnt: return _measurementEventOnModelExecutor.AddNetworkEvent(evnt);
+                    case BopNetworkEventAdded evnt: return _measurementEventOnModelExecutor.AddBopNetworkEvent(evnt);
 
-                default: return @"Unknown event";
+                    default: return @"Unknown event";
+                }
+            }
+            catch (Exception exception)
+            {
+                _logFile.AppendLine(exception.Message);
+                _logFile.AppendLine($@"EventsOnModelExecutor crashed while applying event {e.GetType().FullName}");
+                throw;
             }
         }
     }

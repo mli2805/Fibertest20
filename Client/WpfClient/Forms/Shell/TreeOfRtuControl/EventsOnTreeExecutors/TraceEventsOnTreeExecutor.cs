@@ -4,6 +4,7 @@ using System.Windows.Media;
 using Autofac;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
@@ -17,13 +18,16 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly TreeOfRtuModel _treeOfRtuModel;
+        private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
 
-        public TraceEventsOnTreeExecutor(ILifetimeScope globalScope, TreeOfRtuModel treeOfRtuModel, CurrentUser currentUser, Model readModel)
+        public TraceEventsOnTreeExecutor(ILifetimeScope globalScope, TreeOfRtuModel treeOfRtuModel, 
+            IMyLog logFile, CurrentUser currentUser, Model readModel)
         {
             _globalScope = globalScope;
             _treeOfRtuModel = treeOfRtuModel;
+            _logFile = logFile;
             _currentUser = currentUser;
             _readModel = readModel;
         }
@@ -104,6 +108,10 @@ namespace Iit.Fibertest.Client
           //  newTraceLeaf.Color = acceptable == EventAcceptability.Full ? Brushes.Black : Brushes.LightGray;
             newTraceLeaf.PortNumber = port;
 
+            if (port < 1 || port > portOwner.ChildrenImpresario.Children.Count)
+            {
+                _logFile.AppendLine($@"Trace {traceLeaf.Title}, port = {port} is wrong");
+            }
             portOwner.ChildrenImpresario.Children[port - 1] = newTraceLeaf;
             newTraceLeaf.BaseRefsSet = traceLeaf.BaseRefsSet;
             rtuLeaf.ChildrenImpresario.Children.Remove(traceLeaf);

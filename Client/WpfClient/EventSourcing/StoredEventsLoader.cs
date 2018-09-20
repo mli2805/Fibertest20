@@ -95,7 +95,7 @@ namespace Iit.Fibertest.Client
                     _logFile.AppendLine(e.Message);
                     var header = @"Timestamp";
                     _logFile.AppendLine(
-                        $@"Exception thrown while processing event with timestamp {msg.Headers[header]}");
+                        $@"Exception thrown while processing event with timestamp {msg.Headers[header]} \n {evnt.GetType().FullName}");
                 }
             }
 

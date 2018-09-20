@@ -64,7 +64,7 @@ namespace KadastrLoader
         {
             var cmd = new AddEquipmentAtGpsLocationWithNodeTitle();
             cmd.NodeId = inFibertestId;
-            cmd.Title = parts[1];
+            cmd.Title = parts[1].Trim();
             cmd.EmptyNodeEquipmentId = Guid.NewGuid();
             cmd.Type = EquipmentType.EmptyNode;
 
