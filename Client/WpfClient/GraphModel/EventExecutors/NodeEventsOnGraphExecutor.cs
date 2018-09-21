@@ -185,7 +185,7 @@ namespace Iit.Fibertest.Client
         // if AdjustmentPoint encounter it will be deleted and we'll pass farther
         public void RemoveNodeWithAllHisFibersUptoRealNode(Guid nodeId)
         {
-            var node = _graphModel.Data.Nodes.FirstOrDefault(f => f.Id != nodeId);
+            var node = _graphModel.Data.Nodes.FirstOrDefault(f => f.Id == nodeId);
             if (node == null) return;
 
             foreach (var fiber in _graphModel.Data.Fibers.Where(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId).ToList())

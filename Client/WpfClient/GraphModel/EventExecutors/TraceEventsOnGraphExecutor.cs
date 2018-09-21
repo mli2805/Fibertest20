@@ -8,16 +8,16 @@ namespace Iit.Fibertest.Client
 {
     public class TraceEventsOnGraphExecutor
     {
-        private readonly GraphReadModel _model;
+        private readonly GraphReadModel _graphModel;
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly AccidentEventsOnGraphExecutor _accidentEventsOnGraphExecutor;
 
-        public TraceEventsOnGraphExecutor(GraphReadModel model, Model readModel,
+        public TraceEventsOnGraphExecutor(GraphReadModel graphModel, Model readModel,
             CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu, AccidentEventsOnGraphExecutor accidentEventsOnGraphExecutor)
         {
-            _model = model;
+            _graphModel = graphModel;
             _readModel = readModel;
             _currentUser = currentUser;
             _currentlyHiddenRtu = currentlyHiddenRtu;
@@ -26,10 +26,10 @@ namespace Iit.Fibertest.Client
 
         public void AddTrace(TraceAdded evnt)
         {
-            if (_currentUser.ZoneId != Guid.Empty) return;
+            if (_currentUser.Role > Role.Root) return;
 
             var fiberIds = _readModel.GetFibersByNodes(evnt.NodeIds).ToList();
-            _model.ChangeFutureTraceColor(evnt.TraceId, fiberIds, FiberState.NotJoined);
+            _graphModel.ChangeFutureTraceColor(evnt.TraceId, fiberIds, FiberState.NotJoined);
         }
 
         private IEnumerable<FiberVm> GetTraceFibersByNodes(List<Guid> nodes)
@@ -40,7 +40,7 @@ namespace Iit.Fibertest.Client
 
         private FiberVm GetFiberBetweenNodes(Guid node1, Guid node2)
         {
-            return _model.Data.Fibers.First(
+            return _graphModel.Data.Fibers.First(
                 f => f.Node1.Id == node1 && f.Node2.Id == node2 ||
                      f.Node1.Id == node2 && f.Node2.Id == node1);
         }
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.Client
         {
             foreach (var fiberId in evnt.FiberIds)
             {
-                var fiberVm = _model.Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
+                var fiberVm = _graphModel.Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
                 fiberVm?.RemoveState(evnt.TraceId);
             }
         }
@@ -62,19 +62,19 @@ namespace Iit.Fibertest.Client
         {
             foreach (var fiberId in evnt.FiberIds)
             {
-                var fiberVm = _model.Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
+                var fiberVm = _graphModel.Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
                 if (fiberVm == null) continue;
                 fiberVm.RemoveState(evnt.TraceId);
                 if (fiberVm.State == FiberState.NotInTrace)
-                    _model.Data.Fibers.Remove(fiberVm);
+                    _graphModel.Data.Fibers.Remove(fiberVm);
             }
             foreach (var nodeId in evnt.NodeIds)
             {
-                if (_model.Data.Fibers.Any(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId))
+                if (_graphModel.Data.Fibers.Any(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId))
                     continue;
-                var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
+                var nodeVm = _graphModel.Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
                 if (nodeVm?.Type != EquipmentType.Rtu)
-                    _model.Data.Nodes.Remove(nodeVm);
+                    _graphModel.Data.Nodes.Remove(nodeVm);
             }
         }
 
@@ -102,7 +102,7 @@ namespace Iit.Fibertest.Client
             var trace = _readModel.Traces.First(t => t.TraceId == traceId);
             foreach (var fiberVm in GetTraceFibersByNodes(trace.NodeIds))
                 fiberVm.SetState(trace.TraceId, trace.State);
-            _model.CleanAccidentPlacesOnTrace(traceId);
+            _graphModel.CleanAccidentPlacesOnTrace(traceId);
         }
 
         private bool ShouldAcceptEventForTrace(Guid traceId)
