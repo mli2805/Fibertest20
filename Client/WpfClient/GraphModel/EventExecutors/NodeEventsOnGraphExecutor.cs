@@ -10,13 +10,11 @@ namespace Iit.Fibertest.Client
     public class NodeEventsOnGraphExecutor
     {
         private readonly GraphReadModel _graphModel;
-        private readonly CurrentUser _currentUser;
         private readonly IMyLog _logFile;
 
-        public NodeEventsOnGraphExecutor(IMyLog logFile, GraphReadModel graphModel, CurrentUser currentUser)
+        public NodeEventsOnGraphExecutor(IMyLog logFile, GraphReadModel graphModel)
         {
             _graphModel = graphModel;
-            _currentUser = currentUser;
             _logFile = logFile;
         }
 
