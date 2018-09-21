@@ -21,7 +21,8 @@ namespace Iit.Fibertest.Client
 
         public void AddEquipmentAtGpsLocation(EquipmentAtGpsLocationAdded evnt)
         {
-            if (_currentUser.ZoneId != Guid.Empty) return;
+            //  if (_currentUser.ZoneId != Guid.Empty) return;
+            if (_currentUser.Role > Role.Root) return;
 
             var nodeVm = new NodeVm()
             {
@@ -35,7 +36,8 @@ namespace Iit.Fibertest.Client
 
         public void AddEquipmentAtGpsLocationWithNodeTitle(EquipmentAtGpsLocationWithNodeTitleAdded evnt)
         {
-            if (_currentUser.ZoneId != Guid.Empty) return;
+            //if (_currentUser.ZoneId != Guid.Empty) return;
+            if (_currentUser.Role > Role.Root) return;
 
             var nodeVm = new NodeVm()
             {
@@ -50,22 +52,24 @@ namespace Iit.Fibertest.Client
 
         public void AddEquipmentIntoNode(EquipmentIntoNodeAdded evnt)
         {
-            if (_currentUser.ZoneId != Guid.Empty
-                && _model.Data.Nodes.All(f => f.Id != evnt.NodeId)) return;
+            //            if (_currentUser.ZoneId != Guid.Empty
+            //                && _model.Data.Nodes.All(f => f.Id != evnt.NodeId)) return;
 
-            var nodeVm = _model.Data.Nodes.First(n => n.Id == evnt.NodeId);
-            nodeVm.Type = evnt.Type;
+            var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == evnt.NodeId);
+            if (nodeVm != null)
+                nodeVm.Type = evnt.Type;
         }
 
         public void UpdateEquipment(EquipmentUpdated evnt)
         {
             var equipment = _readModel.Equipments.First(e => e.EquipmentId == evnt.EquipmentId);
 
-            if (_currentUser.ZoneId != Guid.Empty
-                && _model.Data.Nodes.All(f => f.Id != equipment.NodeId)) return;
+            //            if (_currentUser.ZoneId != Guid.Empty
+            //                && _model.Data.Nodes.All(f => f.Id != equipment.NodeId)) return;
 
-            var nodeVm = _model.Data.Nodes.First(n => n.Id == equipment.NodeId);
-            nodeVm.Type = evnt.Type;
+            var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == equipment.NodeId);
+            if (nodeVm != null)
+                nodeVm.Type = evnt.Type;
         }
 
         public void RemoveEquipment(EquipmentRemoved evnt)
@@ -73,7 +77,8 @@ namespace Iit.Fibertest.Client
             if (_currentUser.ZoneId != Guid.Empty
                 && _model.Data.Nodes.All(f => f.Id != evnt.NodeId)) return;
 
-            var nodeVm = _model.Data.Nodes.First(n => n.Id == evnt.NodeId);
+            var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == evnt.NodeId);
+            if (nodeVm == null) return;
             var majorEquipmentInNode = _readModel.Equipments.Last(e => e.NodeId == nodeVm.Id).Type;
             nodeVm.Type = majorEquipmentInNode;
         }

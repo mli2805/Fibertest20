@@ -44,9 +44,8 @@ namespace KadastrLoader
 
         private AddFiber CreateFiberCmd(string[] parts)
         {
-            var cmd = new AddFiber();
+            var cmd = new AddFiber {FiberId = Guid.NewGuid()};
 
-            cmd.FiberId = Guid.NewGuid();
             if (!int.TryParse(parts[0], out int inKadastrIdL)) return null;
             var wellL = _loadedAlready.Wells.FirstOrDefault(w => w.InKadastrId == inKadastrIdL);
             if (wellL == null)

@@ -7,61 +7,62 @@ namespace Iit.Fibertest.Client
 {
     public class FiberEventsOnGraphExecutor
     {
-        private readonly GraphReadModel _model;
+        private readonly GraphReadModel _graphModel;
         private readonly CurrentUser _currentUser;
 
-        public FiberEventsOnGraphExecutor(GraphReadModel model, CurrentUser currentUser)
+        public FiberEventsOnGraphExecutor(GraphReadModel graphModel, CurrentUser currentUser)
         {
-            _model = model;
+            _graphModel = graphModel;
             _currentUser = currentUser;
         }
 
         public void AddFiber(FiberAdded evnt)
         {
-            if (_currentUser.ZoneId != Guid.Empty) return;
+            if (_currentUser.Role > Role.Root) return;
 
-            _model.Data.Fibers.Add(new FiberVm()
+            _graphModel.Data.Fibers.Add(new FiberVm()
             {
                 Id = evnt.FiberId,
-                Node1 = _model.Data.Nodes.First(m => m.Id == evnt.NodeId1),
-                Node2 = _model.Data.Nodes.First(m => m.Id == evnt.NodeId2),
+                Node1 = _graphModel.Data.Nodes.First(m => m.Id == evnt.NodeId1),
+                Node2 = _graphModel.Data.Nodes.First(m => m.Id == evnt.NodeId2),
             });
         }
 
         public void RemoveFiber(FiberRemoved evnt)
         {
-            if (_currentUser.ZoneId != Guid.Empty
-                && _model.Data.Fibers.All(f => f.Id != evnt.FiberId)) return;
+            //            if (_currentUser.ZoneId != Guid.Empty
+            //                && _graphModel.Data.Fibers.All(f => f.Id != evnt.FiberId)) return;
 
-            var fiberVm = _model.Data.Fibers.First(f => f.Id == evnt.FiberId);
-            RemoveFiberUptoRealNodesNotPoints(fiberVm);
+            var fiberVm = _graphModel.Data.Fibers.FirstOrDefault(f => f.Id == evnt.FiberId);
+            if (fiberVm != null)
+                RemoveFiberUptoRealNodesNotPoints(fiberVm);
         }
 
         private void RemoveFiberUptoRealNodesNotPoints(FiberVm fiber)
         {
-            var leftNode = _model.Data.Nodes.First(n => n.Id == fiber.Node1.Id);
+            var leftNode = _graphModel.Data.Nodes.First(n => n.Id == fiber.Node1.Id);
             while (leftNode.Type == EquipmentType.AdjustmentPoint)
             {
-                var leftFiber = _model.GetAnotherFiberOfAdjustmentPoint(leftNode, fiber.Id);
-                _model.Data.Nodes.Remove(leftNode);
+                var leftFiber = _graphModel.GetAnotherFiberOfAdjustmentPoint(leftNode, fiber.Id);
+                _graphModel.Data.Nodes.Remove(leftNode);
                 var nextLeftNodeId = leftFiber.Node1.Id == leftNode.Id ? leftFiber.Node2.Id : leftFiber.Node1.Id;
-                _model.Data.Fibers.Remove(leftFiber);
-                leftNode = _model.Data.Nodes.First(n => n.Id == nextLeftNodeId);
+                _graphModel.Data.Fibers.Remove(leftFiber);
+                leftNode = _graphModel.Data.Nodes.First(n => n.Id == nextLeftNodeId);
             }
 
-            var rightNode = _model.Data.Nodes.First(n => n.Id == fiber.Node2.Id);
+            var rightNode = _graphModel.Data.Nodes.First(n => n.Id == fiber.Node2.Id);
             while (rightNode.Type == EquipmentType.AdjustmentPoint)
             {
-                var rightFiber = _model.GetAnotherFiberOfAdjustmentPoint(rightNode, fiber.Id);
-                _model.Data.Nodes.Remove(rightNode);
+                var rightFiber = _graphModel.GetAnotherFiberOfAdjustmentPoint(rightNode, fiber.Id);
+                _graphModel.Data.Nodes.Remove(rightNode);
                 var nextRightNodeId = rightFiber.Node1.Id == rightNode.Id ? rightFiber.Node2.Id : rightFiber.Node1.Id;
-                _model.Data.Fibers.Remove(rightFiber);
-                rightNode = _model.Data.Nodes.First(n => n.Id == nextRightNodeId);
+                _graphModel.Data.Fibers.Remove(rightFiber);
+                rightNode = _graphModel.Data.Nodes.First(n => n.Id == nextRightNodeId);
             }
 
-            _model.Data.Fibers.Remove(fiber);
+            _graphModel.Data.Fibers.Remove(fiber);
         }
 
-      
+
     }
 }
