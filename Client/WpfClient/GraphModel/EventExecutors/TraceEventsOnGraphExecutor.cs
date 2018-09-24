@@ -26,10 +26,15 @@ namespace Iit.Fibertest.Client
 
         public void AddTrace(TraceAdded evnt)
         {
-            if (_currentUser.Role > Role.Root) return;
+            // if (_currentUser.Role > Role.Root) return;
+            if (_currentlyHiddenRtu.Collection.Contains(evnt.RtuId)) return;
+
 
             var fiberIds = _readModel.GetFibersByNodes(evnt.NodeIds).ToList();
-            _graphModel.ChangeFutureTraceColor(evnt.TraceId, fiberIds, FiberState.NotJoined);
+            if (!_graphModel.ChangeFutureTraceColor(evnt.TraceId, fiberIds, FiberState.NotJoined))
+            {   // Some fibers are invisible, so this is the way to refresh graph
+                _currentlyHiddenRtu.ChangedRtu = evnt.RtuId;
+            }
         }
 
         private IEnumerable<FiberVm> GetTraceFibersByNodes(List<Guid> nodes)

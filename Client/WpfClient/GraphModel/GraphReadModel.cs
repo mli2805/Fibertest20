@@ -143,16 +143,22 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void ChangeFutureTraceColor(Guid traceId, List<Guid> fiberIds, FiberState state)
+        public bool ChangeFutureTraceColor(Guid traceId, List<Guid> fiberIds, FiberState state)
         {
             foreach (var fiberId in fiberIds)
             {
-                var fiberVm = Data.Fibers.First(f => f.Id == fiberId);
+                var fiberVm = Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
+                if (fiberVm == null)
+                {
+                    LogFile.AppendLine($@"Fiber {fiberId.First6()} was not found");
+                    return false;
+                }
                 if (state != FiberState.NotInTrace)
                     fiberVm.SetState(traceId, state);
                 else
                     fiberVm.RemoveState(traceId);
             }
+            return true;
         }
     }
 }
