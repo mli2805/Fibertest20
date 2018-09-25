@@ -12,11 +12,15 @@ namespace Iit.Fibertest.Client
         public async void AskRemoveRtu(object parameter)
         {
             var marker = (MarkerControl)parameter;
+
             await marker.Owner.GraphReadModel.GrmRtuRequests.RemoveRtu(new RequestRemoveRtu() { NodeId = marker.GMapMarker.Id });
         }
         public void StartDefineTrace(object parameter)
         {
             var marker = (MarkerControl)parameter;
+
+            if (!marker.Owner.GraphReadModel.GrmRtuRequests.AskRevealTracesIfHidden(marker.GMapMarker.Id)) return;
+
             marker.Owner.SetBanner(StringResources.Resources.SID_Trace_definition);
             marker.MainMap.IsInTraceDefiningMode = true;
             marker.MainMap.StartNode = marker.GMapMarker;

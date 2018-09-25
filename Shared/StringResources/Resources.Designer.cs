@@ -4889,6 +4889,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU shoud be in Reveal Traces Mode..
+        /// </summary>
+        public static string SID_RTU_shoud_be_in_Reveal_Traces_Mode_ {
+            get {
+                return ResourceManager.GetString("SID_RTU_shoud_be_in_Reveal_Traces_Mode_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU Title.
         /// </summary>
         public static string SID_RTU_Title {

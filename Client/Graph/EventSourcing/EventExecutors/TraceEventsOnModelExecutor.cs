@@ -25,9 +25,6 @@ namespace Iit.Fibertest.Graph
         }
         public string AddTrace(TraceAdded e)
         {
-            if (e.TraceId.ToString().StartsWith(@"011") || e.TraceId.ToString().StartsWith(@"b7f"))
-                _logFile.AppendLine($"Trace added {e.TraceId.First6()} {e.Title}");
-
             Trace trace = Mapper.Map<Trace>(e);
             trace.ZoneIds.Add(_model.Zones.First(z => z.IsDefaultZone).ZoneId);
             _model.Traces.Add(trace);
@@ -45,10 +42,7 @@ namespace Iit.Fibertest.Graph
 
         public string CleanTrace(TraceCleaned e)
         {
-            if (e.TraceId.ToString().StartsWith(@"011") || e.TraceId.ToString().StartsWith(@"b7f"))
-                _logFile.AppendLine($"Trace cleaned {e.TraceId.First6()}");
-
-            var trace = _model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
+           var trace = _model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
             {
                 var message = $@"TraceCleaned: Trace {e.TraceId} not found";
@@ -82,9 +76,6 @@ namespace Iit.Fibertest.Graph
 
         public string RemoveTrace(TraceRemoved e)
         {
-            if (e.TraceId.ToString().StartsWith(@"011") || e.TraceId.ToString().StartsWith(@"b7f"))
-                _logFile.AppendLine($"Trace removed {e.TraceId.First6()}");
-
             var trace = _model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
             {

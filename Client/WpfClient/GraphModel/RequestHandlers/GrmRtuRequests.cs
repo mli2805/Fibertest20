@@ -56,11 +56,27 @@ namespace Iit.Fibertest.Client
             return await _rtuRemover.Fire(rtu);
         }
 
+     
         public void DefineTraceStepByStep(Guid rtuNodeId, string rtuTitle)
         {
+            if (!AskRevealTracesIfHidden(rtuNodeId)) return;
+
             var vm = _globalScope.Resolve<TraceStepByStepViewModel>();
             vm.Initialize(rtuNodeId, rtuTitle);
             _windowManager.ShowWindowWithAssignedOwner(vm);
+        }
+
+        public bool AskRevealTracesIfHidden(Guid rtuNodeId)
+        {
+            var rtuId = _model.Rtus.First(r => r.NodeId == rtuNodeId).Id;
+            if (_currentlyHiddenRtu.Collection.Contains(rtuId))
+            {
+                var mb = new MyMessageBoxViewModel(MessageType.Confirmation, Resources.SID_RTU_shoud_be_in_Reveal_Traces_Mode_);
+                _windowManager.ShowDialogWithAssignedOwner(mb);
+                if (!mb.IsAnswerPositive) return false;
+                ChangeRtuTracesVisibility(rtuNodeId);
+            }
+            return true;
         }
 
         public void ChangeRtuTracesVisibility(Guid rtuNodeId)

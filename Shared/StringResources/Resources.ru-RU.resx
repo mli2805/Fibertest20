@@ -2258,4 +2258,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_All_BOP_network_events" xml:space="preserve">
 		<value>Все сетевые события БОП</value>
 	</data>
+	<data name="SID_RTU_shoud_be_in_Reveal_Traces_Mode_" xml:space="preserve">
+		<value>RTU должен быть в режиме отображения трасс.</value>
+	</data>
 </root>
