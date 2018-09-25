@@ -36,8 +36,8 @@
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5,15,5,5">
             <Button Name="Save" Height="25" Width="100" Margin="5"
                     Content="{x:Static stringResources:Resources.SID_Save}"
-                    IsEnabled="{Binding IsButtonSaveEnabled}" />
-            <Button Name="Cancel" Height="25" Width="100" Content="{x:Static stringResources:Resources.SID_Cancel}" />
+                    IsEnabled="{Binding IsButtonSaveEnabled}" IsDefault="True"/>
+            <Button Name="Cancel" Height="25" Width="100" Content="{x:Static stringResources:Resources.SID_Cancel}" IsCancel="True"/>
         </StackPanel>
         <GroupBox DockPanel.Dock="Bottom" Margin="5" Header="{x:Static stringResources:Resources.SID_Traces_in_node}">
             <ListBox Height="80" Margin="5"

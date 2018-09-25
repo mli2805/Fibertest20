@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
     {
         private bool CanUpdateFiber(object parameter)
         {
-            return GraphReadModel.CurrentUser.Role <= Role.Root && parameter != null;
+            return parameter != null;
         }
 
         private async void AskUpdateFiber(object parameter)

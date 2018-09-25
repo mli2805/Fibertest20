@@ -19,6 +19,9 @@ namespace Iit.Fibertest.Client
 
         public double OpticalLength { get; set; }
 
+        public string NodeAtitle { get; set; }
+        public string NodeBtitle { get; set; }
+
         public string UserInputedLength
         {
             get { return _userInputedLength; }
@@ -30,7 +33,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public bool IsButtonSaveEnabled = true;
+        public bool IsButtonSaveEnabled { get; set; }
         public UpdateFiber Command { get; set; }
 
        
@@ -43,6 +46,8 @@ namespace Iit.Fibertest.Client
         public void Initialize(Guid fiberId)
         {
             _fiber = _readModel.Fibers.Single(f => f.FiberId == fiberId);
+            NodeAtitle = _readModel.Nodes.Single(n => n.NodeId == _fiber.NodeId1).Title;
+            NodeBtitle = _readModel.Nodes.Single(n => n.NodeId == _fiber.NodeId2).Title;
 
             GpsLength = $@"{_graphGpsCalculator.GetFiberFullGpsDistance(fiberId):#,##0}";
 //            OpticalLength = _fiber.OpticalLength; // потом из базовых брать

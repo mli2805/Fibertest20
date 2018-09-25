@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
 
         public RenderingResult ShowAllOnStart()
         {
-            var renderingResult = new RenderingResult();
+            var renderingResult = ShowOnlyRtus();
             foreach (var trace in _readModel.Traces.Where(r => r.ZoneIds.Contains(_currentUser.ZoneId)))
             {
                _oneRtuOrTraceRenderer.GetTraceRendering(trace, renderingResult);
