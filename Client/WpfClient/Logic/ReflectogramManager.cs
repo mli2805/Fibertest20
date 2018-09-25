@@ -107,7 +107,7 @@ namespace Iit.Fibertest.Client
         }
 
         //------------------------------------------------------------------------------------------------
-        private async Task<byte[]> GetSorBytes(int sorFileId)
+        public async Task<byte[]> GetSorBytes(int sorFileId)
         {
             var sorbytes = await _c2DWcfManager.GetSorBytes(sorFileId);
             if (sorbytes == null)
