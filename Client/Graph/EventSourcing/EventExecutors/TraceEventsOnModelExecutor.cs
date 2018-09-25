@@ -25,6 +25,9 @@ namespace Iit.Fibertest.Graph
         }
         public string AddTrace(TraceAdded e)
         {
+            if (e.TraceId.ToString().StartsWith(@"011") || e.TraceId.ToString().StartsWith(@"b7f"))
+                _logFile.AppendLine($"Trace added {e.TraceId.First6()} {e.Title}");
+
             Trace trace = Mapper.Map<Trace>(e);
             trace.ZoneIds.Add(_model.Zones.First(z => z.IsDefaultZone).ZoneId);
             _model.Traces.Add(trace);
@@ -42,6 +45,9 @@ namespace Iit.Fibertest.Graph
 
         public string CleanTrace(TraceCleaned e)
         {
+            if (e.TraceId.ToString().StartsWith(@"011") || e.TraceId.ToString().StartsWith(@"b7f"))
+                _logFile.AppendLine($"Trace cleaned {e.TraceId.First6()}");
+
             var trace = _model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
             {
@@ -76,6 +82,9 @@ namespace Iit.Fibertest.Graph
 
         public string RemoveTrace(TraceRemoved e)
         {
+            if (e.TraceId.ToString().StartsWith(@"011") || e.TraceId.ToString().StartsWith(@"b7f"))
+                _logFile.AppendLine($"Trace removed {e.TraceId.First6()}");
+
             var trace = _model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
             {
@@ -89,6 +98,12 @@ namespace Iit.Fibertest.Graph
             {
                 if (_model.Traces.Where(t => t.TraceId != e.TraceId).All(t => _model.GetFiberIndexInTrace(t, fiber) == -1))
                     _model.Fibers.Remove(fiber);
+                else
+                {
+                    fiber.TracesWithExceededLossCoeff.Remove(trace.TraceId);
+                    if (fiber.States.ContainsKey(trace.TraceId))
+                        fiber.States.Remove(trace.TraceId);
+                }
             }
 
             foreach (var traceNodeId in trace.NodeIds)
