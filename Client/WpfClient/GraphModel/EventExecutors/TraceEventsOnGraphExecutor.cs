@@ -59,6 +59,10 @@ namespace Iit.Fibertest.Client
                 var fiberVm = _graphModel.Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
                 fiberVm?.RemoveState(evnt.TraceId);
             }
+
+            var rtuId = _readModel.Rtus.First(r => r.NodeId == evnt.NodeIds[0]).Id;
+            if (_currentUser.Role > Role.Root && !_currentlyHiddenRtu.Collection.Contains(rtuId))
+                _currentlyHiddenRtu.ChangedRtu = rtuId;
         }
 
         // event applied to ReadModel firstly and at this moment trace could be cleaned/removed, so fibers list should be prepared beforehand
