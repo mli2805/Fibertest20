@@ -47,16 +47,16 @@ namespace Iit.Fibertest.Client
 
         public async Task UpdateFiber(RequestUpdateFiber request)
         {
-            var cmd = PrepareCommand(request);
+            var cmd = await PrepareCommand(request);
             if (cmd == null)
                 return;
             await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
-        private UpdateFiber PrepareCommand(RequestUpdateFiber request)
+        private async Task<UpdateFiber> PrepareCommand(RequestUpdateFiber request)
         {
             var vm = _globalScope.Resolve<FiberUpdateViewModel>();
-            vm.Initialize(request.Id);
+            await vm.Initialize(request.Id);
             _windowManager.ShowDialogWithAssignedOwner(vm);
 
             return vm.Command;

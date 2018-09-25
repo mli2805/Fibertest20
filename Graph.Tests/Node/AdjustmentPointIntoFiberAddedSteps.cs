@@ -41,7 +41,7 @@ namespace Graph.Tests
         public void GivenЗапоминаемЕгоGpsДлину()
         {
             var vm = _sut.ClientScope.Resolve<FiberUpdateViewModel>();
-            vm.Initialize(_fiberId);
+            vm.Initialize(_fiberId).Wait();
             _initialGpsLength = vm.GpsLength;
         }
 
@@ -62,7 +62,7 @@ namespace Graph.Tests
             foreach (var fiber in _sut.ReadModel.Fibers)
             {
                 var vm = _sut.ClientScope.Resolve<FiberUpdateViewModel>();
-                vm.Initialize(fiber.FiberId);
+                vm.Initialize(fiber.FiberId).Wait();
                 vm.GpsLength.Should().Be(_initialGpsLength);
             }
         }
@@ -80,11 +80,11 @@ namespace Graph.Tests
             var initialGpsInt = int.Parse(_initialGpsLength, NumberStyles.Any, CultureInfo.CurrentUICulture);
 
             var vm1 = _sut.ClientScope.Resolve<FiberUpdateViewModel>();
-            vm1.Initialize(_fiberId1);
+            vm1.Initialize(_fiberId1).Wait();
             var gpsInt1 = int.Parse(vm1.GpsLength, NumberStyles.Any, CultureInfo.CurrentUICulture);
 
             var vm2 = _sut.ClientScope.Resolve<FiberUpdateViewModel>();
-            vm2.Initialize(_fiberId2);
+            vm2.Initialize(_fiberId2).Wait();
             var gpsInt2 = int.Parse(vm2.GpsLength, NumberStyles.Any, CultureInfo.CurrentUICulture);
 
             gpsInt1.Should().Be(gpsInt2);

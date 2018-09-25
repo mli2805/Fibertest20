@@ -157,7 +157,7 @@ namespace Iit.Fibertest.Client
 
         private void OnServerConnectionLostViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsOpen")
+            if (e.PropertyName == @"IsOpen")
             {
                 if (_commandLineParameters.IsUnderSuperClientStart)
                     _c2SWcfManager.NotifyConnectionBroken(_commandLineParameters.ClientOrdinal);

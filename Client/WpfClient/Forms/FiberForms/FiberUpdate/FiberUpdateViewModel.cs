@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
@@ -21,8 +22,6 @@ namespace Iit.Fibertest.Client
 
         public string GpsLength { get; set; }
 
-        public double OpticalLength { get; set; }
-
         public string NodeAtitle { get; set; }
         public string NodeBtitle { get; set; }
 
@@ -37,27 +36,29 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public bool IsEditEnabled { get; set; }
         public bool IsButtonSaveEnabled { get; set; }
         public UpdateFiber Command { get; set; }
 
         public List<Tuple<string, string>> TracesThrough { get; set; } = new List<Tuple<string, string>>();
 
 
-        public FiberUpdateViewModel(Model readModel, GraphGpsCalculator graphGpsCalculator, ReflectogramManager reflectogramManager)
+        public FiberUpdateViewModel(Model readModel, CurrentUser currentUser,
+            GraphGpsCalculator graphGpsCalculator, ReflectogramManager reflectogramManager)
         {
             _readModel = readModel;
+            IsEditEnabled = currentUser.Role <= Role.Root;
             _graphGpsCalculator = graphGpsCalculator;
             _reflectogramManager = reflectogramManager;
         }
 
-        public async void Initialize(Guid fiberId)
+        public async Task Initialize(Guid fiberId)
         {
             _fiber = _readModel.Fibers.Single(f => f.FiberId == fiberId);
             NodeAtitle = _readModel.Nodes.Single(n => n.NodeId == _fiber.NodeId1).Title;
             NodeBtitle = _readModel.Nodes.Single(n => n.NodeId == _fiber.NodeId2).Title;
 
             GpsLength = $@"{_graphGpsCalculator.GetFiberFullGpsDistance(fiberId):#,##0}";
-            //            OpticalLength = _fiber.OpticalLength; // потом из базовых брать
 
             foreach (var trace in _readModel.Traces)
             {
@@ -66,7 +67,7 @@ namespace Iit.Fibertest.Client
                     TracesThrough.Add(new Tuple<string, string>(trace.Title, await GetOpticalLength(trace, index)));
             }
 
-            UserInputedLength = _fiber.UserInputedLength.ToString(CultureInfo.InvariantCulture);
+            UserInputedLength = _fiber.UserInputedLength.Equals(0) ? "" : _fiber.UserInputedLength.ToString(CultureInfo.InvariantCulture);
         }
 
         private async Task<string> GetOpticalLength(Trace trace, int index)
@@ -76,8 +77,8 @@ namespace Iit.Fibertest.Client
             var sorFileId = _readModel.BaseRefs.First(b => b.Id == trace.PreciseId).SorFileId;
             var sorBytes = await _reflectogramManager.GetSorBytes(sorFileId);
             var otdrKnownBlocks = SorData.FromBytes(sorBytes);
-
-            return "";
+            var result = otdrKnownBlocks.GetDistanceBetweenLandmarksInMm(index, index + 1) / 1000;
+            return result.ToString();
         }
 
         protected override void OnViewLoaded(object view)
@@ -87,8 +88,10 @@ namespace Iit.Fibertest.Client
 
         public void Save()
         {
-
-            Command = new UpdateFiber { Id = _fiber.FiberId, UserInputedLength = int.Parse(_userInputedLength) };
+            int userInputedLength = 0;
+            if (_userInputedLength != "")
+                int.TryParse(_userInputedLength, out userInputedLength);
+            Command = new UpdateFiber { Id = _fiber.FiberId, UserInputedLength = userInputedLength };
             TryClose();
         }
 
@@ -106,7 +109,7 @@ namespace Iit.Fibertest.Client
                 switch (columnName)
                 {
                     case "UserInputedLength":
-                        if (!double.TryParse(_userInputedLength, out _))
+                        if (_userInputedLength != "" && !int.TryParse(_userInputedLength, out _))
                         {
                             errorMessage = Resources.SID_Length_should_be_a_number;
                         }

@@ -8,6 +8,11 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:FiberUpdateViewModel}">
+    <Window.Resources>
+        <Style x:Key="ListViewStyle" TargetType="{x:Type GridViewColumnHeader}">
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+        </Style>
+    </Window.Resources>
     <StackPanel FocusManager.FocusedElement="{Binding ElementName=UserInput}">
         <GroupBox Margin="5">
             <StackPanel>
@@ -23,15 +28,18 @@
                     <TextBlock Margin="5" Width="80" Text="{Binding GpsLength}" TextAlignment="Right"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5,5">
-                    <TextBlock Margin="5" Width="170" Text="{x:Static stringResources:Resources.SID_Optical_length_m}" />
-                    <TextBlock Margin="5" Width="80" Text="{Binding OpticalLength}" TextAlignment="Right"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="5,5">
                     <TextBlock Margin="5" Width="170"  Text="{x:Static stringResources:Resources.SID_User_Length_m}" />
-                    <TextBox Name="UserInput" Margin="5" Width="80"  HorizontalContentAlignment="Right"
-                 Text="{Binding UserInputedLength, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
+                    <TextBox Name="UserInput" Margin="5" Width="80"  HorizontalContentAlignment="Right" IsEnabled="{Binding IsEditEnabled}"
+                        Text="{Binding UserInputedLength, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
-            <ListView ItemsSource="{Binding TracesThrough}"></ListView>
+                <ListView Margin="5" ItemsSource="{Binding TracesThrough}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn Header="Trace" HeaderContainerStyle="{StaticResource ListViewStyle}" Width="180" DisplayMemberBinding="{Binding Item1}"/>
+                            <GridViewColumn Header="Length, m" Width="90" DisplayMemberBinding="{Binding Item2}"/>
+                        </GridView>
+                    </ListView.View>
+                </ListView>
             </StackPanel>
         </GroupBox>
 
