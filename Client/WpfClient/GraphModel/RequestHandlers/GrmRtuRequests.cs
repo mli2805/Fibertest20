@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
@@ -71,7 +72,13 @@ namespace Iit.Fibertest.Client
             var rtuId = _model.Rtus.First(r => r.NodeId == rtuNodeId).Id;
             if (_currentlyHiddenRtu.Collection.Contains(rtuId))
             {
-                var mb = new MyMessageBoxViewModel(MessageType.Confirmation, Resources.SID_RTU_shoud_be_in_Reveal_Traces_Mode_);
+                var strs = new List<string>()
+                {
+                    Resources.SID_RTU_shoud_be_in_Reveal_Traces_Mode_,
+                    "",
+                    Resources.SID_Reveal_traces + @" ?",
+                };
+                var mb = new MyMessageBoxViewModel(MessageType.Confirmation, strs, 0);
                 _windowManager.ShowDialogWithAssignedOwner(mb);
                 if (!mb.IsAnswerPositive) return false;
                 ChangeRtuTracesVisibility(rtuNodeId);
