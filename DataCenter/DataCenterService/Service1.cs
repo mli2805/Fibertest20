@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.ServiceProcess;
 using System.Threading;
+using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.UtilsLib;
@@ -38,11 +39,20 @@ namespace Iit.Fibertest.DataCenterService
             InitializeComponent();
         }
 
-        protected override void OnStart(string[] args)
+        protected override async void OnStart(string[] args)
         {
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
             _logFile.AppendLine($"Windows service started. Process {pid}, thread {tid}");
+
+            await Task.Factory.StartNew(Initialize);
+        }
+
+        private void Initialize()
+        {
+            var pid = Process.GetCurrentProcess().Id;
+            var tid = Thread.CurrentThread.ManagedThreadId;
+            _logFile.AppendLine($"Service initialization thread. Process {pid}, thread {tid}");
 
             _serverSettings.Init();
             var resetDb = IniFile.Read(IniSection.MySql, IniKey.ResetDb, false);
