@@ -259,3 +259,4 @@ paket-files/
 /Deploy/SuperClient.zip
 /Deploy/FtAdmin_Release_777.rar
 /Deploy/FtAdminDebug_2.0.1.324.rar
+*.diagsession
