@@ -29,9 +29,8 @@ namespace Iit.Fibertest.Client
             // if (_currentUser.Role > Role.Root) return;
             if (_currentlyHiddenRtu.Collection.Contains(evnt.RtuId)) return;
 
-
-            var fiberIds = _readModel.GetFibersByNodes(evnt.NodeIds).ToList();
-            if (!_graphModel.ChangeFutureTraceColor(evnt.TraceId, fiberIds, FiberState.NotJoined))
+//            var fiberIds = _readModel.GetFibersByNodes(evnt.NodeIds).ToList();
+            if (!_graphModel.ChangeFutureTraceColor(evnt.TraceId, evnt.FiberIds, FiberState.NotJoined))
             {   // Some fibers are invisible, so this is the way to refresh graph
                 _currentlyHiddenRtu.ChangedRtu = evnt.RtuId;
             }

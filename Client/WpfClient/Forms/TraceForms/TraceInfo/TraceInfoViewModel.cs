@@ -125,6 +125,7 @@ namespace Iit.Fibertest.Client
 
         private async Task SendAddTraceCommand()
         {
+            var fiberIds = _readModel.GetFibersOnTraceCreation(Model.TraceNodes).ToList();
             var cmd = new AddTrace()
             {
                 TraceId = Model.TraceId,
@@ -132,6 +133,7 @@ namespace Iit.Fibertest.Client
                 Title = Title,
                 NodeIds = Model.TraceNodes,
                 EquipmentIds = Model.TraceEquipments,
+                FiberIds = fiberIds,
                 Comment = Model.Comment
             };
             var message = await _c2DWcfManager.SendCommandAsObj(cmd);

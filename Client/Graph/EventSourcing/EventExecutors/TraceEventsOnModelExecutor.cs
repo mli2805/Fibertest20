@@ -28,8 +28,14 @@ namespace Iit.Fibertest.Graph
             Trace trace = Mapper.Map<Trace>(e);
             trace.ZoneIds.Add(_model.Zones.First(z => z.IsDefaultZone).ZoneId);
             _model.Traces.Add(trace);
-            for (int i = 1; i < trace.NodeIds.Count; i++)
-                GetFiberBetweenNodes(trace.NodeIds[i - 1], trace.NodeIds[i]).SetState(trace.TraceId, FiberState.NotJoined);
+
+            // temporary for profiling
+            if (trace.FiberIds.Count == 0)
+                trace.FiberIds = _model.GetFibersOnTraceCreation(trace.NodeIds).ToList();
+            //
+
+            foreach (var fiberId in trace.FiberIds)
+                _model.Fibers.First(f=>f.FiberId == fiberId).SetState(trace.TraceId, FiberState.NotJoined);
             return null;
         }
 
@@ -87,7 +93,7 @@ namespace Iit.Fibertest.Graph
             var traceFibers = GetTraceFibersByNodes(trace.NodeIds).ToList();
             foreach (var fiber in traceFibers)
             {
-                if (_model.Traces.Where(t => t.TraceId != e.TraceId).All(t => _model.GetFiberIndexInTrace(t, fiber) == -1))
+                if (_model.Traces.Where(t => t.TraceId != e.TraceId).All(t => t.FiberIds.IndexOf(fiber.FiberId) == -1))
                     _model.Fibers.Remove(fiber);
                 else
                 {

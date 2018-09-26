@@ -62,7 +62,7 @@ namespace Iit.Fibertest.Client
 
             foreach (var trace in _readModel.Traces)
             {
-                var index = _readModel.GetFibersByNodes(trace.NodeIds).ToList().IndexOf(fiberId);
+                var index = trace.FiberIds.IndexOf(fiberId);
                 if (index != -1)
                     TracesThrough.Add(new Tuple<string, string>(trace.Title, await GetOpticalLength(trace, index)));
             }

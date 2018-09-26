@@ -11,6 +11,7 @@ namespace Iit.Fibertest.Graph
         public string Title { get; set; }
         public List<Guid> NodeIds { get; set; } = new List<Guid>();
         public List<Guid> EquipmentIds { get; set; } = new List<Guid>();
+        public List<Guid> FiberIds { get; set; } = new List<Guid>();
         public string Comment { get; set; }
     }
 }

@@ -68,14 +68,13 @@ namespace Iit.Fibertest.Client
             if (!(param is TraceLeaf traceLeaf))
                 return;
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
-            var fiberIds = _readModel.GetFibersByNodes(trace.NodeIds).ToList();
 
             if (_currentlyHiddenRtu.Collection.Contains(trace.RtuId))
             {
                 _currentlyHiddenRtu.Collection.Remove(trace.RtuId);
                 _currentlyHiddenRtu.ChangedRtu = trace.RtuId;
             }
-            _graphReadModel.HighlightTrace(trace.NodeIds[0], fiberIds);
+            _graphReadModel.HighlightTrace(trace.NodeIds[0], trace.FiberIds);
             trace.IsHighlighted = true;
 
             if (_tabulatorViewModel.SelectedTabIndex != 3)

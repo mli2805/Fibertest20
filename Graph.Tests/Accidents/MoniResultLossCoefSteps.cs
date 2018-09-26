@@ -2,7 +2,6 @@
 using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -58,7 +57,8 @@ namespace Graph.Tests
             _trace.State.Should().Be(FiberState.Critical);
             _sut.AssertTraceFibersState(_trace);
 
-            var fibers = _sut.ReadModel.GetFibersByNodes(_trace.NodeIds).ToList();
+//            var fibers = _sut.ReadModel.GetFibersByNodes(_trace.NodeIds).ToList();
+            var fibers = _trace.FiberIds.ToList();
             _sut.GraphReadModel.Data.Fibers.First(f => f.Id == fibers[2]).State.Should().Be(FiberState.Minor);
         }
 

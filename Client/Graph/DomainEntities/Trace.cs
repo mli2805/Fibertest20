@@ -18,6 +18,7 @@ namespace Iit.Fibertest.Graph
         public TraceMode Mode { get; set; } = TraceMode.Light;
         public List<Guid> NodeIds { get; set; } = new List<Guid>();
         public List<Guid> EquipmentIds { get; set; } = new List<Guid>();
+        public List<Guid> FiberIds { get; set; } = new List<Guid>();
 
         public Guid PreciseId { get; set; } = Guid.Empty;
         public TimeSpan PreciseDuration { get; set; }

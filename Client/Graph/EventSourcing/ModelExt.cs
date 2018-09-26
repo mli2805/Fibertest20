@@ -24,12 +24,31 @@ namespace Iit.Fibertest.Graph
             };
         }
 
+        //        public static IEnumerable<Fiber> GetTraceFibers(this Model model, Trace trace)
+        //        {
+        //            return model.GetFibersByNodes(trace.NodeIds).Select(i => model.Fibers.Single(f => f.FiberId == i));
+        //        }
+
         public static IEnumerable<Fiber> GetTraceFibers(this Model model, Trace trace)
         {
-            return model.GetFibersByNodes(trace.NodeIds).Select(i => model.Fibers.Single(f => f.FiberId == i));
+            return trace.FiberIds.Select(i => model.Fibers.First(f => f.FiberId == i));
         }
 
-        public static IEnumerable<Guid> GetFibersByNodes(this Model model, List<Guid> nodes)
+
+//        public static IEnumerable<Guid> GetFibersByNodes(this Model model, List<Guid> nodes)
+//        {
+//            for (int i = 1; i < nodes.Count; i++)
+//            {
+//                var fiber = model.Fibers.FirstOrDefault(
+//                    f => f.NodeId1 == nodes[i - 1] && f.NodeId2 == nodes[i] ||
+//                         f.NodeId1 == nodes[i] && f.NodeId2 == nodes[i - 1]);
+//
+//                if (fiber != null)
+//                    yield return fiber.FiberId;
+//            }
+//        }
+
+        public static IEnumerable<Guid> GetFibersOnTraceCreation(this Model model, List<Guid> nodes)
         {
             for (int i = 1; i < nodes.Count; i++)
             {
@@ -42,17 +61,12 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        public static int GetFiberIndexInTrace(this Model model, Trace trace, Fiber fiber)
-        {
-            var fiberIds = model.GetFibersByNodes(trace.NodeIds).ToList();
-            return fiberIds.IndexOf(fiber.FiberId);
-        }
-
         public static IEnumerable<Trace> GetTracesPassingFiber(this Model model, Guid fiberId)
         {
             foreach (var trace in model.Traces)
             {
-                if (model.GetFibersByNodes(trace.NodeIds).Contains(fiberId))
+               // if (model.GetFibersByNodes(trace.NodeIds).Contains(fiberId))
+                if (trace.FiberIds.Contains(fiberId))
                     yield return trace;
             }
         }
@@ -193,11 +207,11 @@ namespace Iit.Fibertest.Graph
             return model.Equipments.FirstOrDefault(e => e.NodeId == nodeId && e.Type == EquipmentType.AdjustmentPoint) != null;
         }
 
-      
+
         // returns true if there's a fiber between start and finish or they are separated by adjustment points only
         public static bool HasDirectFiberDontMindPoints(this Model model, Guid start, Guid finish)
         {
-            foreach (var neighbourNodeId in model.Fibers.Where(f=>f.NodeId1 == start || f.NodeId2 == start).Select(n=>n.NodeId1 == start ? n.NodeId2 : n.NodeId1))
+            foreach (var neighbourNodeId in model.Fibers.Where(f => f.NodeId1 == start || f.NodeId2 == start).Select(n => n.NodeId1 == start ? n.NodeId2 : n.NodeId1))
             {
                 var previousNodeId = start;
                 var currentNodeId = neighbourNodeId;
@@ -207,7 +221,7 @@ namespace Iit.Fibertest.Graph
                     if (currentNodeId == finish) return true;
                     if (!model.IsAdjustmentPoint(currentNodeId)) break;
 
-                    var fiber = model.Fibers.First(f => f.NodeId1 == currentNodeId && f.NodeId2 != previousNodeId 
+                    var fiber = model.Fibers.First(f => f.NodeId1 == currentNodeId && f.NodeId2 != previousNodeId
                                                      || f.NodeId2 == currentNodeId && f.NodeId1 != previousNodeId);
                     currentNodeId = fiber.NodeId1 == currentNodeId ? fiber.NodeId2 : fiber.NodeId1;
                 }

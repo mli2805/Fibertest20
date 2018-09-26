@@ -44,7 +44,7 @@ namespace Iit.Fibertest.Graph
             foreach (var trace in _model.Traces)
             {
                 int idx;
-                while ((idx = _model.GetFiberIndexInTrace(trace, _model.Fibers.First(f => f.FiberId == e.FiberId))) != -1)
+                while ((idx = trace.FiberIds.IndexOf(_model.Fibers.First(f => f.FiberId == e.FiberId).FiberId)) != -1)
                 {
                     trace.NodeIds.Insert(idx + 1, e.Id); // GPS location добавляется во все трассы
                     trace.EquipmentIds.Insert(idx + 1, e.EquipmentId);
