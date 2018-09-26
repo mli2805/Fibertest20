@@ -3980,6 +3980,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Opt. length, m.
+        /// </summary>
+        public static string SID_Opt_length_m {
+            get {
+                return ResourceManager.GetString("SID_Opt_length_m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Optical event.
         /// </summary>
         public static string SID_Optical_event {

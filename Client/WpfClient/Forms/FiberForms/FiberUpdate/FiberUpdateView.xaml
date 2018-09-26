@@ -35,8 +35,8 @@
                 <ListView Margin="5" ItemsSource="{Binding TracesThrough}">
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="Trace" HeaderContainerStyle="{StaticResource ListViewStyle}" Width="180" DisplayMemberBinding="{Binding Item1}"/>
-                            <GridViewColumn Header="Length, m" Width="90" DisplayMemberBinding="{Binding Item2}"/>
+                            <GridViewColumn Header="{x:Static stringResources:Resources.SID_Trace}" HeaderContainerStyle="{StaticResource ListViewStyle}" Width="180" DisplayMemberBinding="{Binding Item1}"/>
+                            <GridViewColumn Header="{x:Static stringResources:Resources.SID_Opt_length_m}" Width="90" DisplayMemberBinding="{Binding Item2}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

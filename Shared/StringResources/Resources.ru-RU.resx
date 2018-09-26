@@ -2261,4 +2261,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_RTU_shoud_be_in_Reveal_Traces_Mode_" xml:space="preserve">
 		<value>RTU должен быть в режиме отображения трасс.</value>
 	</data>
+	<data name="SID_no_base" xml:space="preserve">
+		<value>нет базовой</value>
+	</data>
+	<data name="SID_Opt_length_m" xml:space="preserve">
+		<value>Опт. длина, м</value>
+	</data>
 </root>

@@ -2261,7 +2261,10 @@ RTU is initializing right now!</value>
 	<data name="SID_RTU_shoud_be_in_Reveal_Traces_Mode_" xml:space="preserve">
     <value>RTU shoud be in Reveal Traces Mode.</value>
   </data>
-  <data name="SID_no_base" xml:space="preserve">
+	<data name="SID_no_base" xml:space="preserve">
     <value>no base</value>
+  </data>
+	<data name="SID_Opt_length_m" xml:space="preserve">
+    <value>Opt. length, m</value>
   </data>
 </root>
