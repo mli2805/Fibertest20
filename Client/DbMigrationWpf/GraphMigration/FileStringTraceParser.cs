@@ -80,6 +80,18 @@ namespace DbMigrationWpf
             }
         }
 
+        public void ParseTraceFibers(string[] parts)
+        {
+            var traceId = int.Parse(parts[1]);
+            var evnt = (AddTrace)_graphModel.TraceEventsUnderConstruction.First(e => e is AddTrace && ((AddTrace)e).TraceId == _graphModel.TracesDictionary[traceId]);
+            for (int i = 2; i < parts.Length; i++)
+            {
+                if (parts[i] == "")
+                    continue;
+                evnt.FiberIds.Add(_graphModel.FibersDictionary[int.Parse(parts[i])]);
+            }
+        }
+
         public void ParseTraceEquipments(string[] parts)
         {
             var traceId = int.Parse(parts[1]);

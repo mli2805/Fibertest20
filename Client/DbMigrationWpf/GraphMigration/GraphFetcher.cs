@@ -112,6 +112,9 @@ namespace DbMigrationWpf
                     case "TRACES::N":
                         _fileStringTraceParser.ParseTraceNodes(parts);
                         break;
+                    case "TRACES::F":
+                        _fileStringTraceParser.ParseTraceFibers(parts);
+                        break;
                     case "TRACES::E":
                         _fileStringTraceParser.ParseTraceEquipments(parts);
                         break;

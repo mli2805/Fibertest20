@@ -29,11 +29,6 @@ namespace Iit.Fibertest.Graph
             trace.ZoneIds.Add(_model.Zones.First(z => z.IsDefaultZone).ZoneId);
             _model.Traces.Add(trace);
 
-            // temporary for profiling
-            if (trace.FiberIds.Count == 0)
-                trace.FiberIds = _model.GetFibersOnTraceCreation(trace.NodeIds).ToList();
-            //
-
             foreach (var fiberId in trace.FiberIds)
                 _model.Fibers.First(f=>f.FiberId == fiberId).SetState(trace.TraceId, FiberState.NotJoined);
             return null;

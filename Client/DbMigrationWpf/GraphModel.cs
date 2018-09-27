@@ -17,6 +17,7 @@ namespace DbMigrationWpf
         public readonly List<object> Commands = new List<object>();
 
         public readonly Dictionary<int, Guid> NodesDictionary = new Dictionary<int, Guid>();
+        public readonly Dictionary<int, Guid> FibersDictionary = new Dictionary<int, Guid>();
         public readonly Dictionary<Guid, Guid> NodeToRtuDictionary = new Dictionary<Guid, Guid>();
         public readonly Dictionary<int, Guid> EquipmentsDictionary = new Dictionary<int, Guid>();
         public readonly Dictionary<int, Guid> TracesDictionary = new Dictionary<int, Guid>();

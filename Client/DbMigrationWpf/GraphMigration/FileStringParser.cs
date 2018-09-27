@@ -15,8 +15,9 @@ namespace DbMigrationWpf
 
         public void ParseFiber(string[] parts)
         {
-            var nodeId1 = int.Parse(parts[1]);
-            var nodeId2 = int.Parse(parts[2]);
+            var fiberId = int.Parse(parts[1]);
+            var nodeId1 = int.Parse(parts[2]);
+            var nodeId2 = int.Parse(parts[3]);
 
             var evnt = new AddFiber()
             {
@@ -25,6 +26,8 @@ namespace DbMigrationWpf
                 NodeId2 = _graphModel.NodesDictionary[nodeId2]
             };
             _graphModel.Commands.Add(evnt);
+
+            _graphModel.FibersDictionary.Add(fiberId, evnt.FiberId);
         }
 
         public void ParseNode(string[] parts)
