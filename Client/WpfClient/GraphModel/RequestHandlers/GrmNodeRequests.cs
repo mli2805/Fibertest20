@@ -43,7 +43,8 @@ namespace Iit.Fibertest.Client
 
         private AddNodeIntoFiber PrepareAddNodeIntoFiber(RequestAddNodeIntoFiber request)
         {
-            if (request.InjectionType != EquipmentType.AdjustmentPoint && IsFiberContainedInAnyTraceWithBase(request.FiberId))
+            var tracesPassingFiber = _model.GetTracesPassingFiber(request.FiberId);
+            if (request.InjectionType != EquipmentType.AdjustmentPoint && tracesPassingFiber.Any(t=>t.HasAnyBaseRef))
             {
                 _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram));
                 return null;
@@ -63,9 +64,7 @@ namespace Iit.Fibertest.Client
 
         public bool IsFiberContainedInAnyTraceWithBase(Guid fiberId)
         {
-            var fiber = _model.Fibers.FirstOrDefault(f => f.FiberId == fiberId);
-            if (fiber == null) return false;
-            return _model.Traces.Where(t => t.HasAnyBaseRef).ToList().Any(trace => trace.FiberIds.IndexOf(fiber.FiberId) != -1);
+            return _model.GetTracesPassingFiber(fiberId).Any(t => t.HasAnyBaseRef);
         }
 
         public async Task RemoveNode(Guid nodeId, EquipmentType type)

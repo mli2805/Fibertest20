@@ -110,10 +110,16 @@ namespace Iit.Fibertest.DataCenterCore
                 return resultInGraph;
 
             // A few commands need post-processing in Db or RTU
+            return await PostProcessing(cmd);
+        }
+
+        private async Task<string> PostProcessing(object cmd)
+        {
             if (cmd is RemoveRtu removeRtu)
                 return await _rtuStationsRepository.RemoveRtuAsync(removeRtu.RtuId);
 
             #region Base ref amend
+
             if (cmd is UpdateAndMoveNode updateAndMoveNode)
                 return await _baseRefRepairmanIntermediary.AmendForTracesWhichUseThisNode(updateAndMoveNode.NodeId);
             if (cmd is UpdateNode updateNode)
@@ -127,7 +133,9 @@ namespace Iit.Fibertest.DataCenterCore
             if (cmd is AddNodeIntoFiber addNodeIntoFiber)
                 return await _baseRefRepairmanIntermediary.AmendForTracesWhichUseThisNode(addNodeIntoFiber.Id);
             if (cmd is RemoveNode removeNode && removeNode.Type == EquipmentType.AdjustmentPoint)
-                return await _baseRefRepairmanIntermediary.ProcessNodeRemoved(removeNode.DetoursForGraph.Select(d => d.TraceId).ToList());
+                return await _baseRefRepairmanIntermediary.ProcessNodeRemoved(removeNode.DetoursForGraph.Select(d => d.TraceId)
+                    .ToList());
+
             #endregion
 
             return null;

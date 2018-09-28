@@ -125,7 +125,7 @@ namespace Iit.Fibertest.Client
 
         private async Task SendAddTraceCommand()
         {
-            var fiberIds = _readModel.GetFibersOnTraceCreation(Model.TraceNodes).ToList();
+            var fiberIds = _readModel.GetFibersAtTraceCreation(Model.TraceNodes).ToList();
             var cmd = new AddTrace()
             {
                 TraceId = Model.TraceId,

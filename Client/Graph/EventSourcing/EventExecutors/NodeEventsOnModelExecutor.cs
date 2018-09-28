@@ -23,8 +23,8 @@ namespace Iit.Fibertest.Graph
         }
         public string AddNodeIntoFiber(NodeIntoFiberAdded e)
         {
-            var fiber = _model.Fibers.FirstOrDefault(f => f.FiberId == e.FiberId);
-            if (fiber == null)
+            var oldFiber = _model.Fibers.FirstOrDefault(f => f.FiberId == e.FiberId);
+            if (oldFiber == null)
             {
                 var message = $@"NodeIntoFiberAdded: Fiber {e.FiberId.First6()} not found";
                 _logFile.AppendLine(message);
@@ -33,25 +33,58 @@ namespace Iit.Fibertest.Graph
 
             _model.Nodes.Add(new Node() { NodeId = e.Id, Position = e.Position, TypeOfLastAddedEquipment = e.InjectionType });
             _model.Equipments.Add(new Equipment() { EquipmentId = e.EquipmentId, Type = e.InjectionType, NodeId = e.Id });
-            AddTwoFibersToNewNode(e, fiber);
-            FixTracesWhichContainedOldFiber(e);
 
-            _model.Fibers.Remove(fiber);
+            CreateTwoFibers(e, oldFiber);
+            FixTracesPassingOldFiber(e, oldFiber);
+
+            _model.Fibers.Remove(oldFiber);
             return null;
         }
-        private void FixTracesWhichContainedOldFiber(NodeIntoFiberAdded e)
+      
+        private void FixTracesPassingOldFiber(NodeIntoFiberAdded e, Fiber oldFiber)
         {
-            foreach (var trace in _model.Traces)
+            foreach (var traceId in oldFiber.States.Keys)
             {
-                int idx;
-                while ((idx = trace.FiberIds.IndexOf(_model.Fibers.First(f => f.FiberId == e.FiberId).FiberId)) != -1)
+                var trace = _model.Traces.First(t => t.TraceId == traceId);
+
+                var oldFibersArray = trace.FiberIds.ToArray();
+                var oldNodesArray = trace.NodeIds.ToArray();
+                var oldEquipmentsArray = trace.EquipmentIds.ToArray();
+
+                trace.FiberIds.Clear();
+                trace.NodeIds.Clear(); trace.NodeIds.Add(oldNodesArray[0]);
+                trace.EquipmentIds.Clear(); trace.EquipmentIds.Add(oldEquipmentsArray[0]);
+
+                for (int i = 0; i < oldFibersArray.Length; i++)
                 {
-                    trace.NodeIds.Insert(idx + 1, e.Id); // GPS location добавляется во все трассы
-                    trace.EquipmentIds.Insert(idx + 1, e.EquipmentId);
+                    if (oldFibersArray[i] != oldFiber.FiberId)
+                    {
+                        trace.FiberIds.Add(oldFibersArray[i]);
+                        trace.NodeIds.Add(oldNodesArray[i+1]);
+                        trace.EquipmentIds.Add(oldEquipmentsArray[i+1]);
+                    }
+                    else
+                    {
+                        trace.FiberIds.Add(GetOneOfNewFibersId(e, trace.NodeIds.Last()));
+                        trace.FiberIds.Add(trace.FiberIds.Last() == e.NewFiberId1 ? e.NewFiberId2 : e.NewFiberId1);
+                        trace.NodeIds.Add(e.Id);
+                        trace.NodeIds.Add(oldNodesArray[i+1]);
+                        trace.EquipmentIds.Add(e.EquipmentId);
+                        trace.EquipmentIds.Add(oldEquipmentsArray[i+1]);
+                    }
                 }
             }
         }
-        private void AddTwoFibersToNewNode(NodeIntoFiberAdded e, Fiber oldFiber)
+
+        private Guid GetOneOfNewFibersId(NodeIntoFiberAdded e, Guid nodeNearby)
+        {
+            var fiber1 = _model.Fibers.First(f => f.FiberId == e.NewFiberId1);
+            return fiber1.NodeId1 == nodeNearby || fiber1.NodeId2 == nodeNearby ? e.NewFiberId1 : e.NewFiberId2;
+        }
+
+
+
+        private void CreateTwoFibers(NodeIntoFiberAdded e, Fiber oldFiber)
         {
             Guid nodeId1 = _model.Fibers.First(f => f.FiberId == e.FiberId).NodeId1;
             Guid nodeId2 = _model.Fibers.First(f => f.FiberId == e.FiberId).NodeId2;
