@@ -1,13 +1,38 @@
-﻿using Caliburn.Micro;
+﻿using System.ComponentModel;
+using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-    public class FiberWithNodesAddViewModel : Screen
+    public class FiberWithNodesAddViewModel : Screen, IDataErrorInfo
     {
+        private string _count;
         public bool Result { get; set; }
-        public int Count { get; set; }
+
+        public string Count
+        {
+            get { return _count; }
+            set
+            {
+                if (value == _count) return;
+                _count = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private bool _isButtonSaveEnabled;
+        public bool IsButtonSaveEnabled
+        {
+            get => _isButtonSaveEnabled;
+            set
+            {
+                if (value == _isButtonSaveEnabled) return;
+                _isButtonSaveEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
 
         public RadioButtonModel AdjustmentPoint { get; } = new RadioButtonModel { Title = Resources.SID_Adjustment_point, IsChecked = false };
         public RadioButtonModel NodeWithoutEquipment { get; set; } = new RadioButtonModel { Title = Resources.SID_Node_without_equipment, IsChecked = false };
@@ -81,5 +106,24 @@ namespace Iit.Fibertest.Client
                     break;
             }
         }
+
+        public string this[string columnName]
+        {
+            get
+            {
+                var errorMessage = string.Empty;
+                switch (columnName)
+                {
+                    case "Count":
+                        if (!int.TryParse(_count, out int cc) || cc > 60 || cc < 0)
+                            errorMessage = Resources.SID_Must_be_number_no_more_than_60;
+                        IsButtonSaveEnabled = errorMessage == string.Empty;
+                        break;
+                }
+                return errorMessage;
+            }
+        }
+
+        public string Error { get; set; }
     }
 }

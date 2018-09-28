@@ -3277,6 +3277,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to  ( maximum 60 ) .
+        /// </summary>
+        public static string SID_Maximum_60 {
+            get {
+                return ResourceManager.GetString("SID_Maximum_60", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measure.
         /// </summary>
         public static string SID_Measure {
@@ -3552,6 +3561,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_More {
             get {
                 return ResourceManager.GetString("SID_More", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Must be number no more than 60.
+        /// </summary>
+        public static string SID_Must_be_number_no_more_than_60 {
+            get {
+                return ResourceManager.GetString("SID_Must_be_number_no_more_than_60", resourceCulture);
             }
         }
         

@@ -98,7 +98,7 @@ namespace Graph.Tests
         public static bool FiberWithNodesAdditionHandler(this SystemUnderTest sut, object model, int count, EquipmentType type, Answer answer)
         {
             if (!(model is FiberWithNodesAddViewModel vm)) return false;
-            vm.Count = count;
+            vm.Count = count.ToString();
             vm.SetSelectedType(type);
             if (answer == Answer.Yes)
                 vm.Save();

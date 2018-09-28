@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
             if (!vm.Result)
                 return null;
 
-            return EndFiberCreationMany(request, vm.Count, vm.GetSelectedType());
+            return EndFiberCreationMany(request, int.Parse(vm.Count), vm.GetSelectedType());
         }
 
         private bool Validate(RequestAddFiberWithNodes request)
