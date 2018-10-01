@@ -26,6 +26,8 @@
     /// </summary>
     public partial class GMapControl : ItemsControl, Interface, IDisposable
     {
+        public bool IsInGisVisibleMode { get; set; }
+
         #region DependencyProperties and related stuff
 
         public System.Windows.Point MapPoint
@@ -1470,7 +1472,7 @@
 
             #region -- copyright --
 
-            if (Copyright != null)
+            if (Copyright != null && IsInGisVisibleMode)
             {
                 drawingContext.DrawText(Copyright, new System.Windows.Point(5, ActualHeight - Copyright.Height - 5));
             }

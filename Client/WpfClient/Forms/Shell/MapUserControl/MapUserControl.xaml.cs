@@ -45,6 +45,7 @@ namespace Iit.Fibertest.Client
             var graph = (GraphReadModel)e.NewValue;
             graph.MainMap = MainMap;
             MainMap.CurrentGpsInputMode = GraphReadModel.CurrentGpsInputMode;
+            MainMap.IsInGisVisibleMode = GraphReadModel.IsInGisVisibleMode;
 
             graph.Data.Nodes.CollectionChanged += NodesCollectionChanged;
             graph.Data.Fibers.CollectionChanged += FibersCollectionChanged;

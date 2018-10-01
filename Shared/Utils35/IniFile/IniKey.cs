@@ -4,6 +4,7 @@
     {
         // Server
         ClientGuidOnServer,
+        IsInGisVisibleMode,
         RtuGuid,
         HasReserveAddress,
         ServerTitle,

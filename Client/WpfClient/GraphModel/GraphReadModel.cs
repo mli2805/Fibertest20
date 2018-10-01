@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client
     public class GraphReadModel : PropertyChangedBase
     {
         public Map MainMap { get; set; }
-
+        public bool IsInGisVisibleMode { get; set; }
         public IMyLog LogFile { get; }
         public CurrentGpsInputMode CurrentGpsInputMode { get; }
         public CurrentUser CurrentUser { get; }
@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Client
         }
 
         public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, 
-            CurrentGpsInputMode currentGpsInputMode, CurrentUser currentUser,
+            CurrentGpsInputMode currentGpsInputMode, CurrentUser currentUser, CurrentDatacenterParameters currentDatacenterParameters,
             CommonStatusBarViewModel commonStatusBarViewModel,
             GrmNodeRequests grmNodeRequests, GrmEquipmentRequests grmEquipmentRequests,
             GrmFiberRequests grmFiberRequests, GrmFiberWithNodesRequest grmFiberWithNodesRequest,
@@ -66,6 +66,7 @@ namespace Iit.Fibertest.Client
             ReadModel = readModel;
             GlobalScope = globalScope;
             IniFile = iniFile;
+            IsInGisVisibleMode = currentDatacenterParameters.IsInGisVisibleMode;
             Data.Nodes = new ObservableCollection<NodeVm>();
             Data.Fibers = new ObservableCollection<FiberVm>();
 

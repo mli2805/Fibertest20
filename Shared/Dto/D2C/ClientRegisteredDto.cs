@@ -29,5 +29,8 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public string DatacenterVersion { get; set; }
+
+        [DataMember]
+        public bool IsInGisVisibleMode { get; set; }
     }
 }

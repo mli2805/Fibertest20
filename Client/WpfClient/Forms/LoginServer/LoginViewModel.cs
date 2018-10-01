@@ -144,6 +144,7 @@ namespace Iit.Fibertest.Client
                 _currentUser.ZoneTitle = result.ZoneTitle;
                 _currentDatacenterParameters.DatacenterVersion = result.DatacenterVersion;
                 _currentDatacenterParameters.GraphDbVersionId = result.GraphDbVersionId;
+                _currentDatacenterParameters.IsInGisVisibleMode = result.IsInGisVisibleMode;
                 _logFile.AppendLine(@"Registered successfully");
                 IsRegistrationSuccessful = true;
                 TryClose();

@@ -8,5 +8,6 @@ namespace Iit.Fibertest.Client
         public string ServerIp { get; set; }
         public Guid GraphDbVersionId { get; set; }
         public string DatacenterVersion { get; set; }
+        public bool IsInGisVisibleMode { get; set; } = true;
     }
 }

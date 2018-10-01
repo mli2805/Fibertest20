@@ -14,9 +14,11 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly Model _writeModel;
         private readonly EventStoreService _eventStoreService;
         private readonly List<ClientStation> _clients = new List<ClientStation>();
+        private readonly bool _isInGisVisibleMode;
 
-        public ClientsCollection(IMyLog logFile, Model writeModel, EventStoreService eventStoreService)
+        public ClientsCollection(IniFile iniFile, IMyLog logFile, Model writeModel, EventStoreService eventStoreService)
         {
+            _isInGisVisibleMode = iniFile.Read(IniSection.Server, IniKey.IsInGisVisibleMode, true);
             _logFile = logFile;
             _writeModel = writeModel;
             _eventStoreService = eventStoreService;
@@ -117,6 +119,7 @@ namespace Iit.Fibertest.DataCenterCore
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             result.DatacenterVersion = fvi.FileVersion;
             result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
+            result.IsInGisVisibleMode = _isInGisVisibleMode;
             return result;
         }
 
