@@ -12,7 +12,10 @@ namespace Iit.Fibertest.Graph
             var nodes = model.GetTraceNodes(trace).ToArray();
             var rtu = model.Rtus.First(r => r.Id == trace.RtuId);
             var equipList =
-                new List<Equipment>() { new Equipment() { Type = EquipmentType.Rtu, Title = rtu.Title } }; // fake RTU, just for indexes match
+                new List<Equipment>()
+                {
+                    new Equipment() {Type = EquipmentType.Rtu, Title = rtu.Title}
+                }; // fake RTU, just for indexes match
             equipList.AddRange(model.GetTraceEquipments(trace).ToList()); // without RTU
             var fibers = model.GetTraceFibers(trace).ToArray();
 
@@ -44,7 +47,9 @@ namespace Iit.Fibertest.Graph
 
         public static IEnumerable<Trace> GetTracesPassingFiber(this Model model, Guid fiberId)
         {
-            foreach (var pair in model.Fibers.First(f=>f.FiberId == fiberId).States)
+            var fiber = model.Fibers.FirstOrDefault(f => f.FiberId == fiberId);
+            if (fiber == null) yield break;
+            foreach (var pair in fiber.States)
                 yield return model.Traces.First(t => t.TraceId == pair.Key);
         }
 
@@ -84,7 +89,8 @@ namespace Iit.Fibertest.Graph
         private static IEnumerable<Fiber> GetNodeFibers(this Model model, Node node)
         {
             foreach (var fiber in model.Fibers)
-                if (fiber.NodeId1 == node.NodeId || fiber.NodeId2 == node.NodeId) yield return fiber;
+                if (fiber.NodeId1 == node.NodeId || fiber.NodeId2 == node.NodeId)
+                    yield return fiber;
         }
 
         public static Fiber GetAnotherFiberOfAdjustmentPoint(this Model model, Node adjustmentPoint, Guid fiberId)
@@ -144,6 +150,7 @@ namespace Iit.Fibertest.Graph
                 else
                     newList.Add(zoneId);
             }
+
             return newList;
         }
 
@@ -155,11 +162,14 @@ namespace Iit.Fibertest.Graph
                 var nodeForDeletionId = nodeId;
                 while (true)
                 {
-                    var anotherNodeId = fiberForDeletion.NodeId1 == nodeForDeletionId ? fiberForDeletion.NodeId2 : fiberForDeletion.NodeId1;
+                    var anotherNodeId = fiberForDeletion.NodeId1 == nodeForDeletionId
+                        ? fiberForDeletion.NodeId2
+                        : fiberForDeletion.NodeId1;
                     model.Fibers.Remove(fiberForDeletion);
                     if (!model.IsAdjustmentPoint(anotherNodeId)) break;
 
-                    fiberForDeletion = model.Fibers.First(f => f.NodeId1 == anotherNodeId || f.NodeId2 == anotherNodeId);
+                    fiberForDeletion =
+                        model.Fibers.First(f => f.NodeId1 == anotherNodeId || f.NodeId2 == anotherNodeId);
                     model.Nodes.RemoveAll(n => n.NodeId == anotherNodeId);
                     model.Equipments.RemoveAll(e => e.NodeId == anotherNodeId);
                     nodeForDeletionId = anotherNodeId;
@@ -181,14 +191,16 @@ namespace Iit.Fibertest.Graph
 
         private static bool IsAdjustmentPoint(this Model model, Guid nodeId)
         {
-            return model.Equipments.FirstOrDefault(e => e.NodeId == nodeId && e.Type == EquipmentType.AdjustmentPoint) != null;
+            return model.Equipments.FirstOrDefault(e =>
+                       e.NodeId == nodeId && e.Type == EquipmentType.AdjustmentPoint) != null;
         }
 
 
         // returns true if there's a fiber between start and finish or they are separated by adjustment points only
         public static bool HasDirectFiberDontMindPoints(this Model model, Guid start, Guid finish)
         {
-            foreach (var neighbourNodeId in model.Fibers.Where(f => f.NodeId1 == start || f.NodeId2 == start).Select(n => n.NodeId1 == start ? n.NodeId2 : n.NodeId1))
+            foreach (var neighbourNodeId in model.Fibers.Where(f => f.NodeId1 == start || f.NodeId2 == start)
+                .Select(n => n.NodeId1 == start ? n.NodeId2 : n.NodeId1))
             {
                 var previousNodeId = start;
                 var currentNodeId = neighbourNodeId;
@@ -199,7 +211,7 @@ namespace Iit.Fibertest.Graph
                     if (!model.IsAdjustmentPoint(currentNodeId)) break;
 
                     var fiber = model.Fibers.First(f => f.NodeId1 == currentNodeId && f.NodeId2 != previousNodeId
-                                                     || f.NodeId2 == currentNodeId && f.NodeId1 != previousNodeId);
+                                                        || f.NodeId2 == currentNodeId && f.NodeId1 != previousNodeId);
                     currentNodeId = fiber.NodeId1 == currentNodeId ? fiber.NodeId2 : fiber.NodeId1;
                 }
             }
@@ -207,10 +219,12 @@ namespace Iit.Fibertest.Graph
             return false;
         }
 
-        public static RtuPartStateChanges IsStateWorseOrBetterThanBefore(this Model model, NetworkEventAdded networkEvent)
+        public static RtuPartStateChanges IsStateWorseOrBetterThanBefore(this Model model,
+            NetworkEventAdded networkEvent)
         {
             var rtu = model.Rtus.First(r => r.Id == networkEvent.RtuId);
-            List<WorseOrBetter> parts = new List<WorseOrBetter> {
+            List<WorseOrBetter> parts = new List<WorseOrBetter>
+            {
                 rtu.MainChannelState.BecomeBetterOrWorse(networkEvent.MainChannelState),
                 rtu.ReserveChannelState.BecomeBetterOrWorse(networkEvent.ReserveChannelState),
             };

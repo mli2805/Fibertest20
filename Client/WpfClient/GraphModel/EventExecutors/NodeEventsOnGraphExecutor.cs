@@ -20,8 +20,6 @@ namespace Iit.Fibertest.Client
 
         public void AddNodeIntoFiber(NodeIntoFiberAdded evnt)
         {
-            //            if (_currentUser.ZoneId != Guid.Empty
-            //                   && _graphModel.Data.Fibers.All(f => f.Id != evnt.FiberId)) return;
             if (_graphModel.Data.Fibers.All(f => f.Id != evnt.FiberId)) return;
 
             var nodeVm = new NodeVm()

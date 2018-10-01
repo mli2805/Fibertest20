@@ -1691,8 +1691,6 @@
         public new ContextMenu ContextMenu { get;set; }
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
-            base.OnMouseUp(e);
-
             if (e.ChangedButton == MouseButton.Right)
             {
                 ContextMenuPoint = e.GetPosition(this);
@@ -1766,6 +1764,8 @@
                     InvalidateVisual();
                 }
             }
+
+            base.OnMouseUp(e);
         }
 
         public bool IsInFiberCreationMode { get; set; } = false;
