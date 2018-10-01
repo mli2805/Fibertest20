@@ -106,10 +106,14 @@ namespace Iit.Fibertest.Client
                 try
                 {
                     conn.Open();
-                    const string sql = @"CREATE TABLE EsEvents (Id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, Json TEXT)";
 
+                    const string sql = @"CREATE TABLE EsEvents (Id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, Json TEXT)";
                     SQLiteCommand command = new SQLiteCommand(sql, conn);
                     command.ExecuteNonQuery();
+
+                    const string sql2 = "CREATE TABLE EsSnapshots (Id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, LastIncludedEvent INTEGER, Snapshot	BLOB)";
+                    SQLiteCommand command2 = new SQLiteCommand(sql2, conn);
+                    command2.ExecuteNonQuery();
                 }
                 catch (SQLiteException ex)
                 {
