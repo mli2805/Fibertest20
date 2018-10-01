@@ -135,7 +135,7 @@ namespace Iit.Fibertest.Client
                 var server = $@"{separator}{_currentDatacenterParameters.ServerTitle} ({_currentDatacenterParameters.ServerIp}) v{_currentDatacenterParameters.DatacenterVersion}";
                 var user   = $@"{separator}{_currentUser.UserName} ({_currentUser.Role.ToString()})";
                 var zone   = $@"{separator}[{_currentUser.ZoneTitle}]";
-                DisplayName = $@"Fibertest v2.0 {server} {user} {zone}";
+                DisplayName = DisplayName + $@" {server} {user} {zone}";
                 TabulatorViewModel.SelectedTabIndex = 0; // the same value should be in TabulatorViewModel c-tor !!!
             }
             else
