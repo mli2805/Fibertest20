@@ -185,8 +185,9 @@ namespace Iit.Fibertest.Client
         {
             ServersComboboxVisibility = Visibility.Visible;
 
+            var address = (NetAddress)SelectedServer?.ServerAddress.Main.Clone() ?? new NetAddress(@"0.0.0.0", 11840);
             ServerConnectionTestViewModel = _globalScope.Resolve<NetAddressTestViewModel>
-                (new NamedParameter(@"netAddressForConnectionTest", new NetAddressForConnectionTest((NetAddress)SelectedServer.ServerAddress.Main.Clone(), false)));
+                (new NamedParameter(@"netAddressForConnectionTest", new NetAddressForConnectionTest(address, false)));
             ServerConnectionTestViewModel.PropertyChanged += ServerConnectionTestViewModel_PropertyChanged;
 
             NewServerTitleVisibility = Visibility.Collapsed;
