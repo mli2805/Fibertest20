@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -95,11 +96,12 @@ namespace Iit.Fibertest.Client
         protected override async void OnViewLoaded(object view)
         {
             TabulatorViewModel.MessageVisibility = Visibility.Collapsed;
-            DisplayName = @"Fibertest v2.0";
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            DisplayName = @"Fibertest v"+fvi.FileVersion;
 
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
-         //   var postfix = _iniFile.Read(IniSection.Client, IniKey.ClientOrdinal, "");
             var postfix = _commandLineParameters.IsUnderSuperClientStart ? _commandLineParameters.ClientOrdinal.ToString() : "";
             _logFile.AssignFile($@"client{postfix}.log");
             _logFile.AppendLine(@"Client application started!");
@@ -130,7 +132,7 @@ namespace Iit.Fibertest.Client
                 IsEnabled = true;
                 TreeOfRtuViewModel.CollapseAll();
                 const string separator = @"    >>    ";
-                var server = $@"{separator}{_currentDatacenterParameters.ServerTitle} ({_currentDatacenterParameters.ServerIp})";
+                var server = $@"{separator}{_currentDatacenterParameters.ServerTitle} ({_currentDatacenterParameters.ServerIp}) v{_currentDatacenterParameters.DatacenterVersion}";
                 var user   = $@"{separator}{_currentUser.UserName} ({_currentUser.Role.ToString()})";
                 var zone   = $@"{separator}[{_currentUser.ZoneTitle}]";
                 DisplayName = $@"Fibertest v2.0 {server} {user} {zone}";
