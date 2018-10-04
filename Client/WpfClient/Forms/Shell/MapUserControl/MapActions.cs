@@ -66,7 +66,11 @@ namespace Iit.Fibertest.Client
         public bool CanAddNode(object parameter)
         {
             return _graphReadModel.CurrentUser.Role <= Role.Root;
+        }
 
+        public bool CanMeasureDistance(object parameter)
+        {
+            return true;
         }
 
 

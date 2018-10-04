@@ -74,7 +74,7 @@ namespace Iit.Fibertest.Client
             contextMenu.Items.Add(new MenuItem()
             {
                 Header = Resources.SID_Distace_measurement,
-                Command = new ContextMenuAction(_mapActions.ToggleToDistanceMeasurementMode, _mapActions.CanAddNode),
+                Command = new ContextMenuAction(_mapActions.ToggleToDistanceMeasurementMode, _mapActions.CanMeasureDistance),
                 CommandParameter = null,
             });
 
