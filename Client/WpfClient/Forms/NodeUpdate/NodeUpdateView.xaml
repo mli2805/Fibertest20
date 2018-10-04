@@ -40,8 +40,16 @@
             <Button Name="Cancel" Height="25" Width="100" Content="{x:Static stringResources:Resources.SID_Cancel}" IsCancel="True"/>
         </StackPanel>
         <GroupBox DockPanel.Dock="Bottom" Margin="5" Header="{x:Static stringResources:Resources.SID_Traces_in_node}">
-            <ListBox Height="80" Margin="5"
-                     ItemsSource="{Binding TracesInNode}" />
+            <ListBox Height="80" Margin="5" SelectionMode="Single"
+                     ItemsSource="{Binding TracesInNode}" SelectedItem="{Binding SelectedTrace}">
+                <ListBox.ContextMenu>
+                    <ContextMenu >
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Show_trace}" 
+                                  cal:Message.Attach="ShowTrace"/>
+                    </ContextMenu>
+                </ListBox.ContextMenu>
+               
+            </ListBox>
         </GroupBox>
         <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_In_node_are_placed_}"  IsEnabled="{Binding IsEditEnabled}">
             <DockPanel Name="Header" Margin="0,5,0,0">

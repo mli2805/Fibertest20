@@ -15,6 +15,8 @@ namespace Iit.Fibertest.Client
     public class FiberUpdateViewModel : Screen, IDataErrorInfo
     {
         private readonly Model _readModel;
+        private readonly GraphReadModel _graphReadModel;
+        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly GraphGpsCalculator _graphGpsCalculator;
         private readonly ReflectogramManager _reflectogramManager;
         private Fiber _fiber;
@@ -40,13 +42,17 @@ namespace Iit.Fibertest.Client
         public bool IsButtonSaveEnabled { get; set; }
         public UpdateFiber Command { get; set; }
 
-        public List<Tuple<string, string>> TracesThrough { get; set; } = new List<Tuple<string, string>>();
+        public Tuple<Trace, string> SelectedTrace { get; set; }
+        public List<Tuple<Trace, string>> TracesThrough { get; set; } = new List<Tuple<Trace, string>>();
 
 
-        public FiberUpdateViewModel(Model readModel, CurrentUser currentUser,
+        public FiberUpdateViewModel(Model readModel, GraphReadModel graphReadModel,
+            CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu,
             GraphGpsCalculator graphGpsCalculator, ReflectogramManager reflectogramManager)
         {
             _readModel = readModel;
+            _graphReadModel = graphReadModel;
+            _currentlyHiddenRtu = currentlyHiddenRtu;
             IsEditEnabled = currentUser.Role <= Role.Root;
             _graphGpsCalculator = graphGpsCalculator;
             _reflectogramManager = reflectogramManager;
@@ -64,8 +70,9 @@ namespace Iit.Fibertest.Client
             {
                 var index = trace.FiberIds.IndexOf(fiberId);
                 if (index != -1)
-                    TracesThrough.Add(new Tuple<string, string>(trace.Title, await GetOpticalLength(trace, index)));
+                    TracesThrough.Add(new Tuple<Trace, string>(trace, await GetOpticalLength(trace, index)));
             }
+            SelectedTrace = TracesThrough.FirstOrDefault();
 
             UserInputedLength = _fiber.UserInputedLength.Equals(0) ? "" : _fiber.UserInputedLength.ToString(CultureInfo.InvariantCulture);
         }
@@ -84,6 +91,18 @@ namespace Iit.Fibertest.Client
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Section;
+        }
+
+        public void ShowTrace()
+        {
+            if (SelectedTrace == null) return;
+
+            if (_currentlyHiddenRtu.Collection.Contains(SelectedTrace.Item1.RtuId))
+            {
+                _currentlyHiddenRtu.Collection.Remove(SelectedTrace.Item1.RtuId);
+                _currentlyHiddenRtu.ChangedRtu = SelectedTrace.Item1.RtuId;
+            }
+            _graphReadModel.HighlightTrace(SelectedTrace.Item1.NodeIds[0], SelectedTrace.Item1.FiberIds);
         }
 
         public void Save()

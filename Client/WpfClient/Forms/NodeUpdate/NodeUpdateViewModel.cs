@@ -19,9 +19,11 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
+        private readonly GraphReadModel _graphReadModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly CurrentGpsInputMode _currentGpsInputMode;
+        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly AddEquipmentIntoNodeBuilder _addEquipmentIntoNodeBuilder;
         private Node _originalNode;
         private PointLatLng _nodeCoors;
@@ -91,6 +93,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public Trace SelectedTrace { get; set; }
         public List<Trace> TracesInNode { get; set; }
 
         private bool IsChanged()
@@ -125,17 +128,20 @@ namespace Iit.Fibertest.Client
 
         public bool IsEditEnabled { get; set; }
 
-        public NodeUpdateViewModel(ILifetimeScope globalScope, Model readModel, IWindowManager windowManager, 
-            EventArrivalNotifier eventArrivalNotifier, IWcfServiceForClient c2DWcfManager, 
-            CurrentGpsInputMode currentGpsInputMode, CurrentUser currentUser,
+        public NodeUpdateViewModel(ILifetimeScope globalScope, Model readModel, GraphReadModel graphReadModel,
+            IWindowManager windowManager, EventArrivalNotifier eventArrivalNotifier,
+            IWcfServiceForClient c2DWcfManager, CurrentGpsInputMode currentGpsInputMode,
+            CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu,
             AddEquipmentIntoNodeBuilder addEquipmentIntoNodeBuilder)
         {
             _globalScope = globalScope;
             _readModel = readModel;
+            _graphReadModel = graphReadModel;
             _windowManager = windowManager;
             eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
             _c2DWcfManager = c2DWcfManager;
             _currentGpsInputMode = currentGpsInputMode;
+            _currentlyHiddenRtu = currentlyHiddenRtu;
             IsEditEnabled = currentUser.Role <= Role.Root;
             _addEquipmentIntoNodeBuilder = addEquipmentIntoNodeBuilder;
         }
@@ -150,6 +156,7 @@ namespace Iit.Fibertest.Client
             Comment = _originalNode.Comment;
 
             TracesInNode = _readModel.Traces.Where(t => t.NodeIds.Contains(nodeId)).ToList();
+            SelectedTrace = TracesInNode.FirstOrDefault();
 
             EquipmentsInNode = new ObservableCollection<ItemOfEquipmentTableModel>(
                 _readModel.Equipments.Where(e => e.NodeId == _originalNode.NodeId && e.Type != EquipmentType.EmptyNode).Select(CreateEqItem));
@@ -160,7 +167,7 @@ namespace Iit.Fibertest.Client
             EquipmentsInNode = new ObservableCollection<ItemOfEquipmentTableModel>(
                 _readModel.Equipments.Where(eq => eq.NodeId == _originalNode.NodeId && eq.Type != EquipmentType.EmptyNode).Select(CreateEqItem));
         }
-      
+
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Node;
@@ -212,6 +219,18 @@ namespace Iit.Fibertest.Client
         public async void AddEquipment()
         {
             await AddEquipmentIntoNode();
+        }
+
+        public void ShowTrace()
+        {
+            if (SelectedTrace == null) return;
+
+            if (_currentlyHiddenRtu.Collection.Contains(SelectedTrace.RtuId))
+            {
+                _currentlyHiddenRtu.Collection.Remove(SelectedTrace.RtuId);
+                _currentlyHiddenRtu.ChangedRtu = SelectedTrace.RtuId;
+            }
+            _graphReadModel.HighlightTrace(SelectedTrace.NodeIds[0], SelectedTrace.FiberIds);
         }
 
         private async void LaunchUpdateEquipmentView(Guid id)

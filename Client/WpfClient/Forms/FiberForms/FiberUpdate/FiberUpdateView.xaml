@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner" SizeToContent="WidthAndHeight" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:FiberUpdateViewModel}">
@@ -33,10 +34,18 @@
                         Text="{Binding UserInputedLength, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
                 </StackPanel>
                 <ListView Margin="5" ItemsSource="{Binding TracesThrough}">
+                    <ListView.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Header="{x:Static stringResources:Resources.SID_Show_trace}" 
+                                      cal:Message.Attach="ShowTrace"/>
+                        </ContextMenu>
+                    </ListView.ContextMenu>
                     <ListView.View>
                         <GridView>
-                            <GridViewColumn Header="{x:Static stringResources:Resources.SID_Trace}" HeaderContainerStyle="{StaticResource ListViewStyle}" Width="180" DisplayMemberBinding="{Binding Item1}"/>
-                            <GridViewColumn Header="{x:Static stringResources:Resources.SID_Opt_length_m}" Width="90" DisplayMemberBinding="{Binding Item2}"/>
+                            <GridViewColumn Header="{x:Static stringResources:Resources.SID_Trace}" 
+                                            HeaderContainerStyle="{StaticResource ListViewStyle}" Width="180" DisplayMemberBinding="{Binding Item1.Title}"/>
+                            <GridViewColumn Header="{x:Static stringResources:Resources.SID_Opt_length_m}" 
+                                            Width="90" DisplayMemberBinding="{Binding Item2}"/>
                         </GridView>
                     </ListView.View>
                 </ListView>

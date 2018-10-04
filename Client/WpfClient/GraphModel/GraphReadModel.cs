@@ -46,7 +46,8 @@ namespace Iit.Fibertest.Client
         }
 
         public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, 
-            CurrentGpsInputMode currentGpsInputMode, CurrentUser currentUser, CurrentDatacenterParameters currentDatacenterParameters,
+            CurrentGpsInputMode currentGpsInputMode, CurrentUser currentUser, 
+            CurrentDatacenterParameters currentDatacenterParameters,
             CommonStatusBarViewModel commonStatusBarViewModel,
             GrmNodeRequests grmNodeRequests, GrmEquipmentRequests grmEquipmentRequests,
             GrmFiberRequests grmFiberRequests, GrmFiberWithNodesRequest grmFiberWithNodesRequest,
