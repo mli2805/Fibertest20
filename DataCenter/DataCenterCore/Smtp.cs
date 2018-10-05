@@ -58,7 +58,7 @@ namespace Iit.Fibertest.DataCenterCore
             MailMessage mail = new MailMessage();
             mail.From = new MailAddress(mailFrom);
 
-            foreach (var address in _writeModel.Users.Where(u => u.IsEmailActivated).Select(u => u.Email))
+            foreach (var address in _writeModel.Users.Where(u => u.Email.IsActivated).Select(u => u.Email.Address))
                 mail.To.Add(address);
 
             return mail;

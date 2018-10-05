@@ -8,8 +8,8 @@ namespace Iit.Fibertest.Graph
         public Guid UserId { get; set; }
         public string Title { get; set; }
         public string EncodedPassword { get; set; }
-        public string Email { get; set; }
-        public bool IsEmailActivated { get; set; }
+        public EmailReceiver Email { get; set; } = new EmailReceiver();
+        public SmsReceiver Sms { get; set; } = new SmsReceiver();
         public Role Role { get; set; }
         public Guid ZoneId { get; set; }
         public bool IsDefaultZoneUser { get; set; }

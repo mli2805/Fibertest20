@@ -597,7 +597,7 @@
     <value>Объект</value>
   </data>
 	<data name="SID_Send_messages" xml:space="preserve">
-    <value>Отсылать сообщения</value>
+    <value>Отсылать СМС сообщения</value>
   </data>
 	<data name="SID_Zone" xml:space="preserve">
     <value>Зона</value>
@@ -2272,5 +2272,14 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Must_be_number_no_more_than_60" xml:space="preserve">
 		<value>Должно быть число не более 60</value>
+	</data>
+	<data name="SID_Send_e_mails" xml:space="preserve">
+		<value>Отсылать почтовые сообщения</value>
+	</data>
+	<data name="SID_Check_sms_notification" xml:space="preserve">
+		<value>Проверить СМС рассылку</value>
+	</data>
+	<data name="SID_FiberBreak_NoFiber" xml:space="preserve">
+		<value>Обрыв / Нет волокна</value>
 	</data>
 </root>

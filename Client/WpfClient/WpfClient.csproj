@@ -190,6 +190,10 @@
     </Compile>
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\UserFilter.cs" />
+    <Compile Include="Forms\AdministrativeForms\Users\SmsReceiverView.xaml.cs">
+      <DependentUpon>SmsReceiverView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AdministrativeForms\Users\SmsReceiverViewModel.cs" />
     <Compile Include="Forms\Landmarks\TraceChoiceView.xaml.cs">
       <DependentUpon>TraceChoiceView.xaml</DependentUpon>
     </Compile>
@@ -605,6 +609,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\AdministrativeForms\LicenseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\AdministrativeForms\Users\SmsReceiverView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

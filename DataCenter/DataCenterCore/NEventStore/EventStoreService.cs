@@ -96,11 +96,11 @@ namespace Iit.Fibertest.DataCenterCore
             await SendCommand(cmd, "developer", "OnServer");
             await SendCommand(new AddZone() { IsDefaultZone = true, Title = StringResources.Resources.SID_Default_Zone }, "developer", "OnServer");
 
-            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "developer",   EncodedPassword = UserExt.FlipFlop("developer"),   Email = "", IsEmailActivated = false, Role = Role.Developer, ZoneId = Guid.Empty }, "developer", "OnServer");
-            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "root",        EncodedPassword = UserExt.FlipFlop("root"),        Email = "", IsEmailActivated = false, Role = Role.Root, ZoneId = Guid.Empty }, "developer", "OnServer");
-            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "operator",    EncodedPassword = UserExt.FlipFlop("operator"),    Email = "", IsEmailActivated = false, Role = Role.Operator, ZoneId = Guid.Empty }, "developer", "OnServer");
-            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "supervisor",  EncodedPassword = UserExt.FlipFlop("supervisor"),  Email = "", IsEmailActivated = false, Role = Role.Supervisor, ZoneId = Guid.Empty }, "developer", "OnServer");
-            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "superclient", EncodedPassword = UserExt.FlipFlop("superclient"), Email = "", IsEmailActivated = false, Role = Role.Superclient, ZoneId = Guid.Empty }, "developer", "OnServer");
+            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "developer",   EncodedPassword = UserExt.FlipFlop("developer"),   Role = Role.Developer, ZoneId = Guid.Empty }, "developer", "OnServer");
+            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "root",        EncodedPassword = UserExt.FlipFlop("root"),        Role = Role.Root, ZoneId = Guid.Empty }, "developer", "OnServer");
+            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "operator",    EncodedPassword = UserExt.FlipFlop("operator"),    Role = Role.Operator, ZoneId = Guid.Empty }, "developer", "OnServer");
+            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "supervisor",  EncodedPassword = UserExt.FlipFlop("supervisor"),  Role = Role.Supervisor, ZoneId = Guid.Empty }, "developer", "OnServer");
+            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "superclient", EncodedPassword = UserExt.FlipFlop("superclient"), Role = Role.Superclient, ZoneId = Guid.Empty }, "developer", "OnServer");
             return null;
         }
 

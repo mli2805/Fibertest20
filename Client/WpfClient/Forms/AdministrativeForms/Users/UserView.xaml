@@ -10,47 +10,52 @@
         SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:UserViewModel}" 
         FocusManager.FocusedElement="{Binding ElementName=TextBoxTitle}">
-    <StackPanel >
-        <Border Margin="5" BorderThickness="1" BorderBrush="LightGray" CornerRadius="3" Padding="5">
-            <StackPanel>
-                <DockPanel>
-                    <TextBox Name="TextBoxTitle" DockPanel.Dock="Right" Margin="5" Width="150" 
-                             Text="{Binding UserInWork.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Name}" Margin="5" HorizontalAlignment="Right"/>
-                </DockPanel>
-                <DockPanel>
-                    <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Roles}" SelectedItem="{Binding UserInWork.Role, Mode=TwoWay}" 
-                              IsEnabled="{Binding IsntItRoot}" Margin="5" Width="150"/>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Role}" Margin="5" HorizontalAlignment="Right"/>
-                </DockPanel>
-                <DockPanel>
-                    <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" 
-                              IsEnabled="{Binding IsntItRoot}" Margin="5" Width="150"/>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Zone}" Margin="5" HorizontalAlignment="Right"/>
-                </DockPanel>
-            </StackPanel>
-        </Border>
-        <GroupBox Header="Password" Margin="5" Padding="0,5" IsEnabled="{Binding IsPasswordsEnabled}">
-            <StackPanel>
-                <PasswordBox wpfCommonViews:PasswordHelper.Attach="True"  
-                             wpfCommonViews:PasswordHelper.Password="{Binding Password1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                             Margin="5" Width="150" HorizontalAlignment="Right"/>
-                <PasswordBox wpfCommonViews:PasswordHelper.Attach="True"  
-                             wpfCommonViews:PasswordHelper.Password="{Binding Password2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
-                             Margin="5" Width="150" HorizontalAlignment="Right"/>
-            </StackPanel>
-        </GroupBox>
-        <GroupBox Header="{x:Static stringResources:Resources.SID_Email}" Margin="5" Padding="0,5">
-            <DockPanel >
-                <CheckBox DockPanel.Dock="Bottom" Margin="30,5,5,0" Content="{x:Static stringResources:Resources.SID_Send_messages}" 
-                          IsChecked="{Binding UserInWork.IsEmailActivated}" HorizontalAlignment="Left"/>
-                <TextBox DockPanel.Dock="Right" Text="{Binding UserInWork.Email}" Margin="5" Width="250"/>
-            </DockPanel>
-        </GroupBox>
-
-        <StackPanel Orientation="Horizontal" Margin="5,15,5,10" HorizontalAlignment="Center">
+    <DockPanel >
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5,15,5,10" HorizontalAlignment="Center">
             <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Save}" IsEnabled="{Binding IsButtonSaveEnabled}" Width="80" Margin="5,0"/>
             <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" Width="80" Margin="5,0"/>
         </StackPanel>
-    </StackPanel>
+        <StackPanel DockPanel.Dock="Left" Margin="5,0,0,0">
+            <Border Margin="5" BorderThickness="1" BorderBrush="LightGray" CornerRadius="3" Padding="5">
+                <StackPanel>
+                    <DockPanel>
+                        <TextBox Name="TextBoxTitle" DockPanel.Dock="Right" Margin="5" Width="150" 
+                             Text="{Binding UserInWork.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" />
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Name}" Margin="5" HorizontalAlignment="Right"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Roles}" SelectedItem="{Binding UserInWork.Role, Mode=TwoWay}" 
+                              IsEnabled="{Binding IsntItRoot}" Margin="5" Width="150"/>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Role}" Margin="5" HorizontalAlignment="Right"/>
+                    </DockPanel>
+                    <DockPanel>
+                        <ComboBox DockPanel.Dock="Right" ItemsSource="{Binding Zones}" SelectedItem="{Binding SelectedZone}" 
+                              IsEnabled="{Binding IsntItRoot}" Margin="5" Width="150"/>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Zone}" Margin="5" HorizontalAlignment="Right"/>
+                    </DockPanel>
+                </StackPanel>
+            </Border>
+            <GroupBox Header="Password" Margin="5" Padding="0,5" IsEnabled="{Binding IsPasswordsEnabled}">
+                <StackPanel>
+                    <PasswordBox wpfCommonViews:PasswordHelper.Attach="True"  
+                             wpfCommonViews:PasswordHelper.Password="{Binding Password1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                             Margin="5" Width="150" HorizontalAlignment="Right"/>
+                    <PasswordBox wpfCommonViews:PasswordHelper.Attach="True"  
+                             wpfCommonViews:PasswordHelper.Password="{Binding Password2, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
+                             Margin="5" Width="150" HorizontalAlignment="Right"/>
+                </StackPanel>
+            </GroupBox>
+            <GroupBox  Margin="5" Padding="0,5">
+                <GroupBox.Header>
+                    <CheckBox Content="{x:Static stringResources:Resources.SID_Send_e_mails}" 
+                          IsChecked="{Binding UserInWork.IsEmailActivated}"/>
+                </GroupBox.Header>
+                <DockPanel >
+                    <TextBox DockPanel.Dock="Right" Text="{Binding UserInWork.EmailAddress}" Margin="5" Width="250"/>
+                </DockPanel>
+            </GroupBox>
+
+        </StackPanel>
+        <client:SmsReceiverView DataContext="{Binding UserInWork.SmsReceiverVm}" Margin="0,0,5,0"/>
+    </DockPanel>
 </Window>

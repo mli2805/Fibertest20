@@ -12,7 +12,8 @@
     <DockPanel>
         <DockPanel DockPanel.Dock="Bottom">
             <Button DockPanel.Dock="Right" Name="Close" Content="{x:Static stringResources:Resources.SID_Close}"  IsDefault="True" Width="100" Margin="0,20,30,15"/>
-            <Button DockPanel.Dock="Right" Name="SendTest" Content="{x:Static stringResources:Resources.SID_Check_e_mail_notification}"  IsDefault="True" Width="200" Margin="0,20,30,15"/>
+            <Button DockPanel.Dock="Right" Name="SendSms" Content="{x:Static stringResources:Resources.SID_Check_sms_notification}"  IsDefault="True" Width="200" Margin="0,20,30,15"/>
+            <Button DockPanel.Dock="Right" Name="SendEmail" Content="{x:Static stringResources:Resources.SID_Check_e_mail_notification}"  IsDefault="True" Width="200" Margin="0,20,30,15"/>
             <Button Visibility="Hidden" />
         </DockPanel>
         <DataGrid Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedUser, Mode=TwoWay}"
@@ -30,12 +31,22 @@
                 <DataGridComboBoxColumn Header="{x:Static stringResources:Resources.SID_Role}" Width="120" ItemsSource="{x:Static testBench:UserListViewModel.Roles}"
                                         SelectedItemBinding="{Binding Role}"/>
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Responsibility_zone}" Width="220" Binding="{Binding ZoneTitle}" />
-                <DataGridTemplateColumn Header="{x:Static stringResources:Resources.SID_Email}" Width="320">
+                <DataGridTemplateColumn Header="{x:Static stringResources:Resources.SID_Email}" Width="250">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate DataType="{x:Type testBench:UserVm}">
                             <StackPanel Orientation="Horizontal">
                                 <CheckBox IsChecked="{Binding IsEmailActivated}" IsEnabled="False" Margin="5,0"/>
-                                <TextBlock Text="{Binding Email}"/>
+                                <TextBlock Text="{Binding EmailAddress}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn Header="Sms" Width="140">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate DataType="{x:Type testBench:UserVm}">
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding SmsReceiverVm.IsActivated}" IsEnabled="False" Margin="5,0"/>
+                                <TextBlock Text="{Binding SmsReceiverVm.PhoneNumber}"/>
                             </StackPanel>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>

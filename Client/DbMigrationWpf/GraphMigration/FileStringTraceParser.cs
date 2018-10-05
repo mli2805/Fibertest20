@@ -25,7 +25,7 @@ namespace DbMigrationWpf
                 new AddTrace()
                 {
                     TraceId = traceGuid,
-                    Title = parts[4],
+                    Title = parts[4].Trim(),
                     Comment = parts[5],
                 });
 

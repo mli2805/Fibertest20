@@ -113,7 +113,7 @@ namespace Iit.Fibertest.Client
         }
         #endregion
 
-        public async void SendTest()
+        public async void SendEmail()
         {
             bool res;
             using (new WaitCursor())
@@ -123,6 +123,11 @@ namespace Iit.Fibertest.Client
             var message = res ? Resources.SID_Sent_successfully_ : Resources.SID_Sending_failed_;
             var vm = new MyMessageBoxViewModel(res ? MessageType.Information : MessageType.Error, message);
             _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
+        public void SendSms()
+        {
+            //TODO
         }
 
         public void Close()

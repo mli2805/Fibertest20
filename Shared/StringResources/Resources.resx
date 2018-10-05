@@ -2273,4 +2273,13 @@ RTU is initializing right now!</value>
 	<data name="SID_Must_be_number_no_more_than_60" xml:space="preserve">
     <value>Must be number no more than 60</value>
   </data>
+	<data name="SID_Send_e_mails" xml:space="preserve">
+    <value>Send e-mails</value>
+  </data>
+	<data name="SID_Check_sms_notification" xml:space="preserve">
+    <value>Check SMS notification</value>
+  </data>
+	<data name="SID_FiberBreak_NoFiber" xml:space="preserve">
+    <value>Fiber break / No fiber</value>
+  </data>
 </root>

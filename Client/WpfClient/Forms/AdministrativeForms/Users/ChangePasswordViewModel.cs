@@ -144,8 +144,8 @@ namespace Iit.Fibertest.Client
                 UserId = _user.UserId,
                 Title = _user.Title,
                 Role = _user.Role,
-                Email = _user.Email,
-                IsEmailActivated = _user.IsEmailActivated,
+                Email = new EmailReceiver(){Address = _user.Email.Address, IsActivated = _user.Email.IsActivated},
+                Sms = new SmsReceiver(){PhoneNumber = ""},
                 EncodedPassword = UserExt.FlipFlop(Password1),
                 ZoneId = _user.ZoneId,
             };

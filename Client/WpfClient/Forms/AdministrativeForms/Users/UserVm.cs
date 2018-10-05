@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
 
         public string Title
         {
-            get { return _title; }
+            get => _title;
             set
             {
                 if (value == _title) return;
@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Client
 
         public Role Role
         {
-            get { return _role; }
+            get => _role;
             set
             {
                 if (value == _role) return;
@@ -40,9 +40,9 @@ namespace Iit.Fibertest.Client
 
         public string Password { get; set; } = "";
 
-        public string Email
+        public string EmailAddress
         {
-            get { return _email; }
+            get => _email;
             set
             {
                 if (value == _email) return;
@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
 
         public bool IsEmailActivated
         {
-            get { return _isEmailActivated; }
+            get => _isEmailActivated;
             set
             {
                 if (value == _isEmailActivated) return;
@@ -62,9 +62,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public SmsReceiverViewModel SmsReceiverVm { get; set; }
+
         public Guid ZoneId
         {
-            get { return _zoneId; }
+            get => _zoneId;
             set
             {
                 if (value.Equals(_zoneId)) return;
@@ -75,7 +77,7 @@ namespace Iit.Fibertest.Client
 
         public string ZoneTitle
         {
-            get { return _zoneTitle; }
+            get => _zoneTitle;
             set
             {
                 if (value == _zoneTitle) return;
@@ -84,28 +86,59 @@ namespace Iit.Fibertest.Client
             }
         }
 
+
+
         public UserVm()
         {
             UserId = Guid.NewGuid();
             Role = Role.Operator;
         }
+
         public UserVm(User user, string zoneTitle)
         {
             UserId = user.UserId;
             Title = user.Title;
             Password = UserExt.FlipFlop(user.EncodedPassword);
             Role = user.Role;
-            Email = user.Email;
-            IsEmailActivated = user.IsEmailActivated;
+
+            EmailAddress = user.Email.Address;
+            IsEmailActivated = user.Email.IsActivated;
+
+            SmsReceiverVm = new SmsReceiverViewModel()
+            {
+                PhoneNumber = user.Sms.PhoneNumber,
+                IsFiberBreakOn = user.Sms.IsFiberBreakOn,
+                IsCriticalOn = user.Sms.IsCriticalOn,
+                IsMajorOn = user.Sms.IsMajorOn,
+                IsMinorOn = user.Sms.IsMinorOn,
+                IsOkOn = user.Sms.IsOkOn,
+                IsNetworkEventsOn = user.Sms.IsNetworkEventsOn,
+                IsBopEventsOn = user.Sms.IsBopEventsOn,
+                IsActivated = user.Sms.IsActivated,
+            };
+
             ZoneTitle = zoneTitle;
             ZoneId = user.ZoneId;
         }
 
         public object Clone()
         {
-            return MemberwiseClone();
+            var userVm = (UserVm)MemberwiseClone();
+            userVm.SmsReceiverVm = new SmsReceiverViewModel()
+            {
+                PhoneNumber = SmsReceiverVm.PhoneNumber,
+                IsFiberBreakOn = SmsReceiverVm.IsFiberBreakOn,
+                IsCriticalOn = SmsReceiverVm.IsCriticalOn,
+                IsMajorOn = SmsReceiverVm.IsMajorOn,
+                IsMinorOn = SmsReceiverVm.IsMinorOn,
+                IsOkOn = SmsReceiverVm.IsOkOn,
+                IsNetworkEventsOn = SmsReceiverVm.IsNetworkEventsOn,
+                IsBopEventsOn = SmsReceiverVm.IsBopEventsOn,
+                IsActivated = SmsReceiverVm.IsActivated,
+            };
+            return userVm;
         }
 
-     
+
     }
 }

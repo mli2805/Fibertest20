@@ -119,7 +119,6 @@ namespace Iit.Fibertest.Client
             IsPasswordsEnabled = false;
 
             Zones = _readModel.Zones;
-//            SelectedZone = (UserInWork.IsDefaultZoneUser) ? Zones.First() : Zones.First(z=>z.ZoneId == user.ZoneId);
             SelectedZone = Zones.First(z=>z.ZoneId == user.ZoneId);
         }
 
@@ -137,8 +136,8 @@ namespace Iit.Fibertest.Client
                     UserId = Guid.NewGuid(),
                     Title = UserInWork.Title,
                     Role = UserInWork.Role,
-                    Email = UserInWork.Email,
-                    IsEmailActivated = UserInWork.IsEmailActivated,
+                    Email = new EmailReceiver(){Address =  UserInWork.EmailAddress, IsActivated = UserInWork.IsEmailActivated},
+                    Sms = UserInWork.SmsReceiverVm.Get(),
                     EncodedPassword = UserExt.FlipFlop(Password1),
                     ZoneId = SelectedZone.ZoneId,
                 };
@@ -148,12 +147,13 @@ namespace Iit.Fibertest.Client
                     UserId = UserInWork.UserId,
                     Title = UserInWork.Title,
                     Role = UserInWork.Role,
-                    Email = UserInWork.Email,
-                    IsEmailActivated = UserInWork.IsEmailActivated,
+                    Email = new EmailReceiver(){Address =  UserInWork.EmailAddress, IsActivated = UserInWork.IsEmailActivated},
+                    Sms = UserInWork.SmsReceiverVm.Get(),
                     EncodedPassword = UserExt.FlipFlop(UserInWork.Password), // cannot be changed via this form
                     ZoneId = SelectedZone.ZoneId,
                 };
 
+            
             await _c2DWcfManager.SendCommandAsObj(cmd);
             TryClose(true);
         }

@@ -125,6 +125,8 @@
     <Compile Include="Commands\Client\LostClientConnection.cs" />
     <Compile Include="Commands\Client\RegisterClientStation.cs" />
     <Compile Include="Commands\Client\UnregisterClientStation.cs" />
+    <Compile Include="DomainEntities\Administration\EmailReceiver.cs" />
+    <Compile Include="DomainEntities\Administration\SmsReceiver.cs" />
     <Compile Include="DomainEntities\Kadastr\Conpoint.cs" />
     <Compile Include="DomainEntities\Kadastr\Well.cs" />
     <Compile Include="DomainEntities\License\License.cs" />
@@ -183,7 +185,7 @@
     <Compile Include="Events\User\UserAdded.cs" />
     <Compile Include="Events\User\UserRemoved.cs" />
     <Compile Include="Events\User\UserUpdated.cs" />
-    <Compile Include="DomainEntities\User.cs" />
+    <Compile Include="DomainEntities\Administration\User.cs" />
     <Compile Include="Events\Zone\ZoneAdded.cs" />
     <Compile Include="Events\Zone\ZoneRemoved.cs" />
     <Compile Include="Events\Zone\ZoneUpdated.cs" />
@@ -192,7 +194,7 @@
     <Compile Include="DomainEntities\Extensions\PointLatLngExtensions.cs" />
     <Compile Include="DomainEntities\Extensions\ReturnCodeExt.cs" />
     <Compile Include="DomainEntities\Extensions\RtuPartStateExt.cs" />
-    <Compile Include="DomainEntities\Zone.cs" />
+    <Compile Include="DomainEntities\Administration\Zone.cs" />
     <Compile Include="EventSourcing\Aggregate.cs" />
     <Compile Include="Commands\Equipment\AddEquipmentAtGpsLocation.cs" />
     <Compile Include="Commands\Equipment\RemoveEquipment.cs" />
@@ -218,7 +220,7 @@
     <Compile Include="DomainEntities\Enums\GpsInputMode.cs" />
     <Compile Include="DomainEntities\Enums\LeafType.cs" />
     <Compile Include="DomainEntities\Enums\TraceMode.cs" />
-    <Compile Include="DomainEntities\Otau.cs" />
+    <Compile Include="DomainEntities\Graph\Otau.cs" />
     <Compile Include="Events\Equipment\EquipmentAtGpsLocationAdded.cs" />
     <Compile Include="Events\Equipment\EquipmentRemoved.cs" />
     <Compile Include="Events\Equipment\EquipmentUpdated.cs" />
@@ -254,12 +256,12 @@
     <Compile Include="Events\Node\NodeRemoved.cs" />
     <Compile Include="Events\Node\NodeUpdated.cs" />
     <Compile Include="MappingEventToDomainModelProfile.cs" />
-    <Compile Include="DomainEntities\Equipment.cs" />
-    <Compile Include="DomainEntities\Fiber.cs" />
-    <Compile Include="DomainEntities\Node.cs" />
+    <Compile Include="DomainEntities\Graph\Equipment.cs" />
+    <Compile Include="DomainEntities\Graph\Fiber.cs" />
+    <Compile Include="DomainEntities\Graph\Node.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DomainEntities\Rtu.cs" />
-    <Compile Include="DomainEntities\Trace.cs" />
+    <Compile Include="DomainEntities\Graph\Rtu.cs" />
+    <Compile Include="DomainEntities\Graph\Trace.cs" />
     <Compile Include="Algorithms\AccidentsOnTraceToModelApplier.cs" />
     <Compile Include="EventSourcing\EventExecutors\EchoEventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\EventExecutors\EquipmentEventsOnModelExecutor.cs" />

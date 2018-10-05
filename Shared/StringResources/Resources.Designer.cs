@@ -1386,6 +1386,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Check SMS notification.
+        /// </summary>
+        public static string SID_Check_sms_notification {
+            get {
+                return ResourceManager.GetString("SID_Check_sms_notification", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose folder in which to install {0}.
         /// </summary>
         public static string SID_Choose_folder_in_which_to_install__0_ {
@@ -2499,6 +2508,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Fiber_type_wavelength {
             get {
                 return ResourceManager.GetString("SID_Fiber_type_wavelength", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fiber break / No fiber.
+        /// </summary>
+        public static string SID_FiberBreak_NoFiber {
+            get {
+                return ResourceManager.GetString("SID_FiberBreak_NoFiber", resourceCulture);
             }
         }
         
@@ -5138,6 +5156,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Semiautomatic_mode {
             get {
                 return ResourceManager.GetString("SID_Semiautomatic_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Send e-mails.
+        /// </summary>
+        public static string SID_Send_e_mails {
+            get {
+                return ResourceManager.GetString("SID_Send_e_mails", resourceCulture);
             }
         }
         
