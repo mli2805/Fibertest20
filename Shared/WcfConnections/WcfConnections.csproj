@@ -86,6 +86,10 @@
       <Project>{1822c528-4719-4c53-877e-bc57dbf6d7ff}</Project>
       <Name>ClientWcfServiceInterface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Client\SuperClientWcfServiceInterface\SuperClientWcfServiceInterface.csproj">
+      <Project>{b4608f08-3b67-4199-8324-72b55e2ddfaf}</Project>
+      <Name>SuperClientWcfServiceInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\DataCenter\WcfServiceForClient\WcfServiceForClientInterface.csproj">
       <Project>{72f6524c-e7ee-4dfd-8ae2-15a4e5225d3b}</Project>
       <Name>WcfServiceForClientInterface</Name>
@@ -101,10 +105,6 @@
     <ProjectReference Include="..\..\Shared\Dto\Dto.csproj">
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
       <Name>Dto</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\SuperClientWcfServiceInterface\SuperClientWcfServiceInterface.csproj">
-      <Project>{b4608f08-3b67-4199-8324-72b55e2ddfaf}</Project>
-      <Name>SuperClientWcfServiceInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\StringResources\StringResources.csproj">
       <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>
