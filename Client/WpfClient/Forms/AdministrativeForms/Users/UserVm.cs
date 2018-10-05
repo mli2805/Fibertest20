@@ -62,7 +62,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public SmsReceiverViewModel SmsReceiverVm { get; set; }
+        public SmsReceiverViewModel SmsReceiverVm { get; set; } = new SmsReceiverViewModel();
 
         public Guid ZoneId
         {
