@@ -251,13 +251,10 @@ paket-files/
 .idea/
 *.sln.iml
 
-/Pack
-/Packer/Pack
 /Deploy/Pack
 /Deploy/Ft*.exe
 /Client/WpfClient/RftsReflect
 /Deploy/SuperClient.zip
 /Deploy/*.rar
-/Deploy/FtAdmin_Release_777.rar
-/Deploy/FtAdminDebug_2.0.1.324.rar
+
 *.diagsession
