@@ -15,8 +15,10 @@ namespace Iit.Fibertest.Setup
         private const string RtuWatchdogDisplayName = "Fibertest 2.0 RTU Watchdog";
         private const string RtuWatchdogServiceDescription = "Fibertest 2.0 RTU Watchdog Service";
 
-        private const string SourcePathDatacenter = @"..\RtuFiles";
+        private const string SourcePathRtuManager = @"..\RtuFiles";
         private const string RtuManagerSubdir = @"RtuManager\bin";
+        private const string SourcePathUtils = @"..\Utils";
+        private const string UtilsSubdir = @"Utils";
         private const string SourcePathReflect = @"..\RftsReflect";
         private const string ReflectSubdir = @"RftsReflect";
         private const string RtuServiceFilename = @"Iit.Fibertest.RtuService.exe";
@@ -25,6 +27,7 @@ namespace Iit.Fibertest.Setup
         public bool SetupRtuManager(BackgroundWorker worker, string installationFolder)
         {
             var fullRtuManagerPath = Path.Combine(installationFolder, RtuManagerSubdir);
+            var fullUtilsPath = Path.Combine(installationFolder, UtilsSubdir);
             var fullReflectPath = Path.Combine(installationFolder, ReflectSubdir);
             worker.ReportProgress((int)BwReturnProgressCode.RtuManagerSetupStarted);
 
@@ -35,7 +38,9 @@ namespace Iit.Fibertest.Setup
 
             Thread.Sleep(1000);
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDatacenter, fullRtuManagerPath, worker))
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathRtuManager, fullRtuManagerPath, worker))
+                return false;
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUtils, fullUtilsPath, worker))
                 return false;
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, fullReflectPath, worker))
                 return false;

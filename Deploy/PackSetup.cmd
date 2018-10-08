@@ -8,6 +8,7 @@ del FtAdmin*.rar
 
 xcopy ..\Setup\bin\Release\*.* Pack\bin\*.* /S/D/Y
 xcopy ..\Setup\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
+xcopy ..\Utils\*.* Pack\Utils\*.* /S/D/Y
      
 xcopy ..\DataCenter\DataCenterService\bin\Release\*.* Pack\DcFiles\*.* /S/D/Y
 
