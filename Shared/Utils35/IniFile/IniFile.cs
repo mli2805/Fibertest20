@@ -20,12 +20,13 @@ namespace Iit.Fibertest.UtilsLib
         /// <summary>
         /// should be done separately from creation for tests sake
         /// </summary>
-        /// <param name="fullFilename"></param>
-        public IniFile AssignFile(string fullFilename)
+        /// <param name="filename"></param>
+        /// <param name="isFileReady"></param>
+        public IniFile AssignFile(string filename, bool isFileReady = false)
         {
             lock (_obj)
             {
-                FilePath = Utils.FileNameForSure(@"..\Ini\", fullFilename, false);
+                FilePath = isFileReady ? filename : Utils.FileNameForSure(@"..\Ini\", filename, false);
             }
             return this;
         }

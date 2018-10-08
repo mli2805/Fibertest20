@@ -6,11 +6,13 @@ namespace Iit.Fibertest.UtilsLib
 {
     public static class Utils
     {
-        public static string FileNameForSure(string relativePath, string filename, bool isBoomNeeded)
+        public static string FileNameForSure(string subDir,  string filename, bool isBoomNeeded, bool isSubDirAbsolute = false)
         {
             try
             {
-                string folder = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, relativePath));
+                string folder = isSubDirAbsolute 
+                    ? subDir 
+                    : Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, subDir));
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
 

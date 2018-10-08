@@ -42,10 +42,10 @@ namespace Iit.Fibertest.Setup
         private static void SaveMysqlTcpPort(string installationFolder, string mysqlTcpPort)
         {
             var iniDataCenterPath = Path.Combine(installationFolder, DataCenterIniSubdir);
-            var iniFileName = Path.Combine(iniDataCenterPath, "DataCenter.ini");
             
             var iniFile = new IniFile();
-            iniFile.AssignFile(iniFileName);
+            var iniFileName = Utils.FileNameForSure(iniDataCenterPath, "DataCenter.ini", false, true);
+            iniFile.AssignFile(iniFileName, true);
 
             iniFile.Write(IniSection.MySql, IniKey.MySqlTcpPort, mysqlTcpPort);
         }
