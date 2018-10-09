@@ -5015,6 +5015,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save settings and send test message.
+        /// </summary>
+        public static string SID_Save_settings_and_send_test_message {
+            get {
+                return ResourceManager.GetString("SID_Save_settings_and_send_test_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Saved in DB.
         /// </summary>
         public static string SID_Saved_in_DB {
@@ -5426,6 +5435,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Show_trace {
             get {
                 return ResourceManager.GetString("SID_Show_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SMTP settings.
+        /// </summary>
+        public static string SID_SMTP_settings {
+            get {
+                return ResourceManager.GetString("SID_SMTP_settings", resourceCulture);
             }
         }
         

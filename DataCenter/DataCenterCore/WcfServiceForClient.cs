@@ -182,10 +182,10 @@ namespace Iit.Fibertest.DataCenterCore
             return true;
         }
 
-        public async Task<bool> SendTestEmail()
+        public async Task<bool> SendTestEmail(CurrentDatacenterSmtpParametersDto dto)
         {
             _logFile.AppendLine("Client asked test dispatch");
-            return await _smtp.SendTestDispatch();
+            return await _smtp.SendTestDispatch(dto);
         }
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)

@@ -44,6 +44,12 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
+        public void LaunchSmtpSettingsView()
+        {
+            var vm = _globalScope.Resolve<SmtpSettingsViewModel>();
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
         public void LaunchChangePasswordView()
         {
             var vm = _globalScope.Resolve<ChangePasswordViewModel>();

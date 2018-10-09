@@ -10,6 +10,7 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public class ClientsCollection
     {
+        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
         private readonly EventStoreService _eventStoreService;
@@ -19,6 +20,7 @@ namespace Iit.Fibertest.DataCenterCore
         public ClientsCollection(IniFile iniFile, IMyLog logFile, Model writeModel, EventStoreService eventStoreService)
         {
             _isInGisVisibleMode = iniFile.Read(IniSection.Server, IniKey.IsInGisVisibleMode, true);
+            _iniFile = iniFile;
             _logFile = logFile;
             _writeModel = writeModel;
             _eventStoreService = eventStoreService;
@@ -120,6 +122,17 @@ namespace Iit.Fibertest.DataCenterCore
             result.DatacenterVersion = fvi.FileVersion;
             result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
             result.IsInGisVisibleMode = _isInGisVisibleMode;
+
+            result.Smtp = new CurrentDatacenterSmtpParametersDto()
+            {
+                SmptHost = _iniFile.Read(IniSection.Smtp, IniKey.SmtpHost, ""),
+                SmptPort = _iniFile.Read(IniSection.Smtp, IniKey.SmtpPort, 0),
+                MailFrom = _iniFile.Read(IniSection.Smtp, IniKey.MailFrom, ""),
+                MailFromPassword = _iniFile.Read(IniSection.Smtp, IniKey.MailFromPassword, ""),
+                SmtpTimeoutMs = _iniFile.Read(IniSection.Smtp, IniKey.SmtpTimeoutMs, 0),
+            };
+
+            result.GsmModemComPort = _iniFile.Read(IniSection.Broadcast, IniKey.GsmModemComPort, 0);
             return result;
         }
 

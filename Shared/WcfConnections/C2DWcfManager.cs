@@ -224,7 +224,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<bool> SendTestEmail()
+        public async Task<bool> SendTestEmail(CurrentDatacenterSmtpParametersDto dto)
         {
             var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
@@ -233,7 +233,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.SendTestEmail();
+                var result = await channel.SendTestEmail(dto);
                 wcfConnection.Close();
                 return result;
             }

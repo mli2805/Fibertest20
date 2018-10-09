@@ -145,6 +145,15 @@ namespace Iit.Fibertest.Client
                 _currentDatacenterParameters.DatacenterVersion = result.DatacenterVersion;
                 _currentDatacenterParameters.GraphDbVersionId = result.GraphDbVersionId;
                 _currentDatacenterParameters.IsInGisVisibleMode = result.IsInGisVisibleMode;
+                _currentDatacenterParameters.Smtp = new CurrentDatacenterSmtpParameters()
+                {
+                    SmptHost = result.Smtp.SmptHost,
+                    SmptPort = result.Smtp.SmptPort,
+                    MailFrom = result.Smtp.MailFrom,
+                    MailFromPassword = result.Smtp.MailFromPassword,
+                    SmtpTimeoutMs = result.Smtp.SmtpTimeoutMs,
+                };
+                _currentDatacenterParameters.GsmModemComPort = result.GsmModemComPort;
                 _logFile.AppendLine(@"Registered successfully");
                 IsRegistrationSuccessful = true;
                 TryClose();

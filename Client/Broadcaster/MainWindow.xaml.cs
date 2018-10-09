@@ -31,8 +31,8 @@ namespace Broadcaster
             _iniFile = new IniFile();
             _iniFile.AssignFile("broadcaster.ini");
             GsmComPort = _iniFile.Read(IniSection.Broadcast, IniKey.GsmModemComPort, 3);
-            SendToNumber = _iniFile.Read(IniSection.Broadcast, IniKey.TestNumberToSms, "+375292788154");
-            ContentOfSms = _iniFile.Read(IniSection.Broadcast, IniKey.TestSmsContent, "Fibertest 2.0 Test SMS");
+            SendToNumber = _iniFile.Read(IniSection.Broadcast, IniKey.TestNumberToSms, "+375291234567");
+            ContentOfSms = _iniFile.Read(IniSection.Broadcast, IniKey.TestSmsContent, "Fibertest 2.0 Test SMS Тестовая СМСка");
         }
 
         private void CheckModemConnection(object sender, RoutedEventArgs e)

@@ -44,7 +44,7 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<bool> CheckServerConnection(CheckServerConnectionDto dto);
 
         [OperationContract]
-        Task<bool> SendTestEmail();
+        Task<bool> SendTestEmail(CurrentDatacenterSmtpParametersDto dto);
 
 
         // C2D2R

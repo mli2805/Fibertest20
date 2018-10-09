@@ -3,6 +3,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Threading.Tasks;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 
@@ -21,8 +22,14 @@ namespace Iit.Fibertest.DataCenterCore
             _writeModel = writeModel;
         }
 
-        public async Task<bool> SendTestDispatch()
+        public async Task<bool> SendTestDispatch(CurrentDatacenterSmtpParametersDto dto)
         {
+            _iniFile.Write(IniSection.Smtp, IniKey.SmtpHost, dto.SmptHost);
+            _iniFile.Write(IniSection.Smtp, IniKey.SmtpPort, dto.SmptPort);
+            _iniFile.Write(IniSection.Smtp, IniKey.MailFrom, dto.MailFrom);
+            _iniFile.Write(IniSection.Smtp, IniKey.MailFromPassword, dto.MailFromPassword);
+            _iniFile.Write(IniSection.Smtp, IniKey.SmtpTimeoutMs, dto.SmtpTimeoutMs);
+
             return await SendEmails(@"Test email - Тестовое сообщение",
                 @"You received this letter because you are included in Fibertest alarm subscription. - Вы получили данное сообщение так как включены в  список рассылки Fibertest'a");
         }
@@ -36,7 +43,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                var mailFrom = _iniFile.Read(IniSection.Smtp, IniKey.MailFrom, @"fibertest2018@gmail.com");
+                var mailFrom = _iniFile.Read(IniSection.Smtp, IniKey.MailFrom, "");
                 using (SmtpClient smtpClient = GetSmtpClient(mailFrom))
                 {
                     var mail = GetMailMessage(mailFrom);
@@ -66,15 +73,15 @@ namespace Iit.Fibertest.DataCenterCore
 
         private SmtpClient GetSmtpClient(string mailFrom)
         {
-            var smtpHost = _iniFile.Read(IniSection.Smtp, IniKey.SmtpHost, @"smtp.gmail.com");
-            var smtpPort = _iniFile.Read(IniSection.Smtp, IniKey.SmtpPort, 587);
+            var smtpHost = _iniFile.Read(IniSection.Smtp, IniKey.SmtpHost, "");
+            var smtpPort = _iniFile.Read(IniSection.Smtp, IniKey.SmtpPort, 0);
 
-            var password = _iniFile.Read(IniSection.Smtp, IniKey.MailFromPassword, @"Fibertest2018!");
+            var password = _iniFile.Read(IniSection.Smtp, IniKey.MailFromPassword, "");
 
             SmtpClient smtpClient = new SmtpClient(smtpHost, smtpPort);
 
             smtpClient.EnableSsl = true;
-            smtpClient.Timeout = _iniFile.Read(IniSection.Smtp, IniKey.SmtpTimeoutMs, 10000);
+            smtpClient.Timeout = _iniFile.Read(IniSection.Smtp, IniKey.SmtpTimeoutMs, 0);
             smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
             smtpClient.UseDefaultCredentials = false;
             smtpClient.Credentials = new NetworkCredential(mailFrom, password);

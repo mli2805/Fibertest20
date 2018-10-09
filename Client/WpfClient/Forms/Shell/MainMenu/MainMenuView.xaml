@@ -13,6 +13,7 @@
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Responsibility_zones}" cal:Message.Attach="LaunchResponsibilityZonesView"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Users}" cal:Message.Attach="LaunchUserListView()"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Responsibility_zones_settings}" cal:Message.Attach="LaunchObjectsToZonesView"/>
+                <MenuItem Header="{x:Static stringResources:Resources.SID_SMTP_settings}" cal:Message.Attach="LaunchSmtpSettingsView"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Change_password}" cal:Message.Attach="LaunchChangePasswordView"/>
             </MenuItem>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Configuration}" cal:Message.Attach="LaunchConfigurationView"/>

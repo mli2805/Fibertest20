@@ -2282,4 +2282,10 @@ RTU is initializing right now!</value>
 	<data name="SID_FiberBreak_NoFiber" xml:space="preserve">
     <value>Fiber break / No fiber</value>
   </data>
+	<data name="SID_SMTP_settings" xml:space="preserve">
+    <value>SMTP settings</value>
+  </data>
+	<data name="SID_Save_settings_and_send_test_message" xml:space="preserve">
+    <value>Save settings and send test message</value>
+  </data>
 </root>
