@@ -27,6 +27,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly Smtp _smtp;
+        private readonly Sms _sms;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -36,7 +37,7 @@ namespace Iit.Fibertest.DataCenterCore
         public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService, MeasurementFactory measurementFactory,
             ClientsCollection clientsCollection, ClientToRtuTransmitter clientToRtuTransmitter,
             RtuStationsRepository rtuStationsRepository, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
-            BaseRefLandmarksTool baseRefLandmarksTool, SorFileRepository sorFileRepository, Smtp smtp)
+            BaseRefLandmarksTool baseRefLandmarksTool, SorFileRepository sorFileRepository, Smtp smtp, Sms sms)
         {
             _logFile = logFile;
             _eventStoreService = eventStoreService;
@@ -48,6 +49,7 @@ namespace Iit.Fibertest.DataCenterCore
             _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
             _baseRefLandmarksTool = baseRefLandmarksTool;
             _smtp = smtp;
+            _sms = sms;
         }
 
         public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
@@ -184,8 +186,14 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<bool> SendTestEmail(CurrentDatacenterSmtpParametersDto dto)
         {
-            _logFile.AppendLine("Client asked test dispatch");
+            _logFile.AppendLine("Client asked to send test emails");
             return await _smtp.SendTestDispatch(dto);
+        }
+
+        public async Task<bool> SendTestSms(int comPort)
+        {
+            _logFile.AppendLine("Client asked to send test sms");
+            return await _sms.SendTestSms(comPort);
         }
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)

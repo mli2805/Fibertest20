@@ -6,7 +6,7 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d" d:DataContext="{d:DesignInstance client:SmtpSettingsViewModel}"
-        Width="450" SizeToContent="Height">
+        Width="450" SizeToContent="Height" WindowStartupLocation="CenterScreen">
     <StackPanel Margin="5">
         <DockPanel>
             <TextBlock DockPanel.Dock="Bottom" Margin="5,0,5,10" Foreground="Gray" Width="300"

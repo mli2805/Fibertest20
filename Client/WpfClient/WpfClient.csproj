@@ -190,6 +190,10 @@
     </Compile>
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\UserFilter.cs" />
+    <Compile Include="Forms\AdministrativeForms\SmsSettingsView.xaml.cs">
+      <DependentUpon>SmsSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AdministrativeForms\SmsSettingsViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\SmtpSettingsView.xaml.cs">
       <DependentUpon>SmtpSettingsView.xaml</DependentUpon>
     </Compile>
@@ -601,6 +605,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\AdministrativeForms\EventLog\LogOperationsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\AdministrativeForms\SmsSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

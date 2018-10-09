@@ -50,6 +50,12 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
+        public void LaunchSmsSettingsView()
+        {
+            var vm = _globalScope.Resolve<SmsSettingsViewModel>();
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
         public void LaunchChangePasswordView()
         {
             var vm = _globalScope.Resolve<ChangePasswordViewModel>();

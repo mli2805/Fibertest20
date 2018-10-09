@@ -65,6 +65,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ZonesViewModel>();
             builder.RegisterType<ObjectsAsTreeToZonesViewModel>();
             builder.RegisterType<SmtpSettingsViewModel>();
+            builder.RegisterType<SmsSettingsViewModel>();
             builder.RegisterType<ChangePasswordViewModel>();
             builder.RegisterType<ClientWcfService>().InstancePerLifetimeScope();
             builder.RegisterType<ClientWcfServiceHost>().As<IClientWcfServiceHost>().InstancePerLifetimeScope();

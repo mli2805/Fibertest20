@@ -46,6 +46,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         [OperationContract]
         Task<bool> SendTestEmail(CurrentDatacenterSmtpParametersDto dto);
 
+        [OperationContract]
+        Task<bool> SendTestSms(int comPort);
+
 
         // C2D2R
         [OperationContract]
