@@ -22,6 +22,7 @@ namespace Iit.Fibertest.Client
         private readonly EventArrivalNotifier _eventArrivalNotifier;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly CurrentUser _currentUser;
 
         private ObservableCollection<UserVm> _rows = new ObservableCollection<UserVm>();
         public ObservableCollection<UserVm> Rows
@@ -42,14 +43,15 @@ namespace Iit.Fibertest.Client
             set
             {
                 _selectedUser = value;
-                NotifyOfPropertyChange(nameof(IsRemovable));
+                NotifyOfPropertyChange(nameof(CanEdit));
+                NotifyOfPropertyChange(nameof(CanRemove));
             }
         }
 
-        public bool IsRemovable => SelectedUser?.Role != Role.Root;
-
         public static List<Role> Roles { get; set; }
-        public bool IsEnabled { get; set; }
+        public bool CanAdd => _currentUser.Role <= Role.Root;
+        public bool CanEdit => _currentUser.Role <= Role.Root || _currentUser.UserId == SelectedUser?.UserId;
+        public bool CanRemove => _currentUser.Role <= Role.Root && SelectedUser?.Role != Role.Root;
 
         public UserListViewModel(ILifetimeScope globalScope, Model readModel, EventArrivalNotifier eventArrivalNotifier,
             IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, CurrentUser currentUser)
@@ -59,10 +61,9 @@ namespace Iit.Fibertest.Client
             _eventArrivalNotifier = eventArrivalNotifier;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
+            _currentUser = currentUser;
 
             Initialize();
-
-            IsEnabled = currentUser.Role <= Role.Root;
         }
 
         private void Initialize()

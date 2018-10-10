@@ -1341,15 +1341,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Change user.
-        /// </summary>
-        public static string SID_Change_user {
-            get {
-                return ResourceManager.GetString("SID_Change_user", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to charon {0} has {1}/{2} ports.
         /// </summary>
         public static string SID_charon__0__has__1___2__ports {
@@ -5313,6 +5304,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Set password.
+        /// </summary>
+        public static string SID_Set_password {
+            get {
+                return ResourceManager.GetString("SID_Set_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Settings.
         /// </summary>
         public static string SID_Settings {
@@ -5777,6 +5777,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_There_is_RTU_with_the_same_ip_address_ {
             get {
                 return ResourceManager.GetString("SID_There_is_RTU_with_the_same_ip_address_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This user has no right to start client.
+        /// </summary>
+        public static string SID_This_user_has_no_right_to_start_client {
+            get {
+                return ResourceManager.GetString("SID_This_user_has_no_right_to_start_client", resourceCulture);
             }
         }
         
@@ -6389,6 +6398,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_User_s_threshold {
             get {
                 return ResourceManager.GetString("SID_User_s_threshold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User settings.
+        /// </summary>
+        public static string SID_User_settings {
+            get {
+                return ResourceManager.GetString("SID_User_settings", resourceCulture);
             }
         }
         

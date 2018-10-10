@@ -8,5 +8,7 @@
         Operator = 3,
         Supervisor = 4,
         Superclient = 5,
+
+        NotificationReceiver = 9,
     }
 }

@@ -31,7 +31,9 @@ namespace Iit.Fibertest.DataCenterCore
             var user = _writeModel.Users.FirstOrDefault(u => u.Title == dto.UserName && UserExt.FlipFlop(u.EncodedPassword) == dto.Password);
             return user == null
                 ? new ClientRegisteredDto { ReturnCode = ReturnCode.NoSuchUserOrWrongPassword }
-                : RegisterClientStation(dto, user);
+                : user.Role == Role.NotificationReceiver 
+                    ? new ClientRegisteredDto(){ ReturnCode = ReturnCode.UserHasNoRightsToStartClient } 
+                    : RegisterClientStation(dto, user);
         }
 
         private ClientRegisteredDto RegisterClientStation(RegisterClientDto dto, User user)

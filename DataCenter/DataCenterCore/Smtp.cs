@@ -34,9 +34,14 @@ namespace Iit.Fibertest.DataCenterCore
                 @"You received this letter because you are included in Fibertest alarm subscription. - Вы получили данное сообщение так как включены в  список рассылки Fibertest'a");
         }
 
-        public async Task<bool> SendMonitoringResult()
+        public async Task<bool> SendMonitoringResult(MonitoringResultDto dto)
         {
-            return await SendEmails("", "");
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);
+            if (trace == null) return false;
+            var subj = $"Trace <<{trace.Title}>> state is {trace.State.ToLocalizedString()}.";
+
+            // TODO Create report body
+            return await SendEmails(subj, subj);
         }
 
         private async Task<bool> SendEmails(string subject, string body)

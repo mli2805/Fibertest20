@@ -614,9 +614,6 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Add_user" xml:space="preserve">
     <value>Add user</value>
   </data>
-	<data name="SID_Change_user" xml:space="preserve">
-    <value>Change user</value>
-  </data>
 	<data name="SID_Remove_user" xml:space="preserve">
     <value>Remove user</value>
   </data>
@@ -2293,5 +2290,14 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Save_settings_and_send_test_sms" xml:space="preserve">
     <value>Save settings and send test SMS</value>
+  </data>
+	<data name="SID_User_settings" xml:space="preserve">
+    <value>User settings</value>
+  </data>
+	<data name="SID_This_user_has_no_right_to_start_client" xml:space="preserve">
+    <value>This user has no right to start client</value>
+  </data>
+	<data name="SID_Set_password" xml:space="preserve">
+    <value>Set password</value>
   </data>
 </root>

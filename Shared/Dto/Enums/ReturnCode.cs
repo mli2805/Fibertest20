@@ -52,6 +52,7 @@
         ClientsCountLicenseExpired = 9006,
         SuperClientsCountExceeded = 9007,
         SuperClientsCountLicenseExpired = 9008,
+        UserHasNoRightsToStartClient = 9009,
         ClientRegisteredSuccessfully = 9011,
 
         BaseRefAssignmentFailed = 9401,

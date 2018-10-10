@@ -57,8 +57,10 @@ namespace Iit.Fibertest.Graph
                     return @"No such client station";
                 case ReturnCode.ClientsCountExceeded:
                     return Resources.SID_Exceeded_the_number_of_clients_registered_simultaneously;
-                    case ReturnCode.SuperClientsCountExceeded:
-                        return Resources.SID_Exceeded_the_number_of_super_clients_registered_simultaneously;
+                case ReturnCode.SuperClientsCountExceeded:
+                    return Resources.SID_Exceeded_the_number_of_super_clients_registered_simultaneously;
+                case ReturnCode.UserHasNoRightsToStartClient:
+                    return Resources.SID_This_user_has_no_right_to_start_client;
                 case ReturnCode.ClientRegisteredSuccessfully:
                     return @"OK";
 

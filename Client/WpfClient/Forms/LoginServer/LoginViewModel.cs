@@ -71,16 +71,18 @@ namespace Iit.Fibertest.Client
 #if DEBUG
             if (string.IsNullOrEmpty(UserName))
                 UserName = @"developer";
-//                            UserName = @"Op";
 //                            UserName = @"operator";
+//                            UserName = @"Op";
             //                UserName = @"supervisor";
             //                UserName = @"root";
+//                UserName = @"Brigadir";
             if (string.IsNullOrEmpty(Password))
                 Password = @"developer";
-//                            Password = @"1";
 //                            Password = @"operator";
+//                            Password = @"1";
             //                Password = @"supervisor";
             //                Password = @"root";
+//                Password = @"1";
 #endif
             Status = Resources.SID_Client_registraion_is_performing;
 //            using (_globalScope.Resolve<IWaitCursor>())

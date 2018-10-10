@@ -18,10 +18,13 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly MeasurementFactory _measurementFactory;
         private readonly EventStoreService _eventStoreService;
+        private readonly Smtp _smtp;
+        private readonly Sms _sms;
 
         public MsmqHandler(IniFile iniFile, IMyLog logFile, Model writeModel,
-            SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository, MeasurementFactory measurementFactory,
-            EventStoreService eventStoreService)
+            SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository, 
+            MeasurementFactory measurementFactory, EventStoreService eventStoreService,
+            Smtp smtp, Sms sms)
         {
             _iniFile = iniFile;
             _logFile = logFile;
@@ -30,6 +33,8 @@ namespace Iit.Fibertest.DataCenterCore
             _rtuStationsRepository = rtuStationsRepository;
             _measurementFactory = measurementFactory;
             _eventStoreService = eventStoreService;
+            _smtp = smtp;
+            _sms = sms;
         }
 
         public void Start()
@@ -128,9 +133,11 @@ namespace Iit.Fibertest.DataCenterCore
 
             await CheckAndSendBopNetworkIfNeeded(dto);
 
-            // TODO snmp, email, sms
+            // TODO SNMP, SMTP, SMS
             if (command.EventStatus > EventStatus.JustMeasurementNotAnEvent)
             {
+                await _smtp.SendMonitoringResult(dto);
+                await _sms.SendMonitoringResult(dto); 
             }
 
             return 0;
