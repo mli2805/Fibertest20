@@ -82,18 +82,20 @@ namespace Iit.Fibertest.Client
         }
 
         // if some of neighbours are AdjustmentPoints - step farther a find first node on this way
-        public static List<NodeVm> GetNeiboursPassingThroughAdjustmentPoints(this GraphReadModel model, Guid nodeId)
+        public static List<Tuple<NodeVm, List<FiberVm>>> GetNeiboursPassingThroughAdjustmentPoints(this GraphReadModel model, Guid nodeId)
         {
-            var result = new List<NodeVm>();
+            var res = new List<Tuple<NodeVm, List<FiberVm>>>();
 
             var fiberVms = model.Data.Fibers.Where(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId);
             foreach (var fiberVm in fiberVms)
             {
+                var fibersOfOneDestination = new List<FiberVm>();
                 var previousNodeId = nodeId;
                 var currentFiberVm = fiberVm;
                 NodeVm neighbourVm;
                 while (true)
                 {
+                    fibersOfOneDestination.Add(currentFiberVm);
                     neighbourVm = currentFiberVm.Node1.Id == previousNodeId ? currentFiberVm.Node2 : currentFiberVm.Node1;
                     if (neighbourVm.Type != EquipmentType.AdjustmentPoint)
                         break;
@@ -101,10 +103,10 @@ namespace Iit.Fibertest.Client
                     previousNodeId = neighbourVm.Id;
                     currentFiberVm = model.GetAnotherFiberOfAdjustmentPoint(neighbourVm, currentFiberVm.Id);
                 }
-                result.Add(neighbourVm);
+                res.Add(new Tuple<NodeVm, List<FiberVm>>(neighbourVm, fibersOfOneDestination));
             }
 
-            return result;
+            return res;
         }
 
         public static FiberVm GetAnotherFiberOfAdjustmentPoint(this GraphReadModel model, NodeVm adjustmentPoint, Guid fiberId)

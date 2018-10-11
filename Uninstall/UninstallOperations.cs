@@ -14,8 +14,8 @@ namespace Iit.Fibertest.Uninstall
         private readonly Dictionary<string, string> _services = new Dictionary<string, string>()
         {
             {"FibertestDcService", "Fibertest 2.0 DataCenter Server"},
-            {"FibertestRtuService", "Fibertest 2.0 RTU Manager"},
             {"FibertestRtuWatchdog", "Fibertest 2.0 RTU Watchdog"},
+            {"FibertestRtuService", "Fibertest 2.0 RTU Manager"},
         };
        
         private readonly List<string> _componentFolders = new List<string>{"Client", "DataCenter", "RtuManager", "SuperClient"};
