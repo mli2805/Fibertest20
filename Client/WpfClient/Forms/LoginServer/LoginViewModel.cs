@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
 using Caliburn.Micro;
@@ -167,6 +168,22 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void Cancel() { TryClose(); }
+        public void Cancel()
+        {
+            TryClose();
+        }
+
+        public override void CanClose(Action<bool> callback)
+        {
+            if (!IsRegistrationSuccessful)
+            {
+                var question = Resources.SID_Close_application_;
+                var vm = new MyMessageBoxViewModel(MessageType.Confirmation, question);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+
+                if (!vm.IsAnswerPositive) return;
+            }
+            base.CanClose(callback);
+        }
     }
 }

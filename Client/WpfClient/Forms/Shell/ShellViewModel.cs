@@ -183,11 +183,15 @@ namespace Iit.Fibertest.Client
 
         public override void CanClose(Action<bool> callback)
         {
-            var question = Resources.SID_Close_application_;
-            var vm = new MyMessageBoxViewModel(MessageType.Confirmation, question);
-            _windowManager.ShowDialogWithAssignedOwner(vm);
+            if (_loginViewModel.IsRegistrationSuccessful)
+            {
+                var question = Resources.SID_Close_application_;
+                var vm = new MyMessageBoxViewModel(MessageType.Confirmation, question);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
 
-            if (!vm.IsAnswerPositive) return;
+                if (!vm.IsAnswerPositive) return;
+            }
+        
 
             _clientPollerCts.Cancel();
             _logFile.AppendLine(@"Client application finished.");
