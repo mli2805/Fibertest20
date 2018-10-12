@@ -123,7 +123,7 @@ namespace Iit.Fibertest.Client
             }
 
             var header = res ? MessageType.Information : MessageType.Error;
-            var message = res ? "Test SMS sent successfully!" : "Failed to send test SMS!";
+            var message = res ? Resources.SID_Test_SMS_sent_successfully_ : Resources.SID_Failed_to_send_test_SMS_;
             var vm = new MyMessageBoxViewModel(header, message);
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
@@ -137,7 +137,7 @@ namespace Iit.Fibertest.Client
             }
 
             var header = res ? MessageType.Information : MessageType.Error;
-            var message = res ? "Test e-mail sent successfully!" : "Failed to send test e-mail!";
+            var message = res ? Resources.SID_Test_e_mail_sent_successfully_ : Resources.SID_Failed_to_send_test_e_mail_;
             var vm = new MyMessageBoxViewModel(header, message);
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }

@@ -2458,6 +2458,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to send test e-mail!.
+        /// </summary>
+        public static string SID_Failed_to_send_test_e_mail_ {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_send_test_e_mail_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to send test SMS!.
+        /// </summary>
+        public static string SID_Failed_to_send_test_SMS_ {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_send_test_SMS_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fast.
         /// </summary>
         public static string SID_Fast {
@@ -5709,11 +5727,29 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Test e-mail sent successfully!.
+        /// </summary>
+        public static string SID_Test_e_mail_sent_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Test_e_mail_sent_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Test RTU communication functions.
         /// </summary>
         public static string SID_Test_RTU_communication_functions {
             get {
                 return ResourceManager.GetString("SID_Test_RTU_communication_functions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test SMS sent successfully!.
+        /// </summary>
+        public static string SID_Test_SMS_sent_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Test_SMS_sent_successfully_", resourceCulture);
             }
         }
         
