@@ -13,11 +13,12 @@
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Responsibility_zones}" cal:Message.Attach="LaunchResponsibilityZonesView"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Users}" cal:Message.Attach="LaunchUserListView()"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Responsibility_zones_settings}" cal:Message.Attach="LaunchObjectsToZonesView"/>
+                 </MenuItem>
+            <MenuItem Header="{x:Static stringResources:Resources.SID_Settings}">
+                <MenuItem Header="{x:Static stringResources:Resources.SID_Client_settings}" cal:Message.Attach="LaunchClientSettingsView"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_SMTP_settings}" cal:Message.Attach="LaunchSmtpSettingsView"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_SMS_settings}" cal:Message.Attach="LaunchSmsSettingsView"/>
-                <MenuItem Header="{x:Static stringResources:Resources.SID_Change_password}" cal:Message.Attach="LaunchChangePasswordView"/>
             </MenuItem>
-            <MenuItem Header="{x:Static stringResources:Resources.SID_Configuration}" cal:Message.Attach="LaunchConfigurationView"/>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Event_log}" cal:Message.Attach="LaunchEventLogView"/>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Help}">
                 <MenuItem Header="Help me!"/>

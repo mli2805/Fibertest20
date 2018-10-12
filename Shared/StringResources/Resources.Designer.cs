@@ -1458,6 +1458,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Client settings.
+        /// </summary>
+        public static string SID_Client_settings {
+            get {
+                return ResourceManager.GetString("SID_Client_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client setup completed successfully..
         /// </summary>
         public static string SID_Client_setup_completed_successfully_ {

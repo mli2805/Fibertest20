@@ -123,7 +123,6 @@ namespace Iit.Fibertest.Client
             if (_loginViewModel.IsRegistrationSuccessful)
             {
                 TabulatorViewModel.SelectedTabIndex = 4;
-                MainMenuViewModel.Initialize(_currentUser);
 
                 await GetAlreadyStoredInCacheAndOnServerData();
                 StartRegularCommunicationWithServer();

@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using Autofac;
+﻿using Autofac;
 using Caliburn.Micro;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
@@ -10,20 +8,12 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
-        private readonly Model _readModel;
-        private CurrentUser _currentUser;
 
 
-        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager, Model readModel)
+        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
-            _readModel = readModel;
-        }
-
-        public void Initialize(CurrentUser currentUser)
-        {
-            _currentUser = currentUser;
         }
 
         public void LaunchResponsibilityZonesView()
@@ -56,15 +46,7 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
-        public void LaunchChangePasswordView()
-        {
-            var vm = _globalScope.Resolve<ChangePasswordViewModel>();
-            var user = _readModel.Users.First(u => u.Title == _currentUser.UserName);
-            vm.Initialize(user);
-            _windowManager.ShowDialogWithAssignedOwner(vm);
-        }
-
-        public void LaunchConfigurationView()
+        public void LaunchClientSettingsView()
         {
             var vm = _globalScope.Resolve<ConfigurationViewModel>();
             _windowManager.ShowDialogWithAssignedOwner(vm);
