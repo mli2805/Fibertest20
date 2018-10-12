@@ -36,9 +36,9 @@ namespace Iit.Fibertest.DataCenterCore
             _iniFile.Write(IniSection.Smtp, IniKey.SmtpTimeoutMs, dto.SmtpTimeoutMs);
         }
 
-        public async Task<bool> SendTestToUser(Guid userId)
+        public async Task<bool> SendTest(string address)
         {
-            var mailTo = new List<string> { _writeModel.Users.First(u => u.UserId == userId).Email.Address };
+            var mailTo = new List<string> { address };
             return await SendEmail(TestEmailSubj, TestEmailMessage, mailTo);
         }
 

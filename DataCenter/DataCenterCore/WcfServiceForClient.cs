@@ -200,9 +200,9 @@ namespace Iit.Fibertest.DataCenterCore
             return Task.FromResult(true);
         }
 
-        public Task<bool> SendTestToUser(Guid userId, NotificationType notificationType)
+        public Task<bool>  SendTest(string to, NotificationType notificationType)
         {
-            return notificationType == NotificationType.Email ? _smtp.SendTestToUser(userId) : _sms.SendTestToUser(userId);
+            return notificationType == NotificationType.Email ? _smtp.SendTest(to) : _sms.SendTest(to);
         }
 
 

@@ -5,14 +5,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:SmsReceiverViewModel}">
+             xmlns:cal="http://www.caliburnproject.org"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance client:SmsReceiverViewModel}"
+             cal:Bind.ModelWithoutContext="{Binding .}">
     <GroupBox Margin="5" Padding="0,5">
         <GroupBox.Header>
             <CheckBox Content="{x:Static stringResources:Resources.SID_Send_messages}" 
                       IsChecked="{Binding IsActivated}"/>
         </GroupBox.Header>
         <DockPanel >
-            <TextBox DockPanel.Dock="Top" Text="{Binding PhoneNumber}" Margin="5,15,5,5" Width="200"/>
+            <TextBox DockPanel.Dock="Top" Text="{Binding PhoneNumber}" Margin="5,15,5,5" Width="180"/>
+            <Button DockPanel.Dock="Top"  Margin="55,5,5,15" Width="100" Content="{x:Static stringResources:Resources.SID_Test}" Name="SendTestSms"/>
             <CheckBox Content="{x:Static stringResources:Resources.SID_FiberBreak_NoFiber}" IsChecked="{Binding IsFiberBreakOn}" Margin="5" DockPanel.Dock="Top"/>
             <CheckBox Content="{x:Static stringResources:Resources.SID_Critical}" Margin="5" IsChecked="{Binding IsCriticalOn}" DockPanel.Dock="Top"/>
             <CheckBox Content="{x:Static stringResources:Resources.SID_Major}" Margin="5" IsChecked="{Binding IsMajorOn}" DockPanel.Dock="Top"/>

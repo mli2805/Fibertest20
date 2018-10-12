@@ -46,9 +46,9 @@ namespace Iit.Fibertest.DataCenterCore
             _writeModel = writeModel;
         }
 
-        public async Task<bool> SendTestToUser(Guid userId)
+        public async Task<bool> SendTest(string phoneNumber)
         {
-            return await Task.Factory.StartNew(() => SendTestSms(userId)); // here we are waiting result to report user
+            return await Task.Factory.StartNew(() => SendTestSms(phoneNumber)); // here we are waiting result to report user
         }
 
         public async Task<bool> SendMonitoringResult(MonitoringResultDto dto)
@@ -77,9 +77,8 @@ namespace Iit.Fibertest.DataCenterCore
         private const string ContentOfTestSms = "Test SMS message - Тестовое СМС сообщение";
         private const byte CodeForRussian = 8;
 
-        private bool SendTestSms(Guid userId)
+        private bool SendTestSms(string phoneNumber)
         {
-            var phoneNumber = _writeModel.Users.First(u => u.UserId == userId).Sms.PhoneNumber;
             var serverIp = _iniFile.Read(IniSection.ServerMainAddress, IniKey.Ip, "");
             return SendSms($"{serverIp}: {ContentOfTestSms}", new List<string>() { phoneNumber });
         }

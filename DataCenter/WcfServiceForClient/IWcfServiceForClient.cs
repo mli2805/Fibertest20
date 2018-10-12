@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -51,7 +50,7 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<bool> SaveGsmComPort(int comPort);
 
         [OperationContract]
-        Task<bool> SendTestToUser(Guid userId, NotificationType notificationType);
+        Task<bool> SendTest(string to, NotificationType notificationType);
 
 
         // C2D2R

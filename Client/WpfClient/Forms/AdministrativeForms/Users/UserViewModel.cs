@@ -86,7 +86,7 @@ namespace Iit.Fibertest.Client
 
         public Visibility ChangePasswordVisibility { get; set; }
 
-        public UserViewModel(ILifetimeScope globalScope, IWindowManager windowManager, 
+        public UserViewModel(ILifetimeScope globalScope, IWindowManager windowManager,
             IWcfServiceForClient c2DWcfManager, Model readModel, CurrentUser currentUser)
         {
             _globalScope = globalScope;
@@ -102,6 +102,7 @@ namespace Iit.Fibertest.Client
         {
             _isInCreationMode = true;
             UserInWork = new UserVm();
+            UserInWork.SmsReceiverVm.TestButtonPressed += SmsReceiverVm_TestButtonPressed;
 
             Roles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(3).ToList();
             IsntItRoot = true;
@@ -113,11 +114,40 @@ namespace Iit.Fibertest.Client
             SelectedZone = Zones.First();
         }
 
+        private async void SmsReceiverVm_TestButtonPressed(object sender, EventArgs e)
+        {
+            bool res;
+            using (new WaitCursor())
+            {
+                res = await _c2DWcfManager.SendTest(UserInWork.SmsReceiverVm.PhoneNumber, NotificationType.Sms);
+            }
+
+            var header = res ? MessageType.Information : MessageType.Error;
+            var message = res ? "Test SMS sent successfully!" : "Failed to send test SMS!";
+            var vm = new MyMessageBoxViewModel(header, message);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
+        public async void SendTestEmail()
+        {
+            bool res;
+            using (new WaitCursor())
+            {
+                res = await _c2DWcfManager.SendTest(UserInWork.EmailAddress, NotificationType.Email);
+            }
+
+            var header = res ? MessageType.Information : MessageType.Error;
+            var message = res ? "Test e-mail sent successfully!" : "Failed to send test e-mail!";
+            var vm = new MyMessageBoxViewModel(header, message);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
         public void InitializeForUpdate(UserVm user)
         {
             _isInCreationMode = false;
 
             UserInWork = user;
+            UserInWork.SmsReceiverVm.TestButtonPressed += SmsReceiverVm_TestButtonPressed;
 
             if (UserInWork.Role == Role.Root)
             {
@@ -132,12 +162,12 @@ namespace Iit.Fibertest.Client
             if (UserInWork.Role == 0)
                 UserInWork.Role = Roles.First();
 
-            Password1 = Password2 = @"1234567890"; 
+            Password1 = Password2 = @"1234567890";
             IsPasswordsEnabled = _currentUser.Role <= Role.Root;
             ChangePasswordVisibility = _currentUser.Role <= Role.Root ? Visibility.Collapsed : Visibility.Visible;
 
             Zones = _readModel.Zones;
-            SelectedZone = Zones.First(z=>z.ZoneId == user.ZoneId);
+            SelectedZone = Zones.First(z => z.ZoneId == user.ZoneId);
         }
 
         protected override void OnViewLoaded(object view)
@@ -162,7 +192,7 @@ namespace Iit.Fibertest.Client
                     UserId = Guid.NewGuid(),
                     Title = UserInWork.Title,
                     Role = UserInWork.Role,
-                    Email = new EmailReceiver(){Address =  UserInWork.EmailAddress, IsActivated = UserInWork.IsEmailActivated},
+                    Email = new EmailReceiver() { Address = UserInWork.EmailAddress, IsActivated = UserInWork.IsEmailActivated },
                     Sms = UserInWork.SmsReceiverVm.Get(),
                     EncodedPassword = UserExt.FlipFlop(Password1),
                     ZoneId = SelectedZone.ZoneId,
@@ -173,13 +203,13 @@ namespace Iit.Fibertest.Client
                     UserId = UserInWork.UserId,
                     Title = UserInWork.Title,
                     Role = UserInWork.Role,
-                    Email = new EmailReceiver(){Address =  UserInWork.EmailAddress, IsActivated = UserInWork.IsEmailActivated},
+                    Email = new EmailReceiver() { Address = UserInWork.EmailAddress, IsActivated = UserInWork.IsEmailActivated },
                     Sms = UserInWork.SmsReceiverVm.Get(),
                     EncodedPassword = UserExt.FlipFlop(UserInWork.Password), // cannot be changed via this form
                     ZoneId = SelectedZone.ZoneId,
                 };
 
-            
+
             await _c2DWcfManager.SendCommandAsObj(cmd);
             TryClose(true);
         }

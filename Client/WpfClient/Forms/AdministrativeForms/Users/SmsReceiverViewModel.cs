@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
@@ -112,6 +113,12 @@ namespace Iit.Fibertest.Client
                 _isActivated = value;
                 NotifyOfPropertyChange();
             }
+        }
+
+        public event EventHandler TestButtonPressed;
+        public void SendTestSms()
+        {
+            TestButtonPressed?.Invoke(this, null);
         }
 
         public SmsReceiver Get()

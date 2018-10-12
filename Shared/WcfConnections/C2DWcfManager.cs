@@ -264,7 +264,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<bool> SendTestToUser(Guid userId, NotificationType notificationType)
+        public async Task<bool>  SendTest(string to, NotificationType notificationType)
         {
             var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
@@ -273,7 +273,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.SendTestToUser(userId, notificationType);
+                var result = await channel.SendTest(to, notificationType);
                 wcfConnection.Close();
                 return result;
             }

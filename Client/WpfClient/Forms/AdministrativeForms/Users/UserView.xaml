@@ -19,7 +19,7 @@
             <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" Width="80" Margin="5,0"/>
         </StackPanel>
         <StackPanel DockPanel.Dock="Left" Margin="5,0,0,0">
-            <GroupBox Header="User" Margin="5" BorderThickness="1" BorderBrush="LightGray" Padding="5" IsEnabled="{Binding IsEditEnabled}">
+            <GroupBox Header="{x:Static stringResources:Resources.SID_User}" Margin="5" BorderThickness="1" BorderBrush="LightGray" Padding="5" IsEnabled="{Binding IsEditEnabled}">
                 <StackPanel>
                     <DockPanel>
                         <TextBox Name="TextBoxTitle" DockPanel.Dock="Right" Margin="5" Width="150" 
@@ -38,7 +38,7 @@
                     </DockPanel>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Header="Password" Margin="5" Padding="0,5" IsEnabled="{Binding IsPasswordsEnabled}">
+            <GroupBox Header="{x:Static stringResources:Resources.SID_Password}" Margin="5" Padding="0,5" IsEnabled="{Binding IsPasswordsEnabled}">
                 <StackPanel>
                     <PasswordBox wpfCommonViews:PasswordHelper.Attach="True"  
                              wpfCommonViews:PasswordHelper.Password="{Binding Password1, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=True}" 
@@ -54,12 +54,13 @@
                           IsChecked="{Binding UserInWork.IsEmailActivated}"/>
                 </GroupBox.Header>
                 <DockPanel >
-                    <TextBox DockPanel.Dock="Right" Text="{Binding UserInWork.EmailAddress}" Margin="5" Width="250"/>
+                    <TextBox DockPanel.Dock="Left" Text="{Binding UserInWork.EmailAddress}" Margin="5" Width="180"/>
+                    <Button  Margin="5" Width="100" Content="{x:Static stringResources:Resources.SID_Test}" Name="SendTestEmail"/>
                 </DockPanel>
             </GroupBox>
         </StackPanel>
         <DockPanel  IsEnabled="{Binding IsEditEnabled}">
-            <client:SmsReceiverView DataContext="{Binding UserInWork.SmsReceiverVm}" Margin="0,0,5,0"/>
+            <client:SmsReceiverView DataContext="{Binding UserInWork.SmsReceiverVm}" DockPanel.Dock="Top" Margin="0,0,5,0"/>
         </DockPanel>
     </DockPanel>
 </Window>

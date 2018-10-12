@@ -2440,7 +2440,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to save gsm modem com port!.
+        ///   Looks up a localized string similar to Failed to save GSM-modem com port!.
         /// </summary>
         public static string SID_Failed_to_save_gsm_modem_com_port_ {
             get {
@@ -2449,7 +2449,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to save smtp settings!.
+        ///   Looks up a localized string similar to Failed to save SMTP settings!.
         /// </summary>
         public static string SID_Failed_to_save_smtp_settings_ {
             get {
