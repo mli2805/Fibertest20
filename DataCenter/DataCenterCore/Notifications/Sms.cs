@@ -25,14 +25,26 @@ namespace Iit.Fibertest.DataCenterCore
             _dto = dto;
         }
 
-        public string GetSms()
+        public string GetShortMessage()
         {
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == _dto.PortWithTrace.TraceId);
             if (trace == null) return null;
-            var message = $"Trace <<{trace.Title}>> state is {_dto.TraceState.ToLocalizedString()}";
+
+            switch (_dto.TraceState)
+            {
+                case FiberState.Ok:
+                    return $"Trace {trace.Title} change it's state to \"OK\" at {_dto.TimeStamp}";
+                case FiberState.FiberBreak:
+                    return $"Fiber is broken on trace {trace.Title} at {_dto.TimeStamp}";
+                case FiberState.NoFiber:
+                    return $"There is no fiber for monitoring on trace {trace.Title} at {_dto.TimeStamp}";
+            }
+
+            var message = $"Trace {trace.Title} state is {_dto.TraceState.ToLocalizedString()}";
             return message;
         }
     }
+
     public class Sms
     {
         private readonly IniFile _iniFile;
@@ -53,7 +65,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<bool> SendMonitoringResult(MonitoringResultDto dto)
         {
-            var message = GetShortMessage(dto);
+            var texting = new Texting(_writeModel);
+            texting.Initialize(dto);
+            var message =  texting.GetShortMessage();
             if (message == null) return true;
 
             var phoneNumbers = _writeModel.Users
@@ -66,13 +80,6 @@ namespace Iit.Fibertest.DataCenterCore
             return true;
         }
 
-        private string GetShortMessage(MonitoringResultDto dto)
-        {
-            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);
-            if (trace == null) return null;
-            var message = $"Trace <<{trace.Title}>> state is {trace.State.ToLocalizedString()}";
-            return message;
-        }
 
         private const string ContentOfTestSms = "Test SMS message - Тестовое СМС сообщение";
         private const byte CodeForRussian = 8;
