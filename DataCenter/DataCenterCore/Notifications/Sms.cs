@@ -74,6 +74,8 @@ namespace Iit.Fibertest.DataCenterCore
                 .Where(u => u.Sms.IsActivated && u.Sms.ShouldUserReceiveMoniResult(dto.TraceState))
                 .Select(u => u.Sms.PhoneNumber).ToList();
 
+            _logFile.AppendLine($"There are {phoneNumbers.Count} numbers to send SMS");
+
             // ReSharper disable once UnusedVariable
             var task = Task.Factory.StartNew(() => SendSms(message, phoneNumbers)); // here we do not wait result
             await Task.Delay(1);

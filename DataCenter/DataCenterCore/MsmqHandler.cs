@@ -134,13 +134,19 @@ namespace Iit.Fibertest.DataCenterCore
             await CheckAndSendBopNetworkIfNeeded(dto);
 
             // TODO SNMP, SMTP, SMS
-            if (command.EventStatus > EventStatus.JustMeasurementNotAnEvent)
+            if (command.EventStatus > EventStatus.JustMeasurementNotAnEvent && dto.BaseRefType != BaseRefType.Fast)
             {
-                await _smtp.SendMonitoringResult(dto);
-                await _sms.SendMonitoringResult(dto); 
+                // ReSharper disable once UnusedVariable
+                var task = Task.Factory.StartNew(() => SendNotifications(dto));
             }
 
             return 0;
+        }
+
+        private async void SendNotifications(MonitoringResultDto dto)
+        {
+            await _smtp.SendMonitoringResult(dto);
+            await _sms.SendMonitoringResult(dto); 
         }
 
         private async Task CheckAndSendBopNetworkEventIfNeeded(BopStateChangedDto dto)
