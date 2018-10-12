@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -44,10 +45,13 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<bool> CheckServerConnection(CheckServerConnectionDto dto);
 
         [OperationContract]
-        Task<bool> SendTestEmail(CurrentDatacenterSmtpParametersDto dto);
+        Task<bool> SaveSmtpSettings(SmtpSettingsDto dto);
 
         [OperationContract]
-        Task<bool> SendTestSms(int comPort);
+        Task<bool> SaveGsmComPort(int comPort);
+
+        [OperationContract]
+        Task<bool> SendTestToUser(Guid userId, NotificationType notificationType);
 
 
         // C2D2R

@@ -12,9 +12,9 @@
             <TextBlock DockPanel.Dock="Left" Margin="5" Text="GSM modem com port" Width="150" />
             <TextBox Margin="5" Text="{Binding GsmModemComPort}" />
         </DockPanel>
-        <Button Width="220" Margin="5,25,5,25" Name="SaveAndSend">
-            <TextBlock Text="{x:Static stringResources:Resources.SID_Save_settings_and_send_test_sms}"
-                       TextWrapping="Wrap" Margin="5" TextAlignment="Center" />
-        </Button>
+        <StackPanel Orientation="Horizontal" Margin="5,25" HorizontalAlignment="Center">
+            <Button Width="120" Margin="5" Name="Save" Content="{x:Static stringResources:Resources.SID_Save}"/>
+            <Button Width="120" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
+        </StackPanel>
     </StackPanel>
 </Window>

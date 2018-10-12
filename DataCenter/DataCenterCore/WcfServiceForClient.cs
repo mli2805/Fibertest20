@@ -19,6 +19,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly MeasurementFactory _measurementFactory;
         private readonly ClientsCollection _clientsCollection;
 
+        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
 
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
@@ -34,11 +35,12 @@ namespace Iit.Fibertest.DataCenterCore
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public WcfServiceForClient(IMyLog logFile, EventStoreService eventStoreService, MeasurementFactory measurementFactory,
+        public WcfServiceForClient(IniFile iniFile, IMyLog logFile, EventStoreService eventStoreService, MeasurementFactory measurementFactory,
             ClientsCollection clientsCollection, ClientToRtuTransmitter clientToRtuTransmitter,
             RtuStationsRepository rtuStationsRepository, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
             BaseRefLandmarksTool baseRefLandmarksTool, SorFileRepository sorFileRepository, Smtp smtp, Sms sms)
         {
+            _iniFile = iniFile;
             _logFile = logFile;
             _eventStoreService = eventStoreService;
             _measurementFactory = measurementFactory;
@@ -184,17 +186,25 @@ namespace Iit.Fibertest.DataCenterCore
             return true;
         }
 
-        public async Task<bool> SendTestEmail(CurrentDatacenterSmtpParametersDto dto)
+        public Task<bool> SaveSmtpSettings(SmtpSettingsDto dto)
         {
-            _logFile.AppendLine("Client asked to send test emails");
-            return await _smtp.SendTestDispatch(dto);
+            _logFile.AppendLine("Client asked to save smtp settings");
+            _smtp.SaveSmtpSettings(dto);
+            return Task.FromResult(true);
         }
 
-        public async Task<bool> SendTestSms(int comPort)
+        public Task<bool> SaveGsmComPort(int comPort)
         {
-            _logFile.AppendLine("Client asked to send test sms");
-            return await _sms.SendTestSms(comPort);
+            _logFile.AppendLine("Client asked to save com port");
+            _iniFile.Write(IniSection.Broadcast, IniKey.GsmModemComPort, comPort);
+            return Task.FromResult(true);
         }
+
+        public Task<bool> SendTestToUser(Guid userId, NotificationType notificationType)
+        {
+            return notificationType == NotificationType.Email ? _smtp.SendTestToUser(userId) : _sms.SendTestToUser(userId);
+        }
+
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
@@ -309,7 +319,7 @@ namespace Iit.Fibertest.DataCenterCore
                             _logFile.AppendLine("AugmentFastBaseRefSentByMigrator: " + e.Message);
                             return new BaseRefAssignedDto()
                             {
-                                ReturnCode = ReturnCode.BaseRefAssignmentFailed, 
+                                ReturnCode = ReturnCode.BaseRefAssignmentFailed,
                                 ExceptionMessage = "AugmentFastBaseRefSentByMigrator " + e.Message,
                             };
                         }

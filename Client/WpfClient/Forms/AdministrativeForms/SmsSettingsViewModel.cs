@@ -28,18 +28,29 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_SMS_settings;
         }
 
-        public async void SaveAndSend()
+        public async void Save()
         {
             bool res;
             using (new WaitCursor())
             {
                 _currentDatacenterParameters.GsmModemComPort = GsmModemComPort;
 
-                res = await _c2DWcfManager.SendTestSms(GsmModemComPort);
+                res = await _c2DWcfManager.SaveGsmComPort(GsmModemComPort);
             }
-            var message = res ? Resources.SID_Sent_successfully_ : Resources.SID_Sending_failed_;
-            var vm = new MyMessageBoxViewModel(res ? MessageType.Information : MessageType.Error, message);
-            _windowManager.ShowDialogWithAssignedOwner(vm);
+
+            if (res)
+                TryClose();
+            else
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Failed_to_save_gsm_modem_com_port_);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+            }
+        }
+
+
+        public void Cancel()
+        {
+            TryClose();
         }
     }
 }

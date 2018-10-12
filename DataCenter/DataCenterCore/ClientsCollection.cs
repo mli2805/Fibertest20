@@ -125,7 +125,7 @@ namespace Iit.Fibertest.DataCenterCore
             result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
             result.IsInGisVisibleMode = _isInGisVisibleMode;
 
-            result.Smtp = new CurrentDatacenterSmtpParametersDto()
+            result.Smtp = new SmtpSettingsDto()
             {
                 SmptHost = _iniFile.Read(IniSection.Smtp, IniKey.SmtpHost, ""),
                 SmptPort = _iniFile.Read(IniSection.Smtp, IniKey.SmtpPort, 0),

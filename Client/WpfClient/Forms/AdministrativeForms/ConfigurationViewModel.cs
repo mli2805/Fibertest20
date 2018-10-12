@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Client
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = Resources.SID_Configuration;
+            DisplayName = Resources.SID_Client_settings;
         }
 
         public bool IsGraphVisibleOnStart

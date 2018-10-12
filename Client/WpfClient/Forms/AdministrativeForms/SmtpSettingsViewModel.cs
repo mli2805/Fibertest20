@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
         public string MailFromPassword { get; set; }
         public int SmtpTimeoutMs { get; set; }
 
-        public SmtpSettingsViewModel(CurrentDatacenterParameters currentDatacenterParameters, 
+        public SmtpSettingsViewModel(CurrentDatacenterParameters currentDatacenterParameters,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _currentDatacenterParameters = currentDatacenterParameters;
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_SMTP_settings;
         }
 
-        public async void SaveAndSend()
+        public async void Save()
         {
             bool res;
             using (new WaitCursor())
@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Client
                 _currentDatacenterParameters.Smtp.MailFromPassword = MailFromPassword;
                 _currentDatacenterParameters.Smtp.SmtpTimeoutMs = SmtpTimeoutMs;
 
-                var dto = new CurrentDatacenterSmtpParametersDto()
+                var dto = new SmtpSettingsDto()
                 {
                     SmptHost = SmtpHost,
                     SmptPort = SmtpPort,
@@ -56,11 +56,21 @@ namespace Iit.Fibertest.Client
                     MailFromPassword = MailFromPassword,
                     SmtpTimeoutMs = SmtpTimeoutMs,
                 };
-                res = await _c2DWcfManager.SendTestEmail(dto);
+                res = await _c2DWcfManager.SaveSmtpSettings(dto);
             }
-            var message = res ? Resources.SID_Sent_successfully_ : Resources.SID_Sending_failed_;
-            var vm = new MyMessageBoxViewModel(res ? MessageType.Information : MessageType.Error, message);
-            _windowManager.ShowDialogWithAssignedOwner(vm);
+
+            if (res)
+                TryClose();
+            else
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Failed_to_save_smtp_settings_);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+            }
+        }
+
+        public void Cancel()
+        {
+            TryClose();
         }
     }
 }

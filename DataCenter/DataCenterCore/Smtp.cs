@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
@@ -15,6 +16,10 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
 
+        private const string TestEmailSubj = @"Test email - Тестовое сообщение";
+        private const string TestEmailMessage =
+            @"You received this letter because you are included in Fibertest alarm subscription. - Вы получили данное сообщение так как включены в  список рассылки Fibertest'a";
+
         public Smtp(IniFile iniFile, IMyLog logFile, Model writeModel)
         {
             _iniFile = iniFile;
@@ -22,16 +27,19 @@ namespace Iit.Fibertest.DataCenterCore
             _writeModel = writeModel;
         }
 
-        public async Task<bool> SendTestDispatch(CurrentDatacenterSmtpParametersDto dto)
+        public void SaveSmtpSettings(SmtpSettingsDto dto)
         {
             _iniFile.Write(IniSection.Smtp, IniKey.SmtpHost, dto.SmptHost);
             _iniFile.Write(IniSection.Smtp, IniKey.SmtpPort, dto.SmptPort);
             _iniFile.Write(IniSection.Smtp, IniKey.MailFrom, dto.MailFrom);
             _iniFile.Write(IniSection.Smtp, IniKey.MailFromPassword, dto.MailFromPassword);
             _iniFile.Write(IniSection.Smtp, IniKey.SmtpTimeoutMs, dto.SmtpTimeoutMs);
+        }
 
-            return await SendEmails(@"Test email - Тестовое сообщение",
-                @"You received this letter because you are included in Fibertest alarm subscription. - Вы получили данное сообщение так как включены в  список рассылки Fibertest'a");
+        public async Task<bool> SendTestToUser(Guid userId)
+        {
+            var mailTo = new List<string> { _writeModel.Users.First(u => u.UserId == userId).Email.Address };
+            return await SendEmail(TestEmailSubj, TestEmailMessage, mailTo);
         }
 
         public async Task<bool> SendMonitoringResult(MonitoringResultDto dto)
@@ -41,19 +49,27 @@ namespace Iit.Fibertest.DataCenterCore
             var subj = $"Trace <<{trace.Title}>> state is {trace.State.ToLocalizedString()}.";
 
             // TODO Create report body
-            return await SendEmails(subj, subj);
+            var body = subj;
+            var mailTo = _writeModel.Users.Where(u => u.Email.IsActivated).Select(u => u.Email.Address).ToList();
+            return await SendEmail(subj, body, mailTo);
         }
 
-        private async Task<bool> SendEmails(string subject, string body)
+        // userId - if empty - all users who have email
+        private async Task<bool> SendEmail(string subject, string body, List<string> addresses)
         {
             try
             {
                 var mailFrom = _iniFile.Read(IniSection.Smtp, IniKey.MailFrom, "");
                 using (SmtpClient smtpClient = GetSmtpClient(mailFrom))
                 {
-                    var mail = GetMailMessage(mailFrom);
-                    mail.Subject = subject;
-                    mail.Body = body;
+                    var mail = new MailMessage
+                    {
+                        From = new MailAddress(mailFrom),
+                        Subject = subject,
+                        Body = body
+                    };
+                    foreach (var address in addresses)
+                        mail.To.Add(address);
                     await smtpClient.SendMailAsync(mail);
                     return true;
                 }
@@ -63,17 +79,6 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine(e.Message);
                 return false;
             }
-        }
-
-        private MailMessage GetMailMessage(string mailFrom)
-        {
-            MailMessage mail = new MailMessage();
-            mail.From = new MailAddress(mailFrom);
-
-            foreach (var address in _writeModel.Users.Where(u => u.Email.IsActivated).Select(u => u.Email.Address))
-                mail.To.Add(address);
-
-            return mail;
         }
 
         private SmtpClient GetSmtpClient(string mailFrom)

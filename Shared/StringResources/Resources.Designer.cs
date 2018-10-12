@@ -1584,15 +1584,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Configuration.
-        /// </summary>
-        public static string SID_Configuration {
-            get {
-                return ResourceManager.GetString("SID_Configuration", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Confirmation.
         /// </summary>
         public static string SID_Confirmation {
@@ -2445,6 +2436,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Failed_to_establish_connection_ {
             get {
                 return ResourceManager.GetString("SID_Failed_to_establish_connection_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to save gsm modem com port!.
+        /// </summary>
+        public static string SID_Failed_to_save_gsm_modem_com_port_ {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_save_gsm_modem_com_port_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to save smtp settings!.
+        /// </summary>
+        public static string SID_Failed_to_save_smtp_settings_ {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_save_smtp_settings_", resourceCulture);
             }
         }
         

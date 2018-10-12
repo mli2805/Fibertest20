@@ -46,13 +46,12 @@ namespace Iit.Fibertest.DataCenterCore
             _writeModel = writeModel;
         }
 
-        public async Task<bool> SendTestSms(int comPort)
+        public async Task<bool> SendTestToUser(Guid userId)
         {
-            _iniFile.Write(IniSection.Broadcast, IniKey.GsmModemComPort, comPort);
-            return await Task.Factory.StartNew(SendTestSms); // here we are waiting result to notify user
+            return await Task.Factory.StartNew(() => SendTestSms(userId)); // here we are waiting result to report user
         }
 
-        public async Task<bool>  SendMonitoringResult(MonitoringResultDto dto)
+        public async Task<bool> SendMonitoringResult(MonitoringResultDto dto)
         {
             var message = GetShortMessage(dto);
             if (message == null) return true;
@@ -62,7 +61,7 @@ namespace Iit.Fibertest.DataCenterCore
                 .Select(u => u.Sms.PhoneNumber).ToList();
 
             // ReSharper disable once UnusedVariable
-            var task = Task.Factory.StartNew(()=>SendSms(message, phoneNumbers)); // here we do not wait result
+            var task = Task.Factory.StartNew(() => SendSms(message, phoneNumbers)); // here we do not wait result
             await Task.Delay(1);
             return true;
         }
@@ -78,12 +77,11 @@ namespace Iit.Fibertest.DataCenterCore
         private const string ContentOfTestSms = "Test SMS message - Тестовое СМС сообщение";
         private const byte CodeForRussian = 8;
 
-        private bool SendTestSms()
+        private bool SendTestSms(Guid userId)
         {
-            var phoneNumbers = _writeModel.Users.Where(u => u.Sms.IsActivated)
-                .Select(u => u.Sms.PhoneNumber).ToList();
+            var phoneNumber = _writeModel.Users.First(u => u.UserId == userId).Sms.PhoneNumber;
             var serverIp = _iniFile.Read(IniSection.ServerMainAddress, IniKey.Ip, "");
-            return SendSms($"{serverIp}: {ContentOfTestSms}", phoneNumbers);
+            return SendSms($"{serverIp}: {ContentOfTestSms}", new List<string>() { phoneNumber });
         }
 
         private bool SendSms(string contentOfSms, List<string> phoneNumbers)

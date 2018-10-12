@@ -224,7 +224,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<bool> SendTestEmail(CurrentDatacenterSmtpParametersDto dto)
+        public async Task<bool> SaveSmtpSettings(SmtpSettingsDto dto)
         {
             var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
@@ -233,18 +233,18 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.SendTestEmail(dto);
+                var result = await channel.SaveSmtpSettings(dto);
                 wcfConnection.Close();
                 return result;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("SendTestEmail: " + e.Message);
+                _logFile.AppendLine("SaveSmtpSettings: " + e.Message);
                 return false;
             }
         }
 
-        public async Task<bool> SendTestSms(int comPort)
+        public async Task<bool> SaveGsmComPort(int comPort)
         {
             var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
@@ -253,16 +253,37 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.SendTestSms(comPort);
+                var result = await channel.SaveGsmComPort(comPort);
                 wcfConnection.Close();
                 return result;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("SendTestSms: " + e.Message);
+                _logFile.AppendLine("SaveGsmComPort: " + e.Message);
                 return false;
             }
         }
+
+        public async Task<bool> SendTestToUser(Guid userId, NotificationType notificationType)
+        {
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            if (wcfConnection == null)
+                return false;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.SendTestToUser(userId, notificationType);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("SendTestToUser: " + e.Message);
+                return false;
+            }
+        }
+
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
