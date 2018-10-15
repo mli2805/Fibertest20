@@ -10,41 +10,10 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public class Texting
+    public class HtmlReport
     {
-        private readonly Model _writeModel;
-        private MonitoringResultDto _dto;
 
-        public Texting(Model writeModel)
-        {
-            _writeModel = writeModel;
-        }
-
-        public void Initialize(MonitoringResultDto dto)
-        {
-            _dto = dto;
-        }
-
-        public string GetShortMessage()
-        {
-            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == _dto.PortWithTrace.TraceId);
-            if (trace == null) return null;
-
-            switch (_dto.TraceState)
-            {
-                case FiberState.Ok:
-                    return $"Trace {trace.Title} change it's state to \"OK\" at {_dto.TimeStamp}";
-                case FiberState.FiberBreak:
-                    return $"Fiber is broken on trace {trace.Title} at {_dto.TimeStamp}";
-                case FiberState.NoFiber:
-                    return $"There is no fiber for monitoring on trace {trace.Title} at {_dto.TimeStamp}";
-            }
-
-            var message = $"Trace {trace.Title} state is {_dto.TraceState.ToLocalizedString()}";
-            return message;
-        }
     }
-
     public class Sms
     {
         private readonly IniFile _iniFile;
@@ -65,17 +34,16 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<bool> SendMonitoringResult(MonitoringResultDto dto)
         {
-            var texting = new Texting(_writeModel);
-            texting.Initialize(dto);
-            var message =  texting.GetShortMessage();
-            if (message == null) return true;
-
             var phoneNumbers = _writeModel.Users
                 .Where(u => u.Sms.IsActivated && u.Sms.ShouldUserReceiveMoniResult(dto.TraceState))
                 .Select(u => u.Sms.PhoneNumber).ToList();
 
             _logFile.AppendLine($"There are {phoneNumbers.Count} numbers to send SMS");
-
+            if (phoneNumbers.Count == 0) return true;
+            
+            var message =  _writeModel.GetShortMessage(dto);
+            if (message == null) return true;
+          
             // ReSharper disable once UnusedVariable
             var task = Task.Factory.StartNew(() => SendSms(message, phoneNumbers)); // here we do not wait result
             await Task.Delay(1);

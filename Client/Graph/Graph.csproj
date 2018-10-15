@@ -119,6 +119,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\AccidentPlaceLocator.cs" />
+    <Compile Include="Algorithms\TraceStateReport\EventReport.cs" />
     <Compile Include="Algorithms\LicenseManager.cs" />
     <Compile Include="Algorithms\SorDataParsingReporter.cs" />
     <Compile Include="Commands\ApplyLicense.cs" />
@@ -314,6 +315,11 @@
       <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
       <Name>UtilsLib</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\Reports\TraceStateReport.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

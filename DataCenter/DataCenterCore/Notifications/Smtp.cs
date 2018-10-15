@@ -39,23 +39,25 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<bool> SendTest(string address)
         {
             var mailTo = new List<string> { address };
-            return await SendEmail(TestEmailSubj, TestEmailMessage, mailTo);
+            return await SendEmail(TestEmailSubj, TestEmailMessage, null, mailTo);
         }
 
         public async Task<bool> SendMonitoringResult(MonitoringResultDto dto)
         {
-            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);
-            if (trace == null) return false;
-            var subj = $"Trace <<{trace.Title}>> state is {trace.State.ToLocalizedString()}.";
-
-            // TODO Create report body
-            var body = subj;
             var mailTo = _writeModel.Users.Where(u => u.Email.IsActivated).Select(u => u.Email.Address).ToList();
-            return await SendEmail(subj, body, mailTo);
+            _logFile.AppendLine($"There are {mailTo.Count} addresses to send e-mail");
+            if (mailTo.Count == 0) return true;
+
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);
+            if (trace == null) return true;
+            var subj = _writeModel.GetShortMessage(dto);
+            var body = _writeModel.GetShortMessage(dto);
+            var attachment = _writeModel.GetHtmlForMonitoringResult(dto);
+            return await SendEmail(subj, body, attachment, mailTo);
         }
 
         // userId - if empty - all users who have email
-        private async Task<bool> SendEmail(string subject, string body, List<string> addresses)
+        private async Task<bool> SendEmail(string subject, string body, string attachmentFilename, List<string> addresses)
         {
             try
             {
@@ -70,6 +72,10 @@ namespace Iit.Fibertest.DataCenterCore
                     };
                     foreach (var address in addresses)
                         mail.To.Add(address);
+
+                    if (attachmentFilename != null)
+                        mail.Attachments.Add(new Attachment(attachmentFilename));
+
                     await smtpClient.SendMailAsync(mail);
                     return true;
                 }
