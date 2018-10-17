@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -44,6 +46,10 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<bool> SendMonitoringResult(MonitoringResultDto dto)
         {
+            var cu = _iniFile.Read(IniSection.General, IniKey.Culture, "ru-RU");
+            var currentCulture = new CultureInfo(cu);
+            Thread.CurrentThread.CurrentUICulture = currentCulture;
+
             var mailTo = _writeModel.Users.Where(u => u.Email.IsActivated).Select(u => u.Email.Address).ToList();
             _logFile.AppendLine($"There are {mailTo.Count} addresses to send e-mail");
             if (mailTo.Count == 0) return true;

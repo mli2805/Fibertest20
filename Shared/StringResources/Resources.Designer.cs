@@ -232,6 +232,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} on BOP {1} : {2}.
+        /// </summary>
+        public static string SID__0__on_BOP__1___2_ {
+            get {
+                return ResourceManager.GetString("SID__0__on_BOP__1___2_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} service installed successfully.
         /// </summary>
         public static string SID__0__service_installed_successfully {
@@ -2526,6 +2535,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_fiber_break___0_0_00000__km {
             get {
                 return ResourceManager.GetString("SID_fiber_break___0_0_00000__km", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fiber is broken on trace {0} at {1}.
+        /// </summary>
+        public static string SID_Fiber_is_broken_on_trace__0__at__1_ {
+            get {
+                return ResourceManager.GetString("SID_Fiber_is_broken_on_trace__0__at__1_", resourceCulture);
             }
         }
         
@@ -5817,6 +5835,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There is no fiber for monitoring on trace {0} at {1}.
+        /// </summary>
+        public static string SID_There_is_no_fiber_for_monitoring_on_trace__0__at__1_ {
+            get {
+                return ResourceManager.GetString("SID_There_is_no_fiber_for_monitoring_on_trace__0__at__1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is optical switch with the same tcp address!.
         /// </summary>
         public static string SID_There_is_optical_switch_with_the_same_tcp_address_ {
@@ -5849,6 +5876,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Threshold__dB {
             get {
                 return ResourceManager.GetString("SID_Threshold__dB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Time.
+        /// </summary>
+        public static string SID_Time {
+            get {
+                return ResourceManager.GetString("SID_Time", resourceCulture);
             }
         }
         
@@ -6146,6 +6182,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Trace_state_Event_status {
             get {
                 return ResourceManager.GetString("SID_Trace_state_Event_status", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Trace State Report.
+        /// </summary>
+        public static string SID_Trace_State_Report {
+            get {
+                return ResourceManager.GetString("SID_Trace_State_Report", resourceCulture);
             }
         }
         
