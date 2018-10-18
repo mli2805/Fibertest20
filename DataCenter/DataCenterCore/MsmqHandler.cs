@@ -133,7 +133,6 @@ namespace Iit.Fibertest.DataCenterCore
 
             await CheckAndSendBopNetworkIfNeeded(dto);
 
-            // TODO SNMP, SMTP, SMS
             if (command.EventStatus > EventStatus.JustMeasurementNotAnEvent && dto.BaseRefType != BaseRefType.Fast)
             {
                 // ReSharper disable once UnusedVariable
@@ -143,12 +142,14 @@ namespace Iit.Fibertest.DataCenterCore
             return 0;
         }
 
+            // TODO SNMP, SMTP, SMS
         private async void SendNotifications(MonitoringResultDto dto)
         {
             await _smtp.SendMonitoringResult(dto);
             await _sms.SendMonitoringResult(dto); 
         }
 
+        // BOP - because MSMQ message came
         private async Task CheckAndSendBopNetworkEventIfNeeded(BopStateChangedDto dto)
         {
             if (_writeModel.Otaus.Any(o =>
@@ -169,6 +170,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
+        // BOP - because monitoring result came
         private async Task CheckAndSendBopNetworkIfNeeded(MonitoringResultDto dto)
         {
             if (_writeModel.Otaus.Any(o =>

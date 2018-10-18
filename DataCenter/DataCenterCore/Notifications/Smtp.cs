@@ -56,9 +56,9 @@ namespace Iit.Fibertest.DataCenterCore
 
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);
             if (trace == null) return true;
-            var subj = _writeModel.GetShortMessage(dto);
-            var body = _writeModel.GetShortMessage(dto);
-            var attachment = _writeModel.GetHtmlForMonitoringResult(dto);
+            var subj = _writeModel.GetShortMessageForMonitoringResult(dto);
+            var body = _writeModel.GetShortMessageForMonitoringResult(dto);
+            var attachment = _writeModel.GetHtmlReportForMonitoringResult(dto);
             return await SendEmail(subj, body, attachment, mailTo);
         }
 

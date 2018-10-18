@@ -58,7 +58,7 @@ namespace Iit.Fibertest.RtuManagement
 
             // FAST 
             if (monitorigPort.MonitoringModeChangedFlag ||
-                DateTime.Now - monitorigPort.LastFastSavedTimestamp > _fastSaveTimespan ||
+                (_fastSaveTimespan != TimeSpan.Zero && DateTime.Now - monitorigPort.LastFastSavedTimestamp > _fastSaveTimespan) ||
                 monitorigPort.LastTraceState == FiberState.Ok)
             {
                 monitorigPort.LastMoniResult = DoFastMeasurement(monitorigPort);
@@ -107,7 +107,7 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     message = "Monitoring mode was changed";
                 }
-                else if (DateTime.Now - monitorigPort.LastFastSavedTimestamp > _fastSaveTimespan)
+                else if (_fastSaveTimespan != TimeSpan.Zero && DateTime.Now - monitorigPort.LastFastSavedTimestamp > _fastSaveTimespan)
                 {
                     _rtuLog.AppendLine($"last fast saved - {monitorigPort.LastFastSavedTimestamp}, _fastSaveTimespan - {_fastSaveTimespan.TotalMinutes} minutes");
                     message = "It's time to save fast reflectogram";
@@ -155,7 +155,7 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     message = "Accident confirmation - should be saved";
                 }
-                else if (DateTime.Now - monitorigPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
+                else if (_preciseSaveTimespan != TimeSpan.Zero && DateTime.Now - monitorigPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
                     message = "It's time to save precise reflectogram";
 
                 if (message != "")

@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Dto
 
         public static Frequency GetFrequency(this TimeSpan timeSpan)
         {
-            return timeSpan.Hours > 8760 ? Frequency.DoNot : (Frequency) timeSpan.TotalHours;
+            return timeSpan == TimeSpan.Zero ? Frequency.DoNot : (Frequency) timeSpan.TotalHours;
         }
     }
 }

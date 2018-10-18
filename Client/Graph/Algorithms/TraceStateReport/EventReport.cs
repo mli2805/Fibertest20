@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Graph
 {
     public static class EventReport
     {
-        public static string GetShortMessage(this Model model, MonitoringResultDto dto)
+        public static string GetShortMessageForMonitoringResult(this Model model, MonitoringResultDto dto)
         {
             var trace = model.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);
             if (trace == null) return null;
@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Graph
             return message;
         }
 
-        public static string GetHtmlForMonitoringResult(this Model model, MonitoringResultDto dto)
+        public static string GetHtmlReportForMonitoringResult(this Model model, MonitoringResultDto dto)
         {
             var content = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"Resources\Reports\TraceStateReport.html");
 

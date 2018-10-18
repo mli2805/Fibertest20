@@ -41,7 +41,7 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine($"There are {phoneNumbers.Count} numbers to send SMS");
             if (phoneNumbers.Count == 0) return true;
             
-            var message =  _writeModel.GetShortMessage(dto);
+            var message =  _writeModel.GetShortMessageForMonitoringResult(dto);
             if (message == null) return true;
           
             // ReSharper disable once UnusedVariable
