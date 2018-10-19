@@ -28,18 +28,25 @@ namespace Iit.Fibertest.RtuWatchdog
 
             while (true)
             {
-                var sc = new ServiceController(_rtuServiceName);
-                if (sc.Status == ServiceControllerStatus.Stopped)
+                try
                 {
-                    _watchLog.AppendLine($"{_rtuServiceName} is not running! Starting...");
-                    sc.Start();
-                    sc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(10));
-                    _watchIniFile.Write(IniSection.Watchdog, IniKey.LastRestartTime, DateTime.Now.ToString(CultureInfo.CurrentCulture));
-                    continue;
-                }
+                    var sc = new ServiceController(_rtuServiceName);
+                    if (sc.Status == ServiceControllerStatus.Stopped)
+                    {
+                        _watchLog.AppendLine($"{_rtuServiceName} is not running! Starting...");
+                        sc.Start();
+                        sc.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(10));
+                        _watchIniFile.Write(IniSection.Watchdog, IniKey.LastRestartTime, DateTime.Now.ToString(CultureInfo.CurrentCulture));
+                        continue;
+                    }
 
-                if (IsGapBetweenMeasurementsExceeded())
-                    StopRtuManager(sc);
+                    if (IsGapBetweenMeasurementsExceeded())
+                        StopRtuManager(sc);
+                }
+                catch (Exception e)
+                {
+                    _watchLog.AppendLine(e.Message);
+                }
 
                 Thread.Sleep(TimeSpan.FromSeconds(3));
             }
