@@ -16,32 +16,19 @@ namespace Iit.Fibertest.Graph
             var trace = model.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);
             if (trace == null) return null;
 
-            var dt = dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortTimePattern) +
+            var timestamp = dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortTimePattern) +
                      @" " + dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern);
-            switch (dto.TraceState)
-            {
-                case FiberState.Ok:
-                    //return $"Trace {trace.Title} changed it's state to \"OK\" at {dt}";
-                    return $"Состояние трассы {trace.Title} стало \"OK\" в {dt}";
-                case FiberState.FiberBreak:
-                    return string.Format(Resources.SID_Fiber_is_broken_on_trace__0__at__1_, trace.Title, dt);
-                case FiberState.NoFiber:
-                    return string.Format(Resources.SID_There_is_no_fiber_for_monitoring_on_trace__0__at__1_, trace.Title, dt);
-            }
-
-            //var message = $"Trace {trace.Title} state is {dto.TraceState.ToLocalizedString()}";
-            var message = $"Состояние трассы {trace.Title} - {dto.TraceState.ToLocalizedString()}";
-            return message;
+            return string.Format(Resources.SID_Trace___0___state_is_changed_to___1___at__2_, trace.Title, dto.TraceState, timestamp);
         }
 
         public static string GetHtmlReportForMonitoringResult(this Model model, MonitoringResultDto dto)
         {
-            var content = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"Resources\Reports\TraceStateReport.html");
-
             var rtu = model.Rtus.FirstOrDefault(r=>r.Id == dto.RtuId);
             if (rtu == null) return null;
             var trace = model.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);
             if (trace == null) return null;
+
+            var content = File.ReadAllText(AppDomain.CurrentDomain.BaseDirectory + @"Resources\Reports\TraceStateReport.html");
             content = content.Replace(@"@CaptionConst", Resources.SID_Trace_State_Report);
             content = content.Replace(@"@TraceStateConst", Resources.SID_Trace_state);
             content = content.Replace(@"@TraceTitleConst", Resources.SID_Trace);

@@ -6015,6 +6015,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Trace &quot;{0}&quot; state is changed to &quot;{1}&quot; at {2}.
+        /// </summary>
+        public static string SID_Trace___0___state_is_changed_to___1___at__2_ {
+            get {
+                return ResourceManager.GetString("SID_Trace___0___state_is_changed_to___1___at__2_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Trace {0} statistics.
         /// </summary>
         public static string SID_Trace__0__statistics {

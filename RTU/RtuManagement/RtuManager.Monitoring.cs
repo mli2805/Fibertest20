@@ -115,7 +115,7 @@ namespace Iit.Fibertest.RtuManagement
 
                 if (message != "")
                 {
-                    _rtuLog.AppendLine(message);
+                    _rtuLog.AppendLine("Send by MSMQ:  " + message);
                     SendByMsmq(CreateDto(moniResult, monitorigPort));
                     monitorigPort.LastFastSavedTimestamp = DateTime.Now;
                 }
@@ -160,7 +160,7 @@ namespace Iit.Fibertest.RtuManagement
 
                 if (message != "")
                 {
-                    _rtuLog.AppendLine(message);
+                    _rtuLog.AppendLine("Send by MSMQ:  " + message);
                     SendByMsmq(CreateDto(moniResult, monitorigPort));
                     monitorigPort.LastPreciseSavedTimestamp = DateTime.Now;
                 }

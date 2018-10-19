@@ -2327,10 +2327,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Time" xml:space="preserve">
 		<value>Время</value>
 	</data>
-	<data name="SID_Fiber_is_broken_on_trace__0__at__1_" xml:space="preserve">
-		<value>Обрыв волокна на трассе {0} в {1}</value>
-	</data>
-	<data name="SID_There_is_no_fiber_for_monitoring_on_trace__0__at__1_" xml:space="preserve">
-		<value>Нет волокна для мониторинга на трассе {0} в {1}</value>
+	<data name="SID_Trace___0___state_is_changed_to___1___at__2_" xml:space="preserve">
+		<value>Состояние трассы "{0}" стало "{1}" в {2}</value>
 	</data>
 </root>
