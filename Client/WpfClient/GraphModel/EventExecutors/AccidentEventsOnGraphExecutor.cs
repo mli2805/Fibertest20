@@ -10,24 +10,27 @@ namespace Iit.Fibertest.Client
     {
         private readonly GraphReadModel _model;
         private readonly Model _readModel;
+        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly CurrentUser _currentUser;
         private readonly AccidentPlaceLocator _accidentPlaceLocator;
 
-        public AccidentEventsOnGraphExecutor(GraphReadModel model, Model readModel, 
+        public AccidentEventsOnGraphExecutor(GraphReadModel model, Model readModel, CurrentlyHiddenRtu currentlyHiddenRtu,
             CurrentUser currentUser, AccidentPlaceLocator accidentPlaceLocator)
         {
             _model = model;
             _readModel = readModel;
+            _currentlyHiddenRtu = currentlyHiddenRtu;
             _currentUser = currentUser;
             _accidentPlaceLocator = accidentPlaceLocator;
         }
 
         public void ShowMonitoringResult(MeasurementAdded evnt)
         {
-            if (_currentUser.ZoneId != Guid.Empty &&
-                !_readModel.Traces.First(t => t.TraceId == evnt.TraceId).ZoneIds.Contains(_currentUser.ZoneId)) return;
+            var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == evnt.TraceId);
+            if (trace == null || _currentUser.ZoneId != Guid.Empty &&
+                                    !trace.ZoneIds.Contains(_currentUser.ZoneId)) return;
 
-            // !!!!!! check whether trace is visible or not
+            if (_currentlyHiddenRtu.Collection.Contains(trace.RtuId)) return;
             _model.ChangeTraceColor(evnt.TraceId, evnt.TraceState);
 
             _model.CleanAccidentPlacesOnTrace(evnt.TraceId); // accidents on trace could change, so old should be cleaned and new drawn

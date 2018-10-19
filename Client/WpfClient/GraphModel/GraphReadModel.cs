@@ -137,7 +137,8 @@ namespace Iit.Fibertest.Client
             var fibers = ReadModel.GetTraceFibers(trace);
             foreach (var fiber in fibers)
             {
-                var fiberVm = Data.Fibers.First(f => f.Id == fiber.FiberId);
+                var fiberVm = Data.Fibers.FirstOrDefault(f => f.Id == fiber.FiberId);
+                if (fiberVm == null) continue;
                 if (state != FiberState.NotInTrace)
                     fiberVm.SetState(traceId, state);
                 else
