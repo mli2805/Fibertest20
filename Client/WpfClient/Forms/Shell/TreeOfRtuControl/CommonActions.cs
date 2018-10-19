@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Client
         {
             var parent = GetParent(param);
             if (parent != null)
-                DoMeasurementRftsReflection(parent, GetPortNumber(param));
+                DoMeasurementRftsReflect(parent, GetPortNumber(param));
         }
 
         private Leaf GetParent(object param)
@@ -82,7 +82,7 @@ namespace Iit.Fibertest.Client
          *      while MAK100 with BOP:   mainCharon = 172.16.5.53 : 23      addressOfCharonWithThisPort = 172.16.5.57 : 11834
          *          and than otdr address = 172.16.5.53 : 1500
          */
-        private void DoMeasurementRftsReflection(Leaf parent, int portNumber)
+        private void DoMeasurementRftsReflect(Leaf parent, int portNumber)
         {
             RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
             var isMak100 = rtuLeaf.OtauNetAddress.Ip4Address == @"192.168.88.101";

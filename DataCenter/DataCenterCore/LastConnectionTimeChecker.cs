@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
@@ -16,18 +17,20 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly EventStoreService _eventStoreService;
         private readonly ClientsCollection _clientsCollection;
         private readonly RtuStationsRepository _rtuStationsRepository;
+        private readonly Model _writeModel;
         private TimeSpan _checkHeartbeatEvery;
         private TimeSpan _rtuHeartbeatPermittedGap;
         private TimeSpan _clientHeartbeatPermittedGap;
 
         public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile, EventStoreService eventStoreService,
-            ClientsCollection clientsCollection, RtuStationsRepository rtuStationsRepository)
+            ClientsCollection clientsCollection, RtuStationsRepository rtuStationsRepository, Model writeModel)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _eventStoreService = eventStoreService;
             _clientsCollection = clientsCollection;
             _rtuStationsRepository = rtuStationsRepository;
+            _writeModel = writeModel;
         }
 
         public void Start()
@@ -113,12 +116,13 @@ namespace Iit.Fibertest.DataCenterCore
 
         private bool CheckReserveChannel(RtuStation rtuStation, DateTime noLaterThan, NetworkEvent networkEvent)
         {
+            var rtuTitle = _writeModel.Rtus.First(r => r.Id == rtuStation.RtuGuid).Title;
             if (rtuStation.LastConnectionByReserveAddressTimestamp < noLaterThan &&
                 rtuStation.IsReserveAddressOkDuePreviousCheck)
             {
                 rtuStation.IsMainAddressOkDuePreviousCheck = false;
                 networkEvent.ReserveChannelState = RtuPartState.Broken;
-                _logFile.AppendLine($"RTU {rtuStation.RtuGuid.First6()} Reserve channel - Broken");
+                _logFile.AppendLine($"RTU \"{rtuTitle}\" Reserve channel - Broken");
                 return true;
             }
 
@@ -127,7 +131,7 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 rtuStation.IsMainAddressOkDuePreviousCheck = true;
                 networkEvent.ReserveChannelState = RtuPartState.Ok;
-                _logFile.AppendLine($"RTU {rtuStation.RtuGuid.First6()} Reserve channel - Recovered");
+                _logFile.AppendLine($"RTU \"{rtuTitle}\" Reserve channel - Recovered");
                 return true;
             }
             return false;
@@ -135,11 +139,12 @@ namespace Iit.Fibertest.DataCenterCore
 
         private bool CheckMainChannel(RtuStation rtuStation, DateTime noLaterThan, NetworkEvent networkEvent)
         {
+            var rtuTitle = _writeModel.Rtus.First(r => r.Id == rtuStation.RtuGuid).Title;
             if (rtuStation.LastConnectionByMainAddressTimestamp < noLaterThan && rtuStation.IsMainAddressOkDuePreviousCheck)
             {
                 rtuStation.IsMainAddressOkDuePreviousCheck = false;
                 networkEvent.MainChannelState = RtuPartState.Broken;
-                _logFile.AppendLine($"RTU {rtuStation.RtuGuid.First6()} Main channel - Broken");
+                _logFile.AppendLine($"RTU \"{rtuTitle}\" Main channel - Broken");
                 return true;
             }
 
@@ -147,7 +152,7 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 rtuStation.IsMainAddressOkDuePreviousCheck = true;
                 networkEvent.MainChannelState = RtuPartState.Ok;
-                _logFile.AppendLine($"RTU {rtuStation.RtuGuid.First6()} Main channel - Recovered");
+                _logFile.AppendLine($"RTU \"{rtuTitle}\" Main channel - Recovered");
                 return true;
             }
             return false;

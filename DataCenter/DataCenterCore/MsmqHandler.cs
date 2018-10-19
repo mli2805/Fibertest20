@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Messaging;
+using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
@@ -116,7 +117,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return -1;
             }
 
-            _logFile.AppendLine($@"MSMQ message, measure time: {dto.TimeStamp:dd-MM-yyyy hh:mm:ss}, RTU { dto.RtuId.First6()
+            _logFile.AppendLine($@"MSMQ message, measure time: {dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture)}, RTU { dto.RtuId.First6()
                     }, Trace {dto.PortWithTrace.TraceId.First6()} - {dto.TraceState} ({ dto.BaseRefType })");
 
             var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
