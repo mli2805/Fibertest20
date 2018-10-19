@@ -2539,15 +2539,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fiber is broken on trace {0} at {1}.
-        /// </summary>
-        public static string SID_Fiber_is_broken_on_trace__0__at__1_ {
-            get {
-                return ResourceManager.GetString("SID_Fiber_is_broken_on_trace__0__at__1_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Fiber type - wavelength:.
         /// </summary>
         public static string SID_Fiber_type_wavelength {
@@ -4547,6 +4538,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Recovered.
+        /// </summary>
+        public static string SID_Recovered {
+            get {
+                return ResourceManager.GetString("SID_Recovered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reflectance coefficient, dB.
         /// </summary>
         public static string SID_Reflectance_coefficient__dB {
@@ -5831,15 +5831,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_There_is_a_trace_with_the_same_title {
             get {
                 return ResourceManager.GetString("SID_There_is_a_trace_with_the_same_title", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to There is no fiber for monitoring on trace {0} at {1}.
-        /// </summary>
-        public static string SID_There_is_no_fiber_for_monitoring_on_trace__0__at__1_ {
-            get {
-                return ResourceManager.GetString("SID_There_is_no_fiber_for_monitoring_on_trace__0__at__1_", resourceCulture);
             }
         }
         

@@ -2330,4 +2330,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Trace___0___state_is_changed_to___1___at__2_" xml:space="preserve">
 		<value>Состояние трассы "{0}" стало "{1}" в {2}</value>
 	</data>
+	<data name="SID_Recovered" xml:space="preserve">
+		<value>Восстановлен</value>
+	</data>
 </root>

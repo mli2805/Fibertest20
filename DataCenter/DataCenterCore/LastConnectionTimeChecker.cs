@@ -18,12 +18,14 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientsCollection _clientsCollection;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly Model _writeModel;
+        private readonly Sms _sms;
         private TimeSpan _checkHeartbeatEvery;
         private TimeSpan _rtuHeartbeatPermittedGap;
         private TimeSpan _clientHeartbeatPermittedGap;
 
         public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile, EventStoreService eventStoreService,
-            ClientsCollection clientsCollection, RtuStationsRepository rtuStationsRepository, Model writeModel)
+            ClientsCollection clientsCollection, RtuStationsRepository rtuStationsRepository, Model writeModel,
+            Sms sms)
         {
             _iniFile = iniFile;
             _logFile = logFile;
@@ -31,6 +33,7 @@ namespace Iit.Fibertest.DataCenterCore
             _clientsCollection = clientsCollection;
             _rtuStationsRepository = rtuStationsRepository;
             _writeModel = writeModel;
+            _sms = sms;
         }
 
         public void Start()
@@ -89,7 +92,7 @@ namespace Iit.Fibertest.DataCenterCore
             List<NetworkEvent> networkEvents = new List<NetworkEvent>();
             foreach (var rtuStation in stations)
             {
-                NetworkEvent networkEvent = CheckRtuStation(rtuStation, noLaterThan);
+                NetworkEvent networkEvent = await CheckRtuStation(rtuStation, noLaterThan);
                 if (networkEvent != null)
                 {
                     changedStations.Add(rtuStation);
@@ -102,19 +105,19 @@ namespace Iit.Fibertest.DataCenterCore
             return networkEvents;
         }
 
-        private NetworkEvent CheckRtuStation(RtuStation rtuStation, DateTime noLaterThan)
+        private async Task<NetworkEvent> CheckRtuStation(RtuStation rtuStation, DateTime noLaterThan)
         {
             var networkEvent = new NetworkEvent() { RtuId = rtuStation.RtuGuid, EventTimestamp = DateTime.Now };
 
-            var flag = CheckMainChannel(rtuStation, noLaterThan, networkEvent);
+            var flag = await CheckMainChannel(rtuStation, noLaterThan, networkEvent);
 
             if (rtuStation.IsReserveAddressSet)
-                flag = CheckReserveChannel(rtuStation, noLaterThan, networkEvent);
+                flag = await CheckReserveChannel(rtuStation, noLaterThan, networkEvent);
 
             return flag ? networkEvent : null;
         }
 
-        private bool CheckReserveChannel(RtuStation rtuStation, DateTime noLaterThan, NetworkEvent networkEvent)
+        private async Task<bool> CheckReserveChannel(RtuStation rtuStation, DateTime noLaterThan, NetworkEvent networkEvent)
         {
             var rtuTitle = _writeModel.Rtus.First(r => r.Id == rtuStation.RtuGuid).Title;
             if (rtuStation.LastConnectionByReserveAddressTimestamp < noLaterThan &&
@@ -123,6 +126,7 @@ namespace Iit.Fibertest.DataCenterCore
                 rtuStation.IsMainAddressOkDuePreviousCheck = false;
                 networkEvent.ReserveChannelState = RtuPartState.Broken;
                 _logFile.AppendLine($"RTU \"{rtuTitle}\" Reserve channel - Broken");
+                await _sms.SendNetworkEvent(rtuStation.RtuGuid, false, false);
                 return true;
             }
 
@@ -132,12 +136,13 @@ namespace Iit.Fibertest.DataCenterCore
                 rtuStation.IsMainAddressOkDuePreviousCheck = true;
                 networkEvent.ReserveChannelState = RtuPartState.Ok;
                 _logFile.AppendLine($"RTU \"{rtuTitle}\" Reserve channel - Recovered");
+                await _sms.SendNetworkEvent(rtuStation.RtuGuid, false, true);
                 return true;
             }
             return false;
         }
 
-        private bool CheckMainChannel(RtuStation rtuStation, DateTime noLaterThan, NetworkEvent networkEvent)
+        private async Task<bool> CheckMainChannel(RtuStation rtuStation, DateTime noLaterThan, NetworkEvent networkEvent)
         {
             var rtuTitle = _writeModel.Rtus.First(r => r.Id == rtuStation.RtuGuid).Title;
             if (rtuStation.LastConnectionByMainAddressTimestamp < noLaterThan && rtuStation.IsMainAddressOkDuePreviousCheck)
@@ -145,6 +150,7 @@ namespace Iit.Fibertest.DataCenterCore
                 rtuStation.IsMainAddressOkDuePreviousCheck = false;
                 networkEvent.MainChannelState = RtuPartState.Broken;
                 _logFile.AppendLine($"RTU \"{rtuTitle}\" Main channel - Broken");
+                await _sms.SendNetworkEvent(rtuStation.RtuGuid, true, false);
                 return true;
             }
 
@@ -153,6 +159,7 @@ namespace Iit.Fibertest.DataCenterCore
                 rtuStation.IsMainAddressOkDuePreviousCheck = true;
                 networkEvent.MainChannelState = RtuPartState.Ok;
                 _logFile.AppendLine($"RTU \"{rtuTitle}\" Main channel - Recovered");
+                await _sms.SendNetworkEvent(rtuStation.RtuGuid, true, true);
                 return true;
             }
             return false;
