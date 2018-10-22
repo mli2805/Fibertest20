@@ -116,19 +116,34 @@ namespace Iit.Fibertest.Client
 
         public static void CleanAccidentPlacesOnTrace(this GraphReadModel model, Guid traceId)
         {
-            var accidentNodes = model.Data.Nodes.Where(n => n.Type == EquipmentType.AccidentPlace).ToList();
-            model.LogFile.AppendLine($@"{accidentNodes.Count} accident nodes were found");
-            foreach (var accidentNode in accidentNodes)
+//            var accidentNodes = model.Data.Nodes.Where(n => n.Type == EquipmentType.AccidentPlace).ToList();
+//            model.LogFile.AppendLine($@"{accidentNodes.Count} accident nodes were found");
+//            foreach (var accidentNode in accidentNodes)
+//            {
+//                model.LogFile.AppendLine($@"On trace {accidentNode.AccidentOnTraceVmId.First6()}");
+//            }
+
+
+//            var nodeVms = model.Data.Nodes.Where(n => n.AccidentOnTraceVmId == traceId).ToList();
+//            foreach (var nodeVm in nodeVms)
+//            {
+//                model.Data.Nodes.Remove(nodeVm);
+//            }
+
+
+            var nodeVmsIndexes = new List<int>();
+            for (int i = 0; i < model.Data.Nodes.Count; i++)
             {
-                model.LogFile.AppendLine($@"On trace {accidentNode.AccidentOnTraceVmId.First6()}");
+                if (model.Data.Nodes[i].AccidentOnTraceVmId == traceId)
+                    nodeVmsIndexes.Add(i);
             }
 
-            var nodeVms = model.Data.Nodes.Where(n => n.AccidentOnTraceVmId == traceId).ToList();
-            foreach (var nodeVm in nodeVms)
+            for (int i = nodeVmsIndexes.Count-1; i>= 0 ; i++)
             {
-                model.Data.Nodes.Remove(nodeVm);
+                model.Data.Nodes.RemoveAt(nodeVmsIndexes[i]);
             }
-            model.LogFile.AppendLine($@"{nodeVms.Count} accident nodes were cleaned");
+
+//            model.LogFile.AppendLine($@"{nodeVms.Count} accident nodes were cleaned");
 
             foreach (var fiberVm in model.Data.Fibers)
             {
