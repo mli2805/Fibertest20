@@ -75,19 +75,24 @@ namespace Iit.Fibertest.Client
             if (TracesWithExceededLossCoeff.ContainsKey(traceId))
                 TracesWithExceededLossCoeff[traceId] = lossCoeffSeriousness;
             else
+            {
                 TracesWithExceededLossCoeff.Add(traceId, lossCoeffSeriousness);
+                if (TracesWithExceededLossCoeff.Count == 1) 
+                    NotifyOfPropertyChange(nameof(IsBadSegment));
+            }
 
-            NotifyOfPropertyChange(nameof(IsBadSegment));
             NotifyOfPropertyChange(nameof(State));
         }
 
         public void RemoveBadSegment(Guid traceId)
         {
             if (TracesWithExceededLossCoeff.ContainsKey(traceId))
+            {
                 TracesWithExceededLossCoeff.Remove(traceId);
 
-            NotifyOfPropertyChange(nameof(IsBadSegment));
-            NotifyOfPropertyChange(nameof(State));
+                NotifyOfPropertyChange(nameof(IsBadSegment));
+                NotifyOfPropertyChange(nameof(State));
+            }
         }
 
         public bool IsBadSegment => TracesWithExceededLossCoeff.Any();

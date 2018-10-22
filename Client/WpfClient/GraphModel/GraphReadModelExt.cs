@@ -143,7 +143,7 @@ namespace Iit.Fibertest.Client
                 model.Data.Nodes.RemoveAt(nodeVmsIndexes[i]);
             }
 
-//            model.LogFile.AppendLine($@"{nodeVms.Count} accident nodes were cleaned");
+            model.LogFile.AppendLine($@"{nodeVmsIndexes.Count} accident nodes were cleaned");
 
             foreach (var fiberVm in model.Data.Fibers)
             {
