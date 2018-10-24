@@ -23,6 +23,8 @@ namespace Iit.Fibertest.Client
         private Node _originalNode;
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
+        private readonly GraphReadModel _graphReadModel;
+        private readonly TabulatorViewModel _tabulatorViewModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private bool _isInCreationMode;
@@ -66,10 +68,14 @@ namespace Iit.Fibertest.Client
         public bool IsEditEnabled { get; set; }
 
 
-        public RtuUpdateViewModel(ILifetimeScope globalScope, CurrentUser currentUser, Model readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+        public RtuUpdateViewModel(ILifetimeScope globalScope, CurrentUser currentUser,
+            Model readModel, GraphReadModel graphReadModel, TabulatorViewModel tabulatorViewModel,
+            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _readModel = readModel;
+            _graphReadModel = graphReadModel;
+            _tabulatorViewModel = tabulatorViewModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             IsEditEnabled = currentUser.Role <= Role.Root;
@@ -80,9 +86,9 @@ namespace Iit.Fibertest.Client
             RtuId = rtuId;
             _originalRtu = _readModel.Rtus.First(r => r.Id == RtuId);
 
-            var node = _readModel.Nodes.First(n => n.NodeId == _originalRtu.NodeId);
+            _originalNode = _readModel.Nodes.First(n => n.NodeId == _originalRtu.NodeId);
             GpsInputViewModel = _globalScope.Resolve<GpsInputViewModel>();
-            GpsInputViewModel.Initialize(node.Position, IsEditEnabled);
+            GpsInputViewModel.Initialize(_originalNode.Position, IsEditEnabled);
 
             Title = _originalRtu.Title;
             Comment = _originalRtu.Comment;
@@ -143,8 +149,27 @@ namespace Iit.Fibertest.Client
             await _c2DWcfManager.SendCommandAsObj(cmd);
         }
 
+        public void PreView()
+        {
+            var nodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == _originalNode.NodeId);
+            if (nodeVm == null) return;
+
+            nodeVm.Position = new PointLatLng(GpsInputViewModel.OneCoorViewModelLatitude.StringsToValue(),
+                GpsInputViewModel.OneCoorViewModelLongitude.StringsToValue());
+
+            _graphReadModel.PlacePointIntoScreenCenter(nodeVm.Position);
+            if (_tabulatorViewModel.SelectedTabIndex != 3)
+                _tabulatorViewModel.SelectedTabIndex = 3;
+        }
+
         public void Cancel()
         {
+            var nodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == _originalNode.NodeId);
+            if (nodeVm != null)
+            {
+                nodeVm.Position = _originalNode.Position;
+            }
+
             TryClose();
         }
 
