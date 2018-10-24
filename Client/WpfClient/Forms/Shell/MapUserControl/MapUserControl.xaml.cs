@@ -22,7 +22,6 @@ namespace Iit.Fibertest.Client
         {
             InitializeComponent();
             DataContextChanged += MapUserControl_DataContextChanged;
-            ConfigureMap();
             // map events
             MainMap.MouseEnter += MainMap_MouseEnter;
             MainMap.OnTraceDefiningCancelled += MainMap_OnTraceDefiningCancelled;
@@ -35,7 +34,17 @@ namespace Iit.Fibertest.Client
 
         private void ConfigureMap()
         {
-            MainMap.MapProvider = GMapProviders.OpenStreetMap;
+            var maxZoom = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.MaxZoom, 21);
+            MainMap.MaxZoom = maxZoom;
+
+            var provider = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.GMapProvider, @"OpenStreetMap");
+            switch (provider)
+            {
+                case "OpenStreetMap": MainMap.MapProvider = GMapProviders.OpenStreetMap; break;
+                case "GoogleMap": MainMap.MapProvider = GMapProviders.GoogleMap; break;
+                case "YandexMap": MainMap.MapProvider = GMapProviders.YandexMap; break;
+                default: MainMap.MapProvider = GMapProviders.OpenStreetMap; break;
+            }
         }
 
         private void MapUserControl_DataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
@@ -44,6 +53,9 @@ namespace Iit.Fibertest.Client
                 return;
             var graph = (GraphReadModel)e.NewValue;
             graph.MainMap = MainMap;
+
+            ConfigureMap();
+
             MainMap.CurrentGpsInputMode = GraphReadModel.CurrentGpsInputMode;
             MainMap.IsInGisVisibleMode = GraphReadModel.IsInGisVisibleMode;
 
@@ -106,7 +118,7 @@ namespace Iit.Fibertest.Client
 
         private void UserControl_LostFocus(object sender, RoutedEventArgs e)
         {
-            GraphReadModel.IniFile.Write(IniSection.Map, IniKey.Zoom, MainMap.Zoom);
+            GraphReadModel.IniFile.Write(IniSection.Map, IniKey.Zoom, MainMap.Zoom > 19 ? 19 : MainMap.Zoom);
             GraphReadModel.IniFile.Write(IniSection.Map, IniKey.CenterLatitude, MainMap.Position.Lat);
             GraphReadModel.IniFile.Write(IniSection.Map, IniKey.CenterLongitude, MainMap.Position.Lng);
         }

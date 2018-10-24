@@ -104,6 +104,8 @@
         Zoom,
         CenterLatitude,
         CenterLongitude,
+        MaxZoom,
+        GMapProvider,
 
         // Miscellaneous
         PathToSor,

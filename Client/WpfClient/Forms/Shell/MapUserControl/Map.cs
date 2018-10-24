@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
     [Localizable(false)]
     public class Map : GMapControl, INotifyPropertyChanged
     {
-       
+
 
         #region Current mouse coordinates
 
@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public string MouseCurrentCoorsString =>
+        public string MouseCurrentCoorsString => Zoom + " ; " +
             _mouseCurrentCoors.ToDetailedString(CurrentGpsInputMode.Mode);
         #endregion
 
@@ -127,6 +127,12 @@ namespace Iit.Fibertest.Client
                     new List<PointLatLng>() { StartNode.Position, endMarkerPosition }, this));
                 LastDistance = (int)GpsCalculator.GetDistanceBetweenPointLatLng(StartNode.Position, endMarkerPosition);
             }
+        }
+
+        protected override void OnMouseWheel(MouseWheelEventArgs e)
+        {
+            base.OnMouseWheel(e);
+            OnPropertyChanged(nameof(MouseCurrentCoorsString));
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
