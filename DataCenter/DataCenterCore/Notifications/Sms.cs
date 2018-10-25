@@ -1,20 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using GsmComm.GsmCommunication;
 using GsmComm.PduConverter;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public class HtmlReport
-    {
-
-    }
     public class Sms
     {
         private readonly IniFile _iniFile;
@@ -35,41 +29,35 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<bool> SendMonitoringResult(MonitoringResultDto dto)
         {
-            var trace = _writeModel.Traces.First(t => t.TraceId == dto.PortWithTrace.TraceId);
-            var phoneNumbers = _writeModel.Users
-                .Where(u => u.ShouldReceiveThisSms(dto) && trace.ZoneIds.Contains(u.ZoneId))
-                .Select(u => u.Sms.PhoneNumber).ToList();
-
+            var phoneNumbers = _writeModel.GetPhonesToSendMonitoringResult(dto);
             _logFile.AppendLine($"There are {phoneNumbers.Count} numbers to send SMS");
             if (phoneNumbers.Count == 0) return true;
             
             var message =  _writeModel.GetShortMessageForMonitoringResult(dto);
             if (message == null) return true;
           
-            // ReSharper disable once UnusedVariable
-            var task = Task.Factory.StartNew(() => SendSms(message, phoneNumbers)); // here we do not wait result
-            await Task.Delay(1);
-            return true;
+            return await Task.Factory.StartNew(() => SendSms(message, phoneNumbers));
+        }
+
+        public async Task<bool> SendBopState(AddBopNetworkEvent cmd)
+        {
+            var phoneNumbers = _writeModel.GetPhonesToSendBopNetworkEvent(cmd);
+            _logFile.AppendLine($"There are {phoneNumbers.Count} numbers to send SMS");
+            if (phoneNumbers.Count == 0) return true;
+
+            var message = _writeModel.GetShortMessageForBopState(cmd);
+            return await Task.Factory.StartNew(() => SendSms(message, phoneNumbers));
         }
 
         public async Task<bool> SendNetworkEvent(Guid rtuId, bool isMainChannel, bool isOk)
         {
-            var rtu = _writeModel.Rtus.First(r => r.Id == rtuId);
-            var phoneNumbers = _writeModel.Users
-                .Where(u => u.ShouldReceiveNetworkEventSms() && rtu.ZoneIds.Contains(u.ZoneId))
-                .Select(u => u.Sms.PhoneNumber).ToList();
+            var phoneNumbers = _writeModel.GetPhonesToSendNetworkEvent(rtuId);
          
             _logFile.AppendLine($"There are {phoneNumbers.Count} numbers to send SMS");
             if (phoneNumbers.Count == 0) return true;
 
-            var channel = isMainChannel ? Resources.SID_Main_channel : Resources.SID_Reserve_channel;
-            var what = isOk ? Resources.SID_Recovered : Resources.SID_Broken;
-            var message =  $"RTU \"{rtu.Title}\" {channel} - {what}";
-          
-            // ReSharper disable once UnusedVariable
-            var task = Task.Factory.StartNew(() => SendSms(message, phoneNumbers)); // here we do not wait result
-            await Task.Delay(1);
-            return true;
+            var message = _writeModel.GetShortMessageForNetworkEvent(rtuId, isMainChannel, isOk);
+            return await Task.Factory.StartNew(() => SendSms(message, phoneNumbers));
         }
 
 

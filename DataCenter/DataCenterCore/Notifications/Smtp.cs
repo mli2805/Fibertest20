@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Net;
 using System.Net.Mail;
-using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -46,22 +43,35 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<bool> SendMonitoringResult(MonitoringResultDto dto)
         {
-            var cu = _iniFile.Read(IniSection.General, IniKey.Culture, "ru-RU");
-            var currentCulture = new CultureInfo(cu);
-            Thread.CurrentThread.CurrentUICulture = currentCulture;
-
-            var mailTo = _writeModel.Users.Where(u => u.Email.IsActivated).Select(u => u.Email.Address).ToList();
+            var mailTo = _writeModel.GetEmailsToSendMonitoringResult(dto);
             _logFile.AppendLine($"There are {mailTo.Count} addresses to send e-mail");
             if (mailTo.Count == 0) return true;
 
-            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);
-            if (trace == null) return true;
             var subj = _writeModel.GetShortMessageForMonitoringResult(dto);
-            var body = _writeModel.GetShortMessageForMonitoringResult(dto);
             var attachment = _writeModel.GetHtmlReportForMonitoringResult(dto);
-            return await SendEmail(subj, body, attachment, mailTo);
+            return await SendEmail(subj, subj, attachment, mailTo);
         }
 
+        public async Task<bool> SendNetworkEvent(Guid rtuId, bool isMainChannel, bool isOk)
+        {
+            var mailTo = _writeModel.GetEmailsToSendNetworkEvent(rtuId);
+            _logFile.AppendLine($"There are {mailTo.Count} addresses to send e-mail");
+            if (mailTo.Count == 0) return true;
+
+            var subj = _writeModel.GetShortMessageForNetworkEvent(rtuId, isMainChannel, isOk);
+            return await SendEmail(subj, subj, null, mailTo);
+        }
+        public async Task<bool> SendBopState(AddBopNetworkEvent cmd)
+        {
+            var mailTo = _writeModel.GetEmailsToSendBopNetworkEvent(cmd);
+            _logFile.AppendLine($"There are {mailTo.Count} addresses to send e-mail");
+            if (mailTo.Count == 0) return true;
+
+            var subj = _writeModel.GetShortMessageForBopState(cmd);
+            return await SendEmail(subj, subj, null, mailTo);
+        }
+
+      
         // userId - if empty - all users who have email
         private async Task<bool> SendEmail(string subject, string body, string attachmentFilename, List<string> addresses)
         {

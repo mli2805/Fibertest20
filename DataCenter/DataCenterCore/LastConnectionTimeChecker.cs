@@ -18,6 +18,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientsCollection _clientsCollection;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly Model _writeModel;
+        private readonly Smtp _smtp;
         private readonly Sms _sms;
         private TimeSpan _checkHeartbeatEvery;
         private TimeSpan _rtuHeartbeatPermittedGap;
@@ -25,7 +26,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile, EventStoreService eventStoreService,
             ClientsCollection clientsCollection, RtuStationsRepository rtuStationsRepository, Model writeModel,
-            Sms sms)
+            Smtp smtp, Sms sms)
         {
             _iniFile = iniFile;
             _logFile = logFile;
@@ -33,6 +34,7 @@ namespace Iit.Fibertest.DataCenterCore
             _clientsCollection = clientsCollection;
             _rtuStationsRepository = rtuStationsRepository;
             _writeModel = writeModel;
+            _smtp = smtp;
             _sms = sms;
         }
 
@@ -126,6 +128,7 @@ namespace Iit.Fibertest.DataCenterCore
                 rtuStation.IsMainAddressOkDuePreviousCheck = false;
                 networkEvent.ReserveChannelState = RtuPartState.Broken;
                 _logFile.AppendLine($"RTU \"{rtuTitle}\" Reserve channel - Broken");
+                await _smtp.SendNetworkEvent(rtuStation.RtuGuid, false, false);
                 await _sms.SendNetworkEvent(rtuStation.RtuGuid, false, false);
                 return true;
             }
@@ -136,6 +139,7 @@ namespace Iit.Fibertest.DataCenterCore
                 rtuStation.IsMainAddressOkDuePreviousCheck = true;
                 networkEvent.ReserveChannelState = RtuPartState.Ok;
                 _logFile.AppendLine($"RTU \"{rtuTitle}\" Reserve channel - Recovered");
+                await _smtp.SendNetworkEvent(rtuStation.RtuGuid, false, true);
                 await _sms.SendNetworkEvent(rtuStation.RtuGuid, false, true);
                 return true;
             }
@@ -150,6 +154,7 @@ namespace Iit.Fibertest.DataCenterCore
                 rtuStation.IsMainAddressOkDuePreviousCheck = false;
                 networkEvent.MainChannelState = RtuPartState.Broken;
                 _logFile.AppendLine($"RTU \"{rtuTitle}\" Main channel - Broken");
+                await _smtp.SendNetworkEvent(rtuStation.RtuGuid, true, false);
                 await _sms.SendNetworkEvent(rtuStation.RtuGuid, true, false);
                 return true;
             }
@@ -159,6 +164,7 @@ namespace Iit.Fibertest.DataCenterCore
                 rtuStation.IsMainAddressOkDuePreviousCheck = true;
                 networkEvent.MainChannelState = RtuPartState.Ok;
                 _logFile.AppendLine($"RTU \"{rtuTitle}\" Main channel - Recovered");
+                await _smtp.SendNetworkEvent(rtuStation.RtuGuid, true, true);
                 await _sms.SendNetworkEvent(rtuStation.RtuGuid, true, true);
                 return true;
             }

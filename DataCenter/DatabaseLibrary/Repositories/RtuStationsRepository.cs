@@ -128,6 +128,25 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
+        public async Task<bool> IsRtuExist(Guid rtuId)
+        {
+            try
+            {
+                using (var dbContext = new FtDbContext(_settings.Options))
+                {
+                    var rtu = await dbContext.RtuStations.FirstOrDefaultAsync(r => r.RtuGuid == rtuId);
+                    if (rtu != null) return true;
+                    _logFile.AppendLine($"Unknown RTU {rtuId.First6()}");
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("IsRtuExist: " + e.Message);
+                return false;
+            }
+        }
+
         public async Task<List<RtuStation>> GetAllRtuStations()
         {
             try

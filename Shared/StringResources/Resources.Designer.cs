@@ -963,6 +963,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to BOP {0} : {1} - {2} at {3}.
+        /// </summary>
+        public static string SID_BOP__0_____1_____2__at__3_ {
+            get {
+                return ResourceManager.GetString("SID_BOP__0_____1_____2__at__3_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to BOP breakdown.
         /// </summary>
         public static string SID_Bop_breakdown {
@@ -1004,6 +1013,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_BOP_TCP_port {
             get {
                 return ResourceManager.GetString("SID_BOP_TCP_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Breakdown.
+        /// </summary>
+        public static string SID_Breakdown {
+            get {
+                return ResourceManager.GetString("SID_Breakdown", resourceCulture);
             }
         }
         

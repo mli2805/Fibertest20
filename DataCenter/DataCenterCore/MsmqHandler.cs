@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Messaging;
 using System.Threading;
@@ -97,12 +98,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<int> ProcessBopStateChanges(BopStateChangedDto dto)
         {
-            var rtus = await _rtuStationsRepository.GetAllRtuStations();
-            if (rtus.FirstOrDefault(r => r.RtuGuid == dto.RtuId) == null)
-            {
-                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return -1;
-            }
+            if (! await _rtuStationsRepository.IsRtuExist(dto.RtuId)) return -1;
 
             await CheckAndSendBopNetworkEventIfNeeded(dto);
             return 0;
@@ -110,12 +106,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<int> ProcessMonitoringResult(MonitoringResultDto dto)
         {
-            var rtus = await _rtuStationsRepository.GetAllRtuStations();
-            if (rtus.FirstOrDefault(r => r.RtuGuid == dto.RtuId) == null)
-            {
-                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return -1;
-            }
+            if (! await _rtuStationsRepository.IsRtuExist(dto.RtuId)) return -1;
 
             _logFile.AppendLine($@"MSMQ message, measure time: {dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture)}, RTU { dto.RtuId.First6()
                     }, Trace {dto.PortWithTrace.TraceId.First6()} - {dto.TraceState} ({ dto.BaseRefType })");
@@ -137,20 +128,35 @@ namespace Iit.Fibertest.DataCenterCore
             if (command.EventStatus > EventStatus.JustMeasurementNotAnEvent && dto.BaseRefType != BaseRefType.Fast)
             {
                 // ReSharper disable once UnusedVariable
-                var task = Task.Factory.StartNew(() => SendNotifications(dto));
+                var task = Task.Factory.StartNew(() => SendNotificationsAboutTraces(dto)); // here we do not wait result
             }
 
             return 0;
         }
 
             // TODO SNMP, SMTP, SMS
-        private async void SendNotifications(MonitoringResultDto dto)
+        private async void SendNotificationsAboutTraces(MonitoringResultDto dto)
         {
+            SetCulture();
             await _smtp.SendMonitoringResult(dto);
             await _sms.SendMonitoringResult(dto); 
         }
 
-        // BOP - because MSMQ message came
+        private async void SendNotificationsAboutBop(AddBopNetworkEvent cmd)
+        {
+            SetCulture();
+            await _smtp.SendBopState(cmd);
+            await _sms.SendBopState(cmd);
+        }
+
+        private void SetCulture()
+        {
+            var cu = _iniFile.Read(IniSection.General, IniKey.Culture, "ru-RU");
+            var currentCulture = new CultureInfo(cu);
+            Thread.CurrentThread.CurrentUICulture = currentCulture;
+        }
+
+        // BOP - because MSMQ message about BOP came
         private async Task CheckAndSendBopNetworkEventIfNeeded(BopStateChangedDto dto)
         {
             if (_writeModel.Otaus.Any(o =>
@@ -158,7 +164,7 @@ namespace Iit.Fibertest.DataCenterCore
                 && o.NetAddress.Port == dto.TcpPort
                 && o.IsOk != dto.IsOk))
             {
-                _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.OtauIp} state changed to {dto.IsOk} (because MSMQ message came)");
+                _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.OtauIp} state changed to {dto.IsOk} (because MSMQ message about BOP came)");
                 var cmd = new AddBopNetworkEvent()
                 {
                     EventTimestamp = DateTime.Now,
@@ -168,10 +174,12 @@ namespace Iit.Fibertest.DataCenterCore
                     IsOk = dto.IsOk,
                 };
                 await _eventStoreService.SendCommand(cmd, "system", "OnServer");
+                // ReSharper disable once UnusedVariable
+                var task = Task.Factory.StartNew(() => SendNotificationsAboutBop(cmd));
             }
         }
 
-        // BOP - because monitoring result came
+        // BOP - because MSMQ message with monitoring result came
         private async Task CheckAndSendBopNetworkIfNeeded(MonitoringResultDto dto)
         {
             if (_writeModel.Otaus.Any(o =>
@@ -179,7 +187,7 @@ namespace Iit.Fibertest.DataCenterCore
                 && o.NetAddress.Port == dto.PortWithTrace.OtauPort.OtauTcpPort
                 && !o.IsOk))
             {
-                _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.PortWithTrace.OtauPort.OtauIp} state changed to OK (because monitoring result came)");
+                _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.PortWithTrace.OtauPort.OtauIp} state changed to OK (because MSMQ message with monitoring result came)");
                 var cmd = new AddBopNetworkEvent()
                 {
                     EventTimestamp = DateTime.Now,
@@ -189,6 +197,8 @@ namespace Iit.Fibertest.DataCenterCore
                     IsOk = true,
                 };
                 await _eventStoreService.SendCommand(cmd, "system", "OnServer");
+                // ReSharper disable once UnusedVariable
+                var task = Task.Factory.StartNew(() => SendNotificationsAboutBop(cmd));
             }
         }
     }

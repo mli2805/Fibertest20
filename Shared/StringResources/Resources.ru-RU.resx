@@ -2333,4 +2333,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Recovered" xml:space="preserve">
 		<value>Восстановлен</value>
 	</data>
+	<data name="SID_Breakdown" xml:space="preserve">
+		<value>Авария</value>
+	</data>
+	<data name="SID_BOP__0_____1_____2__at__3_" xml:space="preserve">
+		<value>БОП {0} : {1} - {2} в {3}</value>
+	</data>
 </root>

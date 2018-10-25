@@ -128,6 +128,8 @@
     <Compile Include="Commands\Client\UnregisterClientStation.cs" />
     <Compile Include="DomainEntities\Administration\EmailReceiver.cs" />
     <Compile Include="DomainEntities\Administration\SmsReceiver.cs" />
+    <Compile Include="DomainEntities\Extensions\ModelEmailExt.cs" />
+    <Compile Include="DomainEntities\Extensions\ModelSmsExt.cs" />
     <Compile Include="DomainEntities\Extensions\OtauPortDtoExt.cs" />
     <Compile Include="DomainEntities\Kadastr\Conpoint.cs" />
     <Compile Include="DomainEntities\Kadastr\Well.cs" />
@@ -274,7 +276,7 @@
     <Compile Include="Algorithms\GraphGpsCalculator.cs" />
     <Compile Include="EventSourcing\EventExecutors\NodeEventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\Model.cs" />
-    <Compile Include="EventSourcing\ModelExt.cs" />
+    <Compile Include="DomainEntities\Extensions\ModelExt.cs" />
     <Compile Include="EventSourcing\EventExecutors\RtuEventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\EventExecutors\TraceEventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\EventExecutors\UserEventsOnModelExecutor.cs" />

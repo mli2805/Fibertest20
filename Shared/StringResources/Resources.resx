@@ -2333,4 +2333,10 @@ RTU is initializing right now!</value>
 	<data name="SID_Recovered" xml:space="preserve">
     <value>Recovered</value>
   </data>
+	<data name="SID_Breakdown" xml:space="preserve">
+    <value>Breakdown</value>
+  </data>
+	<data name="SID_BOP__0_____1_____2__at__3_" xml:space="preserve">
+    <value>BOP {0} : {1} - {2} at {3}</value>
+  </data>
 </root>

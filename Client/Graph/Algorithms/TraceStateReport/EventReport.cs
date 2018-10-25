@@ -11,14 +11,30 @@ namespace Iit.Fibertest.Graph
 {
     public static class EventReport
     {
+        private static string ForReport(this DateTime timestamp)
+        {
+            return timestamp.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortTimePattern) +
+                            @" " + timestamp.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern);
+        }
+
+        public static string GetShortMessageForNetworkEvent(this Model model, Guid rtuId, bool isMainChannel, bool isOk)
+        {
+            var rtu = model.Rtus.First(r => r.Id == rtuId);
+            var channel = isMainChannel ? Resources.SID_Main_channel : Resources.SID_Reserve_channel;
+            var what = isOk ? Resources.SID_Recovered : Resources.SID_Broken;
+            return $@"RTU ""{rtu.Title}"" {channel} - {what}";
+        }
+        public static string GetShortMessageForBopState(this Model model, AddBopNetworkEvent cmd)
+        {
+            var state = cmd.IsOk ? Resources.SID_Ok : Resources.SID_Breakdown;
+            return string.Format(Resources.SID_BOP__0_____1_____2__at__3_, cmd.OtauIp, cmd.TcpPort, state, cmd.EventTimestamp.ForReport());
+        }
         public static string GetShortMessageForMonitoringResult(this Model model, MonitoringResultDto dto)
         {
             var trace = model.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);
             if (trace == null) return null;
 
-            var timestamp = dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortTimePattern) +
-                     @" " + dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern);
-            return string.Format(Resources.SID_Trace___0___state_is_changed_to___1___at__2_, trace.Title, dto.TraceState, timestamp);
+            return string.Format(Resources.SID_Trace___0___state_is_changed_to___1___at__2_, trace.Title, dto.TraceState, dto.TimeStamp.ForReport());
         }
 
         public static string GetHtmlReportForMonitoringResult(this Model model, MonitoringResultDto dto)
