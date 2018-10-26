@@ -14,6 +14,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
         private readonly SmsSender _smsSender;
+        private readonly int _eventLifetimeLimit;
 
         public SmsManager(IniFile iniFile, IMyLog logFile, Model writeModel, SmsSender smsSender)
         {
@@ -21,6 +22,7 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile = logFile;
             _writeModel = writeModel;
             _smsSender = smsSender;
+            _eventLifetimeLimit = _iniFile.Read(IniSection.Broadcast, IniKey.EventLifetimeLimit, 1800);
         }
 
         public Task<bool> SendTest(string phoneNumber)
@@ -34,6 +36,7 @@ namespace Iit.Fibertest.DataCenterCore
             var phoneNumbers = _writeModel.GetPhonesToSendMonitoringResult(dto);
             _logFile.AppendLine($"There are {phoneNumbers.Count} numbers to send SMS");
             if (phoneNumbers.Count == 0) return;
+            if (DateTime.Now - dto.TimeStamp > TimeSpan.FromMinutes(_eventLifetimeLimit)) return;
 
             var message = _writeModel.GetShortMessageForMonitoringResult(dto);
             if (message == null) return;
@@ -46,8 +49,9 @@ namespace Iit.Fibertest.DataCenterCore
             var phoneNumbers = _writeModel.GetPhonesToSendBopNetworkEvent(cmd);
             _logFile.AppendLine($"There are {phoneNumbers.Count} numbers to send SMS");
             if (phoneNumbers.Count == 0) return;
+            if (DateTime.Now - cmd.EventTimestamp > TimeSpan.FromMinutes(_eventLifetimeLimit)) return;
 
-            var message = _writeModel.GetShortMessageForBopState(cmd);
+            var message = EventReport.GetShortMessageForBopState(cmd);
             PushSms(message, phoneNumbers);
         }
 
@@ -62,30 +66,30 @@ namespace Iit.Fibertest.DataCenterCore
             PushSms(message, phoneNumbers);
         }
 
-
-        private const string ContentOfTestSms = "Test SMS message - Тестовое СМС сообщение";
         private const byte CodeForRussian = 8;
 
         private void SendTestSms(string phoneNumber)
         {
             var serverIp = _iniFile.Read(IniSection.ServerMainAddress, IniKey.Ip, "");
-            PushSms($"{serverIp}: {ContentOfTestSms}", new List<string>() { phoneNumber });
+            PushSms($"{serverIp}: {EventReport.GetTestSms()}", new List<string>() { phoneNumber });
         }
 
         private void PushSms(string contentOfSms, List<string> phoneNumbers)
         {
+            const int limit = 69; 
             foreach (var phoneNumber in phoneNumbers)
             {
                 var rest = contentOfSms;
                 do
                 {
-                    var content = rest.Length > 63 ? rest.Substring(0, 63) : rest;
-                    rest = rest.Length > 63 ? rest.Substring(63) : "";
+                    var content = rest.Length > limit ? rest.Substring(0, limit) : rest;
+                    rest = rest.Length > limit ? rest.Substring(limit) : "";
                     var pdu = new SmsSubmitPdu(content, phoneNumber, CodeForRussian);
                     _smsSender.TheQueue.Enqueue(pdu);
 
                 } while (rest != "");
             }
         }
+     
     }
 }

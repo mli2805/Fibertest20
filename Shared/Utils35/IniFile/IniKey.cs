@@ -90,6 +90,7 @@
 
         //Broadcast
         GsmModemComPort,
+        EventLifetimeLimit,
         TestNumberToSms,
         TestSmsContent,
 

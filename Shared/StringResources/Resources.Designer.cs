@@ -2584,6 +2584,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fibertest20: Test SMS message.
+        /// </summary>
+        public static string SID_Fibertest20__Test_SMS_message {
+            get {
+                return ResourceManager.GetString("SID_Fibertest20__Test_SMS_message", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to File read error!{0}{1}.
         /// </summary>
         public static string SID_File_read_error__0__1_ {

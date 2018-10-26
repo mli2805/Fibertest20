@@ -2339,4 +2339,7 @@ RTU is initializing right now!</value>
 	<data name="SID_BOP__0_____1_____2__at__3_" xml:space="preserve">
     <value>BOP {0} : {1} - {2} at {3}</value>
   </data>
+	<data name="SID_Fibertest20__Test_SMS_message" xml:space="preserve">
+    <value>Fibertest20: Test SMS message</value>
+  </data>
 </root>

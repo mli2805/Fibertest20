@@ -67,10 +67,9 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine($"There are {mailTo.Count} addresses to send e-mail");
             if (mailTo.Count == 0) return true;
 
-            var subj = _writeModel.GetShortMessageForBopState(cmd);
+            var subj = EventReport.GetShortMessageForBopState(cmd);
             return await SendEmail(subj, subj, null, mailTo);
         }
-
       
         // userId - if empty - all users who have email
         private async Task<bool> SendEmail(string subject, string body, string attachmentFilename, List<string> addresses)

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.ServiceModel;
+using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
@@ -52,6 +54,7 @@ namespace Iit.Fibertest.DataCenterCore
             _baseRefLandmarksTool = baseRefLandmarksTool;
             _smtp = smtp;
             _smsManager = smsManager;
+
         }
 
         public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
@@ -200,8 +203,12 @@ namespace Iit.Fibertest.DataCenterCore
             return Task.FromResult(true);
         }
 
-        public Task<bool>  SendTest(string to, NotificationType notificationType)
+        public Task<bool> SendTest(string to, NotificationType notificationType)
         {
+            var cu = _iniFile.Read(IniSection.General, IniKey.Culture, "ru-RU");
+            var currentCulture = new CultureInfo(cu);
+            Thread.CurrentThread.CurrentUICulture = currentCulture;
+   
             return notificationType == NotificationType.Email ? _smtp.SendTest(to) : _smsManager.SendTest(to);
         }
 

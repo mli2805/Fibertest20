@@ -30,7 +30,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             
             // when server just started 
-            Thread.Sleep(10000);
+            Thread.Sleep(1000);
 
             while (true)
             {
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.DataCenterCore
                 {
                     Send(sms);
                 }
-                else Thread.Sleep(5000);
+                else Thread.Sleep(1000);
             }
         }
 

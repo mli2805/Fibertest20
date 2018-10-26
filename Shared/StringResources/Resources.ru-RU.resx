@@ -2339,4 +2339,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_BOP__0_____1_____2__at__3_" xml:space="preserve">
 		<value>БОП {0} : {1} - {2} в {3}</value>
 	</data>
+	<data name="SID_Fibertest20__Test_SMS_message" xml:space="preserve">
+		<value>Fibertest20: Тестовое SMS сообщение</value>
+	</data>
 </root>

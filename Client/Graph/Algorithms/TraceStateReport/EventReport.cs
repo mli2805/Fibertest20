@@ -17,6 +17,11 @@ namespace Iit.Fibertest.Graph
                             @" " + timestamp.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern);
         }
 
+        public static string GetTestSms()
+        {
+            return Resources.SID_Fibertest20__Test_SMS_message;
+        }
+
         public static string GetShortMessageForNetworkEvent(this Model model, Guid rtuId, bool isMainChannel, bool isOk)
         {
             var rtu = model.Rtus.First(r => r.Id == rtuId);
@@ -24,7 +29,7 @@ namespace Iit.Fibertest.Graph
             var what = isOk ? Resources.SID_Recovered : Resources.SID_Broken;
             return $@"RTU ""{rtu.Title}"" {channel} - {what}";
         }
-        public static string GetShortMessageForBopState(this Model model, AddBopNetworkEvent cmd)
+        public static string GetShortMessageForBopState(AddBopNetworkEvent cmd)
         {
             var state = cmd.IsOk ? Resources.SID_Ok : Resources.SID_Breakdown;
             return string.Format(Resources.SID_BOP__0_____1_____2__at__3_, cmd.OtauIp, cmd.TcpPort, state, cmd.EventTimestamp.ForReport());
@@ -34,7 +39,8 @@ namespace Iit.Fibertest.Graph
             var trace = model.Traces.FirstOrDefault(t => t.TraceId == dto.PortWithTrace.TraceId);
             if (trace == null) return null;
 
-            return string.Format(Resources.SID_Trace___0___state_is_changed_to___1___at__2_, trace.Title, dto.TraceState, dto.TimeStamp.ForReport());
+            return string.Format(Resources.SID_Trace___0___state_is_changed_to___1___at__2_, trace.Title, 
+                dto.TraceState.ToLocalizedString(), dto.TimeStamp.ForReport());
         }
 
         public static string GetHtmlReportForMonitoringResult(this Model model, MonitoringResultDto dto)
