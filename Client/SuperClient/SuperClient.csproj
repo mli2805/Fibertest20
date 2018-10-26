@@ -105,7 +105,7 @@
     </Compile>
     <Compile Include="Forms\AddServerViewModel.cs" />
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="AutofacSc.cs" />
+    <Compile Include="AutofacSuperClient.cs" />
     <Compile Include="ChildStarter.cs" />
     <Compile Include="Forms\ServersView.xaml.cs">
       <DependentUpon>ServersView.xaml</DependentUpon>

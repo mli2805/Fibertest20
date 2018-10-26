@@ -52,7 +52,7 @@ namespace Iit.Fibertest.SuperClient
         protected override void OnStartup(object sender, System.Windows.StartupEventArgs e)
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule<AutofacSc>();
+            builder.RegisterModule<AutofacSuperClient>();
 
             var iniFile = new IniFile();
             var iniFileName = @"sc.ini";

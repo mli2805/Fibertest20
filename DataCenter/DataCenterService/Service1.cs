@@ -16,13 +16,14 @@ namespace Iit.Fibertest.DataCenterService
         private readonly ISettings _serverSettings;
         private readonly EventStoreService _eventStoreService;
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
+        private readonly SmsSender _smsSender;
         private readonly WcfServiceForClientBootstrapper _wcfServiceForClientBootstrapper;
         private readonly WcfServiceForRtuBootstrapper _wcfServiceForRtuBootstrapper;
         private readonly MsmqHandler _msmqHandler;
 
         public Service1(IniFile iniFile, IMyLog logFile, ISettings serverSettings,
             EventStoreService eventStoreService,
-            LastConnectionTimeChecker lastConnectionTimeChecker,
+            LastConnectionTimeChecker lastConnectionTimeChecker, SmsSender smsSender,
             WcfServiceForClientBootstrapper wcfServiceForClientBootstrapper,
             WcfServiceForRtuBootstrapper wcfServiceForRtuBootstrapper,
             MsmqHandler msmqHandler)
@@ -33,6 +34,7 @@ namespace Iit.Fibertest.DataCenterService
             _eventStoreService = eventStoreService;
             _logFile.AssignFile("DataCenter.log");
             _lastConnectionTimeChecker = lastConnectionTimeChecker;
+            _smsSender = smsSender;
             _wcfServiceForClientBootstrapper = wcfServiceForClientBootstrapper;
             _wcfServiceForRtuBootstrapper = wcfServiceForRtuBootstrapper;
             _msmqHandler = msmqHandler;
@@ -78,6 +80,7 @@ namespace Iit.Fibertest.DataCenterService
             _wcfServiceForClientBootstrapper.Start();
             _wcfServiceForRtuBootstrapper.Start();
             _msmqHandler.Start();
+            _smsSender.Start();
         }
 
         protected override void OnStop()

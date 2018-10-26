@@ -28,7 +28,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly Smtp _smtp;
-        private readonly Sms _sms;
+        private readonly SmsManager _smsManager;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.DataCenterCore
         public WcfServiceForClient(IniFile iniFile, IMyLog logFile, EventStoreService eventStoreService, MeasurementFactory measurementFactory,
             ClientsCollection clientsCollection, ClientToRtuTransmitter clientToRtuTransmitter,
             RtuStationsRepository rtuStationsRepository, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
-            BaseRefLandmarksTool baseRefLandmarksTool, SorFileRepository sorFileRepository, Smtp smtp, Sms sms)
+            BaseRefLandmarksTool baseRefLandmarksTool, SorFileRepository sorFileRepository, Smtp smtp, SmsManager smsManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.DataCenterCore
             _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
             _baseRefLandmarksTool = baseRefLandmarksTool;
             _smtp = smtp;
-            _sms = sms;
+            _smsManager = smsManager;
         }
 
         public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
@@ -202,7 +202,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public Task<bool>  SendTest(string to, NotificationType notificationType)
         {
-            return notificationType == NotificationType.Email ? _smtp.SendTest(to) : _sms.SendTest(to);
+            return notificationType == NotificationType.Email ? _smtp.SendTest(to) : _smsManager.SendTest(to);
         }
 
 

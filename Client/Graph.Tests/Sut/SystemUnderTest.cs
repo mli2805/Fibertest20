@@ -154,7 +154,8 @@ namespace Graph.Tests
             builder.RegisterType<BaseRefRepairmanIntermediary>().InstancePerLifetimeScope();
             builder.RegisterType<SorFileRepository>().InstancePerLifetimeScope();
             builder.RegisterType<D2CWcfManager>().InstancePerLifetimeScope();
-            builder.RegisterType<Sms>().InstancePerLifetimeScope();
+            builder.RegisterType<SmsSender>().InstancePerLifetimeScope();
+            builder.RegisterType<SmsManager>().InstancePerLifetimeScope();
             builder.RegisterType<Smtp>().InstancePerLifetimeScope();
             builder.RegisterType<MsmqHandler>().InstancePerLifetimeScope();
 

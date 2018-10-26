@@ -12,7 +12,7 @@ using Iit.Fibertest.WcfServiceForRtuInterface;
 
 namespace Iit.Fibertest.DataCenterService
 {
-    public static class AutofacOnServerExtensions
+    public static class AutofacDataCenter
     {
         public static ContainerBuilder WithProduction(this ContainerBuilder builder)
         {
@@ -27,7 +27,6 @@ namespace Iit.Fibertest.DataCenterService
 
             builder.RegisterType<MySqlEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
             builder.RegisterType<ClientsCollection>().SingleInstance();
-            builder.RegisterType<SmsQueue>().SingleInstance();
 
             builder.RegisterType<AccidentPlaceLocator>().SingleInstance();
             builder.RegisterType<AccidentsOnTraceToModelApplier>().SingleInstance();
@@ -60,6 +59,7 @@ namespace Iit.Fibertest.DataCenterService
 
             builder.RegisterType<D2CWcfManager>().SingleInstance();
             builder.RegisterType<LastConnectionTimeChecker>().SingleInstance();
+            builder.RegisterType<SmsSender>().SingleInstance();
 
             builder.RegisterType<D2RWcfManager>().As<ID2RWcfManager>().SingleInstance();
 
@@ -71,7 +71,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<WcfServiceForRtuBootstrapper>().SingleInstance();
             builder.RegisterType<SorDataParsingReporter>();
             builder.RegisterType<AccidentsFromSorExtractor>();
-            builder.RegisterType<Sms>().SingleInstance();
+            builder.RegisterType<SmsManager>().SingleInstance();
             builder.RegisterType<Smtp>().SingleInstance();
             builder.RegisterType<MsmqHandler>().SingleInstance();
 

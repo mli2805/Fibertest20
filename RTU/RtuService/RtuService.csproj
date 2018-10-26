@@ -115,7 +115,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AutofacForRtuExtensions.cs" />
+    <Compile Include="AutofacRtuManager.cs" />
     <Compile Include="Heartbeat.cs" />
     <Compile Include="ProjectInstaller.cs">
       <SubType>Component</SubType>

@@ -6,7 +6,7 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.RtuService
 {
-    public static class AutofacForRtuExtensions
+    public static class AutofacRtuManager
     {
         public static ContainerBuilder ForRtu(this ContainerBuilder builder)
         {

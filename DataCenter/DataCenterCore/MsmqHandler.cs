@@ -21,12 +21,12 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly MeasurementFactory _measurementFactory;
         private readonly EventStoreService _eventStoreService;
         private readonly Smtp _smtp;
-        private readonly Sms _sms;
+        private readonly SmsManager _smsManager;
 
         public MsmqHandler(IniFile iniFile, IMyLog logFile, Model writeModel,
             SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository, 
             MeasurementFactory measurementFactory, EventStoreService eventStoreService,
-            Smtp smtp, Sms sms)
+            Smtp smtp, SmsManager smsManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
@@ -36,7 +36,7 @@ namespace Iit.Fibertest.DataCenterCore
             _measurementFactory = measurementFactory;
             _eventStoreService = eventStoreService;
             _smtp = smtp;
-            _sms = sms;
+            _smsManager = smsManager;
         }
 
         public void Start()
@@ -139,14 +139,14 @@ namespace Iit.Fibertest.DataCenterCore
         {
             SetCulture();
             await _smtp.SendMonitoringResult(dto);
-            await _sms.SendMonitoringResult(dto); 
+            _smsManager.SendMonitoringResult(dto); 
         }
 
         private async void SendNotificationsAboutBop(AddBopNetworkEvent cmd)
         {
             SetCulture();
             await _smtp.SendBopState(cmd);
-            await _sms.SendBopState(cmd);
+            _smsManager.SendBopState(cmd);
         }
 
         private void SetCulture()

@@ -5,7 +5,7 @@ using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.SuperClient
 {
-    public sealed class AutofacSc : Module
+    public sealed class AutofacSuperClient : Module
     {
         protected override void Load(ContainerBuilder builder)
         {
