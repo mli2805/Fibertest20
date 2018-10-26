@@ -36,7 +36,8 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 if (TheQueue.TryDequeue(out SmsSubmitPdu sms))
                 {
-                    Send(sms);
+                    // ReSharper disable once UnusedVariable
+                    var result = Send(sms);
                 }
                 else Thread.Sleep(1000);
             }
