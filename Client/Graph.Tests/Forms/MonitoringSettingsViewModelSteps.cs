@@ -134,6 +134,13 @@ namespace Graph.Tests
 
         }
 
+        [Then(@"По умолчанию частота сохранения и точных и быстрых - Не сохранять")]
+        public void ThenПоУмолчаниюЧастотаСохраненияИТочныхИБыстрых_НеСохранять()
+        {
+            _vm.Model.Frequencies.SelectedPreciseSaveFreq.Should().Be(Frequency.DoNot);
+            _vm.Model.Frequencies.SelectedFastSaveFreq.Should().Be(Frequency.DoNot);
+        }
+
         [When(@"Пользователь включает автоматический режим и жмет применить")]
         public void WhenПользовательВключаетАвтоматическийРежимИЖметПрименить()
         {
@@ -172,10 +179,16 @@ namespace Graph.Tests
              _vm.Model.CycleTime.Should().Be(@"00:00:34");
         }
 
+        [Given(@"Пользователь ставит частоту измерения и сохранения точной 6 часов")]
+        public void GivenПользовательСтавитЧастотуИзмеренияИСохраненияТочной12Часов()
+        {
+            _vm.Model.Frequencies.SelectedPreciseMeasFreq = Frequency.Every6Hours;
+            _vm.Model.Frequencies.SelectedPreciseSaveFreq = Frequency.Every6Hours;
+        }
+
         [When(@"Пользователь уменьшает частоту измерения по точной")]
         public void WhenПользовательУменьшаетЧастотуИзмеренияПоТочной()
         {
-            _vm.Model.Frequencies.SelectedPreciseSaveFreq.Should().Be(Frequency.EveryHour);
             _vm.Model.Frequencies.SelectedPreciseMeasFreq = Frequency.Every12Hours;
         }
 

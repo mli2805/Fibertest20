@@ -77,6 +77,16 @@ namespace Iit.Fibertest.DataCenterCore
             try
             {
                 comm.Open();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("comm.Open: " + e.Message);
+                return false;
+            }
+
+            var flag = true;
+            try
+            {
                 foreach (var phoneNumber in phoneNumbers)
                 {
                     var rest = contentOfSms;
@@ -89,15 +99,24 @@ namespace Iit.Fibertest.DataCenterCore
 
                     } while (rest != "");
                 }
-                comm.Close();
-                return true;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("SendTestSms: " + e.Message);
-                comm.Close();
-                return false;
+                _logFile.AppendLine("comm.SendMessage: " + e.Message);
+                flag = false;
             }
+
+            try
+            {
+                comm.Close();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("comm.Close: " + e.Message);
+                flag = false;
+            }
+
+            return flag;
         }
     }
 }

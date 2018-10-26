@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using GsmComm.PduConverter;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -10,6 +12,15 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterCore
 {
+    public class SmsQueue
+    {
+        public ConcurrentQueue<SmsSubmitPdu> TheQueue;
+    }
+    public class SmsSender
+    {
+        
+    }
+
     public class LastConnectionTimeChecker
     {
         private readonly IniFile _iniFile;

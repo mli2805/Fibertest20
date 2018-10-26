@@ -27,6 +27,7 @@ namespace Iit.Fibertest.DataCenterService
 
             builder.RegisterType<MySqlEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
             builder.RegisterType<ClientsCollection>().SingleInstance();
+            builder.RegisterType<SmsQueue>().SingleInstance();
 
             builder.RegisterType<AccidentPlaceLocator>().SingleInstance();
             builder.RegisterType<AccidentsOnTraceToModelApplier>().SingleInstance();
