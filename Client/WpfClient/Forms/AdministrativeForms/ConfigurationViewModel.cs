@@ -10,7 +10,9 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private bool _isGraphVisibleOnStart;
         private string _selectedLanguage;
+        private string _selectedProvider;
         public List<string> SupportedLanguages { get; set; } = new List<string>(){@"ru-RU", @"en-US"};
+        public List<string> MapProviders { get; set; } = new List<string>(){@"OpenStreetMap", @"GoogleMap", @"YandexMap"};
 
         public ConfigurationViewModel(IniFile iniFile)
         {
@@ -18,6 +20,7 @@ namespace Iit.Fibertest.Client
 
             _isGraphVisibleOnStart = _iniFile.Read(IniSection.Miscellaneous, IniKey.IsGraphVisibleOnStart, false);
             SelectedLanguage = _iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
+            _selectedProvider = _iniFile.Read(IniSection.Map, IniKey.GMapProvider, MapProviders[0]);
         }
 
         protected override void OnViewLoaded(object view)
@@ -43,6 +46,16 @@ namespace Iit.Fibertest.Client
             {
                 _selectedLanguage = value;
                 _iniFile.Write(IniSection.General, IniKey.Culture, _selectedLanguage);
+            }
+        }
+
+        public string SelectedProvider
+        {
+            get { return _selectedProvider; }
+            set
+            {
+                _selectedProvider = value; 
+                _iniFile.Write(IniSection.Map, IniKey.GMapProvider, _selectedProvider);
             }
         }
 

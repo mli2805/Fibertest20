@@ -1431,6 +1431,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose map provider.
+        /// </summary>
+        public static string SID_Choose_map_provider {
+            get {
+                return ResourceManager.GetString("SID_Choose_map_provider", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose operations.
         /// </summary>
         public static string SID_Choose_operations {
@@ -2076,6 +2085,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Drawing_graph_of_traces_ {
             get {
                 return ResourceManager.GetString("SID_Drawing_graph_of_traces_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E-mail settings.
+        /// </summary>
+        public static string SID_E_mail_settings {
+            get {
+                return ResourceManager.GetString("SID_E-mail_settings", resourceCulture);
             }
         }
         

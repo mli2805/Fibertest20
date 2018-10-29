@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Client
         // if trace attached to port and RTU is not available now - it is prohibited to assign base - you can't send base to RTU
         public bool CanAssignBaseRefsAction(object param)
         {
-            if (_currentUser.Role > Role.Root)
+            if (_currentUser.Role > Role.Operator)
                 return false;
             if (!(param is TraceLeaf traceLeaf) || !traceLeaf.IsInZone)
                 return false;
