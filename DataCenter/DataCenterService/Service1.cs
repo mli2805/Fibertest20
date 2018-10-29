@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Reflection;
 using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
@@ -56,6 +57,10 @@ namespace Iit.Fibertest.DataCenterService
             var tid = Thread.CurrentThread.ManagedThreadId;
             _logFile.AppendLine($"Service initialization thread. Process {pid}, thread {tid}");
 
+            var assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
+            IniFile.Write(IniSection.General, IniKey.Version, info.FileVersion);
+     
             _serverSettings.Init();
             var resetDb = IniFile.Read(IniSection.MySql, IniKey.ResetDb, false);
             if (resetDb)

@@ -71,6 +71,10 @@ namespace Iit.Fibertest.Client
             builder.RegisterInstance(iniFile);
             iniFile.Write(IniSection.Client, IniKey.ClientOrdinal, postfix);
 
+            var assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
+            iniFile.Write(IniSection.General, IniKey.Version, info.FileVersion);
+     
             var parameters = ParseCommandLine(commandLineParams);
             builder.RegisterInstance(parameters);
             _container = builder.Build();

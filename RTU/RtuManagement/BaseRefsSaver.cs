@@ -10,14 +10,10 @@ namespace Iit.Fibertest.RtuManagement
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
 
-//        private readonly string _appDir;
-
         public BaseRefsSaver(IniFile iniFile, IMyLog logFile)
         {
             _iniFile = iniFile;
             _logFile = logFile;
-
-//            _appDir = TryGetAppFolder() ?? @"c:\";
         }
 
         public ReturnCode SaveBaseRefs(AssignBaseRefsDto dto)
