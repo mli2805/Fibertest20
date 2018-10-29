@@ -140,7 +140,20 @@ namespace Iit.Fibertest.Client
         public void ShowRftsEvents() { _reflectogramManager.ShowRftsEvents(Model.SorFileId); }
         public void ShowTraceStatistics() { _traceStatisticsViewsManager.Show(Model.TraceId); }
         public void ExportToKml() { }
-        public void ShowReport() { }
+
+        public void ShowReport()
+        {
+            var reportModel = CreateReportModelFromMeasurement();
+            var htmlFile = EventReport.FillInHtmlReportForTraceState(reportModel);
+            try
+            {
+                System.Diagnostics.Process.Start(htmlFile);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(@"ShowReport: " + e.Message);
+            }
+        }
 
         public async void SaveMeasurementChanges()
         {
@@ -163,6 +176,18 @@ namespace Iit.Fibertest.Client
               
             }
             TryClose();
+        }
+
+        private EventReportModel CreateReportModelFromMeasurement()
+        {
+            return new EventReportModel()
+            {
+                TraceTitle = Model.Trace.Title,
+                TraceState = Model.TraceState.ToLocalizedString(),
+                RtuTitle = Model.Header.RtuTitle,
+                Port = Model.Header.PortTitle,
+                TimeStamp = Model.MeasurementTimestamp,
+            };
         }
 
         public void Close() { TryClose(); }

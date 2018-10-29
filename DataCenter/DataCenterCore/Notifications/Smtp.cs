@@ -48,7 +48,8 @@ namespace Iit.Fibertest.DataCenterCore
             if (mailTo.Count == 0) return true;
 
             var subj = _writeModel.GetShortMessageForMonitoringResult(dto);
-            var attachment = _writeModel.GetHtmlReportForMonitoringResult(dto);
+            var reportModel = _writeModel.CreateReportModelFromMoniresult(dto);
+            var attachment = reportModel == null ? null : EventReport.FillInHtmlReportForTraceState(reportModel);
             return await SendEmail(subj, subj, attachment, mailTo);
         }
 

@@ -122,6 +122,7 @@
     <Compile Include="Algorithms\TraceStateReport\EventReport.cs" />
     <Compile Include="Algorithms\LicenseManager.cs" />
     <Compile Include="Algorithms\SorDataParsingReporter.cs" />
+    <Compile Include="Algorithms\TraceStateReport\EventReportModel.cs" />
     <Compile Include="Commands\ApplyLicense.cs" />
     <Compile Include="Commands\Client\LostClientConnection.cs" />
     <Compile Include="Commands\Client\RegisterClientStation.cs" />
