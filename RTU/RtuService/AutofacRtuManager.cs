@@ -16,6 +16,8 @@ namespace Iit.Fibertest.RtuService
             var serviceLog = new LogFile(serviceIni);
             builder.RegisterInstance<IMyLog>(serviceLog);
 
+            builder.RegisterType<BaseRefsSaver>().SingleInstance();
+
             builder.RegisterType<Heartbeat>().SingleInstance();
             builder.RegisterType<RtuManager>().SingleInstance();
             builder.RegisterType<RtuWcfOperationsPermissions>().SingleInstance();

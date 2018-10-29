@@ -23,7 +23,7 @@ namespace Iit.Fibertest.RtuManagement
         private Charon _mainCharon;
         private CancellationTokenSource _cancellationTokenSource;
 
-        public BaseRefsSaver BaseRefsSaver { get; set; }
+      //  public BaseRefsSaver BaseRefsSaver { get; set; }
 
         private readonly object _isMonitoringOnLocker = new object();
         private bool _isMonitoringOn;
@@ -101,7 +101,7 @@ namespace Iit.Fibertest.RtuManagement
             _version = info.FileVersion;
             _serviceIni.Write(IniSection.General, IniKey.Version, _version);
 
-            BaseRefsSaver = new BaseRefsSaver(_rtuIni, _rtuLog);
+ //           BaseRefsSaver = new BaseRefsSaver(_rtuIni, _rtuLog);
         }
 
         public void OnServiceStart()

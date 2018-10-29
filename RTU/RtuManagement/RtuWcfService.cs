@@ -16,7 +16,9 @@ namespace Iit.Fibertest.RtuManagement
         private readonly WcfMeasurementsOperator _wcfMeasurementsOperator;
         private readonly RtuWcfOperationsPermissions _rtuWcfOperationsPermissions;
 
-        public RtuWcfService(IMyLog serviceLog, RtuManager rtuManager,
+        private readonly BaseRefsSaver _baseRefsSaver;
+
+        public RtuWcfService(IMyLog serviceLog, RtuManager rtuManager, BaseRefsSaver baseRefsSaver,
             WcfOtauOperator wcfOtauOperator, WcfMeasurementsOperator wcfMeasurementsOperator,
             RtuWcfOperationsPermissions rtuWcfOperationsPermissions)
         {
@@ -25,6 +27,8 @@ namespace Iit.Fibertest.RtuManagement
             _wcfOtauOperator = wcfOtauOperator;
             _wcfMeasurementsOperator = wcfMeasurementsOperator;
             _rtuWcfOperationsPermissions = rtuWcfOperationsPermissions;
+
+            _baseRefsSaver = baseRefsSaver;
         }
 
         public void BeginInitialize(InitializeRtuDto dto)
@@ -101,7 +105,8 @@ namespace Iit.Fibertest.RtuManagement
                 try
                 {
                     result.ReturnCode = _rtuWcfOperationsPermissions.ShouldExecute("User sent assign base refs command")
-                        ? _rtuManager.BaseRefsSaver.SaveBaseRefs(dto)
+                       // ? _rtuManager.BaseRefsSaver.SaveBaseRefs(dto)
+                        ? _baseRefsSaver.SaveBaseRefs(dto)
                         : ReturnCode.RtuIsBusy;
                 }
                 catch (Exception e)
