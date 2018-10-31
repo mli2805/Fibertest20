@@ -123,7 +123,7 @@ namespace Iit.Fibertest.Client
             }
 
             var header = res ? MessageType.Information : MessageType.Error;
-            var message = res ? Resources.SID_Test_SMS_sent_successfully_ : Resources.SID_Failed_to_send_test_SMS_;
+            var message = res ? Resources.SID_Test_SMS_is_placed_into_sending_queue : Resources.SID_Failed_to_place_test_SMS_into_sending_queue;
             var vm = new MyMessageBoxViewModel(header, message);
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }

@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Client
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = Resources.SID_SMTP_settings;
+            DisplayName = Resources.SID_E_mail_settings;
         }
 
         public async void Save()

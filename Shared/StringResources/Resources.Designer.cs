@@ -2485,6 +2485,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to place test SMS into sending queue.
+        /// </summary>
+        public static string SID_Failed_to_place_test_SMS_into_sending_queue {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_place_test_SMS_into_sending_queue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to save GSM-modem com port!.
         /// </summary>
         public static string SID_Failed_to_save_gsm_modem_com_port_ {
@@ -5556,15 +5565,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SMTP settings.
-        /// </summary>
-        public static string SID_SMTP_settings {
-            get {
-                return ResourceManager.GetString("SID_SMTP_settings", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Space available: {0}.
         /// </summary>
         public static string SID_Space_available___0_ {
@@ -5804,6 +5804,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Test_RTU_communication_functions {
             get {
                 return ResourceManager.GetString("SID_Test_RTU_communication_functions", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Test SMS is placed into sending queue.
+        /// </summary>
+        public static string SID_Test_SMS_is_placed_into_sending_queue {
+            get {
+                return ResourceManager.GetString("SID_Test_SMS_is_placed_into_sending_queue", resourceCulture);
             }
         }
         

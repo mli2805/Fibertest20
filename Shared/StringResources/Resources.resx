@@ -2303,12 +2303,6 @@ RTU is initializing right now!</value>
 	<data name="SID_Failed_to_save_gsm_modem_com_port_" xml:space="preserve">
     <value>Failed to save GSM-modem com port!</value>
   </data>
-	<data name="SID_Test_SMS_sent_successfully_" xml:space="preserve">
-    <value>Test SMS sent successfully!</value>
-  </data>
-	<data name="SID_Failed_to_send_test_SMS_" xml:space="preserve">
-    <value>Failed to send test SMS!</value>
-  </data>
 	<data name="SID_Test_e_mail_sent_successfully_" xml:space="preserve">
     <value>Test e-mail sent successfully!</value>
   </data>
@@ -2344,5 +2338,11 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_E-mail_settings" xml:space="preserve">
     <value>E-mail settings</value>
+  </data>
+	<data name="SID_Test_SMS_is_placed_into_sending_queue" xml:space="preserve">
+    <value>Test SMS is placed into sending queue</value>
+  </data>
+	<data name="SID_Failed_to_place_test_SMS_into_sending_queue" xml:space="preserve">
+    <value>Failed to place test SMS into sending queue</value>
   </data>
 </root>
