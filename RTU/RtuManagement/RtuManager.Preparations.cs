@@ -11,7 +11,9 @@ namespace Iit.Fibertest.RtuManagement
     {
         private ReturnCode InitializeRtuManager(InitializeRtuDto dto)
         {
-            RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
+            var resetCharonResult = RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
+            if (resetCharonResult != ReturnCode.Ok)
+                return resetCharonResult;
             LedDisplay.Show(_rtuIni, _rtuLog, LedDisplayCode.Connecting);
 
             var otdrInitializationResult = InitializeOtdr();
@@ -38,8 +40,8 @@ namespace Iit.Fibertest.RtuManagement
             _monitoringQueue.Load();
             GetMonitoringParams();
 
-            _rtuLog.AppendLine("Rtu Manager initialized successfully.");
-            return otauInitializationResult;
+            _rtuLog.AppendLine("RTU Manager initialized successfully.");
+            return ReturnCode.Ok;
         }
 
         private ReturnCode InitializeOtdr()
@@ -53,7 +55,7 @@ namespace Iit.Fibertest.RtuManagement
 
             var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, DefaultIp);
             Thread.Sleep(300);
-            return _otdrManager.ConnectOtdr(otdrAddress) ? ReturnCode.Ok : ReturnCode.OtdrCannontConnect;
+            return _otdrManager.ConnectOtdr(otdrAddress) ? ReturnCode.Ok : ReturnCode.OtdrCannotConnect;
         }
 
         private ReturnCode ReInitializeOtauOnUsersRequest(InitializeRtuDto dto)

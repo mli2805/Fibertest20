@@ -9,20 +9,6 @@ namespace Iit.Fibertest.RtuManagement
     {
         private readonly TimeSpan _mikrotikRebootTimeout;
 
-        private void ClearArp()
-        {
-            var logLevel = _serviceIni.Read(IniSection.General, IniKey.LogLevel, 1);
-            var res = Arp.GetTable();
-            if (logLevel == 3)
-                _serviceLog.AppendLine(res);
-            Arp.ClearCache();
-            _rtuLog.AppendLine("Recovery procedure: Clear ARP table.");
-            _serviceLog.AppendLine("Recovery procedure: Clear ARP table.");
-            res = Arp.GetTable();
-            if (logLevel == 3)
-                _serviceLog.AppendLine(res);
-        }
-
         private void RunMainCharonRecovery()
         {
             var previousStep = (RecoveryStep)_serviceIni.Read(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
@@ -30,10 +16,11 @@ namespace Iit.Fibertest.RtuManagement
             switch (previousStep)
             {
                 case RecoveryStep.Ok:
-                    _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ClearArp);
-                    ClearArp();
+                    _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ResetArpAndCharon);
+                    RestoreFunctions.ClearArp(_serviceIni, _serviceLog, _rtuLog);
+                    InitializeRtuManager(null);
                     return;
-                case RecoveryStep.ClearArp:
+                case RecoveryStep.ResetArpAndCharon:
                     _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.RestartService);
                     _rtuLog.AppendLine("Recovery procedure: Exit rtu service.");
                     _serviceLog.AppendLine("Recovery procedure: Exit rtu service.");
@@ -43,7 +30,7 @@ namespace Iit.Fibertest.RtuManagement
                     var enabled = _serviceIni.Read(IniSection.Recovering, IniKey.RebootSystemEnabled, false);
                     if (enabled)
                     {
-                        _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ClearArp);
+                        _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.RebootPc);
                         var delay = _serviceIni.Read(IniSection.Recovering, IniKey.RebootSystemDelay, 60);
                         _rtuLog.AppendLine("Recovery procedure: Reboot system.");
                         _serviceLog.AppendLine("Recovery procedure: Reboot system.");
@@ -52,9 +39,15 @@ namespace Iit.Fibertest.RtuManagement
                     }
                     else
                     {
-                        _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ClearArp);
-                        ClearArp();
+                        _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ResetArpAndCharon);
+                        RestoreFunctions.ClearArp(_serviceIni, _serviceLog, _rtuLog);
+                        InitializeRtuManager(null);
                     }
+                    return;
+                case RecoveryStep.RebootPc:
+                    _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ResetArpAndCharon);
+                    RestoreFunctions.ClearArp(_serviceIni, _serviceLog, _rtuLog);
+                    InitializeRtuManager(null);
                     return;
             }
         }
@@ -67,7 +60,7 @@ namespace Iit.Fibertest.RtuManagement
 
             var mikrotikRebootAttemptsBeforeNotification = _rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootAttemptsBeforeNotification, 1);
             if (damagedOtau.RebootAttempts == mikrotikRebootAttemptsBeforeNotification)
-                SendByMsmq(new BopStateChangedDto(){RtuId = _id, OtauIp = damagedOtau.Ip, TcpPort = damagedOtau.TcpPort, IsOk = false});
+                SendByMsmq(new BopStateChangedDto() { RtuId = _id, OtauIp = damagedOtau.Ip, TcpPort = damagedOtau.TcpPort, IsOk = false });
 
             _serviceLog.AppendLine($"Mikrotik {damagedOtau.Ip} reboot N{damagedOtau.RebootAttempts}");
             _rtuLog.AppendLine($"Reboot attempt N{damagedOtau.RebootAttempts}");

@@ -2,12 +2,27 @@ using System;
 using System.Diagnostics;
 using System.IO.Ports;
 using System.Threading;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.UtilsLib
 {
     public static class RestoreFunctions
     {
-        public static void ResetCharonThroughComPort(IniFile iniFile35, IMyLog logFile)
+        public static void ClearArp(IniFile serviceIni, IMyLog serviceLog, IMyLog rtuLog)
+        {
+            var logLevel = serviceIni.Read(IniSection.General, IniKey.LogLevel, 1);
+            var res = Arp.GetTable();
+            if (logLevel == 3)
+                serviceLog.AppendLine(res);
+            Arp.ClearCache();
+            rtuLog.AppendLine("Recovery procedure: Clear ARP table.");
+            serviceLog.AppendLine("Recovery procedure: Clear ARP table.");
+            res = Arp.GetTable();
+            if (logLevel == 3)
+                serviceLog.AppendLine(res);
+        }
+
+        public static ReturnCode ResetCharonThroughComPort(IniFile iniFile35, IMyLog logFile)
         {
             logFile.EmptyLine();
             logFile.AppendLine("Charon RESET");
@@ -23,7 +38,7 @@ namespace Iit.Fibertest.UtilsLib
             {
                 logFile.AppendLine(e.Message, 2);
                 logFile.AppendLine($"Can't open {comPortName}", 2);
-                return;
+                return ReturnCode.CharonComPortError;
             }
             logFile.AppendLine($"{comPortName} opened successfully.", 2);
 
@@ -41,6 +56,7 @@ namespace Iit.Fibertest.UtilsLib
             logFile.AppendLine($"Pause after charon reset {pause} seconds...");
             Thread.Sleep(TimeSpan.FromSeconds(pause));
             logFile.AppendLine("Charon reset finished", 2);
+            return ReturnCode.Ok;
         }
 
         public static void RebootSystem(IMyLog logFile, int delay)

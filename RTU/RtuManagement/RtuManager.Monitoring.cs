@@ -303,7 +303,7 @@ namespace Iit.Fibertest.RtuManagement
                         }
                         else
                         {
-                            _rtuIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
+                            _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
                         }
                         return true;
                     }
