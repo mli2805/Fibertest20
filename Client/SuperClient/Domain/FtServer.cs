@@ -1,5 +1,4 @@
-﻿using System;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 
 namespace Iit.Fibertest.SuperClient
 {
