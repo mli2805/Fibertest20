@@ -41,7 +41,7 @@ namespace Iit.Fibertest.SuperClient
             _windowManager = windowManager;
             _logFile = logFile;
             FtServerList = ftServerList;
-            FtServerList.Read();
+            FtServerList.DeserializeAndDecrypt();
             _gasketViewModel = gasketViewModel;
             SelectedFtServer = FtServerList.Servers.FirstOrDefault();
             _childStarter = childStarter;
