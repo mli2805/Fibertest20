@@ -104,7 +104,8 @@ namespace Iit.Fibertest.Client
             UserInWork = new UserVm();
             UserInWork.SmsReceiverVm.TestButtonPressed += SmsReceiverVm_TestButtonPressed;
 
-            Roles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(3).ToList();
+            var skip = _currentUser.Role == Role.Developer ? 1 : (int) _currentUser.Role + 1;
+            Roles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(skip).ToList();
             IsntItRoot = true;
 
             IsPasswordsEnabled = true;
@@ -149,16 +150,10 @@ namespace Iit.Fibertest.Client
             UserInWork = user;
             UserInWork.SmsReceiverVm.TestButtonPressed += SmsReceiverVm_TestButtonPressed;
 
-            if (UserInWork.Role == Role.Root)
-            {
-                Roles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(2).ToList(); // system & developer
-                IsntItRoot = false;
-            }
-            else
-            {
-                Roles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(3).ToList();
-                IsntItRoot = true;
-            }
+            var skip = _currentUser.Role == Role.Developer ? 1 : (int) _currentUser.Role + 1;
+            Roles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(skip).ToList();
+            IsntItRoot = UserInWork.Role > Role.Root;
+
             if (UserInWork.Role == 0)
                 UserInWork.Role = Roles.First();
 

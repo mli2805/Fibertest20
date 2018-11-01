@@ -72,7 +72,7 @@ namespace Iit.Fibertest.Client
             _zones = _readModel.Zones;
 
             Roles = Enum.GetValues(typeof(Role)).Cast<Role>().ToList();
-            foreach (var user in _users.Where(u => u.Role > Role.Developer))
+            foreach (var user in _users.Where(u => u.Role >= _currentUser.Role ))
                 Rows.Add(new UserVm(user, _zones.First(z => z.ZoneId == user.ZoneId).Title));
 
             _eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
