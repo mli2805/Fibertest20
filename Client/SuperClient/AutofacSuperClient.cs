@@ -2,6 +2,7 @@ using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.SuperClient
 {
@@ -11,9 +12,11 @@ namespace Iit.Fibertest.SuperClient
         {
             builder.RegisterType<ShellViewModel>().As<IShell>();
             builder.RegisterType<D2CWcfManager>().SingleInstance();
+            builder.RegisterType<C2DWcfManager>().SingleInstance();
 
             builder.RegisterType<LogFile>().As<IMyLog>().SingleInstance();
             builder.RegisterType<WindowManager>().As<IWindowManager>().SingleInstance();
+            builder.RegisterType<WaitCursor>().As<IWaitCursor>();
 
             builder.RegisterType<SuperClientWcfService>().InstancePerLifetimeScope();
             builder.RegisterType<SuperClientWcfServiceHost>().InstancePerLifetimeScope();

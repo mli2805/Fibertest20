@@ -5889,7 +5889,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This user has no right to start client.
+        ///   Looks up a localized string similar to This user has no right to start Fibertest Client.
         /// </summary>
         public static string SID_This_user_has_no_right_to_start_client {
             get {
@@ -5898,7 +5898,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to This user has no right to start SuperClient.
+        ///   Looks up a localized string similar to This user has no right to start Fibertest SuperClient.
         /// </summary>
         public static string SID_This_user_has_no_right_to_start_SuperClient {
             get {

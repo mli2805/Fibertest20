@@ -71,6 +71,7 @@ namespace Iit.Fibertest.Client
         {
 #if DEBUG
             if (string.IsNullOrEmpty(UserName))
+//                UserName = @"superclient";
                 UserName = @"developer";
 //                            UserName = @"operator";
 //                            UserName = @"Op";
@@ -78,6 +79,7 @@ namespace Iit.Fibertest.Client
             //                UserName = @"root";
 //                UserName = @"Brigadir";
             if (string.IsNullOrEmpty(Password))
+//                Password = @"superclient";
                 Password = @"developer";
 //                            Password = @"operator";
 //                            Password = @"1";

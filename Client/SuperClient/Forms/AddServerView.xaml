@@ -6,31 +6,40 @@
         xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews;assembly=Iit.Fibertest.WpfCommonViews"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        Title="AddServerView" SizeToContent="WidthAndHeight" d:DataContext="{d:DesignData AddServerViewModel}">
+        SizeToContent="WidthAndHeight" d:DataContext="{d:DesignData AddServerViewModel}">
     <DockPanel Margin="5">
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5,5,45,5" HorizontalAlignment="Right">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="15,5,25,15" HorizontalAlignment="Right">
             <Button Name="Save" Content="{x:Static stringResources:Resources.SID_Save}" Margin="5" Width="120" />
             <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" IsCancel="True" Margin="5" Width="120" />
         </StackPanel>
-        <Button DockPanel.Dock="Bottom" Name="CheckConnection"
-                Content="{x:Static stringResources:Resources.SID_Check_connection}" Margin="5,25,50,15" Width="120"
-                HorizontalAlignment="Right" />
-        <StackPanel Margin="45,15,5,5" DockPanel.Dock="Left">
-            <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Server_title}"
-                       HorizontalAlignment="Right" />
-            <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Server_ip_address}" HorizontalAlignment="Right" />
-            <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Server_tcp_port}" HorizontalAlignment="Right" />
-            <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_User_name}" HorizontalAlignment="Right" />
-            <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_User_password}" HorizontalAlignment="Right" />
+        <StackPanel DockPanel.Dock="Top" Margin="45,15,5,5" Orientation="Horizontal">
+            <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_Server_title}" TextAlignment="Right" />
+            <TextBox Margin="15,0" Width="120" Text="{Binding ServerTitle}" />
         </StackPanel>
-        <StackPanel Margin="5,15,45,5">
-            <TextBox Margin="5,4" Width="120" Text="{Binding ServerTitle}" />
-            <TextBox Margin="5,4" Width="120" Text="{Binding ServerIp}" />
-            <TextBox Margin="5,4" Width="120" Text="{Binding ServerTcpPort}" />
-            <TextBox Margin="5,4" Width="120" Text="{Binding Username}" />
+        <StackPanel DockPanel.Dock="Top" Margin="45,5,5,5" Orientation="Horizontal">
+            <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_Server_ip_address}" TextAlignment="Right" />
+            <TextBox Margin="15,0" Width="120" Text="{Binding ServerIp}" />
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Top" Margin="45,5,5,5" Orientation="Horizontal">
+            <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_Server_tcp_port}" TextAlignment="Right" />
+            <TextBox Margin="15,0" Width="120" Text="{Binding ServerTcpPort}" />
+        </StackPanel>
+
+        <Button DockPanel.Dock="Top" Name="CheckConnection"
+                Content="{x:Static stringResources:Resources.SID_Test}" Margin="0,10,30,15" Width="120"
+                HorizontalAlignment="Right" />
+
+        <StackPanel DockPanel.Dock="Top" Margin="45,15,5,5" Orientation="Horizontal">
+            <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_User_name}" TextAlignment="Right" />
+            <TextBox Margin="15,0" Width="120" Text="{Binding Username}" />
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Top" Margin="45,5,5,15" Orientation="Horizontal">
+            <TextBlock Margin="5,0" Width="120" Text="{x:Static stringResources:Resources.SID_User_password}" TextAlignment="Right" />
             <PasswordBox wpfCommonViews:PasswordHelper.Attach="True"
                          wpfCommonViews:PasswordHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                         Margin="5,4" Width="120" />
+                         Margin="15,0" Width="120" />
         </StackPanel>
+
+
     </DockPanel>
 </Window>
