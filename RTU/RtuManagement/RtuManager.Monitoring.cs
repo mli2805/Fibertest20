@@ -201,6 +201,9 @@ namespace Iit.Fibertest.RtuManagement
                 RunMainCharonRecovery();
                 return null;
             }
+
+            _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
+            
             SendCurrentMonitoringStep(MonitoringCurrentStep.Analysis, monitorigPort, baseRefType);
             var measBytes = _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
             var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
@@ -301,10 +304,7 @@ namespace Iit.Fibertest.RtuManagement
                             SendByMsmq(dto);
                             _damagedOtaus.Remove(damagedOtau);
                         }
-                        else
-                        {
-                            _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
-                        }
+                   
                         return true;
                     }
                 case CharonOperationResult.MainOtauError:

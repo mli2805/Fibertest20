@@ -76,12 +76,12 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return error == 0;
         }
 
-        public bool DoMeasurementStep(ref IntPtr sorData)
+        public int DoMeasurementStep(ref IntPtr sorData)
         {
             var result = MeasStep(ref sorData);
 //            if (result != 0)
-//                _rtuLogger.AppendLine($"MeasStep returned {(MeasStepReturns)result}");
-            return result == 0;
+//                _rtuLogger.AppendLine($"MeasStep returned {result}");
+            return result;
         }
 
         public int StopMeasurement(bool isImmediateStop)

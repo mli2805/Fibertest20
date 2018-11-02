@@ -74,7 +74,14 @@ namespace Iit.Fibertest.IitOtdrLibrary
                         return ReturnCode.MeasurementInterrupted;
                     }
 
-                    hasMoreSteps = InterOpWrapper.DoMeasurementStep(ref _sorData);
+                    var result = InterOpWrapper.DoMeasurementStep(ref _sorData);
+                    if (result != 0 && result != 10001)
+                    {
+                        _rtuLogger.AppendLine($"MeasStep returned {result}");
+                        return ReturnCode.MeasurementError;
+                    }
+                    hasMoreSteps = result == 0;
+
                 } while (hasMoreSteps);
 
             }

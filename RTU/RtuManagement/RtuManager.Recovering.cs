@@ -2,6 +2,7 @@
 using System.Threading;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using System.ServiceProcess;
 
 namespace Iit.Fibertest.RtuManagement
 {
@@ -18,13 +19,16 @@ namespace Iit.Fibertest.RtuManagement
                 case RecoveryStep.Ok:
                     _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ResetArpAndCharon);
                     RestoreFunctions.ClearArp(_serviceIni, _serviceLog, _rtuLog);
-                    InitializeRtuManager(null);
+                    InitializeRtuManager(null); // Reset Charon
                     return;
                 case RecoveryStep.ResetArpAndCharon:
                     _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.RestartService);
                     _rtuLog.AppendLine("Recovery procedure: Exit rtu service.");
                     _serviceLog.AppendLine("Recovery procedure: Exit rtu service.");
-                    Environment.FailFast("Recovery procedure: Exit rtu service.");
+                   // Environment.FailFast("Recovery procedure: Exit rtu service.");
+//                    Environment.Exit(1); // ваще не выходит
+                    var svc = new ServiceController("FibertestRtuService");
+                    svc.Stop();
                     return;
                 case RecoveryStep.RestartService:
                     var enabled = _serviceIni.Read(IniSection.Recovering, IniKey.RebootSystemEnabled, false);
