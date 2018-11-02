@@ -166,7 +166,7 @@ namespace Iit.Fibertest.DataCenterCore
             result.GraphDbVersionId = _eventStoreService.GraphDbVersionId;
 
             var command = new RegisterClientStation() { RegistrationResult = result.ReturnCode };
-            await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
+            await _eventStoreService.SendCommand(command, dto.UserName, dto.ClientIp);
 
             return result;
         }

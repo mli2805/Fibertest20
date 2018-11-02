@@ -88,24 +88,24 @@ namespace Iit.Fibertest.Client
             Status = Resources.SID_Client_registraion_is_performing;
 //            using (_globalScope.Resolve<IWaitCursor>())
             {
-                await RegisterClientAsync(UserName, Password);
+                await RegisterClientAsync(UserName, Password, false);
             }
 
         }
 
         // public to start under super-client
-        public async Task RegisterClientAsync(string username, string password)
+        public async Task RegisterClientAsync(string username, string password, bool isUnderSuperClient)
         {
             _logFile.AppendLine(@"Client registration attempt");
             var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
             _currentDatacenterParameters.ServerIp = dcServiceAddresses.Main.Ip4Address;
             _currentDatacenterParameters.ServerTitle = _iniFile.Read(IniSection.Server, IniKey.ServerTitle, "");
-            var result = await PureRegisterClientAsync(dcServiceAddresses, (int)TcpPorts.ClientListenTo, username, password );
-            ParseServerAnswer(result);
+            var dto = await PureRegisterClientAsync(dcServiceAddresses, (int)TcpPorts.ClientListenTo, username, password, isUnderSuperClient);
+            ParseServerAnswer(dto);
         }
 
         private async Task<ClientRegisteredDto> PureRegisterClientAsync(
-            DoubleAddress dcServiceAddresses, int clientTcpPort, string username, string password)
+            DoubleAddress dcServiceAddresses, int clientTcpPort, string username, string password, bool isUnderSuperClient)
         {
             var clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, clientTcpPort);
             if (clientAddress.IsAddressSetAsIp && clientAddress.Ip4Address == @"0.0.0.0" &&
@@ -123,6 +123,7 @@ namespace Iit.Fibertest.Client
                     Addresses = new DoubleAddress() {Main = clientAddress, HasReserveAddress = false},
                     UserName = username,
                     Password = password,
+                    IsUnderSuperClient = isUnderSuperClient,
                 });
 
             if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)

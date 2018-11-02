@@ -2521,15 +2521,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Failed to send test SMS!.
-        /// </summary>
-        public static string SID_Failed_to_send_test_SMS_ {
-            get {
-                return ResourceManager.GetString("SID_Failed_to_send_test_SMS_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Fast.
         /// </summary>
         public static string SID_Fast {
@@ -5817,15 +5808,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Test SMS sent successfully!.
-        /// </summary>
-        public static string SID_Test_SMS_sent_successfully_ {
-            get {
-                return ResourceManager.GetString("SID_Test_SMS_sent_successfully_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to * The changes will be applied after application restart.
         /// </summary>
         public static string SID_The_changes_will_be_applied_after_application_restart {
@@ -5912,6 +5894,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_This_user_has_no_right_to_start_client {
             get {
                 return ResourceManager.GetString("SID_This_user_has_no_right_to_start_client", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This user has no right to start SuperClient.
+        /// </summary>
+        public static string SID_This_user_has_no_right_to_start_SuperClient {
+            get {
+                return ResourceManager.GetString("SID_This_user_has_no_right_to_start_SuperClient", resourceCulture);
             }
         }
         

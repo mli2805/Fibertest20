@@ -113,7 +113,7 @@ namespace Iit.Fibertest.Client
                 _iniFile.Write(IniSection.General, IniKey.Culture, _commandLineParameters.SuperClientCulture);
                 _iniFile.Write(IniSection.ClientLocalAddress, IniKey.TcpPort, (int)TcpPorts.ClientListenTo + _commandLineParameters.ClientOrdinal);
                 _iniFile.Write(IniSection.Miscellaneous, IniKey.IsGraphVisibleOnStart, false);
-                await _loginViewModel.RegisterClientAsync(_commandLineParameters.Username, _commandLineParameters.Password);
+                await _loginViewModel.RegisterClientAsync(_commandLineParameters.Username, _commandLineParameters.Password, true);
             }
             else
                 _windowManager.ShowDialog(_loginViewModel);

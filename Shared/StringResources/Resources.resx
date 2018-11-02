@@ -2289,7 +2289,7 @@ RTU is initializing right now!</value>
     <value>User settings</value>
   </data>
 	<data name="SID_This_user_has_no_right_to_start_client" xml:space="preserve">
-    <value>This user has no right to start client</value>
+    <value>This user has no right to start Fibertest Client</value>
   </data>
 	<data name="SID_Set_password" xml:space="preserve">
     <value>Set password</value>
@@ -2344,5 +2344,8 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Failed_to_place_test_SMS_into_sending_queue" xml:space="preserve">
     <value>Failed to place test SMS into sending queue</value>
+  </data>
+	<data name="SID_This_user_has_no_right_to_start_SuperClient" xml:space="preserve">
+    <value>This user has no right to start Fibertest SuperClient</value>
   </data>
 </root>

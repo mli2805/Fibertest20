@@ -31,9 +31,22 @@ namespace Iit.Fibertest.DataCenterCore
             var user = _writeModel.Users.FirstOrDefault(u => u.Title == dto.UserName && UserExt.FlipFlop(u.EncodedPassword) == dto.Password);
             return user == null
                 ? new ClientRegisteredDto { ReturnCode = ReturnCode.NoSuchUserOrWrongPassword }
-                : user.Role == Role.NotificationReceiver 
-                    ? new ClientRegisteredDto(){ ReturnCode = ReturnCode.UserHasNoRightsToStartClient } 
-                    : RegisterClientStation(dto, user);
+                : HasRight(dto, user);
+        }
+
+        private ClientRegisteredDto HasRight(RegisterClientDto dto, User user)
+        {
+            if (!dto.IsUnderSuperClient)
+            {
+                if (user.Role >= Role.Superclient)
+                    return new ClientRegisteredDto() {ReturnCode = ReturnCode.UserHasNoRightsToStartClient};
+            }
+            else
+            {
+                if  (user.Role != Role.Superclient && user.Role != Role.Developer)
+                    return new ClientRegisteredDto() {ReturnCode = ReturnCode.UserHasNoRightsToStartSuperClient};
+            }
+            return RegisterClientStation(dto, user);
         }
 
         private ClientRegisteredDto RegisterClientStation(RegisterClientDto dto, User user)
@@ -92,7 +105,7 @@ namespace Iit.Fibertest.DataCenterCore
             station.UserId = user.UserId;
             station.UserName = dto.UserName;
             station.LastConnectionTimestamp = DateTime.Now;
-            _logFile.AppendLine($"Client {dto.Username} from {dto.ClientIp} was registered already. Re-registered.");
+            _logFile.AppendLine($"Client {dto.UserName} from {dto.ClientIp} was registered already. Re-registered.");
         }
 
         private void RegisterNew(RegisterClientDto dto, User user)
@@ -108,7 +121,7 @@ namespace Iit.Fibertest.DataCenterCore
                 LastConnectionTimestamp = DateTime.Now,
             };
             _clients.Add(station);
-            _logFile.AppendLine($"Client {dto.Username} from {dto.ClientIp} registered");
+            _logFile.AppendLine($"Client {dto.UserName} from {dto.ClientIp} registered");
         }
 
         private ClientRegisteredDto FillInSuccessfulResult(User user)

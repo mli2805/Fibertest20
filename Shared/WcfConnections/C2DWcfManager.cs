@@ -165,7 +165,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 dto.ClientId = _clientId;
-                dto.Username = _username;
+                dto.UserName = _username;
                 dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.RegisterClientAsync(dto);

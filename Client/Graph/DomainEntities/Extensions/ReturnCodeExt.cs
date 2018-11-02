@@ -61,6 +61,8 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Exceeded_the_number_of_super_clients_registered_simultaneously;
                 case ReturnCode.UserHasNoRightsToStartClient:
                     return Resources.SID_This_user_has_no_right_to_start_client;
+                case ReturnCode.UserHasNoRightsToStartSuperClient:
+                    return Resources.SID_This_user_has_no_right_to_start_SuperClient;
                 case ReturnCode.ClientRegisteredSuccessfully:
                     return @"OK";
 

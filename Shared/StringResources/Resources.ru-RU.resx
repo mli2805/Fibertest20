@@ -2289,7 +2289,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Настройки пользователя</value>
 	</data>
 	<data name="SID_This_user_has_no_right_to_start_client" xml:space="preserve">
-		<value>Данный пользователь не имеет прав на запуск клиента</value>
+		<value>Данный пользователь не имеет прав на запуск ПО FIbertest Client</value>
 	</data>
 	<data name="SID_Set_password" xml:space="preserve">
 		<value>Задать пароль</value>
@@ -2344,5 +2344,8 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Failed_to_place_test_SMS_into_sending_queue" xml:space="preserve">
 		<value>Не удалось поместить тестовую SMS в очередь на отправку</value>
+	</data>
+	<data name="SID_This_user_has_no_right_to_start_SuperClient" xml:space="preserve">
+		<value>Данный пользователь не имеет прав на запуск ПО FIbertest SuperClient</value>
 	</data>
 </root>
