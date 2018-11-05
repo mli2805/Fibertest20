@@ -206,6 +206,7 @@ namespace Iit.Fibertest.RtuManagement
             
             SendCurrentMonitoringStep(MonitoringCurrentStep.Analysis, monitorigPort, baseRefType);
             var measBytes = _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
+            _rtuLog.AppendLine($"Auto analysis applied. Now sor data has ({measBytes.Length}) bytes");
             var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
             monitorigPort.SaveMeasBytes(baseRefType, measBytes); // so re-save meas after comparison
             moniResult.BaseRefType = baseRefType;

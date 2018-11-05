@@ -111,7 +111,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 _rtuLogger.AppendLine("Error in GetLastSorData");
                 return null;
             }
-            //            _rtuLogger.AppendLine("Measurement result received.");
+            _rtuLogger.AppendLine($"Measurement result received ({buffer.Length}) bytes.");
             return buffer;
         }
 
