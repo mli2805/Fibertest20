@@ -68,6 +68,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 int step = 0;
                 do
                 {
+                    step++;
                     if (cts.IsCancellationRequested)
                     {
                         InterOpWrapper.StopMeasurement(true);
@@ -76,7 +77,6 @@ namespace Iit.Fibertest.IitOtdrLibrary
                     }
 
                     var result = InterOpWrapper.DoMeasurementStep(ref _sorData);
-                    step++;
                     var buffer = GetLastSorDataBuffer();
                     _rtuLogger.AppendLine($"MeasStep #{step} returned {buffer.Length} bytes", 0, 3);
 

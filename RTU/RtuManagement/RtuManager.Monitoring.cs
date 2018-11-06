@@ -207,6 +207,15 @@ namespace Iit.Fibertest.RtuManagement
             SendCurrentMonitoringStep(MonitoringCurrentStep.Analysis, monitorigPort, baseRefType);
             var buffer = _otdrManager.GetLastSorDataBuffer();
             _rtuLog.AppendLine($"Measurement result ({buffer.Length} bytes).");
+
+            if (!_otdrManager.InterOpWrapper.PrepareMeasurement(true))
+            {
+                _rtuLog.AppendLine("Additional check after measurement failed! Measurement result dismissed!");
+                RunMainCharonRecovery();
+                return null;
+
+            }
+
             var measBytes = _otdrManager.ApplyAutoAnalysis(buffer); // is ApplyAutoAnalysis necessary ?
             _rtuLog.AppendLine($"Auto analysis applied. Now sor data has ({measBytes.Length} bytes).");
             var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
