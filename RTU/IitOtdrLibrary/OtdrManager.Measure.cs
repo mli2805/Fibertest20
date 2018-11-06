@@ -65,6 +65,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             try
             {
                 bool hasMoreSteps;
+                int step = 0;
                 do
                 {
                     if (cts.IsCancellationRequested)
@@ -75,6 +76,11 @@ namespace Iit.Fibertest.IitOtdrLibrary
                     }
 
                     var result = InterOpWrapper.DoMeasurementStep(ref _sorData);
+                    step++;
+                    var buffer = GetLastSorDataBuffer();
+                    _rtuLogger.AppendLine($"MeasStep #{step} returned {buffer.Length} bytes", 0, 3);
+
+
                     if (result != 0 && result != 10001)
                     {
                         _rtuLogger.AppendLine($"MeasStep returned {result}");
@@ -111,7 +117,6 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 _rtuLogger.AppendLine("Error in GetLastSorData");
                 return null;
             }
-            _rtuLogger.AppendLine($"Measurement result received ({buffer.Length}) bytes.");
             return buffer;
         }
 

@@ -18,7 +18,7 @@ namespace Iit.Fibertest.RtuManagement
             {
                 case RecoveryStep.Ok:
                     _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ResetArpAndCharon);
-                    RestoreFunctions.ClearArp(_serviceIni, _serviceLog, _rtuLog);
+                    RestoreFunctions.ClearArp(_serviceLog, _rtuLog);
                     InitializeRtuManager(null); // Reset Charon
                     return;
                 case RecoveryStep.ResetArpAndCharon:
@@ -44,13 +44,13 @@ namespace Iit.Fibertest.RtuManagement
                     else
                     {
                         _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ResetArpAndCharon);
-                        RestoreFunctions.ClearArp(_serviceIni, _serviceLog, _rtuLog);
+                        RestoreFunctions.ClearArp(_serviceLog, _rtuLog);
                         InitializeRtuManager(null);
                     }
                     return;
                 case RecoveryStep.RebootPc:
                     _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ResetArpAndCharon);
-                    RestoreFunctions.ClearArp(_serviceIni, _serviceLog, _rtuLog);
+                    RestoreFunctions.ClearArp(_serviceLog, _rtuLog);
                     InitializeRtuManager(null);
                     return;
             }

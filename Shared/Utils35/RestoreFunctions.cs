@@ -8,18 +8,16 @@ namespace Iit.Fibertest.UtilsLib
 {
     public static class RestoreFunctions
     {
-        public static void ClearArp(IniFile serviceIni, IMyLog serviceLog, IMyLog rtuLog)
+        public static void ClearArp(IMyLog serviceLog, IMyLog rtuLog)
         {
-            var logLevel = serviceIni.Read(IniSection.General, IniKey.LogLevel, 1);
             var res = Arp.GetTable();
-            if (logLevel == 3)
-                serviceLog.AppendLine(res);
+            serviceLog.AppendLine(res, 0, 3);
             Arp.ClearCache();
             rtuLog.AppendLine("Recovery procedure: Clear ARP table.");
+            rtuLog.AppendLine("Recovery procedure: Reset Charon");
             serviceLog.AppendLine("Recovery procedure: Clear ARP table and Reset Charon.");
             res = Arp.GetTable();
-            if (logLevel == 3)
-                serviceLog.AppendLine(res);
+            serviceLog.AppendLine(res, 0, 3);
         }
 
         public static ReturnCode ResetCharonThroughComPort(IniFile iniFile35, IMyLog logFile)

@@ -197,7 +197,7 @@ namespace Iit.Fibertest.RtuManagement
             }
 
             if (result != ReturnCode.MeasurementEndedNormally)
-            {                                 // IIT Error 814 during measurement prepare
+            {                                 
                 RunMainCharonRecovery();
                 return null;
             }
@@ -205,8 +205,10 @@ namespace Iit.Fibertest.RtuManagement
             _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
             
             SendCurrentMonitoringStep(MonitoringCurrentStep.Analysis, monitorigPort, baseRefType);
-            var measBytes = _otdrManager.ApplyAutoAnalysis(_otdrManager.GetLastSorDataBuffer()); // is ApplyAutoAnalysis necessary ?
-            _rtuLog.AppendLine($"Auto analysis applied. Now sor data has ({measBytes.Length}) bytes");
+            var buffer = _otdrManager.GetLastSorDataBuffer();
+            _rtuLog.AppendLine($"Measurement result ({buffer.Length} bytes).");
+            var measBytes = _otdrManager.ApplyAutoAnalysis(buffer); // is ApplyAutoAnalysis necessary ?
+            _rtuLog.AppendLine($"Auto analysis applied. Now sor data has ({measBytes.Length} bytes).");
             var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
             monitorigPort.SaveMeasBytes(baseRefType, measBytes); // so re-save meas after comparison
             moniResult.BaseRefType = baseRefType;

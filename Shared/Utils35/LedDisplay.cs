@@ -7,10 +7,9 @@ namespace Iit.Fibertest.UtilsLib
     {
         public static void Show(IniFile iniFile35, IMyLog logFile, LedDisplayCode code)
         {
-            logFile.AppendLine($"Write <{code.ToString()}> on led display");
+            logFile.AppendLine($"Write <{code.ToString()}> on led display", 3);
             string comPortName = iniFile35.Read(IniSection.Charon, IniKey.ComPort, "COM2");
             int comSpeed = iniFile35.Read(IniSection.Charon, IniKey.ComSpeed, 115200);
-            int charonLogLevel = iniFile35.Read(IniSection.Charon, IniKey.LogLevel, 4);
 
             var serialPort = new SerialPort(comPortName, comSpeed);
             try
@@ -20,11 +19,10 @@ namespace Iit.Fibertest.UtilsLib
             catch (Exception e)
             {
                 logFile.AppendLine(e.Message, 2);
-                logFile.AppendLine($"Can't open {comPortName}", 2);
+                logFile.AppendLine($"Can't open {comPortName}");
                 return;
             }
-            if (charonLogLevel >= 2)
-                logFile.AppendLine($"{comPortName} opened successfully.", 2);
+            logFile.AppendLine($"{comPortName} opened successfully.", 0, 3);
 
             byte[] buffer = new byte[] { (byte)code };
             try
@@ -35,7 +33,7 @@ namespace Iit.Fibertest.UtilsLib
             catch (Exception e)
             {
                 logFile.AppendLine(e.Message, 2);
-                logFile.AppendLine($"Can't send to {comPortName}", 2);
+                logFile.AppendLine($"Can't send to {comPortName}");
             }
         }
     }
