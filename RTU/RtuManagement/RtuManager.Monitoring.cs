@@ -225,6 +225,8 @@ namespace Iit.Fibertest.RtuManagement
                 }
                var otdrInitializationResult = InitializeOtdr();
                 _rtuLog.AppendLine($"OTDR initialization result - {otdrInitializationResult.ToString()}");
+                _serviceLog.EmptyLine();
+                _serviceLog.AppendLine($"OTDR initialization result - {otdrInitializationResult.ToString()}");
                // RunMainCharonRecovery();
                 return null;
 
