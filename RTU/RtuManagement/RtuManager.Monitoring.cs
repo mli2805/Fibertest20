@@ -211,9 +211,21 @@ namespace Iit.Fibertest.RtuManagement
             // just to check whether OTDR still works and measurement is reliable
             if (!_otdrManager.InterOpWrapper.PrepareMeasurement(true))
             {
-                _rtuLog.AppendLine("Additional check after measurement failed! Measurement result dismissed!");
-                monitorigPort.SaveMeasBytes(baseRefType, buffer, true); // save meas if error
-                RunMainCharonRecovery();
+                _rtuLog.AppendLine("Additional check after measurement failed!");
+
+                try
+                {
+                    _rtuLog.AppendLine($"Save measurement result {buffer.Length}!");
+                    monitorigPort.SaveMeasBytes(baseRefType, buffer, true); // save meas if error
+                    _rtuLog.AppendLine("Measurement saved");
+                }
+                catch (Exception e)
+                {
+                    _rtuLog.AppendLine($"SaveMeasBytes: {e.Message}");
+                }
+               var otdrInitializationResult = InitializeOtdr();
+                _rtuLog.AppendLine($"OTDR initialization result - {otdrInitializationResult.ToString()}");
+               // RunMainCharonRecovery();
                 return null;
 
             }

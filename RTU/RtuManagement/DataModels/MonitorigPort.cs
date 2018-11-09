@@ -101,7 +101,7 @@ namespace Iit.Fibertest.RtuManagement
         {
             var measfile = AppDomain.CurrentDomain.BaseDirectory + $@"..\PortData\{GetFolderName()}\{baseRefType.ToMeasFileName()}";
             if (isError)
-                measfile = measfile + $"_error_{DateTime.Now}";
+                measfile = measfile + $"_error_{DateTime.Now:yyyy-MM-dd-HH-mm-ss}";
             File.WriteAllBytes(measfile, bytes);
         }
     }
