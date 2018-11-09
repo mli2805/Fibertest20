@@ -97,9 +97,11 @@ namespace Iit.Fibertest.RtuManagement
             return null;
         }
 
-        public void SaveMeasBytes(BaseRefType baseRefType, byte[] bytes)
+        public void SaveMeasBytes(BaseRefType baseRefType, byte[] bytes, bool isError = false)
         {
             var measfile = AppDomain.CurrentDomain.BaseDirectory + $@"..\PortData\{GetFolderName()}\{baseRefType.ToMeasFileName()}";
+            if (isError)
+                measfile = measfile + $"_error_{DateTime.Now}";
             File.WriteAllBytes(measfile, bytes);
         }
     }

@@ -208,9 +208,11 @@ namespace Iit.Fibertest.RtuManagement
             var buffer = _otdrManager.GetLastSorDataBuffer();
             _rtuLog.AppendLine($"Measurement result ({buffer.Length} bytes).");
 
+            // just to check whether OTDR still works and measurement is reliable
             if (!_otdrManager.InterOpWrapper.PrepareMeasurement(true))
             {
                 _rtuLog.AppendLine("Additional check after measurement failed! Measurement result dismissed!");
+                monitorigPort.SaveMeasBytes(baseRefType, buffer, true); // save meas if error
                 RunMainCharonRecovery();
                 return null;
 
