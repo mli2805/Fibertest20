@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.StringResources;
+﻿using System;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Dto
 {
@@ -8,6 +9,14 @@ namespace Iit.Fibertest.Dto
         Precise,
         Fast,
         Additional
+    }
+
+    public enum SorType
+    {
+        Base,
+        Meas,
+        Raw,   // before any processing
+        Error, // error while measurement
     }
 
     public static class BaseRefTypeExt
@@ -33,28 +42,30 @@ namespace Iit.Fibertest.Dto
             }
         }
 
-        private static string ToFileName(this BaseRefType baseRefType, string prefix)
+        public static string ToFileName(this BaseRefType baseRefType, SorType sorType)
         {
+            var dt = "";
+            if (sorType == SorType.Error) dt = $"_{DateTime.Now:yyyy-MM-dd-HH-mm-ss}";
             switch (baseRefType)
             {
                 case BaseRefType.Precise:
-                    return prefix + "Precise.sor";
+                    return $"Precise_{sorType}{dt}.sor";
                 case BaseRefType.Fast:
-                    return prefix + "Fast.sor";
+                    return $"Fast_{sorType}{dt}.sor";
                 case BaseRefType.Additional:
-                    return prefix + "Additional.sor";
+                    return $"Additional_{sorType}{dt}.sor";
                 default:
                     return "";
             }
         }
         public static string ToBaseFileName(this BaseRefType baseRefType)
         {
-            return ToFileName(baseRefType, "Base");
+            return ToFileName(baseRefType, SorType.Base);
         }
 
         public static string ToMeasFileName(this BaseRefType baseRefType)
         {
-            return ToFileName(baseRefType, "Meas");
+            return ToFileName(baseRefType, SorType.Meas);
         }
     }
 }

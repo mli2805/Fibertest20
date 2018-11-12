@@ -9,7 +9,7 @@
         RtuInitializedSuccessfully = 1001,
         OtdrInitializationCannotLoadDll = 1002,
         OtdrInitializationCannotInitializeDll = 1003,
-        OtdrCannotConnect = 1004,
+        FailedToConnectOtdr = 1004,
         OtauInitializationError = 1005,
         CharonComPortError = 1006,
 

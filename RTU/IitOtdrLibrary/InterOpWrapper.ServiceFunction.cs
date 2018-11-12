@@ -11,6 +11,18 @@ namespace Iit.Fibertest.IitOtdrLibrary
         public static extern int ServiceFunction(int cmd, ref int prm1, ref IntPtr prm2);
 
 
+        public string GetOtdrInfo(int infoType, IntPtr otdrInfo)
+        {
+            int cmd = (int) ServiceFunctionCommand.Getotdrinfo;
+
+            var result = ServiceFunction(cmd, ref infoType, ref otdrInfo);
+            if (result == 0) 
+                return Marshal.PtrToStringAnsi(otdrInfo);
+
+            _rtuLogger.AppendLine($"Get OTDR info error ={result}!");
+            return "";
+        }
+
         public bool SetBaseForComparison(IntPtr baseSorData)
         {
             int cmd = (int)ServiceFunctionCommand.Setbase;
@@ -41,5 +53,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 _rtuLogger.AppendLine($"MakeAutoAnalysis error={result}!");
             return result == 0;
         }
+
+      
     }
 }

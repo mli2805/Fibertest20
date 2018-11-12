@@ -55,7 +55,20 @@ namespace Iit.Fibertest.RtuManagement
 
             var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, DefaultIp);
             Thread.Sleep(300);
-            return _otdrManager.ConnectOtdr(otdrAddress) ? ReturnCode.Ok : ReturnCode.OtdrCannotConnect;
+            if (!_otdrManager.ConnectOtdr(otdrAddress))
+                return ReturnCode.FailedToConnectOtdr;
+
+            IntPtr ptr = IntPtr.Zero;
+            var mfid = _otdrManager.InterOpWrapper.GetOtdrInfo((int)GetOtdrInfo.ServiceCmdGetotdrinfoMfid, ptr);
+            _rtuLog.AppendLine($"MFID = {mfid}");
+           var mfsn = _otdrManager.InterOpWrapper.GetOtdrInfo((int)GetOtdrInfo.ServiceCmdGetotdrinfoMfsn, ptr);
+            _rtuLog.AppendLine($"MFSN = {mfsn}");
+           var omid = _otdrManager.InterOpWrapper.GetOtdrInfo((int)GetOtdrInfo.ServiceCmdGetotdrinfoOmid, ptr);
+            _rtuLog.AppendLine($"OMID = {omid}");
+           var omsn = _otdrManager.InterOpWrapper.GetOtdrInfo((int)GetOtdrInfo.ServiceCmdGetotdrinfoOmsn, ptr);
+            _rtuLog.AppendLine($"OMSN = {omsn}");
+            return ReturnCode.Ok;
+            // return _otdrManager.ConnectOtdr(otdrAddress) ? ReturnCode.Ok : ReturnCode.FailedToConnectOtdr;
         }
 
         private ReturnCode ReInitializeOtauOnUsersRequest(InitializeRtuDto dto)

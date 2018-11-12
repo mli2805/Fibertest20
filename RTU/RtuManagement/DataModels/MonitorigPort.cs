@@ -97,12 +97,18 @@ namespace Iit.Fibertest.RtuManagement
             return null;
         }
 
-        public void SaveMeasBytes(BaseRefType baseRefType, byte[] bytes, bool isError = false)
+        public void SaveMeasBytes(BaseRefType baseRefType, byte[] bytes, SorType sorType, IMyLog rtuLog)
         {
-            var measfile = AppDomain.CurrentDomain.BaseDirectory + $@"..\PortData\{GetFolderName()}\{baseRefType.ToMeasFileName()}";
-            if (isError)
-                measfile = measfile + $"_error_{DateTime.Now:yyyy-MM-dd-HH-mm-ss}";
-            File.WriteAllBytes(measfile, bytes);
+            var measfile = AppDomain.CurrentDomain.BaseDirectory + $@"..\PortData\{GetFolderName()}\{baseRefType.ToFileName(sorType)}";
+            try
+            {
+                File.WriteAllBytes(measfile, bytes);
+            }
+            catch (Exception e)
+            {
+                rtuLog.AppendLine($"Failed to persist measurement data into {measfile}");
+                rtuLog.AppendLine(e.Message);
+            }
         }
     }
 }

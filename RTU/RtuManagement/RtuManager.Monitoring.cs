@@ -216,14 +216,13 @@ namespace Iit.Fibertest.RtuManagement
                 try
                 {
                     _rtuLog.AppendLine($"Save measurement result {buffer.Length}!");
-                    monitorigPort.SaveMeasBytes(baseRefType, buffer, true); // save meas if error
+                    monitorigPort.SaveMeasBytes(baseRefType, buffer, SorType.Error, _rtuLog); // save meas if error
                     _rtuLog.AppendLine("Measurement saved");
                 }
                 catch (Exception e)
                 {
                     _rtuLog.AppendLine($"SaveMeasBytes: {e.Message}");
                 }
-
 
 
                 var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, DefaultIp);
@@ -234,15 +233,15 @@ namespace Iit.Fibertest.RtuManagement
                 _serviceLog.AppendLine($"OTDR initialization result - {otdrInitializationResult.ToString()}");
                // RunMainCharonRecovery();
 
-
                 return null;
 
             }
+            monitorigPort.SaveMeasBytes(baseRefType, buffer, SorType.Raw, _rtuLog); // for investigations purpose
 
             var measBytes = _otdrManager.ApplyAutoAnalysis(buffer); // is ApplyAutoAnalysis necessary ?
             _rtuLog.AppendLine($"Auto analysis applied. Now sor data has ({measBytes.Length} bytes).");
             var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
-            monitorigPort.SaveMeasBytes(baseRefType, measBytes); // so re-save meas after comparison
+            monitorigPort.SaveMeasBytes(baseRefType, measBytes, SorType.Meas, _rtuLog); // so re-save meas after comparison
             moniResult.BaseRefType = baseRefType;
 
             LastSuccessfullMeasTimestamp = DateTime.Now;

@@ -1,5 +1,13 @@
 ﻿namespace Iit.Fibertest.Dto
 {
+    public enum GetOtdrInfo
+    {
+        ServiceCmdGetotdrinfoMfid    =  1,
+        ServiceCmdGetotdrinfoMfsn    =  2,
+        ServiceCmdGetotdrinfoOmsn    =  3,
+        ServiceCmdGetotdrinfoOmid    =  4,
+    }
+
     public enum ServiceFunctionCommand
     {
         IitServiceXxx = 700,
