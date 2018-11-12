@@ -58,14 +58,13 @@ namespace Iit.Fibertest.RtuManagement
             if (!_otdrManager.ConnectOtdr(otdrAddress))
                 return ReturnCode.FailedToConnectOtdr;
 
-            IntPtr ptr = IntPtr.Zero;
-            var mfid = _otdrManager.InterOpWrapper.GetOtdrInfo((int)GetOtdrInfo.ServiceCmdGetotdrinfoMfid, ptr);
+            var mfid = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetotdrinfoMfid);
             _rtuLog.AppendLine($"MFID = {mfid}");
-           var mfsn = _otdrManager.InterOpWrapper.GetOtdrInfo((int)GetOtdrInfo.ServiceCmdGetotdrinfoMfsn, ptr);
+           var mfsn = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetotdrinfoMfsn);
             _rtuLog.AppendLine($"MFSN = {mfsn}");
-           var omid = _otdrManager.InterOpWrapper.GetOtdrInfo((int)GetOtdrInfo.ServiceCmdGetotdrinfoOmid, ptr);
+           var omid = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetotdrinfoOmid);
             _rtuLog.AppendLine($"OMID = {omid}");
-           var omsn = _otdrManager.InterOpWrapper.GetOtdrInfo((int)GetOtdrInfo.ServiceCmdGetotdrinfoOmsn, ptr);
+           var omsn = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetotdrinfoOmsn);
             _rtuLog.AppendLine($"OMSN = {omsn}");
             return ReturnCode.Ok;
             // return _otdrManager.ConnectOtdr(otdrAddress) ? ReturnCode.Ok : ReturnCode.FailedToConnectOtdr;

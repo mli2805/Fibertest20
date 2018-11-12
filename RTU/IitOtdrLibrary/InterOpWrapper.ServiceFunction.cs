@@ -11,11 +11,13 @@ namespace Iit.Fibertest.IitOtdrLibrary
         public static extern int ServiceFunction(int cmd, ref int prm1, ref IntPtr prm2);
 
 
-        public string GetOtdrInfo(int infoType, IntPtr otdrInfo)
+        public string GetOtdrInfo(GetOtdrInfo infoType)
         {
             int cmd = (int) ServiceFunctionCommand.Getotdrinfo;
+            int prm = (int) infoType;
+            IntPtr otdrInfo = IntPtr.Zero;
 
-            var result = ServiceFunction(cmd, ref infoType, ref otdrInfo);
+            var result = ServiceFunction(cmd, ref prm, ref otdrInfo);
             if (result == 0) 
                 return Marshal.PtrToStringAnsi(otdrInfo);
 
