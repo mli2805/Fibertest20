@@ -223,11 +223,18 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     _rtuLog.AppendLine($"SaveMeasBytes: {e.Message}");
                 }
+
+
+
+                var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, DefaultIp);
+                _otdrManager.DisconnectOtdr(otdrAddress);
                var otdrInitializationResult = InitializeOtdr();
                 _rtuLog.AppendLine($"OTDR initialization result - {otdrInitializationResult.ToString()}");
                 _serviceLog.EmptyLine();
                 _serviceLog.AppendLine($"OTDR initialization result - {otdrInitializationResult.ToString()}");
                // RunMainCharonRecovery();
+
+
                 return null;
 
             }
