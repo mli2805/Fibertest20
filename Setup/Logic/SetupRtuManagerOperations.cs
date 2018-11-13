@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Iit.Fibertest.UtilsLib;
 
@@ -40,6 +41,9 @@ namespace Iit.Fibertest.Setup
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathRtuManager, fullRtuManagerPath, worker))
                 return false;
+
+            CleanAntiGhost(fullRtuManagerPath);
+
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUtils, fullUtilsPath, worker))
                 return false;
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, fullReflectPath, worker))
@@ -58,6 +62,21 @@ namespace Iit.Fibertest.Setup
 
             worker.ReportProgress((int)BwReturnProgressCode.RtuManagerSetupCompletedSuccessfully);
             return true;
+        }
+
+        private void CleanAntiGhost(string fullRtuManagerPath)
+        {
+            var filename = Path.Combine(fullRtuManagerPath, @"OtdrMeasEngine\Etc\param673.ini");
+            CleanAntiGhostInOneFile(filename);
+            var filename2 = Path.Combine(fullRtuManagerPath, @"OtdrMeasEngine\Etc_default\param673.ini");
+            CleanAntiGhostInOneFile(filename2);
+        }
+
+        private void CleanAntiGhostInOneFile(string filename)
+        {
+            var content = File.ReadAllLines(filename);
+            var newContent = content.Select(line => line == "aGost=1" ? "aGost=0" : line).ToList();
+            File.WriteAllLines(filename, newContent);
         }
     }
 }
