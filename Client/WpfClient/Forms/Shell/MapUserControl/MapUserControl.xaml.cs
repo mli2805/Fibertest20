@@ -40,9 +40,24 @@ namespace Iit.Fibertest.Client
             var provider = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.GMapProvider, @"OpenStreetMap");
             switch (provider)
             {
-                case "OpenStreetMap": MainMap.MapProvider = GMapProviders.OpenStreetMap; break;
-                case "GoogleMap": MainMap.MapProvider = GMapProviders.GoogleMap; break;
-                case "YandexMap": MainMap.MapProvider = GMapProviders.YandexMap; break;
+                case "OpenStreetMap":
+                {
+                    MainMap.MapProvider = GMapProviders.OpenStreetMap; 
+                    GMapProvider.Language = LanguageType.English;
+                    break;
+                }
+                case "GoogleMap":
+                {
+                    MainMap.MapProvider = GMapProviders.GoogleMap; 
+                    GMapProvider.Language = LanguageType.English;
+                    break;
+                }
+                case "YandexMap":
+                {
+                    MainMap.MapProvider = GMapProviders.YandexMap;
+                    GMapProvider.Language = LanguageType.Russian;
+                    break;
+                }
                 default: MainMap.MapProvider = GMapProviders.OpenStreetMap; break;
             }
         }

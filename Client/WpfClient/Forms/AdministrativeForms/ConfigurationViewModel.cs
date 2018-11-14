@@ -51,7 +51,7 @@ namespace Iit.Fibertest.Client
 
         public string SelectedProvider
         {
-            get { return _selectedProvider; }
+            get => _selectedProvider;
             set
             {
                 _selectedProvider = value; 
