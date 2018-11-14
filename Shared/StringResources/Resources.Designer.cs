@@ -2107,6 +2107,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit settings.
+        /// </summary>
+        public static string SID_Edit_settings {
+            get {
+                return ResourceManager.GetString("SID_Edit_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Email.
         /// </summary>
         public static string SID_Email {

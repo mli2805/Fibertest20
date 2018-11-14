@@ -15,6 +15,9 @@ namespace Iit.Fibertest.SuperClient
         private readonly C2DWcfManager _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 
+        private bool _isAddMode;
+        private FtServerEntity _entity;
+
         public string ServerTitle { get; set; }
 
         public string ServerIp { get; set; }
@@ -34,11 +37,32 @@ namespace Iit.Fibertest.SuperClient
             _windowManager = windowManager;
         }
 
+        public void Init(FtServerEntity serverEntity)
+        {
+            _entity = serverEntity;
+            if (serverEntity == null)
+            {
+                _isAddMode = true;
+                ServerTitle = "";
+                ServerIp = "";
+                ServerTcpPort = 11840;
+                Username = @"superclient";
+                Password = @"superclient";
+            }
+            else
+            {
+                _isAddMode = false;
+                ServerTitle = serverEntity.ServerTitle;
+                ServerIp = serverEntity.ServerIp;
+                ServerTcpPort = serverEntity.ServerTcpPort;
+                Username = serverEntity.Username;
+                Password = serverEntity.Password;
+            }
+        }
+
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = Resources.SID_Add_server;
-            ServerTitle = "";
-            ServerIp = "";
+            DisplayName = _isAddMode ? Resources.SID_Add_server : Resources.SID_Edit_settings;
         }
 
         public async void CheckConnection()
@@ -65,6 +89,12 @@ namespace Iit.Fibertest.SuperClient
 
         public void Save()
         {
+            if (_isAddMode) SaveNew(); else UpdateExisted();
+            TryClose();
+        }
+
+        private void SaveNew()
+        {
             var maxPostfix = _ftServerList.Servers.Any() ? _ftServerList.Servers.Select(x => x.Entity).Max(e => e.Postfix) : 0;
 
             var ftServerEntity = new FtServerEntity()
@@ -77,7 +107,17 @@ namespace Iit.Fibertest.SuperClient
                 Password = Password,
             };
             _ftServerList.Add(new FtServer() { Entity = ftServerEntity });
-            TryClose();
+        }
+
+        private void UpdateExisted()
+        {
+            _entity.ServerTitle = ServerTitle;
+            _entity.ServerIp = ServerIp;
+            _entity.ServerTcpPort = ServerTcpPort;
+            _entity.Username = Username;
+            _entity.Password = Password;
+
+            _ftServerList.EncryptAndSerialize();
         }
 
         public void Cancel()

@@ -2348,4 +2348,7 @@ RTU is initializing right now!</value>
 	<data name="SID_This_user_has_no_right_to_start_SuperClient" xml:space="preserve">
     <value>This user has no right to start Fibertest SuperClient</value>
   </data>
+	<data name="SID_Edit_settings" xml:space="preserve">
+    <value>Change server's settings</value>
+  </data>
 </root>

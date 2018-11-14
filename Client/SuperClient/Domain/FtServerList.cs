@@ -33,7 +33,7 @@ namespace Iit.Fibertest.SuperClient
             _filename = FileOperations.GetParentFolder(path) + @"\ini\servers.list";
         }
 
-        private void EncryptAndSerialize()
+        public void EncryptAndSerialize()
         {
             try
             {

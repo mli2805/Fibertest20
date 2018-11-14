@@ -67,9 +67,7 @@ namespace Iit.Fibertest.Client
 
             var iniFile = new IniFile();
             iniFile.AssignFile(iniFileName);
-
             builder.RegisterInstance(iniFile);
-            iniFile.Write(IniSection.Client, IniKey.ClientOrdinal, postfix);
 
             var assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);

@@ -108,7 +108,7 @@ namespace Iit.Fibertest.Client
         private void InitializeView()
         {
             Servers = new ObservableCollection<Server>();
-            ServerList.Load(_iniFile, _logFile).ForEach(s => Servers.Add(s));
+            ServerList.Load(_logFile).ForEach(s => Servers.Add(s));
             SelectedServer = Servers.FirstOrDefault(s => s.IsLastSelected) ?? Servers.FirstOrDefault();
             IsRemoveServerEnabled = Servers.Count > 0;
             if (SelectedServer == null)
@@ -239,7 +239,7 @@ namespace Iit.Fibertest.Client
             var clientAddress = new NetAddress(_clientAddress, TcpPorts.ClientListenTo);
             _iniFile.Write(clientAddress, IniSection.ClientLocalAddress);
 
-            ServerList.Save(serversList, _iniFile, _logFile);
+            ServerList.Save(serversList, _logFile);
         }
     }
 }

@@ -2348,4 +2348,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_This_user_has_no_right_to_start_SuperClient" xml:space="preserve">
 		<value>Данный пользователь не имеет прав на запуск ПО FIbertest SuperClient</value>
 	</data>
+	<data name="SID_Edit_settings" xml:space="preserve">
+		<value>Изменить настройки сервера</value>
+	</data>
 </root>

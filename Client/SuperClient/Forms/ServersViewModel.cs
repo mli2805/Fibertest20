@@ -86,10 +86,8 @@ namespace Iit.Fibertest.SuperClient
             _childStarter.CleanAfterClosing(server.Entity);
         }
 
-        public async void CloseSelectedClient()
+        private void ChangeSelectedClient()
         {
-            await CloseClient(SelectedFtServer);
-
             var selectedFtServer =
                 FtServerList.Servers.FirstOrDefault(s => s.ServerConnectionState == FtServerConnectionState.Connected);
             if (selectedFtServer != null)
@@ -130,13 +128,28 @@ namespace Iit.Fibertest.SuperClient
 
         public void AddServer()
         {
+            _addServerViewModel.Init(null);
             _windowManager.ShowDialog(_addServerViewModel);
         }
 
-        public void RemoveServer()
+        public void EditServer()
         {
-            CloseSelectedClient();
+            _addServerViewModel.Init(_selectedFtServer.Entity);
+            _windowManager.ShowDialog(_addServerViewModel);
+            _selectedFtServer.NotifyOfPropertyChange(nameof(_selectedFtServer.ServerName));
+        }
+
+        public async void CloseSelectedClient()
+        {
+            await CloseClient(SelectedFtServer);
+            ChangeSelectedClient();
+        }
+
+        public async void RemoveServer()
+        {
+            await CloseClient(SelectedFtServer);
             FtServerList.Remove(SelectedFtServer);
+            ChangeSelectedClient();
         }
 
 

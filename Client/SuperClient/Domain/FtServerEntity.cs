@@ -2,7 +2,6 @@
 {
     public class FtServerEntity
     {
-        public int Id { get; set; }
         public int Postfix { get; set; } // used for ini and log file names
         public string ServerTitle { get; set; }
         public string ServerIp { get; set; }
