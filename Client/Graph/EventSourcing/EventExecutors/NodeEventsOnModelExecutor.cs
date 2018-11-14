@@ -40,7 +40,7 @@ namespace Iit.Fibertest.Graph
             _model.Fibers.Remove(oldFiber);
             return null;
         }
-      
+
         private void FixTracesPassingOldFiber(NodeIntoFiberAdded e, Fiber oldFiber)
         {
             foreach (var traceId in oldFiber.States.Keys)
@@ -60,17 +60,17 @@ namespace Iit.Fibertest.Graph
                     if (oldFibersArray[i] != oldFiber.FiberId)
                     {
                         trace.FiberIds.Add(oldFibersArray[i]);
-                        trace.NodeIds.Add(oldNodesArray[i+1]);
-                        trace.EquipmentIds.Add(oldEquipmentsArray[i+1]);
+                        trace.NodeIds.Add(oldNodesArray[i + 1]);
+                        trace.EquipmentIds.Add(oldEquipmentsArray[i + 1]);
                     }
                     else
                     {
                         trace.FiberIds.Add(GetOneOfNewFibersId(e, trace.NodeIds.Last()));
                         trace.FiberIds.Add(trace.FiberIds.Last() == e.NewFiberId1 ? e.NewFiberId2 : e.NewFiberId1);
                         trace.NodeIds.Add(e.Id);
-                        trace.NodeIds.Add(oldNodesArray[i+1]);
+                        trace.NodeIds.Add(oldNodesArray[i + 1]);
                         trace.EquipmentIds.Add(e.EquipmentId);
-                        trace.EquipmentIds.Add(oldEquipmentsArray[i+1]);
+                        trace.EquipmentIds.Add(oldEquipmentsArray[i + 1]);
                     }
                 }
             }
@@ -184,6 +184,10 @@ namespace Iit.Fibertest.Graph
                     CreateDetourIfAbsent(detour);
                     trace.EquipmentIds.RemoveAt(index);
                     trace.NodeIds.RemoveAt(index);
+
+                    trace.FiberIds.RemoveAt(index);
+                    trace.FiberIds.RemoveAt(index - 1);
+                    trace.FiberIds.Insert(index - 1, detour.FiberId);
                 }
             }
 
@@ -202,8 +206,10 @@ namespace Iit.Fibertest.Graph
 
             trace.EquipmentIds.RemoveAt(index);
             trace.NodeIds.RemoveAt(index);
+            trace.FiberIds.RemoveAt(index);
             trace.EquipmentIds.RemoveAt(index - 1);
             trace.NodeIds.RemoveAt(index - 1);
+            trace.FiberIds.RemoveAt(index - 1);
 
             return null;
         }
@@ -229,7 +235,7 @@ namespace Iit.Fibertest.Graph
             else
             {
                 if (!fiber.States.ContainsKey(detour.TraceId))
-                        fiber.States.Add(detour.TraceId, detour.TraceState);
+                    fiber.States.Add(detour.TraceId, detour.TraceState);
             }
 
         }

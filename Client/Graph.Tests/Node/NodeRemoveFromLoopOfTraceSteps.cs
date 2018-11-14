@@ -99,6 +99,7 @@ namespace Graph.Tests
         {
             _trace.NodeIds.Count.Should().Be(_traceNodesCount - 2);
             _trace.EquipmentIds.Count.Should().Be(_traceNodesCount - 2);
+            _trace.FiberIds.Count.Should().Be(_traceNodesCount - 3);
 
             _sut.ReadModel.Fibers.Count.Should().Be(_allFibersInModel - 1);
         }

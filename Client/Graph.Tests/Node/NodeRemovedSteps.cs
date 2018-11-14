@@ -145,6 +145,7 @@ namespace Graph.Tests
         {
             _trace.NodeIds.Contains(_nodeId).Should().BeFalse();
             _trace.NodeIds.Count.Should().Be(_trace.EquipmentIds.Count);
+            _trace.FiberIds.Count.Should().Be(_trace.NodeIds.Count - 1);
 
             var trace = _sut.ReadModel.Traces.First(t => t.TraceId == _trace.TraceId);
             for (int i = 0; i < trace.NodeIds.Count - 1; i++)
