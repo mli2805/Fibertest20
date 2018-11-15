@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 
@@ -14,9 +15,12 @@ namespace Iit.Fibertest.Client
         public List<string> SupportedLanguages { get; set; } = new List<string>(){@"ru-RU", @"en-US"};
         public List<string> MapProviders { get; set; } = new List<string>(){@"OpenStreetMap", @"GoogleMap", @"YandexMap"};
 
-        public ConfigurationViewModel(IniFile iniFile)
+        public bool IsEnabled { get; set; }
+
+        public ConfigurationViewModel(IniFile iniFile, CurrentUser currentUser)
         {
             _iniFile = iniFile;
+            IsEnabled = currentUser.Role < Role.Superclient;
 
             _isGraphVisibleOnStart = _iniFile.Read(IniSection.Miscellaneous, IniKey.IsGraphVisibleOnStart, false);
             SelectedLanguage = _iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");

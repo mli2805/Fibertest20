@@ -10,11 +10,11 @@
     <DockPanel>
         <Button DockPanel.Dock="Bottom" Width="100" Height="22" Margin="5,5,5,10" Content="{x:Static stringResources:Resources.SID_Close}" Name="Close"/>
         <StackPanel Margin="5,10,5,5">
-            <StackPanel Orientation="Horizontal" Margin="5">
+            <StackPanel Orientation="Horizontal" Margin="5" IsEnabled="{Binding IsEnabled}">
                 <ComboBox ItemsSource="{Binding SupportedLanguages}" SelectedItem="{Binding SelectedLanguage}" Width="100"/>
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Change_the_language}" Margin="15,2"/>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Change_the_language}" Margin="15,2" />
             </StackPanel>
-            <CheckBox IsChecked="{Binding IsGraphVisibleOnStart}" 
+            <CheckBox IsChecked="{Binding IsGraphVisibleOnStart}"  IsEnabled="{Binding IsEnabled}"
                       Content="{x:Static stringResources:Resources.SID_Show_all_graph_on_application_start}" Margin="5"/>
             <StackPanel Orientation="Horizontal" Margin="5">
                 <ComboBox ItemsSource="{Binding MapProviders}" SelectedItem="{Binding SelectedProvider}" Width="120"/>
