@@ -212,8 +212,9 @@ namespace GMap.NET.Internals
                 }
 
                 // FIBERTEST 2.0
-
-                var mapCache = AppDomain.CurrentDomain.BaseDirectory + @"..\Cache\";
+                var cmdLine = Environment.CommandLine;
+                var parts = cmdLine.Split(' ');
+                var mapCache = AppDomain.CurrentDomain.BaseDirectory + $@"..\Cache\{parts[1]}\";
                 if (!Directory.Exists(mapCache))
                     Directory.CreateDirectory(mapCache);
                 CacheLocation = mapCache;
