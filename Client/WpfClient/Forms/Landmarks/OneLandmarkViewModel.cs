@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly GraphReadModel _graphReadModel;
         private readonly ReflectogramManager _reflectogramManager;
+        private readonly TabulatorViewModel _tabulatorViewModel;
 
         public bool IsIncludeEquipmentEnabled
         {
@@ -152,13 +153,14 @@ namespace Iit.Fibertest.Client
 
         public OneLandmarkViewModel(CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu,
             GpsInputSmallViewModel gpsInputSmallViewModel, IWcfServiceForClient c2DWcfManager,
-            GraphReadModel graphReadModel, ReflectogramManager reflectogramManager)
+            GraphReadModel graphReadModel, ReflectogramManager reflectogramManager, TabulatorViewModel tabulatorViewModel)
         {
             IsEditEnabled = currentUser.Role <= Role.Root;
             _currentlyHiddenRtu = currentlyHiddenRtu;
             _c2DWcfManager = c2DWcfManager;
             _graphReadModel = graphReadModel;
             _reflectogramManager = reflectogramManager;
+            _tabulatorViewModel = tabulatorViewModel;
             GpsInputSmallViewModel = gpsInputSmallViewModel;
         }
 
@@ -235,6 +237,8 @@ namespace Iit.Fibertest.Client
             var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
             nodeVm.Position = GpsInputSmallViewModel.Get();
             _graphReadModel.PlaceNodeIntoScreenCenter(SelectedLandmark.NodeId);
+            if (_tabulatorViewModel.SelectedTabIndex != 3)
+                _tabulatorViewModel.SelectedTabIndex = 3;
         }
         public void ShowReflectogram()
         {
