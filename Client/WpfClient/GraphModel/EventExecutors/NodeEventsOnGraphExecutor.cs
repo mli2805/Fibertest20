@@ -49,6 +49,7 @@ namespace Iit.Fibertest.Client
                 fiberVm1.States.Add(pair.Key, pair.Value);
             foreach (var pair in oldFiberVm.TracesWithExceededLossCoeff)
                 fiberVm1.TracesWithExceededLossCoeff.Add(pair.Key, pair.Value);
+            if (oldFiberVm.IsHighlighted) fiberVm1.IsHighlighted = true;
             _graphModel.Data.Fibers.Add(fiberVm1);
 
             var fiberVm2 = new FiberVm() { Id = e.NewFiberId2, Node1 = _graphModel.Data.Nodes.First(n => n.Id == e.Id), Node2 = node2 };
@@ -56,6 +57,7 @@ namespace Iit.Fibertest.Client
                 fiberVm2.States.Add(pair.Key, pair.Value);
             foreach (var pair in oldFiberVm.TracesWithExceededLossCoeff)
                 fiberVm2.TracesWithExceededLossCoeff.Add(pair.Key, pair.Value);
+            if (oldFiberVm.IsHighlighted) fiberVm2.IsHighlighted = true;
             _graphModel.Data.Fibers.Add(fiberVm2);
         }
 
