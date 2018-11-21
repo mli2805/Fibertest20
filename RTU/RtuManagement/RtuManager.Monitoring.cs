@@ -197,13 +197,13 @@ namespace Iit.Fibertest.RtuManagement
             }
 
             if (result != ReturnCode.MeasurementEndedNormally)
-            {                                 
+            {
                 RunMainCharonRecovery();
                 return null;
             }
 
             _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
-            
+
             SendCurrentMonitoringStep(MonitoringCurrentStep.Analysis, monitorigPort, baseRefType);
             var buffer = _otdrManager.GetLastSorDataBuffer();
             _rtuLog.AppendLine($"Measurement result ({buffer.Length} bytes).");
@@ -212,30 +212,12 @@ namespace Iit.Fibertest.RtuManagement
             if (!_otdrManager.InterOpWrapper.PrepareMeasurement(true))
             {
                 _rtuLog.AppendLine("Additional check after measurement failed!");
-
-                try
-                {
-                    _rtuLog.AppendLine($"Save measurement result {buffer.Length}!");
+                if (_rtuIni.Read(IniSection.General, IniKey.LogLevel, 2) >= 3)
                     monitorigPort.SaveMeasBytes(baseRefType, buffer, SorType.Error, _rtuLog); // save meas if error
-                    _rtuLog.AppendLine("Measurement saved");
-                }
-                catch (Exception e)
-                {
-                    _rtuLog.AppendLine($"SaveMeasBytes: {e.Message}");
-                }
-
-
-                var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, DefaultIp);
-                _otdrManager.DisconnectOtdr(otdrAddress);
-               var otdrInitializationResult = InitializeOtdr();
-                _rtuLog.AppendLine($"OTDR initialization result - {otdrInitializationResult.ToString()}");
-                _serviceLog.EmptyLine();
-                _serviceLog.AppendLine($"OTDR initialization result - {otdrInitializationResult.ToString()}");
-               // RunMainCharonRecovery();
-
+                ReInitializeDlls();
                 return null;
-
             }
+
             monitorigPort.SaveMeasBytes(baseRefType, buffer, SorType.Raw, _rtuLog); // for investigations purpose
 
             var measBytes = _otdrManager.ApplyAutoAnalysis(buffer); // is ApplyAutoAnalysis necessary ?
@@ -248,6 +230,16 @@ namespace Iit.Fibertest.RtuManagement
 
             _rtuLog.AppendLine($"Trace state is {moniResult.GetAggregatedResult()}");
             return moniResult;
+        }
+
+        private void ReInitializeDlls()
+        {
+            var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, DefaultIp);
+            _otdrManager.DisconnectOtdr(otdrAddress);
+            var otdrInitializationResult = InitializeOtdr();
+            _rtuLog.AppendLine($"OTDR initialization result - {otdrInitializationResult.ToString()}");
+            _serviceLog.EmptyLine();
+            _serviceLog.AppendLine($"OTDR initialization result - {otdrInitializationResult.ToString()}");
         }
 
         private MonitoringResultDto CreateDto(MoniResult moniResult, MonitorigPort monitorigPort)
@@ -296,7 +288,7 @@ namespace Iit.Fibertest.RtuManagement
         private readonly List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();
         private bool ToggleToPort(MonitorigPort monitorigPort)
         {
-                                                                        // TCP port here is not important
+            // TCP port here is not important
             DamagedOtau damagedOtau = _damagedOtaus.FirstOrDefault(b => b.Ip == monitorigPort.NetAddress.Ip4Address);
             if (damagedOtau != null)
             {
@@ -338,7 +330,7 @@ namespace Iit.Fibertest.RtuManagement
                             SendByMsmq(dto);
                             _damagedOtaus.Remove(damagedOtau);
                         }
-                   
+
                         return true;
                     }
                 case CharonOperationResult.MainOtauError:
