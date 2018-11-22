@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Data;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WpfCommonViews;
@@ -67,7 +68,7 @@ namespace Iit.Fibertest.Client
         private void InitializeFilters()
         {
             UserFilters = new List<UserFilter>() { new UserFilter() };
-            foreach (var user in _readModel.Users)
+            foreach (var user in _readModel.Users.Where(u=>u.Role >= Role.Root && u.Role <= Role.Superclient))
                 UserFilters.Add(new UserFilter(user));
             SelectedUserFilter = UserFilters.First();
 
@@ -130,20 +131,30 @@ namespace Iit.Fibertest.Client
             _eventToLogLineParser.Initialize();
             var jsonsInCache = await _localDbManager.LoadEvents();
             var ordinal = 1;
-            foreach (var json in jsonsInCache)
+            try
             {
-                var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
-                if ((string)msg.Headers[@"Username"] == @"system") continue;
+                foreach (var json in jsonsInCache)
+                {
+                    var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
+                    var username = (string)msg.Headers[@"Username"];
+                    var user = _readModel.Users.FirstOrDefault(u => u.Title == username);
 
-                var line = _eventToLogLineParser.ParseEventBody(msg.Body);
-                if (line == null) continue;
+                    var line = _eventToLogLineParser.ParseEventBody(msg.Body);
+                    if (line == null) continue;
 
-                line.Ordinal = ordinal;
-                line.Username = (string)msg.Headers[@"Username"];
-                line.ClientIp = (string)msg.Headers[@"ClientIp"];
-                line.Timestamp = (DateTime)msg.Headers[@"Timestamp"];
-                Rows.Insert(0, line);
-                ordinal++;
+                    if (user == null || user.Role < Role.Root) continue;
+
+                    line.Ordinal = ordinal;
+                    line.Username = username;
+                    line.ClientIp = (string)msg.Headers[@"ClientIp"];
+                    line.Timestamp = (DateTime)msg.Headers[@"Timestamp"];
+                    Rows.Insert(0, line);
+                    ordinal++;
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
             }
         }
 
