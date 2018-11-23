@@ -52,13 +52,7 @@ namespace Iit.Fibertest.RtuManagement
             MonitoringModeChangedFlag = true;
         }
 
-        public bool IsTheSamePort(OtauPortDto otauPortDto)
-        {
-            return NetAddress.Equals(new NetAddress(otauPortDto.OtauIp, otauPortDto.OtauTcpPort))
-                   && OpticalPort == otauPortDto.OpticalPort;
-        }
-
-        private string GetFolderName()
+        private string GetPortFolderName()
         {
             return $"{NetAddress.Ip4Address}t{NetAddress.Port}p{OpticalPort}";
         }
@@ -84,13 +78,13 @@ namespace Iit.Fibertest.RtuManagement
 
         public bool HasAdditionalBase()
         {
-            var basefile = AppDomain.CurrentDomain.BaseDirectory + $@"..\PortData\{GetFolderName()}\{BaseRefType.Additional.ToBaseFileName()}";
+            var basefile = AppDomain.CurrentDomain.BaseDirectory + $@"..\PortData\{GetPortFolderName()}\{BaseRefType.Additional.ToBaseFileName()}";
             return File.Exists(basefile);
         }
 
         public byte[] GetBaseBytes(BaseRefType baseRefType, IMyLog rtuLog)
         {
-            var basefile = AppDomain.CurrentDomain.BaseDirectory + $@"..\PortData\{GetFolderName()}\{baseRefType.ToBaseFileName()}";
+            var basefile = AppDomain.CurrentDomain.BaseDirectory + $@"..\PortData\{GetPortFolderName()}\{baseRefType.ToBaseFileName()}";
             if (File.Exists(basefile))
                 return File.ReadAllBytes(basefile);
             rtuLog.AppendLine($"Can't find {basefile}");
@@ -99,7 +93,7 @@ namespace Iit.Fibertest.RtuManagement
 
         public void SaveMeasBytes(BaseRefType baseRefType, byte[] bytes, SorType sorType, IMyLog rtuLog)
         {
-            var measfile = AppDomain.CurrentDomain.BaseDirectory + $@"..\PortData\{GetFolderName()}\{baseRefType.ToFileName(sorType)}";
+            var measfile = AppDomain.CurrentDomain.BaseDirectory + $@"..\PortData\{GetPortFolderName()}\{baseRefType.ToFileName(sorType)}";
             try
             {
                 File.WriteAllBytes(measfile, bytes);

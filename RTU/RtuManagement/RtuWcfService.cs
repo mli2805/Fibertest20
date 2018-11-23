@@ -105,7 +105,6 @@ namespace Iit.Fibertest.RtuManagement
                 try
                 {
                     result.ReturnCode = _rtuWcfOperationsPermissions.ShouldExecute("User sent assign base refs command")
-                       // ? _rtuManager.BaseRefsSaver.SaveBaseRefs(dto)
                         ? _baseRefsSaver.SaveBaseRefs(dto)
                         : ReturnCode.RtuIsBusy;
                 }
