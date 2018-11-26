@@ -212,7 +212,7 @@ namespace Iit.Fibertest.Client
             {
                 var traces = _readModel.Traces.Where(t =>
 //                    t.RtuId == dto.RtuId && t.Port >= dto.OwnPortCount && t.OtauPort.IsPortOnMainCharon);
-                    t.RtuId == dto.RtuId && t.Port >= dto.OwnPortCount && t.OtauPort.Serial == dto.Serial);
+                    t.RtuId == dto.RtuId && t.Port >= dto.OwnPortCount && t.OtauPort.Serial == _originalRtu.Serial);
                 foreach (var trace in traces)
                 {
                     var cmd = new DetachTrace() { TraceId = trace.TraceId };

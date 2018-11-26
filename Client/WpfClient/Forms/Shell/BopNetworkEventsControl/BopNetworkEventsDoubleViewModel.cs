@@ -43,6 +43,15 @@ namespace Iit.Fibertest.Client
             if (rtu == null || !rtu.ZoneIds.Contains(_currentUser.ZoneId))
                 return;
 
+            var bop = _readModel.Otaus.FirstOrDefault(o => o.Serial == evnt.Serial);
+            if (bop == null)
+            {
+                return;
+            }
+
+            evnt.OtauIp = bop.NetAddress.Ip4Address;
+            evnt.TcpPort = bop.NetAddress.Port;
+
             AllBopNetworkEventsViewModel.AddEvent(evnt);
             ActualBopNetworkEventsViewModel.RemoveOldEventForBopIfExists(evnt.OtauIp);
 

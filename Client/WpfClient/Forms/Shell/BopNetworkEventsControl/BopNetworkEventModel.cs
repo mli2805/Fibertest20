@@ -10,6 +10,7 @@ namespace Iit.Fibertest.Client
         public int Nomer { get; set; }
         public DateTime EventTimestamp { get; set; }
 
+        public string Serial { get; set; }
         public string OtauIp { get; set; }
         public int TcpPort { get; set; }
 

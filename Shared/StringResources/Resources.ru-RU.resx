@@ -2309,9 +2309,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Failed_to_send_test_e_mail_" xml:space="preserve">
 		<value>Ошибка отправки тестового сообщения!</value>
 	</data>
-	<data name="SID__0__on_BOP__1___2_" xml:space="preserve">
-		<value>{0} на БОПе {1} : {2}</value>
-	</data>
 	<data name="SID_Trace_State_Report" xml:space="preserve">
 		<value>Отчет о состоянии трассы</value>
 	</data>
@@ -2326,9 +2323,6 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Breakdown" xml:space="preserve">
 		<value>Авария</value>
-	</data>
-	<data name="SID_BOP__0_____1_____2__at__3_" xml:space="preserve">
-		<value>БОП {0} : {1} - {2} в {3}</value>
 	</data>
 	<data name="SID_Fibertest20__Test_SMS_message" xml:space="preserve">
 		<value>Fibertest20: Тестовое SMS сообщение</value>
@@ -2350,5 +2344,11 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Edit_settings" xml:space="preserve">
 		<value>Изменить настройки сервера</value>
+	</data>
+	<data name="SID__0__on_BOP__1_" xml:space="preserve">
+		<value>{0} на БОПе {1}</value>
+	</data>
+	<data name="SID_BOP__0_____1__at__2_" xml:space="preserve">
+		<value>БОП {0} - {1} в {2}</value>
 	</data>
 </root>

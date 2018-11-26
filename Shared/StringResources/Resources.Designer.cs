@@ -232,6 +232,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} on BOP {1}.
+        /// </summary>
+        public static string SID__0__on_BOP__1_ {
+            get {
+                return ResourceManager.GetString("SID__0__on_BOP__1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} on BOP {1} : {2}.
         /// </summary>
         public static string SID__0__on_BOP__1___2_ {
@@ -968,6 +977,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_BOP__0_____1_____2__at__3_ {
             get {
                 return ResourceManager.GetString("SID_BOP__0_____1_____2__at__3_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BOP {0} - {1} at {2}.
+        /// </summary>
+        public static string SID_BOP__0_____1__at__2_ {
+            get {
+                return ResourceManager.GetString("SID_BOP__0_____1__at__2_", resourceCulture);
             }
         }
         
@@ -2107,7 +2125,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Edit settings.
+        ///   Looks up a localized string similar to Change server&apos;s settings.
         /// </summary>
         public static string SID_Edit_settings {
             get {

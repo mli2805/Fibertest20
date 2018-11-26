@@ -7,12 +7,10 @@ namespace Iit.Fibertest.RtuManagement
 {
     public class BaseRefsSaver
     {
-        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
 
-        public BaseRefsSaver(IniFile iniFile, IMyLog logFile)
+        public BaseRefsSaver(IMyLog logFile)
         {
-            _iniFile = iniFile;
             _logFile = logFile;
         }
 

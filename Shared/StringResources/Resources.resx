@@ -2309,9 +2309,6 @@ RTU is initializing right now!</value>
 	<data name="SID_Failed_to_send_test_e_mail_" xml:space="preserve">
     <value>Failed to send test e-mail!</value>
   </data>
-	<data name="SID__0__on_BOP__1___2_" xml:space="preserve">
-    <value>{0} on BOP {1} : {2}</value>
-  </data>
 	<data name="SID_Trace_State_Report" xml:space="preserve">
     <value>Trace State Report</value>
   </data>
@@ -2326,9 +2323,6 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Breakdown" xml:space="preserve">
     <value>Breakdown</value>
-  </data>
-	<data name="SID_BOP__0_____1_____2__at__3_" xml:space="preserve">
-    <value>BOP {0} : {1} - {2} at {3}</value>
   </data>
 	<data name="SID_Fibertest20__Test_SMS_message" xml:space="preserve">
     <value>Fibertest20: Test SMS message</value>
@@ -2350,5 +2344,11 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Edit_settings" xml:space="preserve">
     <value>Change server's settings</value>
+  </data>
+	<data name="SID__0__on_BOP__1_" xml:space="preserve">
+    <value>{0} on BOP {1}</value>
+  </data>
+	<data name="SID_BOP__0_____1__at__2_" xml:space="preserve">
+    <value>BOP {0} - {1} at {2}</value>
   </data>
 </root>

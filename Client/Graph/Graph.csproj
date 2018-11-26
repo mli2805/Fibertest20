@@ -131,7 +131,6 @@
     <Compile Include="DomainEntities\Administration\SmsReceiver.cs" />
     <Compile Include="DomainEntities\Extensions\ModelEmailExt.cs" />
     <Compile Include="DomainEntities\Extensions\ModelSmsExt.cs" />
-    <Compile Include="DomainEntities\Extensions\OtauPortDtoExt.cs" />
     <Compile Include="DomainEntities\Kadastr\Conpoint.cs" />
     <Compile Include="DomainEntities\Kadastr\Well.cs" />
     <Compile Include="DomainEntities\License\License.cs" />
