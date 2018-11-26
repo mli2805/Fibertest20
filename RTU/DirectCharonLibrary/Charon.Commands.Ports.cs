@@ -29,14 +29,16 @@ namespace Iit.Fibertest.DirectCharonLibrary
             return Children[activePort];
         }
 
-        public CharonOperationResult SetExtendedActivePort(NetAddress charonAddress, int port)
+//        public CharonOperationResult SetExtendedActivePort(NetAddress charonAddress, int port)
+        public CharonOperationResult SetExtendedActivePort(string serial, int port)
         {
-            _rtuLogFile.AppendLine($"Toggling to port {port} on {charonAddress.ToStringA()}...");
-            if (NetAddress.Equals(charonAddress))
+//            _rtuLogFile.AppendLine($"Toggling to port {port} on {charonAddress.ToStringA()}...");
+            _rtuLogFile.AppendLine($"Toggling to port {port} on {serial}...");
+            if (Serial == serial)
                 return SetActivePortOnMainCharon(port);
             else
             {
-                var bopCharon = GetBopCharonWithLogging(charonAddress);
+                var bopCharon = GetBopCharonWithLogging(serial);
                 if (bopCharon == null)
                     return CharonOperationResult.LogicalError;
                 else
@@ -66,6 +68,17 @@ namespace Iit.Fibertest.DirectCharonLibrary
         public Charon GetBopCharonWithLogging(NetAddress charonAddress)
         {
             var charon = Children.Values.FirstOrDefault(c => c.NetAddress.Equals(charonAddress));
+            if (charon == null)
+            {
+                LastErrorMessage = "There is no such optical switch";
+                _rtuLogFile.AppendLine(LastErrorMessage, 2);
+            }
+            return charon;
+        }
+
+        public Charon GetBopCharonWithLogging(string serial)
+        {
+            var charon = Children.Values.FirstOrDefault(c => c.Serial == serial);
             if (charon == null)
             {
                 LastErrorMessage = "There is no such optical switch";

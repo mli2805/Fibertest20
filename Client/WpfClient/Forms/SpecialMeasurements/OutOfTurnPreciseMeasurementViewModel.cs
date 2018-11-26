@@ -98,8 +98,9 @@ namespace Iit.Fibertest.Client
                 {
                     OtauPort = new OtauPortDto()
                     {
-                        OtauIp = parent.OtauNetAddress.Ip4Address,
-                        OtauTcpPort = parent.OtauNetAddress.Port,
+//                        OtauIp = parent.OtauNetAddress.Ip4Address,
+//                        OtauTcpPort = parent.OtauNetAddress.Port,
+                        Serial = parent.Serial,
                         OpticalPort = TraceLeaf.PortNumber,
                         IsPortOnMainCharon = parent is RtuLeaf,
                     },

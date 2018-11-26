@@ -100,7 +100,7 @@ namespace Iit.Fibertest.Graph
             }
 
             foreach (var trace in _model.Traces.Where(t=>t.OtauPort != null && 
-              t.OtauPort.OtauIp == otau.NetAddress.Ip4Address && t.OtauPort.OtauTcpPort == otau.NetAddress.Port))
+              t.OtauPort.Serial == otau.Serial))
             {
                 _traceEventsOnModelExecutor.DetachTrace(trace);
             }

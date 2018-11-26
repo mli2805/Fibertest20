@@ -44,8 +44,9 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     OtauPort = new OtauPortDto()
                     {
-                        OtauIp = monitorigPort.NetAddress.Ip4Address,
-                        OtauTcpPort = monitorigPort.NetAddress.Port,
+                        Serial = monitorigPort.CharonSerial,
+//                        OtauIp = monitorigPort.NetAddress.Ip4Address,
+//                        OtauTcpPort = monitorigPort.NetAddress.Port,
                         OpticalPort = monitorigPort.OpticalPort,
                         IsPortOnMainCharon = monitorigPort.IsPortOnMainCharon,
                     },

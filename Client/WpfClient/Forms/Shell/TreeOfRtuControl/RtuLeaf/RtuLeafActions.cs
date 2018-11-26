@@ -156,8 +156,9 @@ namespace Iit.Fibertest.Client
                         TraceId = trace.Id,
                         OtauPort = new OtauPortDto()
                         {
-                            OtauIp = portOwnerLeaf.OtauNetAddress.Ip4Address,
-                            OtauTcpPort = portOwnerLeaf.OtauNetAddress.Port,
+//                            OtauIp = portOwnerLeaf.OtauNetAddress.Ip4Address,
+//                            OtauTcpPort = portOwnerLeaf.OtauNetAddress.Port,
+                           Serial = portOwnerLeaf.Serial,
                             IsPortOnMainCharon = isMainCharon,
                             OpticalPort = trace.PortNumber,
                         }

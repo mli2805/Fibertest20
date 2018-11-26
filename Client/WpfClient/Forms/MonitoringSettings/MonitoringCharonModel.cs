@@ -6,8 +6,9 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 {
     public class MonitoringCharonModel : PropertyChangedBase
     {
-        public string CharonIpAddress { get; set; }
-        public int CharonTcpPort { get; set; }
+//        public string CharonIpAddress { get; set; }
+//        public int CharonTcpPort { get; set; }
+        public string Serial { get; set; }
         public bool IsMainCharon { get; set; }
         public string Title { get; set; }
 
@@ -30,11 +31,16 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         public bool IsEditEnabled { get; set; }
 
 
-        public MonitoringCharonModel(string charonIpAddress, int charonTcpPort)
+//        public MonitoringCharonModel(string charonIpAddress, int charonTcpPort)
+//        {
+//            CharonIpAddress = charonIpAddress;
+//            CharonTcpPort = charonTcpPort;
+//            Title = CharonIpAddress + @":" + CharonTcpPort;
+//        }
+  public MonitoringCharonModel(string serial)
         {
-            CharonIpAddress = charonIpAddress;
-            CharonTcpPort = charonTcpPort;
-            Title = CharonIpAddress + @":" + CharonTcpPort;
+            Serial = serial;
+            Title = Serial;
         }
 
         public void SubscribeOnPortsChanges()

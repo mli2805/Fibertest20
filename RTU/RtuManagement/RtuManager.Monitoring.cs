@@ -23,6 +23,7 @@ namespace Iit.Fibertest.RtuManagement
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start monitoring.");
+            _rtuLog.AppendLine($"_mainCharon.Serial = {_mainCharon.Serial}", 0, 3);
 
             if (_monitoringQueue.Count() < 1)
             {
@@ -252,8 +253,9 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     OtauPort = new OtauPortDto()
                     {
-                        OtauIp = monitorigPort.NetAddress.Ip4Address,
-                        OtauTcpPort = monitorigPort.NetAddress.Port,
+                        Serial = monitorigPort.CharonSerial,
+//                        OtauIp = monitorigPort.NetAddress.Ip4Address,
+//                        OtauTcpPort = monitorigPort.NetAddress.Port,
                         IsPortOnMainCharon = monitorigPort.IsPortOnMainCharon,
                         OpticalPort = monitorigPort.OpticalPort,
                     },
@@ -288,27 +290,27 @@ namespace Iit.Fibertest.RtuManagement
         private readonly List<DamagedOtau> _damagedOtaus = new List<DamagedOtau>();
         private bool ToggleToPort(MonitorigPort monitorigPort)
         {
+            var cha = monitorigPort.IsPortOnMainCharon ? _mainCharon : _mainCharon.GetBopCharonWithLogging(monitorigPort.CharonSerial);
             // TCP port here is not important
-            DamagedOtau damagedOtau = _damagedOtaus.FirstOrDefault(b => b.Ip == monitorigPort.NetAddress.Ip4Address);
+            DamagedOtau damagedOtau = _damagedOtaus.FirstOrDefault(b => b.Ip == cha.NetAddress.Ip4Address);
             if (damagedOtau != null)
             {
                 _rtuLog.AppendLine($"Port is on damaged BOP {damagedOtau.Ip}");
                 if (DateTime.Now - damagedOtau.RebootStarted < _mikrotikRebootTimeout)
                 {
-                    _rtuLog.AppendLine($"Mikrotik {monitorigPort.NetAddress.Ip4Address} is rebooting, step to the next port");
+                    _rtuLog.AppendLine($"Mikrotik {cha.NetAddress.Ip4Address} is rebooting, step to the next port");
                     return false;
                 }
                 else
                 {
-                    var ch = _mainCharon.GetBopCharonWithLogging(monitorigPort.NetAddress);
-                    if (ch.OwnPortCount == 0)
+                    if (cha.OwnPortCount == 0)
                         InitializeOtau();
                 }
             }
 
             SendCurrentMonitoringStep(MonitoringCurrentStep.Toggle, monitorigPort);
 
-            var toggleResult = _mainCharon.SetExtendedActivePort(monitorigPort.NetAddress, monitorigPort.OpticalPort);
+            var toggleResult = _mainCharon.SetExtendedActivePort(monitorigPort.CharonSerial, monitorigPort.OpticalPort);
             switch (toggleResult)
             {
                 case CharonOperationResult.Ok:
@@ -316,15 +318,16 @@ namespace Iit.Fibertest.RtuManagement
                         _rtuLog.AppendLine("Toggled Ok.");
                         // Here TCP port is important
                         if (damagedOtau != null &&
-                            damagedOtau.Ip == monitorigPort.NetAddress.Ip4Address &&
-                            damagedOtau.TcpPort == monitorigPort.NetAddress.Port)
+                            damagedOtau.Ip == cha.NetAddress.Ip4Address &&
+                            damagedOtau.TcpPort == cha.NetAddress.Port)
                         {
-                            _rtuLog.AppendLine($"OTAU {monitorigPort.NetAddress.ToStringA()} recovered, send notification to server.");
+                            _rtuLog.AppendLine($"OTAU {cha.NetAddress.ToStringA()} recovered, send notification to server.");
                             var dto = new BopStateChangedDto()
                             {
                                 RtuId = _id,
-                                OtauIp = monitorigPort.NetAddress.Ip4Address,
-                                TcpPort = monitorigPort.NetAddress.Port,
+                                Serial = monitorigPort.CharonSerial,
+//                                OtauIp = monitorigPort.NetAddress.Ip4Address,
+//                                TcpPort = monitorigPort.NetAddress.Port,
                                 IsOk = true,
                             };
                             SendByMsmq(dto);
@@ -343,7 +346,7 @@ namespace Iit.Fibertest.RtuManagement
                     {
                         if (damagedOtau == null)
                         {
-                            damagedOtau = new DamagedOtau(monitorigPort.NetAddress.Ip4Address, monitorigPort.NetAddress.Port);
+                            damagedOtau = new DamagedOtau(cha.NetAddress.Ip4Address, cha.NetAddress.Port, monitorigPort.CharonSerial);
                             _damagedOtaus.Add(damagedOtau);
                         }
                         RunAdditionalOtauRecovery(damagedOtau);

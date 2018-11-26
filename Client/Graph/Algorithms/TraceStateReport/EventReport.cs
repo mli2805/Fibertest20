@@ -32,7 +32,8 @@ namespace Iit.Fibertest.Graph
         public static string GetShortMessageForBopState(AddBopNetworkEvent cmd)
         {
             var state = cmd.IsOk ? Resources.SID_Ok : Resources.SID_Breakdown;
-            return string.Format(Resources.SID_BOP__0_____1_____2__at__3_, cmd.OtauIp, cmd.TcpPort, state, cmd.EventTimestamp.ForReport());
+         //   return string.Format(Resources.SID_BOP__0_____1_____2__at__3_, cmd.OtauIp, cmd.TcpPort, state, cmd.EventTimestamp.ForReport());
+            return $"BOP {cmd.Serial} - {state} at {cmd.EventTimestamp.ForReport()}";
         }
         public static string GetShortMessageForMonitoringResult(this Model model, MonitoringResultDto dto)
         {

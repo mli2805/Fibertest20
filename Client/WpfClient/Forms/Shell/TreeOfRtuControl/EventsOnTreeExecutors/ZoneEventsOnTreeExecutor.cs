@@ -96,7 +96,7 @@ namespace Iit.Fibertest.Client
             foreach (var trace in _readModel.Traces.Where(t => t.RtuId == rtu.Id))
             {
                 var traceLeaf = _globalScope.Resolve<TraceLeaf>(new NamedParameter(@"parent", rtuLeaf));
-                var portOwner = trace.OtauPort == null ? rtuLeaf : rtuLeaf.GetPortOwner(new NetAddress(trace.OtauPort.OtauIp, trace.OtauPort.OtauTcpPort));
+                var portOwner = trace.OtauPort == null ? rtuLeaf : rtuLeaf.GetPortOwner(trace.OtauPort.Serial);
                 if (portOwner == null) continue;
 
                 traceLeaf.Id = trace.TraceId;

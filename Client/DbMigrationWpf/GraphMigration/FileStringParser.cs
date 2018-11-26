@@ -139,6 +139,7 @@ namespace DbMigrationWpf
             {
                 RtuId = nodeId,
                 OtauAddress = charonAddress,
+                Serial = parts[5],
                 FirstPortNumber = int.Parse(parts[7]),
                 PortCount = int.Parse(parts[6]),
             });

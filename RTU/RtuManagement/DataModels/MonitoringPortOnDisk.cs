@@ -6,7 +6,8 @@ namespace Iit.Fibertest.RtuManagement
     [Serializable]
     public class MonitoringPortOnDisk
     {
-        public NetAddress NetAddress { get; set; }
+//        public NetAddress NetAddress { get; set; }
+        public string Serial { get; set; }
         public int OpticalPort { get; set; }
         public bool IsPortOnMainCharon { get; set; }
         public Guid TraceId { get; set; }
@@ -25,7 +26,8 @@ namespace Iit.Fibertest.RtuManagement
 
         public MonitoringPortOnDisk(MonitorigPort port)
         {
-            NetAddress = (NetAddress) port.NetAddress.Clone();
+//            NetAddress = (NetAddress) port.NetAddress.Clone();
+            Serial = port.CharonSerial;
             OpticalPort = port.OpticalPort;
             IsPortOnMainCharon = port.IsPortOnMainCharon;
             TraceId = port.TraceId;

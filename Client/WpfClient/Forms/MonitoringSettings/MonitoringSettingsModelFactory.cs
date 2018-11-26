@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 
         private MonitoringCharonModel PrepareMainCharonModel(bool isEditEnabled)
         {
-            var mainCharonModel = new MonitoringCharonModel(_rtuLeaf.OtauNetAddress.Ip4Address, 23)
+            var mainCharonModel = new MonitoringCharonModel(_rtuLeaf.Serial)
             {
                 Title = _rtuLeaf.Title,
                 IsMainCharon = true,
@@ -67,7 +67,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 
         private MonitoringCharonModel PrepareBopCharonModel(OtauLeaf otauLeaf, bool isEditEnabled)
         {
-            var bopCharonModel = new MonitoringCharonModel(otauLeaf.OtauNetAddress.Ip4Address, otauLeaf.OtauNetAddress.Port)
+            var bopCharonModel = new MonitoringCharonModel(otauLeaf.Serial)
             {
                 Title = otauLeaf.OtauNetAddress.ToStringA(),
                 IsMainCharon = false,

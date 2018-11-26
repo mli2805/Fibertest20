@@ -82,7 +82,8 @@ namespace Iit.Fibertest.Client
             result.RtuTitle = rtu?.Title;
             result.PortTitle = trace.OtauPort == null ? Resources.SID__not_attached_ : trace.OtauPort.IsPortOnMainCharon
                 ? trace.OtauPort.OpticalPort.ToString()
-                : $@"{trace.OtauPort.OtauIp}:{trace.OtauPort.OtauTcpPort}-{trace.OtauPort.OpticalPort}";
+               // : $@"{trace.OtauPort.OtauIp}:{trace.OtauPort.OtauTcpPort}-{trace.OtauPort.OpticalPort}";
+                : $@"{trace.OtauPort.Serial}-{trace.OtauPort.OpticalPort}";
             return result;
         }
     }

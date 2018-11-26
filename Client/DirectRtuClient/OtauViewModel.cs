@@ -183,9 +183,13 @@ namespace DirectRtuClient
             }
         }
 
-       public NetAddress SelectedNetAddress => MainCharon.NetAddress.ToStringA() == SelectedOtau
-            ? MainCharon.NetAddress
-            : MainCharon.Children.Values.First(a => a.NetAddress.ToStringA() == SelectedOtau).NetAddress;
+        public NetAddress SelectedNetAddress => MainCharon.NetAddress.ToStringA() == SelectedOtau
+             ? MainCharon.NetAddress
+             : MainCharon.Children.Values.First(a => a.NetAddress.ToStringA() == SelectedOtau).NetAddress;
+
+        public string SelectedSerial => MainCharon.NetAddress.ToStringA() == SelectedOtau
+                  ? MainCharon.Serial
+                  : MainCharon.Children.Values.First(a => a.NetAddress.ToStringA() == SelectedOtau).Serial;
 
         public string BopIpAddress { get; set; }
         public int BopTcpPort { get; set; }
@@ -212,16 +216,16 @@ namespace DirectRtuClient
             using (new WaitCursor())
             {
                 CharonInfo = Resources.SID_Wait__please___;
-                MainCharon = new Charon(new NetAddress() {Ip4Address = IpAddress, Port = OtauTcpPort}, _iniFile35,
+                MainCharon = new Charon(new NetAddress() { Ip4Address = IpAddress, Port = OtauTcpPort }, _iniFile35,
                     _rtuLogger);
-//            await RunOtauInitialization();
+                //            await RunOtauInitialization();
                 await Task.Run(() => RunOtauInitialization());
 
                 if (!MainCharon.IsLastCommandSuccessful)
                     return;
 
                 MainCharonNetAddress = MainCharon.NetAddress.ToStringA();
-                var otauList = new List<string> {MainCharon.NetAddress.ToStringA()};
+                var otauList = new List<string> { MainCharon.NetAddress.ToStringA() };
                 otauList.AddRange(MainCharon.Children.Values.Select(charon => charon.NetAddress.ToStringA()));
                 OtauList = otauList;
                 BopOtauList =
@@ -279,42 +283,41 @@ namespace DirectRtuClient
 
         private void RunOtauInitialization()
         {
-                _rtuLogger.AppendLine(Resources.SID_Otau_initialization_started);
-//                await Task.Run(() => MainCharon.InitializeOtau());
-                MainCharon.InitializeOtauRecursively();
+            _rtuLogger.AppendLine(Resources.SID_Otau_initialization_started);
+            //                await Task.Run(() => MainCharon.InitializeOtau());
+            MainCharon.InitializeOtauRecursively();
 
-                if (MainCharon.IsLastCommandSuccessful)
+            if (MainCharon.IsLastCommandSuccessful)
+            {
+                _rtuLogger.AppendLine(Resources.SID_Otau_initialized_successfully);
+                IsOtauInitialized = true;
+                NotifyOfPropertyChange(() => CharonInfo);
+                CharonInfo = string.Format(Resources.SID_charon__0__has__1___2__ports, MainCharon.Serial,
+                    MainCharon.OwnPortCount, MainCharon.FullPortCount);
+                foreach (var pair in MainCharon.Children)
                 {
-                    _rtuLogger.AppendLine(Resources.SID_Otau_initialized_successfully);
-                    IsOtauInitialized = true;
-                    NotifyOfPropertyChange(() => CharonInfo);
-                    CharonInfo = string.Format(Resources.SID_charon__0__has__1___2__ports, MainCharon.Serial,
-                        MainCharon.OwnPortCount, MainCharon.FullPortCount);
-                    foreach (var pair in MainCharon.Children)
-                    {
-                        if (pair.Value.Serial == "" || pair.Value.OwnPortCount == 0)
-                            CharonInfo += Resources.SID__Error___;
-                        CharonInfo +=
-                            string.Format(Resources.SID_on_port_N_charon_, pair.Key, pair.Value.Serial, pair.Value.NetAddress.ToStringA(), pair.Value.OwnPortCount);
-                    }
+                    if (pair.Value.Serial == "" || pair.Value.OwnPortCount == 0)
+                        CharonInfo += Resources.SID__Error___;
+                    CharonInfo +=
+                        string.Format(Resources.SID_on_port_N_charon_, pair.Key, pair.Value.Serial, pair.Value.NetAddress.ToStringA(), pair.Value.OwnPortCount);
                 }
-                else
-                {
-                    CharonInfo = MainCharon.LastErrorMessage;
-                }
-            
+            }
+            else
+            {
+                CharonInfo = MainCharon.LastErrorMessage;
+            }
+
         }
 
         public async Task SetActivePort() // button
         {
             using (new WaitCursor())
             {
-                await Task.Run(() => MainCharon.SetExtendedActivePort(SelectedNetAddress, NewActivePort));
+                await Task.Run(() => MainCharon.SetExtendedActivePort(SelectedSerial, NewActivePort));
                 if (MainCharon.IsLastCommandSuccessful)
                 {
                     ActivePortMessage = string.Format(Resources.SID_Now_active_is_port__0__on__1_, NewActivePort,
                         SelectedNetAddress.ToStringA());
-
                 }
                 else
                 {
@@ -383,6 +386,6 @@ namespace DirectRtuClient
                 _rtuLogger.AppendLine(DetachMessage);
             }
         }
-          
+
     }
 }

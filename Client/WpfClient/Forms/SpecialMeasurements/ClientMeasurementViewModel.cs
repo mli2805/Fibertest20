@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ClientMeasurementViewModel(ILifetimeScope globalScope, IMyLog logFile,  OnDemandMeasurement onDemandMeasurement, 
+        public ClientMeasurementViewModel(ILifetimeScope globalScope, IMyLog logFile, OnDemandMeasurement onDemandMeasurement,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
@@ -77,11 +77,14 @@ namespace Iit.Fibertest.Client
                 RtuId = RtuLeaf.Id,
                 OtauPortDto = new OtauPortDto()
                 {
-                    OtauIp = address.Ip4Address,
-                    OtauTcpPort = address.Port,
+                    //                    OtauIp = address.Ip4Address,
+                    //                    OtauTcpPort = address.Port,
+                    Serial = otau.Serial,
                     IsPortOnMainCharon = RtuLeaf.OtauNetAddress.Equals(address),
                     OpticalPort = portNumber
                 },
+                OtauIp = address.Ip4Address,
+                OtauTcpPort = address.Port,
                 SelectedMeasParams = vm.GetSelectedParameters(),
             };
             return true;
@@ -137,6 +140,6 @@ namespace Iit.Fibertest.Client
             TryClose();
         }
 
-      
+
     }
 }

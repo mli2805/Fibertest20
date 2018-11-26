@@ -160,17 +160,19 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task CheckAndSendBopNetworkEventIfNeeded(BopStateChangedDto dto)
         {
             if (_writeModel.Otaus.Any(o =>
-                o.NetAddress.Ip4Address == dto.OtauIp
-                && o.NetAddress.Port == dto.TcpPort
+//                o.NetAddress.Ip4Address == dto.OtauIp
+//                && o.NetAddress.Port == dto.TcpPort
+                o.Serial == dto.Serial
                 && o.IsOk != dto.IsOk))
             {
-                _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.OtauIp} state changed to {dto.IsOk} (because MSMQ message about BOP came)");
+                _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.Serial} state changed to {dto.IsOk} (because MSMQ message about BOP came)");
                 var cmd = new AddBopNetworkEvent()
                 {
                     EventTimestamp = DateTime.Now,
                     RtuId = dto.RtuId,
-                    OtauIp = dto.OtauIp,
-                    TcpPort = dto.TcpPort,
+                    Serial = dto.Serial,
+//                    OtauIp = dto.OtauIp,
+//                    TcpPort = dto.TcpPort,
                     IsOk = dto.IsOk,
                 };
                 await _eventStoreService.SendCommand(cmd, "system", "OnServer");
@@ -183,17 +185,19 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task CheckAndSendBopNetworkIfNeeded(MonitoringResultDto dto)
         {
             if (_writeModel.Otaus.Any(o =>
-                o.NetAddress.Ip4Address == dto.PortWithTrace.OtauPort.OtauIp
-                && o.NetAddress.Port == dto.PortWithTrace.OtauPort.OtauTcpPort
+//                o.NetAddress.Ip4Address == dto.PortWithTrace.OtauPort.OtauIp
+//                && o.NetAddress.Port == dto.PortWithTrace.OtauPort.OtauTcpPort
+                o.Serial == dto.PortWithTrace.OtauPort.Serial
                 && !o.IsOk))
             {
-                _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.PortWithTrace.OtauPort.OtauIp} state changed to OK (because MSMQ message with monitoring result came)");
+                _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.PortWithTrace.OtauPort.Serial} state changed to OK (because MSMQ message with monitoring result came)");
                 var cmd = new AddBopNetworkEvent()
                 {
                     EventTimestamp = DateTime.Now,
                     RtuId = dto.RtuId,
-                    OtauIp = dto.PortWithTrace.OtauPort.OtauIp,
-                    TcpPort = dto.PortWithTrace.OtauPort.OtauTcpPort,
+                    Serial = dto.PortWithTrace.OtauPort.Serial,
+//                    OtauIp = dto.PortWithTrace.OtauPort.OtauIp,
+//                    TcpPort = dto.PortWithTrace.OtauPort.OtauTcpPort,
                     IsOk = true,
                 };
                 await _eventStoreService.SendCommand(cmd, "system", "OnServer");

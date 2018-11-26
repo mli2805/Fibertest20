@@ -7,5 +7,6 @@ namespace Iit.Fibertest.Client
         int OwnPortCount { get; set; }
         ChildrenImpresario ChildrenImpresario { get; }
         NetAddress OtauNetAddress { get; set; }
+        string Serial { get; set; }
     }
 }

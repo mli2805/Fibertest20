@@ -60,7 +60,7 @@ namespace Iit.Fibertest.RtuManagement
         {
             var activeBop = dto.OtauPortDto.IsPortOnMainCharon
                 ? null
-                : new Charon(new NetAddress(dto.OtauPortDto.OtauIp, dto.OtauPortDto.OtauTcpPort), _rtuIni, _rtuLog);
+                : new Charon(new NetAddress(dto.OtauIp, dto.OtauTcpPort), _rtuIni, _rtuLog);
             _cancellationTokenSource = new CancellationTokenSource();
             _otdrManager.DoManualMeasurement(_cancellationTokenSource, true, activeBop);
             if (_cancellationTokenSource.IsCancellationRequested)

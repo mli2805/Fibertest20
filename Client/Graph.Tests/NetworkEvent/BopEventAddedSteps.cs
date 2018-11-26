@@ -61,13 +61,14 @@ namespace Graph.Tests
             OtauStateMsmqCome(p0, false);
         }
 
-        private void OtauStateMsmqCome(string address, bool isOk)
+        private void OtauStateMsmqCome(string serial, bool isOk)
         {
             var dto = new BopStateChangedDto()
             {
                 RtuId = _rtuId,
-                OtauIp = address,
-                TcpPort = _otauTcpPort,
+                Serial = serial,
+//                OtauIp = address,
+//                TcpPort = _otauTcpPort,
                 IsOk = isOk,
             };
             _sut.MsmqHandler.ProcessBopStateChanges(dto).Wait();

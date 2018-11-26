@@ -272,8 +272,10 @@ namespace Iit.Fibertest.Graph
 
         private string Validate(AddBopNetworkEvent cmd)
         {
-            var otau = _writeModel.Otaus.FirstOrDefault(o => o.NetAddress.Ip4Address == cmd.OtauIp);
-            if (otau == null) return $@"OTAU with IP address {cmd.OtauIp} not found";
+            var otau = _writeModel.Otaus.FirstOrDefault(o => o.Serial == cmd.Serial);
+            //var otau = _writeModel.Otaus.FirstOrDefault(o => o.NetAddress.Ip4Address == cmd.OtauIp);
+            //if (otau == null) return $@"OTAU with IP address {cmd.OtauIp} not found";
+            if (otau == null) return $@"OTAU with serial {cmd.Serial} not found";
 
             var bopNetworkEventAdded = Mapper.Map<BopNetworkEventAdded>(cmd);
             var lastEventOrdial = _writeModel.BopNetworkEvents.Any() ? _writeModel.BopNetworkEvents.Max(n => n.Ordinal) : 1;

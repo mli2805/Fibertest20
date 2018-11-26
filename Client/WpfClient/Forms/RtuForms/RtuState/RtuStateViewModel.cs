@@ -100,9 +100,9 @@ namespace Iit.Fibertest.Client
             {
                 portName = dto.PortWithTraceDto.OtauPort.IsPortOnMainCharon
                     ? $@"{dto.PortWithTraceDto.OtauPort.OpticalPort}"
-                    : $@"{dto.PortWithTraceDto.OtauPort.OtauIp}:{dto.PortWithTraceDto.OtauPort.OtauTcpPort}-{
-                            dto.PortWithTraceDto.OtauPort.OpticalPort
-                        }";
+//                  : $@"{dto.PortWithTraceDto.OtauPort.OtauIp}:{dto.PortWithTraceDto.OtauPort.OtauTcpPort}
+                    : $@"{dto.PortWithTraceDto.OtauPort.Serial}-
+                            {dto.PortWithTraceDto.OtauPort.OpticalPort}";
 
                 var portLineVm = Model.Ports.FirstOrDefault(p => p.TraceId == dto.PortWithTraceDto.TraceId);
                 if (portLineVm != null)

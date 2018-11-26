@@ -9,6 +9,7 @@ namespace DbMigrationWpf
     {
         public int RtuId;
         public NetAddress OtauAddress;
+        public string Serial;
         public int FirstPortNumber;
         public int PortCount;
     }

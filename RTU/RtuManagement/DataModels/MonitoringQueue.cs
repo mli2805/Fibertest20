@@ -91,8 +91,9 @@ namespace Iit.Fibertest.RtuManagement
         {
             foreach (var portInOldQueue in oldQueue)
             {
-                if (portInOldQueue.NetAddress.Ip4Address == portWithTrace.OtauPort.OtauIp
-                    && portInOldQueue.NetAddress.Port == portWithTrace.OtauPort.OtauTcpPort
+               if (portInOldQueue.CharonSerial == portWithTrace.OtauPort.Serial
+//                if (portInOldQueue.NetAddress.Ip4Address == portWithTrace.OtauPort.OtauIp
+//                    && portInOldQueue.NetAddress.Port == portWithTrace.OtauPort.OtauTcpPort
                     && portInOldQueue.OpticalPort == portWithTrace.OtauPort.OpticalPort)
                 {
                     return portInOldQueue;

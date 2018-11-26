@@ -211,7 +211,8 @@ namespace Iit.Fibertest.Client
             if (_originalRtu.OwnPortCount > dto.OwnPortCount)
             {
                 var traces = _readModel.Traces.Where(t =>
-                    t.RtuId == dto.RtuId && t.Port >= dto.OwnPortCount && t.OtauPort.IsPortOnMainCharon);
+//                    t.RtuId == dto.RtuId && t.Port >= dto.OwnPortCount && t.OtauPort.IsPortOnMainCharon);
+                    t.RtuId == dto.RtuId && t.Port >= dto.OwnPortCount && t.OtauPort.Serial == dto.Serial);
                 foreach (var trace in traces)
                 {
                     var cmd = new DetachTrace() { TraceId = trace.TraceId };
@@ -228,8 +229,9 @@ namespace Iit.Fibertest.Client
                     {
                         EventTimestamp = DateTime.Now,
                         RtuId = dto.RtuId,
-                        OtauIp = keyValuePair.Value.NetAddress.Ip4Address,
-                        TcpPort = keyValuePair.Value.NetAddress.Port,
+                        Serial = keyValuePair.Value.Serial,
+//                        OtauIp = keyValuePair.Value.NetAddress.Ip4Address,
+//                        TcpPort = keyValuePair.Value.NetAddress.Port,
                         IsOk = keyValuePair.Value.IsOk,
                     });
             }

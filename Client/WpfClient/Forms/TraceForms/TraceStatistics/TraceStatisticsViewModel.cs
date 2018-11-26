@@ -72,7 +72,8 @@ namespace Iit.Fibertest.Client
             RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == _trace.RtuId)?.Title;
             PortNumber = _trace.OtauPort == null ? Resources.SID__not_attached_ : _trace.OtauPort.IsPortOnMainCharon
                 ? _trace.OtauPort.OpticalPort.ToString()
-                : $@"{_trace.OtauPort.OtauIp}:{_trace.OtauPort.OtauTcpPort}-{_trace.OtauPort.OpticalPort}";
+                //: $@"{_trace.OtauPort.OtauIp}:{_trace.OtauPort.OtauTcpPort}-{_trace.OtauPort.OpticalPort}";
+                : $@"{_trace.OtauPort.Serial}-{_trace.OtauPort.OpticalPort}";
 
             BaseRefs.Clear();
             foreach (var baseRef in _readModel.BaseRefs.Where(b => b.TraceId == traceId))

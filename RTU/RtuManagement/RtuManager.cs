@@ -23,8 +23,6 @@ namespace Iit.Fibertest.RtuManagement
         private Charon _mainCharon;
         private CancellationTokenSource _cancellationTokenSource;
 
-      //  public BaseRefsSaver BaseRefsSaver { get; set; }
-
         private readonly object _isMonitoringOnLocker = new object();
         private bool _isMonitoringOn;
         public bool IsMonitoringOn

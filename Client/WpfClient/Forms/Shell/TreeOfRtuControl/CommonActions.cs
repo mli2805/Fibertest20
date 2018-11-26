@@ -93,20 +93,25 @@ namespace Iit.Fibertest.Client
             mainCharonAddress.Port = 23;
             var mainCharon = new Charon(mainCharonAddress, _iniFile35, _logFile) { OwnPortCount = rtuLeaf.OwnPortCount };
 
-            NetAddress addressOfCharonWithThisPort;
+        //    NetAddress addressOfCharonWithThisPort;
+            string serialOfCharonWithThisPort;
             if (parent is OtauLeaf otauLeaf)
             {
-                addressOfCharonWithThisPort = otauLeaf.OtauNetAddress;
-                var bopCharon = new Charon(addressOfCharonWithThisPort, _iniFile35, _logFile);
+              //  addressOfCharonWithThisPort = otauLeaf.OtauNetAddress;
+                serialOfCharonWithThisPort = otauLeaf.Serial;
+
+                var bopCharon = new Charon(otauLeaf.OtauNetAddress, _iniFile35, _logFile);
+                bopCharon.Serial = otauLeaf.Serial;
                 bopCharon.OwnPortCount = otauLeaf.OwnPortCount;
                 mainCharon.Children = new Dictionary<int, Charon> { {otauLeaf.MasterPort, bopCharon} };
             }
             else
             {
-                addressOfCharonWithThisPort = mainCharonAddress;
+            //    addressOfCharonWithThisPort = mainCharonAddress;
+                serialOfCharonWithThisPort = mainCharon.Serial;
             }
 
-            if (!ToggleToPort(mainCharon, addressOfCharonWithThisPort, portNumber)) return;
+            if (!ToggleToPort(mainCharon, serialOfCharonWithThisPort, portNumber)) return;
 
             const int otdrPort = 1500;
             var rootPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory, 2);
@@ -114,9 +119,10 @@ namespace Iit.Fibertest.Client
                 $@"-fnw -n {mainCharonAddress.Ip4Address} -p {otdrPort}");
         }
 
-        private bool ToggleToPort(Charon mainCharon, NetAddress addressOfCharonWithThisPort, int portNumber)
+    //    private bool ToggleToPort(Charon mainCharon, NetAddress addressOfCharonWithThisPort, int portNumber)
+        private bool ToggleToPort(Charon mainCharon, string serialOfCharonWithThisPort, int portNumber)
         {
-            var result = mainCharon.SetExtendedActivePort(addressOfCharonWithThisPort, portNumber);
+            var result = mainCharon.SetExtendedActivePort(serialOfCharonWithThisPort, portNumber);
             if (result == CharonOperationResult.Ok)
                 return true;
             var vm = new MyMessageBoxViewModel(MessageType.Error, $@"{mainCharon.LastErrorMessage}");

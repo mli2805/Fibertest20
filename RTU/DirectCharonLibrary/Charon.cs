@@ -86,6 +86,15 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 foreach (var expendedPort in expendedPorts)
                 {
                     var childCharon = new Charon(expendedPort.Value, _iniFile35, _rtuLogFile);
+                    var childSerial = childCharon.GetSerial();
+                    if (!IsLastCommandSuccessful)
+                    {
+                        LedDisplay.Show(_iniFile35, _rtuLogFile, LedDisplayCode.ErrorConnectOtau);
+                        LastErrorMessage = $"Get Serial error {LastErrorMessage}";
+                        _rtuLogFile.AppendLine(LastErrorMessage, 2);
+                        return NetAddress;
+                    }
+                    childCharon.Serial = childSerial.Substring(0, childSerial.Length - 2); // "\r\n"
                     Children.Add(expendedPort.Key, childCharon);
                     if (childCharon.InitializeOtauRecursively() != null)
                     {

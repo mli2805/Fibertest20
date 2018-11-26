@@ -17,5 +17,13 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public OtauPortDto OtauPortDto { get; set; }
+
+        // only to show message on display
+        [DataMember]
+        public string OtauIp { get; set; }
+
+        [DataMember]
+        public int OtauTcpPort { get; set; }
+
     }
 }
