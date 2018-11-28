@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Client
             // if (_currentUser.Role > Role.Root) return;
             if (_currentlyHiddenRtu.Collection.Contains(evnt.RtuId)) return;
 
-//            var fiberIds = _readModel.GetFibersByNodes(evnt.NodeIds).ToList();
+            //            var fiberIds = _readModel.GetFibersByNodes(evnt.NodeIds).ToList();
             if (!_graphModel.ChangeFutureTraceColor(evnt.TraceId, evnt.FiberIds, FiberState.NotJoined))
             {   // Some fibers are invisible, so this is the way to refresh graph
                 _currentlyHiddenRtu.ChangedRtu = evnt.RtuId;
@@ -53,6 +53,7 @@ namespace Iit.Fibertest.Client
         // but in case trace was hidden check fiberVm/nodeVm on null before operations
         public void CleanTrace(TraceCleaned evnt)
         {
+            _graphModel.Extinguish();
             foreach (var fiberId in evnt.FiberIds)
             {
                 var fiberVm = _graphModel.Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
@@ -68,6 +69,7 @@ namespace Iit.Fibertest.Client
         // but in case trace was hidden check fiberVm/nodeVm on null before operations
         public void RemoveTrace(TraceRemoved evnt)
         {
+            _graphModel.Extinguish();
             foreach (var fiberId in evnt.FiberIds)
             {
                 var fiberVm = _graphModel.Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
