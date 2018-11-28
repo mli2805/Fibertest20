@@ -9,11 +9,11 @@
         mc:Ignorable="d" Width="500"
         d:DataContext="{d:DesignInstance client:TraceStatisticsViewModel}" KeyDown="Window_KeyDown">
     <DockPanel>
-        <GroupBox Header="Info" DockPanel.Dock="Top" Margin="5" >
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Info}" DockPanel.Dock="Top" Margin="5" >
             <StackPanel>
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="Trace" Margin="5" />
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Trace}" Margin="5" />
                         <TextBlock Text="{Binding TraceTitle}" Margin="5"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
@@ -47,7 +47,7 @@
                 </DataGrid>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="Statistics" DockPanel.Dock="Bottom" Margin="5" >
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Statistics}" DockPanel.Dock="Bottom" Margin="5" >
             <DataGrid ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow, Mode=TwoWay}" 
                       AutoGenerateColumns="False" IsReadOnly="True" Margin="0,5" SelectionMode="Single" CanUserSortColumns="False">
                 <DataGrid.Columns>
