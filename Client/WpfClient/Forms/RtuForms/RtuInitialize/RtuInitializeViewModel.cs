@@ -229,9 +229,9 @@ namespace Iit.Fibertest.Client
                     {
                         EventTimestamp = DateTime.Now,
                         RtuId = dto.RtuId,
-                        Serial = keyValuePair.Value.Serial,
-//                        OtauIp = keyValuePair.Value.NetAddress.Ip4Address,
-//                        TcpPort = keyValuePair.Value.NetAddress.Port,
+                        Serial = keyValuePair.Value.Serial == null ? bop.Serial : keyValuePair.Value.Serial,
+                        OtauIp = keyValuePair.Value.NetAddress.Ip4Address,
+                        TcpPort = keyValuePair.Value.NetAddress.Port,
                         IsOk = keyValuePair.Value.IsOk,
                     });
             }

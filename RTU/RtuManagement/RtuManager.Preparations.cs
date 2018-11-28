@@ -111,6 +111,8 @@ namespace Iit.Fibertest.RtuManagement
             var otauIpAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtauIp, DefaultIp);
             _mainCharon = new Charon(new NetAddress(otauIpAddress, 23), _rtuIni, _rtuLog);
             var res = _mainCharon.InitializeOtauRecursively();
+            if (res == _mainCharon.NetAddress)
+                return ReturnCode.OtauInitializationError;
 
             var previousOwnPortCount = _rtuIni.Read(IniSection.RtuManager, IniKey.PreviousOwnPortCount, -1);
             if (previousOwnPortCount == -1)
@@ -128,7 +130,12 @@ namespace Iit.Fibertest.RtuManagement
                 }
             }
 
-            return res == null ? ReturnCode.Ok : ReturnCode.OtauInitializationError;
+            if (res != null)
+            {
+                _rtuLog.AppendLine($"Child charon {res.ToStringA()} initialization failed.");
+                _rtuLog.AppendLine("But RTU should work without BOP, so continue...");
+            }
+            return ReturnCode.Ok;
         }
 
         private void GetMonitoringParams()
