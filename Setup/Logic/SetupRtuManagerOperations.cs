@@ -18,6 +18,7 @@ namespace Iit.Fibertest.Setup
 
         private const string SourcePathRtuManager = @"..\RtuFiles";
         private const string RtuManagerSubdir = @"RtuManager\bin";
+        private const string RtuManagerIniSubdir = @"RtuManager\ini";
         private const string SourcePathUtils = @"..\Utils";
         private const string UtilsSubdir = @"Utils";
         private const string SourcePathReflect = @"..\RftsReflect";
@@ -43,6 +44,7 @@ namespace Iit.Fibertest.Setup
                 return false;
 
             CleanAntiGhost(fullRtuManagerPath);
+            CreateIniForIpAddressesSetting(installationFolder);
 
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUtils, fullUtilsPath, worker))
                 return false;
@@ -62,6 +64,18 @@ namespace Iit.Fibertest.Setup
 
             worker.ReportProgress((int)BwReturnProgressCode.RtuManagerSetupCompletedSuccessfully);
             return true;
+        }
+
+        private void CreateIniForIpAddressesSetting(string installationFolder)
+        {
+            var iniRtuManagerPath = Path.Combine(installationFolder, RtuManagerIniSubdir);
+
+            var iniFile = new IniFile();
+            var iniFileName = Utils.FileNameForSure(iniRtuManagerPath, "RtuManager.ini", false, true);
+            iniFile.AssignFile(iniFileName, true);
+
+            iniFile.Read(IniSection.RtuManager, IniKey.OtdrIp, "192.168.88.101");
+            iniFile.Read(IniSection.RtuManager, IniKey.OtauIp, "192.168.88.101");
         }
 
         private void CleanAntiGhost(string fullRtuManagerPath)

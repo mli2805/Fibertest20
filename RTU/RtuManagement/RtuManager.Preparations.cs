@@ -105,6 +105,7 @@ namespace Iit.Fibertest.RtuManagement
 
             return InitializeOtau();
         }
+
         private ReturnCode InitializeOtau()
         {
             var otauIpAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtauIp, DefaultIp);
