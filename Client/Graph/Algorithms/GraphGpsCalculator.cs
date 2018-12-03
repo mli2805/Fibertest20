@@ -62,11 +62,11 @@ namespace Iit.Fibertest.Graph
             return rightReserve;
         }
 
-        public double GetFiberFullGpsDistance(Guid fiberId)
+        public double GetFiberFullGpsDistance(Guid fiberId, out Node node1, out Node node2)
         {
             var fiber = _model.Fibers.First(f => f.FiberId == fiberId);
-            var node1 = _model.Nodes.First(n => n.NodeId == fiber.NodeId1);
-            var node2 = _model.Nodes.First(n => n.NodeId == fiber.NodeId2);
+            node1 = _model.Nodes.First(n => n.NodeId == fiber.NodeId1);
+            node2 = _model.Nodes.First(n => n.NodeId == fiber.NodeId2);
             var result = GpsCalculator.GetDistanceBetweenPointLatLng(node1.Position, node2.Position);
 
             var fId = fiberId;

@@ -61,22 +61,37 @@ namespace Iit.Fibertest.Client
         public async Task Initialize(Guid fiberId)
         {
             _fiber = _readModel.Fibers.Single(f => f.FiberId == fiberId);
-            NodeAtitle = _readModel.Nodes.Single(n => n.NodeId == _fiber.NodeId1).Title;
-            NodeBtitle = _readModel.Nodes.Single(n => n.NodeId == _fiber.NodeId2).Title;
-
-            GpsLength = $@"{_graphGpsCalculator.GetFiberFullGpsDistance(fiberId):#,##0}";
-
+             GpsLength = $@"{_graphGpsCalculator.GetFiberFullGpsDistance(fiberId, out Node node1, out Node node2):#,##0}";
+            NodeAtitle = node1.Title;
+            NodeBtitle = node2.Title;
+         
             foreach (var trace in _readModel.Traces)
             {
                 var index = trace.FiberIds.IndexOf(fiberId);
                 if (index != -1)
-                    TracesThrough.Add(new Tuple<Trace, string>(trace, await GetOpticalLength(trace, index)));
+                {
+                    var realIndex = GetRealFiberIndex(trace, index);
+                    TracesThrough.Add(new Tuple<Trace, string>(trace, await GetOpticalLength(trace, realIndex)));
+                }
             }
             SelectedTrace = TracesThrough.FirstOrDefault();
 
             UserInputedLength = _fiber.UserInputedLength.Equals(0) ? "" : _fiber.UserInputedLength.ToString(CultureInfo.InvariantCulture);
         }
 
+        private int GetRealFiberIndex(Trace trace, int fiberIndexWithAdjustmentPoints)
+        {
+            var counter = 0;
+
+            for (int i = 1; i <= fiberIndexWithAdjustmentPoints; i++)
+            {
+                var equipment = _readModel.Equipments.First(e=>e.EquipmentId == trace.EquipmentIds[i]);
+                if (equipment.Type != EquipmentType.AdjustmentPoint)
+                    counter++;
+            }
+
+            return counter;
+        }
         private async Task<string> GetOpticalLength(Trace trace, int index)
         {
             if (trace.PreciseId == Guid.Empty)
