@@ -92,6 +92,7 @@ namespace Iit.Fibertest.Client
 
             return counter;
         }
+
         private async Task<string> GetOpticalLength(Trace trace, int index)
         {
             if (trace.PreciseId == Guid.Empty)

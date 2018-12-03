@@ -44,16 +44,14 @@ namespace Iit.Fibertest.Graph
             var distance = 0;
             for (int i = 1; i < originalModel.EquipArray.Length; i++)
             {
+                distance = distance + originalModel.DistancesMm[i - 1];
+
                 if (originalModel.EquipArray[i].Type != EquipmentType.AdjustmentPoint)
                 {
                     nodes.Add(originalModel.NodeArray[i]);
                     equipments.Add(originalModel.EquipArray[i]);
-                    distances.Add(originalModel.DistancesMm[i-1] + distance);
+                    distances.Add(distance);
                     distance = 0;
-                }
-                else
-                {
-                    distance = distance + originalModel.DistancesMm[i];
                 }
             }
 
@@ -64,7 +62,6 @@ namespace Iit.Fibertest.Graph
                 DistancesMm = distances.ToArray(),
             };
         }
-
 
     }
 }

@@ -86,7 +86,7 @@ namespace Graph.Tests
             otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length.Should().Be(9);
             var landmark = otdrKnownBlocks.LinkParameters.LandmarkBlocks[2];
             landmark.Code.Should().Be(LandmarkCode.Manhole);
-            landmark.Location.Should().Be(139293);
+            landmark.Location.Should().Be(115606);
 
             otdrKnownBlocks.LinkParameters.LandmarkBlocks[5].Location.Should().Be(_closureLocationOnOriginalBaseRef);
             otdrKnownBlocks.LinkParameters.LandmarkBlocks[6].Location.Should().Be(_emptyNodeToTheRightOfClosureLocation);
@@ -105,7 +105,7 @@ namespace Graph.Tests
             otdrKnownBlocks.LinkParameters.LandmarkBlocks.Length.Should().Be(9);
             var landmark = otdrKnownBlocks.LinkParameters.LandmarkBlocks[2];
             landmark.Code.Should().Be(LandmarkCode.Manhole);
-            landmark.Location.Should().Be(139293);
+            landmark.Location.Should().Be(115606);
 
             otdrKnownBlocks.LinkParameters.LandmarkBlocks[5].Location.Should().Be(_closureLocationOnOriginalBaseRef);
             otdrKnownBlocks.LinkParameters.LandmarkBlocks[6].Location.Should().Be(_emptyNodeToTheRightOfClosureLocation);
