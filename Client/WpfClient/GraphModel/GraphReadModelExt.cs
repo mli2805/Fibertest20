@@ -81,7 +81,7 @@ namespace Iit.Fibertest.Client
             return nodeVms;
         }
 
-        // if some of neighbours are AdjustmentPoints - step farther a find first node on this way
+        // if some of neighbors are AdjustmentPoints - step farther a find first node on this way
         public static List<Tuple<NodeVm, List<FiberVm>>> GetNeiboursPassingThroughAdjustmentPoints(this GraphReadModel model, Guid nodeId)
         {
             var res = new List<Tuple<NodeVm, List<FiberVm>>>();
