@@ -71,6 +71,7 @@ namespace Iit.Fibertest.RtuManagement
             var isTraceBroken = monitorigPort.LastTraceState != FiberState.Ok;
             var isSecondMeasurementNeeded = isTraceBroken ||
                                             monitorigPort.MonitoringModeChangedFlag ||
+                                            _preciseMakeTimespan != TimeSpan.Zero &&
                                             (DateTime.Now - monitorigPort.LastPreciseMadeTimestamp) >
                                             _preciseMakeTimespan;
 
