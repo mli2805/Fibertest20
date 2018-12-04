@@ -19,5 +19,6 @@
         Map,
         Miscellaneous,
         Migrator,
+        LoadTesting,
     }
 }

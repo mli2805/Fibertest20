@@ -255,8 +255,8 @@ namespace Iit.Fibertest.RtuManagement
                     OtauPort = new OtauPortDto()
                     {
                         Serial = monitorigPort.CharonSerial,
-//                        OtauIp = monitorigPort.NetAddress.Ip4Address,
-//                        OtauTcpPort = monitorigPort.NetAddress.Port,
+                        //                        OtauIp = monitorigPort.NetAddress.Ip4Address,
+                        //                        OtauTcpPort = monitorigPort.NetAddress.Port,
                         IsPortOnMainCharon = monitorigPort.IsPortOnMainCharon,
                         OpticalPort = monitorigPort.OpticalPort,
                     },
@@ -268,6 +268,23 @@ namespace Iit.Fibertest.RtuManagement
             };
             return dto;
         }
+
+//        private void SendByMsmq(MonitoringResultDto dto)
+//        {
+//            var address = _serviceIni.Read(IniSection.ServerMainAddress, IniKey.Ip, "192.168.96.0");
+//            var connectionString = $@"FormatName:DIRECT=TCP:{address}\private$\Fibertest20";
+//            var queue = new MessageQueue(connectionString);
+//
+//            var multiplier = _rtuIni.Read(IniSection.LoadTesting, IniKey.Multiplier, 10);
+//            var pause = _rtuIni.Read(IniSection.LoadTesting, IniKey.Pause, 200);
+//            for (int i = 0; i < multiplier; i++)
+//            {
+//                dto.TimeStamp = DateTime.Now;
+//                Message message = new Message(dto, new BinaryMessageFormatter());
+//                queue.Send(message, MessageQueueTransactionType.Single);
+//                Thread.Sleep(TimeSpan.FromMilliseconds(pause));
+//            }
+//        }
 
         private void SendByMsmq(MonitoringResultDto dto)
         {
@@ -327,8 +344,8 @@ namespace Iit.Fibertest.RtuManagement
                             {
                                 RtuId = _id,
                                 Serial = monitorigPort.CharonSerial,
-//                                OtauIp = monitorigPort.NetAddress.Ip4Address,
-//                                TcpPort = monitorigPort.NetAddress.Port,
+                                //                                OtauIp = monitorigPort.NetAddress.Ip4Address,
+                                //                                TcpPort = monitorigPort.NetAddress.Port,
                                 IsOk = true,
                             };
                             SendByMsmq(dto);

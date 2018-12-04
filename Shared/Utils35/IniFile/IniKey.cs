@@ -112,5 +112,9 @@
         GraphVisibilityLevel,
         IsGraphVisibleOnStart,
         PathToClient,
+
+        // LoadTesting
+        Multiplier,
+        Pause,
     }
 }

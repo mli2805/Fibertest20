@@ -66,7 +66,7 @@ namespace Iit.Fibertest.Graph
 
         public string InitializeRtu(RtuInitialized e)
         {
-            var rtu =  _model.Rtus.First(r => r.Id == e.Id);
+            var rtu = _model.Rtus.First(r => r.Id == e.Id);
             if (rtu == null)
             {
                 var message = $@"RtuInitialized: RTU {e.Id.First6()} not found";
@@ -82,7 +82,16 @@ namespace Iit.Fibertest.Graph
         {
             rtu.OwnPortCount = e.OwnPortCount;
             rtu.FullPortCount = e.FullPortCount;
-            rtu.Serial = e.Serial;
+
+            if (rtu.Serial != e.Serial)
+            {
+                foreach (var trace in _model.Traces.Where(t => t.OtauPort != null && t.OtauPort.Serial == rtu.Serial))
+                {
+                    trace.OtauPort.Serial = e.Serial;
+                }
+                rtu.Serial = e.Serial;
+            }
+
             rtu.MainChannel = e.MainChannel;
             rtu.MainChannelState = e.MainChannelState;
             rtu.IsReserveChannelSet = e.IsReserveChannelSet;
@@ -113,7 +122,7 @@ namespace Iit.Fibertest.Graph
 
         public string ChangeMonitoringSettings(MonitoringSettingsChanged e)
         {
-            var rtu =  _model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            var rtu = _model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
             {
                 var message = $@"MonitoringSettingsChanged: RTU {e.RtuId.First6()} not found";
@@ -134,7 +143,7 @@ namespace Iit.Fibertest.Graph
 
         public string StartMonitoring(MonitoringStarted e)
         {
-            var rtu =  _model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            var rtu = _model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
             {
                 var message = $@"MonitoringStarted: RTU {e.RtuId.First6()} not found";
@@ -147,7 +156,7 @@ namespace Iit.Fibertest.Graph
 
         public string StopMonitoring(MonitoringStopped e)
         {
-            var rtu =  _model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            var rtu = _model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
             {
                 var message = $@"MonitoringStopped: RTU {e.RtuId.First6()} not found";
@@ -158,6 +167,6 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-       
+
     }
 }
