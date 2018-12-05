@@ -275,8 +275,8 @@ namespace Iit.Fibertest.RtuManagement
 //            var connectionString = $@"FormatName:DIRECT=TCP:{address}\private$\Fibertest20";
 //            var queue = new MessageQueue(connectionString);
 //
-//            var multiplier = _rtuIni.Read(IniSection.LoadTesting, IniKey.Multiplier, 10);
-//            var pause = _rtuIni.Read(IniSection.LoadTesting, IniKey.Pause, 200);
+//            var multiplier = _rtuIni.Read(IniSection.LoadTesting, IniKey.Multiplier, 1);
+//            var pause = _rtuIni.Read(IniSection.LoadTesting, IniKey.Pause, 100);
 //            for (int i = 0; i < multiplier; i++)
 //            {
 //                dto.TimeStamp = DateTime.Now;

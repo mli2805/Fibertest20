@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
 
             foreach (var nodeVm in model.GetNeighbours(start))
             {
-                pathNodeIds = new List<Guid>();
+                pathNodeIds.Clear();
                 var previousNodeId = start;
                 var currentNodeVm = nodeVm;
 
@@ -67,6 +67,7 @@ namespace Iit.Fibertest.Client
                     var fiber = model.Data.Fibers.First(f =>
                         f.Node1.Id == currentNodeVm.Id && f.Node2.Id != previousNodeId ||
                         f.Node2.Id == currentNodeVm.Id && f.Node1.Id != previousNodeId);
+                    previousNodeId = currentNodeVm.Id;
                     currentNodeVm = fiber.Node1.Id == currentNodeVm.Id ? fiber.Node2 : fiber.Node1;
                 }
             }
