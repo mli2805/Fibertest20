@@ -18,7 +18,7 @@ namespace Iit.Fibertest.UtilsLib
         public Mikrotik(string ip, int connectionTimeout)
         {
             _tcpClient = new TcpClient();
-            var connection = _tcpClient.BeginConnect(ip,8728, null, null);
+            var connection = _tcpClient.BeginConnect(ip, 8728, null, null);
             var success = connection.AsyncWaitHandle.WaitOne(TimeSpan.FromSeconds(connectionTimeout));
             _stream = success ? _tcpClient.GetStream() : null;
         }

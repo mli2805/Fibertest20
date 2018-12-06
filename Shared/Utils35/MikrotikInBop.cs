@@ -20,7 +20,7 @@
             _mikrotik = new Mikrotik(_ip, _connectionTimeout);
             if (!_mikrotik.IsAvailable)
             {
-                _rtuLogFile.AppendLine($"Couldn't establish tcp connection with Mikrotik {_ip}");
+                _rtuLogFile.AppendLine($"Couldn't establish tcp connection with Mikrotik {_ip}:8728");
                 return false;
             }
             if (!_mikrotik.Login("admin", ""))
@@ -29,6 +29,7 @@
                 _mikrotik.Close();
                 return false;
             }
+            _rtuLogFile.AppendLine("Connected and logged in successfully.");
             return true;
         }
 
@@ -39,6 +40,5 @@
             _mikrotik.Read();
             _mikrotik.Close();
         }
-
     }
 }
