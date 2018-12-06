@@ -339,16 +339,19 @@ namespace Iit.Fibertest.RtuManagement
                             damagedOtau.Ip == cha.NetAddress.Ip4Address &&
                             damagedOtau.TcpPort == cha.NetAddress.Port)
                         {
-                            _rtuLog.AppendLine($"OTAU {cha.NetAddress.ToStringA()} recovered, send notification to server.");
-                            var dto = new BopStateChangedDto()
+                            _rtuLog.AppendLine($"OTAU {cha.NetAddress.ToStringA()} recovered");
+                            var mikrotikRebootAttemptsBeforeNotification = _rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootAttemptsBeforeNotification, 5);
+                            if (damagedOtau.RebootAttempts >= mikrotikRebootAttemptsBeforeNotification)
                             {
-                                RtuId = _id,
-                                Serial = monitorigPort.CharonSerial,
-                                //                                OtauIp = monitorigPort.NetAddress.Ip4Address,
-                                //                                TcpPort = monitorigPort.NetAddress.Port,
-                                IsOk = true,
-                            };
-                            SendByMsmq(dto);
+                                _rtuLog.AppendLine("Send notification to server.");
+                                var dto = new BopStateChangedDto()
+                                {
+                                    RtuId = _id,
+                                    Serial = monitorigPort.CharonSerial,
+                                    IsOk = true,
+                                };
+                                SendByMsmq(dto);
+                            }
                             _damagedOtaus.Remove(damagedOtau);
                         }
 

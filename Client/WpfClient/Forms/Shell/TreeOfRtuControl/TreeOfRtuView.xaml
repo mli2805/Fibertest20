@@ -89,10 +89,14 @@
                                 ItemContainerStyle="{StaticResource ContextMenuItemStyle}" 
                                 ItemsSource="{Binding MyContextMenu}"/>
                         </StackPanel.ContextMenu>
-                        <Image Source="{Binding MonitoringPictogram}" Height="12" Width="12" Margin="0,0,4,0" ToolTip="{x:Static stringResources:Resources.SID_Monitoring_mode}" />
-                        <Image Source="{Binding BopPictogram}" Height="12" Width="12" Margin="0,0,4,0" ToolTip="{x:Static stringResources:Resources.SID_BOP_state}"/>
-                        <Image Source="{Binding MainChannelPictogram}" Height="12" Width="12" Margin="0,0,4,0" ToolTip="{x:Static stringResources:Resources.SID_Main_channel}"/>
-                        <Image Source="{Binding ReserveChannelPictogram}" Height="12" Width="12" Margin="0,0,4,0" ToolTip="{x:Static stringResources:Resources.SID_Reserve_channel}"/>
+                        <Image Source="{Binding MonitoringPictogram}" Height="12" Width="12" Margin="0,0,4,0" 
+                               ToolTip="{x:Static stringResources:Resources.SID_Monitoring_mode}" />
+                        <Image Source="{Binding BopPictogram}" Height="12" Width="12" Margin="0,0,4,0" 
+                               ToolTip="{x:Static stringResources:Resources.SID_BOP_state}"/>
+                        <Image Source="{Binding MainChannelPictogram}" Height="12" Width="12" Margin="0,0,4,0" 
+                               ToolTip="{x:Static stringResources:Resources.SID_Main_channel}"/>
+                        <Image Source="{Binding ReserveChannelPictogram}" Height="12" Width="12" Margin="0,0,4,0" 
+                               ToolTip="{x:Static stringResources:Resources.SID_Reserve_channel}"/>
                         <TextBlock Text="{Binding Name}" Foreground="{Binding Color}" Margin="0,0,20,0" MinWidth="200"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
@@ -117,8 +121,10 @@
                         </StackPanel.ContextMenu>
                         <TextBlock Width="{Binding LeftMargin}"/>
                         <Image Source="{Binding BaseRefsSet.MonitoringPictogram}" Height="12" Width="12" 
-                               Margin="0,0,4,0" Visibility="{Binding IconsVisibility}" ToolTip="Monitoring"/>
-                        <Image Source="{Binding TraceStatePictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding IconsVisibility}" ToolTip="Trace state"/>
+                               Margin="0,0,4,0" Visibility="{Binding IconsVisibility}" 
+                               ToolTip="{x:Static stringResources:Resources.SID_Monitoring_mode}"/>
+                        <Image Source="{Binding TraceStatePictogram}" Height="12" Width="12" Margin="0,0,4,0" Visibility="{Binding IconsVisibility}" 
+                               ToolTip="{x:Static stringResources:Resources.SID_Trace_state}"/>
                         <TextBlock Text="{Binding Name}" Foreground="{Binding Color}" Margin="0,0,20,0" MinWidth="200"/>
                     </StackPanel>
                 </HierarchicalDataTemplate>
