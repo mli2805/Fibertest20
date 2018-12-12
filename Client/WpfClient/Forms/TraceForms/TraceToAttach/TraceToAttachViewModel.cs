@@ -33,6 +33,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private bool _isButtonsEnabled = true;
+        public bool IsButtonsEnabled
+        {
+            get { return _isButtonsEnabled; }
+            set
+            {
+                if (value == _isButtonsEnabled) return;
+                _isButtonsEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public TraceToAttachViewModel(Model readModel, IWcfServiceForClient c2DWcfManager,
             IWindowManager windowManager, CurrentUser currentUser)
         {
@@ -56,6 +68,7 @@ namespace Iit.Fibertest.Client
 
         public async void Attach()
         {
+            IsButtonsEnabled = false;
             var cmd = new ReSendBaseRefsDto()
             {
                 TraceId = _selectedTrace.TraceId,

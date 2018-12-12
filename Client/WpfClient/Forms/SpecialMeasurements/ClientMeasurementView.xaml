@@ -5,7 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        SizeToContent="Height" Width="450" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignInstance client:ClientMeasurementViewModel}">
+        ResizeMode="NoResize"
+        SizeToContent="Height" Width="450" WindowStartupLocation="CenterOwner" 
+        d:DataContext="{d:DesignInstance client:ClientMeasurementViewModel}" Loaded="Window_Loaded">
     <StackPanel>
         <TextBlock Margin="20,30,10,10" Text="{Binding Message}" FontWeight="Bold"/>
         <ProgressBar Margin="10" Height="18" IsIndeterminate="True"/>

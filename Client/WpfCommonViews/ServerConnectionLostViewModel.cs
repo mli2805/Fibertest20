@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using Caliburn.Micro;
 
 namespace Iit.Fibertest.WpfCommonViews
 {
@@ -6,6 +7,7 @@ namespace Iit.Fibertest.WpfCommonViews
     {
         private readonly SoundManager _soundManager;
         public string ServerLine { get; set; }
+        public string Timestamp { get; set; }
 
         private bool _isOpen;
         public bool IsOpen
@@ -27,6 +29,7 @@ namespace Iit.Fibertest.WpfCommonViews
         public void Initialize(string serverTitle, string serverIp)
         {
             ServerLine = $@"{serverTitle} ({serverIp})";
+            Timestamp = $"{DateTime.Now:G}";
             IsOpen = true;
         }
 
