@@ -35,6 +35,7 @@ namespace Iit.Fibertest.Client
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
+        private readonly RtuChannelViewsManager _rtuChannelViewsManager;
         private readonly BopStateViewsManager _bopStateViewsManager;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
         private readonly LandmarksViewsManager _landmarksViewsManager;
@@ -69,9 +70,9 @@ namespace Iit.Fibertest.Client
             EventsOnTreeExecutor eventsOnTreeExecutor, OpticalEventsExecutor opticalEventsExecutor,
 
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
-            RtuStateViewsManager rtuStateViewsManager, BopStateViewsManager bopStateViewsManager,
-            NetworkEventsDoubleViewModel networkEventsDoubleViewModel, BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel, 
-            LandmarksViewsManager landmarksViewsManager,
+            RtuStateViewsManager rtuStateViewsManager, RtuChannelViewsManager rtuChannelViewsManager,
+            BopStateViewsManager bopStateViewsManager, NetworkEventsDoubleViewModel networkEventsDoubleViewModel, 
+            BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel, LandmarksViewsManager landmarksViewsManager,
 
             IMyLog logFile, IniFile iniFile, EventArrivalNotifier eventArrivalNotifier, ILocalDbManager localDbManager)
         {
@@ -90,6 +91,7 @@ namespace Iit.Fibertest.Client
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _rtuStateViewsManager = rtuStateViewsManager;
+            _rtuChannelViewsManager = rtuChannelViewsManager;
             _bopStateViewsManager = bopStateViewsManager;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
             _landmarksViewsManager = landmarksViewsManager;
@@ -184,6 +186,7 @@ namespace Iit.Fibertest.Client
                     _traceStateViewsManager.Apply(evnt);
                     _traceStatisticsViewsManager.Apply(evnt);
                     _landmarksViewsManager.Apply(evnt);
+                    _rtuChannelViewsManager.Apply(evnt);
                     _bopStateViewsManager.Apply(evnt);
                     _bopNetworkEventsDoubleViewModel.Apply(evnt);
                 }

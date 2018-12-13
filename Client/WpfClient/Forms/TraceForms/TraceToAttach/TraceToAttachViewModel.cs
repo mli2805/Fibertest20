@@ -121,6 +121,7 @@ namespace Iit.Fibertest.Client
             }
 
             await _c2DWcfManager.SendCommandAsObj(command);
+            IsButtonsEnabled = true;
             TryClose();
         }
 

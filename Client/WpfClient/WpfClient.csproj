@@ -211,6 +211,11 @@
     </Compile>
     <Compile Include="Forms\RtuForms\BopState\BopStateViewModel.cs" />
     <Compile Include="Forms\RtuForms\BopState\BopStateViewsManager.cs" />
+    <Compile Include="Forms\RtuForms\RtuChannel\RtuChannelView.xaml.cs">
+      <DependentUpon>RtuChannelView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RtuForms\RtuChannel\RtuChannelViewModel.cs" />
+    <Compile Include="Forms\RtuForms\RtuChannel\RtuChannelViewsManager.cs" />
     <Compile Include="Forms\Shell\ChildrenViews.cs" />
     <Compile Include="GlobalVars\CommandLineParameters.cs" />
     <Compile Include="GlobalVars\CurrentDatacenterParameters.cs" />
@@ -661,6 +666,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\RtuForms\BopState\BopStateView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\RtuForms\RtuChannel\RtuChannelView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

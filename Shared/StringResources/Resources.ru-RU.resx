@@ -2357,4 +2357,19 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_______________________serial__0____1__ports" xml:space="preserve">
 		<value>                      заводской № {0}  {1} портов</value>
 	</data>
+	<data name="SID_RTU_connection_state" xml:space="preserve">
+		<value>Состояние связи с RTU</value>
+	</data>
+	<data name="SID_Main" xml:space="preserve">
+		<value>Основной</value>
+	</data>
+	<data name="SID_RTU_is_available" xml:space="preserve">
+		<value>RTU доступен</value>
+	</data>
+	<data name="SID_RTU_is_not_available" xml:space="preserve">
+		<value>RTU не доступен</value>
+	</data>
+	<data name="SID_Channel" xml:space="preserve">
+		<value>Канал</value>
+	</data>
 </root>

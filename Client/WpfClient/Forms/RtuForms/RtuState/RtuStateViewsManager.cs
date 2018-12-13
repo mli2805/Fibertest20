@@ -82,7 +82,10 @@ namespace Iit.Fibertest.Client
             if (rtu == null || !rtu.ZoneIds.Contains(_currentUser.ZoneId)) return;
 
             var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(networkEventAdded.RtuId);
-            Show(rtuLeaf, isUserAskedToOpenView: false, changes: networkEventAdded.RtuPartStateChanges);
+            if (LaunchedViews.TryGetValue(rtuLeaf.Id, out var vm))
+                vm.RefreshModel(rtuLeaf);
+         
+         //   Show(rtuLeaf, isUserAskedToOpenView: false, changes: networkEventAdded.RtuPartStateChanges);
         }
 
         // Server sent BOP network event

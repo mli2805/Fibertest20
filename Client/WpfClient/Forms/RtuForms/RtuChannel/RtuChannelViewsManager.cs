@@ -8,7 +8,7 @@ using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
-    public class BopStateViewsManager
+    public class RtuChannelViewsManager
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
@@ -16,11 +16,10 @@ namespace Iit.Fibertest.Client
         private readonly CurrentUser _currentUser;
         private readonly ChildrenViews _childrenViews;
 
-        public Dictionary<Guid, BopStateViewModel> LaunchedViews { get; set; } =
-            new Dictionary<Guid, BopStateViewModel>();
+        public Dictionary<Guid, RtuChannelViewModel> LaunchedViews { get; set; } =
+            new Dictionary<Guid, RtuChannelViewModel>();
 
-
-        public BopStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager,
+        public RtuChannelViewsManager(ILifetimeScope globalScope, IWindowManager windowManager, 
             Model readModel, CurrentUser currentUser, ChildrenViews childrenViews)
         {
             _globalScope = globalScope;
@@ -28,7 +27,6 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
             _currentUser = currentUser;
             _childrenViews = childrenViews;
-
             childrenViews.PropertyChanged += ChildrenViews_PropertyChanged;
         }
 
@@ -36,7 +34,7 @@ namespace Iit.Fibertest.Client
         {
             if (args.PropertyName == nameof(ChildrenViews.ShouldBeClosed))
             {
-                if (((ChildrenViews)sender).ShouldBeClosed)
+                if (((ChildrenViews) sender).ShouldBeClosed)
                 {
                     foreach (var pair in LaunchedViews.ToList())
                     {
@@ -51,18 +49,18 @@ namespace Iit.Fibertest.Client
         {
             switch (evnt)
             {
-                case BopNetworkEventAdded e: NotifyUserBopStateChanged(e); return;
+                case NetworkEventAdded e: NotifyUserRtuChannelStateChanged(e); return;
                 case ResponsibilitiesChanged _: ChangeResponsibilities(); return;
                 default: return;
             }
         }
 
-        private void NotifyUserBopStateChanged(BopNetworkEventAdded bopNetworkEventAdded)
+        private void NotifyUserRtuChannelStateChanged(NetworkEventAdded networkEventAdded)
         {
-            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == bopNetworkEventAdded.RtuId);
+            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == networkEventAdded.RtuId);
             if (rtu == null || !rtu.ZoneIds.Contains(_currentUser.ZoneId)) return;
 
-            Show(bopNetworkEventAdded);
+            Show(networkEventAdded);
         }
 
         private void ChangeResponsibilities()
@@ -75,22 +73,22 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private void Show(BopNetworkEventAdded bopNetworkEventAdded)
+        private void Show(NetworkEventAdded networkEventAdded)
         {
             ClearClosedViews();
 
-            var vm = LaunchedViews.FirstOrDefault(m => m.Value.BopIp == bopNetworkEventAdded.OtauIp).Value;
+            var vm = LaunchedViews.FirstOrDefault(m => m.Key == networkEventAdded.RtuId).Value;
             if (vm != null)
             {
                 vm.TryClose();
-                LaunchedViews.Remove(bopNetworkEventAdded.RtuId);
+                LaunchedViews.Remove(networkEventAdded.RtuId);
             }
 
-            vm = _globalScope.Resolve<BopStateViewModel>();
-            vm.Initialize(bopNetworkEventAdded);
+            vm = _globalScope.Resolve<RtuChannelViewModel>();
+            vm.Initialize(networkEventAdded);
             _windowManager.ShowWindowWithAssignedOwner(vm);
 
-            LaunchedViews.Add(bopNetworkEventAdded.RtuId, vm);
+            LaunchedViews.Add(networkEventAdded.RtuId, vm);
             _childrenViews.ShouldBeClosed = false;
         }
 

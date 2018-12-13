@@ -70,7 +70,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to                       serial {0}  {1} ports.
+        ///   Looks up a localized string similar to                      serial {0}  {1} ports.
         /// </summary>
         public static string SID_______________________serial__0____1__ports {
             get {
@@ -1386,6 +1386,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Channel.
+        /// </summary>
+        public static string SID_Channel {
+            get {
+                return ResourceManager.GetString("SID_Channel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to charon {0} has {1}/{2} ports.
         /// </summary>
         public static string SID_charon__0__has__1___2__ports {
@@ -1512,7 +1521,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Client settings.
+        ///   Looks up a localized string similar to Client application settings.
         /// </summary>
         public static string SID_Client_settings {
             get {
@@ -2107,7 +2116,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to E-mail settings.
+        ///   Looks up a localized string similar to E-mail server settings.
         /// </summary>
         public static string SID_E_mail_settings {
             get {
@@ -3354,6 +3363,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_m {
             get {
                 return ResourceManager.GetString("SID_m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main.
+        /// </summary>
+        public static string SID_Main {
+            get {
+                return ResourceManager.GetString("SID_Main", resourceCulture);
             }
         }
         
@@ -4925,6 +4943,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU connection state.
+        /// </summary>
+        public static string SID_RTU_connection_state {
+            get {
+                return ResourceManager.GetString("SID_RTU_connection_state", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This RTU does not support BOP attachment.
         /// </summary>
         public static string SID_RTU_does_not_support_BOP {
@@ -4988,11 +5015,29 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU is available.
+        /// </summary>
+        public static string SID_RTU_is_available {
+            get {
+                return ResourceManager.GetString("SID_RTU_is_available", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU is being initialized....
         /// </summary>
         public static string SID_RTU_is_being_initialized___ {
             get {
                 return ResourceManager.GetString("SID_RTU_is_being_initialized___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTU is not available.
+        /// </summary>
+        public static string SID_RTU_is_not_available {
+            get {
+                return ResourceManager.GetString("SID_RTU_is_not_available", resourceCulture);
             }
         }
         
@@ -5574,7 +5619,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SMS settings.
+        ///   Looks up a localized string similar to SMS server settings.
         /// </summary>
         public static string SID_SMS_settings {
             get {

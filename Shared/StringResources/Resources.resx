@@ -2357,4 +2357,19 @@ RTU is initializing right now!</value>
 	<data name="SID_______________________serial__0____1__ports" xml:space="preserve">
     <value>                     serial {0}  {1} ports</value>
   </data>
+	<data name="SID_RTU_connection_state" xml:space="preserve">
+    <value>RTU connection state</value>
+  </data>
+	<data name="SID_Main" xml:space="preserve">
+    <value>Main</value>
+  </data>
+	<data name="SID_RTU_is_available" xml:space="preserve">
+    <value>RTU is available</value>
+  </data>
+	<data name="SID_RTU_is_not_available" xml:space="preserve">
+    <value>RTU is not available</value>
+  </data>
+	<data name="SID_Channel" xml:space="preserve">
+    <value>Channel</value>
+  </data>
 </root>
