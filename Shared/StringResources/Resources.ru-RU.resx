@@ -2280,7 +2280,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Сохранить настройки и разослать тестовое сообщение</value>
 	</data>
 	<data name="SID_SMS_settings" xml:space="preserve">
-		<value>Настройки SMS</value>
+		<value>Настройки сервера SMS</value>
 	</data>
 	<data name="SID_Save_settings_and_send_test_sms" xml:space="preserve">
 		<value>Сохранить настройки и разослать тестовую СМС</value>
@@ -2295,7 +2295,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Задать пароль</value>
 	</data>
 	<data name="SID_Client_settings" xml:space="preserve">
-		<value>Настройки клиента</value>
+		<value>Настройки приложения Клиент</value>
 	</data>
 	<data name="SID_Failed_to_save_smtp_settings_" xml:space="preserve">
 		<value>Ошибка сохранения почтовых настроек!</value>
@@ -2331,7 +2331,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Выберите поставщика карт</value>
 	</data>
 	<data name="SID_E-mail_settings" xml:space="preserve">
-		<value>Настройки E-mail</value>
+		<value>Настройки сервера E-mail</value>
 	</data>
 	<data name="SID_Test_SMS_is_placed_into_sending_queue" xml:space="preserve">
 		<value>Тестовая SMS помещена в очередь на отправку</value>
@@ -2350,5 +2350,11 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_BOP__0_____1__at__2_" xml:space="preserve">
 		<value>БОП {0} - {1} в {2}</value>
+	</data>
+	<data name="SID____on_port__0___optical_switch__1___" xml:space="preserve">
+		<value> + к порту {0}: переключатель {1}  </value>
+	</data>
+	<data name="SID_______________________serial__0____1__ports" xml:space="preserve">
+		<value>                      заводской № {0}  {1} портов</value>
 	</data>
 </root>

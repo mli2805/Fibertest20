@@ -37,6 +37,7 @@ namespace Iit.Fibertest.Client
                 _originalRtu = value;
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(OtdrAddress));
+                NotifyOfPropertyChange(nameof(Bops));
             }
         }
 
@@ -45,6 +46,8 @@ namespace Iit.Fibertest.Client
             : OriginalRtu.OtdrNetAddress.Ip4Address;
 
         public bool IsEditEnabled { get; set; }
+
+        public List<string> Bops { get; set; }
 
         public RtuInitializeViewModel(ILifetimeScope globalScope, CurrentUser currentUser, Model readModel, IWindowManager windowManager,
             IWcfServiceForClient c2DWcfManager, IMyLog logFile, RtuLeaf rtuLeaf, CommonStatusBarViewModel commonStatusBarViewModel)
@@ -73,6 +76,7 @@ namespace Iit.Fibertest.Client
             ReserveChannelTestViewModel.PropertyChanged += ReserveChannelTestViewModel_PropertyChanged;
 
             IsReserveChannelEnabled = OriginalRtu.IsReserveChannelSet;
+            Bops = CreateBops();
         }
 
         private void ReserveChannelTestViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -277,9 +281,21 @@ namespace Iit.Fibertest.Client
                 Children = dto.Children,
                 Comment = OriginalRtu.Comment,
             };
+            Bops = CreateBops();
         }
 
-        public bool CheckAddressUniqueness()
+        private List<string> CreateBops()
+        {
+            var bops = new List<string>();
+            foreach (var pair in OriginalRtu.Children)
+            {
+                bops.Add(string.Format(Resources.SID____on_port__0___optical_switch__1___, pair.Key, pair.Value.NetAddress.ToStringA()));
+                bops.Add(string.Format(Resources.SID_______________________serial__0____1__ports, pair.Value.Serial, pair.Value.OwnPortCount));
+            }
+            return bops;
+        }
+
+        private bool CheckAddressUniqueness()
         {
             var list = _readModel.Rtus.Where(r =>
                 r.MainChannel.Ip4Address ==
@@ -291,13 +307,13 @@ namespace Iit.Fibertest.Client
                  ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address ||
                  r.ReserveChannel.Ip4Address ==
                  ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address)).ToList();
-            if (!(list.Count == 0 || list.Count == 1 && list.First().Id == OriginalRtu.Id))
-            {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_There_is_RTU_with_the_same_ip_address_);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-                return false;
-            }
-            return true;
+
+            if (list.Count == 0 || list.Count == 1 && list.First().Id == OriginalRtu.Id) 
+                return true;
+
+            var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_There_is_RTU_with_the_same_ip_address_);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+            return false;
         }
 
         private InitializeRtu GetInitializeRtuCommand(RtuInitializedDto dto)
@@ -323,8 +339,6 @@ namespace Iit.Fibertest.Client
             };
             return cmd;
         }
-
-       
 
         public void Close()
         {

@@ -2280,7 +2280,7 @@ RTU is initializing right now!</value>
     <value>Save settings and send test message</value>
   </data>
 	<data name="SID_SMS_settings" xml:space="preserve">
-    <value>SMS settings</value>
+    <value>SMS server settings</value>
   </data>
 	<data name="SID_Save_settings_and_send_test_sms" xml:space="preserve">
     <value>Save settings and send test SMS</value>
@@ -2295,7 +2295,7 @@ RTU is initializing right now!</value>
     <value>Set password</value>
   </data>
 	<data name="SID_Client_settings" xml:space="preserve">
-    <value>Client settings</value>
+    <value>Client application settings</value>
   </data>
 	<data name="SID_Failed_to_save_smtp_settings_" xml:space="preserve">
     <value>Failed to save SMTP settings!</value>
@@ -2331,7 +2331,7 @@ RTU is initializing right now!</value>
     <value>Choose map provider</value>
   </data>
 	<data name="SID_E-mail_settings" xml:space="preserve">
-    <value>E-mail settings</value>
+    <value>E-mail server settings</value>
   </data>
 	<data name="SID_Test_SMS_is_placed_into_sending_queue" xml:space="preserve">
     <value>Test SMS is placed into sending queue</value>
@@ -2350,5 +2350,11 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_BOP__0_____1__at__2_" xml:space="preserve">
     <value>BOP {0} - {1} at {2}</value>
+  </data>
+	<data name="SID____on_port__0___optical_switch__1___" xml:space="preserve">
+    <value> + on port {0}: optical switch {1}  </value>
+  </data>
+	<data name="SID_______________________serial__0____1__ports" xml:space="preserve">
+    <value>                     serial {0}  {1} ports</value>
   </data>
 </root>

@@ -51,13 +51,12 @@
         <GroupBox Header="{x:Static stringResources:Resources.SID_Information}" Margin="5">
             <StackPanel>
                 <DockPanel>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Serial}" Margin="5"></TextBlock>
-                    <TextBlock Text="{Binding OriginalRtu.Serial}" Margin="5"></TextBlock>
-                </DockPanel>
-                <DockPanel>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Port_count}" Margin="5"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Serial}" Margin="5"/>
+                    <TextBlock Text="{Binding OriginalRtu.Serial}" Margin="5"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Port_count}" Margin="25,5,5,5"/>
                     <TextBlock Text="{Binding OriginalRtu.PortCount}" Margin="5"/>
                 </DockPanel>
+                <ListView ItemsSource ="{Binding Bops}" BorderThickness="0"/>
                 <DockPanel>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_RTU_Manager_software_version}" Margin="5"/>
                     <TextBlock Text="{Binding OriginalRtu.Version}" Margin="5"/>

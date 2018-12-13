@@ -72,6 +72,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private bool _isButtonsEnabled = true;
+        public bool IsButtonsEnabled
+        {
+            get { return _isButtonsEnabled; }
+            set
+            {
+                if (value == _isButtonsEnabled) return;
+                _isButtonsEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public OtauToAttachViewModel(ILifetimeScope globalScope, Model readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
@@ -106,6 +118,7 @@ namespace Iit.Fibertest.Client
 
         public async Task AttachOtau()
         {
+            IsButtonsEnabled = false;
             if (!CheckAddressUniqueness()) return;
 
             OtauAttachedDto result;
@@ -127,6 +140,8 @@ namespace Iit.Fibertest.Client
                 var vm = new MyMessageBoxViewModel(MessageType.Error, $@"{result.ReturnCode.GetLocalizedString()}");
                 _windowManager.ShowDialogWithAssignedOwner(vm);
             }
+
+            IsButtonsEnabled = true;
         }
 
         private async Task<OtauAttachedDto> AttachOtauIntoRtu()

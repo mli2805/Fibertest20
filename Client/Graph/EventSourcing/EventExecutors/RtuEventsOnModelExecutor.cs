@@ -78,7 +78,9 @@ namespace Iit.Fibertest.Graph
             otau.IsOk = true;
             _model.Otaus.Add(otau);
             var otauDto = new OtauDto { Serial = otau.Serial, NetAddress = otau.NetAddress, OwnPortCount = otau.PortCount };
-            _model.Rtus.First(r=>r.Id == otau.RtuId).Children.Add(otau.MasterPort, otauDto);
+            var rtu = _model.Rtus.First(r=>r.Id == otau.RtuId);
+            rtu.Children.Add(otau.MasterPort, otauDto);
+            rtu.FullPortCount += otau.PortCount;
             return null;
         }
 

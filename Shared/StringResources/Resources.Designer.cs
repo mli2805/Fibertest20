@@ -70,6 +70,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to                       serial {0}  {1} ports.
+        /// </summary>
+        public static string SID_______________________serial__0____1__ports {
+            get {
+                return ResourceManager.GetString("SID_______________________serial__0____1__ports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to        Common Information.
         /// </summary>
         public static string SID________Common_Information {
@@ -111,6 +120,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID____noname_node_ {
             get {
                 return ResourceManager.GetString("SID____noname_node_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  + on port {0}: optical switch {1}  .
+        /// </summary>
+        public static string SID____on_port__0___optical_switch__1___ {
+            get {
+                return ResourceManager.GetString("SID____on_port__0___optical_switch__1___", resourceCulture);
             }
         }
         
