@@ -1,5 +1,4 @@
 ﻿using System;
-using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
@@ -9,9 +8,7 @@ namespace Iit.Fibertest.Graph
 
         public DateTime EventTimestamp { get; set; }
         public Guid RtuId { get; set; }
-        public RtuPartState MainChannelState { get; set; }
-        public RtuPartState ReserveChannelState { get; set; }
-
-        public bool IsAllRight => MainChannelState == RtuPartState.Ok && ReserveChannelState != RtuPartState.Broken;
+        public ChannelEvent OnMainChannel { get; set; }
+        public ChannelEvent OnReserveChannel { get; set; }
     }
 }

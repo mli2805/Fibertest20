@@ -3385,6 +3385,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Main channel is broken.
+        /// </summary>
+        public static string SID_Main_channel_is_broken {
+            get {
+                return ResourceManager.GetString("SID_Main_channel_is_broken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Main channel is Ok.
+        /// </summary>
+        public static string SID_Main_channel_is_Ok {
+            get {
+                return ResourceManager.GetString("SID_Main_channel_is_Ok", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Main charon.
         /// </summary>
         public static string SID_Main_charon {
@@ -4804,6 +4822,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Reserve_channel {
             get {
                 return ResourceManager.GetString("SID_Reserve_channel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reserve channel is broken.
+        /// </summary>
+        public static string SID_Reserve_channel_is_broken {
+            get {
+                return ResourceManager.GetString("SID_Reserve_channel_is_broken", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reserve channel is Ok.
+        /// </summary>
+        public static string SID_Reserve_channel_is_Ok {
+            get {
+                return ResourceManager.GetString("SID_Reserve_channel_is_Ok", resourceCulture);
             }
         }
         

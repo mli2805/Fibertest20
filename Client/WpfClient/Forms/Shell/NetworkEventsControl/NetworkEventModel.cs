@@ -13,26 +13,28 @@ namespace Iit.Fibertest.Client
         public string RtuTitle { get; set; }
         public Guid RtuId { get; set; }
 
-        private bool IsRtuAvailable => MainChannelState == RtuPartState.Ok || ReserveChannelState == RtuPartState.Ok;
+        private bool IsRtuAvailable => MainChannel == RtuPartState.Ok || ReserveChannel == RtuPartState.Ok;
         public string RtuAvailabilityString => IsRtuAvailable ? Resources.SID_Available : Resources.SID_Not_available;
         public Brush RtuAvailabilityBrush => GetAvailabilityBrush();
 
-        public RtuPartState MainChannelState { get; set; }
+        public RtuPartState MainChannel { get; set; }
+        public ChannelEvent OnMainChannel { get; set; }
 
-        public string MainChannelStateString => MainChannelState.ToLocalizedString();
-        public Brush MainChannelStateBrush => MainChannelState.GetBrush(false);
+        public string MainChannelStateString => OnMainChannel.ToLocalizedString();
+        public Brush MainChannelStateBrush => OnMainChannel.GetBrush(false);
 
-        public RtuPartState ReserveChannelState { get; set; }
-        public string ReserveChannelStateString => ReserveChannelState.ToLocalizedString();
-        public Brush ReserveChannelStateBrush => ReserveChannelState.GetBrush(false);
+        public RtuPartState ReserveChannel { get; set; }
+        public ChannelEvent OnReserveChannel { get; set; }
+        public string ReserveChannelStateString => OnReserveChannel.ToLocalizedString();
+        public Brush ReserveChannelStateBrush => OnReserveChannel.GetBrush(false);
 
 
         private Brush GetAvailabilityBrush()
         {
-            if (MainChannelState == RtuPartState.Ok && ReserveChannelState != RtuPartState.Broken)
+            if (MainChannel == RtuPartState.Ok && ReserveChannel != RtuPartState.Broken)
                 return Brushes.Transparent;
 
-            if ((int) MainChannelState + (int) ReserveChannelState == 0)
+            if ((int) OnMainChannel + (int) OnReserveChannel == 0)
                 return Brushes.LightPink;
 
             return Brushes.Red;

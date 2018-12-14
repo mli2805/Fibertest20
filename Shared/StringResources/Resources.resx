@@ -2372,4 +2372,16 @@ RTU is initializing right now!</value>
 	<data name="SID_Channel" xml:space="preserve">
     <value>Channel</value>
   </data>
+	<data name="SID_Main_channel_is_broken" xml:space="preserve">
+    <value>Main channel is broken!</value>
+  </data>
+	<data name="SID_Main_channel_is_Ok" xml:space="preserve">
+    <value>Main channel is Ok</value>
+  </data>
+	<data name="SID_Reserve_channel_is_broken" xml:space="preserve">
+    <value>Reserve channel is broken!</value>
+  </data>
+	<data name="SID_Reserve_channel_is_Ok" xml:space="preserve">
+    <value>Reserve channel is Ok</value>
+  </data>
 </root>

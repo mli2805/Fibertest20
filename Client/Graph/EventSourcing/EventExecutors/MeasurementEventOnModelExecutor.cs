@@ -35,10 +35,12 @@ namespace Iit.Fibertest.Graph
         {
             _model.NetworkEvents.Add(Mapper.Map<NetworkEvent>(e));
             var rtu = _model.Rtus.First(r => r.Id == e.RtuId);
-            rtu.MainChannelState = e.MainChannelState;
-            rtu.ReserveChannelState = e.ReserveChannelState;
+            rtu.MainChannelState =  e.OnMainChannel.ChangeChannelState(rtu.MainChannelState);
+            rtu.ReserveChannelState = e.OnReserveChannel.ChangeChannelState(rtu.ReserveChannelState);
             return null;
         }
+
+     
         public string AddBopNetworkEvent(BopNetworkEventAdded e)
         {
             _model.BopNetworkEvents.Add(Mapper.Map<BopNetworkEvent>(e));
@@ -51,4 +53,6 @@ namespace Iit.Fibertest.Graph
         }
 
     }
+
+  
 }

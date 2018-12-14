@@ -54,7 +54,7 @@ namespace Iit.Fibertest.Client
             AllNetworkEventsViewModel.AddEvent(networkEvent);
             ActualNetworkEventsViewModel.RemoveOldEventForRtuIfExists(networkEvent.RtuId);
 
-            if (networkEvent.IsAllRight)
+            if (rtu.IsAllRight)
                 return;
 
             ActualNetworkEventsViewModel.AddEvent(networkEvent);
@@ -83,7 +83,7 @@ namespace Iit.Fibertest.Client
                 if (rtu.ZoneIds.Contains(_currentUser.ZoneId)) // was NOT became YES
                 {
                     var lastNetworkEvent = _readModel.NetworkEvents.LastOrDefault(n => n.RtuId == rtu.Id);
-                    if (lastNetworkEvent != null && !lastNetworkEvent.IsAllRight)
+                    if (lastNetworkEvent != null && !rtu.IsAllRight)
                         ActualNetworkEventsViewModel.AddEvent(lastNetworkEvent);
 
                     foreach (var networkEvent in _readModel.NetworkEvents.Where(n => n.RtuId == rtu.Id))

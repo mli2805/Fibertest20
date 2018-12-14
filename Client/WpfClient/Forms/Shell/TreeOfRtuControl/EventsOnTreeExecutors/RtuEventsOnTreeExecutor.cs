@@ -119,8 +119,8 @@ namespace Iit.Fibertest.Client
             if (rtuLeaf == null)
                 return;
 
-            rtuLeaf.MainChannelState = e.MainChannelState;
-            rtuLeaf.ReserveChannelState = e.ReserveChannelState;
+            rtuLeaf.MainChannelState = e.OnMainChannel.ChangeChannelState(rtuLeaf.MainChannelState);
+            rtuLeaf.ReserveChannelState = e.OnReserveChannel.ChangeChannelState(rtuLeaf.ReserveChannelState);
         }
 
         public void AddBopNetworkEvent(BopNetworkEventAdded e)

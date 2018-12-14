@@ -266,7 +266,7 @@ namespace Iit.Fibertest.Graph
             var networkEventAdded = Mapper.Map<NetworkEventAdded>(cmd);
             var lastEventOrdial = _writeModel.NetworkEvents.Any() ? _writeModel.NetworkEvents.Max(n => n.Ordinal) : 1;
             networkEventAdded.Ordinal = lastEventOrdial + 1;
-            networkEventAdded.RtuPartStateChanges = _writeModel.IsStateWorseOrBetterThanBefore(networkEventAdded);
+          //  networkEventAdded.RtuPartStateChanges = _writeModel.IsStateWorseOrBetterThanBefore(networkEventAdded);
             return _eventsQueue.Add(networkEventAdded);
         }
 

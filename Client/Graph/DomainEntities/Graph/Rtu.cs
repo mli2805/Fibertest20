@@ -19,6 +19,8 @@ namespace Iit.Fibertest.Graph
         public NetAddress OtdrNetAddress { get; set; } = new NetAddress(@"0.0.0.0", 1500); // real address
         public bool IsAvailable => MainChannelState == RtuPartState.Ok ||
                                    ReserveChannelState == RtuPartState.Ok;
+        public bool IsAllRight => MainChannelState == RtuPartState.Ok &&
+                                  ReserveChannelState != RtuPartState.Broken;
 
         public string Serial { get; set; }
         public int OwnPortCount { get; set; }

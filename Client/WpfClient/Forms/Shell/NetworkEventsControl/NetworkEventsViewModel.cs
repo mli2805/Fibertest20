@@ -36,14 +36,17 @@ namespace Iit.Fibertest.Client
 
         public void AddEvent(NetworkEvent networkEvent)
         {
+            var rtu = _readModel.Rtus.First(r => r.Id == networkEvent.RtuId);
             Rows.Add(new NetworkEventModel()
             {
                 Ordinal = networkEvent.Ordinal,
                 EventTimestamp = networkEvent.EventTimestamp,
                 RtuId = networkEvent.RtuId,
                 RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == networkEvent.RtuId)?.Title,
-                MainChannelState = networkEvent.MainChannelState,
-                ReserveChannelState = networkEvent.ReserveChannelState,
+                MainChannel = rtu.MainChannelState,
+                ReserveChannel = rtu.ReserveChannelState,
+                OnMainChannel = networkEvent.OnMainChannel,
+                OnReserveChannel = networkEvent.OnReserveChannel,
             });
         }
 
