@@ -15,9 +15,12 @@
         <DockPanel DockPanel.Dock="Right" Width="200" Margin="5" IsEnabled="{Binding IsEditEnabled}">
             <TextBlock DockPanel.Dock="Bottom" Margin="10,0,10,5" Background="AliceBlue" Text="{Binding MessageProp}" TextWrapping="Wrap" />
             <DockPanel DockPanel.Dock="Bottom" Margin="5,15,5,0">
-                <Button Name="Apply" Height="25" Width="80" Content="{x:Static stringResources:Resources.SID_Apply}" Margin="5" DockPanel.Dock="Left"/>
-                <Button Name="Close" Height="25" Width="80" Content="{x:Static stringResources:Resources.SID_Close}" 
-                        Margin="5" IsCancel="True" DockPanel.Dock="Right" IsEnabled="True"/>
+                <Button Name="Apply" Height="25" Width="80" IsEnabled="{Binding IsButtonsEnabled}"
+                        Content="{x:Static stringResources:Resources.SID_Apply}" Margin="5" DockPanel.Dock="Left"/>
+
+                <Button Name="Close" Height="25" Width="80" IsEnabled="{Binding IsButtonsEnabled}"
+                        Content="{x:Static stringResources:Resources.SID_Close}" 
+                        Margin="5" IsCancel="True" DockPanel.Dock="Right"/>
                 <StackPanel></StackPanel>
             </DockPanel>
             <GroupBox Header="{x:Static stringResources:Resources.SID_Precise}" DockPanel.Dock="Top">

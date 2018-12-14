@@ -35,8 +35,20 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         }
 
         public bool IsEditEnabled { get; set; }
-        
-        public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, ILifetimeScope globalScope, CurrentUser currentUser, Model readModel, 
+
+        private bool _isButtonsEnabled;
+        public bool IsButtonsEnabled
+        {
+            get { return _isButtonsEnabled; }
+            set
+            {
+                if (value == _isButtonsEnabled) return;
+                _isButtonsEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, ILifetimeScope globalScope, CurrentUser currentUser, Model readModel,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, MonitoringSettingsModelFactory monitoringSettingsModelFactory)
         {
             _globalScope = globalScope;
@@ -53,10 +65,12 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Monitoring_settings;
+            IsButtonsEnabled = true;
         }
 
         public async void Apply()
         {
+            IsButtonsEnabled = false;
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 MessageProp = Resources.SID_Command_is_processing___;
@@ -65,6 +79,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                 {
                     var mb = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_There_are_no_ports_for_monitoring_);
                     _windowManager.ShowDialogWithAssignedOwner(mb);
+                    IsButtonsEnabled = true;
                     return;
                 }
                 var resultDto = await _c2DWcfManager.ApplyMonitoringSettingsAsync(dto);
@@ -77,6 +92,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                 else
                     MessageProp = resultDto.ReturnCode.GetLocalizedString(resultDto.ExceptionMessage);
             }
+            IsButtonsEnabled = true;
         }
 
         private ChangeMonitoringSettings PrepareCommand(ApplyMonitoringSettingsDto dto)
@@ -117,9 +133,9 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                             OtauPort = new OtauPortDto
                             {
                                 IsPortOnMainCharon = charon.IsMainCharon,
-//                                OtauIp = charon.IsMainCharon ? Model.RealOtdrAddress : charon.CharonIpAddress,
-//                                OtauTcpPort = charon.CharonTcpPort,
-                              Serial = charon.Serial,
+                                //                                OtauIp = charon.IsMainCharon ? Model.RealOtdrAddress : charon.CharonIpAddress,
+                                //                                OtauTcpPort = charon.CharonTcpPort,
+                                Serial = charon.Serial,
                                 OpticalPort = port.PortNumber,
                             },
                             TraceId = port.TraceId,
