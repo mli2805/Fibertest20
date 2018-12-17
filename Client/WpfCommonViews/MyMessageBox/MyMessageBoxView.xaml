@@ -11,7 +11,8 @@
         <ItemsControl ItemsSource="{Binding Lines}" Margin="100,25,100,50">
             <ItemsControl.ItemTemplate>
                 <DataTemplate DataType="myMessageBox:MyMessageBoxLineModel">
-                    <TextBlock Text="{Binding Line}" TextAlignment="Center" TextWrapping="Wrap" FontWeight="{Binding FontWeight}" Foreground="{Binding Foreground}"/>
+                    <TextBlock Text="{Binding Line}" TextAlignment="Center" TextWrapping="Wrap" 
+                               FontWeight="{Binding FontWeight}" Foreground="{Binding Foreground}"/>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

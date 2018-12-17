@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Media;
@@ -80,6 +81,8 @@ namespace Iit.Fibertest.Client
 
             IsOk = networkEventAdded.OnMainChannel != ChannelEvent.Broken &&
                    networkEventAdded.OnReserveChannel != ChannelEvent.Broken;
+            StateOn = string.Format(Resources.SID_State_on__0_,
+                networkEventAdded.EventTimestamp.ToString(CultureInfo.CurrentCulture), networkEventAdded.Ordinal);
         }
 
         protected override void OnViewLoaded(object view)
