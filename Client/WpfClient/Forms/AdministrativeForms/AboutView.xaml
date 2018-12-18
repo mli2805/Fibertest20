@@ -4,20 +4,35 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         SizeToContent="Height" Width="400" d:DataContext="{d:DesignInstance client:AboutViewModel}">
     <StackPanel>
         <client:IitOfficialHeader/>
-        <StackPanel Margin="25,5,5,5">
+        <StackPanel Margin="25,5,25,5">
             <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="Data-center version" Width="120"/>
-                <TextBlock Margin="10,0,0,0" Text="{Binding ServerVersion}" Background="AliceBlue"/>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Data_center_software_version}" Width="160"/>
+                <TextBlock Margin="10,0,0,0" Text="{Binding ServerVersion}"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="5">
-                <TextBlock Text="Client version"  Width="120"/>
-                <TextBlock Margin="10,0,0,0" Text="{Binding ClientVersion}" Background="AliceBlue"/>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Client_software_version}"  Width="160"/>
+                <TextBlock Margin="10,0,0,5" Text="{Binding ClientVersion}"/>
             </StackPanel>
-            <Button Content="Close" Name="Close" Width="100" Margin="5,15,5,10"/>
+            <Border BorderBrush="Gray" BorderThickness="0,1,0,0"/>
+            <TextBlock Text="{x:Static stringResources:Resources.SID_RTUs_software_version}"  Width="160" HorizontalAlignment="Left" Margin="5,10"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto"  Margin="0,0,0,20" MaxHeight="140">
+                <ItemsControl ItemsSource="{Binding Rtus}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate DataType="client:RtuVersion">
+                            <StackPanel Orientation="Horizontal">
+                                <TextBlock Text="{Binding Title}" Width="160" Margin="5,0" Height="20"/>
+                                <TextBlock Text="{Binding Version}" Margin="5,0"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+            <Button Content="{x:Static stringResources:Resources.SID_Close}" Name="Close" Width="100" Margin="5,15,5,10"/>
         </StackPanel>
     </StackPanel>
 </Window>

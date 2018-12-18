@@ -58,9 +58,7 @@ namespace Iit.Fibertest.RtuManagement
         {
             try
             {
-                
                 var list = Queue.Select(p => JsonConvert.SerializeObject(new MonitoringPortOnDisk(p), JsonSerializerSettings));
-
                 File.WriteAllLines(_monitoringSettingsFile, list);
             }
             catch (Exception e)
@@ -92,8 +90,6 @@ namespace Iit.Fibertest.RtuManagement
             foreach (var portInOldQueue in oldQueue)
             {
                if (portInOldQueue.CharonSerial == portWithTrace.OtauPort.Serial
-//                if (portInOldQueue.NetAddress.Ip4Address == portWithTrace.OtauPort.OtauIp
-//                    && portInOldQueue.NetAddress.Port == portWithTrace.OtauPort.OtauTcpPort
                     && portInOldQueue.OpticalPort == portWithTrace.OtauPort.OpticalPort)
                 {
                     return portInOldQueue;

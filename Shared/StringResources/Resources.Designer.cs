@@ -1548,6 +1548,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Client software version.
+        /// </summary>
+        public static string SID_Client_software_version {
+            get {
+                return ResourceManager.GetString("SID_Client_software_version", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Client started.
         /// </summary>
         public static string SID_Client_started {
@@ -1815,6 +1824,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Data_Center_setup_started_ {
             get {
                 return ResourceManager.GetString("SID_Data_Center_setup_started_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Data-center software version.
+        /// </summary>
+        public static string SID_Data_center_software_version {
+            get {
+                return ResourceManager.GetString("SID_Data-center_software_version", resourceCulture);
             }
         }
         
@@ -3385,7 +3403,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Main channel is broken.
+        ///   Looks up a localized string similar to Main channel is broken!.
         /// </summary>
         public static string SID_Main_channel_is_broken {
             get {
@@ -4826,7 +4844,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reserve channel is broken.
+        ///   Looks up a localized string similar to Reserve channel is broken!.
         /// </summary>
         public static string SID_Reserve_channel_is_broken {
             get {
@@ -5164,6 +5182,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_RTU_updated {
             get {
                 return ResourceManager.GetString("SID_RTU_updated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to RTUs software version.
+        /// </summary>
+        public static string SID_RTUs_software_version {
+            get {
+                return ResourceManager.GetString("SID_RTUs_software_version", resourceCulture);
             }
         }
         
