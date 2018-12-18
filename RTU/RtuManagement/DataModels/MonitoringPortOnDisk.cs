@@ -6,7 +6,6 @@ namespace Iit.Fibertest.RtuManagement
     [Serializable]
     public class MonitoringPortOnDisk
     {
-//        public NetAddress NetAddress { get; set; }
         public string Serial { get; set; }
         public int OpticalPort { get; set; }
         public bool IsPortOnMainCharon { get; set; }
@@ -16,7 +15,8 @@ namespace Iit.Fibertest.RtuManagement
         public DateTime LastPreciseSavedTimestamp { get; set; }
         public DateTime LastFastSavedTimestamp { get; set; }
 
-        public bool MonitoringModeChangedFlag { get; set; }
+        public bool IsMonitoringModeChanged { get; set; }
+        public bool IsConfirmationRequired { get; set; }
        
         // for deserializer
         public MonitoringPortOnDisk()
@@ -26,7 +26,6 @@ namespace Iit.Fibertest.RtuManagement
 
         public MonitoringPortOnDisk(MonitorigPort port)
         {
-//            NetAddress = (NetAddress) port.NetAddress.Clone();
             Serial = port.CharonSerial;
             OpticalPort = port.OpticalPort;
             IsPortOnMainCharon = port.IsPortOnMainCharon;
@@ -36,7 +35,8 @@ namespace Iit.Fibertest.RtuManagement
             LastFastSavedTimestamp = port.LastFastSavedTimestamp;
             LastPreciseSavedTimestamp = port.LastPreciseSavedTimestamp;
 
-            MonitoringModeChangedFlag = port.MonitoringModeChangedFlag;
+            IsMonitoringModeChanged = port.IsMonitoringModeChanged;
+            IsConfirmationRequired = port.IsConfirmationRequired;
         }
     }
 

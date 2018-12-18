@@ -58,7 +58,7 @@ namespace Iit.Fibertest.RtuManagement
             var hasFastPerformed = false;
 
             // FAST 
-            if (monitorigPort.MonitoringModeChangedFlag ||
+            if (monitorigPort.IsMonitoringModeChanged ||
                 (_fastSaveTimespan != TimeSpan.Zero && DateTime.Now - monitorigPort.LastFastSavedTimestamp > _fastSaveTimespan) ||
                 monitorigPort.LastTraceState == FiberState.Ok)
             {
@@ -70,7 +70,7 @@ namespace Iit.Fibertest.RtuManagement
 
             var isTraceBroken = monitorigPort.LastTraceState != FiberState.Ok;
             var isSecondMeasurementNeeded = isTraceBroken ||
-                                            monitorigPort.MonitoringModeChangedFlag ||
+                                            monitorigPort.IsMonitoringModeChanged ||
                                             _preciseMakeTimespan != TimeSpan.Zero &&
                                             (DateTime.Now - monitorigPort.LastPreciseMadeTimestamp) >
                                             _preciseMakeTimespan;
@@ -104,8 +104,9 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     message = $"Trace state has changed ({monitorigPort.LastTraceState} => {moniResult.GetAggregatedResult()})";
                     monitorigPort.LastTraceState = moniResult.GetAggregatedResult();
+                    monitorigPort.IsConfirmationRequired = true;
                 }
-                else if (monitorigPort.MonitoringModeChangedFlag)
+                else if (monitorigPort.IsMonitoringModeChanged)
                 {
                     message = "Monitoring mode was changed";
                 }
@@ -148,14 +149,15 @@ namespace Iit.Fibertest.RtuManagement
                     message = "Trace state has changed";
                     monitorigPort.LastTraceState = moniResult.GetAggregatedResult();
                 }
-                else if (monitorigPort.MonitoringModeChangedFlag)
+                else if (monitorigPort.IsMonitoringModeChanged)
                 {
                     message = "Monitoring mode was changed";
-                    monitorigPort.MonitoringModeChangedFlag = false;
+                    monitorigPort.IsMonitoringModeChanged = false;
                 }
-                else if (hasFastPerformed)
+                else if (monitorigPort.IsConfirmationRequired)
                 {
                     message = "Accident confirmation - should be saved";
+                    monitorigPort.IsConfirmationRequired = false;
                 }
                 else if (_preciseSaveTimespan != TimeSpan.Zero && DateTime.Now - monitorigPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
                     message = "It's time to save precise reflectogram";

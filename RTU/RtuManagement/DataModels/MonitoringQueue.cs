@@ -108,7 +108,7 @@ namespace Iit.Fibertest.RtuManagement
             Queue.Clear();
             foreach (var monitorigPort in temp)
             {
-                monitorigPort.MonitoringModeChangedFlag = true;
+                monitorigPort.IsMonitoringModeChanged = true;
                 Queue.Enqueue(monitorigPort);
             }
         }

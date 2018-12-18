@@ -8,7 +8,6 @@ namespace Iit.Fibertest.RtuManagement
 {
     public class MonitorigPort
     {
-      //  public NetAddress NetAddress { get; set; }
         public bool IsPortOnMainCharon { get; set; }
 
         public string CharonSerial { get; set; }
@@ -23,11 +22,11 @@ namespace Iit.Fibertest.RtuManagement
         public MoniResult LastMoniResult { get; set; }
         public bool IsBreakdownCloserThen20Km { get; set; }
 
-        public bool MonitoringModeChangedFlag { get; set; }
+        public bool IsMonitoringModeChanged { get; set; }
+        public bool IsConfirmationRequired { get; set; }
 
         public MonitorigPort(MonitoringPortOnDisk port)
         {
-//            NetAddress = port.NetAddress;
             CharonSerial = port.Serial;
             OpticalPort = port.OpticalPort;
             TraceId = port.TraceId;
@@ -37,13 +36,13 @@ namespace Iit.Fibertest.RtuManagement
             LastFastSavedTimestamp = port.LastFastSavedTimestamp;
             LastPreciseSavedTimestamp = port.LastPreciseSavedTimestamp;
 
-            MonitoringModeChangedFlag = port.MonitoringModeChangedFlag;
+            IsMonitoringModeChanged = port.IsMonitoringModeChanged;
+            IsConfirmationRequired = port.IsConfirmationRequired;
         }
 
         // new port for monitoring in user's command
         public MonitorigPort(PortWithTraceDto port)
         {
-         //   NetAddress = new NetAddress(port.OtauPort.OtauIp, port.OtauPort.OtauTcpPort);
             CharonSerial = port.OtauPort.Serial;
             OpticalPort = port.OtauPort.OpticalPort;
             IsPortOnMainCharon = port.OtauPort.IsPortOnMainCharon;
@@ -53,12 +52,11 @@ namespace Iit.Fibertest.RtuManagement
             LastFastSavedTimestamp = DateTime.Now;
             LastPreciseSavedTimestamp = DateTime.Now;
 
-            MonitoringModeChangedFlag = true;
+            IsMonitoringModeChanged = true;
         }
 
         private string GetPortFolderName()
         {
-          //  return $"{NetAddress.Ip4Address}t{NetAddress.Port}p{OpticalPort}";
             return $"{CharonSerial}p{OpticalPort:000}";
         }
 
@@ -66,18 +64,15 @@ namespace Iit.Fibertest.RtuManagement
         {
             return IsPortOnMainCharon
                 ? $"{OpticalPort}"
-              //  : $"{OpticalPort} on {NetAddress.ToStringA()}";
                 : $"{OpticalPort} on {CharonSerial}";
         }
 
         public string ToStringB(Charon mainCharon)
         {
-          //  if (NetAddress.Equals(mainCharon.NetAddress))
             if (CharonSerial == mainCharon.Serial)
                 return OpticalPort.ToString();
             foreach (var pair in mainCharon.Children)
             {
-              //  if (pair.Value.NetAddress.Equals(NetAddress))
                 if (pair.Value.Serial == CharonSerial)
                     return $"{pair.Key}:{OpticalPort}";
             }
