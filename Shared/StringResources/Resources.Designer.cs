@@ -1251,6 +1251,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cannot find file with user&apos;s guide:.
+        /// </summary>
+        public static string SID_Cannot_find_file_with_user_s_guide_ {
+            get {
+                return ResourceManager.GetString("SID_Cannot_find_file_with_user_s_guide_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cannot find Reflect.exe.
         /// </summary>
         public static string SID_Cannot_find_Reflect_exe {
@@ -6722,6 +6731,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Users_Db_saved_successfully_ {
             get {
                 return ResourceManager.GetString("SID_Users_Db_saved_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User&apos;s guide.
+        /// </summary>
+        public static string SID_Users_guide {
+            get {
+                return ResourceManager.GetString("SID_Users_guide", resourceCulture);
             }
         }
         

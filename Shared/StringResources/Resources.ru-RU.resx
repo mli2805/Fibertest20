@@ -1785,7 +1785,7 @@ RTU инициализируется в данный момент!</value>
 		<value>* Изменения будут применены после перезагрузки</value>
 	</data>
 	<data name="SID_Help" xml:space="preserve">
-		<value>Помощь</value>
+		<value>Справка</value>
 	</data>
 	<data name="SID_About" xml:space="preserve">
 		<value>О программе</value>
@@ -2392,5 +2392,11 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_RTUs_software_version" xml:space="preserve">
 		<value>Версии ПО RTU менеджер</value>
+	</data>
+	<data name="SID_Users_guide" xml:space="preserve">
+		<value>Руководство пользователя</value>
+	</data>
+	<data name="SID_Cannot_find_file_with_user_s_guide_" xml:space="preserve">
+		<value>Не найден файл руководства пользователя:</value>
 	</data>
 </root>

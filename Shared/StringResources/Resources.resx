@@ -2393,4 +2393,10 @@ RTU is initializing right now!</value>
 	<data name="SID_RTUs_software_version" xml:space="preserve">
     <value>RTUs software version</value>
   </data>
+	<data name="SID_Users_guide" xml:space="preserve">
+    <value>User's guide</value>
+  </data>
+	<data name="SID_Cannot_find_file_with_user_s_guide_" xml:space="preserve">
+    <value>Cannot find file with user's guide:</value>
+  </data>
 </root>

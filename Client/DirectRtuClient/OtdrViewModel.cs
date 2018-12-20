@@ -222,7 +222,6 @@ namespace DirectRtuClient
         {
             var fd = new OpenFileDialog();
             fd.Filter = @"Sor files (*.sor)|*.sor";
-            //            fd.InitialDirectory = @"c:\temp\";
             fd.InitialDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\out\"));
             if (fd.ShowDialog() == true)
                 BaseFileName = fd.FileName;
@@ -232,7 +231,6 @@ namespace DirectRtuClient
         {
             var fd = new OpenFileDialog();
             fd.Filter = @"Sor files (*.sor)|*.sor";
-            //            fd.InitialDirectory = @"c:\temp\";
             fd.InitialDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\out\"));
             if (fd.ShowDialog() == true)
                 ResultFileName = fd.FileName;
@@ -242,7 +240,6 @@ namespace DirectRtuClient
         {
             var fd = new SaveFileDialog();
             fd.Filter = @"Sor files (*.sor)|*.sor";
-            //            fd.InitialDirectory = @"c:\temp\";
             fd.InitialDirectory = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\out\"));
             if (fd.ShowDialog() == true)
                 MeasFileName = fd.FileName;

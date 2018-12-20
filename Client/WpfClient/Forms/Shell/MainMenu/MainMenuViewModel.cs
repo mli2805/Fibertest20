@@ -1,5 +1,9 @@
-﻿using Autofac;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
@@ -57,6 +61,19 @@ namespace Iit.Fibertest.Client
             var vm = _globalScope.Resolve<EventLogViewModel>();
             await vm.Initialize();
             _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
+        public void ShowUsersGuide()
+        {
+            var usersGuide = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\UserGuide\FIBERTEST20ClientUGru.pdf"));
+            if (!File.Exists(usersGuide))
+            {
+                var mb = new MyMessageBoxViewModel(MessageType.Error, 
+                    new List<string>(){Resources.SID_Cannot_find_file_with_user_s_guide_, "", usersGuide}, 0);
+                _windowManager.ShowDialogWithAssignedOwner(mb);
+                return;
+            }
+            System.Diagnostics.Process.Start(usersGuide);
         }
 
         public void LaunchLicenseView()

@@ -21,7 +21,7 @@
             </MenuItem>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Event_log}" cal:Message.Attach="LaunchEventLogView"/>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Help}">
-                <MenuItem Header="Help me!"/>
+                <MenuItem Header="{x:Static stringResources:Resources.SID_Users_guide}" cal:Message.Attach="ShowUsersGuide"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_License}" cal:Message.Attach="LaunchLicenseView"/>
                 <Separator/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_About}" cal:Message.Attach="LaunchAboutView"/>
