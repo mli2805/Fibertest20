@@ -34,6 +34,7 @@ xcopy ..\Client\LicenseMaker\bin\Release\*.* PackAdmin\LicenseMaker\bin\*.* /S/D
 xcopy ..\Client\DbMigrationWpf\bin\Release\*.* PackAdmin\DbMigrationWpf\bin\*.* /S/D/Y
 xcopy ..\Client\KadastrLoader\bin\Release\*.* PackAdmin\KadastrLoader\bin\*.* /S/D/Y
 xcopy ..\Client\Broadcaster\bin\Release\*.* PackAdmin\Broadcaster\bin\*.* /S/D/Y
+xcopy ..\Auxiliary Files\UserGuide\*.* PackAdmin\Auxiliary Files\UserGuide\*.* /S/D/Y
 cd PackAdmin\
 "C:\Program Files\WinRAR\winrar.exe" a -r ..\FtAdmin_%1.rar *.*
 cd ..\
