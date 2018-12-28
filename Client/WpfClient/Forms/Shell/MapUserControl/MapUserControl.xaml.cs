@@ -133,7 +133,8 @@ namespace Iit.Fibertest.Client
 
         private void UserControl_LostFocus(object sender, RoutedEventArgs e)
         {
-            GraphReadModel.IniFile.Write(IniSection.Map, IniKey.Zoom, MainMap.Zoom > 19 ? 19 : MainMap.Zoom);
+            var saveZoomLimit = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.SaveMaxZoomNoMoreThan, 15);
+            GraphReadModel.IniFile.Write(IniSection.Map, IniKey.Zoom, MainMap.Zoom > saveZoomLimit ? saveZoomLimit : MainMap.Zoom);
             GraphReadModel.IniFile.Write(IniSection.Map, IniKey.CenterLatitude, MainMap.Position.Lat);
             GraphReadModel.IniFile.Write(IniSection.Map, IniKey.CenterLongitude, MainMap.Position.Lng);
         }

@@ -103,6 +103,7 @@
         CenterLatitude,
         CenterLongitude,
         MaxZoom,
+        SaveMaxZoomNoMoreThan,
         GMapProvider,
 
         // Miscellaneous
