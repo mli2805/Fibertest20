@@ -17,5 +17,8 @@ namespace Iit.Fibertest.SuperClientWcfServiceInterface
 
         [OperationContract]
         Task<int> SetSystemState(int postfix, bool isStateOk);
+
+        [OperationContract]
+        Task<int> SwitchOntoSystem(int postfix);
     }
 }

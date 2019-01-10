@@ -3,7 +3,7 @@
     public enum FtSystemState
     {
         Unknown,
-        Ok,
-        Failed,
+        AllIsOk,
+        ThereAreAnyProblem,
     }
 }

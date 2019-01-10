@@ -73,7 +73,7 @@ namespace Iit.Fibertest.SuperClient
                 return;
             } 
             server.ServerConnectionState = FtServerConnectionState.Connected;
-            server.SystemState = isStateOk ? FtSystemState.Ok : FtSystemState.Failed;
+            server.SystemState = isStateOk ? FtSystemState.AllIsOk : FtSystemState.ThereAreAnyProblem;
         }
 
         public void CleanBrokenConnection(int postfix)
@@ -90,6 +90,13 @@ namespace Iit.Fibertest.SuperClient
         {
             var selectedFtServer =
                 FtServerList.Servers.FirstOrDefault(s => s.ServerConnectionState == FtServerConnectionState.Connected);
+            if (selectedFtServer != null)
+                SelectedFtServer = selectedFtServer;
+        }
+
+        public void ChangeSelectedClient(int postfix)
+        {
+            var selectedFtServer = FtServerList.Servers.FirstOrDefault(s => s.Entity.Postfix == postfix);
             if (selectedFtServer != null)
                 SelectedFtServer = selectedFtServer;
         }
@@ -123,7 +130,7 @@ namespace Iit.Fibertest.SuperClient
         {
             var server = FtServerList.Servers.FirstOrDefault(s => s.Entity.Postfix == postfix);
             if (server != null)
-                server.SystemState = isStateOk ? FtSystemState.Ok : FtSystemState.Failed;
+                server.SystemState = isStateOk ? FtSystemState.AllIsOk : FtSystemState.ThereAreAnyProblem;
         }
 
         public void AddServer()

@@ -7,6 +7,7 @@ using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.SuperClientWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
@@ -21,6 +22,8 @@ namespace Iit.Fibertest.Client
         private readonly ReflectogramManager _reflectogramManager;
         private readonly SoundManager _soundManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly CommandLineParameters _commandLineParameters;
+        private readonly IWcfServiceInSuperClient _c2SWcfManager;
         private readonly TabulatorViewModel _tabulatorViewModel;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private readonly GraphReadModel _graphReadModel;
@@ -37,6 +40,7 @@ namespace Iit.Fibertest.Client
         public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser, 
             CurrentlyHiddenRtu currentlyHiddenRtu, ReflectogramManager reflectogramManager, 
             SoundManager soundManager, IWcfServiceForClient c2DWcfManager, 
+            CommandLineParameters commandLineParameters, IWcfServiceInSuperClient c2SWcfManager,
             TabulatorViewModel tabulatorViewModel,
             TraceStatisticsViewsManager traceStatisticsViewsManager, GraphReadModel graphReadModel)
         {
@@ -46,6 +50,8 @@ namespace Iit.Fibertest.Client
             _reflectogramManager = reflectogramManager;
             _soundManager = soundManager;
             _c2DWcfManager = c2DWcfManager;
+            _commandLineParameters = commandLineParameters;
+            _c2SWcfManager = c2SWcfManager;
             _tabulatorViewModel = tabulatorViewModel;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
             _graphReadModel = graphReadModel;
@@ -130,6 +136,12 @@ namespace Iit.Fibertest.Client
              _graphReadModel.PlacePointIntoScreenCenter((PointLatLng)accidentPoint);
             if (_tabulatorViewModel.SelectedTabIndex != 3)
                 _tabulatorViewModel.SelectedTabIndex = 3;
+
+            if (_commandLineParameters.IsUnderSuperClientStart)
+            {
+                _logFile.AppendLine($@"Ask super-client to switch onto this system (postfix = {_commandLineParameters.ClientOrdinal}).");
+                _c2SWcfManager.SwitchOntoSystem(_commandLineParameters.ClientOrdinal);
+            }
         }
 
         public void ShowReflectogram()

@@ -65,9 +65,9 @@ namespace Iit.Fibertest.SuperClient
             {
                 case FtSystemState.Unknown:
                     return @"pack://application:,,,/Resources/EmptySquare.png";
-                case FtSystemState.Ok:
+                case FtSystemState.AllIsOk:
                     return @"pack://application:,,,/Resources/GreenSquare.png";
-                case FtSystemState.Failed:
+                case FtSystemState.ThereAreAnyProblem:
                     return @"pack://application:,,,/Resources/RedSquare.png";
                 default:
                     return @"pack://application:,,,/Resources/EmptySquare.png";
