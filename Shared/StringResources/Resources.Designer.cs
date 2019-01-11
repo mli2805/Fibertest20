@@ -4817,6 +4817,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Repaired.
+        /// </summary>
+        public static string SID_Repaired {
+            get {
+                return ResourceManager.GetString("SID_Repaired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Report.
         /// </summary>
         public static string SID_Report {

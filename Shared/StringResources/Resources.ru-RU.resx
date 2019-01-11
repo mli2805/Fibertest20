@@ -2399,4 +2399,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Cannot_find_file_with_user_s_guide_" xml:space="preserve">
 		<value>Не найден файл руководства пользователя:</value>
 	</data>
+	<data name="SID_Repaired" xml:space="preserve">
+		<value>Восстановлен</value>
+	</data>
 </root>

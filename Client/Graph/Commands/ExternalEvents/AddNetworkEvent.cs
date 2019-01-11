@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Graph
                 case ChannelEvent.Nothing:
                     return "";
                 case ChannelEvent.Repaired:
-                    return Resources.SID_Ok;
+                    return Resources.SID_Repaired;
                 default: return "";
             }
         }

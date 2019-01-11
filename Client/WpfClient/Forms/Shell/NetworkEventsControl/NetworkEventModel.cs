@@ -20,13 +20,17 @@ namespace Iit.Fibertest.Client
         public RtuPartState MainChannel { get; set; }
         public ChannelEvent OnMainChannel { get; set; }
 
-        public string MainChannelStateString => OnMainChannel.ToLocalizedString();
-        public Brush MainChannelStateBrush => OnMainChannel.GetBrush(false);
+        public string MainChannelEventString => OnMainChannel == ChannelEvent.Nothing 
+            ? MainChannel.ToLocalizedString() 
+            : OnMainChannel.ToLocalizedString();
+        public Brush MainChannelEventBrush => OnMainChannel.GetBrush(false);
 
         public RtuPartState ReserveChannel { get; set; }
         public ChannelEvent OnReserveChannel { get; set; }
-        public string ReserveChannelStateString => OnReserveChannel.ToLocalizedString();
-        public Brush ReserveChannelStateBrush => OnReserveChannel.GetBrush(false);
+        public string ReserveChannelEventString => OnReserveChannel == ChannelEvent.Nothing 
+            ? ReserveChannel.ToLocalizedString() 
+            : OnReserveChannel.ToLocalizedString();
+        public Brush ReserveChannelEventBrush => OnReserveChannel.GetBrush(false);
 
 
         private Brush GetAvailabilityBrush()
@@ -34,7 +38,7 @@ namespace Iit.Fibertest.Client
             if (MainChannel == RtuPartState.Ok && ReserveChannel != RtuPartState.Broken)
                 return Brushes.Transparent;
 
-            if ((int) OnMainChannel + (int) OnReserveChannel == 0)
+            if (((int) MainChannel + (int) ReserveChannel) == 0)
                 return Brushes.LightPink;
 
             return Brushes.Red;

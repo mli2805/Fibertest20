@@ -8,7 +8,8 @@
              mc:Ignorable="d"
              d:DataContext="{d:DesignInstance client:NetworkEventsViewModel}">
     <DockPanel>
-        <TextBlock DockPanel.Dock="Top" Height="20" Margin="0,10,0,0" Text="{Binding TableTitle}" HorizontalAlignment="Center" FontSize="12" FontWeight="Bold"/>
+        <TextBlock DockPanel.Dock="Top" Height="20" Margin="0,10,0,0" Text="{Binding TableTitle}" HorizontalAlignment="Center" 
+                   FontSize="12" FontWeight="Bold"/>
         <DataGrid Margin="5" ItemsSource="{Binding Rows, Mode=TwoWay}" AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event_Id}" Binding="{Binding Ordinal}" Width="120"/>
@@ -21,17 +22,19 @@
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Main_channel}" Binding="{Binding MainChannelStateString}" Width="120">
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Main_channel}" 
+                                    Binding="{Binding MainChannelEventString}" Width="120">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
-                            <Setter Property="Background" Value="{Binding (client:NetworkEventModel.MainChannelStateBrush)}" />
+                            <Setter Property="Background" Value="{Binding (client:NetworkEventModel.MainChannelEventBrush)}" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Reserve_channel}" Binding="{Binding ReserveChannelStateString}" Width="120">
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Reserve_channel}" 
+                                    Binding="{Binding ReserveChannelEventString}" Width="120">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
-                            <Setter Property="Background" Value="{Binding (client:NetworkEventModel.ReserveChannelStateBrush)}" />
+                            <Setter Property="Background" Value="{Binding (client:NetworkEventModel.ReserveChannelEventBrush)}" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
                 </DataGridTextColumn>

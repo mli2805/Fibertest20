@@ -73,10 +73,10 @@ namespace Iit.Fibertest.Client
             else
             {
                 ReserveChannelVisibility = Visibility.Visible;
-                OnReserveChannel = networkEventAdded.OnReserveChannel == ChannelEvent.Repaired
+                OnReserveChannel = networkEventAdded.OnReserveChannel == ChannelEvent.Broken
                     ? Resources.SID_Reserve_channel_is_broken
                     : Resources.SID_Reserve_channel_is_Ok;
-                OnReserveChannelBrush = networkEventAdded.OnReserveChannel == ChannelEvent.Broken ? Brushes.White : Brushes.Red;
+                OnReserveChannelBrush = networkEventAdded.OnReserveChannel == ChannelEvent.Repaired ? Brushes.White : Brushes.Red;
             }
 
             IsOk = networkEventAdded.OnMainChannel != ChannelEvent.Broken &&
