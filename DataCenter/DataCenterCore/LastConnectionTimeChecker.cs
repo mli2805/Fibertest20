@@ -125,7 +125,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (rtuStation.LastConnectionByReserveAddressTimestamp < noLaterThan &&
                 rtuStation.IsReserveAddressOkDuePreviousCheck)
             {
-                rtuStation.IsMainAddressOkDuePreviousCheck = false;
+                rtuStation.IsReserveAddressOkDuePreviousCheck = false;
                 networkEvent.OnReserveChannel = ChannelEvent.Broken;
                 _logFile.AppendLine($"RTU \"{rtuTitle}\" Reserve channel - Broken");
                 await _smtp.SendNetworkEvent(rtuStation.RtuGuid, false, false);
@@ -136,7 +136,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (rtuStation.LastConnectionByReserveAddressTimestamp >= noLaterThan &&
                 !rtuStation.IsReserveAddressOkDuePreviousCheck)
             {
-                rtuStation.IsMainAddressOkDuePreviousCheck = true;
+                rtuStation.IsReserveAddressOkDuePreviousCheck = true;
                 networkEvent.OnReserveChannel = ChannelEvent.Repaired;
                 _logFile.AppendLine($"RTU \"{rtuTitle}\" Reserve channel - Recovered");
                 await _smtp.SendNetworkEvent(rtuStation.RtuGuid, false, true);

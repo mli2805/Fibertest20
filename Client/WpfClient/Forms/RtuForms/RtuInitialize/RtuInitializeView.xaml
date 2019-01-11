@@ -43,7 +43,8 @@
         </GroupBox>
         <GroupBox Margin="5"  >
             <GroupBox.Header>
-                <CheckBox Name="CheckBoxReserveAddress" Content="{x:Static stringResources:Resources.SID_Reserve_channel}" IsEnabled="{Binding IsEditEnabled}"/>
+                <CheckBox Name="CheckBoxReserveAddress" Content="{x:Static stringResources:Resources.SID_Reserve_channel}" 
+                          IsEnabled="{Binding IsEditEnabled}" IsChecked="{Binding IsReserveChannelEnabled, Mode=TwoWay}"/>
             </GroupBox.Header>
             <client:NetAddressTestView Margin="0,5,0,0" IsEnabled="{Binding ElementName=CheckBoxReserveAddress, Path=IsChecked}"
                                           DataContext="{Binding ReserveChannelTestViewModel}"/>

@@ -67,8 +67,8 @@ namespace Iit.Fibertest.RtuService
             var dto = new RtuChecksChannelDto() { RtuId = _rtuId, Version = _version, IsMainChannel = isMainChannel };
             var channel = new R2DWcfManager(oneChannelAddressOnly, _serviceIni, _serviceLog);
             var isSuccess = channel.SendHeartbeat(dto);
-            if (isSuccess == isLastSuccess && !_initializationInProgress)
-                return;
+//            if (isSuccess == isLastSuccess && !_initializationInProgress)
+//                return;
 
             _initializationInProgress = false;
             var channelName = isMainChannel ? "main" : "reserve";
