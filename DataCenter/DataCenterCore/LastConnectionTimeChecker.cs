@@ -114,7 +114,7 @@ namespace Iit.Fibertest.DataCenterCore
             var flag = await CheckMainChannel(rtuStation, noLaterThan, networkEvent);
 
             if (rtuStation.IsReserveAddressSet)
-                flag = await CheckReserveChannel(rtuStation, noLaterThan, networkEvent);
+                flag = flag || await CheckReserveChannel(rtuStation, noLaterThan, networkEvent);
 
             return flag ? networkEvent : null;
         }
