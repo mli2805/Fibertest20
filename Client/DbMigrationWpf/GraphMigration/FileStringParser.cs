@@ -81,14 +81,15 @@ namespace DbMigrationWpf
                 Id = rtuGuid,
                 OwnPortCount = int.Parse(parts[2]),
                 FullPortCount = int.Parse(parts[2]), // FullPortCount will be increased by OtauAttached event if happened
-                Serial = int.Parse(parts[4]).ToString(),
+             //   Serial = int.Parse(parts[4]).ToString(),
+                Serial = parts[4].Trim(),
                 MainChannel = new NetAddress() { Ip4Address = parts[5].Trim(), Port = int.Parse(parts[6]) == 11832 ? 11842 : int.Parse(parts[6]) },
                 OtauNetAddress = new NetAddress()
                 {
-                    Ip4Address = parts[5] == parts[7] ? "192.168.88.101" : parts[7],
+                    Ip4Address = parts[5].Trim() == parts[7].Trim() ? "192.168.88.101" : parts[7].Trim(),
                     Port = 23 // main charon always 23
                 },
-                ReserveChannel = new NetAddress() { Ip4Address = parts[9], Port = int.Parse(parts[10]) },
+                ReserveChannel = new NetAddress() { Ip4Address = parts[9].Trim(), Port = int.Parse(parts[10]) },
                 Version = "",
                 AcceptableMeasParams = new TreeOfAcceptableMeasParams(),
             };
@@ -130,7 +131,7 @@ namespace DbMigrationWpf
                 Id = Guid.NewGuid(),
                 RtuId = rtuGuid,
                 NetAddress = charonAddress,
-                Serial = parts[5],
+                Serial = parts[5].Trim(),
                 PortCount = int.Parse(parts[6]),
                 MasterPort = int.Parse(parts[8]),
             };
@@ -139,7 +140,7 @@ namespace DbMigrationWpf
             {
                 RtuId = nodeId,
                 OtauAddress = charonAddress,
-                Serial = parts[5],
+                Serial = parts[5].Trim(),
                 FirstPortNumber = int.Parse(parts[7]),
                 PortCount = int.Parse(parts[6]),
             });
