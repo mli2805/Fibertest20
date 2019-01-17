@@ -28,7 +28,7 @@ namespace DbMigrationWpf
             _lines = lines;
         }
 
-        public async Task<int> Migrate(string exportFileName, string ft15Address, int oldMySqlPort, string ft20Address, int newMySqlPort)
+        public async Task<int> Migrate(string exportFileName, string ft15Address, int oldMySqlPort, string ft20Address, int newMySqlPort, bool hasKadastr)
         {
             new GraphFetcher(_logFile, _graphModel, _lines).Fetch(exportFileName);
             _logFile.AppendLine("Graph is fetched");
@@ -44,7 +44,7 @@ namespace DbMigrationWpf
 
             await SendCommandsAttachTrace();
 
-            var hasKadastr = _iniFile.Read(IniSection.Migrator, IniKey.Kadastr, false);
+         //   var hasKadastr = _iniFile.Read(IniSection.Migrator, IniKey.Kadastr, false);
             if (hasKadastr)
                 await MigrateKadastr(ft15Address, oldMySqlPort, ft20Address, newMySqlPort);
 
