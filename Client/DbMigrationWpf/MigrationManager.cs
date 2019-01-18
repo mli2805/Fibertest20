@@ -12,16 +12,14 @@ namespace DbMigrationWpf
 {
     public class MigrationManager
     {
-        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly GraphModel _graphModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly ObservableCollection<string> _lines;
 
-        public MigrationManager(IniFile iniFile, IMyLog logFile, GraphModel graphModel, 
+        public MigrationManager(IMyLog logFile, GraphModel graphModel, 
             IWcfServiceForClient c2DWcfManager,  ObservableCollection<string> lines)
         {
-            _iniFile = iniFile;
             _logFile = logFile;
             _graphModel = graphModel;
             _c2DWcfManager = c2DWcfManager;
@@ -44,7 +42,6 @@ namespace DbMigrationWpf
 
             await SendCommandsAttachTrace();
 
-         //   var hasKadastr = _iniFile.Read(IniSection.Migrator, IniKey.Kadastr, false);
             if (hasKadastr)
                 await MigrateKadastr(ft15Address, oldMySqlPort, ft20Address, newMySqlPort);
 
