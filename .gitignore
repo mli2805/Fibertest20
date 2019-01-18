@@ -258,3 +258,4 @@ paket-files/
 /Deploy/*.rar
 
 *.diagsession
+/Client/Build/Cache

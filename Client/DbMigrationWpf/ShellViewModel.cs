@@ -158,7 +158,7 @@ namespace DbMigrationWpf
 
         public async void Migrate()
         {
-            var migrationManager = new MigrationManager(_iniFile, _logFile, _graphModel, _c2DWcfManager, ProgressLines);
+            var migrationManager = new MigrationManager(_logFile, _graphModel, _c2DWcfManager, ProgressLines);
             await migrationManager.Migrate(ExportFileName, Ft15ServerAddress, OldMySqlPort, Ft20ServerAddress, NewMySqlPort, HasKadastr);
             File.WriteAllLines(@"..\log\progress.txt", ProgressLines);
         }
