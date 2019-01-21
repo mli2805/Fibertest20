@@ -15,6 +15,7 @@ namespace Iit.Fibertest.WpfCommonViews
         private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
         [DllImport("user32.dll")]
         private static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
         public ServerConnectionLostView()
         {
             InitializeComponent();

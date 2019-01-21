@@ -245,5 +245,7 @@ namespace Iit.Fibertest.Client
             _graphReadModel.ChangeFutureTraceColor(_newTraceId, fiberIds, FiberState.NotInTrace);
             TryClose();
         }
+
+       
     }
 }

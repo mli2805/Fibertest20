@@ -5,12 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-        mc:Ignorable="d" Top="100" Left="50"
-        Height="600" Width="340" d:DataContext="{d:DesignInstance client:TraceStepByStepViewModel}">
+        mc:Ignorable="d" Top="100" Left="50" ResizeMode="NoResize"
+        Height="600" Width="340" d:DataContext="{d:DesignInstance client:TraceStepByStepViewModel}" Loaded="Window_Loaded">
     <DockPanel>
         <StackPanel DockPanel.Dock=" Bottom" Margin="0,5">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-<!--                <Button Name="SemiautomaticMode" Content="{x:Static stringResources:Resources.SID_Semiautomatic_mode}" Margin="5,5" Width="300"/>-->
                 <Button Name="SemiautomaticMode" Content="{x:Static stringResources:Resources.SID_Go_to_the_fork}" Margin="5,5" Width="300"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -24,13 +23,7 @@
             </StackPanel>
         </StackPanel>
         <Border BorderThickness="1" BorderBrush="LightGray" Margin="5">
-            <ItemsControl ItemsSource="{Binding Steps}" Margin="5">
-<!--                <ItemsControl.ItemTemplate>-->
-<!--                    <DataTemplate DataType="client:StepModel">-->
-<!--                        <TextBlock Text="{Binding Title}" Background="AliceBlue"/>-->
-<!--                    </DataTemplate>-->
-<!--                </ItemsControl.ItemTemplate>-->
-            </ItemsControl>
+            <ItemsControl ItemsSource="{Binding Steps}" Margin="5"/>
         </Border>
     </DockPanel>
 </Window>
