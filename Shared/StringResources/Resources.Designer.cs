@@ -3259,6 +3259,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Left.
+        /// </summary>
+        public static string SID_Left {
+            get {
+                return ResourceManager.GetString("SID_Left", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Left node.
         /// </summary>
         public static string SID_Left_node {
@@ -4984,6 +4993,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Rfts_Events {
             get {
                 return ResourceManager.GetString("SID_Rfts_Events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Right.
+        /// </summary>
+        public static string SID_Right {
+            get {
+                return ResourceManager.GetString("SID_Right", resourceCulture);
             }
         }
         

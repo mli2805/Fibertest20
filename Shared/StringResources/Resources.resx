@@ -2420,4 +2420,10 @@ RTU is initializing right now!</value>
 	<data name="SID_usually_smtp_timeout" xml:space="preserve">
     <value>usually 10000 to 20000</value>
   </data>
+	<data name="SID_Left" xml:space="preserve">
+    <value>L, m</value>
+  </data>
+	<data name="SID_Right" xml:space="preserve">
+    <value>R, m</value>
+  </data>
 </root>

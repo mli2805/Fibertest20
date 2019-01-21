@@ -57,8 +57,8 @@
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="100" />
                         <ColumnDefinition Width="120" />
-                        <ColumnDefinition Width="30" />
-                        <ColumnDefinition Width="30" />
+                        <ColumnDefinition Width="35" />
+                        <ColumnDefinition Width="35" />
                         <ColumnDefinition Width="90" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
@@ -69,8 +69,8 @@
                     <Border Grid.Column="4" BorderThickness="0,0,1,0" BorderBrush="Black" />
                     <Label Grid.Column="0" Content="{x:Static stringResources:Resources.SID_Title}" Margin="0,-5,0,0" />
                     <Label Grid.Column="1" Content="{x:Static stringResources:Resources.SID_Type}" Margin="0,-5,0,0" />
-                    <Label Grid.Column="2" Content="Left" Margin="0,-5,0,0" />
-                    <Label Grid.Column="3" Content="Right" Margin="0,-5,0,0" />
+                    <Label Grid.Column="2" Content="{x:Static stringResources:Resources.SID_Left}" Margin="0,-5,0,0" />
+                    <Label Grid.Column="3" Content="{x:Static stringResources:Resources.SID_Right}" Margin="0,-5,0,0" />
                     <Label Grid.Column="4" Content="{x:Static stringResources:Resources.SID_Comment}" Margin="0,-5,0,0" />
                     <Label Grid.Column="5" Content="{x:Static stringResources:Resources.SID_Traces}" Margin="0,-5,0,0" />
                 </Grid>
