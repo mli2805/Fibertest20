@@ -91,7 +91,7 @@ namespace Iit.Fibertest.Client
 
         private void Highlight(NodeVm nodeVm)
         {
-            var marker = new GMapMarker(nodeVm.Id, nodeVm.Position, true) {ZIndex = 2};
+            var marker = new GMapMarker(nodeVm.Id, nodeVm.Position, true) {ZIndex = -20000};
 
             var highlightingControl = nodeVm.Type == EquipmentType.Rtu ? new HighlightingRtuControl() : (UIElement)new HighlightingControl();
             marker.Shape = highlightingControl;

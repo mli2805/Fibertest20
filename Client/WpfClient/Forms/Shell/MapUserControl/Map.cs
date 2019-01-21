@@ -18,8 +18,6 @@ namespace Iit.Fibertest.Client
     [Localizable(false)]
     public class Map : GMapControl, INotifyPropertyChanged
     {
-
-
         #region Current mouse coordinates
 
         public CurrentGpsInputMode CurrentGpsInputMode
