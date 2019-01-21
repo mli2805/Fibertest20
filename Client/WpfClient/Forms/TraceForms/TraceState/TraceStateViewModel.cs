@@ -36,6 +36,7 @@ namespace Iit.Fibertest.Client
 
         public List<EventStatusComboItem> StatusRows { get; set; }
         public EventStatusComboItem SelectedEventStatus { get; set; }
+        public bool IsEditEnabled { get; set; }
 
         public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser, 
             CurrentlyHiddenRtu currentlyHiddenRtu, ReflectogramManager reflectogramManager, 
@@ -46,6 +47,7 @@ namespace Iit.Fibertest.Client
         {
             _logFile = logFile;
             _currentUser = currentUser;
+            IsEditEnabled = currentUser.Role <= Role.Operator;
             _currentlyHiddenRtu = currentlyHiddenRtu;
             _reflectogramManager = reflectogramManager;
             _soundManager = soundManager;

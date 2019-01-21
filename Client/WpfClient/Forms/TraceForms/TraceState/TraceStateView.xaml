@@ -106,7 +106,7 @@
             </DockPanel>
         </GroupBox>
         <GroupBox Margin="5,0,5,5" Padding="0,5,0,0">
-            <DockPanel>
+            <DockPanel IsEnabled="{Binding IsEditEnabled}">
                 <Border DockPanel.Dock="Right" >
                     <Button Name="SaveMeasurementChanges" Content="{x:Static stringResources:Resources.SID_Save}" 
                             Width="120" Height="25" Margin="25,5,5,5" VerticalAlignment="Center"/>

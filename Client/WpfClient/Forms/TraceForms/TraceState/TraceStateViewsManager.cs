@@ -25,7 +25,6 @@ namespace Iit.Fibertest.Client
 
         private List<TraceStateViewModel> LaunchedViews { get; } = new List<TraceStateViewModel>();
 
-
         public TraceStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager,
             C2DWcfManager c2DWcfManager, Model readModel, CurrentUser currentUser, 
             ChildrenViews childrenViews, TraceStateModelFactory traceStateModelFactory,
