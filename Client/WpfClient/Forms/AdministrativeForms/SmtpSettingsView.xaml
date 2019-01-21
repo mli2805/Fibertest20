@@ -7,24 +7,24 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d" d:DataContext="{d:DesignInstance client:SmtpSettingsViewModel}"
         Width="450" SizeToContent="Height" WindowStartupLocation="CenterScreen">
-    <StackPanel Margin="5">
+    <StackPanel Margin="5" IsEnabled="{Binding IsEditEnabled}">
         <DockPanel>
             <TextBlock DockPanel.Dock="Bottom" Margin="5,0,5,10" Foreground="Gray" Width="300"
-                       Text="If you use Gmail.com make sure that for your account unsafe connection are permitted"
+                       Text="{x:Static stringResources:Resources.SID_If_you_use_Gmail}"
                        TextWrapping="Wrap" TextAlignment="Center" />
-            <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="e.g.:  smtp.gmail.com"
+            <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_e_g_smtp_server}"
                        TextAlignment="Center" />
             <TextBlock DockPanel.Dock="Left" Margin="5" Text="SMTP host" Width="120" />
             <TextBox Margin="5" Text="{Binding SmtpHost}" />
         </DockPanel>
         <DockPanel>
-            <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="usually 587 or 465"
+            <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_usually_smtp_port}"
                        TextAlignment="Center" />
             <TextBlock DockPanel.Dock="Left" Margin="5" Text="SMTP port" Width="120" />
             <TextBox Margin="5" Text="{Binding SmtpPort}" />
         </DockPanel>
         <DockPanel>
-            <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="e.g.: name@gmail.com"
+            <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_e_g_postbox}"
                        TextAlignment="Center" />
             <TextBlock DockPanel.Dock="Left" Margin="5" Text="Mail from" Width="120" />
             <TextBox Margin="5" Text="{Binding MailFrom}" />
@@ -35,7 +35,7 @@
             <TextBox Margin="5" Text="{Binding MailFromPassword}" />
         </DockPanel>
         <DockPanel>
-            <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="usually 10000 to 20000"
+            <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="{x:Static stringResources:Resources.SID_usually_smtp_timeout}"
                        TextAlignment="Center" />
             <TextBlock DockPanel.Dock="Left" Margin="5" Text="SMTP timeout in ms" Width="120" />
             <TextBox Margin="5" Text="{Binding SmtpTimeoutMs}" />

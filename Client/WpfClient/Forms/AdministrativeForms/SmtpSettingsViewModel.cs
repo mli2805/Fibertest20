@@ -18,10 +18,13 @@ namespace Iit.Fibertest.Client
         public string MailFromPassword { get; set; }
         public int SmtpTimeoutMs { get; set; }
 
-        public SmtpSettingsViewModel(CurrentDatacenterParameters currentDatacenterParameters,
+        public bool IsEditEnabled { get; set; }
+
+        public SmtpSettingsViewModel(CurrentDatacenterParameters currentDatacenterParameters, CurrentUser currentUser,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _currentDatacenterParameters = currentDatacenterParameters;
+            IsEditEnabled = currentUser.Role <= Role.Root;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
 

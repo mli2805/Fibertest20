@@ -2402,4 +2402,22 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Repaired" xml:space="preserve">
 		<value>Восстановлен</value>
 	</data>
+	<data name="SID_Gsm_modem_com_port" xml:space="preserve">
+		<value>GSM модем com порт</value>
+	</data>
+	<data name="SID_e_g_smtp_server" xml:space="preserve">
+		<value>например:  smtp.gmail.com</value>
+	</data>
+	<data name="SID_If_you_use_Gmail" xml:space="preserve">
+		<value>Если Вы используете Gmail.com убедитесь, что для Вашего почтового ящика разрешено небезопасное соединение</value>
+	</data>
+	<data name="SID_usually_smtp_port" xml:space="preserve">
+		<value>обычно 587 или 465</value>
+	</data>
+	<data name="SID_e_g_postbox" xml:space="preserve">
+		<value>например: name@gmail.com</value>
+	</data>
+	<data name="SID_usually_smtp_timeout" xml:space="preserve">
+		<value>обычно от 10000 до 20000</value>
+	</data>
 </root>

@@ -1,4 +1,5 @@
 ﻿using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
@@ -12,11 +13,13 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
 
         public int GsmModemComPort { get; set; }
+        public bool IsEditEnabled { get; set; }
 
-        public SmsSettingsViewModel(CurrentDatacenterParameters currentDatacenterParameters,
+        public SmsSettingsViewModel(CurrentDatacenterParameters currentDatacenterParameters, CurrentUser currentUser,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _currentDatacenterParameters = currentDatacenterParameters;
+            IsEditEnabled = currentUser.Role <= Role.Root;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
 

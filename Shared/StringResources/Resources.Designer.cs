@@ -2143,6 +2143,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to e.g.: name@gmail.com.
+        /// </summary>
+        public static string SID_e_g_postbox {
+            get {
+                return ResourceManager.GetString("SID_e_g_postbox", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to e.g.:  smtp.gmail.com.
+        /// </summary>
+        public static string SID_e_g_smtp_server {
+            get {
+                return ResourceManager.GetString("SID_e_g_smtp_server", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to E-mail server settings.
         /// </summary>
         public static string SID_E_mail_settings {
@@ -2800,6 +2818,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GSM modem com port.
+        /// </summary>
+        public static string SID_Gsm_modem_com_port {
+            get {
+                return ResourceManager.GetString("SID_Gsm_modem_com_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string SID_Help {
@@ -2859,6 +2886,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_If_you_need_to_continue__press__Step_backward_ {
             get {
                 return ResourceManager.GetString("SID_If_you_need_to_continue__press__Step_backward_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you use Gmail.com make sure that for your account unsafe connection are permitted.
+        /// </summary>
+        public static string SID_If_you_use_Gmail {
+            get {
+                return ResourceManager.GetString("SID_If_you_use_Gmail", resourceCulture);
             }
         }
         
@@ -6758,6 +6794,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Users_list {
             get {
                 return ResourceManager.GetString("SID_Users_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to usually 587 or 465.
+        /// </summary>
+        public static string SID_usually_smtp_port {
+            get {
+                return ResourceManager.GetString("SID_usually_smtp_port", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to usually 10000 to 20000.
+        /// </summary>
+        public static string SID_usually_smtp_timeout {
+            get {
+                return ResourceManager.GetString("SID_usually_smtp_timeout", resourceCulture);
             }
         }
         

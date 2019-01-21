@@ -2402,4 +2402,22 @@ RTU is initializing right now!</value>
 	<data name="SID_Repaired" xml:space="preserve">
     <value>Repaired</value>
   </data>
+	<data name="SID_Gsm_modem_com_port" xml:space="preserve">
+    <value>GSM modem com port</value>
+  </data>
+	<data name="SID_e_g_smtp_server" xml:space="preserve">
+    <value>e.g.:  smtp.gmail.com</value>
+  </data>
+	<data name="SID_If_you_use_Gmail" xml:space="preserve">
+    <value>If you use Gmail.com make sure that for your account unsafe connection are permitted</value>
+  </data>
+	<data name="SID_usually_smtp_port" xml:space="preserve">
+    <value>usually 587 or 465</value>
+  </data>
+	<data name="SID_e_g_postbox" xml:space="preserve">
+    <value>e.g.: name@gmail.com</value>
+  </data>
+	<data name="SID_usually_smtp_timeout" xml:space="preserve">
+    <value>usually 10000 to 20000</value>
+  </data>
 </root>
