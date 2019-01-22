@@ -20,20 +20,20 @@ namespace Iit.Fibertest.Client
     {
         #region Current mouse coordinates
 
-        public CurrentGpsInputMode CurrentGpsInputMode
+        public CurrentGis CurrentGis
         {
-            get => _currentGpsInputMode;
+            get => _currentGis;
             set
             {
-                if (Equals(value, _currentGpsInputMode)) return;
-                _currentGpsInputMode = value;
+                if (Equals(value, _currentGis)) return;
+                _currentGis = value;
                 OnPropertyChanged();
-                _currentGpsInputMode.PropertyChanged += _currentGpsInputMode_PropertyChanged;
+                _currentGis.PropertyChanged += CurrentGisPropertyChanged;
                 OnPropertyChanged(nameof(MouseCurrentCoorsString));
             }
         }
 
-        private void _currentGpsInputMode_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private void CurrentGisPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             OnPropertyChanged(nameof(MouseCurrentCoorsString));
         }
@@ -52,7 +52,7 @@ namespace Iit.Fibertest.Client
         }
 
         public string MouseCurrentCoorsString => Zoom + " ; " +
-            _mouseCurrentCoors.ToDetailedString(CurrentGpsInputMode.Mode);
+            _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode);
         #endregion
 
         #region Distance measurement properties
@@ -63,7 +63,7 @@ namespace Iit.Fibertest.Client
         public List<int> Distances;
 
         private int _lastDistance;
-        private CurrentGpsInputMode _currentGpsInputMode;
+        private CurrentGis _currentGis;
 
         public int LastDistance
         {

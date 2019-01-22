@@ -2773,6 +2773,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to GIS settings.
+        /// </summary>
+        public static string SID_Gis_settings {
+            get {
+                return ResourceManager.GetString("SID_Gis_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Go to the fork.
         /// </summary>
         public static string SID_Go_to_the_fork {
@@ -3259,7 +3268,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Left.
+        ///   Looks up a localized string similar to L, m.
         /// </summary>
         public static string SID_Left {
             get {
@@ -4997,7 +5006,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Right.
+        ///   Looks up a localized string similar to R, m.
         /// </summary>
         public static string SID_Right {
             get {
@@ -5939,6 +5948,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Switch_ended_unexpectedly {
             get {
                 return ResourceManager.GetString("SID_Switch_ended_unexpectedly", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Switches mode for all clients (after restart).
+        /// </summary>
+        public static string SID_Switches_mode_for_all_clients {
+            get {
+                return ResourceManager.GetString("SID_Switches_mode_for_all_clients", resourceCulture);
             }
         }
         
@@ -6920,6 +6938,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Without_equipment {
             get {
                 return ResourceManager.GetString("SID_Without_equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to &quot;Without map&quot; mode.
+        /// </summary>
+        public static string SID_Without_map_mode {
+            get {
+                return ResourceManager.GetString("SID_Without_map_mode", resourceCulture);
             }
         }
         

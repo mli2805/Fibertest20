@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Client
 {
     public class GpsInputViewModel : PropertyChangedBase
     {
-        private readonly CurrentGpsInputMode _currentGpsInputMode;
+        private readonly CurrentGis _currentGis;
 
         public OneCoorViewModel OneCoorViewModelLatitude { get; set; }
         public OneCoorViewModel OneCoorViewModelLongitude { get; set; }
@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Client
                 _selectedGpsInputModeComboItem = value;
                 OneCoorViewModelLatitude.CurrentGpsInputMode = value.Mode;
                 OneCoorViewModelLongitude.CurrentGpsInputMode = value.Mode;
-                _currentGpsInputMode.Mode = _selectedGpsInputModeComboItem.Mode;
+                _currentGis.GpsInputMode = _selectedGpsInputModeComboItem.Mode;
             }
         }
 
@@ -43,10 +43,10 @@ namespace Iit.Fibertest.Client
 
         public bool IsEditEnabled { get; set; }
 
-        public GpsInputViewModel(CurrentGpsInputMode currentGpsInputMode)
+        public GpsInputViewModel(CurrentGis currentGis)
         {
-            _currentGpsInputMode = currentGpsInputMode;
-            _modeInIniFile = currentGpsInputMode.Mode;
+            _currentGis = currentGis;
+            _modeInIniFile = currentGis.GpsInputMode;
             _selectedGpsInputModeComboItem = _modeInIniFile == GpsInputMode.Degrees
                 ? new GpsInputModeComboItem(GpsInputMode.DegreesAndMinutes)
                 : new GpsInputModeComboItem(GpsInputMode.Degrees);

@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Client
         private readonly GraphReadModel _graphReadModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly CurrentGpsInputMode _currentGpsInputMode;
+        private readonly CurrentGis _currentGis;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly AddEquipmentIntoNodeBuilder _addEquipmentIntoNodeBuilder;
         private Node _originalNode;
@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
                 _selectedGpsInputModeComboItem = value;
                 NotifyOfPropertyChange();
                 Coors = _nodeCoors.ToDetailedString(_selectedGpsInputModeComboItem.Mode);
-                _currentGpsInputMode.Mode = _selectedGpsInputModeComboItem.Mode;
+                _currentGis.GpsInputMode = _selectedGpsInputModeComboItem.Mode;
             }
         }
 
@@ -130,7 +130,7 @@ namespace Iit.Fibertest.Client
 
         public NodeUpdateViewModel(ILifetimeScope globalScope, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, EventArrivalNotifier eventArrivalNotifier,
-            IWcfServiceForClient c2DWcfManager, CurrentGpsInputMode currentGpsInputMode,
+            IWcfServiceForClient c2DWcfManager, CurrentGis currentGis,
             CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu,
             AddEquipmentIntoNodeBuilder addEquipmentIntoNodeBuilder)
         {
@@ -140,7 +140,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
             _c2DWcfManager = c2DWcfManager;
-            _currentGpsInputMode = currentGpsInputMode;
+            _currentGis = currentGis;
             _currentlyHiddenRtu = currentlyHiddenRtu;
             IsEditEnabled = currentUser.Role <= Role.Root;
             _addEquipmentIntoNodeBuilder = addEquipmentIntoNodeBuilder;
@@ -151,7 +151,7 @@ namespace Iit.Fibertest.Client
             _originalNode = _readModel.Nodes.First(n => n.NodeId == nodeId);
             _nodeCoors = _originalNode.Position;
             Title = _originalNode.Title;
-            _selectedGpsInputModeComboItem = GpsInputModeComboItems.First(i => i.Mode == _currentGpsInputMode.Mode);
+            _selectedGpsInputModeComboItem = GpsInputModeComboItems.First(i => i.Mode == _currentGis.GpsInputMode);
             Coors = _nodeCoors.ToDetailedString(_selectedGpsInputModeComboItem.Mode);
             Comment = _originalNode.Comment;
 

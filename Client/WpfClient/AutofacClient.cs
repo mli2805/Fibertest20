@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<CurrentUser>().InstancePerLifetimeScope();
 //            builder.RegisterType<CommandLineParameters>().InstancePerLifetimeScope();
             builder.RegisterType<CurrentlyHiddenRtu>().InstancePerLifetimeScope();
-            builder.RegisterType<CurrentGpsInputMode>().InstancePerLifetimeScope();
+            builder.RegisterType<CurrentGis>().InstancePerLifetimeScope();
             builder.RegisterType<CurrentDatacenterParameters>().InstancePerLifetimeScope();
             builder.RegisterType<SystemState>().InstancePerLifetimeScope();
             builder.RegisterType<WindowManager>().As<IWindowManager>().InstancePerLifetimeScope();
@@ -64,6 +64,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ZoneViewModel>();
             builder.RegisterType<ZonesViewModel>();
             builder.RegisterType<ObjectsAsTreeToZonesViewModel>();
+            builder.RegisterType<GisSettingsViewModel>();
             builder.RegisterType<SmtpSettingsViewModel>();
             builder.RegisterType<SmsSettingsViewModel>();
             builder.RegisterType<ChangePasswordViewModel>();

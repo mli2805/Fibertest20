@@ -2426,4 +2426,13 @@ RTU is initializing right now!</value>
 	<data name="SID_Right" xml:space="preserve">
     <value>R, m</value>
   </data>
+	<data name="SID_Gis_settings" xml:space="preserve">
+    <value>GIS settings</value>
+  </data>
+	<data name="SID_Without_map_mode" xml:space="preserve">
+    <value>"Without map" mode</value>
+  </data>
+	<data name="SID_Switches_mode_for_all_clients" xml:space="preserve">
+    <value>Switches mode for all clients (after restart)</value>
+  </data>
 </root>

@@ -2426,4 +2426,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Right" xml:space="preserve">
 		<value>П, м</value>
 	</data>
+	<data name="SID_Gis_settings" xml:space="preserve">
+		<value>Настройки ГИС</value>
+	</data>
+	<data name="SID_Without_map_mode" xml:space="preserve">
+		<value>Режим "Без карты"</value>
+	</data>
+	<data name="SID_Switches_mode_for_all_clients" xml:space="preserve">
+		<value>Переключает режим для всех клиентов (после перезапуска)</value>
+	</data>
 </root>

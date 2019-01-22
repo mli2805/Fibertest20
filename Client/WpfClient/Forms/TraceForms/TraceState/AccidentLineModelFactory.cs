@@ -11,15 +11,15 @@ namespace Iit.Fibertest.Client
         private readonly GraphReadModel _graphReadModel;
         private readonly Model _readModel;
         private readonly AccidentPlaceLocator _accidentPlaceLocator;
-        private readonly CurrentGpsInputMode _currentGpsInputMode;
+        private readonly CurrentGis _currentGis;
 
         public AccidentLineModelFactory(GraphReadModel graphReadModel, Model readModel,
-            AccidentPlaceLocator accidentPlaceLocator, CurrentGpsInputMode currentGpsInputMode)
+            AccidentPlaceLocator accidentPlaceLocator, CurrentGis currentGis)
         {
             _graphReadModel = graphReadModel;
             _readModel = readModel;
             _accidentPlaceLocator = accidentPlaceLocator;
-            _currentGpsInputMode = currentGpsInputMode;
+            _currentGis = currentGis;
         }
 
         public AccidentLineModel Create(AccidentOnTrace accidentOnTrace, int number)
@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Client
             var isLastNode = accidentInOldEvent.BrokenLandmarkIndex == nodesExcludingAdjustmentPoints.Count - 1;
             var nodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
             var nodeTitle = nodeVm?.Title;
-            var nodeCoors = nodeVm?.Position.ToDetailedString(_currentGpsInputMode.Mode);
+            var nodeCoors = nodeVm?.Position.ToDetailedString(_currentGis.GpsInputMode);
 
             var model = new AccidentLineModel();
             model.Caption =
@@ -93,7 +93,7 @@ namespace Iit.Fibertest.Client
             model.TopRight = rightNodeTitle;
 
             model.Bottom1 = $@"{accidentAsNewEvent.AccidentDistanceKm - accidentAsNewEvent.LeftNodeKm:0.000} {Resources.SID_km}";
-            model.Bottom2 = accidentGps?.ToDetailedString(_currentGpsInputMode.Mode);
+            model.Bottom2 = accidentGps?.ToDetailedString(_currentGis.GpsInputMode);
             model.Bottom3 = $@"{accidentAsNewEvent.RightNodeKm - accidentAsNewEvent.AccidentDistanceKm:0.000} {Resources.SID_km}";
 
             model.Scheme = accidentAsNewEvent.AccidentSeriousness == FiberState.FiberBreak

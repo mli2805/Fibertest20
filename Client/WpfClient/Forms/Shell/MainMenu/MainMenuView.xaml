@@ -16,6 +16,7 @@
                  </MenuItem>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Settings}">
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Client_settings}" cal:Message.Attach="LaunchClientSettingsView"/>
+                <MenuItem Header="{x:Static stringResources:Resources.SID_Gis_settings}" cal:Message.Attach="LaunchGisSettingsView"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_E_mail_settings}" cal:Message.Attach="LaunchSmtpSettingsView"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_SMS_settings}" cal:Message.Attach="LaunchSmsSettingsView"/>
             </MenuItem>

@@ -5,7 +5,7 @@ namespace Iit.Fibertest.Client
 {
     public class GpsInputSmallViewModel : PropertyChangedBase
     {
-        private readonly CurrentGpsInputMode _currentGpsInputMode;
+        private readonly CurrentGis _currentGis;
 
         private OneCoorViewModel _oneCoorViewModelLatitude;
         public OneCoorViewModel OneCoorViewModelLatitude
@@ -39,24 +39,24 @@ namespace Iit.Fibertest.Client
             OneCoorViewModelLongitude.ReassignValue(Coors.Lng);
         }
 
-        public GpsInputSmallViewModel(CurrentGpsInputMode currentGpsInputMode)
+        public GpsInputSmallViewModel(CurrentGis currentGis)
         {
-            _currentGpsInputMode = currentGpsInputMode;
-            currentGpsInputMode.PropertyChanged += CurrentGpsInputMode_PropertyChanged;
+            _currentGis = currentGis;
+            currentGis.PropertyChanged += CurrentGpsInputMode_PropertyChanged;
         }
 
         private void CurrentGpsInputMode_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            OneCoorViewModelLatitude.CurrentGpsInputMode = ((CurrentGpsInputMode) sender).Mode;
-            OneCoorViewModelLongitude.CurrentGpsInputMode = ((CurrentGpsInputMode) sender).Mode;
+            OneCoorViewModelLatitude.CurrentGpsInputMode = ((CurrentGis) sender).GpsInputMode;
+            OneCoorViewModelLongitude.CurrentGpsInputMode = ((CurrentGis) sender).GpsInputMode;
         }
 
         public void Initialize(PointLatLng coors)
         {
             Coors = coors;
 
-            OneCoorViewModelLatitude = new OneCoorViewModel(_currentGpsInputMode.Mode, Coors.Lat);
-            OneCoorViewModelLongitude = new OneCoorViewModel(_currentGpsInputMode.Mode, Coors.Lng);
+            OneCoorViewModelLatitude = new OneCoorViewModel(_currentGis.GpsInputMode, Coors.Lat);
+            OneCoorViewModelLongitude = new OneCoorViewModel(_currentGis.GpsInputMode, Coors.Lng);
         }
 
         public PointLatLng Get()

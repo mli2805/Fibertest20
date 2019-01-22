@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
     public class LandmarksViewModel : Screen
     {
         private string _rtuTitle;
-        public CurrentGpsInputMode CurrentGpsInputMode { get; }
+        public CurrentGis CurrentGis { get; }
         private bool _isLandmarksFromBase;
         public List<GpsInputModeComboItem> GpsInputModes { get; set; } =
             (from mode in Enum.GetValues(typeof(GpsInputMode)).OfType<GpsInputMode>()
@@ -45,7 +45,7 @@ namespace Iit.Fibertest.Client
             {
                 if (Equals(value, _selectedGpsInputMode)) return;
                 _selectedGpsInputMode = value;
-                CurrentGpsInputMode.Mode = _selectedGpsInputMode.Mode;
+                CurrentGis.GpsInputMode = _selectedGpsInputMode.Mode;
                 RefreshCoorsInRows();
             }
         }
@@ -142,18 +142,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public LandmarksViewModel(ILifetimeScope globalScope, Model readModel, CurrentGpsInputMode currentGpsInputMode,
+        public LandmarksViewModel(ILifetimeScope globalScope, Model readModel, CurrentGis currentGis,
             LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,
              IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
-            CurrentGpsInputMode = currentGpsInputMode;
+            CurrentGis = currentGis;
             _globalScope = globalScope;
             _readModel = readModel;
             _landmarksBaseParser = landmarksBaseParser;
             _landmarksGraphParser = landmarksGraphParser;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
-            _selectedGpsInputMode = GpsInputModes.First(i => i.Mode == CurrentGpsInputMode.Mode);
+            _selectedGpsInputMode = GpsInputModes.First(i => i.Mode == CurrentGis.GpsInputMode);
         }
 
         private async Task<int> Initialize()

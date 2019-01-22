@@ -55,6 +55,11 @@ namespace Iit.Fibertest.Client
             var vm = _globalScope.Resolve<ConfigurationViewModel>();
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
+        public void LaunchGisSettingsView()
+        {
+            var vm = _globalScope.Resolve<GisSettingsViewModel>();
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
 
         public async void LaunchEventLogView()
         {
@@ -68,8 +73,8 @@ namespace Iit.Fibertest.Client
             var usersGuide = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\UserGuide\FIBERTEST20ClientUGru.pdf"));
             if (!File.Exists(usersGuide))
             {
-                var mb = new MyMessageBoxViewModel(MessageType.Error, 
-                    new List<string>(){Resources.SID_Cannot_find_file_with_user_s_guide_, "", usersGuide}, 0);
+                var mb = new MyMessageBoxViewModel(MessageType.Error,
+                    new List<string>() { Resources.SID_Cannot_find_file_with_user_s_guide_, "", usersGuide }, 0);
                 _windowManager.ShowDialogWithAssignedOwner(mb);
                 return;
             }

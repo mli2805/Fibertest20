@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Caliburn.Micro;
+using GMap.NET.MapProviders;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
@@ -9,6 +10,7 @@ namespace Iit.Fibertest.Client
     public class ConfigurationViewModel : Screen
     {
         private readonly IniFile _iniFile;
+        private readonly GraphReadModel _graphReadModel;
         private bool _isGraphVisibleOnStart;
         private string _selectedLanguage;
         private string _selectedProvider;
@@ -17,9 +19,10 @@ namespace Iit.Fibertest.Client
 
         public bool IsEnabled { get; set; }
 
-        public ConfigurationViewModel(IniFile iniFile, CurrentUser currentUser)
+        public ConfigurationViewModel(IniFile iniFile, CurrentUser currentUser, GraphReadModel graphReadModel)
         {
             _iniFile = iniFile;
+            _graphReadModel = graphReadModel;
             IsEnabled = currentUser.Role < Role.Superclient;
 
             _isGraphVisibleOnStart = _iniFile.Read(IniSection.Miscellaneous, IniKey.IsGraphVisibleOnStart, false);
@@ -60,6 +63,8 @@ namespace Iit.Fibertest.Client
             {
                 _selectedProvider = value; 
                 _iniFile.Write(IniSection.Map, IniKey.GMapProvider, _selectedProvider);
+
+                _graphReadModel.MainMap.MapProvider = GMapProviders.EmptyProvider;
             }
         }
 

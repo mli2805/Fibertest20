@@ -160,6 +160,8 @@ namespace Iit.Fibertest.Client
                     SmtpTimeoutMs = result.Smtp.SmtpTimeoutMs,
                 };
                 _currentDatacenterParameters.GsmModemComPort = result.GsmModemComPort;
+
+
                 _logFile.AppendLine(@"Registered successfully");
                 IsRegistrationSuccessful = true;
                 TryClose();

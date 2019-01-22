@@ -190,14 +190,18 @@
     </Compile>
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\UserFilter.cs" />
-    <Compile Include="Forms\AdministrativeForms\SmsSettingsView.xaml.cs">
+    <Compile Include="Forms\AdministrativeForms\Settings\GisSettingsView.xaml.cs">
+      <DependentUpon>GisSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AdministrativeForms\Settings\GisSettingsViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\Settings\SmsSettingsView.xaml.cs">
       <DependentUpon>SmsSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AdministrativeForms\SmsSettingsViewModel.cs" />
-    <Compile Include="Forms\AdministrativeForms\SmtpSettingsView.xaml.cs">
+    <Compile Include="Forms\AdministrativeForms\Settings\SmsSettingsViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\Settings\SmtpSettingsView.xaml.cs">
       <DependentUpon>SmtpSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AdministrativeForms\SmtpSettingsViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\Settings\SmtpSettingsViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\Users\SmsReceiverView.xaml.cs">
       <DependentUpon>SmsReceiverView.xaml</DependentUpon>
     </Compile>
@@ -219,6 +223,7 @@
     <Compile Include="Forms\Shell\ChildrenViews.cs" />
     <Compile Include="GlobalVars\CommandLineParameters.cs" />
     <Compile Include="GlobalVars\CurrentDatacenterParameters.cs" />
+    <Compile Include="GlobalVars\CurrentDatacenterSmtpParameters.cs" />
     <Compile Include="GlobalVars\CurrentlyHiddenRtu.cs" />
     <Compile Include="GlobalVars\CurrentUser.cs" />
     <Compile Include="EventSourcing\EventArrivalNotifier.cs" />
@@ -309,7 +314,7 @@
       <DependentUpon>TraceStepByStepView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\TraceForms\TraceStepByStep\TraceStepByStepViewModel.cs" />
-    <Compile Include="GlobalVars\CurrentGpsInputMode.cs" />
+    <Compile Include="GlobalVars\CurrentGis.cs" />
     <Compile Include="GraphModel\EventExecutors\AccidentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EquipmentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EventsOnGraphExecutor.cs" />
@@ -613,11 +618,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\AdministrativeForms\SmsSettingsView.xaml">
+    <Page Include="Forms\AdministrativeForms\Settings\GisSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\AdministrativeForms\SmtpSettingsView.xaml">
+    <Page Include="Forms\AdministrativeForms\Settings\SmsSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\AdministrativeForms\Settings\SmtpSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

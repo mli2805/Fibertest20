@@ -1,0 +1,20 @@
+﻿<Window x:Class="Iit.Fibertest.Client.GisSettingsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        mc:Ignorable="d"
+        SizeToContent="Height" Width="450" d:DataContext="{d:DesignInstance client:GisSettingsViewModel}">
+    <StackPanel Margin="5">
+        <CheckBox Content="{x:Static stringResources:Resources.SID_Without_map_mode}" Margin="5"
+                  IsChecked="{Binding CurrentDatacenterParameters.IsInGisVisibleMode}" IsEnabled="{Binding IsRoot}" />
+        <TextBlock Text="{x:Static stringResources:Resources.SID_Switches_mode_for_all_clients}" Margin="5"
+                   HorizontalAlignment="Center" Foreground="DarkSlateGray" />
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,25,5,5">
+            <Button Content="{x:Static stringResources:Resources.SID_Save}" Width="100" Margin="5" IsDefault="True" />
+            <Button Content="{x:Static stringResources:Resources.SID_Cancel}" Width="100" Margin="5" IsCancel="True" />
+        </StackPanel>
+    </StackPanel>
+</Window>

@@ -14,9 +14,21 @@ namespace Iit.Fibertest.Client
     public class GraphReadModel : PropertyChangedBase
     {
         public Map MainMap { get; set; }
-        public bool IsInGisVisibleMode { get; set; }
+
+        private bool _isInGisVisibleMode;
+        public bool IsInGisVisibleMode
+        {
+            get { return _isInGisVisibleMode; }
+            set
+            {
+                if (value == _isInGisVisibleMode) return;
+                _isInGisVisibleMode = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public IMyLog LogFile { get; }
-        public CurrentGpsInputMode CurrentGpsInputMode { get; }
+        public CurrentGis CurrentGis { get; }
         public CurrentUser CurrentUser { get; }
         public CommonStatusBarViewModel CommonStatusBarViewModel { get; }
         public GrmNodeRequests GrmNodeRequests { get; }
@@ -33,6 +45,7 @@ namespace Iit.Fibertest.Client
 
         public List<GraphVisibilityLevelItem> GraphVisibilityItems { get; set; }
         private GraphVisibilityLevelItem _selectedGraphVisibilityItem;
+
         public GraphVisibilityLevelItem SelectedGraphVisibilityItem
         {
             get => _selectedGraphVisibilityItem;
@@ -46,7 +59,7 @@ namespace Iit.Fibertest.Client
         }
 
         public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, 
-            CurrentGpsInputMode currentGpsInputMode, CurrentUser currentUser, 
+            CurrentGis currentGis, CurrentUser currentUser, 
             CurrentDatacenterParameters currentDatacenterParameters,
             CommonStatusBarViewModel commonStatusBarViewModel,
             GrmNodeRequests grmNodeRequests, GrmEquipmentRequests grmEquipmentRequests,
@@ -55,8 +68,9 @@ namespace Iit.Fibertest.Client
             IWindowManager windowManager, Model readModel)
         {
             LogFile = logFile;
-            CurrentGpsInputMode = currentGpsInputMode;
+            CurrentGis = currentGis;
             CurrentUser = currentUser;
+            currentDatacenterParameters.PropertyChanged += CurrentDatacenterParameters_PropertyChanged;
             CommonStatusBarViewModel = commonStatusBarViewModel;
             GrmNodeRequests = grmNodeRequests;
             GrmEquipmentRequests = grmEquipmentRequests;
@@ -67,7 +81,6 @@ namespace Iit.Fibertest.Client
             ReadModel = readModel;
             GlobalScope = globalScope;
             IniFile = iniFile;
-            IsInGisVisibleMode = currentDatacenterParameters.IsInGisVisibleMode;
             Data.Nodes = new ObservableCollection<NodeVm>();
             Data.Fibers = new ObservableCollection<FiberVm>();
 
@@ -77,6 +90,12 @@ namespace Iit.Fibertest.Client
             if (!Enum.TryParse(levelString, out GraphVisibilityLevel level))
                 level = GraphVisibilityLevel.AllDetails;
             SetGraphVisibility(level);
+        }
+
+        private void CurrentDatacenterParameters_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            var parameters = (CurrentDatacenterParameters) sender;
+            IsInGisVisibleMode = parameters.IsInGisVisibleMode;
         }
 
         public void SetGraphVisibility(GraphVisibilityLevel level)

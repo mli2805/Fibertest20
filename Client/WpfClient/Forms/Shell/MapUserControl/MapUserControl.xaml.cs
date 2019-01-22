@@ -37,28 +37,37 @@ namespace Iit.Fibertest.Client
             var maxZoom = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.MaxZoom, 21);
             MainMap.MaxZoom = maxZoom;
 
-            var provider = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.GMapProvider, @"OpenStreetMap");
-            switch (provider)
+            if (GraphReadModel.IsInGisVisibleMode)
             {
-                case "OpenStreetMap":
+                var provider = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.GMapProvider, @"OpenStreetMap");
+                switch (provider)
                 {
-                    MainMap.MapProvider = GMapProviders.OpenStreetMap; 
-                    GMapProvider.Language = LanguageType.English;
-                    break;
+                    case "OpenStreetMap":
+                        {
+                            MainMap.MapProvider = GMapProviders.OpenStreetMap;
+                            GMapProvider.Language = LanguageType.English;
+                            break;
+                        }
+                    case "GoogleMap":
+                        {
+                            MainMap.MapProvider = GMapProviders.GoogleMap;
+                            GMapProvider.Language = LanguageType.English;
+                            break;
+                        }
+                    case "YandexMap":
+                        {
+                            MainMap.MapProvider = GMapProviders.YandexMap;
+                            GMapProvider.Language = LanguageType.Russian;
+                            break;
+                        }
+                    default:
+                        MainMap.MapProvider = GMapProviders.EmptyProvider;
+                        break;
                 }
-                case "GoogleMap":
-                {
-                    MainMap.MapProvider = GMapProviders.GoogleMap; 
-                    GMapProvider.Language = LanguageType.English;
-                    break;
-                }
-                case "YandexMap":
-                {
-                    MainMap.MapProvider = GMapProviders.YandexMap;
-                    GMapProvider.Language = LanguageType.Russian;
-                    break;
-                }
-                default: MainMap.MapProvider = GMapProviders.OpenStreetMap; break;
+            }
+            else
+            {
+                MainMap.MapProvider = GMapProviders.EmptyProvider;
             }
         }
 
@@ -71,7 +80,7 @@ namespace Iit.Fibertest.Client
 
             ConfigureMap();
 
-            MainMap.CurrentGpsInputMode = GraphReadModel.CurrentGpsInputMode;
+            MainMap.CurrentGis = GraphReadModel.CurrentGis;
             MainMap.IsInGisVisibleMode = GraphReadModel.IsInGisVisibleMode;
 
             graph.Data.Nodes.CollectionChanged += NodesCollectionChanged;
@@ -87,6 +96,8 @@ namespace Iit.Fibertest.Client
         {
             if (e.PropertyName == nameof(GraphReadModel.SelectedGraphVisibilityItem))
                 ChangeVisibility(GraphReadModel.SelectedGraphVisibilityItem.Level);
+            if (e.PropertyName == nameof(GraphReadModel.IsInGisVisibleMode))
+                ConfigureMap();
         }
 
         public void ChangeVisibility(GraphVisibilityLevel selectedLevel)
