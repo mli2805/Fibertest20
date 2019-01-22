@@ -2433,6 +2433,15 @@ RTU инициализируется в данный момент!</value>
 		<value>Режим "Без карты"</value>
 	</data>
 	<data name="SID_Switches_mode_for_all_clients" xml:space="preserve">
-		<value>Переключает режим для всех клиентов (после перезапуска)</value>
+		<value>Переключает режим для всех клиентов</value>
+	</data>
+	<data name="SID_Failed_to_save_GIS_mode_" xml:space="preserve">
+		<value>Ошибка сохранения режима ГИС!</value>
+	</data>
+	<data name="SID_Switches_mode_for_all2" xml:space="preserve">
+		<value>( Для данного клиента после нажатия Сохранить,</value>
+	</data>
+	<data name="SID_Switches_mode_for_all3" xml:space="preserve">
+		<value>для всех остальных - после перезапуска )</value>
 	</data>
 </root>

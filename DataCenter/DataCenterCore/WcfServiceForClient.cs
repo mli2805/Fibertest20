@@ -196,6 +196,13 @@ namespace Iit.Fibertest.DataCenterCore
             return Task.FromResult(true);
         }
 
+        public Task<bool> SaveGisMode(bool isMapVisible)
+        {
+            _logFile.AppendLine("Client asked to save GIS mode");
+            _iniFile.Write(IniSection.Server, IniKey.IsInGisVisibleMode, isMapVisible);
+            return Task.FromResult(true);
+        }
+
         public Task<bool> SaveGsmComPort(int comPort)
         {
             _logFile.AppendLine("Client asked to save com port");

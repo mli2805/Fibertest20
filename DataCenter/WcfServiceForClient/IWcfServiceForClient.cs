@@ -47,6 +47,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<bool> SaveSmtpSettings(SmtpSettingsDto dto);
 
         [OperationContract]
+        Task<bool> SaveGisMode(bool isMapVisible);
+
+        [OperationContract]
         Task<bool> SaveGsmComPort(int comPort);
 
         [OperationContract]

@@ -245,10 +245,10 @@
       <DependentUpon>ChangePasswordView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\AdministrativeForms\Users\ChangePasswordViewModel.cs" />
-    <Compile Include="Forms\AdministrativeForms\ConfigurationView.xaml.cs">
+    <Compile Include="Forms\AdministrativeForms\Settings\ConfigurationView.xaml.cs">
       <DependentUpon>ConfigurationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AdministrativeForms\ConfigurationViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\Settings\ConfigurationViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\LicenseView.xaml.cs">
       <DependentUpon>LicenseView.xaml</DependentUpon>
     </Compile>
@@ -634,7 +634,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\AdministrativeForms\ConfigurationView.xaml">
+    <Page Include="Forms\AdministrativeForms\Settings\ConfigurationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

@@ -7,13 +7,17 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
         SizeToContent="Height" Width="450" d:DataContext="{d:DesignInstance client:GisSettingsViewModel}">
-    <StackPanel Margin="5">
-        <CheckBox Content="{x:Static stringResources:Resources.SID_Without_map_mode}" Margin="5"
-                  IsChecked="{Binding CurrentDatacenterParameters.IsInGisVisibleMode}" IsEnabled="{Binding IsRoot}" />
-        <TextBlock Text="{x:Static stringResources:Resources.SID_Switches_mode_for_all_clients}" Margin="5"
+    <StackPanel Margin="5" IsEnabled="{Binding IsRoot}">
+        <CheckBox Content="{x:Static stringResources:Resources.SID_Without_map_mode}" Margin="5,15,5,5"
+                  IsChecked="{Binding IsInWithoutMapMode}"/>
+        <TextBlock Text="{x:Static stringResources:Resources.SID_Switches_mode_for_all_clients}" Margin="5,3"
+                   HorizontalAlignment="Center" Foreground="DarkSlateGray" />
+        <TextBlock Text="{x:Static stringResources:Resources.SID_Switches_mode_for_all2}" Margin="5,3"
+                   HorizontalAlignment="Center" Foreground="DarkSlateGray" />
+        <TextBlock Text="{x:Static stringResources:Resources.SID_Switches_mode_for_all3}" Margin="5,3"
                    HorizontalAlignment="Center" Foreground="DarkSlateGray" />
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,25,5,5">
-            <Button Content="{x:Static stringResources:Resources.SID_Save}" Width="100" Margin="5" IsDefault="True" />
+            <Button Name="Save"  Content="{x:Static stringResources:Resources.SID_Save}" Width="100" Margin="5" IsDefault="True" />
             <Button Content="{x:Static stringResources:Resources.SID_Cancel}" Width="100" Margin="5" IsCancel="True" />
         </StackPanel>
     </StackPanel>

@@ -10,6 +10,7 @@ namespace Iit.Fibertest.Client
     public class ConfigurationViewModel : Screen
     {
         private readonly IniFile _iniFile;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly GraphReadModel _graphReadModel;
         private bool _isGraphVisibleOnStart;
         private string _selectedLanguage;
@@ -19,9 +20,11 @@ namespace Iit.Fibertest.Client
 
         public bool IsEnabled { get; set; }
 
-        public ConfigurationViewModel(IniFile iniFile, CurrentUser currentUser, GraphReadModel graphReadModel)
+        public ConfigurationViewModel(IniFile iniFile, GraphReadModel graphReadModel, 
+            CurrentUser currentUser, CurrentDatacenterParameters currentDatacenterParameters)
         {
             _iniFile = iniFile;
+            _currentDatacenterParameters = currentDatacenterParameters;
             _graphReadModel = graphReadModel;
             IsEnabled = currentUser.Role < Role.Superclient;
 
@@ -63,11 +66,35 @@ namespace Iit.Fibertest.Client
             {
                 _selectedProvider = value; 
                 _iniFile.Write(IniSection.Map, IniKey.GMapProvider, _selectedProvider);
-
-                _graphReadModel.MainMap.MapProvider = GMapProviders.EmptyProvider;
+                if (_currentDatacenterParameters.IsInGisVisibleMode)
+                    _graphReadModel.MainMap.MapProvider = GMapProviderExt.Get(_selectedProvider);
             }
         }
 
         public void Close() { TryClose(); }
+    }
+
+    public static class GMapProviderExt
+    {
+        public static GMapProvider Get(string providerName)
+        {
+            switch (providerName)
+            {
+                case "OpenStreetMap":
+                {
+                    return GMapProviders.OpenStreetMap;
+                }
+                case "GoogleMap":
+                {
+                    return GMapProviders.GoogleMap;
+                }
+                case "YandexMap":
+                {
+                    return GMapProviders.YandexMap;
+                }
+                default:
+                    return GMapProviders.EmptyProvider;
+            }
+        }
     }
 }

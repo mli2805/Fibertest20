@@ -2575,6 +2575,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to save GIS mode!.
+        /// </summary>
+        public static string SID_Failed_to_save_GIS_mode_ {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_save_GIS_mode_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to save GSM-modem com port!.
         /// </summary>
         public static string SID_Failed_to_save_gsm_modem_com_port_ {
@@ -5952,11 +5961,29 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Switches mode for all clients (after restart).
+        ///   Looks up a localized string similar to Switches mode for all clients.
         /// </summary>
         public static string SID_Switches_mode_for_all_clients {
             get {
                 return ResourceManager.GetString("SID_Switches_mode_for_all_clients", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (For this client at once, for all other clients - after restart).
+        /// </summary>
+        public static string SID_Switches_mode_for_all2 {
+            get {
+                return ResourceManager.GetString("SID_Switches_mode_for_all2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Switches_mode_for_all3.
+        /// </summary>
+        public static string SID_Switches_mode_for_all3 {
+            get {
+                return ResourceManager.GetString("SID_Switches_mode_for_all3", resourceCulture);
             }
         }
         

@@ -244,6 +244,26 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<bool> SaveGisMode(bool isMapVisible)
+        {
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            if (wcfConnection == null)
+                return false;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.SaveGisMode(isMapVisible);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("SaveGisMode: " + e.Message);
+                return false;
+            }
+        }
+
         public async Task<bool> SaveGsmComPort(int comPort)
         {
             var wcfConnection = _wcfFactory.GetC2DChannelFactory();
