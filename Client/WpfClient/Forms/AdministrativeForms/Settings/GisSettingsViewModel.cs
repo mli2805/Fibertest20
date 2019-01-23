@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System.Windows;
+using Caliburn.Micro;
 using GMap.NET.MapProviders;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
@@ -25,13 +26,14 @@ namespace Iit.Fibertest.Client
                 if (value == _isInWithoutMapMode) return;
                 _isInWithoutMapMode = value;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(IsSecondCheckBoxEnabled));
+                NotifyOfPropertyChange(nameof(SecondBoxVisibility));
             }
         }
 
         public bool IsRoot { get; set; }
 
-        public bool IsSecondCheckBoxEnabled => IsInWithoutMapMode && IsRoot;
+        public Visibility SecondBoxVisibility =>
+           IsInWithoutMapMode && IsRoot ? Visibility.Visible : Visibility.Collapsed;
 
         private bool _isMapTemporarilyVisibleInThisClient;
         public bool IsMapTemporarilyVisibleInThisClient
@@ -88,7 +90,6 @@ namespace Iit.Fibertest.Client
                     var provider = _iniFile.Read(IniSection.Map, IniKey.GMapProvider, @"OpenStreetMap");
                     _graphReadModel.MainMap.MapProvider = GMapProviderExt.Get(provider);
                 }
-                TryClose();
             }
             else
             {

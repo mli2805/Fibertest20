@@ -23,9 +23,8 @@
                            HorizontalAlignment="Center" Foreground="DarkSlateGray" />
             </StackPanel>
         </GroupBox>
-        <GroupBox Margin="5,0">
-            <CheckBox IsChecked="{Binding IsMapTemporarilyVisibleInThisClient}" IsEnabled="{Binding IsSecondCheckBoxEnabled}" 
-                      Margin="5,15,5,5">
+        <GroupBox Margin="5,0" Visibility="{Binding SecondBoxVisibility}">
+            <CheckBox IsChecked="{Binding IsMapTemporarilyVisibleInThisClient}" Margin="5,15,5,5">
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Show_map_temporarily}" TextWrapping="Wrap" 
                            Margin="3,0" TextAlignment="Center"/>
             </CheckBox>

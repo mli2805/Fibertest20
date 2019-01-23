@@ -2433,18 +2433,18 @@ RTU is initializing right now!</value>
     <value>"Without map" mode</value>
   </data>
 	<data name="SID_Switches_mode_for_all_clients" xml:space="preserve">
-    <value>Switches mode for all clients</value>
+    <value>Switches mode for all applications Client</value>
   </data>
 	<data name="SID_Failed_to_save_GIS_mode_" xml:space="preserve">
     <value>Failed to save GIS mode!</value>
   </data>
 	<data name="SID_Switches_mode_for_all2" xml:space="preserve">
-    <value>( For this client after Apply pressed, </value>
+    <value>( For this application after Apply pressed, </value>
   </data>
 	<data name="SID_Switches_mode_for_all3" xml:space="preserve">
-    <value>for all other clients - after restart )</value>
+    <value>for all other - after restart )</value>
   </data>
 	<data name="SID_Show_map_temporarily" xml:space="preserve">
-    <value>Show map in this client only, temporarily till application closed</value>
+    <value>Show map in this application only, temporarily till it is closed</value>
   </data>
 </root>

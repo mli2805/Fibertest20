@@ -2433,18 +2433,18 @@ RTU инициализируется в данный момент!</value>
 		<value>Режим "Без карты"</value>
 	</data>
 	<data name="SID_Switches_mode_for_all_clients" xml:space="preserve">
-		<value>Переключает режим для всех клиентов</value>
+		<value>Переключает режим для всех приложений Client</value>
 	</data>
 	<data name="SID_Failed_to_save_GIS_mode_" xml:space="preserve">
 		<value>Ошибка сохранения режима ГИС!</value>
 	</data>
 	<data name="SID_Switches_mode_for_all2" xml:space="preserve">
-		<value>( Для данного клиента после нажатия Применить,</value>
+		<value>( Для данного приложения после нажатия Применить,</value>
 	</data>
 	<data name="SID_Switches_mode_for_all3" xml:space="preserve">
 		<value>для всех остальных - после перезапуска )</value>
 	</data>
 	<data name="SID_Show_map_temporarily" xml:space="preserve">
-		<value>Показывать карту только в этом клиенте, временно, до выхода из приложения</value>
+		<value>Показывать карту только в этом приложении, временно, до выхода из него</value>
 	</data>
 </root>
