@@ -5727,6 +5727,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show map temporarily in this client only.
+        /// </summary>
+        public static string SID_Show_map_temporarily {
+            get {
+                return ResourceManager.GetString("SID_Show_map_temporarily", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Show on map.
         /// </summary>
         public static string SID_Show_on_map {
@@ -5970,7 +5979,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (For this client at once, for all other clients - after restart).
+        ///   Looks up a localized string similar to ( For this client after Save pressed, .
         /// </summary>
         public static string SID_Switches_mode_for_all2 {
             get {
@@ -5979,7 +5988,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Switches_mode_for_all3.
+        ///   Looks up a localized string similar to for all other clients - after restart ).
         /// </summary>
         public static string SID_Switches_mode_for_all3 {
             get {

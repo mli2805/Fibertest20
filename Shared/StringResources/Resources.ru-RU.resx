@@ -2444,4 +2444,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Switches_mode_for_all3" xml:space="preserve">
 		<value>для всех остальных - после перезапуска )</value>
 	</data>
+	<data name="SID_Show_map_temporarily" xml:space="preserve">
+		<value>Показывать карту только в этом клиенте, временно, до выхода из приложения</value>
+	</data>
 </root>

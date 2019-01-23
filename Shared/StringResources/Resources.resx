@@ -2444,4 +2444,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Switches_mode_for_all3" xml:space="preserve">
     <value>for all other clients - after restart )</value>
   </data>
+	<data name="SID_Show_map_temporarily" xml:space="preserve">
+    <value>Show map in this client only, temporarily till application closed</value>
+  </data>
 </root>

@@ -1,5 +1,4 @@
 ﻿using Caliburn.Micro;
-using GMap.NET.MapProviders;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 
@@ -21,9 +20,6 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange(nameof(GpsInputMode));
             }
         }
-
-        public GMapProvider MapProvider { get; set; }
-
 
         public CurrentGis(IniFile iniFile)
         {
