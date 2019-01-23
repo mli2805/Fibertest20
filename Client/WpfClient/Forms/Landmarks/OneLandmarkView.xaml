@@ -32,7 +32,8 @@
                     <ComboBox Margin="5" Height="25" ItemsSource="{Binding ComboItems}" SelectedItem="{Binding SelectedEquipmentTypeItem}" />
                 </StackPanel>
             </GroupBox>
-            <GroupBox Grid.Row="0"  Grid.Column="2" Header="{x:Static stringResources:Resources.SID_GPS_coordinates}"  IsEnabled="{Binding IsEditEnabled}">
+            <GroupBox Grid.Row="0"  Grid.Column="2" Header="{x:Static stringResources:Resources.SID_GPS_coordinates}"  
+                      Visibility="{Binding GisVisibility}" IsEnabled="{Binding IsEditEnabled}">
                 <client:GpsInputSmallView DataContext="{Binding GpsInputSmallViewModel}"/>
             </GroupBox>
             <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Margin="5,5,0,0" Orientation="Horizontal">

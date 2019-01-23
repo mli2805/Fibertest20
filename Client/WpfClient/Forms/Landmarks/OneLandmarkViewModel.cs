@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -150,13 +151,15 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public Visibility GisVisibility { get;set; }
 
-        public OneLandmarkViewModel(CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu,
+        public OneLandmarkViewModel(CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu, CurrentGis currentGis,
             GpsInputSmallViewModel gpsInputSmallViewModel, IWcfServiceForClient c2DWcfManager,
             GraphReadModel graphReadModel, ReflectogramManager reflectogramManager, TabulatorViewModel tabulatorViewModel)
         {
             IsEditEnabled = currentUser.Role <= Role.Root;
             _currentlyHiddenRtu = currentlyHiddenRtu;
+            GisVisibility = currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
             _c2DWcfManager = c2DWcfManager;
             _graphReadModel = graphReadModel;
             _reflectogramManager = reflectogramManager;
