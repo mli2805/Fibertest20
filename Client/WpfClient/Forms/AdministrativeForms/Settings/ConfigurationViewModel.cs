@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Caliburn.Micro;
-using GMap.NET.MapProviders;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
@@ -10,8 +9,8 @@ namespace Iit.Fibertest.Client
     public class ConfigurationViewModel : Screen
     {
         private readonly IniFile _iniFile;
-        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly GraphReadModel _graphReadModel;
+        private readonly CurrentGis _currentGis;
         private bool _isGraphVisibleOnStart;
         private string _selectedLanguage;
         private string _selectedProvider;
@@ -20,12 +19,12 @@ namespace Iit.Fibertest.Client
 
         public bool IsEnabled { get; set; }
 
-        public ConfigurationViewModel(IniFile iniFile, GraphReadModel graphReadModel, 
-            CurrentUser currentUser, CurrentDatacenterParameters currentDatacenterParameters)
+        public ConfigurationViewModel(IniFile iniFile, GraphReadModel graphReadModel, CurrentGis currentGis,
+            CurrentUser currentUser)
         {
             _iniFile = iniFile;
-            _currentDatacenterParameters = currentDatacenterParameters;
             _graphReadModel = graphReadModel;
+            _currentGis = currentGis;
             IsEnabled = currentUser.Role < Role.Superclient;
 
             _isGraphVisibleOnStart = _iniFile.Read(IniSection.Miscellaneous, IniKey.IsGraphVisibleOnStart, false);
@@ -66,35 +65,11 @@ namespace Iit.Fibertest.Client
             {
                 _selectedProvider = value; 
                 _iniFile.Write(IniSection.Map, IniKey.GMapProvider, _selectedProvider);
-                if (_currentDatacenterParameters.IsInGisVisibleMode)
+                if (!_currentGis.IsWithoutMapMode)
                     _graphReadModel.MainMap.MapProvider = GMapProviderExt.Get(_selectedProvider);
             }
         }
 
         public void Close() { TryClose(); }
-    }
-
-    public static class GMapProviderExt
-    {
-        public static GMapProvider Get(string providerName)
-        {
-            switch (providerName)
-            {
-                case "OpenStreetMap":
-                {
-                    return GMapProviders.OpenStreetMap;
-                }
-                case "GoogleMap":
-                {
-                    return GMapProviders.GoogleMap;
-                }
-                case "YandexMap":
-                {
-                    return GMapProviders.YandexMap;
-                }
-                default:
-                    return GMapProviders.EmptyProvider;
-            }
-        }
     }
 }

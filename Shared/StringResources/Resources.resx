@@ -2439,7 +2439,7 @@ RTU is initializing right now!</value>
     <value>Failed to save GIS mode!</value>
   </data>
 	<data name="SID_Switches_mode_for_all2" xml:space="preserve">
-    <value>( For this client after Save pressed, </value>
+    <value>( For this client after Apply pressed, </value>
   </data>
 	<data name="SID_Switches_mode_for_all3" xml:space="preserve">
     <value>for all other clients - after restart )</value>

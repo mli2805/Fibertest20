@@ -134,7 +134,7 @@ namespace Iit.Fibertest.DataCenterCore
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             result.DatacenterVersion = fvi.FileVersion;
             result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
-            result.IsInGisVisibleMode = _iniFile.Read(IniSection.Server, IniKey.IsInGisVisibleMode, true);
+            result.IsWithoutMapMode = _iniFile.Read(IniSection.Server, IniKey.IsWithoutMapMode, false);
 
             result.Smtp = new SmtpSettingsDto()
             {

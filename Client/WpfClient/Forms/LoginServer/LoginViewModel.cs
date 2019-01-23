@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly CurrentUser _currentUser;
+        private readonly CurrentGis _currentGis;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
 
         private string _userName;
@@ -51,7 +52,8 @@ namespace Iit.Fibertest.Client
         public bool IsRegistrationSuccessful { get; set; }
 
         public LoginViewModel(ILifetimeScope globalScope, IWindowManager windowManager, IniFile iniFile, IMyLog logFile,
-            IWcfServiceForClient c2DWcfManager, CurrentUser currentUser, CurrentDatacenterParameters currentDatacenterParameters)
+            IWcfServiceForClient c2DWcfManager, CurrentUser currentUser, CurrentGis currentGis,
+            CurrentDatacenterParameters currentDatacenterParameters)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
@@ -59,6 +61,7 @@ namespace Iit.Fibertest.Client
             _logFile = logFile;
             _c2DWcfManager = c2DWcfManager;
             _currentUser = currentUser;
+            _currentGis = currentGis;
             _currentDatacenterParameters = currentDatacenterParameters;
         }
 
@@ -150,7 +153,6 @@ namespace Iit.Fibertest.Client
                 _currentUser.ZoneTitle = result.ZoneTitle;
                 _currentDatacenterParameters.DatacenterVersion = result.DatacenterVersion;
                 _currentDatacenterParameters.GraphDbVersionId = result.GraphDbVersionId;
-                _currentDatacenterParameters.IsInGisVisibleMode = result.IsInGisVisibleMode;
                 _currentDatacenterParameters.Smtp = new CurrentDatacenterSmtpParameters()
                 {
                     SmptHost = result.Smtp.SmptHost,
@@ -160,7 +162,7 @@ namespace Iit.Fibertest.Client
                     SmtpTimeoutMs = result.Smtp.SmtpTimeoutMs,
                 };
                 _currentDatacenterParameters.GsmModemComPort = result.GsmModemComPort;
-
+                _currentGis.IsWithoutMapMode = result.IsWithoutMapMode;
 
                 _logFile.AppendLine(@"Registered successfully");
                 IsRegistrationSuccessful = true;

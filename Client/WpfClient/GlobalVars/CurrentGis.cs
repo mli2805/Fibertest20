@@ -21,6 +21,34 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private bool _isWithoutMapMode;
+        public bool IsWithoutMapMode
+        {
+            get { return _isWithoutMapMode; }
+            set
+            {
+                if (value == _isWithoutMapMode) return;
+                _isWithoutMapMode = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IsGisOn));
+            }
+        }
+
+        private bool _isRootTempGisOn;
+        public bool IsRootTempGisOn
+        {
+            get { return _isRootTempGisOn; }
+            set
+            {
+                if (value == _isRootTempGisOn) return;
+                _isRootTempGisOn = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IsGisOn));
+            }
+        }
+
+        public bool IsGisOn => !IsWithoutMapMode || IsRootTempGisOn;
+
         public CurrentGis(IniFile iniFile)
         {
             _iniFile = iniFile;

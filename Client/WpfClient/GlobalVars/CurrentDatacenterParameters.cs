@@ -10,17 +10,17 @@ namespace Iit.Fibertest.Client
         public Guid GraphDbVersionId { get; set; }
         public string DatacenterVersion { get; set; }
 
-        private bool _isInGisVisibleMode;
-        public bool IsInGisVisibleMode
-        {
-            get { return _isInGisVisibleMode; }
-            set
-            {
-                if (value == _isInGisVisibleMode) return;
-                _isInGisVisibleMode = value;
-                NotifyOfPropertyChange();
-            }
-        }
+//        private bool _isInGisVisibleMode;
+//        public bool IsInGisVisibleMode
+//        {
+//            get { return _isInGisVisibleMode; }
+//            set
+//            {
+//                if (value == _isInGisVisibleMode) return;
+//                _isInGisVisibleMode = value;
+//                NotifyOfPropertyChange();
+//            }
+//        }
 
         public CurrentDatacenterSmtpParameters Smtp { get; set; }
         public int GsmModemComPort { get; set; }

@@ -196,10 +196,10 @@ namespace Iit.Fibertest.DataCenterCore
             return Task.FromResult(true);
         }
 
-        public Task<bool> SaveGisMode(bool isMapVisible)
+        public Task<bool> SaveGisMode(bool isWithoutMapMode)
         {
             _logFile.AppendLine("Client asked to save GIS mode");
-            _iniFile.Write(IniSection.Server, IniKey.IsInGisVisibleMode, isMapVisible);
+            _iniFile.Write(IniSection.Server, IniKey.IsWithoutMapMode, isWithoutMapMode);
             return Task.FromResult(true);
         }
 

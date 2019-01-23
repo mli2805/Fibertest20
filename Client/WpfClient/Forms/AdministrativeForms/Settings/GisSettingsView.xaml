@@ -6,24 +6,32 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        SizeToContent="Height" Width="400" Left="300" Top="250" d:DataContext="{d:DesignInstance client:GisSettingsViewModel}">
+        SizeToContent="Height" Width="450" Left="300" Top="250" d:DataContext="{d:DesignInstance client:GisSettingsViewModel}">
     <StackPanel Margin="5" IsEnabled="{Binding IsRoot}">
-        <CheckBox Content="{x:Static stringResources:Resources.SID_Without_map_mode}" Margin="5,15,5,5"
-                  IsChecked="{Binding IsInWithoutMapMode}"/>
-        <TextBlock Text="{x:Static stringResources:Resources.SID_Switches_mode_for_all_clients}" Margin="5,3"
-                   HorizontalAlignment="Center" Foreground="DarkSlateGray" />
-        <TextBlock Text="{x:Static stringResources:Resources.SID_Switches_mode_for_all2}" Margin="5,3"
-                   HorizontalAlignment="Center" Foreground="DarkSlateGray" />
-        <TextBlock Text="{x:Static stringResources:Resources.SID_Switches_mode_for_all3}" Margin="5,3"
-                   HorizontalAlignment="Center" Foreground="DarkSlateGray" />
-        <CheckBox IsChecked="{Binding IsMapTemporarilyVisibleInThisClient}" IsEnabled="{Binding IsSecondCheckBoxEnabled}" 
-                  Margin="5,15,5,5">
-            <TextBlock Text="{x:Static stringResources:Resources.SID_Show_map_temporarily}" TextWrapping="Wrap" 
-                       Margin="3,0" TextAlignment="Center"/>
-        </CheckBox>
+        <GroupBox Margin="5">
+            <StackPanel Margin="0,10,0,0">
+                <DockPanel >
+                    <Button DockPanel.Dock="Right" Name="Apply" Content="{x:Static stringResources:Resources.SID_Apply}" Width="100" Height="23" Margin="5" IsDefault="True" />
+                    <CheckBox  Content="{x:Static stringResources:Resources.SID_Without_map_mode}" 
+                               IsChecked="{Binding IsInWithoutMapMode}" VerticalAlignment="Center"/>
+                </DockPanel>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Switches_mode_for_all_clients}" Margin="5,3"
+                           HorizontalAlignment="Center" Foreground="DarkSlateGray" />
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Switches_mode_for_all2}" Margin="5,3"
+                           HorizontalAlignment="Center" Foreground="DarkSlateGray" />
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Switches_mode_for_all3}" Margin="5,3"
+                           HorizontalAlignment="Center" Foreground="DarkSlateGray" />
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Margin="5,0">
+            <CheckBox IsChecked="{Binding IsMapTemporarilyVisibleInThisClient}" IsEnabled="{Binding IsSecondCheckBoxEnabled}" 
+                      Margin="5,15,5,5">
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Show_map_temporarily}" TextWrapping="Wrap" 
+                           Margin="3,0" TextAlignment="Center"/>
+            </CheckBox>
+        </GroupBox>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,25,5,5">
-            <Button Name="Save"  Content="{x:Static stringResources:Resources.SID_Save}" Width="100" Margin="5" IsDefault="True" />
-            <Button Content="{x:Static stringResources:Resources.SID_Cancel}" Width="100" Margin="5" IsCancel="True" />
+            <Button Content="{x:Static stringResources:Resources.SID_Close}" Width="100" Margin="5" IsCancel="True" />
         </StackPanel>
     </StackPanel>
 </Window>

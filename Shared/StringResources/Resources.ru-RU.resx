@@ -2439,7 +2439,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Ошибка сохранения режима ГИС!</value>
 	</data>
 	<data name="SID_Switches_mode_for_all2" xml:space="preserve">
-		<value>( Для данного клиента после нажатия Сохранить,</value>
+		<value>( Для данного клиента после нажатия Применить,</value>
 	</data>
 	<data name="SID_Switches_mode_for_all3" xml:space="preserve">
 		<value>для всех остальных - после перезапуска )</value>

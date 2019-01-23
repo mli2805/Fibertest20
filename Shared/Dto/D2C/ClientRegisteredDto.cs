@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Dto
         public string DatacenterVersion { get; set; }
 
         [DataMember]
-        public bool IsInGisVisibleMode { get; set; }   
+        public bool IsWithoutMapMode { get; set; }   
 
         [DataMember]
         public SmtpSettingsDto Smtp { get; set; }  

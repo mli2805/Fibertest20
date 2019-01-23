@@ -5727,7 +5727,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show map temporarily in this client only.
+        ///   Looks up a localized string similar to Show map in this client only, temporarily till application closed.
         /// </summary>
         public static string SID_Show_map_temporarily {
             get {

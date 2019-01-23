@@ -194,6 +194,7 @@
       <DependentUpon>GisSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\AdministrativeForms\Settings\GisSettingsViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\Settings\GMapProviderExt.cs" />
     <Compile Include="Forms\AdministrativeForms\Settings\SmsSettingsView.xaml.cs">
       <DependentUpon>SmsSettingsView.xaml</DependentUpon>
     </Compile>

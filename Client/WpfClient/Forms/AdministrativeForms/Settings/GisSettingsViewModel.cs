@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Client
 {
     public class GisSettingsViewModel : Screen
     {
-        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
+        private readonly CurrentGis _currentGis;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly IniFile _iniFile;
@@ -40,6 +40,7 @@ namespace Iit.Fibertest.Client
             set
             {
                 _isMapTemporarilyVisibleInThisClient = value;
+                _currentGis.IsRootTempGisOn = value;
                 if (value)
                 {
                     var provider = _iniFile.Read(IniSection.Map, IniKey.GMapProvider, @"OpenStreetMap");
@@ -52,12 +53,12 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public GisSettingsViewModel(CurrentDatacenterParameters currentDatacenterParameters, CurrentUser currentUser,
+        public GisSettingsViewModel(CurrentUser currentUser, CurrentGis currentGis,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
             IniFile iniFile, GraphReadModel graphReadModel)
         {
-            _currentDatacenterParameters = currentDatacenterParameters;
-            IsInWithoutMapMode = !currentDatacenterParameters.IsInGisVisibleMode;
+            _currentGis = currentGis;
+            IsInWithoutMapMode = currentGis.IsWithoutMapMode;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _iniFile = iniFile;
@@ -68,15 +69,16 @@ namespace Iit.Fibertest.Client
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Gis_settings;
+            IsMapTemporarilyVisibleInThisClient = _currentGis.IsRootTempGisOn;
         }
 
-        public async void Save()
+        public async void Apply()
         {
             bool res;
             using (new WaitCursor())
             {
-                _currentDatacenterParameters.IsInGisVisibleMode = !IsInWithoutMapMode;
-                res = await _c2DWcfManager.SaveGisMode(!IsInWithoutMapMode);
+                _currentGis.IsWithoutMapMode = IsInWithoutMapMode;
+                res = await _c2DWcfManager.SaveGisMode(IsInWithoutMapMode);
             }
 
             if (res)
