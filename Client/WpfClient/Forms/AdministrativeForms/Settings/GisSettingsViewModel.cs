@@ -71,7 +71,7 @@ namespace Iit.Fibertest.Client
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Gis_settings;
-            IsMapTemporarilyVisibleInThisClient = _currentGis.IsRootTempGisOn;
+            _isMapTemporarilyVisibleInThisClient = _currentGis.IsRootTempGisOn;
         }
 
         public async void Apply()

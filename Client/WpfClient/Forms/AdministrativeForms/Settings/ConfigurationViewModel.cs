@@ -65,7 +65,7 @@ namespace Iit.Fibertest.Client
             {
                 _selectedProvider = value; 
                 _iniFile.Write(IniSection.Map, IniKey.GMapProvider, _selectedProvider);
-                if (!_currentGis.IsWithoutMapMode)
+                if (!_currentGis.IsGisOn)
                     _graphReadModel.MainMap.MapProvider = GMapProviderExt.Get(_selectedProvider);
             }
         }

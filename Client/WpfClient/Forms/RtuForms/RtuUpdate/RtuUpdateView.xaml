@@ -27,7 +27,9 @@
                      Name="TextBoxTitle" Margin="10,0,10,15" IsEnabled="{Binding IsEditEnabled}" Style="{StaticResource TextBoxValidationStyle}"/>
         </StackPanel>
 
-        <client:GpsInputView x:Name="GpsInputView" DataContext="{Binding GpsInputViewModel}"/>
+        <GroupBox Visibility="{Binding GisVisibility}" Margin="10,0">
+            <client:GpsInputView x:Name="GpsInputView" DataContext="{Binding GpsInputViewModel}" />
+        </GroupBox>
 
         <StackPanel>
             <TextBlock Text="{x:Static stringResources:Resources.SID_Comment}" VerticalAlignment="Center" 

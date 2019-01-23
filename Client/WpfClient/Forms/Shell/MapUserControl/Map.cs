@@ -51,8 +51,9 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public string MouseCurrentCoorsString => Zoom + " ; " +
-            _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode);
+        public string MouseCurrentCoorsString => CurrentGis.IsGisOn 
+            ? Zoom + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode) 
+            : "";
         #endregion
 
         #region Distance measurement properties

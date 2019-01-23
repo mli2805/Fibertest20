@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using Autofac;
 using AutoMapper;
 using Caliburn.Micro;
@@ -66,9 +67,10 @@ namespace Iit.Fibertest.Client
         }
         public GpsInputViewModel GpsInputViewModel { get; set; }
         public bool IsEditEnabled { get; set; }
+        public Visibility GisVisibility {get; set; }
 
 
-        public RtuUpdateViewModel(ILifetimeScope globalScope, CurrentUser currentUser,
+        public RtuUpdateViewModel(ILifetimeScope globalScope, CurrentUser currentUser, CurrentGis currentGis,
             Model readModel, GraphReadModel graphReadModel, TabulatorViewModel tabulatorViewModel,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
@@ -79,6 +81,7 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             IsEditEnabled = currentUser.Role <= Role.Root;
+            GisVisibility = currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void Initialize(Guid rtuId)
