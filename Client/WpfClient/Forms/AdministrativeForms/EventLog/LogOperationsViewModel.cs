@@ -23,6 +23,7 @@ namespace Iit.Fibertest.Client
         private bool _isMonitoringSettingsChanged = true;
         private bool _isMonitoringStarted = true;
         private bool _isMonitoringStopped = true;
+        private bool _isMeasurementUpdated = true;
 
         public bool IsAll
         {
@@ -53,7 +54,8 @@ namespace Iit.Fibertest.Client
                    _isBaseRefAssined &&
                    _isMonitoringSettingsChanged &&
                    _isMonitoringStarted &&
-                   _isMonitoringStopped;
+                   _isMonitoringStopped &&
+                   _isMeasurementUpdated;
         }
 
         private void ChangeAll()
@@ -78,6 +80,8 @@ namespace Iit.Fibertest.Client
             IsMonitoringSettingsChanged = IsAll;
             IsMonitoringStarted = IsAll;
             IsMonitoringStopped = IsAll;
+
+            IsMeasurementUpdated = IsAll;
         }
 
         public bool IsClientStarted
@@ -263,6 +267,17 @@ namespace Iit.Fibertest.Client
             {
                 if (value == _isMonitoringStopped) return;
                 _isMonitoringStopped = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsMeasurementUpdated
+        {
+            get => _isMeasurementUpdated;
+            set
+            {
+                if (value == _isMeasurementUpdated) return;
+                _isMeasurementUpdated = value;
                 NotifyOfPropertyChange();
             }
         }

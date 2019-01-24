@@ -3700,6 +3700,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Measurement updated.
+        /// </summary>
+        public static string SID_Measurement_updated {
+            get {
+                return ResourceManager.GetString("SID_Measurement_updated", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measuring with averaging.
         /// </summary>
         public static string SID_Measuring_with_averaging {
@@ -5754,7 +5763,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show map in this application only, temporarily till it is closed.
+        ///   Looks up a localized string similar to Show map on this work place, till application is closed.
         /// </summary>
         public static string SID_Show_map_temporarily {
             get {

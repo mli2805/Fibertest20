@@ -22,5 +22,7 @@
         MonitoringSettingsChanged,
         MonitoringStarted,
         MonitoringStopped,
+
+        MeasurementUpdated,
     }
 }

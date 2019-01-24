@@ -11,6 +11,8 @@ namespace Iit.Fibertest.Client
         private Dictionary<Guid, string> _rtuTitles;
         // ID - <Title, RTU-ID>
         private Dictionary<Guid, Tuple<string, Guid>> _traces;
+        // SorfileId - Measurement
+        private Dictionary<int, MeasurementAdded> _measurements;
 
 
         public LogLine ParseEventBody(object body)
@@ -38,6 +40,9 @@ namespace Iit.Fibertest.Client
                 case ClientStationUnregistered _: return new LogLine() { OperationCode = LogOperationCode.ClientExited };
                 case ClientConnectionLost _: return new LogLine() { OperationCode = LogOperationCode.ClientConnectionLost };
 
+                case MeasurementAdded evnt: return Parse(evnt);
+                case MeasurementUpdated evnt: return Parse(evnt);
+
                 default: return null;
             }
         }
@@ -45,6 +50,7 @@ namespace Iit.Fibertest.Client
         {
             _rtuTitles = new Dictionary<Guid, string>();
             _traces = new Dictionary<Guid, Tuple<string, Guid>>();
+            _measurements = new Dictionary<int, MeasurementAdded>();
         }
 
         private LogLine Parse(RtuAtGpsLocationAdded e)
@@ -170,6 +176,24 @@ namespace Iit.Fibertest.Client
                 OperationParams = e.RegistrationResult.GetLocalizedString(),
             };
         }
+
+        public LogLine Parse(MeasurementAdded e)
+        {
+            _measurements.Add(e.SorFileId, e);
+            return null;
+        }
+        private LogLine Parse(MeasurementUpdated e)
+        {
+            var meas = _measurements[e.SorFileId];
+            return new LogLine()
+            {
+                OperationCode = LogOperationCode.MeasurementUpdated,
+                RtuTitle = _rtuTitles[meas.RtuId],
+                TraceTitle = _traces[meas.TraceId].Item1,
+                OperationParams = $@"{e.EventStatus.GetLocalizedString()}",
+            };
+        }
+
 
     }
 }

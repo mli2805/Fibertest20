@@ -33,6 +33,8 @@
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Monitoring_settings_changed}" Margin="5" IsChecked="{Binding IsMonitoringSettingsChanged, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Monitoring_started}" Margin="5" IsChecked="{Binding IsMonitoringStarted, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Monitoring_stopped}" Margin="5" IsChecked="{Binding IsMonitoringStopped, Mode=TwoWay}"/>
+                <Separator/>
+                <CheckBox Content="{x:Static stringResources:Resources.SID_Measurement_updated}" Margin="5" IsChecked="{Binding IsMeasurementUpdated, Mode=TwoWay}"/>
             </StackPanel>
         </Border>
         <StackPanel Orientation="Horizontal" Margin="5,15,5,10" HorizontalAlignment="Center">

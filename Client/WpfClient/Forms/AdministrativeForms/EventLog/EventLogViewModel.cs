@@ -118,6 +118,8 @@ namespace Iit.Fibertest.Client
                 case LogOperationCode.MonitoringStarted: return _logOperationsViewModel.IsMonitoringStarted;
                 case LogOperationCode.MonitoringStopped: return _logOperationsViewModel.IsMonitoringStopped;
 
+                case LogOperationCode.MeasurementUpdated: return _logOperationsViewModel.IsMeasurementUpdated;
+
                 default: return false;
             }
         }
