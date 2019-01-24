@@ -2445,7 +2445,7 @@ RTU инициализируется в данный момент!</value>
 		<value>для всех остальных - после перезапуска )</value>
 	</data>
 	<data name="SID_Show_map_temporarily" xml:space="preserve">
-		<value>Показывать карту только в этом приложении, временно, до выхода из него</value>
+		<value>Показывать карту на данном рабочем месте, до выхода из приложения</value>
 	</data>
 	<data name="SID_Change_mode" xml:space="preserve">
 		<value>Переключить режим</value>

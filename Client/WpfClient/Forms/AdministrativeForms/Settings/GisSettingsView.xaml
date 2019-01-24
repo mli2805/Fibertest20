@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         SizeToContent="Height" Width="450" Left="300" Top="250" d:DataContext="{d:DesignInstance client:GisSettingsViewModel}">
     <StackPanel Margin="5" IsEnabled="{Binding IsRoot}">
-        <GroupBox Margin="5">
+        <Border Margin="5" BorderThickness="1" BorderBrush="LightGray" CornerRadius="5">
             <StackPanel Margin="0,10,0,0">
                 <StackPanel >
                     <TextBlock FontSize="18" Text="{Binding GisModeMessage}" HorizontalAlignment="Center" Margin="5,10"/>
@@ -22,13 +22,14 @@
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Switches_mode_for_all3}" Margin="5,3"
                            HorizontalAlignment="Center" Foreground="DarkSlateGray" />
             </StackPanel>
-        </GroupBox>
-        <GroupBox Margin="5,0" IsEnabled="{Binding IsSecondBoxEnabled}" >
-            <CheckBox IsChecked="{Binding IsMapTemporarilyVisibleInThisClient}" Margin="5,15,5,5">
+        </Border>
+        <Border Margin="5,0" IsEnabled="{Binding IsInWithoutMapMode}" Visibility="{Binding SecondBoxVisibility}" 
+                BorderThickness="1" BorderBrush="LightGray" CornerRadius="5">
+            <CheckBox IsChecked="{Binding IsMapTemporarilyVisibleInThisClient}" Margin="5,15,5,5" HorizontalAlignment="Center">
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Show_map_temporarily}" TextWrapping="Wrap" 
                            Margin="3,0" TextAlignment="Center"/>
             </CheckBox>
-        </GroupBox>
+        </Border>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,25,5,5">
             <Button Content="{x:Static stringResources:Resources.SID_Close}" Width="100" Margin="5" IsCancel="True" />
         </StackPanel>

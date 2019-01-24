@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System.Windows;
+using Caliburn.Micro;
 using GMap.NET.MapProviders;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
@@ -25,15 +26,14 @@ namespace Iit.Fibertest.Client
                 if (value == _isInWithoutMapMode) return;
                 _isInWithoutMapMode = value;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(IsSecondBoxEnabled));
                 NotifyOfPropertyChange(nameof(GisModeMessage));
             }
         }
 
-        public bool IsRoot { get; set; }
         public string GisModeMessage => IsInWithoutMapMode ? Resources.SID_In__Without_Map__mode : Resources.SID_Map_is_displayed;
 
-        public bool IsSecondBoxEnabled => IsInWithoutMapMode && IsRoot;
+        public bool IsRoot { get;set; }
+        public Visibility SecondBoxVisibility { get; set; }
 
         private bool _isMapTemporarilyVisibleInThisClient;
         public bool IsMapTemporarilyVisibleInThisClient
@@ -66,6 +66,7 @@ namespace Iit.Fibertest.Client
             _iniFile = iniFile;
             _graphReadModel = graphReadModel;
             IsRoot = currentUser.Role <= Role.Root;
+            SecondBoxVisibility = currentUser.Role <= Role.Root ? Visibility.Visible : Visibility.Collapsed;
         }
 
         protected override void OnViewLoaded(object view)
