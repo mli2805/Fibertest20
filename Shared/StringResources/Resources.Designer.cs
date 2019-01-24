@@ -1377,6 +1377,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Change mode.
+        /// </summary>
+        public static string SID_Change_mode {
+            get {
+                return ResourceManager.GetString("SID_Change_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Change password.
         /// </summary>
         public static string SID_Change_password {
@@ -2917,6 +2926,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to In &quot;Without Map&quot; mode.
+        /// </summary>
+        public static string SID_In__Without_Map__mode {
+            get {
+                return ResourceManager.GetString("SID_In__Without_Map__mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In node are placed:.
         /// </summary>
         public static string SID_In_node_are_placed_ {
@@ -3525,6 +3543,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Manual_mode {
             get {
                 return ResourceManager.GetString("SID_Manual_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Map is displayed.
+        /// </summary>
+        public static string SID_Map_is_displayed {
+            get {
+                return ResourceManager.GetString("SID_Map_is_displayed", resourceCulture);
             }
         }
         
@@ -5727,7 +5754,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Show map in this client only, temporarily till application closed.
+        ///   Looks up a localized string similar to Show map in this application only, temporarily till it is closed.
         /// </summary>
         public static string SID_Show_map_temporarily {
             get {
@@ -5970,7 +5997,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Switches mode for all clients.
+        ///   Looks up a localized string similar to Switches mode for all users work places.
         /// </summary>
         public static string SID_Switches_mode_for_all_clients {
             get {
@@ -5979,7 +6006,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ( For this client after Save pressed, .
+        ///   Looks up a localized string similar to ( For this work place after button pressed, .
         /// </summary>
         public static string SID_Switches_mode_for_all2 {
             get {
@@ -5988,7 +6015,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to for all other clients - after restart ).
+        ///   Looks up a localized string similar to for all other - after restart ).
         /// </summary>
         public static string SID_Switches_mode_for_all3 {
             get {

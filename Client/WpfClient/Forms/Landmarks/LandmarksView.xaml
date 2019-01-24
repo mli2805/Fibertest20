@@ -9,6 +9,10 @@
         mc:Ignorable="d"
         SizeToContent="Width" Height="708" ResizeMode="CanMinimize"
         d:DataContext="{d:DesignInstance client:LandmarksViewModel}">
+    <Window.Resources>
+        <FrameworkElement x:Key="ProxyElement" DataContext="{Binding GisColumnVisibility}"/>
+    </Window.Resources>
+   
     <DockPanel>
         <Grid DockPanel.Dock="Top" Margin="5" >
             <Grid.ColumnDefinitions>
@@ -49,9 +53,8 @@
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Equipm__title}" Binding="{Binding EquipmentTitle}" Width="120"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Distance__km}" Binding="{Binding Distance}" Width="100"/>
                     <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event}" Binding="{Binding EventNumber}" Width="60"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" Binding="{Binding GpsCoors}" 
-                                        Width="170" 
-                                        Visibility="{Binding GisColumnVisibility}"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" Binding="{Binding GpsCoors}" Width="170" 
+                                        Visibility="{Binding DataContext, Source={StaticResource ProxyElement}}"/>
                 </DataGrid.Columns>
                 <DataGrid.Resources>
                     <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />

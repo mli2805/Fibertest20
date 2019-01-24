@@ -23,7 +23,9 @@
             </StackPanel>
         </StackPanel>
         <Border BorderThickness="1" BorderBrush="LightGray" Margin="5">
-            <ItemsControl ItemsSource="{Binding Steps}" Margin="5"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl ItemsSource="{Binding Steps}" Margin="5"/>
+            </ScrollViewer>
         </Border>
     </DockPanel>
 </Window>

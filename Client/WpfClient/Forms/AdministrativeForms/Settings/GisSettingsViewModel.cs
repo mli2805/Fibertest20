@@ -1,5 +1,4 @@
-﻿using System.Windows;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using GMap.NET.MapProviders;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
@@ -26,14 +25,15 @@ namespace Iit.Fibertest.Client
                 if (value == _isInWithoutMapMode) return;
                 _isInWithoutMapMode = value;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(SecondBoxVisibility));
+                NotifyOfPropertyChange(nameof(IsSecondBoxEnabled));
+                NotifyOfPropertyChange(nameof(GisModeMessage));
             }
         }
 
         public bool IsRoot { get; set; }
+        public string GisModeMessage => IsInWithoutMapMode ? Resources.SID_In__Without_Map__mode : Resources.SID_Map_is_displayed;
 
-        public Visibility SecondBoxVisibility =>
-           IsInWithoutMapMode && IsRoot ? Visibility.Visible : Visibility.Collapsed;
+        public bool IsSecondBoxEnabled => IsInWithoutMapMode && IsRoot;
 
         private bool _isMapTemporarilyVisibleInThisClient;
         public bool IsMapTemporarilyVisibleInThisClient
@@ -74,17 +74,18 @@ namespace Iit.Fibertest.Client
             _isMapTemporarilyVisibleInThisClient = _currentGis.IsRootTempGisOn;
         }
 
-        public async void Apply()
+        public async void ChangeMode()
         {
             bool res;
             using (new WaitCursor())
             {
-                _currentGis.IsWithoutMapMode = IsInWithoutMapMode;
-                res = await _c2DWcfManager.SaveGisMode(IsInWithoutMapMode);
+                res = await _c2DWcfManager.SaveGisMode(!IsInWithoutMapMode);
             }
 
             if (res)
             {
+                IsInWithoutMapMode = !IsInWithoutMapMode;
+                _currentGis.IsWithoutMapMode = IsInWithoutMapMode;
                 if (IsInWithoutMapMode && IsMapTemporarilyVisibleInThisClient)
                 {
                     var provider = _iniFile.Read(IniSection.Map, IniKey.GMapProvider, @"OpenStreetMap");
