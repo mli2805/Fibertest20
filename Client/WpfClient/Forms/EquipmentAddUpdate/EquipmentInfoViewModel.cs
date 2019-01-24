@@ -31,6 +31,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
         }
 
+      
         public void InitializeForAdd(Guid nodeId)
         {
             _mode = ViewMode.Add;
