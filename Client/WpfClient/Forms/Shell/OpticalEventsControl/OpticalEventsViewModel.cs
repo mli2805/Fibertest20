@@ -236,13 +236,6 @@ namespace Iit.Fibertest.Client
 
         public void ShowReflectogram(int param)
         {
-            if (SelectedRow == null)
-            {
-                var vm = new MyMessageBoxViewModel(MessageType.Information, Resources.SID_There_are_no_selected_row_);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-                return;
-            }
-
             _reflectogramManager.SetTempFileName(SelectedRow.TraceTitle, SelectedRow.Nomer, SelectedRow.EventRegistrationTimestamp);
             if (param == 2)
                 _reflectogramManager.ShowRefWithBase(SelectedRow.SorFileId);
