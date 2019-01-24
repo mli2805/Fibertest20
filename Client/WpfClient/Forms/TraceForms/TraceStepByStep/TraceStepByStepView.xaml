@@ -8,7 +8,7 @@
         mc:Ignorable="d" Top="100" Left="50" ResizeMode="NoResize"
         Height="600" Width="340" d:DataContext="{d:DesignInstance client:TraceStepByStepViewModel}" Loaded="Window_Loaded">
     <DockPanel>
-        <StackPanel DockPanel.Dock=" Bottom" Margin="0,5">
+        <StackPanel DockPanel.Dock=" Bottom" Margin="0,5"  IsEnabled="{Binding IsButtonsEnabled}">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Name="SemiautomaticMode" Content="{x:Static stringResources:Resources.SID_Go_to_the_fork}" Margin="5,5" Width="300"/>
             </StackPanel>

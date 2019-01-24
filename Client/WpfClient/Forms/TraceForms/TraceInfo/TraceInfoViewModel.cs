@@ -43,6 +43,17 @@ namespace Iit.Fibertest.Client
 
         public bool IsButtonSaveEnabled => IsEditEnabled && IsTitleValid() == string.Empty;
 
+        private bool _isButtonsEnabled = true;
+        public bool IsButtonsEnabled
+        {
+            get { return _isButtonsEnabled; }
+            set
+            {
+                if (value == _isButtonsEnabled) return;
+                _isButtonsEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
         public TraceInfoViewModel(Model readModel, CurrentUser currentUser, IWcfServiceForClient c2DWcfManager,
             IWindowManager windowManager, TraceInfoCalculator traceInfoCalculator)
         {
@@ -102,12 +113,13 @@ namespace Iit.Fibertest.Client
 
         public async void Save()
         {
-           
+            IsButtonsEnabled = false;
             if (_isInCreationMode)
                 await SendAddTraceCommand();
             else
                 await SendUpdateTraceCommand();
             IsSavePressed = true;
+            IsButtonsEnabled = true;
             TryClose();
         }
 

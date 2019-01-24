@@ -22,6 +22,18 @@ namespace Iit.Fibertest.Client
         public ObservableCollection<StepModel> Steps { get; set; }
         private Guid _newTraceId;
 
+        private bool _isButtonsEnabled = true;
+        public bool IsButtonsEnabled
+        {
+            get { return _isButtonsEnabled; }
+            set
+            {
+                if (value == _isButtonsEnabled) return;
+                _isButtonsEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public TraceStepByStepViewModel(ILifetimeScope globalScope, GraphReadModel graphReadModel, Model readModel, IWindowManager windowManager)
         {
             _globalScope = globalScope;
@@ -189,6 +201,7 @@ namespace Iit.Fibertest.Client
 
         public void Accept()
         {
+            IsButtonsEnabled = false;
             if (!Validate()) return;
 
             GetListsAugmentedWithAdjustmentPoints(out var traceNodes, out var traceEquipments);
@@ -199,6 +212,7 @@ namespace Iit.Fibertest.Client
             if (!traceAddViewModel.IsSavePressed) return;
 
             _currentHighlightedNode.IsHighlighted = false;
+            IsButtonsEnabled = true;
             TryClose();
         }
 

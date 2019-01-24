@@ -76,7 +76,7 @@
         <GroupBox Header="{x:Static stringResources:Resources.SID_Comment}" Margin="5">
             <TextBox Margin="5,10" Text="{Binding Model.Comment}" TextWrapping="Wrap" IsEnabled="{Binding IsEditEnabled}"/>
         </GroupBox>
-        <StackPanel Orientation="Horizontal" Margin="15,15">
+        <StackPanel Orientation="Horizontal" Margin="15,15"  IsEnabled="{Binding IsButtonsEnabled}">
             <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}" 
                     IsDefault="True" IsEnabled="{Binding IsButtonSaveEnabled}" TabIndex="1" />
             <Button Name="Cancel" Height="25" Width="100" IsCancel="True" 
