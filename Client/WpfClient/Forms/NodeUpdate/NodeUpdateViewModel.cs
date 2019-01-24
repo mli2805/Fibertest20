@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using Autofac;
 using Caliburn.Micro;
 using GMap.NET;
@@ -128,6 +129,8 @@ namespace Iit.Fibertest.Client
 
         public bool IsEditEnabled { get; set; }
 
+        public Visibility GisVisibility { get; set; }
+
         public NodeUpdateViewModel(ILifetimeScope globalScope, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, EventArrivalNotifier eventArrivalNotifier,
             IWcfServiceForClient c2DWcfManager, CurrentGis currentGis,
@@ -151,6 +154,7 @@ namespace Iit.Fibertest.Client
             _originalNode = _readModel.Nodes.First(n => n.NodeId == nodeId);
             _nodeCoors = _originalNode.Position;
             Title = _originalNode.Title;
+            GisVisibility = _currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
             _selectedGpsInputModeComboItem = GpsInputModeComboItems.First(i => i.Mode == _currentGis.GpsInputMode);
             Coors = _nodeCoors.ToDetailedString(_selectedGpsInputModeComboItem.Mode);
             Comment = _originalNode.Comment;
