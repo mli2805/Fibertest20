@@ -143,7 +143,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public Visibility GisColumnVisibility { get; set; }
+        public Visibility GisVisibility { get; set; }
+        public int DataGridWidth { get; set; }
 
         public LandmarksViewModel(ILifetimeScope globalScope, Model readModel, CurrentGis currentGis,
             LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,
@@ -157,8 +158,8 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _selectedGpsInputMode = GpsInputModes.First(i => i.Mode == CurrentGis.GpsInputMode);
-          //  GisColumnVisibility = currentGis.IsGisOn ? Visibility.Visible : Visibility.Hidden;
-            GisColumnVisibility = Visibility.Hidden;
+            GisVisibility = currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
+            DataGridWidth = currentGis.IsGisOn ? 770 : 570;
         }
 
         private async Task<int> Initialize()

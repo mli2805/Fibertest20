@@ -10,39 +10,36 @@
              d:DataContext="{d:DesignInstance client:OneLandmarkViewModel}"
              cal:Bind.ModelWithoutContext="{Binding .}" >
     <GroupBox DockPanel.Dock="Bottom" Header="{x:Static stringResources:Resources.SID_Landmark}" Margin="5,0,5,15">
-        <Grid >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="Auto"/>
-            </Grid.RowDefinitions>
-            <GroupBox Header="{x:Static stringResources:Resources.SID_Node}" Margin="5,0" DockPanel.Dock="Top" IsEnabled="{Binding IsEditEnabled}">
-                <StackPanel>
-                    <TextBox Margin="5" Height="25" Text="{Binding SelectedLandmark.NodeTitle}"/>
-                    <TextBox Margin="5" Height="25" Text="{Binding SelectedLandmark.NodeComment}" />
-                </StackPanel>
-            </GroupBox>
-            <GroupBox Grid.Column="1"  Grid.Row="0"  Header="{x:Static stringResources:Resources.SID_Equipment}" Margin="5,0" IsEnabled ="{Binding IsEquipmentEnabled}">
-                <StackPanel>
-                    <TextBox Margin="5" Height="25" Text="{Binding SelectedLandmark.EquipmentTitle}"/>
-                    <ComboBox Margin="5" Height="25" ItemsSource="{Binding ComboItems}" SelectedItem="{Binding SelectedEquipmentTypeItem}" />
-                </StackPanel>
-            </GroupBox>
-            <GroupBox Grid.Row="0"  Grid.Column="2" Header="{x:Static stringResources:Resources.SID_GPS_coordinates}"  
+        <DockPanel >
+            <StackPanel DockPanel.Dock="Bottom" Margin="5,5,0,0" Orientation="Horizontal">
+                <Button Width="132" Height="25" Margin="5" Name="Apply" Content="{x:Static stringResources:Resources.SID_Apply}" IsEnabled="{Binding IsEditEnabled}"/>
+                <Button Width="132" Height="25" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel_changes}" IsEnabled="{Binding IsEditEnabled}"/>
+                <Button Width="132" Height="25" Margin="5" Name="ShowLandmarkOnMap" Content="{x:Static stringResources:Resources.SID_Show_on_map}"/>
+                <Button Width="132" Height="25" Margin="5" Name="ShowReflectogram" Content="{x:Static stringResources:Resources.SID_Reflectogram}" IsEnabled="{Binding IsFromBaseRef}"/>
+            </StackPanel>
+            <GroupBox DockPanel.Dock="Right" Header="{x:Static stringResources:Resources.SID_GPS_coordinates}"  
                       Visibility="{Binding GisVisibility}" IsEnabled="{Binding IsEditEnabled}">
                 <client:GpsInputSmallView DataContext="{Binding GpsInputSmallViewModel}"/>
             </GroupBox>
-            <StackPanel Grid.Column="0" Grid.Row="1" Grid.ColumnSpan="3" Margin="5,5,0,0" Orientation="Horizontal">
-                <Button Width="140" Height="25" Margin="5" Name="Apply" Content="{x:Static stringResources:Resources.SID_Apply}" IsEnabled="{Binding IsEditEnabled}"/>
-                <Button Width="140" Height="25" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel_changes}" IsEnabled="{Binding IsEditEnabled}"/>
-                <Button Width="140" Height="25" Margin="5" Name="ShowLandmarkOnMap" Content="{x:Static stringResources:Resources.SID_Show_on_map}"/>
-                <Button Width="140" Height="25" Margin="5" Name="ShowReflectogram" Content="{x:Static stringResources:Resources.SID_Reflectogram}" IsEnabled="{Binding IsFromBaseRef}"/>
-            </StackPanel>
-        </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <GroupBox Header="{x:Static stringResources:Resources.SID_Node}" Margin="5,0" IsEnabled="{Binding IsEditEnabled}">
+                    <StackPanel>
+                        <TextBox Margin="5" Height="25" Text="{Binding SelectedLandmark.NodeTitle}"/>
+                        <TextBox Margin="5" Height="25" Text="{Binding SelectedLandmark.NodeComment}" />
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Grid.Column="1" Header="{x:Static stringResources:Resources.SID_Equipment}" Margin="5,0" IsEnabled ="{Binding IsEquipmentEnabled}">
+                    <StackPanel>
+                        <TextBox Margin="5" Height="25" Text="{Binding SelectedLandmark.EquipmentTitle}"/>
+                        <ComboBox Margin="5" Height="25" ItemsSource="{Binding ComboItems}" SelectedItem="{Binding SelectedEquipmentTypeItem}" />
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+        </DockPanel>
     </GroupBox>
 
 </UserControl>
