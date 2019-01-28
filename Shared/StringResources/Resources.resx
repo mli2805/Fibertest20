@@ -1800,7 +1800,7 @@ RTU is initializing right now!</value>
     <value>License owner</value>
   </data>
 	<data name="SID_Exceeded_the_number_of_RTU_for_an_existing_license" xml:space="preserve">
-    <value>Exceeded the number of RTU for an existing license</value>
+    <value>Exceeded the number of initialized RTU for an existing license</value>
   </data>
 	<data name="SID_Exceeded_the_number_of_clients_registered_simultaneously" xml:space="preserve">
     <value>Exceeded the number of clients registered simultaneously</value>

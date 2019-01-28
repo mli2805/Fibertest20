@@ -22,7 +22,12 @@ namespace Iit.Fibertest.Graph
         }
         public string AddRtuAtGpsLocation(RtuAtGpsLocationAdded e)
         {
-            Node node = new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), TypeOfLastAddedEquipment = EquipmentType.Rtu, Title = e.Title };
+            Node node = new Node() 
+            { 
+                NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), 
+                TypeOfLastAddedEquipment = EquipmentType.Rtu, 
+                Title = e.Title
+            };
             _model.Nodes.Add(node);
             Rtu rtu = Mapper.Map<Rtu>(e);
             rtu.ZoneIds.Add(_model.Zones.First(z=>z.IsDefaultZone).ZoneId);

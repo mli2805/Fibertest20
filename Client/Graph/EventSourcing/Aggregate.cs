@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Graph
                 case IncludeEquipmentIntoTrace command: return _eventsQueue.Add(Mapper.Map<EquipmentIntoTraceIncluded>(command));
                 case ExcludeEquipmentFromTrace command: return _eventsQueue.Add(Mapper.Map<EquipmentFromTraceExcluded>(command));
 
-                case AddRtuAtGpsLocation command: return Validate(command);
+                case AddRtuAtGpsLocation command: return _eventsQueue.Add(Mapper.Map<RtuAtGpsLocationAdded>(command));
                 case UpdateRtu command: return _eventsQueue.Add(Mapper.Map<RtuUpdated>(command));
                 case RemoveRtu command: return Validate(command);
                 case AttachOtau command: return _eventsQueue.Add(Mapper.Map<OtauAttached>(command));
@@ -94,13 +94,6 @@ namespace Iit.Fibertest.Graph
             if (_writeModel.License != null && _writeModel.License.LicenseIds.Contains(cmd.LicenseId))
                 return Resources.SID_License_could_not_be_applied_repeatedly_;
             return _eventsQueue.Add(Mapper.Map<LicenseApplied>(cmd));
-        }
-
-        private string Validate(AddRtuAtGpsLocation cmd)
-        {
-            if (_writeModel.License.RtuCount.Value <= _writeModel.Rtus.Count)
-                return Resources.SID_Exceeded_the_number_of_RTU_for_an_existing_license;
-            return _eventsQueue.Add(Mapper.Map<RtuAtGpsLocationAdded>(cmd));
         }
 
         private string Validate(RemoveNode cmd)

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Requests;
@@ -7,6 +8,17 @@ namespace Graph.Tests
 {
     public static class TraceRtuEmptyTerminal
     {
+        public static void ApplyDemoLicense(this SystemUnderTest sut)
+        {
+            sut.WcfServiceForClient.SendCommandAsObj(new ApplyLicense()
+            {
+                LicenseId = Guid.NewGuid(),
+                Owner = @"RtuAtGpsLocationAddedSteps 1 RTU",
+                RtuCount = new LicenseParameter(){Value = 1, ValidUntil = DateTime.MaxValue},
+            }).Wait();
+            sut.Poller.EventSourcingTick().Wait();
+        }
+
         public static Iit.Fibertest.Graph.Trace CreateTraceRtuEmptyTerminal(this SystemUnderTest sut, string title = @"some title")
         {
             sut.FakeWindowManager.RegisterHandler(model => sut.RtuUpdateHandler(model, @"something", @"doesn't matter", Answer.Yes));

@@ -1,6 +1,8 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using FluentAssertions;
 using Iit.Fibertest.Client;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.Graph.Requests;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WpfCommonViews;
@@ -16,6 +18,24 @@ namespace Graph.Tests
         private RtuLeaf _rtuLeaf;
         private Iit.Fibertest.Graph.Rtu _rtu;
         private string _mainAddress, _reserveAddress;
+
+        [Given(@"На сервере применена демо лицензия с одним RTU")]
+        public void GivenНаСервереПримененаДемоЛицензияСОднимRtu()
+        {
+            _sut.ApplyDemoLicense();
+        }
+        
+        [When(@"На сервере применена другая лицензия с двумя RTU")]
+        public void WhenНаСервереПримененаДругаяЛицензияСДвумяRtu()
+        {
+            _sut.WcfServiceForClient.SendCommandAsObj(new ApplyLicense()
+            {
+                LicenseId = Guid.NewGuid(),
+                Owner = @"RtuAtGpsLocationAddedSteps 2 RTU",
+                RtuCount = new LicenseParameter(){Value = 2, ValidUntil = DateTime.MaxValue}
+            }).Wait();
+            _sut.Poller.EventSourcingTick().Wait();
+        }
 
         [Given(@"Существует RTU с основным (.*) и резервным (.*) адресами")]
         public void GivenСуществуетRTUСОсновным_ИРезервным_Адресами(string p0, string p1)
@@ -57,6 +77,16 @@ namespace Graph.Tests
 
             _rtuLeaf.MyContextMenu.FirstOrDefault(i => i.Header == Resources.SID_Network_settings)?.Command.Execute(_rtuLeaf);
             _sut.Poller.EventSourcingTick().Wait();
+        }
+
+        [Then(@"Выдается сообщение о превышеном лимите")]
+        public void ThenВыдаетсяСообщениеОПревышеномЛимите()
+        {
+            _sut.FakeWindowManager.Log
+                .OfType<MyMessageBoxViewModel>()
+                .Last()
+                .Lines[0].Line
+                .Should().Be(Resources.SID_Exceeded_the_number_of_RTU_for_an_existing_license);
         }
 
         [Then(@"Сообщение об существовании RTU с таким адресом")]

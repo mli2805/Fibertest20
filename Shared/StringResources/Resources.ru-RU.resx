@@ -1800,7 +1800,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Владелец лицензии</value>
 	</data>
 	<data name="SID_Exceeded_the_number_of_RTU_for_an_existing_license" xml:space="preserve">
-		<value>Превышено количество RTU для имеющейся лицензии</value>
+		<value>Превышено количество инициализированных RTU для имеющейся лицензии</value>
 	</data>
 	<data name="SID_Exceeded_the_number_of_clients_registered_simultaneously" xml:space="preserve">
 		<value>Превышено количество одновременно поключенных клиентов</value>

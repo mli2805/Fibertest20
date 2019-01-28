@@ -76,17 +76,17 @@ namespace Graph.Tests.Rtu
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Добавление РТУ")]
+        [Xunit.FactAttribute(DisplayName="Добавление любого количества РТУ")]
         [Xunit.TraitAttribute("FeatureTitle", "RtuAddedAtGpsLocation")]
-        [Xunit.TraitAttribute("Description", "Добавление РТУ")]
-        public virtual void ДобавлениеРТУ()
+        [Xunit.TraitAttribute("Description", "Добавление любого количества РТУ")]
+        public virtual void ДобавлениеЛюбогоКоличестваРТУ()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление РТУ", null, ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Добавление любого количества РТУ", null, ((string[])(null)));
 #line 3
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 4
- testRunner.Given("На сервере применена демо лицензия с одним RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("На сервере применена демо лицензия на один RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 5
  testRunner.When("Пользователь кликает добавить РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 6
@@ -94,12 +94,10 @@ this.ScenarioInitialize(scenarioInfo);
 #line 8
  testRunner.When("Пользователь кликает добавить РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
- testRunner.Then("Выдается сообщение о превышеном лимите", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Новый РТУ сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 11
- testRunner.When("На сервере применена другая лицензия с двумя RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 12
  testRunner.When("Пользователь кликает добавить РТУ", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 13
+#line 12
  testRunner.Then("Новый РТУ сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

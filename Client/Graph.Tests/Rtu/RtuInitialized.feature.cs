@@ -75,8 +75,10 @@ namespace Graph.Tests.Rtu
         {
 #line 3
 #line 4
- testRunner.Given("Существует RTU с основным 192.168.96.52 и резервным 172.16.4.10 адресами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("На сервере применена демо лицензия с одним RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 5
+ testRunner.Given("Существует RTU с основным 192.168.96.52 и резервным 172.16.4.10 адресами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 6
  testRunner.Given("Создан еще РТУ даже с трассой", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
         }
@@ -92,15 +94,40 @@ namespace Graph.Tests.Rtu
         public virtual void ПользовательОтказываетсяИнициализироватьРТУ()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Пользователь отказывается инициализировать РТУ", null, ((string[])(null)));
-#line 7
+#line 8
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 3
 this.FeatureBackground();
-#line 8
- testRunner.When("Пользователь открывает форму инициализации и жмет Отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
+ testRunner.When("Пользователь открывает форму инициализации и жмет Отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 10
  testRunner.Then("РТУ НЕ инициализирован", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Запрещено инициализировать больше RTU чем указано в лицензии")]
+        [Xunit.TraitAttribute("FeatureTitle", "RtuInitialized")]
+        [Xunit.TraitAttribute("Description", "Запрещено инициализировать больше RTU чем указано в лицензии")]
+        public virtual void ЗапрещеноИнициализироватьБольшеRTUЧемУказаноВЛицензии()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Запрещено инициализировать больше RTU чем указано в лицензии", null, ((string[])(null)));
+#line 12
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 3
+this.FeatureBackground();
+#line 13
+ testRunner.When("Пользователь вводит основной адрес 192.168.96.55 и жмет Инициализировать", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 14
+ testRunner.Then("Выдается сообщение о превышеном лимите", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 15
+ testRunner.When("На сервере применена другая лицензия с двумя RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 16
+ testRunner.When("Пользователь вводит основной адрес 192.168.96.55 и жмет Инициализировать", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 17
+ testRunner.Then("RTU инициализирован только с основным адресом", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -111,39 +138,41 @@ this.FeatureBackground();
         public virtual void ЗапрещеноИнициализироватьRTUСУжеИспользуемымАдресом()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Запрещено инициализировать RTU с уже используемым адресом", null, ((string[])(null)));
-#line 11
+#line 19
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 3
 this.FeatureBackground();
-#line 12
+#line 20
+ testRunner.When("На сервере применена другая лицензия с двумя RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 21
  testRunner.When("Пользователь задает имя RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 13
+#line 22
  testRunner.When("Пользователь вводит основной адрес 192.168.96.52 и жмет Инициализировать", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 14
+#line 23
  testRunner.Then("Сообщение об существовании RTU с таким адресом", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 15
+#line 24
  testRunner.When("Пользователь вводит основной адрес 172.16.4.10 и жмет Инициализировать", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 16
+#line 25
  testRunner.Then("Сообщение об существовании RTU с таким адресом", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 17
+#line 26
  testRunner.When("Пользователь вводит основной 10.100.1.41 и резервный 192.168.96.52 адреса и жмет " +
                     "Инициализировать", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 18
+#line 27
  testRunner.Then("Сообщение об существовании RTU с таким адресом", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 19
+#line 28
  testRunner.When("Пользователь вводит основной 10.100.1.41 и резервный 172.16.4.10 адреса и жмет Ин" +
                     "ициализировать", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 20
+#line 29
  testRunner.Then("Сообщение об существовании RTU с таким адресом", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 22
+#line 31
  testRunner.When("Пользователь вводит основной адрес 192.168.96.55 и жмет Инициализировать", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 23
+#line 32
  testRunner.Then("RTU инициализирован только с основным адресом", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 25
+#line 34
  testRunner.When("Пользователь вводит основной 10.100.1.41 и резервный 10.100.12.34 адреса и жмет И" +
                     "нициализировать", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 26
+#line 35
  testRunner.Then("RTU инициализирован с основным и резервным адресами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
