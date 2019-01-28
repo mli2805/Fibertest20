@@ -55,6 +55,7 @@ namespace Iit.Fibertest.Client
         }
 
         private bool _isButtonSaveEnabled;
+
         public bool IsButtonSaveEnabled
         {
             get => _isButtonSaveEnabled;
@@ -66,9 +67,20 @@ namespace Iit.Fibertest.Client
             }
         }
         public GpsInputViewModel GpsInputViewModel { get; set; }
-        public bool IsEditEnabled { get; set; }
+        public bool HasPrivilegies { get; set; }
         public Visibility GisVisibility {get; set; }
 
+        private bool _isEditEnabled;
+        public bool IsEditEnabled
+        {
+            get => _isEditEnabled;
+            set
+            {
+                if (value == _isEditEnabled) return;
+                _isEditEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public RtuUpdateViewModel(ILifetimeScope globalScope, CurrentUser currentUser, CurrentGis currentGis,
             Model readModel, GraphReadModel graphReadModel, TabulatorViewModel tabulatorViewModel,
@@ -80,7 +92,8 @@ namespace Iit.Fibertest.Client
             _tabulatorViewModel = tabulatorViewModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
-            IsEditEnabled = currentUser.Role <= Role.Root;
+            IsEditEnabled = true;
+            HasPrivilegies = currentUser.Role <= Role.Root;
             GisVisibility = currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
         }
 
@@ -91,7 +104,7 @@ namespace Iit.Fibertest.Client
 
             _originalNode = _readModel.Nodes.First(n => n.NodeId == _originalRtu.NodeId);
             GpsInputViewModel = _globalScope.Resolve<GpsInputViewModel>();
-            GpsInputViewModel.Initialize(_originalNode.Position, IsEditEnabled);
+            GpsInputViewModel.Initialize(_originalNode.Position, HasPrivilegies);
 
             Title = _originalRtu.Title;
             Comment = _originalRtu.Comment;
@@ -106,7 +119,7 @@ namespace Iit.Fibertest.Client
             _originalRtu = new Rtu() { Id = RtuId, NodeId = nodeId };
 
             GpsInputViewModel = _globalScope.Resolve<GpsInputViewModel>();
-            GpsInputViewModel.Initialize(_originalNode.Position, IsEditEnabled);
+            GpsInputViewModel.Initialize(_originalNode.Position, HasPrivilegies);
         }
 
         protected override void OnViewLoaded(object view)
@@ -116,14 +129,15 @@ namespace Iit.Fibertest.Client
 
         public async void Save()
         {
-            if (_isInCreationMode)
-                await CreateRtu();
-            else
-                await UpdateRtu();
-            TryClose();
+            IsEditEnabled = false;
+            var result = _isInCreationMode 
+                ? await CreateRtu() 
+                : await UpdateRtu();
+            IsEditEnabled = true;
+            if (result) TryClose();
         }
 
-        private async Task CreateRtu()
+        private async Task<bool> CreateRtu()
         {
             var cmd = new AddRtuAtGpsLocation()
             {
@@ -139,17 +153,26 @@ namespace Iit.Fibertest.Client
             {
                 var mb = new MyMessageBoxViewModel(MessageType.Error, result);
                 _windowManager.ShowDialogWithAssignedOwner(mb);
-                TryClose();
+                return false;
             }
+
+            return true;
         }
 
-        private async Task UpdateRtu()
+        private async Task<bool> UpdateRtu()
         {
             IMapper mapper =
                 new MapperConfiguration(cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
             UpdateRtu cmd = mapper.Map<UpdateRtu>(this);
             cmd.Position = new PointLatLng(GpsInputViewModel.OneCoorViewModelLatitude.StringsToValue(), GpsInputViewModel.OneCoorViewModelLongitude.StringsToValue());
-            await _c2DWcfManager.SendCommandAsObj(cmd);
+            var result = await _c2DWcfManager.SendCommandAsObj(cmd);
+            if (result != null)
+            {
+                var mb = new MyMessageBoxViewModel(MessageType.Error, result);
+                _windowManager.ShowDialogWithAssignedOwner(mb);
+                return false;
+            }
+            return true;
         }
 
         public void PreView()
@@ -188,7 +211,7 @@ namespace Iit.Fibertest.Client
                             errorMessage = Resources.SID_Title_is_required;
                         if (_readModel.Rtus.Any(n => n.Title == Title && n.Id != _originalRtu.Id))
                             errorMessage = Resources.SID_There_is_a_rtu_with_the_same_title;
-                        IsButtonSaveEnabled = IsEditEnabled && errorMessage == string.Empty;
+                        IsButtonSaveEnabled = HasPrivilegies && errorMessage == string.Empty;
                         break;
                 }
                 return errorMessage;

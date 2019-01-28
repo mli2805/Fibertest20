@@ -28,6 +28,7 @@ namespace Iit.Fibertest.Client
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
 
         private Rtu _originalRtu;
+
         public Rtu OriginalRtu
         {
             get => _originalRtu;
@@ -45,7 +46,17 @@ namespace Iit.Fibertest.Client
             ? OriginalRtu.MainChannel.Ip4Address
             : OriginalRtu.OtdrNetAddress.Ip4Address;
 
-        public bool IsEditEnabled { get; set; }
+        private bool _isEditEnabled;
+        public bool IsEditEnabled
+        {
+            get => _isEditEnabled;
+            set
+            {
+                if (value == _isEditEnabled) return;
+                _isEditEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public List<string> Bops { get; set; }
 
@@ -116,6 +127,7 @@ namespace Iit.Fibertest.Client
 
             try
             {
+                IsEditEnabled = false;
                 RtuInitializedDto result;
                 using (_globalScope.Resolve<IWaitCursor>())
                 {
@@ -133,6 +145,7 @@ namespace Iit.Fibertest.Client
                 var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_RTU_initialization_error_);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
             }
+            IsEditEnabled = true;
         }
 
         private bool Validate()

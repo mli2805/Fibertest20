@@ -36,7 +36,20 @@ namespace Iit.Fibertest.Client
 
         public List<EventStatusComboItem> StatusRows { get; set; }
         public EventStatusComboItem SelectedEventStatus { get; set; }
-        public bool IsEditEnabled { get; set; }
+        public bool HasPrivilegies { get; set; }
+
+        private bool _isEditEnabled;
+        public bool IsEditEnabled
+        {
+            get => _isEditEnabled;
+            set
+            {
+                if (value == _isEditEnabled) return;
+                _isEditEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
 
         public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser, 
             CurrentlyHiddenRtu currentlyHiddenRtu, ReflectogramManager reflectogramManager, 
@@ -47,7 +60,8 @@ namespace Iit.Fibertest.Client
         {
             _logFile = logFile;
             _currentUser = currentUser;
-            IsEditEnabled = currentUser.Role <= Role.Operator;
+            HasPrivilegies = currentUser.Role <= Role.Operator;
+            IsEditEnabled = true;
             _currentlyHiddenRtu = currentlyHiddenRtu;
             _reflectogramManager = reflectogramManager;
             _soundManager = soundManager;
@@ -173,6 +187,7 @@ namespace Iit.Fibertest.Client
         {
             using (new WaitCursor())
             {
+                IsEditEnabled = false;
                 var dto = new UpdateMeasurement
                 {
                     SorFileId = Model.SorFileId,
@@ -187,7 +202,7 @@ namespace Iit.Fibertest.Client
                 var result = await _c2DWcfManager.SendCommandAsObj(dto);
                 if (result != null)
                     _logFile.AppendLine(@"Cannot update measurement!");
-              
+                IsEditEnabled = true;
             }
             TryClose();
         }

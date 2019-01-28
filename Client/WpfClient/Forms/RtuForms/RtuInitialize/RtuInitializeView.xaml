@@ -26,7 +26,7 @@
                 <TextBlock Text="{Binding OriginalRtu.Id}" TextAlignment="Right" Foreground="DarkGray" Margin="5"/>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="{x:Static stringResources:Resources.SID_Main_channel}" Margin="5">
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Main_channel}" Margin="5" IsEnabled="{Binding IsEditEnabled}">
             <client:NetAddressTestView x:Name="MainAddress"  Margin="0,5,0,0" DataContext="{Binding MainChannelTestViewModel}"/>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_OTDR_Network_Address}" Margin="5">
@@ -41,7 +41,7 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox Margin="5"  >
+        <GroupBox Margin="5" IsEnabled="{Binding IsEditEnabled}">
             <GroupBox.Header>
                 <CheckBox Name="CheckBoxReserveAddress" Content="{x:Static stringResources:Resources.SID_Reserve_channel}" 
                           IsEnabled="{Binding IsEditEnabled}" IsChecked="{Binding IsReserveChannelEnabled, Mode=TwoWay}"/>
@@ -66,7 +66,8 @@
         </GroupBox>
        
         <StackPanel Orientation="Horizontal"  Margin="5,10">
-            <Button Name="InitializeRtu" Content="{x:Static stringResources:Resources.SID_Initialize}" Margin="5" Height="22" Width="140" IsEnabled="{Binding IsEditEnabled}"/>
+            <Button Name="InitializeRtu" Content="{x:Static stringResources:Resources.SID_Initialize}" Margin="5" 
+                    Height="22" Width="140" IsEnabled="{Binding IsEditEnabled}"/>
             <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Margin="5" Height="22" Width="90"/>
         </StackPanel>
     </StackPanel>

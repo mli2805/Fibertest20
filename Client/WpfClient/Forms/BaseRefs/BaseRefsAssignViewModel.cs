@@ -100,8 +100,20 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public BaseRefsAssignViewModel(IniFile iniFile, Model readModel, CurrentUser currentUser, 
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, 
+        private bool _isEditEnabled;
+        public bool IsEditEnabled
+        {
+            get => _isEditEnabled;
+            set
+            {
+                if (value == _isEditEnabled) return;
+                _isEditEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public BaseRefsAssignViewModel(IniFile iniFile, Model readModel, CurrentUser currentUser,
+            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
             BaseRefDtoFactory baseRefDtoFactory, BaseRefsChecker baseRefsChecker)
         {
             _iniFile = iniFile;
@@ -121,7 +133,8 @@ namespace Iit.Fibertest.Client
             PreciseBaseFilename = _trace.PreciseId == Guid.Empty ? "" : _savedInDb;
             FastBaseFilename = _trace.FastId == Guid.Empty ? "" : _savedInDb;
             AdditionalBaseFilename = _trace.AdditionalId == Guid.Empty ? "" : _savedInDb;
-                IsButtonSaveEnabled = false;
+            IsButtonSaveEnabled = false;
+            IsEditEnabled = true;
             RtuTitle = _readModel.Rtus.First(r => r.Id == _trace.RtuId).Title;
 
             InitialDirectory = _iniFile.Read(IniSection.Miscellaneous, IniKey.PathToSor, @"c:\temp\");
@@ -139,7 +152,7 @@ namespace Iit.Fibertest.Client
 
         public void GetPathToPrecise()
         {
-            OpenFileDialog dialog = new OpenFileDialog() {Filter = Resources.SID_Reflectogram_files, InitialDirectory = InitialDirectory, };
+            OpenFileDialog dialog = new OpenFileDialog() { Filter = Resources.SID_Reflectogram_files, InitialDirectory = InitialDirectory, };
             if (dialog.ShowDialog() == true)
             {
                 PreciseBaseFilename = dialog.FileName;
@@ -148,13 +161,13 @@ namespace Iit.Fibertest.Client
         }
         public void GetPathToFast()
         {
-            OpenFileDialog dialog = new OpenFileDialog() {Filter = Resources.SID_Reflectogram_files, InitialDirectory = InitialDirectory, };
+            OpenFileDialog dialog = new OpenFileDialog() { Filter = Resources.SID_Reflectogram_files, InitialDirectory = InitialDirectory, };
             if (dialog.ShowDialog() == true)
                 FastBaseFilename = dialog.FileName;
         }
         public void GetPathToAdditional()
         {
-            OpenFileDialog dialog = new OpenFileDialog() {Filter = Resources.SID_Reflectogram_files, InitialDirectory = InitialDirectory, };
+            OpenFileDialog dialog = new OpenFileDialog() { Filter = Resources.SID_Reflectogram_files, InitialDirectory = InitialDirectory, };
             if (dialog.ShowDialog() == true)
                 AdditionalBaseFilename = dialog.FileName;
         }
@@ -165,40 +178,36 @@ namespace Iit.Fibertest.Client
 
         public async Task Save()
         {
+            IsEditEnabled = false;
+            var result = await SavingProcess();
+            IsEditEnabled = true;
+            if (result) TryClose();
+        }
+
+        private async Task<bool> SavingProcess()
+        {
             var dto = PrepareDto(_trace);
             if (!dto.BaseRefs.Any())
-                return;
+                return false;
 
-            try
-            {
-                if (!_baseRefsChecker.IsBaseRefsAcceptable(dto.BaseRefs, _trace))
-                    return;
-            }
-            catch (Exception e)
-            {
-                var mess = Resources.SID_Error_while_base_ref_acceptability_checking_;
-                var strs = new List<string>(){mess, "", e.Message};
-                var vm = new MyMessageBoxViewModel(MessageType.Error, strs, 2);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-                return;
-            }
-           
+            if (!_baseRefsChecker.IsBaseRefsAcceptable(dto.BaseRefs, _trace))
+                return false;
 
             var result = await _c2DWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
             {
                 var vm = new MyMessageBoxViewModel(MessageType.Error, result.ReturnCode.GetLocalizedString(result.ExceptionMessage));
                 _windowManager.ShowDialogWithAssignedOwner(vm);
-                return;
+                return false;
             }
 
-            TryClose();
+            return true;
         }
 
         public AssignBaseRefsDto PrepareDto(Trace trace)
         {
             var dto = new AssignBaseRefsDto()
-                { RtuId = trace.RtuId, TraceId = trace.TraceId, OtauPortDto = trace.OtauPort, BaseRefs = new List<BaseRefDto>(), DeleteOldSorFileIds = new List<int>() };
+            { RtuId = trace.RtuId, TraceId = trace.TraceId, OtauPortDto = trace.OtauPort, BaseRefs = new List<BaseRefDto>(), DeleteOldSorFileIds = new List<int>() };
 
 
             var baseRefs = new List<BaseRefDto>();
@@ -206,7 +215,7 @@ namespace Iit.Fibertest.Client
             {
                 var baseRefDto = _baseRefDtoFactory.CreateFromFile(PreciseBaseFilename, BaseRefType.Precise, _currentUser.UserName);
                 if (trace.PreciseId != Guid.Empty)
-                    dto.DeleteOldSorFileIds.Add(_readModel.BaseRefs.First(b=>b.Id == trace.PreciseId).SorFileId);
+                    dto.DeleteOldSorFileIds.Add(_readModel.BaseRefs.First(b => b.Id == trace.PreciseId).SorFileId);
                 baseRefs.Add(baseRefDto);
             }
 

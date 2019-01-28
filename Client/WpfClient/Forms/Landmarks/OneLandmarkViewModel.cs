@@ -7,6 +7,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
@@ -19,6 +20,7 @@ namespace Iit.Fibertest.Client
 
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWindowManager _windowManager;
         private readonly GraphReadModel _graphReadModel;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly TabulatorViewModel _tabulatorViewModel;
@@ -88,11 +90,11 @@ namespace Iit.Fibertest.Client
 
         private void InitializeUserControl()
         {
-            _landmarkBeforeChanges = (Landmark) _selectedLandmark.Clone();
+            _landmarkBeforeChanges = (Landmark)_selectedLandmark.Clone();
             GpsInputSmallViewModel.Initialize(SelectedLandmark.GpsCoors);
             ComboItems = GetItems(SelectedLandmark.EquipmentType);
             SelectedEquipmentTypeItem = ComboItems.First(i => i.Type == SelectedLandmark.EquipmentType);
-            IsEquipmentEnabled = IsEditEnabled && SelectedLandmark.EquipmentType != EquipmentType.EmptyNode &&
+            IsEquipmentEnabled = HasPrivilevies && SelectedLandmark.EquipmentType != EquipmentType.EmptyNode &&
                                  SelectedLandmark.EquipmentType != EquipmentType.Rtu;
         }
 
@@ -122,7 +124,7 @@ namespace Iit.Fibertest.Client
             };
         }
 
-        public bool IsEditEnabled { get; set; }
+        public bool HasPrivilevies { get; set; }
 
         private bool _isEquipmentEnabled;
         private bool _isIncludeEquipmentEnabled;
@@ -151,16 +153,30 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public Visibility GisVisibility { get;set; }
+        public Visibility GisVisibility { get; set; }
+
+        private bool _isEditEnabled;
+        public bool IsEditEnabled
+        {
+            get => _isEditEnabled;
+            set
+            {
+                if (value == _isEditEnabled) return;
+                _isEditEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         public OneLandmarkViewModel(CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu, CurrentGis currentGis,
-            GpsInputSmallViewModel gpsInputSmallViewModel, IWcfServiceForClient c2DWcfManager,
+            GpsInputSmallViewModel gpsInputSmallViewModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
             GraphReadModel graphReadModel, ReflectogramManager reflectogramManager, TabulatorViewModel tabulatorViewModel)
         {
-            IsEditEnabled = currentUser.Role <= Role.Root;
+            HasPrivilevies = currentUser.Role <= Role.Root;
+            IsEditEnabled = true;
             _currentlyHiddenRtu = currentlyHiddenRtu;
             GisVisibility = currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
             _c2DWcfManager = c2DWcfManager;
+            _windowManager = windowManager;
             _graphReadModel = graphReadModel;
             _reflectogramManager = reflectogramManager;
             _tabulatorViewModel = tabulatorViewModel;
@@ -169,9 +185,29 @@ namespace Iit.Fibertest.Client
 
         public async void Apply()
         {
+            IsEditEnabled = false;
             _graphReadModel.ExtinguishNodes();
-            await ApplyEquipment();
-            await ApplyNode();
+            var unused = await ApplyingProcess();
+            IsEditEnabled = true;
+        }
+
+        private async Task<bool> ApplyingProcess()
+        {
+            var result = await ApplyEquipment();
+            if (result != null)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, result);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return false;
+            }
+            result = await ApplyNode();
+            if (result != null)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, result);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return false;
+            }
+            return true;
         }
 
         private async Task<string> ApplyEquipment()
@@ -246,9 +282,9 @@ namespace Iit.Fibertest.Client
         public void ShowReflectogram()
         {
             _reflectogramManager.SetTempFileName(TraceTitle, BaseRefType.Precise.ToString(), PreciseTimestamp);
-            _reflectogramManager.ShowBaseReflectogramWithSelectedLandmark(SorFileId, SelectedLandmark.Number+1);
+            _reflectogramManager.ShowBaseReflectogramWithSelectedLandmark(SorFileId, SelectedLandmark.Number + 1);
         }
 
-     
+
     }
 }

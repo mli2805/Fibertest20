@@ -37,40 +37,51 @@ namespace Iit.Fibertest.Client
 
         public bool IsBaseRefsAcceptable(List<BaseRefDto> baseRefsDto, Trace trace)
         {
-            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
-            if (rtu == null)
-                return false;
-
-            foreach (var baseRefDto in baseRefsDto)
+            try
             {
-                if (baseRefDto.Id == Guid.Empty) continue;
-                var baseRefHeader = baseRefDto.BaseRefType.GetLocalizedFemaleString() + Resources.SID__base_;
-
-                var otdrKnownBlocks = GetFromBytes(baseRefDto.SorBytes, baseRefHeader);
-                if (otdrKnownBlocks == null) return false;
-
-                if (!_baseRefMeasParamsChecker.IsBaseRefHasAcceptableMeasParams(otdrKnownBlocks, rtu.AcceptableMeasParams, baseRefHeader))
+                var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
+                if (rtu == null)
                     return false;
 
-                if (!HasBaseThresholds(otdrKnownBlocks, baseRefHeader))
-                    return false;
+                foreach (var baseRefDto in baseRefsDto)
+                {
+                    if (baseRefDto.Id == Guid.Empty) continue;
+                    var baseRefHeader = baseRefDto.BaseRefType.GetLocalizedFemaleString() + Resources.SID__base_;
 
-                var comparisonResult = _baseRefLandmarksChecker.IsBaseRefLandmarksCountMatched(
-                            otdrKnownBlocks, trace, baseRefDto.BaseRefType.GetLocalizedFemaleString());
-                if (comparisonResult == CountMatch.Error)
+                    var otdrKnownBlocks = GetFromBytes(baseRefDto.SorBytes, baseRefHeader);
+                    if (otdrKnownBlocks == null) return false;
+
+                    if (!_baseRefMeasParamsChecker.IsBaseRefHasAcceptableMeasParams(otdrKnownBlocks, rtu.AcceptableMeasParams, baseRefHeader))
+                        return false;
+
+                    if (!HasBaseThresholds(otdrKnownBlocks, baseRefHeader))
+                        return false;
+
+                    var comparisonResult = _baseRefLandmarksChecker.IsBaseRefLandmarksCountMatched(
+                        otdrKnownBlocks, trace, baseRefDto.BaseRefType.GetLocalizedFemaleString());
+                    if (comparisonResult == CountMatch.Error)
                         return false;
  
-                if (!AreFirstAndLastLandmarksAssociatedWithKeyEvents(otdrKnownBlocks, baseRefHeader))
-                    return false;
-
-                if (baseRefDto.BaseRefType == BaseRefType.Precise)
-                    if (!IsDistanceLengthAcceptable(otdrKnownBlocks, trace))
+                    if (!AreFirstAndLastLandmarksAssociatedWithKeyEvents(otdrKnownBlocks, baseRefHeader))
                         return false;
 
-                baseRefDto.SorBytes = _baseRefLandmarksTool.ApplyTraceToBaseRef(otdrKnownBlocks, trace,
-                    comparisonResult == CountMatch.LandmarksMatchEquipments);
+                    if (baseRefDto.BaseRefType == BaseRefType.Precise)
+                        if (!IsDistanceLengthAcceptable(otdrKnownBlocks, trace))
+                            return false;
+
+                    baseRefDto.SorBytes = _baseRefLandmarksTool.ApplyTraceToBaseRef(otdrKnownBlocks, trace,
+                        comparisonResult == CountMatch.LandmarksMatchEquipments);
+                }
+                return true;
             }
-            return true;
+            catch (Exception e)
+            {
+                var mess = Resources.SID_Error_while_base_ref_acceptability_checking_;
+                var strs = new List<string>() { mess, "", e.Message };
+                var vm = new MyMessageBoxViewModel(MessageType.Error, strs, 2);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return false;
+            }
         }
 
         private OtdrDataKnownBlocks GetFromBytes(byte[] sorBytes, string errorHeader)
