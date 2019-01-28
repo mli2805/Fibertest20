@@ -57,7 +57,7 @@ namespace Iit.Fibertest.Client
 
             model.TopCenter = nodeTitle;
             model.TopLeft = $@"{accidentInOldEvent.AccidentDistanceKm:0.000} {Resources.SID_km}";
-            model.Bottom2 = nodeCoors;
+            model.Bottom2 = _currentGis.IsGisOn ? nodeCoors : "";
 
             model.Scheme = accidentInOldEvent.AccidentSeriousness == FiberState.FiberBreak
                 ? new Uri(@"pack://application:,,,/Resources/AccidentSchemes/FiberBrokenInNode.png")
@@ -93,7 +93,7 @@ namespace Iit.Fibertest.Client
             model.TopRight = rightNodeTitle;
 
             model.Bottom1 = $@"{accidentAsNewEvent.AccidentDistanceKm - accidentAsNewEvent.LeftNodeKm:0.000} {Resources.SID_km}";
-            model.Bottom2 = accidentGps?.ToDetailedString(_currentGis.GpsInputMode);
+            model.Bottom2 = _currentGis.IsGisOn ? accidentGps?.ToDetailedString(_currentGis.GpsInputMode) : "";
             model.Bottom3 = $@"{accidentAsNewEvent.RightNodeKm - accidentAsNewEvent.AccidentDistanceKm:0.000} {Resources.SID_km}";
 
             model.Scheme = accidentAsNewEvent.AccidentSeriousness == FiberState.FiberBreak
