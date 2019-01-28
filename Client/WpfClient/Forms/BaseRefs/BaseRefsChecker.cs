@@ -17,18 +17,20 @@ namespace Iit.Fibertest.Client
     {
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
+        private readonly CurrentGis _currentGis;
         private readonly BaseRefMeasParamsChecker _baseRefMeasParamsChecker;
         private readonly BaseRefLandmarksChecker _baseRefLandmarksChecker;
         private readonly GraphGpsCalculator _graphGpsCalculator;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
 
-        public BaseRefsChecker(Model readModel, IWindowManager windowManager,
+        public BaseRefsChecker(Model readModel, IWindowManager windowManager, CurrentGis currentGis,
             BaseRefMeasParamsChecker baseRefMeasParamsChecker, BaseRefLandmarksChecker baseRefLandmarksChecker,
             GraphGpsCalculator graphGpsCalculator,  
             BaseRefLandmarksTool baseRefLandmarksTool)
         {
             _readModel = readModel;
             _windowManager = windowManager;
+            _currentGis = currentGis;
             _baseRefMeasParamsChecker = baseRefMeasParamsChecker;
             _baseRefLandmarksChecker = baseRefLandmarksChecker;
             _graphGpsCalculator = graphGpsCalculator;
@@ -65,7 +67,7 @@ namespace Iit.Fibertest.Client
                     if (!AreFirstAndLastLandmarksAssociatedWithKeyEvents(otdrKnownBlocks, baseRefHeader))
                         return false;
 
-                    if (baseRefDto.BaseRefType == BaseRefType.Precise)
+                    if (_currentGis.IsGisOn && baseRefDto.BaseRefType == BaseRefType.Precise)
                         if (!IsDistanceLengthAcceptable(otdrKnownBlocks, trace))
                             return false;
 

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -17,6 +18,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly GraphReadModel _graphReadModel;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
+        private readonly CurrentGis _currentGis;
         private readonly GraphGpsCalculator _graphGpsCalculator;
         private readonly ReflectogramManager _reflectogramManager;
         private Fiber _fiber;
@@ -45,14 +47,16 @@ namespace Iit.Fibertest.Client
         public Tuple<Trace, string> SelectedTrace { get; set; }
         public List<Tuple<Trace, string>> TracesThrough { get; set; } = new List<Tuple<Trace, string>>();
 
+        public Visibility GisVisibility { get; set; }
 
         public FiberUpdateViewModel(Model readModel, GraphReadModel graphReadModel,
-            CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu,
+            CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu, CurrentGis currentGis,
             GraphGpsCalculator graphGpsCalculator, ReflectogramManager reflectogramManager)
         {
             _readModel = readModel;
             _graphReadModel = graphReadModel;
             _currentlyHiddenRtu = currentlyHiddenRtu;
+            _currentGis = currentGis;
             IsEditEnabled = currentUser.Role <= Role.Root;
             _graphGpsCalculator = graphGpsCalculator;
             _reflectogramManager = reflectogramManager;
@@ -60,6 +64,7 @@ namespace Iit.Fibertest.Client
 
         public async Task Initialize(Guid fiberId)
         {
+            GisVisibility = _currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
             _fiber = _readModel.Fibers.Single(f => f.FiberId == fiberId);
              GpsLength = $@"{_graphGpsCalculator.GetFiberFullGpsDistance(fiberId, out Node node1, out Node node2):#,##0}";
             NodeAtitle = node1.Title;

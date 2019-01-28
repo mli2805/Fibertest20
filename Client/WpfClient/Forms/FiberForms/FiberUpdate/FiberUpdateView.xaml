@@ -24,11 +24,11 @@
         </GroupBox>
         <GroupBox Margin="5">
             <StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="5,15,5,0">
+                <StackPanel Orientation="Horizontal" Margin="5,15,5,0" Visibility="{Binding GisVisibility}">
                     <TextBlock Margin="5" Width="170" Text="{x:Static stringResources:Resources.SID_Gps_Length_m}" />
                     <TextBlock Margin="5" Width="80" Text="{Binding GpsLength}" TextAlignment="Right"/>
                 </StackPanel>
-                <StackPanel Orientation="Horizontal" Margin="5,5">
+                <StackPanel Orientation="Horizontal" Margin="5,5" Visibility="{Binding GisVisibility}">
                     <TextBlock Margin="5" Width="170"  Text="{x:Static stringResources:Resources.SID_User_Length_m}" />
                     <TextBox Name="UserInput" Margin="5" Width="80"  HorizontalContentAlignment="Right" IsEnabled="{Binding IsEditEnabled}"
                         Text="{Binding UserInputedLength, ValidatesOnDataErrors=True, UpdateSourceTrigger=PropertyChanged}"/>
