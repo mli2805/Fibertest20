@@ -3,9 +3,9 @@ using System.Threading.Tasks;
 using System.Windows.Threading;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
+using Trace = Iit.Fibertest.Graph.Trace;
 
 
 namespace Iit.Fibertest.Client
@@ -23,12 +23,13 @@ namespace Iit.Fibertest.Client
         private readonly GraphReadModel _graphReadModel;
         private readonly RootRenderer _rootRenderer;
         private readonly LessThanRootRenderer _lessThanRootRenderer;
+        private readonly WaitViewModel _waitViewModel;
 
         public RenderingManager(IMyLog logFile, IWindowManager windowManager, IDispatcherProvider dispatcherProvider,
             CurrentZoneRenderer currentZoneRenderer, OneRtuOrTraceRenderer oneRtuOrTraceRenderer,
              RenderingApplier renderingApplier, CurrentlyHiddenRtu currentlyHiddenRtu,
             CurrentUser currentUser, GraphReadModel graphReadModel,
-            RootRenderer rootRenderer, LessThanRootRenderer lessThanRootRenderer)
+            RootRenderer rootRenderer, LessThanRootRenderer lessThanRootRenderer, WaitViewModel waitViewModel)
         {
             _logFile = logFile;
             _windowManager = windowManager;
@@ -41,6 +42,7 @@ namespace Iit.Fibertest.Client
             _graphReadModel = graphReadModel;
             _rootRenderer = rootRenderer;
             _lessThanRootRenderer = lessThanRootRenderer;
+            _waitViewModel = waitViewModel;
         }
 
         public void Initialize()
@@ -59,24 +61,39 @@ namespace Iit.Fibertest.Client
 
             if (e.PropertyName == "ChangedRtu")
             {
-                var renderingResult = _currentZoneRenderer.GetRendering();
-                _renderingApplier.ToExistingGraph(renderingResult);
-             }
+                //  var vm = MyMessageBoxExt.DrawingGraph();
+                _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
+
+                var renderingResult = await Task.Factory.StartNew(() => _currentZoneRenderer.GetRendering());
+                //                var  renderingResult = await _dispatcherProvider.GetDispatcher().Invoke(() => _currentZoneRenderer.GetRenderingAsync(), DispatcherPriority.ApplicationIdle);
+
+                _renderingApplier.ToExistingGraphUi(renderingResult);
+
+                // InvokeAsync hangs up all tests
+                //                _dispatcherProvider.GetDispatcher().Invoke(() => vm.TryClose(), DispatcherPriority.ApplicationIdle);
+                _waitViewModel.TryClose();
+            }
 
             _currentlyHiddenRtu.CleanFlags();
         }
 
         public async Task RenderCurrentZoneOnApplicationStart()
         {
-            var vm = MyMessageBoxExt.DrawingGraph();
-            _windowManager.ShowWindowWithAssignedOwner(vm);
-            await ShowOrHideAllOnEmptyMap();
+            //            var vm = MyMessageBoxExt.DrawingGraph();
+            _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
+
+            // await ShowOrHideAllOnEmptyMap();
+          
+            var renderingResult = await Task.Factory.StartNew(RenderAll);
+            _renderingApplier.ToEmptyGraph(renderingResult);
+
+
             // InvokeAsync hangs up all tests
-            _dispatcherProvider.GetDispatcher().Invoke(() => vm.TryClose(), DispatcherPriority.ApplicationIdle);
+            _dispatcherProvider.GetDispatcher().Invoke(() => _waitViewModel.TryClose(), DispatcherPriority.ApplicationIdle);
         }
 
 
-        private async Task ShowOrHideAllOnEmptyMap()
+        private async Task<int> ShowOrHideAllOnEmptyMap()
         {
             await Task.Delay(1); // just to get rid of warning
             if (_currentUser.Role <= Role.Root)
@@ -93,14 +110,37 @@ namespace Iit.Fibertest.Client
                     : _lessThanRootRenderer.ShowOnlyRtus();
                 _renderingApplier.ToEmptyGraph(renderingResult);
             }
+
+            return 1;
         }
 
-        public void ReRenderCurrentZoneOnResponsibilitiesChanged()
+        private RenderingResult RenderAll()
+        {
+            var renderingResult = (_currentUser.Role <= Role.Root)
+            ?
+                 _currentlyHiddenRtu.Collection.Count == 0
+                    ? _rootRenderer.ShowAll()
+                    : _rootRenderer.ShowOnlyRtusAndNotInTraces()
+            :
+                 _currentlyHiddenRtu.Collection.Count == 0
+                    ? _lessThanRootRenderer.ShowAllOnStart()
+                    : _lessThanRootRenderer.ShowOnlyRtus();
+
+            return renderingResult;
+        }
+
+        public async void ReRenderCurrentZoneOnResponsibilitiesChanged()
         {
             if (_currentUser.ZoneId == Guid.Empty) return; // it is a default zone user
 
-            var renderingResult = _currentZoneRenderer.GetRendering();
-            _renderingApplier.ToExistingGraph(renderingResult);
+            //            var vm = MyMessageBoxExt.DrawingGraph();
+            _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
+
+            var renderingResult = await Task.Factory.StartNew(() => _currentZoneRenderer.GetRendering());
+            //  var renderingResult = await _currentZoneRenderer.GetRenderingAsync();
+            _renderingApplier.ToExistingGraphUi(renderingResult);
+
+            _waitViewModel.TryClose();
         }
 
         // User asks to show broken or highlight trace

@@ -130,6 +130,10 @@
       <DependentUpon>ServerConnectionLostView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ServerConnectionLostViewModel.cs" />
+    <Compile Include="WaitForm\WaitView.xaml.cs">
+      <DependentUpon>WaitView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="WaitForm\WaitViewModel.cs" />
     <Compile Include="WpfTricks\WindowManagerExt.cs" />
     <Compile Include="WpfTricks\FocusExtension.cs" />
     <Compile Include="WpfTricks\ObservableRangeCollection.cs" />
@@ -159,6 +163,10 @@
     <Page Include="ServerConnectionLostView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="WaitForm\WaitView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

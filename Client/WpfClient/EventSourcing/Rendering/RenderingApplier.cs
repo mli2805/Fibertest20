@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Client
             _logFile.AppendLine(@"Rendering applied");
         }
 
-        public void ToExistingGraph(RenderingResult renderingResult)
+        public void ToExistingGraphUi(RenderingResult renderingResult)
         {
             RemoveElementsOfHiddenTraces(renderingResult);
 

@@ -31,7 +31,6 @@ namespace Iit.Fibertest.RtuService
             var tid = Thread.CurrentThread.ManagedThreadId;
             _serviceLog.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
-
             _rtuManagerThread = new Thread(_rtuManager.OnServiceStart) { IsBackground = true };
             _rtuManagerThread.Start();
 

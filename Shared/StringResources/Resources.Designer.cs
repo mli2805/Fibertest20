@@ -2485,7 +2485,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exceeded the number of RTU for an existing license.
+        ///   Looks up a localized string similar to Exceeded the number of initialized RTU for an existing license.
         /// </summary>
         public static string SID_Exceeded_the_number_of_RTU_for_an_existing_license {
             get {
@@ -3700,7 +3700,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Measurement updated.
+        ///   Looks up a localized string similar to Measurement status updated.
         /// </summary>
         public static string SID_Measurement_updated {
             get {

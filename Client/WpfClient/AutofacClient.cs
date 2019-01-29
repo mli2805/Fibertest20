@@ -28,6 +28,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<LogOperationsViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<EventLogViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<AboutViewModel>().InstancePerLifetimeScope();
+            builder.RegisterType<WaitViewModel>().InstancePerLifetimeScope();
 
             builder.RegisterType<LocalDbManager>().As<ILocalDbManager>().InstancePerLifetimeScope();
             builder.RegisterType<ReflectogramManager>().InstancePerLifetimeScope();

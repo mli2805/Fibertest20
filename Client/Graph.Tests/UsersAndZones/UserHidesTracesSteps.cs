@@ -158,8 +158,9 @@ namespace Graph.Tests
         public void WhenКликаетНаКартеНаИконкеRtuПунктМенюСкрытьТрассы(int p0)
         {
              var rtuNodeId = p0 == 1 ? _sut.Rtu1.NodeId : _sut.Rtu2.NodeId;
+            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             _sut.GraphReadModel.GrmRtuRequests.ChangeRtuTracesVisibility(rtuNodeId);
-            _sut.Poller.EventSourcingTick().Wait();
+        //    _sut.Poller.EventSourcingTick().Wait();
         }
 
        

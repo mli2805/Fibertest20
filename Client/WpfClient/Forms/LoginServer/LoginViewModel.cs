@@ -77,7 +77,7 @@ namespace Iit.Fibertest.Client
 //                UserName = @"superclient";
 //                UserName = @"developer";
 //                            UserName = @"operator";
-//                            UserName = @"Op";
+//                            UserName = @"op1";
             //                UserName = @"supervisor";
                             UserName = @"root";
 //                UserName = @"Brigadir";
@@ -88,7 +88,7 @@ namespace Iit.Fibertest.Client
 //                            Password = @"1";
             //                Password = @"supervisor";
                             Password = @"root";
-//                Password = @"1";
+//                Passwod = @"1";
 #endif
             Status = Resources.SID_Client_registraion_is_performing;
 //            using (_globalScope.Resolve<IWaitCursor>())

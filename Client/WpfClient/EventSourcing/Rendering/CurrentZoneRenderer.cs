@@ -24,6 +24,22 @@ namespace Iit.Fibertest.Client
             _oneRtuOrTraceRenderer = oneRtuOrTraceRenderer;
         }
 
+//        public async Task<RenderingResult> GetRenderingAsync()
+//        {
+//            await Task.Delay(1);
+//            _renderingResult = new RenderingResult();
+//            if (_currentUser.Role <= Role.Root)
+//                RenderAllMinusHiddenTraces();
+//            else
+//                RenderVisibleRtusAndTraces();
+//
+//            _logFile.AppendLine($@"{_renderingResult.NodeVms.Count} nodes ready");
+//            _logFile.AppendLine($@"{_renderingResult.FiberVms.Count} fibers ready");
+//            _logFile.AppendLine(@"Rendering finished");
+//
+//            return _renderingResult;
+//        }
+
         public RenderingResult GetRendering()
         {
             _renderingResult = new RenderingResult();
