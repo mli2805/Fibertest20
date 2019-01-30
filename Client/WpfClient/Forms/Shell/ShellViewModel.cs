@@ -179,7 +179,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public override void CanClose(Action<bool> callback)
+        public override async void CanClose(Action<bool> callback)
         {
             if (_loginViewModel.IsRegistrationSuccessful)
             {
@@ -189,7 +189,6 @@ namespace Iit.Fibertest.Client
 
                 if (!vm.IsAnswerPositive) return;
             }
-        
 
             _clientPollerCts.Cancel();
             _logFile.AppendLine(@"Client application finished.");
@@ -197,7 +196,10 @@ namespace Iit.Fibertest.Client
             if (_c2DWcfManager == null)
                 base.CanClose(callback);
             else
-                _c2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto()).ContinueWith(ttt => { base.CanClose(callback); });
+            {
+                // await _c2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto()).ContinueWith(ttt => { base.CanClose(callback); });
+                 await _c2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto()).ContinueWith(ttt => { Environment.Exit(Environment.ExitCode); });
+            }
         }
     }
 }
