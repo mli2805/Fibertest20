@@ -23,7 +23,10 @@
         <GroupBox Header="RTU" Margin="5">
             <StackPanel>
                 <TextBlock Text="{Binding OriginalRtu.Title}" Margin="5"/>
-                <TextBlock Text="{Binding OriginalRtu.Id}" TextAlignment="Right" Foreground="DarkGray" Margin="5"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="ID" Margin="5"/>
+                    <TextBlock Text="{Binding OriginalRtu.Id}" TextAlignment="Right" Foreground="DarkGray" Margin="5"/>
+                </StackPanel>
             </StackPanel>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Main_channel}" Margin="5" IsEnabled="{Binding IsEditEnabled}">

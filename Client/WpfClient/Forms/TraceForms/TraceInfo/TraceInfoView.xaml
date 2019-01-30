@@ -24,11 +24,14 @@
         <GroupBox Header="{x:Static stringResources:Resources.SID_Information}" Margin="5">
             <StackPanel Margin="5">
                 <DockPanel>
-                    <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Title}" />
+                    <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Title}" Width="55"/>
                     <TextBox Name="TraceTitleTextbox" Margin="5" TabIndex="0" IsEnabled="{Binding IsEditEnabled}" Style="{StaticResource TextBoxValidationStyle}"
                              Text="{Binding Title, ValidatesOnDataErrors=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                 </DockPanel>
-                <TextBlock Margin="5" Text="{Binding Model.TraceId}" HorizontalAlignment="Right" Foreground="DarkGray"/>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="ID" Margin="5" Width="55"/>
+                    <TextBlock Margin="5" Text="{Binding Model.TraceId}" HorizontalAlignment="Right" Foreground="DarkGray"/>
+                </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Margin="5" Text="RTU" />
                     <TextBlock Margin="5" Text="{Binding Model.RtuTitle}" />
