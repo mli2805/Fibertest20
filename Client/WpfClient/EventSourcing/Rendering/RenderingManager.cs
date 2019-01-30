@@ -71,13 +71,13 @@ namespace Iit.Fibertest.Client
         {
             _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
 
-            _logFile.AppendLine($@"{DateTime.Now:O} rendering started");
+            _logFile.AppendLine(@"rendering started");
             var renderingResult = await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingOfAll);
             var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
 
             // InvokeAsync hangs up all tests
             _dispatcherProvider.GetDispatcher().Invoke(() => _waitViewModel.TryClose(), DispatcherPriority.ApplicationIdle);
-            _logFile.AppendLine($@"{DateTime.Now:O} rendering finished");
+            _logFile.AppendLine(@"rendering finished");
         }
       
         public async void ReRenderCurrentZoneOnResponsibilitiesChanged()
