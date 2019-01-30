@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
@@ -12,14 +11,6 @@ namespace Iit.Fibertest.Client
         public OneRtuOrTraceRenderer(Model readReadModel)
         {
             _readModel = readReadModel;
-        }
-
-        public void GetRtuTracesRendering(Guid rtuId, RenderingResult renderingResult)
-        {
-            foreach (var trace in _readModel.Traces.Where(t=>t.RtuId == rtuId))
-            {
-                GetTraceRendering(trace, renderingResult);
-            }
         }
 
         public void GetTraceRendering(Trace trace, RenderingResult renderingResult)

@@ -11,36 +11,40 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
+        private readonly RootRenderer _rootRenderer;
+        private readonly LessThanRootRenderer _lessThanRootRenderer;
         private readonly OneRtuOrTraceRenderer _oneRtuOrTraceRenderer;
         private RenderingResult _renderingResult;
 
-        public CurrentZoneRenderer(Model model, IMyLog logFile, CurrentUser currentUser,
-            CurrentlyHiddenRtu currentlyHiddenRtu, OneRtuOrTraceRenderer oneRtuOrTraceRenderer)
+        public CurrentZoneRenderer(Model model, IMyLog logFile, 
+            CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu, 
+            RootRenderer rootRenderer, LessThanRootRenderer lessThanRootRenderer,  OneRtuOrTraceRenderer oneRtuOrTraceRenderer)
         {
             _model = model;
             _logFile = logFile;
             _currentUser = currentUser;
             _currentlyHiddenRtu = currentlyHiddenRtu;
+            _rootRenderer = rootRenderer;
+            _lessThanRootRenderer = lessThanRootRenderer;
             _oneRtuOrTraceRenderer = oneRtuOrTraceRenderer;
         }
 
-//        public async Task<RenderingResult> GetRenderingAsync()
-//        {
-//            await Task.Delay(1);
-//            _renderingResult = new RenderingResult();
-//            if (_currentUser.Role <= Role.Root)
-//                RenderAllMinusHiddenTraces();
-//            else
-//                RenderVisibleRtusAndTraces();
-//
-//            _logFile.AppendLine($@"{_renderingResult.NodeVms.Count} nodes ready");
-//            _logFile.AppendLine($@"{_renderingResult.FiberVms.Count} fibers ready");
-//            _logFile.AppendLine(@"Rendering finished");
-//
-//            return _renderingResult;
-//        }
+        public RenderingResult GetRenderingOfAll()
+        {
+            var renderingResult = (_currentUser.Role <= Role.Root)
+                ?
+                _currentlyHiddenRtu.Collection.Count == 0
+                    ? _rootRenderer.ShowAll()
+                    : _rootRenderer.ShowOnlyRtusAndNotInTraces()
+                :
+                _currentlyHiddenRtu.Collection.Count == 0
+                    ? _lessThanRootRenderer.ShowAllOnStart()
+                    : _lessThanRootRenderer.ShowOnlyRtus();
 
-        public RenderingResult GetRendering()
+            return renderingResult;
+        }
+
+        public RenderingResult GetRenderingOfDifference()
         {
             _renderingResult = new RenderingResult();
             if (_currentUser.Role <= Role.Root)

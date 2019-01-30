@@ -100,7 +100,6 @@
   <ItemGroup>
     <Compile Include="MyMessageBox\MessageType.cs" />
     <Compile Include="MyMessageBox\MessageTypeExt.cs" />
-    <Compile Include="MyMessageBox\MyMessageBoxExt.cs" />
     <Compile Include="MyMessageBox\MyMessageBoxLineModel.cs" />
     <Compile Include="MyMessageBox\MyMessageBoxView.xaml.cs">
       <DependentUpon>MyMessageBoxView.xaml</DependentUpon>

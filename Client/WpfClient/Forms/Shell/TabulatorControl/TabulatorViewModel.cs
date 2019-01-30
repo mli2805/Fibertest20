@@ -1,21 +1,13 @@
 ﻿using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Threading;
-using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.WpfCommonViews;
-
 
 namespace Iit.Fibertest.Client
 {
     public class TabulatorViewModel : PropertyChangedBase
     {
         public GraphReadModel GraphReadModel { get; }
-        private readonly ILifetimeScope _globalScope;
-        private readonly IWindowManager _windowManager;
-        private readonly IDispatcherProvider _dispatcherProvider;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
@@ -116,17 +108,13 @@ namespace Iit.Fibertest.Client
 
         #endregion
 
-        public TabulatorViewModel(ILifetimeScope globalScope, IWindowManager windowManager, IDispatcherProvider dispatcherProvider,
-            OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
+        public TabulatorViewModel(OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
             GraphReadModel graphReadModel, CurrentlyHiddenRtu currentlyHiddenRtu,
             Model readModel)
         {
             GraphReadModel = graphReadModel;
-            _globalScope = globalScope;
-            _windowManager = windowManager;
-            _dispatcherProvider = dispatcherProvider;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
@@ -213,44 +201,18 @@ namespace Iit.Fibertest.Client
                 trace.IsHighlighted = false;
         }
 
-        public async void ShowAllGraph()
+        public void ShowAllGraph()
         {
-            var vm = MyMessageBoxExt.DrawingGraph();
-            _windowManager.ShowWindowWithAssignedOwner(vm);
-            await ShowAllLongOperation();
-            await _dispatcherProvider.GetDispatcher().InvokeAsync(() => vm.TryClose(), DispatcherPriority.ApplicationIdle);
+            _currentlyHiddenRtu.Collection.Clear();
+            _currentlyHiddenRtu.IsShowAllPressed = true;
         }
 
-        private async Task ShowAllLongOperation()
+        public void HideAllGraph()
         {
-            await Task.Delay(1); // just to get rid of warning
-            using (_globalScope.Resolve<IWaitCursor>())
-            {
-                _currentlyHiddenRtu.Collection.Clear();
-                _currentlyHiddenRtu.IsShowAllPressed = true;
-            }
-        }
-
-        public async void HideAllGraph()
-        {
-            var vm = MyMessageBoxExt.DrawingGraph();
-            _windowManager.ShowWindowWithAssignedOwner(vm);
-
-            await HideAllLongOperationAsync();
-            await _dispatcherProvider.GetDispatcher().InvokeAsync(() => vm.TryClose(), DispatcherPriority.ApplicationIdle);
-        }
-
-        private async Task HideAllLongOperationAsync()
-        {
-            await Task.Delay(1); // just to get rid of warning
-            using (_globalScope.Resolve<IWaitCursor>())
-            {
-                var rtuToHide = _readModel.Rtus.Where(r => !_currentlyHiddenRtu.Collection.Contains(r.Id))
-                    .Select(rr => rr.Id);
+                var rtuToHide = _readModel.Rtus.Where(r => !_currentlyHiddenRtu.Collection.Contains(r.Id)).Select(rr => rr.Id);
                 _currentlyHiddenRtu.Collection.AddRange(rtuToHide);
 
                 _currentlyHiddenRtu.IsHideAllPressed = true;
-            }
-        } 
+        }
     }
 }

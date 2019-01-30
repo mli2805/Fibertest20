@@ -232,7 +232,7 @@
     <Compile Include="EventSourcing\Rendering\ElementRenderer.cs" />
     <Compile Include="EventSourcing\Rendering\RenderingManager.cs" />
     <Compile Include="EventSourcing\StoredEventsLoader.cs" />
-    <Compile Include="EventSourcing\Rendering\RenderingApplier.cs" />
+    <Compile Include="EventSourcing\Rendering\RenderingApplierToUi.cs" />
     <Compile Include="EventSourcing\Rendering\RenderingResult.cs" />
     <Compile Include="Forms\AdministrativeForms\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>
