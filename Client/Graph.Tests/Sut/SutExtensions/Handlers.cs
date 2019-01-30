@@ -31,6 +31,12 @@ namespace Graph.Tests
             return true;
         }
 
+        public static bool WaitFormHandler(this SystemUnderTest sut, object model)
+        {
+            if (!(model is WaitViewModel)) return false;
+            return true;
+        }
+
         public static bool RtuUpdateHandler(this SystemUnderTest sut, object model, string title, string comment, Answer button)
         {
             if (!(model is RtuUpdateViewModel vm)) return false;
@@ -104,12 +110,6 @@ namespace Graph.Tests
                 vm.Save();
             else
                 vm.Cancel();
-            return true;
-        }
-
-        public static bool RtuStateHandler(this SystemUnderTest sut, object model)
-        {
-            if (!(model is RtuStateViewModel)) return false;
             return true;
         }
 

@@ -112,7 +112,7 @@ namespace Graph.Tests
             _sut.TreeOfRtuModel.Tree.Count.Should().Be(0);
             _sut.GraphReadModel.Data.Nodes.Count.Should().Be(0);
 
-            _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
+            _sut.FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
             _sut.ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
 
             _sut.ReadModel.Nodes.Count.Should().Be(12);

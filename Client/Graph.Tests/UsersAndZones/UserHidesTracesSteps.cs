@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using System.Threading;
 using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
@@ -23,7 +24,7 @@ namespace Graph.Tests
             vm.UserName = user;
             vm.Password = user;
             vm.Login();
-            _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
+            _sut.FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
             _sut.ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
             _sut.ReadModel.Users.Count.Should().Be(5);
 
@@ -158,9 +159,10 @@ namespace Graph.Tests
         public void WhenКликаетНаКартеНаИконкеRtuПунктМенюСкрытьТрассы(int p0)
         {
              var rtuNodeId = p0 == 1 ? _sut.Rtu1.NodeId : _sut.Rtu2.NodeId;
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            _sut.FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
             _sut.GraphReadModel.GrmRtuRequests.ChangeRtuTracesVisibility(rtuNodeId);
-        //    _sut.Poller.EventSourcingTick().Wait();
+            Thread.Sleep(1000);
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
        
