@@ -32,7 +32,6 @@ namespace Iit.Fibertest.Client
         public bool IsOpen { get; private set; }
 
         public TraceStateModel Model { get; set; }
-        public bool IsLastStateForThisTrace { get; set; }
 
         public List<EventStatusComboItem> StatusRows { get; set; }
         public EventStatusComboItem SelectedEventStatus { get; set; }
@@ -73,10 +72,9 @@ namespace Iit.Fibertest.Client
             _graphReadModel = graphReadModel;
         }
 
-        public void Initialize(TraceStateModel model, bool isLastStateForThisTrace, bool isTraceStateChanged)
+        public void Initialize(TraceStateModel model, bool isTraceStateChanged)
         {
             Model = model;
-            IsLastStateForThisTrace = isLastStateForThisTrace;
             _isTraceStateChanged = isTraceStateChanged;
             if (Model.EventStatus > EventStatus.EventButNotAnAccident)
                 InitializeEventStatusCombobox();

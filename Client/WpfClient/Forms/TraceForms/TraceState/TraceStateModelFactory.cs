@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
         // TraceLeaf
         // Trace statistics
         // Monitoring result notification
-        public TraceStateModel CreateModel(Measurement measurement)
+        public TraceStateModel CreateModel(Measurement measurement, bool isLastStateForThisTrace)
         {
             var model = new TraceStateModel
             {
@@ -34,6 +34,7 @@ namespace Iit.Fibertest.Client
                 SorFileId = measurement.SorFileId,
                 EventStatus = measurement.EventStatus,
                 Comment = measurement.Comment,
+                IsLastStateForThisTrace = isLastStateForThisTrace, 
             };
             if (model.TraceState != FiberState.Ok)
                 model.Accidents = PrepareAccidents(measurement.Accidents);

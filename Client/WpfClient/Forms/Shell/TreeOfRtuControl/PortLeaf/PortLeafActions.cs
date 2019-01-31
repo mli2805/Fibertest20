@@ -29,8 +29,6 @@ namespace Iit.Fibertest.Client
             var rtuId = portLeaf.Parent is RtuLeaf ? portLeaf.Parent.Id : portLeaf.Parent.Parent.Id;
             var otauPortDto = new OtauPortDto()
             {
-//                OtauIp = ((IPortOwner)portLeaf.Parent).OtauNetAddress.Ip4Address,
-//                OtauTcpPort = ((IPortOwner)portLeaf.Parent).OtauNetAddress.Port,
                 Serial = ((IPortOwner)portLeaf.Parent).Serial,
                 IsPortOnMainCharon = portLeaf.Parent is RtuLeaf,
                 OpticalPort = portLeaf.PortNumber

@@ -72,7 +72,6 @@ namespace Iit.Fibertest.Client
             RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == _trace.RtuId)?.Title;
             PortNumber = _trace.OtauPort == null ? Resources.SID__not_attached_ : _trace.OtauPort.IsPortOnMainCharon
                 ? _trace.OtauPort.OpticalPort.ToString()
-                //: $@"{_trace.OtauPort.OtauIp}:{_trace.OtauPort.OtauTcpPort}-{_trace.OtauPort.OpticalPort}";
                 : $@"{_trace.OtauPort.Serial}-{_trace.OtauPort.OpticalPort}";
 
             BaseRefs.Clear();
@@ -134,7 +133,8 @@ namespace Iit.Fibertest.Client
 
         public void ShowTraceState()
         {
-            var lastRow = Rows.First(); // click on the Row , so Rows collection couldn't be empty
+            if (Rows.Count == 0) return;
+            var lastRow = Rows.Last(); // click on the Row , so Rows collection couldn't be empty
             _traceStateViewsManager.ShowTraceState(SelectedRow.Measurement, lastRow.Measurement.SorFileId == SelectedRow.Measurement.SorFileId);
         }
 

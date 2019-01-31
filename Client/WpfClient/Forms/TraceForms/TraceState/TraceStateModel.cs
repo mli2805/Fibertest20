@@ -4,45 +4,12 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Media;
 using Caliburn.Micro;
-using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-    public class TraceStateModelHeader : PropertyChangedBase
-    {
-        private string _traceTitle = "";
-        private string _rtuTitle = "";
-
-        public string TraceTitle
-        {
-            get => _traceTitle;
-            set
-            {
-                if (value == _traceTitle) return;
-                _traceTitle = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public string RtuTitle
-        {
-            get => _rtuTitle;
-            set
-            {
-                if (value == _rtuTitle) return;
-                _rtuTitle = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public string PortTitle { get; set; } = "";
-
-        public PointLatLng? RtuPosition { get; set; }
-    }
-
     public class TraceStateModel : PropertyChangedBase
     {
         public Guid TraceId { get; set; }
@@ -91,7 +58,8 @@ namespace Iit.Fibertest.Client
 
         public string AccidentsHeader => string.Format(Resources.SID_Accidents_count___0_, Accidents.Count);
 
-        public bool IsAccidentPlaceButtonEnabled => TraceState != FiberState.Ok;
+        public bool IsLastStateForThisTrace { get; set; }
+        public bool IsAccidentPlaceButtonEnabled => TraceState != FiberState.Ok && IsLastStateForThisTrace;
 
         private bool _isSoundButtonEnabled;
 

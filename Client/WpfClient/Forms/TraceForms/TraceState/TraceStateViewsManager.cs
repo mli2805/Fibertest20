@@ -78,8 +78,8 @@ namespace Iit.Fibertest.Client
             if (lastMeasurement == null)
                 return;
 
-            var traceStateModel = _traceStateModelFactory.CreateModel(lastMeasurement);
-            Show(traceStateModel, true, false, lastMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent);
+            var traceStateModel = _traceStateModelFactory.CreateModel(lastMeasurement, true);
+            Show(traceStateModel, false, lastMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent);
         }
 
         private void UpdateMeasurement(MeasurementUpdated evnt)
@@ -130,8 +130,8 @@ namespace Iit.Fibertest.Client
             if (lastMeasurement == null)
                 return;
 
-            var traceStateModel = _traceStateModelFactory.CreateModel(lastMeasurement);
-            Show(traceStateModel, true);
+            var traceStateModel = _traceStateModelFactory.CreateModel(lastMeasurement, true);
+            Show(traceStateModel);
         }
 
 
@@ -142,8 +142,8 @@ namespace Iit.Fibertest.Client
             if (sorBytes == null)
                 return;
 
-            var traceStateModel = _traceStateModelFactory.CreateModel(measurement);
-            Show(traceStateModel, isLastMeasurementOnThisTrace);
+            var traceStateModel = _traceStateModelFactory.CreateModel(measurement, isLastMeasurementOnThisTrace);
+            Show(traceStateModel);
         }
 
         // User clicked on line in OpticalEvents (maybe last or not last line, and last event could be not last measurement for this trace) 
@@ -152,7 +152,8 @@ namespace Iit.Fibertest.Client
             var traceStateModel = _traceStateModelFactory.CreateModel(opticalEventModel);
             var isLastMeasurementOnThisTrace =
                  IsOpticalEventIsLastMeasurementForTrace(opticalEventModel.TraceId, opticalEventModel.SorFileId);
-            Show(traceStateModel, isLastMeasurementOnThisTrace);
+            traceStateModel.IsLastStateForThisTrace = isLastMeasurementOnThisTrace;
+            Show(traceStateModel);
         }
 
         private bool IsOpticalEventIsLastMeasurementForTrace(Guid traceId, int opticalEventSorFileId)
@@ -161,16 +162,16 @@ namespace Iit.Fibertest.Client
             return measurementEvSo == null || measurementEvSo.SorFileId == opticalEventSorFileId;
         }
 
-        private void Show(TraceStateModel traceStateModel, bool isLastMeasurementOnThisTrace, bool isUserAskedToOpenView = true, bool isTraceStateChanged = false)
+        private void Show(TraceStateModel traceStateModel, bool isUserAskedToOpenView = true, bool isTraceStateChanged = false)
         {
             LaunchedViews.RemoveAll(v => !v.IsOpen);
 
             TraceStateViewModel vm;
-            if (isLastMeasurementOnThisTrace)
+            if (traceStateModel.IsLastStateForThisTrace)
             {
                 vm = LaunchedViews.FirstOrDefault(v => v.Model.TraceId == traceStateModel.TraceId &&
                                                   (v.Model.SorFileId == traceStateModel.SorFileId ||
-                                                    v.IsLastStateForThisTrace));
+                                                    v.Model.IsLastStateForThisTrace));
             }
             else
             {
@@ -195,7 +196,7 @@ namespace Iit.Fibertest.Client
                 _outOfTurnPreciseMeasurementViewModel.TryClose();
 
             vm = _globalScope.Resolve<TraceStateViewModel>();
-            vm.Initialize(traceStateModel, isLastMeasurementOnThisTrace, isTraceStateChanged);
+            vm.Initialize(traceStateModel, isTraceStateChanged);
             _windowManager.ShowWindowWithAssignedOwner(vm);
 
             LaunchedViews.Add(vm);

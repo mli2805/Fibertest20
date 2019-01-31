@@ -8,8 +8,8 @@ namespace Iit.Fibertest.Client
         public delegate void CommandOnExecute(object parameter);
         public delegate bool CommandOnCanExecute(object parameter);
 
-        private CommandOnExecute _execute;
-        private CommandOnCanExecute _canExecute;
+        private readonly CommandOnExecute _execute;
+        private readonly CommandOnCanExecute _canExecute;
 
         public ContextMenuAction(CommandOnExecute onExecuteMethod, CommandOnCanExecute onCanExecuteMethod)
         {
@@ -21,8 +21,8 @@ namespace Iit.Fibertest.Client
 
         public event EventHandler CanExecuteChanged
         {
-            add { CommandManager.RequerySuggested += value; }
-            remove { CommandManager.RequerySuggested -= value; }
+            add => CommandManager.RequerySuggested += value;
+            remove => CommandManager.RequerySuggested -= value;
         }
 
         public bool CanExecute(object parameter)
