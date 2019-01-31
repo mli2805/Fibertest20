@@ -99,6 +99,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowReflectogram(int param)
         {
+            if (SelectedRow == null) return;
             _reflectogramManager.SetTempFileName(TraceTitle, SelectedRow.Measurement.SorFileId, SelectedRow.Measurement.EventRegistrationTimestamp);
             if (param == 2)
                 _reflectogramManager.ShowRefWithBase(SelectedRow.Measurement.SorFileId);
@@ -108,12 +109,14 @@ namespace Iit.Fibertest.Client
 
         public void SaveReflectogramAs(bool param)
         {
+            if (SelectedRow == null) return;
             _reflectogramManager.SetTempFileName(TraceTitle, SelectedRow.Measurement.SorFileId, SelectedRow.Measurement.MeasurementTimestamp);
             _reflectogramManager.SaveReflectogramAs(SelectedRow.Measurement.SorFileId, param);
         }
 
         public void ShowBaseReflectogram()
         {
+            if (SelectedRow == null) return;
             // do not use localized base ref type!
             _reflectogramManager.SetTempFileName(TraceTitle, SelectedBaseRef.BaseRefType.ToString(), SelectedBaseRef.AssignedAt);
             _reflectogramManager.ShowBaseReflectogram(SelectedBaseRef.SorFileId);
@@ -121,6 +124,7 @@ namespace Iit.Fibertest.Client
 
         public void SaveBaseReflectogramAs()
         {
+            if (SelectedRow == null) return;
             // do not use localized base ref type!
             _reflectogramManager.SetTempFileName(TraceTitle, SelectedBaseRef.BaseRefType.ToString(), SelectedBaseRef.AssignedAt);
             _reflectogramManager.SaveBaseReflectogramAs(SelectedBaseRef.SorFileId);
@@ -128,12 +132,13 @@ namespace Iit.Fibertest.Client
 
         public void ShowRftsEvents()
         {
+            if (SelectedRow == null) return;
             _reflectogramManager.ShowRftsEvents(SelectedRow.Measurement.SorFileId);
         }
 
         public void ShowTraceState()
         {
-            if (Rows.Count == 0) return;
+            if (SelectedRow == null) return;
             var lastRow = Rows.Last(); // click on the Row , so Rows collection couldn't be empty
             _traceStateViewsManager.ShowTraceState(SelectedRow.Measurement, lastRow.Measurement.SorFileId == SelectedRow.Measurement.SorFileId);
         }

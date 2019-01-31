@@ -44,9 +44,9 @@ namespace Iit.Fibertest.Client
             var nodeId = nodesExcludingAdjustmentPoints[accidentInOldEvent.BrokenLandmarkIndex];
             var isLastNode = accidentInOldEvent.BrokenLandmarkIndex == nodesExcludingAdjustmentPoints.Count - 1;
             var node = _readModel.Nodes.FirstOrDefault(n => n.NodeId == nodeId);
-            var equipmentExcludingAdjustmentPoints =
+            var equipmentsWithoutPointsAndRtu =
                 _readModel.GetTraceEquipmentsExcludingAdjustmentPoints(accidentInOldEvent.TraceId).ToArray();
-            var equipment = equipmentExcludingAdjustmentPoints[accidentInOldEvent.BrokenLandmarkIndex];
+            var equipment = equipmentsWithoutPointsAndRtu[accidentInOldEvent.BrokenLandmarkIndex-1];
             var modelTopCenter = node?.Title;
             if (equipment.Type != EquipmentType.EmptyNode && !string.IsNullOrEmpty(equipment.Title))
                 modelTopCenter = modelTopCenter + @" / " + equipment.Title;
@@ -75,19 +75,19 @@ namespace Iit.Fibertest.Client
         {
             var nodesExcludingAdjustmentPoints =
                 _readModel.GetTraceNodesExcludingAdjustmentPoints(accidentAsNewEvent.TraceId).ToList();
-            var equipmentExcludingAdjustmentPoints =
+            var equipmentsWithoutPointsAndRtu =
                 _readModel.GetTraceEquipmentsExcludingAdjustmentPoints(accidentAsNewEvent.TraceId).ToArray();
 
             var leftNodeId = nodesExcludingAdjustmentPoints[accidentAsNewEvent.LeftLandmarkIndex];
             var leftNode = _readModel.Nodes.FirstOrDefault(n => n.NodeId == leftNodeId);
-            var leftEquipment = equipmentExcludingAdjustmentPoints[accidentAsNewEvent.LeftLandmarkIndex];
+            var leftEquipment = equipmentsWithoutPointsAndRtu[accidentAsNewEvent.LeftLandmarkIndex-1];
             var leftNodeTitle = leftNode?.Title;
             if (leftEquipment.Type != EquipmentType.EmptyNode && !string.IsNullOrEmpty(leftEquipment.Title))
                 leftNodeTitle = leftNodeTitle + @" / " + leftEquipment.Title;
          
             var rightNodeId = nodesExcludingAdjustmentPoints[accidentAsNewEvent.RightLandmarkIndex];
             var rightNode = _readModel.Nodes.FirstOrDefault(n => n.NodeId == rightNodeId);
-            var rightEquipment = equipmentExcludingAdjustmentPoints[accidentAsNewEvent.RightLandmarkIndex];
+            var rightEquipment = equipmentsWithoutPointsAndRtu[accidentAsNewEvent.RightLandmarkIndex-1];
             var rightNodeTitle = rightNode?.Title;
             if (rightEquipment.Type != EquipmentType.EmptyNode && !string.IsNullOrEmpty(rightEquipment.Title))
                 rightNodeTitle = rightNodeTitle + @" / " + rightEquipment.Title;
@@ -117,19 +117,19 @@ namespace Iit.Fibertest.Client
         {
             var nodesExcludingAdjustmentPoints =
                 _readModel.GetTraceNodesExcludingAdjustmentPoints(accidentInOldEvent.TraceId).ToList();
-            var equipmentExcludingAdjustmentPoints =
+            var equipmentsWithoutPointsAndRtu =
                 _readModel.GetTraceEquipmentsExcludingAdjustmentPoints(accidentInOldEvent.TraceId).ToArray();
 
             var leftNodeId = nodesExcludingAdjustmentPoints[accidentInOldEvent.BrokenLandmarkIndex - 1];
             var leftNode = _readModel.Nodes.FirstOrDefault(n => n.NodeId == leftNodeId);
-            var leftEquipment = equipmentExcludingAdjustmentPoints[accidentInOldEvent.BrokenLandmarkIndex - 1];
+            var leftEquipment = equipmentsWithoutPointsAndRtu[accidentInOldEvent.BrokenLandmarkIndex - 2];
             var leftNodeTitle = leftNode?.Title;
             if (leftEquipment.Type != EquipmentType.EmptyNode && !string.IsNullOrEmpty(leftEquipment.Title))
                 leftNodeTitle = leftNodeTitle + @" / " + leftEquipment.Title;
          
             var rightNodeId = nodesExcludingAdjustmentPoints[accidentInOldEvent.BrokenLandmarkIndex];
             var rightNode = _readModel.Nodes.FirstOrDefault(n => n.NodeId == rightNodeId);
-            var rightEquipment = equipmentExcludingAdjustmentPoints[accidentInOldEvent.BrokenLandmarkIndex];
+            var rightEquipment = equipmentsWithoutPointsAndRtu[accidentInOldEvent.BrokenLandmarkIndex - 1];
             var rightNodeTitle = rightNode?.Title;
             if (rightEquipment.Type != EquipmentType.EmptyNode && !string.IsNullOrEmpty(rightEquipment.Title))
                 rightNodeTitle = rightNodeTitle + @" / " + rightEquipment.Title;
