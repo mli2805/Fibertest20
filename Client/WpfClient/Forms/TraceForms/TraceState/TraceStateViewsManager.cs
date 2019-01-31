@@ -26,7 +26,7 @@ namespace Iit.Fibertest.Client
         private List<TraceStateViewModel> LaunchedViews { get; } = new List<TraceStateViewModel>();
 
         public TraceStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager,
-            C2DWcfManager c2DWcfManager, Model readModel, CurrentUser currentUser, 
+            C2DWcfManager c2DWcfManager, Model readModel, CurrentUser currentUser,
             ChildrenViews childrenViews, TraceStateModelFactory traceStateModelFactory,
             OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel)
         {
@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Client
         {
             if (args.PropertyName == nameof(ChildrenViews.ShouldBeClosed))
             {
-                if (((ChildrenViews) sender).ShouldBeClosed)
+                if (((ChildrenViews)sender).ShouldBeClosed)
                 {
                     foreach (var traceStateViewModel in LaunchedViews.ToArray())
                     {
@@ -78,7 +78,7 @@ namespace Iit.Fibertest.Client
             if (lastMeasurement == null)
                 return;
 
-            var traceStateModel = _traceStateModelFactory.CreateModel(lastMeasurement, true);
+            var traceStateModel = _traceStateModelFactory.CreateModel(lastMeasurement, true, lastMeasurement.TraceState != FiberState.Ok);
             Show(traceStateModel, false, lastMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent);
         }
 
@@ -96,7 +96,7 @@ namespace Iit.Fibertest.Client
 
         private void UpdateTrace(TraceUpdated evnt)
         {
-            foreach (var traceStateViewModel in LaunchedViews.Where(m=>m.Model.TraceId == evnt.Id))
+            foreach (var traceStateViewModel in LaunchedViews.Where(m => m.Model.TraceId == evnt.Id))
             {
                 traceStateViewModel.Model.Header.TraceTitle = evnt.Title;
             }
@@ -130,36 +130,27 @@ namespace Iit.Fibertest.Client
             if (lastMeasurement == null)
                 return;
 
-            var traceStateModel = _traceStateModelFactory.CreateModel(lastMeasurement, true);
+            var traceStateModel = _traceStateModelFactory.CreateModel(lastMeasurement, true, lastMeasurement.TraceState != FiberState.Ok);
             Show(traceStateModel);
         }
 
 
         // User clicked on line in TraceStatistics (maybe not on the last line - see parameter)
-        public async void ShowTraceState(Measurement measurement, bool isLastMeasurementOnThisTrace)
+        public async void ShowTraceState(Measurement measurement, bool isLastMeasurementOnThisTrace, bool isLastAccident)
         {
             var sorBytes = await _c2DWcfManager.GetSorBytes(measurement.SorFileId);
             if (sorBytes == null)
                 return;
 
-            var traceStateModel = _traceStateModelFactory.CreateModel(measurement, isLastMeasurementOnThisTrace);
+            var traceStateModel = _traceStateModelFactory.CreateModel(measurement, isLastMeasurementOnThisTrace, isLastAccident);
             Show(traceStateModel);
         }
 
         // User clicked on line in OpticalEvents (maybe last or not last line, and last event could be not last measurement for this trace) 
-        public void ShowTraceState(OpticalEventModel opticalEventModel)
+        public void ShowTraceState(OpticalEventModel opticalEventModel, bool isLastMeasurementOnThisTrace, bool isLastAccident)
         {
-            var traceStateModel = _traceStateModelFactory.CreateModel(opticalEventModel);
-            var isLastMeasurementOnThisTrace =
-                 IsOpticalEventIsLastMeasurementForTrace(opticalEventModel.TraceId, opticalEventModel.SorFileId);
-            traceStateModel.IsLastStateForThisTrace = isLastMeasurementOnThisTrace;
+            var traceStateModel = _traceStateModelFactory.CreateModel(opticalEventModel, isLastMeasurementOnThisTrace, isLastAccident);
             Show(traceStateModel);
-        }
-
-        private bool IsOpticalEventIsLastMeasurementForTrace(Guid traceId, int opticalEventSorFileId)
-        {
-            var measurementEvSo = _readModel.Measurements.LastOrDefault(m => m.TraceId == traceId);
-            return measurementEvSo == null || measurementEvSo.SorFileId == opticalEventSorFileId;
         }
 
         private void Show(TraceStateModel traceStateModel, bool isUserAskedToOpenView = true, bool isTraceStateChanged = false)

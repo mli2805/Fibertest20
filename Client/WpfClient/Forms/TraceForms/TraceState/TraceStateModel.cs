@@ -59,7 +59,8 @@ namespace Iit.Fibertest.Client
         public string AccidentsHeader => string.Format(Resources.SID_Accidents_count___0_, Accidents.Count);
 
         public bool IsLastStateForThisTrace { get; set; }
-        public bool IsAccidentPlaceButtonEnabled => TraceState != FiberState.Ok && IsLastStateForThisTrace;
+        public bool IsLastAccidentForThisTrace { get; set; }
+        public bool IsAccidentPlaceButtonEnabled => TraceState != FiberState.Ok && IsLastAccidentForThisTrace;
 
         private bool _isSoundButtonEnabled;
 

@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Windows.Data;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -140,7 +141,11 @@ namespace Iit.Fibertest.Client
         {
             if (SelectedRow == null) return;
             var lastRow = Rows.Last(); // click on the Row , so Rows collection couldn't be empty
-            _traceStateViewsManager.ShowTraceState(SelectedRow.Measurement, lastRow.Measurement.SorFileId == SelectedRow.Measurement.SorFileId);
+            var lastEvent = Rows.LastOrDefault(r => r.IsOpticalEvent);
+            var isLastAccident = lastEvent == null || 
+                                 (SelectedRow.Measurement.SorFileId >= lastEvent.Measurement.SorFileId 
+                                  && SelectedRow.Measurement.TraceState != FiberState.Ok);
+            _traceStateViewsManager.ShowTraceState(SelectedRow.Measurement, lastRow.Measurement.SorFileId == SelectedRow.Measurement.SorFileId, isLastAccident);
         }
 
         public override void CanClose(Action<bool> callback)

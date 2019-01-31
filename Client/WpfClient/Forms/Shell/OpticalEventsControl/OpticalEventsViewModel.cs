@@ -256,9 +256,15 @@ namespace Iit.Fibertest.Client
 
         public void ShowTraceState()
         {
-            _traceStateViewsManager.ShowTraceState(SelectedRow);
-        }
+            var lastMeasurement = _readModel.Measurements.LastOrDefault(m => m.TraceId == SelectedRow.TraceId);
+            var isLastMeasurement = lastMeasurement == null || lastMeasurement.SorFileId == SelectedRow.SorFileId;
 
+            var lastEvent = _readModel.Measurements.LastOrDefault(m => m.TraceId == SelectedRow.TraceId
+                                                               && m.EventStatus > EventStatus.JustMeasurementNotAnEvent);
+            var isLastAccident = lastEvent == null || lastEvent.SorFileId <= SelectedRow.SorFileId;
+            _traceStateViewsManager.ShowTraceState(SelectedRow, isLastMeasurement, isLastAccident);
+        }
+        
         public void ShowRtuFilter()
         {
             _rtuFilterViewModel.Initialize();

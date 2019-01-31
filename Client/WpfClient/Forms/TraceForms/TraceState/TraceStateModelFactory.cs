@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
         // TraceLeaf
         // Trace statistics
         // Monitoring result notification
-        public TraceStateModel CreateModel(Measurement measurement, bool isLastStateForThisTrace)
+        public TraceStateModel CreateModel(Measurement measurement, bool isLastStateForThisTrace, bool isLastAccidentForThisTrace)
         {
             var model = new TraceStateModel
             {
@@ -34,7 +34,9 @@ namespace Iit.Fibertest.Client
                 SorFileId = measurement.SorFileId,
                 EventStatus = measurement.EventStatus,
                 Comment = measurement.Comment,
+
                 IsLastStateForThisTrace = isLastStateForThisTrace, 
+                IsLastAccidentForThisTrace = isLastAccidentForThisTrace,
             };
             if (model.TraceState != FiberState.Ok)
                 model.Accidents = PrepareAccidents(measurement.Accidents);
@@ -42,7 +44,7 @@ namespace Iit.Fibertest.Client
         }
 
         // Optical events
-        public TraceStateModel CreateModel(OpticalEventModel opticalEventModel)
+        public TraceStateModel CreateModel(OpticalEventModel opticalEventModel, bool isLastStateForThisTrace, bool isLastAccidentForThisTrace)
         {
             var model = new TraceStateModel
             {
@@ -55,7 +57,10 @@ namespace Iit.Fibertest.Client
                 SorFileId = opticalEventModel.SorFileId,
                 EventStatus = opticalEventModel.EventStatus,
                 Accidents = PrepareAccidents(opticalEventModel.Accidents),
-                Comment = opticalEventModel.Comment
+                Comment = opticalEventModel.Comment,
+
+                IsLastStateForThisTrace = isLastStateForThisTrace, 
+                IsLastAccidentForThisTrace = isLastAccidentForThisTrace,
             };
             return model;
         }
