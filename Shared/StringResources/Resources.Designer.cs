@@ -6618,6 +6618,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Turn alarm on.
+        /// </summary>
+        public static string SID_Turn_alarm_on {
+            get {
+                return ResourceManager.GetString("SID_Turn_alarm_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Type.
         /// </summary>
         public static string SID_Type {

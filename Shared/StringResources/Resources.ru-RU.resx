@@ -2459,4 +2459,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Measurement_updated" xml:space="preserve">
 		<value>Статус события изменен</value>
 	</data>
+	<data name="SID_Turn_alarm_on" xml:space="preserve">
+		<value>Включить сигнализацию</value>
+	</data>
 </root>

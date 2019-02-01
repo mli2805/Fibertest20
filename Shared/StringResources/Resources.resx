@@ -2459,4 +2459,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Measurement_updated" xml:space="preserve">
     <value>Measurement status updated</value>
   </data>
+	<data name="SID_Turn_alarm_on" xml:space="preserve">
+    <value>Turn alarm on</value>
+  </data>
 </root>

@@ -59,9 +59,10 @@
                 </StackPanel>
             </GroupBox>
         </DockPanel>
-        <GroupBox Margin="5,0,5,5" Header="{Binding Model.AccidentsHeader}" Visibility="{Binding Model.AccidentsPanelVisibility}" MaxHeight="226">
+        <GroupBox Margin="5,0,5,5" Header="{Binding Model.AccidentsHeader}" FontSize="20" 
+                  Visibility="{Binding Model.AccidentsPanelVisibility}" MaxHeight="226">
             <DockPanel HorizontalAlignment="Center" Margin="0,3">
-                <ScrollViewer VerticalScrollBarVisibility="Auto" >
+                <ScrollViewer VerticalScrollBarVisibility="Auto" FontSize="12" >
                     <ListView DockPanel.Dock="Top" ItemsSource="{Binding Model.Accidents}" SelectedItem="{Binding Model.SelectedAccident}">
                         <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="client:AccidentLineModel">

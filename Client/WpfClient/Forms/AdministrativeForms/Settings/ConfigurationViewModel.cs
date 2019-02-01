@@ -3,6 +3,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
@@ -11,32 +12,26 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private readonly GraphReadModel _graphReadModel;
         private readonly CurrentGis _currentGis;
-        private bool _isGraphVisibleOnStart;
-        private string _selectedLanguage;
-        private string _selectedProvider;
+        private readonly SoundManager _soundManager;
         public List<string> SupportedLanguages { get; set; } = new List<string>(){@"ru-RU", @"en-US"};
         public List<string> MapProviders { get; set; } = new List<string>(){@"OpenStreetMap", @"GoogleMap", @"YandexMap"};
 
         public bool IsEnabled { get; set; }
 
-        public ConfigurationViewModel(IniFile iniFile, GraphReadModel graphReadModel, CurrentGis currentGis,
-            CurrentUser currentUser)
+        private bool _isSoundOn;
+        private string _soundButtonContent;
+        public string SoundButtonContent
         {
-            _iniFile = iniFile;
-            _graphReadModel = graphReadModel;
-            _currentGis = currentGis;
-            IsEnabled = currentUser.Role < Role.Superclient;
-
-            _isGraphVisibleOnStart = _iniFile.Read(IniSection.Miscellaneous, IniKey.IsGraphVisibleOnStart, false);
-            SelectedLanguage = _iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
-            _selectedProvider = _iniFile.Read(IniSection.Map, IniKey.GMapProvider, MapProviders[0]);
+            get => _soundButtonContent;
+            set
+            {
+                if (value == _soundButtonContent) return;
+                _soundButtonContent = value;
+                NotifyOfPropertyChange();
+            }
         }
 
-        protected override void OnViewLoaded(object view)
-        {
-            DisplayName = Resources.SID_Client_settings;
-        }
-
+        private bool _isGraphVisibleOnStart;
         public bool IsGraphVisibleOnStart
         {
             get => _isGraphVisibleOnStart;
@@ -48,6 +43,7 @@ namespace Iit.Fibertest.Client
         }
 
 
+        private string _selectedLanguage;
         public string SelectedLanguage
         {
             get => _selectedLanguage;
@@ -58,6 +54,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private string _selectedProvider;
         public string SelectedProvider
         {
             get => _selectedProvider;
@@ -68,6 +65,34 @@ namespace Iit.Fibertest.Client
                 if (!_currentGis.IsGisOn)
                     _graphReadModel.MainMap.MapProvider = GMapProviderExt.Get(_selectedProvider);
             }
+        }
+
+        public ConfigurationViewModel(IniFile iniFile, GraphReadModel graphReadModel, CurrentGis currentGis,
+            CurrentUser currentUser, SoundManager soundManager)
+        {
+            _iniFile = iniFile;
+            _graphReadModel = graphReadModel;
+            _currentGis = currentGis;
+            _soundManager = soundManager;
+            IsEnabled = currentUser.Role < Role.Superclient;
+
+            _isGraphVisibleOnStart = _iniFile.Read(IniSection.Miscellaneous, IniKey.IsGraphVisibleOnStart, false);
+            SelectedLanguage = _iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
+            _selectedProvider = _iniFile.Read(IniSection.Map, IniKey.GMapProvider, MapProviders[0]);
+            SoundButtonContent = Resources.SID_Turn_alarm_on;
+            _isSoundOn = false;
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            DisplayName = Resources.SID_Client_settings;
+        }    
+        
+        public void TestSound()
+        {
+            if (_isSoundOn) _soundManager.StopAlert(); else _soundManager.StartAlert();
+            _isSoundOn = !_isSoundOn;
+            SoundButtonContent = _isSoundOn ? Resources.SID_Turn_alarm_off : Resources.SID_Turn_alarm_on;
         }
 
         public void Close() { TryClose(); }

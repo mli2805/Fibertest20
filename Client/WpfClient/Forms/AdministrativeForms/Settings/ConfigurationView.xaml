@@ -22,6 +22,7 @@
                 <ComboBox ItemsSource="{Binding MapProviders}" SelectedItem="{Binding SelectedProvider}" Width="120"/>
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Choose_map_provider}" Margin="15,2"/>
             </StackPanel>
+            <Button Height="23" Width="200" Content="{Binding SoundButtonContent}" HorizontalAlignment="Left" Margin="5,10" Name="TestSound"/>
         </StackPanel>
 
     </DockPanel>
