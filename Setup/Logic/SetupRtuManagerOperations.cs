@@ -43,7 +43,7 @@ namespace Iit.Fibertest.Setup
                 return false;
 
             var otdrmeasengine = Path.Combine(fullRtuManagerPath, @"OtdrMeasEngine\");
-            FileOperations.CleanAntiGhost(otdrmeasengine);
+            FileOperations.CleanAntiGhost(otdrmeasengine, true);
             CreateIniForIpAddressesSetting(installationFolder);
 
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUtils, fullUtilsPath, worker))
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.Setup
 
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, fullReflectPath, worker))
                 return false;
-            FileOperations.CleanAntiGhost(fullReflectPath);
+            FileOperations.CleanAntiGhost(fullReflectPath, false);
 
             if (!Directory.Exists(fullReflectPath + "\\Share"))
                 Directory.CreateDirectory(fullReflectPath + "\\Share");

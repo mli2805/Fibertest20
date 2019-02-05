@@ -73,10 +73,11 @@ namespace Iit.Fibertest.UtilsLib
             return true;
         }
 
-        public static void CleanAntiGhost(string fullRtuManagerPath)
+        public static void CleanAntiGhost(string fullRtuManagerPath, bool hasDefault)
         {
             var filename = Path.Combine(fullRtuManagerPath, @"Etc\param673.ini");
             CleanAntiGhostInOneFile(filename);
+            if (!hasDefault) return;
             var filename2 = Path.Combine(fullRtuManagerPath, @"Etc_default\param673.ini");
             CleanAntiGhostInOneFile(filename2);
         }
