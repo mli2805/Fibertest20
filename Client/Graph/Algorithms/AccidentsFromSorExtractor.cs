@@ -14,21 +14,23 @@ namespace Iit.Fibertest.Graph
     {
         private readonly IMyLog _logFile;
         private readonly SorDataParsingReporter _sorDataParsingReporter;
+        private readonly Model _writeModel;
         private OtdrDataKnownBlocks _sorData;
 
-        public AccidentsFromSorExtractor(IMyLog logFile, SorDataParsingReporter sorDataParsingReporter)
+        public AccidentsFromSorExtractor(IMyLog logFile, SorDataParsingReporter sorDataParsingReporter, Model writeModel)
         {
             _logFile = logFile;
             _sorDataParsingReporter = sorDataParsingReporter;
+            _writeModel = writeModel;
         }
 
-        public List<AccidentOnTrace> GetAccidents(OtdrDataKnownBlocks sorData, bool isClient)
+        public List<AccidentOnTrace> GetAccidents(OtdrDataKnownBlocks sorData, bool isForDebug)
         {
             _sorData = sorData;
 
             try
             {
-                return GetAccidents(isClient);
+                return GetAccidents(isForDebug);
             }
             catch (Exception e)
             {
@@ -37,9 +39,9 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        private List<AccidentOnTrace> GetAccidents(bool isClient)
+        private List<AccidentOnTrace> GetAccidents(bool isForDebug)
         {
-            if (isClient)
+            if (isForDebug)
                 _sorDataParsingReporter.DoReport(_sorData);
 
             var levels = new List<RftsLevelType>() {RftsLevelType.Critical, RftsLevelType.Major, RftsLevelType.Minor};
@@ -83,38 +85,38 @@ namespace Iit.Fibertest.Graph
 
         private IEnumerable<AccidentOnTrace> GetAccidentsForLevel(RftsEventsBlock rftsEventsBlock)
         {
-            for (int i = 1; i < rftsEventsBlock.EventsCount; i++) // 0 - RTU
+            for (int keyEventIndex = 1; keyEventIndex < rftsEventsBlock.EventsCount; keyEventIndex++) // 0 - RTU
             {
-                var rftsEvent = rftsEventsBlock.Events[i];
+                var rftsEvent = rftsEventsBlock.Events[keyEventIndex];
 
                 if ((rftsEvent.EventTypes & RftsEventTypes.IsNew) != 0)
-                    yield return BuildAccidentAsNewEvent(rftsEvent, i, rftsEventsBlock.LevelName);
+                    yield return BuildAccidentAsNewEvent(rftsEvent, keyEventIndex, rftsEventsBlock.LevelName);
                 if ((rftsEvent.EventTypes & RftsEventTypes.IsFailed) != 0 || (rftsEvent.EventTypes & RftsEventTypes.IsFiberBreak) != 0)
                     foreach (var opticalAccidentType in GetOpticalTypesOfAccident(rftsEvent))
                     {
-                        var accident = BuildAccidentInOldEvent(rftsEvent, i, rftsEventsBlock.LevelName);
+                        var accident = BuildAccidentInOldEvent(rftsEvent, keyEventIndex, rftsEventsBlock.LevelName);
                         accident.OpticalTypeOfAccident = opticalAccidentType;
                         yield return accident;
                     }
             }
         }
       
-        private AccidentOnTrace BuildAccidentInOldEvent(RftsEvent rftsEvent, int i, RftsLevelType level)
+        private AccidentOnTrace BuildAccidentInOldEvent(RftsEvent rftsEvent, int keyEventIndex, RftsLevelType level)
         {
-            var brokenLandmarkIndex = _sorData.GetLandmarkIndexForKeyEventIndex(i);
+            var brokenLandmarkIndex = _sorData.GetLandmarkIndexForKeyEventIndex(keyEventIndex);
             if (brokenLandmarkIndex == -1)
             {
                 // event was not bound to landmark and now it gets worse
-                return BuildAccidentAsNewEvent(rftsEvent, i, level);
+                return BuildAccidentAsNewEvent(rftsEvent, keyEventIndex, level);
             }
             var previousLandmark = _sorData.LinkParameters.LandmarkBlocks[brokenLandmarkIndex - 1];
 
             var accidentInOldEvent = new AccidentInOldEvent
             {
-                BrokenRftsEventNumber = i + 1, // i - index, i+1 number
+                BrokenRftsEventNumber = keyEventIndex + 1, // i - index, i+1 number
 
                 BrokenLandmarkIndex = brokenLandmarkIndex,
-                AccidentDistanceKm = _sorData.KeyEventDistanceKm(i),
+                AccidentDistanceKm = _sorData.KeyEventDistanceKm(keyEventIndex),
                 PreviousLandmarkDistanceKm = _sorData.OwtToLenKm(previousLandmark.Location),
 
                 AccidentSeriousness = (rftsEvent.EventTypes & RftsEventTypes.IsFiberBreak) != 0 ? FiberState.FiberBreak : level.ConvertToFiberState(),

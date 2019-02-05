@@ -32,6 +32,8 @@ namespace Iit.Fibertest.Setup
             _logFile.AppendLine($" full Reflect path = {fullReflectPath}");
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, fullReflectPath, worker))
                 return false;
+            FileOperations.CleanAntiGhost(fullReflectPath);
+
             if (!Directory.Exists(fullReflectPath + "\\Share"))
                 Directory.CreateDirectory(fullReflectPath + "\\Share");
 

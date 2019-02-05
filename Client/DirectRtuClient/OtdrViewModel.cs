@@ -7,7 +7,6 @@ using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
@@ -382,21 +381,6 @@ namespace DirectRtuClient
             var vm = new RftsEventsViewModel(sorData);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(vm);
-        }
-
-        public void Accidents()
-        {
-            if (!File.Exists(ResultFileName))
-            {
-                MessageBox.Show(@"There's no such file");
-                return;
-            }
-            var measBytes = File.ReadAllBytes(ResultFileName);
-            var sorData = SorData.FromBytes(measBytes);
-
-            var accidentExtractor = new AccidentsFromSorExtractor(_rtuLogger, new SorDataParsingReporter());
-            var accidents = accidentExtractor.GetAccidents(sorData, true);
-            _rtuLogger.AppendLine($@"{accidents.Count} accidents found");
         }
 
     }

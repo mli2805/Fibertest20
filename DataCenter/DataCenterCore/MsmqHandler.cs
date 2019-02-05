@@ -114,8 +114,8 @@ namespace Iit.Fibertest.DataCenterCore
             var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
             if (sorId == -1) return -1;
 
-            var command = _measurementFactory.CreateCommand(dto, sorId);
-            var result = await _eventStoreService.SendCommand(command, "system", "OnServer");
+            var addMeasurement = _measurementFactory.CreateCommand(dto, sorId);
+            var result = await _eventStoreService.SendCommand(addMeasurement, "system", "OnServer");
 
             if (result != null) // Unknown trace or something else
             {
@@ -125,7 +125,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             await CheckAndSendBopNetworkIfNeeded(dto);
 
-            if (command.EventStatus > EventStatus.JustMeasurementNotAnEvent && dto.BaseRefType != BaseRefType.Fast)
+            if (addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent && dto.BaseRefType != BaseRefType.Fast)
             {
                 // ReSharper disable once UnusedVariable
                 var task = Task.Factory.StartNew(() => SendNotificationsAboutTraces(dto)); // here we do not wait result

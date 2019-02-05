@@ -30,7 +30,7 @@ namespace Iit.Fibertest.DataCenterCore
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public EventStoreService(IniFile iniFile, IMyLog logFile, IEventStoreInitializer eventStoreInitializer, 
+        public EventStoreService(IniFile iniFile, IMyLog logFile, IEventStoreInitializer eventStoreInitializer,
              CommandAggregator commandAggregator, EventsQueue eventsQueue, EventsOnModelExecutor eventsOnModelExecutor)
         {
             _eventsPortion = iniFile.Read(IniSection.General, IniKey.EventSourcingPortion, 100);
@@ -49,12 +49,24 @@ namespace Iit.Fibertest.DataCenterCore
             if (!AssignGraphDbVersion(eventStream)) return;
 
             var events = eventStream.CommittedEvents.Select(x => x.Body).ToList();
+
+            var measurementAddedCount = 0;
+            var accidentCount = 0;
             foreach (var evnt in events)
             {
+                // temporarily
+                if (evnt is MeasurementAdded measurementAdded)
+                {
+                    measurementAddedCount++;
+                    accidentCount += measurementAdded.Accidents.Count;
+                }
+                //
+
                 _eventsOnModelExecutor.Apply(evnt);
             }
 
             _logFile.AppendLine($"{events.Count} events from base are applied to WriteModel");
+            _logFile.AppendLine($"measurementAddedCount {measurementAddedCount} ;  accidentCount {accidentCount}");
         }
 
         public void Delete()
@@ -87,19 +99,19 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var cmd = new ApplyLicense()
             {
-                Owner = "Demo license", 
-                RtuCount = new LicenseParameter(){Value = 1, ValidUntil = DateTime.MaxValue}, 
-                ClientStationCount = new LicenseParameter(){Value = 2, ValidUntil = DateTime.MaxValue}, 
-                SuperClientStationCount = new LicenseParameter(){Value = 1, ValidUntil = DateTime.Today.AddMonths(6)}, 
+                Owner = "Demo license",
+                RtuCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.MaxValue },
+                ClientStationCount = new LicenseParameter() { Value = 2, ValidUntil = DateTime.MaxValue },
+                SuperClientStationCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.Today.AddMonths(6) },
                 Version = "2.0.0.0"
             };
             await SendCommand(cmd, "developer", "OnServer");
             await SendCommand(new AddZone() { IsDefaultZone = true, Title = StringResources.Resources.SID_Default_Zone }, "developer", "OnServer");
 
-            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "developer",   EncodedPassword = UserExt.FlipFlop("developer"),   Role = Role.Developer, ZoneId = Guid.Empty }, "developer", "OnServer");
-            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "root",        EncodedPassword = UserExt.FlipFlop("root"),        Role = Role.Root, ZoneId = Guid.Empty }, "developer", "OnServer");
-            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "operator",    EncodedPassword = UserExt.FlipFlop("operator"),    Role = Role.Operator, ZoneId = Guid.Empty }, "developer", "OnServer");
-            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "supervisor",  EncodedPassword = UserExt.FlipFlop("supervisor"),  Role = Role.Supervisor, ZoneId = Guid.Empty }, "developer", "OnServer");
+            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "developer", EncodedPassword = UserExt.FlipFlop("developer"), Role = Role.Developer, ZoneId = Guid.Empty }, "developer", "OnServer");
+            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "root", EncodedPassword = UserExt.FlipFlop("root"), Role = Role.Root, ZoneId = Guid.Empty }, "developer", "OnServer");
+            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "operator", EncodedPassword = UserExt.FlipFlop("operator"), Role = Role.Operator, ZoneId = Guid.Empty }, "developer", "OnServer");
+            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "supervisor", EncodedPassword = UserExt.FlipFlop("supervisor"), Role = Role.Supervisor, ZoneId = Guid.Empty }, "developer", "OnServer");
             await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "superclient", EncodedPassword = UserExt.FlipFlop("superclient"), Role = Role.Superclient, ZoneId = Guid.Empty }, "developer", "OnServer");
             return null;
         }
@@ -122,8 +134,8 @@ namespace Iit.Fibertest.DataCenterCore
         {
             // ilya: can pass user id\role as an argument to When to check permissions
             var result = _commandAggregator.Validate(cmd); // Aggregate checks if command is valid
-                                                                   // and if so, transforms command into event and passes it to WriteModel
-                                                                   // WriteModel applies event and returns whether event was applied successfully
+                                                           // and if so, transforms command into event and passes it to WriteModel
+                                                           // WriteModel applies event and returns whether event was applied successfully
 
             if (result == null)                                   // if command was valid and applied successfully it should be persisted
                 StoreEventsInDb(username, clientIp);

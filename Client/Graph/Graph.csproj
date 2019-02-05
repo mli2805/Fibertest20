@@ -129,6 +129,8 @@
     <Compile Include="Commands\Client\UnregisterClientStation.cs" />
     <Compile Include="DomainEntities\Administration\EmailReceiver.cs" />
     <Compile Include="DomainEntities\Administration\SmsReceiver.cs" />
+    <Compile Include="DomainEntities\Breaks\AccidentNeighbour.cs" />
+    <Compile Include="DomainEntities\Breaks\AccidentOnTraceV2.cs" />
     <Compile Include="DomainEntities\Extensions\ModelEmailExt.cs" />
     <Compile Include="DomainEntities\Extensions\ModelSmsExt.cs" />
     <Compile Include="DomainEntities\Kadastr\Conpoint.cs" />

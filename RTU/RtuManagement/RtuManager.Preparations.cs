@@ -11,6 +11,8 @@ namespace Iit.Fibertest.RtuManagement
     {
         private ReturnCode InitializeRtuManager(InitializeRtuDto dto)
         {
+            _rtuLog.AppendLine($"RTU Manager version {_version}");
+
             var resetCharonResult = RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
             if (resetCharonResult != ReturnCode.Ok)
                 _rtuLog.AppendLine("Charon reset via COM port failed.");

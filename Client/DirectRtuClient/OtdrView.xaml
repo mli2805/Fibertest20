@@ -55,7 +55,6 @@
                     <TextBlock Name="ResultFileNameTextBox" Text="{Binding ResultFileName}" Margin="5" Background="AliceBlue"/>
                 </DockPanel>
                 <Button Name="ShowRftsEvents" Content="Rfts Events" Margin="5"/>
-                <Button Name="Accidents" Content="Trace State" Margin="5"/>
             </StackPanel>
         </GroupBox>
     </StackPanel>

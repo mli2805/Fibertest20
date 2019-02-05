@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 
 namespace Iit.Fibertest.UtilsLib
 {
@@ -70,6 +71,21 @@ namespace Iit.Fibertest.UtilsLib
             }
 
             return true;
+        }
+
+        public static void CleanAntiGhost(string fullRtuManagerPath)
+        {
+            var filename = Path.Combine(fullRtuManagerPath, @"Etc\param673.ini");
+            CleanAntiGhostInOneFile(filename);
+            var filename2 = Path.Combine(fullRtuManagerPath, @"Etc_default\param673.ini");
+            CleanAntiGhostInOneFile(filename2);
+        }
+
+        private static void CleanAntiGhostInOneFile(string filename)
+        {
+            var content = File.ReadAllLines(filename);
+            var newContent = content.Select(line => line == "aGost=1" ? "aGost=0" : line).ToList();
+            File.WriteAllLines(filename, newContent);
         }
 
     }
