@@ -24,6 +24,7 @@ namespace Graph.Tests
             .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, Precision))
             .WhenTypeIs<double>();
 
+
         [Given(@"Существует трасса под мониторингом")]
         public void GivenСуществуетТрассаПодМониторингом()
         {
@@ -33,6 +34,7 @@ namespace Graph.Tests
 
             _trace.State.Should().Be(FiberState.NotJoined);
             _sut.AssertTraceFibersState(_trace);
+            _sut.Attach(_trace, 3);
 
             _trace.State.Should().Be(FiberState.Unknown);
             _sut.AssertTraceFibersState(_trace);
