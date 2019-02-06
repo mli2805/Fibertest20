@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Graph
         public string StatusChangedByUser { get; set; }
 
         public string Comment { get; set; }
-        public List<AccidentOnTrace> Accidents { get; set; }
+        public List<AccidentOnTraceV2> Accidents { get; set; }
 
         public int SorFileId { get; set; }
     }

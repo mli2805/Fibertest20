@@ -65,7 +65,7 @@ namespace Iit.Fibertest.Client
             return model;
         }
 
-        private List<AccidentLineModel> PrepareAccidents(List<AccidentOnTrace> accidents)
+        private List<AccidentLineModel> PrepareAccidents(List<AccidentOnTraceV2> accidents)
         {
             var lines = new List<AccidentLineModel>();
             for (var i = 0; i < accidents.Count; i++)

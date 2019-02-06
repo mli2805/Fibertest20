@@ -1,7 +1,9 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using FluentAssertions;
 using FluentAssertions.Equivalency;
+using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -15,11 +17,33 @@ namespace Graph.Tests
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private OtdrDataKnownBlocks _sorData;
+        private Iit.Fibertest.Graph.Trace _trace;
 
         private const double Precision = 0.001;
-        Func<EquivalencyAssertionOptions<AccidentOnTrace>, EquivalencyAssertionOptions<AccidentOnTrace>> doubleAsserionOptions = options => options
+        Func<EquivalencyAssertionOptions<AccidentOnTraceV2>, EquivalencyAssertionOptions<AccidentOnTraceV2>> doubleAsserionOptions = 
+            options => options
             .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, Precision))
             .WhenTypeIs<double>();
+
+        [Given(@"Существует трасса под мониторингом")]
+        public void GivenСуществуетТрассаПодМониторингом()
+        {
+            _trace = _sut.SetTraceWithAccidentInOldNode();
+            _sut.GraphReadModel.Data.Nodes.Count.Should().Be(9);
+            _sut.ReadModel.Nodes.Count.Should().Be(9);
+
+            var _crossVm = _sut.GraphReadModel.Data.Nodes.First(n => n.Id == _trace.NodeIds[1]);
+            var _closureVm = _sut.GraphReadModel.Data.Nodes.First(n => n.Id == _trace.NodeIds[5]);
+
+            _trace.State.Should().Be(FiberState.NotJoined);
+            _sut.AssertTraceFibersState(_trace);
+
+            var _traceLeaf = _sut.Attach(_trace, 3);
+
+            _trace.State.Should().Be(FiberState.Unknown);
+            _sut.AssertTraceFibersState(_trace);
+        }
+
 
         [When(@"Пришел (.*)\.sor")]
         public void WhenПришелMoniResult_Sor(string filename)
@@ -31,17 +55,31 @@ namespace Graph.Tests
         [Then(@"Получен список эксидентов для BreakBnode2")]
         public void ThenПолученСписокЭксидентов()
         {
-            var accidents = _sut.AccidentsFromSorExtractor.GetAccidents(_sorData, false);
+            var accidents = _sut.AccidentsFromSorExtractor.GetAccidents(_sorData, _trace.TraceId, false);
             accidents.Count.Should().Be(1);
-            var accident = accidents[0].Should().BeOfType<AccidentInOldEvent>().Subject;
+            var accident = accidents[0];
 
-            var expectation = new AccidentInOldEvent()
+            var expectation = new AccidentOnTraceV2()
             {
-                BrokenLandmarkIndex = 2,
+                AccidentLandmarkIndex = 5,
                 BrokenRftsEventNumber = 3,
                 OpticalTypeOfAccident = OpticalAccidentType.Break,
-                AccidentDistanceKm = 10.1503,
+                IsAccidentInOldEvent = true,
+                AccidentToRtuOpticalDistanceKm = 10.1503,
                 AccidentSeriousness = FiberState.FiberBreak,
+                AccidentCoors = new PointLatLng(55.08, 30.08),
+                Left = new AccidentNeighbour()
+                {
+                    Coors = new PointLatLng(55.06, 30.06),
+                    LandmarkIndex = 4,
+                    ToRtuOpticalDistanceKm = 8.1308,
+                },
+                Right = new AccidentNeighbour()
+                {
+                    Coors = new PointLatLng(55.082, 30.082),
+                    LandmarkIndex = 6,
+                    ToRtuOpticalDistanceKm = 10.7333,
+                },
             };
 
             accident.ShouldBeEquivalentTo(expectation, doubleAsserionOptions);
@@ -50,29 +88,59 @@ namespace Graph.Tests
         [Then(@"Получен список эксидентов для BreakBnode2-MinorRnode1")]
         public void ThenПолученДругойСписокЭксидентов()
         {
-            var accidents = _sut.AccidentsFromSorExtractor.GetAccidents(_sorData, false);
+            var accidents = _sut.AccidentsFromSorExtractor.GetAccidents(_sorData, _trace.TraceId, false);
             accidents.Count.Should().Be(2);
-            var accident0 = accidents[0].Should().BeOfType<AccidentInOldEvent>().Subject;
+            var accident0 = accidents[0];
 
-            var expectation0 = new AccidentInOldEvent()
+            var expectation0 = new AccidentOnTraceV2()
             {
-                BrokenLandmarkIndex = 2,
+                AccidentLandmarkIndex = 5,
                 BrokenRftsEventNumber = 3,
                 OpticalTypeOfAccident = OpticalAccidentType.Break,
-                AccidentDistanceKm = 10.1503,
+                IsAccidentInOldEvent = true,
+                AccidentToRtuOpticalDistanceKm = 10.1503,
                 AccidentSeriousness = FiberState.FiberBreak,
+                AccidentCoors = new PointLatLng(55.08, 30.08),
+                Left = new AccidentNeighbour()
+                {
+                    Coors = new PointLatLng(55.06, 30.06),
+                    LandmarkIndex = 4,
+                    ToRtuOpticalDistanceKm = 8.1308,
+                },
+                Right = new AccidentNeighbour()
+                {
+                    Coors = new PointLatLng(55.082, 30.082),
+                    LandmarkIndex = 6,
+                    ToRtuOpticalDistanceKm = 10.7333,
+                },
             };
             accident0.ShouldBeEquivalentTo(expectation0, doubleAsserionOptions);
 
 
-            var accident1 = accidents[1].Should().BeOfType<AccidentInOldEvent>().Subject;
-            var expectation1 = new AccidentInOldEvent()
+            var accident1 = accidents[1];
+
+            var expectation1 = new AccidentOnTraceV2()
             {
-                BrokenLandmarkIndex = 1,
+                AccidentLandmarkIndex = 1,
                 BrokenRftsEventNumber = 2,
                 OpticalTypeOfAccident = OpticalAccidentType.Reflectance,
-                AccidentDistanceKm = 0.0059,
+                IsAccidentInOldEvent = true,
+                AccidentToRtuOpticalDistanceKm = 0.0059,
                 AccidentSeriousness = FiberState.Minor,
+                AccidentCoors = new PointLatLng(55.002, 30.002),
+                Left = new AccidentNeighbour()
+                {
+                    Coors = new PointLatLng(55.0, 30.0),
+                    LandmarkIndex = 0,
+                    ToRtuOpticalDistanceKm = 0,
+                    Title = @"Some title for RTU",
+                },
+                Right = new AccidentNeighbour()
+                {
+                    Coors = new PointLatLng(55.02, 30.02),
+                    LandmarkIndex = 2,
+                    ToRtuOpticalDistanceKm = 2.2307,
+                },
             };
             accident1.ShouldBeEquivalentTo(expectation1, doubleAsserionOptions);
         }
@@ -80,29 +148,59 @@ namespace Graph.Tests
         [Then(@"Получен список эксидентов для MajorLnode2-MinorRnode1")]
         public void ThenПолученСписокЭксидентовДляMajorLnode_MinorRnode()
         {
-            var accidents = _sut.AccidentsFromSorExtractor.GetAccidents(_sorData, false);
+            var accidents = _sut.AccidentsFromSorExtractor.GetAccidents(_sorData, _trace.TraceId, false);
             accidents.Count.Should().Be(2);
-            var accident0 = accidents[0].Should().BeOfType<AccidentInOldEvent>().Subject;
+            var accident0 = accidents[0];
 
-            var expectation0 = new AccidentInOldEvent()
+            var expectation0 = new AccidentOnTraceV2()
             {
-                BrokenLandmarkIndex = 2,
+                AccidentLandmarkIndex = 5,
                 BrokenRftsEventNumber = 3,
                 OpticalTypeOfAccident = OpticalAccidentType.Loss,
-                AccidentDistanceKm = 10.1503,
+                IsAccidentInOldEvent = true,
+                AccidentToRtuOpticalDistanceKm = 10.1503,
                 AccidentSeriousness = FiberState.Major,
+                AccidentCoors = new PointLatLng(55.08, 30.08),
+                Left = new AccidentNeighbour()
+                {
+                    Coors = new PointLatLng(55.06, 30.06),
+                    LandmarkIndex = 4,
+                    ToRtuOpticalDistanceKm = 8.1308,
+                },
+                Right = new AccidentNeighbour()
+                {
+                    Coors = new PointLatLng(55.082, 30.082),
+                    LandmarkIndex = 6,
+                    ToRtuOpticalDistanceKm = 10.7333,
+                },
             };
             accident0.ShouldBeEquivalentTo(expectation0, doubleAsserionOptions);
 
 
-            var accident1 = accidents[1].Should().BeOfType<AccidentInOldEvent>().Subject;
-            var expectation1 = new AccidentInOldEvent()
+            var accident1 = accidents[1];
+
+            var expectation1 = new AccidentOnTraceV2()
             {
-                BrokenLandmarkIndex = 1,
+                AccidentLandmarkIndex = 1,
                 BrokenRftsEventNumber = 2,
                 OpticalTypeOfAccident = OpticalAccidentType.Reflectance,
-                AccidentDistanceKm = 0.0059,
+                IsAccidentInOldEvent = true,
+                AccidentToRtuOpticalDistanceKm = 0.0059,
                 AccidentSeriousness = FiberState.Minor,
+                AccidentCoors = new PointLatLng(55.002, 30.002),
+                Left = new AccidentNeighbour()
+                {
+                    Coors = new PointLatLng(55.0, 30.0),
+                    LandmarkIndex = 0,
+                    ToRtuOpticalDistanceKm = 0,
+                    Title = @"Some title for RTU",
+                },
+                Right = new AccidentNeighbour()
+                {
+                    Coors = new PointLatLng(55.02, 30.02),
+                    LandmarkIndex = 2,
+                    ToRtuOpticalDistanceKm = 2.2307,
+                },
             };
             accident1.ShouldBeEquivalentTo(expectation1, doubleAsserionOptions);
         }
@@ -110,17 +208,32 @@ namespace Graph.Tests
         [Then(@"Получен список эксидентов для MinorRnode1")]
         public void ThenПолученСписокЭксидентовДляMinorRnode()
         {
-            var accidents = _sut.AccidentsFromSorExtractor.GetAccidents(_sorData, false);
+            var accidents = _sut.AccidentsFromSorExtractor.GetAccidents(_sorData, _trace.TraceId, false);
             accidents.Count.Should().Be(1);
-            var accident0 = accidents[0].Should().BeOfType<AccidentInOldEvent>().Subject;
+            var accident0 = accidents[0];
 
-            var expectation0 = new AccidentInOldEvent()
+            var expectation0 = new AccidentOnTraceV2()
             {
-                BrokenLandmarkIndex = 1,
+                AccidentLandmarkIndex = 1,
                 BrokenRftsEventNumber = 2,
                 OpticalTypeOfAccident = OpticalAccidentType.Reflectance,
-                AccidentDistanceKm = 0.0059,
+                IsAccidentInOldEvent = true,
+                AccidentCoors = new PointLatLng(55.002, 30.002),
+                AccidentToRtuOpticalDistanceKm = 0.0059,
                 AccidentSeriousness = FiberState.Minor,
+                Left = new AccidentNeighbour()
+                {
+                    Coors = new PointLatLng(55.0, 30.0),
+                    LandmarkIndex = 0,
+                    ToRtuOpticalDistanceKm = 0,
+                    Title = @"Some title for RTU",
+                },
+                Right = new AccidentNeighbour()
+                {
+                    Coors = new PointLatLng(55.02, 30.02),
+                    LandmarkIndex = 2,
+                    ToRtuOpticalDistanceKm = 2.2307,
+                },
             };
             accident0.ShouldBeEquivalentTo(expectation0, doubleAsserionOptions);
         }
@@ -128,7 +241,7 @@ namespace Graph.Tests
         [Then(@"Получен список эксидентов для DoubleMinorNode3")]
         public void ThenПолученСписокЭксидентовДляDoubleMinorNode3()
         {
-            var accidents = _sut.AccidentsFromSorExtractor.GetAccidents(_sorData, false);
+            var accidents = _sut.AccidentsFromSorExtractor.GetAccidents(_sorData, _trace.TraceId, false);
             accidents.Count.Should().Be(2);
         }
 

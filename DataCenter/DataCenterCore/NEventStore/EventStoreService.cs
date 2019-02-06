@@ -50,23 +50,10 @@ namespace Iit.Fibertest.DataCenterCore
 
             var events = eventStream.CommittedEvents.Select(x => x.Body).ToList();
 
-            var measurementAddedCount = 0;
-            var accidentCount = 0;
             foreach (var evnt in events)
             {
-                // temporarily
-                if (evnt is MeasurementAdded measurementAdded)
-                {
-                    measurementAddedCount++;
-                    accidentCount += measurementAdded.Accidents.Count;
-                }
-                //
-
                 _eventsOnModelExecutor.Apply(evnt);
             }
-
-            _logFile.AppendLine($"{events.Count} events from base are applied to WriteModel");
-            _logFile.AppendLine($"measurementAddedCount {measurementAddedCount} ;  accidentCount {accidentCount}");
         }
 
         public void Delete()

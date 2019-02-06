@@ -11,6 +11,6 @@ namespace Iit.Fibertest.Graph
         public OtauPortDto OtauPortDto { get; set; }
 
         public FiberState PreviousTraceState { get; set; }
-        public List<AccidentOnTrace> AccidentsInLastMeasurement { get; set; }
+        public List<AccidentOnTraceV2> AccidentsInLastMeasurement { get; set; }
     }
 }

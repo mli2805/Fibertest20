@@ -86,6 +86,27 @@ namespace Iit.Fibertest.Graph
             }
         }
 
+        public static void GetTraceForAccidentDefine(this Model model, Guid traceId,
+            out Rtu rtu, out List<Node> nodes, out List<Equipment> equipments)
+        {
+            var trace = model.Traces.First(t => t.TraceId == traceId);
+            rtu = model.Rtus.First(r => r.Id == trace.RtuId);
+            nodes = new List<Node>();
+            foreach (var traceNodeId in trace.NodeIds)
+            {
+                var node = model.Nodes.First(n => n.NodeId == traceNodeId);
+                if (node.TypeOfLastAddedEquipment != EquipmentType.AdjustmentPoint)
+                    nodes.Add(node);
+            }
+            equipments = new List<Equipment>();
+            foreach (var equipmentId in trace.EquipmentIds.Skip(1)) // 0 - RTU
+            {
+                var equipment = model.Equipments.First(e => e.EquipmentId == equipmentId);
+                if (equipment.Type != EquipmentType.AdjustmentPoint)
+                    equipments.Add(equipment);
+            }
+        }
+
         private static IEnumerable<Fiber> GetNodeFibers(this Model model, Node node)
         {
             foreach (var fiber in model.Fibers)

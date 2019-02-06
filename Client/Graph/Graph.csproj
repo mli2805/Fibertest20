@@ -118,7 +118,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Algorithms\AccidentPlaceLocator.cs" />
+    <Compile Include="Algorithms\AccidentFromMoniResult\AccidentPlaceLocator.cs" />
+    <Compile Include="Algorithms\AccidentFromMoniResult\RftsEventExt.cs" />
     <Compile Include="Algorithms\TraceStateReport\EventReport.cs" />
     <Compile Include="Algorithms\LicenseManager.cs" />
     <Compile Include="Algorithms\SorDataParsingReporter.cs" />
@@ -149,7 +150,7 @@
     <Compile Include="Commands\Node\UpdateAndMoveNode.cs" />
     <Compile Include="DomainEntities\Enums\CountMatch.cs" />
     <Compile Include="DomainEntities\Enums\RftsLevelTypeExt.cs" />
-    <Compile Include="Algorithms\AccidentsFromSorExtractor.cs" />
+    <Compile Include="Algorithms\AccidentFromMoniResult\AccidentsFromSorExtractor.cs" />
     <Compile Include="DomainEntities\Extensions\SorDataExt.cs" />
     <Compile Include="Algorithms\BaseRefToolKit\BaseRefDtoFactory.cs" />
     <Compile Include="Algorithms\BaseRefToolKit\BaseRefLandmarksTool.cs" />
@@ -177,9 +178,6 @@
     <Compile Include="DomainEntities\BaseRef.cs" />
     <Compile Include="DomainEntities\BopNetworkEvent.cs" />
     <Compile Include="Events\ExternalEvents\BopNetworkEventAdded.cs" />
-    <Compile Include="DomainEntities\Breaks\AccidentOnTrace.cs" />
-    <Compile Include="DomainEntities\Breaks\AccidentAsNewEvent.cs" />
-    <Compile Include="DomainEntities\Breaks\AccidentInOldEvent.cs" />
     <Compile Include="DomainEntities\Enums\OpticalAccidentType.cs" />
     <Compile Include="DomainEntities\Extensions\UserExt.cs" />
     <Compile Include="DomainEntities\Measurement.cs" />

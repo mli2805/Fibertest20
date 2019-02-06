@@ -22,6 +22,7 @@ namespace Iit.Fibertest.DataCenterCore
             _writeModel = writeModel;
         }
 
+        // For Migrator only!
         public AddMeasurement CreateCommand(AddMeasurementFromOldBase dto, int sorId)
         {
             var result = new AddMeasurement
@@ -40,7 +41,7 @@ namespace Iit.Fibertest.DataCenterCore
                 StatusChangedByUser = "Migrator",
                 Comment = "",
 
-                //Accidents = ExtractAccidents(dto.SorBytes, dto.TraceId)
+              //  Accidents = ExtractAccidents(dto.SorBytes, dto.TraceId)
             };
             return result;
         }
@@ -106,11 +107,10 @@ namespace Iit.Fibertest.DataCenterCore
             return EventStatus.Unprocessed;
         }
 
-        private List<AccidentOnTrace> ExtractAccidents(byte[] sorBytes, Guid traceId)
+        private List<AccidentOnTraceV2> ExtractAccidents(byte[] sorBytes, Guid traceId)
         {
             var sorData = SorData.FromBytes(sorBytes);
-            var accidents = _globalScope.Resolve<AccidentsFromSorExtractor>().GetAccidents(sorData, false);
-            accidents.ForEach(a => { a.TraceId = traceId; });
+            var accidents = _globalScope.Resolve<AccidentsFromSorExtractor>().GetAccidents(sorData, traceId, false);
             return accidents;
         }
     }

@@ -9,12 +9,10 @@ namespace Iit.Fibertest.Graph
     public  class AccidentsOnTraceToModelApplier
     {
         private readonly Model _model;
-        private readonly AccidentPlaceLocator _accidentPlaceLocator;
 
-        public AccidentsOnTraceToModelApplier(Model model, AccidentPlaceLocator accidentPlaceLocator)
+        public AccidentsOnTraceToModelApplier(Model model)
         {
             _model = model;
-            _accidentPlaceLocator = accidentPlaceLocator;
         }
 
         public  void CleanAccidentPlacesOnTrace(Guid traceId)
@@ -46,38 +44,18 @@ namespace Iit.Fibertest.Graph
                 e.Accidents.ForEach(a => ShowAccidentPlaceOnTrace(a, e.TraceId));
         }
 
-        private void ShowAccidentPlaceOnTrace(AccidentOnTrace accident, Guid traceId)
+        private void ShowAccidentPlaceOnTrace(AccidentOnTraceV2 accident, Guid traceId)
         {
-            switch (accident)
-            {
-                case AccidentAsNewEvent accidentAsNewEvent:
-                    ShowBetweenNodes(accidentAsNewEvent, traceId);
-                    return;
-                case AccidentInOldEvent accidentInOldEvent:
-                    if (accidentInOldEvent.OpticalTypeOfAccident == OpticalAccidentType.LossCoeff)
-                        ShowBadSegment(accidentInOldEvent, traceId);
-                    else
-                        ShowInNode(accidentInOldEvent, traceId);
-                    return;
-                default: return;
-            }
+            if (accident.OpticalTypeOfAccident == OpticalAccidentType.LossCoeff)
+                ShowBadSegment(accident, traceId);
+            else
+                ShowPoint(accident, traceId);
         }
 
-        private void ShowBetweenNodes(AccidentAsNewEvent accidentAsNewEvent, Guid traceId)
+       
+        private void ShowPoint(AccidentOnTraceV2 accidentInPoint, Guid traceId)
         {
-            var accidentGps = _accidentPlaceLocator.GetAccidentGps(accidentAsNewEvent);
-            if (accidentGps == null) return;
-
-            AddAccidentNode((PointLatLng)accidentGps, traceId, accidentAsNewEvent.AccidentSeriousness);
-        }
-
-        private void ShowInNode(AccidentInOldEvent accidentInOldEvent, Guid traceId)
-        {
-            var node = GetNodeByLandmarkIndex(traceId, accidentInOldEvent.BrokenLandmarkIndex);
-
-            if (node == null) return;
-
-            AddAccidentNode(node.Position, traceId, accidentInOldEvent.AccidentSeriousness);
+            AddAccidentNode(accidentInPoint.AccidentCoors, traceId, accidentInPoint.AccidentSeriousness);
         }
 
         private void AddAccidentNode(PointLatLng accidentGps, Guid traceId, FiberState state)
@@ -93,23 +71,15 @@ namespace Iit.Fibertest.Graph
             _model.Nodes.Add(accidentNode);
         }
 
-        private void ShowBadSegment(AccidentInOldEvent accidentInOldEvent, Guid traceId)
+        private void ShowBadSegment(AccidentOnTraceV2 accidentInOldEvent, Guid traceId)
         {
-            var fibers = GetTraceFibersBetweenLandmarks(traceId, accidentInOldEvent.BrokenLandmarkIndex - 1,
-                accidentInOldEvent.BrokenLandmarkIndex);
+            var fibers = GetTraceFibersBetweenLandmarks(traceId, accidentInOldEvent.AccidentLandmarkIndex - 1,
+                accidentInOldEvent.AccidentLandmarkIndex);
 
             foreach (var fiber in fibers)
             {
                 fiber.SetBadSegment(traceId, accidentInOldEvent.AccidentSeriousness);
             }
-        }
-
-
-        private Node GetNodeByLandmarkIndex(Guid traceId, int lmIndex)
-        {
-            var nodesWithoutAdjustmentPoints = _model.GetTraceNodesExcludingAdjustmentPoints(traceId).ToList();
-            var nodeId = nodesWithoutAdjustmentPoints[lmIndex];
-            return _model.Nodes.First(n => n.NodeId == nodeId);
         }
 
         // on graph could be more than one fiber between landmarks

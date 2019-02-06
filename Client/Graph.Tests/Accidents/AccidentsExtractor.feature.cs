@@ -86,24 +86,26 @@ namespace Graph.Tests.Accidents
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 5
+ testRunner.Given("Существует трасса под мониторингом", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 7
  testRunner.When("Пришел Trace4Lm\\BreakBnode2.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 6
- testRunner.Then("Получен список эксидентов для BreakBnode2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 8
+ testRunner.Then("Получен список эксидентов для BreakBnode2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 10
  testRunner.When("Пришел Trace4Lm\\BreakBnode2-MinorRnode1.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 9
- testRunner.Then("Получен список эксидентов для BreakBnode2-MinorRnode1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 11
+ testRunner.Then("Получен список эксидентов для BreakBnode2-MinorRnode1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 13
  testRunner.When("Пришел Trace4Lm\\MajorLnode2-MinorRnode1.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 12
- testRunner.Then("Получен список эксидентов для MajorLnode2-MinorRnode1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 14
+ testRunner.Then("Получен список эксидентов для MajorLnode2-MinorRnode1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 16
  testRunner.When("Пришел Trace4Lm\\MinorRnode1.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 15
- testRunner.Then("Получен список эксидентов для MinorRnode1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 17
+ testRunner.Then("Получен список эксидентов для MinorRnode1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 19
  testRunner.When("Пришел DoubleMinorNode3.sor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 18
+#line 20
  testRunner.Then("Получен список эксидентов для DoubleMinorNode3", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
