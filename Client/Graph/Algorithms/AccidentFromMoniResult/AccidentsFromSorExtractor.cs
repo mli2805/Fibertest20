@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Graph
         private Rtu _rtu;
         private List<Equipment> _equipmentsWithoutPointsAndRtu;
 
-        public AccidentsFromSorExtractor(IMyLog logFile, Model writeModel, 
+        public AccidentsFromSorExtractor(IMyLog logFile, Model writeModel,
             AccidentPlaceLocator accidentPlaceLocator, SorDataParsingReporter sorDataParsingReporter)
         {
             _logFile = logFile;
@@ -124,20 +124,19 @@ namespace Iit.Fibertest.Graph
             {
                 IsAccidentInOldEvent = true,
                 BrokenRftsEventNumber = keyEventIndex + 1, // i - index, i+1 number
-                IsAccidentInLastNode = brokenLandmarkIndex  == _nodesExcludingAdjustmentPoints.Count - 1,
+                IsAccidentInLastNode = brokenLandmarkIndex == _nodesExcludingAdjustmentPoints.Count - 1,
 
                 AccidentLandmarkIndex = brokenLandmarkIndex,
                 AccidentCoors = _nodesExcludingAdjustmentPoints[brokenLandmarkIndex].Position,
                 AccidentToRtuOpticalDistanceKm = _sorData.KeyEventDistanceKm(keyEventIndex),
                 AccidentTitle = GetTitleForLandmark(brokenLandmarkIndex),
 
-                Left = GetNeighbour(brokenLandmarkIndex - 1),
-                Right = GetNeighbour(brokenLandmarkIndex + 1),
+                Left = brokenLandmarkIndex == 0 ? null : GetNeighbour(brokenLandmarkIndex - 1),
+                Right = brokenLandmarkIndex == _sorData.LinkParameters.LandmarksCount - 1 ? null : GetNeighbour(brokenLandmarkIndex + 1),
 
                 AccidentSeriousness = (rftsEvent.EventTypes & RftsEventTypes.IsFiberBreak) != 0 ? FiberState.FiberBreak : level.ConvertToFiberState(),
                 OpticalTypeOfAccident = rftsEvent.GetOpticalTypeOfAccident(),
             };
-
             return accidentInOldEvent;
         }
 
@@ -161,8 +160,8 @@ namespace Iit.Fibertest.Graph
             };
             accidentAsNewEvent.AccidentToLeftOpticalDistanceKm =
                 accidentAsNewEvent.AccidentToRtuOpticalDistanceKm - accidentAsNewEvent.Left.ToRtuOpticalDistanceKm;
-             accidentAsNewEvent.AccidentToRightOpticalDistanceKm =
-                accidentAsNewEvent.Right.ToRtuOpticalDistanceKm - accidentAsNewEvent.AccidentToRtuOpticalDistanceKm;
+            accidentAsNewEvent.AccidentToRightOpticalDistanceKm =
+               accidentAsNewEvent.Right.ToRtuOpticalDistanceKm - accidentAsNewEvent.AccidentToRtuOpticalDistanceKm;
             _accidentPlaceLocator.SetAccidentInNewEventGps(accidentAsNewEvent, _traceId);
             return accidentAsNewEvent;
         }
