@@ -95,7 +95,9 @@ namespace Iit.Fibertest.Client
 
             var highlightingControl = nodeVm.Type == EquipmentType.Rtu ? new HighlightingRtuControl() : (UIElement)new HighlightingControl();
             marker.Shape = highlightingControl;
-            marker.Offset = nodeVm.Type == EquipmentType.Rtu ? new Point(-24, -24) : new Point(-16, -16);
+            marker.Offset = nodeVm.Type == EquipmentType.Rtu || nodeVm.Type == EquipmentType.AccidentPlace 
+                ? new Point(-24, -24) 
+                : new Point(-16, -16);
             MainMap.Markers.Add(marker);
         }
 

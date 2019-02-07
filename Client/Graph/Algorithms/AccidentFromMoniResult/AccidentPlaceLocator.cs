@@ -56,14 +56,25 @@ namespace Iit.Fibertest.Graph
                 trace.NodeIds.IndexOf(leftNodeVm.NodeId) + segmentIndex);
         }
 
+
+        // y = (x * (y2 - y1) + (x2 * y1 - x1 * y2)) / (x2 - x1);
         private PointLatLng GetPointOnBrokenSegment(Trace trace, double procentOfSegmentUptoAccident, int leftNodeIndex)
         {
             var leftNode = _model.Nodes.First(n => n.NodeId == trace.NodeIds[leftNodeIndex]);
             var rightNode = _model.Nodes.First(n => n.NodeId == trace.NodeIds[leftNodeIndex + 1]);
+            var x1 = leftNode.Position.Lat;
+            var y1 = leftNode.Position.Lng;
+            var x2 = rightNode.Position.Lat;
+            var y2 = rightNode.Position.Lng;
 
-            var latBreak = leftNode.Position.Lat + (rightNode.Position.Lat - leftNode.Position.Lat) * procentOfSegmentUptoAccident;
-            var lngBreak = leftNode.Position.Lng + (rightNode.Position.Lng - leftNode.Position.Lng) * procentOfSegmentUptoAccident;
-            return new PointLatLng(latBreak, lngBreak);
+            var x = x1 + (x2 - x1) * procentOfSegmentUptoAccident;
+
+
+           var y = y1 + (y2 - y1) * procentOfSegmentUptoAccident;
+        //    var y = (x * (y2 - y1) + (x2 * y1 - x1 * y2)) / (x2 - x1);
+
+
+            return new PointLatLng(x, y);
         }
 
         private void GetCableReserves(AccidentOnTraceV2 accident, Guid traceId, out double leftReserveM, out double rightReserveM)
