@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Client
                 if (r.LeftId == GMapMarker.Id)
                     r.Points[0] = GMapMarker.Position;
                 if (r.RightId == GMapMarker.Id)
-                    r.Points[1] = GMapMarker.Position;
+                    r.Points[r.Points.Count-1] = GMapMarker.Position;
                 r.RegenerateShape(MainMap);
             }
         }

@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Graph
         {
             return GetDistanceBetweenPointsInDegrees(p1.Lat, p1.Lng, p2.Lat, p2.Lng);
         }
+
         // in meters
         public static double GetDistanceBetweenPointsInDegrees(
             double lat1Degree, double lng1Degree, double lat2Degree, double lng2Degree)

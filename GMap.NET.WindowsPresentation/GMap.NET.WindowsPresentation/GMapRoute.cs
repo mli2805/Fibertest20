@@ -68,23 +68,35 @@ namespace GMap.NET.WindowsPresentation
             {
                var p = Map.FromLatLngToLocal(i);
                var ppp = new System.Windows.Point(p.X - offset.X, p.Y - offset.Y);
-
               
                localPath.Add(ppp);
             }
 
             // если координата более 250 000 , то линия просто не перерисовывается
             // т.к. такая точка уже давно далеко за пределами экрана , то без перерисовки линия смотрит куда надо
-//            if (Math.Abs(localPath[0].X - localPath[1].X) > 124000 
-//                || Math.Abs(localPath[0].Y - localPath[1].Y) > 124000)
+//            if ((Math.Abs(localPath[0].X) > 248000) || (Math.Abs(localPath[1].X) > 248000) || (Math.Abs(localPath[2].X) > 248000)) 
 //            {
 //               File.AppendAllText(@"c:\temp\gmaproute.txt", 
 //                  $"denied  {localPath[0].X} ; {localPath[0].Y} ; {localPath[1].X} ; {localPath[1].Y} ;" + Environment.NewLine);
 //               return;
 //            }
 
-//            File.AppendAllText(@"c:\temp\gmaproute.txt", 
-//               $"reshape  {localPath[0].X} ; {localPath[0].Y} ; {localPath[1].X} ; {localPath[1].Y} ;" + Environment.NewLine);
+            for (int i = 0; i < Points.Count - 1; i++)
+            {
+               File.AppendAllText(@"c:\temp\gmaproute.txt", 
+                  $"{DateTime.Now} reshape ({i}) {localPath[i].X} ; {localPath[i].Y} ; {localPath[i+1].X} ; {localPath[i+1].Y} ;" + Environment.NewLine);
+
+            }
+
+          for (int i = 0; i < Points.Count; i++)
+            {
+                if ((Math.Abs(localPath[i].X) > 248000))
+                {
+                    File.AppendAllText(@"c:\temp\gmaproute.txt", "denied");
+                    return;
+                }
+            }
+         
 
             var shape = map.CreateRoutePath(localPath, Color, StrokeThickness);
 
