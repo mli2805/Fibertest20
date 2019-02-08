@@ -82,7 +82,7 @@ namespace Iit.Fibertest.Client
         private void _eventArrivalNotifier_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             Rows = new ObservableCollection<UserVm>();
-            foreach (var user in _users.Where(u => u.Role > Role.Developer))
+            foreach (var user in _users.Where(u => u.Role >= _currentUser.Role))
                 Rows.Add(new UserVm(user, _zones.First(z => z.ZoneId == user.ZoneId).Title));
         }
 

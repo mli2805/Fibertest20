@@ -173,7 +173,7 @@ namespace Iit.Fibertest.Client
         public void ChangePassword()
         {
             var vm = _globalScope.Resolve<ChangePasswordViewModel>();
-            var user = _readModel.Users.First(u => u.Title == _currentUser.UserName);
+            var user = _readModel.Users.First(u => u.UserId == _currentUser.UserId);
             vm.Initialize(user);
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
