@@ -268,7 +268,7 @@ namespace Iit.Fibertest.Client
             var cmd = new IncludeEquipmentIntoTrace()
                 {
                     TraceId = SelectedTrace.TraceId,
-                    IndexInTrace = SelectedRow.Number,
+                    IndexInTrace = SelectedRow.NumberIncludingAdjustmentPoints,
                     EquipmentId = traceContentChoiceViewModel.GetSelectedEquipmentGuid()
                 };
             await _c2DWcfManager.SendCommandAsObj(cmd);

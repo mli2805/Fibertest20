@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Windows.Controls;
 using System.Windows.Media;
 
@@ -68,15 +69,22 @@ namespace GMap.NET.WindowsPresentation
                var p = Map.FromLatLngToLocal(i);
                var ppp = new System.Windows.Point(p.X - offset.X, p.Y - offset.Y);
 
-               // если координата более 250 000 , то линия просто не перерисовывается
-               // т.к. такая точка уже давно далеко за пределами экрана , то без перерисовки линия смотрит куда надо
-               if (Math.Abs(ppp.X) > 248000 || Math.Abs(ppp.Y) > 248000)
-               {
-                  return;
-               }
-
+              
                localPath.Add(ppp);
             }
+
+            // если координата более 250 000 , то линия просто не перерисовывается
+            // т.к. такая точка уже давно далеко за пределами экрана , то без перерисовки линия смотрит куда надо
+//            if (Math.Abs(localPath[0].X - localPath[1].X) > 124000 
+//                || Math.Abs(localPath[0].Y - localPath[1].Y) > 124000)
+//            {
+//               File.AppendAllText(@"c:\temp\gmaproute.txt", 
+//                  $"denied  {localPath[0].X} ; {localPath[0].Y} ; {localPath[1].X} ; {localPath[1].Y} ;" + Environment.NewLine);
+//               return;
+//            }
+
+//            File.AppendAllText(@"c:\temp\gmaproute.txt", 
+//               $"reshape  {localPath[0].X} ; {localPath[0].Y} ; {localPath[1].X} ; {localPath[1].Y} ;" + Environment.NewLine);
 
             var shape = map.CreateRoutePath(localPath, Color, StrokeThickness);
 

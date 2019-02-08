@@ -38,6 +38,12 @@ namespace Iit.Fibertest.DataCenterCore
             return await AmendBaseRefs(tracesWhichUseThisNode);
         }
 
+        public async Task<string> AmendForTracesFromRtu(Guid rtuId)
+        {
+            var traceFromRtu = _writeModel.Traces.Where(t => t.RtuId == rtuId && t.HasAnyBaseRef).ToList();
+            return await AmendBaseRefs(traceFromRtu);
+        }
+
         public async Task<string> ProcessUpdateEquipment(Guid equipmentId)
         {
             var equipment = _writeModel.Equipments.FirstOrDefault(e => e.EquipmentId == equipmentId);

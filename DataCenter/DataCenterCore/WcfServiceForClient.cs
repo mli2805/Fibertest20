@@ -129,6 +129,8 @@ namespace Iit.Fibertest.DataCenterCore
 
             if (cmd is UpdateAndMoveNode updateAndMoveNode)
                 return await _baseRefRepairmanIntermediary.AmendForTracesWhichUseThisNode(updateAndMoveNode.NodeId);
+            if (cmd is UpdateRtu updateRtu)
+                return await _baseRefRepairmanIntermediary.AmendForTracesFromRtu(updateRtu.RtuId);
             if (cmd is UpdateNode updateNode)
                 return await _baseRefRepairmanIntermediary.AmendForTracesWhichUseThisNode(updateNode.NodeId);
             if (cmd is MoveNode moveNode)
