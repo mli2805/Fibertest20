@@ -128,7 +128,8 @@ namespace Iit.Fibertest.RtuManagement
             return moniResult;
         }
 
-        private MoniResult DoSecondMeasurement(MonitorigPort monitorigPort, bool hasFastPerformed, BaseRefType baseType, bool isOutOfTurnMeasurement = false)
+        private MoniResult DoSecondMeasurement(MonitorigPort monitorigPort, bool hasFastPerformed, 
+            BaseRefType baseType, bool isOutOfTurnMeasurement = false)
         {
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine($"MEAS. {_measurementNumber}, {baseType}, port {monitorigPort.ToStringB(_mainCharon)}");
@@ -138,27 +139,19 @@ namespace Iit.Fibertest.RtuManagement
             if (moniResult != null)
             {
                 monitorigPort.LastPreciseMadeTimestamp = DateTime.Now;
+                monitorigPort.LastTraceState = moniResult.GetAggregatedResult();
+                monitorigPort.IsMonitoringModeChanged = false;
+                monitorigPort.IsConfirmationRequired = false;
 
                 var message = "";
                 if (isOutOfTurnMeasurement)
-                {
                     message = "It's out of turn precise measurement";
-                }
                 else if (monitorigPort.LastTraceState != moniResult.GetAggregatedResult())
-                {
                     message = "Trace state has changed";
-                    monitorigPort.LastTraceState = moniResult.GetAggregatedResult();
-                }
                 else if (monitorigPort.IsMonitoringModeChanged)
-                {
                     message = "Monitoring mode was changed";
-                    monitorigPort.IsMonitoringModeChanged = false;
-                }
                 else if (monitorigPort.IsConfirmationRequired)
-                {
                     message = "Accident confirmation - should be saved";
-                    monitorigPort.IsConfirmationRequired = false;
-                }
                 else if (_preciseSaveTimespan != TimeSpan.Zero && DateTime.Now - monitorigPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
                     message = "It's time to save precise reflectogram";
 
