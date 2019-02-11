@@ -138,11 +138,7 @@ namespace Iit.Fibertest.RtuManagement
 
             if (moniResult != null)
             {
-                monitorigPort.LastPreciseMadeTimestamp = DateTime.Now;
-                monitorigPort.LastTraceState = moniResult.GetAggregatedResult();
-                monitorigPort.IsMonitoringModeChanged = false;
-                monitorigPort.IsConfirmationRequired = false;
-
+              
                 var message = "";
                 if (isOutOfTurnMeasurement)
                     message = "It's out of turn precise measurement";
@@ -154,6 +150,11 @@ namespace Iit.Fibertest.RtuManagement
                     message = "Accident confirmation - should be saved";
                 else if (_preciseSaveTimespan != TimeSpan.Zero && DateTime.Now - monitorigPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
                     message = "It's time to save precise reflectogram";
+
+                monitorigPort.LastPreciseMadeTimestamp = DateTime.Now;
+                monitorigPort.LastTraceState = moniResult.GetAggregatedResult();
+                monitorigPort.IsMonitoringModeChanged = false;
+                monitorigPort.IsConfirmationRequired = false;
 
                 if (message != "")
                 {
@@ -263,23 +264,6 @@ namespace Iit.Fibertest.RtuManagement
             };
             return dto;
         }
-
-//        private void SendByMsmq(MonitoringResultDto dto)
-//        {
-//            var address = _serviceIni.Read(IniSection.ServerMainAddress, IniKey.Ip, "192.168.96.0");
-//            var connectionString = $@"FormatName:DIRECT=TCP:{address}\private$\Fibertest20";
-//            var queue = new MessageQueue(connectionString);
-//
-//            var multiplier = _rtuIni.Read(IniSection.LoadTesting, IniKey.Multiplier, 1);
-//            var pause = _rtuIni.Read(IniSection.LoadTesting, IniKey.Pause, 100);
-//            for (int i = 0; i < multiplier; i++)
-//            {
-//                dto.TimeStamp = DateTime.Now;
-//                Message message = new Message(dto, new BinaryMessageFormatter());
-//                queue.Send(message, MessageQueueTransactionType.Single);
-//                Thread.Sleep(TimeSpan.FromMilliseconds(pause));
-//            }
-//        }
 
         private void SendByMsmq(MonitoringResultDto dto)
         {

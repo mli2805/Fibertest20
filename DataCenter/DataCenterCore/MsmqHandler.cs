@@ -41,7 +41,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         public void Start()
         {
-            // ini file should contain correct local ip (127.0.0.1 or localhost are NOT valid in this case)
             var address = _iniFile.Read(IniSection.ServerMainAddress, IniKey.Ip, "0.0.0.0");
             var connectionString = $@"FormatName:DIRECT=TCP:{address}\private$\Fibertest20";
             var queue = new MessageQueue(connectionString);
@@ -55,7 +54,8 @@ namespace Iit.Fibertest.DataCenterCore
             }
             catch (Exception e)
             {
-                _logFile.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message + Environment.NewLine 
+                       + "ini file should contain correct local IP (127.0.0.1 or localhost are NOT valid in this case)");
                 throw;
             }
         }
