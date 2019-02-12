@@ -76,6 +76,8 @@ namespace Iit.Fibertest.Client
         {
             Model = model;
             _isTraceStateChanged = isTraceStateChanged;
+           // if (Model.Accidents.Count > 0)
+                Model.SelectedAccident = Model.Accidents.FirstOrDefault();
             if (Model.EventStatus > EventStatus.EventButNotAnAccident)
                 InitializeEventStatusCombobox();
         }

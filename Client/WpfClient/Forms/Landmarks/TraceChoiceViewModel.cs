@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -13,8 +15,14 @@ namespace Iit.Fibertest.Client
 
         public void Initialize(List<Trace> traces)
         {
+            IsAnswerPositive = false;
             Rows = traces;
             SelectedTrace = Rows.First();
+        }
+
+        protected override void OnViewLoaded(object view)
+        {
+            DisplayName = Resources.SID_Select_trace;
         }
 
         public void Ok()
@@ -25,7 +33,6 @@ namespace Iit.Fibertest.Client
 
         public void Cancel()
         {
-            IsAnswerPositive = false;
             TryClose();
         }
 

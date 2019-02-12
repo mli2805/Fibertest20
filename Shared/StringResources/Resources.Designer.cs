@@ -5501,6 +5501,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Select trace.
+        /// </summary>
+        public static string SID_Select_trace {
+            get {
+                return ResourceManager.GetString("SID_Select_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select traces for equipment.
         /// </summary>
         public static string SID_Select_traces_for_equipment {

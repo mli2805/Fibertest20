@@ -2462,4 +2462,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Turn_alarm_on" xml:space="preserve">
 		<value>Включить сигнализацию</value>
 	</data>
+	<data name="SID_Select_trace" xml:space="preserve">
+		<value>Выберите трассу</value>
+	</data>
 </root>

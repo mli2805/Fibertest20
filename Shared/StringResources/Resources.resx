@@ -2462,4 +2462,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Turn_alarm_on" xml:space="preserve">
     <value>Turn alarm on</value>
   </data>
+	<data name="SID_Select_trace" xml:space="preserve">
+    <value>Select trace</value>
+  </data>
 </root>
