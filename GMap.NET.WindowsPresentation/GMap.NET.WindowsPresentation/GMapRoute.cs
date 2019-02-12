@@ -66,17 +66,16 @@ namespace GMap.NET.WindowsPresentation
                 var localPath = new List<Point>(Points.Count) { new Point(0, 0) };
                 var offset = Map.FromLatLngToLocal(Points[0]);
 
-                var p = Map.FromLatLngToLocal(Points[1]);
+                GPoint p = Map.FromLatLngToLocal(Points[1]);
                 var ppp = new Point(p.X - offset.X, p.Y - offset.Y);
 
                 localPath.Add(ppp);
-//
-//                for (int i = 0; i < Points.Count - 1; i++)
-//                {
-//                    File.AppendAllText(@"c:\temp\gmaproute.txt",
-//                       $"{DateTime.Now} reshape ({i}) {localPath[i].X} ; {localPath[i].Y} ; {localPath[i + 1].X} ; {localPath[i + 1].Y} ;" + Environment.NewLine);
-//
-//                }
+
+                for (int i = 0; i < Points.Count - 1; i++)
+                {
+                    File.AppendAllText(@"c:\temp\gmaproute.txt",
+                       $"{DateTime.Now} reshape ({i}) {localPath[i].X} ; {localPath[i].Y} ; {localPath[i + 1].X} ; {localPath[i + 1].Y} ;" + Environment.NewLine);
+                }
 
 
                 var shape = map.CreateRoutePath(localPath, Color, StrokeThickness);
@@ -89,6 +88,8 @@ namespace GMap.NET.WindowsPresentation
             else
                 Shape = null;
         }
+
+        // y = (x * (y2 - y1) + (x2 * y1 - x1 * y2)) / (x2 - x1);
 
     }
 }

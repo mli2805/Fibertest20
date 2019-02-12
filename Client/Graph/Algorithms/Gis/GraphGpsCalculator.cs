@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Graph
                 var equipment2 = _model.Equipments.FirstOrDefault(e => e.EquipmentId == trace.EquipmentIds[i + 1]);
 
                 result = result +
-                         GpsCalculator.GetDistanceBetweenPointLatLng(node1.Position, node2.Position) +
+                         GisLabCalculator.GetDistanceBetweenPointLatLng(node1.Position, node2.Position) +
                          GetReserveFromTheLeft(equipment1) + GetReserveFromTheRight(equipment2);
             }
             return result / 1000;
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.Graph
 
         public int CalculateDistanceBetweenNodesMm(Node leftNode, Equipment leftEquipment, Node rightNode, Equipment rightEquipment)
         {
-            var gpsDistance = (int)GpsCalculator.GetDistanceBetweenPointLatLng(leftNode.Position, rightNode.Position);
+            var gpsDistance = (int)GisLabCalculator.GetDistanceBetweenPointLatLng(leftNode.Position, rightNode.Position);
 
             return (int)((gpsDistance + GetReserveFromTheLeft(leftEquipment) + GetReserveFromTheRight(rightEquipment)) * 1000);
         }
@@ -67,7 +67,7 @@ namespace Iit.Fibertest.Graph
             var fiber = _model.Fibers.First(f => f.FiberId == fiberId);
             node1 = _model.Nodes.First(n => n.NodeId == fiber.NodeId1);
             node2 = _model.Nodes.First(n => n.NodeId == fiber.NodeId2);
-            var result = GpsCalculator.GetDistanceBetweenPointLatLng(node1.Position, node2.Position);
+            var result = GisLabCalculator.GetDistanceBetweenPointLatLng(node1.Position, node2.Position);
 
             var fId = fiberId;
             while (node1.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint)
@@ -75,7 +75,7 @@ namespace Iit.Fibertest.Graph
                 fiber = _model.GetAnotherFiberOfAdjustmentPoint(node1, fId);
                 var previousNode1 = node1;
                 node1 = _model.Nodes.First(n => n.NodeId == fiber.NodeId1);
-                result = result + GpsCalculator.GetDistanceBetweenPointLatLng(node1.Position, previousNode1.Position);
+                result = result + GisLabCalculator.GetDistanceBetweenPointLatLng(node1.Position, previousNode1.Position);
                 fId = fiber.FiberId;
             }
 
@@ -85,7 +85,7 @@ namespace Iit.Fibertest.Graph
                 fiber = _model.GetAnotherFiberOfAdjustmentPoint(node2, fId);
                 var previousNode2 = node2;
                 node2 = _model.Nodes.First(n => n.NodeId == fiber.NodeId2);
-                result = result + GpsCalculator.GetDistanceBetweenPointLatLng(node2.Position, previousNode2.Position);
+                result = result + GisLabCalculator.GetDistanceBetweenPointLatLng(node2.Position, previousNode2.Position);
                 fId = fiber.FiberId;
             }
 

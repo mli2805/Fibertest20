@@ -86,8 +86,8 @@ namespace Iit.Fibertest.Graph
 
                 landmarks[i].Comment = landmarkTitle; // utf8, TODO reflect.exe should understand this
                 landmarks[i].Code = model.EquipArray[i].Type.ToLandmarkCode();
-                landmarks[i].GpsLatitude = GpsCalculator.GpsInSorFormat(model.NodeArray[i].Position.Lat);
-                landmarks[i].GpsLongitude = GpsCalculator.GpsInSorFormat(model.NodeArray[i].Position.Lng);
+                landmarks[i].GpsLatitude = GisLabCalculator.GpsInSorFormat(model.NodeArray[i].Position.Lat);
+                landmarks[i].GpsLongitude = GisLabCalculator.GpsInSorFormat(model.NodeArray[i].Position.Lng);
             }
         }
         private double GetRatioBaseRefToGraphAroundEmptyNode(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model, int emptyNodeIndex)
