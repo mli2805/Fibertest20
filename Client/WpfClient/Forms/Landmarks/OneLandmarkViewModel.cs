@@ -22,6 +22,7 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly GraphReadModel _graphReadModel;
+        private readonly Model _readModel;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly TabulatorViewModel _tabulatorViewModel;
 
@@ -169,7 +170,8 @@ namespace Iit.Fibertest.Client
 
         public OneLandmarkViewModel(CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu, CurrentGis currentGis,
             GpsInputSmallViewModel gpsInputSmallViewModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
-            GraphReadModel graphReadModel, ReflectogramManager reflectogramManager, TabulatorViewModel tabulatorViewModel)
+            GraphReadModel graphReadModel, Model readModel,
+            ReflectogramManager reflectogramManager, TabulatorViewModel tabulatorViewModel)
         {
             HasPrivilevies = currentUser.Role <= Role.Root;
             IsEditEnabled = true;
@@ -178,6 +180,7 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _graphReadModel = graphReadModel;
+            _readModel = readModel;
             _reflectogramManager = reflectogramManager;
             _tabulatorViewModel = tabulatorViewModel;
             GpsInputSmallViewModel = gpsInputSmallViewModel;
@@ -215,12 +218,16 @@ namespace Iit.Fibertest.Client
             if (_landmarkBeforeChanges.EquipmentTitle != SelectedLandmark.EquipmentTitle ||
                 _landmarkBeforeChanges.EquipmentType != SelectedLandmark.EquipmentType)
             {
+                var equipment = _readModel.Equipments.First(e => e.EquipmentId == SelectedLandmark.EquipmentId);
                 return await _c2DWcfManager.SendCommandAsObj(
                     new UpdateEquipment
                     {
                         EquipmentId = SelectedLandmark.EquipmentId,
                         Title = SelectedLandmark.EquipmentTitle,
-                        Type = SelectedLandmark.EquipmentType
+                        Type = SelectedLandmark.EquipmentType,
+                        CableReserveLeft = equipment.CableReserveLeft,
+                        CableReserveRight = equipment.CableReserveRight,
+                        Comment = equipment.Comment,
                     });
             }
             return null;
