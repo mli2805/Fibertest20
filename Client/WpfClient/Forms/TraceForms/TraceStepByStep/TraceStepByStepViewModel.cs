@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly GraphReadModel _graphReadModel;
         private readonly Model _readModel;
+        private readonly StepChoiceViewModel _stepChoiceViewModel;
         private readonly IWindowManager _windowManager;
         private NodeVm _currentHighlightedNode;
         public ObservableCollection<StepModel> Steps { get; set; }
@@ -34,11 +35,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceStepByStepViewModel(ILifetimeScope globalScope, GraphReadModel graphReadModel, Model readModel, IWindowManager windowManager)
+        public TraceStepByStepViewModel(ILifetimeScope globalScope, IWindowManager windowManager, 
+            GraphReadModel graphReadModel, Model readModel, StepChoiceViewModel stepChoiceViewModel)
         {
             _globalScope = globalScope;
             _graphReadModel = graphReadModel;
             _readModel = readModel;
+            _stepChoiceViewModel = stepChoiceViewModel;
             _windowManager = windowManager;
         }
 
@@ -131,16 +134,14 @@ namespace Iit.Fibertest.Client
         {
             _currentHighlightedNode.IsHighlighted = false;
 
-            var vm = new StepChoiceViewModel();
-
-            if (!vm.Initialize(neighbours.Select(e => e.Item1).ToList(), previousNodeId))
+            if (!_stepChoiceViewModel.Initialize(neighbours.Select(e => e.Item1).ToList(), previousNodeId))
                 return false;
-            if (_windowManager.ShowDialogWithAssignedOwner(vm) != true)
+            if (_windowManager.ShowDialogWithAssignedOwner(_stepChoiceViewModel) != true)
             {
                 _currentHighlightedNode.IsHighlighted = true;
                 return false;
             }
-            var selectedNode = vm.GetSelected();
+            var selectedNode = _stepChoiceViewModel.GetSelected();
             var selectedTuple = neighbours.First(n => n.Item1.Id == selectedNode.Id);
 
             var equipmentId = _graphReadModel.ChooseEquipmentForNode(selectedNode.Id, false, out var titleStr);

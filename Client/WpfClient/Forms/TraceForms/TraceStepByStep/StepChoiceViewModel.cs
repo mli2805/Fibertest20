@@ -8,9 +8,15 @@ namespace Iit.Fibertest.Client
 {
     public class StepChoiceViewModel : Screen
     {
+        private readonly GraphReadModel _graphReadModel;
         public List<RadioButtonModel> Models { get; set; }
         private List<NodeVm> _neighbours;
         private NodeVm _selectedNode;
+
+        public StepChoiceViewModel(GraphReadModel graphReadModel)
+        {
+            _graphReadModel = graphReadModel;
+        }
 
         protected override void OnViewLoaded(object view)
         {
@@ -50,7 +56,10 @@ namespace Iit.Fibertest.Client
             nodeWithChanges.IsHighlighted = modelWithChanges.IsChecked;
 
             if (modelWithChanges.IsChecked)
+            {
                 _selectedNode = nodeWithChanges;
+                _graphReadModel.MainMap.Position = _selectedNode.Position;
+            }
         }
 
         public NodeVm GetSelected()
