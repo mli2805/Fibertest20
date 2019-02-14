@@ -64,10 +64,13 @@ namespace Iit.Fibertest.Client
 
         private void ShowBadSegment(AccidentOnTraceV2 accidentInOldEvent, Guid traceId)
         {
-            var fiberVm = _model.GetFiberByLandmarkIndexes(traceId, accidentInOldEvent.AccidentLandmarkIndex - 1,
-                accidentInOldEvent.AccidentLandmarkIndex);
+            var fiberVms = _model.GetFibersBetweenLandmarks(traceId, accidentInOldEvent.Left.LandmarkIndex,
+                accidentInOldEvent.Right.LandmarkIndex).ToList();
 
-            fiberVm.SetBadSegment(traceId, accidentInOldEvent.AccidentSeriousness);
+            foreach (var fiberVm in fiberVms)
+            {
+                fiberVm.SetBadSegment(traceId, accidentInOldEvent.AccidentSeriousness);
+            }
         }
 
     }

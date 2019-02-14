@@ -73,8 +73,8 @@ namespace Iit.Fibertest.Graph
 
         private void ShowBadSegment(AccidentOnTraceV2 accidentInOldEvent, Guid traceId)
         {
-            var fibers = GetTraceFibersBetweenLandmarks(traceId, accidentInOldEvent.AccidentLandmarkIndex - 1,
-                accidentInOldEvent.AccidentLandmarkIndex);
+            var fibers = GetTraceFibersBetweenLandmarks(traceId, accidentInOldEvent.AccidentLandmarkIndex,
+                accidentInOldEvent.AccidentLandmarkIndex + 1);
 
             foreach (var fiber in fibers)
             {

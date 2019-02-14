@@ -38,6 +38,22 @@ namespace Iit.Fibertest.Client
                 traceNodesWithoutAdjustmentPoints[rightLandmarkIndex]);
         }
 
+        public static IEnumerable<FiberVm> GetFibersBetweenLandmarks(this GraphReadModel model, Guid traceId,
+            int leftLandmarkIndex, int rightLandmarkIndex)
+        {
+            int counter = 0;
+            var trace = model.ReadModel.Traces.First(t => t.TraceId == traceId);
+            for (int i = 0; i < trace.NodeIds.Count; i++)
+            {
+                if (counter == leftLandmarkIndex)
+                    yield return model.Data.Fibers.First(f => f.Id == trace.FiberIds[i]);
+
+                var nodeVm = model.Data.Nodes.FirstOrDefault(n => n.Id == trace.NodeIds[i]);
+                if (nodeVm != null && nodeVm.Type != EquipmentType.AdjustmentPoint) counter++;
+
+            }
+        }
+
 
         private static FiberVm GetFiberByNodes(this GraphReadModel model, Guid node1, Guid node2)
         {
@@ -124,7 +140,7 @@ namespace Iit.Fibertest.Client
                     nodeVmsIndexes.Add(i);
             }
 
-            for (int i = nodeVmsIndexes.Count-1; i>= 0 ; i--)
+            for (int i = nodeVmsIndexes.Count - 1; i >= 0; i--)
             {
                 model.Data.Nodes.RemoveAt(nodeVmsIndexes[i]);
             }
