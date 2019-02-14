@@ -85,8 +85,8 @@ namespace Iit.Fibertest.Client
                         }: ",
                 TopLeft = accidentInOldEvent.Left.Title,
                 TopRight = accidentInOldEvent.Right.Title,
-                Bottom0 = $@"RTU <- {accidentInOldEvent.Left.ToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
-                Bottom4 = $@"RTU <- {accidentInOldEvent.AccidentToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
+                Bottom1 = $@"RTU <- {accidentInOldEvent.Left.ToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
+                Bottom3 = $@"RTU <- {accidentInOldEvent.Right.ToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
                 Scheme = new Uri(@"pack://application:,,,/Resources/AccidentSchemes/BadSegment.png"),
                 Position = accidentInOldEvent.Left.Coors,
             };

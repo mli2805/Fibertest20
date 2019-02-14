@@ -71,11 +71,11 @@ namespace GMap.NET.WindowsPresentation
 
                 localPath.Add(ppp);
 
-                for (int i = 0; i < Points.Count - 1; i++)
-                {
-                    File.AppendAllText(@"c:\temp\gmaproute.txt",
-                       $"{DateTime.Now} reshape ({i}) {localPath[i].X} ; {localPath[i].Y} ; {localPath[i + 1].X} ; {localPath[i + 1].Y} ;" + Environment.NewLine);
-                }
+//                for (int i = 0; i < Points.Count - 1; i++)
+//                {
+//                    File.AppendAllText(@"c:\temp\gmaproute.txt",
+//                       $"{DateTime.Now} reshape ({i}) {localPath[i].X} ; {localPath[i].Y} ; {localPath[i + 1].X} ; {localPath[i + 1].Y} ;" + Environment.NewLine);
+//                }
 
 
                 var shape = map.CreateRoutePath(localPath, Color, StrokeThickness);

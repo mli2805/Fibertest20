@@ -75,19 +75,19 @@ namespace Iit.Fibertest.Client
 #if DEBUG
             if (string.IsNullOrEmpty(UserName))
 //                UserName = @"superclient";
-//                UserName = @"developer";
+                UserName = @"developer";
 //                            UserName = @"operator";
 //                            UserName = @"op1";
             //                UserName = @"supervisor";
-                            UserName = @"root";
+//                            UserName = @"root";
 //                UserName = @"Brigadir";
             if (string.IsNullOrEmpty(Password))
 //                Password = @"superclient";
-//                Password = @"developer";
+                Password = @"developer";
 //                            Password = @"operator";
 //                            Password = @"1";
             //                Password = @"supervisor";
-                            Password = @"root";
+//                            Password = @"root";
 //                Passwod = @"1";
 #endif
             Status = Resources.SID_Client_registraion_is_performing;

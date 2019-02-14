@@ -120,10 +120,31 @@ namespace Iit.Fibertest.Graph
                 return BuildAccidentAsNewEvent(rftsEvent, keyEventIndex, level);
             }
 
-            var accidentInOldEvent = new AccidentOnTraceV2
+            if (rftsEvent.GetOpticalTypeOfAccident() == OpticalAccidentType.LossCoeff)
+            {
+                return new AccidentOnTraceV2()
+                {
+                    IsAccidentInOldEvent = true,
+                    BrokenRftsEventNumber = keyEventIndex,
+                    IsAccidentInLastNode = brokenLandmarkIndex == _nodesExcludingAdjustmentPoints.Count - 1, // always false
+
+                    AccidentLandmarkIndex = brokenLandmarkIndex,
+                    AccidentCoors = _nodesExcludingAdjustmentPoints[brokenLandmarkIndex].Position,
+                    AccidentToRtuOpticalDistanceKm = _sorData.KeyEventDistanceKm(keyEventIndex),
+                    AccidentTitle = GetTitleForLandmark(brokenLandmarkIndex),
+
+                    Left = GetNeighbour(brokenLandmarkIndex),
+                    Right = GetNeighbour(brokenLandmarkIndex + 1),
+             
+                    AccidentSeriousness = level.ConvertToFiberState(),
+                    OpticalTypeOfAccident = rftsEvent.GetOpticalTypeOfAccident(),
+                };
+            }
+
+            return new AccidentOnTraceV2
             {
                 IsAccidentInOldEvent = true,
-                BrokenRftsEventNumber = keyEventIndex + 1, // i - index, i+1 number
+                BrokenRftsEventNumber = keyEventIndex + 1, 
                 IsAccidentInLastNode = brokenLandmarkIndex == _nodesExcludingAdjustmentPoints.Count - 1,
 
                 AccidentLandmarkIndex = brokenLandmarkIndex,
@@ -137,7 +158,6 @@ namespace Iit.Fibertest.Graph
                 AccidentSeriousness = (rftsEvent.EventTypes & RftsEventTypes.IsFiberBreak) != 0 ? FiberState.FiberBreak : level.ConvertToFiberState(),
                 OpticalTypeOfAccident = rftsEvent.GetOpticalTypeOfAccident(),
             };
-            return accidentInOldEvent;
         }
 
         private AccidentOnTraceV2 BuildAccidentAsNewEvent(RftsEvent rftsEvent, int keyEventIndex, RftsLevelType level)
