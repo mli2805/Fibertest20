@@ -7,6 +7,7 @@ namespace Iit.Fibertest.Client
 {
     public class AccidentLineModelFactory
     {
+        private const string LeftArrow = "\U0001f860";
         private readonly CurrentGis _currentGis;
 
         public AccidentLineModelFactory(CurrentGis currentGis)
@@ -35,7 +36,7 @@ namespace Iit.Fibertest.Client
                             accidentInOldEvent.OpticalTypeOfAccident.ToLetter()
                         }) {Resources.SID_in_the_node}:",
                 TopCenter = accidentInOldEvent.AccidentTitle,
-                TopLeft = $@"RTU <- {accidentInOldEvent.AccidentToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
+                TopLeft = $@"RTU {LeftArrow} {accidentInOldEvent.AccidentToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
                 Bottom2 = _currentGis.IsGisOn
                     ? accidentInOldEvent.AccidentCoors.ToDetailedString(_currentGis.GpsInputMode)
                     : "",
@@ -59,7 +60,7 @@ namespace Iit.Fibertest.Client
                                      accidentAsNewEvent.OpticalTypeOfAccident.ToLetter()
                                  }) {Resources.SID_between_nodes}:",
                 TopLeft = accidentAsNewEvent.Left.Title,
-                TopCenter = $@"RTU <- {accidentAsNewEvent.AccidentToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
+                TopCenter = $@"RTU {LeftArrow} {accidentAsNewEvent.AccidentToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
                 TopRight = accidentAsNewEvent.Right.Title,
                 Bottom1 = $@"{accidentAsNewEvent.AccidentToLeftOpticalDistanceKm:0.000} {Resources.SID_km}",
                 Bottom2 = _currentGis.IsGisOn
@@ -85,8 +86,8 @@ namespace Iit.Fibertest.Client
                         }: ",
                 TopLeft = accidentInOldEvent.Left.Title,
                 TopRight = accidentInOldEvent.Right.Title,
-                Bottom1 = $@"RTU <- {accidentInOldEvent.Left.ToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
-                Bottom3 = $@"RTU <- {accidentInOldEvent.Right.ToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
+                Bottom1 = $@"RTU {LeftArrow} {accidentInOldEvent.Left.ToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
+                Bottom3 = $@"RTU {LeftArrow} {accidentInOldEvent.Right.ToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
                 Scheme = new Uri(@"pack://application:,,,/Resources/AccidentSchemes/BadSegment.png"),
                 Position = accidentInOldEvent.Left.Coors,
             };

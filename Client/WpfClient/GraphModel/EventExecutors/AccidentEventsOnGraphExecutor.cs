@@ -8,15 +8,15 @@ namespace Iit.Fibertest.Client
 {
     public class AccidentEventsOnGraphExecutor
     {
-        private readonly GraphReadModel _model;
+        private readonly GraphReadModel _graphReadModel;
         private readonly Model _readModel;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly CurrentUser _currentUser;
 
-        public AccidentEventsOnGraphExecutor(GraphReadModel model, Model readModel, CurrentlyHiddenRtu currentlyHiddenRtu,
+        public AccidentEventsOnGraphExecutor(GraphReadModel graphReadModel, Model readModel, CurrentlyHiddenRtu currentlyHiddenRtu,
             CurrentUser currentUser)
         {
-            _model = model;
+            _graphReadModel = graphReadModel;
             _readModel = readModel;
             _currentlyHiddenRtu = currentlyHiddenRtu;
             _currentUser = currentUser;
@@ -29,9 +29,9 @@ namespace Iit.Fibertest.Client
                                     !trace.ZoneIds.Contains(_currentUser.ZoneId)) return;
 
             if (_currentlyHiddenRtu.Collection.Contains(trace.RtuId)) return;
-            _model.ChangeTraceColor(evnt.TraceId, evnt.TraceState);
+            _graphReadModel.ChangeTraceColor(evnt.TraceId, evnt.TraceState);
 
-            _model.CleanAccidentPlacesOnTrace(evnt.TraceId); // accidents on trace could change, so old should be cleaned and new drawn
+            _graphReadModel.CleanAccidentPlacesOnTrace(evnt.TraceId); // accidents on trace could change, so old should be cleaned and new drawn
             if (evnt.TraceState != FiberState.Ok && evnt.TraceState != FiberState.NoFiber)
                 evnt.Accidents.ForEach(a => ShowAccidentPlaceOnTrace(a, evnt.TraceId));
         }
@@ -59,16 +59,17 @@ namespace Iit.Fibertest.Client
                 AccidentOnTraceVmId = traceId,
                 State = state,
             };
-            _model.Data.Nodes.Add(accidentNode);
+            _graphReadModel.Data.Nodes.Add(accidentNode);
         }
 
         private void ShowBadSegment(AccidentOnTraceV2 accidentInOldEvent, Guid traceId)
         {
-            var fiberVms = _model.GetFibersBetweenLandmarks(traceId, accidentInOldEvent.Left.LandmarkIndex,
-                accidentInOldEvent.Right.LandmarkIndex).ToList();
+            var fibers = _readModel.GetTraceFibersBetweenLandmarks(traceId, accidentInOldEvent.Left.LandmarkIndex,
+                accidentInOldEvent.Right.LandmarkIndex);
 
-            foreach (var fiberVm in fiberVms)
+            foreach (var fiberId in fibers)
             {
+                var fiberVm = _graphReadModel.Data.Fibers.First(f => f.Id == fiberId);
                 fiberVm.SetBadSegment(traceId, accidentInOldEvent.AccidentSeriousness);
             }
         }

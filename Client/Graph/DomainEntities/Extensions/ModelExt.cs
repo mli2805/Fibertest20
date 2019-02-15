@@ -70,6 +70,28 @@ namespace Iit.Fibertest.Graph
             }
         }
 
+        // on graph could be more than one fiber between landmarks
+        // so we should exclude AdjustmentPoints to find nodes corresponding to landmarks
+        // and return all fibers between those nodes
+        public static IEnumerable<Guid> GetTraceFibersBetweenLandmarks(this Model model, Guid traceId, int leftLmIndex, int rightLmIndex)
+        {
+            var trace = model.Traces.First(t => t.TraceId == traceId);
+            var nodesWithoutAdjustmentPoints = model.GetTraceNodesExcludingAdjustmentPoints(traceId).ToList();
+            var leftNodeId = nodesWithoutAdjustmentPoints[leftLmIndex];
+            var rightNodeId = nodesWithoutAdjustmentPoints[rightLmIndex];
+
+            var leftNodeIndexInFull = trace.NodeIds.IndexOf(leftNodeId);
+            var rightNodeIndexInFull = trace.NodeIds.IndexOf(rightNodeId);
+
+            for (int i = leftNodeIndexInFull; i < rightNodeIndexInFull; i++)
+            {
+                yield return model.Fibers.First(
+                    f => f.NodeId1 == trace.NodeIds[i] && f.NodeId2 == trace.NodeIds[i + 1] ||
+                         f.NodeId1 == trace.NodeIds[i + 1] && f.NodeId2 == trace.NodeIds[i]).FiberId;
+            }
+
+        }
+
         public static IEnumerable<Equipment> GetTraceEquipments(this Model model, Trace trace)
         {
             return trace.EquipmentIds.Skip(1).Select(i => model.Equipments.Single(eq => eq.EquipmentId == i));

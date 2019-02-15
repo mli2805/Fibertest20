@@ -95,9 +95,9 @@
                                         <Image Grid.Row="1" Grid.RowSpan="3" Grid.Column="1" Grid.ColumnSpan="5" Source="{Binding Scheme}"/>
 
                                         <TextBlock Grid.Row="3" Grid.Column="1" Text="{Binding Bottom0}" HorizontalAlignment="Left"/>
-                                        <TextBlock Grid.Row="3" Grid.Column="2" Text="{Binding Bottom1}" HorizontalAlignment="Left"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="2" Text="{Binding Bottom1}" HorizontalAlignment="Left"/>
                                         <TextBlock Grid.Row="3" Grid.Column="2" Grid.ColumnSpan="3" Text="{Binding Bottom2}" HorizontalAlignment="Center"/>
-                                        <TextBlock Grid.Row="3" Grid.Column="4" Text="{Binding Bottom3}" HorizontalAlignment="Right"/>
+                                        <TextBlock Grid.Row="3" Grid.Column="3" Grid.ColumnSpan="2" Text="{Binding Bottom3}" HorizontalAlignment="Right"/>
                                         <TextBlock Grid.Row="3" Grid.Column="5" Text="{Binding Bottom4}" HorizontalAlignment="Right"/>
 
                                     </Grid>
