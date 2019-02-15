@@ -78,12 +78,12 @@ namespace GMap.NET.WindowsPresentation
 //                }
 
 
-                var shape = map.CreateRoutePath(localPath, Color, StrokeThickness);
+//                var shape = map.CreateRoutePath(localPath, Color, StrokeThickness);
 
-                if (Shape is Path)
-                    (Shape as Path).Data = shape.Data;
-                else
-                    Shape = shape;
+//                if (Shape is Path)
+//                    (Shape as Path).Data = shape.Data;
+//                else
+                    Shape = new Line(){ X1 = 0, Y1 = 0, X2 = ppp.X, Y2 = ppp.Y, Stroke = Color, StrokeThickness = StrokeThickness};
             }
             else
                 Shape = null;
