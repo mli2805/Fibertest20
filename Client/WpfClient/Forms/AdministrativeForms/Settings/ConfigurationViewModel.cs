@@ -10,11 +10,8 @@ namespace Iit.Fibertest.Client
     public class ConfigurationViewModel : Screen
     {
         private readonly IniFile _iniFile;
-        private readonly GraphReadModel _graphReadModel;
-        private readonly CurrentGis _currentGis;
         private readonly SoundManager _soundManager;
         public List<string> SupportedLanguages { get; set; } = new List<string>(){@"ru-RU", @"en-US"};
-        public List<string> MapProviders { get; set; } = new List<string>(){@"OpenStreetMap", @"GoogleMap", @"YandexMap"};
 
         public bool IsEnabled { get; set; }
 
@@ -54,31 +51,16 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private string _selectedProvider;
-        public string SelectedProvider
-        {
-            get => _selectedProvider;
-            set
-            {
-                _selectedProvider = value; 
-                _iniFile.Write(IniSection.Map, IniKey.GMapProvider, _selectedProvider);
-                if (!_currentGis.IsGisOn)
-                    _graphReadModel.MainMap.MapProvider = GMapProviderExt.Get(_selectedProvider);
-            }
-        }
+   
 
-        public ConfigurationViewModel(IniFile iniFile, GraphReadModel graphReadModel, CurrentGis currentGis,
-            CurrentUser currentUser, SoundManager soundManager)
+        public ConfigurationViewModel(IniFile iniFile, CurrentUser currentUser, SoundManager soundManager)
         {
             _iniFile = iniFile;
-            _graphReadModel = graphReadModel;
-            _currentGis = currentGis;
             _soundManager = soundManager;
             IsEnabled = currentUser.Role < Role.Superclient;
 
             _isGraphVisibleOnStart = _iniFile.Read(IniSection.Miscellaneous, IniKey.IsGraphVisibleOnStart, false);
             SelectedLanguage = _iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
-            _selectedProvider = _iniFile.Read(IniSection.Map, IniKey.GMapProvider, MapProviders[0]);
             SoundButtonContent = Resources.SID_Turn_alarm_on;
             _isSoundOn = false;
         }

@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using Caliburn.Micro;
 using GMap.NET.MapProviders;
 using Iit.Fibertest.Dto;
@@ -32,10 +33,37 @@ namespace Iit.Fibertest.Client
 
         public string GisModeMessage => IsInWithoutMapMode ? Resources.SID_In__Without_Map__mode : Resources.SID_Map_is_displayed;
 
-        public bool IsRoot { get;set; }
+        public bool IsRoot { get; set; }
         public Visibility SecondBoxVisibility { get; set; }
 
+        private Visibility _thirdBoxVisibility;
+        public Visibility ThirdBoxVisibility
+        {
+            get { return _thirdBoxVisibility; }
+            set
+            {
+                if (value == _thirdBoxVisibility) return;
+                _thirdBoxVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public List<string> MapProviders { get; set; } = new List<string>() { @"OpenStreetMap", @"GoogleMap", @"YandexMap" };
+        private string _selectedProvider;
+        public string SelectedProvider
+        {
+            get => _selectedProvider;
+            set
+            {
+                _selectedProvider = value;
+                _iniFile.Write(IniSection.Map, IniKey.GMapProvider, _selectedProvider);
+                if (_currentGis.IsGisOn)
+                    _graphReadModel.MainMap.MapProvider = GMapProviderExt.Get(_selectedProvider);
+            }
+        }
+
         private bool _isMapTemporarilyVisibleInThisClient;
+
         public bool IsMapTemporarilyVisibleInThisClient
         {
             get => _isMapTemporarilyVisibleInThisClient;
@@ -43,15 +71,10 @@ namespace Iit.Fibertest.Client
             {
                 _isMapTemporarilyVisibleInThisClient = value;
                 _currentGis.IsRootTempGisOn = value;
-                if (value)
-                {
-                    var provider = _iniFile.Read(IniSection.Map, IniKey.GMapProvider, @"OpenStreetMap");
-                    _graphReadModel.MainMap.MapProvider = GMapProviderExt.Get(provider);
-                }
-                else
-                {
-                    _graphReadModel.MainMap.MapProvider = GMapProviders.EmptyProvider;
-                }
+                _graphReadModel.MainMap.MapProvider = value 
+                    ? GMapProviderExt.Get(_iniFile.Read(IniSection.Map, IniKey.GMapProvider, @"OpenStreetMap")) 
+                    : GMapProviders.EmptyProvider;
+                ThirdBoxVisibility = _currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
             }
         }
 
@@ -67,6 +90,8 @@ namespace Iit.Fibertest.Client
             _graphReadModel = graphReadModel;
             IsRoot = currentUser.Role <= Role.Root;
             SecondBoxVisibility = currentUser.Role <= Role.Root ? Visibility.Visible : Visibility.Collapsed;
+            _selectedProvider = _iniFile.Read(IniSection.Map, IniKey.GMapProvider, MapProviders[0]);
+            ThirdBoxVisibility = currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
         }
 
         protected override void OnViewLoaded(object view)
@@ -92,6 +117,7 @@ namespace Iit.Fibertest.Client
                     var provider = _iniFile.Read(IniSection.Map, IniKey.GMapProvider, @"OpenStreetMap");
                     _graphReadModel.MainMap.MapProvider = GMapProviderExt.Get(provider);
                 }
+                ThirdBoxVisibility = _currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
             }
             else
             {

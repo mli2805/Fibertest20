@@ -63,33 +63,21 @@ namespace GMap.NET.WindowsPresentation
             {
                 Position = Points[0];
 
-                var localPath = new List<Point>(Points.Count) { new Point(0, 0) };
+//                var localPath = new List<Point>(Points.Count) { new Point(0, 0) };
                 var offset = Map.FromLatLngToLocal(Points[0]);
-
                 GPoint p = Map.FromLatLngToLocal(Points[1]);
                 var ppp = new Point(p.X - offset.X, p.Y - offset.Y);
 
-                localPath.Add(ppp);
+//                localPath.Add(ppp);
 
-//                for (int i = 0; i < Points.Count - 1; i++)
-//                {
-//                    File.AppendAllText(@"c:\temp\gmaproute.txt",
-//                       $"{DateTime.Now} reshape ({i}) {localPath[i].X} ; {localPath[i].Y} ; {localPath[i + 1].X} ; {localPath[i + 1].Y} ;" + Environment.NewLine);
-//                }
+//                File.AppendAllText(@"c:\temp\gmaproute.txt",
+//                   $"{DateTime.Now}    0 ; 0 ; {ppp.X} ; {ppp.Y} ;" + Environment.NewLine);
 
-
-//                var shape = map.CreateRoutePath(localPath, Color, StrokeThickness);
-
-//                if (Shape is Path)
-//                    (Shape as Path).Data = shape.Data;
-//                else
-                    Shape = new Line(){ X1 = 0, Y1 = 0, X2 = ppp.X, Y2 = ppp.Y, Stroke = Color, StrokeThickness = StrokeThickness};
+                Shape = new Line() { X1 = 0, Y1 = 0, X2 = ppp.X, Y2 = ppp.Y, Stroke = Color, StrokeThickness = StrokeThickness };
             }
             else
                 Shape = null;
         }
-
-        // y = (x * (y2 - y1) + (x2 * y1 - x1 * y2)) / (x2 - x1);
 
     }
 }

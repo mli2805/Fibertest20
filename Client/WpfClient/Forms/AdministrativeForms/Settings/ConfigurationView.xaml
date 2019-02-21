@@ -18,11 +18,7 @@
                       Content="{x:Static stringResources:Resources.SID_Show_all_graph_on_application_start}" Margin="5"/>
             <Separator></Separator>
             <TextBlock Text="{x:Static stringResources:Resources.SID_The_changes_will_be_applied_after_application_restart}" Margin="5"/>
-            <StackPanel Orientation="Horizontal" Margin="5, 30, 5,5">
-                <ComboBox ItemsSource="{Binding MapProviders}" SelectedItem="{Binding SelectedProvider}" Width="120"/>
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Choose_map_provider}" Margin="15,2"/>
-            </StackPanel>
-            <Button Height="23" Width="200" Content="{Binding SoundButtonContent}" HorizontalAlignment="Left" Margin="5,10" Name="TestSound"/>
+          <Button Height="23" Width="200" Content="{Binding SoundButtonContent}" HorizontalAlignment="Left" Margin="5,10" Name="TestSound"/>
         </StackPanel>
 
     </DockPanel>
