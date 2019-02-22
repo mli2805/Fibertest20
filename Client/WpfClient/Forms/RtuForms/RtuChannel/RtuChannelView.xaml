@@ -6,7 +6,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        SizeToContent="Height" Width="540" WindowStartupLocation="CenterOwner" 
+        SizeToContent="Height" Width="540" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:RtuChannelViewModel}">
      <Window.Resources>
         <SolidColorBrush x:Key="TransparentBrush" Color="Transparent"/>
