@@ -1,11 +1,13 @@
 using System;
 using System.Windows.Media;
 using System.Windows.Threading;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.WpfCommonViews
 {
     public class SoundManager
     {
+        private readonly IMyLog _logFile;
         private MediaPlayer _alertPlayer;
         private DispatcherTimer _alertTimer;
 
@@ -13,8 +15,9 @@ namespace Iit.Fibertest.WpfCommonViews
 
         private int _alertCounter;
 
-        public SoundManager()
+        public SoundManager(IMyLog logFile)
         {
+            _logFile = logFile;
             InitializeAlertPlayer();
             InitializeOkPlayer();
         }
@@ -41,8 +44,10 @@ namespace Iit.Fibertest.WpfCommonViews
         public void StartAlert()
         {
             _alertCounter++;
+            _logFile.AppendLine($"StartAlert invocation, _alertCounter++ = {_alertCounter}");
             if (_alertCounter == 1)
             {
+                _logFile.AppendLine($"_alertCounter == {_alertCounter} ! PlayAlert!");
                 PlayAlert();
                 _alertTimer.IsEnabled = true;
             }
@@ -51,8 +56,10 @@ namespace Iit.Fibertest.WpfCommonViews
         public void StopAlert()
         {
             _alertCounter--;
+            _logFile.AppendLine($"StartAlert invocation, _alertCounter-- = {_alertCounter}");
             if (_alertCounter == 0)
             {
+                _logFile.AppendLine($"_alertCounter == {_alertCounter} ! Stop the music!");
                 _alertTimer.IsEnabled = false;
                 _alertPlayer.Stop();
             }
@@ -66,6 +73,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public void PlayOk()
         {
+            _logFile.AppendLine("PlayOk invocation");
             _okPlayer.Position = TimeSpan.Zero;
             _okPlayer.Play();
         }

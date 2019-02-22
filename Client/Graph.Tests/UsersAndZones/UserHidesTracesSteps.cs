@@ -164,7 +164,5 @@ namespace Graph.Tests
             Thread.Sleep(1000);
             _sut.Poller.EventSourcingTick().Wait();
         }
-
-       
     }
 }
