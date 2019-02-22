@@ -119,7 +119,7 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<RtuStateModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<BopStateViewsManager>().InstancePerLifetimeScope();
-            builder.RegisterType<RtuChannelViewModel>().InstancePerLifetimeScope();
+            builder.RegisterType<RtuChannelViewModel>();
             builder.RegisterType<RtuChannelViewsManager>().InstancePerLifetimeScope();
             builder.RegisterType<RtuStateViewsManager>().InstancePerLifetimeScope();
             builder.RegisterType<AccidentLineModelFactory>().InstancePerLifetimeScope();
