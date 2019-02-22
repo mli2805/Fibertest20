@@ -56,7 +56,7 @@ namespace Iit.Fibertest.WpfCommonViews
         public void StopAlert()
         {
             _alertCounter--;
-            _logFile.AppendLine($"StartAlert invocation, _alertCounter-- = {_alertCounter}");
+            _logFile.AppendLine($"StopAlert invocation, _alertCounter-- = {_alertCounter}");
             if (_alertCounter == 0)
             {
                 _logFile.AppendLine($"_alertCounter == {_alertCounter} ! Stop the music!");
