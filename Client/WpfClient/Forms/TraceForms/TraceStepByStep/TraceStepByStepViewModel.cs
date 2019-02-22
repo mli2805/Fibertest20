@@ -35,7 +35,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceStepByStepViewModel(ILifetimeScope globalScope, IWindowManager windowManager, 
+        public TraceStepByStepViewModel(ILifetimeScope globalScope, IWindowManager windowManager,
             GraphReadModel graphReadModel, Model readModel, StepChoiceViewModel stepChoiceViewModel)
         {
             _globalScope = globalScope;
@@ -165,15 +165,16 @@ namespace Iit.Fibertest.Client
         private bool JustStep(NodeVm nextNode, List<FiberVm> fiberVmsToNode)
         {
             _currentHighlightedNode.IsHighlighted = false;
+            _graphReadModel.MainMap.Position = nextNode.Position;
             var equipmentId = _graphReadModel.ChooseEquipmentForNode(nextNode.Id, false, out var titleStr);
             if (equipmentId == Guid.Empty)
             {
                 _currentHighlightedNode.IsHighlighted = true;
+                _graphReadModel.MainMap.Position = _currentHighlightedNode.Position;
                 return false;
             }
 
             Steps.Add(new StepModel() { NodeId = nextNode.Id, Title = titleStr, EquipmentId = equipmentId, FiberVms = fiberVmsToNode });
-            _graphReadModel.MainMap.Position = nextNode.Position;
             _currentHighlightedNode = _graphReadModel.Data.Nodes.First(n => n.Id == nextNode.Id);
             _currentHighlightedNode.IsHighlighted = true;
 
@@ -261,6 +262,6 @@ namespace Iit.Fibertest.Client
             TryClose();
         }
 
-       
+
     }
 }
