@@ -29,6 +29,7 @@ namespace Iit.Fibertest.Client
         public Visibility ReserveChannelVisibility { get; set; }
 
 
+        private bool _isSoundForThisVmInstanceOn;
         private bool _isSoundButtonEnabled;
         public bool IsSoundButtonEnabled
         {
@@ -94,6 +95,7 @@ namespace Iit.Fibertest.Client
                 _soundManager.PlayOk();
             else
             {
+                _isSoundForThisVmInstanceOn = true;
                 _soundManager.StartAlert();
                 IsSoundButtonEnabled = true;
             }
@@ -101,16 +103,17 @@ namespace Iit.Fibertest.Client
 
         public void TurnSoundOff()
         {
-            if (IsSoundButtonEnabled)
+            if (_isSoundForThisVmInstanceOn)
             {
                 _soundManager.StopAlert();
+                _isSoundForThisVmInstanceOn = false;
                 IsSoundButtonEnabled = false;
             }
         }
 
         public override void CanClose(Action<bool> callback)
         {
-            if (IsSoundButtonEnabled)
+            if (_isSoundForThisVmInstanceOn)
                 _soundManager.StopAlert();
             IsOpen = false;
             callback(true);

@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Client
         public Brush BopStateBrush { get; set; }
         public bool IsOk { get; set; }
 
+        private bool _isSoundForThisVmInstanceOn;
         private bool _isSoundButtonEnabled;
         public bool IsSoundButtonEnabled
         {
@@ -74,8 +75,9 @@ namespace Iit.Fibertest.Client
 
         public void TurnSoundOff()
         {
-            if (IsSoundButtonEnabled)
+            if (_isSoundForThisVmInstanceOn)
             {
+                _isSoundForThisVmInstanceOn = false;
                 _soundManager.StopAlert();
                 IsSoundButtonEnabled = false;
             }
@@ -83,7 +85,7 @@ namespace Iit.Fibertest.Client
 
         public override void CanClose(Action<bool> callback)
         {
-            if (IsSoundButtonEnabled)
+            if (_isSoundForThisVmInstanceOn)
                 _soundManager.StopAlert();
             IsOpen = false;
             callback(true);
