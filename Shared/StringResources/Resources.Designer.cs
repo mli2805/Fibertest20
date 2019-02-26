@@ -115,6 +115,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to   ; Reserve channel : {0} - {1}.
+        /// </summary>
+        public static string SID_____Reserve_channel____0_____1_ {
+            get {
+                return ResourceManager.GetString("SID_____Reserve_channel____0_____1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  ; Main channel : {0}.
         /// </summary>
         public static string SID____Main_channel____0_ {
@@ -3529,6 +3538,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Main channel : {0} - {1}.
+        /// </summary>
+        public static string SID_Main_channel____0_____1_ {
+            get {
+                return ResourceManager.GetString("SID_Main_channel____0_____1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Main channel is broken!.
         /// </summary>
         public static string SID_Main_channel_is_broken {
@@ -3885,15 +3903,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Monitoring_system_components {
             get {
                 return ResourceManager.GetString("SID_Monitoring_system_components", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Monitoring system components .
-        /// </summary>
-        public static string SID_Monitoring_system_components_ {
-            get {
-                return ResourceManager.GetString("SID_Monitoring_system_components_", resourceCulture);
             }
         }
         

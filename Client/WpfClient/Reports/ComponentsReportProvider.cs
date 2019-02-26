@@ -74,7 +74,9 @@ namespace Iit.Fibertest.Client
         {
             Paragraph footer = new Paragraph();
             var reportNameInFooter = string.Format(Resources.SID_Components_of_monitoring_system__0_, _server.ServerTitle);
-            footer.AddFormattedText($@"Fibertest 2.0 (c) {reportNameInFooter}. {DateTime.Today:d}");
+            var timestamp = $@"{DateTime.Now:g}";
+            timestamp = timestamp.PadLeft(15, '\u00A0');
+            footer.AddFormattedText($@"Fibertest 2.0 (c) {reportNameInFooter}. {timestamp}");
             var pageNumber = Resources.SID_Page_;
             pageNumber = pageNumber.PadLeft(20, '\u00A0');
             footer.AddFormattedText(pageNumber);
@@ -90,15 +92,17 @@ namespace Iit.Fibertest.Client
         private void ProcessRtu(Section section, Rtu rtu)
         {
             var paragraph = section.AddParagraph();
-            var mode = rtu.MonitoringState == MonitoringState.On ? "AUTO" : "MANUAL";
-            var availability = rtu.IsAvailable ? "AVAILABLE" : "NOT AVAILABLE";
+            var mode = rtu.MonitoringState == MonitoringState.On ? Resources.SID_Automatic : Resources.SID_Manual;
+            var availability = rtu.IsAvailable ? Resources.SID_Available : Resources.SID_Not_available;
             var serial = string.Format(Resources.SID_s_n__0_, rtu.Serial);
             var portCount = string.Format(Resources.SID_ports____0_, rtu.PortCount);
             var software = string.Format(Resources.SID_software____0_, rtu.Version);
             paragraph.AddFormattedText($@"{rtu.Title} ; {serial} ; {portCount} ; {software} ; {mode} ; {availability}");
-            var mainChannel = string.Format(Resources.SID____Main_channel____0_, rtu.MainChannel.ToStringA());
+            var mainChannel = string.Format(Resources.SID_Main_channel____0_____1_, 
+                rtu.MainChannel.ToStringA(), rtu.MainChannelState.ToLocalizedString());
             var reserveChannel = rtu.IsReserveChannelSet
-                ? string.Format(Resources.SID____Reserve_channel____0_, rtu.ReserveChannel.ToStringA()) : "";
+                ? string.Format(Resources.SID_____Reserve_channel____0_____1_, 
+                    rtu.ReserveChannel.ToStringA(), rtu.ReserveChannelState.ToLocalizedString()) : "";
             paragraph.AddFormattedText($@"{mainChannel}{reserveChannel}");
 
             paragraph.Format.Font.Size = 12;
@@ -123,7 +127,7 @@ namespace Iit.Fibertest.Client
             paragraph.Format.Font.Bold = true;
             var port = Resources.SID_Port;
             var serial = string.Format(Resources.SID_s_n__0_, bop.Serial);
-            var state = bop.IsOk ? "AVAILABLE" : "NOT AVAILABLE";
+            var state = bop.IsOk ? Resources.SID_Ok : Resources.SID_Broken;
             paragraph.AddFormattedText($@"{port} {bop.MasterPort} ; {bop.NetAddress.ToStringA()} ; {serial} ; {state}");
             paragraph.Format.SpaceBefore = Unit.FromCentimeter(0.2);
             paragraph.Format.FirstLineIndent = Unit.FromCentimeter(1);
@@ -139,13 +143,22 @@ namespace Iit.Fibertest.Client
         {
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             var paragraph = section.AddParagraph();
+            if (trace.IsIncludedInMonitoringCycle)
+            {
+                var imageFilename = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\Reports\CheckMark.png");
+                paragraph.AddImage(imageFilename);
+            }
+
+            var monitoringIndent = trace.IsIncludedInMonitoringCycle ? 0 : 0.7;
+          
             paragraph.Format.Font.Size = 12;
             var otauPortNumber = otauPort != 0 ? $@"{otauPort}-" : "";
             var portNumber = trace.Port != -1 ? string.Format(Resources.SID_port__0__1____, otauPortNumber, trace.Port) : "";
 
-            paragraph.AddFormattedText($@"{portNumber}{trace.Title} ; {trace.State.ToLocalizedString()}");
+            paragraph.AddFormattedText($@" {portNumber}{trace.Title} ; {trace.State.ToLocalizedString()}");
             paragraph.Format.SpaceBefore = Unit.FromCentimeter(0.2);
-            paragraph.Format.FirstLineIndent = Unit.FromCentimeter(otauPort == 0 ? 1 : 1.5);
+            var indentation = otauPort == 0 ? 1 : 1.5;
+            paragraph.Format.FirstLineIndent = Unit.FromCentimeter(indentation + monitoringIndent);
         }
     }
 }

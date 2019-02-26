@@ -26,14 +26,7 @@ namespace Iit.Fibertest.Client
         public void CreateReport()
         {
             Report = _accidentsReportProvider.Create();
-        }
-    }
-
-    public class AccidentsReportProvider
-    {
-        public PdfDocument Create()
-        {
-            return new PdfDocument();
+            TryClose();
         }
     }
 }

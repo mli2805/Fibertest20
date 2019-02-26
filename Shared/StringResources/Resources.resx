@@ -2480,12 +2480,6 @@ RTU is initializing right now!</value>
 	<data name="SID_software____0_" xml:space="preserve">
     <value>software : {0}</value>
   </data>
-	<data name="SID____Reserve_channel____0_" xml:space="preserve">
-    <value> ; Reserve channel : {0}</value>
-  </data>
-	<data name="SID____Main_channel____0_" xml:space="preserve">
-    <value> ; Main channel : {0}</value>
-  </data>
 	<data name="SID_port__0__1____" xml:space="preserve">
     <value>port {0}{1}  ; </value>
   </data>
@@ -2500,5 +2494,11 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Accidents_report" xml:space="preserve">
     <value>Accidents report</value>
+  </data>
+	<data name="SID_Main_channel____0_____1_" xml:space="preserve">
+    <value>  ; Main channel : {0} - {1}</value>
+  </data>
+	<data name="SID_____Reserve_channel____0_____1_" xml:space="preserve">
+    <value>  ; Reserve channel : {0} - {1}</value>
   </data>
 </root>

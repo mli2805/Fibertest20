@@ -346,6 +346,7 @@
     <Compile Include="GraphModel\Visibility\GraphVisibilityLevelItem.cs" />
     <Compile Include="Logic\PathFinder.cs" />
     <Compile Include="Logic\RtuRemover.cs" />
+    <Compile Include="Reports\AccidentsReportProvider.cs" />
     <Compile Include="Reports\AccidentsReportView.xaml.cs">
       <DependentUpon>AccidentsReportView.xaml</DependentUpon>
     </Compile>
@@ -989,7 +990,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\LeftPanel\GreenSquare.png" />
-    <Resource Include="Resources\LeftPanel\RedSquare.png" />
+    <Resource Include="Resources\LeftPanel\RedSquare.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\LeftPanel\BlueSquare.png" />
@@ -1098,9 +1101,12 @@
     <Resource Include="Resources\Buttons\Extinguish.png" />
     <Resource Include="FtClient6sizes.ico" />
     <Resource Include="Resources\Buttons\CloseChildren.png" />
-    <Resource Include="Resources\Reports\header.png">
+    <Content Include="Resources\Reports\header.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
+    </Content>
+    <Content Include="Resources\Reports\CheckMark.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Reports\TraceStateReport.html">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
