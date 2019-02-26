@@ -2465,4 +2465,40 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Select_trace" xml:space="preserve">
 		<value>Выберите трассу</value>
 	</data>
+	<data name="SID_Page_" xml:space="preserve">
+		<value>Страница </value>
+	</data>
+	<data name="SID_Components_of_monitoring_system__0_" xml:space="preserve">
+		<value>Состав системы мониторинга "{0}"</value>
+	</data>
+	<data name="SID_s_n__0_" xml:space="preserve">
+		<value>№ {0}</value>
+	</data>
+	<data name="SID_ports____0_" xml:space="preserve">
+		<value>портов : {0}</value>
+	</data>
+	<data name="SID_software____0_" xml:space="preserve">
+		<value>версия ПО : {0}</value>
+	</data>
+	<data name="SID____Reserve_channel____0_" xml:space="preserve">
+		<value> ; Резервный канал : {0}</value>
+	</data>
+	<data name="SID____Main_channel____0_" xml:space="preserve">
+		<value> ; Основной канал : {0}</value>
+	</data>
+	<data name="SID_port__0__1____" xml:space="preserve">
+		<value>порт {0}{1}  ; </value>
+	</data>
+	<data name="SID_Server_____0_____1_____2_" xml:space="preserve">
+		<value>Сервер :  "{0}" ; {1} ; {2}</value>
+	</data>
+	<data name="SID_Reports" xml:space="preserve">
+		<value>Отчеты</value>
+	</data>
+	<data name="SID_Monitoring_system_components" xml:space="preserve">
+		<value>Состав системы мониторинга</value>
+	</data>
+	<data name="SID_Accidents_report" xml:space="preserve">
+		<value>Отчет об авариях</value>
+	</data>
 </root>

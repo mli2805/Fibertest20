@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WpfCommonViews;
+using PdfSharp.Pdf;
 
 namespace Iit.Fibertest.Client
 {
@@ -12,12 +14,17 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
+        private readonly ComponentsReportProvider _componentsReportProvider;
+        private readonly AccidentsReportViewModel _accidentsReportViewModel;
 
 
-        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager)
+        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager,
+            ComponentsReportProvider componentsReportProvider, AccidentsReportViewModel accidentsReportViewModel)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
+            _componentsReportProvider = componentsReportProvider;
+            _accidentsReportViewModel = accidentsReportViewModel;
         }
 
         public void LaunchResponsibilityZonesView()
@@ -38,6 +45,45 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
+
+        public void LaunchComponentsReport()
+        {
+            var report = _componentsReportProvider.Create();
+            try
+            {
+                var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
+                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+
+                string filename = Path.Combine(folder, @"MonitoringSystemComponentsReport.pdf");
+                report.Save(filename);
+                Process.Start(filename);
+            }
+            catch (Exception e)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, e.Message);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+            }
+        }
+
+        public void LaunchAccidentsReport()
+        {
+            _windowManager.ShowDialogWithAssignedOwner(_accidentsReportViewModel);
+            if (_accidentsReportViewModel.Report == null) return;
+
+            try
+            {
+                string filename = @"AccidentsReport.pdf";
+                _accidentsReportViewModel.Report.Save(filename);
+                Process.Start(filename);
+            }
+            catch (Exception e)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, e.Message);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+            }
+        }
+
+
         public void LaunchSmtpSettingsView()
         {
             var vm = _globalScope.Resolve<SmtpSettingsViewModel>();
@@ -55,6 +101,7 @@ namespace Iit.Fibertest.Client
             var vm = _globalScope.Resolve<ConfigurationViewModel>();
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
+
         public void LaunchGisSettingsView()
         {
             var vm = _globalScope.Resolve<GisSettingsViewModel>();
@@ -70,15 +117,16 @@ namespace Iit.Fibertest.Client
 
         public void ShowUsersGuide()
         {
-            var usersGuide = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\UserGuide\FIBERTEST20ClientUGru.pdf"));
+            var usersGuide = Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
+                @"..\UserGuide\FIBERTEST20ClientUGru.pdf"));
             if (!File.Exists(usersGuide))
             {
                 var mb = new MyMessageBoxViewModel(MessageType.Error,
-                    new List<string>() { Resources.SID_Cannot_find_file_with_user_s_guide_, "", usersGuide }, 0);
+                    new List<string> {Resources.SID_Cannot_find_file_with_user_s_guide_, "", usersGuide}, 0);
                 _windowManager.ShowDialogWithAssignedOwner(mb);
                 return;
             }
-            System.Diagnostics.Process.Start(usersGuide);
+            Process.Start(usersGuide);
         }
 
         public void LaunchLicenseView()

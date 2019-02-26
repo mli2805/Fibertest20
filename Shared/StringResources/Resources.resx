@@ -2465,4 +2465,40 @@ RTU is initializing right now!</value>
 	<data name="SID_Select_trace" xml:space="preserve">
     <value>Select trace</value>
   </data>
+	<data name="SID_Page_" xml:space="preserve">
+    <value>Page </value>
+  </data>
+	<data name="SID_Components_of_monitoring_system__0_" xml:space="preserve">
+    <value>Components of monitoring system "{0}"</value>
+  </data>
+	<data name="SID_s_n__0_" xml:space="preserve">
+    <value>s/n {0}</value>
+  </data>
+	<data name="SID_ports____0_" xml:space="preserve">
+    <value>ports : {0}</value>
+  </data>
+	<data name="SID_software____0_" xml:space="preserve">
+    <value>software : {0}</value>
+  </data>
+	<data name="SID____Reserve_channel____0_" xml:space="preserve">
+    <value> ; Reserve channel : {0}</value>
+  </data>
+	<data name="SID____Main_channel____0_" xml:space="preserve">
+    <value> ; Main channel : {0}</value>
+  </data>
+	<data name="SID_port__0__1____" xml:space="preserve">
+    <value>port {0}{1}  ; </value>
+  </data>
+	<data name="SID_Server_____0_____1_____2_" xml:space="preserve">
+    <value>Server :  "{0}" ; {1} ; {2}</value>
+  </data>
+	<data name="SID_Reports" xml:space="preserve">
+    <value>Reports</value>
+  </data>
+	<data name="SID_Monitoring_system_components" xml:space="preserve">
+    <value>Monitoring system components</value>
+  </data>
+	<data name="SID_Accidents_report" xml:space="preserve">
+    <value>Accidents report</value>
+  </data>
 </root>

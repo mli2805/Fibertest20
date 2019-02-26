@@ -115,6 +115,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to  ; Main channel : {0}.
+        /// </summary>
+        public static string SID____Main_channel____0_ {
+            get {
+                return ResourceManager.GetString("SID____Main_channel____0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to   &lt;noname node&gt;.
         /// </summary>
         public static string SID____noname_node_ {
@@ -147,6 +156,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID____previous_ {
             get {
                 return ResourceManager.GetString("SID____previous_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to  ; Reserve channel : {0}.
+        /// </summary>
+        public static string SID____Reserve_channel____0_ {
+            get {
+                return ResourceManager.GetString("SID____Reserve_channel____0_", resourceCulture);
             }
         }
         
@@ -455,6 +473,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Accidents_place {
             get {
                 return ResourceManager.GetString("SID_Accidents_place", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Accidents report.
+        /// </summary>
+        public static string SID_Accidents_report {
+            get {
+                return ResourceManager.GetString("SID_Accidents_report", resourceCulture);
             }
         }
         
@@ -1670,6 +1697,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Comparison_end__ {
             get {
                 return ResourceManager.GetString("SID_Comparison_end__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Components of monitoring system &quot;{0}&quot;.
+        /// </summary>
+        public static string SID_Components_of_monitoring_system__0_ {
+            get {
+                return ResourceManager.GetString("SID_Components_of_monitoring_system__0_", resourceCulture);
             }
         }
         
@@ -3844,6 +3880,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Monitoring system components.
+        /// </summary>
+        public static string SID_Monitoring_system_components {
+            get {
+                return ResourceManager.GetString("SID_Monitoring_system_components", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Monitoring system components .
+        /// </summary>
+        public static string SID_Monitoring_system_components_ {
+            get {
+                return ResourceManager.GetString("SID_Monitoring_system_components_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to More.
         /// </summary>
         public static string SID_More {
@@ -4466,6 +4520,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Page .
+        /// </summary>
+        public static string SID_Page_ {
+            get {
+                return ResourceManager.GetString("SID_Page_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Parameters.
         /// </summary>
         public static string SID_Parameters {
@@ -4628,6 +4691,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to port {0}{1}  ; .
+        /// </summary>
+        public static string SID_port__0__1____ {
+            get {
+                return ResourceManager.GetString("SID_port__0__1____", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Port count.
         /// </summary>
         public static string SID_Port_count {
@@ -4669,6 +4741,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Port1 {
             get {
                 return ResourceManager.GetString("SID_Port1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ports : {0}.
+        /// </summary>
+        public static string SID_ports____0_ {
+            get {
+                return ResourceManager.GetString("SID_ports____0_", resourceCulture);
             }
         }
         
@@ -4930,6 +5011,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Report {
             get {
                 return ResourceManager.GetString("SID_Report", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reports.
+        /// </summary>
+        public static string SID_Reports {
+            get {
+                return ResourceManager.GetString("SID_Reports", resourceCulture);
             }
         }
         
@@ -5321,6 +5411,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to s/n {0}.
+        /// </summary>
+        public static string SID_s_n__0_ {
+            get {
+                return ResourceManager.GetString("SID_s_n__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save.
         /// </summary>
         public static string SID_Save {
@@ -5601,6 +5700,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Server :  &quot;{0}&quot; ; {1} ; {2}.
+        /// </summary>
+        public static string SID_Server_____0_____1_____2_ {
+            get {
+                return ResourceManager.GetString("SID_Server_____0_____1_____2_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Server connection lost!.
         /// </summary>
         public static string SID_Server_connection_lost_ {
@@ -5831,6 +5939,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_SMS_settings {
             get {
                 return ResourceManager.GetString("SID_SMS_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to software : {0}.
+        /// </summary>
+        public static string SID_software____0_ {
+            get {
+                return ResourceManager.GetString("SID_software____0_", resourceCulture);
             }
         }
         
