@@ -223,8 +223,8 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<MapContextMenuProvider>().InstancePerLifetimeScope();
 
             builder.RegisterType<ComponentsReportProvider>().InstancePerLifetimeScope();
-            builder.RegisterType<AccidentsReportProvider>().InstancePerLifetimeScope();
-            builder.RegisterType<AccidentsReportViewModel>().InstancePerLifetimeScope();
+            builder.RegisterType<OpticalEventsReportProvider>().InstancePerLifetimeScope();
+            builder.RegisterType<OpticalEventsReportViewModel>().InstancePerLifetimeScope();
 
         }
     }

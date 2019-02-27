@@ -346,12 +346,20 @@
     <Compile Include="GraphModel\Visibility\GraphVisibilityLevelItem.cs" />
     <Compile Include="Logic\PathFinder.cs" />
     <Compile Include="Logic\RtuRemover.cs" />
-    <Compile Include="Reports\AccidentsReportProvider.cs" />
-    <Compile Include="Reports\AccidentsReportView.xaml.cs">
-      <DependentUpon>AccidentsReportView.xaml</DependentUpon>
+    <Compile Include="Reports\OpticalEventsSelection\EventStatusView.xaml.cs">
+      <DependentUpon>EventStatusView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reports\AccidentsReportViewModel.cs" />
+    <Compile Include="Reports\OpticalEventsSelection\EventStatusViewModel.cs" />
+    <Compile Include="Reports\OpticalEventsReportProvider.cs" />
+    <Compile Include="Reports\OpticalEventsSelection\OpticalEventsReportView.xaml.cs">
+      <DependentUpon>OpticalEventsReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\OpticalEventsSelection\OpticalEventsReportViewModel.cs" />
     <Compile Include="Reports\ComponentsReportProvider.cs" />
+    <Compile Include="Reports\OpticalEventsSelection\TraceStateSelectionView.xaml.cs">
+      <DependentUpon>TraceStateSelectionView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\OpticalEventsSelection\TraceStateSelectionViewModel.cs" />
     <Compile Include="WcfClient\ClientWcfService.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementView.xaml.cs">
       <DependentUpon>ClientMeasurementView.xaml</DependentUpon>
@@ -893,7 +901,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Reports\AccidentsReportView.xaml">
+    <Page Include="Reports\OpticalEventsSelection\EventStatusView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\OpticalEventsSelection\OpticalEventsReportView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\OpticalEventsSelection\TraceStateSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1101,6 +1117,9 @@
     <Resource Include="Resources\Buttons\Extinguish.png" />
     <Resource Include="FtClient6sizes.ico" />
     <Resource Include="Resources\Buttons\CloseChildren.png" />
+    <Content Include="Resources\Reports\header-landscape.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Resources\Reports\header.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

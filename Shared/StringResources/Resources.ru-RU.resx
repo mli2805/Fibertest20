@@ -2492,13 +2492,31 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Monitoring_system_components" xml:space="preserve">
 		<value>Состав системы мониторинга</value>
 	</data>
-	<data name="SID_Accidents_report" xml:space="preserve">
-		<value>Отчет об авариях</value>
-	</data>
 	<data name="SID_Main_channel____0_____1_" xml:space="preserve">
 		<value> ; Основной канал : {0} - {1}</value>
 	</data>
 	<data name="SID_____Reserve_channel____0_____1_" xml:space="preserve">
 		<value> ; Резервный канал : {0} - {1}</value>
+	</data>
+	<data name="SID_Optical_events_report" xml:space="preserve">
+		<value>Отчет об оптических событиях</value>
+	</data>
+	<data name="SID_Create_report" xml:space="preserve">
+		<value>Создать отчет</value>
+	</data>
+	<data name="SID_Current_optical_events" xml:space="preserve">
+		<value>Текущие оптические события</value>
+	</data>
+	<data name="SID_Optical_events_for_period" xml:space="preserve">
+		<value>Оптические события за период</value>
+	</data>
+	<data name="SID_from" xml:space="preserve">
+		<value>с</value>
+	</data>
+	<data name="SID_to" xml:space="preserve">
+		<value>по</value>
+	</data>
+	<data name="SID_Detailed_report" xml:space="preserve">
+		<value>Детализированный отчет</value>
 	</data>
 </root>

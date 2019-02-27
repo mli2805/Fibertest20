@@ -6,7 +6,6 @@ using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WpfCommonViews;
-using PdfSharp.Pdf;
 
 namespace Iit.Fibertest.Client
 {
@@ -15,16 +14,16 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
         private readonly ComponentsReportProvider _componentsReportProvider;
-        private readonly AccidentsReportViewModel _accidentsReportViewModel;
+        private readonly OpticalEventsReportViewModel _opticalEventsReportViewModel;
 
 
         public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager,
-            ComponentsReportProvider componentsReportProvider, AccidentsReportViewModel accidentsReportViewModel)
+            ComponentsReportProvider componentsReportProvider, OpticalEventsReportViewModel opticalEventsReportViewModel)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
             _componentsReportProvider = componentsReportProvider;
-            _accidentsReportViewModel = accidentsReportViewModel;
+            _opticalEventsReportViewModel = opticalEventsReportViewModel;
         }
 
         public void LaunchResponsibilityZonesView()
@@ -65,15 +64,15 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void LaunchAccidentsReport()
+        public void LaunchOpticalEventsReport()
         {
-            _windowManager.ShowDialogWithAssignedOwner(_accidentsReportViewModel);
-            if (_accidentsReportViewModel.Report == null) return;
+            _windowManager.ShowDialogWithAssignedOwner(_opticalEventsReportViewModel);
+            if (_opticalEventsReportViewModel.Report == null) return;
 
             try
             {
-                string filename = @"AccidentsReport.pdf";
-                _accidentsReportViewModel.Report.Save(filename);
+                string filename = @"OpticalEventsReport.pdf";
+                _opticalEventsReportViewModel.Report.Save(filename);
                 Process.Start(filename);
             }
             catch (Exception e)

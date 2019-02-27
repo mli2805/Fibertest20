@@ -1,11 +1,11 @@
 ﻿namespace Iit.Fibertest.Client
 {
     /// <summary>
-    /// Interaction logic for AccidentsReportView.xaml
+    /// Interaction logic for EventStatusView.xaml
     /// </summary>
-    public partial class AccidentsReportView
+    public partial class EventStatusView
     {
-        public AccidentsReportView()
+        public EventStatusView()
         {
             InitializeComponent();
         }

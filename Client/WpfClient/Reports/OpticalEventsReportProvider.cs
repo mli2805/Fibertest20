@@ -7,11 +7,12 @@ using PdfSharp.Pdf;
 
 namespace Iit.Fibertest.Client
 {
-    public class AccidentsReportProvider
+    public class OpticalEventsReportProvider
     {
         public PdfDocument Create()
         {
             Document doc = new Document();
+            doc.DefaultPageSetup.Orientation = Orientation.Landscape;
             doc.DefaultPageSetup.LeftMargin = Unit.FromCentimeter(2);
             doc.DefaultPageSetup.RightMargin = Unit.FromCentimeter(1);
             doc.DefaultPageSetup.TopMargin = Unit.FromCentimeter(0.5);
@@ -34,12 +35,12 @@ namespace Iit.Fibertest.Client
 
         private void LetsGetStarted(Section section)
         {
-            var headerFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\Reports\Header.png");
+            var headerFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\Reports\Header-landscape.png");
             var image = section.AddImage(headerFileName);
             image.LockAspectRatio = true;
 
             var paragraph = section.AddParagraph();
-            paragraph.AddFormattedText("Current accidents report", TextFormat.Bold);
+            paragraph.AddFormattedText("Current optical events report", TextFormat.Bold);
             paragraph.Format.Font.Size = 20;
             paragraph.Format.SpaceBefore = Unit.FromCentimeter(1.4);
 //            var paragraph2 = section.AddParagraph();
@@ -53,11 +54,12 @@ namespace Iit.Fibertest.Client
         private void SetFooter(Section section)
         {
             Paragraph footer = new Paragraph();
-            var reportNameInFooter = "Current accidents report";
-            footer.AddFormattedText($@"Fibertest 2.0 (c) {reportNameInFooter}. {DateTime.Today:d}");
+            var reportNameInFooter = "Current optical events report";
+            var timestamp = $@"{DateTime.Now:g}";
+            timestamp = timestamp.PadLeft(20, '\u00A0');
             var pageNumber = Resources.SID_Page_;
-            pageNumber = pageNumber.PadLeft(20, '\u00A0');
-            footer.AddFormattedText(pageNumber);
+            pageNumber = pageNumber.PadLeft(130, '\u00A0');
+            footer.AddFormattedText($@"Fibertest 2.0 (c) {reportNameInFooter}.{timestamp}{pageNumber}");
             footer.AddPageField();
             footer.AddFormattedText(@" / ");
             footer.AddNumPagesField();

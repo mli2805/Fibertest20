@@ -16,7 +16,7 @@
             </MenuItem>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Reports}">
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Monitoring_system_components}" cal:Message.Attach="LaunchComponentsReport"/>
-                <MenuItem Header="{x:Static stringResources:Resources.SID_Accidents_report}" cal:Message.Attach="LaunchAccidentsReport"/>
+                <MenuItem Header="{x:Static stringResources:Resources.SID_Optical_events_report}" cal:Message.Attach="LaunchOpticalEventsReport"/>
             </MenuItem>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Settings}">
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Gis_settings}" cal:Message.Attach="LaunchGisSettingsView"/>

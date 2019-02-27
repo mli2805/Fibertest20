@@ -26,6 +26,7 @@ namespace Iit.Fibertest.Client
         public PdfDocument Create()
         {
             Document doc = new Document();
+            doc.DefaultPageSetup.Orientation = Orientation.Portrait;
             doc.DefaultPageSetup.LeftMargin = Unit.FromCentimeter(2);
             doc.DefaultPageSetup.RightMargin = Unit.FromCentimeter(1);
             doc.DefaultPageSetup.TopMargin = Unit.FromCentimeter(0.5);
@@ -54,9 +55,7 @@ namespace Iit.Fibertest.Client
         private void LetsGetStarted(Section section)
         {
             var headerFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\Reports\Header.png");
-            var image = section.AddImage(headerFileName);
-//            image.Width = Unit.FromCentimeter(17);
-            image.LockAspectRatio = true;
+            section.AddImage(headerFileName);
 
             var paragraph = section.AddParagraph();
             paragraph.AddFormattedText(Resources.SID_Monitoring_system_components, TextFormat.Bold);
