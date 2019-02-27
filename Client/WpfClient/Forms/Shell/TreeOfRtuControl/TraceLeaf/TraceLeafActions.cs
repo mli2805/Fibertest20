@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
@@ -27,6 +28,7 @@ namespace Iit.Fibertest.Client
         private readonly OutOfTurnPreciseMeasurementViewModel _outOfTurnPreciseMeasurementViewModel;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
+        private readonly RenderingManager _renderingManager;
 
         public TraceLeafActions(ILifetimeScope globalScope, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, TabulatorViewModel tabulatorViewModel,
@@ -34,7 +36,7 @@ namespace Iit.Fibertest.Client
             BaseRefsAssignViewModel baseRefsAssignViewModel, LandmarksViewsManager landmarksViewsManager,
             OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel,
             CommonStatusBarViewModel commonStatusBarViewModel,
-            CurrentlyHiddenRtu currentlyHiddenRtu)
+            CurrentlyHiddenRtu currentlyHiddenRtu, RenderingManager renderingManager)
         {
             _globalScope = globalScope;
             _readModel = readModel;
@@ -49,6 +51,7 @@ namespace Iit.Fibertest.Client
             _outOfTurnPreciseMeasurementViewModel = outOfTurnPreciseMeasurementViewModel;
             _commonStatusBarViewModel = commonStatusBarViewModel;
             _currentlyHiddenRtu = currentlyHiddenRtu;
+            _renderingManager = renderingManager;
         }
 
         public void UpdateTrace(object param)
@@ -63,7 +66,7 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 
-        public void HighlightTrace(object param)
+        public async void HighlightTrace(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
@@ -72,7 +75,7 @@ namespace Iit.Fibertest.Client
             if (_currentlyHiddenRtu.Collection.Contains(trace.RtuId))
             {
                 _currentlyHiddenRtu.Collection.Remove(trace.RtuId);
-                _currentlyHiddenRtu.ChangedRtu = trace.RtuId;
+                var unused = await _renderingManager.RenderOnRtuChanged();
             }
             _graphReadModel.HighlightTrace(trace.NodeIds[0], trace.FiberIds);
             trace.IsHighlighted = true;

@@ -23,6 +23,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly GraphReadModel _graphReadModel;
         private readonly Model _readModel;
+        private readonly RenderingManager _renderingManager;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly TabulatorViewModel _tabulatorViewModel;
 
@@ -170,7 +171,7 @@ namespace Iit.Fibertest.Client
 
         public OneLandmarkViewModel(CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu, CurrentGis currentGis,
             GpsInputSmallViewModel gpsInputSmallViewModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
-            GraphReadModel graphReadModel, Model readModel,
+            GraphReadModel graphReadModel, Model readModel, RenderingManager renderingManager,
             ReflectogramManager reflectogramManager, TabulatorViewModel tabulatorViewModel)
         {
             HasPrivilevies = currentUser.Role <= Role.Root;
@@ -181,6 +182,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _graphReadModel = graphReadModel;
             _readModel = readModel;
+            _renderingManager = renderingManager;
             _reflectogramManager = reflectogramManager;
             _tabulatorViewModel = tabulatorViewModel;
             GpsInputSmallViewModel = gpsInputSmallViewModel;
@@ -270,14 +272,13 @@ namespace Iit.Fibertest.Client
             _graphReadModel.ExtinguishNodes();
         }
 
-        public void ShowLandmarkOnMap()
+        public async void ShowLandmarkOnMap()
         {
             _graphReadModel.ExtinguishNodes();
             if (_currentlyHiddenRtu.Collection.Contains(RtuId))
             {
-                //                _renderingManager.ShowOneTrace(Model.Trace);
                 _currentlyHiddenRtu.Collection.Remove(RtuId);
-                _currentlyHiddenRtu.ChangedRtu = RtuId;
+                var unused = await _renderingManager.RenderOnRtuChanged();
             }
 
             var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);

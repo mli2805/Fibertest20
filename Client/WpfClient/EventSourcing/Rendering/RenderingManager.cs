@@ -56,8 +56,7 @@ namespace Iit.Fibertest.Client
 
             if (e.PropertyName == "ChangedRtu")
             {
-                var renderingResult = await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingOfDifference);
-                var unused = await _renderingApplierToUi.ToExistingGraph(renderingResult);
+                await RenderOnRtuChanged();
             }
 
             // InvokeAsync hangs up all tests
@@ -65,6 +64,16 @@ namespace Iit.Fibertest.Client
             _waitViewModel.TryClose();
 
             _currentlyHiddenRtu.CleanFlags();
+        }
+
+        public async Task<int> RenderOnRtuChanged()
+        {
+            _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
+            var renderingResult = await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingOfDifference);
+            var unused = await _renderingApplierToUi.ToExistingGraph(renderingResult);
+            _waitViewModel.TryClose();
+            _currentlyHiddenRtu.CleanFlags();
+            return unused;
         }
 
         public async Task RenderCurrentZoneOnApplicationStart()
