@@ -101,11 +101,13 @@ namespace Iit.Fibertest.Client
 
                 if (trace.ZoneIds.Contains(_currentUser.ZoneId)) // was NOT became YES
                 {
-                    var lastMeasurementOnThisTrace = _readModel.Measurements.LastOrDefault(m => m.TraceId == trace.TraceId);
+                    var lastMeasurementOnThisTrace = _readModel.Measurements.
+                        LastOrDefault(m => m.TraceId == trace.TraceId  && m.EventStatus > EventStatus.JustMeasurementNotAnEvent);
                     if (lastMeasurementOnThisTrace != null && lastMeasurementOnThisTrace.TraceState != FiberState.Ok)
                         ActualOpticalEventsViewModel.AddEvent(lastMeasurementOnThisTrace);
 
-                    foreach(var measurement in _readModel.Measurements.Where(m=>m.TraceId == trace.TraceId && m.EventStatus > EventStatus.JustMeasurementNotAnEvent))
+                    foreach(var measurement in _readModel.Measurements.
+                        Where(m=>m.TraceId == trace.TraceId && m.EventStatus > EventStatus.JustMeasurementNotAnEvent))
                         AllOpticalEventsViewModel.AddEvent(measurement);
                 }
                 else // was YES became NOT

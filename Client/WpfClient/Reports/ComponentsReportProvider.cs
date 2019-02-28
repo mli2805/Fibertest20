@@ -15,12 +15,15 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly TreeOfRtuModel _tree;
         private readonly CurrentDatacenterParameters _server;
+        private readonly CurrentUser _currentUser;
 
-        public ComponentsReportProvider(Model readModel, TreeOfRtuModel tree, CurrentDatacenterParameters server)
+        public ComponentsReportProvider(Model readModel, TreeOfRtuModel tree, 
+            CurrentDatacenterParameters server, CurrentUser currentUser)
         {
             _readModel = readModel;
             _tree = tree;
             _server = server;
+            _currentUser = currentUser;
         }
 
         public PdfDocument Create()
@@ -42,6 +45,9 @@ namespace Iit.Fibertest.Client
 
             foreach (var rtu in _readModel.Rtus)
             {
+                if (_currentUser.ZoneId != Guid.Empty &&
+                    !rtu.ZoneIds.Contains(_currentUser.ZoneId)) continue;
+                if (!rtu.IsInitialized) continue;
                 ProcessRtu(section, rtu);
             }
 
@@ -61,12 +67,19 @@ namespace Iit.Fibertest.Client
             paragraph.AddFormattedText(Resources.SID_Monitoring_system_components, TextFormat.Bold);
             paragraph.Format.Font.Size = 20;
             paragraph.Format.SpaceBefore = Unit.FromCentimeter(1.4);
+
             var paragraph2 = section.AddParagraph();
             var software = string.Format(Resources.SID_software____0_, _server.DatacenterVersion);
             var server = string.Format(Resources.SID_Server_____0_____1_____2_, _server.ServerTitle, _server.ServerIp, software);
             paragraph2.AddFormattedText(server, TextFormat.Bold);
             paragraph2.Format.Font.Size = 14;
             paragraph2.Format.SpaceBefore = Unit.FromCentimeter(0.4);
+
+            var paragraph3 = section.AddParagraph();
+            var zone = string.Format(Resources.SID_Responsibility_zone___0_, _currentUser.ZoneTitle);
+            paragraph3.AddFormattedText(zone, TextFormat.Bold);
+            paragraph3.Format.Font.Size = 14;
+            paragraph3.Format.SpaceBefore = Unit.FromCentimeter(0.4);
         }
 
         private void SetFooter(Section section)

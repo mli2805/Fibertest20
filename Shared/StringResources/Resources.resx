@@ -2519,4 +2519,19 @@ RTU is initializing right now!</value>
 	<data name="SID_Detailed_report" xml:space="preserve">
     <value>Detailed report</value>
   </data>
+	<data name="SID_Status_set" xml:space="preserve">
+    <value>Status set</value>
+  </data>
+	<data name="SID_measurement_finished" xml:space="preserve">
+    <value>measurement finished</value>
+  </data>
+	<data name="SID_event_registered" xml:space="preserve">
+    <value>event registered</value>
+  </data>
+	<data name="SID_Current_optical_events_report" xml:space="preserve">
+    <value>Current optical events report</value>
+  </data>
+	<data name="SID_Responsibility_zone___0_" xml:space="preserve">
+    <value>Responsibility zone: "{0}"</value>
+  </data>
 </root>

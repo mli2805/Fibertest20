@@ -71,7 +71,10 @@ namespace Iit.Fibertest.Client
 
             try
             {
-                string filename = @"OpticalEventsReport.pdf";
+                var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
+                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+
+                string filename = Path.Combine(folder, @"OpticalEventsReport.pdf");
                 _opticalEventsReportViewModel.Report.Save(filename);
                 Process.Start(filename);
             }

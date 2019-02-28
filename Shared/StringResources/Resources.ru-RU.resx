@@ -2519,4 +2519,19 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Detailed_report" xml:space="preserve">
 		<value>Детализированный отчет</value>
 	</data>
+	<data name="SID_Status_set" xml:space="preserve">
+		<value>Статус задан</value>
+	</data>
+	<data name="SID_measurement_finished" xml:space="preserve">
+		<value>измерение завершено</value>
+	</data>
+	<data name="SID_event_registered" xml:space="preserve">
+		<value>событие зарегистрировано</value>
+	</data>
+	<data name="SID_Current_optical_events_report" xml:space="preserve">
+		<value>Отчет о текущих оптических событиях</value>
+	</data>
+	<data name="SID_Responsibility_zone___0_" xml:space="preserve">
+		<value>Зона ответственности: "{0}"</value>
+	</data>
 </root>

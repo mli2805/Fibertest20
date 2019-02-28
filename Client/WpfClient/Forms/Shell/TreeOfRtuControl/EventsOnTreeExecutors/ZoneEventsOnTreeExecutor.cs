@@ -78,6 +78,7 @@ namespace Iit.Fibertest.Client
                 var otauLeaf = _globalScope.Resolve<OtauLeaf>();
                 otauLeaf.Id = otau.Id;
                 otauLeaf.Parent = rtuLeaf;
+                otauLeaf.Serial = otau.Serial;
                 otauLeaf.Title = string.Format(Resources.SID_Optical_switch_with_Address, otau.NetAddress.ToStringA());
                 otauLeaf.Color = Brushes.Black;
                 otauLeaf.MasterPort = otau.MasterPort;
@@ -127,8 +128,38 @@ namespace Iit.Fibertest.Client
 
         private void ConsiderTraceZonesChanges(Trace trace)
         {
+            var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(trace.RtuId);
+            if (rtuLeaf == null) return; // RTU not in zone
             var traceLeaf = (TraceLeaf)_treeOfRtuModel.GetById(trace.TraceId);
-            if (traceLeaf == null) return; // RTU not in zone
+            if (traceLeaf == null)
+            {
+                traceLeaf = _globalScope.Resolve<TraceLeaf>(new NamedParameter(@"parent", rtuLeaf));
+                var portOwner = trace.OtauPort == null ? rtuLeaf : rtuLeaf.GetPortOwner(trace.OtauPort.Serial);
+                if (portOwner == null) return;
+
+                traceLeaf.Id = trace.TraceId;
+                traceLeaf.Parent = (Leaf)portOwner;
+                traceLeaf.Title = trace.Title;
+                traceLeaf.PortNumber = trace.OtauPort?.OpticalPort ?? -1;
+                traceLeaf.TraceState = trace.State;
+                traceLeaf.IsInZone = trace.ZoneIds.Contains(_currentUser.ZoneId);
+                traceLeaf.BaseRefsSet = new BaseRefsSet()
+                {
+                    PreciseId = trace.PreciseId, PreciseDuration = trace.PreciseDuration,
+                    FastId = trace.FastId, FastDuration = trace.FastDuration,
+                    AdditionalId = trace.AdditionalId, AdditionalDuration = trace.AdditionalDuration,
+                    IsInMonitoringCycle = trace.IsIncludedInMonitoringCycle,
+                };
+
+                if (traceLeaf.PortNumber > 0)
+                {
+                    portOwner.ChildrenImpresario.Children[traceLeaf.PortNumber - 1] = traceLeaf;
+
+                }
+                else
+                    rtuLeaf.ChildrenImpresario.Children.Add(traceLeaf);
+            }
+
             traceLeaf.IsInZone = trace.ZoneIds.Contains(_currentUser.ZoneId);
         }
     }

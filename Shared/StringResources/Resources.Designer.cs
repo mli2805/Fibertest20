@@ -1837,6 +1837,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Current optical events report.
+        /// </summary>
+        public static string SID_Current_optical_events_report {
+            get {
+                return ResourceManager.GetString("SID_Current_optical_events_report", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Cycle full time.
         /// </summary>
         public static string SID_Cycle_full_time {
@@ -2431,11 +2440,11 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Event status.
+        ///   Looks up a localized string similar to event registered.
         /// </summary>
-        public static string SID_Event_staturs {
+        public static string SID_event_registered {
             get {
-                return ResourceManager.GetString("SID_Event_staturs", resourceCulture);
+                return ResourceManager.GetString("SID_event_registered", resourceCulture);
             }
         }
         
@@ -3678,6 +3687,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Measurement_error__see_log {
             get {
                 return ResourceManager.GetString("SID_Measurement_error__see_log", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to measurement finished.
+        /// </summary>
+        public static string SID_measurement_finished {
+            get {
+                return ResourceManager.GetString("SID_measurement_finished", resourceCulture);
             }
         }
         
@@ -5132,6 +5150,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Responsibility zone: {0}.
+        /// </summary>
+        public static string SID_Responsibility_zone___0_ {
+            get {
+                return ResourceManager.GetString("SID_Responsibility_zone___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Responsibility zones.
         /// </summary>
         public static string SID_Responsibility_zones {
@@ -6092,6 +6119,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Status_of_optical_event {
             get {
                 return ResourceManager.GetString("SID_Status_of_optical_event", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Status set.
+        /// </summary>
+        public static string SID_Status_set {
+            get {
+                return ResourceManager.GetString("SID_Status_set", resourceCulture);
             }
         }
         

@@ -24,6 +24,7 @@ namespace Iit.Fibertest.Graph
 
         public string Serial { get; set; }
         public int OwnPortCount { get; set; }
+        public bool IsInitialized => OwnPortCount != 0;
         public int FullPortCount { get; set; }
 
         public string PortCount => OwnPortCount == FullPortCount ? $@"{FullPortCount}" : $@"{OwnPortCount} / {FullPortCount}";

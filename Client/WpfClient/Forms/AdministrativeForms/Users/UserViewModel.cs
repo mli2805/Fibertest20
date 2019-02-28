@@ -157,7 +157,7 @@ namespace Iit.Fibertest.Client
             if (UserInWork.Role == 0)
                 UserInWork.Role = Roles.First();
 
-            Password1 = Password2 = @"1234567890";
+            Password1 = Password2 = UserExt.FlipFlop(user.Password);
             IsPasswordsEnabled = _currentUser.Role <= Role.Root;
             ChangePasswordVisibility = _currentUser.Role <= Role.Root ? Visibility.Collapsed : Visibility.Visible;
 
@@ -200,7 +200,7 @@ namespace Iit.Fibertest.Client
                     Role = UserInWork.Role,
                     Email = new EmailReceiver() { Address = UserInWork.EmailAddress, IsActivated = UserInWork.IsEmailActivated },
                     Sms = UserInWork.SmsReceiverVm.Get(),
-                    EncodedPassword = UserExt.FlipFlop(UserInWork.Password), // cannot be changed via this form
+                    EncodedPassword = UserExt.FlipFlop(Password1), // root can change password
                     ZoneId = SelectedZone.ZoneId,
                 };
 

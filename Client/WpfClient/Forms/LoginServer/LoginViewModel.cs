@@ -74,24 +74,24 @@ namespace Iit.Fibertest.Client
         {
 #if DEBUG
             if (string.IsNullOrEmpty(UserName))
-//                UserName = @"superclient";
-                UserName = @"developer";
-//                            UserName = @"operator";
-//                            UserName = @"op1";
+                //                UserName = @"superclient";
+//                                UserName = @"developer";
+                UserName = @"Протасовицкий В.";
+                //                            UserName = @"operator";
             //                UserName = @"supervisor";
-//                            UserName = @"root";
-//                UserName = @"Brigadir";
+            //                            UserName = @"root";
+            //                UserName = @"Brigadir";
             if (string.IsNullOrEmpty(Password))
-//                Password = @"superclient";
-                Password = @"developer";
-//                            Password = @"operator";
-//                            Password = @"1";
+                //                Password = @"superclient";
+//                                Password = @"developer";
+                Password = @"1";
+//                                            Password = @"operator";
             //                Password = @"supervisor";
-//                            Password = @"root";
-//                Passwod = @"1";
+            //                            Password = @"root";
+            //                Passwod = @"1";
 #endif
             Status = Resources.SID_Client_registraion_is_performing;
-//            using (_globalScope.Resolve<IWaitCursor>())
+            //            using (_globalScope.Resolve<IWaitCursor>())
             {
                 await RegisterClientAsync(UserName, Password, false);
             }
@@ -119,13 +119,13 @@ namespace Iit.Fibertest.Client
                 clientAddress.Ip4Address = LocalAddressResearcher.GetLocalAddressToConnectServer(dcServiceAddresses.Main.Ip4Address);
                 _iniFile.Write(clientAddress, IniSection.ClientLocalAddress);
             }
-             
+
             _c2DWcfManager.SetServerAddresses(dcServiceAddresses, username, clientAddress.Ip4Address);
 
             var result = await _c2DWcfManager.RegisterClientAsync(
                 new RegisterClientDto()
                 {
-                    Addresses = new DoubleAddress() {Main = clientAddress, HasReserveAddress = false},
+                    Addresses = new DoubleAddress() { Main = clientAddress, HasReserveAddress = false },
                     UserName = username,
                     Password = password,
                     IsUnderSuperClient = isUnderSuperClient,
