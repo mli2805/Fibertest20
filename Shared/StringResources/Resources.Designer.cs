@@ -4583,6 +4583,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Output accident place.
+        /// </summary>
+        public static string SID_Output_accident_place {
+            get {
+                return ResourceManager.GetString("SID_Output_accident_place", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Page .
         /// </summary>
         public static string SID_Page_ {
@@ -5150,7 +5159,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Responsibility zone: {0}.
+        ///   Looks up a localized string similar to Responsibility zone: &quot;{0}&quot;.
         /// </summary>
         public static string SID_Responsibility_zone___0_ {
             get {

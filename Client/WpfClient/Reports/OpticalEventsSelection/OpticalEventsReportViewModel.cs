@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using PdfSharp.Pdf;
 
@@ -7,33 +10,29 @@ namespace Iit.Fibertest.Client
 {
     public class OpticalEventsReportViewModel : Screen
     {
+        private readonly CurrentUser _currentUser;
+        private readonly Model _readModel;
         private readonly OpticalEventsReportProvider _opticalEventsReportProvider;
-        private bool _isCustomReport;
-        public bool IsCurrentEventsReport { get; set; }
 
-        public bool IsCustomReport
-        {
-            get { return _isCustomReport; }
-            set
-            {
-                if (value == _isCustomReport) return;
-                _isCustomReport = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
-        public DateTime DateFrom { get; set; }
-        public DateTime DateTo { get; set; }
-
-        public EventStatusViewModel EventStatusViewModel { get; set; } = new EventStatusViewModel();
-        public TraceStateSelectionViewModel TraceStateSelectionViewModel { get; set; } = new TraceStateSelectionViewModel();
-
-
+        public OpticalEventsReportModel Model { get; set; } = new OpticalEventsReportModel();
         public PdfDocument Report { get; set; }
 
-        public OpticalEventsReportViewModel(OpticalEventsReportProvider opticalEventsReportProvider)
+        public OpticalEventsReportViewModel(CurrentUser currentUser, Model readModel,
+            OpticalEventsReportProvider opticalEventsReportProvider)
         {
+            _currentUser = currentUser;
+            _readModel = readModel;
             _opticalEventsReportProvider = opticalEventsReportProvider;
+        }
+
+        public void Initialize()
+        {
+            Model.ZoneSelectionVisibility = _currentUser.ZoneId == Guid.Empty ? Visibility.Visible : Visibility.Collapsed;
+            Model.Zones = _readModel.Zones;
+            Model.SelectedZone = Model.Zones.First();
+
+            Model.DateTo = DateTime.Now;
+            Model.DateFrom = new DateTime(DateTime.Today.Year, 1, 1);
         }
 
         protected override void OnViewLoaded(object view)
@@ -44,7 +43,7 @@ namespace Iit.Fibertest.Client
 
         public void CreateReport()
         {
-            Report = _opticalEventsReportProvider.Create();
+            Report = _opticalEventsReportProvider.Create(Model);
             TryClose();
         }
     }

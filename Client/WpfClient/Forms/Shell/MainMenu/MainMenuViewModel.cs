@@ -66,6 +66,7 @@ namespace Iit.Fibertest.Client
 
         public void LaunchOpticalEventsReport()
         {
+            _opticalEventsReportViewModel.Initialize();
             _windowManager.ShowDialogWithAssignedOwner(_opticalEventsReportViewModel);
             if (_opticalEventsReportViewModel.Report == null) return;
 

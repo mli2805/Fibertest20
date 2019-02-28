@@ -2534,4 +2534,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Responsibility_zone___0_" xml:space="preserve">
     <value>Responsibility zone: "{0}"</value>
   </data>
+	<data name="SID_Output_accident_place" xml:space="preserve">
+    <value>Output accident place</value>
+  </data>
 </root>

@@ -15,18 +15,22 @@ namespace Iit.Fibertest.Client
     {
         private readonly CurrentDatacenterParameters _server;
         private readonly CurrentUser _currentUser;
+        private readonly Model _readModel;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
-
+        private OpticalEventsReportModel _reportModel;
         public OpticalEventsReportProvider(CurrentDatacenterParameters server, CurrentUser currentUser,
-            OpticalEventsDoubleViewModel opticalEventsDoubleViewModel)
+            Model readModel, OpticalEventsDoubleViewModel opticalEventsDoubleViewModel)
         {
             _server = server;
             _currentUser = currentUser;
+            _readModel = readModel;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
         }
 
-        public PdfDocument Create()
+        public PdfDocument Create(OpticalEventsReportModel reportModel)
         {
+            _reportModel = reportModel;
+
             Document doc = new Document();
             doc.DefaultPageSetup.Orientation = Orientation.Landscape;
             doc.DefaultPageSetup.LeftMargin = Unit.FromCentimeter(2);
@@ -71,7 +75,7 @@ namespace Iit.Fibertest.Client
             paragraph2.Format.SpaceBefore = Unit.FromCentimeter(0.4);
 
             var paragraph3 = section.AddParagraph();
-            var zone = string.Format(Resources.SID_Responsibility_zone___0_, _currentUser.ZoneTitle);
+            var zone = string.Format(Resources.SID_Responsibility_zone___0_, _reportModel.SelectedZone.Title);
             paragraph3.AddFormattedText(zone, TextFormat.Bold);
             paragraph3.Format.Font.Size = 14;
             paragraph3.Format.SpaceBefore = Unit.FromCentimeter(0.4);
@@ -93,26 +97,6 @@ namespace Iit.Fibertest.Client
             footer.Format.Alignment = ParagraphAlignment.Left;
             section.Footers.Primary.Add(footer);
             section.Footers.EvenPage.Add(footer.Clone());
-        }
-
-        private void FillInTable(Table table)
-        {
-            var events = _opticalEventsDoubleViewModel.ActualOpticalEventsViewModel.Rows.ToList();
-            foreach (var opticalEventModel in events)
-            {
-                var row = table.AddRow();
-                row.VerticalAlignment = VerticalAlignment.Center;
-                row.Cells[0].AddParagraph(opticalEventModel.SorFileId.ToString());
-                var measurementTime = $@"{opticalEventModel.MeasurementTimestamp:G}";
-                row.Cells[1].AddParagraph(measurementTime);
-                var registrationTime = $@"{opticalEventModel.EventRegistrationTimestamp:G}";
-                row.Cells[2].AddParagraph(registrationTime);
-                row.Cells[3].AddParagraph($@"{opticalEventModel.TraceTitle}");
-                row.Cells[4].AddParagraph($@"{opticalEventModel.TraceState.ToLocalizedString()}");
-                row.Cells[5].AddParagraph($@"{opticalEventModel.EventStatus.GetLocalizedString()}");
-                row.Cells[6].AddParagraph($@"{opticalEventModel.StatusChangedTimestamp}");
-                row.Cells[7].AddParagraph($@"{opticalEventModel.StatusChangedByUser}");
-            }
         }
 
         private Table CreateTable(Section section)
@@ -166,6 +150,29 @@ namespace Iit.Fibertest.Client
             headerRow2.Cells[7].AddParagraph(Resources.SID_User);
             headerRow2.Cells[7].VerticalAlignment = VerticalAlignment.Center;
             return table;
+        }
+
+        private void FillInTable(Table table)
+        {
+            var events = _opticalEventsDoubleViewModel.ActualOpticalEventsViewModel.Rows.ToList();
+            foreach (var opticalEventModel in events)
+            {
+                var trace = _readModel.Traces.First(t => t.TraceId == opticalEventModel.TraceId);
+                if (!trace.ZoneIds.Contains(_reportModel.SelectedZone.ZoneId)) continue;
+
+                var row = table.AddRow();
+                row.VerticalAlignment = VerticalAlignment.Center;
+                row.Cells[0].AddParagraph(opticalEventModel.SorFileId.ToString());
+                var measurementTime = $@"{opticalEventModel.MeasurementTimestamp:G}";
+                row.Cells[1].AddParagraph(measurementTime);
+                var registrationTime = $@"{opticalEventModel.EventRegistrationTimestamp:G}";
+                row.Cells[2].AddParagraph(registrationTime);
+                row.Cells[3].AddParagraph($@"{opticalEventModel.TraceTitle}");
+                row.Cells[4].AddParagraph($@"{opticalEventModel.TraceState.ToLocalizedString()}");
+                row.Cells[5].AddParagraph($@"{opticalEventModel.EventStatus.GetLocalizedString()}");
+                row.Cells[6].AddParagraph($@"{opticalEventModel.StatusChangedTimestamp}");
+                row.Cells[7].AddParagraph($@"{opticalEventModel.StatusChangedByUser}");
+            }
         }
     }
 }

@@ -75,16 +75,16 @@ namespace Iit.Fibertest.Client
 #if DEBUG
             if (string.IsNullOrEmpty(UserName))
                 //                UserName = @"superclient";
-//                                UserName = @"developer";
-                UserName = @"Протасовицкий В.";
+                                UserName = @"developer";
+//                UserName = @"Протасовицкий В.";
                 //                            UserName = @"operator";
             //                UserName = @"supervisor";
             //                            UserName = @"root";
             //                UserName = @"Brigadir";
             if (string.IsNullOrEmpty(Password))
                 //                Password = @"superclient";
-//                                Password = @"developer";
-                Password = @"1";
+                                Password = @"developer";
+//                Password = @"1";
 //                                            Password = @"operator";
             //                Password = @"supervisor";
             //                            Password = @"root";
