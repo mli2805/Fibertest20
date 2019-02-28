@@ -22,7 +22,7 @@ namespace Iit.Fibertest.DataCenterService
             Thread.CurrentThread.CurrentCulture = new CultureInfo(currentCulture);
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
 
-            var logFile = new LogFile(iniFile);
+            var logFile = new LogFile(iniFile, 100000);
             builder.RegisterInstance<IMyLog>(logFile);
 
             builder.RegisterType<MySqlEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();

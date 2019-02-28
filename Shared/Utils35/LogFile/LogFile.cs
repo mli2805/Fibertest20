@@ -18,10 +18,10 @@ namespace Iit.Fibertest.UtilsLib
 
         private readonly object _obj = new object();
 
-        public LogFile(IniFile config)
+        public LogFile(IniFile config, int defaultLogFileSizeLimitKb = 0)
         {
             Culture = config.Read(IniSection.General, IniKey.Culture, "ru-RU");
-            SizeLimitKb = config.Read(IniSection.General, IniKey.LogFileSizeLimitKb, 0);
+            SizeLimitKb = config.Read(IniSection.General, IniKey.LogFileSizeLimitKb, defaultLogFileSizeLimitKb);
             LogLevel = config.Read(IniSection.General, IniKey.LogLevel, 2);
         }
 

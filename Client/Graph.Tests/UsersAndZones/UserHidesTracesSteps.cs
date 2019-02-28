@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using System.Threading;
 using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
@@ -158,11 +157,13 @@ namespace Graph.Tests
         [When(@"Кликает на карте на иконке RTU(.*) пункт меню Скрыть трассы")]
         public void WhenКликаетНаКартеНаИконкеRtuПунктМенюСкрытьТрассы(int p0)
         {
-             var rtuNodeId = p0 == 1 ? _sut.Rtu1.NodeId : _sut.Rtu2.NodeId;
+            var rtuNodeId = p0 == 1 ? _sut.Rtu1.NodeId : _sut.Rtu2.NodeId;
+            var rtu = _sut.ReadModel.Rtus.First(r => r.NodeId == rtuNodeId);
+            _sut.CurrentlyHiddenRtu.Collection.Add(rtu.Id);
             _sut.FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
-            _sut.GraphReadModel.GrmRtuRequests.ChangeRtuTracesVisibility(rtuNodeId);
-            Thread.Sleep(1000);
-            _sut.Poller.EventSourcingTick().Wait();
+
+            var renderingManager = _sut.ClientScope.Resolve<RenderingManager>();
+            int unused = renderingManager.RenderOnRtuChanged().Result;
         }
     }
 }

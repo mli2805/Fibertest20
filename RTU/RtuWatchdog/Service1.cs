@@ -15,7 +15,7 @@ namespace Iit.Fibertest.RtuWatchdog
             _watchdogIni = new IniFile();
             _watchdogIni.AssignFile("RtuWatchdog.ini");
 
-            _watchdogLog = new LogFile(_watchdogIni).AssignFile("RtuWatchdog.log");
+            _watchdogLog = new LogFile(_watchdogIni, 20000).AssignFile("RtuWatchdog.log");
 
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;

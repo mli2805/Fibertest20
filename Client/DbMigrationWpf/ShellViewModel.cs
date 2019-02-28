@@ -83,7 +83,7 @@ namespace DbMigrationWpf
         {
             _iniFile = new IniFile();
             _iniFile.AssignFile("migrator.ini");
-            _logFile = new LogFile(_iniFile);
+            _logFile = new LogFile(_iniFile, 50000);
             _logFile.AssignFile("migrator.log");
 
             _c2DWcfManager = new C2DWcfManager(_iniFile, _logFile);

@@ -13,7 +13,7 @@ namespace Iit.Fibertest.RtuService
             var serviceIni = new IniFile().AssignFile("RtuService.ini");
             builder.RegisterInstance(serviceIni);
 
-            var serviceLog = new LogFile(serviceIni);
+            var serviceLog = new LogFile(serviceIni, 20000);
             builder.RegisterInstance<IMyLog>(serviceLog);
 
             builder.RegisterType<BaseRefsSaver>().SingleInstance();

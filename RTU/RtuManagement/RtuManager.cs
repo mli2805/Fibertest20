@@ -85,7 +85,7 @@ namespace Iit.Fibertest.RtuManagement
             _rtuIni = new IniFile();
             _rtuIni.AssignFile("RtuManager.ini");
 
-            _rtuLog = new LogFile(_rtuIni).AssignFile("RtuManager.log");
+            _rtuLog = new LogFile(_rtuIni, 50000).AssignFile("RtuManager.log");
 
             _mikrotikRebootTimeout =
                 TimeSpan.FromSeconds(_rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootTimeout, 45));
