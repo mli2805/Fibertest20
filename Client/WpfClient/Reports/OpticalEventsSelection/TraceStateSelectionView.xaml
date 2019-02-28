@@ -7,13 +7,12 @@
              mc:Ignorable="d" d:DataContext="{d:DesignData TraceStateSelectionViewModel}">
     <GroupBox Header="{x:Static stringResources:Resources.SID_Trace_state}" Margin="5">
         <StackPanel Margin="5">
-            <CheckBox Content="{Binding SuspicionContext}" IsChecked="{Binding IsSuspicionChecked}" Margin="5"/>
-            <CheckBox Content="{Binding MinorContext}" IsChecked="{Binding IsMinorChecked}" Margin="5"/>
-            <CheckBox Content="{Binding MajorContext}" IsChecked="{Binding IsMajorChecked}" Margin="5"/>
-            <CheckBox Content="{Binding CriticalContext}" IsChecked="{Binding IsCriticalChecked}" Margin="5"/>
-            <CheckBox Content="{Binding UserContext}" IsChecked="{Binding IsUserChecked}" Margin="5"/>
             <CheckBox Content="{Binding FiberBreakContext}" IsChecked="{Binding IsFiberBreakChecked}" Margin="5"/>
             <CheckBox Content="{Binding NoFiberContext}" IsChecked="{Binding IsNoFiberChecked}" Margin="5"/>
+            <CheckBox Content="{Binding CriticalContext}" IsChecked="{Binding IsCriticalChecked}" Margin="5"/>
+            <CheckBox Content="{Binding MajorContext}" IsChecked="{Binding IsMajorChecked}" Margin="5"/>
+            <CheckBox Content="{Binding MinorContext}" IsChecked="{Binding IsMinorChecked}" Margin="5"/>
+            <CheckBox Content="{Binding UserContext}" IsChecked="{Binding IsUserChecked}" Margin="5"/>
         </StackPanel>
     </GroupBox>
 </UserControl>

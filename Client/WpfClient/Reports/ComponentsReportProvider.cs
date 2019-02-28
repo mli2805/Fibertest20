@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Client
         private readonly TreeOfRtuModel _tree;
         private readonly CurrentDatacenterParameters _server;
         private readonly CurrentUser _currentUser;
+        private ComponentsReportModel _reportModel;
 
         public ComponentsReportProvider(Model readModel, TreeOfRtuModel tree, 
             CurrentDatacenterParameters server, CurrentUser currentUser)
@@ -26,8 +27,10 @@ namespace Iit.Fibertest.Client
             _currentUser = currentUser;
         }
 
-        public PdfDocument Create()
+        public PdfDocument Create(ComponentsReportModel reportModel)
         {
+            _reportModel = reportModel;
+
             Document doc = new Document();
             doc.DefaultPageSetup.Orientation = Orientation.Portrait;
             doc.DefaultPageSetup.LeftMargin = Unit.FromCentimeter(2);
@@ -45,8 +48,7 @@ namespace Iit.Fibertest.Client
 
             foreach (var rtu in _readModel.Rtus)
             {
-                if (_currentUser.ZoneId != Guid.Empty &&
-                    !rtu.ZoneIds.Contains(_currentUser.ZoneId)) continue;
+                if (!rtu.ZoneIds.Contains(_reportModel.SelectedZone.ZoneId)) continue;
                 if (!rtu.IsInitialized) continue;
                 ProcessRtu(section, rtu);
             }
@@ -76,7 +78,7 @@ namespace Iit.Fibertest.Client
             paragraph2.Format.SpaceBefore = Unit.FromCentimeter(0.4);
 
             var paragraph3 = section.AddParagraph();
-            var zone = string.Format(Resources.SID_Responsibility_zone___0_, _currentUser.ZoneTitle);
+            var zone = string.Format(Resources.SID_Responsibility_zone___0_, _reportModel.SelectedZone.Title);
             paragraph3.AddFormattedText(zone, TextFormat.Bold);
             paragraph3.Format.Font.Size = 14;
             paragraph3.Format.SpaceBefore = Unit.FromCentimeter(0.4);
@@ -161,7 +163,7 @@ namespace Iit.Fibertest.Client
                 paragraph.AddImage(imageFilename);
             }
 
-            var monitoringIndent = trace.IsIncludedInMonitoringCycle ? 0 : 0.7;
+            var monitoringIndent = trace.IsIncludedInMonitoringCycle ? 0 : 0.6;
           
             paragraph.Format.Font.Size = 12;
             var otauPortNumber = otauPort != 0 ? $@"{otauPort}-" : "";

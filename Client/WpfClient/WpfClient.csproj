@@ -347,6 +347,11 @@
     <Compile Include="GraphModel\Visibility\GraphVisibilityLevelItem.cs" />
     <Compile Include="Logic\PathFinder.cs" />
     <Compile Include="Logic\RtuRemover.cs" />
+    <Compile Include="Reports\ComponentsReportSelection\ComponentsReportModel.cs" />
+    <Compile Include="Reports\ComponentsReportSelection\ComponentsReportView.xaml.cs">
+      <DependentUpon>ComponentsReportView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Reports\ComponentsReportSelection\ComponentsReportViewModel.cs" />
     <Compile Include="Reports\OpticalEventsSelection\EventStatusView.xaml.cs">
       <DependentUpon>EventStatusView.xaml</DependentUpon>
     </Compile>
@@ -900,6 +905,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Forms\AdministrativeForms\Users\UserListView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Reports\ComponentsReportSelection\ComponentsReportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

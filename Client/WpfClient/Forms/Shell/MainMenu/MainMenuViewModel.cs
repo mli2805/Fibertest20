@@ -13,16 +13,16 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
-        private readonly ComponentsReportProvider _componentsReportProvider;
+        private readonly ComponentsReportViewModel _componentsReportViewModel;
         private readonly OpticalEventsReportViewModel _opticalEventsReportViewModel;
 
 
         public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager,
-            ComponentsReportProvider componentsReportProvider, OpticalEventsReportViewModel opticalEventsReportViewModel)
+            ComponentsReportViewModel componentsReportViewModel, OpticalEventsReportViewModel opticalEventsReportViewModel)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
-            _componentsReportProvider = componentsReportProvider;
+            _componentsReportViewModel = componentsReportViewModel;
             _opticalEventsReportViewModel = opticalEventsReportViewModel;
         }
 
@@ -47,14 +47,16 @@ namespace Iit.Fibertest.Client
 
         public void LaunchComponentsReport()
         {
-            var report = _componentsReportProvider.Create();
+            _componentsReportViewModel.Initialize();
+            _windowManager.ShowDialogWithAssignedOwner(_componentsReportViewModel);
+            if (_componentsReportViewModel.Report == null) return;
             try
             {
                 var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
                 if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
 
                 string filename = Path.Combine(folder, @"MonitoringSystemComponentsReport.pdf");
-                report.Save(filename);
+                _componentsReportViewModel.Report.Save(filename);
                 Process.Start(filename);
             }
             catch (Exception e)

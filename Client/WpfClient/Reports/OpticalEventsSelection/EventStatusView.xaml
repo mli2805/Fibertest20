@@ -7,12 +7,12 @@
              mc:Ignorable="d" d:DataContext="{d:DesignData EventStatusViewModel}">
     <GroupBox Header="{x:Static stringResources:Resources.SID_Event_status}" Margin="5">
         <StackPanel Margin="5">
-            <CheckBox Content="{Binding NotImportantContext}" IsChecked="{Binding IsNotImportantChecked}" Margin="5"/>
-            <CheckBox Content="{Binding PlannedContext}" IsChecked="{Binding IsPlannedChecked}" Margin="5"/>
-            <CheckBox Content="{Binding NotConfirmedContext}" IsChecked="{Binding IsNotConfirmedChecked}" Margin="5"/>
-            <CheckBox Content="{Binding UnprocessedContext}" IsChecked="{Binding IsUnprocessedChecked}" Margin="5"/>
-            <CheckBox Content="{Binding SuspendedContext}" IsChecked="{Binding IsSuspendedChecked}" Margin="5"/>
             <CheckBox Content="{Binding ConfirmedContext}" IsChecked="{Binding IsConfirmedChecked}" Margin="5"/>
+            <CheckBox Content="{Binding NotConfirmedContext}" IsChecked="{Binding IsNotConfirmedChecked}" Margin="5"/>
+            <CheckBox Content="{Binding PlannedContext}" IsChecked="{Binding IsPlannedChecked}" Margin="5"/>
+            <CheckBox Content="{Binding SuspendedContext}" IsChecked="{Binding IsSuspendedChecked}" Margin="5"/>
+            <CheckBox Content="{Binding NotImportantContext}" IsChecked="{Binding IsNotImportantChecked}" Margin="5"/>
+            <CheckBox Content="{Binding UnprocessedContext}" IsChecked="{Binding IsUnprocessedChecked}" Margin="5"/>
         </StackPanel>
     </GroupBox>
 </UserControl>
