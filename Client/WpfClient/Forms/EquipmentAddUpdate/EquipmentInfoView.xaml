@@ -6,7 +6,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen"
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:EquipmentInfoViewModel}">
     <StackPanel>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Title}" Margin="5, 10, 5, 5">

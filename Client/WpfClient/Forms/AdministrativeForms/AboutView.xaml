@@ -6,7 +6,8 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        SizeToContent="Height" Width="400" d:DataContext="{d:DesignInstance client:AboutViewModel}">
+        SizeToContent="Height" Width="400" ResizeMode="NoResize"
+        d:DataContext="{d:DesignInstance client:AboutViewModel}">
     <StackPanel>
         <client:IitOfficialHeader/>
         <StackPanel Margin="25,5,25,5">

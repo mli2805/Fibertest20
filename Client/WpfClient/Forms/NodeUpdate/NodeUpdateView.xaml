@@ -8,7 +8,7 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
         cal:Bind.ModelWithoutContext="{Binding .}"
-        SizeToContent="Height" Width="600" WindowStartupLocation="CenterScreen" 
+        SizeToContent="Height" Width="600" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:NodeUpdateViewModel}"
         FocusManager.FocusedElement="{Binding ElementName=TextBoxTitle}">
     <DockPanel>

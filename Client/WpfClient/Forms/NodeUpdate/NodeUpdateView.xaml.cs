@@ -5,9 +5,11 @@
     /// </summary>
     public partial class NodeUpdateView
     {
+       
         public NodeUpdateView()
         {
             InitializeComponent();
         }
+
     }
 }

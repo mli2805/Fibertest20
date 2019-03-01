@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Client
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = Resources.SID_Optical_events_report;
+            DisplayName = Resources.SID_Monitoring_system_components;
             Report = null;
         }
 

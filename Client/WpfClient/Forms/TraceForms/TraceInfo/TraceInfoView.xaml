@@ -7,7 +7,7 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
         FocusManager.FocusedElement="{Binding ElementName=TraceTitleTextbox}"
-        SizeToContent="Height" Width="350" WindowStartupLocation="CenterScreen"
+        SizeToContent="Height" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignData TraceInfoViewModel}">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}" x:Key="TextBoxValidationStyle">

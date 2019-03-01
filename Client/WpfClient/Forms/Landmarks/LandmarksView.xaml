@@ -7,7 +7,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
-        SizeToContent="Width" Height="708" ResizeMode="CanMinimize"
+        SizeToContent="Width" Height="708" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:LandmarksViewModel}">
     <Window.Resources>
         <FrameworkElement x:Key="ProxyElement" DataContext="{Binding GisVisibility}"/>

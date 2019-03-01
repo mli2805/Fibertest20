@@ -6,7 +6,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" ResizeMode="CanMinimize"
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded"
         d:DataContext="{d:DesignInstance client:RtuInitializeViewModel}"
         FocusManager.FocusedElement="{Binding ElementName=MainAddress}">
     <Window.Resources>
@@ -71,7 +71,8 @@
         <StackPanel Orientation="Horizontal"  Margin="5,10">
             <Button Name="InitializeRtu" Content="{x:Static stringResources:Resources.SID_Initialize}" Margin="5" 
                     Height="22" Width="140" IsEnabled="{Binding IsEditEnabled}"/>
-            <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Margin="5" Height="22" Width="90"/>
+            <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Margin="5"
+                    Height="22" Width="90" IsEnabled="{Binding IsEditEnabled}"/>
         </StackPanel>
     </StackPanel>
 </Window>

@@ -10,6 +10,8 @@ namespace Iit.Fibertest.Client
     public class GpsInputViewModel : PropertyChangedBase
     {
         private readonly CurrentGis _currentGis;
+        private readonly GraphReadModel _graphReadModel;
+        private readonly TabulatorViewModel _tabulatorViewModel;
 
         public OneCoorViewModel OneCoorViewModelLatitude { get; set; }
         public OneCoorViewModel OneCoorViewModelLongitude { get; set; }
@@ -35,26 +37,24 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void DropChanges()
-        {
-            OneCoorViewModelLatitude.ReassignValue(Coors.Lat);
-            OneCoorViewModelLongitude.ReassignValue(Coors.Lng);
-        }
-
+      
         public bool IsEditEnabled { get; set; }
-
-        public GpsInputViewModel(CurrentGis currentGis)
+        private Guid _originalNodeId;
+        public GpsInputViewModel(CurrentGis currentGis, GraphReadModel graphReadModel, TabulatorViewModel tabulatorViewModel)
         {
             _currentGis = currentGis;
+            _graphReadModel = graphReadModel;
+            _tabulatorViewModel = tabulatorViewModel;
             _modeInIniFile = currentGis.GpsInputMode;
             _selectedGpsInputModeComboItem = _modeInIniFile == GpsInputMode.Degrees
                 ? new GpsInputModeComboItem(GpsInputMode.DegreesAndMinutes)
                 : new GpsInputModeComboItem(GpsInputMode.Degrees);
         }
 
-        public void Initialize(PointLatLng coors, bool isEditEnabled)
+        public void Initialize(Node originalNode, bool isEditEnabled)
         {
-            Coors = coors;
+            _originalNodeId = originalNode.NodeId;
+            Coors = originalNode.Position;
 
             OneCoorViewModelLatitude = new OneCoorViewModel(SelectedGpsInputModeComboItem.Mode, Coors.Lat);
             OneCoorViewModelLongitude = new OneCoorViewModel(SelectedGpsInputModeComboItem.Mode, Coors.Lng);
@@ -68,5 +68,29 @@ namespace Iit.Fibertest.Client
             return new PointLatLng(OneCoorViewModelLatitude.StringsToValue(), OneCoorViewModelLongitude.StringsToValue());
         }
 
+        public void PreView()
+        {
+            var nodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == _originalNodeId);
+            if (nodeVm == null) return;
+
+            nodeVm.Position = new PointLatLng(OneCoorViewModelLatitude.StringsToValue(),
+                OneCoorViewModelLongitude.StringsToValue());
+
+            _graphReadModel.PlacePointIntoScreenCenter(nodeVm.Position);
+            if (_tabulatorViewModel.SelectedTabIndex != 3)
+                _tabulatorViewModel.SelectedTabIndex = 3;
+        }
+
+        public void DropChanges()
+        {
+            OneCoorViewModelLatitude.ReassignValue(Coors.Lat);
+            OneCoorViewModelLongitude.ReassignValue(Coors.Lng);
+        }
+
+        public void ButtonDropChanges()
+        {
+            DropChanges();
+            PreView();
+        }
     }
 }

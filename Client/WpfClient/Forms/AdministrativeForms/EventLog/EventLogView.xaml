@@ -7,7 +7,8 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
-        Title="EventLogView" Height="450" Width="1100" d:DataContext="{d:DesignInstance client:EventLogViewModel}">
+        Title="EventLogView" Height="450" Width="1100" Loaded="Window_Loaded"
+        d:DataContext="{d:DesignInstance client:EventLogViewModel}">
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Height="40">
             <Button Content="{x:Static stringResources:Resources.SID_Close}" Name="Close" Width="100" Margin="10" HorizontalAlignment="Right"/>

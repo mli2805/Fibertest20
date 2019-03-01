@@ -2352,7 +2352,7 @@ RTU инициализируется в данный момент!</value>
 		<value>БОП {0} - {1} в {2}</value>
 	</data>
 	<data name="SID____on_port__0___optical_switch__1___" xml:space="preserve">
-		<value> + к порту {0}: переключатель {1}  </value>
+		<value> порт {0}: переключатель {1}  </value>
 	</data>
 	<data name="SID_______________________serial__0____1__ports" xml:space="preserve">
 		<value>                      заводской № {0}  {1} портов</value>

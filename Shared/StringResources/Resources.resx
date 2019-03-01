@@ -2352,7 +2352,7 @@ RTU is initializing right now!</value>
     <value>BOP {0} - {1} at {2}</value>
   </data>
 	<data name="SID____on_port__0___optical_switch__1___" xml:space="preserve">
-    <value> + on port {0}: optical switch {1}  </value>
+    <value> port {0}: optical switch {1}  </value>
   </data>
 	<data name="SID_______________________serial__0____1__ports" xml:space="preserve">
     <value>                     serial {0}  {1} ports</value>

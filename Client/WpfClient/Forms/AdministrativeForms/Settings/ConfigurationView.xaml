@@ -6,7 +6,8 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        Height="450" Width="450" d:DataContext="{d:DesignInstance client:ConfigurationViewModel}">
+        Height="450" Width="450" ResizeMode="NoResize"
+        d:DataContext="{d:DesignInstance client:ConfigurationViewModel}">
     <DockPanel>
         <Button DockPanel.Dock="Bottom" Width="100" Height="22" Margin="5,5,5,10" Content="{x:Static stringResources:Resources.SID_Close}" Name="Close"/>
         <StackPanel Margin="5,10,5,5">

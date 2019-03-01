@@ -7,7 +7,8 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         Topmost ="True"
         mc:Ignorable="d"
-        SizeToContent="Height" Width="500" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignInstance client:TracesToEquipmentInjectionViewModel}">
+        SizeToContent="Height" Width="500" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        d:DataContext="{d:DesignInstance client:TracesToEquipmentInjectionViewModel}">
     <StackPanel>
         <TextBlock Text="{Binding Explanation}"  TextWrapping="Wrap" Margin="5, 20, 5,20" />
         <ItemsControl ItemsSource="{Binding Choices}" Margin="5,5,5,20">

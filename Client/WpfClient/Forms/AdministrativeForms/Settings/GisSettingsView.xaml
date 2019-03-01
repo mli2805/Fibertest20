@@ -6,7 +6,8 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        SizeToContent="Height" Width="450" Left="300" Top="250" d:DataContext="{d:DesignInstance client:GisSettingsViewModel}">
+        SizeToContent="Height" Width="450" Left="300" Top="250"  ResizeMode="NoResize"
+        d:DataContext="{d:DesignInstance client:GisSettingsViewModel}">
     <StackPanel Margin="5" IsEnabled="{Binding IsRoot}">
         <Border Margin="5" BorderThickness="1" BorderBrush="LightGray" CornerRadius="5">
             <StackPanel Margin="0,10,0,0">

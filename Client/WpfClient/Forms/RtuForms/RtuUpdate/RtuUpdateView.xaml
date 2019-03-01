@@ -6,7 +6,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        SizeToContent="Height" Width="400" WindowStartupLocation="CenterOwner"
+        SizeToContent="Height" Width="400" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded"
         d:DataContext="{d:DesignInstance client:RtuUpdateViewModel}"
         FocusManager.FocusedElement="{Binding ElementName=TextBoxTitle}">
     <Window.Resources>
@@ -41,7 +41,6 @@
         <StackPanel Orientation="Horizontal" Margin="5,5,5,10" HorizontalAlignment="Center">
             <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}"
                     IsEnabled="{Binding IsButtonSaveEnabled}" IsDefault="True"/>
-            <Button Name="Preview" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Preview}"/>
             <Button Name="Cancel" Height="25" Width="100" Margin="5" IsCancel="True" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
         </StackPanel>
     </StackPanel>

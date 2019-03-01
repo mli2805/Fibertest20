@@ -6,7 +6,8 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        SizeToContent="Height" Width="350" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignInstance client:FiberWithNodesAddViewModel}" Loaded="Window_Loaded">
+        SizeToContent="Height" Width="350" WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        d:DataContext="{d:DesignInstance client:FiberWithNodesAddViewModel}" Loaded="Window_Loaded">
     <StackPanel FocusManager.FocusedElement="{Binding ElementName=Count}">
         <StackPanel Orientation="Horizontal" Margin="5,10">
             <TextBlock Text="{x:Static stringResources:Resources.SID_Quantity}" Margin="5,0,15,0"/>

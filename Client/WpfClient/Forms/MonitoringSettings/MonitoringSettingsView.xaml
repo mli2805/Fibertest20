@@ -6,23 +6,13 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:monitoringSettings="clr-namespace:Iit.Fibertest.Client.MonitoringSettings"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" MinHeight="520" MinWidth="650" WindowStartupLocation="CenterScreen"
-        d:DataContext="{d:DesignInstance monitoringSettings:MonitoringSettingsViewModel}" KeyDown="Window_KeyDown">
+        SizeToContent="WidthAndHeight" MinHeight="520" MinWidth="650" WindowStartupLocation="CenterScreen" 
+        d:DataContext="{d:DesignInstance monitoringSettings:MonitoringSettingsViewModel}" KeyDown="Window_KeyDown" Loaded="Window_Loaded">
     <Window.Resources>
         <monitoringSettings:FrequencyConverter x:Key="FrConverter"/>
     </Window.Resources>
     <DockPanel>
         <DockPanel DockPanel.Dock="Right" Width="200" Margin="5" IsEnabled="{Binding IsEditEnabled}">
-            <TextBlock DockPanel.Dock="Bottom" Margin="10,0,10,5" Background="AliceBlue" Text="{Binding MessageProp}" TextWrapping="Wrap" />
-            <DockPanel DockPanel.Dock="Bottom" Margin="5,15,5,0">
-                <Button Name="Apply" Height="25" Width="80" IsEnabled="{Binding IsButtonsEnabled}"
-                        Content="{x:Static stringResources:Resources.SID_Apply}" Margin="5" DockPanel.Dock="Left"/>
-
-                <Button Name="Close" Height="25" Width="80" IsEnabled="{Binding IsButtonsEnabled}"
-                        Content="{x:Static stringResources:Resources.SID_Close}" 
-                        Margin="5" IsCancel="True" DockPanel.Dock="Right"/>
-                <StackPanel></StackPanel>
-            </DockPanel>
             <GroupBox Header="{x:Static stringResources:Resources.SID_Precise}" DockPanel.Dock="Top">
                 <StackPanel Margin="5">
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Measurement_frequency}" Margin="5,0,0,0"/>
@@ -65,6 +55,19 @@
                     <RadioButton Content="{x:Static stringResources:Resources.SID_Automatic}" IsChecked="{Binding Model.IsMonitoringOn}" Margin="5"/>
                     <RadioButton Content="{x:Static stringResources:Resources.SID_Manual}" IsChecked="{Binding Model.IsMonitoringOff, Mode=OneWay}" Margin="5"/>
                 </StackPanel>
+            </GroupBox>
+            <GroupBox DockPanel.Dock="Top" Margin="0,5">
+                <DockPanel Margin="0,5,0,0" >
+                    <TextBlock DockPanel.Dock="Bottom" Margin="0,5,0,0" Background="AliceBlue" Height="40"
+                           Text="{Binding MessageProp}" TextWrapping="Wrap" />
+                    <Button Name="Apply" Height="25" Width="80" IsEnabled="{Binding IsButtonsEnabled}"
+                        Content="{x:Static stringResources:Resources.SID_Apply}" Margin="5" DockPanel.Dock="Left"/>
+
+                    <Button Name="Close" Height="25" Width="80" IsEnabled="{Binding IsButtonsEnabled}"
+                        Content="{x:Static stringResources:Resources.SID_Close}" 
+                        Margin="5" IsCancel="True" DockPanel.Dock="Right"/>
+                    <StackPanel></StackPanel>
+                </DockPanel>
             </GroupBox>
             <StackPanel></StackPanel>
         </DockPanel>

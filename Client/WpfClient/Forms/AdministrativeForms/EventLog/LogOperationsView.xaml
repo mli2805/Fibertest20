@@ -6,7 +6,7 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        Title="LogOperationsView" SizeToContent="Height" Width="400"
+        Title="LogOperationsView" SizeToContent="Height" Width="400" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:LogOperationsViewModel}">
     <StackPanel Margin="5">
         <CheckBox Margin="15,5" Content="{x:Static stringResources:Resources.SID_All_operations}" IsChecked="{Binding IsAll}"/>

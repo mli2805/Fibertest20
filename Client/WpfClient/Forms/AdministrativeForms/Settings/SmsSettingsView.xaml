@@ -6,7 +6,8 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        Width="450" SizeToContent="Height" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignInstance client:SmsSettingsViewModel}">
+        Width="450" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        d:DataContext="{d:DesignInstance client:SmsSettingsViewModel}">
     <StackPanel Margin="5" IsEnabled="{Binding IsEditEnabled}">
         <DockPanel Margin="5">
             <TextBlock DockPanel.Dock="Left" Margin="5" Text="{x:Static stringResources:Resources.SID_Gsm_modem_com_port}" Width="150" />
