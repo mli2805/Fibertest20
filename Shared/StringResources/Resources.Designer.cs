@@ -133,7 +133,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to  + on port {0}: optical switch {1}  .
+        ///   Looks up a localized string similar to  port {0}: optical switch {1}  .
         /// </summary>
         public static string SID____on_port__0___optical_switch__1___ {
             get {
@@ -4426,6 +4426,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Optical_events_report {
             get {
                 return ResourceManager.GetString("SID_Optical_events_report", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optical events report for {0:d} - {1:d}.
+        /// </summary>
+        public static string SID_Optical_events_report_for__0_d_____1_d_ {
+            get {
+                return ResourceManager.GetString("SID_Optical_events_report_for__0_d_____1_d_", resourceCulture);
             }
         }
         

@@ -347,6 +347,7 @@
     <Compile Include="GraphModel\Visibility\GraphVisibilityLevelItem.cs" />
     <Compile Include="Logic\PathFinder.cs" />
     <Compile Include="Logic\RtuRemover.cs" />
+    <Compile Include="Reports\AllOpticalEventsReportProvider.cs" />
     <Compile Include="Reports\ComponentsReportSelection\ComponentsReportModel.cs" />
     <Compile Include="Reports\ComponentsReportSelection\ComponentsReportView.xaml.cs">
       <DependentUpon>ComponentsReportView.xaml</DependentUpon>
@@ -356,7 +357,7 @@
       <DependentUpon>EventStatusView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\OpticalEventsSelection\EventStatusViewModel.cs" />
-    <Compile Include="Reports\OpticalEventsReportProvider.cs" />
+    <Compile Include="Reports\ActualOpticalEventsReportProvider.cs" />
     <Compile Include="Reports\OpticalEventsSelection\OpticalEventsReportModel.cs" />
     <Compile Include="Reports\OpticalEventsSelection\OpticalEventsReportView.xaml.cs">
       <DependentUpon>OpticalEventsReportView.xaml</DependentUpon>

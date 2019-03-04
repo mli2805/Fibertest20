@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System.Collections.Generic;
+using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
@@ -19,6 +20,16 @@ namespace Iit.Fibertest.Client
         public bool IsSuspendedChecked { get; set; }
         public bool IsConfirmedChecked { get; set; } = true;
 
-
+        public List<EventStatus> GetSelected()
+        {
+            var result = new List<EventStatus>();
+            if (IsConfirmedChecked) result.Add(EventStatus.Confirmed);
+            if (IsNotConfirmedChecked) result.Add(EventStatus.NotConfirmed);
+            if (IsPlannedChecked) result.Add(EventStatus.Planned);
+            if (IsSuspendedChecked) result.Add(EventStatus.Suspended);
+            if (IsNotImportantChecked) result.Add(EventStatus.NotImportant);
+            if (IsUnprocessedChecked) result.Add(EventStatus.Unprocessed);
+            return result;
+        }
     }
 }

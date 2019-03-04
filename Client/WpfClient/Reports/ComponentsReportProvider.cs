@@ -15,16 +15,14 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly TreeOfRtuModel _tree;
         private readonly CurrentDatacenterParameters _server;
-        private readonly CurrentUser _currentUser;
         private ComponentsReportModel _reportModel;
 
         public ComponentsReportProvider(Model readModel, TreeOfRtuModel tree, 
-            CurrentDatacenterParameters server, CurrentUser currentUser)
+            CurrentDatacenterParameters server)
         {
             _readModel = readModel;
             _tree = tree;
             _server = server;
-            _currentUser = currentUser;
         }
 
         public PdfDocument Create(ComponentsReportModel reportModel)

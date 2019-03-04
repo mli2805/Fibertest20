@@ -12,17 +12,20 @@ namespace Iit.Fibertest.Client
     {
         private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
-        private readonly OpticalEventsReportProvider _opticalEventsReportProvider;
+        private readonly ActualOpticalEventsReportProvider _actualOpticalEventsReportProvider;
+        private readonly AllOpticalEventsReportProvider _allOpticalEventsReportProvider;
 
         public OpticalEventsReportModel Model { get; set; } = new OpticalEventsReportModel();
         public PdfDocument Report { get; set; }
 
         public OpticalEventsReportViewModel(CurrentUser currentUser, Model readModel,
-            OpticalEventsReportProvider opticalEventsReportProvider)
+            ActualOpticalEventsReportProvider actualOpticalEventsReportProvider, 
+            AllOpticalEventsReportProvider allOpticalEventsReportProvider)
         {
             _currentUser = currentUser;
             _readModel = readModel;
-            _opticalEventsReportProvider = opticalEventsReportProvider;
+            _actualOpticalEventsReportProvider = actualOpticalEventsReportProvider;
+            _allOpticalEventsReportProvider = allOpticalEventsReportProvider;
         }
 
         public void Initialize()
@@ -43,7 +46,10 @@ namespace Iit.Fibertest.Client
 
         public void CreateReport()
         {
-            Report = _opticalEventsReportProvider.Create(Model);
+            if (Model.IsCustomReport)
+            Report =  Model.IsCustomReport 
+                ? _allOpticalEventsReportProvider.Create(Model) 
+                : _actualOpticalEventsReportProvider.Create(Model);
             TryClose();
         }
     }

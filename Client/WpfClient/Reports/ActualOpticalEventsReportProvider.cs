@@ -1,10 +1,6 @@
 ﻿using System;
-using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Net;
-using System.Resources;
-using System.Windows.Media.Imaging;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -15,19 +11,18 @@ using PdfSharp.Pdf;
 
 namespace Iit.Fibertest.Client
 {
-    public class OpticalEventsReportProvider
+    public class ActualOpticalEventsReportProvider
     {
         private readonly CurrentDatacenterParameters _server;
-        private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
         private OpticalEventsReportModel _reportModel;
-        public OpticalEventsReportProvider(CurrentDatacenterParameters server, CurrentUser currentUser,
-            Model readModel, OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, AccidentLineModelFactory accidentLineModelFactory)
+        public ActualOpticalEventsReportProvider(CurrentDatacenterParameters server, 
+            Model readModel, OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, 
+            AccidentLineModelFactory accidentLineModelFactory)
         {
             _server = server;
-            _currentUser = currentUser;
             _readModel = readModel;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _accidentLineModelFactory = accidentLineModelFactory;

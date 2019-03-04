@@ -2537,4 +2537,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Output_accident_place" xml:space="preserve">
     <value>Output accident place</value>
   </data>
+	<data name="SID_Optical_events_report_for__0_d_____1_d_" xml:space="preserve">
+    <value>Optical events report for {0:d} - {1:d}</value>
+  </data>
 </root>
