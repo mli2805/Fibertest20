@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Resources;
+using System.Windows.Media.Imaging;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -17,14 +21,16 @@ namespace Iit.Fibertest.Client
         private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
+        private readonly AccidentLineModelFactory _accidentLineModelFactory;
         private OpticalEventsReportModel _reportModel;
         public OpticalEventsReportProvider(CurrentDatacenterParameters server, CurrentUser currentUser,
-            Model readModel, OpticalEventsDoubleViewModel opticalEventsDoubleViewModel)
+            Model readModel, OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, AccidentLineModelFactory accidentLineModelFactory)
         {
             _server = server;
             _currentUser = currentUser;
             _readModel = readModel;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
+            _accidentLineModelFactory = accidentLineModelFactory;
         }
 
         public PdfDocument Create(OpticalEventsReportModel reportModel)
@@ -46,8 +52,7 @@ namespace Iit.Fibertest.Client
 
             LetsGetStarted(section);
 
-            var table = CreateTable(section);
-            FillInTable(table);
+            DrawOpticalEvents(section, true);
 
             PdfDocumentRenderer pdfDocumentRenderer =
                 new PdfDocumentRenderer(true) { Document = doc };
@@ -99,11 +104,34 @@ namespace Iit.Fibertest.Client
             section.Footers.EvenPage.Add(footer.Clone());
         }
 
-        private Table CreateTable(Section section)
+        private void DrawOpticalEvents(Section section, bool isAccidentPlaceShown)
+        {
+            var events = _opticalEventsDoubleViewModel.ActualOpticalEventsViewModel.Rows.ToList();
+            foreach (var opticalEventModel in events)
+            {
+                var trace = _readModel.Traces.First(t => t.TraceId == opticalEventModel.TraceId);
+                if (!trace.ZoneIds.Contains(_reportModel.SelectedZone.ZoneId)) continue;
+
+                var table = DrawOpticalEventTable(section, opticalEventModel).Clone();
+
+                if (isAccidentPlaceShown) 
+                    DrawAccidents(section, opticalEventModel, table);
+            }
+        }
+
+        private Table DrawOpticalEventTable(Section section, OpticalEventModel opticalEventModel)
         {
             var gap = section.AddParagraph();
             gap.Format.SpaceBefore = Unit.FromCentimeter(0.4);
 
+            var table = DrawOpticalEventTableHeader(section);
+
+            DrawOpticalEventRow(table, opticalEventModel);
+            return table;
+        }
+
+        private static Table DrawOpticalEventTableHeader(Section section)
+        {
             var table = section.AddTable();
             table.Borders.Width = 0.25;
 
@@ -152,27 +180,104 @@ namespace Iit.Fibertest.Client
             return table;
         }
 
-        private void FillInTable(Table table)
+        private void DrawOpticalEventRow(Table table, OpticalEventModel opticalEventModel)
         {
-            var events = _opticalEventsDoubleViewModel.ActualOpticalEventsViewModel.Rows.ToList();
-            foreach (var opticalEventModel in events)
-            {
-                var trace = _readModel.Traces.First(t => t.TraceId == opticalEventModel.TraceId);
-                if (!trace.ZoneIds.Contains(_reportModel.SelectedZone.ZoneId)) continue;
+            var row = table.AddRow();
+            row.HeightRule = RowHeightRule.Exactly;
+            row.Height = Unit.FromCentimeter(0.8);
+            row.VerticalAlignment = VerticalAlignment.Center;
+            row.Cells[0].AddParagraph(opticalEventModel.SorFileId.ToString());
+            var measurementTime = $@"{opticalEventModel.MeasurementTimestamp:G}";
+            row.Cells[1].AddParagraph(measurementTime);
+            var registrationTime = $@"{opticalEventModel.EventRegistrationTimestamp:G}";
+            row.Cells[2].AddParagraph(registrationTime);
+            row.Cells[3].AddParagraph($@"{opticalEventModel.TraceTitle}");
+            row.Cells[4].AddParagraph($@"{opticalEventModel.TraceState.ToLocalizedString()}");
+            row.Cells[5].AddParagraph($@"{opticalEventModel.EventStatus.GetLocalizedString()}");
+            row.Cells[6].AddParagraph($@"{opticalEventModel.StatusChangedTimestamp}");
+            row.Cells[7].AddParagraph($@"{opticalEventModel.StatusChangedByUser}");
+        }
 
-                var row = table.AddRow();
-                row.VerticalAlignment = VerticalAlignment.Center;
-                row.Cells[0].AddParagraph(opticalEventModel.SorFileId.ToString());
-                var measurementTime = $@"{opticalEventModel.MeasurementTimestamp:G}";
-                row.Cells[1].AddParagraph(measurementTime);
-                var registrationTime = $@"{opticalEventModel.EventRegistrationTimestamp:G}";
-                row.Cells[2].AddParagraph(registrationTime);
-                row.Cells[3].AddParagraph($@"{opticalEventModel.TraceTitle}");
-                row.Cells[4].AddParagraph($@"{opticalEventModel.TraceState.ToLocalizedString()}");
-                row.Cells[5].AddParagraph($@"{opticalEventModel.EventStatus.GetLocalizedString()}");
-                row.Cells[6].AddParagraph($@"{opticalEventModel.StatusChangedTimestamp}");
-                row.Cells[7].AddParagraph($@"{opticalEventModel.StatusChangedByUser}");
+        private void DrawAccidents(Section section, OpticalEventModel opticalEventModel, Table table)
+        {
+            var number = 0;
+            foreach (var accidentOnTraceV2 in opticalEventModel.Accidents)
+            {
+                var gap = section.AddParagraph();
+                gap.Format.SpaceBefore = Unit.FromCentimeter(0.2);
+
+                var accidentLineModel = _accidentLineModelFactory.Create(accidentOnTraceV2, ++number);
+                var subTable = DrawAccidentPlace(section, accidentLineModel).Clone();
+                var accidentRow = table.AddRow();
+                accidentRow.Borders.Visible = false;
+                accidentRow.Cells[0].MergeRight = 7;
+                accidentRow.Cells[0].Elements.Add(subTable.Clone());
             }
+        }
+
+        private const string LeftArrow = "\U0001f860";
+        private Table DrawAccidentPlace(Section section, AccidentLineModel accidentLineModel)
+        {
+            var table = section.AddTable();
+            table.KeepTogether = true;
+
+            table.AddColumn(@"2.5cm").Format.Alignment = ParagraphAlignment.Left;
+            table.AddColumn(@"2.5cm").Format.Alignment = ParagraphAlignment.Left;
+            table.AddColumn(@"5cm").Format.Alignment = ParagraphAlignment.Center;
+            table.AddColumn(@"2.5cm").Format.Alignment = ParagraphAlignment.Right;
+            table.AddColumn(@"2.5cm").Format.Alignment = ParagraphAlignment.Right;
+
+            var row = table.AddRow();
+            row.HeightRule = RowHeightRule.Exactly;
+            row.Height = Unit.FromCentimeter(0.6);
+            row.Borders.Visible = false;
+            row.KeepWith = 3;
+            row.Cells[0].MergeRight = 4;
+            row.Cells[0].AddParagraph(accidentLineModel.Caption);
+            row.Cells[0].Format.Alignment = ParagraphAlignment.Left;
+
+            var rowTop = table.AddRow();
+            rowTop.Borders.Visible = false;
+            rowTop.HeightRule = RowHeightRule.Exactly;
+            rowTop.Height = Unit.FromCentimeter(0.6);
+            rowTop.Cells[0].MergeRight = 1;
+            rowTop.Cells[0].AddParagraph((accidentLineModel.TopLeft ?? "").Replace(LeftArrow, @"<-"));
+            rowTop.Cells[0].Format.Alignment = ParagraphAlignment.Left;
+
+            rowTop.Cells[2].AddParagraph((accidentLineModel.TopCenter ?? "").Replace(LeftArrow, @"<-"));
+            rowTop.Cells[2].Format.Alignment = ParagraphAlignment.Center;
+
+            rowTop.Cells[3].MergeRight = 1;
+            rowTop.Cells[3].AddParagraph((accidentLineModel.TopRight ?? "").Replace(LeftArrow, @"<-"));
+            rowTop.Cells[3].Format.Alignment = ParagraphAlignment.Right;
+
+            var basePath = AppDomain.CurrentDomain.BaseDirectory;
+            var filename = basePath + accidentLineModel.Scheme.LocalPath;
+            var rowImage = table.AddRow();
+            rowImage.Borders.Visible = false;
+            rowImage.HeightRule = RowHeightRule.Exactly;
+            rowImage.Height = Unit.FromCentimeter(0.9);
+            var image = rowImage.Cells[0].AddImage(filename);
+            image.Width = Unit.FromCentimeter(14.5);
+            image.LockAspectRatio = true;
+
+            var rowBottom = table.AddRow();
+            rowBottom.Borders.Visible = false;
+            rowBottom.HeightRule = RowHeightRule.Exactly;
+            rowBottom.Height = Unit.FromCentimeter(0.6);
+
+            rowBottom.Cells[0].MergeRight = 1;
+            rowBottom.Cells[0].AddParagraph((accidentLineModel.Bottom1 ?? "").Replace(LeftArrow, @"<-"));
+            rowBottom.Cells[0].Format.Alignment = ParagraphAlignment.Left;
+
+            rowBottom.Cells[2].AddParagraph((accidentLineModel.Bottom2 ?? "").Replace(LeftArrow, @"<-"));
+            rowBottom.Cells[2].Format.Alignment = ParagraphAlignment.Center;
+
+            rowBottom.Cells[3].MergeRight = 1;
+            rowBottom.Cells[3].AddParagraph((accidentLineModel.Bottom3 ?? "").Replace(LeftArrow, @"<-"));
+            rowBottom.Cells[3].Format.Alignment = ParagraphAlignment.Right;
+
+            return table;
         }
     }
 }

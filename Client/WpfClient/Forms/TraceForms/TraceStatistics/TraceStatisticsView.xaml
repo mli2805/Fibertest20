@@ -29,9 +29,12 @@
                 <DataGrid ItemsSource="{Binding BaseRefs}" SelectedItem="{Binding SelectedBaseRef}" 
                           AutoGenerateColumns="False" IsReadOnly="True" Margin="0,5">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Base_ref_type}" Binding="{Binding BaseRefTypeString}" Width="90*"/>
-                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Assigned_at}" Binding="{Binding AssignedAt}" Width="120*"/>
-                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Assigned_by}" Binding="{Binding AssignedBy}" Width="120*"/>
+                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Base_ref_type}" 
+                                            Binding="{Binding BaseRefTypeString}" Width="90*"/>
+                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Assigned_at}" 
+                                            Binding="{Binding AssignedAt}" Width="120*"/>
+                        <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Assigned_by}" 
+                                            Binding="{Binding AssignedBy}" Width="120*"/>
                     </DataGrid.Columns>
                     <DataGrid.Resources>
                         <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />
@@ -41,8 +44,10 @@
                     </DataGrid.Resources>
                     <DataGrid.ContextMenu>
                         <ContextMenu>
-                            <MenuItem Header="{x:Static stringResources:Resources.SID_Show_reflectogram}" cal:Message.Attach="[Event Click] = [Action ShowBaseReflectogram]"/>
-                            <MenuItem Header="{x:Static stringResources:Resources.SID_Save_reflectogram_as}" cal:Message.Attach="[Event Click] = [Action SaveBaseReflectogramAs]"/>
+                            <MenuItem Header="{x:Static stringResources:Resources.SID_Show_reflectogram}" 
+                                      cal:Message.Attach="[Event Click] = [Action ShowBaseReflectogram]"/>
+                            <MenuItem Header="{x:Static stringResources:Resources.SID_Save_reflectogram_as}" 
+                                      cal:Message.Attach="[Event Click] = [Action SaveBaseReflectogramAs]"/>
                         </ContextMenu>
                     </DataGrid.ContextMenu>
                 </DataGrid>

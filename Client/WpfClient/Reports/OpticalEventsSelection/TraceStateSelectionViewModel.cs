@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
         public bool IsMajorChecked { get; set; }
         public bool IsCriticalChecked { get; set; }
         public bool IsUserChecked { get; set; }
-        public bool IsFiberBreakChecked { get; set; }
+        public bool IsFiberBreakChecked { get; set; } = true;
         public bool IsNoFiberChecked { get; set; }
     }
 }

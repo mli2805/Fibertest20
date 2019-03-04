@@ -1113,12 +1113,24 @@
     <Resource Include="Resources\EmptyNode\EmptyNodeUser.png" />
     <Resource Include="Resources\AdjustmentPoint\AdjustmentPointOk.png" />
     <Resource Include="Resources\OnMap\NodeHighlighting.png" />
-    <Resource Include="Resources\AccidentSchemes\AccidentBetweenNodes.png" />
-    <Resource Include="Resources\AccidentSchemes\AccidentInLastNode.png" />
-    <Resource Include="Resources\AccidentSchemes\AccidentInNode.png" />
-    <Resource Include="Resources\AccidentSchemes\BadSegment.png" />
-    <Resource Include="Resources\AccidentSchemes\FiberBrokenBetweenNodes.png" />
-    <Resource Include="Resources\AccidentSchemes\FiberBrokenInNode.png" />
+    <Content Include="Resources\AccidentSchemes\AccidentBetweenNodes.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\AccidentSchemes\AccidentInLastNode.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\AccidentSchemes\AccidentInNode.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\AccidentSchemes\BadSegment.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\AccidentSchemes\FiberBrokenBetweenNodes.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\AccidentSchemes\FiberBrokenInNode.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\LeftPanel\MinorSquare.png" />
     <Resource Include="Resources\OnMap\CriticalAccidentPlace.png" />
     <Resource Include="Resources\OnMap\MajorAccidentPlace.png" />

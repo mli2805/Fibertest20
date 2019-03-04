@@ -117,7 +117,7 @@ namespace Iit.Fibertest.Client
 
         public void ShowBaseReflectogram()
         {
-            if (SelectedRow == null) return;
+            if (SelectedBaseRef == null) return;
             // do not use localized base ref type!
             _reflectogramManager.SetTempFileName(TraceTitle, SelectedBaseRef.BaseRefType.ToString(), SelectedBaseRef.AssignedAt);
             _reflectogramManager.ShowBaseReflectogram(SelectedBaseRef.SorFileId);
@@ -125,7 +125,7 @@ namespace Iit.Fibertest.Client
 
         public void SaveBaseReflectogramAs()
         {
-            if (SelectedRow == null) return;
+            if (SelectedBaseRef == null) return;
             // do not use localized base ref type!
             _reflectogramManager.SetTempFileName(TraceTitle, SelectedBaseRef.BaseRefType.ToString(), SelectedBaseRef.AssignedAt);
             _reflectogramManager.SaveBaseReflectogramAs(SelectedBaseRef.SorFileId);

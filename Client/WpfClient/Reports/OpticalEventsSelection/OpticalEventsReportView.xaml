@@ -16,7 +16,7 @@
         <GroupBox Margin="5,10,5,5" Header="{x:Static stringResources:Resources.SID_Responsibility_zone}" Visibility="{Binding Model.ZoneSelectionVisibility}">
             <ComboBox Margin="5" ItemsSource="{Binding Model.Zones}" SelectedItem="{Binding Model.SelectedZone, Mode=TwoWay}"/>
         </GroupBox>
-       <Border Margin="5" BorderThickness="1" BorderBrush="Gray" CornerRadius="5" IsEnabled="{Binding Model.IsCustomReport}">
+       <Border Margin="5" BorderThickness="1" BorderBrush="LightGray" CornerRadius="3" IsEnabled="{Binding Model.IsCustomReport}">
             <DockPanel>
                 <StackPanel DockPanel.Dock="Top" Margin="5" Orientation="Horizontal">
                     <TextBlock Margin="5,8,5,5" Text="{x:Static stringResources:Resources.SID_from}"/>

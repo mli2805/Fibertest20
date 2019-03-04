@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
         public bool IsNotConfirmedChecked { get; set; }
         public bool IsUnprocessedChecked { get; set; }
         public bool IsSuspendedChecked { get; set; }
-        public bool IsConfirmedChecked { get; set; }
+        public bool IsConfirmedChecked { get; set; } = true;
 
 
     }
