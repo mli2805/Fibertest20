@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.StringResources;
+﻿using System.Collections.Generic;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Dto
 {
@@ -17,6 +18,16 @@ namespace Iit.Fibertest.Dto
 
     public static class EventStatusExt
     {
+        public static readonly List<EventStatus> EventStatusesInRightOrder = new List<EventStatus>
+        {
+            EventStatus.Confirmed, 
+            EventStatus.NotConfirmed,
+            EventStatus.Planned,
+            EventStatus.Suspended,
+            EventStatus.NotImportant,
+            EventStatus.Unprocessed,
+        };
+
         public static string GetLocalizedString(this EventStatus eventStatus)
         {
             switch (eventStatus)

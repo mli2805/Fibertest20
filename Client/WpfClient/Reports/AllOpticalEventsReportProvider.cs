@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using MigraDoc.DocumentObjectModel;
+using MigraDoc.DocumentObjectModel.Tables;
 using MigraDoc.Rendering;
 using PdfSharp.Pdf;
 
@@ -101,8 +99,12 @@ namespace Iit.Fibertest.Client
 
         private void DrawBody(Section section, bool isAccidentPlaceShown)
         {
+            var gap = section.AddParagraph();
+            gap.Format.SpaceBefore = Unit.FromCentimeter(0.4);
+
             DrawConsolidatedTable(section);
-            DrawOpticalEvents(section, isAccidentPlaceShown);
+            if (_reportModel.IsDetailedReport)
+                DrawOpticalEvents(section, isAccidentPlaceShown);
         }
 
         private void DrawConsolidatedTable(Section section)
@@ -117,12 +119,19 @@ namespace Iit.Fibertest.Client
                 table.AddColumn(@"3.5cm").Format.Alignment = ParagraphAlignment.Center;
 
             var rowHeader = table.AddRow();
+            rowHeader.VerticalAlignment = VerticalAlignment.Center;
+            rowHeader.TopPadding = Unit.FromCentimeter(0.1);
+            rowHeader.BottomPadding = Unit.FromCentimeter(0.1);
+            rowHeader.Format.Font.Bold = true;
             for (int i = 0; i < selectedStates.Count; i++)
                 rowHeader.Cells[i + 1].AddParagraph(selectedStates[i].ToLocalizedString());
 
             foreach (var list in data)
             {
                 var row = table.AddRow();
+                row.HeightRule = RowHeightRule.Exactly;
+                row.Height = Unit.FromCentimeter(0.6);
+                row.VerticalAlignment = VerticalAlignment.Center;
                 for (int i = 0; i < list.Count; i++)
                     row.Cells[i].AddParagraph(list[i]);
             }
@@ -131,63 +140,6 @@ namespace Iit.Fibertest.Client
         private void DrawOpticalEvents(Section section, bool isAccidentPlaceShown)
         {
 
-        }
-    }
-
-    public static class AllEventsConsolidatedTableProvider
-    {
-        public static List<List<string>> Create(OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OpticalEventsReportModel reportModel)
-        {
-            var result = new List<List<string>>();
-            var traceStates = new List<string> { "" };
-            foreach (var state in reportModel.TraceStateSelectionViewModel.GetSelected())
-                traceStates.Add(state.ToLocalizedString());
-            result.Add(traceStates);
-
-            var data = Calculate(opticalEventsDoubleViewModel, reportModel);
-            foreach (var pair in data)
-            {
-                var statusLine = new List<string>() { pair.Key.GetLocalizedString() };
-                foreach (var state in reportModel.TraceStateSelectionViewModel.GetSelected())
-                {
-                    statusLine.Add(pair.Value.ContainsKey(state) ? pair.Value[state].ToString() : @"0");
-                }
-                result.Add(statusLine);
-            }
-            return result;
-        }
-
-        private static Dictionary<EventStatus, Dictionary<FiberState, int>>
-            Calculate(OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OpticalEventsReportModel reportModel)
-        {
-            var result = new Dictionary<EventStatus, Dictionary<FiberState, int>>();
-            foreach (var meas in opticalEventsDoubleViewModel.AllOpticalEventsViewModel.Rows.Where(r => r.IsEventForReport(reportModel)))
-            {
-                if (result.ContainsKey(meas.EventStatus))
-                {
-                    if (result[meas.EventStatus].ContainsKey(meas.TraceState))
-                    {
-                        result[meas.EventStatus][meas.TraceState]++;
-                    }
-                    else
-                    {
-                        result[meas.EventStatus].Add(meas.TraceState, 1);
-                    }
-                }
-                else
-                {
-                    result.Add(meas.EventStatus, new Dictionary<FiberState, int> { { meas.TraceState, 1 } });
-                }
-            }
-            return result;
-        }
-
-        private static bool IsEventForReport(this OpticalEventModel opticalEventModel, OpticalEventsReportModel reportModel)
-        {
-            if (opticalEventModel.MeasurementTimestamp.Date < reportModel.DateFrom.Date) return false;
-            if (opticalEventModel.MeasurementTimestamp.Date > reportModel.DateTo.Date) return false;
-            if (!reportModel.EventStatusViewModel.GetSelected().Contains(opticalEventModel.EventStatus)) return false;
-            return reportModel.TraceStateSelectionViewModel.GetSelected().Contains(opticalEventModel.TraceState);
         }
     }
 }

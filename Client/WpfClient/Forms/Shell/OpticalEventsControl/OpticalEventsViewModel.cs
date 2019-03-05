@@ -133,13 +133,8 @@ namespace Iit.Fibertest.Client
         private void InitializeEventStatusFilters()
         {
             EventStatusFilters = new List<EventStatusFilter>() { new EventStatusFilter() };
-            EventStatusFilters.Add(new EventStatusFilter(EventStatus.Confirmed));
-            EventStatusFilters.Add(new EventStatusFilter(EventStatus.NotConfirmed));
-            EventStatusFilters.Add(new EventStatusFilter(EventStatus.Planned));
-            EventStatusFilters.Add(new EventStatusFilter(EventStatus.Suspended));
-            EventStatusFilters.Add(new EventStatusFilter(EventStatus.NotImportant));
-            EventStatusFilters.Add(new EventStatusFilter(EventStatus.Unprocessed));
-
+            foreach (var eventStatus in EventStatusExt.EventStatusesInRightOrder)
+                EventStatusFilters.Add(new EventStatusFilter(eventStatus));
             SelectedEventStatusFilter = EventStatusFilters.First();
         }
 
@@ -203,12 +198,12 @@ namespace Iit.Fibertest.Client
         }
 
         // it will be replaced with just arrived event
-//        public void RemovePreviousEventForTraceIfExists(Guid traceId)
-//        {
-//            var oldEvent = Rows.FirstOrDefault(l => l.TraceId == traceId);
-//            if (oldEvent != null)
-//                Rows.Remove(oldEvent);
-//        }
+        //        public void RemovePreviousEventForTraceIfExists(Guid traceId)
+        //        {
+        //            var oldEvent = Rows.FirstOrDefault(l => l.TraceId == traceId);
+        //            if (oldEvent != null)
+        //                Rows.Remove(oldEvent);
+        //        }
 
         public void RemoveEventsOfTrace(Guid traceId)
         {
@@ -264,7 +259,7 @@ namespace Iit.Fibertest.Client
             var isLastAccident = lastEvent == null || lastEvent.SorFileId <= SelectedRow.SorFileId;
             _traceStateViewsManager.ShowTraceState(SelectedRow, isLastMeasurement, isLastAccident);
         }
-        
+
         public void ShowRtuFilter()
         {
             _rtuFilterViewModel.Initialize();

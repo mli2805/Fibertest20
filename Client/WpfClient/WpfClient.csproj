@@ -347,6 +347,7 @@
     <Compile Include="GraphModel\Visibility\GraphVisibilityLevelItem.cs" />
     <Compile Include="Logic\PathFinder.cs" />
     <Compile Include="Logic\RtuRemover.cs" />
+    <Compile Include="Reports\AllEventsConsolidatedTableProvider.cs" />
     <Compile Include="Reports\AllOpticalEventsReportProvider.cs" />
     <Compile Include="Reports\ComponentsReportSelection\ComponentsReportModel.cs" />
     <Compile Include="Reports\ComponentsReportSelection\ComponentsReportView.xaml.cs">
