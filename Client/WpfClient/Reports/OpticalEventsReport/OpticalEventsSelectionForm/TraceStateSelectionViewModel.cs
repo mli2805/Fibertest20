@@ -14,12 +14,12 @@ namespace Iit.Fibertest.Client
         public string FiberBreakContext => FiberState.FiberBreak.ToLocalizedString();
         public string NoFiberContext => FiberState.NoFiber.ToLocalizedString();
 
-        public bool IsMinorChecked { get; set; }
-        public bool IsMajorChecked { get; set; }
-        public bool IsCriticalChecked { get; set; }
+        public bool IsMinorChecked { get; set; } = true;
+        public bool IsMajorChecked { get; set; } = true;
+        public bool IsCriticalChecked { get; set; } = true;
         public bool IsUserChecked { get; set; }
         public bool IsFiberBreakChecked { get; set; } = true;
-        public bool IsNoFiberChecked { get; set; }
+        public bool IsNoFiberChecked { get; set; } = true;
 
         public List<FiberState> GetSelected()
         {

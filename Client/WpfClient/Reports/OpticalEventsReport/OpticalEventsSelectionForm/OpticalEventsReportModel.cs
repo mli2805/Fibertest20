@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Client
         public List<Zone> Zones { get; set; }
         public Zone SelectedZone { get; set; }
 
-        private bool _isDetailedReport;
+        private bool _isDetailedReport = true;
 
         public bool IsDetailedReport
         {

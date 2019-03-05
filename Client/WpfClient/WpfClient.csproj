@@ -347,28 +347,29 @@
     <Compile Include="GraphModel\Visibility\GraphVisibilityLevelItem.cs" />
     <Compile Include="Logic\PathFinder.cs" />
     <Compile Include="Logic\RtuRemover.cs" />
-    <Compile Include="Reports\AllEventsConsolidatedTableProvider.cs" />
-    <Compile Include="Reports\AllOpticalEventsReportProvider.cs" />
-    <Compile Include="Reports\ComponentsReportSelection\ComponentsReportModel.cs" />
-    <Compile Include="Reports\ComponentsReportSelection\ComponentsReportView.xaml.cs">
+    <Compile Include="Reports\OpticalEventsReport\AccidentPlaceReportProvider.cs" />
+    <Compile Include="Reports\OpticalEventsReport\AllEventsConsolidatedTableProvider.cs" />
+    <Compile Include="Reports\OpticalEventsReport\AllOpticalEventsReportProvider.cs" />
+    <Compile Include="Reports\ComponentsReport\ComponentsReportSelectionForm\ComponentsReportModel.cs" />
+    <Compile Include="Reports\ComponentsReport\ComponentsReportSelectionForm\ComponentsReportView.xaml.cs">
       <DependentUpon>ComponentsReportView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reports\ComponentsReportSelection\ComponentsReportViewModel.cs" />
-    <Compile Include="Reports\OpticalEventsSelection\EventStatusView.xaml.cs">
+    <Compile Include="Reports\ComponentsReport\ComponentsReportSelectionForm\ComponentsReportViewModel.cs" />
+    <Compile Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\EventStatusView.xaml.cs">
       <DependentUpon>EventStatusView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reports\OpticalEventsSelection\EventStatusViewModel.cs" />
-    <Compile Include="Reports\ActualOpticalEventsReportProvider.cs" />
-    <Compile Include="Reports\OpticalEventsSelection\OpticalEventsReportModel.cs" />
-    <Compile Include="Reports\OpticalEventsSelection\OpticalEventsReportView.xaml.cs">
+    <Compile Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\EventStatusViewModel.cs" />
+    <Compile Include="Reports\OpticalEventsReport\ActualOpticalEventsReportProvider.cs" />
+    <Compile Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\OpticalEventsReportModel.cs" />
+    <Compile Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\OpticalEventsReportView.xaml.cs">
       <DependentUpon>OpticalEventsReportView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reports\OpticalEventsSelection\OpticalEventsReportViewModel.cs" />
-    <Compile Include="Reports\ComponentsReportProvider.cs" />
-    <Compile Include="Reports\OpticalEventsSelection\TraceStateSelectionView.xaml.cs">
+    <Compile Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\OpticalEventsReportViewModel.cs" />
+    <Compile Include="Reports\ComponentsReport\ComponentsReportProvider.cs" />
+    <Compile Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\TraceStateSelectionView.xaml.cs">
       <DependentUpon>TraceStateSelectionView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Reports\OpticalEventsSelection\TraceStateSelectionViewModel.cs" />
+    <Compile Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\TraceStateSelectionViewModel.cs" />
     <Compile Include="WcfClient\ClientWcfService.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementView.xaml.cs">
       <DependentUpon>ClientMeasurementView.xaml</DependentUpon>
@@ -910,19 +911,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Reports\ComponentsReportSelection\ComponentsReportView.xaml">
+    <Page Include="Reports\ComponentsReport\ComponentsReportSelectionForm\ComponentsReportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Reports\OpticalEventsSelection\EventStatusView.xaml">
+    <Page Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\EventStatusView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Reports\OpticalEventsSelection\OpticalEventsReportView.xaml">
+    <Page Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\OpticalEventsReportView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Reports\OpticalEventsSelection\TraceStateSelectionView.xaml">
+    <Page Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\TraceStateSelectionView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

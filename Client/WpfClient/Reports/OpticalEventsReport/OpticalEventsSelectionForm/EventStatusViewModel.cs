@@ -13,11 +13,11 @@ namespace Iit.Fibertest.Client
         public string SuspendedContext => EventStatus.Suspended.GetLocalizedString();
         public string ConfirmedContext => EventStatus.Confirmed.GetLocalizedString();
 
-        public bool IsNotImportantChecked { get; set; }
-        public bool IsPlannedChecked { get; set; }
-        public bool IsNotConfirmedChecked { get; set; }
-        public bool IsUnprocessedChecked { get; set; }
-        public bool IsSuspendedChecked { get; set; }
+        public bool IsNotImportantChecked { get; set; } = true;
+        public bool IsPlannedChecked { get; set; } = true;
+        public bool IsNotConfirmedChecked { get; set; } = true;
+        public bool IsUnprocessedChecked { get; set; } = true;
+        public bool IsSuspendedChecked { get; set; } = true;
         public bool IsConfirmedChecked { get; set; } = true;
 
         public List<EventStatus> GetSelected()

@@ -46,7 +46,6 @@ namespace Iit.Fibertest.Client
 
         public void CreateReport()
         {
-            if (Model.IsCustomReport)
             Report =  Model.IsCustomReport 
                 ? _allOpticalEventsReportProvider.Create(Model) 
                 : _actualOpticalEventsReportProvider.Create(Model);
