@@ -107,10 +107,10 @@ namespace Iit.Fibertest.Client
                 var trace = _readModel.Traces.First(t => t.TraceId == opticalEventModel.TraceId);
                 if (!trace.ZoneIds.Contains(_reportModel.SelectedZone.ZoneId)) continue;
 
-                var table = DrawOpticalEventTable(section, opticalEventModel).Clone();
+                DrawOpticalEventTable(section, opticalEventModel).Clone();
 
                 if (isAccidentPlaceShown) 
-                    DrawAccidents(section, opticalEventModel, table);
+                    opticalEventModel.DrawAccidents(section, _accidentLineModelFactory);
             }
         }
 
@@ -197,23 +197,6 @@ namespace Iit.Fibertest.Client
                 var commentRow = table.AddRow();
                 commentRow.Cells[0].MergeRight = 7;
                 commentRow.Cells[0].AddParagraph(opticalEventModel.Comment);
-            }
-        }
-
-        private void DrawAccidents(Section section, OpticalEventModel opticalEventModel, Table table)
-        {
-            var number = 0;
-            foreach (var accidentOnTraceV2 in opticalEventModel.Accidents)
-            {
-                var gap = section.AddParagraph();
-                gap.Format.SpaceBefore = Unit.FromCentimeter(0.2);
-
-                var accidentLineModel = _accidentLineModelFactory.Create(accidentOnTraceV2, ++number);
-                var subTable = AccidentPlaceReportProvider.DrawAccidentPlace(section, accidentLineModel).Clone();
-                var accidentRow = table.AddRow();
-                accidentRow.Borders.Visible = false;
-                accidentRow.Cells[0].MergeRight = 7;
-                accidentRow.Cells[0].Elements.Add(subTable.Clone());
             }
         }
     }

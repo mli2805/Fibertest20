@@ -6,8 +6,22 @@ namespace Iit.Fibertest.Client
 {
     public static class AccidentPlaceReportProvider
     {
+        public static void DrawAccidents(this OpticalEventModel opticalEventModel, Section section, 
+            AccidentLineModelFactory accidentLineModelFactory)
+        {
+            var number = 0;
+            foreach (var accidentOnTraceV2 in opticalEventModel.Accidents)
+            {
+                var gap = section.AddParagraph();
+                gap.Format.SpaceBefore = Unit.FromCentimeter(0.2);
+
+                var accidentLineModel = accidentLineModelFactory.Create(accidentOnTraceV2, ++number);
+                DrawAccidentPlace(section, accidentLineModel).Clone();
+            }
+        }  
+        
         private const string LeftArrow = "\U0001f860";
-        public static Table DrawAccidentPlace(Section section, AccidentLineModel accidentLineModel)
+        private static Table DrawAccidentPlace(Section section, AccidentLineModel accidentLineModel)
         {
             var table = section.AddTable();
             table.KeepTogether = true;

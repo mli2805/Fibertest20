@@ -16,13 +16,15 @@ namespace Iit.Fibertest.Client
     {
         private readonly CurrentDatacenterParameters _server;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
+        private readonly AccidentLineModelFactory _accidentLineModelFactory;
         private OpticalEventsReportModel _reportModel;
 
         public AllOpticalEventsReportProvider(CurrentDatacenterParameters server,
-            OpticalEventsDoubleViewModel opticalEventsDoubleViewModel)
+            OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, AccidentLineModelFactory accidentLineModelFactory)
         {
             _server = server;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
+            _accidentLineModelFactory = accidentLineModelFactory;
         }
 
         public PdfDocument Create(OpticalEventsReportModel reportModel)
@@ -187,6 +189,7 @@ namespace Iit.Fibertest.Client
             {
                 var table = DrawOpticalEventTableHeader(section);
                 DrawOpticalEventRow(table, opticalEventModel);
+                opticalEventModel.DrawAccidents(section, _accidentLineModelFactory);
             }
         }
 
