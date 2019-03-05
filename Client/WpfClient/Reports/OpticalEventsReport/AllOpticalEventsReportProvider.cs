@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using MigraDoc.DocumentObjectModel;
@@ -46,7 +49,7 @@ namespace Iit.Fibertest.Client
 
             LetsGetStarted(section);
 
-            DrawBody(section, _reportModel.IsAccidentPlaceShown);
+            DrawBody(section);
 
             PdfDocumentRenderer pdfDocumentRenderer =
                 new PdfDocumentRenderer(true) { Document = doc };
@@ -97,14 +100,14 @@ namespace Iit.Fibertest.Client
             paragraph3.Format.SpaceBefore = Unit.FromCentimeter(0.4);
         }
 
-        private void DrawBody(Section section, bool isAccidentPlaceShown)
+        private void DrawBody(Section section)
         {
             var gap = section.AddParagraph();
             gap.Format.SpaceBefore = Unit.FromCentimeter(0.4);
 
             DrawConsolidatedTable(section);
             if (_reportModel.IsDetailedReport)
-                DrawOpticalEvents(section, isAccidentPlaceShown);
+                DrawOpticalEvents(section);
         }
 
         private void DrawConsolidatedTable(Section section)
@@ -137,9 +140,34 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private void DrawOpticalEvents(Section section, bool isAccidentPlaceShown)
+        private void DrawOpticalEvents(Section section)
         {
-
+            foreach (var eventStatus in EventStatusExt.EventStatusesInRightOrder)
+            {
+                if (_reportModel.EventStatusViewModel.GetSelected().Contains(eventStatus)) 
+                    DrawOpticalEventsWithStatus(section, eventStatus);
+            }
         }
+
+        private void DrawOpticalEventsWithStatus(Section section, EventStatus eventStatus)
+        {
+            foreach (var state in _reportModel.TraceStateSelectionViewModel.GetSelected())
+            {
+                var events = _opticalEventsDoubleViewModel.AllOpticalEventsViewModel.
+                    Rows.Where(r => r.EventStatus == eventStatus && r.TraceState == state).ToList();
+                if (events.Any())
+                    DrawOpticalEventsWithStatusAndState(section, events);
+            }
+        }
+
+        private void DrawOpticalEventsWithStatusAndState(Section section, List<OpticalEventModel> events)
+        {
+            var gap = section.AddParagraph();
+            gap.Format.SpaceBefore = Unit.FromCentimeter(0.4);
+
+            var ev = events.First();
+            section.AddParagraph($"{ev.EventStatus.GetLocalizedString()} / {ev.TraceState.ToLocalizedString()} ({events.Count})");
+        }
+
     }
 }
