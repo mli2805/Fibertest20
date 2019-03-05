@@ -15,14 +15,20 @@ namespace Iit.Fibertest.Client
     public class AllOpticalEventsReportProvider
     {
         private readonly CurrentDatacenterParameters _server;
+        private readonly CurrentUser _currentUser;
+        private readonly Model _readModel;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
         private OpticalEventsReportModel _reportModel;
 
-        public AllOpticalEventsReportProvider(CurrentDatacenterParameters server,
+        private List<OpticalEventModel> _events;
+
+        public AllOpticalEventsReportProvider(CurrentDatacenterParameters server, CurrentUser currentUser, Model readModel,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, AccidentLineModelFactory accidentLineModelFactory)
         {
             _server = server;
+            _currentUser = currentUser;
+            _readModel = readModel;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _accidentLineModelFactory = accidentLineModelFactory;
         }
@@ -46,6 +52,9 @@ namespace Iit.Fibertest.Client
 
             LetsGetStarted(section);
 
+            _events = _currentUser.ZoneId == _reportModel.SelectedZone.ZoneId
+                ? _opticalEventsDoubleViewModel.AllOpticalEventsViewModel.Rows.ToList()
+                : FilterZoneEvents();
             DrawBody(section);
 
             PdfDocumentRenderer pdfDocumentRenderer =
@@ -53,6 +62,18 @@ namespace Iit.Fibertest.Client
             pdfDocumentRenderer.RenderDocument();
 
             return pdfDocumentRenderer.PdfDocument;
+        }
+
+        private List<OpticalEventModel> FilterZoneEvents()
+        {
+            var result = new List<OpticalEventModel>();
+            foreach (var opticalEventModel in _opticalEventsDoubleViewModel.AllOpticalEventsViewModel.Rows)
+            {
+                var trace = _readModel.Traces.First(t => t.TraceId == opticalEventModel.TraceId);
+                if (trace.ZoneIds.Contains(_reportModel.SelectedZone.ZoneId))
+                    result.Add(opticalEventModel);
+            }
+            return result;
         }
         private void SetFooter(Section section)
         {
@@ -110,7 +131,7 @@ namespace Iit.Fibertest.Client
         private void DrawConsolidatedTable(Section section)
         {
             var selectedStates = _reportModel.TraceStateSelectionViewModel.GetSelected();
-            var data = AllEventsConsolidatedTableProvider.Create(_opticalEventsDoubleViewModel, _reportModel);
+            var data = AllEventsConsolidatedTableProvider.Create(_events, _reportModel);
             var table = section.AddTable();
             table.Borders.Width = 0.25;
 
@@ -140,7 +161,7 @@ namespace Iit.Fibertest.Client
         private Dictionary<int, DateTime> _closingTimes;
         private void DrawOpticalEvents(Section section)
         {
-            _closingTimes = ClosedEventsProvider.Calculate(_opticalEventsDoubleViewModel);
+            _closingTimes = EventsClosingTimeProvider.Calculate(_events);
             foreach (var eventStatus in EventStatusExt.EventStatusesInRightOrder)
             {
                 if (_reportModel.EventStatusViewModel.GetSelected().Contains(eventStatus))
@@ -269,25 +290,6 @@ namespace Iit.Fibertest.Client
                 commentRow.Cells[0].MergeRight = 6;
                 commentRow.Cells[0].AddParagraph(opticalEventModel.Comment);
             }
-        }
-    }
-
-    public static class ClosedEventsProvider
-    {
-        public static Dictionary<int, DateTime> Calculate(OpticalEventsDoubleViewModel opticalEventsDoubleViewModel)
-        {
-            var allAccidents = opticalEventsDoubleViewModel.AllOpticalEventsViewModel.Rows.
-                    Where(r => r.EventStatus > EventStatus.EventButNotAnAccident).ToList();
-            var result = new Dictionary<int, DateTime>();
-            foreach (var opticalEventModel in allAccidents)
-            {
-                var okEvent = opticalEventsDoubleViewModel.AllOpticalEventsViewModel.Rows.FirstOrDefault(e =>
-                    e.TraceId == opticalEventModel.TraceId && e.TraceState == FiberState.Ok
-                      && e.MeasurementTimestamp >= opticalEventModel.MeasurementTimestamp);
-                if (okEvent != null)
-                    result.Add(opticalEventModel.SorFileId, okEvent.MeasurementTimestamp);
-            }
-            return result;
         }
     }
 }

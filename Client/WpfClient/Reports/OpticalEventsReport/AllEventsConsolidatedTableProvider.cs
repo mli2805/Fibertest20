@@ -6,10 +6,10 @@ namespace Iit.Fibertest.Client
 {
     public static class AllEventsConsolidatedTableProvider
     {
-        public static List<List<string>> Create(OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OpticalEventsReportModel reportModel)
+        public static List<List<string>> Create(List<OpticalEventModel> events, OpticalEventsReportModel reportModel)
         {
             var result = new List<List<string>>();
-            var data = Calculate(opticalEventsDoubleViewModel, reportModel);
+            var data = Calculate(events, reportModel);
 
             foreach (var eventStatus in EventStatusExt.EventStatusesInRightOrder)
             {
@@ -31,10 +31,10 @@ namespace Iit.Fibertest.Client
         }
 
         private static Dictionary<EventStatus, Dictionary<FiberState, int>>
-            Calculate(OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, OpticalEventsReportModel reportModel)
+            Calculate(List<OpticalEventModel> events, OpticalEventsReportModel reportModel)
         {
             var result = new Dictionary<EventStatus, Dictionary<FiberState, int>>();
-            foreach (var meas in opticalEventsDoubleViewModel.AllOpticalEventsViewModel.Rows.Where(r => IsEventForReport(r, reportModel)))
+            foreach (var meas in events.Where(r => IsEventForReport(r, reportModel)))
             {
                 if (result.ContainsKey(meas.EventStatus))
                 {

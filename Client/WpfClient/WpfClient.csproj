@@ -355,6 +355,7 @@
       <DependentUpon>ComponentsReportView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\ComponentsReport\ComponentsReportSelectionForm\ComponentsReportViewModel.cs" />
+    <Compile Include="Reports\OpticalEventsReport\EventsClosingTimeProvider.cs" />
     <Compile Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\EventStatusView.xaml.cs">
       <DependentUpon>EventStatusView.xaml</DependentUpon>
     </Compile>
