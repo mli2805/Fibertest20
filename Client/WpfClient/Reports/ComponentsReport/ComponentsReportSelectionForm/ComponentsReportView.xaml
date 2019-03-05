@@ -8,7 +8,8 @@
         Width="350" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignData ComponentsReportViewModel}">
     <StackPanel>
-        <GroupBox Margin="5,10,5,5" Header="{x:Static stringResources:Resources.SID_Responsibility_zone}" Visibility="{Binding Model.ZoneSelectionVisibility}">
+        <GroupBox Margin="5,10,5,5" Header="{x:Static stringResources:Resources.SID_Responsibility_zone}"
+                  IsEnabled="{Binding Model.IsZoneSelectionEnabled}">
             <ComboBox Margin="5" ItemsSource="{Binding Model.Zones}" SelectedItem="{Binding Model.SelectedZone, Mode=TwoWay}"/>
         </GroupBox>
         <StackPanel Orientation="Horizontal" Margin="5,10" HorizontalAlignment="Center">

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
@@ -26,7 +25,7 @@ namespace Iit.Fibertest.Client
         public EventStatusViewModel EventStatusViewModel { get; set; } = new EventStatusViewModel();
         public TraceStateSelectionViewModel TraceStateSelectionViewModel { get; set; } = new TraceStateSelectionViewModel();
 
-        public Visibility ZoneSelectionVisibility { get; set; }
+        public bool IsZoneSelectionEnabled { get; set; }
         public List<Zone> Zones { get; set; }
         public Zone SelectedZone { get; set; }
 

@@ -191,6 +191,13 @@ namespace Iit.Fibertest.Client
             row.Cells[5].AddParagraph($@"{opticalEventModel.EventStatus.GetLocalizedString()}");
             row.Cells[6].AddParagraph($@"{opticalEventModel.StatusChangedTimestamp}");
             row.Cells[7].AddParagraph($@"{opticalEventModel.StatusChangedByUser}");
+
+            if (!string.IsNullOrEmpty(opticalEventModel.Comment))
+            {
+                var commentRow = table.AddRow();
+                commentRow.Cells[0].MergeRight = 7;
+                commentRow.Cells[0].AddParagraph(opticalEventModel.Comment);
+            }
         }
 
         private void DrawAccidents(Section section, OpticalEventModel opticalEventModel, Table table)

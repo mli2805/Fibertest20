@@ -11,7 +11,7 @@
     <DockPanel>
         <Button DockPanel.Dock="Bottom" Width="100" Height="22" Margin="5,5,5,10" Content="{x:Static stringResources:Resources.SID_Close}" Name="Close"/>
         <StackPanel Margin="5,10,5,5">
-            <StackPanel Orientation="Horizontal" Margin="5" IsEnabled="{Binding IsEnabled}">
+            <StackPanel Orientation="Horizontal" Margin="5">
                 <ComboBox ItemsSource="{Binding SupportedLanguages}" SelectedItem="{Binding SelectedLanguage}" Width="100"/>
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Change_the_language}" Margin="15,2" />
             </StackPanel>

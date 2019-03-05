@@ -13,8 +13,9 @@
             <RadioButton GroupName="1" Content="{x:Static stringResources:Resources.SID_Current_optical_events}" Margin="5" IsChecked="True"/>
             <RadioButton GroupName="1" Content="{x:Static stringResources:Resources.SID_Optical_events_for_period}" Margin="15,5,5,5" IsChecked="{Binding Model.IsCustomReport}"/>
         </StackPanel>
-        <GroupBox Margin="5,10,5,5" Header="{x:Static stringResources:Resources.SID_Responsibility_zone}" Visibility="{Binding Model.ZoneSelectionVisibility}">
-            <ComboBox Margin="5" ItemsSource="{Binding Model.Zones}" SelectedItem="{Binding Model.SelectedZone, Mode=TwoWay}"/>
+        <GroupBox Margin="5,10,5,5" Header="{x:Static stringResources:Resources.SID_Responsibility_zone}">
+            <ComboBox Margin="5" IsEnabled="{Binding Model.IsZoneSelectionEnabled}"
+                      ItemsSource="{Binding Model.Zones}" SelectedItem="{Binding Model.SelectedZone, Mode=TwoWay}"/>
         </GroupBox>
        <Border Margin="5" BorderThickness="1" BorderBrush="LightGray" CornerRadius="3" IsEnabled="{Binding Model.IsCustomReport}">
             <DockPanel>

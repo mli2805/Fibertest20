@@ -2476,6 +2476,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} / {1} ({2}).
+        /// </summary>
+        public static string SID_Events_report_block_caption {
+            get {
+                return ResourceManager.GetString("SID_Events_report_block_caption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Every 12 hours.
         /// </summary>
         public static string SID_Every_12_hours {
@@ -6857,6 +6866,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Turn_alarm_on {
             get {
                 return ResourceManager.GetString("SID_Turn_alarm_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Turned to OK.
+        /// </summary>
+        public static string SID_Turned_to_OK {
+            get {
+                return ResourceManager.GetString("SID_Turned_to_OK", resourceCulture);
             }
         }
         

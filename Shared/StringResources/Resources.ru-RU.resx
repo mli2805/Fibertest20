@@ -2295,7 +2295,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Задать пароль</value>
 	</data>
 	<data name="SID_Client_settings" xml:space="preserve">
-		<value>Настройки приложения Клиент</value>
+		<value>Настройки приложения Client</value>
 	</data>
 	<data name="SID_Failed_to_save_smtp_settings_" xml:space="preserve">
 		<value>Ошибка сохранения почтовых настроек!</value>
@@ -2539,5 +2539,8 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Optical_events_report_for__0_d_____1_d_" xml:space="preserve">
 		<value>Отчет об оптических событиях за {0:d} - {1:d}</value>
+	</data>
+	<data name="SID_Turned_to_OK" xml:space="preserve">
+		<value>Перешла в ОК</value>
 	</data>
 </root>

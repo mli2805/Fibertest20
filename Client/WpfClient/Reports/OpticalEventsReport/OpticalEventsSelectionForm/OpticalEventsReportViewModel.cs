@@ -1,6 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -30,8 +30,10 @@ namespace Iit.Fibertest.Client
 
         public void Initialize()
         {
-            Model.ZoneSelectionVisibility = _currentUser.ZoneId == Guid.Empty ? Visibility.Visible : Visibility.Collapsed;
-            Model.Zones = _readModel.Zones;
+            Model.IsZoneSelectionEnabled = _currentUser.ZoneId == Guid.Empty;
+            Model.Zones = Model.IsZoneSelectionEnabled 
+                ? _readModel.Zones 
+                : new List<Zone>() {_readModel.Zones.First(z => z.ZoneId == _currentUser.ZoneId)};
             Model.SelectedZone = Model.Zones.First();
 
             Model.DateTo = DateTime.Now;
