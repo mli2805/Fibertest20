@@ -133,6 +133,7 @@
       <DependentUpon>WaitView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WaitForm\WaitViewModel.cs" />
+    <Compile Include="WpfTricks\ScrollToBottomOnAddBehavior.cs" />
     <Compile Include="WpfTricks\WindowManagerExt.cs" />
     <Compile Include="WpfTricks\FocusExtension.cs" />
     <Compile Include="WpfTricks\ObservableRangeCollection.cs" />

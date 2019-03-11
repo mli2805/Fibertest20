@@ -186,7 +186,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ScrollToBottomOnAddBehavior.cs" />
     <Page Include="KadastrLoaderView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -219,7 +218,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\DataCenter\WcfServiceForClient\WcfServiceForClientInterface.csproj">
@@ -245,6 +246,10 @@
     <ProjectReference Include="..\Graph\Graph.csproj">
       <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
       <Name>Graph</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WpfCommonViews\WpfCommonViews.csproj">
+      <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>
+      <Name>WpfCommonViews</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

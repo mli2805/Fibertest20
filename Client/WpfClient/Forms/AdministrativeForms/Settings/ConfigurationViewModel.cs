@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
@@ -76,6 +77,14 @@ namespace Iit.Fibertest.Client
             _isSoundOn = !_isSoundOn;
             SoundButtonContent = _isSoundOn ? Resources.SID_Turn_alarm_off : Resources.SID_Turn_alarm_on;
         }
+
+        public override void CanClose(Action<bool> callback)
+        {
+            if (_isSoundOn)
+                _soundManager.StopAlert();
+            callback(true);
+        }
+
 
         public void Close() { TryClose(); }
     }
