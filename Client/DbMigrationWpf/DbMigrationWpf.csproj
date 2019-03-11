@@ -189,6 +189,7 @@
     <Compile Include="KadastrMigration\Kadastr15Fetcher.cs" />
     <Compile Include="KadastrMigration\Kadastr20Provider.cs" />
     <Compile Include="KadastrMigration\KadastrModel.cs" />
+    <Compile Include="ScrollToBottomOnAddBehavior.cs" />
     <Compile Include="GraphMigration\FileStringParser.cs" />
     <Compile Include="GraphMigration\FileStringTraceParser.cs" />
     <Compile Include="GraphMigration\GraphFetcher.cs" />
@@ -261,10 +262,6 @@
     <ProjectReference Include="..\Graph\Graph.csproj">
       <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
       <Name>Graph</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WpfCommonViews\WpfCommonViews.csproj">
-      <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>
-      <Name>WpfCommonViews</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
