@@ -2,9 +2,9 @@
 using System.Windows.Controls;
 using System.Windows.Interactivity;
 
-namespace Iit.Fibertest.Uninstall
+namespace Iit.Fibertest.WpfCommonViews
 {
-    class ScrollToBottomOnAddBehavior : Behavior<ListView>
+    public class ScrollToBottomOnAddBehavior : Behavior<ListView>
     {
         protected override void OnAttached()
         {

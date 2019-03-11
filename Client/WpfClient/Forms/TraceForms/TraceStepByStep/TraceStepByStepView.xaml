@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews;assembly=Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d" Top="100" Left="50" ResizeMode="NoResize"
         Height="600" Width="340" d:DataContext="{d:DesignInstance client:TraceStepByStepViewModel}" Loaded="Window_Loaded">
     <DockPanel>
@@ -22,11 +24,12 @@
                 <Button Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}" Margin="5,5" Width="145"/>
             </StackPanel>
         </StackPanel>
-        <Border BorderThickness="1" BorderBrush="LightGray" Margin="5">
-            <ScrollViewer VerticalScrollBarVisibility="Auto">
-                <ItemsControl ItemsSource="{Binding Steps}" Margin="5"/>
-            </ScrollViewer>
-        </Border>
+       
+        <ListView ItemsSource="{Binding Steps}" Margin="5">
+            <i:Interaction.Behaviors>
+                <wpfCommonViews:ScrollToBottomOnAddBehavior />
+            </i:Interaction.Behaviors>
+        </ListView>
     </DockPanel>
 </Window>
 

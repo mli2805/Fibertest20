@@ -5,20 +5,21 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:setup="clr-namespace:Iit.Fibertest.Setup"
+             xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews;assembly=Iit.Fibertest.WpfCommonViews"
              mc:Ignorable="d" d:DataContext="{d:DesignInstance setup:ProcessProgressViewModel}">
     <DockPanel>
         <setup:HeaderView DockPanel.Dock="Top" DataContext="{Binding HeaderViewModel}"/>
         <Border DockPanel.Dock="Bottom" Height="40">
             <ListView Margin="5" ItemsSource="{Binding FileLines}" >
                 <i:Interaction.Behaviors>
-                    <setup:ScrollToBottomOnAddBehavior/>
+                    <wpfCommonViews:ScrollToBottomOnAddBehavior/>
                 </i:Interaction.Behaviors>
             </ListView>
         </Border>  
         <Border>
             <ListView Margin="5" ItemsSource="{Binding ProgressLines}" >
                 <i:Interaction.Behaviors>
-                    <setup:ScrollToBottomOnAddBehavior/>
+                    <wpfCommonViews:ScrollToBottomOnAddBehavior/>
                 </i:Interaction.Behaviors>
             </ListView>
         </Border>

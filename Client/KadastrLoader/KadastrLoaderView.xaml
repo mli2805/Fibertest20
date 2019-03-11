@@ -6,6 +6,7 @@
         xmlns:kadastrLoader="clr-namespace:KadastrLoader"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews;assembly=Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d"
         Width="600" Height="470" Left="200" Top="300"
         d:DataContext="{d:DesignInstance kadastrLoader:KadastrLoaderViewModel}">
@@ -38,7 +39,7 @@
 
         <ListView Margin="5" ItemsSource="{Binding ProgressLines}" >
             <i:Interaction.Behaviors>
-                <kadastrLoader:ScrollToBottomOnAddBehavior/>
+                <wpfCommonViews:ScrollToBottomOnAddBehavior/>
             </i:Interaction.Behaviors>
         </ListView>
     </DockPanel>
