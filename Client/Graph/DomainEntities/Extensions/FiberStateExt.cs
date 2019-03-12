@@ -19,8 +19,8 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Not_joined;
                 case FiberState.DistanceMeasurement:
                     return Resources.SID_Distace_measurement;
-//                case FiberState.Unknown:
-//                    return Resources.SID_Unknown;
+                case FiberState.Unknown:
+                    return Resources.SID_Unknown;
                 case FiberState.Ok:
                     return Resources.SID_Ok;
                 case FiberState.Suspicion:
