@@ -67,6 +67,14 @@ namespace Iit.Fibertest.Client
             ActualOpticalEventsViewModel.RemoveEventsOfTrace(evnt.TraceId);
         }
 
+        public void DetachAllTraces(AllTracesDetached evnt)
+        {
+            foreach (var trace in _readModel.Traces.Where(t=>t.RtuId == evnt.RtuId))
+            {
+                ActualOpticalEventsViewModel.RemoveEventsOfTrace(trace.TraceId);
+            }
+        }
+
         public void CleanTrace(TraceCleaned evnt)
         {
             ActualOpticalEventsViewModel.RemoveEventsOfTrace(evnt.TraceId);

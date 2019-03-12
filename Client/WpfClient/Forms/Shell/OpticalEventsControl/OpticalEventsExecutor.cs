@@ -34,6 +34,8 @@ namespace Iit.Fibertest.Client
                     _opticalEventsDoubleViewModel.AttachTrace(evnt); break;
                 case TraceDetached evnt:
                     _opticalEventsDoubleViewModel.DetachTrace(evnt); break;
+                case AllTracesDetached evnt:
+                    _opticalEventsDoubleViewModel.DetachAllTraces(evnt); break;
 
                 case TraceRemoved evnt: _opticalEventsDoubleViewModel.RemoveTrace(evnt); break;
                 case TraceCleaned evnt: _opticalEventsDoubleViewModel.CleanTrace(evnt); break;
@@ -54,7 +56,7 @@ namespace Iit.Fibertest.Client
                 Console.WriteLine(exception);
                 _logFile.AppendLine(exception.Message);
             }
-         
+
         }
     }
 }
