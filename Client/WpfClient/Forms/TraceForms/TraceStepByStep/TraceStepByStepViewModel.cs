@@ -14,6 +14,8 @@ namespace Iit.Fibertest.Client
 {
     public class TraceStepByStepViewModel : Screen
     {
+        public bool IsOpen { get; set; }
+
         private readonly ILifetimeScope _globalScope;
         private readonly GraphReadModel _graphReadModel;
         private readonly Model _readModel;
@@ -66,6 +68,7 @@ namespace Iit.Fibertest.Client
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Step_by_step_trace_defining;
+            IsOpen = true;
         }
 
         public void SemiautomaticMode()
@@ -204,18 +207,25 @@ namespace Iit.Fibertest.Client
         public void Accept()
         {
             IsButtonsEnabled = false;
-            if (!Validate()) return;
+            var result = AcceptProcedure();
+            IsButtonsEnabled = true;
+            if (result)
+                TryClose();
+        }
+
+        private bool AcceptProcedure()
+        {
+            if (!Validate()) return false;
 
             GetListsAugmentedWithAdjustmentPoints(out var traceNodes, out var traceEquipments);
             var traceAddViewModel = _globalScope.Resolve<TraceInfoViewModel>();
             traceAddViewModel.Initialize(_newTraceId, traceEquipments, traceNodes, true);
             _windowManager.ShowDialogWithAssignedOwner(traceAddViewModel);
 
-            if (!traceAddViewModel.IsSavePressed) return;
+            if (!traceAddViewModel.IsSavePressed) return false;
 
             _currentHighlightedNode.IsHighlighted = false;
-            IsButtonsEnabled = true;
-            TryClose();
+            return true;
         }
 
         private void GetListsAugmentedWithAdjustmentPoints(out List<Guid> nodes, out List<Guid> equipments)
@@ -262,6 +272,10 @@ namespace Iit.Fibertest.Client
             TryClose();
         }
 
-
+        public override void CanClose(Action<bool> callback)
+        {
+            IsOpen = false;
+            base.CanClose(callback);
+        }
     }
 }

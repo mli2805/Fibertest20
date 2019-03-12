@@ -129,7 +129,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<TraceInfoCalculator>().InstancePerLifetimeScope();
             builder.RegisterType<TraceInfoViewModel>();
             builder.RegisterType<StepChoiceViewModel>();
-            builder.RegisterType<TraceStepByStepViewModel>();
+            builder.RegisterType<TraceStepByStepViewModel>().InstancePerLifetimeScope();
 
             builder.RegisterType<PortLeaf>();
             builder.RegisterType<OtauLeaf>();

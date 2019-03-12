@@ -6177,6 +6177,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Step by step trace definition is started already!.
+        /// </summary>
+        public static string SID_Step_by_step_trace_definition_is_started_already_ {
+            get {
+                return ResourceManager.GetString("SID_Step_by_step_trace_definition_is_started_already_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Step forward.
         /// </summary>
         public static string SID_Step_forward {

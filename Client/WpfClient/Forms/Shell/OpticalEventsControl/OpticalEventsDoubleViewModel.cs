@@ -56,9 +56,10 @@ namespace Iit.Fibertest.Client
             if (trace == null || !trace.ZoneIds.Contains(_currentUser.ZoneId))
                 return;
 
-            var lastMeasurementOnThisTrace = _readModel.Measurements.LastOrDefault(m => m.TraceId == evnt.TraceId);
-            if (lastMeasurementOnThisTrace != null && lastMeasurementOnThisTrace.TraceState != FiberState.Ok)
-                ActualOpticalEventsViewModel.AddEvent(lastMeasurementOnThisTrace);
+            var lastEventOnTrace = _readModel.Measurements.LastOrDefault(m => 
+                m.TraceId == evnt.TraceId && m.EventStatus >= EventStatus.EventButNotAnAccident);
+            if (lastEventOnTrace != null && lastEventOnTrace.TraceState != FiberState.Ok)
+                ActualOpticalEventsViewModel.AddEvent(lastEventOnTrace);
         }
 
         public void DetachTrace(TraceDetached evnt)

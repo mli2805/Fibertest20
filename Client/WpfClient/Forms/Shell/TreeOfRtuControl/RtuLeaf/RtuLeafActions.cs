@@ -50,7 +50,7 @@ namespace Iit.Fibertest.Client
 
             var vm = _globalScope.Resolve<RtuUpdateViewModel>();
             vm.Initialize(rtuLeaf.Id);
-            _windowManager.ShowWindowWithAssignedOwner(vm);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
         public void HigtlightRtu(object param)

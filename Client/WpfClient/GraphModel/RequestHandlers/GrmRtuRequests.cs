@@ -57,6 +57,12 @@ namespace Iit.Fibertest.Client
             if (!AskRevealTracesIfHidden(rtuNodeId)) return;
 
             var vm = _globalScope.Resolve<TraceStepByStepViewModel>();
+            if (vm.IsOpen)
+            {
+                var vm1 = new MyMessageBoxViewModel(MessageType.Information, Resources.SID_Step_by_step_trace_definition_is_started_already_);
+                _windowManager.ShowDialogWithAssignedOwner(vm1);
+                return;
+            }
             vm.Initialize(rtuNodeId, rtuTitle);
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
