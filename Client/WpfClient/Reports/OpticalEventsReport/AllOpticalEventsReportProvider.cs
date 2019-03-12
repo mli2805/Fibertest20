@@ -174,7 +174,7 @@ namespace Iit.Fibertest.Client
             foreach (var state in _reportModel.TraceStateSelectionViewModel.GetSelected())
             {
                 var events = _opticalEventsDoubleViewModel.AllOpticalEventsViewModel.
-                    Rows.Where(r => r.EventStatus == eventStatus && r.TraceState == state).ToList();
+                    Rows.Where(r => r.EventStatus == eventStatus && r.TraceState == state).OrderByDescending(e=>e.EventRegistrationTimestamp).ToList();
                 if (events.Any())
                     DrawOpticalEventsWithStatusAndState(section, events);
             }
