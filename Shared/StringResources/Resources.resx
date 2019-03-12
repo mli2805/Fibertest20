@@ -2546,7 +2546,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Detach_all_traces" xml:space="preserve">
     <value>Detach all traces</value>
   </data>
-  <data name="SID_Step_by_step_trace_definition_is_started_already_" xml:space="preserve">
+	<data name="SID_Step_by_step_trace_definition_is_started_already_" xml:space="preserve">
     <value>Step by step trace definition is started already!</value>
   </data>
 </root>

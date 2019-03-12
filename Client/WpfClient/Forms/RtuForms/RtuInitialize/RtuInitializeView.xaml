@@ -6,7 +6,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded"
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" Loaded="Window_Loaded" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:RtuInitializeViewModel}"
         FocusManager.FocusedElement="{Binding ElementName=MainAddress}">
     <Window.Resources>
@@ -29,7 +29,7 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox Header="{x:Static stringResources:Resources.SID_Main_channel}" Margin="5" IsEnabled="{Binding IsEditEnabled}">
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Main_channel}" Margin="5" IsEnabled="{Binding IsIdle}">
             <client:NetAddressTestView x:Name="MainAddress"  Margin="0,5,0,0" DataContext="{Binding MainChannelTestViewModel}"/>
         </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_OTDR_Network_Address}" Margin="5">
@@ -44,10 +44,10 @@
                 </StackPanel>
             </StackPanel>
         </GroupBox>
-        <GroupBox Margin="5" IsEnabled="{Binding IsEditEnabled}">
+        <GroupBox Margin="5" IsEnabled="{Binding IsIdle}">
             <GroupBox.Header>
                 <CheckBox Name="CheckBoxReserveAddress" Content="{x:Static stringResources:Resources.SID_Reserve_channel}" 
-                          IsEnabled="{Binding IsEditEnabled}" IsChecked="{Binding IsReserveChannelEnabled, Mode=TwoWay}"/>
+                          IsEnabled="{Binding IsIdle}" IsChecked="{Binding IsReserveChannelEnabled, Mode=TwoWay}"/>
             </GroupBox.Header>
             <client:NetAddressTestView Margin="0,5,0,0" IsEnabled="{Binding ElementName=CheckBoxReserveAddress, Path=IsChecked}"
                                           DataContext="{Binding ReserveChannelTestViewModel}"/>
@@ -70,9 +70,9 @@
        
         <StackPanel Orientation="Horizontal"  Margin="5,10">
             <Button Name="InitializeRtu" Content="{x:Static stringResources:Resources.SID_Initialize}" Margin="5" 
-                    Height="22" Width="140" IsEnabled="{Binding IsEditEnabled}"/>
+                    Height="22" Width="140" IsEnabled="{Binding IsInitializationPermitted}"/>
             <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Margin="5"
-                    Height="22" Width="90" IsEnabled="{Binding IsEditEnabled}"/>
+                    Height="22" Width="90" IsEnabled="{Binding IsCloseEnabled}"/>
         </StackPanel>
     </StackPanel>
 </Window>

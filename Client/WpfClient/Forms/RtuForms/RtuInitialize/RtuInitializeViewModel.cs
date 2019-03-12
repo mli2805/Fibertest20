@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Client
         public NetAddressTestViewModel ReserveChannelTestViewModel { get; set; }
 
         private readonly ILifetimeScope _globalScope;
+        private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
@@ -46,17 +47,34 @@ namespace Iit.Fibertest.Client
             ? OriginalRtu.MainChannel.Ip4Address
             : OriginalRtu.OtdrNetAddress.Ip4Address;
 
-        private bool _isEditEnabled;
-        public bool IsEditEnabled
+        private bool _isIdle;
+
+        public bool IsIdle
         {
-            get => _isEditEnabled;
+            get => _isIdle;
             set
             {
-                if (value == _isEditEnabled) return;
-                _isEditEnabled = value;
+                if (value == _isIdle) return;
+                _isIdle = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IsInitializationPermitted));
+            }
+        }
+
+
+        private bool _isCloseEnabled;
+        public bool IsCloseEnabled
+        {
+            get { return _isCloseEnabled; }
+            set
+            {
+                if (value == _isCloseEnabled) return;
+                _isCloseEnabled = value;
                 NotifyOfPropertyChange();
             }
         }
+
+        public bool IsInitializationPermitted => _currentUser.Role <= Role.Root && IsIdle;
 
         public List<string> Bops { get; set; }
 
@@ -64,7 +82,9 @@ namespace Iit.Fibertest.Client
             IWcfServiceForClient c2DWcfManager, IMyLog logFile, RtuLeaf rtuLeaf, CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
-            IsEditEnabled = currentUser.Role <= Role.Root;
+            _currentUser = currentUser;
+            IsIdle = true;
+            IsCloseEnabled = true;
             _readModel = readModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
@@ -127,7 +147,8 @@ namespace Iit.Fibertest.Client
 
             try
             {
-                IsEditEnabled = false;
+                IsIdle = false;
+                IsCloseEnabled = false;
                 RtuInitializedDto result;
                 using (_globalScope.Resolve<IWaitCursor>())
                 {
@@ -145,7 +166,8 @@ namespace Iit.Fibertest.Client
                 var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_RTU_initialization_error_);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
             }
-            IsEditEnabled = true;
+            IsIdle = true;
+            IsCloseEnabled = true;
         }
 
         private bool Validate()

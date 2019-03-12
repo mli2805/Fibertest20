@@ -2546,4 +2546,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Detach_all_traces" xml:space="preserve">
 		<value>Отключить все трассы</value>
 	</data>
+	<data name="SID_Step_by_step_trace_definition_is_started_already_" xml:space="preserve">
+		<value>Пошаговое определение трассы уже запущено!</value>
+	</data>
 </root>

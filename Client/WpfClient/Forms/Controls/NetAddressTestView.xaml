@@ -10,7 +10,7 @@
              FocusManager.FocusedElement="{Binding ElementName=Address}"
              cal:Bind.ModelWithoutContext="{Binding .}">
     <Grid>
-        <client:NetAddressInputView x:Name="Address"  DataContext="{Binding NetAddressInputViewModel}"/>
+        <client:NetAddressInputView x:Name="Address"  DataContext="{Binding NetAddressInputViewModel}" IsEnabled ="{Binding IsEditEnabled}"/>
         <Button Name="Test" Height="22" Width="80" Content="{x:Static stringResources:Resources.SID_Test}" 
                 Margin="5,5,20,0" HorizontalAlignment="Right" VerticalAlignment="Bottom" IsEnabled="{Binding IsButtonEnabled}"/>
     </Grid>
