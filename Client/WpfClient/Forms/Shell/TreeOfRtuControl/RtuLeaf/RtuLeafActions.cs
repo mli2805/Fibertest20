@@ -156,9 +156,7 @@ namespace Iit.Fibertest.Client
                         TraceId = trace.Id,
                         OtauPort = new OtauPortDto()
                         {
-//                            OtauIp = portOwnerLeaf.OtauNetAddress.Ip4Address,
-//                            OtauTcpPort = portOwnerLeaf.OtauNetAddress.Port,
-                           Serial = portOwnerLeaf.Serial,
+                            Serial = portOwnerLeaf.Serial,
                             IsPortOnMainCharon = isMainCharon,
                             OpticalPort = trace.PortNumber,
                         }
@@ -194,6 +192,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public async void DetachAllTraces(object param)
+        {
+            if (!(param is RtuLeaf rtuLeaf))
+                return;
+
+            using (new WaitCursor())
+            {
+                var cmd = new DetachAllTraces() {RtuId = rtuLeaf.Id};
+                await _c2DWcfManager.SendCommandAsObj(cmd);
+                _rtuStateViewsManager.NotifyUserMonitoringStarted(rtuLeaf.Id);
+            }
+        }
 
         public async void RemoveRtu(object param)
         {

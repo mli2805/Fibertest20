@@ -66,6 +66,7 @@ namespace Iit.Fibertest.Graph
                 case RemoveRtu command: return Validate(command);
                 case AttachOtau command: return _eventsQueue.Add(Mapper.Map<OtauAttached>(command));
                 case DetachOtau command: return _eventsQueue.Add(Mapper.Map<OtauDetached>(command));
+                case DetachAllTraces command: return _eventsQueue.Add(Mapper.Map<AllTracesDetached>(command));
 
                 case AddTrace command: return Validate(command);
                 case UpdateTrace command: return _eventsQueue.Add(Mapper.Map<TraceUpdated>(command));

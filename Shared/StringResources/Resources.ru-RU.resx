@@ -2543,4 +2543,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Turned_to_OK" xml:space="preserve">
 		<value>Перешла в ОК</value>
 	</data>
+	<data name="SID_Detach_all_traces" xml:space="preserve">
+		<value>Отключить все трассы</value>
+	</data>
 </root>

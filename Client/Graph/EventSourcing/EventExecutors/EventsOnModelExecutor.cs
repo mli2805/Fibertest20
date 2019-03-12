@@ -69,6 +69,7 @@ namespace Iit.Fibertest.Graph
                     case RtuRemoved evnt: return _rtuEventsOnModelExecutor.RemoveRtu(evnt);
                     case OtauAttached evnt: return _rtuEventsOnModelExecutor.AttachOtau(evnt);
                     case OtauDetached evnt: return _rtuEventsOnModelExecutor.DetachOtau(evnt);
+                    case AllTracesDetached evnt: return _rtuEventsOnModelExecutor.DetachAllTraces(evnt);
 
                     case TraceAdded evnt: return _traceEventsOnModelExecutor.AddTrace(evnt);
                     case TraceUpdated evnt: return _traceEventsOnModelExecutor.UpdateTrace(evnt);

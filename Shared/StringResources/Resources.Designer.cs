@@ -2026,6 +2026,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Detach all traces.
+        /// </summary>
+        public static string SID_Detach_all_traces {
+            get {
+                return ResourceManager.GetString("SID_Detach_all_traces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Detach BOP manually.
         /// </summary>
         public static string SID_Detach_BOP_manually {
@@ -2472,15 +2481,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Event_Type {
             get {
                 return ResourceManager.GetString("SID_Event_Type", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to {0} / {1} ({2}).
-        /// </summary>
-        public static string SID_Events_report_block_caption {
-            get {
-                return ResourceManager.GetString("SID_Events_report_block_caption", resourceCulture);
             }
         }
         

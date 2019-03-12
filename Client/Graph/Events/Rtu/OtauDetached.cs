@@ -11,6 +11,5 @@ namespace Iit.Fibertest.Graph
         public string OtauIp { get; set; }
         public int TcpPort { get; set; }
         public List<Guid> TracesOnOtau { get; set; }
-
     }
 }

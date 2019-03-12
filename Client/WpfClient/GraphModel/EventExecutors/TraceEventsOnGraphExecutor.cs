@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -34,19 +33,6 @@ namespace Iit.Fibertest.Client
             {   // Some fibers are invisible, so this is the way to refresh graph
                 _currentlyHiddenRtu.ChangedRtu = evnt.RtuId;
             }
-        }
-
-        private IEnumerable<FiberVm> GetTraceFibersByNodes(List<Guid> nodes)
-        {
-            for (int i = 1; i < nodes.Count; i++)
-                yield return GetFiberBetweenNodes(nodes[i - 1], nodes[i]);
-        }
-
-        private FiberVm GetFiberBetweenNodes(Guid node1, Guid node2)
-        {
-            return _graphModel.Data.Fibers.First(
-                f => f.Node1.Id == node1 && f.Node2.Id == node2 ||
-                     f.Node1.Id == node2 && f.Node2.Id == node1);
         }
 
         // event applied to ReadModel firstly and at this moment trace could be cleaned/removed, so fibers list should be prepared beforehand
@@ -110,8 +96,11 @@ namespace Iit.Fibertest.Client
             if (!ShouldAcceptEventForTrace(traceId)) return;
 
             var trace = _readModel.Traces.First(t => t.TraceId == traceId);
-            foreach (var fiberVm in GetTraceFibersByNodes(trace.NodeIds))
+            foreach (var fiberId in trace.FiberIds)
+            {
+                var fiberVm = _graphModel.Data.Fibers.First(f => f.Id == fiberId);
                 fiberVm.SetState(trace.TraceId, trace.State);
+            }
             _graphModel.CleanAccidentPlacesOnTrace(traceId);
         }
 

@@ -2543,4 +2543,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Turned_to_OK" xml:space="preserve">
     <value>Turned to OK</value>
   </data>
+	<data name="SID_Detach_all_traces" xml:space="preserve">
+    <value>Detach all traces</value>
+  </data>
 </root>

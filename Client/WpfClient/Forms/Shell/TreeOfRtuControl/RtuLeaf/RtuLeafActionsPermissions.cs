@@ -53,6 +53,15 @@ namespace Iit.Fibertest.Client
                    && rtuLeaf.MonitoringState == MonitoringState.On;
         }
 
+        public bool CanDetachAllTraces(object param)
+        {
+            return _currentUser.Role <= Role.Operator
+                   && param is RtuLeaf rtuLeaf
+                   && rtuLeaf.IsAvailable
+                   && rtuLeaf.MonitoringState == MonitoringState.Off;
+       
+        }
+
         public bool CanRemoveRtu(object param)
         {
             return _currentUser.Role <= Role.Root 

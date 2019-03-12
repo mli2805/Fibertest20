@@ -58,6 +58,7 @@ namespace Iit.Fibertest.Client
                 case RtuUpdated evnt: _rtuEventsOnGraphExecutor. UpdateRtu(evnt); return;
                 case RtuRemoved evnt: _rtuEventsOnGraphExecutor.RemoveRtu(evnt); return;
                 case OtauDetached evnt: _rtuEventsOnGraphExecutor.DetachOtau(evnt); return;
+                case AllTracesDetached evnt: _rtuEventsOnGraphExecutor.DetachAllTraces(evnt); return;
 
                 case ResponsibilitiesChanged evnt: _responsibilityEventsOnGraphExecutor.ChangeResponsibilities(evnt); return;
 

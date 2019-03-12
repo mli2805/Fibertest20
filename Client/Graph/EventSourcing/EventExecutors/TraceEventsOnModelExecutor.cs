@@ -160,4 +160,5 @@ namespace Iit.Fibertest.Graph
             _accidentsOnTraceToModelApplier.CleanAccidentPlacesOnTrace(trace.TraceId);
         }
     }
+
 }

@@ -71,5 +71,13 @@ namespace Iit.Fibertest.Client
                 _traceEventsOnGraphExecutor.DetachTrace(traceId);
             }
         }
+
+        public void DetachAllTraces(AllTracesDetached evnt)
+        {
+            foreach (var trace in _readModel.Traces.Where(t=>t.RtuId == evnt.RtuId))
+            {
+                _traceEventsOnGraphExecutor.DetachTrace(trace.TraceId);
+            }
+        }
     }
 }

@@ -37,6 +37,7 @@ namespace Iit.Fibertest.Client
                     case RtuRemoved evnt: _rtuEventsOnTreeExecutor.RemoveRtu(evnt); return;
                     case OtauAttached evnt: _rtuEventsOnTreeExecutor.AttachOtau(evnt); return;
                     case OtauDetached evnt: _rtuEventsOnTreeExecutor.DetachOtau(evnt); return;
+                    case AllTracesDetached evnt: _rtuEventsOnTreeExecutor.DetachAllTraces(evnt); return;
                     case NetworkEventAdded evnt: _rtuEventsOnTreeExecutor.AddNetworkEvent(evnt); return;
                     case BopNetworkEventAdded evnt: _rtuEventsOnTreeExecutor.AddBopNetworkEvent(evnt); return;
 

@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Client
         private readonly RtuLeafActions _rtuLeafActions;
         private readonly RtuLeafActionsPermissions _rtuLeafActionsPermissions;
 
-        public RtuLeafContextMenuProvider( RtuLeafActions rtuLeafActions,  RtuLeafActionsPermissions rtuLeafActionsPermissions)
+        public RtuLeafContextMenuProvider(RtuLeafActions rtuLeafActions, RtuLeafActionsPermissions rtuLeafActionsPermissions)
         {
             _rtuLeafActions = rtuLeafActions;
             _rtuLeafActionsPermissions = rtuLeafActionsPermissions;
@@ -76,6 +76,13 @@ namespace Iit.Fibertest.Client
             });
 
             menu.Add(null);
+
+            menu.Add(new MenuItemVm()
+            {
+                Header = Resources.SID_Detach_all_traces,
+                Command = new ContextMenuAction(_rtuLeafActions.DetachAllTraces, _rtuLeafActionsPermissions.CanDetachAllTraces),
+                CommandParameter = rtuLeaf
+            });
 
             menu.Add(new MenuItemVm()
             {

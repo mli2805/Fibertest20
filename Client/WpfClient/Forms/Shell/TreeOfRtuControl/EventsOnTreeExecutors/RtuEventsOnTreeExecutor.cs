@@ -110,6 +110,25 @@ namespace Iit.Fibertest.Client
             rtuLeaf.RemoveOtauState(otauLeaf.Id);
         }
 
+        public void DetachAllTraces(AllTracesDetached e)
+        {
+            if (_currentUser.ZoneId != Guid.Empty &&
+                !_readModel.Rtus.First(r => r.Id == e.RtuId).ZoneIds.Contains(_currentUser.ZoneId)) return;
+
+            var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(e.RtuId);
+            foreach (var child in rtuLeaf.ChildrenImpresario.Children.ToList())
+            {
+                if (child is TraceLeaf traceLeaf)
+                    _traceEventsOnTreeExecutor.DetachTrace(traceLeaf.Id);
+                if (child is OtauLeaf otauLeaf)
+                    foreach (var grandChild in otauLeaf.ChildrenImpresario.Children.ToList())
+                    {
+                        if (grandChild is TraceLeaf traceLeafOnBop)
+                            _traceEventsOnTreeExecutor.DetachTrace(traceLeafOnBop.Id);
+                    }
+            }
+        }
+
         public void AddNetworkEvent(NetworkEventAdded e)
         {
             if (_currentUser.ZoneId != Guid.Empty &&

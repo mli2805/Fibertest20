@@ -132,6 +132,7 @@
     <Compile Include="Commands\Client\LostClientConnection.cs" />
     <Compile Include="Commands\Client\RegisterClientStation.cs" />
     <Compile Include="Commands\Client\UnregisterClientStation.cs" />
+    <Compile Include="Commands\Rtu\DetachAllTraces.cs" />
     <Compile Include="DomainEntities\Administration\EmailReceiver.cs" />
     <Compile Include="DomainEntities\Administration\SmsReceiver.cs" />
     <Compile Include="DomainEntities\Breaks\AccidentNeighbour.cs" />
@@ -190,6 +191,7 @@
     <Compile Include="Events\Equipment\EquipmentAtGpsLocationWithNodeTitleAdded.cs" />
     <Compile Include="Events\ExternalEvents\MeasurementAdded.cs" />
     <Compile Include="Events\ExternalEvents\MeasurementUpdated.cs" />
+    <Compile Include="Events\Rtu\AllTracesDetached.cs" />
     <Compile Include="Events\User\UserAdded.cs" />
     <Compile Include="Events\User\UserRemoved.cs" />
     <Compile Include="Events\User\UserUpdated.cs" />
