@@ -203,7 +203,6 @@ namespace Iit.Fibertest.Graph
             evnt.FibersFromCleanedTraces = new List<KeyValuePair<Guid, Guid>>();
             foreach (var trace in _writeModel.Traces.Where(t => t.RtuId == cmd.RtuId))
             {
-               // foreach (var fiberId in _writeModel.GetFibersByNodes(trace.NodeIds))
                 foreach (var fiberId in trace.FiberIds)
                 {
                     evnt.FibersFromCleanedTraces.Add(new KeyValuePair<Guid, Guid>(fiberId, trace.TraceId));
@@ -233,7 +232,6 @@ namespace Iit.Fibertest.Graph
             var traceCleaned = Mapper.Map<TraceCleaned>(cmd);
             var trace = _writeModel.Traces.First(t => t.TraceId == cmd.TraceId);
             traceCleaned.NodeIds = trace.NodeIds;
-//            traceCleaned.FiberIds = _writeModel.GetFibersByNodes(traceCleaned.NodeIds).ToList();
             traceCleaned.FiberIds = trace.FiberIds;
             return _eventsQueue.Add(traceCleaned);
         }

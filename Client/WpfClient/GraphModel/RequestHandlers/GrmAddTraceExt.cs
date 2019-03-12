@@ -23,7 +23,6 @@ namespace Iit.Fibertest.Client
                 return;
 
             var traceId = Guid.NewGuid();
-//            var fiberIds = model.ReadModel.GetFibersByNodes(traceNodes).ToList();
             var fiberIds = model.ReadModel.GetFibersAtTraceCreation(traceNodes).ToList();
             model.ChangeFutureTraceColor(traceId, fiberIds, FiberState.HighLighted);
             try
