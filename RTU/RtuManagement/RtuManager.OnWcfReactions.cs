@@ -16,7 +16,7 @@ namespace Iit.Fibertest.RtuManagement
 
         public ConcurrentQueue<object> ShouldSendHeartbeat = new ConcurrentQueue<object>();
 
-        public void Initialize(InitializeRtuDto param, Action callback)
+        public bool Initialize(InitializeRtuDto param, Action callback)
         {
             // prohibit to send heartbeats
          //   ShouldSendHeartbeat.TryDequeue(out _);
@@ -42,7 +42,8 @@ namespace Iit.Fibertest.RtuManagement
             if (_rtuInitializationResult != ReturnCode.Ok)
             {
                 callback?.Invoke();
-                return;
+                while (RunMainCharonRecovery() != ReturnCode.Ok){}
+                return false;
             }
 
             if (param != null && param.Serial != _mainCharon.Serial)
@@ -61,6 +62,8 @@ namespace Iit.Fibertest.RtuManagement
                 RunMonitoringCycle();
             else
                 DisconnectOtdr();
+
+            return true;
         }
 
         private void LogInitializationStart()
