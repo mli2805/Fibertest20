@@ -10,7 +10,7 @@ namespace Iit.Fibertest.RtuManagement
     {
         private readonly TimeSpan _mikrotikRebootTimeout;
 
-        private void RunMainCharonRecovery()
+        private ReturnCode RunMainCharonRecovery()
         {
             var previousStep = (RecoveryStep)_serviceIni.Read(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
 
@@ -19,8 +19,7 @@ namespace Iit.Fibertest.RtuManagement
                 case RecoveryStep.Ok:
                     _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ResetArpAndCharon);
                     RestoreFunctions.ClearArp(_serviceLog, _rtuLog);
-                    InitializeRtuManager(null); // Reset Charon
-                    return;
+                    return InitializeRtuManager(null); // Reset Charon
                 case RecoveryStep.ResetArpAndCharon:
                     _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.RestartService);
                     _rtuLog.AppendLine("Recovery procedure: Exit rtu service.");
@@ -29,7 +28,7 @@ namespace Iit.Fibertest.RtuManagement
 //                    Environment.Exit(1); // ваще не выходит
                     var svc = new ServiceController("FibertestRtuService");
                     svc.Stop();
-                    return;
+                    return ReturnCode.Ok;
                 case RecoveryStep.RestartService:
                     var enabled = _serviceIni.Read(IniSection.Recovering, IniKey.RebootSystemEnabled, false);
                     if (enabled)
@@ -40,20 +39,21 @@ namespace Iit.Fibertest.RtuManagement
                         _serviceLog.AppendLine("Recovery procedure: Reboot system.");
                         RestoreFunctions.RebootSystem(_serviceLog, delay);
                         Thread.Sleep(TimeSpan.FromSeconds(delay + 5));
+                        return ReturnCode.Ok;
                     }
                     else
                     {
                         _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ResetArpAndCharon);
                         RestoreFunctions.ClearArp(_serviceLog, _rtuLog);
-                        InitializeRtuManager(null);
+                        return InitializeRtuManager(null);
                     }
-                    return;
                 case RecoveryStep.RebootPc:
                     _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.ResetArpAndCharon);
                     RestoreFunctions.ClearArp(_serviceLog, _rtuLog);
-                    InitializeRtuManager(null);
-                    return;
+                    return InitializeRtuManager(null);
             }
+
+            return ReturnCode.Ok;
         }
 
 

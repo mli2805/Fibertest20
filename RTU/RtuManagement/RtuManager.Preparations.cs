@@ -11,6 +11,10 @@ namespace Iit.Fibertest.RtuManagement
     {
         private ReturnCode InitializeRtuManager(InitializeRtuDto dto)
         {
+            // prohibit to send heartbeats
+            ShouldSendHeartbeat.TryDequeue(out _);
+
+            _rtuLog.EmptyLine();
             _rtuLog.AppendLine($"RTU Manager version {_version}");
 
             var resetCharonResult = RestoreFunctions.ResetCharonThroughComPort(_rtuIni, _rtuLog);
@@ -43,6 +47,9 @@ namespace Iit.Fibertest.RtuManagement
             GetMonitoringParams();
 
             _rtuLog.AppendLine("RTU Manager initialized successfully.");
+            // permit to send heartbeats
+            ShouldSendHeartbeat.Enqueue(new object());
+
             return ReturnCode.Ok;
         }
 

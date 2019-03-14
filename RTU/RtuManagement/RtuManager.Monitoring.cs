@@ -171,7 +171,6 @@ namespace Iit.Fibertest.RtuManagement
         private MoniResult DoMeasurement(BaseRefType baseRefType, MonitorigPort monitorigPort, bool shouldChangePort = true)
         {
             _cancellationTokenSource = new CancellationTokenSource();
-            _rtuIni.Write(IniSection.Monitoring, IniKey.LastMeasurementTimestamp, DateTime.Now.ToString(CultureInfo.CurrentCulture));
 
             if (shouldChangePort && !ToggleToPort(monitorigPort))
                 return null;
@@ -181,6 +180,8 @@ namespace Iit.Fibertest.RtuManagement
                 return null;
 
             SendCurrentMonitoringStep(MonitoringCurrentStep.Measure, monitorigPort, baseRefType);
+
+            _rtuIni.Write(IniSection.Monitoring, IniKey.LastMeasurementTimestamp, DateTime.Now.ToString(CultureInfo.CurrentCulture));
 
             if (_cancellationTokenSource.IsCancellationRequested) // command to interrupt monitoring came while port toggling
                 return null;
@@ -196,7 +197,8 @@ namespace Iit.Fibertest.RtuManagement
 
             if (result != ReturnCode.MeasurementEndedNormally)
             {
-                RunMainCharonRecovery();
+                if (RunMainCharonRecovery() != ReturnCode.Ok)
+                    RunMainCharonRecovery(); // one of recovery steps inevitably exits process
                 return null;
             }
 
@@ -339,7 +341,8 @@ namespace Iit.Fibertest.RtuManagement
                 case CharonOperationResult.MainOtauError:
                     {
                         LedDisplay.Show(_rtuIni, _rtuLog, LedDisplayCode.ErrorTogglePort);
-                        RunMainCharonRecovery();
+                        if (RunMainCharonRecovery() != ReturnCode.Ok)
+                            RunMainCharonRecovery(); // one of recovery steps inevitably exits process
                         return false;
                     }
                 case CharonOperationResult.AdditionalOtauError:
