@@ -98,8 +98,6 @@ namespace Iit.Fibertest.RtuManagement
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
             _version = info.FileVersion;
             _serviceIni.Write(IniSection.General, IniKey.Version, _version);
-
- //           BaseRefsSaver = new BaseRefsSaver(_rtuIni, _rtuLog);
         }
 
         public void OnServiceStart()

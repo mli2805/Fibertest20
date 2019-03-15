@@ -14,13 +14,10 @@ namespace Iit.Fibertest.RtuManagement
         // used as thread safe way to exchange between WCF thread and Measurement thread
         public ConcurrentQueue<object> WcfCommandsQueue = new ConcurrentQueue<object>();
 
-        public ConcurrentQueue<object> ShouldSendHeartbeat = new ConcurrentQueue<object>();
+        public readonly ConcurrentQueue<object> ShouldSendHeartbeat = new ConcurrentQueue<object>();
 
-        public bool Initialize(InitializeRtuDto param, Action callback)
+        public void Initialize(InitializeRtuDto param, Action callback)
         {
-            // prohibit to send heartbeats
-         //   ShouldSendHeartbeat.TryDequeue(out _);
-
             if (IsMonitoringOn || _wasMonitoringOn)
             {
                 StopMonitoring("Initialize");
@@ -39,11 +36,12 @@ namespace Iit.Fibertest.RtuManagement
             }
 
             _rtuInitializationResult = InitializeRtuManager(param);
+            bool isCallbackReturned = false;
             if (_rtuInitializationResult != ReturnCode.Ok)
             {
                 callback?.Invoke();
+                isCallbackReturned = true;
                 while (RunMainCharonRecovery() != ReturnCode.Ok){}
-                return false;
             }
 
             if (param != null && param.Serial != _mainCharon.Serial)
@@ -51,19 +49,15 @@ namespace Iit.Fibertest.RtuManagement
                 _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
             }
 
-            // permit to send heartbeats
-         //   ShouldSendHeartbeat.Enqueue(new object());
-
             IsRtuInitialized = true;
-            callback?.Invoke();
+            if (!isCallbackReturned)
+                callback?.Invoke();
 
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
             if (IsMonitoringOn || _wasMonitoringOn)
                 RunMonitoringCycle();
             else
                 DisconnectOtdr();
-
-            return true;
         }
 
         private void LogInitializationStart()
