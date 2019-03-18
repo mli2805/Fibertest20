@@ -24,10 +24,10 @@ namespace Iit.Fibertest.RtuManagement
                     _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.RestartService);
                     _rtuLog.AppendLine("Recovery procedure: Exit rtu service.");
                     _serviceLog.AppendLine("Recovery procedure: Exit rtu service.");
-                   // Environment.FailFast("Recovery procedure: Exit rtu service.");
+                    Environment.FailFast("Recovery procedure: Exit rtu service.");
 //                    Environment.Exit(1); // ваще не выходит
-                    var svc = new ServiceController("FibertestRtuService");
-                    svc.Stop();
+                  //  new ServiceController("FibertestRtuService").Stop(); // медленно выходит, успевает выполнить еще несколько операторов
+                    // ReSharper disable once HeuristicUnreachableCode
                     return ReturnCode.Ok;
                 case RecoveryStep.RestartService:
                     var enabled = _serviceIni.Read(IniSection.Recovering, IniKey.RebootSystemEnabled, false);

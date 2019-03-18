@@ -32,7 +32,11 @@ namespace Iit.Fibertest.RtuManagement
             {
                 SaveInitializationParameters(param);
                 if (param.ShouldMonitoringBeStopped)
+                {
                     _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
+                    _rtuLog.AppendLine("false1");
+
+                }
             }
 
             _rtuInitializationResult = InitializeRtuManager(param);
@@ -47,6 +51,7 @@ namespace Iit.Fibertest.RtuManagement
             if (param != null && param.Serial != _mainCharon.Serial)
             {
                 _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
+                    _rtuLog.AppendLine("false2");
             }
 
             IsRtuInitialized = true;
