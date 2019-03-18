@@ -66,12 +66,12 @@ namespace Iit.Fibertest.RtuWatchdog
                 return false;
 
             var isMonitoringOnStr = _watchIniFile.ReadForeignIni(_rtuManagerIniFile, IniSection.Monitoring, IniKey.IsMonitoringOn);
-            if (!int.TryParse(isMonitoringOnStr, out int isMonitoringOn))
+            if (!bool.TryParse(isMonitoringOnStr, out bool isMonitoringOn))
             {
                 _watchLog.AppendLine($"Cannot parse IsMonitoringOn {isMonitoringOnStr}");
                 return false;
             }
-            if (isMonitoringOn == 0) return false;
+            if (!isMonitoringOn) return false;
 
             var lastMeasurementTimeStr = _watchIniFile.ReadForeignIni(_rtuManagerIniFile, IniSection.Monitoring, IniKey.LastMeasurementTimestamp);
             if (!DateTime.TryParse(lastMeasurementTimeStr, CultureInfo.CurrentCulture, DateTimeStyles.None,

@@ -20,7 +20,7 @@ namespace Iit.Fibertest.RtuManagement
 
         private void RunMonitoringCycle()
         {
-            _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
+            _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, true);
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start monitoring.");
             _rtuLog.AppendLine($"_mainCharon.Serial = {_mainCharon.Serial}", 0, 3);
@@ -28,7 +28,7 @@ namespace Iit.Fibertest.RtuManagement
             if (_monitoringQueue.Count() < 1)
             {
                 _rtuLog.AppendLine("There are no ports in queue for monitoring.");
-                _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
+                _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
                 IsMonitoringOn = false;
                 return;
             }
@@ -46,7 +46,7 @@ namespace Iit.Fibertest.RtuManagement
             }
 
             _rtuLog.AppendLine("Monitoring stopped.");
-            _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 0);
+            _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
             var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, DefaultIp);
             _otdrManager.DisconnectOtdr(otdrAddress);
             IsMonitoringOn = false;

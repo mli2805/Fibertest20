@@ -118,7 +118,7 @@ namespace Iit.Fibertest.RtuManagement
                 Children = _mainCharon?.GetChildrenDto(),
                 OtdrAddress = _mainCharon?.NetAddress,
                 Version = _version,
-                IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0,
+                IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, false),
                 AcceptableMeasParams = _otdrManager.InterOpWrapper.GetTreeOfAcceptableMeasParams(),
             };
         }

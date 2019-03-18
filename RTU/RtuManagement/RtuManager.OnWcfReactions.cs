@@ -21,7 +21,7 @@ namespace Iit.Fibertest.RtuManagement
             if (IsMonitoringOn || _wasMonitoringOn)
             {
                 StopMonitoring("Initialize");
-                _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1); // after initialization monitoring should be resumed
+                _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, true); // after initialization monitoring should be resumed
             }
 
             LogInitializationStart();
@@ -53,7 +53,7 @@ namespace Iit.Fibertest.RtuManagement
             if (!isCallbackReturned)
                 callback?.Invoke();
 
-            IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, 0) != 0;
+            IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
             if (IsMonitoringOn || _wasMonitoringOn)
                 RunMonitoringCycle();
             else
@@ -147,7 +147,7 @@ namespace Iit.Fibertest.RtuManagement
 
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("RTU is turned into AUTOMATIC mode.");
-            _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, 1);
+            _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, true);
             IsMonitoringOn = true;
             callback?.Invoke();
 
