@@ -70,6 +70,7 @@ namespace Iit.Fibertest.Client
             {
                 _soundManager.StartAlert();
                 IsSoundButtonEnabled = true;
+                _isSoundForThisVmInstanceOn = true;
             }
         }
 
