@@ -2484,7 +2484,7 @@ RTU инициализируется в данный момент!</value>
 		<value>порт {0}{1}  ; </value>
 	</data>
 	<data name="SID_Server_____0_____1_____2_" xml:space="preserve">
-		<value>Сервер :  "{0}" ; {1} ; {2}</value>
+		<value>Сервер :  {0} {1} ; {2}</value>
 	</data>
 	<data name="SID_Reports" xml:space="preserve">
 		<value>Отчеты</value>
@@ -2548,5 +2548,11 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Step_by_step_trace_definition_is_started_already_" xml:space="preserve">
 		<value>Пошаговое определение трассы уже запущено!</value>
+	</data>
+	<data name="SID_Measurement_time" xml:space="preserve">
+		<value>Время измерения</value>
+	</data>
+	<data name="SID_ServerTitle" xml:space="preserve">
+		<value>"{0}" ;</value>
 	</data>
 </root>

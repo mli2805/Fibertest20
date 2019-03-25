@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -13,14 +12,17 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly EventStoreService _eventStoreService;
         private readonly List<ClientStation> _clients = new List<ClientStation>();
 
-        public ClientsCollection(IniFile iniFile, IMyLog logFile, Model writeModel, EventStoreService eventStoreService)
+        public ClientsCollection(IniFile iniFile, IMyLog logFile, Model writeModel, 
+            CurrentDatacenterParameters currentDatacenterParameters, EventStoreService eventStoreService)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _writeModel = writeModel;
+            _currentDatacenterParameters = currentDatacenterParameters;
             _eventStoreService = eventStoreService;
         }
 
@@ -130,22 +132,11 @@ namespace Iit.Fibertest.DataCenterCore
             var zone = _writeModel.Zones.First(z => z.ZoneId == user.ZoneId);
             result.ZoneId = zone.ZoneId;
             result.ZoneTitle = zone.Title;
-            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-            result.DatacenterVersion = fvi.FileVersion;
+            result.DatacenterVersion = _currentDatacenterParameters.DatacenterVersion;
             result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
             result.IsWithoutMapMode = _iniFile.Read(IniSection.Server, IniKey.IsWithoutMapMode, false);
-
-            result.Smtp = new SmtpSettingsDto()
-            {
-                SmptHost = _iniFile.Read(IniSection.Smtp, IniKey.SmtpHost, ""),
-                SmptPort = _iniFile.Read(IniSection.Smtp, IniKey.SmtpPort, 0),
-                MailFrom = _iniFile.Read(IniSection.Smtp, IniKey.MailFrom, ""),
-                MailFromPassword = _iniFile.Read(IniSection.Smtp, IniKey.MailFromPassword, ""),
-                SmtpTimeoutMs = _iniFile.Read(IniSection.Smtp, IniKey.SmtpTimeoutMs, 0),
-            };
-
-            result.GsmModemComPort = _iniFile.Read(IniSection.Broadcast, IniKey.GsmModemComPort, 0);
+            result.Smtp = _currentDatacenterParameters.Smtp;
+            result.GsmModemComPort = _currentDatacenterParameters.GsmModemComPort;
             return result;
         }
 

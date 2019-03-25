@@ -1,7 +1,7 @@
 ﻿using System;
 using GMap.NET;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph
 {
     public class AccidentLineModel
     {

@@ -3781,6 +3781,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Measurement time.
+        /// </summary>
+        public static string SID_Measurement_time {
+            get {
+                return ResourceManager.GetString("SID_Measurement_time", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measurement time:.
         /// </summary>
         public static string SID_Measurement_time_ {
@@ -5799,7 +5808,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server :  &quot;{0}&quot; ; {1} ; {2}.
+        ///   Looks up a localized string similar to Server :  {0} ; {1} ; {2}.
         /// </summary>
         public static string SID_Server_____0_____1_____2_ {
             get {
@@ -5849,6 +5858,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Servers {
             get {
                 return ResourceManager.GetString("SID_Servers", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0}.
+        /// </summary>
+        public static string SID_ServerTitle {
+            get {
+                return ResourceManager.GetString("SID_ServerTitle", resourceCulture);
             }
         }
         

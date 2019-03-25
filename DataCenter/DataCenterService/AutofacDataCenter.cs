@@ -5,6 +5,7 @@ using Autofac;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DataCenterCore;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
@@ -25,11 +26,16 @@ namespace Iit.Fibertest.DataCenterService
             var logFile = new LogFile(iniFile, 100000);
             builder.RegisterInstance<IMyLog>(logFile);
 
+            var currentDatacenterParameters = new CurrentDatacenterParameters();
+            builder.RegisterInstance(currentDatacenterParameters);
+
             builder.RegisterType<MySqlEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
             builder.RegisterType<ClientsCollection>().SingleInstance();
 
             builder.RegisterType<AccidentPlaceLocator>().SingleInstance();
+            builder.RegisterType<AccidentLineModelFactory>().SingleInstance();
             builder.RegisterType<AccidentsOnTraceToModelApplier>().SingleInstance();
+            builder.RegisterType<TraceStateReportProvider>().SingleInstance();
             builder.RegisterType<EquipmentEventsOnModelExecutor>().SingleInstance();
             builder.RegisterType<NodeEventsOnModelExecutor>().SingleInstance();
             builder.RegisterType<FiberEventsOnModelExecutor>().SingleInstance();

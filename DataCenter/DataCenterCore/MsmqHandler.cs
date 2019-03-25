@@ -128,17 +128,18 @@ namespace Iit.Fibertest.DataCenterCore
             if (addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent && dto.BaseRefType != BaseRefType.Fast)
             {
                 // ReSharper disable once UnusedVariable
-                var task = Task.Factory.StartNew(() => SendNotificationsAboutTraces(dto)); // here we do not wait result
+                var task = Task.Factory.StartNew(() => SendNotificationsAboutTraces(dto, addMeasurement)); // here we do not wait result
             }
 
             return 0;
         }
 
             // TODO SNMP, SMTP, SMS
-        private async void SendNotificationsAboutTraces(MonitoringResultDto dto)
+        private async void SendNotificationsAboutTraces(MonitoringResultDto dto, AddMeasurement addMeasurement)
         {
             SetCulture();
-            await _smtp.SendMonitoringResult(dto);
+           
+            await _smtp.SendOpticalEvent(dto, addMeasurement);
             _smsManager.SendMonitoringResult(dto); 
         }
 
@@ -160,8 +161,6 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task CheckAndSendBopNetworkEventIfNeeded(BopStateChangedDto dto)
         {
             var otau = _writeModel.Otaus.FirstOrDefault(o =>
-//                o.NetAddress.Ip4Address == dto.OtauIp
-//                && o.NetAddress.Port == dto.TcpPort
                     o.Serial == dto.Serial
             );
             if (otau != null)
@@ -186,8 +185,6 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task CheckAndSendBopNetworkIfNeeded(MonitoringResultDto dto)
         {
             var otau = _writeModel.Otaus.FirstOrDefault(o =>
-//                o.NetAddress.Ip4Address == dto.OtauIp
-//                && o.NetAddress.Port == dto.TcpPort
                     o.Serial == dto.PortWithTrace.OtauPort.Serial
             );
             if (otau != null && !otau.IsOk)

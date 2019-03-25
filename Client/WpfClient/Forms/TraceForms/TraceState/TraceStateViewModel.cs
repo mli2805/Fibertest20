@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
@@ -23,8 +25,10 @@ namespace Iit.Fibertest.Client
         private readonly SoundManager _soundManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly CommandLineParameters _commandLineParameters;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly IWcfServiceInSuperClient _c2SWcfManager;
         private readonly TabulatorViewModel _tabulatorViewModel;
+        private readonly TraceStateReportProvider _traceStateReportProvider;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
         private readonly GraphReadModel _graphReadModel;
         private bool _isSoundForThisVmInstanceOn;
@@ -50,11 +54,12 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser, 
-            CurrentlyHiddenRtu currentlyHiddenRtu, ReflectogramManager reflectogramManager, 
-            SoundManager soundManager, IWcfServiceForClient c2DWcfManager, 
-            CommandLineParameters commandLineParameters, IWcfServiceInSuperClient c2SWcfManager,
-            TabulatorViewModel tabulatorViewModel,
+        public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser,
+            CurrentlyHiddenRtu currentlyHiddenRtu, ReflectogramManager reflectogramManager,
+            SoundManager soundManager, IWcfServiceForClient c2DWcfManager,
+            IWcfServiceInSuperClient c2SWcfManager, 
+            CommandLineParameters commandLineParameters, CurrentDatacenterParameters currentDatacenterParameters, 
+            TabulatorViewModel tabulatorViewModel, TraceStateReportProvider traceStateReportProvider,
             TraceStatisticsViewsManager traceStatisticsViewsManager, GraphReadModel graphReadModel)
         {
             _logFile = logFile;
@@ -66,8 +71,10 @@ namespace Iit.Fibertest.Client
             _soundManager = soundManager;
             _c2DWcfManager = c2DWcfManager;
             _commandLineParameters = commandLineParameters;
+            _currentDatacenterParameters = currentDatacenterParameters;
             _c2SWcfManager = c2SWcfManager;
             _tabulatorViewModel = tabulatorViewModel;
+            _traceStateReportProvider = traceStateReportProvider;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
             _graphReadModel = graphReadModel;
         }
@@ -76,8 +83,8 @@ namespace Iit.Fibertest.Client
         {
             Model = model;
             _isTraceStateChanged = isTraceStateChanged;
-           // if (Model.Accidents.Count > 0)
-                Model.SelectedAccident = Model.Accidents.FirstOrDefault();
+            // if (Model.Accidents.Count > 0)
+            Model.SelectedAccident = Model.Accidents.FirstOrDefault();
             if (Model.EventStatus > EventStatus.EventButNotAnAccident)
                 InitializeEventStatusCombobox();
         }
@@ -149,7 +156,7 @@ namespace Iit.Fibertest.Client
                 _currentlyHiddenRtu.ChangedRtu = Model.Trace.RtuId;
             }
             if (accidentPoint != null)
-             _graphReadModel.PlacePointIntoScreenCenter((PointLatLng)accidentPoint);
+                _graphReadModel.PlacePointIntoScreenCenter((PointLatLng)accidentPoint);
             if (_tabulatorViewModel.SelectedTabIndex != 3)
                 _tabulatorViewModel.SelectedTabIndex = 3;
 
@@ -169,13 +176,39 @@ namespace Iit.Fibertest.Client
         public void ShowTraceStatistics() { _traceStatisticsViewsManager.Show(Model.TraceId); }
         public void ExportToKml() { }
 
-        public void ShowReport()
+        public void ShowHtmlReport()
         {
             var reportModel = CreateReportModelFromMeasurement();
             var htmlFile = EventReport.FillInHtmlReportForTraceState(reportModel);
             try
             {
-                System.Diagnostics.Process.Start(htmlFile);
+                Process.Start(htmlFile);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(@"ShowReport: " + e.Message);
+            }
+        }
+        public void ShowReport()
+        {
+            try
+            {
+                var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
+                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+
+                string filename = Path.Combine(folder, @"TraceStateReport.pdf");
+                var reportModel = new TraceReportModel()
+                {
+                    TraceTitle = Model.Header.TraceTitle,
+                    TraceState = Model.TraceState.ToLocalizedString(),
+                    RtuTitle = Model.Header.RtuTitle,
+                    PortTitle = Model.Header.PortTitle,
+                    MeasurementTimestamp = $@"{Model.MeasurementTimestamp:G}",
+
+                    Accidents = Model.Accidents,
+                };
+                _traceStateReportProvider.Create(reportModel, _currentDatacenterParameters).Save(filename);
+                Process.Start(filename);
             }
             catch (Exception e)
             {

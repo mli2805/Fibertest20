@@ -157,7 +157,7 @@ namespace Iit.Fibertest.Client
             if (UserInWork.Role == 0)
                 UserInWork.Role = Roles.First();
 
-            Password1 = Password2 = UserExt.FlipFlop(user.Password);
+            Password1 = Password2 = user.Password;
             IsPasswordsEnabled = _currentUser.Role <= Role.Root;
             ChangePasswordVisibility = _currentUser.Role <= Role.Root ? Visibility.Collapsed : Visibility.Visible;
 

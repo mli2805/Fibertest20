@@ -2483,9 +2483,6 @@ RTU is initializing right now!</value>
 	<data name="SID_port__0__1____" xml:space="preserve">
     <value>port {0}{1}  ; </value>
   </data>
-	<data name="SID_Server_____0_____1_____2_" xml:space="preserve">
-    <value>Server :  "{0}" ; {1} ; {2}</value>
-  </data>
 	<data name="SID_Reports" xml:space="preserve">
     <value>Reports</value>
   </data>
@@ -2548,5 +2545,14 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Step_by_step_trace_definition_is_started_already_" xml:space="preserve">
     <value>Step by step trace definition is started already!</value>
+  </data>
+	<data name="SID_Measurement_time" xml:space="preserve">
+    <value>Measurement time</value>
+  </data>
+	<data name="SID_ServerTitle" xml:space="preserve">
+    <value>"{0}" ;</value>
+  </data>
+	<data name="SID_Server_____0_____1_____2_" xml:space="preserve">
+    <value>Server :  {0} {1} ; {2}</value>
   </data>
 </root>

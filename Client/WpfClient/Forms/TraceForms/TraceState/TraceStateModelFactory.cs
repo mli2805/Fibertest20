@@ -11,11 +11,13 @@ namespace Iit.Fibertest.Client
     {
         private readonly Model _readModel;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
+        private readonly CurrentGis _currentGis;
 
-        public TraceStateModelFactory(Model readModel, AccidentLineModelFactory accidentLineModelFactory)
+        public TraceStateModelFactory(Model readModel, AccidentLineModelFactory accidentLineModelFactory, CurrentGis currentGis)
         {
             _readModel = readModel;
             _accidentLineModelFactory = accidentLineModelFactory;
+            _currentGis = currentGis;
         }
 
         // TraceLeaf
@@ -70,7 +72,7 @@ namespace Iit.Fibertest.Client
             var lines = new List<AccidentLineModel>();
             for (var i = 0; i < accidents.Count; i++)
             {
-                lines.Add(_accidentLineModelFactory.Create(accidents[i], i + 1));
+                lines.Add(_accidentLineModelFactory.Create(accidents[i], i + 1, _currentGis.IsGisOn, _currentGis.GpsInputMode));
             }
             return lines;
         }
@@ -88,7 +90,6 @@ namespace Iit.Fibertest.Client
             result.RtuTitle = rtu?.Title;
             result.PortTitle = trace.OtauPort == null ? Resources.SID__not_attached_ : trace.OtauPort.IsPortOnMainCharon
                 ? trace.OtauPort.OpticalPort.ToString()
-               // : $@"{trace.OtauPort.OtauIp}:{trace.OtauPort.OtauTcpPort}-{trace.OtauPort.OpticalPort}";
                 : $@"{trace.OtauPort.Serial}-{trace.OtauPort.OpticalPort}";
             return result;
         }

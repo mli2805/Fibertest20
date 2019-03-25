@@ -240,8 +240,6 @@
     <Compile Include="Forms\Shell\SystemState.cs" />
     <Compile Include="Forms\TraceForms\TraceState\TraceStateModelHeader.cs" />
     <Compile Include="GlobalVars\CommandLineParameters.cs" />
-    <Compile Include="GlobalVars\CurrentDatacenterParameters.cs" />
-    <Compile Include="GlobalVars\CurrentDatacenterSmtpParameters.cs" />
     <Compile Include="GlobalVars\CurrentlyHiddenRtu.cs" />
     <Compile Include="GlobalVars\CurrentUser.cs" />
     <Compile Include="EventSourcing\EventArrivalNotifier.cs" />
@@ -322,7 +320,6 @@
     <Compile Include="Forms\Shell\MarkerControl\RtuVmContextMenuProvider.cs" />
     <Compile Include="Forms\Shell\MarkerControl\RtuVmPermissions.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementViewModel.cs" />
-    <Compile Include="Forms\TraceForms\TraceState\AccidentLineModelFactory.cs" />
     <Compile Include="Forms\TraceForms\TraceStatistics\BaseRefForStats.cs" />
     <Compile Include="Forms\TraceForms\TraceStepByStep\StepChoiceView.xaml.cs">
       <DependentUpon>StepChoiceView.xaml</DependentUpon>
@@ -347,7 +344,6 @@
     <Compile Include="GraphModel\Visibility\GraphVisibilityLevelItem.cs" />
     <Compile Include="Logic\PathFinder.cs" />
     <Compile Include="Logic\RtuRemover.cs" />
-    <Compile Include="Reports\OpticalEventsReport\AccidentPlaceReportProvider.cs" />
     <Compile Include="Reports\OpticalEventsReport\AllEventsConsolidatedTableProvider.cs" />
     <Compile Include="Reports\OpticalEventsReport\AllOpticalEventsReportProvider.cs" />
     <Compile Include="Reports\ComponentsReport\ComponentsReportSelectionForm\ComponentsReportModel.cs" />
@@ -467,7 +463,6 @@
     <Compile Include="Forms\TraceForms\TraceContentChoice\TraceContentChoiceViewModel.cs" />
     <Compile Include="Forms\TraceForms\TraceInfo\TraceInfoCalculator.cs" />
     <Compile Include="Forms\TraceForms\TraceInfo\TraceInfoModel.cs" />
-    <Compile Include="Forms\TraceForms\TraceState\AccidentLineModel.cs" />
     <Compile Include="Forms\TraceForms\TraceState\TraceStateModelFactory.cs" />
     <Compile Include="Forms\TraceForms\TraceStatistics\TraceStatisticsViewsManager.cs" />
     <Compile Include="GraphModel\GraphReadModelExt.cs" />
@@ -1117,24 +1112,6 @@
     <Resource Include="Resources\EmptyNode\EmptyNodeUser.png" />
     <Resource Include="Resources\AdjustmentPoint\AdjustmentPointOk.png" />
     <Resource Include="Resources\OnMap\NodeHighlighting.png" />
-    <Content Include="Resources\AccidentSchemes\AccidentBetweenNodes.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\AccidentSchemes\AccidentInLastNode.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\AccidentSchemes\AccidentInNode.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\AccidentSchemes\BadSegment.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\AccidentSchemes\FiberBrokenBetweenNodes.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\AccidentSchemes\FiberBrokenInNode.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Resource Include="Resources\LeftPanel\MinorSquare.png" />
     <Resource Include="Resources\OnMap\CriticalAccidentPlace.png" />
     <Resource Include="Resources\OnMap\MajorAccidentPlace.png" />

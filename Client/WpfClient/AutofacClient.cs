@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Client.MonitoringSettings;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.SuperClientWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
@@ -227,6 +228,8 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ActualOpticalEventsReportProvider>().InstancePerLifetimeScope();
             builder.RegisterType<AllOpticalEventsReportProvider>().InstancePerLifetimeScope();
             builder.RegisterType<OpticalEventsReportViewModel>().InstancePerLifetimeScope();
+
+            builder.RegisterType<TraceStateReportProvider>().InstancePerLifetimeScope();
 
         }
     }

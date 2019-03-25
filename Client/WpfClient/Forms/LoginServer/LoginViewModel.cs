@@ -153,7 +153,7 @@ namespace Iit.Fibertest.Client
                 _currentUser.ZoneTitle = result.ZoneTitle;
                 _currentDatacenterParameters.DatacenterVersion = result.DatacenterVersion;
                 _currentDatacenterParameters.GraphDbVersionId = result.GraphDbVersionId;
-                _currentDatacenterParameters.Smtp = new CurrentDatacenterSmtpParameters()
+                _currentDatacenterParameters.Smtp = new SmtpSettingsDto()
                 {
                     SmptHost = result.Smtp.SmptHost,
                     SmptPort = result.Smtp.SmptPort,

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -9,13 +10,15 @@ namespace Iit.Fibertest.DatabaseLibrary
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private int _mysqlTcpPort;
         private string _measurementsScheme;
 
-        public ServerSettings(IniFile iniFile, IMyLog logFile)
+        public ServerSettings(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters)
         {
             _iniFile = iniFile;
             _logFile = logFile;
+            _currentDatacenterParameters = currentDatacenterParameters;
         }
 
         public void Init()
@@ -26,6 +29,22 @@ namespace Iit.Fibertest.DatabaseLibrary
                 var serverIp = LocalAddressResearcher.GetAllLocalAddresses().First();
                 _iniFile.Write(IniSection.ServerMainAddress, IniKey.Ip, serverIp);
             }
+
+            _currentDatacenterParameters.ServerIp = doubleAddress.Main.Ip4Address;
+
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+            _currentDatacenterParameters.DatacenterVersion = fvi.FileVersion;
+
+            _currentDatacenterParameters.Smtp = new SmtpSettingsDto()
+            {
+                SmptHost = _iniFile.Read(IniSection.Smtp, IniKey.SmtpHost, ""),
+                SmptPort = _iniFile.Read(IniSection.Smtp, IniKey.SmtpPort, 0),
+                MailFrom = _iniFile.Read(IniSection.Smtp, IniKey.MailFrom, ""),
+                MailFromPassword = _iniFile.Read(IniSection.Smtp, IniKey.MailFromPassword, ""),
+                SmtpTimeoutMs = _iniFile.Read(IniSection.Smtp, IniKey.SmtpTimeoutMs, 0),
+            };
+            _currentDatacenterParameters.GsmModemComPort = _iniFile.Read(IniSection.Broadcast, IniKey.GsmModemComPort, 0);
 
             _mysqlTcpPort = _iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, 3306);
             var postfix = _iniFile.Read(IniSection.MySql, IniKey.MySqlDbSchemePostfix, "");

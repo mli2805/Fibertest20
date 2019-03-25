@@ -1,22 +1,20 @@
 using System;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph
 {
     public class AccidentLineModelFactory
     {
         private const string LeftArrow = "\U0001f860";
-        private readonly CurrentGis _currentGis;
+        private bool _isGisOn;
+        private GpsInputMode _gpsInputMode;
 
-        public AccidentLineModelFactory(CurrentGis currentGis)
+        public AccidentLineModel Create(AccidentOnTraceV2 accident, int number, 
+            bool isGisOn, GpsInputMode gpsInputMode = GpsInputMode.DegreesMinutesAndSeconds)
         {
-            _currentGis = currentGis;
-        }
-
-        public AccidentLineModel Create(AccidentOnTraceV2 accident, int number)
-        {
+            _isGisOn = isGisOn;
+            _gpsInputMode = gpsInputMode;
             if (accident.IsAccidentInOldEvent)
             {
                 return accident.OpticalTypeOfAccident == OpticalAccidentType.LossCoeff
@@ -37,8 +35,8 @@ namespace Iit.Fibertest.Client
                         }) {Resources.SID_in_the_node}:",
                 TopCenter = accidentInOldEvent.AccidentTitle,
                 TopLeft = $@"RTU {LeftArrow} {accidentInOldEvent.AccidentToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
-                Bottom2 = _currentGis.IsGisOn
-                    ? accidentInOldEvent.AccidentCoors.ToDetailedString(_currentGis.GpsInputMode)
+                Bottom2 = _isGisOn
+                    ? accidentInOldEvent.AccidentCoors.ToDetailedString(_gpsInputMode)
                     : "",
                 Scheme = accidentInOldEvent.AccidentSeriousness == FiberState.FiberBreak
                     ? new Uri(@"pack://application:,,,/Resources/AccidentSchemes/FiberBrokenInNode.png")
@@ -63,8 +61,8 @@ namespace Iit.Fibertest.Client
                 TopCenter = $@"RTU {LeftArrow} {accidentAsNewEvent.AccidentToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
                 TopRight = accidentAsNewEvent.Right.Title,
                 Bottom1 = $@"{accidentAsNewEvent.AccidentToLeftOpticalDistanceKm:0.000} {Resources.SID_km}",
-                Bottom2 = _currentGis.IsGisOn
-                             ? accidentAsNewEvent.AccidentCoors.ToDetailedString(_currentGis.GpsInputMode)
+                Bottom2 = _isGisOn
+                             ? accidentAsNewEvent.AccidentCoors.ToDetailedString(_gpsInputMode)
                              : "",
                 Bottom3 = $@"{accidentAsNewEvent.AccidentToRightOpticalDistanceKm:0.000} {Resources.SID_km}",
                 Scheme = accidentAsNewEvent.AccidentSeriousness == FiberState.FiberBreak

@@ -2,7 +2,6 @@
 using System.Threading;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
-using System.ServiceProcess;
 
 namespace Iit.Fibertest.RtuManagement
 {

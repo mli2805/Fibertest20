@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:graph="clr-namespace:Iit.Fibertest.Graph;assembly=Iit.Fibertest.Graph"
         mc:Ignorable="d" Width="540" SizeToContent="Height" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:TraceStateViewModel}" 
         FocusManager.FocusedElement="{Binding ElementName=AccidentsGroup}">
@@ -67,7 +68,7 @@
                     <ListView DockPanel.Dock="Top" x:Name="AccidentsGroup"
                               ItemsSource="{Binding Model.Accidents}" SelectedItem="{Binding Model.SelectedAccident}">
                         <ItemsControl.ItemTemplate>
-                            <DataTemplate DataType="client:AccidentLineModel">
+                            <DataTemplate DataType="graph:AccidentLineModel">
                                 <Border BorderThickness="0,0,0,1" BorderBrush="Gray" Padding="0,3,0,0">
                                     <Grid DockPanel.Dock="Top">
                                         <Grid.RowDefinitions>

@@ -3,20 +3,21 @@ using System.Collections.Concurrent;
 using System.Threading;
 using GsmComm.GsmCommunication;
 using GsmComm.PduConverter;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterCore
 {
     public class SmsSender
     {
-        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         public ConcurrentQueue<SmsSubmitPdu> TheQueue { get; set; } = new ConcurrentQueue<SmsSubmitPdu>();
 
-        public SmsSender(IniFile iniFile, IMyLog logFile)
+        public SmsSender(IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters)
         {
-            _iniFile = iniFile;
             _logFile = logFile;
+            _currentDatacenterParameters = currentDatacenterParameters;
         }
 
         public void Start()
@@ -45,7 +46,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private bool Send(SmsSubmitPdu sms)
         {
-            var comPort = _iniFile.Read(IniSection.Broadcast, IniKey.GsmModemComPort, 0);
+            var comPort = _currentDatacenterParameters.GsmModemComPort;
             var comm = new GsmCommMain($"COM{comPort}", 9600, 150);
             try
             {

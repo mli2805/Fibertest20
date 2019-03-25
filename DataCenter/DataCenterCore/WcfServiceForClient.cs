@@ -23,6 +23,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
 
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly RtuStationsRepository _rtuStationsRepository;
@@ -37,13 +38,15 @@ namespace Iit.Fibertest.DataCenterCore
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public WcfServiceForClient(IniFile iniFile, IMyLog logFile, EventStoreService eventStoreService, MeasurementFactory measurementFactory,
+        public WcfServiceForClient(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
+            EventStoreService eventStoreService, MeasurementFactory measurementFactory,
             ClientsCollection clientsCollection, ClientToRtuTransmitter clientToRtuTransmitter,
             RtuStationsRepository rtuStationsRepository, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
             BaseRefLandmarksTool baseRefLandmarksTool, SorFileRepository sorFileRepository, Smtp smtp, SmsManager smsManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
+            _currentDatacenterParameters = currentDatacenterParameters;
             _eventStoreService = eventStoreService;
             _measurementFactory = measurementFactory;
             _clientsCollection = clientsCollection;
@@ -209,6 +212,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _logFile.AppendLine("Client asked to save com port");
             _iniFile.Write(IniSection.Broadcast, IniKey.GsmModemComPort, comPort);
+            _currentDatacenterParameters.GsmModemComPort = comPort;
             return Task.FromResult(true);
         }
 

@@ -17,15 +17,17 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
+        private readonly CurrentGis _currentGis;
         private OpticalEventsReportModel _reportModel;
         public ActualOpticalEventsReportProvider(CurrentDatacenterParameters server, 
             Model readModel, OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, 
-            AccidentLineModelFactory accidentLineModelFactory)
+            AccidentLineModelFactory accidentLineModelFactory, CurrentGis currentGis)
         {
             _server = server;
             _readModel = readModel;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _accidentLineModelFactory = accidentLineModelFactory;
+            _currentGis = currentGis;
         }
 
         public PdfDocument Create(OpticalEventsReportModel reportModel)
@@ -110,7 +112,8 @@ namespace Iit.Fibertest.Client
                 DrawOpticalEventTable(section, opticalEventModel).Clone();
 
                 if (isAccidentPlaceShown) 
-                    opticalEventModel.DrawAccidents(section, _accidentLineModelFactory);
+                    AccidentPlaceReportProvider.DrawAccidents(opticalEventModel.Accidents, section,
+                        _accidentLineModelFactory, _currentGis.IsGisOn, _currentGis.GpsInputMode);
             }
         }
 
