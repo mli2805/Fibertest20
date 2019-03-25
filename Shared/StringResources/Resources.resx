@@ -2555,4 +2555,10 @@ RTU is initializing right now!</value>
 	<data name="SID_Server_____0_____1_____2_" xml:space="preserve">
     <value>Server :  {0} {1} ; {2}</value>
   </data>
+	<data name="SID_Event_registration_time" xml:space="preserve">
+    <value>Event registration time</value>
+  </data>
+	<data name="SID__0_____software__1_" xml:space="preserve">
+    <value>{0} ;  software {1}</value>
+  </data>
 </root>

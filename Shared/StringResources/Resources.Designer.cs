@@ -178,6 +178,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} ;  software {1}.
+        /// </summary>
+        public static string SID__0_____software__1_ {
+            get {
+                return ResourceManager.GetString("SID__0_____software__1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0: 0.00000} km.
         /// </summary>
         public static string SID__0__0_00000__km {
@@ -2454,6 +2463,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_event_registered {
             get {
                 return ResourceManager.GetString("SID_event_registered", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Event registration time.
+        /// </summary>
+        public static string SID_Event_registration_time {
+            get {
+                return ResourceManager.GetString("SID_Event_registration_time", resourceCulture);
             }
         }
         
@@ -5808,7 +5826,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Server :  {0} ; {1} ; {2}.
+        ///   Looks up a localized string similar to Server :  {0} {1} ; {2}.
         /// </summary>
         public static string SID_Server_____0_____1_____2_ {
             get {
@@ -5862,7 +5880,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}.
+        ///   Looks up a localized string similar to &quot;{0}&quot; ;.
         /// </summary>
         public static string SID_ServerTitle {
             get {

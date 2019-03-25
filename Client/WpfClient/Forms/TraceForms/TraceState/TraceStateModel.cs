@@ -43,6 +43,7 @@ namespace Iit.Fibertest.Client
         public string Comment { get; set; }
 
         public DateTime MeasurementTimestamp { get; set; }
+        public DateTime RegistrationTimestamp { get; set; }
         public int SorFileId { get; set; }
         public string StateOn => string.Format(Resources.SID_State_on__0_, MeasurementTimestamp.ToString(CultureInfo.CurrentCulture), SorFileId);
 

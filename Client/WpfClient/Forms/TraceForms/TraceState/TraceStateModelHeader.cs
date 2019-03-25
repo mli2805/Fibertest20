@@ -33,5 +33,6 @@ namespace Iit.Fibertest.Client
         public string PortTitle { get; set; } = "";
 
         public PointLatLng? RtuPosition { get; set; }
+        public string RtuSoftwareVersion { get; set; }
     }
 }

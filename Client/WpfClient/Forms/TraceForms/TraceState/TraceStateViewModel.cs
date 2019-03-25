@@ -202,8 +202,10 @@ namespace Iit.Fibertest.Client
                     TraceTitle = Model.Header.TraceTitle,
                     TraceState = Model.TraceState.ToLocalizedString(),
                     RtuTitle = Model.Header.RtuTitle,
+                    RtuSoftwareVersion = Model.Header.RtuSoftwareVersion,
                     PortTitle = Model.Header.PortTitle,
                     MeasurementTimestamp = $@"{Model.MeasurementTimestamp:G}",
+                    RegistrationTimestamp = $@"{Model.RegistrationTimestamp:G}",
 
                     Accidents = Model.Accidents,
                 };
@@ -255,3 +257,4 @@ namespace Iit.Fibertest.Client
         public void Close() { TryClose(); }
     }
 }
+

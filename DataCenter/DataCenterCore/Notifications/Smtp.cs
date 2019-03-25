@@ -94,6 +94,7 @@ namespace Iit.Fibertest.DataCenterCore
                     TraceTitle = trace.Title,
                     TraceState = trace.State.ToLocalizedString(),
                     RtuTitle = rtu.Title,
+                    RtuSoftwareVersion = rtu.Version,
                     PortTitle = trace.OtauPort.IsPortOnMainCharon
                         ? trace.OtauPort.OpticalPort.ToString()
                         : $@"{trace.OtauPort.Serial}-{trace.OtauPort.OpticalPort}",

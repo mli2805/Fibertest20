@@ -96,7 +96,7 @@ namespace Iit.Fibertest.Graph
 
             row = table.AddRow();
             row.Cells[0].AddParagraph(@"RTU");
-            row.Cells[2].AddParagraph($@"{_traceReportModel.RtuTitle}");
+            row.Cells[2].AddParagraph(string.Format(Resources.SID__0_____software__1_, _traceReportModel.RtuTitle, _traceReportModel.RtuSoftwareVersion));
 
             rowBetween = table.AddRow();
             rowBetween.HeightRule = RowHeightRule.Exactly; rowBetween.Height = Unit.FromMillimeter(4);
@@ -112,6 +112,14 @@ namespace Iit.Fibertest.Graph
             row.VerticalAlignment = VerticalAlignment.Center;
             row.Cells[0].AddParagraph(Resources.SID_Measurement_time);
             row.Cells[2].AddParagraph($@"{_traceReportModel.MeasurementTimestamp}");
+
+            rowBetween = table.AddRow();
+            rowBetween.HeightRule = RowHeightRule.Exactly; rowBetween.Height = Unit.FromMillimeter(4);
+
+            row = table.AddRow();
+            row.VerticalAlignment = VerticalAlignment.Center;
+            row.Cells[0].AddParagraph(Resources.SID_Event_registration_time);
+            row.Cells[2].AddParagraph($@"{_traceReportModel.RegistrationTimestamp}");
         }
 
 

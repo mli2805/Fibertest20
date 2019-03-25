@@ -33,6 +33,7 @@ namespace Iit.Fibertest.Client
                 TraceState = measurement.TraceState,
                 BaseRefType = measurement.BaseRefType,
                 MeasurementTimestamp = measurement.MeasurementTimestamp,
+                RegistrationTimestamp = measurement.EventRegistrationTimestamp,
                 SorFileId = measurement.SorFileId,
                 EventStatus = measurement.EventStatus,
                 Comment = measurement.Comment,
@@ -56,6 +57,7 @@ namespace Iit.Fibertest.Client
                 TraceState = opticalEventModel.TraceState,
                 BaseRefType = opticalEventModel.BaseRefType,
                 MeasurementTimestamp = opticalEventModel.MeasurementTimestamp,
+                RegistrationTimestamp = opticalEventModel.EventRegistrationTimestamp,
                 SorFileId = opticalEventModel.SorFileId,
                 EventStatus = opticalEventModel.EventStatus,
                 Accidents = PrepareAccidents(opticalEventModel.Accidents),
@@ -91,6 +93,7 @@ namespace Iit.Fibertest.Client
             result.PortTitle = trace.OtauPort == null ? Resources.SID__not_attached_ : trace.OtauPort.IsPortOnMainCharon
                 ? trace.OtauPort.OpticalPort.ToString()
                 : $@"{trace.OtauPort.Serial}-{trace.OtauPort.OpticalPort}";
+            result.RtuSoftwareVersion = rtu?.Version;
             return result;
         }
     }
