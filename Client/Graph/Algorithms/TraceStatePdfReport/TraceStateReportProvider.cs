@@ -56,7 +56,8 @@ namespace Iit.Fibertest.Graph
 
             var paragraph2 = section.AddParagraph();
             var title = !string.IsNullOrEmpty(_server.ServerTitle) ? string.Format(Resources.SID_ServerTitle, _server.ServerTitle) : "";
-            var software = string.Format(Resources.SID_software____0_, _server.DatacenterVersion);
+            var software = "";
+         //   var software = string.Format(Resources.SID_software____0_, _server.DatacenterVersion);
             var server = string.Format(Resources.SID_Server_____0_____1_____2_, title, _server.ServerIp, software);
             paragraph2.AddFormattedText(server, TextFormat.Bold);
             paragraph2.Format.Font.Size = 14;
@@ -96,7 +97,8 @@ namespace Iit.Fibertest.Graph
 
             row = table.AddRow();
             row.Cells[0].AddParagraph(@"RTU");
-            row.Cells[2].AddParagraph(string.Format(Resources.SID__0_____software__1_, _traceReportModel.RtuTitle, _traceReportModel.RtuSoftwareVersion));
+            row.Cells[2].AddParagraph(_traceReportModel.RtuTitle);
+          //  row.Cells[2].AddParagraph(string.Format(Resources.SID__0_____software__1_, _traceReportModel.RtuTitle, _traceReportModel.RtuSoftwareVersion));
 
             rowBetween = table.AddRow();
             rowBetween.HeightRule = RowHeightRule.Exactly; rowBetween.Height = Unit.FromMillimeter(4);
