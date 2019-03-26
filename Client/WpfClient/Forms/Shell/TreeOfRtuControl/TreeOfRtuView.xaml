@@ -54,16 +54,16 @@
                           RenderOptions.BitmapScalingMode="NearestNeighbor">
                 </ToggleButton>
             </ToolBar>
-            <ToolBar>
+        </ToolBarTray>
+        <StatusBar DockPanel.Dock="Bottom" Height="25">
+            <StatusBarItem Width="40" Background="White">
                 <Button Name="CloseChildren" Background="Transparent" BorderThickness="0" Width="20" Height="20" 
                         RenderOptions.BitmapScalingMode="NearestNeighbor">
                     <Image Source="../../../Resources/Buttons/CloseChildren.png" Width="16" Height="16"/>
                 </Button>
-            </ToolBar>
-        </ToolBarTray>
-        <StatusBar DockPanel.Dock="Bottom" Height="25">
+            </StatusBarItem>
             <StatusBarItem>
-                <TextBlock Text="{Binding TreeOfRtuModel.Statistics}"/>
+                <TextBlock Text="{Binding TreeOfRtuModel.Statistics}" Margin="5,0,0,0"/>
             </StatusBarItem>
         </StatusBar>
         <TreeView ItemsSource="{Binding TreeOfRtuModel.Tree}" Name="MainTreeView" Padding="3,7,0,0"

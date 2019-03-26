@@ -483,7 +483,7 @@
     <value>Переключатель {0}</value>
   </data>
 	<data name="SID_Tree_statistics" xml:space="preserve">
-    <value>RTU {0} ;  Переключатели {1} ;  Порты {2} ;  Трассы {3} ;  Использование {4:F}%</value>
+    <value>RTU {0} ;  БОПы {1} ;  Порты {2} ;  Трассы {3} ;  Использ. {4:F}%</value>
   </data>
 	<data name="SID_Trace_information" xml:space="preserve">
     <value>Информация о трассе</value>
