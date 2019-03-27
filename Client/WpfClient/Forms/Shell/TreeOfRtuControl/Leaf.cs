@@ -34,6 +34,17 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public Brush BackgroundBrush
+        {
+            get => _backgroundBrush;
+            set
+            {
+                if (Equals(value, _backgroundBrush)) return;
+                _backgroundBrush = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public virtual string Name { get; set; }
 
         public List<MenuItemVm> MyContextMenu => GetMenuItems();
@@ -60,6 +71,8 @@ namespace Iit.Fibertest.Client
         }
 
         private bool _isExpanded;
+        private Brush _backgroundBrush;
+
         public bool IsExpanded
         {
             get => _isExpanded;

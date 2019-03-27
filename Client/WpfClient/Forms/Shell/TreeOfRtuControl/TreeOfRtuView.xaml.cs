@@ -36,6 +36,9 @@ namespace Iit.Fibertest.Client
                 SetExpandTo(false, (Leaf)item);
         }
 
-      
+        private void BringIntoView_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
