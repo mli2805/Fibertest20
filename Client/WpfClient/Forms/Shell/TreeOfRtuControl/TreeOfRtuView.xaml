@@ -56,16 +56,12 @@
             </ToolBar>
             <ToolBar>
                 <TextBox Text="{Binding TextToFind, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100"/>
-                <TextBlock Text="{Binding Found}" Width="30" Height="22" Margin="3,0" Padding="2,0"  
+                <TextBlock Text="{Binding Found}" Width="50" Height="22" Margin="3,0" Padding="8,2,0,0"  
                            Background="Azure" HorizontalAlignment="Center"/>
                 <Button Name="ClearButton" Background="Transparent" BorderThickness="0" Width="20" Height="20"
                         RenderOptions.BitmapScalingMode="NearestNeighbor">
                     <Image Source="../../../Resources/Buttons/CloseChildren.png" Width="16" Height="16"/>
                 </Button> 
-                <Button Name="BringIntoView" Background="Transparent" BorderThickness="0" Width="20" Height="20" Visibility="Collapsed"
-                        RenderOptions.BitmapScalingMode="NearestNeighbor" Click="BringIntoView_Click">
-                    <Image Source="../../../Resources/Buttons/CloseChildren.png" Width="16" Height="16"/>
-                </Button>
             </ToolBar>
         </ToolBarTray>
         <StatusBar DockPanel.Dock="Bottom" Height="25">

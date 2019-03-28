@@ -35,10 +35,5 @@ namespace Iit.Fibertest.Client
             foreach (var item in MainTreeView.Items)
                 SetExpandTo(false, (Leaf)item);
         }
-
-        private void BringIntoView_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
