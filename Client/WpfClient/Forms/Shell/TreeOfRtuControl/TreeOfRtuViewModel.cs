@@ -79,7 +79,7 @@ namespace Iit.Fibertest.Client
         private void FindLeaves(IPortOwner portOwner)
         {
             var leaf = (Leaf)portOwner;
-            if (leaf.Name.Contains(TextToFind))
+            if (leaf.Name.ToLower().Contains(TextToFind.ToLower()))
             {
                 leaf.BackgroundBrush = Brushes.LightGoldenrodYellow;
                 _foundCounter++;
@@ -88,7 +88,7 @@ namespace Iit.Fibertest.Client
             {
                 if (child is IPortOwner subPortOwner)
                     FindLeaves(subPortOwner);
-                if (child.Name.Contains(TextToFind))
+                if (child.Name.ToLower().Contains(TextToFind.ToLower()))
                 {
                     child.BackgroundBrush = Brushes.LightGoldenrodYellow;
                     leaf.BackgroundBrush = Brushes.LightGoldenrodYellow;
