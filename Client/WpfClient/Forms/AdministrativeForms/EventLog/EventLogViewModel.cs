@@ -25,11 +25,11 @@ namespace Iit.Fibertest.Client
         private string _operationsFilterButtonContent;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings =
-            new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+            new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All};
 
         public string OperationsFilterButtonContent
         {
-            get { return _operationsFilterButtonContent; }
+            get => _operationsFilterButtonContent;
             set
             {
                 if (value == _operationsFilterButtonContent) return;
@@ -67,15 +67,15 @@ namespace Iit.Fibertest.Client
 
         private void InitializeFilters()
         {
-            UserFilters = new List<UserFilter>() { new UserFilter() };
-            foreach (var user in _readModel.Users.Where(u=>u.Role >= Role.Root && u.Role <= Role.Superclient))
+            UserFilters = new List<UserFilter>() {new UserFilter()};
+            foreach (var user in _readModel.Users.Where(u => u.Role >= Role.Root && u.Role <= Role.Superclient))
                 UserFilters.Add(new UserFilter(user));
             SelectedUserFilter = UserFilters.First();
 
             _logOperationsViewModel.IsAll = true;
             OperationsFilterButtonContent = Resources.SID__no_filter_;
         }
-       
+
         protected override void OnViewLoaded(object o)
         {
             DisplayName = Resources.SID_User_operations_log;
@@ -86,11 +86,11 @@ namespace Iit.Fibertest.Client
 
         private bool OnFilter(object o)
         {
-            var logLine = (LogLine)o;
+            var logLine = (LogLine) o;
             return
-                   (SelectedUserFilter.IsOn == false ||
-                    SelectedUserFilter.User.Title == logLine.Username) 
-                   && IsIncludedInOperationFilter(logLine.OperationCode);
+                (SelectedUserFilter.IsOn == false ||
+                 SelectedUserFilter.User.Title == logLine.Username)
+                && IsIncludedInOperationFilter(logLine.OperationCode);
         }
 
         private bool IsIncludedInOperationFilter(LogOperationCode operationCode)
@@ -114,7 +114,8 @@ namespace Iit.Fibertest.Client
                 case LogOperationCode.TraceRemoved: return _logOperationsViewModel.IsTraceRemoved;
 
                 case LogOperationCode.BaseRefAssigned: return _logOperationsViewModel.IsBaseRefAssined;
-                case LogOperationCode.MonitoringSettingsChanged: return _logOperationsViewModel.IsMonitoringSettingsChanged;
+                case LogOperationCode.MonitoringSettingsChanged:
+                    return _logOperationsViewModel.IsMonitoringSettingsChanged;
                 case LogOperationCode.MonitoringStarted: return _logOperationsViewModel.IsMonitoringStarted;
                 case LogOperationCode.MonitoringStopped: return _logOperationsViewModel.IsMonitoringStopped;
 
@@ -137,8 +138,8 @@ namespace Iit.Fibertest.Client
             {
                 foreach (var json in jsonsInCache)
                 {
-                    var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
-                    var username = (string)msg.Headers[@"Username"];
+                    var msg = (EventMessage) JsonConvert.DeserializeObject(json, JsonSerializerSettings);
+                    var username = (string) msg.Headers[@"Username"];
                     var user = _readModel.Users.FirstOrDefault(u => u.Title == username);
 
                     var line = _eventToLogLineParser.ParseEventBody(msg.Body);
@@ -148,8 +149,8 @@ namespace Iit.Fibertest.Client
 
                     line.Ordinal = ordinal;
                     line.Username = username;
-                    line.ClientIp = (string)msg.Headers[@"ClientIp"];
-                    line.Timestamp = (DateTime)msg.Headers[@"Timestamp"];
+                    line.ClientIp = (string) msg.Headers[@"ClientIp"];
+                    line.Timestamp = (DateTime) msg.Headers[@"Timestamp"];
                     Rows.Insert(0, line);
                     ordinal++;
                 }
@@ -163,11 +164,16 @@ namespace Iit.Fibertest.Client
         public void ShowOperationFilter()
         {
             _windowManager.ShowDialogWithAssignedOwner(_logOperationsViewModel);
-            OperationsFilterButtonContent = _logOperationsViewModel.IsAllChecked() ? Resources.SID__no_filter_ : Resources.SID__filter_applied_;
+            OperationsFilterButtonContent = _logOperationsViewModel.IsAllChecked()
+                ? Resources.SID__no_filter_
+                : Resources.SID__filter_applied_;
             var view = CollectionViewSource.GetDefaultView(Rows);
             view.Refresh();
         }
 
-        public void Close() { TryClose(); }
+        public void Close()
+        {
+            TryClose();
+        }
     }
 }

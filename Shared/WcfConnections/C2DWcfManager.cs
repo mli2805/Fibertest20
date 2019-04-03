@@ -304,6 +304,26 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<DiskSpaceDto> GetDiskSpace()
+        {
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetDiskSpace();
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("SendTestToUser: " + e.Message);
+                return null;
+            }
+        }
+
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {

@@ -14,6 +14,8 @@ namespace Graph.Tests
             _logFile = logFile;
         }
 
+        public string DataDir => @"memory";
+
         public IStoreEvents Init()
         {
             try
@@ -31,6 +33,11 @@ namespace Graph.Tests
                 _logFile.AppendLine(e.Message);
                 return null;
             }
+        }
+
+        public long GetDataSize()
+        {
+            throw new NotImplementedException();
         }
 
         public void Delete()

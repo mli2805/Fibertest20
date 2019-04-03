@@ -93,13 +93,13 @@ namespace Iit.Fibertest.Client
             Status = Resources.SID_Client_registraion_is_performing;
             //            using (_globalScope.Resolve<IWaitCursor>())
             {
-                await RegisterClientAsync(UserName, Password, false);
+                var unused = await RegisterClientAsync(UserName, Password, false);
             }
 
         }
 
         // public to start under super-client
-        public async Task RegisterClientAsync(string username, string password, bool isUnderSuperClient)
+        public async Task<bool> RegisterClientAsync(string username, string password, bool isUnderSuperClient)
         {
             _logFile.AppendLine(@"Client registration attempt");
             var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
@@ -107,6 +107,7 @@ namespace Iit.Fibertest.Client
             _currentDatacenterParameters.ServerTitle = _iniFile.Read(IniSection.Server, IniKey.ServerTitle, "");
             var dto = await PureRegisterClientAsync(dcServiceAddresses, (int)TcpPorts.ClientListenTo, username, password, isUnderSuperClient);
             ParseServerAnswer(dto);
+            return true;
         }
 
         private async Task<ClientRegisteredDto> PureRegisterClientAsync(

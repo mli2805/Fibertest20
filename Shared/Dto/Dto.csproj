@@ -52,6 +52,7 @@
     <Compile Include="C2D\CheckServerConnectionDto.cs" />
     <Compile Include="C2D\GetEventsDto.cs" />
     <Compile Include="D2C\CurrentDatacenterParameters.cs" />
+    <Compile Include="D2C\DiskSpaceDto.cs" />
     <Compile Include="D2C\SmtpSettingsDto.cs" />
     <Compile Include="EnumsIitOtdr\ComparisonReturns.cs" />
     <Compile Include="EnumsIitOtdr\ConnectionTypes.cs" />

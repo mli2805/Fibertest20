@@ -84,6 +84,7 @@
         MySqlTcpPort,
         MySqlDbSchemePostfix,
         ResetDb,
+        FreeSpaceThresholdGb,
 
         //Broadcast
         GsmModemComPort,

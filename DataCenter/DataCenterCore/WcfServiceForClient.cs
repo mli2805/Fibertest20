@@ -32,6 +32,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly Smtp _smtp;
         private readonly SmsManager _smsManager;
+        private readonly DiskSpaceProvider _diskSpaceProvider;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -42,7 +43,8 @@ namespace Iit.Fibertest.DataCenterCore
             EventStoreService eventStoreService, MeasurementFactory measurementFactory,
             ClientsCollection clientsCollection, ClientToRtuTransmitter clientToRtuTransmitter,
             RtuStationsRepository rtuStationsRepository, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
-            BaseRefLandmarksTool baseRefLandmarksTool, SorFileRepository sorFileRepository, Smtp smtp, SmsManager smsManager)
+            BaseRefLandmarksTool baseRefLandmarksTool, SorFileRepository sorFileRepository, 
+            Smtp smtp, SmsManager smsManager, DiskSpaceProvider diskSpaceProvider)
         {
             _iniFile = iniFile;
             _logFile = logFile;
@@ -57,7 +59,7 @@ namespace Iit.Fibertest.DataCenterCore
             _baseRefLandmarksTool = baseRefLandmarksTool;
             _smtp = smtp;
             _smsManager = smsManager;
-
+            _diskSpaceProvider = diskSpaceProvider;
         }
 
         public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
@@ -223,6 +225,11 @@ namespace Iit.Fibertest.DataCenterCore
             Thread.CurrentThread.CurrentUICulture = currentCulture;
    
             return notificationType == NotificationType.Email ? _smtp.SendTest(to) : _smsManager.SendTest(to);
+        }
+
+        public async Task<DiskSpaceDto> GetDiskSpace()
+        {
+            return await _diskSpaceProvider.GetDiskSpace();
         }
 
 

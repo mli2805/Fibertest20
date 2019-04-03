@@ -160,6 +160,7 @@ namespace Graph.Tests
             builder.RegisterType<SmsManager>().InstancePerLifetimeScope();
             builder.RegisterType<Smtp>().InstancePerLifetimeScope();
             builder.RegisterType<MsmqHandler>().InstancePerLifetimeScope();
+            builder.RegisterType<DiskSpaceProvider>().InstancePerLifetimeScope();
 
             builder.RegisterInstance<IMyLog>(new NullLog());
 

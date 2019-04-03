@@ -11,8 +11,10 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IMyLog _logFile;
 
-        private int _mysqlTcpPort;
-        private string _eventSourcingScheme;
+        private readonly int _mysqlTcpPort;
+        private readonly string _eventSourcingScheme;
+        public string DataDir { get; private set; }
+        public string ConnectionString { get; private set; }
 
         public MySqlEventStoreInitializer(IniFile iniFile, IMyLog logFile)
         {
@@ -21,9 +23,8 @@ namespace Iit.Fibertest.DataCenterCore
             var postfix = iniFile.Read(IniSection.MySql, IniKey.MySqlDbSchemePostfix, "");
             _eventSourcingScheme = "ft20graph" + postfix;
 
-        
+            ConnectionString = $"server=localhost;port={_mysqlTcpPort};user id=root;password=root;";
         }
-
 
         public IStoreEvents Init()
         {
@@ -31,12 +32,14 @@ namespace Iit.Fibertest.DataCenterCore
             try
             {
                 var eventStore = Wireup.Init()
-                    .UsingSqlPersistence("Ft20graphMySql", "MySql.Data.MySqlClient", $"server=localhost;port={_mysqlTcpPort};user id=root;password=root;database={_eventSourcingScheme}")
+                    .UsingSqlPersistence("Ft20graphMySql", "MySql.Data.MySqlClient", $"{ConnectionString}database={_eventSourcingScheme}")
                     .WithDialect(new MySqlDialect())
                     .InitializeStorageEngine()
                     .Build();
 
                 _logFile.AppendLine($"Events store: MYSQL=localhost:{_mysqlTcpPort}   Database={_eventSourcingScheme}");
+
+                InitializeDataDir();
                 return eventStore;
             }
             catch (Exception e)
@@ -46,11 +49,43 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
+        private void InitializeDataDir()
+        {
+            MySqlConnection connection = new MySqlConnection(ConnectionString);
+            MySqlCommand command = new MySqlCommand("select @@datadir", connection);
+            connection.Open();
+            DataDir = (string)command.ExecuteScalar();
+            connection.Close();
+            Thread.Sleep(TimeSpan.FromMilliseconds(100));
+            _logFile.AppendLine($"MySQL data folder is {DataDir}");
+        }
+
+        public long GetDataSize()
+        {
+            try
+            {
+                MySqlConnection connection = new MySqlConnection(ConnectionString);
+                MySqlCommand command = new MySqlCommand(
+                    "SELECT SUM(data_length + index_length) FROM information_schema.tables WHERE table_schema = \"ft20efcore\"", connection);
+                connection.Open();
+                var result = (decimal)command.ExecuteScalar();
+                connection.Close();
+                Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                _logFile.AppendLine($"MySQL data size is {result}");
+                return (long)result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetDataSize: " + e.Message);
+                return -1;
+            }
+        }
+
         public void Delete()
         {
             try
             {
-                MySqlConnection connection = new MySqlConnection($"server=localhost;port={_mysqlTcpPort};user id=root;password=root;");
+                MySqlConnection connection = new MySqlConnection(ConnectionString);
                 MySqlCommand command = new MySqlCommand($"drop database if exists {_eventSourcingScheme};", connection);
                 connection.Open();
                 command.ExecuteNonQuery();
@@ -68,7 +103,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                MySqlConnection connection = new MySqlConnection($"server=localhost;port={_mysqlTcpPort};user id=root;password=root;");
+                MySqlConnection connection = new MySqlConnection(ConnectionString);
                 MySqlCommand command = new MySqlCommand($"create database if not exists {_eventSourcingScheme};", connection);
                 connection.Open();
                 command.ExecuteNonQuery();
