@@ -135,11 +135,12 @@ namespace Iit.Fibertest.Client
                 var zone   = $@"{separator}[{_currentUser.ZoneTitle}]";
                 DisplayName = DisplayName + $@" {server} {user} {zone}";
                 TabulatorViewModel.SelectedTabIndex = 0; // the same value should be in TabulatorViewModel c-tor !!!
-                var driveInfo = await _c2DWcfManager.GetDiskSpace();
-                var totalSize = $@"{driveInfo.TotalSize / (1024.0 * 1024 * 1024):#.0}Gb";
-                var freeSpace = $@"{driveInfo.AvailableFreeSpace / (1024.0 * 1024 * 1024):#.0}Gb";
-                var dataSize = $@"{driveInfo.DataSize / (1024.0 * 1024 * 1024):0.0}Gb";
-                _logFile.AppendLine($@"Database's size is {totalSize},  free space is {freeSpace},   database size is {dataSize}");
+
+//                var driveInfo = await _c2DWcfManager.GetDiskSpace();
+//                var totalSize = $@"{driveInfo.TotalSize / (1024.0 * 1024 * 1024):#.0}Gb";
+//                var freeSpace = $@"{driveInfo.AvailableFreeSpace / (1024.0 * 1024 * 1024):#.0}Gb";
+//                var dataSize = $@"{driveInfo.DataSize / (1024.0 * 1024 * 1024):0.0}Gb";
+//                _logFile.AppendLine($@"Database drive's size is {totalSize},  free space is {freeSpace},   database size is {dataSize}");
             }
             else
             {

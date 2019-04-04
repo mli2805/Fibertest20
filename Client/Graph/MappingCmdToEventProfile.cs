@@ -60,6 +60,7 @@ namespace Iit.Fibertest.Graph
             CreateMap<AddBopNetworkEvent, BopNetworkEventAdded>();
             CreateMap<ChangeResponsibilities, ResponsibilitiesChanged>();
             CreateMap<ApplyLicense, LicenseApplied>();
+            CreateMap<ClearHistory, HistoryCleared>();
             CreateMap<RegisterClientStation, ClientStationRegistered>();
         }
     }

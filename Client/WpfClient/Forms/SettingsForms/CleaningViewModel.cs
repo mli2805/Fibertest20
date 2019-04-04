@@ -22,7 +22,8 @@ namespace Iit.Fibertest.Client
 
         public async void Snapshot()
         {
-            var unused = await _model.Serialize(_logFile);
+            var buffer = await _model.Serialize(_logFile);
+            var unused = await ModelSerializationExt.Deserialize(_logFile, buffer);
 
         }
     }

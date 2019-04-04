@@ -141,11 +141,10 @@ namespace Iit.Fibertest.Client
                     var msg = (EventMessage) JsonConvert.DeserializeObject(json, JsonSerializerSettings);
                     var username = (string) msg.Headers[@"Username"];
                     var user = _readModel.Users.FirstOrDefault(u => u.Title == username);
+                    if (user == null || user.Role < Role.Root) continue;
 
                     var line = _eventToLogLineParser.ParseEventBody(msg.Body);
                     if (line == null) continue;
-
-                    if (user == null || user.Role < Role.Root) continue;
 
                     line.Ordinal = ordinal;
                     line.Username = username;

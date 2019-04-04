@@ -150,6 +150,7 @@
     <Compile Include="Algorithms\SorDataParsingReporter.cs" />
     <Compile Include="Algorithms\TraceStateReport\EventReportModel.cs" />
     <Compile Include="Commands\ApplyLicense.cs" />
+    <Compile Include="Commands\ClearHistory.cs" />
     <Compile Include="Commands\Client\LostClientConnection.cs" />
     <Compile Include="Commands\Client\RegisterClientStation.cs" />
     <Compile Include="Commands\Client\UnregisterClientStation.cs" />
@@ -190,6 +191,7 @@
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StartMonitoring.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StopMonitoring.cs" />
     <Compile Include="EventSourcing\EventsQueue.cs" />
+    <Compile Include="Events\HistoryCleared.cs" />
     <Compile Include="Events\LicenseApplied.cs" />
     <Compile Include="Events\Node\NodeUpdatedAndMoved.cs" />
     <Compile Include="Events\ResponsibilitiesChanged.cs" />
