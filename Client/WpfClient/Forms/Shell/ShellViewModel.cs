@@ -202,7 +202,6 @@ namespace Iit.Fibertest.Client
                 base.CanClose(callback);
             else
             {
-                // await _c2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto()).ContinueWith(ttt => { base.CanClose(callback); });
                  await _c2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto()).ContinueWith(ttt => { Environment.Exit(Environment.ExitCode); });
             }
         }

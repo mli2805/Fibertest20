@@ -28,8 +28,6 @@ namespace Iit.Fibertest.Graph
         public static List<string> GetEmailsToSendBopNetworkEvent(this Model writeModel, AddBopNetworkEvent cmd)
         {
             var otau = writeModel.Otaus.FirstOrDefault(o => o.Serial == cmd.Serial);
-//            var otau = writeModel.Otaus.FirstOrDefault(o => o.NetAddress.Ip4Address == cmd.OtauIp
-//                                                            && o.NetAddress.Port == cmd.TcpPort);
             if (otau == null) return new List<string>();
             var rtu = writeModel.Rtus.FirstOrDefault(r => r.Id == otau.RtuId);
             if (rtu == null) return new List<string>();

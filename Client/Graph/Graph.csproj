@@ -159,6 +159,7 @@
     <Compile Include="DomainEntities\Breaks\AccidentNeighbour.cs" />
     <Compile Include="DomainEntities\Breaks\AccidentOnTraceV2.cs" />
     <Compile Include="DomainEntities\Extensions\ModelEmailExt.cs" />
+    <Compile Include="DomainEntities\Extensions\ModelSerializationExt.cs" />
     <Compile Include="DomainEntities\Extensions\ModelSmsExt.cs" />
     <Compile Include="DomainEntities\Kadastr\Conpoint.cs" />
     <Compile Include="DomainEntities\Kadastr\Well.cs" />

@@ -18,7 +18,6 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<GraphGpsCalculator>().InstancePerLifetimeScope();
 
             builder.RegisterType<CurrentUser>().InstancePerLifetimeScope();
-//            builder.RegisterType<CommandLineParameters>().InstancePerLifetimeScope();
             builder.RegisterType<CurrentlyHiddenRtu>().InstancePerLifetimeScope();
             builder.RegisterType<CurrentGis>().InstancePerLifetimeScope();
             builder.RegisterType<CurrentDatacenterParameters>().InstancePerLifetimeScope();
@@ -69,15 +68,13 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<GisSettingsViewModel>();
             builder.RegisterType<SmtpSettingsViewModel>();
             builder.RegisterType<SmsSettingsViewModel>();
+            builder.RegisterType<CleaningViewModel>();
             builder.RegisterType<ChangePasswordViewModel>();
             builder.RegisterType<ClientWcfService>().InstancePerLifetimeScope();
             builder.RegisterType<ClientWcfServiceHost>().As<IClientWcfServiceHost>().InstancePerLifetimeScope();
 
             builder.RegisterType<WaitCursor>().As<IWaitCursor>();
 
-//            var iniFile = new IniFile();
-//            iniFile.AssignFile(@"Client.ini");
-//            builder.RegisterInstance(iniFile);
             builder.RegisterType<LogFile>().As<IMyLog>().InstancePerLifetimeScope();
 
             builder.RegisterType<Model>().InstancePerLifetimeScope();

@@ -205,19 +205,23 @@
     </Compile>
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\UserFilter.cs" />
-    <Compile Include="Forms\AdministrativeForms\Settings\GisSettingsView.xaml.cs">
+    <Compile Include="Forms\SettingsForms\CleaningView.xaml.cs">
+      <DependentUpon>CleaningView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SettingsForms\CleaningViewModel.cs" />
+    <Compile Include="Forms\SettingsForms\GisSettingsView.xaml.cs">
       <DependentUpon>GisSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AdministrativeForms\Settings\GisSettingsViewModel.cs" />
-    <Compile Include="Forms\AdministrativeForms\Settings\GMapProviderExt.cs" />
-    <Compile Include="Forms\AdministrativeForms\Settings\SmsSettingsView.xaml.cs">
+    <Compile Include="Forms\SettingsForms\GisSettingsViewModel.cs" />
+    <Compile Include="Forms\SettingsForms\GMapProviderExt.cs" />
+    <Compile Include="Forms\SettingsForms\SmsSettingsView.xaml.cs">
       <DependentUpon>SmsSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AdministrativeForms\Settings\SmsSettingsViewModel.cs" />
-    <Compile Include="Forms\AdministrativeForms\Settings\SmtpSettingsView.xaml.cs">
+    <Compile Include="Forms\SettingsForms\SmsSettingsViewModel.cs" />
+    <Compile Include="Forms\SettingsForms\SmtpSettingsView.xaml.cs">
       <DependentUpon>SmtpSettingsView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AdministrativeForms\Settings\SmtpSettingsViewModel.cs" />
+    <Compile Include="Forms\SettingsForms\SmtpSettingsViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\Users\SmsReceiverView.xaml.cs">
       <DependentUpon>SmsReceiverView.xaml</DependentUpon>
     </Compile>
@@ -261,10 +265,10 @@
       <DependentUpon>ChangePasswordView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\AdministrativeForms\Users\ChangePasswordViewModel.cs" />
-    <Compile Include="Forms\AdministrativeForms\Settings\ConfigurationView.xaml.cs">
+    <Compile Include="Forms\SettingsForms\ConfigurationView.xaml.cs">
       <DependentUpon>ConfigurationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AdministrativeForms\Settings\ConfigurationViewModel.cs" />
+    <Compile Include="Forms\SettingsForms\ConfigurationViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\LicenseView.xaml.cs">
       <DependentUpon>LicenseView.xaml</DependentUpon>
     </Compile>
@@ -655,15 +659,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\AdministrativeForms\Settings\GisSettingsView.xaml">
+    <Page Include="Forms\SettingsForms\CleaningView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\AdministrativeForms\Settings\SmsSettingsView.xaml">
+    <Page Include="Forms\SettingsForms\GisSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\AdministrativeForms\Settings\SmtpSettingsView.xaml">
+    <Page Include="Forms\SettingsForms\SmsSettingsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\SettingsForms\SmtpSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -671,7 +679,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\AdministrativeForms\Settings\ConfigurationView.xaml">
+    <Page Include="Forms\SettingsForms\ConfigurationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

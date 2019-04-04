@@ -113,6 +113,12 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
+        public void LaunchCleaningView()
+        {
+            var vm = _globalScope.Resolve<CleaningViewModel>();
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
         public async void LaunchEventLogView()
         {
             var vm = _globalScope.Resolve<EventLogViewModel>();

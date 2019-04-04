@@ -1,5 +1,8 @@
-﻿namespace Iit.Fibertest.Dto
+﻿using System;
+
+namespace Iit.Fibertest.Dto
 {
+    [Serializable]
     public enum FiberState
     {
         //

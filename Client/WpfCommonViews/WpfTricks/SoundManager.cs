@@ -44,10 +44,8 @@ namespace Iit.Fibertest.WpfCommonViews
         public void StartAlert()
         {
             _alertCounter++;
-            _logFile.AppendLine($"StartAlert invocation, _alertCounter++ = {_alertCounter}");
             if (_alertCounter == 1)
             {
-                _logFile.AppendLine($"_alertCounter == {_alertCounter} ! PlayAlert!");
                 PlayAlert();
                 _alertTimer.IsEnabled = true;
             }
@@ -56,10 +54,8 @@ namespace Iit.Fibertest.WpfCommonViews
         public void StopAlert()
         {
             _alertCounter--;
-            _logFile.AppendLine($"StopAlert invocation, _alertCounter-- = {_alertCounter}");
             if (_alertCounter == 0)
             {
-                _logFile.AppendLine($"_alertCounter == {_alertCounter} ! Stop the music!");
                 _alertTimer.IsEnabled = false;
                 _alertPlayer.Stop();
             }
