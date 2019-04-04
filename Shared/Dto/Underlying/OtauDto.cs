@@ -1,7 +1,9 @@
+using System;
 using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
 {
+    [Serializable]
     [DataContract]
     public class OtauDto
     {

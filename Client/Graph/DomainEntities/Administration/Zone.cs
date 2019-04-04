@@ -2,6 +2,7 @@ using System;
 
 namespace Iit.Fibertest.Graph
 {
+    [Serializable]
     public class Zone
     {
         public Guid ZoneId { get; set; }

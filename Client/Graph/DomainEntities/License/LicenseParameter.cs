@@ -3,6 +3,7 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Graph
 {
+    [Serializable]
     public class LicenseParameter
     {
         public int Value { get; set; } = -1;

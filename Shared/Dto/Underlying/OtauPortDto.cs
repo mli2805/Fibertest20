@@ -12,11 +12,6 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public bool IsPortOnMainCharon { get; set; }
-//        [DataMember]
-//        public string OtauIp { get; set; }
-//
-//        [DataMember]
-//        public int OtauTcpPort { get; set; }
 
         [DataMember] 
         public string Serial { get; set; }

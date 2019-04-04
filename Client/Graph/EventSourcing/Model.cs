@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Iit.Fibertest.Graph
 {
+    [Serializable]
     public class Model 
     {
         public License License { get; set; }

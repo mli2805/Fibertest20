@@ -2,6 +2,7 @@
 
 namespace Iit.Fibertest.Graph
 {
+    [Serializable]
     public class BopNetworkEvent
     {
         public int Ordinal { get; set; }

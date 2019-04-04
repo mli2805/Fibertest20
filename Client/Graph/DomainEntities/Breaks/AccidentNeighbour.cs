@@ -1,7 +1,9 @@
-﻿using GMap.NET;
+﻿using System;
+using GMap.NET;
 
 namespace Iit.Fibertest.Graph
 {
+    [Serializable]
     public class AccidentNeighbour
     {
         public int LandmarkIndex { get; set; }

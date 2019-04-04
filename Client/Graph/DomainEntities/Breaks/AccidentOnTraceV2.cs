@@ -1,8 +1,10 @@
-﻿using GMap.NET;
+﻿using System;
+using GMap.NET;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
+    [Serializable]
     public class AccidentOnTraceV2
     {
         public int BrokenRftsEventNumber { get; set; }

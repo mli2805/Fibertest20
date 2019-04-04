@@ -4,6 +4,7 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
+    [Serializable]
     public class Fiber
     {
         public Guid FiberId { get; set; }

@@ -1,5 +1,8 @@
-﻿namespace Iit.Fibertest.Graph
+﻿using System;
+
+namespace Iit.Fibertest.Graph
 {
+    [Serializable]
     public class EmailReceiver
     {
         public string Address { get; set; }

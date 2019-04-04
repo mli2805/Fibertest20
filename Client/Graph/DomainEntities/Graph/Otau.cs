@@ -3,6 +3,7 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
+    [Serializable]
     public class Otau
     {
         public Guid Id { get; set; }

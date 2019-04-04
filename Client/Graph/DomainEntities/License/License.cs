@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace Iit.Fibertest.Graph
 {
+    [Serializable]
     public class License
     {
         public List<Guid> LicenseIds { get; set; } = new List<Guid>();
