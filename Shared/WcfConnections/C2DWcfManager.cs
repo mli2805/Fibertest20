@@ -304,7 +304,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<DiskSpaceDto> GetDiskSpace()
+        public async Task<DiskSpaceDto> GetDiskSpaceGb()
         {
             var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
@@ -313,7 +313,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.GetDiskSpace();
+                var result = await channel.GetDiskSpaceGb();
                 wcfConnection.Close();
                 return result;
             }

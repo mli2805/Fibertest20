@@ -3,9 +3,9 @@
     /// <summary>
     /// Interaction logic for CleaningView.xaml
     /// </summary>
-    public partial class CleaningView
+    public partial class DbOptimizationView
     {
-        public CleaningView()
+        public DbOptimizationView()
         {
             InitializeComponent();
         }

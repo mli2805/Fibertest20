@@ -9,8 +9,10 @@ namespace Iit.Fibertest.Client
     {
         // ID - Title
         private Dictionary<Guid, string> _rtuTitles;
+
         // ID - <Title, RTU-ID>
         private Dictionary<Guid, Tuple<string, Guid>> _traces;
+
         // SorfileId - Measurement
         private Dictionary<int, MeasurementAdded> _measurements;
 
@@ -37,15 +39,19 @@ namespace Iit.Fibertest.Client
                 case MonitoringStopped evnt: return Parse(evnt);
 
                 case ClientStationRegistered evnt: return Parse(evnt);
-                case ClientStationUnregistered _: return new LogLine() { OperationCode = LogOperationCode.ClientExited };
-                case ClientConnectionLost _: return new LogLine() { OperationCode = LogOperationCode.ClientConnectionLost };
+                case ClientStationUnregistered _: return new LogLine() {OperationCode = LogOperationCode.ClientExited};
+                case ClientConnectionLost _:
+                    return new LogLine() {OperationCode = LogOperationCode.ClientConnectionLost};
 
                 case MeasurementAdded evnt: return Parse(evnt);
                 case MeasurementUpdated evnt: return Parse(evnt);
 
+                case HistoryCleared evnt: return Parse(evnt);
+
                 default: return null;
             }
         }
+
         public void Initialize()
         {
             _rtuTitles = new Dictionary<Guid, string>();
@@ -56,29 +62,34 @@ namespace Iit.Fibertest.Client
         private LogLine Parse(RtuAtGpsLocationAdded e)
         {
             _rtuTitles.Add(e.Id, e.Title);
-            return new LogLine() { OperationCode = LogOperationCode.RtuAdded, RtuTitle = e.Title };
+            return new LogLine() {OperationCode = LogOperationCode.RtuAdded, RtuTitle = e.Title};
         }
 
         private LogLine Parse(RtuUpdated e)
         {
             _rtuTitles[e.RtuId] = e.Title;
-            return new LogLine { OperationCode = LogOperationCode.RtuUpdated, RtuTitle = e.Title };
+            return new LogLine {OperationCode = LogOperationCode.RtuUpdated, RtuTitle = e.Title};
         }
 
         private LogLine Parse(RtuInitialized e)
         {
-            return new LogLine { OperationCode = LogOperationCode.RtuInitialized, RtuTitle = _rtuTitles[e.Id] };
+            return new LogLine {OperationCode = LogOperationCode.RtuInitialized, RtuTitle = _rtuTitles[e.Id]};
         }
 
         private LogLine Parse(RtuRemoved e)
         {
-            return new LogLine { OperationCode = LogOperationCode.RtuRemoved, RtuTitle = _rtuTitles[e.RtuId] };
+            return new LogLine {OperationCode = LogOperationCode.RtuRemoved, RtuTitle = _rtuTitles[e.RtuId]};
         }
 
         private LogLine Parse(TraceAdded e)
         {
             _traces.Add(e.TraceId, new Tuple<string, Guid>(e.Title, e.RtuId));
-            return new LogLine() { OperationCode = LogOperationCode.TraceAdded, RtuTitle = _rtuTitles[e.RtuId], TraceTitle = e.Title };
+            return new LogLine()
+            {
+                OperationCode = LogOperationCode.TraceAdded,
+                RtuTitle = _rtuTitles[e.RtuId],
+                TraceTitle = e.Title
+            };
         }
 
         private LogLine Parse(TraceUpdated e)
@@ -103,6 +114,7 @@ namespace Iit.Fibertest.Client
                 OperationParams = $@"port {e.OtauPortDto.OpticalPort}",
             };
         }
+
         private LogLine Parse(TraceDetached e)
         {
             return new LogLine
@@ -112,6 +124,7 @@ namespace Iit.Fibertest.Client
                 TraceTitle = _traces[e.TraceId].Item1,
             };
         }
+
         private LogLine Parse(TraceCleaned e)
         {
             return new LogLine
@@ -121,6 +134,7 @@ namespace Iit.Fibertest.Client
                 TraceTitle = _traces[e.TraceId].Item1,
             };
         }
+
         private LogLine Parse(TraceRemoved e)
         {
             return new LogLine
@@ -138,6 +152,7 @@ namespace Iit.Fibertest.Client
             {
                 additionalInfo = additionalInfo + baseRef.BaseRefType.GetLocalizedFemaleString() + @"; ";
             }
+
             return new LogLine()
             {
                 OperationCode = LogOperationCode.BaseRefAssigned,
@@ -160,12 +175,12 @@ namespace Iit.Fibertest.Client
 
         private LogLine Parse(MonitoringStarted e)
         {
-            return new LogLine() { OperationCode = LogOperationCode.MonitoringStarted, RtuTitle = _rtuTitles[e.RtuId] };
+            return new LogLine() {OperationCode = LogOperationCode.MonitoringStarted, RtuTitle = _rtuTitles[e.RtuId]};
         }
 
         private LogLine Parse(MonitoringStopped e)
         {
-            return new LogLine() { OperationCode = LogOperationCode.MonitoringStopped, RtuTitle = _rtuTitles[e.RtuId] };
+            return new LogLine() {OperationCode = LogOperationCode.MonitoringStopped, RtuTitle = _rtuTitles[e.RtuId]};
         }
 
         private LogLine Parse(ClientStationRegistered e)
@@ -177,11 +192,12 @@ namespace Iit.Fibertest.Client
             };
         }
 
-        public LogLine Parse(MeasurementAdded e)
+        private LogLine Parse(MeasurementAdded e)
         {
             _measurements.Add(e.SorFileId, e);
             return null;
         }
+
         private LogLine Parse(MeasurementUpdated e)
         {
             var meas = _measurements[e.SorFileId];
@@ -194,6 +210,13 @@ namespace Iit.Fibertest.Client
             };
         }
 
-
+        private LogLine Parse(HistoryCleared e)
+        {
+            return new LogLine()
+            {
+                OperationCode = LogOperationCode.HistoryCleared,
+                OperationParams = e.UpTo.ToString(@"G"),
+            };
+        }
     }
 }

@@ -56,7 +56,7 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<bool> SendTest(string to, NotificationType notificationType);
 
         [OperationContract]
-        Task<DiskSpaceDto> GetDiskSpace();
+        Task<DiskSpaceDto> GetDiskSpaceGb();
 
         // C2D2R
         [OperationContract]

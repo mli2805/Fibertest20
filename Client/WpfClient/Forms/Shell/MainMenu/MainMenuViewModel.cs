@@ -115,7 +115,8 @@ namespace Iit.Fibertest.Client
 
         public void LaunchCleaningView()
         {
-            var vm = _globalScope.Resolve<CleaningViewModel>();
+            var vm = _globalScope.Resolve<DbOptimizationViewModel>();
+            vm.Initialize();
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 

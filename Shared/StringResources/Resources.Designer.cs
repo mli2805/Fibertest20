@@ -830,6 +830,15 @@ namespace Iit.Fibertest.StringResources {
         /// <summary>
         ///   Looks up a localized string similar to Attention!.
         /// </summary>
+        public static string SID_Attention {
+            get {
+                return ResourceManager.GetString("SID_Attention", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Attention!.
+        /// </summary>
         public static string SID_Attention_ {
             get {
                 return ResourceManager.GetString("SID_Attention_", resourceCulture);
@@ -1927,6 +1936,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database optimization.
+        /// </summary>
+        public static string SID_Database_optimization {
+            get {
+                return ResourceManager.GetString("SID_Database_optimization", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DataCenter connected successfully!.
         /// </summary>
         public static string SID_DataCenter_connected_successfully_ {
@@ -1959,6 +1977,51 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Date {
             get {
                 return ResourceManager.GetString("SID_Date", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database drive&apos;s free space:.
+        /// </summary>
+        public static string SID_Db_drive_free_space {
+            get {
+                return ResourceManager.GetString("SID_Db_drive_free_space", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database drive&apos;s size:.
+        /// </summary>
+        public static string SID_Db_drive_total_size {
+            get {
+                return ResourceManager.GetString("SID_Db_drive_total_size", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 1. It&apos;s highly recommended to make a backup before cleaning!.
+        /// </summary>
+        public static string SID_Db_optimization_warning1 {
+            get {
+                return ResourceManager.GetString("SID_Db_optimization_warning1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 2. Please close all other Client and Superclient applications connected to this Server while optimization.
+        /// </summary>
+        public static string SID_Db_optimization_warning2 {
+            get {
+                return ResourceManager.GetString("SID_Db_optimization_warning2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to 3. Database optimization procedure is described in Client / Superclient User&apos;s guide .
+        /// </summary>
+        public static string SID_Db_optimization_warning3 {
+            get {
+                return ResourceManager.GetString("SID_Db_optimization_warning3", resourceCulture);
             }
         }
         
@@ -2602,6 +2665,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Execute.
+        /// </summary>
+        public static string SID_Execute {
+            get {
+                return ResourceManager.GetString("SID_Execute", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Exit.
         /// </summary>
         public static string SID_Exit {
@@ -2850,6 +2922,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_First_and_last_landmarks_should_be_associated_with_key_events_ {
             get {
                 return ResourceManager.GetString("SID_First_and_last_landmarks_should_be_associated_with_key_events_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Free space threshold:.
+        /// </summary>
+        public static string SID_Free_space_threshold {
+            get {
+                return ResourceManager.GetString("SID_Free_space_threshold", resourceCulture);
             }
         }
         
@@ -3835,6 +3916,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Measurements stored in DB:.
+        /// </summary>
+        public static string SID_Measurements_in_Db {
+            get {
+                return ResourceManager.GetString("SID_Measurements_in_Db", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Measurements, not events.
+        /// </summary>
+        public static string SID_Measurements_not_events {
+            get {
+                return ResourceManager.GetString("SID_Measurements_not_events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measuring with averaging.
         /// </summary>
         public static string SID_Measuring_with_averaging {
@@ -4024,11 +4123,29 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Network events.
+        /// </summary>
+        public static string SID_Network_events_0 {
+            get {
+                return ResourceManager.GetString("SID_Network_events_0", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Network events BOP.
         /// </summary>
         public static string SID_Network_events_Bop {
             get {
                 return ResourceManager.GetString("SID_Network_events_Bop", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Network events stored in DB.
+        /// </summary>
+        public static string SID_Network_events_in_Db {
+            get {
+                return ResourceManager.GetString("SID_Network_events_in_Db", resourceCulture);
             }
         }
         
@@ -4453,6 +4570,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Optical_events_for_period {
             get {
                 return ResourceManager.GetString("SID_Optical_events_for_period", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optical events stored in DB.
+        /// </summary>
+        public static string SID_Optical_events_in_Db {
+            get {
+                return ResourceManager.GetString("SID_Optical_events_in_Db", resourceCulture);
             }
         }
         
@@ -5074,6 +5200,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Remove_adjustment_points_or_add_nodes {
             get {
                 return ResourceManager.GetString("SID_Remove_adjustment_points_or_add_nodes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remove &quot;Event log&quot; records.
+        /// </summary>
+        public static string SID_Remove_Event_log_records {
+            get {
+                return ResourceManager.GetString("SID_Remove_Event_log_records", resourceCulture);
             }
         }
         
@@ -7289,6 +7424,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Well {
             get {
                 return ResourceManager.GetString("SID_Well", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (which a not an optical events).
+        /// </summary>
+        public static string SID_which_a_not_events {
+            get {
+                return ResourceManager.GetString("SID_which_a_not_events", resourceCulture);
             }
         }
         

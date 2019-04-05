@@ -6,15 +6,15 @@ namespace Iit.Fibertest.Dto
     public class DiskSpaceDto
     {
         [DataMember]
-        public long TotalSize { get; set; }
+        public double TotalSize { get; set; }
 
         [DataMember]
-        public long AvailableFreeSpace { get; set; }
+        public double AvailableFreeSpace { get; set; }
 
         [DataMember]
-        public long DataSize { get; set; }
+        public double DataSize { get; set; }
 
         [DataMember]
-        public long FreeSpaceThreshold { get; set; }
+        public double FreeSpaceThreshold { get; set; }
     }
 }

@@ -227,9 +227,9 @@ namespace Iit.Fibertest.DataCenterCore
             return notificationType == NotificationType.Email ? _smtp.SendTest(to) : _smsManager.SendTest(to);
         }
 
-        public async Task<DiskSpaceDto> GetDiskSpace()
+        public async Task<DiskSpaceDto> GetDiskSpaceGb()
         {
-            return await _diskSpaceProvider.GetDiskSpace();
+            return await _diskSpaceProvider.GetDiskSpaceGb();
         }
 
 

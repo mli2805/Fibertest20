@@ -2561,4 +2561,52 @@ RTU is initializing right now!</value>
 	<data name="SID__0_____software__1_" xml:space="preserve">
     <value>{0} ;  software {1}</value>
   </data>
+	<data name="SID_Database_optimization" xml:space="preserve">
+    <value>Database optimization</value>
+  </data>
+	<data name="SID_Attention" xml:space="preserve">
+    <value>Attention!</value>
+  </data>
+	<data name="SID_Db_optimization_warning1" xml:space="preserve">
+    <value>1. It's highly recommended to make a backup before cleaning!</value>
+  </data>
+	<data name="SID_Db_optimization_warning2" xml:space="preserve">
+    <value>2. Please close all other Client and Superclient applications connected to this Server while optimization</value>
+  </data>
+	<data name="SID_Db_optimization_warning3" xml:space="preserve">
+    <value>3. Database optimization procedure is described in Client / Superclient User's guide </value>
+  </data>
+	<data name="SID_Measurements_in_Db" xml:space="preserve">
+    <value>Measurements:</value>
+  </data>
+	<data name="SID_which_a_not_events" xml:space="preserve">
+    <value>(which a not an optical events)</value>
+  </data>
+	<data name="SID_Optical_events_in_Db" xml:space="preserve">
+    <value>Optical events:</value>
+  </data>
+	<data name="SID_Network_events_in_Db" xml:space="preserve">
+    <value>Network events:</value>
+  </data>
+	<data name="SID_Db_drive_total_size" xml:space="preserve">
+    <value>Database drive's size:</value>
+  </data>
+	<data name="SID_Db_drive_free_space" xml:space="preserve">
+    <value>Database drive's free space:</value>
+  </data>
+	<data name="SID_Free_space_threshold" xml:space="preserve">
+    <value>Free space threshold:</value>
+  </data>
+	<data name="SID_Measurements_not_events" xml:space="preserve">
+    <value>Measurements, not events</value>
+  </data>
+	<data name="SID_Remove_Event_log_records" xml:space="preserve">
+    <value>Remove "Event log" records</value>
+  </data>
+	<data name="SID_Execute" xml:space="preserve">
+    <value>Execute</value>
+  </data>
+	<data name="SID_Network_events_0" xml:space="preserve">
+    <value>Network events</value>
+  </data>
 </root>

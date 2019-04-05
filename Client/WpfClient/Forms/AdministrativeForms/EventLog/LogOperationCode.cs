@@ -24,5 +24,7 @@
         MonitoringStopped,
 
         MeasurementUpdated,
+
+        HistoryCleared,
     }
 }

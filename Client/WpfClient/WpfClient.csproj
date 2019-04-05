@@ -205,10 +205,11 @@
     </Compile>
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\UserFilter.cs" />
-    <Compile Include="Forms\SettingsForms\CleaningView.xaml.cs">
-      <DependentUpon>CleaningView.xaml</DependentUpon>
+    <Compile Include="Forms\SettingsForms\DbOptimizationForm\DbOptimizationModel.cs" />
+    <Compile Include="Forms\SettingsForms\DbOptimizationForm\DbOptimizationView.xaml.cs">
+      <DependentUpon>DbOptimizationView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\SettingsForms\CleaningViewModel.cs" />
+    <Compile Include="Forms\SettingsForms\DbOptimizationForm\DbOptimizationViewModel.cs" />
     <Compile Include="Forms\SettingsForms\GisSettingsView.xaml.cs">
       <DependentUpon>GisSettingsView.xaml</DependentUpon>
     </Compile>
@@ -659,7 +660,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\SettingsForms\CleaningView.xaml">
+    <Page Include="Forms\SettingsForms\DbOptimizationForm\DbOptimizationView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

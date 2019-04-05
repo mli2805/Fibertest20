@@ -2561,4 +2561,52 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID__0_____software__1_" xml:space="preserve">
 		<value>{0} ;  версия ПО {1}</value>
 	</data>
+	<data name="SID_Database_optimization" xml:space="preserve">
+		<value>Оптимизация БД</value>
+	</data>
+	<data name="SID_Attention" xml:space="preserve">
+		<value>Внимание!</value>
+	</data>
+	<data name="SID_Db_optimization_warning1" xml:space="preserve">
+		<value>1. Настоятельно рекомендуется сделать резервную копию БД перед проведением оптимизации!</value>
+	</data>
+	<data name="SID_Db_optimization_warning2" xml:space="preserve">
+		<value>2. Пожалуйста, закройте приложения Клиент и Суперклиент на других рабочих местах на время оптимизации БД.</value>
+	</data>
+	<data name="SID_Db_optimization_warning3" xml:space="preserve">
+		<value>3. Процедура проведения оптимизации БД описана в соответствующем разделе руководства пользователя</value>
+	</data>
+	<data name="SID_Measurements_in_Db" xml:space="preserve">
+		<value>Рефлектограмм:</value>
+	</data>
+	<data name="SID_which_a_not_events" xml:space="preserve">
+		<value>(не являющихся оптическими событиями)</value>
+	</data>
+	<data name="SID_Optical_events_in_Db" xml:space="preserve">
+		<value>Оптических событий:</value>
+	</data>
+	<data name="SID_Network_events_in_Db" xml:space="preserve">
+		<value>Сетевых событий:</value>
+	</data>
+	<data name="SID_Db_drive_total_size" xml:space="preserve">
+		<value>Размер диска с БД:</value>
+	</data>
+	<data name="SID_Db_drive_free_space" xml:space="preserve">
+		<value>Свободное место на диске с БД:</value>
+	</data>
+	<data name="SID_Free_space_threshold" xml:space="preserve">
+		<value>Порог свободного места:</value>
+	</data>
+	<data name="SID_Measurements_not_events" xml:space="preserve">
+		<value>Рефлектограммы (не события)</value>
+	</data>
+	<data name="SID_Remove_Event_log_records" xml:space="preserve">
+		<value>Удаление записей "Журнала операций"</value>
+	</data>
+	<data name="SID_Execute" xml:space="preserve">
+		<value>Выполнить</value>
+	</data>
+	<data name="SID_Network_events_0" xml:space="preserve">
+		<value>Сетевые события</value>
+	</data>
 </root>

@@ -26,8 +26,8 @@
                 <MenuItem Header="{x:Static stringResources:Resources.SID_SMS_settings}" cal:Message.Attach="LaunchSmsSettingsView"/>
                 <Separator/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Client_settings}" cal:Message.Attach="LaunchClientSettingsView"/>
-               <Separator/>
-                <MenuItem Header="Чистилище" cal:Message.Attach="LaunchCleaningView"/>
+                <Separator/>
+                <MenuItem Header="{x:Static stringResources:Resources.SID_Database_optimization}" cal:Message.Attach="LaunchCleaningView"/>
             </MenuItem>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Help}">
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Users_guide}" cal:Message.Attach="ShowUsersGuide"/>
