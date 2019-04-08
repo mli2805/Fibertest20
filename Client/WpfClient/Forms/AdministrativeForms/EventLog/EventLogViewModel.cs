@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Client
         private string _operationsFilterButtonContent;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings =
-            new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All};
+            new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
         public string OperationsFilterButtonContent
         {
@@ -67,7 +67,7 @@ namespace Iit.Fibertest.Client
 
         private void InitializeFilters()
         {
-            UserFilters = new List<UserFilter>() {new UserFilter()};
+            UserFilters = new List<UserFilter>() { new UserFilter() };
             foreach (var user in _readModel.Users.Where(u => u.Role >= Role.Root && u.Role <= Role.Superclient))
                 UserFilters.Add(new UserFilter(user));
             SelectedUserFilter = UserFilters.First();
@@ -86,7 +86,7 @@ namespace Iit.Fibertest.Client
 
         private bool OnFilter(object o)
         {
-            var logLine = (LogLine) o;
+            var logLine = (LogLine)o;
             return
                 (SelectedUserFilter.IsOn == false ||
                  SelectedUserFilter.User.Title == logLine.Username)
@@ -134,29 +134,30 @@ namespace Iit.Fibertest.Client
             _eventToLogLineParser.Initialize();
             var jsonsInCache = await _localDbManager.LoadEvents();
             var ordinal = 1;
-            try
+            foreach (var json in jsonsInCache)
             {
-                foreach (var json in jsonsInCache)
+                try
                 {
-                    var msg = (EventMessage) JsonConvert.DeserializeObject(json, JsonSerializerSettings);
-                    var username = (string) msg.Headers[@"Username"];
+                    var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
+                    var username = (string)msg.Headers[@"Username"];
                     var user = _readModel.Users.FirstOrDefault(u => u.Title == username);
-                    if (user == null || user.Role < Role.Root) continue;
 
                     var line = _eventToLogLineParser.ParseEventBody(msg.Body);
-                    if (line == null) continue;
+                    // event should be parsed even before check in order to update internal dictionaries
+                    if (line == null ||
+                        user == null || user.Role < Role.Root) continue;
 
                     line.Ordinal = ordinal;
                     line.Username = username;
-                    line.ClientIp = (string) msg.Headers[@"ClientIp"];
-                    line.Timestamp = (DateTime) msg.Headers[@"Timestamp"];
+                    line.ClientIp = (string)msg.Headers[@"ClientIp"];
+                    line.Timestamp = (DateTime)msg.Headers[@"Timestamp"];
                     Rows.Insert(0, line);
                     ordinal++;
                 }
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
+                catch (Exception e)
+                {
+                    Console.WriteLine(e);
+                }
             }
         }
 
