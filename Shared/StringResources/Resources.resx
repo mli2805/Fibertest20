@@ -2597,9 +2597,6 @@ RTU is initializing right now!</value>
 	<data name="SID_Free_space_threshold" xml:space="preserve">
     <value>Free space threshold:</value>
   </data>
-	<data name="SID_Measurements_not_events" xml:space="preserve">
-    <value>Measurements, not events</value>
-  </data>
 	<data name="SID_Remove_Event_log_records" xml:space="preserve">
     <value>Remove "Event log" records</value>
   </data>
@@ -2608,5 +2605,23 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Network_events_0" xml:space="preserve">
     <value>Network events</value>
+  </data>
+	<data name="SID_Up_to_and_including" xml:space="preserve">
+    <value>Up to and including</value>
+  </data>
+	<data name="SID_Nothing_selected_to_remove_" xml:space="preserve">
+    <value>Nothing selected to remove!</value>
+  </data>
+	<data name="SID_If_you_click_OK_now__the_data_will_be_permanently_deleted" xml:space="preserve">
+    <value>If you click OK now, the data will be permanently deleted</value>
+  </data>
+	<data name="SID_with_no_possibility_to_restore_them_" xml:space="preserve">
+    <value>with no possibility to restore them!</value>
+  </data>
+	<data name="SID_Measurements_which_are_not_optical_events" xml:space="preserve">
+    <value>Measurements which are not optical events</value>
+  </data>
+	<data name="SID_Db_optimization_started" xml:space="preserve">
+    <value>Db optimization started</value>
   </data>
 </root>

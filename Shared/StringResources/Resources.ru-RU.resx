@@ -2580,7 +2580,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Рефлектограмм:</value>
 	</data>
 	<data name="SID_which_a_not_events" xml:space="preserve">
-		<value>(не являющихся оптическими событиями)</value>
+		<value>(не связанные с оптическими событиями)</value>
 	</data>
 	<data name="SID_Optical_events_in_Db" xml:space="preserve">
 		<value>Оптических событий:</value>
@@ -2597,9 +2597,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Free_space_threshold" xml:space="preserve">
 		<value>Порог свободного места:</value>
 	</data>
-	<data name="SID_Measurements_not_events" xml:space="preserve">
-		<value>Рефлектограммы (не события)</value>
-	</data>
 	<data name="SID_Remove_Event_log_records" xml:space="preserve">
 		<value>Удаление записей "Журнала операций"</value>
 	</data>
@@ -2608,5 +2605,23 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Network_events_0" xml:space="preserve">
 		<value>Сетевые события</value>
+	</data>
+	<data name="SID_Up_to_and_including" xml:space="preserve">
+		<value>По дату включительно</value>
+	</data>
+	<data name="SID_Nothing_selected_to_remove_" xml:space="preserve">
+		<value>Для удаления ничего не выбрано!</value>
+	</data>
+	<data name="SID_If_you_click_OK_now__the_data_will_be_permanently_deleted" xml:space="preserve">
+		<value>В результате выполнения команды, данные будут удалены</value>
+	</data>
+	<data name="SID_with_no_possibility_to_restore_them_" xml:space="preserve">
+		<value>без возможности восстановления!</value>
+	</data>
+	<data name="SID_Measurements_which_are_not_optical_events" xml:space="preserve">
+		<value>Рефлектограммы, не связанные с событиями</value>
+	</data>
+	<data name="SID_Db_optimization_started" xml:space="preserve">
+		<value>Запущена оптимизация БД</value>
 	</data>
 </root>

@@ -1999,6 +1999,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Db optimization started.
+        /// </summary>
+        public static string SID_Db_optimization_started {
+            get {
+                return ResourceManager.GetString("SID_Db_optimization_started", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 1. It&apos;s highly recommended to make a backup before cleaning!.
         /// </summary>
         public static string SID_Db_optimization_warning1 {
@@ -3052,6 +3061,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to History cleared.
+        /// </summary>
+        public static string SID_History_cleared {
+            get {
+                return ResourceManager.GetString("SID_History_cleared", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Host.
         /// </summary>
         public static string SID_Host {
@@ -3084,6 +3102,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_If_you_accept_0_ {
             get {
                 return ResourceManager.GetString("SID_If_you_accept_0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to If you click OK now, the data will be permanently deleted.
+        /// </summary>
+        public static string SID_If_you_click_OK_now__the_data_will_be_permanently_deleted {
+            get {
+                return ResourceManager.GetString("SID_If_you_click_OK_now__the_data_will_be_permanently_deleted", resourceCulture);
             }
         }
         
@@ -3916,7 +3943,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Measurements stored in DB:.
+        ///   Looks up a localized string similar to Measurements:.
         /// </summary>
         public static string SID_Measurements_in_Db {
             get {
@@ -3925,11 +3952,11 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Measurements, not events.
+        ///   Looks up a localized string similar to Measurements which are not optical events.
         /// </summary>
-        public static string SID_Measurements_not_events {
+        public static string SID_Measurements_which_are_not_optical_events {
             get {
-                return ResourceManager.GetString("SID_Measurements_not_events", resourceCulture);
+                return ResourceManager.GetString("SID_Measurements_which_are_not_optical_events", resourceCulture);
             }
         }
         
@@ -4141,7 +4168,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Network events stored in DB.
+        ///   Looks up a localized string similar to Network events:.
         /// </summary>
         public static string SID_Network_events_in_Db {
             get {
@@ -4456,6 +4483,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nothing selected to remove!.
+        /// </summary>
+        public static string SID_Nothing_selected_to_remove_ {
+            get {
+                return ResourceManager.GetString("SID_Nothing_selected_to_remove_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Now active is port {0} on {1}.
         /// </summary>
         public static string SID_Now_active_is_port__0__on__1_ {
@@ -4574,7 +4610,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Optical events stored in DB.
+        ///   Looks up a localized string similar to Optical events:.
         /// </summary>
         public static string SID_Optical_events_in_Db {
             get {
@@ -7185,6 +7221,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Up to and including.
+        /// </summary>
+        public static string SID_Up_to_and_including {
+            get {
+                return ResourceManager.GetString("SID_Up_to_and_including", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update.
         /// </summary>
         public static string SID_Update {
@@ -7451,6 +7496,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_With_cable_reserve_to_the_left_m {
             get {
                 return ResourceManager.GetString("SID_With_cable_reserve_to_the_left_m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to with no possibility to restore them!.
+        /// </summary>
+        public static string SID_with_no_possibility_to_restore_them_ {
+            get {
+                return ResourceManager.GetString("SID_with_no_possibility_to_restore_them_", resourceCulture);
             }
         }
         

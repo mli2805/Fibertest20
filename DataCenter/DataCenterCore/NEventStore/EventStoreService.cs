@@ -58,7 +58,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public void Delete()
         {
-            _eventStoreInitializer.Delete();
+            _eventStoreInitializer.DropDatabase();
         }
 
         private bool AssignGraphDbVersion(IEventStream eventStream)

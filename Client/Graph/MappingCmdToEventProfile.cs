@@ -61,6 +61,7 @@ namespace Iit.Fibertest.Graph
             CreateMap<ChangeResponsibilities, ResponsibilitiesChanged>();
             CreateMap<ApplyLicense, LicenseApplied>();
             CreateMap<ClearHistory, HistoryCleared>();
+            CreateMap<StartDbOptimazation, DbOptimazationStarted>();
             CreateMap<RegisterClientStation, ClientStationRegistered>();
         }
     }

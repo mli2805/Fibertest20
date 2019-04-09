@@ -7,6 +7,8 @@ namespace Iit.Fibertest.DataCenterCore
         string DataDir {get; }
         IStoreEvents Init();
         long GetDataSize();
-        void Delete();
+        bool OptimizeSorFilesTable();
+
+        void DropDatabase();
     }
 }

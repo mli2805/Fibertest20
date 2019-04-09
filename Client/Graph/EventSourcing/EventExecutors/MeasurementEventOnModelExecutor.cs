@@ -52,6 +52,10 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
+        public string StartDbOptimization(DbOptimazationStarted e)
+        {
+            return null;
+        }
     }
 
   

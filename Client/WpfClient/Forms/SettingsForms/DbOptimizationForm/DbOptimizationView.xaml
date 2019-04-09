@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        Width="600" SizeToContent="Height" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignData CleaningViewModel}">
+        Width="800" SizeToContent="Height" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignData CleaningViewModel}">
     <DockPanel>
-        <DockPanel DockPanel.Dock="Top" Margin="5">
-            <TextBlock DockPanel.Dock="Left" Text="{x:Static stringResources:Resources.SID_Attention}" Width="120" TextAlignment="Right" Margin="5" FontWeight="Bold"/>
-            <StackPanel Margin="5,0">
+        <DockPanel DockPanel.Dock="Top" Margin="33,15">
+            <TextBlock DockPanel.Dock="Left" Text="{x:Static stringResources:Resources.SID_Attention}" Width="120" 
+                       TextAlignment="Right" Margin="5" FontWeight="Bold"/>
+            <StackPanel Margin="5,0,70,0">
                 <TextBlock DockPanel.Dock="Top" Text="{x:Static stringResources:Resources.SID_Db_optimization_warning1}" 
                            TextWrapping="Wrap" Margin="5" TextAlignment="Left" FontWeight="Bold"/>
                 <TextBlock DockPanel.Dock="Top" Text="{x:Static stringResources:Resources.SID_Db_optimization_warning2}" 
@@ -19,52 +20,74 @@
             </StackPanel>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top">
-            <StackPanel DockPanel.Dock="Left" Width="300">
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Measurements_in_Db}" Margin="5" TextAlignment="Right"/>
-                <TextBlock Text="{x:Static stringResources:Resources.SID_which_a_not_events}" Margin="0,-3,0,5" TextAlignment="Right"/>
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Optical_events_in_Db}" Margin="5" TextAlignment="Right"/>
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Network_events_in_Db}" Margin="5" TextAlignment="Right"/>
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Db_drive_total_size}" Margin="5,15,5,5" TextAlignment="Right"/>
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Db_drive_free_space}" Margin="5" TextAlignment="Right"/>
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Free_space_threshold}" Margin="5" TextAlignment="Right"/>
-            </StackPanel>
-            <StackPanel>
-                <TextBlock Text="{Binding Model.MeasurementsNotEvents}"  Margin="5"/>
-                <TextBlock Text="" Margin="0,-3,0,5" TextAlignment="Right"/>
-                <TextBlock Text="{Binding Model.OpticalEvents}" Margin="5"/>
-                <TextBlock Text="{Binding Model.NetworkEvents}" Margin="5"/>
-                <TextBlock Text="{Binding Model.DriveSize}" Margin="5,15,5,5"/>
-                <TextBlock Text="{Binding Model.AvailableFreeSpace}" Margin="5"/>
-                <TextBlock Text="{Binding Model.FreeSpaceThreshold}" Margin="5"/>
-            </StackPanel>
+            <Border BorderBrush="LightGray" BorderThickness="1" Margin="5">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Left" Width="300">
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Measurements_in_Db}" Margin="5" TextAlignment="Right"/>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_which_a_not_events}" Margin="0,-3,0,5" TextAlignment="Right"/>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Optical_events_in_Db}" Margin="5" TextAlignment="Right"/>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Network_events_in_Db}" Margin="5" TextAlignment="Right"/>
+                    </StackPanel>
+                    <StackPanel Width="70">
+                        <TextBlock Text="{Binding Model.MeasurementsNotEvents}"  Margin="5"/>
+                        <TextBlock Text="" Margin="0,-3,0,5" TextAlignment="Right"/>
+                        <TextBlock Text="{Binding Model.OpticalEvents}" Margin="5"/>
+                        <TextBlock Text="{Binding Model.NetworkEvents}" Margin="5"/>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
+            <Border BorderBrush="LightGray" BorderThickness="1" Margin="0,5,5,5">
+                <DockPanel>
+                    <StackPanel DockPanel.Dock="Left" Width="300">
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Db_drive_total_size}" Margin="5,15,5,5" TextAlignment="Right"/>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Db_drive_free_space}" Margin="5" TextAlignment="Right"/>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Free_space_threshold}" Margin="5" TextAlignment="Right"/>
+                    </StackPanel>
+                    <StackPanel Width="70">
+                        <TextBlock Text="{Binding Model.DriveSize}" Margin="5,15,5,5"/>
+                        <TextBlock Text="{Binding Model.AvailableFreeSpace}" Margin="5"/>
+                        <TextBlock Text="{Binding Model.FreeSpaceThreshold}" Margin="5"/>
+                    </StackPanel>
+                </DockPanel>
+            </Border>
         </DockPanel>
         <Separator DockPanel.Dock="Top" Margin="5"/>
-        <DockPanel DockPanel.Dock="Top" Margin="5">
-            <GroupBox DockPanel.Dock="Top" Margin="0,5">
-                <GroupBox.Header>
-                    <HeaderedContentControl>
-                        <RadioButton GroupName="1" IsChecked="True" Content="Remove stored measurements, optical and network events"/>
-                    </HeaderedContentControl>
-                </GroupBox.Header>
-                <StackPanel Margin="10,5" HorizontalAlignment="Left" Width="200">
-                    <DatePicker Text="up to date" Margin="5"/>
-                    <CheckBox Content="{x:Static stringResources:Resources.SID_Measurements_not_events}" Margin="5"/>
-                    <CheckBox Content="{x:Static stringResources:Resources.SID_Optical_events}" Margin="5"/>
-                    <CheckBox Content="{x:Static stringResources:Resources.SID_Network_events_0}" Margin="5"/>
+        <Border DockPanel.Dock="Top" BorderBrush="LightGray" BorderThickness="0" Margin="5">
+            <DockPanel  Margin="5">
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,5,50,5">
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Up_to_and_including}" Margin="10,5"/>
+                    <DatePicker DisplayDateEnd="{Binding Model.UpToLimit}" 
+                                SelectedDate="{Binding Model.SelectedDate}" Width="120"/>
                 </StackPanel>
-            </GroupBox>
-            <GroupBox DockPanel.Dock="Top" Margin="0,5">
-                <GroupBox.Header>
-                    <HeaderedContentControl>
-                        <RadioButton GroupName="1" Content='{x:Static stringResources:Resources.SID_Remove_Event_log_records}'/>
-                    </HeaderedContentControl>
-                </GroupBox.Header>
-                    <DatePicker Text="up to date" Margin="15,10" HorizontalAlignment="Left" Width="200"/>
-            </GroupBox>
-        </DockPanel>
-        <StackPanel Orientation="Horizontal" Margin="0,20,20,10" HorizontalAlignment="Center">
-            <Button Height="22" Width="100" Margin="15,0" Content="{x:Static stringResources:Resources.SID_Execute}" Name="Execute"/>
-            <Button Height="22" Width="100" Margin="15,0" Content="{x:Static stringResources:Resources.SID_Cancel}" Name="Cancel" IsCancel="True"/>
+                <GroupBox DockPanel.Dock="Left" Margin="0,5" Width="368">
+                    <GroupBox.Header>
+                        <HeaderedContentControl>
+                            <RadioButton GroupName="1" IsChecked="{Binding Model.IsRemoveMode}" 
+                                         Content="{x:Static stringResources:Resources.SID_Remove}"/>
+                        </HeaderedContentControl>
+                    </GroupBox.Header>
+                    <StackPanel Margin="5" HorizontalAlignment="Left">
+                        <CheckBox Content="{x:Static stringResources:Resources.SID_Measurements_which_are_not_optical_events}" 
+                                  IsChecked="{Binding Model.IsMeasurements}" Margin="0,5"/>
+                        <CheckBox Content="{x:Static stringResources:Resources.SID_Optical_events}" 
+                                  IsChecked="{Binding Model.IsOpticalEvents}" Margin="0,5"/>
+                        <CheckBox Content="{x:Static stringResources:Resources.SID_Network_events_0}" 
+                                  IsChecked="{Binding Model.IsNetworkEvents}" Margin="0,5"/>
+                    </StackPanel>
+                </GroupBox>
+                <GroupBox Margin="2,5,0,5">
+                    <GroupBox.Header>
+                        <HeaderedContentControl>
+                            <RadioButton GroupName="1" IsChecked="{Binding Model.IsSnapshotMode}"
+                                         Content='{x:Static stringResources:Resources.SID_Remove_Event_log_records}'/>
+                        </HeaderedContentControl>
+                    </GroupBox.Header>
+                </GroupBox>
+            </DockPanel>
+        </Border>
+        <StackPanel Orientation="Horizontal" Margin="0,20,28,15" HorizontalAlignment="Center">
+            <Button Height="22" Width="100" Margin="5,0" Content="{x:Static stringResources:Resources.SID_Execute}" Name="Execute"/>
+            <Button Height="22" Width="100" Margin="5,0" Content="{x:Static stringResources:Resources.SID_Cancel}" Name="Cancel" IsCancel="True"/>
         </StackPanel>
     </DockPanel>
 </Window>

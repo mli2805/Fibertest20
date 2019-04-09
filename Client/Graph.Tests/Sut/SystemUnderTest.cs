@@ -147,6 +147,7 @@ namespace Graph.Tests
 
             builder.RegisterType<CommandAggregator>().InstancePerLifetimeScope();
             builder.RegisterType<MeasurementFactory>().InstancePerLifetimeScope();
+            builder.RegisterType<MeasurementCleaner>().InstancePerLifetimeScope();
 
             builder.RegisterType<TestSettings>().As<ISettings>().InstancePerLifetimeScope();
 

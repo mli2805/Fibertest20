@@ -86,6 +86,8 @@ namespace Iit.Fibertest.Graph
                 case AddNetworkEvent command: return Validate(command);
                 case AddBopNetworkEvent command: return Validate(command);
 
+                case StartDbOptimazation command: return _eventsQueue.Add(Mapper.Map<DbOptimazationStarted>(command));
+
                 default: return @"Unknown command";
             }
         }
@@ -258,7 +260,7 @@ namespace Iit.Fibertest.Graph
             var networkEventAdded = Mapper.Map<NetworkEventAdded>(cmd);
             var lastEventOrdial = _writeModel.NetworkEvents.Any() ? _writeModel.NetworkEvents.Max(n => n.Ordinal) : 1;
             networkEventAdded.Ordinal = lastEventOrdial + 1;
-          //  networkEventAdded.RtuPartStateChanges = _writeModel.IsStateWorseOrBetterThanBefore(networkEventAdded);
+            //  networkEventAdded.RtuPartStateChanges = _writeModel.IsStateWorseOrBetterThanBefore(networkEventAdded);
             return _eventsQueue.Add(networkEventAdded);
         }
 

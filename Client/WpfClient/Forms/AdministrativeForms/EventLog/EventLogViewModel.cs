@@ -121,6 +121,8 @@ namespace Iit.Fibertest.Client
 
                 case LogOperationCode.MeasurementUpdated: return _logOperationsViewModel.IsMeasurementUpdated;
 
+                case LogOperationCode.DbOptimizationStarted: return _logOperationsViewModel.IsMeasurementUpdated;
+
                 default: return false;
             }
         }

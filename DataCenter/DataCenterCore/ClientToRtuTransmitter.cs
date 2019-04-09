@@ -16,7 +16,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly DoubleAddress _serverDoubleAddress;
 
-        public ClientToRtuTransmitter(IniFile iniFile, IMyLog logFile, RtuStationsRepository rtuStationsRepository, ID2RWcfManager d2RWcfManager)
+        public ClientToRtuTransmitter(IniFile iniFile, IMyLog logFile, 
+            RtuStationsRepository rtuStationsRepository, ID2RWcfManager d2RWcfManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;

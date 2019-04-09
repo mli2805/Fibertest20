@@ -86,13 +86,32 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("GetSorBytesAsync: " + e.Message);
+                _logFile.AppendLine("RemoveSorBytesAsync: " + e.Message);
                 return -1;
             }
         }
 
+        public async Task<int> RemoveManySorAsync(int[] sorIds)
+        {
+            try
+            {
+                _logFile.AppendLine($"RemoveManySorAsync: {sorIds.Length} ids received");
 
-
+                using (var dbContext = new FtDbContext(_settings.Options))
+                {
+                    var sors = dbContext.SorFiles.Where(s => sorIds.Contains(s.Id)).ToList();
+                    dbContext.SorFiles.RemoveRange(sors);
+                    var recordsAffected = await dbContext.SaveChangesAsync();
+                    _logFile.AppendLine($"RemoveManySorAsync: {recordsAffected} records deleted");
+                    return recordsAffected;
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("RemoveManySorAsync: " + e.Message);
+                return -1;
+            }
+        }
 
     }
 }

@@ -109,7 +109,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine("SendCommand: " + e.Message);
-                return @"Cannot send command to data-center.";
+                return e.Message;
             }
         }
 

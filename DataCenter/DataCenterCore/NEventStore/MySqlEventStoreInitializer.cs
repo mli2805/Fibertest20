@@ -60,18 +60,43 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine($"MySQL data folder is {DataDir}");
         }
 
+        public bool OptimizeSorFilesTable()
+        {
+            try
+            {
+                MySqlConnection connection = new MySqlConnection(ConnectionString);
+                MySqlCommand command = new MySqlCommand("optimize table ft20efcore.sorfiles", connection);
+                connection.Open();
+                var unused = command.ExecuteNonQuery();
+                connection.Close();
+                Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("OptimizeSorFilesTable: " + e.Message);
+                return false;
+            }
+        }
+
         public long GetDataSize()
+        {
+            var l1 = GetSchemaSize("\"ft20efcore\"");
+            var l2 = GetSchemaSize("\"ft20graph\"");
+            return l1 + l2;
+        }
+
+        private long GetSchemaSize(string schema)
         {
             try
             {
                 MySqlConnection connection = new MySqlConnection(ConnectionString);
                 MySqlCommand command = new MySqlCommand(
-                    "SELECT SUM(data_length + index_length) FROM information_schema.tables WHERE table_schema = \"ft20efcore\"", connection);
+                    $"SELECT SUM(data_length + index_length) FROM information_schema.tables WHERE table_schema = {schema}", connection);
                 connection.Open();
                 var result = (decimal)command.ExecuteScalar();
                 connection.Close();
                 Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                _logFile.AppendLine($"MySQL data size is {result}");
                 return (long)result;
             }
             catch (Exception e)
@@ -79,9 +104,10 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine("GetDataSize: " + e.Message);
                 return -1;
             }
+
         }
 
-        public void Delete()
+        public void DropDatabase()
         {
             try
             {

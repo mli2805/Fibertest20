@@ -40,7 +40,12 @@ namespace Graph.Tests
             throw new NotImplementedException();
         }
 
-        public void Delete()
+        public bool OptimizeSorFilesTable()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DropDatabase()
         {
             throw new NotImplementedException();
         }

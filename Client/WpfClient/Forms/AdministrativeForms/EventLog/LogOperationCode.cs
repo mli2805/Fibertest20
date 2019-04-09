@@ -25,6 +25,6 @@
 
         MeasurementUpdated,
 
-        HistoryCleared,
+        DbOptimizationStarted,
     }
 }

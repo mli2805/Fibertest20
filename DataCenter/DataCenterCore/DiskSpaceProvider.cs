@@ -27,12 +27,14 @@ namespace Iit.Fibertest.DataCenterCore
             var driveInfo = new DriveInfo(_mySqlEventStoreInitializer.DataDir.Substring(0,1));
             result.TotalSize = driveInfo.TotalSize / gb;
             result.AvailableFreeSpace = driveInfo.AvailableFreeSpace / gb;
-            var totalSize = $"{result.TotalSize:#.0}Gb";
-            var freeSpace = $"{result.AvailableFreeSpace:#.0}Gb";
             result.FreeSpaceThreshold = _freeSpaceThresholdGb;
             result.DataSize = _mySqlEventStoreInitializer.GetDataSize() / gb;
-            _logFile.AppendLine($@"Drive {driveInfo.Name}'s size is {totalSize},  free space is {freeSpace},  threshold {result.FreeSpaceThreshold}Gb");
-            _logFile.AppendLine($@"DB size is {result.DataSize:#.0}Gb");
+
+            var totalSize = $"Drive {driveInfo.Name}'s size is {result.TotalSize:0.0}Gb";
+            var freeSpace = $"free space is {result.AvailableFreeSpace:0.0}Gb";
+            var threshold = $"threshold {result.FreeSpaceThreshold}Gb";
+            var dbSize = $"DB size is {result.DataSize:0.0}Gb";
+            _logFile.AppendLine($@"{totalSize},  {freeSpace},  {threshold},  {dbSize}");
             await Task.Delay(1);
             return result;
         }

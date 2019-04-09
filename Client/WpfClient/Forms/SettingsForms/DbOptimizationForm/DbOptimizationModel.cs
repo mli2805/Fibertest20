@@ -1,11 +1,12 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using Caliburn.Micro;
 
 namespace Iit.Fibertest.Client
 {
     public class DbOptimizationModel : PropertyChangedBase
     {
+        #region statistics information
         private int _measurementsNotEvents;
-
         public int MeasurementsNotEvents
         {
             get => _measurementsNotEvents;
@@ -77,6 +78,31 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
             }
         }
+        #endregion
+
+        public bool IsRemoveMode { get; set; } = true;
+        public  bool IsSnapshotModel { get; set; }
+
+        public bool IsMeasurements { get; set; } = true;
+        public bool IsOpticalEvents { get; set; }
+        public bool IsNetworkEvents { get; set; }
+
+     //   public DateTime UpToLimit{ get; set; } = new DateTime(DateTime.Today.Year - 2, 12, 31);
+        public DateTime UpToLimit{ get; set; } = DateTime.Today;
+
+   //     private DateTime _selectedDate = new DateTime(DateTime.Today.Year - 2, 12, 31);
+        private DateTime _selectedDate = DateTime.Today;
+        public DateTime SelectedDate
+        {
+            get { return _selectedDate; }
+            set
+            {
+                if (value.Equals(_selectedDate)) return;
+                _selectedDate = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
     }
 
 }

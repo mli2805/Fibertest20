@@ -27,6 +27,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly RtuStationsRepository _rtuStationsRepository;
+        private readonly MeasurementCleaner _measurementCleaner;
         private readonly SorFileRepository _sorFileRepository;
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
@@ -42,8 +43,9 @@ namespace Iit.Fibertest.DataCenterCore
         public WcfServiceForClient(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
             EventStoreService eventStoreService, MeasurementFactory measurementFactory,
             ClientsCollection clientsCollection, ClientToRtuTransmitter clientToRtuTransmitter,
-            RtuStationsRepository rtuStationsRepository, BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
-            BaseRefLandmarksTool baseRefLandmarksTool, SorFileRepository sorFileRepository, 
+            RtuStationsRepository rtuStationsRepository, MeasurementCleaner measurementCleaner,
+            BaseRefRepairmanIntermediary baseRefRepairmanIntermediary, BaseRefLandmarksTool baseRefLandmarksTool,
+            SorFileRepository sorFileRepository,
             Smtp smtp, SmsManager smsManager, DiskSpaceProvider diskSpaceProvider)
         {
             _iniFile = iniFile;
@@ -54,6 +56,7 @@ namespace Iit.Fibertest.DataCenterCore
             _clientsCollection = clientsCollection;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _rtuStationsRepository = rtuStationsRepository;
+            _measurementCleaner = measurementCleaner;
             _sorFileRepository = sorFileRepository;
             _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
             _baseRefLandmarksTool = baseRefLandmarksTool;
@@ -117,12 +120,32 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var cmd = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
 
+            if (cmd is StartDbOptimazation startDbOptimazation)
+            {
+                _logFile.AppendLine($"Start SorFiles cleaning");
+                var sorCount = await PreProcessing(startDbOptimazation);
+                _logFile.AppendLine($"{sorCount} record from SorFiles deleted");
+            }
+
             var resultInGraph = await _eventStoreService.SendCommand(cmd, username, clientIp);
             if (resultInGraph != null)
                 return resultInGraph;
 
             // A few commands need post-processing in Db or RTU
             return await PostProcessing(cmd);
+        }
+
+        private async Task<int> PreProcessing(StartDbOptimazation startDbOptimazation)
+        {
+            if (startDbOptimazation.IsRemoveElementsMode)
+            {
+                return await _measurementCleaner.ClearSor(startDbOptimazation);
+            }
+            else
+            {
+                await Task.Delay(1);
+                return 0;
+            }
         }
 
         private async Task<string> PostProcessing(object cmd)
@@ -223,7 +246,7 @@ namespace Iit.Fibertest.DataCenterCore
             var cu = _iniFile.Read(IniSection.General, IniKey.Culture, "ru-RU");
             var currentCulture = new CultureInfo(cu);
             Thread.CurrentThread.CurrentUICulture = currentCulture;
-   
+
             return notificationType == NotificationType.Email ? _smtp.SendTest(to) : _smsManager.SendTest(to);
         }
 

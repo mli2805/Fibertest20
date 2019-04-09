@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
+using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -9,6 +11,35 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterCore
 {
+    public class MeasurementCleaner
+    {
+        private readonly SorFileRepository _sorFileRepository;
+        private readonly Model _writeModel;
+        private readonly IEventStoreInitializer _eventStoreInitializer;
+
+        public MeasurementCleaner(SorFileRepository sorFileRepository, Model writeModel,
+            IEventStoreInitializer eventStoreInitializer)
+        {
+            _sorFileRepository = sorFileRepository;
+            _writeModel = writeModel;
+            _eventStoreInitializer = eventStoreInitializer;
+        }
+
+        public async Task<int> ClearSor(StartDbOptimazation cmd)
+        {
+            if (!cmd.IsMeasurementsNotEvents && !cmd.IsOpticalEvents) return 0;
+
+            var records = await _sorFileRepository.RemoveManySorAsync(
+                (from meas in _writeModel.Measurements.Where(m => m.EventRegistrationTimestamp.Date <= cmd.UpTo.Date) 
+                    where meas.EventStatus == EventStatus.JustMeasurementNotAnEvent && cmd.IsMeasurementsNotEvents 
+                          || meas.EventStatus != EventStatus.JustMeasurementNotAnEvent && cmd.IsOpticalEvents 
+                    select meas.SorFileId).ToArray());
+
+            var unused = _eventStoreInitializer.OptimizeSorFilesTable();
+            return records;
+        }
+    }
+
     public class MeasurementFactory
     {
         private readonly ILifetimeScope _globalScope;
@@ -41,7 +72,7 @@ namespace Iit.Fibertest.DataCenterCore
                 StatusChangedByUser = "Migrator",
                 Comment = "",
 
-              //  Accidents = ExtractAccidents(dto.SorBytes, dto.TraceId)
+                //  Accidents = ExtractAccidents(dto.SorBytes, dto.TraceId)
             };
             return result;
         }
@@ -69,32 +100,38 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-      
+
         private bool IsEvent(MonitoringResultDto result)
         {
-            var previousMeasurementOnTrace = _writeModel.Measurements.Where(ev => ev.TraceId == result.PortWithTrace.TraceId).ToList()
+            var previousMeasurementOnTrace = _writeModel.Measurements
+                .Where(ev => ev.TraceId == result.PortWithTrace.TraceId).ToList()
                 .LastOrDefault();
             if (previousMeasurementOnTrace == null)
             {
                 _logFile.AppendLine($"First measurement on trace {result.PortWithTrace.TraceId.First6()} - event.");
                 return true;
             }
+
             if (previousMeasurementOnTrace.TraceState != result.TraceState)
             {
                 _logFile.AppendLine($"State of trace {result.PortWithTrace.TraceId.First6()} changed - event.");
                 return true;
             }
+
             if (previousMeasurementOnTrace.BaseRefType == BaseRefType.Fast
-                && previousMeasurementOnTrace.EventStatus > EventStatus.JustMeasurementNotAnEvent // fast measurement could be made 
-                                                                                                  // when monitoring mode is turned to Automatic 
-                                                                                                  // or it could be made by schedule
-                                                                                                  // but we are interested only in Events
+                && previousMeasurementOnTrace.EventStatus >
+                EventStatus.JustMeasurementNotAnEvent // fast measurement could be made 
+                                                      // when monitoring mode is turned to Automatic 
+                                                      // or it could be made by schedule
+                                                      // but we are interested only in Events
                 && result.BaseRefType != BaseRefType.Fast // Precise or Additional
                 && result.TraceState != FiberState.Ok)
             {
-                _logFile.AppendLine($"Confirmation of accident on trace {result.PortWithTrace.TraceId.First6()} - event.");
+                _logFile.AppendLine(
+                    $"Confirmation of accident on trace {result.PortWithTrace.TraceId.First6()} - event.");
                 return true;
             }
+
             return false;
         }
 
