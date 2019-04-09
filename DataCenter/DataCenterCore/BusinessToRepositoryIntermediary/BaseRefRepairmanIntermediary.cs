@@ -143,7 +143,7 @@ namespace Iit.Fibertest.DataCenterCore
                 OtauPortDto = trace.OtauPort,
                 BaseRefs = baseRefDtos,
             };
-            return await _clientToRtuTransmitter.AssignBaseRefAsync(dto);
+            return await _clientToRtuTransmitter.TransmitCommandAssignBaseRef(dto);
         }
     }
 }

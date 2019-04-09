@@ -197,7 +197,11 @@
     <Compile Include="BusinessToRepositoryIntermediary\MeasurementFactory.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\RtuStationFactory.cs" />
     <Compile Include="ClientsCollection.cs" />
-    <Compile Include="ClientToRtuTransmitter.cs" />
+    <Compile Include="WcfServiceForClient\ClientToRtuTransmitter\ClientToRtuCheckAndInitialize.cs" />
+    <Compile Include="WcfServiceForClient\ClientToRtuTransmitter\ClientToRtuMeasurements.cs" />
+    <Compile Include="WcfServiceForClient\ClientToRtuTransmitter\ClientToRtuOtau.cs" />
+    <Compile Include="WcfServiceForClient\ClientToRtuTransmitter\ClientToRtuStartStop.cs" />
+    <Compile Include="WcfServiceForClient\ClientToRtuTransmitter\ClientToRtuBaseRefs.cs" />
     <Compile Include="DiskSpaceProvider.cs" />
     <Compile Include="MsmqHandler.cs" />
     <Compile Include="NEventStore\MySqlEventStoreInitializer.cs" />
@@ -209,7 +213,11 @@
     <Compile Include="NEventStore\EventStoreService.cs" />
     <Compile Include="LastConnectionTimeChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WcfServiceForClient.cs" />
+    <Compile Include="WcfServiceForClient\WcfServiceForClient.cs" />
+    <Compile Include="WcfServiceForClient\WcfServiceForClientAccidentNotifications.cs" />
+    <Compile Include="WcfServiceForClient\WcfServiceForClientMigrator.cs" />
+    <Compile Include="WcfServiceForClient\WcfServiceForClientRegistration.cs" />
+    <Compile Include="WcfServiceForClient\WcfServiceForClientToRtu.cs" />
     <Compile Include="WcfServiceForRtu.cs" />
     <Compile Include="WcfServiceForRtuBootstrapper.cs" />
   </ItemGroup>
