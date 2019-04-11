@@ -2630,4 +2630,22 @@ RTU is initializing right now!</value>
 	<data name="SID_Depending_on_database_size__choosen_parameters_and_performance_of_your_PC" xml:space="preserve">
     <value>Depending on database size, choosen parameters and performance of your PC</value>
   </data>
+	<data name="SID_Fibertest_data_size" xml:space="preserve">
+    <value>Fibertest data size</value>
+  </data>
+	<data name="SID_Data" xml:space="preserve">
+    <value>Data</value>
+  </data>
+	<data name="SID_Disk_info" xml:space="preserve">
+    <value>Disk info</value>
+  </data>
+	<data name="SID_Database_optimization_is_terminated_successfully_" xml:space="preserve">
+    <value>Database optimization is terminated successfully!</value>
+  </data>
+	<data name="SID_Please_restart_application_" xml:space="preserve">
+    <value>Please restart application.</value>
+  </data>
+	<data name="SID_Exit_application" xml:space="preserve">
+    <value>Exit application</value>
+  </data>
 </root>

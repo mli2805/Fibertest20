@@ -6,7 +6,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         Width="800" SizeToContent="Height" WindowStartupLocation="CenterOwner" d:DataContext="{d:DesignData CleaningViewModel}">
-    <DockPanel>
+    <DockPanel IsEnabled="{Binding Model.IsEnabled}">
         <DockPanel DockPanel.Dock="Top" Margin="33,15">
             <TextBlock DockPanel.Dock="Left" Text="{x:Static stringResources:Resources.SID_Attention}" Width="120" 
                        TextAlignment="Right" Margin="5" FontWeight="Bold"/>
@@ -20,7 +20,7 @@
             </StackPanel>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top">
-            <Border BorderBrush="LightGray" BorderThickness="1" Margin="5">
+            <GroupBox Header="{x:Static stringResources:Resources.SID_Data}" BorderBrush="LightGray" BorderThickness="1" Margin="5">
                 <DockPanel>
                     <StackPanel DockPanel.Dock="Left" Width="300">
                         <TextBlock Text="{x:Static stringResources:Resources.SID_Measurements_in_Db}" Margin="5" TextAlignment="Right"/>
@@ -35,12 +35,12 @@
                         <TextBlock Text="{Binding Model.NetworkEvents}" Margin="5"/>
                     </StackPanel>
                 </DockPanel>
-            </Border>
-            <Border BorderBrush="LightGray" BorderThickness="1" Margin="0,5,5,5">
+            </GroupBox>
+            <GroupBox Header="{x:Static stringResources:Resources.SID_Disk_info}" BorderBrush="LightGray" BorderThickness="1" Margin="0,5,5,5">
                 <DockPanel>
                     <StackPanel DockPanel.Dock="Left" Width="300">
                         <TextBlock Text="{x:Static stringResources:Resources.SID_Db_drive_total_size}" Margin="5" TextAlignment="Right"/>
-                        <TextBlock Text="Database size" Margin="5" TextAlignment="Right"/>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Fibertest_data_size}" Margin="5" TextAlignment="Right"/>
                         <TextBlock Text="{x:Static stringResources:Resources.SID_Db_drive_free_space}" Margin="5" TextAlignment="Right"/>
                         <TextBlock Text="{x:Static stringResources:Resources.SID_Free_space_threshold}" Margin="5" TextAlignment="Right"/>
                     </StackPanel>
@@ -51,7 +51,7 @@
                         <TextBlock Text="{Binding Model.FreeSpaceThreshold}" Margin="5"/>
                     </StackPanel>
                 </DockPanel>
-            </Border>
+            </GroupBox>
         </DockPanel>
         <Separator DockPanel.Dock="Top" Margin="5"/>
         <Border DockPanel.Dock="Top" BorderBrush="LightGray" BorderThickness="0" Margin="5">
@@ -61,7 +61,7 @@
                     <DatePicker DisplayDateEnd="{Binding Model.UpToLimit}" 
                                 SelectedDate="{Binding Model.SelectedDate}" Width="120"/>
                 </StackPanel>
-                <GroupBox DockPanel.Dock="Left" Margin="0,5" Width="368">
+                <GroupBox DockPanel.Dock="Left" Margin="0,5" Width="375">
                     <GroupBox.Header>
                         <HeaderedContentControl>
                             <RadioButton GroupName="1" IsChecked="{Binding Model.IsRemoveMode}" 
@@ -77,14 +77,9 @@
                                   IsChecked="{Binding Model.IsNetworkEvents}" Margin="0,5"/>
                     </StackPanel>
                 </GroupBox>
-                <GroupBox Margin="2,5,0,5">
-                    <GroupBox.Header>
-                        <HeaderedContentControl>
-                            <RadioButton GroupName="1" IsChecked="{Binding Model.IsSnapshotMode}"
-                                         Content='{x:Static stringResources:Resources.SID_Remove_Event_log_records}'/>
-                        </HeaderedContentControl>
-                    </GroupBox.Header>
-                </GroupBox>
+                <RadioButton GroupName="1" IsChecked="{Binding Model.IsSnapshotMode}" Margin="16,6,6,6"
+                             Content='{x:Static stringResources:Resources.SID_Remove_Event_log_records}'/>
+               
             </DockPanel>
         </Border>
         <StackPanel Orientation="Horizontal" Margin="0,20,28,15" HorizontalAlignment="Center">

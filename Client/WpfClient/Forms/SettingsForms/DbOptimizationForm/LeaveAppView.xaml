@@ -3,11 +3,12 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
    <StackPanel Margin="5,20,5,0">
-       <TextBlock Text="Database optimization is terminated successfully!" Margin="20,5" TextAlignment="Center"/>
-       <TextBlock Text="Please restart application." Margin="5" TextAlignment="Center"/>
-       <Button Content="Exit application" Width="150" Margin="5,40,5,20" Name="ExitApp"/>
+       <TextBlock Text="{x:Static stringResources:Resources.SID_Database_optimization_is_terminated_successfully_}" Margin="20,5" TextAlignment="Center"/>
+       <TextBlock Text="{x:Static stringResources:Resources.SID_Please_restart_application_}" Margin="5" TextAlignment="Center"/>
+       <Button Content="{x:Static stringResources:Resources.SID_Exit_application}" Width="150" Margin="5,40,5,20" Name="ExitApp"/>
    </StackPanel>
 </Window>

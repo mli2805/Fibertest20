@@ -104,7 +104,6 @@ namespace Iit.Fibertest.Client
 
    //     private DateTime _selectedDate = new DateTime(DateTime.Today.Year - 2, 12, 31);
         private DateTime _selectedDate = DateTime.Today;
-
         public DateTime SelectedDate
         {
             get { return _selectedDate; }
@@ -116,6 +115,17 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private bool _isEnabled;
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set
+            {
+                if (value == _isEnabled) return;
+                _isEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
     }
 
 }

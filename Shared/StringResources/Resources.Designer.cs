@@ -1891,6 +1891,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Data.
+        /// </summary>
+        public static string SID_Data {
+            get {
+                return ResourceManager.GetString("SID_Data", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Data Center setup completed successfully..
         /// </summary>
         public static string SID_Data_Center_setup_completed_successfully_ {
@@ -1950,6 +1959,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Database_optimization_ {
             get {
                 return ResourceManager.GetString("SID_Database_optimization_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Database optimization is terminated successfully!.
+        /// </summary>
+        public static string SID_Database_optimization_is_terminated_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Database_optimization_is_terminated_successfully_", resourceCulture);
             }
         }
         
@@ -2175,6 +2193,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Disconnect {
             get {
                 return ResourceManager.GetString("SID_Disconnect", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Disk info.
+        /// </summary>
+        public static string SID_Disk_info {
+            get {
+                return ResourceManager.GetString("SID_Disk_info", resourceCulture);
             }
         }
         
@@ -2710,6 +2737,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exit application.
+        /// </summary>
+        public static string SID_Exit_application {
+            get {
+                return ResourceManager.GetString("SID_Exit_application", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Export to kml.
         /// </summary>
         public static string SID_Export_to_kml {
@@ -2886,6 +2922,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Fibertest_2_0_Server_including_Kadastr {
             get {
                 return ResourceManager.GetString("SID_Fibertest_2_0_Server_including_Kadastr", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Fibertest data size.
+        /// </summary>
+        public static string SID_Fibertest_data_size {
+            get {
+                return ResourceManager.GetString("SID_Fibertest_data_size", resourceCulture);
             }
         }
         
@@ -4930,6 +4975,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Please__wait___ {
             get {
                 return ResourceManager.GetString("SID_Please__wait___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please restart application..
+        /// </summary>
+        public static string SID_Please_restart_application_ {
+            get {
+                return ResourceManager.GetString("SID_Please_restart_application_", resourceCulture);
             }
         }
         

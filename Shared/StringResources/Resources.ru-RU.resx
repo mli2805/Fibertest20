@@ -2574,7 +2574,7 @@ RTU инициализируется в данный момент!</value>
 		<value>2. Пожалуйста, закройте приложения Клиент и Суперклиент на других рабочих местах на время оптимизации БД.</value>
 	</data>
 	<data name="SID_Db_optimization_warning3" xml:space="preserve">
-		<value>3. Процедура проведения оптимизации БД описана в соответствующем разделе руководства пользователя</value>
+		<value>3. Процедура проведения оптимизации БД описана в разделе «Сжатие базы данных» документа «Программный комплекс системы мониторинга Fibertest 2.0. Программный компонент Client. Программный компонент Superclient. Руководство оператора».</value>
 	</data>
 	<data name="SID_Measurements_in_Db" xml:space="preserve">
 		<value>Рефлектограмм:</value>
@@ -2607,7 +2607,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Сетевые события</value>
 	</data>
 	<data name="SID_Up_to_and_including" xml:space="preserve">
-		<value>По дату включительно</value>
+		<value>Оптимизация БД по дату включительно</value>
 	</data>
 	<data name="SID_Nothing_selected_to_remove_" xml:space="preserve">
 		<value>Для удаления ничего не выбрано!</value>
@@ -2629,5 +2629,23 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Depending_on_database_size__choosen_parameters_and_performance_of_your_PC" xml:space="preserve">
 		<value>В зависимости от размеров БД, выбранных параметров и быстодействия Вашего ПК</value>
+	</data>
+	<data name="SID_Fibertest_data_size" xml:space="preserve">
+		<value>Размер данных ПО Fibertest</value>
+	</data>
+	<data name="SID_Data" xml:space="preserve">
+		<value>Данные</value>
+	</data>
+	<data name="SID_Disk_info" xml:space="preserve">
+		<value>Информация о диске</value>
+	</data>
+	<data name="SID_Database_optimization_is_terminated_successfully_" xml:space="preserve">
+		<value>Оптимизация БД завершена успешно!</value>
+	</data>
+	<data name="SID_Please_restart_application_" xml:space="preserve">
+		<value>Пожалуйста, перезапустите приложение.</value>
+	</data>
+	<data name="SID_Exit_application" xml:space="preserve">
+		<value>Закрыть приложение</value>
 	</data>
 </root>

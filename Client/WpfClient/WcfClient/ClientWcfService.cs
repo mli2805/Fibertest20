@@ -31,7 +31,6 @@ namespace Iit.Fibertest.Client
             _clientMeasurementViewModel = clientMeasurementViewModel;
             _c2DWcfManager = c2DWcfManager;
             _waitViewModel = waitViewModel;
-            _waitViewModel.Initialize(false);
             _windowManager = windowManager;
         }
 
@@ -76,6 +75,7 @@ namespace Iit.Fibertest.Client
 
         private void ShowWaiting()
         {
+            _waitViewModel.Initialize(false);
             Application.Current.Dispatcher.InvokeAsync(() => _windowManager.ShowDialogWithAssignedOwner(_waitViewModel));
         }
 

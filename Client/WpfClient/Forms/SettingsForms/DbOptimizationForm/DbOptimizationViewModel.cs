@@ -15,16 +15,18 @@ namespace Iit.Fibertest.Client
     {
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
+        private readonly CurrentUser _currentUser;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 
         public DbOptimizationModel Model { get; set; } = new DbOptimizationModel();
 
-        public DbOptimizationViewModel(IMyLog logFile, Model readModel,
+        public DbOptimizationViewModel(IMyLog logFile, Model readModel, CurrentUser currentUser,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _logFile = logFile;
             _readModel = readModel;
+            _currentUser = currentUser;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
         }
@@ -45,6 +47,8 @@ namespace Iit.Fibertest.Client
             Model.OpticalEvents = _readModel.Measurements.Count(m => m.EventStatus > EventStatus.JustMeasurementNotAnEvent);
             Model.MeasurementsNotEvents = _readModel.Measurements.Count(m => m.EventStatus == EventStatus.JustMeasurementNotAnEvent);
             Model.NetworkEvents = _readModel.NetworkEvents.Count + _readModel.BopNetworkEvents.Count;
+
+            Model.IsEnabled = _currentUser.Role <= Role.Root;
         }
 
         protected override void OnViewLoaded(object view)
