@@ -10,7 +10,7 @@ using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
-    
+
     public class DbOptimizationViewModel : Screen
     {
         private readonly IMyLog _logFile;
@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
 
         public DbOptimizationModel Model { get; set; } = new DbOptimizationModel();
 
-        public DbOptimizationViewModel(IMyLog logFile, Model readModel, 
+        public DbOptimizationViewModel(IMyLog logFile, Model readModel,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _logFile = logFile;
@@ -37,9 +37,10 @@ namespace Iit.Fibertest.Client
                 _logFile.AppendLine(@"GetDiskSpaceGb error");
                 return;
             }
-            Model.DriveSize = $@"{drive.TotalSize:#.0} Gb" ;
-            Model.AvailableFreeSpace = $@"{drive.AvailableFreeSpace:#.0} Gb";
-            Model.FreeSpaceThreshold = $@"{drive.FreeSpaceThreshold:#.0} Gb";
+            Model.DriveSize = $@"{drive.TotalSize:0.0} Gb";
+            Model.DataSize = $@"{drive.DataSize:0.000} Gb";
+            Model.AvailableFreeSpace = $@"{drive.AvailableFreeSpace:0.0} Gb";
+            Model.FreeSpaceThreshold = $@"{drive.FreeSpaceThreshold:0.0} Gb";
 
             Model.OpticalEvents = _readModel.Measurements.Count(m => m.EventStatus > EventStatus.JustMeasurementNotAnEvent);
             Model.MeasurementsNotEvents = _readModel.Measurements.Count(m => m.EventStatus == EventStatus.JustMeasurementNotAnEvent);
@@ -55,14 +56,19 @@ namespace Iit.Fibertest.Client
         {
             if (!Validate()) return;
 
-            var cmd = new StartDbOptimazation()
-            {
-                IsRemoveElementsMode = Model.IsRemoveMode,
-                IsMeasurementsNotEvents = Model.IsMeasurements,
-                IsOpticalEvents = Model.IsOpticalEvents,
-                IsNetworkEvents = Model.IsNetworkEvents,
-                UpTo = Model.SelectedDate,
-            };
+
+            var cmd = Model.IsRemoveMode ?
+                (object)new RemoveEventsAndSors()
+                {
+                    IsMeasurementsNotEvents = Model.IsMeasurements,
+                    IsOpticalEvents = Model.IsOpticalEvents,
+                    IsNetworkEvents = Model.IsNetworkEvents,
+                    UpTo = Model.SelectedDate,
+                }
+                : new MakeSnapshot()
+                {
+                    UpTo = Model.SelectedDate,
+                };
             var result = await _c2DWcfManager.SendCommandAsObj(cmd);
             if (!string.IsNullOrEmpty(result))
             {
@@ -80,7 +86,7 @@ namespace Iit.Fibertest.Client
                 return false;
             }
 
-            var vm2 = new MyMessageBoxViewModel(MessageType.Confirmation, 
+            var vm2 = new MyMessageBoxViewModel(MessageType.Confirmation,
                 new List<string>
                 {
                     Resources.SID_Attention_, "",

@@ -22,11 +22,13 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly EventStoreService _eventStoreService;
         private readonly Smtp _smtp;
         private readonly SmsManager _smsManager;
+        private readonly GlobalState _globalState;
 
         public MsmqHandler(IniFile iniFile, IMyLog logFile, Model writeModel,
             SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository, 
             MeasurementFactory measurementFactory, EventStoreService eventStoreService,
-            Smtp smtp, SmsManager smsManager)
+            Smtp smtp, SmsManager smsManager
+            ,GlobalState globalState)
         {
             _iniFile = iniFile;
             _logFile = logFile;
@@ -37,6 +39,7 @@ namespace Iit.Fibertest.DataCenterCore
             _eventStoreService = eventStoreService;
             _smtp = smtp;
             _smsManager = smsManager;
+            _globalState = globalState;
         }
 
         public void Start()
@@ -47,7 +50,8 @@ namespace Iit.Fibertest.DataCenterCore
             queue.ReceiveCompleted += MyReceiveCompleted;
 
             // Begin the asynchronous receive operation.
-            _logFile.AppendLine($"MSMQ {connectionString} listener started");
+            var tid = Thread.CurrentThread.ManagedThreadId;
+            _logFile.AppendLine($"MSMQ {connectionString} listener started in thread {tid}");
             try
             {
                 queue.BeginReceive();
@@ -81,13 +85,23 @@ namespace Iit.Fibertest.DataCenterCore
             finally
             {
                 // Restart the asynchronous receive operation.
-                queue.BeginReceive();
+                var tid = Thread.CurrentThread.ManagedThreadId;
+                _logFile.AppendLine($"MSMQ restarted listener in thread {tid}");
+
+                while (_globalState.IsDatacenterInDbOptimizationMode)
+                {
+                    Thread.Sleep(1000);
+                }
+               queue.BeginReceive();
             }
         }
 
 
         private async Task<int> ProcessMessage(Message message)
         {
+            var tid = Thread.CurrentThread.ManagedThreadId;
+            _logFile.AppendLine($"MSMQ processed message in thread {tid}");
+
             if (message.Body is MonitoringResultDto monitoringResultDto)
                 return await ProcessMonitoringResult(monitoringResultDto);
             if (message.Body is BopStateChangedDto bopStateChangedDto)

@@ -3,10 +3,12 @@ using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using Caliburn.Micro;
 using Iit.Fibertest.ClientWcfServiceInterface;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
@@ -17,14 +19,20 @@ namespace Iit.Fibertest.Client
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly ClientMeasurementViewModel _clientMeasurementViewModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly WaitViewModel _waitViewModel;
+        private readonly IWindowManager _windowManager;
 
         public ClientWcfService(IMyLog logFile, RtuStateViewsManager rtuStateViewsManager,
-            ClientMeasurementViewModel clientMeasurementViewModel, IWcfServiceForClient c2DWcfManager)
+            ClientMeasurementViewModel clientMeasurementViewModel, IWcfServiceForClient c2DWcfManager,
+            WaitViewModel waitViewModel, IWindowManager windowManager)
         {
             _logFile = logFile;
             _rtuStateViewsManager = rtuStateViewsManager;
             _clientMeasurementViewModel = clientMeasurementViewModel;
             _c2DWcfManager = c2DWcfManager;
+            _waitViewModel = waitViewModel;
+            _waitViewModel.Initialize(false);
+            _windowManager = windowManager;
         }
 
         public Task<int> NotifyUsersRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto)
@@ -52,6 +60,32 @@ namespace Iit.Fibertest.Client
         {
             Thread.Sleep(TimeSpan.FromSeconds(1));
             Application.Current.Dispatcher.InvokeAsync(() => Application.Current.Shutdown());
+        }
+
+        public async Task<int> BlockClientWhileDbOptimization()
+        {
+            await Task.Factory.StartNew(ShowWaiting);
+            return 0;
+        }
+
+        public async Task<int> UnBlockClientAfterDbOptimization()
+        {
+            await Task.Factory.StartNew(LeaveApp);
+            return 0;
+        }
+
+        private void ShowWaiting()
+        {
+            Application.Current.Dispatcher.InvokeAsync(() => _windowManager.ShowDialogWithAssignedOwner(_waitViewModel));
+        }
+
+        private async Task<int> LeaveApp()
+        {
+            if (_waitViewModel.IsActive)
+                _waitViewModel.TryClose();
+            var vm = new LeaveAppViewModel();
+            await Application.Current.Dispatcher.InvokeAsync(() => _windowManager.ShowDialogWithAssignedOwner(vm));
+            return 0;
         }
     }
 }

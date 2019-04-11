@@ -107,7 +107,59 @@ namespace Iit.Fibertest.WcfConnections
             return 0;
         }
 
+        public async Task<int> BlockClientWhileDbOptimization()
+        {
+            if (_addresses == null)
+            {
+                _logFile.AppendLine("There are no clients, who are you sending to?");
+                return 0;
+            }
+            foreach (var clientAddress in _addresses)
+            {
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).GetClientChannelFactory();
+                if (wcfConnection == null)
+                    continue;
 
+                try
+                {
+                    var channel = wcfConnection.CreateChannel();
+                    await channel.BlockClientWhileDbOptimization();
+                    wcfConnection.Close();
+                }
+                catch (Exception e)
+                {
+                    _logFile.AppendLine("D2CWcfManager.BlockClientWhileDbOptimization: " + e.Message);
+                }
+            }
+            return 0;
+        } 
+        
+        public async Task<int> UnBlockClientAfterDbOptimization()
+        {
+            if (_addresses == null)
+            {
+                _logFile.AppendLine("There are no clients, who are you sending to?");
+                return 0;
+            }
+            foreach (var clientAddress in _addresses)
+            {
+                var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).GetClientChannelFactory();
+                if (wcfConnection == null)
+                    continue;
+
+                try
+                {
+                    var channel = wcfConnection.CreateChannel();
+                    await channel.UnBlockClientAfterDbOptimization();
+                    wcfConnection.Close();
+                }
+                catch (Exception e)
+                {
+                    _logFile.AppendLine("D2CWcfManager.UnBlockClientAfterDbOptimization: " + e.Message);
+                }
+            }
+            return 0;
+        }
 
     }
 }

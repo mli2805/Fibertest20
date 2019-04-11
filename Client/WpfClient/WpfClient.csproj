@@ -210,6 +210,10 @@
       <DependentUpon>DbOptimizationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\SettingsForms\DbOptimizationForm\DbOptimizationViewModel.cs" />
+    <Compile Include="Forms\SettingsForms\DbOptimizationForm\LeaveAppView.xaml.cs">
+      <DependentUpon>LeaveAppView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SettingsForms\DbOptimizationForm\LeaveAppViewModel.cs" />
     <Compile Include="Forms\SettingsForms\GisSettingsView.xaml.cs">
       <DependentUpon>GisSettingsView.xaml</DependentUpon>
     </Compile>
@@ -661,6 +665,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\SettingsForms\DbOptimizationForm\DbOptimizationView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\SettingsForms\DbOptimizationForm\LeaveAppView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

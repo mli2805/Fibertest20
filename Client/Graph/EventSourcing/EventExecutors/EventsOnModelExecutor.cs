@@ -100,7 +100,7 @@ namespace Iit.Fibertest.Graph
                     case NetworkEventAdded evnt: return _measurementEventOnModelExecutor.AddNetworkEvent(evnt);
                     case BopNetworkEventAdded evnt: return _measurementEventOnModelExecutor.AddBopNetworkEvent(evnt);
 
-                    case DbOptimazationStarted evnt: return _measurementEventOnModelExecutor.StartDbOptimization(evnt);
+                    case EventsAndSorsRemoved evnt: return _measurementEventOnModelExecutor.RemoveEventsAndSors(evnt);
 
                     default: return @"Unknown event";
                 }

@@ -12,14 +12,14 @@ namespace Iit.Fibertest.DataCenterCore
     public class WcfServiceForRtuBootstrapper : IDisposable
     {
         private readonly IniFile _config;
-        private readonly IMyLog _log;
+        private readonly IMyLog _logFile;
         private readonly ILifetimeScope _container;
         private ServiceHost _host;
 
-        public WcfServiceForRtuBootstrapper(IniFile config, IMyLog log, ILifetimeScope container)
+        public WcfServiceForRtuBootstrapper(IniFile config, IMyLog logFile, ILifetimeScope container)
         {
             _config = config;
-            _log = log;
+            _logFile = logFile;
             _container = container;
         }
 
@@ -30,18 +30,17 @@ namespace Iit.Fibertest.DataCenterCore
                 var uri = new Uri(WcfFactory.CombineUriString(@"localhost",
                     (int)TcpPorts.ServerListenToRtu, @"WcfServiceForRtu"));
 
-//                _host = new ServiceHost(_wcfServiceForRtu);
                 _host = new ServiceHost(typeof(WcfServiceForRtu));
                 _host.AddServiceEndpoint(typeof(IWcfServiceForRtu),
                     WcfFactory.CreateDefaultNetTcpBinding(_config), uri);
                 _host.AddDependencyInjectionBehavior<IWcfServiceForRtu>(_container);
 
                 _host.Open();
-                _log.AppendLine("Rtus listener started successfully");
+                _logFile.AppendLine("RTU listener started successfully");
             }
             catch (Exception e)
             {
-                _log.AppendLine(e.Message);
+                _logFile.AppendLine(e.Message);
                 throw;
             }
         }

@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Client
                 case MeasurementAdded evnt: return Parse(evnt);
                 case MeasurementUpdated evnt: return Parse(evnt);
 
-                case DbOptimazationStarted evnt: return Parse(evnt);
+                case EventsAndSorsRemoved evnt: return Parse(evnt);
                 default: return null;
             }
         }
@@ -210,7 +210,7 @@ namespace Iit.Fibertest.Client
         }
 
        
-        private LogLine Parse(DbOptimazationStarted e)
+        private LogLine Parse(EventsAndSorsRemoved e)
         {
             return new LogLine()
             {

@@ -45,6 +45,7 @@ namespace Iit.Fibertest.Client
 
         private async void _currentlyHiddenRtu_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
+            _waitViewModel.Initialize(true);
             _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
 
             if (e.PropertyName == "IsShowAllPressed" || e.PropertyName == "IsHideAllPressed")
@@ -68,6 +69,7 @@ namespace Iit.Fibertest.Client
 
         public async Task<int> RenderOnRtuChanged()
         {
+            _waitViewModel.Initialize(true);
             _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
             var renderingResult = await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingOfDifference);
             var unused = await _renderingApplierToUi.ToExistingGraph(renderingResult);
@@ -78,6 +80,7 @@ namespace Iit.Fibertest.Client
 
         public async Task RenderCurrentZoneOnApplicationStart()
         {
+            _waitViewModel.Initialize(true);
             _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
 
             _logFile.AppendLine(@"rendering started");
@@ -93,6 +96,7 @@ namespace Iit.Fibertest.Client
         {
             if (_currentUser.ZoneId == Guid.Empty) return; // it is a default zone user
 
+            _waitViewModel.Initialize(true);
             _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
 
             var renderingResult = await Task.Factory.StartNew(() => _currentZoneRenderer.GetRenderingOfDifference());

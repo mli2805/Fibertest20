@@ -35,28 +35,37 @@ namespace Iit.Fibertest.Graph
         {
             _model.NetworkEvents.Add(Mapper.Map<NetworkEvent>(e));
             var rtu = _model.Rtus.First(r => r.Id == e.RtuId);
-            rtu.MainChannelState =  e.OnMainChannel.ChangeChannelState(rtu.MainChannelState);
+            rtu.MainChannelState = e.OnMainChannel.ChangeChannelState(rtu.MainChannelState);
             rtu.ReserveChannelState = e.OnReserveChannel.ChangeChannelState(rtu.ReserveChannelState);
             return null;
         }
 
-     
+
         public string AddBopNetworkEvent(BopNetworkEventAdded e)
         {
             _model.BopNetworkEvents.Add(Mapper.Map<BopNetworkEvent>(e));
             // if BOP has 2 OTAU - both should change their state
-            foreach (var otau in _model.Otaus.Where(o=>o.NetAddress.Ip4Address == e.OtauIp))
+            foreach (var otau in _model.Otaus.Where(o => o.NetAddress.Ip4Address == e.OtauIp))
             {
                 otau.IsOk = e.IsOk;
             }
             return null;
         }
 
-        public string StartDbOptimization(DbOptimazationStarted e)
+        public string RemoveEventsAndSors(EventsAndSorsRemoved e)
         {
+            _model.Measurements.RemoveAll(m =>
+                _model.GetMeasurementsForDeletion(e.UpTo, e.IsMeasurementsNotEvents, e.IsOpticalEvents).Contains(m));
+
+            if (e.IsNetworkEvents)
+            {
+                _model.NetworkEvents.RemoveAll(n => _model.GetNetworkEventsForDeletion(e.UpTo).Contains(n));
+                _model.BopNetworkEvents.RemoveAll(n => _model.GetBopNetworkEventsForDeletion(e.UpTo).Contains(n));
+            }
+
             return null;
         }
     }
 
-  
+
 }

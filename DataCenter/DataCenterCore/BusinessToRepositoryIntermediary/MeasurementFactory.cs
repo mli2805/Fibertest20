@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Autofac;
-using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -11,35 +9,6 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public class MeasurementCleaner
-    {
-        private readonly SorFileRepository _sorFileRepository;
-        private readonly Model _writeModel;
-        private readonly IEventStoreInitializer _eventStoreInitializer;
-
-        public MeasurementCleaner(SorFileRepository sorFileRepository, Model writeModel,
-            IEventStoreInitializer eventStoreInitializer)
-        {
-            _sorFileRepository = sorFileRepository;
-            _writeModel = writeModel;
-            _eventStoreInitializer = eventStoreInitializer;
-        }
-
-        public async Task<int> ClearSor(StartDbOptimazation cmd)
-        {
-            if (!cmd.IsMeasurementsNotEvents && !cmd.IsOpticalEvents) return 0;
-
-            var records = await _sorFileRepository.RemoveManySorAsync(
-                (from meas in _writeModel.Measurements.Where(m => m.EventRegistrationTimestamp.Date <= cmd.UpTo.Date) 
-                    where meas.EventStatus == EventStatus.JustMeasurementNotAnEvent && cmd.IsMeasurementsNotEvents 
-                          || meas.EventStatus != EventStatus.JustMeasurementNotAnEvent && cmd.IsOpticalEvents 
-                    select meas.SorFileId).ToArray());
-
-            var unused = _eventStoreInitializer.OptimizeSorFilesTable();
-            return records;
-        }
-    }
-
     public class MeasurementFactory
     {
         private readonly ILifetimeScope _globalScope;

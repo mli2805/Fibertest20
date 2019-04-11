@@ -3,23 +3,21 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d"
-        SizeToContent="Height" Width="500" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+        SizeToContent="Height" Width="630" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <ProgressBar DockPanel.Dock="Bottom" Margin="15,15,15,35" Height="6" IsIndeterminate="True" 
                      Foreground="LimeGreen" Background="White" BorderBrush="White"/>
-        <StackPanel VerticalAlignment="Center" Margin="5,20">
-            <TextBlock Text="{x:Static stringResources:Resources.SID_Drawing_graph_of_traces_}" 
-                       Margin="5,2" HorizontalAlignment="Center" FontWeight="Bold"/>
-            <TextBlock Text="" Margin="5,2" HorizontalAlignment="Center"/>
-            <TextBlock Text="{x:Static stringResources:Resources.SID_Depending_on_graph_size_and_performance_of_your_PC}" 
-                       Margin="5,2" HorizontalAlignment="Center"/>
-            <TextBlock Text="{x:Static stringResources:Resources.SID_it_could_take_a_few_minutes_}" 
-                       Margin="5,2" HorizontalAlignment="Center"/>
-            <TextBlock Text="" Margin="5,2" HorizontalAlignment="Center"/>
-            <TextBlock Text="{x:Static stringResources:Resources.SID_Please__wait___}" 
-                       Margin="5,2" HorizontalAlignment="Center"/>
+        <StackPanel VerticalAlignment="Center" >
+            <ItemsControl ItemsSource="{Binding Lines}" Margin="100,25,100,50">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate DataType="wpfCommonViews:MyMessageBoxLineModel">
+                        <TextBlock Text="{Binding Line}" TextAlignment="Center" TextWrapping="Wrap" Margin="5"
+                                   FontWeight="{Binding FontWeight}" Foreground="{Binding Foreground}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
         </StackPanel>
     </DockPanel>
 </Window>

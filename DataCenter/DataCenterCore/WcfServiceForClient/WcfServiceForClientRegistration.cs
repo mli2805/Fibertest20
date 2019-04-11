@@ -8,6 +8,9 @@ namespace Iit.Fibertest.DataCenterCore
     {
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
+            if (_globalState.IsDatacenterInDbOptimizationMode)
+                return new ClientRegisteredDto(){ReturnCode = ReturnCode.Error};
+
             var result = _clientsCollection.RegisterClientAsync(dto);
             result.GraphDbVersionId = _eventStoreService.GraphDbVersionId;
 

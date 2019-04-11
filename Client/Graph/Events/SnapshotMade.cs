@@ -2,7 +2,7 @@
 
 namespace Iit.Fibertest.Graph
 {
-    public class HistoryCleared
+    public class SnapshotMade
     {
         public DateTime UpTo { get; set; }
     }

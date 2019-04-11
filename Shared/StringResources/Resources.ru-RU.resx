@@ -2624,4 +2624,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Db_optimization_started" xml:space="preserve">
 		<value>Запущена оптимизация БД</value>
 	</data>
+	<data name="SID_Database_optimization_" xml:space="preserve">
+		<value>Оптимизация базы данных</value>
+	</data>
+	<data name="SID_Depending_on_database_size__choosen_parameters_and_performance_of_your_PC" xml:space="preserve">
+		<value>В зависимости от размеров БД, выбранных параметров и быстодействия Вашего ПК</value>
+	</data>
 </root>

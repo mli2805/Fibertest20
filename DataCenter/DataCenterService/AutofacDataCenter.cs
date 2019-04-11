@@ -28,6 +28,7 @@ namespace Iit.Fibertest.DataCenterService
 
             var currentDatacenterParameters = new CurrentDatacenterParameters();
             builder.RegisterInstance(currentDatacenterParameters);
+            builder.RegisterType<GlobalState>().SingleInstance();
 
             builder.RegisterType<MySqlEventStoreInitializer>().As<IEventStoreInitializer>().SingleInstance();
             builder.RegisterType<ClientsCollection>().SingleInstance();
@@ -53,7 +54,6 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<CommandAggregator>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
             builder.RegisterType<MeasurementFactory>().SingleInstance();
-            builder.RegisterType<MeasurementCleaner>().SingleInstance();
             builder.RegisterType<RtuStationsRepository>().SingleInstance();
             builder.RegisterType<GraphGpsCalculator>().SingleInstance();
             builder.RegisterType<TraceModelBuilder>().SingleInstance();

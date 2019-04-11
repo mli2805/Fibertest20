@@ -1945,6 +1945,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database optimization.
+        /// </summary>
+        public static string SID_Database_optimization_ {
+            get {
+                return ResourceManager.GetString("SID_Database_optimization_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DataCenter connected successfully!.
         /// </summary>
         public static string SID_DataCenter_connected_successfully_ {
@@ -2076,6 +2085,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Deleting_files___ {
             get {
                 return ResourceManager.GetString("SID_Deleting_files___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Depending on database size, choosen parameters and performance of your PC.
+        /// </summary>
+        public static string SID_Depending_on_database_size__choosen_parameters_and_performance_of_your_PC {
+            get {
+                return ResourceManager.GetString("SID_Depending_on_database_size__choosen_parameters_and_performance_of_your_PC", resourceCulture);
             }
         }
         
@@ -3057,15 +3075,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Highlighted {
             get {
                 return ResourceManager.GetString("SID_Highlighted", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to History cleared.
-        /// </summary>
-        public static string SID_History_cleared {
-            get {
-                return ResourceManager.GetString("SID_History_cleared", resourceCulture);
             }
         }
         

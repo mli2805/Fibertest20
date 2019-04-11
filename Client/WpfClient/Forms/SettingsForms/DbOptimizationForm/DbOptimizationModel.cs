@@ -54,6 +54,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private string _dataSize;
+        public string DataSize
+        {
+            get { return _dataSize; }
+            set
+            {
+                if (value == _dataSize) return;
+                _dataSize = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
 
         private string _availableFreeSpace;
         public string AvailableFreeSpace
@@ -92,6 +104,7 @@ namespace Iit.Fibertest.Client
 
    //     private DateTime _selectedDate = new DateTime(DateTime.Today.Year - 2, 12, 31);
         private DateTime _selectedDate = DateTime.Today;
+
         public DateTime SelectedDate
         {
             get { return _selectedDate; }

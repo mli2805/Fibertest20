@@ -86,7 +86,7 @@ namespace Iit.Fibertest.Graph
                 case AddNetworkEvent command: return Validate(command);
                 case AddBopNetworkEvent command: return Validate(command);
 
-                case StartDbOptimazation command: return _eventsQueue.Add(Mapper.Map<DbOptimazationStarted>(command));
+                case RemoveEventsAndSors command: return _eventsQueue.Add(Mapper.Map<EventsAndSorsRemoved>(command));
 
                 default: return @"Unknown command";
             }

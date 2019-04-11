@@ -60,7 +60,7 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine($"MySQL data folder is {DataDir}");
         }
 
-        public bool OptimizeSorFilesTable()
+        public int OptimizeSorFilesTable()
         {
             try
             {
@@ -70,12 +70,12 @@ namespace Iit.Fibertest.DataCenterCore
                 var unused = command.ExecuteNonQuery();
                 connection.Close();
                 Thread.Sleep(TimeSpan.FromMilliseconds(100));
-                return true;
+                return unused;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("OptimizeSorFilesTable: " + e.Message);
-                return false;
+                return -1;
             }
         }
 

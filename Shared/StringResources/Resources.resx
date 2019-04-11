@@ -2624,4 +2624,10 @@ RTU is initializing right now!</value>
 	<data name="SID_Db_optimization_started" xml:space="preserve">
     <value>Db optimization started</value>
   </data>
+	<data name="SID_Database_optimization_" xml:space="preserve">
+    <value>Database optimization</value>
+  </data>
+	<data name="SID_Depending_on_database_size__choosen_parameters_and_performance_of_your_PC" xml:space="preserve">
+    <value>Depending on database size, choosen parameters and performance of your PC</value>
+  </data>
 </root>

@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
+using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Newtonsoft.Json;
 
@@ -21,16 +23,19 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
+        private readonly Model _writeModel;
+        private readonly IEventStoreInitializer _eventStoreInitializer;
 
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly RtuStationsRepository _rtuStationsRepository;
-        private readonly MeasurementCleaner _measurementCleaner;
         private readonly SorFileRepository _sorFileRepository;
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly Smtp _smtp;
         private readonly SmsManager _smsManager;
         private readonly DiskSpaceProvider _diskSpaceProvider;
+        private readonly GlobalState _globalState;
+        private readonly D2CWcfManager _d2CWcfManager;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -38,28 +43,37 @@ namespace Iit.Fibertest.DataCenterCore
         };
 
         public WcfServiceForClient(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
-            EventStoreService eventStoreService, MeasurementFactory measurementFactory,
+            Model writeModel, IEventStoreInitializer eventStoreInitializer, EventStoreService eventStoreService, 
+            MeasurementFactory measurementFactory,
             ClientsCollection clientsCollection, ClientToRtuTransmitter clientToRtuTransmitter,
-            RtuStationsRepository rtuStationsRepository, MeasurementCleaner measurementCleaner,
+            RtuStationsRepository rtuStationsRepository, 
             BaseRefRepairmanIntermediary baseRefRepairmanIntermediary, BaseRefLandmarksTool baseRefLandmarksTool,
             SorFileRepository sorFileRepository,
-            Smtp smtp, SmsManager smsManager, DiskSpaceProvider diskSpaceProvider)
+            Smtp smtp, SmsManager smsManager, DiskSpaceProvider diskSpaceProvider
+            ,GlobalState globalState, D2CWcfManager d2CWcfManager
+            )
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _currentDatacenterParameters = currentDatacenterParameters;
+            _writeModel = writeModel;
+            _eventStoreInitializer = eventStoreInitializer;
             _eventStoreService = eventStoreService;
             _measurementFactory = measurementFactory;
             _clientsCollection = clientsCollection;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _rtuStationsRepository = rtuStationsRepository;
-            _measurementCleaner = measurementCleaner;
             _sorFileRepository = sorFileRepository;
             _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
             _baseRefLandmarksTool = baseRefLandmarksTool;
             _smtp = smtp;
             _smsManager = smsManager;
             _diskSpaceProvider = diskSpaceProvider;
+            _globalState = globalState;
+            _d2CWcfManager = d2CWcfManager;
+
+            var tid = Thread.CurrentThread.ManagedThreadId;
+            _logFile.AppendLine($"Clients listener: works in thread {tid}");
         }
 
         public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
@@ -117,12 +131,10 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var cmd = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
 
-            if (cmd is StartDbOptimazation startDbOptimazation)
-            {
-                _logFile.AppendLine($"Start SorFiles cleaning");
-                var sorCount = await PreProcessing(startDbOptimazation);
-                _logFile.AppendLine($"{sorCount} record from SorFiles deleted");
-            }
+            if (cmd is RemoveEventsAndSors removeEventsAndSors)
+                return await RemoveEventsAndSors(removeEventsAndSors, username, clientIp);
+            if (cmd is MakeSnapshot makeSnapshot)
+                return await MakeSnapshot(makeSnapshot);
 
             var resultInGraph = await _eventStoreService.SendCommand(cmd, username, clientIp);
             if (resultInGraph != null)
@@ -130,19 +142,6 @@ namespace Iit.Fibertest.DataCenterCore
 
             // A few commands need post-processing in Db or RTU
             return await PostProcessing(cmd);
-        }
-
-        private async Task<int> PreProcessing(StartDbOptimazation startDbOptimazation)
-        {
-            if (startDbOptimazation.IsRemoveElementsMode)
-            {
-                return await _measurementCleaner.ClearSor(startDbOptimazation);
-            }
-            else
-            {
-                await Task.Delay(1);
-                return 0;
-            }
         }
 
         private async Task<string> PostProcessing(object cmd)

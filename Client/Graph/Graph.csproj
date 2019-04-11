@@ -150,7 +150,7 @@
     <Compile Include="Algorithms\SorDataParsingReporter.cs" />
     <Compile Include="Algorithms\TraceStateReport\EventReportModel.cs" />
     <Compile Include="Commands\ApplyLicense.cs" />
-    <Compile Include="Commands\ClearHistory.cs" />
+    <Compile Include="Commands\MakeSnapshot.cs" />
     <Compile Include="Commands\Client\LostClientConnection.cs" />
     <Compile Include="Commands\Client\RegisterClientStation.cs" />
     <Compile Include="Commands\Client\UnregisterClientStation.cs" />
@@ -159,9 +159,10 @@
     <Compile Include="DomainEntities\Administration\SmsReceiver.cs" />
     <Compile Include="DomainEntities\Breaks\AccidentNeighbour.cs" />
     <Compile Include="DomainEntities\Breaks\AccidentOnTraceV2.cs" />
-    <Compile Include="DomainEntities\Extensions\ModelEmailExt.cs" />
-    <Compile Include="DomainEntities\Extensions\ModelSerializationExt.cs" />
-    <Compile Include="DomainEntities\Extensions\ModelSmsExt.cs" />
+    <Compile Include="EventSourcing\Model\ModelCleaningExt.cs" />
+    <Compile Include="EventSourcing\Model\ModelEmailExt.cs" />
+    <Compile Include="EventSourcing\Model\ModelSerializationExt.cs" />
+    <Compile Include="EventSourcing\Model\ModelSmsExt.cs" />
     <Compile Include="DomainEntities\Kadastr\Conpoint.cs" />
     <Compile Include="DomainEntities\Kadastr\Well.cs" />
     <Compile Include="DomainEntities\License\License.cs" />
@@ -171,7 +172,7 @@
     <Compile Include="Events\Client\ClientConnectionLost.cs" />
     <Compile Include="Events\Client\ClientStationRegistered.cs" />
     <Compile Include="Events\Client\ClientStationUnregistered.cs" />
-    <Compile Include="Events\DbOptimazationStarted.cs" />
+    <Compile Include="Events\EventsAndSorsRemoved.cs" />
     <Compile Include="Events\Equipment\EquipmentFromTraceExcluded.cs" />
     <Compile Include="Events\Equipment\EquipmentIntoTraceIncluded.cs" />
     <Compile Include="Commands\Equipment\ExcludeEquipmentFromTrace.cs" />
@@ -192,7 +193,7 @@
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StartMonitoring.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StopMonitoring.cs" />
     <Compile Include="EventSourcing\EventsQueue.cs" />
-    <Compile Include="Events\HistoryCleared.cs" />
+    <Compile Include="Events\SnapshotMade.cs" />
     <Compile Include="Events\LicenseApplied.cs" />
     <Compile Include="Events\Node\NodeUpdatedAndMoved.cs" />
     <Compile Include="Events\ResponsibilitiesChanged.cs" />
@@ -217,7 +218,7 @@
     <Compile Include="Events\ExternalEvents\MeasurementAdded.cs" />
     <Compile Include="Events\ExternalEvents\MeasurementUpdated.cs" />
     <Compile Include="Events\Rtu\AllTracesDetached.cs" />
-    <Compile Include="Commands\StartDbOptimazation.cs" />
+    <Compile Include="Commands\RemoveEventsAndSors.cs" />
     <Compile Include="Events\User\UserAdded.cs" />
     <Compile Include="Events\User\UserRemoved.cs" />
     <Compile Include="Events\User\UserUpdated.cs" />
@@ -307,8 +308,8 @@
     <Compile Include="Algorithms\Gis\GpsCalculator.cs" />
     <Compile Include="Algorithms\Gis\GraphGpsCalculator.cs" />
     <Compile Include="EventSourcing\EventExecutors\NodeEventsOnModelExecutor.cs" />
-    <Compile Include="EventSourcing\Model.cs" />
-    <Compile Include="DomainEntities\Extensions\ModelExt.cs" />
+    <Compile Include="EventSourcing\Model\Model.cs" />
+    <Compile Include="EventSourcing\Model\ModelExt.cs" />
     <Compile Include="EventSourcing\EventExecutors\RtuEventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\EventExecutors\TraceEventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\EventExecutors\UserEventsOnModelExecutor.cs" />

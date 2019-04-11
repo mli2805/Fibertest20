@@ -283,6 +283,16 @@ namespace Iit.Fibertest.Client
             SelectedRow = opticalEventModel;
         }
 
-
+//        public void RemoveEventsAndSors(EventsAndSorsRemoved evnt)
+//        {
+//            if (!evnt.IsOpticalEvents) return;
+//
+//            foreach (var opticalEventModel in Rows)
+//            {
+//                if (_readModel.Measurements.All(m => m.SorFileId != opticalEventModel.SorFileId))
+//                    Rows.Remove(opticalEventModel);
+//            }
+//        }
+      
     }
 }

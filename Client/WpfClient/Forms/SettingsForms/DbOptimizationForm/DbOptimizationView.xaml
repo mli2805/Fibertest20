@@ -39,12 +39,14 @@
             <Border BorderBrush="LightGray" BorderThickness="1" Margin="0,5,5,5">
                 <DockPanel>
                     <StackPanel DockPanel.Dock="Left" Width="300">
-                        <TextBlock Text="{x:Static stringResources:Resources.SID_Db_drive_total_size}" Margin="5,15,5,5" TextAlignment="Right"/>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Db_drive_total_size}" Margin="5" TextAlignment="Right"/>
+                        <TextBlock Text="Database size" Margin="5" TextAlignment="Right"/>
                         <TextBlock Text="{x:Static stringResources:Resources.SID_Db_drive_free_space}" Margin="5" TextAlignment="Right"/>
                         <TextBlock Text="{x:Static stringResources:Resources.SID_Free_space_threshold}" Margin="5" TextAlignment="Right"/>
                     </StackPanel>
                     <StackPanel Width="70">
-                        <TextBlock Text="{Binding Model.DriveSize}" Margin="5,15,5,5"/>
+                        <TextBlock Text="{Binding Model.DriveSize}" Margin="5"/>
+                        <TextBlock Text="{Binding Model.DataSize}" Margin="5"/>
                         <TextBlock Text="{Binding Model.AvailableFreeSpace}" Margin="5"/>
                         <TextBlock Text="{Binding Model.FreeSpaceThreshold}" Margin="5"/>
                     </StackPanel>

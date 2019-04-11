@@ -141,13 +141,13 @@ namespace Graph.Tests
 
             // server's
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().InstancePerLifetimeScope();  // server !!!
+            builder.RegisterType<WcfServiceForRtu>().InstancePerLifetimeScope();  // server !!!
 
             builder.RegisterType<EventsQueue>().InstancePerLifetimeScope();
             builder.RegisterType<EventStoreService>().InstancePerLifetimeScope();
 
             builder.RegisterType<CommandAggregator>().InstancePerLifetimeScope();
             builder.RegisterType<MeasurementFactory>().InstancePerLifetimeScope();
-            builder.RegisterType<MeasurementCleaner>().InstancePerLifetimeScope();
 
             builder.RegisterType<TestSettings>().As<ISettings>().InstancePerLifetimeScope();
 
@@ -161,6 +161,7 @@ namespace Graph.Tests
             builder.RegisterType<SmsManager>().InstancePerLifetimeScope();
             builder.RegisterType<Smtp>().InstancePerLifetimeScope();
             builder.RegisterType<MsmqHandler>().InstancePerLifetimeScope();
+            builder.RegisterType<GlobalState>().InstancePerLifetimeScope();
             builder.RegisterType<DiskSpaceProvider>().InstancePerLifetimeScope();
 
             builder.RegisterInstance<IMyLog>(new NullLog());

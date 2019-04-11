@@ -40,7 +40,7 @@ namespace Graph.Tests
             throw new NotImplementedException();
         }
 
-        public bool OptimizeSorFilesTable()
+        public int OptimizeSorFilesTable()
         {
             throw new NotImplementedException();
         }
