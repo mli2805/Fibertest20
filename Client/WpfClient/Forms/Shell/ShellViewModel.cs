@@ -178,7 +178,7 @@ namespace Iit.Fibertest.Client
         {
             using (_globalScope.Resolve<IWaitCursor>())
             {
-                _clientPoller.CancellationToken = _clientPollerCts.Token;
+                _clientPoller.CancellationTokenSource = _clientPollerCts;
                 _clientPoller.Start(); // graph events including monitoring results events
 
                 _host.StartWcfListener(); // Accepts only monitoring step messages and client's measurement results

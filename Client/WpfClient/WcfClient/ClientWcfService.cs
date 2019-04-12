@@ -17,17 +17,19 @@ namespace Iit.Fibertest.Client
     {
         private readonly IMyLog _logFile;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
+        private readonly ClientPoller _clientPoller;
         private readonly ClientMeasurementViewModel _clientMeasurementViewModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly WaitViewModel _waitViewModel;
         private readonly IWindowManager _windowManager;
 
-        public ClientWcfService(IMyLog logFile, RtuStateViewsManager rtuStateViewsManager,
+        public ClientWcfService(IMyLog logFile, RtuStateViewsManager rtuStateViewsManager, ClientPoller clientPoller,
             ClientMeasurementViewModel clientMeasurementViewModel, IWcfServiceForClient c2DWcfManager,
             WaitViewModel waitViewModel, IWindowManager windowManager)
         {
             _logFile = logFile;
             _rtuStateViewsManager = rtuStateViewsManager;
+            _clientPoller = clientPoller;
             _clientMeasurementViewModel = clientMeasurementViewModel;
             _c2DWcfManager = c2DWcfManager;
             _waitViewModel = waitViewModel;
@@ -75,6 +77,7 @@ namespace Iit.Fibertest.Client
 
         private void ShowWaiting()
         {
+            _clientPoller.CancellationTokenSource.Cancel();
             _waitViewModel.Initialize(false);
             Application.Current.Dispatcher.InvokeAsync(() => _windowManager.ShowDialogWithAssignedOwner(_waitViewModel));
         }

@@ -47,7 +47,7 @@ namespace Iit.Fibertest.Client
         private readonly EventArrivalNotifier _eventArrivalNotifier;
         private readonly ILocalDbManager _localDbManager;
         private readonly int _pollingRate;
-        public CancellationToken CancellationToken { get; set; }
+        public CancellationTokenSource CancellationTokenSource { get; set; }
 
         private int _currentEventNumber;
         public int CurrentEventNumber
@@ -114,7 +114,7 @@ namespace Iit.Fibertest.Client
         {
             if (_commandLineParameters.IsUnderSuperClientStart)
                 _systemState.PropertyChanged += _systemState_PropertyChanged;
-            while (!CancellationToken.IsCancellationRequested)
+            while (!CancellationTokenSource.IsCancellationRequested)
             {
                 await EventSourcingTick();
                 Thread.Sleep(TimeSpan.FromMilliseconds(_pollingRate));
