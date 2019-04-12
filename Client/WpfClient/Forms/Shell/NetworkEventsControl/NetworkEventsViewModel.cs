@@ -75,5 +75,17 @@ namespace Iit.Fibertest.Client
                 Rows.Add(networkEventModel);
             }
         }
+
+        public void RemoveEventsAndSors(EventsAndSorsRemoved evnt)
+        {
+            if (!evnt.IsNetworkEvents) return;
+
+            foreach (var networkEventModel in Rows.ToList())
+            {
+                if (_readModel.NetworkEvents.All(n=>n.EventTimestamp != networkEventModel.EventTimestamp))
+                    Rows.Remove(networkEventModel);
+            }
+        }
+      
     }
 }

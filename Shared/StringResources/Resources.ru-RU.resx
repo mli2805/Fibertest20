@@ -2580,7 +2580,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Рефлектограмм:</value>
 	</data>
 	<data name="SID_which_a_not_events" xml:space="preserve">
-		<value>(не связанные с оптическими событиями)</value>
+		<value>(не связанных с оптическими событиями)</value>
 	</data>
 	<data name="SID_Optical_events_in_Db" xml:space="preserve">
 		<value>Оптических событий:</value>
@@ -2621,9 +2621,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Measurements_which_are_not_optical_events" xml:space="preserve">
 		<value>Рефлектограммы, не связанные с событиями</value>
 	</data>
-	<data name="SID_Db_optimization_started" xml:space="preserve">
-		<value>Запущена оптимизация БД</value>
-	</data>
 	<data name="SID_Database_optimization_" xml:space="preserve">
 		<value>Оптимизация базы данных</value>
 	</data>
@@ -2631,7 +2628,7 @@ RTU инициализируется в данный момент!</value>
 		<value>В зависимости от размеров БД, выбранных параметров и быстодействия Вашего ПК</value>
 	</data>
 	<data name="SID_Fibertest_data_size" xml:space="preserve">
-		<value>Размер данных ПО Fibertest</value>
+		<value>Размер данных ПО Fibertest:</value>
 	</data>
 	<data name="SID_Data" xml:space="preserve">
 		<value>Данные</value>
@@ -2647,5 +2644,14 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Exit_application" xml:space="preserve">
 		<value>Закрыть приложение</value>
+	</data>
+	<data name="SID_Events_and_reflectogram_removal" xml:space="preserve">
+		<value>Удаление событий и рефлектограмм</value>
+	</data>
+	<data name="SID_Event_log_cleaning" xml:space="preserve">
+		<value>Очистка журнала операций</value>
+	</data>
+	<data name="SID_Up_to" xml:space="preserve">
+		<value>По дату</value>
 	</data>
 </root>

@@ -2621,9 +2621,6 @@ RTU is initializing right now!</value>
 	<data name="SID_Measurements_which_are_not_optical_events" xml:space="preserve">
     <value>Measurements which are not optical events</value>
   </data>
-	<data name="SID_Db_optimization_started" xml:space="preserve">
-    <value>Db optimization started</value>
-  </data>
 	<data name="SID_Database_optimization_" xml:space="preserve">
     <value>Database optimization</value>
   </data>
@@ -2631,7 +2628,7 @@ RTU is initializing right now!</value>
     <value>Depending on database size, choosen parameters and performance of your PC</value>
   </data>
 	<data name="SID_Fibertest_data_size" xml:space="preserve">
-    <value>Fibertest data size</value>
+    <value>Fibertest data size:</value>
   </data>
 	<data name="SID_Data" xml:space="preserve">
     <value>Data</value>
@@ -2647,5 +2644,14 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Exit_application" xml:space="preserve">
     <value>Exit application</value>
+  </data>
+	<data name="SID_Events_and_reflectogram_removal" xml:space="preserve">
+    <value>Events and reflectogram removal</value>
+  </data>
+	<data name="SID_Event_log_cleaning" xml:space="preserve">
+    <value>Event log cleaning</value>
+  </data>
+	<data name="SID_Up_to" xml:space="preserve">
+    <value>Up to</value>
   </data>
 </root>

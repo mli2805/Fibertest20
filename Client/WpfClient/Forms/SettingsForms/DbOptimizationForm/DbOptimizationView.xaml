@@ -12,11 +12,11 @@
                        TextAlignment="Right" Margin="5" FontWeight="Bold"/>
             <StackPanel Margin="5,0,70,0">
                 <TextBlock DockPanel.Dock="Top" Text="{x:Static stringResources:Resources.SID_Db_optimization_warning1}" 
-                           TextWrapping="Wrap" Margin="5" TextAlignment="Left" FontWeight="Bold"/>
+                           TextWrapping="Wrap" Margin="5" TextAlignment="Justify" FontWeight="Bold"/>
                 <TextBlock DockPanel.Dock="Top" Text="{x:Static stringResources:Resources.SID_Db_optimization_warning2}" 
-                           TextWrapping="Wrap" Margin="5" TextAlignment="Left" FontWeight="Bold"/>
+                           TextWrapping="Wrap" Margin="5" TextAlignment="Justify" FontWeight="Bold"/>
                 <TextBlock DockPanel.Dock="Top" Text="{x:Static stringResources:Resources.SID_Db_optimization_warning3}" 
-                           TextWrapping="Wrap" Margin="5" TextAlignment="Left" FontWeight="Bold"/>
+                           TextWrapping="Wrap" Margin="5" TextAlignment="Justify" FontWeight="Bold"/>
             </StackPanel>
         </DockPanel>
         <DockPanel DockPanel.Dock="Top">
@@ -56,7 +56,7 @@
         <Separator DockPanel.Dock="Top" Margin="5"/>
         <Border DockPanel.Dock="Top" BorderBrush="LightGray" BorderThickness="0" Margin="5">
             <DockPanel  Margin="5">
-                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,5,50,5">
+                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
                     <TextBlock Text="{x:Static stringResources:Resources.SID_Up_to_and_including}" Margin="10,5"/>
                     <DatePicker DisplayDateEnd="{Binding Model.UpToLimit}" 
                                 SelectedDate="{Binding Model.SelectedDate}" Width="120"/>
@@ -82,7 +82,7 @@
                
             </DockPanel>
         </Border>
-        <StackPanel Orientation="Horizontal" Margin="0,20,28,15" HorizontalAlignment="Center">
+        <StackPanel Orientation="Horizontal" Margin="0,20,0,15" HorizontalAlignment="Center">
             <Button Height="22" Width="100" Margin="5,0" Content="{x:Static stringResources:Resources.SID_Execute}" Name="Execute"/>
             <Button Height="22" Width="100" Margin="5,0" Content="{x:Static stringResources:Resources.SID_Cancel}" Name="Cancel" IsCancel="True"/>
         </StackPanel>

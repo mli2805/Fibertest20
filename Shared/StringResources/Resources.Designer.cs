@@ -2026,15 +2026,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Db optimization started.
-        /// </summary>
-        public static string SID_Db_optimization_started {
-            get {
-                return ResourceManager.GetString("SID_Db_optimization_started", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to 1. It&apos;s highly recommended to make a backup before cleaning!.
         /// </summary>
         public static string SID_Db_optimization_warning1 {
@@ -2566,6 +2557,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Event log cleaning.
+        /// </summary>
+        public static string SID_Event_log_cleaning {
+            get {
+                return ResourceManager.GetString("SID_Event_log_cleaning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Event # {0}.
         /// </summary>
         public static string SID_Event_N_0_ {
@@ -2616,6 +2616,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Event_Type {
             get {
                 return ResourceManager.GetString("SID_Event_Type", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Events and reflectogram removal.
+        /// </summary>
+        public static string SID_Events_and_reflectogram_removal {
+            get {
+                return ResourceManager.GetString("SID_Events_and_reflectogram_removal", resourceCulture);
             }
         }
         
@@ -2926,7 +2935,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Fibertest data size.
+        ///   Looks up a localized string similar to Fibertest data size:.
         /// </summary>
         public static string SID_Fibertest_data_size {
             get {
@@ -7280,6 +7289,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Unprocessed {
             get {
                 return ResourceManager.GetString("SID_Unprocessed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Up to.
+        /// </summary>
+        public static string SID_Up_to {
+            get {
+                return ResourceManager.GetString("SID_Up_to", resourceCulture);
             }
         }
         

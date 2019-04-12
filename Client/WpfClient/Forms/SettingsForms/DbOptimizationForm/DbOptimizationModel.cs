@@ -93,9 +93,9 @@ namespace Iit.Fibertest.Client
         #endregion
 
         public bool IsRemoveMode { get; set; } = true;
-        public  bool IsSnapshotModel { get; set; }
+        public  bool IsSnapshotMode { get; set; }
 
-        public bool IsMeasurements { get; set; } = true;
+        public bool IsMeasurements { get; set; }
         public bool IsOpticalEvents { get; set; }
         public bool IsNetworkEvents { get; set; }
 

@@ -121,7 +121,7 @@ namespace Iit.Fibertest.Client
 
                 case LogOperationCode.MeasurementUpdated: return _logOperationsViewModel.IsMeasurementUpdated;
 
-                case LogOperationCode.DbOptimizationStarted: return _logOperationsViewModel.IsMeasurementUpdated;
+                case LogOperationCode.EventsAndSorsRemoved: return _logOperationsViewModel.IsMeasurementUpdated;
 
                 default: return false;
             }
@@ -147,7 +147,7 @@ namespace Iit.Fibertest.Client
                     var line = _eventToLogLineParser.ParseEventBody(msg.Body);
                     // event should be parsed even before check in order to update internal dictionaries
                     if (line == null ||
-                        user == null || user.Role < Role.Root) continue;
+                        user == null || (user.Role < Role.Root && line.OperationCode != LogOperationCode.EventsAndSorsRemoved)) continue;
 
                     line.Ordinal = ordinal;
                     line.Username = username;

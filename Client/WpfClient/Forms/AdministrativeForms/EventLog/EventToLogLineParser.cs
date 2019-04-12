@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -47,6 +48,7 @@ namespace Iit.Fibertest.Client
                 case MeasurementUpdated evnt: return Parse(evnt);
 
                 case EventsAndSorsRemoved evnt: return Parse(evnt);
+                case SnapshotMade evnt: return Parse(evnt);
                 default: return null;
             }
         }
@@ -212,10 +214,21 @@ namespace Iit.Fibertest.Client
        
         private LogLine Parse(EventsAndSorsRemoved e)
         {
+            var str = Resources.SID_Up_to;
             return new LogLine()
             {
-                OperationCode = LogOperationCode.DbOptimizationStarted,
-                OperationParams =  $@"Up to {e.UpTo}  {e.IsMeasurementsNotEvents}/{e.IsOpticalEvents}/{e.IsNetworkEvents}",
+                OperationCode = LogOperationCode.EventsAndSorsRemoved,
+                OperationParams =  $@"{str} {e.UpTo.Date:d}  {e.IsMeasurementsNotEvents.ToYesNo()}/{e.IsOpticalEvents.ToYesNo()}/{e.IsNetworkEvents.ToYesNo()}",
+            };
+        }
+
+        private LogLine Parse(SnapshotMade e)
+        {
+            var str = Resources.SID_Up_to;
+            return new LogLine()
+            {
+                OperationCode = LogOperationCode.SnapshotMade,
+                OperationParams = $@"{str} {e.UpTo.Date:d}",
             };
         }
     }

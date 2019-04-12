@@ -32,6 +32,7 @@ namespace Iit.Fibertest.Client
             {
                 case BopNetworkEventAdded evnt: AddBopNetworkEvent(evnt); break;
                 case OtauDetached evnt: DetachOtau(evnt); break;
+                case EventsAndSorsRemoved evnt: AllBopNetworkEventsViewModel.RemoveEventsAndSors(evnt); break;
             }
 
             _systemState.HasActualBopNetworkProblems = ActualBopNetworkEventsViewModel.Rows.Any();

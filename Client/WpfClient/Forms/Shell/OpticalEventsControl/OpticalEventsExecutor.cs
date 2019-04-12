@@ -44,8 +44,8 @@ namespace Iit.Fibertest.Client
                 case TraceUpdated evnt: _opticalEventsDoubleViewModel.UpdateTrace(evnt); break;
 
                 case ResponsibilitiesChanged evnt: _opticalEventsDoubleViewModel.ChangeResponsibilities(evnt); break;
-//                case EventsAndSorsRemoved evnt: _opticalEventsDoubleViewModel.
-//                    AllOpticalEventsViewModel.RemoveEventsAndSors(evnt); break;
+                case EventsAndSorsRemoved evnt: _opticalEventsDoubleViewModel.
+                    AllOpticalEventsViewModel.RemoveEventsAndSors(evnt); break;
             }
 
             try

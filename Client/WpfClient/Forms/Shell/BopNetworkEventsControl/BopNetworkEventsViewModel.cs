@@ -61,5 +61,16 @@ namespace Iit.Fibertest.Client
                 Rows.Remove(bopNetworkEventModel);
             }
         }
+
+        public void RemoveEventsAndSors(EventsAndSorsRemoved evnt)
+        {
+            if (!evnt.IsNetworkEvents) return;
+
+            foreach (var bopNetworkEventModel in Rows.ToList())
+            {
+                if (_readModel.BopNetworkEvents.All(n=>n.EventTimestamp != bopNetworkEventModel.EventTimestamp))
+                    Rows.Remove(bopNetworkEventModel);
+            }
+        }
     }
 }

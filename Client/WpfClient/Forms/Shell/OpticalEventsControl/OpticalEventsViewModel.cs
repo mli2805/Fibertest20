@@ -198,14 +198,6 @@ namespace Iit.Fibertest.Client
             });
         }
 
-        // it will be replaced with just arrived event
-        //        public void RemovePreviousEventForTraceIfExists(Guid traceId)
-        //        {
-        //            var oldEvent = Rows.FirstOrDefault(l => l.TraceId == traceId);
-        //            if (oldEvent != null)
-        //                Rows.Remove(oldEvent);
-        //        }
-
         public void RemoveEventsOfTrace(Guid traceId)
         {
             for (var i = Rows.Count - 1; i >= 0; i--)
@@ -269,30 +261,30 @@ namespace Iit.Fibertest.Client
                 SelectedRtuFilter = _rtuFilterViewModel.SelectedRow;
         }
 
-        public void ApplyUsersChanges(UpdateMeasurement dto)
-        {
-            var opticalEventModel = Rows.FirstOrDefault(r => r.SorFileId == dto.SorFileId);
-            if (opticalEventModel == null)
-                return;
-
-            opticalEventModel.EventStatus = dto.EventStatus;
-            opticalEventModel.Comment = dto.Comment;
-
-            Rows.Remove(opticalEventModel);
-            Rows.Add(opticalEventModel);
-            SelectedRow = opticalEventModel;
-        }
-
-//        public void RemoveEventsAndSors(EventsAndSorsRemoved evnt)
+//        public void ApplyUsersChanges(UpdateMeasurement dto)
 //        {
-//            if (!evnt.IsOpticalEvents) return;
+//            var opticalEventModel = Rows.FirstOrDefault(r => r.SorFileId == dto.SorFileId);
+//            if (opticalEventModel == null)
+//                return;
 //
-//            foreach (var opticalEventModel in Rows)
-//            {
-//                if (_readModel.Measurements.All(m => m.SorFileId != opticalEventModel.SorFileId))
-//                    Rows.Remove(opticalEventModel);
-//            }
+//            opticalEventModel.EventStatus = dto.EventStatus;
+//            opticalEventModel.Comment = dto.Comment;
+//
+//            Rows.Remove(opticalEventModel);
+//            Rows.Add(opticalEventModel);
+//            SelectedRow = opticalEventModel;
 //        }
+
+        public void RemoveEventsAndSors(EventsAndSorsRemoved evnt)
+        {
+            if (!evnt.IsOpticalEvents) return;
+
+            foreach (var opticalEventModel in Rows.ToList())
+            {
+                if (_readModel.Measurements.All(m => m.SorFileId != opticalEventModel.SorFileId))
+                    Rows.Remove(opticalEventModel);
+            }
+        }
       
     }
 }

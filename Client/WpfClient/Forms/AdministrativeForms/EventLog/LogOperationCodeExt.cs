@@ -30,7 +30,8 @@ namespace Iit.Fibertest.Client
                 case LogOperationCode.MonitoringStopped: return Resources.SID_Monitoring_stopped;
 
                 case LogOperationCode.MeasurementUpdated: return Resources.SID_Measurement_updated;
-                case LogOperationCode.DbOptimizationStarted: return Resources.SID_Db_optimization_started;
+                case LogOperationCode.EventsAndSorsRemoved: return Resources.SID_Events_and_reflectogram_removal;
+                case LogOperationCode.SnapshotMade: return Resources.SID_Event_log_cleaning;
 
                 default: return Resources.SID_Unknown_code;
             }

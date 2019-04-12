@@ -25,6 +25,7 @@
 
         MeasurementUpdated,
 
-        DbOptimizationStarted,
+        EventsAndSorsRemoved,
+        SnapshotMade,
     }
 }

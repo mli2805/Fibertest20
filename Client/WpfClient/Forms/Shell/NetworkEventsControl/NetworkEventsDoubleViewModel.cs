@@ -38,6 +38,7 @@ namespace Iit.Fibertest.Client
                 case RtuUpdated e: RtuUpdated(e.RtuId); break;
                 case RtuRemoved e: RtuRemoved(e.RtuId); break;
                 case ResponsibilitiesChanged e: ChangeResponsibilities(e); break;
+                case EventsAndSorsRemoved e: AllNetworkEventsViewModel.RemoveEventsAndSors(e); break;
                 default: return;
             }
 
