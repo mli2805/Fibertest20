@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
@@ -26,15 +27,15 @@ namespace Iit.Fibertest.DataCenterCore
             _eventStoreService = eventStoreService;
         }
 
-        public ClientRegisteredDto RegisterClientAsync(RegisterClientDto dto)
+        public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             var user = _writeModel.Users.FirstOrDefault(u => u.Title == dto.UserName && UserExt.FlipFlop(u.EncodedPassword) == dto.Password);
             return user == null
                 ? new ClientRegisteredDto { ReturnCode = ReturnCode.NoSuchUserOrWrongPassword }
-                : HasRight(dto, user);
+                : await HasRight(dto, user);
         }
 
-        private ClientRegisteredDto HasRight(RegisterClientDto dto, User user)
+        private async Task<ClientRegisteredDto> HasRight(RegisterClientDto dto, User user)
         {
             if (!dto.IsUnderSuperClient)
             {
@@ -46,10 +47,10 @@ namespace Iit.Fibertest.DataCenterCore
                 if  (user.Role != Role.Superclient && user.Role != Role.Developer)
                     return new ClientRegisteredDto() {ReturnCode = ReturnCode.UserHasNoRightsToStartSuperClient};
             }
-            return RegisterClientStation(dto, user);
+            return await RegisterClientStation(dto, user);
         }
 
-        private ClientRegisteredDto RegisterClientStation(RegisterClientDto dto, User user)
+        private async Task<ClientRegisteredDto> RegisterClientStation(RegisterClientDto dto, User user)
         {
             var licenseCheckResult = CheckLicense(user);
             if (licenseCheckResult != null) return licenseCheckResult;
@@ -67,7 +68,7 @@ namespace Iit.Fibertest.DataCenterCore
                 RegisterNew(dto, user);
 
             _logFile.AppendLine($"There are {_clients.Count()} client(s)");
-            return FillInSuccessfulResult(user);
+            return await FillInSuccessfulResult(user);
         }
 
         private ClientRegisteredDto CheckLicense(User user)
@@ -124,7 +125,7 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine($"Client {dto.UserName} from {dto.ClientIp} registered");
         }
 
-        private ClientRegisteredDto FillInSuccessfulResult(User user)
+        private async Task<ClientRegisteredDto> FillInSuccessfulResult(User user)
         {
             var result = new ClientRegisteredDto();
             result.UserId = user.UserId;

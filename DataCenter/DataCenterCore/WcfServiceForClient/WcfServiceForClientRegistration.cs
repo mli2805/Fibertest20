@@ -11,7 +11,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (_globalState.IsDatacenterInDbOptimizationMode)
                 return new ClientRegisteredDto(){ReturnCode = ReturnCode.Error};
 
-            var result = _clientsCollection.RegisterClientAsync(dto);
+            var result = await _clientsCollection.RegisterClientAsync(dto);
             result.GraphDbVersionId = _eventStoreService.GraphDbVersionId;
 
             var command = new RegisterClientStation() { RegistrationResult = result.ReturnCode };
