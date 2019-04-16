@@ -119,6 +119,7 @@ namespace Iit.Fibertest.Client
                 await EventSourcingTick();
                 Thread.Sleep(TimeSpan.FromMilliseconds(_pollingRate));
             }
+            _logFile.AppendLine(@"Leaving DoPolling...");
         }
 
         private void _systemState_PropertyChanged(object sender, PropertyChangedEventArgs e)

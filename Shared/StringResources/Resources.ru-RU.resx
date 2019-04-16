@@ -2654,4 +2654,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Up_to" xml:space="preserve">
 		<value>По дату</value>
 	</data>
+	<data name="SID_Free_space_threshold_exceeded_" xml:space="preserve">
+		<value>Превышен порог свободного места на сервере!</value>
+	</data>
 </root>

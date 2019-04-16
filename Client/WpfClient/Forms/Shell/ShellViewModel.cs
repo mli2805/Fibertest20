@@ -135,12 +135,7 @@ namespace Iit.Fibertest.Client
                 var zone   = $@"{separator}[{_currentUser.ZoneTitle}]";
                 DisplayName = DisplayName + $@" {server} {user} {zone}";
                 TabulatorViewModel.SelectedTabIndex = 0; // the same value should be in TabulatorViewModel c-tor !!!
-
-//                var driveInfo = await _c2DWcfManager.GetDiskSpace();
-//                var totalSize = $@"{driveInfo.TotalSize / (1024.0 * 1024 * 1024):#.0}Gb";
-//                var freeSpace = $@"{driveInfo.AvailableFreeSpace / (1024.0 * 1024 * 1024):#.0}Gb";
-//                var dataSize = $@"{driveInfo.DataSize / (1024.0 * 1024 * 1024):0.0}Gb";
-//                _logFile.AppendLine($@"Database drive's size is {totalSize},  free space is {freeSpace},   database size is {dataSize}");
+                var unused = await CheckFreeSpaceThreshold();
             }
             else
             {
@@ -148,6 +143,24 @@ namespace Iit.Fibertest.Client
                     await Task.Factory.StartNew(() => NotifySuperclientLoadingFailed(_commandLineParameters.ClientOrdinal));
                 TryClose();
             }
+        }
+
+        private async Task<bool> CheckFreeSpaceThreshold()
+        {
+            var driveInfo = await _c2DWcfManager.GetDiskSpaceGb();
+            var totalSize = $@"Database drive's size: {driveInfo.TotalSize:#.0}Gb";
+            var freeSpace = $@"free space: {driveInfo.AvailableFreeSpace:#.0}Gb";
+            var dataSize = $@"database size: {driveInfo.DataSize:0.0}Gb";
+            var threshold = $@"threashold: {driveInfo.FreeSpaceThreshold:0.0}Gb";
+            _logFile.AppendLine($@"{totalSize},  {dataSize},  {freeSpace},  {threshold}");
+            if (driveInfo.AvailableFreeSpace < driveInfo.FreeSpaceThreshold)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Information, Resources.SID_Free_space_threshold_exceeded_);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return false;
+            }
+
+            return true;
         }
 
         private async Task NotifySuperClientImReady(int postfix)

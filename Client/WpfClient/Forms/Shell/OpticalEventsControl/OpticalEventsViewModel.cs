@@ -111,7 +111,7 @@ namespace Iit.Fibertest.Client
 
         protected override void OnViewLoaded(object o)
         {
-            if (Rows == null) return;
+            if (Rows == null || Rows.Count == 0) return;
             var view = CollectionViewSource.GetDefaultView(Rows);
             view.Filter += OnFilter;
             view.SortDescriptions.Add(new SortDescription(@"Nomer", ListSortDirection.Descending));

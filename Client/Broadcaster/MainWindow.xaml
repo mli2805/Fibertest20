@@ -11,16 +11,40 @@
             <TextBox Margin="5" Text="{Binding GsmComPort, Mode=TwoWay}" Width="50"/>
             <Button Content="Check GSM-modem connection" Margin="5" Width="200" Click="CheckModemConnection"/>
         </StackPanel>
-        <StackPanel DockPanel.Dock="Top" Margin="5" Orientation="Horizontal">  
-            <TextBlock Text="Send SMS to number " Margin="5"/>
-            <TextBox Margin="5" Text="{Binding SendToNumber}" Width="150"/>
-        </StackPanel>
-       <StackPanel DockPanel.Dock="Top" Margin="5" Orientation="Horizontal">  
-            <TextBlock Text="Content of SMS" Margin="5"/>
-            <TextBox Margin="5" Text="{Binding ContentOfSms}" Width="250"/>
-        </StackPanel>
-        <Button DockPanel.Dock="Top" Content="Send SMS" Margin="5,15" Width="200" Click="SendSms"/>
-
+        <GroupBox Header="SMS" DockPanel.Dock="Top">
+            <StackPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="5" Orientation="Horizontal">
+                    <TextBlock Text="Send SMS to number " Margin="5"/>
+                    <TextBox Margin="5" Text="{Binding SendToNumber}" Width="150"/>
+                </StackPanel>
+                <StackPanel DockPanel.Dock="Top" Margin="5" Orientation="Horizontal">
+                    <TextBlock Text="Content of SMS" Margin="5"/>
+                    <TextBox Margin="5" Text="{Binding ContentOfSms}" Width="250"/>
+                </StackPanel>
+                <Button DockPanel.Dock="Top" Content="Send SMS" Margin="5,15" Width="200" Click="SendSms"/>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Header="MSMQ" DockPanel.Dock="Top">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="Data-center IP" Margin="5"/>
+                    <TextBox Text="{Binding ServerIp}" Margin="5" Width="200"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="Sor file" Margin="5"/>
+                    <TextBox Text="{Binding SorFileName}" Margin="5" Width="200"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="Count" Margin="5"/>
+                    <TextBox Text="{Binding MsmqCount}" Margin="5" Width="70"/>
+                    <TextBlock Text="Pause between, ms" Margin="5"/>
+                    <TextBox Text="{Binding MsmqPauseMs}" Margin="5" Width="70"/>
+                    <TextBlock Text="Sent" Margin="5"/>
+                    <TextBlock Text="{Binding SentCount}" Margin="5"/>
+                </StackPanel>
+                <Button Width="200" Height="22" Content="Start sending" Margin="5" Click="Button_Click"/>
+            </StackPanel>
+        </GroupBox>
         <StackPanel></StackPanel>
     </DockPanel>
 </Window>

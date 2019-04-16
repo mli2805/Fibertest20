@@ -75,8 +75,8 @@ namespace Iit.Fibertest.DataCenterCore
                 // End the asynchronous receive operation.
                 Message message = queue.EndReceive(asyncResult.AsyncResult);
 
-                await ProcessMessage(message);
-
+             //   await ProcessMessage(message);
+                await Task.Factory.StartNew(() => ProcessMessage(message));
             }
             catch (Exception e)
             {
@@ -148,7 +148,6 @@ namespace Iit.Fibertest.DataCenterCore
             return 0;
         }
 
-            // TODO SNMP, SMTP, SMS
         private async void SendNotificationsAboutTraces(MonitoringResultDto dto, AddMeasurement addMeasurement)
         {
             SetCulture();

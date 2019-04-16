@@ -3016,6 +3016,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Free space threshold exceeded!.
+        /// </summary>
+        public static string SID_Free_space_threshold_exceeded_ {
+            get {
+                return ResourceManager.GetString("SID_Free_space_threshold_exceeded_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to from.
         /// </summary>
         public static string SID_from {

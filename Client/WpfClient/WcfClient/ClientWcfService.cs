@@ -66,6 +66,7 @@ namespace Iit.Fibertest.Client
         public async Task<int> BlockClientWhileDbOptimization()
         {
             await Task.Factory.StartNew(ShowWaiting);
+            _logFile.AppendLine(@"BlockClientWhileDbOptimization");
             return 0;
         }
 
@@ -80,6 +81,7 @@ namespace Iit.Fibertest.Client
             _clientPoller.CancellationTokenSource.Cancel();
             _waitViewModel.Initialize(false);
             Application.Current.Dispatcher.InvokeAsync(() => _windowManager.ShowDialogWithAssignedOwner(_waitViewModel));
+            _logFile.AppendLine(@"ShowWaiting");
         }
 
         private async Task<int> LeaveApp()

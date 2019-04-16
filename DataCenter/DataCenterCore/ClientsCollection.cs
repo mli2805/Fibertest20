@@ -125,7 +125,9 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine($"Client {dto.UserName} from {dto.ClientIp} registered");
         }
 
+#pragma warning disable 1998
         private async Task<ClientRegisteredDto> FillInSuccessfulResult(User user)
+#pragma warning restore 1998
         {
             var result = new ClientRegisteredDto();
             result.UserId = user.UserId;
