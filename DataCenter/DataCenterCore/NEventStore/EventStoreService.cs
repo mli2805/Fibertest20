@@ -49,11 +49,16 @@ namespace Iit.Fibertest.DataCenterCore
             if (!AssignGraphDbVersion(eventStream)) return;
 
             var events = eventStream.CommittedEvents.Select(x => x.Body).ToList();
-
+            var count = 0;
             foreach (var evnt in events)
             {
                 _eventsOnModelExecutor.Apply(evnt);
+                count++;
+                if (count % 1000 == 0)
+                    _logFile.AppendLine($"{count} events applied");
             }
+            _logFile.AppendLine($"{events.Count} events applied");
+
         }
 
         public void Delete()

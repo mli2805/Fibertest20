@@ -43,14 +43,14 @@ namespace Iit.Fibertest.DataCenterCore
         };
 
         public WcfServiceForClient(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
-            Model writeModel, IEventStoreInitializer eventStoreInitializer, EventStoreService eventStoreService, 
+            Model writeModel, IEventStoreInitializer eventStoreInitializer, EventStoreService eventStoreService,
             MeasurementFactory measurementFactory,
             ClientsCollection clientsCollection, ClientToRtuTransmitter clientToRtuTransmitter,
-            RtuStationsRepository rtuStationsRepository, 
+            RtuStationsRepository rtuStationsRepository,
             BaseRefRepairmanIntermediary baseRefRepairmanIntermediary, BaseRefLandmarksTool baseRefLandmarksTool,
             SorFileRepository sorFileRepository,
             Smtp smtp, SmsManager smsManager, DiskSpaceProvider diskSpaceProvider
-            ,GlobalState globalState, D2CWcfManager d2CWcfManager
+            , GlobalState globalState, D2CWcfManager d2CWcfManager
             )
         {
             _iniFile = iniFile;
@@ -132,9 +132,19 @@ namespace Iit.Fibertest.DataCenterCore
             var cmd = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
 
             if (cmd is RemoveEventsAndSors removeEventsAndSors)
-                return await RemoveEventsAndSors(removeEventsAndSors, username, clientIp);
+            {
+                // long operation - don't block client!
+                _logFile.AppendLine("Optimization command received");
+                await Task.Factory.StartNew(() => RemoveEventsAndSors(removeEventsAndSors, username, clientIp));
+                return null;
+            }
+
             if (cmd is MakeSnapshot makeSnapshot)
-                return await MakeSnapshot(makeSnapshot);
+            {
+                // long operation - don't block client!
+                await Task.Factory.StartNew(() => MakeSnapshot(makeSnapshot));
+                return null;
+            }
 
             var resultInGraph = await _eventStoreService.SendCommand(cmd, username, clientIp);
             if (resultInGraph != null)
@@ -184,11 +194,11 @@ namespace Iit.Fibertest.DataCenterCore
         {
             return await _sorFileRepository.GetSorBytesAsync(sorFileId);
         }
-       
+
         public async Task<DiskSpaceDto> GetDiskSpaceGb()
         {
             return await _diskSpaceProvider.GetDiskSpaceGb();
         }
-     
+
     }
 }

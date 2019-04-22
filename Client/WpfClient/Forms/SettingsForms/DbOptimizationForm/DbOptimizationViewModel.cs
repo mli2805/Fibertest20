@@ -60,7 +60,6 @@ namespace Iit.Fibertest.Client
         {
             if (!Validate()) return;
 
-
             var cmd = Model.IsRemoveMode ?
                 (object)new RemoveEventsAndSors()
                 {
