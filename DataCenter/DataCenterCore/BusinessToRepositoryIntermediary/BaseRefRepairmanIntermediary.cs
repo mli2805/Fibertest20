@@ -108,15 +108,15 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<List<BaseRefDto>> GetBaseRefDtos(Trace trace)
         {
-            if (_writeModel.BaseRefs.Any(b=>b.Id == Guid.Empty))
-                _logFile.AppendLine("There is a base ref with Empty ID!!!");
-            else _logFile.AppendLine("All base refs have valid IDs");
+          // if (_writeModel.BaseRefs.Any(b=>b.Id == Guid.Empty))
+          //      _logFile.AppendLine("There is a base ref with Empty ID!!!");
+          //  else _logFile.AppendLine("All base refs have valid IDs");
 
             var list = new List<BaseRef>
             {
                 _writeModel.BaseRefs.FirstOrDefault(b => b.Id == trace.PreciseId),
                 _writeModel.BaseRefs.FirstOrDefault(b => b.Id == trace.FastId),
-                _writeModel.BaseRefs.FirstOrDefault(b => b.Id == trace.AdditionalId)
+                _writeModel.BaseRefs.FirstOrDefault(b => b.Id == trace.AdditionalId && b.BaseRefType == BaseRefType.Additional)
             };
 
             var listOfBaseRef = new List<BaseRefDto>();
@@ -127,12 +127,13 @@ namespace Iit.Fibertest.DataCenterCore
                 var sorBytes = await _sorFileRepository.GetSorBytesAsync(baseRef.SorFileId);
                 if (sorBytes == null)
                 {
-                    _logFile.AppendLine($"sorBytes not found for ID = {baseRef.SorFileId}, skip it!");
+            //        _logFile.AppendLine($"sorBytes not found for ID = {baseRef.SorFileId}, skip it!");
                     continue;
                 }
                 listOfBaseRef.Add(_baseRefDtoFactory.CreateFromBaseRef(baseRef, sorBytes));
             }
 
+            _logFile.AppendLine($"{listOfBaseRef.Count} base refs changed");
             return listOfBaseRef;
         }
 
