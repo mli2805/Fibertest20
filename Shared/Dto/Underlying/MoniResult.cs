@@ -5,6 +5,7 @@ namespace Iit.Fibertest.Dto
 {
     public class MoniResult
     {
+        public MeasurementResult MeasurementResult;
         public bool IsNoFiber { get; set; }
         public bool IsFiberBreak { get; set; }
 

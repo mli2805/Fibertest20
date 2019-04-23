@@ -8,6 +8,9 @@ namespace Iit.Fibertest.Dto
     public class MonitoringResultDto
     {
         [DataMember]
+        public MeasurementResult MeasurementResult;
+
+        [DataMember]
         public Guid RtuId { get; set; }
 
         [DataMember]
