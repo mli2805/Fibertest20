@@ -91,6 +91,8 @@
         EventLifetimeLimit,
         TestNumberToSms,
         TestSmsContent,
+        MsmqTestRtuId,
+        MsmqTestTraceId,
 
         // Smtp
         SmtpHost,
