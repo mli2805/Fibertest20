@@ -34,7 +34,7 @@ namespace Graph.Tests
         public CurrentlyHiddenRtu CurrentlyHiddenRtu { get;set; }
 
         public AccidentsFromSorExtractor AccidentsFromSorExtractor { get; set; }
-        public MsmqHandler MsmqHandler { get; }
+        public MsmqMessagesProcessor MsmqMessagesProcessor { get; }
         public WcfServiceForClient WcfServiceForClient { get; set; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
 
@@ -60,7 +60,7 @@ namespace Graph.Tests
 
             var eventStoreService = ServerScope.Resolve<EventStoreService>();
             eventStoreService.Init();
-            MsmqHandler = ServerScope.Resolve<MsmqHandler>();
+            MsmqMessagesProcessor = ServerScope.Resolve<MsmqMessagesProcessor>();
             FakeD2RWcfManager = (FakeD2RWcfManager)ServerScope.Resolve<ID2RWcfManager>();
             FakeD2RWcfManager.SetFakeInitializationAnswer();
 
@@ -160,7 +160,7 @@ namespace Graph.Tests
             builder.RegisterType<SmsSender>().InstancePerLifetimeScope();
             builder.RegisterType<SmsManager>().InstancePerLifetimeScope();
             builder.RegisterType<Smtp>().InstancePerLifetimeScope();
-            builder.RegisterType<MsmqHandler>().InstancePerLifetimeScope();
+            builder.RegisterType<MsmqMessagesProcessor>().InstancePerLifetimeScope();
             builder.RegisterType<GlobalState>().InstancePerLifetimeScope();
             builder.RegisterType<DiskSpaceProvider>().InstancePerLifetimeScope();
 

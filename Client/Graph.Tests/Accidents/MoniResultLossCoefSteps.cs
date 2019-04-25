@@ -30,7 +30,7 @@ namespace Graph.Tests
                 BaseRefType = BaseRefType.Precise,
                 SorBytes = sorBytes,
             };
-            _sut.MsmqHandler.ProcessMonitoringResult(dto).Wait();
+            _sut.MsmqMessagesProcessor.ProcessMonitoringResult(dto).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

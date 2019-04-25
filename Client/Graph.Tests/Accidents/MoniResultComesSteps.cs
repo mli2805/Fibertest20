@@ -52,7 +52,7 @@ namespace Graph.Tests
                 BaseRefType = baseType,
                 SorBytes = sorBytes,
             };
-            _sut.MsmqHandler.ProcessMonitoringResult(dto).Wait();
+            _sut.MsmqMessagesProcessor.ProcessMonitoringResult(dto).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

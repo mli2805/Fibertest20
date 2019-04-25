@@ -67,11 +67,9 @@ namespace Graph.Tests
             {
                 RtuId = _rtuId,
                 Serial = serial,
-//                OtauIp = address,
-//                TcpPort = _otauTcpPort,
                 IsOk = isOk,
             };
-            _sut.MsmqHandler.ProcessBopStateChanges(dto).Wait();
+            _sut.MsmqMessagesProcessor.ProcessBopStateChanges(dto).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
