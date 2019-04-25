@@ -11,7 +11,8 @@ namespace Iit.Fibertest.Graph
         private readonly Model _model;
         private readonly AccidentsOnTraceToModelApplier _accidentsOnTraceToModelApplier;
 
-        public MeasurementEventOnModelExecutor(Model model, AccidentsOnTraceToModelApplier accidentsOnTraceToModelApplier)
+        public MeasurementEventOnModelExecutor(Model model, 
+            AccidentsOnTraceToModelApplier accidentsOnTraceToModelApplier)
         {
             _model = model;
             _accidentsOnTraceToModelApplier = accidentsOnTraceToModelApplier;
@@ -54,13 +55,15 @@ namespace Iit.Fibertest.Graph
 
         public string RemoveEventsAndSors(EventsAndSorsRemoved e)
         {
-            _model.Measurements.RemoveAll(m =>
-                _model.GetMeasurementsForDeletion(e.UpTo, e.IsMeasurementsNotEvents, e.IsOpticalEvents).Contains(m));
+            var measurementsForDeletion = _model.GetMeasurementsForDeletion(e.UpTo, e.IsMeasurementsNotEvents, e.IsOpticalEvents);
+            _model.Measurements.RemoveAll(m => measurementsForDeletion.Contains(m));
 
             if (e.IsNetworkEvents)
             {
-                _model.NetworkEvents.RemoveAll(n => _model.GetNetworkEventsForDeletion(e.UpTo).Contains(n));
-                _model.BopNetworkEvents.RemoveAll(n => _model.GetBopNetworkEventsForDeletion(e.UpTo).Contains(n));
+                var networkEventsForDeletion = _model.GetNetworkEventsForDeletion(e.UpTo);
+                _model.NetworkEvents.RemoveAll(n => networkEventsForDeletion.Contains(n));
+                var bopNetworkEventsForDeletion = _model.GetBopNetworkEventsForDeletion(e.UpTo);
+                _model.BopNetworkEvents.RemoveAll(n => bopNetworkEventsForDeletion.Contains(n));
             }
 
             return null;

@@ -2657,4 +2657,19 @@ RTU is initializing right now!</value>
 	<data name="SID_Free_space_threshold_exceeded_" xml:space="preserve">
     <value>Data-center free space threshold exceeded!</value>
   </data>
+	<data name="SID_Sorfiles_table_compressing__0_0_0__" xml:space="preserve">
+    <value>Sorfiles table compressing {0:0.0}%...</value>
+  </data>
+	<data name="SID_Model_adjusting___" xml:space="preserve">
+    <value>Model adjusting...</value>
+  </data>
+	<data name="SID_Db_optimization_started" xml:space="preserve">
+    <value>Db optimization started...</value>
+  </data>
+	<data name="SID_Measurements_chosen_for_deletion__0___Removing___" xml:space="preserve">
+    <value>Measurements chosen for deletion {0}. Removing...</value>
+  </data>
+	<data name="SID_Before__0___After__1___Released__2_" xml:space="preserve">
+    <value>Before {0}  After {1}  Released {2}</value>
+  </data>
 </root>

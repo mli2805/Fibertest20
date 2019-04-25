@@ -990,6 +990,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Before {0}  After {1}  Released {2}.
+        /// </summary>
+        public static string SID_Before__0___After__1___Released__2_ {
+            get {
+                return ResourceManager.GetString("SID_Before__0___After__1___Released__2_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to between nodes.
         /// </summary>
         public static string SID_between_nodes {
@@ -2026,6 +2035,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Db optimization started....
+        /// </summary>
+        public static string SID_Db_optimization_started {
+            get {
+                return ResourceManager.GetString("SID_Db_optimization_started", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to 1. It&apos;s highly recommended to make a backup before cleaning!.
         /// </summary>
         public static string SID_Db_optimization_warning1 {
@@ -3016,7 +3034,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Free space threshold exceeded!.
+        ///   Looks up a localized string similar to Data-center free space threshold exceeded!.
         /// </summary>
         public static string SID_Free_space_threshold_exceeded_ {
             get {
@@ -4015,6 +4033,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Measurements chosen for deletion {0}. Removing....
+        /// </summary>
+        public static string SID_Measurements_chosen_for_deletion__0___Removing___ {
+            get {
+                return ResourceManager.GetString("SID_Measurements_chosen_for_deletion__0___Removing___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measurements:.
         /// </summary>
         public static string SID_Measurements_in_Db {
@@ -4056,6 +4083,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Minor {
             get {
                 return ResourceManager.GetString("SID_Minor", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Model adjusting....
+        /// </summary>
+        public static string SID_Model_adjusting___ {
+            get {
+                return ResourceManager.GetString("SID_Model_adjusting___", resourceCulture);
             }
         }
         
@@ -6335,6 +6371,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_software____0_ {
             get {
                 return ResourceManager.GetString("SID_software____0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Sorfiles table compressing {0:0.0}%....
+        /// </summary>
+        public static string SID_Sorfiles_table_compressing__0_0_0__ {
+            get {
+                return ResourceManager.GetString("SID_Sorfiles_table_compressing__0_0_0__", resourceCulture);
             }
         }
         

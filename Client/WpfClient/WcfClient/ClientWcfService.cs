@@ -63,11 +63,12 @@ namespace Iit.Fibertest.Client
             Application.Current.Dispatcher.InvokeAsync(() => Application.Current.Shutdown());
         }
 
-        public async Task<int> BlockClientWhileDbOptimization()
+        public async Task<int> BlockClientWhileDbOptimization(DbOptimizationProgressDto dto)
         {
-            _logFile.AppendLine(@"BlockClientWhileDbOptimization command received");
-            await Task.Factory.StartNew(ShowWaiting);
-            _logFile.AppendLine(@"BlockClientWhileDbOptimization");
+            if (!_waitViewModel.IsOpen)
+                await Task.Factory.StartNew(ShowWaiting);
+            else
+                _waitViewModel.Update(dto);
             return 0;
         }
 
@@ -79,17 +80,15 @@ namespace Iit.Fibertest.Client
 
         private void ShowWaiting()
         {
-            _logFile.AppendLine(@"ShowWaiting1");
+            _logFile.AppendLine(@"DbOptimizationProgressDto received");
+
             _clientPoller.CancellationTokenSource.Cancel();
             _waitViewModel.Initialize(false);
             Application.Current.Dispatcher.InvokeAsync(() => _windowManager.ShowDialogWithAssignedOwner(_waitViewModel));
-            _logFile.AppendLine(@"ShowWaiting2");
         }
 
         private async Task<int> LeaveApp()
         {
-            if (_waitViewModel.IsActive)
-                _waitViewModel.TryClose();
             var vm = new LeaveAppViewModel();
             await Application.Current.Dispatcher.InvokeAsync(() => _windowManager.ShowDialogWithAssignedOwner(vm));
             return 0;

@@ -95,14 +95,11 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                _logFile.AppendLine($"RemoveManySorAsync: {sorIds.Length} ids received");
-
                 using (var dbContext = new FtDbContext(_settings.Options))
                 {
                     var sors = dbContext.SorFiles.Where(s => sorIds.Contains(s.Id)).ToList();
                     dbContext.SorFiles.RemoveRange(sors);
                     var recordsAffected = await dbContext.SaveChangesAsync();
-                    _logFile.AppendLine($"RemoveManySorAsync: {recordsAffected} records deleted");
                     return recordsAffected;
                 }
             }

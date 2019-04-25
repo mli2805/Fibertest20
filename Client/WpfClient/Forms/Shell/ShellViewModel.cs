@@ -152,7 +152,7 @@ namespace Iit.Fibertest.Client
             var totalSize = $@"Database drive's size: {driveInfo.TotalSize:0.0}Gb";
             var freeSpace = $@"free space: {driveInfo.AvailableFreeSpace:0.0}Gb";
             var dataSize = $@"database size: {driveInfo.DataSize:0.0}Gb";
-            var threshold = $@"threashold: {driveInfo.FreeSpaceThreshold:0.0}Gb";
+            var threshold = $@"threshold: {driveInfo.FreeSpaceThreshold:0.0}Gb";
             _logFile.AppendLine($@"{totalSize},  {dataSize},  {freeSpace},  {threshold}");
             if (driveInfo.AvailableFreeSpace < driveInfo.FreeSpaceThreshold)
             {
@@ -160,7 +160,7 @@ namespace Iit.Fibertest.Client
                 {
                     Resources.SID_Free_space_threshold_exceeded_, "",
                     $@"{Resources.SID_Db_drive_free_space}  {driveInfo.AvailableFreeSpace:0.0} Gb",
-                    $@"{Resources.SID_Free_space_threshold}  {driveInfo.FreeSpaceThreshold} Gb", "",
+                    $@"{Resources.SID_Free_space_threshold}  {driveInfo.FreeSpaceThreshold:0.0} Gb", "",
                     $@"{Resources.SID_Db_drive_total_size}  {driveInfo.TotalSize:0.0} Gb",
                     $@"{Resources.SID_Fibertest_data_size}  {driveInfo.DataSize:0.000} Gb",
                 };

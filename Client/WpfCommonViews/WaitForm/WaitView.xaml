@@ -7,8 +7,9 @@
         mc:Ignorable="d"
         SizeToContent="Height" Width="630" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
     <DockPanel>
-        <ProgressBar DockPanel.Dock="Bottom" Margin="15,15,15,35" Height="6" IsIndeterminate="True" 
-                     Foreground="LimeGreen" Background="White" BorderBrush="White"/>
+        <TextBlock DockPanel.Dock="Bottom" Margin="5,0,5,35" Text="{Binding ProgressText}" HorizontalAlignment="Center" TextAlignment="Center"/>
+        <ProgressBar DockPanel.Dock="Bottom" Margin="15,15,15,15" Height="6" IsIndeterminate="True" 
+                     Foreground="LimeGreen" Background="White" BorderBrush="White" Visibility="{Binding ProgressBarVisibility}"/>
         <StackPanel VerticalAlignment="Center" >
             <ItemsControl ItemsSource="{Binding Lines}" Margin="100,25,100,50">
                 <ItemsControl.ItemTemplate>

@@ -20,7 +20,7 @@ namespace Iit.Fibertest.ClientWcfServiceInterface
 
 
         [OperationContract]
-        Task<int> BlockClientWhileDbOptimization();
+        Task<int> BlockClientWhileDbOptimization(DbOptimizationProgressDto dto);
 
         [OperationContract]
         Task<int> UnBlockClientAfterDbOptimization();

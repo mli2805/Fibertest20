@@ -107,7 +107,7 @@ namespace Iit.Fibertest.WcfConnections
             return 0;
         }
 
-        public async Task<int> BlockClientWhileDbOptimization()
+        public async Task<int> BlockClientWhileDbOptimization(DbOptimizationProgressDto dto)
         {
             if (_addresses == null)
             {
@@ -123,7 +123,7 @@ namespace Iit.Fibertest.WcfConnections
                 try
                 {
                     var channel = wcfConnection.CreateChannel();
-                    await channel.BlockClientWhileDbOptimization();
+                    await channel.BlockClientWhileDbOptimization(dto);
                     wcfConnection.Close();
                 }
                 catch (Exception e)
