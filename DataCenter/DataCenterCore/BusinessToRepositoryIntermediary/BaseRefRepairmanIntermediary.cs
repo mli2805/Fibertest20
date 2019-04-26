@@ -96,7 +96,7 @@ namespace Iit.Fibertest.DataCenterCore
                 }
 
                 if (trace.OtauPort == null) // unattached trace
-                    return null;
+                    continue;
 
                 var result = await SendAmendedBaseRefsToRtu(trace, listOfBaseRef);
                 if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
