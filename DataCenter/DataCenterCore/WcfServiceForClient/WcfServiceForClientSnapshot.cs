@@ -8,9 +8,9 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private async Task<string> MakeSnapshot(MakeSnapshot cmd, string username, string clientIp)
         {
-            _logFile.AppendLine("Start DB optimization on another thread to release WCF client");
+            _logFile.AppendLine("Start making snapshot on another thread to release WCF client");
             var unused = await Task.Factory.StartNew(() => FullProcedure(cmd, username, clientIp));
-            _logFile.AppendLine("DB optimization started on another thread to release WCF client");
+            _logFile.AppendLine("Snapshot started on another thread to release WCF client");
             return null;
         }
 

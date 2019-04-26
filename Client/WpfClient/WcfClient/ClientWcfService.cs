@@ -68,7 +68,7 @@ namespace Iit.Fibertest.Client
             if (!_waitViewModel.IsOpen)
                 await Task.Factory.StartNew(ShowWaiting);
             else
-                _waitViewModel.Update(dto);
+                _waitViewModel.UpdateOptimizationProgress(dto);
             return 0;
         }
 

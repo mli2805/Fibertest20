@@ -25,7 +25,7 @@ namespace Iit.Fibertest.WpfCommonViews
             }
         }
 
-        private string _progressText = "Optimization started";
+        private string _progressText;
         public string ProgressText
         {
             get { return _progressText; }
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.WpfCommonViews
             IsOpen = true;
         }
 
-        public void Update(DbOptimizationProgressDto dto)
+        public void UpdateOptimizationProgress(DbOptimizationProgressDto dto)
         {
             ProgressText = StageToMessage(dto);
         }
