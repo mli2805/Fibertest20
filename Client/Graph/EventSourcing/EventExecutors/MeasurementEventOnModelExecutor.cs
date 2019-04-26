@@ -3,67 +3,57 @@ using AutoMapper;
 
 namespace Iit.Fibertest.Graph
 {
-    public class MeasurementEventOnModelExecutor
+    public static class MeasurementEventOnModelExecutor
     {
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
-        private readonly Model _model;
-        private readonly AccidentsOnTraceToModelApplier _accidentsOnTraceToModelApplier;
-
-        public MeasurementEventOnModelExecutor(Model model, 
-            AccidentsOnTraceToModelApplier accidentsOnTraceToModelApplier)
+        public static string AddMeasurement(this Model model, MeasurementAdded e)
         {
-            _model = model;
-            _accidentsOnTraceToModelApplier = accidentsOnTraceToModelApplier;
-        }
-
-        public string AddMeasurement(MeasurementAdded e)
-        {
-            _model.Measurements.Add(Mapper.Map<Measurement>(e));
-            _accidentsOnTraceToModelApplier.ShowMonitoringResult(e);
+            model.Measurements.Add(Mapper.Map<Measurement>(e));
+            model.ShowMonitoringResult(e);
             return null;
         }
 
-        public string UpdateMeasurement(MeasurementUpdated e)
+        public static string UpdateMeasurement(this Model model, MeasurementUpdated e)
         {
-            var destination = _model.Measurements.First(f => f.SorFileId == e.SorFileId);
+            var destination = model.Measurements.First(f => f.SorFileId == e.SorFileId);
             Mapper.Map(e, destination);
             return null;
         }
 
-        public string AddNetworkEvent(NetworkEventAdded e)
+        public static string AddNetworkEvent(this Model model, NetworkEventAdded e)
         {
-            _model.NetworkEvents.Add(Mapper.Map<NetworkEvent>(e));
-            var rtu = _model.Rtus.First(r => r.Id == e.RtuId);
+            model.NetworkEvents.Add(Mapper.Map<NetworkEvent>(e));
+            var rtu = model.Rtus.First(r => r.Id == e.RtuId);
             rtu.MainChannelState = e.OnMainChannel.ChangeChannelState(rtu.MainChannelState);
             rtu.ReserveChannelState = e.OnReserveChannel.ChangeChannelState(rtu.ReserveChannelState);
             return null;
         }
 
 
-        public string AddBopNetworkEvent(BopNetworkEventAdded e)
+        public static string AddBopNetworkEvent(this Model model, BopNetworkEventAdded e)
         {
-            _model.BopNetworkEvents.Add(Mapper.Map<BopNetworkEvent>(e));
+            model.BopNetworkEvents.Add(Mapper.Map<BopNetworkEvent>(e));
             // if BOP has 2 OTAU - both should change their state
-            foreach (var otau in _model.Otaus.Where(o => o.NetAddress.Ip4Address == e.OtauIp))
+            foreach (var otau in model.Otaus.Where(o => o.NetAddress.Ip4Address == e.OtauIp))
             {
                 otau.IsOk = e.IsOk;
             }
             return null;
         }
 
-        public string RemoveEventsAndSors(EventsAndSorsRemoved e)
+        public static string RemoveEventsAndSors(this Model model, EventsAndSorsRemoved e)
         {
-            var measurementsForDeletion = _model.GetMeasurementsForDeletion(e.UpTo, e.IsMeasurementsNotEvents, e.IsOpticalEvents);
-            _model.Measurements.RemoveAll(m => measurementsForDeletion.Contains(m));
+            var measurementsForDeletion = model.GetMeasurementsForDeletion(e.UpTo, e.IsMeasurementsNotEvents, e.IsOpticalEvents);
+            model.Measurements.RemoveAll(m => measurementsForDeletion.Contains(m));
 
             if (e.IsNetworkEvents)
             {
-                var networkEventsForDeletion = _model.GetNetworkEventsForDeletion(e.UpTo);
-                _model.NetworkEvents.RemoveAll(n => networkEventsForDeletion.Contains(n));
-                var bopNetworkEventsForDeletion = _model.GetBopNetworkEventsForDeletion(e.UpTo);
-                _model.BopNetworkEvents.RemoveAll(n => bopNetworkEventsForDeletion.Contains(n));
+                var networkEventsForDeletion = model.GetNetworkEventsForDeletion(e.UpTo);
+                model.NetworkEvents.RemoveAll(n => networkEventsForDeletion.Contains(n));
+                var bopNetworkEventsForDeletion = model.GetBopNetworkEventsForDeletion(e.UpTo);
+                model.BopNetworkEvents.RemoveAll(n => bopNetworkEventsForDeletion.Contains(n));
             }
 
             return null;

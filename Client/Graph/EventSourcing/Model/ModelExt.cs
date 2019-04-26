@@ -167,7 +167,7 @@ namespace Iit.Fibertest.Graph
             model.Fibers.Remove(fiber);
         }
 
-        public static void ChangeResponsibilities(this Model model, ResponsibilitiesChanged e)
+        public static string ChangeResponsibilities(this Model model, ResponsibilitiesChanged e)
         {
             foreach (var pair in e.ResponsibilitiesDictionary)
             {
@@ -181,6 +181,8 @@ namespace Iit.Fibertest.Graph
                 var trace = model.Traces.First(t => t.TraceId == pair.Key);
                 trace.ZoneIds = ApplyChanges(trace.ZoneIds, pair.Value);
             }
+
+            return null;
         }
 
         private static List<Guid> ApplyChanges(List<Guid> oldList, List<Guid> changes)

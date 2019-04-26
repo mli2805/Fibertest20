@@ -2,25 +2,15 @@
 using AutoMapper;
 using GMap.NET;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Graph
 {
-    public class RtuEventsOnModelExecutor
+    public static class RtuEventsOnModelExecutor
     {
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
-        private readonly Model _model;
-        private readonly IMyLog _logFile;
-        private readonly TraceEventsOnModelExecutor _traceEventsOnModelExecutor;
-
-        public RtuEventsOnModelExecutor(Model model, IMyLog logFile, TraceEventsOnModelExecutor traceEventsOnModelExecutor)
-        {
-            _model = model;
-            _logFile = logFile;
-            _traceEventsOnModelExecutor = traceEventsOnModelExecutor;
-        }
-        public string AddRtuAtGpsLocation(RtuAtGpsLocationAdded e)
+      
+        public static string AddRtuAtGpsLocation(this Model model, RtuAtGpsLocationAdded e)
         {
             Node node = new Node()
             {
@@ -29,88 +19,80 @@ namespace Iit.Fibertest.Graph
                 TypeOfLastAddedEquipment = EquipmentType.Rtu,
                 Title = e.Title
             };
-            _model.Nodes.Add(node);
+            model.Nodes.Add(node);
             Rtu rtu = Mapper.Map<Rtu>(e);
-            rtu.ZoneIds.Add(_model.Zones.First(z => z.IsDefaultZone).ZoneId);
-            _model.Rtus.Add(rtu);
+            rtu.ZoneIds.Add(model.Zones.First(z => z.IsDefaultZone).ZoneId);
+            model.Rtus.Add(rtu);
             return null;
         }
 
-        public string UpdateRtu(RtuUpdated e)
+        public static string UpdateRtu(this Model model, RtuUpdated e)
         {
-            var rtu = _model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
             {
-                var message = $@"RtuUpdated: RTU {e.RtuId.First6()} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"RtuUpdated: RTU {e.RtuId.First6()} not found";
             }
             rtu.Title = e.Title;
             rtu.Comment = e.Comment;
-            var nodeOfRtu = _model.Nodes.First(n => n.NodeId == rtu.NodeId);
+            var nodeOfRtu = model.Nodes.First(n => n.NodeId == rtu.NodeId);
             nodeOfRtu.Position = e.Position;
             return null;
         }
 
-        public string RemoveRtu(RtuRemoved e)
+        public static string RemoveRtu(this Model model, RtuRemoved e)
         {
-            var rtu = _model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
             {
-                var message = $@"RtuRemoved: RTU {e.RtuId.First6()} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"RtuRemoved: RTU {e.RtuId.First6()} not found";
             }
             var nodeId = rtu.NodeId;
 
-            foreach (var otau in _model.Otaus.Where(o => o.RtuId == rtu.Id).ToList())
+            foreach (var otau in model.Otaus.Where(o => o.RtuId == rtu.Id).ToList())
             {
-                _model.Otaus.Remove(otau);
+                model.Otaus.Remove(otau);
             }
-            foreach (var trace in _model.Traces.Where(t => t.RtuId == rtu.Id).ToList())
+            foreach (var trace in model.Traces.Where(t => t.RtuId == rtu.Id).ToList())
             {
-                _traceEventsOnModelExecutor.CleanTrace(new TraceCleaned() { TraceId = trace.TraceId });
-                _model.Traces.Remove(trace);
+                model.CleanTrace(new TraceCleaned() { TraceId = trace.TraceId });
+                model.Traces.Remove(trace);
             }
 
-            _model.Rtus.Remove(rtu);
-            _model.RemoveNodeWithAllHisFibersUptoRealNode(nodeId);
+            model.Rtus.Remove(rtu);
+            model.RemoveNodeWithAllHisFibersUptoRealNode(nodeId);
             return null;
         }
 
-        public string AttachOtau(OtauAttached e)
+        public static string AttachOtau(this Model model, OtauAttached e)
         {
             Otau otau = Mapper.Map<Otau>(e);
             otau.IsOk = true;
-            _model.Otaus.Add(otau);
+            model.Otaus.Add(otau);
             var otauDto = new OtauDto { Serial = otau.Serial, NetAddress = otau.NetAddress, OwnPortCount = otau.PortCount };
-            var rtu = _model.Rtus.First(r => r.Id == otau.RtuId);
+            var rtu = model.Rtus.First(r => r.Id == otau.RtuId);
             rtu.Children.Add(otau.MasterPort, otauDto);
             rtu.FullPortCount += otau.PortCount;
             return null;
         }
 
-        public string DetachOtau(OtauDetached e)
+        public static string DetachOtau(this Model model, OtauDetached e)
         {
-            var otau = _model.Otaus.FirstOrDefault(o => o.Id == e.Id);
+            var otau = model.Otaus.FirstOrDefault(o => o.Id == e.Id);
             if (otau == null)
             {
-                var message = $@"OtauDetached: OTAU {e.Id.First6()} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"OtauDetached: OTAU {e.Id.First6()} not found";
             }
-            var rtu = _model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
             {
-                var message = $@"OtauDetached: RTU {e.RtuId.First6()} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"OtauDetached: RTU {e.RtuId.First6()} not found";
             }
 
-            foreach (var trace in _model.Traces.Where(t => t.OtauPort != null &&
+            foreach (var trace in model.Traces.Where(t => t.OtauPort != null &&
               t.OtauPort.Serial == otau.Serial))
             {
-                _traceEventsOnModelExecutor.DetachTrace(trace);
+                model.DetachTrace(trace);
             }
             rtu.FullPortCount -= otau.PortCount;
             foreach (var port in rtu.Children.Keys.ToList())
@@ -119,22 +101,22 @@ namespace Iit.Fibertest.Graph
                     rtu.Children.Remove(port);
             }
 
-            foreach (var bopNetworkEvent in _model.BopNetworkEvents.Where(b =>
+            foreach (var bopNetworkEvent in model.BopNetworkEvents.Where(b =>
                 b.RtuId == e.RtuId && b.OtauIp == otau.NetAddress.Ip4Address && b.TcpPort == otau.NetAddress.Port).ToList())
             {
-                _model.BopNetworkEvents.Remove(bopNetworkEvent);
+                model.BopNetworkEvents.Remove(bopNetworkEvent);
             }
 
-            _model.Otaus.Remove(otau);
+            model.Otaus.Remove(otau);
             return null;
         }
 
-        public string DetachAllTraces(AllTracesDetached e)
+        public static string DetachAllTraces(this Model model, AllTracesDetached e)
         {
-            foreach (var trace in _model.Traces.Where(t => t.RtuId == e.RtuId))
+            foreach (var trace in model.Traces.Where(t => t.RtuId == e.RtuId))
             {
                 if (trace.IsAttached)
-                    _traceEventsOnModelExecutor.DetachTrace(trace);
+                    model.DetachTrace(trace);
             }
 
             return null;

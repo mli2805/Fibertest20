@@ -18,6 +18,9 @@ namespace Iit.Fibertest.DataCenterCore
         {
             await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto(){Stage = DbOptimizationStage.Starting});
 
+            var model = new Model();
+
+
             var result = await _eventStoreService.SendCommand(cmd, username, clientIp);
             _logFile.AppendLine(result);
 

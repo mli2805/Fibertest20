@@ -3,38 +3,27 @@ using System.Linq;
 using AutoMapper;
 using GMap.NET;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Graph
 {
-    public class EquipmentEventsOnModelExecutor
+    public static class EquipmentEventsOnModelExecutor
     {
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
-        private readonly Model _model;
-        private readonly IMyLog _logFile;
-
-
-        public EquipmentEventsOnModelExecutor(Model model, IMyLog logFile)
+        
+        public static string AddEquipmentIntoNode(this Model model, EquipmentIntoNodeAdded e)
         {
-            _logFile = logFile;
-            _model = model;
-        }
-        public string AddEquipmentIntoNode(EquipmentIntoNodeAdded e)
-        {
-            var node = _model.Nodes.First(n => n.NodeId == e.NodeId);
+            var node = model.Nodes.First(n => n.NodeId == e.NodeId);
             node.TypeOfLastAddedEquipment = e.Type;
             Equipment equipment = Mapper.Map<Equipment>(e);
-            _model.Equipments.Add(equipment);
+            model.Equipments.Add(equipment);
             foreach (var traceId in e.TracesForInsertion)
             {
-                var trace = _model.Traces.FirstOrDefault(t => t.TraceId == traceId);
+                var trace = model.Traces.FirstOrDefault(t => t.TraceId == traceId);
                 if (trace == null)
                 {
-                    var message = $@"EquipmentIntoNodeAdded: Trace {traceId.First6()} not found";
-                    _logFile.AppendLine(message);
-                    return message;
+                    return $@"EquipmentIntoNodeAdded: Trace {traceId.First6()} not found";
                 }
                 var idx = trace.NodeIds.IndexOf(e.NodeId);
                 trace.EquipmentIds[idx] = e.EquipmentId;
@@ -42,71 +31,65 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public string AddEquipmentAtGpsLocation(EquipmentAtGpsLocationAdded e)
+        public static string AddEquipmentAtGpsLocation(this Model model, EquipmentAtGpsLocationAdded e)
         {
             Node node = new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), TypeOfLastAddedEquipment = e.Type };
-            _model.Nodes.Add(node);
+            model.Nodes.Add(node);
             Equipment equipment = Mapper.Map<Equipment>(e);
             equipment.EquipmentId = e.RequestedEquipmentId;
-            _model.Equipments.Add(equipment);
+            model.Equipments.Add(equipment);
             if (e.EmptyNodeEquipmentId != Guid.Empty)
             {
                 Equipment emptyEquipment = Mapper.Map<Equipment>(e);
                 emptyEquipment.EquipmentId = e.EmptyNodeEquipmentId;
                 emptyEquipment.Type = EquipmentType.EmptyNode;
-                _model.Equipments.Add(emptyEquipment);
+                model.Equipments.Add(emptyEquipment);
             }
             return null;
         }
 
-        public string AddEquipmentAtGpsLocationWithNodeTitle(EquipmentAtGpsLocationWithNodeTitleAdded e)
+        public static string AddEquipmentAtGpsLocationWithNodeTitle(this Model model, EquipmentAtGpsLocationWithNodeTitleAdded e)
         {
-            _model.Nodes.Add(new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude),
+            model.Nodes.Add(new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude),
                 TypeOfLastAddedEquipment = e.Type, Title = e.Title, Comment = e.Comment });
 
             if (e.RequestedEquipmentId != Guid.Empty)
-                _model.Equipments.Add(new Equipment() { EquipmentId = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });
+                model.Equipments.Add(new Equipment() { EquipmentId = e.RequestedEquipmentId, Type = e.Type, NodeId = e.NodeId });
 
             if (e.EmptyNodeEquipmentId != Guid.Empty)
-                _model.Equipments.Add(new Equipment() { EquipmentId = e.EmptyNodeEquipmentId, Type = EquipmentType.EmptyNode, NodeId = e.NodeId });
+                model.Equipments.Add(new Equipment() { EquipmentId = e.EmptyNodeEquipmentId, Type = EquipmentType.EmptyNode, NodeId = e.NodeId });
 
             return null;
         }
 
-        public string UpdateEquipment(EquipmentUpdated e)
+        public static string UpdateEquipment(this Model model, EquipmentUpdated e)
         {
-            var equipment = _model.Equipments.FirstOrDefault(eq => eq.EquipmentId == e.EquipmentId);
+            var equipment = model.Equipments.FirstOrDefault(eq => eq.EquipmentId == e.EquipmentId);
             if (equipment == null)
             {
-                var message = $@"EquipmentUpdated: Equipment {e.EquipmentId.First6()} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"EquipmentUpdated: Equipment {e.EquipmentId.First6()} not found";
             }
-            var node = _model.Nodes.First(n => n.NodeId == equipment.NodeId);
+            var node = model.Nodes.First(n => n.NodeId == equipment.NodeId);
             node.TypeOfLastAddedEquipment = e.Type;
             Mapper.Map(e, equipment);
             return null;
         }
 
-        public string RemoveEquipment(EquipmentRemoved e)
+        public static string RemoveEquipment(this Model model, EquipmentRemoved e)
         {
-            var equipment = _model.Equipments.FirstOrDefault(eq => eq.EquipmentId == e.EquipmentId);
+            var equipment = model.Equipments.FirstOrDefault(eq => eq.EquipmentId == e.EquipmentId);
             if (equipment == null)
             {
-                var message = $@"EquipmentRemoved: Equipment {e.EquipmentId.First6()} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"EquipmentRemoved: Equipment {e.EquipmentId.First6()} not found";
             }
 
-            var emptyEquipment = _model.Equipments.FirstOrDefault(eq => eq.NodeId == equipment.NodeId && eq.Type == EquipmentType.EmptyNode);
+            var emptyEquipment = model.Equipments.FirstOrDefault(eq => eq.NodeId == equipment.NodeId && eq.Type == EquipmentType.EmptyNode);
             if (emptyEquipment == null)
             {
-                var message = $@"EquipmentRemoved: There is no empty equipment in node {equipment.NodeId.First6()}";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"EquipmentRemoved: There is no empty equipment in node {equipment.NodeId.First6()}";
             }
 
-            var traces = _model.Traces.Where(t => t.EquipmentIds.Contains(e.EquipmentId)).ToList();
+            var traces = model.Traces.Where(t => t.EquipmentIds.Contains(e.EquipmentId)).ToList();
             foreach (var trace in traces)
             {
                 while (true)
@@ -117,29 +100,27 @@ namespace Iit.Fibertest.Graph
                 }
             }
 
-            var node = _model.Nodes.First(n => n.NodeId == equipment.NodeId);
-            _model.Equipments.Remove(equipment);
-            node.TypeOfLastAddedEquipment = _model.Equipments.Where(p => p.NodeId == node.NodeId).Max(q => q.Type);
+            var node = model.Nodes.First(n => n.NodeId == equipment.NodeId);
+            model.Equipments.Remove(equipment);
+            node.TypeOfLastAddedEquipment = model.Equipments.Where(p => p.NodeId == node.NodeId).Max(q => q.Type);
             return null;
         }
 
-        public string IncludeEquipmentIntoTrace(EquipmentIntoTraceIncluded e)
+        public static string IncludeEquipmentIntoTrace(this Model model, EquipmentIntoTraceIncluded e)
         {
-            var trace = _model.Traces.First(t => t.TraceId == e.TraceId);
+            var trace = model.Traces.First(t => t.TraceId == e.TraceId);
             trace.EquipmentIds[e.IndexInTrace] = e.EquipmentId;
             return null;
         }
 
-        public string ExcludeEquipmentFromTrace(EquipmentFromTraceExcluded e)
+        public static string ExcludeEquipmentFromTrace(this Model model, EquipmentFromTraceExcluded e)
         {
-            var trace = _model.Traces.First(t => t.TraceId == e.TraceId);
+            var trace = model.Traces.First(t => t.TraceId == e.TraceId);
             var nodeId = trace.NodeIds[e.IndexInTrace];
-            var emptyEquipment = _model.Equipments.FirstOrDefault(eq => eq.NodeId == nodeId && eq.Type == EquipmentType.EmptyNode);
+            var emptyEquipment = model.Equipments.FirstOrDefault(eq => eq.NodeId == nodeId && eq.Type == EquipmentType.EmptyNode);
             if (emptyEquipment == null)
             {
-                var message = $@"EquipmentRemoved: There is no empty equipment in node {nodeId.First6()}";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"EquipmentRemoved: There is no empty equipment in node {nodeId.First6()}";
             }
 
             var emptyEqId = emptyEquipment.EquipmentId;

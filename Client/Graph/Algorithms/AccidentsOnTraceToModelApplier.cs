@@ -5,59 +5,53 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
-    public  class AccidentsOnTraceToModelApplier
+    public static class AccidentsOnTraceToModelApplier
     {
-        private readonly Model _model;
 
-        public AccidentsOnTraceToModelApplier(Model model)
+        public static void CleanAccidentPlacesOnTrace(this Model model, Guid traceId)
         {
-            _model = model;
-        }
-
-        public  void CleanAccidentPlacesOnTrace(Guid traceId)
-        {
-            var nodes = _model.Nodes.Where(n => n.AccidentOnTraceId == traceId).ToList();
+            var nodes = model.Nodes.Where(n => n.AccidentOnTraceId == traceId).ToList();
             foreach (var node in nodes)
             {
-                _model.Nodes.Remove(node);
+                model.Nodes.Remove(node);
             }
 
-            foreach (var fiber in _model.Fibers)
+            foreach (var fiber in model.Fibers)
             {
                 fiber.RemoveBadSegment(traceId);
             }
         }
 
-        public void ShowMonitoringResult(MeasurementAdded e)
+        public static void ShowMonitoringResult(this Model model, MeasurementAdded e)
         {
-            var trace = _model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
+            var trace = model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null) return;
 
             trace.State = e.TraceState;
-            foreach (var fiber in _model.GetTraceFibers(trace))
+            foreach (var fiber in model.GetTraceFibers(trace))
                 fiber.SetState(trace.TraceId, trace.State);
 
-            CleanAccidentPlacesOnTrace(trace.TraceId);
+            model.CleanAccidentPlacesOnTrace(trace.TraceId);
 
             if (e.TraceState != FiberState.Ok && e.TraceState != FiberState.NoFiber)
-                e.Accidents.ForEach(a => ShowAccidentPlaceOnTrace(a, e.TraceId));
+                e.Accidents.ForEach(a => model.ShowAccidentPlaceOnTrace(a, e.TraceId));
         }
 
-        private void ShowAccidentPlaceOnTrace(AccidentOnTraceV2 accident, Guid traceId)
+        private static void ShowAccidentPlaceOnTrace(this Model model, AccidentOnTraceV2 accident, Guid traceId)
         {
             if (accident.OpticalTypeOfAccident == OpticalAccidentType.LossCoeff)
-                ShowBadSegment(accident, traceId);
+                model.ShowBadSegment(accident, traceId);
             else
-                ShowPoint(accident, traceId);
+                model.ShowPoint(accident, traceId);
         }
 
        
-        private void ShowPoint(AccidentOnTraceV2 accidentInPoint, Guid traceId)
+        private static void ShowPoint(this Model model, AccidentOnTraceV2 accidentInPoint, Guid traceId)
         {
-            AddAccidentNode(accidentInPoint.AccidentCoors, traceId, accidentInPoint.AccidentSeriousness);
+            model.AddAccidentNode(accidentInPoint.AccidentCoors, traceId, accidentInPoint.AccidentSeriousness);
         }
 
-        private void AddAccidentNode(PointLatLng accidentGps, Guid traceId, FiberState state)
+        private static void AddAccidentNode(this Model model, PointLatLng accidentGps, Guid traceId, FiberState state)
         {
             var accidentNode = new Node()
             {
@@ -67,17 +61,17 @@ namespace Iit.Fibertest.Graph
                 AccidentOnTraceId = traceId,
                 State = state,
             };
-            _model.Nodes.Add(accidentNode);
+            model.Nodes.Add(accidentNode);
         }
 
-        private void ShowBadSegment(AccidentOnTraceV2 accidentInOldEvent, Guid traceId)
+        private static void ShowBadSegment(this Model model, AccidentOnTraceV2 accidentInOldEvent, Guid traceId)
         {
-            var fibers = _model.GetTraceFibersBetweenLandmarks(traceId, accidentInOldEvent.AccidentLandmarkIndex,
+            var fibers = model.GetTraceFibersBetweenLandmarks(traceId, accidentInOldEvent.AccidentLandmarkIndex,
                 accidentInOldEvent.AccidentLandmarkIndex + 1);
 
             foreach (var fiberId in fibers)
             {
-                var fiber = _model.Fibers.First(f => f.FiberId == fiberId);
+                var fiber = model.Fibers.First(f => f.FiberId == fiberId);
                 fiber.SetBadSegment(traceId, accidentInOldEvent.AccidentSeriousness);
             }
         }

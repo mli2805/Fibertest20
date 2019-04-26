@@ -4,48 +4,38 @@ using System.Linq;
 using AutoMapper;
 using GMap.NET;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Graph
 {
-    public class NodeEventsOnModelExecutor
+    public static class NodeEventsOnModelExecutor
     {
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
-        private readonly IMyLog _logFile;
-        private readonly Model _model;
-
-        public NodeEventsOnModelExecutor(Model model, IMyLog logFile)
+        
+        public static string AddNodeIntoFiber(this Model model, NodeIntoFiberAdded e)
         {
-            _logFile = logFile;
-            _model = model;
-        }
-        public string AddNodeIntoFiber(NodeIntoFiberAdded e)
-        {
-            var oldFiber = _model.Fibers.FirstOrDefault(f => f.FiberId == e.FiberId);
+            var oldFiber = model.Fibers.FirstOrDefault(f => f.FiberId == e.FiberId);
             if (oldFiber == null)
             {
-                var message = $@"NodeIntoFiberAdded: Fiber {e.FiberId.First6()} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"NodeIntoFiberAdded: Fiber {e.FiberId.First6()} not found";
             }
 
-            _model.Nodes.Add(new Node() { NodeId = e.Id, Position = e.Position, TypeOfLastAddedEquipment = e.InjectionType });
-            _model.Equipments.Add(new Equipment() { EquipmentId = e.EquipmentId, Type = e.InjectionType, NodeId = e.Id });
+            model.Nodes.Add(new Node() { NodeId = e.Id, Position = e.Position, TypeOfLastAddedEquipment = e.InjectionType });
+            model.Equipments.Add(new Equipment() { EquipmentId = e.EquipmentId, Type = e.InjectionType, NodeId = e.Id });
 
-            CreateTwoFibers(e, oldFiber);
-            FixTracesPassingOldFiber(e, oldFiber);
+            model.CreateTwoFibers(e, oldFiber);
+            model.FixTracesPassingOldFiber(e, oldFiber);
 
-            _model.Fibers.Remove(oldFiber);
+            model.Fibers.Remove(oldFiber);
             return null;
         }
 
-        private void FixTracesPassingOldFiber(NodeIntoFiberAdded e, Fiber oldFiber)
+        private static void FixTracesPassingOldFiber(this Model model, NodeIntoFiberAdded e, Fiber oldFiber)
         {
             foreach (var traceId in oldFiber.States.Keys)
             {
-                var trace = _model.Traces.First(t => t.TraceId == traceId);
+                var trace = model.Traces.First(t => t.TraceId == traceId);
 
                 var oldFibersArray = trace.FiberIds.ToArray();
                 var oldNodesArray = trace.NodeIds.ToArray();
@@ -65,7 +55,7 @@ namespace Iit.Fibertest.Graph
                     }
                     else
                     {
-                        trace.FiberIds.Add(GetOneOfNewFibersId(e, trace.NodeIds.Last()));
+                        trace.FiberIds.Add(model.GetOneOfNewFibersId(e, trace.NodeIds.Last()));
                         trace.FiberIds.Add(trace.FiberIds.Last() == e.NewFiberId1 ? e.NewFiberId2 : e.NewFiberId1);
                         trace.NodeIds.Add(e.Id);
                         trace.NodeIds.Add(oldNodesArray[i + 1]);
@@ -76,90 +66,84 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        private Guid GetOneOfNewFibersId(NodeIntoFiberAdded e, Guid nodeNearby)
+        private static Guid GetOneOfNewFibersId(this Model model, NodeIntoFiberAdded e, Guid nodeNearby)
         {
-            var fiber1 = _model.Fibers.First(f => f.FiberId == e.NewFiberId1);
+            var fiber1 = model.Fibers.First(f => f.FiberId == e.NewFiberId1);
             return fiber1.NodeId1 == nodeNearby || fiber1.NodeId2 == nodeNearby ? e.NewFiberId1 : e.NewFiberId2;
         }
 
 
 
-        private void CreateTwoFibers(NodeIntoFiberAdded e, Fiber oldFiber)
+        private static void CreateTwoFibers(this Model model, NodeIntoFiberAdded e, Fiber oldFiber)
         {
-            Guid nodeId1 = _model.Fibers.First(f => f.FiberId == e.FiberId).NodeId1;
-            Guid nodeId2 = _model.Fibers.First(f => f.FiberId == e.FiberId).NodeId2;
+            Guid nodeId1 = model.Fibers.First(f => f.FiberId == e.FiberId).NodeId1;
+            Guid nodeId2 = model.Fibers.First(f => f.FiberId == e.FiberId).NodeId2;
 
             var fiber1 = new Fiber() { FiberId = e.NewFiberId1, NodeId1 = nodeId1, NodeId2 = e.Id };
             foreach (var pair in oldFiber.States)
                 fiber1.States.Add(pair.Key, pair.Value);
             foreach (var pair in oldFiber.TracesWithExceededLossCoeff)
                 fiber1.TracesWithExceededLossCoeff.Add(pair.Key, pair.Value);
-            _model.Fibers.Add(fiber1);
+            model.Fibers.Add(fiber1);
 
             var fiber2 = new Fiber() { FiberId = e.NewFiberId2, NodeId1 = e.Id, NodeId2 = nodeId2 };
             foreach (var pair in oldFiber.States)
                 fiber2.States.Add(pair.Key, pair.Value);
             foreach (var pair in oldFiber.TracesWithExceededLossCoeff)
                 fiber2.TracesWithExceededLossCoeff.Add(pair.Key, pair.Value);
-            _model.Fibers.Add(fiber2);
+            model.Fibers.Add(fiber2);
         }
 
-        public string UpdateNode(NodeUpdated source)
+        public static string UpdateNode(this Model model, NodeUpdated source)
         {
-            Node destination = _model.Nodes.FirstOrDefault(n => n.NodeId == source.NodeId);
+            Node destination = model.Nodes.FirstOrDefault(n => n.NodeId == source.NodeId);
             if (destination == null)
             {
-                var message = $@"NodeUpdated: Node {source.NodeId.First6()} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"NodeUpdated: Node {source.NodeId.First6()} not found";
             }
             Mapper.Map(source, destination);
             return null;
         }
 
-        public string UpdateAndMoveNode(NodeUpdatedAndMoved source)
+        public static string UpdateAndMoveNode(this Model model, NodeUpdatedAndMoved source)
         {
-            Node destination = _model.Nodes.FirstOrDefault(n => n.NodeId == source.NodeId);
+            Node destination = model.Nodes.FirstOrDefault(n => n.NodeId == source.NodeId);
             if (destination == null)
             {
-                var message = $@"NodeUpdated: Node {source.NodeId.First6()} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"NodeUpdated: Node {source.NodeId.First6()} not found";
             }
             Mapper.Map(source, destination);
             return null;
         }
 
-        public string MoveNode(NodeMoved newLocation)
+        public static string MoveNode(this Model model, NodeMoved newLocation)
         {
-            Node node = _model.Nodes.FirstOrDefault(n => n.NodeId == newLocation.NodeId);
+            Node node = model.Nodes.FirstOrDefault(n => n.NodeId == newLocation.NodeId);
             if (node == null)
             {
-                var message = $@"NodeMoved: Node {newLocation.NodeId.First6()} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"NodeMoved: Node {newLocation.NodeId.First6()} not found";
             }
             node.Position = new PointLatLng(newLocation.Latitude, newLocation.Longitude);
             return null;
         }
 
-        public string RemoveNode(NodeRemoved e)
+        public static string RemoveNode(this Model model, NodeRemoved e)
         {
-            foreach (var trace in _model.Traces.Where(t => t.NodeIds.Contains(e.NodeId)))
+            foreach (var trace in model.Traces.Where(t => t.NodeIds.Contains(e.NodeId)))
             {
-                var result = ExcludeAllNodeAppearancesInTrace(e.NodeId, trace, e.DetoursForGraph);
+                var result = model.ExcludeAllNodeAppearancesInTrace(e.NodeId, trace, e.DetoursForGraph);
                 if (result != null) return result;
             }
 
             if (e.FiberIdToDetourAdjustmentPoint != Guid.Empty)
-                return ExcludeAdjustmentPoint(e.NodeId, e.FiberIdToDetourAdjustmentPoint);
+                return model.ExcludeAdjustmentPoint(e.NodeId, e.FiberIdToDetourAdjustmentPoint);
 
             return e.DetoursForGraph.Count == 0
-                ? _model.RemoveNodeWithAllHisFibersUptoRealNode(e.NodeId)
-                : _model.RemoveNodeWithAllHisFibers(e.NodeId);
+                ? model.RemoveNodeWithAllHisFibersUptoRealNode(e.NodeId)
+                : model.RemoveNodeWithAllHisFibers(e.NodeId);
         }
 
-        private string ExcludeAllNodeAppearancesInTrace(Guid nodeId, Trace trace, List<NodeDetour> nodeDetours)
+        private static string ExcludeAllNodeAppearancesInTrace(this Model model, Guid nodeId, Trace trace, List<NodeDetour> nodeDetours)
         {
             int index;
             while ((index = trace.NodeIds.IndexOf(nodeId)) != -1)
@@ -169,9 +153,7 @@ namespace Iit.Fibertest.Graph
                     d.NodeId2 == trace.NodeIds[index + 1]);
                 if (detour == null)
                 {
-                    var message = $@"NodeRemoved: No fiber prepared to detour trace {trace.TraceId}";
-                    _logFile.AppendLine(message);
-                    return message;
+                    return $@"NodeRemoved: No fiber prepared to detour trace {trace.TraceId}";
                 }
 
                 if (detour.NodeId1 == detour.NodeId2)
@@ -181,7 +163,7 @@ namespace Iit.Fibertest.Graph
                 }
                 else
                 {
-                    CreateDetourIfAbsent(detour);
+                    model.CreateDetourIfAbsent(detour);
                     trace.EquipmentIds.RemoveAt(index);
                     trace.NodeIds.RemoveAt(index);
 
@@ -194,13 +176,11 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        private string ExcludeTurnNodeFromTrace(Trace trace, int index)
+        private static string ExcludeTurnNodeFromTrace(Trace trace, int index)
         {
             if (trace.NodeIds.Count <= 3)
             {
-                var message = $@"NodeRemoved: Trace {trace.TraceId} is too short to remove turn node";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"NodeRemoved: Trace {trace.TraceId} is too short to remove turn node";
             }
             if (index == 1) index++;
 
@@ -214,12 +194,12 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        private void CreateDetourIfAbsent(NodeDetour detour)
+        private static void CreateDetourIfAbsent(this Model model, NodeDetour detour)
         {
             var nodeBefore = detour.NodeId1;
             var nodeAfter = detour.NodeId2;
 
-            var fiber = _model.Fibers.FirstOrDefault(f => f.NodeId1 == nodeBefore && f.NodeId2 == nodeAfter
+            var fiber = model.Fibers.FirstOrDefault(f => f.NodeId1 == nodeBefore && f.NodeId2 == nodeAfter
                                                         || f.NodeId2 == nodeBefore && f.NodeId1 == nodeAfter);
             if (fiber == null)
             {
@@ -230,7 +210,7 @@ namespace Iit.Fibertest.Graph
                     NodeId2 = nodeAfter,
                     States = new Dictionary<Guid, FiberState> { { detour.TraceId, detour.TraceState } }
                 };
-                _model.Fibers.Add(fiber);
+                model.Fibers.Add(fiber);
             }
             else
             {
@@ -240,52 +220,35 @@ namespace Iit.Fibertest.Graph
 
         }
 
-        private string ExcludeAdjustmentPoint(Guid nodeId, Guid detourFiberId)
+        private static string ExcludeAdjustmentPoint(this Model model, Guid nodeId, Guid detourFiberId)
         {
-            var leftFiber = _model.Fibers.FirstOrDefault(f => f.NodeId2 == nodeId);
+            var leftFiber = model.Fibers.FirstOrDefault(f => f.NodeId2 == nodeId);
             if (leftFiber == null)
             {
-                var message = @"IsFiberContainedInAnyTraceWithBase: Left fiber not found";
-                _logFile.AppendLine(message);
-                return message;
+                return @"IsFiberContainedInAnyTraceWithBase: Left fiber not found";
             }
             var leftNodeId = leftFiber.NodeId1;
 
-            var rightFiber = _model.Fibers.FirstOrDefault(f => f.NodeId1 == nodeId);
+            var rightFiber = model.Fibers.FirstOrDefault(f => f.NodeId1 == nodeId);
             if (rightFiber == null)
             {
-                var message = @"IsFiberContainedInAnyTraceWithBase: Right fiber not found";
-                _logFile.AppendLine(message);
-                return message;
+                return @"IsFiberContainedInAnyTraceWithBase: Right fiber not found";
             }
             var rightNodeId = rightFiber.NodeId2;
 
-            _model.Fibers.Remove(leftFiber);
-            _model.Fibers.Remove(rightFiber);
-            _model.Fibers.Add(new Fiber() { FiberId = detourFiberId, NodeId1 = leftNodeId, NodeId2 = rightNodeId });
+            model.Fibers.Remove(leftFiber);
+            model.Fibers.Remove(rightFiber);
+            model.Fibers.Add(new Fiber() { FiberId = detourFiberId, NodeId1 = leftNodeId, NodeId2 = rightNodeId });
 
-            var node = _model.Nodes.FirstOrDefault(n => n.NodeId == nodeId);
+            var node = model.Nodes.FirstOrDefault(n => n.NodeId == nodeId);
             if (node == null)
             {
-                var message = $@"RemoveNodeWithAllHis: Node {nodeId.First6()} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"RemoveNodeWithAllHis: Node {nodeId.First6()} not found";
             }
 
-            _model.Nodes.Remove(node);
+            model.Nodes.Remove(node);
             return null;
         }
-
-
-        //        private void ExcludeNodeFromTrace(Trace trace, Guid fiberId, Guid nodeId)
-        //        {
-        //            var idxInTrace = trace.NodeIds.IndexOf(nodeId);
-        //            CreateDetourIfAbsent(trace, fiberId, idxInTrace);
-        //
-        //            trace.EquipmentIds.RemoveAt(idxInTrace);
-        //            trace.NodeIds.RemoveAt(idxInTrace);
-        //        }
-
 
     }
 }

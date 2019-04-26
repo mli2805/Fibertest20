@@ -3,55 +3,46 @@ using AutoMapper;
 
 namespace Iit.Fibertest.Graph
 {
-    public class ZoneEventsOnModelExecutor
+    public static class ZoneEventsOnModelExecutor
     {
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
-        private readonly Model _model;
-
-        public ZoneEventsOnModelExecutor(Model model)
+        
+        public static string AddZone(this Model model, ZoneAdded e)
         {
-            _model = model;
-        }
-        public string AddZone(ZoneAdded e)
-        {
-            _model.Zones.Add(Mapper.Map<Zone>(e));
+            model.Zones.Add(Mapper.Map<Zone>(e));
             return null;
         }
 
-        public string UpdateZone(ZoneUpdated source)
+        public static string UpdateZone(this Model model, ZoneUpdated source)
         {
-            var destination =  _model.Zones.First(f => f.ZoneId == source.ZoneId);
+            var destination =  model.Zones.First(f => f.ZoneId == source.ZoneId);
             Mapper.Map(source, destination);
             return null;
         }
 
-        public string RemoveZone(ZoneRemoved e)
+        public static string RemoveZone(this Model model, ZoneRemoved e)
         {
-            foreach (var trace in _model.Traces)
+            foreach (var trace in model.Traces)
             {
                 if (trace.ZoneIds.Contains(e.ZoneId))
                     trace.ZoneIds.Remove(e.ZoneId);
             }
 
-            foreach (var rtu in _model.Rtus)
+            foreach (var rtu in model.Rtus)
             {
                 if (rtu.ZoneIds.Contains(e.ZoneId))
                     rtu.ZoneIds.Remove(e.ZoneId);
             }
 
-            foreach (var user in _model.Users.Where(u=>u.ZoneId == e.ZoneId).ToList())
-                _model.Users.Remove(user);
+            foreach (var user in model.Users.Where(u=>u.ZoneId == e.ZoneId).ToList())
+                model.Users.Remove(user);
 
-            _model.Zones.Remove( _model.Zones.First(f => f.ZoneId == e.ZoneId));
+            model.Zones.Remove( model.Zones.First(f => f.ZoneId == e.ZoneId));
             return null;
         }
 
-        public string ChangeResponsibilities(ResponsibilitiesChanged e)
-        {
-            _model.ChangeResponsibilities(e);
-            return null;
-        }
+        
     }
 }

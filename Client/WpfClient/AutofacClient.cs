@@ -79,17 +79,6 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<Model>().InstancePerLifetimeScope();
 
-            builder.RegisterType<EquipmentEventsOnModelExecutor>().InstancePerLifetimeScope();
-            builder.RegisterType<NodeEventsOnModelExecutor>().InstancePerLifetimeScope();
-            builder.RegisterType<FiberEventsOnModelExecutor>().InstancePerLifetimeScope();
-            builder.RegisterType<TraceEventsOnModelExecutor>().InstancePerLifetimeScope();
-            builder.RegisterType<RtuEventsOnModelExecutor>().InstancePerLifetimeScope();
-            builder.RegisterType<UserEventsOnModelExecutor>().InstancePerLifetimeScope();
-            builder.RegisterType<ZoneEventsOnModelExecutor>().InstancePerLifetimeScope();
-            builder.RegisterType<EchoEventsOnModelExecutor>().InstancePerLifetimeScope();
-            builder.RegisterType<MeasurementEventOnModelExecutor>().InstancePerLifetimeScope();
-            builder.RegisterType<EventsOnModelExecutor>().InstancePerLifetimeScope();
-
             builder.RegisterType<BaseRefsChecker>().InstancePerLifetimeScope();
             builder.RegisterType<TraceModelBuilder>().InstancePerLifetimeScope();
             builder.RegisterType<BaseRefLandmarksTool>().InstancePerLifetimeScope();
@@ -152,7 +141,6 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<SorDataParsingReporter>().InstancePerLifetimeScope();
             builder.RegisterType<AccidentsFromSorExtractor>().InstancePerLifetimeScope();
             builder.RegisterType<AccidentPlaceLocator>().InstancePerLifetimeScope();
-            builder.RegisterType<AccidentsOnTraceToModelApplier>().InstancePerLifetimeScope();
             builder.RegisterType<NodeEventsOnGraphExecutor>().InstancePerLifetimeScope();
             builder.RegisterType<FiberEventsOnGraphExecutor>().InstancePerLifetimeScope();
             builder.RegisterType<EquipmentEventsOnGraphExecutor>().InstancePerLifetimeScope();

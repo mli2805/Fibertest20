@@ -17,7 +17,7 @@ namespace Iit.Fibertest.DataCenterCore
         private IStoreEvents _storeEvents;
         private readonly CommandAggregator _commandAggregator;
         private readonly EventsQueue _eventsQueue;
-        private readonly EventsOnModelExecutor _eventsOnModelExecutor;
+        private readonly Model _writeModel;
 
         private static readonly Guid AggregateId =
             new Guid("1C28CBB5-A9F5-4A5C-B7AF-3D188F8F24ED");
@@ -31,14 +31,14 @@ namespace Iit.Fibertest.DataCenterCore
         };
 
         public EventStoreService(IniFile iniFile, IMyLog logFile, IEventStoreInitializer eventStoreInitializer,
-             CommandAggregator commandAggregator, EventsQueue eventsQueue, EventsOnModelExecutor eventsOnModelExecutor)
+             CommandAggregator commandAggregator, EventsQueue eventsQueue, Model writeModel)
         {
             _eventsPortion = iniFile.Read(IniSection.General, IniKey.EventSourcingPortion, 100);
             _logFile = logFile;
             _eventStoreInitializer = eventStoreInitializer;
             _commandAggregator = commandAggregator;
             _eventsQueue = eventsQueue;
-            _eventsOnModelExecutor = eventsOnModelExecutor;
+            _writeModel = writeModel;
         }
 
         public void Init()
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.DataCenterCore
             var events = eventStream.CommittedEvents.Select(x => x.Body).ToList();
             foreach (var evnt in events)
             {
-                _eventsOnModelExecutor.Apply(evnt);
+                _writeModel.Apply(evnt);
             }
         }
 

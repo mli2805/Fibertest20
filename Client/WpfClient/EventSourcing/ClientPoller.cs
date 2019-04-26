@@ -22,13 +22,13 @@ namespace Iit.Fibertest.Client
 
         private readonly IWcfServiceForClient _wcfConnection;
         private readonly IWindowManager _windowManager;
+        private readonly Model _readModel;
         private readonly ServerConnectionLostViewModel _serverConnectionLostViewModel;
         private readonly IWcfServiceInSuperClient _c2SWcfManager;
         private readonly SystemState _systemState;
         private readonly CommandLineParameters _commandLineParameters;
         private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
-        private readonly EventsOnModelExecutor _eventsOnModelExecutor;
         private readonly EventsOnTreeExecutor _eventsOnTreeExecutor;
         private readonly OpticalEventsExecutor _opticalEventsExecutor;
         private readonly TraceStateViewsManager _traceStateViewsManager;
@@ -61,12 +61,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ClientPoller(IWcfServiceForClient wcfConnection, IDispatcherProvider dispatcherProvider, IWindowManager windowManager, 
+        public ClientPoller(IWcfServiceForClient wcfConnection, IDispatcherProvider dispatcherProvider, 
+            IWindowManager windowManager, Model readModel,
             ServerConnectionLostViewModel serverConnectionLostViewModel, 
             IWcfServiceInSuperClient c2SWcfManager, SystemState systemState,
             CommandLineParameters commandLineParameters, CurrentDatacenterParameters currentDatacenterParameters, 
 
-            EventsOnGraphExecutor eventsOnGraphExecutor, EventsOnModelExecutor eventsOnModelExecutor, 
+            EventsOnGraphExecutor eventsOnGraphExecutor, 
             EventsOnTreeExecutor eventsOnTreeExecutor, OpticalEventsExecutor opticalEventsExecutor,
 
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
@@ -78,11 +79,11 @@ namespace Iit.Fibertest.Client
         {
             _wcfConnection = wcfConnection;
             _windowManager = windowManager;
+            _readModel = readModel;
             _serverConnectionLostViewModel = serverConnectionLostViewModel;
             _c2SWcfManager = c2SWcfManager;
             _systemState = systemState;
             _commandLineParameters = commandLineParameters;
-            _eventsOnModelExecutor = eventsOnModelExecutor;
             _eventsOnGraphExecutor = eventsOnGraphExecutor;
             _currentDatacenterParameters = currentDatacenterParameters;
             _eventsOnTreeExecutor = eventsOnTreeExecutor;
@@ -177,7 +178,7 @@ namespace Iit.Fibertest.Client
 
                 try
                 {
-                    _eventsOnModelExecutor.Apply(evnt);
+                    _readModel.Apply(evnt);
 
                     _eventsOnGraphExecutor.Apply(evnt);
                     _eventsOnTreeExecutor.Apply(evnt);

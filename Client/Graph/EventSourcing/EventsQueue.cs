@@ -1,22 +1,29 @@
 ﻿using System.Collections.Generic;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Graph
 {
     public class EventsQueue
     {
         public List<object> EventsWaitingForCommit { get; } = new List<object>();
-        private readonly EventsOnModelExecutor _eventsOnModelExecutor;
+        private readonly IMyLog _logFile;
+        private readonly Model _writeModel;
 
-        public EventsQueue(EventsOnModelExecutor eventsOnModelExecutor)
+        public EventsQueue(IMyLog logFile, Model writeModel)
         {
-            _eventsOnModelExecutor = eventsOnModelExecutor;
+            _logFile = logFile;
+            _writeModel = writeModel;
         }
 
         public string Add(object e)
         {
-            var result = _eventsOnModelExecutor.Apply(e);
+            var result = _writeModel.Apply(e);
             if (result == null)
                 EventsWaitingForCommit.Add(e);
+            else
+            {
+                _logFile.AppendLine(result);
+            }
             return result;
 
         }

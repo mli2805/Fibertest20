@@ -35,18 +35,7 @@ namespace Iit.Fibertest.DataCenterService
 
             builder.RegisterType<AccidentPlaceLocator>().SingleInstance();
             builder.RegisterType<AccidentLineModelFactory>().SingleInstance();
-            builder.RegisterType<AccidentsOnTraceToModelApplier>().SingleInstance();
             builder.RegisterType<TraceStateReportProvider>().SingleInstance();
-            builder.RegisterType<EquipmentEventsOnModelExecutor>().SingleInstance();
-            builder.RegisterType<NodeEventsOnModelExecutor>().SingleInstance();
-            builder.RegisterType<FiberEventsOnModelExecutor>().SingleInstance();
-            builder.RegisterType<TraceEventsOnModelExecutor>().SingleInstance();
-            builder.RegisterType<RtuEventsOnModelExecutor>().SingleInstance();
-            builder.RegisterType<UserEventsOnModelExecutor>().SingleInstance();
-            builder.RegisterType<ZoneEventsOnModelExecutor>().SingleInstance();
-            builder.RegisterType<EchoEventsOnModelExecutor>().SingleInstance();
-            builder.RegisterType<MeasurementEventOnModelExecutor>().SingleInstance();
-            builder.RegisterType<EventsOnModelExecutor>().SingleInstance();
 
             builder.RegisterType<Model>().As<Model>().InstancePerLifetimeScope();
 

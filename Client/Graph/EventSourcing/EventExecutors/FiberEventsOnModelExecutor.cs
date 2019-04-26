@@ -1,52 +1,39 @@
 ﻿using System.Linq;
 using AutoMapper;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Graph
 {
-    public class FiberEventsOnModelExecutor
+    public static class FiberEventsOnModelExecutor
     {
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
-        private readonly Model _model;
-        private readonly IMyLog _logFile;
-
-        public FiberEventsOnModelExecutor(Model model, IMyLog logFile)
+        
+        public static string AddFiber(this Model model, FiberAdded e)
         {
-            _model = model;
-            _logFile = logFile;
-        }
-
-        public string AddFiber(FiberAdded e)
-        {
-            _model.Fibers.Add(Mapper.Map<Fiber>(e));
+            model.Fibers.Add(Mapper.Map<Fiber>(e));
             return null;
         }
 
-        public string UpdateFiber(FiberUpdated source)
+        public static string UpdateFiber(this Model model, FiberUpdated source)
         {
-            var destination = _model.Fibers.FirstOrDefault(f => f.FiberId == source.Id);
+            var destination = model.Fibers.FirstOrDefault(f => f.FiberId == source.Id);
             if (destination == null)
             {
-                var message = $@"FiberUpdated: Fiber {source.Id.First6()} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"FiberUpdated: Fiber {source.Id.First6()} not found";
             }
             Mapper.Map(source, destination);
             return null;
         }
 
-        public string RemoveFiber(FiberRemoved e)
+        public static string RemoveFiber(this Model model, FiberRemoved e)
         {
-            var fiber = _model.Fibers.FirstOrDefault(f => f.FiberId == e.FiberId);
+            var fiber = model.Fibers.FirstOrDefault(f => f.FiberId == e.FiberId);
             if (fiber == null)
             {
-                var message = $@"FiberRemoved: Fiber {e.FiberId.First6()} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"FiberRemoved: Fiber {e.FiberId.First6()} not found";
             }
-            _model.RemoveFiberUptoRealNodesNotPoints(fiber);
+            model.RemoveFiberUptoRealNodesNotPoints(fiber);
             return null;
         }
     }

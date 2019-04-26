@@ -1,60 +1,49 @@
 ﻿using System.Linq;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Graph
 {
-    public class EchoEventsOnModelExecutor
+    public static class EchoEventsOnModelExecutor
     {
-        private readonly IMyLog _logFile;
-        private readonly Model _model;
-
-        public EchoEventsOnModelExecutor(Model model, IMyLog logFile)
+       
+        public static string AssignBaseRef(this Model model, BaseRefAssigned e)
         {
-            _model = model;
-            _logFile = logFile;
-        }
-
-        public string AssignBaseRef(BaseRefAssigned e)
-        {
-            var trace = _model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
+            var trace = model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
             {
-                var message = $@"BaseRefAssigned: Trace {e.TraceId} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"BaseRefAssigned: Trace {e.TraceId} not found";
             }
 
             var preciseBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Precise);
             if (preciseBaseRef != null)
             {
-                var oldBaseRef = _model.BaseRefs.FirstOrDefault(b =>
+                var oldBaseRef = model.BaseRefs.FirstOrDefault(b =>
                     b.TraceId == preciseBaseRef.TraceId && b.BaseRefType == preciseBaseRef.BaseRefType);
                 if (oldBaseRef != null)
-                    _model.BaseRefs.Remove(oldBaseRef);
-                _model.BaseRefs.Add(preciseBaseRef);
+                    model.BaseRefs.Remove(oldBaseRef);
+                model.BaseRefs.Add(preciseBaseRef);
                 trace.PreciseId = preciseBaseRef.Id;
                 trace.PreciseDuration = preciseBaseRef.Duration;
             }
             var fastBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Fast);
             if (fastBaseRef != null)
             {
-                var oldBaseRef = _model.BaseRefs.FirstOrDefault(b =>
+                var oldBaseRef = model.BaseRefs.FirstOrDefault(b =>
                     b.TraceId == fastBaseRef.TraceId && b.BaseRefType == fastBaseRef.BaseRefType);
                 if (oldBaseRef != null)
-                    _model.BaseRefs.Remove(oldBaseRef);
-                _model.BaseRefs.Add(fastBaseRef);
+                    model.BaseRefs.Remove(oldBaseRef);
+                model.BaseRefs.Add(fastBaseRef);
                 trace.FastId = fastBaseRef.Id;
                 trace.FastDuration = fastBaseRef.Duration;
             }
             var additionalBaseRef = e.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Additional);
             if (additionalBaseRef != null)
             {
-                var oldBaseRef = _model.BaseRefs.FirstOrDefault(b =>
+                var oldBaseRef = model.BaseRefs.FirstOrDefault(b =>
                     b.TraceId == additionalBaseRef.TraceId && b.BaseRefType == additionalBaseRef.BaseRefType);
                 if (oldBaseRef != null)
-                    _model.BaseRefs.Remove(oldBaseRef);
-                _model.BaseRefs.Add(additionalBaseRef);
+                    model.BaseRefs.Remove(oldBaseRef);
+                model.BaseRefs.Add(additionalBaseRef);
                 trace.AdditionalId = additionalBaseRef.Id;
                 trace.AdditionalDuration = additionalBaseRef.Duration;
             }
@@ -64,28 +53,26 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
-        public string InitializeRtu(RtuInitialized e)
+        public static string InitializeRtu(this Model model, RtuInitialized e)
         {
-            var rtu = _model.Rtus.First(r => r.Id == e.Id);
+            var rtu = model.Rtus.First(r => r.Id == e.Id);
             if (rtu == null)
             {
-                var message = $@"RtuInitialized: RTU {e.Id.First6()} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"RtuInitialized: RTU {e.Id.First6()} not found";
             }
 
-            SetRtuProperties(rtu, e);
+            model.SetRtuProperties(rtu, e);
             return null;
         }
 
-        private void SetRtuProperties(Rtu rtu, RtuInitialized e)
+        private static void SetRtuProperties(this Model model, Rtu rtu, RtuInitialized e)
         {
             rtu.OwnPortCount = e.OwnPortCount;
             rtu.FullPortCount = e.FullPortCount;
 
             if (rtu.Serial != e.Serial)
             {
-                foreach (var trace in _model.Traces.Where(t => t.OtauPort != null && t.OtauPort.Serial == rtu.Serial))
+                foreach (var trace in model.Traces.Where(t => t.OtauPort != null && t.OtauPort.Serial == rtu.Serial))
                 {
                     trace.OtauPort.Serial = e.Serial;
                 }
@@ -105,63 +92,56 @@ namespace Iit.Fibertest.Graph
 
             if (e.Children == null) return;
 
+            /*
+                    RTU cannot return child OTAU which does not exist yet! It's a business rule
+                    Client sends existing OTAU list -> 
+                    RTU MUST detach any OTAU which are not in client's list
+                    and attach all OTAU from this list
+            */
             foreach (var childPair in e.Children)
             {
-                var otau = _model.Otaus.First(o => o.NetAddress.Equals(childPair.Value.NetAddress));
-                if (otau == null)
-                {
-                    _logFile.AppendLine(@"RTU cannot return child OTAU which does not exist yet! It's a business rule");
-                    _logFile.AppendLine(@"Client sends existing OTAU list -> ");
-                    _logFile.AppendLine(@" RTU MUST detach any OTAU which are not in client's list");
-                    _logFile.AppendLine(@" and attach all OTAU from this list");
-                }
-                else
+                var otau = model.Otaus.First(o => o.NetAddress.Equals(childPair.Value.NetAddress));
+                if (otau != null)
                     otau.IsOk = childPair.Value.IsOk;
             }
         }
 
-        public string ChangeMonitoringSettings(MonitoringSettingsChanged e)
+        public static string ChangeMonitoringSettings(this Model model, MonitoringSettingsChanged e)
         {
-            var rtu = _model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
             {
-                var message = $@"MonitoringSettingsChanged: RTU {e.RtuId.First6()} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"MonitoringSettingsChanged: RTU {e.RtuId.First6()} not found";
             }
             rtu.PreciseMeas = e.PreciseMeas;
             rtu.PreciseSave = e.PreciseSave;
             rtu.FastSave = e.FastSave;
             rtu.MonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
 
-            foreach (var trace in _model.Traces.Where(t => t.RtuId == e.RtuId))
+            foreach (var trace in model.Traces.Where(t => t.RtuId == e.RtuId))
             {
                 trace.IsIncludedInMonitoringCycle = e.TracesInMonitoringCycle.Contains(trace.TraceId);
             }
             return null;
         }
 
-        public string StartMonitoring(MonitoringStarted e)
+        public static string StartMonitoring(this Model model, MonitoringStarted e)
         {
-            var rtu = _model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
             {
-                var message = $@"MonitoringStarted: RTU {e.RtuId.First6()} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"MonitoringStarted: RTU {e.RtuId.First6()} not found";
             }
             rtu.MonitoringState = MonitoringState.On;
             return null;
         }
 
-        public string StopMonitoring(MonitoringStopped e)
+        public static string StopMonitoring(this Model model, MonitoringStopped e)
         {
-            var rtu = _model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
+            var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
             if (rtu == null)
             {
-                var message = $@"MonitoringStopped: RTU {e.RtuId.First6()} not found";
-                _logFile.AppendLine(message);
-                return message;
+                return $@"MonitoringStopped: RTU {e.RtuId.First6()} not found";
             }
             rtu.MonitoringState = MonitoringState.Off;
             return null;

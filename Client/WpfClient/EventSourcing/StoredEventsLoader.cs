@@ -17,16 +17,16 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly ILocalDbManager _localDbManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly Model _writeModel;
         private readonly EventsOnTreeExecutor _eventsOnTreeExecutor;
-        private readonly EventsOnModelExecutor _eventsOnModelExecutor;
         private readonly OpticalEventsExecutor _opticalEventsExecutor;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
         private readonly RenderingManager _renderingManager;
 
-        public StoredEventsLoader(IMyLog logFile, ILocalDbManager localDbManager, IWcfServiceForClient c2DWcfManager, 
+        public StoredEventsLoader(IMyLog logFile, ILocalDbManager localDbManager, 
+            IWcfServiceForClient c2DWcfManager, Model writeModel,
              EventsOnTreeExecutor eventsOnTreeExecutor,
-            EventsOnModelExecutor eventsOnModelExecutor,
             OpticalEventsExecutor opticalEventsExecutor, 
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,  
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
@@ -35,8 +35,8 @@ namespace Iit.Fibertest.Client
             _logFile = logFile;
             _localDbManager = localDbManager;
             _c2DWcfManager = c2DWcfManager;
+            _writeModel = writeModel;
             _eventsOnTreeExecutor = eventsOnTreeExecutor;
-            _eventsOnModelExecutor = eventsOnModelExecutor;
             _opticalEventsExecutor = opticalEventsExecutor;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
@@ -84,7 +84,7 @@ namespace Iit.Fibertest.Client
 
                 try
                 {
-                    _eventsOnModelExecutor.Apply(evnt);
+                    _writeModel.Apply(evnt);
                     _eventsOnTreeExecutor.Apply(evnt);
                     _opticalEventsExecutor.Apply(evnt);
                     _networkEventsDoubleViewModel.Apply(evnt);
