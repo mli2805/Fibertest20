@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Messaging;
@@ -57,6 +58,27 @@ namespace Iit.Fibertest.DataCenterCore
             return 0;
         }
 
+        public async Task<int> ProcessMultipleMonitoringResults(List<MonitoringResultDto> dtos)
+        {
+            _logFile.AppendLine("point1");
+            if (! await _rtuStationsRepository.IsRtuExist(dtos.First().RtuId)) return -1;
+
+            var sorIds = await _sorFileRepository.AddMultipleSorBytesAsync(dtos.Select(d=>d.SorBytes).ToList());
+            _logFile.AppendLine("point2");
+            if (sorIds == null) return -1;
+
+            for (int i = 0; i < dtos.Count; i++)
+            {
+            _logFile.AppendLine("point3");
+                var res = await SaveEventFromDto(dtos[i], sorIds[i]);
+                if (res == -1)
+                    _logFile.AppendLine("invalid moniresult");
+            }
+            _logFile.AppendLine("point4");
+
+            return 0;
+        }
+
         public async Task<int> ProcessMonitoringResult(MonitoringResultDto dto)
         {
             if (! await _rtuStationsRepository.IsRtuExist(dto.RtuId)) return -1;
@@ -67,8 +89,16 @@ namespace Iit.Fibertest.DataCenterCore
             var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
             if (sorId == -1) return -1;
 
+            return await SaveEventFromDto(dto, sorId);
+        }
+
+        private async Task<int> SaveEventFromDto(MonitoringResultDto dto, int sorId)
+        {
+            _logFile.AppendLine("point11");
             var addMeasurement = _measurementFactory.CreateCommand(dto, sorId);
+            _logFile.AppendLine("point12");
             var result = await _eventStoreService.SendCommand(addMeasurement, "system", "OnServer");
+            _logFile.AppendLine("point13");
 
             if (result != null) // Unknown trace or something else
             {
@@ -76,13 +106,17 @@ namespace Iit.Fibertest.DataCenterCore
                 return -1;
             }
 
+            _logFile.AppendLine("point14");
             await CheckAndSendBopNetworkIfNeeded(dto);
+            _logFile.AppendLine("point15");
 
             if (addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent && dto.BaseRefType != BaseRefType.Fast)
             {
                 // ReSharper disable once UnusedVariable
-                var task = Task.Factory.StartNew(() => SendNotificationsAboutTraces(dto, addMeasurement)); // here we do not wait result
+                var task = Task.Factory.StartNew(() =>
+                    SendNotificationsAboutTraces(dto, addMeasurement)); // here we do not wait result
             }
+            _logFile.AppendLine("point16");
 
             return 0;
         }

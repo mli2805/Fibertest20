@@ -134,15 +134,17 @@ namespace Iit.Fibertest.DataCenterCore
             if (cmd is RemoveEventsAndSors removeEventsAndSors)
             {
                 // long operation - don't block client!
-                _logFile.AppendLine("Optimization command received");
-                await Task.Factory.StartNew(() => RemoveEventsAndSors(removeEventsAndSors, username, clientIp));
-                return null;
+//                _logFile.AppendLine("Optimization command received");
+//                await Task.Factory.StartNew(() => RemoveEventsAndSors(removeEventsAndSors, username, clientIp));
+//                return null;
+
+                return await RemoveEventsAndSors(removeEventsAndSors, username, clientIp);
             }
 
             if (cmd is MakeSnapshot makeSnapshot)
             {
                 // long operation - don't block client!
-                await Task.Factory.StartNew(() => MakeSnapshot(makeSnapshot));
+                await Task.Factory.StartNew(() => MakeSnapshot(makeSnapshot, username, clientIp));
                 return null;
             }
 

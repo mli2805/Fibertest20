@@ -129,6 +129,8 @@
       <DependentUpon>ServerConnectionLostView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ServerConnectionLostViewModel.cs" />
+    <Compile Include="WaitForm\LongOperation.cs" />
+    <Compile Include="WaitForm\LongOperationExt.cs" />
     <Compile Include="WaitForm\WaitView.xaml.cs">
       <DependentUpon>WaitView.xaml</DependentUpon>
     </Compile>

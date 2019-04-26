@@ -2670,6 +2670,6 @@ RTU is initializing right now!</value>
     <value>Measurements chosen for deletion {0}. Removing...</value>
   </data>
 	<data name="SID_Before__0___After__1___Released__2_" xml:space="preserve">
-    <value>Before {0}  After {1}  Released {2}</value>
+    <value>Before {0}Gb  After {1}Gb  Released {2}Gb</value>
   </data>
 </root>

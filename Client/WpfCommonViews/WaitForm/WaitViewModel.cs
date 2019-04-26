@@ -37,28 +37,9 @@ namespace Iit.Fibertest.WpfCommonViews
             }
         }
 
-        public void Initialize(bool isDrawingGraph)
+        public void Initialize(LongOperation longOperation)
         {
-            var strs = isDrawingGraph
-                ? new List<string>()
-                  {
-                      Resources.SID_Drawing_graph_of_traces_,
-                      "",
-                      Resources.SID_Depending_on_graph_size_and_performance_of_your_PC,
-                      Resources.SID_it_could_take_a_few_minutes_,
-                      "",
-                      Resources.SID_Please__wait___
-                  }
-                : new List<string>()
-                  {
-                      Resources.SID_Database_optimization_,
-                      "",
-                      Resources.SID_Depending_on_database_size__choosen_parameters_and_performance_of_your_PC,
-                      Resources.SID_it_could_take_a_few_minutes_,
-                      "",
-                      Resources.SID_Please__wait___
-                  };
-
+            var strs = longOperation.ToLines();
             Lines = strs.Select(s => new MyMessageBoxLineModel() { Line = s }).ToList();
             Lines[0].FontWeight = FontWeights.Bold;
         }
@@ -90,7 +71,7 @@ namespace Iit.Fibertest.WpfCommonViews
                 case DbOptimizationStage.Done:
                     ProgressBarVisibility = Visibility.Collapsed;
                     return string.Format(Resources.SID_Before__0___After__1___Released__2_,
-                        dto.OldSizeGb.ToString("0.000"), dto.NewSizeGb.ToString("0.000"), (dto.NewSizeGb - dto.OldSizeGb).ToString("0.000"));
+                        dto.OldSizeGb.ToString("0.000"), dto.NewSizeGb.ToString("0.000"), (dto.OldSizeGb - dto.NewSizeGb).ToString("0.000"));
                 default: return dto.Stage.ToString();
             }
         }

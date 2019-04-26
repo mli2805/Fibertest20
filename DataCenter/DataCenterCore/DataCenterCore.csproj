@@ -226,6 +226,7 @@
     <Compile Include="WcfServiceForClient\WcfServiceForClientDbOptimization.cs" />
     <Compile Include="WcfServiceForClient\WcfServiceForClientMigrator.cs" />
     <Compile Include="WcfServiceForClient\WcfServiceForClientRegistration.cs" />
+    <Compile Include="WcfServiceForClient\WcfServiceForClientSnapshot.cs" />
     <Compile Include="WcfServiceForClient\WcfServiceForClientToRtu.cs" />
     <Compile Include="WcfServiceForRtu.cs" />
     <Compile Include="WcfServiceForRtuBootstrapper.cs" />

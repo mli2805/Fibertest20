@@ -2670,6 +2670,6 @@ RTU инициализируется в данный момент!</value>
 		<value>Выбрано измерений для удаления {0}. Удаляем...</value>
 	</data>
 	<data name="SID_Before__0___After__1___Released__2_" xml:space="preserve">
-		<value>Было {0}  Стало {1}  Освобождено {2}</value>
+		<value>Было {0}Гб  Стало {1}Гб  Освобождено {2}Гб</value>
 	</data>
 </root>

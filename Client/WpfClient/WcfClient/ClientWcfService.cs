@@ -83,7 +83,7 @@ namespace Iit.Fibertest.Client
             _logFile.AppendLine(@"DbOptimizationProgressDto received");
 
             _clientPoller.CancellationTokenSource.Cancel();
-            _waitViewModel.Initialize(false);
+            _waitViewModel.Initialize(LongOperation.DbOptimization);
             Application.Current.Dispatcher.InvokeAsync(() => _windowManager.ShowDialogWithAssignedOwner(_waitViewModel));
         }
 

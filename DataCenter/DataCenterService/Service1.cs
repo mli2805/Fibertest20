@@ -20,14 +20,14 @@ namespace Iit.Fibertest.DataCenterService
         private readonly SmsSender _smsSender;
         private readonly WcfServiceForClientBootstrapper _wcfServiceForClientBootstrapper;
         private readonly WcfServiceForRtuBootstrapper _wcfServiceForRtuBootstrapper;
-        private readonly MsmqHandler _msmqHandler;
+        private readonly IMsmqHandler _msmqHandler;
 
         public Service1(IniFile iniFile, IMyLog logFile, ISettings serverSettings,
             EventStoreService eventStoreService,
             LastConnectionTimeChecker lastConnectionTimeChecker, SmsSender smsSender,
             WcfServiceForClientBootstrapper wcfServiceForClientBootstrapper,
             WcfServiceForRtuBootstrapper wcfServiceForRtuBootstrapper,
-            MsmqHandler msmqHandler)
+            IMsmqHandler msmqHandler)
         {
             IniFile = iniFile;
             _logFile = logFile;

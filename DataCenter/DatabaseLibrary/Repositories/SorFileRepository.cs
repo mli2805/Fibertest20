@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -35,6 +36,26 @@ namespace Iit.Fibertest.DatabaseLibrary
             {
                 _logFile.AppendLine("AddSorBytesAsync: " + e.Message);
                 return -1;
+            }
+        }
+
+        public async Task<List<int>> AddMultipleSorBytesAsync(List<byte[]> sors)
+        {
+            try
+            {
+                using (var dbContext = new FtDbContext(_settings.Options))
+                {
+                    var sorFiles = sors.Select(s => new SorFile() { SorBytes = s }).ToList();
+                    dbContext.SorFiles.AddRange(sorFiles);
+                    await dbContext.SaveChangesAsync();
+
+                    return sorFiles.Select(s => s.Id).ToList();
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("AddMultipleSorBytesAsync: " + e.Message);
+                return null;
             }
         }
 

@@ -15,7 +15,7 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine("Start DB optimization on another thread to release WCF client");
             var unused = await Task.Factory.StartNew(() => FullProcedure(removeEventsAndSors, username, clientIp));
             _logFile.AppendLine("DB optimization started on another thread to release WCF client");
-            return "";
+            return null;
         }
 
         private async Task FullProcedure(RemoveEventsAndSors removeEventsAndSors, string username, string clientIp)
@@ -102,12 +102,6 @@ namespace Iit.Fibertest.DataCenterCore
             }
 
             return -1;
-        }
-
-        private async Task<string> MakeSnapshot(MakeSnapshot cmd)
-        {
-            await Task.Delay(1);
-            return "";
         }
 
     }
