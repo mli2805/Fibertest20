@@ -27,6 +27,8 @@ namespace Iit.Fibertest.Graph
             var trace = model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null) return;
 
+            if (trace.State == e.TraceState && trace.State == FiberState.Ok)
+                return;
             trace.State = e.TraceState;
             foreach (var fiber in model.GetTraceFibers(trace))
                 fiber.SetState(trace.TraceId, trace.State);

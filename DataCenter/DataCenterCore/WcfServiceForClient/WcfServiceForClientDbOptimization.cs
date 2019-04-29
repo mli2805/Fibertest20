@@ -20,6 +20,10 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task FullProcedure(RemoveEventsAndSors removeEventsAndSors, string username, string clientIp)
         {
+            var addresses = _clientsCollection.GetClientsAddresses();
+            if (addresses == null)
+                return;
+            _d2CWcfManager.SetClientsAddresses(addresses);
             await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto(){Stage = DbOptimizationStage.Starting});
             // block RTUs messages (MSMQ and notifications)
             // block new client's attempts to register

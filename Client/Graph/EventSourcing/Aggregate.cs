@@ -87,6 +87,7 @@ namespace Iit.Fibertest.Graph
                 case AddBopNetworkEvent command: return Validate(command);
 
                 case RemoveEventsAndSors command: return _eventsQueue.Add(Mapper.Map<EventsAndSorsRemoved>(command));
+                case MakeSnapshot command: return _eventsQueue.Add(Mapper.Map<SnapshotMade>(command));
 
                 default: return @"Unknown command";
             }

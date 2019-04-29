@@ -68,6 +68,10 @@ namespace Iit.Fibertest.WpfCommonViews
                     return string.Format(Resources.SID_Sorfiles_table_compressing__0_0_0__, dto.Copied);
                 case DbOptimizationStage.ModelAdjusting:
                     return Resources.SID_Model_adjusting___;
+
+                    case DbOptimizationStage.ModelCreating:
+                        return $"Model creating... {dto.Recreated} events";
+
                 case DbOptimizationStage.Done:
                     ProgressBarVisibility = Visibility.Collapsed;
                     return string.Format(Resources.SID_Before__0___After__1___Released__2_,

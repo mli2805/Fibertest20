@@ -29,6 +29,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly SorFileRepository _sorFileRepository;
+        private readonly SnapshotRepository _snapshotRepository;
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly Smtp _smtp;
@@ -48,7 +49,7 @@ namespace Iit.Fibertest.DataCenterCore
             ClientsCollection clientsCollection, ClientToRtuTransmitter clientToRtuTransmitter,
             RtuStationsRepository rtuStationsRepository,
             BaseRefRepairmanIntermediary baseRefRepairmanIntermediary, BaseRefLandmarksTool baseRefLandmarksTool,
-            SorFileRepository sorFileRepository,
+            SorFileRepository sorFileRepository, SnapshotRepository snapshotRepository,
             Smtp smtp, SmsManager smsManager, DiskSpaceProvider diskSpaceProvider
             , GlobalState globalState, D2CWcfManager d2CWcfManager
             )
@@ -64,6 +65,7 @@ namespace Iit.Fibertest.DataCenterCore
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _rtuStationsRepository = rtuStationsRepository;
             _sorFileRepository = sorFileRepository;
+            _snapshotRepository = snapshotRepository;
             _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
             _baseRefLandmarksTool = baseRefLandmarksTool;
             _smtp = smtp;

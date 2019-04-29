@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Graph
                     var binaryFormatter = new BinaryFormatter();
                     binaryFormatter.Serialize(stream, model);
                     var buf = stream.ToArray();
-                    logFile.AppendLine($@"Model serialization: buffer size = {buf.Length}");
+                    logFile.AppendLine($@"Model serialization: buffer size = {buf.Length:0,0.#}");
                     return buf;
                 }
             }

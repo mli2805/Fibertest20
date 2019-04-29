@@ -6,6 +6,9 @@ namespace Iit.Fibertest.Dto
         SorsRemoving,
         TableCompressing,
         ModelAdjusting,
+
+        ModelCreating,
+
         Done,
     }
 }

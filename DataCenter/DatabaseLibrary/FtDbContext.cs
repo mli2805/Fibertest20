@@ -11,5 +11,6 @@ namespace Iit.Fibertest.DatabaseLibrary
 
         public DbSet<RtuStation> RtuStations { get; set; }
         public DbSet<SorFile> SorFiles { get; set; }
+        public DbSet<Snapshot> Snapshots { get; set; }
     }
 }

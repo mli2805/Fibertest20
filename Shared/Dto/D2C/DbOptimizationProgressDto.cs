@@ -14,6 +14,9 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public double Copied { get; set; }
 
+  [DataMember]
+        public double Recreated { get; set; }
+
         [DataMember]
         public double OldSizeGb { get; set; }
         [DataMember]
