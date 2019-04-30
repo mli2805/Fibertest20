@@ -18,7 +18,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         }
 
         // max_allowed_packet is 16M ???
-        public async Task<int> AddSnapshotAsync(Guid aggregateId, int lastEventNumber, byte[] data)
+        public async Task<int> AddSnapshotAsync(Guid graphDbVersionId, int lastEventNumber, byte[] data)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                         var payload = data.Skip(i * portion).Take(portion).ToArray();
                         var snapshot = new Snapshot()
                         {
-                            AggregateId = aggregateId,
+                            AggregateId = graphDbVersionId,
                             LastEventNumber = lastEventNumber,
                             Payload = payload
                         };
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<Tuple<int, byte[]>> ReadSnapshotAsync(Guid aggregateId)
+        public async Task<Tuple<int, byte[]>> ReadSnapshotAsync(Guid graphDbVersionId)
         {
             try
             {
@@ -59,7 +59,12 @@ namespace Iit.Fibertest.DatabaseLibrary
                 {
                     _logFile.AppendLine("Snapshot reading...");
                     await Task.Delay(1);
-                    var portions = dbContext.Snapshots.Where(l => l.AggregateId == aggregateId);
+                    var portions = dbContext.Snapshots.Where(l => l.AggregateId == graphDbVersionId);
+                    if (!portions.Any())
+                    {
+                        _logFile.AppendLine("No snapshots");
+                        return new Tuple<int, byte[]>(0, null);
+                    }
                     var size = portions.Sum(p => p.Payload.Length);
                     var counter = 0;
                     byte[] data = new byte[size];
@@ -69,25 +74,27 @@ namespace Iit.Fibertest.DatabaseLibrary
                         counter = counter + t.Payload.Length;
                     }
                     var result = new Tuple<int, byte[]>(portions.First().LastEventNumber, data);
+                    _logFile.AppendLine($@"Snapshot size {result.Item2.Length:0,0} bytes.    Number of last event in snapshot {result.Item1:0,0}.");
                     return result;
                 }
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("ReadSnapshotAsync: " + e.Message);
-                return null;
+                return new Tuple<int, byte[]>(0, null);
             }
         }
 
-        public async Task<int> RemoveOldSnapshots(Guid newAggregateId)
+        public async Task<int> RemoveOldSnapshots()
         {
             try
             {
                 using (var dbContext = new FtDbContext(_settings.Options))
                 {
                     _logFile.AppendLine("Snapshots removing...");
-                    var oldSnapshots = dbContext.Snapshots.Where(f=>f.AggregateId != newAggregateId).ToList();
-                    dbContext.Snapshots.RemoveRange(oldSnapshots);
+                    var maxLastEventNumber = dbContext.Snapshots.Max(f => f.LastEventNumber); 
+                    var oldSnapshotPortions = dbContext.Snapshots.Where(f=>f.LastEventNumber != maxLastEventNumber).ToList();
+                    dbContext.Snapshots.RemoveRange(oldSnapshotPortions);
                     return await dbContext.SaveChangesAsync();
                 }
             }

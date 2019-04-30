@@ -8,6 +8,7 @@ namespace Iit.Fibertest.DataCenterCore
         IStoreEvents Init();
         long GetDataSize();
         int OptimizeSorFilesTable();
+        int RemoveCommitsUptoSnapshot(int lastEventNumber);
 
         void DropDatabase();
     }

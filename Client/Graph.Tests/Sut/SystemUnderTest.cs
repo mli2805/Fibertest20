@@ -59,7 +59,7 @@ namespace Graph.Tests
             AutofacMess();
 
             var eventStoreService = ServerScope.Resolve<EventStoreService>();
-            eventStoreService.Init();
+            eventStoreService.Init().Wait();
             MsmqMessagesProcessor = ServerScope.Resolve<MsmqMessagesProcessor>();
             FakeD2RWcfManager = (FakeD2RWcfManager)ServerScope.Resolve<ID2RWcfManager>();
             FakeD2RWcfManager.SetFakeInitializationAnswer();

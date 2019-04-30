@@ -12,7 +12,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return new ClientRegisteredDto(){ReturnCode = ReturnCode.Error};
 
             var result = await _clientsCollection.RegisterClientAsync(dto);
-            result.GraphDbVersionId = _eventStoreService.GraphDbVersionId;
+            result.AggregateId = _eventStoreService.AggregateId;
 
             var command = new RegisterClientStation() { RegistrationResult = result.ReturnCode };
             await _eventStoreService.SendCommand(command, dto.UserName, dto.ClientIp);

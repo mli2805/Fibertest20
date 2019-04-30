@@ -51,7 +51,7 @@ namespace Iit.Fibertest.DataCenterService
             await Task.Factory.StartNew(Initialize);
         }
 
-        private void Initialize()
+        private async void Initialize()
         {
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
@@ -80,7 +80,7 @@ namespace Iit.Fibertest.DataCenterService
                 dbContext.Database.EnsureCreated();
                 _serverSettings.LogSettings();
             }
-            _eventStoreService.Init();
+            await _eventStoreService.Init();
             _lastConnectionTimeChecker.Start();
             _wcfServiceForClientBootstrapper.Start();
             _wcfServiceForRtuBootstrapper.Start();

@@ -14,7 +14,6 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _logFile.AppendLine("Start DB optimization on another thread to release WCF client");
             var unused = await Task.Factory.StartNew(() => FullProcedure(removeEventsAndSors, username, clientIp));
-            _logFile.AppendLine("DB optimization started on another thread to release WCF client");
             return null;
         }
 

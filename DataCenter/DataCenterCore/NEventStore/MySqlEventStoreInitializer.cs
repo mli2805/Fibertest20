@@ -79,6 +79,12 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
+        public int RemoveCommitsUptoSnapshot(int lastEventNumber)
+        {
+            return 0;
+        }
+
+
         public long GetDataSize()
         {
             var l1 = GetSchemaSize("\"ft20efcore\"");

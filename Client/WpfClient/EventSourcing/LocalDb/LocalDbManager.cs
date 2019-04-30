@@ -23,12 +23,12 @@ namespace Iit.Fibertest.Client
             _logFile = logFile;
         }
 
-        public void Initialize(Guid graphDbVersionOnServer)
+        public void Initialize(Guid aggregateId, int snapshotLastEvent)
         {
             var serverDoubleAddress = _iniFile.ReadDoubleAddress(11840);
             _serverAddress = serverDoubleAddress.Main.GetAddress();
 
-            _filename = GetFullDbFilename(graphDbVersionOnServer);
+            _filename = GetFullDbFilename(aggregateId);
             _logFile.AppendLine($@"Db full filename: {_filename}");
 
             _connectionString = $@"Data Source={_filename}; Version=3;";

@@ -13,7 +13,6 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _logFile.AppendLine("Start making snapshot on another thread to release WCF client");
             var unused = await Task.Factory.StartNew(() => FullProcedure(cmd, username, clientIp));
-            _logFile.AppendLine("Snapshot started on another thread to release WCF client");
             return null;
         }
 
@@ -26,19 +25,16 @@ namespace Iit.Fibertest.DataCenterCore
             await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto() { Stage = DbOptimizationStage.Starting });
 
             var tuple = await CreateModelUptoDate(cmd.UpTo);
-
             var data = await tuple.Item2.Serialize(_logFile);
-            var addSnapshot = await _snapshotRepository.AddSnapshotAsync(_eventStoreService.GraphDbVersionId, tuple.Item1, data);
-            if (addSnapshot == -1) return;
-            var remove = await _snapshotRepository.RemoveOldSnapshots(_eventStoreService.GraphDbVersionId);
+            var portionCount = await _snapshotRepository.AddSnapshotAsync(_eventStoreService.AggregateId, tuple.Item1, data);
+            if (portionCount == -1) return;
+//            var removedEvents =
+//                _eventStoreService.RemoveEvents(_eventStoreService.LastEventNumberInSnapshot, tuple.Item1);
+//            _logFile.AppendLine($"{removedEvents} portion of old snapshot removed");
+            var removedSnapshotPortions = await _snapshotRepository.RemoveOldSnapshots();
+            _logFile.AppendLine($"{removedSnapshotPortions} portions of old snapshot removed");
 
-            // test
-//            var re = await _snapshotRepository.ReadSnapshotAsync(_eventStoreService.GraphDbVersionId);
-//            var model = await ModelSerializationExt.Deserialize(_logFile, re.Item2);
-
-
-
-            var result = await _eventStoreService.SendCommand(cmd, username, clientIp);
+             var result = await _eventStoreService.SendCommand(cmd, username, clientIp);
             _logFile.AppendLine(result);
 
             await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto()

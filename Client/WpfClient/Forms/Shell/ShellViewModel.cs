@@ -191,7 +191,7 @@ namespace Iit.Fibertest.Client
         {
             using (_globalScope.Resolve<IWaitCursor>())
             {
-                _localDbManager.Initialize(_currentDatacenterParameters.GraphDbVersionId);
+                _localDbManager.Initialize(_currentDatacenterParameters.AggregateId, _currentDatacenterParameters.SnapshotLastEvent);
                 _clientPoller.CurrentEventNumber = await _storedEventsLoader.Load();
             }
         }

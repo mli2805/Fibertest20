@@ -25,16 +25,19 @@ namespace Iit.Fibertest.Dto
         public string ZoneTitle { get; set; }
 
         [DataMember]
-        public Guid GraphDbVersionId { get; set; }
+        public Guid AggregateId { get; set; }
+
+        [DataMember]
+        public int SnapshotLastEvent { get; set; }
 
         [DataMember]
         public string DatacenterVersion { get; set; }
 
         [DataMember]
-        public bool IsWithoutMapMode { get; set; }   
+        public bool IsWithoutMapMode { get; set; }
 
         [DataMember]
-        public SmtpSettingsDto Smtp { get; set; }  
+        public SmtpSettingsDto Smtp { get; set; }
 
         [DataMember]
         public int GsmModemComPort { get; set; }

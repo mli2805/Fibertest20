@@ -45,6 +45,11 @@ namespace Graph.Tests
             throw new NotImplementedException();
         }
 
+        public int RemoveCommitsUptoSnapshot(int lastEventNumber)
+        {
+            return 0;
+        }
+
         public void DropDatabase()
         {
             throw new NotImplementedException();

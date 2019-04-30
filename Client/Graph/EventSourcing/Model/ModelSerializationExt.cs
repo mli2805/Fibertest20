@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Graph
                     await Task.Delay(1);
                     var binaryFormatter = new BinaryFormatter();
                     var model = (Model)binaryFormatter.Deserialize(stream);
-                    logFile.AppendLine($@"Deserialized model has {model.Rtus.Count} RTU");
+                    logFile.AppendLine(@"Model deserialized successfully!");
                     return model;
                 }
             }
