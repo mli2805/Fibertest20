@@ -154,9 +154,8 @@ namespace Iit.Fibertest.Client
 
         public void AddMeasurement(MeasurementAdded e)
         {
-            if (_currentUser.ZoneId != Guid.Empty &&
-                (!_readModel.Rtus.First(r => r.Id == e.RtuId).ZoneIds.Contains(_currentUser.ZoneId)
-                || !_readModel.Traces.First(t=>t.TraceId == e.TraceId).ZoneIds.Contains(_currentUser.ZoneId))) return;
+            if (!_currentUser.IsDefaultZoneUser &&
+                !_readModel.Rtus.First(r => r.Id == e.RtuId).ZoneIds.Contains(_currentUser.ZoneId)) return;
 
             var traceLeaf = (TraceLeaf)_treeOfRtuModel.GetById(e.TraceId);
             if (traceLeaf == null || traceLeaf.TraceState == FiberState.NotJoined)

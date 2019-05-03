@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Client
 
         public void ChangeResponsibility(ResponsibilitiesChanged e)
         {
-            if (_currentUser.ZoneId == Guid.Empty) return;
+            if (_currentUser.IsDefaultZoneUser) return;
 
             foreach (var pair in e.ResponsibilitiesDictionary)
             {

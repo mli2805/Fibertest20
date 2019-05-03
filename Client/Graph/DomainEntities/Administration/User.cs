@@ -13,5 +13,7 @@ namespace Iit.Fibertest.Graph
         public SmsReceiver Sms { get; set; }
         public Role Role { get; set; }
         public Guid ZoneId { get; set; }
+
+        public bool IsDefaultZoneUser => ZoneId == Guid.Empty;
     }
 }

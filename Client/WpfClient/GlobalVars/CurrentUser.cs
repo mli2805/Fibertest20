@@ -10,5 +10,7 @@ namespace Iit.Fibertest.Client
         public Role Role { get; set; }
         public Guid ZoneId { get; set; }
         public string ZoneTitle { get; set; }
+
+        public bool IsDefaultZoneUser => ZoneId == Guid.Empty;
     }
 }
