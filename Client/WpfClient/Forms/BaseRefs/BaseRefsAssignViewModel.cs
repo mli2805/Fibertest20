@@ -27,17 +27,16 @@ namespace Iit.Fibertest.Client
         private readonly BaseRefDtoFactory _baseRefDtoFactory;
         private readonly BaseRefsChecker _baseRefsChecker;
 
-        private string _preciseBaseFilename;
-        private string _fastBaseFilename;
-        private string _additionalBaseFilename;
-
+ 
         private readonly string _savedInDb = Resources.SID_Saved_in_DB;
+        private string _lastChosenFile;
 
         public string RtuTitle { get; private set; }
 
         public string TraceTitle { get; private set; }
         public string TracePortOnRtu { get; private set; }
 
+        private string _preciseBaseFilename;
         public string PreciseBaseFilename
         {
             get => _preciseBaseFilename;
@@ -50,6 +49,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private string _fastBaseFilename;
         public string FastBaseFilename
         {
             get => _fastBaseFilename;
@@ -62,6 +62,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private string _additionalBaseFilename;
         public string AdditionalBaseFilename
         {
             get => _additionalBaseFilename;
@@ -75,7 +76,6 @@ namespace Iit.Fibertest.Client
         }
 
         private bool _isButtonSaveEnabled;
-
         public bool IsButtonSaveEnabled
         {
             get => _isButtonSaveEnabled;
@@ -152,24 +152,48 @@ namespace Iit.Fibertest.Client
 
         public void GetPathToPrecise()
         {
-            OpenFileDialog dialog = new OpenFileDialog() { Filter = Resources.SID_Reflectogram_files, InitialDirectory = InitialDirectory, };
+            OpenFileDialog dialog = new OpenFileDialog()
+            {
+                Filter = Resources.SID_Reflectogram_files, 
+                InitialDirectory = InitialDirectory,
+                FileName = _lastChosenFile,
+            };
             if (dialog.ShowDialog() == true)
             {
                 PreciseBaseFilename = dialog.FileName;
                 InitialDirectory = Path.GetDirectoryName(dialog.FileName);
+                _lastChosenFile = Path.GetFileName(dialog.FileName);
             }
         }
         public void GetPathToFast()
         {
-            OpenFileDialog dialog = new OpenFileDialog() { Filter = Resources.SID_Reflectogram_files, InitialDirectory = InitialDirectory, };
+            OpenFileDialog dialog = new OpenFileDialog()
+            {
+                Filter = Resources.SID_Reflectogram_files, 
+                InitialDirectory = InitialDirectory,
+                FileName = _lastChosenFile,
+            };
             if (dialog.ShowDialog() == true)
+            {
                 FastBaseFilename = dialog.FileName;
+                InitialDirectory = Path.GetDirectoryName(dialog.FileName);
+                _lastChosenFile = Path.GetFileName(dialog.FileName);
+            }
         }
         public void GetPathToAdditional()
         {
-            OpenFileDialog dialog = new OpenFileDialog() { Filter = Resources.SID_Reflectogram_files, InitialDirectory = InitialDirectory, };
+            OpenFileDialog dialog = new OpenFileDialog()
+            {
+                Filter = Resources.SID_Reflectogram_files, 
+                InitialDirectory = InitialDirectory,
+                FileName = _lastChosenFile,
+            };
             if (dialog.ShowDialog() == true)
+            {
                 AdditionalBaseFilename = dialog.FileName;
+                InitialDirectory = Path.GetDirectoryName(dialog.FileName);
+                _lastChosenFile = Path.GetFileName(dialog.FileName);
+            }
         }
 
         public void ClearPathToPrecise() { PreciseBaseFilename = ""; }
@@ -207,8 +231,13 @@ namespace Iit.Fibertest.Client
         public AssignBaseRefsDto PrepareDto(Trace trace)
         {
             var dto = new AssignBaseRefsDto()
-            { RtuId = trace.RtuId, TraceId = trace.TraceId, OtauPortDto = trace.OtauPort, BaseRefs = new List<BaseRefDto>(), DeleteOldSorFileIds = new List<int>() };
-
+            { 
+                RtuId = trace.RtuId, 
+                TraceId = trace.TraceId, 
+                OtauPortDto = trace.OtauPort, 
+                BaseRefs = new List<BaseRefDto>(), 
+                DeleteOldSorFileIds = new List<int>()
+            };
 
             var baseRefs = new List<BaseRefDto>();
             if (IsFilenameChanged(PreciseBaseFilename, trace.PreciseId))

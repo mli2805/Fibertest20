@@ -990,7 +990,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Before {0}  After {1}  Released {2}.
+        ///   Looks up a localized string similar to Before {0}Gb  After {1}Gb  Released {2}Gb.
         /// </summary>
         public static string SID_Before__0___After__1___Released__2_ {
             get {
@@ -6591,7 +6591,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ( For this work place after button pressed, .
+        ///   Looks up a localized string similar to ( For ROOT&apos;s work place - after button pressed, .
         /// </summary>
         public static string SID_Switches_mode_for_all2 {
             get {

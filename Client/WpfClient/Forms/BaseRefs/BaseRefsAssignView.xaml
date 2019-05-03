@@ -5,12 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        SizeToContent="Height" WindowStartupLocation="CenterOwner" Width="350" ResizeMode="NoResize">
+        SizeToContent="Height" WindowStartupLocation="CenterOwner" Width="350" ResizeMode="NoResize"
+        d:DataContext="{d:DesignData BaseRefsAssignViewModel}">
     <StackPanel IsEnabled="{Binding IsEditEnabled}">
         <GroupBox Margin="5" Header="{x:Static stringResources:Resources.SID_Trace_information}">
             <StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5,0">
-                    <TextBlock Margin="5" Text="Трасса"/>
+                    <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Trace}"/>
                     <TextBlock Margin="5" Text="{Binding TraceTitle}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5,0">
@@ -18,7 +19,7 @@
                     <TextBlock Margin="5" Text="{Binding RtuTitle}" />
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Margin="5,0,0,10">
-                    <TextBlock Margin="5" Text="Порт" />
+                    <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Port}" />
                     <TextBlock Margin="5" Text="{Binding TracePortOnRtu}" />
                 </StackPanel>
             </StackPanel>
@@ -56,7 +57,8 @@
         </GroupBox>
 
         <StackPanel Orientation="Horizontal" Margin="5,5,5,10">
-            <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}" IsEnabled="{Binding IsButtonSaveEnabled}"/>
+            <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}" 
+                    IsEnabled="{Binding IsButtonSaveEnabled}"/>
             <Button Name="Cancel" Height="25" Width="100" Content="{x:Static stringResources:Resources.SID_Cancel}" IsCancel="True"/>
         </StackPanel>
     </StackPanel>
