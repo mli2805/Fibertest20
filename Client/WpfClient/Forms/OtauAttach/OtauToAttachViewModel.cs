@@ -119,7 +119,11 @@ namespace Iit.Fibertest.Client
         public async Task AttachOtau()
         {
             IsButtonsEnabled = false;
-            if (!CheckAddressUniqueness()) return;
+            if (!CheckAddressUniqueness())
+            {
+                IsButtonsEnabled = true;
+                return;
+            }
 
             OtauAttachedDto result;
             using (_globalScope.Resolve<IWaitCursor>())
