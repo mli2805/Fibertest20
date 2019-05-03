@@ -80,6 +80,12 @@ namespace Iit.Fibertest.Client
             paragraph3.AddFormattedText(zone, TextFormat.Bold);
             paragraph3.Format.Font.Size = 14;
             paragraph3.Format.SpaceBefore = Unit.FromCentimeter(0.4);
+
+            var paragraph4 = section.AddParagraph();
+            paragraph4.AddFormattedText(_tree.Statistics, TextFormat.Bold);
+            paragraph4.Format.Font.Size = 12;
+            paragraph4.Format.SpaceBefore = Unit.FromCentimeter(0.4);
+            paragraph4.Format.SpaceAfter = Unit.FromCentimeter(1.4);
         }
 
         private void SetFooter(Section section)
