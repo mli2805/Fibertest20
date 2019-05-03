@@ -29,6 +29,12 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         [OperationContract]
         Task<string[]> GetEvents(GetEventsDto dto);
 
+        [OperationContract]
+        Task<SnapshotParamsDto> GetSnapshotParams(GetSnapshotDto dto);
+
+        [OperationContract]
+        Task<byte[]> GetSnapshotPortion(int portionOrdinal);
+
         // C2Database
         [OperationContract]
         Task<byte[]> GetSorBytes(int sorFileId);

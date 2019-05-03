@@ -5,7 +5,7 @@ using Caliburn.Micro;
 
 namespace Iit.Fibertest.Client
 {
-   public class Leaf : PropertyChangedBase
+    public class Leaf : PropertyChangedBase
     {
         public Guid Id { get; set; }
 
@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Client
 
         protected Leaf()
         {
-          
+
         }
 
         private bool _isSelected;

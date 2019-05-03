@@ -1,9 +1,6 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Newtonsoft.Json;
-using NEventStore;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -24,13 +21,13 @@ namespace Iit.Fibertest.DataCenterCore
             _d2CWcfManager.SetClientsAddresses(addresses);  
             await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto() { Stage = DbOptimizationStage.Starting });
 
-            var tuple = await CreateModelUptoDate(cmd.UpTo);
-            var data = await tuple.Item2.Serialize(_logFile);
-            var portionCount = await _snapshotRepository.AddSnapshotAsync(_eventStoreService.AggregateId, tuple.Item1, data);
+          //  var tuple = await CreateModelUptoDate(cmd.UpTo);
+          //  var data = await tuple.Item2.Serialize(_logFile);
+            var data = await _writeModel.Serialize(_logFile);
+       //     var portionCount = await _snapshotRepository.AddSnapshotAsync(_eventStoreService.AggregateId, tuple.Item1, data);
+         //   var portionCount = await _snapshotRepository.AddSnapshotAsync(_eventStoreService.AggregateId, _writeModel.LastIncludedEventNumber, data);
+            var portionCount = await _snapshotRepository.AddSnapshotAsync(_eventStoreService.AggregateId, _eventStoreService.GetLastEventNumber(), data);
             if (portionCount == -1) return;
-//            var removedEvents =
-//                _eventStoreService.RemoveEvents(_eventStoreService.LastEventNumberInSnapshot, tuple.Item1);
-//            _logFile.AppendLine($"{removedEvents} portion of old snapshot removed");
             var removedSnapshotPortions = await _snapshotRepository.RemoveOldSnapshots();
             _logFile.AppendLine($"{removedSnapshotPortions} portions of old snapshot removed");
 
@@ -46,41 +43,41 @@ namespace Iit.Fibertest.DataCenterCore
             await _d2CWcfManager.UnBlockClientAfterDbOptimization();
         }
 
-        private async Task<Tuple<int, Model>> CreateModelUptoDate(DateTime date)
-        {
-            var modelForSnapshot = new Model();
-
-            var currentEventNumber = 0;
-
-            while (true)
-            {
-                var isUpto = false;
-                var events = _eventStoreService.GetEvents(currentEventNumber);
-                if (events.Length == 0)
-                    break;
-                foreach (var json in events)
-                {
-                    var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
-                    if (((DateTime)msg.Headers["Timestamp"]).Date > date.Date)
-                    {
-                        isUpto = true;
-                        break;
-                    }
-                    modelForSnapshot.Apply(msg.Body);
-                    currentEventNumber++;
-                }
-                if (isUpto) break;
-                _logFile.AppendLine($"{currentEventNumber}");
-                await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto()
-                {
-                    Stage = DbOptimizationStage.ModelCreating,
-                    Recreated = currentEventNumber,
-                });
-            }
-
-            _logFile.AppendLine($"last included event {currentEventNumber}");
-            var result = new Tuple<int, Model>(currentEventNumber, modelForSnapshot);
-            return result;
-        }
+//        private async Task<Tuple<int, Model>> CreateModelUptoDate(DateTime date)
+//        {
+//            var modelForSnapshot = new Model();
+//
+//            var currentEventNumber = 0;
+//
+//            while (true)
+//            {
+//                var isUpto = false;
+//                var events = _eventStoreService.GetEvents(currentEventNumber);
+//                if (events.Length == 0)
+//                    break;
+//                foreach (var json in events)
+//                {
+//                    var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
+//                    if (((DateTime)msg.Headers["Timestamp"]).Date > date.Date)
+//                    {
+//                        isUpto = true;
+//                        break;
+//                    }
+//                    modelForSnapshot.Apply(msg.Body);
+//                    currentEventNumber++;
+//                }
+//                if (isUpto) break;
+//                _logFile.AppendLine($"{currentEventNumber}");
+//                await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto()
+//                {
+//                    Stage = DbOptimizationStage.ModelCreating,
+//                    Recreated = currentEventNumber,
+//                });
+//            }
+//
+//            _logFile.AppendLine($"last included event {currentEventNumber}");
+//            var result = new Tuple<int, Model>(currentEventNumber, modelForSnapshot);
+//            return result;
+//        }
     }
 }

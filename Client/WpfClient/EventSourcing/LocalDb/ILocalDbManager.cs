@@ -1,4 +1,3 @@
-using System;
 using System.Threading.Tasks;
 
 namespace Iit.Fibertest.Client
@@ -7,7 +6,11 @@ namespace Iit.Fibertest.Client
     {
         Task SaveEvents(string[] events);
         Task<string[]> LoadEvents();
-        void Initialize(Guid aggregateId, int snapshotLastEvent);
+
+        Task<int> SaveSnapshot(byte[] portion);
+        Task<byte[]> LoadSnapshot();
+
+        void Initialize();
 
     }
 }

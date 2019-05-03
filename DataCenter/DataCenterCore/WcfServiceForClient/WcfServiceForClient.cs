@@ -194,6 +194,17 @@ namespace Iit.Fibertest.DataCenterCore
             return await Task.FromResult(_eventStoreService.GetEvents(dto.Revision));
         }
 
+        public async Task<SnapshotParamsDto> GetSnapshotParams(GetSnapshotDto dto)
+        {
+            _clientsCollection.RegisterHeartbeat(dto.ClientId);
+            return await _snapshotRepository.GetSnapshotParams(dto.LastIncludedEvent);
+        }
+
+        public async Task<byte[]> GetSnapshotPortion(int portionOrdinal)
+        {
+            return await _snapshotRepository.GetSnapshotPortion(portionOrdinal);
+        }
+
         public async Task<byte[]> GetSorBytes(int sorFileId)
         {
             return await _sorFileRepository.GetSorBytesAsync(sorFileId);

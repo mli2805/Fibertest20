@@ -121,7 +121,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<bool> CheckReserveChannel(RtuStation rtuStation, DateTime noLaterThan, NetworkEvent networkEvent)
         {
-            var rtuTitle = _writeModel.Rtus.First(r => r.Id == rtuStation.RtuGuid).Title;
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == rtuStation.RtuGuid);
+            if (rtu == null) return false;
+            var rtuTitle = rtu.Title;
             if (rtuStation.LastConnectionByReserveAddressTimestamp < noLaterThan &&
                 rtuStation.IsReserveAddressOkDuePreviousCheck)
             {
@@ -148,7 +150,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<bool> CheckMainChannel(RtuStation rtuStation, DateTime noLaterThan, NetworkEvent networkEvent)
         {
-            var rtuTitle = _writeModel.Rtus.First(r => r.Id == rtuStation.RtuGuid).Title;
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == rtuStation.RtuGuid);
+            if (rtu == null) return false;
+            var rtuTitle = rtu.Title;
             if (rtuStation.LastConnectionByMainAddressTimestamp < noLaterThan && rtuStation.IsMainAddressOkDuePreviousCheck)
             {
                 rtuStation.IsMainAddressOkDuePreviousCheck = false;

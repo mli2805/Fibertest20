@@ -4,7 +4,9 @@ using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -12,38 +14,45 @@ namespace Iit.Fibertest.Client
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
+        private readonly IWcfServiceForClient _c2DWcfManager;
 
         private string _serverAddress;
         private string _filename;
         private string _connectionString;
 
-        public LocalDbManager(IniFile iniFile, IMyLog logFile)
+        public LocalDbManager(IniFile iniFile, IMyLog logFile,
+            CurrentDatacenterParameters currentDatacenterParameters, IWcfServiceForClient c2DWcfManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
+            _currentDatacenterParameters = currentDatacenterParameters;
+            _c2DWcfManager = c2DWcfManager;
         }
 
-        public void Initialize(Guid aggregateId, int snapshotLastEvent)
+        public void Initialize()
         {
             var serverDoubleAddress = _iniFile.ReadDoubleAddress(11840);
             _serverAddress = serverDoubleAddress.Main.GetAddress();
 
-            _filename = GetFullDbFilename(aggregateId);
+            _filename = GetFullDbFilename(_currentDatacenterParameters.AggregateId);
             _logFile.AppendLine($@"Db full filename: {_filename}");
 
             _connectionString = $@"Data Source={_filename}; Version=3;";
             _logFile.AppendLine($@"Connection string: <<{_connectionString}>>");
+
+            CreateIfNeeded();
         }
 
-        private string GetFullDbFilename(Guid graphDbVersionOnServer)
+        private string GetFullDbFilename(Guid aggregateId)
         {
             var appPath = AppDomain.CurrentDomain.BaseDirectory;
             _logFile.AppendLine($@"Application path: {appPath}");
 
-            return FileOperations.GetParentFolder(appPath) + 
-                   $@"\Cache\GraphDb\{_serverAddress}\{graphDbVersionOnServer.ToString()}.sqlite3";
+            return FileOperations.GetParentFolder(appPath) +
+                   $@"\Cache\GraphDb\{_serverAddress}\{aggregateId.ToString()}.sqlite3";
         }
-        
+
         public async Task SaveEvents(string[] jsons)
         {
             try
@@ -68,7 +77,6 @@ namespace Iit.Fibertest.Client
         {
             try
             {
-                CreateIfNeeded();
 
                 // SQLite do not work asynchronously (event though there is a ToArrayAsync function)
                 // https://stackoverflow.com/questions/42982444/entity-framework-core-sqlite-async-requests-are-actually-synchronous
@@ -77,7 +85,11 @@ namespace Iit.Fibertest.Client
                 {
                     using (var dataContext = new LocalDbSqliteContext(_connectionString))
                     {
-                        return dataContext.EsEvents.Select(j => j.Json).ToArray();
+                        return dataContext.EsEvents
+                            .Where(e => e.Id > _currentDatacenterParameters.SnapshotLastEvent)
+                            .Select(j => j.Json)
+                            .ToArray();
+                        // return dataContext.EsEvents.Select(j => j.Json).Skip(_currentDatacenterParameters.SnapshotLastEvent).ToArray();
                     }
                 });
             }
@@ -88,7 +100,86 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private void CreateIfNeeded()
+        public async Task<byte[]> LoadSnapshot()
+        {
+            try
+            {
+                await Task.Delay(1);
+                using (var dataContext = new LocalDbSqliteContext(_connectionString))
+                {
+                    var portions = dataContext.EsSnapshots.Where(p => p.LastIncludedEvent == _currentDatacenterParameters.SnapshotLastEvent).ToArray();
+                    if (portions.Length == 0)
+                        return new byte[0];
+                    var result = new byte[portions.Sum(p => p.Snapshot.Length)];
+                    var offset = 0;
+                    foreach (var portion in portions)
+                    {
+                        portion.Snapshot.CopyTo(result, offset);
+                        offset = offset + portion.Snapshot.Length;
+                    }
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($@"LoadSnapshot : {e.Message}");
+                return null;
+            }
+        }
+
+        public async Task<byte[]> DownloadSnapshot()
+        {
+            try
+            {
+                var dto = await _c2DWcfManager.GetSnapshotParams(
+                    new GetSnapshotDto() { LastIncludedEvent = _currentDatacenterParameters.SnapshotLastEvent });
+                if (dto.PortionsCount < 1)
+                {
+                    _logFile.AppendLine($@"DownloadSnapshot portions = {dto.PortionsCount}");
+                    return null;
+                }
+
+                var snapshot = new byte[dto.Size];
+                var offset = 0;
+                for (int i = 0; i < dto.PortionsCount; i++)
+                {
+                    var portion = await _c2DWcfManager.GetSnapshotPortion(i);
+                    var unused = await SaveSnapshot(portion);
+                    portion.CopyTo(snapshot, offset);
+                    offset = offset + portion.Length;
+                }
+
+                return snapshot;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($@"DownloadSnapshot : {e.Message}");
+                return null;
+            }
+        }
+
+        public async Task<int> SaveSnapshot(byte[] portion)
+        {
+            try
+            {
+                using (var dataContext = new LocalDbSqliteContext(_connectionString))
+                {
+                    dataContext.EsSnapshots.Add(new EsSnapshot()
+                    {
+                        LastIncludedEvent = _currentDatacenterParameters.SnapshotLastEvent,
+                        Snapshot = portion,
+                    });
+                    return await dataContext.SaveChangesAsync();
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($@"SaveSnapshot : {e.Message}");
+                return 1;
+            }
+        }
+
+        public void CreateIfNeeded()
         {
             var s = AppDomain.CurrentDomain.BaseDirectory + $@"..\Cache\GraphDb\{_serverAddress}";
             if (!Directory.Exists(s))

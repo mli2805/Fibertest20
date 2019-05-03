@@ -21,7 +21,8 @@ namespace Iit.Fibertest.Client
 
         public DbOptimizationModel Model { get; set; } = new DbOptimizationModel();
 
-        public DbOptimizationViewModel(IMyLog logFile, Model readModel, CurrentUser currentUser,
+        public DbOptimizationViewModel(IMyLog logFile, Model readModel, 
+            CurrentUser currentUser,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _logFile = logFile;

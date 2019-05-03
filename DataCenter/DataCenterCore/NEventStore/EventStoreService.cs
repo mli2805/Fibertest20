@@ -53,7 +53,9 @@ namespace Iit.Fibertest.DataCenterCore
             var snapshot = await _snapshotRepository.ReadSnapshotAsync(AggregateId);
             LastEventNumberInSnapshot = snapshot.Item1;
             if (LastEventNumberInSnapshot != 0)
-                _writeModel = await ModelSerializationExt.Deserialize(_logFile, snapshot.Item2);
+            {
+                if (!await _writeModel.Deserialize(_logFile, snapshot.Item2)) return -1;
+            }
 
             var eventStream = _storeEvents.OpenStream(AggregateId);
 
@@ -72,6 +74,12 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine("Events applied successfully.");
 
             return events.Count;
+        }
+
+        public int GetLastEventNumber()
+        {
+            var eventStream = _storeEvents.OpenStream(AggregateId);
+            return eventStream.CommittedEvents.Count;
         }
 
         public void Delete()
@@ -173,21 +181,5 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public int RemoveEvents(int fromRevision, int upToRevision)
-        {
-            _logFile.AppendLine("Removing events included into snapshot");
-            var count = upToRevision - fromRevision;
-            var eventStream = _storeEvents.OpenStream(AggregateId);
-            var listForRemove = eventStream.CommittedEvents.Select(x => x).Take(count).ToArray();
-            var cc = 0;
-            foreach (var evnt in listForRemove)
-            {
-                eventStream.CommittedEvents.Remove(evnt);
-                cc++;
-                if (cc % 100 == 0)
-                    _logFile.AppendLine($"{cc} events removed");
-            }
-            return count;
-        }
     }
 }

@@ -66,12 +66,12 @@ namespace Iit.Fibertest.DatabaseLibrary
                         return new Tuple<int, byte[]>(0, null);
                     }
                     var size = portions.Sum(p => p.Payload.Length);
-                    var counter = 0;
+                    var offset = 0;
                     byte[] data = new byte[size];
                     foreach (var t in portions)
                     {
-                        t.Payload.CopyTo(data, counter);
-                        counter = counter + t.Payload.Length;
+                        t.Payload.CopyTo(data, offset);
+                        offset = offset + t.Payload.Length;
                     }
                     var result = new Tuple<int, byte[]>(portions.First().LastEventNumber, data);
                     _logFile.AppendLine($@"Snapshot size {result.Item2.Length:0,0} bytes.    Number of last event in snapshot {result.Item1:0,0}.");
@@ -84,6 +84,47 @@ namespace Iit.Fibertest.DatabaseLibrary
                 return new Tuple<int, byte[]>(0, null);
             }
         }
+
+        public async Task<SnapshotParamsDto> GetSnapshotParams(int lastIncludedEvent)
+        {
+            try
+            {
+                await Task.Delay(1);
+                using (var dbContext = new FtDbContext(_settings.Options))
+                {
+                    var result = new SnapshotParamsDto
+                    {
+                        PortionsCount = dbContext.Snapshots.Count(l => l.LastEventNumber == lastIncludedEvent),
+                        Size = dbContext.Snapshots.Sum(l => l.Payload.Length)
+                    };
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetSnapshotParams: " + e.Message);
+                return null;
+            }
+        }
+
+        public async Task<byte[]> GetSnapshotPortion(int portionOrdinal)
+        {
+            try
+            {
+                await Task.Delay(1);
+                using (var dbContext = new FtDbContext(_settings.Options))
+                {
+                    var firstId = dbContext.Snapshots.First().Id;
+                    return dbContext.Snapshots.First(p => p.Id == firstId + portionOrdinal).Payload;
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetSnapshotPortion: " + e.Message);
+                return null;
+            }
+        }
+
 
         public async Task<int> RemoveOldSnapshots()
         {

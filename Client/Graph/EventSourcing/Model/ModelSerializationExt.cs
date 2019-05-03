@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Graph
                     var binaryFormatter = new BinaryFormatter();
                     binaryFormatter.Serialize(stream, model);
                     var buf = stream.ToArray();
-                    logFile.AppendLine($@"Model serialization: buffer size = {buf.Length:0,0.#}");
+                    logFile.AppendLine($@"Model serialization: data size = {buf.Length:0,0.#}");
                     return buf;
                 }
             }
@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        public static async Task<Model> Deserialize(IMyLog logFile, byte[] buffer)
+        public static async Task<bool> Deserialize(this Model model, IMyLog logFile, byte[] buffer)
         {
             try
             {
@@ -37,15 +37,17 @@ namespace Iit.Fibertest.Graph
                 {
                     await Task.Delay(1);
                     var binaryFormatter = new BinaryFormatter();
-                    var model = (Model)binaryFormatter.Deserialize(stream);
+                    var model2 = (Model)binaryFormatter.Deserialize(stream);
                     logFile.AppendLine(@"Model deserialized successfully!");
-                    return model;
+                    model.CopyFrom(model2);
+                    logFile.AppendLine($@"Model contains {model.Rtus.Count} RTU");
+                    return model2.Rtus.Count == model.Rtus.Count;
                 }
             }
             catch (Exception e)
             {
                 logFile.AppendLine(@"Model deserialization: " + e.Message);
-                return null;
+                return false;
             }
         }
     }

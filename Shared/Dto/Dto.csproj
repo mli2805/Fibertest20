@@ -51,6 +51,7 @@
     <Compile Include="C2D\AddMeasurementFromOldBase.cs" />
     <Compile Include="C2D\CheckServerConnectionDto.cs" />
     <Compile Include="C2D\GetEventsDto.cs" />
+    <Compile Include="C2D\GetSnapshotDto.cs" />
     <Compile Include="D2C\CurrentDatacenterParameters.cs" />
     <Compile Include="D2C\DbOptimizationProgressDto.cs" />
     <Compile Include="Db\Snapshot.cs" />

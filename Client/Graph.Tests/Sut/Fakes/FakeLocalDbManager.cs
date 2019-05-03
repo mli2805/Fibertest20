@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Client;
@@ -33,7 +32,18 @@ namespace Graph.Tests
             return Task.FromResult(_localBase.Values.ToArray());
         }
 
-        public void Initialize(Guid aggregateId, int snapshotLastEvent)
+        public Task<byte[]> LoadSnapshot()
+        {
+            return Task.FromResult(new byte[0]);
+        }
+
+        public Task<int> SaveSnapshot(byte[] portion)
+        {
+            return Task.FromResult(1);
+
+        }
+
+        public void Initialize()
         {
             
         }
