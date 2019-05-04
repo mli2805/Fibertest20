@@ -10,7 +10,6 @@ using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
-
     public class DbOptimizationViewModel : Screen
     {
         private readonly IMyLog _logFile;
