@@ -2607,7 +2607,7 @@ RTU is initializing right now!</value>
     <value>Network events</value>
   </data>
 	<data name="SID_Up_to_and_including" xml:space="preserve">
-    <value>Up to and including</value>
+    <value>DB optimization up to and including</value>
   </data>
 	<data name="SID_Nothing_selected_to_remove_" xml:space="preserve">
     <value>Nothing selected to remove!</value>

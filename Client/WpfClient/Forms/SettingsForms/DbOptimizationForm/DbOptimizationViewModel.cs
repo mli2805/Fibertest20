@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -12,6 +13,7 @@ namespace Iit.Fibertest.Client
 {
     public class DbOptimizationViewModel : Screen
     {
+        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
@@ -20,10 +22,11 @@ namespace Iit.Fibertest.Client
 
         public DbOptimizationModel Model { get; set; } = new DbOptimizationModel();
 
-        public DbOptimizationViewModel(IMyLog logFile, Model readModel, 
+        public DbOptimizationViewModel(IniFile iniFile, IMyLog logFile, Model readModel, 
             CurrentUser currentUser,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
+            _iniFile = iniFile;
             _logFile = logFile;
             _readModel = readModel;
             _currentUser = currentUser;
@@ -48,6 +51,9 @@ namespace Iit.Fibertest.Client
             Model.MeasurementsNotEvents = _readModel.Measurements.Count(m => m.EventStatus == EventStatus.JustMeasurementNotAnEvent);
             Model.NetworkEvents = _readModel.NetworkEvents.Count + _readModel.BopNetworkEvents.Count;
 
+            var flag = _iniFile.Read(IniSection.MySql, IniKey.IsOptimizationCouldBeDoneUpToToday, false);
+            Model.UpToLimit = flag ? DateTime.Today : new DateTime(DateTime.Today.Year - 2, 12, 31);
+            Model.SelectedDate = flag ? DateTime.Today : new DateTime(DateTime.Today.Year - 2, 12, 31);
             Model.IsEnabled = _currentUser.Role <= Role.Root;
         }
 

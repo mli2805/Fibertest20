@@ -56,11 +56,7 @@
         <Separator DockPanel.Dock="Top" Margin="5"/>
         <Border DockPanel.Dock="Top" BorderBrush="LightGray" BorderThickness="0" Margin="5">
             <DockPanel  Margin="5">
-                <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Up_to_and_including}" Margin="10,5"/>
-                    <DatePicker DisplayDateEnd="{Binding Model.UpToLimit}" 
-                                SelectedDate="{Binding Model.SelectedDate}" Width="120"/>
-                </StackPanel>
+
                 <GroupBox DockPanel.Dock="Left" Margin="0,5" Width="375">
                     <GroupBox.Header>
                         <HeaderedContentControl>
@@ -75,11 +71,15 @@
                                   IsChecked="{Binding Model.IsOpticalEvents}" Margin="0,5"/>
                         <CheckBox Content="{x:Static stringResources:Resources.SID_Network_events_0}" 
                                   IsChecked="{Binding Model.IsNetworkEvents}" Margin="0,5"/>
+                            <TextBlock Text="{x:Static stringResources:Resources.SID_Up_to_and_including}" Margin="10,5"/>
+                            <DatePicker Width="120" SelectedDate="{Binding Model.SelectedDate}"
+                                        DisplayDateEnd="{Binding Model.UpToLimit}"/>
                     </StackPanel>
                 </GroupBox>
                 <RadioButton GroupName="1" IsChecked="{Binding Model.IsSnapshotMode}" Margin="16,6,6,6"
-                             Content='{x:Static stringResources:Resources.SID_Remove_Event_log_records}'/>
-               
+                             Content='{x:Static stringResources:Resources.SID_Remove_Event_log_records}'
+                             IsEnabled="False"/>
+
             </DockPanel>
         </Border>
         <StackPanel Orientation="Horizontal" Margin="0,20,0,15" HorizontalAlignment="Center">

@@ -57,7 +57,7 @@ namespace Iit.Fibertest.Client
         private string _dataSize;
         public string DataSize
         {
-            get { return _dataSize; }
+            get => _dataSize;
             set
             {
                 if (value == _dataSize) return;
@@ -99,26 +99,25 @@ namespace Iit.Fibertest.Client
         public bool IsOpticalEvents { get; set; }
         public bool IsNetworkEvents { get; set; }
 
-     //   public DateTime UpToLimit{ get; set; } = new DateTime(DateTime.Today.Year - 2, 12, 31);
-        public DateTime UpToLimit{ get; set; } = DateTime.Today;
+        public DateTime UpToLimit{ get; set; }
 
-   //     private DateTime _selectedDate = new DateTime(DateTime.Today.Year - 2, 12, 31);
-        private DateTime _selectedDate = DateTime.Today;
+        private DateTime _selectedDate;
         public DateTime SelectedDate
         {
-            get { return _selectedDate; }
+            get => _selectedDate;
             set
             {
                 if (value.Equals(_selectedDate)) return;
                 _selectedDate = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(UpToLimit));
             }
         }
 
         private bool _isEnabled;
         public bool IsEnabled
         {
-            get { return _isEnabled; }
+            get => _isEnabled;
             set
             {
                 if (value == _isEnabled) return;

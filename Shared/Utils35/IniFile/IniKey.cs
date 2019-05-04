@@ -86,6 +86,7 @@
         MySqlDbSchemePostfix,
         ResetDb,
         FreeSpaceThresholdGb,
+        IsOptimizationCouldBeDoneUpToToday,
 
         //Broadcast
         GsmModemComPort,
