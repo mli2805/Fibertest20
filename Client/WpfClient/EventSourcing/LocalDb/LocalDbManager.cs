@@ -83,7 +83,7 @@ namespace Iit.Fibertest.Client
                     using (var dataContext = new LocalDbSqliteContext(_connectionString))
                     {
                         return dataContext.EsEvents
-                            .Where(e => e.Id > _currentDatacenterParameters.SnapshotLastEvent)
+                            .Where(e => e.Id > lastEventInSnapshot)
                             .Select(j => j.Json)
                             .ToArray();
                         // return dataContext.EsEvents.Select(j => j.Json).Skip(_currentDatacenterParameters.SnapshotLastEvent).ToArray();
@@ -107,6 +107,7 @@ namespace Iit.Fibertest.Client
                     var portions = dataContext.EsSnapshots.Where(p => p.LastIncludedEvent == lastEventInSnapshotOnServer).ToArray();
                     if (portions.Length == 0)
                         return new byte[0];
+                    _logFile.AppendLine($@"From cache. {portions.Length} records");
                     var result = new byte[portions.Sum(p => p.Snapshot.Length)];
                     var offset = 0;
                     foreach (var portion in portions)

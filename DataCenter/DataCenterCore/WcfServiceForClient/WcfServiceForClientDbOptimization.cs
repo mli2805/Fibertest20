@@ -41,7 +41,7 @@ namespace Iit.Fibertest.DataCenterCore
             var newSize = _eventStoreInitializer.GetDataSize() / 1e9;
             await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto()
             {
-                Stage = DbOptimizationStage.Done,
+                Stage = DbOptimizationStage.OptimizationDone,
                 OldSizeGb = oldSize, NewSizeGb = newSize,
             });
             await _d2CWcfManager.UnBlockClientAfterDbOptimization();
@@ -64,13 +64,14 @@ namespace Iit.Fibertest.DataCenterCore
 
             var dir = _eventStoreInitializer.DataDir;
             long oldSize = SorFileSize(dir);
-            _logFile.AppendLine($"Optimization of sorfiles.ibd {oldSize} started");
+            _logFile.AppendLine($"Optimization of sorfiles.ibd {oldSize:0,0} started");
 
 
             var unused = Task.Factory.StartNew(_eventStoreInitializer.OptimizeSorFilesTable);
             _logFile.AppendLine("Optimization process started on another thread");
 
             _logFile.AppendLine("And we will check sorfiles.ibd and #sql-ib.....ibd size to know if optimization is finished");
+            var oldProc = -5.0;
             while (true)
             {
                 Thread.Sleep(2000);
@@ -79,15 +80,18 @@ namespace Iit.Fibertest.DataCenterCore
                 var fileInfo = files.FirstOrDefault(f => f.Name.StartsWith("#sql-ib"));
                 if (fileInfo == null) break;
                 var proc = fileInfo.Length * 100.0 / oldSize;
-                _logFile.AppendLine($"{fileInfo.Name}   {proc}%  copied");
                 await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto()
                 {
-                    Stage = DbOptimizationStage.TableCompressing, Copied = proc,
+                    Stage = DbOptimizationStage.TableCompressing, TableOptimizationProcent = proc,
                 });
-
+                if (proc - oldProc > 5)
+                {
+                    _logFile.AppendLine($"{fileInfo.Name}   {proc:0.0}%  copied");
+                    oldProc = proc;
+                }
             }
             var newSize = SorFileSize(dir);
-            _logFile.AppendLine($"SorFiles table is optimized, new size is {newSize}, profit is {oldSize - newSize} bytes");
+            _logFile.AppendLine($"SorFiles table is optimized, new size is {newSize:0,0}, profit is {oldSize - newSize:0,0} bytes");
 
             return count;
         }

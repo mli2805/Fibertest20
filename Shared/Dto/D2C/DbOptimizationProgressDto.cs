@@ -12,10 +12,10 @@ namespace Iit.Fibertest.Dto
         public int MeasurementsChosenForDeletion { get; set; }
 
         [DataMember]
-        public double Copied { get; set; }
+        public double TableOptimizationProcent { get; set; }
 
-  [DataMember]
-        public double Recreated { get; set; }
+        [DataMember]
+        public double EventsReplayed { get; set; }
 
         [DataMember]
         public double OldSizeGb { get; set; }

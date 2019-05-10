@@ -1,0 +1,7 @@
+после установки версии 2.0.3.ххх
+
+на сервере в Datacenter.ini в секцию General
+добвить
+EventSourcingAggregateId=1C28CBB5-A9F5-4A5C-B7AF-3D188F8F24ED
+
+и запустить скрипт snapshots.sql

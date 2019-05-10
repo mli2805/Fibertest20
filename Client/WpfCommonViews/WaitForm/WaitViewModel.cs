@@ -65,17 +65,19 @@ namespace Iit.Fibertest.WpfCommonViews
                 case DbOptimizationStage.SorsRemoving:
                     return string.Format(Resources.SID_Measurements_chosen_for_deletion__0___Removing___, dto.MeasurementsChosenForDeletion);
                 case DbOptimizationStage.TableCompressing:
-                    return string.Format(Resources.SID_Sorfiles_table_compressing__0_0_0__, dto.Copied);
+                    return string.Format(Resources.SID_Sorfiles_table_compressing__0_0_0__, dto.TableOptimizationProcent);
                 case DbOptimizationStage.ModelAdjusting:
                     return Resources.SID_Model_adjusting___;
 
-                    case DbOptimizationStage.ModelCreating:
-                        return $"Model creating... {dto.Recreated} events";
+                case DbOptimizationStage.ModelCreating:
+                    return string.Format(Resources.SID_Model_creating_____0__events, dto.EventsReplayed);
 
-                case DbOptimizationStage.Done:
+                case DbOptimizationStage.OptimizationDone:
                     ProgressBarVisibility = Visibility.Collapsed;
                     return string.Format(Resources.SID_Before__0___After__1___Released__2_,
                         dto.OldSizeGb.ToString("0.000"), dto.NewSizeGb.ToString("0.000"), (dto.OldSizeGb - dto.NewSizeGb).ToString("0.000"));
+                case DbOptimizationStage.SnapshotDone:
+                    return Resources.SID_Snapshot_created_;
                 default: return dto.Stage.ToString();
             }
         }

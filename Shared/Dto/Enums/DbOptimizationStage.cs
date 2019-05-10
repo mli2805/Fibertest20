@@ -9,6 +9,7 @@ namespace Iit.Fibertest.Dto
 
         ModelCreating,
 
-        Done,
+        OptimizationDone,
+        SnapshotDone,
     }
 }

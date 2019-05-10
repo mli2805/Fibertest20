@@ -40,7 +40,6 @@ namespace Iit.Fibertest.Graph
                     var model2 = (Model)binaryFormatter.Deserialize(stream);
                     logFile.AppendLine(@"Model deserialized successfully!");
                     model.CopyFrom(model2);
-                    logFile.AppendLine($@"Model contains {model.Rtus.Count} RTU");
                     return model2.Rtus.Count == model.Rtus.Count;
                 }
             }

@@ -4096,6 +4096,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Model creating... {0} events.
+        /// </summary>
+        public static string SID_Model_creating_____0__events {
+            get {
+                return ResourceManager.GetString("SID_Model_creating_____0__events", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Monitoring cycle {0}..
         /// </summary>
         public static string SID_Monitoring_cycle__0__ {
@@ -6366,6 +6375,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Snapshot created..
+        /// </summary>
+        public static string SID_Snapshot_created_ {
+            get {
+                return ResourceManager.GetString("SID_Snapshot_created_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to software : {0}.
         /// </summary>
         public static string SID_software____0_ {
@@ -7356,7 +7374,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Up to and including.
+        ///   Looks up a localized string similar to DB optimization up to and including.
         /// </summary>
         public static string SID_Up_to_and_including {
             get {

@@ -29,6 +29,7 @@ namespace Iit.Fibertest.DataCenterCore
             var data = await tuple.Item2.Serialize(_logFile);
             var portionCount = await _snapshotRepository.AddSnapshotAsync(_eventStoreService.AggregateId, tuple.Item1, data);
             if (portionCount == -1) return;
+            _eventStoreService.LastEventNumberInSnapshot = tuple.Item1;
             var removedSnapshotPortions = await _snapshotRepository.RemoveOldSnapshots();
             _logFile.AppendLine($"{removedSnapshotPortions} portions of old snapshot removed");
 
@@ -37,7 +38,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto()
             {
-                Stage = DbOptimizationStage.Done,
+                Stage = DbOptimizationStage.SnapshotDone,
             });
 
             _logFile.AppendLine("Unblocking connections");
@@ -47,7 +48,7 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task<Tuple<int, Model>> CreateModelUptoDate2(DateTime date)
         {
             var modelForSnapshot = new Model();
-            var currentEventNumber = 0;
+            var lastIncludedEvent = 0;
 
             // TODO block RTU events appearance
             var eventStream = _eventStoreService.StoreEvents.OpenStream(_eventStoreService.AggregateId);
@@ -56,20 +57,20 @@ namespace Iit.Fibertest.DataCenterCore
             foreach (var evnt in events)
             {
                 modelForSnapshot.Apply(evnt.Body);
-                currentEventNumber++;
-                if (currentEventNumber % 1000 == 0)
+                lastIncludedEvent++;
+                if (lastIncludedEvent % 1000 == 0)
                 {
-                    _logFile.AppendLine($"{currentEventNumber}");
+                    _logFile.AppendLine($"{lastIncludedEvent}");
                     await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto()
                     {
                         Stage = DbOptimizationStage.ModelCreating,
-                        Recreated = currentEventNumber,
+                        EventsReplayed = lastIncludedEvent,
                     });
                 }
             }
 
-            _logFile.AppendLine($"last included event {currentEventNumber}");
-            var result = new Tuple<int, Model>(currentEventNumber, modelForSnapshot);
+            _logFile.AppendLine($"last included event {lastIncludedEvent}");
+            var result = new Tuple<int, Model>(lastIncludedEvent, modelForSnapshot);
             return result;
         }
 
@@ -101,7 +102,7 @@ namespace Iit.Fibertest.DataCenterCore
                 await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto()
                 {
                     Stage = DbOptimizationStage.ModelCreating,
-                    Recreated = currentEventNumber,
+                    EventsReplayed = currentEventNumber,
                 });
             }
 

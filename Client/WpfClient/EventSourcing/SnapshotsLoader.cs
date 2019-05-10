@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Client
         {
             if (_currentDatacenterParameters.SnapshotLastEvent == 0)
                 return 0;
-
+            _logFile.AppendLine($@"Loading snapshot ({_currentDatacenterParameters.SnapshotLastEvent})");
             var snapshot = await _localDbManager.LoadSnapshot(_currentDatacenterParameters.SnapshotLastEvent);
             if (snapshot == null) return -1;
             if (snapshot.Length == 0)
