@@ -71,6 +71,8 @@ namespace Iit.Fibertest.DataCenterService
                     dbContext.Database.EnsureDeleted();
                 }
                 _eventStoreService.Delete();
+                _eventStoreService.AggregateId = Guid.NewGuid();
+                IniFile.Write(IniSection.General, IniKey.EventSourcingAggregateId, _eventStoreService.AggregateId.ToString());
                 IniFile.Write(IniSection.MySql, IniKey.ResetDb, false);
                 _logFile.AppendLine("Db deleted successfully.");
             }

@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -7,6 +8,8 @@ namespace Iit.Fibertest.Client
 {
     public class BopNetworkEventsDoubleViewModel : PropertyChangedBase
     {
+        private static readonly IMapper Mapper = new MapperConfiguration(
+            cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
         private readonly SystemState _systemState;
@@ -38,7 +41,21 @@ namespace Iit.Fibertest.Client
             _systemState.HasActualBopNetworkProblems = ActualBopNetworkEventsViewModel.Rows.Any();
         }
 
-        private void AddBopNetworkEvent(BopNetworkEventAdded evnt)
+        private void AddBopNetworkEvent(BopNetworkEventAdded evnt1)
+        {
+            var evnt = Mapper.Map<BopNetworkEvent>(evnt1);
+            ApplyOneEvent(evnt);
+        }
+
+        public void RenderBopNetworkEvents()
+        {
+            foreach (var bopNetworkEvent in _readModel.BopNetworkEvents)
+            {
+                ApplyOneEvent(bopNetworkEvent);
+            }
+        }
+
+        private void ApplyOneEvent(BopNetworkEvent evnt)
         {
             var rtu = _readModel.Rtus.FirstOrDefault(t => t.Id == evnt.RtuId);
             if (rtu == null || !rtu.ZoneIds.Contains(_currentUser.ZoneId))

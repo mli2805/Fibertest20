@@ -48,6 +48,19 @@ namespace Iit.Fibertest.Client
         private void RtuAvailabilityChanged(NetworkEventAdded networkEventAdded)
         {
             var networkEvent = Mapper.Map<NetworkEvent>(networkEventAdded);
+            ApplyOneEvent(networkEvent);
+        }
+
+        public void RenderNetworkEvents()
+        {
+            foreach (var networkEvent in _readModel.NetworkEvents)
+            {
+               ApplyOneEvent(networkEvent);
+            }
+        }
+
+        private void ApplyOneEvent(NetworkEvent networkEvent)
+        {
             var rtu = _readModel.Rtus.FirstOrDefault(t => t.Id == networkEvent.RtuId);
             if (rtu == null || !rtu.ZoneIds.Contains(_currentUser.ZoneId))
                 return;

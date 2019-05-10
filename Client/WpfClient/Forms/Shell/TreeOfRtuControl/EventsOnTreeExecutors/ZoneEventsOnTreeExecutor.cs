@@ -22,6 +22,15 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
         }
 
+        public void RenderOfModelAfterSnapshot()
+        {
+            foreach (var rtu in _readModel.Rtus)
+            {
+                if (rtu.ZoneIds.Contains(_currentUser.ZoneId))
+                    AddRtuLeafAndAllIts(rtu);
+            }
+        }
+
         public void ChangeResponsibility(ResponsibilitiesChanged e)
         {
             if (_currentUser.IsDefaultZoneUser) return;

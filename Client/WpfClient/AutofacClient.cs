@@ -168,6 +168,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<RootRenderer>();
             builder.RegisterType<RenderingManager>();
             builder.RegisterType<StoredEventsLoader>().InstancePerLifetimeScope();
+            builder.RegisterType<SnapshotsLoader>().InstancePerLifetimeScope();
             builder.RegisterType<EventArrivalNotifier>().InstancePerLifetimeScope();
             builder.RegisterType<ClientPoller>().InstancePerLifetimeScope();
 

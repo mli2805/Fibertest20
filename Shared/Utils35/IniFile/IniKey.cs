@@ -87,6 +87,7 @@
         ResetDb,
         FreeSpaceThresholdGb,
         IsOptimizationCouldBeDoneUpToToday,
+        SnapshotUptoLimitInDays,
 
         //Broadcast
         GsmModemComPort,

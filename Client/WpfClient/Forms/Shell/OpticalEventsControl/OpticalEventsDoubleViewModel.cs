@@ -50,13 +50,25 @@ namespace Iit.Fibertest.Client
             AllOpticalEventsViewModel.UpdateEvent(evnt);
         }
 
+        public void RenderMeasurements()
+        {
+            foreach (var measurement in _readModel.Measurements)
+            {
+                AllOpticalEventsViewModel.AddEvent(measurement);
+
+                ActualOpticalEventsViewModel.RemoveEventsOfTrace(measurement.TraceId);
+                if (measurement.TraceState != FiberState.Ok)
+                    ActualOpticalEventsViewModel.AddEvent(measurement);
+            }
+        }
+
         public void AttachTrace(TraceAttached evnt)
         {
             var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == evnt.TraceId);
             if (trace == null || !trace.ZoneIds.Contains(_currentUser.ZoneId))
                 return;
 
-            var lastEventOnTrace = _readModel.Measurements.LastOrDefault(m => 
+            var lastEventOnTrace = _readModel.Measurements.LastOrDefault(m =>
                 m.TraceId == evnt.TraceId && m.EventStatus >= EventStatus.EventButNotAnAccident);
             if (lastEventOnTrace != null && lastEventOnTrace.TraceState != FiberState.Ok)
                 ActualOpticalEventsViewModel.AddEvent(lastEventOnTrace);
@@ -64,13 +76,13 @@ namespace Iit.Fibertest.Client
 
         public void DetachTrace(TraceDetached evnt)
         {
-          //  ActualOpticalEventsViewModel.RemovePreviousEventForTraceIfExists(evnt.TraceId);
+            //  ActualOpticalEventsViewModel.RemovePreviousEventForTraceIfExists(evnt.TraceId);
             ActualOpticalEventsViewModel.RemoveEventsOfTrace(evnt.TraceId);
         }
 
         public void DetachAllTraces(AllTracesDetached evnt)
         {
-            foreach (var trace in _readModel.Traces.Where(t=>t.RtuId == evnt.RtuId))
+            foreach (var trace in _readModel.Traces.Where(t => t.RtuId == evnt.RtuId))
             {
                 ActualOpticalEventsViewModel.RemoveEventsOfTrace(trace.TraceId);
             }
@@ -111,12 +123,12 @@ namespace Iit.Fibertest.Client
                 if (trace.ZoneIds.Contains(_currentUser.ZoneId)) // was NOT became YES
                 {
                     var lastMeasurementOnThisTrace = _readModel.Measurements.
-                        LastOrDefault(m => m.TraceId == trace.TraceId  && m.EventStatus > EventStatus.JustMeasurementNotAnEvent);
+                        LastOrDefault(m => m.TraceId == trace.TraceId && m.EventStatus > EventStatus.JustMeasurementNotAnEvent);
                     if (lastMeasurementOnThisTrace != null && lastMeasurementOnThisTrace.TraceState != FiberState.Ok)
                         ActualOpticalEventsViewModel.AddEvent(lastMeasurementOnThisTrace);
 
-                    foreach(var measurement in _readModel.Measurements.
-                        Where(m=>m.TraceId == trace.TraceId && m.EventStatus > EventStatus.JustMeasurementNotAnEvent))
+                    foreach (var measurement in _readModel.Measurements.
+                        Where(m => m.TraceId == trace.TraceId && m.EventStatus > EventStatus.JustMeasurementNotAnEvent))
                         AllOpticalEventsViewModel.AddEvent(measurement);
                 }
                 else // was YES became NOT
@@ -128,6 +140,6 @@ namespace Iit.Fibertest.Client
 
         }
 
-        
+
     }
 }

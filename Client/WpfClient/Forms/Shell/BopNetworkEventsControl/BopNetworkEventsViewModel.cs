@@ -33,17 +33,17 @@ namespace Iit.Fibertest.Client
             view.SortDescriptions.Add(new SortDescription(@"Nomer", ListSortDirection.Descending));
         }
 
-        public void AddEvent(BopNetworkEventAdded bopNetworkEventAdded)
+        public void AddEvent(BopNetworkEvent evnt)
         {
             Rows.Add(new BopNetworkEventModel()
             {
-                Nomer = bopNetworkEventAdded.Ordinal,
-                EventTimestamp = bopNetworkEventAdded.EventTimestamp,
-                OtauIp = bopNetworkEventAdded.OtauIp,
-                TcpPort = bopNetworkEventAdded.TcpPort,
-                RtuId = bopNetworkEventAdded.RtuId,
-                RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == bopNetworkEventAdded.RtuId)?.Title,
-                IsOk = bopNetworkEventAdded.IsOk,
+                Nomer = evnt.Ordinal,
+                EventTimestamp = evnt.EventTimestamp,
+                OtauIp = evnt.OtauIp,
+                TcpPort = evnt.TcpPort,
+                RtuId = evnt.RtuId,
+                RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == evnt.RtuId)?.Title,
+                IsOk = evnt.IsOk,
             });
         }
 

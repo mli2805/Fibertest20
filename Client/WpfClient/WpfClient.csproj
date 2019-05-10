@@ -196,6 +196,7 @@
     <Compile Include="EventSourcing\Rendering\LessThanRootRenderer.cs" />
     <Compile Include="EventSourcing\Rendering\OneRtuOrTraceRenderer.cs" />
     <Compile Include="EventSourcing\Rendering\RootRenderer.cs" />
+    <Compile Include="EventSourcing\SnapshotsLoader.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\EventToLogLineParser.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\LogLine.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationCode.cs" />

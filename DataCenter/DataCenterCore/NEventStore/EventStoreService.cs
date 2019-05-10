@@ -16,7 +16,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly IEventStoreInitializer _eventStoreInitializer;
         private readonly SnapshotRepository _snapshotRepository;
-        private IStoreEvents _storeEvents;
+        public IStoreEvents StoreEvents;
         private readonly CommandAggregator _commandAggregator;
         private readonly EventsQueue _eventsQueue;
         private Model _writeModel;
@@ -36,7 +36,7 @@ namespace Iit.Fibertest.DataCenterCore
              CommandAggregator commandAggregator, EventsQueue eventsQueue, Model writeModel)
         {
             _eventsPortion = iniFile.Read(IniSection.General, IniKey.EventSourcingPortion, 100);
-            AggregateId = Guid.Parse(iniFile.Read(IniSection.General, IniKey.EventSourcingAggregateId, "1C28CBB5-A9F5-4A5C-B7AF-3D188F8F24ED"));
+            AggregateId = Guid.Parse(iniFile.Read(IniSection.General, IniKey.EventSourcingAggregateId, Guid.NewGuid().ToString()));
             _logFile = logFile;
             _eventStoreInitializer = eventStoreInitializer;
             _snapshotRepository = snapshotRepository;
@@ -48,7 +48,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<int> Init()
         {
             _logFile.AppendLine($"Event store service AggregateId {AggregateId}");
-            _storeEvents = _eventStoreInitializer.Init();
+            StoreEvents = _eventStoreInitializer.Init();
 
             var snapshot = await _snapshotRepository.ReadSnapshotAsync(AggregateId);
             LastEventNumberInSnapshot = snapshot.Item1;
@@ -57,7 +57,7 @@ namespace Iit.Fibertest.DataCenterCore
                 if (!await _writeModel.Deserialize(_logFile, snapshot.Item2)) return -1;
             }
 
-            var eventStream = _storeEvents.OpenStream(AggregateId);
+            var eventStream = StoreEvents.OpenStream(AggregateId);
 
             if (LastEventNumberInSnapshot == 0 && eventStream.CommittedEvents.FirstOrDefault() == null)
             {
@@ -74,12 +74,6 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine("Events applied successfully.");
 
             return events.Count;
-        }
-
-        public int GetLastEventNumber()
-        {
-            var eventStream = _storeEvents.OpenStream(AggregateId);
-            return eventStream.CommittedEvents.Count;
         }
 
         public void Delete()
@@ -137,7 +131,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private void StoreEventsInDb(string username, string clientIp)
         {
-            var eventStream = _storeEvents.OpenStream(AggregateId);
+            var eventStream = StoreEvents.OpenStream(AggregateId);
             foreach (var e in _eventsQueue.EventsWaitingForCommit)   // takes already applied event(s) from WriteModel's list
             {
                 eventStream.Add(WrapEvent(e, username, clientIp));   // and stores this event in BD
@@ -161,7 +155,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                var events = _storeEvents
+                var events = StoreEvents
                     .OpenStream(AggregateId, revision + 1)
                     .CommittedEvents
                     //     .Select(x => x.Body) // not only Body but Header too

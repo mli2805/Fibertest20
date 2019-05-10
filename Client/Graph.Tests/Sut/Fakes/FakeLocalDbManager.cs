@@ -27,12 +27,12 @@ namespace Graph.Tests
             return Task.FromResult(1);
         }
 
-        public Task<string[]> LoadEvents()
+        public Task<string[]> LoadEvents(int lastEventInSnapshot)
         {
             return Task.FromResult(_localBase.Values.ToArray());
         }
 
-        public Task<byte[]> LoadSnapshot()
+        public Task<byte[]> LoadSnapshot(int lastEventInSnapshotOnServer)
         {
             return Task.FromResult(new byte[0]);
         }

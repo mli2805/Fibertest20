@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -15,19 +14,17 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
-        private readonly IWcfServiceForClient _c2DWcfManager;
 
         private string _serverAddress;
         private string _filename;
         private string _connectionString;
 
         public LocalDbManager(IniFile iniFile, IMyLog logFile,
-            CurrentDatacenterParameters currentDatacenterParameters, IWcfServiceForClient c2DWcfManager)
+            CurrentDatacenterParameters currentDatacenterParameters)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _currentDatacenterParameters = currentDatacenterParameters;
-            _c2DWcfManager = c2DWcfManager;
         }
 
         public void Initialize()
@@ -73,7 +70,7 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public async Task<string[]> LoadEvents()
+        public async Task<string[]> LoadEvents(int lastEventInSnapshot)
         {
             try
             {
@@ -100,14 +97,14 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public async Task<byte[]> LoadSnapshot()
+        public async Task<byte[]> LoadSnapshot(int lastEventInSnapshotOnServer)
         {
             try
             {
                 await Task.Delay(1);
                 using (var dataContext = new LocalDbSqliteContext(_connectionString))
                 {
-                    var portions = dataContext.EsSnapshots.Where(p => p.LastIncludedEvent == _currentDatacenterParameters.SnapshotLastEvent).ToArray();
+                    var portions = dataContext.EsSnapshots.Where(p => p.LastIncludedEvent == lastEventInSnapshotOnServer).ToArray();
                     if (portions.Length == 0)
                         return new byte[0];
                     var result = new byte[portions.Sum(p => p.Snapshot.Length)];
@@ -127,38 +124,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public async Task<byte[]> DownloadSnapshot()
-        {
-            try
-            {
-                var dto = await _c2DWcfManager.GetSnapshotParams(
-                    new GetSnapshotDto() { LastIncludedEvent = _currentDatacenterParameters.SnapshotLastEvent });
-                if (dto.PortionsCount < 1)
-                {
-                    _logFile.AppendLine($@"DownloadSnapshot portions = {dto.PortionsCount}");
-                    return null;
-                }
-
-                var snapshot = new byte[dto.Size];
-                var offset = 0;
-                for (int i = 0; i < dto.PortionsCount; i++)
-                {
-                    var portion = await _c2DWcfManager.GetSnapshotPortion(i);
-                    var unused = await SaveSnapshot(portion);
-                    portion.CopyTo(snapshot, offset);
-                    offset = offset + portion.Length;
-                }
-
-                return snapshot;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($@"DownloadSnapshot : {e.Message}");
-                return null;
-            }
-        }
-
-        public async Task<int> SaveSnapshot(byte[] portion)
+       public async Task<int> SaveSnapshot(byte[] portion)
         {
             try
             {

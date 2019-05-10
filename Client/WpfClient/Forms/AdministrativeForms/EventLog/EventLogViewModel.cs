@@ -134,7 +134,7 @@ namespace Iit.Fibertest.Client
             InitializeFilters();
 
             _eventToLogLineParser.Initialize();
-            var jsonsInCache = await _localDbManager.LoadEvents();
+            var jsonsInCache = await _localDbManager.LoadEvents(0);
             var ordinal = 1;
             foreach (var json in jsonsInCache)
             {

@@ -54,6 +54,11 @@ namespace Iit.Fibertest.Client
             var flag = _iniFile.Read(IniSection.MySql, IniKey.IsOptimizationCouldBeDoneUpToToday, false);
             Model.UpToLimit = flag ? DateTime.Today : new DateTime(DateTime.Today.Year - 2, 12, 31);
             Model.SelectedDate = flag ? DateTime.Today : new DateTime(DateTime.Today.Year - 2, 12, 31);
+
+            var daysForEventLog = _iniFile.Read(IniSection.MySql, IniKey.SnapshotUptoLimitInDays, 90);
+            Model.UpToLimit2 = DateTime.Today.Date.AddDays(-daysForEventLog);
+            Model.SelectedDate2 = DateTime.Today.Date.AddDays(-daysForEventLog);
+
             Model.IsEnabled = _currentUser.Role <= Role.Root;
         }
 
@@ -76,7 +81,7 @@ namespace Iit.Fibertest.Client
                 }
                 : new MakeSnapshot()
                 {
-                    UpTo = Model.SelectedDate,
+                    UpTo = Model.SelectedDate2,
                 };
             var result = await _c2DWcfManager.SendCommandAsObj(cmd);
             if (!string.IsNullOrEmpty(result))
