@@ -25,6 +25,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly int _eventsPortion;
         public int LastEventNumberInSnapshot;
+        public DateTime LastEventDateInSnapshot;
 
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -52,6 +53,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             var snapshot = await _snapshotRepository.ReadSnapshotAsync(AggregateId);
             LastEventNumberInSnapshot = snapshot.Item1;
+            LastEventDateInSnapshot = snapshot.Item3;
             if (LastEventNumberInSnapshot != 0)
             {
                 if (!await _writeModel.Deserialize(_logFile, snapshot.Item2)) return -1;

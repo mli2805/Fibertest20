@@ -70,15 +70,16 @@ namespace Iit.Fibertest.Client
      
         private async Task<int> DownloadAndApplyEvents(int currentEventNumber)
         {
+            _logFile.AppendLine($@"Downloading events from {currentEventNumber}...");
             string[] events;
             do
             {
                 events = await _c2DWcfManager.GetEvents(new GetEventsDto() {Revision = currentEventNumber});
-                await _localDbManager.SaveEvents(events);
+                await _localDbManager.SaveEvents(events, currentEventNumber + 1);
                 currentEventNumber = currentEventNumber + ApplyBatch(events);
             } while (events.Length != 0);
 
-            _logFile.AppendLine($@"{currentEventNumber} events found in Cache + Db");
+            _logFile.AppendLine($@"{currentEventNumber} is last event number found in Cache + Db");
             return currentEventNumber;
         }
 

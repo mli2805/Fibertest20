@@ -2678,4 +2678,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Snapshot_created_" xml:space="preserve">
 		<value>Модель создана.</value>
 	</data>
+	<data name="SID_Event_log_clearing" xml:space="preserve">
+		<value>Очистка Журнала операций по дату включительно</value>
+	</data>
 </root>

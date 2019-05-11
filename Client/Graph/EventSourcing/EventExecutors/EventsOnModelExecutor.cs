@@ -13,6 +13,7 @@ namespace Iit.Fibertest.Graph
                     case ClientStationRegistered _: return null;
                     case ClientStationUnregistered _: return null;
                     case ClientConnectionLost _: return null;
+                    case SnapshotMade _: return null;
 
                     case NodeIntoFiberAdded evnt: return model.AddNodeIntoFiber(evnt);
                     case NodeUpdated evnt: return model.UpdateNode(evnt);

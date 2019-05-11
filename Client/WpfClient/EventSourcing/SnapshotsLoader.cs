@@ -45,7 +45,10 @@ namespace Iit.Fibertest.Client
             var snapshot = await _localDbManager.LoadSnapshot(_currentDatacenterParameters.SnapshotLastEvent);
             if (snapshot == null) return -1;
             if (snapshot.Length == 0)
+            {
+                var unused = _localDbManager.RecreateCacheDb();
                 snapshot = await DownloadSnapshot();
+            }
             if (snapshot == null) return -1;
             var appliedSuccessfully = await ApplySnapshot(snapshot);
 
@@ -67,10 +70,7 @@ namespace Iit.Fibertest.Client
         {
             try
             {
-                _logFile.AppendLine(
-                    $@"Snapshot with last event number {
-                            _currentDatacenterParameters.SnapshotLastEvent
-                        } not found in cache, downloading...");
+                _logFile.AppendLine(@"Downloading snapshot...");
                 var dto = await _c2DWcfManager.GetSnapshotParams(
                     new GetSnapshotDto() { LastIncludedEvent = _currentDatacenterParameters.SnapshotLastEvent });
                 _logFile.AppendLine($@"{dto.PortionsCount} portions in snapshot");

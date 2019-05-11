@@ -17,7 +17,7 @@ namespace Graph.Tests
             _currentEventNumber = 1;
         }
 
-        public Task SaveEvents(string[] jsons)
+        public Task SaveEvents(string[] jsons, int eventId)
         {
             foreach (var json in jsons)
             {
@@ -35,6 +35,11 @@ namespace Graph.Tests
         public Task<byte[]> LoadSnapshot(int lastEventInSnapshotOnServer)
         {
             return Task.FromResult(new byte[0]);
+        }
+
+        public Task<int> RecreateCacheDb()
+        {
+            return Task.FromResult(1);
         }
 
         public Task<int> SaveSnapshot(byte[] portion)

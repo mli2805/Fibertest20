@@ -2584,6 +2584,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Event log clearing up to and including.
+        /// </summary>
+        public static string SID_Event_log_clearing {
+            get {
+                return ResourceManager.GetString("SID_Event_log_clearing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Event # {0}.
         /// </summary>
         public static string SID_Event_N_0_ {

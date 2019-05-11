@@ -7,6 +7,7 @@ namespace Iit.Fibertest.Dto
         public int Id { get; set; }
         public Guid AggregateId { get; set; }
         public int LastEventNumber { get; set; }
+        public DateTime LastEventDate { get; set; }
         public byte[] Payload { get; set; }
     }
 }

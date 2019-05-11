@@ -85,8 +85,9 @@
                         </HeaderedContentControl>
                     </GroupBox.Header>
                     <StackPanel Margin="5" HorizontalAlignment="Left">
-                        <TextBlock Text="Event log clearing up to and including" Margin="10,5"/>
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Event_log_clearing}" Margin="10,5"/>
                         <DatePicker Width="120" Margin="5" SelectedDate="{Binding Model.SelectedDate2}"
+                                    DisplayDateStart="{Binding Model.FromLimit2}"
                                     DisplayDateEnd="{Binding Model.UpToLimit2}"/>
                  
                     </StackPanel>

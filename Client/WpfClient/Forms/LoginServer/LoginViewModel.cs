@@ -155,6 +155,7 @@ namespace Iit.Fibertest.Client
                 _currentDatacenterParameters.DatacenterVersion = result.DatacenterVersion;
                 _currentDatacenterParameters.AggregateId = result.AggregateId;
                 _currentDatacenterParameters.SnapshotLastEvent = result.SnapshotLastEvent;
+                _currentDatacenterParameters.SnapshotLastDate = result.SnapshotLastDate;
                 _currentDatacenterParameters.Smtp = new SmtpSettingsDto()
                 {
                     SmptHost = result.Smtp.SmptHost,

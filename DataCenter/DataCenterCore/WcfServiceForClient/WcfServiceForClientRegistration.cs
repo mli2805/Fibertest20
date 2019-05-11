@@ -14,6 +14,7 @@ namespace Iit.Fibertest.DataCenterCore
             var result = await _clientsCollection.RegisterClientAsync(dto);
             result.AggregateId = _eventStoreService.AggregateId;
             result.SnapshotLastEvent = _eventStoreService.LastEventNumberInSnapshot;
+            result.SnapshotLastDate = _eventStoreService.LastEventDateInSnapshot;
 
             var command = new RegisterClientStation() { RegistrationResult = result.ReturnCode };
             await _eventStoreService.SendCommand(command, dto.UserName, dto.ClientIp);

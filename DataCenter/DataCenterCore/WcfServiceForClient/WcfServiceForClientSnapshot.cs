@@ -3,7 +3,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Newtonsoft.Json;
 using NEventStore;
 
 namespace Iit.Fibertest.DataCenterCore
@@ -27,14 +26,16 @@ namespace Iit.Fibertest.DataCenterCore
 
             var tuple = await CreateModelUptoDate2(cmd.UpTo);
             var data = await tuple.Item2.Serialize(_logFile);
-            var portionCount = await _snapshotRepository.AddSnapshotAsync(_eventStoreService.AggregateId, tuple.Item1, data);
+            var portionCount = await _snapshotRepository.AddSnapshotAsync(_eventStoreService.AggregateId, tuple.Item1, cmd.UpTo.Date, data);
             if (portionCount == -1) return;
             _eventStoreService.LastEventNumberInSnapshot = tuple.Item1;
+            _eventStoreService.LastEventDateInSnapshot = cmd.UpTo.Date;
             var removedSnapshotPortions = await _snapshotRepository.RemoveOldSnapshots();
             _logFile.AppendLine($"{removedSnapshotPortions} portions of old snapshot removed");
 
             var result = await _eventStoreService.SendCommand(cmd, username, clientIp);
-            _logFile.AppendLine(result);
+            if (result != null)
+                _logFile.AppendLine(result);
 
             await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto()
             {
@@ -48,11 +49,19 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task<Tuple<int, Model>> CreateModelUptoDate2(DateTime date)
         {
             var modelForSnapshot = new Model();
-            var lastIncludedEvent = 0;
 
             // TODO block RTU events appearance
+
+            var snapshot = await _snapshotRepository.ReadSnapshotAsync(_eventStoreService.AggregateId);
+            var lastIncludedEvent = snapshot.Item1;
+            if (lastIncludedEvent != 0)
+            {
+                var unused = await modelForSnapshot.Deserialize(_logFile, snapshot.Item2);
+            }
             var eventStream = _eventStoreService.StoreEvents.OpenStream(_eventStoreService.AggregateId);
-            var events = eventStream.CommittedEvents.Where(x => ((DateTime)x.Headers["Timestamp"]).Date <= date.Date).ToList();
+            var events = eventStream.CommittedEvents
+                .Where(x => ((DateTime)x.Headers["Timestamp"]).Date <= date.Date)
+                .Skip(lastIncludedEvent).ToList();
             _logFile.AppendLine($"{events.Count} events should be applied...");
             foreach (var evnt in events)
             {
@@ -71,43 +80,6 @@ namespace Iit.Fibertest.DataCenterCore
 
             _logFile.AppendLine($"last included event {lastIncludedEvent}");
             var result = new Tuple<int, Model>(lastIncludedEvent, modelForSnapshot);
-            return result;
-        }
-
-        private async Task<Tuple<int, Model>> CreateModelUptoDate(DateTime date)
-        {
-            var modelForSnapshot = new Model();
-
-            var currentEventNumber = 0;
-
-            while (true)
-            {
-                var isUpto = false;
-                var events = _eventStoreService.GetEvents(currentEventNumber);
-                if (events.Length == 0)
-                    break;
-                foreach (var json in events)
-                {
-                    var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
-                    if (((DateTime)msg.Headers["Timestamp"]).Date > date.Date)
-                    {
-                        isUpto = true;
-                        break;
-                    }
-                    modelForSnapshot.Apply(msg.Body);
-                    currentEventNumber++;
-                }
-                if (isUpto) break;
-                _logFile.AppendLine($"{currentEventNumber}");
-                await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto()
-                {
-                    Stage = DbOptimizationStage.ModelCreating,
-                    EventsReplayed = currentEventNumber,
-                });
-            }
-
-            _logFile.AppendLine($"last included event {currentEventNumber}");
-            var result = new Tuple<int, Model>(currentEventNumber, modelForSnapshot);
             return result;
         }
     }

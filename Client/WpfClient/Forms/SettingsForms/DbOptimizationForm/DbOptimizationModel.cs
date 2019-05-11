@@ -118,6 +118,7 @@ namespace Iit.Fibertest.Client
         #endregion
 
         #region make snapshot
+        public DateTime FromLimit2{ get; set; } 
         public DateTime UpToLimit2{ get; set; } 
 
         private DateTime _selectedDate2;
@@ -129,6 +130,7 @@ namespace Iit.Fibertest.Client
                 if (value.Equals(_selectedDate2)) return;
                 _selectedDate2 = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(FromLimit2));
                 NotifyOfPropertyChange(nameof(UpToLimit2));
             }
         }

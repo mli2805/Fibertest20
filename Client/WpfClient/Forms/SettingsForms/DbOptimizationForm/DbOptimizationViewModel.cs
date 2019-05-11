@@ -17,19 +17,21 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 
         public DbOptimizationModel Model { get; set; } = new DbOptimizationModel();
 
         public DbOptimizationViewModel(IniFile iniFile, IMyLog logFile, Model readModel, 
-            CurrentUser currentUser,
+            CurrentUser currentUser, CurrentDatacenterParameters currentDatacenterParameters,
             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _readModel = readModel;
             _currentUser = currentUser;
+            _currentDatacenterParameters = currentDatacenterParameters;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
         }
@@ -56,6 +58,7 @@ namespace Iit.Fibertest.Client
             Model.SelectedDate = flag ? DateTime.Today : new DateTime(DateTime.Today.Year - 2, 12, 31);
 
             var daysForEventLog = _iniFile.Read(IniSection.MySql, IniKey.SnapshotUptoLimitInDays, 90);
+            Model.FromLimit2 = _currentDatacenterParameters.SnapshotLastDate.AddDays(1);
             Model.UpToLimit2 = DateTime.Today.Date.AddDays(-daysForEventLog);
             Model.SelectedDate2 = DateTime.Today.Date.AddDays(-daysForEventLog);
 

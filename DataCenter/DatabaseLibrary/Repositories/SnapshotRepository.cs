@@ -18,7 +18,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         }
 
         // max_allowed_packet is 16M ???
-        public async Task<int> AddSnapshotAsync(Guid graphDbVersionId, int lastEventNumber, byte[] data)
+        public async Task<int> AddSnapshotAsync(Guid graphDbVersionId, int lastEventNumber, DateTime lastEventDate, byte[] data)
         {
             try
             {
@@ -33,6 +33,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                         {
                             AggregateId = graphDbVersionId,
                             LastEventNumber = lastEventNumber,
+                            LastEventDate = lastEventDate,
                             Payload = payload
                         };
                         dbContext.Snapshots.Add(snapshot);
@@ -51,7 +52,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<Tuple<int, byte[]>> ReadSnapshotAsync(Guid graphDbVersionId)
+        public async Task<Tuple<int, byte[], DateTime>> ReadSnapshotAsync(Guid graphDbVersionId)
         {
             try
             {
@@ -63,7 +64,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                     if (!portions.Any())
                     {
                         _logFile.AppendLine("No snapshots");
-                        return new Tuple<int, byte[]>(0, null);
+                        return new Tuple<int, byte[], DateTime>(0, null, DateTime.MinValue);
                     }
                     var size = portions.Sum(p => p.Payload.Length);
                     var offset = 0;
@@ -73,7 +74,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                         t.Payload.CopyTo(data, offset);
                         offset = offset + t.Payload.Length;
                     }
-                    var result = new Tuple<int, byte[]>(portions.First().LastEventNumber, data);
+                    var result = new Tuple<int, byte[], DateTime>(portions.First().LastEventNumber, data, portions.First().LastEventDate);
                     _logFile.AppendLine($@"Snapshot size {result.Item2.Length:0,0} bytes.    Number of last event in snapshot {result.Item1:0,0}.");
                     return result;
                 }
@@ -81,7 +82,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             catch (Exception e)
             {
                 _logFile.AppendLine("ReadSnapshotAsync: " + e.Message);
-                return new Tuple<int, byte[]>(0, null);
+                return new Tuple<int, byte[], DateTime>(0, null, DateTime.MinValue);
             }
         }
 

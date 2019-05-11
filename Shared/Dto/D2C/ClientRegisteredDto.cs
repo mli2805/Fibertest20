@@ -30,6 +30,9 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public int SnapshotLastEvent { get; set; }
 
+       [DataMember]
+        public DateTime SnapshotLastDate { get; set; }
+
         [DataMember]
         public string DatacenterVersion { get; set; }
 
