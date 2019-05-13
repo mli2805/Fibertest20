@@ -25,7 +25,8 @@ namespace Iit.Fibertest.Client
         private bool _isMonitoringStopped = true;
         private bool _isMeasurementUpdated = true;
         private bool _isHistoryCleared = true;
-        private bool _isDbOptimizationStarted = true;
+        private bool _isEventsAndSorsRemoved = true;
+        private bool _isSnapshotMade = true;
 
         public bool IsAll
         {
@@ -59,7 +60,7 @@ namespace Iit.Fibertest.Client
                    _isMonitoringStopped &&
                    _isMeasurementUpdated &&
                 _isHistoryCleared &&
-                _isDbOptimizationStarted;
+                _isEventsAndSorsRemoved;
         }
 
         private void ChangeAll()
@@ -87,7 +88,8 @@ namespace Iit.Fibertest.Client
 
             IsMeasurementUpdated = IsAll;
             IsHistoryCleared = IsAll;
-            IsDbOptimizationStarted = IsAll;
+            IsEventsAndSorsRemoved = IsAll;
+            IsSnapshotMade = IsAll;
         }
 
         public bool IsClientStarted
@@ -299,13 +301,24 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public bool IsDbOptimizationStarted
+        public bool IsEventsAndSorsRemoved
         {
-            get => _isDbOptimizationStarted;
+            get => _isEventsAndSorsRemoved;
             set
             {
-                if (value == _isDbOptimizationStarted) return;
-                _isDbOptimizationStarted = value;
+                if (value == _isEventsAndSorsRemoved) return;
+                _isEventsAndSorsRemoved = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsSnapshotMade
+        {
+            get => _isSnapshotMade;
+            set
+            {
+                if (value == _isSnapshotMade) return;
+                _isSnapshotMade = value;
                 NotifyOfPropertyChange();
             }
         }

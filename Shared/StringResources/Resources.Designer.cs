@@ -2656,6 +2656,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Events and sors removed.
+        /// </summary>
+        public static string SID_Events_and_sors_removed {
+            get {
+                return ResourceManager.GetString("SID_Events_and_sors_removed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Every 12 hours.
         /// </summary>
         public static string SID_Every_12_hours {
@@ -6389,6 +6398,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Snapshot_created_ {
             get {
                 return ResourceManager.GetString("SID_Snapshot_created_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Snapshot made.
+        /// </summary>
+        public static string SID_Snapshot_made {
+            get {
+                return ResourceManager.GetString("SID_Snapshot_made", resourceCulture);
             }
         }
         

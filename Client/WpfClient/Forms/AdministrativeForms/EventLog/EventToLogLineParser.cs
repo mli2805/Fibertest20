@@ -218,7 +218,7 @@ namespace Iit.Fibertest.Client
             return new LogLine()
             {
                 OperationCode = LogOperationCode.EventsAndSorsRemoved,
-                OperationParams =  $@"{str} {e.UpTo.Date:d}  {e.IsMeasurementsNotEvents.ToYesNo()}/{e.IsOpticalEvents.ToYesNo()}/{e.IsNetworkEvents.ToYesNo()}",
+                OperationParams =  $@"{str} {e.UpTo.Date:d}  {(e.IsMeasurementsNotEvents ? 1:0)}/{(e.IsOpticalEvents ? 1:0)}/{(e.IsNetworkEvents ? 1:0)}",
             };
         }
 
