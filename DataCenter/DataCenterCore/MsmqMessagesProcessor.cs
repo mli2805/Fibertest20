@@ -94,11 +94,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<int> SaveEventFromDto(MonitoringResultDto dto, int sorId)
         {
-            _logFile.AppendLine("point11");
             var addMeasurement = _measurementFactory.CreateCommand(dto, sorId);
-            _logFile.AppendLine("point12");
             var result = await _eventStoreService.SendCommand(addMeasurement, "system", "OnServer");
-            _logFile.AppendLine("point13");
 
             if (result != null) // Unknown trace or something else
             {
@@ -106,9 +103,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return -1;
             }
 
-            _logFile.AppendLine("point14");
             await CheckAndSendBopNetworkIfNeeded(dto);
-            _logFile.AppendLine("point15");
 
             if (addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent && dto.BaseRefType != BaseRefType.Fast)
             {
@@ -116,8 +111,6 @@ namespace Iit.Fibertest.DataCenterCore
                 var task = Task.Factory.StartNew(() =>
                     SendNotificationsAboutTraces(dto, addMeasurement)); // here we do not wait result
             }
-            _logFile.AppendLine("point16");
-
             return 0;
         }
 
