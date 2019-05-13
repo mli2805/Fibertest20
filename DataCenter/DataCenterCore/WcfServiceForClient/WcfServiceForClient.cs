@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading;
@@ -133,22 +134,16 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var cmd = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
 
-            if (cmd is RemoveEventsAndSors removeEventsAndSors)
-            {
-                // long operation - don't block client!
-//                _logFile.AppendLine("Optimization command received");
-//                await Task.Factory.StartNew(() => RemoveEventsAndSors(removeEventsAndSors, username, clientIp));
-//                return null;
+            if (cmd is CleanTrace cleanTrace) 
+                return await RemoveSorFilesAndTrace(cleanTrace.TraceId, cleanTrace, username, clientIp);
+            if (cmd is RemoveTrace removeTrace) 
+                return await RemoveSorFilesAndTrace(removeTrace.TraceId, removeTrace, username, clientIp);
 
+            if (cmd is RemoveEventsAndSors removeEventsAndSors)
                 return await RemoveEventsAndSors(removeEventsAndSors, username, clientIp);
-            }
 
             if (cmd is MakeSnapshot makeSnapshot)
-            {
-                // long operation - don't block client!
-                await Task.Factory.StartNew(() => MakeSnapshot(makeSnapshot, username, clientIp));
-                return null;
-            }
+                return await MakeSnapshot(makeSnapshot, username, clientIp);
 
             var resultInGraph = await _eventStoreService.SendCommand(cmd, username, clientIp);
             if (resultInGraph != null)
@@ -215,5 +210,21 @@ namespace Iit.Fibertest.DataCenterCore
             return await _diskSpaceProvider.GetDiskSpaceGb();
         }
 
+        private async Task<string> RemoveSorFilesAndTrace(Guid traceId, object cleanTrace, string username, string clientIp)
+        {
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
+            if (trace == null)
+                return $@"Trace {traceId} not found";
+            // starting in another thread breaks tests
+            // await Task.Factory.StartNew(() => LongPart(traceId, cleanTrace, username, clientIp));
+            return await LongPart(traceId, cleanTrace, username, clientIp);
+        }
+
+        private async Task<string> LongPart(Guid traceId, object cmd, string username, string clientIp)
+        {
+            var sorFileIds = _writeModel.Measurements.Where(m => m.TraceId == traceId).Select(l => l.SorFileId).ToArray();
+            await _sorFileRepository.RemoveManySorAsync(sorFileIds);
+            return await _eventStoreService.SendCommand(cmd, username, clientIp);
+        }
     }
 }
