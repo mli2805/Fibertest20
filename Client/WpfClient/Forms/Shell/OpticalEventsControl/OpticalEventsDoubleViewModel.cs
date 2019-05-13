@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Client
             foreach (var measurement in _readModel.Measurements)
             {
                 var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == measurement.TraceId);
-                if (trace == null || !trace.IsAttached)
+                if (trace == null || !trace.ZoneIds.Contains(_currentUser.ZoneId) || !trace.IsAttached)
                     continue;
                 AllOpticalEventsViewModel.AddEvent(measurement);
 
