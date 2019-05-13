@@ -37,6 +37,8 @@ namespace Iit.Fibertest.Graph
             {
                 return $@"TraceCleaned: Trace {e.TraceId} not found";
             }
+
+            model.RemoveBaseRefsAndMeasurementsForTrace(trace);
             var traceFibers =  model.GetTraceFibersByNodes(trace.NodeIds).ToList();
             foreach (var fiber in traceFibers)
             {
@@ -47,6 +49,12 @@ namespace Iit.Fibertest.Graph
 
             model.Traces.Remove(trace);
             return null;
+        }
+
+        private static void RemoveBaseRefsAndMeasurementsForTrace(this Model model, Trace trace)
+        {
+            model.Measurements.RemoveAll(m=>m.TraceId == trace.TraceId);
+            model.BaseRefs.RemoveAll(b => b.TraceId == trace.TraceId);
         }
 
         private static IEnumerable<Fiber> GetTraceFibersByNodes(this Model model, List<Guid> nodes)
@@ -70,6 +78,7 @@ namespace Iit.Fibertest.Graph
                 return $@"TraceRemoved: Trace {e.TraceId} not found";
             }
 
+            model.RemoveBaseRefsAndMeasurementsForTrace(trace);
             var traceFibers =  model.GetTraceFibersByNodes(trace.NodeIds).ToList();
             foreach (var fiber in traceFibers)
             {

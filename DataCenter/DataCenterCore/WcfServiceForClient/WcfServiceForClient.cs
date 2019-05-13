@@ -223,7 +223,8 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task<string> LongPart(Guid traceId, object cmd, string username, string clientIp)
         {
             var sorFileIds = _writeModel.Measurements.Where(m => m.TraceId == traceId).Select(l => l.SorFileId).ToArray();
-            await _sorFileRepository.RemoveManySorAsync(sorFileIds);
+            var sorFileIds2 = sorFileIds.Concat(_writeModel.BaseRefs.Where(b => b.TraceId == traceId).Select(l => l.SorFileId).ToArray()).ToArray();
+            await _sorFileRepository.RemoveManySorAsync(sorFileIds2);
             return await _eventStoreService.SendCommand(cmd, username, clientIp);
         }
     }
