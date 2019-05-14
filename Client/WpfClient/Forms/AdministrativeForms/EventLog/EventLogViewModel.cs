@@ -8,6 +8,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
 using Newtonsoft.Json;
 using NEventStore;
@@ -16,6 +17,8 @@ namespace Iit.Fibertest.Client
 {
     public class EventLogViewModel : Screen
     {
+        private readonly IMyLog _logFile;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly ILocalDbManager _localDbManager;
         private readonly EventToLogLineParser _eventToLogLineParser;
         private readonly Model _readModel;
@@ -55,9 +58,12 @@ namespace Iit.Fibertest.Client
 
         public List<LogLine> Rows { get; set; }
 
-        public EventLogViewModel(ILocalDbManager localDbManager, EventToLogLineParser eventToLogLineParser,
+        public EventLogViewModel(IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
+            ILocalDbManager localDbManager, EventToLogLineParser eventToLogLineParser,
             Model readModel, LogOperationsViewModel logOperationsViewModel, IWindowManager windowManager)
         {
+            _logFile = logFile;
+            _currentDatacenterParameters = currentDatacenterParameters;
             _localDbManager = localDbManager;
             _eventToLogLineParser = eventToLogLineParser;
             _readModel = readModel;
@@ -129,12 +135,21 @@ namespace Iit.Fibertest.Client
         }
 
         // do before show form!
-        public async Task Initialize()
+        public async Task<int> Initialize()
         {
             Rows = new List<LogLine>();
             InitializeFilters();
 
             _eventToLogLineParser.Initialize();
+            if (_currentDatacenterParameters.SnapshotLastEvent != 0)
+            {
+                var snapshot = await _localDbManager.LoadSnapshot(_currentDatacenterParameters.SnapshotLastEvent);
+                var modelAtSnapshot = new Model()
+                    ;
+                await modelAtSnapshot.Deserialize(_logFile, snapshot);
+                _eventToLogLineParser.InitializeBySnapshot(modelAtSnapshot);
+            }
+
             var jsonsInCache = await _localDbManager.LoadEvents(0);
             var ordinal = 1;
             foreach (var json in jsonsInCache)
@@ -162,6 +177,8 @@ namespace Iit.Fibertest.Client
                     Console.WriteLine(e);
                 }
             }
+
+            return Rows.Count;
         }
 
         public void ShowOperationFilter()

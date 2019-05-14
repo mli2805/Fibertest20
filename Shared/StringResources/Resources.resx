@@ -2681,4 +2681,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Event_log_clearing" xml:space="preserve">
     <value>Event log clearing up to and including</value>
   </data>
+	<data name="SID_Collecting_data_for_event_log___" xml:space="preserve">
+    <value>Collecting event log data...</value>
+  </data>
 </root>

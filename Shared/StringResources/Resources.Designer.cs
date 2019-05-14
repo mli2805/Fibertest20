@@ -1656,6 +1656,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Collecting data for event log....
+        /// </summary>
+        public static string SID_Collecting_data_for_event_log___ {
+            get {
+                return ResourceManager.GetString("SID_Collecting_data_for_event_log___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Command is processing....
         /// </summary>
         public static string SID_Command_is_processing___ {

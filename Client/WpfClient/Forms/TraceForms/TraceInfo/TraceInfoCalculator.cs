@@ -32,7 +32,7 @@ namespace Iit.Fibertest.Client
             var rows = new List<TraceInfoTableItem>();
 
             if (dict.ContainsKey(EquipmentType.EmptyNode))
-                rows.Add(new TraceInfoTableItem(EquipmentType.EmptyNode.ToLocalizedString(), dict[EquipmentType.EmptyNode]));
+                rows.Add(new TraceInfoTableItem(Resources.SID_Node_without_equipment, dict[EquipmentType.EmptyNode]));
             if (dict.ContainsKey(EquipmentType.CableReserve))
                 rows.Add(new TraceInfoTableItem(EquipmentType.CableReserve.ToLocalizedString(), dict[EquipmentType.CableReserve]));
 

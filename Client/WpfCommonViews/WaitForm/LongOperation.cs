@@ -5,5 +5,6 @@
         DrawingGraph,
         DbOptimization,
         MakingSnapshot,
+        CollectingEventLog,
     }
 }

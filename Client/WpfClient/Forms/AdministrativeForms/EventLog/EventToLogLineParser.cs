@@ -60,6 +60,15 @@ namespace Iit.Fibertest.Client
             _measurements = new Dictionary<int, MeasurementAdded>();
         }
 
+        public void InitializeBySnapshot(Model modelAtSnapshot)
+        {
+            foreach (var rtu in modelAtSnapshot.Rtus)
+                _rtuTitles.Add(rtu.Id, rtu.Title);
+
+            foreach (var trace in modelAtSnapshot.Traces)
+                _traces.Add(trace.TraceId, new Tuple<string, Guid>(trace.Title, trace.RtuId));
+        }
+
         private LogLine Parse(RtuAtGpsLocationAdded e)
         {
             _rtuTitles.Add(e.Id, e.Title);

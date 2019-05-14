@@ -29,6 +29,16 @@ namespace Iit.Fibertest.WpfCommonViews
                         "",
                         Resources.SID_Please__wait___
                     };
+                case LongOperation.CollectingEventLog:
+                    return new List<string>()
+                    {
+                        Resources.SID_Collecting_data_for_event_log___,
+                        "",
+                        Resources.SID_Depending_on_database_size__choosen_parameters_and_performance_of_your_PC,
+                        Resources.SID_it_could_take_a_few_minutes_,
+                        "",
+                        Resources.SID_Please__wait___
+                    };
                 //case LongOperation.MakingSnapshot:
                 default: return new List<string>() { "Making snapshot..." };
             }

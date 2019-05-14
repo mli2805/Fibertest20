@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
@@ -123,7 +124,15 @@ namespace Iit.Fibertest.Client
         public async void LaunchEventLogView()
         {
             var vm = _globalScope.Resolve<EventLogViewModel>();
-            await vm.Initialize();
+
+            var waitVm = new WaitViewModel();
+            waitVm.Initialize(LongOperation.CollectingEventLog);
+            _windowManager.ShowWindowWithAssignedOwner(waitVm);
+
+            var unused = await Task.Factory.StartNew(()=>vm.Initialize().Result);
+
+            waitVm.TryClose();
+
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
@@ -134,7 +143,7 @@ namespace Iit.Fibertest.Client
             if (!File.Exists(usersGuide))
             {
                 var mb = new MyMessageBoxViewModel(MessageType.Error,
-                    new List<string> {Resources.SID_Cannot_find_file_with_user_s_guide_, "", usersGuide}, 0);
+                    new List<string> { Resources.SID_Cannot_find_file_with_user_s_guide_, "", usersGuide }, 0);
                 _windowManager.ShowDialogWithAssignedOwner(mb);
                 return;
             }
