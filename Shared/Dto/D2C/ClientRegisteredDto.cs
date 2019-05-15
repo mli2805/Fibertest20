@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Dto
         public string ZoneTitle { get; set; }
 
         [DataMember]
-        public Guid AggregateId { get; set; }
+        public Guid StreamIdOriginal { get; set; }
 
         [DataMember]
         public int SnapshotLastEvent { get; set; }

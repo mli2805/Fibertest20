@@ -30,7 +30,6 @@
         RtuHeartbeatPermittedGap,
 
         EventSourcingPortion,
-        EventSourcingAggregateId,
 
         // RtuManager
         OtdrIp,

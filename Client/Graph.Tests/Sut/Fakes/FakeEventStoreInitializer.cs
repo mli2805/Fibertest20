@@ -16,6 +16,11 @@ namespace Graph.Tests
 
         public string DataDir => @"memory";
 
+        public Guid GetStreamIdIfExists()
+        {
+            return Guid.Empty;
+        }
+
         public IStoreEvents Init()
         {
             try

@@ -153,7 +153,7 @@ namespace Iit.Fibertest.Client
                 _currentUser.ZoneId = result.ZoneId;
                 _currentUser.ZoneTitle = result.ZoneTitle;
                 _currentDatacenterParameters.DatacenterVersion = result.DatacenterVersion;
-                _currentDatacenterParameters.AggregateId = result.AggregateId;
+                _currentDatacenterParameters.StreamIdOriginal = result.StreamIdOriginal;
                 _currentDatacenterParameters.SnapshotLastEvent = result.SnapshotLastEvent;
                 _currentDatacenterParameters.SnapshotLastDate = result.SnapshotLastDate;
                 _currentDatacenterParameters.Smtp = new SmtpSettingsDto()
@@ -168,7 +168,7 @@ namespace Iit.Fibertest.Client
                 _currentGis.IsWithoutMapMode = result.IsWithoutMapMode;
 
                 _logFile.AppendLine(@"Registered successfully");
-                _logFile.AppendLine($@"AggregateId = {result.AggregateId}  Last event number in snapshot {result.SnapshotLastEvent}");
+                _logFile.AppendLine($@"StreamIdOriginal = {result.StreamIdOriginal}  Last event number in snapshot {result.SnapshotLastEvent}");
                 IsRegistrationSuccessful = true;
                 TryClose();
             }

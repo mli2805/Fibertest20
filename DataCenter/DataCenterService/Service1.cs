@@ -16,6 +16,7 @@ namespace Iit.Fibertest.DataCenterService
         private readonly IMyLog _logFile;
         private readonly ISettings _serverSettings;
         private readonly EventStoreService _eventStoreService;
+        private readonly IEventStoreInitializer _eventStoreInitializer;
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
         private readonly SmsSender _smsSender;
         private readonly WcfServiceForClientBootstrapper _wcfServiceForClientBootstrapper;
@@ -23,7 +24,7 @@ namespace Iit.Fibertest.DataCenterService
         private readonly IMsmqHandler _msmqHandler;
 
         public Service1(IniFile iniFile, IMyLog logFile, ISettings serverSettings,
-            EventStoreService eventStoreService,
+            EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
             LastConnectionTimeChecker lastConnectionTimeChecker, SmsSender smsSender,
             WcfServiceForClientBootstrapper wcfServiceForClientBootstrapper,
             WcfServiceForRtuBootstrapper wcfServiceForRtuBootstrapper,
@@ -33,6 +34,7 @@ namespace Iit.Fibertest.DataCenterService
             _logFile = logFile;
             _serverSettings = serverSettings;
             _eventStoreService = eventStoreService;
+            _eventStoreInitializer = eventStoreInitializer;
             _logFile.AssignFile("DataCenter.log");
             _lastConnectionTimeChecker = lastConnectionTimeChecker;
             _smsSender = smsSender;
@@ -59,9 +61,20 @@ namespace Iit.Fibertest.DataCenterService
 
             var assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
+            _logFile.AppendLine($"Data-center version {info.FileVersion}");
             IniFile.Write(IniSection.General, IniKey.Version, info.FileVersion);
      
             _serverSettings.Init();
+            await InitializeEventStoreService();
+            _lastConnectionTimeChecker.Start();
+            _wcfServiceForClientBootstrapper.Start();
+            _wcfServiceForRtuBootstrapper.Start();
+            _msmqHandler.Start();
+            _smsSender.Start();
+        }
+
+        private async Task<int> InitializeEventStoreService()
+        {
             var resetDb = IniFile.Read(IniSection.MySql, IniKey.ResetDb, false);
             if (resetDb)
             {
@@ -71,10 +84,18 @@ namespace Iit.Fibertest.DataCenterService
                     dbContext.Database.EnsureDeleted();
                 }
                 _eventStoreService.Delete();
-                _eventStoreService.AggregateId = Guid.NewGuid();
-                IniFile.Write(IniSection.General, IniKey.EventSourcingAggregateId, _eventStoreService.AggregateId.ToString());
                 IniFile.Write(IniSection.MySql, IniKey.ResetDb, false);
                 _logFile.AppendLine("Db deleted successfully.");
+            }
+            else
+                _eventStoreService.StreamIdOriginal = _eventStoreInitializer.GetStreamIdIfExists();
+
+            if (_eventStoreService.StreamIdOriginal != Guid.Empty)
+                _logFile.AppendLine($"Found DB with StreamIdOriginal {_eventStoreService.StreamIdOriginal}");
+            else
+            {
+                _eventStoreService.StreamIdOriginal = Guid.NewGuid();
+                _logFile.AppendLine($"DB will be created with StreamIdOriginal {_eventStoreService.StreamIdOriginal}");
             }
 
             using (var dbContext = new FtDbContext(_serverSettings.Options))
@@ -83,11 +104,7 @@ namespace Iit.Fibertest.DataCenterService
                 _serverSettings.LogSettings();
             }
             await _eventStoreService.Init();
-            _lastConnectionTimeChecker.Start();
-            _wcfServiceForClientBootstrapper.Start();
-            _wcfServiceForRtuBootstrapper.Start();
-            _msmqHandler.Start();
-            _smsSender.Start();
+            return 1;
         }
 
         protected override void OnStop()

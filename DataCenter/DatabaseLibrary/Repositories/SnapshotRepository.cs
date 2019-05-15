@@ -31,7 +31,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                         var payload = data.Skip(i * portion).Take(portion).ToArray();
                         var snapshot = new Snapshot()
                         {
-                            AggregateId = graphDbVersionId,
+                            StreamIdOriginal = graphDbVersionId,
                             LastEventNumber = lastEventNumber,
                             LastEventDate = lastEventDate,
                             Payload = payload
@@ -60,7 +60,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                 {
                     _logFile.AppendLine("Snapshot reading...");
                     await Task.Delay(1);
-                    var portions = dbContext.Snapshots.Where(l => l.AggregateId == graphDbVersionId);
+                    var portions = dbContext.Snapshots.Where(l => l.StreamIdOriginal == graphDbVersionId);
                     if (!portions.Any())
                     {
                         _logFile.AppendLine("No snapshots");

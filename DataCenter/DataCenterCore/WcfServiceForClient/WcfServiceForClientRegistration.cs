@@ -12,7 +12,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return new ClientRegisteredDto(){ReturnCode = ReturnCode.Error};
 
             var result = await _clientsCollection.RegisterClientAsync(dto);
-            result.AggregateId = _eventStoreService.AggregateId;
+            result.StreamIdOriginal = _eventStoreService.StreamIdOriginal;
             result.SnapshotLastEvent = _eventStoreService.LastEventNumberInSnapshot;
             result.SnapshotLastDate = _eventStoreService.LastEventDateInSnapshot;
 

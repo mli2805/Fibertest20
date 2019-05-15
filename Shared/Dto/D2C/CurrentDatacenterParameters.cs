@@ -6,7 +6,7 @@ namespace Iit.Fibertest.Dto
     {
         public string ServerTitle { get; set; }
         public string ServerIp { get; set; }
-        public Guid AggregateId { get; set; }
+        public Guid StreamIdOriginal { get; set; }
         public int SnapshotLastEvent { get; set; }
         public DateTime SnapshotLastDate { get; set; }
         public string DatacenterVersion { get; set; }

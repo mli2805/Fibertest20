@@ -32,7 +32,7 @@ namespace Iit.Fibertest.Client
             var serverDoubleAddress = _iniFile.ReadDoubleAddress(11840);
             _serverAddress = serverDoubleAddress.Main.GetAddress();
 
-            _filename = GetFullDbFilename(_currentDatacenterParameters.AggregateId);
+            _filename = GetFullDbFilename(_currentDatacenterParameters.StreamIdOriginal);
             _logFile.AppendLine($@"Db full filename: {_filename}");
 
             _connectionString = $@"Data Source={_filename}; Version=3;";
@@ -41,13 +41,13 @@ namespace Iit.Fibertest.Client
             CreateIfNeeded();
         }
 
-        private string GetFullDbFilename(Guid aggregateId)
+        private string GetFullDbFilename(Guid streamIdOriginal)
         {
             var appPath = AppDomain.CurrentDomain.BaseDirectory;
             _logFile.AppendLine($@"Application path: {appPath}");
 
             return FileOperations.GetParentFolder(appPath) +
-                   $@"\Cache\GraphDb\{_serverAddress}\{aggregateId.ToString()}.sqlite3";
+                   $@"\Cache\GraphDb\{_serverAddress}\{streamIdOriginal.ToString()}.sqlite3";
         }
 
         public async Task SaveEvents(string[] jsons, int eventId)

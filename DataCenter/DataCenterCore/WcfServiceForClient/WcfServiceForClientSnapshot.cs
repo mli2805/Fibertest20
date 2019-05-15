@@ -11,22 +11,22 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private async Task<string> MakeSnapshot(MakeSnapshot cmd, string username, string clientIp)
         {
-            _logFile.AppendLine("Start making snapshot on another thread to release WCF client");
             var unused = await Task.Factory.StartNew(() => FullProcedure(cmd, username, clientIp));
             return null;
         }
 
         private async Task FullProcedure(MakeSnapshot cmd, string username, string clientIp)
         {
+            _logFile.AppendLine("Start making snapshot on another thread to release WCF client");
             var addresses = _clientsCollection.GetClientsAddresses();
             if (addresses == null)
                 return;
             _d2CWcfManager.SetClientsAddresses(addresses);
             await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto() { Stage = DbOptimizationStage.Starting });
 
-            var tuple = await CreateModelUptoDate2(cmd.UpTo);
+            var tuple = await CreateModelUptoDate(cmd.UpTo);
             var data = await tuple.Item2.Serialize(_logFile);
-            var portionCount = await _snapshotRepository.AddSnapshotAsync(_eventStoreService.AggregateId, tuple.Item1, cmd.UpTo.Date, data);
+            var portionCount = await _snapshotRepository.AddSnapshotAsync(_eventStoreService.StreamIdOriginal, tuple.Item1, cmd.UpTo.Date, data);
             if (portionCount == -1) return;
             _eventStoreService.LastEventNumberInSnapshot = tuple.Item1;
             _eventStoreService.LastEventDateInSnapshot = cmd.UpTo.Date;
@@ -46,19 +46,19 @@ namespace Iit.Fibertest.DataCenterCore
             await _d2CWcfManager.UnBlockClientAfterDbOptimization();
         }
 
-        private async Task<Tuple<int, Model>> CreateModelUptoDate2(DateTime date)
+        private async Task<Tuple<int, Model>> CreateModelUptoDate(DateTime date)
         {
             var modelForSnapshot = new Model();
 
             // TODO block RTU events appearance
 
-            var snapshot = await _snapshotRepository.ReadSnapshotAsync(_eventStoreService.AggregateId);
+            var snapshot = await _snapshotRepository.ReadSnapshotAsync(_eventStoreService.StreamIdOriginal);
             var lastIncludedEvent = snapshot.Item1;
             if (lastIncludedEvent != 0)
             {
                 var unused = await modelForSnapshot.Deserialize(_logFile, snapshot.Item2);
             }
-            var eventStream = _eventStoreService.StoreEvents.OpenStream(_eventStoreService.AggregateId);
+            var eventStream = _eventStoreService.StoreEvents.OpenStream(_eventStoreService.StreamIdOriginal);
             var events = eventStream.CommittedEvents
                 .Where(x => ((DateTime)x.Headers["Timestamp"]).Date <= date.Date)
                 .Skip(lastIncludedEvent).ToList();

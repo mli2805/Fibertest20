@@ -148,5 +148,26 @@ namespace Iit.Fibertest.DataCenterCore
                 throw;
             }
         }
+
+        public Guid GetStreamIdIfExists()
+        {
+            try
+            {
+                MySqlConnection connection = new MySqlConnection(ConnectionString);
+                MySqlCommand command = new MySqlCommand(
+                    $"SELECT StreamIdOriginal FROM ft20graph.commits", connection);
+                connection.Open();
+                var result = (string)command.ExecuteScalar();
+                connection.Close();
+                Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                return Guid.Parse(result);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetStreamIdIfExists: " + e.Message);
+                return Guid.Empty;
+            }
+
+        }
     }
 }
