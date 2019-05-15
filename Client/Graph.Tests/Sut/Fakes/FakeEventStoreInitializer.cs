@@ -50,7 +50,7 @@ namespace Graph.Tests
             throw new NotImplementedException();
         }
 
-        public int RemoveCommitsUptoSnapshot(int lastEventNumber)
+        public int RemoveCommitsIncludedIntoSnapshot(int lastEventNumber)
         {
             return 0;
         }

@@ -26,13 +26,18 @@ namespace Iit.Fibertest.DataCenterCore
 
             var tuple = await CreateModelUptoDate(cmd.UpTo);
             var data = await tuple.Item2.Serialize(_logFile);
+
             var portionCount = await _snapshotRepository.AddSnapshotAsync(_eventStoreService.StreamIdOriginal, tuple.Item1, cmd.UpTo.Date, data);
             if (portionCount == -1) return;
-            _eventStoreService.LastEventNumberInSnapshot = tuple.Item1;
-            _eventStoreService.LastEventDateInSnapshot = cmd.UpTo.Date;
             var removedSnapshotPortions = await _snapshotRepository.RemoveOldSnapshots();
             _logFile.AppendLine($"{removedSnapshotPortions} portions of old snapshot removed");
 
+            DeleteOldCommits(tuple.Item1);
+            _logFile.AppendLine("Deleted commits included into snapshot");
+
+            _eventStoreService.LastEventNumberInSnapshot = tuple.Item1;
+            _eventStoreService.LastEventDateInSnapshot = cmd.UpTo.Date;
+      
             var result = await _eventStoreService.SendCommand(cmd, username, clientIp);
             if (result != null)
                 _logFile.AppendLine(result);
@@ -44,6 +49,13 @@ namespace Iit.Fibertest.DataCenterCore
 
             _logFile.AppendLine("Unblocking connections");
             await _d2CWcfManager.UnBlockClientAfterDbOptimization();
+        }
+
+        private void DeleteOldCommits(int lastEventNumber)
+        {
+            _eventStoreService.StoreEvents.Dispose();
+            _eventStoreInitializer.RemoveCommitsIncludedIntoSnapshot(lastEventNumber);
+            _eventStoreService.StoreEvents = _eventStoreInitializer.Init();
         }
 
         private async Task<Tuple<int, Model>> CreateModelUptoDate(DateTime date)

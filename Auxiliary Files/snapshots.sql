@@ -6,3 +6,5 @@ CREATE TABLE ft20efcore.snapshots (
   `Payload` longblob,
   PRIMARY KEY (`Id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8
+
+ALTER TABLE ft20efcore.snapshots CHANGE `AggregateId` `StreamIdOriginal` char(36)

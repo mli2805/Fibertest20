@@ -79,9 +79,26 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public int RemoveCommitsUptoSnapshot(int lastEventNumber)
+        public int RemoveCommitsIncludedIntoSnapshot(int lastEventNumber)
         {
-            return 0;
+            try
+            {
+                MySqlConnection connection = new MySqlConnection(ConnectionString);
+                connection.Open();
+                MySqlCommand command1 = new MySqlCommand($"SELECT CheckPointNumber FROM ft20graph.commits WHERE StreamRevision = {lastEventNumber};", connection);
+                var checkPointNumber = (long)command1.ExecuteScalar() + 1;
+
+                MySqlCommand command = new MySqlCommand($"DELETE FROM ft20graph.commits WHERE CheckPointNumber < {checkPointNumber};", connection);
+                command.ExecuteNonQuery();
+                connection.Close();
+                Thread.Sleep(TimeSpan.FromMilliseconds(100));
+                return 1;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return -1;
+            }
         }
 
 
