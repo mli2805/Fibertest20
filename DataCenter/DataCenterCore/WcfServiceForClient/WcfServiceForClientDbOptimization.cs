@@ -10,15 +10,9 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public partial class WcfServiceForClient
     {
-        private async Task<string> RemoveEventsAndSors(RemoveEventsAndSors removeEventsAndSors, string username, string clientIp)
+        private async Task RemoveEventsAndSors(RemoveEventsAndSors removeEventsAndSors, string username, string clientIp)
         {
             _logFile.AppendLine("Start DB optimization on another thread to release WCF client");
-            var unused = await Task.Factory.StartNew(() => FullProcedure(removeEventsAndSors, username, clientIp));
-            return null;
-        }
-
-        private async Task FullProcedure(RemoveEventsAndSors removeEventsAndSors, string username, string clientIp)
-        {
             var addresses = _clientsCollection.GetClientsAddresses();
             if (addresses == null)
                 return;

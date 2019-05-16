@@ -134,16 +134,22 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var cmd = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
 
-            if (cmd is CleanTrace cleanTrace) 
+            if (cmd is CleanTrace cleanTrace)
                 return await RemoveSorFilesAndTrace(cleanTrace.TraceId, cleanTrace, username, clientIp);
-            if (cmd is RemoveTrace removeTrace) 
+            if (cmd is RemoveTrace removeTrace)
                 return await RemoveSorFilesAndTrace(removeTrace.TraceId, removeTrace, username, clientIp);
 
             if (cmd is RemoveEventsAndSors removeEventsAndSors)
-                return await RemoveEventsAndSors(removeEventsAndSors, username, clientIp);
+            {
+                await Task.Factory.StartNew(() => RemoveEventsAndSors(removeEventsAndSors, username, clientIp));
+                return null;
+            }
 
             if (cmd is MakeSnapshot makeSnapshot)
-                return await MakeSnapshot(makeSnapshot, username, clientIp);
+            {
+                await Task.Factory.StartNew(() => MakeSnapshot(makeSnapshot, username, clientIp));
+                return null;
+            }
 
             var resultInGraph = await _eventStoreService.SendCommand(cmd, username, clientIp);
             if (resultInGraph != null)

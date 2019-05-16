@@ -9,13 +9,7 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public partial class WcfServiceForClient
     {
-        private async Task<string> MakeSnapshot(MakeSnapshot cmd, string username, string clientIp)
-        {
-            var unused = await Task.Factory.StartNew(() => FullProcedure(cmd, username, clientIp));
-            return null;
-        }
-
-        private async Task FullProcedure(MakeSnapshot cmd, string username, string clientIp)
+        private async Task MakeSnapshot(MakeSnapshot cmd, string username, string clientIp)
         {
             _logFile.AppendLine("Start making snapshot on another thread to release WCF client");
             var addresses = _clientsCollection.GetClientsAddresses();
