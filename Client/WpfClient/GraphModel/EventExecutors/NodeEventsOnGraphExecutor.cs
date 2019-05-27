@@ -63,8 +63,6 @@ namespace Iit.Fibertest.Client
 
         public void MoveNode(NodeMoved evnt)
         {
-            if (_graphModel.Data.Nodes.All(f => f.Id != evnt.NodeId)) return;
-
             var nodeVm = _graphModel.Data.Nodes.FirstOrDefault(n => n.Id == evnt.NodeId);
             if (nodeVm == null)
                 return;
@@ -73,8 +71,6 @@ namespace Iit.Fibertest.Client
 
         public void UpdateNode(NodeUpdated evnt)
         {
-            if (_graphModel.Data.Nodes.All(f => f.Id != evnt.NodeId)) return;
-
             var nodeVm = _graphModel.Data.Nodes.FirstOrDefault(n => n.Id == evnt.NodeId);
             if (nodeVm == null)
                 return;
@@ -83,8 +79,6 @@ namespace Iit.Fibertest.Client
 
         public void UpdateAndMoveNode(NodeUpdatedAndMoved evnt)
         {
-            if (_graphModel.Data.Nodes.All(f => f.Id != evnt.NodeId)) return;
-
             var nodeVm = _graphModel.Data.Nodes.FirstOrDefault(n => n.Id == evnt.NodeId);
             if (nodeVm == null)
                 return;
