@@ -103,7 +103,11 @@ namespace Iit.Fibertest.Client
         {
             var res = new List<Tuple<NodeVm, List<FiberVm>>>();
 
-            var fiberVms = model.Data.Fibers.Where(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId);
+            var nn = model.Data.Nodes.Where(n => n.Id.ToString().StartsWith(@"69a2499f")).ToList();
+            Console.WriteLine(nn);
+
+
+            var fiberVms = model.Data.Fibers.Where(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId).ToList();
             foreach (var fiberVm in fiberVms)
             {
                 var fibersOfOneDestination = new List<FiberVm>();

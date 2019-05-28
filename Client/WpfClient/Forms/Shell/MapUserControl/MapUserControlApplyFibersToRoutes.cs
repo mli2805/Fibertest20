@@ -55,6 +55,11 @@ namespace Iit.Fibertest.Client
             var route = new GMapRoute(fiberVm.Id, fiberVm.Node1.Id, fiberVm.Node2.Id,
                  fiberVm.State.GetBrush(isForeground: true), fiberVm.IsBadSegment ? 4 : 2, points, MainMap);
 
+            if (fiberVm.Node1.Id.ToString().StartsWith(@"69a2499f") || fiberVm.Node2.Id.ToString().StartsWith(@"69a2499f"))
+            {
+                Console.WriteLine(@"Fi-fi-fam!");
+            }
+            
             route.PropertyChanged += Route_PropertyChanged;
             route.Shape.Visibility = GraphReadModel.SelectedGraphVisibilityItem.Level >= GraphVisibilityLevel.RtuAndTraces
                 ? Visibility.Visible

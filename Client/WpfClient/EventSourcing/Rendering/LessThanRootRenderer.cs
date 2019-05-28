@@ -6,21 +6,23 @@ namespace Iit.Fibertest.Client
     public class LessThanRootRenderer
     {
         private readonly Model _readModel;
+        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly CurrentUser _currentUser;
         private readonly OneRtuOrTraceRenderer _oneRtuOrTraceRenderer;
 
-        public LessThanRootRenderer(Model readModel, 
+        public LessThanRootRenderer(Model readModel, CurrentlyHiddenRtu currentlyHiddenRtu,
             CurrentUser currentUser, OneRtuOrTraceRenderer oneRtuOrTraceRenderer)
         {
             _readModel = readModel;
+            _currentlyHiddenRtu = currentlyHiddenRtu;
             _currentUser = currentUser;
             _oneRtuOrTraceRenderer = oneRtuOrTraceRenderer;
         }
 
-        public RenderingResult ShowAllOnStart()
+        public RenderingResult ShowRtusAndTraces()
         {
             var renderingResult = ShowOnlyRtus();
-            foreach (var trace in _readModel.Traces.Where(r => r.ZoneIds.Contains(_currentUser.ZoneId)))
+            foreach (var trace in _readModel.Traces.Where(r => r.ZoneIds.Contains(_currentUser.ZoneId) && !_currentlyHiddenRtu.Collection.Contains(r.RtuId)))
             {
                _oneRtuOrTraceRenderer.GetTraceRendering(trace, renderingResult);
             }

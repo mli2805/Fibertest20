@@ -51,7 +51,9 @@ namespace Iit.Fibertest.Client
             if (e.PropertyName == "IsShowAllPressed" || e.PropertyName == "IsHideAllPressed")
             {
                 var unused1 = await FullClean();
-                var renderingResult = await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingOfAll);
+                var renderingResult =_currentlyHiddenRtu.Collection.Count == 0
+                    ? await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingForShowAll)
+                    : await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingForHiddenAll);
                 var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
             }
 
@@ -71,7 +73,7 @@ namespace Iit.Fibertest.Client
         {
             _waitViewModel.Initialize(LongOperation.DrawingGraph);
             _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
-            var renderingResult = await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingOfDifference);
+            var renderingResult = await Task.Factory.StartNew(_currentZoneRenderer.GetCurrentRendering);
             var unused = await _renderingApplierToUi.ToExistingGraph(renderingResult);
             _waitViewModel.TryClose();
             _currentlyHiddenRtu.CleanFlags();
@@ -84,7 +86,9 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
 
             _logFile.AppendLine(@"rendering started");
-            var renderingResult = await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingOfAll);
+            var renderingResult =_currentlyHiddenRtu.Collection.Count == 0
+                ? await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingForShowAll)
+                : await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingForHiddenAll);
             var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
 
             // InvokeAsync hangs up all tests
@@ -99,7 +103,7 @@ namespace Iit.Fibertest.Client
             _waitViewModel.Initialize(LongOperation.DrawingGraph);
             _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
 
-            var renderingResult = await Task.Factory.StartNew(() => _currentZoneRenderer.GetRenderingOfDifference());
+            var renderingResult = await Task.Factory.StartNew(() => _currentZoneRenderer.GetCurrentRendering());
             var unused = await _renderingApplierToUi.ToExistingGraph(renderingResult);
 
             _waitViewModel.TryClose();

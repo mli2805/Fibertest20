@@ -71,7 +71,8 @@ namespace Iit.Fibertest.Client
                 {
                     if (i >= renderingResult.NodeVms.Count) break;
                     var nodeVm = renderingResult.NodeVms[i];
-                    if (_graphReadModel.Data.Nodes.All(n => n.Id != nodeVm.Id))
+                    var nodeVmInGraph = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == nodeVm.Id);
+                    if (nodeVmInGraph == null)
                         _graphReadModel.Data.Nodes.Add(nodeVm);
                     i++;
                 }
@@ -115,7 +116,7 @@ namespace Iit.Fibertest.Client
 
         private async Task<int> RemoveElementsOfHiddenTraces(RenderingResult renderingResult)
         {
-            // remove nodes for deleted traces
+            // remove nodes for hidden traces
             var i = 0;
             var nodeVms = _graphReadModel.Data.Nodes.ToList();
             while (i < nodeVms.Count)
@@ -132,7 +133,7 @@ namespace Iit.Fibertest.Client
                 await Task.Delay(Delay);
             }
 
-            // remove fibers for deleted traces
+            // remove fibers for hidden traces
             i = 0;
             var fiberVms = _graphReadModel.Data.Fibers.ToList();
             while (i < fiberVms.Count)

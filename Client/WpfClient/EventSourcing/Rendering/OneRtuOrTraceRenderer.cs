@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
@@ -28,6 +29,11 @@ namespace Iit.Fibertest.Client
                 var fiberVm = renderingResult.FiberVms.FirstOrDefault(f => f.Id == fiber.FiberId); // prevent repeating fibers if trace has loop
                 if (fiberVm == null)
                 {
+                    if (fiber.FiberId.ToString().StartsWith(@"821dde"))
+                    {
+                        Console.WriteLine(@"aaa");
+                    }
+
                     fiberVm = ElementRenderer.Map(fiber, renderingResult.NodeVms);
                     if (fiberVm == null) continue; // something goes wrong, nodeVms not found to define fiberVm
                     if (trace.IsHighlighted) fiberVm.IsHighlighted = true;

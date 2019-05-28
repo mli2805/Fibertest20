@@ -19,7 +19,7 @@ mkdir Pack\RtuFiles\OtdrMeasEngine\Share
 
 xcopy ..\Uninstall\bin\Debug\*.* Pack\UninstallFiles\*.* /S/D/Y
 
-rem curl --user mli:iNansIM6Y8Uq http://192.168.96.8:8888/job/RFTSViewer/lastSuccessfulBuild/artifact/trunk/Source/RftsReflect.zip --output Pack\RftsReflect.zip
+rem curl --user mli:iNansIM6Y8Uq http://192.168.96.4:8989//job/RFTSViewer/lastSuccessfulBuild/artifact/trunk/Source/RftsReflect.zip --output Pack\RftsReflect.zip
 rem cd Pack\
 rem ..\7z.exe x RftsReflect.zip 
 rem del RftsReflect.zip
