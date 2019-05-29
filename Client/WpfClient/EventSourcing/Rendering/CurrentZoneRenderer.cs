@@ -7,18 +7,16 @@ namespace Iit.Fibertest.Client
     {
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
-        private readonly GraphReadModel _graphReadModel;
         private readonly RootRenderer _rootRenderer;
         private readonly LessThanRootRenderer _lessThanRootRenderer;
         private RenderingResult _renderingResult;
 
         public CurrentZoneRenderer(IMyLog logFile,
-            CurrentUser currentUser, GraphReadModel graphReadModel,
+            CurrentUser currentUser, 
             RootRenderer rootRenderer, LessThanRootRenderer lessThanRootRenderer)
         {
             _logFile = logFile;
             _currentUser = currentUser;
-            _graphReadModel = graphReadModel;
             _rootRenderer = rootRenderer;
             _lessThanRootRenderer = lessThanRootRenderer;
         }

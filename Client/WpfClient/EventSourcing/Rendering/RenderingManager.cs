@@ -73,8 +73,10 @@ namespace Iit.Fibertest.Client
         {
             _waitViewModel.Initialize(LongOperation.DrawingGraph);
             _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
+                var unused1 = await FullClean();
             var renderingResult = await Task.Factory.StartNew(_currentZoneRenderer.GetCurrentRendering);
-            var unused = await _renderingApplierToUi.ToExistingGraph(renderingResult);
+           // var unused = await _renderingApplierToUi.ToExistingGraph(renderingResult);
+                var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
             _waitViewModel.TryClose();
             _currentlyHiddenRtu.CleanFlags();
             return unused;
@@ -103,8 +105,10 @@ namespace Iit.Fibertest.Client
             _waitViewModel.Initialize(LongOperation.DrawingGraph);
             _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
 
+                var unused1 = await FullClean();
             var renderingResult = await Task.Factory.StartNew(() => _currentZoneRenderer.GetCurrentRendering());
-            var unused = await _renderingApplierToUi.ToExistingGraph(renderingResult);
+           // var unused = await _renderingApplierToUi.ToExistingGraph(renderingResult);
+            var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
 
             _waitViewModel.TryClose();
         }
@@ -116,6 +120,7 @@ namespace Iit.Fibertest.Client
             await Task.Delay(2);
             _graphReadModel.Data.Nodes.Clear();
             await Task.Delay(2);
+            if (_graphReadModel.MainMap == null) return 0; // under tests
             for (int i = _graphReadModel.MainMap.Markers.Count - 1; i >= 0; i--)
             {
                 _graphReadModel.MainMap.Markers.RemoveAt(i);
