@@ -124,18 +124,14 @@ namespace Iit.Fibertest.Client
             {
                 TabulatorViewModel.SelectedTabIndex = 4;
 
+                SetDisplayName();
                 await GetAlreadyStoredInCacheAndOnServerData();
                 StartRegularCommunicationWithServer();
                 if (_commandLineParameters.IsUnderSuperClientStart)
                     await Task.Factory.StartNew(() => NotifySuperClientImReady(_commandLineParameters.ClientOrdinal));
                 IsEnabled = true;
                 TreeOfRtuViewModel.CollapseAll();
-                const string separator = @"    >>    ";
-                var server = $@"{separator}{_currentDatacenterParameters.ServerTitle} ({_currentDatacenterParameters.ServerIp}) v{_currentDatacenterParameters.DatacenterVersion}";
-                var user   = $@"{separator}{_currentUser.UserName} ({_currentUser.Role.ToString()})";
-                var zone   = $@"{separator}[{_currentUser.ZoneTitle}]";
-                DisplayName = DisplayName + $@" {server} {user} {zone}";
-                TabulatorViewModel.SelectedTabIndex = 0; // the same value should be in TabulatorViewModel c-tor !!!
+                 TabulatorViewModel.SelectedTabIndex = 0; // the same value should be in TabulatorViewModel c-tor !!!
                 var unused = await CheckFreeSpaceThreshold();
             }
             else
@@ -144,6 +140,16 @@ namespace Iit.Fibertest.Client
                     await Task.Factory.StartNew(() => NotifySuperclientLoadingFailed(_commandLineParameters.ClientOrdinal));
                 TryClose();
             }
+        }
+
+        private void SetDisplayName()
+        {
+            const string separator = @"    >>    ";
+            var server =
+                $@"{separator}{_currentDatacenterParameters.ServerTitle} ({_currentDatacenterParameters.ServerIp}) v{_currentDatacenterParameters.DatacenterVersion}";
+            var user = $@"{separator}{_currentUser.UserName} ({_currentUser.Role.ToString()})";
+            var zone = $@"{separator}[{_currentUser.ZoneTitle}]";
+            DisplayName = DisplayName + $@" {server} {user} {zone}";
         }
 
         private async Task<bool> CheckFreeSpaceThreshold()
