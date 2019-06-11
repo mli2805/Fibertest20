@@ -18,7 +18,7 @@ namespace Iit.Fibertest.WpfCommonViews
                 return isFailed ? Resources.SID_fail : Resources.SID_pass;
             if (rftsEventType == RftsEventTypes.None)
                 return "";
-             //   return Resources.SID_pass;
+            //   return Resources.SID_pass;
             return Resources.SID_unexpected_input;
         }
         public static string ForEnabledInTable(this RftsEventTypes rftsEventType)

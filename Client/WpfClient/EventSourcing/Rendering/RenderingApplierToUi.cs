@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Client
             return 1;
         }
 
-        private async Task<int> AddElementsOfShownTraces(RenderingResult renderingResult)
+        private async Task AddElementsOfShownTraces(RenderingResult renderingResult)
         {
             // add nodes for added traces
             var i = 0;
@@ -110,11 +110,9 @@ namespace Iit.Fibertest.Client
                 }
                 await Task.Delay(Delay);
             }
-            
-            return 1;
         }
 
-        private async Task<int> RemoveElementsOfHiddenTraces(RenderingResult renderingResult)
+        private async Task RemoveElementsOfHiddenTraces(RenderingResult renderingResult)
         {
             // remove nodes for hidden traces
             var i = 0;
@@ -148,8 +146,6 @@ namespace Iit.Fibertest.Client
                 }
                 await Task.Delay(Delay);
             }
-
-            return 1;
         }
     }
 }

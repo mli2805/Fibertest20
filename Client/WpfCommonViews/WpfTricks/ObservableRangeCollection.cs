@@ -96,8 +96,8 @@ namespace Iit.Fibertest.WpfCommonViews
         /// Inserts the elements of a collection into the <see cref="ObservableCollection{T}"/> at the specified index.
         /// </summary>
         /// <param name="index">The zero-based index at which the new elements should be inserted.</param>
-        /// <param name="collection">The collection whose elements should be inserted into the List<T>.
-        /// The collection itself cannot be null, but it can contain elements that are null, if type T is a reference type.</param>                
+        /// <param name="collection"/>The collection whose elements should be inserted into the List of T
+        /// The collection itself cannot be null, but it can contain elements that are null, if type T is a reference type.               
         /// <exception cref="ArgumentNullException"><paramref name="collection"/> is null.</exception>
         /// <exception cref="ArgumentOutOfRangeException"><paramref name="index"/> is not in the collection range.</exception>
         public void InsertRange(int index, IEnumerable<T> collection)
@@ -540,10 +540,6 @@ namespace Iit.Fibertest.WpfCommonViews
         /// Properties/methods modifying this ObservableCollection will raise
         /// a collection changed event through this virtual method.
         /// </summary>
-        /// <remarks>
-        /// When overriding this method, either call its base implementation
-        /// or call <see cref="BlockReentrancy"/> to guard against reentrant collection changes.
-        /// </remarks>
         protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
         {
             if (_deferredEvents != null)

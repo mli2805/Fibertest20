@@ -51,7 +51,7 @@ namespace Iit.Fibertest.Client
             if (e.PropertyName == "IsShowAllPressed" || e.PropertyName == "IsHideAllPressed")
             {
                 var unused1 = await FullClean();
-                var renderingResult =_currentlyHiddenRtu.Collection.Count == 0
+                var renderingResult = _currentlyHiddenRtu.Collection.Count == 0
                     ? await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingForShowAll)
                     : await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingForHiddenAll);
                 var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
@@ -71,13 +71,10 @@ namespace Iit.Fibertest.Client
 
         public async Task<int> RenderOnRtuChanged()
         {
-            _waitViewModel.Initialize(LongOperation.DrawingGraph);
-            _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
-                var unused1 = await FullClean();
+            var unused1 = await FullClean();
             var renderingResult = await Task.Factory.StartNew(_currentZoneRenderer.GetCurrentRendering);
-           // var unused = await _renderingApplierToUi.ToExistingGraph(renderingResult);
-                var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
-            _waitViewModel.TryClose();
+            // var unused = await _renderingApplierToUi.ToExistingGraph(renderingResult);
+            var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
             _currentlyHiddenRtu.CleanFlags();
             return unused;
         }
@@ -88,7 +85,7 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
 
             _logFile.AppendLine(@"rendering started");
-            var renderingResult =_currentlyHiddenRtu.Collection.Count == 0
+            var renderingResult = _currentlyHiddenRtu.Collection.Count == 0
                 ? await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingForShowAll)
                 : await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingForHiddenAll);
             var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
@@ -97,7 +94,7 @@ namespace Iit.Fibertest.Client
             _dispatcherProvider.GetDispatcher().Invoke(() => _waitViewModel.TryClose(), DispatcherPriority.ApplicationIdle);
             _logFile.AppendLine(@"rendering finished");
         }
-      
+
         public async void ReRenderCurrentZoneOnResponsibilitiesChanged()
         {
             if (_currentUser.ZoneId == Guid.Empty) return; // it is a default zone user
@@ -105,9 +102,9 @@ namespace Iit.Fibertest.Client
             _waitViewModel.Initialize(LongOperation.DrawingGraph);
             _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
 
-                var unused1 = await FullClean();
+            var unused1 = await FullClean();
             var renderingResult = await Task.Factory.StartNew(() => _currentZoneRenderer.GetCurrentRendering());
-           // var unused = await _renderingApplierToUi.ToExistingGraph(renderingResult);
+            // var unused = await _renderingApplierToUi.ToExistingGraph(renderingResult);
             var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
 
             _waitViewModel.TryClose();

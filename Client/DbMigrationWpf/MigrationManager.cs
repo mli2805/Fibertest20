@@ -50,14 +50,14 @@ namespace DbMigrationWpf
             return 0;
         }
 
-        private async Task<int> MigrateKadastr(string ft15Address, int oldMySqlPort, string ft20Address, int newMySqlPort)
+        private async Task MigrateKadastr(string ft15Address, int oldMySqlPort, string ft20Address, int newMySqlPort)
         {
             var km = new Kadastr15Fetcher(ft15Address, oldMySqlPort, _graphModel, _lines);
             var model = km.Fetch();
-            if (model == null) return -1;
+            if (model == null) return;
             var kp = new Kadastr20Provider(ft20Address, newMySqlPort, _lines);
             kp.Init();
-            return await kp.Save(model);
+            await kp.Save(model);
         }
 
         private async Task TransferBaseRefs(string ft15Address, int oldMySqlPort)

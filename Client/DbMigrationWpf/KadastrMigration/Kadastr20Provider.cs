@@ -39,7 +39,7 @@ namespace DbMigrationWpf
             }
         }
 
-        public async Task<int> Save(KadastrModel model)
+        public async Task Save(KadastrModel model)
         {
             using (var dbContext = new KadastrDbContext(Options))
             {
@@ -47,7 +47,6 @@ namespace DbMigrationWpf
                 dbContext.Conpoints.AddRange(model.Conpoints);
                 var count = await dbContext.SaveChangesAsync();
                 _progressLines.Add($"{count} records saved");
-                return count;
             }
         }
 

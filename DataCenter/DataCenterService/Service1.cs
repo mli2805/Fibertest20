@@ -73,7 +73,7 @@ namespace Iit.Fibertest.DataCenterService
             _smsSender.Start();
         }
 
-        private async Task<int> InitializeEventStoreService()
+        private async Task InitializeEventStoreService()
         {
             var resetDb = IniFile.Read(IniSection.MySql, IniKey.ResetDb, false);
             if (resetDb)
@@ -104,7 +104,6 @@ namespace Iit.Fibertest.DataCenterService
                 _serverSettings.LogSettings();
             }
             await _eventStoreService.Init();
-            return 1;
         }
 
         protected override void OnStop()

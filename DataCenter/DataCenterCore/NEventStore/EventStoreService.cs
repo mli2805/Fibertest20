@@ -65,7 +65,7 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine("Empty graph is seeded with default zone and users.");
             }
 
-           // var events = eventStream.CommittedEvents.Select(x => x.Body).Skip(LastEventNumberInSnapshot).ToList();
+            // var events = eventStream.CommittedEvents.Select(x => x.Body).Skip(LastEventNumberInSnapshot).ToList();
             var events = eventStream.CommittedEvents.Select(x => x.Body).ToList();
             _logFile.AppendLine($"{events.Count} events should be applied...");
             foreach (var evnt in events)

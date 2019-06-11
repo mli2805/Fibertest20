@@ -2,9 +2,10 @@
 using System.Runtime.InteropServices;
 using System.Threading;
 
+#pragma warning disable 414
 // ReSharper disable All
-// class found on stackoverflow.com
 
+// class found on stackoverflow.com
 namespace Iit.Fibertest.UtilsLib.ServiceManager
 {
     public static class ServiceInstaller

@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-using Iit.Fibertest.Dto;
+﻿using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph.Requests;
 
 namespace Iit.Fibertest.Client
@@ -15,12 +14,8 @@ namespace Iit.Fibertest.Client
 
         public async void AddNodeOnClick(object param)
         {
-            if (param is EquipmentType equipmentType)
-                await AddNodeOnClick(equipmentType);
-        }
+            if (!(param is EquipmentType equipmentType)) return;
 
-        private async Task<string> AddNodeOnClick(EquipmentType equipmentType)
-        {
             var position = _graphReadModel.MainMap.FromLocalToLatLng(_graphReadModel.MainMap.ContextMenuPoint);
 
             if (equipmentType == EquipmentType.Rtu)
@@ -43,8 +38,6 @@ namespace Iit.Fibertest.Client
                         Longitude = position.Lng
                     });
             }
-
-            return null;
         }
 
         public void ToggleToDistanceMeasurementMode(object parameter)

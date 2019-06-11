@@ -85,7 +85,7 @@ namespace Iit.Fibertest.Client
             if (LaunchedViews.TryGetValue(rtuLeaf.Id, out var vm))
                 vm.RefreshModel(rtuLeaf);
          
-         //   Show(rtuLeaf, isUserAskedToOpenView: false, changes: networkEventAdded.RtuPartStateChanges);
+            //   Show(rtuLeaf, isUserAskedToOpenView: false, changes: networkEventAdded.RtuPartStateChanges);
         }
 
         // Server sent BOP network event

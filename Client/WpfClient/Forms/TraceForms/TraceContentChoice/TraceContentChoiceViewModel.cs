@@ -19,6 +19,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IniFile _iniFile;
+        private readonly IMyLog _logFile;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly EquipmentOfChoiceModelFactory _equipmentOfChoiceModelFactory;
@@ -43,11 +44,13 @@ namespace Iit.Fibertest.Client
 
         public bool ShouldWeContinue { get; set; }
 
-        public TraceContentChoiceViewModel(ILifetimeScope globalScope, IniFile iniFile, IWcfServiceForClient c2DWcfManager,
+        public TraceContentChoiceViewModel(ILifetimeScope globalScope, IniFile iniFile, 
+            IMyLog logFile, IWcfServiceForClient c2DWcfManager,
             IWindowManager windowManager, EquipmentOfChoiceModelFactory equipmentOfChoiceModelFactory)
         {
             _globalScope = globalScope;
             _iniFile = iniFile;
+            _logFile = logFile;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _equipmentOfChoiceModelFactory = equipmentOfChoiceModelFactory;
@@ -124,7 +127,11 @@ namespace Iit.Fibertest.Client
                 var maxCableReserve = _iniFile.Read(IniSection.Miscellaneous, IniKey.MaxCableReserve, 200);
 
                 if (_node.Title != NodeTitle)
-                    await SendNodeTitle();
+                {
+                    var str = await SendNodeTitle();
+                    if (!string.IsNullOrEmpty(str))
+                        _logFile.AppendLine($@"TraceContentChoiceViewModel - SendNodeTitle - {str}");
+                }
 
                 foreach (var equipment in _possibleEquipment.Where(e => e.Type != EquipmentType.EmptyNode))
                 {
@@ -141,7 +148,9 @@ namespace Iit.Fibertest.Client
                             _windowManager.ShowDialogWithAssignedOwner(vm);
                             return;
                         }
-                        await SendEquipmentChanges(equipment, model.TitleOfEquipment, model.LeftCableReserve, model.RightCableReserve);
+                        var str = await SendEquipmentChanges(equipment, model.TitleOfEquipment, model.LeftCableReserve, model.RightCableReserve);
+                        if (!string.IsNullOrEmpty(str))
+                            _logFile.AppendLine($@"TraceContentChoiceViewModel - SendEquipmentChanges - {str}");
                     }
                 }
 
