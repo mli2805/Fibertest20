@@ -4,7 +4,10 @@
     {
         ServerListenToClient = 11840,
         ServerListenToRtu = 11841,
+        ServerListenToWebProxy = 11838,
         RtuListenTo = 11842,
-        ClientListenTo = 11843,
+        ClientListenTo = 11843, // when started under SuperClient: 11843 + _commandLineParameters.ClientOrdinal
+
+        SuperClientListenTo = 11839,
     }
 }

@@ -14,7 +14,7 @@ namespace Setup
 
     public class AppBootstrapper : BootstrapperBase
     {
-        SimpleContainer container;
+        // SimpleContainer container;
 
         private ILifetimeScope _container;
         private CurrentInstallation _currentInstallation;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.SuperClientWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
@@ -24,7 +25,7 @@ namespace Iit.Fibertest.SuperClient
         {
             try
             {
-                var superClientTcpPort = _iniFile.Read(IniSection.ClientLocalAddress, IniKey.TcpPort, 11839);
+                var superClientTcpPort = _iniFile.Read(IniSection.ClientLocalAddress, IniKey.TcpPort, (int)TcpPorts.SuperClientListenTo);
                 var uri = new Uri(WcfFactory.CombineUriString(@"localhost", superClientTcpPort, @"WcfServiceInSuperClient"));
                 _wcfHost = new ServiceHost(_superClientWcfService);
                 _wcfHost.AddServiceEndpoint(typeof(IWcfServiceInSuperClient), WcfFactory.CreateDefaultNetTcpBinding(_iniFile), uri);
