@@ -80,6 +80,7 @@
     <Compile Include="R2DWcfManager.cs" />
     <Compile Include="C2DWcfManager.cs" />
     <Compile Include="WcfFactory.cs" />
+    <Compile Include="WebProxy2DWcfManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Client\ClientWcfServiceLibrary\ClientWcfServiceInterface.csproj">
@@ -97,6 +98,10 @@
     <ProjectReference Include="..\..\DataCenter\WcfServiceForRtu\WcfServiceForRtuInterface.csproj">
       <Project>{ec01dbcb-bd59-4e30-a6c3-f8ddbb6e45f9}</Project>
       <Name>WcfServiceForRtuInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\DataCenter\WcfServiceForWebProxyInterface\WcfServiceForWebProxyInterface.csproj">
+      <Project>{6d964992-e615-48df-9a09-a07194ab3b8d}</Project>
+      <Name>WcfServiceForWebProxyInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\RTU\RtuWcfService\RtuWcfServiceInterface.csproj">
       <Project>{d7c82e5d-e536-4684-b18f-9e1a341324d6}</Project>

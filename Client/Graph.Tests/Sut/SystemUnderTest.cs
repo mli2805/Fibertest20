@@ -142,6 +142,7 @@ namespace Graph.Tests
             // server's
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().InstancePerLifetimeScope();  // server !!!
             builder.RegisterType<WcfServiceForRtu>().InstancePerLifetimeScope();  // server !!!
+            builder.RegisterType<WcfServiceForWebProxy>().InstancePerLifetimeScope();  // server !!!
 
             builder.RegisterType<EventsQueue>().InstancePerLifetimeScope();
             builder.RegisterType<EventStoreService>().InstancePerLifetimeScope();

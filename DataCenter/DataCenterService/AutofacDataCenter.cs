@@ -10,6 +10,7 @@ using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WcfServiceForRtuInterface;
+using Iit.Fibertest.WcfServiceForWebProxyInterface;
 
 namespace Iit.Fibertest.DataCenterService
 {
@@ -66,6 +67,9 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<WcfServiceForClientBootstrapper>().SingleInstance();
             builder.RegisterType<WcfServiceForRtu>().As<IWcfServiceForRtu>().SingleInstance();
             builder.RegisterType<WcfServiceForRtuBootstrapper>().SingleInstance();
+            builder.RegisterType<WcfServiceForWebProxy>().As<IWcfServiceForWebProxy>().SingleInstance();
+            builder.RegisterType<WcfServiceForWebProxyBootstrapper>().SingleInstance();
+
             builder.RegisterType<SorDataParsingReporter>();
             builder.RegisterType<AccidentsFromSorExtractor>();
             builder.RegisterType<SmsManager>().SingleInstance();

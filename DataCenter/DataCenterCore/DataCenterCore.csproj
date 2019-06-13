@@ -240,6 +240,8 @@
     <Compile Include="WcfServiceForClient\WcfServiceForClientToRtu.cs" />
     <Compile Include="WcfServiceForRtu.cs" />
     <Compile Include="WcfServiceForRtuBootstrapper.cs" />
+    <Compile Include="WcfServiceForWebProxy.cs" />
+    <Compile Include="WcfServiceForWebProxyBootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -289,6 +291,10 @@
     <ProjectReference Include="..\WcfServiceForRtu\WcfServiceForRtuInterface.csproj">
       <Project>{ec01dbcb-bd59-4e30-a6c3-f8ddbb6e45f9}</Project>
       <Name>WcfServiceForRtuInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\WcfServiceForWebProxyInterface\WcfServiceForWebProxyInterface.csproj">
+      <Project>{6d964992-e615-48df-9a09-a07194ab3b8d}</Project>
+      <Name>WcfServiceForWebProxyInterface</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -21,6 +21,7 @@ namespace Iit.Fibertest.DataCenterService
         private readonly SmsSender _smsSender;
         private readonly WcfServiceForClientBootstrapper _wcfServiceForClientBootstrapper;
         private readonly WcfServiceForRtuBootstrapper _wcfServiceForRtuBootstrapper;
+        private readonly WcfServiceForWebProxyBootstrapper _wcfServiceForWebProxyBootstrapper;
         private readonly IMsmqHandler _msmqHandler;
 
         public Service1(IniFile iniFile, IMyLog logFile, ISettings serverSettings,
@@ -28,6 +29,7 @@ namespace Iit.Fibertest.DataCenterService
             LastConnectionTimeChecker lastConnectionTimeChecker, SmsSender smsSender,
             WcfServiceForClientBootstrapper wcfServiceForClientBootstrapper,
             WcfServiceForRtuBootstrapper wcfServiceForRtuBootstrapper,
+            WcfServiceForWebProxyBootstrapper wcfServiceForWebProxyBootstrapper,
             IMsmqHandler msmqHandler)
         {
             IniFile = iniFile;
@@ -40,6 +42,7 @@ namespace Iit.Fibertest.DataCenterService
             _smsSender = smsSender;
             _wcfServiceForClientBootstrapper = wcfServiceForClientBootstrapper;
             _wcfServiceForRtuBootstrapper = wcfServiceForRtuBootstrapper;
+            _wcfServiceForWebProxyBootstrapper = wcfServiceForWebProxyBootstrapper;
             _msmqHandler = msmqHandler;
             InitializeComponent();
         }
@@ -69,6 +72,7 @@ namespace Iit.Fibertest.DataCenterService
             _lastConnectionTimeChecker.Start();
             _wcfServiceForClientBootstrapper.Start();
             _wcfServiceForRtuBootstrapper.Start();
+            _wcfServiceForWebProxyBootstrapper.Start();
             _msmqHandler.Start();
             _smsSender.Start();
         }

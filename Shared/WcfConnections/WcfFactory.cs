@@ -9,6 +9,7 @@ using Iit.Fibertest.SuperClientWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WcfServiceForRtuInterface;
+using Iit.Fibertest.WcfServiceForWebProxyInterface;
 
 namespace Iit.Fibertest.WcfConnections
 {
@@ -63,6 +64,27 @@ namespace Iit.Fibertest.WcfConnections
                 var myClient = new MyClient<IWcfServiceForClient>(
                     CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForClient"))));
+
+                return myClient.ChannelFactory;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return null;
+            }
+        }
+
+        public ChannelFactory<IWcfServiceForWebProxy> GetWebProxy2DChannelFactory()
+        {
+            try
+            {
+                var netAddress = SelectNetAddressAvailableNow();
+                if (netAddress == null)
+                    return null;
+
+                var myClient = new MyClient<IWcfServiceForWebProxy>(
+                    CreateDefaultNetTcpBinding(_iniFile),
+                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForWebProxy"))));
 
                 return myClient.ChannelFactory;
             }
