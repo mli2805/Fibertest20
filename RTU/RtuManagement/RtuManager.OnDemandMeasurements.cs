@@ -18,12 +18,16 @@ namespace Iit.Fibertest.RtuManagement
 
             var result = ClientMeasurementItself(dto);
             if (result == null)
+            {
+                _wasMonitoringOn = false;
                 return;
+            }
 
             new R2DWcfManager(_serverAddresses, _serviceIni, _serviceLog).SendClientMeasurementDone(result);
             if (_wasMonitoringOn)
             {
                 IsMonitoringOn = true;
+                _wasMonitoringOn = false;
                 RunMonitoringCycle();
             }
             else
