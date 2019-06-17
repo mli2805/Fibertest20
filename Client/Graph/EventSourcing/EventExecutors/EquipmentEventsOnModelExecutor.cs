@@ -69,7 +69,11 @@ namespace Iit.Fibertest.Graph
             {
                 return $@"EquipmentUpdated: Equipment {e.EquipmentId.First6()} not found";
             }
-            var node = model.Nodes.First(n => n.NodeId == equipment.NodeId);
+            var node = model.Nodes.FirstOrDefault(n => n.NodeId == equipment.NodeId);
+            if (node == null)
+            {
+                return $@"EquipmentUpdated: Node for equipment {e.EquipmentId.First6()} not found";
+            }
             node.TypeOfLastAddedEquipment = e.Type;
             Mapper.Map(e, equipment);
             return null;
@@ -100,7 +104,11 @@ namespace Iit.Fibertest.Graph
                 }
             }
 
-            var node = model.Nodes.First(n => n.NodeId == equipment.NodeId);
+            var node = model.Nodes.FirstOrDefault(n => n.NodeId == equipment.NodeId);
+            if (node == null)
+            {
+                return $@"RemoveEquipment: Node for equipment {e.EquipmentId.First6()} not found";
+            }
             model.Equipments.Remove(equipment);
             node.TypeOfLastAddedEquipment = model.Equipments.Where(p => p.NodeId == node.NodeId).Max(q => q.Type);
             return null;

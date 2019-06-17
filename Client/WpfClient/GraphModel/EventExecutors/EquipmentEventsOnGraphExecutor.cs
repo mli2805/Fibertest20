@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Linq;
+using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
@@ -11,17 +13,19 @@ namespace Iit.Fibertest.Client
         private readonly GraphReadModel _model;
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
+        private readonly IWindowManager _windowManager;
 
-        public EquipmentEventsOnGraphExecutor(GraphReadModel model, Model readModel, CurrentUser currentUser)
+        public EquipmentEventsOnGraphExecutor(GraphReadModel model, Model readModel, CurrentUser currentUser,
+            IWindowManager windowManager)
         {
             _model = model;
             _readModel = readModel;
             _currentUser = currentUser;
+            _windowManager = windowManager;
         }
 
         public void AddEquipmentAtGpsLocation(EquipmentAtGpsLocationAdded evnt)
         {
-            //  if (_currentUser.ZoneId != Guid.Empty) return;
             if (_currentUser.Role > Role.Root) return;
 
             var nodeVm = new NodeVm()
@@ -36,7 +40,6 @@ namespace Iit.Fibertest.Client
 
         public void AddEquipmentAtGpsLocationWithNodeTitle(EquipmentAtGpsLocationWithNodeTitleAdded evnt)
         {
-            //if (_currentUser.ZoneId != Guid.Empty) return;
             if (_currentUser.Role > Role.Root) return;
 
             var nodeVm = new NodeVm()
@@ -52,9 +55,6 @@ namespace Iit.Fibertest.Client
 
         public void AddEquipmentIntoNode(EquipmentIntoNodeAdded evnt)
         {
-            //            if (_currentUser.ZoneId != Guid.Empty
-            //                && _model.Data.Nodes.All(f => f.Id != evnt.NodeId)) return;
-
             var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == evnt.NodeId);
             if (nodeVm != null)
                 nodeVm.Type = evnt.Type;
@@ -62,10 +62,14 @@ namespace Iit.Fibertest.Client
 
         public void UpdateEquipment(EquipmentUpdated evnt)
         {
-            var equipment = _readModel.Equipments.First(e => e.EquipmentId == evnt.EquipmentId);
-
-            //            if (_currentUser.ZoneId != Guid.Empty
-            //                && _model.Data.Nodes.All(f => f.Id != equipment.NodeId)) return;
+            var equipment = _readModel.Equipments.FirstOrDefault(e => e.EquipmentId == evnt.EquipmentId);
+            if (equipment == null)
+            {
+                _model.LogFile.AppendLine($@"UpdateEquipment: equipment {evnt.EquipmentId.First6()} not found");
+                if (_currentUser.Role <= Role.Root)
+                    _windowManager.ShowDialogWithAssignedOwner($@"не найдено редактируемое оборудование");
+                return;
+            }
 
             var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == equipment.NodeId);
             if (nodeVm != null)
@@ -74,9 +78,6 @@ namespace Iit.Fibertest.Client
 
         public void RemoveEquipment(EquipmentRemoved evnt)
         {
-            if (_currentUser.ZoneId != Guid.Empty
-                && _model.Data.Nodes.All(f => f.Id != evnt.NodeId)) return;
-
             var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == evnt.NodeId);
             if (nodeVm == null) return;
             var majorEquipmentInNode = _readModel.Equipments.Last(e => e.NodeId == nodeVm.Id).Type;
