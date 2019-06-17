@@ -45,12 +45,12 @@ namespace Iit.Fibertest.Client
 
         private async void _currentlyHiddenRtu_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "IsShowAllPressed" || e.PropertyName == "IsHideAllPressed")
+            if (e.PropertyName == @"IsShowAllPressed" || e.PropertyName == @"IsHideAllPressed")
             {
                 var unused = await RenderOnAllShowOrHidePressed();
             }
 
-            if (e.PropertyName == "ChangedRtu")
+            if (e.PropertyName == @"ChangedRtu")
             {
                 await RenderOnRtuChanged();
             }

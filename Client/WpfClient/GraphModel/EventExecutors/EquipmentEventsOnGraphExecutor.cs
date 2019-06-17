@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Dto;
