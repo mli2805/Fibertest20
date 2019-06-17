@@ -45,37 +45,46 @@ namespace Iit.Fibertest.Client
 
         private async void _currentlyHiddenRtu_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            _waitViewModel.Initialize(LongOperation.DrawingGraph);
-            _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
-
             if (e.PropertyName == "IsShowAllPressed" || e.PropertyName == "IsHideAllPressed")
             {
-                var unused1 = await FullClean();
-                var renderingResult = _currentlyHiddenRtu.Collection.Count == 0
-                    ? await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingForShowAll)
-                    : await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingForHiddenAll);
-                var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
+                var unused = await RenderOnAllShowOrHidePressed();
             }
 
             if (e.PropertyName == "ChangedRtu")
             {
                 await RenderOnRtuChanged();
             }
+            _currentlyHiddenRtu.CleanFlags();
+        }
 
-            // InvokeAsync hangs up all tests
-            // _dispatcherProvider.GetDispatcher().Invoke(() => vm.TryClose(), DispatcherPriority.ApplicationIdle);
+        private async Task<int> RenderOnAllShowOrHidePressed()
+        {
+            _waitViewModel.Initialize(LongOperation.DrawingGraph);
+            _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
+
+            var unused1 = await FullClean();
+            var renderingResult = _currentlyHiddenRtu.Collection.Count == 0
+                ? await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingForShowAll)
+                : await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingForHiddenAll);
+
             _waitViewModel.TryClose();
 
-            _currentlyHiddenRtu.CleanFlags();
+            return await _renderingApplierToUi.ToEmptyGraph(renderingResult);
         }
 
         public async Task<int> RenderOnRtuChanged()
         {
+            _waitViewModel.Initialize(LongOperation.DrawingGraph);
+            _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
+
             var unused1 = await FullClean();
             var renderingResult = await Task.Factory.StartNew(_currentZoneRenderer.GetCurrentRendering);
             // var unused = await _renderingApplierToUi.ToExistingGraph(renderingResult);
             var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
             _currentlyHiddenRtu.CleanFlags();
+
+            _waitViewModel.TryClose();
+
             return unused;
         }
 
