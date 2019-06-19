@@ -4,13 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner"
         Title="RtuFilter" d:DataContext="{d:DesignInstance client:RtuFilterViewModel}" >
     <DockPanel Margin="5">
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="5,20,5,5">
-            <Button Content="Apply" Name="Apply" IsDefault="True" Width="100" Margin="5"/>
-            <Button Content="Cancel" Name="Cancel" IsCancel="True" Width="100" Margin="5"/>
+            <Button Content="{x:Static stringResources:Resources.SID_Apply}" Name="Apply" IsDefault="True" Width="100" Margin="5"/>
+            <Button Content="{x:Static stringResources:Resources.SID_Cancel}" Name="Cancel" IsCancel="True" Width="100" Margin="5"/>
         </StackPanel>
         <DataGrid ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow, Mode=TwoWay}" 
                   SelectionMode="Single"  IsReadOnly="True" AutoGenerateColumns="False">
