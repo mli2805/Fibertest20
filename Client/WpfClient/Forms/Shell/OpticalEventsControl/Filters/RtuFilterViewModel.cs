@@ -37,12 +37,13 @@ namespace Iit.Fibertest.Client
 
         public void Initialize()
         {
-            Rows = new List<RtuGuidFilter> {new RtuGuidFilter()};
+            Rows = new List<RtuGuidFilter> ();
             foreach (var rtu in _readModel.Rtus)
             {
                 if (!string.IsNullOrEmpty(rtu.Title))
                     Rows.Add(new RtuGuidFilter(rtu.Id, rtu.Title));
             }
+            Rows.Add(new RtuGuidFilter());
 
             SelectedRow = Rows.First();
         }

@@ -1118,9 +1118,6 @@ RTU is initializing right now!</value>
 	<data name="SID_RTU_Manager_software_version" xml:space="preserve">
     <value>RTU Manager software version</value>
   </data>
-	<data name="SID_Client_registraion_is_performing" xml:space="preserve">
-    <value>Client registraion is performing</value>
-  </data>
 	<data name="SID_Wrong_user_name_or_password_" xml:space="preserve">
     <value>Wrong user name or password!</value>
   </data>
@@ -2683,5 +2680,8 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Collecting_data_for_event_log___" xml:space="preserve">
     <value>Collecting event log data...</value>
+  </data>
+	<data name="SID_Performing_registration_on__0_" xml:space="preserve">
+    <value>Performing registration on {0}</value>
   </data>
 </root>

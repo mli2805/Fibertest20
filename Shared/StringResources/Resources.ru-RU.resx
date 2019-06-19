@@ -1121,9 +1121,6 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_RTU_Manager_software_version" xml:space="preserve">
     <value>Версия ПО RTU менеджера</value>
   </data>
-	<data name="SID_Client_registraion_is_performing" xml:space="preserve">
-    <value>Выполняется регистрация клиента</value>
-  </data>
 	<data name="SID_Wrong_user_name_or_password_" xml:space="preserve">
     <value>Неверное имя пользователя или пароль!</value>
   </data>
@@ -2683,5 +2680,8 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Collecting_data_for_event_log___" xml:space="preserve">
 		<value>Сбор данных Журнала операций...</value>
+	</data>
+	<data name="SID_Performing_registration_on__0_" xml:space="preserve">
+		<value>Выполняется регистрация на {0}</value>
 	</data>
 </root>

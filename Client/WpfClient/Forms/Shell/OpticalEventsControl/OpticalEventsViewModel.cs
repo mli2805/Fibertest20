@@ -60,11 +60,15 @@ namespace Iit.Fibertest.Client
             get => _selectedRtuFilter;
             set
             {
-                if (Equals(value, _selectedRtuFilter)) return;
+                if (Equals(value.RtuId, _selectedRtuFilter?.RtuId))
+                    return;
                 _selectedRtuFilter = value;
-                RtuFilterNow = _selectedRtuFilter.ToString();
                 var view = CollectionViewSource.GetDefaultView(Rows);
                 view.Refresh();
+
+                view.MoveCurrentToFirst();
+                SelectedRow = (OpticalEventModel)view.CurrentItem;
+                RtuFilterNow = _selectedRtuFilter.ToString();
             }
         }
 
@@ -265,22 +269,10 @@ namespace Iit.Fibertest.Client
             _rtuFilterViewModel.Initialize();
             var modalResult = _windowManager.ShowDialogWithAssignedOwner(_rtuFilterViewModel);
             if (modalResult == true)
+            {
                 SelectedRtuFilter = _rtuFilterViewModel.SelectedRow;
+            }
         }
-
-//        public void ApplyUsersChanges(UpdateMeasurement dto)
-//        {
-//            var opticalEventModel = Rows.FirstOrDefault(r => r.SorFileId == dto.SorFileId);
-//            if (opticalEventModel == null)
-//                return;
-//
-//            opticalEventModel.EventStatus = dto.EventStatus;
-//            opticalEventModel.Comment = dto.Comment;
-//
-//            Rows.Remove(opticalEventModel);
-//            Rows.Add(opticalEventModel);
-//            SelectedRow = opticalEventModel;
-//        }
 
         public void RemoveEventsAndSors(EventsAndSorsRemoved evnt)
         {
@@ -292,6 +284,5 @@ namespace Iit.Fibertest.Client
                     Rows.Remove(opticalEventModel);
             }
         }
-      
     }
 }
