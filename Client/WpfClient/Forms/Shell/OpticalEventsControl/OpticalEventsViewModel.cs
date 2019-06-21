@@ -64,9 +64,10 @@ namespace Iit.Fibertest.Client
                     return;
                 _selectedRtuFilter = value;
                 var view = CollectionViewSource.GetDefaultView(Rows);
-                view.Refresh();
 
                 view.MoveCurrentToFirst();
+                view.Refresh();
+
                 SelectedRow = (OpticalEventModel)view.CurrentItem;
                 RtuFilterNow = _selectedRtuFilter.ToString();
             }
