@@ -11,12 +11,14 @@ namespace Iit.Fibertest.DataCenterWebProxy
     [ApiController]
     public class RtuController : ControllerBase
     {
+        private readonly IMyLog _logFile;
         private readonly WebProxy2DWcfManager _webProxy2DWcfManager;
 
         public RtuController(IniFile iniFile, IMyLog logFile)
         {
+            _logFile = logFile;
             _webProxy2DWcfManager = new WebProxy2DWcfManager(iniFile, logFile);
-            var doubleAddress = iniFile.ReadDoubleAddress((int) TcpPorts.ServerListenToWebProxy);
+            var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebProxy);
             _webProxy2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
         }
 
@@ -24,7 +26,11 @@ namespace Iit.Fibertest.DataCenterWebProxy
         [HttpGet]
         public async Task<IEnumerable<string>> Get()
         {
-            return await _webProxy2DWcfManager.GetRtuList();
+            var rtuList = await _webProxy2DWcfManager.GetRtuList();
+            _logFile.AppendLine(rtuList == null
+                ? "Failed to get RTU list"
+                : $"RTU list contains {rtuList.Count} items");
+            return rtuList;
         }
 
         // GET: api/Rtu/5
