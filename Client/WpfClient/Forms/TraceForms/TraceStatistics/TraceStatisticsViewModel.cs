@@ -101,7 +101,7 @@ namespace Iit.Fibertest.Client
         public void ShowReflectogram(int param)
         {
             if (SelectedRow == null) return;
-            _reflectogramManager.SetTempFileName(TraceTitle, SelectedRow.Measurement.SorFileId, SelectedRow.Measurement.EventRegistrationTimestamp);
+            _reflectogramManager.SetTempFileName(TraceTitle, SelectedRow.Measurement.SorFileId, SelectedRow.Measurement.MeasurementTimestamp);
             if (param == 2)
                 _reflectogramManager.ShowRefWithBase(SelectedRow.Measurement.SorFileId);
             else
