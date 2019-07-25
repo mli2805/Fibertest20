@@ -1,6 +1,8 @@
 ﻿
 namespace GMap.NET.MapProviders
 {
+   using System;   
+
 #if OpenStreetMapSurfer
    /// <summary>
    /// OpenStreetMapSurfer provider

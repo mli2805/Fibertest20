@@ -1,4 +1,4 @@
-﻿
+
 namespace GMap.NET.MapProviders
 {
    using System;
@@ -14,7 +14,7 @@ namespace GMap.NET.MapProviders
       public YahooMapProviderBase()
       {
          RefererUrl = "http://maps.yahoo.com/";
-         Copyright = string.Format("В© Yahoo! Inc. - Map data & Imagery В©{0} NAVTEQ", DateTime.Today.Year);
+         Copyright = string.Format("© Yahoo! Inc. - Map data & Imagery ©{0} NAVTEQ", DateTime.Today.Year);
       }
 
       public string AppId = string.Empty;
