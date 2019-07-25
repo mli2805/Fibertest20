@@ -153,8 +153,6 @@ namespace Iit.Fibertest.RtuManagement
                 isCallbackReturned = true;
                 while (RunMainCharonRecovery() != ReturnCode.Ok){}
             }
-            if (!isCallbackReturned)
-                callback?.Invoke();
 
             if (!wasMonitoringOn)
                 _monitoringQueue.RaiseMonitoringModeChangedFlag();
@@ -164,7 +162,9 @@ namespace Iit.Fibertest.RtuManagement
             _rtuLog.AppendLine("RTU is turned into AUTOMATIC mode.");
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, true);
             IsMonitoringOn = true;
-            callback?.Invoke();
+
+            if (!isCallbackReturned)
+                callback?.Invoke();
 
             RunMonitoringCycle();
         }
