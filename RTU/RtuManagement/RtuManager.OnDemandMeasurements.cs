@@ -2,6 +2,7 @@
 using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.RtuManagement
@@ -45,7 +46,9 @@ namespace Iit.Fibertest.RtuManagement
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start Measurement (Client).");
 
-            var res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
+            var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, "192.168.88.101");
+           // var res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
+            var res = _otdrManager.ConnectOtdr(otdrAddress);
             if (!res)
             {
                 RunMainCharonRecovery(); // one of recovery steps inevitably exits process
