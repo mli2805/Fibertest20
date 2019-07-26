@@ -107,6 +107,8 @@ namespace Iit.Fibertest.RtuManagement
 
         public RtuInitializedDto GetInitializationResult()
         {
+            var otdrIp = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, "192.168.88.101");
+            var otdrPort = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrPort, 1500);
             return new RtuInitializedDto()
             {
                 RtuId = _id,
@@ -116,7 +118,8 @@ namespace Iit.Fibertest.RtuManagement
                 FullPortCount = _mainCharon?.FullPortCount ?? 0,
                 OwnPortCount = _mainCharon?.OwnPortCount ?? 0,
                 Children = _mainCharon?.GetChildrenDto(),
-                OtdrAddress = _mainCharon?.NetAddress,
+               // OtdrAddress = _mainCharon?.NetAddress,
+                OtdrAddress = new NetAddress(otdrIp, otdrPort),
                 Version = _version,
                 IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, false),
                 AcceptableMeasParams = _otdrManager.InterOpWrapper.GetTreeOfAcceptableMeasParams(),
