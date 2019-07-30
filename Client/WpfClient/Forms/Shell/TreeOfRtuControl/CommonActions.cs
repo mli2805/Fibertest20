@@ -69,18 +69,30 @@ namespace Iit.Fibertest.Client
          *      mainCharon = 192.168.96.59 : 23    addressOfCharonWithThisPort = 192.168.96.59 : 23
          *          and than otdr address = 192.168.96.59 : 1500
          *
-         * New RTU (MAK100) has main address 172.16.5.53 and its otau could be addressed by the same address, but in otau address stored value 192.168.88.101
+         * New RTU (MAK100) has main address 172.16.5.53 and its otau could be addressed by the same address,
+         * but in otau address stored value 192.168.88.101
          *      mainCharon = 172.16.5.53 : 23    addressOfCharonWithThisPort = 172.16.5.53 : 23
          *          and than otdr address = 172.16.5.53 : 1500
          *
-         * Every of these RTU could be augmented with BOP (let it be that additional otau has address 172.16.5.57 : 11834)
+         * Every of these RTU could be augmented with BOP (let it be that additional otau has address 172.16.5.57 : 11842)
          * but OTDR is always part of RTU, not of BOP
          *
-         *      so Old RTU with BOP:  mainCharon = 192.168.96.59 : 23      addressOfCharonWithThisPort = 172.16.5.57 : 11834
+         *      so Old RTU with BOP:  mainCharon = 192.168.96.59 : 23      addressOfCharonWithThisPort = 172.16.5.57 : 11842
          *          and than otdr address = 192.168.96.59 : 1500
          *
-         *      while MAK100 with BOP:   mainCharon = 172.16.5.53 : 23      addressOfCharonWithThisPort = 172.16.5.57 : 11834
+         *      while MAK100 with BOP:   mainCharon = 172.16.5.53 : 23      addressOfCharonWithThisPort = 172.16.5.57 : 11842
          *          and than otdr address = 172.16.5.53 : 1500
+         *
+          * UCC (БУС) has main address 172.16.4.8
+         *  and Fibertest Client addresses it 172.16.4.8 : 11842
+         *  its OTAU could be addressed
+         *  - from UCC as 192.168.88.101 : 23
+         *  - from outside as 172.16.4.8 : 23
+         *  but its OTDR is a separate device (АТР), which could be addressed
+         *  - from UCC as 192.168.88.102 : 10001
+         *  - from outside as 172.16.4.8 : 10001
+         *
+         *
          */
         private void DoMeasurementRftsReflect(Leaf parent, int portNumber)
         {
@@ -98,11 +110,9 @@ namespace Iit.Fibertest.Client
                 Serial = rtuLeaf.Serial,
             };
 
-        //    NetAddress addressOfCharonWithThisPort;
             string serialOfCharonWithThisPort;
             if (parent is OtauLeaf otauLeaf)
             {
-              //  addressOfCharonWithThisPort = otauLeaf.OtauNetAddress;
                 serialOfCharonWithThisPort = otauLeaf.Serial;
 
                 var bopCharon = new Charon(otauLeaf.OtauNetAddress, _iniFile35, _logFile);
@@ -112,7 +122,6 @@ namespace Iit.Fibertest.Client
             }
             else
             {
-            //    addressOfCharonWithThisPort = mainCharonAddress;
                 serialOfCharonWithThisPort = mainCharon.Serial;
             }
 
@@ -124,7 +133,6 @@ namespace Iit.Fibertest.Client
                 $@"-fnw -n {mainCharonAddress.Ip4Address} -p {otdrPort}");
         }
 
-    //    private bool ToggleToPort(Charon mainCharon, NetAddress addressOfCharonWithThisPort, int portNumber)
         private bool ToggleToPort(Charon mainCharon, string serialOfCharonWithThisPort, int portNumber)
         {
             var result = mainCharon.SetExtendedActivePort(serialOfCharonWithThisPort, portNumber);
