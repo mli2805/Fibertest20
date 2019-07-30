@@ -86,12 +86,17 @@ namespace Iit.Fibertest.Client
         {
             RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
             var isMak100 = rtuLeaf.OtauNetAddress.Ip4Address == @"192.168.88.101";
+            var isUcc = rtuLeaf.OtauNetAddress.Ip4Address == @"192.168.88.102"; // БУС
             var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
             if (rtu == null) return;
 
-            var mainCharonAddress = isMak100 ? rtu.MainChannel : rtu.OtdrNetAddress;
+            var mainCharonAddress = isMak100 || isUcc ? rtu.MainChannel : rtu.OtdrNetAddress;
             mainCharonAddress.Port = 23;
-            var mainCharon = new Charon(mainCharonAddress, _iniFile35, _logFile) { OwnPortCount = rtuLeaf.OwnPortCount };
+            var mainCharon = new Charon(mainCharonAddress, _iniFile35, _logFile)
+            {
+                OwnPortCount = rtuLeaf.OwnPortCount,
+                Serial = rtuLeaf.Serial,
+            };
 
         //    NetAddress addressOfCharonWithThisPort;
             string serialOfCharonWithThisPort;
@@ -113,7 +118,7 @@ namespace Iit.Fibertest.Client
 
             if (!ToggleToPort(mainCharon, serialOfCharonWithThisPort, portNumber)) return;
 
-            const int otdrPort = 1500;
+            int otdrPort = isUcc ? 10001 : 1500;
             var rootPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory, 2);
             System.Diagnostics.Process.Start(rootPath + @"\RftsReflect\Reflect.exe",
                 $@"-fnw -n {mainCharonAddress.Ip4Address} -p {otdrPort}");
