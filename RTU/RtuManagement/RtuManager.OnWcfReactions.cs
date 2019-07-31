@@ -142,16 +142,19 @@ namespace Iit.Fibertest.RtuManagement
             callback?.Invoke();
         }
 
-        public void StartMonitoring(Action callback, bool wasMonitoringOn)
+        private void StartMonitoring(Action callback, bool wasMonitoringOn)
         {
             IsRtuInitialized = false;
             _rtuInitializationResult = InitializeRtuManager(null);
             bool isCallbackReturned = false;
             if (_rtuInitializationResult != ReturnCode.Ok)
             {
+                while (RunMainCharonRecovery() != ReturnCode.Ok){}
+            }
+            else
+            {
                 callback?.Invoke();
                 isCallbackReturned = true;
-                while (RunMainCharonRecovery() != ReturnCode.Ok){}
             }
 
             if (!wasMonitoringOn)
