@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Messaging;
@@ -55,27 +54,6 @@ namespace Iit.Fibertest.DataCenterCore
             if (! await _rtuStationsRepository.IsRtuExist(dto.RtuId)) return -1;
 
             await CheckAndSendBopNetworkEventIfNeeded(dto);
-            return 0;
-        }
-
-        public async Task<int> ProcessMultipleMonitoringResults(List<MonitoringResultDto> dtos)
-        {
-            _logFile.AppendLine("point1");
-            if (! await _rtuStationsRepository.IsRtuExist(dtos.First().RtuId)) return -1;
-
-            var sorIds = await _sorFileRepository.AddMultipleSorBytesAsync(dtos.Select(d=>d.SorBytes).ToList());
-            _logFile.AppendLine("point2");
-            if (sorIds == null) return -1;
-
-            for (int i = 0; i < dtos.Count; i++)
-            {
-            _logFile.AppendLine("point3");
-                var res = await SaveEventFromDto(dtos[i], sorIds[i]);
-                if (res == -1)
-                    _logFile.AppendLine("invalid moniresult");
-            }
-            _logFile.AppendLine("point4");
-
             return 0;
         }
 
