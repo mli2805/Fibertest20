@@ -211,15 +211,14 @@ namespace GMap.NET.Internals
                     CacheLocation = newCache;
                 }
 
-                // FIBERTEST 2.0
-                var cmdLine = Environment.CommandLine;
-                var parts = cmdLine.Split(' ');
-                var mapCache = AppDomain.CurrentDomain.BaseDirectory + $@"..\Cache\{parts[1]}\";
+                // FIBERTEST 2.0.4
+                var args = Environment.GetCommandLineArgs();
+                var mapCache = AppDomain.CurrentDomain.BaseDirectory + $@"..\Cache\";
+                if (args.Length > 1)
+                    mapCache = mapCache + args[1] + "\\";
                 if (!Directory.Exists(mapCache))
                     Directory.CreateDirectory(mapCache);
                 CacheLocation = mapCache;
-
-                // FIBERTEST 2.0
 #endif
             }
         }
