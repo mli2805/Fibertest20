@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
         public void ExitApp()
         {
             Thread.Sleep(TimeSpan.FromSeconds(1));
-            Application.Current.Dispatcher.InvokeAsync(() => Application.Current.Shutdown());
+            Application.Current.Dispatcher?.InvokeAsync(() => Application.Current.Shutdown());
         }
     }
 }

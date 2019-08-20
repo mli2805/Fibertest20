@@ -60,7 +60,7 @@ namespace Iit.Fibertest.Client
         private void ExitApp()
         {
             Thread.Sleep(TimeSpan.FromSeconds(1));
-            Application.Current.Dispatcher.InvokeAsync(() => Application.Current.Shutdown());
+            Application.Current.Dispatcher?.InvokeAsync(() => Application.Current.Shutdown());
         }
 
         public async Task<int> BlockClientWhileDbOptimization(DbOptimizationProgressDto dto)
@@ -84,13 +84,14 @@ namespace Iit.Fibertest.Client
 
             _clientPoller.CancellationTokenSource.Cancel();
             _waitViewModel.Initialize(LongOperation.DbOptimization);
-            Application.Current.Dispatcher.InvokeAsync(() => _windowManager.ShowDialogWithAssignedOwner(_waitViewModel));
+            Application.Current.Dispatcher?.InvokeAsync(() => _windowManager.ShowDialogWithAssignedOwner(_waitViewModel));
         }
 
         private async Task<int> LeaveApp()
         {
             var vm = new LeaveAppViewModel();
-            await Application.Current.Dispatcher.InvokeAsync(() => _windowManager.ShowDialogWithAssignedOwner(vm));
+            if (Application.Current.Dispatcher != null)
+                await Application.Current.Dispatcher.InvokeAsync(() => _windowManager.ShowDialogWithAssignedOwner(vm));
             return 0;
         }
     }

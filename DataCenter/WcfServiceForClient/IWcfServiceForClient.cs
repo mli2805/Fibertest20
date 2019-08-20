@@ -97,5 +97,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
 
         [OperationContract]
         Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto);
+
+        // C2D@RtuVeex
+        [OperationContract]
+        Task<RtuInitializedDto> InitializeRtuVeexAsync(InitializeRtuDto dto);
     }
 }

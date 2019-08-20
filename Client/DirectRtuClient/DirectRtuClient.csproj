@@ -140,6 +140,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
+    <Compile Include="HttpView.xaml.cs">
+      <DependentUpon>HttpView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HttpViewModel.cs" />
     <Compile Include="IShell.cs" />
     <Compile Include="MeasurementParameters\OtdrParametersDirectSetterView.xaml.cs">
       <DependentUpon>OtdrParametersDirectSetterView.xaml</DependentUpon>
@@ -163,6 +167,10 @@
       <DependentUpon>WcfView.xaml</DependentUpon>
     </Compile>
     <Compile Include="WcfViewModel.cs" />
+    <Page Include="HttpView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MeasurementParameters\OtdrParametersDirectSetterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -209,6 +217,10 @@
     <ProjectReference Include="..\..\Shared\Dto\Dto.csproj">
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
       <Name>Dto</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Http\HttpLib\HttpLib.csproj">
+      <Project>{9e9cccb0-e363-4a4c-8655-052d4fa2657c}</Project>
+      <Name>HttpLib</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\StringResources\StringResources.csproj">
       <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>

@@ -71,7 +71,7 @@ namespace Iit.Fibertest.MapLoader
 
             try
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Loaded, m);
+                Dispatcher?.BeginInvoke(DispatcherPriority.Loaded, m);
             }
             catch (Exception e)
             {
@@ -92,7 +92,7 @@ namespace Iit.Fibertest.MapLoader
 
             try
             {
-                Dispatcher.BeginInvoke(DispatcherPriority.Loaded, m);
+                Dispatcher?.BeginInvoke(DispatcherPriority.Loaded, m);
             }
             catch (Exception e)
             {

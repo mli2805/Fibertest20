@@ -110,14 +110,15 @@ namespace Iit.Fibertest.Client
                         ? Visibility.Visible
                         : Visibility.Hidden;
                 }
-                else if (marker is GMapMarker gMapMarker) // GMapMarker - node
+                else
                 {
-                    if (gMapMarker.IsHighlighting) continue;
+                    // GMapMarker - node
+                    if (marker.IsHighlighting) continue;
 
-                    gMapMarker.Shape.Visibility =
-                        selectedLevel >= ((MarkerControl)gMapMarker.Shape).EqType.GetEnabledVisibilityLevel()
-                        ? Visibility.Visible
-                        : Visibility.Hidden;
+                    marker.Shape.Visibility =
+                        selectedLevel >= ((MarkerControl)marker.Shape).EqType.GetEnabledVisibilityLevel()
+                            ? Visibility.Visible
+                            : Visibility.Hidden;
                 }
             }
         }

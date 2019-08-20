@@ -94,9 +94,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graph.Tests", "Client\Graph
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapLoader", "Client\MapLoader\MapLoader.csproj", "{78128B76-31B3-4F4E-825F-2BD1E25B40E5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataCenterWebProxy", "DataCenter\DataCenterWebProxy\DataCenterWebProxy.csproj", "{5E43C7EF-7C75-4AC9-B1AE-5D77169D70C8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataCenterWebProxy", "DataCenter\DataCenterWebProxy\DataCenterWebProxy.csproj", "{5E43C7EF-7C75-4AC9-B1AE-5D77169D70C8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WcfServiceForWebProxyInterface", "DataCenter\WcfServiceForWebProxyInterface\WcfServiceForWebProxyInterface.csproj", "{6D964992-E615-48DF-9A09-A07194AB3B8D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HttpLib", "Shared\Http\HttpLib\HttpLib.csproj", "{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -812,6 +814,26 @@ Global
 		{6D964992-E615-48DF-9A09-A07194AB3B8D}.v4.0-Release|Any CPU.Build.0 = Release|Any CPU
 		{6D964992-E615-48DF-9A09-A07194AB3B8D}.v4.0-Release|x86.ActiveCfg = Release|Any CPU
 		{6D964992-E615-48DF-9A09-A07194AB3B8D}.v4.0-Release|x86.Build.0 = Release|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.Debug|x86.Build.0 = Debug|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.ForRtuXP|Any CPU.ActiveCfg = Release|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.ForRtuXP|Any CPU.Build.0 = Release|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.ForRtuXP|x86.ActiveCfg = Release|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.ForRtuXP|x86.Build.0 = Release|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.Release|x86.ActiveCfg = Release|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.Release|x86.Build.0 = Release|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.v4.0-Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.v4.0-Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.v4.0-Debug|x86.ActiveCfg = Debug|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.v4.0-Debug|x86.Build.0 = Debug|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.v4.0-Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.v4.0-Release|Any CPU.Build.0 = Release|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.v4.0-Release|x86.ActiveCfg = Release|Any CPU
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C}.v4.0-Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -848,6 +870,7 @@ Global
 		{78128B76-31B3-4F4E-825F-2BD1E25B40E5} = {30F780F4-2EC3-46E4-B4A5-285511FA269D}
 		{5E43C7EF-7C75-4AC9-B1AE-5D77169D70C8} = {8D9C27AA-A0E9-4F25-A8F9-EC180BACC347}
 		{6D964992-E615-48DF-9A09-A07194AB3B8D} = {8D9C27AA-A0E9-4F25-A8F9-EC180BACC347}
+		{9E9CCCB0-E363-4A4C-8655-052D4FA2657C} = {B846E623-4E4F-4781-B4A4-D598397CF672}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3F630111-19AE-422B-BDB8-98B5B96A2787}

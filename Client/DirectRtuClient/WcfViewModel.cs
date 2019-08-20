@@ -29,13 +29,13 @@ namespace DirectRtuClient
 
         public WcfViewModel(IniFile iniFile, IMyLog logFile)
         {
-           _iniFile = iniFile;
+            _iniFile = iniFile;
             _logFile = logFile;
 
             _username = @"developer";
 
             Guid.TryParse(iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()), out _clientId);
-            _serverDoubleAddress  = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
+            _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
             ServerAddress = _serverDoubleAddress.Main.Ip4Address;
             _c2DWcfManager = new C2DWcfManager(_iniFile, _logFile);
             var clientAddresses = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
@@ -49,12 +49,12 @@ namespace DirectRtuClient
 
         public async void Register()
         {
-           await RegisterClient(false);
+            await RegisterClient(false);
         }
 
         public async void SendHeartbeat()
         {
-           await RegisterClient(true);
+            await RegisterClient(true);
         }
 
         public async void GetEvents()
@@ -79,7 +79,7 @@ namespace DirectRtuClient
         {
             try
             {
-                var events = await _c2DWcfManager.GetEvents(new GetEventsDto(){Revision = currentEventsCount});
+                var events = await _c2DWcfManager.GetEvents(new GetEventsDto() { Revision = currentEventsCount });
                 if (events.Length > 0)
                 {
                     MessageBox.Show($@"{events.Length} events received");
@@ -121,7 +121,7 @@ namespace DirectRtuClient
                     }
                     else _logFile.AppendLine(@"Heartbeat sent successfully");
                 }
-            
+
             }
             catch (Exception e)
             {
@@ -133,7 +133,7 @@ namespace DirectRtuClient
         {
             try
             {
-                var dto = new UnRegisterClientDto(){ClientId = _clientId};
+                var dto = new UnRegisterClientDto() { ClientId = _clientId };
                 await _c2DWcfManager.UnregisterClientAsync(dto);
             }
             catch (Exception e)
@@ -176,49 +176,49 @@ namespace DirectRtuClient
             }
             catch (Exception e)
             {
-                    Console.WriteLine(e);
-                    throw;
+                Console.WriteLine(e);
+                throw;
             }
-           
+
         }
 
-//        public async void SendEmails()
-//        {
-//            try
-//            {
-//                var smtpHost = _iniFile.Read(IniSection.Smtp, IniKey.SmtpHost, @"smtp.gmail.com");
-//                var smtpPort = _iniFile.Read(IniSection.Smtp, IniKey.SmtpPort, 587);
-//
-//                var mailFrom = _iniFile.Read(IniSection.Smtp, IniKey.MailFrom, @"fibertest2018@gmail.com");
-//                var password = _iniFile.Read(IniSection.Smtp, IniKey.MailFromPassword, @"Fibertest2018!");
-//
-//                using (SmtpClient smtpClient = new SmtpClient(smtpHost, smtpPort))
-//                {
-//                    smtpClient.EnableSsl = true;
-//                    smtpClient.Timeout = _iniFile.Read(IniSection.Smtp, IniKey.SmtpTimeoutMs, 10000);
-//                    smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
-//                    smtpClient.UseDefaultCredentials = false;
-//                    // got letter from Gmail with request to allow to access my mail box from unsafe application, 
-//                    // after getting permission works fine
-//                    smtpClient.Credentials = new NetworkCredential(mailFrom, password);
-//
-//                    MailMessage mail = new MailMessage();
-//                    mail.From = new MailAddress(mailFrom);
-//                    mail.To.Add(@"mli2805@yandex.rw");
-//                    mail.To.Add(@"mli2805@mail.ru");
-//
-//                    mail.Subject = @"Test email";
-//                    mail.Body = @"Test email content";
-//
-//                    await smtpClient.SendMailAsync(mail);
-//                }
-//            }
-//            catch (Exception e)
-//            {
-//                    Console.WriteLine(e);
-//                    throw;
-//            }
-//           
-//        }
+        //        public async void SendEmails()
+        //        {
+        //            try
+        //            {
+        //                var smtpHost = _iniFile.Read(IniSection.Smtp, IniKey.SmtpHost, @"smtp.gmail.com");
+        //                var smtpPort = _iniFile.Read(IniSection.Smtp, IniKey.SmtpPort, 587);
+        //
+        //                var mailFrom = _iniFile.Read(IniSection.Smtp, IniKey.MailFrom, @"fibertest2018@gmail.com");
+        //                var password = _iniFile.Read(IniSection.Smtp, IniKey.MailFromPassword, @"Fibertest2018!");
+        //
+        //                using (SmtpClient smtpClient = new SmtpClient(smtpHost, smtpPort))
+        //                {
+        //                    smtpClient.EnableSsl = true;
+        //                    smtpClient.Timeout = _iniFile.Read(IniSection.Smtp, IniKey.SmtpTimeoutMs, 10000);
+        //                    smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+        //                    smtpClient.UseDefaultCredentials = false;
+        //                    // got letter from Gmail with request to allow to access my mail box from unsafe application, 
+        //                    // after getting permission works fine
+        //                    smtpClient.Credentials = new NetworkCredential(mailFrom, password);
+        //
+        //                    MailMessage mail = new MailMessage();
+        //                    mail.From = new MailAddress(mailFrom);
+        //                    mail.To.Add(@"mli2805@yandex.rw");
+        //                    mail.To.Add(@"mli2805@mail.ru");
+        //
+        //                    mail.Subject = @"Test email";
+        //                    mail.Body = @"Test email content";
+        //
+        //                    await smtpClient.SendMailAsync(mail);
+        //                }
+        //            }
+        //            catch (Exception e)
+        //            {
+        //                    Console.WriteLine(e);
+        //                    throw;
+        //            }
+        //           
+        //        }
     }
 }

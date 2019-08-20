@@ -609,5 +609,10 @@ namespace Iit.Fibertest.WcfConnections
                 return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.C2DWcfConnectionError, ExceptionMessage = e.Message };
             }
         }
+
+        public Task<RtuInitializedDto> InitializeRtuVeexAsync(InitializeRtuDto dto)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -121,7 +121,7 @@ namespace Broadcaster
             for (int i = 0; i < MsmqCount; i++)
             {
                 queue.Send(i % 4 == 0 ? messageBroken : message, MessageQueueTransactionType.Single);
-                Application.Current.Dispatcher.Invoke(del);
+                Application.Current.Dispatcher?.Invoke(del);
                 Thread.Sleep(MsmqPauseMs);
             }
         }
