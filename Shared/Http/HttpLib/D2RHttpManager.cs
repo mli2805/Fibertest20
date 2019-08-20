@@ -24,12 +24,19 @@ namespace HttpLib
         public async Task<RtuInitializedDto> GetSettings(InitializeRtuDto dto)
         {
             var result = new RtuInitializedDto();
+            result.RtuId = dto.RtuId;
+            result.RtuAddresses = dto.RtuAddresses;
+            result.Maker = RtuMaker.VeEX;
           
             var rootUrl = $"http://{_rtuAddress.Main.ToStringA()}/api/v1";
             var strInfo = await GetAsync($"{rootUrl}/info");
             var info = JsonConvert.DeserializeObject<Info>(strInfo);
             _logFile.AppendLine(strInfo);
+            result.Mfid = info.platform.name;
+            result.Mfsn = info.platform.serialNumber;
             result.Serial = info.platform.serialNumber;
+            result.Version = info.platform.firmwareVersion;
+            result.Version2 = info.platform.moduleFirmwareVersion;
 
             var strOtdrs = await GetAsync($"{rootUrl}/otdrs");
             _logFile.AppendLine(strOtdrs);
@@ -38,6 +45,8 @@ namespace HttpLib
             var strOtdr = await GetAsync($"{rootUrl}/{otdrs.items[0].self}"); // could be more than one
             _logFile.AppendLine(strOtdr);
             var otdr = JsonConvert.DeserializeObject<Otdr>(strOtdr);
+            result.Omid = otdr.mainframeId;
+            result.Omsn = otdr.opticalModuleSerialNumber;
             result.AcceptableMeasParams = new TreeOfAcceptableMeasParams();
             foreach (var laserUnitPair in otdr.supportedMeasurementParameters.laserUnits)
             {
@@ -64,6 +73,7 @@ namespace HttpLib
             result.Children = new Dictionary<int, OtauDto>();
             result.Children.Add(0, new OtauDto()
             {
+                IsOk = true,
                 OwnPortCount = otau.portCount,
             });
             result.OwnPortCount = otau.portCount;

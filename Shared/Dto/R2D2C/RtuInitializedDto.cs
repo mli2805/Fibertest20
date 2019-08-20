@@ -43,6 +43,8 @@ namespace Iit.Fibertest.Dto
         public int FullPortCount { get; set; }
         [DataMember]
         public string Version { get; set; }
+        [DataMember]
+        public string Version2 { get; set; }
 
         [DataMember]
         public Dictionary<int, OtauDto> Children { get; set; }
