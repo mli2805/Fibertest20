@@ -111,6 +111,11 @@ namespace Iit.Fibertest.RtuManagement
             var otdrPort = _rtuIni.Read(IniSection.Charon, IniKey.OtdrPort, 1500);
             return new RtuInitializedDto()
             {
+                Maker = RtuMaker.IIT,
+                Mfid = _mfid,
+                Mfsn = _mfsn,
+                Omid = _omid,
+                Omsn = _omsn,
                 RtuId = _id,
                 IsInitialized = IsRtuInitialized,
                 ReturnCode = _rtuInitializationResult,

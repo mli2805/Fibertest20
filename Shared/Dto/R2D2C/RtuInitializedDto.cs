@@ -8,6 +8,18 @@ namespace Iit.Fibertest.Dto
     public class RtuInitializedDto
     {
         [DataMember]
+        public RtuMaker Maker { get; set; }
+
+        [DataMember]
+        public string Mfid { get; set; }
+        [DataMember]
+        public string Mfsn { get; set; }
+        [DataMember]
+        public string Omid { get; set; }
+        [DataMember]
+        public string Omsn { get; set; }
+
+        [DataMember]
         public Guid RtuId { get; set; }
 
         [DataMember]

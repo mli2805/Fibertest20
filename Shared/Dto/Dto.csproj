@@ -66,6 +66,7 @@
     <Compile Include="Enums\MonitoringState.cs" />
     <Compile Include="Enums\MonitoringStateExt.cs" />
     <Compile Include="Enums\NotificationType.cs" />
+    <Compile Include="Enums\RtuMaker.cs" />
     <Compile Include="Enums\RtuPartStateChanges.cs" />
     <Compile Include="Enums\WorseOrBetter.cs" />
     <Compile Include="R2D2C\BopStateChangedDto.cs" />

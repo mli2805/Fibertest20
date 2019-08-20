@@ -53,6 +53,10 @@ namespace Iit.Fibertest.RtuManagement
             return ReturnCode.Ok;
         }
 
+        private string _mfid;
+        private string _mfsn;
+        private string _omid;
+        private string _omsn;
         private ReturnCode InitializeOtdr()
         {
             _otdrManager = new OtdrManager(@"OtdrMeasEngine\", _rtuIni, _rtuLog);
@@ -67,22 +71,22 @@ namespace Iit.Fibertest.RtuManagement
             if (!_otdrManager.ConnectOtdr(otdrAddress))
                 return ReturnCode.FailedToConnectOtdr;
 
-            var mfid = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetotdrinfoMfid);
-            _rtuLog.AppendLine($"MFID = {mfid}");
-           var mfsn = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetotdrinfoMfsn);
-            _rtuLog.AppendLine($"MFSN = {mfsn}");
-           var omid = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetotdrinfoOmid);
-            _rtuLog.AppendLine($"OMID = {omid}");
-           var omsn = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetotdrinfoOmsn);
-            _rtuLog.AppendLine($"OMSN = {omsn}");
+            _mfid = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetotdrinfoMfid);
+            _rtuLog.AppendLine($"MFID = {_mfid}");
+            _mfsn = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetotdrinfoMfsn);
+            _rtuLog.AppendLine($"MFSN = {_mfsn}");
+            _omid = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetotdrinfoOmid);
+            _rtuLog.AppendLine($"OMID = {_omid}");
+            _omsn = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetotdrinfoOmsn);
+            _rtuLog.AppendLine($"OMSN = {_omsn}");
             return ReturnCode.Ok;
             // return _otdrManager.ConnectOtdr(otdrAddress) ? ReturnCode.Ok : ReturnCode.FailedToConnectOtdr;
         }
 
         private ReturnCode ReInitializeOtauOnUsersRequest(InitializeRtuDto dto)
         {
-            _rtuLog.AppendLine($"RTU hardware has {_mainCharon.Children.Count} additional OTAU ", messageLevel:3);
-            _rtuLog.AppendLine($"RTU in client has {dto.Children.Count} additional OTAU", messageLevel:3);
+            _rtuLog.AppendLine($"RTU hardware has {_mainCharon.Children.Count} additional OTAU ", messageLevel: 3);
+            _rtuLog.AppendLine($"RTU in client has {dto.Children.Count} additional OTAU", messageLevel: 3);
 
             if (!_mainCharon.IsBopSupported)
                 return dto.Children.Count > 0 ? ReturnCode.RtuDoesntSupportBop : ReturnCode.Ok;
