@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("RtuManagement")]
-[assembly: AssemblyCopyright("Copyright © IIT Minsk 2017-2018")]
+[assembly: AssemblyCopyright("Copyright © IIT Minsk 2017-2019")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

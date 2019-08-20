@@ -59,6 +59,7 @@ namespace HttpLib
             var otaus = JsonConvert.DeserializeObject<Otaus>(strOtaus);
 
             var strOtau = await GetAsync($"{rootUrl}/{otaus.items[0].self}"); // could be more than one
+            _logFile.AppendLine(strOtau);
             var otau = JsonConvert.DeserializeObject<Otau>(strOtau);
             result.Children = new Dictionary<int, OtauDto>();
             result.Children.Add(0, new OtauDto()

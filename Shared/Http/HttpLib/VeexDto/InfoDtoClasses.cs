@@ -27,6 +27,7 @@ namespace HttpLib
     {
         public List<string> enabledOptions { get; set; }
         public string firmwareVersion { get; set; }
+        public string moduleFirmwareVersion { get; set; }
         public string name { get; set; }
         public string serialNumber { get; set; }
     }
