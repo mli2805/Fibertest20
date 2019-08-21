@@ -6,11 +6,16 @@
         xmlns:directRtuClient="clr-namespace:DirectRtuClient"
         mc:Ignorable="d"
         Height="300" Width="300" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignInstance directRtuClient:HttpViewModel}">
-    <StackPanel>
-        <DockPanel>
+    <DockPanel>
+        <DockPanel Dock="Top">
             <Button DockPanel.Dock="Right" Name="SaveAddress" Content="Save address" Margin="5" Width="100"/>
             <TextBox Text="{Binding RtuVeexAddress}" Margin="5"/>
         </DockPanel>
-        <Button Name="GetOtdrs" Content="Get OTDRs" Margin="5"/>
-    </StackPanel>
+
+        <Button DockPanel.Dock="Top" Name="GetSettings" Content="Get settings" Margin="5" 
+                IsEnabled="{Binding IsButtonEnabled, Mode=TwoWay}"/>
+
+        <TextBlock DockPanel.Dock="Bottom" Background="Azure" Height="22" Margin="5,0" Text="{Binding ResultString}"/>
+        <StackPanel></StackPanel>
+    </DockPanel>
 </Window>

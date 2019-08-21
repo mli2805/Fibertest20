@@ -28,7 +28,8 @@ namespace Iit.Fibertest.DataCenterCore
 
             dto.ServerAddresses = _serverDoubleAddress;
 
-            var rtuInitializedDto = await _d2RHttpManager.Initialize(dto.RtuAddresses, _logFile).GetSettings(dto);
+            _d2RHttpManager.Initialize(dto.RtuAddresses, _logFile);
+            var rtuInitializedDto = await _d2RHttpManager.GetSettings(dto);
             if (rtuInitializedDto.IsInitialized)
             {
                 rtuInitializedDto.RtuAddresses = dto.RtuAddresses;

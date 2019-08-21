@@ -14,12 +14,10 @@ namespace HttpLib
     {
         private DoubleAddress _rtuAddress;
         private IMyLog _logFile;
-        public D2RHttpManager Initialize(DoubleAddress rtuAddress, IMyLog logFile)
+        public void Initialize(DoubleAddress rtuAddress, IMyLog logFile)
         {
             _rtuAddress = rtuAddress;
             _logFile = logFile;
-
-            return this;
         }
 
         public async Task<RtuInitializedDto> GetSettings(InitializeRtuDto dto)
