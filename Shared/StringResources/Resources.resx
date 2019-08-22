@@ -2684,4 +2684,10 @@ RTU is initializing right now!</value>
 	<data name="SID_Performing_registration_on__0_" xml:space="preserve">
     <value>Performing registration on {0}</value>
   </data>
+	<data name="SID_IIT" xml:space="preserve">
+    <value>IIT</value>
+  </data>
+	<data name="SID_Manufacturer" xml:space="preserve">
+    <value>Manufacturer</value>
+  </data>
 </root>

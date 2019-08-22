@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -63,6 +64,9 @@ namespace Iit.Fibertest.Client
 
 
         private bool _isCloseEnabled;
+        private Visibility _iitVisibility;
+        private Visibility _veexVisibility;
+
         public bool IsCloseEnabled
         {
             get { return _isCloseEnabled; }
@@ -76,10 +80,33 @@ namespace Iit.Fibertest.Client
 
         public bool IsInitializationPermitted => _currentUser.Role <= Role.Root && IsIdle;
 
+        public Visibility IitVisibility
+        {
+            get => _iitVisibility;
+            set
+            {
+                if (value == _iitVisibility) return;
+                _iitVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public Visibility VeexVisibility
+        {
+            get => _veexVisibility;
+            set
+            {
+                if (value == _veexVisibility) return;
+                _veexVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public List<string> Bops { get; set; }
 
-        public RtuInitializeViewModel(ILifetimeScope globalScope, CurrentUser currentUser, Model readModel, IWindowManager windowManager,
-            IWcfServiceForClient c2DWcfManager, IMyLog logFile, RtuLeaf rtuLeaf, CommonStatusBarViewModel commonStatusBarViewModel)
+        public RtuInitializeViewModel(ILifetimeScope globalScope, CurrentUser currentUser, Model readModel,
+            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
+            IMyLog logFile, RtuLeaf rtuLeaf, CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
             _currentUser = currentUser;
@@ -107,6 +134,9 @@ namespace Iit.Fibertest.Client
             ReserveChannelTestViewModel.PropertyChanged += ReserveChannelTestViewModel_PropertyChanged;
 
             IsReserveChannelEnabled = OriginalRtu.IsReserveChannelSet;
+
+            IitVisibility = OriginalRtu.RtuMaker == RtuMaker.IIT ? Visibility.Visible : Visibility.Collapsed;
+            VeexVisibility = OriginalRtu.RtuMaker == RtuMaker.VeEX ? Visibility.Visible : Visibility.Collapsed;
             Bops = CreateBops();
         }
 
@@ -149,16 +179,23 @@ namespace Iit.Fibertest.Client
             {
                 IsIdle = false;
                 IsCloseEnabled = false;
-                RtuInitializedDto result;
+
                 using (_globalScope.Resolve<IWaitCursor>())
                 {
+                    
                     if (!await CheckConnectionBeforeInitializaion()) return;
-
+                    // TODO maybe special type ?
+                    var rtuMaker = MainChannelTestViewModel.NetAddressInputViewModel.Port == 11842
+                        ? RtuMaker.IIT
+                        : RtuMaker.VeEX;
                     _commonStatusBarViewModel.StatusBarMessage2 = Resources.SID_RTU_is_being_initialized___;
-                    result = await _c2DWcfManager.InitializeRtuAsync(CreateDto());
+
+                    var initializeRtuDto = CreateDto(rtuMaker);
+                    var result = await _c2DWcfManager.InitializeRtuAsync(initializeRtuDto);
+
                     _commonStatusBarViewModel.StatusBarMessage2 = "";
-                }
-                ProcessRtuInitialized(result);
+
+                    ProcessRtuInitialized(result); }
             }
             catch (Exception e)
             {
@@ -166,13 +203,17 @@ namespace Iit.Fibertest.Client
                 var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_RTU_initialization_error_);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
             }
-            IsIdle = true;
-            IsCloseEnabled = true;
+            finally
+            {
+                IsIdle = true;
+                IsCloseEnabled = true;
+            }
         }
+
 
         private bool Validate()
         {
-            var initializedRtuCount = _readModel.Rtus.Count(r=>r.OwnPortCount > 0);
+            var initializedRtuCount = _readModel.Rtus.Count(r => r.OwnPortCount > 0);
             if (OriginalRtu.OwnPortCount > 0)
                 initializedRtuCount--;
             if (_readModel.License.RtuCount.Value <= initializedRtuCount)
@@ -194,10 +235,21 @@ namespace Iit.Fibertest.Client
             return true;
         }
 
-        private InitializeRtuDto CreateDto()
+        private InitializeRtuDto CreateDto(RtuMaker rtuMaker)
         {
+            if (MainChannelTestViewModel.NetAddressInputViewModel.Port == -1)
+                MainChannelTestViewModel.NetAddressInputViewModel.Port = rtuMaker == RtuMaker.IIT
+                    ? (int)TcpPorts.RtuListenTo
+                    : (int)TcpPorts.RtuVeexListenTo;
+            if (IsReserveChannelEnabled && ReserveChannelTestViewModel.NetAddressInputViewModel.Port == -1)
+                ReserveChannelTestViewModel.NetAddressInputViewModel.Port = rtuMaker == RtuMaker.IIT
+                    ? (int)TcpPorts.RtuListenTo
+                    : (int)TcpPorts.RtuVeexListenTo;
+
             return new InitializeRtuDto()
             {
+                RtuMaker = rtuMaker, // it depends on which initialization button was pressed
+
                 RtuId = OriginalRtu.Id,
                 Serial = OriginalRtu.Serial, // properties after previous initialization (if it was)
                 OwnPortCount = OriginalRtu.OwnPortCount,
@@ -294,6 +346,7 @@ namespace Iit.Fibertest.Client
             switch (dto.ReturnCode)
             {
                 case ReturnCode.Ok:
+                case ReturnCode.RtuInitializedSuccessfully:
                     vm = new MyMessageBoxViewModel(MessageType.Information,
                         Resources.SID_RTU_initialized_successfully_);
                     break;
@@ -312,20 +365,27 @@ namespace Iit.Fibertest.Client
 
         private void UpdateThisViewModel(RtuInitializedDto dto)
         {
-            OriginalRtu = new Rtu
-            {
-                Id = dto.RtuId,
-                Title = OriginalRtu.Title,
-                MainChannel = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
-                OtdrNetAddress = (NetAddress)dto.OtdrAddress.Clone(),
-                Serial = dto.Serial,
-                OwnPortCount = dto.OwnPortCount,
-                FullPortCount = dto.FullPortCount,
-                Version = dto.Version,
-                Children = dto.Children,
-                Comment = OriginalRtu.Comment,
-            };
+            OriginalRtu = new Rtu();
+            OriginalRtu.RtuMaker = dto.Maker;
+            OriginalRtu.Id = dto.RtuId;
+            OriginalRtu.Mfid = dto.Mfid;
+            OriginalRtu.Mfsn = dto.Mfsn;
+            OriginalRtu.Omid = dto.Omid;
+            OriginalRtu.Omsn = dto.Omsn;
+            OriginalRtu.Title = OriginalRtu.Title;
+            OriginalRtu.MainChannel = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress();
+            OriginalRtu.OtdrNetAddress = (NetAddress)dto.OtdrAddress.Clone();
+            OriginalRtu.Serial = dto.Serial;
+            OriginalRtu.OwnPortCount = dto.OwnPortCount;
+            OriginalRtu.FullPortCount = dto.FullPortCount;
+            OriginalRtu.Version = dto.Version;
+            OriginalRtu.Version2 = dto.Version2;
+            OriginalRtu.Children = dto.Children;
+            OriginalRtu.Comment = OriginalRtu.Comment;
             Bops = CreateBops();
+
+            IitVisibility = OriginalRtu.RtuMaker == RtuMaker.IIT ? Visibility.Visible : Visibility.Collapsed;
+            VeexVisibility = OriginalRtu.RtuMaker == RtuMaker.VeEX ? Visibility.Visible : Visibility.Collapsed;
         }
 
         private List<string> CreateBops()
@@ -352,7 +412,7 @@ namespace Iit.Fibertest.Client
                  r.ReserveChannel.Ip4Address ==
                  ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address)).ToList();
 
-            if (list.Count == 0 || list.Count == 1 && list.First().Id == OriginalRtu.Id) 
+            if (list.Count == 0 || list.Count == 1 && list.First().Id == OriginalRtu.Id)
                 return true;
 
             var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_There_is_RTU_with_the_same_ip_address_);
@@ -365,6 +425,11 @@ namespace Iit.Fibertest.Client
             var cmd = new InitializeRtu
             {
                 Id = dto.RtuId,
+                Maker = dto.Maker,
+                Mfid = dto.Mfid,
+                Mfsn = dto.Mfsn,
+                Omid = dto.Omid,
+                Omsn = dto.Omsn,
                 MainChannel = MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
                 MainChannelState = RtuPartState.Ok,
                 IsReserveChannelSet = IsReserveChannelEnabled,
@@ -377,6 +442,7 @@ namespace Iit.Fibertest.Client
                 FullPortCount = dto.FullPortCount,
                 Serial = dto.Serial,
                 Version = dto.Version,
+                Version2 = dto.Version2,
                 IsMonitoringOn = dto.IsMonitoringOn,
                 Children = dto.Children,
                 AcceptableMeasParams = dto.AcceptableMeasParams,

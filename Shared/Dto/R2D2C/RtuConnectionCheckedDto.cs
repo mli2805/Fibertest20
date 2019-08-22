@@ -15,6 +15,9 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public bool IsConnectionSuccessfull { get; set; }
         [DataMember]
+        public NetAddress NetAddress { get; set; }
+
+        [DataMember]
         public bool IsPingSuccessful { get; set; } // check if rtu service connection failed
     }
 }

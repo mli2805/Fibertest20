@@ -23,11 +23,28 @@ namespace Iit.Fibertest.WcfConnections
         {
             var result = new RtuConnectionCheckedDto() { RtuId = dto.RtuId };
             var backward = new RtuWcfServiceBackward();
-            var wcfFactory = new WcfFactory(new DoubleAddress() { Main = dto.NetAddress }, iniFile, logFile);
+
+            var addressToCheck = new DoubleAddress() { Main = (NetAddress)dto.NetAddress.Clone() };
+            if (addressToCheck.Main.Port == -1)
+                addressToCheck.Main.Port = (int)TcpPorts.RtuListenTo;
+
+            var wcfFactory = new WcfFactory(addressToCheck, iniFile, logFile);
             var rtuConnection = wcfFactory.GetDuplexRtuChannelFactory(backward);
             await Task.Factory.StartNew(() => Thread.Sleep(1)); // just to have await in function :)
+
+            if (rtuConnection == null && dto.NetAddress.Port == -1)
+            {
+                addressToCheck.Main.Port = (int)TcpPorts.RtuVeexListenTo;
+                wcfFactory = new WcfFactory(addressToCheck, iniFile, logFile);
+                rtuConnection = wcfFactory.GetDuplexRtuChannelFactory(backward);
+            }
+
             result.IsConnectionSuccessfull = rtuConnection != null;
-            if (!result.IsConnectionSuccessfull)
+            result.NetAddress = (NetAddress)dto.NetAddress.Clone();
+
+            if (result.IsConnectionSuccessfull)
+                result.NetAddress.Port = addressToCheck.Main.Port;
+            else
                 result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
             return result;
         }
@@ -48,7 +65,7 @@ namespace Iit.Fibertest.WcfConnections
             }
             catch (Exception e)
             {
-               _logFile.AppendLine("InitializeAsync: " + e.Message);
+                _logFile.AppendLine("InitializeAsync: " + e.Message);
                 return null;
             }
         }
@@ -95,7 +112,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-    
+
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
             var backward = new RtuWcfServiceBackward();
@@ -122,7 +139,7 @@ namespace Iit.Fibertest.WcfConnections
             var backward = new RtuWcfServiceBackward();
             var rtuDuplexConnection = _wcfFactory.GetDuplexRtuChannelFactory(backward);
             if (rtuDuplexConnection == null)
-                return new BaseRefAssignedDto() {ReturnCode = ReturnCode.D2RWcfConnectionError};
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.D2RWcfConnectionError };
 
             try
             {
@@ -143,7 +160,7 @@ namespace Iit.Fibertest.WcfConnections
             var backward = new RtuWcfServiceBackward();
             var rtuDuplexConnection = _wcfFactory.GetDuplexRtuChannelFactory(backward);
             if (rtuDuplexConnection == null)
-                return new MonitoringSettingsAppliedDto() {ReturnCode = ReturnCode.D2RWcfConnectionError};
+                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.D2RWcfConnectionError };
 
             try
             {
@@ -164,7 +181,7 @@ namespace Iit.Fibertest.WcfConnections
             var backward = new RtuWcfServiceBackward();
             var rtuDuplexConnection = _wcfFactory.GetDuplexRtuChannelFactory(backward);
             if (rtuDuplexConnection == null)
-                return new ClientMeasurementStartedDto() {ReturnCode = ReturnCode.D2RWcfConnectionError};
+                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.D2RWcfConnectionError };
 
             try
             {
@@ -185,7 +202,7 @@ namespace Iit.Fibertest.WcfConnections
             var backward = new RtuWcfServiceBackward();
             var rtuDuplexConnection = _wcfFactory.GetDuplexRtuChannelFactory(backward);
             if (rtuDuplexConnection == null)
-                return new OutOfTurnMeasurementStartedDto() {ReturnCode = ReturnCode.D2RWcfConnectionError};
+                return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.D2RWcfConnectionError };
 
             try
             {

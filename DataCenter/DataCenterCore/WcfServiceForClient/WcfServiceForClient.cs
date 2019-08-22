@@ -28,6 +28,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IEventStoreInitializer _eventStoreInitializer;
 
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
+        private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly SorFileRepository _sorFileRepository;
         private readonly SnapshotRepository _snapshotRepository;
@@ -46,8 +47,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         public WcfServiceForClient(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
             Model writeModel, IEventStoreInitializer eventStoreInitializer, EventStoreService eventStoreService,
-            MeasurementFactory measurementFactory,
-            ClientsCollection clientsCollection, ClientToRtuTransmitter clientToRtuTransmitter,
+            MeasurementFactory measurementFactory, ClientsCollection clientsCollection, 
+            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter,
             RtuStationsRepository rtuStationsRepository,
             BaseRefRepairmanIntermediary baseRefRepairmanIntermediary, BaseRefLandmarksTool baseRefLandmarksTool,
             SorFileRepository sorFileRepository, SnapshotRepository snapshotRepository,
@@ -64,6 +65,7 @@ namespace Iit.Fibertest.DataCenterCore
             _measurementFactory = measurementFactory;
             _clientsCollection = clientsCollection;
             _clientToRtuTransmitter = clientToRtuTransmitter;
+            _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
             _rtuStationsRepository = rtuStationsRepository;
             _sorFileRepository = sorFileRepository;
             _snapshotRepository = snapshotRepository;

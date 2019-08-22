@@ -11,6 +11,7 @@ namespace Iit.Fibertest.Client
     public class NetAddressTestViewModel : Screen
     {
         private readonly ILifetimeScope _globalScope;
+        private readonly CurrentUser _currentUser;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly NetAddressForConnectionTest _netAddressForConnectionTest;
         private bool? _result;
@@ -44,6 +45,7 @@ namespace Iit.Fibertest.Client
             IWcfServiceForClient c2DWcfManager, NetAddressForConnectionTest netAddressForConnectionTest)
         {
             _globalScope = globalScope;
+            _currentUser = currentUser;
             _c2DWcfManager = c2DWcfManager;
             _netAddressForConnectionTest = netAddressForConnectionTest;
             NetAddressInputViewModel = new NetAddressInputViewModel(netAddressForConnectionTest.Address, currentUser.Role <= Role.Root);
@@ -51,7 +53,7 @@ namespace Iit.Fibertest.Client
             Result = true;
         }
 
-        public async void Test()
+        public async void Test() // button
         {
             Result = null;
             bool res;
@@ -59,10 +61,12 @@ namespace Iit.Fibertest.Client
             {
                 res = await TestConnection();
             }
+
+
             Result = res;
         }
 
-        public async Task<bool> ExternalTest()
+        public async Task<bool> ExternalTest() // from RTU initialization procedure
         {
             using (_globalScope.Resolve<IWaitCursor>())
             {
@@ -78,8 +82,12 @@ namespace Iit.Fibertest.Client
                 {
                     NetAddress = (NetAddress)NetAddressInputViewModel.GetNetAddress().Clone()
                 };
-                var b = await _c2DWcfManager.CheckRtuConnectionAsync(dto);
-                return b.IsConnectionSuccessfull;
+                var resultDto = await _c2DWcfManager.CheckRtuConnectionAsync(dto);
+                if (resultDto.IsConnectionSuccessfull && dto.NetAddress.Port == -1)
+                {
+                    NetAddressInputViewModel = new NetAddressInputViewModel(resultDto.NetAddress, _currentUser.Role <= Role.Root);
+                }
+                return resultDto.IsConnectionSuccessfull;
             }
             else // DataCenter testing
             {

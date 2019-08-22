@@ -12,7 +12,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            return await _clientToRtuTransmitter.InitializeAsync(dto);
+            return dto.RtuMaker == RtuMaker.IIT
+                ? await _clientToRtuTransmitter.InitializeAsync(dto)
+                : await Task.Factory.StartNew(()=> _clientToRtuVeexTransmitter.InitializeAsync(dto).Result);
         }
 
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
@@ -37,7 +39,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
-               return await _clientToRtuTransmitter.AssignBaseRefAsync(dto);
+            return await _clientToRtuTransmitter.AssignBaseRefAsync(dto);
         }
 
         // Base refs had been assigned earlier (and saved in Db) and now user attached trace to the port
@@ -45,9 +47,9 @@ namespace Iit.Fibertest.DataCenterCore
         // or user explicitly demands to resend base refs to RTU 
         public async Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto dto)
         {
-              return await _clientToRtuTransmitter.ReSendBaseRefAsync(dto);
+            return await _clientToRtuTransmitter.ReSendBaseRefAsync(dto);
         }
-      
+
         public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
             return await _clientToRtuTransmitter.DoClientMeasurementAsync(dto);

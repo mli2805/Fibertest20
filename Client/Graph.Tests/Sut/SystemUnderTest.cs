@@ -2,6 +2,7 @@
 using Autofac;
 using Caliburn.Micro;
 using FluentAssertions;
+using HttpLib;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DataCenterCore;
@@ -155,10 +156,12 @@ namespace Graph.Tests
             builder.RegisterType<ClientsCollection>().InstancePerLifetimeScope();
             builder.RegisterType<RtuStationsRepository>().InstancePerLifetimeScope();
             builder.RegisterType<ClientToRtuTransmitter>().InstancePerLifetimeScope();
+            builder.RegisterType<ClientToRtuVeexTransmitter>().InstancePerLifetimeScope();
             builder.RegisterType<BaseRefRepairmanIntermediary>().InstancePerLifetimeScope();
             builder.RegisterType<SorFileRepository>().InstancePerLifetimeScope();
             builder.RegisterType<SnapshotRepository>().InstancePerLifetimeScope();
             builder.RegisterType<D2CWcfManager>().InstancePerLifetimeScope();
+            builder.RegisterType<D2RHttpManager>().InstancePerLifetimeScope();
             builder.RegisterType<SmsSender>().InstancePerLifetimeScope();
             builder.RegisterType<SmsManager>().InstancePerLifetimeScope();
             builder.RegisterType<Smtp>().InstancePerLifetimeScope();

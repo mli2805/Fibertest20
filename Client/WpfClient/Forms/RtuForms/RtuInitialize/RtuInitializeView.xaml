@@ -52,22 +52,68 @@
             <client:NetAddressTestView Margin="0,5,0,0" IsEnabled="{Binding ElementName=CheckBoxReserveAddress, Path=IsChecked}"
                                           DataContext="{Binding ReserveChannelTestViewModel}"/>
         </GroupBox>
-        <GroupBox Header="{x:Static stringResources:Resources.SID_Information}" Margin="5">
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Information}" Margin="5" Visibility="{Binding IitVisibility}">
             <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Manufacturer}" Margin="5"/>
+                    <TextBlock Text="{Binding OriginalRtu.RtuMaker}" Margin="5" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Platform" Margin="5"/>
+                    <TextBlock Text="{Binding OriginalRtu.Mfid}" Margin="5" />
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Serial}" Margin="25,5,5,5"/>
+                    <TextBlock Text="{Binding OriginalRtu.Mfsn}" Margin="5"/>
+                </StackPanel> 
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="OTDR" Margin="5"/>
+                    <TextBlock Text="{Binding OriginalRtu.Omid}" Margin="5" />
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Serial}" Margin="25,5,5,5"/>
+                    <TextBlock Text="{Binding OriginalRtu.Omsn}" Margin="5"/>
+                </StackPanel>
                 <DockPanel>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Serial}" Margin="5"/>
-                    <TextBlock Text="{Binding OriginalRtu.Serial}" Margin="5"/>
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Port_count}" Margin="25,5,5,5"/>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Port_count}" Margin="5,5,5,5"/>
                     <TextBlock Text="{Binding OriginalRtu.PortCount}" Margin="5"/>
                 </DockPanel>
                 <ListView ItemsSource ="{Binding Bops}" BorderThickness="0"/>
                 <DockPanel>
                     <TextBlock Text="{x:Static stringResources:Resources.SID_RTU_Manager_software_version}" Margin="5"/>
                     <TextBlock Text="{Binding OriginalRtu.Version}" Margin="5"/>
+                    <TextBlock Text="{Binding OriginalRtu.Version2}" Margin="5"/>
                 </DockPanel>
             </StackPanel>
         </GroupBox>
-       
+ 
+        <GroupBox Header="{x:Static stringResources:Resources.SID_Information}" Margin="5" Visibility="{Binding VeexVisibility}">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Manufacturer}" Margin="5"/>
+                    <TextBlock Text="{Binding OriginalRtu.RtuMaker}" Margin="5" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Platform" Margin="5"/>
+                    <TextBlock Text="{Binding OriginalRtu.Mfid}" Margin="5" />
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Serial}" Margin="25,5,5,5"/>
+                    <TextBlock Text="{Binding OriginalRtu.Mfsn}" Margin="5"/>
+                </StackPanel> 
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="OTDR" Margin="5"/>
+                    <TextBlock Text="{Binding OriginalRtu.Omid}" Margin="5" />
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Serial}" Margin="25,5,5,5"/>
+                    <TextBlock Text="{Binding OriginalRtu.Omsn}" Margin="5"/>
+                </StackPanel>
+                <DockPanel>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Port_count}" Margin="5,5,5,5"/>
+                    <TextBlock Text="{Binding OriginalRtu.PortCount}" Margin="5"/>
+                </DockPanel>
+                <ListView ItemsSource ="{Binding Bops}" BorderThickness="0"/>
+                <DockPanel>
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_RTU_Manager_software_version}" Margin="5"/>
+                    <TextBlock Text="{Binding OriginalRtu.Version}" Margin="5"/>
+                    <TextBlock Text="{Binding OriginalRtu.Version2}" Margin="5"/>
+                </DockPanel>
+            </StackPanel>
+        </GroupBox>
+
         <StackPanel Orientation="Horizontal"  Margin="5,10">
             <Button Name="InitializeRtu" Content="{x:Static stringResources:Resources.SID_Initialize}" Margin="5" 
                     Height="22" Width="140" IsEnabled="{Binding IsInitializationPermitted}"/>

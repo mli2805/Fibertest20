@@ -159,7 +159,6 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<C2DWcfManager>().AsSelf().As<IWcfServiceForClient>().InstancePerLifetimeScope();
             builder.RegisterType<C2SWcfManager>().AsSelf().As<IWcfServiceInSuperClient>().InstancePerLifetimeScope();
 
-
             builder.RegisterType<UiDispatcherProvider>().As<IDispatcherProvider>().InstancePerLifetimeScope();
             builder.RegisterType<RenderingApplierToUi>();
             builder.RegisterType<OneRtuOrTraceRenderer>();

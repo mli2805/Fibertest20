@@ -610,9 +610,5 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public Task<RtuInitializedDto> InitializeRtuVeexAsync(InitializeRtuDto dto)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

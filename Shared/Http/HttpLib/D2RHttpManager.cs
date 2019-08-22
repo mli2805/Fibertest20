@@ -37,10 +37,11 @@ namespace HttpLib
             if (!otauResponse)
                 return result;
 
-            result.ReturnCode = ReturnCode.RtuInitializedSuccessfully;
             result.RtuId = dto.RtuId;
             result.RtuAddresses = dto.RtuAddresses;
+            result.OtdrAddress = (NetAddress)result.RtuAddresses.Main.Clone();
             result.Maker = RtuMaker.VeEX;
+            result.ReturnCode = ReturnCode.RtuInitializedSuccessfully;
             result.IsInitialized = true;
             return result;
         }
@@ -53,17 +54,15 @@ namespace HttpLib
                 _logFile.AppendLine(strOtaus);
                 var otaus = JsonConvert.DeserializeObject<Otaus>(strOtaus);
 
+                if (otaus.total == 0)
+                    return true;
+
                 var strOtau = await GetAsync($"{rootUrl}/{otaus.items[0].self}"); // could be more than one
                 _logFile.AppendLine(strOtau);
                 var otau = JsonConvert.DeserializeObject<Otau>(strOtau);
-                result.Children = new Dictionary<int, OtauDto>();
-                result.Children.Add(0, new OtauDto()
-                {
-                    IsOk = true,
-                    OwnPortCount = otau.portCount,
-                });
                 result.OwnPortCount = otau.portCount;
                 result.FullPortCount = otau.portCount;
+                result.Children = new Dictionary<int, OtauDto>(); // empty, no children
                 return true;
             }
             catch (Exception e)
@@ -81,6 +80,9 @@ namespace HttpLib
                 var strOtdrs = await GetAsync($"{rootUrl}/otdrs");
                 _logFile.AppendLine(strOtdrs);
                 var otdrs = JsonConvert.DeserializeObject<Otdrs>(strOtdrs);
+
+                if (otdrs.total == 0)
+                    return true;
 
                 var strOtdr = await GetAsync($"{rootUrl}/{otdrs.items[0].self}"); // could be more than one
                 _logFile.AppendLine(strOtdr);

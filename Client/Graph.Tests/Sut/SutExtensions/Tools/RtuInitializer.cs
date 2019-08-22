@@ -35,10 +35,12 @@ namespace Graph.Tests
             if (answer == Answer.Yes)
             {
                 vm.MainChannelTestViewModel.NetAddressInputViewModel.Ip4InputViewModel = new Ip4InputViewModel(mainIpAddress);
+                vm.MainChannelTestViewModel.NetAddressInputViewModel.Port = 11842;
                 if (reserveIpAddress != "")
                 {
                     vm.IsReserveChannelEnabled = true;
                     vm.ReserveChannelTestViewModel.NetAddressInputViewModel.Ip4InputViewModel = new Ip4InputViewModel(reserveIpAddress);
+                    vm.ReserveChannelTestViewModel.NetAddressInputViewModel.Port = 11842;
                 }
 
                 vm.InitializeRtu();

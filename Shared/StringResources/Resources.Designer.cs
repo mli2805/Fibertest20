@@ -3232,6 +3232,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IIT.
+        /// </summary>
+        public static string SID_IIT {
+            get {
+                return ResourceManager.GetString("SID_IIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In &quot;Without Map&quot; mode.
         /// </summary>
         public static string SID_In__Without_Map__mode {
@@ -3858,6 +3867,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Manual_mode {
             get {
                 return ResourceManager.GetString("SID_Manual_mode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manufacturer.
+        /// </summary>
+        public static string SID_Manufacturer {
+            get {
+                return ResourceManager.GetString("SID_Manufacturer", resourceCulture);
             }
         }
         

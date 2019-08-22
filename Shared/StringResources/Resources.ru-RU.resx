@@ -2684,4 +2684,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Performing_registration_on__0_" xml:space="preserve">
 		<value>Выполняется регистрация на {0}</value>
 	</data>
+	<data name="SID_IIT" xml:space="preserve">
+		<value>ИИТ</value>
+	</data>
+	<data name="SID_Manufacturer" xml:space="preserve">
+		<value>Производитель</value>
+	</data>
 </root>

@@ -24,7 +24,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent initialize RTU {dto.RtuId.First6()} request");
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent initialize VeEX RTU {dto.RtuId.First6()} request");
 
             dto.ServerAddresses = _serverDoubleAddress;
 

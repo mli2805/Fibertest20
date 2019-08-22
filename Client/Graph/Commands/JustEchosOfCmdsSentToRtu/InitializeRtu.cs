@@ -7,6 +7,13 @@ namespace Iit.Fibertest.Graph
     public class InitializeRtu
     {
         public Guid Id { get; set; }
+        public RtuMaker Maker { get; set; }
+
+        public string Mfid { get; set; }
+        public string Mfsn { get; set; }
+        public string Omid { get; set; }
+        public string Omsn { get; set; }
+
         public NetAddress MainChannel { get; set; }
         public RtuPartState MainChannelState { get; set; }
         public bool IsReserveChannelSet { get; set; } = false;
@@ -17,6 +24,7 @@ namespace Iit.Fibertest.Graph
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }
         public string Version { get; set; }
+        public string Version2 { get; set; }
 
         public Dictionary<int, OtauDto> Children { get; set; }
         public bool IsMonitoringOn { get; set; }

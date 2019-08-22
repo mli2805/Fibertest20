@@ -59,7 +59,7 @@ namespace Iit.Fibertest.Graph
 
         public static string InitializeRtu(this Model model, RtuInitialized e)
         {
-            var rtu = model.Rtus.First(r => r.Id == e.Id);
+            var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.Id);
             if (rtu == null)
             {
                 return $@"RtuInitialized: RTU {e.Id.First6()} not found";
@@ -71,6 +71,12 @@ namespace Iit.Fibertest.Graph
 
         private static void SetRtuProperties(this Model model, Rtu rtu, RtuInitialized e)
         {
+            rtu.RtuMaker = e.Maker;
+            rtu.Mfid = e.Mfid;
+            rtu.Mfsn = e.Mfsn;
+            rtu.Omid = e.Omid;
+            rtu.Omsn = e.Omsn;
+
             rtu.OwnPortCount = e.OwnPortCount;
             rtu.FullPortCount = e.FullPortCount;
 
@@ -91,6 +97,7 @@ namespace Iit.Fibertest.Graph
             rtu.ReserveChannelState = e.ReserveChannelState;
             rtu.OtdrNetAddress = e.OtauNetAddress;
             rtu.Version = e.Version;
+            rtu.Version2 = e.Version2;
             rtu.MonitoringState = MonitoringState.Off;
             rtu.AcceptableMeasParams = e.AcceptableMeasParams;
 
