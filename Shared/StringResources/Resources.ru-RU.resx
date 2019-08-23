@@ -2690,4 +2690,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Manufacturer" xml:space="preserve">
 		<value>Производитель</value>
 	</data>
+	<data name="SID_firmwareVersion" xml:space="preserve">
+		<value>Версия прошивки</value>
+	</data>
 </root>

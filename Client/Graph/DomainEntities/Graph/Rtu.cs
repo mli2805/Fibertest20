@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Graph
         public string Title { get; set; }
         public string Comment { get; set; }
 
-        public NetAddress MainChannel { get; set; } = new NetAddress(@"192.168.96.0", -1);
+        public NetAddress MainChannel { get; set; } = new NetAddress(@"", -1);
         public RtuPartState MainChannelState { get; set; }
         public NetAddress ReserveChannel { get; set; } = new NetAddress("", -1);
         public RtuPartState ReserveChannelState { get; set; }

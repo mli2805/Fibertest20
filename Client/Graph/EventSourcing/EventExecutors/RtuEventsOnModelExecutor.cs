@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Graph
     {
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
-      
+
         public static string AddRtuAtGpsLocation(this Model model, RtuAtGpsLocationAdded e)
         {
             Node node = new Node()

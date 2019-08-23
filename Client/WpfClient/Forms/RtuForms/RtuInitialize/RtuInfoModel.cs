@@ -109,6 +109,15 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private readonly string _firmwareVersion = Resources.SID_firmwareVersion;
+        public string MfidVersion => _firmwareVersion == @"firmware version"
+            ? $@"{Mfid} {_firmwareVersion} {Version}"
+            : $@"{_firmwareVersion} {Mfid} {Version}";
+
+        public string OmidVersion =>  _firmwareVersion == @"firmware version"
+            ? $@"OTDR {_firmwareVersion} {Version2}"
+            : $@"{_firmwareVersion} OTDR {Version2}";
+
         public string Version2
         {
             get => _version2;

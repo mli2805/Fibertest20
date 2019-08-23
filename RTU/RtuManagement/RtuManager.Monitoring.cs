@@ -272,7 +272,7 @@ namespace Iit.Fibertest.RtuManagement
 
         private void SendByMsmq(MonitoringResultDto dto)
         {
-            var address = _serviceIni.Read(IniSection.ServerMainAddress, IniKey.Ip, "192.168.96.0");
+            var address = _serviceIni.Read(IniSection.ServerMainAddress, IniKey.Ip, "0.0.0.0");
             var connectionString = $@"FormatName:DIRECT=TCP:{address}\private$\Fibertest20";
             var queue = new MessageQueue(connectionString);
             Message message = new Message(dto, new BinaryMessageFormatter());
@@ -282,7 +282,7 @@ namespace Iit.Fibertest.RtuManagement
         private void SendByMsmq(BopStateChangedDto dto)
         {
             _rtuLog.AppendLine("Sending OTAU state changes by MSMQ");
-            var address = _serviceIni.Read(IniSection.ServerMainAddress, IniKey.Ip, "192.168.96.0");
+            var address = _serviceIni.Read(IniSection.ServerMainAddress, IniKey.Ip, "0.0.0.0");
             var connectionString = $@"FormatName:DIRECT=TCP:{address}\private$\Fibertest20";
             var queue = new MessageQueue(connectionString);
             Message message = new Message(dto, new BinaryMessageFormatter());

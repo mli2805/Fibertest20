@@ -2690,4 +2690,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Manufacturer" xml:space="preserve">
     <value>Manufacturer</value>
   </data>
+	<data name="SID_firmwareVersion" xml:space="preserve">
+    <value>firmware version</value>
+  </data>
 </root>

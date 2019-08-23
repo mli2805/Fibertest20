@@ -22,6 +22,7 @@
         // General - Client
         ClientPollingRateMs,
         FailedPollsLimit,
+        Ip4Default,
         // General - RTU
         RtuHeartbeatRate,
         // General - DataCenter

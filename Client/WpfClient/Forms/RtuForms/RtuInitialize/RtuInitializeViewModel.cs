@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
+        private readonly IniFile _iniFile;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IMyLog _logFile;
@@ -53,7 +54,7 @@ namespace Iit.Fibertest.Client
         public bool IsInitializationPermitted => _currentUser.Role <= Role.Root && IsIdle;
      
         public RtuInitializeViewModel(ILifetimeScope globalScope, CurrentUser currentUser, Model readModel,
-            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
+            IniFile iniFile, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
             IMyLog logFile, RtuLeaf rtuLeaf, CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
@@ -61,6 +62,7 @@ namespace Iit.Fibertest.Client
             IsIdle = true;
             IsCloseEnabled = true;
             _readModel = readModel;
+            _iniFile = iniFile;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
             _logFile = logFile;
@@ -177,6 +179,9 @@ namespace Iit.Fibertest.Client
             {
                 // apply initialization to graph
                 _c2DWcfManager.SendCommandsAsObjs(DtoToCommandList(dto));
+                var ip4AddressDefault = FullModel.MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address;
+                ip4AddressDefault = ip4AddressDefault.Substring(0, ip4AddressDefault.LastIndexOf('.') + 1);
+                _iniFile.Write(IniSection.General, IniKey.Ip4Default, ip4AddressDefault);
                 FullModel.UpdateWithDto(dto);
             }
 

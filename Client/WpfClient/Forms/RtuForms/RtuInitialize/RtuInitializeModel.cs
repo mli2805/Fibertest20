@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
@@ -13,6 +14,7 @@ namespace Iit.Fibertest.Client
     public class RtuInitializeModel : PropertyChangedBase
     {
         private readonly ILifetimeScope _globalScope;
+        private readonly IniFile _iniFile;
         private readonly IWindowManager _windowManager;
         private readonly Model _readModel;
 
@@ -91,9 +93,11 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public RtuInitializeModel(ILifetimeScope globalScope, IWindowManager windowManager, Model readModel)
+        public RtuInitializeModel(ILifetimeScope globalScope, IniFile iniFile, 
+            IWindowManager windowManager, Model readModel)
         {
             _globalScope = globalScope;
+            _iniFile = iniFile;
             _windowManager = windowManager;
             _readModel = readModel;
         }
@@ -103,6 +107,9 @@ namespace Iit.Fibertest.Client
             OriginalRtu = _readModel.Rtus.First(r => r.Id == rtuId);
             RtuId = OriginalRtu.Id.ToString();
             RtuName = OriginalRtu.Title;
+            if (OriginalRtu.MainChannel.Ip4Address == "")
+                OriginalRtu.MainChannel.Ip4Address = 
+                    _iniFile.Read(IniSection.General, IniKey.Ip4Default, @"192.168.96.");
             MainChannelTestViewModel = _globalScope.Resolve<NetAddressTestViewModel>
                 (new NamedParameter(@"netAddressForConnectionTest", new NetAddressForConnectionTest(OriginalRtu.MainChannel, true)));
             MainChannelTestViewModel.PropertyChanged += MainChannelTestViewModel_PropertyChanged;
