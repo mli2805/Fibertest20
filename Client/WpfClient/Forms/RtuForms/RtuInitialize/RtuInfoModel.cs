@@ -114,7 +114,7 @@ namespace Iit.Fibertest.Client
             ? $@"{Mfid} {_firmwareVersion} {Version}"
             : $@"{_firmwareVersion} {Mfid} {Version}";
 
-        public string OmidVersion =>  _firmwareVersion == @"firmware version"
+        public string OmidVersion => _firmwareVersion == @"firmware version"
             ? $@"OTDR {_firmwareVersion} {Version2}"
             : $@"{_firmwareVersion} OTDR {Version2}";
 
@@ -200,13 +200,14 @@ namespace Iit.Fibertest.Client
         private List<string> CreateBops(RtuInitializedDto dto)
         {
             var bops = new List<string>();
-            foreach (var pair in dto.Children)
-            {
-                bops.Add(string.Format(Resources.SID____on_port__0___optical_switch__1___,
-                    pair.Key, pair.Value.NetAddress.ToStringA()));
-                bops.Add(string.Format(Resources.SID_______________________serial__0____1__ports,
-                    pair.Value.Serial, pair.Value.OwnPortCount));
-            }
+            if (dto.Children != null)
+                foreach (var pair in dto.Children)
+                {
+                    bops.Add(string.Format(Resources.SID____on_port__0___optical_switch__1___,
+                        pair.Key, pair.Value.NetAddress.ToStringA()));
+                    bops.Add(string.Format(Resources.SID_______________________serial__0____1__ports,
+                        pair.Value.Serial, pair.Value.OwnPortCount));
+                }
             return bops;
         }
 

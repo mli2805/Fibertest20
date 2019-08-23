@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
     public class RtuInitializeViewModel : Screen
     {
         public RtuInitializeModel FullModel { get; set; }
-      
+
         private readonly ILifetimeScope _globalScope;
         private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IMyLog _logFile;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
-    
+
         private bool _isIdle;
         public bool IsIdle
         {
@@ -52,7 +52,7 @@ namespace Iit.Fibertest.Client
         }
 
         public bool IsInitializationPermitted => _currentUser.Role <= Role.Root && IsIdle;
-     
+
         public RtuInitializeViewModel(ILifetimeScope globalScope, CurrentUser currentUser, Model readModel,
             IniFile iniFile, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
             IMyLog logFile, RtuLeaf rtuLeaf, CommonStatusBarViewModel commonStatusBarViewModel)
@@ -71,7 +71,7 @@ namespace Iit.Fibertest.Client
             FullModel = _globalScope.Resolve<RtuInitializeModel>();
             FullModel.StartFromRtu(rtuLeaf.Id);
         }
-   
+
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Network_settings;
@@ -88,7 +88,7 @@ namespace Iit.Fibertest.Client
 
                 using (_globalScope.Resolve<IWaitCursor>())
                 {
-                    
+
                     if (!await CheckConnectionBeforeInitializaion()) return;
                     // TODO maybe special type ?
                     var rtuMaker = FullModel.MainChannelTestViewModel.NetAddressInputViewModel.Port == 11842
@@ -101,7 +101,8 @@ namespace Iit.Fibertest.Client
 
                     _commonStatusBarViewModel.StatusBarMessage2 = "";
 
-                    ProcessRtuInitialized(result); }
+                    ReactRtuInitialized(result);
+                }
             }
             catch (Exception e)
             {
@@ -168,7 +169,7 @@ namespace Iit.Fibertest.Client
             return false;
         }
 
-        private void ProcessRtuInitialized(RtuInitializedDto dto)
+        private void ReactRtuInitialized(RtuInitializedDto dto)
         {
             var message = dto.IsInitialized
                 ? $@"RTU {dto.RtuAddresses.Main.Ip4Address} initialized successfully."
@@ -205,20 +206,21 @@ namespace Iit.Fibertest.Client
             }
 
             // BOP state changed
-            foreach (var keyValuePair in dto.Children)
-            {
-                var bop = _readModel.Otaus.First(o => o.NetAddress.Equals(keyValuePair.Value.NetAddress));
-                if (bop.IsOk != keyValuePair.Value.IsOk)
-                    commandList.Add(new AddBopNetworkEvent()
-                    {
-                        EventTimestamp = DateTime.Now,
-                        RtuId = dto.RtuId,
-                        Serial = keyValuePair.Value.Serial == null ? bop.Serial : keyValuePair.Value.Serial,
-                        OtauIp = keyValuePair.Value.NetAddress.Ip4Address,
-                        TcpPort = keyValuePair.Value.NetAddress.Port,
-                        IsOk = keyValuePair.Value.IsOk,
-                    });
-            }
+            if (dto.Children != null)
+                foreach (var keyValuePair in dto.Children)
+                {
+                    var bop = _readModel.Otaus.First(o => o.NetAddress.Equals(keyValuePair.Value.NetAddress));
+                    if (bop.IsOk != keyValuePair.Value.IsOk)
+                        commandList.Add(new AddBopNetworkEvent()
+                        {
+                            EventTimestamp = DateTime.Now,
+                            RtuId = dto.RtuId,
+                            Serial = keyValuePair.Value.Serial == null ? bop.Serial : keyValuePair.Value.Serial,
+                            OtauIp = keyValuePair.Value.NetAddress.Ip4Address,
+                            TcpPort = keyValuePair.Value.NetAddress.Port,
+                            IsOk = keyValuePair.Value.IsOk,
+                        });
+                }
 
             commandList.Add(GetInitializeRtuCommand(dto));
             return commandList;
