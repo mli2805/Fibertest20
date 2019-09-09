@@ -140,5 +140,10 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 yield return (RftsEventsBlock)deserializer.Deserialize(typeof(RftsEventsBlock));
             }
         }
+
+        public static RftsEventsBlock GetRftsEventsBlockForLevel(this OtdrDataKnownBlocks sorData, string levelName)
+        {
+            return sorData.GetRftsEventsBlockForEveryLevel().FirstOrDefault(b => b.LevelName.ToString() == levelName);
+        }
     }
 }

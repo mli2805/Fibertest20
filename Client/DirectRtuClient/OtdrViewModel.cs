@@ -129,9 +129,9 @@ namespace DirectRtuClient
             _rtuLogger = rtuLogger;
             IpAddress = ipAddress;
 
-            BaseFileName = @"..\out\base3ev.sor";
-            MeasFileName = @"..\out\123.sor";
-            ResultFileName = @"c:\temp\sor\refWithMinorInExistingEvent.sor";
+            BaseFileName = @"..\111\bas.sor";
+            MeasFileName = @"..\111\izm.sor";
+            ResultFileName = @"..\111\izm.sor";
 //            ResultFileName = @"..\out\measwithbase.sor";
 
 
@@ -378,6 +378,7 @@ namespace DirectRtuClient
             }
             var buffer = File.ReadAllBytes(ResultFileName);
             var sorData = SorData.FromBytes(buffer);
+
             var vm = new RftsEventsViewModel(sorData);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowDialog(vm);

@@ -15,12 +15,12 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public RftsEventsOneLevelEeltViewModel EeltViewModel { get; set; }
 
-        public RftsEventsOneLevelViewModel(OtdrDataKnownBlocks sorData, RftsLevel rftsLevel)
+        public RftsEventsOneLevelViewModel(OtdrDataKnownBlocks sorData, RftsEventsBlock rftsEventsBlock, RftsLevel rftsLevel)
         {
-            OneLevelTableContent = new SorDataToViewContent(sorData).Parse(rftsLevel.LevelName);
+            OneLevelTableContent = new SorDataToViewContent(sorData, rftsEventsBlock, rftsLevel.LevelName).Parse();
             CreateTable(OneLevelTableContent.Table.First().Value.Length-1);
             PopulateTable();
-            EeltViewModel = new RftsEventsOneLevelEeltViewModel(sorData.KeyEvents.EndToEndLoss, rftsLevel.EELT, sorData.RftsEvents.EELD);
+            EeltViewModel = new RftsEventsOneLevelEeltViewModel(sorData.KeyEvents.EndToEndLoss, rftsLevel.EELT, rftsEventsBlock.EELD);
             IsFailed = OneLevelTableContent.IsFailed || EeltViewModel.IsFailed;
         }
 

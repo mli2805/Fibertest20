@@ -102,8 +102,8 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return new EmbeddedData
             {
                 Description = "RFTSEVENTS",
-                BlockId = "",
-                Comment = "",
+                BlockId = sorData.RftsEvents.BlockId,
+                Comment = sorData.RftsEvents.LevelName.ToString(),
                 DataSize = rftsEventsBytes.Length,
                 Data = rftsEventsBytes
             };

@@ -1,19 +1,18 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
-using System.IO;
 using System.Linq;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
-using Optixsoft.SharedCommons.SorSerialization;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
-using BinaryReader = Optixsoft.SharedCommons.SorSerialization.BinaryReader;
 
 namespace Iit.Fibertest.WpfCommonViews
 {
     public class SorDataToViewContent
     {
+        private readonly RftsLevelType _rftsLevel;
         private readonly OtdrDataKnownBlocks _sorData;
+        private readonly RftsEventsBlock _rftsEvents;
         private int _eventCount;
 
         private Dictionary<int, string> LineNameList => new Dictionary<int, string>
@@ -41,43 +40,26 @@ namespace Iit.Fibertest.WpfCommonViews
             { 900, ""                                            },
         };
 
-        public SorDataToViewContent(OtdrDataKnownBlocks sorData)
+        public SorDataToViewContent(OtdrDataKnownBlocks sorData, RftsEventsBlock rftsEvents, RftsLevelType rftsLevel)
         {
+            _rftsLevel = rftsLevel;
             _sorData = sorData;
+            _rftsEvents = rftsEvents;
         }
 
-        public OneLevelTableContent Parse(RftsLevelType rftsLevel)
+        public OneLevelTableContent Parse()
         {
-            _eventCount = _sorData.RftsEvents.EventsCount;
+            _eventCount = _rftsEvents.EventsCount;
             var eventContent = PrepareEmptyDictionary();
 
             ParseCommonInformation(eventContent);
             ParseCurrentMeasurement(eventContent.Table);
-            ParseMonitoringThresholds(eventContent.Table, rftsLevel);
-            var rftsEvents = ExtractRftsEventsForLevel(rftsLevel);
-            if (rftsEvents != null)
-                ParseDeviationFromBase(eventContent, rftsEvents);
+            ParseMonitoringThresholds(eventContent.Table);
+            ParseDeviationFromBase(eventContent, _rftsEvents);
 
             return eventContent;
         }
 
-        private RftsEventsBlock ExtractRftsEventsForLevel(RftsLevelType rftsLevel)
-        {
-            for (int i = 0; i < _sorData.EmbeddedData.EmbeddedBlocksCount; i++)
-            {
-                if (_sorData.EmbeddedData.EmbeddedDataBlocks[i].Description != @"RFTSEVENTS")
-                    continue;
-
-                var bytes = _sorData.EmbeddedData.EmbeddedDataBlocks[i].Data;
-                var binaryReader = new BinaryReader(new System.IO.BinaryReader(new MemoryStream(bytes)));
-                ushort revision = binaryReader.ReadUInt16();
-                var opxDeserializer = new OpxDeserializer(binaryReader, revision);
-                var result = (RftsEventsBlock)opxDeserializer.Deserialize(typeof(RftsEventsBlock));
-                if (result.LevelName == rftsLevel)
-                    return result;
-            }
-            return null;
-        }
 
         private OneLevelTableContent PrepareEmptyDictionary()
         {
@@ -103,14 +85,14 @@ namespace Iit.Fibertest.WpfCommonViews
                 }
 
                 oneLevelTableContent.Table[105][i + 1] = $@"{_sorData.OwtToLenKm(_sorData.KeyEvents.KeyEvents[i].EventPropagationTime):0.00000}";
-                if ((_sorData.RftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) != 0)
+                if ((_rftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) != 0)
                 {
                     oneLevelTableContent.IsFailed = true;
                     if (string.IsNullOrEmpty(oneLevelTableContent.FirstProblemLocation))
                         oneLevelTableContent.FirstProblemLocation = oneLevelTableContent.Table[105][i + 1];
                     oneLevelTableContent.Table[105][i + 1] += Resources.SID___new_;
                 }
-                oneLevelTableContent.Table[106][i + 1] = _sorData.RftsEvents.Events[i].EventTypes.ForEnabledInTable();
+                oneLevelTableContent.Table[106][i + 1] = _rftsEvents.Events[i].EventTypes.ForEnabledInTable();
                 oneLevelTableContent.Table[107][i + 1] = _sorData.KeyEvents.KeyEvents[i].EventCode.EventCodeForTable();
             }
         }
@@ -133,13 +115,13 @@ namespace Iit.Fibertest.WpfCommonViews
             }
         }
 
-        private void ParseMonitoringThresholds(Dictionary<int, string[]> eventTable, RftsLevelType rftsLevel)
+        private void ParseMonitoringThresholds(Dictionary<int, string[]> eventTable)
         {
-            var level = _sorData.RftsParameters.Levels.First(l => l.LevelName == rftsLevel);
+            var level = _sorData.RftsParameters.Levels.First(l => l.LevelName == _rftsLevel);
 
             for (int i = 0; i < _eventCount; i++)
             {
-                if ((_sorData.RftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) != 0)
+                if ((_rftsEvents.Events[i].EventTypes & RftsEventTypes.IsNew) != 0)
                     continue;
                 eventTable[301][i + 1] = level.ThresholdSets[i].ReflectanceThreshold.ForTable();
                 eventTable[302][i + 1] = level.ThresholdSets[i].AttenuationThreshold.ForTable();
@@ -163,7 +145,7 @@ namespace Iit.Fibertest.WpfCommonViews
                     oneLevelTableContent.Table[402][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].AttenuationThreshold, i + 1, @"L");
                 oneLevelTableContent.Table[403][i + 1] = ForDeviationInTable(oneLevelTableContent, rftsEvents.Events[i].AttenuationCoefThreshold, i + 1, @"C");
 
-                oneLevelTableContent.Table[103][i + 1] = _sorData.RftsEvents.Events[i].EventTypes.ForStateInTable( oneLevelTableContent.Table[104][i+1] != null);
+                oneLevelTableContent.Table[103][i + 1] = _rftsEvents.Events[i].EventTypes.ForStateInTable(oneLevelTableContent.Table[104][i + 1] != null);
             }
         }
 
