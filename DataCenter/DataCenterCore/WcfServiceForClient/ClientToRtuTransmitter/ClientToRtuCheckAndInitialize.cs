@@ -42,7 +42,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent initialize RTU {dto.RtuId.First6()} request");
 
-            dto.ServerAddresses = _serverDoubleAddress;
+            dto.ServerAddresses = (DoubleAddress)_serverDoubleAddress.Clone();
             if (!dto.RtuAddresses.HasReserveAddress)
                 // if RTU has no reserve address it should not send to server's reserve address
                 // (it is an idealogical requirement)
