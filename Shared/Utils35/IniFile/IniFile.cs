@@ -143,9 +143,10 @@ namespace Iit.Fibertest.UtilsLib
             var addresses = new DoubleAddress
             {
                 Main = Read(IniSection.ServerMainAddress, defaultTcpPort),
-                Reserve = Read(IniSection.ServerReserveAddress, defaultTcpPort),
                 HasReserveAddress = Read(IniSection.Server, IniKey.HasReserveAddress, false),
             };
+            if (addresses.HasReserveAddress)
+                addresses.Reserve = Read(IniSection.ServerReserveAddress, defaultTcpPort);
             return addresses;
         }
 
