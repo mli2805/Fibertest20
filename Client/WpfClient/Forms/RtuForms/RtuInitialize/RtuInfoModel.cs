@@ -176,7 +176,7 @@ namespace Iit.Fibertest.Client
             Omid = dto.Omid;
             Omsn = dto.Omsn;
             OwnPortCount = dto.OwnPortCount;
-            OwnPortCount = dto.FullPortCount;
+            FullPortCount = dto.FullPortCount;
 
             Bops = CreateBops(dto);
 
