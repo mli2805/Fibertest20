@@ -2,6 +2,7 @@ xcopy ..\Setup\bin\Debug\*.* Pack\bin\*.* /S/D/Y
 xcopy ..\Setup\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
       
 xcopy ..\DataCenter\DataCenterService\bin\Debug\*.* Pack\DcFiles\*.* /S/D/Y
+xcopy ..\DataCenter\DataCenterWebApi\bin\Debug\netcoreapp3.0\*.* PackAdmin\WebApiFiles\*.* /S/D/Y
 
 xcopy ..\Client\WpfClient\bin\Debug\*.* Pack\ClientFiles\*.* /S/D/Y
 xcopy ..\Client\SuperClient\bin\Debug\*.* Pack\SuperClientFiles\*.* /S/D/Y
