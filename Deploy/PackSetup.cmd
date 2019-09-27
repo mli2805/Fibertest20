@@ -11,6 +11,7 @@ xcopy ..\Setup\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
 xcopy ..\Utils\*.* Pack\Utils\*.* /S/D/Y
      
 xcopy ..\DataCenter\DataCenterService\bin\Release\*.* Pack\DcFiles\*.* /S/D/Y
+xcopy ..\DataCenter\DataCenterWebApi\bin\Release\netcoreapp3.0\*.* Pack\DcFiles\*.* /S/D/Y
 
 xcopy ..\Client\WpfClient\bin\Release\*.* Pack\ClientFiles\*.* /S/D/Y
 xcopy ..\Client\SuperClient\bin\Release\*.* Pack\SuperClientFiles\*.* /S/D/Y
