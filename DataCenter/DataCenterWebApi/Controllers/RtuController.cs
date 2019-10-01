@@ -23,7 +23,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
         
         [HttpGet]
-        public async Task<IEnumerable<string>> Get()
+        public async Task<IEnumerable<RtuDto>> Get()
         {
             var rtuList = await _webProxy2DWcfManager.GetRtuList();
             _logFile.AppendLine(rtuList == null

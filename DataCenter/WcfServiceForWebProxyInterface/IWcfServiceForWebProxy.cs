@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.WcfServiceForWebProxyInterface
 {
@@ -8,6 +9,6 @@ namespace Iit.Fibertest.WcfServiceForWebProxyInterface
     public interface IWcfServiceForWebProxy
     {
         [OperationContract]
-        Task<List<string>> GetRtuList();
+        Task<List<RtuDto>> GetRtuList();
     }
 }

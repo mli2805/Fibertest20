@@ -22,7 +22,7 @@ namespace Iit.Fibertest.WcfConnections
         {
             _wcfFactory = new WcfFactory(newServerAddress, _iniFile, _logFile);
         }
-        public async Task<List<string>> GetRtuList()
+        public async Task<List<RtuDto>> GetRtuList()
         {
             var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
             if (wcfConnection == null)

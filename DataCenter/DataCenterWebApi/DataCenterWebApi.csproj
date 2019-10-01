@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Dto\Dto.csproj" />
     <ProjectReference Include="..\..\Shared\WcfConnections\WcfConnections.csproj" />
     <ProjectReference Include="..\WcfServiceForWebProxyInterface\WcfServiceForWebProxyInterface.csproj" />
   </ItemGroup>
