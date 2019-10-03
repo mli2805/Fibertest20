@@ -32,10 +32,6 @@ namespace Iit.Fibertest.DataCenterWebApi
             return rtuList;
         }
 
-        [HttpPost]
-        public void Post([FromBody] Question question)
-        {
-
-        }
+      
     }
 }
