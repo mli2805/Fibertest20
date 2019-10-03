@@ -8,6 +8,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
@@ -41,7 +42,8 @@ import { MonitoringModePipe } from './pipes/monitoring-mode.pipe';
     FlexLayoutModule,
     MatToolbarModule,
     MatTabsModule,
-    MatIconModule,
+    MatTableModule,
+     MatIconModule,
     MatMenuModule,
     MatListModule,
     TranslateModule.forRoot()

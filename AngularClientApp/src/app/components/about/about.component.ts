@@ -6,14 +6,12 @@ import { RtuDto } from 'src/app/models/rtuDto';
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss']
 })
-
 export class AboutComponent implements OnInit {
-
   @Input() rtuArray: RtuDto[];
+  columnsToDisplay = ['title', 'version', 'version2'];
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
   }
-
 }
