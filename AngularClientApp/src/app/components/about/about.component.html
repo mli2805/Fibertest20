@@ -1,0 +1,31 @@
+<div class="centered-container">
+  <div class="about1">
+    <div class="iit-image">
+      <h3>
+        <img src="./assets/images/IIT.ico" alt="iit image" />
+
+        <div>
+          <p>Fibertest&trade; 2.5</p>
+          <p>Copyright&copy; 2019</p>
+          <p>Institute of Information Technologies</p>
+        </div>
+      </h3>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div>
+    <p>Data-Center software version</p>
+    <p>Web-Client software version</p>
+  </div>
+  <mat-divider></mat-divider>
+  <div>
+    <p>RTU manager software version</p>
+    <mat-list role="list">
+        <mat-list-item role="listitem" *ngFor="let rtu of rtuArray"
+          >Title: {{ rtu.title }} 
+          {{ 'IDS_Version' | translate }}:
+          {{ rtu.version }} Version2: {{ rtu.version2 }}
+        </mat-list-item>
+      </mat-list>
+  </div>
+</div>
