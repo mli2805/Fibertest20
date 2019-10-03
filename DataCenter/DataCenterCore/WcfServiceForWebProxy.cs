@@ -27,7 +27,7 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine("We are in WcfServiceForWebProxy");
             return _writeModel.Rtus.Select(r => new RtuDto()
             {
-                RtuId = r.Id, Title = r.Title, MonitoringState = r.MonitoringState, Version = r.Version, Version2 = r.Version2
+                RtuId = r.Id, Title = r.Title, MonitoringMode = r.MonitoringState, Version = r.Version, Version2 = r.Version2
             }).ToList();
         }
     }
