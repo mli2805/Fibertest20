@@ -1,9 +1,16 @@
-<mat-tab-group [selectedIndex]=selectedTab>
+<mat-tab-group [selectedIndex]="selectedTab">
   <mat-tab label="Fibertest&trade;">
     <ft-about [rtuArray]="rtus"> </ft-about>
   </mat-tab>
   <mat-tab label="RTU List">
-    <ft-rtulist [rtuArray]="rtus"> </ft-rtulist>
+    <mat-grid-list cols="2">
+      <mat-grid-tile>
+        <ft-rtulist [rtuArray]="rtus"></ft-rtulist>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <ft-rtu-tree [rtuArray]="rtus"></ft-rtu-tree>
+      </mat-grid-tile>
+    </mat-grid-list>
   </mat-tab>
   <mat-tab label="Optical Events"> <ft-opt-events></ft-opt-events> </mat-tab>
   <mat-tab label="Network events RTU "> Content 3 </mat-tab>

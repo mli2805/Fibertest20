@@ -4,7 +4,8 @@ import { RtuDto } from 'src/app/models/rtuDto';
 
 @Component({
   selector: 'ft-maintab',
-  templateUrl: './maintab.component.html'
+  templateUrl: './maintab.component.html',
+  styleUrls: ['./maintab.component.scss']
 })
 export class MainTabComponent implements OnInit {
   private rtus: RtuDto[];

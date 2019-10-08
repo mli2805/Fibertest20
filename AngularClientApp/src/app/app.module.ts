@@ -11,6 +11,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
 
@@ -34,6 +36,7 @@ import {
   BaseRefTypeFemalePipe
 } from './pipes/base-ref-type.pipe';
 import { OptEventsComponent } from './components/maintab/opt-events/opt-events.component';
+import { FtRtuTreeComponent } from './components/maintab/ft-rtu-tree/ft-rtu-tree.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +51,8 @@ import { OptEventsComponent } from './components/maintab/opt-events/opt-events.c
     EventStatusPipe,
     BaseRefTypePipe,
     BaseRefTypeFemalePipe,
-    OptEventsComponent
+    OptEventsComponent,
+    FtRtuTreeComponent
   ],
   imports: [
     BrowserModule,
@@ -61,6 +65,8 @@ import { OptEventsComponent } from './components/maintab/opt-events/opt-events.c
     MatTabsModule,
     MatTableModule,
     MatSortModule,
+    MatGridListModule,
+    MatExpansionModule,
     MatIconModule,
     MatMenuModule,
     MatListModule,

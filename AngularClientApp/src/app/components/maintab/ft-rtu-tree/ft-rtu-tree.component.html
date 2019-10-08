@@ -1,0 +1,27 @@
+<mat-accordion *ngFor="let rtu of rtuArray">
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <img
+        src="{{ rtu.monitoringMode | monitoringModeToUriPipe }}"
+        alt="monitoring mode image"
+      />
+      <img
+        src="{{ rtu.bopState | rtuPartStateToUriPipe }}"
+        alt="reserve channel image"
+      />
+      <img
+        src="{{ rtu.mainChannelState | rtuPartStateToUriPipe }}"
+        alt="main channel image"
+      />
+      <img
+        src="{{ rtu.reserveChannelState | rtuPartStateToUriPipe }}"
+        alt="reserve channel image"
+      />
+      <p>{{ rtu.title }}</p>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+</mat-accordion>
+
+<div *ngFor="let rtu of rtuArray" class="branch">
+  <p>{{ rtu.Title }}</p>
+</div>

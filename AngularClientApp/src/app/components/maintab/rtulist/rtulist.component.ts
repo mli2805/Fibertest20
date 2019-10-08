@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RtuDto } from '../../../models/rtuDto';
 
 @Component({
@@ -6,8 +6,11 @@ import { RtuDto } from '../../../models/rtuDto';
   templateUrl: './rtulist.component.html',
   styleUrls: ['./rtulist.component.scss']
 })
-export class RtuListComponent {
+export class RtuListComponent implements OnInit {
   @Input() rtuArray: RtuDto[];
 
   constructor() {}
+
+  ngOnInit() {
+  }
 }
