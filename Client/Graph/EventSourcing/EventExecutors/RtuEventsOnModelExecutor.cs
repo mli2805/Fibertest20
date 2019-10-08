@@ -73,6 +73,7 @@ namespace Iit.Fibertest.Graph
             var rtu = model.Rtus.First(r => r.Id == otau.RtuId);
             rtu.Children.Add(otau.MasterPort, otauDto);
             rtu.FullPortCount += otau.PortCount;
+            rtu.SetOtauState(e.Id, e.IsOk);
             return null;
         }
 
@@ -107,6 +108,7 @@ namespace Iit.Fibertest.Graph
                 model.BopNetworkEvents.Remove(bopNetworkEvent);
             }
 
+            rtu.RemoveOtauState(e.Id);
             model.Otaus.Remove(otau);
             return null;
         }

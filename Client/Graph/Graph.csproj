@@ -172,6 +172,7 @@
     <Compile Include="DomainEntities\Breaks\AccidentNeighbour.cs" />
     <Compile Include="DomainEntities\Breaks\AccidentOnTraceV2.cs" />
     <Compile Include="DomainEntities\Extensions\BoolExt.cs" />
+    <Compile Include="DomainEntities\Extensions\MonitoringStateExt.cs" />
     <Compile Include="EventSourcing\Model\ModelCleaningExt.cs" />
     <Compile Include="EventSourcing\Model\ModelEmailExt.cs" />
     <Compile Include="EventSourcing\Model\ModelSerializationExt.cs" />

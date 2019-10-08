@@ -62,7 +62,6 @@ namespace Iit.Fibertest.Graph
                 case FiberState.Suspicion:
                     return Brushes.Yellow;
                 case FiberState.Minor:
-//                    return isForeground ? Brushes.Purple : Brushes.LightPink;
                     return isForeground ?  new SolidColorBrush(Color.FromArgb(255, 164, 128, 224)) : new SolidColorBrush(Color.FromArgb(255, 128, 128, 192));
                 case FiberState.Major:
                     return isForeground ? Brushes.Fuchsia :  Brushes.HotPink;

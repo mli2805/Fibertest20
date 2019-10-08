@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
@@ -30,6 +31,34 @@ namespace Iit.Fibertest.Graph
         public bool IsAllRight => MainChannelState == RtuPartState.Ok &&
                                   ReserveChannelState != RtuPartState.Broken;
 
+        // pair OTAU ID - is OK or not
+        private Dictionary<Guid, bool> _otauStates = new Dictionary<Guid, bool>();
+        public void SetOtauState(Guid otauId, bool isOkOrNot)
+        {
+            if (_otauStates.ContainsKey(otauId))
+                _otauStates[otauId] = isOkOrNot;
+            else
+                _otauStates.Add(otauId, isOkOrNot);
+        }
+
+        public void RemoveOtauState(Guid otauId)
+        {
+            if (_otauStates.ContainsKey(otauId))
+                _otauStates.Remove(otauId);
+        }
+
+        public RtuPartState BopState
+        {
+            get
+            {
+                return _otauStates.Count == 0
+                    ? RtuPartState.NotSetYet
+                    : _otauStates.Any(s => s.Value != true)
+                        ? RtuPartState.Broken
+                        : RtuPartState.Ok;
+            }
+        }
+        
         public string Serial { get; set; }
         public int OwnPortCount { get; set; }
         public bool IsInitialized => OwnPortCount != 0;

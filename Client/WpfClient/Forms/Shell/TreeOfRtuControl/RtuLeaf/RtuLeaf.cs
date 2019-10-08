@@ -87,7 +87,7 @@ namespace Iit.Fibertest.Client
         public bool IsAvailable => MainChannelState == RtuPartState.Ok ||
                                    ReserveChannelState == RtuPartState.Ok;
 
-        public string MonitoringPictogram => GetPathToPictogram();
+        public Uri MonitoringPictogram => MonitoringState.GetPictogramUri();
         public string BopPictogram => BopState.GetPathToPictogram();
         public string MainChannelPictogram => MainChannelState.GetPathToPictogram();
         public string ReserveChannelPictogram => ReserveChannelState.GetPathToPictogram();
@@ -106,13 +106,6 @@ namespace Iit.Fibertest.Client
 
         public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf) +
                 ChildrenImpresario.Children.Where(c => c is OtauLeaf).Sum(otauLeaf => ((OtauLeaf)otauLeaf).TraceCount);
-
-        //        public IPortOwner GetPortOwner(NetAddress netAddress)
-        //        {
-        //            if (OtauNetAddress.Equals(netAddress)) return this;
-        //            return ChildrenImpresario.Children.Select(child => child as OtauLeaf).
-        //                FirstOrDefault(otau => otau?.OtauNetAddress.Equals(netAddress) == true);
-        //        }
 
         public IPortOwner GetPortOwner(string serial)
         {
@@ -136,19 +129,5 @@ namespace Iit.Fibertest.Client
             return _rtuLeafContextMenuProvider.GetMenu(this);
         }
 
-        private string GetPathToPictogram()
-        {
-            switch (MonitoringState)
-            {
-                case MonitoringState.Unknown:
-                    return @"pack://application:,,,/Resources/LeftPanel/EmptySquare.png";
-                case MonitoringState.Off:
-                    return @"pack://application:,,,/Resources/LeftPanel/GreySquare.png";
-                case MonitoringState.On:
-                    return @"pack://application:,,,/Resources/LeftPanel/BlueSquare.png";
-                default:
-                    return @"pack://application:,,,/Resources/LeftPanel/EmptySquare.png";
-            }
-        }
     }
 }

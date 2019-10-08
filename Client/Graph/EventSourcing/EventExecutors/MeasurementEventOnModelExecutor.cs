@@ -39,7 +39,11 @@ namespace Iit.Fibertest.Graph
             foreach (var otau in model.Otaus.Where(o => o.NetAddress.Ip4Address == e.OtauIp))
             {
                 otau.IsOk = e.IsOk;
+                var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
+                rtu?.SetOtauState(otau.Id, e.IsOk);
             }
+
+           
             return null;
         }
 

@@ -113,7 +113,10 @@ namespace Iit.Fibertest.Graph
             {
                 var otau = model.Otaus.First(o => o.NetAddress.Equals(childPair.Value.NetAddress));
                 if (otau != null)
+                {
                     otau.IsOk = childPair.Value.IsOk;
+                    rtu.SetOtauState(otau.Id, otau.IsOk);
+                }
             }
         }
 
