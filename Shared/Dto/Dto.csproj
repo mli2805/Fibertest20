@@ -64,7 +64,6 @@
     <Compile Include="EnumsIitOtdr\ServiceFunctionFirstParam.cs" />
     <Compile Include="Enums\EquipmentType.cs" />
     <Compile Include="Enums\MonitoringState.cs" />
-    <Compile Include="Enums\MonitoringStateExt.cs" />
     <Compile Include="Enums\NotificationType.cs" />
     <Compile Include="Enums\RtuMaker.cs" />
     <Compile Include="Enums\RtuPartStateChanges.cs" />
@@ -75,6 +74,7 @@
     <Compile Include="R2D2C\OtauAttachedDto.cs" />
     <Compile Include="R2D2C\OtauDetachedDto.cs" />
     <Compile Include="R2D2C\OutOfTurnMeasurementStartedDto.cs" />
+    <Compile Include="Underlying\ForWebApi\OpticalEventDto.cs" />
     <Compile Include="Underlying\ForWebApi\RtuDto.cs" />
     <Compile Include="Underlying\MeasParamsTree\BranchOfAcceptableMeasParams.cs" />
     <Compile Include="Underlying\MeasParamsTree\LeafOfAcceptableMeasParams.cs" />

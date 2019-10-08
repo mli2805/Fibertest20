@@ -1,0 +1,42 @@
+table {
+  width: 100%;
+  margin-top: 25px;
+}
+
+.mat-column-eventId {
+  width: 70px !important;
+}
+
+.mat-column-measurementTimestamp {
+  width: 170px !important;
+}
+.mat-column-eventRegistrationTimestamp {
+  width: 170px !important;
+}
+.mat-column-statusChangedTimestamp {
+  width: 170px !important;
+}
+
+
+
+.mat-column-traceState {
+  width: 240px !important;
+}
+.mat-column-eventStatus {
+  width: 200px !important;
+}
+.mat-column-statusChangedByUser {
+  width: 200px !important;
+}
+
+.mat-header-cell {
+  text-align: center !important;
+  font-size: 14px;
+  color: black;
+}
+
+.mat-cell {
+  text-align: center;
+  border-right: 1px solid lightgrey;
+  background: azure;
+}

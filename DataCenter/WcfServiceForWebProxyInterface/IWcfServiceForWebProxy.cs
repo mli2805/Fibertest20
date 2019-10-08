@@ -10,5 +10,8 @@ namespace Iit.Fibertest.WcfServiceForWebProxyInterface
     {
         [OperationContract]
         Task<List<RtuDto>> GetRtuList();
+
+        [OperationContract]
+        Task<List<OpticalEventDto>> GetOpticalEventList();
     }
 }

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -7,11 +8,9 @@ import { HttpClient } from '@angular/common/http';
 
 export class RtuApiService {
 
-  baseUrl = 'https://localhost:44304/api';
-
   constructor(private httpClient: HttpClient) {}
 
   getAllRtu() {
-    return this.httpClient.get(this.baseUrl + '/rtu');
+    return this.httpClient.get(environment.baseUrl + '/rtu');
   }
 }

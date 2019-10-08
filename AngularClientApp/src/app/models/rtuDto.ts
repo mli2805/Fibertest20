@@ -1,9 +1,23 @@
-import { MonitoringMode } from './monitoringMode';
+import { MonitoringMode } from './enums/monitoringMode';
+import { RtuMaker } from './enums/rtuMaker';
+import { NetAddress } from './netAddress';
+import { RtuPartState } from './enums/rtuPartState';
 
 export interface RtuDto {
   rtuId: string;
-  monitoringMode: MonitoringMode;
+  rtuMaker: RtuMaker;
   title: string;
+
+  mainChannel: NetAddress;
+  mainChannelState: RtuPartState;
+  reserveChannel: NetAddress;
+  reserveChannelState: RtuPartState;
+  isReserveChannelSet: boolean;
+  otdrNetAddress: NetAddress;
+  bopState: RtuPartState;
+
+  monitoringMode: MonitoringMode;
+
   version: string;
   version2: string;
 }

@@ -41,5 +41,25 @@ namespace Iit.Fibertest.WcfConnections
                 return null;
             }
         }
+
+        public async Task<List<OpticalEventDto>> GetOpticalEventList()
+        {
+            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetOpticalEventList();
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetOpticalEventList: " + e.Message);
+                return null;
+            }
+        }
     }
 }

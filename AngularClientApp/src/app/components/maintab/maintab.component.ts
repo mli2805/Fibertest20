@@ -4,19 +4,18 @@ import { RtuDto } from 'src/app/models/rtuDto';
 
 @Component({
   selector: 'ft-maintab',
-  templateUrl: './maintab.component.html',
+  templateUrl: './maintab.component.html'
 })
-
 export class MainTabComponent implements OnInit {
-
   private rtus: RtuDto[];
-
+  private selectedTab: number;
   constructor(private rtuService: RtuApiService) {}
 
   ngOnInit() {
     this.rtuService.getAllRtu().subscribe((res: RtuDto[]) => {
-      console.log(res);
       this.rtus = res;
     });
+
+    this.selectedTab = 1;
   }
 }

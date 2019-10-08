@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { MonitoringMode } from '../models/monitoringMode';
+import { MonitoringMode } from '../models/enums/monitoringMode';
 import { TranslateService } from '@ngx-translate/core';
 
 @Pipe({
@@ -8,13 +8,14 @@ import { TranslateService } from '@ngx-translate/core';
 export class MonitoringModePipe implements PipeTransform {
   constructor(private ts: TranslateService) {}
 
-  transform(value: MonitoringMode): any {
+  transform(value: MonitoringMode): string {
     switch (value) {
       case MonitoringMode.Off:
-        return this.ts.instant('IDS_Manual');
+        return this.ts.instant('SID_Manual');
       case MonitoringMode.On:
-        return this.ts.instant('IDS_Auto');
+        return this.ts.instant('SID_Auto');
+      default:
+        return this.ts.instant('SID_Unknown');
     }
-    return this.ts.instant('IDS_Unknown');
   }
 }
