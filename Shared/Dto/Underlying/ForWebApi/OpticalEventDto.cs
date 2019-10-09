@@ -4,22 +4,22 @@ namespace Iit.Fibertest.Dto
 {
     public class OpticalEventDto
     {
-        public int EventId { get; set; }
-        public DateTime MeasurementTimestamp { get; set; }
-        public DateTime EventRegistrationTimestamp { get; set; }
-        public string RtuTitle { get; set; }
-        public Guid RtuId { get; set; }
+        public int EventId;
+        public DateTime MeasurementTimestamp;
+        public DateTime EventRegistrationTimestamp;
+        public string RtuTitle;
+        public Guid RtuId;
 
-        public Guid TraceId { get; set; }
-        public string TraceTitle { get; set; }
+        public Guid TraceId;
+        public string TraceTitle;
 
-        public BaseRefType BaseRefType { get; set; }
-        public FiberState TraceState { get; set; }
+        public BaseRefType BaseRefType;
+        public FiberState TraceState;
 
-        public EventStatus EventStatus { get; set; }
-        public DateTime StatusChangedTimestamp { get; set; }
-        public string StatusChangedByUser { get; set; }
+        public EventStatus EventStatus;
+        public DateTime StatusChangedTimestamp;
+        public string StatusChangedByUser;
 
-        public string Comment { get; set; }
+        public string Comment;
     }
 }

@@ -22,6 +22,7 @@ namespace Iit.Fibertest.WcfConnections
         {
             _wcfFactory = new WcfFactory(newServerAddress, _iniFile, _logFile);
         }
+
         public async Task<List<RtuDto>> GetRtuList()
         {
             var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
@@ -38,6 +39,25 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine("GetRtuList: " + e.Message);
+                return null;
+            }
+        }
+        public async Task<List<TraceDto>> GetTraceList()
+        {
+            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetTraceList();
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetTraceList: " + e.Message);
                 return null;
             }
         }

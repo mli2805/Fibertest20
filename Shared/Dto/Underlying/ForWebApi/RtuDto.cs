@@ -4,22 +4,33 @@ namespace Iit.Fibertest.Dto
 {
     public class RtuDto
     {
-        public Guid RtuId { get; set; }
-        public RtuMaker RtuMaker { get; set; }
-        public string Title { get; set; }
+        public Guid RtuId;
+        public RtuMaker RtuMaker;
+        public string Title;
 
-        public NetAddress MainChannel { get; set; }
-        public RtuPartState MainChannelState { get; set; }
-        public NetAddress ReserveChannel { get; set; }
-        public RtuPartState ReserveChannelState { get; set; }
-        public bool IsReserveChannelSet { get; set; }
-        public NetAddress OtdrNetAddress { get; set; }
-        public RtuPartState BopState { get; set; }
+        public string Mfid;
+        public string Mfsn;
+        public string Omid;
+        public string Omsn; 
+        public string Serial;
 
-        public MonitoringState MonitoringMode { get; set; }
+        public int OwnPortCount;
+        public int FullPortCount;
+        public OtauDto[] Otaus;
+        public TraceDto[] Traces;
 
-        public string Version { get; set; }
-        public string Version2 { get; set; }
+        public NetAddress MainChannel;
+        public RtuPartState MainChannelState;
+        public NetAddress ReserveChannel;
+        public RtuPartState ReserveChannelState;
+        public bool IsReserveChannelSet;
+        public NetAddress OtdrNetAddress;
+        public RtuPartState BopState;
+
+        public MonitoringState MonitoringMode;
+
+        public string Version;
+        public string Version2;
 
     }
 }

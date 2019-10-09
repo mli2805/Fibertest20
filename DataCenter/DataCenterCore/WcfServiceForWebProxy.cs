@@ -28,8 +28,23 @@ namespace Iit.Fibertest.DataCenterCore
             return _writeModel.Rtus.Select(r => new RtuDto()
             {
                 RtuId = r.Id, 
-                RtuMaker = r.RtuMaker,
-                Title = r.Title, 
+                Title = r.Title,
+                RtuMaker = r.RtuMaker, 
+
+                FullPortCount = r.FullPortCount,
+                OwnPortCount = r.OwnPortCount,
+                Traces = _writeModel.Traces.Where(d=>d.RtuId == r.Id).Select(t=> new TraceDto()
+                {
+                    TraceId = t.TraceId,
+                    RtuId = t.RtuId,
+                    Title = t.Title,
+                    OtauPort = t.OtauPort,
+                    IsAttached = t.IsAttached,
+                    Port = t.Port,
+                    State = t.State,
+                    HasEnoughBaseRefsToPerformMonitoring = t.HasEnoughBaseRefsToPerformMonitoring,
+                    IsIncludedInMonitoringCycle = t.IsIncludedInMonitoringCycle,
+                }).ToArray(),
 
                 MainChannel = (NetAddress)r.MainChannel.Clone(),
                 MainChannelState = r.MainChannelState,
@@ -42,6 +57,23 @@ namespace Iit.Fibertest.DataCenterCore
                 MonitoringMode = r.MonitoringState, 
                 Version = r.Version, 
                 Version2 = r.Version2,
+            }).ToList();
+        }
+
+        public async Task<List<TraceDto>> GetTraceList()
+        {
+            await Task.Delay(1);
+            return _writeModel.Traces.Select(t => new TraceDto()
+            {
+                TraceId = t.TraceId,
+                RtuId = t.RtuId,
+                Title = t.Title,
+                OtauPort = t.OtauPort,
+                IsAttached = t.IsAttached,
+                Port = t.Port,
+                State = t.State,
+                HasEnoughBaseRefsToPerformMonitoring = t.HasEnoughBaseRefsToPerformMonitoring,
+                IsIncludedInMonitoringCycle = t.IsIncludedInMonitoringCycle,
             }).ToList();
         }
 

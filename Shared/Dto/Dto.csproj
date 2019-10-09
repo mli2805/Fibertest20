@@ -76,6 +76,7 @@
     <Compile Include="R2D2C\OutOfTurnMeasurementStartedDto.cs" />
     <Compile Include="Underlying\ForWebApi\OpticalEventDto.cs" />
     <Compile Include="Underlying\ForWebApi\RtuDto.cs" />
+    <Compile Include="Underlying\ForWebApi\TraceDto.cs" />
     <Compile Include="Underlying\MeasParamsTree\BranchOfAcceptableMeasParams.cs" />
     <Compile Include="Underlying\MeasParamsTree\LeafOfAcceptableMeasParams.cs" />
     <Compile Include="Underlying\MeasParamsTree\TreeOfAcceptableMeasParams.cs" />
