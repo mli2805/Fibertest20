@@ -5,9 +5,7 @@ import { environment } from '../../environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-
 export class RtuApiService {
-
   constructor(private httpClient: HttpClient) {}
 
   getAllRtu() {

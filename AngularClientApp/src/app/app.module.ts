@@ -22,8 +22,7 @@ import { AppComponent } from './app.component';
 import { TranslateLoader } from './Utils/translate-loader';
 import { languages } from 'src/lang/strings';
 
-import { MainTabComponent } from './components/maintab/maintab.component';
-import { RtuListComponent } from './components/maintab/rtulist/rtulist.component';
+import { FtMainTabComponent } from './components/maintab/maintab.component';
 import { AboutComponent } from './components/maintab/about/about.component';
 
 import { MonitoringModePipe } from './pipes/monitoring-mode.pipe';
@@ -37,12 +36,12 @@ import {
 } from './pipes/base-ref-type.pipe';
 import { OptEventsComponent } from './components/maintab/opt-events/opt-events.component';
 import { FtRtuTreeComponent } from './components/maintab/ft-rtu-tree/ft-rtu-tree.component';
+import { FtRtuChildrenComponent } from './components/maintab/ft-rtu-tree/ft-rtu-children/ft-rtu-children.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MainTabComponent,
-    RtuListComponent,
+    FtMainTabComponent,
     AboutComponent,
     MonitoringModePipe,
     MonitoringModeUriPipe,
@@ -52,7 +51,8 @@ import { FtRtuTreeComponent } from './components/maintab/ft-rtu-tree/ft-rtu-tree
     BaseRefTypePipe,
     BaseRefTypeFemalePipe,
     OptEventsComponent,
-    FtRtuTreeComponent
+    FtRtuTreeComponent,
+    FtRtuChildrenComponent
   ],
   imports: [
     BrowserModule,

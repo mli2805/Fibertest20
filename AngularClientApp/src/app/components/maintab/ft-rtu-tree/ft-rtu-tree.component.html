@@ -19,9 +19,9 @@
       />
       <p>{{ rtu.title }}</p>
     </mat-expansion-panel-header>
+    <ft-rtu-children
+      [fullPortCount]="rtu.fullPortCount"
+      [traceArray]="rtu.traces"
+    ></ft-rtu-children>
   </mat-expansion-panel>
 </mat-accordion>
-
-<div *ngFor="let rtu of rtuArray" class="branch">
-  <p>{{ rtu.Title }}</p>
-</div>

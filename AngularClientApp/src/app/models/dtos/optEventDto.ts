@@ -1,6 +1,6 @@
-import { BaseRefType } from './enums/baseRefType';
-import { FiberState } from './enums/fiberState';
-import { EventStatus } from './enums/eventStatus';
+import { BaseRefType } from '../enums/baseRefType';
+import { FiberState } from '../enums/fiberState';
+import { EventStatus } from '../enums/eventStatus';
 
 export class OptEventDto {
   eventId: number;

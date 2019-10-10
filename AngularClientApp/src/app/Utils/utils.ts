@@ -1,4 +1,4 @@
-import { OptEventDto } from '../models/optEventDto';
+import { OptEventDto } from '../models/dtos/optEventDto';
 
 export class Utils {
   static CompareOptEventDtos(left: OptEventDto, right: OptEventDto): number {

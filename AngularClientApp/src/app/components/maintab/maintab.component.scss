@@ -1,0 +1,20 @@
+.container {
+  display: table;
+  width: 100%;
+}
+
+.rtuTree,
+.details-container {
+  display: table-cell;
+  vertical-align: top;
+  width: auto;
+}
+
+.rtuTree {
+  min-width: 400px;
+}
+
+.details-container {
+  padding-left: 10px;
+  width: 90%;
+}

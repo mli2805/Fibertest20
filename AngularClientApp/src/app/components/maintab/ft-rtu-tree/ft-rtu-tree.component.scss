@@ -1,19 +1,24 @@
 img {
-    width: 16px;
-    height: 16px;
-    margin-right: 4px;
-  }
-  
-  p {
-      margin-left: 10px;
-  }
+  width: 16px;
+  height: 16px;
+  margin-right: 4px;
+  margin-top: 12px;
+}
 
-  mat-expansion-panel{
-      background: azure;
-  }
+p {
+  margin-left: 10px;
+}
 
-  mat-expansion-panel-header { 
-      width: 100%;
-      
-  }
-  
+mat-accordion {
+  width: 100%;
+  justify-self: stretch;
+}
+
+mat-expansion-panel {
+  width: 100%;
+  justify-self: stretch;
+}
+
+mat-expansion-panel-header {
+  width: 100%;
+}

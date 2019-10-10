@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { OptEvService } from 'src/app/api/oev-api.service';
-import { OptEventDto } from 'src/app/models/optEventDto';
+import { OptEventDto } from 'src/app/models/dtos/optEventDto';
 import { MatPaginator, MatTableDataSource, MatSort } from '@angular/material';
 import { Utils } from 'src/app/Utils/utils';
 
