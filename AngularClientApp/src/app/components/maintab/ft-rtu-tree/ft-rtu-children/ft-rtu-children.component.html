@@ -1,1 +1,8 @@
-<p>This RTU has {{fullPortCount}} ports and {{traceArray.length}} traces </p>
+<div class="container" *ngFor="let element of traceArray">
+  <div class="child" *ngIf="element.title != 'tr'; else elseBlock">
+    {{ element.title }}
+  </div>
+  <ng-template #elseBlock>
+    {{ element.title }}
+  </ng-template>
+</div>

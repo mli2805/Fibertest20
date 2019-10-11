@@ -9,6 +9,9 @@ namespace Iit.Fibertest.WcfServiceForWebProxyInterface
     public interface IWcfServiceForWebProxy
     {
         [OperationContract]
+        Task<string> GetTreeInJson();
+
+        [OperationContract]
         Task<List<RtuDto>> GetRtuList();
         
         [OperationContract]

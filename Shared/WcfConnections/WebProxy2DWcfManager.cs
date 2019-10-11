@@ -23,6 +23,26 @@ namespace Iit.Fibertest.WcfConnections
             _wcfFactory = new WcfFactory(newServerAddress, _iniFile, _logFile);
         }
 
+        public async Task<string> GetTreeInJson()
+        {
+            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetTreeInJson();
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetTreeInJson: " + e.Message);
+                return null;
+            }
+        }
+
         public async Task<List<RtuDto>> GetRtuList()
         {
             var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();

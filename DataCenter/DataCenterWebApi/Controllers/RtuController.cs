@@ -4,6 +4,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 
 namespace Iit.Fibertest.DataCenterWebApi
 {
@@ -11,6 +12,11 @@ namespace Iit.Fibertest.DataCenterWebApi
     [ApiController]
     public class RtuController : ControllerBase
     {
+        private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
+        {
+            TypeNameHandling = TypeNameHandling.All
+        };
+
         private readonly IMyLog _logFile;
         private readonly WebProxy2DWcfManager _webProxy2DWcfManager;
 
@@ -25,10 +31,15 @@ namespace Iit.Fibertest.DataCenterWebApi
         [HttpGet]
         public async Task<IEnumerable<RtuDto>> Get()
         {
-            var rtuList = await _webProxy2DWcfManager.GetRtuList();
+            var tree = await _webProxy2DWcfManager.GetTreeInJson();
+            _logFile.AppendLine(tree == null
+                ? "Failed to get tree"
+                : $"tree contains {tree.Length} symbols");
+            var rtuList = (List<RtuDto>)JsonConvert.DeserializeObject(tree, JsonSerializerSettings);
             _logFile.AppendLine(rtuList == null
-                ? "Failed to get RTU list"
-                : $"RTU list contains {rtuList.Count} items");
+                ? "Failed to get list"
+                : $"list contains {rtuList.Count} items");
+
             return rtuList;
         }
 

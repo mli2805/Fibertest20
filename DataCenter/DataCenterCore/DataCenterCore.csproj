@@ -213,6 +213,7 @@
     <Compile Include="BusinessToRepositoryIntermediary\MeasurementFactory.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\RtuStationFactory.cs" />
     <Compile Include="ClientsCollection.cs" />
+    <Compile Include="ForWebApi\WebDtoFactory.cs" />
     <Compile Include="GlobalState.cs" />
     <Compile Include="MsmqMessagesProcessor.cs" />
     <Compile Include="WcfServiceForClient\ClientToRtuTransmitter\ClientToRtuCheckAndInitialize.cs" />
@@ -242,8 +243,8 @@
     <Compile Include="WcfServiceForClient\WcfServiceForClientToRtuVeex.cs" />
     <Compile Include="WcfServiceForRtu.cs" />
     <Compile Include="WcfServiceForRtuBootstrapper.cs" />
-    <Compile Include="WcfServiceForWebProxy.cs" />
-    <Compile Include="WcfServiceForWebProxyBootstrapper.cs" />
+    <Compile Include="ForWebApi\WcfServiceForWebProxy.cs" />
+    <Compile Include="ForWebApi\WcfServiceForWebProxyBootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

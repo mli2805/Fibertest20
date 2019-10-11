@@ -75,6 +75,7 @@ namespace Iit.Fibertest.DataCenterService
             _wcfServiceForWebProxyBootstrapper.Start();
             _msmqHandler.Start();
             _smsSender.Start();
+            Console.WriteLine(@"Service initialization done.");
         }
 
         private async Task InitializeEventStoreService()

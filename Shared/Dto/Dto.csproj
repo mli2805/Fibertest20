@@ -74,9 +74,12 @@
     <Compile Include="R2D2C\OtauAttachedDto.cs" />
     <Compile Include="R2D2C\OtauDetachedDto.cs" />
     <Compile Include="R2D2C\OutOfTurnMeasurementStartedDto.cs" />
-    <Compile Include="Underlying\ForWebApi\OpticalEventDto.cs" />
-    <Compile Include="Underlying\ForWebApi\RtuDto.cs" />
-    <Compile Include="Underlying\ForWebApi\TraceDto.cs" />
+    <Compile Include="ForWebApi\Child.cs" />
+    <Compile Include="ForWebApi\ChildType.cs" />
+    <Compile Include="ForWebApi\OpticalEventDto.cs" />
+    <Compile Include="ForWebApi\OtauWebDto.cs" />
+    <Compile Include="ForWebApi\RtuDto.cs" />
+    <Compile Include="ForWebApi\TraceDto.cs" />
     <Compile Include="Underlying\MeasParamsTree\BranchOfAcceptableMeasParams.cs" />
     <Compile Include="Underlying\MeasParamsTree\LeafOfAcceptableMeasParams.cs" />
     <Compile Include="Underlying\MeasParamsTree\TreeOfAcceptableMeasParams.cs" />
