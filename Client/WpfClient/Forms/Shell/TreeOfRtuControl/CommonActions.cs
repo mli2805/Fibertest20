@@ -102,7 +102,9 @@ namespace Iit.Fibertest.Client
             var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
             if (rtu == null) return;
 
-            var mainCharonAddress = isMak100 || isUcc ? rtu.MainChannel : rtu.OtdrNetAddress;
+            var mainCharonAddress = isMak100 || isUcc 
+                ? (NetAddress)rtu.MainChannel.Clone() 
+                : (NetAddress)rtu.OtdrNetAddress.Clone();
             mainCharonAddress.Port = 23;
             var mainCharon = new Charon(mainCharonAddress, _iniFile35, _logFile)
             {
