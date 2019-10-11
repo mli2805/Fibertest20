@@ -20,6 +20,7 @@ namespace Iit.Fibertest.RtuManagement
 
         private void RunMonitoringCycle()
         {
+            _rtuIni.Write(IniSection.Monitoring, IniKey.LastMeasurementTimestamp, DateTime.Now.ToString(CultureInfo.CurrentCulture));
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, true);
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start monitoring.");

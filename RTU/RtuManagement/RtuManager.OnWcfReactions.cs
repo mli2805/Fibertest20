@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Diagnostics;
+using System.Globalization;
 using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
@@ -163,6 +164,7 @@ namespace Iit.Fibertest.RtuManagement
 
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("RTU is turned into AUTOMATIC mode.");
+            _rtuIni.Write(IniSection.Monitoring, IniKey.LastMeasurementTimestamp, DateTime.Now.ToString(CultureInfo.CurrentCulture));
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, true);
             IsMonitoringOn = true;
 
