@@ -1,7 +1,7 @@
 import { ChildDto } from './childDto';
 import { NetAddress } from './netAddress';
 
-export interface OtauWebDto {
+export class OtauWebDto extends ChildDto{
   otauId: string;
   rtuId: string;
   otauNetAddress: NetAddress;

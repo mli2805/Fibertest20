@@ -1,8 +1,14 @@
-<div class="container" *ngFor="let element of traceArray">
-  <div class="child" *ngIf="element.title != 'tr'; else elseBlock">
-    {{ element.title }}
+<ng-container *ngFor="let element of childArray">
+  <div class="child" *ngIf="element.childType == 0">
+    <ft-free-port [port]="element.port"></ft-free-port>
   </div>
-  <ng-template #elseBlock>
-    {{ element.title }}
-  </ng-template>
-</div>
+  <div class="child" *ngIf="element.childType == 1 && element.port == -1">
+    <ft-detached-line [trace]="element"></ft-detached-line>
+  </div>
+  <div class="child" *ngIf="element.childType == 1 && element.port != -1">
+    <ft-attached-line [trace]="element"></ft-attached-line>
+  </div>
+  <ng-container *ngIf="element.childType == 2">
+      <ft-otau class="child" [otau]="element"></ft-otau>
+  </ng-container>
+</ng-container>

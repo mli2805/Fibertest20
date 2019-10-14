@@ -4,7 +4,7 @@ import { NetAddress } from './netAddress';
 import { RtuPartState } from '../enums/rtuPartState';
 import { ChildDto } from './childDto';
 
-export interface RtuDto {
+export class RtuDto {
   rtuId: string;
   rtuMaker: RtuMaker;
   title: string;

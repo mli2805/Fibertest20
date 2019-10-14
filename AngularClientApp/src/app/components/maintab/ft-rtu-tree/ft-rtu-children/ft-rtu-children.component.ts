@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TraceDto } from 'src/app/models/dtos/traceDto';
+import { ChildDto } from 'src/app/models/dtos/childDto';
 
 @Component({
   selector: 'ft-rtu-children',
@@ -7,12 +7,11 @@ import { TraceDto } from 'src/app/models/dtos/traceDto';
   styleUrls: ['./ft-rtu-children.component.scss']
 })
 export class FtRtuChildrenComponent implements OnInit {
-  @Input() fullPortCount: number;
-  @Input() traceArray: TraceDto[];
+  @Input() childArray: ChildDto[];
 
   constructor() {}
 
   ngOnInit() {
-    console.log(this.fullPortCount);
+    console.log(this.childArray.length);
   }
 }

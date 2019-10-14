@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { RtuDto } from 'src/app/models/dtos/rtuDto';
-import { TraceDto } from 'src/app/models/dtos/traceDto';
 
 @Component({
   selector: 'ft-rtu-tree',

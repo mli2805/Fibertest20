@@ -25,10 +25,12 @@ import { languages } from 'src/lang/strings';
 import { FtMainTabComponent } from './components/maintab/maintab.component';
 import { AboutComponent } from './components/maintab/about/about.component';
 
+import { TraceMonitoringModeUriPipe } from './pipes/trace-monitoring-mode-uri.pipe';
 import { MonitoringModePipe } from './pipes/monitoring-mode.pipe';
 import { MonitoringModeUriPipe } from './pipes/monitoring-mode-uri.pipe';
 import { RtuPartStateUriPipe } from './pipes/rtu-part-state-uri.pipe';
 import { FiberStatePipe } from './pipes/fiber-state.pipe';
+import { FiberStateUriPipe } from './pipes/fiber-state-uri.pipe';
 import { EventStatusPipe } from './pipes/event-status.pipe';
 import {
   BaseRefTypePipe,
@@ -37,6 +39,13 @@ import {
 import { OptEventsComponent } from './components/maintab/opt-events/opt-events.component';
 import { FtRtuTreeComponent } from './components/maintab/ft-rtu-tree/ft-rtu-tree.component';
 import { FtRtuChildrenComponent } from './components/maintab/ft-rtu-tree/ft-rtu-children/ft-rtu-children.component';
+import { FtFreePortComponent } from './components/maintab/ft-rtu-tree/ft-rtu-children/ft-free-port/ft-free-port.component';
+import { FtAttachedLineComponent } from './components/maintab/ft-rtu-tree/ft-rtu-children/ft-attached-line/ft-attached-line.component';
+import { FtDetachedLineComponent } from './components/maintab/ft-rtu-tree/ft-rtu-children/ft-detached-line/ft-detached-line.component';
+import { FtOtauComponent } from './components/maintab/ft-rtu-tree/ft-rtu-children/ft-otau/ft-otau.component';
+import { from } from 'rxjs';
+import { BooleanUriPipe } from './pipes/boolean-uri.pipe';
+import { FtTestComponentComponent } from './components/maintab/ft-test-component/ft-test-component.component';
 
 @NgModule({
   declarations: [
@@ -47,12 +56,20 @@ import { FtRtuChildrenComponent } from './components/maintab/ft-rtu-tree/ft-rtu-
     MonitoringModeUriPipe,
     RtuPartStateUriPipe,
     FiberStatePipe,
+    FiberStateUriPipe,
     EventStatusPipe,
     BaseRefTypePipe,
     BaseRefTypeFemalePipe,
     OptEventsComponent,
     FtRtuTreeComponent,
-    FtRtuChildrenComponent
+    FtRtuChildrenComponent,
+    FtFreePortComponent,
+    FtAttachedLineComponent,
+    FtDetachedLineComponent,
+    FtOtauComponent,
+    TraceMonitoringModeUriPipe,
+    BooleanUriPipe,
+    FtTestComponentComponent
   ],
   imports: [
     BrowserModule,

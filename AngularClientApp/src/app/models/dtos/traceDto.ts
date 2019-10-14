@@ -1,12 +1,14 @@
-import { OtauDto } from './otauDto';
+import { OtauPortDto } from './otauPortDto';
 import { FiberState } from '../enums/fiberState';
+import { ChildDto } from './childDto';
+import { MonitoringMode } from '../enums/monitoringMode';
 
-export interface TraceDto {
+export class TraceDto extends ChildDto {
   traceId: string;
   rtuId: string;
   title: string;
 
-  otauPort: OtauDto;
+  otauPort: OtauPortDto;
   isAttached: boolean;
   port: number;
 
@@ -14,4 +16,6 @@ export interface TraceDto {
 
   hasEnoughBaseRefsToPerformMonitoring: boolean;
   isIncludedInMonitoringCycle: boolean;
+
+  rtuMonitoringMode: MonitoringMode;
 }

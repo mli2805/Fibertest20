@@ -1,4 +1,4 @@
-export interface NetAddress {
+export class NetAddress {
   Ip4Address: string;
   HostName: string;
   Port: number;

@@ -1,6 +1,6 @@
 import { ChildType } from '../enums/childType';
 
-export interface ChildDto {
+export class ChildDto {
   port: number;
   childType: ChildType;
 }

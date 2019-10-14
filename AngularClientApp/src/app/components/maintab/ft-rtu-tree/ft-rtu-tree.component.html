@@ -1,5 +1,5 @@
 <mat-accordion *ngFor="let rtu of rtuArray">
-  <mat-expansion-panel>
+  <mat-expansion-panel [expanded]="true">
     <mat-expansion-panel-header>
       <img
         src="{{ rtu.monitoringMode | monitoringModeToUriPipe }}"
@@ -19,9 +19,10 @@
       />
       <p>{{ rtu.title }}</p>
     </mat-expansion-panel-header>
-    <ft-rtu-children
-      [fullPortCount]="rtu.fullPortCount"
-      [traceArray]="rtu.traces"
-    ></ft-rtu-children>
+    <div class="container">
+      <ft-rtu-children
+        [childArray]="rtu.children"
+      ></ft-rtu-children>
+    </div>
   </mat-expansion-panel>
 </mat-accordion>
