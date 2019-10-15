@@ -3,6 +3,8 @@ cd Deploy\
 
 rmdir /S/Q Pack\
 del Ft*.exe
+rmdir /S/Q PackWeb\
+del FtWeb*.rar
 rmdir /S/Q PackAdmin\
 del FtAdmin*.rar
 
@@ -11,8 +13,6 @@ xcopy ..\Setup\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
 xcopy ..\Utils\*.* Pack\Utils\*.* /S/D/Y
      
 xcopy ..\DataCenter\DataCenterService\bin\Release\*.* Pack\DcFiles\*.* /S/D/Y
-xcopy ..\DataCenter\DataCenterWebApi\bin\Release\netcoreapp3.0\*.* PackAdmin\WebApiFiles\*.* /S/D/Y
-
 xcopy ..\Client\WpfClient\bin\Release\*.* Pack\ClientFiles\*.* /S/D/Y
 xcopy ..\Client\SuperClient\bin\Release\*.* Pack\SuperClientFiles\*.* /S/D/Y
 
@@ -30,6 +30,12 @@ del RftsReflect.zip
 cd ..\
 
 "C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackSetup.conf" Ft_%1.exe Pack\*.*
+
+xcopy ..\DataCenter\DataCenterWebApi\bin\Release\netcoreapp3.0\*.* PackWeb\WebApiFiles\*.* /S/D/Y
+xcopy ..\AngularClientApp\dist\AngularClientApp\*.* PackWeb\AngularClientApp\*.* /S/D/Y
+cd PackWeb\
+"C:\Program Files\WinRAR\winrar.exe" a -r ..\FtWeb_%1.rar *.*
+cd ..\
 
 xcopy ..\Client\LicenseMaker\bin\Release\*.* PackAdmin\LicenseMaker\bin\*.* /S/D/Y
 xcopy ..\Client\DbMigrationWpf\bin\Release\*.* PackAdmin\DbMigrationWpf\bin\*.* /S/D/Y
