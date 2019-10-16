@@ -15,7 +15,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var rtuDto = rtu.CreateRtuDto();
                 for (int i = 1; i <= rtuDto.OwnPortCount; i++)
                 {
-                    rtuDto.Children.Add(rtu.GetChildForPort(i, writeModel));
+                    rtuDto.Children.Add(rtu.GetChildForPort(i, writeModel, logFile));
                     logFile.AppendLine($"{rtu.Title} {i}");
                 }
                 //detached traces
@@ -53,11 +53,16 @@ namespace Iit.Fibertest.DataCenterCore
             };
         }
 
-        private static ChildDto GetChildForPort(this Rtu rtu, int port, Model writeModel)
+        private static ChildDto GetChildForPort(this Rtu rtu, int port, Model writeModel, IMyLog logFile)
         {
             if (rtu.Children.ContainsKey(port))
             {
-                var otau = writeModel.Otaus.First(o => o.NetAddress.Ip4Address == rtu.Children[port].NetAddress.Ip4Address);
+                var otau = writeModel.Otaus.FirstOrDefault(o => o.NetAddress.Ip4Address == rtu.Children[port].NetAddress.Ip4Address);
+                if (otau == null)
+                {
+                    logFile.AppendLine($"Something strange happened on RTU {rtu.Title} port {port}: otau not found");
+                    return null;
+                }
                 var otauWebDto = otau.CreateOtauWebDto(port);
                 for (var j = 1; j <= otau.PortCount; j++)
                 {

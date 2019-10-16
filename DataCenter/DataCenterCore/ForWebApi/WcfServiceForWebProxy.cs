@@ -32,10 +32,19 @@ namespace Iit.Fibertest.DataCenterCore
         {
             await Task.Delay(1);
             _logFile.AppendLine(":: WcfServiceForWebProxy GetTreeInJson");
-            var result = _writeModel.CreateTree(_logFile).ToList();
-            _logFile.AppendLine($"Tree contains {result.Count} RTU");
-            var resString = JsonConvert.SerializeObject(result, JsonSerializerSettings);
-            return resString;
+            try
+            {
+                var result = _writeModel.CreateTree(_logFile).ToList();
+                _logFile.AppendLine($"Tree contains {result.Count} RTU");
+                var resString = JsonConvert.SerializeObject(result, JsonSerializerSettings);
+                return resString;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"{e.Message}");
+                return "";
+            }
+          
         }
 
         public async Task<List<RtuDto>> GetRtuList()

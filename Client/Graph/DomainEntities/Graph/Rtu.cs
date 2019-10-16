@@ -35,6 +35,8 @@ namespace Iit.Fibertest.Graph
         private Dictionary<Guid, bool> _otauStates = new Dictionary<Guid, bool>();
         public void SetOtauState(Guid otauId, bool isOkOrNot)
         {
+            if (_otauStates == null)
+                _otauStates = new Dictionary<Guid, bool>();
             if (_otauStates.ContainsKey(otauId))
                 _otauStates[otauId] = isOkOrNot;
             else
@@ -43,6 +45,8 @@ namespace Iit.Fibertest.Graph
 
         public void RemoveOtauState(Guid otauId)
         {
+            if (_otauStates == null)
+                _otauStates = new Dictionary<Guid, bool>();
             if (_otauStates.ContainsKey(otauId))
                 _otauStates.Remove(otauId);
         }
@@ -51,6 +55,8 @@ namespace Iit.Fibertest.Graph
         {
             get
             {
+                if (_otauStates == null)
+                    _otauStates = new Dictionary<Guid, bool>();
                 return _otauStates.Count == 0
                     ? RtuPartState.NotSetYet
                     : _otauStates.Any(s => s.Value != true)
