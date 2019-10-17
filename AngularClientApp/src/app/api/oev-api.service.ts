@@ -10,6 +10,7 @@ export class OptEvService {
   constructor(private httpClient: HttpClient) { }
 
   getAllEvents() {
-    return this.httpClient.get(environment.baseUrl + '/oev');
+    const url = 'http://' + window.location.hostname + ':11837/api/oev';
+    return this.httpClient.get(url);
   }
 }
