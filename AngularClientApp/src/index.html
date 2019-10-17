@@ -1,15 +1,38 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>Fibertest 2.5</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-</head>
-<body style="margin: 1% 5%">
-  <app-root></app-root>
-</body>
+  <head>
+    <meta charset="utf-8" />
+    <title>Fibertest 2.5</title>
+    <base href="/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/x-icon" href="favicon.ico" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
+
+    <!-- disable context menu by right click -->
+    <script type="text/javascript">
+      if (document.addEventListener) {
+        document.addEventListener(
+          'contextmenu',
+          function(e) {
+            e.preventDefault();
+          },
+          false
+        );
+      } else {
+        document.attachEvent('oncontextmenu', function() {
+          window.event.returnValue = false;
+        });
+      }
+    </script>
+  </head>
+  <body style="margin: 1% 5%">
+    <app-root></app-root>
+  </body>
 </html>
