@@ -10,7 +10,8 @@ export class RtuApiService {
 
   getAllRtu() {
     let url = window.location.hostname;
-    url = url + ':11837/api';
-    return this.httpClient.get(url + '/rtu');
+    url = 'http://' + url + ':11837/api/rtu';
+    console.log(url);
+    return this.httpClient.get(url);
   }
 }
