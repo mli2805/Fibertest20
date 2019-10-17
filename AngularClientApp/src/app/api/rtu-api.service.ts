@@ -9,6 +9,8 @@ export class RtuApiService {
   constructor(private httpClient: HttpClient) {}
 
   getAllRtu() {
-    return this.httpClient.get(environment.baseUrl + '/rtu');
+    let url = window.location.hostname;
+    url = url + ':11837/api';
+    return this.httpClient.get(url + '/rtu');
   }
 }
