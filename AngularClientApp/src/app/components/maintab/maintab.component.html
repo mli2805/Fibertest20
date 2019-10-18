@@ -1,19 +1,20 @@
-<mat-tab-group [selectedIndex]="selectedTab">
+<mat-tab-group [selectedIndex]="selectedTab" style="height: 100%;">
   <mat-tab label="Fibertest&trade;">
     <ft-about [rtuArray]="rtus"> </ft-about>
   </mat-tab>
   <mat-tab label="RTU Tree">
     <div class="container">
-        <div class="rtuTree">
-            <ft-rtu-tree [rtuArray]="rtus"></ft-rtu-tree>
-          </div>
-          <div class="details-container">
-                <p>Here I'm going to place some detalization of selected item</p>
-          </div>
+      <div class="rtuTree">
+        <ft-rtu-tree [rtuArray]="rtus"></ft-rtu-tree>
+      </div>
+      <div class="details-container">
+        <p>Here I'm going to place some detalization of selected item</p>
+      </div>
     </div>
-  
   </mat-tab>
   <mat-tab label="Optical Events"> <ft-opt-events></ft-opt-events> </mat-tab>
-  <mat-tab label="Network events RTU "> <ft-test-component></ft-test-component> </mat-tab>
+  <mat-tab label="Network events RTU ">
+    <ft-test-component></ft-test-component>
+  </mat-tab>
   <mat-tab label="Network events BOP "> Content 4 </mat-tab>
 </mat-tab-group>

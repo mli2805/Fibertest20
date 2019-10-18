@@ -78,5 +78,10 @@ namespace Iit.Fibertest.DataCenterCore
                 .Where(m => m.EventStatus > EventStatus.JustMeasurementNotAnEvent)
                 .Select(m => m.CreateOpticalEventDto(_writeModel)).ToList();
         }
+
+//        public async Task<int> GetTraceStatistics()
+//        {
+
+//        }
     }
 }

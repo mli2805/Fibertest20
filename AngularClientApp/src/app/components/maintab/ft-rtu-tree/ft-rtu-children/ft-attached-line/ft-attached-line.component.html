@@ -5,15 +5,21 @@
     <p>N{{ trace.port }}: {{ trace.title }}</p>
   </div>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item>{{ 'SID_Information' | translate }}</button>
+    <button mat-menu-item (click)="myClickFunction($event)">{{ 'SID_Information' | translate }}</button>
     <button mat-menu-item>{{ 'SID_Show_trace' | translate }}</button>
     <button mat-menu-item>{{ 'SID_Base_refs_assignment' | translate }}</button>
     <button mat-menu-item>{{ 'SID_State' | translate }}</button>
     <button mat-menu-item>{{ 'SID_Statistics' | translate }}</button>
     <button mat-menu-item>{{ 'SID_Landmarks' | translate }}</button>
+    <mat-divider></mat-divider>
     <button mat-menu-item>{{ 'SID_Unplug_trace' | translate }}</button>
-    <button mat-menu-item>{{ 'SID_Precise_monitoring_out_of_turn' | translate }}</button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item>
+      {{ 'SID_Precise_monitoring_out_of_turn' | translate }}
+    </button>
     <button mat-menu-item>{{ 'SID_Measurement__Client_' | translate }}</button>
-    <button mat-menu-item>{{ 'SID_Measurement__RFTS_Reflect_' | translate }}</button>
+    <button mat-menu-item>
+      {{ 'SID_Measurement__RFTS_Reflect_' | translate }}
+    </button>
   </mat-menu>
 </div>
