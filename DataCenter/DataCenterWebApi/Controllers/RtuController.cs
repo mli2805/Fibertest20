@@ -8,7 +8,7 @@ using Newtonsoft.Json;
 
 namespace Iit.Fibertest.DataCenterWebApi
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class RtuController : ControllerBase
     {
@@ -29,7 +29,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
         
         [HttpGet]
-        public async Task<IEnumerable<RtuDto>> Get()
+        public async Task<IEnumerable<RtuDto>> GetTree()
         {
             var tree = await _webProxy2DWcfManager.GetTreeInJson();
             _logFile.AppendLine(tree == null

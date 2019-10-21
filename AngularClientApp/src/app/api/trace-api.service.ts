@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -8,7 +7,10 @@ import { environment } from '../../environments/environment';
 export class TraceApiService {
   constructor(private httpClient: HttpClient) {}
 
-  getAllTraces() {
-    return this.httpClient.get(environment.baseUrl + '/trace');
+  getTraceStatistics(id: string) {
+    const url =
+      'http://' + window.location.hostname + ':11837/trace/statistics/' + id;
+
+    return this.httpClient.get(url);
   }
 }

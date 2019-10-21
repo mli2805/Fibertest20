@@ -9,7 +9,7 @@ export class RtuApiService {
   constructor(private httpClient: HttpClient) {}
 
   getAllRtu() {
-    const url = 'http://' + window.location.hostname + ':11837/api/rtu';
+    const url = 'http://' + window.location.hostname + ':11837/rtu';
     return this.httpClient.get(url);
   }
 }

@@ -11,14 +11,16 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "launchUrl": "api/rtu",
+      "launchBrowser": true,
+      "launchUrl": "trace/statistics/3154-51e515",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
     "DataCenterWebApi": {
       "commandName": "Project",
-      "launchUrl": "api/oev",
+      "launchBrowser": true,
+      "launchUrl": "api/trace",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

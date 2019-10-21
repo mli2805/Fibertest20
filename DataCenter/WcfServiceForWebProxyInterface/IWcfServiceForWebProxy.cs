@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -16,6 +17,9 @@ namespace Iit.Fibertest.WcfServiceForWebProxyInterface
         
         [OperationContract]
         Task<List<TraceDto>> GetTraceList();
+
+        [OperationContract]
+        Task<TraceStatisticsDto> GetTraceStatistics(Guid traceId);
 
         [OperationContract]
         Task<List<OpticalEventDto>> GetOpticalEventList();

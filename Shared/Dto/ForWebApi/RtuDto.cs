@@ -35,9 +35,4 @@ namespace Iit.Fibertest.Dto
         [DataMember] public string Version2;
 
     }
-
-    public class MeasurementDto
-    {
-        public int SorFileId;
-    }
 }

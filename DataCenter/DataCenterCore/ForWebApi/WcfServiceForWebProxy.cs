@@ -44,7 +44,7 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine($"{e.Message}");
                 return "";
             }
-          
+
         }
 
         public async Task<List<RtuDto>> GetRtuList()
@@ -79,9 +79,40 @@ namespace Iit.Fibertest.DataCenterCore
                 .Select(m => m.CreateOpticalEventDto(_writeModel)).ToList();
         }
 
-//        public async Task<int> GetTraceStatistics()
-//        {
+        public async Task<TraceStatisticsDto> GetTraceStatistics(Guid traceId)
+        {
+            await Task.Delay(1);
+            _logFile.AppendLine(":: WcfServiceForWebProxy GetTraceStatistics");
 
-//        }
+            var result = new TraceStatisticsDto();
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
+            if (trace == null)
+                return result;
+            result.TraceTitle = trace.Title;
+            result.Port = trace.OtauPort.IsPortOnMainCharon
+                ? trace.Port.ToString()
+                : $"{trace.OtauPort.Serial}-{trace.OtauPort.OpticalPort}";
+            result.RtuTitle = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
+            result.BaseRefs = _writeModel.BaseRefs
+                .Where(b => b.TraceId == traceId)
+                .Select(l => new BaseRefInfoDto()
+                {
+                    SorFileId = l.SorFileId,
+                    BaseRefType = l.BaseRefType,
+                    BaseRefAssignmentTime = l.SaveTimestamp,
+                    Username = l.UserName,
+                }).ToList();
+            result.Measurements = _writeModel.Measurements
+                .Where(m => m.TraceId == traceId)
+                .Select(l => new MeasurementDto()
+                {
+                    SorFileId = l.SorFileId,
+                    BaseRefType = l.BaseRefType,
+                    EventRegistrationTimestamp = l.EventRegistrationTimestamp,
+                    IsEvent = l.EventStatus > EventStatus.JustMeasurementNotAnEvent,
+                    TraceState = l.TraceState,
+                }).ToList();
+            return result;
+        }
     }
 }

@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TraceDto } from 'src/app/models/dtos/traceDto';
+import { TraceApiService } from 'src/app/api/trace-api.service';
+import { GuidDto } from 'src/app/models/dtos/guidDto';
 
 @Component({
   selector: 'ft-attached-line',
@@ -9,13 +11,15 @@ import { TraceDto } from 'src/app/models/dtos/traceDto';
 export class FtAttachedLineComponent implements OnInit {
   @Input() trace: TraceDto;
 
-  constructor() {}
+  constructor(private traceService: TraceApiService) {}
 
   ngOnInit() {}
 
   myClickFunction(event) {
-    // just added console.log which will display the event details in browser on click of the button.
-    alert('Button is clicked');
-    console.log(event);
+    alert('Information');
+    const traceId = '2fc00df8-da04-4211-b154-0adda9b6f3ab';
+    this.traceService.getTraceStatistics(traceId).subscribe(res => {
+      console.log(res);
+    });
   }
 }

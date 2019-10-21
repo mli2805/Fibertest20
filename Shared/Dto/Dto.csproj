@@ -68,6 +68,9 @@
     <Compile Include="Enums\RtuMaker.cs" />
     <Compile Include="Enums\RtuPartStateChanges.cs" />
     <Compile Include="Enums\WorseOrBetter.cs" />
+    <Compile Include="ForWebApi\BaseRefInfoDto.cs" />
+    <Compile Include="ForWebApi\MeasurementDto.cs" />
+    <Compile Include="ForWebApi\TraceStatisticsDto.cs" />
     <Compile Include="R2D2C\BopStateChangedDto.cs" />
     <Compile Include="R2D2C\ClientMeasurementDoneDto.cs" />
     <Compile Include="R2D2C\ClientMeasurementStartedDto.cs" />

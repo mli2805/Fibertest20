@@ -15,36 +15,37 @@ export class FtMainTabComponent implements OnInit {
   private rtus: RtuDto[];
 
   private selectedTab: number;
-  constructor(
-    private rtuService: RtuApiService,
-    private traceService: TraceApiService
-  ) {}
+  constructor(private rtuService: RtuApiService) {}
 
   ngOnInit() {
     this.rtuService.getAllRtu().subscribe((res: RtuDto[]) => {
-
       this.rtus = res;
+      this.applyRtuMonitoringModeToTraces();
+    });
 
-      for (const rtu of this.rtus) {
-        for (const child of rtu.children) {
-          if (child.childType === ChildType.Trace) {
-            const trace = child as TraceDto;
-            trace.rtuMonitoringMode = rtu.monitoringMode;
-          }
+    
 
-          if (child.childType === ChildType.Otau) {
-            const otau = child as OtauWebDto;
-            for (const otauChild of otau.children) {
-              if (otauChild.childType === ChildType.Trace) {
-                const trace = otauChild as TraceDto;
-                trace.rtuMonitoringMode = rtu.monitoringMode;
-              }
+    this.selectedTab = 1;
+  }
+
+  applyRtuMonitoringModeToTraces() {
+    for (const rtu of this.rtus) {
+      for (const child of rtu.children) {
+        if (child.childType === ChildType.Trace) {
+          const trace = child as TraceDto;
+          trace.rtuMonitoringMode = rtu.monitoringMode;
+        }
+
+        if (child.childType === ChildType.Otau) {
+          const otau = child as OtauWebDto;
+          for (const otauChild of otau.children) {
+            if (otauChild.childType === ChildType.Trace) {
+              const trace = otauChild as TraceDto;
+              trace.rtuMonitoringMode = rtu.monitoringMode;
             }
           }
         }
       }
-    });
-
-    this.selectedTab = 1;
+    }
   }
 }

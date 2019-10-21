@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iit.Fibertest.DataCenterWebApi
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class OevController : ControllerBase
     {
@@ -29,6 +29,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             _logFile.AppendLine(opticalEventList == null
                 ? "Failed to get optical event list"
                 : $"Optical event list contains {opticalEventList.Count} items");
+
             return opticalEventList;
         }
 

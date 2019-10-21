@@ -35,7 +35,9 @@ namespace Iit.Fibertest.DataCenterWebApi
 
             var logFile = new LogFile(iniFile);
             logFile.AssignFile("webproxy.log");
-            services.AddSingleton<IMyLog>(logFile); }
+            services.AddSingleton<IMyLog>(logFile);
+        }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -55,7 +57,9 @@ namespace Iit.Fibertest.DataCenterWebApi
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{controller=Trace}/{action=GetAll}/{id?}");
             });
         }
     }

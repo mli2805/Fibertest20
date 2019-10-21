@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -7,8 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Iit.Fibertest.DataCenterWebApi
 {
-    [Route("api/[controller]")]
-    [ApiController]
+    [Route("[controller]")]
     public class TraceController : ControllerBase
     {
         private readonly IMyLog _logFile;
@@ -21,9 +21,9 @@ namespace Iit.Fibertest.DataCenterWebApi
             var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebProxy);
             _webProxy2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
         }
-        
-        [HttpGet]
-        public async Task<IEnumerable<TraceDto>> Get()
+
+        [HttpGet("GetAll")]
+        public async Task<IEnumerable<TraceDto>> GetAllTraces()
         {
             var traceList = await _webProxy2DWcfManager.GetTraceList();
             _logFile.AppendLine(traceList == null
@@ -32,5 +32,32 @@ namespace Iit.Fibertest.DataCenterWebApi
             return traceList;
         }
 
+        
+        [HttpGet("Statistics/{id}")]
+        public async Task<TraceStatisticsDto> GetTraceStatistics(string id)
+        {
+            try
+            {
+                _logFile.AppendLine($"trace id = {id}");
+                var traceGuid = Guid.Parse(id);
+                _logFile.AppendLine($"trace Guid = {traceGuid}");
+                var traceStatisticsDto = await _webProxy2DWcfManager.GetTraceStatistics(traceGuid);
+                _logFile.AppendLine(traceStatisticsDto == null
+                    ? "Failed to get trace's statistics"
+                    : $"trace has {traceStatisticsDto.BaseRefs.Count} refs and {traceStatisticsDto.Measurements.Count} measurements");
+                return traceStatisticsDto;
+            }
+            catch (Exception e)
+            {
+               _logFile.AppendLine($"GetTraceStatistics: {e.Message}");
+            }
+            return null;
+        }
+
+    }
+
+    public class GuidDto
+    {
+        public Guid Id {get;set;}
     }
 }
