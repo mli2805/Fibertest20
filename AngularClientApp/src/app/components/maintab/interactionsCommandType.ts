@@ -1,12 +1,26 @@
 export enum InteractionsCommandType {
   Nothing,
 
-  TraceInformation = 21,
-  TraceStatistics = 24,
-
   RtuInformation = 11,
-  RtuState = 13,
+  RtuOnMap,
+  RtuNetworkSettings,
+  RtuState,
+  RtuLandmarks,
+  RtuMonitoringSettings,
+  RtuToAutoMode,
+  RtuToManualMode,
+
+  TraceInformation = 21,
+  TraceOnMap,
+  TraceAssingBaseRefs,
+  TraceState,
+  TraceStatistics,
+  TraceLandmarks,
+  TraceDetach,
+  TraceOutOfTurnMeasurement,
+  TraceMeauserementClient,
 
   PortAttachTrace = 31,
-  PortAttachOtau = 32
+  PortAttachOtau,
+  PortMeasurementClient,
 }
