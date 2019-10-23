@@ -10,6 +10,7 @@ import { InteractionsParameter } from './interactionsParameter';
 import { TraceApiService } from 'src/app/api/trace-api.service';
 import { TraceStatisticsDto } from 'src/app/models/dtos/traceStatisticsDto';
 import { DetailsViewModel } from './ft-tree-details/detailsViewModel';
+import { TraceInformationDto } from 'src/app/models/dtos/traceInformationDto';
 
 @Component({
   selector: 'ft-maintab',
@@ -69,7 +70,13 @@ export class FtMainTabComponent implements OnInit {
         break;
       }
       case InteractionsCommandType.TraceInformation: {
-        this.detailsVm = new DetailsViewModel(parameter.commandType);
+        this.traceService
+          .getTraceInformation(parameter.traceId)
+          .subscribe((res: TraceInformationDto) => {
+            this.detailsVm = new DetailsViewModel(parameter.commandType);
+            this.detailsVm.data = res;
+            console.log(res);
+          });
         break;
       }
       case InteractionsCommandType.TraceStatistics: {

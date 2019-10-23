@@ -14,9 +14,12 @@ namespace Iit.Fibertest.WcfServiceForWebProxyInterface
 
         [OperationContract]
         Task<List<RtuDto>> GetRtuList();
-        
+
         [OperationContract]
         Task<List<TraceDto>> GetTraceList();
+
+        [OperationContract]
+        Task<TraceInformationDto> GetTraceInformation(Guid traceId);
 
         [OperationContract]
         Task<TraceStatisticsDto> GetTraceStatistics(Guid traceId);

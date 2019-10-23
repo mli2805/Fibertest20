@@ -82,6 +82,26 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<TraceInformationDto> GetTraceInformation(Guid traceId)
+        {
+            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetTraceInformation(traceId);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetTraceInformation: " + e.Message);
+                return null;
+            }
+        }
+
         public async Task<TraceStatisticsDto> GetTraceStatistics(Guid traceId)
         {
             var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();

@@ -70,6 +70,26 @@ namespace Iit.Fibertest.DataCenterCore
             return _writeModel.Traces.Select(t => t.CreateTraceDto()).ToList();
         }
 
+        public async Task<TraceInformationDto> GetTraceInformation(Guid traceId)
+        {
+            await Task.Delay(1);
+            _logFile.AppendLine(":: WcfServiceForWebProxy GetTraceStatistics");
+
+            var result = new TraceInformationDto();
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
+            if (trace == null)
+                return result;
+            result.TraceTitle = trace.Title;
+            result.Port = trace.OtauPort.IsPortOnMainCharon
+                ? trace.Port.ToString()
+                : $"{trace.OtauPort.Serial}-{trace.OtauPort.OpticalPort}";
+            result.RtuTitle = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
+
+
+            return result;
+
+        }
+
         public async Task<List<OpticalEventDto>> GetOpticalEventList()
         {
             await Task.Delay(1);

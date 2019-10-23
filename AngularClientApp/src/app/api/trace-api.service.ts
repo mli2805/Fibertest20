@@ -7,6 +7,13 @@ import { HttpClient } from '@angular/common/http';
 export class TraceApiService {
   constructor(private httpClient: HttpClient) {}
 
+  getTraceInformation(id: string) {
+    const url =
+      'http://' + window.location.hostname + ':11837/trace/information/' + id;
+
+    return this.httpClient.get(url);
+  }
+
   getTraceStatistics(id: string) {
     const url =
       'http://' + window.location.hostname + ':11837/trace/statistics/' + id;

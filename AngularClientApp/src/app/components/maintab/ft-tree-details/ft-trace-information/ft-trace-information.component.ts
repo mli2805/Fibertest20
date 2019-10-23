@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { TraceInformationDto } from 'src/app/models/dtos/traceInformationDto';
 
 @Component({
   selector: 'ft-trace-information',
@@ -6,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./ft-trace-information.component.scss']
 })
 export class FtTraceInformationComponent implements OnInit {
-  @Input() vm: any;
+  @Input() vm: TraceInformationDto;
 
   constructor() { }
 

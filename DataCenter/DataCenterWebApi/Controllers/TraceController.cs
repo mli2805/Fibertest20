@@ -33,7 +33,27 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         
-        [HttpGet("Statistics/{id}")]
+        [HttpGet("Information/{id}")]
+        public async Task<TraceInformationDto> GetTraceInformation(string id)
+        {
+            try
+            {
+                _logFile.AppendLine($"trace id = {id}");
+                var traceGuid = Guid.Parse(id);
+                _logFile.AppendLine($"trace Guid = {traceGuid}");
+                var traceInformationDto = await _webProxy2DWcfManager.GetTraceInformation(traceGuid);
+                _logFile.AppendLine(traceInformationDto == null
+                    ? "Failed to get trace's information"
+                    : "Trace information ");
+                return traceInformationDto;
+            }
+            catch (Exception e)
+            {
+               _logFile.AppendLine($"GetTraceInformation: {e.Message}");
+            }
+            return null;
+        }
+   [HttpGet("Statistics/{id}")]
         public async Task<TraceStatisticsDto> GetTraceStatistics(string id)
         {
             try
