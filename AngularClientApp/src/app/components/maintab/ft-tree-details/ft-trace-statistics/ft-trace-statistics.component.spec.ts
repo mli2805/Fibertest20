@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FtTestComponentComponent } from './ft-test-component.component';
+import { FtTraceStatisticsComponent } from './ft-trace-statistics.component';
 
-describe('FtTestComponentComponent', () => {
-  let component: FtTestComponentComponent;
-  let fixture: ComponentFixture<FtTestComponentComponent>;
+describe('FtTraceStatisticsComponent', () => {
+  let component: FtTraceStatisticsComponent;
+  let fixture: ComponentFixture<FtTraceStatisticsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FtTestComponentComponent ]
+      declarations: [ FtTraceStatisticsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FtTestComponentComponent);
+    fixture = TestBed.createComponent(FtTraceStatisticsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

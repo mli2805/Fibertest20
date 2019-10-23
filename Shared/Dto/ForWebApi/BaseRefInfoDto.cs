@@ -6,7 +6,7 @@ namespace Iit.Fibertest.Dto
     {
         public int SorFileId;
         public BaseRefType BaseRefType;
-        public DateTime BaseRefAssignmentTime;
+        public DateTime AssignmentTimestamp;
         public string Username;
     }
 }

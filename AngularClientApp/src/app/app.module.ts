@@ -7,6 +7,7 @@ import { FormsModule } from '@angular/forms';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -43,9 +44,11 @@ import { FtFreePortComponent } from './components/maintab/ft-rtu-tree/ft-rtu-chi
 import { FtAttachedLineComponent } from './components/maintab/ft-rtu-tree/ft-rtu-children/ft-attached-line/ft-attached-line.component';
 import { FtDetachedLineComponent } from './components/maintab/ft-rtu-tree/ft-rtu-children/ft-detached-line/ft-detached-line.component';
 import { FtOtauComponent } from './components/maintab/ft-rtu-tree/ft-rtu-children/ft-otau/ft-otau.component';
-import { from } from 'rxjs';
 import { BooleanUriPipe } from './pipes/boolean-uri.pipe';
-import { FtTestComponentComponent } from './components/maintab/ft-test-component/ft-test-component.component';
+import { FtTreeDetailsComponent } from './components/maintab/ft-tree-details/ft-tree-details.component';
+import { FtTraceInformationComponent } from './components/maintab/ft-tree-details/ft-trace-information/ft-trace-information.component';
+import { FtTraceStatisticsComponent } from './components/maintab/ft-tree-details/ft-trace-statistics/ft-trace-statistics.component';
+import { FtRtuStateComponent } from './components/maintab/ft-tree-details/ft-rtu-state/ft-rtu-state.component';
 
 @NgModule({
   declarations: [
@@ -69,7 +72,10 @@ import { FtTestComponentComponent } from './components/maintab/ft-test-component
     FtOtauComponent,
     TraceMonitoringModeUriPipe,
     BooleanUriPipe,
-    FtTestComponentComponent
+    FtTreeDetailsComponent,
+    FtTraceInformationComponent,
+    FtTraceStatisticsComponent,
+    FtRtuStateComponent
   ],
   imports: [
     BrowserModule,
@@ -82,6 +88,7 @@ import { FtTestComponentComponent } from './components/maintab/ft-test-component
     MatTabsModule,
     MatTableModule,
     MatSortModule,
+    MatCheckboxModule,
     MatGridListModule,
     MatExpansionModule,
     MatIconModule,

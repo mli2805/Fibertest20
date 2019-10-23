@@ -10,7 +10,6 @@ import { Utils } from 'src/app/Utils/utils';
   styleUrls: ['./opt-events.component.scss']
 })
 export class OptEventsComponent implements OnInit {
-  // private optEventsArray: OptEventDto[];
   columnsToDisplay = [
     'eventId',
     'measurementTimestamp',

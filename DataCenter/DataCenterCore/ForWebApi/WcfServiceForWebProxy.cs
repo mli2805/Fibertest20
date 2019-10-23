@@ -99,11 +99,12 @@ namespace Iit.Fibertest.DataCenterCore
                 {
                     SorFileId = l.SorFileId,
                     BaseRefType = l.BaseRefType,
-                    BaseRefAssignmentTime = l.SaveTimestamp,
+                    AssignmentTimestamp = l.SaveTimestamp,
                     Username = l.UserName,
                 }).ToList();
             result.Measurements = _writeModel.Measurements
                 .Where(m => m.TraceId == traceId)
+                .OrderByDescending(e=>e.EventRegistrationTimestamp)
                 .Select(l => new MeasurementDto()
                 {
                     SorFileId = l.SorFileId,

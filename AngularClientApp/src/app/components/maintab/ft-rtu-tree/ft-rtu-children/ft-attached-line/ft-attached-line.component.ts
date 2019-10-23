@@ -1,7 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output } from '@angular/core';
 import { TraceDto } from 'src/app/models/dtos/traceDto';
 import { TraceApiService } from 'src/app/api/trace-api.service';
-import { GuidDto } from 'src/app/models/dtos/guidDto';
+import { TraceStatisticsDto } from 'src/app/models/dtos/traceStatisticsDto';
+import { InteractionsService } from '../../../interactions.service';
+import { InteractionsParameter } from '../../../interactionsParameter';
+import { InteractionsCommandType } from '../../../interactionsCommandType';
 
 @Component({
   selector: 'ft-attached-line',
@@ -11,15 +14,25 @@ import { GuidDto } from 'src/app/models/dtos/guidDto';
 export class FtAttachedLineComponent implements OnInit {
   @Input() trace: TraceDto;
 
-  constructor(private traceService: TraceApiService) {}
+  private traceStatistics: TraceStatisticsDto;
+  constructor(
+    private traceService: TraceApiService,
+    private interactionsService: InteractionsService
+  ) {}
 
   ngOnInit() {}
 
-  myClickFunction(event) {
-    alert('Information');
-    const traceId = '2fc00df8-da04-4211-b154-0adda9b6f3ab';
-    this.traceService.getTraceStatistics(traceId).subscribe(res => {
-      console.log(res);
-    });
+  displayInformation() {
+    this.sendCommand(InteractionsCommandType.TraceInformation);
+  }
+  displayStatistics() {
+    this.sendCommand(InteractionsCommandType.TraceStatistics);
+  }
+
+  sendCommand(commandType: InteractionsCommandType) {
+    const cmd = new InteractionsParameter();
+    cmd.commandType = commandType;
+    cmd.traceId = this.trace.traceId;
+    this.interactionsService.sendCommand(cmd);
   }
 }

@@ -1,0 +1,12 @@
+<ng-container>
+  <div
+    *ngIf="detailsVm.detailsType === InteractionsCommandType.TraceInformation"
+  >
+    <ft-trace-information [vm]="detailsVm.data"></ft-trace-information>
+  </div>
+  <div
+    *ngIf="detailsVm.detailsType === InteractionsCommandType.TraceStatistics"
+  >
+    <ft-trace-statistics [vm]="detailsVm.data"></ft-trace-statistics>
+  </div>
+</ng-container>

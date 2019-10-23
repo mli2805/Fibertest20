@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "trace/statistics/3154-51e515",
+      "launchUrl": "rtu",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

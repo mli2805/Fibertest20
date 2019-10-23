@@ -8,7 +8,7 @@
       {{ 'SID_Measurement_termination_timestamp' | translate }}
     </th>
     <td mat-cell *matCellDef="let element">
-      {{ element.measurementTimestamp | date: 'dd/MM/yyyy HH:mm:ss' }}
+      {{ element.measurementTimestamp | date: 'dd/MM/yyyy H:mm:ss' }}
     </td>
   </ng-container>
   <ng-container matColumnDef="eventRegistrationTimestamp">
@@ -16,7 +16,7 @@
       {{ 'SID_Event_registration_time' | translate }}
     </th>
     <td mat-cell *matCellDef="let element">
-      {{ element.eventRegistrationTimestamp | date: 'dd/MM/yyyy HH:mm:ss' }}
+      {{ element.eventRegistrationTimestamp | date: 'dd/MM/yyyy H:mm:ss' }}
     </td>
   </ng-container>
   <ng-container matColumnDef="rtuTitle">
@@ -48,7 +48,7 @@
       {{ 'SID_Status_assignment_time' | translate }}
     </th>
     <td mat-cell *matCellDef="let element">
-      {{ element.statusChangedTimestamp | date: 'dd/MM/yyyy HH:mm:ss' }}
+      {{ element.statusChangedTimestamp | date: 'dd/MM/yyyy H:mm:ss' }}
     </td>
   </ng-container>
   <ng-container matColumnDef="statusChangedByUser">
