@@ -220,6 +220,10 @@
     </Compile>
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\UserFilter.cs" />
+    <Compile Include="Forms\RtuForms\RtuInitialize\Controls\OtdrAddressView.xaml.cs">
+      <DependentUpon>OtdrAddressView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RtuForms\RtuInitialize\Controls\OtdrAddressViewModel.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\Controls\RtuIitInfoView.xaml.cs">
       <DependentUpon>RtuIitInfoView.xaml</DependentUpon>
     </Compile>
@@ -684,6 +688,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\AdministrativeForms\EventLog\LogOperationsView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\RtuForms\RtuInitialize\Controls\OtdrAddressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
