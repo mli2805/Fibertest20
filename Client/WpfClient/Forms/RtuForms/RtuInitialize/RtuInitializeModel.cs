@@ -40,6 +40,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public OtdrAddressViewModel OtdrAddressViewModel { get; set; } = new OtdrAddressViewModel();
         public RtuIitInfoViewModel IitInfoModel { get; set; } = new RtuIitInfoViewModel();
         public RtuVeexInfoViewModel VeexInfoModel { get; set; } = new RtuVeexInfoViewModel();
 
@@ -120,6 +121,7 @@ namespace Iit.Fibertest.Client
 
             IsReserveChannelEnabled = OriginalRtu.IsReserveChannelSet;
 
+            OtdrAddressViewModel.FromRtu(OriginalRtu);
             if (OriginalRtu.RtuMaker == RtuMaker.IIT)
             {
                 IitInfoModel.Model.FromRtu(OriginalRtu);
@@ -140,6 +142,7 @@ namespace Iit.Fibertest.Client
             OriginalRtu.OtdrNetAddress = (NetAddress)dto.OtdrAddress.Clone();
             OriginalRtu.ReserveChannel = ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress();
 
+            OtdrAddressViewModel.FromRtu(OriginalRtu);
             if (dto.Maker == RtuMaker.IIT)
             {
                 IitInfoModel.Model.FromDto(dto);

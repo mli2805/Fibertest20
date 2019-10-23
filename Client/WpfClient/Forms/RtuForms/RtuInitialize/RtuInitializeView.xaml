@@ -32,18 +32,7 @@
         <GroupBox Header="{x:Static stringResources:Resources.SID_Main_channel}" Margin="5" IsEnabled="{Binding IsIdle}">
             <client:NetAddressTestView x:Name="MainAddress"  Margin="0,5,0,0" DataContext="{Binding FullModel.MainChannelTestViewModel}"/>
         </GroupBox>
-        <GroupBox Header="{x:Static stringResources:Resources.SID_OTDR_Network_Address}" Margin="5">
-            <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="IP" Margin="5" Width="40" TextAlignment="Right"/>
-                    <TextBlock Text="{Binding FullModel.OtdrAddress}" Margin="5"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{x:Static stringResources:Resources.SID_Port}" Margin="5" Width="40" TextAlignment="Right"/>
-                    <TextBlock Text="{Binding FullModel.OriginalRtu.OtdrNetAddress.Port}" Margin="5"/>
-                </StackPanel>
-            </StackPanel>
-        </GroupBox>
+       <client:OtdrAddressView DataContext="{Binding FullModel.OtdrAddressViewModel}"></client:OtdrAddressView>
         <GroupBox Margin="5" IsEnabled="{Binding IsIdle}">
             <GroupBox.Header>
                 <CheckBox Name="CheckBoxReserveAddress" Content="{x:Static stringResources:Resources.SID_Reserve_channel}" 
