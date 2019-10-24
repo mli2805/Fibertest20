@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-        xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        xmlns:dto="clr-namespace:Iit.Fibertest.Dto;assembly=Iit.Fibertest.Dto"
         mc:Ignorable="d"
         FocusManager.FocusedElement="{Binding ElementName=TraceTitleTextbox}"
         SizeToContent="Height" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
@@ -45,7 +45,7 @@
         <GroupBox Header="{x:Static stringResources:Resources.SID_Equipment}" Margin="5">
             <ItemsControl ItemsSource="{Binding Model.EquipmentsRows}" Margin="5,5,5,10">
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="client:TraceInfoTableItem">
+                    <DataTemplate DataType="dto:TraceInfoTableItem">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Margin="5" Width="220" HorizontalAlignment="Right" Text="{Binding NodeType}" />
                             <TextBlock Margin="5" Text="{Binding Count}" />
@@ -57,7 +57,7 @@
         <GroupBox Header="{x:Static stringResources:Resources.SID_Nodes}" Margin="5">
             <ItemsControl ItemsSource="{Binding Model.NodesRows}" Margin="5,5,5,10">
                 <ItemsControl.ItemTemplate>
-                    <DataTemplate DataType="client:TraceInfoTableItem">
+                    <DataTemplate DataType="dto:TraceInfoTableItem">
                         <StackPanel Orientation="Horizontal">
                             <TextBlock Margin="5" Width="220" HorizontalAlignment="Right" Text="{Binding NodeType}" />
                             <TextBlock Margin="5" Text="{Binding Count}" />

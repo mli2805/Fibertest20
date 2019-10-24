@@ -44,7 +44,6 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine($"{e.Message}");
                 return "";
             }
-
         }
 
         public async Task<List<RtuDto>> GetRtuList()
@@ -73,7 +72,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<TraceInformationDto> GetTraceInformation(Guid traceId)
         {
             await Task.Delay(1);
-            _logFile.AppendLine(":: WcfServiceForWebProxy GetTraceStatistics");
+            _logFile.AppendLine(":: WcfServiceForWebProxy GetTraceInformation");
 
             var result = new TraceInformationDto();
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
@@ -85,9 +84,13 @@ namespace Iit.Fibertest.DataCenterCore
                 : $"{trace.OtauPort.Serial}-{trace.OtauPort.OpticalPort}";
             result.RtuTitle = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
 
+            var dict = _writeModel.BuildDictionaryByEquipmentType(trace.EquipmentIds);
+            result.Equipment = TraceInfoCalculator.CalculateEquipment(dict);
+            result.Nodes = TraceInfoCalculator.CalculateNodes(dict);
 
+            result.IsLightMonitoring = trace.Mode == TraceMode.Light;
+            result.Comment = trace.Comment;
             return result;
-
         }
 
         public async Task<List<OpticalEventDto>> GetOpticalEventList()
@@ -124,7 +127,7 @@ namespace Iit.Fibertest.DataCenterCore
                 }).ToList();
             result.Measurements = _writeModel.Measurements
                 .Where(m => m.TraceId == traceId)
-                .OrderByDescending(e=>e.EventRegistrationTimestamp)
+                .OrderByDescending(e => e.EventRegistrationTimestamp)
                 .Select(l => new MeasurementDto()
                 {
                     SorFileId = l.SorFileId,

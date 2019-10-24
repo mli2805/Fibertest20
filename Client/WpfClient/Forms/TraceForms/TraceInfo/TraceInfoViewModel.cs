@@ -20,7 +20,6 @@ namespace Iit.Fibertest.Client
         private readonly CurrentUser _currentUser;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly IWindowManager _windowManager;
-        private readonly TraceInfoCalculator _traceInfoCalculator;
         public bool IsSavePressed { get; set; }
 
         private bool _isInCreationMode;
@@ -55,13 +54,12 @@ namespace Iit.Fibertest.Client
             }
         }
         public TraceInfoViewModel(Model readModel, CurrentUser currentUser, IWcfServiceForClient c2DWcfManager,
-            IWindowManager windowManager, TraceInfoCalculator traceInfoCalculator)
+            IWindowManager windowManager)
         {
             _readModel = readModel;
             _currentUser = currentUser;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
-            _traceInfoCalculator = traceInfoCalculator;
         }
 
 
@@ -75,9 +73,9 @@ namespace Iit.Fibertest.Client
             Model.Rtu = _readModel.Rtus.First(r => r.Id == Model.TraceEquipments[0]);
             Model.RtuTitle = Model.Rtu.Title;
             Model.PortNumber = Resources.SID_not_attached;
-            var dict = _traceInfoCalculator.BuildDictionaryByEquipmentType(Model.TraceEquipments);
-            Model.EquipmentsRows = _traceInfoCalculator.CalculateEquipment(dict);
-            Model.NodesRows = _traceInfoCalculator.CalculateNodes(dict);
+            var dict = _readModel.BuildDictionaryByEquipmentType(Model.TraceEquipments);
+            Model.EquipmentsRows = TraceInfoCalculator.CalculateEquipment(dict);
+            Model.NodesRows = TraceInfoCalculator.CalculateNodes(dict);
 
             if (dict.ContainsKey(EquipmentType.AdjustmentPoint))
             {

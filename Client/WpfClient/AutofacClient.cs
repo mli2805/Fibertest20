@@ -113,7 +113,6 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<TraceStateModelFactory>().InstancePerLifetimeScope();
             builder.RegisterType<TraceStateViewsManager>().InstancePerLifetimeScope();
             builder.RegisterType<TraceStatisticsViewsManager>().InstancePerLifetimeScope();
-            builder.RegisterType<TraceInfoCalculator>().InstancePerLifetimeScope();
             builder.RegisterType<TraceInfoViewModel>();
             builder.RegisterType<StepChoiceViewModel>();
             builder.RegisterType<TraceStepByStepViewModel>().InstancePerLifetimeScope();

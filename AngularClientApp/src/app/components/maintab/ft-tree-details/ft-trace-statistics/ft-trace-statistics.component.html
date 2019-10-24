@@ -1,7 +1,8 @@
-<p>{{ 'SID_Trace' | translate }} {{ vm.traceTitle }}</p>
-<p>{{ 'SID_Port' | translate }} {{ vm.port }}</p>
-<p>RTU {{ vm.rtuTitle }}</p>
-
+<mat-card
+  ><p>{{ 'SID_Trace' | translate }} {{ vm.traceTitle }}</p>
+  <p>{{ 'SID_Port' | translate }} {{ vm.port }}</p>
+  <p>RTU {{ vm.rtuTitle }}</p>
+</mat-card>
 <table mat-table [dataSource]="vm.baseRefs">
   <ng-container matColumnDef="baseRefType">
     <th mat-header-cell *matHeaderCellDef>

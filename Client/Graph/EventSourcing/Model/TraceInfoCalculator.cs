@@ -2,21 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph
 {
-    public class TraceInfoCalculator
+    public static class TraceInfoCalculator
     {
-        private readonly Model _readModel;
-
-        public TraceInfoCalculator(Model readModel)
-        {
-            _readModel = readModel;
-        }
-
-        public List<TraceInfoTableItem> CalculateEquipment(Dictionary<EquipmentType, int> dict)
+        public static List<TraceInfoTableItem> CalculateEquipment(Dictionary<EquipmentType, int> dict)
         {
             var rows = new List<TraceInfoTableItem>() { new TraceInfoTableItem(@"RTU", 1) };
 
@@ -27,7 +19,7 @@ namespace Iit.Fibertest.Client
             return rows;
         }
 
-        public List<TraceInfoTableItem> CalculateNodes(Dictionary<EquipmentType, int> dict)
+        public static List<TraceInfoTableItem> CalculateNodes(Dictionary<EquipmentType, int> dict)
         {
             var rows = new List<TraceInfoTableItem>();
 
@@ -42,7 +34,8 @@ namespace Iit.Fibertest.Client
             return rows;
         }
 
-        public Dictionary<EquipmentType, int> BuildDictionaryByEquipmentType(List<Guid> traceEquipments)
+        // when trace is under construction equipment could be passed as list
+        public static Dictionary<EquipmentType, int> BuildDictionaryByEquipmentType(this Model _readModel, List<Guid> traceEquipments)
         {
             var dict = new Dictionary<EquipmentType, int>();
             foreach (var id in traceEquipments.Skip(1))
@@ -51,11 +44,8 @@ namespace Iit.Fibertest.Client
             }
             return dict;
         }
-    }
 
-    public static class DictionaryExt
-    {
-        public static void Update(this Dictionary<EquipmentType, int> dict, EquipmentType type)
+        private static void Update(this Dictionary<EquipmentType, int> dict, EquipmentType type)
         {
             if (dict.ContainsKey(type))
                 dict[type]++;

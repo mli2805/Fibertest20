@@ -8,6 +8,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatCardModule} from '@angular/material/card';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
@@ -90,6 +91,7 @@ import { FtRtuStateComponent } from './components/maintab/ft-tree-details/ft-rtu
     MatSortModule,
     MatCheckboxModule,
     MatGridListModule,
+    MatCardModule,
     MatExpansionModule,
     MatIconModule,
     MatMenuModule,

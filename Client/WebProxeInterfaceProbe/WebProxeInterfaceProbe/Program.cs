@@ -26,33 +26,21 @@ namespace WebProxeInterfaceProbe
             var webProxy2DWcfManager = new WebProxy2DWcfManager(iniFile, logFile);
             var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebProxy);
             webProxy2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
-
-            var eventList = await webProxy2DWcfManager.GetOpticalEventList();
-            logFile.AppendLine(eventList == null
-                ? "Failed to get list"
-                : $"list contains {eventList.Count} items");
-
-
-            var rtuList = await webProxy2DWcfManager.GetRtuList();
-            logFile.AppendLine(rtuList == null
-                ? "Failed to get list"
-                : $"list contains {rtuList.Count} items");
-
-
-            eventList = await webProxy2DWcfManager.GetOpticalEventList();
-            logFile.AppendLine(eventList == null
-                ? "Failed to get list"
-                : $"list contains {eventList.Count} items");
-
+            
             var tree = await webProxy2DWcfManager.GetTreeInJson();
-            logFile.AppendLine(tree == null
+            Console.WriteLine(tree == null
                 ? "Failed to get tree"
                 : $"tree contains {tree.Length} symbols");
             var treeL = (List<RtuDto>)JsonConvert.DeserializeObject(tree, JsonSerializerSettings);
-            logFile.AppendLine(treeL == null
+            Console.WriteLine(treeL == null
                 ? "Failed to get list"
                 : $"list contains {treeL.Count} items");
 
+            var guid = Guid.Parse("0f3becab-c235-47f5-b041-58057d56979a");
+            var traceInfo = await webProxy2DWcfManager.GetTraceInformation(guid);
+            Console.WriteLine(traceInfo == null
+                ? "Failed to get info"
+                : $"trace has {traceInfo.Equipment.Count} eq");
 
             Console.ReadKey();
             return 0;

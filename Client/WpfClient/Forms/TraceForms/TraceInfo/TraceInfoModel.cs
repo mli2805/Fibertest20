@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client

@@ -8,7 +8,8 @@ namespace Iit.Fibertest.Dto
         public string Port; // for trace on bop use bop's serial plus port number "879151-3"
         public string RtuTitle;
 
-        public List<KeyValuePair<EquipmentType, int>> Equipment;
+        public List<TraceInfoTableItem> Equipment;
+        public List<TraceInfoTableItem> Nodes;
 
         public bool IsLightMonitoring;
         public string Comment;

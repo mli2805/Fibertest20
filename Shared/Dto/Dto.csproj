@@ -131,6 +131,7 @@
     <Compile Include="Enums\TcpPorts.cs" />
     <Compile Include="Underlying\PortWithTraceDto.cs" />
     <Compile Include="Underlying\RtuWithChannelChanges.cs" />
+    <Compile Include="Underlying\TraceInfoTableItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
