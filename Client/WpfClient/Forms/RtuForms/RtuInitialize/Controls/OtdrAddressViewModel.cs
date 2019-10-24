@@ -34,7 +34,9 @@ namespace Iit.Fibertest.Client
         public void FromRtu(Rtu rtu)
         {
             OtdrAddress = rtu.OtdrNetAddress.IsAddressSetAsIp
-                ? rtu.OtdrNetAddress.Ip4Address
+                ? rtu.OtdrNetAddress.Ip4Address == @"192.168.88.101" // fake address on screen
+                    ? rtu.MainChannel.Ip4Address
+                    : rtu.OtdrNetAddress.Ip4Address
                 : rtu.OtdrNetAddress.HostName;
             Port = rtu.OtdrNetAddress.Port;
         }
