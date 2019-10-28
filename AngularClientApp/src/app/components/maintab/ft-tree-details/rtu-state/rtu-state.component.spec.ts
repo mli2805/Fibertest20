@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FtAboutComponent } from './about.component';
+import { FtRtuStateComponent } from './rtu-state.component';
 
-describe('AboutComponent', () => {
-  let component: FtAboutComponent;
-  let fixture: ComponentFixture<FtAboutComponent>;
+describe('RtuStateComponent', () => {
+  let component: FtRtuStateComponent;
+  let fixture: ComponentFixture<FtRtuStateComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FtAboutComponent ]
+      declarations: [ FtRtuStateComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FtAboutComponent);
+    fixture = TestBed.createComponent(FtRtuStateComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

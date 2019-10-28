@@ -3,8 +3,8 @@ import { TraceStatisticsDto } from 'src/app/models/dtos/traceStatisticsDto';
 
 @Component({
   selector: 'ft-trace-statistics',
-  templateUrl: './ft-trace-statistics.component.html',
-  styleUrls: ['./ft-trace-statistics.component.scss']
+  templateUrl: './trace-statistics.component.html',
+  styleUrls: ['./trace-statistics.component.scss']
 })
 export class FtTraceStatisticsComponent implements OnInit {
   @Input() vm: TraceStatisticsDto;

@@ -4,39 +4,45 @@ table {
 }
 
 .mat-column-eventId {
-  width: 70px !important;
+  max-width: 70px !important;
 }
 
 .mat-column-measurementTimestamp {
-  width: 170px !important;
+  max-width: 100px !important;
 }
 .mat-column-eventRegistrationTimestamp {
-  width: 170px !important;
+  max-width: 100px !important;
 }
 .mat-column-statusChangedTimestamp {
-  width: 170px !important;
+  max-width: 100px !important;
 }
-
-
 
 .mat-column-traceState {
-  width: 240px !important;
+  max-width: 120px !important;
 }
 .mat-column-eventStatus {
-  width: 200px !important;
+  max-width: 120px !important;
 }
 .mat-column-statusChangedByUser {
-  width: 200px !important;
+  max-width: 120px !important;
 }
 
 .mat-header-cell {
   text-align: center !important;
+  border-right: 1px solid lightgrey;
   font-size: 14px;
+  background: azure;
   color: black;
+  padding: 5px;
 }
 
 .mat-cell {
-  text-align: center;
+  justify-content: center;
+  flex-wrap: wrap;
   border-right: 1px solid lightgrey;
-  background: azure;
+  padding: 0 5px;
+}
+
+.spinner-container mat-spinner {
+  margin: 130px auto 0 auto;
 }

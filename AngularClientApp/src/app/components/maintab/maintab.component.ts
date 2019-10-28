@@ -39,7 +39,7 @@ export class FtMainTabComponent implements OnInit {
       this.applyRtuMonitoringModeToTraces();
     });
 
-    this.selectedTab = 1;
+    this.selectedTab = 2;
   }
 
   applyRtuMonitoringModeToTraces() {
@@ -75,7 +75,6 @@ export class FtMainTabComponent implements OnInit {
           .subscribe((res: TraceInformationDto) => {
             this.detailsVm = new DetailsViewModel(parameter.commandType);
             this.detailsVm.data = res;
-            console.log(res);
           });
         break;
       }
@@ -85,7 +84,6 @@ export class FtMainTabComponent implements OnInit {
           .subscribe((res: TraceStatisticsDto) => {
             this.detailsVm = new DetailsViewModel(parameter.commandType);
             this.detailsVm.data = res;
-            console.log(res);
           });
         break;
       }

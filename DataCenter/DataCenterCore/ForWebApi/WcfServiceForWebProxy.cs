@@ -93,12 +93,17 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public async Task<List<OpticalEventDto>> GetOpticalEventList()
+    
+        public async Task<List<OpticalEventDto>> GetOpticalEventList(
+            string filter = "", string sortOrder = "asc", int pageNumber = 0, int pageSize = 100)
         {
             await Task.Delay(1);
             _logFile.AppendLine(":: WcfServiceForWebProxy GetOpticalEventList");
             return _writeModel.Measurements
                 .Where(m => m.EventStatus > EventStatus.JustMeasurementNotAnEvent)
+                .Sort(sortOrder)
+                .Skip(pageNumber * pageSize)
+                .Take(pageSize)
                 .Select(m => m.CreateOpticalEventDto(_writeModel)).ToList();
         }
 
@@ -138,5 +143,14 @@ namespace Iit.Fibertest.DataCenterCore
                 }).ToList();
             return result;
         }
+    }
+
+    public static class MeasExt
+    {
+        public static IEnumerable<Measurement> Sort(this IEnumerable<Measurement> input, string param)
+        {
+            return param == "asc" ? input.OrderBy(o => o.SorFileId) : input.OrderByDescending(o => o.SorFileId);
+        }
+
     }
 }

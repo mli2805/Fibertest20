@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FtTraceStatisticsComponent } from './ft-trace-statistics.component';
+import { FtNetworkEventsComponent } from './network-events.component';
 
-describe('FtTraceStatisticsComponent', () => {
-  let component: FtTraceStatisticsComponent;
-  let fixture: ComponentFixture<FtTraceStatisticsComponent>;
+describe('NetworkEventsComponent', () => {
+  let component: FtNetworkEventsComponent;
+  let fixture: ComponentFixture<FtNetworkEventsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FtTraceStatisticsComponent ]
+      declarations: [ FtNetworkEventsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(FtTraceStatisticsComponent);
+    fixture = TestBed.createComponent(FtNetworkEventsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

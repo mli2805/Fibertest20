@@ -6,7 +6,7 @@ import { RtuDto } from 'src/app/models/dtos/rtuDto';
   templateUrl: './about.component.html',
   styleUrls: ['./about.component.scss']
 })
-export class AboutComponent implements OnInit {
+export class FtAboutComponent implements OnInit {
   @Input() rtuArray: RtuDto[];
   columnsToDisplay = ['title', 'version', 'version2'];
 
