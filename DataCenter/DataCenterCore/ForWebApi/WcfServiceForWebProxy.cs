@@ -94,13 +94,13 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
     
-        public async Task<List<OpticalEventDto>> GetOpticalEventList(
-            string filter = "", string sortOrder = "asc", int pageNumber = 0, int pageSize = 100)
+        public async Task<List<OpticalEventDto>> GetOpticalEventList(string filterRtu = "",
+            string filterTrace = "", string sortOrder = "desc", int pageNumber = 0, int pageSize = 100)
         {
             await Task.Delay(1);
             _logFile.AppendLine(":: WcfServiceForWebProxy GetOpticalEventList");
             return _writeModel.Measurements
-                .Where(m => m.EventStatus > EventStatus.JustMeasurementNotAnEvent)
+                .Where(m => m.Filter(filterRtu, filterTrace, _writeModel))
                 .Sort(sortOrder)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
@@ -147,6 +147,26 @@ namespace Iit.Fibertest.DataCenterCore
 
     public static class MeasExt
     {
+        public static bool Filter(this Measurement measurement, string filterRtu, string filterTrace, Model writeModel)
+        {
+            if (measurement.EventStatus == EventStatus.JustMeasurementNotAnEvent)
+                return false;
+
+            if (!string.IsNullOrEmpty(filterRtu))
+            {
+                var rtu = writeModel.Rtus.FirstOrDefault(r => r.Id == measurement.RtuId);
+                if (rtu == null || rtu.Title != filterRtu)
+                    return false;
+            }
+
+            if (!string.IsNullOrEmpty(filterTrace))
+            {
+                var trace = writeModel.Traces.FirstOrDefault(t => t.TraceId == measurement.TraceId);
+                if (trace == null || !trace.Title.Contains(filterTrace))
+                    return false;
+            }
+            return true;
+        }
         public static IEnumerable<Measurement> Sort(this IEnumerable<Measurement> input, string param)
         {
             return param == "asc" ? input.OrderBy(o => o.SorFileId) : input.OrderByDescending(o => o.SorFileId);

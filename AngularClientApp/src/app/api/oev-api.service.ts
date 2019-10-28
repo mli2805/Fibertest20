@@ -13,7 +13,8 @@ export class OptEvService {
   }
 
   getEvents(
-    filter = '',
+    filterRtu = '',
+    filterTrace = '',
     sortOrder = 'desc',
     pageNumber = 0,
     pageSize = 100
@@ -22,7 +23,8 @@ export class OptEvService {
 
     return this.httpClient.get(url, {
       params: new HttpParams()
-        .set('filter', filter)
+        .set('filterRtu', filterRtu)
+        .set('filterTrace', filterTrace)
         .set('sortOrder', sortOrder)
         .set('pageNumber', pageNumber.toString())
         .set('pageSize', pageSize.toString())

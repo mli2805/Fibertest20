@@ -1,6 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
+import { TranslateLoader } from './Utils/translate-loader';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
@@ -18,7 +19,8 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import {
   MatExpansionModule,
   MatPaginatorModule,
-  MatProgressSpinnerModule
+  MatProgressSpinnerModule,
+  MatPaginatorIntl
 } from '@angular/material';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -27,7 +29,6 @@ import { TranslateService, TranslateModule } from '@ngx-translate/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
-import { TranslateLoader } from './Utils/translate-loader';
 import { languages } from 'src/lang/strings';
 
 import { FtMainTabComponent } from './components/maintab/maintab.component';
@@ -39,6 +40,7 @@ import { MonitoringModeUriPipe } from './pipes/monitoring-mode-uri.pipe';
 import { RtuPartStateUriPipe } from './pipes/rtu-part-state-uri.pipe';
 import { FiberStatePipe } from './pipes/fiber-state.pipe';
 import { FiberStateUriPipe } from './pipes/fiber-state-uri.pipe';
+import { BooleanUriPipe } from './pipes/boolean-uri.pipe';
 import { EventStatusPipe } from './pipes/event-status.pipe';
 import {
   BaseRefTypePipe,
@@ -51,12 +53,12 @@ import { FtFreePortComponent } from './components/maintab/ft-rtu-tree/ft-rtu-chi
 import { FtAttachedLineComponent } from './components/maintab/ft-rtu-tree/ft-rtu-children/ft-attached-line/ft-attached-line.component';
 import { FtDetachedLineComponent } from './components/maintab/ft-rtu-tree/ft-rtu-children/ft-detached-line/ft-detached-line.component';
 import { FtOtauComponent } from './components/maintab/ft-rtu-tree/ft-rtu-children/ft-otau/ft-otau.component';
-import { BooleanUriPipe } from './pipes/boolean-uri.pipe';
 import { FtTreeDetailsComponent } from './components/maintab/ft-tree-details/tree-details.component';
 import { FtTraceInformationComponent } from './components/maintab/ft-tree-details/trace-information/trace-information.component';
 import { FtTraceStatisticsComponent } from './components/maintab/ft-tree-details/trace-statistics/trace-statistics.component';
 import { FtNetworkEventsComponent } from './components/maintab/network-events/network-events.component';
 import { FtRtuStateComponent } from './components/maintab/ft-tree-details/rtu-state/rtu-state.component';
+import { FtPaginatorLocale } from './Utils/paginator-locale';
 
 @NgModule({
   declarations: [
@@ -89,6 +91,7 @@ import { FtRtuStateComponent } from './components/maintab/ft-tree-details/rtu-st
     FtRtuStateComponent
   ],
   imports: [
+    TranslateModule.forRoot(),
     BrowserModule,
     HttpClientModule,
     FormsModule,
@@ -108,10 +111,9 @@ import { FtRtuStateComponent } from './components/maintab/ft-tree-details/rtu-st
     MatMenuModule,
     MatListModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule,
-    TranslateModule.forRoot()
+    MatProgressSpinnerModule
   ],
-  providers: [],
+  providers: [{ provide: MatPaginatorIntl, useClass: FtPaginatorLocale }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
@@ -122,5 +124,6 @@ export class AppModule {
     this.translateLoader.init(languages);
     translateService.setDefaultLang('en');
     translateService.use('ru');
+    console.log('translate service');
   }
 }

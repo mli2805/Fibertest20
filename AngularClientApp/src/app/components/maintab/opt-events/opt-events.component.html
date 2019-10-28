@@ -1,7 +1,17 @@
 <div class="container">
-  <mat-table class="opt-event-table mat-elevation-z8" [dataSource]="dataSource">
+  <mat-form-field>
+    <input matInput placeholder="Trace" #input />
+  </mat-form-field>
+
+  <mat-table
+    class="opt-event-table mat-elevation-z8"
+    [dataSource]="dataSource"
+    matSort
+    matSortActive="eventId"
+    matSortDirection="desc"
+  >
     <ng-container matColumnDef="eventId">
-      <mat-header-cell *matHeaderCellDef>{{
+      <mat-header-cell *matHeaderCellDef mat-sort-header>{{
         'SID_Event_Id' | translate
       }}</mat-header-cell>
       <mat-cell class="eventId-cell" *matCellDef="let element">{{

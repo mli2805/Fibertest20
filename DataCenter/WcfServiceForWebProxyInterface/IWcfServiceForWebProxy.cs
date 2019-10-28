@@ -25,6 +25,6 @@ namespace Iit.Fibertest.WcfServiceForWebProxyInterface
         Task<TraceStatisticsDto> GetTraceStatistics(Guid traceId);
 
         [OperationContract]
-        Task<List<OpticalEventDto>> GetOpticalEventList(string filter, string sortOrder, int pageNumber, int pageSize);
+        Task<List<OpticalEventDto>> GetOpticalEventList(string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize);
     }
 }

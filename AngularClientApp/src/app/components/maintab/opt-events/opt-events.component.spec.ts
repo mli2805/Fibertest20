@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OptEventsComponent } from './opt-events.component';
+import { FtOptEventsComponent } from './opt-events.component';
 
-describe('OptEventsComponent', () => {
-  let component: OptEventsComponent;
-  let fixture: ComponentFixture<OptEventsComponent>;
+describe('FtOptEventsComponent', () => {
+  let component: FtOptEventsComponent;
+  let fixture: ComponentFixture<FtOptEventsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ OptEventsComponent ]
+      declarations: [ FtOptEventsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(OptEventsComponent);
+    fixture = TestBed.createComponent(FtOptEventsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

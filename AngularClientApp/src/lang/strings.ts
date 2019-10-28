@@ -859,7 +859,11 @@ export const languages = {
     "SID_Wrong_user_name_or_password_": "Wrong user name or password!",
     "SID_yes": "yes",
     "SID_Zone": "Zone",
-    "SID_Zone___0___removal_": "Zone <{{0}}> removal!"
+    "SID_Zone___0___removal_": "Zone <{{0}}> removal!",
+    "SID_Items_per_page": "Items per page",
+    "SID_Next_page": "Next page",
+    "SID_Previous_page": "Previous page",
+    "SID_of": "of"
   },
   "ru-RU": {
     "SID_": "RTU инициализировани, серийный номер = {{0}}",
@@ -1718,6 +1722,10 @@ export const languages = {
     "SID_Wrong_user_name_or_password_": "Неверное имя пользователя или пароль!",
     "SID_yes": "да",
     "SID_Zone": "Зона",
-    "SID_Zone___0___removal_": "Удаление зоны <{{0}}>!"
+    "SID_Zone___0___removal_": "Удаление зоны <{{0}}>!",
+    "SID_Items_per_page": "Строк на странице",
+    "SID_Next_page": "Следующая страница",
+    "SID_Previous_page": "Предыдущая страница",
+    "SID_of": "из"
   }
 };
