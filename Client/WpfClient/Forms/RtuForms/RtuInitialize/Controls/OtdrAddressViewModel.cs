@@ -35,6 +35,7 @@ namespace Iit.Fibertest.Client
         {
             OtdrAddress = rtu.OtdrNetAddress.IsAddressSetAsIp
                 ? rtu.OtdrNetAddress.Ip4Address == @"192.168.88.101" // fake address on screen
+                  || rtu.OtdrNetAddress.Ip4Address == @"192.168.88.102"
                     ? rtu.MainChannel.Ip4Address
                     : rtu.OtdrNetAddress.Ip4Address
                 : rtu.OtdrNetAddress.HostName;

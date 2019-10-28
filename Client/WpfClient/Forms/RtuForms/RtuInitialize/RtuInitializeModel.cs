@@ -63,6 +63,7 @@ namespace Iit.Fibertest.Client
         public NetAddressTestViewModel ReserveChannelTestViewModel { get; set; }
 
         public string OtdrAddress => OriginalRtu.OtdrNetAddress.Ip4Address == @"192.168.88.101" // fake address on screen
+                                     || OriginalRtu.OtdrNetAddress.Ip4Address == @"192.168.88.102"
             ? OriginalRtu.MainChannel.Ip4Address
             : OriginalRtu.OtdrNetAddress.Ip4Address;
 
