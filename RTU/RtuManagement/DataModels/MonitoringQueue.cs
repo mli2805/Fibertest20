@@ -17,6 +17,7 @@ namespace Iit.Fibertest.RtuManagement
 
         private readonly IMyLog _logFile;
         private readonly string _monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
+        private readonly string _monitoringSettingsTempFile = Utils.FileNameForSure(@"..\ini\", @"monitoring-copy.que", false);
         public Queue<MonitorigPort> Queue { get; set; }
 
         public MonitoringQueue(IMyLog logFile)
@@ -37,6 +38,9 @@ namespace Iit.Fibertest.RtuManagement
 
             try
             {
+                if (!File.Exists(_monitoringSettingsFile))
+                    File.Copy(_monitoringSettingsTempFile, _monitoringSettingsFile);
+
                 var contents = File.ReadAllLines(_monitoringSettingsFile);
 
                 var list = contents.Select(s => (MonitoringPortOnDisk)JsonConvert.DeserializeObject(s, JsonSerializerSettings)).ToList();
@@ -58,8 +62,9 @@ namespace Iit.Fibertest.RtuManagement
         {
             try
             {
-                var list = Queue.Select(p => JsonConvert.SerializeObject(new MonitoringPortOnDisk(p), JsonSerializerSettings));
-                File.WriteAllLines(_monitoringSettingsFile, list);
+                var list = Queue.Select(p => JsonConvert.SerializeObject(new MonitoringPortOnDisk(p), JsonSerializerSettings)).ToList();
+                File.WriteAllLines(_monitoringSettingsTempFile, list);
+                File.Replace(_monitoringSettingsTempFile, _monitoringSettingsFile, null);
             }
             catch (Exception e)
             {
