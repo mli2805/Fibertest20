@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json;
@@ -17,7 +18,8 @@ namespace Iit.Fibertest.RtuManagement
 
         private readonly IMyLog _logFile;
         private readonly string _monitoringSettingsFile = Utils.FileNameForSure(@"..\ini\", @"monitoring.que", false);
-        private readonly string _monitoringSettingsTempFile = Utils.FileNameForSure(@"..\ini\", @"monitoring-copy.que", false);
+        private readonly string _monitoringSettingFileBackup = Utils.FileNameForSure(@"..\ini\", @"monitoring.que.bac", false);
+        private readonly string _monitoringSettingsMd5File = Utils.FileNameForSure(@"..\ini\", @"monitoring.que.md5", false);
         public Queue<MonitorigPort> Queue { get; set; }
 
         public MonitoringQueue(IMyLog logFile)
@@ -29,6 +31,31 @@ namespace Iit.Fibertest.RtuManagement
         public MonitorigPort Dequeue() { return Queue.Dequeue(); }
         public void Enqueue(MonitorigPort item) { Queue.Enqueue(item); }
 
+        private string[] LoadWithMd5()
+        {
+            try
+            {
+                if (File.Exists(_monitoringSettingsFile))
+                {
+                    if (File.Exists(_monitoringSettingsMd5File))
+                    {
+                        var md5 = CalculateMD5(_monitoringSettingsFile);
+                        var md5FromFile = File.ReadAllText(_monitoringSettingsMd5File);
+                        return File.ReadAllLines(md5 == md5FromFile ? _monitoringSettingsFile : _monitoringSettingFileBackup);
+                    }
+                }
+                else if (File.Exists(_monitoringSettingFileBackup))
+                {
+                    return File.ReadAllLines(_monitoringSettingFileBackup);
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"Queue loading: {e.Message}");
+            }
+
+            return new string[0];
+        }
 
         public void Load()
         {
@@ -38,11 +65,8 @@ namespace Iit.Fibertest.RtuManagement
 
             try
             {
-                if (!File.Exists(_monitoringSettingsFile))
-                    File.Copy(_monitoringSettingsTempFile, _monitoringSettingsFile);
 
-                var contents = File.ReadAllLines(_monitoringSettingsFile);
-
+                var contents = LoadWithMd5();
                 var list = contents.Select(s => (MonitoringPortOnDisk)JsonConvert.DeserializeObject(s, JsonSerializerSettings)).ToList();
 
                 foreach (var port in list)
@@ -63,8 +87,11 @@ namespace Iit.Fibertest.RtuManagement
             try
             {
                 var list = Queue.Select(p => JsonConvert.SerializeObject(new MonitoringPortOnDisk(p), JsonSerializerSettings)).ToList();
-                File.WriteAllLines(_monitoringSettingsTempFile, list);
-                File.Replace(_monitoringSettingsTempFile, _monitoringSettingsFile, null);
+                File.WriteAllLines(_monitoringSettingsFile, list);
+                var md5 = CalculateMD5(_monitoringSettingsFile);
+                File.WriteAllText(_monitoringSettingsMd5File, md5);
+
+                File.WriteAllLines(_monitoringSettingFileBackup, list);
             }
             catch (Exception e)
             {
@@ -94,8 +121,8 @@ namespace Iit.Fibertest.RtuManagement
         {
             foreach (var portInOldQueue in oldQueue)
             {
-               if (portInOldQueue.CharonSerial == portWithTrace.OtauPort.Serial
-                    && portInOldQueue.OpticalPort == portWithTrace.OtauPort.OpticalPort)
+                if (portInOldQueue.CharonSerial == portWithTrace.OtauPort.Serial
+                     && portInOldQueue.OpticalPort == portWithTrace.OtauPort.OpticalPort)
                 {
                     return portInOldQueue;
                 }
@@ -113,5 +140,18 @@ namespace Iit.Fibertest.RtuManagement
                 Queue.Enqueue(monitorigPort);
             }
         }
+
+        static string CalculateMD5(string filename)
+        {
+            using (var md5 = MD5.Create())
+            {
+                using (var stream = File.OpenRead(filename))
+                {
+                    var hash = md5.ComputeHash(stream);
+                    return BitConverter.ToString(hash).Replace("-", "").ToLowerInvariant();
+                }
+            }
+        }
+
     }
 }
