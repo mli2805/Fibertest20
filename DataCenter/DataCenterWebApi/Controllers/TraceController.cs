@@ -32,7 +32,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             return traceList;
         }
 
-        
+
         [HttpGet("Information/{id}")]
         public async Task<TraceInformationDto> GetTraceInformation(string id)
         {
@@ -49,11 +49,12 @@ namespace Iit.Fibertest.DataCenterWebApi
             }
             catch (Exception e)
             {
-               _logFile.AppendLine($"GetTraceInformation: {e.Message}");
+                _logFile.AppendLine($"GetTraceInformation: {e.Message}");
             }
             return null;
         }
-   [HttpGet("Statistics/{id}")]
+
+        [HttpGet("Statistics/{id}")]
         public async Task<TraceStatisticsDto> GetTraceStatistics(string id)
         {
             try
@@ -69,15 +70,11 @@ namespace Iit.Fibertest.DataCenterWebApi
             }
             catch (Exception e)
             {
-               _logFile.AppendLine($"GetTraceStatistics: {e.Message}");
+                _logFile.AppendLine($"GetTraceStatistics: {e.Message}");
             }
             return null;
         }
 
     }
 
-    public class GuidDto
-    {
-        public Guid Id {get;set;}
-    }
 }

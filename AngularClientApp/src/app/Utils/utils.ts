@@ -6,4 +6,11 @@ export class Utils {
     if (left.eventId === right.eventId) { return 0; }
     return 1;
   }
+
+  static GetWebApiUrl(): string {
+    const protocol = 'http://';
+    const port = 11837;
+  // const port = 44362;
+    return protocol + window.location.hostname + ':' + port;
+  }
 }

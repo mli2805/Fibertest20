@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Utils } from '../Utils/utils';
 
 @Injectable({
   providedIn: 'root'
@@ -9,14 +10,14 @@ export class TraceApiService {
 
   getTraceInformation(id: string) {
     const url =
-      'http://' + window.location.hostname + ':11837/trace/information/' + id;
+    Utils.GetWebApiUrl() + '/trace/information/' + id;
 
     return this.httpClient.get(url);
   }
 
   getTraceStatistics(id: string) {
     const url =
-      'http://' + window.location.hostname + ':11837/trace/statistics/' + id;
+    Utils.GetWebApiUrl() + '/trace/statistics/' + id;
 
     return this.httpClient.get(url);
   }

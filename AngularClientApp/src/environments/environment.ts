@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  baseUrl: 'http://localhost:11837/api',
+  jsonWebToken: 'q094aaiw74gp03jgdrg.e4o5iga3lijgleg6.4i6ghaiusdg',
 };
 
 /*
