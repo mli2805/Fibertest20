@@ -98,7 +98,7 @@ namespace Iit.Fibertest.DataCenterCore
             string filterTrace = "", string sortOrder = "desc", int pageNumber = 0, int pageSize = 100)
         {
             await Task.Delay(1);
-            _logFile.AppendLine(":: WcfServiceForWebProxy GetOpticalEventList");
+            _logFile.AppendLine($":: WcfServiceForWebProxy GetOpticalEventList pageSize = {pageSize}  pageNumber = {pageNumber}");
             return _writeModel.Measurements
                 .Where(m => m.Filter(filterRtu, filterTrace, _writeModel))
                 .Sort(sortOrder)
