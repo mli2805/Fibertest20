@@ -203,6 +203,7 @@ namespace Iit.Fibertest.RtuManagement
             _monitoringQueue.ComposeNewQueue(dto.Ports);
             _rtuLog.AppendLine($"Queue merged. {_monitoringQueue.Count()} port(s) in queue");
             _monitoringQueue.Save();
+            _monitoringQueue.SaveBackup();
 
             if (dto.IsMonitoringOn)
                 StartMonitoring(callback, wasMonitoringOn);
