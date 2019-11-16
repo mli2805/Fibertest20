@@ -90,7 +90,18 @@ namespace Iit.Fibertest.RtuManagement
                 File.WriteAllLines(_monitoringSettingsFile, list);
                 var md5 = CalculateMD5(_monitoringSettingsFile);
                 File.WriteAllText(_monitoringSettingsMd5File, md5);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"Queue saving: {e.Message}");
+            }
+        }
 
+        public void SaveBackup()
+        {
+            try
+            {
+                var list = Queue.Select(p => JsonConvert.SerializeObject(new MonitoringPortOnDisk(p), JsonSerializerSettings)).ToList();
                 File.WriteAllLines(_monitoringSettingFileBackup, list);
             }
             catch (Exception e)
