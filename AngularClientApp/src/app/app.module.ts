@@ -32,6 +32,7 @@ import { AppComponent } from './app.component';
 import { languages } from 'src/lang/strings';
 
 import { FtMainTabComponent } from './components/maintab/maintab.component';
+import { FtLoginComponent } from './components/ft-login/ft-login.component';
 import { FtAboutComponent } from './components/maintab/about/about.component';
 
 import { TraceMonitoringModeUriPipe } from './pipes/trace-monitoring-mode-uri.pipe';
@@ -59,6 +60,7 @@ import { FtTraceStatisticsComponent } from './components/maintab/ft-tree-details
 import { FtNetworkEventsComponent } from './components/maintab/network-events/network-events.component';
 import { FtRtuStateComponent } from './components/maintab/ft-tree-details/rtu-state/rtu-state.component';
 import { FtPaginatorLocale } from './Utils/paginator-locale';
+import { from } from 'rxjs';
 
 @NgModule({
   declarations: [
@@ -76,6 +78,7 @@ import { FtPaginatorLocale } from './Utils/paginator-locale';
     BooleanUriPipe,
 
     FtMainTabComponent,
+    FtLoginComponent,
     FtAboutComponent,
     FtOptEventsComponent,
     FtRtuTreeComponent,
