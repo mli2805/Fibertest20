@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import {
+  MatButtonModule,
   MatToolbarModule,
   MatTableModule,
   MatSortModule,
@@ -23,6 +24,7 @@ import { FtPaginatorLocale } from './Utils/paginator-locale';
 @NgModule({
   imports: [
     CommonModule,
+    MatButtonModule,
     MatToolbarModule,
     MatTableModule,
     MatSortModule,
@@ -39,6 +41,7 @@ import { FtPaginatorLocale } from './Utils/paginator-locale';
     MatTabsModule
   ],
   exports: [
+    MatButtonModule,
     MatToolbarModule,
     MatTableModule,
     MatSortModule,

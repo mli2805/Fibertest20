@@ -12,4 +12,8 @@ export class FtLoginComponent implements OnInit {
   ngOnInit() {
   }
 
+  login() {
+    
+  }
+
 }

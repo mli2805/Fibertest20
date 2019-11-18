@@ -10,14 +10,26 @@
     </div>
   </div>
   <mat-divider></mat-divider>
-  <mat-card>
-      <mat-card-header>
-          <mat-card-title>Authentication</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-          <form class="loginForm">
-              
-          </form>
-      </mat-card-content>
+  <mat-card class="loginForm">
+    <mat-card-header>
+      <mat-card-title>Authentication</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <form>
+        <mat-form-field class="full-width">
+          <mat-label>User name</mat-label>
+          <input matInput placeholder="Email" name="email" />
+        </mat-form-field>
+        <mat-form-field class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput placeholder="Password" name="password" />
+        </mat-form-field>
+      </form>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-stroked-button class="full-width" (click)="login()">
+        Log in
+      </button>
+    </mat-card-actions>
   </mat-card>
 </div>
