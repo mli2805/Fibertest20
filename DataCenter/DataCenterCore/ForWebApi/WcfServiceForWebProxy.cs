@@ -28,6 +28,30 @@ namespace Iit.Fibertest.DataCenterCore
             _writeModel = writeModel;
         }
 
+        public async Task<UserDto> LoginWebClient(string username, string password)
+        {
+            await Task.Delay(1);
+            _logFile.AppendLine(":: WcfServiceForWebProxy LoginWebClient");
+            try
+            {
+                var user = _writeModel.Users.FirstOrDefault(u=>u.Title == username && UserExt.FlipFlop(u.EncodedPassword) == password);
+                if (user == null)
+                {
+                    _logFile.AppendLine("no such user");
+                    return null;
+                }
+                var result = new UserDto();
+                result.Username = username;
+                result.Role = user.Role.ToString();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"{e.Message}");
+                return null;
+            }
+        }
+
         public async Task<string> GetTreeInJson()
         {
             await Task.Delay(1);

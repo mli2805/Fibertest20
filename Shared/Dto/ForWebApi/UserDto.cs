@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace Iit.Fibertest.Dto
+﻿namespace Iit.Fibertest.Dto
 {
     public class UserDto
     {
-        public Guid UserId;
-        public string Title;
+        public string Username;
         public string Role;
+        public string JsonWebToken;
     }
 }

@@ -10,6 +10,9 @@ namespace Iit.Fibertest.WcfServiceForWebProxyInterface
     public interface IWcfServiceForWebProxy
     {
         [OperationContract]
+        Task<UserDto> LoginWebClient(string username, string password);
+
+        [OperationContract]
         Task<string> GetTreeInJson();
 
         [OperationContract]
