@@ -5,23 +5,7 @@ import { TranslateLoader } from './Utils/translate-loader';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
-import { MatMenuModule } from '@angular/material/menu';
-import { MatListModule } from '@angular/material/list';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatCardModule } from '@angular/material/card';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatTableModule } from '@angular/material/table';
-import { MatSortModule } from '@angular/material/sort';
-import { MatInputModule } from '@angular/material/input';
-import { MatIconModule } from '@angular/material/icon';
-import { MatGridListModule } from '@angular/material/grid-list';
-import {
-  MatExpansionModule,
-  MatPaginatorModule,
-  MatProgressSpinnerModule,
-  MatPaginatorIntl
-} from '@angular/material';
+import { AngularMaterialModule } from './angular-material.module';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { TranslateService, TranslateModule } from '@ngx-translate/core';
@@ -59,8 +43,6 @@ import { FtTraceInformationComponent } from './components/maintab/ft-tree-detail
 import { FtTraceStatisticsComponent } from './components/maintab/ft-tree-details/trace-statistics/trace-statistics.component';
 import { FtNetworkEventsComponent } from './components/maintab/network-events/network-events.component';
 import { FtRtuStateComponent } from './components/maintab/ft-tree-details/rtu-state/rtu-state.component';
-import { FtPaginatorLocale } from './Utils/paginator-locale';
-import { from } from 'rxjs';
 
 @NgModule({
   declarations: [
@@ -101,22 +83,8 @@ import { from } from 'rxjs';
     AppRoutingModule,
     BrowserAnimationsModule,
     FlexLayoutModule,
-    MatToolbarModule,
-    MatTabsModule,
-    MatTableModule,
-    MatSortModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatGridListModule,
-    MatCardModule,
-    MatExpansionModule,
-    MatIconModule,
-    MatMenuModule,
-    MatListModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule
+    AngularMaterialModule
   ],
-  providers: [{ provide: MatPaginatorIntl, useClass: FtPaginatorLocale }],
   bootstrap: [AppComponent]
 })
 export class AppModule {
