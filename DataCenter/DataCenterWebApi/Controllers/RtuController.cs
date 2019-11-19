@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
@@ -28,6 +29,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             _webProxy2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
         }
         
+        [Authorize]
         [HttpGet]
         public async Task<IEnumerable<RtuDto>> GetTree()
         {

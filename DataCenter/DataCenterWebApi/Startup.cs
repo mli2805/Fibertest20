@@ -1,9 +1,11 @@
 using Iit.Fibertest.UtilsLib;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Iit.Fibertest.DataCenterWebApi
 {
@@ -28,6 +30,20 @@ namespace Iit.Fibertest.DataCenterWebApi
             
             services.AddControllers()
                 .AddNewtonsoftJson();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateIssuer = false,
+                        ValidateAudience = false,
+                        ValidateLifetime = true,
+                        IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
+                        ValidateIssuerSigningKey = true,
+                    };
+                });
 
             var iniFile = new IniFile();
             iniFile.AssignFile("webproxy.ini");
@@ -54,7 +70,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             app.UseRouting();
 
             app.UseAuthentication();
-//            app.UseAuthorization();
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {
