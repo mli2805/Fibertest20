@@ -6,14 +6,12 @@ import { Inject, Injectable } from '@angular/core';
 export class FtPaginatorLocale extends MatPaginatorIntl {
   constructor(private ts: TranslateService) {
     super();
-    console.log('in constructor');
   }
   itemsPerPageLabel = this.ts.instant('SID_Items_per_page');
   nextPageLabel = this.ts.instant('SID_Next_page');
   previousPageLabel = this.ts.instant('SID_Previous_page');
 
   getRangeLabel = function(page, pageSize, length) {
-    console.log('in function');
     const ofStr = this.ts.instant('SID_of');
     if (length === 0 || pageSize === 0) {
       return '0 ' + ofStr + ' ' +  length;

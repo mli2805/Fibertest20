@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { UserDto } from './models/dtos/userDto';
 import { LoginInteractionService } from './interactionServices/login/login-interaction.service';
+import { globalVars } from './global-vars';
 
 @Component({
   selector: 'ft-root',
@@ -14,7 +13,7 @@ export class AppComponent implements OnInit {
   constructor(private loginInteractionService: LoginInteractionService) {
     loginInteractionService.eventReceived$.subscribe(event => {
       this.isLogged = true;
-      environment.loggedUser = event.loggedUser;
+      globalVars.globalVarSet.loggedUser = event.loggedUser;
     });
   }
 

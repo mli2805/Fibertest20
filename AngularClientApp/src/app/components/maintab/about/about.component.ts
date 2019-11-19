@@ -1,5 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { RtuDto } from 'src/app/models/dtos/rtuDto';
+import { globalVars } from 'src/app/global-vars';
+import { GlobalVarSet } from 'src/app/models/globalVarSet';
 
 @Component({
   selector: 'ft-about',
@@ -10,7 +12,11 @@ export class FtAboutComponent implements OnInit {
   @Input() rtuArray: RtuDto[];
   columnsToDisplay = ['title', 'version', 'version2'];
 
-  constructor() {}
+  globalVarSet: GlobalVarSet;
+
+  constructor() {
+    this.globalVarSet = globalVars.globalVarSet;
+  }
 
   ngOnInit() {}
 }

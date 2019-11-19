@@ -10,10 +10,20 @@
     </div>
   </div>
   <mat-divider></mat-divider>
+  <div fxLayout fxLayoutGap="10px">
+    <p>{{ 'SID_User' | translate }}:</p>
+    <p>{{globalVarSet.loggedUser.username}}</p>
+    <p style="padding-left: 40px;">{{ 'SID_Role' | translate }}:</p>
+    <p>{{globalVarSet.loggedUser.role}}</p>
+    <p style="padding-left: 40px;">{{ 'SID_Zone' | translate }}:</p>
+    <p>{{globalVarSet.loggedUser.zone}}</p>
+  </div>
+  <mat-divider></mat-divider>
   <div>
     <p>{{ 'SID_Data-center_software_version' | translate }}:</p>
     <p>Web-Client software version:</p>
   </div>
+  
   <mat-divider></mat-divider>
   <div >
       <p>RTU software versions:</p>

@@ -43,6 +43,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var result = new UserDto();
                 result.Username = username;
                 result.Role = user.Role.ToString();
+                result.Zone = _writeModel.Zones.FirstOrDefault(z => z.ZoneId == user.ZoneId)?.Title;
                 return result;
             }
             catch (Exception e)

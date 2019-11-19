@@ -4,6 +4,7 @@ import { UserDto } from 'src/app/models/dtos/userDto';
 import { environment } from 'src/environments/environment';
 import { LoginInteractionService } from 'src/app/interactionServices/login/login-interaction.service';
 import { LoginEvent } from 'src/app/interactionServices/login/loginEvent';
+import { globalVars } from 'src/app/global-vars';
 
 @Component({
   selector: 'ft-login',
@@ -12,8 +13,8 @@ import { LoginEvent } from 'src/app/interactionServices/login/loginEvent';
 })
 export class FtLoginComponent implements OnInit {
   constructor(
-    private loginServive: LoginService,
-    private loginInteracionService: LoginInteractionService
+    private loginService: LoginService,
+    private loginInteracionService: LoginInteractionService,
   ) {}
 
   user: string;
@@ -22,12 +23,12 @@ export class FtLoginComponent implements OnInit {
   ngOnInit() {}
 
   login() {
-    this.loginServive.login(this.user, this.pw).subscribe((res: UserDto) => {
+    this.loginService.login(this.user, this.pw).subscribe((res: UserDto) => {
       if (res === null) {
         console.log('Login failed, try again...');
       }
       this.sendEvent(res);
-      environment.loggedUser = res;
+      globalVars.globalVarSet.loggedUser = res;
     });
   }
 
