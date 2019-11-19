@@ -13,8 +13,7 @@ export class RtuApiService {
     const url = Utils.GetWebApiUrl() + '/rtu';
 
     const myHeaders = new HttpHeaders({
-      Authorization : 'Bearer ' + environment.jsonWebToken,
-      MyHeader : 'Value of my header',
+      Authorization : 'Bearer ' + environment.loggedUser.jsonWebToken,
     });
     return this.httpClient.get(url, {headers: myHeaders});
   }

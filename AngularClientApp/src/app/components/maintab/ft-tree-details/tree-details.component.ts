@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { DetailsViewModel } from './detailsViewModel';
-import { InteractionsCommandType } from '../interactionsCommandType';
+import { InteractionsCommandType } from '../../../interactionServices/leavesToMaintab/interactionsCommandType';
 
 @Component({
   selector: 'ft-tree-details',

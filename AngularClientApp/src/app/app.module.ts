@@ -95,6 +95,5 @@ export class AppModule {
     this.translateLoader.init(languages);
     translateService.setDefaultLang('en');
     translateService.use('ru');
-    console.log('translate service');
   }
 }

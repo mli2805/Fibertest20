@@ -1,4 +1,4 @@
-import { InteractionsCommandType } from '../interactionsCommandType';
+import { InteractionsCommandType } from '../../../interactionServices/leavesToMaintab/interactionsCommandType';
 
 export class DetailsViewModel {
   data: any;

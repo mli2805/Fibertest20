@@ -7,7 +7,7 @@ import { InteractionsParameter } from './interactionsParameter';
 })
 export class InteractionsService {
   private commandSource = new Subject<InteractionsParameter>();
-  commandRecieved$ = this.commandSource.asObservable();
+  commandReceived$ = this.commandSource.asObservable();
 
   sendCommand(command: InteractionsParameter) {
     this.commandSource.next(command);

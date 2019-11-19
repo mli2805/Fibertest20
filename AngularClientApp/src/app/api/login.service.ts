@@ -12,8 +12,6 @@ export class LoginService {
     const url = Utils.GetWebApiUrl() + '/account/login/';
     const body = { username: user, password: pw };
 
-    console.log('post request', body);
-
     return this.httpClient.post(url, body);
   }
 }

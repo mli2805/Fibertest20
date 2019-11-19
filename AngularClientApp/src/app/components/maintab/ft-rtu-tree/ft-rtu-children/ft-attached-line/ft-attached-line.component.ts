@@ -2,9 +2,9 @@ import { Component, OnInit, Input, Output } from '@angular/core';
 import { TraceDto } from 'src/app/models/dtos/traceDto';
 import { TraceApiService } from 'src/app/api/trace-api.service';
 import { TraceStatisticsDto } from 'src/app/models/dtos/traceStatisticsDto';
-import { InteractionsService } from '../../../interactions.service';
-import { InteractionsParameter } from '../../../interactionsParameter';
-import { InteractionsCommandType } from '../../../interactionsCommandType';
+import { InteractionsService } from '../../../../../interactionServices/leavesToMaintab/interactions.service';
+import { InteractionsParameter } from '../../../../../interactionServices/leavesToMaintab/interactionsParameter';
+import { InteractionsCommandType } from '../../../../../interactionServices/leavesToMaintab/interactionsCommandType';
 
 @Component({
   selector: 'ft-attached-line',
@@ -16,7 +16,6 @@ export class FtAttachedLineComponent implements OnInit {
 
   private traceStatistics: TraceStatisticsDto;
   constructor(
-    private traceService: TraceApiService,
     private interactionsService: InteractionsService
   ) {}
 

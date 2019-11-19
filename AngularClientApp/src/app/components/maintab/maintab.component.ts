@@ -4,9 +4,9 @@ import { RtuDto } from 'src/app/models/dtos/rtuDto';
 import { ChildType } from 'src/app/models/enums/childType';
 import { TraceDto } from 'src/app/models/dtos/traceDto';
 import { OtauWebDto } from 'src/app/models/dtos/otauWebDto';
-import { InteractionsService } from './interactions.service';
-import { InteractionsCommandType } from './interactionsCommandType';
-import { InteractionsParameter } from './interactionsParameter';
+import { InteractionsService } from '../../interactionServices/leavesToMaintab/interactions.service';
+import { InteractionsCommandType } from '../../interactionServices/leavesToMaintab/interactionsCommandType';
+import { InteractionsParameter } from '../../interactionServices/leavesToMaintab/interactionsParameter';
 import { TraceApiService } from 'src/app/api/trace-api.service';
 import { TraceStatisticsDto } from 'src/app/models/dtos/traceStatisticsDto';
 import { DetailsViewModel } from './ft-tree-details/detailsViewModel';
@@ -28,7 +28,7 @@ export class FtMainTabComponent implements OnInit {
     private traceService: TraceApiService,
     private interactionsService: InteractionsService
   ) {
-    interactionsService.commandRecieved$.subscribe(command => {
+    interactionsService.commandReceived$.subscribe(command => {
       this.reactCommand(command);
     });
   }
@@ -39,7 +39,7 @@ export class FtMainTabComponent implements OnInit {
       this.applyRtuMonitoringModeToTraces();
     });
 
-    this.selectedTab = 2;
+    this.selectedTab = 0;
   }
 
   applyRtuMonitoringModeToTraces() {

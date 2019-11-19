@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/api/login.service';
+import { UserDto } from 'src/app/models/dtos/userDto';
+import { environment } from 'src/environments/environment';
+import { LoginInteractionService } from 'src/app/interactionServices/login/login-interaction.service';
+import { LoginEvent } from 'src/app/interactionServices/login/loginEvent';
 
 @Component({
   selector: 'ft-login',
@@ -7,7 +11,10 @@ import { LoginService } from 'src/app/api/login.service';
   styleUrls: ['./ft-login.component.scss']
 })
 export class FtLoginComponent implements OnInit {
-  constructor(private loginServive: LoginService) {}
+  constructor(
+    private loginServive: LoginService,
+    private loginInteracionService: LoginInteractionService
+  ) {}
 
   user: string;
   pw: string;
@@ -15,7 +22,19 @@ export class FtLoginComponent implements OnInit {
   ngOnInit() {}
 
   login() {
-    console.log('button login', this.user, this.pw);
-    this.loginServive.login(this.user, this.pw).subscribe(res => console.log(res));
+    this.loginServive.login(this.user, this.pw).subscribe((res: UserDto) => {
+      if (res === null) {
+        console.log('Login failed, try again...');
+      }
+      this.sendEvent(res);
+      environment.loggedUser = res;
+    });
+  }
+
+  sendEvent(res: UserDto) {
+    const event = new LoginEvent();
+    event.isLogged = true;
+    event.loggedUser = res;
+    this.loginInteracionService.sendEvent(event);
   }
 }

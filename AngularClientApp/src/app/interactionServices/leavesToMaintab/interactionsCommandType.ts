@@ -22,5 +22,5 @@ export enum InteractionsCommandType {
 
   PortAttachTrace = 31,
   PortAttachOtau,
-  PortMeasurementClient,
+  PortMeasurementClient
 }
