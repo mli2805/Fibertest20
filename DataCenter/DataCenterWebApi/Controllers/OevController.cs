@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iit.Fibertest.DataCenterWebApi
@@ -22,6 +23,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             _webProxy2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
         }
 
+        [Authorize]
         [HttpGet("GetAll")]
         public async Task<IEnumerable<OpticalEventDto>> Get()
         {
@@ -34,6 +36,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
 
+        [Authorize]
         [HttpGet("GetPage")]
         public async Task<IEnumerable<OpticalEventDto>> GetPage(string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize)
         {

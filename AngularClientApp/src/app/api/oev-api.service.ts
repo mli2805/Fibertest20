@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Utils } from '../Utils/utils';
+import { globalVars } from '../global-vars';
 
 @Injectable({
   providedIn: 'root'
@@ -22,13 +23,20 @@ export class OptEvService {
   ) {
     const url = Utils.GetWebApiUrl() + '/oev/getPage';
 
-    return this.httpClient.get(url, {
-      params: new HttpParams()
-        .set('filterRtu', filterRtu)
-        .set('filterTrace', filterTrace)
-        .set('sortOrder', sortOrder)
-        .set('pageNumber', pageNumber.toString())
-        .set('pageSize', pageSize.toString())
-    });
+    const myHttpOptions = {
+      headers: {
+        Authorization:
+          'Bearer ' + globalVars.globalVarSet.loggedUser.jsonWebToken
+      },
+      params: {
+        filterRtu,
+        filterTrace,
+        sortOrder,
+        pageNumber: pageNumber.toString(),
+        pageSize: pageSize.toString()
+      }
+    };
+
+    return this.httpClient.get(url, myHttpOptions);
   }
 }

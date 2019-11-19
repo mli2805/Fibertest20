@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Iit.Fibertest.DataCenterWebApi
@@ -22,6 +23,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             _webProxy2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
         }
 
+        [Authorize]
         [HttpGet("GetAll")]
         public async Task<IEnumerable<TraceDto>> GetAllTraces()
         {
@@ -33,6 +35,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
 
+        [Authorize]
         [HttpGet("Information/{id}")]
         public async Task<TraceInformationDto> GetTraceInformation(string id)
         {
@@ -54,6 +57,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             return null;
         }
 
+        [Authorize]
         [HttpGet("Statistics/{id}")]
         public async Task<TraceStatisticsDto> GetTraceStatistics(string id)
         {
