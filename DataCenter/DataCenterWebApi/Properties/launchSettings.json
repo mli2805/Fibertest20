@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "oev/getPage?pageNumber=1&pageSize=10&sortOrder=asc",
+      "launchUrl": "Authentication/Test",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

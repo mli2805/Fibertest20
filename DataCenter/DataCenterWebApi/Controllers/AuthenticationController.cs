@@ -43,7 +43,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             var userDto = await _webProxy2DWcfManager.LoginWebClient((string)user.username, (string)user.password);
             if (userDto == null)
             {
-                Response.StatusCode = 400;
+                Response.StatusCode = 401;
                 await Response.WriteAsync("Invalid username or password.");
                 return;
             }
@@ -91,6 +91,14 @@ namespace Iit.Fibertest.DataCenterWebApi
                 ClaimsIdentity.DefaultRoleClaimType);
             return claimsIdentity;
 
+        }
+
+        // just for debug
+        [HttpGet("Test")]
+        public async Task<string> Test()
+        {
+            await Task.Delay(1);
+            return "just to start under visual studio debug";
         }
     }
 
