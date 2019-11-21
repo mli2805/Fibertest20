@@ -8,14 +8,16 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public static class WebDtoFactory
     {
-        public static IEnumerable<RtuDto> CreateTree(this Model writeModel, IMyLog logFile)
+        public static IEnumerable<RtuDto> CreateTree(this Model writeModel, IMyLog logFile, User user)
         {
             foreach (var rtu in writeModel.Rtus)
             {
+                if (!rtu.ZoneIds.Contains(user.ZoneId)) 
+                    continue;
                 var rtuDto = rtu.CreateRtuDto();
                 for (int i = 1; i <= rtuDto.OwnPortCount; i++)
                 {
-                    rtuDto.Children.Add(rtu.GetChildForPort(i, writeModel, logFile));
+                    rtuDto.Children.Add(rtu.GetChildForPort(i, writeModel, logFile, user));
                     logFile.AppendLine($"{rtu.Title} {i}");
                 }
                 //detached traces
@@ -53,7 +55,7 @@ namespace Iit.Fibertest.DataCenterCore
             };
         }
 
-        private static ChildDto GetChildForPort(this Rtu rtu, int port, Model writeModel, IMyLog logFile)
+        private static ChildDto GetChildForPort(this Rtu rtu, int port, Model writeModel, IMyLog logFile, User user)
         {
             if (rtu.Children.ContainsKey(port))
             {
@@ -69,7 +71,8 @@ namespace Iit.Fibertest.DataCenterCore
                     var traceOnOtau = writeModel.Traces.FirstOrDefault(t => t.RtuId == rtu.Id 
                                                                             && t.OtauPort != null
                                                                             && t.OtauPort.Serial == otau.Serial
-                                                                            && t.OtauPort.OpticalPort == j);
+                                                                            && t.OtauPort.OpticalPort == j
+                                                                            && t.ZoneIds.Contains(user.ZoneId));
                     otauWebDto.Children.Add(traceOnOtau != null
                         ? traceOnOtau.CreateTraceDto()
                         : new ChildDto(ChildType.FreePort) { Port = j });
@@ -80,7 +83,8 @@ namespace Iit.Fibertest.DataCenterCore
             var trace = writeModel.Traces.FirstOrDefault(t => t.RtuId == rtu.Id 
                                                               && t.OtauPort != null 
                                                               && t.OtauPort.IsPortOnMainCharon 
-                                                              && t.Port == port);
+                                                              && t.Port == port
+                                                              && t.ZoneIds.Contains(user.ZoneId));
             return trace != null
                 ? trace.CreateTraceDto()
                 : new ChildDto(ChildType.FreePort) { Port = port };

@@ -13,21 +13,15 @@ namespace Iit.Fibertest.WcfServiceForWebProxyInterface
         Task<UserDto> LoginWebClient(string username, string password);
 
         [OperationContract]
-        Task<string> GetTreeInJson();
+        Task<string> GetTreeInJson(string username);
 
         [OperationContract]
-        Task<List<RtuDto>> GetRtuList();
+        Task<TraceInformationDto> GetTraceInformation(string username, Guid traceId);
 
         [OperationContract]
-        Task<List<TraceDto>> GetTraceList();
+        Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId);
 
         [OperationContract]
-        Task<TraceInformationDto> GetTraceInformation(Guid traceId);
-
-        [OperationContract]
-        Task<TraceStatisticsDto> GetTraceStatistics(Guid traceId);
-
-        [OperationContract]
-        Task<List<OpticalEventDto>> GetOpticalEventList(string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize);
+        Task<List<OpticalEventDto>> GetOpticalEventList(string username, string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize);
     }
 }

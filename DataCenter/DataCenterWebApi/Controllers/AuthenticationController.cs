@@ -76,19 +76,20 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         private async Task<ClaimsIdentity> GetIdentity(string username, string password)
         {
-            var result = await _webProxy2DWcfManager.LoginWebClient(username, password);
-            if (result == null) return null;
+            var userDto = await _webProxy2DWcfManager.LoginWebClient(username, password);
+            if (userDto == null) return null;
 
             _logFile.AppendLine($"User {username.ToUpper()} logged in");
 
             var claims = new List<Claim>
                 {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, result.Username),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, result.Role)
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, userDto.Username),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, userDto.Role),
                 };
             ClaimsIdentity claimsIdentity =
-            new ClaimsIdentity(claims, "Token", ClaimsIdentity.DefaultNameClaimType,
-                ClaimsIdentity.DefaultRoleClaimType);
+                new ClaimsIdentity(claims, "Token", 
+                    ClaimsIdentity.DefaultNameClaimType,
+                    ClaimsIdentity.DefaultRoleClaimType);
             return claimsIdentity;
 
         }
@@ -106,7 +107,7 @@ namespace Iit.Fibertest.DataCenterWebApi
     {
         public const string ISSUER = "MyAuthServer"; // издатель токена
         public const string AUDIENCE = "http://localhost:4200/"; // потребитель токена ????
-        const string KEY = "mysupersecret_secretkey!123";   // ключ для шифрации
+        const string KEY = "100TimesMoreSecret_SecretKey_С_русскими_буквами!";   // ключ для шифрации
         public const int LIFETIME = 1000; // время жизни токена - 1000 минута
         public static SymmetricSecurityKey GetSymmetricSecurityKey()
         {

@@ -30,11 +30,11 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<UserDto> LoginWebClient(string username, string password)
         {
-            await Task.Delay(1);
             _logFile.AppendLine(":: WcfServiceForWebProxy LoginWebClient");
+            await Task.Delay(1);
             try
             {
-                var user = _writeModel.Users.FirstOrDefault(u=>u.Title == username && UserExt.FlipFlop(u.EncodedPassword) == password);
+                var user = _writeModel.Users.FirstOrDefault(u => u.Title == username && UserExt.FlipFlop(u.EncodedPassword) == password);
                 if (user == null)
                 {
                     _logFile.AppendLine("no such user");
@@ -53,13 +53,20 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public async Task<string> GetTreeInJson()
+        public async Task<string> GetTreeInJson(string username)
         {
-            await Task.Delay(1);
             _logFile.AppendLine(":: WcfServiceForWebProxy GetTreeInJson");
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+            if (user == null)
+            {
+                _logFile.AppendLine("Not authorized access");
+                return null;
+            }
+            await Task.Delay(1);
+
             try
             {
-                var result = _writeModel.CreateTree(_logFile).ToList();
+                var result = _writeModel.CreateTree(_logFile, user).ToList();
                 _logFile.AppendLine($"Tree contains {result.Count} RTU");
                 var resString = JsonConvert.SerializeObject(result, JsonSerializerSettings);
                 return resString;
@@ -71,33 +78,16 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public async Task<List<RtuDto>> GetRtuList()
+        public async Task<TraceInformationDto> GetTraceInformation(string username, Guid traceId)
         {
-            try
-            {
-                await Task.Delay(1);
-                _logFile.AppendLine(":: WcfServiceForWebProxy GetRtuList");
-                var result = _writeModel.CreateTree(_logFile).ToList();
-                _logFile.AppendLine($"Tree contains {result.Count} RTU");
-                return result;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"GetRtuList: {e.Message}");
-                return new List<RtuDto>();
-            }
-        }
-
-        public async Task<List<TraceDto>> GetTraceList()
-        {
-            await Task.Delay(1);
-            return _writeModel.Traces.Select(t => t.CreateTraceDto()).ToList();
-        }
-
-        public async Task<TraceInformationDto> GetTraceInformation(Guid traceId)
-        {
-            await Task.Delay(1);
             _logFile.AppendLine(":: WcfServiceForWebProxy GetTraceInformation");
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+            if (user == null)
+            {
+                _logFile.AppendLine("Not authorized access");
+                return null;
+            }
+            await Task.Delay(1);
 
             var result = new TraceInformationDto();
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
@@ -118,24 +108,37 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-    
-        public async Task<List<OpticalEventDto>> GetOpticalEventList(string filterRtu = "",
+
+        public async Task<List<OpticalEventDto>> GetOpticalEventList(string username, string filterRtu = "",
             string filterTrace = "", string sortOrder = "desc", int pageNumber = 0, int pageSize = 100)
         {
-            await Task.Delay(1);
             _logFile.AppendLine($":: WcfServiceForWebProxy GetOpticalEventList pageSize = {pageSize}  pageNumber = {pageNumber}");
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+            if (user == null)
+            {
+                _logFile.AppendLine("Not authorized access");
+                return null;
+            }
+            await Task.Delay(1);
+
             return _writeModel.Measurements
-                .Where(m => m.Filter(filterRtu, filterTrace, _writeModel))
+                .Where(m => m.Filter(filterRtu, filterTrace, _writeModel, user))
                 .Sort(sortOrder)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
                 .Select(m => m.CreateOpticalEventDto(_writeModel)).ToList();
         }
 
-        public async Task<TraceStatisticsDto> GetTraceStatistics(Guid traceId)
+        public async Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId)
         {
-            await Task.Delay(1);
             _logFile.AppendLine(":: WcfServiceForWebProxy GetTraceStatistics");
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+            if (user == null)
+            {
+                _logFile.AppendLine("Not authorized access");
+                return null;
+            }
+            await Task.Delay(1);
 
             var result = new TraceStatisticsDto();
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
@@ -172,23 +175,25 @@ namespace Iit.Fibertest.DataCenterCore
 
     public static class MeasExt
     {
-        public static bool Filter(this Measurement measurement, string filterRtu, string filterTrace, Model writeModel)
+        public static bool Filter(this Measurement measurement, string filterRtu, string filterTrace, Model writeModel, User user)
         {
             if (measurement.EventStatus == EventStatus.JustMeasurementNotAnEvent)
                 return false;
 
-            if (!string.IsNullOrEmpty(filterRtu))
+            var rtu = writeModel.Rtus.FirstOrDefault(r => r.Id == measurement.RtuId);
+            if (rtu == null 
+                || !rtu.ZoneIds.Contains(user.ZoneId)
+                || (!string.IsNullOrEmpty(filterRtu) && rtu.Title != filterRtu))
             {
-                var rtu = writeModel.Rtus.FirstOrDefault(r => r.Id == measurement.RtuId);
-                if (rtu == null || rtu.Title != filterRtu)
                     return false;
             }
 
-            if (!string.IsNullOrEmpty(filterTrace))
+            var trace = writeModel.Traces.FirstOrDefault(t => t.TraceId == measurement.TraceId);
+            if (trace == null
+                || !trace.ZoneIds.Contains(user.ZoneId)
+                || (!string.IsNullOrEmpty(filterTrace) && !trace.Title.Contains(filterTrace)))
             {
-                var trace = writeModel.Traces.FirstOrDefault(t => t.TraceId == measurement.TraceId);
-                if (trace == null || !trace.Title.Contains(filterTrace))
-                    return false;
+                return false;
             }
             return true;
         }

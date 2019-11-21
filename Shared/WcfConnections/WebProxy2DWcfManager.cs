@@ -43,7 +43,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<string> GetTreeInJson()
+        public async Task<string> GetTreeInJson(string username)
         {
             var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
             if (wcfConnection == null)
@@ -52,7 +52,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.GetTreeInJson();
+                var result = await channel.GetTreeInJson(username);
                 wcfConnection.Close();
                 return result;
             }
@@ -63,7 +63,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<List<RtuDto>> GetRtuList()
+      public async Task<TraceInformationDto> GetTraceInformation(string username, Guid traceId)
         {
             var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
             if (wcfConnection == null)
@@ -72,46 +72,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.GetRtuList();
-                wcfConnection.Close();
-                return result;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("GetRtuList: " + e.Message);
-                return null;
-            }
-        }
-        public async Task<List<TraceDto>> GetTraceList()
-        {
-            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
-            if (wcfConnection == null)
-                return null;
-
-            try
-            {
-                var channel = wcfConnection.CreateChannel();
-                var result = await channel.GetTraceList();
-                wcfConnection.Close();
-                return result;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("GetTraceList: " + e.Message);
-                return null;
-            }
-        }
-
-        public async Task<TraceInformationDto> GetTraceInformation(Guid traceId)
-        {
-            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
-            if (wcfConnection == null)
-                return null;
-
-            try
-            {
-                var channel = wcfConnection.CreateChannel();
-                var result = await channel.GetTraceInformation(traceId);
+                var result = await channel.GetTraceInformation(username, traceId);
                 wcfConnection.Close();
                 return result;
             }
@@ -122,7 +83,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<TraceStatisticsDto> GetTraceStatistics(Guid traceId)
+        public async Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId)
         {
             var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
             if (wcfConnection == null)
@@ -131,7 +92,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.GetTraceStatistics(traceId);
+                var result = await channel.GetTraceStatistics(username, traceId);
                 wcfConnection.Close();
                 return result;
             }
@@ -142,7 +103,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<List<OpticalEventDto>> GetOpticalEventList(string filterRtu = "",
+        public async Task<List<OpticalEventDto>> GetOpticalEventList(string username, string filterRtu = "",
             string filterTrace = "", string sortOrder = "desc", int pageNumber = 0, int pageSize = 100)
         {
             var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
@@ -152,7 +113,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.GetOpticalEventList(filterRtu, filterTrace, sortOrder, pageNumber, pageSize);
+                var result = await channel.GetOpticalEventList(username, filterRtu, filterTrace, sortOrder, pageNumber, pageSize);
                 wcfConnection.Close();
                 return result;
             }

@@ -27,7 +27,7 @@ namespace WebProxeInterfaceProbe
             var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebProxy);
             webProxy2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
             
-            var tree = await webProxy2DWcfManager.GetTreeInJson();
+            var tree = await webProxy2DWcfManager.GetTreeInJson("root");
             Console.WriteLine(tree == null
                 ? "Failed to get tree"
                 : $"tree contains {tree.Length} symbols");
@@ -37,7 +37,7 @@ namespace WebProxeInterfaceProbe
                 : $"list contains {treeL.Count} items");
 
             var guid = Guid.Parse("0f3becab-c235-47f5-b041-58057d56979a");
-            var traceInfo = await webProxy2DWcfManager.GetTraceInformation(guid);
+            var traceInfo = await webProxy2DWcfManager.GetTraceInformation("root", guid);
             Console.WriteLine(traceInfo == null
                 ? "Failed to get info"
                 : $"trace has {traceInfo.Equipment.Count} eq");

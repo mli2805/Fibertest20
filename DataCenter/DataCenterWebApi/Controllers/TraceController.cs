@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -23,19 +22,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             _webProxy2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
         }
 
-        [Authorize]
-        [HttpGet("GetAll")]
-        public async Task<IEnumerable<TraceDto>> GetAllTraces()
-        {
-            var traceList = await _webProxy2DWcfManager.GetTraceList();
-            _logFile.AppendLine(traceList == null
-                ? "Failed to get trace list"
-                : $"trace list contains {traceList.Count} items");
-            return traceList;
-        }
-
-
-        [Authorize]
+        [Authorize(Roles = "root")]
         [HttpGet("Information/{id}")]
         public async Task<TraceInformationDto> GetTraceInformation(string id)
         {
@@ -44,7 +31,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine($"trace id = {id}");
                 var traceGuid = Guid.Parse(id);
                 _logFile.AppendLine($"trace Guid = {traceGuid}");
-                var traceInformationDto = await _webProxy2DWcfManager.GetTraceInformation(traceGuid);
+                var traceInformationDto = await _webProxy2DWcfManager.GetTraceInformation(User.Identity.Name, traceGuid);
                 _logFile.AppendLine(traceInformationDto == null
                     ? "Failed to get trace's information"
                     : "Trace information ");
@@ -66,7 +53,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine($"trace id = {id}");
                 var traceGuid = Guid.Parse(id);
                 _logFile.AppendLine($"trace Guid = {traceGuid}");
-                var traceStatisticsDto = await _webProxy2DWcfManager.GetTraceStatistics(traceGuid);
+                var traceStatisticsDto = await _webProxy2DWcfManager.GetTraceStatistics(User.Identity.Name, traceGuid);
                 _logFile.AppendLine(traceStatisticsDto == null
                     ? "Failed to get trace's statistics"
                     : $"trace has {traceStatisticsDto.BaseRefs.Count} refs and {traceStatisticsDto.Measurements.Count} measurements");

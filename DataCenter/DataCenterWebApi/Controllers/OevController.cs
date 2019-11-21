@@ -23,24 +23,12 @@ namespace Iit.Fibertest.DataCenterWebApi
             _webProxy2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
         }
 
-        [Authorize]
-        [HttpGet("GetAll")]
-        public async Task<IEnumerable<OpticalEventDto>> Get()
-        {
-            var opticalEventList = await _webProxy2DWcfManager.GetOpticalEventList();
-            _logFile.AppendLine(opticalEventList == null
-                ? "Failed to get optical event list"
-                : $"Optical event list contains {opticalEventList.Count} items");
-
-            return opticalEventList;
-        }
-
-
+      
         [Authorize]
         [HttpGet("GetPage")]
         public async Task<IEnumerable<OpticalEventDto>> GetPage(string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize)
         {
-            var opticalEventList = await _webProxy2DWcfManager.GetOpticalEventList(filterRtu, filterTrace, sortOrder, pageNumber, pageSize);
+            var opticalEventList = await _webProxy2DWcfManager.GetOpticalEventList(User.Identity.Name, filterRtu, filterTrace, sortOrder, pageNumber, pageSize);
             _logFile.AppendLine(opticalEventList == null
                 ? "Failed to get optical event list"
                 : $"Optical event list contains {opticalEventList.Count} items");

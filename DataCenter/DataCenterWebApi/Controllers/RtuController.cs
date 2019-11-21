@@ -33,7 +33,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         [HttpGet]
         public async Task<IEnumerable<RtuDto>> GetTree()
         {
-            var tree = await _webProxy2DWcfManager.GetTreeInJson();
+            var tree = await _webProxy2DWcfManager.GetTreeInJson(User.Identity.Name);
             _logFile.AppendLine(tree == null
                 ? "Failed to get tree"
                 : $"tree contains {tree.Length} symbols");
