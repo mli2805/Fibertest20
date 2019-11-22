@@ -1,6 +1,9 @@
 <div class="container">
   <mat-form-field>
-    <input matInput placeholder="Trace" #input />
+    <input matInput placeholder="RTU" #inputRtu />
+  </mat-form-field>
+  <mat-form-field style="margin-left: 20px;">
+    <input matInput placeholder="Trace" #inputTrace />
   </mat-form-field>
 
   <mat-table
@@ -13,7 +16,7 @@
   >
     <ng-container matColumnDef="eventId">
       <mat-header-cell *matHeaderCellDef mat-sort-header>{{
-        'SID_Event_Id' | translate
+        "SID_Event_Id" | translate
       }}</mat-header-cell>
       <mat-cell class="eventId-cell" *matCellDef="let element">{{
         element.eventId
@@ -22,22 +25,22 @@
 
     <ng-container matColumnDef="measurementTimestamp">
       <mat-header-cell *matHeaderCellDef>{{
-        'SID_Measurement_termination_timestamp' | translate
+        "SID_Measurement_termination_timestamp" | translate
       }}</mat-header-cell>
       <mat-cell class="measurementTimestamp-cell" *matCellDef="let element">{{
-        element.measurementTimestamp | date: 'dd/MM/yyyy H:mm:ss'
+        element.measurementTimestamp | date: "dd/MM/yyyy H:mm:ss"
       }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="eventRegistrationTimestamp">
       <mat-header-cell *matHeaderCellDef>{{
-        'SID_Event_registration_time' | translate
+        "SID_Event_registration_time" | translate
       }}</mat-header-cell>
       <mat-cell
         class="eventRegistrationTimestamp-cell"
         *matCellDef="let element"
         >{{
-          element.eventRegistrationTimestamp | date: 'dd/MM/yyyy H:mm:ss'
+          element.eventRegistrationTimestamp | date: "dd/MM/yyyy H:mm:ss"
         }}</mat-cell
       >
     </ng-container>
@@ -51,7 +54,7 @@
 
     <ng-container matColumnDef="traceTitle">
       <mat-header-cell *matHeaderCellDef>{{
-        'SID_Trace' | translate
+        "SID_Trace" | translate
       }}</mat-header-cell>
       <mat-cell class="traceTitle-cell" *matCellDef="let element">{{
         element.traceTitle
@@ -60,7 +63,7 @@
 
     <ng-container matColumnDef="traceState">
       <mat-header-cell *matHeaderCellDef>{{
-        'SID_Trace_state' | translate
+        "SID_Trace_state" | translate
       }}</mat-header-cell>
       <mat-cell class="traceState-cell" *matCellDef="let element">{{
         element.traceState | fiberStateToLocalizedStringPipe
@@ -69,7 +72,7 @@
 
     <ng-container matColumnDef="eventStatus">
       <mat-header-cell *matHeaderCellDef>{{
-        'SID_Event_status' | translate
+        "SID_Event_status" | translate
       }}</mat-header-cell>
       <mat-cell class="eventStatus-cell" *matCellDef="let element">{{
         element.eventStatus | eventStatusToLocalizedStringPipe
@@ -78,22 +81,20 @@
 
     <ng-container matColumnDef="statusChangedTimestamp">
       <mat-header-cell *matHeaderCellDef>{{
-        'SID_Status_assignment_time' | translate
+        "SID_Status_assignment_time" | translate
       }}</mat-header-cell>
       <mat-cell class="statusChangedTimestamp-cell" *matCellDef="let element">{{
-        element.statusChangedTimestamp | date: 'dd/MM/yyyy H:mm:ss'
+        element.statusChangedTimestamp | date: "dd/MM/yyyy H:mm:ss"
       }}</mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="statusChangedByUser">
       <mat-header-cell *matHeaderCellDef>{{
-        'SID_Status_changed_by' | translate
+        "SID_Status_changed_by" | translate
       }}</mat-header-cell>
       <mat-cell class="statusChangedByUser-cell" *matCellDef="let element">
-        {{
-        element.statusChangedByUser
-      }}
-    </mat-cell>
+        {{ element.statusChangedByUser }}
+      </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

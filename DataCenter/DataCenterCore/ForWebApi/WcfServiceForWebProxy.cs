@@ -109,7 +109,7 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
 
-        public async Task<List<OpticalEventDto>> GetOpticalEventList(string username, string filterRtu = "",
+        public async Task<List<OpticalEventDto>> GetOpticalEventList(string username, bool isCurrentEvents, string filterRtu = "",
             string filterTrace = "", string sortOrder = "desc", int pageNumber = 0, int pageSize = 100)
         {
             _logFile.AppendLine($":: WcfServiceForWebProxy GetOpticalEventList pageSize = {pageSize}  pageNumber = {pageNumber}");
@@ -121,7 +121,16 @@ namespace Iit.Fibertest.DataCenterCore
             }
             await Task.Delay(1);
 
-            return _writeModel.ActiveMeasurements
+
+            return isCurrentEvents ?
+                _writeModel.ActiveMeasurements
+                .Where(m => m.Filter(filterRtu, filterTrace, _writeModel, user))
+                .Sort(sortOrder)
+                .Skip(pageNumber * pageSize)
+                .Take(pageSize)
+                .Select(m => m.CreateOpticalEventDto(_writeModel)).ToList() 
+                :
+                _writeModel.Measurements
                 .Where(m => m.Filter(filterRtu, filterTrace, _writeModel, user))
                 .Sort(sortOrder)
                 .Skip(pageNumber * pageSize)
@@ -183,7 +192,7 @@ namespace Iit.Fibertest.DataCenterCore
             var rtu = writeModel.Rtus.FirstOrDefault(r => r.Id == measurement.RtuId);
             if (rtu == null 
                 || !rtu.ZoneIds.Contains(user.ZoneId)
-                || (!string.IsNullOrEmpty(filterRtu) && rtu.Title != filterRtu))
+                || (!string.IsNullOrEmpty(filterRtu) && !rtu.Title.Contains(filterRtu)))
             {
                     return false;
             }

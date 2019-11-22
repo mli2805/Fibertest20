@@ -103,7 +103,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<List<OpticalEventDto>> GetOpticalEventList(string username, string filterRtu = "",
+        public async Task<List<OpticalEventDto>> GetOpticalEventList(string username, bool isCurrentEvents = true, string filterRtu = "",
             string filterTrace = "", string sortOrder = "desc", int pageNumber = 0, int pageSize = 100)
         {
             var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
@@ -113,7 +113,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.GetOpticalEventList(username, filterRtu, filterTrace, sortOrder, pageNumber, pageSize);
+                var result = await channel.GetOpticalEventList(username, isCurrentEvents, filterRtu, filterTrace, sortOrder, pageNumber, pageSize);
                 wcfConnection.Close();
                 return result;
             }

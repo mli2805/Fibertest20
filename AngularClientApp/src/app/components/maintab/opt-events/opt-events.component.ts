@@ -1,11 +1,12 @@
-//https://blog.angular-university.io/angular-material-data-table/
+// https://blog.angular-university.io/angular-material-data-table/
 
 import {
   Component,
   OnInit,
   ViewChild,
   AfterViewInit,
-  ElementRef
+  ElementRef,
+  Input
 } from '@angular/core';
 import { OptEvService } from 'src/app/api/oev-api.service';
 import { OptEventsDataSource } from '../opt-events/optEventsDataSource';
@@ -19,6 +20,8 @@ import { merge, fromEvent } from 'rxjs';
   styleUrls: ['./opt-events.component.scss']
 })
 export class FtOptEventsComponent implements OnInit, AfterViewInit {
+  @Input() isCurrentEvents: boolean;
+
   displayedColumns = [
     'eventId',
     'measurementTimestamp',
@@ -35,27 +38,46 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
-  @ViewChild('input', { static: true }) input: ElementRef;
+  @ViewChild('inputRtu', { static: true }) inputRtu: ElementRef;
+  @ViewChild('inputTrace', { static: true }) inputTrace: ElementRef;
 
   constructor(private oevApiService: OptEvService) {}
 
   ngOnInit() {
     this.dataSource = new OptEventsDataSource(this.oevApiService);
-    this.dataSource.loadOptEvents('', '', 'desc', 0, 13);
+    this.dataSource.loadOptEvents(
+      String(this.isCurrentEvents),
+      '',
+      '',
+      'desc',
+      0,
+      13
+    );
   }
 
   ngAfterViewInit() {
     // server-side search
-    fromEvent(this.input.nativeElement, 'keyup')
-    .pipe(
+    fromEvent(this.inputRtu.nativeElement, 'keyup')
+      .pipe(
         debounceTime(150),
         distinctUntilChanged(),
         tap(() => {
-            this.paginator.pageIndex = 0;
-            this.loadEventsPage();
+          this.paginator.pageIndex = 0;
+          this.loadEventsPage();
         })
-    )
-    .subscribe();
+      )
+      .subscribe();
+
+    fromEvent(this.inputTrace.nativeElement, 'keyup')
+      .pipe(
+        debounceTime(150),
+        distinctUntilChanged(),
+        tap(() => {
+          this.paginator.pageIndex = 0;
+          this.loadEventsPage();
+        })
+      )
+      .subscribe();
 
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
@@ -66,8 +88,9 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
 
   loadEventsPage() {
     this.dataSource.loadOptEvents(
-      '',
-      this.input.nativeElement.value,
+      String(this.isCurrentEvents),
+      this.inputRtu.nativeElement.value,
+      this.inputTrace.nativeElement.value,
       this.sort.direction,
       this.paginator.pageIndex,
       this.paginator.pageSize

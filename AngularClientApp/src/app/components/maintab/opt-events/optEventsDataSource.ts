@@ -23,6 +23,7 @@ export class OptEventsDataSource implements DataSource<OptEventDto> {
   }
 
   loadOptEvents(
+    isCurrentEvents = 'true',
     filterRtu = '',
     filterTrace = '',
     sortOrder = 'asc',
@@ -32,7 +33,7 @@ export class OptEventsDataSource implements DataSource<OptEventDto> {
     this.loadingSubject.next(true);
 
     this.oevApiService
-      .getEvents(filterRtu, filterTrace, sortOrder, pageNumber, pageSize)
+      .getEvents(isCurrentEvents, filterRtu, filterTrace, sortOrder, pageNumber, pageSize)
       .pipe(
         catchError(() => of([])),
         finalize(() => this.loadingSubject.next(false))

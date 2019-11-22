@@ -26,9 +26,10 @@ namespace Iit.Fibertest.DataCenterWebApi
       
         [Authorize]
         [HttpGet("GetPage")]
-        public async Task<IEnumerable<OpticalEventDto>> GetPage(string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize)
+        public async Task<IEnumerable<OpticalEventDto>> GetPage(bool isCurrentEvents, string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize)
         {
-            var opticalEventList = await _webProxy2DWcfManager.GetOpticalEventList(User.Identity.Name, filterRtu, filterTrace, sortOrder, pageNumber, pageSize);
+            var opticalEventList = await _webProxy2DWcfManager.
+                GetOpticalEventList(User.Identity.Name, isCurrentEvents, filterRtu, filterTrace, sortOrder, pageNumber, pageSize);
             _logFile.AppendLine(opticalEventList == null
                 ? "Failed to get optical event list"
                 : $"Optical event list contains {opticalEventList.Count} items");

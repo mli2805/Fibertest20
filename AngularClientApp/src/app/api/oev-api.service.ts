@@ -15,6 +15,7 @@ export class OptEvService {
   }
 
   getEvents(
+    isCurrentEvents = 'true',
     filterRtu = '',
     filterTrace = '',
     sortOrder = 'desc',
@@ -29,6 +30,7 @@ export class OptEvService {
           'Bearer ' + globalVars.globalVarSet.loggedUser.jsonWebToken
       },
       params: {
+        isCurrentEvents,
         filterRtu,
         filterTrace,
         sortOrder,

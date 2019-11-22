@@ -1,7 +1,4 @@
 <mat-tab-group [selectedIndex]="selectedTab" style="height: 100%;">
-  <mat-tab label="Fibertest&trade;">
-    <ft-about [rtuArray]="rtus"> </ft-about>
-  </mat-tab>
   <mat-tab label="RTU Tree">
     <div class="container">
       <div class="rtuTree">
@@ -12,11 +9,17 @@
       </div>
     </div>
   </mat-tab>
+  <mat-tab label="Current Optical Events">
+    <ft-opt-events [isCurrentEvents]="true"></ft-opt-events>
+  </mat-tab>
   <mat-tab label="Optical Events">
-    <ft-opt-events></ft-opt-events>
+    <ft-opt-events [isCurrentEvents]="false"></ft-opt-events>
   </mat-tab>
   <mat-tab label="Network events RTU ">
     <ft-network-events></ft-network-events>
   </mat-tab>
   <mat-tab label="Network events BOP "> Content 4 </mat-tab>
+  <mat-tab label="About">
+    <ft-about [rtuArray]="rtus"> </ft-about>
+  </mat-tab>
 </mat-tab-group>
