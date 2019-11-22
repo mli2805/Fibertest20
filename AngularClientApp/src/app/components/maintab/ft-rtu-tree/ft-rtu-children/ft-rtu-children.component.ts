@@ -12,6 +12,5 @@ export class FtRtuChildrenComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    console.log(this.childArray.length);
   }
 }

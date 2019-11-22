@@ -39,7 +39,7 @@ export class OptEventsDataSource implements DataSource<OptEventDto> {
         finalize(() => this.loadingSubject.next(false))
       )
       .subscribe((res: OptEventDto[]) => {
-        // console.log(res);
+        console.log('optical events received');
         this.optEventsSubject.next(res);
       });
   }

@@ -1,21 +1,21 @@
-import { Component, OnInit } from "@angular/core";
-import { RtuApiService } from "src/app/api/rtu-api.service";
-import { RtuDto } from "src/app/models/dtos/rtuDto";
-import { ChildType } from "src/app/models/enums/childType";
-import { TraceDto } from "src/app/models/dtos/traceDto";
-import { OtauWebDto } from "src/app/models/dtos/otauWebDto";
-import { InteractionsService } from "../../interactionServices/leavesToMaintab/interactions.service";
-import { InteractionsCommandType } from "../../interactionServices/leavesToMaintab/interactionsCommandType";
-import { InteractionsParameter } from "../../interactionServices/leavesToMaintab/interactionsParameter";
-import { TraceApiService } from "src/app/api/trace-api.service";
-import { TraceStatisticsDto } from "src/app/models/dtos/traceStatisticsDto";
-import { DetailsViewModel } from "./ft-tree-details/detailsViewModel";
-import { TraceInformationDto } from "src/app/models/dtos/traceInformationDto";
+import { Component, OnInit } from '@angular/core';
+import { RtuApiService } from 'src/app/api/rtu-api.service';
+import { RtuDto } from 'src/app/models/dtos/rtuDto';
+import { ChildType } from 'src/app/models/enums/childType';
+import { TraceDto } from 'src/app/models/dtos/traceDto';
+import { OtauWebDto } from 'src/app/models/dtos/otauWebDto';
+import { InteractionsService } from '../../interactionServices/leavesToMaintab/interactions.service';
+import { InteractionsCommandType } from '../../interactionServices/leavesToMaintab/interactionsCommandType';
+import { InteractionsParameter } from '../../interactionServices/leavesToMaintab/interactionsParameter';
+import { TraceApiService } from 'src/app/api/trace-api.service';
+import { TraceStatisticsDto } from 'src/app/models/dtos/traceStatisticsDto';
+import { DetailsViewModel } from './ft-tree-details/detailsViewModel';
+import { TraceInformationDto } from 'src/app/models/dtos/traceInformationDto';
 
 @Component({
-  selector: "ft-maintab",
-  templateUrl: "./maintab.component.html",
-  styleUrls: ["./maintab.component.scss"],
+  selector: 'ft-maintab',
+  templateUrl: './maintab.component.html',
+  styleUrls: ['./maintab.component.scss'],
   providers: [InteractionsService]
 })
 export class FtMainTabComponent implements OnInit {
@@ -35,6 +35,7 @@ export class FtMainTabComponent implements OnInit {
 
   ngOnInit() {
     this.rtuService.getAllRtu().subscribe((res: RtuDto[]) => {
+      console.log('rtu tree received');
       this.rtus = res;
       this.applyRtuMonitoringModeToTraces();
     });
