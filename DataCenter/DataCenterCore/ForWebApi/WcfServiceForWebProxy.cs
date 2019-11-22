@@ -121,7 +121,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
             await Task.Delay(1);
 
-            return _writeModel.Measurements
+            return _writeModel.ActiveMeasurements
                 .Where(m => m.Filter(filterRtu, filterTrace, _writeModel, user))
                 .Sort(sortOrder)
                 .Skip(pageNumber * pageSize)

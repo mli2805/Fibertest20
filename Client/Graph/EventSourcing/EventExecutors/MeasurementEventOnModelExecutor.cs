@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using AutoMapper;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
@@ -10,7 +11,15 @@ namespace Iit.Fibertest.Graph
 
         public static string AddMeasurement(this Model model, MeasurementAdded e)
         {
-            model.Measurements.Add(Mapper.Map<Measurement>(e));
+            var meas = Mapper.Map<Measurement>(e);
+            model.Measurements.Add(meas);
+
+            var sameTraceActiveMeas = model.ActiveMeasurements.FirstOrDefault(m => m.TraceId == meas.TraceId);
+            if (sameTraceActiveMeas != null)
+                model.ActiveMeasurements.Remove(sameTraceActiveMeas);
+            if (meas.TraceState != FiberState.Ok)
+                model.ActiveMeasurements.Add(meas);
+
             model.ShowMonitoringResult(e);
             return null;
         }
@@ -19,6 +28,11 @@ namespace Iit.Fibertest.Graph
         {
             var destination = model.Measurements.First(f => f.SorFileId == e.SorFileId);
             Mapper.Map(e, destination);
+
+            var measInActiveList = model.ActiveMeasurements.FirstOrDefault(f => f.SorFileId == e.SorFileId);
+            if (measInActiveList != null)
+                Mapper.Map(e, measInActiveList);
+
             return null;
         }
 

@@ -38,6 +38,10 @@ namespace Iit.Fibertest.Graph
                 return $@"TraceCleaned: Trace {e.TraceId} not found";
             }
 
+            var thisTraceActiveMeas = model.ActiveMeasurements.FirstOrDefault(m => m.TraceId == e.TraceId);
+            if (thisTraceActiveMeas != null)
+                model.ActiveMeasurements.Remove(thisTraceActiveMeas);
+
             model.RemoveBaseRefsAndMeasurementsForTrace(trace);
             var traceFibers =  model.GetTraceFibersByNodes(trace.NodeIds).ToList();
             foreach (var fiber in traceFibers)
@@ -78,6 +82,10 @@ namespace Iit.Fibertest.Graph
                 return $@"TraceRemoved: Trace {e.TraceId} not found";
             }
 
+            var thisTraceActiveMeas = model.ActiveMeasurements.FirstOrDefault(m => m.TraceId == e.TraceId);
+            if (thisTraceActiveMeas != null)
+                model.ActiveMeasurements.Remove(thisTraceActiveMeas);
+
             model.RemoveBaseRefsAndMeasurementsForTrace(trace);
             var traceFibers =  model.GetTraceFibersByNodes(trace.NodeIds).ToList();
             foreach (var fiber in traceFibers)
@@ -117,6 +125,11 @@ namespace Iit.Fibertest.Graph
             trace.Port = e.OtauPortDto.OpticalPort;
             trace.OtauPort = e.OtauPortDto;
 
+            var lastEventOnTrace = model.Measurements.LastOrDefault(m =>
+                m.TraceId == e.TraceId && m.EventStatus >= EventStatus.EventButNotAnAccident);
+            if (lastEventOnTrace != null && lastEventOnTrace.TraceState != FiberState.Ok)
+                model.ActiveMeasurements.Add(lastEventOnTrace);
+
             model.ShowMonitoringResult(new MeasurementAdded()
             {
                 TraceId = e.TraceId,
@@ -133,6 +146,10 @@ namespace Iit.Fibertest.Graph
             {
                 return $@"TraceDetached: Trace {e.TraceId} not found";
             }
+
+            var thisTraceActiveMeas = model.ActiveMeasurements.FirstOrDefault(m => m.TraceId == e.TraceId);
+            if (thisTraceActiveMeas != null)
+                model.ActiveMeasurements.Remove(thisTraceActiveMeas);
 
             model.DetachTrace(trace);
             return null;

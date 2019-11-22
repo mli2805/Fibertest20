@@ -14,7 +14,7 @@ import { globalVars } from 'src/app/global-vars';
 export class FtLoginComponent implements OnInit {
   constructor(
     private loginService: LoginService,
-    private loginInteracionService: LoginInteractionService,
+    private loginInteracionService: LoginInteractionService
   ) {}
 
   user: string;
@@ -23,6 +23,15 @@ export class FtLoginComponent implements OnInit {
   ngOnInit() {}
 
   login() {
+    if (
+      environment.production === false &&
+      this.user === undefined &&
+      this.pw === undefined
+    ) {
+      this.user = 'root';
+      this.pw = 'root';
+    }
+
     this.loginService.login(this.user, this.pw).subscribe((res: UserDto) => {
       if (res === null) {
         console.log('Login failed, try again...');

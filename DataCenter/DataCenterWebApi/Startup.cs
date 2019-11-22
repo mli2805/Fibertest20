@@ -21,13 +21,14 @@ namespace Iit.Fibertest.DataCenterWebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(options => options.AddPolicy("Cors", builder => {
+            services.AddCors(options => options.AddPolicy("Cors", builder =>
+            {
                 builder
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
                 .AllowAnyHeader();
             }));
-            
+
             services.AddControllers()
                 .AddNewtonsoftJson();
 
@@ -64,7 +65,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             }
 
             app.UseCors("Cors");
-           
+
             //app.UseHttpsRedirection();
 
             app.UseRouting();

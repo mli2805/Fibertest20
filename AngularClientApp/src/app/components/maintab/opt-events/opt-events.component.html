@@ -89,9 +89,11 @@
       <mat-header-cell *matHeaderCellDef>{{
         'SID_Status_changed_by' | translate
       }}</mat-header-cell>
-      <mat-cell class="statusChangedByUser-cell" *matCellDef="let element">{{
+      <mat-cell class="statusChangedByUser-cell" *matCellDef="let element">
+        {{
         element.statusChangedByUser
-      }}</mat-cell>
+      }}
+    </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
