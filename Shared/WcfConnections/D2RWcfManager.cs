@@ -26,7 +26,11 @@ namespace Iit.Fibertest.WcfConnections
 
             var addressToCheck = new DoubleAddress() { Main = (NetAddress)dto.NetAddress.Clone() };
             if (addressToCheck.Main.Port == -1)
+            {
+                logFile.AppendLine("D2RWcfManager: new RTU address.");
                 addressToCheck.Main.Port = (int)TcpPorts.RtuListenTo;
+                logFile.AppendLine($"Testing {addressToCheck.Main.ToStringA()} ...");
+            }
 
             var wcfFactory = new WcfFactory(addressToCheck, iniFile, logFile);
             var rtuConnection = wcfFactory.GetDuplexRtuChannelFactory(backward);
@@ -35,6 +39,7 @@ namespace Iit.Fibertest.WcfConnections
             if (rtuConnection == null && dto.NetAddress.Port == -1)
             {
                 addressToCheck.Main.Port = (int)TcpPorts.RtuVeexListenTo;
+                logFile.AppendLine($"Testing {addressToCheck.Main.ToStringA()} ...");
                 wcfFactory = new WcfFactory(addressToCheck, iniFile, logFile);
                 rtuConnection = wcfFactory.GetDuplexRtuChannelFactory(backward);
             }
@@ -46,6 +51,7 @@ namespace Iit.Fibertest.WcfConnections
                 result.NetAddress.Port = addressToCheck.Main.Port;
             else
                 result.IsPingSuccessful = Pinger.Ping(dto.NetAddress.IsAddressSetAsIp ? dto.NetAddress.Ip4Address : dto.NetAddress.HostName);
+            logFile.AppendLine($"Return {result.NetAddress.ToStringA()}");
             return result;
         }
 
