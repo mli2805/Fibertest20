@@ -91,7 +91,7 @@ namespace Iit.Fibertest.Client
 
                     if (!await CheckConnectionBeforeInitializaion()) return;
                     // TODO maybe special type ?
-                    var rtuMaker = FullModel.MainChannelTestViewModel.NetAddressInputViewModel.Port == 11842
+                    var rtuMaker = FullModel.MainChannelTestViewModel.NetAddressInputViewModel.Port == (int)TcpPorts.RtuListenTo
                         ? RtuMaker.IIT
                         : RtuMaker.VeEX;
                     _commonStatusBarViewModel.StatusBarMessage2 = Resources.SID_RTU_is_being_initialized___;

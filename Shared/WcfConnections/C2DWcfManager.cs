@@ -368,7 +368,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
-            _logFile.AppendLine($@"Checking connection with RTU {dto.NetAddress.ToStringA()}");
+            _logFile.AppendLine($@"Checking connection with RTU {dto.NetAddress.GetAddress()}");
             var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)
                 return new RtuConnectionCheckedDto() { IsConnectionSuccessfull = false };
@@ -379,6 +379,9 @@ namespace Iit.Fibertest.WcfConnections
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.CheckRtuConnectionAsync(dto);
                 wcfConnection.Close();
+                _logFile.AppendLine(!result.IsConnectionSuccessfull
+                    ? "No RTU connection!"
+                    : $"RTU connected successfully {result.NetAddress.ToStringA()}");
                 return result;
             }
             catch (Exception e)
