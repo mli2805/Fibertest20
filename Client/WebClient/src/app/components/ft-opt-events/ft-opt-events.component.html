@@ -1,0 +1,122 @@
+<div class="container">
+  <mat-form-field>
+    <input matInput placeholder="RTU" #inputRtu />
+  </mat-form-field>
+  <mat-form-field style="margin-left: 20px;">
+    <input matInput placeholder="Trace" #inputTrace />
+  </mat-form-field>
+  <mat-slide-toggle
+    [checked]="isCurrentEvents"
+    [labelPosition]="before"
+    (change)="changedSlider()"
+    >Only active events!</mat-slide-toggle
+  >
+
+  <mat-table
+    class="opt-event-table mat-elevation-z8"
+    [dataSource]="dataSource"
+    matSort
+    matSortActive="eventId"
+    matSortDirection="desc"
+    matSortDisableClear
+  >
+    <ng-container matColumnDef="eventId">
+      <mat-header-cell *matHeaderCellDef mat-sort-header>{{
+        "SID_Event_Id" | translate
+      }}</mat-header-cell>
+      <mat-cell class="eventId-cell" *matCellDef="let element">{{
+        element.eventId
+      }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="measurementTimestamp">
+      <mat-header-cell *matHeaderCellDef>{{
+        "SID_Measurement_termination_timestamp" | translate
+      }}</mat-header-cell>
+      <mat-cell class="measurementTimestamp-cell" *matCellDef="let element">{{
+        element.measurementTimestamp | date: "dd/MM/yyyy H:mm:ss"
+      }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="eventRegistrationTimestamp">
+      <mat-header-cell *matHeaderCellDef>{{
+        "SID_Event_registration_time" | translate
+      }}</mat-header-cell>
+      <mat-cell
+        class="eventRegistrationTimestamp-cell"
+        *matCellDef="let element"
+        >{{
+          element.eventRegistrationTimestamp | date: "dd/MM/yyyy H:mm:ss"
+        }}</mat-cell
+      >
+    </ng-container>
+
+    <ng-container matColumnDef="rtuTitle">
+      <mat-header-cell *matHeaderCellDef>RTU</mat-header-cell>
+      <mat-cell class="rtuTitle-cell" *matCellDef="let element">{{
+        element.rtuTitle
+      }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="traceTitle">
+      <mat-header-cell *matHeaderCellDef>{{
+        "SID_Trace" | translate
+      }}</mat-header-cell>
+      <mat-cell class="traceTitle-cell" *matCellDef="let element">{{
+        element.traceTitle
+      }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="traceState">
+      <mat-header-cell *matHeaderCellDef>{{
+        "SID_Trace_state" | translate
+      }}</mat-header-cell>
+      <mat-cell class="traceState-cell" *matCellDef="let element">{{
+        element.traceState | fiberStateToLocalizedStringPipe
+      }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="eventStatus">
+      <mat-header-cell *matHeaderCellDef>{{
+        "SID_Event_status" | translate
+      }}</mat-header-cell>
+      <mat-cell class="eventStatus-cell" *matCellDef="let element">{{
+        element.eventStatus | eventStatusToLocalizedStringPipe
+      }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="statusChangedTimestamp">
+      <mat-header-cell *matHeaderCellDef>{{
+        "SID_Status_assignment_time" | translate
+      }}</mat-header-cell>
+      <mat-cell class="statusChangedTimestamp-cell" *matCellDef="let element">{{
+        element.statusChangedTimestamp | date: "dd/MM/yyyy H:mm:ss"
+      }}</mat-cell>
+    </ng-container>
+
+    <ng-container matColumnDef="statusChangedByUser">
+      <mat-header-cell *matHeaderCellDef>{{
+        "SID_Status_changed_by" | translate
+      }}</mat-header-cell>
+      <mat-cell class="statusChangedByUser-cell" *matCellDef="let element">
+        {{ element.statusChangedByUser }}
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+    <mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      (click)="onRowClicked(row)"
+    >
+    </mat-row>
+  </mat-table>
+  <mat-paginator
+    [length]="optEventCount"
+    [pageSize]="13"
+    [pageSizeOptions]="[13, 28, 50, 100]"
+  ></mat-paginator>
+  <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>

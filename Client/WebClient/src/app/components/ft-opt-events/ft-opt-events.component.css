@@ -1,0 +1,49 @@
+table {
+    width: 100%;
+    margin-top: 25px;
+  }
+  
+  .mat-column-eventId {
+    max-width: 70px !important;
+  }
+  
+  .mat-column-measurementTimestamp {
+    max-width: 150px !important;
+  }
+  .mat-column-eventRegistrationTimestamp {
+    max-width: 150px !important;
+  }
+  .mat-column-statusChangedTimestamp {
+    max-width: 150px !important;
+  }
+  
+  .mat-column-traceState {
+    max-width: 120px !important;
+  }
+  .mat-column-eventStatus {
+    max-width: 120px !important;
+  }
+  .mat-column-statusChangedByUser {
+    max-width: 120px !important;
+  }
+  
+  .mat-header-cell {
+    text-align: center !important;
+    border-right: 1px solid lightgrey;
+    font-size: 14px;
+    background: azure;
+    color: black;
+    padding: 5px;
+  }
+  
+  .mat-cell {
+    justify-content: center;
+    flex-wrap: wrap;
+    border-right: 1px solid lightgrey;
+    padding: 0 5px;
+  }
+  
+  .spinner-container mat-spinner {
+    margin: 130px auto 0 auto;
+  }
+  

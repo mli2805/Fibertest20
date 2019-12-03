@@ -1,0 +1,46 @@
+.sidenav-container {
+  height: 100%;
+  background-color: white;
+}
+
+.sidenav {
+  width: 300px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.hidden {
+  display: none;
+}
+
+mat-sidenav a {
+  color: white;
+  font-size: 20px;
+}
+
+mat-toolbar a {
+  display: inline-block;
+  margin: 0 10px;
+  color: white;
+  text-decoration: none;
+}
+
+@media (min-width: 1600px) {
+  .sidenav {
+    display: none;
+  }
+}
+
+@media (min-width: 1600px) {
+  .sidenav-button {
+    display: none;
+  }
+}
+
+@media (max-width: 1600px) {
+  .topnav {
+    display: none;
+  }
+}

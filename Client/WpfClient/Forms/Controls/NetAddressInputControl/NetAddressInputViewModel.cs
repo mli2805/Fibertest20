@@ -16,8 +16,6 @@ namespace Iit.Fibertest.Client
         public bool IsAddressSetAsName => !IsAddressSetAsIp;
         public bool IsEditEnabled { get; set; }
 
-        public Visibility PortVisibility => Port > 0 ? Visibility.Visible : Visibility.Hidden;
-
         public string PortStr => Port > 0 ? Port.ToString() : "";
 
         public NetAddressInputViewModel(NetAddress netAddress, bool isEditEnabled)
