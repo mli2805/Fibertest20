@@ -21,6 +21,7 @@ import { merge, fromEvent } from "rxjs";
 })
 export class FtOptEventsComponent implements OnInit, AfterViewInit {
   labelPosition = "before";
+  sliderColor = "accent";
   isCurrentEvents: boolean;
 
   displayedColumns = [

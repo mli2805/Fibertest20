@@ -59,6 +59,9 @@ import { PageNotFoundComponent } from "./components/page-not-found/page-not-foun
 import { FtOptEventsComponent } from "./components/ft-opt-events/ft-opt-events.component";
 import { FtNetworkEventsComponent } from "./components/ft-network-events/ft-network-events.component";
 import { AuthGuard } from "./utils/auth-guard";
+import { FtTraceStatisticsComponent } from './components/details/ft-trace-statistics/ft-trace-statistics.component';
+import { FtTraceInformationComponent } from './components/details/ft-trace-information/ft-trace-information.component';
+import { FtRtuStateComponent } from './components/details/ft-rtu-state/ft-rtu-state.component';
 
 @NgModule({
   declarations: [
@@ -85,7 +88,10 @@ import { AuthGuard } from "./utils/auth-guard";
     TraceMonitoringModeUriPipe,
     BooleanUriPipe,
     FtOptEventsComponent,
-    FtNetworkEventsComponent
+    FtNetworkEventsComponent,
+    FtTraceStatisticsComponent,
+    FtTraceInformationComponent,
+    FtRtuStateComponent
   ],
   imports: [
     TranslateModule.forRoot(),

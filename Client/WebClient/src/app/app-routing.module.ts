@@ -6,6 +6,9 @@ import { PageNotFoundComponent } from "./components/page-not-found/page-not-foun
 import { FtLoginComponent } from "./components/ft-login/ft-login.component";
 import { FtOptEventsComponent } from "./components/ft-opt-events/ft-opt-events.component";
 import { AuthGuard } from "./utils/auth-guard";
+import { FtTraceStatisticsComponent } from "./components/details/ft-trace-statistics/ft-trace-statistics.component";
+import { FtRtuStateComponent } from "./components/details/ft-rtu-state/ft-rtu-state.component";
+import { FtTraceInformationComponent } from "./components/details/ft-trace-information/ft-trace-information.component";
 
 const routes: Routes = [
   { path: "login", component: FtLoginComponent },
@@ -17,6 +20,11 @@ const routes: Routes = [
     canActivate: [AuthGuard]
   },
   { path: "network-events", component: FtOptEventsComponent },
+
+  { path: "rtu-state/:id", component: FtRtuStateComponent },
+  { path: "trace-information/:id", component: FtTraceInformationComponent },
+  { path: "trace-statistics/:id", component: FtTraceStatisticsComponent },
+
   { path: "logout", component: FtLoginComponent },
   { path: "", redirectTo: "/login", pathMatch: "full" },
   { path: "**", component: PageNotFoundComponent }

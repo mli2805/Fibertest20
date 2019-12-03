@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, ViewChild } from "@angular/core";
+import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { TraceDto } from "src/app/models/dtos/traceDto";
-import { TraceStatisticsDto } from "src/app/models/dtos/traceStatisticsDto";
-import { MatMenuTrigger, MatMenu } from "@angular/material";
+import { MatMenuTrigger } from "@angular/material";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "ft-attached-line",
@@ -15,7 +15,7 @@ export class FtAttachedLineComponent implements OnInit {
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {}
 
@@ -26,5 +26,9 @@ export class FtAttachedLineComponent implements OnInit {
     this.contextMenu.menuData = { item: this.trace.title };
     this.contextMenu.openMenu();
     this.contextMenu.focus("mouse");
+  }
+
+  displayStatistics() {
+    this.router.navigate(["/trace-statistics", this.trace.traceId]);
   }
 }

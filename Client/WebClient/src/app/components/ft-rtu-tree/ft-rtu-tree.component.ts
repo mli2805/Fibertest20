@@ -4,7 +4,6 @@ import { RtuDto } from "src/app/models/dtos/rtuDto";
 import { ChildType } from "src/app/models/enums/childType";
 import { TraceDto } from "src/app/models/dtos/traceDto";
 import { OtauWebDto } from "src/app/models/dtos/otauWebDto";
-import { throwToolbarMixedModesError } from "@angular/material";
 
 @Component({
   selector: "ft-rtu-tree",
