@@ -1,8 +1,11 @@
-﻿using Iit.Fibertest.Dto;
+﻿using System;
+using System.Windows;
+using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
 {
-    public class NetAddressInputViewModel
+    public class NetAddressInputViewModel : PropertyChangedBase
     {
         public Ip4InputViewModel Ip4InputViewModel { get; set; }
         public string Host { get; set; }
@@ -12,6 +15,10 @@ namespace Iit.Fibertest.Client
 
         public bool IsAddressSetAsName => !IsAddressSetAsIp;
         public bool IsEditEnabled { get; set; }
+
+        public Visibility PortVisibility => Port > 0 ? Visibility.Visible : Visibility.Hidden;
+
+        public string PortStr => Port > 0 ? Port.ToString() : "";
 
         public NetAddressInputViewModel(NetAddress netAddress, bool isEditEnabled)
         {
@@ -29,7 +36,7 @@ namespace Iit.Fibertest.Client
                 HostName = Host,
                 Ip4Address = Ip4InputViewModel.GetString(),
                 IsAddressSetAsIp = IsAddressSetAsIp,
-                Port = Port
+                Port = PortStr == "" ? -1 : Int32.Parse(PortStr),
             };
         }
     }
