@@ -36,7 +36,7 @@ rem cd ..\
 pause
 
 xcopy ..\DataCenter\DataCenterWebApi\bin\Debug\netcoreapp3.0\*.* PackWeb\WebApiFiles\*.* /S/D/Y
-xcopy ..\AngularClientApp\dist\AngularClientApp\*.* PackWeb\AngularClientApp\*.* /S/D/Y
+xcopy ..\Client\WebClient\dist\WebClient\*.* PackWeb\WebClient\*.* /S/D/Y
 cd PackWeb\
 "C:\Program Files\WinRAR\winrar.exe" a -r ..\FtDebugWeb_2.0.1.%1.rar *.*
 cd ..\

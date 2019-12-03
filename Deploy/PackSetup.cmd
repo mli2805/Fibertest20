@@ -33,7 +33,7 @@ cd ..\
 
 xcopy ..\DataCenter\DataCenterWebApi\bin\Release\netcoreapp3.0\*.* PackWeb\WebApi\*.* /S/D/Y
 xcopy ..\DataCenter\DataCenterWebApi\web.config PackWeb\WebApi\*.* /S/D/Y
-xcopy ..\AngularClientApp\dist\AngularClientApp\*.* PackWeb\WebClient\*.* /S/D/Y
+xcopy ..\Client\WebClient\dist\WebClient\*.* PackWeb\WebClient\*.* /S/D/Y
 cd PackWeb\
 "C:\Program Files\WinRAR\winrar.exe" a -r ..\FtWeb_%1.rar *.*
 cd ..\
