@@ -20,7 +20,8 @@ import { merge, fromEvent } from "rxjs";
   styleUrls: ["./ft-opt-events.component.css"]
 })
 export class FtOptEventsComponent implements OnInit, AfterViewInit {
-  @Input() isCurrentEvents: boolean;
+  labelPosition = "before";
+  isCurrentEvents: boolean;
 
   displayedColumns = [
     "eventId",
@@ -34,7 +35,6 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
     "statusChangedByUser"
   ];
   dataSource: OptEventsDataSource;
-  // onlyActiveEvents = false;
   optEventCount = 5000; // TODO how to know
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -42,7 +42,9 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
   @ViewChild("inputRtu", { static: true }) inputRtu: ElementRef;
   @ViewChild("inputTrace", { static: true }) inputTrace: ElementRef;
 
-  constructor(private oevApiService: OptEvService) {}
+  constructor(private oevApiService: OptEvService) {
+    this.isCurrentEvents = true;
+  }
 
   ngOnInit() {
     this.dataSource = new OptEventsDataSource(this.oevApiService);
@@ -52,7 +54,7 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
       "",
       "desc",
       0,
-      13
+      8
     );
   }
 

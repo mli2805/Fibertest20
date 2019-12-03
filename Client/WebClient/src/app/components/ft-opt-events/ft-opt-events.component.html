@@ -1,16 +1,19 @@
 <div class="container">
-  <mat-form-field>
-    <input matInput placeholder="RTU" #inputRtu />
-  </mat-form-field>
-  <mat-form-field style="margin-left: 20px;">
-    <input matInput placeholder="Trace" #inputTrace />
-  </mat-form-field>
-  <mat-slide-toggle
-    [checked]="isCurrentEvents"
-    [labelPosition]="before"
-    (change)="changedSlider()"
-    >Only active events!</mat-slide-toggle
-  >
+  <mat-toolbar fxLayout.xs="column" class="tools">
+    <mat-form-field>
+      <input matInput placeholder="RTU" #inputRtu />
+    </mat-form-field>
+    <mat-form-field style="margin-left: 20px;">
+      <input matInput placeholder="Trace" #inputTrace />
+    </mat-form-field>
+    <div class="spacer"></div>
+    <mat-slide-toggle
+      [(ngModel)]="isCurrentEvents"
+      [labelPosition]="labelPosition"
+      (change)="changedSlider()"
+      >Only active!
+    </mat-slide-toggle>
+  </mat-toolbar>
 
   <mat-table
     class="opt-event-table mat-elevation-z8"
@@ -103,7 +106,9 @@
       </mat-cell>
     </ng-container>
 
-    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+    <mat-header-row
+      *matHeaderRowDef="displayedColumns; sticky: true"
+    ></mat-header-row>
 
     <mat-row
       *matRowDef="let row; columns: displayedColumns"
@@ -113,8 +118,8 @@
   </mat-table>
   <mat-paginator
     [length]="optEventCount"
-    [pageSize]="13"
-    [pageSizeOptions]="[13, 28, 50, 100]"
+    [pageSize]="8"
+    [pageSizeOptions]="[8, 13, 28, 100]"
   ></mat-paginator>
   <div class="spinner-container" *ngIf="dataSource.loading$ | async">
     <mat-spinner></mat-spinner>
