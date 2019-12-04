@@ -102,6 +102,7 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
   }
 
   changedSlider() {
+    this.paginator.pageIndex = 0;
     console.log(`slider changed, isCurrentEvents ${this.isCurrentEvents}`);
     this.loadEventsPage();
   }
