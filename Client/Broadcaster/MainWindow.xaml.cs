@@ -66,10 +66,10 @@ namespace Broadcaster
             var comm = new GsmCommMain($"COM{GsmComPort}", 9600, 150);
             try
             {
-                    comm.Open();
-                    MessageBox.Show("Modem connected successfully");
-                    _iniFile.Write(IniSection.Broadcast, IniKey.GsmModemComPort, GsmComPort);
-                    comm.Close();
+                comm.Open();
+                MessageBox.Show("Modem connected successfully");
+                _iniFile.Write(IniSection.Broadcast, IniKey.GsmModemComPort, GsmComPort);
+                comm.Close();
             }
             catch (Exception exception)
             {
@@ -84,11 +84,11 @@ namespace Broadcaster
             var comm = new GsmCommMain($"COM{GsmComPort}", 9600, 150);
             try
             {
-                    _iniFile.Write(IniSection.Broadcast, IniKey.TestNumberToSms, SendToNumber);
-                    _iniFile.Write(IniSection.Broadcast, IniKey.TestSmsContent, ContentOfSms);
-                    comm.Open();
-                    var pdu = new SmsSubmitPdu(ContentOfSms, SendToNumber, CodeForRussian);
-                    comm.SendMessage(pdu);
+                _iniFile.Write(IniSection.Broadcast, IniKey.TestNumberToSms, SendToNumber);
+                _iniFile.Write(IniSection.Broadcast, IniKey.TestSmsContent, ContentOfSms);
+                comm.Open();
+                var pdu = new SmsSubmitPdu(ContentOfSms, SendToNumber, CodeForRussian);
+                comm.SendMessage(pdu);
             }
             catch (Exception exception)
             {
@@ -142,7 +142,7 @@ namespace Broadcaster
                 PortWithTrace = new PortWithTraceDto()
                 {
                     TraceId = TraceId,
-                    OtauPort = new OtauPortDto() {OpticalPort = 2, Serial = "68613", IsPortOnMainCharon = true,},
+                    OtauPort = new OtauPortDto() { OpticalPort = 2, Serial = "68613", IsPortOnMainCharon = true, },
                 },
                 BaseRefType = BaseRefType.Precise,
                 TraceState = isBroken ? FiberState.FiberBreak : FiberState.Ok,
@@ -151,12 +151,20 @@ namespace Broadcaster
             return dto;
         }
 
+
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged(string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        private void SendV1TestTrap(object sender, RoutedEventArgs e)
+        {
+            var snmpAgent = new SnmpSender(_iniFile);
+            snmpAgent.SendTestTrap();
         }
     }
 }

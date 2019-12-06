@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 
