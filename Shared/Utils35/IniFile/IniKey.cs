@@ -104,6 +104,13 @@
         MailFromPassword,
         SmtpTimeoutMs,
 
+        // Snmp,
+        SnmpTrapVersion,
+        SnmpReceiverIp,
+        SnmpReceiverPort,
+        SnmpCommunity,
+        EnterpriseOid,
+
         // Map
         Zoom,
         CenterLatitude,

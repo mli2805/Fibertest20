@@ -16,6 +16,7 @@
         MySql,
         Broadcast,
         Smtp,
+        Snmp,
         Map,
         Miscellaneous,
         Migrator,

@@ -45,6 +45,9 @@
                 <Button Width="200" Height="22" Content="Start sending" Margin="5" Click="Button_Click"/>
             </StackPanel>
         </GroupBox>
+        <GroupBox Header="SNMP" DockPanel.Dock="Top">
+            <Button Width="200" Height="22" Content="Send Test Trap " Margin="5" Click="SendV1TestTrap"></Button>
+        </GroupBox>
         <StackPanel></StackPanel>
     </DockPanel>
 </Window>
