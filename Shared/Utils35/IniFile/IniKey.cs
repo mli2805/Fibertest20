@@ -105,6 +105,7 @@
         SmtpTimeoutMs,
 
         // Snmp,
+        IsSnmpOn,
         SnmpTrapVersion,
         SnmpReceiverIp,
         SnmpReceiverPort,

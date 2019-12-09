@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -6,6 +7,32 @@ using SnmpSharpNet;
 
 namespace Iit.Fibertest.UtilsLib
 {
+    // should be the same as in MIB file
+    public enum SnmpTrapType
+    {
+        MeasurementAsSnmp = 100,
+        RtuNetworkEventAsSnmp = 200,
+        BopNetworkEventAsSnmp = 300,
+        TestTrap = 777,
+    }
+
+    // should be the same as in MIB file
+    public enum SnmpProperty
+    {
+        EventRegistrationTime = 0,
+        RtuTitle = 1,
+        TraceTitle = 2,
+        BopTitle,
+
+        RtuAccessibility = 10,
+        ChannelTitle,
+        ChannelState,
+
+        BopState = 20,
+
+        TraceState = 30,
+    }
+
     public class SnmpAgent
     {
         private readonly IniFile _iniFile;
@@ -47,10 +74,10 @@ namespace Iit.Fibertest.UtilsLib
         {
             var trapData = CreateTestTrapData();
             if (snmpTrapVersion == 1)
-                SendSnmpV1Trap(trapData, 777);
+                SendSnmpV1Trap(trapData, SnmpTrapType.TestTrap);
         }
 
-        private void SendSnmpV1Trap(VbCollection trapData, int trapType)
+        private void SendSnmpV1Trap(VbCollection trapData, SnmpTrapType trapType)
         {
             TrapAgent trapAgent = new TrapAgent();
             trapAgent.SendV1Trap(new IpAddress(snmpReceiverAddress),
@@ -59,9 +86,20 @@ namespace Iit.Fibertest.UtilsLib
                 new Oid(enterpriseOid),
                 new IpAddress(snmpAgentIp),
                 6,
-                trapType, // my trap type 
+                (int)trapType, // my trap type 
                 (uint)(DateTime.Now - startTime).TotalSeconds * 10, // system UpTime in 0,1sec
                 trapData);
+        }
+
+        public void SentRealTrap(List<KeyValuePair<SnmpProperty, string>> data, SnmpTrapType trapType)
+        {
+            var trapData = new VbCollection();
+            foreach (KeyValuePair<SnmpProperty, string> pair in data)
+            {
+                trapData.Add(new Oid(enterpriseOid + "." + (int)pair.Key),
+                    new OctetString(EncodeString(pair.Value, snmpEncoding)));
+            }
+            SendSnmpV1Trap(trapData, trapType);
         }
 
         private VbCollection CreateTestTrapData()

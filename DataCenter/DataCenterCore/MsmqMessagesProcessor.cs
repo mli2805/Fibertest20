@@ -22,12 +22,12 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly Smtp _smtp;
         private readonly SmsManager _smsManager;
-        private readonly SnmpAgent _snmpAgent;
+        private readonly SnmpNotifier _snmpNotifier;
 
         public MsmqMessagesProcessor(IMyLog logFile, IniFile iniFile, Model writeModel,
             EventStoreService eventStoreService, MeasurementFactory measurementFactory,
             SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository,
-            Smtp smtp, SmsManager smsManager, SnmpAgent snmpAgent)
+            Smtp smtp, SmsManager smsManager, SnmpNotifier snmpNotifier)
         {
             _logFile = logFile;
             _iniFile = iniFile;
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.DataCenterCore
             _rtuStationsRepository = rtuStationsRepository;
             _smtp = smtp;
             _smsManager = smsManager;
-            _snmpAgent = snmpAgent;
+            _snmpNotifier = snmpNotifier;
         }
 
         public async Task<int> ProcessMessage(Message message)
@@ -100,7 +100,7 @@ namespace Iit.Fibertest.DataCenterCore
            
             await _smtp.SendOpticalEvent(dto, addMeasurement);
             _smsManager.SendMonitoringResult(dto); 
-            _snmpAgent.SendTestTrap();
+            _snmpNotifier.SendTraceEvent(addMeasurement);
         }
 
         private async void SendNotificationsAboutBop(AddBopNetworkEvent cmd)
