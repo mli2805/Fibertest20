@@ -145,6 +145,9 @@
     <Reference Include="Remotion.Linq, Version=2.1.0.0, Culture=neutral, PublicKeyToken=fee00910d6e5f53b, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Remotion.Linq.2.1.1\lib\net45\Remotion.Linq.dll</HintPath>
     </Reference>
+    <Reference Include="SnmpSharpNet, Version=0.9.5.0, Culture=neutral, PublicKeyToken=b2181aa3b9571feb, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\SnmpSharpNet.0.9.5\lib\SnmpSharpNet.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.1.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\..\packages\System.Buffers.4.3.0\lib\netstandard1.1\System.Buffers.dll</HintPath>
@@ -216,6 +219,7 @@
     <Compile Include="ForWebApi\WebDtoFactory.cs" />
     <Compile Include="GlobalState.cs" />
     <Compile Include="MsmqMessagesProcessor.cs" />
+    <Compile Include="Notifications\SnmpNotifier.cs" />
     <Compile Include="WcfServiceForClient\ClientToRtuTransmitter\ClientToRtuCheckAndInitialize.cs" />
     <Compile Include="WcfServiceForClient\ClientToRtuTransmitter\ClientToRtuMeasurements.cs" />
     <Compile Include="WcfServiceForClient\ClientToRtuTransmitter\ClientToRtuOtau.cs" />
