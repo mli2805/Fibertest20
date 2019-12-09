@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Messaging;
@@ -59,6 +60,8 @@ namespace Broadcaster
             GsmComPort = _iniFile.Read(IniSection.Broadcast, IniKey.GsmModemComPort, 3);
             SendToNumber = _iniFile.Read(IniSection.Broadcast, IniKey.TestNumberToSms, "+375291234567");
             ContentOfSms = _iniFile.Read(IniSection.Broadcast, IniKey.TestSmsContent, "Fibertest 2.0 Test SMS Тестовая СМСка");
+
+            SelectedSnmpEncoding = SnmpEncodings[2];
         }
 
         private void CheckModemConnection(object sender, RoutedEventArgs e)
@@ -161,10 +164,36 @@ namespace Broadcaster
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        private int snmpTrapVersion = 1;
+        public string SnmpManagerIp { get; set; } = "192.168.96.21";
+        public int SnmpManagerPort { get; set; } = 162;
+        public string SnmpCommunity { get; set; } = "IIT";
+
+        public List<string> SnmpEncodings { get; set; } = new List<string>(){ "unicode (utf16)", "utf8", "windows1251"};
+
+        public string SelectedSnmpEncoding { get; set; }
+        public string EnterpriseOid { get; set; } = "1.3.6.1.4.1.36220";
+
         private void SendV1TestTrap(object sender, RoutedEventArgs e)
         {
-            var snmpAgent = new SnmpSender(_iniFile);
+            // save all user's input into ini-file: snmpAgent will read them from ini-file
+            SaveInputs();
+
+            var snmpAgent = new SnmpAgent(_iniFile);
             snmpAgent.SendTestTrap();
+        }
+
+        private void SaveInputs()
+        {
+            _iniFile.Write(IniSection.Snmp, IniKey.SnmpTrapVersion, snmpTrapVersion);
+
+            _iniFile.Write(IniSection.Snmp, IniKey.SnmpReceiverIp, SnmpManagerIp);
+            _iniFile.Write(IniSection.Snmp, IniKey.SnmpReceiverPort, SnmpManagerPort);
+            _iniFile.Write(IniSection.Snmp, IniKey.SnmpCommunity, SnmpCommunity);
+            _iniFile.Write(IniSection.Snmp, IniKey.SnmpEncoding, SelectedSnmpEncoding);
+
+            _iniFile.Write(IniSection.Snmp, IniKey.EnterpriseOid, EnterpriseOid);
+
         }
     }
 }

@@ -108,8 +108,10 @@
         SnmpTrapVersion,
         SnmpReceiverIp,
         SnmpReceiverPort,
+        SnmpAgentIp,
         SnmpCommunity,
         EnterpriseOid,
+        SnmpEncoding,
 
         // Map
         Zoom,

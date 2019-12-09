@@ -46,7 +46,29 @@
             </StackPanel>
         </GroupBox>
         <GroupBox Header="SNMP" DockPanel.Dock="Top">
-            <Button Width="200" Height="22" Content="Send Test Trap " Margin="5" Click="SendV1TestTrap"></Button>
+            <StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="SNMP manager (listener) IP" Margin="5"/>
+                    <TextBox Text="{Binding ServerIp}" Margin="5" Width="200"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="SNMP manager (listener) port" Margin="5"/>
+                    <TextBox Text="{Binding SnmpManagerPort}" Margin="5" Width="200"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="SNMP community" Margin="5"/>
+                    <TextBox Text="{Binding SnmpCommunity}" Margin="5" Width="200"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="Strings encoding" Margin="5"/>
+                    <ComboBox ItemsSource="{Binding SnmpEncodings}" SelectedItem="{Binding SelectedSnmpEncoding}" Margin="5" Width="200"/>
+                </StackPanel> 
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="EnterpriseOid" Margin="5"/>
+                    <TextBox Text="{Binding EnterpriseOid}" Margin="5" Width="200"/>
+                </StackPanel>
+                <Button Width="200" Height="22" Content="Send Test Trap " Margin="5" Click="SendV1TestTrap"/>
+            </StackPanel>
         </GroupBox>
         <StackPanel></StackPanel>
     </DockPanel>
