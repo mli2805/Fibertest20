@@ -77,6 +77,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<AccidentsFromSorExtractor>();
             builder.RegisterType<SmsManager>().SingleInstance();
             builder.RegisterType<Smtp>().SingleInstance();
+            builder.RegisterType<SnmpAgent>().SingleInstance();
             builder.RegisterType<MsmqMessagesProcessor>().SingleInstance();
             builder.RegisterType<MsmqHandler>().As<IMsmqHandler>().SingleInstance();
             builder.RegisterType<DiskSpaceProvider>().SingleInstance();
