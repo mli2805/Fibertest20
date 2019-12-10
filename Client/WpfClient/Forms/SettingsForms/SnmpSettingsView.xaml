@@ -1,0 +1,51 @@
+﻿<Window x:Class="Iit.Fibertest.Client.SnmpSettingsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        mc:Ignorable="d"
+        Width="450" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        d:DataContext="{d:DesignData SnmpSettingsViewModel}">
+     <StackPanel Margin="5" IsEnabled="{Binding IsEditEnabled}">
+         <CheckBox IsChecked="{Binding IsSnmpOn}" Content="Is SNMP notification turned on" Margin="5,10"/>
+         <DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Margin="5,0,5,10" Foreground="Gray" Width="300"
+                       Text="Listener to the traps sent by Fibertest Data Center"
+                       TextWrapping="Wrap" TextAlignment="Center" />
+            <TextBlock DockPanel.Dock="Left" Margin="5" Text="SNMP Manager IP" Width="120" />
+            <TextBox Margin="5" Text="{Binding SnmpManagerIp}" />
+        </DockPanel>
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="usually 162"
+                       TextAlignment="Center" />
+            <TextBlock DockPanel.Dock="Left" Margin="5" Text="SNMP port" Width="120" />
+            <TextBox Margin="5" Text="{Binding SnmpManagerPort}" />
+        </DockPanel>
+         <DockPanel>
+            <TextBlock DockPanel.Dock="Left" Margin="5" Text="SNMP community" Width="120" />
+            <TextBox Margin="5" Text="{Binding SnmpCommunity}" />
+        </DockPanel>
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" Text="Fibertest Data-Center address"
+                       TextAlignment="Center" />
+            <TextBlock DockPanel.Dock="Left" Margin="5" Text="SNMP agent IP" Width="120" />
+            <TextBox Margin="5" Text="{Binding SnmpAgentIp}" />
+        </DockPanel>
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Left" Margin="5" Text="Enterprise OID" Width="120" />
+            <TextBox Margin="5" Text="{Binding EnterpriseOid}" />
+        </DockPanel>
+        <DockPanel>
+            <TextBlock DockPanel.Dock="Bottom" Margin="5" Foreground="Gray" 
+                       Text="Choose encoding for non ANSI symbols your SNMP manager is waiting for."
+                       TextAlignment="Center" TextWrapping="Wrap" Width="300"/>
+            <TextBlock DockPanel.Dock="Left" Margin="5" Text="Strings encoding" Width="120" />
+            <ComboBox ItemsSource="{Binding SnmpEncodings}" SelectedItem="{Binding SelectedSnmpEncoding}" Margin="5" />
+        </DockPanel>
+        <StackPanel Orientation="Horizontal" Margin="5,25" HorizontalAlignment="Center">
+            <Button Width="120" Margin="5" Name="Save" Content="{x:Static stringResources:Resources.SID_Save}"/>
+            <Button Width="120" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

@@ -35,6 +35,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly Smtp _smtp;
+        private readonly SnmpAgent _snmpAgent;
         private readonly SmsManager _smsManager;
         private readonly DiskSpaceProvider _diskSpaceProvider;
         private readonly GlobalState _globalState;
@@ -52,8 +53,8 @@ namespace Iit.Fibertest.DataCenterCore
             RtuStationsRepository rtuStationsRepository,
             BaseRefRepairmanIntermediary baseRefRepairmanIntermediary, BaseRefLandmarksTool baseRefLandmarksTool,
             SorFileRepository sorFileRepository, SnapshotRepository snapshotRepository,
-            Smtp smtp, SmsManager smsManager, DiskSpaceProvider diskSpaceProvider
-            , GlobalState globalState, D2CWcfManager d2CWcfManager
+            Smtp smtp, SnmpAgent snmpAgent, SmsManager smsManager, DiskSpaceProvider diskSpaceProvider, 
+            GlobalState globalState, D2CWcfManager d2CWcfManager
             )
         {
             _iniFile = iniFile;
@@ -72,6 +73,7 @@ namespace Iit.Fibertest.DataCenterCore
             _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
             _baseRefLandmarksTool = baseRefLandmarksTool;
             _smtp = smtp;
+            _snmpAgent = snmpAgent;
             _smsManager = smsManager;
             _diskSpaceProvider = diskSpaceProvider;
             _globalState = globalState;

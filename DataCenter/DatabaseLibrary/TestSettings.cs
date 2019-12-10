@@ -11,6 +11,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             _currentDatacenterParameters = currentDatacenterParameters;
             _currentDatacenterParameters.Smtp = new SmtpSettingsDto();
+            _currentDatacenterParameters.Snmp = new SnmpSettingsDto();
         }
 
         public void Init()

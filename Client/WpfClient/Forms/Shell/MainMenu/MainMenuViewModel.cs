@@ -101,6 +101,11 @@ namespace Iit.Fibertest.Client
             var vm = _globalScope.Resolve<SmsSettingsViewModel>();
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
+        public void LaunchSnmpSettingsView()
+        {
+            var vm = _globalScope.Resolve<SnmpSettingsViewModel>();
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
 
         public void LaunchClientSettingsView()
         {

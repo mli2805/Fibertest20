@@ -53,6 +53,9 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         Task<bool> SaveSmtpSettings(SmtpSettingsDto dto);
 
         [OperationContract]
+        Task<bool> SaveSnmpSettings(SnmpSettingsDto dto);
+
+        [OperationContract]
         Task<bool> SaveGisMode(bool isMapVisible);
 
         [OperationContract]

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
+using Iit.Fibertest.Dto;
 using SnmpSharpNet;
 
 namespace Iit.Fibertest.UtilsLib
@@ -62,12 +63,12 @@ namespace Iit.Fibertest.UtilsLib
         public SnmpAgent(IniFile iniFile)
         {
             _iniFile = iniFile;
+            startTime = DateTime.Now;
             Initialize();
         }
 
         private void Initialize()
         {
-            startTime = DateTime.Now;
             snmpTrapVersion = 1; // for future purposes
 
             snmpReceiverAddress = _iniFile.Read(IniSection.Snmp, IniKey.SnmpReceiverIp, "192.168.96.21");
@@ -80,6 +81,21 @@ namespace Iit.Fibertest.UtilsLib
             snmpEncoding = _iniFile.Read(IniSection.Snmp, IniKey.SnmpEncoding, "windows1251");
 
             enterpriseOid = _iniFile.Read(IniSection.Snmp, IniKey.EnterpriseOid, "1.3.6.1.4.1.36220");
+        }
+
+        public void SaveSnmpSettings(SnmpSettingsDto dto)
+        {
+            _iniFile.Write(IniSection.Snmp, IniKey.IsSnmpOn, dto.IsSnmpOn);
+
+            _iniFile.Write(IniSection.Snmp, IniKey.SnmpReceiverIp, dto.SnmpReceiverIp);
+            _iniFile.Write(IniSection.Snmp, IniKey.SnmpReceiverPort, dto.SnmpReceiverPort);
+            _iniFile.Write(IniSection.Snmp, IniKey.SnmpCommunity, dto.SnmpCommunity);
+            _iniFile.Write(IniSection.Snmp, IniKey.SnmpAgentIp, dto.SnmpAgentIp);
+            _iniFile.Write(IniSection.Snmp, IniKey.SnmpEncoding, dto.SnmpEncoding);
+
+            _iniFile.Write(IniSection.Snmp, IniKey.EnterpriseOid, dto.EnterpriseOid);
+
+            Initialize();
         }
 
         public void SendTestTrap()

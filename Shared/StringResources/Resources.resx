@@ -2693,4 +2693,11 @@ RTU is initializing right now!</value>
 	<data name="SID_firmwareVersion" xml:space="preserve">
     <value>firmware version</value>
   </data>
+	<data name="SID_SNMP_settings" xml:space="preserve">
+    <value>SNMP settings</value>
+  </data>
+	<data name="SID_Failed_to_save_SNMP_settings" xml:space="preserve">
+    <value>Failed to save SNMP settings</value>
+  </data>
+ 
 </root>

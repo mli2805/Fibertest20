@@ -13,5 +13,6 @@ namespace Iit.Fibertest.Dto
 
         public SmtpSettingsDto Smtp { get; set; }
         public int GsmModemComPort { get; set; }
+        public SnmpSettingsDto Snmp { get; set; }
     }
 }

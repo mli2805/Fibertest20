@@ -165,6 +165,17 @@ namespace Iit.Fibertest.Client
                     SmtpTimeoutMs = result.Smtp.SmtpTimeoutMs,
                 };
                 _currentDatacenterParameters.GsmModemComPort = result.GsmModemComPort;
+                _currentDatacenterParameters.Snmp = new SnmpSettingsDto()
+                {
+                    IsSnmpOn = result.Snmp.IsSnmpOn,
+                    SnmpTrapVersion = result.Snmp.SnmpTrapVersion,
+                    SnmpReceiverIp = result.Snmp.SnmpReceiverIp,
+                    SnmpReceiverPort = result.Snmp.SnmpReceiverPort,
+                    SnmpAgentIp = result.Snmp.SnmpAgentIp,
+                    SnmpCommunity = result.Snmp.SnmpCommunity,
+                    EnterpriseOid = result.Snmp.EnterpriseOid,
+                    SnmpEncoding = result.Snmp.SnmpEncoding,
+                };
                 _currentGis.IsWithoutMapMode = result.IsWithoutMapMode;
 
                 _logFile.AppendLine(@"Registered successfully");
