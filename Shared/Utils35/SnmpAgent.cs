@@ -22,11 +22,10 @@ namespace Iit.Fibertest.UtilsLib
         EventRegistrationTime = 0,
         RtuTitle = 1,
         TraceTitle = 2,
-        BopTitle,
+        BopTitle = 3,
 
-        RtuAccessibility = 10,
-        ChannelTitle,
-        ChannelState,
+        RtuMainChannel = 10,
+        RtuReserveChannel = 11,
 
         BopState = 20,
 
@@ -126,6 +125,7 @@ namespace Iit.Fibertest.UtilsLib
                 case "windows1251":
                     var win1251Encoding = Encoding.GetEncoding("windows-1251");
                     return win1251Encoding.GetBytes(str);
+                // ReSharper disable once RedundantCaseLabel
                 case "utf8":
                 default:
                     var utf8Encoding = new UTF8Encoding();

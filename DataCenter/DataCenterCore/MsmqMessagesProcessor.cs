@@ -48,7 +48,6 @@ namespace Iit.Fibertest.DataCenterCore
             if (message.Body is BopStateChangedDto bopStateChangedDto)
                 return await ProcessBopStateChanges(bopStateChangedDto);
             return -1;
-
         }
 
         public async Task<int> ProcessBopStateChanges(BopStateChangedDto dto)
@@ -108,6 +107,7 @@ namespace Iit.Fibertest.DataCenterCore
             SetCulture();
             await _smtp.SendBopState(cmd);
             _smsManager.SendBopState(cmd);
+            _snmpNotifier.SendBopNetworkEvent(cmd);
         }
 
         private void SetCulture()
