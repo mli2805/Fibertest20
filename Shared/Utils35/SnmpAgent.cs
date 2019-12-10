@@ -19,17 +19,30 @@ namespace Iit.Fibertest.UtilsLib
     // should be the same as in MIB file
     public enum SnmpProperty
     {
-        EventRegistrationTime = 0,
-        RtuTitle = 1,
-        TraceTitle = 2,
-        BopTitle = 3,
+        EventId = 0,
+        EventRegistrationTime,
+        RtuTitle,
+        TraceTitle,
 
         RtuMainChannel = 10,
         RtuReserveChannel = 11,
 
-        BopState = 20,
+        BopTitle = 20,
+        BopState,
 
         TraceState = 30,
+        AccidentNodeTitle,
+        AccidentType,
+        AccidentToRtuDistanceKm,
+        AccidentGps,
+
+        LeftNodeTitle = 40,
+        LeftNodeGps,
+        LeftNodeToRtuDistanceKm,
+
+        RightNodeTitle = 50,
+        RightNodeGps,
+        RightNodeToRtuDistanceKm,
     }
 
     public class SnmpAgent

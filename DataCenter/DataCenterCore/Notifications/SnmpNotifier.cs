@@ -55,16 +55,51 @@ namespace Iit.Fibertest.DataCenterCore
 
             var data = new List<KeyValuePair<SnmpProperty, string>>
             {
+                new KeyValuePair<SnmpProperty, string>(SnmpProperty.EventId, meas.SorFileId.ToString()),
                 new KeyValuePair<SnmpProperty, string>(SnmpProperty.EventRegistrationTime,
                     meas.EventRegistrationTimestamp.ToString("G")),
-              new KeyValuePair<SnmpProperty, string>(SnmpProperty.RtuTitle, rtuTitle),
-              new KeyValuePair<SnmpProperty, string>(SnmpProperty.TraceTitle, traceTitle),
-              new KeyValuePair<SnmpProperty, string>(SnmpProperty.TraceState,
+                new KeyValuePair<SnmpProperty, string>(SnmpProperty.RtuTitle, rtuTitle),
+                new KeyValuePair<SnmpProperty, string>(SnmpProperty.TraceTitle, traceTitle),
+                new KeyValuePair<SnmpProperty, string>(SnmpProperty.TraceState,
                   meas.TraceState.ToLocalizedString()),
             };
+            foreach (var accident in meas.Accidents)
+            {
+                data.AddRange(AccidentToSnmp(accident));
+            }
 
             return data;
         }
+
+        private List<KeyValuePair<SnmpProperty, string>> AccidentToSnmp(AccidentOnTraceV2 accident)
+        {
+            var accidentType = $"{accident.AccidentSeriousness.ToLocalizedString()} ({accident.OpticalTypeOfAccident.ToLetter()})";
+            var data = new List<KeyValuePair<SnmpProperty, string>>()
+            {
+                new KeyValuePair<SnmpProperty, string>(SnmpProperty.AccidentNodeTitle, accident.AccidentTitle ?? ""),
+                new KeyValuePair<SnmpProperty, string>(SnmpProperty.AccidentType, accidentType),
+                new KeyValuePair<SnmpProperty, string>(SnmpProperty.AccidentGps, accident.AccidentCoors.ToString()),
+                new KeyValuePair<SnmpProperty, string>(SnmpProperty.AccidentToRtuDistanceKm,
+                    accident.AccidentToRtuOpticalDistanceKm.ToString("0.000")),
+            };
+            if (accident.Left != null)
+            {
+                data.Add(new KeyValuePair<SnmpProperty, string>(SnmpProperty.LeftNodeTitle, accident.Left.Title ?? ""));
+                data.Add(new KeyValuePair<SnmpProperty, string>(SnmpProperty.LeftNodeGps, accident.Left.Coors.ToString()));
+                data.Add(new KeyValuePair<SnmpProperty, string>(
+                    SnmpProperty.LeftNodeToRtuDistanceKm, accident.Left.ToRtuOpticalDistanceKm.ToString("0.000")));
+            }
+            if (accident.Right != null)
+            {
+                data.Add(new KeyValuePair<SnmpProperty, string>(SnmpProperty.RightNodeTitle, accident.Right.Title ?? ""));
+                data.Add(new KeyValuePair<SnmpProperty, string>(SnmpProperty.RightNodeGps, accident.Right.Coors.ToString()));
+                data.Add(new KeyValuePair<SnmpProperty, string>(
+                    SnmpProperty.RightNodeToRtuDistanceKm, accident.Right.ToRtuOpticalDistanceKm.ToString("0.000")));
+            }
+
+            return data;
+        }
+
 
         private List<KeyValuePair<SnmpProperty, string>> RtuEventToSnmp(NetworkEvent rtuEvent)
         {
@@ -72,6 +107,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             var data = new List<KeyValuePair<SnmpProperty, string>>
             {
+                new KeyValuePair<SnmpProperty, string>(SnmpProperty.EventId, rtuEvent.Ordinal.ToString()),
                 new KeyValuePair<SnmpProperty, string>(SnmpProperty.EventRegistrationTime,
                     rtuEvent.EventTimestamp.ToString("G")),
                 new KeyValuePair<SnmpProperty, string>(SnmpProperty.RtuTitle, rtuTitle),

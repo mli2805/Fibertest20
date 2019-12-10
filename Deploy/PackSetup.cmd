@@ -13,6 +13,7 @@ xcopy ..\Setup\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
 xcopy ..\Utils\*.* Pack\Utils\*.* /S/D/Y
      
 xcopy ..\DataCenter\DataCenterService\bin\Release\*.* Pack\DcFiles\*.* /S/D/Y
+xcopy "..\Auxiliary Files\*.mib" Pack\DcFiles\*.* /S/D/Y
 xcopy ..\Client\WpfClient\bin\Release\*.* Pack\ClientFiles\*.* /S/D/Y
 xcopy ..\Client\SuperClient\bin\Release\*.* Pack\SuperClientFiles\*.* /S/D/Y
 
@@ -43,7 +44,7 @@ xcopy ..\Client\DbMigrationWpf\bin\Release\*.* PackAdmin\DbMigrationWpf\bin\*.* 
 xcopy ..\Client\KadastrLoader\bin\Release\*.* PackAdmin\KadastrLoader\bin\*.* /S/D/Y
 xcopy ..\Client\Broadcaster\bin\Release\*.* PackAdmin\Broadcaster\bin\*.* /S/D/Y
 xcopy ..\Client\MapLoader\bin\Release\*.* PackAdmin\MapLoader\bin\*.* /S/D/Y
-xcopy ..\Auxiliary Files\UserGuide\*.* PackAdmin\Auxiliary Files\UserGuide\*.* /S/D/Y
+
 cd PackAdmin\
 "C:\Program Files\WinRAR\winrar.exe" a -r ..\FtAdmin_%1.rar *.*
 cd ..\

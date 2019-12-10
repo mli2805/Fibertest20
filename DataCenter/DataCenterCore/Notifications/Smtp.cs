@@ -56,18 +56,6 @@ namespace Iit.Fibertest.DataCenterCore
             return await SendEmail(TestEmailSubj, TestEmailMessage, null, mailTo);
         }
 
-//        public async Task<bool> SendMonitoringResult(MonitoringResultDto dto)
-//        {
-//            var mailTo = _writeModel.GetEmailsToSendMonitoringResult(dto);
-//            _logFile.AppendLine($"There are {mailTo.Count} addresses to send e-mail");
-//            if (mailTo.Count == 0) return true;
-//
-//            var subj = _writeModel.GetShortMessageForMonitoringResult(dto);
-//            var reportModel = _writeModel.CreateReportModelFromMoniresult(dto);
-//            var attachment = reportModel == null ? null : EventReport.FillInHtmlReportForTraceState(reportModel);
-//            return await SendEmail(subj, subj, attachment, mailTo);
-//        }
-
         public async Task<bool> SendOpticalEvent(MonitoringResultDto dto, AddMeasurement addMeasurement)
         {
             var mailTo = _writeModel.GetEmailsToSendMonitoringResult(dto);
