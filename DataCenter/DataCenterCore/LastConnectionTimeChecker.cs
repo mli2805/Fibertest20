@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,13 +21,14 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly Model _writeModel;
         private readonly Smtp _smtp;
         private readonly SmsManager _smsManager;
+        private readonly SnmpNotifier _snmpNotifier;
         private TimeSpan _checkHeartbeatEvery;
         private TimeSpan _rtuHeartbeatPermittedGap;
         private TimeSpan _clientHeartbeatPermittedGap;
 
         public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile, EventStoreService eventStoreService,
             ClientsCollection clientsCollection, RtuStationsRepository rtuStationsRepository, Model writeModel,
-            Smtp smtp, SmsManager smsManager)
+            Smtp smtp, SmsManager smsManager, SnmpNotifier snmpNotifier)
         {
             _iniFile = iniFile;
             _logFile = logFile;
@@ -36,6 +38,7 @@ namespace Iit.Fibertest.DataCenterCore
             _writeModel = writeModel;
             _smtp = smtp;
             _smsManager = smsManager;
+            _snmpNotifier = snmpNotifier;
         }
 
         public void Start()
@@ -47,6 +50,10 @@ namespace Iit.Fibertest.DataCenterCore
         // ReSharper disable once FunctionNeverReturns 
         private void Check()
         {
+            var currentCulture = _iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(currentCulture);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
+
             _checkHeartbeatEvery = TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.CheckHeartbeatEvery, 3));
             _rtuHeartbeatPermittedGap = TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.RtuHeartbeatPermittedGap, 70));
             _clientHeartbeatPermittedGap = TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.ClientConnectionsPermittedGap, 180));
@@ -99,6 +106,7 @@ namespace Iit.Fibertest.DataCenterCore
                 {
                     changedStations.Add(rtuStation);
                     networkEvents.Add(networkEvent);
+                    _snmpNotifier.SendRtuNetworkEvent(networkEvent);
                 }
             }
             if (changedStations.Count > 0)
