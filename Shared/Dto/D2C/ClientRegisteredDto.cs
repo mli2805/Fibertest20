@@ -44,5 +44,8 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public int GsmModemComPort { get; set; }
+
+        [DataMember]
+        public SnmpSettingsDto Snmp { get; set; }
     }
 }

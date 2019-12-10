@@ -274,6 +274,10 @@
     </Compile>
     <Compile Include="Forms\RtuForms\RtuChannel\RtuChannelViewModel.cs" />
     <Compile Include="Forms\RtuForms\RtuChannel\RtuChannelViewsManager.cs" />
+    <Compile Include="Forms\SettingsForms\SnmpSettingsView.xaml.cs">
+      <DependentUpon>SnmpSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SettingsForms\SnmpSettingsViewModel.cs" />
     <Compile Include="Forms\Shell\ChildrenViews.cs" />
     <Compile Include="Forms\Shell\SystemState.cs" />
     <Compile Include="Forms\TraceForms\TraceState\TraceStateModelHeader.cs" />
@@ -772,6 +776,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\RtuForms\RtuChannel\RtuChannelView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\SettingsForms\SnmpSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

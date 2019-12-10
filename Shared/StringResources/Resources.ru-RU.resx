@@ -2693,4 +2693,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_firmwareVersion" xml:space="preserve">
 		<value>Версия прошивки</value>
 	</data>
+	<data name="SID_SNMP_settings" xml:space="preserve">
+		<value>Настройки SNMP</value>
+	</data>
+	<data name="SID_Failed_to_save_SNMP_settings" xml:space="preserve">
+		<value>Ошибка сохранения настроек SNMP!</value>
+	</data>
 </root>

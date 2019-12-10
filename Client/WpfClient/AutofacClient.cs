@@ -68,6 +68,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<GisSettingsViewModel>();
             builder.RegisterType<SmtpSettingsViewModel>();
             builder.RegisterType<SmsSettingsViewModel>();
+            builder.RegisterType<SnmpSettingsViewModel>();
             builder.RegisterType<DbOptimizationViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<ChangePasswordViewModel>();
             builder.RegisterType<ClientWcfService>().InstancePerLifetimeScope();

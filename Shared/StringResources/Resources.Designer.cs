@@ -2872,6 +2872,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to save SNMP settings.
+        /// </summary>
+        public static string SID_Failed_to_save_SNMP_settings {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_save_SNMP_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to send test e-mail!.
         /// </summary>
         public static string SID_Failed_to_send_test_e_mail_ {
@@ -3025,7 +3034,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to firmwareVersion.
+        ///   Looks up a localized string similar to firmware version.
         /// </summary>
         public static string SID_firmwareVersion {
             get {
@@ -6425,6 +6434,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Snapshot_created_ {
             get {
                 return ResourceManager.GetString("SID_Snapshot_created_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SNMP settings.
+        /// </summary>
+        public static string SID_SNMP_settings {
+            get {
+                return ResourceManager.GetString("SID_SNMP_settings", resourceCulture);
             }
         }
         

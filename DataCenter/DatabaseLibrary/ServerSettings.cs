@@ -23,7 +23,7 @@ namespace Iit.Fibertest.DatabaseLibrary
 
         public void Init()
         {
-            var doubleAddress = _iniFile.ReadDoubleAddress((int) TcpPorts.ServerListenToRtu);
+            var doubleAddress = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
             if (doubleAddress.Main.IsAddressSetAsIp && doubleAddress.Main.Ip4Address == "0.0.0.0")
             {
                 var serverIp = LocalAddressResearcher.GetAllLocalAddresses().First();
@@ -45,6 +45,18 @@ namespace Iit.Fibertest.DatabaseLibrary
                 SmtpTimeoutMs = _iniFile.Read(IniSection.Smtp, IniKey.SmtpTimeoutMs, 0),
             };
             _currentDatacenterParameters.GsmModemComPort = _iniFile.Read(IniSection.Broadcast, IniKey.GsmModemComPort, 0);
+
+            var localIp = LocalAddressResearcher.GetAllLocalAddresses().FirstOrDefault() ?? "127.0.0.1";
+            _currentDatacenterParameters.Snmp = new SnmpSettingsDto()
+            {
+                IsSnmpOn = _iniFile.Read(IniSection.Snmp, IniKey.IsSnmpOn, true),
+                SnmpReceiverIp = _iniFile.Read(IniSection.Snmp, IniKey.SnmpReceiverIp, "192.168.96.21"),
+                SnmpReceiverPort = _iniFile.Read(IniSection.Snmp, IniKey.SnmpReceiverPort, 162),
+                SnmpAgentIp = _iniFile.Read(IniSection.Snmp, IniKey.SnmpAgentIp, localIp),
+                SnmpCommunity = _iniFile.Read(IniSection.Snmp, IniKey.SnmpCommunity, "IIT"),
+                SnmpEncoding = _iniFile.Read(IniSection.Snmp, IniKey.SnmpEncoding, "windows1251"),
+                EnterpriseOid = _iniFile.Read(IniSection.Snmp, IniKey.EnterpriseOid, "1.3.6.1.4.1.36220"),
+            };
 
             _mysqlTcpPort = _iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, 3306);
             var postfix = _iniFile.Read(IniSection.MySql, IniKey.MySqlDbSchemePostfix, "");

@@ -24,6 +24,7 @@
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Gis_settings}" cal:Message.Attach="LaunchGisSettingsView"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_E_mail_settings}" cal:Message.Attach="LaunchSmtpSettingsView"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_SMS_settings}" cal:Message.Attach="LaunchSmsSettingsView"/>
+                <MenuItem Header="{x:Static stringResources:Resources.SID_SNMP_settings}" cal:Message.Attach="LaunchSnmpSettingsView"/>
                 <Separator/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Client_settings}" cal:Message.Attach="LaunchClientSettingsView"/>
                 <Separator/>

@@ -123,8 +123,8 @@ namespace Iit.Fibertest.WcfConnections
             {
                 var channel = wcfConnection.CreateChannel();
                 dto.ClientId = _clientId;
-//                dto.Username = _username;
-//                dto.ClientIp = _clientIp;
+                //                dto.Username = _username;
+                //                dto.ClientIp = _clientIp;
                 var result = await channel.GetEvents(dto);
                 wcfConnection.Close();
                 return result;
@@ -284,6 +284,25 @@ namespace Iit.Fibertest.WcfConnections
                 return false;
             }
         }
+        public async Task<bool> SaveSnmpSettings(SnmpSettingsDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            if (wcfConnection == null)
+                return false;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.SaveSnmpSettings(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("SaveSnmpSettings: " + e.Message);
+                return false;
+            }
+        }
 
         public async Task<bool> SaveGisMode(bool isMapVisible)
         {
@@ -325,7 +344,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<bool>  SendTest(string to, NotificationType notificationType)
+        public async Task<bool> SendTest(string to, NotificationType notificationType)
         {
             var wcfConnection = _wcfFactory.GetC2DChannelFactory();
             if (wcfConnection == null)

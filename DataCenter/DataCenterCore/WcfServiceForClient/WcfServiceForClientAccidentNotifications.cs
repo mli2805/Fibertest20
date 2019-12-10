@@ -10,8 +10,14 @@ namespace Iit.Fibertest.DataCenterCore
     {
         public Task<bool> SaveSmtpSettings(SmtpSettingsDto dto)
         {
-            _logFile.AppendLine("Client asked to save smtp settings");
+            _logFile.AppendLine("Client asked to save SMTP settings");
             _smtp.SaveSmtpSettings(dto);
+            return Task.FromResult(true);
+        }
+        public Task<bool> SaveSnmpSettings(SnmpSettingsDto dto)
+        {
+            _logFile.AppendLine("Client asked to save SNMP settings");
+            _snmpAgent.SaveSnmpSettings(dto);
             return Task.FromResult(true);
         }
 
