@@ -44,6 +44,10 @@ namespace Iit.Fibertest.UtilsLib
         RightNodeTitle = 50,
         RightNodeGps,
         RightNodeToRtuDistanceKm,
+
+        TestString = 700,
+        TestInt,
+        TestDouble,
     }
 
     public class SnmpAgent
@@ -134,13 +138,14 @@ namespace Iit.Fibertest.UtilsLib
         {
             var trapData = new VbCollection();
 
-            trapData.Add(new Oid(enterpriseOid + ".0"),
-                new OctetString(
-                    EncodeString("Test string with Русский язык.",
-                    snmpEncoding)));
-            trapData.Add(new Oid(enterpriseOid + ".1"), new Integer32(412));
+            trapData.Add(new Oid(enterpriseOid + "." + (int)SnmpProperty.TestString),
+                new OctetString(EncodeString("Test string with Русский язык.",snmpEncoding)));
+            trapData.Add(new Oid(enterpriseOid + "." + (int)SnmpProperty.EventRegistrationTime), 
+                new OctetString(DateTime.Now.ToString("G")));
+            trapData.Add(new Oid(enterpriseOid + "." + (int)SnmpProperty.TestInt), new Integer32(412));
             var doubleValue = 43.0319;
-            trapData.Add(new Oid(enterpriseOid + ".2"), new OctetString(doubleValue.ToString(CultureInfo.CurrentUICulture)));
+            trapData.Add(new Oid(enterpriseOid + "." + (int)SnmpProperty.TestDouble), 
+                new OctetString(doubleValue.ToString(CultureInfo.CurrentUICulture)));
             return trapData;
         }
 

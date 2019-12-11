@@ -2694,10 +2694,33 @@ RTU is initializing right now!</value>
     <value>firmware version</value>
   </data>
 	<data name="SID_SNMP_settings" xml:space="preserve">
-    <value>SNMP settings</value>
+    <value>SNMP server settings</value>
   </data>
 	<data name="SID_Failed_to_save_SNMP_settings" xml:space="preserve">
     <value>Failed to save SNMP settings</value>
   </data>
- 
+	<data name="SID_Is_SNMP_notification_turned_on" xml:space="preserve">
+    <value>Is SNMP notification turned on</value>
+  </data>
+	<data name="SID_Strings_encoding" xml:space="preserve">
+    <value>Strings encoding</value>
+  </data>
+	<data name="SID_Choose_encoding" xml:space="preserve">
+    <value>Choose encoding for strings with non ANSI symbols your SNMP manager is waiting for.</value>
+  </data>
+	<data name="SID_Fibertest_server_address" xml:space="preserve">
+    <value>Fibertest Data-Center address</value>
+  </data>
+	<data name="SID_SNMP_notification_on" xml:space="preserve">
+    <value>Is SNMP notification turned on</value>
+  </data>
+	<data name="SID_Listener_to_the_traps" xml:space="preserve">
+    <value>Listener to the traps sent by Fibertest Data Center</value>
+  </data>
+	<data name="SID_usually_162" xml:space="preserve">
+    <value>usually 162</value>
+  </data>
+  <data name="SID_Save_and_test" xml:space="preserve">
+    <value>Save and Test</value>
+  </data>
 </root>

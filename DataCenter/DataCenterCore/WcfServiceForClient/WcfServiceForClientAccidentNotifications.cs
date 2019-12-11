@@ -18,6 +18,9 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _logFile.AppendLine("Client asked to save SNMP settings");
             _snmpAgent.SaveSnmpSettings(dto);
+
+            _snmpAgent.SendTestTrap();
+
             return Task.FromResult(true);
         }
 

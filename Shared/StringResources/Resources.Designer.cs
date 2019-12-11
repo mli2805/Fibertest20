@@ -1494,6 +1494,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose encoding for strings with non ANSI symbols your SNMP manager is waiting for..
+        /// </summary>
+        public static string SID_Choose_encoding {
+            get {
+                return ResourceManager.GetString("SID_Choose_encoding", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Choose folder in which to install {0}.
         /// </summary>
         public static string SID_Choose_folder_in_which_to_install__0_ {
@@ -2980,6 +2989,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fibertest Data-Center address.
+        /// </summary>
+        public static string SID_Fibertest_server_address {
+            get {
+                return ResourceManager.GetString("SID_Fibertest_server_address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fibertest20: Test SMS message.
         /// </summary>
         public static string SID_Fibertest20__Test_SMS_message {
@@ -3466,6 +3484,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Is SNMP notification turned on.
+        /// </summary>
+        public static string SID_Is_SNMP_notification_turned_on {
+            get {
+                return ResourceManager.GetString("SID_Is_SNMP_notification_turned_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to it could take a few minutes..
         /// </summary>
         public static string SID_it_could_take_a_few_minutes_ {
@@ -3732,6 +3759,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_List_of_traces {
             get {
                 return ResourceManager.GetString("SID_List_of_traces", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Listener to the traps sent by Fibertest Data Center.
+        /// </summary>
+        public static string SID_Listener_to_the_traps {
+            get {
+                return ResourceManager.GetString("SID_Listener_to_the_traps", resourceCulture);
             }
         }
         
@@ -5906,6 +5942,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Save and Test.
+        /// </summary>
+        public static string SID_Save_and_test {
+            get {
+                return ResourceManager.GetString("SID_Save_and_test", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Save frequency.
         /// </summary>
         public static string SID_Save_frequency {
@@ -6438,7 +6483,16 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SNMP settings.
+        ///   Looks up a localized string similar to Is SNMP notification turned on.
+        /// </summary>
+        public static string SID_SNMP_notification_on {
+            get {
+                return ResourceManager.GetString("SID_SNMP_notification_on", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SNMP server settings.
         /// </summary>
         public static string SID_SNMP_settings {
             get {
@@ -6614,6 +6668,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Stop_command_is_sent {
             get {
                 return ResourceManager.GetString("SID_Stop_command_is_sent", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Strings encoding.
+        /// </summary>
+        public static string SID_Strings_encoding {
+            get {
+                return ResourceManager.GetString("SID_Strings_encoding", resourceCulture);
             }
         }
         
@@ -7604,6 +7667,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Users_list {
             get {
                 return ResourceManager.GetString("SID_Users_list", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to usually 162.
+        /// </summary>
+        public static string SID_usually_162 {
+            get {
+                return ResourceManager.GetString("SID_usually_162", resourceCulture);
             }
         }
         
