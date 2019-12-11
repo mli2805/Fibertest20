@@ -2409,7 +2409,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Если Вы используете Gmail.com убедитесь, что для Вашего почтового ящика разрешено небезопасное соединение</value>
 	</data>
 	<data name="SID_usually_smtp_port" xml:space="preserve">
-		<value>обычно 587 или 465</value>
+		<value>обычно 25, 587 или 465</value>
 	</data>
 	<data name="SID_e_g_postbox" xml:space="preserve">
 		<value>например: name@gmail.com</value>
@@ -2694,9 +2694,33 @@ RTU инициализируется в данный момент!</value>
 		<value>Версия прошивки</value>
 	</data>
 	<data name="SID_SNMP_settings" xml:space="preserve">
-		<value>Настройки SNMP</value>
+		<value>Настройки сервера SNMP</value>
 	</data>
 	<data name="SID_Failed_to_save_SNMP_settings" xml:space="preserve">
 		<value>Ошибка сохранения настроек SNMP!</value>
 	</data>
+	<data name="SID_Is_SNMP_notification_turned_on" xml:space="preserve">
+    <value>SNMP рассылка включена</value>
+  </data>
+	<data name="SID_Strings_encoding" xml:space="preserve">
+    <value>Кодировка строк</value>
+  </data>
+	<data name="SID_Choose_encoding" xml:space="preserve">
+    <value>Выберите кодировку строк, содержащих не-ANSI символы, которую ожидает ваш менеджер SNMP</value>
+  </data>
+	<data name="SID_Fibertest_server_address" xml:space="preserve">
+    <value>Адрес сервера Fibertest</value>
+  </data>
+	<data name="SID_SNMP_notification_on" xml:space="preserve">
+    <value>Рассылка SNMP включена</value>
+  </data>
+	<data name="SID_Listener_to_the_traps" xml:space="preserve">
+    <value>Получатель SNMP сообщения, посланных сервером Fibertest</value>
+  </data>
+	<data name="SID_usually_162" xml:space="preserve">
+    <value>обычно 162</value>
+  </data>
+  <data name="SID_Save_and_test" xml:space="preserve">
+    <value>Сохранить и тестировать</value>
+  </data>
 </root>
