@@ -9,17 +9,41 @@
       ><span (click)="drawer.toggle()">Fibertest&trade; 2.0</span></mat-toolbar
     >
     <mat-nav-list>
-      <a mat-list-item routerLink="/rtu-tree" routerLinkActive="active"
+      <a
+        mat-list-item
+        routerLink="/rtu-tree"
+        routerLinkActive="active"
+        (click)="drawer.toggle()"
         >RTU Tree</a
       >
-      <a mat-list-item routerLink="/optical-events" routerLinkActive="active"
+      <a
+        mat-list-item
+        routerLink="/optical-events"
+        routerLinkActive="active"
+        (click)="drawer.toggle()"
         >Optical Events</a
       >
-      <a mat-list-item routerLink="/network-events" routerLinkActive="active"
+      <a
+        mat-list-item
+        routerLink="/network-events"
+        routerLinkActive="active"
+        (click)="drawer.toggle()"
         >Network Events</a
       >
-      <a mat-list-item routerLink="/logout" routerLinkActive="active">Logout</a>
-      <a mat-list-item routerLink="/about" routerLinkActive="active">About</a>
+      <a
+        mat-list-item
+        routerLink="/logout"
+        routerLinkActive="active"
+        (click)="drawer.toggle()"
+        >Logout</a
+      >
+      <a
+        mat-list-item
+        routerLink="/about"
+        routerLinkActive="active"
+        (click)="drawer.toggle()"
+        >About</a
+      >
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
