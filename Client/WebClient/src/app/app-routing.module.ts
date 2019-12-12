@@ -9,6 +9,8 @@ import { AuthGuard } from "./utils/auth-guard";
 import { FtTraceStatisticsComponent } from "./components/details/ft-trace-statistics/ft-trace-statistics.component";
 import { FtRtuStateComponent } from "./components/details/ft-rtu-state/ft-rtu-state.component";
 import { FtTraceInformationComponent } from "./components/details/ft-trace-information/ft-trace-information.component";
+import { FtNetworkEventsComponent } from "./components/ft-network-events/ft-network-events.component";
+import { FtRtuListComponent } from "./components/ft-rtu-list/ft-rtu-list.component";
 
 const routes: Routes = [
   { path: "login", component: FtLoginComponent },
@@ -19,7 +21,7 @@ const routes: Routes = [
     component: FtOptEventsComponent,
     canActivate: [AuthGuard]
   },
-  { path: "network-events", component: FtOptEventsComponent },
+  { path: "network-events", component: FtRtuListComponent },
 
   { path: "rtu-state/:id", component: FtRtuStateComponent },
   { path: "trace-information/:id", component: FtTraceInformationComponent },

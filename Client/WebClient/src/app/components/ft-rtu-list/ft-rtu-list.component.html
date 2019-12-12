@@ -1,0 +1,62 @@
+<div class="component-container">
+  <div class="rtu-line" fxLayout="column" *ngFor="let rtu of rtus">
+    <div class="rtu-header" fxLayout="row">
+      <div class="rtu-title-with-icons"
+        [matMenuTriggerFor]="rtuContextMenu"
+        (contextmenu)="onContextMenu($event)"
+      >
+        <img
+          src="{{ rtu.monitoringMode | monitoringModeToUriPipe }}"
+          alt="monitoring mode image"
+        />
+        <img
+          src="{{ rtu.bopState | rtuPartStateToUriPipe }}"
+          alt="bop state image"
+        />
+        <img
+          src="{{ rtu.mainChannelState | rtuPartStateToUriPipe }}"
+          alt="main channel image"
+        />
+        <img
+          src="{{ rtu.reserveChannelState | rtuPartStateToUriPipe }}"
+          alt="reserve channel image"
+        />
+        <p>{{ rtu.title }}</p>
+        <mat-menu #rtuContextMenu="matMenu">
+          <button mat-menu-item (click)="displayInformation()">
+            {{ "SID_Information" | translate }}
+          </button>
+          <button mat-menu-item>{{ "SID_Show_trace" | translate }}</button>
+          <button mat-menu-item>
+            {{ "SID_Base_refs_assignment" | translate }}
+          </button>
+          <button mat-menu-item>{{ "SID_State" | translate }}</button>
+          <button mat-menu-item (click)="displayStatistics()">
+            {{ "SID_Statistics" | translate }}
+          </button>
+          <button mat-menu-item [disabled]="true">
+            {{ "SID_Landmarks" | translate }}
+          </button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item>{{ "SID_Unplug_trace" | translate }}</button>
+          <mat-divider></mat-divider>
+          <button mat-menu-item>
+            {{ "SID_Precise_monitoring_out_of_turn" | translate }}
+          </button>
+          <button mat-menu-item>
+            {{ "SID_Measurement__Client_" | translate }}
+          </button>
+          <button mat-menu-item>
+            {{ "SID_Measurement__RFTS_Reflect_" | translate }}
+          </button>
+        </mat-menu>
+      </div>
+      <button mat-icon-button type="button" (click)="expand()">
+        <mat-icon>expand_more</mat-icon>
+      </button>
+    </div>
+    <div class="children-container">
+      <ft-rtu-children [childArray]="rtu.children"></ft-rtu-children>
+    </div>
+  </div>
+</div>

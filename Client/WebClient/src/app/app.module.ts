@@ -44,9 +44,10 @@ import { languages } from "src/lang/strings";
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { FtMainNavComponent } from "./components/ft-main-nav/ft-main-nav.component";
 import { LayoutModule } from "@angular/cdk/layout";
+import { FlexLayoutModule } from "@angular/flex-layout";
 
+import { FtMainNavComponent } from "./components/ft-main-nav/ft-main-nav.component";
 import { FtRtuTreeComponent } from "./components/ft-rtu-tree/ft-rtu-tree.component";
 import { FtRtuChildrenComponent } from "./components/ft-rtu-tree/ft-rtu-children/ft-rtu-children.component";
 import { FtFreePortComponent } from "./components/ft-rtu-tree/ft-rtu-children/ft-free-port/ft-free-port.component";
@@ -62,6 +63,7 @@ import { AuthGuard } from "./utils/auth-guard";
 import { FtTraceStatisticsComponent } from './components/details/ft-trace-statistics/ft-trace-statistics.component';
 import { FtTraceInformationComponent } from './components/details/ft-trace-information/ft-trace-information.component';
 import { FtRtuStateComponent } from './components/details/ft-rtu-state/ft-rtu-state.component';
+import { FtRtuListComponent } from './components/ft-rtu-list/ft-rtu-list.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +93,8 @@ import { FtRtuStateComponent } from './components/details/ft-rtu-state/ft-rtu-st
     FtNetworkEventsComponent,
     FtTraceStatisticsComponent,
     FtTraceInformationComponent,
-    FtRtuStateComponent
+    FtRtuStateComponent,
+    FtRtuListComponent
   ],
   imports: [
     TranslateModule.forRoot(),
@@ -102,6 +105,7 @@ import { FtRtuStateComponent } from './components/details/ft-rtu-state/ft-rtu-st
     AppRoutingModule,
     BrowserAnimationsModule,
     LayoutModule,
+    FlexLayoutModule,
     MatSidenavModule,
     MatButtonModule,
     MatToolbarModule,
