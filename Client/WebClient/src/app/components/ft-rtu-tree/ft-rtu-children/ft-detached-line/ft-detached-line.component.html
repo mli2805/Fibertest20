@@ -1,4 +1,7 @@
-<div class="container">
+<div class="container"
+[matMenuTriggerFor]="detachedLineContextMenu"
+(contextmenu)="onContextMenu($event)"
+>
   <img
     src="{{ trace | traceMonitoringModeUri }}"
     alt="monitoring mode image"
@@ -7,4 +10,18 @@
   <div class="traceName">
     <p>{{ trace.title }}</p>
   </div>
+  <mat-menu #detachedLineContextMenu="matMenu">
+      <button mat-menu-item (click)="displayInformation()">
+        {{ "SID_Information" | translate }}
+      </button>
+      <button mat-menu-item>{{ "SID_Show_trace" | translate }}</button>
+      <button mat-menu-item>{{ "SID_Base_refs_assignment" | translate }}</button>
+      <button mat-menu-item>{{ "SID_State" | translate }}</button>
+      <button mat-menu-item (click)="displayStatistics()">
+        {{ "SID_Statistics" | translate }}
+      </button>
+      <button mat-menu-item [disabled]="true">
+        {{ "SID_Landmarks" | translate }}
+      </button>
+      </mat-menu>
 </div>
