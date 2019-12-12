@@ -2,7 +2,7 @@
   <div class="rtu-line" fxLayout="column" *ngFor="let rtu of rtus">
     <div class="rtu-header" fxLayout="row">
       <div
-        class="rtu-title-with-icons"
+        class="rtu-title-with-icons" fxLayout="row"
         [matMenuTriggerFor]="rtuContextMenu"
         (contextmenu)="onContextMenu($event)"
       >

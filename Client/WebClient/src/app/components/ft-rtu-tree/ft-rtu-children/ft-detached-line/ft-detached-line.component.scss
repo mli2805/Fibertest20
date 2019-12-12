@@ -1,5 +1,7 @@
 .container {
   margin-left: 10px;
+  height: 36px;
+  align-items: center;
 }
 
 img {
@@ -9,12 +11,16 @@ img {
 }
 
 .traceName {
-    color: blue;
-    display: inline-block;
+  color: blue;
+  display: inline-block;
   justify-content: center;
 }
 
 p {
   margin: 0;
   padding: 0;
+}
+
+div:hover {
+  background-color: ghostwhite;
 }

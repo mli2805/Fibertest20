@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { FtOtauComponent } from './ft-otau.component';
+import { FtOtauComponent } from "./ft-otau.component";
 
-describe('FtOtauV2Component', () => {
+describe("FtOtauV2Component", () => {
   let component: FtOtauComponent;
   let fixture: ComponentFixture<FtOtauComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FtOtauComponent ]
-    })
-    .compileComponents();
+      declarations: [FtOtauComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('FtOtauV2Component', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });
