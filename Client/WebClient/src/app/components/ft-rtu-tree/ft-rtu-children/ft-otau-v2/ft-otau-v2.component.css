@@ -1,23 +1,23 @@
 .component-container {
-  margin-top: 10px;
+  margin-left: 20px;
   margin-right: 10px;
 }
 
-.rtu-line {
+.otau-line {
   margin-top: 1px;
 }
 
-.rtu-header {
+.otau-header {
   width: 100%;
   /* background-color: rgba(0, 255, 255, 0.1); */
   align-items: center;
 }
 
-.rtu-header:hover {
+.otau-header:hover {
   background-color: rgba(0, 0, 0, 0.03);
 }
 
-.rtu-title-with-icons {
+.otau-title-with-icons {
   width: 100%;
 }
 

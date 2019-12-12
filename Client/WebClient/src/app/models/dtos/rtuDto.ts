@@ -5,6 +5,8 @@ import { RtuPartState } from "../enums/rtuPartState";
 import { ChildDto } from "./childDto";
 
 export class RtuDto {
+  expanded: boolean;
+
   rtuId: string;
   rtuMaker: RtuMaker;
   title: string;

@@ -64,6 +64,7 @@ import { FtTraceStatisticsComponent } from './components/details/ft-trace-statis
 import { FtTraceInformationComponent } from './components/details/ft-trace-information/ft-trace-information.component';
 import { FtRtuStateComponent } from './components/details/ft-rtu-state/ft-rtu-state.component';
 import { FtRtuListComponent } from './components/ft-rtu-list/ft-rtu-list.component';
+import { FtOtauV2Component } from './components/ft-rtu-tree/ft-rtu-children/ft-otau-v2/ft-otau-v2.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +95,8 @@ import { FtRtuListComponent } from './components/ft-rtu-list/ft-rtu-list.compone
     FtTraceStatisticsComponent,
     FtTraceInformationComponent,
     FtRtuStateComponent,
-    FtRtuListComponent
+    FtRtuListComponent,
+    FtOtauV2Component
   ],
   imports: [
     TranslateModule.forRoot(),

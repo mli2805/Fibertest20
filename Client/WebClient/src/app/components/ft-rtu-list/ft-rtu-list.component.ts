@@ -43,8 +43,8 @@ export class FtRtuListComponent implements OnInit {
     }
   }
 
-  expand() {
-    console.log("expand clicked");
+  expand(rtu: RtuDto) {
+    console.log(`expand rtu ${rtu.title} clicked`);
+    rtu.expanded = !rtu.expanded;
   }
-
 }
