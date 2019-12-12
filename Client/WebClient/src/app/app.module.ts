@@ -63,7 +63,6 @@ import { AuthGuard } from "./utils/auth-guard";
 import { FtTraceStatisticsComponent } from './components/details/ft-trace-statistics/ft-trace-statistics.component';
 import { FtTraceInformationComponent } from './components/details/ft-trace-information/ft-trace-information.component';
 import { FtRtuStateComponent } from './components/details/ft-rtu-state/ft-rtu-state.component';
-import { FtRtuListComponent } from './components/ft-rtu-list/ft-rtu-list.component';
 import { FtOtauV2Component } from './components/ft-rtu-tree/ft-rtu-children/ft-otau-v2/ft-otau-v2.component';
 
 @NgModule({
@@ -95,7 +94,6 @@ import { FtOtauV2Component } from './components/ft-rtu-tree/ft-rtu-children/ft-o
     FtTraceStatisticsComponent,
     FtTraceInformationComponent,
     FtRtuStateComponent,
-    FtRtuListComponent,
     FtOtauV2Component
   ],
   imports: [

@@ -43,4 +43,8 @@ export class FtRtuTreeComponent implements OnInit {
       }
     }
   }
+
+  expand(rtu: RtuDto) {
+    rtu.expanded = !rtu.expanded;
+  }
 }
