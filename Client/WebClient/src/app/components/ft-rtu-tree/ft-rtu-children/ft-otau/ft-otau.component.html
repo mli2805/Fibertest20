@@ -1,18 +1,23 @@
-<mat-accordion>
-  <mat-expansion-panel [expanded]="true">
-    <mat-expansion-panel-header>
-      <div class="otau-header">
+<div class="component-container">
+  <div class="otau-line" fxLayout="column">
+    <div class="otau-header" fxLayout="row">
+      <div class="otau-title-with-icons">
         <img src="{{ otau.isOk | booleanUri }}" alt="bop state image" />
-        <p>N{{otau.port}}:
+        <p>
+          N{{ otau.port }}:
           {{
-            'SID_Optical_switch_with_Address'
-              | translate: { '0': otau.otauNetAddress.toStringASpace }
+            "SID_Optical_switch_with_Address"
+              | translate: { "0": otau.otauNetAddress.toStringASpace }
           }}
         </p>
       </div>
-    </mat-expansion-panel-header>
-    <div class="otau-children">
+      <button mat-icon-button type="button" (click)="expand()">
+        <mat-icon>expand_more</mat-icon>
+      </button>
+    </div>
+
+    <div *ngIf="otau.expanded" class="otau-children">
       <ft-rtu-children [childArray]="otau.children"></ft-rtu-children>
     </div>
-  </mat-expansion-panel>
-</mat-accordion>
+  </div>
+</div>
