@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { ChildDto } from "src/app/models/dtos/childDto";
+import { ChildDto } from "src/app/models/dtos/rtuTree/childDto";
 
 @Component({
   selector: "ft-rtu-children",

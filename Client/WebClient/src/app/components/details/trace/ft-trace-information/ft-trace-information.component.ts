@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { TraceInformationDto } from "src/app/models/dtos/traceInformationDto";
+import { TraceInformationDto } from "src/app/models/dtos/trace/traceInformationDto";
 
 @Component({
   selector: "ft-trace-information",

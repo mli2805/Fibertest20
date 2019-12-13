@@ -1,5 +1,5 @@
 import { ChildDto } from "./childDto";
-import { NetAddress } from "./netAddress";
+import { NetAddress } from "../../underlying/netAddress";
 
 export class OtauWebDto extends ChildDto {
 

@@ -1,7 +1,7 @@
-import { MonitoringMode } from "../enums/monitoringMode";
-import { RtuMaker } from "../enums/rtuMaker";
-import { NetAddress } from "./netAddress";
-import { RtuPartState } from "../enums/rtuPartState";
+import { MonitoringMode } from "../../enums/monitoringMode";
+import { RtuMaker } from "../../enums/rtuMaker";
+import { NetAddress } from "../../underlying/netAddress";
+import { RtuPartState } from "../../enums/rtuPartState";
 import { ChildDto } from "./childDto";
 
 export class RtuDto {

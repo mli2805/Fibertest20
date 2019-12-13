@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { TraceStatisticsDto } from "src/app/models/dtos/traceStatisticsDto";
+import { TraceStatisticsDto } from "src/app/models/dtos/trace/traceStatisticsDto";
 import { ActivatedRoute } from "@angular/router";
 import { TraceApiService } from "src/app/api/trace.service";
 

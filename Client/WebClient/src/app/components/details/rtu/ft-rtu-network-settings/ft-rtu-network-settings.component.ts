@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { RtuApiService } from "src/app/api/rtu.service";
 import { ActivatedRoute } from "@angular/router";
-import { RtuNetworkSettingsDto } from "src/app/models/dtos/rtuNetworkSettingsDto";
+import { RtuNetworkSettingsDto } from "src/app/models/dtos/rtu/rtuNetworkSettingsDto";
 
 @Component({
   selector: "ft-rtu-network-settings",
@@ -9,7 +9,7 @@ import { RtuNetworkSettingsDto } from "src/app/models/dtos/rtuNetworkSettingsDto
   styleUrls: ["./ft-rtu-network-settings.component.css"]
 })
 export class FtRtuNetworkSettingsComponent implements OnInit {
-  vm: RtuNetworkSettingsDto;
+  vm: RtuNetworkSettingsDto = new RtuNetworkSettingsDto();
 
   constructor(
     private activeRoute: ActivatedRoute,

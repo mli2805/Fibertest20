@@ -63,7 +63,90 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-      public async Task<TraceInformationDto> GetTraceInformation(string username, Guid traceId)
+        #region RTU
+        public async Task<RtuInformationDto> GetRtuInformation(string username, Guid rtuId)
+        {
+            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetRtuInformation(username, rtuId);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetRtuInformation: " + e.Message);
+                return null;
+            }
+        }
+        
+        public async Task<RtuNetworkSettingsDto> GetRtuNetworkSettings(string username, Guid rtuId)
+        {
+            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetRtuNetworkSettings(username, rtuId);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetRtuNetworkSettings: " + e.Message);
+                return null;
+            }
+        } 
+        
+        public async Task<RtuStateDto> GetRtuState(string username, Guid rtuId)
+        {
+            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetRtuState(username, rtuId);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetRtuState: " + e.Message);
+                return null;
+            }
+        }
+        
+        public async Task<RtuMonitoringSettingsDto> GetRtuMonitoringSettings(string username, Guid rtuId)
+        {
+            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetRtuMonitoringSettings(username, rtuId);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetRtuMonitoringSettings: " + e.Message);
+                return null;
+            }
+        }
+        #endregion
+
+        #region Trace
+        public async Task<TraceInformationDto> GetTraceInformation(string username, Guid traceId)
         {
             var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
             if (wcfConnection == null)
@@ -102,6 +185,7 @@ namespace Iit.Fibertest.WcfConnections
                 return null;
             }
         }
+        #endregion
 
         public async Task<List<OpticalEventDto>> GetOpticalEventList(string username, bool isCurrentEvents = true, string filterRtu = "",
             string filterTrace = "", string sortOrder = "desc", int pageNumber = 0, int pageSize = 100)

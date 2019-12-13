@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
-import { TraceDto } from "src/app/models/dtos/traceDto";
+import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
 import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
 

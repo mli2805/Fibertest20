@@ -1,4 +1,4 @@
-import { ChildType } from "../enums/childType";
+import { ChildType } from "../../enums/childType";
 
 export class ChildDto {
   port: number;

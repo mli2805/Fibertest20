@@ -22,7 +22,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             _webProxy2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
         }
 
-        // [Authorize(Roles = "Root")]
+        [Authorize]
         [HttpGet("Information/{id}")]
         public async Task<TraceInformationDto> GetTraceInformation(string id)
         {

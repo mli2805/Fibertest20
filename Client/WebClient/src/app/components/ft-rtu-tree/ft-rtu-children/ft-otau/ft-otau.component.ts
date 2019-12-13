@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { OtauWebDto } from "src/app/models/dtos/otauWebDto";
+import { OtauWebDto } from "src/app/models/dtos/rtuTree/otauWebDto";
 
 @Component({
   selector: "ft-otau",

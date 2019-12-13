@@ -78,6 +78,113 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
+        #region RTU
+        public async Task<RtuInformationDto> GetRtuInformation(string username, Guid rtuId)
+        {
+            _logFile.AppendLine(":: WcfServiceForWebProxy GetTraceInformation");
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+            if (user == null)
+            {
+                _logFile.AppendLine("Not authorized access");
+                return null;
+            }
+            await Task.Delay(1);
+
+            var result = new RtuInformationDto();
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == rtuId);
+            if (rtu == null) return result;
+            result.RtuTitle = rtu.Title;
+            var rtuNode = _writeModel.Nodes.FirstOrDefault(n => n.NodeId == rtu.NodeId);
+            result.GpsCoors = rtuNode?.Position.ToDetailedString(GpsInputMode.DegreesMinutesAndSeconds) ?? "";
+            result.Comment = rtu.Comment;
+            return result;
+        }  
+        
+        public async Task<RtuNetworkSettingsDto> GetRtuNetworkSettings(string username, Guid rtuId)
+        {
+            _logFile.AppendLine(":: WcfServiceForWebProxy GetRtuNetworkSettings");
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+            if (user == null)
+            {
+                _logFile.AppendLine("Not authorized access");
+                return null;
+            }
+            await Task.Delay(1);
+
+            var result = new RtuNetworkSettingsDto();
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == rtuId);
+            if (rtu == null) return result;
+            result.RtuTitle = rtu.Title;
+            result.Mfid = rtu.Mfid;
+            result.Serial = rtu.Serial;
+            result.Version = rtu.Version;
+            result.Version2 = rtu.Version2;
+            result.OwnPortCount = rtu.OwnPortCount;
+            result.FullPortCount = rtu.FullPortCount;
+            result.MainChannel = rtu.MainChannel.ToStringA();
+            result.ReserveChannel = rtu.ReserveChannel.ToStringA();
+            result.OtdrAddress = rtu.OtdrNetAddress.ToStringA();
+            return result;
+        }  
+        
+        public async Task<RtuStateDto> GetRtuState(string username, Guid rtuId)
+        {
+            _logFile.AppendLine(":: WcfServiceForWebProxy GetRtuState");
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+            if (user == null)
+            {
+                _logFile.AppendLine("Not authorized access");
+                return null;
+            }
+            await Task.Delay(1);
+
+            var result = new RtuStateDto();
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == rtuId);
+            if (rtu == null) return result;
+            result.RtuTitle = rtu.Title;
+            result.MainChannel = rtu.MainChannel.ToStringA();
+            result.MainChannelState = rtu.MainChannelState;
+            result.IsReserveChannelSet = rtu.IsReserveChannelSet;
+            result.ReserveChannel = rtu.ReserveChannel.ToStringA();
+            result.ReserveChannelState = rtu.ReserveChannelState;
+
+            result.BopState = rtu.BopState;
+            // result.TracesState =
+            result.MonitoringMode = rtu.MonitoringState;
+
+            result.OwnPortCount = rtu.OwnPortCount;
+            result.FullPortCount = rtu.FullPortCount;
+            result.BopCount = rtu.Children.Count;
+            // result.TraceCount = 
+
+            for (int i = 0; i < rtu.FullPortCount; i++)
+            {
+                var child = new RtuStateChildDto();
+                result.Children.Add(child);
+            }
+            return result;
+        } 
+        
+        public async Task<RtuMonitoringSettingsDto> GetRtuMonitoringSettings(string username, Guid rtuId)
+        {
+            _logFile.AppendLine(":: WcfServiceForWebProxy GetRtuMonitoringSettings");
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+            if (user == null)
+            {
+                _logFile.AppendLine("Not authorized access");
+                return null;
+            }
+            await Task.Delay(1);
+
+            var result = new RtuMonitoringSettingsDto();
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == rtuId);
+            if (rtu == null) return result;
+            result.RtuTitle = rtu.Title;
+            return result;
+        }
+        #endregion
+
+        #region Trace
         public async Task<TraceInformationDto> GetTraceInformation(string username, Guid traceId)
         {
             _logFile.AppendLine(":: WcfServiceForWebProxy GetTraceInformation");
@@ -107,6 +214,7 @@ namespace Iit.Fibertest.DataCenterCore
             result.Comment = trace.Comment;
             return result;
         }
+        #endregion
 
 
         public async Task<List<OpticalEventDto>> GetOpticalEventList(string username, bool isCurrentEvents, string filterRtu = "",

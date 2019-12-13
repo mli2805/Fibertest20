@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { RtuStateDto } from "src/app/models/dtos/rtuStateDto";
+import { RtuStateDto } from "src/app/models/dtos/rtu/rtuStateDto";
 import { ActivatedRoute } from "@angular/router";
 import { RtuApiService } from "src/app/api/rtu.service";
 
@@ -9,7 +9,7 @@ import { RtuApiService } from "src/app/api/rtu.service";
   styleUrls: ["./ft-rtu-state.component.css"]
 })
 export class FtRtuStateComponent implements OnInit {
-  vm: RtuStateDto;
+  vm: RtuStateDto = new RtuStateDto();
 
   constructor(
     private activeRoute: ActivatedRoute,

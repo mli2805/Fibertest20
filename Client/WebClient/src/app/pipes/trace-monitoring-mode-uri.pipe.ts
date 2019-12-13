@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { TraceDto } from "../models/dtos/traceDto";
+import { TraceDto } from "../models/dtos/rtuTree/traceDto";
 import { MonitoringMode } from "../models/enums/monitoringMode";
 
 @Pipe({

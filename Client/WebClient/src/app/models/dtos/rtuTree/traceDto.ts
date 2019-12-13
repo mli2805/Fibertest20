@@ -1,7 +1,7 @@
-import { OtauPortDto } from "./otauPortDto";
-import { FiberState } from "../enums/fiberState";
+import { OtauPortDto } from "../../underlying/otauPortDto";
+import { FiberState } from "../../enums/fiberState";
 import { ChildDto } from "./childDto";
-import { MonitoringMode } from "../enums/monitoringMode";
+import { MonitoringMode } from "../../enums/monitoringMode";
 
 export class TraceDto extends ChildDto {
   traceId: string;

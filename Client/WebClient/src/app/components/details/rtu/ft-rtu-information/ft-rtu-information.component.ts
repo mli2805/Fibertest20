@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
 import { RtuApiService } from "src/app/api/rtu.service";
-import { RtuInformationDto } from "src/app/models/dtos/rtuInformationDto";
+import { RtuInformationDto } from "src/app/models/dtos/rtu/rtuInformationDto";
 
 @Component({
   selector: "ft-rtu-information",
@@ -9,7 +9,7 @@ import { RtuInformationDto } from "src/app/models/dtos/rtuInformationDto";
   styleUrls: ["./ft-rtu-information.component.css"]
 })
 export class FtRtuInformationComponent implements OnInit {
-  vm: RtuInformationDto;
+  private vm: RtuInformationDto = new RtuInformationDto();
 
   constructor(
     private activeRoute: ActivatedRoute,

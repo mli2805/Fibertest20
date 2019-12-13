@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -28,7 +29,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebProxy);
             _webProxy2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
         }
-        
+
         [Authorize]
         [HttpGet]
         public async Task<IEnumerable<RtuDto>> GetTree()
@@ -45,6 +46,93 @@ namespace Iit.Fibertest.DataCenterWebApi
             return rtuList;
         }
 
-      
+        [Authorize]
+        [HttpGet("Information/{id}")]
+        public async Task<RtuInformationDto> GetRtuInformation(string id)
+        {
+            try
+            {
+                _logFile.AppendLine($"rtu id = {id}");
+                var rtuGuid = Guid.Parse(id);
+                _logFile.AppendLine($"trace Guid = {rtuGuid}");
+                var rtuInformationDto = await _webProxy2DWcfManager.GetRtuInformation(User.Identity.Name, rtuGuid);
+                _logFile.AppendLine(rtuInformationDto == null
+                    ? "Failed to get RTU's information"
+                    : "RTU information ");
+                return rtuInformationDto;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"GetRtuInformation: {e.Message}");
+            }
+            return null;
+        }
+
+        [Authorize]
+        [HttpGet("Network-settings/{id}")]
+        public async Task<RtuNetworkSettingsDto> GetRtuNetworkSettings(string id)
+        {
+            try
+            {
+                _logFile.AppendLine($"rtu id = {id}");
+                var rtuGuid = Guid.Parse(id);
+                _logFile.AppendLine($"trace Guid = {rtuGuid}");
+                var rtuNetworkSettingsDto = await _webProxy2DWcfManager.GetRtuNetworkSettings(User.Identity.Name, rtuGuid);
+                _logFile.AppendLine(rtuNetworkSettingsDto == null
+                    ? "Failed to get RTU's network-settings"
+                    : "RTU Network-settings ");
+                return rtuNetworkSettingsDto;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"GetRtuNetworkSettings: {e.Message}");
+            }
+            return null;
+        }
+
+        [Authorize]
+        [HttpGet("State/{id}")]
+        public async Task<RtuStateDto> GetRtuState(string id)
+        {
+            try
+            {
+                _logFile.AppendLine($"rtu id = {id}");
+                var rtuGuid = Guid.Parse(id);
+                _logFile.AppendLine($"trace Guid = {rtuGuid}");
+                var rtuStateDto = await _webProxy2DWcfManager.GetRtuState(User.Identity.Name, rtuGuid);
+                _logFile.AppendLine(rtuStateDto == null
+                    ? "Failed to get RTU's state"
+                    : "RTU state ");
+                return rtuStateDto;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"GetRtuState: {e.Message}");
+            }
+            return null;
+        }
+
+        [Authorize]
+        [HttpGet("Monitoring-settings/{id}")]
+        public async Task<RtuMonitoringSettingsDto> GetRtuMonitoringSettings(string id)
+        {
+            try
+            {
+                _logFile.AppendLine($"rtu id = {id}");
+                var rtuGuid = Guid.Parse(id);
+                _logFile.AppendLine($"trace Guid = {rtuGuid}");
+                var rtuMonitoringSettingsDto = await _webProxy2DWcfManager.GetRtuMonitoringSettings(User.Identity.Name, rtuGuid);
+                _logFile.AppendLine(rtuMonitoringSettingsDto == null
+                    ? "Failed to get RTU's Monitoring-settings"
+                    : "RTU Monitoring-settings ");
+                return rtuMonitoringSettingsDto;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"GetRtuMonitoringSettings: {e.Message}");
+            }
+            return null;
+        }
+
     }
 }

@@ -1,9 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { RtuApiService } from "src/app/api/rtu.service";
-import { RtuDto } from "src/app/models/dtos/rtuDto";
+import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { ChildType } from "src/app/models/enums/childType";
-import { TraceDto } from "src/app/models/dtos/traceDto";
-import { OtauWebDto } from "src/app/models/dtos/otauWebDto";
+import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
+import { OtauWebDto } from "src/app/models/dtos/rtuTree/otauWebDto";
 import { Router } from "@angular/router";
 
 @Component({

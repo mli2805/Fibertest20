@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { TraceDto } from "src/app/models/dtos/traceDto";
+import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
 
 @Component({
   selector: "ft-detached-line",

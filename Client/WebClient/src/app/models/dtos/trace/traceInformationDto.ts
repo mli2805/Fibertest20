@@ -1,4 +1,4 @@
-import { TraceInfoTableItem } from "../underlying/traceInfoTableItem";
+import { TraceInfoTableItem } from "../../underlying/traceInfoTableItem";
 
 export class TraceInformationDto {
   traceTitle: string;

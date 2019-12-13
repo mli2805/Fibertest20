@@ -1,5 +1,5 @@
-import { BaseRefInfoDto } from "./baseRefInfoDto";
-import { MeasurementDto } from "./measurementDto";
+import { BaseRefInfoDto } from "../../underlying/baseRefInfoDto";
+import { MeasurementDto } from "../measurementDto";
 
 export class TraceStatisticsDto {
   traceTitle: string;

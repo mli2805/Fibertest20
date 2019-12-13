@@ -1,8 +1,8 @@
 import { MonitoringMode } from "../enums/monitoringMode";
 import { RtuMaker } from "../enums/rtuMaker";
-import { NetAddress } from "../dtos/netAddress";
+import { NetAddress } from "../underlying/netAddress";
 import { RtuPartState } from "../enums/rtuPartState";
-import { RtuDto } from "../dtos/rtuDto";
+import { RtuDto } from "../dtos/rtuTree/rtuDto";
 
 export class RtuVm {
   rtuId: string;

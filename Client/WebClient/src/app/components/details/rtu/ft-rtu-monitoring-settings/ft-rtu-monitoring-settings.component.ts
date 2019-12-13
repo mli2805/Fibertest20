@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { RtuMonitoringSettingsDto } from "src/app/models/dtos/rtuMonitoringSettingsDto";
+import { RtuMonitoringSettingsDto } from "src/app/models/dtos/rtu/rtuMonitoringSettingsDto";
 import { ActivatedRoute } from "@angular/router";
 import { RtuApiService } from "src/app/api/rtu.service";
 
@@ -9,7 +9,7 @@ import { RtuApiService } from "src/app/api/rtu.service";
   styleUrls: ["./ft-rtu-monitoring-settings.component.css"]
 })
 export class FtRtuMonitoringSettingsComponent implements OnInit {
-  vm: RtuMonitoringSettingsDto;
+  vm: RtuMonitoringSettingsDto = new RtuMonitoringSettingsDto();
 
   constructor(
     private activeRoute: ActivatedRoute,
