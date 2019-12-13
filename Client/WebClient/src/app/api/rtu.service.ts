@@ -17,4 +17,15 @@ export class RtuApiService {
     });
     return this.httpClient.get(url, { headers: myHeaders });
   }
+
+  getOneRtu(id: string, request: string) {
+    const url = Utils.GetWebApiUrl() + `/rtu/${request}/${id}`;
+    const currentUser = JSON.parse(sessionStorage.currentUser);
+
+    const myHeaders = new HttpHeaders({
+      Authorization: "Bearer " + currentUser.jsonWebToken
+    });
+
+    return this.httpClient.get(url, { headers: myHeaders });
+  }
 }

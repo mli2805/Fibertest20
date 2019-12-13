@@ -2,7 +2,8 @@
   <div class="rtu-line" fxLayout="column" *ngFor="let rtu of rtus">
     <div class="rtu-header" fxLayout="row">
       <div
-        class="rtu-title-with-icons" fxLayout="row"
+        class="rtu-title-with-icons"
+        fxLayout="row"
         [matMenuTriggerFor]="rtuContextMenu"
         (contextmenu)="onContextMenu($event)"
       >
@@ -24,17 +25,25 @@
         />
         <p>{{ rtu.title }}</p>
         <mat-menu #rtuContextMenu="matMenu">
-          <button mat-menu-item (click)="displayInformation()">
+          <button mat-menu-item (click)="information(rtu)">
             {{ "SID_Information" | translate }}
           </button>
-          <button mat-menu-item>
+          <button mat-menu-item (click)="networkSettings(rtu)">
             {{ "SID_Network_settings" | translate }}
           </button>
-          <button mat-menu-item>{{ "SID_State" | translate }}</button>
+          <button mat-menu-item (click)="state(rtu)">
+            {{ "SID_State" | translate }}
+          </button>
           <mat-divider></mat-divider>
-          <button mat-menu-item>{{ "SID_Monitoring_settings" | translate }}</button>
-          <button mat-menu-item>{{ "SID_Manual_mode" | translate }}</button>
-          <button mat-menu-item>{{ "SID_Automatic_mode" | translate }}</button>
+          <button mat-menu-item (click)="monitoringSettings(rtu)">
+            {{ "SID_Monitoring_settings" | translate }}
+          </button>
+          <button mat-menu-item (click)="manualMode(rtu)">
+            {{ "SID_Manual_mode" | translate }}
+          </button>
+          <button mat-menu-item (click)="automaticMode(rtu)">
+            {{ "SID_Automatic_mode" | translate }}
+          </button>
         </mat-menu>
       </div>
       <button

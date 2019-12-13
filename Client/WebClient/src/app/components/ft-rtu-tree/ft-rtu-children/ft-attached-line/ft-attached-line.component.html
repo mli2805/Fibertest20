@@ -1,13 +1,12 @@
 <div
-  class="container" fxLayout="row"
+  class="container"
+  fxLayout="row"
   [matMenuTriggerFor]="attachedLineContextMenu"
   (contextmenu)="onContextMenu($event)"
 >
   <img src="{{ trace | traceMonitoringModeUri }}" alt="monitoring mode image" />
   <img src="{{ trace.state | fiberStateToUriPipe }}" alt="trace state image" />
-  <div class="traceName">
-    <p>N{{ trace.port }}: {{ trace.title }}</p>
-  </div>
+  <p>N{{ trace.port }}: {{ trace.title }}</p>
   <mat-menu #attachedLineContextMenu="matMenu">
     <button mat-menu-item (click)="displayInformation()">
       {{ "SID_Information" | translate }}

@@ -28,7 +28,7 @@ export class FtTraceStatisticsComponent implements OnInit {
   ngOnInit() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
     this.traceApiService
-      .getTraceStatistics(id)
+      .getOneTrace(id, "statistics")
       .subscribe((res: TraceStatisticsDto) => {
         console.log("trace statistics received");
         this.vm = res;

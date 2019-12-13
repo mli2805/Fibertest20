@@ -1,5 +1,5 @@
 .container {
-  margin-left: 10px;
+  margin-left: 4px;
   height: 36px;
   align-items: center;
 }
@@ -17,10 +17,10 @@ img {
 }
 
 p {
-  margin: 0;
+  margin-left: 5px;
   padding: 0;
 }
 
 div:hover {
-  background-color: ghostwhite;
+  background-color: rgba(0, 0, 0, 0.03);
 }

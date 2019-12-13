@@ -4,6 +4,7 @@ import { RtuDto } from "src/app/models/dtos/rtuDto";
 import { ChildType } from "src/app/models/enums/childType";
 import { TraceDto } from "src/app/models/dtos/traceDto";
 import { OtauWebDto } from "src/app/models/dtos/otauWebDto";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "ft-rtu-tree",
@@ -13,7 +14,7 @@ import { OtauWebDto } from "src/app/models/dtos/otauWebDto";
 export class FtRtuTreeComponent implements OnInit {
   private rtus: RtuDto[];
 
-  constructor(private rtuService: RtuApiService) {}
+  constructor(private rtuService: RtuApiService, private router: Router) {}
 
   ngOnInit() {
     this.rtuService.getAllRtu().subscribe((res: RtuDto[]) => {
@@ -46,5 +47,21 @@ export class FtRtuTreeComponent implements OnInit {
 
   expand(rtu: RtuDto) {
     rtu.expanded = !rtu.expanded;
+  }
+
+  information(rtu: RtuDto) {
+    this.router.navigate(["/rtu-information", rtu.rtuId]);
+  }
+
+  networkSettings(rtu: RtuDto) {
+    this.router.navigate(["/rtu-network-settings", rtu.rtuId]);
+  }
+
+  state(rtu: RtuDto) {
+    this.router.navigate(["/rtu-state", rtu.rtuId]);
+  }
+
+  monitoringSettings(rtu: RtuDto) {
+    this.router.navigate(["/rtu-monitoring-settings", rtu.rtuId]);
   }
 }

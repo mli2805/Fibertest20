@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { FtTraceInformationComponent } from './ft-trace-information.component';
+import { FtTraceInformationComponent } from "./ft-trace-information.component";
 
-describe('FtTraceInformationComponent', () => {
+describe("FtTraceInformationComponent", () => {
   let component: FtTraceInformationComponent;
   let fixture: ComponentFixture<FtTraceInformationComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FtTraceInformationComponent ]
-    })
-    .compileComponents();
+      declarations: [FtTraceInformationComponent]
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('FtTraceInformationComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

@@ -60,9 +60,12 @@ import { PageNotFoundComponent } from "./components/page-not-found/page-not-foun
 import { FtOptEventsComponent } from "./components/ft-opt-events/ft-opt-events.component";
 import { FtNetworkEventsComponent } from "./components/ft-network-events/ft-network-events.component";
 import { AuthGuard } from "./utils/auth-guard";
-import { FtTraceStatisticsComponent } from './components/details/ft-trace-statistics/ft-trace-statistics.component';
-import { FtTraceInformationComponent } from './components/details/ft-trace-information/ft-trace-information.component';
-import { FtRtuStateComponent } from './components/details/ft-rtu-state/ft-rtu-state.component';
+import { FtTraceStatisticsComponent } from "./components/details/trace/ft-trace-statistics/ft-trace-statistics.component";
+import { FtTraceInformationComponent } from "./components/details/trace/ft-trace-information/ft-trace-information.component";
+import { FtRtuStateComponent } from "./components/details/rtu/ft-rtu-state/ft-rtu-state.component";
+import { FtRtuInformationComponent } from "./components/details/rtu/ft-rtu-information/ft-rtu-information.component";
+import { FtRtuNetworkSettingsComponent } from "./components/details/rtu/ft-rtu-network-settings/ft-rtu-network-settings.component";
+import { FtRtuMonitoringSettingsComponent } from "./components/details/rtu/ft-rtu-monitoring-settings/ft-rtu-monitoring-settings.component";
 
 @NgModule({
   declarations: [
@@ -93,7 +96,10 @@ import { FtRtuStateComponent } from './components/details/ft-rtu-state/ft-rtu-st
     FtTraceStatisticsComponent,
     FtTraceInformationComponent,
     FtRtuStateComponent,
-    FtOtauComponent
+    FtOtauComponent,
+    FtRtuInformationComponent,
+    FtRtuNetworkSettingsComponent,
+    FtRtuMonitoringSettingsComponent
   ],
   imports: [
     TranslateModule.forRoot(),

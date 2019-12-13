@@ -8,23 +8,14 @@ import { Utils } from "../Utils/utils";
 export class TraceApiService {
   constructor(private httpClient: HttpClient) {}
 
-  getTraceInformation(id: string) {
-    const url = Utils.GetWebApiUrl() + "/trace/information/" + id;
+  getOneTrace(id: string, request: string) {
+    const url = Utils.GetWebApiUrl() + `/trace/${request}/${id}`;
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
     const myHeaders = new HttpHeaders({
       Authorization: "Bearer " + currentUser.jsonWebToken
     });
-    return this.httpClient.get(url, { headers: myHeaders });
-  }
 
-  getTraceStatistics(id: string) {
-    const url = Utils.GetWebApiUrl() + "/trace/statistics/" + id;
-    const currentUser = JSON.parse(sessionStorage.currentUser);
-
-    const myHeaders = new HttpHeaders({
-      Authorization: "Bearer " + currentUser.jsonWebToken
-    });
     return this.httpClient.get(url, { headers: myHeaders });
   }
 }
