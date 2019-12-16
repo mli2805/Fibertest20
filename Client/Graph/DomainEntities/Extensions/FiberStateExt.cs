@@ -13,7 +13,9 @@ namespace Iit.Fibertest.Graph
         {
             switch (state)
             {
-                case FiberState.NotInTrace:
+                case FiberState.Nothing:
+                    return "";
+               case FiberState.NotInTrace:
                     return Resources.SID_Not_in_trace;
                 case FiberState.NotJoined:
                     return Resources.SID_Not_joined;

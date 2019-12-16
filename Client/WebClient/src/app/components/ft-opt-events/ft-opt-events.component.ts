@@ -6,7 +6,6 @@ import {
   ViewChild,
   AfterViewInit,
   ElementRef,
-  Input
 } from "@angular/core";
 import { OptEvService } from "src/app/api/oev.service";
 import { OptEventsDataSource } from "../ft-opt-events/optEventsDataSource";

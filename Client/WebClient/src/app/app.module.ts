@@ -7,6 +7,7 @@ import { HttpClientModule } from "@angular/common/http";
 import { TraceMonitoringModeUriPipe } from "./pipes/trace-monitoring-mode-uri.pipe";
 import { MonitoringModePipe } from "./pipes/monitoring-mode.pipe";
 import { MonitoringModeToUriPipe } from "./pipes/monitoring-mode-uri.pipe";
+import { RtuPartStatePipe } from "./pipes/rtu-part-state.pipe";
 import { RtuPartStateUriPipe } from "./pipes/rtu-part-state-uri.pipe";
 import { FiberStatePipe } from "./pipes/fiber-state.pipe";
 import { FiberStateUriPipe } from "./pipes/fiber-state-uri.pipe";
@@ -83,6 +84,7 @@ import { FtRtuMonitoringSettingsComponent } from "./components/details/rtu/ft-rt
 
     MonitoringModePipe,
     MonitoringModeToUriPipe,
+    RtuPartStatePipe,
     RtuPartStateUriPipe,
     FiberStatePipe,
     FiberStateUriPipe,

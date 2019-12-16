@@ -10,9 +10,11 @@ export class FiberStatePipe implements PipeTransform {
 
   transform(value: FiberState): string {
     switch (value) {
-      case FiberState.NotInTrace:
-        return this.ts.instant("SID_Not_in_trace");
-      case FiberState.NotJoined:
+      case FiberState.Nothing:
+        return "";
+        case FiberState.NotInTrace:
+          return this.ts.instant("SID_Not_in_trace");
+        case FiberState.NotJoined:
         return this.ts.instant("SID_Not_joined");
       case FiberState.DistanceMeasurement:
         return this.ts.instant("SID_Distace_measurement");

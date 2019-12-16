@@ -4,9 +4,18 @@
       <mat-card-title>RTU information</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p>RTU {{ vm.rtuTitle }}</p>
-      <p>GPS {{ vm.gpsCoors }}</p>
-      <p>Comment {{ vm.comment }}</p>
+      <div class="infoTable" fxLayout="row">
+        <div class="keys">
+          <p>RTU</p>
+          <p>GPS:</p>
+          <p>Comment:</p>
+        </div>
+        <div class="values">
+          <p>{{ vm.rtuTitle }}</p>
+          <p>{{ vm.gpsCoors }}</p>
+          <p>{{ vm.comment }}</p>
+        </div>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>

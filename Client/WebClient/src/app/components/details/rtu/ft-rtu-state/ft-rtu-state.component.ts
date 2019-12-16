@@ -11,6 +11,14 @@ import { RtuApiService } from "src/app/api/rtu.service";
 export class FtRtuStateComponent implements OnInit {
   vm: RtuStateDto = new RtuStateDto();
 
+  displayedColumns = [
+    "port",
+    "traceTitle",
+    "traceState",
+    "lastMeasId",
+    "lastMeasTime"
+  ];
+
   constructor(
     private activeRoute: ActivatedRoute,
     private rtuApiService: RtuApiService
@@ -20,7 +28,7 @@ export class FtRtuStateComponent implements OnInit {
     const id = this.activeRoute.snapshot.paramMap.get("id");
     this.rtuApiService.getOneRtu(id, "state").subscribe((res: RtuStateDto) => {
       console.log("rtu state received");
-      this.vm = res;
+      Object.assign(this.vm, res);
     });
   }
 }

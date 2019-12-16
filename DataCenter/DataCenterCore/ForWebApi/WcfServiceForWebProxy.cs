@@ -122,6 +122,7 @@ namespace Iit.Fibertest.DataCenterCore
             result.OwnPortCount = rtu.OwnPortCount;
             result.FullPortCount = rtu.FullPortCount;
             result.MainChannel = rtu.MainChannel.ToStringA();
+            result.IsReserveChannelSet = rtu.IsReserveChannelSet;
             result.ReserveChannel = rtu.ReserveChannel.ToStringA();
             result.OtdrAddress = rtu.OtdrNetAddress.ToStringA();
             return result;
@@ -149,21 +150,60 @@ namespace Iit.Fibertest.DataCenterCore
             result.ReserveChannelState = rtu.ReserveChannelState;
 
             result.BopState = rtu.BopState;
-            // result.TracesState =
             result.MonitoringMode = rtu.MonitoringState;
 
             result.OwnPortCount = rtu.OwnPortCount;
             result.FullPortCount = rtu.FullPortCount;
             result.BopCount = rtu.Children.Count;
-            // result.TraceCount = 
 
-            for (int i = 0; i < rtu.FullPortCount; i++)
+            result.Children = PrepareRtuStateChildren(rtu);
+            result.TraceCount = result.Children.Count(c => c.TraceState != FiberState.NotInTrace);
+            result.TracesState = result.Children.Max(c => c.TraceState);
+            
+            return result;
+        }
+
+        private List<RtuStateChildDto> PrepareRtuStateChildren(Rtu rtu)
+        {
+            var result = new List<RtuStateChildDto>();
+            for (int i = 1; i <= rtu.OwnPortCount; i++)
             {
-                var child = new RtuStateChildDto();
-                result.Children.Add(child);
+                if (rtu.Children.ContainsKey(i))
+                {
+                    var otau = rtu.Children[i];
+                    for (int j = 1; j <= otau.OwnPortCount; j++)
+                    {
+                        var trace = _writeModel.Traces.FirstOrDefault(t => 
+                            t.OtauPort != null && t.OtauPort.Serial == otau.Serial && t.OtauPort.OpticalPort == j);
+                        result.Add(trace != null
+                                   ? PrepareRtuStateChild(trace, j, $"{i}-")
+                                   : new RtuStateChildDto() {Port = $"{i}-{j}", TraceState = (FiberState)(-1)});
+                    }
+                }
+                else 
+                {
+                    var trace = _writeModel.Traces.FirstOrDefault(t => 
+                        t.RtuId == rtu.Id  && t.Port == i && (t.OtauPort == null || t.OtauPort.IsPortOnMainCharon));
+                    result.Add(trace != null
+                        ? PrepareRtuStateChild(trace, i, "")
+                        : new RtuStateChildDto() {Port = i.ToString(), TraceState = (FiberState)(-1)});
+                }
             }
             return result;
-        } 
+        }
+
+        private RtuStateChildDto PrepareRtuStateChild(Trace trace, int port, string mainPort)
+        {
+            var prepareRtuStateChild = new RtuStateChildDto()
+            {
+                Port = mainPort + port,
+                TraceTitle = trace.Title,
+                TraceState = trace.State,
+                LastMeasId = _writeModel.Measurements.LastOrDefault(m=>m.TraceId == trace.TraceId)?.SorFileId.ToString() ?? "",
+                LastMeasTime = _writeModel.Measurements.LastOrDefault(m=>m.TraceId == trace.TraceId)?.EventRegistrationTimestamp.ToString("G") ?? "",
+            };
+            return prepareRtuStateChild;
+        }
         
         public async Task<RtuMonitoringSettingsDto> GetRtuMonitoringSettings(string username, Guid rtuId)
         {

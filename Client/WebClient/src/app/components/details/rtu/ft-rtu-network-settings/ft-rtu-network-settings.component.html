@@ -1,19 +1,38 @@
 <div class="container">
-    <mat-card>
-      <mat-card-header>
-        <mat-card-title>RTU network settings</mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <p>RTU {{ vm.rtuTitle }}</p>
-        <p>Main channel: {{ vm.mainChannel }}</p>
-        <p>Reserve channel: {{ vm.reserveChannel }}</p>
-        <p>OTDR address: {{ vm.otdrAddress }}</p>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>RTU network settings</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="infoTable" fxLayout="row">
+        <div class="keys">
+          <p>RTU</p>
+          <p>Main channel:</p>
+          <p *ngIf="vm.isReserveChannelSet">Reserve channel:</p>
+          <p>OTDR address:</p>
 
-        <p>Device: {{ vm.mfid }}</p>
-        <p>Serial: {{ vm.serial }}</p>
-        <p>Port count: {{ vm.ownPortCount }}/{{ vm.fullPortCount }}</p>
-        <p>Version: {{ vm.version }} {{ vm.version2 }}</p>
+          <p>Device:</p>
+          <p>Serial:</p>
+          <p>Port count:</p>
+          <p>Version:</p>
+          <p *ngIf="vm.version2">Version2:</p>
+        </div>
+        <div class="values">
+          <p>{{ vm.rtuTitle }}</p>
+          <p>{{ vm.mainChannel }}</p>
+          <p *ngIf="vm.isReserveChannelSet">{{ vm.reserveChannel }}</p>
+          <p>{{ vm.otdrAddress }}</p>
 
-      </mat-card-content>
-    </mat-card>
-  </div>
+          <p>{{ vm.mfid }}</p>
+          <p>{{ vm.serial }}</p>
+          <p>{{ vm.ownPortCount }}/{{ vm.fullPortCount }}</p>
+          <p>{{ vm.version }}</p>
+          <p *ngIf="vm.version2">{{ vm.version2 }}</p>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-raised-button color="primary">Initialize</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

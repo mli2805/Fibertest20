@@ -1,5 +1,46 @@
 .container {
-    margin-top: 10px;
-    margin-right: 10px;
-  }
-  
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
+.keys {
+  margin-right: 20px;
+}
+
+.values {
+  margin-right: 20px;
+}
+
+
+.mat-column-port {
+  max-width: 70px !important;
+}
+
+.mat-column-traceState {
+  max-width: 120px !important;
+}
+
+.mat-column-lastMeasId {
+  max-width: 50px !important;
+}
+.mat-column-lastMeasTime {
+  max-width: 150px !important;
+}
+
+
+.mat-header-cell {
+  text-align: center !important;
+  border-right: 1px solid lightgrey;
+  font-size: 14px;
+  background: azure;
+  color: black;
+  padding: 5px;
+}
+
+.mat-cell {
+  justify-content: center;
+  flex-wrap: wrap;
+  border-right: 1px solid lightgrey;
+  padding: 0 5px;
+}
+

@@ -4,6 +4,7 @@
     {
         public string RtuTitle;
         public string MainChannel;
+        public bool IsReserveChannelSet;
         public string ReserveChannel;
         public string OtdrAddress;
         public string Mfid;

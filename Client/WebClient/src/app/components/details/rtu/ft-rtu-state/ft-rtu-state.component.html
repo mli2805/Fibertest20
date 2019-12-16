@@ -4,7 +4,94 @@
       <mat-card-title>RTU state</mat-card-title>
     </mat-card-header>
     <mat-card-content>
-      <p>RTU {{ vm.rtuTitle }}</p>
+      <div class="infoTable" fxLayout="row">
+        <div class="keys">
+          <p>RTU</p>
+          <p>{{ "SID_Main_channel" | translate }}</p>
+          <p *ngIf="vm.isReserveChannelSet">
+            {{ "SID_Reserve_channel" | translate }}
+          </p>
+          <p>{{ "SID_Bop_count" | translate }}</p>
+          <p>{{ "SID_Trace_count" | translate }}</p>
+          <p>{{ "SID_Monitoring_mode" | translate }}</p>
+          <p>{{ "SID_Port_count" | translate }}</p>
+        </div>
+        <div class="values">
+          <p>{{ vm.rtuTitle }}</p>
+          <p>{{ vm.mainChannel }}</p>
+          <p *ngIf="vm.isReserveChannelSet">{{ vm.reserveChannel }}</p>
+          <p>{{ vm.bopCount }}</p>
+          <p>{{ vm.traceCount }}</p>
+          <p>{{ vm.monitoringMode | monitoringModeToLocalizedStringPipe }}</p>
+          <p>{{ vm.ownPortCount }}/{{ vm.fullPortCount }}</p>
+        </div>
+        <div class="states">
+          <p>
+            {{ vm.getRtuAvailability() | translate }}
+          </p>
+          <p>{{ vm.mainChannelState | rtuPartStateToLocalizedStringPipe }}</p>
+          <p *ngIf="vm.isReserveChannelSet">
+            {{ vm.reserveChannelState | rtuPartStateToLocalizedStringPipe }}
+          </p>
+          <p>{{ vm.bopState | rtuPartStateToLocalizedStringPipe }}</p>
+          <p>{{ vm.tracesState | fiberStateToLocalizedStringPipe }}</p>
+        </div>
+      </div>
+      <div class="portsTable">
+        <mat-table [dataSource]="vm.children">
+          <ng-container matColumnDef="port">
+            <mat-header-cell *matHeaderCellDef>{{
+              "SID_Port" | translate
+            }}</mat-header-cell>
+            <mat-cell class="port-cell" *matCellDef="let element">{{
+              element.port
+            }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="traceTitle">
+            <mat-header-cell *matHeaderCellDef>{{
+              "SID_Trace" | translate
+            }}</mat-header-cell>
+            <mat-cell class="traceTitle-cell" *matCellDef="let element">{{
+              element.traceTitle
+            }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="traceState">
+            <mat-header-cell *matHeaderCellDef>{{
+              "SID_State" | translate
+            }}</mat-header-cell>
+            <mat-cell class="traceState-cell" *matCellDef="let element">{{
+              element.traceState | fiberStateToLocalizedStringPipe
+            }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="lastMeasId">
+            <mat-header-cell *matHeaderCellDef>{{ "ID" }}</mat-header-cell>
+            <mat-cell class="lastMeasId-cell" *matCellDef="let element">{{
+              element.lastMeasId
+            }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="lastMeasTime">
+            <mat-header-cell *matHeaderCellDef>{{
+              "SID_Registered" | translate
+            }}</mat-header-cell>
+            <mat-cell class="lastMeasTime-cell" *matCellDef="let element">{{
+              element.lastMeasTime | date: "dd/MM/yyyy H:mm:ss"
+            }}</mat-cell>
+          </ng-container>
+
+          <mat-header-row
+            *matHeaderRowDef="displayedColumns; sticky: true"
+          ></mat-header-row>
+
+          <mat-row
+            *matRowDef="let row; columns: displayedColumns"
+            (click)="onRowClicked(row)"
+          ></mat-row>
+        </mat-table>
+      </div>
     </mat-card-content>
   </mat-card>
 </div>

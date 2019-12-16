@@ -4,7 +4,7 @@
     {
         public string Port;
         public string TraceTitle;
-        public string State;
+        public FiberState TraceState;
         public string LastMeasId;
         public string LastMeasTime;
     }

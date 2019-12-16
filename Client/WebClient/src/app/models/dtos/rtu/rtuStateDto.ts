@@ -22,4 +22,11 @@ export class RtuStateDto {
   traceCount: number;
 
   children: RtuStateChildDto[];
+
+  getRtuAvailability(): string {
+    return this.mainChannelState === RtuPartState.Ok ||
+      (this.isReserveChannelSet && this.reserveChannelState === RtuPartState.Ok)
+      ? "SID_Available"
+      : "SID_Not_available";
+  }
 }

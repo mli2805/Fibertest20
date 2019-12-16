@@ -4,6 +4,7 @@ export class RtuNetworkSettingsDto {
   rtuTitle: string;
 
   mainChannel: string;
+  isReserveChannelSet: boolean;
   reserveChannel: string;
   otdrAddress: string;
 

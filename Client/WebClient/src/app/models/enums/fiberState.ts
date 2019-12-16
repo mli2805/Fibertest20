@@ -1,4 +1,5 @@
 export enum FiberState {
+  Nothing = -1,
   //
   NotInTrace = 0x0,
   NotJoined = 0x1,
