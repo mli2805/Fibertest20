@@ -1,1 +1,19 @@
-<p>{{'SID_IIT' | translate}}</p>
+<p>{{ "SID_IIT" | translate }}</p>
+<div *ngFor="let item of itemsSource">{{ item.index }}: {{ item.name }}</div>
+<mat-divider></mat-divider>
+
+<select>
+  <option *ngFor="let item of itemsSource" [value]="item.index">{{
+    item.value
+  }}</option>
+</select>
+<mat-divider></mat-divider>
+
+<mat-form-field>
+  <mat-select [(value)]="selectedItem">
+    <mat-option *ngFor="let item of itemsSource" [value]="item.index">
+      {{ item.name }}</mat-option
+    >
+  </mat-select>
+</mat-form-field>
+<p>You selected: {{ selectedItem }}</p>

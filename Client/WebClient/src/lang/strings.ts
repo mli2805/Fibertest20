@@ -864,7 +864,8 @@ export const languages = {
     "SID_Next_page": "Next page",
     "SID_Previous_page": "Previous page",
     "SID_of": " of ",
-    "SID_Responsive": "Responsive"
+    "SID_Responsive": "Responsive",
+    "SID_Never": "Never"
   },
   "ru-RU": {
     "SID_": "RTU инициализировани, серийный номер = {{0}}",
@@ -1728,6 +1729,7 @@ export const languages = {
     "SID_Next_page": "Следующая страница",
     "SID_Previous_page": "Предыдущая страница",
     "SID_of": " из ",
-    "SID_Responsive": "Отзывчивый"
+    "SID_Responsive": "Отзывчивый",
+    "SID_Never": "Никогда"
   }
 };

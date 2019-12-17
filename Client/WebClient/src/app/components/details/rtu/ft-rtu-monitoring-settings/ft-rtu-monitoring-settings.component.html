@@ -1,10 +1,61 @@
-<div class="container">
-  <mat-card>
-    <mat-card-header>
-      <mat-card-title>RTU monitoring settings</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <p>RTU {{ vm.rtuTitle }}</p>
-    </mat-card-content>
-  </mat-card>
-</div>
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>RTU monitoring settings</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-card>
+      <div class="infoTable" fxLayout="row">
+        <div class="keys">
+          <p>RTU</p>
+        </div>
+        <div class="values">
+          <p>{{ vm.rtuTitle }}</p>
+        </div>
+      </div>
+    </mat-card>
+    <mat-card class="preciseMode">
+      <div fxLayout="column">
+        <p>{{ "SID_Precise" | translate }}</p>
+
+        <mat-form-field>
+          <mat-label>measurement frequency</mat-label>
+          <mat-select [(value)]="selectedPreciseMeas">
+            <mat-option *ngFor="let item of itemsSource" [value]="item.index">
+              {{ item.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>saving frequency</mat-label>
+          <mat-select [(value)]="selectedPreciseSave">
+            <mat-option *ngFor="let item of itemsSource" [value]="item.index">
+              {{ item.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-card>
+    <mat-card class="fastMode">
+      <div fxLayout="column">
+        <p>{{ "SID_Fast" | translate }}</p>
+
+        <mat-form-field>
+          <mat-label>measurement frequency</mat-label>
+          <mat-select [(value)]="selectedFastMeas">
+            <mat-option value="pp">{{ "SID_Permanently" | translate }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>saving frequency</mat-label>
+          <mat-select [(value)]="selectedFastSave">
+            <mat-option *ngFor="let item of itemsSource" [value]="item.index">
+              {{ item.name }}</mat-option
+            >
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </mat-card>
+  </mat-card-content>
+</mat-card>

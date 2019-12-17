@@ -13,6 +13,7 @@ import { FiberStatePipe } from "./pipes/fiber-state.pipe";
 import { FiberStateUriPipe } from "./pipes/fiber-state-uri.pipe";
 import { BooleanUriPipe } from "./pipes/boolean-uri.pipe";
 import { EventStatusPipe } from "./pipes/event-status.pipe";
+import { FrequencyPipe } from "./pipes/frequency.pipe";
 import {
   BaseRefTypePipe,
   BaseRefTypeFemalePipe
@@ -34,8 +35,11 @@ import {
   MatListModule,
   MatPaginatorModule,
   MatProgressSpinnerModule,
+  MatSelectModule,
   MatTabsModule,
-  MatSlideToggleModule
+  MatSlideToggleModule,
+  MatFormFieldModule,
+  MatNativeDateModule
 } from "@angular/material";
 
 import { TranslateService, TranslateModule } from "@ngx-translate/core";
@@ -129,9 +133,12 @@ import { FtRtuMonitoringSettingsComponent } from "./components/details/rtu/ft-rt
     MatPaginatorModule,
     MatProgressSpinnerModule,
     MatTabsModule,
-    MatSlideToggleModule
+    MatSelectModule,
+    MatSlideToggleModule,
+    MatFormFieldModule,
+    MatNativeDateModule
   ],
-  providers: [AuthGuard],
+  providers: [AuthGuard, FrequencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule {

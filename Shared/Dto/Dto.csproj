@@ -71,7 +71,9 @@
     <Compile Include="Enums\WorseOrBetter.cs" />
     <Compile Include="ForWebApi\BaseRefInfoDto.cs" />
     <Compile Include="ForWebApi\MeasurementDto.cs" />
+    <Compile Include="ForWebApi\Rtu\PortMonitoringMode.cs" />
     <Compile Include="ForWebApi\Rtu\RtuInformationDto.cs" />
+    <Compile Include="ForWebApi\Rtu\RtuMonitoringPortDto.cs" />
     <Compile Include="ForWebApi\Rtu\RtuMonitoringSettingsDto.cs" />
     <Compile Include="ForWebApi\Rtu\RtuNetworkSettingsDto.cs" />
     <Compile Include="ForWebApi\Rtu\RtuStateChildDto.cs" />

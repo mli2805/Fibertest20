@@ -6,9 +6,7 @@ import { BaseRefType } from "../models/enums/baseRefType";
   name: "BaseRefTypeToLocalizedStringPipe"
 })
 export class BaseRefTypePipe implements PipeTransform {
-  constructor(private ts: TranslateService) {
-    console.log("in constructor2");
-  }
+  constructor(private ts: TranslateService) {}
 
   transform(value: BaseRefType): string {
     switch (value) {
