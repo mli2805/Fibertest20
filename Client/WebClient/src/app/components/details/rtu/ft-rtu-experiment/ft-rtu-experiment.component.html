@@ -1,0 +1,46 @@
+<table mat-table [dataSource]="dataSource2" class="mat-elevation-z8">
+  <!-- Checkbox Column -->
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox
+        (change)="$event ? masterToggle() : null"
+        [checked]="selection2.hasValue() && isAllSelected()"
+        [indeterminate]="selection2.hasValue() && !isAllSelected()"
+        color="primary"
+      >
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox
+        (click)="$event.stopPropagation()"
+        (change)="$event ? selection2.toggle(row) : null"
+        [checked]="selection2.isSelected(row)"
+        [disabled]="row.disabled"
+        color="primary"
+      >
+      </mat-checkbox>
+    </td>
+  </ng-container>
+
+  <ng-container matColumnDef="port">
+    <th mat-header-cell *matHeaderCellDef>Port</th>
+    <td mat-cell *matCellDef="let element">{{ element.port }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="traceTitle">
+    <th mat-header-cell *matHeaderCellDef>Trace</th>
+    <td mat-cell *matCellDef="let element">{{ element.traceTitle }}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="duration">
+    <th mat-header-cell *matHeaderCellDef>Duration</th>
+    <td mat-cell *matCellDef="let element">{{ element.duration }}</td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayedColumns2"
+    (click)="slaveToggle(row)"
+  ></tr>
+</table>

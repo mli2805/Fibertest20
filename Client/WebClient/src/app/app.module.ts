@@ -71,6 +71,7 @@ import { FtRtuStateComponent } from "./components/details/rtu/ft-rtu-state/ft-rt
 import { FtRtuInformationComponent } from "./components/details/rtu/ft-rtu-information/ft-rtu-information.component";
 import { FtRtuNetworkSettingsComponent } from "./components/details/rtu/ft-rtu-network-settings/ft-rtu-network-settings.component";
 import { FtRtuMonitoringSettingsComponent } from "./components/details/rtu/ft-rtu-monitoring-settings/ft-rtu-monitoring-settings.component";
+import { FtRtuExperimentComponent } from './components/details/rtu/ft-rtu-experiment/ft-rtu-experiment.component';
 
 @NgModule({
   declarations: [
@@ -105,7 +106,8 @@ import { FtRtuMonitoringSettingsComponent } from "./components/details/rtu/ft-rt
     FtOtauComponent,
     FtRtuInformationComponent,
     FtRtuNetworkSettingsComponent,
-    FtRtuMonitoringSettingsComponent
+    FtRtuMonitoringSettingsComponent,
+    FtRtuExperimentComponent
   ],
   imports: [
     TranslateModule.forRoot(),

@@ -1,8 +1,8 @@
 .container {
-    margin-top: 10px;
-    margin-right: 10px;
-  }
-  
+  margin-top: 10px;
+  margin-right: 10px;
+}
+
 .keys {
   margin-right: 20px;
 }
@@ -10,3 +10,26 @@
 .values {
   margin-right: 20px;
 }
+
+.frequencies {
+  width: 100%;
+}
+
+.frequencies mat-card {
+  width: 100%;
+}
+
+
+.mat-column-port {
+  max-width: 70px !important;
+}
+
+.mat-column-monitoringMode {
+  max-width: 70px !important;
+}
+
+.mat-column-duration {
+  max-width: 100px !important;
+}
+
+
