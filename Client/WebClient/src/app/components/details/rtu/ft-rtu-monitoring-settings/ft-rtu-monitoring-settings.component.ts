@@ -9,6 +9,18 @@ import { Frequency } from "src/app/models/enums/frequency";
 import { FrequencyPipe } from "src/app/pipes/frequency.pipe";
 import { SelectionModel } from "@angular/cdk/collections";
 import { PortMonitoringMode } from "src/app/models/enums/portMonitoringMode";
+import { MatTableDataSource } from "@angular/material/table";
+import { MonitoringMode } from "src/app/models/enums/monitoringMode";
+
+export interface PortLine {
+  portMonitoringMode: PortMonitoringMode;
+  port: string;
+  disabled: boolean;
+  traceTitle: string;
+  durationOfPreciseBase: number;
+  durationOfFastBase: number;
+  duration: string;
+}
 
 @Component({
   selector: "ft-rtu-monitoring-settings",
@@ -24,20 +36,14 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
   selectedFastMeas;
   selectedFastSave;
 
-  portLines;
-  displayedColumns = [
-    "select",
-    "monitoringMode",
-    "port",
-    "traceTitle",
-    "duration"
-  ];
-  initialSelection = [];
-  allowMultiSelect = true;
-  selection = new SelectionModel<RtuMonitoringPortDto>(
-    this.allowMultiSelect,
-    this.initialSelection
-  );
+  tableData: PortLine[];
+
+  displayedColumns: string[] = ["select", "port", "traceTitle", "duration"];
+  dataSource = new MatTableDataSource<PortLine>();
+  selectionModel = new SelectionModel<PortLine>(true, []);
+
+  cycleTime;
+  monitoringMode;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -64,38 +70,69 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
         this.selectedFastMeas = "pp";
         this.selectedFastSave = res.fastSave;
         this.createPortLines();
+        this.dataSource = new MatTableDataSource<PortLine>(this.tableData);
+        this.selectionModel = new SelectionModel<PortLine>(
+          true,
+          this.tableData.filter(
+            l => l.portMonitoringMode === PortMonitoringMode.On
+          )
+        );
+        this.cycleTime = this.evaluateCycleTime();
+        this.monitoringMode = res.monitoringMode === MonitoringMode.On ? 0 : 1;
       });
   }
 
-  private createPortLines() {
-    this.portLines = this.vm.lines.map(l => {
-      return {
-        checked: l.portMonitoringMode === PortMonitoringMode.On,
-        disabled:
-          l.portMonitoringMode === PortMonitoringMode.NoTraceJoined ||
-          l.portMonitoringMode === PortMonitoringMode.TraceHasNoBase,
-        port: l.port,
-        traceTitle: l.traceTitle,
-        duration: `${l.durationOfFastBase} / ${l.durationOfPreciseBase} sec`
-      };
-    });
-  }
-
-  onClick(element: RtuMonitoringPortDto) {
-    console.log("coo-coo");
-  }
-
-  /** Whether the number of selected elements matches the total number of rows. */
+  /** Whether the number of selected elements matches the total number of enabled rows. */
   isAllSelected() {
-    const numSelected = this.selection.selected.length;
-    const numRows = this.portLines.data.length;
+    const numSelected = this.selectionModel.selected.length;
+    const numRows = this.tableData.filter(l => !l.disabled).length;
     return numSelected === numRows;
   }
 
   /** Selects all rows if they are not all selected; otherwise clear selection. */
   masterToggle() {
     this.isAllSelected()
-      ? this.selection.clear()
-      : this.portLines.data.forEach(row => this.selection.select(row));
+      ? this.selectionModel.clear()
+      : this.dataSource.data.forEach(row => {
+          if (!row.disabled) {
+            this.selectionModel.select(row);
+          }
+        });
+    this.cycleTime = this.evaluateCycleTime();
+  }
+
+  slaveToggle(row: PortLine) {
+    if (row.disabled) {
+      return;
+    }
+    this.selectionModel.toggle(row);
+    this.cycleTime = this.evaluateCycleTime();
+  }
+
+  private evaluateCycleTime(): number {
+    if (this.selectionModel.selected.length < 1) {
+      return 0;
+    }
+    const baseRefSum = this.selectionModel.selected.reduce(
+      (a, p) => a + p.durationOfFastBase,
+      0
+    );
+    return baseRefSum + this.selectionModel.selected.length * 2;
+  }
+
+  private createPortLines() {
+    this.tableData = this.vm.lines.map(l => {
+      return {
+        portMonitoringMode: l.portMonitoringMode,
+        disabled:
+          l.portMonitoringMode === PortMonitoringMode.NoTraceJoined ||
+          l.portMonitoringMode === PortMonitoringMode.TraceHasNoBase,
+        port: l.port,
+        traceTitle: l.traceTitle,
+        durationOfFastBase: l.durationOfFastBase,
+        durationOfPreciseBase: l.durationOfPreciseBase,
+        duration: `${l.durationOfFastBase} / ${l.durationOfPreciseBase} sec`
+      };
+    });
   }
 }

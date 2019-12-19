@@ -1,6 +1,5 @@
 .container {
-  margin-top: 10px;
-  margin-right: 10px;
+  display: flex;
 }
 
 .keys {
@@ -19,17 +18,54 @@
   width: 100%;
 }
 
-
-.mat-column-port {
-  max-width: 70px !important;
+table {
+  width: 100%;
 }
 
-.mat-column-monitoringMode {
-  max-width: 70px !important;
+.cycle {
+  display: flex;
+}
+
+.cycle div {
+  margin-right: 10px;
+}
+
+.mode {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.button {
+  padding-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.mat-column-select {
+  width: 40px !important;
+}
+
+.mat-column-port {
+  width: 70px !important;
 }
 
 .mat-column-duration {
-  max-width: 100px !important;
+  width: 70px !important;
 }
 
+.mat-header-cell {
+  text-align: center !important;
+  border-right: 1px solid lightgrey;
+  font-size: 14px;
+  background: azure;
+  color: black;
+  padding: 5px;
+}
 
+.mat-cell {
+  text-align: center !important;
+  flex-wrap: wrap;
+  border-right: 1px solid lightgrey;
+  padding: 0 5px;
+}
