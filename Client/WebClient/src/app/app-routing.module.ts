@@ -17,7 +17,7 @@ import { FtRtuExperimentComponent } from "./components/details/rtu/ft-rtu-experi
 
 const routes: Routes = [
   { path: "login", component: FtLoginComponent },
-  { path: "about", component: FtAboutComponent },
+  { path: "about", component: FtAboutComponent, canActivate: [AuthGuard] },
   { path: "rtu-tree", component: FtRtuTreeComponent, canActivate: [AuthGuard] },
   {
     path: "optical-events",

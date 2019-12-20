@@ -1,1 +1,47 @@
-<p>{{ "SID_IIT" | translate }}</p>
+<div class="container">
+  <div class="about">
+    <div class="iit-image">
+      <img src="./assets/images/IIT.ico" alt="iit image" />
+    </div>
+    <div class="iit-header">
+      <p>Fibertest&trade; 2.0</p>
+      <p>Copyright&copy; 2019</p>
+      <p>Institute of Information Technologies</p>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+  <div fxLayout fxLayoutGap="10px">
+    <p>{{ "SID_User" | translate }}:</p>
+    <p>{{ loggedUser.username }}</p>
+    <p style="padding-left: 40px;">{{ "SID_Role" | translate }}:</p>
+    <p>{{ loggedUser.role }}</p>
+    <p style="padding-left: 40px;">{{ "SID_Zone" | translate }}:</p>
+    <p>{{ loggedUser.zone }}</p>
+  </div>
+  <mat-divider></mat-divider>
+  <div>
+    <p>{{ "SID_Data-center_software_version" | translate }}:</p>
+    <p>Web-Client software version:</p>
+  </div>
+
+  <mat-divider></mat-divider>
+  <div>
+    <p>RTU software versions:</p>
+    <table mat-table [dataSource]="rtus">
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>RTU</th>
+        <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+      </ng-container>
+      <ng-container matColumnDef="version">
+        <th mat-header-cell *matHeaderCellDef>Version</th>
+        <td mat-cell *matCellDef="let element">{{ element.version }}</td>
+      </ng-container>
+      <ng-container matColumnDef="version2">
+        <th mat-header-cell *matHeaderCellDef>Version2</th>
+        <td mat-cell *matCellDef="let element">{{ element.version2 }}</td>
+      </ng-container>
+
+      <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+    </table>
+  </div>
+</div>
