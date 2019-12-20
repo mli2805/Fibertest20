@@ -1,13 +1,14 @@
 .container {
   display: flex;
+  flex-direction: column;
 }
 
-.keys {
-  margin-right: 20px;
+.portTable {
+  flex-grow: 1;
 }
 
-.values {
-  margin-right: 20px;
+.controlBlock {
+  flex-grow: 2;
 }
 
 .frequencies {
@@ -22,7 +23,16 @@ table {
   width: 100%;
 }
 
+.other {
+  width: 100%;
+}
+
+.other mat-card {
+  width: 100%;
+}
+
 .cycle {
+  width: 100%;
   display: flex;
 }
 
@@ -30,16 +40,21 @@ table {
   margin-right: 10px;
 }
 
-.mode {
+mat-radio-group {
   width: 100%;
   display: flex;
-  justify-content: space-around;
+  flex-direction: column;
+  justify-items: center;
 }
 
-.button {
-  padding-top: 20px;
-  display: flex;
-  justify-content: space-around;
+mat-radio-button {
+  margin: 5px;
+  flex-grow: 1;
+}
+
+button {
+  margin-top: 10px;
+  align-self: flex-end;
 }
 
 .mat-column-select {
@@ -68,4 +83,10 @@ table {
   flex-wrap: wrap;
   border-right: 1px solid lightgrey;
   padding: 0 5px;
+}
+
+@media (min-width: 960px) {
+  .container {
+    flex-direction: row-reverse;
+  }
 }

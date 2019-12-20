@@ -5,63 +5,11 @@
     }}</mat-card-title>
   </mat-card-header>
   <mat-card-content class="container">
-    <div class="portTable">
-      <table mat-table [dataSource]="dataSource">
-        <!-- Checkbox Column -->
-        <ng-container matColumnDef="select">
-          <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox
-              (change)="$event ? masterToggle() : null"
-              [checked]="selectionModel.hasValue() && isAllSelected()"
-              [indeterminate]="selectionModel.hasValue() && !isAllSelected()"
-              color="primary"
-            >
-            </mat-checkbox>
-          </th>
-          <td mat-cell *matCellDef="let row">
-            <mat-checkbox
-              (click)="$event.stopPropagation()"
-              (change)="$event ? slaveToggle(row) : null"
-              [checked]="selectionModel.isSelected(row)"
-              [disabled]="row.disabled"
-              color="primary"
-            >
-            </mat-checkbox>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="port">
-          <th mat-header-cell *matHeaderCellDef>Port</th>
-          <td mat-cell *matCellDef="let element">{{ element.port }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="traceTitle">
-          <th mat-header-cell *matHeaderCellDef>Trace</th>
-          <td mat-cell *matCellDef="let element">{{ element.traceTitle }}</td>
-        </ng-container>
-
-        <ng-container matColumnDef="duration">
-          <th mat-header-cell *matHeaderCellDef>Duration</th>
-          <td mat-cell *matCellDef="let element">{{ element.duration }}</td>
-        </ng-container>
-
-        <tr
-          mat-header-row
-          *matHeaderRowDef="displayedColumns; sticky: true"
-        ></tr>
-        <tr
-          mat-row
-          *matRowDef="let row; columns: displayedColumns"
-          (click)="slaveToggle(row)"
-        ></tr>
-      </table>
-    </div>
-    <div class="right-part">
+    <div class="controlBlock">
       <div class="frequencies" fxLayout="row">
         <mat-card class="preciseMode">
           <div fxLayout="column">
             <p>{{ "SID_Precise" | translate }}</p>
-
             <mat-form-field>
               <mat-label>measurement frequency</mat-label>
               <mat-select [(value)]="selectedPreciseMeas">
@@ -114,15 +62,10 @@
           </div>
         </mat-card>
       </div>
-      <div class="other">
-        <mat-card class="cycle">
-          <div>{{ "SID_Cycle_full_time" | translate }}</div>
-          <div>{{ cycleTime }}</div>
-          <div>{{ "SID__sec" | translate }}</div>
-        </mat-card>
-        <mat-card>
+      <div class="other" fxLayout="row">
+        <mat-card fxLayout="column">
           <mat-radio-group
-            class="mode"
+            fxLayout="column"
             [(ngModel)]="monitoringMode"
             color="primary"
           >
@@ -134,12 +77,68 @@
             }}</mat-radio-button>
           </mat-radio-group>
         </mat-card>
-        <mat-card class="button">
+        <mat-card fxLayout="column">
+          <div class="cycle">
+            <div>{{ "SID_Cycle_full_time" | translate }}</div>
+            <div>{{ cycleTime }}</div>
+            <div>{{ "SID__sec" | translate }}</div>
+          </div>
           <button mat-stroked-button color="primary">
             {{ "SID_Apply" | translate }}
           </button>
         </mat-card>
       </div>
+    </div>
+    <div class="portTable">
+      <table mat-table [dataSource]="dataSource">
+        <!-- Checkbox Column -->
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef>
+            <mat-checkbox
+              (change)="$event ? masterToggle() : null"
+              [checked]="selectionModel.hasValue() && isAllSelected()"
+              [indeterminate]="selectionModel.hasValue() && !isAllSelected()"
+              color="primary"
+            >
+            </mat-checkbox>
+          </th>
+          <td mat-cell *matCellDef="let row">
+            <mat-checkbox
+              (click)="$event.stopPropagation()"
+              (change)="$event ? slaveToggle(row) : null"
+              [checked]="selectionModel.isSelected(row)"
+              [disabled]="row.disabled"
+              color="primary"
+            >
+            </mat-checkbox>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="port">
+          <th mat-header-cell *matHeaderCellDef>Port</th>
+          <td mat-cell *matCellDef="let element">{{ element.port }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="traceTitle">
+          <th mat-header-cell *matHeaderCellDef>Trace</th>
+          <td mat-cell *matCellDef="let element">{{ element.traceTitle }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="duration">
+          <th mat-header-cell *matHeaderCellDef>Duration</th>
+          <td mat-cell *matCellDef="let element">{{ element.duration }}</td>
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="displayedColumns; sticky: true"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          (click)="slaveToggle(row)"
+        ></tr>
+      </table>
     </div>
   </mat-card-content>
 </mat-card>

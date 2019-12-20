@@ -1,4 +1,92 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.portTable {
+  flex-grow: 1;
+}
+
+.controlBlock {
+  flex-grow: 2;
+}
+
+.frequencies {
+  width: 100%;
+}
+
+.frequencies mat-card {
+  width: 100%;
+}
+
 table {
-    width: 100%;
+  width: 100%;
+}
+
+.other {
+  width: 100%;
+}
+
+.other mat-card {
+  width: 100%;
+}
+
+.cycle {
+  width: 100%;
+  display: flex;
+}
+
+.cycle div {
+  margin-right: 10px;
+}
+
+mat-radio-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+}
+
+mat-radio-button {
+  margin: 5px;
+  flex-grow: 1;
+}
+
+button {
+  margin-top: 10px;
+  align-self: flex-end;
+}
+
+.mat-column-select {
+  width: 40px !important;
+}
+
+.mat-column-port {
+  width: 70px !important;
+}
+
+.mat-column-duration {
+  width: 70px !important;
+}
+
+.mat-header-cell {
+  text-align: center !important;
+  border-right: 1px solid lightgrey;
+  font-size: 14px;
+  background: azure;
+  color: black;
+  padding: 5px;
+}
+
+.mat-cell {
+  text-align: center !important;
+  flex-wrap: wrap;
+  border-right: 1px solid lightgrey;
+  padding: 0 5px;
+}
+
+@media (min-width: 960px) {
+  .container {
+    flex-direction: row-reverse;
   }
-  
+}
