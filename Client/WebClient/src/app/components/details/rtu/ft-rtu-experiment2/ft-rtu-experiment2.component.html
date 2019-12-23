@@ -3,8 +3,8 @@
 </p>
 <div class="container">
   <div class="controlBlock">
-    <div class="frequencies" fxLayout="row">
-      <div fxLayout="column">
+    <div class="frequencies">
+      <div class="preciseFrequencies">
         <p>{{ "SID_Precise" | translate }}</p>
         <mat-form-field>
           <mat-label>{{ "SID_measurement_frequency" | translate }}</mat-label>
@@ -14,7 +14,6 @@
             >
           </mat-select>
         </mat-form-field>
-
         <mat-form-field>
           <mat-label>{{ "SID_saving_frequency" | translate }}</mat-label>
           <mat-select [(value)]="selectedPreciseSave">
@@ -24,7 +23,7 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <div fxLayout="column">
+      <div class="fastFrequencies">
         <p>{{ "SID_Fast" | translate }}</p>
         <mat-form-field>
           <mat-label>{{ "SID_measurement_frequency" | translate }}</mat-label>
@@ -34,7 +33,6 @@
             }}</mat-option>
           </mat-select>
         </mat-form-field>
-
         <mat-form-field>
           <mat-label>{{ "SID_saving_frequency" | translate }}</mat-label>
           <mat-select [(value)]="selectedFastSave">
@@ -46,26 +44,24 @@
       </div>
     </div>
     <div class="other">
-      <mat-radio-group
-        fxLayout="column"
-        [(ngModel)]="monitoringMode"
-        color="primary"
-      >
+      <div class="cycle">
+        {{ "SID_Cycle_full_time_sec" | translate: { "0": cycleTime } }}
+      </div>
+      <mat-radio-group [(ngModel)]="monitoringMode" color="primary">
         <mat-radio-button [value]="0">{{
-          "SID_Automatic" | translate
+          "SID_Auto" | translate
         }}</mat-radio-button>
         <mat-radio-button [value]="1">{{
           "SID_Manual" | translate
         }}</mat-radio-button>
       </mat-radio-group>
-      <div fxLayout="column">
-        <div>{{ "SID_Cycle_full_time_sec" | translate: { "0": cycleTime} }}</div>
-        <button mat-stroked-button color="primary">
-          {{ "SID_Apply" | translate }}
-        </button>
-      </div>
+
+      <button mat-stroked-button color="primary">
+        {{ "SID_Apply" | translate }}
+      </button>
     </div>
   </div>
+
   <div class="portTable">
     <table mat-table [dataSource]="dataSource">
       <!-- Checkbox Column -->

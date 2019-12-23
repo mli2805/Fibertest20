@@ -20,11 +20,11 @@ export interface PortLine {
 }
 
 @Component({
-  selector: "ft-rtu-experiment",
-  templateUrl: "./ft-rtu-experiment.component.html",
-  styleUrls: ["./ft-rtu-experiment.component.css"]
+  selector: "ft-rtu-experiment2",
+  templateUrl: "./ft-rtu-experiment2.component.html",
+  styleUrls: ["./ft-rtu-experiment2.component.css"]
 })
-export class FtRtuExperimentComponent implements OnInit {
+export class FtRtuExperiment2Component implements OnInit {
   vm: RtuMonitoringSettingsDto = new RtuMonitoringSettingsDto();
   itemsSource;
   oneItemSource;
@@ -66,6 +66,7 @@ export class FtRtuExperimentComponent implements OnInit {
         this.selectedPreciseSave = res.preciseSave;
         this.selectedFastMeas = "pp";
         this.selectedFastSave = res.fastSave;
+        
         this.createPortLines();
         this.dataSource = new MatTableDataSource<PortLine>(this.tableData);
         this.selectionModel = new SelectionModel<PortLine>(

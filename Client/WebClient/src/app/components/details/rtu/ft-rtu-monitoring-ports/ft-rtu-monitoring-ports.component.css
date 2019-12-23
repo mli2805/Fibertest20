@@ -1,0 +1,27 @@
+.mat-column-select {
+    width: 40px !important;
+  }
+  
+  .mat-column-port {
+    width: 70px !important;
+  }
+  
+  .mat-column-duration {
+    width: 70px !important;
+  }
+  
+  .mat-header-cell {
+    text-align: center !important;
+    border-right: 1px solid lightgrey;
+    font-size: 14px;
+    background: azure;
+    color: black;
+    padding: 5px;
+  }
+  
+  .mat-cell {
+    text-align: center !important;
+    flex-wrap: wrap;
+    border-right: 1px solid lightgrey;
+    padding: 0 5px;
+  }

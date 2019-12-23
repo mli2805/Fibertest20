@@ -1,43 +1,37 @@
+.componentHeader {
+  font-size: 20px;
+  font-weight: 500;
+  margin-left: 5px;
+}
+
 .container {
   display: flex;
   flex-direction: column;
+}
+
+.controlBlock {
+  background-color: aqua;
 }
 
 .portTable {
   flex-grow: 1;
 }
 
-.controlBlock {
-  flex-grow: 2;
-}
-
 .frequencies {
   width: 100%;
+  margin-left: 5px;
 }
 
-.frequencies mat-card {
-  width: 100%;
+mat-form-field {
+  margin-right: 5px;
+}
+
+.portTable {
+  overflow-y: scroll;
 }
 
 table {
   width: 100%;
-}
-
-.other {
-  width: 100%;
-}
-
-.other mat-card {
-  width: 100%;
-}
-
-.cycle {
-  width: 100%;
-  display: flex;
-}
-
-.cycle div {
-  margin-right: 10px;
 }
 
 mat-radio-group {
@@ -53,8 +47,8 @@ mat-radio-button {
 }
 
 button {
-  margin-top: 10px;
-  align-self: flex-end;
+  margin: 10px;
+  align-self: center;
 }
 
 .mat-column-select {
@@ -85,8 +79,24 @@ button {
   padding: 0 5px;
 }
 
+@media (min-width: 0) {
+  .controlBlock {
+    flex-direction: column;
+  }
+}
+
+@media (min-width: 700px) {
+  .controlBlock {
+    flex-direction: row;
+  }
+}
+
 @media (min-width: 960px) {
   .container {
     flex-direction: row-reverse;
+  }
+
+  .controlBlock {
+    flex-direction: column;
   }
 }
