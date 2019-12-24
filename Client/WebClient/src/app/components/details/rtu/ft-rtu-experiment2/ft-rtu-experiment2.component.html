@@ -45,7 +45,7 @@
     </div>
     <div class="other">
       <div class="cycle">
-        {{ "SID_Cycle_full_time_sec" | translate: { "0": cycleTime } }}
+        {{ "SID_Cycle_full_time_sec" | translate: { "0": ports.cycleTime } }}
       </div>
       <mat-radio-group [(ngModel)]="monitoringMode" color="primary">
         <mat-radio-button [value]="0">{{
@@ -63,6 +63,9 @@
   </div>
 
   <div class="portTable">
-    <ft-rtu-monitoring-ports [ports]="vm.lines"></ft-rtu-monitoring-ports>
+    <ft-rtu-monitoring-ports
+      [ports]="vm.lines"
+      #ports
+    ></ft-rtu-monitoring-ports>
   </div>
 </div>

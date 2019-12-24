@@ -34,14 +34,12 @@ export class FtRtuMonitoringPortsComponent implements OnInit, OnChanges {
 
   private initializeComponent() {
     this.createPortLines();
-    console.log(this.tableData);
     this.dataSource = new MatTableDataSource<PortLineVm>(this.tableData);
     this.selectionModel = new SelectionModel<PortLineVm>(
       true,
       this.tableData.filter(l => l.portMonitoringMode === PortMonitoringMode.On)
     );
     this.cycleTime = this.evaluateCycleTime();
-    console.log(`${this.cycleTime} sec`);
   }
 
   private createPortLines() {

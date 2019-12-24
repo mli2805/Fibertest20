@@ -1,26 +1,10 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  RtuMonitoringSettingsDto,
-  RtuMonitoringPortDto
-} from "src/app/models/dtos/rtu/rtuMonitoringSettingsDto";
+import { RtuMonitoringSettingsDto } from "src/app/models/dtos/rtu/rtuMonitoringSettingsDto";
 import { ActivatedRoute } from "@angular/router";
 import { RtuApiService } from "src/app/api/rtu.service";
 import { Frequency } from "src/app/models/enums/frequency";
 import { FrequencyPipe } from "src/app/pipes/frequency.pipe";
-import { SelectionModel } from "@angular/cdk/collections";
-import { PortMonitoringMode } from "src/app/models/enums/portMonitoringMode";
-import { MatTableDataSource } from "@angular/material/table";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
-
-export interface PortLine {
-  portMonitoringMode: PortMonitoringMode;
-  port: string;
-  disabled: boolean;
-  traceTitle: string;
-  durationOfPreciseBase: number;
-  durationOfFastBase: number;
-  duration: string;
-}
 
 @Component({
   selector: "ft-rtu-experiment2",

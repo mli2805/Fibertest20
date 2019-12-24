@@ -45,7 +45,7 @@
     </div>
     <div class="other">
       <div class="cycle">
-        {{ "SID_Cycle_full_time_sec" | translate: { "0": cycleTime } }}
+        {{ "SID_Cycle_full_time_sec" | translate: { "0": ports.cycleTime } }}
       </div>
       <mat-radio-group [(ngModel)]="monitoringMode" color="primary">
         <mat-radio-button [value]="0">{{
@@ -63,51 +63,9 @@
   </div>
 
   <div class="portTable">
-    <table mat-table [dataSource]="dataSource">
-      <!-- Checkbox Column -->
-      <ng-container matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef>
-          <mat-checkbox
-            (change)="$event ? masterToggle() : null"
-            [checked]="selectionModel.hasValue() && isAllSelected()"
-            [indeterminate]="selectionModel.hasValue() && !isAllSelected()"
-            color="primary"
-          >
-          </mat-checkbox>
-        </th>
-        <td mat-cell *matCellDef="let row">
-          <mat-checkbox
-            (click)="$event.stopPropagation()"
-            (change)="$event ? slaveToggle(row) : null"
-            [checked]="selectionModel.isSelected(row)"
-            [disabled]="row.disabled"
-            color="primary"
-          >
-          </mat-checkbox>
-        </td>
-      </ng-container>
-
-      <ng-container matColumnDef="port">
-        <th mat-header-cell *matHeaderCellDef>Port</th>
-        <td mat-cell *matCellDef="let element">{{ element.port }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="traceTitle">
-        <th mat-header-cell *matHeaderCellDef>Trace</th>
-        <td mat-cell *matCellDef="let element">{{ element.traceTitle }}</td>
-      </ng-container>
-
-      <ng-container matColumnDef="duration">
-        <th mat-header-cell *matHeaderCellDef>Duration</th>
-        <td mat-cell *matCellDef="let element">{{ element.duration }}</td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-      <tr
-        mat-row
-        *matRowDef="let row; columns: displayedColumns"
-        (click)="slaveToggle(row)"
-      ></tr>
-    </table>
+    <ft-rtu-monitoring-ports
+      [ports]="vm.lines"
+      #ports
+    ></ft-rtu-monitoring-ports>
   </div>
 </div>
