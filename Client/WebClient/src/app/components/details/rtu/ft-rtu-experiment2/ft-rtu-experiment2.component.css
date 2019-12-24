@@ -33,6 +33,18 @@ mat-radio-button {
   display: block;
 }
 
+#fullComponent {
+  height: 100%;
+}
+
+#containerForTable {
+  height: 100%;
+}
+
+#footer {
+  background-color: magenta;
+}
+
 /* ---------------- media requests ----------------- */
 
 @media (min-width: 0) {
@@ -44,6 +56,8 @@ mat-radio-button {
   .portTable {
     display: flex;
     flex-grow: 5;
+    overflow-y: auto;
+    min-height: 1000px;
   }
 
   .mat-table {
