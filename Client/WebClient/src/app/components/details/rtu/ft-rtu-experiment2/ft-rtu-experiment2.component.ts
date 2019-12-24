@@ -66,7 +66,6 @@ export class FtRtuExperiment2Component implements OnInit {
         this.selectedPreciseSave = res.preciseSave;
         this.selectedFastMeas = "pp";
         this.selectedFastSave = res.fastSave;
-        
         this.createPortLines();
         this.dataSource = new MatTableDataSource<PortLine>(this.tableData);
         this.selectionModel = new SelectionModel<PortLine>(

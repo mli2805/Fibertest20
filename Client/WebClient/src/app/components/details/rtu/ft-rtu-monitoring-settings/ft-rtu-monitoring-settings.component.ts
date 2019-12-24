@@ -1,8 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import {
-  RtuMonitoringSettingsDto,
-  RtuMonitoringPortDto
-} from "src/app/models/dtos/rtu/rtuMonitoringSettingsDto";
+import { RtuMonitoringSettingsDto } from "src/app/models/dtos/rtu/rtuMonitoringSettingsDto";
 import { ActivatedRoute } from "@angular/router";
 import { RtuApiService } from "src/app/api/rtu.service";
 import { Frequency } from "src/app/models/enums/frequency";
