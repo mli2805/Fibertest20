@@ -13,7 +13,6 @@ import { FtNetworkEventsComponent } from "./components/ft-network-events/ft-netw
 import { FtRtuInformationComponent } from "./components/details/rtu/ft-rtu-information/ft-rtu-information.component";
 import { FtRtuMonitoringSettingsComponent } from "./components/details/rtu/ft-rtu-monitoring-settings/ft-rtu-monitoring-settings.component";
 import { FtRtuNetworkSettingsComponent } from "./components/details/rtu/ft-rtu-network-settings/ft-rtu-network-settings.component";
-import { FtRtuExperimentComponent } from "./components/details/rtu/ft-rtu-experiment/ft-rtu-experiment.component";
 import { FtRtuExperiment2Component } from "./components/details/rtu/ft-rtu-experiment2/ft-rtu-experiment2.component";
 
 const routes: Routes = [
@@ -36,10 +35,6 @@ const routes: Routes = [
   {
     path: "rtu-monitoring-settings/:id",
     component: FtRtuMonitoringSettingsComponent
-  },
-  {
-    path: "rtu-experiment/:id",
-    component: FtRtuExperimentComponent
   },
   {
     path: "rtu-experiment2/:id",
