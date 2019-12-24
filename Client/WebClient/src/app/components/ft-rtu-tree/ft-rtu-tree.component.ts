@@ -65,10 +65,6 @@ export class FtRtuTreeComponent implements OnInit {
     this.router.navigate(["/rtu-monitoring-settings", rtu.rtuId]);
   }
 
-  experiment(rtu: RtuDto) {
-    this.router.navigate(["/rtu-experiment", rtu.rtuId]);
-  }
-
   experiment2(rtu: RtuDto) {
     this.router.navigate(["/rtu-experiment2", rtu.rtuId]);
   }

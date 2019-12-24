@@ -1,45 +1,51 @@
-import { Component, OnInit, Input } from "@angular/core";
-import { RtuMonitoringSettingsDto } from "src/app/models/dtos/rtu/rtuMonitoringSettingsDto";
-import { PortLine } from "../ft-rtu-monitoring-settings/ft-rtu-monitoring-settings.component";
+import { Component, OnInit, Input, OnChanges } from "@angular/core";
+import { RtuMonitoringPortDto } from "src/app/models/dtos/rtu/rtuMonitoringSettingsDto";
 import { MatTableDataSource } from "@angular/material";
 import { SelectionModel } from "@angular/cdk/collections";
 import { PortMonitoringMode } from "src/app/models/enums/portMonitoringMode";
+import { PortLineVm } from "../ft-rtu-monitoring-settings/portLineVm";
 
 @Component({
   selector: "ft-rtu-monitoring-ports",
   templateUrl: "./ft-rtu-monitoring-ports.component.html",
   styleUrls: ["./ft-rtu-monitoring-ports.component.css"]
 })
-export class FtRtuMonitoringPortsComponent implements OnInit {
-  @Input() vm: RtuMonitoringSettingsDto;
+export class FtRtuMonitoringPortsComponent implements OnInit, OnChanges {
+  @Input() ports: RtuMonitoringPortDto[];
 
-  tableData: PortLine[];
+  tableData: PortLineVm[];
 
   displayedColumns: string[] = ["select", "port", "traceTitle", "duration"];
-  dataSource = new MatTableDataSource<PortLine>();
-  selectionModel = new SelectionModel<PortLine>(true, []);
+  dataSource = new MatTableDataSource<PortLineVm>();
+  selectionModel = new SelectionModel<PortLineVm>(true, []);
 
   cycleTime;
 
   constructor() {}
 
-  ngOnInit() {
-    console.log(this.vm);
-    if (this.vm === null || this.vm.lines == null) {
+  ngOnChanges() {
+    if (this.ports == null) {
       return;
     }
+    this.initializeComponent();
+  }
+
+  ngOnInit() {}
+
+  private initializeComponent() {
     this.createPortLines();
-    this.dataSource = new MatTableDataSource<PortLine>(this.tableData);
-    this.selectionModel = new SelectionModel<PortLine>(
+    console.log(this.tableData);
+    this.dataSource = new MatTableDataSource<PortLineVm>(this.tableData);
+    this.selectionModel = new SelectionModel<PortLineVm>(
       true,
       this.tableData.filter(l => l.portMonitoringMode === PortMonitoringMode.On)
     );
     this.cycleTime = this.evaluateCycleTime();
+    console.log(`${this.cycleTime} sec`);
   }
 
   private createPortLines() {
-    console.log("createPortLines");
-    this.tableData = this.vm.lines.map(l => {
+    this.tableData = this.ports.map(l => {
       return {
         portMonitoringMode: l.portMonitoringMode,
         disabled:
@@ -73,7 +79,7 @@ export class FtRtuMonitoringPortsComponent implements OnInit {
     this.cycleTime = this.evaluateCycleTime();
   }
 
-  slaveToggle(row: PortLine) {
+  slaveToggle(row: PortLineVm) {
     if (row.disabled) {
       return;
     }

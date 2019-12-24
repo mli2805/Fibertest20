@@ -8,16 +8,7 @@ import { SelectionModel } from "@angular/cdk/collections";
 import { PortMonitoringMode } from "src/app/models/enums/portMonitoringMode";
 import { MatTableDataSource } from "@angular/material/table";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
-
-export interface PortLine {
-  portMonitoringMode: PortMonitoringMode;
-  port: string;
-  disabled: boolean;
-  traceTitle: string;
-  durationOfPreciseBase: number;
-  durationOfFastBase: number;
-  duration: string;
-}
+import { PortLineVm } from "./portLineVm";
 
 @Component({
   selector: "ft-rtu-monitoring-settings",
@@ -33,11 +24,11 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
   selectedFastMeas;
   selectedFastSave;
 
-  tableData: PortLine[];
+  tableData: PortLineVm[];
 
   displayedColumns: string[] = ["select", "port", "traceTitle", "duration"];
-  dataSource = new MatTableDataSource<PortLine>();
-  selectionModel = new SelectionModel<PortLine>(true, []);
+  dataSource = new MatTableDataSource<PortLineVm>();
+  selectionModel = new SelectionModel<PortLineVm>(true, []);
 
   cycleTime;
   monitoringMode;
@@ -67,8 +58,8 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
         this.selectedFastMeas = "pp";
         this.selectedFastSave = res.fastSave;
         this.createPortLines();
-        this.dataSource = new MatTableDataSource<PortLine>(this.tableData);
-        this.selectionModel = new SelectionModel<PortLine>(
+        this.dataSource = new MatTableDataSource<PortLineVm>(this.tableData);
+        this.selectionModel = new SelectionModel<PortLineVm>(
           true,
           this.tableData.filter(
             l => l.portMonitoringMode === PortMonitoringMode.On
@@ -98,7 +89,7 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
     this.cycleTime = this.evaluateCycleTime();
   }
 
-  slaveToggle(row: PortLine) {
+  slaveToggle(row: PortLineVm) {
     if (row.disabled) {
       return;
     }
