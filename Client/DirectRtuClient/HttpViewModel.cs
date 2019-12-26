@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
-using HttpLib;
+using D2RtuVeexManager;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
@@ -38,6 +38,8 @@ namespace DirectRtuClient
         }
 
         private bool _isButtonEnabled = true;
+        private string _patchMonitoringButton = @"Stop monitoring";
+
         public bool IsButtonEnabled
         {
             get => _isButtonEnabled;
@@ -73,14 +75,42 @@ namespace DirectRtuClient
         {
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
-            var d2RHttpClient = new D2RHttpClient();
-            var d2RHttpManager = new D2RHttpManager(d2RHttpClient);
-            d2RHttpManager.Initialize(_rtuVeexDoubleAddress, _logFile);
+          
+            var d2R = new D2RtuVeex(_logFile);
+            var result = await Task.Factory.StartNew(() =>
+                d2R.GetSettings(new InitializeRtuDto() {RtuAddresses = _rtuVeexDoubleAddress}).Result);
 
-            var result = await Task.Factory.StartNew(() => d2RHttpManager.GetSettings(new InitializeRtuDto()).Result);
             ResultString = result.ReturnCode.ToString();
             IsButtonEnabled = true;
             if (result.ReturnCode != ReturnCode.RtuInitializedSuccessfully)
+                MessageBox.Show(result.ErrorMessage);
+        }
+
+        public string PatchMonitoringButton
+        {
+            get => _patchMonitoringButton;
+            set
+            {
+                if (value == _patchMonitoringButton) return;
+                _patchMonitoringButton = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public async void PatchMonitoring()
+        {
+            ResultString = @"Wait, please";
+            IsButtonEnabled = false;
+            var flag = PatchMonitoringButton == @"Stop monitoring";
+          
+            var d2R = new D2RtuVeexMonitoring(_logFile);
+            var result = await Task.Factory.StartNew(() =>
+                d2R.Monitoring(_rtuVeexDoubleAddress, @"monitoring", flag ? @"disabled" : @"enabled").Result);
+
+            ResultString = result.ReturnCode.ToString();
+            PatchMonitoringButton = flag ? @"Start monitoring" : @"Stop monitoring";
+            IsButtonEnabled = true;
+            if (result.ReturnCode != ReturnCode.MonitoringSettingsAppliedSuccessfully)
                 MessageBox.Show(result.ErrorMessage);
         }
 

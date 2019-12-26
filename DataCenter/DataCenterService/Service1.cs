@@ -58,6 +58,7 @@ namespace Iit.Fibertest.DataCenterService
 
         private async void Initialize()
         {
+            Console.WriteLine(@"Service initialization started...");
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
             _logFile.AppendLine($"Service initialization thread. Process {pid}, thread {tid}");

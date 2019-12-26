@@ -15,6 +15,9 @@
         <Button DockPanel.Dock="Top" Name="GetSettings" Content="Get settings" Margin="5" 
                 IsEnabled="{Binding IsButtonEnabled, Mode=TwoWay}"/>
 
+        <Button DockPanel.Dock="Top" Name="PatchMonitoring" Content="{Binding PatchMonitoringButton}" Margin="5" 
+                IsEnabled="{Binding IsButtonEnabled, Mode=TwoWay}"/>
+
         <TextBlock DockPanel.Dock="Bottom" Background="Azure" Height="22" Margin="5,0" Text="{Binding ResultString}"/>
         <StackPanel></StackPanel>
     </DockPanel>

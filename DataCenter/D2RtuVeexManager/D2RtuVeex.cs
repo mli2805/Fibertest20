@@ -1,36 +1,34 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
+using HttpLib;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json;
 
-namespace HttpLib
+namespace D2RtuVeexManager
 {
-
-    public class D2RHttpManager
+    public class D2RtuVeex
     {
-        private readonly D2RHttpClient _d2RHttpClient;
+        private static readonly HttpClient _httpClient = new HttpClient();
+
+        private readonly IMyLog _logFile;
         private DoubleAddress _rtuDoubleAddress;
-        private IMyLog _logFile;
 
-        public D2RHttpManager(D2RHttpClient d2RHttpClient)
+        public D2RtuVeex(IMyLog logFile)
         {
-            _d2RHttpClient = d2RHttpClient;
-        }
-
-
-        public void Initialize(DoubleAddress rtuAddress, IMyLog logFile)
-        {
-            _rtuDoubleAddress = rtuAddress;
             _logFile = logFile;
         }
 
         public async Task<RtuInitializedDto> GetSettings(InitializeRtuDto dto)
         {
-            var result = new RtuInitializedDto();
+            _rtuDoubleAddress = (DoubleAddress)dto.RtuAddresses.Clone();
 
+            var result = new RtuInitializedDto();
             var rootUrl = $"http://{_rtuDoubleAddress.Main.ToStringA()}/api/v1";
+
             var platformResponse = await GetPlatformSettings(rootUrl, result);
             if (!platformResponse)
                 return result;
@@ -56,14 +54,30 @@ namespace HttpLib
         {
             try
             {
-                var strOtaus = await _d2RHttpClient.GetAsync($"{rootUrl}/otaus");
+                var responseMessage = await _httpClient.GetAsync($"{rootUrl}/otaus");
+                if (responseMessage.StatusCode != HttpStatusCode.OK)
+                {
+                    result.ReturnCode = ReturnCode.OtauInitializationError;
+                    result.ErrorMessage = responseMessage.ReasonPhrase;
+                    return false;
+                }
+
+                var strOtaus = await responseMessage.Content.ReadAsStringAsync();
+
                 _logFile.AppendLine(strOtaus);
                 var otaus = JsonConvert.DeserializeObject<Otaus>(strOtaus);
 
                 if (otaus.total == 0)
                     return true;
 
-                var strOtau = await _d2RHttpClient.GetAsync($"{rootUrl}/{otaus.items[0].self}"); // could be more than one
+                responseMessage = await _httpClient.GetAsync($"{rootUrl}/{otaus.items[0].self}"); // could be more than one
+                if (responseMessage.StatusCode != HttpStatusCode.OK)
+                {
+                    result.ReturnCode = ReturnCode.OtauInitializationError;
+                    result.ErrorMessage = responseMessage.ReasonPhrase;
+                    return false;
+                }
+                var strOtau = await responseMessage.Content.ReadAsStringAsync(); 
                 _logFile.AppendLine(strOtau);
                 var otau = JsonConvert.DeserializeObject<Otau>(strOtau);
                 result.OwnPortCount = otau.portCount;
@@ -83,14 +97,28 @@ namespace HttpLib
         {
             try
             {
-                var strOtdrs = await _d2RHttpClient.GetAsync($"{rootUrl}/otdrs");
+                var responseMessage = await _httpClient.GetAsync($"{rootUrl}/otdrs");
+                if (responseMessage.StatusCode != HttpStatusCode.OK)
+                {
+                    result.ReturnCode = ReturnCode.RtuInitializationError;
+                    result.ErrorMessage = responseMessage.ReasonPhrase;
+                    return false;
+                } 
+                var strOtdrs = await responseMessage.Content.ReadAsStringAsync();
                 _logFile.AppendLine(strOtdrs);
                 var otdrs = JsonConvert.DeserializeObject<Otdrs>(strOtdrs);
 
                 if (otdrs.total == 0)
                     return true;
 
-                var strOtdr = await _d2RHttpClient.GetAsync($"{rootUrl}/{otdrs.items[0].self}"); // could be more than one
+                responseMessage = await _httpClient.GetAsync($"{rootUrl}/{otdrs.items[0].self}"); // could be more than one
+                if (responseMessage.StatusCode != HttpStatusCode.OK)
+                {
+                    result.ReturnCode = ReturnCode.RtuInitializationError;
+                    result.ErrorMessage = responseMessage.ReasonPhrase;
+                    return false;
+                } 
+                var strOtdr = await responseMessage.Content.ReadAsStringAsync();
                 _logFile.AppendLine(strOtdr);
                 var otdr = JsonConvert.DeserializeObject<Otdr>(strOtdr);
                 result.Omid = otdr.mainframeId;
@@ -126,8 +154,14 @@ namespace HttpLib
         {
             try
             {
-              //  var strInfo = await GetAsync($"{rootUrl}/info");
-                var strInfo = await _d2RHttpClient.GetAsync($"{rootUrl}/info");
+                var responseMessage = await _httpClient.GetAsync($"{rootUrl}/info");
+                if (responseMessage.StatusCode != HttpStatusCode.OK)
+                {
+                    result.ReturnCode = ReturnCode.RtuInitializationError;
+                    result.ErrorMessage = responseMessage.ReasonPhrase;
+                    return false;
+                } 
+                var strInfo = await responseMessage.Content.ReadAsStringAsync();
                 var info = JsonConvert.DeserializeObject<Info>(strInfo);
                 _logFile.AppendLine(strInfo);
                 result.Mfid = info.platform.name;
@@ -146,4 +180,5 @@ namespace HttpLib
         }
 
     }
+
 }
