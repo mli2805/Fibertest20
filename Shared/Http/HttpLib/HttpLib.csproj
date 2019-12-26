@@ -53,13 +53,13 @@
     <Compile Include="D2RHttpClient.cs" />
     <Compile Include="D2RHttpManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="VeexDto\InfoDtoClasses.cs" />
-    <Compile Include="VeexDto\MonitoringVeexDto.cs" />
-    <Compile Include="VeexDto\Otau.cs" />
-    <Compile Include="VeexDto\Otaus.cs" />
-    <Compile Include="VeexDto\Otdr.cs" />
-    <Compile Include="VeexDto\Otdrs.cs" />
-    <Compile Include="VeexDto\EquipmentItem.cs" />
+    <Compile Include="VeexDto\Info\InfoDtoClasses.cs" />
+    <Compile Include="VeexDto\Monitoring\MonitoringVeexDto.cs" />
+    <Compile Include="VeexDto\Info\Otau.cs" />
+    <Compile Include="VeexDto\Info\Otaus.cs" />
+    <Compile Include="VeexDto\Info\Otdr.cs" />
+    <Compile Include="VeexDto\Info\Otdrs.cs" />
+    <Compile Include="VeexDto\Info\EquipmentItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Dto\Dto.csproj">
