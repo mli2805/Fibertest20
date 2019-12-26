@@ -36,7 +36,7 @@ namespace Graph.Tests
         public void WhenRtuУспешноИнициализируетсяCДлиннойВолны(string p0)
         {
             _sut.FakeD2RWcfManager.SetFakeInitializationAnswer(waveLength:p0);
-            _sut.SetNameAndAskInitializationRtu(_rtuLeaf.Id, @"1.1.1.1");
+            _sut.SetNameAndAskInitializationRtu(_rtuLeaf.Id);
         }
 
 

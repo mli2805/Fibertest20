@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
-using HttpLib;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json;
 
-namespace D2RtuVeexManager
+namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public class D2RtuVeex
     {

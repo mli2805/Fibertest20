@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace HttpLib
+namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public class OtdrEngine
     {

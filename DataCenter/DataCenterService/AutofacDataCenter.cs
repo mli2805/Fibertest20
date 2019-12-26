@@ -2,9 +2,9 @@
 using System.ServiceProcess;
 using System.Threading;
 using Autofac;
-using HttpLib;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DataCenterCore;
+using Iit.Fibertest.D2RtuVeexLibrary;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -62,8 +62,8 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<SmsSender>().SingleInstance();
 
             builder.RegisterType<D2RWcfManager>().As<ID2RWcfManager>().SingleInstance();
-            builder.RegisterType<D2RHttpClient>().SingleInstance();
-            builder.RegisterType<D2RHttpManager>().SingleInstance();
+            builder.RegisterType<D2RtuVeex>().SingleInstance();
+            builder.RegisterType<D2RtuVeexMonitoring>().SingleInstance();
 
             builder.RegisterType<ServerSettings>().As<ISettings>().SingleInstance();
 

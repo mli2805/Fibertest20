@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using HttpLib;
+using Iit.Fibertest.D2RtuVeexLibrary;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -10,14 +10,16 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IMyLog _logFile;
         private readonly RtuStationsRepository _rtuStationsRepository;
-        private readonly D2RHttpManager _d2RHttpManager;
+        private readonly D2RtuVeex _d2RtuVeex;
+        private readonly D2RtuVeexMonitoring _d2RtuVeexMonitoring;
         private readonly DoubleAddress _serverDoubleAddress;
         public ClientToRtuVeexTransmitter(IniFile iniFile, IMyLog logFile, RtuStationsRepository rtuStationsRepository,
-                D2RHttpManager d2RHttpManager)
+                 D2RtuVeex d2RtuVeex, D2RtuVeexMonitoring d2RtuVeexMonitoring)
         {
             _logFile = logFile;
             _rtuStationsRepository = rtuStationsRepository;
-            _d2RHttpManager = d2RHttpManager;
+            _d2RtuVeex = d2RtuVeex;
+            _d2RtuVeexMonitoring = d2RtuVeexMonitoring;
 
             _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
         }
@@ -28,8 +30,9 @@ namespace Iit.Fibertest.DataCenterCore
 
             dto.ServerAddresses = _serverDoubleAddress;
 
-            _d2RHttpManager.Initialize(dto.RtuAddresses, _logFile);
-            var rtuInitializedDto = await _d2RHttpManager.GetSettings(dto);
+//            _d2RHttpManager.Initialize(dto.RtuAddresses, _logFile);
+            var rtuInitializedDto = await _d2RtuVeex.GetSettings(dto);
+//            var rtuInitializedDto = await _d2RHttpManager.GetSettings(dto);
             if (rtuInitializedDto.IsInitialized)
             {
                 rtuInitializedDto.RtuAddresses = dto.RtuAddresses;

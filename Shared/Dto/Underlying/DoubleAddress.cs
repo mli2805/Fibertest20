@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Dto
             {
                 Main = (NetAddress)Main.Clone(),
                 HasReserveAddress = HasReserveAddress,
-                Reserve = (NetAddress)Reserve.Clone(),
+                Reserve = (NetAddress)Reserve?.Clone(),
             };
         }
     }

@@ -3,12 +3,11 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
-using HttpLib;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json;
 
-namespace D2RtuVeexManager
+namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public class D2RtuVeexMonitoring
     {
@@ -21,6 +20,13 @@ namespace D2RtuVeexManager
             _logFile = logFile;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rtuDoubleAddress"></param>
+        /// <param name="cmd">monitoring</param>
+        /// <param name="prm">enabled or disabled</param>
+        /// <returns></returns>
         public async Task<MonitoringStoppedDto> Monitoring(DoubleAddress rtuDoubleAddress, string cmd, string prm)
         {
             _httpClient.DefaultRequestHeaders.ExpectContinue = false;
@@ -61,6 +67,23 @@ namespace D2RtuVeexManager
                 _logFile.AppendLine("Monitoring: " + e.Message);
                 return result;
             }
+        }
+
+        public async Task<bool> Tests(DoubleAddress rtuDoubleAddress, string cmd)
+        {
+            _httpClient.DefaultRequestHeaders.ExpectContinue = false;
+            _rtuDoubleAddress = (DoubleAddress)rtuDoubleAddress.Clone();
+
+            var uri = $"http://{_rtuDoubleAddress.Main.ToStringA()}/api/v1/{cmd}";
+            var responseMessage = await _httpClient.GetAsync(uri);
+            if (responseMessage.StatusCode != HttpStatusCode.OK)
+            {
+                return false;
+            }
+
+            var str = await responseMessage.Content.ReadAsStringAsync();
+            var tests = JsonConvert.DeserializeObject<Tests>(str);
+            return true;
         }
 
     }

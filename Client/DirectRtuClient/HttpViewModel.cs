@@ -1,12 +1,17 @@
 ﻿using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
-using D2RtuVeexManager;
+using Iit.Fibertest.D2RtuVeexLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
 namespace DirectRtuClient
 {
+    public class RtuVeexModel
+    {
+        public RtuInitializedDto RtuInitializedDto { get; set; }
+        public Tests Tests { get; set; }
+    }
     public class HttpViewModel : Screen
     {
         private readonly IniFile _iniFile;
@@ -114,5 +119,19 @@ namespace DirectRtuClient
                 MessageBox.Show(result.ErrorMessage);
         }
 
+        public async void GetTests()
+        {
+            ResultString = @"Wait, please";
+            IsButtonEnabled = false;
+
+            var d2R = new D2RtuVeexMonitoring(_logFile);
+            var result = await Task.Factory.StartNew(() =>
+                d2R.Tests(_rtuVeexDoubleAddress, @"monitoring/tests").Result);
+
+            IsButtonEnabled = true;
+            if (!result)
+                MessageBox.Show(@"Error");
+
+        }
     }
 }
