@@ -11,7 +11,7 @@ namespace Graph.Tests
     public static class RtuInitializer
     {
         public static RtuLeaf SetNameAndAskInitializationRtu(this SystemUnderTest sut, Guid rtuId, 
-            string mainIpAddress = "", string reserveIpAddress = "")
+            string mainIpAddress = "1.1.1.1", string reserveIpAddress = "2.2.2.2")
         {
             var rtu = sut.ReadModel.Rtus.First(r => r.Id == rtuId);
             var rtuLeaf = (RtuLeaf)sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(rtuId);

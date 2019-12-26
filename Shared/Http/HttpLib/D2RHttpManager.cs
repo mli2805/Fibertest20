@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -12,8 +13,16 @@ namespace HttpLib
 
     public class D2RHttpManager
     {
+        private readonly D2RHttpClient _d2RHttpClient;
         private DoubleAddress _rtuAddress;
         private IMyLog _logFile;
+
+        public D2RHttpManager(D2RHttpClient d2RHttpClient)
+        {
+            _d2RHttpClient = d2RHttpClient;
+        }
+
+
         public void Initialize(DoubleAddress rtuAddress, IMyLog logFile)
         {
             _rtuAddress = rtuAddress;
@@ -50,14 +59,14 @@ namespace HttpLib
         {
             try
             {
-                var strOtaus = await GetAsync($"{rootUrl}/otaus");
+                var strOtaus = await _d2RHttpClient.GetAsync($"{rootUrl}/otaus");
                 _logFile.AppendLine(strOtaus);
                 var otaus = JsonConvert.DeserializeObject<Otaus>(strOtaus);
 
                 if (otaus.total == 0)
                     return true;
 
-                var strOtau = await GetAsync($"{rootUrl}/{otaus.items[0].self}"); // could be more than one
+                var strOtau = await _d2RHttpClient.GetAsync($"{rootUrl}/{otaus.items[0].self}"); // could be more than one
                 _logFile.AppendLine(strOtau);
                 var otau = JsonConvert.DeserializeObject<Otau>(strOtau);
                 result.OwnPortCount = otau.portCount;
@@ -77,14 +86,14 @@ namespace HttpLib
         {
             try
             {
-                var strOtdrs = await GetAsync($"{rootUrl}/otdrs");
+                var strOtdrs = await _d2RHttpClient.GetAsync($"{rootUrl}/otdrs");
                 _logFile.AppendLine(strOtdrs);
                 var otdrs = JsonConvert.DeserializeObject<Otdrs>(strOtdrs);
 
                 if (otdrs.total == 0)
                     return true;
 
-                var strOtdr = await GetAsync($"{rootUrl}/{otdrs.items[0].self}"); // could be more than one
+                var strOtdr = await _d2RHttpClient.GetAsync($"{rootUrl}/{otdrs.items[0].self}"); // could be more than one
                 _logFile.AppendLine(strOtdr);
                 var otdr = JsonConvert.DeserializeObject<Otdr>(strOtdr);
                 result.Omid = otdr.mainframeId;
@@ -120,7 +129,8 @@ namespace HttpLib
         {
             try
             {
-                var strInfo = await GetAsync($"{rootUrl}/info");
+              //  var strInfo = await GetAsync($"{rootUrl}/info");
+                var strInfo = await _d2RHttpClient.GetAsync($"{rootUrl}/info");
                 var info = JsonConvert.DeserializeObject<Info>(strInfo);
                 _logFile.AppendLine(strInfo);
                 result.Mfid = info.platform.name;
@@ -153,6 +163,32 @@ namespace HttpLib
                 }
 
             }
+        }
+
+    }
+
+    public class D2RHttpClient
+    {
+        private static readonly HttpClient client = new HttpClient();
+        public async Task<string> GetAsync(string uri)
+        {
+            return await client.GetStringAsync(uri);
+        }
+
+        public async Task<string> PostAsync(string uri)
+        {
+            var values = new Dictionary<string, string>
+            {
+                { "thing1", "hello" },
+                { "thing2", "world" }
+            };
+
+            var content = new FormUrlEncodedContent(values);
+
+            var response = await client.PostAsync(uri, content);
+
+            var responseString = await response.Content.ReadAsStringAsync();
+            return responseString;
         }
     }
 }

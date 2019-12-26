@@ -153,6 +153,12 @@ namespace Iit.Fibertest.Client
 
         private async Task<bool> CheckConnectionBeforeInitializaion()
         {
+            if (!FullModel.MainChannelTestViewModel.NetAddressInputViewModel.IsValidIpAddress())
+            {
+                _windowManager.ShowDialogWithAssignedOwner(
+                    new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Invalid_IP_address));
+                return false;
+            }
             if (!await FullModel.MainChannelTestViewModel.ExternalTest())
             {
                 _windowManager.ShowDialogWithAssignedOwner(
@@ -162,6 +168,12 @@ namespace Iit.Fibertest.Client
 
             if (!FullModel.IsReserveChannelEnabled) return true;
 
+            if (!FullModel.ReserveChannelTestViewModel.NetAddressInputViewModel.IsValidIpAddress())
+            {
+                _windowManager.ShowDialogWithAssignedOwner(
+                    new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Invalid_IP_address));
+                return false;
+            } 
             if (await FullModel.ReserveChannelTestViewModel.ExternalTest()) return true;
 
             _windowManager.ShowDialogWithAssignedOwner(

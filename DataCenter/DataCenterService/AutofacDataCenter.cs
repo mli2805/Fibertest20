@@ -62,6 +62,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<SmsSender>().SingleInstance();
 
             builder.RegisterType<D2RWcfManager>().As<ID2RWcfManager>().SingleInstance();
+            builder.RegisterType<D2RHttpClient>().SingleInstance();
             builder.RegisterType<D2RHttpManager>().SingleInstance();
 
             builder.RegisterType<ServerSettings>().As<ISettings>().SingleInstance();

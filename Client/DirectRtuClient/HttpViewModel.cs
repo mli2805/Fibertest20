@@ -73,7 +73,8 @@ namespace DirectRtuClient
         {
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
-            var d2RHttpManager = new D2RHttpManager();
+            var d2RHttpClient = new D2RHttpClient();
+            var d2RHttpManager = new D2RHttpManager(d2RHttpClient);
             d2RHttpManager.Initialize(_rtuVeexDoubleAddress, _logFile);
 
             var result = await Task.Factory.StartNew(() => d2RHttpManager.GetSettings(new InitializeRtuDto()).Result);

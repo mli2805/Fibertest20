@@ -2,6 +2,7 @@
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
@@ -12,6 +13,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly CurrentUser _currentUser;
+        private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
         private readonly NetAddressForConnectionTest _netAddressForConnectionTest;
         private bool? _result;
@@ -41,11 +43,12 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public NetAddressTestViewModel(ILifetimeScope globalScope, CurrentUser currentUser,
+        public NetAddressTestViewModel(ILifetimeScope globalScope, CurrentUser currentUser, IWindowManager windowManager,
             IWcfServiceForClient c2DWcfManager, NetAddressForConnectionTest netAddressForConnectionTest)
         {
             _globalScope = globalScope;
             _currentUser = currentUser;
+            _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
             _netAddressForConnectionTest = netAddressForConnectionTest;
             NetAddressInputViewModel = new NetAddressInputViewModel(netAddressForConnectionTest.Address, currentUser.Role <= Role.Root);
@@ -55,13 +58,19 @@ namespace Iit.Fibertest.Client
 
         public async void Test() // button
         {
+            if (!NetAddressInputViewModel.IsValidIpAddress())
+            {
+                _windowManager.ShowDialogWithAssignedOwner(
+                    new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Invalid_IP_address));
+                return;
+            }
+
             Result = null;
             bool res;
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 res = await TestConnection();
             }
-
 
             Result = res;
         }
@@ -74,8 +83,19 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public bool IsValidIpAddress()
+        {
+            return NetAddressInputViewModel.IsValidIpAddress();
+        }
+
         private async Task<bool> TestConnection()
         {
+//            if (!NetAddressInputViewModel.IsValidIpAddress())
+//            {
+//                _windowManager.ShowDialogWithAssignedOwner(
+//                    new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Invalid_IP_address));
+//                return false;
+//            }
             if (_netAddressForConnectionTest.IsRtuAddress)
             {
                 var dto = new CheckRtuConnectionDto()

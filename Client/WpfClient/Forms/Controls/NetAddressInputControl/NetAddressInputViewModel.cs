@@ -36,5 +36,10 @@ namespace Iit.Fibertest.Client
                 Port = PortStr == "" ? -1 : Int32.Parse(PortStr),
             };
         }
+
+        public bool IsValidIpAddress()
+        {
+            return Ip4InputViewModel.IsValidIpAddress();
+        }
     }
 }

@@ -3457,6 +3457,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid IP address.
+        /// </summary>
+        public static string SID_Invalid_IP_address {
+            get {
+                return ResourceManager.GetString("SID_Invalid_IP_address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid license file!.
         /// </summary>
         public static string SID_Invalid_license_file_ {

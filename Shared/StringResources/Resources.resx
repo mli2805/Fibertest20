@@ -2720,7 +2720,10 @@ RTU is initializing right now!</value>
 	<data name="SID_usually_162" xml:space="preserve">
     <value>usually 162</value>
   </data>
-  <data name="SID_Save_and_test" xml:space="preserve">
+	<data name="SID_Save_and_test" xml:space="preserve">
     <value>Save and Test</value>
+  </data>
+	<data name="SID_Invalid_IP_address" xml:space="preserve">
+    <value>Invalid IP address</value>
   </data>
 </root>

@@ -161,6 +161,7 @@ namespace Graph.Tests
             builder.RegisterType<SorFileRepository>().InstancePerLifetimeScope();
             builder.RegisterType<SnapshotRepository>().InstancePerLifetimeScope();
             builder.RegisterType<D2CWcfManager>().InstancePerLifetimeScope();
+            builder.RegisterType<D2RHttpClient>().InstancePerLifetimeScope();
             builder.RegisterType<D2RHttpManager>().InstancePerLifetimeScope();
             builder.RegisterType<SmsSender>().InstancePerLifetimeScope();
             builder.RegisterType<SmsManager>().InstancePerLifetimeScope();
