@@ -21,19 +21,13 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         /// <param name="rtuDoubleAddress"></param>
         /// <param name="mode">enabled (Auto) or disabled (Manual)</param>
         /// <returns></returns>
-        public async Task<MonitoringStoppedDto> SetMonitoringMode(DoubleAddress rtuDoubleAddress, string mode)
+        public async Task<HttpRequestResult> SetMonitoringMode(DoubleAddress rtuDoubleAddress, string mode)
         {
-            var result = new MonitoringStoppedDto();
             var json = JsonConvert.SerializeObject(new MonitoringVeexDto() { state = mode });
 
             var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "patch", "monitoring", json);
-            result.IsSuccessful = httpResult.HttpStatusCode == HttpStatusCode.OK;
-            result.ReturnCode =  httpResult.HttpStatusCode == HttpStatusCode.OK 
-                ? ReturnCode.MonitoringSettingsAppliedSuccessfully 
-                : ReturnCode.RtuMonitoringSettingsApplyError;
-            result.ErrorMessage = httpResult.ErrorMessage;
-
-            return result;
+          
+            return httpResult;
         }
 
         public async Task<Tests> GetTests(DoubleAddress rtuDoubleAddress)

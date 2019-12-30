@@ -101,11 +101,14 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
+            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
+            if (rtu == null) return;
+
             bool result;
             using (new WaitCursor())
             {
                 result =
-                    await _c2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() { RtuId = rtuLeaf.Id });
+                    await _c2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() { RtuId = rtuLeaf.Id, RtuMaker = rtu.RtuMaker });
             }
             _logFile.AppendLine($@"Stop monitoring result - {result}");
             if (result)

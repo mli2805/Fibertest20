@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public Guid ClientId { get; set; }
 
-         [DataMember]
+        [DataMember]
         public RtuMaker RtuMaker { get; set; }
         [DataMember]
         public Guid RtuId { get; set; }

@@ -9,8 +9,11 @@ namespace Iit.Fibertest.Dto
     {
         [DataMember]
         public Guid ClientId { get; set; }
+
         [DataMember]
         public Guid RtuId { get; set; }
+        [DataMember]
+        public RtuMaker RtuMaker { get; set; }
 
         [DataMember]
         public bool IsMonitoringOn { get; set; }

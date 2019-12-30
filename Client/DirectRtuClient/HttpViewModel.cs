@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
@@ -119,10 +120,10 @@ namespace DirectRtuClient
             var result = await Task.Factory.StartNew(() =>
                 d2R.SetMonitoringMode(_rtuVeexDoubleAddress, flag ? @"disabled" : @"enabled").Result);
 
-            ResultString = result.ReturnCode.ToString();
+            ResultString = $@"Stop monitoring result is {result.HttpStatusCode == HttpStatusCode.OK}";
             PatchMonitoringButton = flag ? @"Start monitoring" : @"Stop monitoring";
             IsButtonEnabled = true;
-            if (result.ReturnCode != ReturnCode.MonitoringSettingsAppliedSuccessfully)
+            if (result.HttpStatusCode != HttpStatusCode.OK)
                 MessageBox.Show(result.ErrorMessage);
         }
 

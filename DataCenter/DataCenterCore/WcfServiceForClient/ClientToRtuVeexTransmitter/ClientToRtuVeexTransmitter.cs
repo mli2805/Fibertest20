@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
 using Iit.Fibertest.D2RtuVeexLibrary;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
@@ -30,9 +31,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             dto.ServerAddresses = _serverDoubleAddress;
 
-//            _d2RHttpManager.Initialize(dto.RtuAddresses, _logFile);
             var rtuInitializedDto = await _d2RtuVeex.GetSettings(dto);
-//            var rtuInitializedDto = await _d2RHttpManager.GetSettings(dto);
             if (rtuInitializedDto.IsInitialized)
             {
                 rtuInitializedDto.RtuAddresses = dto.RtuAddresses;
@@ -46,6 +45,21 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine(message);
 
             return rtuInitializedDto;
+        }
+
+        public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
+        {
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent stop monitoring on VeEX RTU {dto.RtuId.First6()} request");
+            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+            if (rtuAddresses == null)
+            {
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
+                return false;
+            }
+            
+            var httpResult = await _d2RtuVeexMonitoring.SetMonitoringMode(rtuAddresses, "disabled");
+            _logFile.AppendLine($"Stop monitoring result is {httpResult.HttpStatusCode == HttpStatusCode.OK}");
+            return httpResult.HttpStatusCode == HttpStatusCode.OK;
         }
     }
 }

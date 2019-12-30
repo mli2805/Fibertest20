@@ -29,7 +29,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
-            return await _clientToRtuTransmitter.StopMonitoringAsync(dto);
+            return dto.RtuMaker == RtuMaker.IIT
+                ? await _clientToRtuTransmitter.StopMonitoringAsync(dto)
+                : await Task.Factory.StartNew(()=> _clientToRtuVeexTransmitter.StopMonitoringAsync(dto).Result);
         }
 
         public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
