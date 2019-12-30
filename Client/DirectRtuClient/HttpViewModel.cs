@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.D2RtuVeexLibrary;
@@ -10,16 +11,19 @@ namespace DirectRtuClient
     public class RtuVeexModel
     {
         public RtuInitializedDto RtuInitializedDto { get; set; }
-        public Tests Tests { get; set; }
+        public Tests TestsHeader { get; set; }
+        public List<Test> Tests { get; set; }
+        public Dictionary<string, ThresholdSet> Thresholds { get; set; } // testId - thresholdSet
     }
+
     public class HttpViewModel : Screen
     {
         private readonly IniFile _iniFile;
-        private readonly IMyLog _logFile;
 
         private readonly DoubleAddress _rtuVeexDoubleAddress;
         private string _resultString;
         private string _rtuVeexAddress;
+        private readonly HttpExt _httpExt;
 
         public string RtuVeexAddress
         {
@@ -56,12 +60,13 @@ namespace DirectRtuClient
             }
         }
 
+        private RtuVeexModel _rtuVeexModel = new RtuVeexModel();
         public HttpViewModel(IniFile iniFile, IMyLog logFile)
         {
             _iniFile = iniFile;
-            _logFile = logFile;
 
             _rtuVeexDoubleAddress = iniFile.ReadDoubleAddress(80);
+            _httpExt = new HttpExt(logFile);
             RtuVeexAddress = _rtuVeexDoubleAddress.Main.Ip4Address;
         }
 
@@ -80,14 +85,16 @@ namespace DirectRtuClient
         {
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
-          
-            var d2R = new D2RtuVeex(_logFile);
+
+            var d2R = new D2RtuVeex(_httpExt);
             var result = await Task.Factory.StartNew(() =>
-                d2R.GetSettings(new InitializeRtuDto() {RtuAddresses = _rtuVeexDoubleAddress}).Result);
+                d2R.GetSettings(new InitializeRtuDto() { RtuAddresses = _rtuVeexDoubleAddress }).Result);
 
             ResultString = result.ReturnCode.ToString();
             IsButtonEnabled = true;
-            if (result.ReturnCode != ReturnCode.RtuInitializedSuccessfully)
+            if (result.ReturnCode == ReturnCode.RtuInitializedSuccessfully)
+                _rtuVeexModel.RtuInitializedDto = result;
+            else
                 MessageBox.Show(result.ErrorMessage);
         }
 
@@ -107,10 +114,10 @@ namespace DirectRtuClient
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
             var flag = PatchMonitoringButton == @"Stop monitoring";
-          
-            var d2R = new D2RtuVeexMonitoring(_logFile);
+
+            var d2R = new D2RtuVeexMonitoring(_httpExt);
             var result = await Task.Factory.StartNew(() =>
-                d2R.Monitoring(_rtuVeexDoubleAddress, @"monitoring", flag ? @"disabled" : @"enabled").Result);
+                d2R.SetMonitoringMode(_rtuVeexDoubleAddress, flag ? @"disabled" : @"enabled").Result);
 
             ResultString = result.ReturnCode.ToString();
             PatchMonitoringButton = flag ? @"Start monitoring" : @"Stop monitoring";
@@ -124,14 +131,40 @@ namespace DirectRtuClient
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
 
-            var d2R = new D2RtuVeexMonitoring(_logFile);
+            var d2R = new D2RtuVeexMonitoring(_httpExt);
             var result = await Task.Factory.StartNew(() =>
-                d2R.Tests(_rtuVeexDoubleAddress, @"monitoring/tests").Result);
+                d2R.GetTests(_rtuVeexDoubleAddress).Result);
+
+
+
+            if (result == null)
+            {
+                MessageBox.Show(@"Error");
+            }
+            else
+            {
+                _rtuVeexModel.TestsHeader = result;
+                _rtuVeexModel.Tests = new List<Test>();
+                _rtuVeexModel.Thresholds = new Dictionary<string, ThresholdSet>();
+                foreach (var testsItem in _rtuVeexModel.TestsHeader.items)
+                {
+                    var test = await Task.Factory.StartNew(() => d2R.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}").Result);
+                    _rtuVeexModel.Tests.Add(test);
+                    var thresholdSet = await Task.Factory.StartNew(() =>
+                        d2R.GetTestThresholds(_rtuVeexDoubleAddress, $@"monitoring/tests/{test.thresholds.self}").Result);
+                    _rtuVeexModel.Thresholds.Add(test.id, thresholdSet);
+                    if (await Task.Factory.StartNew(() =>
+                        d2R.ChangeTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}").Result))
+                    {
+                        var changedTest = await Task.Factory.StartNew(() => 
+                            d2R.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}").Result);
+                    }
+
+                }
+            }
 
             IsButtonEnabled = true;
-            if (!result)
-                MessageBox.Show(@"Error");
-
+            ResultString = @"Done";
         }
     }
 }

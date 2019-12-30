@@ -3,5 +3,5 @@ GET http://192.168.96.233:80/api/v1/info
 PATCH http://192.168.96.233:80/api/v1/monitoring
 Content-Type : application/merge-patch+json
 {
-  "state":"enabled"
+  "state":"disabled"
 }

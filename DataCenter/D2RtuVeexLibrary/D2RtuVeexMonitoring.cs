@@ -1,89 +1,85 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Net;
-using System.Net.Http;
-using System.Text;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public class D2RtuVeexMonitoring
     {
-        private static readonly HttpClient _httpClient = new HttpClient();
-        private readonly IMyLog _logFile;
-        private DoubleAddress _rtuDoubleAddress;
+        private readonly HttpExt _httpExt;
 
-        public D2RtuVeexMonitoring(IMyLog logFile)
+        public D2RtuVeexMonitoring(HttpExt httpExt)
         {
-            _logFile = logFile;
+            _httpExt = httpExt;
         }
 
         /// <summary>
-        /// 
+        /// start / stop monitoring
         /// </summary>
         /// <param name="rtuDoubleAddress"></param>
-        /// <param name="cmd">monitoring</param>
-        /// <param name="prm">enabled or disabled</param>
+        /// <param name="mode">enabled (Auto) or disabled (Manual)</param>
         /// <returns></returns>
-        public async Task<MonitoringStoppedDto> Monitoring(DoubleAddress rtuDoubleAddress, string cmd, string prm)
+        public async Task<MonitoringStoppedDto> SetMonitoringMode(DoubleAddress rtuDoubleAddress, string mode)
         {
-            _httpClient.DefaultRequestHeaders.ExpectContinue = false;
-
-            _rtuDoubleAddress = (DoubleAddress)rtuDoubleAddress.Clone();
-
             var result = new MonitoringStoppedDto();
-            var uri = $"http://{_rtuDoubleAddress.Main.ToStringA()}/api/v1/{cmd}";
+            var json = JsonConvert.SerializeObject(new MonitoringVeexDto() { state = mode });
 
-            var json = JsonConvert.SerializeObject(new MonitoringVeexDto() { state = prm });
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "patch", "monitoring", json);
+            result.IsSuccessful = httpResult.HttpStatusCode == HttpStatusCode.OK;
+            result.ReturnCode =  httpResult.HttpStatusCode == HttpStatusCode.OK 
+                ? ReturnCode.MonitoringSettingsAppliedSuccessfully 
+                : ReturnCode.RtuMonitoringSettingsApplyError;
+            result.ErrorMessage = httpResult.ErrorMessage;
 
-            var request = new HttpRequestMessage(new HttpMethod("PATCH"), uri);
-            request.Content = new StringContent(json, Encoding.UTF8, "application/merge-patch+json");
-
-            try
-            {
-                var responseMessage = await _httpClient.SendAsync(request);
-                if (responseMessage == null)
-                {
-                    result.ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError;
-                    result.ErrorMessage = "RTU do not responded";
-                    return result;
-                }
-                if (responseMessage.StatusCode != HttpStatusCode.OK)
-                {
-                    result.ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError;
-                    result.ErrorMessage = responseMessage.ReasonPhrase;
-                    return result;
-                }
-
-                result.ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully;
-                return result;
-            }
-            catch (Exception e)
-            {
-                result.ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError;
-                result.ErrorMessage = e.Message;
-                _logFile.AppendLine("Monitoring: " + e.Message);
-                return result;
-            }
+            return result;
         }
 
-        public async Task<bool> Tests(DoubleAddress rtuDoubleAddress, string cmd)
+        public async Task<Tests> GetTests(DoubleAddress rtuDoubleAddress)
         {
-            _httpClient.DefaultRequestHeaders.ExpectContinue = false;
-            _rtuDoubleAddress = (DoubleAddress)rtuDoubleAddress.Clone();
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "get", "monitoring/tests");
+            return httpResult.HttpStatusCode == HttpStatusCode.OK 
+                ? JsonConvert.DeserializeObject<Tests>(httpResult.ResponseJson) 
+                : null;
+        }
 
-            var uri = $"http://{_rtuDoubleAddress.Main.ToStringA()}/api/v1/{cmd}";
-            var responseMessage = await _httpClient.GetAsync(uri);
-            if (responseMessage.StatusCode != HttpStatusCode.OK)
-            {
-                return false;
-            }
+        public async Task<bool> CreateTest(DoubleAddress rtuDoubleAddress, Test test)
+        {
+            var content = JsonConvert.SerializeObject(test);
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "post", "monitoring/tests", content);
+            return httpResult.HttpStatusCode == HttpStatusCode.OK; 
+        }
 
-            var str = await responseMessage.Content.ReadAsStringAsync();
-            var tests = JsonConvert.DeserializeObject<Tests>(str);
-            return true;
+        public async Task<Test> GetTest(DoubleAddress rtuDoubleAddress, string testUri)
+        {
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "get", testUri);
+            return httpResult.HttpStatusCode == HttpStatusCode.OK 
+                ? JsonConvert.DeserializeObject<Test>(httpResult.ResponseJson) 
+                : null;
+        }
+
+        public async Task<bool> ChangeTest(DoubleAddress rtuDoubleAddress, string testUri)
+        {
+           // var content = new Dictionary<string, int> {{"period", 1000}};
+           var content1 = new Dictionary<string, string> {{"state", "disabled"}};
+            var jsonData = JsonConvert.SerializeObject(content1);
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "patch", testUri, jsonData);
+            return httpResult.HttpStatusCode == HttpStatusCode.OK; 
+        }
+
+        public async Task<bool> DeleteTest(DoubleAddress rtuDoubleAddress, string testUri)
+        {
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "delete", testUri);
+            return httpResult.HttpStatusCode == HttpStatusCode.OK; 
+        }
+
+        public async Task<ThresholdSet> GetTestThresholds(DoubleAddress rtuDoubleAddress, string setUri)
+        {
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "get", setUri);
+            return httpResult.HttpStatusCode == HttpStatusCode.OK 
+                ? JsonConvert.DeserializeObject<ThresholdSet>(httpResult.ResponseJson) 
+                : null;
         }
 
     }
