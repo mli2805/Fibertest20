@@ -236,6 +236,7 @@
     <Compile Include="NEventStore\EventStoreService.cs" />
     <Compile Include="LastConnectionTimeChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WcfServiceForClient\IClientToRtuTransmitter.cs" />
     <Compile Include="WcfServiceForClient\ClientToRtuVeexTransmitter\ClientToRtuVeexTransmitter.cs" />
     <Compile Include="WcfServiceForClient\WcfServiceForClient.cs" />
     <Compile Include="WcfServiceForClient\WcfServiceForClientAccidentNotifications.cs" />

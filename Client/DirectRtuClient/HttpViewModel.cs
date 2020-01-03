@@ -97,6 +97,11 @@ namespace DirectRtuClient
                 _rtuVeexModel.RtuInitializedDto = result;
             else
                 MessageBox.Show(result.ErrorMessage);
+
+            var d2RM = new D2RtuVeexMonitoring(_httpExt);
+            var res = await Task.Factory.StartNew(() =>
+                d2RM.GetMonitoringMode(_rtuVeexDoubleAddress).Result);
+
         }
 
         public string PatchMonitoringButton

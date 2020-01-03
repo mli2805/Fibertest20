@@ -6,7 +6,7 @@ using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public partial class ClientToRtuTransmitter
+    public partial class ClientToRtuTransmitter : IClientToRtuTransmitter
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
