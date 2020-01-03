@@ -27,14 +27,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             var json = JsonConvert.SerializeObject(new MonitoringVeexDto() { state = mode });
 
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "patch", "monitoring", json);
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress,
+                "monitoring", "patch", "application/merge-patch+json", json);
 
             return httpResult;
         }
 
         public async Task<bool> GetMonitoringMode(DoubleAddress rtuDoubleAddress)
         {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "get", "monitoring");
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "monitoring", "get");
             if (httpResult.HttpStatusCode == HttpStatusCode.OK)
             {
                 var j = JObject.Parse(httpResult.ResponseJson);
@@ -47,7 +48,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<Tests> GetTests(DoubleAddress rtuDoubleAddress)
         {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "get", "monitoring/tests");
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "monitoring/tests", "get");
             return httpResult.HttpStatusCode == HttpStatusCode.OK
                 ? JsonConvert.DeserializeObject<Tests>(httpResult.ResponseJson)
                 : null;
@@ -56,13 +57,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<bool> CreateTest(DoubleAddress rtuDoubleAddress, Test test)
         {
             var content = JsonConvert.SerializeObject(test);
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "post", "monitoring/tests", content);
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, 
+                "monitoring/tests", "post", "application/json", content);
             return httpResult.HttpStatusCode == HttpStatusCode.OK;
         }
 
         public async Task<Test> GetTest(DoubleAddress rtuDoubleAddress, string testUri)
         {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "get", testUri);
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, testUri, "get");
             return httpResult.HttpStatusCode == HttpStatusCode.OK
                 ? JsonConvert.DeserializeObject<Test>(httpResult.ResponseJson)
                 : null;
@@ -73,19 +75,20 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             // var content = new Dictionary<string, int> {{"period", 1000}};
             var content1 = new Dictionary<string, string> { { "state", "disabled" } };
             var jsonData = JsonConvert.SerializeObject(content1);
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "patch", testUri, jsonData);
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, 
+                testUri, "patch", "application/merge-patch+json", jsonData);
             return httpResult.HttpStatusCode == HttpStatusCode.OK;
         }
 
         public async Task<bool> DeleteTest(DoubleAddress rtuDoubleAddress, string testUri)
         {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "delete", testUri);
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, testUri, "delete");
             return httpResult.HttpStatusCode == HttpStatusCode.OK;
         }
 
         public async Task<ThresholdSet> GetTestThresholds(DoubleAddress rtuDoubleAddress, string setUri)
         {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "get", setUri);
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, setUri, "get");
             return httpResult.HttpStatusCode == HttpStatusCode.OK
                 ? JsonConvert.DeserializeObject<ThresholdSet>(httpResult.ResponseJson)
                 : null;

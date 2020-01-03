@@ -44,7 +44,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         private async Task<bool> GetOtauSettings(RtuInitializedDto result)
         {
-            var httpResult = await _httpExt.RequestByUrl(_rtuDoubleAddress, "get", "otaus");
+            var httpResult = await _httpExt.RequestByUrl(_rtuDoubleAddress, "otaus", "get");
             if (httpResult.HttpStatusCode != HttpStatusCode.OK)
             {
                 result.ErrorMessage = httpResult.ErrorMessage;
@@ -55,7 +55,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (otaus.total == 0)
                 return true;
 
-            var httpResult2 = await _httpExt.RequestByUrl(_rtuDoubleAddress, "get", $"{otaus.items[0].self}");
+            var httpResult2 = await _httpExt.RequestByUrl(_rtuDoubleAddress, $"{otaus.items[0].self}", "get");
             if (httpResult2.HttpStatusCode != HttpStatusCode.OK)
             {
                 result.ErrorMessage = httpResult.ErrorMessage;
@@ -71,7 +71,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         private async Task<bool> GetOtdrSettings(RtuInitializedDto result)
         {
-            var httpResult = await _httpExt.RequestByUrl(_rtuDoubleAddress, "get", "otdrs");
+            var httpResult = await _httpExt.RequestByUrl(_rtuDoubleAddress, "otdrs", "get");
             if (httpResult.HttpStatusCode != HttpStatusCode.OK)
             {
                 result.ErrorMessage = httpResult.ErrorMessage;
@@ -82,7 +82,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (otdrs.total == 0)
                 return true;
 
-            var httpResult2 = await _httpExt.RequestByUrl(_rtuDoubleAddress, "get", $"{otdrs.items[0].self}");
+            var httpResult2 = await _httpExt.RequestByUrl(_rtuDoubleAddress, $"{otdrs.items[0].self}", "get");
             if (httpResult2.HttpStatusCode != HttpStatusCode.OK)
             {
                 result.ErrorMessage = httpResult.ErrorMessage;
@@ -113,7 +113,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         private async Task<bool> GetPlatformSettings(RtuInitializedDto result)
         {
-            var httpResult = await _httpExt.RequestByUrl(_rtuDoubleAddress, "get", "info");
+            var httpResult = await _httpExt.RequestByUrl(_rtuDoubleAddress, "info", "get");
             if (httpResult.HttpStatusCode != HttpStatusCode.OK)
                 return false;
             var info = JsonConvert.DeserializeObject<Info>(httpResult.ResponseJson);
