@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
@@ -162,10 +164,45 @@ namespace DirectRtuClient
                     if (await Task.Factory.StartNew(() =>
                         d2R.ChangeTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}").Result))
                     {
-                        var changedTest = await Task.Factory.StartNew(() => 
+                        var changedTest = await Task.Factory.StartNew(() =>
                             d2R.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}").Result);
                     }
+                }
 
+                var firstTest = _rtuVeexModel.TestsHeader.items.First();
+                var res = await Task.Factory.StartNew(() =>
+                    d2R.SetThresholds(_rtuVeexDoubleAddress, $@"monitoring/{firstTest.self}/thresholds").Result);
+                var file = await Task.Factory.StartNew(() =>
+                    d2R.GetFile(_rtuVeexDoubleAddress, $@"monitoring/{firstTest.self}/references/current/traces").Result);
+            }
+
+            IsButtonEnabled = true;
+            ResultString = @"Done";
+        }
+
+        public async void GetThresholds()
+        {
+            ResultString = @"Wait, please";
+            IsButtonEnabled = false;
+
+            var d2R = new D2RtuVeexMonitoring(_httpExt);
+            var allTests = await Task.Factory.StartNew(() =>
+                d2R.GetTests(_rtuVeexDoubleAddress).Result);
+
+            if (allTests == null)
+            {
+                MessageBox.Show(@"Error");
+            }
+            else
+            {
+                _rtuVeexModel.TestsHeader = allTests;
+                var testItem = _rtuVeexModel.TestsHeader.items.First();
+                var test = await Task.Factory.StartNew(() => d2R.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testItem.self}").Result);
+                var thresholdSet = await Task.Factory.StartNew(() =>
+                                      d2R.GetTestThresholds(_rtuVeexDoubleAddress, $@"monitoring/tests/{test.thresholds.self}").Result);
+                if (thresholdSet != null)
+                {
+                    Console.WriteLine("tests");
                 }
             }
 

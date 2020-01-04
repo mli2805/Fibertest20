@@ -25,7 +25,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         /// <returns></returns>
         public async Task<HttpRequestResult> SetMonitoringMode(DoubleAddress rtuDoubleAddress, string mode)
         {
-            var json = JsonConvert.SerializeObject(new MonitoringVeexDto() { state = mode });
+            var json = JsonConvert.SerializeObject(new MonitoringVeexDto() {state = mode});
 
             var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress,
                 "monitoring", "patch", "application/merge-patch+json", json);
@@ -39,7 +39,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (httpResult.HttpStatusCode == HttpStatusCode.OK)
             {
                 var j = JObject.Parse(httpResult.ResponseJson);
-                var rr = (string)j["state"];
+                var rr = (string) j["state"];
                 return (rr == "enabled");
             }
 
@@ -57,7 +57,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<bool> CreateTest(DoubleAddress rtuDoubleAddress, Test test)
         {
             var content = JsonConvert.SerializeObject(test);
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, 
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress,
                 "monitoring/tests", "post", "application/json", content);
             return httpResult.HttpStatusCode == HttpStatusCode.OK;
         }
@@ -73,9 +73,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<bool> ChangeTest(DoubleAddress rtuDoubleAddress, string testUri)
         {
             // var content = new Dictionary<string, int> {{"period", 1000}};
-            var content1 = new Dictionary<string, string> { { "state", "disabled" } };
+            var content1 = new Dictionary<string, string> {{"state", "disabled"}};
             var jsonData = JsonConvert.SerializeObject(content1);
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, 
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress,
                 testUri, "patch", "application/merge-patch+json", jsonData);
             return httpResult.HttpStatusCode == HttpStatusCode.OK;
         }
@@ -94,5 +94,55 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 : null;
         }
 
-    }
+        public async Task<bool> SetBaseRef(DoubleAddress rtuDoubleAddress, string refUri, byte[] sorBytes)
+        {
+            var httpResult = await _httpExt.PostFile(rtuDoubleAddress, refUri, sorBytes);
+            return httpResult.HttpStatusCode == HttpStatusCode.OK;
+        }
+
+        public async Task<bool> SetThresholds(DoubleAddress rtuDoubleAddress, string thresholdUri)
+        {
+            var thresholdSet = new ThresholdSet()
+            {
+                levels = new List<Level>()
+                {
+                    new Level()
+                    {
+                        groups = new List<Group>()
+                        {
+                            new Group()
+                            {
+                                thresholds = new Thresholds()
+                                {
+                                    eventLeadingLossCoefficient = new CombinedThreshold(){decrease = 1},
+                                    eventLoss = new CombinedThreshold(){decrease = 2, increase = 2},
+                                    eventReflectance = new CombinedThreshold(){min = 4, max = 4}
+                                }
+                            }
+                        }, name = "minor"
+                    },
+                    new Level()
+                    {
+                        groups = new List<Group>(), name = "major"
+                    }, 
+                    new Level()
+                    {
+                        groups = new List<Group>(), name = "critical"
+                    },
+                }
+            };
+            var jsonData = JsonConvert.SerializeObject(thresholdSet);
+            var httpResult = await _httpExt.RequestByUrl(
+                rtuDoubleAddress, thresholdUri, "post", "application/json", jsonData);
+            return httpResult.HttpStatusCode == HttpStatusCode.OK;
+        }
+
+        public async Task<bool> GetFile(DoubleAddress rtuDoubleAddress, string fileUri)
+        {
+            var httpResult = await _httpExt.GetFile(rtuDoubleAddress, fileUri);
+            return httpResult.HttpStatusCode == HttpStatusCode.OK;
+
+        }
+
+}
 }

@@ -56,8 +56,7 @@
     <Compile Include="VeexDto\Info\Otdr.cs" />
     <Compile Include="VeexDto\Info\Otdrs.cs" />
     <Compile Include="VeexDto\Info\OtauPort.cs" />
-    <Compile Include="VeexDto\Monitoring\class1.cs" />
-    <Compile Include="VeexDto\Monitoring\Class2.cs" />
+    <Compile Include="VeexDto\Monitoring\Threshold.cs" />
     <Compile Include="VeexDto\Monitoring\Test.cs" />
     <Compile Include="VeexDto\Monitoring\Tests.cs" />
     <Compile Include="VeexDto\Item.cs" />
