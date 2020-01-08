@@ -104,6 +104,8 @@ namespace DirectRtuClient
             var res = await Task.Factory.StartNew(() =>
                 d2RM.GetMonitoringMode(_rtuVeexDoubleAddress).Result);
 
+            IsButtonEnabled = true;
+            ResultString = res ? @"Done" : @"Error";
         }
 
         public string PatchMonitoringButton
@@ -143,8 +145,6 @@ namespace DirectRtuClient
             var result = await Task.Factory.StartNew(() =>
                 d2R.GetTests(_rtuVeexDoubleAddress).Result);
 
-
-
             if (result == null)
             {
                 MessageBox.Show(@"Error");
@@ -161,19 +161,37 @@ namespace DirectRtuClient
                     var thresholdSet = await Task.Factory.StartNew(() =>
                         d2R.GetTestThresholds(_rtuVeexDoubleAddress, $@"monitoring/tests/{test.thresholds.self}").Result);
                     _rtuVeexModel.Thresholds.Add(test.id, thresholdSet);
-                    if (await Task.Factory.StartNew(() =>
-                        d2R.ChangeTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}").Result))
+
+                    var httpRequestResult = await Task.Factory.StartNew(() =>
+                        d2R.ChangeTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}", new Test(){ state = @"disabled"}).Result);
+                    if (httpRequestResult.HttpStatusCode == HttpStatusCode.OK)
                     {
                         var changedTest = await Task.Factory.StartNew(() =>
                             d2R.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}").Result);
+                        Console.WriteLine(changedTest);
                     }
                 }
 
                 var firstTest = _rtuVeexModel.TestsHeader.items.First();
                 var res = await Task.Factory.StartNew(() =>
                     d2R.SetThresholds(_rtuVeexDoubleAddress, $@"monitoring/{firstTest.self}/thresholds").Result);
-                var file = await Task.Factory.StartNew(() =>
-                    d2R.GetFile(_rtuVeexDoubleAddress, $@"monitoring/{firstTest.self}/references/current/traces").Result);
+                Console.WriteLine(res);
+               
+
+                var rr = await d2R.CreateTest(_rtuVeexDoubleAddress, new CreateTestCmd()
+                {
+                    id = Guid.NewGuid().ToString(),
+                    name = @"precise",
+                    otdrId = Guid.Empty.ToString(),
+                    otauPort = new OtauPort()
+                    {
+                        otauId = Guid.Empty.ToString(),
+                        portIndex = 1
+                    },
+                    period = 0,
+                    state = @"disable",
+                });
+                Console.WriteLine(rr.ResponseJson);
             }
 
             IsButtonEnabled = true;
@@ -202,7 +220,7 @@ namespace DirectRtuClient
                                       d2R.GetTestThresholds(_rtuVeexDoubleAddress, $@"monitoring/tests/{test.thresholds.self}").Result);
                 if (thresholdSet != null)
                 {
-                    Console.WriteLine("tests");
+                    Console.WriteLine(@"thresholdSet received");
                 }
             }
 

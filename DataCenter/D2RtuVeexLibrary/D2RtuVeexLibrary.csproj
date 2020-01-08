@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="D2RtuVeex.cs" />
+    <Compile Include="D2RtuVeexLayer3.cs" />
     <Compile Include="D2RtuVeexMonitoring.cs" />
     <Compile Include="HttpExt.cs" />
     <Compile Include="HttpRequestResult.cs" />
@@ -59,7 +60,7 @@
     <Compile Include="VeexDto\Monitoring\Threshold.cs" />
     <Compile Include="VeexDto\Monitoring\Test.cs" />
     <Compile Include="VeexDto\Monitoring\Tests.cs" />
-    <Compile Include="VeexDto\Item.cs" />
+    <Compile Include="VeexDto\LinkObject.cs" />
     <Compile Include="VeexDto\Monitoring\MonitoringVeexDto.cs" />
   </ItemGroup>
   <ItemGroup>

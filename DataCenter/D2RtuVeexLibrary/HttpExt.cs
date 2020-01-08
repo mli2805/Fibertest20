@@ -19,11 +19,23 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             _logFile = logFile;
         }
 
+        private string BaseUri(string address) { return $"http://{address}/api/v1/"; }
+
+        /// <summary>
+        /// Optical line can have more than 1 Test
+        /// Test name could be precise/fast/additional
+        /// Test has 1 reference (sor-file)
+        /// </summary>
+        /// <param name="rtuDoubleAddress"></param>
+        /// <param name="relativeUri">
+        /// base ref for the Test could be obtained by test's id
+        /// monitoring/tests/10b2e984-14b2-444d-a76e-ad52d64dd07c/references/current/traces</param>
+        /// <returns></returns>
         public async Task<HttpRequestResult> GetFile(DoubleAddress rtuDoubleAddress, string relativeUri)
         {
             _httpClient.DefaultRequestHeaders.ExpectContinue = false;
             var result = new HttpRequestResult();
-            var url = $"http://{rtuDoubleAddress.Main.ToStringA()}/api/v1/{relativeUri}";
+            var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
             try
             {
                 var responseMessage = await _httpClient.GetAsync(url);
@@ -31,14 +43,12 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     result.ErrorMessage = responseMessage.ReasonPhrase;
                 else
                 {
-                    var filename = Guid.NewGuid() + ".zip";
-                    using (
-                        Stream contentStream = await responseMessage.Content.ReadAsStreamAsync(),
-                        stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None))
+                    var filename = @"..\temp\" + Guid.NewGuid() + ".zip";
+                    using (Stream contentStream = await responseMessage.Content.ReadAsStreamAsync(),
+                            stream = new FileStream(filename, FileMode.Create, FileAccess.Write, FileShare.None))
                     {
                         await contentStream.CopyToAsync(stream);
                     }
-                    result.ResponseJson = await responseMessage.Content.ReadAsStringAsync();
                 }
 
                 result.HttpStatusCode = responseMessage.StatusCode; 
@@ -56,7 +66,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             _httpClient.DefaultRequestHeaders.ExpectContinue = false;
             var result = new HttpRequestResult();
-            var url = $"http://{rtuDoubleAddress.Main.ToStringA()}/api/v1/{relativeUri}";
+            var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
             try
             {
                 MultipartFormDataContent dataContent = new MultipartFormDataContent {new ByteArrayContent(bytes)};
@@ -81,7 +91,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             _httpClient.DefaultRequestHeaders.ExpectContinue = false;
             var result = new HttpRequestResult();
-            var url = $"http://{rtuDoubleAddress.Main.ToStringA()}/api/v1/{relativeUri}";
+            var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
             try
             {
                 var responseMessage = await MadeRequest(url, httpMethod, contentRepresentation, jsonData);

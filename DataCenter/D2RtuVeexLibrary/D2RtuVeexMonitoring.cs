@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -25,11 +24,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         /// <returns></returns>
         public async Task<HttpRequestResult> SetMonitoringMode(DoubleAddress rtuDoubleAddress, string mode)
         {
-            var json = JsonConvert.SerializeObject(new MonitoringVeexDto() {state = mode});
-
+            var json = JsonConvert.SerializeObject(new MonitoringVeexDto() { state = mode });
             var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress,
                 "monitoring", "patch", "application/merge-patch+json", json);
-
             return httpResult;
         }
 
@@ -39,7 +36,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (httpResult.HttpStatusCode == HttpStatusCode.OK)
             {
                 var j = JObject.Parse(httpResult.ResponseJson);
-                var rr = (string) j["state"];
+                var rr = (string)j["state"];
                 return (rr == "enabled");
             }
 
@@ -54,12 +51,12 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 : null;
         }
 
-        public async Task<bool> CreateTest(DoubleAddress rtuDoubleAddress, Test test)
+      
+        public async Task<HttpRequestResult> CreateTest(DoubleAddress rtuDoubleAddress, CreateTestCmd test)
         {
             var content = JsonConvert.SerializeObject(test);
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress,
+            return await _httpExt.RequestByUrl(rtuDoubleAddress,
                 "monitoring/tests", "post", "application/json", content);
-            return httpResult.HttpStatusCode == HttpStatusCode.OK;
         }
 
         public async Task<Test> GetTest(DoubleAddress rtuDoubleAddress, string testUri)
@@ -70,15 +67,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 : null;
         }
 
-        public async Task<bool> ChangeTest(DoubleAddress rtuDoubleAddress, string testUri)
+        private static readonly JsonSerializerSettings ignoreNulls = new JsonSerializerSettings(){ NullValueHandling = NullValueHandling.Ignore };
+        public async Task<HttpRequestResult> ChangeTest(DoubleAddress rtuDoubleAddress, string testUri, Test test)
         {
-            // var content = new Dictionary<string, int> {{"period", 1000}};
-            var content1 = new Dictionary<string, string> {{"state", "disabled"}};
-            var jsonData = JsonConvert.SerializeObject(content1);
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress,
+            var jsonData = JsonConvert.SerializeObject(test, ignoreNulls);
+            return await _httpExt.RequestByUrl(rtuDoubleAddress,
                 testUri, "patch", "application/merge-patch+json", jsonData);
-            return httpResult.HttpStatusCode == HttpStatusCode.OK;
         }
+
+
 
         public async Task<bool> DeleteTest(DoubleAddress rtuDoubleAddress, string testUri)
         {
@@ -124,7 +121,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     new Level()
                     {
                         groups = new List<Group>(), name = "major"
-                    }, 
+                    },
                     new Level()
                     {
                         groups = new List<Group>(), name = "critical"
@@ -144,5 +141,5 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         }
 
-}
+    }
 }
