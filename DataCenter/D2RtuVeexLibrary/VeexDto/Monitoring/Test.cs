@@ -7,7 +7,7 @@
         public string state { get; set; }
         public string otdrId { get; set; }
         public OtauPort otauPort { get; set; }
-        public int period { get; set; }
+        public int? period { get; set; }
 
         public LinkObject analysis_parameters { get; set; }
         public LinkObject thresholds { get; set; }

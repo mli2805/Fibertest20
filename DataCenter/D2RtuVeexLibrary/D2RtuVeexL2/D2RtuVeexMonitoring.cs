@@ -68,19 +68,20 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         }
 
         private static readonly JsonSerializerSettings ignoreNulls = new JsonSerializerSettings(){ NullValueHandling = NullValueHandling.Ignore };
+      
         public async Task<HttpRequestResult> ChangeTest(DoubleAddress rtuDoubleAddress, string testUri, Test test)
         {
             var jsonData = JsonConvert.SerializeObject(test, ignoreNulls);
             return await _httpExt.RequestByUrl(rtuDoubleAddress,
-                testUri, "patch", "application/merge-patch+json", jsonData);
+                $@"monitoring/{testUri}", "patch", "application/merge-patch+json", jsonData);
         }
 
 
 
-        public async Task<bool> DeleteTest(DoubleAddress rtuDoubleAddress, string testUri)
+        public async Task<HttpRequestResult> DeleteTest(DoubleAddress rtuDoubleAddress, string testUri)
         {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, testUri, "delete");
-            return httpResult.HttpStatusCode == HttpStatusCode.OK;
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, $@"monitoring/{testUri}", "delete");
+            return httpResult;
         }
 
         public async Task<ThresholdSet> GetTestThresholds(DoubleAddress rtuDoubleAddress, string setUri)
