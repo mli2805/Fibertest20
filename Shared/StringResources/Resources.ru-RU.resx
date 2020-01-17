@@ -2726,4 +2726,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Invalid_IP_address" xml:space="preserve">
 		<value>Недопустимый IP адрес</value>
 	</data>
+	<data name="SID_Base_reference_assignment_failed" xml:space="preserve">
+		<value>Ошибка задания базовой рефлектограммы</value>
+	</data>
 </root>

@@ -114,6 +114,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             return new ApplyMonitoringSettingsDto
             {
                 RtuId = Model.RtuId,
+                RtuMaker = Model.RtuMaker,
                 IsMonitoringOn = Model.IsMonitoringOn,
                 Timespans = ConvertFrequenciesToDto(),
                 Ports = ConvertPorts()
@@ -165,6 +166,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                 var resendBaseRefDto = new ReSendBaseRefsDto()
                 {
                     RtuId = Model.RtuId,
+                    RtuMaker = Model.RtuMaker,
                     TraceId = port.TraceId,
                     OtauPortDto = port.OtauPort,
                     BaseRefDtos = new List<BaseRefDto>(),

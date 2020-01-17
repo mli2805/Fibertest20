@@ -72,6 +72,10 @@ namespace Iit.Fibertest.Graph
         private static void SetRtuProperties(this Model model, Rtu rtu, RtuInitialized e)
         {
             rtu.RtuMaker = e.Maker;
+
+            rtu.OtauId = e.OtauId;
+            rtu.OtdrId = e.OtdrId;
+
             rtu.Mfid = e.Mfid;
             rtu.Mfsn = e.Mfsn;
             rtu.Omid = e.Omid;

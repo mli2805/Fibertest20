@@ -230,9 +230,12 @@ namespace Iit.Fibertest.Client
 
         public AssignBaseRefsDto PrepareDto(Trace trace)
         {
+            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
+            if (rtu == null) return null;
             var dto = new AssignBaseRefsDto()
             { 
                 RtuId = trace.RtuId, 
+                RtuMaker = rtu.RtuMaker,
                 TraceId = trace.TraceId, 
                 OtauPortDto = trace.OtauPort, 
                 BaseRefs = new List<BaseRefDto>(), 

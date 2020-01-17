@@ -113,6 +113,7 @@ namespace Iit.Fibertest.Client
 
         private static void SetRtuProperties(RtuLeaf rtuLeaf, RtuInitialized e)
         {
+            rtuLeaf.RtuMaker = e.Maker;
             rtuLeaf.OwnPortCount = e.OwnPortCount;
             rtuLeaf.FullPortCount = e.FullPortCount;
             rtuLeaf.Serial = e.Serial;

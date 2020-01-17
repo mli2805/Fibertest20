@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -19,7 +20,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto, DoubleAddress rtuAddresses)
         {
             int periodForPrecise = dto.Timespans.PreciseMeas != TimeSpan.Zero
-                            ? (int)dto.Timespans.PreciseMeas.TotalSeconds : -1 ;
+                            ? (int)dto.Timespans.PreciseMeas.TotalSeconds : -1;
             try
             {
                 var listOfTestLinks = await _d2RtuVeexMonitoring.GetTests(rtuAddresses);
@@ -82,28 +83,30 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             foreach (var baseRefDto in dto.BaseRefs)
             {
                 string testLink;
-                Test test = testsForPort.FirstOrDefault(t => t.name == baseRefDto.BaseRefType.ToString().ToLower());
+                Test test = testsForPort.FirstOrDefault(t => t.name.Contains(baseRefDto.BaseRefType.ToString().ToLower()));
                 if (test == null) // if there is no test - create it
                 {
-                    var result = await CreateTest(rtuAddresses,
-                        baseRefDto.BaseRefType.ToString().ToLower(), dto.OtauPortDto.OpticalPort);
+                    var testName = $@"Port { dto.OtauPortDto.OpticalPort}, {
+                        baseRefDto.BaseRefType.ToString().ToLower()}, created {
+                            DateTime.Now.ToString(CultureInfo.DefaultThreadCurrentUICulture)}";
+                    var result = await CreateTest(rtuAddresses, testName, dto.OtauPortDto.OpticalPort);
                     if (result.HttpStatusCode != HttpStatusCode.Created)
                         return new BaseRefAssignedDto()
                         {
                             ReturnCode = ReturnCode.BaseRefAssignmentFailed,
-                            ExceptionMessage = result.ErrorMessage
+                            ExceptionMessage = result.ErrorMessage + ";  " + result.ResponseJson,
                         };
                     testLink = result.ResponseJson;
                 }
-                else testLink = test.reference.self;
+                else testLink = $@"tests/{test.id}";
 
                 // assign Reference to Test
-                var assignResult = await _d2RtuVeexMonitoring.SetBaseRef(rtuAddresses, $@"/monitoring{testLink}/references", baseRefDto.SorBytes);
-                if (!assignResult)
+                var assignResult = await _d2RtuVeexMonitoring.SetBaseRef(rtuAddresses, $@"monitoring/{testLink}/references", baseRefDto.SorBytes);
+                if (assignResult.HttpStatusCode != HttpStatusCode.Created)
                     return new BaseRefAssignedDto()
                     {
                         ReturnCode = ReturnCode.BaseRefAssignmentFailed,
-                        ExceptionMessage = "Can't set base reference"
+                        ExceptionMessage = assignResult.ErrorMessage + ";  " + assignResult.ResponseJson,
                     };
             }
 
@@ -119,7 +122,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             foreach (var testLink in listOfTestLinks.items)
             {
                 var test = await _d2RtuVeexMonitoring.GetTest(rtuDoubleAddress, testLink.self);
-                if (test?.otauPort != null && test.otauPort.portIndex == opticalPort)
+                if (test?.otauPort != null && test.otauPort.portIndex == opticalPort - 1)
                     result.Add(test);
             }
 
@@ -134,11 +137,12 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 name = name,
                 state = "disabled",
                 otdrId = Guid.Empty.ToString(), //TODO real OTDR id or maybe RTU id ?
-                otauPort = new OtauPort() { portIndex = opticalPort - 1 }, //
+                otauPort = new OtauPort() { otauId = Guid.Empty.ToString(), portIndex = opticalPort - 1 }, //
                 period = 0, // null in the future
             };
             var result = await _d2RtuVeexMonitoring.CreateTest(rtuDoubleAddress, newTest);
-            result.ResponseJson = $@"/monitoring/test/{newTest.id}/references";
+            //            if (result.HttpStatusCode == HttpStatusCode.Created)
+            //                result.ResponseJson = $@"monitoring/test/{newTest.id}/references";
             return result;
         }
 

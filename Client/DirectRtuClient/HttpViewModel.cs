@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -163,7 +164,7 @@ namespace DirectRtuClient
                     _rtuVeexModel.Thresholds.Add(test.id, thresholdSet);
 
                     var httpRequestResult = await Task.Factory.StartNew(() =>
-                        d2R.ChangeTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}", new Test(){ state = @"disabled"}).Result);
+                        d2R.ChangeTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}", new Test() { state = @"disabled" }).Result);
                     if (httpRequestResult.HttpStatusCode == HttpStatusCode.OK)
                     {
                         var changedTest = await Task.Factory.StartNew(() =>
@@ -176,7 +177,7 @@ namespace DirectRtuClient
                 var res = await Task.Factory.StartNew(() =>
                     d2R.SetThresholds(_rtuVeexDoubleAddress, $@"monitoring/{firstTest.self}/thresholds").Result);
                 Console.WriteLine(res);
-               
+
 
                 var rr = await d2R.CreateTest(_rtuVeexDoubleAddress, new CreateTestCmd()
                 {
@@ -227,5 +228,42 @@ namespace DirectRtuClient
             IsButtonEnabled = true;
             ResultString = @"Done";
         }
+
+        public async void SetPreciseBaseForPort1()
+        {
+            ResultString = @"Wait, please";
+            IsButtonEnabled = false;
+
+            var sorBytes = File.ReadAllBytes(@"c:\temp\sor\1.sor");
+            var dto = new AssignBaseRefsDto()
+            {
+                OtauPortDto = new OtauPortDto()
+                {
+                    OpticalPort = 1,
+                },
+                BaseRefs = new List<BaseRefDto>()
+                {
+                    new BaseRefDto()
+                    {
+                        BaseRefType = BaseRefType.Precise,
+                        SorBytes = sorBytes,
+                    }
+                }
+            };
+            var d2R = new D2RtuVeexMonitoring(_httpExt);
+            var layer3 = new D2RtuVeexLayer3(d2R);
+            var result = await Task.Factory.StartNew(() =>
+                layer3.AssignBaseRefAsync(dto, _rtuVeexDoubleAddress).Result);
+
+
+            if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+            {
+                Console.WriteLine(result.ExceptionMessage);
+            }
+
+            IsButtonEnabled = true;
+            ResultString = @"Done";
+        }
+
     }
 }

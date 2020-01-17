@@ -26,6 +26,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             var model = new MonitoringSettingsModel()
             {
                 RtuId = _rtuLeaf.Id,
+                RtuMaker = _rtuLeaf.RtuMaker,
                 RealOtdrAddress = GetRealOtdrAddress(),
                 IsMonitoringOn = _rtuLeaf.MonitoringState == MonitoringState.On,
                 Charons = PrepareMonitoringCharonModels(isEditEnabled),

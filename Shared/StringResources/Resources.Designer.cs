@@ -963,6 +963,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Base reference assignment failed.
+        /// </summary>
+        public static string SID_Base_reference_assignment_failed {
+            get {
+                return ResourceManager.GetString("SID_Base_reference_assignment_failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Base reflectograms.
         /// </summary>
         public static string SID_Base_reflectograms {

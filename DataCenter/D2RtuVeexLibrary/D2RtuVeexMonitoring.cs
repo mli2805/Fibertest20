@@ -61,7 +61,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<Test> GetTest(DoubleAddress rtuDoubleAddress, string testUri)
         {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, testUri, "get");
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, $@"monitoring/{testUri}", "get");
             return httpResult.HttpStatusCode == HttpStatusCode.OK
                 ? JsonConvert.DeserializeObject<Test>(httpResult.ResponseJson)
                 : null;
@@ -91,10 +91,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 : null;
         }
 
-        public async Task<bool> SetBaseRef(DoubleAddress rtuDoubleAddress, string refUri, byte[] sorBytes)
+        public async Task<HttpRequestResult> SetBaseRef(DoubleAddress rtuDoubleAddress, string refUri, byte[] sorBytes)
         {
-            var httpResult = await _httpExt.PostFile(rtuDoubleAddress, refUri, sorBytes);
-            return httpResult.HttpStatusCode == HttpStatusCode.OK;
+            return await _httpExt.PostFile(rtuDoubleAddress, refUri, sorBytes);
         }
 
         public async Task<bool> SetThresholds(DoubleAddress rtuDoubleAddress, string thresholdUri)

@@ -2,6 +2,7 @@
 using System.IO;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -40,7 +41,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             {
                 var responseMessage = await _httpClient.GetAsync(url);
                 if (responseMessage.StatusCode != HttpStatusCode.OK)
+                {
                     result.ErrorMessage = responseMessage.ReasonPhrase;
+                    result.ResponseJson = await responseMessage.Content.ReadAsStringAsync(); // if error - it could be explanation
+                }
                 else
                 {
                     var filename = @"..\temp\" + Guid.NewGuid() + ".zip";
@@ -51,7 +55,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     }
                 }
 
-                result.HttpStatusCode = responseMessage.StatusCode; 
+                result.HttpStatusCode = responseMessage.StatusCode;
             }
             catch (Exception e)
             {
@@ -69,12 +73,17 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
             try
             {
-                MultipartFormDataContent dataContent = new MultipartFormDataContent {new ByteArrayContent(bytes)};
+                MultipartFormDataContent dataContent = 
+                    new MultipartFormDataContent(Guid.NewGuid().ToString());
+
+                var byteArrayContent = new ByteArrayContent(bytes);
+                byteArrayContent.Headers.ContentDisposition = ContentDispositionHeaderValue.Parse("form-data; name=\"0\"; filename=\"\"");
+                byteArrayContent.Headers.ContentType = MediaTypeHeaderValue.Parse("text/plain");
+                dataContent.Add(byteArrayContent);
                 HttpResponseMessage responseMessage = await _httpClient.PostAsync(url, dataContent);
                 if (responseMessage.StatusCode != HttpStatusCode.Created)
                     result.ErrorMessage = responseMessage.ReasonPhrase;
-                else
-                    result.ResponseJson = await responseMessage.Content.ReadAsStringAsync();
+                result.ResponseJson = await responseMessage.Content.ReadAsStringAsync(); // if error - it could be explanation
                 result.HttpStatusCode = responseMessage.StatusCode;
             }
             catch (Exception e)
@@ -86,7 +95,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return result;
         }
 
-        public async Task<HttpRequestResult> RequestByUrl(DoubleAddress rtuDoubleAddress, string relativeUri, 
+        public async Task<HttpRequestResult> RequestByUrl(DoubleAddress rtuDoubleAddress, string relativeUri,
             string httpMethod, string contentRepresentation = null, string jsonData = null)
         {
             _httpClient.DefaultRequestHeaders.ExpectContinue = false;
@@ -98,8 +107,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 var statusShouldBe = httpMethod.ToLower() == "post" ? HttpStatusCode.Created : HttpStatusCode.OK;
                 if (responseMessage.StatusCode != statusShouldBe)
                     result.ErrorMessage = responseMessage.ReasonPhrase;
+                if (responseMessage.StatusCode == HttpStatusCode.Created)
+                    result.ResponseJson = responseMessage.Headers.Location.ToString();
                 else
-                    result.ResponseJson = await responseMessage.Content.ReadAsStringAsync();
+                    result.ResponseJson = await responseMessage.Content.ReadAsStringAsync(); // if error - it could be explanation
                 result.HttpStatusCode = responseMessage.StatusCode;
             }
             catch (Exception e)
@@ -117,12 +128,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             switch (httpMethod.ToLower())
             {
                 case "get": return await _httpClient.GetAsync(url);
-            
-                case "post": var content = new StringContent(
-                        jsonData, Encoding.UTF8, contentRepresentation);
-                            return await _httpClient.PostAsync(url, content);
 
-                case "patch": var request = new HttpRequestMessage(new HttpMethod("PATCH"), url);
+                case "post":
+                    var content = new StringContent(
+               jsonData, Encoding.UTF8, contentRepresentation);
+                    return await _httpClient.PostAsync(url, content);
+
+                case "patch":
+                    var request = new HttpRequestMessage(new HttpMethod("PATCH"), url);
                     request.Content = new StringContent(
                         jsonData, Encoding.UTF8, contentRepresentation);
                     return await _httpClient.SendAsync(request);

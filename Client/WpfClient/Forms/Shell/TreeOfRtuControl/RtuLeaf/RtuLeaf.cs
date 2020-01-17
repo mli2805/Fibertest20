@@ -11,6 +11,7 @@ namespace Iit.Fibertest.Client
     public class RtuLeaf : Leaf, IPortOwner
     {
         private readonly RtuLeafContextMenuProvider _rtuLeafContextMenuProvider;
+        
 
         #region Pictograms
         private MonitoringState _monitoringState;
@@ -93,6 +94,7 @@ namespace Iit.Fibertest.Client
         public string ReserveChannelPictogram => ReserveChannelState.GetPathToPictogram();
         #endregion
 
+        public RtuMaker RtuMaker { get; set; }
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }
         public string Serial { get; set; }

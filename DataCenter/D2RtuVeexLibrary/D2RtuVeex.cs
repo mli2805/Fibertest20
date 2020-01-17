@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -63,6 +64,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             }
 
             var otau = JsonConvert.DeserializeObject<Otau>(httpResult2.ResponseJson);
+            result.OtauId = Guid.Parse(otau.id);
             result.OwnPortCount = otau.portCount;
             result.FullPortCount = otau.portCount;
             result.Children = new Dictionary<int, OtauDto>(); // empty, no children
@@ -90,6 +92,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             }
 
             var otdr = JsonConvert.DeserializeObject<Otdr>(httpResult2.ResponseJson);
+            result.OtdrId = Guid.Parse(otdr.id);
             result.Omid = otdr.mainframeId;
             result.Omsn = otdr.opticalModuleSerialNumber;
             result.AcceptableMeasParams = new TreeOfAcceptableMeasParams();

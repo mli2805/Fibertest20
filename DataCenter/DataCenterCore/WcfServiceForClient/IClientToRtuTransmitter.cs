@@ -11,8 +11,7 @@ namespace Iit.Fibertest.DataCenterCore
         Task<bool> StopMonitoringAsync(StopMonitoringDto dto);
         Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto);
         Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto);
-        Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto);
+        Task<BaseRefAssignedDto> TransmitBaseRefsToRtu(AssignBaseRefsDto dto);
         Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto dto);
-        Task<BaseRefAssignedDto> TransmitCommandAssignBaseRef(AssignBaseRefsDto dto);
     }
 }

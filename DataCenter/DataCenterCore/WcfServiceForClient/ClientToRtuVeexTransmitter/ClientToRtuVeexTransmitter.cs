@@ -97,9 +97,8 @@ namespace Iit.Fibertest.DataCenterCore
             throw new NotImplementedException();
         }
 
-        public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
+        public async Task<BaseRefAssignedDto> TransmitBaseRefsToRtu(AssignBaseRefsDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent assign base refs on VeEX RTU {dto.RtuId.First6()} request");
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
             {
@@ -119,9 +118,6 @@ namespace Iit.Fibertest.DataCenterCore
             throw new NotImplementedException();
         }
 
-        public Task<BaseRefAssignedDto> TransmitCommandAssignBaseRef(AssignBaseRefsDto dto)
-        {
-            throw new NotImplementedException();
-        }
+      
     }
 }

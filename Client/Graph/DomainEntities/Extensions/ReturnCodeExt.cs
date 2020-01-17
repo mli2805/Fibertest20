@@ -65,6 +65,9 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_This_user_has_no_right_to_start_SuperClient;
                 case ReturnCode.ClientRegisteredSuccessfully:
                     return @"OK";
+                //9401
+                case ReturnCode.BaseRefAssignmentFailed:
+                    return Resources.SID_Base_reference_assignment_failed;
 
                 default: return Resources.SID_Unknown_return_code + @":  " + ((int)returnCode);
             }

@@ -1,5 +1,8 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -36,12 +39,54 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
-            return await _clientToRtuTransmitter.ApplyMonitoringSettingsAsync(dto);
+            return dto.RtuMaker == RtuMaker.IIT
+                ? await _clientToRtuTransmitter.ApplyMonitoringSettingsAsync(dto)
+                : await Task.Factory.StartNew(()=> _clientToRtuVeexTransmitter.ApplyMonitoringSettingsAsync(dto).Result);
         }
 
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
-            return await _clientToRtuTransmitter.AssignBaseRefAsync(dto);
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace {dto.TraceId.First6()}");
+            var result = await SaveChangesOnServer(dto);
+            if (!string.IsNullOrEmpty(result))
+                return new BaseRefAssignedDto() {ReturnCode = ReturnCode.BaseRefAssignmentFailed };
+
+            if (dto.OtauPortDto == null) // unattached trace
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
+
+            return dto.RtuMaker == RtuMaker.IIT
+                ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto)
+                : await Task.Factory.StartNew(()=> _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto).Result);
+        }
+
+        private async Task<string> SaveChangesOnServer(AssignBaseRefsDto dto)
+        {
+            foreach (var sorFileId in dto.DeleteOldSorFileIds)
+            {
+                await _sorFileRepository.RemoveSorBytesAsync(sorFileId);
+            }
+            var command = new AssignBaseRef() { TraceId = dto.TraceId, BaseRefs = new List<BaseRef>() };
+            foreach (var baseRefDto in dto.BaseRefs)
+            {
+                var sorFileId = 0;
+                if (baseRefDto.Id != Guid.Empty)
+                    sorFileId = await _sorFileRepository.AddSorBytesAsync(baseRefDto.SorBytes);
+
+                var baseRef = new BaseRef()
+                {
+                    TraceId = dto.TraceId,
+
+                    Id = baseRefDto.Id,
+                    BaseRefType = baseRefDto.BaseRefType,
+                    SaveTimestamp = baseRefDto.SaveTimestamp,
+                    Duration = baseRefDto.Duration,
+                    UserName = baseRefDto.UserName,
+
+                    SorFileId = sorFileId,
+                };
+                command.BaseRefs.Add(baseRef);
+            }
+            return await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
         }
 
         // Base refs had been assigned earlier (and saved in Db) and now user attached trace to the port
