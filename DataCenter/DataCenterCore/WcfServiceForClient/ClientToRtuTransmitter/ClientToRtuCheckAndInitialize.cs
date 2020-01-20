@@ -12,19 +12,16 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly ID2RWcfManager _d2RWcfManager;
-        private readonly SorFileRepository _sorFileRepository;
 
         private readonly DoubleAddress _serverDoubleAddress;
 
         public ClientToRtuTransmitter(IniFile iniFile, IMyLog logFile,
-            RtuStationsRepository rtuStationsRepository, ID2RWcfManager d2RWcfManager,
-            SorFileRepository sorFileRepository)
+            RtuStationsRepository rtuStationsRepository, ID2RWcfManager d2RWcfManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _rtuStationsRepository = rtuStationsRepository;
             _d2RWcfManager = d2RWcfManager;
-            _sorFileRepository = sorFileRepository;
 
             _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
         }

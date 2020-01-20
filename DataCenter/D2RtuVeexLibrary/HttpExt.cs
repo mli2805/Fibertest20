@@ -104,8 +104,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             try
             {
                 var responseMessage = await MadeRequest(url, httpMethod, contentRepresentation, jsonData);
-                var statusShouldBe = httpMethod.ToLower() == "post" ? HttpStatusCode.Created : HttpStatusCode.OK;
-                if (responseMessage.StatusCode != statusShouldBe)
+                if (!responseMessage.IsSuccessStatusCode)
                     result.ErrorMessage = responseMessage.ReasonPhrase;
                 if (responseMessage.StatusCode == HttpStatusCode.Created)
                     result.ResponseJson = responseMessage.Headers.Location.ToString();

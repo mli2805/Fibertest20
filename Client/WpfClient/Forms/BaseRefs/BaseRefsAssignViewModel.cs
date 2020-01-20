@@ -236,6 +236,7 @@ namespace Iit.Fibertest.Client
             { 
                 RtuId = trace.RtuId, 
                 RtuMaker = rtu.RtuMaker,
+                OtdrId = rtu.OtdrId,
                 TraceId = trace.TraceId, 
                 OtauPortDto = trace.OtauPort, 
                 BaseRefs = new List<BaseRefDto>(), 

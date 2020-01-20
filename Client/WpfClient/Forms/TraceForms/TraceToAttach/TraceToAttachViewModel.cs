@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -18,6 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly CurrentUser _currentUser;
         private OtauPortDto _otauPortDto;
+        private Rtu _rtu;
         private Trace _selectedTrace;
 
         public List<Trace> Choices { get; set; }
@@ -54,10 +54,11 @@ namespace Iit.Fibertest.Client
             _currentUser = currentUser;
         }
 
-        public void Initialize(Guid rtuId, OtauPortDto otauPortDto)
+        public void Initialize(Rtu rtu, OtauPortDto otauPortDto)
         {
             _otauPortDto = otauPortDto;
-            Choices = _readModel.Traces.Where(t => t.RtuId == rtuId && t.Port < 1 && t.ZoneIds.Contains(_currentUser.ZoneId)).ToList();
+            _rtu = rtu;
+            Choices = _readModel.Traces.Where(t => t.RtuId == rtu.Id && t.Port < 1 && t.ZoneIds.Contains(_currentUser.ZoneId)).ToList();
             SelectedTrace = Choices.FirstOrDefault();
         }
 
@@ -72,7 +73,9 @@ namespace Iit.Fibertest.Client
             var cmd = new ReSendBaseRefsDto()
             {
                 TraceId = _selectedTrace.TraceId,
+                RtuMaker = _rtu.RtuMaker,
                 RtuId = _selectedTrace.RtuId,
+                OtdrId = _rtu.OtdrId,
                 OtauPortDto = _otauPortDto,
                 BaseRefDtos = new List<BaseRefDto>(),
             };

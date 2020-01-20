@@ -32,7 +32,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                             DateTime.Now.ToString(CultureInfo.DefaultThreadCurrentUICulture)}";
 
                     string testLink = test == null // if there is no test - create it
-                        ? await CreateTest(rtuAddresses, testName, dto.OtauPortDto.OpticalPort)
+                        ? await CreateTest(rtuAddresses, testName, dto)
                         : await ChangeTestName(rtuAddresses, $@"tests/{test.id}", testName);
 
                     // assign Reference to Test
@@ -67,15 +67,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return result;
         }
 
-        private async Task<string> CreateTest(DoubleAddress rtuDoubleAddress, string name, int opticalPort)
+        private async Task<string> CreateTest(DoubleAddress rtuDoubleAddress, string name, AssignBaseRefsDto dto)
         {
             var newTest = new CreateTestCmd()
             {
                 id = Guid.NewGuid().ToString(),
                 name = name,
                 state = "disabled",
-                otdrId = Guid.Empty.ToString(), //TODO real OTDR id or maybe RTU id ?
-                otauPort = new OtauPort() { otauId = Guid.Empty.ToString(), portIndex = opticalPort - 1 }, //
+                otdrId = dto.OtdrId,
+                otauPort = new OtauPort() { otauId = dto.OtauPortDto.OtauId, portIndex = dto.OtauPortDto.OpticalPort - 1 }, //
                 period = 0, // null in the future
             };
             var result = await _d2RtuVeexMonitoring.CreateTest(rtuDoubleAddress, newTest);

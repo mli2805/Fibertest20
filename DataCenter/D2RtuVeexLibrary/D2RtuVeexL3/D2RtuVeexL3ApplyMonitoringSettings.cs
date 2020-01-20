@@ -8,7 +8,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer3
     {
-     public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto, DoubleAddress rtuAddresses)
+        public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto, DoubleAddress rtuAddresses)
         {
             int periodForPrecise = dto.Timespans.PreciseMeas != TimeSpan.Zero
                             ? (int)dto.Timespans.PreciseMeas.TotalSeconds : -1;
@@ -24,7 +24,13 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     if (portInCycle == null)
                         DisableTest(test, rtuAddresses);
                     else
-                        SetPeriodAndEnableTest(test, rtuAddresses, periodForPrecise);
+                    {
+                        if (test.name.ToLower().Contains("additional"))
+                            SetPeriod(test, rtuAddresses, -1);
+                        if (test.name.ToLower().Contains("precise"))
+                            SetPeriod(test, rtuAddresses, periodForPrecise);
+                        EnableTest(test, rtuAddresses);
+                    }
                 }
 
                 SetMonitoringMode(rtuAddresses, dto.IsMonitoringOn ? "enabled" : "disabled");
@@ -44,27 +50,30 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         private async void SetMonitoringMode(DoubleAddress rtuAddresses, string mode)
         {
             var setMode = await _d2RtuVeexMonitoring.SetMonitoringMode(rtuAddresses, mode);
-            if (setMode.HttpStatusCode != HttpStatusCode.OK)
+            if (setMode.HttpStatusCode != HttpStatusCode.NoContent)
                 throw new Exception(setMode.ErrorMessage);
         }
 
         private async void DisableTest(Test test, DoubleAddress rtuAddresses)
         {
-            var disableResult = await _d2RtuVeexMonitoring.ChangeTest(rtuAddresses, test.id, new Test() { state = "disabled" });
-            if (disableResult.HttpStatusCode != HttpStatusCode.OK)
+            var disableResult = await _d2RtuVeexMonitoring.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { state = "disabled" });
+            if (disableResult.HttpStatusCode != HttpStatusCode.NoContent)
                 throw new Exception(disableResult.ErrorMessage);
         }
 
-        private async void SetPeriodAndEnableTest(Test test, DoubleAddress rtuAddresses, int periodForPrecise)
+        private async void EnableTest(Test test, DoubleAddress rtuAddresses)
         {
-            if (test.name == "precise")
-            {
-                var changePeriod = await _d2RtuVeexMonitoring.ChangeTest(rtuAddresses, test.id, new Test() { period = periodForPrecise });
-                if (changePeriod.HttpStatusCode != HttpStatusCode.OK)
-                    throw new Exception(changePeriod.ErrorMessage);
-            }
-            var enableTest = await _d2RtuVeexMonitoring.ChangeTest(rtuAddresses, test.id, new Test() { state = "enabled" });
-            if (enableTest.HttpStatusCode != HttpStatusCode.OK)
+            var enableTest = await _d2RtuVeexMonitoring.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { state = "enabled" });
+            if (enableTest.HttpStatusCode != HttpStatusCode.NoContent)
                 throw new Exception(enableTest.ErrorMessage);
-        } }
+        }
+
+        private async void SetPeriod(Test test, DoubleAddress rtuAddresses, int periodForPrecise)
+        {
+            var changePeriod = await _d2RtuVeexMonitoring.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { period = periodForPrecise });
+            if (changePeriod.HttpStatusCode != HttpStatusCode.NoContent)
+                throw new Exception(changePeriod.ErrorMessage);
+        }
+
+    }
 }

@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
@@ -11,12 +12,14 @@ namespace Iit.Fibertest.Client
         private readonly TraceToAttachViewModel _traceToAttachViewModel;
         private readonly CurrentUser _currentUser;
         private readonly IWindowManager _windowManager;
+        private readonly Model _readModel;
 
-        public PortLeafActions(CurrentUser currentUser, IWindowManager windowManager,
+        public PortLeafActions(CurrentUser currentUser, IWindowManager windowManager, Model readModel,
             OtauToAttachViewModel otauToAttachViewModel, TraceToAttachViewModel traceToAttachViewModel)
         {
             _currentUser = currentUser;
             _windowManager = windowManager;
+            _readModel = readModel;
             _otauToAttachViewModel = otauToAttachViewModel;
             _traceToAttachViewModel = traceToAttachViewModel;
         }
@@ -27,13 +30,15 @@ namespace Iit.Fibertest.Client
                 return;
 
             var rtuId = portLeaf.Parent is RtuLeaf ? portLeaf.Parent.Id : portLeaf.Parent.Parent.Id;
+            var rtu = _readModel.Rtus.First(r => r.Id == rtuId);
             var otauPortDto = new OtauPortDto()
             {
                 Serial = ((IPortOwner)portLeaf.Parent).Serial,
                 IsPortOnMainCharon = portLeaf.Parent is RtuLeaf,
-                OpticalPort = portLeaf.PortNumber
+                OpticalPort = portLeaf.PortNumber,
+                OtauId = rtu.OtauId,
             };
-            _traceToAttachViewModel.Initialize(rtuId, otauPortDto);
+            _traceToAttachViewModel.Initialize(rtu, otauPortDto);
             _windowManager.ShowDialogWithAssignedOwner(_traceToAttachViewModel);
         }
 

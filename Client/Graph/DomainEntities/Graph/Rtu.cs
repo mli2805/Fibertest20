@@ -10,8 +10,8 @@ namespace Iit.Fibertest.Graph
     {
         public Guid Id { get; set; }
 
-        public Guid OtauId { get; set; } // in VeEX RTU main OTAU has its own ID
-        public Guid OtdrId { get; set; } // ditto
+        public string OtauId { get; set; } // in VeEX RTU main OTAU has its own ID
+        public string OtdrId { get; set; } // ditto
 
         public RtuMaker RtuMaker { get; set; }
         public string Mfid { get; set; }

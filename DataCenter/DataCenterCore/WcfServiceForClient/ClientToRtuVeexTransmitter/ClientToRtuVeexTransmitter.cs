@@ -16,8 +16,9 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly D2RtuVeexMonitoring _d2RtuVeexMonitoring;
         private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
         private readonly DoubleAddress _serverDoubleAddress;
+
         public ClientToRtuVeexTransmitter(IniFile iniFile, IMyLog logFile, RtuStationsRepository rtuStationsRepository,
-                 D2RtuVeex d2RtuVeex, D2RtuVeexMonitoring d2RtuVeexMonitoring, D2RtuVeexLayer3 d2RtuVeexLayer3)
+            D2RtuVeex d2RtuVeex, D2RtuVeexMonitoring d2RtuVeexMonitoring, D2RtuVeexLayer3 d2RtuVeexLayer3)
         {
             _logFile = logFile;
             _rtuStationsRepository = rtuStationsRepository;
@@ -25,7 +26,7 @@ namespace Iit.Fibertest.DataCenterCore
             _d2RtuVeexMonitoring = d2RtuVeexMonitoring;
             _d2RtuVeexLayer3 = d2RtuVeexLayer3;
 
-            _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
+            _serverDoubleAddress = iniFile.ReadDoubleAddress((int) TcpPorts.ServerListenToRtu);
         }
 
         public Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto)
@@ -35,7 +36,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent initialize VeEX RTU {dto.RtuId.First6()} request");
+            _logFile.AppendLine(
+                $"Client {dto.ClientId.First6()} sent initialize VeEX RTU {dto.RtuId.First6()} request");
 
             dto.ServerAddresses = _serverDoubleAddress;
 
@@ -48,7 +50,8 @@ namespace Iit.Fibertest.DataCenterCore
             }
 
             var message = rtuInitializedDto.IsInitialized
-                ? "RTU initialized successfully, monitoring mode is " + (rtuInitializedDto.IsMonitoringOn ? "AUTO" : "MANUAL")
+                ? "RTU initialized successfully, monitoring mode is " +
+                  (rtuInitializedDto.IsMonitoringOn ? "AUTO" : "MANUAL")
                 : "RTU initialization failed";
             _logFile.AppendLine(message);
 
@@ -57,12 +60,17 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent apply monitoring settings to VeEX RTU {dto.RtuId.First6()} request");
+            _logFile.AppendLine(
+                $"Client {dto.ClientId.First6()} sent apply monitoring settings to VeEX RTU {dto.RtuId.First6()} request");
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
             {
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError, ExceptionMessage = $"Unknown RTU {dto.RtuId.First6()}" };
+                return new MonitoringSettingsAppliedDto()
+                {
+                    ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError,
+                    ExceptionMessage = $"Unknown RTU {dto.RtuId.First6()}"
+                };
             }
 
             var result = await _d2RtuVeexLayer3.ApplyMonitoringSettingsAsync(dto, rtuAddresses);
@@ -74,7 +82,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent stop monitoring on VeEX RTU {dto.RtuId.First6()} request");
+            _logFile.AppendLine(
+                $"Client {dto.ClientId.First6()} sent stop monitoring on VeEX RTU {dto.RtuId.First6()} request");
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
             {
@@ -83,8 +92,8 @@ namespace Iit.Fibertest.DataCenterCore
             }
 
             var httpResult = await _d2RtuVeexMonitoring.SetMonitoringMode(rtuAddresses, "disabled");
-            _logFile.AppendLine($"Stop monitoring result is {httpResult.HttpStatusCode == HttpStatusCode.OK}");
-            return httpResult.HttpStatusCode == HttpStatusCode.OK;
+            _logFile.AppendLine($"Stop monitoring result is {httpResult.HttpStatusCode == HttpStatusCode.NoContent}");
+            return httpResult.HttpStatusCode == HttpStatusCode.NoContent;
         }
 
         public Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
@@ -92,7 +101,8 @@ namespace Iit.Fibertest.DataCenterCore
             throw new NotImplementedException();
         }
 
-        public Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
+        public Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(
+            DoOutOfTurnPreciseMeasurementDto dto)
         {
             throw new NotImplementedException();
         }
@@ -103,7 +113,11 @@ namespace Iit.Fibertest.DataCenterCore
             if (rtuAddresses == null)
             {
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentFailed, ExceptionMessage = $"Unknown RTU {dto.RtuId.First6()}" };
+                return new BaseRefAssignedDto()
+                {
+                    ReturnCode = ReturnCode.BaseRefAssignmentFailed,
+                    ExceptionMessage = $"Unknown RTU {dto.RtuId.First6()}"
+                };
             }
 
             var result = await _d2RtuVeexLayer3.AssignBaseRefAsync(dto, rtuAddresses);
@@ -112,12 +126,6 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine($"{result.ExceptionMessage}");
             return result;
         }
-
-        public Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto dto)
-        {
-            throw new NotImplementedException();
-        }
-
-      
     }
+
 }

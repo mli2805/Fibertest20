@@ -267,6 +267,8 @@ namespace Iit.Fibertest.Client
             {
                 Id = dto.RtuId,
                 Maker = dto.Maker,
+                OtdrId = dto.OtdrId,
+                OtauId = dto.OtauId,
                 Mfid = dto.Mfid,
                 Mfsn = dto.Mfsn,
                 Omid = dto.Omid,

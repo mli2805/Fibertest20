@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -94,7 +95,38 @@ namespace Iit.Fibertest.DataCenterCore
         // or user explicitly demands to resend base refs to RTU 
         public async Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto dto)
         {
-            return await _clientToRtuTransmitter.ReSendBaseRefAsync(dto);
+            _logFile.AppendLine($"Client {dto.ClientId.First6()} asked to re-send base ref for trace {dto.TraceId.First6()}");
+            var convertedDto = await ConvertToAssignBaseRefsDto(dto);
+
+            if (convertedDto?.BaseRefs == null)
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.DbCannotConvertThisReSendToAssign };
+            if (!convertedDto.BaseRefs.Any())
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
+
+            return dto.RtuMaker == RtuMaker.IIT
+                ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(convertedDto)
+                : await Task.Factory.StartNew(()=> _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(convertedDto).Result);
+        }
+
+        private async Task<AssignBaseRefsDto> ConvertToAssignBaseRefsDto(ReSendBaseRefsDto dto)
+        {
+            var result = new AssignBaseRefsDto()
+            {
+                ClientId = dto.ClientId,
+                RtuId = dto.RtuId,
+                OtdrId = dto.OtdrId,
+                TraceId = dto.TraceId,
+                OtauPortDto = dto.OtauPortDto,
+                BaseRefs = new List<BaseRefDto>(),
+            };
+
+            foreach (var baseRefDto in dto.BaseRefDtos)
+            {
+                baseRefDto.SorBytes = await _sorFileRepository.GetSorBytesAsync(baseRefDto.SorFileId);
+                result.BaseRefs.Add(baseRefDto);
+            }
+
+            return result;
         }
 
         public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)

@@ -245,7 +245,6 @@
     <Compile Include="WcfServiceForClient\WcfServiceForClientRegistration.cs" />
     <Compile Include="WcfServiceForClient\WcfServiceForClientSnapshot.cs" />
     <Compile Include="WcfServiceForClient\WcfServiceForClientToRtu.cs" />
-    <Compile Include="WcfServiceForClient\WcfServiceForClientToRtuVeex.cs" />
     <Compile Include="WcfServiceForRtu.cs" />
     <Compile Include="WcfServiceForRtuBootstrapper.cs" />
     <Compile Include="ForWebApi\WcfServiceForWebProxy.cs" />

@@ -12,9 +12,10 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public Guid RtuId { get; set; }
-
         [DataMember]
         public RtuMaker RtuMaker { get; set; }
+        [DataMember]
+        public string OtdrId { get; set; } //  in VeEX RTU main OTDR has its own ID
 
         [DataMember]
         public Guid TraceId { get; set; }

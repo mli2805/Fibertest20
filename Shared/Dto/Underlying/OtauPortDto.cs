@@ -15,5 +15,8 @@ namespace Iit.Fibertest.Dto
 
         [DataMember] 
         public string Serial { get; set; }
+
+        [DataMember]
+        public string OtauId { get; set; } // in VeEX RTU main OTAU has its own ID
     }
 }
