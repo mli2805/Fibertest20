@@ -7,15 +7,8 @@ using Newtonsoft.Json.Linq;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
-    public class D2RtuVeexMonitoring
+    public partial class D2RtuVeexLayer2
     {
-        private readonly HttpExt _httpExt;
-
-        public D2RtuVeexMonitoring(HttpExt httpExt)
-        {
-            _httpExt = httpExt;
-        }
-
         /// <summary>
         /// start / stop monitoring
         /// </summary>

@@ -2,11 +2,11 @@
 {
     public partial class D2RtuVeexLayer3
     {
-        private readonly D2RtuVeexMonitoring _d2RtuVeexMonitoring;
+        private readonly D2RtuVeexLayer2 _d2RtuVeexLayer2;
 
-        public D2RtuVeexLayer3(D2RtuVeexMonitoring d2RtuVeexMonitoring)
+        public D2RtuVeexLayer3(D2RtuVeexLayer2 d2RtuVeexLayer2)
         {
-            _d2RtuVeexMonitoring = d2RtuVeexMonitoring;
+            _d2RtuVeexLayer2 = d2RtuVeexLayer2;
         }
     }
 }

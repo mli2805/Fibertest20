@@ -54,12 +54,12 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         private async Task<List<Test>> GetTestsForPort(DoubleAddress rtuDoubleAddress, int opticalPort)
         {
             var result = new List<Test>();
-            var listOfTestLinks = await _d2RtuVeexMonitoring.GetTests(rtuDoubleAddress);
+            var listOfTestLinks = await _d2RtuVeexLayer2.GetTests(rtuDoubleAddress);
             if (listOfTestLinks == null) return result;
 
             foreach (var testLink in listOfTestLinks.items)
             {
-                var test = await _d2RtuVeexMonitoring.GetTest(rtuDoubleAddress, testLink.self);
+                var test = await _d2RtuVeexLayer2.GetTest(rtuDoubleAddress, testLink.self);
                 if (test?.otauPort != null && test.otauPort.portIndex == opticalPort - 1)
                     result.Add(test);
             }
@@ -78,7 +78,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 otauPort = new OtauPort() { otauId = dto.OtauPortDto.OtauId, portIndex = dto.OtauPortDto.OpticalPort - 1 }, //
                 period = 0, // null in the future
             };
-            var result = await _d2RtuVeexMonitoring.CreateTest(rtuDoubleAddress, newTest);
+            var result = await _d2RtuVeexLayer2.CreateTest(rtuDoubleAddress, newTest);
             if (result.HttpStatusCode != HttpStatusCode.Created)
                 throw new Exception(result.ErrorMessage);
             return result.ResponseJson;
@@ -87,7 +87,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         private async Task<string> ChangeTestName(DoubleAddress rtuDoubleAddress, string testUri, string newName)
         {
             var test = new Test() { name = newName, };
-            var result = await _d2RtuVeexMonitoring.ChangeTest(rtuDoubleAddress, testUri, test);
+            var result = await _d2RtuVeexLayer2.ChangeTest(rtuDoubleAddress, testUri, test);
             if (result.HttpStatusCode != HttpStatusCode.OK)
                 throw new Exception(result.ErrorMessage + ";  " + result.ResponseJson);
             return testUri;
@@ -95,7 +95,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         private async Task<int> DeleteTest(DoubleAddress rtuDoubleAddress, string testUri)
         {
-            var result = await _d2RtuVeexMonitoring.DeleteTest(rtuDoubleAddress, testUri);
+            var result = await _d2RtuVeexLayer2.DeleteTest(rtuDoubleAddress, testUri);
             if (result.HttpStatusCode != HttpStatusCode.OK)
                 throw new Exception(result.ErrorMessage + ";  " + result.ResponseJson);
             return 0;
@@ -103,7 +103,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         private async void SetBaseRef(DoubleAddress rtuDoubleAddress, string testLink, byte[] sorBytes)
         {
-            var assignResult = await _d2RtuVeexMonitoring.SetBaseRef(rtuDoubleAddress, $@"monitoring/{testLink}/references", sorBytes);
+            var assignResult = await _d2RtuVeexLayer2.SetBaseRef(rtuDoubleAddress, $@"monitoring/{testLink}/references", sorBytes);
             if (assignResult.HttpStatusCode != HttpStatusCode.Created)
                 throw new Exception(assignResult.ErrorMessage + ";  " + assignResult.ResponseJson);
         } }

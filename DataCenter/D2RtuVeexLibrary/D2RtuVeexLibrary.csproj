@@ -44,10 +44,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="D2RtuVeexL2\D2RtuVeex.cs" />
+    <Compile Include="D2RtuVeexL2\D2RtuVeexL2.cs" />
+    <Compile Include="D2RtuVeexL2\D2RtuVeexL2Initialization.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3ApplyMonitoringSettings.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3.cs" />
-    <Compile Include="D2RtuVeexL2\D2RtuVeexMonitoring.cs" />
+    <Compile Include="D2RtuVeexL2\D2RtuVeexL2ApplyMonitoring.cs" />
+    <Compile Include="D2RtuVeexL3\D2RtuVeexL3InitializeRtu.cs" />
     <Compile Include="HttpExt.cs" />
     <Compile Include="HttpRequestResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,6 +66,7 @@
     <Compile Include="VeexDto\Monitoring\Tests.cs" />
     <Compile Include="VeexDto\LinkObject.cs" />
     <Compile Include="VeexDto\Monitoring\MonitoringVeexDto.cs" />
+    <Compile Include="VeexDto\ServerNotificationSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\Dto\Dto.csproj">

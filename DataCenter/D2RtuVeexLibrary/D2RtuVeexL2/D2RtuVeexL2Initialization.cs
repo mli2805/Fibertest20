@@ -6,30 +6,21 @@ using Newtonsoft.Json;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
-    public class D2RtuVeex
+    public partial class D2RtuVeexLayer2
     {
-        private readonly HttpExt _httpExt;
-        private DoubleAddress _rtuDoubleAddress;
-
-        public D2RtuVeex(HttpExt httpExt)
+        public async Task<RtuInitializedDto> GetSettings(DoubleAddress rtuDoubleAddress, InitializeRtuDto dto)
         {
-            _httpExt = httpExt;
-        }
-
-        public async Task<RtuInitializedDto> GetSettings(InitializeRtuDto dto)
-        {
-            _rtuDoubleAddress = (DoubleAddress)dto.RtuAddresses.Clone();
             var result = new RtuInitializedDto();
 
-            var platformResponse = await GetPlatformSettings(result);
+            var platformResponse = await GetPlatformSettings(rtuDoubleAddress, result);
             if (!platformResponse)
                 return result;
 
-            var otdrResponse = await GetOtdrSettings(result);
+            var otdrResponse = await GetOtdrSettings(rtuDoubleAddress, result);
             if (!otdrResponse)
                 return result;
 
-            var otauResponse = await GetOtauSettings(result);
+            var otauResponse = await GetOtauSettings(rtuDoubleAddress, result);
             if (!otauResponse)
                 return result;
 
@@ -42,9 +33,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return result;
         }
 
-        private async Task<bool> GetOtauSettings(RtuInitializedDto result)
+        private async Task<bool> GetOtauSettings(DoubleAddress rtuDoubleAddress, RtuInitializedDto result)
         {
-            var httpResult = await _httpExt.RequestByUrl(_rtuDoubleAddress, "otaus", "get");
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "otaus", "get");
             if (httpResult.HttpStatusCode != HttpStatusCode.OK)
             {
                 result.ErrorMessage = httpResult.ErrorMessage;
@@ -55,7 +46,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (otaus.total == 0)
                 return true;
 
-            var httpResult2 = await _httpExt.RequestByUrl(_rtuDoubleAddress, $"{otaus.items[0].self}", "get");
+            var httpResult2 = await _httpExt.RequestByUrl(rtuDoubleAddress, $"{otaus.items[0].self}", "get");
             if (httpResult2.HttpStatusCode != HttpStatusCode.OK)
             {
                 result.ErrorMessage = httpResult.ErrorMessage;
@@ -70,9 +61,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return true;
         }
 
-        private async Task<bool> GetOtdrSettings(RtuInitializedDto result)
+        private async Task<bool> GetOtdrSettings(DoubleAddress rtuDoubleAddress, RtuInitializedDto result)
         {
-            var httpResult = await _httpExt.RequestByUrl(_rtuDoubleAddress, "otdrs", "get");
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "otdrs", "get");
             if (httpResult.HttpStatusCode != HttpStatusCode.OK)
             {
                 result.ErrorMessage = httpResult.ErrorMessage;
@@ -83,7 +74,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (otdrs.total == 0)
                 return true;
 
-            var httpResult2 = await _httpExt.RequestByUrl(_rtuDoubleAddress, $"{otdrs.items[0].self}", "get");
+            var httpResult2 = await _httpExt.RequestByUrl(rtuDoubleAddress, $"{otdrs.items[0].self}", "get");
             if (httpResult2.HttpStatusCode != HttpStatusCode.OK)
             {
                 result.ErrorMessage = httpResult.ErrorMessage;
@@ -113,9 +104,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return true;
         }
 
-        private async Task<bool> GetPlatformSettings(RtuInitializedDto result)
+        private async Task<bool> GetPlatformSettings(DoubleAddress rtuDoubleAddress, RtuInitializedDto result)
         {
-            var httpResult = await _httpExt.RequestByUrl(_rtuDoubleAddress, "info", "get");
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "info", "get");
             if (httpResult.HttpStatusCode != HttpStatusCode.OK)
                 return false;
             var info = JsonConvert.DeserializeObject<Info>(httpResult.ResponseJson);
@@ -126,5 +117,13 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             result.Version2 = info.platform.moduleFirmwareVersion;
             return true;
         }
+
+        public async Task<HttpRequestResult> SetServerUrl(DoubleAddress rtuDoubleAddress, ServerNotificationSettings serverNotificationSettings)
+        {
+            var jsonData = JsonConvert.SerializeObject(serverNotificationSettings);
+            return await _httpExt.RequestByUrl(rtuDoubleAddress,
+                $@"/notification/settings", "patch", "application/merge-patch+json", jsonData);
+        }
+
     }
 }

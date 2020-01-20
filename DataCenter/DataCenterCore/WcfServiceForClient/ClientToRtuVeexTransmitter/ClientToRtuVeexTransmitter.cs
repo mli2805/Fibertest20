@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.D2RtuVeexLibrary;
 using Iit.Fibertest.DatabaseLibrary;
@@ -12,18 +11,14 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IMyLog _logFile;
         private readonly RtuStationsRepository _rtuStationsRepository;
-        private readonly D2RtuVeex _d2RtuVeex;
-        private readonly D2RtuVeexMonitoring _d2RtuVeexMonitoring;
         private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
         private readonly DoubleAddress _serverDoubleAddress;
 
         public ClientToRtuVeexTransmitter(IniFile iniFile, IMyLog logFile, RtuStationsRepository rtuStationsRepository,
-            D2RtuVeex d2RtuVeex, D2RtuVeexMonitoring d2RtuVeexMonitoring, D2RtuVeexLayer3 d2RtuVeexLayer3)
+            D2RtuVeexLayer3 d2RtuVeexLayer3)
         {
             _logFile = logFile;
             _rtuStationsRepository = rtuStationsRepository;
-            _d2RtuVeex = d2RtuVeex;
-            _d2RtuVeexMonitoring = d2RtuVeexMonitoring;
             _d2RtuVeexLayer3 = d2RtuVeexLayer3;
 
             _serverDoubleAddress = iniFile.ReadDoubleAddress((int) TcpPorts.ServerListenToRtu);
@@ -40,8 +35,11 @@ namespace Iit.Fibertest.DataCenterCore
                 $"Client {dto.ClientId.First6()} sent initialize VeEX RTU {dto.RtuId.First6()} request");
 
             dto.ServerAddresses = _serverDoubleAddress;
+            dto.ServerAddresses.Main.Port = (int)TcpPorts.WebProxyListenTo;
+            if (dto.ServerAddresses.HasReserveAddress)
+                dto.ServerAddresses.Reserve.Port = (int)TcpPorts.WebProxyListenTo;
 
-            var rtuInitializedDto = await _d2RtuVeex.GetSettings(dto);
+            var rtuInitializedDto = await _d2RtuVeexLayer3.InitializeRtu(dto);
             if (rtuInitializedDto.IsInitialized)
             {
                 rtuInitializedDto.RtuAddresses = dto.RtuAddresses;
@@ -91,9 +89,9 @@ namespace Iit.Fibertest.DataCenterCore
                 return false;
             }
 
-            var httpResult = await _d2RtuVeexMonitoring.SetMonitoringMode(rtuAddresses, "disabled");
-            _logFile.AppendLine($"Stop monitoring result is {httpResult.HttpStatusCode == HttpStatusCode.NoContent}");
-            return httpResult.HttpStatusCode == HttpStatusCode.NoContent;
+            var result = await _d2RtuVeexLayer3.StopMonitoringAsync(rtuAddresses);
+            _logFile.AppendLine($"Stop monitoring result is {result}");
+            return result;
         }
 
         public Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)

@@ -90,9 +90,9 @@ namespace DirectRtuClient
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
 
-            var d2R = new D2RtuVeex(_httpExt);
+            var d2R = new D2RtuVeexLayer2(_httpExt);
             var result = await Task.Factory.StartNew(() =>
-                d2R.GetSettings(new InitializeRtuDto() { RtuAddresses = _rtuVeexDoubleAddress }).Result);
+                d2R.GetSettings(_rtuVeexDoubleAddress, new InitializeRtuDto() { RtuAddresses = _rtuVeexDoubleAddress }).Result);
 
             ResultString = result.ReturnCode.ToString();
             IsButtonEnabled = true;
@@ -101,7 +101,7 @@ namespace DirectRtuClient
             else
                 MessageBox.Show(result.ErrorMessage);
 
-            var d2RM = new D2RtuVeexMonitoring(_httpExt);
+            var d2RM = new D2RtuVeexLayer2(_httpExt);
             var res = await Task.Factory.StartNew(() =>
                 d2RM.GetMonitoringMode(_rtuVeexDoubleAddress).Result);
 
@@ -126,7 +126,7 @@ namespace DirectRtuClient
             IsButtonEnabled = false;
             var flag = PatchMonitoringButton == @"Stop monitoring";
 
-            var d2R = new D2RtuVeexMonitoring(_httpExt);
+            var d2R = new D2RtuVeexLayer2(_httpExt);
             var result = await Task.Factory.StartNew(() =>
                 d2R.SetMonitoringMode(_rtuVeexDoubleAddress, flag ? @"disabled" : @"enabled").Result);
 
@@ -142,7 +142,7 @@ namespace DirectRtuClient
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
 
-            var d2R = new D2RtuVeexMonitoring(_httpExt);
+            var d2R = new D2RtuVeexLayer2(_httpExt);
             var result = await Task.Factory.StartNew(() =>
                 d2R.GetTests(_rtuVeexDoubleAddress).Result);
 
@@ -204,7 +204,7 @@ namespace DirectRtuClient
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
 
-            var d2R = new D2RtuVeexMonitoring(_httpExt);
+            var d2R = new D2RtuVeexLayer2(_httpExt);
             var allTests = await Task.Factory.StartNew(() =>
                 d2R.GetTests(_rtuVeexDoubleAddress).Result);
 
@@ -250,7 +250,7 @@ namespace DirectRtuClient
                     }
                 }
             };
-            var d2R = new D2RtuVeexMonitoring(_httpExt);
+            var d2R = new D2RtuVeexLayer2(_httpExt);
             var layer3 = new D2RtuVeexLayer3(d2R);
             var result = await Task.Factory.StartNew(() =>
                 layer3.AssignBaseRefAsync(dto, _rtuVeexDoubleAddress).Result);
