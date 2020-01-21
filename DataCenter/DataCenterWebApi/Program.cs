@@ -15,7 +15,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    webBuilder.UseUrls("http://*:11837");
+                    webBuilder.UseUrls("http://*:11080");
                 });
 
       

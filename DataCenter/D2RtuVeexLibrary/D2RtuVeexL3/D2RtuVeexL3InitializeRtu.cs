@@ -43,7 +43,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             {
                 state = "enabled",
                 eventTypes = new List<string>() { "monitoring_test_failed", "monitoring_test_passed" },
-                url = $@"http://{dto.ServerAddresses.Main.ToStringASpace}/",
+                url = $@"http://{dto.ServerAddresses.Main.ToStringA()}/veex/notify/",
             };
             var result = await _d2RtuVeexLayer2.SetServerUrl(rtuDoubleAddress, serverNotificationSettings);
             if (result.HttpStatusCode != HttpStatusCode.NoContent)
