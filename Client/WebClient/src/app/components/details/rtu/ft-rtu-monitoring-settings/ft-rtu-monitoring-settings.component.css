@@ -4,23 +4,17 @@
   margin-left: 5px;
 }
 
-.frequencies {
-  display: flex;
-  flex-direction: row;
-  margin-left: 5px;
-}
-
 .preciseFrequencies {
   display: flex;
   flex-direction: column;
-  flex-grow: 0;
+  flex-grow: 1;
   margin-right: 5px;
 }
 
 .fastFrequencies {
   display: flex;
   flex-direction: column;
-  flex-grow: 0;
+  flex-grow: 1;
   margin-right: 5px;
 }
 
@@ -43,18 +37,21 @@ mat-radio-button {
 
   .portTable {
     display: flex;
-    flex-grow: 5;
-  }
-
-  .mat-table {
-    flex-grow: 1;
+    flex: 5, 5, auto;
   }
 
   .controlBlock {
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    flex-grow: 0;
+    flex: 0, 0, auto;
+  }
+
+  .frequencies {
+    display: flex;
+    flex-direction: row;
+    flex: 1 0 auto;
+    margin-left: 5px;
   }
 
   .other {
@@ -71,6 +68,7 @@ mat-radio-button {
     align-items: center;
     flex-direction: row;
   }
+
   .cycle {
     justify-content: center;
     align-items: center;
@@ -84,19 +82,17 @@ mat-radio-button {
     flex-direction: column;
   }
 
-  .portTable {
-    display: flex;
-    flex-grow: 1;
-  }
-
-  .mat-table {
-    flex-grow: 1;
-  }
-
   .controlBlock {
     display: flex;
     flex-direction: row;
-    flex-grow: 0;
+    flex: 0, 0, auto;
+  }
+
+  .frequencies {
+    display: flex;
+    flex-direction: row;
+    flex: 1 0 auto;
+    margin-left: 5px;
   }
 
   .other {
@@ -114,23 +110,27 @@ mat-radio-button {
 @media (min-width: 960px) {
   .container {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: row;
   }
 
   .portTable {
     display: flex;
-    flex-grow: 1;
-  }
-
-  .mat-table {
-    flex-grow: 1;
+    flex: 5, 5, auto;
+    order: -1;
   }
 
   .controlBlock {
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-    flex-grow: 0;
+    flex: 0, 0, auto;
+  }
+
+  .frequencies {
+    display: flex;
+    flex-direction: row;
+    flex: 0 0 auto;
+    margin-left: 5px;
   }
 
   .other {
@@ -142,9 +142,5 @@ mat-radio-button {
     display: flex;
     flex-direction: row;
     margin: 10px;
-  }
-
-  mat-radio-button {
-    margin: 5px;
   }
 }
