@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -54,7 +55,6 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"rtu id = {id}");
                 var rtuGuid = Guid.Parse(id);
-                _logFile.AppendLine($"trace Guid = {rtuGuid}");
                 var rtuInformationDto = await _webProxy2DWcfManager.GetRtuInformation(User.Identity.Name, rtuGuid);
                 _logFile.AppendLine(rtuInformationDto == null
                     ? "Failed to get RTU's information"
@@ -76,7 +76,6 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"rtu id = {id}");
                 var rtuGuid = Guid.Parse(id);
-                _logFile.AppendLine($"trace Guid = {rtuGuid}");
                 var rtuNetworkSettingsDto = await _webProxy2DWcfManager.GetRtuNetworkSettings(User.Identity.Name, rtuGuid);
                 _logFile.AppendLine(rtuNetworkSettingsDto == null
                     ? "Failed to get RTU's network-settings"
@@ -98,7 +97,6 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"rtu id = {id}");
                 var rtuGuid = Guid.Parse(id);
-                _logFile.AppendLine($"trace Guid = {rtuGuid}");
                 var rtuStateDto = await _webProxy2DWcfManager.GetRtuState(User.Identity.Name, rtuGuid);
                 _logFile.AppendLine(rtuStateDto == null
                     ? "Failed to get RTU's state"
@@ -120,7 +118,6 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"rtu id = {id}");
                 var rtuGuid = Guid.Parse(id);
-                _logFile.AppendLine($"trace Guid = {rtuGuid}");
                 var rtuMonitoringSettingsDto = await _webProxy2DWcfManager.GetRtuMonitoringSettings(User.Identity.Name, rtuGuid);
                 _logFile.AppendLine(rtuMonitoringSettingsDto == null
                     ? "Failed to get RTU's Monitoring-settings"
@@ -133,6 +130,34 @@ namespace Iit.Fibertest.DataCenterWebApi
             }
             return null;
         }
+
+        [Authorize]
+        [HttpPost("Monitoring-settings/{id}")]
+        public async Task<MonitoringSettingsAppliedDto> PostRtuMonitoringSettings(string id)
+        {
+            try
+            {
+                _logFile.AppendLine($"rtu id = {id}");
+                var rtuGuid = Guid.Parse(id);
+                string body;
+                using (var reader = new StreamReader(Request.Body))
+                {
+                    body = await reader.ReadToEndAsync();
+                }
+                _logFile.AppendLine(body);
+                var dto = JsonConvert.DeserializeObject<RtuMonitoringSettingsDto>(body);
+                var rtuMonitoringSettingsDto = await _webProxy2DWcfManager.PostRtuMonitoringSettings(User.Identity.Name, rtuGuid, dto);
+                _logFile.AppendLine(rtuMonitoringSettingsDto.ReturnCode.ToString());
+                return rtuMonitoringSettingsDto;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"GetRtuMonitoringSettings: {e.Message}");
+                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError, ExceptionMessage = e.Message };
+            }
+        }
+
+      
 
     }
 }

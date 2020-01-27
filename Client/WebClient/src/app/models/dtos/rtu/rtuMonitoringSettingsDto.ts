@@ -15,6 +15,7 @@ export class RtuMonitoringSettingsDto {
 
 export class RtuMonitoringPortDto {
   port: string;
+  traceId: string;
   traceTitle: string;
   portMonitoringMode: PortMonitoringMode;
   durationOfPreciseBase: number;

@@ -30,7 +30,6 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"trace id = {id}");
                 var traceGuid = Guid.Parse(id);
-                _logFile.AppendLine($"trace Guid = {traceGuid}");
                 var traceInformationDto = await _webProxy2DWcfManager.GetTraceInformation(User.Identity.Name, traceGuid);
                 _logFile.AppendLine(traceInformationDto == null
                     ? "Failed to get trace's information"
@@ -52,7 +51,6 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"trace id = {id}");
                 var traceGuid = Guid.Parse(id);
-                _logFile.AppendLine($"trace Guid = {traceGuid}");
                 var traceStatisticsDto = await _webProxy2DWcfManager.GetTraceStatistics(User.Identity.Name, traceGuid);
                 _logFile.AppendLine(traceStatisticsDto == null
                     ? "Failed to get trace's statistics"

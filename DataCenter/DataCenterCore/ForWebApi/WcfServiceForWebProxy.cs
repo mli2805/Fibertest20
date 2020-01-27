@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 namespace Iit.Fibertest.DataCenterCore
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
-    public class WcfServiceForWebProxy : IWcfServiceForWebProxy
+    public partial class WcfServiceForWebProxy : IWcfServiceForWebProxy
     {
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -21,11 +21,16 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
+        private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
+        private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
-        public WcfServiceForWebProxy(IMyLog logFile, Model writeModel)
+        public WcfServiceForWebProxy(IMyLog logFile, Model writeModel,
+            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
         {
             _logFile = logFile;
             _writeModel = writeModel;
+            _clientToRtuTransmitter = clientToRtuTransmitter;
+            _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
         }
 
         public async Task<UserDto> LoginWebClient(string username, string password)
@@ -98,8 +103,8 @@ namespace Iit.Fibertest.DataCenterCore
             result.GpsCoors = rtuNode?.Position.ToDetailedString(GpsInputMode.DegreesMinutesAndSeconds) ?? "";
             result.Comment = rtu.Comment;
             return result;
-        }  
-        
+        }
+
         public async Task<RtuNetworkSettingsDto> GetRtuNetworkSettings(string username, Guid rtuId)
         {
             _logFile.AppendLine(":: WcfServiceForWebProxy GetRtuNetworkSettings");
@@ -126,8 +131,8 @@ namespace Iit.Fibertest.DataCenterCore
             result.ReserveChannel = rtu.ReserveChannel.ToStringA();
             result.OtdrAddress = rtu.OtdrNetAddress.ToStringA();
             return result;
-        }  
-        
+        }
+
         public async Task<RtuStateDto> GetRtuState(string username, Guid rtuId)
         {
             _logFile.AppendLine(":: WcfServiceForWebProxy GetRtuState");
@@ -159,7 +164,7 @@ namespace Iit.Fibertest.DataCenterCore
             result.Children = PrepareRtuStateChildren(rtu);
             result.TraceCount = result.Children.Count(c => c.TraceState != FiberState.NotInTrace);
             result.TracesState = result.Children.Max(c => c.TraceState);
-            
+
             return result;
         }
 
@@ -173,20 +178,20 @@ namespace Iit.Fibertest.DataCenterCore
                     var otau = rtu.Children[i];
                     for (int j = 1; j <= otau.OwnPortCount; j++)
                     {
-                        var trace = _writeModel.Traces.FirstOrDefault(t => 
+                        var trace = _writeModel.Traces.FirstOrDefault(t =>
                             t.OtauPort != null && t.OtauPort.Serial == otau.Serial && t.OtauPort.OpticalPort == j);
                         result.Add(trace != null
                                    ? PrepareRtuStateChild(trace, j, $"{i}-")
-                                   : new RtuStateChildDto() {Port = $"{i}-{j}", TraceState = FiberState.Nothing});
+                                   : new RtuStateChildDto() { Port = $"{i}-{j}", TraceState = FiberState.Nothing });
                     }
                 }
-                else 
+                else
                 {
-                    var trace = _writeModel.Traces.FirstOrDefault(t => 
-                        t.RtuId == rtu.Id  && t.Port == i && (t.OtauPort == null || t.OtauPort.IsPortOnMainCharon));
+                    var trace = _writeModel.Traces.FirstOrDefault(t =>
+                        t.RtuId == rtu.Id && t.Port == i && (t.OtauPort == null || t.OtauPort.IsPortOnMainCharon));
                     result.Add(trace != null
                         ? PrepareRtuStateChild(trace, i, "")
-                        : new RtuStateChildDto() {Port = i.ToString(), TraceState = FiberState.Nothing});
+                        : new RtuStateChildDto() { Port = i.ToString(), TraceState = FiberState.Nothing });
                 }
             }
             return result;
@@ -199,80 +204,12 @@ namespace Iit.Fibertest.DataCenterCore
                 Port = mainPort + port,
                 TraceTitle = trace.Title,
                 TraceState = trace.State,
-                LastMeasId = _writeModel.Measurements.LastOrDefault(m=>m.TraceId == trace.TraceId)?.SorFileId.ToString() ?? "",
-                LastMeasTime = _writeModel.Measurements.LastOrDefault(m=>m.TraceId == trace.TraceId)?.EventRegistrationTimestamp.ToString("G") ?? "",
+                LastMeasId = _writeModel.Measurements.LastOrDefault(m => m.TraceId == trace.TraceId)?.SorFileId.ToString() ?? "",
+                LastMeasTime = _writeModel.Measurements.LastOrDefault(m => m.TraceId == trace.TraceId)?.EventRegistrationTimestamp.ToString("G") ?? "",
             };
             return prepareRtuStateChild;
         }
-        
-        public async Task<RtuMonitoringSettingsDto> GetRtuMonitoringSettings(string username, Guid rtuId)
-        {
-            _logFile.AppendLine(":: WcfServiceForWebProxy GetRtuMonitoringSettings");
-            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
-            if (user == null)
-            {
-                _logFile.AppendLine("Not authorized access");
-                return null;
-            }
-            await Task.Delay(1);
 
-            var result = new RtuMonitoringSettingsDto();
-            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == rtuId);
-            if (rtu == null) return result;
-            result.RtuTitle = rtu.Title;
-            result.MonitoringMode = rtu.MonitoringState;
-            result.PreciseMeas = rtu.PreciseMeas;
-            result.PreciseSave = rtu.PreciseSave;
-            result.FastSave = rtu.FastSave;
-            result.Lines = PrepareRtuMonitoringPortLines(rtu);
-            return result;
-        }
-
-        private List<RtuMonitoringPortDto> PrepareRtuMonitoringPortLines(Rtu rtu)
-        {
-            var result = new List<RtuMonitoringPortDto>();
-            for (int i = 1; i <= rtu.OwnPortCount; i++)
-            {
-                if (rtu.Children.ContainsKey(i))
-                {
-                    var otau = rtu.Children[i];
-                    for (int j = 1; j <= otau.OwnPortCount; j++)
-                    {
-                        var trace = _writeModel.Traces.FirstOrDefault(t => 
-                            t.OtauPort != null && t.OtauPort.Serial == otau.Serial && t.OtauPort.OpticalPort == j);
-                        result.Add(trace != null
-                            ? PrepareRtuMonitoringPortLine(trace, j, $"{i}-")
-                            : new RtuMonitoringPortDto() {Port = $"{i}-{j}", PortMonitoringMode = PortMonitoringMode.NoTraceJoined});
-                    }
-                }
-                else 
-                {
-                    var trace = _writeModel.Traces.FirstOrDefault(t => 
-                        t.RtuId == rtu.Id  && t.Port == i && (t.OtauPort == null || t.OtauPort.IsPortOnMainCharon));
-                    result.Add(trace != null
-                        ? PrepareRtuMonitoringPortLine(trace, i, "")
-                        : new RtuMonitoringPortDto() {Port = i.ToString(), PortMonitoringMode = PortMonitoringMode.NoTraceJoined});
-                }
-            }
-            return result;
-        }
-
-        private RtuMonitoringPortDto PrepareRtuMonitoringPortLine(Trace trace, int port, string mainPort)
-        {
-            var result = new RtuMonitoringPortDto()
-            {
-                Port = mainPort + port,
-                TraceTitle = trace.Title,
-                DurationOfFastBase = trace.FastDuration.Seconds,
-                DurationOfPreciseBase = trace.PreciseDuration.Seconds,
-                PortMonitoringMode = !trace.HasEnoughBaseRefsToPerformMonitoring 
-                    ? PortMonitoringMode.TraceHasNoBase
-                    : !trace.IsIncludedInMonitoringCycle
-                        ? PortMonitoringMode.Off
-                        : PortMonitoringMode.On,
-            };
-            return result;
-        }
         #endregion
 
         #region Trace
@@ -327,7 +264,7 @@ namespace Iit.Fibertest.DataCenterCore
                 .Sort(sortOrder)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
-                .Select(m => m.CreateOpticalEventDto(_writeModel)).ToList() 
+                .Select(m => m.CreateOpticalEventDto(_writeModel)).ToList()
                 :
                 _writeModel.Measurements
                 .Where(m => m.Filter(filterRtu, filterTrace, _writeModel, user))
@@ -389,11 +326,11 @@ namespace Iit.Fibertest.DataCenterCore
                 return false;
 
             var rtu = writeModel.Rtus.FirstOrDefault(r => r.Id == measurement.RtuId);
-            if (rtu == null 
+            if (rtu == null
                 || !rtu.ZoneIds.Contains(user.ZoneId)
                 || (!string.IsNullOrEmpty(filterRtu) && !rtu.Title.Contains(filterRtu)))
             {
-                    return false;
+                return false;
             }
 
             var trace = writeModel.Traces.FirstOrDefault(t => t.TraceId == measurement.TraceId);

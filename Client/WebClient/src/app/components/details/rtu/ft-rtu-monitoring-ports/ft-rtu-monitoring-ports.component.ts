@@ -58,6 +58,10 @@ export class FtRtuMonitoringPortsComponent implements OnInit, OnChanges {
     });
   }
 
+  public getPortLines(): boolean[] {
+    return this.dataSource.data.map(r => this.selectionModel.selected.includes(r));
+  }
+
   /** Whether the number of selected elements matches the total number of enabled rows. */
   isAllSelected() {
     const numSelected = this.selectionModel.selected.length;

@@ -3,6 +3,7 @@
     public class RtuMonitoringPortDto
     {
         public string Port;
+        public string TraceId;
         public string TraceTitle;
         public PortMonitoringMode PortMonitoringMode;
         public int DurationOfPreciseBase;

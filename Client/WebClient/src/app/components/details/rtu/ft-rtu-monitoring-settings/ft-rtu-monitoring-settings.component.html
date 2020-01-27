@@ -56,7 +56,9 @@
         }}</mat-radio-button>
       </mat-radio-group>
 
-      <button mat-stroked-button color="primary">
+      <button mat-stroked-button 
+        color="primary"
+        (click)="onButtonClicked()">
         {{ "SID_Apply" | translate }}
       </button>
     </div>

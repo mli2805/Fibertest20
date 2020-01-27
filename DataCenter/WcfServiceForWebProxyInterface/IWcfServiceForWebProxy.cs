@@ -27,6 +27,9 @@ namespace Iit.Fibertest.WcfServiceForWebProxyInterface
 
         [OperationContract]
         Task<RtuMonitoringSettingsDto> GetRtuMonitoringSettings(string username, Guid rtuId);
+
+        [OperationContract]
+        Task<MonitoringSettingsAppliedDto> PostRtuMonitoringSettings(string username, Guid rtuId, RtuMonitoringSettingsDto dto);
         #endregion
 
         #region Trace
