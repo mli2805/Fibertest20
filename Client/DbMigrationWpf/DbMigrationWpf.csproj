@@ -248,10 +248,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DataCenter\WcfServiceForClient\WcfServiceForClientInterface.csproj">
-      <Project>{72f6524c-e7ee-4dfd-8ae2-15a4e5225d3b}</Project>
-      <Name>WcfServiceForClientInterface</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\RTU\IitOtdrLibrary\IitOtdrLibrary.csproj">
       <Project>{E9122BBB-B015-4710-BDD3-03243EE8CBCD}</Project>
       <Name>IitOtdrLibrary</Name>
@@ -271,10 +267,6 @@
     <ProjectReference Include="..\Graph\Graph.csproj">
       <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
       <Name>Graph</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WcfServiceForC2RInterface\WcfServiceForC2RInterface.csproj">
-      <Project>{a2ee53a0-90f5-4a22-bf32-08bfacd7e44d}</Project>
-      <Name>WcfServiceForC2RInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\WpfCommonViews\WpfCommonViews.csproj">
       <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>

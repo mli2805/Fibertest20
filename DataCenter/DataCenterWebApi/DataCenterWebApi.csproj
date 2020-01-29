@@ -21,10 +21,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Client\WcfServiceForC2RInterface\WcfServiceForC2RInterface.csproj" />
     <ProjectReference Include="..\..\Shared\Dto\Dto.csproj" />
     <ProjectReference Include="..\..\Shared\WcfConnections\WcfConnections.csproj" />
-    <ProjectReference Include="..\WcfServiceForWebProxyInterface\WcfServiceForWebProxyInterface.csproj" />
   </ItemGroup>
 
 </Project>

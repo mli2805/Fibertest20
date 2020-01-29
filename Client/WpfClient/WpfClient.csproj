@@ -1010,10 +1010,6 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\DataCenter\WcfServiceForClient\WcfServiceForClientInterface.csproj">
-      <Project>{72f6524c-e7ee-4dfd-8ae2-15a4e5225d3b}</Project>
-      <Name>WcfServiceForClientInterface</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Shared\Dto\Dto.csproj">
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
       <Name>Dto</Name>
@@ -1030,21 +1026,9 @@
       <Project>{5194ad3b-e031-4f61-aded-c1e92999acf2}</Project>
       <Name>WcfConnections</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ClientWcfServiceLibrary\ClientWcfServiceInterface.csproj">
-      <Project>{1822c528-4719-4c53-877e-bc57dbf6d7ff}</Project>
-      <Name>ClientWcfServiceInterface</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Graph\Graph.csproj">
       <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
       <Name>Graph</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SuperClientWcfServiceInterface\SuperClientWcfServiceInterface.csproj">
-      <Project>{b4608f08-3b67-4199-8324-72b55e2ddfaf}</Project>
-      <Name>SuperClientWcfServiceInterface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WcfServiceForC2RInterface\WcfServiceForC2RInterface.csproj">
-      <Project>{a2ee53a0-90f5-4a22-bf32-08bfacd7e44d}</Project>
-      <Name>WcfServiceForC2RInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\WpfCommonViews\WpfCommonViews.csproj">
       <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>

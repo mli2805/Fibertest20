@@ -194,17 +194,9 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\Client\ClientWcfServiceLibrary\ClientWcfServiceInterface.csproj">
-      <Project>{1822c528-4719-4c53-877e-bc57dbf6d7ff}</Project>
-      <Name>ClientWcfServiceInterface</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\Client\Graph\Graph.csproj">
       <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
       <Name>Graph</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\Client\WcfServiceForC2RInterface\WcfServiceForC2RInterface.csproj">
-      <Project>{a2ee53a0-90f5-4a22-bf32-08bfacd7e44d}</Project>
-      <Name>WcfServiceForC2RInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\Shared\Dto\Dto.csproj">
       <Project>{86a00748-2a4e-4180-b04e-0e1f6a62a258}</Project>
@@ -229,18 +221,6 @@
     <ProjectReference Include="..\DataCenterCore\DataCenterCore.csproj">
       <Project>{6ba3ea08-6bdb-4b2d-8729-409e136d4d74}</Project>
       <Name>DataCenterCore</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WcfServiceForClient\WcfServiceForClientInterface.csproj">
-      <Project>{72f6524c-e7ee-4dfd-8ae2-15a4e5225d3b}</Project>
-      <Name>WcfServiceForClientInterface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WcfServiceForRtu\WcfServiceForRtuInterface.csproj">
-      <Project>{ec01dbcb-bd59-4e30-a6c3-f8ddbb6e45f9}</Project>
-      <Name>WcfServiceForRtuInterface</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WcfServiceForWebProxyInterface\WcfServiceForWebProxyInterface.csproj">
-      <Project>{6d964992-e615-48df-9a09-a07194ab3b8d}</Project>
-      <Name>WcfServiceForWebProxyInterface</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
