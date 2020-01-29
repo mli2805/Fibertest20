@@ -34,6 +34,8 @@
         C2DWcfOperationError = 2002,
         D2RWcfConnectionError = 2011,
         D2RWcfOperationError = 2012,
+        C2RWcfConnectionError = 2021,
+        C2RWcfOperationError  = 2022,
 
         DbError = 3000,
         DbInitializedSuccessfully = 3001,

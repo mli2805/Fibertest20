@@ -67,39 +67,39 @@ namespace Iit.Fibertest.WcfServiceForClientInterface
         [OperationContract]
         Task<DiskSpaceDto> GetDiskSpaceGb();
 
-        // C2D2R
-        [OperationContract]
-        Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto rtuAddress);
+//        // C2D2R
+//        [OperationContract]
+//        Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto rtuAddress);
+//
+//        [OperationContract]
+//        Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto);
+//
+//        [OperationContract]
+//        Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto);
+//
+//        [OperationContract]
+//        Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto);
+//
+//        [OperationContract]
+//        Task<bool> StopMonitoringAsync(StopMonitoringDto dto);
+//
+//        [OperationContract]
+//        Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto settings);
+//
+//        [OperationContract]
+//        Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto baseRefs);
+//
+//        [OperationContract]
+//        Task<BaseRefAssignedDto> AssignBaseRefAsyncFromMigrator(AssignBaseRefsDto baseRefs);
 
-        [OperationContract]
-        Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto);
-
-        [OperationContract]
-        Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto);
-
-        [OperationContract]
-        Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto);
-
-        [OperationContract]
-        Task<bool> StopMonitoringAsync(StopMonitoringDto dto);
-
-        [OperationContract]
-        Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto settings);
-
-        [OperationContract]
-        Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto baseRefs);
-
-        [OperationContract]
-        Task<BaseRefAssignedDto> AssignBaseRefAsyncFromMigrator(AssignBaseRefsDto baseRefs);
-
-        [OperationContract]
-        Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto baseRefs);
-
-        [OperationContract]
-        Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto);
-
-        [OperationContract]
-        Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto);
+//        [OperationContract]
+//        Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto baseRefs);
+//
+//        [OperationContract]
+//        Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto);
+//
+//        [OperationContract]
+//        Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto);
 
         // C2D@RtuVeex
     }

@@ -8,7 +8,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WcfServiceForC2RInterface;
 using Iit.Fibertest.WpfCommonViews;
 
 using Microsoft.Win32;
@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
 
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceForC2R _c2RWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly BaseRefDtoFactory _baseRefDtoFactory;
         private readonly BaseRefsChecker _baseRefsChecker;
@@ -113,13 +113,13 @@ namespace Iit.Fibertest.Client
         }
 
         public BaseRefsAssignViewModel(IniFile iniFile, Model readModel, CurrentUser currentUser,
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
+            IWcfServiceForC2R c2RWcfManager, IWindowManager windowManager,
             BaseRefDtoFactory baseRefDtoFactory, BaseRefsChecker baseRefsChecker)
         {
             _iniFile = iniFile;
             _readModel = readModel;
             _currentUser = currentUser;
-            _c2DWcfManager = c2DWcfManager;
+            _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
             _baseRefDtoFactory = baseRefDtoFactory;
             _baseRefsChecker = baseRefsChecker;
@@ -217,7 +217,7 @@ namespace Iit.Fibertest.Client
             if (!_baseRefsChecker.IsBaseRefsAcceptable(dto.BaseRefs, _trace))
                 return false;
 
-            var result = await _c2DWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
+            var result = await _c2RWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
             {
                 var vm = new MyMessageBoxViewModel(MessageType.Error, result.ReturnCode.GetLocalizedString(result.ExceptionMessage));

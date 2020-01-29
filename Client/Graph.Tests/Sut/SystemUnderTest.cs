@@ -10,6 +10,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Iit.Fibertest.WcfServiceForC2RInterface;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -142,6 +143,7 @@ namespace Graph.Tests
 
             // server's
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().InstancePerLifetimeScope();  // server !!!
+            builder.RegisterType<WcfServiceForC2R>().As<IWcfServiceForC2R>().InstancePerLifetimeScope();
             builder.RegisterType<WcfServiceForRtu>().InstancePerLifetimeScope();  // server !!!
             builder.RegisterType<WcfServiceForWebProxy>().InstancePerLifetimeScope();  // server !!!
 
@@ -179,7 +181,10 @@ namespace Graph.Tests
             Container = builder.Build();
             ServerScope = Container.BeginLifetimeScope();
             ClientScope = Container.BeginLifetimeScope(cfg =>
-                cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceForClient>()));
+            {
+                cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceForClient>());
+                cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceForC2R>());
+            });
         }
     }
 }

@@ -27,13 +27,10 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly Model _writeModel;
         private readonly IEventStoreInitializer _eventStoreInitializer;
 
-        private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
-        private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly SorFileRepository _sorFileRepository;
         private readonly SnapshotRepository _snapshotRepository;
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
-        private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly Smtp _smtp;
         private readonly SnmpAgent _snmpAgent;
         private readonly SmsManager _smsManager;
@@ -49,9 +46,8 @@ namespace Iit.Fibertest.DataCenterCore
         public WcfServiceForClient(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
             Model writeModel, IEventStoreInitializer eventStoreInitializer, EventStoreService eventStoreService,
             MeasurementFactory measurementFactory, ClientsCollection clientsCollection, 
-            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter,
             RtuStationsRepository rtuStationsRepository,
-            BaseRefRepairmanIntermediary baseRefRepairmanIntermediary, BaseRefLandmarksTool baseRefLandmarksTool,
+            BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
             SorFileRepository sorFileRepository, SnapshotRepository snapshotRepository,
             Smtp smtp, SnmpAgent snmpAgent, SmsManager smsManager, DiskSpaceProvider diskSpaceProvider, 
             GlobalState globalState, D2CWcfManager d2CWcfManager
@@ -65,13 +61,10 @@ namespace Iit.Fibertest.DataCenterCore
             _eventStoreService = eventStoreService;
             _measurementFactory = measurementFactory;
             _clientsCollection = clientsCollection;
-            _clientToRtuTransmitter = clientToRtuTransmitter;
-            _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
             _rtuStationsRepository = rtuStationsRepository;
             _sorFileRepository = sorFileRepository;
             _snapshotRepository = snapshotRepository;
             _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
-            _baseRefLandmarksTool = baseRefLandmarksTool;
             _smtp = smtp;
             _snmpAgent = snmpAgent;
             _smsManager = smsManager;

@@ -4,6 +4,7 @@ using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WcfServiceForC2RInterface;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -12,6 +13,7 @@ namespace Iit.Fibertest.Client
     public class OtauLeaf : Leaf, IPortOwner
     {
         public IWcfServiceForClient C2DWcfManager { get; }
+        private readonly IWcfServiceForC2R _c2RWcfManager;
         private readonly CurrentUser _currentUser;
         private RtuPartState _otauState;
         public int OwnPortCount { get; set; }
@@ -41,10 +43,11 @@ namespace Iit.Fibertest.Client
         public ChildrenImpresario ChildrenImpresario { get; }
         public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf);
 
-        public OtauLeaf(IWcfServiceForClient c2DWcfManager,
+        public OtauLeaf(IWcfServiceForClient c2DWcfManager, IWcfServiceForC2R c2RWcfManager, 
             CurrentUser currentUser, FreePorts freePorts)
         {
             C2DWcfManager = c2DWcfManager;
+            _c2RWcfManager = c2RWcfManager;
             _currentUser = currentUser;
             ChildrenImpresario = new ChildrenImpresario(freePorts);
         }
@@ -71,7 +74,7 @@ namespace Iit.Fibertest.Client
             var dto = new DetachOtauDto() { OtauId = Id, RtuId = Parent.Id, OpticalPort = MasterPort };
             using (new WaitCursor())
             {
-                var result = await C2DWcfManager.DetachOtauAsync(dto);
+                var result = await _c2RWcfManager.DetachOtauAsync(dto);
                 if (result.IsDetached)
                 {
                     RemoveOtauFromGraph(otauLeaf);

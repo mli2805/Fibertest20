@@ -8,6 +8,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForC2RInterface;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -23,6 +24,7 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceForC2R _c2RWcfManager;
         private readonly IMyLog _logFile;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
 
@@ -54,7 +56,7 @@ namespace Iit.Fibertest.Client
         public bool IsInitializationPermitted => _currentUser.Role <= Role.Root && IsIdle;
 
         public RtuInitializeViewModel(ILifetimeScope globalScope, CurrentUser currentUser, Model readModel,
-            IniFile iniFile, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,
+            IniFile iniFile, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,  IWcfServiceForC2R c2RWcfManager,
             IMyLog logFile, RtuLeaf rtuLeaf, CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
@@ -65,6 +67,7 @@ namespace Iit.Fibertest.Client
             _iniFile = iniFile;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
+            _c2RWcfManager = c2RWcfManager;
             _logFile = logFile;
             _commonStatusBarViewModel = commonStatusBarViewModel;
 
@@ -97,7 +100,7 @@ namespace Iit.Fibertest.Client
                     _commonStatusBarViewModel.StatusBarMessage2 = Resources.SID_RTU_is_being_initialized___;
 
                     var initializeRtuDto = CreateDto(rtuMaker);
-                    var result = await _c2DWcfManager.InitializeRtuAsync(initializeRtuDto);
+                    var result = await _c2RWcfManager.InitializeRtuAsync(initializeRtuDto);
 
                     _commonStatusBarViewModel.StatusBarMessage2 = "";
 

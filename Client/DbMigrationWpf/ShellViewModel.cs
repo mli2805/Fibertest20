@@ -18,6 +18,7 @@ namespace DbMigrationWpf
         private NetAddress _clientAddress;
         private DoubleAddress _serverDoubleAddress;
         private readonly C2DWcfManager _c2DWcfManager;
+        private readonly C2RWcfManager _c2RWcfManager;
         private readonly GraphModel _graphModel = new GraphModel();
 
 
@@ -87,6 +88,7 @@ namespace DbMigrationWpf
             _logFile.AssignFile("migrator.log");
 
             _c2DWcfManager = new C2DWcfManager(_iniFile, _logFile);
+            _c2RWcfManager = new C2RWcfManager(_iniFile, _logFile);
 
             _clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
             if (_clientAddress.Ip4Address == "0.0.0.0")
@@ -102,6 +104,7 @@ namespace DbMigrationWpf
                 _iniFile.WriteServerAddresses(_serverDoubleAddress);
             }
             _c2DWcfManager.SetServerAddresses(_serverDoubleAddress, @"migrator", _clientAddress.Ip4Address);
+            _c2RWcfManager.SetServerAddresses(_serverDoubleAddress, @"migrator", _clientAddress.Ip4Address);
 
             _ft20ServerAddress = _serverDoubleAddress.Main.Ip4Address;
             _ft15ServerAddress = _iniFile.Read(IniSection.Migrator, IniKey.OldFibertestServerIp, "0.0.0.0");
@@ -158,7 +161,7 @@ namespace DbMigrationWpf
 
         public async void Migrate()
         {
-            var migrationManager = new MigrationManager(_logFile, _graphModel, _c2DWcfManager, ProgressLines);
+            var migrationManager = new MigrationManager(_logFile, _graphModel, _c2DWcfManager, _c2RWcfManager, ProgressLines);
             await migrationManager.Migrate(ExportFileName, Ft15ServerAddress, OldMySqlPort, Ft20ServerAddress, NewMySqlPort, HasKadastr);
             File.WriteAllLines(@"..\log\progress.txt", ProgressLines);
         }

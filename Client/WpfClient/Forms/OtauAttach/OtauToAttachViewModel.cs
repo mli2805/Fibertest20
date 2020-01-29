@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WcfServiceForC2RInterface;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -19,6 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceForC2R _c2RWcfManager;
         private readonly IWindowManager _windowManager;
 
         public string RtuTitle { get; set; }
@@ -84,11 +86,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public OtauToAttachViewModel(ILifetimeScope globalScope, Model readModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+        public OtauToAttachViewModel(ILifetimeScope globalScope, Model readModel, 
+            IWcfServiceForClient c2DWcfManager, IWcfServiceForC2R c2RWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
+            _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
         }
 
@@ -159,7 +163,7 @@ namespace Iit.Fibertest.Client
                 OtauAddresses = otauAddress,
                 OpticalPort = _portNumberForAttachment
             };
-            var result = await _c2DWcfManager.AttachOtauAsync(dto);
+            var result = await _c2RWcfManager.AttachOtauAsync(dto);
             return result;
         }
 

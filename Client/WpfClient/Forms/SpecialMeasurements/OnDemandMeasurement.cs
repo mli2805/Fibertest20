@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WcfServiceForC2RInterface;
 
 namespace Iit.Fibertest.Client
 {
@@ -11,13 +11,13 @@ namespace Iit.Fibertest.Client
     {
         private readonly IMyLog _logFile;
         private readonly Model _model;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceForC2R _c2RWcfManager;
 
-        public OnDemandMeasurement(IMyLog logFile, Model model, IWcfServiceForClient c2DWcfManager)
+        public OnDemandMeasurement(IMyLog logFile, Model model, IWcfServiceForC2R c2RWcfManager)
         {
             _logFile = logFile;
             _model = model;
-            _c2DWcfManager = c2DWcfManager;
+            _c2RWcfManager = c2RWcfManager;
         }
 
         public async Task Interrupt(RtuLeaf rtuLeaf, string log)
@@ -32,7 +32,7 @@ namespace Iit.Fibertest.Client
                 RtuAddresses = new DoubleAddress() { Main = rtu.MainChannel, HasReserveAddress = rtu.IsReserveChannelSet, Reserve = rtu.ReserveChannel },
                 ShouldMonitoringBeStopped = false,
             };
-            await _c2DWcfManager.InitializeRtuAsync(dto);
+            await _c2RWcfManager.InitializeRtuAsync(dto);
         }
     }
 }

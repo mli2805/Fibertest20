@@ -7,13 +7,14 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuWcfServiceInterface;
 using Iit.Fibertest.SuperClientWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForC2RInterface;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WcfServiceForRtuInterface;
 using Iit.Fibertest.WcfServiceForWebProxyInterface;
 
 namespace Iit.Fibertest.WcfConnections
 {
-    public sealed class MyClient<T> : ClientBase<T> where T : class
+    public class MyClient<T> : ClientBase<T> where T : class
     {
         public MyClient(Binding binding, EndpointAddress remoteAddress) : base(binding, remoteAddress)
         {
@@ -33,6 +34,7 @@ namespace Iit.Fibertest.WcfConnections
             _logFile = logFile;
         }
 
+     
         public ChannelFactory<IClientWcfService> GetClientChannelFactory()
         {
             try
@@ -64,6 +66,27 @@ namespace Iit.Fibertest.WcfConnections
                 var myClient = new MyClient<IWcfServiceForClient>(
                     CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForClient"))));
+
+                return myClient.ChannelFactory;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine(e.Message);
+                return null;
+            }
+        }
+
+        public ChannelFactory<IWcfServiceForC2R> GetC2RChannelFactory()
+        {
+            try
+            {
+                var netAddress = SelectNetAddressAvailableNow();
+                if (netAddress == null)
+                    return null;
+
+                var myClient = new MyClient<IWcfServiceForC2R>(
+                    CreateDefaultNetTcpBinding(_iniFile),
+                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForC2R"))));
 
                 return myClient.ChannelFactory;
             }

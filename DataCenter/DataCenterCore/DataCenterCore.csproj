@@ -221,11 +221,12 @@
     <Compile Include="GlobalState.cs" />
     <Compile Include="MsmqMessagesProcessor.cs" />
     <Compile Include="Notifications\SnmpNotifier.cs" />
-    <Compile Include="WcfServiceForClient\ClientToRtuTransmitter\ClientToRtuCheckAndInitialize.cs" />
-    <Compile Include="WcfServiceForClient\ClientToRtuTransmitter\ClientToRtuMeasurements.cs" />
-    <Compile Include="WcfServiceForClient\ClientToRtuTransmitter\ClientToRtuOtau.cs" />
-    <Compile Include="WcfServiceForClient\ClientToRtuTransmitter\ClientToRtuStartStop.cs" />
-    <Compile Include="WcfServiceForClient\ClientToRtuTransmitter\ClientToRtuBaseRefs.cs" />
+    <Compile Include="WcfServiceForC2RBootstrapper.cs" />
+    <Compile Include="WcfServiceForC2R\ClientToRtuTransmitter\ClientToRtuCheckAndInitialize.cs" />
+    <Compile Include="WcfServiceForC2R\ClientToRtuTransmitter\ClientToRtuMeasurements.cs" />
+    <Compile Include="WcfServiceForC2R\ClientToRtuTransmitter\ClientToRtuOtau.cs" />
+    <Compile Include="WcfServiceForC2R\ClientToRtuTransmitter\ClientToRtuStartStop.cs" />
+    <Compile Include="WcfServiceForC2R\ClientToRtuTransmitter\ClientToRtuBaseRefs.cs" />
     <Compile Include="DiskSpaceProvider.cs" />
     <Compile Include="MsmqHandler.cs" />
     <Compile Include="NEventStore\MySqlEventStoreInitializer.cs" />
@@ -237,19 +238,19 @@
     <Compile Include="NEventStore\EventStoreService.cs" />
     <Compile Include="LastConnectionTimeChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WcfServiceForClient\IClientToRtuTransmitter.cs" />
-    <Compile Include="WcfServiceForClient\ClientToRtuVeexTransmitter\ClientToRtuVeexTransmitter.cs" />
+    <Compile Include="WcfServiceForC2R\IClientToRtuTransmitter.cs" />
+    <Compile Include="WcfServiceForC2R\ClientToRtuVeexTransmitter\ClientToRtuVeexTransmitter.cs" />
     <Compile Include="WcfServiceForClient\WcfServiceForClient.cs" />
     <Compile Include="WcfServiceForClient\WcfServiceForClientAccidentNotifications.cs" />
     <Compile Include="WcfServiceForClient\WcfServiceForClientDbOptimization.cs" />
-    <Compile Include="WcfServiceForClient\WcfServiceForClientMigrator.cs" />
+    <Compile Include="WcfServiceForC2R\WcfServiceForC2RMigrator.cs" />
     <Compile Include="WcfServiceForClient\WcfServiceForClientRegistration.cs" />
     <Compile Include="WcfServiceForClient\WcfServiceForClientSnapshot.cs" />
-    <Compile Include="WcfServiceForClient\WcfServiceForClientToRtu.cs" />
+    <Compile Include="WcfServiceForC2R\WcfServiceForC2R.cs" />
     <Compile Include="WcfServiceForRtu.cs" />
     <Compile Include="WcfServiceForRtuBootstrapper.cs" />
     <Compile Include="ForWebApi\WcfServiceForWebProxy.cs" />
-    <Compile Include="ForWebApi\WcfServiceForWebProxyBootstrapper.cs" />
+    <Compile Include="WcfServiceForWebProxyBootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -263,6 +264,10 @@
     <ProjectReference Include="..\..\Client\Graph\Graph.csproj">
       <Project>{A734876E-977B-4DDA-B6A4-AD1DD525C6D1}</Project>
       <Name>Graph</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Client\WcfServiceForC2RInterface\WcfServiceForC2RInterface.csproj">
+      <Project>{a2ee53a0-90f5-4a22-bf32-08bfacd7e44d}</Project>
+      <Name>WcfServiceForC2RInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\GMap.NET.Core\GMap.NET.Core.csproj">
       <Project>{d0c39d9d-bed0-418b-9a5e-713176caf40c}</Project>

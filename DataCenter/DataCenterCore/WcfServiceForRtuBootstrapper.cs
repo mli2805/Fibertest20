@@ -36,7 +36,7 @@ namespace Iit.Fibertest.DataCenterCore
                 _host.AddDependencyInjectionBehavior<IWcfServiceForRtu>(_container);
 
                 _host.Open();
-                _logFile.AppendLine("RTU listener started successfully");
+                _logFile.AppendLine($"RTU listener on port {(int)TcpPorts.ServerListenToRtu} started successfully");
             }
             catch (Exception e)
             {

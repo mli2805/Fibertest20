@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WcfServiceForC2RInterface;
 using Iit.Fibertest.WpfCommonViews;
 
 
@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client
         public TraceLeaf TraceLeaf { get; set; }
         public RtuLeaf RtuLeaf { get; set; }
         private readonly OnDemandMeasurement _onDemandMeasurement;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceForC2R _c2RWcfManager;
         private readonly IWindowManager _windowManager;
 
         public bool IsOpen { get; set; }
@@ -44,10 +44,10 @@ namespace Iit.Fibertest.Client
         }
 
         public OutOfTurnPreciseMeasurementViewModel(OnDemandMeasurement onDemandMeasurement, 
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+            IWcfServiceForC2R c2RWcfManager, IWindowManager windowManager)
         {
             _onDemandMeasurement = onDemandMeasurement;
-            _c2DWcfManager = c2DWcfManager;
+            _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
         }
 
@@ -105,7 +105,7 @@ namespace Iit.Fibertest.Client
                     TraceId = TraceLeaf.Id,
                 }
             };
-            return await _c2DWcfManager.DoOutOfTurnPreciseMeasurementAsync(dto);
+            return await _c2RWcfManager.DoOutOfTurnPreciseMeasurementAsync(dto);
         }
 
         public override void CanClose(Action<bool> callback)

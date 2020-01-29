@@ -36,7 +36,7 @@ namespace Iit.Fibertest.DataCenterCore
                 _host.AddDependencyInjectionBehavior<IWcfServiceForWebProxy>(_container);
 
                 _host.Open();
-                _logFile.AppendLine("WebProxy listener started successfully");
+                _logFile.AppendLine($"WebProxy (Web Clients) listener on port {(int)TcpPorts.ServerListenToWebProxy} started successfully");
             }
             catch (Exception e)
             {

@@ -16,8 +16,16 @@ export class RtuMonitoringSettingsDto {
 export class RtuMonitoringPortDto {
   port: string;
   traceId: string;
+  otauPortDto: OtauPortDto;
   traceTitle: string;
   portMonitoringMode: PortMonitoringMode;
   durationOfPreciseBase: number;
   durationOfFastBase: number;
+}
+
+export class OtauPortDto {
+  opticalPort: number;
+  isPortOnMainCharon: boolean;
+  serial: string;
+  otauId: string;
 }

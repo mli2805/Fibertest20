@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DbMigrationWpf.BaseRefMigration;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForC2RInterface;
 using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace DbMigrationWpf
@@ -15,18 +16,21 @@ namespace DbMigrationWpf
         private readonly IMyLog _logFile;
         private readonly GraphModel _graphModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceForC2R _c2RWcfManager;
         private readonly ObservableCollection<string> _lines;
 
         public MigrationManager(IMyLog logFile, GraphModel graphModel, 
-            IWcfServiceForClient c2DWcfManager,  ObservableCollection<string> lines)
+            IWcfServiceForClient c2DWcfManager, IWcfServiceForC2R c2RWcfManager, ObservableCollection<string> lines)
         {
             _logFile = logFile;
             _graphModel = graphModel;
             _c2DWcfManager = c2DWcfManager;
+            _c2RWcfManager = c2RWcfManager;
             _lines = lines;
         }
 
-        public async Task<int> Migrate(string exportFileName, string ft15Address, int oldMySqlPort, string ft20Address, int newMySqlPort, bool hasKadastr)
+        public async Task<int> Migrate(string exportFileName, string ft15Address, 
+            int oldMySqlPort, string ft20Address, int newMySqlPort, bool hasKadastr)
         {
             new GraphFetcher(_logFile, _graphModel, _lines).Fetch(exportFileName);
             _logFile.AppendLine("Graph is fetched");
@@ -69,7 +73,7 @@ namespace DbMigrationWpf
                 var addTraceCommand = _graphModel.AddTraceCommands.First(c => c.TraceId == pair.Value);
                 var rtuGuid = addTraceCommand.RtuId;
                 var assignBaseRefCommand = new TraceBaseFetcher(ft15Address, oldMySqlPort).GetAssignBaseRefsDto(pair.Key, pair.Value, rtuGuid);
-                var result = await _c2DWcfManager.AssignBaseRefAsyncFromMigrator(assignBaseRefCommand);
+                var result = await _c2RWcfManager.AssignBaseRefAsyncFromMigrator(assignBaseRefCommand);
                 if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 {
                     _lines.Add($"Error!!! {addTraceCommand.Title}");

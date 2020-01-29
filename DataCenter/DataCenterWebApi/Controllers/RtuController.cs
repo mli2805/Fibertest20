@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -22,13 +23,18 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         private readonly IMyLog _logFile;
         private readonly WebProxy2DWcfManager _webProxy2DWcfManager;
+        private readonly C2RWcfManager _c2RWcfManager;
 
         public RtuController(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
-            _webProxy2DWcfManager = new WebProxy2DWcfManager(iniFile, logFile);
             var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebProxy);
+            _webProxy2DWcfManager = new WebProxy2DWcfManager(iniFile, logFile);
             _webProxy2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
+            var da = (DoubleAddress)doubleAddress.Clone();
+            da.Main.Port = (int)TcpPorts.ServerListenToC2R;
+            if (da.HasReserveAddress) da.Reserve.Port = (int)TcpPorts.ServerListenToC2R;    _c2RWcfManager = new C2RWcfManager(iniFile, logFile);
+            _c2RWcfManager.SetServerAddresses(da, "webClient", "localhost");
         }
 
         [Authorize]
@@ -146,18 +152,47 @@ namespace Iit.Fibertest.DataCenterWebApi
                 }
                 _logFile.AppendLine(body);
                 var dto = JsonConvert.DeserializeObject<RtuMonitoringSettingsDto>(body);
-                var rtuMonitoringSettingsDto = await _webProxy2DWcfManager.PostRtuMonitoringSettings(User.Identity.Name, rtuGuid, dto);
-                _logFile.AppendLine(rtuMonitoringSettingsDto.ReturnCode.ToString());
-                return rtuMonitoringSettingsDto;
+                var applyDto = Map(rtuGuid, dto);
+                var monitoringSettingsAppliedDto = await _c2RWcfManager.ApplyMonitoringSettingsAsync(applyDto);
+                _logFile.AppendLine($"PostRtuMonitoringSettings: {monitoringSettingsAppliedDto.ReturnCode.ToString()}");
+                return monitoringSettingsAppliedDto;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine($"GetRtuMonitoringSettings: {e.Message}");
+                _logFile.AppendLine($"PostRtuMonitoringSettings: {e.Message}");
                 return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError, ExceptionMessage = e.Message };
             }
         }
 
-      
+        private ApplyMonitoringSettingsDto Map(Guid rtuId, RtuMonitoringSettingsDto dto)
+        {
+            var applyMonitoringSettingsDto = new ApplyMonitoringSettingsDto()
+            {
+                RtuId = rtuId,
+                IsMonitoringOn = dto.MonitoringMode == MonitoringState.On,
+
+                Timespans = new MonitoringTimespansDto()
+                {
+                    FastSave = dto.FastSave.GetTimeSpan(),
+                    PreciseMeas = dto.PreciseMeas.GetTimeSpan(),
+                    PreciseSave = dto.PreciseSave.GetTimeSpan(),
+                },
+
+                Ports = new List<PortWithTraceDto>(),
+            };
+            foreach (var line in dto.Lines.Where(l => l.PortMonitoringMode == PortMonitoringMode.On))
+            {
+                var traceGuid = Guid.Parse(line.TraceId);
+                var portWithTraceDto = new PortWithTraceDto()
+                {
+                    TraceId = traceGuid,
+                    OtauPort = line.OtauPortDto,
+                };
+                applyMonitoringSettingsDto.Ports.Add(portWithTraceDto);
+            }
+
+            return applyMonitoringSettingsDto;
+        }
 
     }
 }

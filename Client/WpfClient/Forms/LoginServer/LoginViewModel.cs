@@ -7,6 +7,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForC2RInterface;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -19,6 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceForC2R _c2RWcfManager;
         private readonly CurrentUser _currentUser;
         private readonly CurrentGis _currentGis;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
@@ -52,7 +54,7 @@ namespace Iit.Fibertest.Client
         public bool IsRegistrationSuccessful { get; set; }
 
         public LoginViewModel(ILifetimeScope globalScope, IWindowManager windowManager, IniFile iniFile, IMyLog logFile,
-            IWcfServiceForClient c2DWcfManager, CurrentUser currentUser, CurrentGis currentGis,
+            IWcfServiceForClient c2DWcfManager, IWcfServiceForC2R c2RWcfManager,  CurrentUser currentUser, CurrentGis currentGis,
             CurrentDatacenterParameters currentDatacenterParameters)
         {
             _globalScope = globalScope;
@@ -60,6 +62,7 @@ namespace Iit.Fibertest.Client
             _iniFile = iniFile;
             _logFile = logFile;
             _c2DWcfManager = c2DWcfManager;
+            _c2RWcfManager = c2RWcfManager;
             _currentUser = currentUser;
             _currentGis = currentGis;
             _currentDatacenterParameters = currentDatacenterParameters;
@@ -122,6 +125,10 @@ namespace Iit.Fibertest.Client
             }
 
             _c2DWcfManager.SetServerAddresses(dcServiceAddresses, username, clientAddress.Ip4Address);
+            var da = (DoubleAddress)dcServiceAddresses.Clone();
+            da.Main.Port = (int)TcpPorts.ServerListenToC2R;
+            if (da.HasReserveAddress) da.Reserve.Port = (int)TcpPorts.ServerListenToC2R;
+            _c2RWcfManager.SetServerAddresses(da, username, clientAddress.Ip4Address);
 
             var result = await _c2DWcfManager.RegisterClientAsync(
                 new RegisterClientDto()

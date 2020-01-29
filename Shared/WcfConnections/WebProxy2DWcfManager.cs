@@ -143,27 +143,6 @@ namespace Iit.Fibertest.WcfConnections
                 return null;
             }
         }
-
-        public async Task<MonitoringSettingsAppliedDto> PostRtuMonitoringSettings(string username, Guid id, RtuMonitoringSettingsDto dto)
-        {
-            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
-            if (wcfConnection == null)
-                return null;
-
-            try
-            {
-                var channel = wcfConnection.CreateChannel();
-                var result = await channel.PostRtuMonitoringSettings(username, id, dto);
-                wcfConnection.Close();
-                return result;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("PostRtuMonitoringSettings: " + e.Message);
-                return null;
-            }
-        }
-
         #endregion
 
         #region Trace

@@ -1,14 +1,46 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ServiceModel;
 using System.Threading.Tasks;
+using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForC2RInterface;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public partial class WcfServiceForClient
+    [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
+    public partial class WcfServiceForC2R : IWcfServiceForC2R
     {
+        private readonly IMyLog _logFile;
+        private readonly SorFileRepository _sorFileRepository;
+        private readonly EventStoreService _eventStoreService;
+        private readonly ClientsCollection _clientsCollection;
+        private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
+        private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
+        private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
+
+        public WcfServiceForC2R(IMyLog logFile, SorFileRepository sorFileRepository, 
+            EventStoreService eventStoreService, ClientsCollection clientsCollection,
+            BaseRefLandmarksTool baseRefLandmarksTool,
+            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter
+            )
+        {
+            _logFile = logFile;
+            _sorFileRepository = sorFileRepository;
+            _eventStoreService = eventStoreService;
+            _clientsCollection = clientsCollection;
+            _baseRefLandmarksTool = baseRefLandmarksTool;
+            _clientToRtuTransmitter = clientToRtuTransmitter;
+            _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
+        }
+
+        public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
+        {
+        }
+
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
             return await _clientToRtuTransmitter.CheckRtuConnection(dto);
@@ -18,7 +50,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             return dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.InitializeAsync(dto)
-                : await Task.Factory.StartNew(()=> _clientToRtuVeexTransmitter.InitializeAsync(dto).Result);
+                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.InitializeAsync(dto).Result);
         }
 
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
@@ -35,14 +67,43 @@ namespace Iit.Fibertest.DataCenterCore
         {
             return dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.StopMonitoringAsync(dto)
-                : await Task.Factory.StartNew(()=> _clientToRtuVeexTransmitter.StopMonitoringAsync(dto).Result);
+                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.StopMonitoringAsync(dto).Result);
         }
 
         public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
-            return dto.RtuMaker == RtuMaker.IIT
+            var resultFromRtu = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.ApplyMonitoringSettingsAsync(dto)
-                : await Task.Factory.StartNew(()=> _clientToRtuVeexTransmitter.ApplyMonitoringSettingsAsync(dto).Result);
+                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.ApplyMonitoringSettingsAsync(dto).Result);
+
+            if (resultFromRtu.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
+            {
+                var clientStation = _clientsCollection.GetClientStation(dto.ClientId);
+                var cmd = new ChangeMonitoringSettings()
+                {
+                    RtuId = dto.RtuId,
+                    PreciseMeas = dto.Timespans.PreciseMeas.GetFrequency(),
+                    PreciseSave = dto.Timespans.PreciseSave.GetFrequency(),
+                    FastSave = dto.Timespans.FastSave.GetFrequency(),
+                    TracesInMonitoringCycle = dto.Ports.Select(p => p.TraceId).ToList(),
+                    IsMonitoringOn = dto.IsMonitoringOn,
+                };
+
+                var resultFromEventStore = await _eventStoreService.SendCommand(cmd,
+                    clientStation.UserName, clientStation.ClientAddress);
+
+                if (!string.IsNullOrEmpty(resultFromEventStore))
+                {
+                    return new MonitoringSettingsAppliedDto()
+                    {
+                        ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError,
+                        ExceptionMessage = resultFromEventStore
+                    };
+                }
+            }
+
+
+            return resultFromRtu;
         }
 
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
@@ -50,14 +111,14 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace {dto.TraceId.First6()}");
             var result = await SaveChangesOnServer(dto);
             if (!string.IsNullOrEmpty(result))
-                return new BaseRefAssignedDto() {ReturnCode = ReturnCode.BaseRefAssignmentFailed };
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentFailed };
 
             if (dto.OtauPortDto == null) // unattached trace
                 return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
 
             return dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto)
-                : await Task.Factory.StartNew(()=> _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto).Result);
+                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto).Result);
         }
 
         private async Task<string> SaveChangesOnServer(AssignBaseRefsDto dto)
@@ -105,7 +166,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             return dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(convertedDto)
-                : await Task.Factory.StartNew(()=> _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(convertedDto).Result);
+                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(convertedDto).Result);
         }
 
         private async Task<AssignBaseRefsDto> ConvertToAssignBaseRefsDto(ReSendBaseRefsDto dto)
@@ -139,4 +200,5 @@ namespace Iit.Fibertest.DataCenterCore
             return await _clientToRtuTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto);
         }
     }
+ 
 }

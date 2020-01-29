@@ -20,6 +20,7 @@ namespace Iit.Fibertest.DataCenterService
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
         private readonly SmsSender _smsSender;
         private readonly WcfServiceForClientBootstrapper _wcfServiceForClientBootstrapper;
+        private readonly WcfServiceForC2RBootstrapper _wcfServiceForC2RBootstrapper;
         private readonly WcfServiceForRtuBootstrapper _wcfServiceForRtuBootstrapper;
         private readonly WcfServiceForWebProxyBootstrapper _wcfServiceForWebProxyBootstrapper;
         private readonly IMsmqHandler _msmqHandler;
@@ -28,6 +29,7 @@ namespace Iit.Fibertest.DataCenterService
             EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
             LastConnectionTimeChecker lastConnectionTimeChecker, SmsSender smsSender,
             WcfServiceForClientBootstrapper wcfServiceForClientBootstrapper,
+            WcfServiceForC2RBootstrapper wcfServiceForC2RBootstrapper,
             WcfServiceForRtuBootstrapper wcfServiceForRtuBootstrapper,
             WcfServiceForWebProxyBootstrapper wcfServiceForWebProxyBootstrapper,
             IMsmqHandler msmqHandler)
@@ -41,6 +43,7 @@ namespace Iit.Fibertest.DataCenterService
             _lastConnectionTimeChecker = lastConnectionTimeChecker;
             _smsSender = smsSender;
             _wcfServiceForClientBootstrapper = wcfServiceForClientBootstrapper;
+            _wcfServiceForC2RBootstrapper = wcfServiceForC2RBootstrapper;
             _wcfServiceForRtuBootstrapper = wcfServiceForRtuBootstrapper;
             _wcfServiceForWebProxyBootstrapper = wcfServiceForWebProxyBootstrapper;
             _msmqHandler = msmqHandler;
@@ -72,8 +75,9 @@ namespace Iit.Fibertest.DataCenterService
             await InitializeEventStoreService();
             _lastConnectionTimeChecker.Start();
             _wcfServiceForClientBootstrapper.Start();
-            _wcfServiceForRtuBootstrapper.Start();
             _wcfServiceForWebProxyBootstrapper.Start();
+            _wcfServiceForC2RBootstrapper.Start();
+            _wcfServiceForRtuBootstrapper.Start();
             _msmqHandler.Start();
             _smsSender.Start();
             Console.WriteLine(@"Service initialization done.");

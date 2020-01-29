@@ -6,6 +6,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WcfServiceForC2RInterface;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -17,6 +18,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceForC2R _c2RWcfManager;
         private readonly IWindowManager _windowManager;
         public MonitoringSettingsModel Model { get; set; }
 
@@ -49,12 +51,13 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         }
 
         public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, ILifetimeScope globalScope, CurrentUser currentUser, Model readModel,
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, MonitoringSettingsModelFactory monitoringSettingsModelFactory)
+            IWcfServiceForClient c2DWcfManager, IWcfServiceForC2R c2RWcfManager, IWindowManager windowManager, MonitoringSettingsModelFactory monitoringSettingsModelFactory)
         {
             _globalScope = globalScope;
             IsEditEnabled = currentUser.Role <= Role.Operator;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
+            _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
 
             Model = monitoringSettingsModelFactory.Create(rtuLeaf, IsEditEnabled);
@@ -82,7 +85,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                     IsButtonsEnabled = true;
                     return;
                 }
-                var resultDto = await _c2DWcfManager.ApplyMonitoringSettingsAsync(dto);
+                var resultDto = await _c2RWcfManager.ApplyMonitoringSettingsAsync(dto);
                 if (resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
                 {
                     var cmd = PrepareCommand(dto);
@@ -185,7 +188,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                     });
                 }
 
-                var resultDto = await _c2DWcfManager.ReSendBaseRefAsync(resendBaseRefDto);
+                var resultDto = await _c2RWcfManager.ReSendBaseRefAsync(resendBaseRefDto);
                 if (resultDto.ReturnCode == ReturnCode.BaseRefAssignedSuccessfully)
                     MessageProp = Resources.SID_Base_refs_are_sent_to_RTU;
                 else

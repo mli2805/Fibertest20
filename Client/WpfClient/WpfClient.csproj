@@ -1042,6 +1042,10 @@
       <Project>{b4608f08-3b67-4199-8324-72b55e2ddfaf}</Project>
       <Name>SuperClientWcfServiceInterface</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WcfServiceForC2RInterface\WcfServiceForC2RInterface.csproj">
+      <Project>{a2ee53a0-90f5-4a22-bf32-08bfacd7e44d}</Project>
+      <Name>WcfServiceForC2RInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WpfCommonViews\WpfCommonViews.csproj">
       <Project>{e98e6cc5-94e4-44b7-af5c-7f4f74746467}</Project>
       <Name>WpfCommonViews</Name>

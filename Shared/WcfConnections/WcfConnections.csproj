@@ -72,6 +72,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="C2RWcfManager.cs" />
     <Compile Include="C2SWcfManager.cs" />
     <Compile Include="D2CWcfManager.cs" />
     <Compile Include="D2RWcfManager.cs" />
@@ -90,6 +91,10 @@
     <ProjectReference Include="..\..\Client\SuperClientWcfServiceInterface\SuperClientWcfServiceInterface.csproj">
       <Project>{b4608f08-3b67-4199-8324-72b55e2ddfaf}</Project>
       <Name>SuperClientWcfServiceInterface</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Client\WcfServiceForC2RInterface\WcfServiceForC2RInterface.csproj">
+      <Project>{a2ee53a0-90f5-4a22-bf32-08bfacd7e44d}</Project>
+      <Name>WcfServiceForC2RInterface</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\DataCenter\WcfServiceForClient\WcfServiceForClientInterface.csproj">
       <Project>{72f6524c-e7ee-4dfd-8ae2-15a4e5225d3b}</Project>

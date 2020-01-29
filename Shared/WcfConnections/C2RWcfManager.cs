@@ -1,0 +1,279 @@
+﻿using System;
+using System.Threading.Tasks;
+using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForC2RInterface;
+
+namespace Iit.Fibertest.WcfConnections
+{
+    public class C2RWcfManager : IWcfServiceForC2R
+    {
+        private readonly IniFile _iniFile;
+        private readonly IMyLog _logFile;
+        private readonly Guid _clientId;
+        private string _username;
+        private string _clientIp;
+        private WcfFactory _wcfFactory;
+
+        public C2RWcfManager(IniFile iniFile, IMyLog logFile)
+        {
+            _iniFile = iniFile;
+            _logFile = logFile;
+            Guid.TryParse(iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()), out _clientId);
+        }
+
+        public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
+        {
+            _wcfFactory = new WcfFactory(newServerAddress, _iniFile, _logFile);
+            _username = username;
+            _clientIp = clientIp;
+        }
+
+        public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
+        {
+            _logFile.AppendLine($@"Checking connection with RTU {dto.NetAddress.GetAddress()}");
+            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            if (wcfConnection == null)
+                return new RtuConnectionCheckedDto() { IsConnectionSuccessfull = false };
+
+            try
+            {
+                dto.ClientId = _clientId;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.CheckRtuConnectionAsync(dto);
+                wcfConnection.Close();
+                _logFile.AppendLine(!result.IsConnectionSuccessfull
+                    ? "No RTU connection!"
+                    : $"RTU connected successfully {result.NetAddress.ToStringA()}");
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("CheckRtuConnectionAsync: " + e.Message);
+                return new RtuConnectionCheckedDto() { IsConnectionSuccessfull = false };
+            }
+        }
+
+        public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            if (wcfConnection == null)
+                return new RtuInitializedDto() { IsInitialized = false, ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = "Can't establish connection with DataCenter" };
+
+            try
+            {
+                _logFile.AppendLine($@"Sending command to initialize RTU {dto.RtuId.First6()}");
+                dto.ClientId = _clientId;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.InitializeRtuAsync(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("InitializeRtuAsync: " + e.Message);
+                return new RtuInitializedDto() { IsInitialized = false, ReturnCode = ReturnCode.C2RWcfOperationError, ErrorMessage = e.Message };
+            }
+        }
+
+        public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            if (wcfConnection == null)
+                return new OtauAttachedDto() { IsAttached = false, ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = "Can't establish connection with DataCenter" };
+
+            try
+            {
+                _logFile.AppendLine($@"Sending command to attach OTAU {dto.OtauId.First6()}");
+                dto.ClientId = _clientId;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.AttachOtauAsync(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("AttachOtauAsync: " + e.Message);
+                return new OtauAttachedDto() { IsAttached = false, ReturnCode = ReturnCode.C2RWcfOperationError, ErrorMessage = e.Message };
+            }
+        }
+
+        public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            if (wcfConnection == null)
+                return new OtauDetachedDto() { IsDetached = false, ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = "Can't establish connection with DataCenter" };
+
+            try
+            {
+                _logFile.AppendLine($@"Sending command to detach OTAU {dto.OtauId.First6()}");
+                dto.ClientId = _clientId;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.DetachOtauAsync(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("DetachOtauAsync: " + e.Message);
+                return new OtauDetachedDto() { IsDetached = false, ReturnCode = ReturnCode.C2RWcfOperationError, ErrorMessage = e.Message };
+            }
+        }
+
+        public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            if (wcfConnection == null)
+                return false;
+
+            try
+            {
+                _logFile.AppendLine($@"Sending command to stop monitoring on RTU {dto.RtuId.First6()}");
+                dto.ClientId = _clientId;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.StopMonitoringAsync(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("StopMonitoringAsync: " + e.Message);
+                return false;
+            }
+        }
+
+        public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            if (wcfConnection == null)
+                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
+
+            try
+            {
+                _logFile.AppendLine($@"Sending monitoring settings to RTU {dto.RtuId.First6()}");
+                dto.ClientId = _clientId;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.ApplyMonitoringSettingsAsync(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("ApplyMonitoringSettingsAsync: " + e.Message);
+                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ExceptionMessage = e.Message };
+            }
+        }
+
+        public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            if (wcfConnection == null)
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
+
+            try
+            {
+                _logFile.AppendLine($@"Sending base ref for trace {dto.TraceId.First6()}...");
+                dto.ClientId = _clientId;
+                dto.Username = _username;
+                dto.ClientIp = _clientIp;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.AssignBaseRefAsync(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("AssignBaseRefAsync: " + e.Message);
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ExceptionMessage = e.Message };
+            }
+        }
+
+        public async Task<BaseRefAssignedDto> AssignBaseRefAsyncFromMigrator(AssignBaseRefsDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            if (wcfConnection == null)
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
+
+            try
+            {
+                _logFile.AppendLine($@"Sending base ref for trace {dto.TraceId.First6()}...");
+                dto.ClientId = _clientId;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.AssignBaseRefAsyncFromMigrator(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("AssignBaseRefAsyncFromMigrator: " + e.Message);
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ExceptionMessage = e.Message };
+            }
+        }
+
+        public async Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            if (wcfConnection == null)
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
+
+            try
+            {
+                _logFile.AppendLine($@"Re-Sending base ref to RTU {dto.RtuId.First6()}");
+                dto.ClientId = _clientId;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.ReSendBaseRefAsync(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("ReSendBaseRefAsync: " + e.Message);
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ExceptionMessage = e.Message };
+            }
+        }
+
+        public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            if (wcfConnection == null)
+                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
+
+            try
+            {
+                _logFile.AppendLine($@"Sending command to do client's measurement on RTU {dto.RtuId.First6()}");
+                dto.ClientId = _clientId;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.DoClientMeasurementAsync(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("DoClientMeasuremenTask:" + e.Message);
+                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ExceptionMessage = e.Message };
+            }
+        }
+
+        public async Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            if (wcfConnection == null)
+                return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
+
+            try
+            {
+                _logFile.AppendLine($@"Sending command to do out of turn precise measurement on RTU {dto.RtuId.First6()}");
+                dto.ClientId = _clientId;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.DoOutOfTurnPreciseMeasurementAsync(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("DoOutOfTurnPreciseMeasurement:" + e.Message);
+                return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ExceptionMessage = e.Message };
+            }
+        }
+    }
+}

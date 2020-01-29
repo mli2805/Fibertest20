@@ -9,6 +9,7 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Iit.Fibertest.WcfServiceForC2RInterface;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WcfServiceForRtuInterface;
 using Iit.Fibertest.WcfServiceForWebProxyInterface;
@@ -72,6 +73,8 @@ namespace Iit.Fibertest.DataCenterService
 
             builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().SingleInstance();
             builder.RegisterType<WcfServiceForClientBootstrapper>().SingleInstance();
+            builder.RegisterType<WcfServiceForC2R>().As<IWcfServiceForC2R>().SingleInstance();
+            builder.RegisterType<WcfServiceForC2RBootstrapper>().SingleInstance();
             builder.RegisterType<WcfServiceForRtu>().As<IWcfServiceForRtu>().SingleInstance();
             builder.RegisterType<WcfServiceForRtuBootstrapper>().SingleInstance();
             builder.RegisterType<WcfServiceForWebProxy>().As<IWcfServiceForWebProxy>().SingleInstance();

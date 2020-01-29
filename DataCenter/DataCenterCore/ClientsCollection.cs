@@ -191,5 +191,10 @@ namespace Iit.Fibertest.DataCenterCore
                 ? null
                 : new List<DoubleAddress>() { new DoubleAddress() { Main = new NetAddress(client.ClientAddress, client.ClientAddressPort) } };
         }
+
+        public ClientStation GetClientStation(Guid clientId)
+        {
+            return _clients.FirstOrDefault(c => c.ClientGuid == clientId);
+        }
     }
 }

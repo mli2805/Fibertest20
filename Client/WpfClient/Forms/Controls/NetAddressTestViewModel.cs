@@ -4,6 +4,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
+using Iit.Fibertest.WcfServiceForC2RInterface;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -15,6 +16,7 @@ namespace Iit.Fibertest.Client
         private readonly CurrentUser _currentUser;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceForC2R _c2RWcfManager;
         private readonly NetAddressForConnectionTest _netAddressForConnectionTest;
         private bool? _result;
         private NetAddressInputViewModel _netAddressInputViewModel;
@@ -44,12 +46,13 @@ namespace Iit.Fibertest.Client
         }
 
         public NetAddressTestViewModel(ILifetimeScope globalScope, CurrentUser currentUser, IWindowManager windowManager,
-            IWcfServiceForClient c2DWcfManager, NetAddressForConnectionTest netAddressForConnectionTest)
+            IWcfServiceForClient c2DWcfManager, IWcfServiceForC2R c2RWcfManager, NetAddressForConnectionTest netAddressForConnectionTest)
         {
             _globalScope = globalScope;
             _currentUser = currentUser;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
+            _c2RWcfManager = c2RWcfManager;
             _netAddressForConnectionTest = netAddressForConnectionTest;
             NetAddressInputViewModel = new NetAddressInputViewModel(netAddressForConnectionTest.Address, currentUser.Role <= Role.Root);
             IsButtonEnabled = currentUser.Role <= Role.Operator;
@@ -102,7 +105,7 @@ namespace Iit.Fibertest.Client
                 {
                     NetAddress = (NetAddress)NetAddressInputViewModel.GetNetAddress().Clone()
                 };
-                var resultDto = await _c2DWcfManager.CheckRtuConnectionAsync(dto);
+                var resultDto = await _c2RWcfManager.CheckRtuConnectionAsync(dto);
                 if (resultDto.IsConnectionSuccessfull && dto.NetAddress.Port == -1)
                 {
                     NetAddressInputViewModel = new NetAddressInputViewModel(resultDto.NetAddress, _currentUser.Role <= Role.Root);

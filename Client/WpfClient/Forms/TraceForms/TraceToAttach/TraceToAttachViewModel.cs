@@ -4,6 +4,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WcfServiceForC2RInterface;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -14,6 +15,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly Model _readModel;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceForC2R _c2RWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly CurrentUser _currentUser;
         private OtauPortDto _otauPortDto;
@@ -45,11 +47,12 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceToAttachViewModel(Model readModel, IWcfServiceForClient c2DWcfManager,
+        public TraceToAttachViewModel(Model readModel, IWcfServiceForClient c2DWcfManager, IWcfServiceForC2R c2RWcfManager,
             IWindowManager windowManager, CurrentUser currentUser)
         {
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
+            _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
             _currentUser = currentUser;
         }
@@ -95,7 +98,7 @@ namespace Iit.Fibertest.Client
 
             if (cmd.BaseRefDtos.Any())
             {
-                var result = await _c2DWcfManager.ReSendBaseRefAsync(cmd);
+                var result = await _c2RWcfManager.ReSendBaseRefAsync(cmd);
                 if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 {
                     _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error,

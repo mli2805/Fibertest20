@@ -3,7 +3,6 @@ using System.ServiceModel;
 using System.Threading;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WcfServiceForRtuInterface;
@@ -19,11 +18,8 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly D2CWcfManager _d2CWcfManager;
         private readonly GlobalState _globalState;
 
-        public WcfServiceForRtu(IMyLog logFile, Model writeModel, ClientsCollection clientsCollection,
-            RtuStationsRepository rtuStationsRepository,
-            D2CWcfManager d2CWcfManager
-            , GlobalState globalState
-            )
+        public WcfServiceForRtu(IMyLog logFile, ClientsCollection clientsCollection,
+            RtuStationsRepository rtuStationsRepository, D2CWcfManager d2CWcfManager, GlobalState globalState)
         {
             _logFile = logFile;
             _clientsCollection = clientsCollection;

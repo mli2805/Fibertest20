@@ -867,6 +867,10 @@
       <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
       <Name>Graph</Name>
     </ProjectReference>
+    <ProjectReference Include="..\WcfServiceForC2RInterface\WcfServiceForC2RInterface.csproj">
+      <Project>{a2ee53a0-90f5-4a22-bf32-08bfacd7e44d}</Project>
+      <Name>WcfServiceForC2RInterface</Name>
+    </ProjectReference>
     <ProjectReference Include="..\WpfClient\WpfClient.csproj">
       <Project>{0a6dfc12-dc4a-4c44-923f-cee3dd6b3521}</Project>
       <Name>WpfClient</Name>

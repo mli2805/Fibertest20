@@ -7,7 +7,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WcfServiceForC2RInterface;
 using Iit.Fibertest.WpfCommonViews;
 
 
@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
         private readonly OnDemandMeasurement _onDemandMeasurement;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceForC2R _c2RWcfManager;
         private readonly IWindowManager _windowManager;
         public RtuLeaf RtuLeaf { get; set; }
         private DoClientMeasurementDto _dto;
@@ -50,12 +50,12 @@ namespace Iit.Fibertest.Client
         }
 
         public ClientMeasurementViewModel(ILifetimeScope globalScope, IMyLog logFile, OnDemandMeasurement onDemandMeasurement,
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+            IWcfServiceForC2R c2RWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _logFile = logFile;
             _onDemandMeasurement = onDemandMeasurement;
-            _c2DWcfManager = c2DWcfManager;
+            _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
         }
 
@@ -112,7 +112,7 @@ namespace Iit.Fibertest.Client
         private async Task<ClientMeasurementStartedDto> StartRequestedMeasurement()
         {
             Message = Resources.SID_Sending_command__Wait_please___;
-            return await _c2DWcfManager.DoClientMeasurementAsync(_dto);
+            return await _c2RWcfManager.DoClientMeasurementAsync(_dto);
         }
 
         public void ShowReflectogram(byte[] sorBytes)

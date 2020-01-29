@@ -8,6 +8,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfServiceForC2RInterface;
 using Iit.Fibertest.WcfServiceForClientInterface;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -22,13 +23,15 @@ namespace Iit.Fibertest.Client
         private readonly GraphReadModel _graphReadModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceForC2R _c2RWcfManager;
         private readonly RtuRemover _rtuRemover;
         private readonly TabulatorViewModel _tabulatorViewModel;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly LandmarksViewsManager _landmarksViewsManager;
 
         public RtuLeafActions(ILifetimeScope globalScope, IMyLog logFile, Model readModel, GraphReadModel graphReadModel,
-            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, RtuRemover rtuRemover, TabulatorViewModel tabulatorViewModel,
+            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,  IWcfServiceForC2R c2RWcfManager,
+            RtuRemover rtuRemover, TabulatorViewModel tabulatorViewModel,
             RtuStateViewsManager rtuStateViewsManager, LandmarksViewsManager landmarksViewsManager)
         {
             _globalScope = globalScope;
@@ -37,6 +40,7 @@ namespace Iit.Fibertest.Client
             _graphReadModel = graphReadModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
+            _c2RWcfManager = c2RWcfManager;
             _rtuRemover = rtuRemover;
             _tabulatorViewModel = tabulatorViewModel;
             _rtuStateViewsManager = rtuStateViewsManager;
@@ -108,7 +112,7 @@ namespace Iit.Fibertest.Client
             using (new WaitCursor())
             {
                 result =
-                    await _c2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() { RtuId = rtuLeaf.Id, RtuMaker = rtu.RtuMaker });
+                    await _c2RWcfManager.StopMonitoringAsync(new StopMonitoringDto() { RtuId = rtuLeaf.Id, RtuMaker = rtu.RtuMaker });
             }
             _logFile.AppendLine($@"Stop monitoring result - {result}");
             if (result)
@@ -184,7 +188,7 @@ namespace Iit.Fibertest.Client
 
             using (new WaitCursor())
             {
-                var resultDto = await _c2DWcfManager.ApplyMonitoringSettingsAsync(dto);
+                var resultDto = await _c2RWcfManager.ApplyMonitoringSettingsAsync(dto);
                 _logFile.AppendLine($@"Start monitoring result - {resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully}");
                 if (resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
                 {

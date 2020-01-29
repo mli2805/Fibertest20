@@ -21,16 +21,11 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
-        private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
-        private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
-        public WcfServiceForWebProxy(IMyLog logFile, Model writeModel,
-            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
+        public WcfServiceForWebProxy(IMyLog logFile, Model writeModel)
         {
             _logFile = logFile;
             _writeModel = writeModel;
-            _clientToRtuTransmitter = clientToRtuTransmitter;
-            _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
         }
 
         public async Task<UserDto> LoginWebClient(string username, string password)
