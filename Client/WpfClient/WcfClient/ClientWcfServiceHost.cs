@@ -11,13 +11,13 @@ namespace Iit.Fibertest.Client
         private ServiceHost _wcfHost;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private readonly ClientWcfService _clientWcfService;
+        private readonly WcfServiceInClient _wcfServiceInClient;
 
-        public ClientWcfServiceHost(IniFile iniFile, IMyLog logFile, ClientWcfService clientWcfService)
+        public ClientWcfServiceHost(IniFile iniFile, IMyLog logFile, WcfServiceInClient wcfServiceInClient)
         {
             _iniFile = iniFile;
             _logFile = logFile;
-            _clientWcfService = clientWcfService;
+            _wcfServiceInClient = wcfServiceInClient;
         }
 
        
@@ -27,8 +27,8 @@ namespace Iit.Fibertest.Client
             {
                 var clientTcpPort = _iniFile.Read(IniSection.ClientLocalAddress, IniKey.TcpPort, (int)TcpPorts.ClientListenTo);
                 var uri = new Uri(WcfFactory.CombineUriString(@"localhost", clientTcpPort, @"ClientWcfService"));
-                _wcfHost = new ServiceHost(_clientWcfService);
-                _wcfHost.AddServiceEndpoint(typeof(IClientWcfService), WcfFactory.CreateDefaultNetTcpBinding(_iniFile), uri );
+                _wcfHost = new ServiceHost(_wcfServiceInClient);
+                _wcfHost.AddServiceEndpoint(typeof(IWcfServiceInClient), WcfFactory.CreateDefaultNetTcpBinding(_iniFile), uri );
                 _wcfHost.Open();
                 _logFile.AppendLine(@"DataCenter listener started successfully");
             }

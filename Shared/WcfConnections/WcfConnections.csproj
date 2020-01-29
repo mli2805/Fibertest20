@@ -72,22 +72,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="C2RWcfManager.cs" />
+    <Compile Include="CommonC2DWcfManager.cs" />
     <Compile Include="C2SWcfManager.cs" />
     <Compile Include="D2CWcfManager.cs" />
     <Compile Include="D2RWcfManager.cs" />
-    <Compile Include="ID2RWcfManager.cs" />
+    <Compile Include="WcfInterfaces\ID2RWcfManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="R2DWcfManager.cs" />
-    <Compile Include="C2DWcfManager.cs" />
+    <Compile Include="DesktopC2DWcfManager.cs" />
     <Compile Include="WcfFactory.cs" />
-    <Compile Include="WcfInterfaces\IClientWcfService.cs" />
-    <Compile Include="WcfInterfaces\IWcfServiceForC2R.cs" />
-    <Compile Include="WcfInterfaces\IWcfServiceForClient.cs" />
+    <Compile Include="WcfInterfaces\IWcfServiceInClient.cs" />
+    <Compile Include="WcfInterfaces\IWcfServiceCommonC2D.cs" />
+    <Compile Include="WcfInterfaces\IWcfServiceDesktopC2D.cs" />
     <Compile Include="WcfInterfaces\IWcfServiceForRtu.cs" />
-    <Compile Include="WcfInterfaces\IWcfServiceForWebProxy.cs" />
+    <Compile Include="WcfInterfaces\IWcfServiceWebC2D.cs" />
     <Compile Include="WcfInterfaces\IWcfServiceInSuperClient.cs" />
-    <Compile Include="WebProxy2DWcfManager.cs" />
+    <Compile Include="WebC2DWcfManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\RTU\RtuWcfService\RtuWcfServiceInterface.csproj">

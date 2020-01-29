@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Client
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
 
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private bool _isInCreationMode;
 
         public Guid ZoneId { get; set; }
@@ -54,7 +54,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ZoneViewModel(IWcfServiceForClient c2DWcfManager)
+        public ZoneViewModel(IWcfServiceDesktopC2D c2DWcfManager)
         {
             _c2DWcfManager = c2DWcfManager;
         }

@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
         private static readonly JsonSerializerSettings JsonSerializerSettings =
             new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
 
-        private readonly IWcfServiceForClient _wcfConnection;
+        private readonly IWcfServiceDesktopC2D _wcfConnection;
         private readonly IWindowManager _windowManager;
         private readonly Model _readModel;
         private readonly ServerConnectionLostViewModel _serverConnectionLostViewModel;
@@ -60,7 +60,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ClientPoller(IWcfServiceForClient wcfConnection, IDispatcherProvider dispatcherProvider, 
+        public ClientPoller(IWcfServiceDesktopC2D wcfConnection, IDispatcherProvider dispatcherProvider, 
             IWindowManager windowManager, Model readModel,
             ServerConnectionLostViewModel serverConnectionLostViewModel, 
             IWcfServiceInSuperClient c2SWcfManager, SystemState systemState,

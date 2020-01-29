@@ -14,12 +14,12 @@ namespace DbMigrationWpf
     {
         private readonly IMyLog _logFile;
         private readonly GraphModel _graphModel;
-        private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IWcfServiceForC2R _c2RWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly ObservableCollection<string> _lines;
 
         public MigrationManager(IMyLog logFile, GraphModel graphModel, 
-            IWcfServiceForClient c2DWcfManager, IWcfServiceForC2R c2RWcfManager, ObservableCollection<string> lines)
+            IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D c2RWcfManager, ObservableCollection<string> lines)
         {
             _logFile = logFile;
             _graphModel = graphModel;

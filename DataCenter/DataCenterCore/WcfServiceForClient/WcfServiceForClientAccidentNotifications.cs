@@ -6,7 +6,7 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public partial class WcfServiceForClient
+    public partial class WcfServiceDesktopC2D
     {
         public Task<bool> SaveSmtpSettings(SmtpSettingsDto dto)
         {

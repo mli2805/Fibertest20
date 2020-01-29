@@ -15,11 +15,11 @@ namespace Iit.Fibertest.Client
 {
     public class GrmFiberWithNodesRequest
     {
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly Model _model;
         private readonly IWindowManager _windowManager;
 
-        public GrmFiberWithNodesRequest(IWcfServiceForClient c2DWcfManager, Model model, IWindowManager windowManager)
+        public GrmFiberWithNodesRequest(IWcfServiceDesktopC2D c2DWcfManager, Model model, IWindowManager windowManager)
         {
             _c2DWcfManager = c2DWcfManager;
             _model = model;

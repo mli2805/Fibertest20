@@ -5,7 +5,7 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.WcfConnections
 {
-    public class C2RWcfManager : IWcfServiceForC2R
+    public class CommonC2DWcfManager : IWcfServiceCommonC2D
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
@@ -14,7 +14,7 @@ namespace Iit.Fibertest.WcfConnections
         private string _clientIp;
         private WcfFactory _wcfFactory;
 
-        public C2RWcfManager(IniFile iniFile, IMyLog logFile)
+        public CommonC2DWcfManager(IniFile iniFile, IMyLog logFile)
         {
             _iniFile = iniFile;
             _logFile = logFile;

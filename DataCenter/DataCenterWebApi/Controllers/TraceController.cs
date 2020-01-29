@@ -12,14 +12,14 @@ namespace Iit.Fibertest.DataCenterWebApi
     public class TraceController : ControllerBase
     {
         private readonly IMyLog _logFile;
-        private readonly WebProxy2DWcfManager _webProxy2DWcfManager;
+        private readonly WebC2DWcfManager _webC2DWcfManager;
 
         public TraceController(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
-            _webProxy2DWcfManager = new WebProxy2DWcfManager(iniFile, logFile);
+            _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
             var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebProxy);
-            _webProxy2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
+            _webC2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
         }
 
         [Authorize]
@@ -30,7 +30,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"trace id = {id}");
                 var traceGuid = Guid.Parse(id);
-                var traceInformationDto = await _webProxy2DWcfManager.GetTraceInformation(User.Identity.Name, traceGuid);
+                var traceInformationDto = await _webC2DWcfManager.GetTraceInformation(User.Identity.Name, traceGuid);
                 _logFile.AppendLine(traceInformationDto == null
                     ? "Failed to get trace's information"
                     : "Trace information ");
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"trace id = {id}");
                 var traceGuid = Guid.Parse(id);
-                var traceStatisticsDto = await _webProxy2DWcfManager.GetTraceStatistics(User.Identity.Name, traceGuid);
+                var traceStatisticsDto = await _webC2DWcfManager.GetTraceStatistics(User.Identity.Name, traceGuid);
                 _logFile.AppendLine(traceStatisticsDto == null
                     ? "Failed to get trace's statistics"
                     : $"trace has {traceStatisticsDto.BaseRefs.Count} refs and {traceStatisticsDto.Measurements.Count} measurements");

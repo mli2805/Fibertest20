@@ -10,7 +10,7 @@ namespace Graph.Tests
     {
         public static void ApplyDemoLicense(this SystemUnderTest sut)
         {
-            sut.WcfServiceForClient.SendCommandAsObj(new ApplyLicense()
+            sut.WcfServiceDesktopC2D.SendCommandAsObj(new ApplyLicense()
             {
                 LicenseId = Guid.NewGuid(),
                 Owner = @"RtuAtGpsLocationAddedSteps 1 RTU",

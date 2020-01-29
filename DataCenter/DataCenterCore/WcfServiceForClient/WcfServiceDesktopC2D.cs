@@ -14,7 +14,7 @@ using Newtonsoft.Json;
 namespace Iit.Fibertest.DataCenterCore
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
-    public partial class WcfServiceForClient : IWcfServiceForClient
+    public partial class WcfServiceDesktopC2D : IWcfServiceDesktopC2D
     {
         private readonly EventStoreService _eventStoreService;
         private readonly MeasurementFactory _measurementFactory;
@@ -42,7 +42,7 @@ namespace Iit.Fibertest.DataCenterCore
             TypeNameHandling = TypeNameHandling.All
         };
 
-        public WcfServiceForClient(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
+        public WcfServiceDesktopC2D(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
             Model writeModel, IEventStoreInitializer eventStoreInitializer, EventStoreService eventStoreService,
             MeasurementFactory measurementFactory, ClientsCollection clientsCollection, 
             RtuStationsRepository rtuStationsRepository,

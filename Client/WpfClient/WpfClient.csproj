@@ -409,7 +409,7 @@
       <DependentUpon>TraceStateSelectionView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Reports\OpticalEventsReport\OpticalEventsSelectionForm\TraceStateSelectionViewModel.cs" />
-    <Compile Include="WcfClient\ClientWcfService.cs" />
+    <Compile Include="WcfClient\WcfServiceInClient.cs" />
     <Compile Include="Forms\SpecialMeasurements\ClientMeasurementView.xaml.cs">
       <DependentUpon>ClientMeasurementView.xaml</DependentUpon>
     </Compile>

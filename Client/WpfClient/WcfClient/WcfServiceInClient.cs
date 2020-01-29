@@ -12,18 +12,18 @@ using Iit.Fibertest.WpfCommonViews;
 namespace Iit.Fibertest.Client
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.Single)]
-    public class ClientWcfService : IClientWcfService
+    public class WcfServiceInClient : IWcfServiceInClient
     {
         private readonly IMyLog _logFile;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly ClientPoller _clientPoller;
         private readonly ClientMeasurementViewModel _clientMeasurementViewModel;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly WaitViewModel _waitViewModel;
         private readonly IWindowManager _windowManager;
 
-        public ClientWcfService(IMyLog logFile, RtuStateViewsManager rtuStateViewsManager, ClientPoller clientPoller,
-            ClientMeasurementViewModel clientMeasurementViewModel, IWcfServiceForClient c2DWcfManager,
+        public WcfServiceInClient(IMyLog logFile, RtuStateViewsManager rtuStateViewsManager, ClientPoller clientPoller,
+            ClientMeasurementViewModel clientMeasurementViewModel, IWcfServiceDesktopC2D c2DWcfManager,
             WaitViewModel waitViewModel, IWindowManager windowManager)
         {
             _logFile = logFile;

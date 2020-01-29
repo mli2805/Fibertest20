@@ -22,8 +22,8 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly IniFile _iniFile;
         private readonly IWindowManager _windowManager;
-        private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IWcfServiceForC2R _c2RWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IMyLog _logFile;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
 
@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Client
         public bool IsInitializationPermitted => _currentUser.Role <= Role.Root && IsIdle;
 
         public RtuInitializeViewModel(ILifetimeScope globalScope, CurrentUser currentUser, Model readModel,
-            IniFile iniFile, IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,  IWcfServiceForC2R c2RWcfManager,
+            IniFile iniFile, IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager,  IWcfServiceCommonC2D c2RWcfManager,
             IMyLog logFile, RtuLeaf rtuLeaf, CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;

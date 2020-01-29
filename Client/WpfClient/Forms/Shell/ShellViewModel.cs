@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Client
         private readonly IClientWcfServiceHost _host;
         private readonly ILifetimeScope _globalScope;
         private readonly IniFile _iniFile;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWcfServiceInSuperClient _c2SWcfManager;
         private readonly ILocalDbManager _localDbManager;
 
@@ -44,7 +44,7 @@ namespace Iit.Fibertest.Client
 
         public ShellViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, CurrentUser currentUser,
             CurrentDatacenterParameters currentDatacenterParameters, CommandLineParameters commandLineParameters,
-            IClientWcfServiceHost host, IWcfServiceForClient c2DWcfManager, IWcfServiceInSuperClient c2SWcfManager,
+            IClientWcfServiceHost host, IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceInSuperClient c2SWcfManager,
             GraphReadModel graphReadModel, ILocalDbManager localDbManager, IWindowManager windowManager,
             LoginViewModel loginViewModel, StoredEventsLoader storedEventsLoader, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,

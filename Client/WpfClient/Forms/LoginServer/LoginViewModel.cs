@@ -18,8 +18,8 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IWcfServiceForC2R _c2RWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly CurrentUser _currentUser;
         private readonly CurrentGis _currentGis;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
         public bool IsRegistrationSuccessful { get; set; }
 
         public LoginViewModel(ILifetimeScope globalScope, IWindowManager windowManager, IniFile iniFile, IMyLog logFile,
-            IWcfServiceForClient c2DWcfManager, IWcfServiceForC2R c2RWcfManager,  CurrentUser currentUser, CurrentGis currentGis,
+            IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D c2RWcfManager,  CurrentUser currentUser, CurrentGis currentGis,
             CurrentDatacenterParameters currentDatacenterParameters)
         {
             _globalScope = globalScope;

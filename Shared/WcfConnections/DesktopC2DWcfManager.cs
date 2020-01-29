@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace Iit.Fibertest.WcfConnections
 {
-    public class C2DWcfManager : IWcfServiceForClient
+    public class DesktopC2DWcfManager : IWcfServiceDesktopC2D
     {
         private static readonly JsonSerializerSettings JsonSerializerSettings =
             new JsonSerializerSettings
@@ -22,7 +22,7 @@ namespace Iit.Fibertest.WcfConnections
         private string _clientIp;
         private WcfFactory _wcfFactory;
 
-        public C2DWcfManager(IniFile iniFile, IMyLog logFile)
+        public DesktopC2DWcfManager(IniFile iniFile, IMyLog logFile)
         {
             _iniFile = iniFile;
             _logFile = logFile;

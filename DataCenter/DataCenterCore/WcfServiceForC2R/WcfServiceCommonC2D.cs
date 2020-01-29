@@ -12,7 +12,7 @@ using Iit.Fibertest.WcfConnections;
 namespace Iit.Fibertest.DataCenterCore
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
-    public partial class WcfServiceForC2R : IWcfServiceForC2R
+    public partial class WcfServiceCommonC2D : IWcfServiceCommonC2D
     {
         private readonly IMyLog _logFile;
         private readonly SorFileRepository _sorFileRepository;
@@ -22,7 +22,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
-        public WcfServiceForC2R(IMyLog logFile, SorFileRepository sorFileRepository, 
+        public WcfServiceCommonC2D(IMyLog logFile, SorFileRepository sorFileRepository, 
             EventStoreService eventStoreService, ClientsCollection clientsCollection,
             BaseRefLandmarksTool baseRefLandmarksTool,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter

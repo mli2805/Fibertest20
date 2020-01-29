@@ -17,12 +17,12 @@ namespace Iit.Fibertest.Client
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 
         private string _tempSorFile;
 
-        public ReflectogramManager(IniFile iniFile, IMyLog logFile, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+        public ReflectogramManager(IniFile iniFile, IMyLog logFile, IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;

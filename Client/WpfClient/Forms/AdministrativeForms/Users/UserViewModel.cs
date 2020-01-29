@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private bool _isInCreationMode;
 
         private readonly Model _readModel;
@@ -87,7 +87,7 @@ namespace Iit.Fibertest.Client
         public Visibility ChangePasswordVisibility { get; set; }
 
         public UserViewModel(ILifetimeScope globalScope, IWindowManager windowManager,
-            IWcfServiceForClient c2DWcfManager, Model readModel, CurrentUser currentUser)
+            IWcfServiceDesktopC2D c2DWcfManager, Model readModel, CurrentUser currentUser)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;

@@ -69,7 +69,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<SnmpSettingsViewModel>();
             builder.RegisterType<DbOptimizationViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<ChangePasswordViewModel>();
-            builder.RegisterType<ClientWcfService>().InstancePerLifetimeScope();
+            builder.RegisterType<WcfServiceInClient>().InstancePerLifetimeScope();
             builder.RegisterType<ClientWcfServiceHost>().As<IClientWcfServiceHost>().InstancePerLifetimeScope();
 
             builder.RegisterType<WaitCursor>().As<IWaitCursor>();
@@ -154,8 +154,8 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<TraceContentChoiceViewModel>();
             builder.RegisterType<EquipmentOfChoiceModelFactory>().InstancePerLifetimeScope();
-            builder.RegisterType<C2DWcfManager>().AsSelf().As<IWcfServiceForClient>().InstancePerLifetimeScope();
-            builder.RegisterType<C2RWcfManager>().AsSelf().As<IWcfServiceForC2R>().InstancePerLifetimeScope();
+            builder.RegisterType<DesktopC2DWcfManager>().AsSelf().As<IWcfServiceDesktopC2D>().InstancePerLifetimeScope();
+            builder.RegisterType<CommonC2DWcfManager>().AsSelf().As<IWcfServiceCommonC2D>().InstancePerLifetimeScope();
             builder.RegisterType<C2SWcfManager>().AsSelf().As<IWcfServiceInSuperClient>().InstancePerLifetimeScope();
 
             builder.RegisterType<UiDispatcherProvider>().As<IDispatcherProvider>().InstancePerLifetimeScope();

@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 
         private ObservableCollection<Zone> _rows;
@@ -50,7 +50,7 @@ namespace Iit.Fibertest.Client
         public bool IsEnabled { get; set; }
 
         public ZonesViewModel(ILifetimeScope globalScope, Model readModel, EventArrivalNotifier eventArrivalNotifier,
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, CurrentUser currentUser)
+            IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager, CurrentUser currentUser)
         {
             _globalScope = globalScope;
             _readModel = readModel;

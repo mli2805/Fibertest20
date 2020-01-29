@@ -12,7 +12,7 @@ namespace KadastrLoader
             builder.RegisterType<KadastrLoaderViewModel>().As<IShell>();
             builder.RegisterType<WindowManager>().As<IWindowManager>().InstancePerLifetimeScope();
             builder.RegisterType<LogFile>().As<IMyLog>().InstancePerLifetimeScope();
-            builder.RegisterType<C2DWcfManager>().AsSelf().As<IWcfServiceForClient>().InstancePerLifetimeScope();
+            builder.RegisterType<DesktopC2DWcfManager>().AsSelf().As<IWcfServiceDesktopC2D>().InstancePerLifetimeScope();
 
 
             builder.RegisterType<KadastrDbSettings>().SingleInstance();

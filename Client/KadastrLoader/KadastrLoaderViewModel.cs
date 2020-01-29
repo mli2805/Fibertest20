@@ -17,7 +17,7 @@ namespace KadastrLoader
         private readonly LoadedAlready _loadedAlready;
         private readonly KadastrDbProvider _kadastrDbProvider;
         private readonly KadastrFilesParser _kadastrFilesParser;
-        private readonly C2DWcfManager _c2DWcfManager;
+        private readonly DesktopC2DWcfManager _desktopC2DWcfManager;
         public string ServerIp { get; set; }
         public int MySqlPort { get; set; }
 
@@ -74,14 +74,14 @@ namespace KadastrLoader
 
         public KadastrLoaderViewModel(IniFile iniFile, LoadedAlready loadedAlready,
             KadastrDbProvider kadastrDbProvider,
-            KadastrFilesParser kadastrFilesParser, C2DWcfManager c2DWcfManager)
+            KadastrFilesParser kadastrFilesParser, DesktopC2DWcfManager desktopC2DWcfManager)
         {
             _loadedAlready = loadedAlready;
             _kadastrDbProvider = kadastrDbProvider;
             _kadastrFilesParser = kadastrFilesParser;
-            _c2DWcfManager = c2DWcfManager;
+            _desktopC2DWcfManager = desktopC2DWcfManager;
             var serverAddresses = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
-            c2DWcfManager.SetServerAddresses(serverAddresses, "Kadastr", "");
+            desktopC2DWcfManager.SetServerAddresses(serverAddresses, "Kadastr", "");
             ServerIp = serverAddresses.Main.Ip4Address;
             MySqlPort = iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, 33060);
             IsFree = true;
@@ -122,7 +122,7 @@ namespace KadastrLoader
 
         private async Task<bool> CheckDataCenter()
         {
-            var isReady = await _c2DWcfManager.CheckServerConnection(new CheckServerConnectionDto());
+            var isReady = await _desktopC2DWcfManager.CheckServerConnection(new CheckServerConnectionDto());
             if (!isReady)
             {
                 ServerMessage = Resources.SID_DataCenter_connection_failed_;

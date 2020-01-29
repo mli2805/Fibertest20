@@ -35,7 +35,7 @@ namespace Graph.Tests
 
         public AccidentsFromSorExtractor AccidentsFromSorExtractor { get; set; }
         public MsmqMessagesProcessor MsmqMessagesProcessor { get; }
-        public WcfServiceForClient WcfServiceForClient { get; set; }
+        public WcfServiceDesktopC2D WcfServiceDesktopC2D { get; set; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
 
         public const string NewTitleForTest = "New name for old equipment";
@@ -77,7 +77,7 @@ namespace Graph.Tests
             FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
             ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
             ReadModel.Users.Count.Should().Be(5);
-            WcfServiceForClient.SendCommandAsObj(new ApplyLicense()
+            WcfServiceDesktopC2D.SendCommandAsObj(new ApplyLicense()
             {
                 LicenseId = Guid.NewGuid(),
                 Owner = @"SystemUnderText C-tor",
@@ -104,13 +104,13 @@ namespace Graph.Tests
             TreeOfRtuViewModel = ClientScope.Resolve<TreeOfRtuViewModel>();
             AccidentsFromSorExtractor = ClientScope.Resolve<AccidentsFromSorExtractor>();
 
-            WcfServiceForClient = (WcfServiceForClient) ClientScope.Resolve<IWcfServiceForClient>();
+            WcfServiceDesktopC2D = (WcfServiceDesktopC2D) ClientScope.Resolve<IWcfServiceDesktopC2D>();
         }
 
         public void RestartClient()
         {
             ClientScope = Container.BeginLifetimeScope(cfg =>
-                cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceForClient>()));
+                cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceDesktopC2D>()));
             ResolveClientsPartsOnStart();
 
             ReadModel.Nodes.Count.Should().Be(0);
@@ -140,10 +140,10 @@ namespace Graph.Tests
             builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().InstancePerLifetimeScope();  // server!!!
 
             // server's
-            builder.RegisterType<WcfServiceForClient>().As<IWcfServiceForClient>().InstancePerLifetimeScope();  // server !!!
-            builder.RegisterType<WcfServiceForC2R>().As<IWcfServiceForC2R>().InstancePerLifetimeScope();
+            builder.RegisterType<WcfServiceDesktopC2D>().As<IWcfServiceDesktopC2D>().InstancePerLifetimeScope();  // server !!!
+            builder.RegisterType<WcfServiceCommonC2D>().As<IWcfServiceCommonC2D>().InstancePerLifetimeScope();
             builder.RegisterType<WcfServiceForRtu>().InstancePerLifetimeScope();  // server !!!
-            builder.RegisterType<WcfServiceForWebProxy>().InstancePerLifetimeScope();  // server !!!
+            builder.RegisterType<WcfServiceWebC2D>().InstancePerLifetimeScope();  // server !!!
 
             builder.RegisterType<EventsQueue>().InstancePerLifetimeScope();
             builder.RegisterType<EventStoreService>().InstancePerLifetimeScope();
@@ -180,8 +180,8 @@ namespace Graph.Tests
             ServerScope = Container.BeginLifetimeScope();
             ClientScope = Container.BeginLifetimeScope(cfg =>
             {
-                cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceForClient>());
-                cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceForC2R>());
+                cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceDesktopC2D>());
+                cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceCommonC2D>());
             });
         }
     }

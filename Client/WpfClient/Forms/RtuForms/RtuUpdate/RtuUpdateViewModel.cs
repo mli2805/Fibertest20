@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
         private readonly GraphReadModel _graphReadModel;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private bool _isInCreationMode;
 
@@ -83,7 +83,7 @@ namespace Iit.Fibertest.Client
 
         public RtuUpdateViewModel(ILifetimeScope globalScope, CurrentUser currentUser, CurrentGis currentGis,
             Model readModel, GraphReadModel graphReadModel, 
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+            IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _readModel = readModel;

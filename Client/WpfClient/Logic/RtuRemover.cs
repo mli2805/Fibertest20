@@ -11,9 +11,9 @@ namespace Iit.Fibertest.Client
     public class RtuRemover
     {
         private readonly IWindowManager _windowManager;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
 
-        public RtuRemover(IWindowManager windowManager, IWcfServiceForClient c2DWcfManager)
+        public RtuRemover(IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager)
         {
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;

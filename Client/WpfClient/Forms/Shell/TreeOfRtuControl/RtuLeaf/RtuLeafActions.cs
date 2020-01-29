@@ -21,15 +21,15 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly GraphReadModel _graphReadModel;
         private readonly IWindowManager _windowManager;
-        private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IWcfServiceForC2R _c2RWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly RtuRemover _rtuRemover;
         private readonly TabulatorViewModel _tabulatorViewModel;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly LandmarksViewsManager _landmarksViewsManager;
 
         public RtuLeafActions(ILifetimeScope globalScope, IMyLog logFile, Model readModel, GraphReadModel graphReadModel,
-            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager,  IWcfServiceForC2R c2RWcfManager,
+            IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager,  IWcfServiceCommonC2D c2RWcfManager,
             RtuRemover rtuRemover, TabulatorViewModel tabulatorViewModel,
             RtuStateViewsManager rtuStateViewsManager, LandmarksViewsManager landmarksViewsManager)
         {

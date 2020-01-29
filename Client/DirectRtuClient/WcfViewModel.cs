@@ -18,7 +18,7 @@ namespace DirectRtuClient
 
         private readonly string _username;
         private readonly Guid _clientId;
-        private readonly C2DWcfManager _c2DWcfManager;
+        private readonly DesktopC2DWcfManager _desktopC2DWcfManager;
 
         private int _currentEventsCount;
 
@@ -37,9 +37,9 @@ namespace DirectRtuClient
             Guid.TryParse(iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()), out _clientId);
             _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
             ServerAddress = _serverDoubleAddress.Main.Ip4Address;
-            _c2DWcfManager = new C2DWcfManager(_iniFile, _logFile);
+            _desktopC2DWcfManager = new DesktopC2DWcfManager(_iniFile, _logFile);
             var clientAddresses = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
-            _c2DWcfManager.SetServerAddresses(new DoubleAddress() { Main = new NetAddress(ServerAddress, TcpPorts.ServerListenToClient) }, _username, clientAddresses.Ip4Address);
+            _desktopC2DWcfManager.SetServerAddresses(new DoubleAddress() { Main = new NetAddress(ServerAddress, TcpPorts.ServerListenToClient) }, _username, clientAddresses.Ip4Address);
         }
 
         protected override void OnViewLoaded(object view)
@@ -79,7 +79,7 @@ namespace DirectRtuClient
         {
             try
             {
-                var events = await _c2DWcfManager.GetEvents(new GetEventsDto() { Revision = currentEventsCount });
+                var events = await _desktopC2DWcfManager.GetEvents(new GetEventsDto() { Revision = currentEventsCount });
                 if (events.Length > 0)
                 {
                     MessageBox.Show($@"{events.Length} events received");
@@ -105,7 +105,7 @@ namespace DirectRtuClient
 
             try
             {
-                var result = await _c2DWcfManager.RegisterClientAsync(dto);
+                var result = await _desktopC2DWcfManager.RegisterClientAsync(dto);
                 if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
                 {
                     MessageBox.Show(@"Error! Check log files");
@@ -134,7 +134,7 @@ namespace DirectRtuClient
             try
             {
                 var dto = new UnRegisterClientDto() { ClientId = _clientId };
-                await _c2DWcfManager.UnregisterClientAsync(dto);
+                await _desktopC2DWcfManager.UnregisterClientAsync(dto);
             }
             catch (Exception e)
             {

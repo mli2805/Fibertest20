@@ -13,8 +13,8 @@ namespace Iit.Fibertest.Client
     public class TraceToAttachViewModel : Screen
     {
         private readonly Model _readModel;
-        private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IWcfServiceForC2R _c2RWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly CurrentUser _currentUser;
         private OtauPortDto _otauPortDto;
@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceToAttachViewModel(Model readModel, IWcfServiceForClient c2DWcfManager, IWcfServiceForC2R c2RWcfManager,
+        public TraceToAttachViewModel(Model readModel, IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D c2RWcfManager,
             IWindowManager windowManager, CurrentUser currentUser)
         {
             _readModel = readModel;

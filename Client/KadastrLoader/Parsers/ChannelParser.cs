@@ -10,12 +10,12 @@ namespace KadastrLoader
 {
     public class ChannelParser
     {
-        private readonly C2DWcfManager _c2DWcfManager;
+        private readonly DesktopC2DWcfManager _desktopC2DWcfManager;
         private readonly LoadedAlready _loadedAlready;
 
-        public ChannelParser(C2DWcfManager c2DWcfManager, LoadedAlready loadedAlready)
+        public ChannelParser(DesktopC2DWcfManager desktopC2DWcfManager, LoadedAlready loadedAlready)
         {
-            _c2DWcfManager = c2DWcfManager;
+            _desktopC2DWcfManager = desktopC2DWcfManager;
             _loadedAlready = loadedAlready;
         }
 
@@ -39,7 +39,7 @@ namespace KadastrLoader
             if (fields.Length < 4) return "invalid line";
 
             var cmd = CreateFiberCmd(fields);
-            return cmd == null ? "invalid line" : _c2DWcfManager.SendCommandAsObj(cmd).Result;
+            return cmd == null ? "invalid line" : _desktopC2DWcfManager.SendCommandAsObj(cmd).Result;
         }
 
         private AddFiber CreateFiberCmd(string[] parts)

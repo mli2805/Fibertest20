@@ -16,8 +16,8 @@ namespace Iit.Fibertest.Client.MonitoringSettings
     {
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
-        private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IWcfServiceForC2R _c2RWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
         public MonitoringSettingsModel Model { get; set; }
 
@@ -50,7 +50,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         }
 
         public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, ILifetimeScope globalScope, CurrentUser currentUser, Model readModel,
-            IWcfServiceForClient c2DWcfManager, IWcfServiceForC2R c2RWcfManager, IWindowManager windowManager, MonitoringSettingsModelFactory monitoringSettingsModelFactory)
+            IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager, MonitoringSettingsModelFactory monitoringSettingsModelFactory)
         {
             _globalScope = globalScope;
             IsEditEnabled = currentUser.Role <= Role.Operator;

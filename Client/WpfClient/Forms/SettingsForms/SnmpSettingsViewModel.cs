@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Client
     public class SnmpSettingsViewModel : Screen
     {
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 
         public bool IsSnmpOn { get; set; }
@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Client
         public bool IsEditEnabled { get; set; }
       
         public SnmpSettingsViewModel(CurrentDatacenterParameters currentDatacenterParameters, CurrentUser currentUser,
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+            IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)
         {
             _currentDatacenterParameters = currentDatacenterParameters;
             IsEditEnabled = currentUser.Role <= Role.Root;

@@ -240,16 +240,16 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WcfServiceForC2R\IClientToRtuTransmitter.cs" />
     <Compile Include="WcfServiceForC2R\ClientToRtuVeexTransmitter\ClientToRtuVeexTransmitter.cs" />
-    <Compile Include="WcfServiceForClient\WcfServiceForClient.cs" />
+    <Compile Include="WcfServiceForClient\WcfServiceDesktopC2D.cs" />
     <Compile Include="WcfServiceForClient\WcfServiceForClientAccidentNotifications.cs" />
     <Compile Include="WcfServiceForClient\WcfServiceForClientDbOptimization.cs" />
     <Compile Include="WcfServiceForC2R\WcfServiceForC2RMigrator.cs" />
     <Compile Include="WcfServiceForClient\WcfServiceForClientRegistration.cs" />
     <Compile Include="WcfServiceForClient\WcfServiceForClientSnapshot.cs" />
-    <Compile Include="WcfServiceForC2R\WcfServiceForC2R.cs" />
+    <Compile Include="WcfServiceForC2R\WcfServiceCommonC2D.cs" />
     <Compile Include="WcfServiceForRtu.cs" />
     <Compile Include="WcfServiceForRtuBootstrapper.cs" />
-    <Compile Include="ForWebApi\WcfServiceForWebProxy.cs" />
+    <Compile Include="ForWebApi\WcfServiceWebC2D.cs" />
     <Compile Include="WcfServiceForWebProxyBootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>

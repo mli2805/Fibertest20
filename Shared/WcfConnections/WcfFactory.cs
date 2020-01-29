@@ -29,7 +29,7 @@ namespace Iit.Fibertest.WcfConnections
         }
 
      
-        public ChannelFactory<IClientWcfService> GetClientChannelFactory()
+        public ChannelFactory<IWcfServiceInClient> GetClientChannelFactory()
         {
             try
             {
@@ -37,7 +37,7 @@ namespace Iit.Fibertest.WcfConnections
                 if (netAddress == null)
                     return null;
 
-                var myClient = new MyClient<IClientWcfService>(
+                var myClient = new MyClient<IWcfServiceInClient>(
                     CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"ClientWcfService"))));
                 return myClient.ChannelFactory;
@@ -49,7 +49,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public ChannelFactory<IWcfServiceForClient> GetC2DChannelFactory()
+        public ChannelFactory<IWcfServiceDesktopC2D> GetC2DChannelFactory()
         {
             try
             {
@@ -57,7 +57,7 @@ namespace Iit.Fibertest.WcfConnections
                 if (netAddress == null)
                     return null;
 
-                var myClient = new MyClient<IWcfServiceForClient>(
+                var myClient = new MyClient<IWcfServiceDesktopC2D>(
                     CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForClient"))));
 
@@ -70,7 +70,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public ChannelFactory<IWcfServiceForC2R> GetC2RChannelFactory()
+        public ChannelFactory<IWcfServiceCommonC2D> GetC2RChannelFactory()
         {
             try
             {
@@ -78,7 +78,7 @@ namespace Iit.Fibertest.WcfConnections
                 if (netAddress == null)
                     return null;
 
-                var myClient = new MyClient<IWcfServiceForC2R>(
+                var myClient = new MyClient<IWcfServiceCommonC2D>(
                     CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForC2R"))));
 
@@ -91,7 +91,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public ChannelFactory<IWcfServiceForWebProxy> GetWebProxy2DChannelFactory()
+        public ChannelFactory<IWcfServiceWebC2D> GetWebProxy2DChannelFactory()
         {
             try
             {
@@ -99,7 +99,7 @@ namespace Iit.Fibertest.WcfConnections
                 if (netAddress == null)
                     return null;
 
-                var myClient = new MyClient<IWcfServiceForWebProxy>(
+                var myClient = new MyClient<IWcfServiceWebC2D>(
                     CreateDefaultNetTcpBinding(_iniFile),
                     new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForWebProxy"))));
 

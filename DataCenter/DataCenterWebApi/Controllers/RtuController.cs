@@ -22,26 +22,26 @@ namespace Iit.Fibertest.DataCenterWebApi
         };
 
         private readonly IMyLog _logFile;
-        private readonly WebProxy2DWcfManager _webProxy2DWcfManager;
-        private readonly C2RWcfManager _c2RWcfManager;
+        private readonly WebC2DWcfManager _webC2DWcfManager;
+        private readonly CommonC2DWcfManager _commonC2DWcfManager;
 
         public RtuController(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
             var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebProxy);
-            _webProxy2DWcfManager = new WebProxy2DWcfManager(iniFile, logFile);
-            _webProxy2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
+            _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
+            _webC2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
             var da = (DoubleAddress)doubleAddress.Clone();
             da.Main.Port = (int)TcpPorts.ServerListenToC2R;
-            if (da.HasReserveAddress) da.Reserve.Port = (int)TcpPorts.ServerListenToC2R;    _c2RWcfManager = new C2RWcfManager(iniFile, logFile);
-            _c2RWcfManager.SetServerAddresses(da, "webClient", "localhost");
+            if (da.HasReserveAddress) da.Reserve.Port = (int)TcpPorts.ServerListenToC2R;    _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
+            _commonC2DWcfManager.SetServerAddresses(da, "webClient", "localhost");
         }
 
         [Authorize]
         [HttpGet]
         public async Task<IEnumerable<RtuDto>> GetTree()
         {
-            var tree = await _webProxy2DWcfManager.GetTreeInJson(User.Identity.Name);
+            var tree = await _webC2DWcfManager.GetTreeInJson(User.Identity.Name);
             _logFile.AppendLine(tree == null
                 ? "Failed to get tree"
                 : $"tree contains {tree.Length} symbols");
@@ -61,7 +61,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"rtu id = {id}");
                 var rtuGuid = Guid.Parse(id);
-                var rtuInformationDto = await _webProxy2DWcfManager.GetRtuInformation(User.Identity.Name, rtuGuid);
+                var rtuInformationDto = await _webC2DWcfManager.GetRtuInformation(User.Identity.Name, rtuGuid);
                 _logFile.AppendLine(rtuInformationDto == null
                     ? "Failed to get RTU's information"
                     : "RTU information ");
@@ -82,7 +82,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"rtu id = {id}");
                 var rtuGuid = Guid.Parse(id);
-                var rtuNetworkSettingsDto = await _webProxy2DWcfManager.GetRtuNetworkSettings(User.Identity.Name, rtuGuid);
+                var rtuNetworkSettingsDto = await _webC2DWcfManager.GetRtuNetworkSettings(User.Identity.Name, rtuGuid);
                 _logFile.AppendLine(rtuNetworkSettingsDto == null
                     ? "Failed to get RTU's network-settings"
                     : "RTU Network-settings ");
@@ -103,7 +103,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"rtu id = {id}");
                 var rtuGuid = Guid.Parse(id);
-                var rtuStateDto = await _webProxy2DWcfManager.GetRtuState(User.Identity.Name, rtuGuid);
+                var rtuStateDto = await _webC2DWcfManager.GetRtuState(User.Identity.Name, rtuGuid);
                 _logFile.AppendLine(rtuStateDto == null
                     ? "Failed to get RTU's state"
                     : "RTU state ");
@@ -124,7 +124,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"rtu id = {id}");
                 var rtuGuid = Guid.Parse(id);
-                var rtuMonitoringSettingsDto = await _webProxy2DWcfManager.GetRtuMonitoringSettings(User.Identity.Name, rtuGuid);
+                var rtuMonitoringSettingsDto = await _webC2DWcfManager.GetRtuMonitoringSettings(User.Identity.Name, rtuGuid);
                 _logFile.AppendLine(rtuMonitoringSettingsDto == null
                     ? "Failed to get RTU's Monitoring-settings"
                     : "RTU Monitoring-settings ");
@@ -153,7 +153,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine(body);
                 var dto = JsonConvert.DeserializeObject<RtuMonitoringSettingsDto>(body);
                 var applyDto = Map(rtuGuid, dto);
-                var monitoringSettingsAppliedDto = await _c2RWcfManager.ApplyMonitoringSettingsAsync(applyDto);
+                var monitoringSettingsAppliedDto = await _commonC2DWcfManager.ApplyMonitoringSettingsAsync(applyDto);
                 _logFile.AppendLine($"PostRtuMonitoringSettings: {monitoringSettingsAppliedDto.ReturnCode.ToString()}");
                 return monitoringSettingsAppliedDto;
             }

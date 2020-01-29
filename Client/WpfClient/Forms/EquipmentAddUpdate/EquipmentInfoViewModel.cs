@@ -17,14 +17,14 @@ namespace Iit.Fibertest.Client
         public Guid NodeId;
         private ViewMode _mode;
         private readonly IniFile _iniFile;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 
         public EquipmentInfoModel Model { get; set; } = new EquipmentInfoModel();
 
         public object Command { get; set; }
 
-        public EquipmentInfoViewModel(IniFile iniFile, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+        public EquipmentInfoViewModel(IniFile iniFile, IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)
         {
             _iniFile = iniFile;
             _c2DWcfManager = c2DWcfManager;

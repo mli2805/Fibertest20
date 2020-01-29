@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Client
     public class LicenseViewModel : Screen
     {
         private readonly LicenseManager _licenseManager;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private License _license;
         public License License
@@ -27,7 +27,7 @@ namespace Iit.Fibertest.Client
         public bool IsApplyLicenseEnabled { get; set; }
 
         public LicenseViewModel(Model readModel, LicenseManager licenseManager, 
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager, CurrentUser currentUser)
+            IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager, CurrentUser currentUser)
         {
             _licenseManager = licenseManager;
             _c2DWcfManager = c2DWcfManager;

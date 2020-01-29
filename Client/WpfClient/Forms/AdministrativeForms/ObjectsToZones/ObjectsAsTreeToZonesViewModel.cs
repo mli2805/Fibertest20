@@ -11,14 +11,14 @@ namespace Iit.Fibertest.Client
 {
     public class ObjectsAsTreeToZonesViewModel : Screen
     {
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         public Model ReadModel { get; }
         public List<ObjectToZonesModel> Rows { get; set; } = new  List<ObjectToZonesModel>();
         public ObjectToZonesModel SelectedRow { get; set; }
 
         public bool IsEnabled { get; set; }
 
-        public ObjectsAsTreeToZonesViewModel(Model readModel, CurrentUser currentUser, IWcfServiceForClient c2DWcfManager)
+        public ObjectsAsTreeToZonesViewModel(Model readModel, CurrentUser currentUser, IWcfServiceDesktopC2D c2DWcfManager)
         {
             _c2DWcfManager = c2DWcfManager;
             ReadModel = readModel;

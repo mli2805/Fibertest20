@@ -12,7 +12,7 @@ using Newtonsoft.Json;
 namespace Iit.Fibertest.DataCenterCore
 {
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
-    public partial class WcfServiceForWebProxy : IWcfServiceForWebProxy
+    public partial class WcfServiceWebC2D : IWcfServiceWebC2D
     {
         private static readonly JsonSerializerSettings JsonSerializerSettings = new JsonSerializerSettings()
         {
@@ -22,7 +22,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
 
-        public WcfServiceForWebProxy(IMyLog logFile, Model writeModel)
+        public WcfServiceWebC2D(IMyLog logFile, Model writeModel)
         {
             _logFile = logFile;
             _writeModel = writeModel;

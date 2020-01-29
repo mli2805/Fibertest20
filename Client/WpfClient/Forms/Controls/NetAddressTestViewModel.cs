@@ -13,8 +13,8 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly CurrentUser _currentUser;
         private readonly IWindowManager _windowManager;
-        private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IWcfServiceForC2R _c2RWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly NetAddressForConnectionTest _netAddressForConnectionTest;
         private bool? _result;
         private NetAddressInputViewModel _netAddressInputViewModel;
@@ -44,7 +44,7 @@ namespace Iit.Fibertest.Client
         }
 
         public NetAddressTestViewModel(ILifetimeScope globalScope, CurrentUser currentUser, IWindowManager windowManager,
-            IWcfServiceForClient c2DWcfManager, IWcfServiceForC2R c2RWcfManager, NetAddressForConnectionTest netAddressForConnectionTest)
+            IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D c2RWcfManager, NetAddressForConnectionTest netAddressForConnectionTest)
         {
             _globalScope = globalScope;
             _currentUser = currentUser;
@@ -117,7 +117,7 @@ namespace Iit.Fibertest.Client
                     HasReserveAddress = false,
                     Main = (NetAddress)NetAddressInputViewModel.GetNetAddress().Clone()
                 };
-                ((C2DWcfManager)_c2DWcfManager).SetServerAddresses(addressForTesting, "", "");
+                ((DesktopC2DWcfManager)_c2DWcfManager).SetServerAddresses(addressForTesting, "", "");
                 return await _c2DWcfManager.CheckServerConnection(new CheckServerConnectionDto());
             }
         }

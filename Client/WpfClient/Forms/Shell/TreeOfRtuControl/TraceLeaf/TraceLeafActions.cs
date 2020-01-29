@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly GraphReadModel _graphReadModel;
         private readonly IWindowManager _windowManager;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly TabulatorViewModel _tabulatorViewModel;
         private readonly TraceStateViewsManager _traceStateViewsManager;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Client
         private readonly RenderingManager _renderingManager;
 
         public TraceLeafActions(ILifetimeScope globalScope, Model readModel, GraphReadModel graphReadModel,
-            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, TabulatorViewModel tabulatorViewModel,
+            IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager, TabulatorViewModel tabulatorViewModel,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             BaseRefsAssignViewModel baseRefsAssignViewModel, LandmarksViewsManager landmarksViewsManager,
             OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel,

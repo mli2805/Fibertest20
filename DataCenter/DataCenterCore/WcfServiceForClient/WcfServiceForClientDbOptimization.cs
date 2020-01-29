@@ -8,7 +8,7 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public partial class WcfServiceForClient
+    public partial class WcfServiceDesktopC2D
     {
         private async Task RemoveEventsAndSors(RemoveEventsAndSors removeEventsAndSors, string username, string clientIp)
         {

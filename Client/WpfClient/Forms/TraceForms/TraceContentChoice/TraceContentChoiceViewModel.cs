@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly EquipmentOfChoiceModelFactory _equipmentOfChoiceModelFactory;
         private List<Equipment> _possibleEquipment;
@@ -45,7 +45,7 @@ namespace Iit.Fibertest.Client
         public bool ShouldWeContinue { get; set; }
 
         public TraceContentChoiceViewModel(ILifetimeScope globalScope, IniFile iniFile, 
-            IMyLog logFile, IWcfServiceForClient c2DWcfManager,
+            IMyLog logFile, IWcfServiceDesktopC2D c2DWcfManager,
             IWindowManager windowManager, EquipmentOfChoiceModelFactory equipmentOfChoiceModelFactory)
         {
             _globalScope = globalScope;

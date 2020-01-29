@@ -13,14 +13,14 @@ namespace KadastrLoader
     public class WellParser
     {
         private readonly KadastrDbProvider _kadastrDbProvider;
-        private readonly C2DWcfManager _c2DWcfManager;
+        private readonly DesktopC2DWcfManager _desktopC2DWcfManager;
         private readonly LoadedAlready _loadedAlready;
 
         public WellParser(KadastrDbProvider kadastrDbProvider, 
-            C2DWcfManager c2DWcfManager, LoadedAlready loadedAlready)
+            DesktopC2DWcfManager desktopC2DWcfManager, LoadedAlready loadedAlready)
         {
             _kadastrDbProvider = kadastrDbProvider;
-            _c2DWcfManager = c2DWcfManager;
+            _desktopC2DWcfManager = desktopC2DWcfManager;
             _loadedAlready = loadedAlready;
         }
 
@@ -57,7 +57,7 @@ namespace KadastrLoader
             _kadastrDbProvider.AddWell(well).Wait();
 
             var cmd = CreateNodeCmd(fields, well.InFibertestId);
-            return _c2DWcfManager.SendCommandAsObj(cmd).Result;
+            return _desktopC2DWcfManager.SendCommandAsObj(cmd).Result;
         }
 
         private AddEquipmentAtGpsLocationWithNodeTitle CreateNodeCmd(string[] parts, Guid inFibertestId)

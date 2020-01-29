@@ -30,10 +30,10 @@ namespace Iit.Fibertest.DataCenterCore
                 var uri = new Uri(WcfFactory.CombineUriString(@"localhost",
                     (int)TcpPorts.ServerListenToC2R, @"WcfServiceForC2R"));
 
-                _host = new ServiceHost(typeof(WcfServiceForC2R));
-                _host.AddServiceEndpoint(typeof(IWcfServiceForC2R),
+                _host = new ServiceHost(typeof(WcfServiceCommonC2D));
+                _host.AddServiceEndpoint(typeof(IWcfServiceCommonC2D),
                     WcfFactory.CreateDefaultNetTcpBinding(_iniFile), uri);
-                _host.AddDependencyInjectionBehavior<IWcfServiceForC2R>(_container);
+                _host.AddDependencyInjectionBehavior<IWcfServiceCommonC2D>(_container);
 
                 var behavior = _host.Description.Behaviors.Find<ServiceDebugBehavior>();
                 if (behavior == null)

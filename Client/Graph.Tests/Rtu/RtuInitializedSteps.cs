@@ -28,7 +28,7 @@ namespace Graph.Tests
         [When(@"На сервере применена другая лицензия с двумя RTU")]
         public void WhenНаСервереПримененаДругаяЛицензияСДвумяRtu()
         {
-            _sut.WcfServiceForClient.SendCommandAsObj(new ApplyLicense()
+            _sut.WcfServiceDesktopC2D.SendCommandAsObj(new ApplyLicense()
             {
                 LicenseId = Guid.NewGuid(),
                 Owner = @"RtuAtGpsLocationAddedSteps 2 RTU",

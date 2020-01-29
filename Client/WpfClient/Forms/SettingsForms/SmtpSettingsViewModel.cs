@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Client
     public class SmtpSettingsViewModel : Screen
     {
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 
         public string SmtpHost { get; set; }
@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
         public bool IsEditEnabled { get; set; }
 
         public SmtpSettingsViewModel(CurrentDatacenterParameters currentDatacenterParameters, CurrentUser currentUser,
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+            IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)
         {
             _currentDatacenterParameters = currentDatacenterParameters;
             IsEditEnabled = currentUser.Role <= Role.Root;

@@ -12,7 +12,7 @@ namespace Iit.Fibertest.SuperClient
     {
         private readonly ILifetimeScope _globalScope;
         private readonly FtServerList _ftServerList;
-        private readonly C2DWcfManager _c2DWcfManager;
+        private readonly DesktopC2DWcfManager _desktopC2DWcfManager;
         private readonly IWindowManager _windowManager;
 
         private bool _isAddMode;
@@ -29,11 +29,11 @@ namespace Iit.Fibertest.SuperClient
         public string Password { get; set; } = @"superclient";
 
         public AddServerViewModel(ILifetimeScope globalScope, FtServerList ftServerList,
-            C2DWcfManager c2DWcfManager, IWindowManager windowManager)
+            DesktopC2DWcfManager desktopC2DWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _ftServerList = ftServerList;
-            _c2DWcfManager = c2DWcfManager;
+            _desktopC2DWcfManager = desktopC2DWcfManager;
             _windowManager = windowManager;
         }
 
@@ -76,8 +76,8 @@ namespace Iit.Fibertest.SuperClient
 
             using (_globalScope.Resolve<IWaitCursor>())
             {
-                _c2DWcfManager.SetServerAddresses(addressForTesting, "", "");
-                result = await _c2DWcfManager.CheckServerConnection(new CheckServerConnectionDto());
+                _desktopC2DWcfManager.SetServerAddresses(addressForTesting, "", "");
+                result = await _desktopC2DWcfManager.CheckServerConnection(new CheckServerConnectionDto());
             }
 
             var message = result

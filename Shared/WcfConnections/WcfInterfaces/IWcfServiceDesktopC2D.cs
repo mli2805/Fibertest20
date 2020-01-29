@@ -6,7 +6,7 @@ using Iit.Fibertest.Dto;
 namespace Iit.Fibertest.WcfConnections
 {
     [ServiceContract]
-    public interface IWcfServiceForClient
+    public interface IWcfServiceDesktopC2D
     {
         void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp);
 

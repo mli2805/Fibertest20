@@ -18,14 +18,14 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 
         public DbOptimizationModel Model { get; set; } = new DbOptimizationModel();
 
         public DbOptimizationViewModel(IniFile iniFile, IMyLog logFile, Model readModel, 
             CurrentUser currentUser, CurrentDatacenterParameters currentDatacenterParameters,
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+            IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;

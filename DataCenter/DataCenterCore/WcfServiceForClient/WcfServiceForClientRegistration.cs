@@ -4,7 +4,7 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public partial class WcfServiceForClient
+    public partial class WcfServiceDesktopC2D
     {
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {

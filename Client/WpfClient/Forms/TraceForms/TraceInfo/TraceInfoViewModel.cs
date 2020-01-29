@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         public bool IsSavePressed { get; set; }
 
@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
             }
         }
-        public TraceInfoViewModel(Model readModel, CurrentUser currentUser, IWcfServiceForClient c2DWcfManager,
+        public TraceInfoViewModel(Model readModel, CurrentUser currentUser, IWcfServiceDesktopC2D c2DWcfManager,
             IWindowManager windowManager)
         {
             _readModel = readModel;

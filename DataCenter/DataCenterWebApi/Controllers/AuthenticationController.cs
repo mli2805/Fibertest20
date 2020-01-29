@@ -21,14 +21,14 @@ namespace Iit.Fibertest.DataCenterWebApi
     public class AuthenticationController : ControllerBase
     {
         private readonly IMyLog _logFile;
-        private readonly WebProxy2DWcfManager _webProxy2DWcfManager;
+        private readonly WebC2DWcfManager _webC2DWcfManager;
 
         public AuthenticationController(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
-            _webProxy2DWcfManager = new WebProxy2DWcfManager(iniFile, logFile);
+            _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
             var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebProxy);
-            _webProxy2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
+            _webC2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
         }
 
         [HttpPost("Login")]
@@ -40,7 +40,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 body = await reader.ReadToEndAsync();
             }
             dynamic user = JObject.Parse(body);
-            var userDto = await _webProxy2DWcfManager.LoginWebClient((string)user.username, (string)user.password);
+            var userDto = await _webC2DWcfManager.LoginWebClient((string)user.username, (string)user.password);
             if (userDto == null)
             {
                 Response.StatusCode = 401;
@@ -76,7 +76,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         private async Task<ClaimsIdentity> GetIdentity(string username, string password)
         {
-            var userDto = await _webProxy2DWcfManager.LoginWebClient(username, password);
+            var userDto = await _webC2DWcfManager.LoginWebClient(username, password);
             if (userDto == null) return null;
 
             _logFile.AppendLine($"User {username.ToUpper()} logged in");

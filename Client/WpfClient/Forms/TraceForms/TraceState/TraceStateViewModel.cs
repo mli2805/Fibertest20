@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Client
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly SoundManager _soundManager;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly CommandLineParameters _commandLineParameters;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly IWcfServiceInSuperClient _c2SWcfManager;
@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Client
 
         public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser,
             CurrentlyHiddenRtu currentlyHiddenRtu, ReflectogramManager reflectogramManager,
-            SoundManager soundManager, IWcfServiceForClient c2DWcfManager,
+            SoundManager soundManager, IWcfServiceDesktopC2D c2DWcfManager,
             IWcfServiceInSuperClient c2SWcfManager, 
             CommandLineParameters commandLineParameters, CurrentDatacenterParameters currentDatacenterParameters, 
             TabulatorViewModel tabulatorViewModel, TraceStateReportProvider traceStateReportProvider,

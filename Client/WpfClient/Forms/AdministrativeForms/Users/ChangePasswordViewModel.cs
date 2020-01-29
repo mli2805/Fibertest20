@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Client
 {
     public class ChangePasswordViewModel : Screen, IDataErrorInfo
     {
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
 
         private string _inputPassword;
         public string InputPassword
@@ -113,7 +113,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ChangePasswordViewModel(IWcfServiceForClient c2DWcfManager)
+        public ChangePasswordViewModel(IWcfServiceDesktopC2D c2DWcfManager)
         {
             _c2DWcfManager = c2DWcfManager;
         }

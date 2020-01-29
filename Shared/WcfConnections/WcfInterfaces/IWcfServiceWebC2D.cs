@@ -7,7 +7,7 @@ using Iit.Fibertest.Dto;
 namespace Iit.Fibertest.WcfConnections
 {
     [ServiceContract]
-    public interface IWcfServiceForWebProxy
+    public interface IWcfServiceWebC2D
     {
         [OperationContract]
         Task<UserDto> LoginWebClient(string username, string password);

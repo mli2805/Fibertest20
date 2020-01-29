@@ -13,14 +13,14 @@ namespace Iit.Fibertest.DataCenterWebApi
     public class OevController : ControllerBase
     {
         private readonly IMyLog _logFile;
-        private readonly WebProxy2DWcfManager _webProxy2DWcfManager;
+        private readonly WebC2DWcfManager _webC2DWcfManager;
 
         public OevController(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
-            _webProxy2DWcfManager = new WebProxy2DWcfManager(iniFile, logFile);
+            _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
             var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebProxy);
-            _webProxy2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
+            _webC2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
         }
 
       
@@ -28,7 +28,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         [HttpGet("GetPage")]
         public async Task<IEnumerable<OpticalEventDto>> GetPage(bool isCurrentEvents, string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize)
         {
-            var opticalEventList = await _webProxy2DWcfManager.
+            var opticalEventList = await _webC2DWcfManager.
                 GetOpticalEventList(User.Identity.Name, isCurrentEvents, filterRtu, filterTrace, sortOrder, pageNumber, pageSize);
             _logFile.AppendLine(opticalEventList == null
                 ? "Failed to get optical event list"

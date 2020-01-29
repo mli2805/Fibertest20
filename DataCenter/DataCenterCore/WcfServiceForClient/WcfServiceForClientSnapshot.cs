@@ -7,7 +7,7 @@ using NEventStore;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public partial class WcfServiceForClient
+    public partial class WcfServiceDesktopC2D
     {
         private async Task MakeSnapshot(MakeSnapshot cmd, string username, string clientIp)
         {

@@ -9,14 +9,14 @@ namespace Iit.Fibertest.Client
     public class SmsSettingsViewModel : Screen
     {
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
 
         public int GsmModemComPort { get; set; }
         public bool IsEditEnabled { get; set; }
 
         public SmsSettingsViewModel(CurrentDatacenterParameters currentDatacenterParameters, CurrentUser currentUser,
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+            IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)
         {
             _currentDatacenterParameters = currentDatacenterParameters;
             IsEditEnabled = currentUser.Role <= Role.Root;

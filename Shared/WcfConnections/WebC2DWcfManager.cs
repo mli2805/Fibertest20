@@ -6,13 +6,13 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.WcfConnections
 {
-    public class WebProxy2DWcfManager : IWcfServiceForWebProxy
+    public class WebC2DWcfManager : IWcfServiceWebC2D
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private WcfFactory _wcfFactory;
 
-        public WebProxy2DWcfManager(IniFile iniFile, IMyLog logFile)
+        public WebC2DWcfManager(IniFile iniFile, IMyLog logFile)
         {
             _iniFile = iniFile;
             _logFile = logFile;

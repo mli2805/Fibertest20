@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
         private readonly OnDemandMeasurement _onDemandMeasurement;
-        private readonly IWcfServiceForC2R _c2RWcfManager;
+        private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
         public RtuLeaf RtuLeaf { get; set; }
         private DoClientMeasurementDto _dto;
@@ -50,7 +50,7 @@ namespace Iit.Fibertest.Client
         }
 
         public ClientMeasurementViewModel(ILifetimeScope globalScope, IMyLog logFile, OnDemandMeasurement onDemandMeasurement,
-            IWcfServiceForC2R c2RWcfManager, IWindowManager windowManager)
+            IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _logFile = logFile;

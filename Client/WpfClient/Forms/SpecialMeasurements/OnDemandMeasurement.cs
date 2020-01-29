@@ -11,9 +11,9 @@ namespace Iit.Fibertest.Client
     {
         private readonly IMyLog _logFile;
         private readonly Model _model;
-        private readonly IWcfServiceForC2R _c2RWcfManager;
+        private readonly IWcfServiceCommonC2D _c2RWcfManager;
 
-        public OnDemandMeasurement(IMyLog logFile, Model model, IWcfServiceForC2R c2RWcfManager)
+        public OnDemandMeasurement(IMyLog logFile, Model model, IWcfServiceCommonC2D c2RWcfManager)
         {
             _logFile = logFile;
             _model = model;

@@ -6,7 +6,7 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public partial class WcfServiceForC2R
+    public partial class WcfServiceCommonC2D
     {
         public async Task<BaseRefAssignedDto> AssignBaseRefAsyncFromMigrator(AssignBaseRefsDto dto)
         {

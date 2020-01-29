@@ -18,8 +18,8 @@ namespace Iit.Fibertest.Client
         private int _portNumberForAttachment;
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
-        private readonly IWcfServiceForClient _c2DWcfManager;
-        private readonly IWcfServiceForC2R _c2RWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
 
         public string RtuTitle { get; set; }
@@ -86,7 +86,7 @@ namespace Iit.Fibertest.Client
         }
 
         public OtauToAttachViewModel(ILifetimeScope globalScope, Model readModel, 
-            IWcfServiceForClient c2DWcfManager, IWcfServiceForC2R c2RWcfManager, IWindowManager windowManager)
+            IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _readModel = readModel;

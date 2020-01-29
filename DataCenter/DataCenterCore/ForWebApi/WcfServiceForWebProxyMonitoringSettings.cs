@@ -7,7 +7,7 @@ using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public partial class WcfServiceForWebProxy
+    public partial class WcfServiceWebC2D
     {
         public async Task<RtuMonitoringSettingsDto> GetRtuMonitoringSettings(string username, Guid rtuId)
         {

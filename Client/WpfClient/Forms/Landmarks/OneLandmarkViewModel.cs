@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
         public Guid RtuId;
 
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly GraphReadModel _graphReadModel;
         private readonly Model _readModel;
@@ -170,7 +170,7 @@ namespace Iit.Fibertest.Client
         }
 
         public OneLandmarkViewModel(CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu, CurrentGis currentGis,
-            GpsInputSmallViewModel gpsInputSmallViewModel, IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
+            GpsInputSmallViewModel gpsInputSmallViewModel, IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager,
             GraphReadModel graphReadModel, Model readModel, RenderingManager renderingManager,
             ReflectogramManager reflectogramManager, TabulatorViewModel tabulatorViewModel)
         {

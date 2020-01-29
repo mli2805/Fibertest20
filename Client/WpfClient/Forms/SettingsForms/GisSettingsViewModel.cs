@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Client
     public class GisSettingsViewModel : Screen
     {
         private readonly CurrentGis _currentGis;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly IniFile _iniFile;
         private readonly GraphReadModel _graphReadModel;
@@ -79,7 +79,7 @@ namespace Iit.Fibertest.Client
         }
 
         public GisSettingsViewModel(CurrentUser currentUser, CurrentGis currentGis,
-            IWcfServiceForClient c2DWcfManager, IWindowManager windowManager,
+            IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager,
             IniFile iniFile, GraphReadModel graphReadModel)
         {
             _currentGis = currentGis;

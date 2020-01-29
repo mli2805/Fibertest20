@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Client
 
         private readonly IMyLog _logFile;
         private readonly ILocalDbManager _localDbManager;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly Model _readModel;
         private readonly SnapshotsLoader _snapshotsLoader;
         private readonly EventsOnTreeExecutor _eventsOnTreeExecutor;
@@ -26,7 +26,7 @@ namespace Iit.Fibertest.Client
         private readonly RenderingManager _renderingManager;
 
         public StoredEventsLoader(IMyLog logFile, ILocalDbManager localDbManager,
-            IWcfServiceForClient c2DWcfManager,
+            IWcfServiceDesktopC2D c2DWcfManager,
             Model readModel, SnapshotsLoader snapshotsLoader,
             EventsOnTreeExecutor eventsOnTreeExecutor,
             OpticalEventsExecutor opticalEventsExecutor,

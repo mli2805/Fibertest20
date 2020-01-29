@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly ILocalDbManager _localDbManager;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly Model _readModel;
         private readonly ZoneEventsOnTreeExecutor _zoneEventsOnTreeExecutor;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
 
         public SnapshotsLoader(IMyLog logFile, ILocalDbManager localDbManager,
-            CurrentDatacenterParameters currentDatacenterParameters, IWcfServiceForClient c2DWcfManager,
+            CurrentDatacenterParameters currentDatacenterParameters, IWcfServiceDesktopC2D c2DWcfManager,
             Model readModel, ZoneEventsOnTreeExecutor zoneEventsOnTreeExecutor,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,

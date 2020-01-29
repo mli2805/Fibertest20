@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly EventArrivalNotifier _eventArrivalNotifier;
         private readonly IWindowManager _windowManager;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly CurrentUser _currentUser;
 
         private ObservableCollection<UserVm> _rows = new ObservableCollection<UserVm>();
@@ -54,7 +54,7 @@ namespace Iit.Fibertest.Client
         public bool CanRemove => _currentUser.Role <= Role.Root && SelectedUser?.Role != Role.Root;
 
         public UserListViewModel(ILifetimeScope globalScope, Model readModel, EventArrivalNotifier eventArrivalNotifier,
-            IWindowManager windowManager, IWcfServiceForClient c2DWcfManager, CurrentUser currentUser)
+            IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager, CurrentUser currentUser)
         {
             _globalScope = globalScope;
             _readModel = readModel;

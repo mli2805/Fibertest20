@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
 
-        private readonly IWcfServiceForC2R _c2RWcfManager;
+        private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly BaseRefDtoFactory _baseRefDtoFactory;
         private readonly BaseRefsChecker _baseRefsChecker;
@@ -113,7 +113,7 @@ namespace Iit.Fibertest.Client
         }
 
         public BaseRefsAssignViewModel(IniFile iniFile, Model readModel, CurrentUser currentUser,
-            IWcfServiceForC2R c2RWcfManager, IWindowManager windowManager,
+            IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager,
             BaseRefDtoFactory baseRefDtoFactory, BaseRefsChecker baseRefsChecker)
         {
             _iniFile = iniFile;

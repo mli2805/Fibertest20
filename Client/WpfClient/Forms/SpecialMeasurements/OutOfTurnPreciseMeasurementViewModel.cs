@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client
         public TraceLeaf TraceLeaf { get; set; }
         public RtuLeaf RtuLeaf { get; set; }
         private readonly OnDemandMeasurement _onDemandMeasurement;
-        private readonly IWcfServiceForC2R _c2RWcfManager;
+        private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
 
         public bool IsOpen { get; set; }
@@ -44,7 +44,7 @@ namespace Iit.Fibertest.Client
         }
 
         public OutOfTurnPreciseMeasurementViewModel(OnDemandMeasurement onDemandMeasurement, 
-            IWcfServiceForC2R c2RWcfManager, IWindowManager windowManager)
+            IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager)
         {
             _onDemandMeasurement = onDemandMeasurement;
             _c2RWcfManager = c2RWcfManager;

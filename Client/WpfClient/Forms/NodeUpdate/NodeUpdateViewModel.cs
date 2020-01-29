@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly GraphReadModel _graphReadModel;
         private readonly IWindowManager _windowManager;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly CurrentGis _currentGis;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly AddEquipmentIntoNodeBuilder _addEquipmentIntoNodeBuilder;
@@ -133,7 +133,7 @@ namespace Iit.Fibertest.Client
 
         public NodeUpdateViewModel(ILifetimeScope globalScope, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, EventArrivalNotifier eventArrivalNotifier,
-            IWcfServiceForClient c2DWcfManager, CurrentGis currentGis,
+            IWcfServiceDesktopC2D c2DWcfManager, CurrentGis currentGis,
             CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu,
             AddEquipmentIntoNodeBuilder addEquipmentIntoNodeBuilder)
         {

@@ -12,14 +12,14 @@ namespace KadastrLoader
     public class ConpointParser
     {
         private readonly KadastrDbProvider _kadastrDbProvider;
-        private readonly C2DWcfManager _c2DWcfManager;
+        private readonly DesktopC2DWcfManager _desktopC2DWcfManager;
         private readonly LoadedAlready _loadedAlready;
 
         public ConpointParser(KadastrDbProvider kadastrDbProvider,
-            C2DWcfManager c2DWcfManager, LoadedAlready loadedAlready)
+            DesktopC2DWcfManager desktopC2DWcfManager, LoadedAlready loadedAlready)
         {
             _kadastrDbProvider = kadastrDbProvider;
-            _c2DWcfManager = c2DWcfManager;
+            _desktopC2DWcfManager = desktopC2DWcfManager;
             _loadedAlready = loadedAlready;
         }
 
@@ -66,7 +66,7 @@ namespace KadastrLoader
             cmd.NodeId = well.InFibertestId;
             cmd.EquipmentId = Guid.NewGuid();
             cmd.Type = EquipmentType.Closure;
-            return _c2DWcfManager.SendCommandAsObj(cmd).Result;
+            return _desktopC2DWcfManager.SendCommandAsObj(cmd).Result;
         }
 
     }

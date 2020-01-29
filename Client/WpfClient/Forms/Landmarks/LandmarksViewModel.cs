@@ -82,7 +82,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly LandmarksBaseParser _landmarksBaseParser;
         private readonly LandmarksGraphParser _landmarksGraphParser;
-        private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private List<Landmark> _landmarks;
 
@@ -148,7 +148,7 @@ namespace Iit.Fibertest.Client
 
         public LandmarksViewModel(ILifetimeScope globalScope, Model readModel, CurrentGis currentGis,
             LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,
-             IWcfServiceForClient c2DWcfManager, IWindowManager windowManager)
+             IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)
         {
             CurrentGis = currentGis;
             _globalScope = globalScope;
