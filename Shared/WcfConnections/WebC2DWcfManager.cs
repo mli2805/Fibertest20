@@ -24,7 +24,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<UserDto> LoginWebClient(string username, string password)
         {
-            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
             if (wcfConnection == null)
                 return null;
 
@@ -44,7 +44,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<string> GetTreeInJson(string username)
         {
-            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
             if (wcfConnection == null)
                 return null;
 
@@ -65,7 +65,7 @@ namespace Iit.Fibertest.WcfConnections
         #region RTU
         public async Task<RtuInformationDto> GetRtuInformation(string username, Guid rtuId)
         {
-            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
             if (wcfConnection == null)
                 return null;
 
@@ -85,7 +85,7 @@ namespace Iit.Fibertest.WcfConnections
         
         public async Task<RtuNetworkSettingsDto> GetRtuNetworkSettings(string username, Guid rtuId)
         {
-            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
             if (wcfConnection == null)
                 return null;
 
@@ -105,7 +105,7 @@ namespace Iit.Fibertest.WcfConnections
         
         public async Task<RtuStateDto> GetRtuState(string username, Guid rtuId)
         {
-            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
             if (wcfConnection == null)
                 return null;
 
@@ -125,7 +125,7 @@ namespace Iit.Fibertest.WcfConnections
         
         public async Task<RtuMonitoringSettingsDto> GetRtuMonitoringSettings(string username, Guid rtuId)
         {
-            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
             if (wcfConnection == null)
                 return null;
 
@@ -147,7 +147,7 @@ namespace Iit.Fibertest.WcfConnections
         #region Trace
         public async Task<TraceInformationDto> GetTraceInformation(string username, Guid traceId)
         {
-            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
             if (wcfConnection == null)
                 return null;
 
@@ -167,7 +167,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId)
         {
-            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
             if (wcfConnection == null)
                 return null;
 
@@ -189,7 +189,7 @@ namespace Iit.Fibertest.WcfConnections
         public async Task<List<OpticalEventDto>> GetOpticalEventList(string username, bool isCurrentEvents = true, string filterRtu = "",
             string filterTrace = "", string sortOrder = "desc", int pageNumber = 0, int pageSize = 100)
         {
-            var wcfConnection = _wcfFactory.GetWebProxy2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
             if (wcfConnection == null)
                 return null;
 

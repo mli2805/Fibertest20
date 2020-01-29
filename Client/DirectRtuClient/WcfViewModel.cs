@@ -18,6 +18,7 @@ namespace DirectRtuClient
 
         private readonly string _username;
         private readonly Guid _clientId;
+        private readonly CommonC2DWcfManager _commonC2DWcfManager;
         private readonly DesktopC2DWcfManager _desktopC2DWcfManager;
 
         private int _currentEventsCount;
@@ -35,11 +36,21 @@ namespace DirectRtuClient
             _username = @"developer";
 
             Guid.TryParse(iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()), out _clientId);
-            _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
+            _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToDesktopClient);
             ServerAddress = _serverDoubleAddress.Main.Ip4Address;
-            _desktopC2DWcfManager = new DesktopC2DWcfManager(_iniFile, _logFile);
             var clientAddresses = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
-            _desktopC2DWcfManager.SetServerAddresses(new DoubleAddress() { Main = new NetAddress(ServerAddress, TcpPorts.ServerListenToClient) }, _username, clientAddresses.Ip4Address);
+
+            _desktopC2DWcfManager = new DesktopC2DWcfManager(_iniFile, _logFile);
+            _desktopC2DWcfManager.SetServerAddresses(new DoubleAddress()
+            {
+                Main = new NetAddress(ServerAddress, TcpPorts.ServerListenToDesktopClient)
+            }, _username, clientAddresses.Ip4Address);
+
+            _commonC2DWcfManager = new CommonC2DWcfManager(_iniFile, _logFile);
+            var da = (DoubleAddress)_serverDoubleAddress.Clone();
+            da.Main.Port = (int)TcpPorts.ServerListenToCommonClient;
+            if (da.HasReserveAddress) da.Reserve.Port = (int)TcpPorts.ServerListenToCommonClient;
+            _commonC2DWcfManager.SetServerAddresses(da, _username, clientAddresses.Ip4Address);
         }
 
         protected override void OnViewLoaded(object view)
@@ -105,7 +116,7 @@ namespace DirectRtuClient
 
             try
             {
-                var result = await _desktopC2DWcfManager.RegisterClientAsync(dto);
+                var result = await _commonC2DWcfManager.RegisterClientAsync(dto);
                 if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
                 {
                     MessageBox.Show(@"Error! Check log files");

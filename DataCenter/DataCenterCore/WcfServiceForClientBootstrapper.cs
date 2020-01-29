@@ -28,7 +28,7 @@ namespace Iit.Fibertest.DataCenterCore
             try
             {
                 var uri = new Uri(WcfFactory.CombineUriString(@"localhost",
-                    (int)TcpPorts.ServerListenToClient, @"WcfServiceForClient"));
+                    (int)TcpPorts.ServerListenToDesktopClient, @"WcfServiceForClient"));
 
                 _host = new ServiceHost(typeof(WcfServiceDesktopC2D));
                 _host.AddServiceEndpoint(typeof(IWcfServiceDesktopC2D),
@@ -42,7 +42,7 @@ namespace Iit.Fibertest.DataCenterCore
                     behavior.IncludeExceptionDetailInFaults = true;
 
                 _host.Open();
-                _logFile.AppendLine($"Clients (desktop) listener on port {(int)TcpPorts.ServerListenToClient} started successfully");
+                _logFile.AppendLine($"Clients (desktop) listener on port {(int)TcpPorts.ServerListenToDesktopClient} started successfully");
             }
             catch (Exception e)
             {

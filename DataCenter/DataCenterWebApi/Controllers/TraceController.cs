@@ -18,7 +18,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         {
             _logFile = logFile;
             _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
-            var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebProxy);
+            var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
             _webC2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
         }
 

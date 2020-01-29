@@ -49,7 +49,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<int> SendCommands(List<string> jsons, string username, string clientIp)
         {
-            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
             if (wcfConnection == null)
                 return -1;
 
@@ -69,7 +69,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<int> SendMeas(List<AddMeasurementFromOldBase> list)
         {
-            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
             if (wcfConnection == null)
                 return -1;
 
@@ -94,7 +94,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<string> SendCommand(string serializedCmd, string username, string clientIp)
         {
-            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
             if (wcfConnection == null)
                 return @"Cannot establish data-center connection.";
 
@@ -114,7 +114,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<string[]> GetEvents(GetEventsDto dto)
         {
-            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
             if (wcfConnection == null)
                 return null;
 
@@ -137,7 +137,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<SnapshotParamsDto> GetSnapshotParams(GetSnapshotDto dto)
         {
-            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
             if (wcfConnection == null)
                 return null;
 
@@ -158,7 +158,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<byte[]> GetSnapshotPortion(int portionOrdinal)
         {
-            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
             if (wcfConnection == null)
                 return null;
 
@@ -178,7 +178,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<byte[]> GetSorBytes(int sorFileId)
         {
-            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
             if (wcfConnection == null)
                 return null;
 
@@ -196,32 +196,10 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
-        {
-            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
-            if (wcfConnection == null)
-                return new ClientRegisteredDto() { ReturnCode = ReturnCode.C2DWcfConnectionError };
-
-            try
-            {
-                dto.ClientId = _clientId;
-                dto.UserName = _username;
-                dto.ClientIp = _clientIp;
-                var channel = wcfConnection.CreateChannel();
-                var result = await channel.RegisterClientAsync(dto);
-                wcfConnection.Close();
-                return result;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("RegisterClientAsync: " + e.Message);
-                return new ClientRegisteredDto() { ReturnCode = ReturnCode.C2DWcfOperationError, ExceptionMessage = e.Message };
-            }
-        }
-
+    
         public async Task<int> UnregisterClientAsync(UnRegisterClientDto dto)
         {
-            var wcfConnection = _wcfFactory?.GetC2DChannelFactory();
+            var wcfConnection = _wcfFactory?.GetDesktopC2DChannelFactory();
             if (wcfConnection == null)
                 return -1;
 
@@ -245,7 +223,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<bool> CheckServerConnection(CheckServerConnectionDto dto)
         {
-            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
             if (wcfConnection == null)
                 return false;
 
@@ -266,7 +244,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<bool> SaveSmtpSettings(SmtpSettingsDto dto)
         {
-            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
             if (wcfConnection == null)
                 return false;
 
@@ -285,7 +263,7 @@ namespace Iit.Fibertest.WcfConnections
         }
         public async Task<bool> SaveSnmpSettings(SnmpSettingsDto dto)
         {
-            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
             if (wcfConnection == null)
                 return false;
 
@@ -305,7 +283,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<bool> SaveGisMode(bool isMapVisible)
         {
-            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
             if (wcfConnection == null)
                 return false;
 
@@ -325,7 +303,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<bool> SaveGsmComPort(int comPort)
         {
-            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
             if (wcfConnection == null)
                 return false;
 
@@ -345,7 +323,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<bool> SendTest(string to, NotificationType notificationType)
         {
-            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
             if (wcfConnection == null)
                 return false;
 
@@ -365,7 +343,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<DiskSpaceDto> GetDiskSpaceGb()
         {
-            var wcfConnection = _wcfFactory.GetC2DChannelFactory();
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
             if (wcfConnection == null)
                 return null;
 

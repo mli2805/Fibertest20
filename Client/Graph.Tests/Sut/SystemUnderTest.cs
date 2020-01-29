@@ -110,7 +110,10 @@ namespace Graph.Tests
         public void RestartClient()
         {
             ClientScope = Container.BeginLifetimeScope(cfg =>
-                cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceDesktopC2D>()));
+            {
+                 cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceCommonC2D>());
+                 cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceDesktopC2D>());
+            });
             ResolveClientsPartsOnStart();
 
             ReadModel.Nodes.Count.Should().Be(0);

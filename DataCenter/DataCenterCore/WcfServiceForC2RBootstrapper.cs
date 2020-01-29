@@ -28,7 +28,7 @@ namespace Iit.Fibertest.DataCenterCore
             try
             {
                 var uri = new Uri(WcfFactory.CombineUriString(@"localhost",
-                    (int)TcpPorts.ServerListenToC2R, @"WcfServiceForC2R"));
+                    (int)TcpPorts.ServerListenToCommonClient, @"WcfServiceForC2R"));
 
                 _host = new ServiceHost(typeof(WcfServiceCommonC2D));
                 _host.AddServiceEndpoint(typeof(IWcfServiceCommonC2D),
@@ -42,7 +42,7 @@ namespace Iit.Fibertest.DataCenterCore
                     behavior.IncludeExceptionDetailInFaults = true;
 
                 _host.Open();
-                _logFile.AppendLine($"Common clients operations listener on port {(int)TcpPorts.ServerListenToC2R} started successfully");
+                _logFile.AppendLine($"Common clients operations listener on port {(int)TcpPorts.ServerListenToCommonClient} started successfully");
             }
             catch (Exception e)
             {

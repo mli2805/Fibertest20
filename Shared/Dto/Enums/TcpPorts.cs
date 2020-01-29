@@ -3,10 +3,11 @@
     public enum TcpPorts
     {
         // DataCenterService
-        ServerListenToClient = 11840,
+        ServerListenToDesktopClient = 11840,
+        ServerListenToWebClient = 11838,
+        ServerListenToCommonClient = 11837,
+
         ServerListenToRtu = 11841,
-        ServerListenToWebProxy = 11838,
-        ServerListenToC2R = 11837,
 
         // DataCenterWebApi
         WebProxyListenTo = 11080,

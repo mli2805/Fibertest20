@@ -28,12 +28,12 @@ namespace Iit.Fibertest.DataCenterWebApi
         public RtuController(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
-            var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebProxy);
+            var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
             _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
             _webC2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
             var da = (DoubleAddress)doubleAddress.Clone();
-            da.Main.Port = (int)TcpPorts.ServerListenToC2R;
-            if (da.HasReserveAddress) da.Reserve.Port = (int)TcpPorts.ServerListenToC2R;    _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
+            da.Main.Port = (int)TcpPorts.ServerListenToCommonClient;
+            if (da.HasReserveAddress) da.Reserve.Port = (int)TcpPorts.ServerListenToCommonClient;    _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
             _commonC2DWcfManager.SetServerAddresses(da, "webClient", "localhost");
         }
 

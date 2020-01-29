@@ -49,7 +49,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public ChannelFactory<IWcfServiceDesktopC2D> GetC2DChannelFactory()
+        public ChannelFactory<IWcfServiceDesktopC2D> GetDesktopC2DChannelFactory()
         {
             try
             {
@@ -70,7 +70,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public ChannelFactory<IWcfServiceCommonC2D> GetC2RChannelFactory()
+        public ChannelFactory<IWcfServiceCommonC2D> GetCommonC2DChannelFactory()
         {
             try
             {
@@ -91,7 +91,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public ChannelFactory<IWcfServiceWebC2D> GetWebProxy2DChannelFactory()
+        public ChannelFactory<IWcfServiceWebC2D> GetWebC2DChannelFactory()
         {
             try
             {

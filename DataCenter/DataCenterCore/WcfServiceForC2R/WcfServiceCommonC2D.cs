@@ -14,6 +14,7 @@ namespace Iit.Fibertest.DataCenterCore
     [ServiceBehavior(InstanceContextMode = InstanceContextMode.PerCall)]
     public partial class WcfServiceCommonC2D : IWcfServiceCommonC2D
     {
+        private readonly GlobalState _globalState;
         private readonly IMyLog _logFile;
         private readonly SorFileRepository _sorFileRepository;
         private readonly EventStoreService _eventStoreService;
@@ -22,12 +23,13 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
-        public WcfServiceCommonC2D(IMyLog logFile, SorFileRepository sorFileRepository, 
+        public WcfServiceCommonC2D(GlobalState globalState, IMyLog logFile, SorFileRepository sorFileRepository, 
             EventStoreService eventStoreService, ClientsCollection clientsCollection,
             BaseRefLandmarksTool baseRefLandmarksTool,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter
             )
         {
+            _globalState = globalState;
             _logFile = logFile;
             _sorFileRepository = sorFileRepository;
             _eventStoreService = eventStoreService;
@@ -40,6 +42,23 @@ namespace Iit.Fibertest.DataCenterCore
         public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
         {
         }
+
+        public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
+        {
+            if (_globalState.IsDatacenterInDbOptimizationMode)
+                return new ClientRegisteredDto(){ReturnCode = ReturnCode.Error};
+
+            var result = await _clientsCollection.RegisterClientAsync(dto);
+            result.StreamIdOriginal = _eventStoreService.StreamIdOriginal;
+            result.SnapshotLastEvent = _eventStoreService.LastEventNumberInSnapshot;
+            result.SnapshotLastDate = _eventStoreService.LastEventDateInSnapshot;
+
+            var command = new RegisterClientStation() { RegistrationResult = result.ReturnCode };
+            await _eventStoreService.SendCommand(command, dto.UserName, dto.ClientIp);
+
+            return result;
+        }
+
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {

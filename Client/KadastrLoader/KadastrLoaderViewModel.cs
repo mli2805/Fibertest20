@@ -80,7 +80,7 @@ namespace KadastrLoader
             _kadastrDbProvider = kadastrDbProvider;
             _kadastrFilesParser = kadastrFilesParser;
             _desktopC2DWcfManager = desktopC2DWcfManager;
-            var serverAddresses = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
+            var serverAddresses = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToDesktopClient);
             desktopC2DWcfManager.SetServerAddresses(serverAddresses, "Kadastr", "");
             ServerIp = serverAddresses.Main.Ip4Address;
             MySqlPort = iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, 33060);

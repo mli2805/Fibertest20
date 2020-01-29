@@ -27,7 +27,7 @@ namespace Iit.Fibertest.DataCenterCore
             try
             {
                 var uri = new Uri(WcfFactory.CombineUriString(@"localhost",
-                    (int)TcpPorts.ServerListenToWebProxy, @"WcfServiceForWebProxy"));
+                    (int)TcpPorts.ServerListenToWebClient, @"WcfServiceForWebProxy"));
 
                 _host = new ServiceHost(typeof(WcfServiceWebC2D));
                 _host.AddServiceEndpoint(typeof(IWcfServiceWebC2D),
@@ -35,7 +35,7 @@ namespace Iit.Fibertest.DataCenterCore
                 _host.AddDependencyInjectionBehavior<IWcfServiceWebC2D>(_container);
 
                 _host.Open();
-                _logFile.AppendLine($"WebProxy (Web Clients) listener on port {(int)TcpPorts.ServerListenToWebProxy} started successfully");
+                _logFile.AppendLine($"WebProxy (Web Clients) listener on port {(int)TcpPorts.ServerListenToWebClient} started successfully");
             }
             catch (Exception e)
             {

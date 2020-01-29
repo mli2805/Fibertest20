@@ -18,8 +18,8 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
-        private readonly IWcfServiceCommonC2D _c2RWcfManager;
+        private readonly IWcfServiceDesktopC2D _desktopC2DWcfManager;
+        private readonly IWcfServiceCommonC2D _commonC2DWcfManager;
         private readonly CurrentUser _currentUser;
         private readonly CurrentGis _currentGis;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
@@ -53,15 +53,15 @@ namespace Iit.Fibertest.Client
         public bool IsRegistrationSuccessful { get; set; }
 
         public LoginViewModel(ILifetimeScope globalScope, IWindowManager windowManager, IniFile iniFile, IMyLog logFile,
-            IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D c2RWcfManager,  CurrentUser currentUser, CurrentGis currentGis,
+            IWcfServiceDesktopC2D desktopC2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,  CurrentUser currentUser, CurrentGis currentGis,
             CurrentDatacenterParameters currentDatacenterParameters)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
             _iniFile = iniFile;
             _logFile = logFile;
-            _c2DWcfManager = c2DWcfManager;
-            _c2RWcfManager = c2RWcfManager;
+            _desktopC2DWcfManager = desktopC2DWcfManager;
+            _commonC2DWcfManager = commonC2DWcfManager;
             _currentUser = currentUser;
             _currentGis = currentGis;
             _currentDatacenterParameters = currentDatacenterParameters;
@@ -102,7 +102,7 @@ namespace Iit.Fibertest.Client
         // public to start under super-client
         public async Task<bool> RegisterClientAsync(string username, string password, bool isUnderSuperClient)
         {
-            var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
+            var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToDesktopClient);
             _currentDatacenterParameters.ServerIp = dcServiceAddresses.Main.Ip4Address;
             _currentDatacenterParameters.ServerTitle = _iniFile.Read(IniSection.Server, IniKey.ServerTitle, "");
             Status = string.Format(Resources.SID_Performing_registration_on__0_, dcServiceAddresses.Main.Ip4Address);
@@ -123,13 +123,13 @@ namespace Iit.Fibertest.Client
                 _iniFile.Write(clientAddress, IniSection.ClientLocalAddress);
             }
 
-            _c2DWcfManager.SetServerAddresses(dcServiceAddresses, username, clientAddress.Ip4Address);
+            _desktopC2DWcfManager.SetServerAddresses(dcServiceAddresses, username, clientAddress.Ip4Address);
             var da = (DoubleAddress)dcServiceAddresses.Clone();
-            da.Main.Port = (int)TcpPorts.ServerListenToC2R;
-            if (da.HasReserveAddress) da.Reserve.Port = (int)TcpPorts.ServerListenToC2R;
-            _c2RWcfManager.SetServerAddresses(da, username, clientAddress.Ip4Address);
+            da.Main.Port = (int)TcpPorts.ServerListenToCommonClient;
+            if (da.HasReserveAddress) da.Reserve.Port = (int)TcpPorts.ServerListenToCommonClient;
+            _commonC2DWcfManager.SetServerAddresses(da, username, clientAddress.Ip4Address);
 
-            var result = await _c2DWcfManager.RegisterClientAsync(
+            var result = await _commonC2DWcfManager.RegisterClientAsync(
                 new RegisterClientDto()
                 {
                     Addresses = new DoubleAddress() { Main = clientAddress, HasReserveAddress = false },

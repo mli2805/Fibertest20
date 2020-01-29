@@ -6,22 +6,7 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public partial class WcfServiceDesktopC2D
     {
-        public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
-        {
-            if (_globalState.IsDatacenterInDbOptimizationMode)
-                return new ClientRegisteredDto(){ReturnCode = ReturnCode.Error};
-
-            var result = await _clientsCollection.RegisterClientAsync(dto);
-            result.StreamIdOriginal = _eventStoreService.StreamIdOriginal;
-            result.SnapshotLastEvent = _eventStoreService.LastEventNumberInSnapshot;
-            result.SnapshotLastDate = _eventStoreService.LastEventDateInSnapshot;
-
-            var command = new RegisterClientStation() { RegistrationResult = result.ReturnCode };
-            await _eventStoreService.SendCommand(command, dto.UserName, dto.ClientIp);
-
-            return result;
-        }
-
+       
         public async Task<int> UnregisterClientAsync(UnRegisterClientDto dto)
         {
             _clientsCollection.UnregisterClientAsync(dto);

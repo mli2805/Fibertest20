@@ -97,10 +97,10 @@ namespace DbMigrationWpf
                 _iniFile.Write(IniSection.ClientLocalAddress, IniKey.Ip, _clientAddress.Ip4Address);
             }
 
-            _serverDoubleAddress = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToClient);
+            _serverDoubleAddress = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToDesktopClient);
             if (_serverDoubleAddress.Main.Ip4Address == "0.0.0.0")
             {
-                _serverDoubleAddress.Main = new NetAddress(_clientAddress.Ip4Address, TcpPorts.ServerListenToClient);
+                _serverDoubleAddress.Main = new NetAddress(_clientAddress.Ip4Address, TcpPorts.ServerListenToDesktopClient);
                 _iniFile.WriteServerAddresses(_serverDoubleAddress);
             }
             _desktopC2DWcfManager.SetServerAddresses(_serverDoubleAddress, @"migrator", _clientAddress.Ip4Address);

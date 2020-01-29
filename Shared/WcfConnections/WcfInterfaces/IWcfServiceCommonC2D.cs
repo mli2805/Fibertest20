@@ -9,6 +9,12 @@ namespace Iit.Fibertest.WcfConnections
     {
         void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp);
 
+        // C2D
+        [OperationContract]
+        Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto);
+
+
+        // C2D2R
         [OperationContract]
         Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto rtuAddress);
 

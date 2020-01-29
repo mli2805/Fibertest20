@@ -28,10 +28,33 @@ namespace Iit.Fibertest.WcfConnections
             _clientIp = clientIp;
         }
 
+        public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
+            if (wcfConnection == null)
+                return new ClientRegisteredDto() { ReturnCode = ReturnCode.C2DWcfConnectionError };
+
+            try
+            {
+                dto.ClientId = _clientId;
+                dto.UserName = _username;
+                dto.ClientIp = _clientIp;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.RegisterClientAsync(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("RegisterClientAsync: " + e.Message);
+                return new ClientRegisteredDto() { ReturnCode = ReturnCode.C2DWcfOperationError, ExceptionMessage = e.Message };
+            }
+        }
+
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
             _logFile.AppendLine($@"Checking connection with RTU {dto.NetAddress.GetAddress()}");
-            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
                 return new RtuConnectionCheckedDto() { IsConnectionSuccessfull = false };
 
@@ -55,7 +78,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
                 return new RtuInitializedDto() { IsInitialized = false, ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = "Can't establish connection with DataCenter" };
 
@@ -77,7 +100,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
         {
-            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
                 return new OtauAttachedDto() { IsAttached = false, ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = "Can't establish connection with DataCenter" };
 
@@ -99,7 +122,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
         {
-            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
                 return new OtauDetachedDto() { IsDetached = false, ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = "Can't establish connection with DataCenter" };
 
@@ -121,7 +144,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
-            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
                 return false;
 
@@ -143,7 +166,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
-            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
                 return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
 
@@ -165,7 +188,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
-            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
                 return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
 
@@ -189,7 +212,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<BaseRefAssignedDto> AssignBaseRefAsyncFromMigrator(AssignBaseRefsDto dto)
         {
-            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
                 return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
 
@@ -211,7 +234,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto dto)
         {
-            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
                 return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
 
@@ -233,7 +256,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
-            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
                 return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
 
@@ -255,7 +278,7 @@ namespace Iit.Fibertest.WcfConnections
 
         public async Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
         {
-            var wcfConnection = _wcfFactory.GetC2RChannelFactory();
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
                 return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
 

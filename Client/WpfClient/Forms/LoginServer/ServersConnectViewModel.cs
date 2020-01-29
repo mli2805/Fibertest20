@@ -129,7 +129,7 @@ namespace Iit.Fibertest.Client
                     {
                         var serverIp = LocalAddressResearcher.GetAllLocalAddresses().First();
                         ServerConnectionTestViewModel.NetAddressInputViewModel =
-                            new NetAddressInputViewModel(new NetAddress(serverIp, TcpPorts.ServerListenToClient), true);
+                            new NetAddressInputViewModel(new NetAddress(serverIp, TcpPorts.ServerListenToDesktopClient), true);
                         serverAddress = serverIp;
                     }
                     _clientAddress = LocalAddressResearcher.GetLocalAddressToConnectServer(serverAddress);
@@ -144,7 +144,7 @@ namespace Iit.Fibertest.Client
         }
 
         private bool _isInAddMode;
-        private readonly NetAddress _serverInWorkAddress = new NetAddress(@"0.0.0.0", TcpPorts.ServerListenToClient);
+        private readonly NetAddress _serverInWorkAddress = new NetAddress(@"0.0.0.0", TcpPorts.ServerListenToDesktopClient);
         private Visibility _serversComboboxVisibility = Visibility.Visible;
         private Visibility _newServerTitleVisibility = Visibility.Collapsed;
         private NetAddressTestViewModel _serverConnectionTestViewModel;

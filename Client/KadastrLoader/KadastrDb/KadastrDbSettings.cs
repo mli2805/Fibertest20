@@ -19,7 +19,7 @@ namespace KadastrLoader
 
         public void Init()
         {
-            var doubleAddress = _iniFile.ReadDoubleAddress((int) TcpPorts.ServerListenToClient);
+            var doubleAddress = _iniFile.ReadDoubleAddress((int) TcpPorts.ServerListenToDesktopClient);
             _mysqlServerAddress = doubleAddress.Main.IsAddressSetAsIp
                 ? doubleAddress.Main.Ip4Address
                 : doubleAddress.Main.HostName;
