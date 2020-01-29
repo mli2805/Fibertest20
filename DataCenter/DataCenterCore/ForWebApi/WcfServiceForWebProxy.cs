@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForWebProxyInterface;
+using Iit.Fibertest.WcfConnections;
 using Newtonsoft.Json;
 
 namespace Iit.Fibertest.DataCenterCore

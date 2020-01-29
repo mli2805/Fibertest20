@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 using DbMigrationWpf.BaseRefMigration;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForC2RInterface;
-using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WcfConnections;
 
 namespace DbMigrationWpf
 {

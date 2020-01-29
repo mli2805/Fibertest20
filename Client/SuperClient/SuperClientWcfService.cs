@@ -1,6 +1,6 @@
 ﻿using System.ServiceModel;
 using System.Threading.Tasks;
-using Iit.Fibertest.SuperClientWcfServiceInterface;
+using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.SuperClient
 {

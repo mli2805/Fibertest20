@@ -6,7 +6,7 @@ using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.IitOtdrLibrary;
-using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WcfConnections;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using TechTalk.SpecFlow;
 

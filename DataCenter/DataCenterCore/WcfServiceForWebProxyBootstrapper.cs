@@ -5,7 +5,6 @@ using Autofac.Integration.Wcf;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
-using Iit.Fibertest.WcfServiceForWebProxyInterface;
 
 namespace Iit.Fibertest.DataCenterCore
 {

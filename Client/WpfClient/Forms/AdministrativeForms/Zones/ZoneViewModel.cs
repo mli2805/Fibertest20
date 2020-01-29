@@ -4,7 +4,7 @@ using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.Client
 {

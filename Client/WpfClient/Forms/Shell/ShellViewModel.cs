@@ -9,9 +9,8 @@ using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.SuperClientWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 
 

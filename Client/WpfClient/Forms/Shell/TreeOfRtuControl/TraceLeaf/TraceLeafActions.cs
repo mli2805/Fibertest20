@@ -6,7 +6,7 @@ using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 
 

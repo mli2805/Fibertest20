@@ -1,7 +1,7 @@
 ﻿using System.ServiceModel;
 using System.Threading.Tasks;
 
-namespace Iit.Fibertest.SuperClientWcfServiceInterface
+namespace Iit.Fibertest.WcfConnections
 {
     [ServiceContract]
     public interface IWcfServiceInSuperClient

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 using Microsoft.Win32;
 using Optixsoft.SorExaminer.OtdrDataFormat;

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.SuperClientWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.WcfConnections

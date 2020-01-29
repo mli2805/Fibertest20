@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForC2RInterface;
 
 namespace Iit.Fibertest.WcfConnections
 {

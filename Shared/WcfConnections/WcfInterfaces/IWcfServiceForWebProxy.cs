@@ -4,7 +4,7 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
-namespace Iit.Fibertest.WcfServiceForWebProxyInterface
+namespace Iit.Fibertest.WcfConnections
 {
     [ServiceContract]
     public interface IWcfServiceForWebProxy

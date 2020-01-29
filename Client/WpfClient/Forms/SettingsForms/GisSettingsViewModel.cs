@@ -5,7 +5,7 @@ using GMap.NET.MapProviders;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client

@@ -9,9 +9,8 @@ using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.SuperClientWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client

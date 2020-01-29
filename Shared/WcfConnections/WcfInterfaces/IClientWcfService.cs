@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
-namespace Iit.Fibertest.ClientWcfServiceInterface
+namespace Iit.Fibertest.WcfConnections
 {
     // NOTE: You can use the "Rename" command on the "Refactor" menu to change the interface name "IClientWcfService" in both code and config file together.
     [ServiceContract]

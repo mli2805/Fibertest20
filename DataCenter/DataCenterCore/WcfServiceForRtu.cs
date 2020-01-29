@@ -5,7 +5,6 @@ using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
-using Iit.Fibertest.WcfServiceForRtuInterface;
 
 namespace Iit.Fibertest.DataCenterCore
 {

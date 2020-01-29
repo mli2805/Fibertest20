@@ -2,15 +2,9 @@
 using System.Net.Sockets;
 using System.ServiceModel;
 using System.ServiceModel.Channels;
-using Iit.Fibertest.ClientWcfServiceInterface;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.RtuWcfServiceInterface;
-using Iit.Fibertest.SuperClientWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForC2RInterface;
-using Iit.Fibertest.WcfServiceForClientInterface;
-using Iit.Fibertest.WcfServiceForRtuInterface;
-using Iit.Fibertest.WcfServiceForWebProxyInterface;
 
 namespace Iit.Fibertest.WcfConnections
 {

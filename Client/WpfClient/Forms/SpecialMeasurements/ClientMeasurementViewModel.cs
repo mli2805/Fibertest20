@@ -7,7 +7,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForC2RInterface;
+using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 
 

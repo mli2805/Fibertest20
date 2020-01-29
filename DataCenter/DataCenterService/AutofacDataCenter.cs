@@ -9,10 +9,6 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
-using Iit.Fibertest.WcfServiceForC2RInterface;
-using Iit.Fibertest.WcfServiceForClientInterface;
-using Iit.Fibertest.WcfServiceForRtuInterface;
-using Iit.Fibertest.WcfServiceForWebProxyInterface;
 
 namespace Iit.Fibertest.DataCenterService
 {

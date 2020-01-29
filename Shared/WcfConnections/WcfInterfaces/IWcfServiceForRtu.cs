@@ -1,7 +1,7 @@
 ﻿using System.ServiceModel;
 using Iit.Fibertest.Dto;
 
-namespace Iit.Fibertest.WcfServiceForRtuInterface
+namespace Iit.Fibertest.WcfConnections
 {
     [ServiceContract]
     public interface IWcfServiceForRtu

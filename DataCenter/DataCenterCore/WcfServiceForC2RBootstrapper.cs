@@ -6,7 +6,6 @@ using Autofac.Integration.Wcf;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
-using Iit.Fibertest.WcfServiceForC2RInterface;
 
 namespace Iit.Fibertest.DataCenterCore
 {

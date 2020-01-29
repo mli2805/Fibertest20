@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
-namespace Iit.Fibertest.WcfServiceForC2RInterface
+namespace Iit.Fibertest.WcfConnections
 {
     [ServiceContract]
     public interface IWcfServiceForC2R

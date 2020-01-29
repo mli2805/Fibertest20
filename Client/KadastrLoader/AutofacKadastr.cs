@@ -2,7 +2,6 @@
 using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
-using Iit.Fibertest.WcfServiceForClientInterface;
 
 namespace KadastrLoader
 {

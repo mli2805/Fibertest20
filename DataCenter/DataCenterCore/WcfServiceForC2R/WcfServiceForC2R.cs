@@ -7,7 +7,7 @@ using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForC2RInterface;
+using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.DataCenterCore
 {

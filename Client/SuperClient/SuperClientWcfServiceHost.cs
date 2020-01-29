@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.SuperClientWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 

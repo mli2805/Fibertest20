@@ -3,7 +3,7 @@ using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
-namespace Iit.Fibertest.WcfServiceForClientInterface
+namespace Iit.Fibertest.WcfConnections
 {
     [ServiceContract]
     public interface IWcfServiceForClient

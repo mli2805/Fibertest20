@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForClientInterface;
 using Newtonsoft.Json;
 
 namespace Iit.Fibertest.WcfConnections

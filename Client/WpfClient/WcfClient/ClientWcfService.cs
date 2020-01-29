@@ -4,10 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
-using Iit.Fibertest.ClientWcfServiceInterface;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
