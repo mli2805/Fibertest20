@@ -10,7 +10,6 @@ using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -22,14 +21,12 @@ namespace Iit.Fibertest.DataCenterWebApi
     public class AuthenticationController : ControllerBase
     {
         private readonly IMyLog _logFile;
-        private readonly IActionContextAccessor _accessor;
         private readonly DoubleAddress _doubleAddress;
         private readonly CommonC2DWcfManager _commonC2DWcfManager;
 
-        public AuthenticationController(IniFile iniFile, IMyLog logFile, IActionContextAccessor accessor)
+        public AuthenticationController(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
-            _accessor = accessor;
             _doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToCommonClient);
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
         }
@@ -39,8 +36,6 @@ namespace Iit.Fibertest.DataCenterWebApi
         {
             var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
             _logFile.AppendLine($"Authentication request from {ip1}");
-            var ip2 = _accessor.ActionContext.HttpContext.Connection.RemoteIpAddress.ToString();
-            _logFile.AppendLine($"Authentication request from {ip2}");
             string body;
             using (var reader = new StreamReader(Request.Body))
             {

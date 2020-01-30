@@ -221,7 +221,7 @@
     <Compile Include="GlobalState.cs" />
     <Compile Include="MsmqMessagesProcessor.cs" />
     <Compile Include="Notifications\SnmpNotifier.cs" />
-    <Compile Include="WcfServiceForC2RBootstrapper.cs" />
+    <Compile Include="WcfServiceForCommonC2DBootstrapper.cs" />
     <Compile Include="WcfServiceCommonC2D\ClientToRtuTransmitter\ClientToRtuCheckAndInitialize.cs" />
     <Compile Include="WcfServiceCommonC2D\ClientToRtuTransmitter\ClientToRtuMeasurements.cs" />
     <Compile Include="WcfServiceCommonC2D\ClientToRtuTransmitter\ClientToRtuOtau.cs" />
@@ -234,7 +234,7 @@
     <Compile Include="Notifications\SmsManager.cs" />
     <Compile Include="Notifications\Smtp.cs" />
     <Compile Include="Notifications\SmsSender.cs" />
-    <Compile Include="WcfServiceForClientBootstrapper.cs" />
+    <Compile Include="WcfServiceForDesktopClientBootstrapper.cs" />
     <Compile Include="NEventStore\EventStoreService.cs" />
     <Compile Include="LastConnectionTimeChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

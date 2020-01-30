@@ -9,14 +9,14 @@ using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public class WcfServiceForC2RBootstrapper : IDisposable
+    public class WcfServiceForCommonC2DBootstrapper : IDisposable
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly ILifetimeScope _container;
         private ServiceHost _host;
 
-        public WcfServiceForC2RBootstrapper(IniFile iniFile, IMyLog logFile, ILifetimeScope container)
+        public WcfServiceForCommonC2DBootstrapper(IniFile iniFile, IMyLog logFile, ILifetimeScope container)
         {
             _iniFile = iniFile;
             _logFile = logFile;
@@ -28,7 +28,7 @@ namespace Iit.Fibertest.DataCenterCore
             try
             {
                 var uri = new Uri(WcfFactory.CombineUriString(@"localhost",
-                    (int)TcpPorts.ServerListenToCommonClient, @"WcfServiceForC2R"));
+                    (int)TcpPorts.ServerListenToCommonClient, @"WcfServiceForCommonC2D"));
 
                 _host = new ServiceHost(typeof(WcfServiceCommonC2D));
                 _host.AddServiceEndpoint(typeof(IWcfServiceCommonC2D),

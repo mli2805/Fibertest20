@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ServiceModel;
+using System.ServiceModel.Description;
 using Autofac;
 using Autofac.Integration.Wcf;
 using Iit.Fibertest.Dto;
@@ -33,6 +34,12 @@ namespace Iit.Fibertest.DataCenterCore
                 _host.AddServiceEndpoint(typeof(IWcfServiceWebC2D),
                     WcfFactory.CreateDefaultNetTcpBinding(_iniFile), uri);
                 _host.AddDependencyInjectionBehavior<IWcfServiceWebC2D>(_container);
+
+                var behavior = _host.Description.Behaviors.Find<ServiceDebugBehavior>();
+                if (behavior == null)
+                    _host.Description.Behaviors.Add(new ServiceDebugBehavior() { IncludeExceptionDetailInFaults = true });
+                else if (!behavior.IncludeExceptionDetailInFaults)
+                    behavior.IncludeExceptionDetailInFaults = true;
 
                 _host.Open();
                 _logFile.AppendLine($"WebProxy (Web Clients) listener on port {(int)TcpPorts.ServerListenToWebClient} started successfully");
