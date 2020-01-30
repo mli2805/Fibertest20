@@ -59,7 +59,7 @@ namespace Iit.Fibertest.WcfConnections
 
                 var myClient = new MyClient<IWcfServiceDesktopC2D>(
                     CreateDefaultNetTcpBinding(_iniFile),
-                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForClient"))));
+                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForDesktopC2D"))));
 
                 return myClient.ChannelFactory;
             }
@@ -80,7 +80,7 @@ namespace Iit.Fibertest.WcfConnections
 
                 var myClient = new MyClient<IWcfServiceCommonC2D>(
                     CreateDefaultNetTcpBinding(_iniFile),
-                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForC2R"))));
+                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForCommonC2D"))));
 
                 return myClient.ChannelFactory;
             }
