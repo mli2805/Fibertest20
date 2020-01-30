@@ -24,10 +24,11 @@ namespace Iit.Fibertest.SuperClient
         {
             try
             {
-                var superClientTcpPort = _iniFile.Read(IniSection.ClientLocalAddress, IniKey.TcpPort, (int)TcpPorts.SuperClientListenTo);
-                var uri = new Uri(WcfFactory.CombineUriString(@"localhost", superClientTcpPort, @"WcfServiceInSuperClient"));
+                var uri = new Uri(WcfFactory.CombineUriString(@"localhost",
+                    (int)TcpPorts.SuperClientListenTo, @"WcfServiceInSuperClient"));
                 _wcfHost = new ServiceHost(_superClientWcfService);
-                _wcfHost.AddServiceEndpoint(typeof(IWcfServiceInSuperClient), WcfFactory.CreateDefaultNetTcpBinding(_iniFile), uri);
+                _wcfHost.AddServiceEndpoint(typeof(IWcfServiceInSuperClient),
+                    WcfFactory.CreateDefaultNetTcpBinding(_iniFile), uri);
                 _wcfHost.Open();
                 _logFile.AppendLine(@"Children clients listener started successfully");
             }

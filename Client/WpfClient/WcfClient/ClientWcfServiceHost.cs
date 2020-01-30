@@ -25,7 +25,8 @@ namespace Iit.Fibertest.Client
         {
             try
             {
-                var clientTcpPort = _iniFile.Read(IniSection.ClientLocalAddress, IniKey.TcpPort, (int)TcpPorts.ClientListenTo);
+                var clientOrdinal = _iniFile.Read(IniSection.ClientLocalAddress, IniKey.ClientOrdinal, 0);
+                var clientTcpPort = clientOrdinal + (int)TcpPorts.ClientListenTo;
                 var uri = new Uri(WcfFactory.CombineUriString(@"localhost", clientTcpPort, @"ClientWcfService"));
                 _wcfHost = new ServiceHost(_wcfServiceInClient);
                 _wcfHost.AddServiceEndpoint(typeof(IWcfServiceInClient), WcfFactory.CreateDefaultNetTcpBinding(_iniFile), uri );

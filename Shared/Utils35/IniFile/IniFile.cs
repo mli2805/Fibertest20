@@ -117,12 +117,12 @@ namespace Iit.Fibertest.UtilsLib
             return double.TryParse(str, NumberStyles.Any, CultureInfo.InvariantCulture, out var result) ? result : defaultValue;
         }
 
-        public NetAddress Read(IniSection section, int defaultTcpPort)
+        public NetAddress Read(IniSection section, int useTcpPort)
         {
             var netAddress = new NetAddress
             {
                 IsAddressSetAsIp = Read(section, IniKey.IsAddressIp, true),
-                Port = Read(section, IniKey.TcpPort, defaultTcpPort)
+                Port = useTcpPort,
             };
             netAddress.Ip4Address = Read(section, IniKey.Ip, netAddress.IsAddressSetAsIp ? "0.0.0.0" : "");
             netAddress.HostName = Read(section, IniKey.Host, netAddress.IsAddressSetAsIp ? "" : "localhost");
@@ -135,7 +135,6 @@ namespace Iit.Fibertest.UtilsLib
             Write(section, IniKey.IsAddressIp, netAddress.IsAddressSetAsIp);
             Write(section, IniKey.Ip, netAddress.IsAddressSetAsIp ? netAddress.Ip4Address : "");
             Write(section, IniKey.Host, netAddress.IsAddressSetAsIp ? "" : netAddress.HostName);
-            Write(section, IniKey.TcpPort, netAddress.Port);
         }
 
         public DoubleAddress ReadDoubleAddress(int defaultTcpPort)

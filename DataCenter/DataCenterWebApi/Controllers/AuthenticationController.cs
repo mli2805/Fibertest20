@@ -21,14 +21,14 @@ namespace Iit.Fibertest.DataCenterWebApi
     public class AuthenticationController : ControllerBase
     {
         private readonly IMyLog _logFile;
-        private readonly WebC2DWcfManager _webC2DWcfManager;
+        private readonly CommonC2DWcfManager _commonC2DWcfManager;
 
         public AuthenticationController(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
-            _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
-            var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
-            _webC2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
+            var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToCommonClient);
+            _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
+            _commonC2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
         }
 
         [HttpPost("Login")]
@@ -40,15 +40,31 @@ namespace Iit.Fibertest.DataCenterWebApi
                 body = await reader.ReadToEndAsync();
             }
             dynamic user = JObject.Parse(body);
-            var userDto = await _webC2DWcfManager.LoginWebClient((string)user.username, (string)user.password);
-            if (userDto == null)
+            var clientRegisteredDto = await _commonC2DWcfManager.RegisterClientAsync(
+                new RegisterClientDto()
+                {
+                    Addresses = new DoubleAddress()
+                    {
+                        Main = new NetAddress()
+                        {
+                            Ip4Address = Request.HttpContext.Connection.RemoteIpAddress.ToString(),
+                        },
+                        HasReserveAddress = false
+                    },
+                    UserName = (string)user.username,
+                    Password = (string)user.password,
+                    IsUnderSuperClient = false,
+                    IsWebClient = true,
+                });
+
+            if (clientRegisteredDto.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
             {
                 Response.StatusCode = 401;
-                await Response.WriteAsync("Invalid username or password.");
+                await Response.WriteAsync(clientRegisteredDto.ExceptionMessage + " ; Invalid username or password.");
                 return;
             }
 
-            var identity = await GetIdentity((string)user.username, (string)user.password);
+            var identity = GetIdentity((string)user.username, clientRegisteredDto.Role);
 
             var now = DateTime.UtcNow;
             // create JWT
@@ -63,9 +79,9 @@ namespace Iit.Fibertest.DataCenterWebApi
 
             var response = new
             {
-                username = userDto.Username,
-                role = userDto.Role,
-                zone = userDto.Zone,
+                username = (string)user.username,
+                role = clientRegisteredDto.Role,
+                zone = clientRegisteredDto.ZoneId,
                 jsonWebToken = encodedJwt,
             };
 
@@ -74,20 +90,20 @@ namespace Iit.Fibertest.DataCenterWebApi
             await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
 
-        private async Task<ClaimsIdentity> GetIdentity(string username, string password)
+        private ClaimsIdentity GetIdentity(string username, Role role)
         {
-            var userDto = await _webC2DWcfManager.LoginWebClient(username, password);
-            if (userDto == null) return null;
+            //            var userDto = await _webC2DWcfManager.LoginWebClient(username, password);
+            //            if (userDto == null) return null;
 
             _logFile.AppendLine($"User {username.ToUpper()} logged in");
 
             var claims = new List<Claim>
                 {
-                    new Claim(ClaimsIdentity.DefaultNameClaimType, userDto.Username),
-                    new Claim(ClaimsIdentity.DefaultRoleClaimType, userDto.Role),
+                    new Claim(ClaimsIdentity.DefaultNameClaimType, username),
+                    new Claim(ClaimsIdentity.DefaultRoleClaimType, role.ToString()),
                 };
             ClaimsIdentity claimsIdentity =
-                new ClaimsIdentity(claims, "Token", 
+                new ClaimsIdentity(claims, "Token",
                     ClaimsIdentity.DefaultNameClaimType,
                     ClaimsIdentity.DefaultRoleClaimType);
             return claimsIdentity;
@@ -101,6 +117,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             await Task.Delay(1);
             return "just to start under visual studio debug";
         }
+
     }
 
     public class AuthOptions

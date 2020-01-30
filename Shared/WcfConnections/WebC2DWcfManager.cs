@@ -22,26 +22,6 @@ namespace Iit.Fibertest.WcfConnections
             _wcfFactory = new WcfFactory(newServerAddress, _iniFile, _logFile);
         }
 
-        public async Task<UserDto> LoginWebClient(string username, string password)
-        {
-            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
-            if (wcfConnection == null)
-                return null;
-
-            try
-            {
-                var channel = wcfConnection.CreateChannel();
-                var result = await channel.LoginWebClient(username, password);
-                wcfConnection.Close();
-                return result;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("LoginWebClient: " + e.Message);
-                return null;
-            }
-        }
-
         public async Task<string> GetTreeInJson(string username)
         {
             var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();

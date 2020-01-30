@@ -10,9 +10,6 @@ namespace Iit.Fibertest.WcfConnections
     public interface IWcfServiceWebC2D
     {
         [OperationContract]
-        Task<UserDto> LoginWebClient(string username, string password);
-
-        [OperationContract]
         Task<string> GetTreeInJson(string username);
 
         #region RTU

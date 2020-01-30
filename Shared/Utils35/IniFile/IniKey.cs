@@ -11,7 +11,8 @@
         Ip,
         Host,
         IsAddressIp,
-        TcpPort,
+     //   TcpPort,
+        ClientOrdinal, // will be added to to the TCP port number 11843; for Client is 0, but under SuperClient would be different
 
         // General
         Version,

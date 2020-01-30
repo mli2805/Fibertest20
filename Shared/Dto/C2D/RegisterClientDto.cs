@@ -8,8 +8,7 @@ namespace Iit.Fibertest.Dto
     {
         [DataMember]
         public Guid ClientId { get; set; }
-//        [DataMember]
-//        public string Username { get; set; }
+
         [DataMember]
         public string ClientIp { get; set; }
 
@@ -24,6 +23,9 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public bool IsUnderSuperClient { get; set; }
-        
+
+        [DataMember]
+        public bool IsWebClient { get; set; }
+
     }
 }
