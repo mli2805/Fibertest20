@@ -10,6 +10,7 @@ using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -21,25 +22,32 @@ namespace Iit.Fibertest.DataCenterWebApi
     public class AuthenticationController : ControllerBase
     {
         private readonly IMyLog _logFile;
+        private readonly IActionContextAccessor _accessor;
+        private readonly DoubleAddress _doubleAddress;
         private readonly CommonC2DWcfManager _commonC2DWcfManager;
 
-        public AuthenticationController(IniFile iniFile, IMyLog logFile)
+        public AuthenticationController(IniFile iniFile, IMyLog logFile, IActionContextAccessor accessor)
         {
             _logFile = logFile;
-            var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToCommonClient);
+            _accessor = accessor;
+            _doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToCommonClient);
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
-            _commonC2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
         }
 
         [HttpPost("Login")]
         public async Task Login()
         {
+            var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
+            _logFile.AppendLine($"Authentication request from {ip1}");
+            var ip2 = _accessor.ActionContext.HttpContext.Connection.RemoteIpAddress.ToString();
+            _logFile.AppendLine($"Authentication request from {ip2}");
             string body;
             using (var reader = new StreamReader(Request.Body))
             {
                 body = await reader.ReadToEndAsync();
             }
             dynamic user = JObject.Parse(body);
+            _commonC2DWcfManager.SetServerAddresses(_doubleAddress, (string)user.username, "localhost");
             var clientRegisteredDto = await _commonC2DWcfManager.RegisterClientAsync(
                 new RegisterClientDto()
                 {
@@ -92,10 +100,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         private ClaimsIdentity GetIdentity(string username, Role role)
         {
-            //            var userDto = await _webC2DWcfManager.LoginWebClient(username, password);
-            //            if (userDto == null) return null;
-
-            _logFile.AppendLine($"User {username.ToUpper()} logged in");
+            _logFile.AppendLine($"User {username.ToUpper()} is logged in");
 
             var claims = new List<Claim>
                 {
