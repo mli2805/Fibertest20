@@ -19,19 +19,19 @@ namespace Iit.Fibertest.DataCenterService
         private readonly IEventStoreInitializer _eventStoreInitializer;
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
         private readonly SmsSender _smsSender;
-        private readonly WcfServiceForDesktopClientBootstrapper _wcfServiceForDesktopClientBootstrapper;
+        private readonly WcfServiceForDesktopC2DBootstrapper _wcfServiceForDesktopC2DBootstrapper;
         private readonly WcfServiceForCommonC2DBootstrapper _wcfServiceForCommonC2DBootstrapper;
         private readonly WcfServiceForRtuBootstrapper _wcfServiceForRtuBootstrapper;
-        private readonly WcfServiceForWebProxyBootstrapper _wcfServiceForWebProxyBootstrapper;
+        private readonly WcfServiceForWebC2DBootstrapper _wcfServiceForWebC2DBootstrapper;
         private readonly IMsmqHandler _msmqHandler;
 
         public Service1(IniFile iniFile, IMyLog logFile, ISettings serverSettings,
             EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
             LastConnectionTimeChecker lastConnectionTimeChecker, SmsSender smsSender,
-            WcfServiceForDesktopClientBootstrapper wcfServiceForDesktopClientBootstrapper,
+            WcfServiceForDesktopC2DBootstrapper wcfServiceForDesktopC2DBootstrapper,
             WcfServiceForCommonC2DBootstrapper wcfServiceForCommonC2DBootstrapper,
             WcfServiceForRtuBootstrapper wcfServiceForRtuBootstrapper,
-            WcfServiceForWebProxyBootstrapper wcfServiceForWebProxyBootstrapper,
+            WcfServiceForWebC2DBootstrapper wcfServiceForWebC2DBootstrapper,
             IMsmqHandler msmqHandler)
         {
             IniFile = iniFile;
@@ -42,10 +42,10 @@ namespace Iit.Fibertest.DataCenterService
             _logFile.AssignFile("DataCenter.log");
             _lastConnectionTimeChecker = lastConnectionTimeChecker;
             _smsSender = smsSender;
-            _wcfServiceForDesktopClientBootstrapper = wcfServiceForDesktopClientBootstrapper;
+            _wcfServiceForDesktopC2DBootstrapper = wcfServiceForDesktopC2DBootstrapper;
             _wcfServiceForCommonC2DBootstrapper = wcfServiceForCommonC2DBootstrapper;
             _wcfServiceForRtuBootstrapper = wcfServiceForRtuBootstrapper;
-            _wcfServiceForWebProxyBootstrapper = wcfServiceForWebProxyBootstrapper;
+            _wcfServiceForWebC2DBootstrapper = wcfServiceForWebC2DBootstrapper;
             _msmqHandler = msmqHandler;
             InitializeComponent();
         }
@@ -75,8 +75,8 @@ namespace Iit.Fibertest.DataCenterService
             await InitializeEventStoreService();
             _lastConnectionTimeChecker.Start();
             _wcfServiceForCommonC2DBootstrapper.Start();
-            _wcfServiceForWebProxyBootstrapper.Start();
-            _wcfServiceForDesktopClientBootstrapper.Start();
+            _wcfServiceForWebC2DBootstrapper.Start();
+            _wcfServiceForDesktopC2DBootstrapper.Start();
             _wcfServiceForRtuBootstrapper.Start();
             _msmqHandler.Start();
             _smsSender.Start();

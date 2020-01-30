@@ -101,7 +101,7 @@ namespace Iit.Fibertest.WcfConnections
 
                 var myClient = new MyClient<IWcfServiceWebC2D>(
                     CreateDefaultNetTcpBinding(_iniFile),
-                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForWebProxy"))));
+                    new EndpointAddress(new Uri(CombineUriString(netAddress.GetAddress(), netAddress.Port, @"WcfServiceForWebC2D"))));
 
                 return myClient.ChannelFactory;
             }

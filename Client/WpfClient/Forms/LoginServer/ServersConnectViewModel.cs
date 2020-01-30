@@ -206,7 +206,10 @@ namespace Iit.Fibertest.Client
             var newServer = new Server()
             {
                 Title = NewServerTitle,
-                ServerAddress = new DoubleAddress() { Main = (NetAddress)ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress().Clone() },
+                ServerAddress = new DoubleAddress()
+                {
+                    Main = (NetAddress)ServerConnectionTestViewModel.NetAddressInputViewModel.GetNetAddress().Clone()
+                },
                 ClientIpAddress = _clientAddress,
                 IsLastSelected = true,
             };

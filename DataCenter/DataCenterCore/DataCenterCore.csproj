@@ -234,7 +234,7 @@
     <Compile Include="Notifications\SmsManager.cs" />
     <Compile Include="Notifications\Smtp.cs" />
     <Compile Include="Notifications\SmsSender.cs" />
-    <Compile Include="WcfServiceForDesktopClientBootstrapper.cs" />
+    <Compile Include="WcfServiceForDesktopC2DBootstrapper.cs" />
     <Compile Include="NEventStore\EventStoreService.cs" />
     <Compile Include="LastConnectionTimeChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -250,7 +250,7 @@
     <Compile Include="WcfServiceForRtu.cs" />
     <Compile Include="WcfServiceForRtuBootstrapper.cs" />
     <Compile Include="ForWebApi\WcfServiceWebC2D.cs" />
-    <Compile Include="WcfServiceForWebProxyBootstrapper.cs" />
+    <Compile Include="WcfServiceForWebC2DBootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
