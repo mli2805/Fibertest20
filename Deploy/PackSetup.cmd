@@ -35,16 +35,9 @@ cd ..\
 xcopy ..\DataCenter\DataCenterWebApi\bin\Release\netcoreapp3.0\*.* PackWeb\WebApi\*.* /S/D/Y
 xcopy "..\Auxiliary Files\web.config" PackWeb\WebApi\*.* /S/Y
 xcopy ..\Client\WebClient\dist\WebClient\*.* PackWeb\WebClient\*.* /S/D/Y
-cd PackWeb\
-"C:\Program Files\WinRAR\winrar.exe" a -r ..\FtWeb_%1.rar *.*
-cd ..\
 
 xcopy ..\Client\LicenseMaker\bin\Release\*.* PackAdmin\LicenseMaker\bin\*.* /S/D/Y
 xcopy ..\Client\DbMigrationWpf\bin\Release\*.* PackAdmin\DbMigrationWpf\bin\*.* /S/D/Y
 xcopy ..\Client\KadastrLoader\bin\Release\*.* PackAdmin\KadastrLoader\bin\*.* /S/D/Y
 xcopy ..\Client\Broadcaster\bin\Release\*.* PackAdmin\Broadcaster\bin\*.* /S/D/Y
 xcopy ..\Client\MapLoader\bin\Release\*.* PackAdmin\MapLoader\bin\*.* /S/D/Y
-
-cd PackAdmin\
-"C:\Program Files\WinRAR\winrar.exe" a -r ..\FtAdmin_%1.rar *.*
-cd ..\
