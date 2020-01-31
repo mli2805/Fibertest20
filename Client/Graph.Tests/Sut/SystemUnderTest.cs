@@ -76,7 +76,7 @@ namespace Graph.Tests
             vm.Login();
             FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
             ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
-            ReadModel.Users.Count.Should().Be(5);
+            ReadModel.Users.Count.Should().Be(7);
             WcfServiceDesktopC2D.SendCommandAsObj(new ApplyLicense()
             {
                 LicenseId = Guid.NewGuid(),

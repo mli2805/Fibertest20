@@ -14,6 +14,7 @@ import { FiberStateUriPipe } from "./pipes/fiber-state-uri.pipe";
 import { BooleanUriPipe } from "./pipes/boolean-uri.pipe";
 import { EventStatusPipe } from "./pipes/event-status.pipe";
 import { FrequencyPipe } from "./pipes/frequency.pipe";
+import { ReturnCodePipe } from "./pipes/return-code.pipe";
 import {
   BaseRefTypePipe,
   BaseRefTypeFemalePipe
@@ -99,6 +100,7 @@ import { FtRtuMonitoringPortsComponent } from "./components/details/rtu/ft-rtu-m
     BaseRefTypeFemalePipe,
     TraceMonitoringModeUriPipe,
     BooleanUriPipe,
+    ReturnCodePipe,
     FtOptEventsComponent,
     FtNetworkEventsComponent,
     FtTraceStatisticsComponent,
@@ -142,7 +144,7 @@ import { FtRtuMonitoringPortsComponent } from "./components/details/rtu/ft-rtu-m
     MatNativeDateModule,
     MatRadioModule
   ],
-  providers: [AuthGuard, FrequencyPipe],
+  providers: [AuthGuard, FrequencyPipe, ReturnCodePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule {

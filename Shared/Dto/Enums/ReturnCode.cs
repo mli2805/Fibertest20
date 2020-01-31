@@ -48,8 +48,9 @@
         OtauAttachedSuccesfully = 4003,
         OtauDetachedSuccesfully = 4004,
 
+        ClientRegisteredSuccessfully = 9000,
         NoSuchUserOrWrongPassword = 9001,
-        ThisUserRegisteredOnAnotherPc = 9002,
+        ThisUserRegisteredFromAnotherDevice = 9002,
         NoSuchClientStation = 9003,
         NoSuchRtu = 9004,
         ClientsCountExceeded = 9005,
@@ -58,7 +59,7 @@
         SuperClientsCountLicenseExpired = 9008,
         UserHasNoRightsToStartClient = 9009,
         UserHasNoRightsToStartSuperClient = 9010,
-        ClientRegisteredSuccessfully = 9011,
+        UserHasNoRightsToStartWebClient = 9011,
 
         BaseRefAssignmentFailed = 9401,
     }

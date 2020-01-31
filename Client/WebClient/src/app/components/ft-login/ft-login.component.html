@@ -33,7 +33,6 @@
             name="password"
             type="password"
             [(ngModel)]="pw"
-            
           />
         </mat-form-field>
       </form>
@@ -43,5 +42,8 @@
         Log in
       </button>
     </mat-card-actions>
+    <mat-card-footer>
+      <div class="err" *ngIf="resultMessage">{{ resultMessage }}</div>
+    </mat-card-footer>
   </mat-card>
 </div>

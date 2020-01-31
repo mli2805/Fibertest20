@@ -1185,7 +1185,7 @@ RTU инициализируется в данный момент!</value>
     <value>Настройки мониторинга применены успешно.</value>
   </data>
 	<data name="SID_User_with_the_same_name_is_registered_on_another_PC" xml:space="preserve">
-    <value>Пользователь с таким именем подключился за другим PC</value>
+    <value>Пользователь с таким именем подключился с другого устройства</value>
   </data>
 	<data name="SID_Unknown_return_code" xml:space="preserve">
     <value>Неизвестный код ошибки</value>
@@ -2728,5 +2728,8 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Base_reference_assignment_failed" xml:space="preserve">
 		<value>Ошибка задания базовой рефлектограммы</value>
+	</data>
+	<data name="SID_This_user_has_no_right_to_start_Web_Client" xml:space="preserve">
+		<value>Данный пользователь не имеет прав на запуск ПО Fibertest WebClient</value>
 	</data>
 </root>

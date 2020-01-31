@@ -1182,7 +1182,7 @@ RTU is initializing right now!</value>
     <value>Monitoring settings are applied successfully.</value>
   </data>
 	<data name="SID_User_with_the_same_name_is_registered_on_another_PC" xml:space="preserve">
-    <value>User with the same name is registered on another PC</value>
+    <value>User with the same name is registered from another device</value>
   </data>
 	<data name="SID_Unknown_return_code" xml:space="preserve">
     <value>Unknown return code</value>
@@ -2728,5 +2728,8 @@ RTU is initializing right now!</value>
   </data>
 	<data name="SID_Base_reference_assignment_failed" xml:space="preserve">
     <value>Base reference assignment failed</value>
+  </data>
+	<data name="SID_This_user_has_no_right_to_start_Web_Client" xml:space="preserve">
+    <value>This user has no right to start Web Client</value>
   </data>
 </root>

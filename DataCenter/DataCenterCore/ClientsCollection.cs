@@ -30,22 +30,29 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             var user = _writeModel.Users.FirstOrDefault(u => u.Title == dto.UserName && UserExt.FlipFlop(u.EncodedPassword) == dto.Password);
-            return user == null
+            var result = user == null
                 ? new ClientRegisteredDto { ReturnCode = ReturnCode.NoSuchUserOrWrongPassword }
                 : await HasRight(dto, user);
+            result.ExceptionMessage = result.ReturnCode.GetLocalizedString(result.ExceptionMessage);
+            return result;
         }
 
         private async Task<ClientRegisteredDto> HasRight(RegisterClientDto dto, User user)
         {
-            if (!dto.IsUnderSuperClient)
+            if (dto.IsUnderSuperClient)
             {
-                if (user.Role >= Role.Superclient)
-                    return new ClientRegisteredDto() {ReturnCode = ReturnCode.UserHasNoRightsToStartClient};
-            }
-            else
-            {
-                if  (user.Role != Role.Superclient && user.Role != Role.Developer)
+                if (!user.Role.IsSuperclientPermitted())
                     return new ClientRegisteredDto() {ReturnCode = ReturnCode.UserHasNoRightsToStartSuperClient};
+            }
+            else if (dto.IsWebClient)
+            {
+                if (!user.Role.IsWebPermitted())
+                    return new ClientRegisteredDto() {ReturnCode = ReturnCode.UserHasNoRightsToStartWebClient};
+            }
+            else 
+            {
+                if (!user.Role.IsDesktopPermitted())
+                    return new ClientRegisteredDto() {ReturnCode = ReturnCode.UserHasNoRightsToStartClient};
             }
             return await RegisterClientStation(dto, user);
         }
@@ -57,8 +64,8 @@ namespace Iit.Fibertest.DataCenterCore
 
             if (_clients.Any(s => s.UserId == user.UserId && s.ClientGuid != dto.ClientId))
             {
-                _logFile.AppendLine($"User {dto.UserName} registered on another PC");
-                return new ClientRegisteredDto() { ReturnCode = ReturnCode.ThisUserRegisteredOnAnotherPc };
+                _logFile.AppendLine($"User {dto.UserName} registered from another device");
+                return new ClientRegisteredDto() { ReturnCode = ReturnCode.ThisUserRegisteredFromAnotherDevice };
             }
 
             var station = _clients.FirstOrDefault(s => s.ClientGuid == dto.ClientId);

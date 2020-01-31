@@ -18,7 +18,6 @@ namespace Iit.Fibertest.DataCenterCore
                 for (int i = 1; i <= rtuDto.OwnPortCount; i++)
                 {
                     rtuDto.Children.Add(rtu.GetChildForPort(i, writeModel, logFile, user));
-                    logFile.AppendLine($"{rtu.Title} {i}");
                 }
                 //detached traces
                 foreach (var trace in writeModel.Traces.Where(t => t.RtuId == rtu.Id && t.Port == -1))
@@ -90,7 +89,7 @@ namespace Iit.Fibertest.DataCenterCore
                 : new ChildDto(ChildType.FreePort) { Port = port };
         }
 
-        public static TraceDto CreateTraceDto(this Trace t)
+        private static TraceDto CreateTraceDto(this Trace t)
         {
             return new TraceDto(ChildType.Trace)
             {

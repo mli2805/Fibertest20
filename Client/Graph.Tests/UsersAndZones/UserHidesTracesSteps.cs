@@ -25,7 +25,7 @@ namespace Graph.Tests
             vm.Login();
             _sut.FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
             _sut.ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
-            _sut.ReadModel.Users.Count.Should().Be(5);
+            _sut.ReadModel.Users.Count.Should().Be(7);
 
             var vm1 = _sut.ClientScope.Resolve<ConfigurationViewModel>();
             vm1.IsGraphVisibleOnStart = true;

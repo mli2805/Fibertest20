@@ -49,9 +49,11 @@ namespace Iit.Fibertest.Graph
                 case ReturnCode.MonitoringSettingsAppliedSuccessfully:
                     return Resources.SID_Monitoring_settings_are_applied_successfully_;
                 // 9000
+                case ReturnCode.ClientRegisteredSuccessfully:
+                    return @"OK";
                 case ReturnCode.NoSuchUserOrWrongPassword:
                     return Resources.SID_No_such_user_or_wrong_password_;
-                case ReturnCode.ThisUserRegisteredOnAnotherPc:
+                case ReturnCode.ThisUserRegisteredFromAnotherDevice:
                     return Resources.SID_User_with_the_same_name_is_registered_on_another_PC;
                 case ReturnCode.NoSuchClientStation:
                     return @"No such client station";
@@ -63,8 +65,8 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_This_user_has_no_right_to_start_client;
                 case ReturnCode.UserHasNoRightsToStartSuperClient:
                     return Resources.SID_This_user_has_no_right_to_start_SuperClient;
-                case ReturnCode.ClientRegisteredSuccessfully:
-                    return @"OK";
+                case ReturnCode.UserHasNoRightsToStartWebClient:
+                    return Resources.SID_This_user_has_no_right_to_start_Web_Client;
                 //9401
                 case ReturnCode.BaseRefAssignmentFailed:
                     return Resources.SID_Base_reference_assignment_failed;

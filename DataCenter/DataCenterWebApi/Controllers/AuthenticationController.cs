@@ -63,7 +63,14 @@ namespace Iit.Fibertest.DataCenterWebApi
             if (clientRegisteredDto.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
             {
                 Response.StatusCode = 401;
-                await Response.WriteAsync(clientRegisteredDto.ExceptionMessage + " ; Invalid username or password.");
+                var responseError = new
+                {
+                    returnCode = clientRegisteredDto.ReturnCode,
+                    exceptionMessage = clientRegisteredDto.ExceptionMessage,
+                };
+                Response.ContentType = "application/json";
+                await Response.WriteAsync(JsonConvert.SerializeObject(responseError, 
+                                new JsonSerializerSettings { Formatting = Formatting.Indented }));
                 return;
             }
 

@@ -6942,6 +6942,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This user has no right to start Web Client.
+        /// </summary>
+        public static string SID_This_user_has_no_right_to_start_Web_Client {
+            get {
+                return ResourceManager.GetString("SID_This_user_has_no_right_to_start_Web_Client", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Threshold, dB:.
         /// </summary>
         public static string SID_Threshold__dB {
