@@ -215,6 +215,8 @@ namespace Setup
 
             _currentInstallation.InstallationType = InstTypeChoiceViewModel.GetSelectedType();
             _currentInstallation.MySqlTcpPort = InstTypeChoiceViewModel.MySqlTcpPort;
+            _currentInstallation.IsWebNeeded = InstTypeChoiceViewModel.IsWebNeeded;
+            _currentInstallation.WebArchivePath = InstTypeChoiceViewModel.WebArchivePath;
         }
 
         private void ProcessProgressViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

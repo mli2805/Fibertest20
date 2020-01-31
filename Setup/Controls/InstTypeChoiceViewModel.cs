@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Forms;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 
@@ -22,6 +24,30 @@ namespace Iit.Fibertest.Setup
 
         public string MySqlTcpPort { get; set; } = "3306";
 
+        private bool _isWebNeeded = true;
+        public bool IsWebNeeded
+        {
+            get => _isWebNeeded;
+            set
+            {
+                if (value == _isWebNeeded) return;
+                _isWebNeeded = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private string _webArchivePath;
+        public string WebArchivePath
+        {
+            get => _webArchivePath;
+            set
+            {
+                if (value == _webArchivePath) return;
+                _webArchivePath = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         private Visibility _mySqlTcpPortVisibility = Visibility.Collapsed;
         public Visibility MySqlTcpPortVisibility
         {
@@ -40,6 +66,7 @@ namespace Iit.Fibertest.Setup
         public List<string> InstTypes { get; set; }
 
         private string _selectedType;
+
         public string SelectedType
         {
             get => _selectedType;
@@ -73,6 +100,20 @@ namespace Iit.Fibertest.Setup
                 default: return InstallationType.Client;
             }
 
+        }
+
+        public void Browse()
+        {
+            string initialDirectory = string.IsNullOrEmpty(WebArchivePath)
+                ? Environment.GetFolderPath(Environment.SpecialFolder.Personal)
+                : WebArchivePath;
+            using (var dialog = new OpenFileDialog(){InitialDirectory = initialDirectory, Filter = @"archive|*.rar"})
+            {
+                var result = dialog.ShowDialog();
+                if (result != DialogResult.OK) return;
+
+                WebArchivePath = dialog.FileName;
+            }
         }
     }
 }

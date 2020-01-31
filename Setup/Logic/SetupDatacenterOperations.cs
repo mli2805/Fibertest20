@@ -15,9 +15,11 @@ namespace Iit.Fibertest.Setup
         private const string DataCenterIniSubdir = @"DataCenter\ini";
         private const string ServiceFilename = @"Iit.Fibertest.DataCenterService.exe";
 
-        public bool SetupDataCenter(BackgroundWorker worker, string installationFolder, string mysqlTcpPort)
+      //  private const string SourceWebApiService = "";
+
+        public bool SetupDataCenter(BackgroundWorker worker, CurrentInstallation currentInstallation)
         {
-            var fullDataCenterPath = Path.Combine(installationFolder, DataCenterSubdir);
+            var fullDataCenterPath = Path.Combine(currentInstallation.InstallationFolder, DataCenterSubdir);
 
             worker.ReportProgress((int)BwReturnProgressCode.DataCenterSetupStarted);
             if (!ServiceOperations.UninstallServiceIfExist(DataCenterServiceName, DataCenterDisplayName, worker))
@@ -27,7 +29,7 @@ namespace Iit.Fibertest.Setup
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDataCenter, fullDataCenterPath, worker))
                 return false;
 
-            SaveMysqlTcpPort(installationFolder, mysqlTcpPort);
+            SaveMysqlTcpPort(currentInstallation.InstallationFolder, currentInstallation.MySqlTcpPort);
 
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
 

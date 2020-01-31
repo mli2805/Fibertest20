@@ -40,7 +40,7 @@ namespace Iit.Fibertest.Setup
                         return false;
                     break;
                 case InstallationType.Datacenter:
-                    if (!_setupDataCenterOperations.SetupDataCenter(worker, _currentInstallation.InstallationFolder, _currentInstallation.MySqlTcpPort))
+                    if (!_setupDataCenterOperations.SetupDataCenter(worker, _currentInstallation))
                         return false;
                     if (!_setupClientOperations.SetupClient(worker, _currentInstallation.InstallationFolder))
                         return false;
