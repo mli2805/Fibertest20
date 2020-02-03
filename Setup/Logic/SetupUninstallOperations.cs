@@ -21,7 +21,8 @@ namespace Iit.Fibertest.Setup
 
             var fullUninstallPath = Path.Combine(installationFolder, UninstallSubdir);
             _logFile.AppendLine($" full uninstall path = {fullUninstallPath}");
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUninstall, fullUninstallPath, worker))
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUninstall, true, 
+                fullUninstallPath, worker))
                 return;
 
             _logFile.AppendLine("Files are copied successfully");

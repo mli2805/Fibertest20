@@ -25,6 +25,7 @@ namespace Iit.Fibertest.UtilsLib
         ClientSetupCompletedSuccessfully,
         DataCenterSetupStarted,
         DataCenterSetupCompletedSuccessfully,
+        WebComponentsSetupStarted,
         RtuManagerSetupStarted,
         RtuManagerSetupCompletedSuccessfully, 
         SuperClientSetupStarted,

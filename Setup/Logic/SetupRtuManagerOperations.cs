@@ -39,17 +39,19 @@ namespace Iit.Fibertest.Setup
 
             Thread.Sleep(1000);
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathRtuManager, fullRtuManagerPath, worker))
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathRtuManager, true, fullRtuManagerPath, worker))
                 return false;
 
             var otdrmeasengine = Path.Combine(fullRtuManagerPath, @"OtdrMeasEngine\");
             FileOperations.CleanAntiGhost(otdrmeasengine, true);
             CreateIniForIpAddressesSetting(installationFolder);
 
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUtils, fullUtilsPath, worker))
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUtils, true, 
+                fullUtilsPath, worker))
                 return false;
 
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, fullReflectPath, worker))
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, true,
+                fullReflectPath, worker))
                 return false;
             FileOperations.CleanAntiGhost(fullReflectPath, false);
 
@@ -74,7 +76,8 @@ namespace Iit.Fibertest.Setup
             var iniRtuManagerPath = Path.Combine(installationFolder, RtuManagerIniSubdir);
 
             var iniFile = new IniFile();
-            var iniFileName = Utils.FileNameForSure(iniRtuManagerPath, "RtuManager.ini", false, true);
+            var iniFileName = Utils.FileNameForSure(iniRtuManagerPath, "RtuManager.ini",
+                false, true);
             iniFile.AssignFile(iniFileName, true);
 
             iniFile.Read(IniSection.RtuManager, IniKey.OtdrIp, "192.168.88.101");

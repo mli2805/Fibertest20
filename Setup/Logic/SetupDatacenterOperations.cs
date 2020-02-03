@@ -15,9 +15,24 @@ namespace Iit.Fibertest.Setup
         private const string DataCenterIniSubdir = @"DataCenter\ini";
         private const string ServiceFilename = @"Iit.Fibertest.DataCenterService.exe";
 
-      //  private const string SourceWebApiService = "";
+        private const string SourcePathWebApi = @"WebApi";
+        private const string WebApiSubdir = @"WebApi\publish";
+        private const string SourcePathWebClient = @"WebClient";
+        private const string WebClientSubdir = @"WebClient";
 
         public bool SetupDataCenter(BackgroundWorker worker, CurrentInstallation currentInstallation)
+        {
+            if (!SetupDataCenterComponent(worker, currentInstallation)) return false;
+
+            if (currentInstallation.IsWebNeeded)
+            {
+                if (!SetupWebComponents(worker, currentInstallation)) return false;
+            }
+
+            return true;
+        }
+
+        private static bool SetupDataCenterComponent(BackgroundWorker worker, CurrentInstallation currentInstallation)
         {
             var fullDataCenterPath = Path.Combine(currentInstallation.InstallationFolder, DataCenterSubdir);
 
@@ -26,27 +41,50 @@ namespace Iit.Fibertest.Setup
                 return false;
 
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDataCenter, fullDataCenterPath, worker))
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDataCenter, true,
+                fullDataCenterPath, worker))
                 return false;
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
 
             SaveMysqlTcpPort(currentInstallation.InstallationFolder, currentInstallation.MySqlTcpPort);
 
-            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
 
             var filename = Path.Combine(fullDataCenterPath, ServiceFilename);
-            if (!ServiceOperations.InstallService(DataCenterServiceName, 
+            if (!ServiceOperations.InstallService(DataCenterServiceName,
                 DataCenterDisplayName, DataCenterServiceDescription, filename, worker)) return false;
 
             worker.ReportProgress((int)BwReturnProgressCode.DataCenterSetupCompletedSuccessfully);
             return true;
         }
 
+        private static bool SetupWebComponents(BackgroundWorker worker, CurrentInstallation currentInstallation)
+        {
+            worker.ReportProgress((int)BwReturnProgressCode.WebComponentsSetupStarted);
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
+
+            var fullWebApiSourcePath = currentInstallation.WebArchivePath + SourcePathWebApi;
+            var fullWebApiPath = Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir);
+            if (!FileOperations.DirectoryCopyWithDecorations(fullWebApiSourcePath, false,
+                fullWebApiPath, worker))
+                return false;
+
+            var fullWebClientSourcePath = currentInstallation.WebArchivePath + SourcePathWebClient;
+            var fullWebClientPath = Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir);
+            if (!FileOperations.DirectoryCopyWithDecorations(fullWebClientSourcePath, false,
+                fullWebClientPath, worker))
+                return false;
+
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
+            return true;
+        }
+
         private static void SaveMysqlTcpPort(string installationFolder, string mysqlTcpPort)
         {
             var iniDataCenterPath = Path.Combine(installationFolder, DataCenterIniSubdir);
-            
+
             var iniFile = new IniFile();
-            var iniFileName = Utils.FileNameForSure(iniDataCenterPath, "DataCenter.ini", false, true);
+            var iniFileName = Utils.FileNameForSure(iniDataCenterPath, "DataCenter.ini",
+                false, true);
             iniFile.AssignFile(iniFileName, true);
 
             iniFile.Write(IniSection.MySql, IniKey.MySqlTcpPort, mysqlTcpPort);

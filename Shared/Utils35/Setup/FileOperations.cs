@@ -24,11 +24,11 @@ namespace Iit.Fibertest.UtilsLib
             return path;
         }
 
-        public static bool DirectoryCopyWithDecorations(string sourceDirName, string destDirName,
+        public static bool DirectoryCopyWithDecorations(string sourceDirName, bool isSourcePathRelative, string destDirName,
             BackgroundWorker worker)
         {
             var currentDomain = AppDomain.CurrentDomain.BaseDirectory;
-            var fullSourcePath = Path.Combine(currentDomain, sourceDirName);
+            var fullSourcePath = isSourcePathRelative ? Path.Combine(currentDomain, sourceDirName) : sourceDirName;
             try
             {
                 return DirectoryCopyRecursively(fullSourcePath, destDirName, worker);

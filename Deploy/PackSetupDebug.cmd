@@ -1,12 +1,13 @@
 rmdir /S/Q Pack\
 del Ft*.exe
 rmdir /S/Q PackWeb\
-del FtWeb*.rar
+del FtWeb*.zip
 rmdir /S/Q PackAdmin\
-del FtAdmin*.rar
+del FtAdmin*.zip
 
 xcopy ..\Setup\bin\Debug\*.* Pack\bin\*.* /S/D/Y
 xcopy ..\Setup\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
+xcopy ..\Utils\*.* Pack\Utils\*.* /S/D/Y
       
 xcopy ..\DataCenter\DataCenterService\bin\Debug\*.* Pack\DcFiles\*.* /S/D/Y
 xcopy "..\Auxiliary Files\*.mib" Pack\DcFiles\*.* /S/D/Y
@@ -35,11 +36,13 @@ rem cd ..\
 
 "C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackSetup.conf" FtDebug_2.0.1.%1.exe Pack\*.*
 
-xcopy ..\DataCenter\DataCenterWebApi\bin\Debug\netcoreapp3.0\*.* PackWeb\WebApiFiles\*.* /S/D/Y
+xcopy ..\DataCenter\DataCenterWebApi\bin\Debug\netcoreapp3.0\*.* PackWeb\WebApi\*.* /S/D/Y
+xcopy "..\Auxiliary Files\web.config" PackWeb\WebApi\*.* /S/Y
 xcopy ..\Client\WebClient\dist\WebClient\*.* PackWeb\WebClient\*.* /S/D/Y
 cd PackWeb\
-"C:\Program Files\WinRAR\winrar.exe" a -r ..\FtDebugWeb_2.0.1.%1.rar *.*
+..\7z.exe a -r ..\FtDebugWeb_2.0.1.%1.zip *.*
 cd ..\
+pause
 
 xcopy ..\Client\LicenseMaker\bin\Debug\*.* PackAdmin\LicenseMaker\bin\*.* /S/D/Y
 xcopy ..\Client\DbMigrationWpf\bin\Debug\*.* PackAdmin\DbMigrationWpf\bin\*.* /S/D/Y
@@ -48,7 +51,8 @@ xcopy ..\Client\Broadcaster\bin\Debug\*.* PackAdmin\Broadcaster\bin\*.* /S/D/Y
 xcopy ..\Client\MapLoader\bin\Debug\*.* PackAdmin\MapLoader\bin\*.* /S/D/Y
 
 cd PackAdmin\
-"C:\Program Files\WinRAR\winrar.exe" a -r ..\FtDebugAdmin_2.0.1.%1.rar *.*
+..\7z.exe a -r ..\FtDebugAdmin_2.0.1.%1.zip *.*
 cd ..\
+pause
 
 
