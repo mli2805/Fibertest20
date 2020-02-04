@@ -1,9 +1,10 @@
 rmdir /S/Q Pack\
-del Ft*.exe
 rmdir /S/Q PackWeb\
-del FtWeb*.zip
 rmdir /S/Q PackAdmin\
-del FtAdmin*.zip
+del Ft*.exe
+del Ft*.zip
+
+
 
 xcopy ..\Setup\bin\Debug\*.* Pack\bin\*.* /S/D/Y
 xcopy ..\Setup\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y

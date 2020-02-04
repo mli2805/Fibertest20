@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.IO;
 using System.IO.Compression;
 using Iit.Fibertest.UtilsLib;
@@ -63,7 +64,8 @@ namespace Iit.Fibertest.Setup
             worker.ReportProgress((int)BwReturnProgressCode.WebComponentsSetupStarted);
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreUnziped);
 
-            var extractingPath = Path.GetDirectoryName(currentInstallation.WebArchivePath) + @"\ExtractedWebFiles";
+            var currentDomain = AppDomain.CurrentDomain.BaseDirectory;
+            var extractingPath = currentDomain + @"ExtractedWebFiles";
             ZipFile.ExtractToDirectory(currentInstallation.WebArchivePath, extractingPath);
 
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
@@ -81,6 +83,8 @@ namespace Iit.Fibertest.Setup
                 return false;
 
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
+
+            worker.ReportProgress((int)BwReturnProgressCode.WebComponentsSetupCompletedSuccessfully);
             return true;
         }
 
