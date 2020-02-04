@@ -9,6 +9,10 @@ namespace Iit.Fibertest.UtilsLib
         ErrorSourceFolderNotFound,
         FilesAreCopied,
 
+        FilesAreUnziped,
+        FilesAreUnzipedSuccessfully,
+        ErrorFilesUnzipped,
+
         ServiceIsBeingInstalled,
         CannotInstallService,
         ServiceInstalledSuccessfully,
@@ -26,8 +30,9 @@ namespace Iit.Fibertest.UtilsLib
         DataCenterSetupStarted,
         DataCenterSetupCompletedSuccessfully,
         WebComponentsSetupStarted,
+        WebComponentsSetupCompletedSuccessfully,
         RtuManagerSetupStarted,
-        RtuManagerSetupCompletedSuccessfully, 
+        RtuManagerSetupCompletedSuccessfully,
         SuperClientSetupStarted,
         SuperClientSetupCompletedSuccessfully,
         UninstallSetupStarted,
@@ -56,6 +61,14 @@ namespace Iit.Fibertest.UtilsLib
                     return string.Format(Resources.SID_Error__Source_folder__0__not_found_, addition);
                 case BwReturnProgressCode.FilesAreCopied:
                     return Resources.SID_Files_are_copied___;
+
+                case BwReturnProgressCode.FilesAreUnziped:
+                    return Resources.SID_Files_are_unzipped___;
+                case BwReturnProgressCode.FilesAreUnzipedSuccessfully:
+                    return Resources.SID_Files_are_unzipped_successfully_;
+                case BwReturnProgressCode.ErrorFilesUnzipped:
+                    return string.Format(Resources.SID_Unzip_files_error___0_, addition);
+
 
                 case BwReturnProgressCode.ServiceIsBeingInstalled:
                     return string.Format(Resources.SID__0__service_is_being_installed___, addition);
@@ -87,6 +100,12 @@ namespace Iit.Fibertest.UtilsLib
                     return Resources.SID_Data_Center_setup_started_;
                 case BwReturnProgressCode.DataCenterSetupCompletedSuccessfully:
                     return Resources.SID_Data_Center_setup_completed_successfully_;
+
+                case BwReturnProgressCode.WebComponentsSetupStarted:
+                    return Resources.SID_Web_components_setup_started___;
+                case BwReturnProgressCode.WebComponentsSetupCompletedSuccessfully:
+                    return Resources.SID_Web_components_setup_completed_successfully_;
+
                 case BwReturnProgressCode.RtuManagerSetupStarted:
                     return Resources.SID_RTU_Manager_setup_started_;
                 case BwReturnProgressCode.RtuManagerSetupCompletedSuccessfully:

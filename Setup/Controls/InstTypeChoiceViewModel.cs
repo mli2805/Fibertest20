@@ -33,10 +33,13 @@ namespace Iit.Fibertest.Setup
                 if (value == _isWebNeeded) return;
                 _isWebNeeded = value;
                 NotifyOfPropertyChange();
+                ArchiveErrorMessageVisibility = _isWebNeeded && !_webArchivePath.EndsWith(".zip")
+                    ? Visibility.Visible
+                    : Visibility.Hidden;
             }
         }
 
-        private string _webArchivePath;
+        private string _webArchivePath = @"c:\";
         public string WebArchivePath
         {
             get => _webArchivePath;
@@ -60,13 +63,24 @@ namespace Iit.Fibertest.Setup
             }
         }
 
+        private Visibility _archiveErrorMessageVisibility = Visibility.Hidden;
+        public Visibility ArchiveErrorMessageVisibility
+        {
+            get => _archiveErrorMessageVisibility;
+            set
+            {
+                if (value == _archiveErrorMessageVisibility) return;
+                _archiveErrorMessageVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public HeaderViewModel HeaderViewModel { get; set; } = new HeaderViewModel();
         public string Text1 { get; set; }
         public string Text2 { get; set; } = Resources.SID_Type_of_install_;
         public List<string> InstTypes { get; set; }
 
         private string _selectedType;
-
         public string SelectedType
         {
             get => _selectedType;
@@ -107,13 +121,16 @@ namespace Iit.Fibertest.Setup
             string initialDirectory = string.IsNullOrEmpty(WebArchivePath)
                 ? Environment.GetFolderPath(Environment.SpecialFolder.Personal)
                 : WebArchivePath;
-            using (var dialog = new OpenFileDialog(){InitialDirectory = initialDirectory, Filter = @"archive|*.rar"})
+            using (var dialog = new OpenFileDialog(){InitialDirectory = initialDirectory, Filter = @"archive|*.zip"})
             {
                 var result = dialog.ShowDialog();
                 if (result != DialogResult.OK) return;
 
                 WebArchivePath = dialog.FileName;
             }
+
+            if (!WebArchivePath.EndsWith(".zip"))
+                ArchiveErrorMessageVisibility = Visibility.Visible;
         }
     }
 }

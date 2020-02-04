@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.IO;
+using System.IO.Compression;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Setup
@@ -15,9 +16,9 @@ namespace Iit.Fibertest.Setup
         private const string DataCenterIniSubdir = @"DataCenter\ini";
         private const string ServiceFilename = @"Iit.Fibertest.DataCenterService.exe";
 
-        private const string SourcePathWebApi = @"WebApi";
+        private const string SourcePathWebApi = @"\WebApi";
         private const string WebApiSubdir = @"WebApi\publish";
-        private const string SourcePathWebClient = @"WebClient";
+        private const string SourcePathWebClient = @"\WebClient";
         private const string WebClientSubdir = @"WebClient";
 
         public bool SetupDataCenter(BackgroundWorker worker, CurrentInstallation currentInstallation)
@@ -60,15 +61,20 @@ namespace Iit.Fibertest.Setup
         private static bool SetupWebComponents(BackgroundWorker worker, CurrentInstallation currentInstallation)
         {
             worker.ReportProgress((int)BwReturnProgressCode.WebComponentsSetupStarted);
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreUnziped);
+
+            var extractingPath = Path.GetDirectoryName(currentInstallation.WebArchivePath) + @"\ExtractedWebFiles";
+            ZipFile.ExtractToDirectory(currentInstallation.WebArchivePath, extractingPath);
+
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
 
-            var fullWebApiSourcePath = currentInstallation.WebArchivePath + SourcePathWebApi;
+            var fullWebApiSourcePath = extractingPath + SourcePathWebApi;
             var fullWebApiPath = Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir);
             if (!FileOperations.DirectoryCopyWithDecorations(fullWebApiSourcePath, false,
                 fullWebApiPath, worker))
                 return false;
 
-            var fullWebClientSourcePath = currentInstallation.WebArchivePath + SourcePathWebClient;
+            var fullWebClientSourcePath = extractingPath + SourcePathWebClient;
             var fullWebClientPath = Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir);
             if (!FileOperations.DirectoryCopyWithDecorations(fullWebClientSourcePath, false,
                 fullWebClientPath, worker))

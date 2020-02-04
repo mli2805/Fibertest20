@@ -42,7 +42,6 @@ xcopy ..\Client\WebClient\dist\WebClient\*.* PackWeb\WebClient\*.* /S/D/Y
 cd PackWeb\
 ..\7z.exe a -r ..\FtDebugWeb_2.0.1.%1.zip *.*
 cd ..\
-pause
 
 xcopy ..\Client\LicenseMaker\bin\Debug\*.* PackAdmin\LicenseMaker\bin\*.* /S/D/Y
 xcopy ..\Client\DbMigrationWpf\bin\Debug\*.* PackAdmin\DbMigrationWpf\bin\*.* /S/D/Y
@@ -53,6 +52,3 @@ xcopy ..\Client\MapLoader\bin\Debug\*.* PackAdmin\MapLoader\bin\*.* /S/D/Y
 cd PackAdmin\
 ..\7z.exe a -r ..\FtDebugAdmin_2.0.1.%1.zip *.*
 cd ..\
-pause
-
-

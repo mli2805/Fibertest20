@@ -3052,6 +3052,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Files are unzipped....
+        /// </summary>
+        public static string SID_Files_are_unzipped___ {
+            get {
+                return ResourceManager.GetString("SID_Files_are_unzipped___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Files are unzipped successfully!.
+        /// </summary>
+        public static string SID_Files_are_unzipped_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Files_are_unzipped_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Filter.
         /// </summary>
         public static string SID_Filter {
@@ -7518,6 +7536,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unzip files error: {0}.
+        /// </summary>
+        public static string SID_Unzip_files_error___0_ {
+            get {
+                return ResourceManager.GetString("SID_Unzip_files_error___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Up to.
         /// </summary>
         public static string SID_Up_to {
@@ -7644,7 +7671,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User with the same name is registered on another PC.
+        ///   Looks up a localized string similar to User with the same name is registered from another device.
         /// </summary>
         public static string SID_User_with_the_same_name_is_registered_on_another_PC {
             get {
@@ -7775,6 +7802,24 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_WcfServiceForClient_creation_error_ {
             get {
                 return ResourceManager.GetString("SID_WcfServiceForClient_creation_error_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Web components setup completed successfully!.
+        /// </summary>
+        public static string SID_Web_components_setup_completed_successfully_ {
+            get {
+                return ResourceManager.GetString("SID_Web_components_setup_completed_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Web components setup started....
+        /// </summary>
+        public static string SID_Web_components_setup_started___ {
+            get {
+                return ResourceManager.GetString("SID_Web_components_setup_started___", resourceCulture);
             }
         }
         

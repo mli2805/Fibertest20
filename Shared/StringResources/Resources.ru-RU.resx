@@ -2028,7 +2028,7 @@ RTU инициализируется в данный момент!</value>
 		<value>{0} будет удален из следующей папки. Нажмите Удалить, чтобы начать.</value>
 	</data>
 	<data name="SID_Files_are_copied_successfully_" xml:space="preserve">
-		<value>Файлы скопированы успешно</value>
+		<value>Файлы скопированы успешно.</value>
 	</data>
 	<data name="SID_Copy_files_error___0_" xml:space="preserve">
 		<value>Ошибка копирования файлов: {0}</value>
@@ -2731,5 +2731,20 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_This_user_has_no_right_to_start_Web_Client" xml:space="preserve">
 		<value>Данный пользователь не имеет прав на запуск ПО Fibertest WebClient</value>
+	</data>
+	<data name="SID_Files_are_unzipped___" xml:space="preserve">
+		<value>Распаковка файлов...</value>
+	</data>
+	<data name="SID_Files_are_unzipped_successfully_" xml:space="preserve">
+		<value>Файлы распакованы успешно.</value>
+	</data>
+	<data name="SID_Unzip_files_error___0_" xml:space="preserve">
+		<value>Ошибка распаковки файлов: {0}</value>
+	</data>
+	<data name="SID_Web_components_setup_started___" xml:space="preserve">
+		<value>Установка компонента Web site...</value>
+	</data>
+	<data name="SID_Web_components_setup_completed_successfully_" xml:space="preserve">
+		<value>Компонент Web sites установлен успешно!</value>
 	</data>
 </root>

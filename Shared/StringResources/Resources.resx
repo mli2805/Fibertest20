@@ -2732,4 +2732,19 @@ RTU is initializing right now!</value>
 	<data name="SID_This_user_has_no_right_to_start_Web_Client" xml:space="preserve">
     <value>This user has no right to start Web Client</value>
   </data>
+	<data name="SID_Files_are_unzipped___" xml:space="preserve">
+    <value>Files are unzipped...</value>
+  </data>
+	<data name="SID_Files_are_unzipped_successfully_" xml:space="preserve">
+    <value>Files are unzipped successfully.</value>
+  </data>
+	<data name="SID_Unzip_files_error___0_" xml:space="preserve">
+    <value>Unzip files error: {0}</value>
+  </data>
+	<data name="SID_Web_components_setup_started___" xml:space="preserve">
+    <value>Web components setup started...</value>
+  </data>
+	<data name="SID_Web_components_setup_completed_successfully_" xml:space="preserve">
+    <value>Web components setup completed successfully!</value>
+  </data>
 </root>

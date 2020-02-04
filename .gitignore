@@ -260,3 +260,5 @@ paket-files/
 *.diagsession
 /Client/Build/Cache
 /Deploy/PackWeb
+/Deploy/ExtractedWebFiles
+/Deploy/Ft*.zip

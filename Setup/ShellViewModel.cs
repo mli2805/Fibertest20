@@ -133,6 +133,13 @@ namespace Setup
             {
                 TryClose();
             }
+
+            if (_currentPage == SetupPages.ProcessProgress && InstTypeChoiceViewModel.IsWebNeeded &&
+                !InstTypeChoiceViewModel.WebArchivePath.EndsWith("zip"))
+            {
+                _currentPage--;
+                return;
+            }
             Do();
         }
 
