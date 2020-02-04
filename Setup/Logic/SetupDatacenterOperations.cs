@@ -1,7 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.IO.Packaging;
 using Iit.Fibertest.UtilsLib;
 using Ionic.Zip;
 
@@ -63,20 +62,36 @@ namespace Iit.Fibertest.Setup
         private static bool SetupWebComponents(BackgroundWorker worker, CurrentInstallation currentInstallation)
         {
             worker.ReportProgress((int)BwReturnProgressCode.WebComponentsSetupStarted);
-            worker.ReportProgress((int)BwReturnProgressCode.FilesAreUnziped);
 
-            var currentDomain = AppDomain.CurrentDomain.BaseDirectory;
-            var extractingPath = currentDomain + @"ExtractedWebFiles";
-            using (ZipFile zipFile = ZipFile.Read(currentInstallation.WebArchivePath))
-            {
-                foreach (var zipEntry in zipFile)
-                {
-                    zipEntry.ExtractWithPassword(extractingPath, "");
-                }
-            }
-            worker.ReportProgress((int)BwReturnProgressCode.FilesAreUnzipedSuccessfully);
+            var extractingPath = UnzipWebComponents(worker, currentInstallation);
 
-            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
+            if (IisOperations.DoesWebsiteExist("fibertest_web_api"))
+                IisOperations.StopWebsite("fibertest_web_api");
+            if (IisOperations.DoesWebsiteExist("fibertest_web_client"))
+                IisOperations.StopWebsite("fibertest_web_client");
+
+            if (!CopyWebComponents(worker, currentInstallation, extractingPath)) 
+                return false;
+
+            if (IisOperations.DoesWebsiteExist("fibertest_web_api"))
+                IisOperations.StartWebsite("fibertest_web_api");
+            else 
+                IisOperations.CreateWebsite("fibertest_web_api", "http", "*:11080:",
+                    Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir));
+            if (IisOperations.DoesWebsiteExist("fibertest_web_client"))
+                IisOperations.StartWebsite("fibertest_web_client");
+            else 
+                IisOperations.CreateWebsite("fibertest_web_client", "http", "*:80:",
+                    Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir));
+
+            worker.ReportProgress((int)BwReturnProgressCode.WebComponentsSetupCompletedSuccessfully);
+            return true;
+        }
+
+        private static bool CopyWebComponents(BackgroundWorker worker, CurrentInstallation currentInstallation,
+            string extractingPath)
+        {
+            worker.ReportProgress((int) BwReturnProgressCode.FilesAreCopied);
 
             var fullWebApiSourcePath = extractingPath + SourcePathWebApi;
             var fullWebApiPath = Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir);
@@ -90,10 +105,26 @@ namespace Iit.Fibertest.Setup
                 fullWebClientPath, worker))
                 return false;
 
-            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
-
-            worker.ReportProgress((int)BwReturnProgressCode.WebComponentsSetupCompletedSuccessfully);
+            worker.ReportProgress((int) BwReturnProgressCode.FilesAreCopiedSuccessfully);
             return true;
+        }
+
+        private static string UnzipWebComponents(BackgroundWorker worker, CurrentInstallation currentInstallation)
+        {
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreUnziped);
+
+            var currentDomain = AppDomain.CurrentDomain.BaseDirectory;
+            var extractingPath = currentDomain + @"ExtractedWebFiles";
+            using (ZipFile zipFile = ZipFile.Read(currentInstallation.WebArchivePath))
+            {
+                foreach (var zipEntry in zipFile)
+                {
+                    zipEntry.ExtractWithPassword(extractingPath, "");
+                }
+            }
+
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreUnzipedSuccessfully);
+            return extractingPath;
         }
 
         private static void SaveMysqlTcpPort(string installationFolder, string mysqlTcpPort)
