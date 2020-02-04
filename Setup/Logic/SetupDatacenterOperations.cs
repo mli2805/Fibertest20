@@ -1,8 +1,9 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
-using System.IO.Compression;
+using System.IO.Packaging;
 using Iit.Fibertest.UtilsLib;
+using Ionic.Zip;
 
 namespace Iit.Fibertest.Setup
 {
@@ -66,7 +67,14 @@ namespace Iit.Fibertest.Setup
 
             var currentDomain = AppDomain.CurrentDomain.BaseDirectory;
             var extractingPath = currentDomain + @"ExtractedWebFiles";
-            ZipFile.ExtractToDirectory(currentInstallation.WebArchivePath, extractingPath);
+            using (ZipFile zipFile = ZipFile.Read(currentInstallation.WebArchivePath))
+            {
+                foreach (var zipEntry in zipFile)
+                {
+                    zipEntry.ExtractWithPassword(extractingPath, "");
+                }
+            }
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreUnzipedSuccessfully);
 
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
 
