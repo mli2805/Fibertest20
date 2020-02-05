@@ -1,7 +1,6 @@
-﻿
-using Microsoft.Web.Administration;
-using System.DirectoryServices;
+﻿using System;
 using System.Linq;
+using Microsoft.Web.Administration;
 
 namespace Iit.Fibertest.UtilsLib
 {
@@ -9,18 +8,8 @@ namespace Iit.Fibertest.UtilsLib
     {
         public static bool DoesWebsiteExist(string websiteName)
         {
-            var w3svc = new DirectoryEntry("IIS://localhost/w3svc",
-                "username", "password", AuthenticationTypes.None);
-
-            foreach (DirectoryEntry site in w3svc.Children)
-            {
-                if (site.Properties["ServerComment"]?.Value == null)
-                    continue;
-                if (site.Properties["ServerComment"].Value.ToString() == websiteName)
-                    return true;
-            }
-
-            return false;
+            var iisManager = new ServerManager();
+            return iisManager.Sites.Any(s => s.Name == websiteName);
         }
 
         /// <summary>
@@ -38,12 +27,30 @@ namespace Iit.Fibertest.UtilsLib
             iisManager.CommitChanges();
         }
 
+        public static void DeleteWebsite(string websiteName)
+        {
+            try
+            {
+                using (ServerManager serverManager = new ServerManager())
+                {
+                    Site site = serverManager.Sites[websiteName];
+                    serverManager.Sites.Remove(site);
+                    serverManager.CommitChanges();
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
         public static bool StopWebsite(string websiteName)
         {
             var iisManager = new ServerManager();
             var site = iisManager.Sites.FirstOrDefault(s => s.Name == websiteName);
             if (site == null) return true;
             site.Stop();
+            iisManager.CommitChanges();
             return site.State == ObjectState.Stopped;
         }
 
@@ -53,6 +60,7 @@ namespace Iit.Fibertest.UtilsLib
             var site = iisManager.Sites.FirstOrDefault(s => s.Name == websiteName);
             if (site == null) return true;
             site.Start();
+            iisManager.CommitChanges();
             return site.State == ObjectState.Started;
         }
     }

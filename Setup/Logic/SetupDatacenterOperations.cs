@@ -64,40 +64,52 @@ namespace Iit.Fibertest.Setup
 
             var extractingPath = UnzipWebComponents(worker, currentInstallation);
 
+            if (!DeleteExistingWebSites(worker, currentInstallation))
+                return false;
+
+            if (!CopyWebComponents(worker, currentInstallation, extractingPath))
+                return false;
+
+
+            IisOperations.CreateWebsite("fibertest_web_api", "http", "*:11080:",
+                Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir));
+
+            IisOperations.CreateWebsite("fibertest_web_client", "http", "*:80:",
+                Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir));
+
+            worker.ReportProgress((int)BwReturnProgressCode.WebComponentsSetupCompletedSuccessfully);
+            return true;
+        }
+
+        private static bool DeleteExistingWebSites(BackgroundWorker worker, CurrentInstallation currentInstallation)
+        {
             try
             {
                 if (IisOperations.DoesWebsiteExist("fibertest_web_api"))
-                    IisOperations.StopWebsite("fibertest_web_api");
+                {
+                    IisOperations.DeleteWebsite("fibertest_web_api");
+                    Directory.Delete(Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir), true);
+                }
+
                 if (IisOperations.DoesWebsiteExist("fibertest_web_client"))
-                    IisOperations.StopWebsite("fibertest_web_client");
+                {
+                    IisOperations.DeleteWebsite("fibertest_web_client");
+                    Directory.Delete(Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir), true);
+                }
             }
             catch (Exception e)
             {
                 worker.ReportProgress((int)BwReturnProgressCode.IisOperationError, e.Message);
+                return false;
             }
 
-            if (!CopyWebComponents(worker, currentInstallation, extractingPath)) 
-                return false;
-
-            if (IisOperations.DoesWebsiteExist("fibertest_web_api"))
-                IisOperations.StartWebsite("fibertest_web_api");
-            else 
-                IisOperations.CreateWebsite("fibertest_web_api", "http", "*:11080:",
-                    Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir));
-            if (IisOperations.DoesWebsiteExist("fibertest_web_client"))
-                IisOperations.StartWebsite("fibertest_web_client");
-            else 
-                IisOperations.CreateWebsite("fibertest_web_client", "http", "*:80:",
-                    Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir));
-
-            worker.ReportProgress((int)BwReturnProgressCode.WebComponentsSetupCompletedSuccessfully);
             return true;
         }
 
         private static bool CopyWebComponents(BackgroundWorker worker, CurrentInstallation currentInstallation,
             string extractingPath)
         {
-            worker.ReportProgress((int) BwReturnProgressCode.FilesAreCopied);
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
 
             var fullWebApiSourcePath = extractingPath + SourcePathWebApi;
             var fullWebApiPath = Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir);
@@ -111,7 +123,7 @@ namespace Iit.Fibertest.Setup
                 fullWebClientPath, worker))
                 return false;
 
-            worker.ReportProgress((int) BwReturnProgressCode.FilesAreCopiedSuccessfully);
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
             return true;
         }
 
@@ -121,6 +133,8 @@ namespace Iit.Fibertest.Setup
 
             var currentDomain = AppDomain.CurrentDomain.BaseDirectory;
             var extractingPath = currentDomain + @"ExtractedWebFiles";
+            if (Directory.Exists(extractingPath))
+                Directory.Delete(extractingPath, true);
             using (ZipFile zipFile = ZipFile.Read(currentInstallation.WebArchivePath))
             {
                 foreach (var zipEntry in zipFile)
