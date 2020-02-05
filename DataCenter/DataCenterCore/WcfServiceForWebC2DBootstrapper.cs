@@ -42,7 +42,7 @@ namespace Iit.Fibertest.DataCenterCore
                     behavior.IncludeExceptionDetailInFaults = true;
 
                 _host.Open();
-                _logFile.AppendLine($"WebProxy (Web Clients) listener on port {(int)TcpPorts.ServerListenToWebClient} started successfully");
+                _logFile.AppendLine($"WebApi (Web Clients) listener on port {(int)TcpPorts.ServerListenToWebClient} started successfully");
             }
             catch (Exception e)
             {

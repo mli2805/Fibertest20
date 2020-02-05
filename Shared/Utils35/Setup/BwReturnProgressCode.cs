@@ -38,6 +38,8 @@ namespace Iit.Fibertest.UtilsLib
         UninstallSetupStarted,
         UninstallSetupCompletedSuccessfully,
 
+        IisOperationError,
+
         UninstallStarted,
         DeletingFiles,
         CannotDeleteSpecifiedFolder,
@@ -114,6 +116,9 @@ namespace Iit.Fibertest.UtilsLib
                     return Resources.SID_Uninstall_setup_started_;
                 case BwReturnProgressCode.UninstallSetupCompletedSuccessfully:
                     return Resources.SID_Uninstall_setup_completed_successfully_;
+
+                case BwReturnProgressCode.IisOperationError:
+                    return string.Format(Resources.SID_IIS_operation_error___0_, addition);
 
                 case BwReturnProgressCode.UninstallStarted:
                     return Resources.SID_Uninstall_started___;

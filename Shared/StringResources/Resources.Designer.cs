@@ -3061,7 +3061,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Files are unzipped successfully!.
+        ///   Looks up a localized string similar to Files are unzipped successfully..
         /// </summary>
         public static string SID_Files_are_unzipped_successfully_ {
             get {
@@ -3291,6 +3291,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_If_you_use_Gmail {
             get {
                 return ResourceManager.GetString("SID_If_you_use_Gmail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IIS operation error: {0}.
+        /// </summary>
+        public static string SID_IIS_operation_error___0_ {
+            get {
+                return ResourceManager.GetString("SID_IIS_operation_error___0_", resourceCulture);
             }
         }
         

@@ -30,7 +30,6 @@ namespace Iit.Fibertest.Setup
             {
                 if (!SetupWebComponents(worker, currentInstallation)) return false;
             }
-
             return true;
         }
 
@@ -65,10 +64,17 @@ namespace Iit.Fibertest.Setup
 
             var extractingPath = UnzipWebComponents(worker, currentInstallation);
 
-            if (IisOperations.DoesWebsiteExist("fibertest_web_api"))
-                IisOperations.StopWebsite("fibertest_web_api");
-            if (IisOperations.DoesWebsiteExist("fibertest_web_client"))
-                IisOperations.StopWebsite("fibertest_web_client");
+            try
+            {
+                if (IisOperations.DoesWebsiteExist("fibertest_web_api"))
+                    IisOperations.StopWebsite("fibertest_web_api");
+                if (IisOperations.DoesWebsiteExist("fibertest_web_client"))
+                    IisOperations.StopWebsite("fibertest_web_client");
+            }
+            catch (Exception e)
+            {
+                worker.ReportProgress((int)BwReturnProgressCode.IisOperationError, e.Message);
+            }
 
             if (!CopyWebComponents(worker, currentInstallation, extractingPath)) 
                 return false;
