@@ -12,6 +12,9 @@ namespace Iit.Fibertest.Setup
         private const string DataCenterDisplayName = "Fibertest 2.0 DataCenter Server";
         private const string DataCenterServiceDescription = "Fibertest 2.0 DataCenter Server Service";
 
+        private const string WebApiSiteName = "fibertest_web_api";
+        private const string WebClientSiteName = "fibertest_web_client";
+
         private const string SourcePathDataCenter = @"..\DcFiles";
         private const string DataCenterSubdir = @"DataCenter\bin";
         private const string DataCenterIniSubdir = @"DataCenter\ini";
@@ -71,10 +74,10 @@ namespace Iit.Fibertest.Setup
                 return false;
 
 
-            IisOperations.CreateWebsite("fibertest_web_api", "http", "*:11080:",
+            IisOperations.CreateWebsite(WebApiSiteName, "http", "*:11080:",
                 Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir));
 
-            IisOperations.CreateWebsite("fibertest_web_client", "http", "*:80:",
+            IisOperations.CreateWebsite(WebClientSiteName, "http", "*:80:",
                 Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir));
 
             worker.ReportProgress((int)BwReturnProgressCode.WebComponentsSetupCompletedSuccessfully);
@@ -85,15 +88,15 @@ namespace Iit.Fibertest.Setup
         {
             try
             {
-                if (IisOperations.DoesWebsiteExist("fibertest_web_api"))
+                if (IisOperations.DoesWebsiteExist(WebApiSiteName))
                 {
-                    IisOperations.DeleteWebsite("fibertest_web_api");
+                    IisOperations.DeleteWebsite(WebApiSiteName);
                     Directory.Delete(Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir), true);
                 }
 
-                if (IisOperations.DoesWebsiteExist("fibertest_web_client"))
+                if (IisOperations.DoesWebsiteExist(WebClientSiteName))
                 {
-                    IisOperations.DeleteWebsite("fibertest_web_client");
+                    IisOperations.DeleteWebsite(WebClientSiteName);
                     Directory.Delete(Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir), true);
                 }
             }

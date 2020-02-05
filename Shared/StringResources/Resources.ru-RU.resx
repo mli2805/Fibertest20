@@ -2747,4 +2747,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Web_components_setup_completed_successfully_" xml:space="preserve">
 		<value>Компонент Web sites установлен успешно!</value>
 	</data>
+	<data name="SID_IIS_operation_error___0_" xml:space="preserve">
+		<value>Ошибка IIS операции: {0}</value>
+	</data>
 </root>
