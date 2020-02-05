@@ -9,7 +9,8 @@ namespace Iit.Fibertest.UtilsLib
     {
         public static bool DoesWebsiteExist(string websiteName)
         {
-            var w3svc = new DirectoryEntry("IIS://localhost/w3svc");
+            var w3svc = new DirectoryEntry("IIS://localhost/w3svc",
+                "username", "password", AuthenticationTypes.None);
 
             foreach (DirectoryEntry site in w3svc.Children)
             {
