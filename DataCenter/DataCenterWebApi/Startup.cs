@@ -1,3 +1,5 @@
+using System.Linq;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -50,6 +52,12 @@ namespace Iit.Fibertest.DataCenterWebApi
 
             var iniFile = new IniFile();
             iniFile.AssignFile("webproxy.ini");
+            var main = iniFile.Read(IniSection.ServerMainAddress, (int) TcpPorts.ServerListenToWebClient);
+            if (main.Ip4Address == "0.0.0.0")
+            {  // as for now WebApi is set up on the same machine as DataCenter
+                main.Ip4Address = LocalAddressResearcher.GetAllLocalAddresses().First();
+                iniFile.Write(main, IniSection.ServerMainAddress);
+            }
             services.AddSingleton(iniFile);
 
             var logFile = new LogFile(iniFile);
