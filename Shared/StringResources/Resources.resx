@@ -2750,4 +2750,16 @@ RTU is initializing right now!</value>
 	<data name="SID_IIS_operation_error___0_" xml:space="preserve">
     <value>IIS operation error: {0}</value>
   </data>
+	<data name="SID_Site__0__installed_successfully" xml:space="preserve">
+    <value>Site {0} installed successfully</value>
+  </data>
+	<data name="SID_Site_installation_error___0_" xml:space="preserve">
+    <value>Site installation error. {0}</value>
+  </data>
+	<data name="SID_Site__0__uninstalled_successfully" xml:space="preserve">
+    <value>Site {0} uninstalled successfully</value>
+  </data>
+	<data name="SID_Site_uninstallation_error___0_" xml:space="preserve">
+    <value>Site uninstallation error. {0}</value>
+  </data>
 </root>

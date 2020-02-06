@@ -29,11 +29,11 @@ mkdir Pack\RtuFiles\OtdrMeasEngine\Share
 
 xcopy ..\Uninstall\bin\Debug\*.* Pack\UninstallFiles\*.* /S/D/Y
 
-rem curl --user mli:iNansIM6Y8Uq http://192.168.96.4:8989//job/RFTSViewer/lastSuccessfulBuild/artifact/trunk/Source/RftsReflect.zip --output Pack\RftsReflect.zip
-rem cd Pack\
-rem ..\7z.exe x RftsReflect.zip 
-rem del RftsReflect.zip
-rem cd ..\
+curl --user mli:iNansIM6Y8Uq http://192.168.96.4:8989/job/windows-projects/job/RFTSViewer/pinned-for-ft20/artifact/trunk/Source/RftsReflect.zip --output Pack\RftsReflect.zip
+cd Pack\
+..\7z.exe x RftsReflect.zip 
+del RftsReflect.zip
+cd ..\
 
 "C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackSetup.conf" FtDebug_2.0.1.%1.exe Pack\*.*
 

@@ -2750,4 +2750,16 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_IIS_operation_error___0_" xml:space="preserve">
 		<value>Ошибка IIS операции: {0}</value>
 	</data>
+	<data name="SID_Site__0__installed_successfully" xml:space="preserve">
+		<value>Сайт {0} установлен успешно.</value>
+	</data>
+	<data name="SID_Site_installation_error___0_" xml:space="preserve">
+		<value>Ошибка установки сайта. {0}</value>
+	</data>
+	<data name="SID_Site__0__uninstalled_successfully" xml:space="preserve">
+		<value>Сайт  {0} деинсталлирован успешно.</value>
+	</data>
+	<data name="SID_Site_uninstallation_error___0_" xml:space="preserve">
+		<value>Ошибка деинсталляции сайта. {0}</value>
+	</data>
 </root>

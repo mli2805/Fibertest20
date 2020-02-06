@@ -100,6 +100,7 @@ namespace Uninstall
                 var folder = UnInstallFolderViewModel.IsFullUninstall
                     ? FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory)
                     : AppDomain.CurrentDomain.BaseDirectory;
+                Console.WriteLine(folder);
                 Process.Start("cmd.exe", $"/C ping 1.1.1.1 -n 3 -w 20 > Nul & RmDir /S /Q {folder}");
                 Application.Current.Shutdown();
             }

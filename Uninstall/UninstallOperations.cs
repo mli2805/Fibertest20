@@ -17,14 +17,23 @@ namespace Iit.Fibertest.Uninstall
             {"FibertestRtuWatchdog", "Fibertest 2.0 RTU Watchdog"},
             {"FibertestRtuService", "Fibertest 2.0 RTU Manager"},
         };
-       
-        private readonly List<string> _componentFolders = new List<string>{"Client", "DataCenter", "RtuManager", "SuperClient"};
+
+        private readonly List<string> _sites = new List<string>() { "fibertest_web_api", "fibertest_web_client" };
+
+        private readonly Dictionary<string, string> _componentFolders = new Dictionary<string, string>
+        {
+            {"Client", "bin"}, {"SuperClient", "bin"},
+            {"DataCenter", "bin"}, {"RtuManager", "bin"},
+            {"WebApi", "publish"}, {"WebClient", ""},
+            {"RftsReflect", "" },
+        };
 
         public bool Do(BackgroundWorker worker, string fibertestFolder, bool isFullUninstall)
         {
             worker.ReportProgress((int)BwReturnProgressCode.UninstallStarted);
 
             if (!UninstallServices(worker)) return false;
+            UninstallSites(worker);
 
             if (!DeleteFiles(worker, fibertestFolder, isFullUninstall)) return false;
             ShortcutOperatios.DeleteAllShortcuts();
@@ -47,6 +56,12 @@ namespace Iit.Fibertest.Uninstall
             return true;
         }
 
+        private void UninstallSites(BackgroundWorker worker)
+        {
+            foreach (var site in _sites)
+                IisOperations.DeleteWebsite(site, worker);
+        }
+
         private bool DeleteFiles(BackgroundWorker worker, string fibertestFolder, bool isFullUninstall)
         {
             worker.ReportProgress((int)BwReturnProgressCode.DeletingFiles);
@@ -54,18 +69,15 @@ namespace Iit.Fibertest.Uninstall
             {
                 foreach (var componentFolder in _componentFolders)
                 {
-                    var dir = isFullUninstall
-                        ? fibertestFolder + $@"\{componentFolder}"
-                        : fibertestFolder + $@"\{componentFolder}\bin";
+                    var dir = fibertestFolder + $@"\{componentFolder.Key}";
+                    if (!isFullUninstall && componentFolder.Value != "")
+                        dir += $@"\{componentFolder.Value}";
 
                     if (!Directory.Exists(dir)) continue;
 
                     Thread.Sleep(500); // for slow RTU PC sake
                     Directory.Delete(dir, true);
                 }
-
-                if (Directory.Exists(fibertestFolder + @"\RftsReflect"))
-                    Directory.Delete(fibertestFolder + @"\RftsReflect", true);
 
             }
             catch (Exception e)

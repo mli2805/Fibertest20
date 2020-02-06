@@ -73,10 +73,10 @@ namespace Iit.Fibertest.Setup
 
 
             IisOperations.CreateWebsite(WebApiSiteName, "http", "*:11080:",
-                Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir));
+                Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir), worker);
 
             IisOperations.CreateWebsite(WebClientSiteName, "http", "*:80:",
-                Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir));
+                Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir), worker);
 
             worker.ReportProgress((int)BwReturnProgressCode.WebComponentsSetupCompletedSuccessfully);
             return true;
@@ -88,13 +88,13 @@ namespace Iit.Fibertest.Setup
             {
                 if (IisOperations.DoesWebsiteExist(WebApiSiteName))
                 {
-                    IisOperations.DeleteWebsite(WebApiSiteName);
+                    IisOperations.DeleteWebsite(WebApiSiteName, worker);
                     Directory.Delete(Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir), true);
                 }
 
                 if (IisOperations.DoesWebsiteExist(WebClientSiteName))
                 {
-                    IisOperations.DeleteWebsite(WebClientSiteName);
+                    IisOperations.DeleteWebsite(WebClientSiteName, worker);
                     Directory.Delete(Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir), true);
                 }
             }

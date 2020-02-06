@@ -103,7 +103,8 @@ namespace Iit.Fibertest.Setup
             InstTypes = new List<string>() { "RTU Manager", "Client", "Data Center", "Super Client" };
             SelectedType = InstTypes[0];
 
-            MySqlTcpPort = IniOperations.GetMysqlTcpPort(currentInstallation.InstallationFolder);
+            var port = IniOperations.GetMysqlTcpPort(currentInstallation.InstallationFolder);
+            MySqlTcpPort = port != "error" ? port : "3306";
         }
 
         public InstallationType GetSelectedType()

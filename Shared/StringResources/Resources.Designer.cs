@@ -6510,6 +6510,42 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Site {0} installed successfully.
+        /// </summary>
+        public static string SID_Site__0__installed_successfully {
+            get {
+                return ResourceManager.GetString("SID_Site__0__installed_successfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Site {0} uninstalled successfully.
+        /// </summary>
+        public static string SID_Site__0__uninstalled_successfully {
+            get {
+                return ResourceManager.GetString("SID_Site__0__uninstalled_successfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Site installation error. {0}.
+        /// </summary>
+        public static string SID_Site_installation_error___0_ {
+            get {
+                return ResourceManager.GetString("SID_Site_installation_error___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Site uninstallation error. {0}.
+        /// </summary>
+        public static string SID_Site_uninstallation_error___0_ {
+            get {
+                return ResourceManager.GetString("SID_Site_uninstallation_error___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SMS server settings.
         /// </summary>
         public static string SID_SMS_settings {

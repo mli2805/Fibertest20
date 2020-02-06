@@ -39,6 +39,10 @@ namespace Iit.Fibertest.UtilsLib
         UninstallSetupCompletedSuccessfully,
 
         IisOperationError,
+        SiteInstalledSuccessfully,
+        SiteInstallationError,
+        SiteUninstalledSuccessfully,
+        SiteUninstallationError,
 
         UninstallStarted,
         DeletingFiles,
@@ -119,6 +123,14 @@ namespace Iit.Fibertest.UtilsLib
 
                 case BwReturnProgressCode.IisOperationError:
                     return string.Format(Resources.SID_IIS_operation_error___0_, addition);
+                case BwReturnProgressCode.SiteInstalledSuccessfully:
+                    return string.Format(Resources.SID_Site__0__installed_successfully, addition);
+                case BwReturnProgressCode.SiteInstallationError:
+                    return string.Format(Resources.SID_Site_installation_error___0_, addition);
+                case BwReturnProgressCode.SiteUninstalledSuccessfully:
+                    return string.Format(Resources.SID_Site__0__uninstalled_successfully, addition);
+                case BwReturnProgressCode.SiteUninstallationError:
+                    return string.Format(Resources.SID_Site_uninstallation_error___0_, addition);
 
                 case BwReturnProgressCode.UninstallStarted:
                     return Resources.SID_Uninstall_started___;

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace Iit.Fibertest.UtilsLib
 {
@@ -19,14 +20,22 @@ namespace Iit.Fibertest.UtilsLib
         
         public static string GetMysqlTcpPort(string installationFolder)
         {
-            var iniDataCenterPath = Path.Combine(installationFolder, DataCenterIniSubdir);
+            try
+            {
+                var iniDataCenterPath = Path.Combine(installationFolder, DataCenterIniSubdir);
 
-            var iniFile = new IniFile();
-            var iniFileName = Utils.FileNameForSure(iniDataCenterPath, "DataCenter.ini",
-                false, true);
-            iniFile.AssignFile(iniFileName, true);
+                var iniFile = new IniFile();
+                var iniFileName = Utils.FileNameForSure(iniDataCenterPath, "DataCenter.ini",
+                    false, true);
+                iniFile.AssignFile(iniFileName, true);
 
-            return iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, "3306");
+                return iniFile.Read(IniSection.MySql, IniKey.MySqlTcpPort, "3306");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return "error";
+            }
         }
     }
 }

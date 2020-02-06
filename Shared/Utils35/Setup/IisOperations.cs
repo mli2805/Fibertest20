@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Linq;
 using Microsoft.Web.Administration;
 
@@ -19,28 +20,42 @@ namespace Iit.Fibertest.UtilsLib
         /// <param name="bindingProtocol">http</param>
         /// <param name="bindingInformation">*:8080:</param>
         /// <param name="path">d:\\MySite</param>
+        /// <param name="worker"></param>
         public static void CreateWebsite(string websiteName, string bindingProtocol, string bindingInformation,
-            string path)
+            string path, BackgroundWorker worker)
         {
-            ServerManager iisManager = new ServerManager();
-            iisManager.Sites.Add(websiteName, bindingProtocol, bindingInformation, path);
-            iisManager.CommitChanges();
+            try
+            {
+                ServerManager iisManager = new ServerManager();
+                iisManager.Sites.Add(websiteName, bindingProtocol, bindingInformation, path);
+                iisManager.CommitChanges();
+                worker.ReportProgress((int)BwReturnProgressCode.SiteInstalledSuccessfully, websiteName);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                worker.ReportProgress((int)BwReturnProgressCode.SiteInstallationError, websiteName + "; " + e.Message);
+
+            }
         }
 
-        public static void DeleteWebsite(string websiteName)
+        public static void DeleteWebsite(string websiteName, BackgroundWorker worker)
         {
             try
             {
                 using (ServerManager serverManager = new ServerManager())
                 {
                     Site site = serverManager.Sites[websiteName];
+                    if (site == null) return;
                     serverManager.Sites.Remove(site);
                     serverManager.CommitChanges();
+                    worker.ReportProgress((int)BwReturnProgressCode.SiteUninstalledSuccessfully, websiteName);
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
+                worker.ReportProgress((int)BwReturnProgressCode.SiteUninstallationError, websiteName + "; " + e.Message);
             }
         }
 
