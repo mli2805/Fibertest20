@@ -9,6 +9,7 @@ namespace Iit.Fibertest.Graph
 
         public LicenseParameter RtuCount { get; set; } = new LicenseParameter();
         public LicenseParameter ClientStationCount { get; set; } = new LicenseParameter();
+        public LicenseParameter WebClientCount { get; set; } = new LicenseParameter();
         public LicenseParameter SuperClientStationCount { get; set; } = new LicenseParameter();
 
         public string Version { get; set; } = @"2.0.0.0";

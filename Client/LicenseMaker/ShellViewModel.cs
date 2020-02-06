@@ -76,6 +76,12 @@ namespace LicenseMaker
                     Value = LicenseInFileModel.ClientStationCount,
                     Term = LicenseInFileModel.ClientStationTerm,
                     IsTermInYears = LicenseInFileModel.ClientStationTermUnit == LicenseInFileModel.TermUnit.First(),
+                }, 
+                WebClientCount = new LicenseParameterInFile()
+                {
+                    Value = LicenseInFileModel.WebClientCount,
+                    Term = LicenseInFileModel.WebClientTerm,
+                    IsTermInYears = LicenseInFileModel.WebClientTermUnit == LicenseInFileModel.TermUnit.First(),
                 },
                 SuperClientStationCount = new LicenseParameterInFile()
                 {

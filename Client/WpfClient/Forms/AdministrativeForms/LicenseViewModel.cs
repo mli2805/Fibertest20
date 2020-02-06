@@ -57,6 +57,7 @@ namespace Iit.Fibertest.Client
                 Owner = licenseInFile.Owner,
                 RtuCount = new LicenseParameter(licenseInFile.RtuCount),
                 ClientStationCount = new LicenseParameter(licenseInFile.ClientStationCount),
+                WebClientCount = new LicenseParameter(licenseInFile.WebClientCount),
                 SuperClientStationCount = new LicenseParameter(licenseInFile.SuperClientStationCount),
                 Version = licenseInFile.Version,
             };

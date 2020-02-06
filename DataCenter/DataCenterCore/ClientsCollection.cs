@@ -30,14 +30,21 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             var user = _writeModel.Users.FirstOrDefault(u => u.Title == dto.UserName && UserExt.FlipFlop(u.EncodedPassword) == dto.Password);
-            var result = user == null
-                ? new ClientRegisteredDto { ReturnCode = ReturnCode.NoSuchUserOrWrongPassword }
-                : await HasRight(dto, user);
-            result.ExceptionMessage = result.ReturnCode.GetLocalizedString(result.ExceptionMessage);
-            return result;
+            if (user == null)
+                return new ClientRegisteredDto {ReturnCode = ReturnCode.NoSuchUserOrWrongPassword};
+            var hasRight = CheckRights(dto, user);
+            if (hasRight != null)
+                return hasRight;
+            var licenseCheckResult = CheckLicense(dto);
+            if (licenseCheckResult != null)
+            {
+                _logFile.AppendLine(licenseCheckResult.ReturnCode.GetLocalizedString());
+                return licenseCheckResult;
+            }
+            return await RegisterClientStation(dto, user);
         }
 
-        private async Task<ClientRegisteredDto> HasRight(RegisterClientDto dto, User user)
+        private ClientRegisteredDto CheckRights(RegisterClientDto dto, User user)
         {
             if (dto.IsUnderSuperClient)
             {
@@ -54,14 +61,37 @@ namespace Iit.Fibertest.DataCenterCore
                 if (!user.Role.IsDesktopPermitted())
                     return new ClientRegisteredDto() {ReturnCode = ReturnCode.UserHasNoRightsToStartClient};
             }
-            return await RegisterClientStation(dto, user);
+            return null;
+        }
+
+        private ClientRegisteredDto CheckLicense(RegisterClientDto dto)
+        {
+            if (dto.IsUnderSuperClient)
+            {
+                if (_clients.Count(c => c.UserRole == Role.Superclient) >= _writeModel.License.SuperClientStationCount.Value)
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.SuperClientsCountExceeded };
+                if (_writeModel.License.SuperClientStationCount.ValidUntil < DateTime.Today)
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.SuperClientsCountLicenseExpired };
+            }
+            else if (dto.IsWebClient)
+            {
+                if (_clients.Count(c => c.IsWebClient) >= _writeModel.License.WebClientCount.Value)
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.WebClientsCountExceeded };
+                if (_writeModel.License.WebClientCount.ValidUntil < DateTime.Today)
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.WebClientsCountLicenseExpired };
+            }
+            else
+            {
+                if (_clients.Count(c => c.IsDesktopClient) >= _writeModel.License.ClientStationCount.Value)
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.ClientsCountExceeded };
+                if (_writeModel.License.ClientStationCount.ValidUntil < DateTime.Today)
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.ClientsCountLicenseExpired };
+            }
+            return null;
         }
 
         private async Task<ClientRegisteredDto> RegisterClientStation(RegisterClientDto dto, User user)
         {
-            var licenseCheckResult = CheckLicense(user);
-            if (licenseCheckResult != null) return licenseCheckResult;
-
             if (_clients.Any(s => s.UserId == user.UserId && s.ClientGuid != dto.ClientId))
             {
                 _logFile.AppendLine($"User {dto.UserName} registered from another device");
@@ -77,37 +107,7 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine($"There are {_clients.Count()} client(s)");
             return await FillInSuccessfulResult(user);
         }
-
-        private ClientRegisteredDto CheckLicense(User user)
-        {
-            if (user.Role != Role.Superclient && _clients.Count(c => c.UserRole != Role.Superclient) >=
-                _writeModel.License.ClientStationCount.Value)
-            {
-                _logFile.AppendLine("Exceeded the number of clients registered simultaneously");
-                return new ClientRegisteredDto() { ReturnCode = ReturnCode.ClientsCountExceeded };
-            }
-
-            if (user.Role == Role.Superclient && _clients.Count(c => c.UserRole == Role.Superclient) >= _writeModel.License.SuperClientStationCount.Value)
-            {
-                _logFile.AppendLine("Exceeded the number of super-clients registered simultaneously");
-                return new ClientRegisteredDto() { ReturnCode = ReturnCode.SuperClientsCountExceeded };
-            }
-
-            if (user.Role != Role.Superclient && _writeModel.License.ClientStationCount.ValidUntil < DateTime.Today)
-            {
-                _logFile.AppendLine("Clients count license expired");
-                return new ClientRegisteredDto() { ReturnCode = ReturnCode.ClientsCountLicenseExpired };
-            }
-
-            if (user.Role == Role.Superclient && _writeModel.License.SuperClientStationCount.ValidUntil < DateTime.Today)
-            {
-                _logFile.AppendLine("Super-clients count license expired");
-                return new ClientRegisteredDto() { ReturnCode = ReturnCode.SuperClientsCountLicenseExpired };
-            }
-
-            return null;
-        }
-
+        
         private void ReRegister(RegisterClientDto dto, ClientStation station, User user)
         {
             station.UserId = user.UserId;
@@ -127,6 +127,10 @@ namespace Iit.Fibertest.DataCenterCore
                 ClientAddress = dto.Addresses.Main.GetAddress(),
                 ClientAddressPort = dto.Addresses.Main.Port,
                 LastConnectionTimestamp = DateTime.Now,
+
+                IsUnderSuperClient = dto.IsUnderSuperClient,
+                IsWebClient = dto.IsWebClient,
+                IsDesktopClient = !dto.IsUnderSuperClient && !dto.IsWebClient,
             };
             _clients.Add(station);
             _logFile.AppendLine($"Client {dto.UserName} from {dto.ClientIp} registered");

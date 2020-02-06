@@ -55,11 +55,13 @@
         NoSuchRtu = 9004,
         ClientsCountExceeded = 9005,
         ClientsCountLicenseExpired = 9006,
-        SuperClientsCountExceeded = 9007,
-        SuperClientsCountLicenseExpired = 9008,
-        UserHasNoRightsToStartClient = 9009,
-        UserHasNoRightsToStartSuperClient = 9010,
-        UserHasNoRightsToStartWebClient = 9011,
+        WebClientsCountExceeded,
+        WebClientsCountLicenseExpired,
+        SuperClientsCountExceeded,
+        SuperClientsCountLicenseExpired,
+        UserHasNoRightsToStartClient,
+        UserHasNoRightsToStartSuperClient,
+        UserHasNoRightsToStartWebClient,
 
         BaseRefAssignmentFailed = 9401,
     }

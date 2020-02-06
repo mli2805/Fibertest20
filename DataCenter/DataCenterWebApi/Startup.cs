@@ -54,7 +54,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             iniFile.AssignFile("webproxy.ini");
             var main = iniFile.Read(IniSection.ServerMainAddress, (int) TcpPorts.ServerListenToWebClient);
             if (main.Ip4Address == "0.0.0.0")
-            {  // as for now WebApi is set up on the same machine as DataCenter
+            {  // as for now, WebApi is set up on the same machine as DataCenter
                 main.Ip4Address = LocalAddressResearcher.GetAllLocalAddresses().First();
                 iniFile.Write(main, IniSection.ServerMainAddress);
             }

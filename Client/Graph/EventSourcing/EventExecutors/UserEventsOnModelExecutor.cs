@@ -7,7 +7,7 @@ namespace Iit.Fibertest.Graph
     {
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
-        
+
         public static string AddUser(this Model model, UserAdded e)
         {
             model.Users.Add(Mapper.Map<User>(e));
@@ -26,6 +26,8 @@ namespace Iit.Fibertest.Graph
                 model.License.RtuCount = e.RtuCount;
             if (e.ClientStationCount.Value != -1)
                 model.License.ClientStationCount = e.ClientStationCount;
+            if (e.WebClientCount.Value != -1)
+                model.License.WebClientCount = e.WebClientCount;
             if (e.SuperClientStationCount.Value != -1)
                 model.License.SuperClientStationCount = e.SuperClientStationCount;
             return null;

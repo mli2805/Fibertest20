@@ -12,5 +12,9 @@ namespace Iit.Fibertest.Dto
         public string ClientAddress { get; set; }
         public int ClientAddressPort { get; set; }
         public DateTime LastConnectionTimestamp { get; set; }
+
+        public bool IsUnderSuperClient { get; set; }
+        public bool IsWebClient { get; set; }
+        public bool IsDesktopClient { get; set; }
     }
 }

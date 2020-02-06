@@ -1629,6 +1629,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Clients license is expired.
+        /// </summary>
+        public static string SID_Clients_license_is_expired {
+            get {
+                return ResourceManager.GetString("SID_Clients_license_is_expired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close.
         /// </summary>
         public static string SID_Close {
@@ -2760,6 +2769,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Exceeded_the_number_of_super_clients_registered_simultaneously {
             get {
                 return ResourceManager.GetString("SID_Exceeded_the_number_of_super_clients_registered_simultaneously", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exceeded the number of web clients registered simultaneously.
+        /// </summary>
+        public static string SID_Exceeded_the_number_of_web_clients_registered_simultaneously {
+            get {
+                return ResourceManager.GetString("SID_Exceeded_the_number_of_web_clients_registered_simultaneously", resourceCulture);
             }
         }
         
@@ -6780,6 +6798,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Super-clients license is expired.
+        /// </summary>
+        public static string SID_Super_clients_license_is_expired {
+            get {
+                return ResourceManager.GetString("SID_Super_clients_license_is_expired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Suspended.
         /// </summary>
         public static string SID_Suspended {
@@ -7847,6 +7874,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_WcfServiceForClient_creation_error_ {
             get {
                 return ResourceManager.GetString("SID_WcfServiceForClient_creation_error_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Web clients license is expired.
+        /// </summary>
+        public static string SID_Web_clients_license_is_expired {
+            get {
+                return ResourceManager.GetString("SID_Web_clients_license_is_expired", resourceCulture);
             }
         }
         

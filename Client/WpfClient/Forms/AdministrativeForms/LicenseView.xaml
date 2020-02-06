@@ -26,6 +26,10 @@
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Clients" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
                     <TextBlock Text="{Binding License.ClientStationCount}" Background="Azure" Margin="5,1,5,5" Width="200"/>
+                </StackPanel>  
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Web clients" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
+                    <TextBlock Text="{Binding License.WebClientCount}" Background="Azure" Margin="5,1,5,5" Width="200"/>
                 </StackPanel> 
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="Super-clients" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>

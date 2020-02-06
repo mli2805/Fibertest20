@@ -21,6 +21,9 @@ namespace LicenseMaker
         private string _clientStationTermUnit;
         private string _superClientTermUnit;
         private Guid _licenseId;
+        private int _webClientCount = -1;
+        private int _webClientTerm = 999;
+        private string _webClientTermUnit;
 
         public Guid LicenseId
         {
@@ -110,6 +113,39 @@ namespace LicenseMaker
             }
         }
 
+        public int WebClientCount
+        {
+            get => _webClientCount;
+            set
+            {
+                if (value == _webClientCount) return;
+                _webClientCount = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public int WebClientTerm
+        {
+            get => _webClientTerm;
+            set
+            {
+                if (value == _webClientTerm) return;
+                _webClientTerm = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public string WebClientTermUnit
+        {
+            get => _webClientTermUnit;
+            set
+            {
+                if (value == _webClientTermUnit) return;
+                _webClientTermUnit = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public int SuperClientStationCount
         {
             get => _superClientStationCount;
@@ -148,6 +184,7 @@ namespace LicenseMaker
             LicenseId = Guid.NewGuid();
             RtuCountTermUnit = TermUnit.First();
             ClientStationTermUnit = TermUnit.First();
+            WebClientTermUnit = TermUnit.First();
             SuperClientTermUnit = TermUnit.Skip(1).First();
         }
 
@@ -157,12 +194,15 @@ namespace LicenseMaker
             Owner = licenseInFile.Owner;
             RtuCount = licenseInFile.RtuCount.Value;
             ClientStationCount = licenseInFile.ClientStationCount.Value;
+            WebClientCount = licenseInFile.WebClientCount.Value;
             SuperClientStationCount = licenseInFile.SuperClientStationCount.Value;
 
             RtuCountTerm = licenseInFile.RtuCount.Term;
             RtuCountTermUnit = licenseInFile.RtuCount.IsTermInYears ? TermUnit.First() : TermUnit.Last();
             ClientStationTerm = licenseInFile.ClientStationCount.Term;
             ClientStationTermUnit = licenseInFile.ClientStationCount.IsTermInYears ? TermUnit.First() : TermUnit.Last();
+            WebClientTerm = licenseInFile.WebClientCount.Term;
+            WebClientTermUnit = licenseInFile.WebClientCount.IsTermInYears ? TermUnit.First() : TermUnit.Last();
             SuperClientTerm = licenseInFile.SuperClientStationCount.Term;
             SuperClientTermUnit = licenseInFile.SuperClientStationCount.IsTermInYears ? TermUnit.First() : TermUnit.Last();
 
