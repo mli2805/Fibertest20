@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Forms;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Setup
 {
@@ -22,7 +23,7 @@ namespace Iit.Fibertest.Setup
             }
         }
 
-        public string MySqlTcpPort { get; set; } = "3306";
+        public string MySqlTcpPort { get; set; }
 
         private bool _isWebNeeded = true;
         public bool IsWebNeeded
@@ -101,6 +102,8 @@ namespace Iit.Fibertest.Setup
             Text1 = string.Format(Resources.SID_Select_the_type_of__0__install__Click_Next_to_continue_, currentInstallation.MainName);
             InstTypes = new List<string>() { "RTU Manager", "Client", "Data Center", "Super Client" };
             SelectedType = InstTypes[0];
+
+            MySqlTcpPort = IniOperations.GetMysqlTcpPort(currentInstallation.InstallationFolder);
         }
 
         public InstallationType GetSelectedType()

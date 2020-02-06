@@ -17,7 +17,6 @@ namespace Iit.Fibertest.Setup
 
         private const string SourcePathDataCenter = @"..\DcFiles";
         private const string DataCenterSubdir = @"DataCenter\bin";
-        private const string DataCenterIniSubdir = @"DataCenter\ini";
         private const string ServiceFilename = @"Iit.Fibertest.DataCenterService.exe";
 
         private const string SourcePathWebApi = @"\WebApi";
@@ -50,8 +49,7 @@ namespace Iit.Fibertest.Setup
                 return false;
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
 
-            SaveMysqlTcpPort(currentInstallation.InstallationFolder, currentInstallation.MySqlTcpPort);
-
+            IniOperations.SaveMysqlTcpPort(currentInstallation.InstallationFolder, currentInstallation.MySqlTcpPort);
 
             var filename = Path.Combine(fullDataCenterPath, ServiceFilename);
             if (!ServiceOperations.InstallService(DataCenterServiceName,
@@ -150,16 +148,6 @@ namespace Iit.Fibertest.Setup
             return extractingPath;
         }
 
-        private static void SaveMysqlTcpPort(string installationFolder, string mysqlTcpPort)
-        {
-            var iniDataCenterPath = Path.Combine(installationFolder, DataCenterIniSubdir);
-
-            var iniFile = new IniFile();
-            var iniFileName = Utils.FileNameForSure(iniDataCenterPath, "DataCenter.ini",
-                false, true);
-            iniFile.AssignFile(iniFileName, true);
-
-            iniFile.Write(IniSection.MySql, IniKey.MySqlTcpPort, mysqlTcpPort);
-        }
+    
     }
 }

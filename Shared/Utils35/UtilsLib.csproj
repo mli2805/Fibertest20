@@ -109,6 +109,7 @@
     <Compile Include="Setup\BwReturnProgressCode.cs" />
     <Compile Include="Setup\FileOperations.cs" />
     <Compile Include="Setup\IisOperations.cs" />
+    <Compile Include="Setup\IniOperations.cs" />
     <Compile Include="Setup\RegistryOperations.cs" />
     <Compile Include="Setup\ServiceOperations.cs" />
     <Compile Include="Setup\ShortcutOperatios.cs" />
