@@ -1,0 +1,37 @@
+<Window x:Class="Iit.Fibertest.Install.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:StringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:install="clr-namespace:Iit.Fibertest.Install"
+        mc:Ignorable="d"
+        Width="620" Height="450" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        d:DataContext="{d:DesignInstance Iit.Fibertest.Install:ShellViewModel}">
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Bottom" Margin="5,0,5,5">
+            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="15,5,5,5" Name="Cancel" 
+                    Content="{Binding ButtonCancelContent}" IsEnabled="{Binding IsButtonCancelEnabled}"/>
+            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5,0,0,0" Name="Next" 
+                    Content="{Binding ButtonNextContent}" IsEnabled="{Binding IsButtonNextEnabled}"/>
+            <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5,0,0,0" Name="Back" 
+                    Content="{Binding ButtonBackContent}" IsEnabled="{Binding IsButtonBackEnabled}"/>
+            <StackPanel></StackPanel>
+        </DockPanel>
+        <GroupBox Header="{x:Static StringResources:Resources.SID_Institute_of_Information_Technologies}" Foreground="LightGray" Margin="10,0"
+                  DockPanel.Dock="Bottom" BorderThickness="0,1,0,0" BorderBrush="LightGray">
+        </GroupBox>
+        <DockPanel DockPanel.Dock="Top"  Visibility="{Binding LicenseAgreementViewModel.Visibility}">
+            <install:LicenseAgreementView DataContext="{Binding LicenseAgreementViewModel}"/>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Top" Visibility="{Binding InstallationFolderViewModel.Visibility}">
+            <install:InstallationFolderView DataContext="{Binding InstallationFolderViewModel}"/>
+        </DockPanel>
+        <DockPanel DockPanel.Dock="Top" Visibility="{Binding InstTypeChoiceViewModel.Visibility}">
+            <install:InstTypeChoiceView DataContext="{Binding InstTypeChoiceViewModel}"/>
+        </DockPanel>
+        <DockPanel Visibility="{Binding ProcessProgressViewModel.Visibility}">
+            <install:ProcessProgressView DataContext="{Binding ProcessProgressViewModel}"/>
+        </DockPanel>
+    </DockPanel>
+</Window>
