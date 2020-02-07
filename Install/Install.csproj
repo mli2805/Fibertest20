@@ -102,7 +102,6 @@
     <Compile Include="Logic\SetupDatacenterOperations.cs" />
     <Compile Include="Logic\SetupClientOperations.cs" />
     <Compile Include="Logic\SetupManager.cs" />
-    <Compile Include="Logic\SetupRtuManagerOperations.cs" />
     <Compile Include="Enums\SetupPages.cs" />
     <Compile Include="Logic\SetupSuperClientOperations.cs" />
     <Compile Include="Logic\SetupUninstallOperations.cs" />

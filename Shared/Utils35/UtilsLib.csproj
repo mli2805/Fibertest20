@@ -113,6 +113,7 @@
     <Compile Include="Setup\RegistryOperations.cs" />
     <Compile Include="Setup\ServiceOperations.cs" />
     <Compile Include="Setup\ShortcutOperatios.cs" />
+    <Compile Include="Setup\UninstallOperations.cs" />
     <Compile Include="SnmpAgent.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>

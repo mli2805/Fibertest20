@@ -18,9 +18,9 @@ namespace Iit.Fibertest.Install
         private const string DataCenterSubdir = @"DataCenter\bin";
         private const string ServiceFilename = @"Iit.Fibertest.DataCenterService.exe";
 
-        private const string SourcePathWebApi = @"\WebApi";
+        private const string SourcePathWebApi = @"..\WebApi";
         private const string WebApiSubdir = @"WebApi\publish";
-        private const string SourcePathWebClient = @"\WebClient";
+        private const string SourcePathWebClient = @"..\WebClient";
         private const string WebClientSubdir = @"WebClient";
 
         public bool SetupDataCenter(BackgroundWorker worker, CurrentInstallation currentInstallation)
@@ -65,8 +65,8 @@ namespace Iit.Fibertest.Install
             if (!DeleteExistingWebSites(worker, currentInstallation))
                 return false;
 
-//            if (!CopyWebComponents(worker, currentInstallation, extractingPath))
-//                return false;
+            if (!CopyWebComponents(worker, currentInstallation))
+                return false;
 
 
             IisOperations.CreateWebsite(WebApiSiteName, "http", "*:11080:",
@@ -86,13 +86,17 @@ namespace Iit.Fibertest.Install
                 if (IisOperations.DoesWebsiteExist(WebApiSiteName))
                 {
                     IisOperations.DeleteWebsite(WebApiSiteName, worker);
-                    Directory.Delete(Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir), true);
+                    var webApiSitePath = Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir);
+                    if (Directory.Exists(webApiSitePath))
+                        Directory.Delete(webApiSitePath, true);
                 }
 
                 if (IisOperations.DoesWebsiteExist(WebClientSiteName))
                 {
                     IisOperations.DeleteWebsite(WebClientSiteName, worker);
-                    Directory.Delete(Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir), true);
+                    var webClientSitePath = Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir);
+                    if (Directory.Exists(webClientSitePath))
+                        Directory.Delete(webClientSitePath, true);
                 }
             }
             catch (Exception e)
@@ -104,18 +108,17 @@ namespace Iit.Fibertest.Install
             return true;
         }
 
-        private static bool CopyWebComponents(BackgroundWorker worker, CurrentInstallation currentInstallation,
-            string extractingPath)
+        private static bool CopyWebComponents(BackgroundWorker worker, CurrentInstallation currentInstallation)
         {
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
 
-            var fullWebApiSourcePath = extractingPath + SourcePathWebApi;
+            var fullWebApiSourcePath = SourcePathWebApi;
             var fullWebApiPath = Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir);
             if (!FileOperations.DirectoryCopyWithDecorations(fullWebApiSourcePath, false,
                 fullWebApiPath, worker))
                 return false;
 
-            var fullWebClientSourcePath = extractingPath + SourcePathWebClient;
+            var fullWebClientSourcePath = SourcePathWebClient;
             var fullWebClientPath = Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir);
             if (!FileOperations.DirectoryCopyWithDecorations(fullWebClientSourcePath, false,
                 fullWebClientPath, worker))

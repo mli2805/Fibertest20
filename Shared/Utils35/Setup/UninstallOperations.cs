@@ -3,24 +3,21 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Threading;
-using System.Windows;
-using Iit.Fibertest.StringResources;
-using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.Uninstall
+namespace Iit.Fibertest.UtilsLib
 {
-    public class UninstallOperations
+    public static class UninstallOperations
     {
-        private readonly Dictionary<string, string> _services = new Dictionary<string, string>()
+        private static readonly Dictionary<string, string> _services = new Dictionary<string, string>()
         {
             {"FibertestDcService", "Fibertest 2.0 DataCenter Server"},
             {"FibertestRtuWatchdog", "Fibertest 2.0 RTU Watchdog"},
             {"FibertestRtuService", "Fibertest 2.0 RTU Manager"},
         };
 
-        private readonly List<string> _sites = new List<string>() { "fibertest_web_api", "fibertest_web_client" };
+        private static readonly List<string> _sites = new List<string>() { "fibertest_web_api", "fibertest_web_client" };
 
-        private readonly Dictionary<string, string> _componentFolders = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> _componentFolders = new Dictionary<string, string>
         {
             {"Client", "bin"}, {"SuperClient", "bin"},
             {"DataCenter", "bin"}, {"RtuManager", "bin"},
@@ -28,12 +25,13 @@ namespace Iit.Fibertest.Uninstall
             {"RftsReflect", "" },
         };
 
-        public bool Do(BackgroundWorker worker, string fibertestFolder, bool isFullUninstall)
+        public static bool Do(BackgroundWorker worker, string fibertestFolder, bool isFullUninstall)
         {
             worker.ReportProgress((int)BwReturnProgressCode.UninstallStarted);
 
             if (!UninstallServices(worker)) return false;
-            UninstallSites(worker);
+            if (Directory.Exists(Path.Combine(fibertestFolder, "WebApi")))
+                UninstallSites(worker);
 
             if (!DeleteFiles(worker, fibertestFolder, isFullUninstall)) return false;
             ShortcutOperatios.DeleteAllShortcuts();
@@ -46,7 +44,7 @@ namespace Iit.Fibertest.Uninstall
             return true;
         }
 
-        private bool UninstallServices(BackgroundWorker worker)
+        private static bool UninstallServices(BackgroundWorker worker)
         {
             foreach (var pair in _services)
             {
@@ -56,13 +54,13 @@ namespace Iit.Fibertest.Uninstall
             return true;
         }
 
-        private void UninstallSites(BackgroundWorker worker)
+        public static void UninstallSites(BackgroundWorker worker)
         {
             foreach (var site in _sites)
                 IisOperations.DeleteWebsite(site, worker);
         }
 
-        private bool DeleteFiles(BackgroundWorker worker, string fibertestFolder, bool isFullUninstall)
+        private static bool DeleteFiles(BackgroundWorker worker, string fibertestFolder, bool isFullUninstall)
         {
             worker.ReportProgress((int)BwReturnProgressCode.DeletingFiles);
             try
@@ -83,7 +81,6 @@ namespace Iit.Fibertest.Uninstall
             catch (Exception e)
             {
                 worker.ReportProgress((int)BwReturnProgressCode.CannotDeleteSpecifiedFolder, e.Message);
-                MessageBox.Show(Resources.SID_Cannot_delete_specified_folder_, Resources.SID_Error_, MessageBoxButton.OK);
                 return false;
             }
 

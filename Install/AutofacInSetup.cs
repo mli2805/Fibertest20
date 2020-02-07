@@ -24,7 +24,6 @@ namespace Iit.Fibertest.Install
             builder.RegisterType<SetupManager>().SingleInstance();
             builder.RegisterType<SetupClientOperations>().SingleInstance();
             builder.RegisterType<SetupDataCenterOperations>().SingleInstance();
-            builder.RegisterType<SetupRtuManagerOperations>().SingleInstance();
             builder.RegisterType<SetupSuperClientOperations>().SingleInstance();
             builder.RegisterType<SetupUninstallOperations>().SingleInstance();
 

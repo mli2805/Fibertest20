@@ -131,13 +131,6 @@ namespace Iit.Fibertest.Install
             {
                 TryClose();
             }
-
-            if (_currentPage == SetupPages.ProcessProgress && (_currentInstallation.InstallationType == InstallationType.Datacenter 
-                && InstTypeChoiceViewModel.IsWebNeeded && !InstTypeChoiceViewModel.WebArchivePath.EndsWith("zip")))
-            {
-                _currentPage--;
-                return;
-            }
             Do();
         }
 
@@ -188,6 +181,9 @@ namespace Iit.Fibertest.Install
                     RegistryOperations.SaveFibertestValue("InstallationFolder", InstallationFolderViewModel.InstallationFolder);
                     _currentInstallation.InstallationFolder = InstallationFolderViewModel.InstallationFolder;
 
+                    var port = IniOperations.GetMysqlTcpPort(_currentInstallation.InstallationFolder);
+                    InstTypeChoiceViewModel.MySqlTcpPort = port != "error" ? port : "3306";
+
                     ButtonBackContent = Resources.SID_Back;
                     IsButtonBackEnabled = true;
                     ButtonNextContent = Resources.SID_Next;
@@ -221,7 +217,6 @@ namespace Iit.Fibertest.Install
             _currentInstallation.InstallationType = InstTypeChoiceViewModel.GetSelectedType();
             _currentInstallation.MySqlTcpPort = InstTypeChoiceViewModel.MySqlTcpPort;
             _currentInstallation.IsWebNeeded = InstTypeChoiceViewModel.IsWebNeeded;
-            _currentInstallation.WebArchivePath = InstTypeChoiceViewModel.WebArchivePath;
         }
 
         private void ProcessProgressViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

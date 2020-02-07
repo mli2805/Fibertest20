@@ -2774,4 +2774,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Super_clients_license_is_expired" xml:space="preserve">
 		<value>Лицензия на Super-client истекла</value>
 	</data>
+	<data name="SID_Install_Web_Service" xml:space="preserve">
+		<value>Установить компонент WebClient</value>
+	</data>
 </root>

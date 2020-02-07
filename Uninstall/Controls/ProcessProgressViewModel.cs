@@ -70,7 +70,7 @@ namespace Iit.Fibertest.Uninstall
         private void Bw_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = sender as BackgroundWorker;
-            IsUninstallSuccessful = new UninstallOperations().Do(worker, _fibertestFolder, _isFullUninstall);
+            IsUninstallSuccessful = UninstallOperations.Do(worker, _fibertestFolder, _isFullUninstall);
         }
 
     }

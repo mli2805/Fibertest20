@@ -3439,6 +3439,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Install Web Service.
+        /// </summary>
+        public static string SID_Install_Web_Service {
+            get {
+                return ResourceManager.GetString("SID_Install_Web_Service", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Installation Complete.
         /// </summary>
         public static string SID_Installation_Complete {

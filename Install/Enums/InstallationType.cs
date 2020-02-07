@@ -4,7 +4,6 @@ namespace Iit.Fibertest.Install
     {
         Client,
         Datacenter,
-        RtuManager,
         SuperClient,
     }
 }
