@@ -39,18 +39,18 @@ namespace Iit.Fibertest.InstallRtu
 
             Thread.Sleep(1000);
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathRtuManager, true, fullRtuManagerPath, worker))
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathRtuManager,  fullRtuManagerPath, worker))
                 return false;
 
             var otdrmeasengine = Path.Combine(fullRtuManagerPath, @"OtdrMeasEngine\");
             FileOperations.CleanAntiGhost(otdrmeasengine, true);
             CreateIniForIpAddressesSetting(installationFolder);
 
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUtils, true, 
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUtils,  
                 fullUtilsPath, worker))
                 return false;
 
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, true,
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, 
                 fullReflectPath, worker))
                 return false;
             FileOperations.CleanAntiGhost(fullReflectPath, false);

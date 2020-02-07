@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Install
 
             var fullSuperClientPath = Path.Combine(installationFolder, SuperClientSubdir);
             _logFile.AppendLine($" full super-client path = {fullSuperClientPath}");
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathSuperClient, true,
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathSuperClient, 
                 fullSuperClientPath, worker))
                 return false;
 

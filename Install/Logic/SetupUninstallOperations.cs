@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Install
 
             var fullUninstallPath = Path.Combine(installationFolder, UninstallSubdir);
             _logFile.AppendLine($" full uninstall path = {fullUninstallPath}");
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUninstall, true, 
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUninstall, 
                 fullUninstallPath, worker))
                 return;
 

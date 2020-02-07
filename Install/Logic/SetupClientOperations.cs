@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Install
 
             var fullClientPath = Path.Combine(installationFolder, ClientSubdir);
             _logFile.AppendLine($" full client path = {fullClientPath}");
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathClient, true,
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathClient, 
                 fullClientPath, worker))
                 return false;
             var userGuideFolder = Path.Combine(fullClientPath, @"..\UserGuide");
@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Install
  
             var fullReflectPath = Path.Combine(installationFolder, ReflectSubdir);
             _logFile.AppendLine($" full Reflect path = {fullReflectPath}");
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, true,
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, 
                 fullReflectPath, worker))
                 return false;
             FileOperations.CleanAntiGhost(fullReflectPath, false);
