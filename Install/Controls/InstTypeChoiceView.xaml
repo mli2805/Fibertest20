@@ -6,7 +6,7 @@
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
              xmlns:cal="http://www.caliburnproject.org"
              xmlns:install="clr-namespace:Iit.Fibertest.Install"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance setup:InstTypeChoiceViewModel}">
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance install:InstTypeChoiceViewModel}">
     <DockPanel>
         <install:HeaderView DockPanel.Dock="Top" DataContext="{Binding HeaderViewModel}"/>
         <TextBlock DockPanel.Dock="Top" Margin="15,5" Text="{Binding Text1}"/>

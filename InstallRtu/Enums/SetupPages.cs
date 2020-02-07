@@ -4,7 +4,6 @@ namespace Iit.Fibertest.InstallRtu
     {
         LicenseAgreement = 1,
         InstallationFolder = 2,
-        InstTypeChoice = 3,
         ProcessProgress,
     }
 }

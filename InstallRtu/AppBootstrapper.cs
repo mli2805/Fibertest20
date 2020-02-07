@@ -16,7 +16,7 @@ namespace Iit.Fibertest.InstallRtu
         // SimpleContainer container;
 
         private ILifetimeScope _container;
-        private CurrentInstallation _currentInstallation;
+        private CurrentRtuInstallation _currentRtuInstallation;
 
         public AppBootstrapper()
         {
@@ -55,7 +55,7 @@ namespace Iit.Fibertest.InstallRtu
         protected override void OnStartup(object sender, System.Windows.StartupEventArgs e)
         {
             var builder = new ContainerBuilder();
-            builder.RegisterModule<AutofacInSetup>();
+            builder.RegisterModule<AutofacInRtuInstall>();
 
             var iniFile = new IniFile();
             iniFile.AssignFile("setup.ini");
@@ -63,8 +63,8 @@ namespace Iit.Fibertest.InstallRtu
 
             _container = builder.Build();
 
-            _currentInstallation = _container.Resolve<CurrentInstallation>();
-            _currentInstallation.ProductName = "IIT Fibertest";
+            _currentRtuInstallation = _container.Resolve<CurrentRtuInstallation>();
+            _currentRtuInstallation.ProductName = "IIT Fibertest";
            
             SetCurrentCulture();
 
@@ -87,7 +87,7 @@ namespace Iit.Fibertest.InstallRtu
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(culture);
 
             var result = MessageBox.Show(
-                string.Format(Resources.SID__0__installed_on_your_PC_already__Continue_, _currentInstallation.MainName),
+                string.Format(Resources.SID__0__installed_on_your_PC_already__Continue_, _currentRtuInstallation.MainName),
                 Resources.SID_Confirmation, MessageBoxButton.YesNo);
             if (result != MessageBoxResult.Yes)
                 Application.Current.Shutdown();

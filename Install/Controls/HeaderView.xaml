@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance setup:HeaderViewModel}">
+             xmlns:install="clr-namespace:Iit.Fibertest.Install"
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance install:HeaderViewModel}">
     <Border BorderThickness="0,1,0,1" BorderBrush="LightGray" Height="50">
         <DockPanel >
             <Image DockPanel.Dock="Right" Source="../../Resources/RtuOk.png" Height="28" Margin="0,0,20,0"/>

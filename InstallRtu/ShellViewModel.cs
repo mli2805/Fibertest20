@@ -10,11 +10,10 @@ namespace Iit.Fibertest.InstallRtu
     public class ShellViewModel : Screen, IShell
     {
         private IMyLog _logFile;
-        private CurrentInstallation _currentInstallation;
+        private CurrentRtuInstallation _currentRtuInstallation;
         private IWindowManager _windowManager;
         public LicenseAgreementViewModel LicenseAgreementViewModel { get; set; }
         public InstallationFolderViewModel InstallationFolderViewModel { get; set; }
-        public InstTypeChoiceViewModel InstTypeChoiceViewModel { get; set; }
         public ProcessProgressViewModel ProcessProgressViewModel { get; set; }
 
         private SetupPages _currentPage;
@@ -95,19 +94,17 @@ namespace Iit.Fibertest.InstallRtu
 
         #endregion
 
-        public ShellViewModel(CurrentInstallation currentInstallation, 
+        public ShellViewModel(CurrentRtuInstallation currentRtuInstallation, 
             IWindowManager windowManager, IMyLog logFile,
             LicenseAgreementViewModel licenseAgreementViewModel,
             InstallationFolderViewModel installationFolderViewModel,
-            InstTypeChoiceViewModel instTypeChoiceViewModel,
             ProcessProgressViewModel processProgressViewModel)
         {
             _logFile = logFile;
-            _currentInstallation = currentInstallation;
+            _currentRtuInstallation = currentRtuInstallation;
             _windowManager = windowManager;
             LicenseAgreementViewModel = licenseAgreementViewModel;
             InstallationFolderViewModel = installationFolderViewModel;
-            InstTypeChoiceViewModel = instTypeChoiceViewModel;
             ProcessProgressViewModel = processProgressViewModel;
 
             _currentPage = SetupPages.LicenseAgreement;
@@ -131,13 +128,6 @@ namespace Iit.Fibertest.InstallRtu
             {
                 TryClose();
             }
-
-            if (_currentPage == SetupPages.ProcessProgress && (_currentInstallation.InstallationType == InstallationType.Datacenter 
-                && InstTypeChoiceViewModel.IsWebNeeded && !InstTypeChoiceViewModel.WebArchivePath.EndsWith("zip")))
-            {
-                _currentPage--;
-                return;
-            }
             Do();
         }
 
@@ -154,7 +144,6 @@ namespace Iit.Fibertest.InstallRtu
                 case SetupPages.LicenseAgreement:
                     LicenseAgreementViewModel.Visibility = Visibility.Visible;
                     InstallationFolderViewModel.Visibility = Visibility.Collapsed;
-                    InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
                     ProcessProgressViewModel.Visibility = Visibility.Collapsed;
 
                     ButtonBackContent = Resources.SID_Back;
@@ -169,7 +158,6 @@ namespace Iit.Fibertest.InstallRtu
                 case SetupPages.InstallationFolder:
                     LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
                     InstallationFolderViewModel.Visibility = Visibility.Visible;
-                    InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
 
                     ButtonBackContent = Resources.SID_Back;
                     IsButtonBackEnabled = true;
@@ -179,24 +167,11 @@ namespace Iit.Fibertest.InstallRtu
                     IsButtonCancelEnabled = true;
 
                     break;
-                case SetupPages.InstTypeChoice:
-                    LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
-                    InstallationFolderViewModel.Visibility = Visibility.Collapsed;
-                    InstTypeChoiceViewModel.Visibility = Visibility.Visible;
-                    ProcessProgressViewModel.Visibility = Visibility.Collapsed;
-
-                    RegistryOperations.SaveFibertestValue("InstallationFolder", InstallationFolderViewModel.InstallationFolder);
-                    _currentInstallation.InstallationFolder = InstallationFolderViewModel.InstallationFolder;
-
-                    ButtonBackContent = Resources.SID_Back;
-                    IsButtonBackEnabled = true;
-                    ButtonNextContent = Resources.SID_Next;
-                    IsButtonNextEnabled = true;
-                    ButtonCancelContent = Resources.SID_Cancel;
-                    IsButtonCancelEnabled = true;
-
-                    break;
+              
                 case SetupPages.ProcessProgress:
+                    RegistryOperations.SaveFibertestValue("InstallationFolder", InstallationFolderViewModel.InstallationFolder);
+                    _currentRtuInstallation.InstallationFolder = InstallationFolderViewModel.InstallationFolder;
+
                     OpenProgressView();
                     ProcessProgressViewModel.PropertyChanged += ProcessProgressViewModel_PropertyChanged;
                     ProcessProgressViewModel.RunSetup();
@@ -208,7 +183,6 @@ namespace Iit.Fibertest.InstallRtu
         {
             LicenseAgreementViewModel.Visibility = Visibility.Collapsed;
             InstallationFolderViewModel.Visibility = Visibility.Collapsed;
-            InstTypeChoiceViewModel.Visibility = Visibility.Collapsed;
             ProcessProgressViewModel.Visibility = Visibility.Visible;
 
             ButtonBackContent = Resources.SID_Back;
@@ -218,10 +192,6 @@ namespace Iit.Fibertest.InstallRtu
             ButtonCancelContent = Resources.SID_Cancel;
             IsButtonCancelEnabled = false;
 
-            _currentInstallation.InstallationType = InstTypeChoiceViewModel.GetSelectedType();
-            _currentInstallation.MySqlTcpPort = InstTypeChoiceViewModel.MySqlTcpPort;
-            _currentInstallation.IsWebNeeded = InstTypeChoiceViewModel.IsWebNeeded;
-            _currentInstallation.WebArchivePath = InstTypeChoiceViewModel.WebArchivePath;
         }
 
         private void ProcessProgressViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -240,7 +210,7 @@ namespace Iit.Fibertest.InstallRtu
         public void Cancel()
         {
             var result = MessageBox.Show(string.Format(Resources.SID_Are_you_sure_you_want_to_quit__0__setup_, 
-                    _currentInstallation.MainName), Resources.SID_Confirmation, MessageBoxButton.YesNo);
+                _currentRtuInstallation.MainName), Resources.SID_Confirmation, MessageBoxButton.YesNo);
             if (result == MessageBoxResult.Yes)
                 TryClose();
         }

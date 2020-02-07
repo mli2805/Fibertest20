@@ -48,11 +48,11 @@ namespace Iit.Fibertest.InstallRtu
             }
         }
 
-        public InstallationFolderViewModel(CurrentInstallation currentInstallation)
+        public InstallationFolderViewModel(CurrentRtuInstallation currentRtuInstallation)
         {
             HeaderViewModel.InBold = Resources.SID_Choose_Install_Location;
-            HeaderViewModel.Explanation = string.Format(Resources.SID_Choose_folder_in_which_to_install__0_, currentInstallation.MainName);
-            Text1 = string.Format(Resources.SID_Setup_will_install__0__in_, currentInstallation.MainName);
+            HeaderViewModel.Explanation = string.Format(Resources.SID_Choose_folder_in_which_to_install__0_, currentRtuInstallation.MainName);
+            Text1 = string.Format(Resources.SID_Setup_will_install__0__in_, currentRtuInstallation.MainName);
             InstallationFolder = RegistryOperations.GetFibertestValue("InstallationFolder", @"C:\IIT-Fibertest\");
             SpaceAvailable = string.Format(Resources.SID_Space_available___0_, SpaceToString(GetAvailableFreeSpace(@"C:\")));
         }

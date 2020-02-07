@@ -27,11 +27,11 @@ namespace Iit.Fibertest.InstallRtu
         public string Text1 { get; set; }
         public FixedDocumentSequence FixedDocumentSequence { get; set; }
 
-        public LicenseAgreementViewModel(CurrentInstallation currentInstallation)
+        public LicenseAgreementViewModel(CurrentRtuInstallation currentRutInstallation)
         {
             HeaderViewModel.InBold = Resources.SID_License_Agreement;
-            HeaderViewModel.Explanation = string.Format(Resources.SID_Please_review_the_license_terms_before_installing__0__, currentInstallation.MainName);
-            Text1 = string.Format(Resources.SID_If_you_accept_0_, currentInstallation.MainName);
+            HeaderViewModel.Explanation = string.Format(Resources.SID_Please_review_the_license_terms_before_installing__0__, currentRutInstallation.MainName);
+            Text1 = string.Format(Resources.SID_If_you_accept_0_, currentRutInstallation.MainName);
             ReadLicense();
         }
 

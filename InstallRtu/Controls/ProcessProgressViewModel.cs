@@ -9,8 +9,8 @@ namespace Iit.Fibertest.InstallRtu
 {
     public class ProcessProgressViewModel : PropertyChangedBase
     {
-        private readonly CurrentInstallation _currentInstallation;
-        private readonly SetupManager _setupManager;
+        private readonly CurrentRtuInstallation _currentRtuInstallation;
+        private readonly RtuInstallManager _rtuInstallManager;
         private Visibility _visibility = Visibility.Collapsed;
 
         public Visibility Visibility
@@ -40,13 +40,13 @@ namespace Iit.Fibertest.InstallRtu
         public ObservableCollection<string> ProgressLines { get; set; } = new ObservableCollection<string>();
         public ObservableCollection<string> FileLines { get; set; } = new ObservableCollection<string>();
 
-        public ProcessProgressViewModel(CurrentInstallation currentInstallation, SetupManager setupManager)
+        public ProcessProgressViewModel(CurrentRtuInstallation currentRtuInstallation, RtuInstallManager rtuInstallManager)
         {
-            _currentInstallation = currentInstallation;
-            _setupManager = setupManager;
+            _currentRtuInstallation = currentRtuInstallation;
+            _rtuInstallManager = rtuInstallManager;
             HeaderViewModel.InBold = Resources.SID_Installing;
             HeaderViewModel.Explanation = string.Format(Resources.SID_Please_wait_while__0__is_being_installed,
-                _currentInstallation.MainName);
+                _currentRtuInstallation.MainName);
         }
 
         private bool _setupResult;
@@ -83,7 +83,7 @@ namespace Iit.Fibertest.InstallRtu
         private void Bw_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = sender as BackgroundWorker;
-            _setupResult = _setupManager.Run(worker);
+            _setupResult = _rtuInstallManager.Run(worker);
         }
 
         private void SaySuccess()
@@ -96,7 +96,7 @@ namespace Iit.Fibertest.InstallRtu
         private void SayFail()
         {
             HeaderViewModel.InBold = Resources.SID_Installation_failed;
-            HeaderViewModel.Explanation = string.Format(Resources.SID__0__installation_failed_, _currentInstallation.MainName);
+            HeaderViewModel.Explanation = string.Format(Resources.SID__0__installation_failed_, _currentRtuInstallation.MainName);
         }
     }
 }

@@ -27,9 +27,6 @@
         <DockPanel DockPanel.Dock="Top" Visibility="{Binding InstallationFolderViewModel.Visibility}">
             <installRtu:InstallationFolderView DataContext="{Binding InstallationFolderViewModel}"/>
         </DockPanel>
-        <DockPanel DockPanel.Dock="Top" Visibility="{Binding InstTypeChoiceViewModel.Visibility}">
-            <installRtu:InstTypeChoiceView DataContext="{Binding InstTypeChoiceViewModel}"/>
-        </DockPanel>
         <DockPanel Visibility="{Binding ProcessProgressViewModel.Visibility}">
             <installRtu:ProcessProgressView DataContext="{Binding ProcessProgressViewModel}"/>
         </DockPanel>

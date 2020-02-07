@@ -73,7 +73,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="AutofacInSetup.cs" />
+    <Compile Include="AutofacInRtuInstall.cs" />
     <Compile Include="Controls\HeaderView.xaml.cs">
       <DependentUpon>HeaderView.xaml</DependentUpon>
     </Compile>
@@ -82,10 +82,6 @@
       <DependentUpon>InstallationFolderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\InstallationFolderViewModel.cs" />
-    <Compile Include="Controls\InstTypeChoiceView.xaml.cs">
-      <DependentUpon>InstTypeChoiceView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\InstTypeChoiceViewModel.cs" />
     <Compile Include="Controls\LicenseAgreementView.xaml.cs">
       <DependentUpon>LicenseAgreementView.xaml</DependentUpon>
     </Compile>
@@ -95,19 +91,15 @@
     </Compile>
     <Compile Include="Controls\ProcessProgressViewModel.cs" />
     <Compile Include="Controls\ScrollToBottomOnAddBehavior.cs" />
-    <Compile Include="CurrentInstallation.cs" />
-    <Compile Include="Enums\InstallationType.cs" />
+    <Compile Include="CurrentRtuInstallation.cs" />
     <Compile Include="Forms\InstallationLanguageView.xaml.cs">
       <DependentUpon>InstallationLanguageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\InstallationLanguageViewModel.cs" />
     <Compile Include="IShell.cs" />
-    <Compile Include="Logic\SetupDatacenterOperations.cs" />
-    <Compile Include="Logic\SetupClientOperations.cs" />
-    <Compile Include="Logic\SetupManager.cs" />
+    <Compile Include="Logic\RtuInstallManager.cs" />
     <Compile Include="Logic\SetupRtuManagerOperations.cs" />
     <Compile Include="Enums\SetupPages.cs" />
-    <Compile Include="Logic\SetupSuperClientOperations.cs" />
     <Compile Include="Logic\SetupUninstallOperations.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
@@ -119,10 +111,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\InstallationFolderView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\InstTypeChoiceView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
