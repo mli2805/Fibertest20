@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.IO;
 using Iit.Fibertest.UtilsLib;
-using Ionic.Zip;
 
 namespace Iit.Fibertest.Install
 {
@@ -63,13 +62,11 @@ namespace Iit.Fibertest.Install
         {
             worker.ReportProgress((int)BwReturnProgressCode.WebComponentsSetupStarted);
 
-            var extractingPath = UnzipWebComponents(worker, currentInstallation);
-
             if (!DeleteExistingWebSites(worker, currentInstallation))
                 return false;
 
-            if (!CopyWebComponents(worker, currentInstallation, extractingPath))
-                return false;
+//            if (!CopyWebComponents(worker, currentInstallation, extractingPath))
+//                return false;
 
 
             IisOperations.CreateWebsite(WebApiSiteName, "http", "*:11080:",
@@ -127,27 +124,6 @@ namespace Iit.Fibertest.Install
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
             return true;
         }
-
-        private static string UnzipWebComponents(BackgroundWorker worker, CurrentInstallation currentInstallation)
-        {
-            worker.ReportProgress((int)BwReturnProgressCode.FilesAreUnziped);
-
-            var currentDomain = AppDomain.CurrentDomain.BaseDirectory;
-            var extractingPath = currentDomain + @"ExtractedWebFiles";
-            if (Directory.Exists(extractingPath))
-                Directory.Delete(extractingPath, true);
-            using (ZipFile zipFile = ZipFile.Read(currentInstallation.WebArchivePath))
-            {
-                foreach (var zipEntry in zipFile)
-                {
-                    zipEntry.ExtractWithPassword(extractingPath, "");
-                }
-            }
-
-            worker.ReportProgress((int)BwReturnProgressCode.FilesAreUnzipedSuccessfully);
-            return extractingPath;
-        }
-
     
     }
 }

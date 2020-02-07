@@ -9,8 +9,8 @@ del Ft*.zip
 
 rem General installer source
 
-xcopy ..\Setup\bin\Release\*.* Pack\bin\*.* /S/D/Y
-xcopy ..\Setup\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
+xcopy ..\Install\bin\Release\*.* Pack\bin\*.* /S/D/Y
+xcopy ..\Install\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
      
 xcopy ..\DataCenter\DataCenterService\bin\Release\*.* Pack\DcFiles\*.* /S/D/Y
 xcopy ..\DataCenter\DataCenterWebApi\bin\Release\netcoreapp3.0\*.* Pack\WebApi\*.* /S/D/Y
@@ -25,8 +25,8 @@ xcopy ..\Uninstall\bin\Release\*.* Pack\UninstallFiles\*.* /S/D/Y
 
 rem RTU installer source
 
-xcopy ..\Setup\bin\Release\*.* PackRtu\bin\*.* /S/D/Y
-xcopy ..\Setup\LicenseDocs\*.xps PackRtu\LicenseDocs\*.* /S/D/Y
+xcopy ..\InstallRtu\bin\Release\*.* PackRtu\bin\*.* /S/D/Y
+xcopy ..\InstallRtu\LicenseDocs\*.xps PackRtu\LicenseDocs\*.* /S/D/Y
      
 xcopy ..\RTU\RtuService\bin\Release\*.* PackRtu\RtuFiles\*.* /S/D/Y
 xcopy ..\RTU\RtuWatchdog\bin\Release\*.* PackRtu\RtuFiles\*.* /S/D/Y
