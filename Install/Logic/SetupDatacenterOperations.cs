@@ -112,18 +112,16 @@ namespace Iit.Fibertest.Install
         {
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
 
-            var fullWebApiSourcePath = SourcePathWebApi;
-            var fullWebApiPath = Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir);
-            if (!FileOperations.DirectoryCopyWithDecorations(fullWebApiSourcePath, false,
-                fullWebApiPath, worker))
-                return false;
-
-            var fullWebClientSourcePath = SourcePathWebClient;
             var fullWebClientPath = Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir);
-            if (!FileOperations.DirectoryCopyWithDecorations(fullWebClientSourcePath, false,
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathWebClient, false,
                 fullWebClientPath, worker))
                 return false;
 
+            var fullWebApiPath = Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir);
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathWebApi, false,
+                fullWebApiPath, worker))
+                return false;
+         
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
             return true;
         }
