@@ -48,8 +48,8 @@ cd ..\
 rem both installers need RftsReflect
 xcopy Pack\RftsReflect\*.* PackRtu\RftsReflect\*.* /S/D/Y
 
-"C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackInstall.conf" Ft_%1.exe Pack\*.*
-"C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackRtuInstall.conf" FtRtu_%1.exe PackRtu\*.*
+"C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackSetup.conf" Ft_%1.exe Pack\*.*
+"C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackRtuSetup.conf" FtRtu_%1.exe PackRtu\*.*
 
 
 rem additional archive with administrative tools
