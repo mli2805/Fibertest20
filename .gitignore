@@ -260,3 +260,4 @@ paket-files/
 *.diagsession
 /Client/Build/Cache
 /Deploy/PackWeb
+/Deploy/PackRtu
