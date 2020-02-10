@@ -62,7 +62,8 @@ namespace Iit.Fibertest.DataCenterCore
         {
             if (! await _rtuStationsRepository.IsRtuExist(dto.RtuId)) return -1;
 
-            _logFile.AppendLine($@"MSMQ message, measure time: {dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture)}, RTU { dto.RtuId.First6()
+            _logFile.AppendLine($@"MSMQ message, measure time: {dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture)
+                }, RTU { dto.RtuId.First6()
                 }, Trace {dto.PortWithTrace.TraceId.First6()} - {dto.TraceState} ({ dto.BaseRefType })");
 
             var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
@@ -125,7 +126,8 @@ namespace Iit.Fibertest.DataCenterCore
             );
             if (otau != null)
             {
-                _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.Serial} state changed to {dto.IsOk} (because MSMQ message about BOP came)");
+                _logFile.AppendLine($@"RTU {dto.RtuId.First6()} BOP {dto.Serial} state changed to {
+                    dto.IsOk} (because MSMQ message about BOP came)");
                 var cmd = new AddBopNetworkEvent()
                 {
                     EventTimestamp = DateTime.Now,

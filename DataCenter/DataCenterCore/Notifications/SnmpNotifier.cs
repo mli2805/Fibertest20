@@ -107,7 +107,6 @@ namespace Iit.Fibertest.DataCenterCore
 
             var data = new List<KeyValuePair<SnmpProperty, string>>
             {
-                new KeyValuePair<SnmpProperty, string>(SnmpProperty.EventId, rtuEvent.Ordinal.ToString()),
                 new KeyValuePair<SnmpProperty, string>(SnmpProperty.EventRegistrationTime,
                     rtuEvent.EventTimestamp.ToString("G")),
                 new KeyValuePair<SnmpProperty, string>(SnmpProperty.RtuTitle, rtuTitle),
