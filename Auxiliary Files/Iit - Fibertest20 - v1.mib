@@ -177,7 +177,7 @@ floating_point_number OBJECT-TYPE
 
 optical_event TRAP-TYPE
 	ENTERPRISE iit
-	VARIABLES { event_registration_time, rtu_title, trace_title, trace_state, 
+	VARIABLES { event_id, event_registration_time, rtu_title, trace_title, trace_state, 
 		accident_node_title, accident_type, accident_distance, accident_gps, 
 		left_node_title, left_node_gps, left_node_distance_to_rtu,
 		right_node_title, right_node_gps, right_node_distance_to_rtu}
@@ -195,7 +195,7 @@ bop_network_event TRAP-TYPE
 
 test_trap TRAP-TYPE
 	ENTERPRISE iit
-	VARIABLES { event_registration_time, rtu_title, bop_title, bop_state }
+	VARIABLES { string_with_non_ansi_symbols, event_registration_time, interger_number, floating_point_number }
 	::= 777
 
 
