@@ -4,6 +4,7 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <AssemblyName>Iit.Fibertest.DataCenterWebApi</AssemblyName>
     <RootNamespace>Iit.Fibertest.DataCenterWebApi</RootNamespace>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>

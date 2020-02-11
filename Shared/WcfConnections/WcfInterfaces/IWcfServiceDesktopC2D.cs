@@ -40,9 +40,7 @@ namespace Iit.Fibertest.WcfConnections
         Task<byte[]> GetSorBytes(int sorFileId);
 
         // C2D
-        [OperationContract]
-        Task<int> UnregisterClientAsync(UnRegisterClientDto dto);
-
+     
         [OperationContract]
         Task<bool> CheckServerConnection(CheckServerConnectionDto dto);
 

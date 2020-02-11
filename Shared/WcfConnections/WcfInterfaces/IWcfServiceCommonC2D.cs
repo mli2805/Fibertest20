@@ -13,6 +13,9 @@ namespace Iit.Fibertest.WcfConnections
         [OperationContract]
         Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto);
 
+        [OperationContract]
+        Task<int> UnregisterClientAsync(UnRegisterClientDto dto);
+
 
         // C2D2R
         [OperationContract]

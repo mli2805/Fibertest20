@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -29,6 +30,20 @@ namespace Iit.Fibertest.DataCenterWebApi
             _logFile = logFile;
             _doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToCommonClient);
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
+        }
+
+        [Authorize]
+        [HttpPost("Logout")]
+        public async Task Logout()
+        {
+            string body;
+            using (var reader = new StreamReader(Request.Body))
+            {
+                body = await reader.ReadToEndAsync();
+            }
+            dynamic user = JObject.Parse(body);
+            _commonC2DWcfManager.SetServerAddresses(_doubleAddress, (string)user, "localhost");
+            var dto = await _commonC2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto(){ClientId = Guid.Empty, ClientIp = "", Username = user});
         }
 
         [HttpPost("Login")]
@@ -91,7 +106,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 username = (string)user.username,
                 role = clientRegisteredDto.Role,
-                zone = clientRegisteredDto.ZoneId,
+                zone = clientRegisteredDto.ZoneTitle,
                 jsonWebToken = encodedJwt,
             };
 

@@ -4,7 +4,7 @@ import { UserDto } from "src/app/models/dtos/userDto";
 import { environment } from "src/environments/environment";
 import { Router } from "@angular/router";
 import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
-import { ReturnCode } from 'src/app/models/enums/returnCode';
+import { ReturnCode } from "src/app/models/enums/returnCode";
 
 @Component({
   selector: "ft-login",

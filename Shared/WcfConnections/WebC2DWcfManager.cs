@@ -22,6 +22,26 @@ namespace Iit.Fibertest.WcfConnections
             _wcfFactory = new WcfFactory(newServerAddress, _iniFile, _logFile);
         }
 
+        public async Task<string> GetAboutInJson(string username)
+        {
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetAboutInJson(username);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetAboutInJson: " + e.Message);
+                return null;
+            }
+        }
+
         public async Task<string> GetTreeInJson(string username)
         {
             var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
@@ -62,7 +82,7 @@ namespace Iit.Fibertest.WcfConnections
                 return null;
             }
         }
-        
+
         public async Task<RtuNetworkSettingsDto> GetRtuNetworkSettings(string username, Guid rtuId)
         {
             var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
@@ -81,8 +101,8 @@ namespace Iit.Fibertest.WcfConnections
                 _logFile.AppendLine("GetRtuNetworkSettings: " + e.Message);
                 return null;
             }
-        } 
-        
+        }
+
         public async Task<RtuStateDto> GetRtuState(string username, Guid rtuId)
         {
             var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
@@ -102,7 +122,7 @@ namespace Iit.Fibertest.WcfConnections
                 return null;
             }
         }
-        
+
         public async Task<RtuMonitoringSettingsDto> GetRtuMonitoringSettings(string username, Guid rtuId)
         {
             var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();

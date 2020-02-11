@@ -145,7 +145,7 @@ namespace DirectRtuClient
             try
             {
                 var dto = new UnRegisterClientDto() { ClientId = _clientId };
-                await _desktopC2DWcfManager.UnregisterClientAsync(dto);
+                await _commonC2DWcfManager.UnregisterClientAsync(dto);
             }
             catch (Exception e)
             {

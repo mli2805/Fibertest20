@@ -51,6 +51,30 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<int> UnregisterClientAsync(UnRegisterClientDto dto)
+        {
+            var wcfConnection = _wcfFactory?.GetCommonC2DChannelFactory();
+            if (wcfConnection == null)
+                return -1;
+
+            try
+            {
+                dto.ClientId = _clientId;
+                dto.Username = _username;
+                dto.ClientIp = _clientIp;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.UnregisterClientAsync(dto);
+                _logFile.AppendLine($@"Unregistered on server");
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("UnregisterClientAsync: " + e.Message);
+                return -1;
+            }
+        }
+
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
             _logFile.AppendLine($@"Checking connection with RTU {dto.NetAddress.GetAddress()}");

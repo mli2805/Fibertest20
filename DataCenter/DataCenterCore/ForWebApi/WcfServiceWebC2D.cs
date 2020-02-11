@@ -21,11 +21,13 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
 
-        public WcfServiceWebC2D(IMyLog logFile, Model writeModel)
+        public WcfServiceWebC2D(IMyLog logFile, Model writeModel, CurrentDatacenterParameters currentDatacenterParameters)
         {
             _logFile = logFile;
             _writeModel = writeModel;
+            _currentDatacenterParameters = currentDatacenterParameters;
         }
 
         public async Task<UserDto> LoginWebClient(string username, string password)
@@ -50,6 +52,33 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 _logFile.AppendLine($"{e.Message}");
                 return null;
+            }
+        }
+
+        public async Task<string> GetAboutInJson(string username)
+        {
+            _logFile.AppendLine(":: WcfServiceForWebProxy GetAboutInJson");
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+            if (user == null)
+            {
+                _logFile.AppendLine("Not authorized access");
+                return null;
+            }
+            await Task.Delay(1);
+
+            try
+            {
+                var result = new AboutDto();
+                result.DcSoftware = _currentDatacenterParameters.DatacenterVersion;
+                result.Rtus = _writeModel.CreateAboutRtuList(user).ToList();
+                _logFile.AppendLine($"Rtus contains {result.Rtus.Count} RTU");
+                var resString = JsonConvert.SerializeObject(result, JsonSerializerSettings);
+                return resString;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"{e.Message}");
+                return "";
             }
         }
 

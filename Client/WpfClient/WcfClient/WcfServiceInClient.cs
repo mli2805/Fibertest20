@@ -18,19 +18,19 @@ namespace Iit.Fibertest.Client
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly ClientPoller _clientPoller;
         private readonly ClientMeasurementViewModel _clientMeasurementViewModel;
-        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly IWcfServiceCommonC2D _commonC2DWcfManager;
         private readonly WaitViewModel _waitViewModel;
         private readonly IWindowManager _windowManager;
 
         public WcfServiceInClient(IMyLog logFile, RtuStateViewsManager rtuStateViewsManager, ClientPoller clientPoller,
-            ClientMeasurementViewModel clientMeasurementViewModel, IWcfServiceDesktopC2D c2DWcfManager,
+            ClientMeasurementViewModel clientMeasurementViewModel, IWcfServiceCommonC2D commonC2DWcfManager,
             WaitViewModel waitViewModel, IWindowManager windowManager)
         {
             _logFile = logFile;
             _rtuStateViewsManager = rtuStateViewsManager;
             _clientPoller = clientPoller;
             _clientMeasurementViewModel = clientMeasurementViewModel;
-            _c2DWcfManager = c2DWcfManager;
+            _commonC2DWcfManager = commonC2DWcfManager;
             _waitViewModel = waitViewModel;
             _windowManager = windowManager;
         }
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.Client
         public async Task<int> AskClientToExit()
         {
             _logFile.AppendLine(@"SuperClient asks to exit.");
-            await _c2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto());
+            await _commonC2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto());
             await Task.Factory.StartNew(ExitApp);
             return 0;
         }

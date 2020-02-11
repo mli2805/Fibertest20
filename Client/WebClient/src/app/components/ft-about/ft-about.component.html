@@ -14,20 +14,24 @@
     <p>{{ "SID_User" | translate }}:</p>
     <p>{{ loggedUser.username }}</p>
     <p style="padding-left: 40px;">{{ "SID_Role" | translate }}:</p>
-    <p>{{ loggedUser.role }}</p>
+    <p>{{ roleString }}</p>
     <p style="padding-left: 40px;">{{ "SID_Zone" | translate }}:</p>
     <p>{{ loggedUser.zone }}</p>
   </div>
   <mat-divider></mat-divider>
-  <div>
+  <div fxLayout fxLayoutGap="10px">
     <p>{{ "SID_Data-center_software_version" | translate }}:</p>
+    <p>{{ aboutVm.dcSoftware }}</p>
+  </div>
+  <div fxLayout fxLayoutGap="10px">
     <p>Web-Client software version:</p>
+    <p>{{ aboutVm.webApiSoftware }}</p>
   </div>
 
   <mat-divider></mat-divider>
   <div>
     <p>RTU software versions:</p>
-    <table mat-table [dataSource]="rtus">
+    <table mat-table [dataSource]="aboutVm.rtus">
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef>RTU</th>
         <td mat-cell *matCellDef="let element">{{ element.title }}</td>

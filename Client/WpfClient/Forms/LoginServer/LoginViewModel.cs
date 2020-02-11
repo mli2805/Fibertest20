@@ -53,7 +53,8 @@ namespace Iit.Fibertest.Client
         public bool IsRegistrationSuccessful { get; set; }
 
         public LoginViewModel(ILifetimeScope globalScope, IWindowManager windowManager, IniFile iniFile, IMyLog logFile,
-            IWcfServiceDesktopC2D desktopC2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,  CurrentUser currentUser, CurrentGis currentGis,
+            IWcfServiceDesktopC2D desktopC2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,  
+            CurrentUser currentUser, CurrentGis currentGis,
             CurrentDatacenterParameters currentDatacenterParameters)
         {
             _globalScope = globalScope;

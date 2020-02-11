@@ -12,7 +12,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             foreach (var rtu in writeModel.Rtus)
             {
-                if (!rtu.ZoneIds.Contains(user.ZoneId)) 
+                if (!rtu.ZoneIds.Contains(user.ZoneId))
                     continue;
                 var rtuDto = rtu.CreateRtuDto();
                 for (int i = 1; i <= rtuDto.OwnPortCount; i++)
@@ -24,9 +24,30 @@ namespace Iit.Fibertest.DataCenterCore
                 {
                     rtuDto.Children.Add(trace.CreateTraceDto());
                 }
-                
+
                 yield return rtuDto;
             }
+        }
+
+        public static IEnumerable<AboutRtuDto> CreateAboutRtuList(this Model writeModel, User user)
+        {
+            foreach (var rtu in writeModel.Rtus)
+            {
+                if (!rtu.ZoneIds.Contains(user.ZoneId))
+                    continue;
+                yield return rtu.CreateAboutRtuDto();
+            }
+        }
+
+        private static AboutRtuDto CreateAboutRtuDto(this Rtu r)
+        {
+            return new AboutRtuDto()
+            {
+                Title = r.Title,
+                Version = r.Version,
+                Version2 = r.Version2,
+
+            };
         }
 
         private static RtuDto CreateRtuDto(this Rtu r)
@@ -40,12 +61,12 @@ namespace Iit.Fibertest.DataCenterCore
                 FullPortCount = r.FullPortCount,
                 OwnPortCount = r.OwnPortCount,
 
-                MainChannel = (NetAddress) r.MainChannel.Clone(),
+                MainChannel = (NetAddress)r.MainChannel.Clone(),
                 MainChannelState = r.MainChannelState,
-                ReserveChannel = (NetAddress) r.ReserveChannel.Clone(),
+                ReserveChannel = (NetAddress)r.ReserveChannel.Clone(),
                 ReserveChannelState = r.ReserveChannelState,
                 IsReserveChannelSet = r.IsReserveChannelSet,
-                OtdrNetAddress = (NetAddress) r.OtdrNetAddress.Clone(),
+                OtdrNetAddress = (NetAddress)r.OtdrNetAddress.Clone(),
                 BopState = r.BopState,
 
                 MonitoringMode = r.MonitoringState,
@@ -67,7 +88,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var otauWebDto = otau.CreateOtauWebDto(port);
                 for (var j = 1; j <= otau.PortCount; j++)
                 {
-                    var traceOnOtau = writeModel.Traces.FirstOrDefault(t => t.RtuId == rtu.Id 
+                    var traceOnOtau = writeModel.Traces.FirstOrDefault(t => t.RtuId == rtu.Id
                                                                             && t.OtauPort != null
                                                                             && t.OtauPort.Serial == otau.Serial
                                                                             && t.OtauPort.OpticalPort == j
@@ -79,9 +100,9 @@ namespace Iit.Fibertest.DataCenterCore
                 return otauWebDto;
             }
 
-            var trace = writeModel.Traces.FirstOrDefault(t => t.RtuId == rtu.Id 
-                                                              && t.OtauPort != null 
-                                                              && t.OtauPort.IsPortOnMainCharon 
+            var trace = writeModel.Traces.FirstOrDefault(t => t.RtuId == rtu.Id
+                                                              && t.OtauPort != null
+                                                              && t.OtauPort.IsPortOnMainCharon
                                                               && t.Port == port
                                                               && t.ZoneIds.Contains(user.ZoneId));
             return trace != null

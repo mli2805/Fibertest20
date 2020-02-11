@@ -59,6 +59,18 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
+        public async Task<int> UnregisterClientAsync(UnRegisterClientDto dto)
+        {
+            _clientsCollection.UnregisterClientAsync(dto);
+            _logFile.AppendLine($"Client {dto.Username} from {dto.ClientIp} exited");
+
+            var command = new UnregisterClientStation();
+            await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
+
+            return 0;
+        }
+
+
 
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
