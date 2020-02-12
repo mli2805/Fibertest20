@@ -1,4 +1,3 @@
-using System;
 using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
@@ -6,9 +5,6 @@ namespace Iit.Fibertest.Dto
     [DataContract]
     public class RegisterClientDto
     {
-        [DataMember]
-        public Guid ClientId { get; set; }
-
         [DataMember]
         public string ClientIp { get; set; }
 

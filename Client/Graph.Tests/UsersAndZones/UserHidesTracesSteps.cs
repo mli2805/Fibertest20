@@ -17,7 +17,7 @@ namespace Graph.Tests
         [Given(@"Входит пользователь (.*)")]
         public void GivenВходитПользователь(string user)
         {
-            _sut.RestartClient();
+            _sut.RestartClient(user);
 
             var vm = _sut.ClientScope.Resolve<LoginViewModel>();
             vm.UserName = user;

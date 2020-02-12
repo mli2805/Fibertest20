@@ -80,12 +80,12 @@ namespace Iit.Fibertest.RtuManagement
                 return new ClientMeasurementDoneDto()
                 {
                     ReturnCode = ReturnCode.MeasurementError,
-                    ClientId = dto.ClientId,
+                    ClientIp = dto.ClientIp,
                 };
             return new ClientMeasurementDoneDto()
             {
                 ReturnCode = ReturnCode.Ok,
-                ClientId = dto.ClientId,
+                ClientIp = dto.ClientIp,
                 SorBytes = _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer),
             };
         }

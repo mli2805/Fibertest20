@@ -9,7 +9,6 @@ namespace Iit.Fibertest.WcfConnections
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private readonly Guid _clientId;
         private string _username;
         private string _clientIp;
         private WcfFactory _wcfFactory;
@@ -18,7 +17,6 @@ namespace Iit.Fibertest.WcfConnections
         {
             _iniFile = iniFile;
             _logFile = logFile;
-            Guid.TryParse(iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()), out _clientId);
         }
 
         public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
@@ -36,7 +34,6 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                dto.ClientId = _clientId;
                 dto.UserName = _username;
                 dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
@@ -59,7 +56,6 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                dto.ClientId = _clientId;
                 dto.Username = _username;
                 dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
@@ -84,7 +80,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                dto.ClientId = _clientId;
+                dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.CheckRtuConnectionAsync(dto);
                 wcfConnection.Close();
@@ -109,7 +105,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 _logFile.AppendLine($@"Sending command to initialize RTU {dto.RtuId.First6()}");
-                dto.ClientId = _clientId;
+                dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.InitializeRtuAsync(dto);
                 wcfConnection.Close();
@@ -131,7 +127,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 _logFile.AppendLine($@"Sending command to attach OTAU {dto.OtauId.First6()}");
-                dto.ClientId = _clientId;
+                dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.AttachOtauAsync(dto);
                 wcfConnection.Close();
@@ -153,7 +149,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 _logFile.AppendLine($@"Sending command to detach OTAU {dto.OtauId.First6()}");
-                dto.ClientId = _clientId;
+                dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.DetachOtauAsync(dto);
                 wcfConnection.Close();
@@ -175,7 +171,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 _logFile.AppendLine($@"Sending command to stop monitoring on RTU {dto.RtuId.First6()}");
-                dto.ClientId = _clientId;
+                dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.StopMonitoringAsync(dto);
                 wcfConnection.Close();
@@ -197,7 +193,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 _logFile.AppendLine($@"Sending monitoring settings to RTU {dto.RtuId.First6()}");
-                dto.ClientId = _clientId;
+                dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.ApplyMonitoringSettingsAsync(dto);
                 wcfConnection.Close();
@@ -219,7 +215,6 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 _logFile.AppendLine($@"Sending base ref for trace {dto.TraceId.First6()}...");
-                dto.ClientId = _clientId;
                 dto.Username = _username;
                 dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
@@ -243,7 +238,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 _logFile.AppendLine($@"Sending base ref for trace {dto.TraceId.First6()}...");
-                dto.ClientId = _clientId;
+                dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.AssignBaseRefAsyncFromMigrator(dto);
                 wcfConnection.Close();
@@ -265,7 +260,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 _logFile.AppendLine($@"Re-Sending base ref to RTU {dto.RtuId.First6()}");
-                dto.ClientId = _clientId;
+                dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.ReSendBaseRefAsync(dto);
                 wcfConnection.Close();
@@ -287,7 +282,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 _logFile.AppendLine($@"Sending command to do client's measurement on RTU {dto.RtuId.First6()}");
-                dto.ClientId = _clientId;
+                dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.DoClientMeasurementAsync(dto);
                 wcfConnection.Close();
@@ -309,7 +304,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 _logFile.AppendLine($@"Sending command to do out of turn precise measurement on RTU {dto.RtuId.First6()}");
-                dto.ClientId = _clientId;
+                dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.DoOutOfTurnPreciseMeasurementAsync(dto);
                 wcfConnection.Close();

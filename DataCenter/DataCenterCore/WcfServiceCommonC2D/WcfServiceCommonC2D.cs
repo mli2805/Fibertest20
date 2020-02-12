@@ -109,7 +109,8 @@ namespace Iit.Fibertest.DataCenterCore
 
             if (resultFromRtu.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
             {
-                var clientStation = _clientsCollection.GetClientStation(dto.ClientId);
+                var username = _clientsCollection.GetClientStation(dto.ClientIp)?.UserName;
+
                 var cmd = new ChangeMonitoringSettings()
                 {
                     RtuId = dto.RtuId,
@@ -120,8 +121,7 @@ namespace Iit.Fibertest.DataCenterCore
                     IsMonitoringOn = dto.IsMonitoringOn,
                 };
 
-                var resultFromEventStore = await _eventStoreService.SendCommand(cmd,
-                    clientStation.UserName, clientStation.ClientAddress);
+                var resultFromEventStore = await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
 
                 if (!string.IsNullOrEmpty(resultFromEventStore))
                 {
@@ -139,7 +139,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace {dto.TraceId.First6()}");
+            _logFile.AppendLine($"Client from {dto.ClientIp} sent base ref for trace {dto.TraceId.First6()}");
             var result = await SaveChangesOnServer(dto);
             if (!string.IsNullOrEmpty(result))
                 return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentFailed };
@@ -187,7 +187,7 @@ namespace Iit.Fibertest.DataCenterCore
         // or user explicitly demands to resend base refs to RTU 
         public async Task<BaseRefAssignedDto> ReSendBaseRefAsync(ReSendBaseRefsDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} asked to re-send base ref for trace {dto.TraceId.First6()}");
+            _logFile.AppendLine($"Client from {dto.ClientIp} asked to re-send base ref for trace {dto.TraceId.First6()}");
             var convertedDto = await ConvertToAssignBaseRefsDto(dto);
 
             if (convertedDto?.BaseRefs == null)
@@ -204,7 +204,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var result = new AssignBaseRefsDto()
             {
-                ClientId = dto.ClientId,
+                ClientIp = dto.ClientIp,
                 RtuId = dto.RtuId,
                 OtdrId = dto.OtdrId,
                 TraceId = dto.TraceId,

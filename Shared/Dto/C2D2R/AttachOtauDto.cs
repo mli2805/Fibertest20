@@ -7,7 +7,7 @@ namespace Iit.Fibertest.Dto
     public class AttachOtauDto
     {
         [DataMember]
-        public Guid ClientId { get; set; }
+        public string ClientIp { get; set; }
 
         [DataMember]
         public Guid RtuId { get; set; }

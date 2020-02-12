@@ -17,7 +17,6 @@ namespace Iit.Fibertest.WcfConnections
 
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private readonly Guid _clientId;
         private string _username;
         private string _clientIp;
         private WcfFactory _wcfFactory;
@@ -26,7 +25,6 @@ namespace Iit.Fibertest.WcfConnections
         {
             _iniFile = iniFile;
             _logFile = logFile;
-            Guid.TryParse(iniFile.Read(IniSection.General, IniKey.ClientGuidOnServer, Guid.NewGuid().ToString()), out _clientId);
         }
 
         public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
@@ -121,9 +119,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                dto.ClientId = _clientId;
-                //                dto.Username = _username;
-                //                dto.ClientIp = _clientIp;
+                dto.ClientIp = _clientIp;
                 var result = await channel.GetEvents(dto);
                 wcfConnection.Close();
                 return result;
@@ -144,7 +140,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                dto.ClientId = _clientId;
+                dto.ClientIp = _clientIp;
                 var result = await channel.GetSnapshotParams(dto);
                 wcfConnection.Close();
                 return result;
@@ -206,7 +202,7 @@ namespace Iit.Fibertest.WcfConnections
 
             try
             {
-                dto.ClientId = _clientId;
+                dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.CheckServerConnection(dto);
                 wcfConnection.Close();

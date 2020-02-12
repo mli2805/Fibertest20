@@ -107,8 +107,10 @@ namespace Graph.Tests
             WcfServiceDesktopC2D = (WcfServiceDesktopC2D) ClientScope.Resolve<IWcfServiceDesktopC2D>();
         }
 
-        public void RestartClient()
+        public void RestartClient(string username)
         {
+            var commonC2D = ClientScope.Resolve<IWcfServiceCommonC2D>();
+            var unused = commonC2D.UnregisterClientAsync(new UnRegisterClientDto(){ClientIp = @"1.2.3.4", Username = username}).Result;
             ClientScope = Container.BeginLifetimeScope(cfg =>
             {
                  cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceCommonC2D>());
@@ -129,6 +131,7 @@ namespace Graph.Tests
 
             var iniFile = new IniFile();
             iniFile.AssignFile(@"client.ini");
+            iniFile.Write(IniSection.ClientLocalAddress, IniKey.Ip, @"1.2.3.4");
             builder.RegisterInstance(iniFile);
 
             var parameters = new CommandLineParameters();

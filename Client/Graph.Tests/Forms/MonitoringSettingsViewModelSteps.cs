@@ -211,5 +211,12 @@ namespace Graph.Tests
             _vm.ReSendBaseRefsForAllSelectedTraces().Wait();
         }
 
+        [Then(@"Someting Happend")]
+        public void ThenSometingHappend()
+        {
+            _sut.Should().NotBeNull();
+        }
+
+
     }
 }

@@ -50,7 +50,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             var unused = await _commonC2DWcfManager.UnregisterClientAsync(
                 new UnRegisterClientDto()
                 {
-                    ClientId = Guid.Empty, ClientIp = ip1, Username = username,
+                    ClientIp = ip1, Username = username,
                 });
             Response.StatusCode = 201;
         }

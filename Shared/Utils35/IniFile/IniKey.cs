@@ -3,7 +3,6 @@
     public enum IniKey
     {
         // Server
-        ClientGuidOnServer,
         IsWithoutMapMode,
         RtuGuid,
         HasReserveAddress,

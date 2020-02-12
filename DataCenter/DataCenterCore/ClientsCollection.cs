@@ -92,13 +92,13 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<ClientRegisteredDto> RegisterClientStation(RegisterClientDto dto, User user)
         {
-            if (_clients.Any(s => s.UserId == user.UserId && s.ClientGuid != dto.ClientId))
+            if (_clients.Any(s => s.UserId == user.UserId && s.ClientIp != dto.ClientIp))
             {
                 _logFile.AppendLine($"User {dto.UserName} registered from another device");
                 return new ClientRegisteredDto() { ReturnCode = ReturnCode.ThisUserRegisteredFromAnotherDevice };
             }
 
-            var station = _clients.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
+            var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp);
             if (station != null)
                 ReRegister(dto, station, user);
             else
@@ -123,8 +123,8 @@ namespace Iit.Fibertest.DataCenterCore
                 UserId = user.UserId,
                 UserName = dto.UserName,
                 UserRole = user.Role,
-                ClientGuid = dto.ClientId,
-                ClientAddress = dto.Addresses.Main.GetAddress(),
+                //ClientId = dto.ClientId,
+                ClientIp = dto.Addresses.Main.GetAddress(),
                 ClientAddressPort = dto.Addresses.Main.Port,
                 LastConnectionTimestamp = DateTime.Now,
 
@@ -155,19 +155,19 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public void RegisterHeartbeat(Guid clientGuid)
+        public void RegisterHeartbeat(string clientIp)
         {
-            var client = _clients.FirstOrDefault(c => c.ClientGuid == clientGuid);
+            var client = _clients.FirstOrDefault(c => c.ClientIp == clientIp);
             if (client != null)
                 client.LastConnectionTimestamp = DateTime.Now;
         }
 
         public void UnregisterClientAsync(UnRegisterClientDto dto)
         {
-            var station = _clients.FirstOrDefault(s => s.ClientGuid == dto.ClientId);
+            var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp);
             if (station == null)
             {
-                _logFile.AppendLine("There is no client station with such guid");
+                _logFile.AppendLine("There is no client station with address");
                 return;
             }
 
@@ -183,29 +183,29 @@ namespace Iit.Fibertest.DataCenterCore
 
             foreach (var deadStation in deadStations)
             {
-                _logFile.AppendLine($"Dead client {deadStation.UserName} from {deadStation.ClientAddress} removed.");
+                _logFile.AppendLine($"Dead client {deadStation.UserName} from {deadStation.ClientIp} removed.");
 
                 var command = new LostClientConnection();
-                await _eventStoreService.SendCommand(command, deadStation.UserName, deadStation.ClientAddress);
+                await _eventStoreService.SendCommand(command, deadStation.UserName, deadStation.ClientIp);
 
                 _clients.Remove(deadStation);
             }
             _logFile.AppendLine($"There are {_clients.Count()} client(s)");
         }
 
-        public List<DoubleAddress> GetClientsAddresses(Guid? clientId = null)
+        public List<DoubleAddress> GetClientsAddresses(string clientIp = null)
         {
-            if (clientId == null)
-                return _clients.Select(c => new DoubleAddress() { Main = new NetAddress(c.ClientAddress, c.ClientAddressPort) }).ToList();
-            var client = _clients.FirstOrDefault(c => c.ClientGuid == clientId);
+            if (clientIp == null)
+                return _clients.Select(c => new DoubleAddress() { Main = new NetAddress(c.ClientIp, c.ClientAddressPort) }).ToList();
+            var client = _clients.FirstOrDefault(c => c.ClientIp == clientIp);
             return client == null
                 ? null
-                : new List<DoubleAddress>() { new DoubleAddress() { Main = new NetAddress(client.ClientAddress, client.ClientAddressPort) } };
+                : new List<DoubleAddress>() { new DoubleAddress() { Main = new NetAddress(client.ClientIp, client.ClientAddressPort) } };
         }
 
-        public ClientStation GetClientStation(Guid clientId)
+        public ClientStation GetClientStation(string clientIp)
         {
-            return _clients.FirstOrDefault(c => c.ClientGuid == clientId);
+            return _clients.FirstOrDefault(c => c.ClientIp == clientIp);
         }
     }
 }

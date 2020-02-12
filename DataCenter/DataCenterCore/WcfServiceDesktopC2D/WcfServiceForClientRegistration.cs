@@ -9,7 +9,7 @@ namespace Iit.Fibertest.DataCenterCore
        
         public async Task<bool> CheckServerConnection(CheckServerConnectionDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} checked server connection");
+            _logFile.AppendLine($"Client from {dto.ClientIp} checked server connection");
             await Task.Delay(1);
             return true;
         }

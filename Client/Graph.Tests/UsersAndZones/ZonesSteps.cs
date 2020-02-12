@@ -96,7 +96,7 @@ namespace Graph.Tests
         [When(@"Перезапускаем клиентское приложение")]
         public void WhenПерезапускаемКлиентскоеПриложение()
         {
-            _sut.RestartClient();
+            _sut.RestartClient(@"OpZone1");
         }
 
         [When(@"Вход как Оператор для Зона1")]

@@ -32,7 +32,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto)
         {
             _logFile.AppendLine(
-                $"Client {dto.ClientId.First6()} sent initialize VeEX RTU {dto.RtuId.First6()} request");
+                $"Client from {dto.ClientIp} sent initialize VeEX RTU {dto.RtuId.First6()} request");
 
             dto.ServerAddresses = _serverDoubleAddress;
             dto.ServerAddresses.Main.Port = (int)TcpPorts.WebProxyListenTo;
@@ -59,7 +59,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
             _logFile.AppendLine(
-                $"Client {dto.ClientId.First6()} sent apply monitoring settings to VeEX RTU {dto.RtuId.First6()} request");
+                $"Client from {dto.ClientIp} sent apply monitoring settings to VeEX RTU {dto.RtuId.First6()} request");
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
             {
@@ -81,7 +81,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
             _logFile.AppendLine(
-                $"Client {dto.ClientId.First6()} sent stop monitoring on VeEX RTU {dto.RtuId.First6()} request");
+                $"Client from {dto.ClientIp} sent stop monitoring on VeEX RTU {dto.RtuId.First6()} request");
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
             {

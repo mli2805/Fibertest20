@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Dto
     public class InitializeRtuDto
     {
         [DataMember]
-        public Guid ClientId { get; set; }
+        public string ClientIp { get; set; }
 
         [DataMember]
         public RtuMaker RtuMaker { get; set; }

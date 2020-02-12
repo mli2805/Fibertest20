@@ -10,7 +10,7 @@ namespace Iit.Fibertest.DataCenterCore
     {
         public async Task<BaseRefAssignedDto> AssignBaseRefAsyncFromMigrator(AssignBaseRefsDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} sent base ref for trace {dto.TraceId.First6()}");
+            _logFile.AppendLine($"Client from {dto.ClientIp} sent base ref for trace {dto.TraceId.First6()}");
             foreach (var sorFileId in dto.DeleteOldSorFileIds)
             {
                 await _sorFileRepository.RemoveSorBytesAsync(sorFileId);

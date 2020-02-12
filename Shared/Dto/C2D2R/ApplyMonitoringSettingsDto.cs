@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Dto
     public class ApplyMonitoringSettingsDto
     {
         [DataMember]
-        public Guid ClientId { get; set; }
+        public string ClientIp { get; set; }
 
         [DataMember]
         public Guid RtuId { get; set; }

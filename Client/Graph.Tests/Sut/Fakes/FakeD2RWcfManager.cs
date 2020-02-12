@@ -33,7 +33,7 @@ namespace Graph.Tests
         {
             return Task.FromResult(new RtuConnectionCheckedDto()
             {
-                ClientId = dto.ClientId,
+                ClientIp = dto.ClientIp,
                 RtuId = dto.RtuId,
                 IsConnectionSuccessfull = true,
                 IsPingSuccessful = true,

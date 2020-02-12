@@ -71,7 +71,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (result.SorBytes == null || result.SorBytes.Length == 0) return;
             try
             {
-                var addresses = _clientsCollection.GetClientsAddresses(result.ClientId);
+                var addresses = _clientsCollection.GetClientsAddresses(result.ClientIp);
                 if (addresses == null)
                     return;
                 _d2CWcfManager.SetClientsAddresses(addresses);

@@ -8,7 +8,7 @@ namespace Iit.Fibertest.DataCenterCore
     {
         public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} asked to do client's measurement on RTU {dto.RtuId.First6()}");
+            _logFile.AppendLine($"Client from {dto.ClientIp} asked to do client's measurement on RTU {dto.RtuId.First6()}");
             try
             {
                 var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
@@ -31,7 +31,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
         {
-            _logFile.AppendLine($"Client {dto.ClientId.First6()} asked to do out of turn measurement on RTU {dto.RtuId.First6()}");
+            _logFile.AppendLine($"Client from {dto.ClientIp} asked to do out of turn measurement on RTU {dto.RtuId.First6()}");
             try
             {
                 var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
