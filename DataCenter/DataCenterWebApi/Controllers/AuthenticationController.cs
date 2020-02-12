@@ -36,14 +36,23 @@ namespace Iit.Fibertest.DataCenterWebApi
         [HttpPost("Logout")]
         public async Task Logout()
         {
+            var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
+            _logFile.AppendLine($"Logout request from {ip1}");
             string body;
             using (var reader = new StreamReader(Request.Body))
             {
                 body = await reader.ReadToEndAsync();
             }
             dynamic user = JObject.Parse(body);
-            _commonC2DWcfManager.SetServerAddresses(_doubleAddress, (string)user, "localhost");
-            var dto = await _commonC2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto(){ClientId = Guid.Empty, ClientIp = "", Username = user});
+            var username = (string)user.username;
+            _logFile.AppendLine($"User {username} logged out.");
+            _commonC2DWcfManager.SetServerAddresses(_doubleAddress, username, "localhost");
+            var unused = await _commonC2DWcfManager.UnregisterClientAsync(
+                new UnRegisterClientDto()
+                {
+                    ClientId = Guid.Empty, ClientIp = ip1, Username = username,
+                });
+            Response.StatusCode = 201;
         }
 
         [HttpPost("Login")]

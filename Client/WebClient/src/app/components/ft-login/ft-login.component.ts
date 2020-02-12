@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { LoginService } from "src/app/api/login.service";
+import { AuthService } from "src/app/api/auth.service";
 import { UserDto } from "src/app/models/dtos/userDto";
 import { environment } from "src/environments/environment";
 import { Router } from "@angular/router";
@@ -16,7 +16,7 @@ export class FtLoginComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private loginService: LoginService,
+    private authService: AuthService,
     private returnCodePipe: ReturnCodePipe
   ) {}
 
@@ -36,7 +36,7 @@ export class FtLoginComponent implements OnInit {
       this.pw = "root";
     }
 
-    this.loginService.login(this.user, this.pw).subscribe(
+    this.authService.login(this.user, this.pw).subscribe(
       (res: UserDto) => {
         if (res === null) {
           console.log("Login failed, try again...");

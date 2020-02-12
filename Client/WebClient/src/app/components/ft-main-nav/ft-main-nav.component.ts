@@ -1,4 +1,5 @@
 import { Component } from "@angular/core";
+import { AuthService } from "src/app/api/auth.service";
 
 @Component({
   selector: "ft-main-nav",
@@ -6,5 +7,12 @@ import { Component } from "@angular/core";
   styleUrls: ["./ft-main-nav.component.css"]
 })
 export class FtMainNavComponent {
-  constructor() {}
+  constructor(private authService: AuthService) {}
+
+  logout() {
+    console.log("logout pressed...");
+    this.authService.logout().subscribe(() => {
+      console.log("logout service run");
+    });
+  }
 }
