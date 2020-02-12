@@ -123,7 +123,6 @@ namespace Iit.Fibertest.DataCenterCore
                 UserId = user.UserId,
                 UserName = dto.UserName,
                 UserRole = user.Role,
-                //ClientId = dto.ClientId,
                 ClientIp = dto.Addresses.Main.GetAddress(),
                 ClientAddressPort = dto.Addresses.Main.Port,
                 LastConnectionTimestamp = DateTime.Now,
