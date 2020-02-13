@@ -46,7 +46,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             dynamic user = JObject.Parse(body);
             var username = (string)user.username;
             _logFile.AppendLine($"User {username} logged out.");
-            _commonC2DWcfManager.SetServerAddresses(_doubleAddress, username, "localhost");
+            _commonC2DWcfManager.SetServerAddresses(_doubleAddress, username, ip1);
             var unused = await _commonC2DWcfManager.UnregisterClientAsync(
                 new UnRegisterClientDto()
                 {

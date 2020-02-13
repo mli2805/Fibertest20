@@ -7,12 +7,12 @@ import { AuthService } from "src/app/api/auth.service";
   styleUrls: ["./ft-main-nav.component.css"]
 })
 export class FtMainNavComponent {
+
   constructor(private authService: AuthService) {}
 
   logout() {
-    console.log("logout pressed...");
     this.authService.logout().subscribe(() => {
-      console.log("logout service run");
+      console.log("logout sent.");
     });
   }
 }

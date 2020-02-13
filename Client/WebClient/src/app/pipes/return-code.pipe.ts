@@ -69,6 +69,22 @@ export class ReturnCodePipe implements PipeTransform {
         return this.ts.instant(
           "SID_Exceeded_the_number_of_clients_registered_simultaneously"
         );
+      case ReturnCode.ClientsCountLicenseExpired:
+        return this.ts.instant("SID_Clients_license_is_expired");
+      case ReturnCode.WebClientsCountExceeded:
+        return this.ts.instant(
+          "SID_Exceeded_the_number_of_web_clients_registered_simultaneously"
+        );
+      case ReturnCode.WebClientsCountLicenseExpired:
+        return this.ts.instant("SID_Web_clients_license_is_expired");
+      case ReturnCode.SuperClientsCountExceeded:
+        return this.ts.instant(
+          "SID_Exceeded_the_number_of_super_clients_registered_simultaneously"
+        );
+      case ReturnCode.SuperClientsCountLicenseExpired:
+        return this.ts.instant("SID_Super_clients_license_is_expired");
+      case ReturnCode.UserHasNoRightsToStartClient:
+        return this.ts.instant("SID_This_user_has_no_right_to_start_client");
       case ReturnCode.SuperClientsCountExceeded:
         return this.ts.instant(
           "SID_Exceeded_the_number_of_super_clients_registered_simultaneously"

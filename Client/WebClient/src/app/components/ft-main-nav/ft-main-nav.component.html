@@ -34,7 +34,7 @@
         mat-list-item
         routerLink="/logout"
         routerLinkActive="active"
-        (click)="logout()"
+        (click)="drawer.toggle(); logout()"
         >Logout</a
       >
       <a
@@ -68,7 +68,9 @@
         <a routerLink="/network-events" routerLinkActive="active"
           >Network Events</a
         >
-        <a routerLink="/logout" routerLinkActive="active">Logout</a>
+        <a routerLink="/logout" routerLinkActive="active" (click)="logout()"
+          >Logout</a
+        >
         <a routerLink="/about" routerLinkActive="active">About</a>
       </div>
     </mat-toolbar>

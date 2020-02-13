@@ -2,7 +2,7 @@
 {
     public enum ReturnCode
     {
-        Error = 0,
+        Error = 0x0,
         Ok = 1,
 
         RtuInitializationError = 1000,
