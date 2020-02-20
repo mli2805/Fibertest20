@@ -75,3 +75,7 @@
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
   <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
 </table>
+
+<div class="spinner-container" *ngIf="isNotLoaded">
+  <mat-spinner></mat-spinner>
+</div>

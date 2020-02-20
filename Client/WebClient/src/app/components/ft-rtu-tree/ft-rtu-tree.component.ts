@@ -13,14 +13,19 @@ import { Router } from "@angular/router";
 })
 export class FtRtuTreeComponent implements OnInit {
   private rtus: RtuDto[];
+  public isNotLoaded = true;
 
-  constructor(private rtuService: RtuApiService, private router: Router) {}
+  constructor(private rtuService: RtuApiService, private router: Router) {
+    this.isNotLoaded =  true;
+  }
 
   ngOnInit() {
+    this.isNotLoaded =  true;
     this.rtuService.getAllRtu().subscribe((res: RtuDto[]) => {
-      console.log("rtu tree received");
+      console.log("rtu tree received", res);
       this.rtus = res;
       this.applyRtuMonitoringModeToTraces();
+      this.isNotLoaded = false;
     });
   }
 

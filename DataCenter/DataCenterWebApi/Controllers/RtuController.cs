@@ -47,8 +47,8 @@ namespace Iit.Fibertest.DataCenterWebApi
                 : $"tree contains {tree.Length} symbols");
             var rtuList = (List<RtuDto>)JsonConvert.DeserializeObject(tree, JsonSerializerSettings);
             _logFile.AppendLine(rtuList == null
-                ? "Failed to get list"
-                : $"list contains {rtuList.Count} items");
+                ? "Failed to get RTU list"
+                : $"RTU list contains {rtuList.Count} items");
 
             return rtuList;
         }

@@ -9,7 +9,8 @@ import { TraceApiService } from "src/app/api/trace.service";
   styleUrls: ["./ft-trace-statistics.component.css"]
 })
 export class FtTraceStatisticsComponent implements OnInit {
-  vm: TraceStatisticsDto;
+  vm: TraceStatisticsDto = new TraceStatisticsDto();
+  public isNotLoaded = true;
 
   columnsToDisplayBaseRefs = ["baseRefType", "assignmentTimestamp", "username"];
   columnsToDisplay = [
@@ -32,6 +33,7 @@ export class FtTraceStatisticsComponent implements OnInit {
       .subscribe((res: TraceStatisticsDto) => {
         console.log("trace statistics received");
         this.vm = res;
+        this.isNotLoaded = false;
       });
   }
 }
