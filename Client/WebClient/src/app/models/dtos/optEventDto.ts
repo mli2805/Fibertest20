@@ -18,3 +18,8 @@ export class OptEventDto {
 
   comment: string;
 }
+
+export class OptEventRequestDto {
+  fullCount: number;
+  eventPortion: OptEventDto[];
+}

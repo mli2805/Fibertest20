@@ -8,14 +8,25 @@ import { Utils } from "../Utils/utils";
 export class TraceApiService {
   constructor(private httpClient: HttpClient) {}
 
-  getOneTrace(id: string, request: string) {
+  getOneTrace(
+    request: string,
+    id: string,
+    pageNumber: number = 0,
+    pageSize: number = 13
+  ) {
     const url = Utils.GetWebApiUrl() + `/trace/${request}/${id}`;
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
-    const myHeaders = new HttpHeaders({
-      Authorization: "Bearer " + currentUser.jsonWebToken
-    });
+    const myHttpOptions = {
+      headers: {
+        Authorization: "Bearer " + currentUser.jsonWebToken
+      },
+      params: {
+        pageNumber: pageNumber.toString(),
+        pageSize: pageSize.toString()
+      }
+    };
 
-    return this.httpClient.get(url, { headers: myHeaders });
+    return this.httpClient.get(url, myHttpOptions);
   }
 }

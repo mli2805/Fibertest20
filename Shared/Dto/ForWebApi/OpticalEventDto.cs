@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Iit.Fibertest.Dto
 {
@@ -22,4 +23,11 @@ namespace Iit.Fibertest.Dto
 
         public string Comment;
     }
+
+    public class OpticalEventsRequestedDto
+    {
+        public int FullCount;
+        public List<OpticalEventDto> EventPortion;
+    }
+
 }

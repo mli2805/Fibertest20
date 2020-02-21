@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -35,11 +34,11 @@ namespace Iit.Fibertest.WcfConnections
         Task<TraceInformationDto> GetTraceInformation(string username, Guid traceId);
 
         [OperationContract]
-        Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId);
+        Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId, int pageNumber, int pageSize);
         #endregion
 
         [OperationContract]
-        Task<List<OpticalEventDto>> GetOpticalEventList(string username, bool isCurrentEvents,
+        Task<OpticalEventsRequestedDto> GetOpticalEventPortion(string username, bool isCurrentEvents,
             string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize);
     }
 }

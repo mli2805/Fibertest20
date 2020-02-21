@@ -118,7 +118,7 @@
     </mat-row>
   </mat-table>
   <mat-paginator
-    [length]="optEventCount"
+    [length]="dataSource.fullCount | async"
     [pageSize]="8"
     [pageSizeOptions]="[8, 13, 28, 100]"
   ></mat-paginator>

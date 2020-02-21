@@ -6,5 +6,6 @@ export class TraceStatisticsDto {
   port: string; // for trace on bop use bop's serial plus port number "879151-3"
   rtuTitle: string;
   baseRefs: BaseRefInfoDto[];
-  measurements: MeasurementDto[];
+  measFullCount: number;
+  measPortion: MeasurementDto[];
 }

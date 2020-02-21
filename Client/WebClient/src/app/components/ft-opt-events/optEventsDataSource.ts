@@ -1,5 +1,8 @@
 import { DataSource } from "@angular/cdk/table";
-import { OptEventDto } from "src/app/models/dtos/optEventDto";
+import {
+  OptEventDto,
+  OptEventRequestDto
+} from "src/app/models/dtos/optEventDto";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { OptEvService } from "src/app/api/oev.service";
 import { CollectionViewer } from "@angular/cdk/collections";
@@ -7,9 +10,11 @@ import { catchError, finalize } from "rxjs/operators";
 
 export class OptEventsDataSource implements DataSource<OptEventDto> {
   private optEventsSubject = new BehaviorSubject<OptEventDto[]>([]);
+  private fullCountSubject = new BehaviorSubject<number>(5);
   private loadingSubject = new BehaviorSubject<boolean>(false);
 
   public loading$ = this.loadingSubject.asObservable();
+  public fullCount = this.fullCountSubject.asObservable();
 
   constructor(private oevApiService: OptEvService) {}
 
@@ -45,9 +50,12 @@ export class OptEventsDataSource implements DataSource<OptEventDto> {
         catchError(() => of([])),
         finalize(() => this.loadingSubject.next(false))
       )
-      .subscribe((res: OptEventDto[]) => {
-        console.log("optical events received");
-        this.optEventsSubject.next(res);
+      .subscribe((res: OptEventRequestDto) => {
+        console.log(
+          `${res.eventPortion.length} of ${res.fullCount} optical event(s) received`
+        );
+        this.optEventsSubject.next(res.eventPortion);
+        this.fullCountSubject.next(res.fullCount);
       });
   }
 }

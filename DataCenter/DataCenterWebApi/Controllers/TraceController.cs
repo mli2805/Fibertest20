@@ -45,16 +45,16 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         [Authorize]
         [HttpGet("Statistics/{id}")]
-        public async Task<TraceStatisticsDto> GetTraceStatistics(string id)
+        public async Task<TraceStatisticsDto> GetTraceStatistics(string id, int pageNumber, int pageSize)
         {
             try
             {
                 _logFile.AppendLine($"trace id = {id}");
                 var traceGuid = Guid.Parse(id);
-                var traceStatisticsDto = await _webC2DWcfManager.GetTraceStatistics(User.Identity.Name, traceGuid);
+                var traceStatisticsDto = await _webC2DWcfManager.GetTraceStatistics(User.Identity.Name, traceGuid, pageNumber, pageSize);
                 _logFile.AppendLine(traceStatisticsDto == null
                     ? "Failed to get trace's statistics"
-                    : $"trace has {traceStatisticsDto.BaseRefs.Count} refs and {traceStatisticsDto.Measurements.Count} measurements");
+                    : $"trace has {traceStatisticsDto.BaseRefs.Count} refs and {traceStatisticsDto.MeasFullCount} measurements");
                 return traceStatisticsDto;
             }
             catch (Exception e)

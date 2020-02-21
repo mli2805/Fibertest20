@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -165,7 +164,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId)
+        public async Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId, int pageNumber, int pageSize)
         {
             var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
             if (wcfConnection == null)
@@ -174,7 +173,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.GetTraceStatistics(username, traceId);
+                var result = await channel.GetTraceStatistics(username, traceId, pageNumber, pageSize);
                 wcfConnection.Close();
                 return result;
             }
@@ -186,7 +185,7 @@ namespace Iit.Fibertest.WcfConnections
         }
         #endregion
 
-        public async Task<List<OpticalEventDto>> GetOpticalEventList(string username, bool isCurrentEvents = true, string filterRtu = "",
+        public async Task<OpticalEventsRequestedDto> GetOpticalEventPortion(string username, bool isCurrentEvents = true, string filterRtu = "",
             string filterTrace = "", string sortOrder = "desc", int pageNumber = 0, int pageSize = 100)
         {
             var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
@@ -196,13 +195,13 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.GetOpticalEventList(username, isCurrentEvents, filterRtu, filterTrace, sortOrder, pageNumber, pageSize);
+                var result = await channel.GetOpticalEventPortion(username, isCurrentEvents, filterRtu, filterTrace, sortOrder, pageNumber, pageSize);
                 wcfConnection.Close();
                 return result;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("GetOpticalEventList: " + e.Message);
+                _logFile.AppendLine("GetOptGetOpticalEventPortionicalEventList: " + e.Message);
                 return null;
             }
         }

@@ -1,13 +1,13 @@
 <mat-card
-  ><p>{{ 'SID_Trace' | translate }} {{ vm.traceTitle }}</p>
-  <p>{{ 'SID_Port' | translate }} {{ vm.port }}</p>
+  ><p>{{ "SID_Trace" | translate }} {{ vm.traceTitle }}</p>
+  <p>{{ "SID_Port" | translate }} {{ vm.port }}</p>
   <p>RTU {{ vm.rtuTitle }}</p>
 </mat-card>
 
 <table mat-table [dataSource]="vm.baseRefs">
   <ng-container matColumnDef="baseRefType">
     <th mat-header-cell *matHeaderCellDef>
-      {{ 'SID_Base_ref_type' | translate }}
+      {{ "SID_Base_ref_type" | translate }}
     </th>
     <td mat-cell *matCellDef="let element">
       {{ element.baseRefType | BaseRefTypeToLocalizedFemaleStringPipe }}
@@ -15,15 +15,15 @@
   </ng-container>
   <ng-container matColumnDef="assignmentTimestamp">
     <th mat-header-cell *matHeaderCellDef>
-      {{ 'SID_Assigned_at' | translate }}
+      {{ "SID_Assigned_at" | translate }}
     </th>
     <td mat-cell *matCellDef="let element">
-      {{ element.assignmentTimestamp | date: 'dd/MM/yyyy H:mm:ss' }}
+      {{ element.assignmentTimestamp | date: "dd/MM/yyyy H:mm:ss" }}
     </td>
   </ng-container>
   <ng-container matColumnDef="username">
     <th mat-header-cell *matHeaderCellDef>
-      {{ 'SID_Assigned_by' | translate }}
+      {{ "SID_Assigned_by" | translate }}
     </th>
     <td mat-cell *matCellDef="let element">
       {{ element.username }}
@@ -34,7 +34,7 @@
   <tr mat-row *matRowDef="let row; columns: columnsToDisplayBaseRefs"></tr>
 </table>
 
-<table mat-table [dataSource]="vm.measurements">
+<table mat-table [dataSource]="vm.measPortion">
   <ng-container matColumnDef="sorFileId">
     <th mat-header-cell *matHeaderCellDef>ID</th>
     <td mat-cell *matCellDef="let element">
@@ -43,7 +43,7 @@
   </ng-container>
   <ng-container matColumnDef="baseRefType">
     <th mat-header-cell *matHeaderCellDef>
-      {{ 'SID_Base_ref_type' | translate }}
+      {{ "SID_Base_ref_type" | translate }}
     </th>
     <td mat-cell *matCellDef="let element">
       {{ element.baseRefType | BaseRefTypeToLocalizedFemaleStringPipe }}
@@ -51,10 +51,10 @@
   </ng-container>
   <ng-container matColumnDef="eventRegistrationTimestamp">
     <th mat-header-cell *matHeaderCellDef>
-      {{ 'SID_Registered' | translate }}
+      {{ "SID_Registered" | translate }}
     </th>
     <td mat-cell *matCellDef="let element">
-      {{ element.eventRegistrationTimestamp | date: 'dd/MM/yyyy H:mm:ss' }}
+      {{ element.eventRegistrationTimestamp | date: "dd/MM/yyyy H:mm:ss" }}
     </td>
   </ng-container>
   <ng-container matColumnDef="isEvent">
@@ -65,7 +65,7 @@
   </ng-container>
   <ng-container matColumnDef="traceState">
     <th mat-header-cell *matHeaderCellDef>
-      {{ 'SID_Trace_state' | translate }}
+      {{ "SID_Trace_state" | translate }}
     </th>
     <td mat-cell *matCellDef="let element">
       {{ element.traceState | fiberStateToLocalizedStringPipe }}
@@ -76,6 +76,11 @@
   <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
 </table>
 
+<mat-paginator
+  [length]="fullCount"
+  [pageSize]="8"
+  [pageSizeOptions]="[8, 13, 28, 100]"
+></mat-paginator>
 <div class="spinner-container" *ngIf="isNotLoaded">
   <mat-spinner></mat-spinner>
 </div>

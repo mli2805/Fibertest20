@@ -35,7 +35,6 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
     "statusChangedByUser"
   ];
   dataSource: OptEventsDataSource;
-  optEventCount = 5000; // TODO how to know
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -66,7 +65,7 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
         distinctUntilChanged(),
         tap(() => {
           this.paginator.pageIndex = 0;
-          this.loadEventsPage();
+          this.loadPage();
         })
       )
       .subscribe();
@@ -77,7 +76,7 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
         distinctUntilChanged(),
         tap(() => {
           this.paginator.pageIndex = 0;
-          this.loadEventsPage();
+          this.loadPage();
         })
       )
       .subscribe();
@@ -85,11 +84,11 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
     this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
 
     merge(this.sort.sortChange, this.paginator.page)
-      .pipe(tap(() => this.loadEventsPage()))
+      .pipe(tap(() => this.loadPage()))
       .subscribe();
   }
 
-  loadEventsPage() {
+  loadPage() {
     this.dataSource.loadOptEvents(
       String(this.isCurrentEvents),
       this.inputRtu.nativeElement.value,
@@ -103,7 +102,7 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
   changedSlider() {
     this.paginator.pageIndex = 0;
     console.log(`slider changed, isCurrentEvents ${this.isCurrentEvents}`);
-    this.loadEventsPage();
+    this.loadPage();
   }
 
   onRowClicked(row) {

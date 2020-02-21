@@ -269,8 +269,8 @@ namespace Iit.Fibertest.DataCenterCore
         #endregion
 
 
-        public async Task<List<OpticalEventDto>> GetOpticalEventList(string username, bool isCurrentEvents, string filterRtu = "",
-            string filterTrace = "", string sortOrder = "desc", int pageNumber = 0, int pageSize = 100)
+        public async Task<OpticalEventsRequestedDto> GetOpticalEventPortion(string username, bool isCurrentEvents,
+            string filterRtu = "", string filterTrace = "", string sortOrder = "desc", int pageNumber = 0, int pageSize = 100)
         {
             _logFile.AppendLine($":: WcfServiceForWebProxy GetOpticalEventList pageSize = {pageSize}  pageNumber = {pageNumber}");
             var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
@@ -281,24 +281,20 @@ namespace Iit.Fibertest.DataCenterCore
             }
             await Task.Delay(1);
 
-
-            return isCurrentEvents ?
-                _writeModel.ActiveMeasurements
-                .Where(m => m.Filter(filterRtu, filterTrace, _writeModel, user))
-                .Sort(sortOrder)
-                .Skip(pageNumber * pageSize)
-                .Take(pageSize)
-                .Select(m => m.CreateOpticalEventDto(_writeModel)).ToList()
-                :
-                _writeModel.Measurements
-                .Where(m => m.Filter(filterRtu, filterTrace, _writeModel, user))
-                .Sort(sortOrder)
-                .Skip(pageNumber * pageSize)
-                .Take(pageSize)
-                .Select(m => m.CreateOpticalEventDto(_writeModel)).ToList();
+            var collection = isCurrentEvents ? _writeModel.ActiveMeasurements : _writeModel.Measurements;
+            var sift = collection.Where(o => o.Filter(filterRtu, filterTrace, _writeModel, user)).ToList();
+            return new OpticalEventsRequestedDto
+            {
+                FullCount = sift.Count,
+                EventPortion = sift
+                    .Sort(sortOrder) 
+                    .Skip(pageNumber * pageSize)
+                    .Take(pageSize)
+                    .Select(m => m.CreateOpticalEventDto(_writeModel)).ToList()
+            };
         }
 
-        public async Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId)
+        public async Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId, int pageNumber, int pageSize)
         {
             _logFile.AppendLine(":: WcfServiceForWebProxy GetTraceStatistics");
             var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
@@ -327,9 +323,12 @@ namespace Iit.Fibertest.DataCenterCore
                     AssignmentTimestamp = l.SaveTimestamp,
                     Username = l.UserName,
                 }).ToList();
-            result.Measurements = _writeModel.Measurements
-                .Where(m => m.TraceId == traceId)
+            var sift = _writeModel.Measurements.Where(m => m.TraceId == traceId).ToList();
+            result.MeasFullCount = sift.Count;
+            result.MeasPortion = sift
                 .OrderByDescending(e => e.EventRegistrationTimestamp)
+                .Skip(pageNumber*pageSize)
+                .Take(pageSize)
                 .Select(l => new MeasurementDto()
                 {
                     SorFileId = l.SorFileId,

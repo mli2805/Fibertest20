@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
@@ -23,18 +22,18 @@ namespace Iit.Fibertest.DataCenterWebApi
             _webC2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
         }
 
-      
         [Authorize]
         [HttpGet("GetPage")]
-        public async Task<IEnumerable<OpticalEventDto>> GetPage(bool isCurrentEvents, string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize)
+        public async Task<OpticalEventsRequestedDto> GetPage(bool isCurrentEvents,
+                   string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize)
         {
-            var opticalEventList = await _webC2DWcfManager.
-                GetOpticalEventList(User.Identity.Name, isCurrentEvents, filterRtu, filterTrace, sortOrder, pageNumber, pageSize);
-            _logFile.AppendLine(opticalEventList == null
+            var resultDto = await _webC2DWcfManager.
+                GetOpticalEventPortion(User.Identity.Name, isCurrentEvents, filterRtu, filterTrace, sortOrder, pageNumber, pageSize);
+            _logFile.AppendLine(resultDto == null
                 ? "Failed to get optical event list"
-                : $"Optical event list contains {opticalEventList.Count} items");
+                : $"Optical event list contains {resultDto.FullCount} items");
 
-            return opticalEventList;
+            return resultDto;
         }
 
     }
