@@ -59,7 +59,7 @@ namespace Iit.Fibertest.Client
 
             foreach (var pair in evnt.FibersFromCleanedTraces)
             {
-                _model.Data.Fibers.First(f=>f.Id == pair.Key).RemoveState(pair.Value);
+                _model.Data.Fibers.FirstOrDefault(f=>f.Id == pair.Key)?.RemoveState(pair.Value);
             }
             _nodeEventsOnGraphExecutor.RemoveNodeWithAllHisFibersUptoRealNode(evnt.RtuNodeId);
         }
