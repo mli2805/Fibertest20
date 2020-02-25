@@ -6,6 +6,7 @@ import { Router } from "@angular/router";
 import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { SignalrService } from "src/app/api/signalr.service";
+import { SignalDto } from "src/app/models/dtos/signalDto";
 
 @Component({
   selector: "ft-login",
@@ -26,7 +27,12 @@ export class FtLoginComponent implements OnInit {
   user: string;
   pw: string;
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.signalrService.signalReceived.subscribe((signal: string) => {
+      console.log("signal R received");
+      console.log(signal);
+    });
+  }
 
   signalRconnect() {
     console.log("signalRconnect pressed...");
