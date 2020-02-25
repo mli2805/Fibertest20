@@ -5,6 +5,7 @@ import { environment } from "src/environments/environment";
 import { Router } from "@angular/router";
 import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 import { ReturnCode } from "src/app/models/enums/returnCode";
+import { SignalrService } from "src/app/api/signalr.service";
 
 @Component({
   selector: "ft-login",
@@ -17,6 +18,8 @@ export class FtLoginComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
+    private signalrService: SignalrService,
+
     private returnCodePipe: ReturnCodePipe
   ) {}
 
@@ -24,6 +27,11 @@ export class FtLoginComponent implements OnInit {
   pw: string;
 
   ngOnInit() {}
+
+  signalR() {
+    console.log("signalR pressed...");
+    this.signalrService.startConnection();
+  }
 
   login() {
     this.resultMessage = "";

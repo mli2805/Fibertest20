@@ -2,15 +2,12 @@
 
 import { Injectable } from "@angular/core";
 import * as signalR from "@aspnet/signalr";
-import { EventEmitter } from "protractor";
-import { SignalDto } from "../models/dtos/signalDto";
 
 @Injectable({
   providedIn: "root"
 })
 export class SignalrService {
   private hubConnection: signalR.HubConnection;
-  signalReceived = new EventEmitter();
 
   constructor() {
     this.buildConnection();
@@ -18,7 +15,7 @@ export class SignalrService {
 
   public buildConnection() {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl("https://localhost:44327")
+      .withUrl("http://localhost:2334/signalHub")
       .build();
   }
 
@@ -27,7 +24,6 @@ export class SignalrService {
       .start()
       .then(() => {
         console.log("Connection started...");
-        this.registerSignalEvents();
       })
       .catch(err => {
         console.log("Error while starting connection: " + err);
@@ -37,15 +33,7 @@ export class SignalrService {
       });
   }
 
-  public registerSignalEvents() {
-    this.hubConnection.on("SignalMessageReceived", data => {
-      this.signalReceived.emit(data);
-    });
-  }
-
   public sendSomething() {
-    this.hubConnection
-      .invoke("methodOnServer", 5, "blah-blah")
-      .then(() => this.registerSignalEvents());
+    this.hubConnection.invoke("methodOnServer", 5, "blah-blah");
   }
 }
