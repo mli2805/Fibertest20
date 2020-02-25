@@ -28,9 +28,14 @@ export class FtLoginComponent implements OnInit {
 
   ngOnInit() {}
 
-  signalR() {
-    console.log("signalR pressed...");
+  signalRconnect() {
+    console.log("signalRconnect pressed...");
     this.signalrService.startConnection();
+  }
+
+  signalRsend() {
+    console.log("signalRsend pressed...");
+    this.signalrService.sendSomething();
   }
 
   login() {

@@ -34,6 +34,6 @@ export class SignalrService {
   }
 
   public sendSomething() {
-    this.hubConnection.invoke("methodOnServer", 5, "blah-blah");
+    this.hubConnection.invoke("Send", "message", "username");
   }
 }
