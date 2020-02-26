@@ -90,6 +90,7 @@ namespace Iit.Fibertest.DataCenterCore
                 Owner = "Demo license",
                 RtuCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.MaxValue },
                 ClientStationCount = new LicenseParameter() { Value = 2, ValidUntil = DateTime.MaxValue },
+                WebClientCount = new LicenseParameter() {Value = 1, ValidUntil = DateTime.MaxValue },
                 SuperClientStationCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.Today.AddMonths(6) },
                 Version = "2.0.0.0"
             };

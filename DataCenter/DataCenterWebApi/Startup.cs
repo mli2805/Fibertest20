@@ -26,9 +26,10 @@ namespace Iit.Fibertest.DataCenterWebApi
             services.AddCors(options => options.AddPolicy("Cors", builder =>
             {
                 builder
-                .AllowAnyOrigin()
-                .AllowAnyMethod()
-                .AllowAnyHeader();
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials()
+                    .WithOrigins("http://localhost:4200", "http://localhost:80");
             }));
 
             services.AddControllers()
