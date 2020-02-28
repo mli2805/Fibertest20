@@ -6,7 +6,6 @@ import { Router } from "@angular/router";
 import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { SignalrService } from "src/app/api/signalr.service";
-import { SignalDto } from "src/app/models/dtos/signalDto";
 
 @Component({
   selector: "ft-login",
@@ -27,22 +26,7 @@ export class FtLoginComponent implements OnInit {
   user: string;
   pw: string;
 
-  ngOnInit() {
-    this.signalrService.signalReceived.subscribe((signal: string) => {
-      console.log("signal R received");
-      console.log(signal);
-    });
-  }
-
-  signalRconnect() {
-    console.log("signalRconnect pressed...");
-    this.signalrService.startConnection();
-  }
-
-  signalRsend() {
-    console.log("signalRsend pressed...");
-    this.signalrService.sendSomething();
-  }
+  ngOnInit() {}
 
   login() {
     this.resultMessage = "";
@@ -61,6 +45,9 @@ export class FtLoginComponent implements OnInit {
           console.log("Login failed, try again...");
         }
         sessionStorage.setItem("currentUser", JSON.stringify(res));
+
+        this.signalrService.buildConnection(res.jsonWebToken);
+        this.signalrService.startConnection();
 
         this.router.navigate(["/rtu-tree"], { queryParams: null });
       },

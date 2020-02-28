@@ -75,6 +75,7 @@
     <Compile Include="ForWebApi\AboutRtuDto.cs" />
     <Compile Include="ForWebApi\Rtu\PortMonitoringMode.cs" />
     <Compile Include="ForWebApi\Rtu\RtuInformationDto.cs" />
+    <Compile Include="ForWebApi\Rtu\RtuInitializedWebDto.cs" />
     <Compile Include="ForWebApi\Rtu\RtuMonitoringPortDto.cs" />
     <Compile Include="ForWebApi\Rtu\RtuMonitoringSettingsDto.cs" />
     <Compile Include="ForWebApi\Rtu\RtuNetworkSettingsDto.cs" />

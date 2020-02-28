@@ -141,6 +141,28 @@ namespace Iit.Fibertest.WcfConnections
                 return null;
             }
         }
+
+        public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                _logFile.AppendLine($@"Sending command to initialize RTU {dto.RtuId.First6()}");
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.InitializeRtuAsync(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("InitializeRtuAsync: " + e.Message);
+                return null;
+            }
+        }
+
         #endregion
 
         #region Trace

@@ -1,5 +1,3 @@
-import { RtuPartState } from "../../enums/rtuPartState";
-
 export class RtuNetworkSettingsDto {
   rtuTitle: string;
 

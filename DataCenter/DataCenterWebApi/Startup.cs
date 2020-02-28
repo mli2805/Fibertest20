@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -35,8 +36,6 @@ namespace Iit.Fibertest.DataCenterWebApi
             services.AddControllers()
                 .AddNewtonsoftJson();
 
-          //  services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
-            
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -49,8 +48,28 @@ namespace Iit.Fibertest.DataCenterWebApi
                         IssuerSigningKey = AuthOptions.GetSymmetricSecurityKey(),
                         ValidateIssuerSigningKey = true,
                     };
+                    // for SignalR
+                    options.Events = new JwtBearerEvents
+                    {
+                        OnMessageReceived = context =>
+                        {
+                            var accessToken = context.Request.Query["access_token"];
+ 
+                            // если запрос направлен хабу
+                            var path = context.HttpContext.Request.Path;
+                            if (!string.IsNullOrEmpty(accessToken) &&
+                                (path.StartsWithSegments("/signalHub")))
+                            {
+                                // получаем токен из строки запроса
+                                context.Token = accessToken;
+                            }
+                            return Task.CompletedTask;
+                        }
+                    };
                 });
 
+            services.AddSignalR();
+        
             var iniFile = new IniFile();
             iniFile.AssignFile("webproxy.ini");
             var main = iniFile.Read(IniSection.ServerMainAddress, (int) TcpPorts.ServerListenToWebClient);
@@ -90,6 +109,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Trace}/{action=GetAll}/{id?}");
+                endpoints.MapHub<SignalRHub>("/signalHub");
             });
         }
     }

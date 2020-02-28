@@ -2,47 +2,45 @@
 
 import { Injectable, EventEmitter } from "@angular/core";
 import * as signalR from "@aspnet/signalr";
-import { SignalDto } from "../models/dtos/signalDto";
+import { Utils } from "../Utils/utils";
+import { RtuInitializedWebDto } from "../models/dtos/rtu/rtuInitializedWebDto";
 
 @Injectable({
   providedIn: "root"
 })
 export class SignalrService {
   private hubConnection: signalR.HubConnection;
-  signalReceived = new EventEmitter<SignalDto>();
+  public rtuInitializedEmitter = new EventEmitter<RtuInitializedWebDto>();
 
-  constructor() {
-    this.buildConnection();
-  }
-
-  public buildConnection() {
+  // will be built after loggin in, when jsonWebToken provided
+  public buildConnection(token: string) {
+    const url = Utils.GetWebApiUrl() + "/signalHub";
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl("http://localhost:2334/signalHub")
+      .withUrl(url, { accessTokenFactory: () => token })
       .build();
   }
 
-  public startConnection() {
-    this.hubConnection
-      .start()
-      .then(() => {
-        console.log("Connection started...");
-        this.registerSignalEvents();
-      })
-      .catch(err => {
-        console.log("Error while starting connection: " + err);
-        setTimeout(function() {
-          this.startConnection();
-        }, 3000);
-      });
+  public async startConnection() {
+    try {
+      await this.hubConnection.start();
+      console.log("SignalR connection started...");
+      this.registerSignalEvents();
+    } catch (err) {
+      console.log("Error while starting connection: " + err);
+      setTimeout(() => this.startConnection(), 3000);
+    }
   }
 
-  public sendSomething() {
-    this.hubConnection.invoke("Send", "message", "username");
+  public initializeRtu(id: string) {
+    this.hubConnection.invoke("InitializeRtu", id);
   }
 
   private registerSignalEvents() {
-    this.hubConnection.on("RtuInitilized", (data: SignalDto) => {
-      this.signalReceived.emit(data);
-    });
+    // this.hubConnection.on("RtuInitialized", this.onRtuInitialized.bind(this));
+    this.hubConnection.on("RtuInitialized", x => this.onRtuInitialized(x));
+  }
+
+  private onRtuInitialized(data: RtuInitializedWebDto) {
+    this.rtuInitializedEmitter.emit(data);
   }
 }

@@ -33,7 +33,9 @@ namespace Iit.Fibertest.DataCenterWebApi
             _webC2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
             var da = (DoubleAddress)doubleAddress.Clone();
             da.Main.Port = (int)TcpPorts.ServerListenToCommonClient;
-            if (da.HasReserveAddress) da.Reserve.Port = (int)TcpPorts.ServerListenToCommonClient;    _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
+            if (da.HasReserveAddress) 
+                da.Reserve.Port = (int)TcpPorts.ServerListenToCommonClient;    
+            _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
             _commonC2DWcfManager.SetServerAddresses(da, "webClient", "localhost");
         }
 

@@ -43,7 +43,9 @@ namespace Iit.Fibertest.DataCenterCore
                 // (it is an idealogical requirement)
                 dto.ServerAddresses.HasReserveAddress = false;
 
-            var rtuInitializedDto = await _d2RWcfManager.SetRtuAddresses(dto.RtuAddresses, _iniFile, _logFile).InitializeAsync(dto);
+            var rtuInitializedDto = await _d2RWcfManager
+                .SetRtuAddresses(dto.RtuAddresses, _iniFile, _logFile)
+                .InitializeAsync(dto);
             if (rtuInitializedDto.IsInitialized)
             {
                 rtuInitializedDto.RtuAddresses = dto.RtuAddresses;

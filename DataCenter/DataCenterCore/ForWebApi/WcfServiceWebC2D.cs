@@ -22,12 +22,17 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
+        private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
+        private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
-        public WcfServiceWebC2D(IMyLog logFile, Model writeModel, CurrentDatacenterParameters currentDatacenterParameters)
+        public WcfServiceWebC2D(IMyLog logFile, Model writeModel, CurrentDatacenterParameters currentDatacenterParameters,
+            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
         {
             _logFile = logFile;
             _writeModel = writeModel;
             _currentDatacenterParameters = currentDatacenterParameters;
+            _clientToRtuTransmitter = clientToRtuTransmitter;
+            _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
         }
 
         public async Task<UserDto> LoginWebClient(string username, string password)
@@ -234,9 +239,42 @@ namespace Iit.Fibertest.DataCenterCore
             return prepareRtuStateChild;
         }
 
+        /// <summary>
+        /// not the same as desktop command:
+        /// web client sends only id of RTU which had already been initialized and now should be RE-initialized
+        /// </summary>
+        /// <param name="dto">contains only RTU ID and will be filled in on server</param>
+        /// <returns></returns>
+        public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
+        {
+            if (!FillIn(dto)) return new RtuInitializedDto(){ReturnCode = ReturnCode.RtuInitializationError,};
+            return dto.RtuMaker == RtuMaker.IIT
+                ? await _clientToRtuTransmitter.InitializeAsync(dto)
+                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.InitializeAsync(dto).Result);
+        }
+
+        private bool FillIn(InitializeRtuDto dto)
+        {
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
+            if (rtu == null) return false;
+            dto.RtuMaker = rtu.RtuMaker;
+            dto.RtuAddresses = new DoubleAddress()
+            {
+                Main = (NetAddress)rtu.MainChannel.Clone(),
+                Reserve = (NetAddress)rtu.ReserveChannel.Clone(),
+                HasReserveAddress = rtu.IsReserveChannelSet,
+            };
+            dto.ShouldMonitoringBeStopped = false;
+            dto.Serial = rtu.Serial;
+            dto.OwnPortCount = rtu.OwnPortCount;
+            dto.Children = rtu.Children;
+            return true;
+        }
         #endregion
 
         #region Trace
+
+      
         public async Task<TraceInformationDto> GetTraceInformation(string username, Guid traceId)
         {
             _logFile.AppendLine(":: WcfServiceForWebProxy GetTraceInformation");
@@ -339,36 +377,5 @@ namespace Iit.Fibertest.DataCenterCore
                 }).ToList();
             return result;
         }
-    }
-
-    public static class MeasExt
-    {
-        public static bool Filter(this Measurement measurement, string filterRtu, string filterTrace, Model writeModel, User user)
-        {
-            if (measurement.EventStatus == EventStatus.JustMeasurementNotAnEvent)
-                return false;
-
-            var rtu = writeModel.Rtus.FirstOrDefault(r => r.Id == measurement.RtuId);
-            if (rtu == null
-                || !rtu.ZoneIds.Contains(user.ZoneId)
-                || (!string.IsNullOrEmpty(filterRtu) && !rtu.Title.Contains(filterRtu)))
-            {
-                return false;
-            }
-
-            var trace = writeModel.Traces.FirstOrDefault(t => t.TraceId == measurement.TraceId);
-            if (trace == null
-                || !trace.ZoneIds.Contains(user.ZoneId)
-                || (!string.IsNullOrEmpty(filterTrace) && !trace.Title.Contains(filterTrace)))
-            {
-                return false;
-            }
-            return true;
-        }
-        public static IEnumerable<Measurement> Sort(this IEnumerable<Measurement> input, string param)
-        {
-            return param == "asc" ? input.OrderBy(o => o.SorFileId) : input.OrderByDescending(o => o.SorFileId);
-        }
-
     }
 }

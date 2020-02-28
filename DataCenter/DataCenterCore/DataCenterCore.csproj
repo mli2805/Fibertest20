@@ -216,6 +216,7 @@
     <Compile Include="BusinessToRepositoryIntermediary\MeasurementFactory.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\RtuStationFactory.cs" />
     <Compile Include="ClientsCollection.cs" />
+    <Compile Include="ForWebApi\MeasExt.cs" />
     <Compile Include="ForWebApi\WcfServiceWebC2DMonitoringSettings.cs" />
     <Compile Include="ForWebApi\WebDtoFactory.cs" />
     <Compile Include="GlobalState.cs" />

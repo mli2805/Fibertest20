@@ -27,6 +27,8 @@ namespace Iit.Fibertest.WcfConnections
         [OperationContract]
         Task<RtuMonitoringSettingsDto> GetRtuMonitoringSettings(string username, Guid rtuId);
 
+        [OperationContract]
+        Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto);
         #endregion
 
         #region Trace
