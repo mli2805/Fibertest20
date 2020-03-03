@@ -30,7 +30,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                     .AllowAnyMethod()
                     .AllowAnyHeader()
                     .AllowCredentials()
-                    .WithOrigins("http://localhost:4200", "http://localhost:80");
+                    .SetIsOriginAllowed(hostName => true);
             }));
 
             services.AddControllers()
@@ -54,7 +54,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                         OnMessageReceived = context =>
                         {
                             var accessToken = context.Request.Query["access_token"];
- 
+
                             // если запрос направлен хабу
                             var path = context.HttpContext.Request.Path;
                             if (!string.IsNullOrEmpty(accessToken) &&
@@ -69,10 +69,10 @@ namespace Iit.Fibertest.DataCenterWebApi
                 });
 
             services.AddSignalR();
-        
+
             var iniFile = new IniFile();
             iniFile.AssignFile("webproxy.ini");
-            var main = iniFile.Read(IniSection.ServerMainAddress, (int) TcpPorts.ServerListenToWebClient);
+            var main = iniFile.Read(IniSection.ServerMainAddress, (int)TcpPorts.ServerListenToWebClient);
             if (main.Ip4Address == "0.0.0.0")
             {  // as for now, WebApi is set up on the same machine as DataCenter
                 main.Ip4Address = LocalAddressResearcher.GetAllLocalAddresses().First();
