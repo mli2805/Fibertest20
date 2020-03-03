@@ -32,9 +32,20 @@
       </div>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-raised-button color="primary" (click)="initializeRtu()">
+      <button
+        mat-raised-button
+        color="primary"
+        (click)="initializeRtu()"
+        [disabled]="isButtonDisabled"
+      >
         Initialize
       </button>
     </mat-card-actions>
   </mat-card>
+  <div class="error-container">
+    <p>{{ initializationMessage }}</p>
+  </div>
+  <div class="spinner-container">
+    <mat-spinner *ngIf="isSpinnerVisible"></mat-spinner>
+  </div>
 </div>

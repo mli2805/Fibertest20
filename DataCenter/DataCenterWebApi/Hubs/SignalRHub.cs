@@ -46,6 +46,8 @@ namespace Iit.Fibertest.DataCenterWebApi
                 var rtuGuid = Guid.Parse(rtuId);
                 var dto = new InitializeRtuDto() { RtuId = rtuGuid, ClientIp = clientIp };
                 var rtuInitializedDto = await _webC2DWcfManager.InitializeRtuAsync(dto);
+                if (rtuInitializedDto.ReturnCode == ReturnCode.Ok)
+                    rtuInitializedDto.ReturnCode = ReturnCode.RtuInitializedSuccessfully;
                 _logFile.AppendLine($"LongRtuInitialization: {rtuInitializedDto.ReturnCode.ToString()}");
                 return Map(rtuInitializedDto);
             }
@@ -65,6 +67,10 @@ namespace Iit.Fibertest.DataCenterWebApi
                 ErrorMessage = dto.ErrorMessage,
                 RtuNetworkSettings = new RtuNetworkSettingsDto()
                 {
+                    MainChannel = dto.RtuAddresses?.Main?.ToStringASpace,
+                    IsReserveChannelSet = dto.RtuAddresses?.HasReserveAddress ?? false,
+                    ReserveChannel = dto.RtuAddresses?.Reserve?.ToStringASpace,
+                    OtdrAddress = dto.OtdrAddress?.ToStringASpace,
                     Mfid = dto.Mfid,
                     Serial = dto.Serial,
                     OwnPortCount = dto.OwnPortCount,

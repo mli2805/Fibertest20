@@ -60,7 +60,7 @@ namespace Iit.Fibertest.WcfConnections
             var backward = new RtuWcfServiceBackward();
             var rtuDuplexConnection = _wcfFactory.GetDuplexRtuChannelFactory(backward);
             if (rtuDuplexConnection == null)
-                return null;
+                return new RtuInitializedDto(){ ReturnCode = ReturnCode.D2RWcfConnectionError };
 
             try
             {

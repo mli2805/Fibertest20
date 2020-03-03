@@ -17,7 +17,7 @@ export class ReturnCodePipe implements PipeTransform {
 
       // 1000
       case ReturnCode.RtuInitializationError:
-        return this.ts.instant("SID_RTU_initialization_error_ ");
+        return this.ts.instant("SID_RTU_initialization_error_");
       case ReturnCode.RtuInitializedSuccessfully:
         return this.ts.instant("SID_RTU_initialized_successfully_");
       case ReturnCode.OtdrInitializationCannotLoadDll:
@@ -39,7 +39,7 @@ export class ReturnCodePipe implements PipeTransform {
       case ReturnCode.C2DWcfOperationError:
         return this.ts.instant("SID_Error_during_Client_Datacenter_connection");
       case ReturnCode.D2RWcfConnectionError:
-        return this.ts.instant("SID_Cannot_establish_connection_with_RTU");
+        return this.ts.instant("SID_Cannot_establish_connection_with_RTU_");
       case ReturnCode.D2RWcfOperationError:
         return this.ts.instant("SID_Error_during_Datacenter_Rtu_connection");
 

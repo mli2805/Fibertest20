@@ -4,6 +4,7 @@ import { Injectable, EventEmitter } from "@angular/core";
 import * as signalR from "@aspnet/signalr";
 import { Utils } from "../Utils/utils";
 import { RtuInitializedWebDto } from "../models/dtos/rtu/rtuInitializedWebDto";
+import { ReturnCode } from "../models/enums/returnCode";
 
 @Injectable({
   providedIn: "root"
@@ -31,16 +32,24 @@ export class SignalrService {
     }
   }
 
-  public initializeRtu(id: string) {
-    this.hubConnection.invoke("InitializeRtu", id);
+  public async initializeRtu(id: string) {
+    try {
+      if (this.hubConnection.state !== signalR.HubConnectionState.Connected) {
+        await this.startConnection();
+      }
+
+      await this.hubConnection.invoke("InitializeRtu", id);
+    } catch (err) {
+      const data = new RtuInitializedWebDto();
+      data.returnCode = ReturnCode.RtuInitializationError;
+      this.rtuInitializedEmitter.emit(data);
+    }
   }
 
   private registerSignalEvents() {
     // this.hubConnection.on("RtuInitialized", this.onRtuInitialized.bind(this));
-    this.hubConnection.on("RtuInitialized", x => this.onRtuInitialized(x));
-  }
-
-  private onRtuInitialized(data: RtuInitializedWebDto) {
-    this.rtuInitializedEmitter.emit(data);
+    this.hubConnection.on("RtuInitialized", (data: RtuInitializedWebDto) =>
+      this.rtuInitializedEmitter.emit(data)
+    );
   }
 }
