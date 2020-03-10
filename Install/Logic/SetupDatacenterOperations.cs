@@ -63,7 +63,8 @@ namespace Iit.Fibertest.Install
             worker.ReportProgress((int)BwReturnProgressCode.WebComponentsSetupStarted);
 
             if (!DeleteExistingWebSites(worker, currentInstallation))
-                return false;
+                if (!DeleteExistingWebSites(worker, currentInstallation)) // second attempt
+                    return false;
 
             if (!CopyWebComponents(worker, currentInstallation))
                 return false;
@@ -88,29 +89,38 @@ namespace Iit.Fibertest.Install
         {
             try
             {
-                if (IisOperations.DoesWebsiteExist(WebApiSiteName))
-                {
-                    IisOperations.DeleteWebsite(WebApiSiteName, worker);
-                    var webApiSitePath = Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir);
-                    if (Directory.Exists(webApiSitePath))
-                        Directory.Delete(webApiSitePath, true);
-                }
-
-                if (IisOperations.DoesWebsiteExist(WebClientSiteName))
-                {
-                    IisOperations.DeleteWebsite(WebClientSiteName, worker);
-                    var webClientSitePath = Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir);
-                    if (Directory.Exists(webClientSitePath))
-                        Directory.Delete(webClientSitePath, true);
-                }
+                if (!DeleteOneWebSite(worker, currentInstallation, WebApiSiteName))
+                    if (!DeleteOneWebSite(worker, currentInstallation, WebApiSiteName)) // second attempt
+                        return false;
+                if (!DeleteOneWebSite(worker, currentInstallation, WebClientSiteName))
+                    if (!DeleteOneWebSite(worker, currentInstallation, WebClientSiteName)) // second attempt
+                        return false;
+                return true;
             }
             catch (Exception e)
             {
                 worker.ReportProgress((int)BwReturnProgressCode.IisOperationError, e.Message);
                 return false;
             }
+        }
 
-            return true;
+        private static bool DeleteOneWebSite(BackgroundWorker worker, CurrentInstallation currentInstallation, string siteName)
+        {
+            try
+            {
+                if (IisOperations.DoesWebsiteExist(siteName))
+                    IisOperations.DeleteWebsite(siteName, worker);
+
+                var webSitePath = Path.Combine(currentInstallation.InstallationFolder, siteName);
+                if (Directory.Exists(webSitePath))
+                    Directory.Delete(webSitePath, true);
+                return true;
+            }
+            catch (Exception e)
+            {
+                worker.ReportProgress((int)BwReturnProgressCode.IisOperationError, e.Message);
+                return false;
+            }
         }
 
         private static bool CopyWebComponents(BackgroundWorker worker, CurrentInstallation currentInstallation)
