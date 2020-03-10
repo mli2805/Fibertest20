@@ -21,6 +21,8 @@
             </StackPanel>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Install_Web_Service}" 
                           IsChecked="{Binding IsWebNeeded}" Margin="5,10,0,0"/>
+                <CheckBox Content="Use HTTPS" 
+                          IsChecked="{Binding IsWebByHttps}" Margin="25,10,0,0"/>
         </StackPanel>
     </DockPanel>
 </UserControl>

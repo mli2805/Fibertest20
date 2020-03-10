@@ -30,7 +30,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 {
                     webBuilder.UseStartup<Startup>();
                     //                    webBuilder.UseUrls("http://*:11080");
-                    webBuilder.UseUrls("https://*:44371");
+                    webBuilder.UseUrls("https://*:11080");
                 });
         }
     }

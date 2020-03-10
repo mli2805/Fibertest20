@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Install
             }
         }
 
+        private string _mySqlTcpPort;
         public string MySqlTcpPort
         {
             get => _mySqlTcpPort;
@@ -43,6 +44,18 @@ namespace Iit.Fibertest.Install
             }
         }
 
+        private bool _isWebByHttps;
+        public bool IsWebByHttps
+        {
+            get => _isWebByHttps;
+            set
+            {
+                if (value == _isWebByHttps) return;
+                _isWebByHttps = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         private Visibility _mySqlTcpPortVisibility = Visibility.Collapsed;
         public Visibility MySqlTcpPortVisibility
         {
@@ -61,8 +74,6 @@ namespace Iit.Fibertest.Install
         public List<string> InstTypes { get; set; }
 
         private string _selectedType;
-        private string _mySqlTcpPort;
-
         public string SelectedType
         {
             get => _selectedType;

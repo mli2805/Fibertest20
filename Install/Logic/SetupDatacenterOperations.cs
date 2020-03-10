@@ -68,12 +68,17 @@ namespace Iit.Fibertest.Install
             if (!CopyWebComponents(worker, currentInstallation))
                 return false;
 
-
-            IisOperations.CreateWebsite(WebApiSiteName, "http", "*:11080:",
+            // WebApi always HTTPS regardless of WebClient (angular app) 
+            IisOperations.CreateWebsite(WebApiSiteName, "https", "*:11080:",
                 Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir), worker);
 
-            IisOperations.CreateWebsite(WebClientSiteName, "http", "*:80:",
-                Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir), worker);
+            // WebClient site name is always the same regardless of protocol (http or https)
+            if (currentInstallation.IsWebByHttps)
+                IisOperations.CreateWebsite(WebClientSiteName, "https", "*:443:",
+                    Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir), worker);
+            else
+                IisOperations.CreateWebsite(WebClientSiteName, "http", "*:80:",
+                    Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir), worker);
 
             worker.ReportProgress((int)BwReturnProgressCode.WebComponentsSetupCompletedSuccessfully);
             return true;
