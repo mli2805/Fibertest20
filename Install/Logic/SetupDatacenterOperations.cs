@@ -74,7 +74,7 @@ namespace Iit.Fibertest.Install
 
             // WebClient site name is always the same regardless of protocol (http or https)
             if (currentInstallation.IsWebByHttps)
-                IisOperations.CreateWebsite(WebClientSiteName, "https", "*:443:",
+                IisOperations.CreateWebsite(WebClientSiteName, "https", "*:44311:",
                     Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir), worker);
             else
                 IisOperations.CreateWebsite(WebClientSiteName, "http", "*:80:",
