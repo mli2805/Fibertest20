@@ -71,7 +71,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             services.AddSignalR();
 
             var iniFile = new IniFile();
-            iniFile.AssignFile("webproxy.ini");
+            iniFile.AssignFile("webapi.ini");
             var main = iniFile.Read(IniSection.ServerMainAddress, (int)TcpPorts.ServerListenToWebClient);
             if (main.Ip4Address == "0.0.0.0")
             {  // as for now, WebApi is set up on the same machine as DataCenter
@@ -81,9 +81,9 @@ namespace Iit.Fibertest.DataCenterWebApi
             services.AddSingleton(iniFile);
 
             var logFile = new LogFile(iniFile);
-            logFile.AssignFile("webproxy.log");
+            logFile.AssignFile("webapi.log");
             services.AddSingleton<IMyLog>(logFile);
-            logFile.AppendLine("Fibertest WebProxy service started");
+            logFile.AppendLine("Fibertest WebApi service started");
         }
 
 
