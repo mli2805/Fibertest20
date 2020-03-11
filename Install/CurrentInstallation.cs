@@ -13,6 +13,6 @@
         public string MySqlTcpPort { get; set; }
         public bool IsWebNeeded { get; set; }
         public bool IsWebByHttps { get; set; }
-        public string WebArchivePath { get; set; }
+        public string SslCertificateName { get; set; }
     }
 }

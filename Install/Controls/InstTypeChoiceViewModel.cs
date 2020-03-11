@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Install
 {
@@ -44,7 +46,7 @@ namespace Iit.Fibertest.Install
             }
         }
 
-        private bool _isWebByHttps;
+        private bool _isWebByHttps = true;
         public bool IsWebByHttps
         {
             get => _isWebByHttps;
@@ -72,6 +74,7 @@ namespace Iit.Fibertest.Install
         public string Text1 { get; set; }
         public string Text2 { get; set; } = Resources.SID_Type_of_install_;
         public List<string> InstTypes { get; set; }
+        public List<string> Certificates { get; set; }
 
         private string _selectedType;
         public string SelectedType
@@ -86,6 +89,18 @@ namespace Iit.Fibertest.Install
             }
         }
 
+        private string _selectedCertificate;
+        public string SelectedCertificate
+        {
+            get => _selectedCertificate;
+            set
+            {
+                if (value == _selectedCertificate) return;
+                _selectedCertificate = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public InstTypeChoiceViewModel(CurrentInstallation currentInstallation)
         {
             HeaderViewModel.InBold = Resources.SID_Installation_Type;
@@ -94,6 +109,9 @@ namespace Iit.Fibertest.Install
             Text1 = string.Format(Resources.SID_Select_the_type_of__0__install__Click_Next_to_continue_, currentInstallation.MainName);
             InstTypes = new List<string>() { "Data Center", "Client", "Super Client" };
             SelectedType = InstTypes[0];
+
+            Certificates = IisOperations.GetCertificates().ToList();
+            SelectedCertificate = Certificates.FirstOrDefault();
         }
 
         public InstallationType GetSelectedType()

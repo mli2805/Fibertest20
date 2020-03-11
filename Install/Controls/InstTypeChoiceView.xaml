@@ -23,6 +23,8 @@
                           IsChecked="{Binding IsWebNeeded}" Margin="5,10,0,0"/>
                 <CheckBox Content="Use HTTPS" 
                           IsChecked="{Binding IsWebByHttps}" Margin="25,10,0,0"/>
+                <ComboBox Margin="25,10,15,10" ItemsSource="{Binding Certificates}" 
+                          SelectedItem="{Binding SelectedCertificate, Mode=TwoWay}"/>
         </StackPanel>
     </DockPanel>
 </UserControl>

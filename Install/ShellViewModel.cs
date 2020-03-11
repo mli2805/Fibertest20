@@ -218,6 +218,7 @@ namespace Iit.Fibertest.Install
             _currentInstallation.MySqlTcpPort = InstTypeChoiceViewModel.MySqlTcpPort;
             _currentInstallation.IsWebNeeded = InstTypeChoiceViewModel.IsWebNeeded;
             _currentInstallation.IsWebByHttps = InstTypeChoiceViewModel.IsWebByHttps;
+            _currentInstallation.SslCertificateName = InstTypeChoiceViewModel.SelectedCertificate;
         }
 
         private void ProcessProgressViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
