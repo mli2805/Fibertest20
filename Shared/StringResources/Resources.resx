@@ -2777,4 +2777,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Install_Web_Service" xml:space="preserve">
     <value>Install WebClient Component</value>
   </data>
+	<data name="SID_List_of_ssl_certificates" xml:space="preserve">
+    <value>List of SSL certificates installed in IIS</value>
+  </data>
 </root>

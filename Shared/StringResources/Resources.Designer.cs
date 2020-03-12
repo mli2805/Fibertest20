@@ -3439,7 +3439,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Install Web Service.
+        ///   Looks up a localized string similar to Install WebClient Component.
         /// </summary>
         public static string SID_Install_Web_Service {
             get {
@@ -3822,6 +3822,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Light_OF {
             get {
                 return ResourceManager.GetString("SID_Light_OF", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List of SSL certificates installed in IIS.
+        /// </summary>
+        public static string SID_List_of_ssl_certificates {
+            get {
+                return ResourceManager.GetString("SID_List_of_ssl_certificates", resourceCulture);
             }
         }
         
