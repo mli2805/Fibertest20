@@ -6,6 +6,8 @@ import { Router } from "@angular/router";
 import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { SignalrService } from "src/app/api/signalr.service";
+import { Utils } from "src/app/Utils/utils";
+import { HttpClient } from "@angular/common/http";
 
 @Component({
   selector: "ft-login",
@@ -19,6 +21,7 @@ export class FtLoginComponent implements OnInit {
     private router: Router,
     private authService: AuthService,
     private signalrService: SignalrService,
+    private httpClient: HttpClient,
 
     private returnCodePipe: ReturnCodePipe
   ) {}
@@ -38,6 +41,14 @@ export class FtLoginComponent implements OnInit {
       this.user = "root";
       this.pw = "root";
     }
+
+    this.httpClient.get("./assets/settings.json")
+    .subscribe((res: string) => {
+      console.log(res);
+      sessionStorage.setItem("settings", JSON.stringify(res));
+    });
+    const settings = JSON.parse(sessionStorage.settings);
+    console.log(settings.apiProtocol);
 
     this.authService.login(this.user, this.pw).subscribe(
       (res: UserDto) => {

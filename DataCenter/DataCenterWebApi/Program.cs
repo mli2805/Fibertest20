@@ -23,14 +23,14 @@ namespace Iit.Fibertest.DataCenterWebApi
             var configuration = builder.Build();
             var logLevel = configuration["Logging:LogLevel:Default"];
             Console.Write(logLevel);
-
+            //
 
             return Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    //                    webBuilder.UseUrls("http://*:11080");
-                    webBuilder.UseUrls("https://*:11080");
+                    webBuilder.UseUrls("http://*:11080");
+//                    webBuilder.UseUrls("https://*:11080");
                 });
         }
     }

@@ -18,8 +18,18 @@ namespace Iit.Fibertest.DataCenterWebApi
             _logFile = logFile;
             var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
             _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
-            _webC2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
+            _webC2DWcfManager.SetServerAddresses(doubleAddress, "webApi", "localhost");
         }
+
+        public async Task OnDisconnectedAsync()
+        {
+            _logFile.AppendLine($"OnDisconnectedAsync ClientIp = {Context.GetHttpContext().Connection.RemoteIpAddress}");
+            // Add your own code here.
+            // For example: in a chat application, mark the user as offline, 
+            // delete the association between the current connection id and user name.
+            await base.OnDisconnectedAsync(new Exception("SignalR disconnected"));
+        }
+
 
         public async Task Send(string message, string username)
         {
