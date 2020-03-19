@@ -8,6 +8,7 @@ import { ReturnCode } from "src/app/models/enums/returnCode";
 import { SignalrService } from "src/app/api/signalr.service";
 import { Utils } from "src/app/Utils/utils";
 import { HttpClient } from "@angular/common/http";
+import SettingsFromJsonFile from 'src/assets/settings.json'
 
 @Component({
   selector: "ft-login",
@@ -31,7 +32,7 @@ export class FtLoginComponent implements OnInit {
 
   ngOnInit() {}
 
-  login() {
+  async login() {
     this.resultMessage = "";
     if (
       environment.production === false &&
@@ -42,13 +43,8 @@ export class FtLoginComponent implements OnInit {
       this.pw = "root";
     }
 
-    this.httpClient.get("./assets/settings.json")
-    .subscribe((res: string) => {
-      console.log(res);
-      sessionStorage.setItem("settings", JSON.stringify(res));
-    });
-    const settings = JSON.parse(sessionStorage.settings);
-    console.log(settings.apiProtocol);
+    console.log("Settings are: ", SettingsFromJsonFile);
+    sessionStorage.setItem("settings", JSON.stringify(SettingsFromJsonFile));
 
     this.authService.login(this.user, this.pw).subscribe(
       (res: UserDto) => {

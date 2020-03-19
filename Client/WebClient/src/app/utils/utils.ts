@@ -2,16 +2,14 @@ export class Utils {
 
   constructor() {}
 
-  static GetWebApiUrl(): string {
-    const protocol = "http://";
+  static GetWebApiUrl(): string
+  {
+    const settings = JSON.parse(sessionStorage.settings);
+    const protocol = settings.apiProtocol;
     const port = 11080;
-    return protocol + window.location.hostname + ":" + port;
-  }
-
-  GetWebApiUrl2(): string {
-    const protocol = JSON.parse(sessionStorage.protocol);
-    const port = 11080;
-    return protocol + window.location.hostname + ":" + port;
+    var url = protocol + "://" + window.location.hostname + ":" + port;
+    console.log(url);
+    return url;
   }
 
 }
