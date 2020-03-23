@@ -17,20 +17,21 @@ using Newtonsoft.Json.Linq;
 
 namespace Iit.Fibertest.DataCenterWebApi
 {
+   
     [Route("[controller]")]
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
-        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly DoubleAddress _doubleAddress;
         private readonly CommonC2DWcfManager _commonC2DWcfManager;
+        private readonly string _localIpAddress;
 
         public AuthenticationController(IniFile iniFile, IMyLog logFile)
         {
-            _iniFile = iniFile;
             _logFile = logFile;
             _doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToCommonClient);
+            _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, 11080).Ip4Address;
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
         }
 
@@ -39,7 +40,9 @@ namespace Iit.Fibertest.DataCenterWebApi
         public async Task Logout()
         {
             var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
-            _logFile.AppendLine($"Logout request from {ip1}");
+            // browser started on the same pc as this service
+            var aa = ip1 == "::1" ? _localIpAddress : ip1;
+            _logFile.AppendLine($"Logout request from {aa}");
             string body;
             using (var reader = new StreamReader(Request.Body))
             {
@@ -48,11 +51,11 @@ namespace Iit.Fibertest.DataCenterWebApi
             dynamic user = JObject.Parse(body);
             var username = (string)user.username;
             _logFile.AppendLine($"User {username} logged out.");
-            _commonC2DWcfManager.SetServerAddresses(_doubleAddress, username, ip1);
+            _commonC2DWcfManager.SetServerAddresses(_doubleAddress, username, aa);
             var unused = await _commonC2DWcfManager.UnregisterClientAsync(
                 new UnRegisterClientDto()
                 {
-                    ClientIp = ip1, Username = username,
+                    ClientIp = aa, Username = username,
                 });
             Response.StatusCode = 201;
         }
@@ -61,26 +64,16 @@ namespace Iit.Fibertest.DataCenterWebApi
         public async Task Login()
         {
             var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
-            if (ip1 == "::1") // browser started on the same pc as this service
-            {
-                var clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, 11080);
-                if (clientAddress.IsAddressSetAsIp && clientAddress.Ip4Address == @"0.0.0.0" &&
-                    _doubleAddress.Main.Ip4Address != @"0.0.0.0")
-                {
-                    clientAddress.Ip4Address = LocalAddressResearcher.GetLocalAddressToConnectServer(_doubleAddress.Main.Ip4Address);
-                    _iniFile.Write(clientAddress, IniSection.ClientLocalAddress);
-                }
-
-                ip1 = clientAddress.Ip4Address;
-            }
-            _logFile.AppendLine($"Authentication request from {ip1}");
+            // browser started on the same pc as this service
+            var aa = ip1 == "::1" ? _localIpAddress : ip1;
+            _logFile.AppendLine($"Authentication request from {aa}");
             string body;
             using (var reader = new StreamReader(Request.Body))
             {
                 body = await reader.ReadToEndAsync();
             }
             dynamic user = JObject.Parse(body);
-            _commonC2DWcfManager.SetServerAddresses(_doubleAddress, (string)user.username, ip1);
+            _commonC2DWcfManager.SetServerAddresses(_doubleAddress, (string)user.username, aa);
             var clientRegisteredDto = await _commonC2DWcfManager.RegisterClientAsync(
                 new RegisterClientDto()
                 {

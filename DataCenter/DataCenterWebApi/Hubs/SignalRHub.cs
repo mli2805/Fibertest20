@@ -10,43 +10,44 @@ namespace Iit.Fibertest.DataCenterWebApi
 {
     public class SignalRHub : Hub
     {
-        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly WebC2DWcfManager _webC2DWcfManager;
         private readonly CommonC2DWcfManager _commonC2DWcfManager;
 
+        private readonly string _localIpAddress;
+
         public SignalRHub(IniFile iniFile, IMyLog logFile)
         {
-            _iniFile = iniFile;
             _logFile = logFile;
             var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
+            _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, 11080).Ip4Address;
+
             _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
-            _webC2DWcfManager.SetServerAddresses(doubleAddress, "webApi", "localhost");
+            _webC2DWcfManager.SetServerAddresses(doubleAddress, "webApi", _localIpAddress);
 
             var da = (DoubleAddress)doubleAddress.Clone();
             da.Main.Port = (int)TcpPorts.ServerListenToCommonClient;
             if (da.HasReserveAddress)
                 da.Reserve.Port = (int)TcpPorts.ServerListenToCommonClient;
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
-            _commonC2DWcfManager.SetServerAddresses(da, "webClient", "localhost");
+            _commonC2DWcfManager.SetServerAddresses(da, "webClient", _localIpAddress);
         }
 
         public override async Task OnConnectedAsync()
         {
             var ip1 = Context.GetHttpContext().Connection.RemoteIpAddress.ToString();
-            if (ip1 == "::1") // browser started on the same pc as this service
-            {
-                var clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, 11080);
-                ip1 = clientAddress.Ip4Address;
-            }
-            _logFile.AppendLine($"OnConnectedAsync ClientIp = {ip1}");
+            
+            // browser started on the same pc as this service
+            var aa = ip1 == "::1" ? _localIpAddress : ip1;
+            _logFile.AppendLine($"OnConnectedAsync ClientIp = {aa}");
             await base.OnConnectedAsync();
         }
 
         public override async Task OnDisconnectedAsync(Exception e)
         {
-            var ip1 = Context.GetHttpContext().Connection.RemoteIpAddress;
-            _logFile.AppendLine($"OnDisconnectedAsync ClientIp = {ip1}");
+            var ip1 = Context.GetHttpContext().Connection.RemoteIpAddress.ToString();
+            var aa = ip1 == "::1" ? _localIpAddress : ip1;
+            _logFile.AppendLine($"OnDisconnectedAsync ClientIp = {aa}");
 
             var unused = await _commonC2DWcfManager.UnregisterClientAsync(
                 new UnRegisterClientDto()
@@ -71,7 +72,9 @@ namespace Iit.Fibertest.DataCenterWebApi
         public async Task InitializeRtu(string rtuId)
         {
             _logFile.AppendLine($"InitializeRtu started: {DateTime.Now:HH:mm:ss.FFF}");
-            var result = await LongRtuInitialization(rtuId, Context.GetHttpContext().Connection.RemoteIpAddress.ToString());
+            var ip1 = Context.GetHttpContext().Connection.RemoteIpAddress.ToString();
+            var aa = ip1 == "::1" ? _localIpAddress : ip1;
+            var result = await LongRtuInitialization(rtuId, aa);
             _logFile.AppendLine($"InitializeRtu finished: {DateTime.Now:HH:mm:ss.FFF}");
             await Clients.All.SendAsync("RtuInitialized", result);
         }

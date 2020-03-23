@@ -72,12 +72,8 @@ namespace Iit.Fibertest.DataCenterWebApi
 
             var iniFile = new IniFile();
             iniFile.AssignFile("webapi.ini");
-            var main = iniFile.Read(IniSection.ServerMainAddress, (int)TcpPorts.ServerListenToWebClient);
-            if (main.Ip4Address == "0.0.0.0")
-            {  // as for now, WebApi is set up on the same machine as DataCenter
-                main.Ip4Address = LocalAddressResearcher.GetAllLocalAddresses().First();
-                iniFile.Write(main, IniSection.ServerMainAddress);
-            }
+            SetServerAddress(iniFile);
+            SetLocalIpAddress(iniFile);
             services.AddSingleton(iniFile);
 
             var logFile = new LogFile(iniFile);
@@ -86,6 +82,28 @@ namespace Iit.Fibertest.DataCenterWebApi
             logFile.AppendLine("Fibertest WebApi service started");
         }
 
+        private static void SetServerAddress(IniFile iniFile)
+        {
+            var main = iniFile.Read(IniSection.ServerMainAddress, (int) TcpPorts.ServerListenToWebClient);
+            if (main.Ip4Address == "0.0.0.0")
+            {
+                // as for now, WebApi is set up on the same machine as DataCenter
+                main.Ip4Address = LocalAddressResearcher.GetAllLocalAddresses().First();
+                iniFile.Write(main, IniSection.ServerMainAddress);
+            }
+        }
+
+        private void SetLocalIpAddress(IniFile iniFile)
+        {
+            var serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
+            var clientAddress = iniFile.Read(IniSection.ClientLocalAddress, 11080);
+            if (clientAddress.IsAddressSetAsIp && clientAddress.Ip4Address == @"0.0.0.0" &&
+                serverDoubleAddress.Main.Ip4Address != @"0.0.0.0")
+            {
+                clientAddress.Ip4Address = LocalAddressResearcher.GetLocalAddressToConnectServer(serverDoubleAddress.Main.Ip4Address);
+                iniFile.Write(clientAddress, IniSection.ClientLocalAddress);
+            }
+        }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
