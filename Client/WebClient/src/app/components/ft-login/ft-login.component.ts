@@ -8,7 +8,8 @@ import { ReturnCode } from "src/app/models/enums/returnCode";
 import { SignalrService } from "src/app/api/signalr.service";
 import { Utils } from "src/app/Utils/utils";
 import { HttpClient } from "@angular/common/http";
-import SettingsFromJsonFile from 'src/assets/settings.json'
+// https://www.angularjswiki.com/angular/how-to-read-local-json-files-in-angular/
+import SettingsFromJsonFile from 'src/assets/settings.json';
 
 @Component({
   selector: "ft-login",

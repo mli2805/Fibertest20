@@ -21,12 +21,14 @@ namespace Iit.Fibertest.DataCenterWebApi
     [ApiController]
     public class AuthenticationController : ControllerBase
     {
+        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly DoubleAddress _doubleAddress;
         private readonly CommonC2DWcfManager _commonC2DWcfManager;
 
         public AuthenticationController(IniFile iniFile, IMyLog logFile)
         {
+            _iniFile = iniFile;
             _logFile = logFile;
             _doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToCommonClient);
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
@@ -59,6 +61,18 @@ namespace Iit.Fibertest.DataCenterWebApi
         public async Task Login()
         {
             var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
+            if (ip1 == "::1") // browser started on the same pc as this service
+            {
+                var clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, 11080);
+                if (clientAddress.IsAddressSetAsIp && clientAddress.Ip4Address == @"0.0.0.0" &&
+                    _doubleAddress.Main.Ip4Address != @"0.0.0.0")
+                {
+                    clientAddress.Ip4Address = LocalAddressResearcher.GetLocalAddressToConnectServer(_doubleAddress.Main.Ip4Address);
+                    _iniFile.Write(clientAddress, IniSection.ClientLocalAddress);
+                }
+
+                ip1 = clientAddress.Ip4Address;
+            }
             _logFile.AppendLine($"Authentication request from {ip1}");
             string body;
             using (var reader = new StreamReader(Request.Body))
@@ -66,7 +80,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 body = await reader.ReadToEndAsync();
             }
             dynamic user = JObject.Parse(body);
-            _commonC2DWcfManager.SetServerAddresses(_doubleAddress, (string)user.username, "localhost");
+            _commonC2DWcfManager.SetServerAddresses(_doubleAddress, (string)user.username, ip1);
             var clientRegisteredDto = await _commonC2DWcfManager.RegisterClientAsync(
                 new RegisterClientDto()
                 {

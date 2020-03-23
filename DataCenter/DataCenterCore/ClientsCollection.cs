@@ -32,9 +32,18 @@ namespace Iit.Fibertest.DataCenterCore
             var user = _writeModel.Users.FirstOrDefault(u => u.Title == dto.UserName && UserExt.FlipFlop(u.EncodedPassword) == dto.Password);
             if (user == null)
                 return new ClientRegisteredDto {ReturnCode = ReturnCode.NoSuchUserOrWrongPassword};
-            var hasRight = CheckRights(dto, user);
+          
+            var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp);
+            if (station != null)
+            {
+                _clients.Remove(station);
+
+            }
+
+            var hasRight = CheckUsersRights(dto, user);
             if (hasRight != null)
                 return hasRight;
+
             var licenseCheckResult = CheckLicense(dto);
             if (licenseCheckResult != null)
             {
@@ -44,7 +53,7 @@ namespace Iit.Fibertest.DataCenterCore
             return await RegisterClientStation(dto, user);
         }
 
-        private ClientRegisteredDto CheckRights(RegisterClientDto dto, User user)
+        private ClientRegisteredDto CheckUsersRights(RegisterClientDto dto, User user)
         {
             if (dto.IsUnderSuperClient)
             {
@@ -169,7 +178,7 @@ namespace Iit.Fibertest.DataCenterCore
             var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp);
             if (station == null)
             {
-                _logFile.AppendLine("There is no client station with address");
+                _logFile.AppendLine($"There is no client station with address {dto.ClientIp}");
                 return;
             }
 
@@ -195,6 +204,7 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine($"There are {_clients.Count()} client(s)");
         }
 
+     
         public List<DoubleAddress> GetClientsAddresses(string clientIp = null)
         {
             if (clientIp == null)

@@ -10,23 +10,51 @@ namespace Iit.Fibertest.DataCenterWebApi
 {
     public class SignalRHub : Hub
     {
+        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly WebC2DWcfManager _webC2DWcfManager;
+        private readonly CommonC2DWcfManager _commonC2DWcfManager;
 
         public SignalRHub(IniFile iniFile, IMyLog logFile)
         {
+            _iniFile = iniFile;
             _logFile = logFile;
             var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
             _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
             _webC2DWcfManager.SetServerAddresses(doubleAddress, "webApi", "localhost");
+
+            var da = (DoubleAddress)doubleAddress.Clone();
+            da.Main.Port = (int)TcpPorts.ServerListenToCommonClient;
+            if (da.HasReserveAddress)
+                da.Reserve.Port = (int)TcpPorts.ServerListenToCommonClient;
+            _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
+            _commonC2DWcfManager.SetServerAddresses(da, "webClient", "localhost");
         }
 
-        public async Task OnDisconnectedAsync()
+        public override async Task OnConnectedAsync()
         {
-            _logFile.AppendLine($"OnDisconnectedAsync ClientIp = {Context.GetHttpContext().Connection.RemoteIpAddress}");
-            // Add your own code here.
-            // For example: in a chat application, mark the user as offline, 
-            // delete the association between the current connection id and user name.
+            var ip1 = Context.GetHttpContext().Connection.RemoteIpAddress.ToString();
+            if (ip1 == "::1") // browser started on the same pc as this service
+            {
+                var clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, 11080);
+                ip1 = clientAddress.Ip4Address;
+            }
+            _logFile.AppendLine($"OnConnectedAsync ClientIp = {ip1}");
+            await base.OnConnectedAsync();
+        }
+
+        public override async Task OnDisconnectedAsync(Exception e)
+        {
+            var ip1 = Context.GetHttpContext().Connection.RemoteIpAddress;
+            _logFile.AppendLine($"OnDisconnectedAsync ClientIp = {ip1}");
+
+            var unused = await _commonC2DWcfManager.UnregisterClientAsync(
+                new UnRegisterClientDto()
+                {
+                    ClientIp = ip1.ToString(),
+                    Username = "signalR_disconnected",
+                });
+
             await base.OnDisconnectedAsync(new Exception("SignalR disconnected"));
         }
 
