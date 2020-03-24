@@ -74,6 +74,7 @@ import { FtRtuInformationComponent } from "./components/details/rtu/ft-rtu-infor
 import { FtRtuNetworkSettingsComponent } from "./components/details/rtu/ft-rtu-network-settings/ft-rtu-network-settings.component";
 import { FtRtuMonitoringSettingsComponent } from "./components/details/rtu/ft-rtu-monitoring-settings/ft-rtu-monitoring-settings.component";
 import { FtRtuMonitoringPortsComponent } from "./components/details/rtu/ft-rtu-monitoring-ports/ft-rtu-monitoring-ports.component";
+import { NoRightClickDirective } from './utils/no-right-click.directive';
 
 @NgModule({
   declarations: [
@@ -101,6 +102,7 @@ import { FtRtuMonitoringPortsComponent } from "./components/details/rtu/ft-rtu-m
     TraceMonitoringModeUriPipe,
     BooleanUriPipe,
     ReturnCodePipe,
+
     FtOptEventsComponent,
     FtNetworkEventsComponent,
     FtTraceStatisticsComponent,
@@ -110,7 +112,9 @@ import { FtRtuMonitoringPortsComponent } from "./components/details/rtu/ft-rtu-m
     FtRtuInformationComponent,
     FtRtuNetworkSettingsComponent,
     FtRtuMonitoringSettingsComponent,
-    FtRtuMonitoringPortsComponent
+    FtRtuMonitoringPortsComponent,
+
+    NoRightClickDirective
   ],
   imports: [
     TranslateModule.forRoot(),
