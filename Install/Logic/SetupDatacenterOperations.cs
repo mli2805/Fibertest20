@@ -139,6 +139,10 @@ namespace Iit.Fibertest.Install
                 fullWebClientPath, worker))
                 return false;
 
+            var settingsFilename = fullWebClientPath + @"/assets/settings.json";
+            var settings = File.ReadAllText(settingsFilename);
+            var newSettings = settings.Replace("protocol-placeholder", currentInstallation.IsWebByHttps ? "https" : "http");
+            File.WriteAllText(settingsFilename, newSettings);
 
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
             return true;

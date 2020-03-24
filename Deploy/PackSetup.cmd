@@ -17,6 +17,7 @@ xcopy ..\DataCenter\DataCenterWebApi\bin\Release\netcoreapp3.0\*.* Pack\WebApi\*
 xcopy ..\Client\WebClient\dist\WebClient\*.* Pack\WebClient\*.* /S/D/Y
 xcopy "..\Auxiliary Files\web.config" Pack\WebApi\*.* /S/Y
 xcopy "..\Auxiliary Files\*.mib" Pack\DcFiles\*.* /S/D/Y
+echo { "apiProtocol": "protocol-placeholder", "version": "%1" } > pack\webclient\assets\settings.json
 
 xcopy ..\Client\WpfClient\bin\Release\*.* Pack\ClientFiles\*.* /S/D/Y
 xcopy ..\Client\SuperClient\bin\Release\*.* Pack\SuperClientFiles\*.* /S/D/Y

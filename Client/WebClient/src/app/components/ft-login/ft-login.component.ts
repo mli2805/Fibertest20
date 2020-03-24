@@ -6,10 +6,8 @@ import { Router } from "@angular/router";
 import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { SignalrService } from "src/app/api/signalr.service";
-import { Utils } from "src/app/Utils/utils";
 import { HttpClient } from "@angular/common/http";
-// https://www.angularjswiki.com/angular/how-to-read-local-json-files-in-angular/
-import SettingsFromJsonFile from 'src/assets/settings.json';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: "ft-login",
@@ -26,12 +24,23 @@ export class FtLoginComponent implements OnInit {
     private httpClient: HttpClient,
 
     private returnCodePipe: ReturnCodePipe
-  ) {}
+  )
+
+  {
+    this.getSettings().subscribe(settings => {
+      console.log("Settings are: ", settings);
+      sessionStorage.setItem("settings", JSON.stringify(settings));
+    });
+  }
 
   user: string;
   pw: string;
 
   ngOnInit() {}
+
+  public getSettings(): Observable<any> {
+    return this.httpClient.get("./assets/settings.json");
+  }
 
   async login() {
     this.resultMessage = "";
@@ -43,9 +52,6 @@ export class FtLoginComponent implements OnInit {
       this.user = "root";
       this.pw = "root";
     }
-
-    console.log("Settings are: ", SettingsFromJsonFile);
-    sessionStorage.setItem("settings", JSON.stringify(SettingsFromJsonFile));
 
     this.authService.login(this.user, this.pw).subscribe(
       (res: UserDto) => {

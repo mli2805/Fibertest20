@@ -49,10 +49,10 @@ namespace Iit.Fibertest.DataCenterWebApi
             var aa = ip1 == "::1" ? _localIpAddress : ip1;
             _logFile.AppendLine($"OnDisconnectedAsync ClientIp = {aa}");
 
-            var unused = await _commonC2DWcfManager.UnregisterClientAsync(
+            await _commonC2DWcfManager.UnregisterClientAsync(
                 new UnRegisterClientDto()
                 {
-                    ClientIp = ip1.ToString(),
+                    ClientIp = aa,
                     Username = "signalR_disconnected",
                 });
 

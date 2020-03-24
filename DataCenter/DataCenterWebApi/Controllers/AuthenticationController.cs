@@ -79,10 +79,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 {
                     Addresses = new DoubleAddress()
                     {
-                        Main = new NetAddress()
-                        {
-                            Ip4Address = Request.HttpContext.Connection.RemoteIpAddress.ToString(),
-                        },
+                        Main = new NetAddress() { Ip4Address = aa, Port = 11080 },
                         HasReserveAddress = false
                     },
                     UserName = (string)user.username,

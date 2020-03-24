@@ -1,33 +1,44 @@
+rem TeamCity starts in root folder
+cd Deploy\
+
 rmdir /S/Q Pack\
-rmdir /S/Q PackWeb\
+rmdir /S/Q PackRtu\
 rmdir /S/Q PackAdmin\
 del Ft*.exe
 del Ft*.zip
 
+rem General installer source
 
-
-xcopy ..\Setup\bin\Debug\*.* Pack\bin\*.* /S/D/Y
-xcopy ..\Setup\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
-xcopy ..\Utils\*.* Pack\Utils\*.* /S/D/Y
-      
+xcopy ..\Install\bin\Debug\*.* Pack\bin\*.* /S/D/Y
+xcopy ..\Install\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
+     
 xcopy ..\DataCenter\DataCenterService\bin\Debug\*.* Pack\DcFiles\*.* /S/D/Y
+xcopy ..\DataCenter\DataCenterWebApi\bin\Debug\netcoreapp3.0\*.* Pack\WebApi\*.* /S/D/Y
+xcopy ..\Client\WebClient\dist\WebClient\*.* Pack\WebClient\*.* /S/D/Y
+xcopy "..\Auxiliary Files\web.config" Pack\WebApi\*.* /S/Y
 xcopy "..\Auxiliary Files\*.mib" Pack\DcFiles\*.* /S/D/Y
-
+echo { "apiProtocol": "protocol-placeholder", "version": "%1" } > pack\webclient\assets\settings.json
+pause
 xcopy ..\Client\WpfClient\bin\Debug\*.* Pack\ClientFiles\*.* /S/D/Y
 xcopy ..\Client\SuperClient\bin\Debug\*.* Pack\SuperClientFiles\*.* /S/D/Y
-
-xcopy ..\RTU\RtuService\bin\Debug\*.* Pack\RtuFiles\*.* /S/D/Y
-xcopy ..\RTU\RtuWatchdog\bin\Debug\*.* Pack\RtuFiles\*.* /S/D/Y
-
-mkdir Pack\RtuFiles\OtdrMeasEngine
-mkdir Pack\RtuFiles\OtdrMeasEngine\Etc
-mkdir Pack\RtuFiles\OtdrMeasEngine\Etc_default
-xcopy c:\VsGitProjects\Iit_otdr\__WinOut\Etc_default\*.* Pack\RtuFiles\OtdrMeasEngine\Etc\*.* /S/D/Y
-xcopy c:\VsGitProjects\Iit_otdr\__WinOut\Etc_default\*.* Pack\RtuFiles\OtdrMeasEngine\Etc_default\*.* /S/D/Y
-xcopy c:\VsGitProjects\Iit_otdr\__WinOut\Release_RTU\*.* Pack\RtuFiles\OtdrMeasEngine\*.* /S/D/Y
-mkdir Pack\RtuFiles\OtdrMeasEngine\Share
-
+      
 xcopy ..\Uninstall\bin\Debug\*.* Pack\UninstallFiles\*.* /S/D/Y
+
+rem RTU installer source
+
+xcopy ..\InstallRtu\bin\Debug\*.* PackRtu\bin\*.* /S/D/Y
+xcopy ..\InstallRtu\LicenseDocs\*.xps PackRtu\LicenseDocs\*.* /S/D/Y
+     
+xcopy ..\RTU\RtuService\bin\Debug\*.* PackRtu\RtuFiles\*.* /S/D/Y
+xcopy ..\RTU\RtuWatchdog\bin\Debug\*.* PackRtu\RtuFiles\*.* /S/D/Y
+rem OtdrMeasEngine folder will be copied from another build on TeamCity to Temp folder
+xcopy Temp\OtdrMeasEngine\*.* PackRtu\RtuFiles\OtdrMeasEngine\*.* /S/D/Y
+xcopy ..\Utils\*.* PackRtu\Utils\*.* /S/D/Y
+ 
+xcopy ..\Uninstall\bin\Debug\*.* PackRtu\UninstallFiles\*.* /S/D/Y
+
+
+rem get RftsReflect from Jenkins
 
 curl --user mli:iNansIM6Y8Uq http://192.168.96.4:8989/job/windows-projects/job/RFTSViewer/pinned-for-ft20/artifact/trunk/Source/RftsReflect.zip --output Pack\RftsReflect.zip
 cd Pack\
@@ -35,14 +46,14 @@ cd Pack\
 del RftsReflect.zip
 cd ..\
 
-"C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackSetup.conf" FtDebug_2.0.1.%1.exe Pack\*.*
+rem both installers need RftsReflect
+xcopy Pack\RftsReflect\*.* PackRtu\RftsReflect\*.* /S/D/Y
 
-xcopy ..\DataCenter\DataCenterWebApi\bin\Debug\netcoreapp3.0\*.* PackWeb\WebApi\*.* /S/D/Y
-xcopy "..\Auxiliary Files\web.config" PackWeb\WebApi\*.* /S/Y
-xcopy ..\Client\WebClient\dist\WebClient\*.* PackWeb\WebClient\*.* /S/D/Y
-cd PackWeb\
-..\7z.exe a -r ..\FtDebugWeb_2.0.1.%1.zip *.*
-cd ..\
+"C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackSetup.conf" Ft_%1.exe Pack\*.*
+"C:\Program Files\WinRAR\winrar.exe" a -iiconinstall.ico -r -cfg- -sfx -z"PackRtuSetup.conf" FtRtu_%1.exe PackRtu\*.*
+
+
+rem additional archive with administrative tools
 
 xcopy ..\Client\LicenseMaker\bin\Debug\*.* PackAdmin\LicenseMaker\bin\*.* /S/D/Y
 xcopy ..\Client\DbMigrationWpf\bin\Debug\*.* PackAdmin\DbMigrationWpf\bin\*.* /S/D/Y
@@ -50,6 +61,3 @@ xcopy ..\Client\KadastrLoader\bin\Debug\*.* PackAdmin\KadastrLoader\bin\*.* /S/D
 xcopy ..\Client\Broadcaster\bin\Debug\*.* PackAdmin\Broadcaster\bin\*.* /S/D/Y
 xcopy ..\Client\MapLoader\bin\Debug\*.* PackAdmin\MapLoader\bin\*.* /S/D/Y
 
-cd PackAdmin\
-..\7z.exe a -r ..\FtDebugAdmin_2.0.1.%1.zip *.*
-cd ..\
