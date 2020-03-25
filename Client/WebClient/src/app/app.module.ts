@@ -96,6 +96,7 @@ import { NoRightClickDirective } from './utils/no-right-click.directive';
     RtuPartStateUriPipe,
     FiberStatePipe,
     FiberStateUriPipe,
+    FrequencyPipe,
     EventStatusPipe,
     BaseRefTypePipe,
     BaseRefTypeFemalePipe,
