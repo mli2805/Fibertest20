@@ -22,7 +22,8 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
 
   vm: RtuMonitoringSettingsDto = new RtuMonitoringSettingsDto();
 
-  itemsSource;
+  itemsSourceSave;
+  itemsSourceMeas;
   oneItemSource;
   selectedPreciseMeas;
   selectedPreciseSave;
@@ -42,9 +43,15 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
     const frs = Object.keys(Frequency)
       .filter(e => !isNaN(+e))
       .map(e => {
-        return { index: +e, name: this.frequencyPipe.transform(+e) };
+        return { index: +e, name: this.frequencyPipe.transform(+e, true) };
       });
-    this.itemsSource = frs;
+    this.itemsSourceSave = frs;
+    const frm = Object.keys(Frequency)
+      .filter(e => !isNaN(+e))
+      .map(e => {
+        return { index: +e, name: this.frequencyPipe.transform(+e, false) };
+      });
+    this.itemsSourceMeas = frm;
 
     const id = this.activeRoute.snapshot.paramMap.get("id");
     this.rtuApiService

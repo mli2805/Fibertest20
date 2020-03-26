@@ -9,7 +9,7 @@
         <mat-form-field>
           <mat-label>{{ "SID_measurement_frequency" | translate }}</mat-label>
           <mat-select [(value)]="selectedPreciseMeas">
-            <mat-option *ngFor="let item of itemsSource" [value]="item.index">
+            <mat-option *ngFor="let item of itemsSourceMeas" [value]="item.index">
               {{ item.name }}</mat-option
             >
           </mat-select>
@@ -17,7 +17,7 @@
         <mat-form-field>
           <mat-label>{{ "SID_saving_frequency" | translate }}</mat-label>
           <mat-select [(value)]="selectedPreciseSave">
-            <mat-option *ngFor="let item of itemsSource" [value]="item.index">
+            <mat-option *ngFor="let item of itemsSourceSave" [value]="item.index">
               {{ item.name }}</mat-option
             >
           </mat-select>
@@ -36,7 +36,7 @@
         <mat-form-field>
           <mat-label>{{ "SID_saving_frequency" | translate }}</mat-label>
           <mat-select [(value)]="selectedFastSave">
-            <mat-option *ngFor="let item of itemsSource" [value]="item.index">
+            <mat-option *ngFor="let item of itemsSourceSave" [value]="item.index">
               {{ item.name }}</mat-option
             >
           </mat-select>
@@ -56,7 +56,7 @@
         }}</mat-radio-button>
       </mat-radio-group>
 
-      <button mat-stroked-button 
+      <button mat-stroked-button
         color="primary"
         (click)="onButtonClicked()">
         {{ "SID_Apply" | translate }}
