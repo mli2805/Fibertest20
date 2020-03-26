@@ -75,6 +75,7 @@ import { FtRtuNetworkSettingsComponent } from "./components/details/rtu/ft-rtu-n
 import { FtRtuMonitoringSettingsComponent } from "./components/details/rtu/ft-rtu-monitoring-settings/ft-rtu-monitoring-settings.component";
 import { FtRtuMonitoringPortsComponent } from "./components/details/rtu/ft-rtu-monitoring-ports/ft-rtu-monitoring-ports.component";
 import { NoRightClickDirective } from './utils/no-right-click.directive';
+import { LoginGuard } from './utils/login-guard';
 
 @NgModule({
   declarations: [
@@ -149,7 +150,7 @@ import { NoRightClickDirective } from './utils/no-right-click.directive';
     MatNativeDateModule,
     MatRadioModule
   ],
-  providers: [AuthGuard, FrequencyPipe, ReturnCodePipe],
+  providers: [AuthGuard, LoginGuard, FrequencyPipe, ReturnCodePipe],
   bootstrap: [AppComponent]
 })
 export class AppModule {

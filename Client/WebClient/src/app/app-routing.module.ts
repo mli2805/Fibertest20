@@ -13,9 +13,10 @@ import { FtNetworkEventsComponent } from "./components/ft-network-events/ft-netw
 import { FtRtuInformationComponent } from "./components/details/rtu/ft-rtu-information/ft-rtu-information.component";
 import { FtRtuMonitoringSettingsComponent } from "./components/details/rtu/ft-rtu-monitoring-settings/ft-rtu-monitoring-settings.component";
 import { FtRtuNetworkSettingsComponent } from "./components/details/rtu/ft-rtu-network-settings/ft-rtu-network-settings.component";
+import { LoginGuard } from './utils/login-guard';
 
 const routes: Routes = [
-  { path: "login", component: FtLoginComponent },
+  { path: "login", component: FtLoginComponent, canActivate: [LoginGuard] },
   { path: "about", component: FtAboutComponent, canActivate: [AuthGuard] },
   { path: "rtu-tree", component: FtRtuTreeComponent, canActivate: [AuthGuard] },
   {

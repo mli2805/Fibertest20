@@ -29,6 +29,10 @@ export class FtRtuTreeComponent implements OnInit {
     });
   }
 
+  back() {
+    console.log("window.history.length", window.history.length);
+  }
+
   applyRtuMonitoringModeToTraces() {
     for (const rtu of this.rtus) {
       for (const child of rtu.children) {

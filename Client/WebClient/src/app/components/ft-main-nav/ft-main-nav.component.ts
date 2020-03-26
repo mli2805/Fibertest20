@@ -13,6 +13,7 @@ export class FtMainNavComponent {
   logout() {
     this.authService.logout().subscribe(() => {
       console.log("logout sent.");
+      sessionStorage.removeItem("currentUser");
     });
   }
 }
