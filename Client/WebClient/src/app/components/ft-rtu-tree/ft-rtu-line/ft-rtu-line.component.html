@@ -30,14 +30,18 @@
         <button mat-menu-item (click)="networkSettings(rtu)">
           {{ "SID_Network_settings" | translate }}
         </button>
-        <button mat-menu-item (click)="state(rtu)">
+        <button mat-menu-item (click)="state(rtu)" isen>
           {{ "SID_State" | translate }}
         </button>
         <mat-divider></mat-divider>
         <button mat-menu-item (click)="monitoringSettings(rtu)">
           {{ "SID_Monitoring_settings" | translate }}
         </button>
-        <button mat-menu-item (click)="manualMode(rtu)">
+        <button
+          mat-menu-item
+          (click)="manualMode(rtu)"
+          [disabled]="isManualModeDisabled(rtu)"
+        >
           {{ "SID_Manual_mode" | translate }}
         </button>
         <button mat-menu-item (click)="automaticMode(rtu)">

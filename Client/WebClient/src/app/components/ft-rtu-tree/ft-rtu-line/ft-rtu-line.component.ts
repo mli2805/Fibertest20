@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
+import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 
 @Component({
   selector: "ft-rtu-line",
@@ -46,5 +47,13 @@ export class FtRtuLineComponent implements OnInit {
 
   monitoringSettings(rtu: RtuDto) {
     this.router.navigate(["/rtu-monitoring-settings", rtu.rtuId]);
+  }
+
+  manualMode(rtu: RtuDto) {}
+  automaticMode(rtu: RtuDto) {}
+
+  isManualModeDisabled(rtu: RtuDto): boolean {
+    console.log("r");
+    return rtu.monitoringMode === MonitoringMode.Off;
   }
 }

@@ -46,8 +46,9 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
         return { index: +e, name: this.frequencyPipe.transform(+e, true) };
       });
     this.itemsSourceSave = frs;
+
     const frm = Object.keys(Frequency)
-      .filter(e => !isNaN(+e))
+      .filter(e => !isNaN(+e) && (+e <= 24 || +e >= 9999))
       .map(e => {
         return { index: +e, name: this.frequencyPipe.transform(+e, false) };
       });
