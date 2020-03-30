@@ -1,10 +1,11 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { RtuApiService } from "src/app/api/rtu.service";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { ChildType } from "src/app/models/enums/childType";
 import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
 import { OtauWebDto } from "src/app/models/dtos/rtuTree/otauWebDto";
 import { Router } from "@angular/router";
+import { MatMenuTrigger } from '@angular/material';
 
 @Component({
   selector: "ft-rtu-tree",
@@ -14,6 +15,10 @@ import { Router } from "@angular/router";
 export class FtRtuTreeComponent implements OnInit {
   private rtus: RtuDto[];
   public isNotLoaded = true;
+
+  @ViewChild(MatMenuTrigger, null)
+  contextMenu: MatMenuTrigger;
+  contextMenuPosition = { x: "0px", y: "0px" };
 
   constructor(private rtuService: RtuApiService, private router: Router) {
     this.isNotLoaded =  true;
@@ -57,6 +62,16 @@ export class FtRtuTreeComponent implements OnInit {
   expand(rtu: RtuDto) {
     rtu.expanded = !rtu.expanded;
   }
+
+  onContextMenu(event: MouseEvent) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + "px";
+    this.contextMenuPosition.y = event.clientY + "px";
+    this.contextMenu.menuData = { item: "TODO: how to know on which RTU was clicked" };
+    this.contextMenu.openMenu();
+    this.contextMenu.focus("mouse");
+  }
+
 
   information(rtu: RtuDto) {
     this.router.navigate(["/rtu-information", rtu.rtuId]);
