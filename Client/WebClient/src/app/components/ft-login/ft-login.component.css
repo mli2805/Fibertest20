@@ -35,3 +35,10 @@
   padding: 10px;
   background-color: azure;
 }
+
+
+.spinner-container {
+  position: absolute;
+  top: 150px;
+  left: 80px;
+}

@@ -1,4 +1,5 @@
 <div class="container">
+  <div class="formItself">
   <div class="loginFormHeader">
     <div class="iit-image">
       <img src="./assets/images/IIT.ico" alt="iit image" />
@@ -46,4 +47,8 @@
       <div class="err" *ngIf="resultMessage">{{ resultMessage }}</div>
     </mat-card-footer>
   </mat-card>
+</div>
+<div class="spinner-container" *ngIf="isSpinnerVisible">
+  <mat-spinner></mat-spinner>
+</div>
 </div>

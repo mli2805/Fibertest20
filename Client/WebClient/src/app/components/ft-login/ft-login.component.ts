@@ -16,6 +16,7 @@ import { Observable } from 'rxjs';
 })
 export class FtLoginComponent implements OnInit {
   resultMessage: string;
+  public isSpinnerVisible = false;
 
   constructor(
     private router: Router,
@@ -27,6 +28,8 @@ export class FtLoginComponent implements OnInit {
   )
 
   {
+    this.isSpinnerVisible = false;
+
     this.getSettings().subscribe(settings => {
       console.log("Settings are: ", settings);
       sessionStorage.setItem("settings", JSON.stringify(settings));
@@ -52,8 +55,10 @@ export class FtLoginComponent implements OnInit {
       this.user = "root";
       this.pw = "root";
     }
+    this.isSpinnerVisible = true;
 
-    this.authService.login(this.user, this.pw).subscribe(
+    this.authService.login(this.user, this.pw)
+    .subscribe(
       (res: UserDto) => {
         if (res === null) {
           console.log("Login failed, try again...");
@@ -64,6 +69,7 @@ export class FtLoginComponent implements OnInit {
         this.signalrService.startConnection();
 
         this.router.navigate(["/rtu-tree"], { queryParams: null });
+        this.isSpinnerVisible = false;
       },
       (unsuccessfulResult: any) => {
         if (unsuccessfulResult.error.returnCode === undefined) {
@@ -76,6 +82,7 @@ export class FtLoginComponent implements OnInit {
           );
         }
         console.log("login: " + unsuccessfulResult.error);
+        this.isSpinnerVisible = false;
       }
     );
   }
