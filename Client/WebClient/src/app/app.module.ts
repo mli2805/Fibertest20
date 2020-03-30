@@ -76,6 +76,7 @@ import { FtRtuMonitoringSettingsComponent } from "./components/details/rtu/ft-rt
 import { FtRtuMonitoringPortsComponent } from "./components/details/rtu/ft-rtu-monitoring-ports/ft-rtu-monitoring-ports.component";
 import { NoRightClickDirective } from './utils/no-right-click.directive';
 import { LoginGuard } from './utils/login-guard';
+import { FtRtuLineComponent } from './components/ft-rtu-tree/ft-rtu-line/ft-rtu-line.component';
 
 @NgModule({
   declarations: [
@@ -116,7 +117,9 @@ import { LoginGuard } from './utils/login-guard';
     FtRtuMonitoringSettingsComponent,
     FtRtuMonitoringPortsComponent,
 
-    NoRightClickDirective
+    NoRightClickDirective,
+
+    FtRtuLineComponent
   ],
   imports: [
     TranslateModule.forRoot(),
