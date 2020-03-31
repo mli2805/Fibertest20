@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Install
             }
         }
 
-        private bool _isWebByHttps = true;
+        private bool _isWebByHttps;
         public bool IsWebByHttps
         {
             get => _isWebByHttps;
