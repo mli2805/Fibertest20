@@ -4,6 +4,8 @@ import { MatMenuTrigger } from "@angular/material";
 import { Router, ActivatedRoute } from "@angular/router";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { RtuApiService } from "src/app/api/rtu.service";
+import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
+import { ReturnCode } from "src/app/models/enums/returnCode";
 
 @Component({
   selector: "ft-rtu-line",
@@ -72,9 +74,11 @@ export class FtRtuLineComponent implements OnInit {
     console.log("automatic pressed id=", id);
     this.rtuApiService
       .postOneRtu(id, "start-monitoring", null)
-      .subscribe((res: boolean) => {
+      .subscribe((res: RequestAnswer) => {
         console.log(res);
-        if (res === true) {
+        if (
+          res.returnCode === ReturnCode.MonitoringSettingsAppliedSuccessfully
+        ) {
           rtu.monitoringMode = MonitoringMode.On;
         }
       });

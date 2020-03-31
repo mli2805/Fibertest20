@@ -10,6 +10,8 @@ import { FrequencyPipe } from "src/app/pipes/frequency.pipe";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { FtRtuMonitoringPortsComponent } from "../ft-rtu-monitoring-ports/ft-rtu-monitoring-ports.component";
 import { PortMonitoringMode } from "src/app/models/enums/portMonitoringMode";
+import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
+import { ReturnCode } from "src/app/models/enums/returnCode";
 
 @Component({
   selector: "ft-rtu-monitoring-settings",
@@ -97,8 +99,13 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
     const id = this.activeRoute.snapshot.paramMap.get("id");
     this.rtuApiService
       .postOneRtu(id, "monitoring-settings", dto)
-      .subscribe((res: any) => {
+      .subscribe((res: RequestAnswer) => {
         console.log(res);
+        if (
+          res.returnCode === ReturnCode.MonitoringSettingsAppliedSuccessfully
+        ) {
+          console.log("Successfully!");
+        }
       });
   }
 }
