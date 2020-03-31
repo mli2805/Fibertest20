@@ -226,7 +226,15 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"rtu id = {id}");
                 var rtuGuid = Guid.Parse(id);
-                var dto = new StopMonitoringDto(){RtuId = rtuGuid,  };
+                string body;
+                using (var reader = new StreamReader(Request.Body))
+                {
+                    body = await reader.ReadToEndAsync();
+                }
+                _logFile.AppendLine("body: " + body);
+                var rtuMaker = JsonConvert.DeserializeObject<string>(body);
+                var value = (RtuMaker)Enum.Parse(typeof(RtuMaker), rtuMaker);
+                var dto = new StopMonitoringDto(){RtuId = rtuGuid, RtuMaker = value};
                 var isStopped = await _commonC2DWcfManager.StopMonitoringAsync(dto);
                 return isStopped;
             }

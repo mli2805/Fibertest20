@@ -116,8 +116,8 @@ namespace Iit.Fibertest.Client
             _logFile.AppendLine($@"Stop monitoring result - {result}");
             if (result)
             {
-                var cmd = new StopMonitoring() { RtuId = rtuLeaf.Id };
-                await _c2DWcfManager.SendCommandAsObj(cmd);
+//                var cmd = new StopMonitoring() { RtuId = rtuLeaf.Id };
+//                await _c2DWcfManager.SendCommandAsObj(cmd);
                 _rtuStateViewsManager.NotifyUserMonitoringStopped(rtuLeaf.Id);
             }
         }

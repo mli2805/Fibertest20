@@ -96,9 +96,18 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
-            return dto.RtuMaker == RtuMaker.IIT
+            var isStopped = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.StopMonitoringAsync(dto)
                 : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.StopMonitoringAsync(dto).Result);
+
+            if (isStopped)
+            {
+                var username = _clientsCollection.GetClientStation(dto.ClientIp)?.UserName;
+                var cmd = new StopMonitoring() { RtuId = dto.RtuId };
+                await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
+            }
+
+            return isStopped;
         }
 
         public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
@@ -132,8 +141,6 @@ namespace Iit.Fibertest.DataCenterCore
                     };
                 }
             }
-
-
             return resultFromRtu;
         }
 

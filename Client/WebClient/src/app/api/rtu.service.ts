@@ -30,7 +30,7 @@ export class RtuApiService {
     return this.httpClient.get(url, { headers: myHeaders });
   }
 
-  postOneRtu(id: string, request: string, body: RtuMonitoringSettingsDto) {
+  postOneRtu(id: string, request: string, body: any) {
     const url = Utils.GetWebApiUrl() + `/rtu/${request}/${id}`;
     const currentUser = JSON.parse(sessionStorage.currentUser);
 

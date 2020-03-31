@@ -100,7 +100,12 @@ namespace Iit.Fibertest.WcfConnections
         {
             var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
-                return new RtuInitializedDto() { IsInitialized = false, ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = "Can't establish connection with DataCenter" };
+                return new RtuInitializedDto()
+                {
+                    IsInitialized = false, 
+                    ReturnCode = ReturnCode.C2RWcfConnectionError, 
+                    ErrorMessage = "Can't establish connection with DataCenter"
+                };
 
             try
             {
@@ -114,7 +119,12 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine("InitializeRtuAsync: " + e.Message);
-                return new RtuInitializedDto() { IsInitialized = false, ReturnCode = ReturnCode.C2RWcfOperationError, ErrorMessage = e.Message };
+                return new RtuInitializedDto()
+                {
+                    IsInitialized = false, 
+                    ReturnCode = ReturnCode.C2RWcfOperationError, 
+                    ErrorMessage = e.Message
+                };
             }
         }
 
@@ -122,7 +132,12 @@ namespace Iit.Fibertest.WcfConnections
         {
             var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
-                return new OtauAttachedDto() { IsAttached = false, ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = "Can't establish connection with DataCenter" };
+                return new OtauAttachedDto()
+                {
+                    IsAttached = false, 
+                    ReturnCode = ReturnCode.C2RWcfConnectionError, 
+                    ErrorMessage = "Can't establish connection with DataCenter"
+                };
 
             try
             {
