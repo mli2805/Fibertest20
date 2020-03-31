@@ -49,11 +49,14 @@ export class FtRtuLineComponent implements OnInit {
     this.router.navigate(["/rtu-monitoring-settings", rtu.rtuId]);
   }
 
-  manualMode(rtu: RtuDto) {}
-  automaticMode(rtu: RtuDto) {}
+  manualMode(rtu: RtuDto) {
+    console.log("manual pressed");
+  }
+  automaticMode(rtu: RtuDto) {
+    console.log("automatic pressed");
+  }
 
   isManualModeDisabled(rtu: RtuDto): boolean {
-    console.log("r");
     return rtu.monitoringMode === MonitoringMode.Off;
   }
 }
