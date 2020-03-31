@@ -191,8 +191,8 @@ namespace Iit.Fibertest.Client
                 _logFile.AppendLine($@"Start monitoring result - {resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully}");
                 if (resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
                 {
-                    var cmd = new StartMonitoring() { RtuId = rtuLeaf.Id };
-                    await _c2DWcfManager.SendCommandAsObj(cmd);
+//                    var cmd = new StartMonitoring() { RtuId = rtuLeaf.Id };
+//                    await _c2DWcfManager.SendCommandAsObj(cmd);
                     _rtuStateViewsManager.NotifyUserMonitoringStarted(rtuLeaf.Id);
                 }
             }

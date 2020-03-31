@@ -59,8 +59,11 @@ export class FtRtuLineComponent implements OnInit {
     console.log("manual pressed id=", id);
     this.rtuApiService
       .postOneRtu(id, "stop-monitoring", rtu.rtuMaker)
-      .subscribe((res: any) => {
+      .subscribe((res: boolean) => {
         console.log(res);
+        if (res === true) {
+          rtu.monitoringMode = MonitoringMode.Off;
+        }
       });
   }
 
@@ -68,9 +71,12 @@ export class FtRtuLineComponent implements OnInit {
     const id = rtu.rtuId;
     console.log("automatic pressed id=", id);
     this.rtuApiService
-      .postOneRtu(id, "start-monitoring", rtu.rtuMaker)
-      .subscribe((res: any) => {
+      .postOneRtu(id, "start-monitoring", null)
+      .subscribe((res: boolean) => {
         console.log(res);
+        if (res === true) {
+          rtu.monitoringMode = MonitoringMode.On;
+        }
       });
   }
 

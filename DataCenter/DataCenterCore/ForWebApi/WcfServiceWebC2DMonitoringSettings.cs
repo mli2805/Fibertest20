@@ -23,6 +23,7 @@ namespace Iit.Fibertest.DataCenterCore
             var result = new RtuMonitoringSettingsDto();
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == rtuId);
             if (rtu == null) return result;
+            result.RtuMaker = rtu.RtuMaker;
             result.RtuTitle = rtu.Title;
             result.MonitoringMode = rtu.MonitoringState;
             result.PreciseMeas = rtu.PreciseMeas;

@@ -5,6 +5,7 @@ namespace Iit.Fibertest.Dto
     public class RtuMonitoringSettingsDto
     {
         public string RtuTitle;
+        public RtuMaker RtuMaker;
         public MonitoringState MonitoringMode;
 
         public Frequency PreciseMeas;

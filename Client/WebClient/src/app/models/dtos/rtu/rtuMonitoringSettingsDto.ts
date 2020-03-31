@@ -1,9 +1,11 @@
 import { MonitoringMode } from "../../enums/monitoringMode";
 import { PortMonitoringMode } from "../../enums/portMonitoringMode";
 import { Frequency } from "../../enums/frequency";
+import { RtuMaker } from "../../enums/rtuMaker";
 
 export class RtuMonitoringSettingsDto {
   rtuTitle: string;
+  rtuMaker: RtuMaker;
   monitoringMode: MonitoringMode;
 
   preciseMeas: Frequency;

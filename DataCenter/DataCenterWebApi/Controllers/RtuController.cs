@@ -171,6 +171,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             var applyMonitoringSettingsDto = new ApplyMonitoringSettingsDto()
             {
                 RtuId = rtuId,
+                RtuMaker = dto.RtuMaker,
                 IsMonitoringOn = dto.MonitoringMode == MonitoringState.On,
 
                 Timespans = new MonitoringTimespansDto()
@@ -232,9 +233,9 @@ namespace Iit.Fibertest.DataCenterWebApi
                     body = await reader.ReadToEndAsync();
                 }
                 _logFile.AppendLine("body: " + body);
-                var rtuMaker = JsonConvert.DeserializeObject<string>(body);
-                var value = (RtuMaker)Enum.Parse(typeof(RtuMaker), rtuMaker);
-                var dto = new StopMonitoringDto(){RtuId = rtuGuid, RtuMaker = value};
+                var str = JsonConvert.DeserializeObject<string>(body);
+                var rtuMaker = (RtuMaker)Enum.Parse(typeof(RtuMaker), str);
+                var dto = new StopMonitoringDto(){RtuId = rtuGuid, RtuMaker = rtuMaker};
                 var isStopped = await _commonC2DWcfManager.StopMonitoringAsync(dto);
                 return isStopped;
             }
