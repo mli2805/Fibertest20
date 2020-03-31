@@ -71,7 +71,6 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
   }
 
   onButtonClicked() {
-    console.log("button Apply monitoring settigs clicked ");
     const dto = new RtuMonitoringSettingsDto();
     dto.monitoringMode =
       this.monitoringMode === 0 ? MonitoringMode.On : MonitoringMode.Off;

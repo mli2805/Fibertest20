@@ -44,7 +44,11 @@
         >
           {{ "SID_Manual_mode" | translate }}
         </button>
-        <button mat-menu-item (click)="automaticMode(rtu)">
+        <button
+          mat-menu-item
+          (click)="automaticMode(rtu)"
+          [disabled]="isAutomaticModeDisabled(rtu)"
+        >
           {{ "SID_Automatic_mode" | translate }}
         </button>
       </mat-menu>

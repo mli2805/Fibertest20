@@ -33,8 +33,8 @@ namespace Iit.Fibertest.DataCenterWebApi
             _webC2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
             var da = (DoubleAddress)doubleAddress.Clone();
             da.Main.Port = (int)TcpPorts.ServerListenToCommonClient;
-            if (da.HasReserveAddress) 
-                da.Reserve.Port = (int)TcpPorts.ServerListenToCommonClient;    
+            if (da.HasReserveAddress)
+                da.Reserve.Port = (int)TcpPorts.ServerListenToCommonClient;
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
             _commonC2DWcfManager.SetServerAddresses(da, "webClient", "localhost");
         }
@@ -196,5 +196,45 @@ namespace Iit.Fibertest.DataCenterWebApi
             return applyMonitoringSettingsDto;
         }
 
+        [Authorize]
+        [HttpPost("Start-monitoring/{id}")]
+        public async Task<MonitoringSettingsAppliedDto> StartMonitoring(string id)
+        {
+            try
+            {
+                _logFile.AppendLine($"rtu id = {id}");
+                var rtuGuid = Guid.Parse(id);
+                var rtuMonitoringSettingsDto = await _webC2DWcfManager.GetRtuMonitoringSettings(User.Identity.Name, rtuGuid);
+                rtuMonitoringSettingsDto.MonitoringMode = MonitoringState.On;
+                var applyDto = Map(rtuGuid, rtuMonitoringSettingsDto);
+                var monitoringSettingsAppliedDto = await _commonC2DWcfManager.ApplyMonitoringSettingsAsync(applyDto);
+                _logFile.AppendLine($"StartMonitoring: {monitoringSettingsAppliedDto.ReturnCode.ToString()}");
+                return monitoringSettingsAppliedDto;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"StartMonitoring: {e.Message}");
+               return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError, ExceptionMessage = e.Message };
+            }
+        }
+
+        [Authorize]
+        [HttpPost("Stop-monitoring/{id}")]
+        public async Task<bool> StopMonitoring(string id)
+        {
+            try
+            {
+                _logFile.AppendLine($"rtu id = {id}");
+                var rtuGuid = Guid.Parse(id);
+                var dto = new StopMonitoringDto(){RtuId = rtuGuid,  };
+                var isStopped = await _commonC2DWcfManager.StopMonitoringAsync(dto);
+                return isStopped;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"StopMonitoring: {e.Message}");
+                return false;
+            }
+        }
     }
 }

@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { MatMenuTrigger } from "@angular/material";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
+import { RtuApiService } from "src/app/api/rtu.service";
 
 @Component({
   selector: "ft-rtu-line",
@@ -16,7 +17,11 @@ export class FtRtuLineComponent implements OnInit {
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private activeRoute: ActivatedRoute,
+    private rtuApiService: RtuApiService
+  ) {}
 
   ngOnInit() {}
 
@@ -51,12 +56,28 @@ export class FtRtuLineComponent implements OnInit {
 
   manualMode(rtu: RtuDto) {
     console.log("manual pressed");
+    const id = this.activeRoute.snapshot.paramMap.get("id");
+    this.rtuApiService
+      .postOneRtu(id, "stop-monitoring", null)
+      .subscribe((res: any) => {
+        console.log(res);
+      });
   }
   automaticMode(rtu: RtuDto) {
     console.log("automatic pressed");
+    const id = this.activeRoute.snapshot.paramMap.get("id");
+    this.rtuApiService
+      .postOneRtu(id, "start-monitoring", null)
+      .subscribe((res: any) => {
+        console.log(res);
+      });
   }
 
   isManualModeDisabled(rtu: RtuDto): boolean {
-    return rtu.monitoringMode === MonitoringMode.Off;
+    return rtu.monitoringMode !== MonitoringMode.On;
+  }
+
+  isAutomaticModeDisabled(rtu: RtuDto): boolean {
+    return rtu.monitoringMode !== MonitoringMode.Off;
   }
 }
