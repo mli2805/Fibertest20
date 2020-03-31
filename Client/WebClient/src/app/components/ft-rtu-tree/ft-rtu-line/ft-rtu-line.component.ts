@@ -55,17 +55,18 @@ export class FtRtuLineComponent implements OnInit {
   }
 
   manualMode(rtu: RtuDto) {
-    console.log("manual pressed");
-    const id = this.activeRoute.snapshot.paramMap.get("id");
+    const id = rtu.rtuId;
+    console.log("manual pressed id=", id);
     this.rtuApiService
       .postOneRtu(id, "stop-monitoring", null)
       .subscribe((res: any) => {
         console.log(res);
       });
   }
+
   automaticMode(rtu: RtuDto) {
-    console.log("automatic pressed");
-    const id = this.activeRoute.snapshot.paramMap.get("id");
+    const id = rtu.rtuId;
+    console.log("automatic pressed id=", id);
     this.rtuApiService
       .postOneRtu(id, "start-monitoring", null)
       .subscribe((res: any) => {
