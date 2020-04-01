@@ -9,6 +9,6 @@
     <ft-attached-line [trace]="element"></ft-attached-line>
   </div>
   <ng-container *ngIf="element.childType == 2">
-    <ft-otau class="child" [otau]="element"></ft-otau>
+    <ft-otau class="child" [parentRtu]="rtu" [otau]="element"></ft-otau>
   </ng-container>
 </ng-container>

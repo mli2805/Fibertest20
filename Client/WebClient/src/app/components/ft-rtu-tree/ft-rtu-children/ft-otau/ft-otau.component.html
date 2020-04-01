@@ -1,7 +1,12 @@
 <div class="component-container">
   <div class="otau-line" fxLayout="column">
     <div class="otau-header" fxLayout="row">
-      <div class="otau-title-with-icons"  fxLayout="row">
+      <div
+        class="otau-title-with-icons"
+        fxLayout="row"
+        [matMenuTriggerFor]="otauContextMenu"
+        (contextmenu)="onContextMenu($event)"
+      >
         <img src="{{ otau.isOk | booleanUri }}" alt="bop state image" />
         <p>
           N{{ otau.port }}:
@@ -10,6 +15,15 @@
               | translate: { "0": otau.otauNetAddress.toStringASpace }
           }}
         </p>
+        <mat-menu #otauContextMenu="matMenu">
+          <button
+            mat-menu-item
+            (click)="removeOtau()"
+            [disabled]="isRemoveOtauDisabled()"
+          >
+            {{ "SID_Remove" | translate }}
+          </button>
+        </mat-menu>
       </div>
       <button mat-icon-button type="button" (click)="expand()">
         <mat-icon>expand_more</mat-icon>

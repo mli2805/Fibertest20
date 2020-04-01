@@ -16,6 +16,7 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly GlobalState _globalState;
         private readonly IMyLog _logFile;
+        private readonly Model _writeModel;
         private readonly SorFileRepository _sorFileRepository;
         private readonly EventStoreService _eventStoreService;
         private readonly ClientsCollection _clientsCollection;
@@ -23,7 +24,8 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
-        public WcfServiceCommonC2D(GlobalState globalState, IMyLog logFile, SorFileRepository sorFileRepository, 
+        public WcfServiceCommonC2D(GlobalState globalState, IMyLog logFile,
+            Model writeModel, SorFileRepository sorFileRepository,
             EventStoreService eventStoreService, ClientsCollection clientsCollection,
             BaseRefLandmarksTool baseRefLandmarksTool,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter
@@ -31,6 +33,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _globalState = globalState;
             _logFile = logFile;
+            _writeModel = writeModel;
             _sorFileRepository = sorFileRepository;
             _eventStoreService = eventStoreService;
             _clientsCollection = clientsCollection;
@@ -46,7 +49,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             if (_globalState.IsDatacenterInDbOptimizationMode)
-                return new ClientRegisteredDto(){ReturnCode = ReturnCode.Error};
+                return new ClientRegisteredDto() { ReturnCode = ReturnCode.Error };
 
             var result = await _clientsCollection.RegisterClientAsync(dto);
             result.StreamIdOriginal = _eventStoreService.StreamIdOriginal;
@@ -91,7 +94,28 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
         {
-            return await _clientToRtuTransmitter.DetachOtauAsync(dto);
+            var otauDetachedDto = await _clientToRtuTransmitter.DetachOtauAsync(dto);
+            if (otauDetachedDto.IsDetached)
+                RemoveOtauFromGraph(dto);
+            return otauDetachedDto;
+        }
+
+        private async void RemoveOtauFromGraph(DetachOtauDto dto)
+        {
+            var cmd = new DetachOtau
+            {
+                Id = dto.OtauId,
+                RtuId = dto.RtuId,
+                OtauIp = dto.OtauAddresses.Ip4Address,
+                TcpPort = dto.OpticalPort,
+                TracesOnOtau = _writeModel.Traces
+                    .Where(t => t.OtauPort != null && t.OtauPort.OtauId == dto.OtauId.ToString())
+                    .Select(t => t.TraceId)
+                    .ToList(),
+            };
+
+            var username = _clientsCollection.GetClientStation(dto.ClientIp)?.UserName;
+            await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
         }
 
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
@@ -238,5 +262,5 @@ namespace Iit.Fibertest.DataCenterCore
             return await _clientToRtuTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto);
         }
     }
- 
+
 }
