@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -68,12 +67,13 @@ namespace Iit.Fibertest.Client
 
         public async void OtauRemoveAction(object param)
         {
-            if (!(param is OtauLeaf otauLeaf)) return;
+//            if (!(param is OtauLeaf otauLeaf)) return;
 
             var dto = new DetachOtauDto() { OtauId = Id, RtuId = Parent.Id, OpticalPort = MasterPort };
             using (new WaitCursor())
             {
-                var result = await _c2RWcfManager.DetachOtauAsync(dto);
+//                var result = await _c2RWcfManager.DetachOtauAsync(dto);
+                 await _c2RWcfManager.DetachOtauAsync(dto);
 //                if (result.IsDetached)
 //                {
 //                    RemoveOtauFromGraph(otauLeaf);

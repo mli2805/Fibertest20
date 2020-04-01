@@ -13,6 +13,9 @@
       <NamedTestSelector>
         <TestName>Graph.Tests.Gps.BreakPlaceFeature.ОпределениеМестаАварии</TestName>
       </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Graph.Tests.Rtu.OtauDetachFeature.УдалениеОптическогоПереключателя</TestName>
+      </NamedTestSelector>
     </IgnoredTests>
     <PreviouslyBuiltSuccessfully>True</PreviouslyBuiltSuccessfully>
   </Settings>
