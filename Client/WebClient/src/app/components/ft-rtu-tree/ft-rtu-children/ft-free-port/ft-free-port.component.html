@@ -1,10 +1,20 @@
-<div class="container" fxLayout="row"
-[matMenuTriggerFor]="freePortContextMenu"
-(contextmenu)="onContextMenu($event)"
+<div
+  class="container"
+  fxLayout="row"
+  [matMenuTriggerFor]="freePortContextMenu"
+  (contextmenu)="onContextMenu($event)"
 >
   <p>N{{ port }}</p>
   <mat-menu #freePortContextMenu="matMenu">
-      <button mat-menu-item>{{ "SID_Attach_trace" | translate }}</button>
-      <button mat-menu-item>{{ "SID_Measurement__Client_" | translate }}</button>
-    </mat-menu>
+    <button mat-menu-item (click)="attachTraceFromList()">
+      {{ "SID_Attach_trace" | translate }}
+    </button>
+    <button mat-menu-item (click)="attachOpticalSwitch()">
+      {{ "SID_Attach_optical_switch" | translate }}
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="measurementClient()">
+      {{ "SID_Measurement__Client_" | translate }}
+    </button>
+  </mat-menu>
 </div>
