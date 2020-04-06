@@ -18,7 +18,6 @@ namespace Iit.Fibertest.Client
         private int _portNumberForAttachment;
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
-        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
 
@@ -86,11 +85,10 @@ namespace Iit.Fibertest.Client
         }
 
         public OtauToAttachViewModel(ILifetimeScope globalScope, Model readModel, 
-            IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager)
+            IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _readModel = readModel;
-            _c2DWcfManager = c2DWcfManager;
             _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
         }
@@ -137,9 +135,8 @@ namespace Iit.Fibertest.Client
             if (result.IsAttached)
             {
                 AttachmentProgress = Resources.SID_Successful_;
-                var eventSourcingResult = await AttachOtauIntoGraph(result);
-                if (eventSourcingResult == null)
-                    UpdateView(result);
+                OtauSerial = result.Serial;
+                OtauPortCount = result.PortCount;
             }
             else
             {
@@ -164,26 +161,6 @@ namespace Iit.Fibertest.Client
             };
             var result = await _c2RWcfManager.AttachOtauAsync(dto);
             return result;
-        }
-
-        private async Task<string> AttachOtauIntoGraph(OtauAttachedDto result)
-        {
-            var cmd = new AttachOtau()
-            {
-                Id = result.OtauId,
-                RtuId = result.RtuId,
-                MasterPort = _portNumberForAttachment,
-                Serial = result.Serial,
-                PortCount = result.PortCount,
-                NetAddress = NetAddressInputViewModel.GetNetAddress(),
-            };
-            return await _c2DWcfManager.SendCommandAsObj(cmd);
-        }
-
-        private void UpdateView(OtauAttachedDto result)
-        {
-            OtauSerial = result.Serial;
-            OtauPortCount = result.PortCount;
         }
 
         private bool CheckAddressUniqueness()

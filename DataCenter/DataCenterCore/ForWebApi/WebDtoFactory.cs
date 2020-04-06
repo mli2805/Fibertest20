@@ -8,7 +8,7 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public static class WebDtoFactory
     {
-        public static IEnumerable<RtuDto> CreateTree(this Model writeModel, IMyLog logFile, User user)
+        public static IEnumerable<RtuDto> GetTree(this Model writeModel, IMyLog logFile, User user)
         {
             foreach (var rtu in writeModel.Rtus)
             {

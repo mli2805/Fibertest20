@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Dto
         public Guid OtauId { get; set; }
 
         [DataMember]
-        public NetAddress OtauAddresses { get; set; }
+        public NetAddress OtauAddress { get; set; }
 
         [DataMember]
         public int OpticalPort { get; set; }

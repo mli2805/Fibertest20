@@ -43,7 +43,7 @@ export class FtOtauComponent implements OnInit {
     const detachOtauDto = new DetachOtauDto();
     detachOtauDto.rtuId = this.otau.rtuId;
     detachOtauDto.otauId = this.otau.otauId;
-    detachOtauDto.otauAddresses = this.otau.otauNetAddress;
+    detachOtauDto.otauAddress = this.otau.otauNetAddress;
     detachOtauDto.opticalPort = this.otau.port;
     this.rtuApiService
       .postOneRtu(this.parentRtu.rtuId, "detach-otau", detachOtauDto)

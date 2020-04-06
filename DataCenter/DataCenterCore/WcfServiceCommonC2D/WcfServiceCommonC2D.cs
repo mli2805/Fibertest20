@@ -89,7 +89,26 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
         {
-            return await _clientToRtuTransmitter.AttachOtauAsync(dto);
+            var otauAttachedDto = await _clientToRtuTransmitter.AttachOtauAsync(dto);
+            if (otauAttachedDto.IsAttached)
+                AttachOtauIntoGraph(dto, otauAttachedDto);
+            return otauAttachedDto;
+        }
+
+        private async void AttachOtauIntoGraph(AttachOtauDto dto, OtauAttachedDto result)
+        {
+            var cmd = new AttachOtau()
+            {
+                Id = dto.OtauId,
+                RtuId = dto.RtuId,
+                MasterPort = dto.OpticalPort,
+                Serial = result.Serial,
+                PortCount = result.PortCount,
+                NetAddress = (NetAddress)dto.OtauAddresses.Clone(),
+                IsOk = true,
+            };
+            var username = _clientsCollection.GetClientStation(dto.ClientIp)?.UserName;
+            await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
         }
 
         public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
@@ -106,7 +125,7 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 Id = dto.OtauId,
                 RtuId = dto.RtuId,
-                OtauIp = dto.OtauAddresses.Ip4Address,
+                OtauIp = dto.OtauAddress.Ip4Address,
                 TcpPort = dto.OpticalPort,
                 TracesOnOtau = _writeModel.Traces
                     .Where(t => t.OtauPort != null && t.OtauPort.OtauId == dto.OtauId.ToString())

@@ -100,7 +100,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             try
             {
-                var result = _writeModel.CreateTree(_logFile, user).ToList();
+                var result = _writeModel.GetTree(_logFile, user).ToList();
                 _logFile.AppendLine($"Tree contains {result.Count} RTU");
                 var resString = JsonConvert.SerializeObject(result, JsonSerializerSettings);
                 return resString;

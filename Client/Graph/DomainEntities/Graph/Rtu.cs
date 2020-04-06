@@ -36,14 +36,14 @@ namespace Iit.Fibertest.Graph
 
         // pair OTAU ID - is OK or not
         private Dictionary<Guid, bool> _otauStates = new Dictionary<Guid, bool>();
-        public void SetOtauState(Guid otauId, bool isOkOrNot)
+        public void SetOtauState(Guid otauId, bool isOk)
         {
             if (_otauStates == null)
                 _otauStates = new Dictionary<Guid, bool>();
             if (_otauStates.ContainsKey(otauId))
-                _otauStates[otauId] = isOkOrNot;
+                _otauStates[otauId] = isOk;
             else
-                _otauStates.Add(otauId, isOkOrNot);
+                _otauStates.Add(otauId, isOk);
         }
 
         public void RemoveOtauState(Guid otauId)

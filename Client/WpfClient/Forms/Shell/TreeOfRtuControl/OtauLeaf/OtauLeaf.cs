@@ -69,7 +69,7 @@ namespace Iit.Fibertest.Client
         {
 //            if (!(param is OtauLeaf otauLeaf)) return;
 
-            var dto = new DetachOtauDto() { OtauId = Id, RtuId = Parent.Id, OpticalPort = MasterPort };
+            var dto = new DetachOtauDto() { OtauId = Id, RtuId = Parent.Id, OpticalPort = MasterPort, OtauAddress = (NetAddress)OtauNetAddress.Clone()};
             using (new WaitCursor())
             {
 //                var result = await _c2RWcfManager.DetachOtauAsync(dto);

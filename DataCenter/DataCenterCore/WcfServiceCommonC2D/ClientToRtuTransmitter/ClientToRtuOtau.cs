@@ -20,13 +20,13 @@ namespace Iit.Fibertest.DataCenterCore
                 else
                 {
                     _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                    result = new OtauAttachedDto() {IsAttached = false, ReturnCode = ReturnCode.NoSuchRtu};
+                    result = new OtauAttachedDto() { IsAttached = false, ReturnCode = ReturnCode.NoSuchRtu };
                 }
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("AttachOtauAsync:" + e.Message);
-                result = new OtauAttachedDto() {IsAttached = false, ReturnCode = ReturnCode.RtuAttachOtauError, ErrorMessage = e.Message};
+                result = new OtauAttachedDto() { IsAttached = false, ReturnCode = ReturnCode.RtuAttachOtauError, ErrorMessage = e.Message };
             }
 
             var message = result.IsAttached ? "OTAU attached successfully" : "Failed to attach OTAU";
@@ -50,7 +50,7 @@ namespace Iit.Fibertest.DataCenterCore
                     _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
                     result = new OtauDetachedDto() { IsDetached = false, ReturnCode = ReturnCode.NoSuchRtu };
                 }
-             }
+            }
             catch (Exception e)
             {
                 _logFile.AppendLine("DetachOtauAsync:" + e.Message);

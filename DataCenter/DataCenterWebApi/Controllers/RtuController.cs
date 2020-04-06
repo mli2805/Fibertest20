@@ -266,7 +266,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                     RtuId = rtuGuid, 
                     OtauId = detachOtauDto.OtauId,
                     OpticalPort = detachOtauDto.OpticalPort,
-                    OtauAddresses = (NetAddress)detachOtauDto.OtauAddresses.Clone(),
+                    OtauAddress = (NetAddress)detachOtauDto.OtauAddress.Clone(),
                 };
                 var otauDetachedDto = await _commonC2DWcfManager.DetachOtauAsync(dto);
                 return otauDetachedDto;
