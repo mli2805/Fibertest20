@@ -17,7 +17,7 @@ import { FrequencyPipe } from "./pipes/frequency.pipe";
 import { ReturnCodePipe } from "./pipes/return-code.pipe";
 import {
   BaseRefTypePipe,
-  BaseRefTypeFemalePipe
+  BaseRefTypeFemalePipe,
 } from "./pipes/base-ref-type.pipe";
 
 import {
@@ -41,7 +41,7 @@ import {
   MatSlideToggleModule,
   MatFormFieldModule,
   MatNativeDateModule,
-  MatRadioModule
+  MatRadioModule,
 } from "@angular/material";
 
 import { TranslateService, TranslateModule } from "@ngx-translate/core";
@@ -56,11 +56,11 @@ import { FlexLayoutModule } from "@angular/flex-layout";
 
 import { FtMainNavComponent } from "./components/ft-main-nav/ft-main-nav.component";
 import { FtRtuTreeComponent } from "./components/ft-rtu-tree/ft-rtu-tree.component";
-import { FtRtuChildrenComponent } from "./components/ft-rtu-tree/ft-rtu-children/ft-rtu-children.component";
-import { FtFreePortComponent } from "./components/ft-rtu-tree/ft-rtu-children/ft-free-port/ft-free-port.component";
-import { FtAttachedLineComponent } from "./components/ft-rtu-tree/ft-rtu-children/ft-attached-line/ft-attached-line.component";
-import { FtDetachedLineComponent } from "./components/ft-rtu-tree/ft-rtu-children/ft-detached-line/ft-detached-line.component";
-import { FtOtauComponent } from "./components/ft-rtu-tree/ft-rtu-children/ft-otau/ft-otau.component";
+import { FtRtuChildrenComponent } from "./components/ft-rtu-tree/ft-rtu-line/ft-rtu-children/ft-rtu-children.component";
+import { FtFreePortComponent } from "./components/ft-rtu-tree/ft-rtu-line/ft-rtu-children/ft-free-port/ft-free-port.component";
+import { FtAttachedLineComponent } from "./components/ft-rtu-tree/ft-rtu-line/ft-rtu-children/ft-attached-line/ft-attached-line.component";
+import { FtDetachedLineComponent } from "./components/ft-rtu-tree/ft-rtu-line/ft-rtu-children/ft-detached-line/ft-detached-line.component";
+import { FtOtauComponent } from "./components/ft-rtu-tree/ft-rtu-line/ft-rtu-children/ft-otau/ft-otau.component";
 import { FtAboutComponent } from "./components/ft-about/ft-about.component";
 import { FtLoginComponent } from "./components/ft-login/ft-login.component";
 import { PageNotFoundComponent } from "./components/page-not-found/page-not-found.component";
@@ -74,9 +74,9 @@ import { FtRtuInformationComponent } from "./components/details/rtu/ft-rtu-infor
 import { FtRtuNetworkSettingsComponent } from "./components/details/rtu/ft-rtu-network-settings/ft-rtu-network-settings.component";
 import { FtRtuMonitoringSettingsComponent } from "./components/details/rtu/ft-rtu-monitoring-settings/ft-rtu-monitoring-settings.component";
 import { FtRtuMonitoringPortsComponent } from "./components/details/rtu/ft-rtu-monitoring-ports/ft-rtu-monitoring-ports.component";
-import { NoRightClickDirective } from './utils/no-right-click.directive';
-import { LoginGuard } from './utils/login-guard';
-import { FtRtuLineComponent } from './components/ft-rtu-tree/ft-rtu-line/ft-rtu-line.component';
+import { NoRightClickDirective } from "./utils/no-right-click.directive";
+import { LoginGuard } from "./utils/login-guard";
+import { FtRtuLineComponent } from "./components/ft-rtu-tree/ft-rtu-line/ft-rtu-line.component";
 
 @NgModule({
   declarations: [
@@ -119,7 +119,7 @@ import { FtRtuLineComponent } from './components/ft-rtu-tree/ft-rtu-line/ft-rtu-
 
     NoRightClickDirective,
 
-    FtRtuLineComponent
+    FtRtuLineComponent,
   ],
   imports: [
     TranslateModule.forRoot(),
@@ -151,10 +151,10 @@ import { FtRtuLineComponent } from './components/ft-rtu-tree/ft-rtu-line/ft-rtu-
     MatSlideToggleModule,
     MatFormFieldModule,
     MatNativeDateModule,
-    MatRadioModule
+    MatRadioModule,
   ],
   providers: [AuthGuard, LoginGuard, FrequencyPipe, ReturnCodePipe],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
   private translateLoader: TranslateLoader;
