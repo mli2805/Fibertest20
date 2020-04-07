@@ -26,7 +26,7 @@
                               IsChecked="{Binding IsWebNeeded}" />
                 </GroupBox.Header>
                 <StackPanel Margin="10,10,10,0">
-                    <RadioButton GroupName="1" Margin="5" Content="HTTP"/>
+                    <RadioButton GroupName="1" Margin="5" Content="HTTP" IsChecked="True"/>
                     <RadioButton GroupName="1" Margin="5" Content="HTTPS" IsChecked="{Binding IsWebByHttps}"/>
                     <GroupBox Header="{x:Static stringResources:Resources.SID_List_of_ssl_certificates}" Margin="5,5,5,10">
                         <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Certificates}" 

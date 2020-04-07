@@ -10,7 +10,7 @@ import { ReturnCode } from "src/app/models/enums/returnCode";
 @Component({
   selector: "ft-rtu-line",
   templateUrl: "./ft-rtu-line.component.html",
-  styleUrls: ["./ft-rtu-line.component.css"]
+  styleUrls: ["./ft-rtu-line.component.css"],
 })
 export class FtRtuLineComponent implements OnInit {
   @Input() rtu: RtuDto;
@@ -64,7 +64,8 @@ export class FtRtuLineComponent implements OnInit {
       .subscribe((res: boolean) => {
         console.log(res);
         if (res === true) {
-          rtu.monitoringMode = MonitoringMode.Off;
+          console.log("send navigate to tree");
+          this.router.navigate(["/rtu-tree"]);
         }
       });
   }
@@ -79,7 +80,7 @@ export class FtRtuLineComponent implements OnInit {
         if (
           res.returnCode === ReturnCode.MonitoringSettingsAppliedSuccessfully
         ) {
-          rtu.monitoringMode = MonitoringMode.On;
+          this.router.navigate(["/rtu-tree"]);
         }
       });
   }

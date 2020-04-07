@@ -4,12 +4,13 @@ import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { ChildType } from "src/app/models/enums/childType";
 import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
 import { OtauWebDto } from "src/app/models/dtos/rtuTree/otauWebDto";
-import { Router } from "@angular/router";
+import { Router, RouterEvent, NavigationEnd } from "@angular/router";
+import { filter } from "rxjs/operators";
 
 @Component({
   selector: "ft-rtu-tree",
   templateUrl: "./ft-rtu-tree.component.html",
-  styleUrls: ["./ft-rtu-tree.component.css"]
+  styleUrls: ["./ft-rtu-tree.component.css"],
 })
 export class FtRtuTreeComponent implements OnInit {
   private rtus: RtuDto[];
@@ -20,6 +21,22 @@ export class FtRtuTreeComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log("we are in ngOnInit");
+    this.fetchData();
+    // https://medium.com/angular-in-depth/refresh-current-route-in-angular-512a19d58f6e
+    this.router.events
+      .pipe(filter((event: RouterEvent) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        this.onNavigationEnd();
+      });
+  }
+
+  onNavigationEnd() {
+    console.log("we are at navigation end");
+    this.fetchData();
+  }
+
+  fetchData() {
     this.isNotLoaded = true;
     this.rtuService.getAllRtu().subscribe((res: RtuDto[]) => {
       console.log("rtu tree received", res);
