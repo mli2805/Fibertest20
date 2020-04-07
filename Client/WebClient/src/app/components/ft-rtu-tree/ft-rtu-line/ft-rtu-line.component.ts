@@ -64,7 +64,6 @@ export class FtRtuLineComponent implements OnInit {
       .subscribe((res: boolean) => {
         console.log(res);
         if (res === true) {
-          console.log("send navigate to tree");
           this.router.navigate(["/rtu-tree"]);
         }
       });

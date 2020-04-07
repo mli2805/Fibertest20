@@ -1,10 +1,11 @@
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { MatMenuTrigger } from "@angular/material";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "ft-free-port",
   templateUrl: "./ft-free-port.component.html",
-  styleUrls: ["./ft-free-port.component.scss"]
+  styleUrls: ["./ft-free-port.component.scss"],
 })
 export class FtFreePortComponent implements OnInit {
   @Input() port: number;
@@ -13,7 +14,7 @@ export class FtFreePortComponent implements OnInit {
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
-  constructor() {}
+  constructor(private router: Router) {}
 
   ngOnInit() {}
 
@@ -26,7 +27,13 @@ export class FtFreePortComponent implements OnInit {
     this.contextMenu.focus("mouse");
   }
 
-  attachTraceFromList() {}
-  attachOpticalSwitch() {}
-  measurementClient() {}
+  attachTraceFromList() {
+    this.router.navigate(["/port-attach-trace", this.port]);
+  }
+  attachOpticalSwitch() {
+    this.router.navigate(["/port-attach-otau", this.port]);
+  }
+  measurementClient() {
+    this.router.navigate(["/port-measurement-client", this.port]);
+  }
 }

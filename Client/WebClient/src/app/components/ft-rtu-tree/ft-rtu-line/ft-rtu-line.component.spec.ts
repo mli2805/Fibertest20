@@ -1,16 +1,15 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { FtRtuLineComponent } from './ft-rtu-line.component';
+import { FtRtuLineComponent } from "./ft-rtu-line.component";
 
-describe('FtRtuLineComponent', () => {
+describe("FtRtuLineComponent", () => {
   let component: FtRtuLineComponent;
   let fixture: ComponentFixture<FtRtuLineComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ FtRtuLineComponent ]
-    })
-    .compileComponents();
+      declarations: [FtRtuLineComponent],
+    }).compileComponents();
   }));
 
   beforeEach(() => {
@@ -19,7 +18,7 @@ describe('FtRtuLineComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

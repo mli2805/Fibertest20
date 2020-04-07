@@ -1,0 +1,11 @@
+<p>Select trace</p>
+<div class="container">
+  <mat-form-field>
+    <mat-label>{{ "SID_measurement_frequency" | translate }}</mat-label>
+    <mat-select [(value)]="selectedPreciseMeas">
+      <mat-option *ngFor="let item of itemsSourceMeas" [value]="item.index">
+        {{ item.name }}</mat-option
+      >
+    </mat-select>
+  </mat-form-field>
+</div>
