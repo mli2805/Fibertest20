@@ -77,9 +77,10 @@ import { FtRtuMonitoringPortsComponent } from "./components/details/rtu/ft-rtu-m
 import { NoRightClickDirective } from "./utils/no-right-click.directive";
 import { LoginGuard } from "./utils/login-guard";
 import { FtRtuLineComponent } from "./components/ft-rtu-tree/ft-rtu-line/ft-rtu-line.component";
-import { FtPortAttachTraceComponent } from './components/details/port/ft-port-attach-trace/ft-port-attach-trace.component';
-import { FtPortAttachOtauComponent } from './components/details/port/ft-port-attach-otau/ft-port-attach-otau.component';
-import { FtPortMeasurementClientComponent } from './components/details/port/ft-port-measurement-client/ft-port-measurement-client.component';
+import { FtPortAttachTraceComponent } from "./components/details/port/ft-port-attach-trace/ft-port-attach-trace.component";
+import { FtPortAttachOtauComponent } from "./components/details/port/ft-port-attach-otau/ft-port-attach-otau.component";
+import { FtPortMeasurementClientComponent } from "./components/details/port/ft-port-measurement-client/ft-port-measurement-client.component";
+import { FtDetachedTracesProvider } from "./providers/ft-detached-traces";
 
 @NgModule({
   declarations: [
@@ -162,7 +163,13 @@ import { FtPortMeasurementClientComponent } from './components/details/port/ft-p
     MatNativeDateModule,
     MatRadioModule,
   ],
-  providers: [AuthGuard, LoginGuard, FrequencyPipe, ReturnCodePipe],
+  providers: [
+    AuthGuard,
+    LoginGuard,
+    FrequencyPipe,
+    ReturnCodePipe,
+    FtDetachedTracesProvider,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {

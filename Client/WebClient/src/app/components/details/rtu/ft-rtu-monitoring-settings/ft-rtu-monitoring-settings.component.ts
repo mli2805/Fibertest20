@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
 import {
   RtuMonitoringSettingsDto,
-  RtuMonitoringPortDto
+  RtuMonitoringPortDto,
 } from "src/app/models/dtos/rtu/rtuMonitoringSettingsDto";
 import { ActivatedRoute } from "@angular/router";
 import { RtuApiService } from "src/app/api/rtu.service";
@@ -16,7 +16,7 @@ import { ReturnCode } from "src/app/models/enums/returnCode";
 @Component({
   selector: "ft-rtu-monitoring-settings",
   templateUrl: "./ft-rtu-monitoring-settings.component.html",
-  styleUrls: ["./ft-rtu-monitoring-settings.component.css"]
+  styleUrls: ["./ft-rtu-monitoring-settings.component.css"],
 })
 export class FtRtuMonitoringSettingsComponent implements OnInit {
   @ViewChild(FtRtuMonitoringPortsComponent, { static: false })
@@ -43,15 +43,15 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
 
   ngOnInit() {
     const frs = Object.keys(Frequency)
-      .filter(e => !isNaN(+e))
-      .map(e => {
+      .filter((e) => !isNaN(+e))
+      .map((e) => {
         return { index: +e, name: this.frequencyPipe.transform(+e, true) };
       });
     this.itemsSourceSave = frs;
 
     const frm = Object.keys(Frequency)
-      .filter(e => !isNaN(+e) && (+e <= 24 || +e >= 9999))
-      .map(e => {
+      .filter((e) => !isNaN(+e) && (+e <= 24 || +e >= 9999))
+      .map((e) => {
         return { index: +e, name: this.frequencyPipe.transform(+e, false) };
       });
     this.itemsSourceMeas = frm;

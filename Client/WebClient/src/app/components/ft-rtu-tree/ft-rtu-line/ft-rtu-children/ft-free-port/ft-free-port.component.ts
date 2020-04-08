@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
+import { FtDetachedTracesProvider } from "src/app/providers/ft-detached-traces";
+import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 
 @Component({
   selector: "ft-free-port",
@@ -9,12 +11,16 @@ import { Router } from "@angular/router";
 })
 export class FtFreePortComponent implements OnInit {
   @Input() port: number;
+  @Input() parentRtu: RtuDto;
 
   @ViewChild(MatMenuTrigger, null)
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private dataStorage: FtDetachedTracesProvider
+  ) {}
 
   ngOnInit() {}
 
@@ -28,6 +34,7 @@ export class FtFreePortComponent implements OnInit {
   }
 
   attachTraceFromList() {
+    this.dataStorage.data = this.parentRtu;
     this.router.navigate(["/port-attach-trace", this.port]);
   }
   attachOpticalSwitch() {
