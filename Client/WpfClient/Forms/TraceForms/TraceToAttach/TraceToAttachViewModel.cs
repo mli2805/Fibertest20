@@ -112,18 +112,7 @@ namespace Iit.Fibertest.Client
                 OtauPortDto = _otauPortDto,
             };
 
-            Measurement measurement =  _readModel.Measurements.LastOrDefault(m=>m.TraceId == _selectedTrace.TraceId);
-            if (measurement != null)
-            {
-                command.PreviousTraceState = measurement.TraceState;
-                if (measurement.TraceState != FiberState.Ok &&
-                    measurement.TraceState != FiberState.NoFiber)
-                    command.AccidentsInLastMeasurement = measurement.Accidents;
-            }
-            else
-            { // trace has no measurements so far 
-                command.PreviousTraceState = FiberState.Unknown;
-            }
+         
 
             await _c2DWcfManager.SendCommandAsObj(command);
             IsButtonsEnabled = true;

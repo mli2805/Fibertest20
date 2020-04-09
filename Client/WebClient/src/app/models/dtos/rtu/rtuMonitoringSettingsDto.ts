@@ -2,6 +2,7 @@ import { MonitoringMode } from "../../enums/monitoringMode";
 import { PortMonitoringMode } from "../../enums/portMonitoringMode";
 import { Frequency } from "../../enums/frequency";
 import { RtuMaker } from "../../enums/rtuMaker";
+import { OtauPortDto } from "../../underlying/otauPortDto";
 
 export class RtuMonitoringSettingsDto {
   rtuTitle: string;
@@ -23,11 +24,4 @@ export class RtuMonitoringPortDto {
   portMonitoringMode: PortMonitoringMode;
   durationOfPreciseBase: number;
   durationOfFastBase: number;
-}
-
-export class OtauPortDto {
-  opticalPort: number;
-  isPortOnMainCharon: boolean;
-  serial: string;
-  otauId: string;
 }

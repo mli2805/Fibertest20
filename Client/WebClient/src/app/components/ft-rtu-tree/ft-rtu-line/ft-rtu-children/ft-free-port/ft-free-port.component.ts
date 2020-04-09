@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
-import { FtDetachedTracesProvider } from "src/app/providers/ft-detached-traces";
+import { FtDetachedTracesProvider } from "src/app/providers/ft-detached-traces-provider";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
+import { OtauPortDto } from "src/app/models/underlying/otauPortDto";
 
 @Component({
   selector: "ft-free-port",
@@ -12,6 +13,8 @@ import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 export class FtFreePortComponent implements OnInit {
   @Input() port: number;
   @Input() parentRtu: RtuDto;
+  @Input() isPortOnMainCharon: boolean;
+  @Input() otauId: string;
 
   @ViewChild(MatMenuTrigger, null)
   contextMenu: MatMenuTrigger;
@@ -34,13 +37,17 @@ export class FtFreePortComponent implements OnInit {
   }
 
   attachTraceFromList() {
-    this.dataStorage.data = this.parentRtu;
-    this.router.navigate(["/port-attach-trace", this.port]);
+    this.dataStorage.selectedRtu = this.parentRtu;
+    this.dataStorage.selectedPort = new OtauPortDto();
+    this.dataStorage.selectedPort.opticalPort = this.port;
+    this.dataStorage.selectedPort.isPortOnMainCharon = this.isPortOnMainCharon;
+    this.dataStorage.selectedPort.otauId = this.otauId;
+    this.router.navigate(["/port-attach-trace"]);
   }
   attachOpticalSwitch() {
-    this.router.navigate(["/port-attach-otau", this.port]);
+    this.router.navigate(["/port-attach-otau"]);
   }
   measurementClient() {
-    this.router.navigate(["/port-measurement-client", this.port]);
+    this.router.navigate(["/port-measurement-client"]);
   }
 }

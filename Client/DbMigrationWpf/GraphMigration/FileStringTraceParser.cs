@@ -36,8 +36,6 @@ namespace DbMigrationWpf
                     {
                         TraceId = traceGuid,
                         OtauPortDto = otauPortDto,
-                        PreviousTraceState = FiberState.Unknown,
-                        AccidentsInLastMeasurement = null,
                     });
         }
 
@@ -51,8 +49,6 @@ namespace DbMigrationWpf
             if (oldPortNumber <= rtuCommand.FullPortCount)
             {
                 otauPort.Serial = rtuCommand.Serial;
-//                otauPort.OtauIp = rtuCommand.OtauNetAddress.Ip4Address;
-//                otauPort.OtauTcpPort = rtuCommand.OtauNetAddress.Port;
                 otauPort.IsPortOnMainCharon = true;
                 otauPort.OpticalPort = oldPortNumber;
             }
@@ -61,8 +57,6 @@ namespace DbMigrationWpf
                 var charon15 = _graphModel.Charon15S.First(c =>
                     c.RtuId == rtuId && oldPortNumber >= c.FirstPortNumber && oldPortNumber < c.FirstPortNumber + c.PortCount);
                 otauPort.Serial = charon15.Serial;
-//                otauPort.OtauIp = charon15.OtauAddress.Ip4Address;
-//                otauPort.OtauTcpPort = charon15.OtauAddress.Port;
                 otauPort.IsPortOnMainCharon = false;
                 otauPort.OpticalPort = oldPortNumber - charon15.FirstPortNumber + 1;
             }

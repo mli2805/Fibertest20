@@ -31,7 +31,12 @@
     </div>
 
     <div *ngIf="otau.expanded" class="otau-children">
-      <ft-rtu-children [childArray]="otau.children"></ft-rtu-children>
+      <ft-rtu-children
+        [rtu]="parentRtu"
+        [childArray]="otau.children"
+        [isPortOnMainCharon]="false"
+        [otauId]="otau.otauId"
+      ></ft-rtu-children>
     </div>
   </div>
 </div>

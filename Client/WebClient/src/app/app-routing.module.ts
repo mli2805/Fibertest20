@@ -47,10 +47,10 @@ const routes: Routes = [
   { path: "trace-information/:id", component: FtTraceInformationComponent },
   { path: "trace-statistics/:id", component: FtTraceStatisticsComponent },
 
-  { path: "port-attach-trace/:port", component: FtPortAttachTraceComponent },
-  { path: "port-attach-otau/:port", component: FtPortAttachOtauComponent },
+  { path: "port-attach-trace", component: FtPortAttachTraceComponent },
+  { path: "port-attach-otau", component: FtPortAttachOtauComponent },
   {
-    path: "port-measurement-client/:port",
+    path: "port-measurement-client",
     component: FtPortMeasurementClientComponent,
   },
 

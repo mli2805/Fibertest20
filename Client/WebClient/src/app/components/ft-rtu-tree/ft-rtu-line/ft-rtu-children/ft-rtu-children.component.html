@@ -1,6 +1,11 @@
 <ng-container *ngFor="let element of childArray">
   <div class="child" *ngIf="element.childType == 0">
-    <ft-free-port [parentRtu]="rtu" [port]="element.port"></ft-free-port>
+    <ft-free-port
+      [parentRtu]="rtu"
+      [port]="element.port"
+      [isPortOnMainCharon]="isPortOnMainCharon"
+      [otauId]="otauId"
+    ></ft-free-port>
   </div>
   <div class="child" *ngIf="element.childType == 1 && element.port == -1">
     <ft-detached-line [trace]="element"></ft-detached-line>

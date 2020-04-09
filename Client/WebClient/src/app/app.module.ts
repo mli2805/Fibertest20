@@ -80,7 +80,7 @@ import { FtRtuLineComponent } from "./components/ft-rtu-tree/ft-rtu-line/ft-rtu-
 import { FtPortAttachTraceComponent } from "./components/details/port/ft-port-attach-trace/ft-port-attach-trace.component";
 import { FtPortAttachOtauComponent } from "./components/details/port/ft-port-attach-otau/ft-port-attach-otau.component";
 import { FtPortMeasurementClientComponent } from "./components/details/port/ft-port-measurement-client/ft-port-measurement-client.component";
-import { FtDetachedTracesProvider } from "./providers/ft-detached-traces";
+import { FtDetachedTracesProvider } from "./providers/ft-detached-traces-provider";
 
 @NgModule({
   declarations: [

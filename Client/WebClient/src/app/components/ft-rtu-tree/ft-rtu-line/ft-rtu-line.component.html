@@ -63,6 +63,11 @@
     </button>
   </div>
   <div *ngIf="rtu.expanded" class="children-container">
-    <ft-rtu-children [rtu]="rtu" [childArray]="rtu.children"></ft-rtu-children>
+    <ft-rtu-children
+      [rtu]="rtu"
+      [childArray]="rtu.children"
+      [isPortOnMainCharon]="true"
+      [otauId]=""
+    ></ft-rtu-children>
   </div>
 </div>

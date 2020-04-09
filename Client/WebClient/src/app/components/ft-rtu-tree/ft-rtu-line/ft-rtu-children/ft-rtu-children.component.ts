@@ -10,6 +10,8 @@ import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 export class FtRtuChildrenComponent implements OnInit {
   @Input() rtu: RtuDto;
   @Input() childArray: ChildDto[];
+  @Input() isPortOnMainCharon: boolean;
+  @Input() otauId: string;
 
   constructor() {}
 

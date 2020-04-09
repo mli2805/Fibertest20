@@ -22,6 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\Client\Graph\Graph.csproj" />
     <ProjectReference Include="..\..\Shared\Dto\Dto.csproj" />
     <ProjectReference Include="..\..\Shared\WcfConnections\WcfConnections.csproj" />
   </ItemGroup>

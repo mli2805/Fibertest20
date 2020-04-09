@@ -72,7 +72,7 @@ namespace Iit.Fibertest.Graph
                 case UpdateTrace command: return _eventsQueue.Add(Mapper.Map<TraceUpdated>(command));
                 case CleanTrace command: return Validate(command);
                 case RemoveTrace command: return Validate(command);
-                case AttachTrace command: return _eventsQueue.Add(Mapper.Map<TraceAttached>(command));
+                case AttachTrace command: return Complete(command);
                 case DetachTrace command: return _eventsQueue.Add(Mapper.Map<TraceDetached>(command));
 
                 case AssignBaseRef command: return _eventsQueue.Add(Mapper.Map<BaseRefAssigned>(command));
@@ -91,6 +91,24 @@ namespace Iit.Fibertest.Graph
 
                 default: return @"Unknown command";
             }
+        }
+
+        private string Complete(AttachTrace cmd)
+        {
+            var evnt = Mapper.Map<TraceAttached>(cmd);
+            Measurement measurement = _writeModel.Measurements.LastOrDefault(m => m.TraceId == cmd.TraceId);
+            if (measurement != null)
+            {
+                evnt.PreviousTraceState = measurement.TraceState;
+                if (measurement.TraceState != FiberState.Ok &&
+                    measurement.TraceState != FiberState.NoFiber)
+                    evnt.AccidentsInLastMeasurement = measurement.Accidents;
+            }
+            else
+            { // trace has no measurements so far 
+                evnt.PreviousTraceState = FiberState.Unknown;
+            }
+            return _eventsQueue.Add(evnt);
         }
 
         private string Validate(ApplyLicense cmd)
@@ -112,7 +130,6 @@ namespace Iit.Fibertest.Graph
         }
 
         #region Fiber
-
         private string Validate(AddFiber cmd)
         {
             Guid a = cmd.NodeId1;
