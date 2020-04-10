@@ -7,7 +7,7 @@ import { RtuInitializedWebDto } from "../models/dtos/rtu/rtuInitializedWebDto";
 import { ReturnCode } from "../models/enums/returnCode";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class SignalrService {
   private hubConnection: signalR.HubConnection;
@@ -34,12 +34,18 @@ export class SignalrService {
 
   public async initializeRtu(id: string) {
     try {
+      console.log(this.hubConnection);
+      if (this.hubConnection === undefined) {
+        const res = JSON.parse(sessionStorage.getItem("currentUser"));
+        this.buildConnection(res.jsonWebToken);
+      }
       if (this.hubConnection.state !== signalR.HubConnectionState.Connected) {
         await this.startConnection();
+        console.log("restart: ", this.hubConnection);
       }
-
       await this.hubConnection.invoke("InitializeRtu", id);
     } catch (err) {
+      console.log(err);
       const data = new RtuInitializedWebDto();
       data.returnCode = ReturnCode.RtuInitializationError;
       this.rtuInitializedEmitter.emit(data);

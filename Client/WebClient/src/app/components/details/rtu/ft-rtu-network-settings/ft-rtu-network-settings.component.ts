@@ -11,7 +11,7 @@ import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 @Component({
   selector: "ft-rtu-network-settings",
   templateUrl: "./ft-rtu-network-settings.component.html",
-  styleUrls: ["./ft-rtu-network-settings.component.css"]
+  styleUrls: ["./ft-rtu-network-settings.component.css"],
 })
 export class FtRtuNetworkSettingsComponent implements OnInit, OnDestroy {
   vm: RtuNetworkSettingsDto = new RtuNetworkSettingsDto();
