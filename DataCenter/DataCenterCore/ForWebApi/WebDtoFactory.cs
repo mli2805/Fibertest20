@@ -57,6 +57,9 @@ namespace Iit.Fibertest.DataCenterCore
                 RtuId = r.Id,
                 Title = r.Title,
                 RtuMaker = r.RtuMaker,
+                Serial = r.Serial,
+                OtauId = r.OtauId,
+                OtdrId = r.OtdrId,
 
                 FullPortCount = r.FullPortCount,
                 OwnPortCount = r.OwnPortCount,
@@ -134,6 +137,7 @@ namespace Iit.Fibertest.DataCenterCore
                 RtuId = o.RtuId,
                 OtauNetAddress = o.NetAddress,
                 IsOk = o.IsOk,
+                Serial = o.Serial,
 
                 Port = port,
             };

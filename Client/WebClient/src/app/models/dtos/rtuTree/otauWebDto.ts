@@ -2,10 +2,10 @@ import { ChildDto } from "./childDto";
 import { NetAddress } from "../../underlying/netAddress";
 
 export class OtauWebDto extends ChildDto {
-
- expanded: boolean;
+  expanded: boolean;
 
   otauId: string;
+  serial: string;
   rtuId: string;
   otauNetAddress: NetAddress;
   isOk: boolean;

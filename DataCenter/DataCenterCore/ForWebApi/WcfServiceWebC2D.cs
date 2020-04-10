@@ -89,7 +89,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<string> GetTreeInJson(string username)
         {
-            _logFile.AppendLine(":: WcfServiceForWebProxy GetTreeInJson");
             var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
             if (user == null)
             {
@@ -101,7 +100,6 @@ namespace Iit.Fibertest.DataCenterCore
             try
             {
                 var result = _writeModel.GetTree(_logFile, user).ToList();
-                _logFile.AppendLine($"Tree contains {result.Count} RTU");
                 var resString = JsonConvert.SerializeObject(result, JsonSerializerSettings);
                 return resString;
             }

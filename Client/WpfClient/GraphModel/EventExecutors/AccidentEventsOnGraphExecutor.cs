@@ -30,9 +30,10 @@ namespace Iit.Fibertest.Client
 
             if (_currentlyHiddenRtu.Collection.Contains(trace.RtuId)) return;
             _graphReadModel.ChangeTraceColor(evnt.TraceId, evnt.TraceState);
+          //  _graphReadModel.ChangeTraceColor(evnt.TraceId, evnt.TraceState == FiberState.Unknown ? FiberState.Ok : evnt.TraceState);
 
             _graphReadModel.CleanAccidentPlacesOnTrace(evnt.TraceId); // accidents on trace could change, so old should be cleaned and new drawn
-            if (evnt.TraceState != FiberState.Ok && evnt.TraceState != FiberState.NoFiber)
+            if (evnt.TraceState != FiberState.Unknown && evnt.TraceState != FiberState.Ok && evnt.TraceState != FiberState.NoFiber)
                 evnt.Accidents.ForEach(a => ShowAccidentPlaceOnTrace(a, evnt.TraceId));
         }
 

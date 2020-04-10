@@ -125,17 +125,20 @@ namespace Iit.Fibertest.Graph
             trace.Port = e.OtauPortDto.OpticalPort;
             trace.OtauPort = e.OtauPortDto;
 
-            var lastEventOnTrace = model.Measurements.LastOrDefault(m =>
+            var lastAccidentOnTrace = model.Measurements.LastOrDefault(m =>
                 m.TraceId == e.TraceId && m.EventStatus >= EventStatus.EventButNotAnAccident);
-            if (lastEventOnTrace != null && lastEventOnTrace.TraceState != FiberState.Ok)
-                model.ActiveMeasurements.Add(lastEventOnTrace);
-
+            if (lastAccidentOnTrace != null && lastAccidentOnTrace.TraceState != FiberState.Ok)
+            {
+                model.ActiveMeasurements.Add(lastAccidentOnTrace);
+               
+            }
             model.ShowMonitoringResult(new MeasurementAdded()
             {
                 TraceId = e.TraceId,
                 TraceState = e.PreviousTraceState,
                 Accidents = e.AccidentsInLastMeasurement,
             });
+
             return null;
         }
 

@@ -15,6 +15,7 @@ export class FtFreePortComponent implements OnInit {
   @Input() parentRtu: RtuDto;
   @Input() isPortOnMainCharon: boolean;
   @Input() otauId: string;
+  @Input() serial: string;
 
   @ViewChild(MatMenuTrigger, null)
   contextMenu: MatMenuTrigger;
@@ -42,6 +43,8 @@ export class FtFreePortComponent implements OnInit {
     this.dataStorage.selectedPort.opticalPort = this.port;
     this.dataStorage.selectedPort.isPortOnMainCharon = this.isPortOnMainCharon;
     this.dataStorage.selectedPort.otauId = this.otauId;
+    this.dataStorage.selectedPort.serial = this.serial;
+    console.log(this.dataStorage.selectedPort);
     this.router.navigate(["/port-attach-trace"]);
   }
   attachOpticalSwitch() {

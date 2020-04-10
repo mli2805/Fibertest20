@@ -11,6 +11,9 @@ export class RtuDto {
   rtuMaker: RtuMaker;
   title: string;
 
+  otauId: string; // VeEX
+  otdrId: string;
+
   mfid: string;
   mfsn: string;
   omid: string;

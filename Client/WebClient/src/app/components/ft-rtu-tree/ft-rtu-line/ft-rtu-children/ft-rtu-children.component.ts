@@ -12,8 +12,11 @@ export class FtRtuChildrenComponent implements OnInit {
   @Input() childArray: ChildDto[];
   @Input() isPortOnMainCharon: boolean;
   @Input() otauId: string;
+  @Input() serial: string;
 
   constructor() {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    console.log("ft-rtu-children: ", this.otauId, this.serial);
+  }
 }

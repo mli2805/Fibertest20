@@ -11,6 +11,7 @@ namespace Iit.Fibertest.Dto
         [DataMember] public Guid RtuId;
         [DataMember] public NetAddress OtauNetAddress;
         [DataMember] public bool IsOk;
+        [DataMember] public string Serial;
 
         [DataMember] public List<ChildDto> Children = new List<ChildDto>();
 
