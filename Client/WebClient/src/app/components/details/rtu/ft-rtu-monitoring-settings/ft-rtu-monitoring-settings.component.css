@@ -1,3 +1,9 @@
+.spinner-container {
+  position: absolute;
+  top: 150px;
+  left: 80px;
+}
+
 .componentHeader {
   font-size: 20px;
   font-weight: 500;

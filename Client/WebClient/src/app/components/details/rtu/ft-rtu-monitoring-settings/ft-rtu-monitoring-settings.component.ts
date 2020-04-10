@@ -21,7 +21,9 @@ import { ReturnCode } from "src/app/models/enums/returnCode";
 export class FtRtuMonitoringSettingsComponent implements OnInit {
   @ViewChild(FtRtuMonitoringPortsComponent, { static: false })
   private portTableComponent: FtRtuMonitoringPortsComponent;
-
+  public isSpinnerVisible = true;
+  public isButtonDisabled = true;
+  public initializationMessage: string;
   vm: RtuMonitoringSettingsDto = new RtuMonitoringSettingsDto();
 
   itemsSourceSave;
@@ -39,7 +41,10 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
     private activeRoute: ActivatedRoute,
     private rtuApiService: RtuApiService,
     private frequencyPipe: FrequencyPipe
-  ) {}
+  ) {
+    this.isSpinnerVisible = true;
+    this.isButtonDisabled = false;
+  }
 
   ngOnInit() {
     const frs = Object.keys(Frequency)
@@ -69,10 +74,12 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
         this.selectedFastSave = res.fastSave;
 
         this.monitoringMode = res.monitoringMode === MonitoringMode.On ? 0 : 1;
+        this.isSpinnerVisible = false;
       });
   }
 
   onButtonClicked() {
+    this.whileRequestView();
     const dto = new RtuMonitoringSettingsDto();
     dto.rtuMaker = this.vm.rtuMaker;
     dto.monitoringMode =
@@ -106,6 +113,18 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
         ) {
           console.log("Successfully!");
         }
+        this.standardView();
       });
+  }
+
+  whileRequestView() {
+    this.initializationMessage = "";
+    this.isSpinnerVisible = true;
+    this.isButtonDisabled = true;
+  }
+
+  standardView() {
+    this.isSpinnerVisible = false;
+    this.isButtonDisabled = false;
   }
 }
