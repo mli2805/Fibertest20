@@ -47,6 +47,23 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine($"AttachTrace: {e.Message}");
                 return e.Message;
             }
+        }  
+        
+       // [Authorize]
+        [HttpPost("DetachTrace/{id}")]
+        public async Task<string> DetachTrace(string id)
+        {
+            try
+            {
+                var traceGuid = Guid.Parse(id);
+                var result = await _desktopC2DWcfManager.SendCommandAsObj(new DetachTrace(){TraceId = traceGuid});
+                return string.IsNullOrEmpty(result) ? null : result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"DetachTrace: {e.Message}");
+                return e.Message;
+            }
         }
 
     }

@@ -2,11 +2,12 @@ import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
 import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
+import { PortApiService } from "src/app/api/port.service";
 
 @Component({
   selector: "ft-attached-line",
   templateUrl: "./ft-attached-line.component.html",
-  styleUrls: ["./ft-attached-line.component.scss"]
+  styleUrls: ["./ft-attached-line.component.scss"],
 })
 export class FtAttachedLineComponent implements OnInit {
   @Input() trace: TraceDto;
@@ -15,7 +16,7 @@ export class FtAttachedLineComponent implements OnInit {
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private portApiService: PortApiService) {}
 
   ngOnInit() {}
 
@@ -30,5 +31,14 @@ export class FtAttachedLineComponent implements OnInit {
 
   displayStatistics() {
     this.router.navigate(["/trace-statistics", this.trace.traceId]);
+  }
+
+  detachTrace() {
+    this.portApiService.detachTrace(this.trace.traceId).subscribe((res) => {
+      console.log(res);
+      if (res === null) {
+        this.router.navigate(["/rtu-tree"]);
+      }
+    });
   }
 }

@@ -21,7 +21,9 @@
       {{ "SID_Landmarks" | translate }}
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item>{{ "SID_Unplug_trace" | translate }}</button>
+    <button mat-menu-item (click)="detachTrace()">
+      {{ "SID_Unplug_trace" | translate }}
+    </button>
     <mat-divider></mat-divider>
     <button mat-menu-item>
       {{ "SID_Precise_monitoring_out_of_turn" | translate }}

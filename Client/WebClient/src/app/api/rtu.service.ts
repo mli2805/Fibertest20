@@ -1,10 +1,9 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Utils } from "../Utils/utils";
-import { RtuMonitoringSettingsDto } from "../models/dtos/rtu/rtuMonitoringSettingsDto";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class RtuApiService {
   constructor(private httpClient: HttpClient) {}
@@ -14,7 +13,7 @@ export class RtuApiService {
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
     const myHeaders = new HttpHeaders({
-      Authorization: "Bearer " + currentUser.jsonWebToken
+      Authorization: "Bearer " + currentUser.jsonWebToken,
     });
     return this.httpClient.get(url, { headers: myHeaders });
   }
@@ -24,7 +23,7 @@ export class RtuApiService {
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
     const myHeaders = new HttpHeaders({
-      Authorization: "Bearer " + currentUser.jsonWebToken
+      Authorization: "Bearer " + currentUser.jsonWebToken,
     });
 
     return this.httpClient.get(url, { headers: myHeaders });
@@ -35,7 +34,7 @@ export class RtuApiService {
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
     const myHeaders = new HttpHeaders({
-      Authorization: "Bearer " + currentUser.jsonWebToken
+      Authorization: "Bearer " + currentUser.jsonWebToken,
     });
 
     return this.httpClient.post(url, body, { headers: myHeaders });

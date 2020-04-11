@@ -19,6 +19,16 @@ export class PortApiService {
     return this.httpClient.post(url, body, { headers: myHeaders });
   }
 
+  detachTrace(id: string) {
+    const url = Utils.GetWebApiUrl() + `/port/detachTrace/${id}`;
+    const currentUser = JSON.parse(sessionStorage.currentUser);
+
+    const myHeaders = new HttpHeaders({
+      Authorization: "Bearer " + currentUser.jsonWebToken,
+    });
+    return this.httpClient.post(url, { headers: myHeaders });
+  }
+
   attachOtau() {}
   measurementClient() {}
 }
