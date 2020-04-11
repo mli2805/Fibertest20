@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Utils } from "../Utils/utils";
 import { AttachTraceDto } from "../models/dtos/port/attachTraceDto";
+import { DetachOtauDto } from "../models/dtos/rtu/detachOtauDto";
 
 @Injectable({
   providedIn: "root",
@@ -10,7 +11,7 @@ export class PortApiService {
   constructor(private httpClient: HttpClient) {}
 
   attachTrace(body: AttachTraceDto) {
-    const url = Utils.GetWebApiUrl() + "/port/attachTrace";
+    const url = Utils.GetWebApiUrl() + "/port/attach-trace";
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
     const myHeaders = new HttpHeaders({
@@ -20,13 +21,23 @@ export class PortApiService {
   }
 
   detachTrace(id: string) {
-    const url = Utils.GetWebApiUrl() + `/port/detachTrace/${id}`;
+    const url = Utils.GetWebApiUrl() + `/port/detach-trace/${id}`;
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
     const myHeaders = new HttpHeaders({
       Authorization: "Bearer " + currentUser.jsonWebToken,
     });
     return this.httpClient.post(url, { headers: myHeaders });
+  }
+
+  detachOtau(body: DetachOtauDto) {
+    const url = Utils.GetWebApiUrl() + `/port/detach-otau/`;
+    const currentUser = JSON.parse(sessionStorage.currentUser);
+
+    const myHeaders = new HttpHeaders({
+      Authorization: "Bearer " + currentUser.jsonWebToken,
+    });
+    return this.httpClient.post(url, body, { headers: myHeaders });
   }
 
   attachOtau() {}

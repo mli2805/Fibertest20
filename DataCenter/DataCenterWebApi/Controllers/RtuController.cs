@@ -246,36 +246,6 @@ namespace Iit.Fibertest.DataCenterWebApi
             }
         }
         
-        [Authorize]
-        [HttpPost("Detach-otau/{id}")]
-        public async Task<OtauDetachedDto> DetachOtau(string id)
-        {
-            try
-            {
-                _logFile.AppendLine($"rtu id = {id}");
-                var rtuGuid = Guid.Parse(id);
-                string body;
-                using (var reader = new StreamReader(Request.Body))
-                {
-                    body = await reader.ReadToEndAsync();
-                }
-                _logFile.AppendLine("body: " + body);
-                var detachOtauDto = JsonConvert.DeserializeObject<DetachOtauDto>(body);
-                var dto = new DetachOtauDto()
-                {
-                    RtuId = rtuGuid, 
-                    OtauId = detachOtauDto.OtauId,
-                    OpticalPort = detachOtauDto.OpticalPort,
-                    OtauAddress = (NetAddress)detachOtauDto.OtauAddress.Clone(),
-                };
-                var otauDetachedDto = await _commonC2DWcfManager.DetachOtauAsync(dto);
-                return otauDetachedDto;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"DetachOtau: {e.Message}");
-                return new OtauDetachedDto(){ErrorMessage = e.Message, ReturnCode = ReturnCode.RtuDetachOtauError };
-            }
-        }
+      
     }
 }

@@ -2,13 +2,13 @@ import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { OtauWebDto } from "src/app/models/dtos/rtuTree/otauWebDto";
 import { MatMenuTrigger } from "@angular/material";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
-import { RtuApiService } from "src/app/api/rtu.service";
 import { DetachOtauDto } from "src/app/models/dtos/rtu/detachOtauDto";
+import { PortApiService } from "src/app/api/port.service";
 
 @Component({
   selector: "ft-otau",
   templateUrl: "./ft-otau.component.html",
-  styleUrls: ["./ft-otau.component.css"]
+  styleUrls: ["./ft-otau.component.css"],
 })
 export class FtOtauComponent implements OnInit {
   @Input() parentRtu: RtuDto;
@@ -18,7 +18,7 @@ export class FtOtauComponent implements OnInit {
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
-  constructor(private rtuApiService: RtuApiService) {}
+  constructor(private portApiService: PortApiService) {}
 
   ngOnInit() {}
 
@@ -45,11 +45,9 @@ export class FtOtauComponent implements OnInit {
     detachOtauDto.otauId = this.otau.otauId;
     detachOtauDto.otauAddress = this.otau.otauNetAddress;
     detachOtauDto.opticalPort = this.otau.port;
-    this.rtuApiService
-      .postOneRtu(this.parentRtu.rtuId, "detach-otau", detachOtauDto)
-      .subscribe((res: any) => {
-        console.log(res);
-      });
+    this.portApiService.detachOtau(detachOtauDto).subscribe((res: any) => {
+      console.log(res);
+    });
   }
 
   isRemoveOtauDisabled(): boolean {
