@@ -1,1 +1,53 @@
-<p>ft-port-attach-otau works!</p>
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>Attach optical switch</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="params">
+        <p>RTU: {{ rtu.title }}</p>
+        <p>Port: {{ mainPort }}</p>
+      </div>
+
+      <mat-form-field class="example-full-width">
+        <mat-label>Optical switch's IP address</mat-label>
+        <input matInput [(ngModel)]="ipAddress" />
+      </mat-form-field>
+
+      <div class="infoTable" fxLayout="row">
+        <div class="keys">
+          <p>Serial:</p>
+          <p>Port count:</p>
+        </div>
+        <div class="values">
+          <p>{{ serial }}</p>
+          <p>{{ portCount }}</p>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="attachOtau()"
+        [disabled]="isButtonDisabled"
+      >
+        Attach
+      </button>
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="cancel()"
+        [disabled]="isButtonDisabled"
+      >
+        Back
+      </button>
+    </mat-card-actions>
+  </mat-card>
+  <div class="error-container">
+    <p>{{ resultMessage }}</p>
+  </div>
+  <div class="spinner-container">
+    <mat-spinner *ngIf="isSpinnerVisible"></mat-spinner>
+  </div>
+</div>

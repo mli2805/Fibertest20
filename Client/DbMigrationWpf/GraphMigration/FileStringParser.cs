@@ -130,7 +130,7 @@ namespace DbMigrationWpf
             {
                 Id = Guid.NewGuid(),
                 RtuId = rtuGuid,
-                NetAddress = charonAddress,
+                OtauAddress = charonAddress,
                 Serial = parts[5].Trim(),
                 PortCount = int.Parse(parts[6]),
                 MasterPort = int.Parse(parts[8]),

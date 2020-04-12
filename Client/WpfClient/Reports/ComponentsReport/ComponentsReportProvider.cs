@@ -146,7 +146,7 @@ namespace Iit.Fibertest.Client
             var port = Resources.SID_Port;
             var serial = string.Format(Resources.SID_s_n__0_, bop.Serial);
             var state = bop.IsOk ? Resources.SID_Ok : Resources.SID_Broken;
-            paragraph.AddFormattedText($@"{port} {bop.MasterPort} ; {bop.NetAddress.ToStringA()} ; {serial} ; {state}");
+            paragraph.AddFormattedText($@"{port} {bop.MasterPort} ; {bop.OtauAddress.ToStringA()} ; {serial} ; {state}");
             paragraph.Format.SpaceBefore = Unit.FromCentimeter(0.2);
             paragraph.Format.FirstLineIndent = Unit.FromCentimeter(1);
 

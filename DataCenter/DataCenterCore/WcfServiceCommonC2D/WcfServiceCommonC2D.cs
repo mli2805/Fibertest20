@@ -89,7 +89,14 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
         {
-            var otauAttachedDto = await _clientToRtuTransmitter.AttachOtauAsync(dto);
+            var otauAttachedDto = dto.RtuMaker == RtuMaker.IIT
+                ? await _clientToRtuTransmitter.AttachOtauAsync(dto) 
+                : new OtauAttachedDto()
+                {
+                    IsAttached = false, 
+                    ErrorMessage = "This function for VeEX RTU doesn't implemented", 
+                    ReturnCode = ReturnCode.RtuAttachOtauError
+                };
             if (otauAttachedDto.IsAttached)
                 AttachOtauIntoGraph(dto, otauAttachedDto);
             return otauAttachedDto;
@@ -104,7 +111,7 @@ namespace Iit.Fibertest.DataCenterCore
                 MasterPort = dto.OpticalPort,
                 Serial = result.Serial,
                 PortCount = result.PortCount,
-                NetAddress = (NetAddress)dto.OtauAddresses.Clone(),
+                OtauAddress = (NetAddress)dto.OtauAddress.Clone(),
                 IsOk = true,
             };
             var username = _clientsCollection.GetClientStation(dto.ClientIp)?.UserName;

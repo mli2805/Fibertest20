@@ -46,8 +46,8 @@ namespace Iit.Fibertest.Client
         {
             BopIp = bopNetworkEventAdded.OtauIp;
             var otau = _readModel.Otaus.FirstOrDefault(o =>
-                o.NetAddress.Ip4Address == bopNetworkEventAdded.OtauIp &&
-                o.NetAddress.Port == bopNetworkEventAdded.TcpPort);
+                o.OtauAddress.Ip4Address == bopNetworkEventAdded.OtauIp &&
+                o.OtauAddress.Port == bopNetworkEventAdded.TcpPort);
             if (otau != null)
                 PortRtu = otau.MasterPort;
 

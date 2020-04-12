@@ -59,7 +59,7 @@ namespace Iit.Fibertest.DataCenterWebApi
           
         [Authorize]
         [HttpPost("Attach-otau")]
-        public async Task<string> AttachOtau()
+        public async Task<OtauAttachedDto> AttachOtau()
         {
             try
             {
@@ -69,15 +69,16 @@ namespace Iit.Fibertest.DataCenterWebApi
                     body = await reader.ReadToEndAsync();
                 }
                 _logFile.AppendLine(body);
-                var dto = JsonConvert.DeserializeObject<AttachOtau>(body);
+                var dto = JsonConvert.DeserializeObject<AttachOtauDto>(body);
+                dto.OtauId = Guid.NewGuid();
 
-                var result = await _desktopC2DWcfManager.SendCommandAsObj(dto);
-                return string.IsNullOrEmpty(result) ? null : result;
+                var result = await _commonC2DWcfManager.AttachOtauAsync(dto);
+                return result;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine($"AttachOtau: {e.Message}");
-                return e.Message;
+                return  new OtauAttachedDto(){ ReturnCode =  ReturnCode.RtuAttachOtauError, ErrorMessage = e.Message };
             }
         }  
         

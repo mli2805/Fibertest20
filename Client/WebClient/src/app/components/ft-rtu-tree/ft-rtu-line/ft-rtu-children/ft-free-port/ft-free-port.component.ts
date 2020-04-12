@@ -38,19 +38,25 @@ export class FtFreePortComponent implements OnInit {
   }
 
   attachTraceFromList() {
+    this.prepareDataForAttachment();
+    this.router.navigate(["/port-attach-trace"]);
+  }
+
+  attachOpticalSwitch() {
+    this.prepareDataForAttachment();
+    this.router.navigate(["/port-attach-otau"]);
+  }
+
+  measurementClient() {
+    this.router.navigate(["/port-measurement-client"]);
+  }
+
+  prepareDataForAttachment() {
     this.dataStorage.selectedRtu = this.parentRtu;
     this.dataStorage.selectedPort = new OtauPortDto();
     this.dataStorage.selectedPort.opticalPort = this.port;
     this.dataStorage.selectedPort.isPortOnMainCharon = this.isPortOnMainCharon;
     this.dataStorage.selectedPort.otauId = this.otauId;
     this.dataStorage.selectedPort.serial = this.serial;
-    console.log(this.dataStorage.selectedPort);
-    this.router.navigate(["/port-attach-trace"]);
-  }
-  attachOpticalSwitch() {
-    this.router.navigate(["/port-attach-otau"]);
-  }
-  measurementClient() {
-    this.router.navigate(["/port-measurement-client"]);
   }
 }

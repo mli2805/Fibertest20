@@ -7,12 +7,12 @@ import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { SignalrService } from "src/app/api/signalr.service";
 import { HttpClient } from "@angular/common/http";
-import { Observable } from 'rxjs';
+import { Observable } from "rxjs";
 
 @Component({
   selector: "ft-login",
   templateUrl: "./ft-login.component.html",
-  styleUrls: ["./ft-login.component.css"]
+  styleUrls: ["./ft-login.component.css"],
 })
 export class FtLoginComponent implements OnInit {
   resultMessage: string;
@@ -25,12 +25,10 @@ export class FtLoginComponent implements OnInit {
     private httpClient: HttpClient,
 
     private returnCodePipe: ReturnCodePipe
-  )
-
-  {
+  ) {
     this.isSpinnerVisible = false;
 
-    this.getSettings().subscribe(settings => {
+    this.getSettings().subscribe((settings) => {
       console.log("Settings are: ", settings);
       sessionStorage.setItem("settings", JSON.stringify(settings));
     });
@@ -57,8 +55,7 @@ export class FtLoginComponent implements OnInit {
     }
     this.isSpinnerVisible = true;
 
-    this.authService.login(this.user, this.pw)
-    .subscribe(
+    this.authService.login(this.user, this.pw).subscribe(
       (res: UserDto) => {
         if (res === null) {
           console.log("Login failed, try again...");

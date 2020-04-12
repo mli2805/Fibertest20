@@ -156,7 +156,7 @@ namespace Iit.Fibertest.Client
             {
                 RtuId = _rtuId,
                 OtauId = Guid.NewGuid(),
-                OtauAddresses = otauAddress,
+                OtauAddress = otauAddress,
                 OpticalPort = _portNumberForAttachment
             };
             var result = await _c2RWcfManager.AttachOtauAsync(dto);
@@ -166,8 +166,8 @@ namespace Iit.Fibertest.Client
         private bool CheckAddressUniqueness()
         {
             if (!_readModel.Otaus.Any(o =>
-                o.NetAddress.Ip4Address == NetAddressInputViewModel.GetNetAddress().Ip4Address &&
-                o.NetAddress.Port == NetAddressInputViewModel.GetNetAddress().Port))
+                o.OtauAddress.Ip4Address == NetAddressInputViewModel.GetNetAddress().Ip4Address &&
+                o.OtauAddress.Port == NetAddressInputViewModel.GetNetAddress().Port))
                 return true;
 
             var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_There_is_optical_switch_with_the_same_tcp_address_);

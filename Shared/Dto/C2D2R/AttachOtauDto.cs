@@ -12,11 +12,14 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public Guid RtuId { get; set; }
 
+         [DataMember]
+        public RtuMaker RtuMaker { get; set; }
+
         [DataMember]
         public Guid OtauId { get; set; }
 
         [DataMember]
-        public NetAddress OtauAddresses { get; set; }
+        public NetAddress OtauAddress { get; set; }
 
         [DataMember]
         public int OpticalPort { get; set; }

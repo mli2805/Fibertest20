@@ -223,7 +223,7 @@ namespace Iit.Fibertest.Client
             if (dto.Children != null)
                 foreach (var keyValuePair in dto.Children)
                 {
-                    var bop = _readModel.Otaus.First(o => o.NetAddress.Equals(keyValuePair.Value.NetAddress));
+                    var bop = _readModel.Otaus.First(o => o.OtauAddress.Equals(keyValuePair.Value.NetAddress));
                     if (bop.IsOk != keyValuePair.Value.IsOk)
                         commandList.Add(new AddBopNetworkEvent()
                         {
