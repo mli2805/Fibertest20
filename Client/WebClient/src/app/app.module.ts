@@ -81,6 +81,7 @@ import { FtPortAttachTraceComponent } from "./components/details/port/ft-port-at
 import { FtPortAttachOtauComponent } from "./components/details/port/ft-port-attach-otau/ft-port-attach-otau.component";
 import { FtPortMeasurementClientComponent } from "./components/details/port/ft-port-measurement-client/ft-port-measurement-client.component";
 import { FtDetachedTracesProvider } from "./providers/ft-detached-traces-provider";
+import { FtRtuTreeEventService } from "./components/ft-rtu-tree/ft-rtu-tree-event-service";
 
 @NgModule({
   declarations: [
@@ -169,6 +170,7 @@ import { FtDetachedTracesProvider } from "./providers/ft-detached-traces-provide
     FrequencyPipe,
     ReturnCodePipe,
     FtDetachedTracesProvider,
+    FtRtuTreeEventService,
   ],
   bootstrap: [AppComponent],
 })

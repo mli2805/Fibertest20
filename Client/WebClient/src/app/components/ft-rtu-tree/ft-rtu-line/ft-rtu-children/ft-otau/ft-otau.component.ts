@@ -4,6 +4,7 @@ import { MatMenuTrigger } from "@angular/material";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { DetachOtauDto } from "src/app/models/dtos/rtu/detachOtauDto";
 import { PortApiService } from "src/app/api/port.service";
+import { FtRtuTreeEventService } from "../../../ft-rtu-tree-event-service";
 
 @Component({
   selector: "ft-otau",
@@ -18,7 +19,10 @@ export class FtOtauComponent implements OnInit {
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
-  constructor(private portApiService: PortApiService) {}
+  constructor(
+    private portApiService: PortApiService,
+    private ftRtuTreeEventService: FtRtuTreeEventService
+  ) {}
 
   ngOnInit() {}
 
@@ -39,6 +43,7 @@ export class FtOtauComponent implements OnInit {
   }
 
   removeOtau() {
+    this.ftRtuTreeEventService.emitEvent(true);
     console.log("remove otau pressed");
     const detachOtauDto = new DetachOtauDto();
     detachOtauDto.rtuId = this.otau.rtuId;
@@ -47,6 +52,7 @@ export class FtOtauComponent implements OnInit {
     detachOtauDto.opticalPort = this.otau.port;
     this.portApiService.detachOtau(detachOtauDto).subscribe((res: any) => {
       console.log(res);
+      this.ftRtuTreeEventService.emitEvent(false);
     });
   }
 

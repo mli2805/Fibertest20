@@ -6,3 +6,8 @@
 .rtu-cycle {
   margin-top: 1px;
 }
+.spinner-container {
+  position: absolute;
+  top: 150px;
+  left: 80px;
+}

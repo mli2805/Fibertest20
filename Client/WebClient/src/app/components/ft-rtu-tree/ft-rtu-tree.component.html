@@ -1,8 +1,6 @@
 <div class="component-container">
   <div class="rtu-cycle" fxLayout="column" *ngFor="let rtu of rtus">
-    <div>
-      <ft-rtu-line [rtu]="rtu"></ft-rtu-line>
-    </div>
+    <ft-rtu-line [rtu]="rtu"></ft-rtu-line>
   </div>
 
   <div class="spinner-container" *ngIf="isNotLoaded">

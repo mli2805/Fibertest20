@@ -7,6 +7,7 @@ import { OtauWebDto } from "src/app/models/dtos/rtuTree/otauWebDto";
 import { Router, RouterEvent, NavigationEnd } from "@angular/router";
 import { filter, takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
+import { FtRtuTreeEventService } from "./ft-rtu-tree-event-service";
 
 @Component({
   selector: "ft-rtu-tree",
@@ -19,7 +20,11 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
   public isNotLoaded = true;
   public destroyed = new Subject<any>();
 
-  constructor(private rtuService: RtuApiService, private router: Router) {
+  constructor(
+    private rtuService: RtuApiService,
+    private router: Router,
+    private grandChildEventService: FtRtuTreeEventService
+  ) {
     this.isNotLoaded = true;
   }
 
@@ -34,6 +39,16 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
       )
       .subscribe(() => {
         this.fetchData();
+      });
+
+    this.grandChildEventService
+      .grandChildEventListener()
+      .subscribe((evnt: boolean) => {
+        console.log("evnt received: ", evnt);
+        this.isNotLoaded = evnt;
+        if (!evnt) {
+          this.fetchData();
+        }
       });
   }
 
