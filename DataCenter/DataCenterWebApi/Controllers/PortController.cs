@@ -112,13 +112,6 @@ namespace Iit.Fibertest.DataCenterWebApi
                 }
                 _logFile.AppendLine("body: " + body);
                 var detachOtauDto = JsonConvert.DeserializeObject<DetachOtauDto>(body);
-//                var dto = new DetachOtauDto()
-//                {
-//                    RtuId = rtuGuid,
-//                    OtauId = detachOtauDto.OtauId,
-//                    OpticalPort = detachOtauDto.OpticalPort,
-//                    OtauAddress = (NetAddress)detachOtauDto.OtauAddress.Clone(),
-//                };
                 var otauDetachedDto = await _commonC2DWcfManager.DetachOtauAsync(detachOtauDto);
                 return otauDetachedDto;
             }

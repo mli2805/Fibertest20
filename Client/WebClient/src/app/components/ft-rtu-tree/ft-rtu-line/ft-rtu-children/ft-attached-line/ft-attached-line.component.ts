@@ -3,6 +3,7 @@ import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
 import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
 import { PortApiService } from "src/app/api/port.service";
+import { FtRtuTreeEventService } from "../../../ft-rtu-tree-event-service";
 
 @Component({
   selector: "ft-attached-line",
@@ -16,7 +17,11 @@ export class FtAttachedLineComponent implements OnInit {
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
-  constructor(private router: Router, private portApiService: PortApiService) {}
+  constructor(
+    private router: Router,
+    private portApiService: PortApiService,
+    private ftRtuTreeEventService: FtRtuTreeEventService
+  ) {}
 
   ngOnInit() {}
 
@@ -34,11 +39,13 @@ export class FtAttachedLineComponent implements OnInit {
   }
 
   detachTrace() {
+    this.ftRtuTreeEventService.emitEvent(true);
     this.portApiService.detachTrace(this.trace.traceId).subscribe((res) => {
       console.log(res);
-      if (res === null) {
-        this.router.navigate(["/rtu-tree"]);
-      }
+      this.ftRtuTreeEventService.emitEvent(false);
+      // if (res === null) {
+      //   this.router.navigate(["/rtu-tree"]);
+      // }
     });
   }
 }

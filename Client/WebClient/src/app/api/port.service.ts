@@ -28,7 +28,7 @@ export class PortApiService {
     const myHeaders = new HttpHeaders({
       Authorization: "Bearer " + currentUser.jsonWebToken,
     });
-    return this.httpClient.post(url, { headers: myHeaders });
+    return this.httpClient.post(url, null, { headers: myHeaders });
   }
 
   detachOtau(body: DetachOtauDto) {
