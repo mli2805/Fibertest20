@@ -12,8 +12,12 @@
       {{ "SID_Information" | translate }}
     </button>
     <button mat-menu-item>{{ "SID_Show_trace" | translate }}</button>
-    <button mat-menu-item>{{ "SID_Base_refs_assignment" | translate }}</button>
-    <button mat-menu-item>{{ "SID_State" | translate }}</button>
+    <button mat-menu-item (click)="assignBaseRefs()">
+      {{ "SID_Base_refs_assignment" | translate }}
+    </button>
+    <button mat-menu-item (click)="displayState()">
+      {{ "SID_State" | translate }}
+    </button>
     <button mat-menu-item (click)="displayStatistics()">
       {{ "SID_Statistics" | translate }}
     </button>
@@ -25,9 +29,11 @@
       {{ "SID_Unplug_trace" | translate }}
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item>
+    <button mat-menu-item (click)="outOfTurnMeasurement()">
       {{ "SID_Precise_monitoring_out_of_turn" | translate }}
     </button>
-    <button mat-menu-item>{{ "SID_Measurement__Client_" | translate }}</button>
+    <button mat-menu-item (click)="measurementClient()">
+      {{ "SID_Measurement__Client_" | translate }}
+    </button>
   </mat-menu>
 </div>

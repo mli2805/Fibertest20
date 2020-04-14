@@ -36,6 +36,8 @@ export class FtPortAttachTraceComponent implements OnInit {
   }
 
   attachTrace() {
+    this.isSpinnerVisible = true;
+    this.isButtonDisabled = true;
     const trace: TraceDto = this.traceList.find(
       (t) => t.traceId === this.selectedTrace
     );
@@ -44,6 +46,8 @@ export class FtPortAttachTraceComponent implements OnInit {
     cmd.OtauPortDto = this.dataStorage.selectedPort;
     console.log(cmd);
     this.portApiService.attachTrace(cmd).subscribe((res: string) => {
+      this.isSpinnerVisible = false;
+      this.isButtonDisabled = false;
       console.log(res);
       if (res === null) {
         this.router.navigate(["/rtu-tree"]);

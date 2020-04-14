@@ -34,6 +34,9 @@ export class FtAttachedLineComponent implements OnInit {
     this.contextMenu.focus("mouse");
   }
 
+  displayInformation() {}
+  assignBaseRefs() {}
+
   displayStatistics() {
     this.router.navigate(["/trace-statistics", this.trace.traceId]);
   }
@@ -43,9 +46,10 @@ export class FtAttachedLineComponent implements OnInit {
     this.portApiService.detachTrace(this.trace.traceId).subscribe((res) => {
       console.log(res);
       this.ftRtuTreeEventService.emitEvent(false);
-      // if (res === null) {
-      //   this.router.navigate(["/rtu-tree"]);
-      // }
     });
   }
+
+  outOfTurnMeasurement() {}
+
+  measurementClient() {}
 }
