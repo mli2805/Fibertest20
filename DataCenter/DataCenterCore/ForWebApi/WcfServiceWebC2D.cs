@@ -35,31 +35,6 @@ namespace Iit.Fibertest.DataCenterCore
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
         }
 
-//        public async Task<UserDto> LoginWebClient(string username, string password)
-//        {
-//            _logFile.AppendLine(":: WcfServiceForWebProxy LoginWebClient");
-//            await Task.Delay(1);
-//            try
-//            {
-//                var user = _writeModel.Users.FirstOrDefault(u => u.Title == username && UserExt.FlipFlop(u.EncodedPassword) == password);
-//                if (user == null)
-//                {
-//                    _logFile.AppendLine("no such user");
-//                    return null;
-//                }
-//                var result = new UserDto();
-//                result.Username = username;
-//                result.Role = user.Role.ToString();
-//                result.Zone = _writeModel.Zones.FirstOrDefault(z => z.ZoneId == user.ZoneId)?.Title;
-//                return result;
-//            }
-//            catch (Exception e)
-//            {
-//                _logFile.AppendLine($"{e.Message}");
-//                return null;
-//            }
-//        }
-
         public async Task<string> GetAboutInJson(string username)
         {
             _logFile.AppendLine(":: WcfServiceForWebProxy GetAboutInJson");
@@ -271,8 +246,6 @@ namespace Iit.Fibertest.DataCenterCore
         #endregion
 
         #region Trace
-
-      
         public async Task<TraceInformationDto> GetTraceInformation(string username, Guid traceId)
         {
             _logFile.AppendLine(":: WcfServiceForWebProxy GetTraceInformation");

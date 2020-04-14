@@ -34,7 +34,9 @@ export class FtAttachedLineComponent implements OnInit {
     this.contextMenu.focus("mouse");
   }
 
-  displayInformation() {}
+  displayInformation() {
+    this.router.navigate(["/trace-information", this.trace.traceId]);
+  }
   assignBaseRefs() {}
 
   displayStatistics() {
