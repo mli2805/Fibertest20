@@ -6,5 +6,6 @@ import { OtauPortDto } from "../models/underlying/otauPortDto";
 export class FtDetachedTracesProvider {
   public selectedRtu: RtuDto;
   public selectedPort: OtauPortDto;
+  public data: object;
   public constructor() {}
 }

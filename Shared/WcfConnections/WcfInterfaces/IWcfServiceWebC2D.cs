@@ -25,6 +25,9 @@ namespace Iit.Fibertest.WcfConnections
         Task<RtuStateDto> GetRtuState(string username, Guid rtuId);
 
         [OperationContract]
+        Task<TreeOfAcceptableMeasParams> GetRtuAcceptableMeasParams(string username, Guid rtuId);
+
+        [OperationContract]
         Task<RtuMonitoringSettingsDto> GetRtuMonitoringSettings(string username, Guid rtuId);
 
         [OperationContract]

@@ -77,8 +77,6 @@ namespace Iit.Fibertest.Client
                 RtuId = RtuLeaf.Id,
                 OtauPortDto = new OtauPortDto()
                 {
-                    //                    OtauIp = address.Ip4Address,
-                    //                    OtauTcpPort = address.Port,
                     Serial = otau.Serial,
                     IsPortOnMainCharon = RtuLeaf.OtauNetAddress.Equals(address),
                     OpticalPort = portNumber

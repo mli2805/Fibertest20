@@ -122,6 +122,26 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<TreeOfAcceptableMeasParams> GetRtuAcceptableMeasParams(string username, Guid rtuId)
+        {
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetRtuAcceptableMeasParams(username, rtuId);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetRtuAcceptableMeasParams: " + e.Message);
+                return null;
+            }
+        }
+
         public async Task<RtuMonitoringSettingsDto> GetRtuMonitoringSettings(string username, Guid rtuId)
         {
             var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();

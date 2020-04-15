@@ -48,6 +48,7 @@ export class FtFreePortComponent implements OnInit {
   }
 
   measurementClient() {
+    this.prepareDataForAttachment();
     this.router.navigate(["/port-measurement-client"]);
   }
 

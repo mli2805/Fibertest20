@@ -4,6 +4,8 @@ import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
 import { PortApiService } from "src/app/api/port.service";
 import { FtRtuTreeEventService } from "../../../ft-rtu-tree-event-service";
+import { FtDetachedTracesProvider } from "src/app/providers/ft-detached-traces-provider";
+import { OtauPortDto } from "src/app/models/underlying/otauPortDto";
 
 @Component({
   selector: "ft-attached-line",
@@ -20,7 +22,8 @@ export class FtAttachedLineComponent implements OnInit {
   constructor(
     private router: Router,
     private portApiService: PortApiService,
-    private ftRtuTreeEventService: FtRtuTreeEventService
+    private ftRtuTreeEventService: FtRtuTreeEventService,
+    private dataStorage: FtDetachedTracesProvider
   ) {}
 
   ngOnInit() {}
@@ -53,5 +56,13 @@ export class FtAttachedLineComponent implements OnInit {
 
   outOfTurnMeasurement() {}
 
-  measurementClient() {}
+  measurementClient() {
+    this.prepareData();
+    this.router.navigate(["/port-measurement-client"]);
+  }
+
+  prepareData() {
+    const dict = { trace: this.trace };
+    this.dataStorage.data = dict;
+  }
 }

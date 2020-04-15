@@ -119,6 +119,27 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
+        [HttpGet("Measurement-parameters/{id}")]
+        public async Task<TreeOfAcceptableMeasParams> GetRtuAcceptableMeasParams(string id)
+        {
+            try
+            {
+                _logFile.AppendLine($"rtu id = {id}");
+                var rtuGuid = Guid.Parse(id);
+                var rtuMeasParams = await _webC2DWcfManager.GetRtuAcceptableMeasParams(User.Identity.Name, rtuGuid);
+                _logFile.AppendLine(rtuMeasParams == null
+                    ? "Failed to GetRtuAcceptableMeasParams"
+                    : "RTU acceptable meas params ");
+                return rtuMeasParams;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"GetRtuAcceptableMeasParams: {e.Message}");
+            }
+            return null;
+        }
+
+        [Authorize]
         [HttpGet("Monitoring-settings/{id}")]
         public async Task<RtuMonitoringSettingsDto> GetRtuMonitoringSettings(string id)
         {
@@ -215,7 +236,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             catch (Exception e)
             {
                 _logFile.AppendLine($"StartMonitoring: {e.Message}");
-               return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError, ExceptionMessage = e.Message };
+                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError, ExceptionMessage = e.Message };
             }
         }
 
@@ -235,7 +256,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine("body: " + body);
                 var str = JsonConvert.DeserializeObject<string>(body);
                 var rtuMaker = (RtuMaker)Enum.Parse(typeof(RtuMaker), str);
-                var dto = new StopMonitoringDto(){RtuId = rtuGuid, RtuMaker = rtuMaker};
+                var dto = new StopMonitoringDto() { RtuId = rtuGuid, RtuMaker = rtuMaker };
                 var isStopped = await _commonC2DWcfManager.StopMonitoringAsync(dto);
                 return isStopped;
             }
@@ -245,7 +266,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 return false;
             }
         }
-        
-      
+
+
     }
 }

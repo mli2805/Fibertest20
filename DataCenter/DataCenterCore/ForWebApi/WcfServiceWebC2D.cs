@@ -212,6 +212,13 @@ namespace Iit.Fibertest.DataCenterCore
             return prepareRtuStateChild;
         }
 
+        public async Task<TreeOfAcceptableMeasParams> GetRtuAcceptableMeasParams(string username, Guid rtuId)
+        {
+            await Task.Delay(1);
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == rtuId);
+            return rtu?.AcceptableMeasParams;
+        }
+
         /// <summary>
         /// not the same as desktop command:
         /// web client sends only id of RTU which had already been initialized and now should be RE-initialized
