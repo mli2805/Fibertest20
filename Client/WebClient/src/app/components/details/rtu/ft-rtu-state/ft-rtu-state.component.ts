@@ -6,7 +6,7 @@ import { RtuApiService } from "src/app/api/rtu.service";
 @Component({
   selector: "ft-rtu-state",
   templateUrl: "./ft-rtu-state.component.html",
-  styleUrls: ["./ft-rtu-state.component.css"]
+  styleUrls: ["./ft-rtu-state.component.css"],
 })
 export class FtRtuStateComponent implements OnInit {
   vm: RtuStateDto = new RtuStateDto();
@@ -16,7 +16,7 @@ export class FtRtuStateComponent implements OnInit {
     "traceTitle",
     "traceState",
     "lastMeasId",
-    "lastMeasTime"
+    "lastMeasTime",
   ];
 
   constructor(
@@ -26,7 +26,7 @@ export class FtRtuStateComponent implements OnInit {
 
   ngOnInit() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
-    this.rtuApiService.getOneRtu(id, "state").subscribe((res: RtuStateDto) => {
+    this.rtuApiService.getRequest(id, "state").subscribe((res: RtuStateDto) => {
       console.log("rtu state received");
       Object.assign(this.vm, res);
     });

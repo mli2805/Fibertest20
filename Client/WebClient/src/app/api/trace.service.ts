@@ -3,12 +3,12 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Utils } from "../Utils/utils";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class TraceApiService {
   constructor(private httpClient: HttpClient) {}
 
-  getOneTrace(
+  getRequest(
     request: string,
     id: string,
     pageNumber: number = 0,
@@ -19,12 +19,12 @@ export class TraceApiService {
 
     const myHttpOptions = {
       headers: {
-        Authorization: "Bearer " + currentUser.jsonWebToken
+        Authorization: "Bearer " + currentUser.jsonWebToken,
       },
       params: {
         pageNumber: pageNumber.toString(),
-        pageSize: pageSize.toString()
-      }
+        pageSize: pageSize.toString(),
+      },
     };
 
     return this.httpClient.get(url, myHttpOptions);

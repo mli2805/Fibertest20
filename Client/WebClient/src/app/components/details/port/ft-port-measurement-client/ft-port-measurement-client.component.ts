@@ -35,7 +35,7 @@ export class FtPortMeasurementClientComponent implements OnInit {
   ngOnInit() {
     const trace = this.dataStorage.data["trace"];
     this.rtuApiService
-      .getOneRtu(trace.rtuId, "measurement-parameters")
+      .getRequest(trace.rtuId, "measurement-parameters")
       .subscribe((res: TreeOfAcceptableVeasParams) => {
         console.log("tree: ", res);
         this.tree = res;

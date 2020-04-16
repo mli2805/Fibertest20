@@ -50,10 +50,12 @@ export class FtOtauComponent implements OnInit {
     detachOtauDto.otauId = this.otau.otauId;
     detachOtauDto.otauAddress = this.otau.otauNetAddress;
     detachOtauDto.opticalPort = this.otau.port;
-    this.portApiService.detachOtau(detachOtauDto).subscribe((res: any) => {
-      console.log(res);
-      this.ftRtuTreeEventService.emitEvent(false);
-    });
+    this.portApiService
+      .postRequest("detach-otau", detachOtauDto)
+      .subscribe((res: any) => {
+        console.log(res);
+        this.ftRtuTreeEventService.emitEvent(false);
+      });
   }
 
   isRemoveOtauDisabled(): boolean {

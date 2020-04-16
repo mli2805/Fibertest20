@@ -34,7 +34,7 @@ export class FtRtuNetworkSettingsComponent implements OnInit, OnDestroy {
   ngOnInit() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
     this.rtuApiService
-      .getOneRtu(id, "network-settings")
+      .getRequest(id, "network-settings")
       .subscribe((res: RtuNetworkSettingsDto) => {
         console.log("rtu network settings received");
         this.vm = res;

@@ -6,7 +6,7 @@ import { RtuInformationDto } from "src/app/models/dtos/rtu/rtuInformationDto";
 @Component({
   selector: "ft-rtu-information",
   templateUrl: "./ft-rtu-information.component.html",
-  styleUrls: ["./ft-rtu-information.component.css"]
+  styleUrls: ["./ft-rtu-information.component.css"],
 })
 export class FtRtuInformationComponent implements OnInit {
   private vm: RtuInformationDto = new RtuInformationDto();
@@ -19,7 +19,7 @@ export class FtRtuInformationComponent implements OnInit {
   ngOnInit() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
     this.rtuApiService
-      .getOneRtu(id, "information")
+      .getRequest(id, "information")
       .subscribe((res: RtuInformationDto) => {
         console.log("rtu information received");
         this.vm = res;

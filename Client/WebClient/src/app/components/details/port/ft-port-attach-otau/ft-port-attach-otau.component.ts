@@ -49,20 +49,22 @@ export class FtPortAttachOtauComponent implements OnInit {
     cmd.OtauAddress.IsAddressSetAsIp = true;
     cmd.OtauAddress.Port = 11834;
     console.log(cmd);
-    this.portApiService.attachOtau(cmd).subscribe((res: OtauAttachedDto) => {
-      console.log(res);
-      if (res.isAttached) {
-        this.resultMessage = "Otau attached succesfully!";
-        this.serial = res.serial;
-        this.portCount = res.portCount;
-        this.isButtonDisabled = false;
-        this.isSpinnerVisible = false;
-      } else {
-        this.resultMessage = res.errorMessage;
-        this.isButtonDisabled = false;
-        this.isSpinnerVisible = false;
-      }
-    });
+    this.portApiService
+      .postRequest("attach-otau", cmd)
+      .subscribe((res: OtauAttachedDto) => {
+        console.log(res);
+        if (res.isAttached) {
+          this.resultMessage = "Otau attached succesfully!";
+          this.serial = res.serial;
+          this.portCount = res.portCount;
+          this.isButtonDisabled = false;
+          this.isSpinnerVisible = false;
+        } else {
+          this.resultMessage = res.errorMessage;
+          this.isButtonDisabled = false;
+          this.isSpinnerVisible = false;
+        }
+      });
   }
 
   cancel() {

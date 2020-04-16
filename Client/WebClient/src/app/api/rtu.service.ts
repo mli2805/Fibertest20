@@ -18,7 +18,7 @@ export class RtuApiService {
     return this.httpClient.get(url, { headers: myHeaders });
   }
 
-  getOneRtu(id: string, request: string) {
+  getRequest(id: string, request: string) {
     const url = Utils.GetWebApiUrl() + `/rtu/${request}/${id}`;
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
@@ -29,7 +29,7 @@ export class RtuApiService {
     return this.httpClient.get(url, { headers: myHeaders });
   }
 
-  postOneRtu(id: string, request: string, body: any) {
+  postRequest(id: string, request: string, body: any) {
     const url = Utils.GetWebApiUrl() + `/rtu/${request}/${id}`;
     const currentUser = JSON.parse(sessionStorage.currentUser);
 

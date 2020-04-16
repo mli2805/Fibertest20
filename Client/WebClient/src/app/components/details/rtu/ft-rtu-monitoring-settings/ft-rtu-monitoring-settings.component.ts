@@ -63,7 +63,7 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
 
     const id = this.activeRoute.snapshot.paramMap.get("id");
     this.rtuApiService
-      .getOneRtu(id, "monitoring-settings")
+      .getRequest(id, "monitoring-settings")
       .subscribe((res: RtuMonitoringSettingsDto) => {
         console.log("rtu monitoring settings received");
         this.vm = res;
@@ -105,7 +105,7 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
 
     const id = this.activeRoute.snapshot.paramMap.get("id");
     this.rtuApiService
-      .postOneRtu(id, "monitoring-settings", dto)
+      .postRequest(id, "monitoring-settings", dto)
       .subscribe((res: RequestAnswer) => {
         console.log(res);
         if (

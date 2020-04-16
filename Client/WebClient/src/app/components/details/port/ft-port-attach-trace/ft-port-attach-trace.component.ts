@@ -45,16 +45,18 @@ export class FtPortAttachTraceComponent implements OnInit {
     cmd.TraceId = trace.traceId;
     cmd.OtauPortDto = this.dataStorage.selectedPort;
     console.log(cmd);
-    this.portApiService.attachTrace(cmd).subscribe((res: string) => {
-      this.isSpinnerVisible = false;
-      this.isButtonDisabled = false;
-      console.log(res);
-      if (res === null) {
-        this.router.navigate(["/rtu-tree"]);
-      } else {
-        this.resultMessage = res;
-      }
-    });
+    this.portApiService
+      .postRequest("attach-trace", cmd)
+      .subscribe((res: string) => {
+        this.isSpinnerVisible = false;
+        this.isButtonDisabled = false;
+        console.log(res);
+        if (res === null) {
+          this.router.navigate(["/rtu-tree"]);
+        } else {
+          this.resultMessage = res;
+        }
+      });
   }
 
   cancel() {

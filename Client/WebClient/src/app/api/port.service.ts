@@ -11,8 +11,8 @@ import { AttachOtauDto } from "../models/dtos/port/attachOtauDto";
 export class PortApiService {
   constructor(private httpClient: HttpClient) {}
 
-  attachTrace(body: AttachTraceDto) {
-    const url = Utils.GetWebApiUrl() + "/port/attach-trace";
+  postRequest(request: string, body: any) {
+    const url = Utils.GetWebApiUrl() + `/port/${request}`;
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
     const myHeaders = new HttpHeaders({
@@ -30,26 +30,4 @@ export class PortApiService {
     });
     return this.httpClient.post(url, null, { headers: myHeaders });
   }
-
-  detachOtau(body: DetachOtauDto) {
-    const url = Utils.GetWebApiUrl() + `/port/detach-otau/`;
-    const currentUser = JSON.parse(sessionStorage.currentUser);
-
-    const myHeaders = new HttpHeaders({
-      Authorization: "Bearer " + currentUser.jsonWebToken,
-    });
-    return this.httpClient.post(url, body, { headers: myHeaders });
-  }
-
-  attachOtau(body: AttachOtauDto) {
-    const url = Utils.GetWebApiUrl() + "/port/attach-otau";
-    const currentUser = JSON.parse(sessionStorage.currentUser);
-
-    const myHeaders = new HttpHeaders({
-      Authorization: "Bearer " + currentUser.jsonWebToken,
-    });
-    return this.httpClient.post(url, body, { headers: myHeaders });
-  }
-
-  measurementClient() {}
 }

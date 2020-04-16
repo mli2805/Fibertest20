@@ -21,7 +21,7 @@ export class FtTraceInformationComponent implements OnInit {
     this.isSpinnerVisible = true;
     const id = this.activeRoute.snapshot.paramMap.get("id");
     this.traceApiService
-      .getOneTrace("information", id, 0, 0)
+      .getRequest("information", id, 0, 0)
       .subscribe((res: TraceInformationDto) => {
         this.isSpinnerVisible = false;
         console.log(res);

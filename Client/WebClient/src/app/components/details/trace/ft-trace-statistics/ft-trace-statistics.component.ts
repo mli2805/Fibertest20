@@ -8,7 +8,7 @@ import { tap } from "rxjs/operators";
 @Component({
   selector: "ft-trace-statistics",
   templateUrl: "./ft-trace-statistics.component.html",
-  styleUrls: ["./ft-trace-statistics.component.css"]
+  styleUrls: ["./ft-trace-statistics.component.css"],
 })
 export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
   vm: TraceStatisticsDto = new TraceStatisticsDto();
@@ -21,7 +21,7 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
     "baseRefType",
     "eventRegistrationTimestamp",
     "isEvent",
-    "traceState"
+    "traceState",
   ];
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -34,7 +34,7 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
     this.traceApiService
-      .getOneTrace("statistics", id, 0, 8)
+      .getRequest("statistics", id, 0, 8)
       .subscribe((res: TraceStatisticsDto) => {
         console.log("trace statistics initial page received");
         this.vm = res;
@@ -56,7 +56,7 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
   loadPage() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
     this.traceApiService
-      .getOneTrace(
+      .getRequest(
         "statistics",
         id,
         this.paginator.pageIndex,
