@@ -55,8 +55,8 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine($"AttachTrace: {e.Message}");
                 return e.Message;
             }
-        }  
-          
+        }
+
         [Authorize]
         [HttpPost("Attach-otau")]
         public async Task<OtauAttachedDto> AttachOtau()
@@ -78,10 +78,10 @@ namespace Iit.Fibertest.DataCenterWebApi
             catch (Exception e)
             {
                 _logFile.AppendLine($"AttachOtau: {e.Message}");
-                return  new OtauAttachedDto(){ ReturnCode =  ReturnCode.RtuAttachOtauError, ErrorMessage = e.Message };
+                return new OtauAttachedDto() { ReturnCode = ReturnCode.RtuAttachOtauError, ErrorMessage = e.Message };
             }
-        }  
-        
+        }
+
         [Authorize]
         [HttpPost("Detach-trace/{id}")]
         public async Task<string> DetachTrace(string id)
@@ -89,7 +89,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             try
             {
                 var traceGuid = Guid.Parse(id);
-                var result = await _desktopC2DWcfManager.SendCommandAsObj(new DetachTrace(){TraceId = traceGuid});
+                var result = await _desktopC2DWcfManager.SendCommandAsObj(new DetachTrace() { TraceId = traceGuid });
                 return string.IsNullOrEmpty(result) ? null : result;
             }
             catch (Exception e)
@@ -119,6 +119,29 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"DetachOtau: {e.Message}");
                 return new OtauDetachedDto() { ErrorMessage = e.Message, ReturnCode = ReturnCode.RtuDetachOtauError };
+            }
+        }
+
+        [Authorize]
+        [HttpPost("Measurement-client")]
+        public async Task<ClientMeasurementStartedDto> MeasurementClient()
+        {
+            try
+            {
+                string body;
+                using (var reader = new StreamReader(Request.Body))
+                {
+                    body = await reader.ReadToEndAsync();
+                }
+                _logFile.AppendLine("body: " + body);
+                var dto = JsonConvert.DeserializeObject<DoClientMeasurementDto>(body);
+                var clientMeasurementStartedDto = await _commonC2DWcfManager.DoClientMeasurementAsync(dto);
+                return clientMeasurementStartedDto;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"MeasurementClient: {e.Message}");
+                return new ClientMeasurementStartedDto() { ErrorMessage = e.Message, ReturnCode = ReturnCode.MeasurementPreparationError };
             }
         }
 

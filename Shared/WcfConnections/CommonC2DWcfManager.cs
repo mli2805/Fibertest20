@@ -306,7 +306,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine("DoClientMeasuremenTask:" + e.Message);
-                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ExceptionMessage = e.Message };
+                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
             }
         }
 

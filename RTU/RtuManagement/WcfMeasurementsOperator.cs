@@ -30,7 +30,7 @@ namespace Iit.Fibertest.RtuManagement
                 catch (Exception e)
                 {
                     _serviceLog.AppendLine("Thread pool: " + e);
-                    var result = new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.Error, ExceptionMessage = e.Message };
+                    var result = new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
                     callbackChannel.EndStartClientMeasurement(result);
                 }
             });

@@ -25,7 +25,7 @@ namespace Iit.Fibertest.DataCenterCore
             catch (Exception e)
             {
                 _logFile.AppendLine("DoClientMeasurementAsync:" + e.Message);
-                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.DbError, ExceptionMessage = e.Message };
+                return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.DbError, ErrorMessage = e.Message };
             }
         }
 

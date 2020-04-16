@@ -3,6 +3,8 @@ import { FtDetachedTracesProvider } from "src/app/providers/ft-detached-traces-p
 import { RtuApiService } from "src/app/api/rtu.service";
 import { TreeOfAcceptableVeasParams } from "src/app/models/dtos/meas-params/acceptableMeasParams";
 import { Router } from "@angular/router";
+import { PortApiService } from "src/app/api/port.service";
+import { DoClientMeasurementDto } from "src/app/models/dtos/meas-params/doClientMeasurementDto";
 
 @Component({
   selector: "ft-port-measurement-client",
@@ -11,6 +13,8 @@ import { Router } from "@angular/router";
 })
 export class FtPortMeasurementClientComponent implements OnInit {
   tree: TreeOfAcceptableVeasParams;
+
+  isSpinnerVisible = false;
 
   itemsSourceUnits;
   itemsSourceDistances;
@@ -28,18 +32,21 @@ export class FtPortMeasurementClientComponent implements OnInit {
   constructor(
     private router: Router,
     private dataStorage: FtDetachedTracesProvider,
-    private rtuApiService: RtuApiService
+    private rtuApiService: RtuApiService,
+    private portApiService: PortApiService
   ) {}
 
   /* tslint:disable:no-string-literal */
   ngOnInit() {
-    const trace = this.dataStorage.data["trace"];
+    this.isSpinnerVisible = true;
+    const rtuId = this.dataStorage.data["rtuId"];
     this.rtuApiService
-      .getRequest(trace.rtuId, "measurement-parameters")
+      .getRequest(rtuId, "measurement-parameters")
       .subscribe((res: TreeOfAcceptableVeasParams) => {
         console.log("tree: ", res);
         this.tree = res;
         this.initializeLists();
+        this.isSpinnerVisible = false;
       });
   }
 
@@ -113,10 +120,20 @@ export class FtPortMeasurementClientComponent implements OnInit {
     };
     return result;
   }
-  /* tslint:enable:no-string-literal */
 
   measure() {
+    this.isSpinnerVisible = true;
     console.log(this.getSelectedParameters());
+    const dto = new DoClientMeasurementDto();
+    dto.rtuId = this.dataStorage.data["rtuId"];
+    dto.otauPortDto = this.dataStorage.data["otauPortDto"];
+    dto.selectedMeasParams = this.getSelectedParameters();
+    this.portApiService
+      .postRequest("measurement-client", dto)
+      .subscribe((res: any) => {
+        console.log(res);
+        this.isSpinnerVisible = false;
+      });
   }
 
   close() {

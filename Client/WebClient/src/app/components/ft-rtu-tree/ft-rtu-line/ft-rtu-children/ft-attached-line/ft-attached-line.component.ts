@@ -62,7 +62,7 @@ export class FtAttachedLineComponent implements OnInit {
   }
 
   prepareData() {
-    const dict = { trace: this.trace };
+    const dict = { rtuId: this.trace.rtuId, otauPortDto: this.trace.otauPort };
     this.dataStorage.data = dict;
   }
 }
