@@ -5,7 +5,7 @@
   <mat-card-content>
     <mat-form-field>
       <mat-label>{{ "SID_Fiber_type_wavelength" | translate }}</mat-label>
-      <mat-select [(value)]="selectedUnit">
+      <mat-select [(value)]="selectedUnit" (selectionChange)="unitChanged()">
         <mat-option *ngFor="let item of itemsSourceUnits" [value]="item">
           {{ item }}</mat-option
         >
@@ -23,7 +23,10 @@
 
     <mat-form-field>
       <mat-label>{{ "SID_Distance_range" | translate }}</mat-label>
-      <mat-select [(value)]="selectedDistance">
+      <mat-select
+        [(value)]="selectedDistance"
+        (selectionChange)="distanceChanged()"
+      >
         <mat-option *ngFor="let item of itemsSourceDistances" [value]="item">
           {{ item }}</mat-option
         >

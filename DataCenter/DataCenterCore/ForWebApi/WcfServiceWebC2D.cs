@@ -216,7 +216,25 @@ namespace Iit.Fibertest.DataCenterCore
         {
             await Task.Delay(1);
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == rtuId);
-            return rtu?.AcceptableMeasParams;
+            if (rtu == null) return null;
+            return ForceAllDistancesToHaveDecimalPoint(rtu.AcceptableMeasParams);
+        }
+
+        private static TreeOfAcceptableMeasParams ForceAllDistancesToHaveDecimalPoint(TreeOfAcceptableMeasParams tree)
+        {
+            foreach (var branch in tree.Units)
+            {
+                var distances = branch.Value.Distances;
+                branch.Value.Distances = new Dictionary<string, LeafOfAcceptableMeasParams>();
+                foreach (var pair in distances)
+                {
+                    var distance = pair.Key;
+                    if (!distance.Contains("."))
+                        distance = pair.Key + ".0";
+                    branch.Value.Distances.Add(distance, pair.Value);
+                }
+            }
+            return tree;
         }
 
         /// <summary>
