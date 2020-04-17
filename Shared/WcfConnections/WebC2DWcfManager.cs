@@ -16,9 +16,10 @@ namespace Iit.Fibertest.WcfConnections
             _iniFile = iniFile;
             _logFile = logFile;
         }
-        public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
+        public WebC2DWcfManager SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
         {
             _wcfFactory = new WcfFactory(newServerAddress, _iniFile, _logFile);
+            return this;
         }
 
         public async Task<string> GetAboutInJson(string username)

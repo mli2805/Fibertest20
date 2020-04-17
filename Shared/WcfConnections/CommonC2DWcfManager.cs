@@ -19,11 +19,12 @@ namespace Iit.Fibertest.WcfConnections
             _logFile = logFile;
         }
 
-        public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
+        public IWcfServiceCommonC2D SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
         {
             _wcfFactory = new WcfFactory(newServerAddress, _iniFile, _logFile);
             _username = username;
             _clientIp = clientIp;
+            return this;
         }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)

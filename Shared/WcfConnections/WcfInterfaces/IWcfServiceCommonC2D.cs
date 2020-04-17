@@ -7,7 +7,7 @@ namespace Iit.Fibertest.WcfConnections
     [ServiceContract]
     public interface IWcfServiceCommonC2D
     {
-        void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp);
+        IWcfServiceCommonC2D SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp);
 
         // C2D
         [OperationContract]

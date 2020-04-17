@@ -17,20 +17,25 @@ namespace Iit.Fibertest.DataCenterWebApi
         private readonly IMyLog _logFile;
         private readonly DesktopC2DWcfManager _desktopC2DWcfManager;
         private readonly CommonC2DWcfManager _commonC2DWcfManager;
+        private readonly DoubleAddress _doubleAddressForDesktopWcfManager;
+        private readonly DoubleAddress _doubleAddressForCommonWcfManager;
+        private readonly string _localIpAddress;
 
         public PortController(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
             _desktopC2DWcfManager = new DesktopC2DWcfManager(iniFile, logFile);
-            var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToDesktopClient);
-            _desktopC2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
-
-            var da = (DoubleAddress)doubleAddress.Clone();
-            da.Main.Port = (int)TcpPorts.ServerListenToCommonClient;
-            if (da.HasReserveAddress)
-                da.Reserve.Port = (int)TcpPorts.ServerListenToCommonClient;
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
-            _commonC2DWcfManager.SetServerAddresses(da, "webClient", "localhost");
+            _doubleAddressForDesktopWcfManager = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToDesktopClient);
+            _doubleAddressForCommonWcfManager = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToCommonClient);
+            _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, 11080).Ip4Address;
+        }
+
+        private string GetRemoteAddress()
+        {
+            var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
+            // browser started on the same pc as this service
+            return ip1 == "::1" ? _localIpAddress : ip1;
         }
 
         [Authorize]
@@ -47,7 +52,9 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine(body);
                 var dto = JsonConvert.DeserializeObject<AttachTrace>(body);
 
-                var result = await _desktopC2DWcfManager.SendCommandAsObj(dto);
+                var result = await _desktopC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForDesktopWcfManager, "webproxy", GetRemoteAddress())
+                    .SendCommandAsObj(dto);
                 return string.IsNullOrEmpty(result) ? null : result;
             }
             catch (Exception e)
@@ -72,7 +79,9 @@ namespace Iit.Fibertest.DataCenterWebApi
                 var dto = JsonConvert.DeserializeObject<AttachOtauDto>(body);
                 dto.OtauId = Guid.NewGuid();
 
-                var result = await _commonC2DWcfManager.AttachOtauAsync(dto);
+                var result = await _commonC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, "webproxy", GetRemoteAddress())
+                    .AttachOtauAsync(dto);
                 return result;
             }
             catch (Exception e)
@@ -89,7 +98,9 @@ namespace Iit.Fibertest.DataCenterWebApi
             try
             {
                 var traceGuid = Guid.Parse(id);
-                var result = await _desktopC2DWcfManager.SendCommandAsObj(new DetachTrace() { TraceId = traceGuid });
+                var result = await _desktopC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForDesktopWcfManager, "webproxy", GetRemoteAddress())
+                    .SendCommandAsObj(new DetachTrace() { TraceId = traceGuid });
                 return string.IsNullOrEmpty(result) ? null : result;
             }
             catch (Exception e)
@@ -112,7 +123,9 @@ namespace Iit.Fibertest.DataCenterWebApi
                 }
                 _logFile.AppendLine("body: " + body);
                 var detachOtauDto = JsonConvert.DeserializeObject<DetachOtauDto>(body);
-                var otauDetachedDto = await _commonC2DWcfManager.DetachOtauAsync(detachOtauDto);
+                var otauDetachedDto = await _commonC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, "webproxy", GetRemoteAddress())
+                    .DetachOtauAsync(detachOtauDto);
                 return otauDetachedDto;
             }
             catch (Exception e)
@@ -126,6 +139,11 @@ namespace Iit.Fibertest.DataCenterWebApi
         [HttpPost("Measurement-client")]
         public async Task<ClientMeasurementStartedDto> MeasurementClient()
         {
+            var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
+            // browser started on the same pc as this service
+            var aa = ip1 == "::1" ? _localIpAddress : ip1;
+            _logFile.AppendLine($"MeasurementClient request from {aa}");
+           
             try
             {
                 string body;
@@ -133,9 +151,10 @@ namespace Iit.Fibertest.DataCenterWebApi
                 {
                     body = await reader.ReadToEndAsync();
                 }
-                _logFile.AppendLine("body: " + body);
                 var dto = JsonConvert.DeserializeObject<DoClientMeasurementDto>(body);
-                var clientMeasurementStartedDto = await _commonC2DWcfManager.DoClientMeasurementAsync(dto);
+                var clientMeasurementStartedDto = await _commonC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, "webproxy", GetRemoteAddress())
+                    .DoClientMeasurementAsync(dto);
                 return clientMeasurementStartedDto;
             }
             catch (Exception e)

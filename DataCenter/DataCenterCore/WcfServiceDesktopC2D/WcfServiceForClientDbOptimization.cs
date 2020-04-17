@@ -13,7 +13,7 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task RemoveEventsAndSors(RemoveEventsAndSors removeEventsAndSors, string username, string clientIp)
         {
             _logFile.AppendLine("Start DB optimization on another thread to release WCF client");
-            var addresses = _clientsCollection.GetClientsAddresses();
+            var addresses = _clientsCollection.GetDesktopClientsAddresses();
             if (addresses == null)
                 return;
             _d2CWcfManager.SetClientsAddresses(addresses);

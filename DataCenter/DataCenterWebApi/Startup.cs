@@ -80,6 +80,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             logFile.AssignFile("webapi.log");
             services.AddSingleton<IMyLog>(logFile);
             logFile.AppendLine("Fibertest WebApi service started");
+
         }
 
         private static void SetServerAddress(IniFile iniFile)

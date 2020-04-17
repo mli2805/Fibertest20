@@ -17,7 +17,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly EventStoreService _eventStoreService;
         private readonly List<ClientStation> _clients = new List<ClientStation>();
 
-        public ClientsCollection(IniFile iniFile, IMyLog logFile, Model writeModel, 
+        public ClientsCollection(IniFile iniFile, IMyLog logFile, Model writeModel,
             CurrentDatacenterParameters currentDatacenterParameters, EventStoreService eventStoreService)
         {
             _iniFile = iniFile;
@@ -31,8 +31,8 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var user = _writeModel.Users.FirstOrDefault(u => u.Title == dto.UserName && UserExt.FlipFlop(u.EncodedPassword) == dto.Password);
             if (user == null)
-                return new ClientRegisteredDto {ReturnCode = ReturnCode.NoSuchUserOrWrongPassword};
-          
+                return new ClientRegisteredDto { ReturnCode = ReturnCode.NoSuchUserOrWrongPassword };
+
             var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp);
             if (station != null)
             {
@@ -58,17 +58,17 @@ namespace Iit.Fibertest.DataCenterCore
             if (dto.IsUnderSuperClient)
             {
                 if (!user.Role.IsSuperclientPermitted())
-                    return new ClientRegisteredDto() {ReturnCode = ReturnCode.UserHasNoRightsToStartSuperClient};
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.UserHasNoRightsToStartSuperClient };
             }
             else if (dto.IsWebClient)
             {
                 if (!user.Role.IsWebPermitted())
-                    return new ClientRegisteredDto() {ReturnCode = ReturnCode.UserHasNoRightsToStartWebClient};
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.UserHasNoRightsToStartWebClient };
             }
-            else 
+            else
             {
                 if (!user.Role.IsDesktopPermitted())
-                    return new ClientRegisteredDto() {ReturnCode = ReturnCode.UserHasNoRightsToStartClient};
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.UserHasNoRightsToStartClient };
             }
             return null;
         }
@@ -85,7 +85,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
             else if (dto.IsWebClient)
             {
-                if (_clients.Count(c => c.IsWebClient) >= _writeModel.License.WebClientCount.Value 
+                if (_clients.Count(c => c.IsWebClient) >= _writeModel.License.WebClientCount.Value
                     && _clients.All(s => s.ClientIp != dto.ClientIp))
                     return new ClientRegisteredDto() { ReturnCode = ReturnCode.WebClientsCountExceeded };
                 if (_writeModel.License.WebClientCount.ValidUntil < DateTime.Today)
@@ -119,7 +119,7 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine($"There are {_clients.Count()} client(s)");
             return await FillInSuccessfulResult(user);
         }
-        
+
         private void ReRegister(RegisterClientDto dto, ClientStation station, User user)
         {
             station.UserId = user.UserId;
@@ -204,17 +204,34 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine($"There are {_clients.Count()} client(s)");
         }
 
-     
-        public List<DoubleAddress> GetClientsAddresses(string clientIp = null)
+
+        public List<DoubleAddress> GetDesktopClientsAddresses(string clientIp = null)
         {
             if (clientIp == null)
                 return _clients
-                    .Where(s=>!s.IsWebClient)
+                    .Where(s => !s.IsWebClient)
                     .Select(c => new DoubleAddress() { Main = new NetAddress(c.ClientIp, c.ClientAddressPort) }).ToList();
             var client = _clients.FirstOrDefault(c => c.ClientIp == clientIp);
             return client == null
                 ? null
                 : new List<DoubleAddress>() { new DoubleAddress() { Main = new NetAddress(client.ClientIp, client.ClientAddressPort) } };
+        }
+
+        public List<DoubleAddress> GetWebClientsAddresses(string clientIp = null)
+        {
+            if (clientIp == null)
+                return _clients
+                    .Where(s => s.IsWebClient)
+                    .Select(c => new DoubleAddress() { Main = new NetAddress(c.ClientIp, c.ClientAddressPort) }).ToList();
+            var client = _clients.FirstOrDefault(c => c.ClientIp == clientIp);
+            return client == null
+                ? null
+                : new List<DoubleAddress>() { new DoubleAddress() { Main = new NetAddress(client.ClientIp, client.ClientAddressPort) } };
+        }
+
+        public bool HasAnyWebClients()
+        {
+            return _clients.Any(s => s.IsWebClient);
         }
 
         public ClientStation GetClientStation(string clientIp)

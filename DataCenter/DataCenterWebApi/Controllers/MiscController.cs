@@ -20,20 +20,31 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         private readonly IMyLog _logFile;
         private readonly WebC2DWcfManager _webC2DWcfManager;
+        private readonly DoubleAddress _doubleAddressForWebWcfManager;
+        private readonly string _localIpAddress;
 
         public MiscController(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
-            var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
             _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
-            _webC2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
+            _doubleAddressForWebWcfManager = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
+            _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, 11080).Ip4Address;
+        }
+
+        private string GetRemoteAddress()
+        {
+            var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
+            // browser started on the same pc as this service
+            return ip1 == "::1" ? _localIpAddress : ip1;
         }
 
         [Authorize]
         [HttpGet("About")]
         public async Task<AboutDto> GetAbout()
         {
-            var about = await _webC2DWcfManager.GetAboutInJson(User.Identity.Name);
+            var about = await _webC2DWcfManager
+                .SetServerAddresses(_doubleAddressForWebWcfManager, "webproxy", GetRemoteAddress())
+                .GetAboutInJson(User.Identity.Name);
             _logFile.AppendLine(about == null
                 ? "Failed to get about view model"
                 : $"json contains {about.Length} symbols");
@@ -46,7 +57,8 @@ namespace Iit.Fibertest.DataCenterWebApi
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             dto.WebApiSoftware = fvi.FileVersion;
-            
+
             return dto;
-        }}
+        }
+    }
 }

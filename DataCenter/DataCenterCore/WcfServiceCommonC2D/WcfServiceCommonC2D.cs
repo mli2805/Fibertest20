@@ -42,8 +42,9 @@ namespace Iit.Fibertest.DataCenterCore
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
         }
 
-        public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
+        public IWcfServiceCommonC2D SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
         {
+            return this;
         }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)

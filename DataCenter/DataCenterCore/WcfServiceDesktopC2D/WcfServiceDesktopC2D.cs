@@ -75,9 +75,10 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine($"Clients listener: works in thread {tid}");
         }
 
-        public void SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
+        public IWcfServiceDesktopC2D SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp)
         {
             // tests need this function exists 
+            return this;
         }
 
         public async Task<int> SendCommands(List<string> jsons, string username, string clientIp) // especially for Migrator.exe

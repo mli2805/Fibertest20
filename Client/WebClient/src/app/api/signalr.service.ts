@@ -5,6 +5,8 @@ import * as signalR from "@aspnet/signalr";
 import { Utils } from "../Utils/utils";
 import { RtuInitializedWebDto } from "../models/dtos/rtu/rtuInitializedWebDto";
 import { ReturnCode } from "../models/enums/returnCode";
+import { CurrentMonitoringStepDto } from "../models/dtos/rtu/currentMonitoringStepDto";
+import { ClientMeasurementDoneDto } from "../models/dtos/port/clientMeasurementDoneDto";
 
 @Injectable({
   providedIn: "root",
@@ -12,6 +14,10 @@ import { ReturnCode } from "../models/enums/returnCode";
 export class SignalrService {
   private hubConnection: signalR.HubConnection;
   public rtuInitializedEmitter = new EventEmitter<RtuInitializedWebDto>();
+  public monitoringStepNotifier = new EventEmitter<CurrentMonitoringStepDto>();
+  public clientMeasurementEmitter = new EventEmitter<
+    ClientMeasurementDoneDto
+  >();
 
   // will be built after loggin in, when jsonWebToken provided
   public buildConnection(token: string) {
@@ -56,6 +62,16 @@ export class SignalrService {
     // this.hubConnection.on("RtuInitialized", this.onRtuInitialized.bind(this));
     this.hubConnection.on("RtuInitialized", (data: RtuInitializedWebDto) =>
       this.rtuInitializedEmitter.emit(data)
+    );
+    this.hubConnection.on("MeasStepNotified", (ntf: CurrentMonitoringStepDto) =>
+      this.monitoringStepNotifier.emit(ntf)
+    );
+    this.hubConnection.on(
+      "ClientMeasurementDone",
+      (dto: ClientMeasurementDoneDto) => {
+        console.log(dto);
+        this.clientMeasurementEmitter.emit(dto);
+      }
     );
   }
 }

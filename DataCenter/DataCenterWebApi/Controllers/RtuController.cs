@@ -24,26 +24,34 @@ namespace Iit.Fibertest.DataCenterWebApi
         private readonly IMyLog _logFile;
         private readonly WebC2DWcfManager _webC2DWcfManager;
         private readonly CommonC2DWcfManager _commonC2DWcfManager;
+        private readonly DoubleAddress _doubleAddressForWebWcfManager;
+        private readonly DoubleAddress _doubleAddressForCommonWcfManager;
+        private readonly string _localIpAddress;
 
         public RtuController(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
-            var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
+            _doubleAddressForWebWcfManager = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
+            _doubleAddressForCommonWcfManager = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToCommonClient);
             _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
-            _webC2DWcfManager.SetServerAddresses(doubleAddress, "webProxy", "localhost");
-            var da = (DoubleAddress)doubleAddress.Clone();
-            da.Main.Port = (int)TcpPorts.ServerListenToCommonClient;
-            if (da.HasReserveAddress)
-                da.Reserve.Port = (int)TcpPorts.ServerListenToCommonClient;
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
-            _commonC2DWcfManager.SetServerAddresses(da, "webClient", "localhost");
+            _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, 11080).Ip4Address;
+        }
+
+        private string GetRemoteAddress()
+        {
+            var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
+            // browser started on the same pc as this service
+            return ip1 == "::1" ? _localIpAddress : ip1;
         }
 
         [Authorize]
         [HttpGet]
         public async Task<IEnumerable<RtuDto>> GetTree()
         {
-            var tree = await _webC2DWcfManager.GetTreeInJson(User.Identity.Name);
+            var tree = await _webC2DWcfManager
+                .SetServerAddresses(_doubleAddressForWebWcfManager, "webproxy", GetRemoteAddress())
+                .GetTreeInJson(User.Identity.Name);
             _logFile.AppendLine(tree == null
                 ? "Failed to get tree"
                 : $"tree contains {tree.Length} symbols");
@@ -63,7 +71,9 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"rtu id = {id}");
                 var rtuGuid = Guid.Parse(id);
-                var rtuInformationDto = await _webC2DWcfManager.GetRtuInformation(User.Identity.Name, rtuGuid);
+                var rtuInformationDto = await _webC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, "webproxy", GetRemoteAddress())
+                    .GetRtuInformation(User.Identity.Name, rtuGuid);
                 _logFile.AppendLine(rtuInformationDto == null
                     ? "Failed to get RTU's information"
                     : "RTU information ");
@@ -84,7 +94,9 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"rtu id = {id}");
                 var rtuGuid = Guid.Parse(id);
-                var rtuNetworkSettingsDto = await _webC2DWcfManager.GetRtuNetworkSettings(User.Identity.Name, rtuGuid);
+                var rtuNetworkSettingsDto = await _webC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, "webproxy", GetRemoteAddress())
+                    .GetRtuNetworkSettings(User.Identity.Name, rtuGuid);
                 _logFile.AppendLine(rtuNetworkSettingsDto == null
                     ? "Failed to get RTU's network-settings"
                     : "RTU Network-settings ");
@@ -105,7 +117,9 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"rtu id = {id}");
                 var rtuGuid = Guid.Parse(id);
-                var rtuStateDto = await _webC2DWcfManager.GetRtuState(User.Identity.Name, rtuGuid);
+                var rtuStateDto = await _webC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, "webproxy", GetRemoteAddress())
+                    .GetRtuState(User.Identity.Name, rtuGuid);
                 _logFile.AppendLine(rtuStateDto == null
                     ? "Failed to get RTU's state"
                     : "RTU state ");
@@ -126,7 +140,9 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"rtu id = {id}");
                 var rtuGuid = Guid.Parse(id);
-                var rtuMeasParams = await _webC2DWcfManager.GetRtuAcceptableMeasParams(User.Identity.Name, rtuGuid);
+                var rtuMeasParams = await _webC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, "webproxy", GetRemoteAddress())
+                    .GetRtuAcceptableMeasParams(User.Identity.Name, rtuGuid);
                 _logFile.AppendLine(rtuMeasParams == null
                     ? "Failed to GetRtuAcceptableMeasParams"
                     : "RTU acceptable meas params ");
@@ -147,7 +163,9 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"rtu id = {id}");
                 var rtuGuid = Guid.Parse(id);
-                var rtuMonitoringSettingsDto = await _webC2DWcfManager.GetRtuMonitoringSettings(User.Identity.Name, rtuGuid);
+                var rtuMonitoringSettingsDto = await _webC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, "webproxy", GetRemoteAddress())
+                    .GetRtuMonitoringSettings(User.Identity.Name, rtuGuid);
                 _logFile.AppendLine(rtuMonitoringSettingsDto == null
                     ? "Failed to get RTU's Monitoring-settings"
                     : "RTU Monitoring-settings ");
@@ -176,7 +194,9 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine(body);
                 var dto = JsonConvert.DeserializeObject<RtuMonitoringSettingsDto>(body);
                 var applyDto = Map(rtuGuid, dto);
-                var monitoringSettingsAppliedDto = await _commonC2DWcfManager.ApplyMonitoringSettingsAsync(applyDto);
+                var monitoringSettingsAppliedDto = await _commonC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, "webproxy", GetRemoteAddress())
+                    .ApplyMonitoringSettingsAsync(applyDto);
                 _logFile.AppendLine($"PostRtuMonitoringSettings: {monitoringSettingsAppliedDto.ReturnCode.ToString()}");
                 return monitoringSettingsAppliedDto;
             }
@@ -226,10 +246,14 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 _logFile.AppendLine($"rtu id = {id}");
                 var rtuGuid = Guid.Parse(id);
-                var rtuMonitoringSettingsDto = await _webC2DWcfManager.GetRtuMonitoringSettings(User.Identity.Name, rtuGuid);
+                var rtuMonitoringSettingsDto = await _webC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, "webproxy", GetRemoteAddress())
+                    .GetRtuMonitoringSettings(User.Identity.Name, rtuGuid);
                 rtuMonitoringSettingsDto.MonitoringMode = MonitoringState.On;
                 var applyDto = Map(rtuGuid, rtuMonitoringSettingsDto);
-                var monitoringSettingsAppliedDto = await _commonC2DWcfManager.ApplyMonitoringSettingsAsync(applyDto);
+                var monitoringSettingsAppliedDto = await _commonC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, "webproxy", GetRemoteAddress())
+                    .ApplyMonitoringSettingsAsync(applyDto);
                 _logFile.AppendLine($"StartMonitoring: {monitoringSettingsAppliedDto.ReturnCode.ToString()}");
                 return monitoringSettingsAppliedDto;
             }
@@ -257,7 +281,9 @@ namespace Iit.Fibertest.DataCenterWebApi
                 var str = JsonConvert.DeserializeObject<string>(body);
                 var rtuMaker = (RtuMaker)Enum.Parse(typeof(RtuMaker), str);
                 var dto = new StopMonitoringDto() { RtuId = rtuGuid, RtuMaker = rtuMaker };
-                var isStopped = await _commonC2DWcfManager.StopMonitoringAsync(dto);
+                var isStopped = await _commonC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, "webproxy", GetRemoteAddress())
+                    .StopMonitoringAsync(dto);
                 return isStopped;
             }
             catch (Exception e)
