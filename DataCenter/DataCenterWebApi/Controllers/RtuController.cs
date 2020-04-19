@@ -203,7 +203,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             catch (Exception e)
             {
                 _logFile.AppendLine($"PostRtuMonitoringSettings: {e.Message}");
-                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError, ExceptionMessage = e.Message };
+                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError, ErrorMessage = e.Message };
             }
         }
 
@@ -260,7 +260,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             catch (Exception e)
             {
                 _logFile.AppendLine($"StartMonitoring: {e.Message}");
-                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError, ExceptionMessage = e.Message };
+                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError, ErrorMessage = e.Message };
             }
         }
 

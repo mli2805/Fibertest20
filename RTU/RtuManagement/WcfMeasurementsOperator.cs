@@ -44,12 +44,12 @@ namespace Iit.Fibertest.RtuManagement
                 try
                 {
                     _rtuManager.StartOutOfTurnMeasurement(dto, () => callbackChannel.EndStartOutOfTurnMeasurement(
-                            new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.Ok, ExceptionMessage = "just for test purposes" }));
+                            new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.Ok, ErrorMessage = "just for test purposes" }));
                 }
                 catch (Exception e)
                 {
                     _serviceLog.AppendLine("Thread pool: " + e);
-                    var result = new OutOfTurnMeasurementStartedDto { ReturnCode = ReturnCode.Error, ExceptionMessage = e.Message };
+                    var result = new OutOfTurnMeasurementStartedDto { ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
                     callbackChannel.EndStartOutOfTurnMeasurement(result);
                 }
             });

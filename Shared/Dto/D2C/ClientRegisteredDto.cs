@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Dto
         public ReturnCode ReturnCode { get; set; }
 
         [DataMember]
-        public string ExceptionMessage { get; set; }
+        public string ErrorMessage { get; set; }
 
         [DataMember]
         public Guid UserId { get; set; }

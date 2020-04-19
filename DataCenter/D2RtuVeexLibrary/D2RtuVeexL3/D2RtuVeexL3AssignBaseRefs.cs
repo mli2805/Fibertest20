@@ -46,7 +46,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return new BaseRefAssignedDto()
                 {
                     ReturnCode = ReturnCode.BaseRefAssignmentFailed,
-                    ExceptionMessage = e.Message
+                    ErrorMessage = e.Message
                 };
             }
         }

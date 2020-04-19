@@ -220,7 +220,7 @@ namespace Iit.Fibertest.Client
             var result = await _c2RWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, result.ReturnCode.GetLocalizedString(result.ExceptionMessage));
+                var vm = new MyMessageBoxViewModel(MessageType.Error, result.ReturnCode.GetLocalizedString(result.ErrorMessage));
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return false;
             }

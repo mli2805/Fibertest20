@@ -21,12 +21,12 @@ namespace Iit.Fibertest.DataCenterCore
                 }
 
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.DbError, ExceptionMessage = "RTU's address not found in Db"};
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.DbError, ErrorMessage = "RTU's address not found in Db"};
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("AssignBaseRefAsync: " + e.Message);
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.DbError, ExceptionMessage = e.Message };
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.DbError, ErrorMessage = e.Message };
             }
         }
 

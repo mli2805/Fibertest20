@@ -34,7 +34,7 @@ namespace Iit.Fibertest.DataCenterCore
                             return new BaseRefAssignedDto()
                             {
                                 ReturnCode = ReturnCode.BaseRefAssignmentFailed,
-                                ExceptionMessage = "AugmentFastBaseRefSentByMigrator " + e.Message,
+                                ErrorMessage = "AugmentFastBaseRefSentByMigrator " + e.Message,
                             };
                         }
                     }

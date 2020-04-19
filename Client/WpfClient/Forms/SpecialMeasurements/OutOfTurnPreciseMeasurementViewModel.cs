@@ -65,7 +65,7 @@ namespace Iit.Fibertest.Client
             var result = await StartRequestedMeasurement();
             if (result.ReturnCode != ReturnCode.Ok)
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, result.ExceptionMessage);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, result.ErrorMessage);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 TryClose();
                 return;

@@ -188,7 +188,7 @@ namespace Iit.Fibertest.DataCenterCore
                     return new MonitoringSettingsAppliedDto()
                     {
                         ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError,
-                        ExceptionMessage = resultFromEventStore
+                        ErrorMessage = resultFromEventStore
                     };
                 }
             }

@@ -66,12 +66,9 @@ export class SignalrService {
     this.hubConnection.on("MeasStepNotified", (ntf: CurrentMonitoringStepDto) =>
       this.monitoringStepNotifier.emit(ntf)
     );
-    this.hubConnection.on(
-      "ClientMeasurementDone",
-      (dto: ClientMeasurementDoneDto) => {
-        console.log(dto);
-        this.clientMeasurementEmitter.emit(dto);
-      }
-    );
+    this.hubConnection.on("ClientMeasurementDone", (signal: string) => {
+      const dto = JSON.parse(signal);
+      this.clientMeasurementEmitter.emit(dto);
+    });
   }
 }

@@ -84,7 +84,7 @@ namespace Iit.Fibertest.RtuManagement
                 };
             return new ClientMeasurementDoneDto()
             {
-                ReturnCode = ReturnCode.Ok,
+                ReturnCode = ReturnCode.MeasurementEndedNormally,
                 ClientIp = dto.ClientIp,
                 SorBytes = _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer),
             };

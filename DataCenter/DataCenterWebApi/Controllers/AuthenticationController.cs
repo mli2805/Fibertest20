@@ -94,7 +94,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 var responseError = new
                 {
                     returnCode = clientRegisteredDto.ReturnCode,
-                    exceptionMessage = clientRegisteredDto.ExceptionMessage,
+                    exceptionMessage = clientRegisteredDto.ErrorMessage,
                 };
                 Response.ContentType = "application/json";
                 await Response.WriteAsync(JsonConvert.SerializeObject(responseError, 

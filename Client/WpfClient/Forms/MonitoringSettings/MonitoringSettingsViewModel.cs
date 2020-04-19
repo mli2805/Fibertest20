@@ -93,7 +93,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                     MessageProp = result ?? resultDto.ReturnCode.GetLocalizedString();
                 }
                 else
-                    MessageProp = resultDto.ReturnCode.GetLocalizedString(resultDto.ExceptionMessage);
+                    MessageProp = resultDto.ReturnCode.GetLocalizedString(resultDto.ErrorMessage);
             }
             IsButtonsEnabled = true;
         }

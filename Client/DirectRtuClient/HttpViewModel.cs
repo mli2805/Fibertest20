@@ -258,7 +258,7 @@ namespace DirectRtuClient
 
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
             {
-                Console.WriteLine(result.ExceptionMessage);
+                Console.WriteLine(result.ErrorMessage);
             }
 
             IsButtonEnabled = true;

@@ -100,7 +100,7 @@ namespace Iit.Fibertest.DataCenterCore
 
                 var result = await SendAmendedBaseRefsToRtu(trace, listOfBaseRef);
                 if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-                    return result.ExceptionMessage;
+                    return result.ErrorMessage;
             }
 
             return null;

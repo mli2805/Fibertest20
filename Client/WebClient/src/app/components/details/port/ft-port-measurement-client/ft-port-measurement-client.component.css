@@ -7,3 +7,7 @@ mat-form-field {
   top: 150px;
   left: 80px;
 }
+
+.message-container {
+  background-color: azure;
+}

@@ -120,7 +120,7 @@ namespace DirectRtuClient
                 if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
                 {
                     MessageBox.Show(@"Error! Check log files");
-                    _logFile.AppendLine(result.ExceptionMessage);
+                    _logFile.AppendLine(result.ErrorMessage);
                 }
                 else
                 {

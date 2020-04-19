@@ -45,7 +45,7 @@ namespace Iit.Fibertest.DataCenterCore
             catch (Exception e)
             {
                 _logFile.AppendLine("DoOutOfTurnPreciseMeasurementAsync:" + e.Message);
-                return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.DbError, ExceptionMessage = e.Message };
+                return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.DbError, ErrorMessage = e.Message };
             }
         }
 

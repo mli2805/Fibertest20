@@ -90,7 +90,7 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     _serviceLog.AppendLine("Thread pool: " + e);
                     result.ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError;
-                    result.ExceptionMessage = e.Message;
+                    result.ErrorMessage = e.Message;
                     callbackChannel.EndApplyMonitoringSettings(result);
                 }
             });
@@ -112,7 +112,7 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     _serviceLog.AppendLine("Thread pool: " + e);
                     result.ReturnCode = ReturnCode.RtuBaseRefAssignmentError;
-                    result.ExceptionMessage = e.Message;
+                    result.ErrorMessage = e.Message;
                 }
                 callbackChannel.EndAssignBaseRef(result);
             });

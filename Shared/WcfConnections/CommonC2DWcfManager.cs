@@ -45,7 +45,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine("RegisterClientAsync: " + e.Message);
-                return new ClientRegisteredDto() { ReturnCode = ReturnCode.C2DWcfOperationError, ExceptionMessage = e.Message };
+                return new ClientRegisteredDto() { ReturnCode = ReturnCode.C2DWcfOperationError, ErrorMessage = e.Message };
             }
         }
 
@@ -218,7 +218,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine("ApplyMonitoringSettingsAsync: " + e.Message);
-                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ExceptionMessage = e.Message };
+                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
             }
         }
 
@@ -241,7 +241,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine("AssignBaseRefAsync: " + e.Message);
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ExceptionMessage = e.Message };
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
             }
         }
 
@@ -263,7 +263,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine("AssignBaseRefAsyncFromMigrator: " + e.Message);
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ExceptionMessage = e.Message };
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
             }
         }
 
@@ -285,7 +285,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine("ReSendBaseRefAsync: " + e.Message);
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ExceptionMessage = e.Message };
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
             }
         }
 
@@ -329,7 +329,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine("DoOutOfTurnPreciseMeasurement:" + e.Message);
-                return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ExceptionMessage = e.Message };
+                return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
             }
         }
     }

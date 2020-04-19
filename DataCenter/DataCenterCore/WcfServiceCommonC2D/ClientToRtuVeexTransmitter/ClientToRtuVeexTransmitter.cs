@@ -67,14 +67,14 @@ namespace Iit.Fibertest.DataCenterCore
                 return new MonitoringSettingsAppliedDto()
                 {
                     ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError,
-                    ExceptionMessage = $"Unknown RTU {dto.RtuId.First6()}"
+                    ErrorMessage = $"Unknown RTU {dto.RtuId.First6()}"
                 };
             }
 
             var result = await _d2RtuVeexLayer3.ApplyMonitoringSettingsAsync(dto, rtuAddresses);
             _logFile.AppendLine($"{result.ReturnCode}");
             if (result.ReturnCode != ReturnCode.MonitoringSettingsAppliedSuccessfully)
-                _logFile.AppendLine($"{result.ExceptionMessage}");
+                _logFile.AppendLine($"{result.ErrorMessage}");
             return result;
         }
 
@@ -114,14 +114,14 @@ namespace Iit.Fibertest.DataCenterCore
                 return new BaseRefAssignedDto()
                 {
                     ReturnCode = ReturnCode.BaseRefAssignmentFailed,
-                    ExceptionMessage = $"Unknown RTU {dto.RtuId.First6()}"
+                    ErrorMessage = $"Unknown RTU {dto.RtuId.First6()}"
                 };
             }
 
             var result = await _d2RtuVeexLayer3.AssignBaseRefAsync(dto, rtuAddresses);
             _logFile.AppendLine($"{result.ReturnCode}");
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-                _logFile.AppendLine($"{result.ExceptionMessage}");
+                _logFile.AppendLine($"{result.ErrorMessage}");
             return result;
         }
     }

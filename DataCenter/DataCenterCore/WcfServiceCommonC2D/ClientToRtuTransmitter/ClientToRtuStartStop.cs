@@ -26,7 +26,7 @@ namespace Iit.Fibertest.DataCenterCore
             catch (Exception e)
             {
                 _logFile.AppendLine("ApplyMonitoringSettingsAsync:" + e.Message);
-                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.DbError, ExceptionMessage = e.Message };
+                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.DbError, ErrorMessage = e.Message };
             }
         }
 

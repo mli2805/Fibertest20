@@ -1,20 +1,28 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FtDetachedTracesProvider } from "src/app/providers/ft-detached-traces-provider";
 import { RtuApiService } from "src/app/api/rtu.service";
 import { TreeOfAcceptableVeasParams } from "src/app/models/dtos/meas-params/acceptableMeasParams";
 import { Router } from "@angular/router";
 import { PortApiService } from "src/app/api/port.service";
 import { DoClientMeasurementDto } from "src/app/models/dtos/meas-params/doClientMeasurementDto";
+import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
+import { ReturnCode } from "src/app/models/enums/returnCode";
+import { Subscription } from "rxjs";
+import { SignalrService } from "src/app/api/signalr.service";
+import { ClientMeasurementDoneDto } from "src/app/models/dtos/port/clientMeasurementDoneDto";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "ft-port-measurement-client",
   templateUrl: "./ft-port-measurement-client.component.html",
   styleUrls: ["./ft-port-measurement-client.component.css"],
 })
-export class FtPortMeasurementClientComponent implements OnInit {
+export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
   tree: TreeOfAcceptableVeasParams;
 
+  message;
   isSpinnerVisible = false;
+  isButtonDisabled = false;
 
   itemsSourceUnits;
   itemsSourceDistances;
@@ -29,11 +37,15 @@ export class FtPortMeasurementClientComponent implements OnInit {
   selectedBc = 0;
   selectedRi = 0;
 
+  private subscription: Subscription;
+
   constructor(
     private router: Router,
     private dataStorage: FtDetachedTracesProvider,
     private rtuApiService: RtuApiService,
-    private portApiService: PortApiService
+    private portApiService: PortApiService,
+    private signalRService: SignalrService,
+    private ts: TranslateService
   ) {}
 
   /* tslint:disable:no-string-literal */
@@ -47,7 +59,25 @@ export class FtPortMeasurementClientComponent implements OnInit {
         this.tree = res;
         this.initializeLists();
         this.isSpinnerVisible = false;
+        this.isButtonDisabled = false;
+        this.message = "";
       });
+
+    this.subscription = this.signalRService.clientMeasurementEmitter.subscribe(
+      (signal: ClientMeasurementDoneDto) => {
+        if (signal.ReturnCode === ReturnCode.MeasurementEndedNormally) {
+          this.message = `Measurement (Client) done. SorBytes contains ${signal.SorBytes.length} bytes`;
+        } else {
+          this.message = "Measurement (Client) failed!";
+        }
+        this.isSpinnerVisible = false;
+        this.isButtonDisabled = false;
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   initializeLists() {
@@ -123,6 +153,8 @@ export class FtPortMeasurementClientComponent implements OnInit {
 
   measure() {
     this.isSpinnerVisible = true;
+    this.isButtonDisabled = true;
+    this.message = this.ts.instant("SID_Sending_command__Wait_please___");
     console.log(this.getSelectedParameters());
     const dto = new DoClientMeasurementDto();
     dto.rtuId = this.dataStorage.data["rtuId"];
@@ -130,9 +162,16 @@ export class FtPortMeasurementClientComponent implements OnInit {
     dto.selectedMeasParams = this.getSelectedParameters();
     this.portApiService
       .postRequest("measurement-client", dto)
-      .subscribe((res: any) => {
-        console.log(res);
-        this.isSpinnerVisible = false;
+      .subscribe((res: RequestAnswer) => {
+        if (res.returnCode !== ReturnCode.Ok) {
+          this.message = res.errorMessage;
+          this.isSpinnerVisible = false;
+          this.isButtonDisabled = false;
+        } else {
+          this.message = this.ts.instant(
+            "SID_Measurement__Client__in_progress__Please_wait___"
+          );
+        }
       });
   }
 

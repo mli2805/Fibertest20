@@ -53,7 +53,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return new MonitoringSettingsAppliedDto()
                 {
                     ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError,
-                    ExceptionMessage = e.Message
+                    ErrorMessage = e.Message
                 };
             }
 
