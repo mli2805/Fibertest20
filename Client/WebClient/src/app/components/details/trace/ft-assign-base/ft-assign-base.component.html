@@ -1,0 +1,91 @@
+<mat-card>
+  <mat-card-title>{{ "SID_Base_refs_assignment" | translate }}</mat-card-title>
+  <mat-card-content>
+    <h4>{{ "SID_Trace_information" | translate }}</h4>
+    <p>{{ "SID_Trace" | translate }} {{ traceTitle }}</p>
+    <p>RTU</p>
+    <p>{{ "SID_Port" | translate }}</p>
+    <h4>{{ "SID_Base_reflectograms" | translate }}</h4>
+
+    <div class="one-base-ref">
+      <p>{{ "SID_Precise_base_ref" | translate }}</p>
+      <div class="one-line">
+        <label class="label-around-input">
+          <input type="file" />
+          <strong>
+            <mat-icon>folder_open</mat-icon>
+          </strong>
+        </label>
+        <label class="label-around-input">
+          <input type="button" (click)="clearClicked(1)" />
+          <strong>
+            <mat-icon>clear</mat-icon>
+          </strong>
+        </label>
+        <span [textContent]="preciseRef"></span>
+      </div>
+    </div>
+
+    <div class="one-base-ref">
+      <p>{{ "SID_Fast_base_ref" | translate }}</p>
+      <div class="one-line">
+        <label class="label-around-input">
+          <input type="file" />
+          <strong>
+            <mat-icon>folder_open</mat-icon>
+          </strong>
+        </label>
+        <label class="label-around-input">
+          <input type="button" (click)="clearClicked(2)" />
+          <strong>
+            <mat-icon>clear</mat-icon>
+          </strong>
+        </label>
+        <span [textContent]="fastRef"></span>
+      </div>
+    </div>
+
+    <div class="one-base-ref">
+      <p>{{ "SID_Second_base_ref" | translate }}</p>
+      <div class="one-line">
+        <label class="label-around-input">
+          <input type="file" />
+          <strong>
+            <mat-icon>folder_open</mat-icon>
+          </strong>
+        </label>
+        <label class="label-around-input">
+          <input type="button" (click)="clearClicked(3)" />
+          <strong>
+            <mat-icon>clear</mat-icon>
+          </strong>
+        </label>
+        <span [textContent]="additionalRef"></span>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="save()"
+      [disabled]="isButtonDisabled"
+    >
+      {{ "SID_Save" | translate }}
+    </button>
+    <button
+      mat-stroked-button
+      color="primary"
+      (click)="cancel()"
+      [disabled]="isButtonDisabled"
+    >
+      {{ "SID_Cancel" | translate }}
+    </button>
+  </mat-card-actions>
+  <mat-card-footer>
+    <p>{{ message }}</p>
+  </mat-card-footer>
+</mat-card>
+<div class="spinner-container" *ngIf="isSpinnerVisible">
+  <mat-spinner></mat-spinner>
+</div>

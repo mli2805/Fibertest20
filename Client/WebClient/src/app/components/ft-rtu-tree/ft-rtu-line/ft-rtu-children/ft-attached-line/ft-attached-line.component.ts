@@ -40,7 +40,13 @@ export class FtAttachedLineComponent implements OnInit {
   displayInformation() {
     this.router.navigate(["/trace-information", this.trace.traceId]);
   }
-  assignBaseRefs() {}
+  assignBaseRefs() {
+    this.router.navigate(["/assign-base", this.trace.traceId]);
+  }
+
+  displayState() {
+    this.router.navigate(["/trace-state", this.trace.traceId]);
+  }
 
   displayStatistics() {
     this.router.navigate(["/trace-statistics", this.trace.traceId]);

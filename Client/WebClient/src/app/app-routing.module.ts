@@ -17,6 +17,8 @@ import { LoginGuard } from "./utils/login-guard";
 import { FtPortAttachOtauComponent } from "./components/details/port/ft-port-attach-otau/ft-port-attach-otau.component";
 import { FtPortMeasurementClientComponent } from "./components/details/port/ft-port-measurement-client/ft-port-measurement-client.component";
 import { FtPortAttachTraceComponent } from "./components/details/port/ft-port-attach-trace/ft-port-attach-trace.component";
+import { FtTraceStateComponent } from "./components/details/trace/ft-trace-state/ft-trace-state.component";
+import { FtAssignBaseComponent } from "./components/details/trace/ft-assign-base/ft-assign-base.component";
 
 const routes: Routes = [
   { path: "login", component: FtLoginComponent, canActivate: [LoginGuard] },
@@ -45,6 +47,8 @@ const routes: Routes = [
   },
 
   { path: "trace-information/:id", component: FtTraceInformationComponent },
+  { path: "assign-base/:id", component: FtAssignBaseComponent },
+  { path: "trace-state/:id", component: FtTraceStateComponent },
   { path: "trace-statistics/:id", component: FtTraceStatisticsComponent },
 
   { path: "port-attach-trace", component: FtPortAttachTraceComponent },
