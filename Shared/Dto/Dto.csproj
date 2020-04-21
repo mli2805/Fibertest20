@@ -81,6 +81,7 @@
     <Compile Include="ForWebApi\Rtu\RtuNetworkSettingsDto.cs" />
     <Compile Include="ForWebApi\Rtu\RtuStateChildDto.cs" />
     <Compile Include="ForWebApi\Rtu\RtuStateDto.cs" />
+    <Compile Include="ForWebApi\Trace\AssignBaseParamsDto.cs" />
     <Compile Include="ForWebApi\Trace\TraceInformationDto.cs" />
     <Compile Include="ForWebApi\Trace\TraceStatisticsDto.cs" />
     <Compile Include="ForWebApi\UserDto.cs" />

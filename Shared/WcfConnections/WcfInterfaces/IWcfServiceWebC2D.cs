@@ -40,6 +40,10 @@ namespace Iit.Fibertest.WcfConnections
 
         [OperationContract]
         Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId, int pageNumber, int pageSize);
+
+        [OperationContract]
+        Task<AssignBaseParamsDto> GetAssignBaseParams(string username, Guid traceId);
+
         #endregion
 
         [OperationContract]

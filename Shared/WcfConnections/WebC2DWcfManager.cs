@@ -226,6 +226,27 @@ namespace Iit.Fibertest.WcfConnections
                 return null;
             }
         }
+
+        public async Task<AssignBaseParamsDto> GetAssignBaseParams(string username, Guid traceId)
+        {
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetAssignBaseParams(username, traceId);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetTraceStatistics: " + e.Message);
+                return null;
+            }
+        }
+
         #endregion
 
         public async Task<OpticalEventsRequestedDto> GetOpticalEventPortion(string username, bool isCurrentEvents = true, string filterRtu = "",

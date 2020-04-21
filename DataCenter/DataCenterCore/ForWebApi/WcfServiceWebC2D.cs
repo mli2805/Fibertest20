@@ -303,6 +303,27 @@ namespace Iit.Fibertest.DataCenterCore
         #endregion
 
 
+        public async Task<AssignBaseParamsDto> GetAssignBaseParams(string username, Guid traceId)
+        {
+            _logFile.AppendLine(":: WcfServiceForWebProxy GetAssignBaseParams");
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+            if (user == null)
+            {
+                _logFile.AppendLine("Not authorized access");
+                return null;
+            }
+            await Task.Delay(1);
+            var result = new AssignBaseParamsDto();
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
+            if (trace == null)
+                return result;
+            result.RtuTitle = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
+            result.HasPrecise = trace.PreciseId != Guid.Empty;
+            result.HasFast = trace.FastId != Guid.Empty;
+            result.HasAdditional = trace.AdditionalId != Guid.Empty;
+            return result;
+        }
+
         public async Task<OpticalEventsRequestedDto> GetOpticalEventPortion(string username, bool isCurrentEvents,
             string filterRtu = "", string filterTrace = "", string sortOrder = "desc", int pageNumber = 0, int pageSize = 100)
         {

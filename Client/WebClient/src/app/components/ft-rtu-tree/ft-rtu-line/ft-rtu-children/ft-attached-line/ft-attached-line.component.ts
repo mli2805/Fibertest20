@@ -41,6 +41,7 @@ export class FtAttachedLineComponent implements OnInit {
     this.router.navigate(["/trace-information", this.trace.traceId]);
   }
   assignBaseRefs() {
+    this.prepareDataForAssignBaseRefs();
     this.router.navigate(["/assign-base", this.trace.traceId]);
   }
 
@@ -63,11 +64,15 @@ export class FtAttachedLineComponent implements OnInit {
   outOfTurnMeasurement() {}
 
   measurementClient() {
-    this.prepareData();
+    this.prepareDataForMeasurementClient();
     this.router.navigate(["/port-measurement-client"]);
   }
 
-  prepareData() {
+  prepareDataForAssignBaseRefs() {
+    const dict = { trace: this.trace };
+    this.dataStorage.data = dict;
+  }
+  prepareDataForMeasurementClient() {
     const dict = { rtuId: this.trace.rtuId, otauPortDto: this.trace.otauPort };
     this.dataStorage.data = dict;
   }

@@ -1,4 +1,9 @@
 import { Component, OnInit } from "@angular/core";
+import { TraceApiService } from "src/app/api/trace.service";
+import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
+import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
+import { AssignBaseParamsDto } from "src/app/models/dtos/trace/assignBaseParamsDto";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "ft-assign-base",
@@ -10,15 +15,47 @@ export class FtAssignBaseComponent implements OnInit {
   isSpinnerVisible = false;
   isButtonDisabled = false;
 
-  preciseRef = "Saved in Db";
-  fastRef = "not set";
-  additionalRef = "not set";
+  trace: TraceDto = new TraceDto();
+  params: AssignBaseParamsDto = new AssignBaseParamsDto();
+  rtuTitle;
+  traceTitle;
+  tracePort;
 
-  traceTitle = "my little precious trace";
+  preciseRef;
+  fastRef;
+  additionalRef;
 
-  constructor() {}
+  constructor(
+    private dataStorage: FtComponentDataProvider,
+    private traceApiService: TraceApiService,
+    private ts: TranslateService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.trace = this.dataStorage.data["trace"];
+    this.traceApiService
+      .getRequest("assign-base-params", this.trace.traceId)
+      .subscribe((res: AssignBaseParamsDto) => {
+        this.params = res;
+        this.fillTheForm(res);
+      });
+  }
+
+  fillTheForm(res: AssignBaseParamsDto) {
+    this.traceTitle = this.trace.title;
+    this.rtuTitle = res.rtuTitle;
+    this.tracePort =
+      this.trace.port > 0
+        ? this.trace.otauPort.isPortOnMainCharon
+          ? this.trace.port
+          : `${this.trace.otauPort.serial}-${this.trace.port}`
+        : this.ts.instant("SID_not_attached");
+    this.preciseRef = res.hasPrecise ? this.ts.instant("SID_Saved_in_DB") : "";
+    this.fastRef = res.hasFast ? this.ts.instant("SID_Saved_in_DB") : "";
+    this.additionalRef = res.hasAdditional
+      ? this.ts.instant("SID_Saved_in_DB")
+      : "";
+  }
 
   preciseChanged(fileInputEvent: any) {
     this.preciseRef = fileInputEvent.target.files[0].name;
@@ -33,12 +70,12 @@ export class FtAssignBaseComponent implements OnInit {
   }
 
   preciseCleaned() {
-    this.preciseRef = "not set";
+    this.preciseRef = "";
   }
   fastCleaned() {
-    this.fastRef = "not set";
+    this.fastRef = "";
   }
   additionalCleaned() {
-    this.additionalRef = "not set";
+    this.additionalRef = "";
   }
 }
