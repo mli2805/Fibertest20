@@ -80,10 +80,10 @@ import { FtRtuLineComponent } from "./components/ft-rtu-tree/ft-rtu-line/ft-rtu-
 import { FtPortAttachTraceComponent } from "./components/details/port/ft-port-attach-trace/ft-port-attach-trace.component";
 import { FtPortAttachOtauComponent } from "./components/details/port/ft-port-attach-otau/ft-port-attach-otau.component";
 import { FtPortMeasurementClientComponent } from "./components/details/port/ft-port-measurement-client/ft-port-measurement-client.component";
-import { FtDetachedTracesProvider } from "./providers/ft-detached-traces-provider";
+import { FtComponentDataProvider } from "./providers/ft-component-data-provider";
 import { FtRtuTreeEventService } from "./components/ft-rtu-tree/ft-rtu-tree-event-service";
 import { FtTraceStateComponent } from "./components/details/trace/ft-trace-state/ft-trace-state.component";
-import { FtAssignBaseComponent } from './components/details/trace/ft-assign-base/ft-assign-base.component';
+import { FtAssignBaseComponent } from "./components/details/trace/ft-assign-base/ft-assign-base.component";
 
 @NgModule({
   declarations: [
@@ -175,7 +175,7 @@ import { FtAssignBaseComponent } from './components/details/trace/ft-assign-base
     LoginGuard,
     FrequencyPipe,
     ReturnCodePipe,
-    FtDetachedTracesProvider,
+    FtComponentDataProvider,
     FtRtuTreeEventService,
   ],
   bootstrap: [AppComponent],

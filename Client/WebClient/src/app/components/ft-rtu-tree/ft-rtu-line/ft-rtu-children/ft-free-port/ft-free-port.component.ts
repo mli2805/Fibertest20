@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
-import { FtDetachedTracesProvider } from "src/app/providers/ft-detached-traces-provider";
+import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { OtauPortDto } from "src/app/models/underlying/otauPortDto";
 import { settings } from "cluster";
@@ -24,7 +24,7 @@ export class FtFreePortComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private dataStorage: FtDetachedTracesProvider
+    private dataStorage: FtComponentDataProvider
   ) {}
 
   ngOnInit() {}
@@ -49,14 +49,25 @@ export class FtFreePortComponent implements OnInit {
   }
 
   measurementClient() {
-    this.prepareData();
+    this.prepareDataForMeasurement();
     this.router.navigate(["/port-measurement-client"]);
   }
 
-  prepareData() {
+  prepareDataForMeasurement() {
     const dict = {
       rtuId: this.parentRtu.rtuId,
       otauPortDto: this.compileOtauPortDto(),
+    };
+    this.dataStorage.data = dict;
+  }
+
+  prepareDataForAttachment() {
+    // this.dataStorage.selectedRtu = this.parentRtu;
+    // this.dataStorage.selectedPort = this.compileOtauPortDto();
+
+    const dict = {
+      selectedRtu: this.parentRtu,
+      selectedPort: this.compileOtauPortDto(),
     };
     this.dataStorage.data = dict;
   }
@@ -68,10 +79,5 @@ export class FtFreePortComponent implements OnInit {
     selectedPort.otauId = this.otauId;
     selectedPort.serial = this.serial;
     return selectedPort;
-  }
-
-  prepareDataForAttachment() {
-    this.dataStorage.selectedRtu = this.parentRtu;
-    this.dataStorage.selectedPort = this.compileOtauPortDto();
   }
 }

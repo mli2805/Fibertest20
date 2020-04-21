@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { FtDetachedTracesProvider } from "src/app/providers/ft-detached-traces-provider";
+import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
 import { RtuApiService } from "src/app/api/rtu.service";
 import { TreeOfAcceptableVeasParams } from "src/app/models/dtos/meas-params/acceptableMeasParams";
 import { Router } from "@angular/router";
@@ -41,7 +41,7 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private dataStorage: FtDetachedTracesProvider,
+    private dataStorage: FtComponentDataProvider,
     private rtuApiService: RtuApiService,
     private portApiService: PortApiService,
     private signalRService: SignalrService,

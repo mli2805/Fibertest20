@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { FtDetachedTracesProvider } from "src/app/providers/ft-detached-traces-provider";
+import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
 import { PortApiService } from "src/app/api/port.service";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { OtauPortDto } from "src/app/models/underlying/otauPortDto";
@@ -28,13 +28,14 @@ export class FtPortAttachOtauComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private dataStorage: FtDetachedTracesProvider,
+    private dataStorage: FtComponentDataProvider,
     private portApiService: PortApiService
   ) {}
 
+  /* tslint:disable:no-string-literal */
   ngOnInit() {
-    this.rtu = this.dataStorage.selectedRtu;
-    this.mainPort = this.dataStorage.selectedPort.opticalPort;
+    this.rtu = this.dataStorage.data["selectedRtu"];
+    this.mainPort = this.dataStorage.data["selectedPort"].opticalPort;
   }
 
   attachOtau() {

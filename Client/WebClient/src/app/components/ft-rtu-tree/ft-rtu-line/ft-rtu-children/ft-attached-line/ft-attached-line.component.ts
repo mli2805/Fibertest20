@@ -4,7 +4,7 @@ import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
 import { PortApiService } from "src/app/api/port.service";
 import { FtRtuTreeEventService } from "../../../ft-rtu-tree-event-service";
-import { FtDetachedTracesProvider } from "src/app/providers/ft-detached-traces-provider";
+import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
 import { OtauPortDto } from "src/app/models/underlying/otauPortDto";
 
 @Component({
@@ -23,7 +23,7 @@ export class FtAttachedLineComponent implements OnInit {
     private router: Router,
     private portApiService: PortApiService,
     private ftRtuTreeEventService: FtRtuTreeEventService,
-    private dataStorage: FtDetachedTracesProvider
+    private dataStorage: FtComponentDataProvider
   ) {}
 
   ngOnInit() {}

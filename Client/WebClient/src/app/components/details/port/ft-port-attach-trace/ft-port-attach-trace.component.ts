@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
-import { FtDetachedTracesProvider } from "src/app/providers/ft-detached-traces-provider";
+import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { ChildDto } from "src/app/models/dtos/rtuTree/childDto";
 import { PortApiService } from "src/app/api/port.service";
@@ -21,12 +21,13 @@ export class FtPortAttachTraceComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private dataStorage: FtDetachedTracesProvider,
+    private dataStorage: FtComponentDataProvider,
     private portApiService: PortApiService
   ) {}
 
+  /* tslint:disable:no-string-literal */
   ngOnInit() {
-    const rtu: RtuDto = this.dataStorage.selectedRtu;
+    const rtu: RtuDto = this.dataStorage.data["selectedRtu"];
     this.traceList = rtu.children
       .filter((c) => c.childType === 1 && c.port === -1)
       .map((ch: ChildDto) => ch as TraceDto);
@@ -43,7 +44,7 @@ export class FtPortAttachTraceComponent implements OnInit {
     );
     const cmd = new AttachTraceDto();
     cmd.TraceId = trace.traceId;
-    cmd.OtauPortDto = this.dataStorage.selectedPort;
+    cmd.OtauPortDto = this.dataStorage.data["selectedPort"];
     console.log(cmd);
     this.portApiService
       .postRequest("attach-trace", cmd)
