@@ -35,8 +35,8 @@ input[type="button"] {
 }
 
 label {
-  border: 1px solid #ccc;
-  padding: 6px 6px 0px 6px;
+  /* border: 1px solid #ccc; */
+  padding: 0px 0px 0px 0px;
   margin: 0px 6px 0px 0px;
   cursor: pointer;
 }
@@ -47,12 +47,13 @@ label:hover {
 
 .one-line {
   display: flex;
+  margin-bottom: 20px;
 }
 
 span {
   margin-left: 6px;
   align-self: center;
   border-bottom: 1px solid #ccc;
-  padding: 8px;
+  /* padding: 8px; */
   flex-grow: 1;
 }

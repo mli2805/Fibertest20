@@ -20,7 +20,25 @@ export class FtAssignBaseComponent implements OnInit {
 
   ngOnInit() {}
 
-  clearClicked(order: number) {
-    console.log(`clear clicked ${order}`);
+  preciseChanged(fileInputEvent: any) {
+    this.preciseRef = fileInputEvent.target.files[0].name;
+  }
+
+  fastChanged(fileInputEvent: any) {
+    this.fastRef = fileInputEvent.target.files[0].name;
+  }
+
+  additionalChanged(fileInputEvent: any) {
+    this.additionalRef = fileInputEvent.target.files[0].name;
+  }
+
+  preciseCleaned() {
+    this.preciseRef = "not set";
+  }
+  fastCleaned() {
+    this.fastRef = "not set";
+  }
+  additionalCleaned() {
+    this.additionalRef = "not set";
   }
 }

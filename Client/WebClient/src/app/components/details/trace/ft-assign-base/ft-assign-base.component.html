@@ -11,13 +11,13 @@
       <p>{{ "SID_Precise_base_ref" | translate }}</p>
       <div class="one-line">
         <label class="label-around-input">
-          <input type="file" />
+          <input type="file" (change)="preciseChanged($event)" accept=".sor" />
           <strong>
             <mat-icon>folder_open</mat-icon>
           </strong>
         </label>
         <label class="label-around-input">
-          <input type="button" (click)="clearClicked(1)" />
+          <input type="button" (click)="preciseCleaned()" />
           <strong>
             <mat-icon>clear</mat-icon>
           </strong>
@@ -30,13 +30,13 @@
       <p>{{ "SID_Fast_base_ref" | translate }}</p>
       <div class="one-line">
         <label class="label-around-input">
-          <input type="file" />
+          <input type="file" (change)="fastChanged($event)" accept=".sor" />
           <strong>
             <mat-icon>folder_open</mat-icon>
           </strong>
         </label>
         <label class="label-around-input">
-          <input type="button" (click)="clearClicked(2)" />
+          <input type="button" (click)="fastCleaned()" />
           <strong>
             <mat-icon>clear</mat-icon>
           </strong>
@@ -49,13 +49,17 @@
       <p>{{ "SID_Second_base_ref" | translate }}</p>
       <div class="one-line">
         <label class="label-around-input">
-          <input type="file" />
+          <input
+            type="file"
+            (change)="additionalChanged($event)"
+            accept=".sor"
+          />
           <strong>
             <mat-icon>folder_open</mat-icon>
           </strong>
         </label>
         <label class="label-around-input">
-          <input type="button" (click)="clearClicked(3)" />
+          <input type="button" (click)="(additionalCleaned)" />
           <strong>
             <mat-icon>clear</mat-icon>
           </strong>
