@@ -1,11 +1,14 @@
-﻿namespace Iit.Fibertest.Dto
+﻿using System;
+
+namespace Iit.Fibertest.Dto
 {
     public class AssignBaseParamsDto
     {
         public string RtuTitle;
         public RtuMaker RtuMaker;
-        public bool HasPrecise;
-        public bool HasFast;
-        public bool HasAdditional;
+        public string OtdrId;
+        public Guid PreciseId;
+        public Guid FastId;
+        public Guid AdditionalId;
     }
 }

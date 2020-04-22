@@ -316,12 +316,14 @@ namespace Iit.Fibertest.DataCenterCore
             await Task.Delay(1);
             var result = new AssignBaseParamsDto();
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
-            if (trace == null)
-                return result;
-            result.RtuTitle = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
-            result.HasPrecise = trace.PreciseId != Guid.Empty;
-            result.HasFast = trace.FastId != Guid.Empty;
-            result.HasAdditional = trace.AdditionalId != Guid.Empty;
+            if (trace == null) return result;
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
+            if (rtu == null) return result;
+            result.RtuTitle = rtu.Title;
+            result.OtdrId = rtu.OtdrId;
+            result.PreciseId = trace.PreciseId;
+            result.FastId = trace.FastId;
+            result.AdditionalId = trace.AdditionalId;
             return result;
         }
 

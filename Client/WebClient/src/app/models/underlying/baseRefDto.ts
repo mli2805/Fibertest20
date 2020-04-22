@@ -7,5 +7,5 @@ export class BaseRefDto {
   saveTimestamp: number;
   duration: number;
   sorFileId: number;
-  sorBytes: Int8Array;
+  sorBytes;
 }
