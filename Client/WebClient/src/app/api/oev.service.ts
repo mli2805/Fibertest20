@@ -3,15 +3,10 @@ import { HttpClient } from "@angular/common/http";
 import { Utils } from "../Utils/utils";
 
 @Injectable({
-  providedIn: "root"
+  providedIn: "root",
 })
 export class OptEvService {
   constructor(private httpClient: HttpClient) {}
-
-  getAllEvents() {
-    const url = Utils.GetWebApiUrl() + "/oev/getAll";
-    return this.httpClient.get(url);
-  }
 
   getEvents(
     isCurrentEvents = "true",
@@ -25,7 +20,7 @@ export class OptEvService {
     const currentUser = JSON.parse(sessionStorage.currentUser);
     const myHttpOptions = {
       headers: {
-        Authorization: "Bearer " + currentUser.jsonWebToken
+        Authorization: "Bearer " + currentUser.jsonWebToken,
       },
       params: {
         isCurrentEvents,
@@ -33,8 +28,8 @@ export class OptEvService {
         filterTrace,
         sortOrder,
         pageNumber: pageNumber.toString(),
-        pageSize: pageSize.toString()
-      }
+        pageSize: pageSize.toString(),
+      },
     };
 
     return this.httpClient.get(url, myHttpOptions);

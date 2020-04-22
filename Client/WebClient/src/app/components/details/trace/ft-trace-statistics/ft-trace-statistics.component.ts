@@ -1,9 +1,9 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from "@angular/core";
 import { TraceStatisticsDto } from "src/app/models/dtos/trace/traceStatisticsDto";
 import { ActivatedRoute } from "@angular/router";
-import { TraceApiService } from "src/app/api/trace.service";
 import { MatPaginator } from "@angular/material";
 import { tap } from "rxjs/operators";
+import { OneApiService } from "src/app/api/one.service";
 
 @Component({
   selector: "ft-trace-statistics",
@@ -28,13 +28,18 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
 
   constructor(
     private activeRoute: ActivatedRoute,
-    private traceApiService: TraceApiService
+    private oneApiService: OneApiService
   ) {}
 
   ngOnInit() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
-    this.traceApiService
-      .getRequest("statistics", id, 0, 8)
+    const params = {
+      pageNumber: "0",
+      pageSize: "13",
+    };
+
+    this.oneApiService
+      .getRequestWithParams(`trace/statistics/${id}`, params)
       .subscribe((res: TraceStatisticsDto) => {
         console.log("trace statistics initial page received");
         this.vm = res;
@@ -55,13 +60,14 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
 
   loadPage() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
-    this.traceApiService
-      .getRequest(
-        "statistics",
-        id,
-        this.paginator.pageIndex,
-        this.paginator.pageSize
-      )
+
+    const params = {
+      pageNumber: this.paginator.pageIndex.toString(),
+      pageSize: this.paginator.pageSize.toString(),
+    };
+
+    this.oneApiService
+      .getRequestWithParams(`trace/statistics/${id}`, params)
       .subscribe((res: TraceStatisticsDto) => {
         console.log("trace statistics page received");
         this.vm = res;

@@ -1,8 +1,8 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { TraceInformationDto } from "src/app/models/dtos/trace/traceInformationDto";
 import { ActivatedRoute } from "@angular/router";
-import { TraceApiService } from "src/app/api/trace.service";
 import { TranslateService } from "@ngx-translate/core";
+import { OneApiService } from "src/app/api/one.service";
 
 @Component({
   selector: "ft-trace-information",
@@ -15,7 +15,7 @@ export class FtTraceInformationComponent implements OnInit {
 
   constructor(
     private activeRoute: ActivatedRoute,
-    private traceApiService: TraceApiService,
+    private oneApiService: OneApiService,
     private ts: TranslateService
   ) {}
 
@@ -23,8 +23,8 @@ export class FtTraceInformationComponent implements OnInit {
     this.isSpinnerVisible = true;
     const id = this.activeRoute.snapshot.paramMap.get("id");
     console.log(id);
-    this.traceApiService
-      .getRequest("information", id, 0, 0)
+    this.oneApiService
+      .getRequest(`trace/information/${id}`)
       .subscribe((res: TraceInformationDto) => {
         this.isSpinnerVisible = false;
         console.log(res);

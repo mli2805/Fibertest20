@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { TraceApiService } from "src/app/api/trace.service";
 import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
 import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
 import { AssignBaseParamsDto } from "src/app/models/dtos/trace/assignBaseParamsDto";
@@ -8,6 +7,7 @@ import { Router } from "@angular/router";
 import { AssignBaseReftsDto } from "src/app/models/dtos/trace/assignBaseRefsDto";
 import { BaseRefDto } from "src/app/models/underlying/baseRefDto";
 import { BaseRefType } from "src/app/models/enums/baseRefType";
+import { OneApiService } from "src/app/api/one.service";
 
 @Component({
   selector: "ft-assign-base",
@@ -38,7 +38,7 @@ export class FtAssignBaseComponent implements OnInit {
   constructor(
     private router: Router,
     private dataStorage: FtComponentDataProvider,
-    private traceApiService: TraceApiService,
+    private oneApiService: OneApiService,
     private ts: TranslateService
   ) {
     this.savedInDb = this.ts.instant("SID_Saved_in_DB");
@@ -46,8 +46,8 @@ export class FtAssignBaseComponent implements OnInit {
 
   ngOnInit() {
     this.trace = this.dataStorage.data["trace"];
-    this.traceApiService
-      .getRequest("assign-base-params", this.trace.traceId)
+    this.oneApiService
+      .getRequest(`trace/assign-base-params/${this.trace.traceId}`)
       .subscribe((res: AssignBaseParamsDto) => {
         this.params = res;
         this.fillTheForm(res);
