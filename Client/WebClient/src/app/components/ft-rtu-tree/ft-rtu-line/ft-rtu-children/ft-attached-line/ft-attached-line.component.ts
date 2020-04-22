@@ -5,7 +5,6 @@ import { Router } from "@angular/router";
 import { PortApiService } from "src/app/api/port.service";
 import { FtRtuTreeEventService } from "../../../ft-rtu-tree-event-service";
 import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
-import { OtauPortDto } from "src/app/models/underlying/otauPortDto";
 
 @Component({
   selector: "ft-attached-line",

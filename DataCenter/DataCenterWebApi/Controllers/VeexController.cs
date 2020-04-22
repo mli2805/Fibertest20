@@ -25,7 +25,6 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 body = await reader.ReadToEndAsync();
             }
-            _logFile.AppendLine(body);
             dynamic notification = JObject.Parse(body);
             _logFile.AppendLine($"Notification from VeEX RTU {(string)notification.rtuId} received");
             Response.StatusCode = 200;

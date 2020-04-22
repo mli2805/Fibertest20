@@ -287,7 +287,8 @@ namespace Iit.Fibertest.DataCenterCore
             if (trace == null)
                 return result;
             result.TraceTitle = trace.Title;
-            result.Port = trace.OtauPort.IsPortOnMainCharon
+            result.Port = trace.Port < 1 ? "-1" :
+                trace.OtauPort.IsPortOnMainCharon
                 ? trace.Port.ToString()
                 : $"{trace.OtauPort.Serial}-{trace.OtauPort.OpticalPort}";
             result.RtuTitle = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
