@@ -92,12 +92,18 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
-        [HttpPost("Detach-trace/{id}")]
-        public async Task<string> DetachTrace(string id)
+        [HttpPost("Detach-trace")]
+        public async Task<string> DetachTrace()
         {
             try
             {
-                var traceGuid = Guid.Parse(id);
+                string body;
+                using (var reader = new StreamReader(Request.Body))
+                {
+                    body = await reader.ReadToEndAsync();
+                }
+                _logFile.AppendLine("body: " + body);
+                var traceGuid = Guid.Parse(body);
                 var result = await _desktopC2DWcfManager
                     .SetServerAddresses(_doubleAddressForDesktopWcfManager, "webproxy", GetRemoteAddress())
                     .SendCommandAsObj(new DetachTrace() { TraceId = traceGuid });

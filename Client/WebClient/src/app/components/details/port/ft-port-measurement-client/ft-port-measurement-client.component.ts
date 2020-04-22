@@ -3,7 +3,6 @@ import { FtComponentDataProvider } from "src/app/providers/ft-component-data-pro
 import { RtuApiService } from "src/app/api/rtu.service";
 import { TreeOfAcceptableVeasParams } from "src/app/models/dtos/meas-params/acceptableMeasParams";
 import { Router } from "@angular/router";
-import { PortApiService } from "src/app/api/port.service";
 import { DoClientMeasurementDto } from "src/app/models/dtos/meas-params/doClientMeasurementDto";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 import { ReturnCode } from "src/app/models/enums/returnCode";
@@ -11,6 +10,7 @@ import { Subscription } from "rxjs";
 import { SignalrService } from "src/app/api/signalr.service";
 import { ClientMeasurementDoneDto } from "src/app/models/dtos/port/clientMeasurementDoneDto";
 import { TranslateService } from "@ngx-translate/core";
+import { OneApiService } from "src/app/api/one.service";
 
 @Component({
   selector: "ft-port-measurement-client",
@@ -43,7 +43,7 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     private router: Router,
     private dataStorage: FtComponentDataProvider,
     private rtuApiService: RtuApiService,
-    private portApiService: PortApiService,
+    private oneApiService: OneApiService,
     private signalRService: SignalrService,
     private ts: TranslateService
   ) {}
@@ -160,8 +160,8 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     dto.rtuId = this.dataStorage.data["rtuId"];
     dto.otauPortDto = this.dataStorage.data["otauPortDto"];
     dto.selectedMeasParams = this.getSelectedParameters();
-    this.portApiService
-      .postRequest("measurement-client", dto)
+    this.oneApiService
+      .postRequest("port", "measurement-client", dto)
       .subscribe((res: RequestAnswer) => {
         if (res.returnCode !== ReturnCode.Ok) {
           this.message = res.errorMessage;

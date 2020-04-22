@@ -246,7 +246,8 @@ namespace Iit.Fibertest.Client
             var baseRefs = new List<BaseRefDto>();
             if (IsFilenameChanged(PreciseBaseFilename, trace.PreciseId))
             {
-                var baseRefDto = _baseRefDtoFactory.CreateFromFile(PreciseBaseFilename, BaseRefType.Precise, _currentUser.UserName);
+                var baseRefDto = _baseRefDtoFactory.CreateFromFile(PreciseBaseFilename, 
+                    BaseRefType.Precise, _currentUser.UserName);
                 if (trace.PreciseId != Guid.Empty)
                     dto.DeleteOldSorFileIds.Add(_readModel.BaseRefs.First(b => b.Id == trace.PreciseId).SorFileId);
                 baseRefs.Add(baseRefDto);

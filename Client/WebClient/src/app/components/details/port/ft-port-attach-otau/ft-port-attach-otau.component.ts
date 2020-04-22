@@ -1,12 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
-import { PortApiService } from "src/app/api/port.service";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { OtauPortDto } from "src/app/models/underlying/otauPortDto";
 import { AttachOtauDto } from "src/app/models/dtos/port/attachOtauDto";
 import { NetAddress } from "src/app/models/underlying/netAddress";
 import { OtauAttachedDto } from "src/app/models/dtos/port/otauAttachedDto";
+import { OneApiService } from "src/app/api/one.service";
 
 @Component({
   selector: "ft-port-attach-otau",
@@ -29,7 +29,7 @@ export class FtPortAttachOtauComponent implements OnInit {
   constructor(
     private router: Router,
     private dataStorage: FtComponentDataProvider,
-    private portApiService: PortApiService
+    private oneApiService: OneApiService
   ) {}
 
   /* tslint:disable:no-string-literal */
@@ -50,8 +50,8 @@ export class FtPortAttachOtauComponent implements OnInit {
     cmd.OtauAddress.IsAddressSetAsIp = true;
     cmd.OtauAddress.Port = 11834;
     console.log(cmd);
-    this.portApiService
-      .postRequest("attach-otau", cmd)
+    this.oneApiService
+      .postRequest("port", "attach-otau", cmd)
       .subscribe((res: OtauAttachedDto) => {
         console.log(res);
         if (res.isAttached) {

@@ -2,9 +2,9 @@ import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
 import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
-import { PortApiService } from "src/app/api/port.service";
 import { FtRtuTreeEventService } from "../../../ft-rtu-tree-event-service";
 import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
+import { OneApiService } from "src/app/api/one.service";
 
 @Component({
   selector: "ft-attached-line",
@@ -20,7 +20,7 @@ export class FtAttachedLineComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private portApiService: PortApiService,
+    private oneApiService: OneApiService,
     private ftRtuTreeEventService: FtRtuTreeEventService,
     private dataStorage: FtComponentDataProvider
   ) {}
@@ -54,10 +54,12 @@ export class FtAttachedLineComponent implements OnInit {
 
   detachTrace() {
     this.ftRtuTreeEventService.emitEvent(true);
-    this.portApiService.detachTrace(this.trace.traceId).subscribe((res) => {
-      console.log(res);
-      this.ftRtuTreeEventService.emitEvent(false);
-    });
+    this.oneApiService
+      .postRequest("port", "detach-trace", this.trace.traceId)
+      .subscribe((res) => {
+        console.log(res);
+        this.ftRtuTreeEventService.emitEvent(false);
+      });
   }
 
   outOfTurnMeasurement() {}

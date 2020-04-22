@@ -3,8 +3,8 @@ import { OtauWebDto } from "src/app/models/dtos/rtuTree/otauWebDto";
 import { MatMenuTrigger } from "@angular/material";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { DetachOtauDto } from "src/app/models/dtos/rtu/detachOtauDto";
-import { PortApiService } from "src/app/api/port.service";
 import { FtRtuTreeEventService } from "../../../ft-rtu-tree-event-service";
+import { OneApiService } from "src/app/api/one.service";
 
 @Component({
   selector: "ft-otau",
@@ -20,7 +20,7 @@ export class FtOtauComponent implements OnInit {
   contextMenuPosition = { x: "0px", y: "0px" };
 
   constructor(
-    private portApiService: PortApiService,
+    private oneApiService: OneApiService,
     private ftRtuTreeEventService: FtRtuTreeEventService
   ) {}
 
@@ -50,8 +50,8 @@ export class FtOtauComponent implements OnInit {
     detachOtauDto.otauId = this.otau.otauId;
     detachOtauDto.otauAddress = this.otau.otauNetAddress;
     detachOtauDto.opticalPort = this.otau.port;
-    this.portApiService
-      .postRequest("detach-otau", detachOtauDto)
+    this.oneApiService
+      .postRequest("port", "detach-otau", detachOtauDto)
       .subscribe((res: any) => {
         console.log(res);
         this.ftRtuTreeEventService.emitEvent(false);
