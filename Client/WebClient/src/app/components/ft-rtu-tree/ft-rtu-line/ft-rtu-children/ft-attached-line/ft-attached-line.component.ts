@@ -55,7 +55,7 @@ export class FtAttachedLineComponent implements OnInit {
   detachTrace() {
     this.ftRtuTreeEventService.emitEvent(true);
     this.oneApiService
-      .postRequest("port", "detach-trace", this.trace.traceId)
+      .postRequest(`port/detach-trace/${this.trace.traceId}`, null)
       .subscribe((res) => {
         console.log(res);
         this.ftRtuTreeEventService.emitEvent(false);

@@ -51,7 +51,7 @@ export class FtPortAttachOtauComponent implements OnInit {
     cmd.OtauAddress.Port = 11834;
     console.log(cmd);
     this.oneApiService
-      .postRequest("port", "attach-otau", cmd)
+      .postRequest("port/attach-otau", cmd)
       .subscribe((res: OtauAttachedDto) => {
         console.log(res);
         if (res.isAttached) {

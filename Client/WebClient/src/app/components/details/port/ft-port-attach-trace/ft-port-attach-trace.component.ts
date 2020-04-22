@@ -47,7 +47,7 @@ export class FtPortAttachTraceComponent implements OnInit {
     cmd.OtauPortDto = this.dataStorage.data["selectedPort"];
     console.log(cmd);
     this.oneApiService
-      .postRequest("port", "attach-trace", cmd)
+      .postRequest("port/attach-trace", cmd)
       .subscribe((res: string) => {
         this.isSpinnerVisible = false;
         this.isButtonDisabled = false;

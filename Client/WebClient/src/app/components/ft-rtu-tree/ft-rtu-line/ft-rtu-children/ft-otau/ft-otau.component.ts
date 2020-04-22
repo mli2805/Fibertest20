@@ -51,7 +51,7 @@ export class FtOtauComponent implements OnInit {
     detachOtauDto.otauAddress = this.otau.otauNetAddress;
     detachOtauDto.opticalPort = this.otau.port;
     this.oneApiService
-      .postRequest("port", "detach-otau", detachOtauDto)
+      .postRequest("port/detach-otau", detachOtauDto)
       .subscribe((res: any) => {
         console.log(res);
         this.ftRtuTreeEventService.emitEvent(false);

@@ -19,8 +19,8 @@ export class OneApiService {
     return this.httpClient.get(url, { headers: myHeaders });
   }
 
-  postRequest(controller: string, request: string, body: any) {
-    const url = Utils.GetWebApiUrl() + `/${controller}/${request}`;
+  postRequest(request: string, body: any) {
+    const url = Utils.GetWebApiUrl() + `/${request}`;
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
     const myHeaders = new HttpHeaders({
