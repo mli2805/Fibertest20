@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { RtuApiService } from "src/app/api/rtu.service";
 import { RtuInformationDto } from "src/app/models/dtos/rtu/rtuInformationDto";
+import { OneApiService } from "src/app/api/one.service";
 
 @Component({
   selector: "ft-rtu-information",
@@ -13,13 +13,13 @@ export class FtRtuInformationComponent implements OnInit {
 
   constructor(
     private activeRoute: ActivatedRoute,
-    private rtuApiService: RtuApiService
+    private oneApiService: OneApiService
   ) {}
 
   ngOnInit() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
-    this.rtuApiService
-      .getRequest(id, "information")
+    this.oneApiService
+      .getRequest(`rtu/information/${id}`)
       .subscribe((res: RtuInformationDto) => {
         console.log("rtu information received");
         this.vm = res;

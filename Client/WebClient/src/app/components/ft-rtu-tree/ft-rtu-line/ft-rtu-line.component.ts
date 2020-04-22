@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { MatMenuTrigger } from "@angular/material";
-import { Router, ActivatedRoute } from "@angular/router";
+import { Router } from "@angular/router";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
-import { RtuApiService } from "src/app/api/rtu.service";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { FtRtuTreeEventService } from "../ft-rtu-tree-event-service";
+import { OneApiService } from "src/app/api/one.service";
 
 @Component({
   selector: "ft-rtu-line",
@@ -22,8 +22,7 @@ export class FtRtuLineComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private activeRoute: ActivatedRoute,
-    private rtuApiService: RtuApiService,
+    private oneApiService: OneApiService,
     private ftRtuTreeEventService: FtRtuTreeEventService
   ) {}
 
@@ -62,8 +61,8 @@ export class FtRtuLineComponent implements OnInit {
     this.ftRtuTreeEventService.emitEvent(true);
     const id = rtu.rtuId;
     console.log("manual pressed id=", id);
-    this.rtuApiService
-      .postRequest(id, "stop-monitoring", rtu.rtuMaker)
+    this.oneApiService
+      .postRequest(`rtu/stop-monitoring/${id}`, rtu.rtuMaker)
       .subscribe((res: boolean) => {
         this.ftRtuTreeEventService.emitEvent(false);
         console.log(res);
@@ -77,8 +76,8 @@ export class FtRtuLineComponent implements OnInit {
     this.ftRtuTreeEventService.emitEvent(true);
     const id = rtu.rtuId;
     console.log("automatic pressed id=", id);
-    this.rtuApiService
-      .postRequest(id, "start-monitoring", null)
+    this.oneApiService
+      .postRequest(`rtu/start-monitoring/${id}`, null)
       .subscribe((res: RequestAnswer) => {
         this.ftRtuTreeEventService.emitEvent(false);
         console.log(res);

@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { RtuStateDto } from "src/app/models/dtos/rtu/rtuStateDto";
 import { ActivatedRoute } from "@angular/router";
-import { RtuApiService } from "src/app/api/rtu.service";
+import { OneApiService } from "src/app/api/one.service";
 
 @Component({
   selector: "ft-rtu-state",
@@ -21,14 +21,16 @@ export class FtRtuStateComponent implements OnInit {
 
   constructor(
     private activeRoute: ActivatedRoute,
-    private rtuApiService: RtuApiService
+    private oneApiService: OneApiService
   ) {}
 
   ngOnInit() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
-    this.rtuApiService.getRequest(id, "state").subscribe((res: RtuStateDto) => {
-      console.log("rtu state received");
-      Object.assign(this.vm, res);
-    });
+    this.oneApiService
+      .getRequest(`rtu/state/${id}`)
+      .subscribe((res: RtuStateDto) => {
+        console.log("rtu state received");
+        Object.assign(this.vm, res);
+      });
   }
 }

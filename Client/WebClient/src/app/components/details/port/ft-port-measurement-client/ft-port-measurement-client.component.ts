@@ -1,6 +1,5 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
 import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
-import { RtuApiService } from "src/app/api/rtu.service";
 import { TreeOfAcceptableVeasParams } from "src/app/models/dtos/meas-params/acceptableMeasParams";
 import { Router } from "@angular/router";
 import { DoClientMeasurementDto } from "src/app/models/dtos/meas-params/doClientMeasurementDto";
@@ -42,18 +41,16 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private dataStorage: FtComponentDataProvider,
-    private rtuApiService: RtuApiService,
     private oneApiService: OneApiService,
     private signalRService: SignalrService,
     private ts: TranslateService
   ) {}
 
-  /* tslint:disable:no-string-literal */
   ngOnInit() {
     this.isSpinnerVisible = true;
     const rtuId = this.dataStorage.data["rtuId"];
-    this.rtuApiService
-      .getRequest(rtuId, "measurement-parameters")
+    this.oneApiService
+      .getRequest(`rtu/measurement-parameters/${rtuId}`)
       .subscribe((res: TreeOfAcceptableVeasParams) => {
         console.log("tree: ", res);
         this.tree = res;

@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { RtuApiService } from "src/app/api/rtu.service";
 import { ActivatedRoute } from "@angular/router";
 import { RtuNetworkSettingsDto } from "src/app/models/dtos/rtu/rtuNetworkSettingsDto";
 import { SignalrService } from "src/app/api/signalr.service";
@@ -7,6 +6,7 @@ import { RtuInitializedWebDto } from "src/app/models/dtos/rtu/rtuInitializedWebD
 import { Subscription } from "rxjs";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
+import { OneApiService } from "src/app/api/one.service";
 
 @Component({
   selector: "ft-rtu-network-settings",
@@ -23,7 +23,7 @@ export class FtRtuNetworkSettingsComponent implements OnInit, OnDestroy {
 
   constructor(
     private activeRoute: ActivatedRoute,
-    private rtuApiService: RtuApiService,
+    private oneApiService: OneApiService,
     private signalRService: SignalrService,
     private returnCodePipe: ReturnCodePipe
   ) {
@@ -33,8 +33,8 @@ export class FtRtuNetworkSettingsComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
-    this.rtuApiService
-      .getRequest(id, "network-settings")
+    this.oneApiService
+      .getRequest(`rtu/network-settings/${id}`)
       .subscribe((res: RtuNetworkSettingsDto) => {
         console.log("rtu network settings received");
         this.vm = res;

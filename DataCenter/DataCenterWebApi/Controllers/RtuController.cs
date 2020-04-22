@@ -46,7 +46,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("Tree")]
         public async Task<IEnumerable<RtuDto>> GetTree()
         {
             var tree = await _webC2DWcfManager

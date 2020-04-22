@@ -1,10 +1,6 @@
 import { Component, OnInit, ViewChild } from "@angular/core";
-import {
-  RtuMonitoringSettingsDto,
-  RtuMonitoringPortDto,
-} from "src/app/models/dtos/rtu/rtuMonitoringSettingsDto";
+import { RtuMonitoringSettingsDto } from "src/app/models/dtos/rtu/rtuMonitoringSettingsDto";
 import { ActivatedRoute } from "@angular/router";
-import { RtuApiService } from "src/app/api/rtu.service";
 import { Frequency } from "src/app/models/enums/frequency";
 import { FrequencyPipe } from "src/app/pipes/frequency.pipe";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
@@ -12,6 +8,7 @@ import { FtRtuMonitoringPortsComponent } from "../ft-rtu-monitoring-ports/ft-rtu
 import { PortMonitoringMode } from "src/app/models/enums/portMonitoringMode";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 import { ReturnCode } from "src/app/models/enums/returnCode";
+import { OneApiService } from "src/app/api/one.service";
 
 @Component({
   selector: "ft-rtu-monitoring-settings",
@@ -39,7 +36,7 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
 
   constructor(
     private activeRoute: ActivatedRoute,
-    private rtuApiService: RtuApiService,
+    private oneApiService: OneApiService,
     private frequencyPipe: FrequencyPipe
   ) {
     this.isSpinnerVisible = true;
@@ -62,8 +59,8 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
     this.itemsSourceMeas = frm;
 
     const id = this.activeRoute.snapshot.paramMap.get("id");
-    this.rtuApiService
-      .getRequest(id, "monitoring-settings")
+    this.oneApiService
+      .getRequest(`rtu/monitoring-settings/${id}`)
       .subscribe((res: RtuMonitoringSettingsDto) => {
         console.log("rtu monitoring settings received");
         this.vm = res;
@@ -104,8 +101,8 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
     console.log(dto);
 
     const id = this.activeRoute.snapshot.paramMap.get("id");
-    this.rtuApiService
-      .postRequest(id, "monitoring-settings", dto)
+    this.oneApiService
+      .postRequest(`rtu/monitoring-settings/${id}`, dto)
       .subscribe((res: RequestAnswer) => {
         console.log(res);
         if (

@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { RtuApiService } from "src/app/api/rtu.service";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { ChildType } from "src/app/models/enums/childType";
 import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
@@ -8,6 +7,7 @@ import { Router, RouterEvent, NavigationEnd } from "@angular/router";
 import { filter, takeUntil } from "rxjs/operators";
 import { Subject } from "rxjs";
 import { FtRtuTreeEventService } from "./ft-rtu-tree-event-service";
+import { OneApiService } from "src/app/api/one.service";
 
 @Component({
   selector: "ft-rtu-tree",
@@ -21,7 +21,7 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
   public destroyed = new Subject<any>();
 
   constructor(
-    private rtuService: RtuApiService,
+    private oneApiService: OneApiService,
     private router: Router,
     private grandChildEventService: FtRtuTreeEventService
   ) {
@@ -29,7 +29,6 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log("we are in ngOnInit");
     this.fetchData();
     // https://medium.com/angular-in-depth/refresh-current-route-in-angular-512a19d58f6e
     this.router.events
@@ -44,7 +43,7 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
     this.grandChildEventService
       .grandChildEventListener()
       .subscribe((evnt: boolean) => {
-        console.log("evnt received: ", evnt);
+        console.log("Event: Reload wanted - ", evnt);
         this.isNotLoaded = evnt;
         if (!evnt) {
           this.fetchData();
@@ -59,7 +58,7 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
 
   fetchData() {
     this.isNotLoaded = true;
-    this.rtuService.getAllRtu().subscribe((res: RtuDto[]) => {
+    this.oneApiService.getRequest(`rtu/tree`).subscribe((res: RtuDto[]) => {
       console.log("rtu tree received", res);
       this.rtus = res;
       this.applyRtuMonitoringModeToTraces();
