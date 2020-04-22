@@ -1,12 +1,12 @@
 import { DataSource } from "@angular/cdk/table";
 import {
   OptEventDto,
-  OptEventRequestDto
+  OptEventRequestDto,
 } from "src/app/models/dtos/optEventDto";
 import { BehaviorSubject, Observable, of } from "rxjs";
-import { OptEvService } from "src/app/api/oev.service";
 import { CollectionViewer } from "@angular/cdk/collections";
 import { catchError, finalize } from "rxjs/operators";
+import { OneApiService } from "src/app/api/one.service";
 
 export class OptEventsDataSource implements DataSource<OptEventDto> {
   private optEventsSubject = new BehaviorSubject<OptEventDto[]>([]);
@@ -16,7 +16,7 @@ export class OptEventsDataSource implements DataSource<OptEventDto> {
   public loading$ = this.loadingSubject.asObservable();
   public fullCount = this.fullCountSubject.asObservable();
 
-  constructor(private oevApiService: OptEvService) {}
+  constructor(private oneApiService: OneApiService) {}
 
   connect(collectionViewer: CollectionViewer): Observable<OptEventDto[]> {
     return this.optEventsSubject.asObservable();
@@ -37,15 +37,17 @@ export class OptEventsDataSource implements DataSource<OptEventDto> {
   ) {
     this.loadingSubject.next(true);
 
-    this.oevApiService
-      .getEvents(
-        isCurrentEvents,
-        filterRtu,
-        filterTrace,
-        sortOrder,
-        pageNumber,
-        pageSize
-      )
+    const params = {
+      isCurrentEvents,
+      filterRtu,
+      filterTrace,
+      sortOrder,
+      pageNumber: pageNumber.toString(),
+      pageSize: pageSize.toString(),
+    };
+
+    this.oneApiService
+      .getRequest("oev/getPage", params)
       .pipe(
         catchError(() => of([])),
         finalize(() => this.loadingSubject.next(false))

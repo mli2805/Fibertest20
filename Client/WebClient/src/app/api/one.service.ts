@@ -8,18 +8,7 @@ import { Utils } from "../Utils/utils";
 export class OneApiService {
   constructor(private httpClient: HttpClient) {}
 
-  getRequest(request: string) {
-    const url = Utils.GetWebApiUrl() + `/${request}`;
-    const currentUser = JSON.parse(sessionStorage.currentUser);
-
-    const myHeaders = new HttpHeaders({
-      Authorization: "Bearer " + currentUser.jsonWebToken,
-    });
-
-    return this.httpClient.get(url, { headers: myHeaders });
-  }
-
-  getRequestWithParams(request: string, params) {
+  getRequest(request: string, params = null) {
     const url = Utils.GetWebApiUrl() + `/${request}`;
     const currentUser = JSON.parse(sessionStorage.currentUser);
 

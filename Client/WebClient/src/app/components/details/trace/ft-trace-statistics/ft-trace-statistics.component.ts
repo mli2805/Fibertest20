@@ -39,7 +39,7 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
     };
 
     this.oneApiService
-      .getRequestWithParams(`trace/statistics/${id}`, params)
+      .getRequest(`trace/statistics/${id}`, params)
       .subscribe((res: TraceStatisticsDto) => {
         console.log("trace statistics initial page received");
         this.vm = res;
@@ -67,7 +67,7 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
     };
 
     this.oneApiService
-      .getRequestWithParams(`trace/statistics/${id}`, params)
+      .getRequest(`trace/statistics/${id}`, params)
       .subscribe((res: TraceStatisticsDto) => {
         console.log("trace statistics page received");
         this.vm = res;

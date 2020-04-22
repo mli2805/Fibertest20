@@ -7,16 +7,16 @@ import {
   AfterViewInit,
   ElementRef,
 } from "@angular/core";
-import { OptEvService } from "src/app/api/oev.service";
 import { OptEventsDataSource } from "../ft-opt-events/optEventsDataSource";
 import { MatPaginator, MatSort } from "@angular/material";
 import { tap, debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { merge, fromEvent } from "rxjs";
+import { OneApiService } from "src/app/api/one.service";
 
 @Component({
   selector: "ft-opt-events",
   templateUrl: "./ft-opt-events.component.html",
-  styleUrls: ["./ft-opt-events.component.css"]
+  styleUrls: ["./ft-opt-events.component.css"],
 })
 export class FtOptEventsComponent implements OnInit, AfterViewInit {
   labelPosition = "before";
@@ -32,7 +32,7 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
     "traceState",
     "eventStatus",
     "statusChangedTimestamp",
-    "statusChangedByUser"
+    "statusChangedByUser",
   ];
   dataSource: OptEventsDataSource;
 
@@ -41,12 +41,12 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
   @ViewChild("inputRtu", { static: true }) inputRtu: ElementRef;
   @ViewChild("inputTrace", { static: true }) inputTrace: ElementRef;
 
-  constructor(private oevApiService: OptEvService) {
+  constructor(private oneApiService: OneApiService) {
     this.isCurrentEvents = true;
   }
 
   ngOnInit() {
-    this.dataSource = new OptEventsDataSource(this.oevApiService);
+    this.dataSource = new OptEventsDataSource(this.oneApiService);
     this.dataSource.loadOptEvents(
       String(this.isCurrentEvents),
       "",
