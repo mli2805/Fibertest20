@@ -43,7 +43,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         public async Task<AboutDto> GetAbout()
         {
             var about = await _webC2DWcfManager
-                .SetServerAddresses(_doubleAddressForWebWcfManager, "webproxy", GetRemoteAddress())
+                .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
                 .GetAboutInJson(User.Identity.Name);
             _logFile.AppendLine(about == null
                 ? "Failed to get about view model"

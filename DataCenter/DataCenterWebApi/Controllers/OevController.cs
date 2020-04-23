@@ -37,7 +37,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                    string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize)
         {
             var resultDto = await _webC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForWebWcfManager, "webproxy", GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
                     .GetOpticalEventPortion(User.Identity.Name, isCurrentEvents, filterRtu, filterTrace, sortOrder, pageNumber, pageSize);
             _logFile.AppendLine(resultDto == null
                 ? "Failed to get optical event list"

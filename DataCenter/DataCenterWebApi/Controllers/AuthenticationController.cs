@@ -17,7 +17,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Iit.Fibertest.DataCenterWebApi
 {
-   
+
     [Route("[controller]")]
     [ApiController]
     public class AuthenticationController : ControllerBase
@@ -35,14 +35,17 @@ namespace Iit.Fibertest.DataCenterWebApi
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
         }
 
+        private string GetRemoteAddress()
+        {
+            var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
+            // browser started on the same pc as this service
+            return ip1 == "::1" ? _localIpAddress : ip1;
+        }
+
         [Authorize]
         [HttpPost("Logout")]
         public async Task Logout()
         {
-            var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
-            // browser started on the same pc as this service
-            var aa = ip1 == "::1" ? _localIpAddress : ip1;
-            _logFile.AppendLine($"Logout request from {aa}");
             string body;
             using (var reader = new StreamReader(Request.Body))
             {
@@ -50,43 +53,40 @@ namespace Iit.Fibertest.DataCenterWebApi
             }
             dynamic user = JObject.Parse(body);
             var username = (string)user.username;
+            await _commonC2DWcfManager
+                .SetServerAddresses(_doubleAddress, username, GetRemoteAddress())
+                .UnregisterClientAsync(
+                    new UnRegisterClientDto { ClientIp = GetRemoteAddress(), Username = username });
             _logFile.AppendLine($"User {username} logged out.");
-            _commonC2DWcfManager.SetServerAddresses(_doubleAddress, username, aa);
-            var unused = await _commonC2DWcfManager.UnregisterClientAsync(
-                new UnRegisterClientDto()
-                {
-                    ClientIp = aa, Username = username,
-                });
             Response.StatusCode = 201;
         }
 
         [HttpPost("Login")]
         public async Task Login()
         {
-            var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
-            // browser started on the same pc as this service
-            var aa = ip1 == "::1" ? _localIpAddress : ip1;
-            _logFile.AppendLine($"Authentication request from {aa}");
+            var clientIp = GetRemoteAddress();
+            _logFile.AppendLine($"Authentication request from {clientIp}");
             string body;
             using (var reader = new StreamReader(Request.Body))
             {
                 body = await reader.ReadToEndAsync();
             }
             dynamic user = JObject.Parse(body);
-            _commonC2DWcfManager.SetServerAddresses(_doubleAddress, (string)user.username, aa);
-            var clientRegisteredDto = await _commonC2DWcfManager.RegisterClientAsync(
-                new RegisterClientDto()
-                {
-                    Addresses = new DoubleAddress()
+            var clientRegisteredDto = await _commonC2DWcfManager
+                .SetServerAddresses(_doubleAddress, (string)user.username, clientIp)
+                .RegisterClientAsync(
+                    new RegisterClientDto()
                     {
-                        Main = new NetAddress() { Ip4Address = aa, Port = 11080 },
-                        HasReserveAddress = false
-                    },
-                    UserName = (string)user.username,
-                    Password = (string)user.password,
-                    IsUnderSuperClient = false,
-                    IsWebClient = true,
-                });
+                        Addresses = new DoubleAddress()
+                        {
+                            Main = new NetAddress() { Ip4Address = clientIp, Port = 11080 },
+                            HasReserveAddress = false
+                        },
+                        UserName = (string)user.username,
+                        Password = (string)user.password,
+                        IsUnderSuperClient = false,
+                        IsWebClient = true,
+                    });
 
             if (clientRegisteredDto.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
             {
@@ -97,7 +97,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                     exceptionMessage = clientRegisteredDto.ErrorMessage,
                 };
                 Response.ContentType = "application/json";
-                await Response.WriteAsync(JsonConvert.SerializeObject(responseError, 
+                await Response.WriteAsync(JsonConvert.SerializeObject(responseError,
                                 new JsonSerializerSettings { Formatting = Formatting.Indented }));
                 return;
             }

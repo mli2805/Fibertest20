@@ -46,7 +46,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine($"trace id = {id}");
                 var traceGuid = Guid.Parse(id);
                 var traceInformationDto = await _webC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForWebWcfManager, "webproxy", GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
                     .GetTraceInformation(User.Identity.Name, traceGuid);
                 _logFile.AppendLine(traceInformationDto == null
                     ? "Failed to get trace's information"
@@ -69,7 +69,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine($"trace id = {id}");
                 var traceGuid = Guid.Parse(id);
                 var traceStatisticsDto = await _webC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForWebWcfManager, "webproxy", GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
                     .GetTraceStatistics(User.Identity.Name, traceGuid, pageNumber, pageSize);
                 _logFile.AppendLine(traceStatisticsDto == null
                     ? "Failed to get trace's statistics"
@@ -92,7 +92,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine($"trace id = {id}");
                 var traceGuid = Guid.Parse(id);
                 var assignBaseParamsDto = await _webC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForWebWcfManager, "webproxy", GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
                     .GetAssignBaseParams(User.Identity.Name, traceGuid);
                 _logFile.AppendLine(assignBaseParamsDto == null
                     ? "Failed to get trace's statistics"
@@ -121,7 +121,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine(body);
                 var dto = JsonConvert.DeserializeObject<AssignBaseRefsDto>(body);
                 var baseRefAssignedDto = await _commonC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForCommonWcfManager, "webproxy", GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
                     .AssignBaseRefAsync(dto);
                 _logFile.AppendLine($"PostBaseRefs: {baseRefAssignedDto.ReturnCode}");
                 return baseRefAssignedDto;

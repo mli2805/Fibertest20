@@ -53,7 +53,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 var dto = JsonConvert.DeserializeObject<AttachTrace>(body);
 
                 var result = await _desktopC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForDesktopWcfManager, "webproxy", GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForDesktopWcfManager, User.Identity.Name, GetRemoteAddress())
                     .SendCommandAsObj(dto);
                 return string.IsNullOrEmpty(result) ? null : result;
             }
@@ -80,7 +80,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 dto.OtauId = Guid.NewGuid();
 
                 var result = await _commonC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForCommonWcfManager, "webproxy", GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
                     .AttachOtauAsync(dto);
                 return result;
             }
@@ -99,7 +99,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 var traceGuid = Guid.Parse(id);
                 var result = await _desktopC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForDesktopWcfManager, "webproxy", GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForDesktopWcfManager, User.Identity.Name, GetRemoteAddress())
                     .SendCommandAsObj(new DetachTrace() { TraceId = traceGuid });
                 return string.IsNullOrEmpty(result) ? null : result;
             }
@@ -124,7 +124,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine("body: " + body);
                 var detachOtauDto = JsonConvert.DeserializeObject<DetachOtauDto>(body);
                 var otauDetachedDto = await _commonC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForCommonWcfManager, "webproxy", GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
                     .DetachOtauAsync(detachOtauDto);
                 return otauDetachedDto;
             }
@@ -153,7 +153,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 }
                 var dto = JsonConvert.DeserializeObject<DoClientMeasurementDto>(body);
                 var clientMeasurementStartedDto = await _commonC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForCommonWcfManager, "webproxy", GetRemoteAddress())
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
                     .DoClientMeasurementAsync(dto);
                 return clientMeasurementStartedDto;
             }
