@@ -4,10 +4,12 @@ import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
 import { AssignBaseParamsDto } from "src/app/models/dtos/trace/assignBaseParamsDto";
 import { TranslateService } from "@ngx-translate/core";
 import { Router } from "@angular/router";
-import { AssignBaseReftsDto } from "src/app/models/dtos/trace/assignBaseRefsDto";
-import { BaseRefDto } from "src/app/models/underlying/baseRefDto";
+import { AssignBaseRefDtoWithFiles } from "src/app/models/dtos/trace/assignBaseRefDtoWithFiles";
 import { BaseRefType } from "src/app/models/enums/baseRefType";
 import { OneApiService } from "src/app/api/one.service";
+import { ReturnCode } from "src/app/models/enums/returnCode";
+import { BaseRefFile } from "src/app/models/underlying/baseRefFile";
+import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 
 @Component({
   selector: "ft-assign-base",
@@ -55,49 +57,66 @@ export class FtAssignBaseComponent implements OnInit {
   }
 
   save() {
+    this.isSpinnerVisible = true;
+    this.isButtonDisabled = true;
+
     const dto = this.prepareDto();
     if (dto.baseRefs.length > 0) {
-      // TODO: send dto
+      console.log(dto);
+      this.oneApiService
+        .postFile(`trace/assign-base-refs`, dto)
+        .subscribe((res: RequestAnswer) => {
+          if (res.returnCode === ReturnCode.BaseRefAssignedSuccessfully) {
+            console.log("base refs assigned successfully!");
+          } else {
+            this.message = res.errorMessage;
+          }
+          this.isSpinnerVisible = false;
+          this.isButtonDisabled = false;
+        });
     }
     this.router.navigate(["/rtu-tree"]);
   }
 
-  prepareDto(): AssignBaseReftsDto {
-    const dto = new AssignBaseReftsDto();
+  prepareDto(): AssignBaseRefDtoWithFiles {
+    const dto = new AssignBaseRefDtoWithFiles();
     dto.rtuId = this.trace.rtuId;
     dto.rtuMaker = this.params.rtuMaker;
     dto.otdrId = this.params.otdrId;
     dto.traceId = this.trace.traceId;
     dto.otauPortDto = this.trace.otauPort;
-    dto.baseRefs = [];
+    dto.baseRefs = this.prepareFiles();
+    return dto;
+  }
+
+  prepareFiles(): BaseRefFile[] {
+    const baseRefs = [];
 
     if (this.isFilenameChanged(this.preciseFilename, this.params.preciseId)) {
-      dto.baseRefs.push(this.createDto(this.preciseFile, BaseRefType.Precise));
+      baseRefs.push(this.createDto(this.preciseFile, BaseRefType.Precise));
     }
     if (this.isFilenameChanged(this.fastFilename, this.params.fastId)) {
-      dto.baseRefs.push(this.createDto(this.fastFile, BaseRefType.Fast));
+      baseRefs.push(this.createDto(this.fastFile, BaseRefType.Fast));
     }
     if (
       this.isFilenameChanged(this.additionalFilename, this.params.additionalId)
     ) {
-      dto.baseRefs.push(
+      baseRefs.push(
         this.createDto(this.additionalFile, BaseRefType.Additional)
       );
     }
-    return dto;
+
+    return baseRefs;
   }
 
-  createDto(file: File, type: BaseRefType): BaseRefDto {
-    const dto = new BaseRefDto();
-    dto.baseRefType = type;
+  createDto(file: File, type: BaseRefType): BaseRefFile {
+    const dto = new BaseRefFile();
+    dto.type = type;
+
+    // dto without file means baseRef for that type should be deleted on server and rtu
     if (file != null) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        dto.sorBytes = reader.result;
-      };
-      reader.readAsArrayBuffer(file);
+      dto.file = file;
     }
-    console.log(dto);
     return dto;
   }
 

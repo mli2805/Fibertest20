@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -107,19 +109,29 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
-        [HttpPost("Assign-base-refs/{id}")]
-        public async Task<BaseRefAssignedDto> PostBaseRefs(string id)
+        [HttpPost("Assign-base-refs")]
+        public async Task<BaseRefAssignedDto> PostBaseRefs()
         {
             try
             {
-                _logFile.AppendLine($"trace id = {id}");
-                string body;
-                using (var reader = new StreamReader(Request.Body))
+                var dtoString = HttpContext.Request.Form["dto"];
+                _logFile.AppendLine($"PostBaseRefs: {dtoString}");
+                var inputDto = JsonConvert.DeserializeObject<AssignBaseRefDtoWithFiles>(dtoString);
+                var dto = Map(inputDto);
+                foreach (var file in HttpContext.Request.Form.Files)
                 {
-                    body = await reader.ReadToEndAsync();
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        var tt = file.Name;
+                        var fl = Enum.TryParse(tt, out BaseRefType baseRefType);
+                        if (!fl) continue;
+                        var baseRef = dto.BaseRefs.FirstOrDefault(b => b.BaseRefType == baseRefType);
+                        if (baseRef == null) continue;
+                        await file.CopyToAsync(memoryStream);
+                        baseRef.SorBytes = memoryStream.ToArray();
+                    }
                 }
-                _logFile.AppendLine(body);
-                var dto = JsonConvert.DeserializeObject<AssignBaseRefsDto>(body);
+             
                 var baseRefAssignedDto = await _commonC2DWcfManager
                     .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
                     .AssignBaseRefAsync(dto);
@@ -131,6 +143,26 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine($"PostBaseRefs: {e.Message}");
                 return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentFailed, ErrorMessage = e.Message };
             }
+        }
+
+        private AssignBaseRefsDto Map(AssignBaseRefDtoWithFiles dto)
+        {
+            var result = new AssignBaseRefsDto 
+            {
+                ClientIp = GetRemoteAddress(),
+                Username = User.Identity.Name,
+                RtuId = dto.RtuId, 
+                RtuMaker = dto.RtuMaker,
+                OtdrId = dto.OtdrId,
+                TraceId = dto.TraceId,
+                OtauPortDto = dto.OtauPortDto,
+                BaseRefs = new List<BaseRefDto>()
+            };
+            foreach (var baseRefFile in dto.BaseRefs)
+            {
+                result.BaseRefs.Add(new BaseRefDto(){BaseRefType = baseRefFile.Type});
+            }
+            return  result;
         }
     }
 

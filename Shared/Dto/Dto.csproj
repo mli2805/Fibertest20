@@ -70,6 +70,8 @@
     <Compile Include="Enums\RtuPartStateChanges.cs" />
     <Compile Include="Enums\WorseOrBetter.cs" />
     <Compile Include="ForWebApi\AboutDto.cs" />
+    <Compile Include="ForWebApi\AssignBaseRefDtoWithFiles.cs" />
+    <Compile Include="ForWebApi\BaseRefFile.cs" />
     <Compile Include="ForWebApi\BaseRefInfoDto.cs" />
     <Compile Include="ForWebApi\MeasurementDto.cs" />
     <Compile Include="ForWebApi\AboutRtuDto.cs" />
