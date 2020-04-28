@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
@@ -24,10 +25,13 @@ namespace Iit.Fibertest.Client
 
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
+        private readonly CurrentGis _currentGis;
+        private readonly GraphGpsCalculator _graphGpsCalculator;
         private readonly BaseRefDtoFactory _baseRefDtoFactory;
-        private readonly BaseRefsChecker _baseRefsChecker;
+        private readonly BaseRefsChecker2 _baseRefsChecker;
+        private readonly BaseRefMessages _baseRefMessages;
 
- 
+
         private readonly string _savedInDb = Resources.SID_Saved_in_DB;
         private string _lastChosenFile;
 
@@ -114,15 +118,19 @@ namespace Iit.Fibertest.Client
 
         public BaseRefsAssignViewModel(IniFile iniFile, Model readModel, CurrentUser currentUser,
             IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager,
-            BaseRefDtoFactory baseRefDtoFactory, BaseRefsChecker baseRefsChecker)
+            CurrentGis currentGis, GraphGpsCalculator graphGpsCalculator,
+            BaseRefDtoFactory baseRefDtoFactory, BaseRefsChecker2 baseRefsChecker, BaseRefMessages baseRefMessages)
         {
             _iniFile = iniFile;
             _readModel = readModel;
             _currentUser = currentUser;
             _c2RWcfManager = c2RWcfManager;
             _windowManager = windowManager;
+            _currentGis = currentGis;
+            _graphGpsCalculator = graphGpsCalculator;
             _baseRefDtoFactory = baseRefDtoFactory;
             _baseRefsChecker = baseRefsChecker;
+            _baseRefMessages = baseRefMessages;
         }
 
         public void Initialize(Trace trace)
@@ -154,7 +162,7 @@ namespace Iit.Fibertest.Client
         {
             OpenFileDialog dialog = new OpenFileDialog()
             {
-                Filter = Resources.SID_Reflectogram_files, 
+                Filter = Resources.SID_Reflectogram_files,
                 InitialDirectory = InitialDirectory,
                 FileName = _lastChosenFile,
             };
@@ -169,7 +177,7 @@ namespace Iit.Fibertest.Client
         {
             OpenFileDialog dialog = new OpenFileDialog()
             {
-                Filter = Resources.SID_Reflectogram_files, 
+                Filter = Resources.SID_Reflectogram_files,
                 InitialDirectory = InitialDirectory,
                 FileName = _lastChosenFile,
             };
@@ -184,7 +192,7 @@ namespace Iit.Fibertest.Client
         {
             OpenFileDialog dialog = new OpenFileDialog()
             {
-                Filter = Resources.SID_Reflectogram_files, 
+                Filter = Resources.SID_Reflectogram_files,
                 InitialDirectory = InitialDirectory,
                 FileName = _lastChosenFile,
             };
@@ -214,8 +222,14 @@ namespace Iit.Fibertest.Client
             if (!dto.BaseRefs.Any())
                 return false;
 
-            if (!_baseRefsChecker.IsBaseRefsAcceptable(dto.BaseRefs, _trace))
+            var checkResult = _baseRefsChecker.AreBaseRefsAcceptable(dto);
+            if (checkResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+            {
+                _baseRefMessages.Display(checkResult, _trace);
                 return false;
+            }
+
+            if (!IsDistanceLengthAcceptable(dto, _trace)) return false;
 
             var result = await _c2RWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
@@ -228,25 +242,41 @@ namespace Iit.Fibertest.Client
             return true;
         }
 
+        private bool IsDistanceLengthAcceptable(AssignBaseRefsDto dto, Trace trace)
+        {
+            if (_currentGis.IsWithoutMapMode) return true;
+
+            var precise = dto.BaseRefs.FirstOrDefault(b => b.BaseRefType == BaseRefType.Precise);
+            if (precise == null || precise.Id == Guid.Empty) return true;
+
+            var message = SorData.TryGetFromBytes(precise.SorBytes, out var otdrKnownBlocks);
+            if (message != "") return true;
+
+            var gpsDistance = $@"{_graphGpsCalculator.CalculateTraceGpsLengthKm(trace):#,0.##}";
+            var opticalLength = $@"{otdrKnownBlocks.GetTraceLengthKm():#,0.##}";
+            return _baseRefMessages.IsLengthDifferenceAcceptable(gpsDistance, opticalLength);
+        }
+
+
         public AssignBaseRefsDto PrepareDto(Trace trace)
         {
             var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
             if (rtu == null) return null;
             var dto = new AssignBaseRefsDto()
-            { 
-                RtuId = trace.RtuId, 
+            {
+                RtuId = trace.RtuId,
                 RtuMaker = rtu.RtuMaker,
                 OtdrId = rtu.OtdrId,
-                TraceId = trace.TraceId, 
-                OtauPortDto = trace.OtauPort, 
-                BaseRefs = new List<BaseRefDto>(), 
+                TraceId = trace.TraceId,
+                OtauPortDto = trace.OtauPort,
+                BaseRefs = new List<BaseRefDto>(),
                 DeleteOldSorFileIds = new List<int>()
             };
 
             var baseRefs = new List<BaseRefDto>();
             if (IsFilenameChanged(PreciseBaseFilename, trace.PreciseId))
             {
-                var baseRefDto = _baseRefDtoFactory.CreateFromFile(PreciseBaseFilename, 
+                var baseRefDto = _baseRefDtoFactory.CreateFromFile(PreciseBaseFilename,
                     BaseRefType.Precise, _currentUser.UserName);
                 if (trace.PreciseId != Guid.Empty)
                     dto.DeleteOldSorFileIds.Add(_readModel.BaseRefs.First(b => b.Id == trace.PreciseId).SorFileId);

@@ -220,6 +220,7 @@
     </Compile>
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\UserFilter.cs" />
+    <Compile Include="Forms\BaseRefs\BaseRefMessages.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\Controls\OtdrAddressView.xaml.cs">
       <DependentUpon>OtdrAddressView.xaml</DependentUpon>
     </Compile>

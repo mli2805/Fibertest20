@@ -12,6 +12,7 @@ using Optixsoft.SorExaminer.OtdrDataFormat;
 namespace Iit.Fibertest.Client
 {
     
+
     public class BaseRefLandmarksChecker
     {
         private readonly Model _readModel;
