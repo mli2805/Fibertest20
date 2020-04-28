@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using Iit.Fibertest.Dto;
@@ -18,18 +19,16 @@ namespace Iit.Fibertest.Graph
             _baseRefLandmarksTool = baseRefLandmarksTool;
         }
 
-        public BaseRefAssignedDto AreBaseRefsAcceptable(AssignBaseRefsDto dto)
+        public BaseRefAssignedDto AreBaseRefsAcceptable(List<BaseRefDto> baseRefsDto, Trace trace)
         {
             var assignmentFailed = new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentFailed };
             try
             {
 
-                var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.TraceId);
-                if (trace == null) return assignmentFailed;
                 var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
                 if (rtu == null) return assignmentFailed;
 
-                foreach (var baseRefDto in dto.BaseRefs)
+                foreach (var baseRefDto in baseRefsDto)
                 {
                     if (baseRefDto.Id == Guid.Empty) continue; //
 

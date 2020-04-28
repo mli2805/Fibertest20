@@ -78,7 +78,6 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<Model>().InstancePerLifetimeScope();
 
-            builder.RegisterType<BaseRefsChecker>().InstancePerLifetimeScope();
             builder.RegisterType<BaseRefsChecker2>().InstancePerLifetimeScope();
             builder.RegisterType<BaseRefMessages>().InstancePerLifetimeScope();
             builder.RegisterType<TraceModelBuilder>().InstancePerLifetimeScope();

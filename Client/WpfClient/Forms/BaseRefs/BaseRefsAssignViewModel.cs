@@ -222,7 +222,7 @@ namespace Iit.Fibertest.Client
             if (!dto.BaseRefs.Any())
                 return false;
 
-            var checkResult = _baseRefsChecker.AreBaseRefsAcceptable(dto);
+            var checkResult = _baseRefsChecker.AreBaseRefsAcceptable(dto.BaseRefs, _trace);
             if (checkResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
             {
                 _baseRefMessages.Display(checkResult, _trace);

@@ -4,6 +4,7 @@ using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Client.MonitoringSettings;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -63,8 +64,9 @@ namespace Graph.Tests
             var baseRefs = vm.PrepareDto(trace).BaseRefs;
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            var baseRefChecker = _sut.ClientScope.Resolve<BaseRefsChecker>();
-            baseRefChecker.IsBaseRefsAcceptable(baseRefs, trace).Should().BeTrue();
+            var baseRefChecker2 = _sut.ClientScope.Resolve<BaseRefsChecker2>();
+            var checkResult = baseRefChecker2.AreBaseRefsAcceptable(baseRefs, trace);
+            checkResult.ReturnCode.Should().Be(ReturnCode.BaseRefAssignedSuccessfully);
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             vm.Save().Wait();
@@ -83,8 +85,9 @@ namespace Graph.Tests
             var baseRefs = vm.PrepareDto(trace).BaseRefs;
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            var baseRefChecker = _sut.ClientScope.Resolve<BaseRefsChecker>();
-            baseRefChecker.IsBaseRefsAcceptable(baseRefs, trace).Should().BeTrue();
+            var baseRefChecker2 = _sut.ClientScope.Resolve<BaseRefsChecker2>();
+            var checkResult = baseRefChecker2.AreBaseRefsAcceptable(baseRefs, trace);
+            checkResult.ReturnCode.Should().Be(ReturnCode.BaseRefAssignedSuccessfully);
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             vm.Save().Wait();
@@ -100,8 +103,9 @@ namespace Graph.Tests
             vm.FastBaseFilename = SystemUnderTest.Base1550Lm4YesThresholds;
             var baseRefs = vm.PrepareDto(trace).BaseRefs;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            var baseRefChecker = _sut.ClientScope.Resolve<BaseRefsChecker>();
-            baseRefChecker.IsBaseRefsAcceptable(baseRefs, trace).Should().BeTrue();
+            var baseRefChecker2 = _sut.ClientScope.Resolve<BaseRefsChecker2>();
+            var checkResult = baseRefChecker2.AreBaseRefsAcceptable(baseRefs, trace);
+            checkResult.ReturnCode.Should().Be(ReturnCode.BaseRefAssignedSuccessfully);
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             vm.Save().Wait();
