@@ -20,6 +20,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly SorFileRepository _sorFileRepository;
         private readonly EventStoreService _eventStoreService;
         private readonly ClientsCollection _clientsCollection;
+        private readonly BaseRefsChecker2 _baseRefsChecker;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
@@ -27,7 +28,7 @@ namespace Iit.Fibertest.DataCenterCore
         public WcfServiceCommonC2D(GlobalState globalState, IMyLog logFile,
             Model writeModel, SorFileRepository sorFileRepository,
             EventStoreService eventStoreService, ClientsCollection clientsCollection,
-            BaseRefLandmarksTool baseRefLandmarksTool,
+            BaseRefsChecker2 baseRefsChecker, BaseRefLandmarksTool baseRefLandmarksTool,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter
             )
         {
@@ -37,6 +38,7 @@ namespace Iit.Fibertest.DataCenterCore
             _sorFileRepository = sorFileRepository;
             _eventStoreService = eventStoreService;
             _clientsCollection = clientsCollection;
+            _baseRefsChecker = baseRefsChecker;
             _baseRefLandmarksTool = baseRefLandmarksTool;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
@@ -198,6 +200,16 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
             _logFile.AppendLine($"Client from {dto.ClientIp} sent base ref for trace {dto.TraceId.First6()}");
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.TraceId);
+            if (trace == null) 
+                return new BaseRefAssignedDto() {
+                    ErrorMessage = "trace not found", ReturnCode = ReturnCode.BaseRefAssignmentFailed
+                };
+
+            var checkResult = _baseRefsChecker.AreBaseRefsAcceptable(dto.BaseRefs, trace);
+            if (checkResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+                return checkResult;
+
             var result = await SaveChangesOnServer(dto);
             if (!string.IsNullOrEmpty(result))
                 return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentFailed };
@@ -212,9 +224,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<string> SaveChangesOnServer(AssignBaseRefsDto dto)
         {
-            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.TraceId);
-            if (trace == null) return "trace not found";
-
             var command = new AssignBaseRef() { TraceId = dto.TraceId, BaseRefs = new List<BaseRef>() };
             foreach (var baseRefDto in dto.BaseRefs)
             {

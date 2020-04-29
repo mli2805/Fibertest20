@@ -10,6 +10,7 @@ import { OneApiService } from "src/app/api/one.service";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { BaseRefFile } from "src/app/models/underlying/baseRefFile";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
+import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 
 @Component({
   selector: "ft-assign-base",
@@ -43,7 +44,8 @@ export class FtAssignBaseComponent implements OnInit {
     private router: Router,
     private dataStorage: FtComponentDataProvider,
     private oneApiService: OneApiService,
-    private ts: TranslateService
+    private ts: TranslateService,
+    private returnCodePipe: ReturnCodePipe
   ) {
     this.savedInDb = this.ts.instant("SID_Saved_in_DB");
   }
@@ -67,10 +69,17 @@ export class FtAssignBaseComponent implements OnInit {
       this.oneApiService
         .postFile(`trace/assign-base-refs`, this.assignDto)
         .subscribe((res: RequestAnswer) => {
+          console.log(res);
           if (res.returnCode === ReturnCode.BaseRefAssignedSuccessfully) {
             console.log("base refs assigned successfully!");
           } else {
-            this.message = res.errorMessage;
+            console.log("Error: ", res.errorMessage);
+            this.message = this.returnCodePipe.transform(res.returnCode);
+            if (res.errorMessage != null) {
+              this.message += "<br/>" + res.errorMessage;
+            }
+            this.isSpinnerVisible = false;
+            this.isButtonDisabled = false;
             return;
           }
           this.isSpinnerVisible = false;

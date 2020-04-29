@@ -3,7 +3,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { ReturnCode } from "../models/enums/returnCode";
 
 @Pipe({
-  name: "ReturnCodeToLocalizedStringPipe"
+  name: "ReturnCodeToLocalizedStringPipe",
 })
 export class ReturnCodePipe implements PipeTransform {
   constructor(private ts: TranslateService) {}
@@ -102,6 +102,20 @@ export class ReturnCodePipe implements PipeTransform {
       // 9401
       case ReturnCode.BaseRefAssignmentFailed:
         return this.ts.instant("SID_Base_reference_assignment_failed");
+      case ReturnCode.BaseRefAssignmentParamNotAcceptable:
+        return this.ts.instant(
+          "SID_Measurement_parameters_are_not_compatible_with_this_RTU"
+        );
+      case ReturnCode.BaseRefAssignmentNoThresholds:
+        return this.ts.instant("SID_There_are_no_thresholds_for_comparison");
+      case ReturnCode.BaseRefAssignmentLandmarkCountWrong:
+        return this.ts.instant("SID_Landmark_count_does_not_match_graph");
+      case ReturnCode.BaseRefAssignmentEdgeLandmarksWrong:
+        return this.ts.instant(
+          "SID_First_and_last_landmarks_should_be_associated_with_key_events_"
+        );
+      case ReturnCode.RtuBaseRefAssignmentError:
+        return "RTU failed to save base ref";
 
       default:
         return this.ts.instant("SID_Unknown_return_code") + ":  " + value;

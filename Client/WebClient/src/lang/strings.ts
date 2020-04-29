@@ -897,7 +897,8 @@ export const languages = {
     "SID_measurement_frequency": "measurement frequency",
     "SID_saving_frequency": "saving frequency",
     "SID_Cycle_full_time_sec": "Cycle full time {{0}} sec",
-    "SID_Auto": "Automatic"
+    "SID_Auto": "Automatic",
+    "SID_Landmark_count_does_not_match_graph": "Landmark count on base ref does not match graph"
   },
   "ru-RU": {
     "SID_CableReserve": "Запас кабеля",
@@ -1794,6 +1795,7 @@ export const languages = {
     "SID_measurement_frequency": "частота измерений",
     "SID_saving_frequency": "частота сохранения",
     "SID_Cycle_full_time_sec": "Полное время цикла {{0}} сек",
-    "SID_Auto": "Авто"
+    "SID_Auto": "Авто",
+    "SID_Landmark_count_does_not_match_graph": "Количество ориентиров на рефлектограмме не соответствует графу"
   }
 };

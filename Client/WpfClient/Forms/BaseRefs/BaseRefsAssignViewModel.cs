@@ -10,7 +10,6 @@ using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
-using Iit.Fibertest.WpfCommonViews;
 
 using Microsoft.Win32;
 
@@ -24,11 +23,9 @@ namespace Iit.Fibertest.Client
         private readonly CurrentUser _currentUser;
 
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
-        private readonly IWindowManager _windowManager;
         private readonly CurrentGis _currentGis;
         private readonly GraphGpsCalculator _graphGpsCalculator;
         private readonly BaseRefDtoFactory _baseRefDtoFactory;
-        private readonly BaseRefsChecker2 _baseRefsChecker;
         private readonly BaseRefMessages _baseRefMessages;
 
 
@@ -117,19 +114,17 @@ namespace Iit.Fibertest.Client
         }
 
         public BaseRefsAssignViewModel(IniFile iniFile, Model readModel, CurrentUser currentUser,
-            IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager,
+            IWcfServiceCommonC2D c2RWcfManager, 
             CurrentGis currentGis, GraphGpsCalculator graphGpsCalculator,
-            BaseRefDtoFactory baseRefDtoFactory, BaseRefsChecker2 baseRefsChecker, BaseRefMessages baseRefMessages)
+            BaseRefDtoFactory baseRefDtoFactory, BaseRefMessages baseRefMessages)
         {
             _iniFile = iniFile;
             _readModel = readModel;
             _currentUser = currentUser;
             _c2RWcfManager = c2RWcfManager;
-            _windowManager = windowManager;
             _currentGis = currentGis;
             _graphGpsCalculator = graphGpsCalculator;
             _baseRefDtoFactory = baseRefDtoFactory;
-            _baseRefsChecker = baseRefsChecker;
             _baseRefMessages = baseRefMessages;
         }
 
@@ -222,20 +217,12 @@ namespace Iit.Fibertest.Client
             if (!dto.BaseRefs.Any())
                 return false;
 
-            var checkResult = _baseRefsChecker.AreBaseRefsAcceptable(dto.BaseRefs, _trace);
-            if (checkResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-            {
-                _baseRefMessages.Display(checkResult, _trace);
-                return false;
-            }
-
             if (!IsDistanceLengthAcceptable(dto, _trace)) return false;
 
             var result = await _c2RWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, result.ReturnCode.GetLocalizedString(result.ErrorMessage));
-                _windowManager.ShowDialogWithAssignedOwner(vm);
+                _baseRefMessages.Display(result, _trace);
                 return false;
             }
 

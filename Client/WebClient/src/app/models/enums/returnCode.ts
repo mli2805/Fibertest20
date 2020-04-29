@@ -59,5 +59,9 @@ export enum ReturnCode {
   UserHasNoRightsToStartSuperClient,
   UserHasNoRightsToStartWebClient,
 
-  BaseRefAssignmentFailed = 9401
+  BaseRefAssignmentFailed = 9401,
+  BaseRefAssignmentParamNotAcceptable = 9402,
+  BaseRefAssignmentNoThresholds = 9403,
+  BaseRefAssignmentLandmarkCountWrong = 9404,
+  BaseRefAssignmentEdgeLandmarksWrong = 9405,
 }
