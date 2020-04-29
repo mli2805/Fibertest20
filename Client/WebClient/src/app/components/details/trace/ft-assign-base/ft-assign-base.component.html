@@ -22,7 +22,7 @@
             <mat-icon>clear</mat-icon>
           </strong>
         </label>
-        <span [textContent]="preciseFilename"></span>
+        <span [textContent]="preciseInputString"></span>
       </div>
     </div>
 
@@ -41,7 +41,7 @@
             <mat-icon>clear</mat-icon>
           </strong>
         </label>
-        <span [textContent]="fastFilename"></span>
+        <span [textContent]="fastInputString"></span>
       </div>
     </div>
 
@@ -59,12 +59,12 @@
           </strong>
         </label>
         <label class="label-around-input">
-          <input type="button" (click)="(additionalCleaned)" />
+          <input type="button" (click)="additionalCleaned()" />
           <strong>
             <mat-icon>clear</mat-icon>
           </strong>
         </label>
-        <span [textContent]="additionalFilename"></span>
+        <span [textContent]="additionalInputString"></span>
       </div>
     </div>
   </mat-card-content>

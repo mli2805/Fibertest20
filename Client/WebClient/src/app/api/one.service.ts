@@ -46,7 +46,7 @@ export class OneApiService {
 
     const formData = new FormData();
     dto.baseRefs.forEach((baseRef) => {
-      if (baseRef.file !== null) {
+      if (baseRef.file !== undefined) {
         formData.append(
           baseRef.type.toString(),
           baseRef.file,

@@ -129,6 +129,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                         if (baseRef == null) continue;
                         await file.CopyToAsync(memoryStream);
                         baseRef.SorBytes = memoryStream.ToArray();
+                        baseRef.Id = Guid.NewGuid();
                     }
                 }
              
@@ -156,11 +157,11 @@ namespace Iit.Fibertest.DataCenterWebApi
                 OtdrId = dto.OtdrId,
                 TraceId = dto.TraceId,
                 OtauPortDto = dto.OtauPortDto,
-                BaseRefs = new List<BaseRefDto>()
+                BaseRefs = new List<BaseRefDto>(),
             };
             foreach (var baseRefFile in dto.BaseRefs)
             {
-                result.BaseRefs.Add(new BaseRefDto(){BaseRefType = baseRefFile.Type});
+                result.BaseRefs.Add(new BaseRefDto(){ BaseRefType = baseRefFile.Type});
             }
             return  result;
         }
