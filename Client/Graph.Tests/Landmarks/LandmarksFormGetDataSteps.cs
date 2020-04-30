@@ -62,12 +62,12 @@ namespace Graph.Tests
             _vm.Rows[1].EquipmentType.Should().Be(Resources.SID_Closure);
 
             _vm.Rows[2].EquipmentType.Should().Be(Resources.SID_Other);
-            _vm.Rows[2].Distance.Should().Be(@" 9.242");
-            // _vm.Rows[2].Distance.Should().Be(@" 8.758");
+            //_vm.Rows[2].Distance.Should().Be(@" 9.242");
+            _vm.Rows[2].Distance.Should().Be(@" 8.758");
 
             _vm.Rows[3].EquipmentType.Should().Be(Resources.SID_CableReserve);
-            _vm.Rows[3].Distance.Should().Be(@" 9.696");
-            // _vm.Rows[3].Distance.Should().Be(@" 9.454");
+            //_vm.Rows[3].Distance.Should().Be(@" 9.696");
+            _vm.Rows[3].Distance.Should().Be(@" 9.454");
 
             _vm.Rows[4].EquipmentType.Should().Be(Resources.SID_Cross);
             _vm.Rows[4].NodeTitle.Should().Be("");

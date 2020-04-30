@@ -130,6 +130,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                         await file.CopyToAsync(memoryStream);
                         baseRef.SorBytes = memoryStream.ToArray();
                         baseRef.Id = Guid.NewGuid();
+                        baseRef.UserName = User.Identity.Name;
                     }
                 }
              

@@ -63,6 +63,7 @@ namespace Iit.Fibertest.Graph
 
                     baseRefDto.SorBytes = _baseRefLandmarksTool.ApplyTraceToBaseRef(otdrKnownBlocks, trace,
                         result.Landmarks == result.Equipments);
+                    baseRefDto.Duration = TimeSpan.FromSeconds((int) otdrKnownBlocks.FixedParameters.AveragingTime);
                 }
 
                 return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };

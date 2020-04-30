@@ -242,7 +242,7 @@ namespace Iit.Fibertest.DataCenterCore
 
                     Id = baseRefDto.Id,
                     BaseRefType = baseRefDto.BaseRefType,
-                    SaveTimestamp = baseRefDto.SaveTimestamp,
+                    SaveTimestamp = DateTime.Now,
                     Duration = baseRefDto.Duration,
                     UserName = baseRefDto.UserName,
 
