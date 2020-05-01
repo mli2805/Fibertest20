@@ -4,9 +4,7 @@ namespace Iit.Fibertest.Dto
 {
     public class TraceStatisticsDto
     {
-        public string TraceTitle;
-        public string Port; // for trace on bop use bop's serial plus port number "879151-3"
-        public string RtuTitle;
+        public TraceHeaderDto Header = new TraceHeaderDto();
         public List<BaseRefInfoDto> BaseRefs;
         public int MeasFullCount;
         public List<MeasurementDto> MeasPortion;

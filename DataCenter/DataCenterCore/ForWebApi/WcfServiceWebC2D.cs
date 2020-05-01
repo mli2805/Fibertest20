@@ -286,12 +286,14 @@ namespace Iit.Fibertest.DataCenterCore
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
             if (trace == null)
                 return result;
-            result.TraceTitle = trace.Title;
-            result.Port = trace.Port < 1 ? "-1" :
+            result.Header.TraceTitle = trace.Title;
+            result.Header.Port = trace.Port < 1 ? "-1" :
                 trace.OtauPort.IsPortOnMainCharon
                 ? trace.Port.ToString()
                 : $"{trace.OtauPort.Serial}-{trace.OtauPort.OpticalPort}";
-            result.RtuTitle = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
+            result.Header.RtuTitle = rtu?.Title;
+            result.Header.RtuVersion = rtu?.Version;
 
             var dict = _writeModel.BuildDictionaryByEquipmentType(trace.EquipmentIds);
             result.Equipment = TraceInfoCalculator.CalculateEquipment(dict);
@@ -367,11 +369,11 @@ namespace Iit.Fibertest.DataCenterCore
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
             if (trace == null)
                 return result;
-            result.TraceTitle = trace.Title;
-            result.Port = trace.OtauPort.IsPortOnMainCharon
+            result.Header.TraceTitle = trace.Title;
+            result.Header.Port = trace.OtauPort.IsPortOnMainCharon
                 ? trace.Port.ToString()
                 : $"{trace.OtauPort.Serial}-{trace.OtauPort.OpticalPort}";
-            result.RtuTitle = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
+            result.Header.RtuTitle = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
             result.BaseRefs = _writeModel.BaseRefs
                 .Where(b => b.TraceId == traceId)
                 .Select(l => new BaseRefInfoDto()

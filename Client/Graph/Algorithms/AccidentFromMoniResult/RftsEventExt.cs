@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Iit.Fibertest.Dto;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 

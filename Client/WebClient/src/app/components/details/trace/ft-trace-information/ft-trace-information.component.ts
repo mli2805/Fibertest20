@@ -29,8 +29,10 @@ export class FtTraceInformationComponent implements OnInit {
         this.isSpinnerVisible = false;
         console.log(res);
         this.vm = res;
-        this.vm.port =
-          res.port === "-1" ? this.ts.instant("SID_not_attached") : res.port;
+        this.vm.header.port =
+          res.header.port === "-1"
+            ? this.ts.instant("SID_not_attached")
+            : res.header.port;
       });
   }
 }

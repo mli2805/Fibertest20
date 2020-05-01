@@ -1,10 +1,9 @@
 import { BaseRefInfoDto } from "../../underlying/baseRefInfoDto";
 import { MeasurementDto } from "../measurementDto";
+import { TraceHeaderDto } from "./traceHeaderDto";
 
 export class TraceStatisticsDto {
-  traceTitle: string;
-  port: string; // for trace on bop use bop's serial plus port number "879151-3"
-  rtuTitle: string;
+  header: TraceHeaderDto;
   baseRefs: BaseRefInfoDto[];
   measFullCount: number;
   measPortion: MeasurementDto[];

@@ -233,7 +233,6 @@ namespace Iit.Fibertest.Client
             return _baseRefMessages.IsLengthDifferenceAcceptable(gpsDistance, opticalLength);
         }
 
-
         public AssignBaseRefsDto PrepareDto(Trace trace)
         {
             var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);

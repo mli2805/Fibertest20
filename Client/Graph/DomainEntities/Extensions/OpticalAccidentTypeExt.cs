@@ -1,17 +1,7 @@
-﻿namespace Iit.Fibertest.Graph
+﻿using Iit.Fibertest.Dto;
+
+namespace Iit.Fibertest.Graph
 {
-    public enum OpticalAccidentType
-    {
-        Break,                   // B,  обрыв
-        Loss,                    // L,  превышение порога затухания
-        Reflectance,             // R,  превышение порога коэффициента отражения 
-        LossCoeff,               // C,  превышение порога коэффициента затухания
-
-        None,
-
-
-    }
-
     public static class OpticalAccidentTypeExt
     {
         public static string ToLetter(this OpticalAccidentType type)

@@ -66,6 +66,7 @@
     <Compile Include="Enums\EquipmentType.cs" />
     <Compile Include="Enums\MonitoringState.cs" />
     <Compile Include="Enums\NotificationType.cs" />
+    <Compile Include="Enums\OpticalAccidentType.cs" />
     <Compile Include="Enums\RtuMaker.cs" />
     <Compile Include="Enums\RtuPartStateChanges.cs" />
     <Compile Include="Enums\WorseOrBetter.cs" />
@@ -83,8 +84,13 @@
     <Compile Include="ForWebApi\Rtu\RtuNetworkSettingsDto.cs" />
     <Compile Include="ForWebApi\Rtu\RtuStateChildDto.cs" />
     <Compile Include="ForWebApi\Rtu\RtuStateDto.cs" />
+    <Compile Include="ForWebApi\Trace\AccidentNeighbourDto.cs" />
+    <Compile Include="ForWebApi\Trace\AccidentOnTraceV2Dto.cs" />
     <Compile Include="ForWebApi\Trace\AssignBaseParamsDto.cs" />
+    <Compile Include="ForWebApi\Trace\GeoPoint.cs" />
+    <Compile Include="ForWebApi\Trace\TraceHeaderDto.cs" />
     <Compile Include="ForWebApi\Trace\TraceInformationDto.cs" />
+    <Compile Include="ForWebApi\Trace\TraceStateDto.cs" />
     <Compile Include="ForWebApi\Trace\TraceStatisticsDto.cs" />
     <Compile Include="ForWebApi\UserDto.cs" />
     <Compile Include="R2D2C\BopStateChangedDto.cs" />

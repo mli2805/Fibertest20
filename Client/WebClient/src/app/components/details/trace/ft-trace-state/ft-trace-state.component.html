@@ -1,6 +1,10 @@
 <mat-card>
   <mat-card-title>{{ "SID_Trace_state" | translate }}</mat-card-title>
+  <p>{{ "SID_Trace" | translate }} {{ vm.header.traceTitle }}</p>
+  <p>{{ "SID_Port" | translate }} {{ vm.header.port }}</p>
+  <p>RTU {{ vm.header.rtuTitle }}</p>
 </mat-card>
+
 <div class="spinner-container" *ngIf="isSpinnerVisible">
   <mat-spinner></mat-spinner>
 </div>
