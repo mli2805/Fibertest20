@@ -11,7 +11,8 @@ namespace Graph.Tests
             string precisePath, string fastPath, string aditionalPath, Answer answer)
         {
             if (!String.IsNullOrEmpty(precisePath))
-                sut.FakeWindowManager.RegisterHandler(model => sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+                sut.FakeWindowManager.RegisterHandler(model => sut.ManyLinesMessageBoxAnswer(Answer.Yes, model)); // about length
+            sut.FakeWindowManager.RegisterHandler(model => sut.ManyLinesMessageBoxAnswer(Answer.Yes, model)); // about wrong base
 
             sut.FakeWindowManager.RegisterHandler(model => BaseRefAssignHandler2(model, precisePath, fastPath, aditionalPath, answer));
             traceLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Base_refs_assignment).Command.Execute(traceLeaf);

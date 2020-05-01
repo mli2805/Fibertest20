@@ -114,7 +114,7 @@ namespace Iit.Fibertest.Client
         }
 
         public BaseRefsAssignViewModel(IniFile iniFile, Model readModel, CurrentUser currentUser,
-            IWcfServiceCommonC2D c2RWcfManager, 
+            IWcfServiceCommonC2D c2RWcfManager,
             CurrentGis currentGis, GraphGpsCalculator graphGpsCalculator,
             BaseRefDtoFactory baseRefDtoFactory, BaseRefMessages baseRefMessages)
         {
@@ -206,27 +206,16 @@ namespace Iit.Fibertest.Client
         public async Task Save()
         {
             IsEditEnabled = false;
-            var result = await SavingProcess();
-            IsEditEnabled = true;
-            if (result) TryClose();
-        }
-
-        private async Task<bool> SavingProcess()
-        {
             var dto = PrepareDto(_trace);
-            if (!dto.BaseRefs.Any())
-                return false;
-
-            if (!IsDistanceLengthAcceptable(dto, _trace)) return false;
-
-            var result = await _c2RWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
-            if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+            if (dto.BaseRefs.Any() && IsDistanceLengthAcceptable(dto, _trace))
             {
-                _baseRefMessages.Display(result, _trace);
-                return false;
+                var result = await _c2RWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
+                if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+                    _baseRefMessages.Display(result, _trace);
+                else
+                    TryClose();
             }
-
-            return true;
+            IsEditEnabled = true;
         }
 
         private bool IsDistanceLengthAcceptable(AssignBaseRefsDto dto, Trace trace)
