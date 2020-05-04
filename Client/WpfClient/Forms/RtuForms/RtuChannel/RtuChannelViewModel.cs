@@ -82,7 +82,7 @@ namespace Iit.Fibertest.Client
 
             IsOk = networkEventAdded.OnMainChannel != ChannelEvent.Broken &&
                    networkEventAdded.OnReserveChannel != ChannelEvent.Broken;
-            StateOn = string.Format(Resources.SID_State_on__0_,
+            StateOn = string.Format(Resources.SID_State_at_,
                 networkEventAdded.EventTimestamp.ToString(CultureInfo.CurrentCulture), networkEventAdded.Ordinal);
         }
 

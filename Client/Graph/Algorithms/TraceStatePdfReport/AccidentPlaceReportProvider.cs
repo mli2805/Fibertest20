@@ -16,10 +16,11 @@ namespace Iit.Fibertest.Graph
 
                 DrawAccidentPlace(section, accidentLineModel).Clone();
             }
-        }  
-           public static void DrawAccidents(List<AccidentOnTraceV2> accidents, 
-            Section section, AccidentLineModelFactory accidentLineModelFactory, 
-            bool isGisOn, GpsInputMode gpsInputMode = GpsInputMode.DegreesMinutesAndSeconds)
+        }
+
+        public static void DrawAccidents(List<AccidentOnTraceV2> accidents,
+         Section section, AccidentLineModelFactory accidentLineModelFactory,
+         bool isGisOn, GpsInputMode gpsInputMode = GpsInputMode.DegreesMinutesAndSeconds)
         {
             var number = 0;
             foreach (var accidentOnTraceV2 in accidents)
@@ -30,8 +31,8 @@ namespace Iit.Fibertest.Graph
                 var accidentLineModel = accidentLineModelFactory.Create(accidentOnTraceV2, ++number, isGisOn, gpsInputMode);
                 DrawAccidentPlace(section, accidentLineModel).Clone();
             }
-        }  
-        
+        }
+
         private const string LeftArrow = "\U0001f860";
         public static Table DrawAccidentPlace(Section section, AccidentLineModel accidentLineModel)
         {

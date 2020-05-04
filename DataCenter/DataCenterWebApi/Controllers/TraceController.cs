@@ -86,6 +86,29 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
+        [HttpGet("State/{id}")]
+        public async Task<TraceStateDto> GetTraceState(string id)
+        {
+            try
+            {
+                _logFile.AppendLine($"trace id = {id}");
+                var traceGuid = Guid.Parse(id);
+                var traceStateDto = await _webC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .GetTraceState(User.Identity.Name, traceGuid);
+                _logFile.AppendLine(traceStateDto == null
+                    ? "Failed to get trace's state"
+                    : $"trace state is {traceStateDto.TraceState}");
+                return traceStateDto;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"GetTraceState: {e.Message}");
+            }
+            return null;
+        }
+
+        [Authorize]
         [HttpGet("Assign-base-params/{id}")]
         public async Task<AssignBaseParamsDto> GetAssignBaseParams(string id)
         {
@@ -133,7 +156,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                         baseRef.UserName = User.Identity.Name;
                     }
                 }
-             
+
                 var baseRefAssignedDto = await _commonC2DWcfManager
                     .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
                     .AssignBaseRefAsync(dto);
@@ -149,11 +172,11 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         private AssignBaseRefsDto Map(AssignBaseRefDtoWithFiles dto)
         {
-            var result = new AssignBaseRefsDto 
+            var result = new AssignBaseRefsDto
             {
                 ClientIp = GetRemoteAddress(),
                 Username = User.Identity.Name,
-                RtuId = dto.RtuId, 
+                RtuId = dto.RtuId,
                 RtuMaker = dto.RtuMaker,
                 OtdrId = dto.OtdrId,
                 TraceId = dto.TraceId,
@@ -162,9 +185,9 @@ namespace Iit.Fibertest.DataCenterWebApi
             };
             foreach (var baseRefFile in dto.BaseRefs)
             {
-                result.BaseRefs.Add(new BaseRefDto(){ BaseRefType = baseRefFile.Type});
+                result.BaseRefs.Add(new BaseRefDto() { BaseRefType = baseRefFile.Type });
             }
-            return  result;
+            return result;
         }
     }
 

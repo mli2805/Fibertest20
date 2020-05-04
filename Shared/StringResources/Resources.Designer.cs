@@ -6672,20 +6672,20 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to State on {0} (ID {1}).
+        /// </summary>
+        public static string SID_State_at_ {
+            get {
+                return ResourceManager.GetString("SID_State_at_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to State of RTU.
         /// </summary>
         public static string SID_State_of_RTU {
             get {
                 return ResourceManager.GetString("SID_State_of_RTU", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to State on {0} (ID {1}).
-        /// </summary>
-        public static string SID_State_on__0_ {
-            get {
-                return ResourceManager.GetString("SID_State_on__0_", resourceCulture);
             }
         }
         

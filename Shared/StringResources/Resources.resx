@@ -1373,8 +1373,8 @@ RTU is initializing right now!</value>
 	<data name="SID_Measurement_termination_timestamp" xml:space="preserve">
     <value>Measurement termination timestamp</value>
   </data>
-	<data name="SID_State_on__0_" xml:space="preserve">
-    <value>State on {0} (ID {1})</value>
+	<data name="SID_State_at_" xml:space="preserve">
+    <value>State at {0} (ID {1})</value>
   </data>
 	<data name="SID__not_attached_" xml:space="preserve">
     <value>&lt;not attached&gt;</value>

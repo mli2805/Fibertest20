@@ -24,15 +24,18 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
+        private readonly AccidentLineModelFactory _accidentLineModelFactory;
 
         public WcfServiceWebC2D(IMyLog logFile, Model writeModel, CurrentDatacenterParameters currentDatacenterParameters,
-            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
+            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter,
+            AccidentLineModelFactory accidentLineModelFactory)
         {
             _logFile = logFile;
             _writeModel = writeModel;
             _currentDatacenterParameters = currentDatacenterParameters;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
+            _accidentLineModelFactory = accidentLineModelFactory;
         }
 
         public async Task<string> GetAboutInJson(string username)
@@ -270,42 +273,6 @@ namespace Iit.Fibertest.DataCenterCore
         }
         #endregion
 
-        #region Trace
-        public async Task<TraceInformationDto> GetTraceInformation(string username, Guid traceId)
-        {
-            _logFile.AppendLine(":: WcfServiceForWebProxy GetTraceInformation");
-            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
-            if (user == null)
-            {
-                _logFile.AppendLine("Not authorized access");
-                return null;
-            }
-            await Task.Delay(1);
-
-            var result = new TraceInformationDto();
-            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
-            if (trace == null)
-                return result;
-            result.Header.TraceTitle = trace.Title;
-            result.Header.Port = trace.Port < 1 ? "-1" :
-                trace.OtauPort.IsPortOnMainCharon
-                ? trace.Port.ToString()
-                : $"{trace.OtauPort.Serial}-{trace.OtauPort.OpticalPort}";
-            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
-            result.Header.RtuTitle = rtu?.Title;
-            result.Header.RtuVersion = rtu?.Version;
-
-            var dict = _writeModel.BuildDictionaryByEquipmentType(trace.EquipmentIds);
-            result.Equipment = TraceInfoCalculator.CalculateEquipment(dict);
-            result.Nodes = TraceInfoCalculator.CalculateNodes(dict);
-
-            result.IsLightMonitoring = trace.Mode == TraceMode.Light;
-            result.Comment = trace.Comment;
-            return result;
-        }
-        #endregion
-
-
         public async Task<AssignBaseParamsDto> GetAssignBaseParams(string username, Guid traceId)
         {
             _logFile.AppendLine(":: WcfServiceForWebProxy GetAssignBaseParams");
@@ -354,50 +321,6 @@ namespace Iit.Fibertest.DataCenterCore
             };
         }
 
-        public async Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId, int pageNumber, int pageSize)
-        {
-            _logFile.AppendLine(":: WcfServiceForWebProxy GetTraceStatistics");
-            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
-            if (user == null)
-            {
-                _logFile.AppendLine("Not authorized access");
-                return null;
-            }
-            await Task.Delay(1);
-
-            var result = new TraceStatisticsDto();
-            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
-            if (trace == null)
-                return result;
-            result.Header.TraceTitle = trace.Title;
-            result.Header.Port = trace.OtauPort.IsPortOnMainCharon
-                ? trace.Port.ToString()
-                : $"{trace.OtauPort.Serial}-{trace.OtauPort.OpticalPort}";
-            result.Header.RtuTitle = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId)?.Title;
-            result.BaseRefs = _writeModel.BaseRefs
-                .Where(b => b.TraceId == traceId)
-                .Select(l => new BaseRefInfoDto()
-                {
-                    SorFileId = l.SorFileId,
-                    BaseRefType = l.BaseRefType,
-                    AssignmentTimestamp = l.SaveTimestamp,
-                    Username = l.UserName,
-                }).ToList();
-            var sift = _writeModel.Measurements.Where(m => m.TraceId == traceId).ToList();
-            result.MeasFullCount = sift.Count;
-            result.MeasPortion = sift
-                .OrderByDescending(e => e.EventRegistrationTimestamp)
-                .Skip(pageNumber*pageSize)
-                .Take(pageSize)
-                .Select(l => new MeasurementDto()
-                {
-                    SorFileId = l.SorFileId,
-                    BaseRefType = l.BaseRefType,
-                    EventRegistrationTimestamp = l.EventRegistrationTimestamp,
-                    IsEvent = l.EventStatus > EventStatus.JustMeasurementNotAnEvent,
-                    TraceState = l.TraceState,
-                }).ToList();
-            return result;
-        }
+      
     }
 }

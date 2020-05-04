@@ -9,12 +9,14 @@ namespace Iit.Fibertest.Graph
         private const string LeftArrow = "\U0001f860";
         private bool _isGisOn;
         private GpsInputMode _gpsInputMode;
+        private bool _isDesktop;
 
-        public AccidentLineModel Create(AccidentOnTraceV2 accident, int number, 
-            bool isGisOn, GpsInputMode gpsInputMode = GpsInputMode.DegreesMinutesAndSeconds)
+        public AccidentLineModel Create(AccidentOnTraceV2 accident, int number,
+            bool isGisOn, GpsInputMode gpsInputMode = GpsInputMode.DegreesMinutesAndSeconds, bool isDesktop = true)
         {
             _isGisOn = isGisOn;
             _gpsInputMode = gpsInputMode;
+            _isDesktop = isDesktop;
             if (accident.IsAccidentInOldEvent)
             {
                 return accident.OpticalTypeOfAccident == OpticalAccidentType.LossCoeff
@@ -38,11 +40,11 @@ namespace Iit.Fibertest.Graph
                 Bottom2 = _isGisOn
                     ? accidentInOldEvent.AccidentCoors.ToDetailedString(_gpsInputMode)
                     : "",
-                Scheme = accidentInOldEvent.AccidentSeriousness == FiberState.FiberBreak
-                    ? new Uri(@"pack://application:,,,/Resources/AccidentSchemes/FiberBrokenInNode.png")
+                PngPath = accidentInOldEvent.AccidentSeriousness == FiberState.FiberBreak
+                    ? BuildPath(@"FiberBrokenInNode.png")
                     : accidentInOldEvent.IsAccidentInLastNode
-                        ? new Uri(@"pack://application:,,,/Resources/AccidentSchemes/AccidentInLastNode.png")
-                        : new Uri(@"pack://application:,,,/Resources/AccidentSchemes/AccidentInNode.png"),
+                        ? BuildPath(@"AccidentInLastNode.png")
+                        : BuildPath(@"AccidentInNode.png"),
                 Position = accidentInOldEvent.AccidentCoors,
             };
 
@@ -65,9 +67,9 @@ namespace Iit.Fibertest.Graph
                              ? accidentAsNewEvent.AccidentCoors.ToDetailedString(_gpsInputMode)
                              : "",
                 Bottom3 = $@"{accidentAsNewEvent.AccidentToRightOpticalDistanceKm:0.000} {Resources.SID_km}",
-                Scheme = accidentAsNewEvent.AccidentSeriousness == FiberState.FiberBreak
-                             ? new Uri(@"pack://application:,,,/Resources/AccidentSchemes/FiberBrokenBetweenNodes.png")
-                             : new Uri(@"pack://application:,,,/Resources/AccidentSchemes/AccidentBetweenNodes.png"),
+                PngPath = accidentAsNewEvent.AccidentSeriousness == FiberState.FiberBreak
+                             ? BuildPath(@"FiberBrokenBetweenNodes.png")
+                             : BuildPath(@"AccidentBetweenNodes.png"),
                 Position = accidentAsNewEvent.AccidentCoors
             };
 
@@ -86,11 +88,26 @@ namespace Iit.Fibertest.Graph
                 TopRight = accidentInOldEvent.Right.Title,
                 Bottom1 = $@"RTU {LeftArrow} {accidentInOldEvent.Left.ToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
                 Bottom3 = $@"RTU {LeftArrow} {accidentInOldEvent.Right.ToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
-                Scheme = new Uri(@"pack://application:,,,/Resources/AccidentSchemes/BadSegment.png"),
+                PngPath = BuildPath(@"BadSegment.png"),
                 Position = accidentInOldEvent.Left.Coors,
             };
 
             return model;
+        }
+
+        private string BuildPath(string pngFile)
+        {
+            try
+            {
+                return _isDesktop
+                    ? $@"pack://application:,,,/Resources/AccidentSchemes/{pngFile}"
+                    : $@"./assets/AccidentSchemes/{pngFile}";
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
         }
     }
 }

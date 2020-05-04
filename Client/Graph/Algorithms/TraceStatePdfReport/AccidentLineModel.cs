@@ -14,7 +14,9 @@ namespace Iit.Fibertest.Graph
         public string Bottom2 { get; set; }
         public string Bottom3 { get; set; }
         public string Bottom4 { get; set; }
-        public Uri Scheme { get; set; }
+
+        public string PngPath { get; set; }
+        public Uri Scheme => new Uri(PngPath);
 
         public PointLatLng? Position { get; set; }
     }

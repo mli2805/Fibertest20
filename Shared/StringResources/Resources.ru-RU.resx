@@ -1376,7 +1376,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Measurement_termination_timestamp" xml:space="preserve">
     <value>Время окончания измерения</value>
   </data>
-	<data name="SID_State_on__0_" xml:space="preserve">
+	<data name="SID_State_at_" xml:space="preserve">
     <value>Состояние на {0} (ID {1})</value>
   </data>
 	<data name="SID__not_attached_" xml:space="preserve">

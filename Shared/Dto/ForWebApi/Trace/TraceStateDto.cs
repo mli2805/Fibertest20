@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Dto
         public DateTime MeasurementTimestamp;
         public DateTime RegistrationTimestamp;
         public int SorFileId;
-        public List<AccidentOnTraceV2Dto> Accidents = new List<AccidentOnTraceV2Dto>();
+        public List<AccidentLineDto> Accidents = new List<AccidentLineDto>();
         public bool IsLastStateForThisTrace;
         public bool IsLastAccidentForThisTrace;
     }

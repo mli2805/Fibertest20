@@ -45,7 +45,7 @@ namespace Iit.Fibertest.Client
         public DateTime MeasurementTimestamp { get; set; }
         public DateTime RegistrationTimestamp { get; set; }
         public int SorFileId { get; set; }
-        public string StateOn => string.Format(Resources.SID_State_on__0_, MeasurementTimestamp.ToString(CultureInfo.CurrentCulture), SorFileId);
+        public string StateAt => string.Format(Resources.SID_State_at_, MeasurementTimestamp.ToString(CultureInfo.CurrentCulture), SorFileId);
 
         public Visibility OpticalEventPanelVisibility
             => EventStatus > EventStatus.EventButNotAnAccident ? Visibility.Visible : Visibility.Collapsed;

@@ -52,7 +52,7 @@ namespace Iit.Fibertest.Client
                 PortRtu = otau.MasterPort;
 
             RtuTitle = _readModel.Rtus.First(r => r.Id == bopNetworkEventAdded.RtuId).Title;
-            StateOn = string.Format(Resources.SID_State_on__0_,
+            StateOn = string.Format(Resources.SID_State_at_,
                 bopNetworkEventAdded.EventTimestamp.ToString(CultureInfo.CurrentCulture), bopNetworkEventAdded.Ordinal);
             IsOk = bopNetworkEventAdded.IsOk;
             BopState = bopNetworkEventAdded.IsOk ? Resources.SID_OK_BOP : Resources.SID_Bop_breakdown;

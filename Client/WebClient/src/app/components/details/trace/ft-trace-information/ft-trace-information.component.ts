@@ -22,7 +22,6 @@ export class FtTraceInformationComponent implements OnInit {
   ngOnInit() {
     this.isSpinnerVisible = true;
     const id = this.activeRoute.snapshot.paramMap.get("id");
-    console.log(id);
     this.oneApiService
       .getRequest(`trace/information/${id}`)
       .subscribe((res: TraceInformationDto) => {

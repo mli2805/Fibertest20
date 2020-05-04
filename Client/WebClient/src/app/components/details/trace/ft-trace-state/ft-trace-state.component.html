@@ -1,9 +1,37 @@
-<mat-card>
-  <mat-card-title>{{ "SID_Trace_state" | translate }}</mat-card-title>
+<div class="header">
+  <h3>{{ "SID_Trace_state" | translate }}</h3>
   <p>{{ "SID_Trace" | translate }} {{ vm.header.traceTitle }}</p>
   <p>{{ "SID_Port" | translate }} {{ vm.header.port }}</p>
   <p>RTU {{ vm.header.rtuTitle }}</p>
-</mat-card>
+</div>
+<div class="state">
+  <p>
+    {{
+      "SID_State_at_"
+        | translate
+          : {
+              "0": vm.measurementTimestamp | date: "dd-MM-yyyy HH:mm:ss",
+              "1": vm.sorFileId
+            }
+    }}
+  </p>
+  <p>{{ vm.stateAt }}</p>
+  <h3>{{ vm.traceState | fiberStateToLocalizedStringPipe }}</h3>
+</div>
+<div class="accidents" *ngIf="isAccidentsVisible">
+  <p>
+    {{ "SID_Accidents_count___0_" | translate: { "0": vm.accidents.length } }}
+  </p>
+  <div class="lines" *ngFor="let line of vm.accidents">
+    <p>{{ line.caption }}</p>
+    <p>{{ line.topLeft }} {{ line.topCenter }} {{ line.topRight }}</p>
+    <img src="{{ line.pngPath }}" alt="accidnet scheme" />
+    <p>
+      {{ line.bottom0 }} {{ line.bottom1 }} {{ line.bottom2 }}
+      {{ line.bottom3 }} {{ line.bottom4 }}
+    </p>
+  </div>
+</div>
 
 <div class="spinner-container" *ngIf="isSpinnerVisible">
   <mat-spinner></mat-spinner>
