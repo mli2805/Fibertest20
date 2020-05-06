@@ -175,6 +175,7 @@ import { FtAssignBaseComponent } from "./components/details/trace/ft-assign-base
     LoginGuard,
     FrequencyPipe,
     ReturnCodePipe,
+    EventStatusPipe,
     FtComponentDataProvider,
     FtRtuTreeEventService,
   ],

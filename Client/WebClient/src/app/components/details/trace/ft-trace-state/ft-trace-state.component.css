@@ -1,9 +1,23 @@
-.header {
+.bottomLine {
   margin-right: 5px;
   border-bottom: 1px solid #ccc;
 }
 
-.state {
-  margin-right: 5px;
-  border-bottom: 1px solid #ccc;
+.measNotes {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.mat-stroked-button {
+  align-self: center;
+  margin: 15px;
+  width: 130px;
+}
+
+.editableProperties {
+  margin-top: 10px;
+}
+
+.full-width {
+  width: 100%;
 }

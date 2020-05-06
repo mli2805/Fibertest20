@@ -16,17 +16,4 @@ export class TraceStateDto {
   accidents: AccidentLineDto[];
   isLastStateForThisTrace: boolean;
   isLastAccidentForThisTrace: boolean;
-
-  get stateAt(): string {
-    return `State at ${this.registrationTimestamp} (ID ${this.sorFileId})`;
-  }
-}
-
-export class Foo {
-  a: Date;
-  b: number;
-
-  get c() {
-    return `a = ${this.a}, b = ${this.b}`;
-  }
 }
