@@ -53,7 +53,11 @@
     <th mat-header-cell *matHeaderCellDef>
       {{ "SID_Registered" | translate }}
     </th>
-    <td mat-cell *matCellDef="let element">
+    <td
+      mat-cell
+      *matCellDef="let element"
+      (contextmenu)="onContextMenu($event, element)"
+    >
       {{ element.eventRegistrationTimestamp | date: "dd/MM/yyyy H:mm:ss" }}
     </td>
   </ng-container>
@@ -84,3 +88,10 @@
 <div class="spinner-container" *ngIf="isNotLoaded">
   <mat-spinner></mat-spinner>
 </div>
+
+<mat-menu #contextMenu="matMenu" #contextMenu2="matMenu">
+  <ng-template matMenuContent let-item="item">
+    <button mat-menu-item (click)="onContextMenuAction1(item)">Action 1</button>
+    <button mat-menu-item (click)="onContextMenuAction2(item)">Action 2</button>
+  </ng-template>
+</mat-menu>

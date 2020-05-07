@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from "@angular/core";
 import { TraceStatisticsDto } from "src/app/models/dtos/trace/traceStatisticsDto";
 import { ActivatedRoute } from "@angular/router";
-import { MatPaginator } from "@angular/material";
+import { MatPaginator, MatMenuTrigger } from "@angular/material";
 import { tap } from "rxjs/operators";
 import { OneApiService } from "src/app/api/one.service";
 
@@ -25,6 +25,10 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
   ];
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+
+  @ViewChild(MatMenuTrigger, null)
+  contextMenu: MatMenuTrigger;
+  contextMenuPosition = { x: "0px", y: "0px" };
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -74,5 +78,22 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
         this.fullCount = res.measFullCount;
         this.isNotLoaded = false;
       });
+  }
+
+  onContextMenu(event: MouseEvent, item) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + "px";
+    this.contextMenuPosition.y = event.clientY + "px";
+    this.contextMenu.menuData = { item };
+    this.contextMenu.openMenu();
+    this.contextMenu.focus("mouse");
+  }
+
+  onContextMenuAction1(item) {
+    alert(`Click on Action 1 for ${item.eventId}`);
+  }
+
+  onContextMenuAction2(item) {
+    alert(`Click on Action 2 for ${item.eventId}`);
   }
 }

@@ -8,10 +8,11 @@ import {
   ElementRef,
 } from "@angular/core";
 import { OptEventsDataSource } from "../ft-opt-events/optEventsDataSource";
-import { MatPaginator, MatSort } from "@angular/material";
+import { MatPaginator, MatSort, MatMenuTrigger } from "@angular/material";
 import { tap, debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { merge, fromEvent } from "rxjs";
 import { OneApiService } from "src/app/api/one.service";
+import { OptEventDto } from "src/app/models/dtos/optEventDto";
 
 @Component({
   selector: "ft-opt-events",
@@ -40,6 +41,10 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
   @ViewChild(MatSort, { static: true }) sort: MatSort;
   @ViewChild("inputRtu", { static: true }) inputRtu: ElementRef;
   @ViewChild("inputTrace", { static: true }) inputTrace: ElementRef;
+
+  @ViewChild(MatMenuTrigger, null)
+  contextMenu: MatMenuTrigger;
+  contextMenuPosition = { x: "0px", y: "0px" };
 
   constructor(private oneApiService: OneApiService) {
     this.isCurrentEvents = true;
@@ -105,7 +110,37 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
     this.loadPage();
   }
 
-  onRowClicked(row) {
-    console.log("Row clicked: ", row);
+  onRowClicked(event: MouseEvent, row: OptEventDto) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + "px";
+    this.contextMenuPosition.y = event.clientY + "px";
+    this.contextMenu.menuData = { row };
+    this.contextMenu.openMenu();
+    this.contextMenu.focus("mouse");
+  }
+
+  onContextMenu(event: MouseEvent, row: OptEventDto) {
+    event.preventDefault();
+    this.contextMenuPosition.x = event.clientX + "px";
+    this.contextMenuPosition.y = event.clientY + "px";
+    this.contextMenu.menuData = { row };
+    this.contextMenu.openMenu();
+    this.contextMenu.focus("mouse");
+  }
+
+  onShowRef() {
+    const oeDto: OptEventDto = Object.assign(
+      new OptEventDto(),
+      this.contextMenu.menuData.row
+    );
+    alert(`Click Show Ref for ${oeDto.eventId}`);
+  }
+
+  onShowTraceState() {
+    const oeDto: OptEventDto = Object.assign(
+      new OptEventDto(),
+      this.contextMenu.menuData.row
+    );
+    alert(`Click Show Trace State for ${oeDto.eventId}`);
   }
 }

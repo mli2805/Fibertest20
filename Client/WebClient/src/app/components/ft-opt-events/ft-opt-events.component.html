@@ -37,9 +37,26 @@
       <mat-header-cell *matHeaderCellDef>{{
         "SID_Measurement_termination_timestamp" | translate
       }}</mat-header-cell>
-      <mat-cell class="measurementTimestamp-cell" *matCellDef="let element">{{
-        element.measurementTimestamp | date: "dd/MM/yyyy H:mm:ss"
-      }}</mat-cell>
+      <mat-cell
+        class="measurementTimestamp-cell"
+        *matCellDef="let element"
+        [matMenuTriggerFor]="oeContextMenu"
+        (contextmenu)="onContextMenu($event, element)"
+        >{{
+          element.measurementTimestamp | date: "dd/MM/yyyy H:mm:ss"
+        }}</mat-cell
+      >
+
+      <mat-menu #oeContextMenu="matMenu">
+        <ng-template matMenuContent let-item="element">
+          <button mat-menu-item (click)="onShowRef(element)">
+            {{ "SID_Show_reflectogram" | translate }}
+          </button>
+          <button mat-menu-item (click)="onShowTraceState(element)">
+            {{ "SID_Trace_state_Event_status" | translate }}
+          </button>
+        </ng-template>
+      </mat-menu>
     </ng-container>
 
     <ng-container matColumnDef="eventRegistrationTimestamp">
