@@ -1,11 +1,10 @@
 import { Component, OnInit } from "@angular/core";
 import { TraceStateDto } from "src/app/models/dtos/trace/traceStateDto";
 import { OneApiService } from "src/app/api/one.service";
-import { ActivatedRoute } from "@angular/router";
-import { TranslateService } from "@ngx-translate/core";
 import { FiberState } from "src/app/models/enums/fiberState";
 import { EventStatus } from "src/app/models/enums/eventStatus";
 import { EventStatusPipe } from "src/app/pipes/event-status.pipe";
+import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
 
 @Component({
   selector: "ft-trace-state",
@@ -22,9 +21,8 @@ export class FtTraceStateComponent implements OnInit {
   selectedEventStatus;
 
   constructor(
-    private activeRoute: ActivatedRoute,
     private oneApiService: OneApiService,
-    private ts: TranslateService,
+    private dataStorage: FtComponentDataProvider,
     private eventStatusPipe: EventStatusPipe
   ) {}
 
@@ -37,9 +35,11 @@ export class FtTraceStateComponent implements OnInit {
     this.itemsSourceEventStatuses = ess;
 
     this.isSpinnerVisible = true;
-    const id = this.activeRoute.snapshot.paramMap.get("id");
+    const params = this.dataStorage.data;
+    console.log(params);
+
     this.oneApiService
-      .getRequest(`trace/state/${id}`)
+      .getRequest(`trace/state`, params)
       .subscribe((res: TraceStateDto) => {
         console.log(res);
         this.vm = res;

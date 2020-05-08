@@ -48,7 +48,7 @@ const routes: Routes = [
 
   { path: "trace-information/:id", component: FtTraceInformationComponent },
   { path: "assign-base/:id", component: FtAssignBaseComponent },
-  { path: "trace-state/:id", component: FtTraceStateComponent },
+  { path: "trace-state", component: FtTraceStateComponent },
   { path: "trace-statistics/:id", component: FtTraceStatisticsComponent },
 
   { path: "port-attach-trace", component: FtPortAttachTraceComponent },

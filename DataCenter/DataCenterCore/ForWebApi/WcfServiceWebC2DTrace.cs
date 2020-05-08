@@ -6,6 +6,7 @@ using AutoMapper;
 using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Newtonsoft.Json.Linq;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -13,7 +14,9 @@ namespace Iit.Fibertest.DataCenterCore
     {
         public async Task<TraceInformationDto> GetTraceInformation(string username, Guid traceId)
         {
-            var trace = await GetTrace(username, traceId, "GetTraceInformation");
+            if (!await Authorize(username, "GetTraceInformation")) return null;
+
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
             if (trace == null)
                 return null;
 
@@ -30,8 +33,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId, int pageNumber, int pageSize)
         {
+            if (!await Authorize(username, "GetTraceStatistics")) return null;
 
-            var trace = await GetTrace(username, traceId, "GetTraceStatistics");
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
             if (trace == null)
                 return null;
 
@@ -69,23 +73,53 @@ namespace Iit.Fibertest.DataCenterCore
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingToDtoProfile>()).CreateMapper();
 
-        public async Task<TraceStateDto> GetTraceState(string username, Guid traceId)
+        public async Task<TraceStateDto> GetTraceState(string username, string requestBody)
         {
-            var trace = await GetTrace(username, traceId, "GetTraceState");
+            if (!await Authorize(username, "GetTraceState")) return null;
+
+            TraceHeaderDto header = null;
+            var measurement = GetRequestedMeasurement(requestBody, ref header);
+            if (measurement == null) return null;
+
+            var dto = Mapper.Map<TraceStateDto>(measurement);
+            dto.Header = header;
+            if (measurement.Accidents != null)
+                dto.Accidents = F(measurement.Accidents).ToList();
+
+
+            return dto;
+        }
+
+        private Measurement GetRequestedMeasurement(string requestBody, ref TraceHeaderDto header)
+        {
+            dynamic data = JObject.Parse(requestBody);
+            var requestType = data["type"].ToObject<string>();
+            return requestType == "traceId" 
+                ? (Measurement) GetMeasByTraceId(data["traceId"].ToObject<Guid>(), ref header) 
+                : (Measurement) GetMeasBySorFileId(data["fileId"].ToObject<int>(), ref header);
+        }
+
+        private Measurement GetMeasByTraceId(Guid traceId, ref TraceHeaderDto header)
+        {
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
             if (trace == null)
                 return null;
 
-            var lastMeas = _writeModel.Measurements.LastOrDefault(m => m.TraceId == traceId);
-            if (lastMeas == null)
+            header = BuildHeader(trace);
+            return _writeModel.Measurements.LastOrDefault(m => m.TraceId == traceId);
+        }
+
+        private Measurement GetMeasBySorFileId(int sorFileId, ref TraceHeaderDto header)
+        {
+            var measurement = _writeModel.Measurements.LastOrDefault(m => m.SorFileId == sorFileId);
+            if (measurement == null)
+                return null;
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == measurement.TraceId);
+            if (trace == null)
                 return null;
 
-            var dto = Mapper.Map<TraceStateDto>(lastMeas);
-            dto.Header = BuildHeader(trace);
-            if (lastMeas.Accidents != null)
-                dto.Accidents = F(lastMeas.Accidents).ToList();
-
-            
-            return dto;
+            header = BuildHeader(trace);
+            return measurement;
         }
 
         private IEnumerable<AccidentLineDto> F(List<AccidentOnTraceV2> accidents)
@@ -99,18 +133,14 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        private async Task<Trace> GetTrace(string username, Guid traceId, string log)
+        private async Task<bool> Authorize(string username, string log)
         {
             await Task.Delay(1);
             _logFile.AppendLine($"WebApi::{log}");
-            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
-            if (user == null)
-            {
-                _logFile.AppendLine("Not authorized access");
-                return null;
-            }
-
-            return _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
+            if (_writeModel.Users.Any(u => u.Title == username))
+                return true;
+            _logFile.AppendLine("Not authorized access");
+            return false;
         }
 
         private TraceHeaderDto BuildHeader(Trace trace)
@@ -136,7 +166,7 @@ namespace Iit.Fibertest.DataCenterCore
             CreateMap<AccidentLineModel, AccidentLineDto>();
             CreateMap<Measurement, TraceStateDto>()
                 .ForMember(dest => dest.RegistrationTimestamp, opt => opt.MapFrom(src => src.EventRegistrationTimestamp))
-                .ForMember(dest=> dest.Accidents, opt => opt.Ignore());
+                .ForMember(dest => dest.Accidents, opt => opt.Ignore());
         }
     }
 }

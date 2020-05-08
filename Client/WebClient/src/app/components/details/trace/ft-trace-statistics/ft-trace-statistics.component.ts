@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from "@angular/core";
 import { TraceStatisticsDto } from "src/app/models/dtos/trace/traceStatisticsDto";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { MatPaginator, MatMenuTrigger } from "@angular/material";
 import { tap } from "rxjs/operators";
 import { OneApiService } from "src/app/api/one.service";
 import { MeasurementDto } from "src/app/models/dtos/measurementDto";
+import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
 
 @Component({
   selector: "ft-trace-statistics",
@@ -32,8 +33,10 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
   contextMenuPosition = { x: "0px", y: "0px" };
 
   constructor(
+    private router: Router,
     private activeRoute: ActivatedRoute,
-    private oneApiService: OneApiService
+    private oneApiService: OneApiService,
+    private dataStorage: FtComponentDataProvider
   ) {}
 
   ngOnInit() {
@@ -117,5 +120,12 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
   }
   showTraceState() {
     console.log("show trace state: ", this.contextMenu.menuData.row.sorFileId);
+    const dict = {
+      type: "fileId",
+      traceId: null,
+      fileId: this.contextMenu.menuData.row.sorFileId,
+    };
+    this.dataStorage.data = dict;
+    this.router.navigate(["/trace-state"]);
   }
 }

@@ -86,16 +86,17 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
-        [HttpGet("State/{id}")]
-        public async Task<TraceStateDto> GetTraceState(string id)
+        [HttpGet("State")]
+        public async Task<TraceStateDto> GetTraceState(string type, Guid traceId, int fileId)
         {
             try
             {
-                _logFile.AppendLine($"trace id = {id}");
-                var traceGuid = Guid.Parse(id);
+                var body = $"{{\"type\" : \"{type}\", \"traceId\" : \"{traceId}\", \"fileId\" : {fileId}}}";
+                _logFile.AppendLine(body);
+                
                 var traceStateDto = await _webC2DWcfManager
                     .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .GetTraceState(User.Identity.Name, traceGuid);
+                    .GetTraceState(User.Identity.Name, body);
                 _logFile.AppendLine(traceStateDto == null
                     ? "Failed to get trace's state"
                     : $"trace state is {traceStateDto.TraceState}");

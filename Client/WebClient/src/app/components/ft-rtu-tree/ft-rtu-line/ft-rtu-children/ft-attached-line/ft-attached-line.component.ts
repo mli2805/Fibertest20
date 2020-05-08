@@ -45,7 +45,13 @@ export class FtAttachedLineComponent implements OnInit {
   }
 
   displayState() {
-    this.router.navigate(["/trace-state", this.trace.traceId]);
+    const dict = {
+      type: "traceId",
+      traceId: this.trace.traceId,
+      fileId: null,
+    };
+    this.dataStorage.data = dict;
+    this.router.navigate(["/trace-state"]);
   }
 
   displayStatistics() {

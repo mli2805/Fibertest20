@@ -227,7 +227,7 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<TraceStateDto> GetTraceState(string username, Guid traceId)
+        public async Task<TraceStateDto> GetTraceState(string username, string requestBody)
         {
             var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
             if (wcfConnection == null)
@@ -236,7 +236,7 @@ namespace Iit.Fibertest.WcfConnections
             try
             {
                 var channel = wcfConnection.CreateChannel();
-                var result = await channel.GetTraceState(username, traceId);
+                var result = await channel.GetTraceState(username, requestBody);
                 wcfConnection.Close();
                 return result;
             }

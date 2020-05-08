@@ -13,6 +13,8 @@ import { tap, debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { merge, fromEvent } from "rxjs";
 import { OneApiService } from "src/app/api/one.service";
 import { OptEventDto } from "src/app/models/dtos/optEventDto";
+import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "ft-opt-events",
@@ -46,7 +48,11 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
-  constructor(private oneApiService: OneApiService) {
+  constructor(
+    private router: Router,
+    private oneApiService: OneApiService,
+    private dataStorage: FtComponentDataProvider
+  ) {
     this.isCurrentEvents = false;
   }
 
@@ -140,5 +146,12 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
   }
   showTraceState() {
     console.log("show trace state: ", this.contextMenu.menuData.row.eventId);
+    const dict = {
+      type: "fileId",
+      traceId: null,
+      fileId: this.contextMenu.menuData.row.eventId,
+    };
+    this.dataStorage.data = dict;
+    this.router.navigate(["/trace-state"]);
   }
 }
