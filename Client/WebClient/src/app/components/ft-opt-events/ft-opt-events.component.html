@@ -16,7 +16,8 @@
     </mat-slide-toggle>
   </mat-toolbar>
 
-  <mat-table
+  <table
+    mat-table
     class="opt-event-table mat-elevation-z8"
     [dataSource]="dataSource"
     matSort
@@ -25,98 +26,98 @@
     matSortDisableClear
   >
     <ng-container matColumnDef="eventId">
-      <mat-header-cell *matHeaderCellDef mat-sort-header>{{
-        "SID_Event_Id" | translate
-      }}</mat-header-cell>
-      <mat-cell class="eventId-cell" *matCellDef="let element">{{
-        element.eventId
-      }}</mat-cell>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "SID_Event_Id" | translate }}
+      </th>
+      <td mat-cell class="eventId-cell" *matCellDef="let element">
+        {{ element.eventId }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="measurementTimestamp">
-      <mat-header-cell *matHeaderCellDef>{{
-        "SID_Measurement_termination_timestamp" | translate
-      }}</mat-header-cell>
-      <mat-cell class="measurementTimestamp-cell" *matCellDef="let element">{{
-        element.measurementTimestamp | date: "dd/MM/yyyy H:mm:ss"
-      }}</mat-cell>
+      <th mat-header-cell *matHeaderCellDef>
+        {{ "SID_Measurement_termination_timestamp" | translate }}
+      </th>
+      <td mat-cell class="measurementTimestamp-cell" *matCellDef="let element">
+        {{ element.measurementTimestamp | date: "dd/MM/yyyy H:mm:ss" }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="eventRegistrationTimestamp">
-      <mat-header-cell *matHeaderCellDef>{{
-        "SID_Event_registration_time" | translate
-      }}</mat-header-cell>
-      <mat-cell
+      <th mat-header-cell *matHeaderCellDef>
+        {{ "SID_Event_registration_time" | translate }}
+      </th>
+      <td
+        mat-cell
         class="eventRegistrationTimestamp-cell"
         *matCellDef="let element"
-        >{{
-          element.eventRegistrationTimestamp | date: "dd/MM/yyyy H:mm:ss"
-        }}</mat-cell
       >
+        {{ element.eventRegistrationTimestamp | date: "dd/MM/yyyy H:mm:ss" }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="rtuTitle">
-      <mat-header-cell *matHeaderCellDef>RTU</mat-header-cell>
-      <mat-cell class="rtuTitle-cell" *matCellDef="let element">{{
-        element.rtuTitle
-      }}</mat-cell>
+      <th mat-header-cell *matHeaderCellDef>RTU</th>
+      <td mat-cell class="rtuTitle-cell" *matCellDef="let element">
+        {{ element.rtuTitle }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="traceTitle">
-      <mat-header-cell *matHeaderCellDef>{{
-        "SID_Trace" | translate
-      }}</mat-header-cell>
-      <mat-cell class="traceTitle-cell" *matCellDef="let element">{{
-        element.traceTitle
-      }}</mat-cell>
+      <th mat-header-cell *matHeaderCellDef>{{ "SID_Trace" | translate }}</th>
+      <td mat-cell class="traceTitle-cell" *matCellDef="let element">
+        {{ element.traceTitle }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="traceState">
-      <mat-header-cell *matHeaderCellDef>{{
-        "SID_Trace_state" | translate
-      }}</mat-header-cell>
-      <mat-cell class="traceState-cell" *matCellDef="let element">{{
-        element.traceState | fiberStateToLocalizedStringPipe
-      }}</mat-cell>
+      <th mat-header-cell *matHeaderCellDef>
+        {{ "SID_Trace_state" | translate }}
+      </th>
+      <td mat-cell class="traceState-cell" *matCellDef="let element">
+        {{ element.traceState | fiberStateToLocalizedStringPipe }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="eventStatus">
-      <mat-header-cell *matHeaderCellDef>{{
-        "SID_Event_status" | translate
-      }}</mat-header-cell>
-      <mat-cell class="eventStatus-cell" *matCellDef="let element">{{
-        element.eventStatus | eventStatusToLocalizedStringPipe
-      }}</mat-cell>
+      <th mat-header-cell *matHeaderCellDef>
+        {{ "SID_Event_status" | translate }}
+      </th>
+      <td mat-cell class="eventStatus-cell" *matCellDef="let element">
+        {{ element.eventStatus | eventStatusToLocalizedStringPipe }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="statusChangedTimestamp">
-      <mat-header-cell *matHeaderCellDef>{{
-        "SID_Status_assignment_time" | translate
-      }}</mat-header-cell>
-      <mat-cell class="statusChangedTimestamp-cell" *matCellDef="let element">{{
-        element.statusChangedTimestamp | date: "dd/MM/yyyy H:mm:ss"
-      }}</mat-cell>
+      <th mat-header-cell *matHeaderCellDef>
+        {{ "SID_Status_assignment_time" | translate }}
+      </th>
+      <td
+        mat-cell
+        class="statusChangedTimestamp-cell"
+        *matCellDef="let element"
+      >
+        {{ element.statusChangedTimestamp | date: "dd/MM/yyyy H:mm:ss" }}
+      </td>
     </ng-container>
 
     <ng-container matColumnDef="statusChangedByUser">
-      <mat-header-cell *matHeaderCellDef>{{
-        "SID_Status_changed_by" | translate
-      }}</mat-header-cell>
-      <mat-cell class="statusChangedByUser-cell" *matCellDef="let element">
+      <th mat-header-cell *matHeaderCellDef>
+        {{ "SID_Status_changed_by" | translate }}
+      </th>
+      <td mat-cell class="statusChangedByUser-cell" *matCellDef="let element">
         {{ element.statusChangedByUser }}
-      </mat-cell>
+      </td>
     </ng-container>
 
-    <mat-header-row
-      *matHeaderRowDef="displayedColumns; sticky: true"
-    ></mat-header-row>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
 
-    <mat-row
+    <tr
+      mat-row
       *matRowDef="let row; columns: displayedColumns"
       (contextmenu)="onContextMenu($event, row)"
-    >
-    </mat-row>
-  </mat-table>
+    ></tr>
+  </table>
 
   <div
     style="visibility: hidden; position: fixed;"
@@ -126,11 +127,11 @@
   ></div>
 
   <mat-menu #optEvContextMenu="matMenu">
-    <ng-template matMenuContent let-item="row">
-      <button mat-menu-item (click)="onShowRef(row)">
+    <ng-template matMenuContent let-item="item">
+      <button mat-menu-item (click)="onShowRef()">
         {{ "SID_Show_reflectogram" | translate }}
       </button>
-      <button mat-menu-item (click)="onShowTraceState(row)">
+      <button mat-menu-item (click)="onShowTraceState()">
         {{ "SID_Trace_state_Event_status" | translate }}
       </button>
     </ng-template>

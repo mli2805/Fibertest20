@@ -119,11 +119,11 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
     event.preventDefault();
   }
 
-  onShowRef(row: OptEventDto) {
-    alert(`Click Show Ref for ${row.eventId}`);
+  onShowRef() {
+    console.log("data: ", this.contextMenu.menuData.row.eventId);
   }
 
-  onShowTraceState(row: OptEventDto) {
-    alert(`Click Show Trace State for ${row.eventId}`);
+  onShowTraceState() {
+    console.log("data: ", this.contextMenu.menuData.row.eventId);
   }
 }
