@@ -4,6 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { MatPaginator, MatMenuTrigger } from "@angular/material";
 import { tap } from "rxjs/operators";
 import { OneApiService } from "src/app/api/one.service";
+import { MeasurementDto } from "src/app/models/dtos/measurementDto";
 
 @Component({
   selector: "ft-trace-statistics",
@@ -80,7 +81,7 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
       });
   }
 
-  onContextMenu(event: MouseEvent, item) {
+  onContextMenu(event: MouseEvent, item: MeasurementDto) {
     event.preventDefault();
     this.contextMenuPosition.x = event.clientX + "px";
     this.contextMenuPosition.y = event.clientY + "px";
@@ -89,11 +90,11 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
     this.contextMenu.focus("mouse");
   }
 
-  onContextMenuAction1(item) {
-    alert(`Click on Action 1 for ${item.eventId}`);
+  onShowRef(row: MeasurementDto) {
+    alert(`Click Show Ref for ${row.sorFileId}`);
   }
 
-  onContextMenuAction2(item) {
-    alert(`Click on Action 2 for ${item.eventId}`);
+  onShowTraceState(row: MeasurementDto) {
+    alert(`Click Show Trace State for ${row.sorFileId}`);
   }
 }

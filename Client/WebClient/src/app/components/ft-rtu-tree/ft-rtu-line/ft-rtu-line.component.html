@@ -24,7 +24,7 @@
       />
       <p>{{ rtu.title }}</p>
       <mat-menu #rtuContextMenu="matMenu">
-        <button mat-menu-item (click)="information(rtu)">
+        <button mat-menu-item (click)="information()">
           {{ "SID_Information" | translate }}
         </button>
         <button mat-menu-item (click)="networkSettings(rtu)">

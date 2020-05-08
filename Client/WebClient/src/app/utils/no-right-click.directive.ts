@@ -1,12 +1,10 @@
-import { HostListener, Directive } from '@angular/core';
+import { HostListener, Directive } from "@angular/core";
 
 @Directive({
-  selector: '[appNoRightClick]'
+  selector: "[ftNoRightClick]",
 })
-
 export class NoRightClickDirective {
-
-  @HostListener('contextmenu', ['$event']) onRightClick(event) {
+  @HostListener("contextmenu", ["$event"]) onRightClick(event) {
     event.preventDefault();
   }
 }

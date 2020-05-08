@@ -47,7 +47,7 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
   contextMenuPosition = { x: "0px", y: "0px" };
 
   constructor(private oneApiService: OneApiService) {
-    this.isCurrentEvents = true;
+    this.isCurrentEvents = false;
   }
 
   ngOnInit() {
@@ -110,37 +110,20 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
     this.loadPage();
   }
 
-  onRowClicked(event: MouseEvent, row: OptEventDto) {
-    event.preventDefault();
-    this.contextMenuPosition.x = event.clientX + "px";
-    this.contextMenuPosition.y = event.clientY + "px";
-    this.contextMenu.menuData = { row };
-    this.contextMenu.openMenu();
-    this.contextMenu.focus("mouse");
-  }
-
   onContextMenu(event: MouseEvent, row: OptEventDto) {
-    event.preventDefault();
     this.contextMenuPosition.x = event.clientX + "px";
     this.contextMenuPosition.y = event.clientY + "px";
     this.contextMenu.menuData = { row };
     this.contextMenu.openMenu();
     this.contextMenu.focus("mouse");
+    event.preventDefault();
   }
 
-  onShowRef() {
-    const oeDto: OptEventDto = Object.assign(
-      new OptEventDto(),
-      this.contextMenu.menuData.row
-    );
-    alert(`Click Show Ref for ${oeDto.eventId}`);
+  onShowRef(row: OptEventDto) {
+    alert(`Click Show Ref for ${row.eventId}`);
   }
 
-  onShowTraceState() {
-    const oeDto: OptEventDto = Object.assign(
-      new OptEventDto(),
-      this.contextMenu.menuData.row
-    );
-    alert(`Click Show Trace State for ${oeDto.eventId}`);
+  onShowTraceState(row: OptEventDto) {
+    alert(`Click Show Trace State for ${row.eventId}`);
   }
 }

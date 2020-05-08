@@ -77,8 +77,30 @@
   </ng-container>
 
   <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-  <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: columnsToDisplay"
+    (contextmenu)="onContextMenu($event, row)"
+  ></tr>
 </table>
+
+<div
+  style="visibility: hidden; position: fixed;"
+  [style.left]="contextMenuPosition.x"
+  [style.top]="contextMenuPosition.y"
+  [matMenuTriggerFor]="measContextMenu"
+></div>
+
+<mat-menu #measContextMenu="matMenu">
+  <ng-template matMenuContent let-item="item">
+    <button mat-menu-item (click)="onShowRef(item)">
+      {{ "SID_Show_reflectogram" | translate }}
+    </button>
+    <button mat-menu-item (click)="onShowTraceState(item)">
+      {{ "SID_Trace_state_Event_status" | translate }}
+    </button>
+  </ng-template>
+</mat-menu>
 
 <mat-paginator
   [length]="fullCount"
