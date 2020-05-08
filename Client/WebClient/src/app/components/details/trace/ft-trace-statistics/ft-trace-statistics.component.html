@@ -93,10 +93,23 @@
 
 <mat-menu #measContextMenu="matMenu">
   <ng-template matMenuContent let-item="item">
-    <button mat-menu-item (click)="onShowRef(item)">
+    <button mat-menu-item (click)="showRef(item, 1)">
       {{ "SID_Show_reflectogram" | translate }}
     </button>
-    <button mat-menu-item (click)="onShowTraceState(item)">
+    <button mat-menu-item (click)="showRef(2)">
+      {{ "SID_Show_ref_and_base" | translate }}
+    </button>
+    <button mat-menu-item (click)="saveRef(1)">
+      {{ "SID_Save_reflectogram_as" | translate }}
+    </button>
+    <button mat-menu-item (click)="saveRef(2)">
+      {{ "SID_Save_ref_and_base_as" | translate }}
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item (click)="showRftsEvents()">
+      {{ "SID_Rfts_Events" | translate }}
+    </button>
+    <button mat-menu-item (click)="showTraceState()">
       {{ "SID_Trace_state_Event_status" | translate }}
     </button>
   </ng-template>
@@ -110,10 +123,3 @@
 <div class="spinner-container" *ngIf="isNotLoaded">
   <mat-spinner></mat-spinner>
 </div>
-
-<mat-menu #contextMenu="matMenu" #contextMenu2="matMenu">
-  <ng-template matMenuContent let-item="item">
-    <button mat-menu-item (click)="onContextMenuAction1(item)">Action 1</button>
-    <button mat-menu-item (click)="onContextMenuAction2(item)">Action 2</button>
-  </ng-template>
-</mat-menu>

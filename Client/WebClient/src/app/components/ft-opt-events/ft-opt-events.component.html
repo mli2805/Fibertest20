@@ -111,7 +111,6 @@
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
-
     <tr
       mat-row
       *matRowDef="let row; columns: displayedColumns"
@@ -128,10 +127,23 @@
 
   <mat-menu #optEvContextMenu="matMenu">
     <ng-template matMenuContent let-item="item">
-      <button mat-menu-item (click)="onShowRef()">
+      <button mat-menu-item (click)="showRef(1)">
         {{ "SID_Show_reflectogram" | translate }}
       </button>
-      <button mat-menu-item (click)="onShowTraceState()">
+      <button mat-menu-item (click)="showRef(2)">
+        {{ "SID_Show_ref_and_base" | translate }}
+      </button>
+      <button mat-menu-item (click)="saveRef(1)">
+        {{ "SID_Save_reflectogram_as" | translate }}
+      </button>
+      <button mat-menu-item (click)="saveRef(2)">
+        {{ "SID_Save_ref_and_base_as" | translate }}
+      </button>
+      <mat-divider></mat-divider>
+      <button mat-menu-item (click)="showRftsEvents()">
+        {{ "SID_Rfts_Events" | translate }}
+      </button>
+      <button mat-menu-item (click)="showTraceState()">
         {{ "SID_Trace_state_Event_status" | translate }}
       </button>
     </ng-template>

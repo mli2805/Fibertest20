@@ -81,20 +81,41 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
       });
   }
 
-  onContextMenu(event: MouseEvent, item: MeasurementDto) {
+  onContextMenu(event: MouseEvent, row: MeasurementDto) {
     event.preventDefault();
     this.contextMenuPosition.x = event.clientX + "px";
     this.contextMenuPosition.y = event.clientY + "px";
-    this.contextMenu.menuData = { item };
+    this.contextMenu.menuData = { row };
     this.contextMenu.openMenu();
     this.contextMenu.focus("mouse");
   }
 
-  onShowRef(row: MeasurementDto) {
-    alert(`Click Show Ref for ${row.sorFileId}`);
+  showRef(param: number) {
+    if (param === 1) {
+      console.log("show ref: ", this.contextMenu.menuData.row.sorFileId);
+    } else {
+      console.log(
+        "show ref and base: ",
+        this.contextMenu.menuData.row.sorFileId
+      );
+    }
   }
 
-  onShowTraceState(row: MeasurementDto) {
-    alert(`Click Show Trace State for ${row.sorFileId}`);
+  saveRef(param: number) {
+    if (param === 1) {
+      console.log("save ref: ", this.contextMenu.menuData.row.sorFileId);
+    } else {
+      console.log(
+        "save ref and base: ",
+        this.contextMenu.menuData.row.sorFileId
+      );
+    }
+  }
+
+  showRftsEvents() {
+    console.log("show rfts events: ", this.contextMenu.menuData.row.sorFileId);
+  }
+  showTraceState() {
+    console.log("show trace state: ", this.contextMenu.menuData.row.sorFileId);
   }
 }

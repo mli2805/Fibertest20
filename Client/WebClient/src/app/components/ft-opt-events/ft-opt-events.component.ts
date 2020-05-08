@@ -119,11 +119,26 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
     event.preventDefault();
   }
 
-  onShowRef() {
-    console.log("data: ", this.contextMenu.menuData.row.eventId);
+  showRef(param: number) {
+    if (param === 1) {
+      console.log("show ref: ", this.contextMenu.menuData.row.eventId);
+    } else {
+      console.log("show ref and base: ", this.contextMenu.menuData.row.eventId);
+    }
   }
 
-  onShowTraceState() {
-    console.log("data: ", this.contextMenu.menuData.row.eventId);
+  saveRef(param: number) {
+    if (param === 1) {
+      console.log("save ref: ", this.contextMenu.menuData.row.eventId);
+    } else {
+      console.log("save ref and base: ", this.contextMenu.menuData.row.eventId);
+    }
+  }
+
+  showRftsEvents() {
+    console.log("show rfts events: ", this.contextMenu.menuData.row.eventId);
+  }
+  showTraceState() {
+    console.log("show trace state: ", this.contextMenu.menuData.row.eventId);
   }
 }
