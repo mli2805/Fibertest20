@@ -51,6 +51,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine(body);
                 var dto = JsonConvert.DeserializeObject<UpdateMeasurementDto>(body);
                 dto.ClientIp = GetRemoteAddress();
+                dto.StatusChangedTimestamp = DateTime.Now;
                 dto.StatusChangedByUser = User.Identity.Name;
                 var result = await _commonC2DWcfManager
                     .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
