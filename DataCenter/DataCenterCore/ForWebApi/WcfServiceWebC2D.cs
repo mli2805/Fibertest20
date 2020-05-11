@@ -275,14 +275,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<AssignBaseParamsDto> GetAssignBaseParams(string username, Guid traceId)
         {
-            _logFile.AppendLine(":: WcfServiceForWebProxy GetAssignBaseParams");
-            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
-            if (user == null)
-            {
-                _logFile.AppendLine("Not authorized access");
-                return null;
-            }
-            await Task.Delay(1);
+            if (!await Authorize(username, "GetAssignBaseParams")) return null;
+
             var result = new AssignBaseParamsDto();
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
             if (trace == null) return result;
@@ -296,18 +290,13 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
+     
         public async Task<OpticalEventsRequestedDto> GetOpticalEventPortion(string username, bool isCurrentEvents,
             string filterRtu = "", string filterTrace = "", string sortOrder = "desc", int pageNumber = 0, int pageSize = 100)
         {
-            _logFile.AppendLine($":: WcfServiceForWebProxy GetOpticalEventList pageSize = {pageSize}  pageNumber = {pageNumber}");
-            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
-            if (user == null)
-            {
-                _logFile.AppendLine("Not authorized access");
-                return null;
-            }
-            await Task.Delay(1);
+            if (!await Authorize(username, "GetOpticalEventPortion")) return null;
 
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
             var collection = isCurrentEvents ? _writeModel.ActiveMeasurements : _writeModel.Measurements;
             var sift = collection.Where(o => o.Filter(filterRtu, filterTrace, _writeModel, user)).ToList();
             return new OpticalEventsRequestedDto

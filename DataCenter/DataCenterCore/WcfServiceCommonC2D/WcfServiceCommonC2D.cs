@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
+using AutoMapper;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -302,6 +303,15 @@ namespace Iit.Fibertest.DataCenterCore
         {
             return await _clientToRtuTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto);
         }
+
+        private static readonly IMapper Mapper = new MapperConfiguration(
+            cfg => cfg.AddProfile<MappingWebApiProfile>()).CreateMapper();
+        public async Task<string> UpdateMeasurement(string username, UpdateMeasurementDto dto)
+        {
+            var cmd = Mapper.Map<UpdateMeasurement>(dto);
+            return await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
+        }
+
     }
 
 }

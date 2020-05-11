@@ -50,5 +50,8 @@ namespace Iit.Fibertest.WcfConnections
 
         [OperationContract]
         Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto);
+
+        [OperationContract]
+        Task<string> UpdateMeasurement(string username, UpdateMeasurementDto dto);
     }
 }

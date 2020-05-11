@@ -92,6 +92,7 @@
     <Compile Include="ForWebApi\Trace\TraceInformationDto.cs" />
     <Compile Include="ForWebApi\Trace\TraceStateDto.cs" />
     <Compile Include="ForWebApi\Trace\TraceStatisticsDto.cs" />
+    <Compile Include="ForWebApi\UpdateMeasurementDto.cs" />
     <Compile Include="ForWebApi\UserDto.cs" />
     <Compile Include="R2D2C\BopStateChangedDto.cs" />
     <Compile Include="R2D2C\ClientMeasurementDoneDto.cs" />
@@ -151,6 +152,7 @@
     <Compile Include="C2D\UnRegisterClientDto.cs" />
     <Compile Include="Enums\TcpPorts.cs" />
     <Compile Include="Underlying\PortWithTraceDto.cs" />
+    <Compile Include="Underlying\RequestAnswer.cs" />
     <Compile Include="Underlying\RtuWithChannelChanges.cs" />
     <Compile Include="Underlying\TraceInfoTableItem.cs" />
   </ItemGroup>

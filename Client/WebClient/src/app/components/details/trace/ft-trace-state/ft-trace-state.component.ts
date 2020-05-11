@@ -5,6 +5,8 @@ import { FiberState } from "src/app/models/enums/fiberState";
 import { EventStatus } from "src/app/models/enums/eventStatus";
 import { EventStatusPipe } from "src/app/pipes/event-status.pipe";
 import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
+import { Router } from "@angular/router";
+import { UpdateMeasurementDto } from "src/app/models/dtos/trace/updateMeasurementDto";
 
 @Component({
   selector: "ft-trace-state",
@@ -16,11 +18,13 @@ export class FtTraceStateComponent implements OnInit {
   public isAccidentsVisible: boolean;
   public isEventStatusVisible: boolean;
   public isSpinnerVisible: boolean;
+  public isButtonDisabled: boolean;
 
   itemsSourceEventStatuses;
   selectedEventStatus;
 
   constructor(
+    private router: Router,
     private oneApiService: OneApiService,
     private dataStorage: FtComponentDataProvider,
     private eventStatusPipe: EventStatusPipe
@@ -51,5 +55,33 @@ export class FtTraceStateComponent implements OnInit {
         this.selectedEventStatus = res.eventStatus;
         this.isSpinnerVisible = false;
       });
+  }
+
+  save() {
+    this.isSpinnerVisible = true;
+    this.isButtonDisabled = true;
+
+    const dto = this.prepareDto();
+    this.oneApiService
+      .postRequest("measurement/update", dto)
+      .subscribe((res: string) => {
+        console.log(res);
+      });
+
+    this.isSpinnerVisible = false;
+    this.isButtonDisabled = false;
+  }
+
+  prepareDto(): UpdateMeasurementDto {
+    const dto = new UpdateMeasurementDto();
+    dto.sorFileId = this.vm.sorFileId;
+    dto.eventStatus = this.selectedEventStatus;
+    dto.statusChangedTimestamp = new Date();
+    dto.comment = this.vm.comment;
+    return dto;
+  }
+
+  back() {
+    this.router.navigate(["/rtu-tree"]);
   }
 }

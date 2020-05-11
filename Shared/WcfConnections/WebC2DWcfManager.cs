@@ -267,6 +267,8 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+     
+
         #endregion
 
         public async Task<OpticalEventsRequestedDto> GetOpticalEventPortion(string username, bool isCurrentEvents = true, string filterRtu = "",

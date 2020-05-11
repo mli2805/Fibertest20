@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Newtonsoft.Json.Linq;
@@ -71,7 +70,7 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
         private static readonly IMapper Mapper = new MapperConfiguration(
-            cfg => cfg.AddProfile<MappingToDtoProfile>()).CreateMapper();
+            cfg => cfg.AddProfile<MappingWebApiProfile>()).CreateMapper();
 
         public async Task<TraceStateDto> GetTraceState(string username, string requestBody)
         {
@@ -158,15 +157,4 @@ namespace Iit.Fibertest.DataCenterCore
         }
     }
 
-    public class MappingToDtoProfile : Profile
-    {
-        public MappingToDtoProfile()
-        {
-            CreateMap<PointLatLng, GeoPoint>();
-            CreateMap<AccidentLineModel, AccidentLineDto>();
-            CreateMap<Measurement, TraceStateDto>()
-                .ForMember(dest => dest.RegistrationTimestamp, opt => opt.MapFrom(src => src.EventRegistrationTimestamp))
-                .ForMember(dest => dest.Accidents, opt => opt.Ignore());
-        }
-    }
 }

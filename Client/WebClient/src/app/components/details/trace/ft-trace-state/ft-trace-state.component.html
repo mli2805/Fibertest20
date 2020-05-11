@@ -64,10 +64,10 @@
 <button
   mat-stroked-button
   color="primary"
-  (click)="close()"
+  (click)="back()"
   [disabled]="isButtonDisabled"
 >
-  {{ "SID_Close" | translate }}
+  {{ "SID_Back" | translate }}
 </button>
 <div class="spinner-container" *ngIf="isSpinnerVisible">
   <mat-spinner></mat-spinner>

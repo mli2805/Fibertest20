@@ -221,6 +221,7 @@
     <Compile Include="ForWebApi\WcfServiceWebC2DTrace.cs" />
     <Compile Include="ForWebApi\WebDtoFactory.cs" />
     <Compile Include="GlobalState.cs" />
+    <Compile Include="MappingWebApiProfile.cs" />
     <Compile Include="MsmqMessagesProcessor.cs" />
     <Compile Include="Notifications\SnmpNotifier.cs" />
     <Compile Include="WcfServiceForCommonC2DBootstrapper.cs" />

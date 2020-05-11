@@ -49,7 +49,7 @@ namespace Iit.Fibertest.WcfConnections
 
         #endregion
 
-        [OperationContract]
+       [OperationContract]
         Task<OpticalEventsRequestedDto> GetOpticalEventPortion(string username, bool isCurrentEvents,
             string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize);
     }

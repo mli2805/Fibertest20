@@ -332,5 +332,25 @@ namespace Iit.Fibertest.WcfConnections
                 return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
             }
         }
+
+        public async Task<string> UpdateMeasurement(string username, UpdateMeasurementDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.UpdateMeasurement(username, dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("UpdateMeasurement: " + e.Message);
+                return null;
+            }
+        }
     }
 }
