@@ -224,11 +224,15 @@ namespace Iit.Fibertest.Client
             var opticalEventModel = Rows.FirstOrDefault(l => l.SorFileId == dto.SorFileId);
             if (opticalEventModel == null) return;
 
+
             Rows.Remove(opticalEventModel);
 
-            opticalEventModel.EventStatus = dto.EventStatus;
-            opticalEventModel.StatusChangedByUser = dto.StatusChangedByUser;
-            opticalEventModel.StatusChangedTimestamp = dto.StatusChangedTimestamp.ToString(CultureInfo.CurrentCulture);
+            if (opticalEventModel.EventStatus != dto.EventStatus)
+            {
+                opticalEventModel.EventStatus = dto.EventStatus;
+                opticalEventModel.StatusChangedByUser = dto.StatusChangedByUser;
+                opticalEventModel.StatusChangedTimestamp = dto.StatusChangedTimestamp.ToString(CultureInfo.CurrentCulture);
+            }
             opticalEventModel.Comment = dto.Comment;
 
             Rows.Add(opticalEventModel);

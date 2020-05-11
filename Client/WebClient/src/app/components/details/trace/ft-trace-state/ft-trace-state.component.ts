@@ -82,6 +82,6 @@ export class FtTraceStateComponent implements OnInit {
   }
 
   back() {
-    this.router.navigate(["/rtu-tree"]);
+    window.history.back();
   }
 }

@@ -27,11 +27,17 @@ namespace Iit.Fibertest.Graph
         public static string UpdateMeasurement(this Model model, MeasurementUpdated e)
         {
             var destination = model.Measurements.First(f => f.SorFileId == e.SorFileId);
-            Mapper.Map(e, destination);
+            if (destination.EventStatus == e.EventStatus)
+                destination.Comment = e.Comment;
+            else
+                Mapper.Map(e, destination);
 
             var measInActiveList = model.ActiveMeasurements.FirstOrDefault(f => f.SorFileId == e.SorFileId);
             if (measInActiveList != null)
-                Mapper.Map(e, measInActiveList);
+                if (measInActiveList.EventStatus == e.EventStatus)
+                    measInActiveList.Comment = e.Comment;
+                else
+                    Mapper.Map(e, measInActiveList);
 
             return null;
         }
@@ -57,7 +63,7 @@ namespace Iit.Fibertest.Graph
                 rtu?.SetOtauState(otau.Id, e.IsOk);
             }
 
-           
+
             return null;
         }
 
