@@ -4,6 +4,10 @@ import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
 import { FtRtuTreeEventService } from "../../../ft-rtu-tree-event-service";
 import { OneApiService } from "src/app/api/one.service";
+import { UserDto } from "src/app/models/dtos/userDto";
+import { Role } from "src/app/models/enums/role";
+import { MonitoringMode } from "src/app/models/enums/monitoringMode";
+import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 
 @Component({
   selector: "ft-attached-line",
@@ -11,6 +15,7 @@ import { OneApiService } from "src/app/api/one.service";
   styleUrls: ["./ft-attached-line.component.scss"],
 })
 export class FtAttachedLineComponent implements OnInit {
+  @Input() parentRtu: RtuDto;
   @Input() trace: TraceDto;
 
   @ViewChild(MatMenuTrigger, null)
@@ -73,5 +78,13 @@ export class FtAttachedLineComponent implements OnInit {
     const dict = { rtuId: this.trace.rtuId, otauPortDto: this.trace.otauPort };
     sessionStorage.setItem("measurementClientParams", JSON.stringify(dict));
     this.router.navigate(["/port-measurement-client"]);
+  }
+
+  isDetachTraceDisabled(): boolean {
+    const user: UserDto = JSON.parse(sessionStorage.getItem("currentUser"));
+    return (
+      user.role > Role.Root ||
+      this.parentRtu.monitoringMode === MonitoringMode.On
+    );
   }
 }

@@ -25,7 +25,11 @@
       {{ "SID_Landmarks" | translate }}
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item (click)="detachTrace()">
+    <button
+      mat-menu-item
+      (click)="detachTrace()"
+      [disabled]="isDetachTraceDisabled()"
+    >
       {{ "SID_Unplug_trace" | translate }}
     </button>
     <mat-divider></mat-divider>

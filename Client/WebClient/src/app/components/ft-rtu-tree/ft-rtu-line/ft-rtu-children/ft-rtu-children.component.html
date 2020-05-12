@@ -12,7 +12,7 @@
     <ft-detached-line [trace]="element"></ft-detached-line>
   </div>
   <div class="child" *ngIf="element.childType == 1 && element.port != -1">
-    <ft-attached-line [trace]="element"></ft-attached-line>
+    <ft-attached-line [trace]="element" [parentRtu]="rtu"></ft-attached-line>
   </div>
   <ng-container *ngIf="element.childType == 2">
     <ft-otau class="child" [parentRtu]="rtu" [otau]="element"></ft-otau>
