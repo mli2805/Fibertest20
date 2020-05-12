@@ -1,9 +1,10 @@
 import { ReturnCode } from "../enums/returnCode";
+import { Role } from "../enums/role";
 
 export class UserDto {
   returnCode: ReturnCode;
   username: string;
-  role: string;
+  role: Role;
   zone: string;
   jsonWebToken: string;
 }

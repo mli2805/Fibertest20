@@ -9,10 +9,10 @@
         Supervisor = 4,
         Superclient = 5,
 
-        NotificationReceiver = 9,
-
         WebOperator = 31,
         WebSupervisor = 41,
+
+        NotificationReceiver = 99,
     }
 
     public static class RoleExt

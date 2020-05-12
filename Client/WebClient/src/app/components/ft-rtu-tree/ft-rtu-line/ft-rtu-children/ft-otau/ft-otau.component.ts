@@ -6,6 +6,9 @@ import { DetachOtauDto } from "src/app/models/dtos/rtu/detachOtauDto";
 import { FtRtuTreeEventService } from "../../../ft-rtu-tree-event-service";
 import { OneApiService } from "src/app/api/one.service";
 import { ReturnCode } from "src/app/models/enums/returnCode";
+import { UserDto } from "src/app/models/dtos/userDto";
+import { Role } from "src/app/models/enums/role";
+import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 
 @Component({
   selector: "ft-otau",
@@ -63,6 +66,10 @@ export class FtOtauComponent implements OnInit {
   }
 
   isRemoveOtauDisabled(): boolean {
-    return false;
+    const user: UserDto = JSON.parse(sessionStorage.getItem("currentUser"));
+    return (
+      user.role > Role.Root ||
+      this.parentRtu.monitoringMode === MonitoringMode.On
+    );
   }
 }

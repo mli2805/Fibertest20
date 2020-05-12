@@ -3,7 +3,7 @@
     public class UserDto
     {
         public string Username;
-        public string Role;
+        public Role Role;
         public string Zone;
         public string JsonWebToken;
     }
