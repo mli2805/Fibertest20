@@ -1,10 +1,8 @@
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
-import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { OtauPortDto } from "src/app/models/underlying/otauPortDto";
-import { settings } from "cluster";
 
 @Component({
   selector: "ft-free-port",
@@ -22,10 +20,7 @@ export class FtFreePortComponent implements OnInit {
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
-  constructor(
-    private router: Router,
-    private dataStorage: FtComponentDataProvider
-  ) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {}
 
@@ -39,12 +34,12 @@ export class FtFreePortComponent implements OnInit {
   }
 
   attachTraceFromList() {
-    this.prepareDataForAttachment();
+    this.prepareDataForAttachment("attachTraceParams");
     this.router.navigate(["/port-attach-trace"]);
   }
 
   attachOpticalSwitch() {
-    this.prepareDataForAttachment();
+    this.prepareDataForAttachment("attachOtauParams");
     this.router.navigate(["/port-attach-otau"]);
   }
 
@@ -58,18 +53,15 @@ export class FtFreePortComponent implements OnInit {
       rtuId: this.parentRtu.rtuId,
       otauPortDto: this.compileOtauPortDto(),
     };
-    this.dataStorage.data = dict;
+    sessionStorage.setItem("measurementClientParams", JSON.stringify(dict));
   }
 
-  prepareDataForAttachment() {
-    // this.dataStorage.selectedRtu = this.parentRtu;
-    // this.dataStorage.selectedPort = this.compileOtauPortDto();
-
+  prepareDataForAttachment(paramName: string) {
     const dict = {
       selectedRtu: this.parentRtu,
       selectedPort: this.compileOtauPortDto(),
     };
-    this.dataStorage.data = dict;
+    sessionStorage.setItem(paramName, JSON.stringify(dict));
   }
 
   compileOtauPortDto(): OtauPortDto {

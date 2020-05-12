@@ -5,7 +5,6 @@ import { MatPaginator, MatMenuTrigger } from "@angular/material";
 import { tap } from "rxjs/operators";
 import { OneApiService } from "src/app/api/one.service";
 import { MeasurementDto } from "src/app/models/dtos/measurementDto";
-import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
 
 @Component({
   selector: "ft-trace-statistics",
@@ -35,8 +34,7 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     private activeRoute: ActivatedRoute,
-    private oneApiService: OneApiService,
-    private dataStorage: FtComponentDataProvider
+    private oneApiService: OneApiService
   ) {}
 
   ngOnInit() {
@@ -125,7 +123,7 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
       traceId: null,
       fileId: this.contextMenu.menuData.row.sorFileId,
     };
-    this.dataStorage.data = dict;
+    sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
     this.router.navigate(["/trace-state"]);
   }
 }

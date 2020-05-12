@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from "@angular/core";
-import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
 import { TreeOfAcceptableVeasParams } from "src/app/models/dtos/meas-params/acceptableMeasParams";
 import { Router } from "@angular/router";
 import { DoClientMeasurementDto } from "src/app/models/dtos/meas-params/doClientMeasurementDto";
@@ -40,7 +39,6 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private dataStorage: FtComponentDataProvider,
     private oneApiService: OneApiService,
     private signalRService: SignalrService,
     private ts: TranslateService
@@ -48,7 +46,8 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.isSpinnerVisible = true;
-    const rtuId = this.dataStorage.data["rtuId"];
+    const rtuId = JSON.parse(sessionStorage.getItem("measurementClientParams"))
+      .rtuId;
     this.oneApiService
       .getRequest(`rtu/measurement-parameters/${rtuId}`)
       .subscribe((res: TreeOfAcceptableVeasParams) => {
@@ -153,9 +152,12 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     this.isButtonDisabled = true;
     this.message = this.ts.instant("SID_Sending_command__Wait_please___");
     console.log(this.getSelectedParameters());
+    const params = JSON.parse(
+      sessionStorage.getItem("measurementClientParams")
+    );
     const dto = new DoClientMeasurementDto();
-    dto.rtuId = this.dataStorage.data["rtuId"];
-    dto.otauPortDto = this.dataStorage.data["otauPortDto"];
+    dto.rtuId = params.rtuId;
+    dto.otauPortDto = params.otauPortDto;
     dto.selectedMeasParams = this.getSelectedParameters();
     this.oneApiService
       .postRequest("port/measurement-client", dto)

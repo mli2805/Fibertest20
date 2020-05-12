@@ -2,7 +2,6 @@ import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
 import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
-import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
 
 @Component({
   selector: "ft-detached-line",
@@ -16,10 +15,7 @@ export class FtDetachedLineComponent implements OnInit {
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
-  constructor(
-    private router: Router,
-    private dataStorage: FtComponentDataProvider
-  ) {}
+  constructor(private router: Router) {}
 
   ngOnInit() {}
 
@@ -36,8 +32,10 @@ export class FtDetachedLineComponent implements OnInit {
     console.log(this.trace);
     this.router.navigate(["/trace-information", this.trace.traceId]);
   }
+
   assignBaseRefs() {
-    this.prepareDataForAssignBaseRefs();
+    const dict = { trace: this.trace };
+    sessionStorage.setItem("assignBaseParams", JSON.stringify(dict));
     this.router.navigate(["/assign-base", this.trace.traceId]);
   }
 
@@ -47,16 +45,11 @@ export class FtDetachedLineComponent implements OnInit {
       traceId: this.trace.traceId,
       fileId: null,
     };
-    this.dataStorage.data = dict;
+    sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
     this.router.navigate(["/trace-state"]);
   }
 
   displayStatistics() {
     this.router.navigate(["/trace-statistics", this.trace.traceId]);
-  }
-
-  prepareDataForAssignBaseRefs() {
-    const dict = { trace: this.trace };
-    this.dataStorage.data = dict;
   }
 }

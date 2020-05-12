@@ -3,7 +3,6 @@ import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
 import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
 import { FtRtuTreeEventService } from "../../../ft-rtu-tree-event-service";
-import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
 import { OneApiService } from "src/app/api/one.service";
 
 @Component({
@@ -21,8 +20,7 @@ export class FtAttachedLineComponent implements OnInit {
   constructor(
     private router: Router,
     private oneApiService: OneApiService,
-    private ftRtuTreeEventService: FtRtuTreeEventService,
-    private dataStorage: FtComponentDataProvider
+    private ftRtuTreeEventService: FtRtuTreeEventService
   ) {}
 
   ngOnInit() {}
@@ -40,7 +38,8 @@ export class FtAttachedLineComponent implements OnInit {
     this.router.navigate(["/trace-information", this.trace.traceId]);
   }
   assignBaseRefs() {
-    this.prepareDataForAssignBaseRefs();
+    const dict = { trace: this.trace };
+    sessionStorage.setItem("assignBaseParams", JSON.stringify(dict));
     this.router.navigate(["/assign-base", this.trace.traceId]);
   }
 
@@ -50,7 +49,7 @@ export class FtAttachedLineComponent implements OnInit {
       traceId: this.trace.traceId,
       fileId: null,
     };
-    this.dataStorage.data = dict;
+    sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
     this.router.navigate(["/trace-state"]);
   }
 
@@ -71,16 +70,8 @@ export class FtAttachedLineComponent implements OnInit {
   outOfTurnMeasurement() {}
 
   measurementClient() {
-    this.prepareDataForMeasurementClient();
-    this.router.navigate(["/port-measurement-client"]);
-  }
-
-  prepareDataForAssignBaseRefs() {
-    const dict = { trace: this.trace };
-    this.dataStorage.data = dict;
-  }
-  prepareDataForMeasurementClient() {
     const dict = { rtuId: this.trace.rtuId, otauPortDto: this.trace.otauPort };
-    this.dataStorage.data = dict;
+    sessionStorage.setItem("measurementClientParams", JSON.stringify(dict));
+    this.router.navigate(["/port-measurement-client"]);
   }
 }

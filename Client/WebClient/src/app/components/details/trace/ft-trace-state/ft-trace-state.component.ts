@@ -4,8 +4,6 @@ import { OneApiService } from "src/app/api/one.service";
 import { FiberState } from "src/app/models/enums/fiberState";
 import { EventStatus } from "src/app/models/enums/eventStatus";
 import { EventStatusPipe } from "src/app/pipes/event-status.pipe";
-import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
-import { Router } from "@angular/router";
 import { UpdateMeasurementDto } from "src/app/models/dtos/trace/updateMeasurementDto";
 
 @Component({
@@ -24,9 +22,7 @@ export class FtTraceStateComponent implements OnInit {
   selectedEventStatus;
 
   constructor(
-    private router: Router,
     private oneApiService: OneApiService,
-    private dataStorage: FtComponentDataProvider,
     private eventStatusPipe: EventStatusPipe
   ) {}
 
@@ -39,7 +35,7 @@ export class FtTraceStateComponent implements OnInit {
     this.itemsSourceEventStatuses = ess;
 
     this.isSpinnerVisible = true;
-    const params = this.dataStorage.data;
+    const params = JSON.parse(sessionStorage.getItem("traceStateParams"));
     console.log(params);
 
     this.oneApiService

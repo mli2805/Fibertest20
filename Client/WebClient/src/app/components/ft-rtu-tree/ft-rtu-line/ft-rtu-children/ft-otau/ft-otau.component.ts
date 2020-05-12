@@ -5,6 +5,7 @@ import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { DetachOtauDto } from "src/app/models/dtos/rtu/detachOtauDto";
 import { FtRtuTreeEventService } from "../../../ft-rtu-tree-event-service";
 import { OneApiService } from "src/app/api/one.service";
+import { ReturnCode } from "src/app/models/enums/returnCode";
 
 @Component({
   selector: "ft-otau",
@@ -54,6 +55,9 @@ export class FtOtauComponent implements OnInit {
       .postRequest("port/detach-otau", detachOtauDto)
       .subscribe((res: any) => {
         console.log(res);
+        if (res.returnCode !== ReturnCode.OtauDetachedSuccesfully) {
+          alert("Error");
+        }
         this.ftRtuTreeEventService.emitEvent(false);
       });
   }

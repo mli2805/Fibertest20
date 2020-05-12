@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
 import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
 import { AssignBaseParamsDto } from "src/app/models/dtos/trace/assignBaseParamsDto";
 import { TranslateService } from "@ngx-translate/core";
@@ -42,7 +41,6 @@ export class FtAssignBaseComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private dataStorage: FtComponentDataProvider,
     private oneApiService: OneApiService,
     private ts: TranslateService,
     private returnCodePipe: ReturnCodePipe
@@ -51,7 +49,8 @@ export class FtAssignBaseComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.trace = this.dataStorage.data["trace"];
+    const params = JSON.parse(sessionStorage.getItem("assignBaseParams"));
+    this.trace = params.trace;
     this.oneApiService
       .getRequest(`trace/assign-base-params/${this.trace.traceId}`)
       .subscribe((res: AssignBaseParamsDto) => {

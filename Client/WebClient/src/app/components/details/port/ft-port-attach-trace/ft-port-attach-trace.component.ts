@@ -1,11 +1,12 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
-import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { ChildDto } from "src/app/models/dtos/rtuTree/childDto";
 import { Router } from "@angular/router";
 import { AttachTraceDto } from "src/app/models/dtos/port/attachTraceDto";
 import { OneApiService } from "src/app/api/one.service";
+import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
+import { ReturnCode } from "src/app/models/enums/returnCode";
 
 @Component({
   selector: "ft-port-attach-trace",
@@ -19,15 +20,11 @@ export class FtPortAttachTraceComponent implements OnInit {
   public isButtonDisabled = false;
   public resultMessage: string;
 
-  constructor(
-    private router: Router,
-    private dataStorage: FtComponentDataProvider,
-    private oneApiService: OneApiService
-  ) {}
+  constructor(private router: Router, private oneApiService: OneApiService) {}
 
-  /* tslint:disable:no-string-literal */
   ngOnInit() {
-    const rtu: RtuDto = this.dataStorage.data["selectedRtu"];
+    const params = JSON.parse(sessionStorage.getItem("attachTraceParams"));
+    const rtu: RtuDto = params.selectedRtu;
     this.traceList = rtu.children
       .filter((c) => c.childType === 1 && c.port === -1)
       .map((ch: ChildDto) => ch as TraceDto);
@@ -42,20 +39,21 @@ export class FtPortAttachTraceComponent implements OnInit {
     const trace: TraceDto = this.traceList.find(
       (t) => t.traceId === this.selectedTrace
     );
+    const params = JSON.parse(sessionStorage.getItem("attachTraceParams"));
     const cmd = new AttachTraceDto();
     cmd.TraceId = trace.traceId;
-    cmd.OtauPortDto = this.dataStorage.data["selectedPort"];
+    cmd.OtauPortDto = params.selectedPort;
     console.log(cmd);
     this.oneApiService
       .postRequest("port/attach-trace", cmd)
-      .subscribe((res: string) => {
+      .subscribe((res: RequestAnswer) => {
         this.isSpinnerVisible = false;
         this.isButtonDisabled = false;
         console.log(res);
-        if (res === null) {
+        if (res.returnCode === ReturnCode.Ok) {
           this.router.navigate(["/rtu-tree"]);
         } else {
-          this.resultMessage = res;
+          this.resultMessage = res.errorMessage;
         }
       });
   }

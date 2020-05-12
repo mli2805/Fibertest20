@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
-import { FtComponentDataProvider } from "src/app/providers/ft-component-data-provider";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { OtauPortDto } from "src/app/models/underlying/otauPortDto";
 import { AttachOtauDto } from "src/app/models/dtos/port/attachOtauDto";
@@ -26,16 +25,13 @@ export class FtPortAttachOtauComponent implements OnInit {
 
   ipAddress = "192.168.96.57";
 
-  constructor(
-    private router: Router,
-    private dataStorage: FtComponentDataProvider,
-    private oneApiService: OneApiService
-  ) {}
+  constructor(private router: Router, private oneApiService: OneApiService) {}
 
   /* tslint:disable:no-string-literal */
   ngOnInit() {
-    this.rtu = this.dataStorage.data["selectedRtu"];
-    this.mainPort = this.dataStorage.data["selectedPort"].opticalPort;
+    const params = JSON.parse(sessionStorage.getItem("attachOtauParams"));
+    this.rtu = params.selectedRtu;
+    this.mainPort = params.selectedPort.opticalPort;
   }
 
   attachOtau() {

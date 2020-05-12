@@ -40,7 +40,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         [Authorize]
         [HttpPost("Attach-trace")]
-        public async Task<string> AttachTrace()
+        public async Task<RequestAnswer> AttachTrace()
         {
             try
             {
@@ -55,12 +55,14 @@ namespace Iit.Fibertest.DataCenterWebApi
                 var result = await _desktopC2DWcfManager
                     .SetServerAddresses(_doubleAddressForDesktopWcfManager, User.Identity.Name, GetRemoteAddress())
                     .SendCommandAsObj(dto);
-                return string.IsNullOrEmpty(result) ? null : result;
+                return string.IsNullOrEmpty(result) 
+                    ? new RequestAnswer(){ReturnCode = ReturnCode.Ok} 
+                    : new RequestAnswer(){ReturnCode = ReturnCode.Error, ErrorMessage = result};
             }
             catch (Exception e)
             {
                 _logFile.AppendLine($"AttachTrace: {e.Message}");
-                return e.Message;
+                return new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
             }
         }
 
