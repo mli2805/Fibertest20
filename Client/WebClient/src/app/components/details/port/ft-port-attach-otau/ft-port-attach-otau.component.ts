@@ -6,6 +6,7 @@ import { AttachOtauDto } from "src/app/models/dtos/port/attachOtauDto";
 import { NetAddress } from "src/app/models/underlying/netAddress";
 import { OtauAttachedDto } from "src/app/models/dtos/port/otauAttachedDto";
 import { OneApiService } from "src/app/api/one.service";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "ft-port-attach-otau",
@@ -25,9 +26,12 @@ export class FtPortAttachOtauComponent implements OnInit {
 
   ipAddress = "192.168.96.57";
 
-  constructor(private router: Router, private oneApiService: OneApiService) {}
+  constructor(
+    private router: Router,
+    private oneApiService: OneApiService,
+    private ts: TranslateService
+  ) {}
 
-  /* tslint:disable:no-string-literal */
   ngOnInit() {
     const params = JSON.parse(sessionStorage.getItem("attachOtauParams"));
     this.rtu = params.selectedRtu;
@@ -37,6 +41,7 @@ export class FtPortAttachOtauComponent implements OnInit {
   attachOtau() {
     this.isButtonDisabled = true;
     this.isSpinnerVisible = true;
+    this.resultMessage = this.ts.instant("SID_Please__wait_");
     const cmd = new AttachOtauDto();
     cmd.RtuId = this.rtu.rtuId;
     cmd.RtuMaker = this.rtu.rtuMaker;
@@ -51,13 +56,13 @@ export class FtPortAttachOtauComponent implements OnInit {
       .subscribe((res: OtauAttachedDto) => {
         console.log(res);
         if (res.isAttached) {
-          this.resultMessage = "Otau attached succesfully!";
+          this.resultMessage = this.ts.instant("SID_Successful_");
           this.serial = res.serial;
           this.portCount = res.portCount;
           this.isButtonDisabled = false;
           this.isSpinnerVisible = false;
         } else {
-          this.resultMessage = res.errorMessage;
+          this.resultMessage = this.ts.instant("SID_Attach_OTAU_error_");
           this.isButtonDisabled = false;
           this.isSpinnerVisible = false;
         }

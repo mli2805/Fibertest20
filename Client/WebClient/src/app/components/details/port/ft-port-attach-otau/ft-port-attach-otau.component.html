@@ -1,23 +1,27 @@
 <div class="container">
   <mat-card>
     <mat-card-header>
-      <mat-card-title>Attach optical switch</mat-card-title>
+      <mat-card-title>{{
+        "SID_Attach_optical_switch" | translate
+      }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="params">
         <p>RTU: {{ rtu.title }}</p>
-        <p>Port: {{ mainPort }}</p>
+        <p>{{ "SID_Port1" | translate }}: {{ mainPort }}</p>
       </div>
 
       <mat-form-field class="full-width">
-        <mat-label>Optical switch's IP address</mat-label>
+        <mat-label>{{
+          "SID_Optical_switch_s_IP_address" | translate
+        }}</mat-label>
         <input matInput [(ngModel)]="ipAddress" />
       </mat-form-field>
 
       <div class="infoTable" fxLayout="row">
         <div class="keys">
-          <p>Serial:</p>
-          <p>Port count:</p>
+          <p>{{ "SID_Serial" | translate }}</p>
+          <p>{{ "SID_Port_count" | translate }}</p>
         </div>
         <div class="values">
           <p>{{ serial }}</p>
@@ -32,7 +36,7 @@
         (click)="attachOtau()"
         [disabled]="isButtonDisabled"
       >
-        Attach
+        {{ "SID_Attach" | translate }}
       </button>
       <button
         mat-stroked-button
@@ -40,7 +44,7 @@
         (click)="cancel()"
         [disabled]="isButtonDisabled"
       >
-        Back
+        {{ "SID_Back" | translate }}
       </button>
     </mat-card-actions>
   </mat-card>

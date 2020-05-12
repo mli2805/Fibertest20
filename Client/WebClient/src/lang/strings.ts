@@ -89,7 +89,7 @@ export const languages = {
     "SID_Manual_mode": "Manual mode",
     "SID_Automatic_mode": "Automatic mode",
     "SID_Define_trace_step_by_step": "Define trace step by step",
-    "SID_Attach_optical_switch": "Attach optical switch",
+    "SID_Attach_optical_switch": "Attach optical switch",
     "SID_Measurement__RFTS_Reflect_": "Measurement (RFTS Reflect)",
     "SID_Not_attached_traces_list": "Not attached traces list",
     "SID_List_of_traces": "List of traces",
@@ -898,7 +898,8 @@ export const languages = {
     "SID_saving_frequency": "saving frequency",
     "SID_Cycle_full_time_sec": "Cycle full time {{0}} sec",
     "SID_Auto": "Automatic",
-    "SID_Landmark_count_does_not_match_graph": "Landmark count on base ref does not match graph"
+    "SID_Landmark_count_does_not_match_graph": "Landmark count on base ref does not match graph",
+    "SID_Optical_switch_s_IP_address": "Optical switch's IP address"
   },
   "ru-RU": {
     "SID_CableReserve": "Запас кабеля",
@@ -987,7 +988,7 @@ export const languages = {
     "SID_Manual_mode": "Ручной режим",
     "SID_Automatic_mode": "Автоматический режим",
     "SID_Define_trace_step_by_step": "Пошаговое определение трассы",
-    "SID_Attach_optical_switch": "Подключить переключатель",
+    "SID_Attach_optical_switch": "Подключить оптический переключатель",
     "SID_Measurement__RFTS_Reflect_": "Измерение (RFTS Reflect)",
     "SID_Not_attached_traces_list": "Список неприсоединенных трасс",
     "SID_List_of_traces": "Список трасс",
@@ -1796,6 +1797,7 @@ export const languages = {
     "SID_saving_frequency": "частота сохранения",
     "SID_Cycle_full_time_sec": "Полное время цикла {{0}} сек",
     "SID_Auto": "Авто",
-    "SID_Landmark_count_does_not_match_graph": "Количество ориентиров на рефлектограмме не соответствует графу"
+    "SID_Landmark_count_does_not_match_graph": "Количество ориентиров на рефлектограмме не соответствует графу",
+    "SID_Optical_switch_s_IP_address": "IP адрес оптического переключателя"
   }
 };
