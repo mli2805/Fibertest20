@@ -1,15 +1,15 @@
 import { DataSource } from "@angular/cdk/table";
-import {
-  OptEventDto,
-  OptEventRequestDto,
-} from "src/app/models/dtos/optEventDto";
 import { BehaviorSubject, Observable, of } from "rxjs";
 import { CollectionViewer } from "@angular/cdk/collections";
 import { catchError, finalize } from "rxjs/operators";
 import { OneApiService } from "src/app/api/one.service";
+import {
+  NetworkEventDto,
+  NetworkEventRequestDto,
+} from "src/app/models/dtos/networkEventDto";
 
-export class OptEventsDataSource implements DataSource<OptEventDto> {
-  private optEventsSubject = new BehaviorSubject<OptEventDto[]>([]);
+export class NetworkEventsDataSource implements DataSource<NetworkEventDto> {
+  private networkEventsSubject = new BehaviorSubject<NetworkEventDto[]>([]);
   private fullCountSubject = new BehaviorSubject<number>(5);
   private loadingSubject = new BehaviorSubject<boolean>(false);
 
@@ -18,19 +18,18 @@ export class OptEventsDataSource implements DataSource<OptEventDto> {
 
   constructor(private oneApiService: OneApiService) {}
 
-  connect(collectionViewer: CollectionViewer): Observable<OptEventDto[]> {
-    return this.optEventsSubject.asObservable();
+  connect(collectionViewer: CollectionViewer): Observable<NetworkEventDto[]> {
+    return this.networkEventsSubject.asObservable();
   }
 
   disconnect(collectionViewer: CollectionViewer): void {
-    this.optEventsSubject.complete();
+    this.networkEventsSubject.complete();
     this.loadingSubject.complete();
   }
 
-  loadOptEvents(
+  loadNetworkEvents(
     isCurrentEvents = "true",
     filterRtu = "",
-    filterTrace = "",
     sortOrder = "asc",
     pageNumber = 0,
     pageSize = 13
@@ -40,23 +39,22 @@ export class OptEventsDataSource implements DataSource<OptEventDto> {
     const params = {
       isCurrentEvents,
       filterRtu,
-      filterTrace,
       sortOrder,
       pageNumber: pageNumber.toString(),
       pageSize: pageSize.toString(),
     };
 
     this.oneApiService
-      .getRequest("tables/getOpticalsPage", params)
+      .getRequest("tables/getNetworksPage", params)
       .pipe(
         catchError(() => of([])),
         finalize(() => this.loadingSubject.next(false))
       )
-      .subscribe((res: OptEventRequestDto) => {
+      .subscribe((res: NetworkEventRequestDto) => {
         console.log(
-          `${res.eventPortion.length} of ${res.fullCount} optical event(s) received`
+          `${res.eventPortion.length} of ${res.fullCount} network event(s) received`
         );
-        this.optEventsSubject.next(res.eventPortion);
+        this.networkEventsSubject.next(res.eventPortion);
         this.fullCountSubject.next(res.fullCount);
       });
   }

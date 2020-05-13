@@ -41,7 +41,7 @@ namespace Iit.Fibertest.WcfConnections
         [OperationContract]
         Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId, int pageNumber, int pageSize);
 
-         [OperationContract]
+        [OperationContract]
         Task<TraceStateDto> GetTraceState(string username, string requestBody);
 
         [OperationContract]
@@ -49,8 +49,12 @@ namespace Iit.Fibertest.WcfConnections
 
         #endregion
 
-       [OperationContract]
+        [OperationContract]
         Task<OpticalEventsRequestedDto> GetOpticalEventPortion(string username, bool isCurrentEvents,
-            string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize);
+             string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize);
+
+        [OperationContract]
+        Task<NetworkEventsRequestedDto> GetNetworkEventPortion(string username, bool isCurrentEvents,
+               string filterRtu, string sortOrder, int pageNumber, int pageSize);
     }
 }

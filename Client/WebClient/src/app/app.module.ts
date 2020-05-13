@@ -15,6 +15,7 @@ import { BooleanUriPipe } from "./pipes/boolean-uri.pipe";
 import { EventStatusPipe } from "./pipes/event-status.pipe";
 import { FrequencyPipe } from "./pipes/frequency.pipe";
 import { ReturnCodePipe } from "./pipes/return-code.pipe";
+import { ChannelEventPipe } from "./pipes/channel-event.pipe";
 import {
   BaseRefTypePipe,
   BaseRefTypeFemalePipe,
@@ -106,6 +107,7 @@ import { FtAssignBaseComponent } from "./components/details/trace/ft-assign-base
     FiberStateUriPipe,
     FrequencyPipe,
     EventStatusPipe,
+    ChannelEventPipe,
     BaseRefTypePipe,
     BaseRefTypeFemalePipe,
     TraceMonitoringModeUriPipe,

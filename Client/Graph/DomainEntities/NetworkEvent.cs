@@ -1,4 +1,5 @@
 ﻿using System;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
@@ -11,5 +12,8 @@ namespace Iit.Fibertest.Graph
         public Guid RtuId { get; set; }
         public ChannelEvent OnMainChannel { get; set; }
         public ChannelEvent OnReserveChannel { get; set; }
+
+        public bool IsRtuAvailable { get; set; }
+
     }
 }

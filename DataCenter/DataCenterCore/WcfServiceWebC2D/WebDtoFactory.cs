@@ -162,5 +162,20 @@ namespace Iit.Fibertest.DataCenterCore
                 Comment = m.Comment,
             };
         }
+
+        public static NetworkEventDto CreateNetworkEventDto(this NetworkEvent n, Model writeModel)
+        {
+            var rtu = writeModel.Rtus.FirstOrDefault(r => r.Id == n.RtuId);
+            return new NetworkEventDto()
+            {
+                EventId = n.Ordinal,
+                EventRegistrationTimestamp = n.EventTimestamp,
+                RtuTitle = rtu?.Title,
+
+                IsRtuAvailable = n.IsRtuAvailable,
+                MainChannelEvent = n.OnMainChannel,
+                ReserveChannelEvent = n.OnReserveChannel,
+            };
+        }
     }
 }

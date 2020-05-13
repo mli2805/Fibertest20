@@ -9,14 +9,14 @@ namespace Iit.Fibertest.DataCenterWebApi
 {
     [Route("[controller]")]
     [ApiController]
-    public class OevController : ControllerBase
+    public class TablesController : ControllerBase
     {
         private readonly IMyLog _logFile;
         private readonly WebC2DWcfManager _webC2DWcfManager;
         private readonly DoubleAddress _doubleAddressForWebWcfManager;
         private readonly string _localIpAddress;
 
-        public OevController(IniFile iniFile, IMyLog logFile)
+        public TablesController(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
             _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
@@ -32,13 +32,28 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
-        [HttpGet("GetPage")]
-        public async Task<OpticalEventsRequestedDto> GetPage(bool isCurrentEvents,
+        [HttpGet("GetOpticalsPage")]
+        public async Task<OpticalEventsRequestedDto> GetOpticalsPage(bool isCurrentEvents,
                    string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize)
         {
             var resultDto = await _webC2DWcfManager
                     .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
                     .GetOpticalEventPortion(User.Identity.Name, isCurrentEvents, filterRtu, filterTrace, sortOrder, pageNumber, pageSize);
+            _logFile.AppendLine(resultDto == null
+                ? "Failed to get optical event list"
+                : $"Optical event list contains {resultDto.FullCount} items");
+
+            return resultDto;
+        }
+
+        [Authorize]
+        [HttpGet("GetNetworksPage")]
+        public async Task<NetworkEventsRequestedDto> GetNetworksPage(bool isCurrentEvents,
+                          string filterRtu, string sortOrder, int pageNumber, int pageSize)
+        {
+            var resultDto = await _webC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .GetNetworkEventPortion(User.Identity.Name, isCurrentEvents, filterRtu, sortOrder, pageNumber, pageSize);
             _logFile.AppendLine(resultDto == null
                 ? "Failed to get optical event list"
                 : $"Optical event list contains {resultDto.FullCount} items");

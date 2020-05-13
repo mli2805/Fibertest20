@@ -310,6 +310,29 @@ namespace Iit.Fibertest.DataCenterCore
             };
         }
 
-      
+        public async Task<NetworkEventsRequestedDto> GetNetworkEventPortion(string username, bool isCurrentEvents, 
+            string filterRtu, string sortOrder, int pageNumber, int pageSize)
+        {
+            if (!await Authorize(username, "GetOpticalEventPortion")) return null;
+
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+            var sift = isCurrentEvents 
+                ? _writeModel.Rtus
+                    .Where(r => r.Filter(user, filterRtu))
+                    .Select(rtu => _writeModel.NetworkEvents.LastOrDefault(n => n.RtuId == rtu.Id))
+                    .Where(lastNetworkEvent => lastNetworkEvent != null).ToList() 
+                : _writeModel.NetworkEvents
+                    .Where(n => n.Filter(filterRtu, _writeModel, user)).ToList();
+            return new NetworkEventsRequestedDto
+            {
+                FullCount = sift.Count,
+                EventPortion = sift
+                    .Sort(sortOrder)
+                    .Skip(pageNumber * pageSize)
+                    .Take(pageSize)
+                    .Select(m => m.CreateNetworkEventDto(_writeModel)).ToList()
+            };
+        }
+
     }
 }

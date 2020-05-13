@@ -44,10 +44,13 @@ namespace Iit.Fibertest.Graph
 
         public static string AddNetworkEvent(this Model model, NetworkEventAdded e)
         {
-            model.NetworkEvents.Add(Mapper.Map<NetworkEvent>(e));
+            var networkEvent = Mapper.Map<NetworkEvent>(e);
             var rtu = model.Rtus.First(r => r.Id == e.RtuId);
             rtu.MainChannelState = e.OnMainChannel.ChangeChannelState(rtu.MainChannelState);
             rtu.ReserveChannelState = e.OnReserveChannel.ChangeChannelState(rtu.ReserveChannelState);
+            networkEvent.IsRtuAvailable = rtu.IsAvailable;
+            model.NetworkEvents.Add(networkEvent);
+
             return null;
         }
 
