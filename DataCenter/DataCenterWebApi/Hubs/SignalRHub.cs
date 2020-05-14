@@ -13,50 +13,46 @@ namespace Iit.Fibertest.DataCenterWebApi
         private readonly IMyLog _logFile;
         private readonly WebC2DWcfManager _webC2DWcfManager;
         private readonly CommonC2DWcfManager _commonC2DWcfManager;
-
+        private readonly DoubleAddress _doubleAddressForWebWcfManager;
+        private readonly DoubleAddress _doubleAddressForCommonWcfManager;
         private readonly string _localIpAddress;
 
         public SignalRHub(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
-            var doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
-            _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, 11080).Ip4Address;
-
+            _doubleAddressForWebWcfManager = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
+            _doubleAddressForCommonWcfManager = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToCommonClient);
             _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
-            _webC2DWcfManager.SetServerAddresses(doubleAddress, "webApi", _localIpAddress);
-
-            var da = (DoubleAddress)doubleAddress.Clone();
-            da.Main.Port = (int)TcpPorts.ServerListenToCommonClient;
-            if (da.HasReserveAddress)
-                da.Reserve.Port = (int)TcpPorts.ServerListenToCommonClient;
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
-            _commonC2DWcfManager.SetServerAddresses(da, "webClient", _localIpAddress);
+            _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, 11080).Ip4Address;
+        }
+
+        private string GetRemoteAddress()
+        {
+            var ip1 = Context.GetHttpContext().Connection.RemoteIpAddress.ToString();
+            // browser started on the same pc as this service
+            return ip1 == "::1" ? _localIpAddress : ip1;
         }
 
         public override async Task OnConnectedAsync()
         {
-            var ip1 = Context.GetHttpContext().Connection.RemoteIpAddress.ToString();
-            
-            // browser started on the same pc as this service
-            var aa = ip1 == "::1" ? _localIpAddress : ip1;
-            _logFile.AppendLine($"OnConnectedAsync ClientIp = {aa}");
+            _logFile.AppendLine($"OnConnectedAsync ClientIp = {GetRemoteAddress()}");
             await base.OnConnectedAsync();
         }
 
         public override async Task OnDisconnectedAsync(Exception e)
         {
-            var ip1 = Context.GetHttpContext().Connection.RemoteIpAddress.ToString();
-            var aa = ip1 == "::1" ? _localIpAddress : ip1;
-            _logFile.AppendLine($"OnDisconnectedAsync ClientIp = {aa}");
-
-            await _commonC2DWcfManager.UnregisterClientAsync(
-                new UnRegisterClientDto()
-                {
-                    ClientIp = aa,
-                    Username = "signalR_disconnected",
-                });
+            _logFile.AppendLine($"OnDisconnectedAsync ClientIp = {GetRemoteAddress()}");
 
             await base.OnDisconnectedAsync(new Exception("SignalR disconnected"));
+            await _commonC2DWcfManager
+                .SetServerAddresses(_doubleAddressForCommonWcfManager, "", GetRemoteAddress())
+                .UnregisterClientAsync(
+                    new UnRegisterClientDto()
+                    {
+                        ClientIp = GetRemoteAddress(),
+                        Username = "signalR_disconnected",
+                    });
         }
 
 
@@ -72,9 +68,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         public async Task InitializeRtu(string rtuId)
         {
             _logFile.AppendLine($"InitializeRtu started: {DateTime.Now:HH:mm:ss.FFF}");
-            var ip1 = Context.GetHttpContext().Connection.RemoteIpAddress.ToString();
-            var aa = ip1 == "::1" ? _localIpAddress : ip1;
-            var result = await LongRtuInitialization(rtuId, aa);
+            var result = await LongRtuInitialization(rtuId, GetRemoteAddress());
             _logFile.AppendLine($"InitializeRtu finished: {DateTime.Now:HH:mm:ss.FFF}");
             await Clients.All.SendAsync("RtuInitialized", result);
         }
@@ -86,10 +80,12 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine($"rtu id = {rtuId}");
                 var rtuGuid = Guid.Parse(rtuId);
                 var dto = new InitializeRtuDto() { RtuId = rtuGuid, ClientIp = clientIp };
-                var rtuInitializedDto = await _webC2DWcfManager.InitializeRtuAsync(dto);
+                var rtuInitializedDto = await _webC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, "", GetRemoteAddress())
+                    .InitializeRtuAsync(dto);
                 if (rtuInitializedDto.ReturnCode == ReturnCode.Ok)
                     rtuInitializedDto.ReturnCode = ReturnCode.RtuInitializedSuccessfully;
-                _logFile.AppendLine($"LongRtuInitialization: {rtuInitializedDto.ReturnCode.ToString()}");
+                _logFile.AppendLine($"LongRtuInitialization: {rtuInitializedDto.ReturnCode}");
                 return Map(rtuInitializedDto);
             }
             catch (Exception e)
