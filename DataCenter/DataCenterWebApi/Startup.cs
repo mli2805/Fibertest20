@@ -58,7 +58,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                             // если запрос направлен хабу
                             var path = context.HttpContext.Request.Path;
                             if (!string.IsNullOrEmpty(accessToken) &&
-                                (path.StartsWithSegments("/signalHub")))
+                                (path.StartsWithSegments("/webApiSignalRHub")))
                             {
                                 // получаем токен из строки запроса
                                 context.Token = accessToken;
@@ -128,7 +128,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Trace}/{action=GetAll}/{id?}");
-                endpoints.MapHub<SignalRHub>("/signalHub");
+                endpoints.MapHub<SignalRHub>("/webApiSignalRHub");
             });
         }
     }

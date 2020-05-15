@@ -48,8 +48,8 @@ namespace Iit.Fibertest.DataCenterWebApi
             }
         }  
         
-        [HttpPost("Notify-meas-step")]
-        public async Task<bool> NotifyMeasStep()
+        [HttpPost("Notify-monitoring-step")]
+        public async Task<bool> NotifyMonitoringStep()
         {
             try
             {
@@ -58,7 +58,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 {
                     body = await reader.ReadToEndAsync();
                 }
-                await _hubContext.Clients.All.SendAsync("MeasStepNotified", body);
+                await _hubContext.Clients.All.SendAsync("MonitoringStepNotified", body);
                 return true;
             }
             catch (Exception e)

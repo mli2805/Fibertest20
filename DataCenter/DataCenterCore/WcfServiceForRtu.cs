@@ -99,20 +99,18 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
         private static readonly HttpClient client = new HttpClient();
-        private async Task<string> SendMoniStepToWebApi(CurrentMonitoringStepDto dto)
+        private async Task SendMoniStepToWebApi(CurrentMonitoringStepDto dto)
         {
             try
             {
                 var json = JsonConvert.SerializeObject(dto);
                 var stringContent = new StringContent(json, Encoding.UTF8, "application/json"); 
-                var response = await client.PostAsync("http://localhost:11080/proxy/notify-meas-step", stringContent);
-                var responseString = await response.Content.ReadAsStringAsync();
-                return responseString;
+                var response = await client.PostAsync("http://localhost:11080/proxy/notify-monitoring-step", stringContent);
+                await response.Content.ReadAsStringAsync();
             }
             catch (Exception e)
             {
                 _logFile.AppendLine(e.Message);
-                return null;
             }
         }
 

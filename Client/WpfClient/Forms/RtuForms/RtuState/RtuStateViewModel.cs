@@ -100,7 +100,6 @@ namespace Iit.Fibertest.Client
             {
                 portName = dto.PortWithTraceDto.OtauPort.IsPortOnMainCharon
                     ? $@"{dto.PortWithTraceDto.OtauPort.OpticalPort}"
-//                  : $@"{dto.PortWithTraceDto.OtauPort.OtauIp}:{dto.PortWithTraceDto.OtauPort.OtauTcpPort}
                     : $@"{dto.PortWithTraceDto.OtauPort.Serial}-
                             {dto.PortWithTraceDto.OtauPort.OpticalPort}";
 

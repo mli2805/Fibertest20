@@ -4,6 +4,7 @@ import { RtuPartState } from "../../enums/rtuPartState";
 import { RtuStateChildDto } from "./rtuStateChildDto";
 
 export class RtuStateDto {
+  rtuId: string;
   rtuTitle: string;
 
   mainChannel: string;

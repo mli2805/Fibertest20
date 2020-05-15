@@ -152,6 +152,7 @@ namespace Iit.Fibertest.DataCenterCore
             var result = new RtuStateDto();
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == rtuId);
             if (rtu == null) return result;
+            result.RtuId = rtu.Id.ToString();
             result.RtuTitle = rtu.Title;
             result.MainChannel = rtu.MainChannel.ToStringA();
             result.MainChannelState = rtu.MainChannelState;
@@ -207,6 +208,7 @@ namespace Iit.Fibertest.DataCenterCore
             var prepareRtuStateChild = new RtuStateChildDto()
             {
                 Port = mainPort + port,
+                TraceId = trace.TraceId.ToString(),
                 TraceTitle = trace.Title,
                 TraceState = trace.State,
                 LastMeasId = _writeModel.Measurements.LastOrDefault(m => m.TraceId == trace.TraceId)?.SorFileId.ToString() ?? "",

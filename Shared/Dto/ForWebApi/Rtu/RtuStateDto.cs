@@ -4,6 +4,7 @@ namespace Iit.Fibertest.Dto
 {
     public class RtuStateDto
     {
+        public string RtuId;
         public string RtuTitle;
 
         public string MainChannel;

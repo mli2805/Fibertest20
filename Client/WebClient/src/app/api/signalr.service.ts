@@ -21,7 +21,7 @@ export class SignalrService {
 
   // will be built after loggin in, when jsonWebToken provided
   public buildConnection(token: string) {
-    const url = Utils.GetWebApiUrl() + "/signalHub";
+    const url = Utils.GetWebApiUrl() + "/webApiSignalRHub";
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(url, { accessTokenFactory: () => token })
       .build();
@@ -63,9 +63,11 @@ export class SignalrService {
     this.hubConnection.on("RtuInitialized", (data: RtuInitializedWebDto) =>
       this.rtuInitializedEmitter.emit(data)
     );
-    this.hubConnection.on("MeasStepNotified", (ntf: CurrentMonitoringStepDto) =>
-      this.monitoringStepNotifier.emit(ntf)
-    );
+    this.hubConnection.on("MonitoringStepNotified", (ntf) => {
+      const ob = JSON.parse(ntf);
+      const obCamel = Utils.toCamel(ob);
+      this.monitoringStepNotifier.emit(obCamel);
+    });
     this.hubConnection.on("ClientMeasurementDone", (signal: string) => {
       const dto = JSON.parse(signal);
       this.clientMeasurementEmitter.emit(dto);

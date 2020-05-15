@@ -1,7 +1,7 @@
 <div class="container">
   <mat-card>
     <mat-card-header>
-      <mat-card-title>RTU state</mat-card-title>
+      <mat-card-title>{{ "SID_State_of_RTU" | translate }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="infoTable" fxLayout="row">
@@ -37,6 +37,7 @@
           <p>{{ vm.tracesState | fiberStateToLocalizedStringPipe }}</p>
         </div>
       </div>
+      <h3>{{ currentMonitoringStep }}</h3>
       <div class="portsTable">
         <mat-table [dataSource]="vm.children">
           <ng-container matColumnDef="port">

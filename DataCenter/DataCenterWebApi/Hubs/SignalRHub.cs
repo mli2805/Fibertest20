@@ -55,13 +55,10 @@ namespace Iit.Fibertest.DataCenterWebApi
                     });
         }
 
-
-        public async Task Send(string message, string username)
+        public async Task NotifyMonitoringStep(CurrentMonitoringStepDto dto)
         {
-            var processedMessage = await Processor($"{DateTime.Now:HH:mm:ss.FFF} {message}", 1);
-            processedMessage = $"{processedMessage} {DateTime.Now:HH:mm:ss.FFF}";
-            var signalDto = new SignalDto() { code = 1, message = processedMessage, username = username };
-            await Clients.All.SendAsync("RtuInitialized", signalDto);
+            _logFile.AppendLine($"Current monitoring step from {dto.RtuId} received");
+            await Clients.All.SendAsync("MonitoringStepNotified", dto);
         }
 
         [Authorize]
@@ -118,11 +115,6 @@ namespace Iit.Fibertest.DataCenterWebApi
             };
         }
 
-        private async Task<string> Processor(string message, int delay)
-        {
-            await Task.Delay(delay * 1000);
-            return message;
-        }
     }
 
     public class SignalDto
