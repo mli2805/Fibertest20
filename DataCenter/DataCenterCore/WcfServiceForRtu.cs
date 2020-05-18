@@ -38,6 +38,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
+                _logFile.AppendLine("WcfServiceForRtu.NotifyUserCurrentMonitoringStep: " + dto.Step);
                 if (_globalState.IsDatacenterInDbOptimizationMode)
                     return;
 
@@ -103,6 +104,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
+                _logFile.AppendLine($"SendMoniStepToWebApi from {dto.RtuId}");
                 var json = JsonConvert.SerializeObject(dto);
                 var stringContent = new StringContent(json, Encoding.UTF8, "application/json"); 
                 var response = await client.PostAsync("http://localhost:11080/proxy/notify-monitoring-step", stringContent);
@@ -118,7 +120,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                _logFile.AppendLine($"SendMoniStepToWebApi for {dto.ClientIp}");
+                _logFile.AppendLine($"SendClientMeasResultToWebApi for {dto.ClientIp}");
                 var json = JsonConvert.SerializeObject(dto);
                 var stringContent = new StringContent(json, Encoding.UTF8, "application/json"); 
                 var response = await client.PostAsync("http://localhost:11080/proxy/client-measurement-done", stringContent);

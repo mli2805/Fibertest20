@@ -53,6 +53,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         {
             try
             {
+                _logFile.AppendLine("NotifyMonitoringStep:");
                 string body;
                 using (var reader = new StreamReader(Request.Body))
                 {
