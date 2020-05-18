@@ -63,8 +63,16 @@ export class SignalrService {
     this.hubConnection.on("RtuInitialized", (data: RtuInitializedWebDto) =>
       this.rtuInitializedEmitter.emit(data)
     );
-    this.hubConnection.on("MonitoringStepNotified", (ntf) => {
-      const ob = JSON.parse(ntf);
+    this.hubConnection.on("MonitoringStepNotified", (ntf: string) => {
+      const a = ntf.length - 1;
+      const timestamp = `, "Timestamp":"${Date()}"`;
+      const withTimestamp = [
+        ntf.substring(0, a),
+        timestamp,
+        ntf.substring(a),
+      ].join("");
+
+      const ob = JSON.parse(withTimestamp);
       const obCamel = Utils.toCamel(ob);
       this.monitoringStepNotifier.emit(obCamel);
     });

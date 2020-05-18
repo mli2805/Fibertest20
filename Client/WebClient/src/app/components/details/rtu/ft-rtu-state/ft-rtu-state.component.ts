@@ -10,6 +10,7 @@ import {
 } from "src/app/models/dtos/rtu/currentMonitoringStepDto";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { TranslateService } from "@ngx-translate/core";
+import { formatDate } from "@angular/common";
 
 @Component({
   selector: "ft-rtu-state",
@@ -56,7 +57,7 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
       });
 
     this.subscription = this.signalRService.monitoringStepNotifier.subscribe(
-      (signal: CurrentMonitoringStepDto) => {
+      (signal: any) => {
         if (signal.rtuId === this.vm.rtuId) {
           this.notifyUserCurrentMonitoringStep(signal);
         }
@@ -64,7 +65,7 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
     );
   }
 
-  notifyUserCurrentMonitoringStep(dto: CurrentMonitoringStepDto) {
+  notifyUserCurrentMonitoringStep(dto: any) {
     console.log(dto);
     let portName = "";
     let traceTitle = "";
@@ -84,13 +85,15 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
       }
     }
 
-    console.log(dto.step, portName, traceTitle);
-    this.currentMonitoringStep = this.buildMessage(
-      dto.step,
-      portName,
-      traceTitle
+    this.currentMonitoringStep = this.wrapMeassage(
+      this.buildMessage(dto.step, portName, traceTitle),
+      dto.timestamp
     );
     console.log(this.currentMonitoringStep);
+  }
+
+  wrapMeassage(message: string, timestamp: Date) {
+    return `${formatDate(timestamp, "HH:mm:ss", "en-US")}  ${message}`;
   }
 
   buildMessage(

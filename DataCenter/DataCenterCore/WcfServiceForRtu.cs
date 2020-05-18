@@ -44,9 +44,11 @@ namespace Iit.Fibertest.DataCenterCore
 
                 if (_clientsCollection.HasAnyWebClients())
                     SendMoniStepToWebApi(dto).Wait();
+
                 var addresses = _clientsCollection.GetDesktopClientsAddresses();
                 if (addresses == null)
                     return;
+            
                 _d2CWcfManager.SetClientsAddresses(addresses);
                 _d2CWcfManager.NotifyUsersRtuCurrentMonitoringStep(dto).Wait();
             }
