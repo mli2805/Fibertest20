@@ -51,7 +51,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                     new UnRegisterClientDto()
                     {
                         ClientIp = GetRemoteAddress(),
-                        Username = "signalR_disconnected",
+                        Username = "onSignalRDisconnected",
                     });
         }
 

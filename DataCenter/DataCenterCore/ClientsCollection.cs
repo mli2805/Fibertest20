@@ -175,7 +175,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         public void UnregisterClientAsync(UnRegisterClientDto dto)
         {
-            var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp);
+            var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp && 
+                               (s.UserName == dto.Username || (dto.Username == "onSignalRDisconnected" && s.IsWebClient)));
             if (station == null)
             {
                 _logFile.AppendLine($"There is no client station with address {dto.ClientIp}");
