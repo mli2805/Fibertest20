@@ -33,6 +33,7 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
   public currentMonitoringStep$ = this.currentMonitoringStepSubject.asObservable();
 
   currentMonitoringStep = "";
+  clock;
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -48,6 +49,11 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
+
+    setInterval(() => {
+      this.clock = Date.now();
+    });
+
     this.oneApiService
       .getRequest(`rtu/state/${id}`)
       .subscribe((res: RtuStateDto) => {

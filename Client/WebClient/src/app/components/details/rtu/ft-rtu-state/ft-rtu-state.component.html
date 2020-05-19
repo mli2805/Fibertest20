@@ -37,6 +37,7 @@
           <p>{{ vm.tracesState | fiberStateToLocalizedStringPipe }}</p>
         </div>
       </div>
+      <div>{{ clock | date: "HH:mm:ss" }}</div>
       <h3>{{ currentMonitoringStep$ | async }}</h3>
       <div class="portsTable">
         <mat-table [dataSource]="vm.children">
