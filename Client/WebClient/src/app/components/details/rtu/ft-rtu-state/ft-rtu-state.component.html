@@ -37,7 +37,7 @@
           <p>{{ vm.tracesState | fiberStateToLocalizedStringPipe }}</p>
         </div>
       </div>
-      <h3>{{ currentMonitoringStep }}</h3>
+      <h3>{{ currentMonitoringStep$ | async }}</h3>
       <div class="portsTable">
         <mat-table [dataSource]="vm.children">
           <ng-container matColumnDef="port">

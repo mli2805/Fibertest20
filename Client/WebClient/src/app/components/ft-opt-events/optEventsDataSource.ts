@@ -25,6 +25,7 @@ export class OptEventsDataSource implements DataSource<OptEventDto> {
   disconnect(collectionViewer: CollectionViewer): void {
     this.optEventsSubject.complete();
     this.loadingSubject.complete();
+    this.fullCountSubject.complete();
   }
 
   loadOptEvents(

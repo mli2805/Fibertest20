@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from "@angular/core";
 import { RtuStateDto } from "src/app/models/dtos/rtu/rtuStateDto";
 import { ActivatedRoute } from "@angular/router";
 import { OneApiService } from "src/app/api/one.service";
-import { Subscription } from "rxjs";
+import { Subscription, BehaviorSubject } from "rxjs";
 import { SignalrService } from "src/app/api/signalr.service";
 import {
   CurrentMonitoringStepDto,
@@ -29,7 +29,10 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
     "lastMeasTime",
   ];
 
-  currentMonitoringStep = "waiting for a data...";
+  private currentMonitoringStepSubject = new BehaviorSubject<string>("");
+  public currentMonitoringStep$ = this.currentMonitoringStepSubject.asObservable();
+
+  currentMonitoringStep = "";
 
   constructor(
     private activeRoute: ActivatedRoute,
@@ -50,9 +53,15 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
       .subscribe((res: RtuStateDto) => {
         Object.assign(this.vm, res);
         if (this.vm.monitoringMode === MonitoringMode.Off) {
-          this.currentMonitoringStep = this.ts.instant("SID_No_measurement");
+          // this.currentMonitoringStep = this.ts.instant("SID_No_measurement");
+          this.currentMonitoringStepSubject.next(
+            this.ts.instant("SID_No_measurement")
+          );
         } else {
-          this.currentMonitoringStep = this.ts.instant("SID_Waiting_for_data");
+          // this.currentMonitoringStep = this.ts.instant("SID_Waiting_for_data");
+          this.currentMonitoringStepSubject.next(
+            this.ts.instant("SID_Waiting_for_data")
+          );
         }
       });
 
@@ -85,9 +94,12 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.currentMonitoringStep = this.wrapMeassage(
-      this.buildMessage(dto.step, portName, traceTitle),
-      dto.timestamp
+    // this.currentMonitoringStep = this.wrapMeassage(
+    this.currentMonitoringStepSubject.next(
+      this.wrapMeassage(
+        this.buildMessage(dto.step, portName, traceTitle),
+        dto.timestamp
+      )
     );
     console.log(this.currentMonitoringStep);
   }
