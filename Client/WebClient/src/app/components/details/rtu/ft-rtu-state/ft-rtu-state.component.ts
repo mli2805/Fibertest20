@@ -4,10 +4,7 @@ import { ActivatedRoute } from "@angular/router";
 import { OneApiService } from "src/app/api/one.service";
 import { Subscription, BehaviorSubject } from "rxjs";
 import { SignalrService } from "src/app/api/signalr.service";
-import {
-  CurrentMonitoringStepDto,
-  MonitoringCurrentStep,
-} from "src/app/models/dtos/rtu/currentMonitoringStepDto";
+import { MonitoringCurrentStep } from "src/app/models/dtos/rtu/currentMonitoringStepDto";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { TranslateService } from "@ngx-translate/core";
 import { formatDate } from "@angular/common";
@@ -32,7 +29,6 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
   private currentMonitoringStepSubject = new BehaviorSubject<string>("");
   public currentMonitoringStep$ = this.currentMonitoringStepSubject.asObservable();
 
-  currentMonitoringStep = "";
   clock;
 
   constructor(
@@ -52,19 +48,17 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
 
     setInterval(() => {
       this.clock = Date.now();
-    });
+    }, 1000);
 
     this.oneApiService
       .getRequest(`rtu/state/${id}`)
       .subscribe((res: RtuStateDto) => {
         Object.assign(this.vm, res);
         if (this.vm.monitoringMode === MonitoringMode.Off) {
-          // this.currentMonitoringStep = this.ts.instant("SID_No_measurement");
           this.currentMonitoringStepSubject.next(
             this.ts.instant("SID_No_measurement")
           );
         } else {
-          // this.currentMonitoringStep = this.ts.instant("SID_Waiting_for_data");
           this.currentMonitoringStepSubject.next(
             this.ts.instant("SID_Waiting_for_data")
           );
@@ -100,14 +94,10 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
       }
     }
 
-    // this.currentMonitoringStep = this.wrapMeassage(
     this.currentMonitoringStepSubject.next(
-      this.wrapMeassage(
-        this.buildMessage(dto.step, portName, traceTitle),
-        dto.timestamp
-      )
+      this.buildMessage(dto.step, portName, traceTitle)
     );
-    console.log(this.currentMonitoringStep);
+    console.log(this.currentMonitoringStep$);
   }
 
   wrapMeassage(message: string, timestamp: Date) {

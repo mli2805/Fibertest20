@@ -6,7 +6,7 @@ namespace Iit.Fibertest.UtilsLib
     public static class IniOperations
     {
         private const string DataCenterIniSubdir = @"DataCenter\ini";
-        public static void SaveMysqlTcpPort(string installationFolder, string mysqlTcpPort)
+        public static void SaveMysqlTcpPort(string installationFolder, string mysqlTcpPort, string bindingProtocol)
         {
             var iniDataCenterPath = Path.Combine(installationFolder, DataCenterIniSubdir);
 
@@ -16,6 +16,7 @@ namespace Iit.Fibertest.UtilsLib
             iniFile.AssignFile(iniFileName, true);
 
             iniFile.Write(IniSection.MySql, IniKey.MySqlTcpPort, mysqlTcpPort);
+            iniFile.Write(IniSection.WebApi, IniKey.BindingProtocol, bindingProtocol);
         }
         
         public static string GetMysqlTcpPort(string installationFolder)

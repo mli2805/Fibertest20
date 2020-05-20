@@ -133,5 +133,8 @@
         // LoadTesting
         Multiplier,
         Pause,
+
+        // WebApi
+        BindingProtocol,
     }
 }

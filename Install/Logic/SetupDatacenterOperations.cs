@@ -48,7 +48,8 @@ namespace Iit.Fibertest.Install
                 return false;
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
 
-            IniOperations.SaveMysqlTcpPort(currentInstallation.InstallationFolder, currentInstallation.MySqlTcpPort);
+            IniOperations.SaveMysqlTcpPort(currentInstallation.InstallationFolder, 
+                currentInstallation.MySqlTcpPort, currentInstallation.IsWebByHttps ? "https" : "http");
 
             var filename = Path.Combine(fullDataCenterPath, ServiceFilename);
             if (!ServiceOperations.InstallService(DataCenterServiceName,

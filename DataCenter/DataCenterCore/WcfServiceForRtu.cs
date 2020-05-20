@@ -20,8 +20,9 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly D2CWcfManager _d2CWcfManager;
         private readonly GlobalState _globalState;
+        private readonly string _webApiUrl;
 
-        public WcfServiceForRtu(IMyLog logFile, ClientsCollection clientsCollection,
+        public WcfServiceForRtu(IniFile iniFile, IMyLog logFile, ClientsCollection clientsCollection,
             RtuStationsRepository rtuStationsRepository, D2CWcfManager d2CWcfManager, GlobalState globalState)
         {
             _logFile = logFile;
@@ -30,6 +31,8 @@ namespace Iit.Fibertest.DataCenterCore
             _d2CWcfManager = d2CWcfManager;
             _globalState = globalState;
 
+            var bindingProtocol = iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "http");
+            _webApiUrl = $"{bindingProtocol}://localhost:11080/proxy";
             var tid = Thread.CurrentThread.ManagedThreadId;
             _logFile.AppendLine($"RTU listener: works in thread {tid}");
         }
@@ -109,7 +112,7 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine($"SendMoniStepToWebApi from {dto.RtuId}");
                 var json = JsonConvert.SerializeObject(dto);
                 var stringContent = new StringContent(json, Encoding.UTF8, "application/json"); 
-                var response = await client.PostAsync("http://localhost:11080/proxy/notify-monitoring-step", stringContent);
+                var response = await client.PostAsync($"{_webApiUrl}/notify-monitoring-step", stringContent);
                 await response.Content.ReadAsStringAsync();
             }
             catch (Exception e)
@@ -125,7 +128,7 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine($"SendClientMeasResultToWebApi for {dto.ClientIp}");
                 var json = JsonConvert.SerializeObject(dto);
                 var stringContent = new StringContent(json, Encoding.UTF8, "application/json"); 
-                var response = await client.PostAsync("http://localhost:11080/proxy/client-measurement-done", stringContent);
+                var response = await client.PostAsync($"{_webApiUrl}/client-measurement-done", stringContent);
                 var responseString = await response.Content.ReadAsStringAsync();
                 return responseString;
             }
