@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.FtSignalRClientLib;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Newtonsoft.Json;
@@ -20,16 +21,19 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly D2CWcfManager _d2CWcfManager;
         private readonly GlobalState _globalState;
+        private readonly FtSignalRClient _ftSignalRClient;
         private readonly string _webApiUrl;
 
         public WcfServiceForRtu(IniFile iniFile, IMyLog logFile, ClientsCollection clientsCollection,
-            RtuStationsRepository rtuStationsRepository, D2CWcfManager d2CWcfManager, GlobalState globalState)
+            RtuStationsRepository rtuStationsRepository, D2CWcfManager d2CWcfManager, GlobalState globalState,
+            FtSignalRClient ftSignalRClient)
         {
             _logFile = logFile;
             _clientsCollection = clientsCollection;
             _rtuStationsRepository = rtuStationsRepository;
             _d2CWcfManager = d2CWcfManager;
             _globalState = globalState;
+            _ftSignalRClient = ftSignalRClient;
 
             var bindingProtocol = iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "http");
             _webApiUrl = $"{bindingProtocol}://localhost:11080/proxy";
@@ -46,7 +50,7 @@ namespace Iit.Fibertest.DataCenterCore
                     return;
 
                 if (_clientsCollection.HasAnyWebClients())
-                    SendMoniStepToWebApi(dto).Wait();
+                    _ftSignalRClient.NotifyMonitoringStep(dto).Wait();
 
                 var addresses = _clientsCollection.GetDesktopClientsAddresses();
                 if (addresses == null)
@@ -105,23 +109,8 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
         private static readonly HttpClient client = new HttpClient();
-        private async Task SendMoniStepToWebApi(CurrentMonitoringStepDto dto)
-        {
-            try
-            {
-                _logFile.AppendLine($"SendMoniStepToWebApi from {dto.RtuId}");
-                var json = JsonConvert.SerializeObject(dto);
-                var stringContent = new StringContent(json, Encoding.UTF8, "application/json"); 
-                var response = await client.PostAsync($"{_webApiUrl}/notify-monitoring-step", stringContent);
-                await response.Content.ReadAsStringAsync();
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-            }
-        }
-
-        private async Task<string> SendClientMeasResultToWebApi(ClientMeasurementDoneDto dto)
+      
+     private async Task<string> SendClientMeasResultToWebApi(ClientMeasurementDoneDto dto)
         {
             try
             {

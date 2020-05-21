@@ -9,6 +9,7 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Iit.Fibertest.FtSignalRClientLib;
 
 namespace Iit.Fibertest.DataCenterService
 {
@@ -76,6 +77,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<WcfServiceForRtuBootstrapper>().SingleInstance();
             builder.RegisterType<WcfServiceWebC2D>().As<IWcfServiceWebC2D>().SingleInstance();
             builder.RegisterType<WcfServiceForWebC2DBootstrapper>().SingleInstance();
+            builder.RegisterType<FtSignalRClient>().SingleInstance();
 
             builder.RegisterType<SorDataParsingReporter>();
             builder.RegisterType<AccidentsFromSorExtractor>();

@@ -19,7 +19,7 @@ namespace Graph.Tests
         private Iit.Fibertest.Graph.Trace _trace;
 
         private const double Precision = 0.001;
-        Func<EquivalencyAssertionOptions<AccidentOnTraceV2>, EquivalencyAssertionOptions<AccidentOnTraceV2>> _doubleAsserionOptions = 
+        Func<EquivalencyAssertionOptions<AccidentOnTraceV2>, EquivalencyAssertionOptions<AccidentOnTraceV2>> _doubleAssertionOptions = 
             options => options
             .Using<double>(ctx => ctx.Subject.Should().BeApproximately(ctx.Expectation, Precision))
             .WhenTypeIs<double>();
@@ -78,7 +78,7 @@ namespace Graph.Tests
                 },
             };
 
-            accident.ShouldBeEquivalentTo(expectation, _doubleAsserionOptions);
+            accident.ShouldBeEquivalentTo(expectation, _doubleAssertionOptions);
         }
 
         [Then(@"Получен список эксидентов для BreakBnode2-MinorRnode1")]
@@ -110,7 +110,7 @@ namespace Graph.Tests
                     ToRtuOpticalDistanceKm = 10.7333,
                 },
             };
-            accident0.ShouldBeEquivalentTo(expectation0, _doubleAsserionOptions);
+            accident0.ShouldBeEquivalentTo(expectation0, _doubleAssertionOptions);
 
 
             var accident1 = accidents[1];
@@ -138,7 +138,7 @@ namespace Graph.Tests
                     ToRtuOpticalDistanceKm = 2.2307,
                 },
             };
-            accident1.ShouldBeEquivalentTo(expectation1, _doubleAsserionOptions);
+            accident1.ShouldBeEquivalentTo(expectation1, _doubleAssertionOptions);
         }
 
         [Then(@"Получен список эксидентов для MajorLnode2-MinorRnode1")]
@@ -170,7 +170,7 @@ namespace Graph.Tests
                     ToRtuOpticalDistanceKm = 10.7333,
                 },
             };
-            accident0.ShouldBeEquivalentTo(expectation0, _doubleAsserionOptions);
+            accident0.ShouldBeEquivalentTo(expectation0, _doubleAssertionOptions);
 
 
             var accident1 = accidents[1];
@@ -198,7 +198,7 @@ namespace Graph.Tests
                     ToRtuOpticalDistanceKm = 2.2307,
                 },
             };
-            accident1.ShouldBeEquivalentTo(expectation1, _doubleAsserionOptions);
+            accident1.ShouldBeEquivalentTo(expectation1, _doubleAssertionOptions);
         }
 
         [Then(@"Получен список эксидентов для MinorRnode1")]
@@ -231,7 +231,7 @@ namespace Graph.Tests
                     ToRtuOpticalDistanceKm = 2.2307,
                 },
             };
-            accident0.ShouldBeEquivalentTo(expectation0, _doubleAsserionOptions);
+            accident0.ShouldBeEquivalentTo(expectation0, _doubleAssertionOptions);
         }
 
         [Then(@"Получен список эксидентов для DoubleMinorNode3")]

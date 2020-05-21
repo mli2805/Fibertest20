@@ -51,10 +51,19 @@ namespace Iit.Fibertest.FtSignalRClientLib
             }
         }
 
-        public async Task NotifyMonitoringStep(CurrentMonitoringStepDto dto)
+     public async Task NotifyMonitoringStep(CurrentMonitoringStepDto dto)
         {
             try
             {
+                if (connection == null)
+                {
+                    Build();
+                    await Connect();
+                }
+                else if (connection.State != HubConnectionState.Connected)
+                {
+                    await Connect();
+                }
                 await connection.InvokeAsync("NotifyMonitoringStep", dto);
             }
             catch (Exception ex)
