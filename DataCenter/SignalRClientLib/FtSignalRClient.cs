@@ -1,19 +1,26 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
 using Microsoft.AspNetCore.SignalR.Client;
 
 namespace Iit.Fibertest.FtSignalRClientLib
 {
     public class FtSignalRClient
     {
+        private readonly IMyLog _logFile;
         private HubConnection connection;
-        private string _webApiUrl;
+        private readonly string _webApiUrl;
+
+        public FtSignalRClient(IniFile iniFile, IMyLog logFile)
+        {
+            _logFile = logFile;
+            var bindingProtocol = iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "http");
+            _webApiUrl = $"{bindingProtocol}://localhost:{(int)TcpPorts.WebProxyListenTo}/webApiSignalRHub";
+        }
 
         public void Build()
         {
-            var bindingProtocol = "https";
-            _webApiUrl = $"{bindingProtocol}://localhost:11080/webApiSignalRHub";
             connection = new HubConnectionBuilder()
                 .WithUrl(_webApiUrl)
                 .Build();
@@ -30,30 +37,29 @@ namespace Iit.Fibertest.FtSignalRClientLib
             connection.On<string, string>("ReceiveMessage", (user, message) =>
             {
                 var newMessage = $"{user}: {message}";
-                Console.WriteLine(newMessage);
+                _logFile.AppendLine(newMessage);
             });
 
             try
             {
                 await connection.StartAsync();
-                Console.WriteLine("Connection started");
+                _logFile.AppendLine("FtSignalRClient connection started");
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                _logFile.AppendLine("FtSignalRClient: Connect: " + ex.Message);
             }
         }
 
-        public async Task Send()
+        public async Task NotifyMonitoringStep(CurrentMonitoringStepDto dto)
         {
             try
             {
-                var currentMonitoringStepDto = new CurrentMonitoringStepDto() { BaseRefType = BaseRefType.Fast };
-                await connection.InvokeAsync("NotifyMonitoringStep", currentMonitoringStepDto);
+                await connection.InvokeAsync("NotifyMonitoringStep", dto);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                _logFile.AppendLine("FtSignalRClient: NotifyMonitoringStep: " + ex.Message);
             }
         }
 

@@ -304,6 +304,10 @@
       <Project>{84edd696-9478-4cdc-abd1-e4c83a764072}</Project>
       <Name>DatabaseLibrary</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SignalRClientLib\FtSignalRClientLib.csproj">
+      <Project>{b1a8bd72-f481-4c39-86bb-b8d49d14848e}</Project>
+      <Name>FtSignalRClientLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
