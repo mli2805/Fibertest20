@@ -64,7 +64,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             }
             catch (Exception e)
             {
-                _logFile.AppendLine($"NotifyMeasStep: {e.Message}");
+                _logFile.AppendLine($"NotifyMonitoringStep: {e.Message}");
                 return false;
             }
         }

@@ -1,18 +1,21 @@
-﻿using Iit.Fibertest.Dto;
-using System;
+﻿using System;
 using System.Threading.Tasks;
+using Iit.Fibertest.Dto;
 using Microsoft.AspNetCore.SignalR.Client;
 
-namespace SignalRClientLib
+namespace Iit.Fibertest.FtSignalRClientLib
 {
-    public class SignalRClient
+    public class FtSignalRClient
     {
         private HubConnection connection;
+        private string _webApiUrl;
 
         public void Build()
         {
+            var bindingProtocol = "https";
+            _webApiUrl = $"{bindingProtocol}://localhost:11080/webApiSignalRHub";
             connection = new HubConnectionBuilder()
-                .WithUrl("http://localhost:11080/webApiSignalRHub")
+                .WithUrl(_webApiUrl)
                 .Build();
 
             connection.Closed += async (error) =>
@@ -45,7 +48,8 @@ namespace SignalRClientLib
         {
             try
             {
-                await connection.InvokeAsync("NotifyMonitoringStep", new CurrentMonitoringStepDto() { BaseRefType = BaseRefType.Fast });
+                var currentMonitoringStepDto = new CurrentMonitoringStepDto() { BaseRefType = BaseRefType.Fast };
+                await connection.InvokeAsync("NotifyMonitoringStep", currentMonitoringStepDto);
             }
             catch (Exception ex)
             {

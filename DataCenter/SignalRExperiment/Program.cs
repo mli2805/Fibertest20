@@ -1,5 +1,5 @@
 ﻿using System;
-using SignalRClientLib;
+using Iit.Fibertest.FtSignalRClientLib;
 
 namespace SignalRExperiment
 {
@@ -7,7 +7,7 @@ namespace SignalRExperiment
     {
         static void Main()
         {
-            var signalRClient = new SignalRClient();
+            var signalRClient = new FtSignalRClient();
             signalRClient.Build();
             signalRClient.Connect().Wait();
 
@@ -18,7 +18,6 @@ namespace SignalRExperiment
 
             Console.WriteLine("Done.");
             Console.ReadKey();
-
         }
     }
 }

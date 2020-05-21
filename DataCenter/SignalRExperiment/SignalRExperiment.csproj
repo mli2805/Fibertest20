@@ -50,9 +50,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SignalRClientLib\SignalRClientLib.csproj">
-      <Project>{B1A8BD72-F481-4C39-86BB-B8D49D14848E}</Project>
-      <Name>SignalRClientLib</Name>
+    <ProjectReference Include="..\SignalRClientLib\FtSignalRClientLib.csproj">
+      <Project>{b1a8bd72-f481-4c39-86bb-b8d49d14848e}</Project>
+      <Name>FtSignalRClientLib</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

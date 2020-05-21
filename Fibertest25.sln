@@ -86,7 +86,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InstallRtu", "InstallRtu\In
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Install", "Install\Install.csproj", "{7B8B504D-36D3-4AAF-8201-CB9D2A8A1E38}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRClientLib", "DataCenter\SignalRClientLib\SignalRClientLib.csproj", "{B1A8BD72-F481-4C39-86BB-B8D49D14848E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FtSignalRClientLib", "DataCenter\SignalRClientLib\FtSignalRClientLib.csproj", "{B1A8BD72-F481-4C39-86BB-B8D49D14848E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SignalRExperiment", "DataCenter\SignalRExperiment\SignalRExperiment.csproj", "{6456B193-5100-42AB-9523-897B99D308F6}"
 EndProject
