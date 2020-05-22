@@ -17,6 +17,7 @@ import { formatDate } from "@angular/common";
 export class FtRtuStateComponent implements OnInit, OnDestroy {
   vm: RtuStateDto = new RtuStateDto();
   private subscription: Subscription;
+  private monitoringStoppedSubscription: Subscription;
 
   displayedColumns = [
     "port",
@@ -69,6 +70,19 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
       (signal: any) => {
         if (signal.rtuId === this.vm.rtuId) {
           this.notifyUserCurrentMonitoringStep(signal);
+        }
+      }
+    );
+
+    this.monitoringStoppedSubscription = this.signalRService.monitoringStoppedEmitter.subscribe(
+      (signal: any) => {
+        console.log("monitoring stopped", signal);
+        if (signal.rtuId === this.vm.rtuId) {
+          console.log("monitoring stopped", signal);
+          this.vm.monitoringMode = MonitoringMode.Off;
+          this.currentMonitoringStepSubject.next(
+            this.ts.instant("SID_No_measurement")
+          );
         }
       }
     );

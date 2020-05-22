@@ -9,6 +9,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Newtonsoft.Json;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -23,6 +24,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientsCollection _clientsCollection;
         private readonly BaseRefsChecker2 _baseRefsChecker;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
+        private readonly FtSignalRClient _ftSignalRClient;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
@@ -30,6 +32,7 @@ namespace Iit.Fibertest.DataCenterCore
             Model writeModel, SorFileRepository sorFileRepository,
             EventStoreService eventStoreService, ClientsCollection clientsCollection,
             BaseRefsChecker2 baseRefsChecker, BaseRefLandmarksTool baseRefLandmarksTool,
+            FtSignalRClient ftSignalRClient,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter
             )
         {
@@ -41,6 +44,7 @@ namespace Iit.Fibertest.DataCenterCore
             _clientsCollection = clientsCollection;
             _baseRefsChecker = baseRefsChecker;
             _baseRefLandmarksTool = baseRefLandmarksTool;
+            _ftSignalRClient = ftSignalRClient;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
         }
@@ -159,6 +163,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var username = _clientsCollection.GetClientStation(dto.ClientIp)?.UserName;
                 var cmd = new StopMonitoring() { RtuId = dto.RtuId };
                 await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
+                await _ftSignalRClient.NotifyAll("MonitoringStopped", JsonConvert.SerializeObject(cmd));
             }
 
             return isStopped;

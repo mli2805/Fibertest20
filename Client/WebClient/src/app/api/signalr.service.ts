@@ -8,6 +8,7 @@ import { ReturnCode } from "../models/enums/returnCode";
 import { CurrentMonitoringStepDto } from "../models/dtos/rtu/currentMonitoringStepDto";
 import { ClientMeasurementDoneDto } from "../models/dtos/port/clientMeasurementDoneDto";
 import { formatDate } from "@angular/common";
+import { MonitoringStoppedDto } from "../models/dtos/rtu/monitoringStoppedDto";
 
 @Injectable({
   providedIn: "root",
@@ -19,6 +20,7 @@ export class SignalrService {
   public clientMeasurementEmitter = new EventEmitter<
     ClientMeasurementDoneDto
   >();
+  public monitoringStoppedEmitter = new EventEmitter<MonitoringStoppedDto>();
 
   // will be built after loggin in, when jsonWebToken provided
   public buildConnection(token: string) {
@@ -64,6 +66,7 @@ export class SignalrService {
     this.hubConnection.on("RtuInitialized", (data: RtuInitializedWebDto) =>
       this.rtuInitializedEmitter.emit(data)
     );
+
     this.hubConnection.on("NotifyMonitoringStep", (ntf: string) => {
       const a = ntf.length - 1;
       const timestamp = `, "Timestamp":"${formatDate(
@@ -81,9 +84,16 @@ export class SignalrService {
       const obCamel = Utils.toCamel(ob);
       this.monitoringStepNotifier.emit(obCamel);
     });
+
     this.hubConnection.on("ClientMeasurementDone", (signal: string) => {
       const dto = JSON.parse(signal);
       this.clientMeasurementEmitter.emit(dto);
+    });
+
+    this.hubConnection.on("MonitoringStopped", (signal: string) => {
+      const dto = JSON.parse(signal);
+      const obCamel = Utils.toCamel(dto);
+      this.monitoringStoppedEmitter.emit(obCamel);
     });
   }
 }
