@@ -97,7 +97,6 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
     this.currentMonitoringStepSubject.next(
       this.buildMessage(dto.step, portName, traceTitle)
     );
-    console.log(this.currentMonitoringStep$);
   }
 
   wrapMeassage(message: string, timestamp: Date) {
@@ -108,7 +107,7 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
     step: MonitoringCurrentStep,
     portName: string,
     traceTitle: string
-  ) {
+  ): string {
     switch (step) {
       case MonitoringCurrentStep.Idle:
         return this.ts.instant("SID_No_measurement");

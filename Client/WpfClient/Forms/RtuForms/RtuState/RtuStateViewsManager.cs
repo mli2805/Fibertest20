@@ -70,6 +70,8 @@ namespace Iit.Fibertest.Client
                 case TraceUpdated e: NotifyUserTraceChanged(e.Id); return;
                 case RtuUpdated e: NotifyUserRtuUpdated(e.RtuId); return;
                 case RtuInitialized e: NotifyUserRtuUpdated(e.Id); return;
+                case MonitoringStarted e: NotifyUserMonitoringStarted(e.RtuId); return;
+                case MonitoringStopped e: NotifyUserMonitoringStopped(e.RtuId); return;
                 case ResponsibilitiesChanged _: ChangeResponsibilities(); return;
                 default: return;
             }
@@ -84,8 +86,6 @@ namespace Iit.Fibertest.Client
             var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(networkEventAdded.RtuId);
             if (LaunchedViews.TryGetValue(rtuLeaf.Id, out var vm))
                 vm.RefreshModel(rtuLeaf);
-         
-            //   Show(rtuLeaf, isUserAskedToOpenView: false, changes: networkEventAdded.RtuPartStateChanges);
         }
 
         // Server sent BOP network event
@@ -97,8 +97,6 @@ namespace Iit.Fibertest.Client
             var rtuLeaf = (RtuLeaf)_treeOfRtuModel.GetById(bopNetworkEventAdded.RtuId);
             if (LaunchedViews.TryGetValue(rtuLeaf.Id, out var vm))
                 vm.RefreshModel(rtuLeaf);
-            
-            //Show(rtuLeaf, isUserAskedToOpenView: false, changes: bopNetworkEventAdded.IsOk ? RtuPartStateChanges.OnlyBetter : RtuPartStateChanges.OnlyWorse);
         }
 
         public void NotifyUserRtuCurrentMonitoringStep(CurrentMonitoringStepDto dto)

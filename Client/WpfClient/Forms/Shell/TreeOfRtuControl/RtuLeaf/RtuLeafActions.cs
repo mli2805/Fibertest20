@@ -114,10 +114,6 @@ namespace Iit.Fibertest.Client
                     await _c2RWcfManager.StopMonitoringAsync(new StopMonitoringDto() { RtuId = rtuLeaf.Id, RtuMaker = rtu.RtuMaker });
             }
             _logFile.AppendLine($@"Stop monitoring result - {result}");
-            if (result)
-            {
-                _rtuStateViewsManager.NotifyUserMonitoringStopped(rtuLeaf.Id);
-            }
         }
 
 
@@ -187,10 +183,6 @@ namespace Iit.Fibertest.Client
             {
                 var resultDto = await _c2RWcfManager.ApplyMonitoringSettingsAsync(dto);
                 _logFile.AppendLine($@"Start monitoring result - {resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully}");
-                if (resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
-                {
-                    _rtuStateViewsManager.NotifyUserMonitoringStarted(rtuLeaf.Id);
-                }
             }
         }
 

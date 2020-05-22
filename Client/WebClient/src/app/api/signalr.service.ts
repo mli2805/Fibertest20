@@ -7,6 +7,7 @@ import { RtuInitializedWebDto } from "../models/dtos/rtu/rtuInitializedWebDto";
 import { ReturnCode } from "../models/enums/returnCode";
 import { CurrentMonitoringStepDto } from "../models/dtos/rtu/currentMonitoringStepDto";
 import { ClientMeasurementDoneDto } from "../models/dtos/port/clientMeasurementDoneDto";
+import { formatDate } from "@angular/common";
 
 @Injectable({
   providedIn: "root",
@@ -65,7 +66,11 @@ export class SignalrService {
     );
     this.hubConnection.on("NotifyMonitoringStep", (ntf: string) => {
       const a = ntf.length - 1;
-      const timestamp = `, "Timestamp":"${Date()}"`;
+      const timestamp = `, "Timestamp":"${formatDate(
+        Date.now(),
+        "HH:mm:ss:SSS",
+        "en-US"
+      )}"`;
       const withTimestamp = [
         ntf.substring(0, a),
         timestamp,
