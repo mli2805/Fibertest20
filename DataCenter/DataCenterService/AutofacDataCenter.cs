@@ -9,7 +9,6 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
-using Iit.Fibertest.FtSignalRClientLib;
 
 namespace Iit.Fibertest.DataCenterService
 {

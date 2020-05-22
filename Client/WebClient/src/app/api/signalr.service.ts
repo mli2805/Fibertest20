@@ -63,7 +63,7 @@ export class SignalrService {
     this.hubConnection.on("RtuInitialized", (data: RtuInitializedWebDto) =>
       this.rtuInitializedEmitter.emit(data)
     );
-    this.hubConnection.on("MonitoringStepNotified", (ntf: string) => {
+    this.hubConnection.on("NotifyMonitoringStep", (ntf: string) => {
       const a = ntf.length - 1;
       const timestamp = `, "Timestamp":"${Date()}"`;
       const withTimestamp = [

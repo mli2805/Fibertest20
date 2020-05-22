@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Net.Http;
 using System.ServiceModel;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.FtSignalRClientLib;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Newtonsoft.Json;
@@ -22,7 +18,6 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly D2CWcfManager _d2CWcfManager;
         private readonly GlobalState _globalState;
         private readonly FtSignalRClient _ftSignalRClient;
-        private readonly string _webApiUrl;
 
         public WcfServiceForRtu(IniFile iniFile, IMyLog logFile, ClientsCollection clientsCollection,
             RtuStationsRepository rtuStationsRepository, D2CWcfManager d2CWcfManager, GlobalState globalState,
@@ -35,8 +30,6 @@ namespace Iit.Fibertest.DataCenterCore
             _globalState = globalState;
             _ftSignalRClient = ftSignalRClient;
 
-            var bindingProtocol = iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "http");
-            _webApiUrl = $"{bindingProtocol}://localhost:11080/proxy";
             var tid = Thread.CurrentThread.ManagedThreadId;
             _logFile.AppendLine($"RTU listener: works in thread {tid}");
         }
@@ -50,7 +43,10 @@ namespace Iit.Fibertest.DataCenterCore
                     return;
 
                 if (_clientsCollection.HasAnyWebClients())
-                    _ftSignalRClient.NotifyMonitoringStep(dto).Wait();
+                {
+                    var json = JsonConvert.SerializeObject(dto);
+                    _ftSignalRClient.NotifyAll("NotifyMonitoringStep", json).Wait();
+                }
 
                 var addresses = _clientsCollection.GetDesktopClientsAddresses();
                 if (addresses == null)
@@ -91,7 +87,8 @@ namespace Iit.Fibertest.DataCenterCore
                 if (clientStation == null) return;
                 if (clientStation.IsWebClient)
                 {
-                    SendClientMeasResultToWebApi(result).Wait();
+                    var json = JsonConvert.SerializeObject(result);
+                    _ftSignalRClient.NotifyAll("ClientMeasurementDone", json).Wait();
                 }
                 else
                 {
@@ -105,26 +102,6 @@ namespace Iit.Fibertest.DataCenterCore
             catch (Exception e)
             {
                 _logFile.AppendLine("WcfServiceForRtu.TransmitClientMeasurementResult: " + e.Message);
-            }
-        }
-
-        private static readonly HttpClient client = new HttpClient();
-      
-     private async Task<string> SendClientMeasResultToWebApi(ClientMeasurementDoneDto dto)
-        {
-            try
-            {
-                _logFile.AppendLine($"SendClientMeasResultToWebApi for {dto.ClientIp}");
-                var json = JsonConvert.SerializeObject(dto);
-                var stringContent = new StringContent(json, Encoding.UTF8, "application/json"); 
-                var response = await client.PostAsync($"{_webApiUrl}/client-measurement-done", stringContent);
-                var responseString = await response.Content.ReadAsStringAsync();
-                return responseString;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine(e.Message);
-                return null;
             }
         }
     }

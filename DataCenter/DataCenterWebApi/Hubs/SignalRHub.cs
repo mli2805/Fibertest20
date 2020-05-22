@@ -5,7 +5,6 @@ using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
-using Newtonsoft.Json;
 
 namespace Iit.Fibertest.DataCenterWebApi
 {
@@ -56,11 +55,10 @@ namespace Iit.Fibertest.DataCenterWebApi
                     });
         }
 
-        public async Task NotifyMonitoringStep(CurrentMonitoringStepDto dto)
+        public async Task NotifyAll(string eventType, string dataInJson)
         {
-            _logFile.AppendLine($"Current monitoring step from {dto.RtuId} received");
-            var json = JsonConvert.SerializeObject(dto);
-            await Clients.All.SendAsync("MonitoringStepNotified", json);
+            _logFile.AppendLine($"Hub received {eventType} event");
+            await Clients.All.SendAsync(eventType, dataInJson);
         }
 
         [Authorize]

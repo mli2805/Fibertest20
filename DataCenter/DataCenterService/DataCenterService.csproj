@@ -252,10 +252,6 @@
       <Project>{6ba3ea08-6bdb-4b2d-8729-409e136d4d74}</Project>
       <Name>DataCenterCore</Name>
     </ProjectReference>
-    <ProjectReference Include="..\SignalRClientLib\FtSignalRClientLib.csproj">
-      <Project>{B1A8BD72-F481-4C39-86BB-B8D49D14848E}</Project>
-      <Name>FtSignalRClientLib</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

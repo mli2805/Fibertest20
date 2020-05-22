@@ -4,7 +4,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Microsoft.AspNetCore.SignalR.Client;
 
-namespace Iit.Fibertest.FtSignalRClientLib
+namespace Iit.Fibertest.DataCenterCore
 {
     public class FtSignalRClient
     {
@@ -34,11 +34,11 @@ namespace Iit.Fibertest.FtSignalRClientLib
 
         public async Task Connect()
         {
-            connection.On<string, string>("ReceiveMessage", (user, message) =>
-            {
-                var newMessage = $"{user}: {message}";
-                _logFile.AppendLine(newMessage);
-            });
+            //            connection.On<string, string>("ReceiveMessage", (user, message) =>
+            //            {
+            //                var newMessage = $"{user}: {message}";
+            //                _logFile.AppendLine(newMessage);
+            //            });
 
             try
             {
@@ -51,26 +51,30 @@ namespace Iit.Fibertest.FtSignalRClientLib
             }
         }
 
-     public async Task NotifyMonitoringStep(CurrentMonitoringStepDto dto)
+
+        public async Task NotifyAll(string eventType, string dataInJson)
         {
             try
             {
                 if (connection == null)
                 {
                     Build();
+                    _logFile.AppendLine($"SignalR connection to {_webApiUrl}");
+                    await Task.Delay(2000);
                     await Connect();
+                    await Task.Delay(2000);
                 }
                 else if (connection.State != HubConnectionState.Connected)
                 {
                     await Connect();
+                    await Task.Delay(2000);
                 }
-                await connection.InvokeAsync("NotifyMonitoringStep", dto);
+                await connection.InvokeAsync("NotifyAll", eventType, dataInJson);
             }
             catch (Exception ex)
             {
-                _logFile.AppendLine("FtSignalRClient: NotifyMonitoringStep: " + ex.Message);
+                _logFile.AppendLine($"FtSignalRClient: {eventType} " + ex.Message);
             }
         }
-
     }
 }
