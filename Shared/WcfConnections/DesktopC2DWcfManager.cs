@@ -172,28 +172,6 @@ namespace Iit.Fibertest.WcfConnections
                 return null;
             }
         }
-
-        public async Task<byte[]> GetSorBytes(int sorFileId)
-        {
-            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
-            if (wcfConnection == null)
-                return null;
-
-            try
-            {
-                var channel = wcfConnection.CreateChannel();
-                var result = await channel.GetSorBytes(sorFileId);
-                wcfConnection.Close();
-                return result;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("GetSorBytes: " + e.Message);
-                return null;
-            }
-        }
-
-    
      
         public async Task<bool> CheckServerConnection(CheckServerConnectionDto dto)
         {

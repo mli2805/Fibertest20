@@ -97,7 +97,7 @@
     <Compile Include="ForWebApi\UpdateMeasurementDto.cs" />
     <Compile Include="ForWebApi\UserDto.cs" />
     <Compile Include="R2D2C\BopStateChangedDto.cs" />
-    <Compile Include="R2D2C\ClientMeasurementDoneDto.cs" />
+    <Compile Include="R2D2C\SorBytesDto.cs" />
     <Compile Include="R2D2C\ClientMeasurementStartedDto.cs" />
     <Compile Include="R2D2C\OtauAttachedDto.cs" />
     <Compile Include="R2D2C\OtauDetachedDto.cs" />

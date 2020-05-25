@@ -36,6 +36,7 @@ namespace Graph.Tests
         public AccidentsFromSorExtractor AccidentsFromSorExtractor { get; set; }
         public MsmqMessagesProcessor MsmqMessagesProcessor { get; }
         public WcfServiceDesktopC2D WcfServiceDesktopC2D { get; set; }
+        public WcfServiceCommonC2D WcfServiceCommonC2D { get; set; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
 
         public const string NewTitleForTest = "New name for old equipment";
@@ -105,6 +106,7 @@ namespace Graph.Tests
             AccidentsFromSorExtractor = ClientScope.Resolve<AccidentsFromSorExtractor>();
 
             WcfServiceDesktopC2D = (WcfServiceDesktopC2D) ClientScope.Resolve<IWcfServiceDesktopC2D>();
+            WcfServiceCommonC2D = (WcfServiceCommonC2D) ClientScope.Resolve<IWcfServiceCommonC2D>();
         }
 
         public void RestartClient(string username)

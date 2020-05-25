@@ -53,5 +53,10 @@ namespace Iit.Fibertest.WcfConnections
 
         [OperationContract]
         Task<string> UpdateMeasurement(string username, UpdateMeasurementDto dto);
+
+        // C2Database
+        [OperationContract]
+        Task<byte[]> GetSorBytes(int sorFileId);
+
     }
 }

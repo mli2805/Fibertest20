@@ -73,7 +73,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public void TransmitClientMeasurementResult(ClientMeasurementDoneDto result)
+        public void TransmitClientMeasurementResult(SorBytesDto result)
         {
             _logFile.AppendLine($"Measurement Client result received ({result.SorBytes?.Length} bytes, for clientIp {result.ClientIp})");
 

@@ -325,7 +325,7 @@ namespace Iit.Fibertest.RtuManagement
                             damagedOtau.TcpPort == cha.NetAddress.Port)
                         {
                             _rtuLog.AppendLine($"OTAU {cha.NetAddress.ToStringA()} recovered");
-                            var mikrotikRebootAttemptsBeforeNotification = _rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootAttemptsBeforeNotification, 5);
+                            var mikrotikRebootAttemptsBeforeNotification = _rtuIni.Read(IniSection.Recovering, IniKey.MikrotikRebootAttemptsBeforeNotification, 3);
                             if (damagedOtau.RebootAttempts >= mikrotikRebootAttemptsBeforeNotification)
                             {
                                 _rtuLog.AppendLine("Send notification to server.");

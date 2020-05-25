@@ -203,11 +203,7 @@ namespace Iit.Fibertest.DataCenterCore
             return await _snapshotRepository.GetSnapshotPortion(portionOrdinal);
         }
 
-        public async Task<byte[]> GetSorBytes(int sorFileId)
-        {
-            return await _sorFileRepository.GetSorBytesAsync(sorFileId);
-        }
-
+       
         public async Task<DiskSpaceDto> GetDiskSpaceGb()
         {
             return await _diskSpaceProvider.GetDiskSpaceGb();

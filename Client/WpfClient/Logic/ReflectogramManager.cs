@@ -17,16 +17,17 @@ namespace Iit.Fibertest.Client
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
         private readonly IWindowManager _windowManager;
 
         private string _tempSorFile;
 
-        public ReflectogramManager(IniFile iniFile, IMyLog logFile, IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)
+        public ReflectogramManager(IniFile iniFile, IMyLog logFile, 
+             IWcfServiceCommonC2D c2DWcfCommonManager, IWindowManager windowManager)
         {
             _iniFile = iniFile;
             _logFile = logFile;
-            _c2DWcfManager = c2DWcfManager;
+            _c2DWcfCommonManager = c2DWcfCommonManager;
             _windowManager = windowManager;
         }
 
@@ -109,7 +110,7 @@ namespace Iit.Fibertest.Client
         //------------------------------------------------------------------------------------------------
         public async Task<byte[]> GetSorBytes(int sorFileId)
         {
-            var sorbytes = await _c2DWcfManager.GetSorBytes(sorFileId);
+            var sorbytes = await _c2DWcfCommonManager.GetSorBytes(sorFileId);
             if (sorbytes == null)
             {
                 _logFile.AppendLine($@"Cannot get reflectogram for measurement {sorFileId}");
@@ -127,8 +128,8 @@ namespace Iit.Fibertest.Client
                 return new byte[0];
             }
 
-            var n = otdrDataKnownBlocks.EmbeddedData.EmbeddedDataBlocks.Where(block => block.Description != @"SOR").ToArray();
-            otdrDataKnownBlocks.EmbeddedData.EmbeddedDataBlocks = n;
+            var blocks = otdrDataKnownBlocks.EmbeddedData.EmbeddedDataBlocks.Where(block => block.Description != @"SOR").ToArray();
+            otdrDataKnownBlocks.EmbeddedData.EmbeddedDataBlocks = blocks;
             return otdrDataKnownBlocks.ToBytes();
         }
 

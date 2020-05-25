@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 namespace Iit.Fibertest.Dto
 {
     [DataContract]
-    public class ClientMeasurementDoneDto
+    public class SorBytesDto
     {
         [DataMember]
         public string ClientIp { get; set; }

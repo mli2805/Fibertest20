@@ -36,7 +36,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 {
                     body = await reader.ReadToEndAsync();
                 }
-                var dto = JsonConvert.DeserializeObject<ClientMeasurementDoneDto>(body);
+                var dto = JsonConvert.DeserializeObject<SorBytesDto>(body);
                 _logFile.AppendLine($"ClientMeasurementDone for client: {dto.ClientIp}");
                 await _hubContext.Clients.All.SendAsync("ClientMeasurementDone", body);
                 return true;

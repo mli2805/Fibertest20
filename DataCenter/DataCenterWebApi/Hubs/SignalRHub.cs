@@ -117,10 +117,4 @@ namespace Iit.Fibertest.DataCenterWebApi
 
     }
 
-    public class SignalDto
-    {
-        public string username { get; set; }
-        public int code { get; set; }
-        public string message { get; set; }
-    }
 }

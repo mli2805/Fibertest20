@@ -5,6 +5,7 @@ import { MatPaginator, MatMenuTrigger } from "@angular/material";
 import { tap } from "rxjs/operators";
 import { OneApiService } from "src/app/api/one.service";
 import { MeasurementDto } from "src/app/models/dtos/measurementDto";
+import { ReturnCode } from "src/app/models/enums/returnCode";
 
 @Component({
   selector: "ft-trace-statistics",
@@ -92,14 +93,22 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
   }
 
   showRef(param: number) {
+    const sorFileId = this.contextMenu.menuData.row.sorFileId;
     if (param === 1) {
-      console.log("show ref: ", this.contextMenu.menuData.row.sorFileId);
+      console.log("show ref: ", sorFileId);
     } else {
-      console.log(
-        "show ref and base: ",
-        this.contextMenu.menuData.row.sorFileId
-      );
+      console.log("show ref and base: ", sorFileId);
     }
+
+    this.oneApiService
+      .getRequest(`misc/get-sor-file/${sorFileId}`)
+      .subscribe((res: any) => {
+        if (res.ReturnCode === ReturnCode.Error) {
+          alert(`failed to fetch sor file ${sorFileId}!`);
+          return;
+        }
+        console.log(`received ${res.SorBytes.length} bytes`);
+      });
   }
 
   saveRef(param: number) {

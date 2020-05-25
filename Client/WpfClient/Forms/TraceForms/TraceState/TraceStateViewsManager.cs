@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Client
         private readonly TraceStateModelFactory _traceStateModelFactory;
         private readonly OutOfTurnPreciseMeasurementViewModel _outOfTurnPreciseMeasurementViewModel;
         private readonly IWindowManager _windowManager;
-        private readonly DesktopC2DWcfManager _desktopC2DWcfManager;
+        private readonly CommonC2DWcfManager _commonC2DWcfManager;
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
         private readonly ChildrenViews _childrenViews;
@@ -26,7 +26,7 @@ namespace Iit.Fibertest.Client
         private List<TraceStateViewModel> LaunchedViews { get; } = new List<TraceStateViewModel>();
 
         public TraceStateViewsManager(ILifetimeScope globalScope, IWindowManager windowManager,
-            DesktopC2DWcfManager desktopC2DWcfManager, Model readModel, CurrentUser currentUser,
+            CommonC2DWcfManager commonC2DWcfManager, Model readModel, CurrentUser currentUser,
             ChildrenViews childrenViews, TraceStateModelFactory traceStateModelFactory,
             OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel)
         {
@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Client
             _traceStateModelFactory = traceStateModelFactory;
             _outOfTurnPreciseMeasurementViewModel = outOfTurnPreciseMeasurementViewModel;
             _windowManager = windowManager;
-            _desktopC2DWcfManager = desktopC2DWcfManager;
+            _commonC2DWcfManager = commonC2DWcfManager;
             _readModel = readModel;
             _currentUser = currentUser;
             _childrenViews = childrenViews;
@@ -138,7 +138,7 @@ namespace Iit.Fibertest.Client
         // User clicked on line in TraceStatistics (maybe not on the last line - see parameter)
         public async void ShowTraceState(Measurement measurement, bool isLastMeasurementOnThisTrace, bool isLastAccident)
         {
-            var sorBytes = await _desktopC2DWcfManager.GetSorBytes(measurement.SorFileId);
+            var sorBytes = await _commonC2DWcfManager.GetSorBytes(measurement.SorFileId);
             if (sorBytes == null)
                 return;
 

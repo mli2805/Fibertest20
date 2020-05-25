@@ -63,7 +63,7 @@ namespace Iit.Fibertest.RtuManagement
             ClientMeasurementStartedDto.ReturnCode = !ToggleToPort(dto.OtauPortDto) ? ReturnCode.RtuToggleToPortError : ReturnCode.Ok;
         }
 
-        private ClientMeasurementDoneDto ClientMeasurementItself(DoClientMeasurementDto dto)
+        private SorBytesDto ClientMeasurementItself(DoClientMeasurementDto dto)
         {
             var activeBop = dto.OtauPortDto.IsPortOnMainCharon
                 ? null
@@ -77,12 +77,12 @@ namespace Iit.Fibertest.RtuManagement
             }
             var lastSorDataBuffer = _otdrManager.GetLastSorDataBuffer();
             if (lastSorDataBuffer == null)
-                return new ClientMeasurementDoneDto()
+                return new SorBytesDto()
                 {
                     ReturnCode = ReturnCode.MeasurementError,
                     ClientIp = dto.ClientIp,
                 };
-            return new ClientMeasurementDoneDto()
+            return new SorBytesDto()
             {
                 ReturnCode = ReturnCode.MeasurementEndedNormally,
                 ClientIp = dto.ClientIp,

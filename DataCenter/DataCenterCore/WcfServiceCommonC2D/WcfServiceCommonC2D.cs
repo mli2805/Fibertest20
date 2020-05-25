@@ -317,6 +317,10 @@ namespace Iit.Fibertest.DataCenterCore
             return await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
         }
 
+        public async Task<byte[]> GetSorBytes(int sorFileId)
+        {
+            return await _sorFileRepository.GetSorBytesAsync(sorFileId);
+        }
     }
 
 }

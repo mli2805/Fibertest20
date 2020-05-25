@@ -83,6 +83,7 @@ namespace Iit.Fibertest.Client
         private readonly LandmarksBaseParser _landmarksBaseParser;
         private readonly LandmarksGraphParser _landmarksGraphParser;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
         private readonly IWindowManager _windowManager;
         private List<Landmark> _landmarks;
 
@@ -148,7 +149,7 @@ namespace Iit.Fibertest.Client
 
         public LandmarksViewModel(ILifetimeScope globalScope, Model readModel, CurrentGis currentGis,
             LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,
-             IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)
+             IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D c2DWcfCommonManager, IWindowManager windowManager)
         {
             CurrentGis = currentGis;
             _globalScope = globalScope;
@@ -156,6 +157,7 @@ namespace Iit.Fibertest.Client
             _landmarksBaseParser = landmarksBaseParser;
             _landmarksGraphParser = landmarksGraphParser;
             _c2DWcfManager = c2DWcfManager;
+            _c2DWcfCommonManager = c2DWcfCommonManager;
             _windowManager = windowManager;
             _selectedGpsInputMode = GpsInputModes.First(i => i.Mode == CurrentGis.GpsInputMode);
             GisVisibility = currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
@@ -226,7 +228,7 @@ namespace Iit.Fibertest.Client
             var baseRef = _readModel.BaseRefs.First(b => b.Id == baseId);
             OneLandmarkViewModel.SorFileId = baseRef.SorFileId;
             OneLandmarkViewModel.PreciseTimestamp = baseRef.SaveTimestamp;
-            var sorBytes = await _c2DWcfManager.GetSorBytes(baseRef.SorFileId);
+            var sorBytes = await _c2DWcfCommonManager.GetSorBytes(baseRef.SorFileId);
             return SorData.FromBytes(sorBytes);
         }
 
