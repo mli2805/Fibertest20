@@ -5,6 +5,8 @@ import { formatDate } from "@angular/common";
 import { BaseRefType } from "../models/enums/baseRefType";
 import { AssignBaseRefDtoWithFiles } from "../models/dtos/trace/assignBaseRefDtoWithFiles";
 import { BaseRefFile } from "../models/underlying/baseRefFile";
+import { SorFileDto } from "../models/underlying/sorFileDto";
+import { ReturnCode } from "../models/enums/returnCode";
 
 @Injectable({
   providedIn: "root",
@@ -58,5 +60,18 @@ export class OneApiService {
     formData.append("dto", JSON.stringify(dto));
 
     return this.httpClient.post(url, formData, { headers: myHeaders });
+  }
+
+  async getSorFileFromServer(sorFileId: number) {
+    const res = (await this.getRequest(
+      `misc/get-sor-file/${sorFileId}`
+    ).toPromise()) as SorFileDto;
+
+    if (res.ReturnCode === ReturnCode.Error) {
+      alert(`failed to fetch sor file ${sorFileId}!`);
+      return null;
+    }
+    console.log(`received ${res.SorBytes.length} bytes`);
+    return res.SorBytes;
   }
 }

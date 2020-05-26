@@ -6,6 +6,8 @@ import { tap } from "rxjs/operators";
 import { OneApiService } from "src/app/api/one.service";
 import { MeasurementDto } from "src/app/models/dtos/measurementDto";
 import { ReturnCode } from "src/app/models/enums/returnCode";
+import { ClientMeasurementDoneDto } from "src/app/models/dtos/port/clientMeasurementDoneDto";
+import { SorFileDto } from "src/app/models/underlying/sorFileDto";
 
 @Component({
   selector: "ft-trace-statistics",
@@ -92,7 +94,7 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
     this.contextMenu.focus("mouse");
   }
 
-  showRef(param: number) {
+  async showRef(param: number) {
     const sorFileId = this.contextMenu.menuData.row.sorFileId;
     if (param === 1) {
       console.log("show ref: ", sorFileId);
@@ -100,24 +102,26 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
       console.log("show ref and base: ", sorFileId);
     }
 
-    this.oneApiService
-      .getRequest(`misc/get-sor-file/${sorFileId}`)
-      .subscribe((res: any) => {
-        if (res.ReturnCode === ReturnCode.Error) {
-          alert(`failed to fetch sor file ${sorFileId}!`);
-          return;
-        }
-        console.log(`received ${res.SorBytes.length} bytes`);
-      });
+    const bytes = await this.oneApiService.getSorFileFromServer(sorFileId);
+
+    if (bytes !== null) {
+      console.log(`now we are going to show ref from ${bytes.length} bytes`);
+    }
   }
 
-  saveRef(param: number) {
+  async saveRef(param: number) {
+    const sorFileId = this.contextMenu.menuData.row.sorFileId;
     if (param === 1) {
-      console.log("save ref: ", this.contextMenu.menuData.row.sorFileId);
+      console.log("save ref: ", sorFileId);
     } else {
+      console.log("save ref and base: ", sorFileId);
+    }
+
+    const bytes = await this.oneApiService.getSorFileFromServer(sorFileId);
+
+    if (bytes !== null) {
       console.log(
-        "save ref and base: ",
-        this.contextMenu.menuData.row.sorFileId
+        `now we are going to save ${bytes.length} bytes into file on disk`
       );
     }
   }
@@ -125,6 +129,7 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
   showRftsEvents() {
     console.log("show rfts events: ", this.contextMenu.menuData.row.sorFileId);
   }
+
   showTraceState() {
     console.log("show trace state: ", this.contextMenu.menuData.row.sorFileId);
     const dict = {
