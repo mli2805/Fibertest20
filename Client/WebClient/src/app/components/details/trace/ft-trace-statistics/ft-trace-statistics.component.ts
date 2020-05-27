@@ -5,9 +5,7 @@ import { MatPaginator, MatMenuTrigger } from "@angular/material";
 import { tap } from "rxjs/operators";
 import { OneApiService } from "src/app/api/one.service";
 import { MeasurementDto } from "src/app/models/dtos/measurementDto";
-import { ReturnCode } from "src/app/models/enums/returnCode";
-import { ClientMeasurementDoneDto } from "src/app/models/dtos/port/clientMeasurementDoneDto";
-import { SorFileDto } from "src/app/models/underlying/sorFileDto";
+import * as fs from "fs";
 
 @Component({
   selector: "ft-trace-statistics",
@@ -120,9 +118,12 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
     const bytes = await this.oneApiService.getSorFileFromServer(sorFileId);
 
     if (bytes !== null) {
-      console.log(
-        `now we are going to save ${bytes.length} bytes into file on disk`
-      );
+      console.log(`now we are going to save ${bytes.length} bytes into file`);
+
+      const byteArray = new Uint8Array(bytes);
+      const data = new Blob([byteArray], null);
+
+      // fs.readFileSync("foo.txt", "utf8");
     }
   }
 
