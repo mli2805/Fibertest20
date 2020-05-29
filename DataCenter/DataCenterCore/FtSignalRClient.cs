@@ -19,61 +19,73 @@ namespace Iit.Fibertest.DataCenterCore
             _webApiUrl = $"{bindingProtocol}://localhost:{(int)TcpPorts.WebProxyListenTo}/webApiSignalRHub";
         }
 
-        public void Build()
+        private void Build()
         {
             connection = new HubConnectionBuilder()
                 .WithUrl(_webApiUrl)
                 .Build();
 
+//           var cert = new X509Certificate(File.ReadAllBytes(@"c:\temp\iit-fibertest.crt"));
+//
+//           connection = new HubConnectionBuilder()
+//                .WithUrl(_webApiUrl, options => {
+//                    options.Transports = HttpTransportType.WebSockets;
+//                    options.ClientCertificates = new X509CertificateCollection {cert};
+//                } )
+//                .Build();
+
             connection.Closed += async (error) =>
             {
+                _logFile.AppendLine("FtSignalRClient connection was closed. Restarting...");
                 await Task.Delay(new Random().Next(0, 5) * 1000);
                 await connection.StartAsync();
             };
         }
 
-        public async Task Connect()
+        public async Task NotifyAll(string eventType, string dataInJson)
         {
-            //            connection.On<string, string>("ReceiveMessage", (user, message) =>
-            //            {
-            //                var newMessage = $"{user}: {message}";
-            //                _logFile.AppendLine(newMessage);
-            //            });
-
             try
             {
-                await connection.StartAsync();
-                _logFile.AppendLine("FtSignalRClient connection started");
+                var isConnected = await IsSignalRConnected();
+                if (isConnected)
+                    await connection.InvokeAsync("NotifyAll", eventType, dataInJson);
             }
             catch (Exception ex)
             {
-                _logFile.AppendLine("FtSignalRClient: Connect: " + ex.Message);
+                _logFile.AppendLine($"FtSignalRClient: {eventType} " + ex.Message);
             }
         }
 
-
-        public async Task NotifyAll(string eventType, string dataInJson)
+        private async Task<bool> IsSignalRConnected()
         {
             try
             {
                 if (connection == null)
                 {
+                    _logFile.AppendLine($"Build signalR connection to {_webApiUrl}");
                     Build();
-                    _logFile.AppendLine($"SignalR connection to {_webApiUrl}");
+                    _logFile.AppendLine($"SignalR connection state is {connection.State}");
                     await Task.Delay(2000);
-                    await Connect();
+
+
+                    _logFile.AppendLine($"Start signalR connection to {_webApiUrl}");
+                    await connection.StartAsync();
+                    _logFile.AppendLine($"SignalR connection state is {connection.State}");
                     await Task.Delay(2000);
                 }
                 else if (connection.State != HubConnectionState.Connected)
                 {
-                    await Connect();
+                    _logFile.AppendLine($"Start signalR connection to {_webApiUrl}");
+                    await connection.StartAsync();
                     await Task.Delay(2000);
                 }
-                await connection.InvokeAsync("NotifyAll", eventType, dataInJson);
+
+                return true;
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                _logFile.AppendLine($"FtSignalRClient: {eventType} " + ex.Message);
+                _logFile.AppendLine($"FtSignalRClient Start connection: " + e.Message);
+                return false;
             }
         }
     }
