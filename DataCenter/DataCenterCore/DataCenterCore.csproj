@@ -277,11 +277,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessToRepositoryIntermediary\BaseRefRepairmanIntermediary.cs" />
+    <Compile Include="JsonUtil.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\MeasurementFactory.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\RtuStationFactory.cs" />
     <Compile Include="ClientsCollection.cs" />
     <Compile Include="FtSignalRClient.cs" />
     <Compile Include="WcfServiceWebC2D\EventsExt.cs" />
+    <Compile Include="WcfServiceWebC2D\TraceWebDtoFactory.cs" />
     <Compile Include="WcfServiceWebC2D\WcfServiceWebC2DMonitoringSettings.cs" />
     <Compile Include="WcfServiceWebC2D\WcfServiceWebC2DTrace.cs" />
     <Compile Include="WcfServiceWebC2D\WebDtoFactory.cs" />

@@ -8,7 +8,6 @@ using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
-using Newtonsoft.Json;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -22,6 +21,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly SorFileRepository _sorFileRepository;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly FtSignalRClient _ftSignalRClient;
+        private readonly AccidentLineModelFactory _accidentLineModelFactory;
         private readonly Smtp _smtp;
         private readonly SmsManager _smsManager;
         private readonly SnmpNotifier _snmpNotifier;
@@ -29,7 +29,7 @@ namespace Iit.Fibertest.DataCenterCore
         public MsmqMessagesProcessor(IMyLog logFile, IniFile iniFile, Model writeModel,
             EventStoreService eventStoreService, MeasurementFactory measurementFactory,
             SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository,
-            FtSignalRClient ftSignalRClient,
+            FtSignalRClient ftSignalRClient, AccidentLineModelFactory accidentLineModelFactory,
             Smtp smtp, SmsManager smsManager, SnmpNotifier snmpNotifier)
         {
             _logFile = logFile;
@@ -40,6 +40,7 @@ namespace Iit.Fibertest.DataCenterCore
             _sorFileRepository = sorFileRepository;
             _rtuStationsRepository = rtuStationsRepository;
             _ftSignalRClient = ftSignalRClient;
+            _accidentLineModelFactory = accidentLineModelFactory;
             _smtp = smtp;
             _smsManager = smsManager;
             _snmpNotifier = snmpNotifier;
@@ -56,7 +57,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<int> ProcessBopStateChanges(BopStateChangedDto dto)
         {
-            if (! await _rtuStationsRepository.IsRtuExist(dto.RtuId)) return -1;
+            if (!await _rtuStationsRepository.IsRtuExist(dto.RtuId)) return -1;
 
             await CheckAndSendBopNetworkEventIfNeeded(dto);
             return 0;
@@ -64,7 +65,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<int> ProcessMonitoringResult(MonitoringResultDto dto)
         {
-            if (! await _rtuStationsRepository.IsRtuExist(dto.RtuId)) return -1;
+            if (!await _rtuStationsRepository.IsRtuExist(dto.RtuId)) return -1;
 
             _logFile.AppendLine($@"MSMQ message, measure time: {dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture)
                 }, RTU { dto.RtuId.First6()
@@ -88,7 +89,8 @@ namespace Iit.Fibertest.DataCenterCore
                 return -1;
             }
 
-            await _ftSignalRClient.NotifyAll("AddMeasurement", JsonConvert.SerializeObject(addMeasurement));
+            var signal = _writeModel.GetTraceStateDto(_accidentLineModelFactory, sorId);
+            await _ftSignalRClient.NotifyAll("AddMeasurement", signal.ToCamelCaseJson());
             await CheckAndSendBopNetworkIfNeeded(dto);
 
             if (addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent && dto.BaseRefType != BaseRefType.Fast)
@@ -103,9 +105,9 @@ namespace Iit.Fibertest.DataCenterCore
         private async void SendNotificationsAboutTraces(MonitoringResultDto dto, AddMeasurement addMeasurement)
         {
             SetCulture();
-           
+
             await _smtp.SendOpticalEvent(dto, addMeasurement);
-            _smsManager.SendMonitoringResult(dto); 
+            _smsManager.SendMonitoringResult(dto);
             _snmpNotifier.SendTraceEvent(addMeasurement);
         }
 

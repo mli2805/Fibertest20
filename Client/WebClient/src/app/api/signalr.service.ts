@@ -9,7 +9,7 @@ import { CurrentMonitoringStepDto } from "../models/dtos/rtu/currentMonitoringSt
 import { ClientMeasurementDoneDto } from "../models/dtos/port/clientMeasurementDoneDto";
 import { formatDate } from "@angular/common";
 import { MonitoringStoppedDto } from "../models/dtos/rtu/monitoringStoppedDto";
-import { AddMeasurementDto } from "../models/dtos/addMeasurementDto";
+import { TraceStateDto } from "../models/dtos/trace/traceStateDto";
 
 @Injectable({
   providedIn: "root",
@@ -22,7 +22,7 @@ export class SignalrService {
     ClientMeasurementDoneDto
   >();
   public monitoringStoppedEmitter = new EventEmitter<MonitoringStoppedDto>();
-  public measurementAddedEmitter = new EventEmitter<AddMeasurementDto>();
+  public measurementAddedEmitter = new EventEmitter<TraceStateDto>();
 
   // will be built after loggin in, when jsonWebToken provided
   public buildConnection(token: string) {
@@ -63,28 +63,32 @@ export class SignalrService {
     }
   }
 
+  private onNotifyMonitoringStep(signal: string) {
+    const a = signal.length - 1;
+    const timestamp = `, "Timestamp":"${formatDate(
+      Date.now(),
+      "HH:mm:ss:SSS",
+      "en-US"
+    )}"`;
+    const withTimestamp = [
+      signal.substring(0, a),
+      timestamp,
+      signal.substring(a),
+    ].join("");
+
+    const ob = JSON.parse(withTimestamp);
+    const obCamel = Utils.toCamel(ob);
+    this.monitoringStepNotifier.emit(obCamel);
+  }
+
   private registerSignalEvents() {
     // this.hubConnection.on("RtuInitialized", this.onRtuInitialized.bind(this));
     this.hubConnection.on("RtuInitialized", (data: RtuInitializedWebDto) =>
       this.rtuInitializedEmitter.emit(data)
     );
 
-    this.hubConnection.on("NotifyMonitoringStep", (ntf: string) => {
-      const a = ntf.length - 1;
-      const timestamp = `, "Timestamp":"${formatDate(
-        Date.now(),
-        "HH:mm:ss:SSS",
-        "en-US"
-      )}"`;
-      const withTimestamp = [
-        ntf.substring(0, a),
-        timestamp,
-        ntf.substring(a),
-      ].join("");
-
-      const ob = JSON.parse(withTimestamp);
-      const obCamel = Utils.toCamel(ob);
-      this.monitoringStepNotifier.emit(obCamel);
+    this.hubConnection.on("NotifyMonitoringStep", (signal: string) => {
+      this.onNotifyMonitoringStep(signal);
     });
 
     this.hubConnection.on("ClientMeasurementDone", (signal: string) => {
@@ -99,9 +103,16 @@ export class SignalrService {
     });
 
     this.hubConnection.on("AddMeasurement", (signal: string) => {
-      const dto = JSON.parse(signal);
-      const obCamel = Utils.toCamel(dto);
-      this.measurementAddedEmitter.emit(obCamel);
+      this.onAddMeasurement(signal);
     });
+  }
+
+  private onAddMeasurement(signal: string) {
+    try {
+      const dto = JSON.parse(signal);
+      this.measurementAddedEmitter.emit(dto);
+    } catch (error) {
+      console.log(error);
+    }
   }
 }

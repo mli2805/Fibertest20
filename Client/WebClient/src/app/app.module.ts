@@ -124,20 +124,14 @@ import { FtAssignBaseComponent } from "./components/details/trace/ft-assign-base
     FtRtuNetworkSettingsComponent,
     FtRtuMonitoringSettingsComponent,
     FtRtuMonitoringPortsComponent,
+    FtRtuLineComponent,
+    FtPortAttachTraceComponent,
+    FtPortAttachOtauComponent,
+    FtPortMeasurementClientComponent,
+    FtTraceStateComponent,
+    FtAssignBaseComponent,
 
     NoRightClickDirective,
-
-    FtRtuLineComponent,
-
-    FtPortAttachTraceComponent,
-
-    FtPortAttachOtauComponent,
-
-    FtPortMeasurementClientComponent,
-
-    FtTraceStateComponent,
-
-    FtAssignBaseComponent,
   ],
   imports: [
     TranslateModule.forRoot(),
@@ -175,6 +169,7 @@ import { FtAssignBaseComponent } from "./components/details/trace/ft-assign-base
     AuthGuard,
     LoginGuard,
     FrequencyPipe,
+    FiberStatePipe,
     ReturnCodePipe,
     EventStatusPipe,
     FtRtuTreeEventService,

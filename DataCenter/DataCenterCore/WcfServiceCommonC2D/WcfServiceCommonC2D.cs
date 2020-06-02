@@ -9,7 +9,6 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
-using Newtonsoft.Json;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -163,7 +162,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var username = _clientsCollection.GetClientStation(dto.ClientIp)?.UserName;
                 var cmd = new StopMonitoring() { RtuId = dto.RtuId };
                 await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
-                await _ftSignalRClient.NotifyAll("MonitoringStopped", JsonConvert.SerializeObject(cmd));
+                await _ftSignalRClient.NotifyAll("MonitoringStopped", cmd.ToCamelCaseJson());
             }
 
             return isStopped;

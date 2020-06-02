@@ -5,7 +5,6 @@ using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
-using Newtonsoft.Json;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -44,8 +43,7 @@ namespace Iit.Fibertest.DataCenterCore
 
                 if (_clientsCollection.HasAnyWebClients())
                 {
-                    var json = JsonConvert.SerializeObject(dto);
-                    _ftSignalRClient.NotifyAll("NotifyMonitoringStep", json).Wait();
+                    _ftSignalRClient.NotifyAll("NotifyMonitoringStep", dto.ToCamelCaseJson()).Wait();
                 }
 
                 var addresses = _clientsCollection.GetDesktopClientsAddresses();
@@ -87,8 +85,7 @@ namespace Iit.Fibertest.DataCenterCore
                 if (clientStation == null) return;
                 if (clientStation.IsWebClient)
                 {
-                    var json = JsonConvert.SerializeObject(result);
-                    _ftSignalRClient.NotifyAll("ClientMeasurementDone", json).Wait();
+                    _ftSignalRClient.NotifyAll("ClientMeasurementDone", result.ToCamelCaseJson()).Wait();
                 }
                 else
                 {
