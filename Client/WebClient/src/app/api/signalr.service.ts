@@ -9,6 +9,7 @@ import { CurrentMonitoringStepDto } from "../models/dtos/rtu/currentMonitoringSt
 import { ClientMeasurementDoneDto } from "../models/dtos/port/clientMeasurementDoneDto";
 import { formatDate } from "@angular/common";
 import { MonitoringStoppedDto } from "../models/dtos/rtu/monitoringStoppedDto";
+import { AddMeasurementDto } from "../models/dtos/addMeasurementDto";
 
 @Injectable({
   providedIn: "root",
@@ -21,6 +22,7 @@ export class SignalrService {
     ClientMeasurementDoneDto
   >();
   public monitoringStoppedEmitter = new EventEmitter<MonitoringStoppedDto>();
+  public measurementAddedEmitter = new EventEmitter<AddMeasurementDto>();
 
   // will be built after loggin in, when jsonWebToken provided
   public buildConnection(token: string) {
@@ -94,6 +96,12 @@ export class SignalrService {
       const dto = JSON.parse(signal);
       const obCamel = Utils.toCamel(dto);
       this.monitoringStoppedEmitter.emit(obCamel);
+    });
+
+    this.hubConnection.on("AddMeasurement", (signal: string) => {
+      const dto = JSON.parse(signal);
+      const obCamel = Utils.toCamel(dto);
+      this.measurementAddedEmitter.emit(obCamel);
     });
   }
 }

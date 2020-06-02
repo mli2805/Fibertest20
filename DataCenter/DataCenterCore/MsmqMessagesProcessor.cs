@@ -8,6 +8,7 @@ using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
+using Newtonsoft.Json;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -20,6 +21,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly MeasurementFactory _measurementFactory;
         private readonly SorFileRepository _sorFileRepository;
         private readonly RtuStationsRepository _rtuStationsRepository;
+        private readonly FtSignalRClient _ftSignalRClient;
         private readonly Smtp _smtp;
         private readonly SmsManager _smsManager;
         private readonly SnmpNotifier _snmpNotifier;
@@ -27,6 +29,7 @@ namespace Iit.Fibertest.DataCenterCore
         public MsmqMessagesProcessor(IMyLog logFile, IniFile iniFile, Model writeModel,
             EventStoreService eventStoreService, MeasurementFactory measurementFactory,
             SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository,
+            FtSignalRClient ftSignalRClient,
             Smtp smtp, SmsManager smsManager, SnmpNotifier snmpNotifier)
         {
             _logFile = logFile;
@@ -36,6 +39,7 @@ namespace Iit.Fibertest.DataCenterCore
             _measurementFactory = measurementFactory;
             _sorFileRepository = sorFileRepository;
             _rtuStationsRepository = rtuStationsRepository;
+            _ftSignalRClient = ftSignalRClient;
             _smtp = smtp;
             _smsManager = smsManager;
             _snmpNotifier = snmpNotifier;
@@ -69,6 +73,7 @@ namespace Iit.Fibertest.DataCenterCore
             var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
             if (sorId == -1) return -1;
 
+
             return await SaveEventFromDto(dto, sorId);
         }
 
@@ -83,6 +88,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return -1;
             }
 
+            await _ftSignalRClient.NotifyAll("AddMeasurement", JsonConvert.SerializeObject(addMeasurement));
             await CheckAndSendBopNetworkIfNeeded(dto);
 
             if (addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent && dto.BaseRefType != BaseRefType.Fast)

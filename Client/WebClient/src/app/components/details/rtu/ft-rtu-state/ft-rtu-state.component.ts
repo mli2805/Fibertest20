@@ -16,8 +16,9 @@ import { formatDate } from "@angular/common";
 })
 export class FtRtuStateComponent implements OnInit, OnDestroy {
   vm: RtuStateDto = new RtuStateDto();
-  private subscription: Subscription;
+  private monitoringStepSubscription: Subscription;
   private monitoringStoppedSubscription: Subscription;
+  private measurementAddedSubscription: Subscription;
 
   displayedColumns = [
     "port",
@@ -40,7 +41,9 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnDestroy(): void {
-    this.subscription.unsubscribe();
+    this.monitoringStepSubscription.unsubscribe();
+    this.monitoringStoppedSubscription.unsubscribe();
+    this.measurementAddedSubscription.unsubscribe();
     console.log("bye");
   }
 
@@ -66,7 +69,7 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.subscription = this.signalRService.monitoringStepNotifier.subscribe(
+    this.monitoringStepSubscription = this.signalRService.monitoringStepNotifier.subscribe(
       (signal: any) => {
         if (signal.rtuId === this.vm.rtuId) {
           this.notifyUserCurrentMonitoringStep(signal);
@@ -78,11 +81,28 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
       (signal: any) => {
         console.log("monitoring stopped", signal);
         if (signal.rtuId === this.vm.rtuId) {
-          console.log("monitoring stopped", signal);
+          console.log("this RTU monitoring stopped", signal);
           this.vm.monitoringMode = MonitoringMode.Off;
           this.currentMonitoringStepSubject.next(
             this.ts.instant("SID_No_measurement")
           );
+        }
+      }
+    );
+
+    this.measurementAddedSubscription = this.signalRService.measurementAddedEmitter.subscribe(
+      (signal: any) => {
+        console.log("measurement added", signal);
+        if (signal.rtuId === this.vm.rtuId) {
+          console.log("this RTU measurement added: ", this.vm.rtuTitle);
+          for (const child of this.vm.children) {
+            if (child.traceId === signal.traceId) {
+              console.log("this TRACE measurement added: ", child.traceTitle);
+              child.traceState = signal.traceState;
+              child.lastMeasId = signal.sorFileId;
+              child.lastMeasTime = signal.eventRegistrationTimestamp;
+            }
+          }
         }
       }
     );
