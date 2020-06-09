@@ -112,7 +112,7 @@ namespace Iit.Fibertest.Install
             try
             {
                 if (IisOperations.DoesWebsiteExist(siteName))
-                    IisOperations.DeleteWebsite(siteName, worker);
+                    WebCommonOperation.DeleteWebsite(siteName, worker);
 
                 var webSitePath = Path.Combine(currentInstallation.InstallationFolder, siteName);
                 if (Directory.Exists(webSitePath))

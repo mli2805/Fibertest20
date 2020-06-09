@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
 using System.Threading;
+using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.UtilsLib
+namespace Iit.Fibertest.Uninstall
 {
     public static class UninstallOperations
     {
@@ -31,7 +32,9 @@ namespace Iit.Fibertest.UtilsLib
 
             if (!UninstallServices(worker)) return false;
             if (Directory.Exists(Path.Combine(fibertestFolder, "WebApi")))
-                UninstallSites(worker);
+            {
+                foreach (var site in _sites) WebCommonOperation.DeleteWebsite(site, worker);
+            }
 
             if (!DeleteFiles(worker, fibertestFolder, isFullUninstall)) return false;
             ShortcutOperatios.DeleteAllShortcuts();
@@ -54,12 +57,7 @@ namespace Iit.Fibertest.UtilsLib
             return true;
         }
 
-        public static void UninstallSites(BackgroundWorker worker)
-        {
-            foreach (var site in _sites)
-                IisOperations.DeleteWebsite(site, worker);
-        }
-
+      
         private static bool DeleteFiles(BackgroundWorker worker, string fibertestFolder, bool isFullUninstall)
         {
             worker.ReportProgress((int)BwReturnProgressCode.DeletingFiles);
@@ -87,6 +85,5 @@ namespace Iit.Fibertest.UtilsLib
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreDeletedSuccessfully);
             return true;
         }
-
     }
 }

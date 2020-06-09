@@ -98,21 +98,13 @@ export class SignalrService {
 
     this.hubConnection.on("MonitoringStopped", (signal: string) => {
       const dto = JSON.parse(signal);
-      const obCamel = Utils.toCamel(dto);
-      this.monitoringStoppedEmitter.emit(obCamel);
+      this.monitoringStoppedEmitter.emit(dto);
     });
 
     this.hubConnection.on("AddMeasurement", (signal: string) => {
-      this.onAddMeasurement(signal);
+      const dto = JSON.parse(signal);
+      this.measurementAddedEmitter.emit(dto);
     });
   }
 
-  private onAddMeasurement(signal: string) {
-    try {
-      const dto = JSON.parse(signal);
-      this.measurementAddedEmitter.emit(dto);
-    } catch (error) {
-      console.log(error);
-    }
-  }
 }
