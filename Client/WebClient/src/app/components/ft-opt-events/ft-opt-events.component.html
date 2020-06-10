@@ -127,6 +127,10 @@
 
   <mat-menu #optEvContextMenu="matMenu">
     <ng-template matMenuContent let-item="item">
+      <button mat-menu-item (click)="seeEvent()">
+        {{ "see event" }}
+      </button>
+       <mat-divider></mat-divider>
       <button mat-menu-item (click)="showRef(1)">
         {{ "SID_Show_reflectogram" | translate }}
       </button>

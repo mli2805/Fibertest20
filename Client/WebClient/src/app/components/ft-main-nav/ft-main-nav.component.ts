@@ -5,6 +5,7 @@ import { SignalrService } from "src/app/api/signalr.service";
 import { EventStatus } from "src/app/models/enums/eventStatus";
 import { FiberStatePipe } from "src/app/pipes/fiber-state.pipe";
 import { TraceStateDto } from "src/app/models/dtos/trace/traceStateDto";
+import { UnseenOpticalService } from "src/app/interaction/unseen-optical.service";
 
 @Component({
   selector: "ft-main-nav",
@@ -17,8 +18,13 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   constructor(
     private authService: AuthService,
     private signalRService: SignalrService,
-    private fiberStatePipe: FiberStatePipe
-  ) {}
+    private fiberStatePipe: FiberStatePipe,
+    private unseenOpticalService: UnseenOpticalService
+  ) {
+    unseenOpticalService.opticalEventConfirmed$.subscribe((sorFileId) => {
+      console.log(`optical event ${sorFileId} has been seen`);
+    });
+  }
 
   ngOnInit() {
     this.measurementAddedSubscription = this.signalRService.measurementAddedEmitter.subscribe(
