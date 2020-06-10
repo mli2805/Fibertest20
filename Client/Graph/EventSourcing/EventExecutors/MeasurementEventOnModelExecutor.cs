@@ -14,11 +14,14 @@ namespace Iit.Fibertest.Graph
             var meas = Mapper.Map<Measurement>(e);
             model.Measurements.Add(meas);
 
-            var sameTraceActiveMeas = model.ActiveMeasurements.FirstOrDefault(m => m.TraceId == meas.TraceId);
-            if (sameTraceActiveMeas != null)
-                model.ActiveMeasurements.Remove(sameTraceActiveMeas);
-            if (meas.TraceState != FiberState.Ok)
-                model.ActiveMeasurements.Add(meas);
+            if (meas.EventStatus != EventStatus.JustMeasurementNotAnEvent)
+            {
+                var sameTraceActiveMeas = model.ActiveMeasurements.FirstOrDefault(m => m.TraceId == meas.TraceId);
+                if (sameTraceActiveMeas != null)
+                    model.ActiveMeasurements.Remove(sameTraceActiveMeas);
+                if (meas.TraceState != FiberState.Ok)
+                    model.ActiveMeasurements.Add(meas);
+            }
 
             model.ShowMonitoringResult(e);
             return null;
