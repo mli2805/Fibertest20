@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Messaging;
 using System.Threading;
+using System.Threading.Tasks;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterCore
@@ -61,6 +62,7 @@ namespace Iit.Fibertest.DataCenterCore
             catch (Exception e)
             {
                 _logFile.AppendLine($"MyReceiveCompleted: {e.Message}");
+                await Task.Delay(1000);
             }
             finally
             {
