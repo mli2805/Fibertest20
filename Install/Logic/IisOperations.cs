@@ -36,9 +36,9 @@ namespace Iit.Fibertest.Install
                     {
                         ApplicationPool newPool = serverManager.ApplicationPools.Add(websiteName);  
                         newPool.ProcessModel.IdleTimeout = TimeSpan.Zero;  
-//                        newPool.AutoStart = true;
-//                        var attr = newPool.Attributes.FirstOrDefault(a => a.Name == "startMode");
-//                        if (attr != null) attr.Value = 1; // OnDemand = 0;   AlwaysRunning = 1
+                        newPool.AutoStart = true;
+                        var attr = newPool.Attributes.FirstOrDefault(a => a.Name == "startMode");
+                        if (attr != null) attr.Value = 1; // OnDemand = 0;   AlwaysRunning = 1
                         serverManager.CommitChanges();  
                     }
 
