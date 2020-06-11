@@ -6,6 +6,7 @@ import { AccidentLineDto } from "./accidentLineDto";
 
 export class TraceStateDto {
   header: TraceHeaderDto = new TraceHeaderDto();
+  traceId: string;
   traceState: FiberState;
   baseRefType: BaseRefType;
   eventStatus: EventStatus;

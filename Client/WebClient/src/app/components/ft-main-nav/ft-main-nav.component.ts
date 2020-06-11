@@ -6,6 +6,8 @@ import { EventStatus } from "src/app/models/enums/eventStatus";
 import { FiberStatePipe } from "src/app/pipes/fiber-state.pipe";
 import { TraceStateDto } from "src/app/models/dtos/trace/traceStateDto";
 import { UnseenOpticalService } from "src/app/interaction/unseen-optical.service";
+import { Dictionary } from "src/app/utils/dictionary";
+import { FiberState } from "src/app/models/enums/fiberState";
 
 @Component({
   selector: "ft-main-nav",
@@ -14,15 +16,17 @@ import { UnseenOpticalService } from "src/app/interaction/unseen-optical.service
 })
 export class FtMainNavComponent implements OnInit, OnDestroy {
   private measurementAddedSubscription: Subscription;
-
+  private unseenOpticalsDict;
   constructor(
     private authService: AuthService,
     private signalRService: SignalrService,
     private fiberStatePipe: FiberStatePipe,
     private unseenOpticalService: UnseenOpticalService
   ) {
+    this.unseenOpticalsDict = new Dictionary<string, number>();
     unseenOpticalService.opticalEventConfirmed$.subscribe((sorFileId) => {
       console.log(`optical event ${sorFileId} has been seen`);
+      this.unseenOpticalsDict.removeByValue(sorFileId);
     });
   }
 
@@ -31,10 +35,16 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
       (signal: TraceStateDto) => {
         console.log("Measurement Added Signal received! ", signal);
         if (signal.eventStatus > EventStatus.JustMeasurementNotAnEvent) {
-          alert(
-            `RTU ${signal.header.rtuTitle}  Trace ${
-              signal.header.traceTitle
-            }  State ${this.fiberStatePipe.transform(signal.traceState)}`
+          if (signal.traceState === FiberState.Ok) {
+            this.unseenOpticalsDict.remove(signal.traceId);
+          } else {
+            this.unseenOpticalsDict.addOrUpdate(
+              signal.traceId,
+              signal.sorFileId
+            );
+          }
+          console.log(
+            `unseen optical events dict contains now ${this.unseenOpticalsDict.count()} entries`
           );
         }
       }
