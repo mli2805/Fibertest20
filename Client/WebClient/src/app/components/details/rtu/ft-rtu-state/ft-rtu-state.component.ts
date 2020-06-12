@@ -100,7 +100,7 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
               console.log("this TRACE measurement added: ", child.traceTitle);
               child.traceState = signal.traceState;
               child.lastMeasId = signal.sorFileId;
-              child.lastMeasTime = signal.eventRegistrationTimestamp;
+              child.lastMeasTime = signal.registrationTimestamp;
             }
           }
         }

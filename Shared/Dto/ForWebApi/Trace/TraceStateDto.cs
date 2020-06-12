@@ -6,6 +6,8 @@ namespace Iit.Fibertest.Dto
     public class TraceStateDto
     {
         public TraceHeaderDto Header = new TraceHeaderDto();
+        public Guid RtuId;
+        public Guid TraceId;
         public FiberState TraceState;
         public BaseRefType BaseRefType;
         public EventStatus EventStatus;

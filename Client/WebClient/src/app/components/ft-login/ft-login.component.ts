@@ -66,6 +66,7 @@ export class FtLoginComponent implements OnInit {
         this.signalrService.startConnection();
 
         this.router.navigate(["/rtu-tree"], { queryParams: null });
+        console.log("Logged in successfully!");
         this.isSpinnerVisible = false;
       },
       (unsuccessfulResult: any) => {

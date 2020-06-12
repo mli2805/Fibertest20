@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Install
                     else
                         site = serverManager.Sites.Add(websiteName, bindingProtocol, bindingInformation, path);
 
-//                    site.ApplicationDefaults.ApplicationPoolName = websiteName;
+                    site.ApplicationDefaults.ApplicationPoolName = websiteName;
 
                     serverManager.CommitChanges();
                 }

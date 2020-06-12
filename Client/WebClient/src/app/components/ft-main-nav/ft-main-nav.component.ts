@@ -3,7 +3,6 @@ import { AuthService } from "src/app/api/auth.service";
 import { Subscription } from "rxjs";
 import { SignalrService } from "src/app/api/signalr.service";
 import { EventStatus } from "src/app/models/enums/eventStatus";
-import { FiberStatePipe } from "src/app/pipes/fiber-state.pipe";
 import { TraceStateDto } from "src/app/models/dtos/trace/traceStateDto";
 import { UnseenOpticalService } from "src/app/interaction/unseen-optical.service";
 import { Dictionary } from "src/app/utils/dictionary";
@@ -17,16 +16,22 @@ import { FiberState } from "src/app/models/enums/fiberState";
 export class FtMainNavComponent implements OnInit, OnDestroy {
   private measurementAddedSubscription: Subscription;
   private unseenOpticalsDict;
+
+  public isOpticalAlarmVisible = false;
+
   constructor(
     private authService: AuthService,
     private signalRService: SignalrService,
-    private fiberStatePipe: FiberStatePipe,
-    private unseenOpticalService: UnseenOpticalService
+    unseenOpticalService: UnseenOpticalService
   ) {
     this.unseenOpticalsDict = new Dictionary<string, number>();
     unseenOpticalService.opticalEventConfirmed$.subscribe((sorFileId) => {
       console.log(`optical event ${sorFileId} has been seen`);
       this.unseenOpticalsDict.removeByValue(sorFileId);
+      this.isOpticalAlarmVisible = this.unseenOpticalsDict.count() > 0;
+      console.log(
+        `unseen optical events dict contains now ${this.unseenOpticalsDict.count()} entries`
+      );
     });
   }
 
@@ -43,6 +48,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
               signal.sorFileId
             );
           }
+          this.isOpticalAlarmVisible = this.unseenOpticalsDict.count() > 0;
           console.log(
             `unseen optical events dict contains now ${this.unseenOpticalsDict.count()} entries`
           );
