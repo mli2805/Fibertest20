@@ -33,7 +33,11 @@ const routes: Routes = [
     component: FtOptEventsComponent,
     canActivate: [AuthGuard],
   },
-  { path: "network-events", component: FtNetworkEventsComponent },
+  {
+    path: "network-events",
+    component: FtNetworkEventsComponent,
+    canActivate: [AuthGuard],
+  },
 
   { path: "rtu-information/:id", component: FtRtuInformationComponent },
   {

@@ -46,7 +46,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
             await base.OnDisconnectedAsync(new Exception("SignalR disconnected"));
             await _commonC2DWcfManager
-                .SetServerAddresses(_doubleAddressForCommonWcfManager, "", GetRemoteAddress())
+                .SetServerAddresses(_doubleAddressForCommonWcfManager, "onSignalRDisconnected", GetRemoteAddress())
                 .UnregisterClientAsync(
                     new UnRegisterClientDto()
                     {

@@ -106,7 +106,7 @@ namespace Iit.Fibertest.DataCenterCore
             var theSame = _clients.FirstOrDefault(s => s.UserId == user.UserId && s.ClientIp != dto.ClientIp);
             if (theSame != null)
             {
-                _logFile.AppendLine($"User {dto.UserName} registered from device {theSame.ClientIp}");
+                _logFile.AppendLine($"The same user {dto.UserName} registered from device {theSame.ClientIp}");
                 return new ClientRegisteredDto() { ReturnCode = ReturnCode.ThisUserRegisteredFromAnotherDevice };
             }
 
@@ -173,18 +173,27 @@ namespace Iit.Fibertest.DataCenterCore
                 client.LastConnectionTimestamp = DateTime.Now;
         }
 
+        // if user just closed the browser tab instead of logging out
+        // WebApi has not got user's name and put it as "onSignalRDisconnected"
         public void UnregisterClientAsync(UnRegisterClientDto dto)
         {
-            var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp && 
+            _logFile.AppendLine($"dto: username: {dto.Username}, clientIp: {dto.ClientIp}");
+            var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp &&
                                (s.UserName == dto.Username || (dto.Username == "onSignalRDisconnected" && s.IsWebClient)));
-            if (station == null)
+            if (station != null)
             {
-                _logFile.AppendLine($"There is no client station with address {dto.ClientIp}");
-                return;
+                _clients.Remove(station);
+                _logFile.AppendLine($"Client {dto.Username} from {dto.ClientIp} unregistered.");
             }
+            else
+                _logFile.AppendLine($"There is no client station with address {dto.ClientIp}");
 
-            _clients.Remove(station);
-            _logFile.AppendLine($"Client unregistered. There are {_clients.Count()} client(s) now");
+            _logFile.AppendLine($"There are {_clients.Count()} client(s) now");
+            int i = 0;
+            foreach (var clientStation in _clients)
+            {
+                _logFile.AppendLine($"{++i}. {clientStation.UserName} from {clientStation.ClientIp} as webclient = {clientStation.IsWebClient}");
+            }
         }
 
         public async void CleanDeadClients(TimeSpan timeSpan)

@@ -72,6 +72,12 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
         rtu.monitoringMode = MonitoringMode.On;
       }
     );
+
+    this.measurementAddedSubscription = this.signalRService.measurementAddedEmitter.subscribe(
+      (signal: any) => {
+        console.log("measurement added", signal);
+      }
+    );
   }
 
   ngOnDestroy() {
