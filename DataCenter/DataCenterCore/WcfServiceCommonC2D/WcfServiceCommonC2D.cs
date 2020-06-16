@@ -198,6 +198,11 @@ namespace Iit.Fibertest.DataCenterCore
                         ErrorMessage = resultFromEventStore
                     };
                 }
+                else
+                {
+                    if (dto.IsMonitoringOn)
+                        await _ftSignalRClient.NotifyAll("MonitoringStarted", $"{{\"rtuId\" : \"{dto.RtuId}\"}}");
+                }
             }
             return resultFromRtu;
         }

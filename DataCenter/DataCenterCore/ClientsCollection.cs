@@ -34,10 +34,9 @@ namespace Iit.Fibertest.DataCenterCore
                 return new ClientRegisteredDto { ReturnCode = ReturnCode.NoSuchUserOrWrongPassword };
 
             var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp);
-            if (station != null)
+            if (station != null && !(station.IsWebClient ^ dto.IsWebClient))
             {
                 _clients.Remove(station);
-
             }
 
             var hasRight = CheckUsersRights(dto, user);
@@ -104,9 +103,10 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<ClientRegisteredDto> RegisterClientStation(RegisterClientDto dto, User user)
         {
-            if (_clients.Any(s => s.UserId == user.UserId && s.ClientIp != dto.ClientIp))
+            var theSame = _clients.FirstOrDefault(s => s.UserId == user.UserId && s.ClientIp != dto.ClientIp);
+            if (theSame != null)
             {
-                _logFile.AppendLine($"User {dto.UserName} registered from another device");
+                _logFile.AppendLine($"User {dto.UserName} registered from device {theSame.ClientIp}");
                 return new ClientRegisteredDto() { ReturnCode = ReturnCode.ThisUserRegisteredFromAnotherDevice };
             }
 

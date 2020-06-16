@@ -18,6 +18,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   private unseenOpticalsDict;
 
   public isOpticalAlarmVisible = false;
+  public isNetworkAlarmVisible = true; // temp
 
   constructor(
     private authService: AuthService,

@@ -5,9 +5,11 @@ import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
 import { OtauWebDto } from "src/app/models/dtos/rtuTree/otauWebDto";
 import { Router, RouterEvent, NavigationEnd } from "@angular/router";
 import { filter, takeUntil } from "rxjs/operators";
-import { Subject } from "rxjs";
+import { Subject, Subscription } from "rxjs";
 import { FtRtuTreeEventService } from "./ft-rtu-tree-event-service";
 import { OneApiService } from "src/app/api/one.service";
+import { SignalrService } from "src/app/api/signalr.service";
+import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 
 @Component({
   selector: "ft-rtu-tree",
@@ -20,8 +22,13 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
   public isNotLoaded = true;
   public destroyed = new Subject<any>();
 
+  private monitoringStoppedSubscription: Subscription;
+  private monitoringStartedSubscription: Subscription;
+  private measurementAddedSubscription: Subscription;
+
   constructor(
     private oneApiService: OneApiService,
+    private signalRService: SignalrService,
     private router: Router,
     private grandChildEventService: FtRtuTreeEventService
   ) {
@@ -49,9 +56,28 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
           this.fetchData();
         }
       });
+
+    this.monitoringStoppedSubscription = this.signalRService.monitoringStoppedEmitter.subscribe(
+      (signal: any) => {
+        console.log("monitoring stopped", signal);
+        const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
+        rtu.monitoringMode = MonitoringMode.Off;
+      }
+    );
+
+    this.monitoringStartedSubscription = this.signalRService.monitoringStartedEmitter.subscribe(
+      (signal: any) => {
+        console.log("monitoring started", signal);
+        const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
+        rtu.monitoringMode = MonitoringMode.On;
+      }
+    );
   }
 
   ngOnDestroy() {
+    this.monitoringStoppedSubscription.unsubscribe();
+    this.monitoringStartedSubscription.unsubscribe();
+    this.measurementAddedSubscription.unsubscribe();
     this.destroyed.next();
     this.destroyed.complete();
   }

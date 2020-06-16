@@ -18,6 +18,7 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
   vm: RtuStateDto = new RtuStateDto();
   private monitoringStepSubscription: Subscription;
   private monitoringStoppedSubscription: Subscription;
+  private monitoringStartedSubscription: Subscription;
   private measurementAddedSubscription: Subscription;
 
   displayedColumns = [
@@ -43,6 +44,7 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.monitoringStepSubscription.unsubscribe();
     this.monitoringStoppedSubscription.unsubscribe();
+    this.monitoringStartedSubscription.unsubscribe();
     this.measurementAddedSubscription.unsubscribe();
     console.log("bye");
   }
@@ -85,6 +87,19 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
           this.vm.monitoringMode = MonitoringMode.Off;
           this.currentMonitoringStepSubject.next(
             this.ts.instant("SID_No_measurement")
+          );
+        }
+      }
+    );
+
+    this.monitoringStartedSubscription = this.signalRService.monitoringStartedEmitter.subscribe(
+      (signal: any) => {
+        console.log("monitoring started", signal);
+        if (signal.rtuId === this.vm.rtuId) {
+          console.log("this RTU monitoring started", signal);
+          this.vm.monitoringMode = MonitoringMode.On;
+          this.currentMonitoringStepSubject.next(
+            this.ts.instant("SID_Waiting_for_data")
           );
         }
       }
