@@ -7,11 +7,12 @@ namespace Iit.Fibertest.Dto
     {
         public int EventId;
         public DateTime EventRegistrationTimestamp;
+        public Guid RtuId;
         public string RtuTitle;
 
         public bool IsRtuAvailable;
-        public ChannelEvent MainChannelEvent;
-        public ChannelEvent ReserveChannelEvent;
+        public ChannelEvent OnMainChannel;
+        public ChannelEvent OnReserveChannel;
     }
 
     public class NetworkEventsRequestedDto

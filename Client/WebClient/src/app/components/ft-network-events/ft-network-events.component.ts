@@ -14,6 +14,7 @@ import { OneApiService } from "src/app/api/one.service";
 import { Router } from "@angular/router";
 import { NetworkEventsDataSource } from "./networkEventsDataSource";
 import { NetworkEventDto } from "src/app/models/dtos/networkEventDto";
+import { UnseenAlarmsService } from "src/app/interaction/unseen-alarms.service";
 
 @Component({
   selector: "ft-network-events",
@@ -43,8 +44,12 @@ export class FtNetworkEventsComponent implements OnInit, AfterViewInit {
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
-  constructor(private router: Router, private oneApiService: OneApiService) {
-    this.isCurrentEvents = false;
+  constructor(
+    private router: Router,
+    private oneApiService: OneApiService,
+    private unseenAlarmsService: UnseenAlarmsService
+  ) {
+    this.isCurrentEvents = true;
   }
 
   ngOnInit() {
@@ -94,41 +99,9 @@ export class FtNetworkEventsComponent implements OnInit, AfterViewInit {
     this.loadPage();
   }
 
-  onContextMenu(event: MouseEvent, row: NetworkEventDto) {
-    this.contextMenuPosition.x = event.clientX + "px";
-    this.contextMenuPosition.y = event.clientY + "px";
-    this.contextMenu.menuData = { row };
-    this.contextMenu.openMenu();
-    this.contextMenu.focus("mouse");
-    event.preventDefault();
-  }
-
-  showRef(param: number) {
-    if (param === 1) {
-      console.log("show ref: ", this.contextMenu.menuData.row.eventId);
-    } else {
-      console.log("show ref and base: ", this.contextMenu.menuData.row.eventId);
-    }
-  }
-
-  saveRef(param: number) {
-    if (param === 1) {
-      console.log("save ref: ", this.contextMenu.menuData.row.eventId);
-    } else {
-      console.log("save ref and base: ", this.contextMenu.menuData.row.eventId);
-    }
-  }
-
-  showRftsEvents() {
-    console.log("show rfts events: ", this.contextMenu.menuData.row.eventId);
-  }
-  showTraceState() {
-    const dict = {
-      type: "fileId",
-      traceId: null,
-      fileId: this.contextMenu.menuData.row.eventId,
-    };
-    sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
-    this.router.navigate(["/trace-state"]);
+  seeEvent(row) {
+    this.unseenAlarmsService.confirmOpticalEvent(
+      row.eventId
+    );
   }
 }

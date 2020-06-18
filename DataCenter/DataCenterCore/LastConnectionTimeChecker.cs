@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -13,12 +14,16 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public class LastConnectionTimeChecker
     {
+        private static readonly IMapper Mapper = new MapperConfiguration(
+            cfg => cfg.AddProfile<MappingWebApiProfile>()).CreateMapper();
+
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly EventStoreService _eventStoreService;
         private readonly ClientsCollection _clientsCollection;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly Model _writeModel;
+        private readonly FtSignalRClient _ftSignalRClient;
         private readonly Smtp _smtp;
         private readonly SmsManager _smsManager;
         private readonly SnmpNotifier _snmpNotifier;
@@ -28,6 +33,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile, EventStoreService eventStoreService,
             ClientsCollection clientsCollection, RtuStationsRepository rtuStationsRepository, Model writeModel,
+            FtSignalRClient ftSignalRClient,
             Smtp smtp, SmsManager smsManager, SnmpNotifier snmpNotifier)
         {
             _iniFile = iniFile;
@@ -36,6 +42,7 @@ namespace Iit.Fibertest.DataCenterCore
             _clientsCollection = clientsCollection;
             _rtuStationsRepository = rtuStationsRepository;
             _writeModel = writeModel;
+            _ftSignalRClient = ftSignalRClient;
             _smtp = smtp;
             _smsManager = smsManager;
             _snmpNotifier = snmpNotifier;
@@ -85,7 +92,12 @@ namespace Iit.Fibertest.DataCenterCore
                     OnMainChannel = networkEvent.OnMainChannel,
                     OnReserveChannel = networkEvent.OnReserveChannel,
                 };
-                await _eventStoreService.SendCommand(command, "system", "OnServer");
+                if (!string.IsNullOrEmpty(await _eventStoreService.SendCommand(command, "system", "OnServer"))) 
+                    continue;
+                var lastEvent = _writeModel.NetworkEvents.LastOrDefault(n => n.RtuId == networkEvent.RtuId);
+                if (lastEvent == null) continue;
+                var dto = Mapper.Map<NetworkEventDto>(lastEvent);
+                await _ftSignalRClient.NotifyAll("AddNetworkEvent", dto.ToCamelCaseJson());
             }
 
             return 0;

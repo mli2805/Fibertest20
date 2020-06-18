@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
@@ -163,19 +164,14 @@ namespace Iit.Fibertest.DataCenterCore
             };
         }
 
+        private static readonly IMapper Mapper = new MapperConfiguration(
+            cfg => cfg.AddProfile<MappingWebApiProfile>()).CreateMapper();
+
         public static NetworkEventDto CreateNetworkEventDto(this NetworkEvent n, Model writeModel)
         {
-            var rtu = writeModel.Rtus.FirstOrDefault(r => r.Id == n.RtuId);
-            return new NetworkEventDto()
-            {
-                EventId = n.Ordinal,
-                EventRegistrationTimestamp = n.EventTimestamp,
-                RtuTitle = rtu?.Title,
-
-                IsRtuAvailable = n.IsRtuAvailable,
-                MainChannelEvent = n.OnMainChannel,
-                ReserveChannelEvent = n.OnReserveChannel,
-            };
+            var dto = Mapper.Map<NetworkEventDto>(n);
+            dto.RtuTitle = writeModel.Rtus.FirstOrDefault(r => r.Id == n.RtuId)?.Title;
+            return dto;
         }
     }
 }

@@ -14,7 +14,7 @@ import { merge, fromEvent } from "rxjs";
 import { OneApiService } from "src/app/api/one.service";
 import { OptEventDto } from "src/app/models/dtos/optEventDto";
 import { Router } from "@angular/router";
-import { UnseenOpticalService } from "src/app/interaction/unseen-optical.service";
+import { UnseenAlarmsService } from "src/app/interaction/unseen-alarms.service";
 
 @Component({
   selector: "ft-opt-events",
@@ -51,9 +51,9 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
   constructor(
     private router: Router,
     private oneApiService: OneApiService,
-    private unseenOpticalService: UnseenOpticalService
+    private unseenAlarmsService: UnseenAlarmsService
   ) {
-    this.isCurrentEvents = false;
+    this.isCurrentEvents = true;
   }
 
   ngOnInit() {
@@ -155,7 +155,7 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
   }
 
   seeEvent() {
-    this.unseenOpticalService.confirmOpticalEvent(
+    this.unseenAlarmsService.confirmOpticalEvent(
       this.contextMenu.menuData.row.eventId
     );
   }

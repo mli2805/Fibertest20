@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UnseenOpticalService } from './unseen-optical.service';
+import { UnseenAlarmsService } from './unseen-alarms.service';
 
-describe('UnseenOpticalService', () => {
+describe('UnseenAlarmsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: UnseenOpticalService = TestBed.get(UnseenOpticalService);
+    const service: UnseenAlarmsService = TestBed.get(UnseenAlarmsService);
     expect(service).toBeTruthy();
   });
 });

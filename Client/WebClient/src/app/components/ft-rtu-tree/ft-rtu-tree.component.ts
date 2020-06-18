@@ -10,6 +10,9 @@ import { FtRtuTreeEventService } from "./ft-rtu-tree-event-service";
 import { OneApiService } from "src/app/api/one.service";
 import { SignalrService } from "src/app/api/signalr.service";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
+import { NetworkEventDto } from "src/app/models/dtos/networkEventDto";
+import { ChannelEvent } from "src/app/models/enums/channelEvent";
+import { RtuPartState } from "src/app/models/enums/rtuPartState";
 
 @Component({
   selector: "ft-rtu-tree",
@@ -25,6 +28,7 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
   private monitoringStoppedSubscription: Subscription;
   private monitoringStartedSubscription: Subscription;
   private measurementAddedSubscription: Subscription;
+  private networkEventAddedSubscription: Subscription;
 
   constructor(
     private oneApiService: OneApiService,
@@ -78,12 +82,32 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
         console.log("measurement added", signal);
       }
     );
+
+    this.networkEventAddedSubscription = this.signalRService.networkEventAddedEmitter.subscribe(
+      (signal: NetworkEventDto) => {
+        console.log("network event added", signal);
+        const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
+        if (signal.onMainChannel === ChannelEvent.Repaired) {
+          rtu.mainChannelState = RtuPartState.Ok;
+        }
+        if (signal.onMainChannel === ChannelEvent.Broken) {
+          rtu.mainChannelState = RtuPartState.Broken;
+        }
+        if (signal.onReserveChannel === ChannelEvent.Repaired) {
+          rtu.reserveChannelState = RtuPartState.Ok;
+        }
+        if (signal.onReserveChannel === ChannelEvent.Broken) {
+          rtu.reserveChannelState = RtuPartState.Broken;
+        }
+      }
+    );
   }
 
   ngOnDestroy() {
     this.monitoringStoppedSubscription.unsubscribe();
     this.monitoringStartedSubscription.unsubscribe();
     this.measurementAddedSubscription.unsubscribe();
+    this.networkEventAddedSubscription.unsubscribe();
     this.destroyed.next();
     this.destroyed.complete();
   }

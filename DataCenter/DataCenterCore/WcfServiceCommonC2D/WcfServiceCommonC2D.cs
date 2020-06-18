@@ -202,6 +202,8 @@ namespace Iit.Fibertest.DataCenterCore
                 {
                     if (dto.IsMonitoringOn)
                         await _ftSignalRClient.NotifyAll("MonitoringStarted", $"{{\"rtuId\" : \"{dto.RtuId}\"}}");
+                    else
+                        await _ftSignalRClient.NotifyAll("MonitoringStopped", $"{{\"rtuId\" : \"{dto.RtuId}\"}}");
                 }
             }
             return resultFromRtu;

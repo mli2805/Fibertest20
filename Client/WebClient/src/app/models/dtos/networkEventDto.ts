@@ -3,11 +3,12 @@ import { ChannelEvent } from "../enums/channelEvent";
 export class NetworkEventDto {
   eventId: number;
   eventRegistrationTimestamp: Date;
+  rtuId: string;
   rtuTitle: string;
 
   isRtuAvailable: boolean;
-  mainChannelEvent: ChannelEvent;
-  reserveChannelEvent: ChannelEvent;
+  onMainChannel: ChannelEvent;
+  onReserveChannel: ChannelEvent;
 }
 
 export class NetworkEventRequestDto {
