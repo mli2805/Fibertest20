@@ -58,21 +58,61 @@
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
       <span>Fibertest&trade; 2.0</span>
-      <div *ngIf="isOpticalAlarmVisible">
-        <img
-          class="alarmImage"
-          src="./assets/images/alarm/YellowBall32.png"
-          alt="alarm"
-        />
+      <div>
+        <div *ngIf="isOpticalAlarm === 'alarmExclamation'">
+          <img
+            class="alarmImage"
+            src="./assets/images/alarm/YellowBallExclamation32.png"
+            alt="new_alarm_optical"
+          />
+        </div>
+        <div *ngIf="isOpticalAlarm === 'alarm'">
+          <img
+            class="alarmImage"
+            src="./assets/images/alarm/YellowBall32.png"
+            alt="old_alarm_optical"
+          />
+        </div>
+        <div *ngIf="isOpticalAlarm === 'ok'">
+          <img
+            class="alarmImage"
+            src="./assets/images/alarm/Ok_Oe.png"
+            alt="ok_optical"
+          />
+        </div>
       </div>
-      <div *ngIf="isNetworkAlarmVisible">
-        <img
-          class="alarmImage"
-          src="./assets/images/alarm/RedBall32.png"
-          alt="alarm"
-        />
+      <div>
+        <div *ngIf="isNetworkAlarm === 'alarmExclamation'">
+          <img
+            class="alarmImage"
+            src="./assets/images/alarm/YellowBallExclamation32.png"
+            alt="new_alarm_network"
+          />
+        </div>
+        <div *ngIf="isNetworkAlarm === 'alarm'">
+          <img
+            class="alarmImage"
+            src="./assets/images/alarm/YellowBall32.png"
+            alt="old_alarm_network"
+          />
+        </div>
+        <div *ngIf="isNetworkAlarm === 'ok'">
+          <img
+            class="alarmImage"
+            src="./assets/images/alarm/Ok_Ne.png"
+            alt="ok_network"
+          />
+        </div>
       </div>
-
+      <div>
+        <div *ngIf="isBopAlarm === 'ok'">
+          <img
+            class="alarmImage"
+            src="./assets/images/alarm/Ok_Bop.png"
+            alt="ok_bop"
+          />
+        </div>
+      </div>
       <div class="spacer"></div>
 
       <div class="topnav">
