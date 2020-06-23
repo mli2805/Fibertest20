@@ -13,6 +13,7 @@ import {
   OpticalAlarm,
   OpticalAlarmIndicator,
 } from "src/app/models/opticalAlarm";
+import { NetworkAlarmIndicator } from "src/app/models/networkAlarm";
 
 @Component({
   selector: "ft-main-nav",
@@ -23,6 +24,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   private measurementAddedSubscription: Subscription;
   private networkEventAddedSubscription: Subscription;
   private opticalAlarmIndicator: OpticalAlarmIndicator;
+  private networkAlarmIndicator: NetworkAlarmIndicator;
 
   public isOpticalAlarm = "ok";
   public isNetworkAlarm = "ok";
@@ -34,22 +36,26 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     unseenAlarmsService: UnseenAlarmsService
   ) {
     this.opticalAlarmIndicator = new OpticalAlarmIndicator();
+    this.networkAlarmIndicator = new NetworkAlarmIndicator();
 
     unseenAlarmsService.opticalEventConfirmed$.subscribe((sorFileId) => {
       console.log(`optical event ${sorFileId} has been seen`);
-      this.isOpticalAlarm = this.opticalAlarmIndicator.AlarmHasBeenSeen(sorFileId);
+      this.isOpticalAlarm = this.opticalAlarmIndicator.AlarmHasBeenSeen(
+        sorFileId
+      );
       console.log(
-        `unseen optical events dict contains now ${this.opticalAlarmIndicator.list.length} entries`
+        `unseen optical events: ${this.opticalAlarmIndicator.list.length}`
       );
     });
-    // unseenAlarmsService.networkEventConfirmed$.subscribe((eventId) => {
-    //   console.log(`network event ${eventId} has been seen`);
-    //   this.unseenNetworkDict.removeByValue(eventId);
-    //   this.isNetworkAlarmNew = this.unseenNetworkDict.count() > 0;
-    //   console.log(
-    //     `unseen network events dict contains now ${this.unseenNetworkDict.count()} entries`
-    //   );
-    // });
+    unseenAlarmsService.networkEventConfirmed$.subscribe((eventId) => {
+      console.log(`network event ${eventId} has been seen`);
+      this.isNetworkAlarm = this.networkAlarmIndicator.AlarmHasBeenSeen(
+        eventId
+      );
+      console.log(
+        `unseen network events: ${this.networkAlarmIndicator.list.length}`
+      );
+    });
   }
 
   ngOnInit() {
@@ -64,38 +70,24 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   onMeasurementAdded(signal: TraceStateDto) {
     console.log("Measurement Added Signal received! ", signal);
     if (signal.eventStatus > EventStatus.JustMeasurementNotAnEvent) {
-      this.isOpticalAlarm = this.opticalAlarmIndicator.TraceStateChanged(signal);
+      this.isOpticalAlarm = this.opticalAlarmIndicator.TraceStateChanged(
+        signal
+      );
       console.log(
-        `unseen optical events dict contains now ${this.opticalAlarmIndicator.list.length} entries`
+        `unseen optical events: ${this.opticalAlarmIndicator.list.length}`
       );
     }
   }
 
-  // onNetworkEventAdded(signal: NetworkEventDto) {
-  //   console.log("Network Event Added Signal received! ", signal);
-  //   if (signal.onMainChannel === ChannelEvent.Repaired) {
-  //     this.unseenNetworkDict.remove(signal.rtuId + "-MainChannel");
-  //   }
-  //   if (signal.onMainChannel === ChannelEvent.Broken) {
-  //     this.unseenNetworkDict.addOrUpdate(
-  //       signal.rtuId + "-MainChannel",
-  //       signal.eventId
-  //     );
-  //   }
-  //   if (signal.onReserveChannel === ChannelEvent.Repaired) {
-  //     this.unseenNetworkDict.remove(signal.rtuId + "-ReserveChannel");
-  //   }
-  //   if (signal.onReserveChannel === ChannelEvent.Broken) {
-  //     this.unseenNetworkDict.addOrUpdate(
-  //       signal.rtuId + "-ReserveChannel",
-  //       signal.eventId
-  //     );
-  //   }
-  //   this.isNetworkAlarmNew = this.unseenNetworkDict.count() > 0;
-  //   console.log(
-  //     `unseen network events dict contains now ${this.unseenNetworkDict.count()} entries`
-  //   );
-  // }
+  onNetworkEventAdded(signal: NetworkEventDto) {
+    console.log("Network Event Added Signal received! ", signal);
+    this.isNetworkAlarm = this.networkAlarmIndicator.NetworkEventReceived(
+      signal
+    );
+    console.log(
+      `unseen network events: ${this.networkAlarmIndicator.list.length}`
+    );
+  }
 
   ngOnDestroy(): void {
     this.measurementAddedSubscription.unsubscribe();

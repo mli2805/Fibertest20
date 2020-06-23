@@ -100,7 +100,7 @@ export class FtNetworkEventsComponent implements OnInit, AfterViewInit {
   }
 
   seeEvent(row) {
-    this.unseenAlarmsService.confirmOpticalEvent(
+    this.unseenAlarmsService.confirmNetworkEvent(
       row.eventId
     );
   }
