@@ -15,6 +15,7 @@ import { Router } from "@angular/router";
 import { NetworkEventsDataSource } from "./networkEventsDataSource";
 import { NetworkEventDto } from "src/app/models/dtos/networkEventDto";
 import { UnseenAlarmsService } from "src/app/interaction/unseen-alarms.service";
+import { SignalrService } from "src/app/api/signalr.service";
 
 @Component({
   selector: "ft-network-events",
@@ -45,8 +46,8 @@ export class FtNetworkEventsComponent implements OnInit, AfterViewInit {
   contextMenuPosition = { x: "0px", y: "0px" };
 
   constructor(
-    private router: Router,
     private oneApiService: OneApiService,
+    private signalRService: SignalrService,
     private unseenAlarmsService: UnseenAlarmsService
   ) {
     this.isCurrentEvents = true;
@@ -60,6 +61,10 @@ export class FtNetworkEventsComponent implements OnInit, AfterViewInit {
       "desc",
       0,
       8
+    );
+
+    this.signalRService.networkEventAddedEmitter.subscribe(() =>
+      this.loadPage()
     );
   }
 
@@ -100,8 +105,6 @@ export class FtNetworkEventsComponent implements OnInit, AfterViewInit {
   }
 
   seeEvent(row) {
-    this.unseenAlarmsService.confirmNetworkEvent(
-      row.eventId
-    );
+    this.unseenAlarmsService.confirmNetworkEvent(row.eventId);
   }
 }
