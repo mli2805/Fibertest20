@@ -54,7 +54,7 @@
     <ng-container matColumnDef="rtuAvailability">
       <th mat-header-cell *matHeaderCellDef>{{ "SID_State" | translate }}</th>
       <td mat-cell class="rtuAvailability-cell" *matCellDef="let element">
-        {{ element.isRtuAvailable }}
+        {{ getRtuAvailability(element.isRtuAvailable) | translate }}
       </td>
     </ng-container>
 
@@ -63,7 +63,7 @@
         {{ "SID_Main_channel" | translate }}
       </th>
       <td mat-cell class="mainChannelEvent-cell" *matCellDef="let element">
-        {{ element.mainChannelEvent | channelEventToLocalizedStringPipe }}
+        {{ element.onMainChannel | channelEventToLocalizedStringPipe }}
       </td>
     </ng-container>
 
@@ -72,7 +72,7 @@
         {{ "SID_Reserve_channel" | translate }}
       </th>
       <td mat-cell class="reserveChannelEvent-cell" *matCellDef="let element">
-        {{ element.reserveChannelEvent | channelEventToLocalizedStringPipe }}
+        {{ element.onReserveChannel | channelEventToLocalizedStringPipe }}
       </td>
     </ng-container>
 

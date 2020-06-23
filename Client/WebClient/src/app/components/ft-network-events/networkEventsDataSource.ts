@@ -54,6 +54,7 @@ export class NetworkEventsDataSource implements DataSource<NetworkEventDto> {
         console.log(
           `${res.eventPortion.length} of ${res.fullCount} network event(s) received`
         );
+        console.log(res);
         this.networkEventsSubject.next(res.eventPortion);
         this.fullCountSubject.next(res.fullCount);
       });

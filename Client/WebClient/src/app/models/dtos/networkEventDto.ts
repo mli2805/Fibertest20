@@ -5,7 +5,6 @@ export class NetworkEventDto {
   eventRegistrationTimestamp: Date;
   rtuId: string;
   rtuTitle: string;
-
   isRtuAvailable: boolean;
   onMainChannel: ChannelEvent;
   onReserveChannel: ChannelEvent;

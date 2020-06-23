@@ -11,9 +11,7 @@ import { MatPaginator, MatSort, MatMenuTrigger } from "@angular/material";
 import { tap, debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { merge, fromEvent } from "rxjs";
 import { OneApiService } from "src/app/api/one.service";
-import { Router } from "@angular/router";
 import { NetworkEventsDataSource } from "./networkEventsDataSource";
-import { NetworkEventDto } from "src/app/models/dtos/networkEventDto";
 import { UnseenAlarmsService } from "src/app/interaction/unseen-alarms.service";
 import { SignalrService } from "src/app/api/signalr.service";
 
@@ -106,5 +104,9 @@ export class FtNetworkEventsComponent implements OnInit, AfterViewInit {
 
   seeEvent(row) {
     this.unseenAlarmsService.confirmNetworkEvent(row.eventId);
+  }
+
+  getRtuAvailability(isRtuAvailable: boolean): string {
+    return isRtuAvailable ? "SID_Available" : "SID_Not_available";
   }
 }

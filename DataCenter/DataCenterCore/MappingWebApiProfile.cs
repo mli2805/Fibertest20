@@ -17,7 +17,8 @@ namespace Iit.Fibertest.DataCenterCore
 
             CreateMap<UpdateMeasurementDto, UpdateMeasurement>();
             CreateMap<NetworkEvent, NetworkEventDto>()
-                .ForMember(dest => dest.EventId, opt => opt.MapFrom(src => src.Ordinal));
+                .ForMember(dest => dest.EventId, opt => opt.MapFrom(src => src.Ordinal))
+                .ForMember(dest => dest.EventRegistrationTimestamp, opt => opt.MapFrom(src => src.EventTimestamp));
         }
     }
 }
