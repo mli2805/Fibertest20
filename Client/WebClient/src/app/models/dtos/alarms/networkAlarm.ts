@@ -1,5 +1,5 @@
-import { NetworkEventDto } from "./dtos/networkEventDto";
-import { ChannelEvent } from "./enums/channelEvent";
+import { NetworkEventDto } from "../networkEventDto";
+import { ChannelEvent } from "../../enums/channelEvent";
 
 export class NetworkAlarm {
   eventId: number;

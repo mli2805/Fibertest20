@@ -12,6 +12,9 @@ namespace Iit.Fibertest.WcfConnections
         Task<string> GetAboutInJson(string username);
 
         [OperationContract]
+        Task<string> GetCurrentAccidents(string username);
+
+        [OperationContract]
         Task<string> GetTreeInJson(string username);
 
         #region RTU

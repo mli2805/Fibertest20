@@ -66,6 +66,24 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
+        [HttpGet("Alarms")]
+        public async Task<AlarmsDto> GetCurrentAccidents()
+        {
+            var currentAccidents = await _webC2DWcfManager
+                .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
+                .GetCurrentAccidents(User.Identity.Name);
+            _logFile.AppendLine(currentAccidents == null
+                ? "Failed to get current accidents"
+                : $"json contains {currentAccidents.Length} symbols");
+            var dto = (AlarmsDto)JsonConvert.DeserializeObject(currentAccidents, JsonSerializerSettings);
+            _logFile.AppendLine(dto == null
+                ? "Failed to get dto"
+                : $"dto contains {dto.NetworkAlarms.Count} network alarms, {dto.OpticalAlarms.Count} optical alarms and {dto.BopAlarms.Count} bop alarms"
+                );
+            return dto;
+        }
+
+        [Authorize]
         [HttpGet("Get-sor-file/{sorFileId}")]
         public async Task<string> GetSorFile(int sorFileId)
         {

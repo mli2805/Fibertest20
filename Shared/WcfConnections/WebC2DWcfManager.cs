@@ -42,6 +42,26 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<string> GetCurrentAccidents(string username)
+        {
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetCurrentAccidents(username);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetCurrentAccidents: " + e.Message);
+                return null;
+            }
+        }
+
         public async Task<string> GetTreeInJson(string username)
         {
             var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();

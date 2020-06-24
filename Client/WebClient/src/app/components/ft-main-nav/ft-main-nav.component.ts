@@ -12,8 +12,9 @@ import { ChannelEvent } from "src/app/models/enums/channelEvent";
 import {
   OpticalAlarm,
   OpticalAlarmIndicator,
-} from "src/app/models/opticalAlarm";
-import { NetworkAlarmIndicator } from "src/app/models/networkAlarm";
+} from "src/app/models/dtos/alarms/opticalAlarm";
+import { NetworkAlarmIndicator } from "src/app/models/dtos/alarms/networkAlarm";
+import { OneApiService } from "src/app/api/one.service";
 
 @Component({
   selector: "ft-main-nav",
@@ -26,12 +27,13 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   private opticalAlarmIndicator: OpticalAlarmIndicator;
   private networkAlarmIndicator: NetworkAlarmIndicator;
 
-  public isOpticalAlarm = "ok";
-  public isNetworkAlarm = "ok";
-  public isBopAlarm = "ok";
+  public isOpticalAlarm = "";
+  public isNetworkAlarm = "";
+  public isBopAlarm = "";
 
   constructor(
     private authService: AuthService,
+    private oneApiService: OneApiService,
     private signalRService: SignalrService,
     unseenAlarmsService: UnseenAlarmsService
   ) {
@@ -65,6 +67,10 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.networkEventAddedSubscription = this.signalRService.networkEventAddedEmitter.subscribe(
       (signal: NetworkEventDto) => this.onNetworkEventAdded(signal)
     );
+
+    this.oneApiService.getRequest("alarms", null).subscribe((alarms) => {
+      console.log("misc/alarms: ", alarms);
+    });
   }
 
   onMeasurementAdded(signal: TraceStateDto) {

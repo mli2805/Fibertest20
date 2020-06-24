@@ -65,6 +65,35 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
+        public async Task<string> GetCurrentAccidents(string username)
+        {
+            _logFile.AppendLine(":: WcfServiceForWebProxy GetCurrentAccidents");
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+            if (user == null)
+            {
+                _logFile.AppendLine("Not authorized access");
+                return null;
+            }
+
+            try
+            {
+                var result = new AlarmsDto
+                {
+                    NetworkAlarms = await GetCurrentNetworkEvents(username),
+                    OpticalAlarms = await GetCurrentOpticalEvents(username),
+                    BopAlarms = new List<BopAlarm>()
+                };
+                _logFile.AppendLine($"dto contains {result.NetworkAlarms.Count} network alarms, {result.OpticalAlarms.Count} optical alarms and {result.BopAlarms.Count} bop alarms");
+                var resString = JsonConvert.SerializeObject(result, JsonSerializerSettings);
+                return resString;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"{e.Message}");
+                return "";
+            }
+        }
+
         public async Task<string> GetTreeInJson(string username)
         {
             var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
@@ -250,7 +279,7 @@ namespace Iit.Fibertest.DataCenterCore
         /// <returns></returns>
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            if (!FillIn(dto)) return new RtuInitializedDto(){ReturnCode = ReturnCode.RtuInitializationError,};
+            if (!FillIn(dto)) return new RtuInitializedDto() { ReturnCode = ReturnCode.RtuInitializationError, };
             return dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.InitializeAsync(dto)
                 : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.InitializeAsync(dto).Result);
@@ -292,7 +321,7 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-     
+
         public async Task<OpticalEventsRequestedDto> GetOpticalEventPortion(string username, bool isCurrentEvents,
             string filterRtu = "", string filterTrace = "", string sortOrder = "desc", int pageNumber = 0, int pageSize = 100)
         {
@@ -305,24 +334,32 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 FullCount = sift.Count,
                 EventPortion = sift
-                    .Sort(sortOrder) 
+                    .Sort(sortOrder)
                     .Skip(pageNumber * pageSize)
                     .Take(pageSize)
                     .Select(m => m.CreateOpticalEventDto(_writeModel)).ToList()
             };
         }
-
-        public async Task<NetworkEventsRequestedDto> GetNetworkEventPortion(string username, bool isCurrentEvents, 
-            string filterRtu, string sortOrder, int pageNumber, int pageSize)
+        public async Task<List<OpticalAlarm>> GetCurrentOpticalEvents(string username)
         {
-            if (!await Authorize(username, "GetOpticalEventPortion")) return null;
+            if (!await Authorize(username, "GetCurrentOpticalEvents")) return null;
 
             var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
-            var sift = isCurrentEvents 
+            var sift = _writeModel.ActiveMeasurements.Where(o => o.Filter(null, null, _writeModel, user)).ToList();
+            return sift.Select(m => m.CreateOpticalAlarm()).ToList();
+        }
+
+        public async Task<NetworkEventsRequestedDto> GetNetworkEventPortion(string username, bool isCurrentEvents,
+            string filterRtu, string sortOrder, int pageNumber, int pageSize)
+        {
+            if (!await Authorize(username, "GetNetworkEventPortion")) return null;
+
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+            var sift = isCurrentEvents
                 ? _writeModel.Rtus
                     .Where(r => r.Filter(user, filterRtu))
                     .Select(rtu => _writeModel.NetworkEvents.LastOrDefault(n => n.RtuId == rtu.Id))
-                    .Where(lastNetworkEvent => lastNetworkEvent != null).ToList() 
+                    .Where(lastNetworkEvent => lastNetworkEvent != null).ToList()
                 : _writeModel.NetworkEvents
                     .Where(n => n.Filter(filterRtu, _writeModel, user)).ToList();
             return new NetworkEventsRequestedDto
@@ -334,6 +371,21 @@ namespace Iit.Fibertest.DataCenterCore
                     .Take(pageSize)
                     .Select(m => m.CreateNetworkEventDto(_writeModel)).ToList()
             };
+        }
+
+        public async Task<List<NetworkAlarm>> GetCurrentNetworkEvents(string username)
+        {
+            if (!await Authorize(username, "GetCurrentNetworkEvents")) return null;
+
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+            var sift = _writeModel.Rtus
+                .Where(r => r.Filter(user, null))
+                .Select(rtu => _writeModel.NetworkEvents.LastOrDefault(n => n.RtuId == rtu.Id))
+                .Where(lastNetworkEvent => lastNetworkEvent != null).ToList();
+            var result = new List<NetworkAlarm>();
+            foreach (var networkEvent in sift)
+                result.AddRange(networkEvent.CreateNetworkAlarms());
+            return result;
         }
 
     }

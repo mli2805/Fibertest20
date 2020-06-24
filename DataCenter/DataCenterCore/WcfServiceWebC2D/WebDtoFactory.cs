@@ -164,6 +164,16 @@ namespace Iit.Fibertest.DataCenterCore
             };
         }
 
+        public static OpticalAlarm CreateOpticalAlarm(this Measurement m)
+        {
+            return new OpticalAlarm()
+            {
+                SorFileId = m.SorFileId,
+                TraceId = m.TraceId,
+                hasBeenSeen = true,
+            };
+        }
+
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingWebApiProfile>()).CreateMapper();
 
@@ -172,6 +182,21 @@ namespace Iit.Fibertest.DataCenterCore
             var dto = Mapper.Map<NetworkEventDto>(n);
             dto.RtuTitle = writeModel.Rtus.FirstOrDefault(r => r.Id == n.RtuId)?.Title;
             return dto;
+        }
+
+        public static IEnumerable<NetworkAlarm> CreateNetworkAlarms(this NetworkEvent n)
+        {
+            var na = new NetworkAlarm { EventId = n.Ordinal, RtuId = n.RtuId, hasBeenSeen = true };
+            if (n.OnMainChannel == ChannelEvent.Broken)
+            {
+                na.Channel = "Main";
+                yield return na;
+            }
+            if (n.OnReserveChannel == ChannelEvent.Broken)
+            {
+                na.Channel = "Reserve";
+                yield return na;
+            }
         }
     }
 }

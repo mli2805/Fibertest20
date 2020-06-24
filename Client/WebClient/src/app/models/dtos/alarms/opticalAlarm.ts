@@ -1,5 +1,5 @@
-import { TraceStateDto } from "./dtos/trace/traceStateDto";
-import { FiberState } from "./enums/fiberState";
+import { TraceStateDto } from "../trace/traceStateDto";
+import { FiberState } from "../../enums/fiberState";
 
 export class OpticalAlarm {
   sorFileId: number;
