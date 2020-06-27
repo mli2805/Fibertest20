@@ -9,7 +9,7 @@ export class NetworkAlarm {
 }
 
 export class NetworkAlarmIndicator {
-  list: NetworkAlarm[] = [];
+  public list: NetworkAlarm[] = [];
 
   public NetworkEventReceived(signal: NetworkEventDto): string {
     if (signal.onMainChannel === ChannelEvent.Broken) {

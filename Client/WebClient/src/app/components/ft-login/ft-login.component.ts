@@ -8,6 +8,9 @@ import { ReturnCode } from "src/app/models/enums/returnCode";
 import { SignalrService } from "src/app/api/signalr.service";
 import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { OneApiService } from "src/app/api/one.service";
+import { AlarmsDto } from "src/app/models/dtos/alarms/alarmsDto";
+import { AlarmsService } from "src/app/interaction/alarms.service";
 
 @Component({
   selector: "ft-login",
@@ -21,7 +24,9 @@ export class FtLoginComponent implements OnInit {
   constructor(
     private router: Router,
     private authService: AuthService,
+    private oneApiService: OneApiService,
     private signalrService: SignalrService,
+    private unseenAlarmService: AlarmsService,
     private httpClient: HttpClient,
 
     private returnCodePipe: ReturnCodePipe
@@ -55,33 +60,39 @@ export class FtLoginComponent implements OnInit {
     }
     this.isSpinnerVisible = true;
 
-    this.authService.login(this.user, this.pw).subscribe(
-      (res: UserDto) => {
-        if (res === null) {
-          console.log("Login failed, try again...");
-        }
+    try {
+      const res = (await this.authService
+        .login(this.user, this.pw)
+        .toPromise()) as UserDto;
+      if (res === null) {
+        console.log("Login failed, try again...");
+      } else {
         sessionStorage.setItem("currentUser", JSON.stringify(res));
 
         this.signalrService.buildConnection(res.jsonWebToken);
         this.signalrService.startConnection();
-
-        this.router.navigate(["/rtu-tree"], { queryParams: null });
         console.log("Logged in successfully!");
-        this.isSpinnerVisible = false;
-      },
-      (unsuccessfulResult: any) => {
-        if (unsuccessfulResult.error.returnCode === undefined) {
-          this.resultMessage = this.returnCodePipe.transform(
-            ReturnCode.C2DWcfConnectionError
-          );
-        } else {
-          this.resultMessage = this.returnCodePipe.transform(
-            unsuccessfulResult.error.returnCode
-          );
-        }
-        console.log("login: " + unsuccessfulResult.error);
-        this.isSpinnerVisible = false;
+
+        const alarms = (await this.oneApiService
+          .getRequest("misc/alarms", null)
+          .toPromise()) as AlarmsDto;
+        const json = JSON.stringify(alarms);
+        this.unseenAlarmService.processInitialAlarms(json);
+        this.router.navigate(["/rtu-tree"], { queryParams: null });
       }
-    );
+    } catch (unsuccessfulResult) {
+      if (unsuccessfulResult.error.returnCode === undefined) {
+        this.resultMessage = this.returnCodePipe.transform(
+          ReturnCode.C2DWcfConnectionError
+        );
+      } else {
+        this.resultMessage = this.returnCodePipe.transform(
+          unsuccessfulResult.error.returnCode
+        );
+      }
+      console.log("login: " + unsuccessfulResult.error);
+    }
+
+    this.isSpinnerVisible = false;
   }
 }

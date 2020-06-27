@@ -12,7 +12,7 @@ import { tap, debounceTime, distinctUntilChanged } from "rxjs/operators";
 import { merge, fromEvent } from "rxjs";
 import { OneApiService } from "src/app/api/one.service";
 import { NetworkEventsDataSource } from "./networkEventsDataSource";
-import { UnseenAlarmsService } from "src/app/interaction/unseen-alarms.service";
+import { AlarmsService } from "src/app/interaction/alarms.service";
 import { SignalrService } from "src/app/api/signalr.service";
 
 @Component({
@@ -46,7 +46,7 @@ export class FtNetworkEventsComponent implements OnInit, AfterViewInit {
   constructor(
     private oneApiService: OneApiService,
     private signalRService: SignalrService,
-    private unseenAlarmsService: UnseenAlarmsService
+    private alarmsService: AlarmsService
   ) {
     this.isCurrentEvents = true;
   }
@@ -103,7 +103,7 @@ export class FtNetworkEventsComponent implements OnInit, AfterViewInit {
   }
 
   seeEvent(row) {
-    this.unseenAlarmsService.confirmNetworkEvent(row.eventId);
+    this.alarmsService.confirmNetworkEvent(row.eventId);
   }
 
   getRtuAvailability(isRtuAvailable: boolean): string {

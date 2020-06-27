@@ -6,7 +6,7 @@ import { EventStatus } from "src/app/models/enums/eventStatus";
 import { TraceStateDto } from "src/app/models/dtos/trace/traceStateDto";
 import { Dictionary } from "src/app/utils/dictionary";
 import { FiberState } from "src/app/models/enums/fiberState";
-import { UnseenAlarmsService } from "src/app/interaction/unseen-alarms.service";
+import { AlarmsService } from "src/app/interaction/alarms.service";
 import { NetworkEventDto } from "src/app/models/dtos/networkEventDto";
 import { ChannelEvent } from "src/app/models/enums/channelEvent";
 import {
@@ -14,7 +14,8 @@ import {
   OpticalAlarmIndicator,
 } from "src/app/models/dtos/alarms/opticalAlarm";
 import { NetworkAlarmIndicator } from "src/app/models/dtos/alarms/networkAlarm";
-import { OneApiService } from "src/app/api/one.service";
+import { AlarmsDto } from "src/app/models/dtos/alarms/alarmsDto";
+import { BopAlarmIndicator } from "src/app/models/dtos/alarms/bopAlarm";
 
 @Component({
   selector: "ft-main-nav",
@@ -26,6 +27,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   private networkEventAddedSubscription: Subscription;
   private opticalAlarmIndicator: OpticalAlarmIndicator;
   private networkAlarmIndicator: NetworkAlarmIndicator;
+  private bopAlarmIndicator: BopAlarmIndicator;
 
   public isOpticalAlarm = "";
   public isNetworkAlarm = "";
@@ -33,14 +35,39 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
-    private oneApiService: OneApiService,
     private signalRService: SignalrService,
-    unseenAlarmsService: UnseenAlarmsService
+    private alarmsService: AlarmsService
   ) {
     this.opticalAlarmIndicator = new OpticalAlarmIndicator();
     this.networkAlarmIndicator = new NetworkAlarmIndicator();
+    this.bopAlarmIndicator = new BopAlarmIndicator();
 
-    unseenAlarmsService.opticalEventConfirmed$.subscribe((sorFileId) => {
+    this.alarmsService.initialAlarmsCame$.subscribe((json) =>
+      this.initializeIndicators(json)
+    );
+  }
+
+  async initializeIndicators(json: string) {
+    console.log("main-nav received alarms");
+    const alarmsDto = JSON.parse(json) as AlarmsDto;
+    alarmsDto.networkAlarms.forEach((na) => {
+      this.networkAlarmIndicator.list.push(na);
+    });
+    alarmsDto.opticalAlarms.forEach((oa) =>
+      this.opticalAlarmIndicator.list.push(oa)
+    );
+    console.log(alarmsDto);
+    this.isNetworkAlarm = this.networkAlarmIndicator.GetIndicator();
+    this.isOpticalAlarm = this.opticalAlarmIndicator.GetIndicator();
+    this.isBopAlarm = this.bopAlarmIndicator.GetIndicator();
+    this.subscribeNewAlarmEvents();
+    this.subscribeUserSeenAlarms();
+  }
+
+  ngOnInit() {}
+
+  private subscribeUserSeenAlarms() {
+    this.alarmsService.opticalEventConfirmed$.subscribe((sorFileId) => {
       console.log(`optical event ${sorFileId} has been seen`);
       this.isOpticalAlarm = this.opticalAlarmIndicator.AlarmHasBeenSeen(
         sorFileId
@@ -49,7 +76,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
         `unseen optical events: ${this.opticalAlarmIndicator.list.length}`
       );
     });
-    unseenAlarmsService.networkEventConfirmed$.subscribe((eventId) => {
+    this.alarmsService.networkEventConfirmed$.subscribe((eventId) => {
       console.log(`network event ${eventId} has been seen`);
       this.isNetworkAlarm = this.networkAlarmIndicator.AlarmHasBeenSeen(
         eventId
@@ -60,17 +87,13 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
+  private subscribeNewAlarmEvents() {
     this.measurementAddedSubscription = this.signalRService.measurementAddedEmitter.subscribe(
       (signal: TraceStateDto) => this.onMeasurementAdded(signal)
     );
     this.networkEventAddedSubscription = this.signalRService.networkEventAddedEmitter.subscribe(
       (signal: NetworkEventDto) => this.onNetworkEventAdded(signal)
     );
-
-    this.oneApiService.getRequest("alarms", null).subscribe((alarms) => {
-      console.log("misc/alarms: ", alarms);
-    });
   }
 
   onMeasurementAdded(signal: TraceStateDto) {
