@@ -12,7 +12,16 @@ export class AuthService {
     const url = Utils.GetWebApiUrl() + "/authentication/login/";
     const body = { username: user, password: pw };
 
+    // const myHeaders = new HttpHeaders({
+    //   // "Access-Control-Allow-Origin": "*",
+    //   "Access-Control-Allow-Origin": "http://localhost:4200",
+    // });
+
     return this.httpClient.post(url, body);
+
+    // return this.httpClient.post(url, body, {
+    //   headers: myHeaders,
+    // });
   }
 
   logout() {
