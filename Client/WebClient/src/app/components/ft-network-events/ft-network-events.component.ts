@@ -14,6 +14,7 @@ import { OneApiService } from "src/app/api/one.service";
 import { NetworkEventsDataSource } from "./networkEventsDataSource";
 import { AlarmsService } from "src/app/interaction/alarms.service";
 import { SignalrService } from "src/app/api/signalr.service";
+import { NetworkEventDto } from "src/app/models/dtos/networkEventDto";
 
 @Component({
   selector: "ft-network-events",
@@ -100,6 +101,12 @@ export class FtNetworkEventsComponent implements OnInit, AfterViewInit {
     this.paginator.pageIndex = 0;
     console.log(`slider changed, isCurrentEvents ${this.isCurrentEvents}`);
     this.loadPage();
+  }
+
+  onContextMenu(event: MouseEvent, row: NetworkEventDto) {
+    this.alarmsService.confirmNetworkEvent(row.eventId);
+
+    event.preventDefault();
   }
 
   seeEvent(row) {

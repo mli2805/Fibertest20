@@ -123,6 +123,8 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
   }
 
   onContextMenu(event: MouseEvent, row: OptEventDto) {
+    this.alarmsService.confirmOpticalEvent(row.eventId);
+
     this.contextMenuPosition.x = event.clientX + "px";
     this.contextMenuPosition.y = event.clientY + "px";
     this.contextMenu.menuData = { row };
@@ -160,9 +162,7 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
     this.router.navigate(["/trace-state"]);
   }
 
-  seeEvent() {
-    this.alarmsService.confirmOpticalEvent(
-      this.contextMenu.menuData.row.eventId
-    );
+  seeEvent(row) {
+    this.alarmsService.confirmOpticalEvent(row.eventId);
   }
 }

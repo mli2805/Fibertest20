@@ -43,7 +43,9 @@ export class OpticalAlarmIndicator {
       return "ok";
     }
     const hasNotSeenAlarms = this.list.filter((a) => a.hasBeenSeen === false);
-    console.log(`unseen events: ${this.list.length}`);
+    console.log(
+      `events that has not been seen yet: ${hasNotSeenAlarms.length}`
+    );
     if (hasNotSeenAlarms.length > 0) {
       return "alarmExclamation";
     } else {

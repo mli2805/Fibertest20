@@ -80,6 +80,7 @@
     <tr
       mat-row
       *matRowDef="let row; columns: displayedColumns"
+      (contextmenu)="onContextMenu($event, row)"
       (click)="seeEvent(row)"
     ></tr>
   </table>
