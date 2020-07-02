@@ -12,6 +12,8 @@ export class AuthService {
     const url = Utils.GetWebApiUrl() + "/authentication/login/";
     const body = { username: user, password: pw };
 
+    // !!!!!!!!!!!  press Ctrl+F5   !!!!!!!!!!!!!!!!!!
+
     // const myHeaders = new HttpHeaders({
     //   // "Access-Control-Allow-Origin": "*",
     //   "Access-Control-Allow-Origin": "http://localhost:4200",

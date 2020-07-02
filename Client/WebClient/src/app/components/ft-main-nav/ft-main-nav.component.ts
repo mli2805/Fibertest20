@@ -72,17 +72,11 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
       this.isOpticalAlarm = this.opticalAlarmIndicator.AlarmHasBeenSeen(
         sorFileId
       );
-      console.log(
-        `unseen optical events: ${this.opticalAlarmIndicator.list.length}`
-      );
     });
     this.alarmsService.networkEventConfirmed$.subscribe((eventId) => {
       console.log(`network event ${eventId} has been seen`);
       this.isNetworkAlarm = this.networkAlarmIndicator.AlarmHasBeenSeen(
         eventId
-      );
-      console.log(
-        `unseen network events: ${this.networkAlarmIndicator.list.length}`
       );
     });
   }
@@ -102,9 +96,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
       this.isOpticalAlarm = this.opticalAlarmIndicator.TraceStateChanged(
         signal
       );
-      console.log(
-        `unseen optical events: ${this.opticalAlarmIndicator.list.length}`
-      );
     }
   }
 
@@ -112,9 +103,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     console.log("Network Event Added Signal received! ", signal);
     this.isNetworkAlarm = this.networkAlarmIndicator.NetworkEventReceived(
       signal
-    );
-    console.log(
-      `unseen network events: ${this.networkAlarmIndicator.list.length}`
     );
   }
 
