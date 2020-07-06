@@ -59,5 +59,9 @@ namespace Iit.Fibertest.WcfConnections
         [OperationContract]
         Task<NetworkEventsRequestedDto> GetNetworkEventPortion(string username, bool isCurrentEvents,
                string filterRtu, string sortOrder, int pageNumber, int pageSize);
+
+        [OperationContract]
+        Task<BopEventsRequestedDto> GetBopEventPortion(string username, bool isCurrentEvents,
+                    string filterRtu, string sortOrder, int pageNumber, int pageSize);
     }
 }

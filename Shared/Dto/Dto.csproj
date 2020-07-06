@@ -75,6 +75,7 @@
     <Compile Include="ForWebApi\AssignBaseRefDtoWithFiles.cs" />
     <Compile Include="ForWebApi\BaseRefFile.cs" />
     <Compile Include="ForWebApi\BaseRefInfoDto.cs" />
+    <Compile Include="ForWebApi\BopEventDto.cs" />
     <Compile Include="ForWebApi\MeasurementDto.cs" />
     <Compile Include="ForWebApi\AboutRtuDto.cs" />
     <Compile Include="ForWebApi\NetworkAlarm.cs" />

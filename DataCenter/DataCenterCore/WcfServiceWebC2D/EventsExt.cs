@@ -29,7 +29,25 @@ namespace Iit.Fibertest.DataCenterCore
             return true;
         }
 
+        public static bool Filter(this BopNetworkEvent bopNetworkEvent, string filterRtu, Model writeModel,
+                  User user)
+        {
+            var rtu = writeModel.Rtus.FirstOrDefault(r => r.Id == bopNetworkEvent.RtuId);
+            if (rtu == null
+                || !rtu.ZoneIds.Contains(user.ZoneId)
+                || (!string.IsNullOrEmpty(filterRtu) && !rtu.Title.Contains(filterRtu)))
+            {
+                return false;
+            }
+
+            return true;
+        }
+
         public static IEnumerable<NetworkEvent> Sort(this IEnumerable<NetworkEvent> input, string param)
+        {
+            return param == "asc" ? input.OrderBy(o => o.Ordinal) : input.OrderByDescending(o => o.Ordinal);
+        }
+        public static IEnumerable<BopNetworkEvent> Sort(this IEnumerable<BopNetworkEvent> input, string param)
         {
             return param == "asc" ? input.OrderBy(o => o.Ordinal) : input.OrderByDescending(o => o.Ordinal);
         }

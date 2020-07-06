@@ -332,5 +332,26 @@ namespace Iit.Fibertest.WcfConnections
                 return null;
             }
         }
+
+        public async Task<BopEventsRequestedDto> GetBopEventPortion(string username, bool isCurrentEvents, string filterRtu, string sortOrder, int pageNumber,
+            int pageSize)
+        {
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetBopEventPortion(username, isCurrentEvents, filterRtu, sortOrder, pageNumber, pageSize);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetBopEventPortion: " + e.Message);
+                return null;
+            }
+        }
     }
 }

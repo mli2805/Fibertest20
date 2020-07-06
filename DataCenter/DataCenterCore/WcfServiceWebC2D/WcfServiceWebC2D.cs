@@ -373,6 +373,30 @@ namespace Iit.Fibertest.DataCenterCore
             };
         }
 
+        public async Task<BopEventsRequestedDto> GetBopEventPortion(string username, bool isCurrentEvents, 
+            string filterRtu, string sortOrder, int pageNumber, int pageSize)
+        {
+            if (!await Authorize(username, "GetBopEventPortion")) return null;
+
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+            var sift = isCurrentEvents
+                ? _writeModel.Rtus
+                    .Where(r => r.Filter(user, filterRtu))
+                    .Select(rtu => _writeModel.BopNetworkEvents.LastOrDefault(n => n.RtuId == rtu.Id))
+                    .Where(lastBopNetworkEvent => lastBopNetworkEvent != null).ToList()
+                : _writeModel.BopNetworkEvents
+                    .Where(n => n.Filter(filterRtu, _writeModel, user)).ToList();
+            return new BopEventsRequestedDto
+            {
+                FullCount = sift.Count,
+                EventPortion = sift
+                    .Sort(sortOrder)
+                    .Skip(pageNumber * pageSize)
+                    .Take(pageSize)
+                    .Select(m => m.CreateBopEventDto(_writeModel)).ToList()
+            };
+        }
+
         public async Task<List<NetworkAlarm>> GetCurrentNetworkEvents(string username)
         {
             if (!await Authorize(username, "GetCurrentNetworkEvents")) return null;

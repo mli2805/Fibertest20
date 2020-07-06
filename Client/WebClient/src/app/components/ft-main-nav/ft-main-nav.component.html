@@ -32,6 +32,13 @@
       >
       <a
         mat-list-item
+        routerLink="/bop-events"
+        routerLinkActive="active"
+        (click)="drawer.toggle()"
+        >BOP Events</a
+      >
+      <a
+        mat-list-item
         routerLink="/logout"
         routerLinkActive="active"
         (click)="drawer.toggle(); logout()"
@@ -123,6 +130,7 @@
         <a routerLink="/network-events" routerLinkActive="active"
           >Network Events</a
         >
+        <a routerLink="/bop-events" routerLinkActive="active">BOP Events</a>
         <a routerLink="/logout" routerLinkActive="active" (click)="logout()"
           >Logout</a
         >

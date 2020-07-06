@@ -19,6 +19,7 @@ import { FtPortMeasurementClientComponent } from "./components/details/port/ft-p
 import { FtPortAttachTraceComponent } from "./components/details/port/ft-port-attach-trace/ft-port-attach-trace.component";
 import { FtTraceStateComponent } from "./components/details/trace/ft-trace-state/ft-trace-state.component";
 import { FtAssignBaseComponent } from "./components/details/trace/ft-assign-base/ft-assign-base.component";
+import { FtBopEventsComponent } from "./components/ft-bop-events/ft-bop-events.component";
 
 const routes: Routes = [
   { path: "login", component: FtLoginComponent, canActivate: [LoginGuard] },
@@ -36,6 +37,11 @@ const routes: Routes = [
   {
     path: "network-events",
     component: FtNetworkEventsComponent,
+    canActivate: [AuthGuard],
+  },
+  {
+    path: "bop-events",
+    component: FtBopEventsComponent,
     canActivate: [AuthGuard],
   },
 

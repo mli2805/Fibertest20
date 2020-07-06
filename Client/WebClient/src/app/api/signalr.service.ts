@@ -12,6 +12,7 @@ import { MonitoringStoppedDto } from "../models/dtos/rtu/monitoringStoppedDto";
 import { TraceStateDto } from "../models/dtos/trace/traceStateDto";
 import { MonitoringStartdedDto } from "../models/dtos/rtu/monitoringStartedDto";
 import { NetworkEventDto } from "../models/dtos/networkEventDto";
+import { BopEventDto } from "../models/dtos/bopEventDto";
 
 @Injectable({
   providedIn: "root",
@@ -27,6 +28,7 @@ export class SignalrService {
   public monitoringStartedEmitter = new EventEmitter<MonitoringStartdedDto>();
   public measurementAddedEmitter = new EventEmitter<TraceStateDto>();
   public networkEventAddedEmitter = new EventEmitter<NetworkEventDto>();
+  public bopEventAddedEmitter = new EventEmitter<BopEventDto>();
 
   // will be built after loggin in, when jsonWebToken provided
   public buildConnection(token: string) {
@@ -118,6 +120,11 @@ export class SignalrService {
     this.hubConnection.on("AddNetworkEvent", (signal: string) => {
       const dto = JSON.parse(signal);
       this.networkEventAddedEmitter.emit(dto);
+    });
+
+    this.hubConnection.on("AddBopEvent", (signal: string) => {
+      const dto = JSON.parse(signal);
+      this.bopEventAddedEmitter.emit(dto);
     });
   }
 }

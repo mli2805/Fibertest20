@@ -61,5 +61,20 @@ namespace Iit.Fibertest.DataCenterWebApi
             return resultDto;
         }
 
+        [Authorize]
+        [HttpGet("GetBopsPage")]
+        public async Task<BopEventsRequestedDto> GetBopsPage(bool isCurrentEvents,
+                                string filterRtu, string sortOrder, int pageNumber, int pageSize)
+        {
+            var resultDto = await _webC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .GetBopEventPortion(User.Identity.Name, isCurrentEvents, filterRtu, sortOrder, pageNumber, pageSize);
+            _logFile.AppendLine(resultDto == null
+                ? "Failed to get bop event list"
+                : $"Bop event list contains {resultDto.FullCount} items");
+
+            return resultDto;
+        }
+
     }
 }

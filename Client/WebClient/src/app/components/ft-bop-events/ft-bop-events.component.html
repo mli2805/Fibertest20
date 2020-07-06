@@ -1,0 +1,85 @@
+<div class="container">
+  <mat-toolbar fxLayout.xs="column" class="tools">
+    <mat-form-field>
+      <input matInput placeholder="RTU" #inputRtu />
+    </mat-form-field>
+    <div class="spacer"></div>
+    <mat-slide-toggle
+      [(ngModel)]="isCurrentEvents"
+      [labelPosition]="labelPosition"
+      [color]="sliderColor"
+      (change)="changedSlider()"
+      >Only active!
+    </mat-slide-toggle>
+  </mat-toolbar>
+
+  <table
+    mat-table
+    class="bop-event-table mat-elevation-z8"
+    [dataSource]="dataSource"
+    matSort
+    matSortActive="eventId"
+    matSortDirection="desc"
+    matSortDisableClear
+  >
+    <ng-container matColumnDef="eventId">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        {{ "SID_Event_Id" | translate }}
+      </th>
+      <td mat-cell class="eventId-cell" *matCellDef="let element">
+        {{ element.eventId }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="eventRegistrationTimestamp">
+      <th mat-header-cell *matHeaderCellDef>
+        {{ "SID_Event_registration_time" | translate }}
+      </th>
+      <td
+        mat-cell
+        class="eventRegistrationTimestamp-cell"
+        *matCellDef="let element"
+      >
+        {{ element.eventRegistrationTimestamp | date: "dd/MM/yyyy H:mm:ss" }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="bopAddress">
+      <th mat-header-cell *matHeaderCellDef>BOP</th>
+      <td mat-cell class="bopAddress-cell" *matCellDef="let element">
+        {{ element.bopAddress }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="rtuTitle">
+      <th mat-header-cell *matHeaderCellDef>RTU</th>
+      <td mat-cell class="rtuTitle-cell" *matCellDef="let element">
+        {{ element.rtuTitle }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="bopState">
+      <th mat-header-cell *matHeaderCellDef>{{ "SID_State" | translate }}</th>
+      <td mat-cell class="bopState-cell" *matCellDef="let element">
+        {{ getBopState(element.bopState) | translate }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+    <tr
+      mat-row
+      *matRowDef="let row; columns: displayedColumns"
+      (contextmenu)="onContextMenu($event, row)"
+      (click)="seeEvent(row)"
+    ></tr>
+  </table>
+
+  <mat-paginator
+    [length]="dataSource.fullCount | async"
+    [pageSize]="8"
+    [pageSizeOptions]="[8, 13, 28, 100]"
+  ></mat-paginator>
+  <div class="spinner-container" *ngIf="dataSource.loading$ | async">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>

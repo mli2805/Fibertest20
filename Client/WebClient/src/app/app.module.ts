@@ -84,6 +84,7 @@ import { FtPortMeasurementClientComponent } from "./components/details/port/ft-p
 import { FtRtuTreeEventService } from "./components/ft-rtu-tree/ft-rtu-tree-event-service";
 import { FtTraceStateComponent } from "./components/details/trace/ft-trace-state/ft-trace-state.component";
 import { FtAssignBaseComponent } from "./components/details/trace/ft-assign-base/ft-assign-base.component";
+import { FtBopEventsComponent } from './components/ft-bop-events/ft-bop-events.component';
 
 @NgModule({
   declarations: [
@@ -132,6 +133,8 @@ import { FtAssignBaseComponent } from "./components/details/trace/ft-assign-base
     FtAssignBaseComponent,
 
     NoRightClickDirective,
+
+    FtBopEventsComponent,
   ],
   imports: [
     TranslateModule.forRoot(),

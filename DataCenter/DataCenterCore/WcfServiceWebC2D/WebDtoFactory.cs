@@ -184,6 +184,13 @@ namespace Iit.Fibertest.DataCenterCore
             return dto;
         }
 
+        public static BopEventDto CreateBopEventDto(this BopNetworkEvent n, Model writeModel)
+        {
+            var dto = Mapper.Map<BopEventDto>(n);
+            dto.RtuTitle = writeModel.Rtus.FirstOrDefault(r => r.Id == n.RtuId)?.Title;
+            return dto;
+        }
+
         public static IEnumerable<NetworkAlarm> CreateNetworkAlarms(this NetworkEvent n)
         {
             var na = new NetworkAlarm { EventId = n.Ordinal, RtuId = n.RtuId, hasBeenSeen = true };
