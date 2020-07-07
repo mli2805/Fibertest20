@@ -46,39 +46,34 @@ namespace Iit.Fibertest.DataCenterCore
             _snmpNotifier = snmpNotifier;
         }
 
-        public async Task<int> ProcessMessage(Message message)
+        public async Task ProcessMessage(Message message)
         {
             if (message.Body is MonitoringResultDto monitoringResultDto)
-                return await ProcessMonitoringResult(monitoringResultDto);
+                await ProcessMonitoringResult(monitoringResultDto);
             if (message.Body is BopStateChangedDto bopStateChangedDto)
-                return await ProcessBopStateChanges(bopStateChangedDto);
-            return -1;
+                await ProcessBopStateChanges(bopStateChangedDto);
         }
 
-        public async Task<int> ProcessBopStateChanges(BopStateChangedDto dto)
+        public async Task ProcessBopStateChanges(BopStateChangedDto dto)
         {
-            if (!await _rtuStationsRepository.IsRtuExist(dto.RtuId)) return -1;
-
-            await CheckAndSendBopNetworkEventIfNeeded(dto);
-            return 0;
+            if (await _rtuStationsRepository.IsRtuExist(dto.RtuId)) 
+                await CheckAndSendBopNetworkEventIfNeeded(dto);
         }
 
-        public async Task<int> ProcessMonitoringResult(MonitoringResultDto dto)
+        public async Task ProcessMonitoringResult(MonitoringResultDto dto)
         {
-            if (!await _rtuStationsRepository.IsRtuExist(dto.RtuId)) return -1;
+            if (!await _rtuStationsRepository.IsRtuExist(dto.RtuId)) return;
 
             _logFile.AppendLine($@"MSMQ message, measure time: {dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture)
                 }, RTU { dto.RtuId.First6()
                 }, Trace {dto.PortWithTrace.TraceId.First6()} - {dto.TraceState} ({ dto.BaseRefType })");
 
             var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
-            if (sorId == -1) return -1;
-
-
-            return await SaveEventFromDto(dto, sorId);
+            if (sorId != -1) 
+                await SaveEventFromDto(dto, sorId);
         }
 
-        private async Task<int> SaveEventFromDto(MonitoringResultDto dto, int sorId)
+        private async Task SaveEventFromDto(MonitoringResultDto dto, int sorId)
         {
             var addMeasurement = _measurementFactory.CreateCommand(dto, sorId);
             var result = await _eventStoreService.SendCommand(addMeasurement, "system", "OnServer");
@@ -86,7 +81,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (result != null) // Unknown trace or something else
             {
                 await _sorFileRepository.RemoveSorBytesAsync(sorId);
-                return -1;
+                return;
             }
 
             var signal = _writeModel.GetTraceStateDto(_accidentLineModelFactory, sorId);
@@ -95,11 +90,9 @@ namespace Iit.Fibertest.DataCenterCore
 
             if (addMeasurement.EventStatus > EventStatus.JustMeasurementNotAnEvent && dto.BaseRefType != BaseRefType.Fast)
             {
-                // ReSharper disable once UnusedVariable
-                var task = Task.Factory.StartNew(() =>
+                var unused = Task.Factory.StartNew(() =>
                     SendNotificationsAboutTraces(dto, addMeasurement)); // here we do not wait result
             }
-            return 0;
         }
 
         private async void SendNotificationsAboutTraces(MonitoringResultDto dto, AddMeasurement addMeasurement)
@@ -146,8 +139,7 @@ namespace Iit.Fibertest.DataCenterCore
                     IsOk = dto.IsOk,
                 };
                 await _eventStoreService.SendCommand(cmd, "system", "OnServer");
-                // ReSharper disable once UnusedVariable
-                var task = Task.Factory.StartNew(() => SendNotificationsAboutBop(cmd));
+                var unused = Task.Factory.StartNew(() => SendNotificationsAboutBop(cmd));
             }
         }
 
@@ -170,8 +162,7 @@ namespace Iit.Fibertest.DataCenterCore
                     IsOk = true,
                 };
                 await _eventStoreService.SendCommand(cmd, "system", "OnServer");
-                // ReSharper disable once UnusedVariable
-                var task = Task.Factory.StartNew(() => SendNotificationsAboutBop(cmd));
+                var unused = Task.Factory.StartNew(() => SendNotificationsAboutBop(cmd));
             }
         }
     }
