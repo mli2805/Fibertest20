@@ -4,6 +4,7 @@ export class BopEventDto {
   bopAddress: string;
   rtuId: string;
   rtuTitle: string;
+  serial: string;
   bopState: boolean;
 }
 

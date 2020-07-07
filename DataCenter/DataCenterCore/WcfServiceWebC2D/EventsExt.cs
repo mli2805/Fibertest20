@@ -7,7 +7,14 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public static class EventsExt
     {
-        public static bool Filter(this Rtu rtu, User user, string filterRtu)
+        public static bool FilterRtu(this Rtu rtu, User user, string filterRtu)
+        {
+            if (!rtu.ZoneIds.Contains(user.ZoneId)) return false;
+            if (!string.IsNullOrEmpty(filterRtu) && !rtu.Title.Contains(filterRtu)) return false;
+            return true;
+        }
+
+        public static bool FilterRtuWithProblems(this Rtu rtu, User user, string filterRtu)
         {
             if (!rtu.ZoneIds.Contains(user.ZoneId)) return false;
             if (rtu.IsAllRight) return false;

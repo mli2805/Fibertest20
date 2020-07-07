@@ -205,5 +205,10 @@ namespace Iit.Fibertest.DataCenterCore
                 yield return na;
             }
         }
+
+        public static BopAlarm CreateBopAlarm(this BopNetworkEvent b)
+        {
+            return new BopAlarm() { EventId = b.Ordinal, Serial = b.Serial, hasBeenSeen = true };
+        }
     }
 }

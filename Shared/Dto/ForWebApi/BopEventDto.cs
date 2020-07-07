@@ -10,6 +10,7 @@ namespace Iit.Fibertest.Dto
         public string BopAddress;
         public Guid RtuId;
         public string RtuTitle;
+        public string Serial;
 
         public bool BopState;
     }

@@ -81,7 +81,7 @@ namespace Iit.Fibertest.DataCenterCore
                 {
                     NetworkAlarms = await GetCurrentNetworkEvents(username),
                     OpticalAlarms = await GetCurrentOpticalEvents(username),
-                    BopAlarms = new List<BopAlarm>()
+                    BopAlarms = await GetCurrentBopEvents(username),
                 };
                 _logFile.AppendLine($"dto contains {result.NetworkAlarms.Count} network alarms, {result.OpticalAlarms.Count} optical alarms and {result.BopAlarms.Count} bop alarms");
                 var resString = JsonConvert.SerializeObject(result, JsonSerializerSettings);
@@ -340,7 +340,8 @@ namespace Iit.Fibertest.DataCenterCore
                     .Select(m => m.CreateOpticalEventDto(_writeModel)).ToList()
             };
         }
-        public async Task<List<OpticalAlarm>> GetCurrentOpticalEvents(string username)
+
+        private async Task<List<OpticalAlarm>> GetCurrentOpticalEvents(string username)
         {
             if (!await Authorize(username, "GetCurrentOpticalEvents")) return null;
 
@@ -357,7 +358,7 @@ namespace Iit.Fibertest.DataCenterCore
             var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
             var sift = isCurrentEvents
                 ? _writeModel.Rtus
-                    .Where(r => r.Filter(user, filterRtu))
+                    .Where(r => r.FilterRtuWithProblems(user, filterRtu))
                     .Select(rtu => _writeModel.NetworkEvents.LastOrDefault(n => n.RtuId == rtu.Id))
                     .Where(lastNetworkEvent => lastNetworkEvent != null).ToList()
                 : _writeModel.NetworkEvents
@@ -373,6 +374,21 @@ namespace Iit.Fibertest.DataCenterCore
             };
         }
 
+        private async Task<List<NetworkAlarm>> GetCurrentNetworkEvents(string username)
+        {
+            if (!await Authorize(username, "GetCurrentNetworkEvents")) return null;
+
+            var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
+            var sift = _writeModel.Rtus
+                .Where(r => r.FilterRtuWithProblems(user, null))
+                .Select(rtu => _writeModel.NetworkEvents.LastOrDefault(n => n.RtuId == rtu.Id))
+                .Where(lastNetworkEvent => lastNetworkEvent != null).ToList();
+            var result = new List<NetworkAlarm>();
+            foreach (var networkEvent in sift)
+                result.AddRange(networkEvent.CreateNetworkAlarms());
+            return result;
+        }
+
         public async Task<BopEventsRequestedDto> GetBopEventPortion(string username, bool isCurrentEvents, 
             string filterRtu, string sortOrder, int pageNumber, int pageSize)
         {
@@ -381,9 +397,9 @@ namespace Iit.Fibertest.DataCenterCore
             var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
             var sift = isCurrentEvents
                 ? _writeModel.Rtus
-                    .Where(r => r.Filter(user, filterRtu))
+                    .Where(r => r.FilterRtu(user, filterRtu))
                     .Select(rtu => _writeModel.BopNetworkEvents.LastOrDefault(n => n.RtuId == rtu.Id))
-                    .Where(lastBopNetworkEvent => lastBopNetworkEvent != null).ToList()
+                    .Where(lastBopNetworkEvent => lastBopNetworkEvent != null && !lastBopNetworkEvent.IsOk).ToList()
                 : _writeModel.BopNetworkEvents
                     .Where(n => n.Filter(filterRtu, _writeModel, user)).ToList();
             return new BopEventsRequestedDto
@@ -396,21 +412,18 @@ namespace Iit.Fibertest.DataCenterCore
                     .Select(m => m.CreateBopEventDto(_writeModel)).ToList()
             };
         }
-
-        public async Task<List<NetworkAlarm>> GetCurrentNetworkEvents(string username)
+        
+        private async Task<List<BopAlarm>> GetCurrentBopEvents(string username)
         {
-            if (!await Authorize(username, "GetCurrentNetworkEvents")) return null;
+            if (!await Authorize(username, "GetCurrentBopEvents")) return null;
 
             var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
-            var sift = _writeModel.Rtus
-                .Where(r => r.Filter(user, null))
-                .Select(rtu => _writeModel.NetworkEvents.LastOrDefault(n => n.RtuId == rtu.Id))
-                .Where(lastNetworkEvent => lastNetworkEvent != null).ToList();
-            var result = new List<NetworkAlarm>();
-            foreach (var networkEvent in sift)
-                result.AddRange(networkEvent.CreateNetworkAlarms());
-            return result;
+            return _writeModel.Rtus
+                .Where(r => r.FilterRtu(user, null))
+                .Select(rtu => _writeModel.BopNetworkEvents.LastOrDefault(n => n.RtuId == rtu.Id))
+                .Where(lastBopNetworkEvent => lastBopNetworkEvent != null && !lastBopNetworkEvent.IsOk)
+                .Select(b => b.CreateBopAlarm())
+                .ToList();
         }
-
     }
 }

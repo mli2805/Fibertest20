@@ -112,6 +112,20 @@
         </div>
       </div>
       <div>
+        <div *ngIf="isBopAlarm === 'alarmExclamation'">
+          <img
+            class="alarmImage"
+            src="./assets/images/alarm/RedBallYellowExclamation32.png"
+            alt="new_alarm_network"
+          />
+        </div>
+        <div *ngIf="isBopAlarm === 'alarm'">
+          <img
+            class="alarmImage"
+            src="./assets/images/alarm/RedBall32.png"
+            alt="old_alarm_network"
+          />
+        </div>
         <div *ngIf="isBopAlarm === 'ok'">
           <img
             class="alarmImage"

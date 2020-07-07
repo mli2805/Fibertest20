@@ -69,7 +69,6 @@ namespace Iit.Fibertest.Graph
                 rtu?.SetOtauState(otau.Id, e.IsOk);
             }
 
-
             return null;
         }
 

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Messaging;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -56,7 +57,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task ProcessBopStateChanges(BopStateChangedDto dto)
         {
-            if (await _rtuStationsRepository.IsRtuExist(dto.RtuId)) 
+            if (await _rtuStationsRepository.IsRtuExist(dto.RtuId))
                 await CheckAndSendBopNetworkEventIfNeeded(dto);
         }
 
@@ -69,7 +70,7 @@ namespace Iit.Fibertest.DataCenterCore
                 }, Trace {dto.PortWithTrace.TraceId.First6()} - {dto.TraceState} ({ dto.BaseRefType })");
 
             var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
-            if (sorId != -1) 
+            if (sorId != -1)
                 await SaveEventFromDto(dto, sorId);
         }
 
@@ -138,12 +139,12 @@ namespace Iit.Fibertest.DataCenterCore
                     TcpPort = otau.OtauAddress.Port,
                     IsOk = dto.IsOk,
                 };
-                await _eventStoreService.SendCommand(cmd, "system", "OnServer");
-                var unused = Task.Factory.StartNew(() => SendNotificationsAboutBop(cmd));
+                await PersistBopEvent(cmd);
             }
         }
 
         // BOP - because MSMQ message with monitoring result came
+
         private async Task CheckAndSendBopNetworkIfNeeded(MonitoringResultDto dto)
         {
             var otau = _writeModel.Otaus.FirstOrDefault(o =>
@@ -151,7 +152,8 @@ namespace Iit.Fibertest.DataCenterCore
             );
             if (otau != null && !otau.IsOk)
             {
-                _logFile.AppendLine($"RTU {dto.RtuId.First6()} BOP {dto.PortWithTrace.OtauPort.Serial} state changed to OK (because MSMQ message with monitoring result came)");
+                _logFile.AppendLine($@"RTU {dto.RtuId.First6()} BOP {dto.PortWithTrace.OtauPort.Serial
+                    } state changed to OK (because MSMQ message with monitoring result came)");
                 var cmd = new AddBopNetworkEvent()
                 {
                     EventTimestamp = DateTime.Now,
@@ -161,7 +163,22 @@ namespace Iit.Fibertest.DataCenterCore
                     TcpPort = otau.OtauAddress.Port,
                     IsOk = true,
                 };
-                await _eventStoreService.SendCommand(cmd, "system", "OnServer");
+                await PersistBopEvent(cmd);
+            }
+        }
+
+        private static readonly IMapper Mapper = new MapperConfiguration(
+            cfg => cfg.AddProfile<MappingWebApiProfile>()).CreateMapper();
+
+        private async Task PersistBopEvent(AddBopNetworkEvent cmd)
+        {
+            var result = await _eventStoreService.SendCommand(cmd, "system", "OnServer");
+            if (string.IsNullOrEmpty(result))
+            {
+                var bopEvent = _writeModel.BopNetworkEvents.LastOrDefault();
+                var signal = Mapper.Map<BopEventDto>(bopEvent);
+
+                await _ftSignalRClient.NotifyAll("AddBopEvent", signal.ToCamelCaseJson());
                 var unused = Task.Factory.StartNew(() => SendNotificationsAboutBop(cmd));
             }
         }

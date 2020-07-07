@@ -18,7 +18,12 @@ namespace Iit.Fibertest.Dto
         public bool hasBeenSeen;
     }
 
-    public class  BopAlarm {}
+    public class BopAlarm
+    {
+        public int EventId;
+        public string Serial;
+        public bool hasBeenSeen;
+    }
 
     public class AlarmsDto
     {

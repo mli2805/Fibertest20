@@ -16,6 +16,7 @@ import {
 import { NetworkAlarmIndicator } from "src/app/models/dtos/alarms/networkAlarm";
 import { AlarmsDto } from "src/app/models/dtos/alarms/alarmsDto";
 import { BopAlarmIndicator } from "src/app/models/dtos/alarms/bopAlarm";
+import { BopEventDto } from "src/app/models/dtos/bopEventDto";
 
 @Component({
   selector: "ft-main-nav",
@@ -25,6 +26,8 @@ import { BopAlarmIndicator } from "src/app/models/dtos/alarms/bopAlarm";
 export class FtMainNavComponent implements OnInit, OnDestroy {
   private measurementAddedSubscription: Subscription;
   private networkEventAddedSubscription: Subscription;
+  private bopEventAddedSubscription: Subscription;
+
   private opticalAlarmIndicator: OpticalAlarmIndicator;
   private networkAlarmIndicator: NetworkAlarmIndicator;
   private bopAlarmIndicator: BopAlarmIndicator;
@@ -56,6 +59,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     alarmsDto.opticalAlarms.forEach((oa) =>
       this.opticalAlarmIndicator.list.push(oa)
     );
+    alarmsDto.bopAlarms.forEach((ba) => this.bopAlarmIndicator.list.push(ba));
     console.log(alarmsDto);
     this.isNetworkAlarm = this.networkAlarmIndicator.GetIndicator();
     this.isOpticalAlarm = this.opticalAlarmIndicator.GetIndicator();
@@ -79,6 +83,9 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
         eventId
       );
     });
+    this.alarmsService.bopEventConfirmed$.subscribe((eventId) => {
+      this.isBopAlarm = this.bopAlarmIndicator.AlarmHasBeenSeen(eventId);
+    });
   }
 
   private subscribeNewAlarmEvents() {
@@ -87,6 +94,10 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     );
     this.networkEventAddedSubscription = this.signalRService.networkEventAddedEmitter.subscribe(
       (signal: NetworkEventDto) => this.onNetworkEventAdded(signal)
+    );
+
+    this.bopEventAddedSubscription = this.signalRService.bopEventAddedEmitter.subscribe(
+      (signal: BopEventDto) => this.onBopEventAdded(signal)
     );
   }
 
@@ -106,9 +117,15 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     );
   }
 
+  onBopEventAdded(signal: BopEventDto) {
+    console.log("Bop Event Added Signal received! ", signal);
+    this.isBopAlarm = this.bopAlarmIndicator.BopEventReceived(signal);
+  }
+
   ngOnDestroy(): void {
     this.measurementAddedSubscription.unsubscribe();
     this.networkEventAddedSubscription.unsubscribe();
+    this.bopEventAddedSubscription.unsubscribe();
   }
 
   logout() {
