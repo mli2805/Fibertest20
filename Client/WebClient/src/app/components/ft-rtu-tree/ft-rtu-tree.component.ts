@@ -13,6 +13,9 @@ import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { NetworkEventDto } from "src/app/models/dtos/networkEventDto";
 import { ChannelEvent } from "src/app/models/enums/channelEvent";
 import { RtuPartState } from "src/app/models/enums/rtuPartState";
+import { BopEventDto } from "src/app/models/dtos/bopEventDto";
+import { MeasurementDto } from "src/app/models/dtos/measurementDto";
+import { TraceStateDto } from "src/app/models/dtos/trace/traceStateDto";
 
 @Component({
   selector: "ft-rtu-tree",
@@ -29,6 +32,7 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
   private monitoringStartedSubscription: Subscription;
   private measurementAddedSubscription: Subscription;
   private networkEventAddedSubscription: Subscription;
+  private bopEventAddedSubscription: Subscription;
 
   constructor(
     private oneApiService: OneApiService,
@@ -63,7 +67,7 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
 
     this.monitoringStoppedSubscription = this.signalRService.monitoringStoppedEmitter.subscribe(
       (signal: any) => {
-        console.log("monitoring stopped", signal);
+        console.log("monitoring stopped came to rtu tree", signal);
         const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
         rtu.monitoringMode = MonitoringMode.Off;
       }
@@ -71,21 +75,28 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
 
     this.monitoringStartedSubscription = this.signalRService.monitoringStartedEmitter.subscribe(
       (signal: any) => {
-        console.log("monitoring started", signal);
+        console.log("monitoring started came to rtu tree", signal);
         const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
         rtu.monitoringMode = MonitoringMode.On;
       }
     );
 
     this.measurementAddedSubscription = this.signalRService.measurementAddedEmitter.subscribe(
-      (signal: any) => {
-        console.log("measurement added", signal);
+      (signal: TraceStateDto) => {
+        console.log("measurement came to rtu tree", signal);
+        const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
+        const trace = rtu.children.find(
+          (t) =>
+            t.childType === ChildType.Trace &&
+            (t as TraceDto).traceId === signal.traceId
+        ) as TraceDto;
+        trace.state = signal.traceState;
       }
     );
 
     this.networkEventAddedSubscription = this.signalRService.networkEventAddedEmitter.subscribe(
       (signal: NetworkEventDto) => {
-        console.log("network event added", signal);
+        console.log("network event came to rtu tree", signal);
         const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
         if (signal.onMainChannel === ChannelEvent.Repaired) {
           rtu.mainChannelState = RtuPartState.Ok;
@@ -101,6 +112,19 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
         }
       }
     );
+
+    this.bopEventAddedSubscription = this.signalRService.bopEventAddedEmitter.subscribe(
+      (signal: BopEventDto) => {
+        console.log("bop event came to rtu tree");
+        const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
+        const otau = rtu.children.find(
+          (o) =>
+            o.childType === ChildType.Otau &&
+            (o as OtauWebDto).serial === signal.serial
+        ) as OtauWebDto;
+        otau.isOk = signal.bopState;
+      }
+    );
   }
 
   ngOnDestroy() {
@@ -108,6 +132,7 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
     this.monitoringStartedSubscription.unsubscribe();
     this.measurementAddedSubscription.unsubscribe();
     this.networkEventAddedSubscription.unsubscribe();
+    this.bopEventAddedSubscription.unsubscribe();
     this.destroyed.next();
     this.destroyed.complete();
   }
