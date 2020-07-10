@@ -9,7 +9,7 @@ import { catchError, finalize } from "rxjs/operators";
 import { OneApiService } from "src/app/api/one.service";
 
 export class OptEventsDataSource implements DataSource<OptEventDto> {
-  private optEventsSubject = new BehaviorSubject<OptEventDto[]>([]);
+  public optEventsSubject = new BehaviorSubject<OptEventDto[]>([]);
   private fullCountSubject = new BehaviorSubject<number>(5);
   private loadingSubject = new BehaviorSubject<boolean>(false);
 

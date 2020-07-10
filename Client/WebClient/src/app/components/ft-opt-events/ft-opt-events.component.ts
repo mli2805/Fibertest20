@@ -16,6 +16,7 @@ import { OptEventDto } from "src/app/models/dtos/optEventDto";
 import { Router } from "@angular/router";
 import { AlarmsService } from "src/app/interaction/alarms.service";
 import { SignalrService } from "src/app/api/signalr.service";
+import { UpdateMeasurementDto } from "src/app/models/dtos/trace/updateMeasurementDto";
 
 @Component({
   selector: "ft-opt-events",
@@ -71,6 +72,17 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
 
     this.signalRService.measurementAddedEmitter.subscribe(() =>
       this.loadPage()
+    );
+    this.signalRService.measurementUpdatedEmitter.subscribe(
+      (signal: UpdateMeasurementDto) => {
+        const line = this.dataSource.optEventsSubject.value.find(
+          (l) => l.eventId === signal.sorFileId
+        );
+        line.eventStatus = signal.eventStatus;
+        line.statusChangedTimestamp = signal.statusChangedTimestamp;
+        line.statusChangedByUser = signal.statusChangedByUser;
+        console.log("measurement updated");
+      }
     );
   }
 

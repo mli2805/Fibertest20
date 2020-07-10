@@ -4,6 +4,7 @@ using System.Linq;
 using System.ServiceModel;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -27,6 +28,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IEventStoreInitializer _eventStoreInitializer;
 
         private readonly RtuStationsRepository _rtuStationsRepository;
+        private readonly FtSignalRClient _ftSignalRClient;
         private readonly SorFileRepository _sorFileRepository;
         private readonly SnapshotRepository _snapshotRepository;
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
@@ -45,7 +47,7 @@ namespace Iit.Fibertest.DataCenterCore
         public WcfServiceDesktopC2D(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
             Model writeModel, IEventStoreInitializer eventStoreInitializer, EventStoreService eventStoreService,
             MeasurementFactory measurementFactory, ClientsCollection clientsCollection, 
-            RtuStationsRepository rtuStationsRepository,
+            RtuStationsRepository rtuStationsRepository, FtSignalRClient ftSignalRClient,
             BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
             SorFileRepository sorFileRepository, SnapshotRepository snapshotRepository,
             Smtp smtp, SnmpAgent snmpAgent, SmsManager smsManager, DiskSpaceProvider diskSpaceProvider, 
@@ -61,6 +63,7 @@ namespace Iit.Fibertest.DataCenterCore
             _measurementFactory = measurementFactory;
             _clientsCollection = clientsCollection;
             _rtuStationsRepository = rtuStationsRepository;
+            _ftSignalRClient = ftSignalRClient;
             _sorFileRepository = sorFileRepository;
             _snapshotRepository = snapshotRepository;
             _baseRefRepairmanIntermediary = baseRefRepairmanIntermediary;
@@ -152,6 +155,8 @@ namespace Iit.Fibertest.DataCenterCore
             if (resultInGraph != null)
                 return resultInGraph;
 
+            // Some commands need to be reported to web client
+            await NotifyWebClient(cmd);
             // A few commands need post-processing in Db or RTU
             return await PostProcessing(cmd);
         }
@@ -162,7 +167,6 @@ namespace Iit.Fibertest.DataCenterCore
                 return await _rtuStationsRepository.RemoveRtuAsync(removeRtu.RtuId);
 
             #region Base ref amend
-
             if (cmd is UpdateAndMoveNode updateAndMoveNode)
                 return await _baseRefRepairmanIntermediary.AmendForTracesWhichUseThisNode(updateAndMoveNode.NodeId);
             if (cmd is UpdateRtu updateRtu)
@@ -180,10 +184,20 @@ namespace Iit.Fibertest.DataCenterCore
             if (cmd is RemoveNode removeNode && removeNode.Type == EquipmentType.AdjustmentPoint)
                 return await _baseRefRepairmanIntermediary.ProcessNodeRemoved(removeNode.DetoursForGraph.Select(d => d.TraceId)
                     .ToList());
-
             #endregion
 
             return null;
+        }
+
+        private static readonly IMapper Mapper = new MapperConfiguration(
+            cfg => cfg.AddProfile<MappingWebApiProfile>()).CreateMapper();
+        private async Task NotifyWebClient(object cmd)
+        {
+            if (cmd is UpdateMeasurement)
+            {
+                var evnt = Mapper.Map<UpdateMeasurementDto>(cmd);
+                await _ftSignalRClient.NotifyAll("UpdateMeasurement", evnt.ToCamelCaseJson());
+            }
         }
 
         public async Task<string[]> GetEvents(GetEventsDto dto)
