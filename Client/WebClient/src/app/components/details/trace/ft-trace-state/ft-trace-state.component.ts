@@ -5,6 +5,7 @@ import { FiberState } from "src/app/models/enums/fiberState";
 import { EventStatus } from "src/app/models/enums/eventStatus";
 import { EventStatusPipe } from "src/app/pipes/event-status.pipe";
 import { UpdateMeasurementDto } from "src/app/models/dtos/trace/updateMeasurementDto";
+import { SignalrService } from "src/app/api/signalr.service";
 
 @Component({
   selector: "ft-trace-state",
@@ -23,6 +24,7 @@ export class FtTraceStateComponent implements OnInit {
 
   constructor(
     private oneApiService: OneApiService,
+    private signalRService: SignalrService,
     private eventStatusPipe: EventStatusPipe
   ) {}
 
@@ -51,6 +53,15 @@ export class FtTraceStateComponent implements OnInit {
         this.selectedEventStatus = res.eventStatus;
         this.isSpinnerVisible = false;
       });
+
+    this.signalRService.measurementUpdatedEmitter.subscribe(
+      (signal: UpdateMeasurementDto) => {
+        if (signal.sorFileId === this.vm.sorFileId) {
+          this.vm.eventStatus = signal.eventStatus;
+          this.vm.comment = signal.comment;
+        }
+      }
+    );
   }
 
   save() {
