@@ -1,16 +1,18 @@
 import { TraceStateDto } from "../trace/traceStateDto";
 import { FiberState } from "../../enums/fiberState";
+import { IAlarm, AlarmIndicator } from "./alarm";
 
-export class OpticalAlarm {
-  id: number; // sorFileId or eventId
+export class OpticalAlarm implements IAlarm {
+  id: number;
   traceId: string;
   hasBeenSeen: boolean;
 }
 
-export class OpticalAlarmIndicator {
-  list: OpticalAlarm[] = [];
-
+export class OpticalAlarmIndicator extends AlarmIndicator {
   public TraceStateChanged(signal: TraceStateDto): string {
+    const alarmsJson = sessionStorage.getItem(this.inStorageName);
+    this.list = JSON.parse(alarmsJson) as OpticalAlarm[];
+
     const alarm = this.list.find((a) => a.traceId === signal.traceId);
     if (alarm === undefined && signal.traceState !== FiberState.Ok) {
       const newAlarm = new OpticalAlarm();
@@ -27,29 +29,8 @@ export class OpticalAlarmIndicator {
         alarm.hasBeenSeen = false;
       }
     }
-    return this.GetIndicator();
-  }
+    sessionStorage.setItem(this.inStorageName, JSON.stringify(this.list));
 
-  public AlarmHasBeenSeen(id: number): string {
-    const alarm = this.list.find((a) => a.id === id);
-    if (alarm !== undefined) {
-      alarm.hasBeenSeen = true;
-    }
     return this.GetIndicator();
-  }
-
-  public GetIndicator(): string {
-    if (this.list.length === 0) {
-      return "ok";
-    }
-    const hasNotSeenAlarms = this.list.filter((a) => a.hasBeenSeen === false);
-    console.log(
-      `events that has not been seen yet: ${hasNotSeenAlarms.length}`
-    );
-    if (hasNotSeenAlarms.length > 0) {
-      return "alarmExclamation";
-    } else {
-      return "alarm";
-    }
   }
 }

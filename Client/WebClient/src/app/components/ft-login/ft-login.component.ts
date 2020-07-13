@@ -76,8 +76,20 @@ export class FtLoginComponent implements OnInit {
         const alarms = (await this.oneApiService
           .getRequest("misc/alarms", null)
           .toPromise()) as AlarmsDto;
-        const json = JSON.stringify(alarms);
-        this.unseenAlarmService.processInitialAlarms(json);
+        sessionStorage.setItem(
+          "currentOpticalAlarms",
+          JSON.stringify(alarms.opticalAlarms)
+        );
+        sessionStorage.setItem(
+          "currentNetworkAlarms",
+          JSON.stringify(alarms.networkAlarms)
+        );
+        sessionStorage.setItem(
+          "currentBopAlarms",
+          JSON.stringify(alarms.bopAlarms)
+        );
+
+        this.unseenAlarmService.processInitialAlarms();
         this.router.navigate(["/rtu-tree"], { queryParams: null });
       }
     } catch (unsuccessfulResult) {

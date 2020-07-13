@@ -6,7 +6,7 @@ import { Subject } from "rxjs";
 })
 export class AlarmsService {
   // Observable string source
-  private initialAlarmsCameSource = new Subject<string>();
+  private initialAlarmsCameSource = new Subject();
   private opticalEventConfirmedSource = new Subject<number>();
   private networkEventConfirmedSource = new Subject<number>();
   private bopEventConfirmedSource = new Subject<number>();
@@ -20,8 +20,8 @@ export class AlarmsService {
   constructor() {}
 
   // Service message commands
-  processInitialAlarms(json: string) {
-    this.initialAlarmsCameSource.next(json);
+  processInitialAlarms() {
+    this.initialAlarmsCameSource.next();
   }
 
   confirmOpticalEvent(sorFileId: number) {

@@ -1,17 +1,19 @@
 import { NetworkEventDto } from "../networkEventDto";
 import { ChannelEvent } from "../../enums/channelEvent";
+import { IAlarm, AlarmIndicator } from "./alarm";
 
-export class NetworkAlarm {
-  eventId: number;
+export class NetworkAlarm implements IAlarm {
+  id: number;
   rtuId: string;
   channel: string; // Main or Reserve
   hasBeenSeen: boolean;
 }
 
-export class NetworkAlarmIndicator {
-  public list: NetworkAlarm[] = [];
-
+export class NetworkAlarmIndicator extends AlarmIndicator {
   public NetworkEventReceived(signal: NetworkEventDto): string {
+    const alarmsJson = sessionStorage.getItem(this.inStorageName);
+    this.list = JSON.parse(alarmsJson) as NetworkAlarm[];
+
     if (signal.onMainChannel === ChannelEvent.Broken) {
       const oldAlarm = this.list.find(
         (a) => a.rtuId === signal.rtuId && a.channel === "Main"
@@ -20,11 +22,11 @@ export class NetworkAlarmIndicator {
         const newAlarm = new NetworkAlarm();
         newAlarm.rtuId = signal.rtuId;
         newAlarm.channel = "Main";
-        newAlarm.eventId = signal.eventId;
+        newAlarm.id = signal.eventId;
         newAlarm.hasBeenSeen = false;
         this.list.push(newAlarm);
       } else {
-        oldAlarm.eventId = signal.eventId;
+        oldAlarm.id = signal.eventId;
         oldAlarm.hasBeenSeen = false;
       }
     }
@@ -46,11 +48,11 @@ export class NetworkAlarmIndicator {
         const newAlarm = new NetworkAlarm();
         newAlarm.rtuId = signal.rtuId;
         newAlarm.channel = "Reserve";
-        newAlarm.eventId = signal.eventId;
+        newAlarm.id = signal.eventId;
         newAlarm.hasBeenSeen = false;
         this.list.push(newAlarm);
       } else {
-        oldAlarm.eventId = signal.eventId;
+        oldAlarm.id = signal.eventId;
         oldAlarm.hasBeenSeen = false;
       }
     }
@@ -63,30 +65,8 @@ export class NetworkAlarmIndicator {
         this.list.splice(index, 1);
       }
     }
+    sessionStorage.setItem(this.inStorageName, JSON.stringify(this.list));
 
     return this.GetIndicator();
-  }
-
-  public AlarmHasBeenSeen(eventId: number): string {
-    const alarm = this.list.find((a) => a.eventId === eventId);
-    if (alarm !== undefined) {
-      alarm.hasBeenSeen = true;
-    }
-    return this.GetIndicator();
-  }
-
-  public GetIndicator(): string {
-    if (this.list.length === 0) {
-      return "ok";
-    }
-    const hasNotSeenAlarms = this.list.filter((a) => a.hasBeenSeen === false);
-    console.log(
-      `events that has not been seen yet: ${hasNotSeenAlarms.length}`
-    );
-    if (hasNotSeenAlarms.length > 0) {
-      return "alarmExclamation";
-    } else {
-      return "alarm";
-    }
   }
 }

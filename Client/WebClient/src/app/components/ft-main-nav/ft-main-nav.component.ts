@@ -4,17 +4,10 @@ import { Subscription } from "rxjs";
 import { SignalrService } from "src/app/api/signalr.service";
 import { EventStatus } from "src/app/models/enums/eventStatus";
 import { TraceStateDto } from "src/app/models/dtos/trace/traceStateDto";
-import { Dictionary } from "src/app/utils/dictionary";
-import { FiberState } from "src/app/models/enums/fiberState";
 import { AlarmsService } from "src/app/interaction/alarms.service";
 import { NetworkEventDto } from "src/app/models/dtos/networkEventDto";
-import { ChannelEvent } from "src/app/models/enums/channelEvent";
-import {
-  OpticalAlarm,
-  OpticalAlarmIndicator,
-} from "src/app/models/dtos/alarms/opticalAlarm";
+import { OpticalAlarmIndicator } from "src/app/models/dtos/alarms/opticalAlarm";
 import { NetworkAlarmIndicator } from "src/app/models/dtos/alarms/networkAlarm";
-import { AlarmsDto } from "src/app/models/dtos/alarms/alarmsDto";
 import { BopAlarmIndicator } from "src/app/models/dtos/alarms/bopAlarm";
 import { BopEventDto } from "src/app/models/dtos/bopEventDto";
 
@@ -41,34 +34,40 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     private signalRService: SignalrService,
     private alarmsService: AlarmsService
   ) {
-    this.opticalAlarmIndicator = new OpticalAlarmIndicator();
-    this.networkAlarmIndicator = new NetworkAlarmIndicator();
-    this.bopAlarmIndicator = new BopAlarmIndicator();
-
-    this.alarmsService.initialAlarmsCame$.subscribe((json) =>
-      this.initializeIndicators(json)
+    console.log("main nav c-tor hit!");
+    this.opticalAlarmIndicator = new OpticalAlarmIndicator(
+      "currentOpticalAlarms"
     );
-  }
-
-  async initializeIndicators(json: string) {
-    console.log("main-nav received alarms");
-    const alarmsDto = JSON.parse(json) as AlarmsDto;
-    alarmsDto.networkAlarms.forEach((na) => {
-      this.networkAlarmIndicator.list.push(na);
-    });
-    alarmsDto.opticalAlarms.forEach((oa) =>
-      this.opticalAlarmIndicator.list.push(oa)
+    this.networkAlarmIndicator = new NetworkAlarmIndicator(
+      "currentNetworkAlarms"
     );
-    alarmsDto.bopAlarms.forEach((ba) => this.bopAlarmIndicator.list.push(ba));
-    console.log(alarmsDto);
-    this.isNetworkAlarm = this.networkAlarmIndicator.GetIndicator();
-    this.isOpticalAlarm = this.opticalAlarmIndicator.GetIndicator();
-    this.isBopAlarm = this.bopAlarmIndicator.GetIndicator();
+    this.bopAlarmIndicator = new BopAlarmIndicator("currentBopAlarms");
+
+    this.initializeIndicators();
+    this.alarmsService.initialAlarmsCame$.subscribe(() =>
+      this.initializeIndicators()
+    );
+
     this.subscribeNewAlarmEvents();
     this.subscribeUserSeenAlarms();
   }
 
-  ngOnInit() {}
+  async initializeIndicators() {
+    if (sessionStorage.getItem("currentOpticalAlarms") !== null) {
+      this.isNetworkAlarm = this.networkAlarmIndicator.GetIndicator();
+      this.isOpticalAlarm = this.opticalAlarmIndicator.GetIndicator();
+      this.isBopAlarm = this.bopAlarmIndicator.GetIndicator();
+    } else {
+      this.isOpticalAlarm = "";
+      this.isNetworkAlarm = "";
+      this.isBopAlarm = "";
+    }
+  }
+
+  ngOnInit() {
+    setInterval(() => {
+    }, 100);
+  }
 
   private subscribeUserSeenAlarms() {
     this.alarmsService.opticalEventConfirmed$.subscribe((sorFileId) => {
@@ -128,10 +127,13 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.bopEventAddedSubscription.unsubscribe();
   }
 
-  logout() {
-    this.authService.logout().subscribe(() => {
-      console.log("logout sent.");
-      sessionStorage.removeItem("currentUser");
-    });
+  async logout() {
+    await this.authService.logout().toPromise();
+    sessionStorage.removeItem("currentUser");
+    sessionStorage.removeItem("currentOpticalAlarms");
+    sessionStorage.removeItem("currentNetworkAlarms");
+    sessionStorage.removeItem("currentBopAlarms");
+    console.log("session storage cleaned.");
+    this.initializeIndicators();
   }
 }

@@ -1,19 +1,21 @@
 import { BopEventDto } from "../bopEventDto";
+import { IAlarm, AlarmIndicator } from "./alarm";
 
-export class BopAlarm {
-  eventId: number;
+export class BopAlarm implements IAlarm {
+  id: number;
   serial: string;
   hasBeenSeen: boolean;
 }
 
-export class BopAlarmIndicator {
-  public list: BopAlarm[] = [];
-
+export class BopAlarmIndicator extends AlarmIndicator {
   public BopEventReceived(signal: BopEventDto): string {
+    const alarmsJson = sessionStorage.getItem(this.inStorageName);
+    this.list = JSON.parse(alarmsJson) as BopAlarm[];
+
     const alarm = this.list.find((a) => a.serial === signal.serial);
     if (alarm === undefined && signal.bopState === false) {
       const newAlarm = new BopAlarm();
-      newAlarm.eventId = signal.eventId;
+      newAlarm.id = signal.eventId;
       newAlarm.serial = signal.serial;
       newAlarm.hasBeenSeen = false;
       this.list.push(newAlarm);
@@ -25,30 +27,8 @@ export class BopAlarmIndicator {
         alarm.hasBeenSeen = false;
       }
     }
+    sessionStorage.setItem(this.inStorageName, JSON.stringify(this.list));
 
     return this.GetIndicator();
-  }
-
-  public AlarmHasBeenSeen(id: number) {
-    const alarm = this.list.find((a) => a.eventId === id);
-    if (alarm !== undefined) {
-      alarm.hasBeenSeen = true;
-    }
-    return this.GetIndicator();
-  }
-
-  public GetIndicator(): string {
-    if (this.list.length === 0) {
-      return "ok";
-    }
-    const hasNotSeenAlarms = this.list.filter((a) => a.hasBeenSeen === false);
-    console.log(
-      `events that has not been seen yet: ${hasNotSeenAlarms.length}`
-    );
-    if (hasNotSeenAlarms.length > 0) {
-      return "alarmExclamation";
-    } else {
-      return "alarm";
-    }
   }
 }

@@ -14,7 +14,6 @@ import { NetworkEventDto } from "src/app/models/dtos/networkEventDto";
 import { ChannelEvent } from "src/app/models/enums/channelEvent";
 import { RtuPartState } from "src/app/models/enums/rtuPartState";
 import { BopEventDto } from "src/app/models/dtos/bopEventDto";
-import { MeasurementDto } from "src/app/models/dtos/measurementDto";
 import { TraceStateDto } from "src/app/models/dtos/trace/traceStateDto";
 
 @Component({
