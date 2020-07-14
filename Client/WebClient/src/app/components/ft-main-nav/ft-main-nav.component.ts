@@ -44,6 +44,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.bopAlarmIndicator = new BopAlarmIndicator("currentBopAlarms");
 
     this.initializeIndicators();
+    this.signalRService.reStartConnection();
     this.alarmsService.initialAlarmsCame$.subscribe(() =>
       this.initializeIndicators()
     );
@@ -53,7 +54,9 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   async initializeIndicators() {
+    console.log("initializeIndicators");
     if (sessionStorage.getItem("currentOpticalAlarms") !== null) {
+      console.log("from sessionStorage");
       this.isNetworkAlarm = this.networkAlarmIndicator.GetIndicator();
       this.isOpticalAlarm = this.opticalAlarmIndicator.GetIndicator();
       this.isBopAlarm = this.bopAlarmIndicator.GetIndicator();
@@ -65,8 +68,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    setInterval(() => {
-    }, 100);
+    setInterval(() => {}, 100);
   }
 
   private subscribeUserSeenAlarms() {
@@ -101,7 +103,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   onMeasurementAdded(signal: TraceStateDto) {
-    console.log("Measurement Added Signal received! ", signal);
     if (signal.eventStatus > EventStatus.JustMeasurementNotAnEvent) {
       this.isOpticalAlarm = this.opticalAlarmIndicator.TraceStateChanged(
         signal
@@ -110,14 +111,12 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   onNetworkEventAdded(signal: NetworkEventDto) {
-    console.log("Network Event Added Signal received! ", signal);
     this.isNetworkAlarm = this.networkAlarmIndicator.NetworkEventReceived(
       signal
     );
   }
 
   onBopEventAdded(signal: BopEventDto) {
-    console.log("Bop Event Added Signal received! ", signal);
     this.isBopAlarm = this.bopAlarmIndicator.BopEventReceived(signal);
   }
 
@@ -129,10 +128,14 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
 
   async logout() {
     await this.authService.logout().toPromise();
+    this.signalRService.stopConnection();
     sessionStorage.removeItem("currentUser");
     sessionStorage.removeItem("currentOpticalAlarms");
+    this.opticalAlarmIndicator.ClearList();
     sessionStorage.removeItem("currentNetworkAlarms");
+    this.networkAlarmIndicator.ClearList();
     sessionStorage.removeItem("currentBopAlarms");
+    this.bopAlarmIndicator.ClearList();
     console.log("session storage cleaned.");
     this.initializeIndicators();
   }

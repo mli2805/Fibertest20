@@ -8,6 +8,10 @@ export class AlarmIndicator {
 
   public constructor(protected inStorageName: string) {}
 
+  public ClearList() {
+    this.list = undefined;
+  }
+
   public AlarmHasBeenSeen(id: number): string {
     const alarmsJson = sessionStorage.getItem(this.inStorageName);
     this.list = JSON.parse(alarmsJson) as IAlarm[];
@@ -33,9 +37,10 @@ export class AlarmIndicator {
     }
     const hasNotSeenAlarms = this.list.filter((a) => a.hasBeenSeen === false);
     console.log(
-      `events that has not been seen yet: ${hasNotSeenAlarms.length}`
+      `${this.inStorageName} that has not been seen yet: ${hasNotSeenAlarms.length}`
     );
     if (hasNotSeenAlarms.length > 0) {
+      console.log(hasNotSeenAlarms);
       return "alarmExclamation";
     } else {
       return "alarm";

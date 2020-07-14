@@ -52,17 +52,31 @@ export class SignalrService {
     }
   }
 
+  public async reStartConnection() {
+    if (sessionStorage.getItem("currentUser") === null) {
+      return;
+    }
+    console.log(this.hubConnection);
+    if (this.hubConnection === undefined) {
+      const res = JSON.parse(sessionStorage.getItem("currentUser"));
+      this.buildConnection(res.jsonWebToken);
+    }
+    if (this.hubConnection.state !== signalR.HubConnectionState.Connected) {
+      await this.startConnection();
+      console.log(
+        "signalR connection restarted, state: ",
+        this.hubConnection.state
+      );
+    }
+  }
+
+  public stopConnection() {
+    this.hubConnection.stop();
+  }
+
   public async initializeRtu(id: string) {
     try {
-      console.log(this.hubConnection);
-      if (this.hubConnection === undefined) {
-        const res = JSON.parse(sessionStorage.getItem("currentUser"));
-        this.buildConnection(res.jsonWebToken);
-      }
-      if (this.hubConnection.state !== signalR.HubConnectionState.Connected) {
-        await this.startConnection();
-        console.log("restart: ", this.hubConnection);
-      }
+      await this.reStartConnection();
       await this.hubConnection.invoke("InitializeRtu", id);
     } catch (err) {
       console.log(err);
@@ -116,7 +130,14 @@ export class SignalrService {
     });
 
     this.hubConnection.on("AddMeasurement", (signal: string) => {
-      const dto = JSON.parse(signal);
+      const dto = JSON.parse(signal) as TraceStateDto;
+      console.log(
+        `measurement ${dto.sorFileId} reg.time ${Utils.ToLongRussian(
+          new Date(dto.registrationTimestamp)
+        )} for trace ${dto.traceId.substr(1, 6)} came with state ${
+          dto.traceState
+        }`
+      );
       this.measurementAddedEmitter.emit(dto);
     });
 
