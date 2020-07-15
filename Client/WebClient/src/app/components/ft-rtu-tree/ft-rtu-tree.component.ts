@@ -113,12 +113,23 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
     this.bopEventAddedSubscription = this.signalRService.bopEventAddedEmitter.subscribe(
       (signal: BopEventDto) => {
         const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
+
         const otau = rtu.children.find(
           (o) =>
             o.childType === ChildType.Otau &&
             (o as OtauWebDto).serial === signal.serial
         ) as OtauWebDto;
         otau.isOk = signal.bopState;
+
+        const badBop = rtu.children.find(
+          (c) =>
+            c.childType === ChildType.Otau && (c as OtauWebDto).isOk === false
+        );
+        if (badBop === undefined) {
+          rtu.bopState = RtuPartState.Ok;
+        } else {
+          rtu.bopState = RtuPartState.Broken;
+        }
       }
     );
   }
