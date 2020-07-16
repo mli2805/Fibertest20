@@ -7,11 +7,11 @@ namespace Iit.Fibertest.UtilsLib
 {
     public static class FileOperations
     {
-        public static string GetWithoutExtension(string filename)
-        {
-            var index = filename.LastIndexOf(".", StringComparison.Ordinal);
-            return filename.Substring(0, index);
-        }
+        //        public static string GetWithoutExtension(string filename)
+        //        {
+        //            var index = filename.LastIndexOf(".", StringComparison.Ordinal);
+        //            return filename.Substring(0, index);
+        //        }
 
         public static string GetParentFolder(string path, int depth = 1)
         {
@@ -72,6 +72,30 @@ namespace Iit.Fibertest.UtilsLib
 
             return true;
         }
+
+        public static bool DirectoryRemove(string dirName, BackgroundWorker worker)
+        {
+            try
+            {
+
+                DirectoryInfo dir = new DirectoryInfo(dirName);
+                if (!dir.Exists)
+                {
+                    worker.ReportProgress((int)BwReturnProgressCode.ErrorSourceFolderNotFound, dirName);
+                    return false;
+                }
+
+                dir.Delete(true);
+            }
+            catch (Exception e)
+            {
+                worker.ReportProgress((int)BwReturnProgressCode.ErrorSourceFolderNotFound, e.Message);
+                return false;
+            }
+            return true;
+
+        }
+
 
         public static void CleanAntiGhost(string fullRtuManagerPath, bool hasDefault)
         {

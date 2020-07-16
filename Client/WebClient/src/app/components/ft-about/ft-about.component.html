@@ -6,7 +6,7 @@
     <div class="iit-header">
       <p>Fibertest&trade; 2.0</p>
       <p>Copyright&copy; 2019-2020</p>
-      <p>Institute of Information Technologies</p>
+      <p>{{ "SID_Institute_of_Information_Technologies" | translate }}</p>
     </div>
   </div>
   <mat-divider></mat-divider>
@@ -24,13 +24,17 @@
     <p>{{ aboutVm.dcSoftware }}</p>
   </div>
   <div fxLayout fxLayoutGap="10px">
-    <p>Web-Client software version:</p>
+    <p>{{ "SID_Web_Api_software_version" | translate }}:</p>
     <p>{{ aboutVm.webApiSoftware }}</p>
+  </div>
+  <div fxLayout fxLayoutGap="10px">
+    <p>{{ "SID_Web_Client_software_version" | translate }}:</p>
+    <p>{{ aboutVm.webClientSoftware }}</p>
   </div>
 
   <mat-divider></mat-divider>
   <div>
-    <p>RTU software versions:</p>
+    <p>{{ "SID_RTUs_software_version" | translate }}:</p>
     <table mat-table [dataSource]="aboutVm.rtus">
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef>RTU</th>

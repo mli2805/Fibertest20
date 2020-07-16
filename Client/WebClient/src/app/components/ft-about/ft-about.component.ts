@@ -17,12 +17,15 @@ export class FtAboutComponent implements OnInit {
 
   constructor(private oneApiService: OneApiService) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.loggedUser = JSON.parse(sessionStorage.getItem("currentUser"));
     this.roleString = Role[this.loggedUser.role];
 
-    this.oneApiService.getRequest("misc/about").subscribe((res: AboutDto) => {
-      this.aboutVm = res;
-    });
+    this.aboutVm = (await this.oneApiService
+      .getRequest("misc/about")
+      .toPromise()) as AboutDto;
+
+    const settings = JSON.parse(sessionStorage.getItem("settings"));
+    this.aboutVm.webClientSoftware = settings.version;
   }
 }
