@@ -136,7 +136,7 @@ namespace Iit.Fibertest.Install
                 return false;
 
             var fullWebClientPath = Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir);
-            if (!FileOperations.DirectoryRemove(SourcePathWebClient, worker))
+            if (!FileOperations.DirectoryRemove(fullWebClientPath, worker))
                 return false;
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathWebClient,
                 fullWebClientPath, worker))

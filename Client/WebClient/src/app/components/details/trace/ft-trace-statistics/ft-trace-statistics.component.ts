@@ -105,6 +105,8 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
     if (bytes !== null) {
       console.log(`now we are going to show ref from ${bytes.length} bytes`);
     }
+
+    this.router.navigate(["/sor-viewer", sorFileId]);
   }
 
   async saveRef(param: number) {

@@ -20,6 +20,7 @@ import { FtPortAttachTraceComponent } from "./components/details/port/ft-port-at
 import { FtTraceStateComponent } from "./components/details/trace/ft-trace-state/ft-trace-state.component";
 import { FtAssignBaseComponent } from "./components/details/trace/ft-assign-base/ft-assign-base.component";
 import { FtBopEventsComponent } from "./components/ft-bop-events/ft-bop-events.component";
+import { SorViewerComponent } from './components/sor-viewer/sor-viewer.component';
 
 const routes: Routes = [
   { path: "login", component: FtLoginComponent, canActivate: [LoginGuard] },
@@ -67,6 +68,9 @@ const routes: Routes = [
     path: "port-measurement-client",
     component: FtPortMeasurementClientComponent,
   },
+
+  { path: "sor-viewer/:id", component: SorViewerComponent },
+  
 
   { path: "logout", component: FtLoginComponent },
   { path: "", redirectTo: "/login", pathMatch: "full" },

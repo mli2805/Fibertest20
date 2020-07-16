@@ -1,0 +1,7 @@
+/*  
+    Override landmark pin position so it's shown right on the trace  
+    By default top: -34px is used. That way landmark and event pins do not intersect with each other 
+*/
+:host ::ng-deep .landmark-pin-position {
+  top: -22px !important;
+}

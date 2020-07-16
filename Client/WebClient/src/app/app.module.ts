@@ -3,6 +3,7 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { HttpClientModule } from "@angular/common/http";
+import { VxSorViewerModule } from '@veex/sor';
 
 import { TraceMonitoringModeUriPipe } from "./pipes/trace-monitoring-mode-uri.pipe";
 import { MonitoringModePipe } from "./pipes/monitoring-mode.pipe";
@@ -85,6 +86,7 @@ import { FtRtuTreeEventService } from "./components/ft-rtu-tree/ft-rtu-tree-even
 import { FtTraceStateComponent } from "./components/details/trace/ft-trace-state/ft-trace-state.component";
 import { FtAssignBaseComponent } from "./components/details/trace/ft-assign-base/ft-assign-base.component";
 import { FtBopEventsComponent } from './components/ft-bop-events/ft-bop-events.component';
+import { SorViewerComponent } from './components/sor-viewer/sor-viewer.component';
 
 @NgModule({
   declarations: [
@@ -135,8 +137,11 @@ import { FtBopEventsComponent } from './components/ft-bop-events/ft-bop-events.c
     NoRightClickDirective,
 
     FtBopEventsComponent,
+
+    SorViewerComponent,
   ],
   imports: [
+    VxSorViewerModule,
     TranslateModule.forRoot(),
     CommonModule,
     BrowserModule,
