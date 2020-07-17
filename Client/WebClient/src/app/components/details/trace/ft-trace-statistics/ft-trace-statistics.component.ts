@@ -92,26 +92,27 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
     this.contextMenu.focus("mouse");
   }
 
-  async showRef(param: number) {
+  async showRef(isBaseIncluded: boolean) {
+    console.log(isBaseIncluded);
     const sorFileId = this.contextMenu.menuData.row.sorFileId;
-    if (param === 1) {
+    if (!isBaseIncluded) {
       console.log("show ref: ", sorFileId);
     } else {
       console.log("show ref and base: ", sorFileId);
     }
 
-    const bytes = await this.oneApiService.getSorFileFromServer(sorFileId);
-
-    if (bytes !== null) {
-      console.log(`now we are going to show ref from ${bytes.length} bytes`);
-    }
-
-    this.router.navigate(["/sor-viewer", sorFileId]);
+    const dict = {
+      sorFileId,
+      isBaseIncluded,
+    };
+    sessionStorage.setItem("sorFileRequestParams", JSON.stringify(dict));
+    this.router.navigate(["/sor-viewer"]);
   }
 
-  async saveRef(param: number) {
+  async saveRef(isBaseIncluded: boolean) {
+    console.log(isBaseIncluded);
     const sorFileId = this.contextMenu.menuData.row.sorFileId;
-    if (param === 1) {
+    if (!isBaseIncluded) {
       console.log("save ref: ", sorFileId);
     } else {
       console.log("save ref and base: ", sorFileId);

@@ -1,3 +1,11 @@
+
+
+div {
+  width: 1000px;
+  height: 1000px;
+  background-color: blue;
+}
+
 /*  
     Override landmark pin position so it's shown right on the trace  
     By default top: -34px is used. That way landmark and event pins do not intersect with each other 
