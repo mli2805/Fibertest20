@@ -79,13 +79,8 @@ namespace Iit.Fibertest.UtilsLib
             {
 
                 DirectoryInfo dir = new DirectoryInfo(dirName);
-                if (!dir.Exists)
-                {
-                    worker.ReportProgress((int)BwReturnProgressCode.ErrorSourceFolderNotFound, dirName);
-                    return false;
-                }
-
-                dir.Delete(true);
+                if (dir.Exists)
+                    dir.Delete(true);
             }
             catch (Exception e)
             {
