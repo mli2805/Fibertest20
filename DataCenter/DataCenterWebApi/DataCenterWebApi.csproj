@@ -27,4 +27,37 @@
     <ProjectReference Include="..\..\Shared\WcfConnections\WcfConnections.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\..\Optixsoft.OtdrDataFormat\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="Fiberizer.Common">
+      <HintPath>..\..\Optixsoft.OtdrDataFormat\Fiberizer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="FiberizerShared">
+      <HintPath>..\..\Optixsoft.OtdrDataFormat\FiberizerShared.dll</HintPath>
+    </Reference>
+    <Reference Include="Optixsoft.FiberizerModel">
+      <HintPath>..\..\Optixsoft.OtdrDataFormat\Optixsoft.FiberizerModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Optixsoft.OtdrDataFormat">
+      <HintPath>..\..\Optixsoft.OtdrDataFormat\Optixsoft.OtdrDataFormat.dll</HintPath>
+    </Reference>
+    <Reference Include="Optixsoft.PortableGeometry.Portable">
+      <HintPath>..\..\Optixsoft.OtdrDataFormat\Optixsoft.PortableGeometry.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Optixsoft.SharedCommons.Portable">
+      <HintPath>..\..\Optixsoft.OtdrDataFormat\Optixsoft.SharedCommons.Portable.dll</HintPath>
+    </Reference>
+    <Reference Include="Optixsoft.SorFormat.Protobuf">
+      <HintPath>..\..\Optixsoft.OtdrDataFormat\Optixsoft.SorFormat.Protobuf.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\..\Optixsoft.OtdrDataFormat\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="SorMapper">
+      <HintPath>..\..\Optixsoft.OtdrDataFormat\SorMapper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

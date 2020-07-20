@@ -7,6 +7,7 @@ import { AssignBaseRefDtoWithFiles } from "../models/dtos/trace/assignBaseRefDto
 import { BaseRefFile } from "../models/underlying/baseRefFile";
 import { SorFileDto } from "../models/underlying/sorFileDto";
 import { ReturnCode } from "../models/enums/returnCode";
+import { VxSorFileDto } from "../models/underlying/vxSorFileDto";
 
 @Injectable({
   providedIn: "root",
@@ -67,11 +68,33 @@ export class OneApiService {
       `misc/get-sor-file/${sorFileId}`
     ).toPromise()) as SorFileDto;
 
+    console.log(res);
+
     if (res.ReturnCode === ReturnCode.Error) {
       alert(`failed to fetch sor file ${sorFileId}!`);
       return null;
     }
     console.log(`received ${res.SorBytes.length} bytes`);
     return res.SorBytes;
+  }
+
+  async getVxSorOctetStreamFromServer(sorFileId: number) {
+    const url =
+      Utils.GetWebApiUrl() + `/misc/Get-vxsor-octetstream/${sorFileId}`;
+    console.log(url);
+    const currentUser = JSON.parse(sessionStorage.currentUser);
+
+    const headers = new HttpHeaders().set(
+      "Authorization",
+      "Bearer " + currentUser.jsonWebToken
+    );
+
+    const response = await this.httpClient
+      .get(url, { headers, responseType: "blob" })
+      .toPromise();
+    console.log("response: ");
+    console.log(response);
+
+    return response;
   }
 }

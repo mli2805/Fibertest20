@@ -1,3 +1,5 @@
+import { HttpClient } from '@angular/common/http';
+
 export class Utils {
   constructor() {}
 
@@ -61,4 +63,17 @@ export class Utils {
     }
     return newO;
   }
+
+  // Sergey
+  // http is a HttpClient injected in constructor
+  // public async getFile(fileName: string): Promise<ArrayBuffer> {
+  //   const url = `/assets/${fileName}`;
+  //   const result = await this.http
+  //     .get(url, {
+  //       observe: "response",
+  //       responseType: "arraybuffer",
+  //     })
+  //     .toPromise();
+  //   return result.body;
+  // }
 }

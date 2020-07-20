@@ -12,7 +12,7 @@
     "IIS Express": {
       "commandName": "IISExpress",
       "launchBrowser": true,
-      "launchUrl": "Authentication/Test",
+      "launchUrl": "misc/Get-vxsor-octetstream/16588",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

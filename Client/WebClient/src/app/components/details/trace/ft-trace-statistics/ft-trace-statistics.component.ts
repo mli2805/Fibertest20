@@ -126,7 +126,7 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
       const byteArray = new Uint8Array(bytes);
       const data = new Blob([byteArray], null);
 
-      // fs.readFileSync("foo.txt", "utf8");
+      this.html5Saver(data, "123.sor");
     }
   }
 
@@ -143,5 +143,19 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
     };
     sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
     this.router.navigate(["/trace-state"]);
+  }
+
+  html5Saver(blob, fileName) {
+    // to emulate click action
+    // because we cannot save directly to client's computer due to security constraints
+    const a = document.createElement("a");
+    document.body.appendChild(a);
+    // a.style = "display: none";
+    const url = window.URL.createObjectURL(blob);
+    a.href = url;
+    a.download = fileName;
+    a.click();
+
+    document.body.removeChild(a);
   }
 }

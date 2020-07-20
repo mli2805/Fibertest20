@@ -9,7 +9,7 @@ import {
   EventTableService,
 } from "@veex/sor";
 import { HttpClient } from "@angular/common/http";
-import { FileData, VX_DIALOG_SERVICE } from "@veex/common";
+import { VX_DIALOG_SERVICE } from "@veex/common";
 import { ChartDataService, ChartMatrixesService } from "@veex/chart";
 import { DialogService } from "./other/DialogService";
 
@@ -39,40 +39,25 @@ export class SorViewerComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    // const params = JSON.parse(sessionStorage.getItem("sorFileRequestParams"));
-    // console.log(params);
-    // const sorFileId = params["sorFileId"];
-    // const isBaseIncluded = params["isBaseIncluded"];
-
-    // const bytes = await this.oneApiService.getSorFileFromServer(sorFileId);
-    // if (bytes !== null) {
-    //   console.log(`now we are going to show ref from ${bytes.length} bytes`);
-    // }
-
-    await this.loadSor();
+    await this.loadSorFromServer();
   }
 
-  async loadSor() {
-    console.log("111");
-    const sorFileName = "merged.vxsor";
-    const arrayBuffer = await this.getSamplesFile(sorFileName);
-    const fileData = new FileData(sorFileName, new Uint8Array(arrayBuffer));
-    const sorData = await new SorReader().fromFileData(fileData);
-    this.sorTrace = new SorTrace(sorData, fileData.nameWithoutExtention, false);
+  async loadSorFromServer() {
+    const params = JSON.parse(sessionStorage.getItem("sorFileRequestParams"));
+    console.log(params);
+    const sorFileId = params["sorFileId"];
+    const isBaseIncluded = params["isBaseIncluded"];
+
+    const blob = (await this.oneApiService.getVxSorOctetStreamFromServer(
+      sorFileId
+    )) as Blob;
+    const arrayBuffer = await new Response(blob).arrayBuffer();
+
+    const uint8arr = new Uint8Array(arrayBuffer);
+    const sorData = await new SorReader().fromBytes(uint8arr);
+    this.sorTrace = new SorTrace(sorData, "", true);
 
     this.sorAreaService.set([this.sorTrace]);
     this.loaded = true;
-    console.log("222");
-  }
-
-  private async getSamplesFile(fileName: string): Promise<ArrayBuffer> {
-    const url = `/assets/samples/${fileName}`;
-    const result = await this.http
-      .get(url, {
-        observe: "response",
-        responseType: "arraybuffer",
-      })
-      .toPromise();
-    return result.body;
   }
 }

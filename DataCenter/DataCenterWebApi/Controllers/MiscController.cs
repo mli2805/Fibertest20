@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -6,6 +7,9 @@ using Iit.Fibertest.WcfConnections;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using Optixsoft.SorExaminer.OtdrDataFormat;
+using Optixsoft.SorExaminer.OtdrDataFormat.IO;
+using Optixsoft.SorFormat.Protobuf;
 
 namespace Iit.Fibertest.DataCenterWebApi
 {
@@ -79,7 +83,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             _logFile.AppendLine(dto == null
                 ? "Failed to get dto"
                 : $"dto contains {dto.NetworkAlarms.Count} network alarms, {dto.OpticalAlarms.Count} optical alarms and {dto.BopAlarms.Count} bop alarms"
-                );
+            );
             return dto;
         }
 
@@ -106,5 +110,33 @@ namespace Iit.Fibertest.DataCenterWebApi
             var json = JsonConvert.SerializeObject(result);
             return json;
         }
+
+        [Authorize]
+        [HttpGet("Get-vxsor-octetstream/{sorFileId}")]
+        public async Task<FileResult> GetVxSorAsOctetStream(int sorFileId)
+        {
+            var sorBytes = await GetSorBytes(sorFileId);
+            var protobuf = await ConvertSorToVxSor(sorBytes);
+            var stream = new MemoryStream(protobuf.ToBytes());
+            return File(stream, "application/octet-stream", $"{sorFileId}.sor");
+        }
+
+        private async Task<SorDataProtobuf> ConvertSorToVxSor(byte[] sorBytes)
+        {
+            OtdrDataKnownBlocks otdrDataKnownBlocks;
+            await using (var stream = new MemoryStream(sorBytes))
+                otdrDataKnownBlocks = new OtdrDataKnownBlocks(new OtdrReader(stream).Data);
+
+            return otdrDataKnownBlocks.ToSorDataBuf();
+        }
+
+        private async Task<byte[]> GetSorBytes(int sorFileId)
+        {
+            return await _commonC2DWcfManager
+                .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                .GetSorBytes(sorFileId);
+        }
+
     }
+
 }
