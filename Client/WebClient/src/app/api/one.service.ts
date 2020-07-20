@@ -89,8 +89,10 @@ export class OneApiService {
       "Bearer " + currentUser.jsonWebToken
     );
 
+    const params = { isBase: "true" };
+
     const response = await this.httpClient
-      .get(url, { headers, responseType: "blob" })
+      .get(url, { headers, params, responseType: "blob" })
       .toPromise();
     console.log("response: ");
     console.log(response);

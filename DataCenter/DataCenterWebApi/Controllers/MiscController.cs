@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -128,6 +129,31 @@ namespace Iit.Fibertest.DataCenterWebApi
                 otdrDataKnownBlocks = new OtdrDataKnownBlocks(new OtdrReader(stream).Data);
 
             return otdrDataKnownBlocks.ToSorDataBuf();
+        }
+
+        private async Task<OtdrDataKnownBlocks> ExtractBase(OtdrDataKnownBlocks otdrData)
+        {
+            var embeddedData = otdrData.EmbeddedData.EmbeddedDataBlocks.FirstOrDefault(b => b.Description == @"SOR");
+            if (embeddedData == null) return null;
+            
+            OtdrDataKnownBlocks baseOtdrData;
+            await using (var stream = new MemoryStream(embeddedData.Data))
+                baseOtdrData = new OtdrDataKnownBlocks(new OtdrReader(stream).Data);
+
+            return baseOtdrData;
+        }
+
+        private async Task<OtdrDataKnownBlocks> GetOtdrDataFromServer(int sorFileId)
+        {
+            var sorBytes = await _commonC2DWcfManager
+                .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                .GetSorBytes(sorFileId);
+
+            OtdrDataKnownBlocks otdrDataKnownBlocks;
+            await using (var stream = new MemoryStream(sorBytes))
+                otdrDataKnownBlocks = new OtdrDataKnownBlocks(new OtdrReader(stream).Data);
+
+            return otdrDataKnownBlocks;
         }
 
         private async Task<byte[]> GetSorBytes(int sorFileId)
