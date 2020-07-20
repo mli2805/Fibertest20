@@ -7,6 +7,7 @@ import {
   SorAreaViewerService,
   SorViewerService,
   EventTableService,
+  SorData,
 } from "@veex/sor";
 import { HttpClient } from "@angular/common/http";
 import { VX_DIALOG_SERVICE } from "@veex/common";
@@ -30,7 +31,9 @@ export class SorViewerComponent implements OnInit {
   @ViewChild("sorAreaComponent", { static: false })
   private sorAreaComponent: SorAreaComponent;
   loaded = false;
-  sorTrace: SorTrace = null;
+  measSorTrace: SorTrace = null;
+  baseSorTrace: SorTrace = null;
+  sorTraces: SorTrace[] = [];
 
   constructor(
     public sorAreaService: SorAreaViewerService,
@@ -39,25 +42,37 @@ export class SorViewerComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    await this.loadSorFromServer();
+    await this.loadFromServer();
   }
 
-  async loadSorFromServer() {
+  async loadFromServer() {
     const params = JSON.parse(sessionStorage.getItem("sorFileRequestParams"));
     console.log(params);
     const sorFileId = params["sorFileId"];
     const isBaseIncluded = params["isBaseIncluded"];
 
+    const measSorData = await this.loadSorTraceFromServer(sorFileId, false);
+    this.sorTraces.push(new SorTrace(measSorData, "measurement", true));
+    if (isBaseIncluded) {
+      const baseSorData = await this.loadSorTraceFromServer(sorFileId, false);
+      this.sorTraces.push(new SorTrace(baseSorData, "base", true));
+    }
+
+    this.sorAreaService.set(this.sorTraces);
+    this.loaded = true;
+  }
+
+  async loadSorTraceFromServer(
+    sorFileId: number,
+    isBase: boolean
+  ): Promise<SorData> {
     const blob = (await this.oneApiService.getVxSorOctetStreamFromServer(
-      sorFileId
+      sorFileId,
+      isBase
     )) as Blob;
     const arrayBuffer = await new Response(blob).arrayBuffer();
 
     const uint8arr = new Uint8Array(arrayBuffer);
-    const sorData = await new SorReader().fromBytes(uint8arr);
-    this.sorTrace = new SorTrace(sorData, "", true);
-
-    this.sorAreaService.set([this.sorTrace]);
-    this.loaded = true;
+    return await new SorReader().fromBytes(uint8arr);
   }
 }

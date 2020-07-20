@@ -112,23 +112,24 @@ namespace Iit.Fibertest.DataCenterWebApi
             return json;
         }
 
+        /// <summary>
+        /// gets sor bytes from datacenter and converts them into vxsor format
+        /// </summary>
+        /// <param name="sorFileId"></param>
+        /// <param name="isBase">
+        /// if TRUE returns base ref from sorfile, else returns meas ref itself
+        /// </param>
+        /// <returns></returns>
         [Authorize]
-        [HttpGet("Get-vxsor-octetstream/{sorFileId}")]
-        public async Task<FileResult> GetVxSorAsOctetStream(int sorFileId)
+        [HttpGet("Get-vxsor-octetstream")]
+        public async Task<FileResult> GetVxSorAsOctetStream(int sorFileId, bool isBase)
         {
-            var sorBytes = await GetSorBytes(sorFileId);
-            var protobuf = await ConvertSorToVxSor(sorBytes);
+            var otdrData = await GetOtdrDataFromServer(sorFileId);
+            var to = isBase ? await ExtractBase(otdrData) : otdrData;
+            var protobuf = to.ToSorDataBuf();
             var stream = new MemoryStream(protobuf.ToBytes());
-            return File(stream, "application/octet-stream", $"{sorFileId}.sor");
-        }
-
-        private async Task<SorDataProtobuf> ConvertSorToVxSor(byte[] sorBytes)
-        {
-            OtdrDataKnownBlocks otdrDataKnownBlocks;
-            await using (var stream = new MemoryStream(sorBytes))
-                otdrDataKnownBlocks = new OtdrDataKnownBlocks(new OtdrReader(stream).Data);
-
-            return otdrDataKnownBlocks.ToSorDataBuf();
+            var fileDownloadName = isBase ? $"base{sorFileId}.vxsor" : $"meas{sorFileId}.vxsor";
+            return File(stream, "application/octet-stream", fileDownloadName);
         }
 
         private async Task<OtdrDataKnownBlocks> ExtractBase(OtdrDataKnownBlocks otdrData)
@@ -155,14 +156,5 @@ namespace Iit.Fibertest.DataCenterWebApi
 
             return otdrDataKnownBlocks;
         }
-
-        private async Task<byte[]> GetSorBytes(int sorFileId)
-        {
-            return await _commonC2DWcfManager
-                .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
-                .GetSorBytes(sorFileId);
-        }
-
     }
-
 }

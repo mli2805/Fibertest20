@@ -78,9 +78,8 @@ export class OneApiService {
     return res.SorBytes;
   }
 
-  async getVxSorOctetStreamFromServer(sorFileId: number) {
-    const url =
-      Utils.GetWebApiUrl() + `/misc/Get-vxsor-octetstream/${sorFileId}`;
+  async getVxSorOctetStreamFromServer(sorFileId: number, isBase: boolean) {
+    const url = Utils.GetWebApiUrl() + `/misc/Get-vxsor-octetstream`;
     console.log(url);
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
@@ -89,7 +88,7 @@ export class OneApiService {
       "Bearer " + currentUser.jsonWebToken
     );
 
-    const params = { isBase: "true" };
+    const params = { sorFileId: sorFileId.toString(), isBase: isBase.toString() };
 
     const response = await this.httpClient
       .get(url, { headers, params, responseType: "blob" })
