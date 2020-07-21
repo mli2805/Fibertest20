@@ -1,91 +1,96 @@
-<mat-card>
-  <mat-card-title>{{
-    "SID_Measurement_parameters" | translate
-  }}</mat-card-title>
-  <mat-card-content>
-    <mat-form-field>
-      <mat-label>{{ "SID_Fiber_type_wavelength" | translate }}</mat-label>
-      <mat-select [(value)]="selectedUnit" (selectionChange)="unitChanged()">
-        <mat-option *ngFor="let item of itemsSourceUnits" [value]="item">
-          {{ item }}</mat-option
+<div class="container">
+  <mat-card>
+    <mat-card-title>{{
+      "SID_Measurement_parameters" | translate
+    }}</mat-card-title>
+    <mat-card-content>
+      <mat-form-field>
+        <mat-label>{{ "SID_Fiber_type_wavelength" | translate }}</mat-label>
+        <mat-select [(value)]="selectedUnit" (selectionChange)="unitChanged()">
+          <mat-option *ngFor="let item of itemsSourceUnits" [value]="item">
+            {{ item }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>{{ "SID_Backscattered_Coefficient" | translate }}</mat-label>
+        <input matInput [(ngModel)]="selectedBc" />
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ "SID_Refractive_index" | translate }}</mat-label>
+        <input matInput [(ngModel)]="selectedRi" />
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>{{ "SID_Distance_range" | translate }}</mat-label>
+        <mat-select
+          [(value)]="selectedDistance"
+          (selectionChange)="distanceChanged()"
         >
-      </mat-select>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>{{ "SID_Backscattered_Coefficient" | translate }}</mat-label>
-      <input matInput [(ngModel)]="selectedBc" />
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>{{ "SID_Refractive_index" | translate }}</mat-label>
-      <input matInput [(ngModel)]="selectedRi" />
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>{{ "SID_Distance_range" | translate }}</mat-label>
-      <mat-select
-        [(value)]="selectedDistance"
-        (selectionChange)="distanceChanged()"
+          <mat-option *ngFor="let item of itemsSourceDistances" [value]="item">
+            {{ item }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ "SID_Resolution" | translate }}</mat-label>
+        <mat-select [(value)]="selectedResolution">
+          <mat-option
+            *ngFor="let item of itemsSourceResolutions"
+            [value]="item"
+          >
+            {{ item }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ "SID_Pulse_width" | translate }}</mat-label>
+        <mat-select [(value)]="selectedPulseDuration">
+          <mat-option
+            *ngFor="let item of itemsSourcePulseDurations"
+            [value]="item"
+          >
+            {{ item }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>{{ "SID_Measurement_time_" | translate }}</mat-label>
+        <mat-select [(value)]="selectedPeriodToAverage">
+          <mat-option
+            *ngFor="let item of itemsSourcePeriodsToAverages"
+            [value]="item"
+          >
+            {{ item }}</mat-option
+          >
+        </mat-select>
+      </mat-form-field>
+    </mat-card-content>
+    <mat-card-actions>
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="measure()"
+        [disabled]="isButtonDisabled"
       >
-        <mat-option *ngFor="let item of itemsSourceDistances" [value]="item">
-          {{ item }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>{{ "SID_Resolution" | translate }}</mat-label>
-      <mat-select [(value)]="selectedResolution">
-        <mat-option *ngFor="let item of itemsSourceResolutions" [value]="item">
-          {{ item }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>{{ "SID_Pulse_width" | translate }}</mat-label>
-      <mat-select [(value)]="selectedPulseDuration">
-        <mat-option
-          *ngFor="let item of itemsSourcePulseDurations"
-          [value]="item"
-        >
-          {{ item }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>{{ "SID_Measurement_time_" | translate }}</mat-label>
-      <mat-select [(value)]="selectedPeriodToAverage">
-        <mat-option
-          *ngFor="let item of itemsSourcePeriodsToAverages"
-          [value]="item"
-        >
-          {{ item }}</mat-option
-        >
-      </mat-select>
-    </mat-form-field>
-  </mat-card-content>
-  <mat-card-actions>
-    <button
-      mat-stroked-button
-      color="primary"
-      (click)="measure()"
-      [disabled]="isButtonDisabled"
-    >
-      {{ "SID_Measure" | translate }}
-    </button>
-    <button
-      mat-stroked-button
-      color="primary"
-      (click)="close()"
-      [disabled]="isButtonDisabled"
-    >
-      {{ "SID_Close" | translate }}
-    </button>
-  </mat-card-actions>
-  <mat-card-footer></mat-card-footer>
-</mat-card>
-<div class="message-container">
-  <p>{{ message }}</p>
-</div>
-<div class="spinner-container" *ngIf="isSpinnerVisible">
-  <mat-spinner></mat-spinner>
+        {{ "SID_Measure" | translate }}
+      </button>
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="close()"
+        [disabled]="isButtonDisabled"
+      >
+        {{ "SID_Close" | translate }}
+      </button>
+    </mat-card-actions>
+    <mat-card-footer></mat-card-footer>
+  </mat-card>
+  <div class="message-container">
+    <p>{{ message }}</p>
+  </div>
+  <div class="spinner-container" *ngIf="isSpinnerVisible">
+    <mat-spinner></mat-spinner>
+  </div>
 </div>

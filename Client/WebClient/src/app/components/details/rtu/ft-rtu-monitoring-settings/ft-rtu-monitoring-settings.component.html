@@ -1,89 +1,91 @@
-<p class="componentHeader">
-  {{ "SID_Rtu_Moni_Settings" | translate: { "0": vm.rtuTitle } }}
-</p>
-<div class="container">
-  <div class="controlBlock">
-    <div class="frequencies">
-      <div class="preciseFrequencies">
-        <p>{{ "SID_Precise" | translate }}</p>
-        <mat-form-field>
-          <mat-label>{{ "SID_measurement_frequency" | translate }}</mat-label>
-          <mat-select [(value)]="selectedPreciseMeas">
-            <mat-option
-              *ngFor="let item of itemsSourceMeas"
-              [value]="item.index"
-            >
-              {{ item.name }}</mat-option
-            >
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ "SID_saving_frequency" | translate }}</mat-label>
-          <mat-select [(value)]="selectedPreciseSave">
-            <mat-option
-              *ngFor="let item of itemsSourceSave"
-              [value]="item.index"
-            >
-              {{ item.name }}</mat-option
-            >
-          </mat-select>
-        </mat-form-field>
+<div class="containerFull">
+  <p class="componentHeader">
+    {{ "SID_Rtu_Moni_Settings" | translate: { "0": vm.rtuTitle } }}
+  </p>
+  <div class="container">
+    <div class="controlBlock">
+      <div class="frequencies">
+        <div class="preciseFrequencies">
+          <p>{{ "SID_Precise" | translate }}</p>
+          <mat-form-field>
+            <mat-label>{{ "SID_measurement_frequency" | translate }}</mat-label>
+            <mat-select [(value)]="selectedPreciseMeas">
+              <mat-option
+                *ngFor="let item of itemsSourceMeas"
+                [value]="item.index"
+              >
+                {{ item.name }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ "SID_saving_frequency" | translate }}</mat-label>
+            <mat-select [(value)]="selectedPreciseSave">
+              <mat-option
+                *ngFor="let item of itemsSourceSave"
+                [value]="item.index"
+              >
+                {{ item.name }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="fastFrequencies">
+          <p>{{ "SID_Fast" | translate }}</p>
+          <mat-form-field>
+            <mat-label>{{ "SID_measurement_frequency" | translate }}</mat-label>
+            <mat-select [(value)]="selectedFastMeas">
+              <mat-option value="pp">{{
+                "SID_Permanently" | translate
+              }}</mat-option>
+            </mat-select>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>{{ "SID_saving_frequency" | translate }}</mat-label>
+            <mat-select [(value)]="selectedFastSave">
+              <mat-option
+                *ngFor="let item of itemsSourceSave"
+                [value]="item.index"
+              >
+                {{ item.name }}</mat-option
+              >
+            </mat-select>
+          </mat-form-field>
+        </div>
       </div>
-      <div class="fastFrequencies">
-        <p>{{ "SID_Fast" | translate }}</p>
-        <mat-form-field>
-          <mat-label>{{ "SID_measurement_frequency" | translate }}</mat-label>
-          <mat-select [(value)]="selectedFastMeas">
-            <mat-option value="pp">{{
-              "SID_Permanently" | translate
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-        <mat-form-field>
-          <mat-label>{{ "SID_saving_frequency" | translate }}</mat-label>
-          <mat-select [(value)]="selectedFastSave">
-            <mat-option
-              *ngFor="let item of itemsSourceSave"
-              [value]="item.index"
-            >
-              {{ item.name }}</mat-option
-            >
-          </mat-select>
-        </mat-form-field>
+      <div class="other">
+        <div class="cycle">
+          {{ "SID_Cycle_full_time_sec" | translate: { "0": ports.cycleTime } }}
+        </div>
+        <mat-radio-group [(ngModel)]="monitoringMode" color="primary">
+          <mat-radio-button [value]="0">{{
+            "SID_Auto" | translate
+          }}</mat-radio-button>
+          <mat-radio-button [value]="1">{{
+            "SID_Manual" | translate
+          }}</mat-radio-button>
+        </mat-radio-group>
+
+        <button
+          mat-stroked-button
+          color="primary"
+          [disabled]="isButtonDisabled"
+          (click)="onButtonClicked()"
+        >
+          {{ "SID_Apply" | translate }}
+        </button>
       </div>
     </div>
-    <div class="other">
-      <div class="cycle">
-        {{ "SID_Cycle_full_time_sec" | translate: { "0": ports.cycleTime } }}
-      </div>
-      <mat-radio-group [(ngModel)]="monitoringMode" color="primary">
-        <mat-radio-button [value]="0">{{
-          "SID_Auto" | translate
-        }}</mat-radio-button>
-        <mat-radio-button [value]="1">{{
-          "SID_Manual" | translate
-        }}</mat-radio-button>
-      </mat-radio-group>
 
-      <button
-        mat-stroked-button
-        color="primary"
-        [disabled]="isButtonDisabled"
-        (click)="onButtonClicked()"
-      >
-        {{ "SID_Apply" | translate }}
-      </button>
+    <div class="portTable">
+      <ft-rtu-monitoring-ports
+        [ports]="vm.lines"
+        #ports
+      ></ft-rtu-monitoring-ports>
     </div>
-  </div>
 
-  <div class="portTable">
-    <ft-rtu-monitoring-ports
-      [ports]="vm.lines"
-      #ports
-    ></ft-rtu-monitoring-ports>
-  </div>
-
-  <div class="spinner-container">
-    <mat-spinner *ngIf="isSpinnerVisible"></mat-spinner>
+    <div class="spinner-container">
+      <mat-spinner *ngIf="isSpinnerVisible"></mat-spinner>
+    </div>
   </div>
 </div>

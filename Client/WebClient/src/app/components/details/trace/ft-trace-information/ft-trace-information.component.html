@@ -1,26 +1,28 @@
-<mat-card>
-  <p>{{ "SID_Trace" | translate }} {{ vm.header.traceTitle }}</p>
-  <p>{{ "SID_Port" | translate }} {{ vm.header.port }}</p>
-  <p>RTU {{ vm.header.rtuTitle }}</p>
-</mat-card>
-<mat-card>
-  <ng-container *ngFor="let element of vm.equipment">
-    <p>{{ element.nodeType }} {{ element.count }}</p>
-  </ng-container>
-</mat-card>
-<mat-card>
-  <ng-container *ngFor="let element of vm.nodes">
-    <p>{{ element.nodeType }} {{ element.count }}</p>
-  </ng-container>
-</mat-card>
-<mat-card>
-  <p *ngIf="vm.isLightMonitoring">{{ "SID_Light_OF" | translate }}</p>
-  <p *ngIf="!vm.isLightMonitoring">{{ "SID_Dark_OF" | translate }}</p>
-</mat-card>
-<mat-card>
-  <p>{{ "SID_Comment" | translate }}</p>
-  <p>{{ vm.comment }}</p>
-</mat-card>
-<div class="spinner-container" *ngIf="isSpinnerVisible">
-  <mat-spinner></mat-spinner>
+<div class="container">
+  <mat-card>
+    <p>{{ "SID_Trace" | translate }} {{ vm.header.traceTitle }}</p>
+    <p>{{ "SID_Port" | translate }} {{ vm.header.port }}</p>
+    <p>RTU {{ vm.header.rtuTitle }}</p>
+  </mat-card>
+  <mat-card>
+    <ng-container *ngFor="let element of vm.equipment">
+      <p>{{ element.nodeType }} {{ element.count }}</p>
+    </ng-container>
+  </mat-card>
+  <mat-card>
+    <ng-container *ngFor="let element of vm.nodes">
+      <p>{{ element.nodeType }} {{ element.count }}</p>
+    </ng-container>
+  </mat-card>
+  <mat-card>
+    <p *ngIf="vm.isLightMonitoring">{{ "SID_Light_OF" | translate }}</p>
+    <p *ngIf="!vm.isLightMonitoring">{{ "SID_Dark_OF" | translate }}</p>
+  </mat-card>
+  <mat-card>
+    <p>{{ "SID_Comment" | translate }}</p>
+    <p>{{ vm.comment }}</p>
+  </mat-card>
+  <div class="spinner-container" *ngIf="isSpinnerVisible">
+    <mat-spinner></mat-spinner>
+  </div>
 </div>

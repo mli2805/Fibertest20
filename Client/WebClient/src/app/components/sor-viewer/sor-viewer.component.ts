@@ -10,7 +10,7 @@ import {
   SorData,
 } from "@veex/sor";
 import { HttpClient } from "@angular/common/http";
-import { VX_DIALOG_SERVICE } from "@veex/common";
+import { VX_DIALOG_SERVICE, Color } from "@veex/common";
 import { ChartDataService, ChartMatrixesService } from "@veex/chart";
 import { DialogService } from "./other/DialogService";
 
@@ -51,11 +51,15 @@ export class SorViewerComponent implements OnInit {
     const sorFileId = params["sorFileId"];
     const isBaseIncluded = params["isBaseIncluded"];
 
-    const measSorData = await this.loadSorTraceFromServer(sorFileId, false);
-    this.sorTraces.push(new SorTrace(measSorData, "measurement", true));
+    const measSorTrace = await this.loadSorTraceFromServer(sorFileId, false);
+    measSorTrace.chart.color = Color.fromRgb(0, 0, 255);
+    measSorTrace.chart.name = "measurement";
+    this.sorTraces.push(measSorTrace);
     if (isBaseIncluded) {
-      const baseSorData = await this.loadSorTraceFromServer(sorFileId, false);
-      this.sorTraces.push(new SorTrace(baseSorData, "base", true));
+      const baseSorTrace = await this.loadSorTraceFromServer(sorFileId, false);
+      baseSorTrace.chart.color = Color.fromRgb(0, 255, 0);
+      baseSorTrace.chart.name = "base";
+      this.sorTraces.push(baseSorTrace);
     }
 
     this.sorAreaService.set(this.sorTraces);
@@ -65,7 +69,7 @@ export class SorViewerComponent implements OnInit {
   async loadSorTraceFromServer(
     sorFileId: number,
     isBase: boolean
-  ): Promise<SorData> {
+  ): Promise<SorTrace> {
     const blob = (await this.oneApiService.getVxSorOctetStreamFromServer(
       sorFileId,
       isBase
@@ -73,6 +77,7 @@ export class SorViewerComponent implements OnInit {
     const arrayBuffer = await new Response(blob).arrayBuffer();
 
     const uint8arr = new Uint8Array(arrayBuffer);
-    return await new SorReader().fromBytes(uint8arr);
+    const sorData = await new SorReader().fromBytes(uint8arr);
+    return new SorTrace(sorData, "", true);
   }
 }

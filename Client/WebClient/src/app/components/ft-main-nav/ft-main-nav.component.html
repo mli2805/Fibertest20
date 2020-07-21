@@ -1,5 +1,6 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav id="vertical-part"
+<mat-sidenav-container class="sidenav-container" fullscreen>
+  <mat-sidenav
+    id="vertical-part"
     #drawer
     class="sidenav"
     fixedInViewport="false"
@@ -151,7 +152,7 @@
         <a routerLink="/about" routerLinkActive="active">About</a>
       </div>
     </mat-toolbar>
-    <div style="margin-left: 10px;">
+    <div class="add-content-here">
       <!-- Add Content Here -->
       <router-outlet></router-outlet>
     </div>

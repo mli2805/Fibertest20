@@ -106,6 +106,10 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
       isBaseIncluded,
     };
     sessionStorage.setItem("sorFileRequestParams", JSON.stringify(dict));
+
+    // const url = this.router .serializeUrl(this.router.createUrlTree(["/sor-viewer"]));
+    // window.open(url, "_blank");
+
     this.router.navigate(["/sor-viewer"]);
   }
 

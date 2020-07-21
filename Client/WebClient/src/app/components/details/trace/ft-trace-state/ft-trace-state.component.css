@@ -1,3 +1,6 @@
+.container {
+  margin: 0px 10px;
+}
 .bottomLine {
   margin-right: 5px;
   border-bottom: 1px solid #ccc;
