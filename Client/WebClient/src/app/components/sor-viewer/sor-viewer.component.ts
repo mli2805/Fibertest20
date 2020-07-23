@@ -70,9 +70,10 @@ export class SorViewerComponent implements OnInit {
     sorFileId: number,
     isBase: boolean
   ): Promise<SorTrace> {
-    const blob = (await this.oneApiService.getVxSorOctetStreamFromServer(
+    const blob = (await this.oneApiService.getSorAsBlobFromServer(
       sorFileId,
-      isBase
+      isBase,
+      true
     )) as Blob;
     const arrayBuffer = await new Response(blob).arrayBuffer();
 

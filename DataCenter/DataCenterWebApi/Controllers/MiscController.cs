@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Microsoft.AspNetCore.Authorization;
@@ -89,72 +90,59 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
-        [HttpGet("Get-sor-file/{sorFileId}")]
-        public async Task<string> GetSorFile(int sorFileId)
-        {
-            var result = new SorBytesDto() { ClientIp = GetRemoteAddress() };
-            result.SorBytes = await _commonC2DWcfManager
-                .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
-                .GetSorBytes(sorFileId);
-
-            if (result.SorBytes == null)
-            {
-                result.ReturnCode = ReturnCode.Error;
-                _logFile.AppendLine($"Failed to get sor file {sorFileId}");
-            }
-            else
-            {
-                result.ReturnCode = ReturnCode.Ok;
-                _logFile.AppendLine($"json contains {result.SorBytes.Length} symbols");
-            }
-
-            var json = JsonConvert.SerializeObject(result);
-            return json;
-        }
-
-        /// <summary>
-        /// gets sor bytes from datacenter and converts them into vxsor format
-        /// </summary>
-        /// <param name="sorFileId"></param>
-        /// <param name="isBase">
-        /// if TRUE returns base ref from sorfile, else returns meas ref itself
-        /// </param>
-        /// <returns></returns>
-        [Authorize]
-        [HttpGet("Get-vxsor-octetstream")]
-        public async Task<FileResult> GetVxSorAsOctetStream(int sorFileId, bool isBase)
-        {
-            var otdrData = await GetOtdrDataFromServer(sorFileId);
-            var to = isBase ? await ExtractBase(otdrData) : otdrData;
-            var protobuf = to.ToSorDataBuf();
-            var stream = new MemoryStream(protobuf.ToBytes());
-            var fileDownloadName = isBase ? $"base{sorFileId}.vxsor" : $"meas{sorFileId}.vxsor";
-            return File(stream, "application/octet-stream", fileDownloadName);
-        }
-
-        private async Task<OtdrDataKnownBlocks> ExtractBase(OtdrDataKnownBlocks otdrData)
-        {
-            var embeddedData = otdrData.EmbeddedData.EmbeddedDataBlocks.FirstOrDefault(b => b.Description == @"SOR");
-            if (embeddedData == null) return null;
-            
-            OtdrDataKnownBlocks baseOtdrData;
-            await using (var stream = new MemoryStream(embeddedData.Data))
-                baseOtdrData = new OtdrDataKnownBlocks(new OtdrReader(stream).Data);
-
-            return baseOtdrData;
-        }
-
-        private async Task<OtdrDataKnownBlocks> GetOtdrDataFromServer(int sorFileId)
+        [HttpGet("Get-sor-octetstream")]
+        public async Task<FileResult> GetSorAsOctetStream(int sorFileId, bool isBaseIncluded, bool isVxSor)
         {
             var sorBytes = await _commonC2DWcfManager
                 .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
                 .GetSorBytes(sorFileId);
 
+            if (sorBytes == null)
+            {
+                _logFile.AppendLine($"Failed to get sor file {sorFileId}");
+                return null;
+            }
+
+            _logFile.AppendLine($"Got sor file: {sorBytes.Length} bytes");
+
+            if (isVxSor)
+                sorBytes = await VxSor(sorBytes, isBaseIncluded);
+            else
+            {
+                _logFile.AppendLine($"Sor file for saving, isBaseIncluded {isBaseIncluded}");
+                if (!isBaseIncluded)
+                {
+                    _logFile.AppendLine($"Get rid of base");
+                    sorBytes = SorData.GetRidOfBase(sorBytes);
+                }
+            }
+            _logFile.AppendLine($"After transformations: {sorBytes.Length} bytes");
+
+            var stream = new MemoryStream(sorBytes);
+            return File(stream, "application/octet-stream", "unused_so_far");
+        }
+
+        private async Task<byte[]> VxSor(byte[] sorBytes, bool isBase)
+        {
             OtdrDataKnownBlocks otdrDataKnownBlocks;
             await using (var stream = new MemoryStream(sorBytes))
                 otdrDataKnownBlocks = new OtdrDataKnownBlocks(new OtdrReader(stream).Data);
 
-            return otdrDataKnownBlocks;
+            var to = isBase ? await GetOnlyBaseFromSor(otdrDataKnownBlocks) : otdrDataKnownBlocks;
+            var protobuf = to.ToSorDataBuf();
+            return protobuf.ToBytes();
+        }
+
+        private async Task<OtdrDataKnownBlocks> GetOnlyBaseFromSor(OtdrDataKnownBlocks otdrData)
+        {
+            var embeddedData = otdrData.EmbeddedData.EmbeddedDataBlocks.FirstOrDefault(b => b.Description == @"SOR");
+            if (embeddedData == null) return null;
+
+            OtdrDataKnownBlocks baseOtdrData;
+            await using (var stream = new MemoryStream(embeddedData.Data))
+                baseOtdrData = new OtdrDataKnownBlocks(new OtdrReader(stream).Data);
+
+            return baseOtdrData;
         }
     }
 }

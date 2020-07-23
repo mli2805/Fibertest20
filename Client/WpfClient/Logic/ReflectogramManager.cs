@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -61,7 +60,7 @@ namespace Iit.Fibertest.Client
         public async void ShowOnlyCurrentMeasurement(int sorFileId)
         {
             byte[] sorbytesWithBase = await GetSorBytes(sorFileId);
-            byte[] sorbytes = GetRidOfBase(sorbytesWithBase);
+            byte[] sorbytes = SorData.GetRidOfBase(sorbytesWithBase);
             var fullFilename = SaveInTempFolderAndOpenInReflect(sorbytes);
             OpenSorInReflect(fullFilename);
         }
@@ -82,7 +81,7 @@ namespace Iit.Fibertest.Client
         public async void SaveReflectogramAs(int sorFileId, bool shouldBaseRefBeExcluded)
         {
             byte[] sorbytes = await GetSorBytes(sorFileId);
-            SaveAs(shouldBaseRefBeExcluded ? GetRidOfBase(sorbytes) : sorbytes);
+            SaveAs(shouldBaseRefBeExcluded ? SorData.GetRidOfBase(sorbytes) : sorbytes);
         }
 
         public async void SaveBaseReflectogramAs(int sorFileId)
@@ -117,20 +116,6 @@ namespace Iit.Fibertest.Client
                 return new byte[0];
             }
             return sorbytes;
-        }
-
-        private byte[] GetRidOfBase(byte[] sorbytes)
-        {
-            var result = SorData.TryGetFromBytes(sorbytes, out var otdrDataKnownBlocks);
-            if (result != "")
-            {
-                _logFile.AppendLine(result);
-                return new byte[0];
-            }
-
-            var blocks = otdrDataKnownBlocks.EmbeddedData.EmbeddedDataBlocks.Where(block => block.Description != @"SOR").ToArray();
-            otdrDataKnownBlocks.EmbeddedData.EmbeddedDataBlocks = blocks;
-            return otdrDataKnownBlocks.ToBytes();
         }
 
         private void OpenSorInReflect(string sorFilename, string options = "")

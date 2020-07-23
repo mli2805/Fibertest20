@@ -63,24 +63,12 @@ export class OneApiService {
     return this.httpClient.post(url, formData, { headers: myHeaders });
   }
 
-  async getSorFileFromServer(sorFileId: number) {
-    const res = (await this.getRequest(
-      `misc/get-sor-file/${sorFileId}`
-    ).toPromise()) as SorFileDto;
-
-    console.log(res);
-
-    if (res.ReturnCode === ReturnCode.Error) {
-      alert(`failed to fetch sor file ${sorFileId}!`);
-      return null;
-    }
-    console.log(`received ${res.SorBytes.length} bytes`);
-    return res.SorBytes;
-  }
-
-  async getVxSorOctetStreamFromServer(sorFileId: number, isBase: boolean) {
-    const url = Utils.GetWebApiUrl() + `/misc/Get-vxsor-octetstream`;
-    console.log(url);
+  async getSorAsBlobFromServer(
+    sorFileId: number,
+    isBase: boolean,
+    isInVxSorFormat: boolean // for display - true, for save - false
+  ) {
+    const url = Utils.GetWebApiUrl() + `/misc/Get-sor-octetstream`;
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
     const headers = new HttpHeaders().set(
@@ -88,14 +76,15 @@ export class OneApiService {
       "Bearer " + currentUser.jsonWebToken
     );
 
-    const params = { sorFileId: sorFileId.toString(), isBase: isBase.toString() };
+    const params = {
+      sorFileId: sorFileId.toString(),
+      isBaseIncluded: isBase.toString(),
+      isVxSor: isInVxSorFormat.toString(),
+    };
 
     const response = await this.httpClient
       .get(url, { headers, params, responseType: "blob" })
       .toPromise();
-    console.log("response: ");
-    console.log(response);
-
     return response;
   }
 }

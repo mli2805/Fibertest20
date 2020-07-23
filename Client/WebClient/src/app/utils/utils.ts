@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient } from "@angular/common/http";
 
 export class Utils {
   constructor() {}
@@ -10,15 +10,15 @@ export class Utils {
     var url = protocol + "://" + window.location.hostname + ":" + port;
     return url;
   }
-  
+
   static ToLongRussian(timestamp: Date): string {
     const mm = timestamp.getMonth() + 1; // getMonth() is zero-based
     const dd = timestamp.getDate();
-  
+
     const hh = timestamp.getHours();
     const min = timestamp.getMinutes();
     const sec = timestamp.getSeconds();
-  
+
     return [
       (hh > 9 ? "" : "0") + hh,
       ":",
@@ -32,7 +32,30 @@ export class Utils {
       "/",
       timestamp.getFullYear(),
     ].join("");
-  };
+  }
+
+  static ToFilename(timestamp: Date): string {
+    const mm = timestamp.getMonth() + 1; // getMonth() is zero-based
+    const dd = timestamp.getDate();
+
+    const hh = timestamp.getHours();
+    const min = timestamp.getMinutes();
+    const sec = timestamp.getSeconds();
+
+    return [
+      (dd > 9 ? "" : "0") + dd,
+      "-",
+      (mm > 9 ? "" : "0") + mm,
+      "-",
+      timestamp.getFullYear(),
+      "-",
+      (hh > 9 ? "" : "0") + hh,
+      "-",
+      (min > 9 ? "" : "0") + min,
+      "-",
+      (sec > 9 ? "" : "0") + sec,
+    ].join("");
+  }
 
   static toCamel(o) {
     var newO, origKey, newKey, value;

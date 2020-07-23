@@ -6,6 +6,7 @@ import { tap } from "rxjs/operators";
 import { OneApiService } from "src/app/api/one.service";
 import { MeasurementDto } from "src/app/models/dtos/measurementDto";
 import * as fs from "fs";
+import { Utils } from "src/app/Utils/utils";
 
 @Component({
   selector: "ft-trace-statistics",
@@ -93,7 +94,6 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
   }
 
   async showRef(isBaseIncluded: boolean) {
-    console.log(isBaseIncluded);
     const sorFileId = this.contextMenu.menuData.row.sorFileId;
     if (!isBaseIncluded) {
       console.log("show ref: ", sorFileId);
@@ -114,7 +114,6 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
   }
 
   async saveRef(isBaseIncluded: boolean) {
-    console.log(isBaseIncluded);
     const sorFileId = this.contextMenu.menuData.row.sorFileId;
     if (!isBaseIncluded) {
       console.log("save ref: ", sorFileId);
@@ -122,15 +121,20 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
       console.log("save ref and base: ", sorFileId);
     }
 
-    const bytes = await this.oneApiService.getSorFileFromServer(sorFileId);
+    const blob = await this.oneApiService.getSorAsBlobFromServer(
+      sorFileId,
+      isBaseIncluded,
+      false
+    );
 
-    if (bytes !== null) {
-      console.log(`now we are going to save ${bytes.length} bytes into file`);
-
-      const byteArray = new Uint8Array(bytes);
-      const data = new Blob([byteArray], null);
-
-      this.html5Saver(data, "123.sor");
+    if (blob !== null) {
+      console.log(this.contextMenu.menuData.row.eventRegistrationTimestamp);
+      const filename = `${
+        this.vm.header.traceTitle
+      } - ID${sorFileId} - ${Utils.ToFilename(
+        new Date(this.contextMenu.menuData.row.eventRegistrationTimestamp)
+      )}.sor`;
+      this.html5Saver(blob, filename);
     }
   }
 

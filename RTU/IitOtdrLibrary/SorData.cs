@@ -37,6 +37,14 @@ namespace Iit.Fibertest.IitOtdrLibrary
             }
         }
 
+        public static byte[] GetRidOfBase(byte[] sorbytes)
+        {
+            var otdrDataKnownBlocks = FromBytes(sorbytes);
+            var blocks = otdrDataKnownBlocks.EmbeddedData.EmbeddedDataBlocks.Where(block => block.Description != @"SOR").ToArray();
+            otdrDataKnownBlocks.EmbeddedData.EmbeddedDataBlocks = blocks;
+            return otdrDataKnownBlocks.ToBytes();
+        }
+
         public static byte[] ToBytes(this OtdrDataKnownBlocks sorData)
         {
             using (var stream = new MemoryStream())
