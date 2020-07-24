@@ -43,36 +43,20 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
-        [HttpGet("Get-meas-octetstream")]
-        public async Task<FileResult> GetMeasAsOctetStream(string measGuid)
-        {
-            Guid.TryParse(measGuid, out Guid measId);
-            var sorBytes = await _webC2DWcfManager
-                .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
-                .GetClientMeasurementResult(User.Identity.Name, measId);
-
-            if (sorBytes == null)
-            {
-                _logFile.AppendLine($"Failed to get sor file {measGuid}");
-                return null;
-            }
-
-            _logFile.AppendLine($"Got sor file: {sorBytes.Length} bytes");
-
-            sorBytes = await VxSor(sorBytes, false);
-            _logFile.AppendLine($"After transformations: {sorBytes.Length} bytes");
-
-            var stream = new MemoryStream(sorBytes);
-            return File(stream, "application/octet-stream", "unused_so_far");
-        }
-
-        [Authorize]
         [HttpGet("Get-sor-octetstream")]
-        public async Task<FileResult> GetSorAsOctetStream(int sorFileId, bool isBaseIncluded, bool isVxSor)
+        public async Task<FileResult> GetSorAsOctetStream(bool isSorFile, int sorFileId, string measGuid, bool isBaseIncluded, bool isVxSor)
         {
-            var sorBytes = await _commonC2DWcfManager
-                .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
-                .GetSorBytes(sorFileId);
+            Guid measId = Guid.Empty;
+            if (!isSorFile)
+                Guid.TryParse(measGuid, out measId);
+
+            var sorBytes = isSorFile
+                ? await _commonC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .GetSorBytes(sorFileId)
+                : await _webC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .GetClientMeasurementResult(User.Identity.Name, measId);
 
             if (sorBytes == null)
             {

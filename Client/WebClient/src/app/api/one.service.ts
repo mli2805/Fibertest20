@@ -1,13 +1,7 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Utils } from "../Utils/utils";
-import { formatDate } from "@angular/common";
-import { BaseRefType } from "../models/enums/baseRefType";
 import { AssignBaseRefDtoWithFiles } from "../models/dtos/trace/assignBaseRefDtoWithFiles";
-import { BaseRefFile } from "../models/underlying/baseRefFile";
-import { SorFileDto } from "../models/underlying/sorFileDto";
-import { ReturnCode } from "../models/enums/returnCode";
-import { VxSorFileDto } from "../models/underlying/vxSorFileDto";
 
 @Injectable({
   providedIn: "root",
@@ -64,7 +58,9 @@ export class OneApiService {
   }
 
   async getSorAsBlobFromServer(
+    isSorFile: boolean, // for sor file - true, for measurement client - false
     sorFileId: number,
+    measGuid: string,
     isBase: boolean,
     isInVxSorFormat: boolean // for display - true, for save - false
   ) {
@@ -77,7 +73,9 @@ export class OneApiService {
     );
 
     const params = {
+      isSorFile: isSorFile.toString(),
       sorFileId: sorFileId.toString(),
+      measGuid,
       isBaseIncluded: isBase.toString(),
       isVxSor: isInVxSorFormat.toString(),
     };

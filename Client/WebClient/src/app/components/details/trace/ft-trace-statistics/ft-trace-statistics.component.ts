@@ -95,7 +95,9 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
   async showRef(isBaseIncluded: boolean) {
     SorFileManager.Show(
       this.router,
+      true,
       this.contextMenu.menuData.row.sorFileId,
+      "",
       isBaseIncluded
     );
   }

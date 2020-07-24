@@ -2,23 +2,14 @@ import { OneApiService } from "../api/one.service";
 import { Router } from "@angular/router";
 
 export class SorFileManager {
-  static ShowClientMeasurement(router: Router, measGuid: string) {
+  
+  static Show(router: Router, isSorFile: boolean, sorFileId: number, measGuid: string, isBaseIncluded: boolean) {
     const dict = {
-      isSorFile: "false",
-      measGuid,
-    };
-    sessionStorage.setItem(
-      "sorFileRequestParams",
-      JSON.stringify(dict)
-    );
-    router.navigate(["/sor-viewer"]);
-  }
-
-  static Show(router: Router, sorFileId: number, isBaseIncluded: boolean) {
-    const dict = {
-      isSorFile: "true",
+      isSorFile,
       sorFileId,
+      measGuid,
       isBaseIncluded,
+      isVxSor: "true"
     };
     sessionStorage.setItem("sorFileRequestParams", JSON.stringify(dict));
 
@@ -35,7 +26,9 @@ export class SorFileManager {
     eventRegistrationTimestamp: Date
   ) {
     const blob = await oneApiService.getSorAsBlobFromServer(
+      true,
       sorFileId,
+      null,
       isBaseIncluded,
       false
     );

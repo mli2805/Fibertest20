@@ -46,23 +46,26 @@ export class SorViewerComponent implements OnInit {
     const params = JSON.parse(sessionStorage.getItem("sorFileRequestParams"));
     console.log(params);
     const isSorFile = JSON.parse(params["isSorFile"]);
-    if (isSorFile) {
-      const sorFileId = params["sorFileId"];
-      const isBaseIncluded = params["isBaseIncluded"];
-      await this.loadSorFileFromServer(sorFileId, isBaseIncluded);
-    } else {
-      const measGuid = params["measGuid"];
-      await this.loadClientMeasurementFromServer(measGuid);
-    }
-  }
+    const sorFileId = params["sorFileId"];
+    const measGuid = params["measGuid"];
+    const isBaseIncluded = params["isBaseIncluded"];
 
-  async loadSorFileFromServer(sorFileId: number, isBaseIncluded: boolean) {
-    const measSorTrace = await this.loadSorTraceFromServer(sorFileId, false);
+    const measSorTrace = await this.loadSorTraceFromServer(
+      isSorFile,
+      sorFileId,
+      measGuid,
+      false
+    );
     measSorTrace.chart.color = Color.fromRgb(0, 0, 255);
     measSorTrace.chart.name = "measurement";
     this.sorTraces.push(measSorTrace);
     if (isBaseIncluded) {
-      const baseSorTrace = await this.loadSorTraceFromServer(sorFileId, false);
+      const baseSorTrace = await this.loadSorTraceFromServer(
+        isSorFile,
+        sorFileId,
+        measGuid,
+        true
+      );
       baseSorTrace.chart.color = Color.fromRgb(0, 255, 0);
       baseSorTrace.chart.name = "base";
       this.sorTraces.push(baseSorTrace);
@@ -71,34 +74,19 @@ export class SorViewerComponent implements OnInit {
     this.sorAreaService.set(this.sorTraces);
     this.loaded = true;
   }
-  async loadClientMeasurementFromServer(measGuid: string) {
-    const measSorTrace = await this.loadMeasTraceFromServer(measGuid);
-    measSorTrace.chart.color = Color.fromRgb(0, 0, 255);
-    measSorTrace.chart.name = "measurement";
-    this.sorTraces.push(measSorTrace);
-    this.sorAreaService.set(this.sorTraces);
-    this.loaded = true;
-  }
 
   async loadSorTraceFromServer(
+    isSorFile: boolean,
     sorFileId: number,
+    measGuid: string,
     isBase: boolean
   ): Promise<SorTrace> {
     const blob = (await this.oneApiService.getSorAsBlobFromServer(
+      isSorFile,
       sorFileId,
+      measGuid,
       isBase,
       true
-    )) as Blob;
-    const arrayBuffer = await new Response(blob).arrayBuffer();
-
-    const uint8arr = new Uint8Array(arrayBuffer);
-    const sorData = await new SorReader().fromBytes(uint8arr);
-    return new SorTrace(sorData, "", true);
-  }
-
-  async loadMeasTraceFromServer(measGuid: string): Promise<SorTrace> {
-    const blob = (await this.oneApiService.getClientMeasAsBlobFromServer(
-      measGuid
     )) as Blob;
     const arrayBuffer = await new Response(blob).arrayBuffer();
 

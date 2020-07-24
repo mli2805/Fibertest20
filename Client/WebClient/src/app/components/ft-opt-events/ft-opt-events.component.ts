@@ -149,7 +149,9 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
   showRef(isBaseIncluded: boolean) {
     SorFileManager.Show(
       this.router,
+      true,
       this.contextMenu.menuData.row.eventId,
+      "",
       isBaseIncluded
     );
   }
