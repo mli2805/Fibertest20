@@ -2,8 +2,21 @@ import { OneApiService } from "../api/one.service";
 import { Router } from "@angular/router";
 
 export class SorFileManager {
+  static ShowClientMeasurement(router: Router, measGuid: string) {
+    const dict = {
+      isSorFile: "false",
+      measGuid,
+    };
+    sessionStorage.setItem(
+      "sorFileRequestParams",
+      JSON.stringify(dict)
+    );
+    router.navigate(["/sor-viewer"]);
+  }
+
   static Show(router: Router, sorFileId: number, isBaseIncluded: boolean) {
     const dict = {
+      isSorFile: "true",
       sorFileId,
       isBaseIncluded,
     };

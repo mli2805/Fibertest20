@@ -82,6 +82,26 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<byte[]> GetClientMeasurementResult(string username, Guid measId)
+        {
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetClientMeasurementResult(username, measId);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetClientMeasurementResult: " + e.Message);
+                return null;
+            }
+        }
+
         #region RTU
         public async Task<RtuInformationDto> GetRtuInformation(string username, Guid rtuId)
         {

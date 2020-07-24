@@ -17,6 +17,9 @@ namespace Iit.Fibertest.WcfConnections
         [OperationContract]
         Task<string> GetTreeInJson(string username);
 
+        [OperationContract]
+        Task<byte[]> GetClientMeasurementResult(string username, Guid measId);
+
         #region RTU
         [OperationContract]
         Task<RtuInformationDto> GetRtuInformation(string username, Guid rtuId);
@@ -52,16 +55,20 @@ namespace Iit.Fibertest.WcfConnections
 
         #endregion
 
+        #region Tables
+
         [OperationContract]
         Task<OpticalEventsRequestedDto> GetOpticalEventPortion(string username, bool isCurrentEvents,
-             string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize);
+            string filterRtu, string filterTrace, string sortOrder, int pageNumber, int pageSize);
 
         [OperationContract]
         Task<NetworkEventsRequestedDto> GetNetworkEventPortion(string username, bool isCurrentEvents,
-               string filterRtu, string sortOrder, int pageNumber, int pageSize);
+            string filterRtu, string sortOrder, int pageNumber, int pageSize);
 
         [OperationContract]
         Task<BopEventsRequestedDto> GetBopEventPortion(string username, bool isCurrentEvents,
-                    string filterRtu, string sortOrder, int pageNumber, int pageSize);
+            string filterRtu, string sortOrder, int pageNumber, int pageSize);
+
+        #endregion
     }
 }

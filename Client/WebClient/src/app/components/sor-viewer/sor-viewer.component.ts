@@ -7,9 +7,7 @@ import {
   SorAreaViewerService,
   SorViewerService,
   EventTableService,
-  SorData,
 } from "@veex/sor";
-import { HttpClient } from "@angular/common/http";
 import { VX_DIALOG_SERVICE, Color } from "@veex/common";
 import { ChartDataService, ChartMatrixesService } from "@veex/chart";
 import { DialogService } from "./other/DialogService";
@@ -37,8 +35,7 @@ export class SorViewerComponent implements OnInit {
 
   constructor(
     public sorAreaService: SorAreaViewerService,
-    private oneApiService: OneApiService,
-    private http: HttpClient
+    private oneApiService: OneApiService
   ) {}
 
   async ngOnInit() {
@@ -48,9 +45,18 @@ export class SorViewerComponent implements OnInit {
   async loadFromServer() {
     const params = JSON.parse(sessionStorage.getItem("sorFileRequestParams"));
     console.log(params);
-    const sorFileId = params["sorFileId"];
-    const isBaseIncluded = params["isBaseIncluded"];
+    const isSorFile = JSON.parse(params["isSorFile"]);
+    if (isSorFile) {
+      const sorFileId = params["sorFileId"];
+      const isBaseIncluded = params["isBaseIncluded"];
+      await this.loadSorFileFromServer(sorFileId, isBaseIncluded);
+    } else {
+      const measGuid = params["measGuid"];
+      await this.loadClientMeasurementFromServer(measGuid);
+    }
+  }
 
+  async loadSorFileFromServer(sorFileId: number, isBaseIncluded: boolean) {
     const measSorTrace = await this.loadSorTraceFromServer(sorFileId, false);
     measSorTrace.chart.color = Color.fromRgb(0, 0, 255);
     measSorTrace.chart.name = "measurement";
@@ -65,6 +71,14 @@ export class SorViewerComponent implements OnInit {
     this.sorAreaService.set(this.sorTraces);
     this.loaded = true;
   }
+  async loadClientMeasurementFromServer(measGuid: string) {
+    const measSorTrace = await this.loadMeasTraceFromServer(measGuid);
+    measSorTrace.chart.color = Color.fromRgb(0, 0, 255);
+    measSorTrace.chart.name = "measurement";
+    this.sorTraces.push(measSorTrace);
+    this.sorAreaService.set(this.sorTraces);
+    this.loaded = true;
+  }
 
   async loadSorTraceFromServer(
     sorFileId: number,
@@ -74,6 +88,17 @@ export class SorViewerComponent implements OnInit {
       sorFileId,
       isBase,
       true
+    )) as Blob;
+    const arrayBuffer = await new Response(blob).arrayBuffer();
+
+    const uint8arr = new Uint8Array(arrayBuffer);
+    const sorData = await new SorReader().fromBytes(uint8arr);
+    return new SorTrace(sorData, "", true);
+  }
+
+  async loadMeasTraceFromServer(measGuid: string): Promise<SorTrace> {
+    const blob = (await this.oneApiService.getClientMeasAsBlobFromServer(
+      measGuid
     )) as Blob;
     const arrayBuffer = await new Response(blob).arrayBuffer();
 

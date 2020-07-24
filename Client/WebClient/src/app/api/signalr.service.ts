@@ -22,15 +22,12 @@ export class SignalrService {
   private hubConnection: signalR.HubConnection;
   public rtuInitializedEmitter = new EventEmitter<RtuInitializedWebDto>();
   public monitoringStepNotifier = new EventEmitter<CurrentMonitoringStepDto>();
-  public clientMeasurementEmitter = new EventEmitter<
-    ClientMeasurementDoneDto
-  >();
+  public clientMeasEmitter = new EventEmitter<ClientMeasurementDoneDto>();
   public monitoringStoppedEmitter = new EventEmitter<MonitoringStoppedDto>();
   public monitoringStartedEmitter = new EventEmitter<MonitoringStartdedDto>();
   public measurementAddedEmitter = new EventEmitter<TraceStateDto>();
   public networkEventAddedEmitter = new EventEmitter<NetworkEventDto>();
   public bopEventAddedEmitter = new EventEmitter<BopEventDto>();
-
   public measurementUpdatedEmitter = new EventEmitter<UpdateMeasurementDto>();
 
   // will be built after loggin in, when jsonWebToken provided
@@ -115,8 +112,8 @@ export class SignalrService {
     });
 
     this.hubConnection.on("ClientMeasurementDone", (signal: string) => {
-      const dto = JSON.parse(signal);
-      this.clientMeasurementEmitter.emit(dto);
+      const dto = JSON.parse(signal) as ClientMeasurementDoneDto;
+      this.clientMeasEmitter.emit(dto);
     });
 
     this.hubConnection.on("MonitoringStopped", (signal: string) => {

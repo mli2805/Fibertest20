@@ -57,6 +57,7 @@ namespace Iit.Fibertest.DataCenterService
 
             builder.RegisterType<D2CWcfManager>().SingleInstance();
             builder.RegisterType<LastConnectionTimeChecker>().SingleInstance();
+            builder.RegisterType<MeasurementsForWebNotifier>().SingleInstance();
             builder.RegisterType<SmsSender>().SingleInstance();
 
             builder.RegisterType<D2RWcfManager>().As<ID2RWcfManager>().SingleInstance();

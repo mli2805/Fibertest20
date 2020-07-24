@@ -16,21 +16,36 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly D2CWcfManager _d2CWcfManager;
         private readonly GlobalState _globalState;
+        private readonly MeasurementsForWebNotifier _measurementsForWebNotifier;
         private readonly FtSignalRClient _ftSignalRClient;
+
 
         public WcfServiceForRtu(IniFile iniFile, IMyLog logFile, ClientsCollection clientsCollection,
             RtuStationsRepository rtuStationsRepository, D2CWcfManager d2CWcfManager, GlobalState globalState,
-            FtSignalRClient ftSignalRClient)
+            MeasurementsForWebNotifier measurementsForWebNotifier, FtSignalRClient ftSignalRClient)
         {
             _logFile = logFile;
             _clientsCollection = clientsCollection;
             _rtuStationsRepository = rtuStationsRepository;
             _d2CWcfManager = d2CWcfManager;
             _globalState = globalState;
+            _measurementsForWebNotifier = measurementsForWebNotifier;
             _ftSignalRClient = ftSignalRClient;
 
             var tid = Thread.CurrentThread.ManagedThreadId;
             _logFile.AppendLine($"RTU listener: works in thread {tid}");
+        }
+
+        public void RegisterRtuHeartbeat(RtuChecksChannelDto dto)
+        {
+            try
+            {
+                _rtuStationsRepository.RegisterRtuHeartbeatAsync(dto).Wait();
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("WcfServiceForRtu.RegisterRtuHeartbeat: " + e.Message);
+            }
         }
 
         public void NotifyUserCurrentMonitoringStep(CurrentMonitoringStepDto dto)
@@ -49,7 +64,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var addresses = _clientsCollection.GetDesktopClientsAddresses();
                 if (addresses == null)
                     return;
-            
+
                 _d2CWcfManager.SetClientsAddresses(addresses);
                 _d2CWcfManager.NotifyUsersRtuCurrentMonitoringStep(dto).Wait();
             }
@@ -59,47 +74,49 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public void RegisterRtuHeartbeat(RtuChecksChannelDto dto)
-        {
-            try
-            {
-                _rtuStationsRepository.RegisterRtuHeartbeatAsync(dto).Wait();
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("WcfServiceForRtu.RegisterRtuHeartbeat: " + e.Message);
-            }
-        }
-
         public void TransmitClientMeasurementResult(SorBytesDto result)
         {
-            _logFile.AppendLine($"Measurement Client result received ({result.SorBytes?.Length} bytes, for clientIp {result.ClientIp})");
-
             if (_globalState.IsDatacenterInDbOptimizationMode)
                 return;
+            if (result.SorBytes == null || result.SorBytes.Length == 0)
+            {
+                _logFile.AppendLine("Bad measurement client result.");
+                return;
+            }
+            _logFile.AppendLine($"Measurement Client result received ({result.SorBytes.Length} bytes, for clientIp {result.ClientIp})");
 
-            if (result.SorBytes == null || result.SorBytes.Length == 0) return;
             try
             {
-                var clientStation = _clientsCollection.GetClientStation(result.ClientIp);
-                if (clientStation == null) return;
-                if (clientStation.IsWebClient)
+                //  var clientStation = _clientsCollection.GetClientStation(result.ClientIp);
+                //  if (clientStation == null)
+                //  {
+                //      _logFile.AppendLine($"There is no registered client station with IP {result.ClientIp}");
+                //      return;
+                //  }
+                //
+                //  _logFile.AppendLine($"Client station with IP {result.ClientIp} user {clientStation.UserName}");
+                //  if (clientStation.IsWebClient)
+                //  {
+
+                //                _ftSignalRClient.NotifyAll("ClientMeasurementDone", result.ToCamelCaseJson()).Wait();
+
+                _measurementsForWebNotifier.Push(result);
+                _logFile.AppendLine("measurement placed into queue");
+                //  }
+                //  else
+                var addresses = _clientsCollection.GetDesktopClientsAddresses(result.ClientIp);
+                if (addresses != null)
                 {
-                    _ftSignalRClient.NotifyAll("ClientMeasurementDone", result.ToCamelCaseJson()).Wait();
-                }
-                else
-                {
-                    var addresses = _clientsCollection.GetDesktopClientsAddresses(result.ClientIp);
-                    if (addresses == null)
-                        return;
                     _d2CWcfManager.SetClientsAddresses(addresses);
                     _d2CWcfManager.NotifyMeasurementClientDone(result).Wait();
                 }
+
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("WcfServiceForRtu.TransmitClientMeasurementResult: " + e.Message);
             }
+            _logFile.AppendLine("Client measurement ended");
         }
     }
 }

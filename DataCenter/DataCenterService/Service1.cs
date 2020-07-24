@@ -19,6 +19,7 @@ namespace Iit.Fibertest.DataCenterService
         private readonly IEventStoreInitializer _eventStoreInitializer;
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
         private readonly SmsSender _smsSender;
+        private readonly MeasurementsForWebNotifier _measurementsForWebNotifier;
         private readonly WcfServiceForDesktopC2DBootstrapper _wcfServiceForDesktopC2DBootstrapper;
         private readonly WcfServiceForCommonC2DBootstrapper _wcfServiceForCommonC2DBootstrapper;
         private readonly WcfServiceForRtuBootstrapper _wcfServiceForRtuBootstrapper;
@@ -28,6 +29,7 @@ namespace Iit.Fibertest.DataCenterService
         public Service1(IniFile iniFile, IMyLog logFile, ISettings serverSettings,
             EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
             LastConnectionTimeChecker lastConnectionTimeChecker, SmsSender smsSender,
+            MeasurementsForWebNotifier measurementsForWebNotifier,
             WcfServiceForDesktopC2DBootstrapper wcfServiceForDesktopC2DBootstrapper,
             WcfServiceForCommonC2DBootstrapper wcfServiceForCommonC2DBootstrapper,
             WcfServiceForRtuBootstrapper wcfServiceForRtuBootstrapper,
@@ -42,6 +44,7 @@ namespace Iit.Fibertest.DataCenterService
             _logFile.AssignFile("DataCenter.log");
             _lastConnectionTimeChecker = lastConnectionTimeChecker;
             _smsSender = smsSender;
+            _measurementsForWebNotifier = measurementsForWebNotifier;
             _wcfServiceForDesktopC2DBootstrapper = wcfServiceForDesktopC2DBootstrapper;
             _wcfServiceForCommonC2DBootstrapper = wcfServiceForCommonC2DBootstrapper;
             _wcfServiceForRtuBootstrapper = wcfServiceForRtuBootstrapper;
@@ -74,6 +77,7 @@ namespace Iit.Fibertest.DataCenterService
             _serverSettings.Init();
             await InitializeEventStoreService();
             _lastConnectionTimeChecker.Start();
+            _measurementsForWebNotifier.Start();
             _wcfServiceForCommonC2DBootstrapper.Start();
             _wcfServiceForWebC2DBootstrapper.Start();
             _wcfServiceForDesktopC2DBootstrapper.Start();

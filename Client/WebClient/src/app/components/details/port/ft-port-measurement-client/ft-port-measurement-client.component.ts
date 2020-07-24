@@ -1,21 +1,21 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { TreeOfAcceptableVeasParams } from "src/app/models/dtos/meas-params/acceptableMeasParams";
 import { Router } from "@angular/router";
 import { DoClientMeasurementDto } from "src/app/models/dtos/meas-params/doClientMeasurementDto";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 import { ReturnCode } from "src/app/models/enums/returnCode";
-import { Subscription } from "rxjs";
 import { SignalrService } from "src/app/api/signalr.service";
 import { ClientMeasurementDoneDto } from "src/app/models/dtos/port/clientMeasurementDoneDto";
 import { TranslateService } from "@ngx-translate/core";
 import { OneApiService } from "src/app/api/one.service";
+import { SorFileManager } from "src/app/utils/sorFileManager";
 
 @Component({
   selector: "ft-port-measurement-client",
   templateUrl: "./ft-port-measurement-client.component.html",
   styleUrls: ["./ft-port-measurement-client.component.css"],
 })
-export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
+export class FtPortMeasurementClientComponent implements OnInit {
   tree: TreeOfAcceptableVeasParams;
 
   message;
@@ -35,8 +35,6 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
   selectedBc = 0;
   selectedRi = 0;
 
-  private subscription: Subscription;
-
   constructor(
     private router: Router,
     private oneApiService: OneApiService,
@@ -44,25 +42,26 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     private ts: TranslateService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.isSpinnerVisible = true;
     const rtuId = JSON.parse(sessionStorage.getItem("measurementClientParams"))
       .rtuId;
-    this.oneApiService
+    this.tree = (await this.oneApiService
       .getRequest(`rtu/measurement-parameters/${rtuId}`)
-      .subscribe((res: TreeOfAcceptableVeasParams) => {
-        console.log("tree: ", res);
-        this.tree = res;
-        this.initializeLists();
-        this.isSpinnerVisible = false;
-        this.isButtonDisabled = false;
-        this.message = "";
-      });
+      .toPromise()) as TreeOfAcceptableVeasParams;
 
-    this.subscription = this.signalRService.clientMeasurementEmitter.subscribe(
+    console.log("tree: ", this.tree);
+    this.initializeLists();
+    this.isSpinnerVisible = false;
+    this.isButtonDisabled = false;
+    this.message = "";
+
+    this.signalRService.clientMeasEmitter.subscribe(
       (signal: ClientMeasurementDoneDto) => {
-        if (signal.ReturnCode === ReturnCode.MeasurementEndedNormally) {
-          this.message = `Measurement (Client) done. SorBytes contains ${signal.SorBytes.length} bytes`;
+        console.log(signal);
+        if (signal.returnCode === ReturnCode.MeasurementEndedNormally) {
+          this.message = `Measurement (Client) done. Request bytes for id ${signal.id}`;
+          SorFileManager.ShowClientMeasurement(this.router, signal.id);
         } else {
           this.message = "Measurement (Client) failed!";
         }
@@ -70,10 +69,6 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
         this.isButtonDisabled = false;
       }
     );
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
   }
 
   initializeLists() {

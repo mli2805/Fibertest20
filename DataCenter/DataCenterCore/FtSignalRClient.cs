@@ -78,6 +78,7 @@ namespace Iit.Fibertest.DataCenterCore
                 {
                     _logFile.AppendLine($"Start signalR connection to {_webApiUrl}");
                     await connection.StartAsync();
+                    _logFile.AppendLine($"SignalR connection state is {connection.State}");
                     await Task.Delay(2000);
                 }
 

@@ -1,3 +1,4 @@
+using System;
 using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
@@ -13,5 +14,8 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public byte[] SorBytes { get; set; }
+
+        [DataMember]
+        public  Guid Id { get; set; }
     }
 }
