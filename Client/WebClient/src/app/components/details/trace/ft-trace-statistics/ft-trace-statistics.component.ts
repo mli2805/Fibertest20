@@ -5,8 +5,7 @@ import { MatPaginator, MatMenuTrigger } from "@angular/material";
 import { tap } from "rxjs/operators";
 import { OneApiService } from "src/app/api/one.service";
 import { MeasurementDto } from "src/app/models/dtos/measurementDto";
-import * as fs from "fs";
-import { Utils } from "src/app/Utils/utils";
+import { SorFileLoader } from "src/app/utils/sorFileLoader";
 
 @Component({
   selector: "ft-trace-statistics",
@@ -94,15 +93,8 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
   }
 
   async showRef(isBaseIncluded: boolean) {
-    const sorFileId = this.contextMenu.menuData.row.sorFileId;
-    if (!isBaseIncluded) {
-      console.log("show ref: ", sorFileId);
-    } else {
-      console.log("show ref and base: ", sorFileId);
-    }
-
     const dict = {
-      sorFileId,
+      sorFileId: this.contextMenu.menuData.row.sorFileId,
       isBaseIncluded,
     };
     sessionStorage.setItem("sorFileRequestParams", JSON.stringify(dict));
@@ -114,28 +106,13 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
   }
 
   async saveRef(isBaseIncluded: boolean) {
-    const sorFileId = this.contextMenu.menuData.row.sorFileId;
-    if (!isBaseIncluded) {
-      console.log("save ref: ", sorFileId);
-    } else {
-      console.log("save ref and base: ", sorFileId);
-    }
-
-    const blob = await this.oneApiService.getSorAsBlobFromServer(
-      sorFileId,
+    SorFileLoader.Download(
+      this.oneApiService,
+      this.contextMenu.menuData.row.sorFileId,
       isBaseIncluded,
-      false
+      this.vm.header.traceTitle,
+      this.contextMenu.menuData.row.eventRegistrationTimestamp
     );
-
-    if (blob !== null) {
-      console.log(this.contextMenu.menuData.row.eventRegistrationTimestamp);
-      const filename = `${
-        this.vm.header.traceTitle
-      } - ID${sorFileId} - ${Utils.ToFilename(
-        new Date(this.contextMenu.menuData.row.eventRegistrationTimestamp)
-      )}.sor`;
-      this.html5Saver(blob, filename);
-    }
   }
 
   showRftsEvents() {
@@ -151,19 +128,5 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
     };
     sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
     this.router.navigate(["/trace-state"]);
-  }
-
-  html5Saver(blob, fileName) {
-    // to emulate click action
-    // because we cannot save directly to client's computer due to security constraints
-    const a = document.createElement("a");
-    document.body.appendChild(a);
-    // a.style = "display: none";
-    const url = window.URL.createObjectURL(blob);
-    a.href = url;
-    a.download = fileName;
-    a.click();
-
-    document.body.removeChild(a);
   }
 }
