@@ -1,6 +1,19 @@
 import { OneApiService } from "../api/one.service";
+import { Router } from "@angular/router";
 
-export class SorFileLoader {
+export class SorFileManager {
+  static Show(router: Router, sorFileId: number, isBaseIncluded: boolean) {
+    const dict = {
+      sorFileId,
+      isBaseIncluded,
+    };
+    sessionStorage.setItem("sorFileRequestParams", JSON.stringify(dict));
+
+    // const url = this.router .serializeUrl(this.router.createUrlTree(["/sor-viewer"]));
+    // window.open(url, "_blank");
+    router.navigate(["/sor-viewer"]);
+  }
+
   static async Download(
     oneApiService: OneApiService,
     sorFileId: number,
@@ -15,10 +28,10 @@ export class SorFileLoader {
     );
 
     if (blob !== null) {
-      const filename = `${traceTitle} - ID${sorFileId} - ${SorFileLoader.ToFilename(
+      const filename = `${traceTitle} - ID${sorFileId} - ${SorFileManager.ToFilename(
         new Date(eventRegistrationTimestamp)
       )}.sor`;
-      SorFileLoader.Html5Saver(blob, filename);
+      SorFileManager.Html5Saver(blob, filename);
     }
   }
 

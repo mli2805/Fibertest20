@@ -5,7 +5,7 @@ import { MatPaginator, MatMenuTrigger } from "@angular/material";
 import { tap } from "rxjs/operators";
 import { OneApiService } from "src/app/api/one.service";
 import { MeasurementDto } from "src/app/models/dtos/measurementDto";
-import { SorFileLoader } from "src/app/utils/sorFileLoader";
+import { SorFileManager } from "src/app/utils/sorFileManager";
 
 @Component({
   selector: "ft-trace-statistics",
@@ -93,20 +93,15 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
   }
 
   async showRef(isBaseIncluded: boolean) {
-    const dict = {
-      sorFileId: this.contextMenu.menuData.row.sorFileId,
-      isBaseIncluded,
-    };
-    sessionStorage.setItem("sorFileRequestParams", JSON.stringify(dict));
-
-    // const url = this.router .serializeUrl(this.router.createUrlTree(["/sor-viewer"]));
-    // window.open(url, "_blank");
-
-    this.router.navigate(["/sor-viewer"]);
+    SorFileManager.Show(
+      this.router,
+      this.contextMenu.menuData.row.sorFileId,
+      isBaseIncluded
+    );
   }
 
   async saveRef(isBaseIncluded: boolean) {
-    SorFileLoader.Download(
+    SorFileManager.Download(
       this.oneApiService,
       this.contextMenu.menuData.row.sorFileId,
       isBaseIncluded,

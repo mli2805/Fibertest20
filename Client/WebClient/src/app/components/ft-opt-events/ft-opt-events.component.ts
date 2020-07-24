@@ -17,6 +17,7 @@ import { Router } from "@angular/router";
 import { AlarmsService } from "src/app/interaction/alarms.service";
 import { SignalrService } from "src/app/api/signalr.service";
 import { UpdateMeasurementDto } from "src/app/models/dtos/trace/updateMeasurementDto";
+import { SorFileManager } from "src/app/utils/sorFileManager";
 
 @Component({
   selector: "ft-opt-events",
@@ -145,20 +146,22 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
     event.preventDefault();
   }
 
-  showRef(param: number) {
-    if (param === 1) {
-      console.log("show ref: ", this.contextMenu.menuData.row.eventId);
-    } else {
-      console.log("show ref and base: ", this.contextMenu.menuData.row.eventId);
-    }
+  showRef(isBaseIncluded: boolean) {
+    SorFileManager.Show(
+      this.router,
+      this.contextMenu.menuData.row.eventId,
+      isBaseIncluded
+    );
   }
 
-  saveRef(param: number) {
-    if (param === 1) {
-      console.log("save ref: ", this.contextMenu.menuData.row.eventId);
-    } else {
-      console.log("save ref and base: ", this.contextMenu.menuData.row.eventId);
-    }
+  saveRef(isBaseIncluded: boolean) {
+    SorFileManager.Download(
+      this.oneApiService,
+      this.contextMenu.menuData.row.eventId,
+      isBaseIncluded,
+      this.contextMenu.menuData.row.traceTitle,
+      this.contextMenu.menuData.row.eventRegistrationTimestamp
+    );
   }
 
   showRftsEvents() {

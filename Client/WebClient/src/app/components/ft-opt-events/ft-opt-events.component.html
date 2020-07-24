@@ -128,16 +128,16 @@
 
   <mat-menu #optEvContextMenu="matMenu">
     <ng-template matMenuContent let-item="item">
-      <button mat-menu-item (click)="showRef(1)">
+      <button mat-menu-item (click)="showRef(false)">
         {{ "SID_Show_reflectogram" | translate }}
       </button>
-      <button mat-menu-item (click)="showRef(2)">
+      <button mat-menu-item (click)="showRef(true)">
         {{ "SID_Show_ref_and_base" | translate }}
       </button>
-      <button mat-menu-item (click)="saveRef(1)">
+      <button mat-menu-item (click)="saveRef(false)">
         {{ "SID_Save_reflectogram_as" | translate }}
       </button>
-      <button mat-menu-item (click)="saveRef(2)">
+      <button mat-menu-item (click)="saveRef(true)">
         {{ "SID_Save_ref_and_base_as" | translate }}
       </button>
       <mat-divider></mat-divider>
