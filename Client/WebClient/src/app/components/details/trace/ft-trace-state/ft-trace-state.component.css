@@ -6,6 +6,26 @@
   border-bottom: 1px solid #ccc;
 }
 
+.oneAccident {
+  display: flex;
+  flex-direction: column;
+}
+
+.caption {
+  margin-bottom: 5px;
+}
+
+img {
+  margin-bottom: 5px;
+}
+
+.tops,
+.bottoms {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 5px;
+}
+
 .measNotes {
   display: flex;
   flex-direction: row-reverse;

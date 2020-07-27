@@ -24,13 +24,22 @@
       {{ "SID_Accidents_count___0_" | translate: { "0": vm.accidents.length } }}
     </p>
     <div class="lines" *ngFor="let line of vm.accidents">
-      <p>{{ line.caption }}</p>
-      <p>{{ line.topLeft }} {{ line.topCenter }} {{ line.topRight }}</p>
-      <img src="{{ line.pngPath }}" alt="accidnet scheme" />
-      <p>
-        {{ line.bottom0 }} {{ line.bottom1 }} {{ line.bottom2 }}
-        {{ line.bottom3 }} {{ line.bottom4 }}
-      </p>
+      <div class="oneAccident">
+        <div class="caption">{{ line.caption }}</div>
+        <div class="tops">
+          <div class="top">{{ line.topLeft }}</div>
+          <div class="top">{{ line.topCenter }}</div>
+          <div class="top">{{ line.topRight }}</div>
+        </div>
+        <img src="{{ line.pngPath }}" alt="accidnet scheme" />
+        <div class="bottoms">
+          <div class="bottom">{{ line.bottom0 }}</div>
+          <div class="bottom">{{ line.bottom1 }}</div>
+          <div class="bottom">{{ line.bottom2 }}</div>
+          <div class="bottom">{{ line.bottom3 }}</div>
+          <div class="bottom">{{ line.bottom4 }}</div>
+        </div>
+      </div>
     </div>
   </div>
   <div class="measNotes bottomLine">
