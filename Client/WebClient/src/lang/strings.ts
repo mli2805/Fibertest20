@@ -901,7 +901,9 @@ export const languages = {
     "SID_Landmark_count_does_not_match_graph": "Landmark count on base ref does not match graph",
     "SID_Optical_switch_s_IP_address": "Optical switch's IP address",
     "SID_Web_Client_software_version": "Web-Client software version",
-    "SID_Web_Api_software_version": "Web API software version"
+    "SID_Web_Api_software_version": "Web API software version",
+    "SID_Save_reflectogram": "Save reflectogram",
+    "SID_Save_ref_and_base": "Save ref + base"
   },
   "ru-RU": {
     "SID_CableReserve": "Запас кабеля",
@@ -1802,6 +1804,8 @@ export const languages = {
     "SID_Landmark_count_does_not_match_graph": "Количество ориентиров на рефлектограмме не соответствует графу",
     "SID_Optical_switch_s_IP_address": "IP адрес оптического переключателя",
     "SID_Web_Client_software_version": "Версия ПО WebClient",
-    "SID_Web_Api_software_version": "Верия ПО Web API"
+    "SID_Web_Api_software_version": "Верия ПО Web API",
+    "SID_Save_reflectogram": "Сохранить рефлектограмму",
+    "SID_Save_ref_and_base": "Сохранить рефлектограмму + базовую"
   }
 };

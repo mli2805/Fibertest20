@@ -35,6 +35,7 @@ export class SorViewerComponent implements OnInit {
 
   constructor(
     public sorAreaService: SorAreaViewerService,
+    public sorViewerService: SorViewerService,
     private oneApiService: OneApiService
   ) {}
 
@@ -69,6 +70,8 @@ export class SorViewerComponent implements OnInit {
       baseSorTrace.chart.color = Color.fromRgb(0, 255, 0);
       baseSorTrace.chart.name = "base";
       this.sorTraces.push(baseSorTrace);
+
+      this.sorViewerService.setTracesOffset(0);
     }
 
     this.sorAreaService.set(this.sorTraces);
