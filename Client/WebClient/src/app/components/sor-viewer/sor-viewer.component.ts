@@ -71,7 +71,8 @@ export class SorViewerComponent implements OnInit {
       baseSorTrace.chart.name = "base";
       this.sorTraces.push(baseSorTrace);
 
-      this.sorViewerService.setTracesOffset(0);
+      // this.sorViewerService.setTracesOffset(0);
+      this.sorViewerService.showTracesOffset = false;
     }
 
     this.sorAreaService.set(this.sorTraces);
