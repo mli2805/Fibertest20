@@ -2,14 +2,30 @@ import { OneApiService } from "../api/one.service";
 import { Router } from "@angular/router";
 
 export class SorFileManager {
-  
-  static Show(router: Router, isSorFile: boolean, sorFileId: number, measGuid: string, isBaseIncluded: boolean) {
+  static Show(
+    router: Router,
+    isSorFile: boolean,
+    sorFileId: number,
+    measGuid: string,
+    isBaseIncluded: boolean,
+    traceTitle: string,
+    eventRegistrationTimestamp: Date
+  ) {
+    const filename =
+      traceTitle === "meas"
+        ? `${traceTitle} - ${SorFileManager.ToFilename(
+            new Date(eventRegistrationTimestamp)
+          )}`
+        : `${traceTitle} - ID${sorFileId} - ${SorFileManager.ToFilename(
+            new Date(eventRegistrationTimestamp)
+          )}`;
     const dict = {
       isSorFile,
       sorFileId,
       measGuid,
       isBaseIncluded,
-      isVxSor: "true"
+      isVxSor: "true",
+      filename,
     };
     sessionStorage.setItem("sorFileRequestParams", JSON.stringify(dict));
 

@@ -98,7 +98,9 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
       true,
       this.contextMenu.menuData.row.sorFileId,
       "",
-      isBaseIncluded
+      isBaseIncluded,
+      this.vm.header.traceTitle,
+      this.contextMenu.menuData.row.eventRegistrationTimestamp
     );
   }
 

@@ -152,7 +152,9 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
       true,
       this.contextMenu.menuData.row.eventId,
       "",
-      isBaseIncluded
+      isBaseIncluded,
+      this.contextMenu.menuData.row.traceTitle,
+      this.contextMenu.menuData.row.eventRegistrationTimestamp
     );
   }
 

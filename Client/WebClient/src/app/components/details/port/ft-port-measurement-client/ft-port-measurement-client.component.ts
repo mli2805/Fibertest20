@@ -61,7 +61,7 @@ export class FtPortMeasurementClientComponent implements OnInit {
         console.log(signal);
         if (signal.returnCode === ReturnCode.MeasurementEndedNormally) {
           this.message = `Measurement (Client) done. Request bytes for id ${signal.id}`;
-          SorFileManager.Show(this.router, false, 0, signal.id, false);
+          SorFileManager.Show(this.router, false, 0, signal.id, false, "meas", new Date());
         } else {
           this.message = "Measurement (Client) failed!";
         }

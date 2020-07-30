@@ -58,7 +58,7 @@ export class SorViewerComponent implements OnInit {
       false
     );
     measSorTrace.chart.color = Color.fromRgb(0, 0, 255);
-    measSorTrace.chart.name = "measurement";
+    measSorTrace.chart.name = params["filename"] + ".sor";
     this.sorTraces.push(measSorTrace);
     if (isBaseIncluded) {
       const baseSorTrace = await this.loadSorTraceFromServer(
@@ -68,7 +68,7 @@ export class SorViewerComponent implements OnInit {
         true
       );
       baseSorTrace.chart.color = Color.fromRgb(0, 255, 0);
-      baseSorTrace.chart.name = "base";
+      baseSorTrace.chart.name = params["filename"] + " base.sor";
       this.sorTraces.push(baseSorTrace);
 
       // this.sorViewerService.setTracesOffset(0);
