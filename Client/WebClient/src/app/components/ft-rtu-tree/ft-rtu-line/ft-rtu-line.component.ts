@@ -42,7 +42,7 @@ export class FtRtuLineComponent implements OnInit {
   }
 
   information(rtu: RtuDto) {
-    this.router.navigate(["/rtu-information", this.rtu.rtuId]);
+    this.router.navigate(["/rtu-information", rtu.rtuId]);
   }
 
   networkSettings(rtu: RtuDto) {
