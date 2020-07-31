@@ -104,10 +104,6 @@ export class FtBopEventsComponent implements OnInit, AfterViewInit {
     event.preventDefault();
   }
 
-  seeEvent(row) {
-    this.alarmsService.confirmBopEvent(row.eventId);
-  }
-
   getBopState(bopState: boolean): string {
     return bopState ? "SID_Ok" : "SID_Breakdown";
   }

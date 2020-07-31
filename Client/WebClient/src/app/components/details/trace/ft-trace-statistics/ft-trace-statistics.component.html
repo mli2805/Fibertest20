@@ -83,6 +83,7 @@
       mat-row
       *matRowDef="let row; columns: columnsToDisplay"
       (contextmenu)="onContextMenu($event, row)"
+      (click)="onContextMenu($event, row)"
     ></tr>
   </table>
 

@@ -81,8 +81,9 @@
       mat-row
       *matRowDef="let row; columns: displayedColumns"
       (contextmenu)="onContextMenu($event, row)"
-      (click)="seeEvent(row)"
-    ></tr>
+      (click)="onContextMenu($event, row)"
+      >
+    </tr>
   </table>
 
   <mat-paginator

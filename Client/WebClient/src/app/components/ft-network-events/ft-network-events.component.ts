@@ -109,10 +109,6 @@ export class FtNetworkEventsComponent implements OnInit, AfterViewInit {
     event.preventDefault();
   }
 
-  seeEvent(row) {
-    this.alarmsService.confirmNetworkEvent(row.eventId);
-  }
-
   getRtuAvailability(isRtuAvailable: boolean): string {
     return isRtuAvailable ? "SID_Available" : "SID_Not_available";
   }

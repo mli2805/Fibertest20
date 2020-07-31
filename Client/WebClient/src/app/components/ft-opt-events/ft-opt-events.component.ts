@@ -181,7 +181,4 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
     this.router.navigate(["/trace-state"]);
   }
 
-  seeEvent(row) {
-    this.alarmsService.confirmOpticalEvent(row.eventId);
-  }
 }
