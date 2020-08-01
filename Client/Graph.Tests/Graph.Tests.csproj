@@ -368,6 +368,7 @@
       <DependentUpon>RtuUpdated.feature</DependentUpon>
     </Compile>
     <Compile Include="Sut\Enums\Answer.cs" />
+    <Compile Include="Sut\Fakes\FakeFtSignalRClient.cs" />
     <Compile Include="Sut\SutExtensions\Handlers.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForHideTraces.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForResponsibilityZones.cs" />

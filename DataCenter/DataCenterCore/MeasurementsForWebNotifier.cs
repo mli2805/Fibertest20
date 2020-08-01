@@ -10,11 +10,11 @@ namespace Iit.Fibertest.DataCenterCore
     public class MeasurementsForWebNotifier
     {
         private readonly IMyLog _logFile;
-        private readonly FtSignalRClient _ftSignalRClient;
+        private readonly IFtSignalRClient _ftSignalRClient;
         private readonly ConcurrentQueue<SorBytesDto> _measurements = new ConcurrentQueue<SorBytesDto>();
         private readonly ConcurrentDictionary<Guid, byte[]> _measDict = new ConcurrentDictionary<Guid, byte[]>();
 
-        public MeasurementsForWebNotifier(IMyLog logFile, FtSignalRClient ftSignalRClient)
+        public MeasurementsForWebNotifier(IMyLog logFile, IFtSignalRClient ftSignalRClient)
         {
             _logFile = logFile;
             _ftSignalRClient = ftSignalRClient;

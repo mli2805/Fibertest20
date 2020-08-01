@@ -77,7 +77,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<WcfServiceForRtuBootstrapper>().SingleInstance();
             builder.RegisterType<WcfServiceWebC2D>().As<IWcfServiceWebC2D>().SingleInstance();
             builder.RegisterType<WcfServiceForWebC2DBootstrapper>().SingleInstance();
-            builder.RegisterType<FtSignalRClient>().SingleInstance();
+            builder.RegisterType<FtSignalRClient>().As<IFtSignalRClient>().SingleInstance();
 
             builder.RegisterType<SorDataParsingReporter>();
             builder.RegisterType<AccidentsFromSorExtractor>();

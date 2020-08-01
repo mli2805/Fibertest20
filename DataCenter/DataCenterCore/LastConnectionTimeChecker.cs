@@ -23,7 +23,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientsCollection _clientsCollection;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly Model _writeModel;
-        private readonly FtSignalRClient _ftSignalRClient;
+        private readonly IFtSignalRClient _ftSignalRClient;
         private readonly Smtp _smtp;
         private readonly SmsManager _smsManager;
         private readonly SnmpNotifier _snmpNotifier;
@@ -33,7 +33,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile, EventStoreService eventStoreService,
             ClientsCollection clientsCollection, RtuStationsRepository rtuStationsRepository, Model writeModel,
-            FtSignalRClient ftSignalRClient,
+            IFtSignalRClient ftSignalRClient,
             Smtp smtp, SmsManager smsManager, SnmpNotifier snmpNotifier)
         {
             _iniFile = iniFile;

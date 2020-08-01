@@ -180,7 +180,7 @@ namespace Graph.Tests
             builder.RegisterType<MsmqMessagesProcessor>().InstancePerLifetimeScope();
             builder.RegisterType<GlobalState>().InstancePerLifetimeScope();
             builder.RegisterType<DiskSpaceProvider>().InstancePerLifetimeScope();
-            builder.RegisterType<FtSignalRClient>().InstancePerLifetimeScope();
+            builder.RegisterType<FakeFtSignalRClient>().As<IFtSignalRClient>().InstancePerLifetimeScope();
 
             builder.RegisterInstance<IMyLog>(new NullLog());
 

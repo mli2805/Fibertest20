@@ -17,12 +17,12 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly D2CWcfManager _d2CWcfManager;
         private readonly GlobalState _globalState;
         private readonly MeasurementsForWebNotifier _measurementsForWebNotifier;
-        private readonly FtSignalRClient _ftSignalRClient;
+        private readonly IFtSignalRClient _ftSignalRClient;
 
 
         public WcfServiceForRtu(IniFile iniFile, IMyLog logFile, ClientsCollection clientsCollection,
             RtuStationsRepository rtuStationsRepository, D2CWcfManager d2CWcfManager, GlobalState globalState,
-            MeasurementsForWebNotifier measurementsForWebNotifier, FtSignalRClient ftSignalRClient)
+            MeasurementsForWebNotifier measurementsForWebNotifier, IFtSignalRClient ftSignalRClient)
         {
             _logFile = logFile;
             _clientsCollection = clientsCollection;

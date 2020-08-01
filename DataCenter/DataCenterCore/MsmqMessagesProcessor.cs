@@ -21,7 +21,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly MeasurementFactory _measurementFactory;
         private readonly SorFileRepository _sorFileRepository;
         private readonly RtuStationsRepository _rtuStationsRepository;
-        private readonly FtSignalRClient _ftSignalRClient;
+        private readonly IFtSignalRClient _ftSignalRClient;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
         private readonly Smtp _smtp;
         private readonly SmsManager _smsManager;
@@ -30,7 +30,7 @@ namespace Iit.Fibertest.DataCenterCore
         public MsmqMessagesProcessor(IMyLog logFile, IniFile iniFile, Model writeModel,
             EventStoreService eventStoreService, MeasurementFactory measurementFactory,
             SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository,
-            FtSignalRClient ftSignalRClient, AccidentLineModelFactory accidentLineModelFactory,
+            IFtSignalRClient ftSignalRClient, AccidentLineModelFactory accidentLineModelFactory,
             Smtp smtp, SmsManager smsManager, SnmpNotifier snmpNotifier)
         {
             _logFile = logFile;

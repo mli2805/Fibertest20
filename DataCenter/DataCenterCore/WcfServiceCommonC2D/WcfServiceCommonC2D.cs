@@ -23,7 +23,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientsCollection _clientsCollection;
         private readonly BaseRefsChecker2 _baseRefsChecker;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
-        private readonly FtSignalRClient _ftSignalRClient;
+        private readonly IFtSignalRClient _ftSignalRClient;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
@@ -31,7 +31,7 @@ namespace Iit.Fibertest.DataCenterCore
             Model writeModel, SorFileRepository sorFileRepository,
             EventStoreService eventStoreService, ClientsCollection clientsCollection,
             BaseRefsChecker2 baseRefsChecker, BaseRefLandmarksTool baseRefLandmarksTool,
-            FtSignalRClient ftSignalRClient,
+            IFtSignalRClient ftSignalRClient,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter
             )
         {

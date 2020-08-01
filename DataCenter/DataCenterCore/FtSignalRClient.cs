@@ -6,7 +6,12 @@ using Microsoft.AspNetCore.SignalR.Client;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public class FtSignalRClient
+    public interface IFtSignalRClient
+    {
+        Task NotifyAll(string eventType, string dataInJson);
+
+    }
+    public class FtSignalRClient : IFtSignalRClient
     {
         private readonly IMyLog _logFile;
         private HubConnection connection;

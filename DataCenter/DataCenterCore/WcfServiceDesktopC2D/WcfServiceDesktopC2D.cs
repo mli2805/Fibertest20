@@ -28,7 +28,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IEventStoreInitializer _eventStoreInitializer;
 
         private readonly RtuStationsRepository _rtuStationsRepository;
-        private readonly FtSignalRClient _ftSignalRClient;
+        private readonly IFtSignalRClient _ftSignalRClient;
         private readonly SorFileRepository _sorFileRepository;
         private readonly SnapshotRepository _snapshotRepository;
         private readonly BaseRefRepairmanIntermediary _baseRefRepairmanIntermediary;
@@ -47,7 +47,7 @@ namespace Iit.Fibertest.DataCenterCore
         public WcfServiceDesktopC2D(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
             Model writeModel, IEventStoreInitializer eventStoreInitializer, EventStoreService eventStoreService,
             MeasurementFactory measurementFactory, ClientsCollection clientsCollection, 
-            RtuStationsRepository rtuStationsRepository, FtSignalRClient ftSignalRClient,
+            RtuStationsRepository rtuStationsRepository, IFtSignalRClient ftSignalRClient,
             BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
             SorFileRepository sorFileRepository, SnapshotRepository snapshotRepository,
             Smtp smtp, SnmpAgent snmpAgent, SmsManager smsManager, DiskSpaceProvider diskSpaceProvider, 
@@ -156,7 +156,9 @@ namespace Iit.Fibertest.DataCenterCore
                 return resultInGraph;
 
             // Some commands need to be reported to web client
+//             await Task.Factory.StartNew(() => NotifyWebClient(cmd));
             await NotifyWebClient(cmd);
+
             // A few commands need post-processing in Db or RTU
             return await PostProcessing(cmd);
         }
