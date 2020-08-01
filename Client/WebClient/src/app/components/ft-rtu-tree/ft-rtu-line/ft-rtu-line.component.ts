@@ -5,7 +5,10 @@ import { Router } from "@angular/router";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 import { ReturnCode } from "src/app/models/enums/returnCode";
-import { FtRtuTreeEventService } from "../ft-rtu-tree-event-service";
+import {
+  FtRtuTreeEventService,
+  RtuTreeEvent,
+} from "../ft-rtu-tree-event-service";
 import { OneApiService } from "src/app/api/one.service";
 
 @Component({
@@ -58,13 +61,13 @@ export class FtRtuLineComponent implements OnInit {
   }
 
   manualMode(rtu: RtuDto) {
-    this.ftRtuTreeEventService.emitEvent(true);
+    this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.showSpinner);
     const id = rtu.rtuId;
     console.log("manual pressed id=", id);
     this.oneApiService
       .postRequest(`rtu/stop-monitoring/${id}`, rtu.rtuMaker)
       .subscribe((res: boolean) => {
-        this.ftRtuTreeEventService.emitEvent(false);
+        this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.fetchTree);
         console.log(res);
         if (res === true) {
           this.router.navigate(["/rtu-tree"]);
@@ -73,13 +76,13 @@ export class FtRtuLineComponent implements OnInit {
   }
 
   automaticMode(rtu: RtuDto) {
-    this.ftRtuTreeEventService.emitEvent(true);
+    this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.showSpinner);
     const id = rtu.rtuId;
     console.log("automatic pressed id=", id);
     this.oneApiService
       .postRequest(`rtu/start-monitoring/${id}`, null)
       .subscribe((res: RequestAnswer) => {
-        this.ftRtuTreeEventService.emitEvent(false);
+        this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.fetchTree);
         console.log(res);
         if (
           res.returnCode === ReturnCode.MonitoringSettingsAppliedSuccessfully

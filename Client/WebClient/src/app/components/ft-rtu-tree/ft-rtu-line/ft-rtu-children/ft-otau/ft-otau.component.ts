@@ -3,7 +3,10 @@ import { OtauWebDto } from "src/app/models/dtos/rtuTree/otauWebDto";
 import { MatMenuTrigger } from "@angular/material";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { DetachOtauDto } from "src/app/models/dtos/rtu/detachOtauDto";
-import { FtRtuTreeEventService } from "../../../ft-rtu-tree-event-service";
+import {
+  FtRtuTreeEventService,
+  RtuTreeEvent,
+} from "../../../ft-rtu-tree-event-service";
 import { OneApiService } from "src/app/api/one.service";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { UserDto } from "src/app/models/dtos/userDto";
@@ -47,7 +50,7 @@ export class FtOtauComponent implements OnInit {
   }
 
   removeOtau() {
-    this.ftRtuTreeEventService.emitEvent(true);
+    this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.showSpinner);
     console.log("remove otau pressed");
     const detachOtauDto = new DetachOtauDto();
     detachOtauDto.rtuId = this.otau.rtuId;
@@ -61,7 +64,7 @@ export class FtOtauComponent implements OnInit {
         if (res.returnCode !== ReturnCode.OtauDetachedSuccesfully) {
           alert("Error");
         }
-        this.ftRtuTreeEventService.emitEvent(false);
+        this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.fetchTree);
       });
   }
 

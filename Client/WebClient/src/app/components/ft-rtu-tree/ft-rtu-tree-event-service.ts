@@ -1,13 +1,21 @@
 import { BehaviorSubject } from "rxjs";
 
+// I use it when after some user's action rtu-tree should be re-read
+// those are: attach/detach trace or otau and change of rtu monitoring mode
+
 export class FtRtuTreeEventService {
-  private grandChildEvent = new BehaviorSubject<boolean>(false);
+  private refreshTreeRequestEvent = new BehaviorSubject<RtuTreeEvent>(null);
 
-  emitEvent(value: boolean) {
-    this.grandChildEvent.next(value);
+  emitEvent(value: RtuTreeEvent) {
+    this.refreshTreeRequestEvent.next(value);
   }
 
-  grandChildEventListener() {
-    return this.grandChildEvent.asObservable();
+  refreshTreeRequestEventListener() {
+    return this.refreshTreeRequestEvent.asObservable();
   }
+}
+
+export enum RtuTreeEvent {
+  showSpinner,
+  fetchTree,
 }

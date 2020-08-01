@@ -2,15 +2,17 @@ import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
 import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
-import { FtRtuTreeEventService } from "../../../ft-rtu-tree-event-service";
+import {
+  FtRtuTreeEventService,
+  RtuTreeEvent,
+} from "../../../ft-rtu-tree-event-service";
 import { OneApiService } from "src/app/api/one.service";
 import { UserDto } from "src/app/models/dtos/userDto";
 import { Role } from "src/app/models/enums/role";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
-import { DoOutOfTurnMeasurementDto } from 'src/app/models/dtos/trace/doOutOfTurnMeasurementDto';
-import { PortWithTraceDto } from 'src/app/models/underlying/portWithTraceDto';
-import { OtauPortDto } from 'src/app/models/underlying/otauPortDto';
+import { DoOutOfTurnMeasurementDto } from "src/app/models/dtos/trace/doOutOfTurnMeasurementDto";
+import { PortWithTraceDto } from "src/app/models/underlying/portWithTraceDto";
 
 @Component({
   selector: "ft-attached-line",
@@ -66,12 +68,12 @@ export class FtAttachedLineComponent implements OnInit {
   }
 
   detachTrace() {
-    this.ftRtuTreeEventService.emitEvent(true);
+    this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.showSpinner);
     this.oneApiService
       .postRequest(`port/detach-trace/${this.trace.traceId}`, null)
       .subscribe((res) => {
         console.log(res);
-        this.ftRtuTreeEventService.emitEvent(false);
+        this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.fetchTree);
       });
   }
 
@@ -82,8 +84,8 @@ export class FtAttachedLineComponent implements OnInit {
     dto.portWithTraceDto.traceId = this.trace.traceId;
     dto.portWithTraceDto.otauPort = this.trace.otauPort;
     this.oneApiService
-    .postRequest("measurement/out-of-turn-measurement", dto)
-    .subscribe();
+      .postRequest("measurement/out-of-turn-measurement", dto)
+      .subscribe();
   }
 
   measurementClient() {

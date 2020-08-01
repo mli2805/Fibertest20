@@ -6,7 +6,10 @@ import { OtauWebDto } from "src/app/models/dtos/rtuTree/otauWebDto";
 import { Router, RouterEvent, NavigationEnd } from "@angular/router";
 import { filter, takeUntil } from "rxjs/operators";
 import { Subject, Subscription } from "rxjs";
-import { FtRtuTreeEventService } from "./ft-rtu-tree-event-service";
+import {
+  FtRtuTreeEventService,
+  RtuTreeEvent,
+} from "./ft-rtu-tree-event-service";
 import { OneApiService } from "src/app/api/one.service";
 import { SignalrService } from "src/app/api/signalr.service";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
@@ -37,7 +40,7 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
     private oneApiService: OneApiService,
     private signalRService: SignalrService,
     private router: Router,
-    private grandChildEventService: FtRtuTreeEventService
+    private refreshTreeRequestEventService: FtRtuTreeEventService
   ) {
     this.isNotLoaded = true;
   }
@@ -54,27 +57,31 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
         this.fetchData();
       });
 
-    this.grandChildEventService
-      .grandChildEventListener()
-      .subscribe((evnt: boolean) => {
-        console.log("Event: Reload wanted - ", evnt);
-        this.isNotLoaded = evnt;
-        if (!evnt) {
+    this.refreshTreeRequestEventService
+      .refreshTreeRequestEventListener()
+      .subscribe((evnt: RtuTreeEvent) => {
+        console.log("Event: ", evnt);
+        if (evnt === RtuTreeEvent.showSpinner) {
+          this.isNotLoaded = true;
+        }
+        if (evnt === RtuTreeEvent.fetchTree) {
           this.fetchData();
         }
       });
 
     this.monitoringStoppedSubscription = this.signalRService.monitoringStoppedEmitter.subscribe(
       (signal: any) => {
-        const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
-        rtu.monitoringMode = MonitoringMode.Off;
+        // const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
+        // rtu.monitoringMode = MonitoringMode.Off;
+        this.fetchData();
       }
     );
 
     this.monitoringStartedSubscription = this.signalRService.monitoringStartedEmitter.subscribe(
       (signal: any) => {
-        const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
-        rtu.monitoringMode = MonitoringMode.On;
+        // const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
+        // rtu.monitoringMode = MonitoringMode.On;
+        this.fetchData();
       }
     );
 
@@ -169,6 +176,7 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
 
         if (child.childType === ChildType.Otau) {
           const otau = child as OtauWebDto;
+          otau.expanded = this.getOtauPreviousIsExpanded(rtu, otau);
           for (const otauChild of otau.children) {
             if (otauChild.childType === ChildType.Trace) {
               const trace = otauChild as TraceDto;
@@ -187,5 +195,16 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
     }
     const prev = this.previousRtus.find((prtu) => prtu.rtuId === rtu.rtuId);
     return prev === undefined ? false : prev.expanded;
+  }
+
+  getOtauPreviousIsExpanded(rtu: RtuDto, otau: OtauWebDto): boolean {
+    if (this.previousRtus === undefined) {
+      return false;
+    }
+    const prevRtu = this.previousRtus.find((prtu) => prtu.rtuId === rtu.rtuId);
+    const prevOtau = prevRtu.children.find(
+      (potau) => potau.port === otau.port
+    ) as OtauWebDto;
+    return prevOtau === undefined ? false : prevOtau.expanded;
   }
 }
