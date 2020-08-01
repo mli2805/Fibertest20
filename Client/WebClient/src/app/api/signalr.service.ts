@@ -21,6 +21,7 @@ import { UpdateMeasurementDto } from "../models/dtos/trace/updateMeasurementDto"
 export class SignalrService {
   private hubConnection: signalR.HubConnection;
   public rtuInitializedEmitter = new EventEmitter<RtuInitializedWebDto>();
+  public fetchTreeEmitter = new EventEmitter();
   public monitoringStepNotifier = new EventEmitter<CurrentMonitoringStepDto>();
   public clientMeasEmitter = new EventEmitter<ClientMeasurementDoneDto>();
   public monitoringStoppedEmitter = new EventEmitter<MonitoringStoppedDto>();
@@ -106,6 +107,10 @@ export class SignalrService {
     this.hubConnection.on("RtuInitialized", (data: RtuInitializedWebDto) =>
       this.rtuInitializedEmitter.emit(data)
     );
+
+    this.hubConnection.on("FetchTree", () => {
+      this.fetchTreeEmitter.emit();
+    });
 
     this.hubConnection.on("NotifyMonitoringStep", (signal: string) => {
       this.onNotifyMonitoringStep(signal);

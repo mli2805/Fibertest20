@@ -193,10 +193,24 @@ namespace Iit.Fibertest.DataCenterCore
             cfg => cfg.AddProfile<MappingWebApiProfile>()).CreateMapper();
         private async Task NotifyWebClient(object cmd)
         {
-            if (cmd is UpdateMeasurement)
+            switch (cmd)
             {
-                var evnt = Mapper.Map<UpdateMeasurementDto>(cmd);
-                await _ftSignalRClient.NotifyAll("UpdateMeasurement", evnt.ToCamelCaseJson());
+                case UpdateMeasurement _:
+                {
+                    var evnt = Mapper.Map<UpdateMeasurementDto>(cmd);
+                    await _ftSignalRClient.NotifyAll("UpdateMeasurement", evnt.ToCamelCaseJson());
+                    break;
+                }
+
+                case AttachOtau _:
+                case DetachOtau _:
+                case AttachTrace _:
+                case DetachTrace _:
+                case DetachAllTraces _:
+                {
+                    await _ftSignalRClient.NotifyAll("FetchTree", null);
+                    break;
+                }
             }
         }
 

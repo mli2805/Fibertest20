@@ -12,7 +12,6 @@ import {
 } from "./ft-rtu-tree-event-service";
 import { OneApiService } from "src/app/api/one.service";
 import { SignalrService } from "src/app/api/signalr.service";
-import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { NetworkEventDto } from "src/app/models/dtos/networkEventDto";
 import { ChannelEvent } from "src/app/models/enums/channelEvent";
 import { RtuPartState } from "src/app/models/enums/rtuPartState";
@@ -30,6 +29,7 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
   public isNotLoaded = true;
   public destroyed = new Subject<any>();
 
+  private fetchDataSubscription: Subscription;
   private monitoringStoppedSubscription: Subscription;
   private monitoringStartedSubscription: Subscription;
   private measurementAddedSubscription: Subscription;
@@ -69,6 +69,10 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.fetchDataSubscription = this.signalRService.fetchTreeEmitter.subscribe(
+      () => this.fetchData()
+    );
+    
     this.monitoringStoppedSubscription = this.signalRService.monitoringStoppedEmitter.subscribe(
       (signal: any) => {
         // const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
