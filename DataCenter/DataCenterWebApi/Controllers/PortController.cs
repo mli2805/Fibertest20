@@ -137,35 +137,6 @@ namespace Iit.Fibertest.DataCenterWebApi
             }
         }
 
-        [Authorize]
-        [HttpPost("Measurement-client")]
-        public async Task<ClientMeasurementStartedDto> MeasurementClient()
-        {
-            var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
-            // browser started on the same pc as this service
-            var aa = ip1 == "::1" ? _localIpAddress : ip1;
-            _logFile.AppendLine($"MeasurementClient request from {aa}");
-           
-            try
-            {
-                string body;
-                using (var reader = new StreamReader(Request.Body))
-                {
-                    body = await reader.ReadToEndAsync();
-                }
-                var dto = JsonConvert.DeserializeObject<DoClientMeasurementDto>(body);
-                var clientMeasurementStartedDto = await _commonC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .DoClientMeasurementAsync(dto);
-                return clientMeasurementStartedDto;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"MeasurementClient: {e.Message}");
-                return new ClientMeasurementStartedDto() { ErrorMessage = e.Message, ReturnCode = ReturnCode.MeasurementPreparationError };
-            }
-        }
-
 
     }
 }

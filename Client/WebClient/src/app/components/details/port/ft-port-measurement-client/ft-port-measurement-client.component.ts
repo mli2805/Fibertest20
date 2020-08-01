@@ -155,7 +155,7 @@ export class FtPortMeasurementClientComponent implements OnInit {
     dto.otauPortDto = params.otauPortDto;
     dto.selectedMeasParams = this.getSelectedParameters();
     this.oneApiService
-      .postRequest("port/measurement-client", dto)
+      .postRequest("measurement/measurement-client", dto)
       .subscribe((res: RequestAnswer) => {
         if (res.returnCode !== ReturnCode.Ok) {
           this.message = res.errorMessage;

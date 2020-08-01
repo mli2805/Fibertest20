@@ -33,7 +33,11 @@
       {{ "SID_Unplug_trace" | translate }}
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item (click)="outOfTurnMeasurement()">
+    <button
+      mat-menu-item
+      (click)="outOfTurnMeasurement()"
+      [disabled]="hasBase()"
+    >
       {{ "SID_Precise_monitoring_out_of_turn" | translate }}
     </button>
     <button mat-menu-item (click)="measurementClient()">

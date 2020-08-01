@@ -8,6 +8,9 @@ import { UserDto } from "src/app/models/dtos/userDto";
 import { Role } from "src/app/models/enums/role";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
+import { DoOutOfTurnMeasurementDto } from 'src/app/models/dtos/trace/doOutOfTurnMeasurementDto';
+import { PortWithTraceDto } from 'src/app/models/underlying/portWithTraceDto';
+import { OtauPortDto } from 'src/app/models/underlying/otauPortDto';
 
 @Component({
   selector: "ft-attached-line",
@@ -72,7 +75,16 @@ export class FtAttachedLineComponent implements OnInit {
       });
   }
 
-  outOfTurnMeasurement() {}
+  outOfTurnMeasurement() {
+    const dto = new DoOutOfTurnMeasurementDto();
+    dto.rtuId = this.parentRtu.rtuId;
+    dto.portWithTraceDto = new PortWithTraceDto();
+    dto.portWithTraceDto.traceId = this.trace.traceId;
+    dto.portWithTraceDto.otauPort = this.trace.otauPort;
+    this.oneApiService
+    .postRequest("measurement/out-of-turn-measurement", dto)
+    .subscribe();
+  }
 
   measurementClient() {
     const dict = { rtuId: this.trace.rtuId, otauPortDto: this.trace.otauPort };
@@ -86,5 +98,9 @@ export class FtAttachedLineComponent implements OnInit {
       user.role > Role.Root ||
       this.parentRtu.monitoringMode === MonitoringMode.On
     );
+  }
+
+  hasBase(): boolean {
+    return !this.trace.hasEnoughBaseRefsToPerformMonitoring;
   }
 }

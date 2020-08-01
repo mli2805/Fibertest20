@@ -62,5 +62,63 @@ namespace Iit.Fibertest.DataCenterWebApi
                 return new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
             }
         }
+        
+        [Authorize]
+        [HttpPost("Measurement-client")]
+        public async Task<ClientMeasurementStartedDto> MeasurementClient()
+        {
+            var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
+            // browser started on the same pc as this service
+            var aa = ip1 == "::1" ? _localIpAddress : ip1;
+            _logFile.AppendLine($"MeasurementClient request from {aa}");
+           
+            try
+            {
+                string body;
+                using (var reader = new StreamReader(Request.Body))
+                {
+                    body = await reader.ReadToEndAsync();
+                }
+                var dto = JsonConvert.DeserializeObject<DoClientMeasurementDto>(body);
+                var clientMeasurementStartedDto = await _commonC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .DoClientMeasurementAsync(dto);
+                return clientMeasurementStartedDto;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"MeasurementClient: {e.Message}");
+                return new ClientMeasurementStartedDto() { ErrorMessage = e.Message, ReturnCode = ReturnCode.MeasurementPreparationError };
+            }
+        }
+
+        [Authorize]
+        [HttpPost("Out-of-turn-measurement")]
+        public async Task<OutOfTurnMeasurementStartedDto> OutOfTurnPreciseMeasurement()
+        {
+            var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
+            // browser started on the same pc as this service
+            var aa = ip1 == "::1" ? _localIpAddress : ip1;
+            _logFile.AppendLine($"OutOfTurnPreciseMeasurement request from {aa}");
+           
+            try
+            {
+                string body;
+                using (var reader = new StreamReader(Request.Body))
+                {
+                    body = await reader.ReadToEndAsync();
+                }
+                var dto = JsonConvert.DeserializeObject<DoOutOfTurnPreciseMeasurementDto>(body);
+                var outOfTurnMeasurementStarted = await _commonC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .DoOutOfTurnPreciseMeasurementAsync(dto);
+                return outOfTurnMeasurementStarted;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"OutOfTurnPreciseMeasurement: {e.Message}");
+                return new OutOfTurnMeasurementStartedDto() { ErrorMessage = e.Message, ReturnCode = ReturnCode.MeasurementPreparationError };
+            }
+        }
     }
 }

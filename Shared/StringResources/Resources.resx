@@ -540,7 +540,7 @@ If chosen trace use some equipment in this node it will be replaced</value>
     <value>Institute of Information Technologies</value>
   </data>
 	<data name="SID_Login" xml:space="preserve">
-    <value>Login</value>
+    <value>Log in</value>
   </data>
 	<data name="SID_User" xml:space="preserve">
     <value>User</value>
