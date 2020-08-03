@@ -78,14 +78,12 @@ export class FtAttachedLineComponent implements OnInit {
   }
 
   outOfTurnMeasurement() {
-    const dto = new DoOutOfTurnMeasurementDto();
-    dto.rtuId = this.parentRtu.rtuId;
-    dto.portWithTraceDto = new PortWithTraceDto();
-    dto.portWithTraceDto.traceId = this.trace.traceId;
-    dto.portWithTraceDto.otauPort = this.trace.otauPort;
-    this.oneApiService
-      .postRequest("measurement/out-of-turn-measurement", dto)
-      .subscribe();
+    const dict = {
+      trace: this.trace,
+      rtu: this.parentRtu,
+    };
+    sessionStorage.setItem("outOfTurnMeasurementParams", JSON.stringify(dict));
+    this.router.navigate(["/out-of-turn-measurement"]);
   }
 
   measurementClient() {

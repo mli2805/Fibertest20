@@ -87,6 +87,7 @@ import { FtTraceStateComponent } from "./components/details/trace/ft-trace-state
 import { FtAssignBaseComponent } from "./components/details/trace/ft-assign-base/ft-assign-base.component";
 import { FtBopEventsComponent } from "./components/ft-bop-events/ft-bop-events.component";
 import { SorViewerComponent } from "./components/sor-viewer/sor-viewer.component";
+import { FtOutOfTurnMeasurementComponent } from "./components/details/trace/ft-out-of-turn-measurement/ft-out-of-turn-measurement.component";
 
 @NgModule({
   declarations: [
@@ -139,6 +140,8 @@ import { SorViewerComponent } from "./components/sor-viewer/sor-viewer.component
     FtBopEventsComponent,
 
     SorViewerComponent,
+
+    FtOutOfTurnMeasurementComponent,
   ],
   imports: [
     VxSorViewerModule,

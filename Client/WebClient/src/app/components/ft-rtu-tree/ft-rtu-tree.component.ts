@@ -72,7 +72,7 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
     this.fetchDataSubscription = this.signalRService.fetchTreeEmitter.subscribe(
       () => this.fetchData()
     );
-    
+
     this.monitoringStoppedSubscription = this.signalRService.monitoringStoppedEmitter.subscribe(
       (signal: any) => {
         // const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
