@@ -10,6 +10,7 @@ export class AuthGuard implements CanActivate {
       return true;
     }
 
+    console.log("Current user data not found in session storage.");
     this.router.navigate(["/login"]);
     return false;
   }

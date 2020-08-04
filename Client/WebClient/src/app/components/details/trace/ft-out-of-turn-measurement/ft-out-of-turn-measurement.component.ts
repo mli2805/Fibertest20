@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, HostListener } from "@angular/core";
 import { DoOutOfTurnMeasurementDto } from "src/app/models/dtos/trace/doOutOfTurnMeasurementDto";
 import { PortWithTraceDto } from "src/app/models/underlying/portWithTraceDto";
 import { OneApiService } from "src/app/api/one.service";
@@ -28,6 +28,14 @@ export class FtOutOfTurnMeasurementComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    const back = sessionStorage.getItem("back");
+    console.log(back);
+    if (back !== null) {
+      sessionStorage.removeItem("back");
+      window.history.back();
+      return;
+    }
+
     this.isSpinnerVisible = true;
 
     setInterval(() => {}, 1000);
@@ -77,5 +85,11 @@ export class FtOutOfTurnMeasurementComponent implements OnInit {
           this.message = this.ts.instant("SID_Precise_monitoring_in_progress_");
         }
       });
+  }
+
+  @HostListener("window:popstate", ["$event"])
+  onPopState(event) {
+    console.log("Back button pressed on FtOutOfTurnMeasurementComponent");
+    console.log(event);
   }
 }

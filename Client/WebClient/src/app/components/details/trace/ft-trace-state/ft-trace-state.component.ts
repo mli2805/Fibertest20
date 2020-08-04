@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, HostListener } from "@angular/core";
 import { TraceStateDto } from "src/app/models/dtos/trace/traceStateDto";
 import { OneApiService } from "src/app/api/one.service";
 import { FiberState } from "src/app/models/enums/fiberState";
@@ -88,7 +88,20 @@ export class FtTraceStateComponent implements OnInit {
     return dto;
   }
 
+  // it's my button "Back"
   back() {
+    console.log(window.history);
     window.history.back();
+  }
+
+  @HostListener("window:popstate", ["$event"])
+  onPopState(event) {
+    const dict = {
+      from: "FtTraceStateComponent"
+    };
+    sessionStorage.setItem("back", JSON.stringify(dict));
+
+    console.log("Back button pressed on FtTraceStateComponent");
+    console.log(event);
   }
 }
