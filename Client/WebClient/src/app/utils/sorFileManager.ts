@@ -29,9 +29,10 @@ export class SorFileManager {
     };
     sessionStorage.setItem("sorFileRequestParams", JSON.stringify(dict));
 
-    // const url = this.router .serializeUrl(this.router.createUrlTree(["/sor-viewer"]));
-    // window.open(url, "_blank");
-    router.navigate(["/sor-viewer"]);
+    const url = router.serializeUrl(router.createUrlTree(["/sor-viewer"]));
+    const newTab = window.open(url, "_blank");
+    // newTab.document.title = filename;
+    // router.navigate(["/sor-viewer"]);
   }
 
   static async Download(

@@ -76,6 +76,9 @@ export class SorViewerComponent implements OnInit {
     }
 
     this.sorAreaService.set(this.sorTraces);
+
+    document.title = params["filename"] + ".sor";
+
     this.loaded = true;
   }
 
