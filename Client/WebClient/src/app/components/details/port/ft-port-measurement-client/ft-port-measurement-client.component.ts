@@ -43,6 +43,7 @@ export class FtPortMeasurementClientComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
+    console.log("we are in ngOnInit of measurement client component");
     this.isSpinnerVisible = true;
     const rtuId = JSON.parse(sessionStorage.getItem("measurementClientParams"))
       .rtuId;
@@ -60,8 +61,19 @@ export class FtPortMeasurementClientComponent implements OnInit {
       (signal: ClientMeasurementDoneDto) => {
         console.log(signal);
         if (signal.returnCode === ReturnCode.MeasurementEndedNormally) {
-          this.message = `Measurement (Client) done. Request bytes for id ${signal.id}`;
-          SorFileManager.Show(this.router, false, 0, signal.id, false, "meas", new Date());
+          this.message = this.ts.instant("SID_Measurement_is_finished_");
+          console.log(
+            `Measurement (Client) done. Request bytes for id ${signal.id}`
+          );
+          SorFileManager.Show(
+            this.router,
+            false,
+            0,
+            signal.id,
+            false,
+            "meas",
+            new Date()
+          );
         } else {
           this.message = "Measurement (Client) failed!";
         }
