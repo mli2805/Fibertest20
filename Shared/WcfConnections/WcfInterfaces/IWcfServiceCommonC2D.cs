@@ -58,5 +58,8 @@ namespace Iit.Fibertest.WcfConnections
         [OperationContract]
         Task<byte[]> GetSorBytes(int sorFileId);
 
+        [OperationContract]
+        Task<RftsEventsDto> GetRftsEvents(int sorFileId);
+
     }
 }

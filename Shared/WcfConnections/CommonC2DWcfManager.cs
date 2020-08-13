@@ -373,5 +373,24 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<RftsEventsDto> GetRftsEvents(int sorFileId)
+        {
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetRftsEvents(sorFileId);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetRftsEvents: " + e.Message);
+                return null;
+            }
+        }
     }
 }

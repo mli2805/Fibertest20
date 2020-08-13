@@ -22,6 +22,7 @@ import { FtAssignBaseComponent } from "./components/details/trace/ft-assign-base
 import { FtBopEventsComponent } from "./components/ft-bop-events/ft-bop-events.component";
 import { SorViewerComponent } from "./components/sor-viewer/sor-viewer.component";
 import { FtOutOfTurnMeasurementComponent } from "./components/details/trace/ft-out-of-turn-measurement/ft-out-of-turn-measurement.component";
+import { FtRftsEventsComponent } from "./components/details/trace/ft-rfts-events/ft-rfts-events.component";
 
 const routes: Routes = [
   { path: "login", component: FtLoginComponent, canActivate: [LoginGuard] },
@@ -62,6 +63,7 @@ const routes: Routes = [
   { path: "assign-base/:id", component: FtAssignBaseComponent },
   { path: "trace-state", component: FtTraceStateComponent },
   { path: "trace-statistics/:id", component: FtTraceStatisticsComponent },
+  { path: "rfts-events/:id", component: FtRftsEventsComponent },
 
   { path: "port-attach-trace", component: FtPortAttachTraceComponent },
   { path: "port-attach-otau", component: FtPortAttachOtauComponent },

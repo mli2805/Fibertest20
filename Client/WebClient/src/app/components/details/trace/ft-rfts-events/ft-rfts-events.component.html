@@ -1,0 +1,34 @@
+<div class="container">
+  <div class="content" *ngIf="!isSpinnerVisible">
+    <div class="table">
+      <div class="left-panel">
+        <p>{{ "SID_Parameters" | translate }}</p>
+      </div>
+      <mat-tab-group animationDuration="300ms">
+        <ng-container *ngFor="let element of vm.levelArray">
+          <mat-tab label="element.title">
+            <ft-rfts-events-level [vm]="element"></ft-rfts-events-level>
+          </mat-tab>
+        </ng-container>
+      </mat-tab-group>
+    </div>
+    <div class="total-fiber-loss">
+      <p>{{ "SID_Total_fiber_loss" | translate }}</p>
+    </div>
+    <div class="footer">
+      <div class="trace-state">
+        <p>{{ "SID_Trace_state" | translate }}</p>
+        <p>{{ "SID_ORL__dB" | translate }}</p>
+      </div>
+      <div class="by-levels">
+        <p>{{ "SID_Minor" | translate }}</p>
+        <p>{{ "SID_Major" | translate }}</p>
+        <p>{{ "SID_Critical" | translate }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="spinner-container" *ngIf="isSpinnerVisible">
+    <mat-spinner></mat-spinner>
+  </div>
+</div>

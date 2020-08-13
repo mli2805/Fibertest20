@@ -1,0 +1,45 @@
+.container {
+  margin: 5px;
+  display: flex;
+  flex-direction: column;
+}
+
+.table {
+  margin: 3px;
+  display: flex;
+  background-color: lightskyblue;
+}
+
+mat-tab-group {
+  margin: 3px;
+  background-color: magenta;
+}
+
+.left-panel {
+  margin: 3px;
+  width: 300px;
+  background-color: thistle;
+}
+
+.total-fiber-loss {
+  margin: 3px;
+  background-color: greenyellow;
+}
+
+.footer {
+  margin: 3px;
+  background-color: gray;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.by-levels {
+  margin-left: 10px;
+}
+
+.spinner-container {
+  position: absolute;
+  top: 150px;
+  left: 80px;
+}

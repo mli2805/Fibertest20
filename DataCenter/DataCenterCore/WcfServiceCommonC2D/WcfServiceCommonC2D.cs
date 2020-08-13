@@ -327,6 +327,22 @@ namespace Iit.Fibertest.DataCenterCore
         {
             return await _sorFileRepository.GetSorBytesAsync(sorFileId);
         }
+
+        public async Task<RftsEventsDto> GetRftsEvents(int sorFileId)
+        {
+            var sorBytes = await _sorFileRepository.GetSorBytesAsync(sorFileId);
+            return new RftsEventsDto()
+            {
+                ReturnCode = ReturnCode.Ok,
+                LevelArray = new RftsLevelDto[]
+                {
+                    new RftsLevelDto(){Title = "SID_Minor"},
+                    new RftsLevelDto(){Title = "SID_Major"},
+                    new RftsLevelDto(){Title = "SID_User_s"},
+                    new RftsLevelDto(){Title = "SID_Critical"}
+                }
+            };
+        }
     }
 
 }

@@ -170,7 +170,12 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
 
   showRftsEvents() {
     console.log("show rfts events: ", this.contextMenu.menuData.row.eventId);
+    this.router.navigate([
+      "/rfts-events",
+      this.contextMenu.menuData.row.eventId,
+    ]);
   }
+
   showTraceState() {
     const dict = {
       type: "fileId",
@@ -180,5 +185,4 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
     sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
     this.router.navigate(["/trace-state"]);
   }
-
 }

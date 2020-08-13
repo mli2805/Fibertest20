@@ -15,7 +15,9 @@
         routerLink="/rtu-tree"
         routerLinkActive="active"
         (click)="drawer.toggle()"
-        >RTU Tree</a
+        >{{
+          "SID_RTU_Tree" | translate
+        }}</a
       >
       <a
         mat-list-item
@@ -43,7 +45,9 @@
         routerLink="/logout"
         routerLinkActive="active"
         (click)="drawer.toggle(); logout()"
-        >Logout</a
+        >{{
+          "SID_Logout" | translate
+        }}</a
       >
       <a
         mat-list-item
@@ -138,7 +142,9 @@
       <div class="spacer"></div>
 
       <div class="topnav">
-        <a routerLink="/rtu-tree" routerLinkActive="active">RTU Tree</a>
+        <a routerLink="/rtu-tree" routerLinkActive="active">{{
+          "SID_RTU_Tree" | translate
+        }}</a>
         <a routerLink="/optical-events" routerLinkActive="active">{{
           "SID_Optical_events" | translate
         }}</a>
@@ -148,10 +154,12 @@
         <a routerLink="/bop-events" routerLinkActive="active">{{
           "SID_Network_events_Bop" | translate
         }}</a>
-        <a routerLink="/logout" routerLinkActive="active" (click)="logout()"
-          >Logout</a
-        >
-        <a routerLink="/about" routerLinkActive="active">{{ "SID_About" | translate }}</a>
+        <a routerLink="/logout" routerLinkActive="active" (click)="logout()">{{
+          "SID_Logout" | translate
+        }}</a>
+        <a routerLink="/about" routerLinkActive="active">{{
+          "SID_About" | translate
+        }}</a>
       </div>
     </mat-toolbar>
     <div class="add-content-here">

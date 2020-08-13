@@ -143,7 +143,7 @@ export const languages = {
     "SID_Input_user_name_and_password": "Input user name and password",
     "SID_Authentication": "Authentication",
     "SID_Institute_of_Information_Technologies": "Institute of Information Technologies",
-    "SID_Login": "Login",
+    "SID_Login": "Log in",
     "SID_User": "User",
     "SID_Server": "Server",
     "SID_Password": "Password",
@@ -903,7 +903,9 @@ export const languages = {
     "SID_Web_Client_software_version": "Web-Client software version",
     "SID_Web_Api_software_version": "Web API software version",
     "SID_Save_reflectogram": "Save reflectogram",
-    "SID_Save_ref_and_base": "Save ref + base"
+    "SID_Save_ref_and_base": "Save ref + base",
+    "SID_Logout": "Logout",
+    "SID_RTU_Tree": "RTUs"
   },
   "ru-RU": {
     "SID_CableReserve": "Запас кабеля",
@@ -1806,6 +1808,8 @@ export const languages = {
     "SID_Web_Client_software_version": "Версия ПО WebClient",
     "SID_Web_Api_software_version": "Верия ПО Web API",
     "SID_Save_reflectogram": "Сохранить рефлектограмму",
-    "SID_Save_ref_and_base": "Сохранить рефлектограмму + базовую"
+    "SID_Save_ref_and_base": "Сохранить рефлектограмму + базовую",
+    "SID_Logout": "Выйти",
+    "SID_RTU_Tree": "Модули"
   }
 };

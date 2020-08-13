@@ -43,6 +43,25 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
+        [HttpGet("Rfts-events/{id}")]
+        public async Task<RftsEventsDto> GetRftsEvents(int sorFileId)
+        {
+            try
+            {
+                var result = await _commonC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .GetRftsEvents(sorFileId);
+                _logFile.AppendLine($"Got RFTS events for measurement {sorFileId}");
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"Failed to get RFTS events for measurement {sorFileId}");
+                return new RftsEventsDto(){ ReturnCode = ReturnCode.Error, ErrorMessage = e.Message};
+            }
+        }
+
+        [Authorize]
         [HttpGet("Get-sor-octetstream")]
         public async Task<FileResult> GetSorAsOctetStream(bool isSorFile, int sorFileId, string measGuid, bool isBaseIncluded, bool isVxSor)
         {
