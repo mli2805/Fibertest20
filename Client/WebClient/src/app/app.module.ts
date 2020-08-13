@@ -88,8 +88,8 @@ import { FtAssignBaseComponent } from "./components/details/trace/ft-assign-base
 import { FtBopEventsComponent } from "./components/ft-bop-events/ft-bop-events.component";
 import { SorViewerComponent } from "./components/sor-viewer/sor-viewer.component";
 import { FtOutOfTurnMeasurementComponent } from "./components/details/trace/ft-out-of-turn-measurement/ft-out-of-turn-measurement.component";
-import { FtRftsEventsComponent } from './components/details/trace/ft-rfts-events/ft-rfts-events.component';
-import { FtRftsEventsLevelComponent } from './components/details/trace/ft-rfts-events/ft-rfts-events-level/ft-rfts-events-level.component';
+import { FtRftsEventsComponent } from "./components/details/trace/ft-rfts-events/ft-rfts-events.component";
+import { FtRftsEventsLevelComponent } from "./components/details/trace/ft-rfts-events/ft-rfts-events-level/ft-rfts-events-level.component";
 
 @NgModule({
   declarations: [

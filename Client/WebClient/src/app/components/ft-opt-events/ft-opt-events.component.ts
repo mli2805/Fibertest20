@@ -57,6 +57,7 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
     private signalRService: SignalrService,
     private alarmsService: AlarmsService
   ) {
+    console.log("optical events c-tor hit!");
     this.isCurrentEvents = true;
   }
 

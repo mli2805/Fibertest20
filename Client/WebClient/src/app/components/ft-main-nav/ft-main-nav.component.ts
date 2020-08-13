@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, ChangeDetectorRef, ApplicationRef } from "@angular/core";
 import { AuthService } from "src/app/api/auth.service";
 import { Subscription } from "rxjs";
 import { SignalrService } from "src/app/api/signalr.service";
@@ -30,15 +30,28 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   public isNetworkAlarm = "";
   public isBopAlarm = "";
 
-  private language = "ru";
+  private language: string;
 
   constructor(
     private authService: AuthService,
     private signalRService: SignalrService,
     private alarmsService: AlarmsService,
-    private ts: TranslateService
+    private ts: TranslateService,
+    private ar: ApplicationRef,
+    private cdr: ChangeDetectorRef
   ) {
     console.log("main nav c-tor hit!");
+
+    const lng = sessionStorage.getItem("language");
+    if (lng === null) {
+      this.language = this.ts.currentLang;
+      sessionStorage.setItem("language", this.language);
+    } else {
+      this.language = lng;
+      this.ts.use(lng);
+    }
+    console.log(`current language is ${this.language}`);
+
     this.opticalAlarmIndicator = new OpticalAlarmIndicator(
       "currentOpticalAlarms"
     );
@@ -145,14 +158,14 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   toggleLanguage() {
-    console.log(`language before ${this.language}`);
     if (this.language === "ru") {
       this.language = "en";
     } else {
       this.language = "ru";
     }
-    console.log(`language after ${this.language}`);
-
-    this.ts.use("en");
+    this.ts.use(this.language);
+    sessionStorage.setItem("language", this.language);
+    // this.cdr.detectChanges();
+    this.ar.tick();
   }
 }

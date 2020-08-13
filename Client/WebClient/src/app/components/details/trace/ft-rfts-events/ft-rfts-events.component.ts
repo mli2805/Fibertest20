@@ -25,13 +25,8 @@ export class FtRftsEventsComponent implements OnInit {
   async ngOnInit() {
     this.isSpinnerVisible = true;
 
-    const lng = this.ts.currentLang;
-    // this.ts.use("en");
-    console.log(`language is ${lng}`);
-
     const sorFileId = this.activeRoute.snapshot.paramMap.get("id");
     await this.getData(sorFileId);
-    // console.log(this.vm);
 
     this.isSpinnerVisible = false;
   }
