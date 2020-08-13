@@ -15,9 +15,7 @@
         routerLink="/rtu-tree"
         routerLinkActive="active"
         (click)="drawer.toggle()"
-        >{{
-          "SID_RTU_Tree" | translate
-        }}</a
+        >{{ "SID_RTU_Tree" | translate }}</a
       >
       <a
         mat-list-item
@@ -45,9 +43,7 @@
         routerLink="/logout"
         routerLinkActive="active"
         (click)="drawer.toggle(); logout()"
-        >{{
-          "SID_Logout" | translate
-        }}</a
+        >{{ "SID_Logout" | translate }}</a
       >
       <a
         mat-list-item
@@ -160,6 +156,17 @@
         <a routerLink="/about" routerLinkActive="active">{{
           "SID_About" | translate
         }}</a>
+      </div>
+      <div class="language">
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="toggleLanguage()"
+          class="sidenav-button"
+        >
+          <mat-icon aria-label="Side nav toggle icon">language</mat-icon>
+        </button>
       </div>
     </mat-toolbar>
     <div class="add-content-here">

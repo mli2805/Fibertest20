@@ -10,6 +10,7 @@ import { OpticalAlarmIndicator } from "src/app/models/dtos/alarms/opticalAlarm";
 import { NetworkAlarmIndicator } from "src/app/models/dtos/alarms/networkAlarm";
 import { BopAlarmIndicator } from "src/app/models/dtos/alarms/bopAlarm";
 import { BopEventDto } from "src/app/models/dtos/bopEventDto";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "ft-main-nav",
@@ -29,10 +30,13 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   public isNetworkAlarm = "";
   public isBopAlarm = "";
 
+  private language = "ru";
+
   constructor(
     private authService: AuthService,
     private signalRService: SignalrService,
-    private alarmsService: AlarmsService
+    private alarmsService: AlarmsService,
+    private ts: TranslateService
   ) {
     console.log("main nav c-tor hit!");
     this.opticalAlarmIndicator = new OpticalAlarmIndicator(
@@ -138,5 +142,17 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.bopAlarmIndicator.ClearList();
     console.log("session storage cleaned.");
     this.initializeIndicators();
+  }
+
+  toggleLanguage() {
+    console.log(`language before ${this.language}`);
+    if (this.language === "ru") {
+      this.language = "en";
+    } else {
+      this.language = "ru";
+    }
+    console.log(`language after ${this.language}`);
+
+    this.ts.use("en");
   }
 }
