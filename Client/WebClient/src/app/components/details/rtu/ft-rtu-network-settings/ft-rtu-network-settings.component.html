@@ -1,20 +1,22 @@
 <div class="container">
   <mat-card>
     <mat-card-header>
-      <mat-card-title>RTU network settings</mat-card-title>
+      <mat-card-title>{{ "SID_Network_settings" | translate }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <div class="infoTable" fxLayout="row">
         <div class="keys">
-          <p>RTU</p>
-          <p>Main channel:</p>
-          <p *ngIf="vm.isReserveChannelSet">Reserve channel:</p>
-          <p>OTDR address:</p>
+          <p>RTU:</p>
+          <p>{{ "SID_Main_channel" | translate }}:</p>
+          <p *ngIf="vm.isReserveChannelSet">
+            {{ "SID_Reserve_channel" | translate }}:
+          </p>
+          <p>{{ "SID_OTDR_Network_Address" | translate }}:</p>
 
           <p>Device:</p>
-          <p>Serial:</p>
-          <p>Port count:</p>
-          <p>Version:</p>
+          <p>{{ "SID_Serial" | translate }}:</p>
+          <p>{{ "SID_Port_count" | translate }}:</p>
+          <p>{{ "SID_RTU_Manager_software_version" | translate }}:</p>
           <p *ngIf="vm.version2">Version2:</p>
         </div>
         <div class="values">
@@ -38,7 +40,7 @@
         (click)="initializeRtu()"
         [disabled]="isButtonDisabled"
       >
-        Initialize
+        {{ "SID_Initialize" | translate }}
       </button>
     </mat-card-actions>
   </mat-card>
