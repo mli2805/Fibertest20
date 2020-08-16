@@ -11,6 +11,7 @@ export class OneApiService {
 
   getRequest(request: string, params = null) {
     const url = Utils.GetWebApiUrl() + `/${request}`;
+    console.log(`get request with url ${url}`);
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
     const myHttpOptions = {

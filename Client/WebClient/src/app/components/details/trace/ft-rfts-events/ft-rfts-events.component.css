@@ -2,40 +2,78 @@
   margin: 5px;
   display: flex;
   flex-direction: column;
+  font-size: 14px;
 }
 
 .table {
-  margin: 3px;
   display: flex;
-  background-color: lightskyblue;
+  width: 600px;
+}
+
+span {
+  background-color: white;
+  width: 266px;
+  height: 18px;
+  margin: 1px 0px 0px 1px;
+  padding: 2px 0px 0px 7px;
+  border-color: darkgray;
+  border-width: 0px 1px 1px 0px;
+  border-style: solid;
+}
+
+span.offset {
+  background-color: azure;
+}
+
+span.empty-corner {
+  height: 71px;
 }
 
 mat-tab-group {
-  margin: 3px;
-  background-color: magenta;
+  background-color: white;
 }
 
 .left-panel {
-  margin: 3px;
-  width: 300px;
-  background-color: thistle;
+  display: flex;
+  flex-direction: column;
 }
 
-.total-fiber-loss {
-  margin: 3px;
-  background-color: greenyellow;
+.eelt {
+  margin-left: 7px;
 }
 
 .footer {
   margin: 3px;
-  background-color: gray;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  /* justify-content: space-between; */
+}
+
+.footer-left {
+  display: flex;
+  flex-direction: row;
+  margin-right: 50px;
+
+  border-color: darkgray;
+  border-width: 0px 1px 0px 0px;
+  border-style: solid;
+}
+
+.footer-right {
+  display: flex;
+  flex-direction: row;
+}
+
+.trace-state {
+  margin-right: 20px;
+}
+
+.trace-state-value {
+  margin-right: 20px;
 }
 
 .by-levels {
-  margin-left: 10px;
+  margin-right: 20px;
 }
 
 .spinner-container {

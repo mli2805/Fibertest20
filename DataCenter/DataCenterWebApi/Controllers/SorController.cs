@@ -43,15 +43,16 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
-        [HttpGet("Rfts-events/{id}")]
+        [HttpGet("Rfts-events/{sorFileId}")]
         public async Task<RftsEventsDto> GetRftsEvents(int sorFileId)
         {
             try
             {
+                _logFile.AppendLine($"sorFileId = {sorFileId}");
                 var result = await _commonC2DWcfManager
                     .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
                     .GetRftsEvents(sorFileId);
-                _logFile.AppendLine($"Got RFTS events for measurement {sorFileId}");
+                _logFile.AppendLine($"Got RFTS events for measurement {sorFileId}, contains {result.LevelArray?.Length.ToString() ?? "no"} levels");
                 return result;
             }
             catch (Exception e)

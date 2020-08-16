@@ -1,3 +1,41 @@
 .container {
-    background-color: white;
+  margin-top: 4px;
+}
+
+.table {
+  display: flex;
+  flex-direction: row;
+}
+
+.one-event {
+  display: flex;
+  flex-direction: column;
+}
+
+span {
+  background-color: white;
+  width: 120px;
+  height: 18px;
+  margin: 1px 0px 0px 1px;
+  padding: 2px 0px 0px 7px;
+  border-color: darkgray;
+  border-width: 0px 1px 1px 0px;
+  border-style: solid;
+}
+
+span.offset {
+  background-color: azure;
+}
+
+.eelt {
+  display: flex;
+  flex-direction: row;
+}
+
+.eelt-params {
+  margin-right: 4px;
+}
+
+.eelt-value {
+  margin-right: 12px;
 }

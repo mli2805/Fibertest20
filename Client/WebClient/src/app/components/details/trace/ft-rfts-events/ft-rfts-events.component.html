@@ -1,29 +1,75 @@
 <div class="container">
-  <div class="content" *ngIf="!isSpinnerVisible">
+  <div class="no-fiber" *ngIf="isNoFiberVisible">
+    <h1>{{ "SID_No_fiber" | translate }}</h1>
+  </div>
+  <div class="content" *ngIf="isTableVisible">
     <div class="table">
       <div class="left-panel">
-        <p>{{ "SID_Parameters" | translate }}</p>
+        <span class="empty-corner"></span>
+        <span class="offset">{{
+          "SID________Common_Information" | translate
+        }}</span>
+        <span>{{ "SID_Landmark_Name" | translate }}</span>
+        <span>{{ "SID_Landmark_Type" | translate }}</span>
+        <span>{{ "SID_State" | translate }}</span>
+        <span>{{ "SID_Damage_Type" | translate }}</span>
+        <span>{{ "SID_Distance__km" | translate }}</span>
+        <span>{{ "SID_Enabled" | translate }}</span>
+        <span>{{ "SID_Event_Type" | translate }}</span>
+        <span class="offset">{{
+          "SID________Current_Measurement" | translate
+        }}</span>
+        <span>{{ "SID_Reflectance_coefficient__dB" | translate }}</span>
+        <span>{{ "SID_Attenuation_in_Closure__dB" | translate }}</span>
+        <span>{{ "SID_Attenuation_coefficient__dB_km_" | translate }}</span>
+        <span class="offset">{{
+          "SID________Monitoring_Thresholds" | translate
+        }}</span>
+        <span>{{ "SID_Reflectance_coefficient__dB" | translate }}</span>
+        <span>{{ "SID_Attenuation_in_Closure__dB" | translate }}</span>
+        <span>{{ "SID_Attenuation_coefficient__dB_km_" | translate }}</span>
+        <span class="offset">{{
+          "SID________Deviations_from_Base" | translate
+        }}</span>
+        <span>{{ "SID_Reflectance_coefficient__dB" | translate }}</span>
+        <span>{{ "SID_Attenuation_in_Closure__dB" | translate }}</span>
+        <span>{{ "SID_Attenuation_coefficient__dB_km_" | translate }}</span>
+        <p class="eelt">{{ "SID_Total_fiber_loss" | translate }}</p>
       </div>
-      <mat-tab-group animationDuration="300ms">
+      <mat-tab-group animationDuration="0ms">
         <ng-container *ngFor="let element of vm.levelArray">
-          <mat-tab label="element.title">
+          <mat-tab>
+            <ng-template mat-tab-label>{{
+              element.title | translate
+            }}</ng-template>
             <ft-rfts-events-level [vm]="element"></ft-rfts-events-level>
           </mat-tab>
         </ng-container>
       </mat-tab-group>
     </div>
-    <div class="total-fiber-loss">
-      <p>{{ "SID_Total_fiber_loss" | translate }}</p>
-    </div>
     <div class="footer">
-      <div class="trace-state">
-        <p>{{ "SID_Trace_state" | translate }}</p>
-        <p>{{ "SID_ORL__dB" | translate }}</p>
+      <div class="footer-left">
+        <div class="trace-state">
+          <p>{{ "SID_Trace_state" | translate }}</p>
+          <p>{{ "SID_ORL__dB" | translate }}</p>
+        </div>
+        <div class="trace-state-value">
+          <p>{{ vm.footer.traceState | translate }}</p>
+          <p>{{ vm.footer.orl }}</p>
+        </div>
       </div>
-      <div class="by-levels">
-        <p>{{ "SID_Minor" | translate }}</p>
-        <p>{{ "SID_Major" | translate }}</p>
-        <p>{{ "SID_Critical" | translate }}</p>
+
+      <div class="footer-right">
+        <div class="by-levels">
+          <ng-container *ngFor="let ts of vm.footer.levelStates">
+            <p>{{ ts.levelTitle | translate }}</p>
+          </ng-container>
+        </div>
+        <div>
+          <ng-container *ngFor="let ts of vm.footer.levelStates">
+            <p>{{ ts.state }}</p>
+          </ng-container>
+        </div>
       </div>
     </div>
   </div>

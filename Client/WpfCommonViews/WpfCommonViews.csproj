@@ -117,8 +117,8 @@
       <DependentUpon>MyMessageBoxView.xaml</DependentUpon>
     </Compile>
     <Compile Include="MyMessageBox\MyMessageBoxViewModel.cs" />
-    <Compile Include="RftsEvents\OneLevelTableContent.cs" />
     <Compile Include="RftsEvents\ForTableConvertor.cs" />
+    <Compile Include="RftsEvents\OneLevelTableContent.cs" />
     <Compile Include="RftsEvents\LevelsContent.cs" />
     <Compile Include="RftsEvents\RftsEventsFooterView.xaml.cs">
       <DependentUpon>RftsEventsFooterView.xaml</DependentUpon>

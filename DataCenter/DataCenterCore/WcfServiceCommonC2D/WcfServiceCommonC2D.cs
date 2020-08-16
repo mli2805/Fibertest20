@@ -56,14 +56,14 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             if (_globalState.IsDatacenterInDbOptimizationMode)
-                return new ClientRegisteredDto() { ReturnCode = ReturnCode.Error };
+                return new ClientRegisteredDto { ReturnCode = ReturnCode.Error };
 
             var result = await _clientsCollection.RegisterClientAsync(dto);
             result.StreamIdOriginal = _eventStoreService.StreamIdOriginal;
             result.SnapshotLastEvent = _eventStoreService.LastEventNumberInSnapshot;
             result.SnapshotLastDate = _eventStoreService.LastEventDateInSnapshot;
 
-            var command = new RegisterClientStation() { RegistrationResult = result.ReturnCode };
+            var command = new RegisterClientStation { RegistrationResult = result.ReturnCode };
             await _eventStoreService.SendCommand(command, dto.UserName, dto.ClientIp);
 
             return result;
@@ -98,7 +98,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var otauAttachedDto = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.AttachOtauAsync(dto) 
-                : new OtauAttachedDto()
+                : new OtauAttachedDto
                 {
                     IsAttached = false, 
                     ErrorMessage = "This function for VeEX RTU doesn't implemented", 
@@ -111,7 +111,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async void AttachOtauIntoGraph(AttachOtauDto dto, OtauAttachedDto result)
         {
-            var cmd = new AttachOtau()
+            var cmd = new AttachOtau
             {
                 Id = dto.OtauId,
                 RtuId = dto.RtuId,
@@ -160,7 +160,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (isStopped)
             {
                 var username = _clientsCollection.GetClientStation(dto.ClientIp)?.UserName;
-                var cmd = new StopMonitoring() { RtuId = dto.RtuId };
+                var cmd = new StopMonitoring { RtuId = dto.RtuId };
                 await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
                 await _ftSignalRClient.NotifyAll("MonitoringStopped", cmd.ToCamelCaseJson());
             }
@@ -178,7 +178,7 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 var username = _clientsCollection.GetClientStation(dto.ClientIp)?.UserName;
 
-                var cmd = new ChangeMonitoringSettings()
+                var cmd = new ChangeMonitoringSettings
                 {
                     RtuId = dto.RtuId,
                     PreciseMeas = dto.Timespans.PreciseMeas.GetFrequency(),
@@ -192,7 +192,7 @@ namespace Iit.Fibertest.DataCenterCore
 
                 if (!string.IsNullOrEmpty(resultFromEventStore))
                 {
-                    return new MonitoringSettingsAppliedDto()
+                    return new MonitoringSettingsAppliedDto
                     {
                         ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError,
                         ErrorMessage = resultFromEventStore
@@ -214,7 +214,8 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine($"Client from {dto.ClientIp} sent base ref for trace {dto.TraceId.First6()}");
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.TraceId);
             if (trace == null) 
-                return new BaseRefAssignedDto() {
+                return new BaseRefAssignedDto
+                {
                     ErrorMessage = "trace not found", ReturnCode = ReturnCode.BaseRefAssignmentFailed
                 };
 
@@ -224,10 +225,10 @@ namespace Iit.Fibertest.DataCenterCore
 
             var result = await SaveChangesOnServer(dto);
             if (!string.IsNullOrEmpty(result))
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentFailed };
+                return new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignmentFailed };
 
             if (dto.OtauPortDto == null) // unattached trace
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
+                return new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
 
             return dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto)
@@ -236,7 +237,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<string> SaveChangesOnServer(AssignBaseRefsDto dto)
         {
-            var command = new AssignBaseRef() { TraceId = dto.TraceId, BaseRefs = new List<BaseRef>() };
+            var command = new AssignBaseRef { TraceId = dto.TraceId, BaseRefs = new List<BaseRef>() };
             foreach (var baseRefDto in dto.BaseRefs)
             {
                 var oldBaseRef = _writeModel.BaseRefs.FirstOrDefault(b =>
@@ -248,7 +249,7 @@ namespace Iit.Fibertest.DataCenterCore
                 if (baseRefDto.Id != Guid.Empty)
                     sorFileId = await _sorFileRepository.AddSorBytesAsync(baseRefDto.SorBytes);
 
-                var baseRef = new BaseRef()
+                var baseRef = new BaseRef
                 {
                     TraceId = dto.TraceId,
 
@@ -275,9 +276,9 @@ namespace Iit.Fibertest.DataCenterCore
             var convertedDto = await ConvertToAssignBaseRefsDto(dto);
 
             if (convertedDto?.BaseRefs == null)
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.DbCannotConvertThisReSendToAssign };
+                return new BaseRefAssignedDto { ReturnCode = ReturnCode.DbCannotConvertThisReSendToAssign };
             if (!convertedDto.BaseRefs.Any())
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
+                return new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
 
             return dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(convertedDto)
@@ -286,7 +287,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<AssignBaseRefsDto> ConvertToAssignBaseRefsDto(ReSendBaseRefsDto dto)
         {
-            var result = new AssignBaseRefsDto()
+            var result = new AssignBaseRefsDto
             {
                 ClientIp = dto.ClientIp,
                 RtuId = dto.RtuId,
@@ -331,17 +332,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<RftsEventsDto> GetRftsEvents(int sorFileId)
         {
             var sorBytes = await _sorFileRepository.GetSorBytesAsync(sorFileId);
-            return new RftsEventsDto()
-            {
-                ReturnCode = ReturnCode.Ok,
-                LevelArray = new RftsLevelDto[]
-                {
-                    new RftsLevelDto(){Title = "SID_Minor"},
-                    new RftsLevelDto(){Title = "SID_Major"},
-                    new RftsLevelDto(){Title = "SID_User_s"},
-                    new RftsLevelDto(){Title = "SID_Critical"}
-                }
-            };
+            return RftsEventsFactory.Create(sorBytes);
         }
     }
 

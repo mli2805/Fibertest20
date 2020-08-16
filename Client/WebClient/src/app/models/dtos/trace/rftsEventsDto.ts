@@ -1,24 +1,64 @@
+import { ReturnCode } from "../../enums/returnCode";
+
 export class RftsEventsDto {
-  levelArray: RftsLevelDto[];
-  totalFiberLoss: TotalFiberLossDto;
+  returnCode: ReturnCode;
+  errorMessage: string;
+
+  isNoFiber: boolean;
+  levelArray: RftsLevelDto[] = [];
   footer: RftsEventsFooterDto;
 }
 
 export class RftsLevelDto {
   title: string;
+  isFailed: boolean;
+  firstProblemLocation: string;
+  eventArray: RftsEventDto[] = [];
+  totalFiberLoss: TotalFiberLossDto;
+}
+
+export class RftsEventDto {
+  ordinal: number;
+  isNew: boolean;
+  isFailed: boolean;
+
+  landmarkTitle: string;
+  landmarkType: string;
+  state: string;
+  damageType: string;
+  distanceKm: string;
+  enabled: string;
+  eventType: string;
+
+  reflectanceCoeff: string;
+  attenuationInClosure: string;
+  attenuationCoeff: string;
+
+  reflectanceCoeffThreshold: MonitoringThreshold;
+  attenuationInClosureThreshold: MonitoringThreshold;
+  attenuationCoeffThreshold: MonitoringThreshold;
+
+  reflectanceCoeffDeviation: string;
+  attenuationInClosureDeviation: string;
+  attenuationCoeffDeviation: string;
+}
+
+export class MonitoringThreshold {
+  value: number;
+  isAbsolute: boolean;
 }
 
 export class TotalFiberLossDto {
-  value: string;
-  threshold: string;
-  deviation: string;
-  state: string;
+  value: number;
+  threshold: MonitoringThreshold;
+  deviation: number;
+  isPassed: boolean;
 }
 
 export class RftsEventsFooterDto {
-  state: string;
-  orl: string;
-  levelStates: LevelState[];
+  traceState: string;
+  orl: number;
+  levelStates: LevelState[] = [];
 }
 
 export class LevelState {

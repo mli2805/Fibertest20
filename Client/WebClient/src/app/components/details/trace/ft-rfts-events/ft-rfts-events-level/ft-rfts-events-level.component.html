@@ -1,3 +1,43 @@
 <div class="container">
-  <p>{{ vm.title }}</p>
+  <div class="table">
+    <ng-container *ngFor="let column of vm.eventArray">
+      <div class="one-event">
+        <span>{{ "SID_Event_N_0_" | translate: { "0": column.ordinal } }}</span>
+        <span class="offset"></span>
+        <span>{{ column.landmarkTitle }}</span>
+        <span>{{ column.landmarkType | translate }}</span>
+        <span>{{ column.state | translate }}</span>
+        <span>{{ column.distanceKm }}</span>
+        <span>{{ column.damageType }}</span>
+        <span>{{ column.enabled | translate }}</span>
+        <span>{{ column.eventType }}</span>
+        <span class="offset"></span>
+        <span>{{ column.reflectanceCoeff }}</span>
+        <span>{{ column.attenuationInClosure }}</span>
+        <span>{{ column.attenuationCoeff }}</span>
+        <span class="offset"></span>
+        <span>{{ thresholdToScreen(column.reflectanceCoeffThreshold) }}</span>
+        <span>{{
+          thresholdToScreen(column.attenuationInClosureThreshold)
+        }}</span>
+        <span>{{ thresholdToScreen(column.attenuationCoeffThreshold) }}</span>
+        <span class="offset"></span>
+        <span>{{ column.reflectanceCoeffDeviation }}</span>
+        <span>{{ column.attenuationInClosureDeviation }}</span>
+        <span>{{ column.attenuationCoeffDeviation }}</span>
+      </div>
+    </ng-container>
+  </div>
+  <div class="eelt">
+    <p class="eelt-params">{{ "SID_Value__dB" | translate }}</p>
+    <p class="eelt-value">{{ vm.totalFiberLoss.value }}</p>
+    <p class="eelt-params">{{ "SID_Threshold__dB" | translate }}</p>
+    <p class="eelt-value">
+      {{ thresholdToScreen(vm.totalFiberLoss.threshold) }}
+    </p>
+    <p class="eelt-params">{{ "SID_Deviation__dB" | translate }}</p>
+    <p class="eelt-value">{{ vm.totalFiberLoss.deviation }}</p>
+    <p class="eelt-params">{{ "SID_State_" | translate }}</p>
+    <p class="eelt-value">{{ eeltStateToScreen(vm.totalFiberLoss.isPassed) }}</p>
+  </div>
 </div>
