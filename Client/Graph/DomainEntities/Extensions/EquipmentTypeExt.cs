@@ -42,7 +42,7 @@ namespace Iit.Fibertest.Graph
                 case EquipmentType.AdjustmentPoint:
                     return Resources.SID_Adjustment_point;
                 case EquipmentType.EmptyNode:
-//                    return Resources.SID_Node_without_equipment;
+                    //                    return Resources.SID_Node_without_equipment;
                     return Resources.SID_Node;
                 case EquipmentType.CableReserve:
                     return Resources.SID_CableReserve;
@@ -63,7 +63,34 @@ namespace Iit.Fibertest.Graph
             return Resources.SID_Switch_ended_unexpectedly;
         }
 
-      
+        public static string ToSID(this EquipmentType type)
+        {
+            switch (type)
+            {
+                case EquipmentType.AdjustmentPoint:
+                    return @"SID_Adjustment_point";
+                case EquipmentType.EmptyNode:
+                    return @"SID_Node";
+                case EquipmentType.CableReserve:
+                    return @"SID_CableReserve";
+                case EquipmentType.Other:
+                    return @"SID_Other";
+                case EquipmentType.Closure:
+                    return @"SID_Closure";
+                case EquipmentType.Cross:
+                    return @"SID_Cross";
+                case EquipmentType.Well:
+                    return @"SID_Well";
+                case EquipmentType.Terminal:
+                    return @"SID_Terminal";
+
+                case EquipmentType.Rtu:
+                    return Resources.SID_Rtu;
+            }
+            return Resources.SID_Switch_ended_unexpectedly;
+        }
+
+
         public static LandmarkCode ToLandmarkCode(this EquipmentType type)
         {
             switch (type)

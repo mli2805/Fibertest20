@@ -12,7 +12,7 @@ namespace Iit.Fibertest.DataCenterCore
    
         public async Task<RtuInformationDto> GetRtuInformation(string username, Guid rtuId)
         {
-            _logFile.AppendLine(":: WcfServiceForWebProxy GetTraceInformation");
+            _logFile.AppendLine(":: WcfServiceForWebProxy GetRtuInformation");
             var user = _writeModel.Users.FirstOrDefault(u => u.Title == username);
             if (user == null)
             {

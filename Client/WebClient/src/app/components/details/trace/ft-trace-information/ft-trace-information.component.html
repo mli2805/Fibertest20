@@ -6,12 +6,12 @@
   </mat-card>
   <mat-card>
     <ng-container *ngFor="let element of vm.equipment">
-      <p>{{ element.nodeType }} {{ element.count }}</p>
+      <p>{{ element.nodeType | translate }} {{ element.count }}</p>
     </ng-container>
   </mat-card>
   <mat-card>
     <ng-container *ngFor="let element of vm.nodes">
-      <p>{{ element.nodeType }} {{ element.count }}</p>
+      <p>{{ element.nodeType | translate }} {{ element.count }}</p>
     </ng-container>
   </mat-card>
   <mat-card>
@@ -19,7 +19,7 @@
     <p *ngIf="!vm.isLightMonitoring">{{ "SID_Dark_OF" | translate }}</p>
   </mat-card>
   <mat-card>
-    <p>{{ "SID_Comment" | translate }}</p>
+    <p>{{ "SID_Comment" | translate }}:</p>
     <p>{{ vm.comment }}</p>
   </mat-card>
   <div class="spinner-container" *ngIf="isSpinnerVisible">

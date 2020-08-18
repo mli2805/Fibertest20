@@ -19,6 +19,18 @@ namespace Iit.Fibertest.Graph
             return rows;
         }
 
+        public static List<TraceInfoTableItem> CalculateEquipmentForWeb(Dictionary<EquipmentType, int> dict)
+        {
+            var rows = new List<TraceInfoTableItem>() { new TraceInfoTableItem(EquipmentType.Rtu.ToSID(), 1) };
+
+            var part = dict.Where(item => item.Key > EquipmentType.CableReserve).ToDictionary(x => x.Key, x => x.Value);
+            rows.AddRange(part.Select(item => new TraceInfoTableItem(item.Key.ToSID(), item.Value)));
+            rows.Add(new TraceInfoTableItem(@"SID_Equipment__including_RTU", part.Values.Sum() + 1));
+
+            return rows;
+        }
+
+
         public static List<TraceInfoTableItem> CalculateNodes(Dictionary<EquipmentType, int> dict)
         {
             var rows = new List<TraceInfoTableItem>();
@@ -30,6 +42,21 @@ namespace Iit.Fibertest.Graph
 
             var nodeCount = dict.Where(item => item.Key > EquipmentType.AdjustmentPoint).ToDictionary(x => x.Key, x => x.Value).Values.Sum() + 1;
             rows.Add(new TraceInfoTableItem(Resources.SID_In_total__including_RTU, nodeCount));
+
+            return rows;
+        }
+
+        public static List<TraceInfoTableItem> CalculateNodesForWeb(Dictionary<EquipmentType, int> dict)
+        {
+            var rows = new List<TraceInfoTableItem>();
+
+            if (dict.ContainsKey(EquipmentType.EmptyNode))
+                rows.Add(new TraceInfoTableItem(@"SID_Node_without_equipment", dict[EquipmentType.EmptyNode]));
+            if (dict.ContainsKey(EquipmentType.CableReserve))
+                rows.Add(new TraceInfoTableItem(EquipmentType.CableReserve.ToSID(), dict[EquipmentType.CableReserve]));
+
+            var nodeCount = dict.Where(item => item.Key > EquipmentType.AdjustmentPoint).ToDictionary(x => x.Key, x => x.Value).Values.Sum() + 1;
+            rows.Add(new TraceInfoTableItem(@"SID_In_total__including_RTU", nodeCount));
 
             return rows;
         }

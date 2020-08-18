@@ -20,8 +20,8 @@ namespace Iit.Fibertest.DataCenterCore
             var result = new TraceInformationDto { Header = _writeModel.BuildHeader(trace) };
 
             var dict = _writeModel.BuildDictionaryByEquipmentType(trace.EquipmentIds);
-            result.Equipment = TraceInfoCalculator.CalculateEquipment(dict);
-            result.Nodes = TraceInfoCalculator.CalculateNodes(dict);
+            result.Equipment = TraceInfoCalculator.CalculateEquipmentForWeb(dict);
+            result.Nodes = TraceInfoCalculator.CalculateNodesForWeb(dict);
 
             result.IsLightMonitoring = trace.Mode == TraceMode.Light;
             result.Comment = trace.Comment;
