@@ -170,7 +170,6 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
   }
 
   showRftsEvents() {
-    console.log("show rfts events: ", this.contextMenu.menuData.row.eventId);
     this.router.navigate([
       "/rfts-events",
       this.contextMenu.menuData.row.eventId,

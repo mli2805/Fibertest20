@@ -1,9 +1,31 @@
 <div class="container">
   <div class="header bottomLine">
-    <h3>{{ "SID_Trace_state" | translate }}</h3>
-    <p>{{ "SID_Trace" | translate }} {{ vm.header.traceTitle }}</p>
-    <p>{{ "SID_Port" | translate }} {{ vm.header.port }}</p>
-    <p>RTU {{ vm.header.rtuTitle }}</p>
+    <div class="header-info">
+      <h3>{{ "SID_Trace_state" | translate }}</h3>
+      <p>{{ "SID_Trace" | translate }} {{ vm.header.traceTitle }}</p>
+      <p>{{ "SID_Port" | translate }} {{ vm.header.port }}</p>
+      <p>RTU {{ vm.header.rtuTitle }}</p>
+    </div>
+    <div class="header-buttons">
+      <button
+        class="header-button"
+        mat-stroked-button
+        color="primary"
+        (click)="showRef()"
+        [disabled]="isButtonDisabled"
+      >
+        {{ "SID_Reflectogram" | translate }}
+      </button>
+      <button
+        class="header-button"
+        mat-stroked-button
+        color="primary"
+        (click)="showRftsEvents()"
+        [disabled]="isButtonDisabled"
+      >
+        {{ "SID_Rfts_Events" | translate }}
+      </button>
+    </div>
   </div>
   <div class="state bottomLine">
     <p>

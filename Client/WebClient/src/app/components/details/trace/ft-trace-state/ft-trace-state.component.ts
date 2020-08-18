@@ -6,6 +6,8 @@ import { EventStatus } from "src/app/models/enums/eventStatus";
 import { EventStatusPipe } from "src/app/pipes/event-status.pipe";
 import { UpdateMeasurementDto } from "src/app/models/dtos/trace/updateMeasurementDto";
 import { SignalrService } from "src/app/api/signalr.service";
+import { SorFileManager } from "src/app/utils/sorFileManager";
+import { Router } from "@angular/router";
 
 @Component({
   selector: "ft-trace-state",
@@ -23,6 +25,7 @@ export class FtTraceStateComponent implements OnInit {
   selectedEventStatus;
 
   constructor(
+    private router: Router,
     private oneApiService: OneApiService,
     private signalRService: SignalrService,
     private eventStatusPipe: EventStatusPipe
@@ -64,6 +67,22 @@ export class FtTraceStateComponent implements OnInit {
     );
   }
 
+  showRef() {
+    SorFileManager.Show(
+      this.router,
+      true,
+      this.vm.sorFileId,
+      "",
+      true,
+      this.vm.header.traceTitle,
+      this.vm.registrationTimestamp
+    );
+  }
+
+  showRftsEvents() {
+    this.router.navigate(["/rfts-events", this.vm.sorFileId]);
+  }
+
   save() {
     this.isSpinnerVisible = true;
     this.isButtonDisabled = true;
@@ -97,7 +116,7 @@ export class FtTraceStateComponent implements OnInit {
   @HostListener("window:popstate", ["$event"])
   onPopState(event) {
     const dict = {
-      from: "FtTraceStateComponent"
+      from: "FtTraceStateComponent",
     };
     sessionStorage.setItem("back", JSON.stringify(dict));
 

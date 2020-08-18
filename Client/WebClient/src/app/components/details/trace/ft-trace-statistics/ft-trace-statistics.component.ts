@@ -115,7 +115,10 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
   }
 
   showRftsEvents() {
-    console.log("show rfts events: ", this.contextMenu.menuData.row.sorFileId);
+    this.router.navigate([
+      "/rfts-events",
+      this.contextMenu.menuData.row.sorFileId,
+    ]);
   }
 
   showTraceState() {

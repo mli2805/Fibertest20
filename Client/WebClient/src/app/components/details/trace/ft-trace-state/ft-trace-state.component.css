@@ -1,6 +1,20 @@
 .container {
   margin: 0px 10px;
+  width: 600px;
 }
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.header-buttons {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
 .bottomLine {
   margin-right: 5px;
   border-bottom: 1px solid #ccc;
@@ -36,6 +50,11 @@ img {
   align-self: center;
   margin: 15px;
   width: 130px;
+}
+
+.header-button {
+  margin: 0px 15px 15px 15px;
+  width: 160px;
 }
 
 .editableProperties {
