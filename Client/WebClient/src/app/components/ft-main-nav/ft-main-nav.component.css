@@ -50,7 +50,29 @@ mat-toolbar a {
   }
 }
 
+.indicators {
+  display: flex;
+  margin-left: 25px;
+}
+.one-indicator {
+  margin-left: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+}
+
 .alarmImage {
-  margin-left: 2px;
-  margin-top: 5px;
+  margin-top: 10px;
+}
+
+.letters {
+  display: flex;
+  justify-self: center;
+  font-size: 70%;
+  margin-top: -15px;
+  margin-left: 5px;
+}
+
+.bop.letters {
+  margin-left: 3px;
 }
