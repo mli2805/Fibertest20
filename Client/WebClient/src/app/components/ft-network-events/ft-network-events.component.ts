@@ -15,6 +15,7 @@ import { NetworkEventsDataSource } from "./networkEventsDataSource";
 import { AlarmsService } from "src/app/interaction/alarms.service";
 import { SignalrService } from "src/app/api/signalr.service";
 import { NetworkEventDto } from "src/app/models/dtos/networkEventDto";
+import { ChannelEvent } from "src/app/models/enums/channelEvent";
 
 @Component({
   selector: "ft-network-events",
@@ -111,5 +112,21 @@ export class FtNetworkEventsComponent implements OnInit, AfterViewInit {
 
   getRtuAvailability(isRtuAvailable: boolean): string {
     return isRtuAvailable ? "SID_Available" : "SID_Not_available";
+  }
+
+  getChannelStateColor(onChannel: ChannelEvent) {
+    if (onChannel === ChannelEvent.Broken) {
+      return "red";
+    } else {
+      return "transparent";
+    }
+  }
+
+  getRtuAvailabilityColor(isRtuAvailable: boolean) {
+    if (!isRtuAvailable) {
+      return "red";
+    } else {
+      return "transparent";
+    }
   }
 }

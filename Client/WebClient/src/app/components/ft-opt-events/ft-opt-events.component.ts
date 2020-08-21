@@ -18,6 +18,9 @@ import { AlarmsService } from "src/app/interaction/alarms.service";
 import { SignalrService } from "src/app/api/signalr.service";
 import { UpdateMeasurementDto } from "src/app/models/dtos/trace/updateMeasurementDto";
 import { SorFileManager } from "src/app/utils/sorFileManager";
+import { FiberState } from "src/app/models/enums/fiberState";
+import { EventStatus } from "src/app/models/enums/eventStatus";
+import { BaseRefType } from "src/app/models/enums/baseRefType";
 
 @Component({
   selector: "ft-opt-events",
@@ -75,6 +78,7 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
     this.signalRService.measurementAddedEmitter.subscribe(() =>
       this.loadPage()
     );
+
     this.signalRService.measurementUpdatedEmitter.subscribe(
       (signal: UpdateMeasurementDto) => {
         const line = this.dataSource.optEventsSubject.value.find(
@@ -184,5 +188,43 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
     };
     sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
     this.router.navigate(["/trace-state"]);
+  }
+
+  getTraceStateColor(traceState: FiberState, baseRefType: BaseRefType) {
+    if (traceState === FiberState.Ok) {
+      return "white";
+    }
+    if (baseRefType === BaseRefType.Fast) {
+      return "yellow";
+    }
+
+    switch (traceState) {
+      case FiberState.Suspicion:
+        return "yellow";
+      case FiberState.Major:
+        return "rgb(255, 0, 255)";
+      case FiberState.Minor:
+        return "rgb(128, 128, 192)";
+      case FiberState.Critical:
+      case FiberState.FiberBreak:
+      case FiberState.NoFiber:
+        return "red";
+    }
+    return "transparent";
+  }
+
+  getEventStatusColor(eventStatus: EventStatus) {
+    switch (eventStatus) {
+      case EventStatus.Confirmed:
+        return "red";
+      case EventStatus.Suspended:
+      case EventStatus.Unprocessed:
+        return "rgb(135, 206, 250)";
+      case EventStatus.NotConfirmed:
+      case EventStatus.NotImportant:
+      case EventStatus.Planned:
+        return "transparent";
+    }
+    return "transparent";
   }
 }

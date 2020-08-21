@@ -74,7 +74,17 @@
       <th mat-header-cell *matHeaderCellDef>
         {{ "SID_Trace_state" | translate }}
       </th>
-      <td mat-cell class="traceState-cell" *matCellDef="let element">
+      <td
+        mat-cell
+        class="traceState-cell"
+        *matCellDef="let element"
+        [ngStyle]="{
+          'background-color': getTraceStateColor(
+            element.traceState,
+            element.baseRefType
+          )
+        }"
+      >
         {{ element.traceState | fiberStateToLocalizedStringPipe }}
       </td>
     </ng-container>
@@ -83,7 +93,14 @@
       <th mat-header-cell *matHeaderCellDef>
         {{ "SID_Event_status" | translate }}
       </th>
-      <td mat-cell class="eventStatus-cell" *matCellDef="let element">
+      <td
+        mat-cell
+        class="eventStatus-cell"
+        *matCellDef="let element"
+        [ngStyle]="{
+          'background-color': getEventStatusColor(element.eventStatus)
+        }"
+      >
         {{ element.eventStatus | eventStatusToLocalizedStringPipe }}
       </td>
     </ng-container>

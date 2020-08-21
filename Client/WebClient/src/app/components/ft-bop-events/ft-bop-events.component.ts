@@ -107,4 +107,8 @@ export class FtBopEventsComponent implements OnInit, AfterViewInit {
   getBopState(bopState: boolean): string {
     return bopState ? "SID_Ok" : "SID_Breakdown";
   }
+
+  getBopStateColor(bopState: boolean): string {
+    return bopState ? "transparent" : "red";
+  }
 }

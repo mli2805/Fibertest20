@@ -53,7 +53,14 @@
 
     <ng-container matColumnDef="rtuAvailability">
       <th mat-header-cell *matHeaderCellDef>{{ "SID_State" | translate }}</th>
-      <td mat-cell class="rtuAvailability-cell" *matCellDef="let element">
+      <td
+        mat-cell
+        class="rtuAvailability-cell"
+        *matCellDef="let element"
+        [ngStyle]="{
+          backgroundColor: getRtuAvailabilityColor(element.isRtuAvailable)
+        }"
+      >
         {{ getRtuAvailability(element.isRtuAvailable) | translate }}
       </td>
     </ng-container>
@@ -62,7 +69,14 @@
       <th mat-header-cell *matHeaderCellDef>
         {{ "SID_Main_channel" | translate }}
       </th>
-      <td mat-cell class="mainChannelEvent-cell" *matCellDef="let element">
+      <td
+        mat-cell
+        class="mainChannelEvent-cell"
+        *matCellDef="let element"
+        [ngStyle]="{
+          backgroundColor: getChannelStateColor(element.onMainChannel)
+        }"
+      >
         {{ element.onMainChannel | channelEventToLocalizedStringPipe }}
       </td>
     </ng-container>
@@ -71,7 +85,14 @@
       <th mat-header-cell *matHeaderCellDef>
         {{ "SID_Reserve_channel" | translate }}
       </th>
-      <td mat-cell class="reserveChannelEvent-cell" *matCellDef="let element">
+      <td
+        mat-cell
+        class="reserveChannelEvent-cell"
+        *matCellDef="let element"
+        [ngStyle]="{
+          backgroundColor: getChannelStateColor(element.onReserveChannel)
+        }"
+      >
         {{ element.onReserveChannel | channelEventToLocalizedStringPipe }}
       </td>
     </ng-container>
@@ -82,8 +103,7 @@
       *matRowDef="let row; columns: displayedColumns"
       (contextmenu)="onContextMenu($event, row)"
       (click)="onContextMenu($event, row)"
-      >
-    </tr>
+    ></tr>
   </table>
 
   <mat-paginator

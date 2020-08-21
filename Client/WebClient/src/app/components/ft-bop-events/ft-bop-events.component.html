@@ -60,7 +60,14 @@
 
     <ng-container matColumnDef="bopState">
       <th mat-header-cell *matHeaderCellDef>{{ "SID_State" | translate }}</th>
-      <td mat-cell class="bopState-cell" *matCellDef="let element">
+      <td
+        mat-cell
+        class="bopState-cell"
+        *matCellDef="let element"
+        [ngStyle]="{
+          backgroundColor: getBopStateColor(element.bopState)
+        }"
+      >
         {{ getBopState(element.bopState) | translate }}
       </td>
     </ng-container>
