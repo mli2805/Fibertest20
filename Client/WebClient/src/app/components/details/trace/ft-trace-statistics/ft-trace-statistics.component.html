@@ -73,7 +73,12 @@
       <th mat-header-cell *matHeaderCellDef>
         {{ "SID_Trace_state" | translate }}
       </th>
-      <td mat-cell *matCellDef="let element">
+      <td mat-cell *matCellDef="let element"  [ngStyle]="{
+        'background-color': getTraceStateColor(
+          element.traceState,
+          element.baseRefType
+        )
+      }">
         {{ element.traceState | fiberStateToLocalizedStringPipe }}
       </td>
     </ng-container>

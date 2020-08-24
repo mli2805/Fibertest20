@@ -6,6 +6,8 @@ import { tap } from "rxjs/operators";
 import { OneApiService } from "src/app/api/one.service";
 import { MeasurementDto } from "src/app/models/dtos/measurementDto";
 import { SorFileManager } from "src/app/utils/sorFileManager";
+import { FiberState } from "src/app/models/enums/fiberState";
+import { BaseRefType } from "src/app/models/enums/baseRefType";
 
 @Component({
   selector: "ft-trace-statistics",
@@ -130,5 +132,28 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
     };
     sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
     this.router.navigate(["/trace-state"]);
+  }
+
+  getTraceStateColor(traceState: FiberState, baseRefType: BaseRefType) {
+    if (traceState === FiberState.Ok) {
+      return "white";
+    }
+    if (baseRefType === BaseRefType.Fast) {
+      return "yellow";
+    }
+
+    switch (traceState) {
+      case FiberState.Suspicion:
+        return "yellow";
+      case FiberState.Major:
+        return "rgb(255, 0, 255)";
+      case FiberState.Minor:
+        return "rgb(128, 128, 192)";
+      case FiberState.Critical:
+      case FiberState.FiberBreak:
+      case FiberState.NoFiber:
+        return "red";
+    }
+    return "transparent";
   }
 }
