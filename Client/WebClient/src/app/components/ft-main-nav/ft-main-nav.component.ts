@@ -1,4 +1,10 @@
-import { Component, OnInit, OnDestroy, ChangeDetectorRef, ApplicationRef } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectorRef,
+  ApplicationRef,
+} from "@angular/core";
 import { AuthService } from "src/app/api/auth.service";
 import { Subscription } from "rxjs";
 import { SignalrService } from "src/app/api/signalr.service";
@@ -166,6 +172,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.ts.use(this.language);
     sessionStorage.setItem("language", this.language);
     // this.cdr.detectChanges();
-    this.ar.tick();
+    // this.ar.tick();
+    location.reload();
   }
 }
