@@ -1,0 +1,74 @@
+<div mat-dialog-container>
+  <div class="header" *ngIf="style == 1">
+    {{ title }}
+  </div>
+  <div class="message">
+    <p>
+      {{ message }}
+    </p>
+  </div>
+  <div class="info" *ngIf="information !== ''">
+    <p>{{ information }}</p>
+  </div>
+  <div class="buttons">
+    <div *ngIf="button == 0">
+      <button mat-stroked-button color="primary" (click)="onOk()" tabindex="-1">
+        {{ "SID_Ok" | translate }}
+      </button>
+    </div>
+    <div *ngIf="button == 1">
+      <button mat-stroked-button color="primary" (click)="onOk()" tabindex="-1">
+        {{ "SID_Ok" | translate }}
+      </button>
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="onCancel()"
+        tabindex="-1"
+      >
+        {{ "SID_Cancel" | translate }}
+      </button>
+    </div>
+    <div *ngIf="button == 2">
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="onYes()"
+        tabindex="-1"
+      >
+        {{ "SID_Yes" | translate }}
+      </button>
+      <button mat-stroked-button color="primary" (click)="onNo()" tabindex="-1">
+        {{ "SID_No" | translate }}
+      </button>
+    </div>
+    <div *ngIf="button == 3">
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="onAccept()"
+        tabindex="-1"
+      >
+        {{ "SID_Accept" | translate }}
+      </button>
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="onReject()"
+        tabindex="-1"
+      >
+        {{ "SID_Reject" | translate }}
+      </button>
+    </div>
+    <div *ngIf="button == 4">
+      <button
+        mat-stroked-button
+        color="primary"
+        (click)="onClose()"
+        tabindex="-1"
+      >
+        {{ "SID_Close" | translate }}
+      </button>
+    </div>
+  </div>
+</div>

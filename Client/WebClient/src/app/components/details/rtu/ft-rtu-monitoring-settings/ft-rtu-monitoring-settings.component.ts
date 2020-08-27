@@ -9,11 +9,13 @@ import { PortMonitoringMode } from "src/app/models/enums/portMonitoringMode";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { OneApiService } from "src/app/api/one.service";
-import { MessageBox } from "src/app/_shared/message-box";
+import {
+  FtMessageBox,
+  MessageBoxButton,
+  MessageBoxStyle,
+} from "src/app/components/ft-simple-dialog/ft-message-box";
 import { MatDialog } from "@angular/material";
 import { TranslateService } from "@ngx-translate/core";
-import { FtAlertDialogComponent } from "src/app/components/ft-alert-dialog/ft-alert-dialog";
-import { FormBuilder, Validators } from "@angular/forms";
 
 @Component({
   selector: "ft-rtu-monitoring-settings",
@@ -83,26 +85,18 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
 
   onButtonClicked() {
     if (this.monitoringMode === 0 && this.portTableComponent.cycleTime === 0) {
-      // WORKS !!!!!!!!!!!!!!!!!!
-      const dialogRef = this.matDialog.open(FtAlertDialogComponent);
-      dialogRef.afterClosed().subscribe((result) => {
-        console.log(result);
+      FtMessageBox.show(
+        this.matDialog,
+        this.ts.instant("SID_No_traces_selected_for_monitoring_"),
+        this.ts.instant("SID_Error_"),
+        "",
+        MessageBoxButton.Ok,
+        false,
+        MessageBoxStyle.Full,
+        "600px"
+      ).subscribe((res) => {
+        console.log(res);
       });
-
-      // MessageBox.show(
-      //   this.matDialog,
-      //   "this is the message",
-      //   "message title",
-      //   "here is information",
-      //   1,
-      //   false,
-      //   1,
-      //   "200px"
-      // ).subscribe((res) => {
-      //   console.log(res);
-      // });
-
-      //    alert(this.ts.instant("SID_No_traces_selected_for_monitoring_"));
       return;
     }
 

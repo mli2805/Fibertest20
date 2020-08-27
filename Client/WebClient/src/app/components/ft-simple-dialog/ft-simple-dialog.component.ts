@@ -1,15 +1,10 @@
 import { Component, Inject } from "@angular/core";
-import {
-  MatDialog,
-  MAT_DIALOG_DATA,
-  MatDialogRef,
-  MatDialogModule,
-} from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 
 @Component({
   selector: "ft-simple-dialog",
-  templateUrl: "./simple-dialog.component.html",
-  styleUrls: ["./simple-dialog.component.css"],
+  templateUrl: "./ft-simple-dialog.component.html",
+  styleUrls: ["./ft-simple-dialog.component.css"],
 })
 export class FtSimpleDialogComponent {
   style: number;
@@ -17,7 +12,7 @@ export class FtSimpleDialogComponent {
   message: string;
   information: string;
   button: number;
-  allow_outside_click: boolean;
+  allowOutsideClick: boolean;
   constructor(
     public dialogRef: MatDialogRef<FtSimpleDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
@@ -47,5 +42,8 @@ export class FtSimpleDialogComponent {
   }
   onReject() {
     this.dialogRef.close({ result: "reject" });
+  }
+  onClose() {
+    this.dialogRef.close({ result: "close" });
   }
 }

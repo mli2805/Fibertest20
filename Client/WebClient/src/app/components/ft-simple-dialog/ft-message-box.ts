@@ -1,27 +1,27 @@
 import { MatDialog, MAT_DIALOG_DATA } from "@angular/material";
-import { FtSimpleDialogComponent } from "../components/simple-dialog/simple-dialog.component";
+import { FtSimpleDialogComponent } from "./ft-simple-dialog.component";
 
-export class MessageBox {
+export class FtMessageBox {
   static show(
     dialog: MatDialog,
     message,
     title = "Alert",
     information = "",
     button = 0,
-    allow_outside_click = false,
+    allowOutsideClick = false,
     style = 0,
-    width = "200px"
+    width = "600px"
   ) {
     const dialogRef = dialog.open(FtSimpleDialogComponent, {
       data: {
         title: title || "Alert",
-        message: message,
-        information: information,
+        message,
+        information,
         button: button || 0,
         style: style || 0,
-        allow_outside_click: allow_outside_click || false,
+        allow_outside_click: allowOutsideClick || false,
       },
-      width: width,
+      width,
     });
     return dialogRef.afterClosed();
   }
@@ -32,6 +32,7 @@ export enum MessageBoxButton {
   OkCancel = 1,
   YesNo = 2,
   AcceptReject = 3,
+  Close = 4,
 }
 
 export enum MessageBoxStyle {

@@ -66,8 +66,7 @@ import { SorViewerComponent } from "./components/sor-viewer/sor-viewer.component
 import { FtOutOfTurnMeasurementComponent } from "./components/details/trace/ft-out-of-turn-measurement/ft-out-of-turn-measurement.component";
 import { FtRftsEventsComponent } from "./components/details/trace/ft-rfts-events/ft-rfts-events.component";
 import { FtRftsEventsLevelComponent } from "./components/details/trace/ft-rfts-events/ft-rfts-events-level/ft-rfts-events-level.component";
-import { FtAlertDialogComponent } from "./components/ft-alert-dialog/ft-alert-dialog";
-import { FtSimpleDialogComponent } from "./components/simple-dialog/simple-dialog.component";
+import { FtSimpleDialogComponent } from "./components/ft-simple-dialog/ft-simple-dialog.component";
 import { MaterialModule } from "./material.module";
 
 @NgModule({
@@ -124,7 +123,7 @@ import { MaterialModule } from "./material.module";
     FtRftsEventsComponent,
     FtRftsEventsLevelComponent,
 
-    FtAlertDialogComponent,
+    FtSimpleDialogComponent,
   ],
   imports: [
     VxSorViewerModule,
@@ -140,7 +139,7 @@ import { MaterialModule } from "./material.module";
 
     MaterialModule,
   ],
-  entryComponents: [FtAlertDialogComponent],
+  entryComponents: [FtSimpleDialogComponent],
   providers: [
     AuthGuard,
     LoginGuard,

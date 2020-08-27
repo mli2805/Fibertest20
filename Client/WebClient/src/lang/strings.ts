@@ -905,7 +905,10 @@ export const languages = {
     "SID_Save_reflectogram": "Save reflectogram",
     "SID_Save_ref_and_base": "Save ref + base",
     "SID_Logout": "Logout",
-    "SID_RTU_Tree": "RTUs"
+    "SID_RTU_Tree": "RTUs",
+    "SID_Reject": "Reject",
+    "SID_Yes": "Yes",
+    "SID_No": "No"
   },
   "ru-RU": {
     "SID_CableReserve": "Запас кабеля",
@@ -1810,6 +1813,9 @@ export const languages = {
     "SID_Save_reflectogram": "Сохранить рефлектограмму",
     "SID_Save_ref_and_base": "Сохранить рефлектограмму + базовую",
     "SID_Logout": "Выйти",
-    "SID_RTU_Tree": "Модули"
+    "SID_RTU_Tree": "Модули",
+    "SID_Reject": "Отклонить",
+    "SID_Yes": "Да",
+    "SID_No": "Нет"
   }
 };
