@@ -9,6 +9,11 @@ import { PortMonitoringMode } from "src/app/models/enums/portMonitoringMode";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { OneApiService } from "src/app/api/one.service";
+import { MessageBox } from "src/app/_shared/message-box";
+import { MatDialog } from "@angular/material";
+import { TranslateService } from "@ngx-translate/core";
+import { FtAlertDialogComponent } from "src/app/components/ft-alert-dialog/ft-alert-dialog";
+import { FormBuilder, Validators } from "@angular/forms";
 
 @Component({
   selector: "ft-rtu-monitoring-settings",
@@ -31,13 +36,14 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
   selectedFastMeas;
   selectedFastSave;
 
-  cycleTime;
   monitoringMode;
 
   constructor(
     private activeRoute: ActivatedRoute,
     private oneApiService: OneApiService,
-    private frequencyPipe: FrequencyPipe
+    private frequencyPipe: FrequencyPipe,
+    private ts: TranslateService,
+    private matDialog: MatDialog // private formBuilder: FormBuilder
   ) {
     this.isSpinnerVisible = true;
     this.isButtonDisabled = false;
@@ -76,6 +82,30 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
   }
 
   onButtonClicked() {
+    if (this.monitoringMode === 0 && this.portTableComponent.cycleTime === 0) {
+      // WORKS !!!!!!!!!!!!!!!!!!
+      const dialogRef = this.matDialog.open(FtAlertDialogComponent);
+      dialogRef.afterClosed().subscribe((result) => {
+        console.log(result);
+      });
+
+      // MessageBox.show(
+      //   this.matDialog,
+      //   "this is the message",
+      //   "message title",
+      //   "here is information",
+      //   1,
+      //   false,
+      //   1,
+      //   "200px"
+      // ).subscribe((res) => {
+      //   console.log(res);
+      // });
+
+      //    alert(this.ts.instant("SID_No_traces_selected_for_monitoring_"));
+      return;
+    }
+
     this.whileRequestView();
     const dto = new RtuMonitoringSettingsDto();
     dto.rtuMaker = this.vm.rtuMaker;

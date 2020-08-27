@@ -21,6 +21,7 @@ import { SorFileManager } from "src/app/utils/sorFileManager";
 import { FiberState } from "src/app/models/enums/fiberState";
 import { EventStatus } from "src/app/models/enums/eventStatus";
 import { BaseRefType } from "src/app/models/enums/baseRefType";
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: "ft-opt-events",
@@ -58,7 +59,8 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
     private router: Router,
     private oneApiService: OneApiService,
     private signalRService: SignalrService,
-    private alarmsService: AlarmsService
+    private alarmsService: AlarmsService,
+    private ts: TranslateService,
   ) {
     console.log("optical events c-tor hit!");
     this.isCurrentEvents = true;
@@ -211,6 +213,17 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
         return "red";
     }
     return "transparent";
+  }
+
+  getTraceState(traceState: FiberState, baseRefType: BaseRefType){
+    if (traceState === FiberState.Ok) {
+      return this.ts.instant("SID_Ok");
+    }
+    if (baseRefType === BaseRefType.Fast) {
+      return this.ts.instant("SID_Suspicion");
+    }
+    
+    
   }
 
   getEventStatusColor(eventStatus: EventStatus) {

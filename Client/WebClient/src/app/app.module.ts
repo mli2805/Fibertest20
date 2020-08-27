@@ -22,30 +22,6 @@ import {
   BaseRefTypeFemalePipe,
 } from "./pipes/base-ref-type.pipe";
 
-import {
-  MatSidenavModule,
-  MatButtonModule,
-  MatToolbarModule,
-  MatTableModule,
-  MatSortModule,
-  MatInputModule,
-  MatCheckboxModule,
-  MatGridListModule,
-  MatCardModule,
-  MatExpansionModule,
-  MatIconModule,
-  MatMenuModule,
-  MatListModule,
-  MatPaginatorModule,
-  MatProgressSpinnerModule,
-  MatSelectModule,
-  MatTabsModule,
-  MatSlideToggleModule,
-  MatFormFieldModule,
-  MatNativeDateModule,
-  MatRadioModule,
-} from "@angular/material";
-
 import { TranslateService, TranslateModule } from "@ngx-translate/core";
 import { TranslateLoader } from "./Utils/translate-loader";
 import { languages } from "src/lang/strings";
@@ -90,6 +66,9 @@ import { SorViewerComponent } from "./components/sor-viewer/sor-viewer.component
 import { FtOutOfTurnMeasurementComponent } from "./components/details/trace/ft-out-of-turn-measurement/ft-out-of-turn-measurement.component";
 import { FtRftsEventsComponent } from "./components/details/trace/ft-rfts-events/ft-rfts-events.component";
 import { FtRftsEventsLevelComponent } from "./components/details/trace/ft-rfts-events/ft-rfts-events-level/ft-rfts-events-level.component";
+import { FtAlertDialogComponent } from "./components/ft-alert-dialog/ft-alert-dialog";
+import { FtSimpleDialogComponent } from "./components/simple-dialog/simple-dialog.component";
+import { MaterialModule } from "./material.module";
 
 @NgModule({
   declarations: [
@@ -140,14 +119,12 @@ import { FtRftsEventsLevelComponent } from "./components/details/trace/ft-rfts-e
     NoRightClickDirective,
 
     FtBopEventsComponent,
-
     SorViewerComponent,
-
     FtOutOfTurnMeasurementComponent,
-
     FtRftsEventsComponent,
-
     FtRftsEventsLevelComponent,
+
+    FtAlertDialogComponent,
   ],
   imports: [
     VxSorViewerModule,
@@ -160,28 +137,10 @@ import { FtRftsEventsLevelComponent } from "./components/details/trace/ft-rfts-e
     BrowserAnimationsModule,
     LayoutModule,
     FlexLayoutModule,
-    MatSidenavModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatTableModule,
-    MatSortModule,
-    MatInputModule,
-    MatCheckboxModule,
-    MatGridListModule,
-    MatCardModule,
-    MatExpansionModule,
-    MatIconModule,
-    MatMenuModule,
-    MatListModule,
-    MatPaginatorModule,
-    MatProgressSpinnerModule,
-    MatTabsModule,
-    MatSelectModule,
-    MatSlideToggleModule,
-    MatFormFieldModule,
-    MatNativeDateModule,
-    MatRadioModule,
+
+    MaterialModule,
   ],
+  entryComponents: [FtAlertDialogComponent],
   providers: [
     AuthGuard,
     LoginGuard,
@@ -200,6 +159,16 @@ export class AppModule {
     this.translateLoader = new TranslateLoader(translateService);
     this.translateLoader.init(languages);
     translateService.setDefaultLang("en");
-    translateService.use("ru");
+    translateService.use(this.getLang().substr(0, 2));
+  }
+
+  private getLang() {
+    if (navigator.languages !== undefined) {
+      console.log(navigator.languages);
+      return navigator.languages[0];
+    } else {
+      console.log(navigator.language);
+      return navigator.language;
+    }
   }
 }
