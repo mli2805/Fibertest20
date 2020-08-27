@@ -908,7 +908,8 @@ export const languages = {
     "SID_RTU_Tree": "RTUs",
     "SID_Reject": "Reject",
     "SID_Yes": "Yes",
-    "SID_No": "No"
+    "SID_No": "No",
+    "SID_Device": "Device"
   },
   "ru-RU": {
     "SID_CableReserve": "Запас кабеля",
@@ -1816,6 +1817,7 @@ export const languages = {
     "SID_RTU_Tree": "Модули",
     "SID_Reject": "Отклонить",
     "SID_Yes": "Да",
-    "SID_No": "Нет"
+    "SID_No": "Нет",
+    "SID_Device": "Устройство"
   }
 };
