@@ -1,3 +1,6 @@
+// https://stackblitz.com/edit/simple-dialog-so?file=app%2Fapp.component.ts
+// https://blog.vanila.io/just-another-custom-alert-for-angular-c288bebc3c96
+
 import { MatDialog, MAT_DIALOG_DATA } from "@angular/material";
 import { FtSimpleDialogComponent } from "./ft-simple-dialog.component";
 
