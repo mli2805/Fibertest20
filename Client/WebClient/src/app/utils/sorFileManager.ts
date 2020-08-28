@@ -32,6 +32,7 @@ export class SorFileManager {
     const url = router.serializeUrl(router.createUrlTree(["/sor-viewer"]));
     const newTab = window.open(url, "_blank");
     // newTab.document.title = filename;
+    
     // router.navigate(["/sor-viewer"]);
   }
 

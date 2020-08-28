@@ -4,9 +4,9 @@
     #drawer
     class="sidenav"
     fixedInViewport="false"
-    style="background-color: #673ab7;"
+    style="background-color: #673ab7"
   >
-    <mat-toolbar style="background-color: #673ab7; color: white;"
+    <mat-toolbar style="background-color: #673ab7; color: white"
       ><span (click)="drawer.toggle()">Fibertest&trade; 2.0</span></mat-toolbar
     >
     <mat-nav-list>
@@ -176,6 +176,14 @@
         (click)="toggleLanguage()"
       >
         <mat-icon aria-label="Side nav toggle icon">language</mat-icon>
+      </button>
+      <button
+        type="button"
+        aria-label="Help"
+        mat-icon-button
+        (click)="showHelpPdf()"
+      >
+        <mat-icon aria-label="Side nav toggle icon">help</mat-icon>
       </button>
     </mat-toolbar>
     <div class="add-content-here">
