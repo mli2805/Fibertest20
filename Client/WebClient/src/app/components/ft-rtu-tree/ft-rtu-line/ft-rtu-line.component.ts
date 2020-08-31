@@ -45,19 +45,19 @@ export class FtRtuLineComponent implements OnInit {
   }
 
   information(rtu: RtuDto) {
-    this.router.navigate(["/rtu-information", rtu.rtuId]);
+    this.router.navigate(["/ft-main-nav/rtu-information", rtu.rtuId]);
   }
 
   networkSettings(rtu: RtuDto) {
-    this.router.navigate(["/rtu-network-settings", rtu.rtuId]);
+    this.router.navigate(["/ft-main-nav/rtu-network-settings", rtu.rtuId]);
   }
 
   state(rtu: RtuDto) {
-    this.router.navigate(["/rtu-state", rtu.rtuId]);
+    this.router.navigate(["/ft-main-nav/rtu-state", rtu.rtuId]);
   }
 
   monitoringSettings(rtu: RtuDto) {
-    this.router.navigate(["/rtu-monitoring-settings", rtu.rtuId]);
+    this.router.navigate(["/ft-main-nav/rtu-monitoring-settings", rtu.rtuId]);
   }
 
   manualMode(rtu: RtuDto) {
@@ -70,7 +70,7 @@ export class FtRtuLineComponent implements OnInit {
         this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.fetchTree);
         console.log(res);
         if (res === true) {
-          this.router.navigate(["/rtu-tree"]);
+          this.router.navigate(["/ft-main-nav/rtu-tree"]);
         }
       });
   }
@@ -87,7 +87,7 @@ export class FtRtuLineComponent implements OnInit {
         if (
           res.returnCode === ReturnCode.MonitoringSettingsAppliedSuccessfully
         ) {
-          this.router.navigate(["/rtu-tree"]);
+          this.router.navigate(["/ft-main-nav/rtu-tree"]);
         }
       });
   }

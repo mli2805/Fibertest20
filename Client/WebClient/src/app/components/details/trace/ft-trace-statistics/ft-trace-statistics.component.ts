@@ -117,10 +117,10 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
   }
 
   showRftsEvents() {
-    this.router.navigate([
-      "/rfts-events",
-      this.contextMenu.menuData.row.sorFileId,
-    ]);
+    SorFileManager.ShowRftsEvents(
+      this.router,
+      this.contextMenu.menuData.row.sorFileId
+    );
   }
 
   showTraceState() {
@@ -131,7 +131,7 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
       fileId: this.contextMenu.menuData.row.sorFileId,
     };
     sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
-    this.router.navigate(["/trace-state"]);
+    this.router.navigate(["/ft-main-nav/trace-state"]);
   }
 
   getTraceStateColor(traceState: FiberState, baseRefType: BaseRefType) {

@@ -35,17 +35,17 @@ export class FtFreePortComponent implements OnInit {
 
   attachTraceFromList() {
     this.prepareDataForAttachment("attachTraceParams");
-    this.router.navigate(["/port-attach-trace"]);
+    this.router.navigate(["/ft-main-nav/port-attach-trace"]);
   }
 
   attachOpticalSwitch() {
     this.prepareDataForAttachment("attachOtauParams");
-    this.router.navigate(["/port-attach-otau"]);
+    this.router.navigate(["/ft-main-nav/port-attach-otau"]);
   }
 
   measurementClient() {
     this.prepareDataForMeasurement();
-    this.router.navigate(["/port-measurement-client"]);
+    this.router.navigate(["/ft-main-nav/port-measurement-client"]);
   }
 
   prepareDataForMeasurement() {

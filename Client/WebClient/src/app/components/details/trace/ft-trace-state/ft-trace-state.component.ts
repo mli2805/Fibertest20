@@ -80,7 +80,7 @@ export class FtTraceStateComponent implements OnInit {
   }
 
   showRftsEvents() {
-    this.router.navigate(["/rfts-events", this.vm.sorFileId]);
+    SorFileManager.ShowRftsEvents(this.router, this.vm.sorFileId);
   }
 
   save() {

@@ -23,63 +23,70 @@ import { FtBopEventsComponent } from "./components/ft-bop-events/ft-bop-events.c
 import { SorViewerComponent } from "./components/sor-viewer/sor-viewer.component";
 import { FtOutOfTurnMeasurementComponent } from "./components/details/trace/ft-out-of-turn-measurement/ft-out-of-turn-measurement.component";
 import { FtRftsEventsComponent } from "./components/details/trace/ft-rfts-events/ft-rfts-events.component";
+import { FtMainNavComponent } from "./components/ft-main-nav/ft-main-nav.component";
 
 const routes: Routes = [
-  { path: "login", component: FtLoginComponent, canActivate: [LoginGuard] },
-  { path: "about", component: FtAboutComponent, canActivate: [AuthGuard] },
   {
-    path: "rtu-tree",
-    component: FtRtuTreeComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: "optical-events",
-    component: FtOptEventsComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: "network-events",
-    component: FtNetworkEventsComponent,
-    canActivate: [AuthGuard],
-  },
-  {
-    path: "bop-events",
-    component: FtBopEventsComponent,
-    canActivate: [AuthGuard],
-  },
+    path: "ft-main-nav",
+    component: FtMainNavComponent,
+    children: [
+      { path: "login", component: FtLoginComponent, canActivate: [LoginGuard] },
+      { path: "about", component: FtAboutComponent, canActivate: [AuthGuard] },
+      {
+        path: "rtu-tree",
+        component: FtRtuTreeComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "optical-events",
+        component: FtOptEventsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "network-events",
+        component: FtNetworkEventsComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path: "bop-events",
+        component: FtBopEventsComponent,
+        canActivate: [AuthGuard],
+      },
 
-  { path: "rtu-information/:id", component: FtRtuInformationComponent },
-  {
-    path: "rtu-network-settings/:id",
-    component: FtRtuNetworkSettingsComponent,
-  },
-  { path: "rtu-state/:id", component: FtRtuStateComponent },
-  {
-    path: "rtu-monitoring-settings/:id",
-    component: FtRtuMonitoringSettingsComponent,
-  },
+      { path: "rtu-information/:id", component: FtRtuInformationComponent },
+      {
+        path: "rtu-network-settings/:id",
+        component: FtRtuNetworkSettingsComponent,
+      },
+      { path: "rtu-state/:id", component: FtRtuStateComponent },
+      {
+        path: "rtu-monitoring-settings/:id",
+        component: FtRtuMonitoringSettingsComponent,
+      },
 
-  { path: "trace-information/:id", component: FtTraceInformationComponent },
-  { path: "assign-base/:id", component: FtAssignBaseComponent },
-  { path: "trace-state", component: FtTraceStateComponent },
-  { path: "trace-statistics/:id", component: FtTraceStatisticsComponent },
-  { path: "rfts-events/:id", component: FtRftsEventsComponent },
+      { path: "trace-information/:id", component: FtTraceInformationComponent },
+      { path: "assign-base/:id", component: FtAssignBaseComponent },
+      { path: "trace-state", component: FtTraceStateComponent },
+      { path: "trace-statistics/:id", component: FtTraceStatisticsComponent },
 
-  { path: "port-attach-trace", component: FtPortAttachTraceComponent },
-  { path: "port-attach-otau", component: FtPortAttachOtauComponent },
-  {
-    path: "port-measurement-client",
-    component: FtPortMeasurementClientComponent,
-  },
-  {
-    path: "out-of-turn-measurement",
-    component: FtOutOfTurnMeasurementComponent,
+      { path: "port-attach-trace", component: FtPortAttachTraceComponent },
+      { path: "port-attach-otau", component: FtPortAttachOtauComponent },
+      {
+        path: "port-measurement-client",
+        component: FtPortMeasurementClientComponent,
+      },
+      {
+        path: "out-of-turn-measurement",
+        component: FtOutOfTurnMeasurementComponent,
+      },
+
+      { path: "logout", component: FtLoginComponent },
+    ],
   },
 
   { path: "sor-viewer", component: SorViewerComponent },
-
-  { path: "logout", component: FtLoginComponent },
-  { path: "", redirectTo: "/login", pathMatch: "full" },
+  { path: "rfts-events/:id", component: FtRftsEventsComponent },
+  { path: "", redirectTo: "/ft-main-nav/login", pathMatch: "full" },
   { path: "**", component: PageNotFoundComponent },
 ];
 

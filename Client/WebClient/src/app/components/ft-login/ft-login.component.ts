@@ -90,7 +90,7 @@ export class FtLoginComponent implements OnInit {
         );
 
         this.unseenAlarmService.processInitialAlarms();
-        this.router.navigate(["/rtu-tree"], { queryParams: null });
+        this.router.navigate(["/ft-main-nav/rtu-tree"], { queryParams: null });
       }
     } catch (unsuccessfulResult) {
       if (unsuccessfulResult.error.returnCode === undefined) {

@@ -30,10 +30,14 @@ export class SorFileManager {
     sessionStorage.setItem("sorFileRequestParams", JSON.stringify(dict));
 
     const url = router.serializeUrl(router.createUrlTree(["/sor-viewer"]));
-    const newTab = window.open(url, "_blank");
-    // newTab.document.title = filename;
-    
-    // router.navigate(["/sor-viewer"]);
+    window.open(url, "_blank");
+  }
+
+  static async ShowRftsEvents(router: Router, sorFileId: number) {
+    const url = router.serializeUrl(
+      router.createUrlTree(["/rfts-events", sorFileId])
+    );
+    window.open(url, "_blank");
   }
 
   static async Download(

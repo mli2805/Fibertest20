@@ -45,12 +45,15 @@ export class FtAttachedLineComponent implements OnInit {
   }
 
   displayInformation() {
-    this.router.navigate(["/trace-information", this.trace.traceId]);
+    this.router.navigate([
+      "/ft-main-nav/trace-information",
+      this.trace.traceId,
+    ]);
   }
   assignBaseRefs() {
     const dict = { trace: this.trace };
     sessionStorage.setItem("assignBaseParams", JSON.stringify(dict));
-    this.router.navigate(["/assign-base", this.trace.traceId]);
+    this.router.navigate(["/ft-main-nav/assign-base", this.trace.traceId]);
   }
 
   displayState() {
@@ -60,11 +63,11 @@ export class FtAttachedLineComponent implements OnInit {
       fileId: null,
     };
     sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
-    this.router.navigate(["/trace-state"]);
+    this.router.navigate(["/ft-main-nav/trace-state"]);
   }
 
   displayStatistics() {
-    this.router.navigate(["/trace-statistics", this.trace.traceId]);
+    this.router.navigate(["/ft-main-nav/trace-statistics", this.trace.traceId]);
   }
 
   detachTrace() {
@@ -83,13 +86,13 @@ export class FtAttachedLineComponent implements OnInit {
       rtu: this.parentRtu,
     };
     sessionStorage.setItem("outOfTurnMeasurementParams", JSON.stringify(dict));
-    this.router.navigate(["/out-of-turn-measurement"]);
+    this.router.navigate(["/ft-main-nav/out-of-turn-measurement"]);
   }
 
   measurementClient() {
     const dict = { rtuId: this.trace.rtuId, otauPortDto: this.trace.otauPort };
     sessionStorage.setItem("measurementClientParams", JSON.stringify(dict));
-    this.router.navigate(["/port-measurement-client"]);
+    this.router.navigate(["/ft-main-nav/port-measurement-client"]);
   }
 
   isDetachTraceDisabled(): boolean {

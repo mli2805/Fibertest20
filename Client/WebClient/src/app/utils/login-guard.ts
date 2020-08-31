@@ -10,7 +10,7 @@ export class LoginGuard implements CanActivate {
       return true;
     }
 
-    this.router.navigate(["/rtu-tree"]);
+    this.router.navigate(["/ft-main-nav/rtu-tree"]);
     return false;
   }
 }

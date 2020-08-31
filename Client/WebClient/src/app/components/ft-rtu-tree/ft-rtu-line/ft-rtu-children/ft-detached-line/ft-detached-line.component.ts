@@ -30,13 +30,13 @@ export class FtDetachedLineComponent implements OnInit {
 
   displayInformation() {
     console.log(this.trace);
-    this.router.navigate(["/trace-information", this.trace.traceId]);
+    this.router.navigate(["/ft-main-nav/trace-information", this.trace.traceId]);
   }
 
   assignBaseRefs() {
     const dict = { trace: this.trace };
     sessionStorage.setItem("assignBaseParams", JSON.stringify(dict));
-    this.router.navigate(["/assign-base", this.trace.traceId]);
+    this.router.navigate(["/ft-main-nav/assign-base", this.trace.traceId]);
   }
 
   displayState() {
@@ -46,10 +46,10 @@ export class FtDetachedLineComponent implements OnInit {
       fileId: null,
     };
     sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
-    this.router.navigate(["/trace-state"]);
+    this.router.navigate(["/ft-main-nav/trace-state"]);
   }
 
   displayStatistics() {
-    this.router.navigate(["/trace-statistics", this.trace.traceId]);
+    this.router.navigate(["/ft-main-nav/trace-statistics", this.trace.traceId]);
   }
 }
