@@ -169,6 +169,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   showHelpPdf() {
-    window.open("../../../assets/UserGuide/Ft25WebClient.pdf");
+    window.open("../../../assets/UserGuide/FIBERTEST20ClientUGru.pdf#page=81");
   }
 }
