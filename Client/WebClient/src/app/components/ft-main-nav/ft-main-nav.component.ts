@@ -47,16 +47,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     private cdr: ChangeDetectorRef
   ) {
     console.log("main nav c-tor hit!");
-
-    const lng = sessionStorage.getItem("language");
-    if (lng === null) {
-      this.language = this.ts.currentLang;
-      sessionStorage.setItem("language", this.language);
-    } else {
-      this.language = lng;
-      this.ts.use(lng);
-    }
-    console.log(`current language is ${this.language}`);
+    this.language = sessionStorage.getItem("language");
 
     this.opticalAlarmIndicator = new OpticalAlarmIndicator(
       "currentOpticalAlarms"
@@ -178,6 +169,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   showHelpPdf() {
-      window.open("../../../assets/UserGuide/Ft25WebClient.pdf");
+    window.open("../../../assets/UserGuide/Ft25WebClient.pdf");
   }
 }
