@@ -143,10 +143,22 @@ namespace Iit.Fibertest.Client
 
         private void SaveAs(byte[] sorbytes)
         {
+            // if InitialDirectory for OpenFileDialog does not exist:
+            //   when drive in InitialDirectory exists - it's ok - will be used previous path from Windows
+            //   but if even drive does not exist will be thrown exception
+            var pathToSor = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory) + @"\tmp";
+
+            var initialDirectory = _iniFile.Read(IniSection.Miscellaneous, IniKey.PathToSor, pathToSor);
+            if (!Directory.Exists(initialDirectory))
+            {
+                initialDirectory = pathToSor;
+                _iniFile.Write(IniSection.Miscellaneous, IniKey.PathToSor, initialDirectory);
+            }
+            
             var sfd = new SaveFileDialog
             {
                 Filter = @"Sor file (*.sor)|*.sor",
-                InitialDirectory = _iniFile.Read(IniSection.Miscellaneous, IniKey.PathToSor, @"c:\temp\"),
+                InitialDirectory = initialDirectory,
                 FileName = _tempSorFile,
             };
             if (sfd.ShowDialog() == true)
