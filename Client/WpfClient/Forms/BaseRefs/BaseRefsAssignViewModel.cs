@@ -140,7 +140,18 @@ namespace Iit.Fibertest.Client
             IsEditEnabled = true;
             RtuTitle = _readModel.Rtus.First(r => r.Id == _trace.RtuId).Title;
 
-            InitialDirectory = _iniFile.Read(IniSection.Miscellaneous, IniKey.PathToSor, @"c:\temp\");
+
+            // if InitialDirectory for OpenFileDialog does not exist:
+            //   when drive in InitialDirectory exists - it's ok - will be used previous path from Windows
+            //   but if even drive does not exist will be thrown exception
+            var pathToSor = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory) + @"\tmp";
+
+            InitialDirectory = _iniFile.Read(IniSection.Miscellaneous, IniKey.PathToSor, pathToSor);
+            if (!Directory.Exists(InitialDirectory))
+            {
+                InitialDirectory = pathToSor;
+                _iniFile.Write(IniSection.Miscellaneous, IniKey.PathToSor, InitialDirectory);
+            }
         }
 
         protected override void OnViewLoaded(object view)
