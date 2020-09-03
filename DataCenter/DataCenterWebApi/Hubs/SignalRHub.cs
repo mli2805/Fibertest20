@@ -36,7 +36,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         public override async Task OnConnectedAsync()
         {
-            _logFile.AppendLine($"OnConnectedAsync ClientIp = {GetRemoteAddress()}");
+            _logFile.AppendLine($"User {Context.User.Identity.Name} connected from = {GetRemoteAddress()} assigned id {Context.ConnectionId}");
             await base.OnConnectedAsync();
         }
 
@@ -53,6 +53,11 @@ namespace Iit.Fibertest.DataCenterWebApi
                         ClientIp = GetRemoteAddress(),
                         Username = "onSignalRDisconnected",
                     });
+        }
+
+        public string GetConnectionId()
+        {
+            return Context.ConnectionId;
         }
 
         public async Task NotifyAll(string eventType, string dataInJson)

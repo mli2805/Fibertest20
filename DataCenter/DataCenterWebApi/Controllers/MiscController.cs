@@ -79,8 +79,12 @@ namespace Iit.Fibertest.DataCenterWebApi
             return dto;
         }
 
-       
-
-        
+        [HttpGet("CheckApi")]
+        public async Task<string> CheckApi()
+        {
+            await Task.Delay(1);
+            _logFile.AppendLine("CheckApi requested");
+            return "Data Center Web Api started";
+        }
     }
 }

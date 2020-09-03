@@ -43,6 +43,8 @@ export class SignalrService {
     try {
       await this.hubConnection.start();
       console.log("SignalR connection started...");
+      const connectionId = await this.hubConnection.invoke("getConnectionId");
+      console.log(`connectionId = ${connectionId}`);
       this.registerSignalEvents();
     } catch (err) {
       console.log("Error while starting connection: " + err);
