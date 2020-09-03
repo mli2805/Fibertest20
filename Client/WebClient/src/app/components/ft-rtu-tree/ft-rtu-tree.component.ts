@@ -64,6 +64,9 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
         if (evnt === RtuTreeEvent.showSpinner) {
           this.isNotLoaded = true;
         }
+        if (evnt === RtuTreeEvent.hideSpinner) {
+          this.isNotLoaded = false;
+        }
         if (evnt === RtuTreeEvent.fetchTree) {
           this.fetchData();
         }

@@ -239,32 +239,6 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
-        [HttpPost("Start-monitoring/{id}")]
-        public async Task<MonitoringSettingsAppliedDto> StartMonitoring(string id)
-        {
-            try
-            {
-                _logFile.AppendLine($"rtu id = {id}");
-                var rtuGuid = Guid.Parse(id);
-                var rtuMonitoringSettingsDto = await _webC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .GetRtuMonitoringSettings(User.Identity.Name, rtuGuid);
-                rtuMonitoringSettingsDto.MonitoringMode = MonitoringState.On;
-                var applyDto = Map(rtuGuid, rtuMonitoringSettingsDto);
-                var monitoringSettingsAppliedDto = await _commonC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .ApplyMonitoringSettingsAsync(applyDto);
-                _logFile.AppendLine($"StartMonitoring: {monitoringSettingsAppliedDto.ReturnCode.ToString()}");
-                return monitoringSettingsAppliedDto;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"StartMonitoring: {e.Message}");
-                return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError, ErrorMessage = e.Message };
-            }
-        }
-
-        [Authorize]
         [HttpPost("Stop-monitoring/{id}")]
         public async Task<bool> StopMonitoring(string id)
         {

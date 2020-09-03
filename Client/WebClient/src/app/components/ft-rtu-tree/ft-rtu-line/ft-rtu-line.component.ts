@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
-import { MatMenuTrigger } from "@angular/material";
+import { MatMenuTrigger, MatDialog } from "@angular/material";
 import { Router } from "@angular/router";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
@@ -10,6 +10,17 @@ import {
   RtuTreeEvent,
 } from "../ft-rtu-tree-event-service";
 import { OneApiService } from "src/app/api/one.service";
+import {
+  RtuMonitoringSettingsDto,
+  RtuMonitoringPortDto,
+} from "src/app/models/dtos/rtu/rtuMonitoringSettingsDto";
+import { PortMonitoringMode } from "src/app/models/enums/portMonitoringMode";
+import {
+  FtMessageBox,
+  MessageBoxButton,
+  MessageBoxStyle,
+} from "../../ft-simple-dialog/ft-message-box";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: "ft-rtu-line",
@@ -26,7 +37,9 @@ export class FtRtuLineComponent implements OnInit {
   constructor(
     private router: Router,
     private oneApiService: OneApiService,
-    private ftRtuTreeEventService: FtRtuTreeEventService
+    private ftRtuTreeEventService: FtRtuTreeEventService,
+    private ts: TranslateService,
+    private matDialog: MatDialog
   ) {}
 
   ngOnInit() {}
@@ -75,21 +88,42 @@ export class FtRtuLineComponent implements OnInit {
       });
   }
 
-  automaticMode(rtu: RtuDto) {
-    this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.showSpinner);
+  async automaticMode(rtu: RtuDto) {
     const id = rtu.rtuId;
     console.log("automatic pressed id=", id);
-    this.oneApiService
-      .postRequest(`rtu/start-monitoring/${id}`, null)
-      .subscribe((res: RequestAnswer) => {
-        this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.fetchTree);
-        console.log(res);
-        if (
-          res.returnCode === ReturnCode.MonitoringSettingsAppliedSuccessfully
-        ) {
-          this.router.navigate(["/ft-main-nav/rtu-tree"]);
-        }
-      });
+    this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.showSpinner);
+
+    const dto = (await this.oneApiService
+      .getRequest(`rtu/monitoring-settings/${id}`)
+      .toPromise()) as RtuMonitoringSettingsDto;
+
+    if (
+      !dto.lines.some((l) => l.portMonitoringMode === PortMonitoringMode.On)
+    ) {
+      this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.hideSpinner);
+
+      const answer = await FtMessageBox.show(
+        this.matDialog,
+        this.ts.instant("SID_No_traces_selected_for_monitoring_"),
+        this.ts.instant("SID_Error_"),
+        "",
+        MessageBoxButton.Ok,
+        false,
+        MessageBoxStyle.Full,
+        "600px"
+      ).toPromise();
+      console.log(answer);
+      return;
+    }
+
+    dto.monitoringMode = MonitoringMode.On;
+    const res = (await this.oneApiService
+      .postRequest(`rtu/monitoring-settings/${id}`, dto)
+      .toPromise()) as RequestAnswer;
+    console.log(res);
+    if (res.returnCode === ReturnCode.MonitoringSettingsAppliedSuccessfully) {
+      this.router.navigate(["/ft-main-nav/rtu-tree"]);
+    }
   }
 
   isManualModeDisabled(rtu: RtuDto): boolean {

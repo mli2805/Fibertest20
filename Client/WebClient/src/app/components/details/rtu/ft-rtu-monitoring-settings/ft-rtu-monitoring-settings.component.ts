@@ -45,7 +45,7 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
     private oneApiService: OneApiService,
     private frequencyPipe: FrequencyPipe,
     private ts: TranslateService,
-    private matDialog: MatDialog // private formBuilder: FormBuilder
+    private matDialog: MatDialog
   ) {
     this.isSpinnerVisible = true;
     this.isButtonDisabled = false;

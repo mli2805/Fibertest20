@@ -17,5 +17,6 @@ export class FtRtuTreeEventService {
 
 export enum RtuTreeEvent {
   showSpinner,
+  hideSpinner,
   fetchTree,
 }

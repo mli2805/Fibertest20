@@ -58,7 +58,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.bopAlarmIndicator = new BopAlarmIndicator("currentBopAlarms");
 
     this.initializeIndicators();
-    this.signalRService.reStartConnection();
+    // this.signalRService.reStartConnection();
     this.alarmsService.initialAlarmsCame$.subscribe(() =>
       this.initializeIndicators()
     );
