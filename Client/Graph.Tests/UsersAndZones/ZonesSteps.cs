@@ -22,7 +22,7 @@ namespace Graph.Tests
         private Iit.Fibertest.Graph.Trace _trace1;
         private Iit.Fibertest.Graph.Trace _trace2;
         private ObjectsAsTreeToZonesViewModel _objectsVm;
-
+        private string _connectionId = @"connectionIdroot";
      
 
         [Given(@"Добавляем Зона1")]
@@ -96,7 +96,7 @@ namespace Graph.Tests
         [When(@"Перезапускаем клиентское приложение")]
         public void WhenПерезапускаемКлиентскоеПриложение()
         {
-            _sut.RestartClient(@"OpZone1");
+            _sut.RestartClient(@"OpZone1", _connectionId);
         }
 
         [When(@"Вход как Оператор для Зона1")]
@@ -105,7 +105,9 @@ namespace Graph.Tests
             var vm = _sut.ClientScope.Resolve<LoginViewModel>();
             vm.UserName = @"OpZone1";
             vm.Password = @"123";
+            vm.ConnectionId = @"connectionId123";
             vm.Login();
+            _connectionId = @"connectionId123";
             _sut.ClientScope.Resolve<CurrentUser>().UserId.Should().Be(_opZone1UserId);
 
             _sut.ReadModel.Nodes.Count.Should().Be(0);

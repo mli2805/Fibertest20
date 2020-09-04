@@ -52,6 +52,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                     {
                         ClientIp = GetRemoteAddress(),
                         Username = "onSignalRDisconnected",
+                        ConnectionId = Context.ConnectionId,
                     });
         }
 

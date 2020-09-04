@@ -52,7 +52,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-                _logFile.AppendLine("WcfServiceForRtu.NotifyUserCurrentMonitoringStep: " + dto.Step);
+//                _logFile.AppendLine("WcfServiceForRtu.NotifyUserCurrentMonitoringStep: " + dto.Step);
                 if (_globalState.IsDatacenterInDbOptimizationMode)
                     return;
 

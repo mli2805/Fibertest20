@@ -13,16 +13,20 @@ namespace Graph.Tests
     public sealed class UserHidesTracesSteps
     {
         private readonly SceneForHideTraces _sut = new SceneForHideTraces();
+        private string _connectionId = @"connectionIdroot";
+
 
         [Given(@"Входит пользователь (.*)")]
         public void GivenВходитПользователь(string user)
         {
-            _sut.RestartClient(user);
+            _sut.RestartClient(user, _connectionId);
 
             var vm = _sut.ClientScope.Resolve<LoginViewModel>();
             vm.UserName = user;
             vm.Password = user;
+            vm.ConnectionId = @"connectionId"+user;
             vm.Login();
+            _connectionId = @"connectionId"+user;
             _sut.FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
             _sut.ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
             _sut.ReadModel.Users.Count.Should().Be(7);

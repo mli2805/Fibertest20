@@ -32,6 +32,7 @@ namespace Graph.Tests
         public FakeD2RWcfManager FakeD2RWcfManager { get; set; }
         public ShellViewModel ShellVm { get; set; }
         public CurrentlyHiddenRtu CurrentlyHiddenRtu { get;set; }
+        public string ConnectionId { get;set; }
 
         public AccidentsFromSorExtractor AccidentsFromSorExtractor { get; set; }
         public MsmqMessagesProcessor MsmqMessagesProcessor { get; }
@@ -74,6 +75,7 @@ namespace Graph.Tests
             var vm = ClientScope.Resolve<LoginViewModel>();
             vm.UserName = @"root";
             vm.Password = @"root";
+            vm.ConnectionId = @"connectionIdroot";
             vm.Login();
             FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
             ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
@@ -109,10 +111,11 @@ namespace Graph.Tests
             WcfServiceCommonC2D = (WcfServiceCommonC2D) ClientScope.Resolve<IWcfServiceCommonC2D>();
         }
 
-        public void RestartClient(string username)
+        public void RestartClient(string username, string connectionId)
         {
             var commonC2D = ClientScope.Resolve<IWcfServiceCommonC2D>();
-            var unused = commonC2D.UnregisterClientAsync(new UnRegisterClientDto(){ClientIp = @"1.2.3.4", Username = username}).Result;
+            var unused = commonC2D.UnregisterClientAsync(
+                new UnRegisterClientDto(){ClientIp = @"1.2.3.4", Username = username, ConnectionId = connectionId}).Result;
             ClientScope = Container.BeginLifetimeScope(cfg =>
             {
                  cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceCommonC2D>());

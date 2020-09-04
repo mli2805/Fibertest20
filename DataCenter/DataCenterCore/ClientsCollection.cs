@@ -67,6 +67,7 @@ namespace Iit.Fibertest.DataCenterCore
                 // different types of clients or both clients are web
                 {
                     // TODO: notify old station
+                    _logFile.AppendLine($"The same client {stationWithTheSameUser.UserName}/{stationWithTheSameUser.ClientIp} with connectionId {stationWithTheSameUser.ConnectionId} removed.");
                     _clients.Remove(stationWithTheSameUser);
                 }
             }
@@ -183,21 +184,22 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public void RegisterHeartbeat(string connectionId)
+        public bool RegisterHeartbeat(string connectionId)
         {
             var station = _clients.FirstOrDefault(c => c.ConnectionId == connectionId);
             if (station != null)
                 station.LastConnectionTimestamp = DateTime.Now;
+            return station != null;
         }
 
         // if user just closed the browser tab instead of logging out
         // WebApi has not got user's name and put it as "onSignalRDisconnected"
         public void UnregisterClientAsync(UnRegisterClientDto dto)
         {
-            _logFile.AppendLine($"dto: username: {dto.Username}, clientIp: {dto.ClientIp}");
-            var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp &&
-              (s.UserName == dto.Username || (dto.Username == "onSignalRDisconnected" && s.IsWebClient)));
-            //            var station = _clients.FirstOrDefault(s => s.ConnectionId == dto.ConnectionId);
+//            _logFile.AppendLine($"dto: username: {dto.Username}, clientIp: {dto.ClientIp}");
+//            var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp &&
+//              (s.UserName == dto.Username || (dto.Username == "onSignalRDisconnected" && s.IsWebClient)));
+            var station = _clients.FirstOrDefault(s => s.ConnectionId == dto.ConnectionId);
             if (station != null)
             {
                 _clients.Remove(station);

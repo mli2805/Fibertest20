@@ -61,17 +61,18 @@ export class FtLoginComponent implements OnInit {
     this.isSpinnerVisible = true;
 
     try {
+      // this.signalrService.buildConnection(res.jsonWebToken);
+      this.signalrService.buildConnection("rabbish");
+      const connectionId = await this.signalrService.startConnection();
+      console.log(`Logged in with connection id ${connectionId} successfully!`);
+
       const res = (await this.authService
-        .login(this.user, this.pw)
+        .login(this.user, this.pw, connectionId)
         .toPromise()) as UserDto;
       if (res === null) {
         console.log("Login failed, try again...");
       } else {
         sessionStorage.setItem("currentUser", JSON.stringify(res));
-
-        this.signalrService.buildConnection(res.jsonWebToken);
-        this.signalrService.startConnection();
-        console.log("Logged in successfully!");
 
         const alarms = (await this.oneApiService
           .getRequest("misc/alarms", null)

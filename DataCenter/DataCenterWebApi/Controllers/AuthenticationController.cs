@@ -84,6 +84,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                         },
                         UserName = (string)user.username,
                         Password = (string)user.password,
+                        ConnectionId = (string)user.connectionId,
                         IsUnderSuperClient = false,
                         IsWebClient = true,
                     });

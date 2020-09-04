@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly ILocalDbManager _localDbManager;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
         private readonly SnapshotsLoader _snapshotsLoader;
         private readonly EventsOnTreeExecutor _eventsOnTreeExecutor;
@@ -26,7 +27,7 @@ namespace Iit.Fibertest.Client
         private readonly RenderingManager _renderingManager;
 
         public StoredEventsLoader(IMyLog logFile, ILocalDbManager localDbManager,
-            IWcfServiceDesktopC2D c2DWcfManager,
+            IWcfServiceDesktopC2D c2DWcfManager, CurrentUser currentUser,
             Model readModel, SnapshotsLoader snapshotsLoader,
             EventsOnTreeExecutor eventsOnTreeExecutor,
             OpticalEventsExecutor opticalEventsExecutor,
@@ -37,6 +38,7 @@ namespace Iit.Fibertest.Client
             _logFile = logFile;
             _localDbManager = localDbManager;
             _c2DWcfManager = c2DWcfManager;
+            _currentUser = currentUser;
             _readModel = readModel;
             _snapshotsLoader = snapshotsLoader;
             _eventsOnTreeExecutor = eventsOnTreeExecutor;
@@ -74,7 +76,7 @@ namespace Iit.Fibertest.Client
             string[] events;
             do
             {
-                events = await _c2DWcfManager.GetEvents(new GetEventsDto() {Revision = currentEventNumber});
+                events = await _c2DWcfManager.GetEvents(new GetEventsDto() {Revision = currentEventNumber, ConnectionId = _currentUser.ConnectionId });
                 await _localDbManager.SaveEvents(events, currentEventNumber + 1);
                 currentEventNumber = currentEventNumber + ApplyBatch(events);
             } while (events.Length != 0);

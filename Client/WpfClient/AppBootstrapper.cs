@@ -99,16 +99,17 @@ namespace Iit.Fibertest.Client
                 if (int.TryParse(args[0], out int clientOrdinal))
                     parameters.ClientOrdinal = clientOrdinal;
                 parameters.SuperClientCulture = args[1];
-                if (args.Length >= 4)
+                if (args.Length >= 5)
                 {
                     parameters.Username = args[2];
                     parameters.Password = args[3];
+                    parameters.Password = args[4];
                 }
 
-                if (args.Length == 6)
+                if (args.Length == 7)
                 {
-                    if (int.TryParse(args[5], out int serverPort))
-                        parameters.ServerNetAddress = new NetAddress(args[4], serverPort);
+                    if (int.TryParse(args[6], out int serverPort))
+                        parameters.ServerNetAddress = new NetAddress(args[5], serverPort);
                 }
             }
             return parameters;

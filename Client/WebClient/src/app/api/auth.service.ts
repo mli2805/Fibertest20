@@ -8,9 +8,9 @@ import { Utils } from "../Utils/utils";
 export class AuthService {
   constructor(private httpClient: HttpClient) {}
 
-  login(user: string, pw: string) {
+  login(user: string, pw: string, connectionId: string) {
     const url = Utils.GetWebApiUrl() + "/authentication/login/";
-    const body = { username: user, password: pw };
+    const body = { username: user, password: pw, connectionId };
 
     // !!!!!!!!!!!  press Ctrl+F5   !!!!!!!!!!!!!!!!!!
 

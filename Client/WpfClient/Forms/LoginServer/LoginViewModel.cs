@@ -38,6 +38,8 @@ namespace Iit.Fibertest.Client
             set { _password = value; Status = Resources.SID_Input_user_name_and_password; }
         }
 
+        public string ConnectionId { get; set; }
+
         private string _status = Resources.SID_Input_user_name_and_password;
         public string Status
         {
@@ -53,7 +55,7 @@ namespace Iit.Fibertest.Client
         public bool IsRegistrationSuccessful { get; set; }
 
         public LoginViewModel(ILifetimeScope globalScope, IWindowManager windowManager, IniFile iniFile, IMyLog logFile,
-            IWcfServiceDesktopC2D desktopC2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,  
+            IWcfServiceDesktopC2D desktopC2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
             CurrentUser currentUser, CurrentGis currentGis,
             CurrentDatacenterParameters currentDatacenterParameters)
         {
@@ -78,43 +80,48 @@ namespace Iit.Fibertest.Client
 #if DEBUG
             if (string.IsNullOrEmpty(UserName))
                 //                UserName = @"superclient";
-//                UserName = @"Протасовицкий В.";
-                                UserName = @"developer";
-//                                            UserName = @"operator";
+                //                UserName = @"Протасовицкий В.";
+                UserName = @"developer";
+            //                                            UserName = @"operator";
             //                UserName = @"supervisor";
             //                            UserName = @"root";
             //                UserName = @"Brigadir";
             if (string.IsNullOrEmpty(Password))
                 //                Password = @"superclient";
-//                Password = @"1";
-                                Password = @"developer";
-//                                            Password = @"operator";
+                //                Password = @"1";
+                Password = @"developer";
+            //                                            Password = @"operator";
             //                Password = @"supervisor";
             //                            Password = @"root";
             //                Passwod = @"1";
 #endif
+            if (string.IsNullOrEmpty(ConnectionId))
+                ConnectionId = Guid.NewGuid().ToString();
+
             //            using (_globalScope.Resolve<IWaitCursor>())
             {
-                var unused = await RegisterClientAsync(UserName, Password, false);
+                var unused = await RegisterClientAsync(UserName, Password, ConnectionId, false);
             }
 
         }
 
         // public to start under super-client
-        public async Task<bool> RegisterClientAsync(string username, string password, bool isUnderSuperClient)
+        public async Task<bool> RegisterClientAsync(string username, string password, string connectionId, bool isUnderSuperClient)
         {
             var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToDesktopClient);
             _currentDatacenterParameters.ServerIp = dcServiceAddresses.Main.Ip4Address;
             _currentDatacenterParameters.ServerTitle = _iniFile.Read(IniSection.Server, IniKey.ServerTitle, "");
             Status = string.Format(Resources.SID_Performing_registration_on__0_, dcServiceAddresses.Main.Ip4Address);
             _logFile.AppendLine($@"Performing registration on {dcServiceAddresses.Main.Ip4Address}");
-            var dto = await PureRegisterClientAsync(dcServiceAddresses, (int)TcpPorts.ClientListenTo, username, password, isUnderSuperClient);
+            var dto = await PureRegisterClientAsync(
+                dcServiceAddresses, (int)TcpPorts.ClientListenTo,
+                username, password, connectionId, isUnderSuperClient);
             ParseServerAnswer(dto);
             return true;
         }
 
         private async Task<ClientRegisteredDto> PureRegisterClientAsync(
-            DoubleAddress dcServiceAddresses, int clientTcpPort, string username, string password, bool isUnderSuperClient)
+            DoubleAddress dcServiceAddresses, int clientTcpPort, string username, string password, string connectionId, bool isUnderSuperClient)
         {
             var clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, clientTcpPort);
             if (clientAddress.IsAddressSetAsIp && clientAddress.Ip4Address == @"0.0.0.0" &&
@@ -136,7 +143,7 @@ namespace Iit.Fibertest.Client
                     Addresses = new DoubleAddress() { Main = clientAddress, HasReserveAddress = false },
                     UserName = username,
                     Password = password,
-                    ConnectionId = Guid.NewGuid().ToString(),
+                    ConnectionId = connectionId,
                     IsUnderSuperClient = isUnderSuperClient,
                 });
 

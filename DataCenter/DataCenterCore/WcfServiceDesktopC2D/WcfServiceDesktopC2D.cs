@@ -218,7 +218,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<string[]> GetEvents(GetEventsDto dto)
         {
-            _clientsCollection.RegisterHeartbeat(dto.ConnectionId);
+            if (!_clientsCollection.RegisterHeartbeat(dto.ConnectionId)) return null;
             return await Task.FromResult(_eventStoreService.GetEvents(dto.Revision));
         }
 

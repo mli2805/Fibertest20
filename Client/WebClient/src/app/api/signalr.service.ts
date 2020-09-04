@@ -39,14 +39,14 @@ export class SignalrService {
       .build();
   }
 
-  public async startConnection() {
+  public async startConnection(): Promise<string> {
     try {
       await this.hubConnection.start();
       console.log("SignalR connection started...");
       const connectionId = await this.hubConnection.invoke("getConnectionId");
-      console.log(`connectionId = ${connectionId}`);
       sessionStorage.setItem("connectionId", connectionId);
       this.registerSignalEvents();
+      return connectionId;
     } catch (err) {
       console.log("Error while starting connection: " + err);
       setTimeout(() => this.startConnection(), 3000);
