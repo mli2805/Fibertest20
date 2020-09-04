@@ -25,6 +25,7 @@ namespace Iit.Fibertest.Client
         private readonly ServerConnectionLostViewModel _serverConnectionLostViewModel;
         private readonly IWcfServiceInSuperClient _c2SWcfManager;
         private readonly SystemState _systemState;
+        private readonly CurrentUser _currentUser;
         private readonly CommandLineParameters _commandLineParameters;
         private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
@@ -63,7 +64,7 @@ namespace Iit.Fibertest.Client
         public ClientPoller(IWcfServiceDesktopC2D wcfConnection, IDispatcherProvider dispatcherProvider, 
             IWindowManager windowManager, Model readModel,
             ServerConnectionLostViewModel serverConnectionLostViewModel, 
-            IWcfServiceInSuperClient c2SWcfManager, SystemState systemState,
+            IWcfServiceInSuperClient c2SWcfManager, SystemState systemState, CurrentUser currentUser,
             CommandLineParameters commandLineParameters, CurrentDatacenterParameters currentDatacenterParameters, 
 
             EventsOnGraphExecutor eventsOnGraphExecutor, 
@@ -82,6 +83,7 @@ namespace Iit.Fibertest.Client
             _serverConnectionLostViewModel = serverConnectionLostViewModel;
             _c2SWcfManager = c2SWcfManager;
             _systemState = systemState;
+            _currentUser = currentUser;
             _commandLineParameters = commandLineParameters;
             _eventsOnGraphExecutor = eventsOnGraphExecutor;
             _currentDatacenterParameters = currentDatacenterParameters;
@@ -130,7 +132,8 @@ namespace Iit.Fibertest.Client
 
         public async Task<int> EventSourcingTick()
         {
-            string[] events = await _wcfConnection.GetEvents(new GetEventsDto(){Revision = CurrentEventNumber});
+            string[] events = await _wcfConnection.GetEvents(
+                new GetEventsDto(){Revision = CurrentEventNumber, ConnectionId = _currentUser.ConnectionId});
 
             if (events == null)
             {

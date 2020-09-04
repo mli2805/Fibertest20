@@ -136,6 +136,7 @@ namespace Iit.Fibertest.Client
                     Addresses = new DoubleAddress() { Main = clientAddress, HasReserveAddress = false },
                     UserName = username,
                     Password = password,
+                    ConnectionId = Guid.NewGuid().ToString(),
                     IsUnderSuperClient = isUnderSuperClient,
                 });
 
@@ -159,6 +160,7 @@ namespace Iit.Fibertest.Client
                 _currentUser.Role = result.Role;
                 _currentUser.ZoneId = result.ZoneId;
                 _currentUser.ZoneTitle = result.ZoneTitle;
+                _currentUser.ConnectionId = result.ConnectionId;
                 _currentDatacenterParameters.DatacenterVersion = result.DatacenterVersion;
                 _currentDatacenterParameters.StreamIdOriginal = result.StreamIdOriginal;
                 _currentDatacenterParameters.SnapshotLastEvent = result.SnapshotLastEvent;

@@ -8,9 +8,12 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public int LastIncludedEvent { get; set; }
 
-     
+
         [DataMember]
         public string ClientIp { get; set; }
+
+        [DataMember]
+        public string ConnectionId { get; set; }
 
     }
 
@@ -20,7 +23,7 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public int PortionsCount { get; set; }
 
-     
+
         [DataMember]
         public int Size { get; set; }
 

@@ -72,7 +72,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<int> UnregisterClientAsync(UnRegisterClientDto dto)
         {
             _clientsCollection.UnregisterClientAsync(dto);
-            _logFile.AppendLine($"Client {dto.Username} from {dto.ClientIp} exited");
+            _logFile.AppendLine($"Client {dto.Username}/{dto.ClientIp} with connectionId {dto.ConnectionId} exited");
 
             var command = new UnregisterClientStation();
             await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);

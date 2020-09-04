@@ -12,8 +12,9 @@ namespace Iit.Fibertest.Dto
         public string ClientIp { get; set; }
         public int ClientAddressPort { get; set; }
 
-        // for web clients
-        public string SignalRconnectinoId { get; set; }
+        // desktop (desktop under superclient) clients put here a GUID produced in WpfClient
+        // web clients put here a signalR connectionId
+        public string ConnectionId { get; set; }
 
         public bool IsUnderSuperClient { get; set; }
         public bool IsWebClient { get; set; }

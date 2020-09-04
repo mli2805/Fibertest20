@@ -25,6 +25,9 @@ namespace Iit.Fibertest.Dto
         public string ZoneTitle { get; set; }
 
         [DataMember]
+        public string ConnectionId { get; set; }
+
+        [DataMember]
         public Guid StreamIdOriginal { get; set; }
 
         [DataMember]

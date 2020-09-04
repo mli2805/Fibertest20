@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Dto
         public DoubleAddress Addresses { get; set; }
 
         [DataMember]
-        public string SignalRconnectionId { get; set; }
+        public string ConnectionId { get; set; }
 
         [DataMember]
         public string UserName { get; set; }

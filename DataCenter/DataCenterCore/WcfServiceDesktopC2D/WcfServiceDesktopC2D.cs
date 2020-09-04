@@ -218,13 +218,13 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<string[]> GetEvents(GetEventsDto dto)
         {
-            _clientsCollection.RegisterHeartbeat(dto.ClientIp);
+            _clientsCollection.RegisterHeartbeat(dto.ConnectionId);
             return await Task.FromResult(_eventStoreService.GetEvents(dto.Revision));
         }
 
         public async Task<SnapshotParamsDto> GetSnapshotParams(GetSnapshotDto dto)
         {
-            _clientsCollection.RegisterHeartbeat(dto.ClientIp);
+            _clientsCollection.RegisterHeartbeat(dto.ConnectionId);
             return await _snapshotRepository.GetSnapshotParams(dto.LastIncludedEvent);
         }
 

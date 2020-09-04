@@ -233,7 +233,7 @@ namespace Iit.Fibertest.Client
                 base.CanClose(callback);
             else
             {
-                 await _commonC2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto()).
+                 await _commonC2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto(){ConnectionId = _currentUser.ConnectionId}).
                      ContinueWith(ttt => { Environment.Exit(Environment.ExitCode); });
             }
         }

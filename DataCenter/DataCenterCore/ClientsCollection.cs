@@ -29,27 +29,58 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
+            // R1
             var user = _writeModel.Users.FirstOrDefault(u => u.Title == dto.UserName && UserExt.FlipFlop(u.EncodedPassword) == dto.Password);
             if (user == null)
                 return new ClientRegisteredDto { ReturnCode = ReturnCode.NoSuchUserOrWrongPassword };
 
-            var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp);
-            if (station != null && !(station.IsWebClient ^ dto.IsWebClient))
-            {
-                _clients.Remove(station);
-            }
+            // R2
+            //            var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp);
+            //            if (station != null && !(station.IsWebClient ^ dto.IsWebClient))
+            //            {
+            //                _clients.Remove(station);
+            //            }
 
+            // R3
             var hasRight = CheckUsersRights(dto, user);
             if (hasRight != null)
                 return hasRight;
-
+            // R4
             var licenseCheckResult = CheckLicense(dto);
             if (licenseCheckResult != null)
             {
                 _logFile.AppendLine(licenseCheckResult.ReturnCode.GetLocalizedString());
                 return licenseCheckResult;
             }
-            return await RegisterClientStation(dto, user);
+
+            // R5
+            var stationWithTheSameUser = _clients.FirstOrDefault(s => s.UserId == user.UserId);
+            if (stationWithTheSameUser != null)
+            {
+                // both clients are desktop
+                if (!dto.IsWebClient && !stationWithTheSameUser.IsWebClient)
+                {
+                    _logFile.AppendLine($"The same user {dto.UserName} registered from device {stationWithTheSameUser.ClientIp}");
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.ThisUserRegisteredFromAnotherDevice };
+                }
+                else
+                // different types of clients or both clients are web
+                {
+                    // TODO: notify old station
+                    _clients.Remove(stationWithTheSameUser);
+                }
+            }
+
+            //            var station = _clients.FirstOrDefault(s => s.ConnectionId == dto.ConnectionId);
+            //            if (station != null)
+            //                // R6
+            //                station.LastConnectionTimestamp = DateTime.Now;
+            //            else
+            // R7
+            RegisterNew(dto, user);
+            LogStations();
+            return await FillInSuccessfulResult(dto, user);
+
         }
 
         private ClientRegisteredDto CheckUsersRights(RegisterClientDto dto, User user)
@@ -101,32 +132,15 @@ namespace Iit.Fibertest.DataCenterCore
             return null;
         }
 
-        private async Task<ClientRegisteredDto> RegisterClientStation(RegisterClientDto dto, User user)
-        {
-            var theSame = _clients.FirstOrDefault(s => s.UserId == user.UserId && s.ClientIp != dto.ClientIp);
-            if (theSame != null)
-            {
-                _logFile.AppendLine($"The same user {dto.UserName} registered from device {theSame.ClientIp}");
-                return new ClientRegisteredDto() { ReturnCode = ReturnCode.ThisUserRegisteredFromAnotherDevice };
-            }
-
-            var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp);
-            if (station != null)
-                ReRegister(dto, station, user);
-            else
-                RegisterNew(dto, user);
-
-            _logFile.AppendLine($"There are {_clients.Count()} client(s)");
-            return await FillInSuccessfulResult(user);
-        }
-
-        private void ReRegister(RegisterClientDto dto, ClientStation station, User user)
-        {
-            station.UserId = user.UserId;
-            station.UserName = dto.UserName;
-            station.LastConnectionTimestamp = DateTime.Now;
-            _logFile.AppendLine($"Client {dto.UserName} from {dto.ClientIp} was registered already. Re-registered.");
-        }
+        //        private void ReRegister(RegisterClientDto dto, ClientStation station, User user)
+        //        {
+        //            _logFile.AppendLine($"Client {dto.UserName} from {dto.ClientIp} with connectionId {station.ConnectionId} was registered already.");
+        //            station.UserId = user.UserId;
+        //            station.UserName = dto.UserName;
+        //            station.ConnectionId = dto.ConnectionId;
+        //            station.LastConnectionTimestamp = DateTime.Now;
+        //            _logFile.AppendLine($"Client re-registered with connectionId {dto.ConnectionId}.");
+        //        }
 
         private void RegisterNew(RegisterClientDto dto, User user)
         {
@@ -137,18 +151,20 @@ namespace Iit.Fibertest.DataCenterCore
                 UserRole = user.Role,
                 ClientIp = dto.Addresses.Main.GetAddress(),
                 ClientAddressPort = dto.Addresses.Main.Port,
-                LastConnectionTimestamp = DateTime.Now,
+                ConnectionId = dto.ConnectionId,
 
                 IsUnderSuperClient = dto.IsUnderSuperClient,
                 IsWebClient = dto.IsWebClient,
                 IsDesktopClient = !dto.IsUnderSuperClient && !dto.IsWebClient,
+
+                LastConnectionTimestamp = DateTime.Now,
             };
             _clients.Add(station);
-            _logFile.AppendLine($"Client {dto.UserName} from {dto.ClientIp} registered");
+            _logFile.AppendLine($"Client {dto.UserName}/{dto.ClientIp} registered with connectionId {dto.ConnectionId}");
         }
 
 #pragma warning disable 1998
-        private async Task<ClientRegisteredDto> FillInSuccessfulResult(User user)
+        private async Task<ClientRegisteredDto> FillInSuccessfulResult(RegisterClientDto dto, User user)
 #pragma warning restore 1998
         {
             var result = new ClientRegisteredDto();
@@ -157,6 +173,7 @@ namespace Iit.Fibertest.DataCenterCore
             var zone = _writeModel.Zones.First(z => z.ZoneId == user.ZoneId);
             result.ZoneId = zone.ZoneId;
             result.ZoneTitle = zone.Title;
+            result.ConnectionId = dto.ConnectionId;
             result.DatacenterVersion = _currentDatacenterParameters.DatacenterVersion;
             result.ReturnCode = ReturnCode.ClientRegisteredSuccessfully;
             result.IsWithoutMapMode = _iniFile.Read(IniSection.Server, IniKey.IsWithoutMapMode, false);
@@ -166,11 +183,11 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public void RegisterHeartbeat(string clientIp)
+        public void RegisterHeartbeat(string connectionId)
         {
-            var client = _clients.FirstOrDefault(c => c.ClientIp == clientIp);
-            if (client != null)
-                client.LastConnectionTimestamp = DateTime.Now;
+            var station = _clients.FirstOrDefault(c => c.ConnectionId == connectionId);
+            if (station != null)
+                station.LastConnectionTimestamp = DateTime.Now;
         }
 
         // if user just closed the browser tab instead of logging out
@@ -179,21 +196,17 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _logFile.AppendLine($"dto: username: {dto.Username}, clientIp: {dto.ClientIp}");
             var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp &&
-                               (s.UserName == dto.Username || (dto.Username == "onSignalRDisconnected" && s.IsWebClient)));
+              (s.UserName == dto.Username || (dto.Username == "onSignalRDisconnected" && s.IsWebClient)));
+            //            var station = _clients.FirstOrDefault(s => s.ConnectionId == dto.ConnectionId);
             if (station != null)
             {
                 _clients.Remove(station);
-                _logFile.AppendLine($"Client {dto.Username} from {dto.ClientIp} unregistered.");
+                _logFile.AppendLine($"Client {dto.Username}/{dto.ClientIp} with connectionId {dto.ConnectionId} unregistered.");
             }
             else
-                _logFile.AppendLine($"There is no client station with address {dto.ClientIp}");
+                _logFile.AppendLine($"There is no client station with connectionId {dto.ConnectionId}");
 
-            _logFile.AppendLine($"There are {_clients.Count()} client(s) now");
-            int i = 0;
-            foreach (var clientStation in _clients)
-            {
-                _logFile.AppendLine($"{++i}. {clientStation.UserName} from {clientStation.ClientIp} as webclient = {clientStation.IsWebClient}");
-            }
+            LogStations();
         }
 
         public async void CleanDeadClients(TimeSpan timeSpan)
@@ -204,14 +217,14 @@ namespace Iit.Fibertest.DataCenterCore
 
             foreach (var deadStation in deadStations)
             {
-                _logFile.AppendLine($"Dead client {deadStation.UserName} from {deadStation.ClientIp} removed.");
+                _logFile.AppendLine($"Dead client {deadStation.UserName}/{deadStation.ClientIp} with connectionId {deadStation.ConnectionId} removed.");
 
                 var command = new LostClientConnection();
                 await _eventStoreService.SendCommand(command, deadStation.UserName, deadStation.ClientIp);
 
                 _clients.Remove(deadStation);
             }
-            _logFile.AppendLine($"There are {_clients.Count()} client(s)");
+            LogStations();
         }
 
 
@@ -247,6 +260,16 @@ namespace Iit.Fibertest.DataCenterCore
         public ClientStation GetClientStation(string clientIp)
         {
             return _clients.FirstOrDefault(c => c.ClientIp == clientIp);
+        }
+
+        private void LogStations()
+        {
+            _logFile.AppendLine("-----------------------------------------------");
+            foreach (var station in _clients)
+            {
+                _logFile.AppendLine($"{station.UserName}/{station.ClientIp} with connection id {station.ConnectionId}");
+            }
+            _logFile.AppendLine($"There are {_clients.Count()} client(s)");
         }
     }
 }
