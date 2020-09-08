@@ -11,6 +11,7 @@ import { Observable } from "rxjs";
 import { OneApiService } from "src/app/api/one.service";
 import { AlarmsDto } from "src/app/models/dtos/alarms/alarmsDto";
 import { AlarmsService } from "src/app/interaction/alarms.service";
+import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 
 @Component({
   selector: "ft-login",
@@ -62,8 +63,9 @@ export class FtLoginComponent implements OnInit {
 
     try {
       // this.signalrService.buildConnection(res.jsonWebToken);
-      this.signalrService.buildConnection("rabbish");
+      this.signalrService.buildConnection("it is not checked on other side");
       const connectionId = await this.signalrService.startConnection();
+      this.oneApiService.connectionId = connectionId;
       console.log(`Logged in with connection id ${connectionId} successfully!`);
 
       const res = (await this.authService
@@ -72,25 +74,7 @@ export class FtLoginComponent implements OnInit {
       if (res === null) {
         console.log("Login failed, try again...");
       } else {
-        sessionStorage.setItem("currentUser", JSON.stringify(res));
-
-        const alarms = (await this.oneApiService
-          .getRequest("misc/alarms", null)
-          .toPromise()) as AlarmsDto;
-        sessionStorage.setItem(
-          "currentOpticalAlarms",
-          JSON.stringify(alarms.opticalAlarms)
-        );
-        sessionStorage.setItem(
-          "currentNetworkAlarms",
-          JSON.stringify(alarms.networkAlarms)
-        );
-        sessionStorage.setItem(
-          "currentBopAlarms",
-          JSON.stringify(alarms.bopAlarms)
-        );
-
-        this.unseenAlarmService.processInitialAlarms();
+        await this.initializeIndicators(res);
         this.router.navigate(["/ft-main-nav/rtu-tree"], { queryParams: null });
       }
     } catch (unsuccessfulResult) {
@@ -107,5 +91,27 @@ export class FtLoginComponent implements OnInit {
     }
 
     this.isSpinnerVisible = false;
+  }
+
+  async initializeIndicators(res: UserDto) {
+    sessionStorage.setItem("currentUser", JSON.stringify(res));
+
+    const alarms = (await this.oneApiService
+      .getRequest("misc/alarms", null)
+      .toPromise()) as AlarmsDto;
+    sessionStorage.setItem(
+      "currentOpticalAlarms",
+      JSON.stringify(alarms.opticalAlarms)
+    );
+    sessionStorage.setItem(
+      "currentNetworkAlarms",
+      JSON.stringify(alarms.networkAlarms)
+    );
+    sessionStorage.setItem(
+      "currentBopAlarms",
+      JSON.stringify(alarms.bopAlarms)
+    );
+
+    this.unseenAlarmService.processInitialAlarms();
   }
 }

@@ -61,6 +61,18 @@ namespace Iit.Fibertest.DataCenterWebApi
             Response.StatusCode = 201;
         }
 
+        [Authorize]
+        [HttpGet("Heartbeat/{connectionId}")]
+        public async Task<RequestAnswer> Heartbeat(string connectionId)
+        {
+            var clientIp = GetRemoteAddress();
+            _logFile.AppendLine($"Authentication request from {clientIp}");
+            var result = await _commonC2DWcfManager
+                .SetServerAddresses(_doubleAddress, User.Identity.Name, clientIp)
+                .RegisterHeartbeat(connectionId);
+            return result;
+        }
+
         [HttpPost("Login")]
         public async Task Login()
         {

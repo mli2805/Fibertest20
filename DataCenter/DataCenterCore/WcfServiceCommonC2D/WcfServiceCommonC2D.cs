@@ -69,6 +69,15 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
+        public async Task<RequestAnswer> RegisterHeartbeat(string connectionId)
+        {
+            await Task.Delay(1);
+            var result = _clientsCollection.RegisterHeartbeat(connectionId);
+            return result 
+                ? new RequestAnswer() { ReturnCode = ReturnCode.Ok, ErrorMessage = "OK"} 
+                : new RequestAnswer() { ReturnCode = ReturnCode.ClientCleanedAsDead, ErrorMessage = "Client not found."};
+        }
+
         public async Task<int> UnregisterClientAsync(UnRegisterClientDto dto)
         {
             _clientsCollection.UnregisterClientAsync(dto);
@@ -97,11 +106,11 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
         {
             var otauAttachedDto = dto.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.AttachOtauAsync(dto) 
+                ? await _clientToRtuTransmitter.AttachOtauAsync(dto)
                 : new OtauAttachedDto
                 {
-                    IsAttached = false, 
-                    ErrorMessage = "This function for VeEX RTU doesn't implemented", 
+                    IsAttached = false,
+                    ErrorMessage = "This function for VeEX RTU doesn't implemented",
                     ReturnCode = ReturnCode.RtuAttachOtauError
                 };
             if (otauAttachedDto.IsAttached)
@@ -213,10 +222,11 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _logFile.AppendLine($"Client from {dto.ClientIp} sent base ref for trace {dto.TraceId.First6()}");
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.TraceId);
-            if (trace == null) 
+            if (trace == null)
                 return new BaseRefAssignedDto
                 {
-                    ErrorMessage = "trace not found", ReturnCode = ReturnCode.BaseRefAssignmentFailed
+                    ErrorMessage = "trace not found",
+                    ReturnCode = ReturnCode.BaseRefAssignmentFailed
                 };
 
             var checkResult = _baseRefsChecker.AreBaseRefsAcceptable(dto.BaseRefs, trace);
@@ -266,7 +276,7 @@ namespace Iit.Fibertest.DataCenterCore
             return await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
         }
 
-     
+
         // Base refs had been assigned earlier (and saved in Db) and now user attached trace to the port
         // base refs should be extracted from Db and sent to the RTU
         // or user explicitly demands to resend base refs to RTU 

@@ -17,6 +17,10 @@ import { NetworkAlarmIndicator } from "src/app/models/dtos/alarms/networkAlarm";
 import { BopAlarmIndicator } from "src/app/models/dtos/alarms/bopAlarm";
 import { BopEventDto } from "src/app/models/dtos/bopEventDto";
 import { TranslateService } from "@ngx-translate/core";
+import { OneApiService } from "src/app/api/one.service";
+import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
+import { ReturnCode } from "src/app/models/enums/returnCode";
+import { setInterval } from "timers";
 
 @Component({
   selector: "ft-main-nav",
@@ -40,13 +44,14 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
 
   constructor(
     private authService: AuthService,
+    private oneApiService: OneApiService,
     private signalRService: SignalrService,
     private alarmsService: AlarmsService,
     private ts: TranslateService,
     private ar: ApplicationRef,
     private cdr: ChangeDetectorRef
   ) {
-    console.log("main nav c-tor hit!");
+    console.log("main nav c-tor");
     this.language = sessionStorage.getItem("language");
 
     this.opticalAlarmIndicator = new OpticalAlarmIndicator(
@@ -65,6 +70,28 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
 
     this.subscribeNewAlarmEvents();
     this.subscribeUserSeenAlarms();
+
+    setInterval(this.sendHeartbeat, 5000, this.oneApiService, this.logout);
+  }
+
+  async sendHeartbeat(oneApiService: OneApiService, logout) {
+    try {
+      if (oneApiService.connectionId !== undefined) {
+        const res = (await oneApiService
+          .getRequest(`authentication/heartbeat/${oneApiService.connectionId}`)
+          .toPromise()) as RequestAnswer;
+        if (res.returnCode !== ReturnCode.Ok) {
+          console.log(`Heartbeat: ${res.errorMessage}`);
+          logout(); // has THIS inside
+        }
+      } else {
+        console.log("connectionId is undefined");
+      }
+    } catch (error) {
+      console.log(`can't send heartbeat ${error}`);
+    }
+
+    // setTimeout(this.sendHeartbeat, 5000, this.oneApiService, this.logout);
   }
 
   async initializeIndicators() {

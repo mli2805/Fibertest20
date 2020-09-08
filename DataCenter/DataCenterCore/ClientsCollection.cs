@@ -69,19 +69,14 @@ namespace Iit.Fibertest.DataCenterCore
                     // TODO: notify old station
                     _logFile.AppendLine($"The same client {stationWithTheSameUser.UserName}/{stationWithTheSameUser.ClientIp} with connectionId {stationWithTheSameUser.ConnectionId} removed.");
                     _clients.Remove(stationWithTheSameUser);
+                    _logFile.AppendLine("Old client deleted");
                 }
             }
 
-            //            var station = _clients.FirstOrDefault(s => s.ConnectionId == dto.ConnectionId);
-            //            if (station != null)
-            //                // R6
-            //                station.LastConnectionTimestamp = DateTime.Now;
-            //            else
-            // R7
-            RegisterNew(dto, user);
+            _clients.Add(Create(dto,user));
+            _logFile.AppendLine($"Client {dto.UserName}/{dto.ClientIp} registered with connectionId {dto.ConnectionId}");
             LogStations();
             return await FillInSuccessfulResult(dto, user);
-
         }
 
         private ClientRegisteredDto CheckUsersRights(RegisterClientDto dto, User user)
@@ -143,9 +138,30 @@ namespace Iit.Fibertest.DataCenterCore
         //            _logFile.AppendLine($"Client re-registered with connectionId {dto.ConnectionId}.");
         //        }
 
-        private void RegisterNew(RegisterClientDto dto, User user)
+//        private void RegisterNew(RegisterClientDto dto, User user)
+//        {
+//            var station = new ClientStation()
+//            {
+//                UserId = user.UserId,
+//                UserName = dto.UserName,
+//                UserRole = user.Role,
+//                ClientIp = dto.Addresses.Main.GetAddress(),
+//                ClientAddressPort = dto.Addresses.Main.Port,
+//                ConnectionId = dto.ConnectionId,
+//
+//                IsUnderSuperClient = dto.IsUnderSuperClient,
+//                IsWebClient = dto.IsWebClient,
+//                IsDesktopClient = !dto.IsUnderSuperClient && !dto.IsWebClient,
+//
+//                LastConnectionTimestamp = DateTime.Now,
+//            };
+//            _clients.Add(station);
+//            _logFile.AppendLine($"Client {dto.UserName}/{dto.ClientIp} registered with connectionId {dto.ConnectionId}");
+//        }
+
+        private static ClientStation Create(RegisterClientDto dto, User user)
         {
-            var station = new ClientStation()
+            return new ClientStation()
             {
                 UserId = user.UserId,
                 UserName = dto.UserName,
@@ -160,8 +176,6 @@ namespace Iit.Fibertest.DataCenterCore
 
                 LastConnectionTimestamp = DateTime.Now,
             };
-            _clients.Add(station);
-            _logFile.AppendLine($"Client {dto.UserName}/{dto.ClientIp} registered with connectionId {dto.ConnectionId}");
         }
 
 #pragma warning disable 1998

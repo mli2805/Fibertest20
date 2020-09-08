@@ -7,6 +7,8 @@ import { AssignBaseRefDtoWithFiles } from "../models/dtos/trace/assignBaseRefDto
   providedIn: "root",
 })
 export class OneApiService {
+  public connectionId: string;
+
   constructor(private httpClient: HttpClient) {}
 
   getRequest(request: string, params = null) {

@@ -5,6 +5,8 @@
         Error = 0x0,
         Ok = 1,
 
+        ClientCleanedAsDead = 10,
+
         RtuInitializationError = 1000,
         RtuInitializedSuccessfully = 1001,
         OtdrInitializationCannotLoadDll = 1002,
