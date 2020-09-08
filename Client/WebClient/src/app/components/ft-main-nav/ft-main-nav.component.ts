@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  OnDestroy,
-  ChangeDetectorRef,
-  ApplicationRef,
-} from "@angular/core";
+import { Component, OnInit, OnDestroy } from "@angular/core";
 import { AuthService } from "src/app/api/auth.service";
 import { Subscription } from "rxjs";
 import { SignalrService } from "src/app/api/signalr.service";
@@ -20,7 +14,6 @@ import { TranslateService } from "@ngx-translate/core";
 import { OneApiService } from "src/app/api/one.service";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 import { ReturnCode } from "src/app/models/enums/returnCode";
-import { setInterval } from "timers";
 import { Router } from "@angular/router";
 import {
   FtMessageBox,
@@ -78,7 +71,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.subscribeNewAlarmEvents();
     this.subscribeUserSeenAlarms();
 
-    setInterval(() => this.sendHeartbeat(), 5000);
+    setInterval(() => this.sendHeartbeat(), 30000);
   }
 
   async sendHeartbeat() {
