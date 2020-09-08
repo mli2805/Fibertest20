@@ -21,6 +21,13 @@ import { OneApiService } from "src/app/api/one.service";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { setInterval } from "timers";
+import { Router } from "@angular/router";
+import {
+  FtMessageBox,
+  MessageBoxButton,
+  MessageBoxStyle,
+} from "../ft-simple-dialog/ft-message-box";
+import { MatDialog } from "@angular/material";
 
 @Component({
   selector: "ft-main-nav",
@@ -43,13 +50,13 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   private language: string;
 
   constructor(
+    private router: Router,
     private authService: AuthService,
     private oneApiService: OneApiService,
     private signalRService: SignalrService,
     private alarmsService: AlarmsService,
     private ts: TranslateService,
-    private ar: ApplicationRef,
-    private cdr: ChangeDetectorRef
+    private matDialog: MatDialog
   ) {
     console.log("main nav c-tor");
     this.language = sessionStorage.getItem("language");
@@ -71,27 +78,40 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.subscribeNewAlarmEvents();
     this.subscribeUserSeenAlarms();
 
-    setInterval(this.sendHeartbeat, 5000, this.oneApiService, this.logout);
+    setInterval(() => this.sendHeartbeat(), 5000);
   }
 
-  async sendHeartbeat(oneApiService: OneApiService, logout) {
+  async sendHeartbeat() {
     try {
-      if (oneApiService.connectionId !== undefined) {
-        const res = (await oneApiService
-          .getRequest(`authentication/heartbeat/${oneApiService.connectionId}`)
+      const user = sessionStorage.getItem("currentUser");
+      if (user !== null) {
+        const currentUser = JSON.parse(sessionStorage.currentUser);
+        const res = (await this.oneApiService
+          .getRequest(`authentication/heartbeat/${currentUser.connectionId}`)
           .toPromise()) as RequestAnswer;
         if (res.returnCode !== ReturnCode.Ok) {
           console.log(`Heartbeat: ${res.errorMessage}`);
-          logout(); // has THIS inside
+
+          await this.logout();
+          this.router.navigate(["/ft-main-nav/logout"]);
+
+          await FtMessageBox.show(
+            this.matDialog,
+            this.ts.instant("SID_Server_connection_lost_"),
+            this.ts.instant("SID_Error_"),
+            "",
+            MessageBoxButton.Ok,
+            false,
+            MessageBoxStyle.Full,
+            "600px"
+          ).toPromise();
         }
       } else {
-        console.log("connectionId is undefined");
+        console.log("user has not logged yet");
       }
     } catch (error) {
-      console.log(`can't send heartbeat ${error}`);
+      console.log(`can't send heartbeat: ${error}`);
     }
-
-    // setTimeout(this.sendHeartbeat, 5000, this.oneApiService, this.logout);
   }
 
   async initializeIndicators() {
@@ -189,8 +209,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     }
     this.ts.use(this.language);
     sessionStorage.setItem("language", this.language);
-    // this.cdr.detectChanges();
-    // this.ar.tick(); // doesn't work
 
     location.reload(); // too slow
   }

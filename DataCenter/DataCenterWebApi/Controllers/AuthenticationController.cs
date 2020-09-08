@@ -84,6 +84,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 body = await reader.ReadToEndAsync();
             }
             dynamic user = JObject.Parse(body);
+            var connectionId = Guid.NewGuid().ToString();
             var clientRegisteredDto = await _commonC2DWcfManager
                 .SetServerAddresses(_doubleAddress, (string)user.username, clientIp)
                 .RegisterClientAsync(
@@ -96,7 +97,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                         },
                         UserName = (string)user.username,
                         Password = (string)user.password,
-                        ConnectionId = (string)user.connectionId,
+                        ConnectionId = connectionId,
                         IsUnderSuperClient = false,
                         IsWebClient = true,
                     });
@@ -133,6 +134,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 username = (string)user.username,
                 role = clientRegisteredDto.Role,
                 zone = clientRegisteredDto.ZoneTitle,
+                connectionId,
                 jsonWebToken = encodedJwt,
             };
 

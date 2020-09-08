@@ -6,5 +6,6 @@ export class UserDto {
   username: string;
   role: Role;
   zone: string;
+  connectionId: string;
   jsonWebToken: string;
 }

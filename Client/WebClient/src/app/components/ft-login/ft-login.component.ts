@@ -62,18 +62,21 @@ export class FtLoginComponent implements OnInit {
     this.isSpinnerVisible = true;
 
     try {
-      // this.signalrService.buildConnection(res.jsonWebToken);
-      this.signalrService.buildConnection("it is not checked on other side");
-      const connectionId = await this.signalrService.startConnection();
-      this.oneApiService.connectionId = connectionId;
-      console.log(`Logged in with connection id ${connectionId} successfully!`);
-
       const res = (await this.authService
-        .login(this.user, this.pw, connectionId)
+        .login(this.user, this.pw)
         .toPromise()) as UserDto;
       if (res === null) {
         console.log("Login failed, try again...");
       } else {
+        sessionStorage.setItem("currentUser", JSON.stringify(res));
+
+        // jwt is not checked on other side
+        this.signalrService.buildConnection(res.jsonWebToken);
+        const connectionId = await this.signalrService.startConnection();
+        console.log(
+          `Logged in with signalR connection id ${connectionId} successfully!`
+        );
+
         await this.initializeIndicators(res);
         this.router.navigate(["/ft-main-nav/rtu-tree"], { queryParams: null });
       }
@@ -94,8 +97,6 @@ export class FtLoginComponent implements OnInit {
   }
 
   async initializeIndicators(res: UserDto) {
-    sessionStorage.setItem("currentUser", JSON.stringify(res));
-
     const alarms = (await this.oneApiService
       .getRequest("misc/alarms", null)
       .toPromise()) as AlarmsDto;
