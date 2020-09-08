@@ -12,6 +12,7 @@ import { OneApiService } from "src/app/api/one.service";
 import { AlarmsDto } from "src/app/models/dtos/alarms/alarmsDto";
 import { AlarmsService } from "src/app/interaction/alarms.service";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
+import { Utils } from "src/app/Utils/utils";
 
 @Component({
   selector: "ft-login",
@@ -46,7 +47,8 @@ export class FtLoginComponent implements OnInit {
   ngOnInit() {}
 
   public getSettings(): Observable<any> {
-    return this.httpClient.get("./assets/settings.json");
+    const uuid = Utils.generateUUID();
+    return this.httpClient.get(`./assets/settings.json?${uuid}`);
   }
 
   async login() {
