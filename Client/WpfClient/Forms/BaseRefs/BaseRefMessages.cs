@@ -22,6 +22,10 @@ namespace Iit.Fibertest.Client
         {
             switch (dto.ReturnCode)
             {
+                case ReturnCode.D2RWcfConnectionError:
+                case ReturnCode.D2RWcfOperationError:
+                    DisplayD2RError(dto);
+                    break;
                 case ReturnCode.BaseRefAssignmentFailed: DisplayCommonError(dto); break;
                 case ReturnCode.BaseRefAssignmentParamNotAcceptable: DisplayParamIsNotAcceptable(dto); break;
                 case ReturnCode.BaseRefAssignmentNoThresholds: DisplayThereIsNoThresholds(dto); break;
@@ -34,6 +38,11 @@ namespace Iit.Fibertest.Client
         {
             var baseRefHeader = dto.BaseRefType.GetLocalizedFemaleString() + Resources.SID__base_;
             var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>() { baseRefHeader, "", "", dto.ErrorMessage });
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+        private void DisplayD2RError(BaseRefAssignedDto dto)
+        {
+            var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>() { dto.ReturnCode.GetLocalizedString() });
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
@@ -76,7 +85,7 @@ namespace Iit.Fibertest.Client
             };
 
             messageStrings
-                .Add(string.Format(Resources.SID_Landmarks_count_in_reflectogram_is__0_, dto.Landmarks) + Environment.NewLine + 
+                .Add(string.Format(Resources.SID_Landmarks_count_in_reflectogram_is__0_, dto.Landmarks) + Environment.NewLine +
                      string.Format(Resources.SID_Trace_s_equipment_count__excluding_Cable_reserve__is__0_, dto.Equipments) + Environment.NewLine +
                      Environment.NewLine +
                      string.Format(Resources.SID_Trace_s_node_count_is__0_, dto.Nodes));

@@ -73,9 +73,9 @@ namespace Iit.Fibertest.DataCenterCore
         {
             await Task.Delay(1);
             var result = _clientsCollection.RegisterHeartbeat(connectionId);
-            return result 
-                ? new RequestAnswer() { ReturnCode = ReturnCode.Ok, ErrorMessage = "OK"} 
-                : new RequestAnswer() { ReturnCode = ReturnCode.ClientCleanedAsDead, ErrorMessage = "Client not found."};
+            return result
+                ? new RequestAnswer() { ReturnCode = ReturnCode.Ok, ErrorMessage = "OK" }
+                : new RequestAnswer() { ReturnCode = ReturnCode.ClientCleanedAsDead, ErrorMessage = "Client not found." };
         }
 
         public async Task<int> UnregisterClientAsync(UnRegisterClientDto dto)
@@ -233,16 +233,27 @@ namespace Iit.Fibertest.DataCenterCore
             if (checkResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 return checkResult;
 
-            var result = await SaveChangesOnServer(dto);
-            if (!string.IsNullOrEmpty(result))
-                return new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignmentFailed };
-
             if (dto.OtauPortDto == null) // unattached trace
-                return new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
+            {
+                var result = await SaveChangesOnServer(dto);
+                return !string.IsNullOrEmpty(result)
+                    ? new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignmentFailed }
+                    : new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
+            }
+            else
+            {
+                var transferResult = dto.RtuMaker == RtuMaker.IIT
+                    ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto)
+                    : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto).Result);
 
-            return dto.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto)
-                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto).Result);
+                if (transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+                    return transferResult;
+
+                var result = await SaveChangesOnServer(dto);
+                return !string.IsNullOrEmpty(result)
+                    ? new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignmentFailed }
+                    : transferResult;
+            }
         }
 
         private async Task<string> SaveChangesOnServer(AssignBaseRefsDto dto)
