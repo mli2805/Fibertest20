@@ -10,28 +10,31 @@ namespace Iit.Fibertest.DataCenterCore
     public class SnmpNotifier
     {
         private readonly IniFile _iniFile;
+        private readonly IMyLog _logFile;
         private readonly Model _writeModel;
         private readonly SnmpAgent _snmpAgent;
 
-        public SnmpNotifier(IniFile iniFile, Model writeModel, SnmpAgent snmpAgent)
+        public SnmpNotifier(IniFile iniFile, IMyLog logFile, Model writeModel, SnmpAgent snmpAgent)
         {
             _iniFile = iniFile;
+            _logFile = logFile;
             _writeModel = writeModel;
             _snmpAgent = snmpAgent;
         }
 
         public void SendTraceEvent(AddMeasurement meas)
         {
-            var isSnmpOn = _iniFile.Read(IniSection.Snmp, IniKey.IsSnmpOn, true);
+            var isSnmpOn = _iniFile.Read(IniSection.Snmp, IniKey.IsSnmpOn, false);
             if (!isSnmpOn) return;
             var data = MeasToSnmp(meas);
 
             _snmpAgent.SentRealTrap(data, SnmpTrapType.MeasurementAsSnmp);
+            _logFile.AppendLine("SNMP trap sent");
         }
 
         public void SendRtuNetworkEvent(NetworkEvent rtuEvent)
         {
-            var isSnmpOn = _iniFile.Read(IniSection.Snmp, IniKey.IsSnmpOn, true);
+            var isSnmpOn = _iniFile.Read(IniSection.Snmp, IniKey.IsSnmpOn, false);
             if (!isSnmpOn) return;
             var data = RtuEventToSnmp(rtuEvent);
 
@@ -40,7 +43,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public void SendBopNetworkEvent(AddBopNetworkEvent bopEvent)
         {
-            var isSnmpOn = _iniFile.Read(IniSection.Snmp, IniKey.IsSnmpOn, true);
+            var isSnmpOn = _iniFile.Read(IniSection.Snmp, IniKey.IsSnmpOn, false);
             if (!isSnmpOn) return;
             var data = BopEventToSnmp(bopEvent);
 

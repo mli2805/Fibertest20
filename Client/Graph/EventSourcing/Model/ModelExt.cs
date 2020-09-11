@@ -75,6 +75,10 @@ namespace Iit.Fibertest.Graph
         // and return all fibers between those nodes
         public static IEnumerable<Guid> GetTraceFibersBetweenLandmarks(this Model model, Guid traceId, int leftLmIndex, int rightLmIndex)
         {
+            if (leftLmIndex == -1 || rightLmIndex == -1)
+            {
+                yield break;
+            }
             var trace = model.Traces.First(t => t.TraceId == traceId);
             var nodesWithoutAdjustmentPoints = model.GetTraceNodesExcludingAdjustmentPoints(traceId).ToList();
             var leftNodeId = nodesWithoutAdjustmentPoints[leftLmIndex];
