@@ -4,7 +4,6 @@ using System.Linq;
 using Autofac;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterCore

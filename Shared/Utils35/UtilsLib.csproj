@@ -71,6 +71,9 @@
     <Reference Include="Microsoft.Web.Administration, Version=7.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\..\packages\Microsoft.Web.Administration.7.0.0.0\lib\net20\Microsoft.Web.Administration.dll</HintPath>
     </Reference>
+    <Reference Include="Optixsoft.OtdrDataFormat">
+      <HintPath>..\..\Optixsoft.OtdrDataFormat\Optixsoft.OtdrDataFormat.dll</HintPath>
+    </Reference>
     <Reference Include="SnmpSharpNet, Version=0.9.5.0, Culture=neutral, PublicKeyToken=b2181aa3b9571feb, processorArchitecture=MSIL">
       <HintPath>..\..\packages\SnmpSharpNet.0.9.5\lib\SnmpSharpNet.dll</HintPath>
     </Reference>
@@ -114,6 +117,10 @@
     <Compile Include="Setup\ShortcutOperatios.cs" />
     <Compile Include="Setup\WebCommonOperation.cs" />
     <Compile Include="SnmpAgent.cs" />
+    <Compile Include="SorData\RftsEventsExt.cs" />
+    <Compile Include="SorData\RftsEventsFactory.cs" />
+    <Compile Include="SorData\SorData.cs" />
+    <Compile Include="SorData\SorDataExt.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,8 +1,8 @@
-﻿using Iit.Fibertest.StringResources;
+﻿using Iit.Fibertest.Dto;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
-namespace Iit.Fibertest.DataCenterCore
+namespace Iit.Fibertest.UtilsLib
 {
     public static class RftsEventsExt
     {
@@ -20,6 +20,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return "";
             return "SID_unexpected_input";
         }
+
         public static string ForEnabledInTable(this RftsEventTypes rftsEventType)
         {
             if ((rftsEventType & RftsEventTypes.IsNew) != 0)
@@ -45,20 +46,34 @@ namespace Iit.Fibertest.DataCenterCore
             return "SID_unexpected_input";
         }
 
-        public static string ForTable(this ShortThreshold threshold)
-        {
-            var value = threshold.IsAbsolute ? threshold.AbsoluteThreshold : threshold.RelativeThreshold;
-            var str = $@"{value / 1000.0: 0.000} ";
-            var result = str + (threshold.IsAbsolute ? Resources.SID__abs__ : Resources.SID__rel__);
-            return result;
-        }
-
         public static string EventCodeForTable(this string eventCode)
         {
             var str = eventCode[0] == '0' ? @"S" : @"R";
             return $@"{str} : {eventCode[1]}";
         }
 
+        public static string ForDeviationInTable(this RftsEventDto rftsEventDto, ShortDeviation deviation, string letter)
+        {
+            var formattedValue = $@"{(short)deviation.Deviation / 1000.0: 0.000}";
+            if ((deviation.Type & ShortDeviationTypes.IsExceeded) != 0)
+            {
+                formattedValue += $@" ( {letter} ) ";
+                rftsEventDto.IsFailed = true;
+                rftsEventDto.DamageType += $@" {letter}";
+            }
+            return formattedValue;
+        }
 
+
+        public static string ToSid(this RftsLevelType level)
+        {
+            switch (level)
+            {
+                case RftsLevelType.Minor: return @"SID_Minor";
+                case RftsLevelType.Major: return @"SID_Major";
+                case RftsLevelType.Critical: return @"SID_Critical";
+                default: return @"SID_User_s";
+            }
+        }
     }
 }

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 

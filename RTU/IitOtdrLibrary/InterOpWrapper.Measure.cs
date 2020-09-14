@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.IitOtdrLibrary

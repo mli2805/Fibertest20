@@ -4,7 +4,7 @@ using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.IitOtdrLibrary;
+using Iit.Fibertest.UtilsLib;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using TechTalk.SpecFlow;
 

@@ -1,7 +1,7 @@
-﻿using Iit.Fibertest.IitOtdrLibrary;
-using Iit.Fibertest.StringResources;
+﻿using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.WpfCommonViews
 {

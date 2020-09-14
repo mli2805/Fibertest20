@@ -8,7 +8,7 @@ using Optixsoft.SorExaminer.OtdrDataFormat.IO;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 using BinaryReader = System.IO.BinaryReader;
 
-namespace Iit.Fibertest.IitOtdrLibrary
+namespace Iit.Fibertest.UtilsLib
 {
     public static class SorData
     {

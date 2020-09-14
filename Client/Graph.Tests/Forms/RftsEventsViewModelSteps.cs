@@ -1,7 +1,7 @@
 ﻿using System.IO;
 using System.Windows;
 using FluentAssertions;
-using Iit.Fibertest.IitOtdrLibrary;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
 using TechTalk.SpecFlow;
 

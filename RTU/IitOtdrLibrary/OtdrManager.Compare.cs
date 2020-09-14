@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.UtilsLib;
 using Optixsoft.SharedCommons.SorSerialization;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.IO;

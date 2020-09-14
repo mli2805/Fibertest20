@@ -2,8 +2,8 @@
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.IitOtdrLibrary;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.WpfCommonViews

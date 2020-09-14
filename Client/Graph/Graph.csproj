@@ -199,7 +199,6 @@
     <Compile Include="DomainEntities\Enums\CountMatch.cs" />
     <Compile Include="DomainEntities\Enums\RftsLevelTypeExt.cs" />
     <Compile Include="Algorithms\AccidentFromMoniResult\AccidentsFromSorExtractor.cs" />
-    <Compile Include="DomainEntities\Extensions\SorDataExt.cs" />
     <Compile Include="Algorithms\BaseRefToolKit\BaseRefDtoFactory.cs" />
     <Compile Include="Algorithms\BaseRefToolKit\BaseRefLandmarksTool.cs" />
     <Compile Include="Algorithms\BaseRefToolKit\TraceModelBuilder.cs" />

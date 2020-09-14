@@ -2,12 +2,10 @@
 using System.Globalization;
 using System.Linq;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
-using Iit.Fibertest.IitOtdrLibrary;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
-namespace Iit.Fibertest.DataCenterCore
+namespace Iit.Fibertest.UtilsLib
 {
     public static class RftsEventsFactory
     {
@@ -105,31 +103,21 @@ namespace Iit.Fibertest.DataCenterCore
                 }
 
                 rftsEventDto.reflectanceCoeffDeviation
-                    = ForDeviationInTable(rftsEventDto, rftsEventsBlock.Events[i].ReflectanceThreshold, @"R");
+                    = rftsEventDto.ForDeviationInTable(rftsEventsBlock.Events[i].ReflectanceThreshold, @"R");
 
                 if (i < rftsEventsBlock.EventsCount - 1)
                     rftsEventDto.attenuationInClosureDeviation
-                        = ForDeviationInTable(rftsEventDto, rftsEventsBlock.Events[i].AttenuationThreshold, @"L");
+                        = rftsEventDto.ForDeviationInTable(rftsEventsBlock.Events[i].AttenuationThreshold, @"L");
 
                 rftsEventDto.attenuationCoeffDeviation
-                    = ForDeviationInTable(rftsEventDto, rftsEventsBlock.Events[i].AttenuationCoefThreshold, @"C");
+                    = rftsEventDto.ForDeviationInTable(rftsEventsBlock.Events[i].AttenuationCoefThreshold, @"C");
 
                 rftsEventDto.State = rftsEventsBlock.Events[i].EventTypes.ForStateInTable(rftsEventDto.IsFailed);
                 yield return rftsEventDto;
             }
         }
-        private static string ForDeviationInTable(RftsEventDto rftsEventDto, ShortDeviation deviation, string letter)
-        {
-            var formattedValue = $@"{(short)deviation.Deviation / 1000.0: 0.000}";
-            if ((deviation.Type & ShortDeviationTypes.IsExceeded) != 0)
-            {
-                formattedValue += $@" ( {letter} ) ";
-                rftsEventDto.IsFailed = true;
-                rftsEventDto.DamageType += $@" {letter}";
-            }
-            return formattedValue;
-        }
 
+      
         private static MonitoringThreshold Convert(this ShortThreshold threshold)
         {
             return new MonitoringThreshold
@@ -150,5 +138,6 @@ namespace Iit.Fibertest.DataCenterCore
                 IsPassed = (rftsEventsBlock.EELD.Type & ShortDeviationTypes.IsExceeded) == 0,
             };
         }
+
     }
 }

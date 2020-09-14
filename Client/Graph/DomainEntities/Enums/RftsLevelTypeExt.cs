@@ -15,16 +15,5 @@ namespace Iit.Fibertest.Graph
                 default: return FiberState.User;
             }
         }
-
-        public static string ToSid(this RftsLevelType level)
-        {
-            switch (level)
-            {
-                case RftsLevelType.Minor: return @"SID_Minor";
-                case RftsLevelType.Major: return @"SID_Major";
-                case RftsLevelType.Critical: return @"SID_Critical";
-                default: return @"SID_User_s";
-            }
-        }
     }
 }

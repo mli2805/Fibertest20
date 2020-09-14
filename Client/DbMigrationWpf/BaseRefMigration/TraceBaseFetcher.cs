@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.IitOtdrLibrary;
+using Iit.Fibertest.UtilsLib;
 using MySql.Data.MySqlClient;
 
 namespace DbMigrationWpf.BaseRefMigration
