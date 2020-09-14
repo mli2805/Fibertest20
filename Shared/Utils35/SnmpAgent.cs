@@ -53,6 +53,7 @@ namespace Iit.Fibertest.UtilsLib
     public class SnmpAgent
     {
         private readonly IniFile _iniFile;
+        private readonly IMyLog _logFile;
         private DateTime startTime;
 
         private int snmpTrapVersion;
@@ -64,9 +65,10 @@ namespace Iit.Fibertest.UtilsLib
 
         private string enterpriseOid;
 
-        public SnmpAgent(IniFile iniFile)
+        public SnmpAgent(IniFile iniFile, IMyLog logFile)
         {
             _iniFile = iniFile;
+            _logFile = logFile;
             startTime = DateTime.Now;
             Initialize();
         }
@@ -111,16 +113,23 @@ namespace Iit.Fibertest.UtilsLib
 
         private void SendSnmpV1Trap(VbCollection trapData, SnmpTrapType trapType)
         {
-            TrapAgent trapAgent = new TrapAgent();
-            trapAgent.SendV1Trap(new IpAddress(snmpReceiverAddress),
-                snmpReceiverPort,
-                snmpCommunity,
-                new Oid(enterpriseOid),
-                new IpAddress(snmpAgentIp),
-                6,
-                (int)trapType, // my trap type 
-                (uint)(DateTime.Now - startTime).TotalSeconds * 10, // system UpTime in 0,1sec
-                trapData);
+            try
+            {
+                TrapAgent trapAgent = new TrapAgent();
+                trapAgent.SendV1Trap(new IpAddress(snmpReceiverAddress),
+                    snmpReceiverPort,
+                    snmpCommunity,
+                    new Oid(enterpriseOid),
+                    new IpAddress(snmpAgentIp),
+                    6,
+                    (int)trapType, // my trap type 
+                    (uint)(DateTime.Now - startTime).TotalSeconds * 10, // system UpTime in 0,1sec
+                    trapData);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"SendSnmpV1Trap: {e.Message}");
+            }
         }
 
         public void SentRealTrap(List<KeyValuePair<SnmpProperty, string>> data, SnmpTrapType trapType)

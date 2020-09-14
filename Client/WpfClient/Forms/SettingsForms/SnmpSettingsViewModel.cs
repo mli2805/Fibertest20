@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
@@ -12,20 +13,31 @@ namespace Iit.Fibertest.Client
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
+     
+        private bool _isSnmpOn;
+        public bool IsSnmpOn
+        {
+            get => _isSnmpOn;
+            set
+            {
+                if (value == _isSnmpOn) return;
+                _isSnmpOn = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
-        public bool IsSnmpOn { get; set; }
         public string SnmpManagerIp { get; set; }
         public int SnmpManagerPort { get; set; }
         public string SnmpCommunity { get; set; }
         public string SnmpAgentIp { get; set; }
 
-        public List<string> SnmpEncodings { get; set; } = new List<string>(){ @"unicode (utf16)", @"utf8", @"windows1251"};
+        public List<string> SnmpEncodings { get; set; } = new List<string>() { @"unicode (utf16)", @"utf8", @"windows1251" };
         public string SelectedSnmpEncoding { get; set; }
 
         public string EnterpriseOid { get; set; }
-        
+
         public bool IsEditEnabled { get; set; }
-      
+
         public SnmpSettingsViewModel(CurrentDatacenterParameters currentDatacenterParameters, CurrentUser currentUser,
             IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)
         {
@@ -53,37 +65,75 @@ namespace Iit.Fibertest.Client
             bool res;
             using (new WaitCursor())
             {
-                _currentDatacenterParameters.Snmp.IsSnmpOn = IsSnmpOn;
-                _currentDatacenterParameters.Snmp.SnmpReceiverIp = SnmpManagerIp;
-                _currentDatacenterParameters.Snmp.SnmpReceiverPort = SnmpManagerPort;
-                _currentDatacenterParameters.Snmp.SnmpCommunity = SnmpCommunity;
-                _currentDatacenterParameters.Snmp.SnmpAgentIp = SnmpAgentIp;
-                _currentDatacenterParameters.Snmp.SnmpEncoding = SelectedSnmpEncoding;
-                _currentDatacenterParameters.Snmp.EnterpriseOid = EnterpriseOid;
-
-                var dto = new SnmpSettingsDto()
-                {
-                    IsSnmpOn = IsSnmpOn,
-                    SnmpReceiverIp = SnmpManagerIp,
-                    SnmpReceiverPort = SnmpManagerPort,
-                    SnmpCommunity = SnmpCommunity,
-                    SnmpAgentIp = SnmpAgentIp,
-                    SnmpEncoding = SelectedSnmpEncoding,
-                    EnterpriseOid = EnterpriseOid,
-                };
-                res = await _c2DWcfManager.SaveSnmpSettings(dto);
+                res = await SaveSettings();
             }
 
             if (res)
-                TryClose();
-            else
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Failed_to_save_SNMP_settings);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, @"SNMP settings are saved.");
                 _windowManager.ShowDialogWithAssignedOwner(vm);
             }
         }
 
-        public void Cancel()
+        public async void Test()
+        {
+            bool res;
+            using (new WaitCursor())
+            {
+                res = await SaveSettings();
+                if (res)
+                    res = await TestSettings();
+            }
+
+            if (res)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, @"SNMP trap sent successfully!");
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+            }
+        }
+
+        private async Task<bool> TestSettings()
+        {
+            var res = await _c2DWcfManager.SendTest("", NotificationType.Snmp);
+            if (!res)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, @"Failed to send SNMP trap!");
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+            }
+            return res;
+        }
+
+        private async Task<bool> SaveSettings()
+        {
+            _currentDatacenterParameters.Snmp.IsSnmpOn = IsSnmpOn;
+            _currentDatacenterParameters.Snmp.SnmpReceiverIp = SnmpManagerIp;
+            _currentDatacenterParameters.Snmp.SnmpReceiverPort = SnmpManagerPort;
+            _currentDatacenterParameters.Snmp.SnmpCommunity = SnmpCommunity;
+            _currentDatacenterParameters.Snmp.SnmpAgentIp = SnmpAgentIp;
+            _currentDatacenterParameters.Snmp.SnmpEncoding = SelectedSnmpEncoding;
+            _currentDatacenterParameters.Snmp.EnterpriseOid = EnterpriseOid;
+
+            var dto = new SnmpSettingsDto()
+            {
+                IsSnmpOn = IsSnmpOn,
+                SnmpReceiverIp = SnmpManagerIp,
+                SnmpReceiverPort = SnmpManagerPort,
+                SnmpCommunity = SnmpCommunity,
+                SnmpAgentIp = SnmpAgentIp,
+                SnmpEncoding = SelectedSnmpEncoding,
+                EnterpriseOid = EnterpriseOid,
+            };
+            var res = await _c2DWcfManager.SaveSnmpSettings(dto);
+            if (!res)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Failed_to_save_SNMP_settings);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+            }
+
+            return res;
+        }
+
+        public void Close()
         {
             TryClose();
         }
