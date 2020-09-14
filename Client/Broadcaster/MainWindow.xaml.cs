@@ -20,6 +20,7 @@ namespace Broadcaster
     public partial class MainWindow : INotifyPropertyChanged
     {
         private IniFile _iniFile;
+        private IMyLog _logFile;
         private int _sentCount;
 
         public int GsmComPort { get; set; }
@@ -60,6 +61,7 @@ namespace Broadcaster
             GsmComPort = _iniFile.Read(IniSection.Broadcast, IniKey.GsmModemComPort, 3);
             SendToNumber = _iniFile.Read(IniSection.Broadcast, IniKey.TestNumberToSms, "+375291234567");
             ContentOfSms = _iniFile.Read(IniSection.Broadcast, IniKey.TestSmsContent, "Fibertest 2.0 Test SMS Тестовая СМСка");
+            _logFile = new LogFile(_iniFile);
 
             SelectedSnmpEncoding = SnmpEncodings[2];
         }
@@ -179,7 +181,7 @@ namespace Broadcaster
             // save all user's input into ini-file: snmpAgent will read them from ini-file
             SaveInputs();
 
-            var snmpAgent = new SnmpAgent(_iniFile);
+            var snmpAgent = new SnmpAgent(_iniFile, _logFile);
             snmpAgent.SendTestTrap();
         }
 
