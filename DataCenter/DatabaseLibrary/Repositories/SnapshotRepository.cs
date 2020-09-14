@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using Microsoft.EntityFrameworkCore;
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
@@ -59,8 +60,7 @@ namespace Iit.Fibertest.DatabaseLibrary
                 using (var dbContext = new FtDbContext(_settings.Options))
                 {
                     _logFile.AppendLine("Snapshot reading...");
-                    await Task.Delay(1);
-                    var portions = dbContext.Snapshots.Where(l => l.StreamIdOriginal == graphDbVersionId);
+                    var portions = await dbContext.Snapshots.Where(l => l.StreamIdOriginal == graphDbVersionId).ToListAsync();
                     if (!portions.Any())
                     {
                         _logFile.AppendLine("No snapshots");
