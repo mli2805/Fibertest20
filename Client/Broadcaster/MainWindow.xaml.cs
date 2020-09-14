@@ -62,6 +62,7 @@ namespace Broadcaster
             SendToNumber = _iniFile.Read(IniSection.Broadcast, IniKey.TestNumberToSms, "+375291234567");
             ContentOfSms = _iniFile.Read(IniSection.Broadcast, IniKey.TestSmsContent, "Fibertest 2.0 Test SMS Тестовая СМСка");
             _logFile = new LogFile(_iniFile);
+            _logFile.AssignFile("broadcaster.log");
 
             SelectedSnmpEncoding = SnmpEncodings[2];
         }
