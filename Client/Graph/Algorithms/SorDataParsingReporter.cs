@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Linq;
 using Iit.Fibertest.IitOtdrLibrary;
@@ -9,6 +8,10 @@ using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
 namespace Iit.Fibertest.Graph
 {
+    /// <summary>
+    /// report for Debug
+    /// prepare list of strings for log file
+    /// </summary>
     public class SorDataParsingReporter
     {
         private OtdrDataKnownBlocks _sorData;
@@ -24,7 +27,6 @@ namespace Iit.Fibertest.Graph
             ReportBaseAndMeasEventsParsing(rftsEventsBlocks);
         }
 
-        [Localizable(false)]
         private void ReportBaseAndMeasEventsParsing(List<RftsEventsBlock> levels)
         {
             ReportLandmarks(_baseSorData);
@@ -35,27 +37,25 @@ namespace Iit.Fibertest.Graph
             var tempFolder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Temp\");
             if (!Directory.Exists(tempFolder))
                 Directory.CreateDirectory(tempFolder);
-            var filename = Guid.NewGuid() + ".txt";
+            var filename = Guid.NewGuid() + @".txt";
             var fullFilename = Path.Combine(tempFolder, filename);
             File.WriteAllLines(fullFilename, _report);
         }
 
-        [Localizable(false)]
         private void ReportLandmarks(OtdrDataKnownBlocks sorData)
         {
             _report.Add("");
-            _report.Add("   Landmarks");
+            _report.Add(@"   Landmarks");
             for (int i = 0; i < sorData.LinkParameters.LandmarksCount; i++)
             {
                 var lm = sorData.LinkParameters.LandmarkBlocks[i];
-                var line = $"index {i}  owt {lm.Location:D6} ({sorData.OwtToLenKm(lm.Location),7:F3} km)";
+                var line = $@"index {i}  owt {lm.Location:D6} ({sorData.OwtToLenKm(lm.Location),7:F3} km)";
                 if (lm.RelatedEventNumber != 0)
-                    line = line + $"  related event Number {lm.RelatedEventNumber}";
+                    line = line + $@"  related event Number {lm.RelatedEventNumber}";
                 _report.Add(line);
             }
         }
 
-        [Localizable(false)]
         private void ReportKeyAndRftsEvents(OtdrDataKnownBlocks sorData, List<RftsEventsBlock> rftsEventsBlocks)
         {
             var dict = new Dictionary<string, List<string>>();
@@ -67,14 +67,14 @@ namespace Iit.Fibertest.Graph
                 }
 
             _report.Add("");
-            _report.Add("    Events (Minor / Major / Critical)");
+            _report.Add(@"    Events (Minor / Major / Critical)");
             for (var i = 0; i < sorData.KeyEvents.KeyEvents.Length; i++)
             {
                 var keyEvent = sorData.KeyEvents.KeyEvents[i];
                 var line = $@"Number {i + 1}  owt {keyEvent.EventPropagationTime:D6} ({sorData.KeyEventDistanceKm(i),7:F3} km)";
-                if (dict.ContainsKey("Minor")) line = line + "   " + $"{dict["Minor"][i],21}";
-                if (dict.ContainsKey("Major")) line = line + "   " + $"{dict["Major"][i],21}";
-                if (dict.ContainsKey("Critical")) line = line + "   " + $"{dict["Critical"][i],21}";
+                if (dict.ContainsKey(@"Minor")) line = line + @"   " + $@"{dict[@"Minor"][i],21}";
+                if (dict.ContainsKey(@"Major")) line = line + @"   " + $@"{dict[@"Major"][i],21}";
+                if (dict.ContainsKey(@"Critical")) line = line + @"   " + $@"{dict[@"Critical"][i],21}";
                 _report.Add(line);
             }
             _report.Add("");

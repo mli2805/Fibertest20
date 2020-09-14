@@ -6,7 +6,7 @@ export class RftsEventsDto {
 
   isNoFiber: boolean;
   levelArray: RftsLevelDto[] = [];
-  footer: RftsEventsFooterDto;
+  summary: RftsEventsSummaryDto;
 }
 
 export class RftsLevelDto {
@@ -55,7 +55,7 @@ export class TotalFiberLossDto {
   isPassed: boolean;
 }
 
-export class RftsEventsFooterDto {
+export class RftsEventsSummaryDto {
   traceState: string;
   orl: number;
   levelStates: LevelState[] = [];

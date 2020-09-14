@@ -20,7 +20,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (rftsEventsDto.IsNoFiber) return rftsEventsDto;
 
             rftsEventsDto.LevelArray = CreateLevelArray(sorData).ToArray();
-            rftsEventsDto.Footer = new RftsEventsFooterDto(){Orl = sorData.KeyEvents.OpticalReturnLoss};
+            rftsEventsDto.Summary = new RftsEventsSummaryDto(){Orl = sorData.KeyEvents.OpticalReturnLoss};
             return rftsEventsDto;
         }
 

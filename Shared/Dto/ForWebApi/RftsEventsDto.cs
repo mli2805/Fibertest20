@@ -7,7 +7,7 @@
 
         public bool IsNoFiber;
         public RftsLevelDto[] LevelArray;
-        public RftsEventsFooterDto Footer;
+        public RftsEventsSummaryDto Summary;
     }
 
     public class RftsLevelDto
@@ -60,7 +60,7 @@
         public bool IsAbsolute;
     }
 
-    public class RftsEventsFooterDto
+    public class RftsEventsSummaryDto
     {
         public string TraceState;
         public double Orl;

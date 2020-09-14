@@ -52,8 +52,8 @@ export class FtRftsEventsComponent implements OnInit {
   }
 
   evaluateResults(res: RftsEventsDto) {
-    res.footer.levelStates = new Array();
-    res.footer.traceState = "SID_Ok";
+    res.summary.levelStates = new Array();
+    res.summary.traceState = "SID_Ok";
     for (const level of res.levelArray) {
       const levelState = new LevelState();
       levelState.levelTitle = level.title;
@@ -62,9 +62,9 @@ export class FtRftsEventsComponent implements OnInit {
             0: level.firstProblemLocation,
           })
         : this.ts.instant("SID_pass");
-      res.footer.levelStates.push(levelState);
+      res.summary.levelStates.push(levelState);
       if (level.isFailed) {
-        res.footer.traceState = level.title;
+        res.summary.traceState = level.title;
       }
     }
   }
