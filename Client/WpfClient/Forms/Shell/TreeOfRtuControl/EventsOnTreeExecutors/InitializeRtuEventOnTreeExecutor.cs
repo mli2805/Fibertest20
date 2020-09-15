@@ -4,23 +4,20 @@ using System.Windows.Media;
 using Autofac;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
     public class InitializeRtuEventOnTreeExecutor
     {
         private readonly ILifetimeScope _globalScope;
-        private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
         private readonly TreeOfRtuModel _treeOfRtuModel;
 
-        public InitializeRtuEventOnTreeExecutor(ILifetimeScope globalScope, IMyLog logFile, CurrentUser currentUser,
+        public InitializeRtuEventOnTreeExecutor(ILifetimeScope globalScope, CurrentUser currentUser,
             Model readModel, TreeOfRtuModel treeOfRtuModel)
         {
             _globalScope = globalScope;
-            _logFile = logFile;
             _currentUser = currentUser;
             _readModel = readModel;
             _treeOfRtuModel = treeOfRtuModel;
@@ -57,7 +54,7 @@ namespace Iit.Fibertest.Client
 
             if (rtuLeaf.OwnPortCount < e.OwnPortCount)
             {
-                for (int i = rtuLeaf.OwnPortCount+1; i <= e.OwnPortCount; i++)
+                for (int i = rtuLeaf.OwnPortCount + 1; i <= e.OwnPortCount; i++)
                 {
                     var port = _globalScope.Resolve<PortLeaf>(new NamedParameter(@"parent", rtuLeaf), new NamedParameter(@"portNumber", i));
                     rtuLeaf.ChildrenImpresario.Children.Insert(i - 1, port);
@@ -77,15 +74,15 @@ namespace Iit.Fibertest.Client
                 foreach (var childPair in e.Children)
                 {
                     var otau = rtuLeaf.ChildrenImpresario.Children.Select(child => child as OtauLeaf)
-                        .FirstOrDefault(o => o?.OtauNetAddress.Equals(childPair.Value.NetAddress) == true);
-                    if (otau == null)
-                    {
-                        _logFile.AppendLine(@"RTU cannot return child OTAU which does not exist yet! It's a business rule");
-                        _logFile.AppendLine(@"Client sends existing OTAU list -> ");
-                        _logFile.AppendLine(@" RTU MUST detach any OTAU which are not in client's list");
-                        _logFile.AppendLine(@" and attach all OTAU from this list");
-                    }
-                    else
+                        .FirstOrDefault(o => o?.OtauNetAddress?.Equals(childPair.Value.NetAddress) == true);
+
+                    /*
+                     RTU cannot return child OTAU which does not exist yet! It's a business rule
+                     Client sends existing OTAU list -> 
+                     RTU MUST detach any OTAU which are not in client's list
+                     and attach all OTAU from this list
+                    */
+                    if (otau != null)
                         rtuLeaf.SetOtauState(otau.Id, childPair.Value.IsOk);
                 }
 
@@ -103,12 +100,10 @@ namespace Iit.Fibertest.Client
                 port.Parent = rtuLeaf;
             }
 
-            if (e.Children != null && e.Children.Count > 0)
-            {
-                _logFile.AppendLine(@"While first initialization RTU cannot return children! It's a business rule");
-                _logFile.AppendLine(@"RTU MUST detach all OTAUs if has any");
-            }
-
+            /*
+             While first initialization RTU cannot return children! It's a business rule
+             RTU MUST detach all OTAUs if has any
+            */
         }
 
         private static void SetRtuProperties(RtuLeaf rtuLeaf, RtuInitialized e)

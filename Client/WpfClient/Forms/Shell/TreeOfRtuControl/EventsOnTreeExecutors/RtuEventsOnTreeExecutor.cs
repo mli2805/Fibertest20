@@ -154,7 +154,7 @@ namespace Iit.Fibertest.Client
             foreach (var child in rtuLeaf.ChildrenImpresario.Children)
             {
                 // do not check TCP port - if RTU has BOP with 2 OTAU (one address but two ports) - both OTAU should have the same state
-                if (child is OtauLeaf otauLeaf && otauLeaf.OtauNetAddress.Ip4Address == e.OtauIp)
+                if (child is OtauLeaf otauLeaf && otauLeaf.OtauNetAddress?.Ip4Address == e.OtauIp)
                 {
                     otauLeaf.OtauState = e.IsOk ? RtuPartState.Ok : RtuPartState.Broken;
                     //_logFile.AppendLine($@"OtauLeaf {otauLeaf.Serial} changed state to {otauLeaf.OtauState}");

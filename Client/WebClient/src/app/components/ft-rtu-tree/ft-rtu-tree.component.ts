@@ -176,6 +176,9 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
     for (const rtu of this.rtus) {
       rtu.expanded = this.getPreviousIsExpanded(rtu);
       for (const child of rtu.children) {
+        if (child == null) {
+          console.log(`RTU ${rtu.title} has child = null`);
+        }
         if (child.childType === ChildType.Trace) {
           const trace = child as TraceDto;
           trace.rtuMonitoringMode = rtu.monitoringMode;

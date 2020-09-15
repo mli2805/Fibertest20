@@ -67,8 +67,17 @@ namespace Iit.Fibertest.Client
                 return;
             }
 
-            evnt.OtauIp = bop.OtauAddress.Ip4Address;
-            evnt.TcpPort = bop.OtauAddress.Port;
+            if (bop.OtauAddress == null)
+            {
+                evnt.OtauIp = "";
+                evnt.TcpPort = -1;
+            }
+            else
+            {
+                evnt.OtauIp =  bop.OtauAddress.Ip4Address;
+                evnt.TcpPort = bop.OtauAddress.Port;
+            }
+          
 
             AllBopNetworkEventsViewModel.AddEvent(evnt);
             ActualBopNetworkEventsViewModel.RemoveOldEventForBopIfExists(evnt.OtauIp);
