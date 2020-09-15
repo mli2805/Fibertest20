@@ -44,8 +44,7 @@
             <ComboBox ItemsSource="{Binding SnmpEncodings}" SelectedItem="{Binding SelectedSnmpEncoding}" Margin="5" />
         </DockPanel>
         <StackPanel Orientation="Horizontal" Margin="5,25,5,15" HorizontalAlignment="Center">
-            <Button Width="120" Margin="5" Name="Save" Content="{x:Static stringResources:Resources.SID_Save}"/>
-            <Button Width="120" Margin="5" Name="Test" IsEnabled="{Binding IsSnmpOn}" Content="{x:Static stringResources:Resources.SID_Test}"/>
+            <Button Width="180" Margin="5" Name="SaveAndTest" Content="{x:Static stringResources:Resources.SID_Save_and_test}"/>
             <Button Width="120" Margin="5" Name="Close" Content="{x:Static stringResources:Resources.SID_Close}"/>
         </StackPanel>
     </StackPanel>

@@ -2720,7 +2720,16 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_usually_162" xml:space="preserve">
     <value>обычно 162</value>
   </data>
-  <data name="SID_Save_and_test" xml:space="preserve">
+	<data name="SID_Save_and_test" xml:space="preserve">
     <value>Сохранить и тестировать</value>
   </data>
+	<data name="SID_SNMP_trap_sent" xml:space="preserve">
+		<value>SNMP трап отправлен</value>
+	</data>
+	<data name="SID_Make_sure_if_trap_has_been_received" xml:space="preserve">
+		<value>Убедитесь что трап получен</value>
+	</data>
+	<data name="SID_Failed_to_send_SNMP_trap_" xml:space="preserve">
+		<value>Не удалось отправить SNMP трап!</value>
+	</data>
 </root>

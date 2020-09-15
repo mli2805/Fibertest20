@@ -104,14 +104,15 @@ namespace Iit.Fibertest.UtilsLib
             Initialize();
         }
 
-        public void SendTestTrap()
+        public bool SendTestTrap()
         {
             var trapData = CreateTestTrapData();
             if (snmpTrapVersion == 1)
-                SendSnmpV1Trap(trapData, SnmpTrapType.TestTrap);
+                return SendSnmpV1Trap(trapData, SnmpTrapType.TestTrap);
+            return false;
         }
 
-        private void SendSnmpV1Trap(VbCollection trapData, SnmpTrapType trapType)
+        private bool SendSnmpV1Trap(VbCollection trapData, SnmpTrapType trapType)
         {
             try
             {
@@ -125,14 +126,17 @@ namespace Iit.Fibertest.UtilsLib
                     (int)trapType, // my trap type 
                     (uint)(DateTime.Now - startTime).TotalSeconds * 10, // system UpTime in 0,1sec
                     trapData);
+                _logFile.AppendLine("SendSnmpV1Trap sent.");
+                return true;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine($"SendSnmpV1Trap: {e.Message}");
+                return false;
             }
         }
 
-        public void SentRealTrap(List<KeyValuePair<SnmpProperty, string>> data, SnmpTrapType trapType)
+        public bool SentRealTrap(List<KeyValuePair<SnmpProperty, string>> data, SnmpTrapType trapType)
         {
             var trapData = new VbCollection();
             foreach (KeyValuePair<SnmpProperty, string> pair in data)
@@ -140,7 +144,7 @@ namespace Iit.Fibertest.UtilsLib
                 trapData.Add(new Oid(enterpriseOid + "." + (int)pair.Key),
                     new OctetString(EncodeString(pair.Value, snmpEncoding)));
             }
-            SendSnmpV1Trap(trapData, trapType);
+            return SendSnmpV1Trap(trapData, trapType);
         }
 
         private VbCollection CreateTestTrapData()

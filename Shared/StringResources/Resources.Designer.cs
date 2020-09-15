@@ -2890,6 +2890,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to send SNMP trap!.
+        /// </summary>
+        public static string SID_Failed_to_send_SNMP_trap_ {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_send_SNMP_trap_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to send test e-mail!.
         /// </summary>
         public static string SID_Failed_to_send_test_e_mail_ {
@@ -3903,6 +3912,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Major {
             get {
                 return ResourceManager.GetString("SID_Major", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Make sure if trap has been received.
+        /// </summary>
+        public static string SID_Make_sure_if_trap_has_been_received {
+            get {
+                return ResourceManager.GetString("SID_Make_sure_if_trap_has_been_received", resourceCulture);
             }
         }
         
@@ -6497,6 +6515,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_SNMP_settings {
             get {
                 return ResourceManager.GetString("SID_SNMP_settings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SNMP trap sent.
+        /// </summary>
+        public static string SID_SNMP_trap_sent {
+            get {
+                return ResourceManager.GetString("SID_SNMP_trap_sent", resourceCulture);
             }
         }
         
