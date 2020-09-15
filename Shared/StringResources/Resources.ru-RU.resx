@@ -2780,4 +2780,16 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_List_of_ssl_certificates" xml:space="preserve">
 		<value>Список SSL сертификатов, установленных в IIS</value>
 	</data>
+	<data name="SID_Failed_to_send_SNMP_trap_" xml:space="preserve">
+		<value>Не удалось отправить SNMP трап!</value>
+	</data>
+	<data name="SID_SNMP_trap_sent_" xml:space="preserve">
+		<value>SNMP трап отправлен.</value>
+	</data>
+	<data name="SID_Make_sure_if_trap_has_been_received" xml:space="preserve">
+		<value>Убедитесь что трап получен</value>
+	</data>
+	<data name="SID_SNMP_settings_are_saved_" xml:space="preserve">
+		<value>Настройки SNMP сохранены.</value>
+	</data>
 </root>

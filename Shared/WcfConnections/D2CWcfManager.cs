@@ -33,7 +33,6 @@ namespace Iit.Fibertest.WcfConnections
             }
             foreach (var clientAddress in _addresses)
             {
-                _logFile.AppendLine($"sending to {clientAddress.Main.ToStringASpace}");
                 var wcfConnection = new WcfFactory(clientAddress, _iniFile, _logFile).GetClientChannelFactory();
                 if (wcfConnection == null)
                     continue;

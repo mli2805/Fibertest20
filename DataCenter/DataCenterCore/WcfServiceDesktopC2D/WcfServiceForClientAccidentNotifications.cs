@@ -14,14 +14,10 @@ namespace Iit.Fibertest.DataCenterCore
             _smtp.SaveSmtpSettings(dto);
             return Task.FromResult(true);
         }
-        public Task<bool> SaveSnmpSettings(SnmpSettingsDto dto)
+        public Task<bool> SaveAndTestSnmpSettings(SnmpSettingsDto dto)
         {
-            _logFile.AppendLine("Client asked to save SNMP settings");
             _snmpAgent.SaveSnmpSettings(dto);
-
-            _snmpAgent.SendTestTrap();
-
-            return Task.FromResult(true);
+            return Task.FromResult(_snmpAgent.SendTestTrap());
         }
 
         public Task<bool> SaveGisMode(bool isWithoutMapMode)

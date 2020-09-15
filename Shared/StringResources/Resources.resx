@@ -2780,4 +2780,16 @@ RTU is initializing right now!</value>
 	<data name="SID_List_of_ssl_certificates" xml:space="preserve">
     <value>List of SSL certificates installed in IIS</value>
   </data>
+	<data name="SID_Failed_to_send_SNMP_trap_" xml:space="preserve">
+    <value>Failed to send SNMP trap!</value>
+  </data>
+	<data name="SID_SNMP_trap_sent_" xml:space="preserve">
+    <value>SNMP trap sent.</value>
+  </data>
+	<data name="SID_Make_sure_if_trap_has_been_received" xml:space="preserve">
+    <value>Make sure if trap has been received</value>
+  </data>
+	<data name="SID_SNMP_settings_are_saved_" xml:space="preserve">
+    <value>SNMP settings are saved.</value>
+  </data>
 </root>

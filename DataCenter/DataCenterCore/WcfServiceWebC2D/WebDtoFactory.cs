@@ -83,7 +83,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             if (rtu.Children.ContainsKey(port))
             {
-                var otau = writeModel.Otaus.FirstOrDefault(o => o.OtauAddress.Ip4Address == rtu.Children[port].NetAddress.Ip4Address);
+                var otau = writeModel.Otaus.FirstOrDefault(o => o.OtauAddress?.Ip4Address == rtu.Children[port].NetAddress.Ip4Address);
                 if (otau == null)
                 {
                     logFile.AppendLine($"Something strange happened on RTU {rtu.Title} port {port}: otau not found");

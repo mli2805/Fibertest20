@@ -64,6 +64,7 @@ namespace Broadcaster
             _logFile = new LogFile(_iniFile);
             _logFile.AssignFile("broadcaster.log");
 
+            LoadSnmpSets();
             SelectedSnmpEncoding = SnmpEncodings[2];
         }
 
@@ -167,15 +168,15 @@ namespace Broadcaster
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private int snmpTrapVersion = 1;
-        public string SnmpManagerIp { get; set; } = "192.168.96.21";
-        public int SnmpManagerPort { get; set; } = 162;
-        public string SnmpCommunity { get; set; } = "IIT";
+        private int snmpTrapVersion;
+        public string SnmpManagerIp { get; set; }
+        public int SnmpManagerPort { get; set; }
+        public string SnmpCommunity { get; set; }
 
         public List<string> SnmpEncodings { get; set; } = new List<string>(){ "unicode (utf16)", "utf8", "windows1251"};
 
         public string SelectedSnmpEncoding { get; set; }
-        public string EnterpriseOid { get; set; } = "1.3.6.1.4.1.36220";
+        public string EnterpriseOid { get; set; }
 
         private void SendV1TestTrap(object sender, RoutedEventArgs e)
         {
@@ -183,7 +184,18 @@ namespace Broadcaster
             SaveInputs();
 
             var snmpAgent = new SnmpAgent(_iniFile, _logFile);
-            snmpAgent.SendTestTrap();
+            var unused = snmpAgent.SendTestTrap();
+        }
+
+        private void LoadSnmpSets()
+        {
+            snmpTrapVersion = _iniFile.Read(IniSection.Snmp, IniKey.SnmpTrapVersion, 1);
+            SnmpManagerIp = _iniFile.Read(IniSection.Snmp, IniKey.SnmpReceiverIp, "192.168.96.21");
+            SnmpManagerPort = _iniFile.Read(IniSection.Snmp, IniKey.SnmpReceiverPort, 162);
+            SnmpCommunity = _iniFile.Read(IniSection.Snmp, IniKey.SnmpCommunity, "IIT");
+            SelectedSnmpEncoding = _iniFile.Read(IniSection.Snmp, IniKey.SnmpEncoding, "windows1251");
+            EnterpriseOid = _iniFile.Read(IniSection.Snmp, IniKey.EnterpriseOid, "1.3.6.1.4.1.36220");
+
         }
 
         private void SaveInputs()
