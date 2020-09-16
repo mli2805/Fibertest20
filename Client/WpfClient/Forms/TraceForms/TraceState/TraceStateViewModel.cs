@@ -22,6 +22,7 @@ namespace Iit.Fibertest.Client
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly SoundManager _soundManager;
+        private readonly Model _readModel;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly CommandLineParameters _commandLineParameters;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
@@ -55,8 +56,8 @@ namespace Iit.Fibertest.Client
 
         public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser,
             CurrentlyHiddenRtu currentlyHiddenRtu, ReflectogramManager reflectogramManager,
-            SoundManager soundManager, IWcfServiceDesktopC2D c2DWcfManager,
-            IWcfServiceInSuperClient c2SWcfManager, 
+            SoundManager soundManager, Model readModel,
+            IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceInSuperClient c2SWcfManager, 
             CommandLineParameters commandLineParameters, CurrentDatacenterParameters currentDatacenterParameters, 
             TabulatorViewModel tabulatorViewModel, TraceStateReportProvider traceStateReportProvider,
             TraceStatisticsViewsManager traceStatisticsViewsManager, GraphReadModel graphReadModel)
@@ -68,6 +69,7 @@ namespace Iit.Fibertest.Client
             _currentlyHiddenRtu = currentlyHiddenRtu;
             _reflectogramManager = reflectogramManager;
             _soundManager = soundManager;
+            _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _commandLineParameters = commandLineParameters;
             _currentDatacenterParameters = currentDatacenterParameters;
@@ -226,12 +228,24 @@ namespace Iit.Fibertest.Client
                 {
                     SorFileId = Model.SorFileId,
                     Comment = Model.Comment,
-                    EventStatus = Model.OpticalEventPanelVisibility == Visibility.Visible
-                        ? SelectedEventStatus.EventStatus
-                        : Model.EventStatus,
-                    StatusChangedTimestamp = DateTime.Now,
-                    StatusChangedByUser = _currentUser.UserName,
                 };
+
+                if (Model.OpticalEventPanelVisibility == Visibility.Visible && Model.EventStatus != SelectedEventStatus.EventStatus)
+                {
+                    dto.EventStatus = SelectedEventStatus.EventStatus;
+                    dto.StatusChangedTimestamp = DateTime.Now;
+                    dto.StatusChangedByUser = _currentUser.UserName;
+                }
+                else
+                {
+                    dto.EventStatus = Model.EventStatus;
+                    var measurement = _readModel.Measurements.FirstOrDefault(m => m.SorFileId == Model.SorFileId);
+                    if (measurement != null)
+                    {
+                        dto.StatusChangedTimestamp = measurement.StatusChangedTimestamp;
+                        dto.StatusChangedByUser = measurement.StatusChangedByUser;
+                    }
+                }
 
                 var result = await _c2DWcfManager.SendCommandAsObj(dto);
                 if (result != null)

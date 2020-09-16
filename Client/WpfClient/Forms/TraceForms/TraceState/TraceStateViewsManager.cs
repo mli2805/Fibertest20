@@ -150,7 +150,8 @@ namespace Iit.Fibertest.Client
         public void ShowTraceState(OpticalEventModel opticalEventModel, bool isLastMeasurementOnThisTrace, bool isLastAccident)
         {
             var traceStateModel = _traceStateModelFactory.CreateModel(opticalEventModel, isLastMeasurementOnThisTrace, isLastAccident);
-            Show(traceStateModel);
+            if (traceStateModel != null)
+                Show(traceStateModel);
         }
 
         private void Show(TraceStateModel traceStateModel, bool isUserAskedToOpenView = true, bool isTraceStateChanged = false)

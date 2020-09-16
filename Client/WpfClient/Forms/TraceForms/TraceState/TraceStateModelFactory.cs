@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Client
             {
                 Header = PrepareHeader(measurement.TraceId),
                 TraceId = measurement.TraceId,
-                Trace = _readModel.Traces.First(t=>t.TraceId == measurement.TraceId),
+                Trace = _readModel.Traces.First(t => t.TraceId == measurement.TraceId),
                 TraceState = measurement.TraceState,
                 BaseRefType = measurement.BaseRefType,
                 MeasurementTimestamp = measurement.MeasurementTimestamp,
@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Client
                 EventStatus = measurement.EventStatus,
                 Comment = measurement.Comment,
 
-                IsLastStateForThisTrace = isLastStateForThisTrace, 
+                IsLastStateForThisTrace = isLastStateForThisTrace,
                 IsLastAccidentForThisTrace = isLastAccidentForThisTrace,
             };
             if (model.TraceState != FiberState.Ok)
@@ -49,24 +49,30 @@ namespace Iit.Fibertest.Client
         // Optical events
         public TraceStateModel CreateModel(OpticalEventModel opticalEventModel, bool isLastStateForThisTrace, bool isLastAccidentForThisTrace)
         {
-            var model = new TraceStateModel
+            try
             {
-                Header = PrepareHeader(opticalEventModel.TraceId),
-                TraceId = opticalEventModel.TraceId,
-                Trace = _readModel.Traces.First(t=>t.TraceId == opticalEventModel.TraceId),
-                TraceState = opticalEventModel.TraceState,
-                BaseRefType = opticalEventModel.BaseRefType,
-                MeasurementTimestamp = opticalEventModel.MeasurementTimestamp,
-                RegistrationTimestamp = opticalEventModel.EventRegistrationTimestamp,
-                SorFileId = opticalEventModel.SorFileId,
-                EventStatus = opticalEventModel.EventStatus,
-                Accidents = PrepareAccidents(opticalEventModel.Accidents),
-                Comment = opticalEventModel.Comment,
-
-                IsLastStateForThisTrace = isLastStateForThisTrace, 
-                IsLastAccidentForThisTrace = isLastAccidentForThisTrace,
-            };
-            return model;
+                TraceStateModel model = new TraceStateModel
+                {
+                    Header = PrepareHeader(opticalEventModel.TraceId),
+                    TraceId = opticalEventModel.TraceId,
+                    Trace = _readModel.Traces.First(t => t.TraceId == opticalEventModel.TraceId),
+                    TraceState = opticalEventModel.TraceState,
+                    BaseRefType = opticalEventModel.BaseRefType,
+                    MeasurementTimestamp = opticalEventModel.MeasurementTimestamp,
+                    RegistrationTimestamp = opticalEventModel.EventRegistrationTimestamp,
+                    SorFileId = opticalEventModel.SorFileId,
+                    EventStatus = opticalEventModel.EventStatus,
+                    Accidents = PrepareAccidents(opticalEventModel.Accidents),
+                    Comment = opticalEventModel.Comment,
+                    IsLastStateForThisTrace = isLastStateForThisTrace,
+                    IsLastAccidentForThisTrace = isLastAccidentForThisTrace
+                };
+                return model;
+            }
+            catch (Exception)
+            {
+                return null;
+            }
         }
 
         private List<AccidentLineModel> PrepareAccidents(List<AccidentOnTraceV2> accidents)
