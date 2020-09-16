@@ -69,7 +69,7 @@ namespace Iit.Fibertest.Graph
             Otau otau = Mapper.Map<Otau>(e);
             otau.IsOk = true;
             model.Otaus.Add(otau);
-            var otauDto = new OtauDto { Serial = otau.Serial, NetAddress = otau.OtauAddress, OwnPortCount = otau.PortCount };
+            var otauDto = new OtauDto { Serial = otau.Serial, NetAddress = otau.NetAddress, OwnPortCount = otau.PortCount };
             var rtu = model.Rtus.First(r => r.Id == otau.RtuId);
             rtu.Children.Add(otau.MasterPort, otauDto);
             rtu.FullPortCount += otau.PortCount;
@@ -98,12 +98,12 @@ namespace Iit.Fibertest.Graph
             rtu.FullPortCount -= otau.PortCount;
             foreach (var port in rtu.Children.Keys.ToList())
             {
-                if (rtu.Children[port].NetAddress == otau.OtauAddress)
+                if (rtu.Children[port].NetAddress == otau.NetAddress)
                     rtu.Children.Remove(port);
             }
 
             foreach (var bopNetworkEvent in model.BopNetworkEvents.Where(b =>
-                b.RtuId == e.RtuId && b.OtauIp == otau.OtauAddress.Ip4Address && b.TcpPort == otau.OtauAddress.Port).ToList())
+                b.RtuId == e.RtuId && b.OtauIp == otau.NetAddress.Ip4Address && b.TcpPort == otau.NetAddress.Port).ToList())
             {
                 model.BopNetworkEvents.Remove(bopNetworkEvent);
             }

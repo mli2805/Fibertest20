@@ -115,7 +115,7 @@ namespace Iit.Fibertest.Graph
             */
             foreach (var childPair in e.Children)
             {
-                var otau = model.Otaus.First(o => o.OtauAddress != null && o.OtauAddress.Equals(childPair.Value.NetAddress));
+                var otau = model.Otaus.First(o => o.NetAddress != null && o.NetAddress.Equals(childPair.Value.NetAddress));
                 if (otau != null)
                 {
                     otau.IsOk = childPair.Value.IsOk;

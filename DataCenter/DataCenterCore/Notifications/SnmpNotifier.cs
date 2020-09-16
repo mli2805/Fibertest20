@@ -131,7 +131,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var rtuTitle = _writeModel.Rtus.FirstOrDefault(r => r.Id == bopEvent.RtuId)?.Title ?? "RTU not found";
             var bopTitle =
-                _writeModel.Otaus.FirstOrDefault(o => o.OtauAddress.Ip4Address == bopEvent.OtauIp)?.OtauAddress
+                _writeModel.Otaus.FirstOrDefault(o => o.NetAddress.Ip4Address == bopEvent.OtauIp)?.NetAddress
                     .ToStringA() ?? "BOP not found";
 
             var data = new List<KeyValuePair<SnmpProperty, string>>

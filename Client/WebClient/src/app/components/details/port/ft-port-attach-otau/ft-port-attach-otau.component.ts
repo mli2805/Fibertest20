@@ -46,10 +46,10 @@ export class FtPortAttachOtauComponent implements OnInit {
     cmd.RtuId = this.rtu.rtuId;
     cmd.RtuMaker = this.rtu.rtuMaker;
     cmd.OpticalPort = this.mainPort;
-    cmd.OtauAddress = new NetAddress();
-    cmd.OtauAddress.Ip4Address = this.ipAddress;
-    cmd.OtauAddress.IsAddressSetAsIp = true;
-    cmd.OtauAddress.Port = 11834;
+    cmd.NetAddress = new NetAddress();
+    cmd.NetAddress.Ip4Address = this.ipAddress;
+    cmd.NetAddress.IsAddressSetAsIp = true;
+    cmd.NetAddress.Port = 11834;
     console.log(cmd);
     this.oneApiService
       .postRequest("port/attach-otau", cmd)

@@ -135,8 +135,8 @@ namespace Iit.Fibertest.DataCenterCore
                     EventTimestamp = DateTime.Now,
                     RtuId = dto.RtuId,
                     Serial = dto.Serial,
-                    OtauIp = otau.OtauAddress.Ip4Address,
-                    TcpPort = otau.OtauAddress.Port,
+                    OtauIp = otau.NetAddress.Ip4Address,
+                    TcpPort = otau.NetAddress.Port,
                     IsOk = dto.IsOk,
                 };
                 await PersistBopEvent(cmd);
@@ -159,8 +159,8 @@ namespace Iit.Fibertest.DataCenterCore
                     EventTimestamp = DateTime.Now,
                     RtuId = dto.RtuId,
                     Serial = dto.PortWithTrace.OtauPort.Serial,
-                    OtauIp = otau.OtauAddress.Ip4Address,
-                    TcpPort = otau.OtauAddress.Port,
+                    OtauIp = otau.NetAddress.Ip4Address,
+                    TcpPort = otau.NetAddress.Port,
                     IsOk = true,
                 };
                 await PersistBopEvent(cmd);

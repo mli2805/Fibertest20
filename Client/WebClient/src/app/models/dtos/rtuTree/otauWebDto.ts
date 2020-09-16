@@ -7,7 +7,7 @@ export class OtauWebDto extends ChildDto {
   otauId: string;
   serial: string;
   rtuId: string;
-  otauNetAddress: NetAddress;
+  netAddress: NetAddress;
   isOk: boolean;
 
   children: ChildDto[];

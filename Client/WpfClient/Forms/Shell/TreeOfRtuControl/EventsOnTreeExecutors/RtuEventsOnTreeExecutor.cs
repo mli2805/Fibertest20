@@ -71,11 +71,11 @@ namespace Iit.Fibertest.Client
 
             otauLeaf.Id = e.Id;
             otauLeaf.Parent = rtuLeaf;
-            otauLeaf.Title = string.Format(Resources.SID_Optical_switch_with_Address, e.OtauAddress.ToStringA());
+            otauLeaf.Title = string.Format(Resources.SID_Optical_switch_with_Address, e.NetAddress.ToStringA());
             otauLeaf.Color = Brushes.Black;
             otauLeaf.MasterPort = e.MasterPort;
             otauLeaf.OwnPortCount = e.PortCount;
-            otauLeaf.OtauNetAddress = e.OtauAddress;
+            otauLeaf.OtauNetAddress = e.NetAddress;
             otauLeaf.Serial = e.Serial;
             otauLeaf.OtauState = RtuPartState.Ok;
             otauLeaf.IsExpanded = true;

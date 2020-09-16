@@ -127,7 +127,7 @@ namespace Iit.Fibertest.DataCenterCore
                 MasterPort = dto.OpticalPort,
                 Serial = result.Serial,
                 PortCount = result.PortCount,
-                OtauAddress = (NetAddress)dto.OtauAddress.Clone(),
+                NetAddress = (NetAddress)dto.OtauAddress.Clone(),
                 IsOk = true,
             };
             var username = _clientsCollection.GetClientStation(dto.ClientIp)?.UserName;

@@ -67,15 +67,15 @@ namespace Iit.Fibertest.Client
                 return;
             }
 
-            if (bop.OtauAddress == null)
+            if (bop.NetAddress == null)
             {
                 evnt.OtauIp = "";
                 evnt.TcpPort = -1;
             }
             else
             {
-                evnt.OtauIp =  bop.OtauAddress.Ip4Address;
-                evnt.TcpPort = bop.OtauAddress.Port;
+                evnt.OtauIp =  bop.NetAddress.Ip4Address;
+                evnt.TcpPort = bop.NetAddress.Port;
             }
           
 

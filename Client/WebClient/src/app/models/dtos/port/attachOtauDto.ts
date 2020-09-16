@@ -8,6 +8,6 @@ export class AttachOtauDto {
   RtuId: string;
   RtuMaker: RtuMaker;
 
-  OtauAddress: NetAddress;
+  NetAddress: NetAddress;
   OpticalPort: number;
 }

@@ -166,8 +166,8 @@ namespace Iit.Fibertest.Client
         private bool CheckAddressUniqueness()
         {
             if (!_readModel.Otaus.Any(o =>
-                o.OtauAddress.Ip4Address == NetAddressInputViewModel.GetNetAddress().Ip4Address &&
-                o.OtauAddress.Port == NetAddressInputViewModel.GetNetAddress().Port))
+                o.NetAddress.Ip4Address == NetAddressInputViewModel.GetNetAddress().Ip4Address &&
+                o.NetAddress.Port == NetAddressInputViewModel.GetNetAddress().Port))
                 return true;
 
             var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_There_is_optical_switch_with_the_same_tcp_address_);

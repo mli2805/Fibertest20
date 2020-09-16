@@ -62,7 +62,7 @@ namespace Iit.Fibertest.Graph
         {
             model.BopNetworkEvents.Add(Mapper.Map<BopNetworkEvent>(e));
             // if BOP has 2 OTAU - both should change their state
-            foreach (var otau in model.Otaus.Where(o => o.OtauAddress != null && o.OtauAddress.Ip4Address == e.OtauIp))
+            foreach (var otau in model.Otaus.Where(o => o.NetAddress != null && o.NetAddress.Ip4Address == e.OtauIp))
             {
                 otau.IsOk = e.IsOk;
                 var rtu = model.Rtus.FirstOrDefault(r => r.Id == e.RtuId);
