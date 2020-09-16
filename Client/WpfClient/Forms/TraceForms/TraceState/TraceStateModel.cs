@@ -40,6 +40,9 @@ namespace Iit.Fibertest.Client
         public string TraceStateOnScreen => PrepareTraceStateOnScreen();
 
         public EventStatus EventStatus { get; set; } = EventStatus.EventButNotAnAccident;
+        public DateTime StatusChangedTimestamp { get; set; }
+        public string StatusChangedByUser { get; set; }
+
         public string Comment { get; set; }
 
         public DateTime MeasurementTimestamp { get; set; }
