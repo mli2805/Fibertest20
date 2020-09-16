@@ -195,10 +195,17 @@ namespace Iit.Fibertest.Client
 
         public async Task GetAlreadyStoredInCacheAndOnServerData()
         {
-            using (_globalScope.Resolve<IWaitCursor>())
+            try
             {
-                _localDbManager.Initialize();
-                _clientPoller.CurrentEventNumber = await _storedEventsLoader.TwoComponentLoading();
+                using (_globalScope.Resolve<IWaitCursor>())
+                {
+                    _localDbManager.Initialize();
+                    _clientPoller.CurrentEventNumber = await _storedEventsLoader.TwoComponentLoading();
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($@"GetAlreadyStoredInCacheAndOnServerData: {e.Message}");
             }
         }
 

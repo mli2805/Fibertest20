@@ -1,9 +1,14 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
+using System.Windows;
+using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.SuperClientWcfServiceInterface;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfServiceForClientInterface;
+using Iit.Fibertest.WpfCommonViews;
 using Newtonsoft.Json;
 using NEventStore;
 
@@ -16,7 +21,13 @@ namespace Iit.Fibertest.Client
 
         private readonly IMyLog _logFile;
         private readonly ILocalDbManager _localDbManager;
+        private readonly IWindowManager _windowManager;
+        private readonly CommandLineParameters _commandLineParameters;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
+        private readonly ServerConnectionLostViewModel _serverConnectionLostViewModel;
+        private readonly IWcfServiceInSuperClient _c2SWcfManager;
         private readonly IWcfServiceForClient _c2DWcfManager;
+        private readonly IDispatcherProvider _dispatcherProvider;
         private readonly Model _readModel;
         private readonly SnapshotsLoader _snapshotsLoader;
         private readonly EventsOnTreeExecutor _eventsOnTreeExecutor;
@@ -25,8 +36,10 @@ namespace Iit.Fibertest.Client
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
         private readonly RenderingManager _renderingManager;
 
-        public StoredEventsLoader(IMyLog logFile, ILocalDbManager localDbManager,
-            IWcfServiceForClient c2DWcfManager,
+        public StoredEventsLoader(IMyLog logFile, ILocalDbManager localDbManager, IWindowManager windowManager, 
+            CommandLineParameters commandLineParameters, CurrentDatacenterParameters currentDatacenterParameters, 
+            ServerConnectionLostViewModel serverConnectionLostViewModel, IWcfServiceInSuperClient c2SWcfManager,
+            IWcfServiceForClient c2DWcfManager, IDispatcherProvider dispatcherProvider,
             Model readModel, SnapshotsLoader snapshotsLoader,
             EventsOnTreeExecutor eventsOnTreeExecutor,
             OpticalEventsExecutor opticalEventsExecutor,
@@ -36,7 +49,13 @@ namespace Iit.Fibertest.Client
         {
             _logFile = logFile;
             _localDbManager = localDbManager;
+            _windowManager = windowManager;
+            _commandLineParameters = commandLineParameters;
+            _currentDatacenterParameters = currentDatacenterParameters;
+            _serverConnectionLostViewModel = serverConnectionLostViewModel;
+            _c2SWcfManager = c2SWcfManager;
             _c2DWcfManager = c2DWcfManager;
+            _dispatcherProvider = dispatcherProvider;
             _readModel = readModel;
             _snapshotsLoader = snapshotsLoader;
             _eventsOnTreeExecutor = eventsOnTreeExecutor;
@@ -49,14 +68,23 @@ namespace Iit.Fibertest.Client
         // TwoComponentLoading
         public async Task<int> TwoComponentLoading()
         {
-            var lastEventFromSnapshot = await _snapshotsLoader.LoadAndApplySnapshot();
+            try
+            {
+                var lastEventFromSnapshot = await _snapshotsLoader.LoadAndApplySnapshot();
 
-            var lastLoadedEvent = lastEventFromSnapshot + await LoadAndApplyEvents(lastEventFromSnapshot);
-            var currentEventNumber = await DownloadAndApplyEvents(lastLoadedEvent);
+                var lastLoadedEvent = lastEventFromSnapshot + await LoadAndApplyEvents(lastEventFromSnapshot);
+                var currentEventNumber = await DownloadAndApplyEvents(lastLoadedEvent);
 
-            _renderingManager.Initialize();
-            await _renderingManager.RenderCurrentZoneOnApplicationStart();
-            return currentEventNumber;
+                _renderingManager.Initialize();
+                await _renderingManager.RenderCurrentZoneOnApplicationStart();
+                return currentEventNumber;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($@"TwoComponentLoading: {e.Message}");
+                    _dispatcherProvider.GetDispatcher().Invoke(NotifyUserConnectionProblems); // blocks current thread till user clicks to close form
+                return -1;
+            }
         }
 
       
@@ -111,6 +139,23 @@ namespace Iit.Fibertest.Client
             }
 
             return events.Length;
+        }
+
+        private void NotifyUserConnectionProblems()
+        {
+            _serverConnectionLostViewModel.Initialize(_currentDatacenterParameters.ServerTitle, _currentDatacenterParameters.ServerIp);
+            _serverConnectionLostViewModel.PropertyChanged += OnServerConnectionLostViewModelOnPropertyChanged;
+            _windowManager.ShowDialogWithAssignedOwner(_serverConnectionLostViewModel);
+        }
+
+        private void OnServerConnectionLostViewModelOnPropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == @"IsOpen")
+            {
+                if (_commandLineParameters.IsUnderSuperClientStart)
+                    _c2SWcfManager.NotifyConnectionBroken(_commandLineParameters.ClientOrdinal);
+                Application.Current.Shutdown();
+            }
         }
     }
 }
