@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -96,7 +97,8 @@ namespace Iit.Fibertest.DatabaseLibrary
                     var result = new SnapshotParamsDto
                     {
                         PortionsCount = dbContext.Snapshots.Count(l => l.LastEventNumber == lastIncludedEvent),
-                        Size = dbContext.Snapshots.Sum(l => l.Payload.Length)
+                        Size = dbContext.Snapshots.Where(l => l.LastEventNumber == lastIncludedEvent)
+                            .Select(r => r.Payload.Length).AsEnumerable().Sum()
                     };
                     return result;
                 }
