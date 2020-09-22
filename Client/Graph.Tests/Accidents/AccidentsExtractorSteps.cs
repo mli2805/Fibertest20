@@ -64,6 +64,8 @@ namespace Graph.Tests
                 AccidentToRtuOpticalDistanceKm = 10.1503,
                 AccidentSeriousness = FiberState.FiberBreak,
                 AccidentCoors = new PointLatLng(55.08, 30.08),
+                EventCode = @"R : E",
+                DeltaLen = 0.0038,
                 Left = new AccidentNeighbour()
                 {
                     Coors = new PointLatLng(55.06, 30.06),
@@ -97,6 +99,8 @@ namespace Graph.Tests
                 AccidentToRtuOpticalDistanceKm = 10.1503,
                 AccidentSeriousness = FiberState.FiberBreak,
                 AccidentCoors = new PointLatLng(55.08, 30.08),
+                EventCode = @"R : E",
+                DeltaLen = 0.0038,
                 Left = new AccidentNeighbour()
                 {
                     Coors = new PointLatLng(55.06, 30.06),
@@ -124,6 +128,8 @@ namespace Graph.Tests
                 AccidentToRtuOpticalDistanceKm = 0.0059,
                 AccidentSeriousness = FiberState.Minor,
                 AccidentCoors = new PointLatLng(55.002, 30.002),
+                EventCode = @"R : F",
+                DeltaLen = 0.0038,
                 Left = new AccidentNeighbour()
                 {
                     Coors = new PointLatLng(55.0, 30.0),
@@ -157,6 +163,8 @@ namespace Graph.Tests
                 AccidentToRtuOpticalDistanceKm = 10.1503,
                 AccidentSeriousness = FiberState.Major,
                 AccidentCoors = new PointLatLng(55.08, 30.08),
+                EventCode = @"R : F",
+                DeltaLen = 0.0038,
                 Left = new AccidentNeighbour()
                 {
                     Coors = new PointLatLng(55.06, 30.06),
@@ -184,6 +192,8 @@ namespace Graph.Tests
                 AccidentToRtuOpticalDistanceKm = 0.0059,
                 AccidentSeriousness = FiberState.Minor,
                 AccidentCoors = new PointLatLng(55.002, 30.002),
+                EventCode = @"R : F",
+                DeltaLen = 0.0038,
                 Left = new AccidentNeighbour()
                 {
                     Coors = new PointLatLng(55.0, 30.0),
@@ -217,6 +227,8 @@ namespace Graph.Tests
                 AccidentCoors = new PointLatLng(55.002, 30.002),
                 AccidentToRtuOpticalDistanceKm = 0.0059,
                 AccidentSeriousness = FiberState.Minor,
+                EventCode = @"R : F",
+                DeltaLen = 0.0038,
                 Left = new AccidentNeighbour()
                 {
                     Coors = new PointLatLng(55.0, 30.0),

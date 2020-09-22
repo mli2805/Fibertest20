@@ -26,7 +26,20 @@ namespace Iit.Fibertest.Graph
         public double AccidentToRightOpticalDistanceKm { get; set; }
         public double AccidentToRightPhysicalDistanceKm { get; set; }
 
+        public string EventCode { get; set; }
+        public double DeltaLen { get; set; }
+
         public AccidentNeighbour Left { get; set; }
         public AccidentNeighbour Right { get; set; }
+
+        public bool IsTheSame(AccidentOnTraceV2 other)
+        {
+            if (BrokenRftsEventNumber != other.BrokenRftsEventNumber) return false;
+            if (AccidentSeriousness != other.AccidentSeriousness) return false;
+            if (OpticalTypeOfAccident != other.OpticalTypeOfAccident) return false;
+            if (IsAccidentInOldEvent != other.IsAccidentInOldEvent) return false;
+
+            return Math.Abs(AccidentToRtuOpticalDistanceKm - other.AccidentToRtuOpticalDistanceKm) < DeltaLen;
+        }
     }
 }

@@ -105,15 +105,6 @@ namespace Iit.Fibertest.RtuManagement
 
                 var message = "";
 
-                // temp
-//                if (monitorigPort.LastMoniResult == null)
-//                {
-//                    message = "There is no moniResult in monitoringPort (first measurement after start)";
-//                }
-                // temp
-
-
-//                else 
                 if (moniResult.IsStateChanged(monitorigPort.LastMoniResult))
                 {
                     message = $"Trace state has changed ({monitorigPort.LastTraceState} => {moniResult.GetAggregatedResult()})";
@@ -157,12 +148,6 @@ namespace Iit.Fibertest.RtuManagement
                 var message = "";
                 if (isOutOfTurnMeasurement)
                     message = "It's out of turn precise measurement";
-
-                // temp
-//                else if (monitorigPort.LastMoniResult == null)
-//                    message = "There is no moniResult in monitoringPort (first measurement after start)";
-                // temp
-
                 else if (moniResult.IsStateChanged(monitorigPort.LastMoniResult))
                     message = "Trace state has changed";
                 else if (monitorigPort.IsMonitoringModeChanged)

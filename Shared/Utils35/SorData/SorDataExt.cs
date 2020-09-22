@@ -1,4 +1,5 @@
-﻿using Optixsoft.SorExaminer.OtdrDataFormat;
+﻿using System.Linq;
+using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.UtilsLib
 {
@@ -27,6 +28,15 @@ namespace Iit.Fibertest.UtilsLib
             }
 
             return leftLandmarkIndex; // owt to the right of end
+        }
+
+        public static double GetDeltaLen(this OtdrDataKnownBlocks sorData, char code)
+        {
+            var param = code == 'R'
+                ? sorData.RftsParameters.UniversalParameters.First(p => p.Name == "EvtRDetectDeltaLen")
+                : sorData.RftsParameters.UniversalParameters.First(p => p.Name == "EvtDetectDeltaLen");
+
+            return (double)param.Value / param.Scale;
         }
     }
 }

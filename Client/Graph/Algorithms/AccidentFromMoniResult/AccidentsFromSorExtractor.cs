@@ -119,9 +119,8 @@ namespace Iit.Fibertest.Graph
                 return BuildAccidentAsNewEvent(rftsEvent, keyEventIndex, level);
             }
 
-            if (rftsEvent.GetOpticalTypeOfAccident() == OpticalAccidentType.LossCoeff)
-            {
-                return new AccidentOnTraceV2()
+            var accidentOnTraceV2 = rftsEvent.GetOpticalTypeOfAccident() == OpticalAccidentType.LossCoeff
+                ? new AccidentOnTraceV2()
                 {
                     IsAccidentInOldEvent = true,
                     BrokenRftsEventNumber = keyEventIndex,
@@ -134,29 +133,32 @@ namespace Iit.Fibertest.Graph
 
                     Left = GetNeighbour(brokenLandmarkIndex),
                     Right = GetNeighbour(brokenLandmarkIndex + 1),
-             
+
                     AccidentSeriousness = level.ConvertToFiberState(),
                     OpticalTypeOfAccident = rftsEvent.GetOpticalTypeOfAccident(),
+                    EventCode = _sorData.KeyEvents.KeyEvents[keyEventIndex].EventCode.EventCodeForTable(),
+                }
+                : new AccidentOnTraceV2
+                {
+                    IsAccidentInOldEvent = true,
+                    BrokenRftsEventNumber = keyEventIndex + 1,
+                    IsAccidentInLastNode = brokenLandmarkIndex == _nodesExcludingAdjustmentPoints.Count - 1,
+
+                    AccidentLandmarkIndex = brokenLandmarkIndex,
+                    AccidentCoors = _nodesExcludingAdjustmentPoints[brokenLandmarkIndex].Position,
+                    AccidentToRtuOpticalDistanceKm = _sorData.KeyEventDistanceKm(keyEventIndex),
+                    AccidentTitle = GetTitleForLandmark(brokenLandmarkIndex),
+
+                    Left = brokenLandmarkIndex == 0 ? null : GetNeighbour(brokenLandmarkIndex - 1),
+                    Right = brokenLandmarkIndex == _sorData.LinkParameters.LandmarksCount - 1 ? null : GetNeighbour(brokenLandmarkIndex + 1),
+
+                    AccidentSeriousness = (rftsEvent.EventTypes & RftsEventTypes.IsFiberBreak) != 0 ? FiberState.FiberBreak : level.ConvertToFiberState(),
+                    OpticalTypeOfAccident = rftsEvent.GetOpticalTypeOfAccident(),
+                    EventCode = _sorData.KeyEvents.KeyEvents[keyEventIndex].EventCode.EventCodeForTable(),
                 };
-            }
 
-            return new AccidentOnTraceV2
-            {
-                IsAccidentInOldEvent = true,
-                BrokenRftsEventNumber = keyEventIndex + 1, 
-                IsAccidentInLastNode = brokenLandmarkIndex == _nodesExcludingAdjustmentPoints.Count - 1,
-
-                AccidentLandmarkIndex = brokenLandmarkIndex,
-                AccidentCoors = _nodesExcludingAdjustmentPoints[brokenLandmarkIndex].Position,
-                AccidentToRtuOpticalDistanceKm = _sorData.KeyEventDistanceKm(keyEventIndex),
-                AccidentTitle = GetTitleForLandmark(brokenLandmarkIndex),
-
-                Left = brokenLandmarkIndex == 0 ? null : GetNeighbour(brokenLandmarkIndex - 1),
-                Right = brokenLandmarkIndex == _sorData.LinkParameters.LandmarksCount - 1 ? null : GetNeighbour(brokenLandmarkIndex + 1),
-
-                AccidentSeriousness = (rftsEvent.EventTypes & RftsEventTypes.IsFiberBreak) != 0 ? FiberState.FiberBreak : level.ConvertToFiberState(),
-                OpticalTypeOfAccident = rftsEvent.GetOpticalTypeOfAccident(),
-            };
+            accidentOnTraceV2.DeltaLen = _sorData.GetDeltaLen(accidentOnTraceV2.EventCode[0]);
+            return accidentOnTraceV2;
         }
 
         private AccidentOnTraceV2 BuildAccidentAsNewEvent(RftsEvent rftsEvent, int keyEventIndex, RftsLevelType level)
@@ -176,7 +178,9 @@ namespace Iit.Fibertest.Graph
 
                 AccidentSeriousness = (rftsEvent.EventTypes & RftsEventTypes.IsFiberBreak) != 0 ? FiberState.FiberBreak : level.ConvertToFiberState(),
                 OpticalTypeOfAccident = rftsEvent.GetOpticalTypeOfAccident(),
+                EventCode = _sorData.KeyEvents.KeyEvents[keyEventIndex].EventCode.EventCodeForTable(),
             };
+            accidentAsNewEvent.DeltaLen = _sorData.GetDeltaLen(accidentAsNewEvent.EventCode[0]);
             accidentAsNewEvent.AccidentToLeftOpticalDistanceKm =
                 accidentAsNewEvent.AccidentToRtuOpticalDistanceKm - accidentAsNewEvent.Left.ToRtuOpticalDistanceKm;
             accidentAsNewEvent.AccidentToRightOpticalDistanceKm =

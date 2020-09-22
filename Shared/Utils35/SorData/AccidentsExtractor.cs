@@ -110,14 +110,5 @@ namespace Iit.Fibertest.UtilsLib
             return accidentAsNewEvent;
         }
 
-        private static double GetDeltaLen(this OtdrDataKnownBlocks sorData, char code)
-        {
-            var param = code == 'R'
-                ? sorData.RftsParameters.UniversalParameters.First(p => p.Name == "EvtRDetectDeltaLen")
-                : sorData.RftsParameters.UniversalParameters.First(p => p.Name == "EvtDetectDeltaLen");
-
-            return (double)param.Value / param.Scale;
-//            return (double)param.Value;
-        }
     }
 }
