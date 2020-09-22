@@ -147,7 +147,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Algorithms\AccidentFromMoniResult\AccidentPlaceLocator.cs" />
-    <Compile Include="Algorithms\AccidentFromMoniResult\RftsEventExt.cs" />
+    <Compile Include="Algorithms\AccidentFromMoniResult\AccidentsFromSorExtractor.cs" />
     <Compile Include="Algorithms\BaseRefToolKit\BaseRefsChecker2.cs" />
     <Compile Include="Algorithms\Gis\CoorsInRad.cs" />
     <Compile Include="Algorithms\Gis\DecartAxis.cs" />
@@ -175,7 +175,6 @@
     <Compile Include="DomainEntities\Breaks\AccidentOnTraceV2.cs" />
     <Compile Include="DomainEntities\Extensions\BoolExt.cs" />
     <Compile Include="DomainEntities\Extensions\MonitoringStateExt.cs" />
-    <Compile Include="DomainEntities\Extensions\OpticalAccidentTypeExt.cs" />
     <Compile Include="EventSourcing\Model\ModelCleaningExt.cs" />
     <Compile Include="EventSourcing\Model\ModelEmailExt.cs" />
     <Compile Include="EventSourcing\Model\ModelSerializationExt.cs" />
@@ -197,8 +196,6 @@
     <Compile Include="Commands\Equipment\IncludeEquipmentIntoTrace.cs" />
     <Compile Include="Commands\Node\UpdateAndMoveNode.cs" />
     <Compile Include="DomainEntities\Enums\CountMatch.cs" />
-    <Compile Include="DomainEntities\Enums\RftsLevelTypeExt.cs" />
-    <Compile Include="Algorithms\AccidentFromMoniResult\AccidentsFromSorExtractor.cs" />
     <Compile Include="Algorithms\BaseRefToolKit\BaseRefDtoFactory.cs" />
     <Compile Include="Algorithms\BaseRefToolKit\BaseRefLandmarksTool.cs" />
     <Compile Include="Algorithms\BaseRefToolKit\TraceModelBuilder.cs" />

@@ -11,6 +11,7 @@ namespace Iit.Fibertest.RtuManagement
         public bool IsPortOnMainCharon { get; set; }
         public Guid TraceId { get; set; }
         public FiberState LastTraceState { get; set; }
+        public MoniResult LastMoniResult { get; set; }
 
         public DateTime LastPreciseSavedTimestamp { get; set; }
         public DateTime LastFastSavedTimestamp { get; set; }
@@ -31,6 +32,17 @@ namespace Iit.Fibertest.RtuManagement
             IsPortOnMainCharon = port.IsPortOnMainCharon;
             TraceId = port.TraceId;
             LastTraceState = port.LastTraceState;
+
+            if (port.LastMoniResult != null)
+                LastMoniResult = new MoniResult()
+                {
+                    IsNoFiber = port.LastMoniResult.IsNoFiber,
+                    IsFiberBreak = port.LastMoniResult.IsFiberBreak,
+                    Levels = port.LastMoniResult.Levels,
+                    BaseRefType = port.LastMoniResult.BaseRefType,
+                    FirstBreakDistance = port.LastMoniResult.FirstBreakDistance,
+                    Accidents = port.LastMoniResult.Accidents,
+                };
 
             LastFastSavedTimestamp = port.LastFastSavedTimestamp;
             LastPreciseSavedTimestamp = port.LastPreciseSavedTimestamp;

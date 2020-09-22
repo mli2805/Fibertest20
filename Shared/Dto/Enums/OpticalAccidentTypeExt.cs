@@ -1,6 +1,4 @@
-﻿using Iit.Fibertest.Dto;
-
-namespace Iit.Fibertest.Graph
+﻿namespace Iit.Fibertest.Dto
 {
     public static class OpticalAccidentTypeExt
     {

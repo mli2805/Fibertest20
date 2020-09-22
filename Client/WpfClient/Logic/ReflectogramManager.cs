@@ -31,12 +31,12 @@ namespace Iit.Fibertest.Client
 
         public void SetTempFileName(string traceTitle, int sorFileId, DateTime timestamp)
         {
-            _tempSorFile = $@"{traceTitle} - ID{sorFileId} - {timestamp:dd-MM-yyyy-HH-mm-ss}";
+            _tempSorFile = $@"{traceTitle} - ID{sorFileId} - {timestamp:dd-MM-yyyy-HH-mm-ss}.sor";
         }
 
         public void SetTempFileName(string traceTitle, string baseType, DateTime timestamp)
         {
-            _tempSorFile = $@"{traceTitle} - {baseType} - {timestamp:dd-MM-yyyy-HH-mm-ss}";
+            _tempSorFile = $@"{traceTitle} - {baseType} - {timestamp:dd-MM-yyyy-HH-mm-ss}.sor";
         }
 
         private string SaveInTempFolderAndOpenInReflect(byte[] sorBytes)

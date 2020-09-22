@@ -104,10 +104,19 @@ namespace Iit.Fibertest.RtuManagement
                     monitorigPort.IsBreakdownCloserThen20Km = moniResult.FirstBreakDistance < 20;
 
                 var message = "";
-                if (monitorigPort.LastTraceState != moniResult.GetAggregatedResult())
+
+                // temp
+//                if (monitorigPort.LastMoniResult == null)
+//                {
+//                    message = "There is no moniResult in monitoringPort (first measurement after start)";
+//                }
+                // temp
+
+
+//                else 
+                if (moniResult.IsStateChanged(monitorigPort.LastMoniResult))
                 {
                     message = $"Trace state has changed ({monitorigPort.LastTraceState} => {moniResult.GetAggregatedResult()})";
-                    monitorigPort.LastTraceState = moniResult.GetAggregatedResult();
                     monitorigPort.IsConfirmationRequired = true;
                 }
                 else if (monitorigPort.IsMonitoringModeChanged)
@@ -119,6 +128,8 @@ namespace Iit.Fibertest.RtuManagement
                     _rtuLog.AppendLine($"last fast saved - {monitorigPort.LastFastSavedTimestamp}, _fastSaveTimespan - {_fastSaveTimespan.TotalMinutes} minutes");
                     message = "It's time to save fast reflectogram";
                 }
+                monitorigPort.LastMoniResult = moniResult;
+                monitorigPort.LastTraceState = moniResult.GetAggregatedResult();
 
                 if (message != "")
                 {
@@ -146,7 +157,13 @@ namespace Iit.Fibertest.RtuManagement
                 var message = "";
                 if (isOutOfTurnMeasurement)
                     message = "It's out of turn precise measurement";
-                else if (monitorigPort.LastTraceState != moniResult.GetAggregatedResult())
+
+                // temp
+//                else if (monitorigPort.LastMoniResult == null)
+//                    message = "There is no moniResult in monitoringPort (first measurement after start)";
+                // temp
+
+                else if (moniResult.IsStateChanged(monitorigPort.LastMoniResult))
                     message = "Trace state has changed";
                 else if (monitorigPort.IsMonitoringModeChanged)
                     message = "Monitoring mode was changed";
@@ -156,9 +173,8 @@ namespace Iit.Fibertest.RtuManagement
                     message = "It's time to save precise reflectogram";
 
                 monitorigPort.LastPreciseMadeTimestamp = DateTime.Now;
+                monitorigPort.LastMoniResult = moniResult;
                 monitorigPort.LastTraceState = moniResult.GetAggregatedResult();
-//                monitorigPort.IsMonitoringModeChanged = false;
-//                monitorigPort.IsConfirmationRequired = false;
 
                 if (message != "")
                 {
@@ -233,6 +249,9 @@ namespace Iit.Fibertest.RtuManagement
             LastSuccessfullMeasTimestamp = DateTime.Now;
 
             _rtuLog.AppendLine($"Trace state is {moniResult.GetAggregatedResult()}");
+            if (moniResult.Accidents != null)
+                foreach (var accidentInSor in moniResult.Accidents)
+                    _rtuLog.AppendLine(accidentInSor.ToString());
             return moniResult;
         }
 

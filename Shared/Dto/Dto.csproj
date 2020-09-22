@@ -68,6 +68,7 @@
     <Compile Include="Enums\MonitoringState.cs" />
     <Compile Include="Enums\NotificationType.cs" />
     <Compile Include="Enums\OpticalAccidentType.cs" />
+    <Compile Include="Enums\OpticalAccidentTypeExt.cs" />
     <Compile Include="Enums\RtuMaker.cs" />
     <Compile Include="Enums\RtuPartStateChanges.cs" />
     <Compile Include="Enums\WorseOrBetter.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="ForWebApi\RtuTree\OtauWebDto.cs" />
     <Compile Include="ForWebApi\RtuTree\RtuDto.cs" />
     <Compile Include="ForWebApi\RtuTree\TraceDto.cs" />
+    <Compile Include="Underlying\AccidentInSor.cs" />
     <Compile Include="Underlying\MeasParamsTree\BranchOfAcceptableMeasParams.cs" />
     <Compile Include="Underlying\MeasParamsTree\LeafOfAcceptableMeasParams.cs" />
     <Compile Include="Underlying\MeasParamsTree\TreeOfAcceptableMeasParams.cs" />

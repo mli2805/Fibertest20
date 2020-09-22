@@ -9,10 +9,9 @@ namespace Iit.Fibertest.UtilsLib
 {
     public static class RftsEventsFactory
     {
-        public static RftsEventsDto Create(byte[] sorBytes)
+        public static RftsEventsDto GetRftsEvents(this OtdrDataKnownBlocks sorData)
         {
             var rftsEventsDto = new RftsEventsDto { ReturnCode = ReturnCode.Ok };
-            var sorData = SorData.FromBytes(sorBytes);
 
             rftsEventsDto.IsNoFiber = sorData.RftsEvents.MonitoringResult == (int)ComparisonReturns.NoFiber;
             if (rftsEventsDto.IsNoFiber) return rftsEventsDto;
@@ -20,6 +19,12 @@ namespace Iit.Fibertest.UtilsLib
             rftsEventsDto.LevelArray = CreateLevelArray(sorData).ToArray();
             rftsEventsDto.Summary = new RftsEventsSummaryDto(){Orl = sorData.KeyEvents.OpticalReturnLoss};
             return rftsEventsDto;
+        }
+
+        public static RftsEventsDto Create(byte[] sorBytes)
+        {
+            var sorData = SorData.FromBytes(sorBytes);
+            return sorData.GetRftsEvents();
         }
 
         private static IEnumerable<RftsLevelDto> CreateLevelArray(OtdrDataKnownBlocks sorData)

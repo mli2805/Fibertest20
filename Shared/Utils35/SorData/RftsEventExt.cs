@@ -3,7 +3,7 @@ using Iit.Fibertest.Dto;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
-namespace Iit.Fibertest.Graph
+namespace Iit.Fibertest.UtilsLib
 {
     public static class RftsEventExt
     {

@@ -120,7 +120,6 @@
     <Compile Include="DataModels\MonitorigPort.cs" />
     <Compile Include="DataModels\MonitoringQueue.cs" />
     <Compile Include="DataModels\MonitoringPortOnDisk.cs" />
-    <Compile Include="DataModels\MoniResultOnDisk.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DataModels\RecoveryStep.cs" />
     <Compile Include="RtuManager.cs" />

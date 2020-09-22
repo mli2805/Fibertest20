@@ -71,6 +71,8 @@ namespace Iit.Fibertest.IitOtdrLibrary
             measSorData.EmbeddedData.EmbeddedDataBlocks = embeddedData.ToArray();
             measSorData.EmbeddedData.EmbeddedBlocksCount = (ushort)embeddedData.Count;
 
+//            moniResult.RftsEvents = measSorData.GetRftsEvents();
+            moniResult.Accidents = measSorData.GetAccidents();
             moniResult.SorBytes = measSorData.ToBytes();
 
             return moniResult;

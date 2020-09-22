@@ -117,8 +117,11 @@
     <Compile Include="Setup\ShortcutOperatios.cs" />
     <Compile Include="Setup\WebCommonOperation.cs" />
     <Compile Include="SnmpAgent.cs" />
+    <Compile Include="SorData\AccidentsExtractor.cs" />
+    <Compile Include="SorData\RftsEventExt.cs" />
     <Compile Include="SorData\RftsEventsExt.cs" />
     <Compile Include="SorData\RftsEventsFactory.cs" />
+    <Compile Include="SorData\RftsLevelTypeExt.cs" />
     <Compile Include="SorData\SorData.cs" />
     <Compile Include="SorData\SorDataExt.cs" />
     <Compile Include="Utils.cs" />

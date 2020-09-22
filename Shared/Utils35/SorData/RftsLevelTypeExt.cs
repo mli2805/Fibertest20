@@ -1,7 +1,7 @@
 ﻿using Iit.Fibertest.Dto;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
-namespace Iit.Fibertest.Graph
+namespace Iit.Fibertest.UtilsLib
 {
     public static class RftsLevelTypeExt
     {

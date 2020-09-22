@@ -30,14 +30,25 @@ namespace Iit.Fibertest.RtuManagement
             CharonSerial = port.Serial;
             OpticalPort = port.OpticalPort;
             TraceId = port.TraceId;
-            LastTraceState = port.LastTraceState;
             IsPortOnMainCharon = port.IsPortOnMainCharon;
+            LastTraceState = port.LastTraceState;
 
             LastFastSavedTimestamp = port.LastFastSavedTimestamp;
             LastPreciseSavedTimestamp = port.LastPreciseSavedTimestamp;
 
             IsMonitoringModeChanged = port.IsMonitoringModeChanged;
             IsConfirmationRequired = port.IsConfirmationRequired;
+
+            if (port.LastMoniResult != null)
+                LastMoniResult = new MoniResult()
+                {
+                    IsNoFiber = port.LastMoniResult.IsNoFiber,
+                    IsFiberBreak = port.LastMoniResult.IsFiberBreak,
+                    Levels = port.LastMoniResult.Levels,
+                    BaseRefType = port.LastMoniResult.BaseRefType,
+                    FirstBreakDistance = port.LastMoniResult.FirstBreakDistance,
+                    Accidents = port.LastMoniResult.Accidents
+                };
         }
 
         // new port for monitoring in user's command
@@ -97,8 +108,17 @@ namespace Iit.Fibertest.RtuManagement
         public void SaveMeasBytes(BaseRefType baseRefType, byte[] bytes, SorType sorType, IMyLog rtuLog)
         {
             var measfile = AppDomain.CurrentDomain.BaseDirectory + $@"..\PortData\{GetPortFolderName()}\{baseRefType.ToFileName(sorType)}";
+
             try
             {
+                if (baseRefType == BaseRefType.Precise && sorType == SorType.Meas && File.Exists(measfile))
+                {
+                    var previousFile = AppDomain.CurrentDomain.BaseDirectory
+                                       + $@"..\PortData\{GetPortFolderName()}\{baseRefType.ToFileName(SorType.Previous)}";
+                    if (File.Exists(previousFile))
+                        File.Delete(previousFile);
+                    File.Move(measfile, previousFile);
+                }
                 File.WriteAllBytes(measfile, bytes);
             }
             catch (Exception e)

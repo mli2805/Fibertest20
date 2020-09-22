@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Dto
         Meas,
         Raw,   // before any processing
         Error, // error while measurement
+        Previous,
     }
 
     public static class BaseRefTypeExt
