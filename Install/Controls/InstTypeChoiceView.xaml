@@ -25,7 +25,7 @@
                     <CheckBox Content="{x:Static stringResources:Resources.SID_Install_Web_Service}" 
                               IsChecked="{Binding IsWebNeeded}" />
                 </GroupBox.Header>
-                <StackPanel Margin="10,10,10,0">
+                <StackPanel Margin="10,10,10,0" IsEnabled="{Binding IsWebNeeded}">
                     <RadioButton GroupName="1" Margin="5" Content="HTTP" IsChecked="True"/>
                     <RadioButton GroupName="1" Margin="5" Content="HTTPS" IsChecked="{Binding IsWebByHttps}"/>
                     <GroupBox Header="{x:Static stringResources:Resources.SID_List_of_ssl_certificates}" Margin="5,5,5,10">
