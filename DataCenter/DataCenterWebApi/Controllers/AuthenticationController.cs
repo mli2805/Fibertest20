@@ -66,7 +66,6 @@ namespace Iit.Fibertest.DataCenterWebApi
         public async Task<RequestAnswer> Heartbeat(string connectionId)
         {
             var clientIp = GetRemoteAddress();
-            _logFile.AppendLine($"Authentication request from {clientIp}");
             var result = await _commonC2DWcfManager
                 .SetServerAddresses(_doubleAddress, User.Identity.Name, clientIp)
                 .RegisterHeartbeat(connectionId);

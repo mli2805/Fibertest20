@@ -7,8 +7,9 @@
              mc:Ignorable="d" d:DataContext="{d:DesignInstance wpfCommonViews:RftsEventsOneLevelViewModel}">
     <StackPanel>
         <DataGrid Name="EventsDataGrid" ItemsSource="{Binding BindableTable}" FrozenColumnCount="1" IsReadOnly="True" 
-                  Margin="5" Background="White" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray" LoadingRow="EventsDataGrid_LoadingRow">
-            
+                  Margin="5" Background="White" HorizontalGridLinesBrush="LightGray" VerticalGridLinesBrush="LightGray" 
+                  CanUserSortColumns="False" LoadingRow="EventsDataGrid_LoadingRow">
+
         </DataGrid>
         <wpfCommonViews:RftsEventsOneLevelEeltView DataContext="{Binding EeltViewModel}" Margin="5"/>
     </StackPanel>
