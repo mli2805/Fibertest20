@@ -46,7 +46,6 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
     this.monitoringStoppedSubscription.unsubscribe();
     this.monitoringStartedSubscription.unsubscribe();
     this.measurementAddedSubscription.unsubscribe();
-    console.log("bye");
   }
 
   ngOnInit() {

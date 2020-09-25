@@ -34,6 +34,8 @@ export class FtFreePortComponent implements OnInit {
   }
 
   attachTraceFromList() {
+    console.log(window.pageYOffset);
+
     this.prepareDataForAttachment("attachTraceParams");
     this.router.navigate(["/ft-main-nav/port-attach-trace"]);
   }

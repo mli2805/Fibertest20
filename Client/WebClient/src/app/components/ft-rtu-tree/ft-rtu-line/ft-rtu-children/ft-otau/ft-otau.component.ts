@@ -34,10 +34,8 @@ export class FtOtauComponent implements OnInit {
   ngOnInit() {}
 
   expand() {
-    console.log("expand otau clicked");
     this.otau.expanded = !this.otau.expanded;
-    console.log("rtu: ", this.parentRtu);
-    console.log("otau: ", this.otau);
+    this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.saveExpanded);
   }
 
   onContextMenu(event: MouseEvent) {

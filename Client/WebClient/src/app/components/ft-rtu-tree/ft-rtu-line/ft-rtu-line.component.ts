@@ -46,6 +46,7 @@ export class FtRtuLineComponent implements OnInit {
 
   expand(rtu: RtuDto) {
     rtu.expanded = !rtu.expanded;
+    this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.saveExpanded);
   }
 
   onContextMenu(event: MouseEvent) {

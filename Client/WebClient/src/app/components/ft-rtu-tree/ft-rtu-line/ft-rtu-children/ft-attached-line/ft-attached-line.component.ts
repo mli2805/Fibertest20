@@ -11,8 +11,6 @@ import { UserDto } from "src/app/models/dtos/userDto";
 import { Role } from "src/app/models/enums/role";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
-import { DoOutOfTurnMeasurementDto } from "src/app/models/dtos/trace/doOutOfTurnMeasurementDto";
-import { PortWithTraceDto } from "src/app/models/underlying/portWithTraceDto";
 
 @Component({
   selector: "ft-attached-line",

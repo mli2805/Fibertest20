@@ -46,7 +46,9 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    console.log("ngOnInit of ft-rtu-tree.component");
     this.fetchData();
+    this.saveExpandeds();
     // https://medium.com/angular-in-depth/refresh-current-route-in-angular-512a19d58f6e
     this.router.events
       .pipe(
@@ -69,6 +71,9 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
         }
         if (evnt === RtuTreeEvent.fetchTree) {
           this.fetchData();
+        }
+        if (evnt === RtuTreeEvent.saveExpanded) {
+          this.saveExpandeds();
         }
       });
 
@@ -163,7 +168,7 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
     this.oneApiService.getRequest(`rtu/tree`).subscribe((res: RtuDto[]) => {
       console.log("rtu tree received", res);
       this.rtus = res;
-      this.applyRtuMonitoringModeToTraces();
+      this.applyStoredExpandeds();
       this.isNotLoaded = false;
     });
   }
@@ -172,49 +177,40 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
     console.log("window.history.length", window.history.length);
   }
 
-  applyRtuMonitoringModeToTraces() {
+  saveExpandeds() {
+    if (this.rtus === undefined) {
+      return;
+    }
+    const expandeds = {};
     for (const rtu of this.rtus) {
-      rtu.expanded = this.getPreviousIsExpanded(rtu);
+      expandeds[rtu.rtuId] = rtu.expanded;
       for (const child of rtu.children) {
-        if (child == null) {
-          console.log(`RTU ${rtu.title} has child = null`);
-        }
-        if (child.childType === ChildType.Trace) {
-          const trace = child as TraceDto;
-          trace.rtuMonitoringMode = rtu.monitoringMode;
-        }
-
-        if (child.childType === ChildType.Otau) {
+        if (child != null && child.childType === ChildType.Otau) {
           const otau = child as OtauWebDto;
-          otau.expanded = this.getOtauPreviousIsExpanded(rtu, otau);
-          for (const otauChild of otau.children) {
-            if (otauChild.childType === ChildType.Trace) {
-              const trace = otauChild as TraceDto;
-              trace.rtuMonitoringMode = rtu.monitoringMode;
-            }
-          }
+          expandeds[otau.otauId] = otau.expanded;
         }
       }
     }
-    this.previousRtus = this.rtus;
+    sessionStorage.setItem("expandeds", JSON.stringify(expandeds));
   }
 
-  getPreviousIsExpanded(rtu: RtuDto): boolean {
-    if (this.previousRtus === undefined) {
-      return false;
+  applyStoredExpandeds() {
+    const value = sessionStorage.getItem("expandeds");
+    if (value === null) {
+      return;
     }
-    const prev = this.previousRtus.find((prtu) => prtu.rtuId === rtu.rtuId);
-    return prev === undefined ? false : prev.expanded;
-  }
-
-  getOtauPreviousIsExpanded(rtu: RtuDto, otau: OtauWebDto): boolean {
-    if (this.previousRtus === undefined) {
-      return false;
+    const expandeds = JSON.parse(value);
+    for (const rtu of this.rtus) {
+      const previous = expandeds[rtu.rtuId];
+      rtu.expanded = previous !== undefined ? previous : false;
+      for (const child of rtu.children) {
+        if (child != null && child.childType === ChildType.Otau) {
+          const otau = child as OtauWebDto;
+          const previousOtauExtended = expandeds[otau.otauId];
+          otau.expanded =
+            previousOtauExtended !== undefined ? previousOtauExtended : false;
+        }
+      }
     }
-    const prevRtu = this.previousRtus.find((prtu) => prtu.rtuId === rtu.rtuId);
-    const prevOtau = prevRtu.children.find(
-      (potau) => potau.port === otau.port
-    ) as OtauWebDto;
-    return prevOtau === undefined ? false : prevOtau.expanded;
   }
 }

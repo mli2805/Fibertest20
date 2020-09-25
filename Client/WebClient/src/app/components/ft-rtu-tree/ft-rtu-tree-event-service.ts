@@ -19,4 +19,5 @@ export enum RtuTreeEvent {
   showSpinner,
   hideSpinner,
   fetchTree,
+  saveExpanded,
 }
