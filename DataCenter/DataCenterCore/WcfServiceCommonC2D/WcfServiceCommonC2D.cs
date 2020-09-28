@@ -127,7 +127,7 @@ namespace Iit.Fibertest.DataCenterCore
                 MasterPort = dto.OpticalPort,
                 Serial = result.Serial,
                 PortCount = result.PortCount,
-                NetAddress = (NetAddress)dto.OtauAddress.Clone(),
+                NetAddress = (NetAddress)dto.NetAddress.Clone(),
                 IsOk = true,
             };
             var username = _clientsCollection.GetClientStation(dto.ClientIp)?.UserName;
@@ -148,7 +148,7 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 Id = dto.OtauId,
                 RtuId = dto.RtuId,
-                OtauIp = dto.OtauAddress.Ip4Address,
+                OtauIp = dto.NetAddress.Ip4Address,
                 TcpPort = dto.OpticalPort,
                 TracesOnOtau = _writeModel.Traces
                     .Where(t => t.OtauPort != null && t.OtauPort.OtauId == dto.OtauId.ToString())

@@ -49,12 +49,12 @@ export class FtOtauComponent implements OnInit {
 
   removeOtau() {
     this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.showSpinner);
-    console.log("remove otau pressed");
     const detachOtauDto = new DetachOtauDto();
     detachOtauDto.rtuId = this.otau.rtuId;
     detachOtauDto.otauId = this.otau.otauId;
-    detachOtauDto.netAddress = this.otau.netAddress;
+    detachOtauDto.netAddress = this.otau.otauNetAddress;
     detachOtauDto.opticalPort = this.otau.port;
+    console.log(detachOtauDto);
     this.oneApiService
       .postRequest("port/detach-otau", detachOtauDto)
       .subscribe((res: any) => {

@@ -150,13 +150,13 @@ namespace Iit.Fibertest.Client
 
         private async Task<OtauAttachedDto> AttachOtauIntoRtu()
         {
-            var otauAddress = new NetAddress(NetAddressInputViewModel.GetNetAddress().Ip4Address,
+            var netAddress = new NetAddress(NetAddressInputViewModel.GetNetAddress().Ip4Address,
                 NetAddressInputViewModel.GetNetAddress().Port);
             var dto = new AttachOtauDto()
             {
                 RtuId = _rtuId,
                 OtauId = Guid.NewGuid(),
-                OtauAddress = otauAddress,
+                NetAddress = netAddress,
                 OpticalPort = _portNumberForAttachment
             };
             var result = await _c2RWcfManager.AttachOtauAsync(dto);

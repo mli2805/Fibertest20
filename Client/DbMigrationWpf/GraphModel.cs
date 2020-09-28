@@ -8,7 +8,7 @@ namespace DbMigrationWpf
     public class Charon15
     {
         public int RtuId;
-        public NetAddress OtauAddress;
+        public NetAddress NetAddress;
         public string Serial;
         public int FirstPortNumber;
         public int PortCount;

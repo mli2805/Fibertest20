@@ -139,7 +139,7 @@ namespace DbMigrationWpf
             _graphModel.Charon15S.Add(new Charon15()
             {
                 RtuId = nodeId,
-                OtauAddress = charonAddress,
+                NetAddress = charonAddress,
                 Serial = parts[5].Trim(),
                 FirstPortNumber = int.Parse(parts[7]),
                 PortCount = int.Parse(parts[6]),

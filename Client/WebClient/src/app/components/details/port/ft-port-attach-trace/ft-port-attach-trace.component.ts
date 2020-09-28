@@ -51,7 +51,7 @@ export class FtPortAttachTraceComponent implements OnInit {
         this.isButtonDisabled = false;
         console.log(res);
         if (res.returnCode === ReturnCode.Ok) {
-          this.router.navigate(["/rtu-tree"]);
+          this.router.navigate(["/ft-main-nav/rtu-tree"]);
         } else {
           this.resultMessage = res.errorMessage;
         }
@@ -59,6 +59,6 @@ export class FtPortAttachTraceComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(["/rtu-tree"]);
+    this.router.navigate(["/ft-main-nav/rtu-tree"]);
   }
 }

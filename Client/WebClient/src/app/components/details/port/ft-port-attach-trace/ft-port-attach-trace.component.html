@@ -1,7 +1,7 @@
 <div class="container">
   <mat-card>
     <mat-card-header>
-      <mat-card-title>Select trace</mat-card-title>
+      <mat-card-title>{{ "SID_List_of_traces" | translate }}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
       <mat-form-field>
@@ -19,7 +19,7 @@
         (click)="attachTrace()"
         [disabled]="isButtonDisabled"
       >
-        Attach trace
+        {{ "SID_Attach" | translate }}
       </button>
       <button
         mat-stroked-button
@@ -27,7 +27,7 @@
         (click)="cancel()"
         [disabled]="isButtonDisabled"
       >
-        Cancel
+        {{ "SID_Cancel" | translate }}
       </button>
     </mat-card-actions>
   </mat-card>

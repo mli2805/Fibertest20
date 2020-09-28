@@ -70,6 +70,6 @@ export class FtPortAttachOtauComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(["/rtu-tree"]);
+    this.router.navigate(["/ft-main-nav/rtu-tree"]);
   }
 }
