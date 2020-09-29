@@ -13,6 +13,7 @@ export class AuthService {
     const body = { username: user, password: pw };
 
     // !!!!!!!!!!!  press Ctrl+F5   !!!!!!!!!!!!!!!!!!
+    // or even restart w3wp processes for webApi and webClient
 
     // const myHeaders = new HttpHeaders({
     //   // "Access-Control-Allow-Origin": "*",

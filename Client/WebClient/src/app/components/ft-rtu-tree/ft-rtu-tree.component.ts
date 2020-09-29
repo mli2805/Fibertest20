@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import { Component, OnInit, OnDestroy, HostListener } from "@angular/core";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { ChildType } from "src/app/models/enums/childType";
 import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
@@ -23,6 +23,7 @@ import { TraceStateDto } from "src/app/models/dtos/trace/traceStateDto";
   templateUrl: "./ft-rtu-tree.component.html",
   styleUrls: ["./ft-rtu-tree.component.css"],
 })
+@HostListener("window:scroll", ["$event"]) // for window scroll events
 export class FtRtuTreeComponent implements OnInit, OnDestroy {
   private previousRtus: RtuDto[];
   private rtus: RtuDto[];
@@ -43,6 +44,10 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
     private refreshTreeRequestEventService: FtRtuTreeEventService
   ) {
     this.isNotLoaded = true;
+  }
+
+  onScroll($event) {
+    console.log($event);
   }
 
   ngOnInit() {
