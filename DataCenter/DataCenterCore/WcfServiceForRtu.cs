@@ -87,27 +87,6 @@ namespace Iit.Fibertest.DataCenterCore
 
             try
             {
-//                var clientStation = _clientsCollection.GetClientStation(result.ClientIp);
-//                if (clientStation == null)
-//                {
-//                    _logFile.AppendLine($"There is no registered client station with IP {result.ClientIp}");
-//                    return;
-//                }
-//                if (clientStation.IsWebClient)
-//                {
-//                    _measurementsForWebNotifier.Push(result);
-//                    _logFile.AppendLine("measurement placed into queue");
-//                }
-//                else
-//                {
-//                    var addresses = _clientsCollection.GetDesktopClientsAddresses(result.ClientIp);
-//                    if (addresses != null)
-//                    {
-//                        _d2CWcfManager.SetClientsAddresses(addresses);
-//                        _d2CWcfManager.NotifyMeasurementClientDone(result).Wait();
-//                    }
-//                }
-                
                 _measurementsForWebNotifier.Push(result);
                 _logFile.AppendLine("measurement placed into queue");
                 

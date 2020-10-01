@@ -73,7 +73,7 @@ namespace Iit.Fibertest.WcfConnections
                 }
                 catch (Exception e)
                 {
-                    _logFile.AppendLine(e.Message);
+                    _logFile.AppendLine($"NotifyMeasurementClientDone: {clientAddress.Main.ToStringASpace} {e.Message}");
                 }
             }
             return 0;
