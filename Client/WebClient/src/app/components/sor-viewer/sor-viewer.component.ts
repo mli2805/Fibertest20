@@ -88,6 +88,7 @@ export class SorViewerComponent implements OnInit {
     measGuid: string,
     isBase: boolean
   ): Promise<SorTrace> {
+    console.log(`start loading sor from server`);
     const blob = (await this.oneApiService.getSorAsBlobFromServer(
       isSorFile,
       sorFileId,
@@ -99,6 +100,7 @@ export class SorViewerComponent implements OnInit {
 
     const uint8arr = new Uint8Array(arrayBuffer);
     const sorData = await new SorReader().fromBytes(uint8arr);
+    console.log(`sor fetched successfully`);
     return new SorTrace(sorData, "", true);
   }
 }

@@ -55,7 +55,10 @@ namespace Iit.Fibertest.DataCenterCore
                     _logFile.AppendLine($"FtSignalRClient: have {eventType} signal, need to connect to hub");
                 var isConnected = await IsSignalRConnected();
                 if (isConnected)
+                {
+                    _logFile.AppendLine("signalR connection is ready");
                     await connection.InvokeAsync("NotifyAll", eventType, dataInJson);
+                }
             }
             catch (Exception ex)
             {

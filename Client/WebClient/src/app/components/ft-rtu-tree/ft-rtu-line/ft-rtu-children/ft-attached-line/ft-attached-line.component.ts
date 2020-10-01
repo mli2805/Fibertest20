@@ -11,6 +11,7 @@ import { UserDto } from "src/app/models/dtos/userDto";
 import { Role } from "src/app/models/enums/role";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
+import { FiberState } from "src/app/models/enums/fiberState";
 
 @Component({
   selector: "ft-attached-line",
@@ -55,6 +56,9 @@ export class FtAttachedLineComponent implements OnInit {
   }
 
   displayState() {
+    if (this.trace.state === FiberState.Unknown) {
+      return;
+    }
     const dict = {
       type: "traceId",
       traceId: this.trace.traceId,

@@ -55,7 +55,9 @@ namespace Iit.Fibertest.DataCenterCore
             result.MainChannel = rtu.MainChannel.ToStringA();
             result.IsReserveChannelSet = rtu.IsReserveChannelSet;
             result.ReserveChannel = rtu.ReserveChannel.ToStringA();
-            result.OtdrAddress = rtu.OtdrNetAddress.ToStringA();
+            result.OtdrAddress = rtu.OtdrNetAddress.Ip4Address == "192.168.88.101" 
+                ? $"{rtu.MainChannel.Ip4Address}:{rtu.OtdrNetAddress.Port}" 
+                : rtu.OtdrNetAddress.ToStringA();
             return result;
         }
 

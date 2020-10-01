@@ -110,7 +110,11 @@ namespace Iit.Fibertest.DataCenterWebApi
                     MainChannel = dto.RtuAddresses?.Main?.ToStringASpace,
                     IsReserveChannelSet = dto.RtuAddresses?.HasReserveAddress ?? false,
                     ReserveChannel = dto.RtuAddresses?.Reserve?.ToStringASpace,
-                    OtdrAddress = dto.OtdrAddress?.ToStringASpace,
+                    OtdrAddress = dto.OtdrAddress == null 
+                        ? "" 
+                        : dto.OtdrAddress.Ip4Address == "192.168.88.101" 
+                            ? $"{dto.RtuAddresses?.Main?.Ip4Address} : {dto.OtdrAddress.Port}" 
+                            : dto.OtdrAddress.ToStringASpace,
                     Mfid = dto.Mfid,
                     Serial = dto.Serial,
                     OwnPortCount = dto.OwnPortCount,
