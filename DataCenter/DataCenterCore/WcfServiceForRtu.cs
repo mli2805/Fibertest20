@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ServiceModel;
 using System.Threading;
 using Iit.Fibertest.DatabaseLibrary;
@@ -61,7 +62,7 @@ namespace Iit.Fibertest.DataCenterCore
                     _ftSignalRClient.NotifyAll("NotifyMonitoringStep", dto.ToCamelCaseJson()).Wait();
                 }
 
-                var addresses = _clientsCollection.GetDesktopClientsAddresses();
+                var addresses = _clientsCollection.GetAllDesktopClientsAddresses();
                 if (addresses == null)
                     return;
 
@@ -90,13 +91,14 @@ namespace Iit.Fibertest.DataCenterCore
                 _measurementsForWebNotifier.Push(result);
                 _logFile.AppendLine("measurement placed into queue");
                 
-                var addresses = _clientsCollection.GetDesktopClientsAddresses(result.ClientIp);
-                if (addresses != null)
+                var address = _clientsCollection.GetOneDesktopClientAddress(result.ClientIp);
+                if (address != null)
                 {
-                    _d2CWcfManager.SetClientsAddresses(addresses);
+                    _logFile.AppendLine($@"TransmitClientMeasurementResult: meas will be sent to desktop client {result.ClientIp}");
+                    _d2CWcfManager.SetClientsAddresses(new List<DoubleAddress>(){address});
                     _d2CWcfManager.NotifyMeasurementClientDone(result).Wait();
                 }
-            
+                else _logFile.AppendLine($@"TransmitClientMeasurementResult: no desktop clients with IP {result.ClientIp} found");
             }
             catch (Exception e)
             {

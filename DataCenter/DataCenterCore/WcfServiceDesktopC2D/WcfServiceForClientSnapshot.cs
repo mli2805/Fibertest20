@@ -12,7 +12,7 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task MakeSnapshot(MakeSnapshot cmd, string username, string clientIp)
         {
             _logFile.AppendLine("Start making snapshot on another thread to release WCF client");
-            var addresses = _clientsCollection.GetDesktopClientsAddresses();
+            var addresses = _clientsCollection.GetAllDesktopClientsAddresses();
             if (addresses == null)
                 return;
             _d2CWcfManager.SetClientsAddresses(addresses);

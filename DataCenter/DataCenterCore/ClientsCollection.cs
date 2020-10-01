@@ -73,7 +73,7 @@ namespace Iit.Fibertest.DataCenterCore
                 }
             }
 
-            _clients.Add(Create(dto,user));
+            _clients.Add(Create(dto, user));
             _logFile.AppendLine($"Client {dto.UserName}/{dto.ClientIp} registered with connectionId {dto.ConnectionId}");
             LogStations();
             return await FillInSuccessfulResult(dto, user);
@@ -138,26 +138,26 @@ namespace Iit.Fibertest.DataCenterCore
         //            _logFile.AppendLine($"Client re-registered with connectionId {dto.ConnectionId}.");
         //        }
 
-//        private void RegisterNew(RegisterClientDto dto, User user)
-//        {
-//            var station = new ClientStation()
-//            {
-//                UserId = user.UserId,
-//                UserName = dto.UserName,
-//                UserRole = user.Role,
-//                ClientIp = dto.Addresses.Main.GetAddress(),
-//                ClientAddressPort = dto.Addresses.Main.Port,
-//                ConnectionId = dto.ConnectionId,
-//
-//                IsUnderSuperClient = dto.IsUnderSuperClient,
-//                IsWebClient = dto.IsWebClient,
-//                IsDesktopClient = !dto.IsUnderSuperClient && !dto.IsWebClient,
-//
-//                LastConnectionTimestamp = DateTime.Now,
-//            };
-//            _clients.Add(station);
-//            _logFile.AppendLine($"Client {dto.UserName}/{dto.ClientIp} registered with connectionId {dto.ConnectionId}");
-//        }
+        //        private void RegisterNew(RegisterClientDto dto, User user)
+        //        {
+        //            var station = new ClientStation()
+        //            {
+        //                UserId = user.UserId,
+        //                UserName = dto.UserName,
+        //                UserRole = user.Role,
+        //                ClientIp = dto.Addresses.Main.GetAddress(),
+        //                ClientAddressPort = dto.Addresses.Main.Port,
+        //                ConnectionId = dto.ConnectionId,
+        //
+        //                IsUnderSuperClient = dto.IsUnderSuperClient,
+        //                IsWebClient = dto.IsWebClient,
+        //                IsDesktopClient = !dto.IsUnderSuperClient && !dto.IsWebClient,
+        //
+        //                LastConnectionTimestamp = DateTime.Now,
+        //            };
+        //            _clients.Add(station);
+        //            _logFile.AppendLine($"Client {dto.UserName}/{dto.ClientIp} registered with connectionId {dto.ConnectionId}");
+        //        }
 
         private static ClientStation Create(RegisterClientDto dto, User user)
         {
@@ -210,9 +210,9 @@ namespace Iit.Fibertest.DataCenterCore
         // WebApi has not got user's name and put it as "onSignalRDisconnected"
         public void UnregisterClientAsync(UnRegisterClientDto dto)
         {
-//            _logFile.AppendLine($"dto: username: {dto.Username}, clientIp: {dto.ClientIp}");
-//            var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp &&
-//              (s.UserName == dto.Username || (dto.Username == "onSignalRDisconnected" && s.IsWebClient)));
+            //            _logFile.AppendLine($"dto: username: {dto.Username}, clientIp: {dto.ClientIp}");
+            //            var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp &&
+            //              (s.UserName == dto.Username || (dto.Username == "onSignalRDisconnected" && s.IsWebClient)));
             var station = _clients.FirstOrDefault(s => s.ConnectionId == dto.ConnectionId);
             if (station != null)
             {
@@ -244,29 +244,23 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
 
-        public List<DoubleAddress> GetDesktopClientsAddresses(string clientIp = null)
+        public List<DoubleAddress> GetAllDesktopClientsAddresses()
         {
-            if (clientIp == null)
-                return _clients
-                    .Where(s => !s.IsWebClient)
-                    .Select(c => new DoubleAddress() { Main = new NetAddress(c.ClientIp, c.ClientAddressPort) }).ToList();
-            var client = _clients.FirstOrDefault(c => c.ClientIp == clientIp);
-            return client == null
-                ? null
-                : new List<DoubleAddress>() { new DoubleAddress() { Main = new NetAddress(client.ClientIp, client.ClientAddressPort) } };
+            return _clients
+                .Where(s => !s.IsWebClient)
+                .Select(c => new DoubleAddress() { Main = new NetAddress(c.ClientIp, c.ClientAddressPort) }).ToList();
         }
 
-        public List<DoubleAddress> GetWebClientsAddresses(string clientIp = null)
+        public DoubleAddress GetOneDesktopClientAddress(string clientIp)
         {
             if (clientIp == null)
-                return _clients
-                    .Where(s => s.IsWebClient)
-                    .Select(c => new DoubleAddress() { Main = new NetAddress(c.ClientIp, c.ClientAddressPort) }).ToList();
+                return null;
             var client = _clients.FirstOrDefault(c => c.ClientIp == clientIp);
             return client == null
                 ? null
-                : new List<DoubleAddress>() { new DoubleAddress() { Main = new NetAddress(client.ClientIp, client.ClientAddressPort) } };
+                : new DoubleAddress() { Main = new NetAddress(client.ClientIp, client.ClientAddressPort) };
         }
+
 
         public bool HasAnyWebClients()
         {

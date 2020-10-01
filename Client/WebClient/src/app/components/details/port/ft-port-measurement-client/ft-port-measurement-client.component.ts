@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { TreeOfAcceptableVeasParams } from "src/app/models/dtos/meas-params/acceptableMeasParams";
 import { Router } from "@angular/router";
 import { DoClientMeasurementDto } from "src/app/models/dtos/meas-params/doClientMeasurementDto";
@@ -15,7 +15,7 @@ import { SorFileManager } from "src/app/utils/sorFileManager";
   templateUrl: "./ft-port-measurement-client.component.html",
   styleUrls: ["./ft-port-measurement-client.component.css"],
 })
-export class FtPortMeasurementClientComponent implements OnInit {
+export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
   tree: TreeOfAcceptableVeasParams;
 
   message;
@@ -35,12 +35,18 @@ export class FtPortMeasurementClientComponent implements OnInit {
   selectedBc = 0;
   selectedRi = 0;
 
+  measEmmitterSubscription;
+
   constructor(
     private router: Router,
     private oneApiService: OneApiService,
     private signalRService: SignalrService,
     private ts: TranslateService
   ) {}
+
+  ngOnDestroy(): void {
+    this.measEmmitterSubscription.unsubscribe();
+  }
 
   async ngOnInit() {
     console.log("we are in ngOnInit of measurement client component");
@@ -57,7 +63,7 @@ export class FtPortMeasurementClientComponent implements OnInit {
     this.isButtonDisabled = false;
     this.message = "";
 
-    this.signalRService.clientMeasEmitter.subscribe(
+    this.measEmmitterSubscription = this.signalRService.clientMeasEmitter.subscribe(
       (signal: ClientMeasurementDoneDto) => {
         console.log(signal);
         if (signal.returnCode === ReturnCode.MeasurementEndedNormally) {
