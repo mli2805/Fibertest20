@@ -1,13 +1,9 @@
 .sidenav-container {
-  /* height: 100%; */
   background-color: white;
 }
 
 .add-content-here {
-  /* height: 100%; */
   height: calc(100% - 64px);
-  /* display: flex; */
-  /* flex: 1; */
   background-color: white;
   overflow: auto;
 }

@@ -17,8 +17,8 @@ export class FtPortAttachOtauComponent implements OnInit {
   rtu: RtuDto;
   mainPort: number;
   otau: OtauPortDto = new OtauPortDto();
-  serial;
-  portCount;
+  serial: string;
+  portCount: number;
 
   public isSpinnerVisible = false;
   public isButtonDisabled = false;

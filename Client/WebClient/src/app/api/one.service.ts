@@ -11,7 +11,7 @@ export class OneApiService {
 
   constructor(private httpClient: HttpClient) {}
 
-  getRequest(request: string, params = null) {
+  getRequest(request: string, params: any = null) {
     const url = Utils.GetWebApiUrl() + `/${request}`;
     console.log(`get request with url ${url}`);
     const currentUser = JSON.parse(sessionStorage.currentUser);

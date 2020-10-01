@@ -77,34 +77,38 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   async sendHeartbeat() {
     try {
       const user = sessionStorage.getItem("currentUser");
-      if (user !== null) {
+      if (user === null) {
+        console.log("user has not logged yet");
+      } else {
         const currentUser = JSON.parse(sessionStorage.currentUser);
         const res = (await this.oneApiService
           .getRequest(`authentication/heartbeat/${currentUser.connectionId}`)
           .toPromise()) as RequestAnswer;
         if (res.returnCode !== ReturnCode.Ok) {
           console.log(`Heartbeat: ${res.errorMessage}`);
-
-          await this.logout();
-          this.router.navigate(["/ft-main-nav/logout"]);
-
-          await FtMessageBox.show(
-            this.matDialog,
-            this.ts.instant("SID_Server_connection_lost_"),
-            this.ts.instant("SID_Error_"),
-            "",
-            MessageBoxButton.Ok,
-            false,
-            MessageBoxStyle.Full,
-            "600px"
-          ).toPromise();
+          await this.exit();
         }
-      } else {
-        console.log("user has not logged yet");
       }
     } catch (error) {
       console.log(`can't send heartbeat: ${error}`);
+      await this.exit();
     }
+  }
+
+  async exit() {
+    await this.logout();
+    this.router.navigate(["/ft-main-nav/logout"]);
+
+    await FtMessageBox.show(
+      this.matDialog,
+      this.ts.instant("SID_Server_connection_lost_"),
+      this.ts.instant("SID_Error_"),
+      "",
+      MessageBoxButton.Ok,
+      false,
+      MessageBoxStyle.Full,
+      "600px"
+    ).toPromise();
   }
 
   async initializeIndicators() {

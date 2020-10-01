@@ -32,8 +32,9 @@ export class Utils {
     ].join("");
   }
 
-  static toCamel(o) {
-    var newO, origKey, newKey, value;
+  static toCamel(o: any) {
+    var newO : any;
+    var origKey, newKey, value;
     if (o instanceof Array) {
       return o.map(function (value) {
         if (typeof value === "object") {

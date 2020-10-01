@@ -8,6 +8,7 @@ import { MeasurementDto } from "src/app/models/dtos/measurementDto";
 import { SorFileManager } from "src/app/utils/sorFileManager";
 import { FiberState } from "src/app/models/enums/fiberState";
 import { BaseRefType } from "src/app/models/enums/baseRefType";
+import { TraceStateParams } from "../trace-state-params";
 
 @Component({
   selector: "ft-trace-statistics",
@@ -125,11 +126,13 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
 
   showTraceState() {
     console.log("show trace state: ", this.contextMenu.menuData.row.sorFileId);
-    const dict = {
-      type: "fileId",
-      traceId: null,
-      fileId: this.contextMenu.menuData.row.sorFileId,
-    };
+
+    const dict = new TraceStateParams(
+      "fileId",
+      null,
+      this.contextMenu.menuData.row.sorFileId
+    );
+
     sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
     this.router.navigate(["/ft-main-nav/trace-state"]);
   }

@@ -15,7 +15,7 @@ import { ReturnCode } from "src/app/models/enums/returnCode";
 })
 export class FtPortAttachTraceComponent implements OnInit {
   traceList: TraceDto[];
-  selectedTrace;
+  selectedTrace: string;
   public isSpinnerVisible = false;
   public isButtonDisabled = false;
   public resultMessage: string;
