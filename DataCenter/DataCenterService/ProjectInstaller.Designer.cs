@@ -40,8 +40,8 @@
             // serviceInstaller1
             // 
             this.serviceInstaller1.ServiceName = "FibertestDcService";
-            this.serviceInstaller1.Description = "Fibertest 2.0 DataCenter Server";
-            this.serviceInstaller1.DisplayName = "Fibertest 2.0 DataCenter Server";
+            this.serviceInstaller1.Description = "Fibertest 2.0 DataCenter Service (set by cmd)";
+            this.serviceInstaller1.DisplayName = "Fibertest 2.0 DataCenter Service";
             this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Manual;
             // 
             // ProjectInstaller

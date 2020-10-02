@@ -8,8 +8,8 @@ namespace Iit.Fibertest.Install
     public class SetupDataCenterOperations
     {
         private const string DataCenterServiceName = "FibertestDcService";
-        private const string DataCenterDisplayName = "Fibertest 2.0 DataCenter Server";
-        private const string DataCenterServiceDescription = "Fibertest 2.0 DataCenter Server Service";
+        private const string DataCenterDisplayName = "Fibertest 2.0 DataCenter Service";
+        private const string DataCenterServiceDescription = "Fibertest 2.0 DataCenter Service";
 
         private const string WebApiSiteName = "fibertest_web_api";
         private const string WebClientSiteName = "fibertest_web_client";
