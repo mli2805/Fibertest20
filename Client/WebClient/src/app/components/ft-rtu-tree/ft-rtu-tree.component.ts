@@ -46,10 +46,6 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
     this.isNotLoaded = true;
   }
 
-  onScroll($event) {
-    console.log($event);
-  }
-
   ngOnInit() {
     console.log("ngOnInit of ft-rtu-tree.component");
     this.fetchData();

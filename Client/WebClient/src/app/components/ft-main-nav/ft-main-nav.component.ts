@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ViewChild,
+  ElementRef,
+  HostListener,
+} from "@angular/core";
 import { AuthService } from "src/app/api/auth.service";
 import { Subscription } from "rxjs";
 import { SignalrService } from "src/app/api/signalr.service";
@@ -14,7 +21,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { OneApiService } from "src/app/api/one.service";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 import { ReturnCode } from "src/app/models/enums/returnCode";
-import { Router } from "@angular/router";
+import { NavigationEnd, NavigationStart, Router } from "@angular/router";
 import {
   FtMessageBox,
   MessageBoxButton,
@@ -28,6 +35,10 @@ import { MatDialog } from "@angular/material";
   styleUrls: ["./ft-main-nav.component.css"],
 })
 export class FtMainNavComponent implements OnInit, OnDestroy {
+  @ViewChild("outletDiv", { static: false }) outletDiv: ElementRef<
+    HTMLDivElement
+  >;
+  @HostListener("window:scroll", ["$event"])
   private measurementAddedSubscription: Subscription;
   private networkEventAddedSubscription: Subscription;
   private bopEventAddedSubscription: Subscription;
@@ -70,6 +81,22 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
 
     this.subscribeNewAlarmEvents();
     this.subscribeUserSeenAlarms();
+
+    router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+        console.log(`navigation start ${event}`);
+        console.log(`current route ${router.url}`);
+        if (router.url === "/ft-main-nav/rtu-tree") {
+          const pos = this.outletDiv.nativeElement.scrollTop;
+          sessionStorage.setItem("scrollTop", pos.toString());
+        }
+      }
+      if (event instanceof NavigationEnd) {
+        if (event.url === "/ft-main-nav/rtu-tree") {
+          console.log(`navigation end ${event}`);
+        }
+      }
+    });
 
     setInterval(() => this.sendHeartbeat(), 30000);
   }
@@ -212,5 +239,10 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
 
   showHelpPdf() {
     window.open("../../../assets/UserGuide/FIBERTEST20ClientUGru.pdf#page=81");
+  }
+
+  saveScrollPos() {
+    const pos = this.outletDiv.nativeElement.scrollTop;
+    console.log(`pos ${pos}`);
   }
 }

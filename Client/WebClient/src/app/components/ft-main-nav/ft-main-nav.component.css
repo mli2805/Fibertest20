@@ -5,7 +5,7 @@
 .add-content-here {
   height: calc(100% - 64px);
   background-color: white;
-  overflow: auto;
+  overflow-y: auto;
 }
 
 .sidenav {
