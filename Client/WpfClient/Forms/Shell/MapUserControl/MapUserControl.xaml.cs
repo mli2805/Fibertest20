@@ -34,6 +34,8 @@ namespace Iit.Fibertest.Client
 
         private void ConfigureMap()
         {
+            var accessMode = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.MapAccessMode, 1);
+            MainMap.Manager.Mode = (AccessMode)accessMode;
             var maxZoom = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.MaxZoom, 21);
             MainMap.MaxZoom = maxZoom;
 

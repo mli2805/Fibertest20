@@ -121,6 +121,7 @@
         MaxZoom,
         SaveMaxZoomNoMoreThan,
         GMapProvider,
+        MapAccessMode,
 
         // Miscellaneous
         PathToSor,
