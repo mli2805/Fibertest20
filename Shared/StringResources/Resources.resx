@@ -2792,4 +2792,16 @@ RTU is initializing right now!</value>
 	<data name="SID_SNMP_settings_are_saved_" xml:space="preserve">
     <value>SNMP settings are saved.</value>
   </data>
+	<data name="SID_Server_only" xml:space="preserve">
+    <value>Server only</value>
+  </data>
+	<data name="SID_Cache_only" xml:space="preserve">
+    <value>Cache only</value>
+  </data>
+	<data name="SID_Server_and_cache" xml:space="preserve">
+    <value>Server and cache</value>
+  </data>
+	<data name="SID_Choose_map_access_mode" xml:space="preserve">
+    <value>Choose map access mode</value>
+  </data>
 </root>

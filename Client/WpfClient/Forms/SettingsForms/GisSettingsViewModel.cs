@@ -1,8 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
+using GMap.NET;
 using GMap.NET.MapProviders;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
@@ -62,6 +66,24 @@ namespace Iit.Fibertest.Client
             }
         }
 
+      //  public List<string> AccessModes { get; set; } = new List<string>() { @"ServerOnly", @"ServerAndCache", @"CacheOnly" };
+        public List<string> AccessModes { get; set; }
+
+        private string _selectedAccessMode;
+        public string SelectedAccessMode
+        {
+            get => _selectedAccessMode;
+            set
+            {
+                if (value == _selectedAccessMode) return;
+                _selectedAccessMode = value;
+                var mo = AccessModeExt.FromLocalizedString(_selectedAccessMode);
+                _iniFile.Write(IniSection.Map, IniKey.MapAccessMode, mo.ToString());
+                if (_currentGis.IsGisOn)
+                    _graphReadModel.MainMap.Manager.Mode = AccessModeExt.FromEnumConstant(_selectedAccessMode);
+            }
+        }
+
         private bool _isMapTemporarilyVisibleInThisClient;
 
         public bool IsMapTemporarilyVisibleInThisClient
@@ -71,8 +93,8 @@ namespace Iit.Fibertest.Client
             {
                 _isMapTemporarilyVisibleInThisClient = value;
                 _currentGis.IsRootTempGisOn = value;
-                _graphReadModel.MainMap.MapProvider = value 
-                    ? GMapProviderExt.Get(_iniFile.Read(IniSection.Map, IniKey.GMapProvider, @"OpenStreetMap")) 
+                _graphReadModel.MainMap.MapProvider = value
+                    ? GMapProviderExt.Get(_iniFile.Read(IniSection.Map, IniKey.GMapProvider, @"OpenStreetMap"))
                     : GMapProviders.EmptyProvider;
                 ThirdBoxVisibility = _currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
             }
@@ -88,6 +110,12 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _iniFile = iniFile;
             _graphReadModel = graphReadModel;
+
+            AccessModes = Enum.GetValues(typeof(AccessMode))
+                .Cast<AccessMode>().Select(x => x.ToLocalizedString()).ToList();
+            var str = _iniFile.Read(IniSection.Map, IniKey.MapAccessMode, "");
+            _selectedAccessMode = AccessModeExt.FromEnumConstant(str).ToLocalizedString();
+
             IsRoot = currentUser.Role <= Role.Root;
             SecondBoxVisibility = currentUser.Role <= Role.Root ? Visibility.Visible : Visibility.Collapsed;
             _selectedProvider = _iniFile.Read(IniSection.Map, IniKey.GMapProvider, MapProviders[0]);

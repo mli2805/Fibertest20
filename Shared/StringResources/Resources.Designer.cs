@@ -1125,6 +1125,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cache only.
+        /// </summary>
+        public static string SID_Cache_only {
+            get {
+                return ResourceManager.GetString("SID_Cache_only", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t connect RTU.
         /// </summary>
         public static string SID_Can_t_connect_RTU {
@@ -1526,6 +1535,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Choose_Install_Location {
             get {
                 return ResourceManager.GetString("SID_Choose_Install_Location", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Choose map access mode.
+        /// </summary>
+        public static string SID_Choose_map_access_mode {
+            get {
+                return ResourceManager.GetString("SID_Choose_map_access_mode", resourceCulture);
             }
         }
         
@@ -6330,6 +6348,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Server and cache.
+        /// </summary>
+        public static string SID_Server_and_cache {
+            get {
+                return ResourceManager.GetString("SID_Server_and_cache", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Server connection lost!.
         /// </summary>
         public static string SID_Server_connection_lost_ {
@@ -6344,6 +6371,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Server_ip_address {
             get {
                 return ResourceManager.GetString("SID_Server_ip_address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Server only.
+        /// </summary>
+        public static string SID_Server_only {
+            get {
+                return ResourceManager.GetString("SID_Server_only", resourceCulture);
             }
         }
         

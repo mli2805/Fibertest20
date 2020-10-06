@@ -32,10 +32,17 @@
             </CheckBox>
         </Border>
         <Border Margin="5" BorderThickness="1" BorderBrush="LightGray" CornerRadius="5"  Visibility="{Binding ThirdBoxVisibility}" >
-            <StackPanel Orientation="Horizontal" Margin="5,10" HorizontalAlignment="Center">
-                <ComboBox ItemsSource="{Binding MapProviders}" SelectedItem="{Binding SelectedProvider}" Width="120"/>
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Choose_map_provider}" Margin="15,2"/>
-            </StackPanel>
+            <StackPanel Margin="25,0,0,0">
+                <StackPanel Orientation="Horizontal" Margin="5,10,5,5" >
+                    <ComboBox ItemsSource="{Binding AccessModes}" SelectedItem="{Binding SelectedAccessMode}"
+                              Width="120" />
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Choose_map_access_mode}" Margin="15,2" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5,5,5,10" >
+                    <ComboBox ItemsSource="{Binding MapProviders}" SelectedItem="{Binding SelectedProvider}"
+                              Width="120" />
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Choose_map_provider}" Margin="15,2" />
+                </StackPanel></StackPanel>
         </Border>
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="5,25,5,5">
             <Button Content="{x:Static stringResources:Resources.SID_Close}" Width="100" Margin="5" IsCancel="True" />
