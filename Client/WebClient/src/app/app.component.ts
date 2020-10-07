@@ -1,4 +1,5 @@
-import { Component } from "@angular/core";
+import { DOCUMENT } from "@angular/common";
+import { Component, Inject } from "@angular/core";
 import { TranslateService } from "@ngx-translate/core";
 
 @Component({
@@ -10,7 +11,11 @@ export class AppComponent {
   title = "Fibertest";
   private language: string;
 
-  constructor(private ts: TranslateService) {
+  constructor(
+    private ts: TranslateService,
+    @Inject(DOCUMENT) private doc: Document
+  ) {
+    document.addEventListener("contextmenu", (event) => event.preventDefault());
     console.log("application c-tor.");
 
     const lng = sessionStorage.getItem("language");

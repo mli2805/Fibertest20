@@ -52,7 +52,6 @@ import { FtRtuInformationComponent } from "./components/details/rtu/ft-rtu-infor
 import { FtRtuNetworkSettingsComponent } from "./components/details/rtu/ft-rtu-network-settings/ft-rtu-network-settings.component";
 import { FtRtuMonitoringSettingsComponent } from "./components/details/rtu/ft-rtu-monitoring-settings/ft-rtu-monitoring-settings.component";
 import { FtRtuMonitoringPortsComponent } from "./components/details/rtu/ft-rtu-monitoring-ports/ft-rtu-monitoring-ports.component";
-import { NoRightClickDirective } from "./utils/no-right-click.directive";
 import { LoginGuard } from "./utils/login-guard";
 import { FtRtuLineComponent } from "./components/ft-rtu-tree/ft-rtu-line/ft-rtu-line.component";
 import { FtPortAttachTraceComponent } from "./components/details/port/ft-port-attach-trace/ft-port-attach-trace.component";
@@ -114,8 +113,6 @@ import { MaterialModule } from "./material.module";
     FtPortMeasurementClientComponent,
     FtTraceStateComponent,
     FtAssignBaseComponent,
-
-    NoRightClickDirective,
 
     FtBopEventsComponent,
     SorViewerComponent,
