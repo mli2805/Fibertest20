@@ -72,7 +72,9 @@ export class SignalrService {
   }
 
   public stopConnection() {
-    this.hubConnection.stop();
+    if (this.hubConnection !== undefined) {
+      this.hubConnection.stop();
+    }
   }
 
   public async initializeRtu(id: string) {

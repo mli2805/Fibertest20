@@ -84,16 +84,16 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
 
     router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
-        console.log(`navigation start ${event}`);
-        console.log(`current route ${router.url}`);
+        console.log(`route ${router.url} -> ${event.url}`);
         if (router.url === "/ft-main-nav/rtu-tree") {
           const pos = this.outletDiv.nativeElement.scrollTop;
           sessionStorage.setItem("scrollTop", pos.toString());
+          console.log(`position when leaving was ${pos}`);
         }
-      }
-      if (event instanceof NavigationEnd) {
         if (event.url === "/ft-main-nav/rtu-tree") {
-          console.log(`navigation end ${event}`);
+          const pos = sessionStorage.getItem("scrollTop");
+          this.outletDiv.nativeElement.scrollTop = +pos;
+          console.log(`position when coming back is ${pos}`);
         }
       }
     });
@@ -212,7 +212,11 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   async logout() {
-    await this.authService.logout().toPromise();
+    try {
+      await this.authService.logout().toPromise();
+    } catch {
+      console.log(`exception while logging out`);
+    }
     this.signalRService.stopConnection();
     sessionStorage.removeItem("currentUser");
     sessionStorage.removeItem("currentOpticalAlarms");

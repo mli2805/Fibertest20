@@ -1,4 +1,11 @@
-import { Component, OnInit, OnDestroy, HostListener } from "@angular/core";
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  HostListener,
+  Inject,
+  AfterViewChecked,
+} from "@angular/core";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { ChildType } from "src/app/models/enums/childType";
 import { TraceDto } from "src/app/models/dtos/rtuTree/traceDto";
@@ -17,6 +24,7 @@ import { ChannelEvent } from "src/app/models/enums/channelEvent";
 import { RtuPartState } from "src/app/models/enums/rtuPartState";
 import { BopEventDto } from "src/app/models/dtos/bopEventDto";
 import { TraceStateDto } from "src/app/models/dtos/trace/traceStateDto";
+import { DOCUMENT } from "@angular/common";
 
 @Component({
   selector: "ft-rtu-tree",
@@ -24,9 +32,10 @@ import { TraceStateDto } from "src/app/models/dtos/trace/traceStateDto";
   styleUrls: ["./ft-rtu-tree.component.css"],
 })
 @HostListener("window:scroll", ["$event"]) // for window scroll events
-export class FtRtuTreeComponent implements OnInit, OnDestroy {
+export class FtRtuTreeComponent implements OnInit, OnDestroy, AfterViewChecked {
   private previousRtus: RtuDto[];
   private rtus: RtuDto[];
+  private scrollPosition: number;
   public isNotLoaded = true;
   public destroyed = new Subject<any>();
 
@@ -41,9 +50,18 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
     private oneApiService: OneApiService,
     private signalRService: SignalrService,
     private router: Router,
-    private refreshTreeRequestEventService: FtRtuTreeEventService
+    private refreshTreeRequestEventService: FtRtuTreeEventService,
+    @Inject(DOCUMENT) private doc: Document
   ) {
     this.isNotLoaded = true;
+  }
+
+  ngAfterViewChecked() {
+    if (this.scrollPosition !== 0) {
+      const div = this.doc.getElementById("outletDivId");
+      div.scrollTop = this.scrollPosition;
+      this.scrollPosition = 0;
+    }
   }
 
   ngOnInit() {
@@ -170,6 +188,8 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy {
       console.log("rtu tree received", res);
       this.rtus = res;
       this.applyStoredExpandeds();
+      const pos = sessionStorage.getItem("scrollTop");
+      this.scrollPosition = +pos;
       this.isNotLoaded = false;
     });
   }
