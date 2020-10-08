@@ -218,6 +218,8 @@ namespace GMap.NET
          #endregion
 
          ServicePointManager.DefaultConnectionLimit = 5;
+         ServicePointManager.Expect100Continue = true;
+         ServicePointManager.SecurityProtocol = (SecurityProtocolType)3072;
       }
 
 #if !PocketPC
