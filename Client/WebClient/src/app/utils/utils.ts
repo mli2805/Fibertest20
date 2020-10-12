@@ -4,7 +4,7 @@ export class Utils {
   static GetWebApiUrl(): string {
     const settings = JSON.parse(sessionStorage.settings);
     const protocol = settings.apiProtocol;
-    const port = 11080;
+    const port = settings.apiPort;
     var url = protocol + "://" + window.location.hostname + ":" + port;
     return url;
   }
@@ -33,7 +33,7 @@ export class Utils {
   }
 
   static toCamel(o: any) {
-    var newO : any;
+    var newO: any;
     var origKey, newKey, value;
     if (o instanceof Array) {
       return o.map(function (value) {

@@ -7,6 +7,10 @@ export class RftsEventsDto {
   isNoFiber: boolean;
   levelArray: RftsLevelDto[] = [];
   summary: RftsEventsSummaryDto;
+
+  toString() {
+    return `hello!`;
+  }
 }
 
 export class RftsLevelDto {

@@ -1,4 +1,5 @@
 {
-	"apiProtocol": "http",
-	"version": "2.5.0.assets"
+  "apiProtocol": "https",
+  "apiPort": 44335,
+  "version": "2.5.0.assets"
 }

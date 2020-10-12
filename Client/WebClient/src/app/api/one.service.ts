@@ -88,23 +88,4 @@ export class OneApiService {
       .toPromise();
     return response;
   }
-
-  // async getClientMeasAsBlobFromServer(measGuid: string) {
-  //   const url = Utils.GetWebApiUrl() + `/sor/Get-meas-octetstream`;
-  //   const currentUser = JSON.parse(sessionStorage.currentUser);
-
-  //   const headers = new HttpHeaders().set(
-  //     "Authorization",
-  //     "Bearer " + currentUser.jsonWebToken
-  //   );
-
-  //   const params = {
-  //     measGuid,
-  //   };
-
-  //   const response = await this.httpClient
-  //     .get(url, { headers, params, responseType: "blob" })
-  //     .toPromise();
-  //   return response;
-  // }
 }

@@ -36,19 +36,18 @@ export class FtRftsEventsComponent implements OnInit {
   }
 
   async getData(sorFileId: string) {
-    await this.oneApiService
-      .getRequest(`sor/rfts-events/${sorFileId}`)
-      .toPromise()
-      .then((res) => {
-        console.log(res);
-        this.vm = res as RftsEventsDto;
-        if (!this.vm.isNoFiber) {
-          this.evaluateResults(this.vm);
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    try {
+      this.vm = (await this.oneApiService
+        .getRequest(`sor/rfts-events/${sorFileId}`)
+        .toPromise()) as RftsEventsDto;
+      console.log("vm: ", this.vm);
+
+      if (!this.vm.isNoFiber) {
+        this.evaluateResults(this.vm);
+      }
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   evaluateResults(res: RftsEventsDto) {

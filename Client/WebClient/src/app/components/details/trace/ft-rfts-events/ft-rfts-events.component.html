@@ -54,19 +54,19 @@
           <p>{{ "SID_ORL__dB" | translate }}</p>
         </div>
         <div class="trace-state-value">
-          <p>{{ vm.footer.traceState | translate }}</p>
-          <p>{{ vm.footer.orl }}</p>
+          <p>{{ vm.summary.traceState | translate }}</p>
+          <p>{{ vm.summary.orl }}</p>
         </div>
       </div>
 
       <div class="footer-right">
         <div class="by-levels">
-          <ng-container *ngFor="let ts of vm.footer.levelStates">
+          <ng-container *ngFor="let ts of vm.summary.levelStates">
             <p>{{ ts.levelTitle | translate }}</p>
           </ng-container>
         </div>
         <div>
-          <ng-container *ngFor="let ts of vm.footer.levelStates">
+          <ng-container *ngFor="let ts of vm.summary.levelStates">
             <p>{{ ts.state }}</p>
           </ng-container>
         </div>
