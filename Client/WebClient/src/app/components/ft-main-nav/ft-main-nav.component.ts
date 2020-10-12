@@ -4,7 +4,6 @@ import {
   OnDestroy,
   ViewChild,
   ElementRef,
-  HostListener,
 } from "@angular/core";
 import { AuthService } from "src/app/api/auth.service";
 import { Subscription } from "rxjs";
@@ -21,7 +20,7 @@ import { TranslateService } from "@ngx-translate/core";
 import { OneApiService } from "src/app/api/one.service";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 import { ReturnCode } from "src/app/models/enums/returnCode";
-import { NavigationEnd, NavigationStart, Router } from "@angular/router";
+import { NavigationStart, Router } from "@angular/router";
 import {
   FtMessageBox,
   MessageBoxButton,
@@ -38,7 +37,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   @ViewChild("outletDiv", { static: false }) outletDiv: ElementRef<
     HTMLDivElement
   >;
-  @HostListener("window:scroll", ["$event"])
   private measurementAddedSubscription: Subscription;
   private networkEventAddedSubscription: Subscription;
   private bopEventAddedSubscription: Subscription;
@@ -74,7 +72,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.bopAlarmIndicator = new BopAlarmIndicator("currentBopAlarms");
 
     this.initializeIndicators();
-    // this.signalRService.reStartConnection();
     this.alarmsService.initialAlarmsCame$.subscribe(() =>
       this.initializeIndicators()
     );
@@ -97,8 +94,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
         }
       }
     });
-
-    setInterval(() => this.sendHeartbeat(), 30000);
   }
 
   async sendHeartbeat() {
@@ -238,15 +233,10 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.ts.use(this.language);
     sessionStorage.setItem("language", this.language);
 
-    location.reload(); // too slow
+    location.reload(); // quite slow
   }
 
   showHelpPdf() {
     window.open("../../../assets/UserGuide/FIBERTEST20ClientUGru.pdf#page=81");
-  }
-
-  saveScrollPos() {
-    const pos = this.outletDiv.nativeElement.scrollTop;
-    console.log(`pos ${pos}`);
   }
 }

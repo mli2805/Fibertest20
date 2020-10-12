@@ -9,7 +9,7 @@ import { OneApiService } from "src/app/api/one.service";
   styleUrls: ["./ft-rtu-information.component.css"],
 })
 export class FtRtuInformationComponent implements OnInit {
-  private vm: RtuInformationDto = new RtuInformationDto();
+  vm: RtuInformationDto = new RtuInformationDto();
 
   constructor(
     private activeRoute: ActivatedRoute,

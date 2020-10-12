@@ -34,7 +34,7 @@ import { DOCUMENT } from "@angular/common";
 @HostListener("window:scroll", ["$event"]) // for window scroll events
 export class FtRtuTreeComponent implements OnInit, OnDestroy, AfterViewChecked {
   private previousRtus: RtuDto[];
-  private rtus: RtuDto[];
+  rtus: RtuDto[];
   private scrollPosition: number;
   public isNotLoaded = true;
   public destroyed = new Subject<any>();
