@@ -21,7 +21,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             _logFile = logFile;
             _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
             _doubleAddressForWebWcfManager = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
-            _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, 11080).Ip4Address;
+            _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, -1).Ip4Address;
         }
 
         private string GetRemoteAddress()

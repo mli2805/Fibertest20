@@ -39,6 +39,12 @@ namespace Iit.Fibertest.DataCenterCore
             _measurementsForWebNotifier = measurementsForWebNotifier;
         }
 
+        public async Task<string> CheckDataCenterConnection()
+        {
+            await Task.Delay(1);
+            return _currentDatacenterParameters.DatacenterVersion;
+        }
+
         public async Task<string> GetAboutInJson(string username)
         {
             _logFile.AppendLine(":: WcfServiceForWebProxy GetAboutInJson");

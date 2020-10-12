@@ -31,7 +31,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         {
             _logFile = logFile;
             _doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToCommonClient);
-            _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, 11080).Ip4Address;
+            _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, -1).Ip4Address;
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
         }
 
@@ -157,14 +157,6 @@ namespace Iit.Fibertest.DataCenterWebApi
                     ClaimsIdentity.DefaultRoleClaimType);
             return claimsIdentity;
 
-        }
-
-        // just for debug
-        [HttpGet("Test")]
-        public async Task<string> Test()
-        {
-            await Task.Delay(1);
-            return "just to start under visual studio debug";
         }
 
     }

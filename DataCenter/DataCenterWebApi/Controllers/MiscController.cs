@@ -28,7 +28,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             _logFile = logFile;
             _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
             _doubleAddressForWebWcfManager = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
-            _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, 11080).Ip4Address;
+            _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, -1).Ip4Address;
         }
 
         private string GetRemoteAddress()
@@ -82,9 +82,16 @@ namespace Iit.Fibertest.DataCenterWebApi
         [HttpGet("CheckApi")]
         public async Task<string> CheckApi()
         {
-            await Task.Delay(1);
-            _logFile.AppendLine("CheckApi requested");
-            return "Data Center Web Api started";
+            var dcVersion = await _webC2DWcfManager
+                .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
+                .CheckDataCenterConnection();
+         
+            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+
+            var versions = $"Web API version {fvi.FileVersion}.   Data Center version {dcVersion}";
+            _logFile.AppendLine($"CheckApi requested: {versions}");
+            return versions;
         }
     }
 }

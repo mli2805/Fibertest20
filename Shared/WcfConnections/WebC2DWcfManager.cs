@@ -22,6 +22,26 @@ namespace Iit.Fibertest.WcfConnections
             return this;
         }
 
+        public async Task<string> CheckDataCenterConnection()
+        {
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.CheckDataCenterConnection();
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("CheckDataCenterConnection: " + e.Message);
+                return null;
+            }
+        }
+
         public async Task<string> GetAboutInJson(string username)
         {
             var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();

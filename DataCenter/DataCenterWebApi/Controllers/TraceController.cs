@@ -29,7 +29,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
             _doubleAddressForWebWcfManager = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
             _doubleAddressForCommonWcfManager = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToCommonClient);
-            _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, 11080).Ip4Address;
+            _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, -1).Ip4Address;
         }
 
         private string GetRemoteAddress()
