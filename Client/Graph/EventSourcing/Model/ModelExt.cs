@@ -261,6 +261,7 @@ namespace Iit.Fibertest.Graph
 
                     var fiber = model.Fibers.First(f => f.NodeId1 == currentNodeId && f.NodeId2 != previousNodeId
                                                         || f.NodeId2 == currentNodeId && f.NodeId1 != previousNodeId);
+                    previousNodeId = currentNodeId;
                     currentNodeId = fiber.NodeId1 == currentNodeId ? fiber.NodeId2 : fiber.NodeId1;
                 }
             }
