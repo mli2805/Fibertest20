@@ -188,6 +188,7 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy, AfterViewChecked {
       console.log("rtu tree received", res);
       this.rtus = res;
       this.applyStoredExpandeds();
+      this.applyMonitoringMode();
       const pos = sessionStorage.getItem("scrollTop");
       this.scrollPosition = +pos;
       this.isNotLoaded = false;
@@ -230,6 +231,18 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy, AfterViewChecked {
           const previousOtauExtended = expandeds[otau.otauId];
           otau.expanded =
             previousOtauExtended !== undefined ? previousOtauExtended : false;
+        }
+      }
+    }
+  }
+
+  applyMonitoringMode() {
+    for (const rtu of this.rtus) {
+      const mode = rtu.monitoringMode;
+      for (const child of rtu.children) {
+        if (child != null && child.childType === ChildType.Trace) {
+          const trace = child as TraceDto;
+          trace.rtuMonitoringMode = mode;
         }
       }
     }
