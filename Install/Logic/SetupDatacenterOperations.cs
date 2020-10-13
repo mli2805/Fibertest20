@@ -7,6 +7,7 @@ namespace Iit.Fibertest.Install
 {
     public class SetupDataCenterOperations
     {
+        private readonly IMyLog _logFile;
         private const string DataCenterServiceName = "FibertestDcService";
         private const string DataCenterDisplayName = "Fibertest 2.0 DataCenter Service";
         private const string DataCenterServiceDescription = "Fibertest 2.0 DataCenter Service";
@@ -22,6 +23,14 @@ namespace Iit.Fibertest.Install
         private const string WebApiSubdir = @"WebApi\publish";
         private const string SourcePathWebClient = @"..\WebClient";
         private const string WebClientSubdir = @"WebClient";
+
+        private const string SourcePathUserGuide = @"..\UserGuide";
+        private const string UserGuideSubdir = @"assets\UserGuide";
+
+        public SetupDataCenterOperations(IMyLog logFile)
+        {
+            _logFile = logFile;
+        }
 
         public bool SetupDataCenter(BackgroundWorker worker, CurrentInstallation currentInstallation)
         {
@@ -59,7 +68,7 @@ namespace Iit.Fibertest.Install
             return true;
         }
 
-        private static bool SetupWebComponents(BackgroundWorker worker, CurrentInstallation currentInstallation)
+        private bool SetupWebComponents(BackgroundWorker worker, CurrentInstallation currentInstallation)
         {
             worker.ReportProgress((int)BwReturnProgressCode.WebComponentsSetupStarted);
 
@@ -80,9 +89,15 @@ namespace Iit.Fibertest.Install
                 currentInstallation.SslCertificateName,
                 Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir), worker);
 
+            var fullWebClientPath = Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir);
             IisOperations.CreateWebsite(WebClientSiteName, bindingProtocol, webClientPort,
-                currentInstallation.SslCertificateName,
-                Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir), worker);
+                currentInstallation.SslCertificateName, fullWebClientPath, worker);
+
+            var userGuideFolder = Path.Combine(fullWebClientPath, UserGuideSubdir);
+            _logFile.AppendLine($" full userGuide path = {userGuideFolder}");
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUserGuide,
+                userGuideFolder, worker))
+                return false;
 
             worker.ReportProgress((int)BwReturnProgressCode.WebComponentsSetupCompletedSuccessfully);
             return true;

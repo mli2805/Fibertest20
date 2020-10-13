@@ -11,12 +11,15 @@ rem General installer source
 
 xcopy ..\Install\bin\Release\*.* Pack\bin\*.* /S/D/Y
 xcopy ..\Install\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
+xcopy ..\Install\UserGuide\*.pdf Pack\UserGuide\*.* /S/D/Y
      
 xcopy ..\DataCenter\DataCenterService\bin\Release\*.* Pack\DcFiles\*.* /S/D/Y
 xcopy ..\DataCenter\DataCenterWebApi\bin\Release\netcoreapp3.0\*.* Pack\WebApi\*.* /S/D/Y
 xcopy ..\Client\WebClient\dist\WebClient\*.* Pack\WebClient\*.* /S/D/Y
 xcopy "..\Auxiliary Files\web.config" Pack\WebApi\*.* /S/Y
 xcopy "..\Auxiliary Files\*.mib" Pack\DcFiles\*.* /S/D/Y
+
+rem инсталятор поправит протокол когда файл будет существовать
 echo { "apiProtocol": "protocol-placeholder", "version": "%1" } > pack\webclient\assets\settings.json
 
 xcopy ..\Client\WpfClient\bin\Release\*.* Pack\ClientFiles\*.* /S/D/Y
@@ -61,3 +64,4 @@ xcopy ..\Client\KadastrLoader\bin\Release\*.* PackAdmin\KadastrLoader\bin\*.* /S
 xcopy ..\Client\Broadcaster\bin\Release\*.* PackAdmin\Broadcaster\bin\*.* /S/D/Y
 xcopy ..\Client\MapLoader\bin\Release\*.* PackAdmin\MapLoader\bin\*.* /S/D/Y
 
+pause

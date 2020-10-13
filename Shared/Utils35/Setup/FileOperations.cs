@@ -7,12 +7,6 @@ namespace Iit.Fibertest.UtilsLib
 {
     public static class FileOperations
     {
-        //        public static string GetWithoutExtension(string filename)
-        //        {
-        //            var index = filename.LastIndexOf(".", StringComparison.Ordinal);
-        //            return filename.Substring(0, index);
-        //        }
-
         public static string GetParentFolder(string path, int depth = 1)
         {
             for (int i = 0; i < depth; i++)

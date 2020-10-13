@@ -11,6 +11,8 @@ namespace Iit.Fibertest.Install
         private const string ClientSubdir = @"Client\bin";
         private const string SourcePathReflect = @"..\RftsReflect";
         private const string ReflectSubdir = @"RftsReflect";
+        private const string SourcePathUserGuide = @"..\UserGuide";
+        private const string UserGuideSubdir = @"..\UserGuide";
 
 
         public SetupClientOperations(IMyLog logFile)
@@ -25,16 +27,20 @@ namespace Iit.Fibertest.Install
 
             var fullClientPath = Path.Combine(installationFolder, ClientSubdir);
             _logFile.AppendLine($" full client path = {fullClientPath}");
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathClient, 
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathClient,
                 fullClientPath, worker))
                 return false;
-            var userGuideFolder = Path.Combine(fullClientPath, @"..\UserGuide");
-            if (!Directory.Exists(userGuideFolder))
-                Directory.CreateDirectory(userGuideFolder);
- 
+
+            var userGuideFolder = Path.Combine(fullClientPath, UserGuideSubdir);
+            _logFile.AppendLine($" full userGuide path = {userGuideFolder}");
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUserGuide,
+                userGuideFolder, worker))
+                return false;
+
+
             var fullReflectPath = Path.Combine(installationFolder, ReflectSubdir);
             _logFile.AppendLine($" full Reflect path = {fullReflectPath}");
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, 
+            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect,
                 fullReflectPath, worker))
                 return false;
             FileOperations.CleanAntiGhost(fullReflectPath, false);

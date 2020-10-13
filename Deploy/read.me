@@ -1,0 +1,10 @@
+Процедура тестирования сборки на локальной машине:
+
+1. в VS Code собрать web client'a:  ng build --prod
+2. ReleaseOnMyPC.cmd
+	билдит проект Fibertest25.sln в release
+3. Запустить упаковку с числовым ключом: PackSetup.cmd 888
+	он заберет релизы прог из bin\release и dist
+	документацию
+	выкачает запиненный Reflect с jenkins'a
+	запакует winrar'ом в самораспаковывающиеся архивы Ft_%1.exe и FtRtu_%1.exe
