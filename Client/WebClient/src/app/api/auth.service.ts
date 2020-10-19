@@ -10,6 +10,7 @@ export class AuthService {
 
   login(user: string, pw: string) {
     const url = Utils.GetWebApiUrl() + "/authentication/login/";
+    console.log(`login url: ${url}`);
     const body = { username: user, password: pw };
 
     // !!!!!!!!!!!  press Ctrl+F5   !!!!!!!!!!!!!!!!!!

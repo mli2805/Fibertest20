@@ -1,5 +1,6 @@
 {
-  "apiProtocol": "https",
-  "apiPort": 44335,
+  "apiProtocol": "http",
+  "apiPort": 11081,
+  "_apiPort": 44335,
   "version": "2.5.0.assets"
 }

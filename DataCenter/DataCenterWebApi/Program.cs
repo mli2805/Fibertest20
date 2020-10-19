@@ -30,7 +30,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                     //  there are settings on Debug page for start under VS
                     //  there are binding settings for site for start under IIS 
                     // webBuilder.UseUrls("http://*:11080");
-                    // webBuilder.UseUrls("https://*:44335");
+                    webBuilder.UseUrls("https://*:44335");
                 });
         }
     }

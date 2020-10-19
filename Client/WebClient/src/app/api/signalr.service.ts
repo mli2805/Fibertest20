@@ -36,6 +36,8 @@ export class SignalrService {
     const url = Utils.GetWebApiUrl() + "/webApiSignalRHub";
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(url, { accessTokenFactory: () => token })
+      // token is not obligatory, connection would be set even without token
+      // .withUrl(url)
       .build();
   }
 

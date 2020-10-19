@@ -55,6 +55,10 @@ namespace Iit.Fibertest.Install
 
                     site.ApplicationDefaults.ApplicationPoolName = websiteName;
 
+                    // temp
+                    if (websiteName == "fibertest_web_api")
+                        site.Bindings.Add("*:11081:", "http");
+
                     serverManager.CommitChanges();
                 }
 

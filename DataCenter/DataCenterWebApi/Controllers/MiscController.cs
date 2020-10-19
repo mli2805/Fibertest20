@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
+using System.Reflection;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -54,7 +56,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 : $"dto contains {dto.Rtus.Count} items");
             if (dto == null) return null;
 
-            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
+            var assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             dto.WebApiSoftware = fvi.FileVersion;
 
@@ -82,16 +84,25 @@ namespace Iit.Fibertest.DataCenterWebApi
         [HttpGet("CheckApi")]
         public async Task<string> CheckApi()
         {
-            var dcVersion = await _webC2DWcfManager
-                .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
-                .CheckDataCenterConnection();
-         
-            System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
-            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+//            return "OK";
 
-            var versions = $"Web API version {fvi.FileVersion}.   Data Center version {dcVersion}";
-            _logFile.AppendLine($"CheckApi requested: {versions}");
-            return versions;
+            try
+            {
+                var dcVersion = await _webC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .CheckDataCenterConnection();
+         
+                Assembly assembly = Assembly.GetExecutingAssembly();
+                FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
+
+                var versions = $"Fibertest Web API version {fvi.FileVersion}.   Fibertest Data Center version {dcVersion}";
+                _logFile.AppendLine($"CheckApi requested: {versions}");
+                return versions;
+            }
+            catch (Exception e)
+            {
+                return "Something bad happened, while versions were retrieved. " + e.Message;
+            }
         }
     }
 }

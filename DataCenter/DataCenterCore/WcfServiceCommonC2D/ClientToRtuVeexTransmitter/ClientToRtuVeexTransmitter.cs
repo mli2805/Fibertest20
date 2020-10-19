@@ -35,9 +35,9 @@ namespace Iit.Fibertest.DataCenterCore
                 $"Client from {dto.ClientIp} sent initialize VeEX RTU {dto.RtuId.First6()} request");
 
             dto.ServerAddresses = _serverDoubleAddress;
-            dto.ServerAddresses.Main.Port = (int)TcpPorts.WebProxyListenTo;
+            dto.ServerAddresses.Main.Port = (int)TcpPorts.WebApiListenTo;
             if (dto.ServerAddresses.HasReserveAddress)
-                dto.ServerAddresses.Reserve.Port = (int)TcpPorts.WebProxyListenTo;
+                dto.ServerAddresses.Reserve.Port = (int)TcpPorts.WebApiListenTo;
 
             var rtuInitializedDto = await _d2RtuVeexLayer3.InitializeRtu(dto);
             if (rtuInitializedDto.IsInitialized)

@@ -17,11 +17,12 @@ namespace Iit.Fibertest.DataCenterCore
         private HubConnection connection;
         private readonly string _webApiUrl;
 
-        public FtSignalRClient(IniFile iniFile, IMyLog logFile)
+        public FtSignalRClient(IMyLog logFile)
         {
             _logFile = logFile;
-            var bindingProtocol = iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "http");
-            _webApiUrl = $"{bindingProtocol}://localhost:{(int)TcpPorts.WebProxyListenTo}/webApiSignalRHub";
+//            var bindingProtocol = iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "http");
+//            _webApiUrl = $"{bindingProtocol}://localhost:{(int)TcpPorts.WebApiListenToDataCenter}/webApiSignalRHub";
+            _webApiUrl = $"http://localhost:{(int)TcpPorts.WebApiListenToDataCenter}/webApiSignalRHub";
         }
 
         private void Build()
@@ -56,7 +57,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var isConnected = await IsSignalRConnected();
                 if (isConnected)
                 {
-                    _logFile.AppendLine("signalR connection is ready");
+//                    _logFile.AppendLine("signalR connection is ready");
                     await connection.InvokeAsync("NotifyAll", eventType, dataInJson);
                 }
             }

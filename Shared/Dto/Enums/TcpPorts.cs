@@ -10,7 +10,8 @@
         ServerListenToRtu = 11841,
 
         // DataCenterWebApi
-        WebProxyListenTo = 11080,
+        WebApiListenTo = 11080,
+        WebApiListenToDataCenter = 11081, // SignalR hub. Can't make it work with https
 
         // RTU
         RtuListenTo = 11842,

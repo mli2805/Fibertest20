@@ -97,7 +97,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         private void SetLocalIpAddress(IniFile iniFile)
         {
             var serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
-            var clientAddress = iniFile.Read(IniSection.ClientLocalAddress, 11080);
+            var clientAddress = iniFile.Read(IniSection.ClientLocalAddress, -1);
             if (clientAddress.IsAddressSetAsIp && clientAddress.Ip4Address == @"0.0.0.0" &&
                 serverDoubleAddress.Main.Ip4Address != @"0.0.0.0")
             {
@@ -117,7 +117,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             app.UseCors("Cors");
 
             // in http version does nothing
-            app.UseHttpsRedirection();
+//            app.UseHttpsRedirection();
 
             app.UseRouting();
 
