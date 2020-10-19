@@ -36,6 +36,7 @@ namespace Iit.Fibertest.Graph
             rtu.Title = e.Title;
             rtu.Comment = e.Comment;
             var nodeOfRtu = model.Nodes.First(n => n.NodeId == rtu.NodeId);
+            nodeOfRtu.Title = e.Title;
             nodeOfRtu.Position = e.Position;
             return null;
         }
