@@ -39,6 +39,8 @@ namespace Iit.Fibertest.Client
         public static FiberVm MapWithStates(Fiber fiber, IEnumerable<NodeVm> nodesForRendering)
         {
             var fiberVm = Map(fiber, nodesForRendering.ToList());
+            if (fiberVm == null)
+                return null;
             foreach (var pair in fiber.States)
                 fiberVm.States.Add(pair.Key, pair.Value);
             foreach (var pair in fiber.TracesWithExceededLossCoeff)

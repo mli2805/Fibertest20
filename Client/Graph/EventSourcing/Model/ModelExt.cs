@@ -29,7 +29,14 @@ namespace Iit.Fibertest.Graph
 
         public static IEnumerable<Fiber> GetTraceFibers(this Model model, Trace trace)
         {
-            return trace.FiberIds.Select(i => model.Fibers.First(f => f.FiberId == i));
+//            return trace.FiberIds.Select(i => model.Fibers.First(f => f.FiberId == i));
+
+            foreach (var fiberId in trace.FiberIds)
+            {
+                var fiber = model.Fibers.FirstOrDefault(f => f.FiberId == fiberId);
+                if (fiber != null)
+                    yield return fiber;
+            }
         }
 
         public static IEnumerable<Guid> GetFibersAtTraceCreation(this Model model, List<Guid> nodes)

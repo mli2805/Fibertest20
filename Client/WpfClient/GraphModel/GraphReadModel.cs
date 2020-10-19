@@ -58,8 +58,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, 
-            CurrentGis currentGis, CurrentUser currentUser, 
+        public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,
+            CurrentGis currentGis, CurrentUser currentUser,
             CommonStatusBarViewModel commonStatusBarViewModel,
             GrmNodeRequests grmNodeRequests, GrmEquipmentRequests grmEquipmentRequests,
             GrmFiberRequests grmFiberRequests, GrmFiberWithNodesRequest grmFiberWithNodesRequest,
@@ -96,7 +96,7 @@ namespace Iit.Fibertest.Client
             IsInGisVisibleMode = ((CurrentGis)sender).IsGisOn;
         }
 
-      
+
         public void SetGraphVisibility(GraphVisibilityLevel level)
         {
             SelectedGraphVisibilityItem =
@@ -130,20 +130,24 @@ namespace Iit.Fibertest.Client
             var rtuNodeVm = Data.Nodes.First(n => n.Id == rtuNodeId);
             MainMap.Position = rtuNodeVm.Position;
             foreach (var fiberId in fibers)
-                Data.Fibers.First(f => f.Id == fiberId).IsHighlighted = true; 
+            {
+                var fiber = Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
+                if (fiber != null)
+                    fiber.IsHighlighted = true;
+            }
         }
-      
+
         public void Extinguish()
         {
             foreach (var nodeVm in Data.Nodes.Where(n => n.IsHighlighted))
                 nodeVm.IsHighlighted = false;
 
-            foreach (var fiberVm in Data.Fibers.Where(f=>f.IsHighlighted))
+            foreach (var fiberVm in Data.Fibers.Where(f => f.IsHighlighted))
                 fiberVm.IsHighlighted = false;
         }
         public void ExtinguishNodes()
         {
-            foreach (var nodeVm in Data.Nodes.Where(n=>n.IsHighlighted))
+            foreach (var nodeVm in Data.Nodes.Where(n => n.IsHighlighted))
                 nodeVm.IsHighlighted = false;
         }
 
