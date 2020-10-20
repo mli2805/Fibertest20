@@ -39,6 +39,7 @@ namespace Iit.Fibertest.DataCenterCore
                 OldSizeGb = oldSize, NewSizeGb = newSize,
             });
             await _d2CWcfManager.UnBlockClientAfterDbOptimization();
+            _clientsCollection.CleanDeadClients(TimeSpan.FromMilliseconds(1));
         }
 
         private async Task<int> ClearSor(RemoveEventsAndSors cmd)
@@ -56,10 +57,15 @@ namespace Iit.Fibertest.DataCenterCore
             var count = await _sorFileRepository.RemoveManySorAsync(ids);
             _logFile.AppendLine($"{count} measurements removed");
 
+            await MySqlTableOptimization();
+            return count;
+        }
+
+        private async Task MySqlTableOptimization()
+        {
             var dir = _eventStoreInitializer.DataDir;
             long oldSize = SorFileSize(dir);
             _logFile.AppendLine($"Optimization of sorfiles.ibd {oldSize:0,0} started");
-
 
             var unused = Task.Factory.StartNew(_eventStoreInitializer.OptimizeSorFilesTable);
             _logFile.AppendLine("Optimization process started on another thread");
@@ -86,8 +92,6 @@ namespace Iit.Fibertest.DataCenterCore
             }
             var newSize = SorFileSize(dir);
             _logFile.AppendLine($"SorFiles table is optimized, new size is {newSize:0,0}, profit is {oldSize - newSize:0,0} bytes");
-
-            return count;
         }
 
         private long SorFileSize(string dir)

@@ -17,6 +17,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return;
             _d2CWcfManager.SetClientsAddresses(addresses);
             await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto() { Stage = DbOptimizationStage.Starting });
+            _globalState.IsDatacenterInDbOptimizationMode = true;
 
             var tuple = await CreateModelUptoDate(cmd.UpTo);
             var data = await tuple.Item2.Serialize(_logFile);
@@ -36,6 +37,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (result != null)
                 _logFile.AppendLine(result);
 
+            _globalState.IsDatacenterInDbOptimizationMode = false;
             await _d2CWcfManager.BlockClientWhileDbOptimization(new DbOptimizationProgressDto()
             {
                 Stage = DbOptimizationStage.SnapshotDone,
@@ -43,6 +45,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             _logFile.AppendLine("Unblocking connections");
             await _d2CWcfManager.UnBlockClientAfterDbOptimization();
+            _clientsCollection.CleanDeadClients(TimeSpan.FromMilliseconds(1));
         }
 
         private void DeleteOldCommits(int lastEventNumber)

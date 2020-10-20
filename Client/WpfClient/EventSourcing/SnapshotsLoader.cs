@@ -60,7 +60,7 @@ namespace Iit.Fibertest.Client
             if (!await _readModel.Deserialize(_logFile, snapshot))
                 return false;
             _zoneEventsOnTreeExecutor.RenderOfModelAfterSnapshot();
-            _opticalEventsDoubleViewModel.RenderMeasurements();
+            _opticalEventsDoubleViewModel.RenderMeasurementsFromSnapshot();
             _networkEventsDoubleViewModel.RenderNetworkEvents();
             _bopNetworkEventsDoubleViewModel.RenderBopNetworkEvents();
             return true;

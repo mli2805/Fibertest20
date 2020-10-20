@@ -78,11 +78,6 @@ namespace Iit.Fibertest.DataCenterCore
             return events.Count;
         }
 
-        public void Delete()
-        {
-            _eventStoreInitializer.DropDatabase();
-        }
-
         // especially for Migrator.exe
         public Task<int> SendCommands(List<object> cmds, string username, string clientIp)
         {

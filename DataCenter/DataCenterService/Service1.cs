@@ -97,7 +97,7 @@ namespace Iit.Fibertest.DataCenterService
                 {
                     dbContext.Database.EnsureDeleted();
                 }
-                _eventStoreService.Delete();
+                _eventStoreInitializer.DropDatabase();
                 IniFile.Write(IniSection.MySql, IniKey.ResetDb, false);
                 _logFile.AppendLine("Db deleted successfully.");
             }

@@ -54,13 +54,13 @@ namespace Iit.Fibertest.Client
             Model.NetworkEvents = _readModel.NetworkEvents.Count + _readModel.BopNetworkEvents.Count;
 
             var flag = _iniFile.Read(IniSection.MySql, IniKey.IsOptimizationCouldBeDoneUpToToday, false);
-            Model.UpToLimit = flag ? DateTime.Today : new DateTime(DateTime.Today.Year - 2, 12, 31);
-            Model.SelectedDate = flag ? DateTime.Today : new DateTime(DateTime.Today.Year - 2, 12, 31);
+            Model.UpToLimit = flag ? DateTime.Today.AddDays(-1) : new DateTime(DateTime.Today.Year - 2, 12, 31);
+            Model.SelectedDate = flag ? DateTime.Today.AddDays(-1) : new DateTime(DateTime.Today.Year - 2, 12, 31);
 
             var daysForEventLog = _iniFile.Read(IniSection.MySql, IniKey.SnapshotUptoLimitInDays, 90);
             Model.FromLimit2 = _currentDatacenterParameters.SnapshotLastDate.AddDays(1);
-            Model.UpToLimit2 = DateTime.Today.Date.AddDays(-daysForEventLog);
-            Model.SelectedDate2 = DateTime.Today.Date.AddDays(-daysForEventLog);
+            Model.UpToLimit2 = DateTime.Today.Date.AddDays(-daysForEventLog-1);
+            Model.SelectedDate2 = DateTime.Today.Date.AddDays(-daysForEventLog-1);
 
             Model.IsEnabled = _currentUser.Role <= Role.Root;
         }
