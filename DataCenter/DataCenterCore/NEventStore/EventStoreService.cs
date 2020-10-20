@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json;
@@ -19,7 +18,7 @@ namespace Iit.Fibertest.DataCenterCore
         public IStoreEvents StoreEvents;
         private readonly CommandAggregator _commandAggregator;
         private readonly EventsQueue _eventsQueue;
-        private Model _writeModel;
+        private readonly Model _writeModel;
 
         public Guid StreamIdOriginal;
 
@@ -61,7 +60,9 @@ namespace Iit.Fibertest.DataCenterCore
 
             if (LastEventNumberInSnapshot == 0 && eventStream.CommittedEvents.FirstOrDefault() == null)
             {
-                Seed().Wait();
+                foreach (object seed in DbSeeds.Collection)
+                    await SendCommand(seed, "developer", "OnServer");
+
                 _logFile.AppendLine("Empty graph is seeded with default zone and users.");
             }
 
@@ -80,39 +81,6 @@ namespace Iit.Fibertest.DataCenterCore
         public void Delete()
         {
             _eventStoreInitializer.DropDatabase();
-        }
-
-
-        private async Task<string> Seed()
-        {
-            var cmd = new ApplyLicense()
-            {
-                Owner = "Demo license",
-                RtuCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.MaxValue },
-                ClientStationCount = new LicenseParameter() { Value = 2, ValidUntil = DateTime.MaxValue },
-                WebClientCount = new LicenseParameter() {Value = 1, ValidUntil = DateTime.MaxValue },
-                SuperClientStationCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.Today.AddMonths(6) },
-                Version = "2.0.0.0"
-            };
-            await SendCommand(cmd, "developer", "OnServer");
-            await SendCommand(new AddZone() { IsDefaultZone = true, Title = StringResources.Resources.SID_Default_Zone }, 
-                "developer", "OnServer");
-
-            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "developer", EncodedPassword = UserExt.FlipFlop("developer"), 
-                Role = Role.Developer, ZoneId = Guid.Empty }, "developer", "OnServer");
-            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "root", EncodedPassword = UserExt.FlipFlop("root"), 
-                Role = Role.Root, ZoneId = Guid.Empty }, "developer", "OnServer");
-            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "operator", EncodedPassword = UserExt.FlipFlop("operator"), 
-                Role = Role.Operator, ZoneId = Guid.Empty }, "developer", "OnServer");
-            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "supervisor", EncodedPassword = UserExt.FlipFlop("supervisor"), 
-                Role = Role.Supervisor, ZoneId = Guid.Empty }, "developer", "OnServer");
-            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "weboperator", EncodedPassword = UserExt.FlipFlop("weboperator"), 
-                Role = Role.WebOperator, ZoneId = Guid.Empty }, "developer", "OnServer");
-            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "websupervisor", EncodedPassword = UserExt.FlipFlop("websupervisor"), 
-                Role = Role.WebSupervisor, ZoneId = Guid.Empty }, "developer", "OnServer");
-            await SendCommand(new AddUser() { UserId = Guid.NewGuid(), Title = "superclient", EncodedPassword = UserExt.FlipFlop("superclient"), 
-                Role = Role.Superclient, ZoneId = Guid.Empty }, "developer", "OnServer");
-            return null;
         }
 
         // especially for Migrator.exe
