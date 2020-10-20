@@ -35,7 +35,7 @@
             <TextBox Margin="5" Text="{Binding Model.Comment}"/>
         </GroupBox>
         <StackPanel Orientation="Horizontal" Margin="15,15">
-            <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}"/>
+            <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}" IsDefault="True"/>
             <Button Name="Cancel" Height="25" Width="100" Content="{x:Static stringResources:Resources.SID_Cancel}" IsCancel="True"/>
         </StackPanel>
     </StackPanel>
