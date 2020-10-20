@@ -50,12 +50,13 @@ namespace Iit.Fibertest.Client
             AllOpticalEventsViewModel.UpdateEvent(evnt);
         }
 
-        public void RenderMeasurements()
+        public void RenderMeasurementsFromSnapshot()
         {
             foreach (var measurement in _readModel.Measurements)
             {
                 var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == measurement.TraceId);
-                if (trace == null || !trace.ZoneIds.Contains(_currentUser.ZoneId) || !trace.IsAttached)
+                if (trace == null || !trace.ZoneIds.Contains(_currentUser.ZoneId) || !trace.IsAttached 
+                    || measurement.EventStatus <= EventStatus.JustMeasurementNotAnEvent)
                     continue;
                 AllOpticalEventsViewModel.AddEvent(measurement);
 
