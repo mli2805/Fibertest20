@@ -53,9 +53,10 @@ namespace Graph.Tests
         [When(@"Пользователь вводит название и коммент трассы и жмет Сохранить")]
         public void WhenПользовательВводитНазваниеИКомментТрассыИЖметСохранить()
         {
+            _sut.FakeWindowManager.RegisterHandler(_sut.WaitFormHandler);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, TraceTitle, TraceComment, Answer.Yes));
 
-            _sut.GraphReadModel.AddTrace(new RequestAddTrace() {LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId});
+            _sut.GraphReadModel.AddTrace(new RequestAddTrace() {LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 
@@ -94,9 +95,10 @@ namespace Graph.Tests
         [When(@"Пользователь что-то вводит но жмет Отмена")]
         public void WhenПользовательЧто_ТоВводитНоЖметОтмена()
         {
+            _sut.FakeWindowManager.RegisterHandler(_sut.WaitFormHandler);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.AddTraceViewHandler(model, TraceTitle, TraceComment, Answer.Cancel));
 
-            _sut.GraphReadModel.AddTrace(new RequestAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId });
+            _sut.GraphReadModel.AddTrace(new RequestAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

@@ -84,10 +84,10 @@ namespace Iit.Fibertest.Client
             e.Handled = true;
         }
 
-        private void EndTraceDefinition()
+        private async void EndTraceDefinition()
         {
             MainMap.IsInTraceDefiningMode = false;
-            Owner.GraphReadModel.AddTrace(new RequestAddTrace() { NodeWithRtuId = MainMap.StartNode.Id, LastNodeId = GMapMarker.Id });
+            await Owner.GraphReadModel.AddTrace(new RequestAddTrace() { NodeWithRtuId = MainMap.StartNode.Id, LastNodeId = GMapMarker.Id });
             Owner.SetBanner("");
         }
 

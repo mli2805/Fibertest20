@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Iit.Fibertest.Client
 {
@@ -48,14 +49,15 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public bool FindPath(Guid start, Guid end, out List<Guid> path)
+        public async Task<List<Guid>> FindPath(Guid start, Guid end)
         {
-            path = new List<Guid> {start};
+            await Task.Delay(1);
+            var path = new List<Guid> {start};
 
             FindPathRecursive(end, path);
             if (path.Last() != end)
                 path = null;
-            return path != null;
+            return path;
         }
     }
 }

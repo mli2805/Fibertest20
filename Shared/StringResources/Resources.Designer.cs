@@ -6131,6 +6131,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Searching route for new trace....
+        /// </summary>
+        public static string SID_Searching_route_for_new_trace___ {
+            get {
+                return ResourceManager.GetString("SID_Searching_route_for_new_trace___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Second.
         /// </summary>
         public static string SID_Second {

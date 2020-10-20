@@ -32,7 +32,7 @@ namespace Graph.Tests
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             _sut.GraphReadModel.AddTrace(
-                new RequestAddTrace() {LastNodeId = _wrongNodeId, NodeWithRtuId = _rtuNodeId});
+                new RequestAddTrace() {LastNodeId = _wrongNodeId, NodeWithRtuId = _rtuNodeId}).Wait();
         }
 
         [Given(@"Между выбираемыми узлами нет пути")]
@@ -44,15 +44,17 @@ namespace Graph.Tests
         [Given(@"Но пользователь выбрал узел где есть оборудование и кликнул определить трассу")]
         public void GivenНоПользовательВыбралУзелГдеЕстьОборудованиеИКликнулОпределитьТрассу()
         {
+            _sut.FakeWindowManager.RegisterHandler(_sut.WaitFormHandler);
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             _sut.GraphReadModel.AddTrace(
-                new RequestAddTrace() { LastNodeId = _wrongNodeWithEqId, NodeWithRtuId = _rtuNodeId });
+                new RequestAddTrace() { LastNodeId = _wrongNodeWithEqId, NodeWithRtuId = _rtuNodeId }).Wait();
         }
 
         [Given(@"Хотя кликнул определить трассу на узле с оборудованием и путь между узлами существует")]
         public void GivenХотяКликнулОпределитьТрассуНаУзлеСОборудованиемИПутьМеждуУзламиСуществует()
         {
-            _sut.GraphReadModel.AddTrace(new RequestAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId });
+            _sut.FakeWindowManager.RegisterHandler(_sut.WaitFormHandler);
+            _sut.GraphReadModel.AddTrace(new RequestAddTrace() { LastNodeId = _lastNodeId, NodeWithRtuId = _rtuNodeId }).Wait();
         }
 
         [Then(@"Выскакивает сообщение о необходимости оборудования в последнем узле")]

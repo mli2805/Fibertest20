@@ -21,7 +21,7 @@ namespace Graph.Tests
         public void GivenХотяПринялПредложенныйМаршрутТрассы()
         {
             _sut.CreateFieldForPathFinderTest(out _rtuNodeId, out _lastNodeId, out _, out _);
-            new PathFinder(_sut.GraphReadModel).FindPath(_rtuNodeId, _lastNodeId, out _nodes);
+            _nodes = new PathFinder(_sut.GraphReadModel).FindPath(_rtuNodeId, _lastNodeId).Result;
 
             _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
             _sut.FakeWindowManager.RegisterHandler(model => _sut.TraceContentChoiceHandler(model, Answer.Yes, 0));

@@ -8,9 +8,10 @@ namespace Graph.Tests
 {
     public static class TraceDefiner
     {
-        public static Iit.Fibertest.Graph.Trace DefineTrace(this SystemUnderTest sut, Guid lastNodeId, Guid nodeForRtuId, string title = @"some title",
-            int nodeCount = 2)
+        public static Iit.Fibertest.Graph.Trace DefineTrace(this SystemUnderTest sut, 
+            Guid lastNodeId, Guid nodeForRtuId, string title = @"some title", int nodeCount = 2)
         {
+            sut.FakeWindowManager.RegisterHandler(sut.WaitFormHandler);
             sut.FakeWindowManager.RegisterHandler(model =>
                 sut.OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             for (int i = 0; i < nodeCount; i++)
@@ -19,7 +20,7 @@ namespace Graph.Tests
             }
 
             sut.FakeWindowManager.RegisterHandler(model => sut.AddTraceViewHandler(model, title, "", Answer.Yes));
-            sut.GraphReadModel.AddTrace(new RequestAddTrace() { LastNodeId = lastNodeId, NodeWithRtuId = nodeForRtuId });
+            sut.GraphReadModel.AddTrace(new RequestAddTrace() { LastNodeId = lastNodeId, NodeWithRtuId = nodeForRtuId }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             return sut.ReadModel.Traces.Last();
         }

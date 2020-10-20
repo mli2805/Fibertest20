@@ -2804,4 +2804,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Choose_map_access_mode" xml:space="preserve">
 		<value>Выберите режим доступа к карте</value>
 	</data>
+	<data name="SID_Searching_route_for_new_trace___" xml:space="preserve">
+		<value>Поиск маршрута новой трассы</value>
+	</data>
 </root>

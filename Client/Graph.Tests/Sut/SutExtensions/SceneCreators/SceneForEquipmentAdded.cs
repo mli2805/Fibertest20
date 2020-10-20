@@ -48,18 +48,20 @@ namespace Graph.Tests
 
         public static Guid SetShortTrace(this SystemUnderTest sut, Guid nodeId, Guid rtuNodeId)
         {
+            sut.FakeWindowManager.RegisterHandler(sut.WaitFormHandler);
             sut.FakeWindowManager.RegisterHandler(model => sut.OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             sut.FakeWindowManager.RegisterHandler(model => sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
             sut.FakeWindowManager.RegisterHandler(
                 model => sut.AddTraceViewHandler(model, @"short trace", "", Answer.Yes));
 
-            sut.GraphReadModel.AddTrace(new RequestAddTrace() { LastNodeId = nodeId, NodeWithRtuId = rtuNodeId });
+            sut.GraphReadModel.AddTrace(new RequestAddTrace() { LastNodeId = nodeId, NodeWithRtuId = rtuNodeId }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             return sut.ReadModel.Traces.Last().TraceId;
         }
 
         public static Guid SetLongTraceWithEquipment(this SystemUnderTest sut, Guid rtuNodeId, Guid anotherNodeId)
         {
+            sut.FakeWindowManager.RegisterHandler(sut.WaitFormHandler);
             sut.FakeWindowManager.RegisterHandler(model => sut.OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             sut.FakeWindowManager.RegisterHandler(model => sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
             sut.FakeWindowManager.RegisterHandler(model => sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
@@ -70,13 +72,14 @@ namespace Graph.Tests
             {
                 LastNodeId = anotherNodeId,
                 NodeWithRtuId = rtuNodeId
-            });
+            }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             return sut.ReadModel.Traces.Last().TraceId;
         }
 
         public static Guid SetLongTraceWithoutEquipment(this SystemUnderTest sut, Guid rtuNodeId, Guid anotherNodeId2)
         {
+            sut.FakeWindowManager.RegisterHandler(sut.WaitFormHandler);
             sut.FakeWindowManager.RegisterHandler(model => sut.OneLineMessageBoxAnswer(Resources.SID_Accept_the_path, Answer.Yes, model));
             sut.FakeWindowManager.RegisterHandler(model => sut.TraceContentChoiceHandler(model, Answer.Yes, 1));
             sut.FakeWindowManager.RegisterHandler(model => sut.TraceContentChoiceHandler(model, Answer.Yes, 0));
@@ -87,7 +90,7 @@ namespace Graph.Tests
             {
                 LastNodeId = anotherNodeId2,
                 NodeWithRtuId = rtuNodeId
-            });
+            }).Wait();
             sut.Poller.EventSourcingTick().Wait();
             return sut.ReadModel.Traces.Last().TraceId;
         }

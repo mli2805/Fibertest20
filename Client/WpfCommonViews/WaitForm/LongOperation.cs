@@ -6,5 +6,6 @@
         DbOptimization,
         MakingSnapshot,
         CollectingEventLog,
+        PathFinding,
     }
 }
