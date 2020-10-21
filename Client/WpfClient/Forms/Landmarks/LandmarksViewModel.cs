@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +15,7 @@ using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 using Optixsoft.SorExaminer.OtdrDataFormat;
+using Trace = Iit.Fibertest.Graph.Trace;
 
 namespace Iit.Fibertest.Client
 {
@@ -286,5 +289,24 @@ namespace Iit.Fibertest.Client
             };
             await _c2DWcfManager.SendCommandAsObj(cmd);
         }
+
+        public void ExportToPdf()
+        {
+            var report = LandmarksReportProvider.Create(_landmarks, _selectedTrace.Title, _selectedGpsInputMode.Mode);
+            if (report == null) return;
+            try
+            {
+                var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
+                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+
+                string filename = Path.Combine(folder, $@"Landmarks {_selectedTrace.Title}.pdf");
+                report.Save(filename);
+                Process.Start(filename);
+            }
+            catch (Exception e)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, e.Message);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+            }  }
     }
 }

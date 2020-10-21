@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Client
 
         private List<OpticalEventModel> _events;
 
-        public AllOpticalEventsReportProvider(CurrentDatacenterParameters server, CurrentUser currentUser, 
+        public AllOpticalEventsReportProvider(CurrentDatacenterParameters server, CurrentUser currentUser,
             CurrentGis currentGis, Model readModel,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel, AccidentLineModelFactory accidentLineModelFactory)
         {
@@ -177,7 +177,7 @@ namespace Iit.Fibertest.Client
             foreach (var state in _reportModel.TraceStateSelectionViewModel.GetSelected())
             {
                 var events = _opticalEventsDoubleViewModel.AllOpticalEventsViewModel.
-                    Rows.Where(r => r.EventStatus == eventStatus && r.TraceState == state).OrderByDescending(e=>e.EventRegistrationTimestamp).ToList();
+                    Rows.Where(r => r.EventStatus == eventStatus && r.TraceState == state).OrderByDescending(e => e.EventRegistrationTimestamp).ToList();
                 if (events.Any())
                     DrawOpticalEventsWithStatusAndState(section, events);
             }
@@ -213,7 +213,7 @@ namespace Iit.Fibertest.Client
             {
                 var table = DrawOpticalEventTableHeader(section);
                 DrawOpticalEventRow(table, opticalEventModel);
-                AccidentPlaceReportProvider.DrawAccidents(opticalEventModel.Accidents, section, 
+                AccidentPlaceReportProvider.DrawAccidents(opticalEventModel.Accidents, section,
                     _accidentLineModelFactory, _currentGis.IsGisOn, _currentGis.GpsInputMode);
             }
         }
@@ -270,7 +270,7 @@ namespace Iit.Fibertest.Client
         private void DrawOpticalEventRow(Table table, OpticalEventModel opticalEventModel)
         {
             var row = table.AddRow();
-            row.HeightRule = RowHeightRule.Exactly;
+            row.HeightRule = RowHeightRule.Auto;
             row.Height = Unit.FromCentimeter(0.8);
             row.VerticalAlignment = VerticalAlignment.Center;
             row.Cells[0].AddParagraph(opticalEventModel.SorFileId.ToString());

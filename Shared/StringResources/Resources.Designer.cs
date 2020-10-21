@@ -2845,6 +2845,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export to PDF.
+        /// </summary>
+        public static string SID_Export_to_pdf {
+            get {
+                return ResourceManager.GetString("SID_Export_to_pdf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to fail.
         /// </summary>
         public static string SID_fail {

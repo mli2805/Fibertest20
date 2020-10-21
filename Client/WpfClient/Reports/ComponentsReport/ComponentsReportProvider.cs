@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly CurrentDatacenterParameters _server;
         private ComponentsReportModel _reportModel;
 
-        public ComponentsReportProvider(Model readModel, TreeOfRtuModel tree, 
+        public ComponentsReportProvider(Model readModel, TreeOfRtuModel tree,
             CurrentDatacenterParameters server)
         {
             _readModel = readModel;
@@ -116,10 +116,10 @@ namespace Iit.Fibertest.Client
             var portCount = string.Format(Resources.SID_ports____0_, rtu.PortCount);
             var software = string.Format(Resources.SID_software____0_, rtu.Version);
             paragraph.AddFormattedText($@"{rtu.Title} ; {serial} ; {portCount} ; {software} ; {mode} ; {availability}");
-            var mainChannel = string.Format(Resources.SID_Main_channel____0_____1_, 
+            var mainChannel = string.Format(Resources.SID_Main_channel____0_____1_,
                 rtu.MainChannel.ToStringA(), rtu.MainChannelState.ToLocalizedString());
             var reserveChannel = rtu.IsReserveChannelSet
-                ? string.Format(Resources.SID_____Reserve_channel____0_____1_, 
+                ? string.Format(Resources.SID_____Reserve_channel____0_____1_,
                     rtu.ReserveChannel.ToStringA(), rtu.ReserveChannelState.ToLocalizedString()) : "";
             paragraph.AddFormattedText($@"{mainChannel}{reserveChannel}");
 
@@ -168,7 +168,7 @@ namespace Iit.Fibertest.Client
             }
 
             var monitoringIndent = trace.IsIncludedInMonitoringCycle ? 0 : 0.6;
-          
+
             paragraph.Format.Font.Size = 12;
             var otauPortNumber = otauPort != 0 ? $@"{otauPort}-" : "";
             var portNumber = trace.Port != -1 ? string.Format(Resources.SID_port__0__1____, otauPortNumber, trace.Port) : "";

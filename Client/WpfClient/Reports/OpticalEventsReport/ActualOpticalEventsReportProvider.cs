@@ -181,7 +181,7 @@ namespace Iit.Fibertest.Client
         private void DrawOpticalEventRow(Table table, OpticalEventModel opticalEventModel)
         {
             var row = table.AddRow();
-            row.HeightRule = RowHeightRule.Exactly;
+            row.HeightRule = RowHeightRule.Auto;
             row.Height = Unit.FromCentimeter(0.8);
             row.VerticalAlignment = VerticalAlignment.Center;
             row.Cells[0].AddParagraph(opticalEventModel.SorFileId.ToString());

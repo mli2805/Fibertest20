@@ -2807,4 +2807,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Searching_route_for_new_trace___" xml:space="preserve">
     <value>Searching route for new trace...</value>
   </data>
+	<data name="SID_Export_to_pdf" xml:space="preserve">
+    <value>Export to pdf</value>
+  </data>
 </root>
