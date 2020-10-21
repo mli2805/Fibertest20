@@ -78,6 +78,7 @@ namespace Iit.Fibertest.Client
             }
             return result;
         }
+
         private void SetFooter(Section section)
         {
             Paragraph footer = new Paragraph();

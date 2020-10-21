@@ -307,6 +307,7 @@ namespace Iit.Fibertest.Client
             {
                 var vm = new MyMessageBoxViewModel(MessageType.Error, e.Message);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
-            }  }
+            }
+        }
     }
 }

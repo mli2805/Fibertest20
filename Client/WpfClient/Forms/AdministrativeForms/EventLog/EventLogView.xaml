@@ -10,8 +10,9 @@
         Height="450" Width="1100" Loaded="Window_Loaded"
         d:DataContext="{d:DesignInstance client:EventLogViewModel}">
     <DockPanel>
-        <StackPanel DockPanel.Dock="Bottom" Height="40">
-            <Button Content="{x:Static stringResources:Resources.SID_Close}" Name="Close" Width="100" Margin="10" HorizontalAlignment="Right"/>
+        <StackPanel DockPanel.Dock="Bottom" Height="40" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="{x:Static stringResources:Resources.SID_Export_to_pdf}" Name="ExportToPdf" Width="140" Margin="10"/>
+            <Button Content="{x:Static stringResources:Resources.SID_Close}" Name="Close" Width="140" Margin="10"/>
         </StackPanel>
         <DataGrid ItemsSource="{Binding Rows}" AutoGenerateColumns="False" IsReadOnly="True" Margin="5">
             <DataGrid.Columns>
