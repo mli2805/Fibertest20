@@ -30,6 +30,7 @@ namespace Iit.Fibertest.Client
         private readonly TabulatorViewModel _tabulatorViewModel;
         private readonly TraceStateReportProvider _traceStateReportProvider;
         private readonly TraceStatisticsViewsManager _traceStatisticsViewsManager;
+        private readonly LandmarksViewsManager _landmarksViewsManager;
         private readonly GraphReadModel _graphReadModel;
         private bool _isSoundForThisVmInstanceOn;
         private bool _isTraceStateChanged;
@@ -56,11 +57,11 @@ namespace Iit.Fibertest.Client
 
         public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser,
             CurrentlyHiddenRtu currentlyHiddenRtu, ReflectogramManager reflectogramManager,
-            SoundManager soundManager, Model readModel,
+            SoundManager soundManager, Model readModel, GraphReadModel graphReadModel,
             IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceInSuperClient c2SWcfManager, 
             CommandLineParameters commandLineParameters, CurrentDatacenterParameters currentDatacenterParameters, 
             TabulatorViewModel tabulatorViewModel, TraceStateReportProvider traceStateReportProvider,
-            TraceStatisticsViewsManager traceStatisticsViewsManager, GraphReadModel graphReadModel)
+            TraceStatisticsViewsManager traceStatisticsViewsManager, LandmarksViewsManager landmarksViewsManager)
         {
             _logFile = logFile;
             _currentUser = currentUser;
@@ -77,6 +78,7 @@ namespace Iit.Fibertest.Client
             _tabulatorViewModel = tabulatorViewModel;
             _traceStateReportProvider = traceStateReportProvider;
             _traceStatisticsViewsManager = traceStatisticsViewsManager;
+            _landmarksViewsManager = landmarksViewsManager;
             _graphReadModel = graphReadModel;
         }
 
@@ -190,6 +192,13 @@ namespace Iit.Fibertest.Client
                 _logFile.AppendLine(@"ShowReport: " + e.Message);
             }
         }
+
+        public async void ShowLandmarks()
+        {
+            var rtuNodeId = _readModel.Traces.First(t => t.TraceId == Model.TraceId).NodeIds[0];
+            await _landmarksViewsManager.InitializeFromTrace(Model.TraceId, rtuNodeId);
+        }
+
         public void ShowReport()
         {
             try
