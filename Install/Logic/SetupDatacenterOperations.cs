@@ -157,15 +157,19 @@ namespace Iit.Fibertest.Install
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathWebClient,
                 fullWebClientPath, worker))
                 return false;
-/*
+
             var settingsFilename = fullWebClientPath + @"/assets/settings.json";
             var settings = File.ReadAllText(settingsFilename);
-            var newSettings = settings.Replace("protocol-placeholder", currentInstallation.IsWebByHttps 
-                ? "https" 
-                : "http");
+            var newSettings = settings.Replace("2.5.0.assets", currentInstallation.ProductVersion);
+
+
+//            var newSettings = settings.Replace("protocol-placeholder", currentInstallation.IsWebByHttps 
+//                ? "https" 
+//                : "http");
          //   newSettings = newSettings.Replace("port-placeholder", TcpPorts.WebApiListenTo.ToString());
+
             File.WriteAllText(settingsFilename, newSettings);
-*/
+
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
             return true;
         }

@@ -116,6 +116,7 @@ namespace Iit.Fibertest.Install
         {
             var assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
+            _currentInstallation.ProductVersion = info.FileVersion;
 
             DisplayName = string.Format(Resources.SID_Setup_caption, info.FileVersion);
             _logFile.AssignFile(@"Setup.log");
