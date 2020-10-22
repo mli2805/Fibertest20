@@ -86,7 +86,7 @@ namespace Iit.Fibertest.Install
             var bindingProtocol = currentInstallation.IsWebByHttps ? "https" : "http";
             var webClientPort = currentInstallation.IsWebByHttps ? "*:443:" : "*:80:";
 
-            IisOperations.CreateWebsite(WebApiSiteName, bindingProtocol, $"*:{TcpPorts.WebApiListenTo}:",
+            IisOperations.CreateWebsite(WebApiSiteName, bindingProtocol, $"*:{(int)TcpPorts.WebApiListenTo}:",
                 currentInstallation.SslCertificateName,
                 Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir), worker);
 
