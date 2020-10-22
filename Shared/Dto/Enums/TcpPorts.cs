@@ -11,7 +11,7 @@
 
         // DataCenterWebApi
         WebApiListenTo = 11080,
-        WebApiListenToDataCenter = 11081, // SignalR hub. Can't make it work with https
+      //  WebApiListenToDataCenter = 11081, // SignalR hub. Can't make it work with https
 
         // RTU
         RtuListenTo = 11842,

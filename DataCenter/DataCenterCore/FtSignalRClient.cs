@@ -22,7 +22,7 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile = logFile;
 //            var bindingProtocol = iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "http");
 //            _webApiUrl = $"{bindingProtocol}://localhost:{(int)TcpPorts.WebApiListenToDataCenter}/webApiSignalRHub";
-            _webApiUrl = $"http://localhost:{(int)TcpPorts.WebApiListenToDataCenter}/webApiSignalRHub";
+            _webApiUrl = $"http://localhost:{(int)TcpPorts.WebApiListenTo}/webApiSignalRHub";
         }
 
         private void Build()
