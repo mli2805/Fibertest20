@@ -41,6 +41,19 @@ namespace Iit.Fibertest.Install
             {
                 if (value == _isWebNeeded) return;
                 _isWebNeeded = value;
+                WebSettingsVisibility = _isWebNeeded ? Visibility.Visible : Visibility.Collapsed;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private Visibility _webSettingsVisibility = Visibility.Collapsed;
+        public Visibility WebSettingsVisibility
+        {
+            get => _webSettingsVisibility;
+            set
+            {
+                if (value == _webSettingsVisibility) return;
+                _webSettingsVisibility = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -53,18 +66,31 @@ namespace Iit.Fibertest.Install
             {
                 if (value == _isWebByHttps) return;
                 _isWebByHttps = value;
+                HttpsCertVisibility = _isWebByHttps ? Visibility.Visible : Visibility.Collapsed;
                 NotifyOfPropertyChange();
             }
         }
 
-        private Visibility _mySqlTcpPortVisibility = Visibility.Collapsed;
-        public Visibility MySqlTcpPortVisibility
+        private Visibility _httpsCertVisibility = Visibility.Collapsed;
+        public Visibility HttpsCertVisibility
         {
-            get { return _mySqlTcpPortVisibility; }
+            get => _httpsCertVisibility;
             set
             {
-                if (value == _mySqlTcpPortVisibility) return;
-                _mySqlTcpPortVisibility = value;
+                if (value == _httpsCertVisibility) return;
+                _httpsCertVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private Visibility _dataCenterSettingsVisibility = Visibility.Collapsed;
+        public Visibility DataCenterSettingsVisibility
+        {
+            get { return _dataCenterSettingsVisibility; }
+            set
+            {
+                if (value == _dataCenterSettingsVisibility) return;
+                _dataCenterSettingsVisibility = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -83,12 +109,13 @@ namespace Iit.Fibertest.Install
             {
                 if (value == _selectedType) return;
                 _selectedType = value;
-                MySqlTcpPortVisibility = _selectedType == "Data Center" ? Visibility.Visible : Visibility.Hidden;
+                DataCenterSettingsVisibility = _selectedType == "Data Center" ? Visibility.Visible : Visibility.Hidden;
                 NotifyOfPropertyChange();
             }
         }
 
         private string _selectedCertificate;
+
         public string SelectedCertificate
         {
             get => _selectedCertificate;

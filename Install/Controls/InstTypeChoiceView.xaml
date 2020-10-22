@@ -14,26 +14,26 @@
             <ComboBox Margin="10,5,5,5" Width="150" ItemsSource="{Binding InstTypes}" SelectedItem="{Binding SelectedType, Mode=TwoWay}"/>
         </StackPanel>
 
-        <StackPanel Margin="10,20,5,5" Visibility="{Binding MySqlTcpPortVisibility}">
+        <StackPanel Margin="10,20,5,5" Visibility="{Binding DataCenterSettingsVisibility}">
             <StackPanel Orientation="Horizontal">
                 <TextBlock Margin="5" Text="MySql TCP port"/>
                 <TextBox Margin="5" Text="{Binding MySqlTcpPort}" Width="50"/>
             </StackPanel>
 
-            <GroupBox Margin="5,15,10,0">
-                <GroupBox.Header>
-                    <CheckBox Content="{x:Static stringResources:Resources.SID_Install_Web_Service}" 
-                              IsChecked="{Binding IsWebNeeded}" />
-                </GroupBox.Header>
-                <StackPanel Margin="10,10,10,0" IsEnabled="{Binding IsWebNeeded}">
+            <CheckBox Content="{x:Static stringResources:Resources.SID_Install_Web_Service}" 
+                      IsChecked="{Binding IsWebNeeded}" Margin="5,15,10,0"/>
+            <GroupBox Margin="5,5,10,0" Visibility="{Binding WebSettingsVisibility}">
+                <StackPanel Margin="10,10,10,0" IsEnabled="{Binding IsWebNeeded}" >
                     <RadioButton GroupName="1" Margin="5" Content="HTTP" IsChecked="True"/>
                     <RadioButton GroupName="1" Margin="5" Content="HTTPS" IsChecked="{Binding IsWebByHttps}"/>
-                    <GroupBox Header="{x:Static stringResources:Resources.SID_List_of_ssl_certificates}" Margin="5,5,5,10">
+                    <GroupBox Header="{x:Static stringResources:Resources.SID_List_of_ssl_certificates}" 
+                              Margin="5,5,5,10" Visibility="{Binding HttpsCertVisibility}">
                         <ComboBox Margin="5,10,5,10" ItemsSource="{Binding Certificates}" 
                                   SelectedItem="{Binding SelectedCertificate, Mode=TwoWay}"/>
                     </GroupBox>
-                </StackPanel>  </GroupBox>
-          
+                </StackPanel>
+            </GroupBox>
+
         </StackPanel>
     </DockPanel>
 </UserControl>
