@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Install
@@ -85,7 +86,7 @@ namespace Iit.Fibertest.Install
             var bindingProtocol = currentInstallation.IsWebByHttps ? "https" : "http";
             var webClientPort = currentInstallation.IsWebByHttps ? "*:443:" : "*:80:";
 
-            IisOperations.CreateWebsite(WebApiSiteName, bindingProtocol, "*:11080:",
+            IisOperations.CreateWebsite(WebApiSiteName, bindingProtocol, $"*:{TcpPorts.WebApiListenTo}:",
                 currentInstallation.SslCertificateName,
                 Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir), worker);
 
@@ -156,12 +157,15 @@ namespace Iit.Fibertest.Install
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathWebClient,
                 fullWebClientPath, worker))
                 return false;
-
+/*
             var settingsFilename = fullWebClientPath + @"/assets/settings.json";
             var settings = File.ReadAllText(settingsFilename);
-            var newSettings = settings.Replace("protocol-placeholder", currentInstallation.IsWebByHttps ? "https" : "http");
+            var newSettings = settings.Replace("protocol-placeholder", currentInstallation.IsWebByHttps 
+                ? "https" 
+                : "http");
+         //   newSettings = newSettings.Replace("port-placeholder", TcpPorts.WebApiListenTo.ToString());
             File.WriteAllText(settingsFilename, newSettings);
-
+*/
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
             return true;
         }

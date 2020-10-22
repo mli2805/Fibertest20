@@ -11,14 +11,16 @@ rem General installer source
 
 xcopy ..\Install\bin\Debug\*.* Pack\bin\*.* /S/D/Y
 xcopy ..\Install\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
+xcopy ..\Install\UserGuide\*.pdf Pack\UserGuide\*.* /S/D/Y
      
 xcopy ..\DataCenter\DataCenterService\bin\Debug\*.* Pack\DcFiles\*.* /S/D/Y
 xcopy ..\DataCenter\DataCenterWebApi\bin\Debug\netcoreapp3.0\*.* Pack\WebApi\*.* /S/D/Y
 xcopy ..\Client\WebClient\dist\WebClient\*.* Pack\WebClient\*.* /S/D/Y
 xcopy "..\Auxiliary Files\web.config" Pack\WebApi\*.* /S/Y
 xcopy "..\Auxiliary Files\*.mib" Pack\DcFiles\*.* /S/D/Y
-echo { "apiProtocol": "protocol-placeholder", "version": "%1" } > pack\webclient\assets\settings.json
-pause
+
+rem echo { "apiProtocol": "protocol-placeholder", "version": "%1" } > pack\webclient\assets\settings.json
+
 xcopy ..\Client\WpfClient\bin\Debug\*.* Pack\ClientFiles\*.* /S/D/Y
 xcopy ..\Client\SuperClient\bin\Debug\*.* Pack\SuperClientFiles\*.* /S/D/Y
       
