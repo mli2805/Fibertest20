@@ -2,11 +2,15 @@ export class Utils {
   constructor() {}
 
   static GetWebApiUrl(): string {
+    if (sessionStorage.settings === undefined){
+      const res = `There is no SETTINGS in sessionStorage!!!`;
+      console.log(res);
+      return res;
+    }
     const settings = JSON.parse(sessionStorage.settings);
     const protocol = settings.apiProtocol;
     const port = settings.apiPort;
-    var url = protocol + "://" + window.location.hostname + ":" + port;
-    return url;
+    return protocol + "://" + window.location.hostname + ":" + port;
   }
 
   static ToLongRussian(timestamp: Date): string {

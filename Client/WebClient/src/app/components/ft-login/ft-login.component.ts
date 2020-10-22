@@ -83,7 +83,9 @@ export class FtLoginComponent implements OnInit {
         this.router.navigate(["/ft-main-nav/rtu-tree"], { queryParams: null });
       }
     } catch (unsuccessfulResult) {
-      if (unsuccessfulResult.error.returnCode === undefined) {
+      if (unsuccessfulResult.error === undefined) {
+        this.resultMessage = unsuccessfulResult.message;
+      } else if (unsuccessfulResult.error.returnCode === undefined) {
         this.resultMessage = this.returnCodePipe.transform(
           ReturnCode.C2DWcfConnectionError
         );
@@ -92,7 +94,7 @@ export class FtLoginComponent implements OnInit {
           unsuccessfulResult.error.returnCode
         );
       }
-      console.log("login: " + unsuccessfulResult.error);
+      console.log("login: " + this.resultMessage);
     }
 
     this.isSpinnerVisible = false;
