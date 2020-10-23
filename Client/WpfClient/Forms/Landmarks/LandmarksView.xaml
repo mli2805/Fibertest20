@@ -7,7 +7,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
-        SizeToContent="Width" Height="708" ResizeMode="NoResize"
+        SizeToContent="Width" Height="708" ResizeMode="CanResize"
         d:DataContext="{d:DesignInstance client:LandmarksViewModel}">
     <Window.Resources>
         <FrameworkElement x:Key="ProxyElement" DataContext="{Binding GisVisibility}"/>
@@ -15,26 +15,30 @@
 
     <DockPanel>
         <DockPanel DockPanel.Dock="Top" Margin="5" >
-            <GroupBox Width="340" Header="{x:Static stringResources:Resources.SID_Traces}">
+            <GroupBox Width="345" Header="{x:Static stringResources:Resources.SID_Traces}">
                 <StackPanel>
                     <StackPanel Orientation="Horizontal">
-                        <ComboBox ItemsSource="{Binding Traces}" SelectedItem="{Binding SelectedTrace}" Width="230" Height="25" Margin="5"/>
+                        <ComboBox ItemsSource="{Binding Traces}" SelectedItem="{Binding SelectedTrace}" Width="235" Height="25" Margin="5"/>
                         <Button Margin="5" Content="{x:Static stringResources:Resources.SID_Refresh}" Width="80" Name="RefreshOrChangeTrace"/>
                     </StackPanel>
                 </StackPanel>
             </GroupBox>
-            <GroupBox Width="190" Header="{x:Static stringResources:Resources.SID_GPS_coordinates_format}" Visibility="{Binding GisVisibility}">
+            <GroupBox Width="150" Header="{x:Static stringResources:Resources.SID_GPS_coordinates_format}" Visibility="{Binding GisVisibility}">
                 <ComboBox ItemsSource="{Binding GpsInputModes}" SelectedItem="{Binding SelectedGpsInputMode}" 
                                Height="25" Margin="5,5,5,5"/>
             </GroupBox>
-            <GroupBox Header="{x:Static stringResources:Resources.SID_Filter}">
+            <GroupBox Header="{x:Static stringResources:Resources.SID_Filter}" Width="170">
                 <StackPanel >
-                    <CheckBox Margin="5,11,5,3" IsChecked="{Binding IsFilterOn, Mode=TwoWay}" HorizontalAlignment="Center"
-                              Content="{x:Static stringResources:Resources.SID_Nodes_with_equipment_only}"/>
+                    <CheckBox Margin="5,3,5,0" IsChecked="{Binding IsFilterOn, Mode=TwoWay}" HorizontalAlignment="Center">
+                        <TextBlock Text="{x:Static stringResources:Resources.SID_Nodes_with_equipment_only}" TextWrapping="Wrap"/>
+                    </CheckBox>
                 </StackPanel>
             </GroupBox>
+            <GroupBox Header="{x:Static stringResources:Resources.SID_Export_to_pdf}" Width="120" HorizontalAlignment="Left">
+                <Button Margin="5" Content="PDF" Name="ExportToPdf"/>
+            </GroupBox>
         </DockPanel>
-        <client:OneLandmarkView DockPanel.Dock="Bottom" DataContext="{Binding OneLandmarkViewModel}" />
+        <client:OneLandmarkView DockPanel.Dock="Bottom" DataContext="{Binding OneLandmarkViewModel}" Width="790" HorizontalAlignment="Left" />
 
         <GroupBox Header="{x:Static stringResources:Resources.SID_Landmarks}" Margin="5">
             <DataGrid Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow, Mode=TwoWay}" CanUserSortColumns="False" 
@@ -71,8 +75,6 @@
                                   cal:Message.Attach="IncludeEquipment" IsEnabled="{Binding OneLandmarkViewModel.IsIncludeEquipmentEnabled}"/>
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Exclude_equipment_from_trace}" 
                                   cal:Message.Attach="ExcludeEquipment" IsEnabled="{Binding OneLandmarkViewModel.IsExcludeEquipmentEnabled}"/>
-                        <Separator></Separator>
-                        <MenuItem Header="{x:Static stringResources:Resources.SID_Export_to_pdf}" cal:Message.Attach="ExportToPdf"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
             </DataGrid>
