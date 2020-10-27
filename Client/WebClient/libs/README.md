@@ -10,7 +10,7 @@ If you get the `Uncaught ReferenceError: global is not defined` protobuf error, 
 2. Install needed packages `npm install veex-<libName>-x.x.x.tgz --save`.
 	npm install "libs\veex-common-0.0.15.tgz" --save
 	npm install "libs\veex-chart-0.0.8.tgz" --save
-	npm install "libs\veex-sor-0.0.32.tgz" --save
+	npm install "libs\veex-sor-0.0.33.tgz" --save
 	
 3. Install all `UNMET PEER DEPENDENCY`.
 4. Wrap the `<app-root>` by the `vx-mouse-capture-wrapper` div. The div must be right after the `<body>` tag.

@@ -28,7 +28,7 @@
     "@ngx-translate/http-loader": "^4.0.0",
     "@veex/chart": "file:libs/veex-chart-0.0.8.tgz",
     "@veex/common": "file:libs/veex-common-0.0.15.tgz",
-    "@veex/sor": "file:libs/veex-sor-0.0.32.tgz",
+    "@veex/sor": "file:libs/veex-sor-0.0.33.tgz",
     "gl-matrix": "^2.3.2",
     "hammer-timejs": "^1.1.0",
     "hammerjs": "^2.0.8",
