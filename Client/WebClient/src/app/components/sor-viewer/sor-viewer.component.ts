@@ -37,7 +37,9 @@ export class SorViewerComponent implements OnInit {
     public sorAreaService: SorAreaViewerService,
     public sorViewerService: SorViewerService,
     private oneApiService: OneApiService
-  ) {}
+  ) {
+    sorAreaService.showLandmarksDock = true;
+  }
 
   async ngOnInit() {
     await this.loadFromServer();

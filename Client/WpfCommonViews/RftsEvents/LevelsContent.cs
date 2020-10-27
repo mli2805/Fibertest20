@@ -12,5 +12,18 @@
         public RftsEventsOneLevelViewModel CriticalLevelViewModel { get; set; }
         public RftsEventsOneLevelViewModel UsersLevelViewModel { get; set; }
 
+        public RftsEventsOneLevelViewModel GetByIndex(int index)
+        {
+            switch (index)
+            {
+                case 0: return MinorLevelViewModel;
+                case 1: return MajorLevelViewModel;
+                case 2: return CriticalLevelViewModel;
+                case 3: return UsersLevelViewModel;
+            }
+
+            return null;
+        }
+
     }
 }

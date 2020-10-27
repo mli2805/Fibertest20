@@ -10,6 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class RftsEventsViewModelSteps
     {
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private RftsEventsViewModel _vm;
 
         [When(@"Открываем форму событий для измерения (.*)")]
@@ -17,7 +18,8 @@ namespace Graph.Tests
         {
             var sorBytes = File.ReadAllBytes($@"..\..\Sut\MoniResults\{filename}.sor");
             var sorData = SorData.FromBytes(sorBytes);
-            _vm = new RftsEventsViewModel(sorData);
+            _vm = new RftsEventsViewModel(_sut.FakeWindowManager);
+            _vm.Initialize(sorData);
         }
 
         [Then(@"Форма имеет 3 вкладки")]

@@ -27,5 +27,6 @@ namespace Iit.Fibertest.WpfCommonViews
                 row.Background = Brushes.LightCyan;
             }
         }
+
     }
 }

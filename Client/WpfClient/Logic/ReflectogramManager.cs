@@ -101,7 +101,8 @@ namespace Iit.Fibertest.Client
                 return;
             }
 
-            var vm = new RftsEventsViewModel(sorData);
+            var vm = new RftsEventsViewModel(_windowManager);
+            vm.Initialize(sorData);
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 

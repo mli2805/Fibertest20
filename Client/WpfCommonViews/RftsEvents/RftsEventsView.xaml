@@ -6,7 +6,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d"
-        Width="736" WindowStartupLocation="CenterOwner" SizeToContent="Height" ResizeMode="NoResize"
+        Width="736" WindowStartupLocation="CenterOwner" SizeToContent="Height"
         d:DataContext="{d:DesignInstance wpfCommonViews:RftsEventsViewModel}">
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
@@ -43,6 +43,11 @@
                 </TabItem>
             </TabControl>
             <wpfCommonViews:RftsEventsFooterView DataContext="{Binding FooterViewModel}"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,10,10">
+            <Button Content="{x:Static stringResources:Resources.SID_Export_to_pdf}" Margin="5" Width="120" 
+                    Name="ExportToPdf" Visibility="{Binding RftsEventsTableVisibility}"/>
+            <Button Content="{x:Static stringResources:Resources.SID_Close}" Margin="5" Width="120" Name="Close"/>
         </StackPanel>
     </StackPanel>
 </Window>

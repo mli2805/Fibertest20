@@ -379,8 +379,9 @@ namespace DirectRtuClient
             var buffer = File.ReadAllBytes(ResultFileName);
             var sorData = SorData.FromBytes(buffer);
 
-            var vm = new RftsEventsViewModel(sorData);
             IWindowManager windowManager = new WindowManager();
+            var vm = new RftsEventsViewModel(windowManager);
+            vm.Initialize(sorData);
             windowManager.ShowDialog(vm);
         }
 

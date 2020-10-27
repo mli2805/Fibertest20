@@ -2845,7 +2845,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Export to PDF.
+        ///   Looks up a localized string similar to Export to pdf.
         /// </summary>
         public static string SID_Export_to_pdf {
             get {
