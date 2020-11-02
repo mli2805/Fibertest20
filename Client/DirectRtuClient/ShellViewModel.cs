@@ -22,6 +22,13 @@ namespace DirectRtuClient
 
         }
 
+        public void ParseView()
+        {
+            var vm = new ParseViewModel(_rtuLogger);
+            IWindowManager windowManager = new WindowManager();
+            windowManager.ShowWindow(vm);
+        }
+
         public void OtdrView()
         {
             var vm = new OtdrViewModel(_iniFile35, _rtuLogger, IpAddress);

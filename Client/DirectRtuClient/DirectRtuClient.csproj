@@ -160,6 +160,10 @@
       <DependentUpon>OtdrView.xaml</DependentUpon>
     </Compile>
     <Compile Include="OtdrViewModel.cs" />
+    <Compile Include="ParseView.xaml.cs">
+      <DependentUpon>ParseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="ParseViewModel.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -183,6 +187,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="OtdrView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ParseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
