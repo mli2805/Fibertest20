@@ -76,6 +76,9 @@ namespace Iit.Fibertest.Graph
 
         public void AddNamesAndTypesForLandmarks(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
         {
+            // does not work for Reflect
+            //sorData.GeneralParameters.Language = LanguageCode.Russian;
+
             var landmarks = sorData.LinkParameters.LandmarkBlocks;
 
             for (int i = 0; i < landmarks.Length; i++)
@@ -85,6 +88,12 @@ namespace Iit.Fibertest.Graph
                     landmarkTitle = landmarkTitle + $@" / {model.EquipArray[i].Title}";
 
                 landmarks[i].Comment = landmarkTitle; // utf8, TODO reflect.exe should understand this
+
+                // does not work
+                //                byte[] in_cp1251 = Encoding.GetEncoding(1251).GetBytes(landmarkTitle);
+                //                landmarks[i].Comment = Encoding.GetEncoding(1251).GetString(in_cp1251);
+
+
                 landmarks[i].Code = model.EquipArray[i].Type.ToLandmarkCode();
                 landmarks[i].GpsLatitude = GisLabCalculator.GpsInSorFormat(model.NodeArray[i].Position.Lat);
                 landmarks[i].GpsLongitude = GisLabCalculator.GpsInSorFormat(model.NodeArray[i].Position.Lng);

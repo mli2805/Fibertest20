@@ -24,7 +24,6 @@ namespace Iit.Fibertest.Graph
             var assignmentFailed = new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentFailed };
             try
             {
-
                 var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
                 if (rtu == null) return assignmentFailed;
 

@@ -4,6 +4,7 @@ using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
 using Microsoft.Win32;
+using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace DirectRtuClient
 {
@@ -32,14 +33,27 @@ namespace DirectRtuClient
             var bytes = LoadSorFile(ResultFileName);
             var sorData = SorData.FromBytes(bytes);
 
-           _logFile.AppendLine("");
-           _logFile.AppendLine(@"Key events");
-           _logFile.AppendLine("");
-            var keyEvents = sorData.KeyEvents.KeyEvents;
-            foreach (var keyEvent in keyEvents)
-            {
-                _logFile.AppendLine(keyEvent.EventNumber - 1 + @":  " +  keyEvent.Comment);
-            }
+            LogKeyEvents(sorData);
+
+            LogLandmarks(sorData);
+        }
+
+        private void LogLandmarks(OtdrDataKnownBlocks sorData)
+        {
+            _logFile.AppendLine("");
+            _logFile.AppendLine(@"Landmarks");
+            _logFile.AppendLine("");
+            foreach (var landmark in sorData.LinkParameters.LandmarkBlocks)
+                _logFile.AppendLine(landmark.Number - 1 + @":  " + landmark.Comment);
+        }
+
+        private void LogKeyEvents(OtdrDataKnownBlocks sorData)
+        {
+            _logFile.AppendLine("");
+            _logFile.AppendLine(@"Key events");
+            _logFile.AppendLine("");
+            foreach (var keyEvent in sorData.KeyEvents.KeyEvents)
+                _logFile.AppendLine(keyEvent.EventNumber - 1 + @":  " + keyEvent.Comment);
         }
 
         public void ChooseResultFilename()

@@ -229,6 +229,7 @@ namespace Iit.Fibertest.DataCenterCore
                     ReturnCode = ReturnCode.BaseRefAssignmentFailed
                 };
 
+            //                                   landmarks names will be added
             var checkResult = _baseRefsChecker.AreBaseRefsAcceptable(dto.BaseRefs, trace);
             if (checkResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 return checkResult;

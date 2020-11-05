@@ -1673,39 +1673,44 @@
 
                 InvalidateVisual();
             }
-//            else
-//            {
-//                if (!isSelected)
-//                {
-//                    Point p = e.GetPosition(this);
-//                    isSelected = true;
-//                    SelectedArea = RectLatLng.Empty;
-//                    selectionEnd = PointLatLng.Empty;
-//                    selectionStart = FromLocalToLatLng((int)p.X, (int)p.Y);
-//                }
-//            }
+            //            else
+            //            {
+            //                if (!isSelected)
+            //                {
+            //                    Point p = e.GetPosition(this);
+            //                    isSelected = true;
+            //                    SelectedArea = RectLatLng.Empty;
+            //                    selectionEnd = PointLatLng.Empty;
+            //                    selectionStart = FromLocalToLatLng((int)p.X, (int)p.Y);
+            //                }
+            //            }
         }
 
         int onMouseUpTimestamp = 0;
 
         public Point ContextMenuPoint { get; set; }
 
-        public new ContextMenu ContextMenu { get;set; }
+        public new ContextMenu ContextMenu { get; set; }
         protected override void OnMouseUp(MouseButtonEventArgs e)
         {
             if (e.ChangedButton == MouseButton.Right)
             {
                 ContextMenuPoint = e.GetPosition(this);
-                ContextMenu contextMenu;
+                ContextMenu contextMenu = null;
                 if (RouteUnderMouse != Guid.Empty)
                 {
-                    var route = (GMapRoute)Markers.First(m => m.Id == RouteUnderMouse);
-                    route.AskContextMenu++;
-                    contextMenu = route.ContextMenu;
+                    var route = (GMapRoute)Markers.FirstOrDefault(m => m.Id == RouteUnderMouse);
+                    if (route != null)
+                    {
+                        Console.WriteLine($"route id {route.Id}");
+                        route.AskContextMenu++;
+                        contextMenu = route.ContextMenu;
+                    }
+                    Console.WriteLine($"marker with id {RouteUnderMouse} not found");
                 }
                 else
                 {
-//                    contextMenu = FindResource("MapContextMenu") as ContextMenu;
+                    //                    contextMenu = FindResource("MapContextMenu") as ContextMenu;
                     contextMenu = ContextMenu;
                 }
 
@@ -1787,7 +1792,7 @@
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
-             base.OnMouseMove(e);
+            base.OnMouseMove(e);
 
             if (IsInFiberCreationMode)
             {
