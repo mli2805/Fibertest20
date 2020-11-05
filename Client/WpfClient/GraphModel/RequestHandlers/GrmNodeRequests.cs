@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Client
                 return;
             var message = await _c2DWcfManager.SendCommandAsObj(cmd);
             if (message != null)
-                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, message));
+                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, @"Graph AddNodeIntoFiber: " + message));
         }
 
         private AddNodeIntoFiber PrepareAddNodeIntoFiber(RequestAddNodeIntoFiber request)
@@ -84,7 +84,7 @@ namespace Iit.Fibertest.Client
 
             var message = await _c2DWcfManager.SendCommandAsObj(cmd);
             if (message != null)
-                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, message));
+                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, @"Graph RemoveNode: " + message));
         }
 
         // if node has 3 or more neighbours (it's a fork) and one or more from them are adjustment point 

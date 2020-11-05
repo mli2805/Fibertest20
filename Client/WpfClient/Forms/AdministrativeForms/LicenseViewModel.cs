@@ -64,7 +64,7 @@ namespace Iit.Fibertest.Client
             var result = await _c2DWcfManager.SendCommandAsObj(cmd);
             if (result != null)
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, result);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, @"ApplyLicense: " + result);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
             }
             else

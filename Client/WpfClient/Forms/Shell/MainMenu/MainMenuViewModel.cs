@@ -62,7 +62,7 @@ namespace Iit.Fibertest.Client
             }
             catch (Exception e)
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, e.Message);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, @"LaunchComponentsReport: " + e.Message);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
             }
         }
@@ -84,7 +84,7 @@ namespace Iit.Fibertest.Client
             }
             catch (Exception e)
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, e.Message);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, @"LaunchOpticalEventsReport: " + e.Message);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
             }
         }

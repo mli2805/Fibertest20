@@ -35,7 +35,7 @@ namespace Iit.Fibertest.Client
                 await _c2DWcfManager.SendCommandAsObj(cmd);
             if (message != null)
             {
-                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, message));
+                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, @"Graph AddFiberWithNodes: " + message));
             }
         }
 

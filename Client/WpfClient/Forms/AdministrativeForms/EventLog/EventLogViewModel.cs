@@ -208,7 +208,7 @@ namespace Iit.Fibertest.Client
             }
             catch (Exception e)
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, e.Message);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, @"Event Log Export to pdf" + e.Message);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
             }
         }

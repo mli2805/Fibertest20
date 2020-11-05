@@ -305,7 +305,7 @@ namespace Iit.Fibertest.Client
             }
             catch (Exception e)
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, e.Message);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, @"Landmarks: ExportToPdf" + e.Message);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
             }
         }

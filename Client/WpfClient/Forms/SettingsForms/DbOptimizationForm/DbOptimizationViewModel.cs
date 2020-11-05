@@ -89,7 +89,7 @@ namespace Iit.Fibertest.Client
             var result = await _c2DWcfManager.SendCommandAsObj(cmd);
             if (!string.IsNullOrEmpty(result))
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, result);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, @"DB optimization: " + result);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
             }
         }

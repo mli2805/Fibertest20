@@ -201,14 +201,14 @@ namespace Iit.Fibertest.Client
             var result = await ApplyEquipment();
             if (result != null)
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, result);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, @"ApplyEquipment: " + result);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return false;
             }
             result = await ApplyNode();
             if (result != null)
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, result);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, @"ApplyNode: " + result);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return false;
             }
