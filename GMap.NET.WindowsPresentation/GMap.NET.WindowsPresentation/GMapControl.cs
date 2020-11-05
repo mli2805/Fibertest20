@@ -1702,11 +1702,11 @@
                     var route = (GMapRoute)Markers.FirstOrDefault(m => m.Id == RouteUnderMouse);
                     if (route != null)
                     {
-                        Console.WriteLine($"route id {route.Id}");
+//                        Console.WriteLine($"route id {route.Id}");
                         route.AskContextMenu++;
                         contextMenu = route.ContextMenu;
                     }
-                    Console.WriteLine($"marker with id {RouteUnderMouse} not found");
+//                    Console.WriteLine($"marker with id {RouteUnderMouse} not found");
                 }
                 else
                 {
