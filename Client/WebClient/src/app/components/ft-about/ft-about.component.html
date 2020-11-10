@@ -1,38 +1,32 @@
 <div class="container">
-  <div class="about">
-    <div class="iit-image">
-      <img src="./assets/images/IIT.ico" alt="iit image" />
-    </div>
-    <div class="iit-header">
-      <p>Fibertest&trade; 2.0</p>
-      <p>Copyright&copy; 2019-2020</p>
-      <p>{{ "SID_Institute_of_Information_Technologies" | translate }}</p>
-    </div>
-  </div>
+  <ft-iit-header></ft-iit-header>
   <mat-divider></mat-divider>
-  <div fxLayout fxLayoutGap="10px">
-    <p>{{ "SID_User" | translate }}:</p>
-    <p>{{ loggedUser.username }}</p>
-    <p style="padding-left: 40px;">{{ "SID_Role" | translate }}:</p>
-    <p>{{ roleString }}</p>
-    <p style="padding-left: 40px;">{{ "SID_Zone" | translate }}:</p>
-    <p>{{ loggedUser.zone }}</p>
-  </div>
-  <mat-divider></mat-divider>
-  <div fxLayout fxLayoutGap="10px">
-    <p>{{ "SID_Data-center_software_version" | translate }}:</p>
-    <p>{{ aboutVm.dcSoftware }}</p>
-  </div>
-  <div fxLayout fxLayoutGap="10px">
-    <p>{{ "SID_Web_Api_software_version" | translate }}:</p>
-    <p>{{ aboutVm.webApiSoftware }}</p>
-  </div>
-  <div fxLayout fxLayoutGap="10px">
-    <p>{{ "SID_Web_Client_software_version" | translate }}:</p>
-    <p>{{ aboutVm.webClientSoftware }}</p>
+  <div class="firstBlock">
+    <div class="blockItem">
+      <span>{{ "SID_User" | translate }}:</span>
+      <span class="value">{{ loggedUser.username }}</span>
+    </div>
+    <div class="blockItem">
+      <span>{{ "SID_Role" | translate }}:</span>
+      <span class="value">{{ roleString }}</span>
+    </div>
+    <div class="blockItem">
+      <span>{{ "SID_Zone" | translate }}:</span>
+      <span class="value">{{ loggedUser.zone }}</span>
+    </div>
   </div>
 
-  <mat-divider></mat-divider>
+  <mat-divider style="margin-top: 10px"></mat-divider>
+  <div class="blockItem">
+    <span>{{ "SID_Data-center_software_version" | translate }}:</span>
+    <span class="value">{{ aboutVm.dcSoftware }}</span>
+  </div>
+  <div class="blockItem">
+    <span>{{ "SID_Web_Client_software_version" | translate }}:</span>
+    <span class="value">{{ aboutVm.webClientSoftware }}</span>
+  </div>
+
+  <mat-divider style="margin-top: 10px"></mat-divider>
   <div>
     <p>{{ "SID_RTUs_software_version" | translate }}:</p>
     <table mat-table [dataSource]="aboutVm.rtus">

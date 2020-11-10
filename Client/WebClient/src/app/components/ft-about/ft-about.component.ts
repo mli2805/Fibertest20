@@ -25,6 +25,7 @@ export class FtAboutComponent implements OnInit {
       .getRequest("misc/about")
       .toPromise()) as AboutDto;
 
+    console.log(`WebAPI version is ${this.aboutVm.webApiSoftware}`);
     const settings = JSON.parse(sessionStorage.getItem("settings"));
     this.aboutVm.webClientSoftware = settings.version;
   }

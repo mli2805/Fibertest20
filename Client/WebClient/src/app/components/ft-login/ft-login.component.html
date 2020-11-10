@@ -1,54 +1,45 @@
 <div class="container">
   <div class="formItself">
-  <div class="loginFormHeader">
-    <div class="iit-image">
-      <img src="./assets/images/IIT.ico" alt="iit image" />
-    </div>
-    <div class="iit-header">
-      <p>Fibertest&trade; 2.0</p>
-      <p>Copyright&copy; 2019-2020</p>
-      <p>{{ "SID_Institute_of_Information_Technologies" | translate }}</p>
-    </div>
+    <ft-iit-header></ft-iit-header>
+    <mat-divider></mat-divider>
+    <mat-card class="loginForm">
+      <mat-card-header>
+        <mat-card-title>{{ "SID_Authentication" | translate }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form>
+          <mat-form-field class="full-width">
+            <mat-label>{{ "SID_User" | translate }}</mat-label>
+            <input
+              matInput
+              placeholder="Username"
+              name="username"
+              [(ngModel)]="user"
+            />
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>{{ "SID_Password" | translate }}</mat-label>
+            <input
+              matInput
+              placeholder="Password"
+              name="password"
+              type="password"
+              [(ngModel)]="pw"
+            />
+          </mat-form-field>
+        </form>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-stroked-button class="full-width" (click)="login()">
+          {{ "SID_Login" | translate }}
+        </button>
+      </mat-card-actions>
+      <mat-card-footer>
+        <div class="err" *ngIf="resultMessage">{{ resultMessage }}</div>
+      </mat-card-footer>
+    </mat-card>
   </div>
-  <mat-divider></mat-divider>
-  <mat-card class="loginForm">
-    <mat-card-header>
-      <mat-card-title>{{ "SID_Authentication" | translate }}</mat-card-title>
-    </mat-card-header>
-    <mat-card-content>
-      <form>
-        <mat-form-field class="full-width">
-          <mat-label>{{ "SID_User" | translate }}</mat-label>
-          <input
-            matInput
-            placeholder="Username"
-            name="username"
-            [(ngModel)]="user"
-          />
-        </mat-form-field>
-        <mat-form-field class="full-width">
-          <mat-label>{{ "SID_Password" | translate }}</mat-label>
-          <input
-            matInput
-            placeholder="Password"
-            name="password"
-            type="password"
-            [(ngModel)]="pw"
-          />
-        </mat-form-field>
-      </form>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-stroked-button class="full-width" (click)="login()">
-        {{ "SID_Login" | translate }}
-      </button>
-    </mat-card-actions>
-    <mat-card-footer>
-      <div class="err" *ngIf="resultMessage">{{ resultMessage }}</div>
-    </mat-card-footer>
-  </mat-card>
-</div>
-<div class="spinner-container" *ngIf="isSpinnerVisible">
-  <mat-spinner></mat-spinner>
-</div>
+  <div class="spinner-container" *ngIf="isSpinnerVisible">
+    <mat-spinner></mat-spinner>
+  </div>
 </div>

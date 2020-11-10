@@ -67,6 +67,7 @@ import { FtRftsEventsComponent } from "./components/details/trace/ft-rfts-events
 import { FtRftsEventsLevelComponent } from "./components/details/trace/ft-rfts-events/ft-rfts-events-level/ft-rfts-events-level.component";
 import { FtSimpleDialogComponent } from "./components/ft-simple-dialog/ft-simple-dialog.component";
 import { MaterialModule } from "./material.module";
+import { FtIitHeaderComponent } from './components/ft-iit-header/ft-iit-header.component';
 
 @NgModule({
   declarations: [
@@ -121,6 +122,8 @@ import { MaterialModule } from "./material.module";
     FtRftsEventsLevelComponent,
 
     FtSimpleDialogComponent,
+
+    FtIitHeaderComponent,
   ],
   imports: [
     VxSorViewerModule,

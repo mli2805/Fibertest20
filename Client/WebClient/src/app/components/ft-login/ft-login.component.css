@@ -2,31 +2,13 @@
   margin: 0px 10px;
 }
 
-.iit-image {
-  display: inline-block;
-}
-
-.iit-image img {
-  width: 60px;
-}
-
-.iit-header {
-  display: inline-block;
-  text-align: left;
-  margin: 10px;
-}
-
-.iit-header p {
-  padding: 0;
-  margin: 5px;
-}
-
-.loginFormHeader {
-  width: 430px;
-}
 .loginForm {
+  align-self: center;
   margin-top: 15px;
-  width: 400px;
+  /* width: 100%; */
+  /* width: 300px; */
+  margin-left: auto;
+  margin-right: auto;
   background-color: white;
 }
 
