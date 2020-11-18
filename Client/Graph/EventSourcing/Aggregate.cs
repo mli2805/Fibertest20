@@ -122,7 +122,7 @@ namespace Iit.Fibertest.Graph
         {
             if (_writeModel.Traces.Any(t => t.NodeIds.Last() == cmd.NodeId))
                 return Resources.SID_It_s_prohibited_to_remove_last_node_from_trace;
-            if (_writeModel.Traces.Any(t => t.HasAnyBaseRef && t.NodeIds.Contains(cmd.NodeId) && cmd.Type != EquipmentType.AdjustmentPoint))
+            if (_writeModel.Traces.Any(t => t.HasAnyBaseRef && t.NodeIds.Contains(cmd.NodeId) && !cmd.IsAdjustmentPoint))
                 return Resources.SID_It_s_impossible_to_change_trace_with_base_reflectogram;
 
             var evnt = Mapper.Map<NodeRemoved>(cmd); // mapper copies dictionary and list successfully

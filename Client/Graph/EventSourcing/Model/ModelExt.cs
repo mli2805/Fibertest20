@@ -27,9 +27,36 @@ namespace Iit.Fibertest.Graph
             };
         }
 
+        public static Guid GetFiberIdBetweenNodes(this Model model, Guid node1, Guid node2)
+        {
+            return model.Fibers.First(
+                f => f.NodeId1 == node1 && f.NodeId2 == node2 ||
+                     f.NodeId1 == node2 && f.NodeId2 == node1).FiberId;
+        }
+
+        public static Fiber GetFiberBetweenNodes(this Model model, Guid node1, Guid node2)
+        {
+            return model.Fibers.First(
+                f => f.NodeId1 == node1 && f.NodeId2 == node2 ||
+                     f.NodeId1 == node2 && f.NodeId2 == node1);
+        }
+
+        public static IEnumerable<Guid> GetTraceFiberIdsByNodes(this Model model, List<Guid> nodes)
+        {
+            for (int i = 1; i < nodes.Count; i++)
+                yield return model.GetFiberIdBetweenNodes(nodes[i - 1], nodes[i]);
+        }
+
+        public static IEnumerable<Fiber> GetTraceFibersByNodes(this Model model, List<Guid> nodes)
+        {
+            for (int i = 1; i < nodes.Count; i++)
+                yield return model.GetFiberBetweenNodes(nodes[i - 1], nodes[i]);
+        }
+
+
         public static IEnumerable<Fiber> GetTraceFibers(this Model model, Trace trace)
         {
-//            return trace.FiberIds.Select(i => model.Fibers.First(f => f.FiberId == i));
+            //            return trace.FiberIds.Select(i => model.Fibers.First(f => f.FiberId == i));
 
             foreach (var fiberId in trace.FiberIds)
             {
@@ -275,6 +302,5 @@ namespace Iit.Fibertest.Graph
 
             return false;
         }
-
     }
 }

@@ -16,7 +16,7 @@ namespace Iit.Fibertest.Graph
     public class RemoveNode
     {
         public Guid NodeId { get; set; }
-        public EquipmentType Type { get; set; }
+        public bool IsAdjustmentPoint { get; set; }
 
         public List<NodeDetour> DetoursForGraph { get; set; }
         public Guid FiberIdToDetourAdjustmentPoint { get; set; } // if there are no traces passing through this point

@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Graph
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
-        
+
         public static string AddNodeIntoFiber(this Model model, NodeIntoFiberAdded e)
         {
             var oldFiber = model.Fibers.FirstOrDefault(f => f.FiberId == e.FiberId);
@@ -37,8 +37,8 @@ namespace Iit.Fibertest.Graph
             {
                 var trace = model.Traces.First(t => t.TraceId == traceId);
 
-                var oldFibersArray = trace.FiberIds.ToArray();
                 var oldNodesArray = trace.NodeIds.ToArray();
+                var oldFibersArray = trace.FiberIds.ToArray();
                 var oldEquipmentsArray = trace.EquipmentIds.ToArray();
 
                 trace.FiberIds.Clear();
@@ -169,7 +169,10 @@ namespace Iit.Fibertest.Graph
 
                     trace.FiberIds.RemoveAt(index);
                     trace.FiberIds.RemoveAt(index - 1);
-                    trace.FiberIds.Insert(index - 1, detour.FiberId);
+
+                    // there is a new detour fiber after `model.CreateDetourIfAbsent(detour);` so use it.
+                    var fiberId = model.GetFiberIdBetweenNodes(detour.NodeId1, detour.NodeId2);
+                    trace.FiberIds.Insert(index - 1, fiberId);
                 }
             }
 

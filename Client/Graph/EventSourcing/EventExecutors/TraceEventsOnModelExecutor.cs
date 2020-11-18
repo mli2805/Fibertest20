@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using AutoMapper;
 using Iit.Fibertest.Dto;
 
@@ -60,20 +58,7 @@ namespace Iit.Fibertest.Graph
             model.Measurements.RemoveAll(m=>m.TraceId == trace.TraceId);
             model.BaseRefs.RemoveAll(b => b.TraceId == trace.TraceId);
         }
-
-        private static IEnumerable<Fiber> GetTraceFibersByNodes(this Model model, List<Guid> nodes)
-        {
-            for (int i = 1; i < nodes.Count; i++)
-                yield return  model.GetFiberBetweenNodes(nodes[i - 1], nodes[i]);
-        }
-
-        private static Fiber GetFiberBetweenNodes(this Model model, Guid node1, Guid node2)
-        {
-            return model.Fibers.First(
-                f => f.NodeId1 == node1 && f.NodeId2 == node2 ||
-                     f.NodeId1 == node2 && f.NodeId2 == node1);
-        }
-
+      
         public static string RemoveTrace(this Model model, TraceRemoved e)
         {
             var trace = model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);

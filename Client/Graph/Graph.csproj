@@ -334,8 +334,6 @@
     <Compile Include="Requests\RequestAddNodeIntoFiber.cs" />
     <Compile Include="Requests\RequestAddRtuAtGpsLocation.cs" />
     <Compile Include="Requests\RequestAddTrace.cs" />
-    <Compile Include="Requests\RequestAssignBaseRef.cs" />
-    <Compile Include="Requests\RequestRemoveNode.cs" />
     <Compile Include="Requests\RequestRemoveRtu.cs" />
     <Compile Include="Requests\RequestUpdateFiber.cs" />
     <Compile Include="Requests\RequestUpdateRtu.cs" />
