@@ -26,6 +26,7 @@
         // General - RTU
         RtuHeartbeatRate,
         // General - DataCenter
+        CheckWebApiEvery,
         CheckHeartbeatEvery,
         ClientConnectionsPermittedGap,
         RtuHeartbeatPermittedGap,

@@ -63,7 +63,14 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         public async Task NotifyAll(string eventType, string dataInJson)
         {
+            //            _logFile.AppendLine($"Hub received {eventType} event");
+            await Clients.All.SendAsync(eventType, dataInJson);
+        }
+
+        public async Task AnswerToThisUser(string eventType, string dataInJson)
+        {
             _logFile.AppendLine($"Hub received {eventType} event");
+            // TODO send only to this user
             await Clients.All.SendAsync(eventType, dataInJson);
         }
 
@@ -110,10 +117,10 @@ namespace Iit.Fibertest.DataCenterWebApi
                     MainChannel = dto.RtuAddresses?.Main?.ToStringASpace,
                     IsReserveChannelSet = dto.RtuAddresses?.HasReserveAddress ?? false,
                     ReserveChannel = dto.RtuAddresses?.Reserve?.ToStringASpace,
-                    OtdrAddress = dto.OtdrAddress == null 
-                        ? "" 
-                        : dto.OtdrAddress.Ip4Address == "192.168.88.101" 
-                            ? $"{dto.RtuAddresses?.Main?.Ip4Address} : {dto.OtdrAddress.Port}" 
+                    OtdrAddress = dto.OtdrAddress == null
+                        ? ""
+                        : dto.OtdrAddress.Ip4Address == "192.168.88.101"
+                            ? $"{dto.RtuAddresses?.Main?.Ip4Address} : {dto.OtdrAddress.Port}"
                             : dto.OtdrAddress.ToStringASpace,
                     Mfid = dto.Mfid,
                     Serial = dto.Serial,

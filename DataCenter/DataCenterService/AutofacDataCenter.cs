@@ -56,6 +56,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<ClientToRtuVeexTransmitter>().SingleInstance();
 
             builder.RegisterType<D2CWcfManager>().SingleInstance();
+            builder.RegisterType<WebApiChecker>().SingleInstance();
             builder.RegisterType<LastConnectionTimeChecker>().SingleInstance();
             builder.RegisterType<MeasurementsForWebNotifier>().SingleInstance();
             builder.RegisterType<SmsSender>().SingleInstance();

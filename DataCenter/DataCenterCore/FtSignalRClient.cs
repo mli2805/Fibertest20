@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -8,6 +9,7 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public interface IFtSignalRClient
     {
+        Task<bool> IsSignalRConnected();
         Task NotifyAll(string eventType, string dataInJson);
 
     }
@@ -28,17 +30,22 @@ namespace Iit.Fibertest.DataCenterCore
         private void Build()
         {
             connection = new HubConnectionBuilder()
-                .WithUrl(_webApiUrl)
+                .WithUrl(_webApiUrl, (opts) =>
+                {
+                    opts.HttpMessageHandlerFactory = (message) =>
+                    {
+                        if (message is HttpClientHandler clientHandler)
+                            // bypass SSL certificate
+                            clientHandler.ServerCertificateCustomValidationCallback +=
+                                (sender, certificate, chain, sslPolicyErrors) =>
+                                {
+                                    _logFile.AppendLine($"Negotiation with server returns sslPolicyErrors: {sslPolicyErrors}");
+                                    return true;
+                                };
+                        return message;
+                    };
+                })
                 .Build();
-
-//           var cert = new X509Certificate(File.ReadAllBytes(@"c:\temp\iit-fibertest.crt"));
-//
-//           connection = new HubConnectionBuilder()
-//                .WithUrl(_webApiUrl, options => {
-//                    options.Transports = HttpTransportType.WebSockets;
-//                    options.ClientCertificates = new X509CertificateCollection {cert};
-//                } )
-//                .Build();
 
             connection.Closed += async (error) =>
             {
@@ -67,7 +74,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        private async Task<bool> IsSignalRConnected()
+        public async Task<bool> IsSignalRConnected()
         {
             try
             {

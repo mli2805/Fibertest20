@@ -325,6 +325,7 @@
     <Compile Include="WcfServiceForRtuBootstrapper.cs" />
     <Compile Include="WcfServiceWebC2D\WcfServiceWebC2D.cs" />
     <Compile Include="WcfServiceForWebC2DBootstrapper.cs" />
+    <Compile Include="WebApiChecker.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

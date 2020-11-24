@@ -7,7 +7,9 @@ rmdir /S/Q PackAdmin\
 del Ft*.exe
 del Ft*.zip
 
-rem General installer source
+chcp 65001
+type read.me
+pause
 
 xcopy ..\Install\bin\Release\*.* Pack\bin\*.* /S/D/Y
 xcopy ..\Install\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y

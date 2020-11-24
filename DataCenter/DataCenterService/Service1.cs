@@ -18,6 +18,7 @@ namespace Iit.Fibertest.DataCenterService
         private readonly EventStoreService _eventStoreService;
         private readonly IEventStoreInitializer _eventStoreInitializer;
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
+        private readonly WebApiChecker _webApiChecker;
         private readonly SmsSender _smsSender;
         private readonly MeasurementsForWebNotifier _measurementsForWebNotifier;
         private readonly WcfServiceForDesktopC2DBootstrapper _wcfServiceForDesktopC2DBootstrapper;
@@ -28,7 +29,7 @@ namespace Iit.Fibertest.DataCenterService
 
         public Service1(IniFile iniFile, IMyLog logFile, ISettings serverSettings,
             EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
-            LastConnectionTimeChecker lastConnectionTimeChecker, SmsSender smsSender,
+            LastConnectionTimeChecker lastConnectionTimeChecker, WebApiChecker webApiChecker, SmsSender smsSender,
             MeasurementsForWebNotifier measurementsForWebNotifier,
             WcfServiceForDesktopC2DBootstrapper wcfServiceForDesktopC2DBootstrapper,
             WcfServiceForCommonC2DBootstrapper wcfServiceForCommonC2DBootstrapper,
@@ -43,6 +44,7 @@ namespace Iit.Fibertest.DataCenterService
             _eventStoreInitializer = eventStoreInitializer;
             _logFile.AssignFile("DataCenter.log");
             _lastConnectionTimeChecker = lastConnectionTimeChecker;
+            _webApiChecker = webApiChecker;
             _smsSender = smsSender;
             _measurementsForWebNotifier = measurementsForWebNotifier;
             _wcfServiceForDesktopC2DBootstrapper = wcfServiceForDesktopC2DBootstrapper;
@@ -64,7 +66,6 @@ namespace Iit.Fibertest.DataCenterService
 
         private async void Initialize()
         {
-            Console.WriteLine(@"Service initialization started...");
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
             _logFile.AppendLine($"Service initialization thread. Process {pid}, thread {tid}");
@@ -77,6 +78,7 @@ namespace Iit.Fibertest.DataCenterService
             _serverSettings.Init();
             await InitializeEventStoreService();
             _lastConnectionTimeChecker.Start();
+            _webApiChecker.Start();
             _measurementsForWebNotifier.Start();
             _wcfServiceForCommonC2DBootstrapper.Start();
             _wcfServiceForWebC2DBootstrapper.Start();

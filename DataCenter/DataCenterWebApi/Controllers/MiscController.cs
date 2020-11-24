@@ -84,8 +84,6 @@ namespace Iit.Fibertest.DataCenterWebApi
         [HttpGet("CheckApi")]
         public async Task<string> CheckApi()
         {
-//            return "OK";
-
             try
             {
                 var dcVersion = await _webC2DWcfManager
