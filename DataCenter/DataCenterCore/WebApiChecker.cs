@@ -51,13 +51,12 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<int> Tick()
         {
-            var isApiAvailable = await CheckApi();
-            if (isApiAvailable)
-            {
-                var isSignalrHubAvailable = await _ftSignalRClient.IsSignalRConnected();
-                var word = isSignalrHubAvailable ? "success" : "fail";
-                _logFile.AppendLine($"CheckSignalR tick: {word}");
-            }
+            var unused = await CheckApi();
+
+            var isSignalrHubAvailable = await _ftSignalRClient.IsSignalRConnected();
+            var word = isSignalrHubAvailable ? "success" : "fail";
+            _logFile.AppendLine($"CheckSignalR tick: {word}");
+
             return 0;
         }
 
