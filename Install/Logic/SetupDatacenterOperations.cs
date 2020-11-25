@@ -3,7 +3,6 @@ using System.ComponentModel;
 using System.IO;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
-using Newtonsoft.Json;
 
 namespace Iit.Fibertest.Install
 {

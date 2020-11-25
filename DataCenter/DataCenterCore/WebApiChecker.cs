@@ -61,7 +61,11 @@ namespace Iit.Fibertest.DataCenterCore
             return 0;
         }
 
-        private static readonly HttpClient httpClient = new HttpClient();
+        private static readonly HttpClientHandler httpClientHandler = new HttpClientHandler
+        {
+            ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
+        };
+        private static readonly HttpClient httpClient = new HttpClient(httpClientHandler);
         private string _webApiUrl;
         private async Task<bool> CheckApi()
         {
