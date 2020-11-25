@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.IO;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using Newtonsoft.Json;
 
 namespace Iit.Fibertest.Install
 {
@@ -58,7 +59,7 @@ namespace Iit.Fibertest.Install
                 return false;
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
 
-            IniOperations.SaveMysqlTcpPort(currentInstallation.InstallationFolder, 
+            IniOperations.SaveMysqlTcpPort(currentInstallation.InstallationFolder,
                 currentInstallation.MySqlTcpPort, currentInstallation.IsWebByHttps ? "https" : "http");
 
             var filename = Path.Combine(fullDataCenterPath, ServiceFilename);
@@ -159,20 +160,28 @@ namespace Iit.Fibertest.Install
                 return false;
 
             var settingsFilename = fullWebClientPath + @"/assets/settings.json";
-            var settings = File.ReadAllText(settingsFilename);
-            var newSettings = settings.Replace("2.5.0.assets", currentInstallation.ProductVersion);
+            var webClientSettings = new WebClientSettings()
+            { 
+                ApiProtocol = currentInstallation.IsWebByHttps
+                ? "https"
+                : "http",
+                ApiPort = (int)TcpPorts.WebApiListenTo,
+                Version = currentInstallation.ProductVersion
+            };
+            var json = webClientSettings.ToCamelCaseJson();
 
-
-//            var newSettings = settings.Replace("protocol-placeholder", currentInstallation.IsWebByHttps 
-//                ? "https" 
-//                : "http");
-         //   newSettings = newSettings.Replace("port-placeholder", TcpPorts.WebApiListenTo.ToString());
-
-            File.WriteAllText(settingsFilename, newSettings);
+            File.WriteAllText(settingsFilename, json);
 
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
             return true;
         }
 
+    }
+
+    public class WebClientSettings
+    {
+        public string ApiProtocol;
+        public int ApiPort;
+        public string Version;
     }
 }

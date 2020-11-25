@@ -1,7 +1,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-namespace Iit.Fibertest.DataCenterCore
+namespace Iit.Fibertest.UtilsLib
 {
     public static class JsonUtil
     {

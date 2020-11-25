@@ -277,7 +277,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BusinessToRepositoryIntermediary\BaseRefRepairmanIntermediary.cs" />
-    <Compile Include="JsonUtil.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\MeasurementFactory.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\RtuStationFactory.cs" />
     <Compile Include="ClientsCollection.cs" />

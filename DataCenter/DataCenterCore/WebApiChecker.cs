@@ -34,6 +34,7 @@ namespace Iit.Fibertest.DataCenterCore
             var currentCulture = _iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
             Thread.CurrentThread.CurrentCulture = new CultureInfo(currentCulture);
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
+            Thread.Sleep(10000);
 
             var interval = _iniFile.Read(IniSection.General, IniKey.CheckWebApiEvery, 0);
             if (interval == 0) return;
@@ -44,8 +45,8 @@ namespace Iit.Fibertest.DataCenterCore
 
             while (true)
             {
-                Thread.Sleep(_checkWebApiEvery);
                 Tick().Wait();
+                Thread.Sleep(_checkWebApiEvery);
             }
         }
 

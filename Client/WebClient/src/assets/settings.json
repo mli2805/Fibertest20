@@ -1,7 +1,6 @@
 {
   "apiProtocol": "http",
   "apiPort": 11080,
-  "apiHttpsPort": 11081,
-  "version": "2.5.0.assets"
+  "version": "2.5.1.assets"
 }
 

@@ -19,12 +19,11 @@ namespace Iit.Fibertest.DataCenterCore
         private HubConnection connection;
         private readonly string _webApiUrl;
 
-        public FtSignalRClient(IMyLog logFile)
+        public FtSignalRClient(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
-//            var bindingProtocol = iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "http");
-//            _webApiUrl = $"{bindingProtocol}://localhost:{(int)TcpPorts.WebApiListenToDataCenter}/webApiSignalRHub";
-            _webApiUrl = $"http://localhost:{(int)TcpPorts.WebApiListenTo}/webApiSignalRHub";
+            var bindingProtocol = iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "http");
+            _webApiUrl = $"{bindingProtocol}://localhost:{(int)TcpPorts.WebApiListenTo}/webApiSignalRHub";
         }
 
         private void Build()
