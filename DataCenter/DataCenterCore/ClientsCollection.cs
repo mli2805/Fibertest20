@@ -128,37 +128,7 @@ namespace Iit.Fibertest.DataCenterCore
             return null;
         }
 
-        //        private void ReRegister(RegisterClientDto dto, ClientStation station, User user)
-        //        {
-        //            _logFile.AppendLine($"Client {dto.UserName} from {dto.ClientIp} with connectionId {station.ConnectionId} was registered already.");
-        //            station.UserId = user.UserId;
-        //            station.UserName = dto.UserName;
-        //            station.ConnectionId = dto.ConnectionId;
-        //            station.LastConnectionTimestamp = DateTime.Now;
-        //            _logFile.AppendLine($"Client re-registered with connectionId {dto.ConnectionId}.");
-        //        }
-
-        //        private void RegisterNew(RegisterClientDto dto, User user)
-        //        {
-        //            var station = new ClientStation()
-        //            {
-        //                UserId = user.UserId,
-        //                UserName = dto.UserName,
-        //                UserRole = user.Role,
-        //                ClientIp = dto.Addresses.Main.GetAddress(),
-        //                ClientAddressPort = dto.Addresses.Main.Port,
-        //                ConnectionId = dto.ConnectionId,
-        //
-        //                IsUnderSuperClient = dto.IsUnderSuperClient,
-        //                IsWebClient = dto.IsWebClient,
-        //                IsDesktopClient = !dto.IsUnderSuperClient && !dto.IsWebClient,
-        //
-        //                LastConnectionTimestamp = DateTime.Now,
-        //            };
-        //            _clients.Add(station);
-        //            _logFile.AppendLine($"Client {dto.UserName}/{dto.ClientIp} registered with connectionId {dto.ConnectionId}");
-        //        }
-
+      
         private static ClientStation Create(RegisterClientDto dto, User user)
         {
             return new ClientStation()
@@ -210,9 +180,6 @@ namespace Iit.Fibertest.DataCenterCore
         // WebApi has not got user's name and put it as "onSignalRDisconnected"
         public void UnregisterClientAsync(UnRegisterClientDto dto)
         {
-            //            _logFile.AppendLine($"dto: username: {dto.Username}, clientIp: {dto.ClientIp}");
-            //            var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp &&
-            //              (s.UserName == dto.Username || (dto.Username == "onSignalRDisconnected" && s.IsWebClient)));
             var station = _clients.FirstOrDefault(s => s.ConnectionId == dto.ConnectionId);
             if (station != null)
             {
@@ -220,7 +187,7 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine($"Client {dto.Username}/{dto.ClientIp} with connectionId {dto.ConnectionId} unregistered.");
             }
             else
-                _logFile.AppendLine($"There is no client station with connectionId {dto.ConnectionId}");
+                _logFile.AppendLine($"There is no client {dto.Username}/{dto.ClientIp} with connectionId {dto.ConnectionId}");
 
             LogStations();
         }

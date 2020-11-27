@@ -48,12 +48,12 @@ namespace Iit.Fibertest.DataCenterCore
 
             connection.Closed += async (error) =>
             {
-                _logFile.AppendLine("FtSignalRClient connection was closed. Restarting...");
-                await Task.Delay(new Random().Next(0, 5) * 1000);
-                await connection.StartAsync();
+                _logFile.AppendLine("FtSignalRClient connection was closed.");
+                await Task.Delay(1);
             };
         }
 
+        // DataCenter notifies WebClients
         public async Task NotifyAll(string eventType, string dataInJson)
         {
             try
@@ -63,7 +63,6 @@ namespace Iit.Fibertest.DataCenterCore
                 var isConnected = await IsSignalRConnected();
                 if (isConnected)
                 {
-//                    _logFile.AppendLine("signalR connection is ready");
                     await connection.InvokeAsync("NotifyAll", eventType, dataInJson);
                 }
             }
@@ -75,36 +74,41 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<bool> IsSignalRConnected()
         {
-            try
+            if (connection == null)
             {
-                if (connection == null)
+                _logFile.AppendLine($"Build signalR connection to {_webApiUrl}");
+                try
                 {
-                    _logFile.AppendLine($"Build signalR connection to {_webApiUrl}");
                     Build();
-                    _logFile.AppendLine($"SignalR connection state is {connection.State}");
-                    await Task.Delay(2000);
-
-
-                    _logFile.AppendLine($"Start signalR connection to {_webApiUrl}");
-                    await connection.StartAsync();
-                    _logFile.AppendLine($"SignalR connection state is {connection.State}");
-                    await Task.Delay(2000);
                 }
-                else if (connection.State != HubConnectionState.Connected)
+                catch (Exception e)
                 {
-                    _logFile.AppendLine($"Start signalR connection to {_webApiUrl}");
-                    await connection.StartAsync();
-                    _logFile.AppendLine($"SignalR connection state is {connection.State}");
-                    await Task.Delay(2000);
+                    _logFile.AppendLine($"Build signalR connection: " + e.Message);
+                    return false;
                 }
+                _logFile.AppendLine($"SignalR connection state is {connection.State}");
+                await Task.Delay(500);
+            }
 
-                return true;
-            }
-            catch (Exception e)
+            if (connection.State != HubConnectionState.Connected)
             {
-                _logFile.AppendLine($"FtSignalRClient Start connection: " + e.Message);
-                return false;
+                _logFile.AppendLine($"Start signalR connection to {_webApiUrl}");
+                try
+                {
+                    await connection.StartAsync();
+                }
+                catch (Exception e)
+                {
+                    _logFile.AppendLine($"FtSignalRClient Start connection: " + e.Message);
+                    if (connection != null)
+                        await connection.DisposeAsync();
+                    return false;
+                }
+                _logFile.AppendLine($"SignalR connection state is {connection.State}");
+                await Task.Delay(500);
             }
+
+            return true;
         }
     }
 }
