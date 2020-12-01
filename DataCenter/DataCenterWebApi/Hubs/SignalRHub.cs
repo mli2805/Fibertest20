@@ -42,6 +42,9 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         public override async Task OnDisconnectedAsync(Exception e)
         {
+            _logFile.AppendLine($"OnDisconnectedAsync Exception: {e.Message}");
+            if (e.InnerException != null)
+                _logFile.AppendLine($"Inner exception: {e.InnerException.Message}");
             _logFile.AppendLine($"OnDisconnectedAsync ClientIp = {GetRemoteAddress()}");
 
             await base.OnDisconnectedAsync(new Exception("SignalR disconnected"));

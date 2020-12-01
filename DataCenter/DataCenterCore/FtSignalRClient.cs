@@ -100,8 +100,11 @@ namespace Iit.Fibertest.DataCenterCore
                 catch (Exception e)
                 {
                     _logFile.AppendLine($"FtSignalRClient Start connection: " + e.Message);
-                    if (connection != null)
-                        await connection.DisposeAsync();
+                    connection = null;
+                    //                    if (connection != null)
+                    //                    {
+                    //                        await connection.DisposeAsync();
+                    //                    }
                     return false;
                 }
                 _logFile.AppendLine($"SignalR connection state is {connection.State}");
