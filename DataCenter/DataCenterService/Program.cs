@@ -15,7 +15,7 @@ namespace Iit.Fibertest.DataCenterService
             var builder = new ContainerBuilder().WithProduction();
             var container = builder.Build();
 
-            if (Environment.UserInteractive)
+            if (Environment.UserInteractive) // under VS
             {
                 Service1 service1 = (Service1)container.Resolve<ServiceBase>();
                 service1.TestStartupAndStop(null);

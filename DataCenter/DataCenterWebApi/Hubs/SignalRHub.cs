@@ -47,7 +47,8 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine($"Inner exception: {e.InnerException.Message}");
             _logFile.AppendLine($"OnDisconnectedAsync ClientIp = {GetRemoteAddress()}");
 
-            await base.OnDisconnectedAsync(new Exception("SignalR disconnected"));
+//            await base.OnDisconnectedAsync(new Exception("SignalR disconnected"));
+            await base.OnDisconnectedAsync(e);
             await _commonC2DWcfManager
                 .SetServerAddresses(_doubleAddressForCommonWcfManager, "onSignalRDisconnected", GetRemoteAddress())
                 .UnregisterClientAsync(
