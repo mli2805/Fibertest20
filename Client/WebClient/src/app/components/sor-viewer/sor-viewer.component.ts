@@ -75,6 +75,7 @@ export class SorViewerComponent implements OnInit {
 
       // this.sorViewerService.setTracesOffset(0);
       this.sorViewerService.showTracesOffset = false;
+      this.sorAreaService.settings.showEventTableComments = true;
     }
 
     this.sorAreaService.set(this.sorTraces);
