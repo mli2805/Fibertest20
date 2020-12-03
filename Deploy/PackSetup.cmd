@@ -16,7 +16,7 @@ xcopy ..\Install\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
 xcopy ..\Install\UserGuide\*.pdf Pack\UserGuide\*.* /S/D/Y
      
 xcopy ..\DataCenter\DataCenterService\bin\Release\*.* Pack\DcFiles\*.* /S/D/Y
-xcopy ..\DataCenter\DataCenterWebApi\bin\Release\netcoreapp3.0\*.* Pack\WebApi\*.* /S/D/Y
+xcopy ..\DataCenter\DataCenterWebApi\bin\Release\netcoreapp3.1\*.* Pack\WebApi\*.* /S/D/Y
 xcopy ..\Client\WebClient\dist\WebClient\*.* Pack\WebClient\*.* /S/D/Y
 xcopy "..\Auxiliary Files\web.config" Pack\WebApi\*.* /S/Y
 xcopy "..\Auxiliary Files\*.mib" Pack\DcFiles\*.* /S/D/Y
