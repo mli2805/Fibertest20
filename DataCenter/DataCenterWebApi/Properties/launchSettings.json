@@ -21,11 +21,11 @@
     "DataCenterWebApi": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "api/trace",
+      "launchUrl": "misc/checkapi",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:11837"
+      "applicationUrl": "http://localhost:11080"
     }
   }
 }

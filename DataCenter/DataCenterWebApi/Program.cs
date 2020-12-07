@@ -1,3 +1,4 @@
+using Iit.Fibertest.Dto;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
@@ -26,12 +27,11 @@ namespace Iit.Fibertest.DataCenterWebApi
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    // no need: 
-                    //  there are settings on Debug page for start under VS
-                    //  there are binding settings for site for start under IIS 
-                    // webBuilder.UseUrls("http://*:11080");
-                    webBuilder.UseUrls("https://*:44335");
-                });
+                    // this setting is used when application starts in console: 
+                    webBuilder.UseUrls($"http://*:{(int)TcpPorts.WebApiListenTo}");
+//                    webBuilder.UseUrls("https://*:11080");
+                })
+                .UseWindowsService();
         }
     }
 }

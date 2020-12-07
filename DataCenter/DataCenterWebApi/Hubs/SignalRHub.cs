@@ -42,13 +42,21 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         public override async Task OnDisconnectedAsync(Exception e)
         {
-            _logFile.AppendLine($"OnDisconnectedAsync Exception: {e.Message}");
-            if (e.InnerException != null)
-                _logFile.AppendLine($"Inner exception: {e.InnerException.Message}");
-            _logFile.AppendLine($"OnDisconnectedAsync ClientIp = {GetRemoteAddress()}");
+            if (e == null)
+            {
+                _logFile.AppendLine("OnDisconnectedAsync: exception is null, sorry");
+                await base.OnDisconnectedAsync(new Exception("SignalR disconnected"));
+            }
+            else
+            {
+                _logFile.AppendLine($"OnDisconnectedAsync: exception {e.Message}");
+                if (e.InnerException != null)
+                    _logFile.AppendLine($"Inner exception: {e.InnerException.Message}");
+                await base.OnDisconnectedAsync(e);
 
-//            await base.OnDisconnectedAsync(new Exception("SignalR disconnected"));
-            await base.OnDisconnectedAsync(e);
+            }
+
+            _logFile.AppendLine($"OnDisconnectedAsync ClientIp = {GetRemoteAddress()}");
             await _commonC2DWcfManager
                 .SetServerAddresses(_doubleAddressForCommonWcfManager, "onSignalRDisconnected", GetRemoteAddress())
                 .UnregisterClientAsync(
