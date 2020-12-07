@@ -8,12 +8,7 @@ namespace Iit.Fibertest.InstallRtu
     public class SetupRtuManagerOperations
     {
         private const string RtuManagerServiceName = "FibertestRtuService";
-        private const string RtuManagerDisplayName = "Fibertest 2.0 RTU Manager";
-        private const string RtuManagerServiceDescription = "Fibertest 2.0 RTU Manager Service";
-
         private const string RtuWatchdogServiceName = "FibertestRtuWatchdog";
-        private const string RtuWatchdogDisplayName = "Fibertest 2.0 RTU Watchdog";
-        private const string RtuWatchdogServiceDescription = "Fibertest 2.0 RTU Watchdog Service";
 
         private const string SourcePathRtuManager = @"..\RtuFiles";
         private const string RtuManagerSubdir = @"RtuManager\bin";
@@ -32,9 +27,9 @@ namespace Iit.Fibertest.InstallRtu
             var fullReflectPath = Path.Combine(installationFolder, ReflectSubdir);
             worker.ReportProgress((int)BwReturnProgressCode.RtuManagerSetupStarted);
 
-            if (!ServiceOperations.UninstallServiceIfExist(RtuWatchdogServiceName, RtuWatchdogDisplayName, worker))
+            if (!ServiceOperations.UninstallServiceIfExist(RtuWatchdogServiceName, worker))
                 return false;
-            if (!ServiceOperations.UninstallServiceIfExist(RtuManagerServiceName, RtuManagerDisplayName, worker))
+            if (!ServiceOperations.UninstallServiceIfExist(RtuManagerServiceName, worker))
                 return false;
 
             Thread.Sleep(1000);
@@ -60,12 +55,10 @@ namespace Iit.Fibertest.InstallRtu
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
 
             var filename = Path.Combine(fullRtuManagerPath, RtuServiceFilename);
-            if (!ServiceOperations.InstallService(RtuManagerServiceName,
-                RtuManagerDisplayName, RtuManagerServiceDescription, filename, worker)) return false;
+            if (!ServiceOperations.InstallService(RtuManagerServiceName, filename, worker)) return false;
 
             filename = Path.Combine(fullRtuManagerPath, RtuWatchdogServiceFilename);
-            if (!ServiceOperations.InstallService(RtuWatchdogServiceName,
-                RtuWatchdogDisplayName, RtuWatchdogServiceDescription, filename, worker)) return false;
+            if (!ServiceOperations.InstallService(RtuWatchdogServiceName, filename, worker)) return false;
 
             worker.ReportProgress((int)BwReturnProgressCode.RtuManagerSetupCompletedSuccessfully);
             return true;

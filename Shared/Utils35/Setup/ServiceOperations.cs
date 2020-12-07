@@ -1,46 +1,75 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Iit.Fibertest.UtilsLib.ServiceManager;
 
 namespace Iit.Fibertest.UtilsLib
 {
+    public class FtService
+    {
+        public readonly string Name;
+        public readonly string DisplayName;
+        public string Description => DisplayName;
+
+        public FtService(string name, string displayName)
+        {
+            Name = name;
+            DisplayName = displayName;
+        }
+    }
+
+    public class FtServices
+    {
+        public static List<FtService> List = new List<FtService>
+        {
+            new FtService("FibertestDcService", "Fibertest 2.0 DataCenter Server Service"), 
+            new FtService("FibertestWaService", "Fibertest 2.0 DataCenter WebApi Service"),
+            new FtService("FibertestRtuWatchdog", "Fibertest 2.0 RTU Watchdog Service"),
+            new FtService("FibertestRtuService", "Fibertest 2.0 RTU Manager Service"),
+        };
+    }
+
     public static class ServiceOperations
     {
-        public static bool InstallService(string serviceName, string serviceDisplayName,
-            string serviceDescription, string filename, BackgroundWorker worker)
+        public static FtServices FtServices;
+
+        public static bool InstallService(string serviceName, string filename, BackgroundWorker worker)
         {
-            worker.ReportProgress((int)BwReturnProgressCode.ServiceIsBeingInstalled, serviceDisplayName);
+            var ftService = FtServices.List.First(s => s.Name == serviceName);
+            worker.ReportProgress((int)BwReturnProgressCode.ServiceIsBeingInstalled, ftService.DisplayName);
             try
             {
-                ServiceInstaller.Install(serviceName, serviceDisplayName, serviceDescription, filename);
+                ServiceInstaller.Install(ftService.Name, ftService.DisplayName, ftService.Description, filename);
             }
             catch (Exception)
             {
-                worker.ReportProgress((int)BwReturnProgressCode.CannotInstallService, serviceDisplayName);
+                worker.ReportProgress((int)BwReturnProgressCode.CannotInstallService, ftService.DisplayName);
                 return false;
             }
 
-            worker.ReportProgress((int)BwReturnProgressCode.ServiceInstalledSuccessfully, serviceDisplayName);
+            worker.ReportProgress((int)BwReturnProgressCode.ServiceInstalledSuccessfully, ftService.DisplayName);
             return true;
         }
 
-        public static bool UninstallServiceIfExist(string serviceName, string serviceDisplayName, BackgroundWorker worker)
+        public static bool UninstallServiceIfExist(string serviceName, BackgroundWorker worker)
         {
+            var ftService = FtServices.List.First(s => s.Name == serviceName);
 
-            if (!ServiceInstaller.ServiceIsInstalled(serviceName)) return true;
+            if (!ServiceInstaller.ServiceIsInstalled(ftService.Name)) return true;
 
-            if (!StopServiceIfRunning(serviceName, serviceDisplayName, worker)) return false;
+            if (!StopServiceIfRunning(ftService.Name, ftService.DisplayName, worker)) return false;
 
-            worker.ReportProgress((int)BwReturnProgressCode.ServiceIsBeingUninstalled, serviceDisplayName);
-            ServiceInstaller.Uninstall(serviceName);
-            if (ServiceInstaller.ServiceIsInstalled(serviceName) 
-                && ServiceInstaller.ServiceIsInstalled(serviceName))
+            worker.ReportProgress((int)BwReturnProgressCode.ServiceIsBeingUninstalled, ftService.DisplayName);
+            ServiceInstaller.Uninstall(ftService.Name);
+            if (ServiceInstaller.ServiceIsInstalled(ftService.Name)
+                && ServiceInstaller.ServiceIsInstalled(ftService.Name))
             {
-                worker.ReportProgress((int)BwReturnProgressCode.CannotUninstallService, serviceDisplayName);
+                worker.ReportProgress((int)BwReturnProgressCode.CannotUninstallService, ftService.DisplayName);
                 return false;
             }
 
-            worker.ReportProgress((int)BwReturnProgressCode.ServiceUninstalledSuccessfully, serviceDisplayName);
+            worker.ReportProgress((int)BwReturnProgressCode.ServiceUninstalledSuccessfully, ftService.DisplayName);
             return true;
         }
 

@@ -6,12 +6,15 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Install
 {
+    public class DeleteDataCenter
+    {
+
+    }
     public class SetupDataCenterOperations
     {
         private readonly IMyLog _logFile;
         private const string DataCenterServiceName = "FibertestDcService";
-        private const string DataCenterDisplayName = "Fibertest 2.0 DataCenter Service";
-        private const string DataCenterServiceDescription = "Fibertest 2.0 DataCenter Service";
+        private const string DataCenterWebApiServiceName = "FibertestWaService";
 
         private const string WebApiSiteName = "fibertest_web_api";
         private const string WebClientSiteName = "fibertest_web_client";
@@ -49,7 +52,9 @@ namespace Iit.Fibertest.Install
             var fullDataCenterPath = Path.Combine(currentInstallation.InstallationFolder, DataCenterSubdir);
 
             worker.ReportProgress((int)BwReturnProgressCode.DataCenterSetupStarted);
-            if (!ServiceOperations.UninstallServiceIfExist(DataCenterServiceName, DataCenterDisplayName, worker))
+            if (!ServiceOperations.UninstallServiceIfExist(DataCenterServiceName, worker))
+                return false;
+            if (!ServiceOperations.UninstallServiceIfExist(DataCenterWebApiServiceName, worker))
                 return false;
 
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
@@ -62,8 +67,7 @@ namespace Iit.Fibertest.Install
                 currentInstallation.MySqlTcpPort, currentInstallation.IsWebByHttps ? "https" : "http");
 
             var filename = Path.Combine(fullDataCenterPath, ServiceFilename);
-            if (!ServiceOperations.InstallService(DataCenterServiceName,
-                DataCenterDisplayName, DataCenterServiceDescription, filename, worker)) return false;
+            if (!ServiceOperations.InstallService(DataCenterServiceName,filename, worker)) return false;
 
             worker.ReportProgress((int)BwReturnProgressCode.DataCenterSetupCompletedSuccessfully);
             return true;
@@ -160,7 +164,7 @@ namespace Iit.Fibertest.Install
 
             var settingsFilename = fullWebClientPath + @"/assets/settings.json";
             var webClientSettings = new WebClientSettings()
-            { 
+            {
                 ApiProtocol = currentInstallation.IsWebByHttps
                 ? "https"
                 : "http",

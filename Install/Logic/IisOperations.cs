@@ -55,10 +55,6 @@ namespace Iit.Fibertest.Install
 
                     site.ApplicationDefaults.ApplicationPoolName = websiteName;
 
-                    // temp
-//                    if (websiteName == "fibertest_web_api")
-//                        site.Bindings.Add("*:11081:", "http");
-
                     serverManager.CommitChanges();
                 }
 
@@ -93,45 +89,5 @@ namespace Iit.Fibertest.Install
             store.Close();
         }
 
-
-//        public static void DeleteWebsite(string websiteName, BackgroundWorker worker)
-//        {
-//            try
-//            {
-//                using (ServerManager serverManager = new ServerManager())
-//                {
-//                    Site site = serverManager.Sites[websiteName];
-//                    if (site == null) return;
-//                    serverManager.Sites.Remove(site);
-//                    serverManager.CommitChanges();
-//                    worker.ReportProgress((int)BwReturnProgressCode.SiteUninstalledSuccessfully, websiteName);
-//                }
-//            }
-//            catch (Exception e)
-//            {
-//                Console.WriteLine(e.Message);
-//                worker.ReportProgress((int)BwReturnProgressCode.SiteUninstallationError, websiteName + "; " + e.Message);
-//            }
-//        }
-
-//        public static bool StopWebsite(string websiteName)
-//        {
-//            var iisManager = new ServerManager();
-//            var site = iisManager.Sites.FirstOrDefault(s => s.Name == websiteName);
-//            if (site == null) return true;
-//            site.Stop();
-//            iisManager.CommitChanges();
-//            return site.State == ObjectState.Stopped;
-//        }
-//
-//        public static bool StartWebsite(string websiteName)
-//        {
-//            var iisManager = new ServerManager();
-//            var site = iisManager.Sites.FirstOrDefault(s => s.Name == websiteName);
-//            if (site == null) return true;
-//            site.Start();
-//            iisManager.CommitChanges();
-//            return site.State == ObjectState.Started;
-//        }
     }
 }

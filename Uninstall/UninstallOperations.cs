@@ -9,11 +9,12 @@ namespace Iit.Fibertest.Uninstall
 {
     public static class UninstallOperations
     {
-        private static readonly Dictionary<string, string> _services = new Dictionary<string, string>()
+        private static readonly List<string> _services = new List<string>()
         {
-            {"FibertestDcService", "Fibertest 2.0 DataCenter Server"},
-            {"FibertestRtuWatchdog", "Fibertest 2.0 RTU Watchdog"},
-            {"FibertestRtuService", "Fibertest 2.0 RTU Manager"},
+            "FibertestDcService",
+            "FibertestWaService",
+            "FibertestRtuWatchdog",
+            "FibertestRtuService"
         };
 
         private static readonly List<string> _sites = new List<string>() { "fibertest_web_api", "fibertest_web_client" };
@@ -49,15 +50,15 @@ namespace Iit.Fibertest.Uninstall
 
         private static bool UninstallServices(BackgroundWorker worker)
         {
-            foreach (var pair in _services)
+            foreach (var service in _services)
             {
-                if (!ServiceOperations.UninstallServiceIfExist(pair.Key, pair.Value, worker))
+                if (!ServiceOperations.UninstallServiceIfExist(service, worker))
                     return false;
             }
             return true;
         }
 
-      
+
         private static bool DeleteFiles(BackgroundWorker worker, string fibertestFolder, bool isFullUninstall)
         {
             worker.ReportProgress((int)BwReturnProgressCode.DeletingFiles);
