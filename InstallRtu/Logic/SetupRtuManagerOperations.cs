@@ -22,15 +22,14 @@ namespace Iit.Fibertest.InstallRtu
 
             Thread.Sleep(1000);
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreBeingCopied);
-            foreach (var service in FtServices.List.Where(s=>s.DestinationComputer == DestinationComputer.Rtu))
-            {
-                if (!FileOperations.DirectoryCopyWithDecorations(service.SourcePath,
-                    service.GetFullBinariesFolder(installationFolder), worker))
-                    return false;
-            }
 
-            var fullBinariesFolder = FtServices.List.First(s => s.Name == "RtuManager")
+            var service = FtServices.List.First(s => s.Name == "FibertestRtuService");
+            var fullBinariesFolder = service
                 .GetFullBinariesFolder(installationFolder);
+            // both service RtuManager and RtuWatchdog are in one folder
+            if (!FileOperations.DirectoryCopyWithDecorations(service.SourcePath, fullBinariesFolder, worker))
+                return false;
+
             var otdrmeasengine = Path.Combine(fullBinariesFolder, @"OtdrMeasEngine\");
             FileOperations.CleanAntiGhost(otdrmeasengine, true);
             CreateIniForIpAddressesSetting(installationFolder);

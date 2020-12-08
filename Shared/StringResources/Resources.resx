@@ -2076,7 +2076,7 @@ RTU is initializing right now!</value>
     <value>Client setup started.</value>
   </data>
 	<data name="SID_Files_are_copied___" xml:space="preserve">
-    <value>Files are copied...</value>
+    <value>Files are being copied...</value>
   </data>
 	<data name="SID_Shortcuts_are_created_successfully_" xml:space="preserve">
     <value>Shortcuts are created successfully.</value>
@@ -2733,7 +2733,7 @@ RTU is initializing right now!</value>
     <value>This user has no right to start Web Client</value>
   </data>
 	<data name="SID_Files_are_unzipped___" xml:space="preserve">
-    <value>Files are unzipped...</value>
+    <value>Files are being unzipped...</value>
   </data>
 	<data name="SID_Files_are_unzipped_successfully_" xml:space="preserve">
     <value>Files are unzipped successfully.</value>
