@@ -2,7 +2,6 @@
 using System.ComponentModel;
 using System.IO;
 using System.Linq;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Install
@@ -12,9 +11,6 @@ namespace Iit.Fibertest.Install
         private readonly IMyLog _logFile;
         private const string WebApiSiteName = "fibertest_web_api";
         private const string WebClientSiteName = "fibertest_web_client";
-
-        private const string SourcePathWebApi = @"..\WebApi";
-        private const string WebApiSubdir = @"WebApi\publish";
 
         private const string SourcePathWebClient = @"..\WebClient";
         private const string WebClientSubdir = @"WebClient";
@@ -56,6 +52,10 @@ namespace Iit.Fibertest.Install
             IniOperations.SaveMysqlTcpPort(currentInstallation.InstallationFolder,
                 currentInstallation.MySqlTcpPort, currentInstallation.IsWebByHttps ? "https" : "http");
 
+            var webApiService = FtServices.List.First(s => s.Name == "FibertestWebApiService");
+            var settingsFilename = webApiService.FolderInsideFibertest + @"/ini/settings.json";
+            File.WriteAllText(settingsFilename, currentInstallation.GetApiSettingsJson());
+            
             if (!ServiceOperations.InstallSericesOnPc(DestinationComputer.DataCenter,
                 currentInstallation.InstallationFolder, worker)) return false;
 
@@ -138,10 +138,10 @@ namespace Iit.Fibertest.Install
         {
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreBeingCopied);
 
-            var fullWebApiPath = Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir);
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathWebApi,
-                fullWebApiPath, worker))
-                return false;
+//            var fullWebApiPath = Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir);
+//            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathWebApi,
+//                fullWebApiPath, worker))
+//                return false;
 
             var fullWebClientPath = Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir);
             if (!FileOperations.DirectoryRemove(fullWebClientPath, worker))
@@ -151,17 +151,7 @@ namespace Iit.Fibertest.Install
                 return false;
 
             var settingsFilename = fullWebClientPath + @"/assets/settings.json";
-            var webClientSettings = new WebClientSettings()
-            {
-                ApiProtocol = currentInstallation.IsWebByHttps
-                ? "https"
-                : "http",
-                ApiPort = (int)TcpPorts.WebApiListenTo,
-                Version = currentInstallation.ProductVersion
-            };
-            var json = webClientSettings.ToCamelCaseJson();
-
-            File.WriteAllText(settingsFilename, json);
+            File.WriteAllText(settingsFilename, currentInstallation.GetApiSettingsJson());
 
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
             return true;
@@ -169,10 +159,5 @@ namespace Iit.Fibertest.Install
 
     }
 
-    public class WebClientSettings
-    {
-        public string ApiProtocol;
-        public int ApiPort;
-        public string Version;
-    }
+    
 }

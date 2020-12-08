@@ -1,5 +1,8 @@
+using System;
+using System.IO;
 using Iit.Fibertest.Dto;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
 namespace Iit.Fibertest.DataCenterWebApi
@@ -13,25 +16,36 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         private static IHostBuilder CreateHostBuilder(string[] args)
         {
-            // just as example
-//            var builder = new ConfigurationBuilder()
-//                .SetBasePath(Directory.GetCurrentDirectory())
-//                .AddJsonFile("appsettings.json");
-//
-//            var configuration = builder.Build();
-//            var logLevel = configuration["Logging:LogLevel:Default"];
-//            Console.Write(logLevel);
-            //
-
-            return Host.CreateDefaultBuilder(args)
+            var hostBuilder = Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                    // this setting is used when application starts in console: 
-                    webBuilder.UseUrls($"http://*:{(int)TcpPorts.WebApiListenTo}");
-//                    webBuilder.UseUrls("https://*:11080");
+                    // this setting is used when application starts not under IIS: 
+                    webBuilder.UseUrls($"{GetApiProtocol()}://*:{(int)TcpPorts.WebApiListenTo}");
                 })
                 .UseWindowsService();
+            return hostBuilder;
+        }
+
+
+        private static string GetApiProtocol()
+        {
+            var apiProtocol = "http";
+            try
+            {
+                var builder = new ConfigurationBuilder()
+                    .SetBasePath(AppContext.BaseDirectory + @"\..\ini\")
+                    .AddJsonFile("settings.json");
+
+                var configuration = builder.Build();
+                apiProtocol = configuration["apiProtocol"];
+            }
+            catch (Exception e)
+            {
+                File.AppendAllText(@"c:\FibertestWebApi.err", e.Message);
+            }
+
+            return apiProtocol;
         }
     }
 }
