@@ -10,12 +10,6 @@ namespace Iit.Fibertest.Install
 {
     public static class IisOperations
     {
-        public static bool DoesWebsiteExist(string websiteName)
-        {
-            var iisManager = new ServerManager();
-            return iisManager.Sites.Any(s => s.Name == websiteName);
-        }
-
         /// <summary>
         /// creates and at once starts web site
         /// </summary>

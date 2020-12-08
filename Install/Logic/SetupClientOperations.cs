@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Install
         public bool SetupClient(BackgroundWorker worker, string installationFolder)
         {
             worker.ReportProgress((int)BwReturnProgressCode.ClientSetupStarted);
-            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreBeingCopied);
 
             var fullClientPath = Path.Combine(installationFolder, ClientSubdir);
             _logFile.AppendLine($" full client path = {fullClientPath}");

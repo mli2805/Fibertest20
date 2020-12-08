@@ -7,7 +7,7 @@ namespace Iit.Fibertest.UtilsLib
         FilesAreCopiedSuccessfully = 10,
         CopyFilesError,
         ErrorSourceFolderNotFound,
-        FilesAreCopied,
+        FilesAreBeingCopied,
 
         FilesAreUnziped,
         FilesAreUnzipedSuccessfully,
@@ -65,7 +65,7 @@ namespace Iit.Fibertest.UtilsLib
                     return string.Format(Resources.SID_Copy_files_error___0_, addition);
                 case BwReturnProgressCode.ErrorSourceFolderNotFound:
                     return string.Format(Resources.SID_Error__Source_folder__0__not_found_, addition);
-                case BwReturnProgressCode.FilesAreCopied:
+                case BwReturnProgressCode.FilesAreBeingCopied:
                     return Resources.SID_Files_are_copied___;
 
                 case BwReturnProgressCode.FilesAreUnziped:

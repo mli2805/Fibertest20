@@ -1,13 +1,24 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Microsoft.Web.Administration;
 
 namespace Iit.Fibertest.UtilsLib
 {
-    public static class WebCommonOperation
+    public static class SiteOperations
     {
-        public static void DeleteWebsite(string websiteName, BackgroundWorker worker)
+        private static readonly List<string> FtSites = new List<string>() { "fibertest_web_api", "fibertest_web_client"};
+
+        public static void DeleteAllFibertestSitesOnThisPc(BackgroundWorker worker)
+        {
+            foreach (var site in FtSites)
+            {
+                DeleteWebsiteIfExists(site, worker);
+            }
+        }
+
+        private static void DeleteWebsiteIfExists(string websiteName, BackgroundWorker worker)
         {
             try
             {

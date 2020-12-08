@@ -1,30 +1,21 @@
 ﻿using System;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Install
 {
-    public class DeleteDataCenter
-    {
-
-    }
     public class SetupDataCenterOperations
     {
         private readonly IMyLog _logFile;
-        private const string DataCenterServiceName = "FibertestDcService";
-        private const string DataCenterWebApiServiceName = "FibertestWaService";
-
         private const string WebApiSiteName = "fibertest_web_api";
         private const string WebClientSiteName = "fibertest_web_client";
 
-        private const string SourcePathDataCenter = @"..\DcFiles";
-        private const string DataCenterSubdir = @"DataCenter\bin";
-        private const string ServiceFilename = @"Iit.Fibertest.DataCenterService.exe";
-
         private const string SourcePathWebApi = @"..\WebApi";
         private const string WebApiSubdir = @"WebApi\publish";
+
         private const string SourcePathWebClient = @"..\WebClient";
         private const string WebClientSubdir = @"WebClient";
 
@@ -49,25 +40,24 @@ namespace Iit.Fibertest.Install
 
         private static bool SetupDataCenterComponent(BackgroundWorker worker, CurrentInstallation currentInstallation)
         {
-            var fullDataCenterPath = Path.Combine(currentInstallation.InstallationFolder, DataCenterSubdir);
-
             worker.ReportProgress((int)BwReturnProgressCode.DataCenterSetupStarted);
-            if (!ServiceOperations.UninstallServiceIfExist(DataCenterServiceName, worker))
-                return false;
-            if (!ServiceOperations.UninstallServiceIfExist(DataCenterWebApiServiceName, worker))
+            if (!ServiceOperations.UninstallAllServicesOnThisPc(worker))
                 return false;
 
-            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
-            if (!FileOperations.DirectoryCopyWithDecorations(SourcePathDataCenter,
-                fullDataCenterPath, worker))
-                return false;
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreBeingCopied);
+            foreach (var service in FtServices.List.Where(s=>s.DestinationComputer == DestinationComputer.DataCenter))
+            {
+                if (!FileOperations.DirectoryCopyWithDecorations(service.SourcePath,
+                    service.GetFullBinariesFolder(currentInstallation.InstallationFolder), worker))
+                    return false;
+            }
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
 
             IniOperations.SaveMysqlTcpPort(currentInstallation.InstallationFolder,
                 currentInstallation.MySqlTcpPort, currentInstallation.IsWebByHttps ? "https" : "http");
 
-            var filename = Path.Combine(fullDataCenterPath, ServiceFilename);
-            if (!ServiceOperations.InstallService(DataCenterServiceName,filename, worker)) return false;
+            if (!ServiceOperations.InstallSericesOnPc(DestinationComputer.DataCenter,
+                currentInstallation.InstallationFolder, worker)) return false;
 
             worker.ReportProgress((int)BwReturnProgressCode.DataCenterSetupCompletedSuccessfully);
             return true;
@@ -88,12 +78,12 @@ namespace Iit.Fibertest.Install
                 currentInstallation.SslCertificateName = null;
 
             var bindingProtocol = currentInstallation.IsWebByHttps ? "https" : "http";
+
+//            IisOperations.CreateWebsite(WebApiSiteName, bindingProtocol, $"*:{(int)TcpPorts.WebApiListenTo}:",
+//                currentInstallation.SslCertificateName,
+//                Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir), worker);
+
             var webClientPort = currentInstallation.IsWebByHttps ? "*:443:" : "*:80:";
-
-            IisOperations.CreateWebsite(WebApiSiteName, bindingProtocol, $"*:{(int)TcpPorts.WebApiListenTo}:",
-                currentInstallation.SslCertificateName,
-                Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir), worker);
-
             var fullWebClientPath = Path.Combine(currentInstallation.InstallationFolder, WebClientSubdir);
             IisOperations.CreateWebsite(WebClientSiteName, bindingProtocol, webClientPort,
                 currentInstallation.SslCertificateName, fullWebClientPath, worker);
@@ -131,9 +121,7 @@ namespace Iit.Fibertest.Install
         {
             try
             {
-                if (IisOperations.DoesWebsiteExist(siteName))
-                    WebCommonOperation.DeleteWebsite(siteName, worker);
-
+                SiteOperations.DeleteAllFibertestSitesOnThisPc(worker);
                 var webSitePath = Path.Combine(currentInstallation.InstallationFolder, siteName);
                 if (Directory.Exists(webSitePath))
                     Directory.Delete(webSitePath, true);
@@ -148,7 +136,7 @@ namespace Iit.Fibertest.Install
 
         private static bool CopyWebComponents(BackgroundWorker worker, CurrentInstallation currentInstallation)
         {
-            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreBeingCopied);
 
             var fullWebApiPath = Path.Combine(currentInstallation.InstallationFolder, WebApiSubdir);
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathWebApi,

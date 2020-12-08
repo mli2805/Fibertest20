@@ -1,38 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Iit.Fibertest.UtilsLib.ServiceManager;
 
 namespace Iit.Fibertest.UtilsLib
 {
-    public class FtService
-    {
-        public readonly string Name;
-        public readonly string DisplayName;
-        public string Description => DisplayName;
-
-        public FtService(string name, string displayName)
-        {
-            Name = name;
-            DisplayName = displayName;
-        }
-    }
-
-    public class FtServices
-    {
-        public static List<FtService> List = new List<FtService>
-        {
-            new FtService("FibertestDcService", "Fibertest 2.0 DataCenter Server Service"), 
-            new FtService("FibertestWaService", "Fibertest 2.0 DataCenter WebApi Service"),
-            new FtService("FibertestRtuWatchdog", "Fibertest 2.0 RTU Watchdog Service"),
-            new FtService("FibertestRtuService", "Fibertest 2.0 RTU Manager Service"),
-        };
-    }
-
     public static class ServiceOperations
     {
-        public static FtServices FtServices;
+        public static bool InstallSericesOnPc(DestinationComputer dest, string installationFolder, BackgroundWorker worker)
+        {
+            return FtServices.List
+                .Where(s => s.DestinationComputer == dest)
+                .All(service => InstallService(service.Name, service.GetFullFilename(installationFolder), worker));
+        }
 
         public static bool InstallService(string serviceName, string filename, BackgroundWorker worker)
         {
@@ -52,10 +32,19 @@ namespace Iit.Fibertest.UtilsLib
             return true;
         }
 
-        public static bool UninstallServiceIfExist(string serviceName, BackgroundWorker worker)
+        public static bool UninstallAllServicesOnThisPc(BackgroundWorker worker)
         {
-            var ftService = FtServices.List.First(s => s.Name == serviceName);
+            foreach (var service in FtServices.List)
+            {
+                if (!UninstallServiceIfExist(service, worker))
+                    return false;
+            }
 
+            return true;
+        }
+
+        private static bool UninstallServiceIfExist(FtService ftService, BackgroundWorker worker)
+        {
             if (!ServiceInstaller.ServiceIsInstalled(ftService.Name)) return true;
 
             if (!StopServiceIfRunning(ftService.Name, ftService.DisplayName, worker)) return false;

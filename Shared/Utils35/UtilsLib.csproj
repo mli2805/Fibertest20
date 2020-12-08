@@ -115,11 +115,13 @@
     <Compile Include="ServiceManager\ServiceState.cs" />
     <Compile Include="Setup\BwReturnProgressCode.cs" />
     <Compile Include="Setup\FileOperations.cs" />
+    <Compile Include="Setup\FtService.cs" />
+    <Compile Include="Setup\FtServices.cs" />
     <Compile Include="Setup\IniOperations.cs" />
     <Compile Include="Setup\RegistryOperations.cs" />
     <Compile Include="Setup\ServiceOperations.cs" />
     <Compile Include="Setup\ShortcutOperatios.cs" />
-    <Compile Include="Setup\WebCommonOperation.cs" />
+    <Compile Include="Setup\SiteOperations.cs" />
     <Compile Include="SnmpAgent.cs" />
     <Compile Include="SorData\AccidentsExtractor.cs" />
     <Compile Include="SorData\RftsEventExt.cs" />

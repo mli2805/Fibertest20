@@ -18,7 +18,7 @@ namespace Iit.Fibertest.Install
         public bool SetupSuperClient(BackgroundWorker worker, string installationFolder)
         {
             worker.ReportProgress((int)BwReturnProgressCode.SuperClientSetupStarted);
-            worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopied);
+            worker.ReportProgress((int)BwReturnProgressCode.FilesAreBeingCopied);
 
             var fullSuperClientPath = Path.Combine(installationFolder, SuperClientSubdir);
             _logFile.AppendLine($" full super-client path = {fullSuperClientPath}");

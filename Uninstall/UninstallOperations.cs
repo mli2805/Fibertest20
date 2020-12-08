@@ -9,16 +9,6 @@ namespace Iit.Fibertest.Uninstall
 {
     public static class UninstallOperations
     {
-        private static readonly List<string> _services = new List<string>()
-        {
-            "FibertestDcService",
-            "FibertestWaService",
-            "FibertestRtuWatchdog",
-            "FibertestRtuService"
-        };
-
-        private static readonly List<string> _sites = new List<string>() { "fibertest_web_api", "fibertest_web_client" };
-
         private static readonly Dictionary<string, string> _componentFolders = new Dictionary<string, string>
         {
             {"Client", "bin"}, {"SuperClient", "bin"},
@@ -31,12 +21,11 @@ namespace Iit.Fibertest.Uninstall
         {
             worker.ReportProgress((int)BwReturnProgressCode.UninstallStarted);
 
-            if (!UninstallServices(worker)) return false;
-            if (Directory.Exists(Path.Combine(fibertestFolder, "WebApi")))
-            {
-                foreach (var site in _sites) WebCommonOperation.DeleteWebsite(site, worker);
-            }
+            if (!ServiceOperations.UninstallAllServicesOnThisPc(worker))
+                return false;
 
+            SiteOperations.DeleteAllFibertestSitesOnThisPc(worker);
+           
             if (!DeleteFiles(worker, fibertestFolder, isFullUninstall)) return false;
             ShortcutOperatios.DeleteAllShortcuts();
             worker.ReportProgress((int)BwReturnProgressCode.ShortcutsDeleted);
@@ -47,17 +36,6 @@ namespace Iit.Fibertest.Uninstall
             worker.ReportProgress((int)BwReturnProgressCode.UninstallFinished);
             return true;
         }
-
-        private static bool UninstallServices(BackgroundWorker worker)
-        {
-            foreach (var service in _services)
-            {
-                if (!ServiceOperations.UninstallServiceIfExist(service, worker))
-                    return false;
-            }
-            return true;
-        }
-
 
         private static bool DeleteFiles(BackgroundWorker worker, string fibertestFolder, bool isFullUninstall)
         {
