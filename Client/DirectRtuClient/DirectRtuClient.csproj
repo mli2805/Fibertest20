@@ -143,54 +143,62 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="AppBootstrapper.cs" />
-    <Compile Include="HttpView.xaml.cs">
+    <Compile Include="Forms\HttpView.xaml.cs">
       <DependentUpon>HttpView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="HttpViewModel.cs" />
+    <Compile Include="Forms\HttpViewModel.cs" />
+    <Compile Include="Forms\SslCertificatesView.xaml.cs">
+      <DependentUpon>SslCertificatesView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SslCertificatesViewModel.cs" />
     <Compile Include="IShell.cs" />
-    <Compile Include="MeasurementParameters\OtdrParametersDirectSetterView.xaml.cs">
+    <Compile Include="Forms\MeasurementParameters\OtdrParametersDirectSetterView.xaml.cs">
       <DependentUpon>OtdrParametersDirectSetterView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="MeasurementParameters\OtdrParametersDirectSetterViewModel.cs" />
-    <Compile Include="OtauView.xaml.cs">
+    <Compile Include="Forms\MeasurementParameters\OtdrParametersDirectSetterViewModel.cs" />
+    <Compile Include="Forms\OtauView.xaml.cs">
       <DependentUpon>OtauView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OtauViewModel.cs" />
-    <Compile Include="OtdrView.xaml.cs">
+    <Compile Include="Forms\OtauViewModel.cs" />
+    <Compile Include="Forms\OtdrView.xaml.cs">
       <DependentUpon>OtdrView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OtdrViewModel.cs" />
-    <Compile Include="ParseView.xaml.cs">
+    <Compile Include="Forms\OtdrViewModel.cs" />
+    <Compile Include="Forms\ParseView.xaml.cs">
       <DependentUpon>ParseView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ParseViewModel.cs" />
+    <Compile Include="Forms\ParseViewModel.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="WaitCursor.cs" />
-    <Compile Include="WcfView.xaml.cs">
+    <Compile Include="Forms\WcfView.xaml.cs">
       <DependentUpon>WcfView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="WcfViewModel.cs" />
-    <Page Include="HttpView.xaml">
+    <Compile Include="Forms\WcfViewModel.cs" />
+    <Page Include="Forms\HttpView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="MeasurementParameters\OtdrParametersDirectSetterView.xaml">
+    <Page Include="Forms\MeasurementParameters\OtdrParametersDirectSetterView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="OtauView.xaml">
+    <Page Include="Forms\OtauView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="OtdrView.xaml">
+    <Page Include="Forms\OtdrView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ParseView.xaml">
+    <Page Include="Forms\ParseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\SslCertificatesView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -198,7 +206,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="WcfView.xaml">
+    <Page Include="Forms\WcfView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

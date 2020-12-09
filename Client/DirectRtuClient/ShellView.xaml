@@ -9,6 +9,7 @@
         <Button Name="OtauView" Content="Otau View" Margin="5"/>
         <Button Name="WcfView" Content="WCF View" Margin="5"/>
         <Button Name="HttpView" Content="Http View" Margin="5"/>
+        <Button Name="SslCertificatesView" Content="SSL Certificates View" Margin="5"/>
     </StackPanel>
 
 </Window>

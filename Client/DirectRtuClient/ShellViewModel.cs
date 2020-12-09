@@ -54,6 +54,13 @@ namespace DirectRtuClient
             var vm = new HttpViewModel(_iniFile35, _rtuLogger);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowWindow(vm);
+        }  
+        
+        public void SslCertificatesView()
+        {
+            var vm = new SslCertificatesViewModel();
+            IWindowManager windowManager = new WindowManager();
+            windowManager.ShowWindow(vm);
         }
     }
 }
