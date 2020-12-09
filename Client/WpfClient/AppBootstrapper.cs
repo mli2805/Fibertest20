@@ -103,7 +103,7 @@ namespace Iit.Fibertest.Client
                 {
                     parameters.Username = args[2];
                     parameters.Password = args[3];
-                    parameters.Password = args[4];
+                    parameters.ConnectionId = args[4];
                 }
 
                 if (args.Length == 7)

@@ -21,9 +21,6 @@ xcopy ..\Client\WebClient\dist\WebClient\*.* Pack\WebClient\*.* /S/D/Y
 xcopy "..\Auxiliary Files\web.config" Pack\WebApi\*.* /S/Y
 xcopy "..\Auxiliary Files\*.mib" Pack\DcFiles\*.* /S/D/Y
 
-rem инсталятор поправит протокол когда файл будет существовать
-rem echo { "apiProtocol": "protocol-placeholder", "apiPort": "11080", "version": "%1" } > pack\webclient\assets\settings.json
-
 xcopy ..\Client\WpfClient\bin\Release\*.* Pack\ClientFiles\*.* /S/D/Y
 xcopy ..\Client\SuperClient\bin\Release\*.* Pack\SuperClientFiles\*.* /S/D/Y
       
