@@ -12,7 +12,7 @@ namespace Iit.Fibertest.Uninstall
 
         public Visibility Visibility
         {
-            get { return _visibility; }
+            get => _visibility;
             set
             {
                 if (value == _visibility) return;
@@ -21,9 +21,10 @@ namespace Iit.Fibertest.Uninstall
             }
         }
 
+        private bool _isDone;
         public bool IsDone
         {
-            get { return _isDone; }
+            get => _isDone;
             set
             {
                 if (value == _isDone) return;
@@ -33,12 +34,12 @@ namespace Iit.Fibertest.Uninstall
         }
 
         public ObservableCollection<string> ProgressLines { get; set; } = new ObservableCollection<string>();
+        public HeaderViewModel HeaderViewModel { get; set; } = new HeaderViewModel();
 
 
         private string _fibertestFolder;
         private bool _isFullUninstall;
         public bool IsUninstallSuccessful { get; set; }
-        private bool _isDone;
 
         public void RunUninstall(string fibertestFolder, bool isFullUninstall)
         {
@@ -72,6 +73,6 @@ namespace Iit.Fibertest.Uninstall
             var worker = sender as BackgroundWorker;
             IsUninstallSuccessful = UninstallOperations.Do(worker, _fibertestFolder, _isFullUninstall);
         }
-
+      
     }
 }

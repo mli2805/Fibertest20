@@ -2010,7 +2010,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Реестр очищен.</value>
 	</data>
 	<data name="SID_Uninstall_finished_" xml:space="preserve">
-		<value>Удаление программы завершено.</value>
+		<value>Удаление ПО завершено.</value>
 	</data>
 	<data name="SID_Deleting_files___" xml:space="preserve">
 		<value>Удаляются файлы...</value>
@@ -2809,5 +2809,20 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Export_to_pdf" xml:space="preserve">
 		<value>Выгрузить в pdf</value>
+	</data>
+	<data name="SID_Failed_to_set_AntiGhost_parameter___0_" xml:space="preserve">
+		<value>Не удалось установить AntiGhost параметр, {0}</value>
+	</data>
+	<data name="SID_Uninstall_failed" xml:space="preserve">
+		<value>Удаление ПО не удалось</value>
+	</data>
+	<data name="SID_Uninstallation_completed_successfully" xml:space="preserve">
+		<value>Удаление завершено успешно</value>
+	</data>
+	<data name="SID_Wait___" xml:space="preserve">
+		<value>Подождите...</value>
+	</data>
+	<data name="SID_Failed_to_uninstall__0_" xml:space="preserve">
+		<value>Не удалось удалить {0}</value>
 	</data>
 </root>

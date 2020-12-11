@@ -8,8 +8,8 @@
     <Border BorderThickness="0,1,0,1" BorderBrush="LightGray" Height="50">
         <DockPanel >
             <Image DockPanel.Dock="Right" Source="../../Resources/RtuOk.png" Height="28" Margin="0,0,20,0"/>
-            <TextBlock DockPanel.Dock="Top" Margin="15,5,5,2" FontWeight="Bold" Text="{Binding InBold}"/>
-            <TextBlock Margin="25,0,5,5" Text="{Binding Explanation}"/>
+            <TextBlock DockPanel.Dock="Top" Margin="15,5,5,2" FontWeight="Bold" Text="{Binding InBold}" Foreground="{Binding FontColor}"/>
+            <TextBlock Margin="25,0,5,5" Text="{Binding Explanation}" Foreground="{Binding FontColor}"/>
         </DockPanel>
     </Border>
 </UserControl>

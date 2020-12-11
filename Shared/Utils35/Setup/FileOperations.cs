@@ -86,20 +86,31 @@ namespace Iit.Fibertest.UtilsLib
         }
 
 
-        public static void CleanAntiGhost(string fullRtuManagerPath, bool hasDefault)
+        public static bool CleanAntiGhost(string fullRtuManagerPath, bool isThereEtcDefaultFolder, BackgroundWorker worker)
         {
             var filename = Path.Combine(fullRtuManagerPath, @"Etc\param673.ini");
-            CleanAntiGhostInOneFile(filename);
-            if (!hasDefault) return;
+            if (!CleanAntiGhostInOneFile(filename, worker)) 
+                return false;
+            if (!isThereEtcDefaultFolder) 
+                return true;
             var filename2 = Path.Combine(fullRtuManagerPath, @"Etc_default\param673.ini");
-            CleanAntiGhostInOneFile(filename2);
+            return CleanAntiGhostInOneFile(filename2, worker);
         }
 
-        private static void CleanAntiGhostInOneFile(string filename)
+        private static bool CleanAntiGhostInOneFile(string filename, BackgroundWorker worker)
         {
-            var content = File.ReadAllLines(filename);
-            var newContent = content.Select(line => line == "aGost=1" ? "aGost=0" : line).ToList();
-            File.WriteAllLines(filename, newContent);
+            try
+            {
+                var content = File.ReadAllLines(filename);
+                var newContent = content.Select(line => line == "aGost=1" ? "aGost=0" : line).ToList();
+                File.WriteAllLines(filename, newContent);
+                return true;
+            }
+            catch (Exception e)
+            {
+                worker.ReportProgress((int)BwReturnProgressCode.AntiGhostSettingFailed, e.Message);
+                return false;
+            }
         }
 
     }

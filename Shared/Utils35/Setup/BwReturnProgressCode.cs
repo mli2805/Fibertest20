@@ -8,6 +8,7 @@ namespace Iit.Fibertest.UtilsLib
         CopyFilesError,
         ErrorSourceFolderNotFound,
         FilesAreBeingCopied,
+        AntiGhostSettingFailed,
 
         FilesAreUnziped,
         FilesAreUnzipedSuccessfully,
@@ -67,6 +68,8 @@ namespace Iit.Fibertest.UtilsLib
                     return string.Format(Resources.SID_Error__Source_folder__0__not_found_, addition);
                 case BwReturnProgressCode.FilesAreBeingCopied:
                     return Resources.SID_Files_are_copied___;
+                case BwReturnProgressCode.AntiGhostSettingFailed:
+                    return string.Format(Resources.SID_Failed_to_set_AntiGhost_parameter___0_, addition);
 
                 case BwReturnProgressCode.FilesAreUnziped:
                     return Resources.SID_Files_are_unzipped___;

@@ -17,7 +17,9 @@ namespace Iit.Fibertest.InstallRtu
         {
             worker.ReportProgress((int)BwReturnProgressCode.RtuManagerSetupStarted);
 
-            if (!ServiceOperations.UninstallAllServicesOnThisPc(worker))
+            if (!FtServices.List
+                .Where(s => s.DestinationComputer == DestinationComputer.Rtu)
+                .All(ss => ServiceOperations.UninstallServiceIfExist(ss, worker)))
                 return false;
 
             Thread.Sleep(1000);
@@ -31,7 +33,8 @@ namespace Iit.Fibertest.InstallRtu
                 return false;
 
             var otdrmeasengine = Path.Combine(fullBinariesFolder, @"OtdrMeasEngine\");
-            FileOperations.CleanAntiGhost(otdrmeasengine, true);
+            if (!FileOperations.CleanAntiGhost(otdrmeasengine, true, worker)) 
+                return false;
             CreateIniForIpAddressesSetting(installationFolder);
 
             var fullUtilsPath = Path.Combine(installationFolder, UtilsSubdir);
@@ -55,7 +58,8 @@ namespace Iit.Fibertest.InstallRtu
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect, 
                 fullReflectPath, worker))
                 return false;
-            FileOperations.CleanAntiGhost(fullReflectPath, false);
+            if (!FileOperations.CleanAntiGhost(fullReflectPath, false, worker)) 
+                return false;
 
             if (!Directory.Exists(fullReflectPath + "\\Share"))
                 Directory.CreateDirectory(fullReflectPath + "\\Share");

@@ -59,5 +59,14 @@ namespace Iit.Fibertest.InstallRtu.Properties {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wait....
+        /// </summary>
+        internal static string SID_Wait___ {
+            get {
+                return ResourceManager.GetString("SID_Wait___", resourceCulture);
+            }
+        }
     }
 }

@@ -2810,4 +2810,19 @@ RTU is initializing right now!</value>
 	<data name="SID_Export_to_pdf" xml:space="preserve">
     <value>Export to pdf</value>
   </data>
+	<data name="SID_Failed_to_set_AntiGhost_parameter___0_" xml:space="preserve">
+    <value>Failed to set AntiGhost parameter, {0}</value>
+  </data>
+	<data name="SID_Uninstall_failed" xml:space="preserve">
+    <value>Uninstall failed</value>
+  </data>
+	<data name="SID_Uninstallation_completed_successfully" xml:space="preserve">
+    <value>Uninstallation completed successfully</value>
+  </data>
+	<data name="SID_Wait___" xml:space="preserve">
+    <value>Wait...</value>
+  </data>
+	<data name="SID_Failed_to_uninstall__0_" xml:space="preserve">
+    <value>Failed to uninstall {0}</value>
+  </data>
 </root>

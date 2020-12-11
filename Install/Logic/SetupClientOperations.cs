@@ -43,7 +43,8 @@ namespace Iit.Fibertest.Install
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathReflect,
                 fullReflectPath, worker))
                 return false;
-            FileOperations.CleanAntiGhost(fullReflectPath, false);
+            if (!FileOperations.CleanAntiGhost(fullReflectPath, false, worker))
+                return false;
 
             if (!Directory.Exists(fullReflectPath + "\\Share"))
                 Directory.CreateDirectory(fullReflectPath + "\\Share");

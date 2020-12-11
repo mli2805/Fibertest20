@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
@@ -49,7 +50,7 @@ namespace Iit.Fibertest.Install
                 _currentInstallation.MainName);
         }
 
-        private bool _setupResult;
+        public bool SetupResult { get; set; }
         private bool _isDone;
 
         public void RunSetup()
@@ -65,7 +66,7 @@ namespace Iit.Fibertest.Install
 
         private void Bw_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
         {
-            if (_setupResult)
+            if (SetupResult)
                 SaySuccess();
             else SayFail();
             IsDone = true;
@@ -83,7 +84,7 @@ namespace Iit.Fibertest.Install
         private void Bw_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = sender as BackgroundWorker;
-            _setupResult = _setupManager.Run(worker);
+            SetupResult = _setupManager.Run(worker);
         }
 
         private void SaySuccess()
@@ -97,6 +98,7 @@ namespace Iit.Fibertest.Install
         {
             HeaderViewModel.InBold = Resources.SID_Installation_failed;
             HeaderViewModel.Explanation = string.Format(Resources.SID__0__installation_failed_, _currentInstallation.MainName);
+            HeaderViewModel.FontColor = Brushes.Red;
         }
     }
 }

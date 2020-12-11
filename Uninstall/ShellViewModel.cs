@@ -1,7 +1,7 @@
 using System;
 using System.Diagnostics;
-using System.IO;
 using System.Windows;
+using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.Uninstall;
@@ -54,6 +54,18 @@ namespace Uninstall
                 NotifyOfPropertyChange();
             }
         }
+
+        private Brush _lastButtonBrush = Brushes.Black;
+        public Brush LastButtonColor
+        {
+            get => _lastButtonBrush;
+            set
+            {
+                if (value == _lastButtonBrush) return;
+                _lastButtonBrush = value;
+                NotifyOfPropertyChange();
+            }
+        }
         #endregion
 
         public ShellViewModel()
@@ -88,7 +100,18 @@ namespace Uninstall
 
         private void ProcessProgressViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            LastButtonContent = Resources.SID_Close;
+            if (ProcessProgressViewModel.IsUninstallSuccessful)
+            {
+                HeaderViewModel.Explanation = Resources.SID_Uninstallation_completed_successfully;
+                LastButtonContent = Resources.SID_Done;
+            }
+            else
+            {
+                HeaderViewModel.Explanation = string.Format(Resources.SID_Failed_to_uninstall__0_, MainName);
+                HeaderViewModel.FontColor = Brushes.Red;
+                LastButtonContent = Resources.SID_Close;
+                LastButtonColor = Brushes.Red;
+            }
             IsButtonCancelEnabled = true;
             _isFibertestUninstalled = ProcessProgressViewModel.IsUninstallSuccessful;
         }

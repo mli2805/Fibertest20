@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using Iit.Fibertest.UtilsLib;
 
@@ -21,7 +22,8 @@ namespace Iit.Fibertest.Uninstall
         {
             worker.ReportProgress((int)BwReturnProgressCode.UninstallStarted);
 
-            if (!ServiceOperations.UninstallAllServicesOnThisPc(worker))
+            if (!FtServices.List
+                .All(service => ServiceOperations.UninstallServiceIfExist(service, worker)))
                 return false;
 
             SiteOperations.DeleteAllFibertestSitesOnThisPc(worker);

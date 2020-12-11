@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using System.Reflection;
 using System.Windows;
+using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
@@ -22,6 +23,7 @@ namespace Iit.Fibertest.InstallRtu
         private string _buttonNextContent;
         private string _buttonCancelContent;
         private string _buttonBackContent;
+        private Brush _buttonNextColor = Brushes.Black;
         private bool _isButtonBackEnabled;
         private bool _isButtonNextEnabled;
         private bool _isButtonCancelEnabled;
@@ -55,6 +57,17 @@ namespace Iit.Fibertest.InstallRtu
             {
                 if (value == _buttonNextContent) return;
                 _buttonNextContent = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public Brush ButtonNextColor
+        {
+            get => _buttonNextColor;
+            set
+            {
+                if (value == _buttonNextColor) return;
+                _buttonNextColor = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -187,7 +200,7 @@ namespace Iit.Fibertest.InstallRtu
 
             ButtonBackContent = Resources.SID_Back;
             IsButtonBackEnabled = false;
-            ButtonNextContent = "Wait...";
+            ButtonNextContent = Resources.SID_Wait___;
             IsButtonNextEnabled = false;
             ButtonCancelContent = Resources.SID_Cancel;
             IsButtonCancelEnabled = false;
@@ -200,7 +213,13 @@ namespace Iit.Fibertest.InstallRtu
             {
                 ButtonBackContent = Resources.SID_Back;
                 IsButtonBackEnabled = false;
-                ButtonNextContent = Resources.SID_Done;
+                if (ProcessProgressViewModel.SetupResult)
+                    ButtonNextContent = Resources.SID_Done;
+                else
+                {
+                    ButtonNextContent =  Resources.SID_Close;
+                    ButtonNextColor = Brushes.Red;
+                }
                 IsButtonNextEnabled = true;
                 ButtonCancelContent = Resources.SID_Cancel;
                 IsButtonCancelEnabled = false;

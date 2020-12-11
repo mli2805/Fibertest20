@@ -13,7 +13,7 @@
             <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="15,5,5,5" Name="Cancel" 
                     Content="{Binding ButtonCancelContent}" IsEnabled="{Binding IsButtonCancelEnabled}"/>
             <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5,0,0,0" Name="Next" 
-                    Content="{Binding ButtonNextContent}" IsEnabled="{Binding IsButtonNextEnabled}"/>
+                    Content="{Binding ButtonNextContent}" IsEnabled="{Binding IsButtonNextEnabled}" Foreground="{Binding ButtonNextColor}"/>
             <Button DockPanel.Dock="Right" Height="20" Width="80" Margin="5,0,0,0" Name="Back" 
                     Content="{Binding ButtonBackContent}" IsEnabled="{Binding IsButtonBackEnabled}"/>
             <StackPanel></StackPanel>

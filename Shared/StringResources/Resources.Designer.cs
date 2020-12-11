@@ -2962,6 +2962,33 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to set AntiGhost parameter, {0}.
+        /// </summary>
+        public static string SID_Failed_to_set_AntiGhost_parameter___0_ {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_set_AntiGhost_parameter___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to uninstall.
+        /// </summary>
+        public static string SID_Failed_to_uninstall {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_uninstall", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to uninstall {0}.
+        /// </summary>
+        public static string SID_Failed_to_uninstall__0_ {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_uninstall__0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fast.
         /// </summary>
         public static string SID_Fast {
@@ -3079,7 +3106,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Files are copied....
+        ///   Looks up a localized string similar to Files are being copied....
         /// </summary>
         public static string SID_Files_are_copied___ {
             get {
@@ -3106,7 +3133,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Files are unzipped....
+        ///   Looks up a localized string similar to Files are being unzipped....
         /// </summary>
         public static string SID_Files_are_unzipped___ {
             get {
@@ -7635,6 +7662,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Uninstall failed.
+        /// </summary>
+        public static string SID_Uninstall_failed {
+            get {
+                return ResourceManager.GetString("SID_Uninstall_failed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Uninstall finished..
         /// </summary>
         public static string SID_Uninstall_finished_ {
@@ -7667,6 +7703,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Uninstall_started___ {
             get {
                 return ResourceManager.GetString("SID_Uninstall_started___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Uninstallation completed successfully.
+        /// </summary>
+        public static string SID_Uninstallation_completed_successfully {
+            get {
+                return ResourceManager.GetString("SID_Uninstallation_completed_successfully", resourceCulture);
             }
         }
         
@@ -7946,6 +7991,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Value__dB {
             get {
                 return ResourceManager.GetString("SID_Value__dB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Wait....
+        /// </summary>
+        public static string SID_Wait___ {
+            get {
+                return ResourceManager.GetString("SID_Wait___", resourceCulture);
             }
         }
         

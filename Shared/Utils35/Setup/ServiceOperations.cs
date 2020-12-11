@@ -11,16 +11,15 @@ namespace Iit.Fibertest.UtilsLib
         {
             return FtServices.List
                 .Where(s => s.DestinationComputer == dest)
-                .All(service => InstallService(service.Name, service.GetFullFilename(installationFolder), worker));
+                .All(service => InstallService(service, installationFolder, worker));
         }
 
-        public static bool InstallService(string serviceName, string filename, BackgroundWorker worker)
+        public static bool InstallService(FtService ftService, string installationFolder, BackgroundWorker worker)
         {
-            var ftService = FtServices.List.First(s => s.Name == serviceName);
             worker.ReportProgress((int)BwReturnProgressCode.ServiceIsBeingInstalled, ftService.DisplayName);
             try
             {
-                ServiceInstaller.Install(ftService.Name, ftService.DisplayName, ftService.Description, filename);
+                ServiceInstaller.Install(ftService.Name, ftService.DisplayName, ftService.Description, ftService.GetFullFilename(installationFolder));
             }
             catch (Exception)
             {
@@ -32,18 +31,14 @@ namespace Iit.Fibertest.UtilsLib
             return true;
         }
 
-        public static bool UninstallAllServicesOnThisPc(BackgroundWorker worker)
+        public static bool UninstallAllServicesOnThisPc(BackgroundWorker worker, DestinationComputer destinationComputer)
         {
-            foreach (var service in FtServices.List)
-            {
-                if (!UninstallServiceIfExist(service, worker))
-                    return false;
-            }
-
-            return true;
+            return FtServices.List
+                .Where(s => s.DestinationComputer == destinationComputer)
+                .All(service => UninstallServiceIfExist(service, worker));
         }
 
-        private static bool UninstallServiceIfExist(FtService ftService, BackgroundWorker worker)
+        public static bool UninstallServiceIfExist(FtService ftService, BackgroundWorker worker)
         {
             if (!ServiceInstaller.ServiceIsInstalled(ftService.Name)) return true;
 
