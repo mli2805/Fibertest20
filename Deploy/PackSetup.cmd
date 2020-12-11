@@ -12,7 +12,7 @@ type read.me
 pause
 
 xcopy ..\Install\bin\Release\*.* Pack\bin\*.* /S/D/Y
-xcopy ..\Install\LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
+xcopy LicenseDocs\*.xps Pack\LicenseDocs\*.* /S/D/Y
 xcopy ..\Install\UserGuide\*.pdf Pack\UserGuide\*.* /S/D/Y
      
 xcopy ..\DataCenter\DataCenterService\bin\Release\*.* Pack\DcFiles\*.* /S/D/Y
@@ -29,7 +29,7 @@ xcopy ..\Uninstall\bin\Release\*.* Pack\UninstallFiles\*.* /S/D/Y
 rem RTU installer source
 
 xcopy ..\InstallRtu\bin\Release\*.* PackRtu\bin\*.* /S/D/Y
-xcopy ..\InstallRtu\LicenseDocs\*.xps PackRtu\LicenseDocs\*.* /S/D/Y
+xcopy LicenseDocs\*.xps PackRtu\LicenseDocs\*.* /S/D/Y
      
 xcopy ..\RTU\RtuService\bin\Release\*.* PackRtu\RtuFiles\*.* /S/D/Y
 xcopy ..\RTU\RtuWatchdog\bin\Release\*.* PackRtu\RtuFiles\*.* /S/D/Y
