@@ -48,4 +48,11 @@ namespace Iit.Fibertest.DataCenterWebApi
             return apiProtocol;
         }
     }
+
+    /*
+     * to install / uninstall manually from command line
+     * !!! full path to exe is necessary
+     * sc create FibertestWaService binPath="c:\VsGitProjects\Fibertest\DataCenter\DataCenterWebApi\bin\Debug\netcoreapp3.1\Iit.Fibertest.DataCenterWebApi.exe" start= "auto" DisplayName= "Fibertest2.0 WebApi Service"
+     * sc delete FibertestWaService
+     */
 }

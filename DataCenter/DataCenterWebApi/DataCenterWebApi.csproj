@@ -5,6 +5,7 @@
     <AssemblyName>Iit.Fibertest.DataCenterWebApi</AssemblyName>
     <RootNamespace>Iit.Fibertest.DataCenterWebApi</RootNamespace>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <UserSecretsId>87faa48d-f40f-49d5-9386-1419c58d9d0b</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

@@ -14,6 +14,8 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly IFtSignalRClient _ftSignalRClient;
         private TimeSpan _checkWebApiEvery;
+        private string _bindingProtocol;
+
 
         public WebApiChecker(IniFile iniFile, IMyLog logFile, IFtSignalRClient ftSignalRClient)
         {
@@ -24,6 +26,12 @@ namespace Iit.Fibertest.DataCenterCore
 
         public void Start()
         {
+            _bindingProtocol = _iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "none");
+            if (_bindingProtocol == "none")
+            {
+                _logFile.AppendLine("Web API service is not installed.");
+                return;
+            }
             var thread = new Thread(Check) { IsBackground = true };
             thread.Start();
         }
@@ -39,8 +47,7 @@ namespace Iit.Fibertest.DataCenterCore
             var interval = _iniFile.Read(IniSection.General, IniKey.CheckWebApiEvery, 0);
             if (interval == 0) return;
             _checkWebApiEvery = TimeSpan.FromSeconds(interval);
-            var bindingProtocol = _iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "http");
-            _webApiUrl = $"{bindingProtocol}://localhost:{(int)TcpPorts.WebApiListenTo}/misc/checkapi";
+            _webApiUrl = $"{_bindingProtocol}://localhost:{(int)TcpPorts.WebApiListenTo}/misc/checkapi";
             _logFile.AppendLine($"API check will be carried out at {_webApiUrl}");
 
             while (true)
