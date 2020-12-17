@@ -6,6 +6,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DataCenterCore;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterService
@@ -14,7 +15,8 @@ namespace Iit.Fibertest.DataCenterService
     {
         public IniFile IniFile { get; }
         private readonly IMyLog _logFile;
-        private readonly ISettings _serverSettings;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
+        private readonly IParameterizer _serverParameterizer;
         private readonly EventStoreService _eventStoreService;
         private readonly IEventStoreInitializer _eventStoreInitializer;
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
@@ -27,8 +29,8 @@ namespace Iit.Fibertest.DataCenterService
         private readonly WcfServiceForWebC2DBootstrapper _wcfServiceForWebC2DBootstrapper;
         private readonly IMsmqHandler _msmqHandler;
 
-        public Service1(IniFile iniFile, IMyLog logFile, ISettings serverSettings,
-            EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
+        public Service1(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters, 
+            IParameterizer serverParameterizer, EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
             LastConnectionTimeChecker lastConnectionTimeChecker, WebApiChecker webApiChecker, SmsSender smsSender,
             MeasurementsForWebNotifier measurementsForWebNotifier,
             WcfServiceForDesktopC2DBootstrapper wcfServiceForDesktopC2DBootstrapper,
@@ -39,7 +41,8 @@ namespace Iit.Fibertest.DataCenterService
         {
             IniFile = iniFile;
             _logFile = logFile;
-            _serverSettings = serverSettings;
+            _currentDatacenterParameters = currentDatacenterParameters;
+            _serverParameterizer = serverParameterizer;
             _eventStoreService = eventStoreService;
             _eventStoreInitializer = eventStoreInitializer;
             _logFile.AssignFile("DataCenter.log");
@@ -75,13 +78,18 @@ namespace Iit.Fibertest.DataCenterService
             _logFile.AppendLine($"Data-center version {info.FileVersion}");
             IniFile.Write(IniSection.General, IniKey.Version, info.FileVersion);
      
-            _serverSettings.Init();
+            _serverParameterizer.Init();
             await InitializeEventStoreService();
             _lastConnectionTimeChecker.Start();
-            _webApiChecker.Start();
-            _measurementsForWebNotifier.Start();
+
+            if (_currentDatacenterParameters.WebApiBinding != "none")
+            {
+                _webApiChecker.Start();
+                _measurementsForWebNotifier.Start();
+                _wcfServiceForWebC2DBootstrapper.Start();
+            }
+
             _wcfServiceForCommonC2DBootstrapper.Start();
-            _wcfServiceForWebC2DBootstrapper.Start();
             _wcfServiceForDesktopC2DBootstrapper.Start();
             _wcfServiceForRtuBootstrapper.Start();
             _msmqHandler.Start();
@@ -95,7 +103,7 @@ namespace Iit.Fibertest.DataCenterService
             if (resetDb)
             {
                 _logFile.AppendLine("ResetDb flag is TRUE! DB will be deleted...");
-                using (var dbContext = new FtDbContext(_serverSettings.Options))
+                using (var dbContext = new FtDbContext(_serverParameterizer.Options))
                 {
                     dbContext.Database.EnsureDeleted();
                 }
@@ -114,10 +122,10 @@ namespace Iit.Fibertest.DataCenterService
                 _logFile.AppendLine($"DB will be created with StreamIdOriginal {_eventStoreService.StreamIdOriginal}");
             }
 
-            using (var dbContext = new FtDbContext(_serverSettings.Options))
+            using (var dbContext = new FtDbContext(_serverParameterizer.Options))
             {
                 dbContext.Database.EnsureCreated();
-                _serverSettings.LogSettings();
+                _serverParameterizer.LogSettings();
             }
             await _eventStoreService.Init();
         }

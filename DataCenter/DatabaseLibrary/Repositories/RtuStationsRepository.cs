@@ -10,12 +10,12 @@ namespace Iit.Fibertest.DatabaseLibrary
 {
     public class RtuStationsRepository
     {
-        private readonly ISettings _settings;
+        private readonly IParameterizer _parameterizer;
         private readonly IMyLog _logFile;
 
-        public RtuStationsRepository(ISettings settings, IMyLog logFile)
+        public RtuStationsRepository(IParameterizer parameterizer, IMyLog logFile)
         {
-            _settings = settings;
+            _parameterizer = parameterizer;
             _logFile = logFile;
         }
 
@@ -23,7 +23,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     var previousRtuStationRow = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuStation.RtuGuid);
                     if (previousRtuStationRow == null)
@@ -53,7 +53,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == rtuId);
                     if (rtu != null)
@@ -80,7 +80,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     var rtu = await dbContext.RtuStations.FirstOrDefaultAsync(r => r.RtuGuid == rtuId);
                     if (rtu != null)
@@ -103,7 +103,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     var rtu = dbContext.RtuStations.FirstOrDefault(r => r.RtuGuid == dto.RtuId);
                     if (rtu == null)
@@ -132,7 +132,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     var rtu = await dbContext.RtuStations.FirstOrDefaultAsync(r => r.RtuGuid == rtuId);
                     if (rtu != null) return true;
@@ -151,7 +151,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     return await dbContext.RtuStations.ToListAsync();
                 }
@@ -167,7 +167,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     foreach (var changedStation in changedStations)
                     {

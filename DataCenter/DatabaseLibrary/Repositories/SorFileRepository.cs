@@ -10,12 +10,12 @@ namespace Iit.Fibertest.DatabaseLibrary
 {
     public class SorFileRepository
     {
-        private readonly ISettings _settings;
+        private readonly IParameterizer _parameterizer;
         private readonly IMyLog _logFile;
 
-        public SorFileRepository(ISettings settings, IMyLog logFile)
+        public SorFileRepository(IParameterizer parameterizer, IMyLog logFile)
         {
-            _settings = settings;
+            _parameterizer = parameterizer;
             _logFile = logFile;
         }
 
@@ -23,7 +23,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     var sorFile = new SorFile() { SorBytes = sorBytes };
                     dbContext.SorFiles.Add(sorFile);
@@ -43,7 +43,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     var sorFiles = sors.Select(s => new SorFile() { SorBytes = s }).ToList();
                     dbContext.SorFiles.AddRange(sorFiles);
@@ -63,7 +63,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     var record = await dbContext.SorFiles.Where(s => s.Id == sorFileId).FirstOrDefaultAsync();
                     record.SorBytes = sorBytes;
@@ -81,7 +81,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     var result = await dbContext.SorFiles.Where(s => s.Id == sorFileId).FirstOrDefaultAsync();
                     return result?.SorBytes;
@@ -98,7 +98,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     var result = await dbContext.SorFiles.Where(s => s.Id == sorFileId).FirstOrDefaultAsync();
                     dbContext.SorFiles.Remove(result);
@@ -116,7 +116,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     var sors = dbContext.SorFiles.Where(s => sorIds.Contains(s.Id)).ToList();
                     dbContext.SorFiles.RemoveRange(sors);

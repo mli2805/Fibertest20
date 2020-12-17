@@ -5,7 +5,7 @@ namespace Graph.Tests
 {
     public class FakeFtSignalRClient : IFtSignalRClient
     {
-        public Task<bool> IsSignalRConnected()
+        public Task<bool> IsSignalRConnected(bool isLog = true)
         {
 
             return Task.FromResult(true);

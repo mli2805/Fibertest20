@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
-    public class ServerSettings : ISettings
+    public class ServerParameterizer : IParameterizer
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
@@ -14,7 +14,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         private int _mysqlTcpPort;
         private string _measurementsScheme;
 
-        public ServerSettings(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters)
+        public ServerParameterizer(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters)
         {
             _iniFile = iniFile;
             _logFile = logFile;
@@ -35,6 +35,10 @@ namespace Iit.Fibertest.DatabaseLibrary
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             _currentDatacenterParameters.DatacenterVersion = fvi.FileVersion;
+
+            _currentDatacenterParameters.WebApiBinding = _iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "none");
+            if (_currentDatacenterParameters.WebApiBinding == "none")
+                _logFile.AppendLine("Web API service is not installed.");
 
             _currentDatacenterParameters.Smtp = new SmtpSettingsDto()
             {

@@ -9,12 +9,12 @@ namespace Iit.Fibertest.DatabaseLibrary
 {
     public class SnapshotRepository
     {
-        private readonly ISettings _settings;
+        private readonly IParameterizer _parameterizer;
         private readonly IMyLog _logFile;
 
-        public SnapshotRepository(ISettings settings, IMyLog logFile)
+        public SnapshotRepository(IParameterizer parameterizer, IMyLog logFile)
         {
-            _settings = settings;
+            _parameterizer = parameterizer;
             _logFile = logFile;
         }
 
@@ -23,7 +23,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     _logFile.AppendLine("Snapshot adding...");
                     var portion = 2 * 1024 * 1024;
@@ -57,7 +57,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     _logFile.AppendLine("Snapshot reading...");
                     var portions = await dbContext.Snapshots.Where(l => l.StreamIdOriginal == graphDbVersionId).ToListAsync();
@@ -91,7 +91,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             try
             {
                 await Task.Delay(1);
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     var result = new SnapshotParamsDto
                     {
@@ -114,7 +114,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             try
             {
                 await Task.Delay(1);
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     var firstId = dbContext.Snapshots.First().Id;
                     return dbContext.Snapshots.First(p => p.Id == firstId + portionOrdinal).Payload;
@@ -132,7 +132,7 @@ namespace Iit.Fibertest.DatabaseLibrary
         {
             try
             {
-                using (var dbContext = new FtDbContext(_settings.Options))
+                using (var dbContext = new FtDbContext(_parameterizer.Options))
                 {
                     _logFile.AppendLine("Snapshots removing...");
                     var maxLastEventNumber = dbContext.Snapshots.Max(f => f.LastEventNumber); 

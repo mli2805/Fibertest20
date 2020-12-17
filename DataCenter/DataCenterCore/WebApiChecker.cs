@@ -12,26 +12,21 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
+        private readonly CurrentDatacenterParameters _cdp;
         private readonly IFtSignalRClient _ftSignalRClient;
         private TimeSpan _checkWebApiEvery;
-        private string _bindingProtocol;
 
-
-        public WebApiChecker(IniFile iniFile, IMyLog logFile, IFtSignalRClient ftSignalRClient)
+        public WebApiChecker(IniFile iniFile, IMyLog logFile, 
+            CurrentDatacenterParameters cdp, IFtSignalRClient ftSignalRClient)
         {
             _iniFile = iniFile;
             _logFile = logFile;
+            _cdp = cdp;
             _ftSignalRClient = ftSignalRClient;
         }
 
         public void Start()
         {
-            _bindingProtocol = _iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "none");
-            if (_bindingProtocol == "none")
-            {
-                _logFile.AppendLine("Web API service is not installed.");
-                return;
-            }
             var thread = new Thread(Check) { IsBackground = true };
             thread.Start();
         }
@@ -44,11 +39,11 @@ namespace Iit.Fibertest.DataCenterCore
             Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
             Thread.Sleep(10000);
 
-            var interval = _iniFile.Read(IniSection.General, IniKey.CheckWebApiEvery, 0);
+            var interval = _iniFile.Read(IniSection.General, IniKey.CheckWebApiEvery, 300);
             if (interval == 0) return;
             _checkWebApiEvery = TimeSpan.FromSeconds(interval);
-            _webApiUrl = $"{_bindingProtocol}://localhost:{(int)TcpPorts.WebApiListenTo}/misc/checkapi";
-            _logFile.AppendLine($"API check will be carried out at {_webApiUrl}");
+            _webApiUrl = $"{_cdp.WebApiBinding}://localhost:{(int)TcpPorts.WebApiListenTo}/misc/checkapi";
+            _logFile.AppendLine($"Web API check will be carried out at {_webApiUrl}");
 
             while (true)
             {
@@ -57,15 +52,24 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
+        private bool? _isWebApiAvailable;
+        private bool? _isSignalrHubAvailable;
         private async Task<int> Tick()
         {
-            var unused = await CheckApi();
-
-            var isSignalrHubAvailable = await _ftSignalRClient.IsSignalRConnected();
-            var word = isSignalrHubAvailable ? "success" : "fail";
-            _logFile.AppendLine($"CheckSignalR tick: {word}");
-
+            _isWebApiAvailable = await CheckApi();
+            _isSignalrHubAvailable = await CheckSignalR();
             return 0;
+        }
+
+        private async Task<bool> CheckSignalR()
+        {
+            var res = await _ftSignalRClient.IsSignalRConnected(false);
+            if (res != _isSignalrHubAvailable)
+            {
+                var word = _isSignalrHubAvailable == true ? "success" : "fail";
+                _logFile.AppendLine($"CheckSignalR result: {word}");
+            }
+            return res;
         }
 
         private static readonly HttpClientHandler httpClientHandler = new HttpClientHandler
@@ -79,12 +83,14 @@ namespace Iit.Fibertest.DataCenterCore
             try
             {
                 var responseString = await httpClient.GetStringAsync(_webApiUrl);
-                _logFile.AppendLine($"CheckApi tick: {responseString}");
+                if (_isWebApiAvailable != true)
+                    _logFile.AppendLine($"CheckApi response: {responseString}");
                 return true;
             }
             catch (Exception e)
             {
-                _logFile.AppendLine($"CheckApi tick: {e.Message}");
+                if (_isWebApiAvailable != false)
+                    _logFile.AppendLine($"CheckApi failed. Exception: {e.Message}");
                 return false;
             }
         }

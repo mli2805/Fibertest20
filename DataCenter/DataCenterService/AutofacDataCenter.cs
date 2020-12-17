@@ -68,7 +68,7 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<D2RtuVeexLayer2>().SingleInstance();
             builder.RegisterType<D2RtuVeexLayer3>().SingleInstance();
 
-            builder.RegisterType<ServerSettings>().As<ISettings>().SingleInstance();
+            builder.RegisterType<ServerParameterizer>().As<IParameterizer>().SingleInstance();
 
             builder.RegisterType<WcfServiceDesktopC2D>().As<IWcfServiceDesktopC2D>().SingleInstance();
             builder.RegisterType<WcfServiceForDesktopC2DBootstrapper>().SingleInstance();

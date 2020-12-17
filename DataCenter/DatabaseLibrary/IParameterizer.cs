@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
-    public interface ISettings
+    public interface IParameterizer
     {
         void Init();
         void LogSettings();

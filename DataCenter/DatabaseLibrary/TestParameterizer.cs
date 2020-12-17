@@ -3,11 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Iit.Fibertest.DatabaseLibrary
 {
-    public class TestSettings : ISettings
+    public class TestParameterizer : IParameterizer
     {
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
 
-        public TestSettings(CurrentDatacenterParameters currentDatacenterParameters)
+        public TestParameterizer(CurrentDatacenterParameters currentDatacenterParameters)
         {
             _currentDatacenterParameters = currentDatacenterParameters;
             _currentDatacenterParameters.Smtp = new SmtpSettingsDto();

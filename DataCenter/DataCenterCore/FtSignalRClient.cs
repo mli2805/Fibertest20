@@ -9,7 +9,7 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public interface IFtSignalRClient
     {
-        Task<bool> IsSignalRConnected();
+        Task<bool> IsSignalRConnected(bool isLog = true);
         Task NotifyAll(string eventType, string dataInJson);
 
     }
@@ -72,42 +72,38 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public async Task<bool> IsSignalRConnected()
+        public async Task<bool> IsSignalRConnected(bool isLog = true)
         {
             if (connection == null)
             {
-                _logFile.AppendLine($"Build signalR connection to {_webApiUrl}");
+                if (isLog) _logFile.AppendLine($"Build signalR connection to {_webApiUrl}");
                 try
                 {
                     Build();
                 }
                 catch (Exception e)
                 {
-                    _logFile.AppendLine($"Build signalR connection: " + e.Message);
+                    if (isLog) _logFile.AppendLine($"Build signalR connection: " + e.Message);
                     return false;
                 }
-                _logFile.AppendLine($"SignalR connection state is {connection.State}");
+                if (isLog) _logFile.AppendLine($"SignalR connection state is {connection.State}");
                 await Task.Delay(500);
             }
 
             if (connection.State != HubConnectionState.Connected)
             {
-                _logFile.AppendLine($"Start signalR connection to {_webApiUrl}");
+                if (isLog) _logFile.AppendLine($"Start signalR connection to {_webApiUrl}");
                 try
                 {
                     await connection.StartAsync();
                 }
                 catch (Exception e)
                 {
-                    _logFile.AppendLine($"FtSignalRClient Start connection: " + e.Message);
+                    if (isLog) _logFile.AppendLine($"FtSignalRClient Start connection: " + e.Message);
                     connection = null;
-                    //                    if (connection != null)
-                    //                    {
-                    //                        await connection.DisposeAsync();
-                    //                    }
                     return false;
                 }
-                _logFile.AppendLine($"SignalR connection state is {connection.State}");
+                if (isLog) _logFile.AppendLine($"SignalR connection state is {connection.State}");
                 await Task.Delay(500);
             }
 

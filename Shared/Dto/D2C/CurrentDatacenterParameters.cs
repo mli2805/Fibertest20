@@ -11,6 +11,8 @@ namespace Iit.Fibertest.Dto
         public DateTime SnapshotLastDate { get; set; }
         public string DatacenterVersion { get; set; }
 
+        public string WebApiBinding { get; set; }
+
         public SmtpSettingsDto Smtp { get; set; }
         public int GsmModemComPort { get; set; }
         public SnmpSettingsDto Snmp { get; set; }
