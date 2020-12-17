@@ -17,12 +17,15 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IMyLog _logFile;
         private HubConnection connection;
+        private readonly bool _isWebApiInstalled;
+
         private readonly string _webApiUrl;
 
         public FtSignalRClient(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
             var bindingProtocol = iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "http");
+            _isWebApiInstalled = bindingProtocol != "none";
             _webApiUrl = $"{bindingProtocol}://localhost:{(int)TcpPorts.WebApiListenTo}/webApiSignalRHub";
         }
 
@@ -56,6 +59,7 @@ namespace Iit.Fibertest.DataCenterCore
         // DataCenter notifies WebClients
         public async Task NotifyAll(string eventType, string dataInJson)
         {
+            if (!_isWebApiInstalled) return;
             try
             {
                 if (eventType == "ClientMeasurementDone")
@@ -74,6 +78,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<bool> IsSignalRConnected(bool isLog = true)
         {
+            if (!_isWebApiInstalled) return false;
             if (connection == null)
             {
                 if (isLog) _logFile.AppendLine($"Build signalR connection to {_webApiUrl}");

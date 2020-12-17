@@ -44,19 +44,17 @@ namespace Iit.Fibertest.DataCenterWebApi
         {
             if (e == null)
             {
-                _logFile.AppendLine("OnDisconnectedAsync: exception is null, sorry");
+                _logFile.AppendLine($"OnDisconnectedAsync (ClientIp = {GetRemoteAddress()})");
                 await base.OnDisconnectedAsync(new Exception("SignalR disconnected"));
             }
             else
             {
-                _logFile.AppendLine($"OnDisconnectedAsync: exception {e.Message}");
+                _logFile.AppendLine($"OnDisconnectedAsync (ClientIp = {GetRemoteAddress()}). Exception {e.Message}");
                 if (e.InnerException != null)
                     _logFile.AppendLine($"Inner exception: {e.InnerException.Message}");
                 await base.OnDisconnectedAsync(e);
-
             }
 
-            _logFile.AppendLine($"OnDisconnectedAsync ClientIp = {GetRemoteAddress()}");
             await _commonC2DWcfManager
                 .SetServerAddresses(_doubleAddressForCommonWcfManager, "onSignalRDisconnected", GetRemoteAddress())
                 .UnregisterClientAsync(
@@ -75,7 +73,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         public async Task NotifyAll(string eventType, string dataInJson)
         {
-            //            _logFile.AppendLine($"Hub received {eventType} event");
+            _logFile.AppendLine($"Hub received {eventType} event");
             await Clients.All.SendAsync(eventType, dataInJson);
         }
 
