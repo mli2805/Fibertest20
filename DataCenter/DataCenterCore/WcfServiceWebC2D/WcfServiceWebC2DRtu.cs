@@ -91,7 +91,7 @@ namespace Iit.Fibertest.DataCenterCore
             result.BopCount = rtu.Children.Count;
 
             result.Children = PrepareRtuStateChildren(rtu);
-            result.TraceCount = result.Children.Count(c => c.TraceState != FiberState.NotInTrace);
+            result.TraceCount = result.Children.Count(c => c.TraceState != FiberState.NotInTrace && c.TraceState != FiberState.Nothing);
             result.TracesState = result.Children.Max(c => c.TraceState);
 
             return result;
