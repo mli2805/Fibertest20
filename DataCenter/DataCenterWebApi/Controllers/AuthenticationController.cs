@@ -24,15 +24,19 @@ namespace Iit.Fibertest.DataCenterWebApi
     {
         private readonly IMyLog _logFile;
         private readonly DoubleAddress _doubleAddress;
+        private readonly DoubleAddress _doubleAddressForWebWcfManager;
         private readonly CommonC2DWcfManager _commonC2DWcfManager;
+        private readonly WebC2DWcfManager _webC2DWcfManager;
         private readonly string _localIpAddress;
 
         public AuthenticationController(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
             _doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToCommonClient);
+            _doubleAddressForWebWcfManager = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
             _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, -1).Ip4Address;
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
+            _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
         }
 
         private string GetRemoteAddress()
@@ -40,6 +44,25 @@ namespace Iit.Fibertest.DataCenterWebApi
             var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
             // browser started on the same pc as this service
             return ip1 == "::1" ? _localIpAddress : ip1;
+        }
+
+        [Authorize]
+        [HttpPost("ChangeConnectionId")]
+        public async Task ChangeGuidWithSignalrConnectionId()
+        {
+            string body;
+            using (var reader = new StreamReader(Request.Body))
+            {
+                body = await reader.ReadToEndAsync();
+            }
+            dynamic user = JObject.Parse(body);
+            var oldGuid = (string)user.oldGuid;
+            var connId = (string)user.connId;
+            await _webC2DWcfManager
+                .SetServerAddresses(_doubleAddressForWebWcfManager, "WebApi", GetRemoteAddress())
+                .ChangeGuidWithSignalrConnectionId(oldGuid, connId);
+            _logFile.AppendLine($"User changed connection id.");
+            Response.StatusCode = 201;
         }
 
         [Authorize]
@@ -51,8 +74,8 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 body = await reader.ReadToEndAsync();
             }
-            dynamic user = JObject.Parse(body);
-            var username = (string)user.username;
+            dynamic dto = JObject.Parse(body);
+            var username = (string)dto.username;
             await _commonC2DWcfManager
                 .SetServerAddresses(_doubleAddress, username, GetRemoteAddress())
                 .UnregisterClientAsync(
@@ -71,6 +94,8 @@ namespace Iit.Fibertest.DataCenterWebApi
                 .RegisterHeartbeat(connectionId);
             return result;
         }
+
+
 
         [HttpPost("Login")]
         public async Task Login()

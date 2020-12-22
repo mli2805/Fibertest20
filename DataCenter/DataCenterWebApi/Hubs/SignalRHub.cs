@@ -16,7 +16,6 @@ namespace Iit.Fibertest.DataCenterWebApi
         private readonly DoubleAddress _doubleAddressForWebWcfManager;
         private readonly DoubleAddress _doubleAddressForCommonWcfManager;
         private readonly string _localIpAddress;
-        private string _dataCenterConnectionId;
 
         public SignalRHub(IniFile iniFile, IMyLog logFile)
         {
@@ -26,7 +25,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
             _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, -1).Ip4Address;
-            _logFile.AppendLine("signalR Hub c-tor");
+            _logFile.AppendLine($"signalR Hub c-tor");
         }
 
         private string GetRemoteAddress()
@@ -62,14 +61,6 @@ namespace Iit.Fibertest.DataCenterWebApi
                     _logFile.AppendLine($"Inner exception: {e.InnerException.Message}");
                 await base.OnDisconnectedAsync(e);
             }
-
-            _logFile.AppendLine($"_dataCenterConnectionId {_dataCenterConnectionId}, current connection id {Context.ConnectionId}");
-            if (Context.ConnectionId == _dataCenterConnectionId)
-            {
-                _logFile.AppendLine("it is a server, there is no need to send event");
-                return;
-            }
-
             await _commonC2DWcfManager
                 .SetServerAddresses(_doubleAddressForCommonWcfManager, "onSignalRDisconnected", GetRemoteAddress())
                 .UnregisterClientAsync(

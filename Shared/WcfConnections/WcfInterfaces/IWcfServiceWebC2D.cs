@@ -9,7 +9,10 @@ namespace Iit.Fibertest.WcfConnections
     public interface IWcfServiceWebC2D
     {
         [OperationContract]
-        Task<string> CheckDataCenterConnection();
+        Task<string> CheckDataCenterConnection(); 
+        
+        [OperationContract]
+        Task<bool> ChangeGuidWithSignalrConnectionId(string oldGuid, string connId);
 
         [OperationContract]
         Task<string> GetAboutInJson(string username);

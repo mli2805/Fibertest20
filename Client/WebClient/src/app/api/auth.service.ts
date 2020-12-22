@@ -28,6 +28,22 @@ export class AuthService {
     // });
   }
 
+  changeGuidWithSignalrConnectionId(
+    jwt: string,
+    oldGuid: string,
+    connId: string
+  ) {
+    const url = Utils.GetWebApiUrl() + "/authentication/changeConnectionId/";
+    const body = { oldGuid, connId };
+    const myHeaders = new HttpHeaders({
+      Authorization: "Bearer " + jwt,
+    });
+
+    return this.httpClient.post(url, body, {
+      headers: myHeaders,
+    });
+  }
+
   logout() {
     const url = Utils.GetWebApiUrl() + "/authentication/logout/";
     const currentUser = JSON.parse(sessionStorage.currentUser);

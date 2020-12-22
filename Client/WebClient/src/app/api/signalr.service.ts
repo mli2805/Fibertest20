@@ -31,13 +31,13 @@ export class SignalrService {
   public bopEventAddedEmitter = new EventEmitter<BopEventDto>();
   public measurementUpdatedEmitter = new EventEmitter<UpdateMeasurementDto>();
 
-  // will be built after loggin in, when jsonWebToken provided
   public buildConnection(token: string) {
     const url = Utils.GetWebApiUrl() + "/webApiSignalRHub";
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(url, { accessTokenFactory: () => token })
       // token is not obligatory, connection would be set even without token
-      // .withUrl(url)
+      // but without JWT you can only subscribe on notifications from signalR
+      // and cannot invoke signalR methods if they have attribute [Autorize]
       .build();
   }
 
@@ -45,8 +45,6 @@ export class SignalrService {
     try {
       await this.hubConnection.start();
       const connectionId = await this.hubConnection.invoke("getConnectionId");
-      console.log(`SignalR connection id ${connectionId}`);
-      sessionStorage.setItem("connectionId", connectionId);
       this.registerSignalEvents();
       return connectionId;
     } catch (err) {

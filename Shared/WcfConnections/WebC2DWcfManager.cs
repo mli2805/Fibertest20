@@ -42,6 +42,26 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<bool> ChangeGuidWithSignalrConnectionId(string oldGuid, string connId)
+        {
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
+            if (wcfConnection == null)
+                return false;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.ChangeGuidWithSignalrConnectionId(oldGuid, connId);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("ChangeGuidWithSignalrConnectionId: " + e.Message);
+                return false;
+            }
+        }
+
         public async Task<string> GetAboutInJson(string username)
         {
             var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();

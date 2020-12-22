@@ -21,18 +21,21 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
+        private readonly ClientsCollection _clientsCollection;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
         private readonly MeasurementsForWebNotifier _measurementsForWebNotifier;
 
         public WcfServiceWebC2D(IMyLog logFile, Model writeModel, CurrentDatacenterParameters currentDatacenterParameters,
+            ClientsCollection clientsCollection,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter,
             AccidentLineModelFactory accidentLineModelFactory, MeasurementsForWebNotifier measurementsForWebNotifier)
         {
             _logFile = logFile;
             _writeModel = writeModel;
             _currentDatacenterParameters = currentDatacenterParameters;
+            _clientsCollection = clientsCollection;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
             _accidentLineModelFactory = accidentLineModelFactory;
@@ -43,6 +46,11 @@ namespace Iit.Fibertest.DataCenterCore
         {
             await Task.Delay(1);
             return _currentDatacenterParameters.DatacenterVersion;
+        }
+
+        public async Task<bool> ChangeGuidWithSignalrConnectionId(string oldGuid, string connId)
+        {
+            return await _clientsCollection.ChangeGuidWithSignalrConnectionId(oldGuid, connId);
         }
 
         public async Task<string> GetAboutInJson(string username)

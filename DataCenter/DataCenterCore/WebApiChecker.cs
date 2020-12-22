@@ -66,7 +66,7 @@ namespace Iit.Fibertest.DataCenterCore
 //            var res = await _ftSignalRClient.IsSignalRConnected(false);
             var res = await _ftSignalRClient.CheckServerIn();
 
-         //   if (res != _isSignalrHubAvailable)
+//         if (res != _isSignalrHubAvailable)
             {
                 _isSignalrHubAvailable = res;
                 var word = res ? "success" : "fail";

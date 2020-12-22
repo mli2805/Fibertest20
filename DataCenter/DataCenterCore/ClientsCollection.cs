@@ -170,6 +170,16 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
+        public async Task<bool> ChangeGuidWithSignalrConnectionId(string oldGuid, string connId)
+        {
+            await Task.Delay(1);
+            var station = _clients.FirstOrDefault(c => c.ConnectionId == oldGuid);
+            if (station == null)
+                return false;
+            station.ConnectionId = connId;
+            return true;
+        }
+
         public bool RegisterHeartbeat(string connectionId)
         {
             var station = _clients.FirstOrDefault(c => c.ConnectionId == connectionId);
@@ -247,7 +257,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private void LogStations()
         {
-            _logFile.EmptyLine(' ');
+            _logFile.EmptyLine();
             _logFile.AppendLine($"There are {_clients.Count} client(s):");
             _logFile.EmptyLine('-');
             foreach (var station in _clients)
@@ -255,7 +265,7 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine($"{station.UserName}/{station.ClientIp} with connection id {station.ConnectionId}");
             }
             _logFile.EmptyLine('-');
-            _logFile.EmptyLine(' ');
+            _logFile.EmptyLine();
         }
     }
 }

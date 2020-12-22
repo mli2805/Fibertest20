@@ -70,11 +70,16 @@ export class FtLoginComponent implements OnInit {
       if (res === null) {
         console.log("Login failed, try again...");
       } else {
-        sessionStorage.setItem("currentUser", JSON.stringify(res));
-
-        // jwt is not checked on other side
         this.signalrService.buildConnection(res.jsonWebToken);
         const connectionId = await this.signalrService.startConnection();
+
+        await this.authService
+          .changeGuidWithSignalrConnectionId(res.jsonWebToken, res.connectionId, connectionId)
+          .toPromise();
+
+        res.connectionId = connectionId;
+        sessionStorage.setItem("currentUser", JSON.stringify(res));
+
         console.log(
           `Logged in with signalR connection id ${connectionId} successfully!`
         );
