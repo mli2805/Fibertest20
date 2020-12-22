@@ -80,11 +80,11 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<int> UnregisterClientAsync(UnRegisterClientDto dto)
         {
-            _clientsCollection.UnregisterClientAsync(dto);
-
-            var command = new UnregisterClientStation();
-            await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
-
+            if (_clientsCollection.UnregisterClientAsync(dto))
+            {
+                var command = new UnregisterClientStation();
+                await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
+            }
             return 0;
         }
 

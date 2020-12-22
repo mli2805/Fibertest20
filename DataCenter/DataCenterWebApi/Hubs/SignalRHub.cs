@@ -16,6 +16,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         private readonly DoubleAddress _doubleAddressForWebWcfManager;
         private readonly DoubleAddress _doubleAddressForCommonWcfManager;
         private readonly string _localIpAddress;
+        private string _dataCenterConnectionId;
 
         public SignalRHub(IniFile iniFile, IMyLog logFile)
         {
@@ -25,6 +26,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
             _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, -1).Ip4Address;
+            _logFile.AppendLine("signalR Hub c-tor");
         }
 
         private string GetRemoteAddress()
@@ -32,6 +34,12 @@ namespace Iit.Fibertest.DataCenterWebApi
             var ip1 = Context.GetHttpContext().Connection.RemoteIpAddress.ToString();
             // browser started on the same pc as this service
             return ip1 == "::1" ? _localIpAddress : ip1;
+        }
+
+        // used by web client
+        public string GetConnectionId()
+        {
+            return Context.ConnectionId;
         }
 
         public override async Task OnConnectedAsync()
@@ -44,7 +52,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         {
             if (e == null)
             {
-                _logFile.AppendLine($"OnDisconnectedAsync (ClientIp = {GetRemoteAddress()})");
+                _logFile.AppendLine($"OnDisconnectedAsync (ClientIp = {GetRemoteAddress()},  ConnectionId = {Context.ConnectionId})");
                 await base.OnDisconnectedAsync(new Exception("SignalR disconnected"));
             }
             else
@@ -53,6 +61,13 @@ namespace Iit.Fibertest.DataCenterWebApi
                 if (e.InnerException != null)
                     _logFile.AppendLine($"Inner exception: {e.InnerException.Message}");
                 await base.OnDisconnectedAsync(e);
+            }
+
+            _logFile.AppendLine($"_dataCenterConnectionId {_dataCenterConnectionId}, current connection id {Context.ConnectionId}");
+            if (Context.ConnectionId == _dataCenterConnectionId)
+            {
+                _logFile.AppendLine("it is a server, there is no need to send event");
+                return;
             }
 
             await _commonC2DWcfManager
@@ -66,9 +81,9 @@ namespace Iit.Fibertest.DataCenterWebApi
                     });
         }
 
-        public string GetConnectionId()
+        public async Task CheckServerIn()
         {
-            return Context.ConnectionId;
+            await Clients.All.SendCoreAsync("NotifyServer", new object[] {Context.ConnectionId});
         }
 
         public async Task NotifyAll(string eventType, string dataInJson)

@@ -11,19 +11,22 @@ namespace Iit.Fibertest.DataCenterCore
     {
         Task<bool> IsSignalRConnected(bool isLog = true);
         Task NotifyAll(string eventType, string dataInJson);
+        Task<bool> CheckServerIn();
 
     }
     public class FtSignalRClient : IFtSignalRClient
     {
         private readonly IMyLog _logFile;
+        private readonly ClientsCollection _clientsCollection;
         private HubConnection connection;
         private readonly bool _isWebApiInstalled;
 
         private readonly string _webApiUrl;
 
-        public FtSignalRClient(IniFile iniFile, IMyLog logFile)
+        public FtSignalRClient(IniFile iniFile, IMyLog logFile, ClientsCollection clientsCollection)
         {
             _logFile = logFile;
+            _clientsCollection = clientsCollection;
             var bindingProtocol = iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "http");
             _isWebApiInstalled = bindingProtocol != "none";
             _webApiUrl = $"{bindingProtocol}://localhost:{(int)TcpPorts.WebApiListenTo}/webApiSignalRHub";
@@ -54,8 +57,15 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine("FtSignalRClient connection was closed.");
                 await Task.Delay(1);
             };
+
+            connection.On<string>("NotifyServer", connId =>
+            {
+                _clientsCollection.SignalrHubConnectionId = connId;
+                _logFile.AppendLine($"NotifyServer returned id {connId}");
+            });
         }
 
+      
         // DataCenter notifies WebClients
         public async Task NotifyAll(string eventType, string dataInJson)
         {
@@ -74,6 +84,25 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 _logFile.AppendLine($"FtSignalRClient: {eventType} " + ex.Message);
             }
+        }
+
+        public async Task<bool> CheckServerIn()
+        {
+            if (!_isWebApiInstalled) return true;
+            try
+            {
+                var isConnected = await IsSignalRConnected();
+                if (isConnected)
+                {
+                    await connection.InvokeAsync("CheckServerIn");
+                    return true;
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"FtSignalRClient CheckServerIn: " + e.Message);
+            }
+            return false;
         }
 
         public async Task<bool> IsSignalRConnected(bool isLog = true)

@@ -17,6 +17,8 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly EventStoreService _eventStoreService;
         private readonly List<ClientStation> _clients = new List<ClientStation>();
 
+        public string SignalrHubConnectionId;
+
         public ClientsCollection(IniFile iniFile, IMyLog logFile, Model writeModel,
             CurrentDatacenterParameters currentDatacenterParameters, EventStoreService eventStoreService)
         {
@@ -128,7 +130,7 @@ namespace Iit.Fibertest.DataCenterCore
             return null;
         }
 
-      
+
         private static ClientStation Create(RegisterClientDto dto, User user)
         {
             return new ClientStation()
@@ -178,18 +180,22 @@ namespace Iit.Fibertest.DataCenterCore
 
         // if user just closed the browser tab instead of logging out
         // WebApi has not got user's name and put it as "onSignalRDisconnected"
-        public void UnregisterClientAsync(UnRegisterClientDto dto)
+        public bool UnregisterClientAsync(UnRegisterClientDto dto)
         {
+            if (dto.ConnectionId == SignalrHubConnectionId)
+                return false;
             var station = _clients.FirstOrDefault(s => s.ConnectionId == dto.ConnectionId);
             if (station != null)
             {
                 _clients.Remove(station);
                 _logFile.AppendLine($"Client {dto.Username}/{dto.ClientIp} with connectionId {dto.ConnectionId} unregistered.");
+                LogStations();
+                return true;
             }
             else
                 _logFile.AppendLine($"There is no client {dto.Username}/{dto.ClientIp} with connectionId {dto.ConnectionId}");
-
             LogStations();
+            return false;
         }
 
         public async void CleanDeadClients(TimeSpan timeSpan)
@@ -241,12 +247,15 @@ namespace Iit.Fibertest.DataCenterCore
 
         private void LogStations()
         {
-            _logFile.AppendLine("-----------------------------------------------");
+            _logFile.EmptyLine(' ');
+            _logFile.AppendLine($"There are {_clients.Count} client(s):");
+            _logFile.EmptyLine('-');
             foreach (var station in _clients)
             {
                 _logFile.AppendLine($"{station.UserName}/{station.ClientIp} with connection id {station.ConnectionId}");
             }
-            _logFile.AppendLine($"There are {_clients.Count()} client(s)");
+            _logFile.EmptyLine('-');
+            _logFile.EmptyLine(' ');
         }
     }
 }

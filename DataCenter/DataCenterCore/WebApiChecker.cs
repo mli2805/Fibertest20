@@ -63,10 +63,13 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<bool> CheckSignalR()
         {
-            var res = await _ftSignalRClient.IsSignalRConnected(false);
-            if (res != _isSignalrHubAvailable)
+//            var res = await _ftSignalRClient.IsSignalRConnected(false);
+            var res = await _ftSignalRClient.CheckServerIn();
+
+         //   if (res != _isSignalrHubAvailable)
             {
-                var word = _isSignalrHubAvailable == true ? "success" : "fail";
+                _isSignalrHubAvailable = res;
+                var word = res ? "success" : "fail";
                 _logFile.AppendLine($"CheckSignalR result: {word}");
             }
             return res;
