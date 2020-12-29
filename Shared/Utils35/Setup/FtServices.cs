@@ -8,6 +8,7 @@ namespace Iit.Fibertest.UtilsLib
         {
             new FtService("FibertestDcService", "Fibertest 2.0 DataCenter Server Service")
             {
+                Ordinal = 1,
                 SourcePath = @"..\DcFiles", 
                 FolderInsideFibertest =  @"DataCenter", 
                 FolderForBinaries = @"bin", 
@@ -16,6 +17,7 @@ namespace Iit.Fibertest.UtilsLib
             }, 
             new FtService("FibertestWaService", "Fibertest 2.0 DataCenter WebApi Service")
             {
+                Ordinal = 0, 
                 SourcePath = @"..\WebApi", 
                 FolderInsideFibertest =  @"WebApi", 
                 FolderForBinaries = @"publish", 
@@ -24,6 +26,7 @@ namespace Iit.Fibertest.UtilsLib
             },
             new FtService("FibertestRtuService", "Fibertest 2.0 RTU Manager Service")
             {
+                Ordinal = 1,
                 SourcePath = @"..\RtuFiles", 
                 FolderInsideFibertest =  @"RtuManager", 
                 FolderForBinaries = @"bin", 
@@ -32,6 +35,7 @@ namespace Iit.Fibertest.UtilsLib
             },
             new FtService("FibertestRtuWatchdog", "Fibertest 2.0 RTU Watchdog Service")
             {
+                Ordinal = 0, // should be uninstalled first
                 SourcePath = @"..\RtuFiles", 
                 FolderInsideFibertest =  @"RtuManager", 
                 FolderForBinaries = @"bin", 

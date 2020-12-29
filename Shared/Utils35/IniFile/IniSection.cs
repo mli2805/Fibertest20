@@ -22,5 +22,6 @@
         WebApi,
         Migrator,
         LoadTesting,
+        Uninstall,
     }
 }

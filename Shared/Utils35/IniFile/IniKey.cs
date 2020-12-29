@@ -138,5 +138,8 @@
 
         // WebApi
         BindingProtocol,
+
+        // Uninstall
+        IsOnRtu,
     }
 }

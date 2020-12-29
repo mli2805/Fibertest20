@@ -68,6 +68,9 @@ namespace Uninstall
         }
         #endregion
 
+        private readonly IniFile _iniFile;
+        private readonly bool _isOnRtu;
+
         public ShellViewModel()
         {
             HeaderViewModel = new HeaderViewModel();
@@ -79,6 +82,10 @@ namespace Uninstall
             LastButtonContent = "Cancel";
             IsButtonUninstallEnabled = true;
             IsButtonCancelEnabled = true;
+
+            _iniFile = new IniFile();
+            _iniFile.AssignFile("uninstall.ini");
+            _isOnRtu = _iniFile.Read(IniSection.Uninstall, IniKey.IsOnRtu, false);
         }
 
         protected override void OnViewLoaded(object view)
@@ -95,7 +102,7 @@ namespace Uninstall
 
             ProcessProgressViewModel.PropertyChanged += ProcessProgressViewModel_PropertyChanged;
             ProcessProgressViewModel.RunUninstall(
-                UnInstallFolderViewModel.InstallationFolder, UnInstallFolderViewModel.IsFullUninstall);
+                UnInstallFolderViewModel.InstallationFolder, UnInstallFolderViewModel.IsFullUninstall, _isOnRtu);
         }
 
         private void ProcessProgressViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

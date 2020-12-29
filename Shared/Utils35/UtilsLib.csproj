@@ -120,6 +120,7 @@
     <Compile Include="Setup\IniOperations.cs" />
     <Compile Include="Setup\RegistryOperations.cs" />
     <Compile Include="Setup\ServiceOperations.cs" />
+    <Compile Include="Setup\SetupUninstallOperations.cs" />
     <Compile Include="Setup\ShortcutOperatios.cs" />
     <Compile Include="Setup\SiteOperations.cs" />
     <Compile Include="SnmpAgent.cs" />

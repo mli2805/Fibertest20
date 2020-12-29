@@ -29,7 +29,7 @@ namespace Iit.Fibertest.InstallRtu
                 return false;
           
             _logFile.AppendLine("Setup uninstall application");
-            _setupUninstallOperations.SetupUninstall(worker, _currentRtuInstallation.InstallationFolder);
+            _setupUninstallOperations.SetupUninstall(worker, _currentRtuInstallation.InstallationFolder, true);
             return true;
         }
     }

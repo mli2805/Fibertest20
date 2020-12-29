@@ -97,7 +97,6 @@
     <Compile Include="Logic\RtuInstallManager.cs" />
     <Compile Include="Logic\SetupRtuManagerOperations.cs" />
     <Compile Include="Enums\SetupPages.cs" />
-    <Compile Include="Logic\SetupUninstallOperations.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

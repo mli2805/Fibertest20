@@ -112,7 +112,6 @@
     <Compile Include="Logic\SetupManager.cs" />
     <Compile Include="Enums\SetupPages.cs" />
     <Compile Include="Logic\SetupSuperClientOperations.cs" />
-    <Compile Include="Logic\SetupUninstallOperations.cs" />
     <Compile Include="ShellViewModel.cs" />
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>

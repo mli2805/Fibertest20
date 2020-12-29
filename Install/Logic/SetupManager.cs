@@ -51,7 +51,7 @@ namespace Iit.Fibertest.Install
             }
 
             _logFile.AppendLine("Setup uninstall application");
-            return _setupUninstallOperations.SetupUninstall(worker, _currentInstallation.InstallationFolder);
+            return _setupUninstallOperations.SetupUninstall(worker, _currentInstallation.InstallationFolder, false);
         }
     }
 }

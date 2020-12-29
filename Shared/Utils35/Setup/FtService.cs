@@ -9,6 +9,7 @@ namespace Iit.Fibertest.UtilsLib
     }
     public class FtService
     {
+        public int Ordinal; // watchdog should be uninstalled first
         public readonly string Name;
         public readonly string DisplayName;
         public string Description => DisplayName;

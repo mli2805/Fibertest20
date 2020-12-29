@@ -18,15 +18,16 @@ namespace Iit.Fibertest.Uninstall
             {"RftsReflect", "" },
         };
 
-        public static bool Do(BackgroundWorker worker, string fibertestFolder, bool isFullUninstall)
+        public static bool Do(BackgroundWorker worker, string fibertestFolder, bool isFullUninstall, bool isOnRtu)
         {
             worker.ReportProgress((int)BwReturnProgressCode.UninstallStarted);
 
-            if (!FtServices.List
+            if (!FtServices.List.OrderBy(s=>s.Ordinal)
                 .All(service => ServiceOperations.UninstallServiceIfExist(service, worker)))
                 return false;
 
-            SiteOperations.DeleteAllFibertestSitesOnThisPc(worker);
+            if (!isOnRtu)
+                SiteOperations.DeleteAllFibertestSitesOnThisPc(worker);
            
             if (!DeleteFiles(worker, fibertestFolder, isFullUninstall)) return false;
             ShortcutOperatios.DeleteAllShortcuts();

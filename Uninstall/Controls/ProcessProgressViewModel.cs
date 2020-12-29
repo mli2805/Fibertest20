@@ -39,12 +39,14 @@ namespace Iit.Fibertest.Uninstall
 
         private string _fibertestFolder;
         private bool _isFullUninstall;
+        private bool _isOnRtu;
         public bool IsUninstallSuccessful { get; set; }
 
-        public void RunUninstall(string fibertestFolder, bool isFullUninstall)
+        public void RunUninstall(string fibertestFolder, bool isFullUninstall, bool isOnRtu)
         {
             _fibertestFolder = fibertestFolder;
             _isFullUninstall = isFullUninstall;
+            _isOnRtu = isOnRtu;
 
             var bw = new BackgroundWorker();
             bw.WorkerReportsProgress = true;
@@ -71,7 +73,7 @@ namespace Iit.Fibertest.Uninstall
         private void Bw_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = sender as BackgroundWorker;
-            IsUninstallSuccessful = UninstallOperations.Do(worker, _fibertestFolder, _isFullUninstall);
+            IsUninstallSuccessful = UninstallOperations.Do(worker, _fibertestFolder, _isFullUninstall, _isOnRtu);
         }
       
     }
