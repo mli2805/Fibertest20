@@ -97,9 +97,12 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            return dto.RtuMaker == RtuMaker.IIT
+            var result = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.InitializeAsync(dto)
                 : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.InitializeAsync(dto).Result);
+
+            await _ftSignalRClient.NotifyAll("RtuInitialized", result.ToCamelCaseJson());
+            return result;
         }
 
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)

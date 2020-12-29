@@ -53,8 +53,8 @@ namespace Iit.Fibertest.DataCenterWebApi
                     .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
                     .UpdateMeasurement(User.Identity.Name, dto);
                 return result == null
-                    ? new RequestAnswer() {ReturnCode = ReturnCode.Ok}
-                    : new RequestAnswer() {ReturnCode = ReturnCode.Error, ErrorMessage = result};
+                    ? new RequestAnswer() { ReturnCode = ReturnCode.Ok }
+                    : new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = result };
             }
             catch (Exception e)
             {
@@ -62,16 +62,13 @@ namespace Iit.Fibertest.DataCenterWebApi
                 return new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
             }
         }
-        
+
         [Authorize]
         [HttpPost("Measurement-client")]
         public async Task<ClientMeasurementStartedDto> MeasurementClient()
         {
-            var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
-            // browser started on the same pc as this service
-            var aa = ip1 == "::1" ? _localIpAddress : ip1;
-            _logFile.AppendLine($"MeasurementClient request from {aa}");
-           
+            _logFile.AppendLine($"MeasurementClient request from {GetRemoteAddress()}");
+
             try
             {
                 string body;
@@ -96,11 +93,8 @@ namespace Iit.Fibertest.DataCenterWebApi
         [HttpPost("Out-of-turn-measurement")]
         public async Task<OutOfTurnMeasurementStartedDto> OutOfTurnPreciseMeasurement()
         {
-            var ip1 = HttpContext.Connection.RemoteIpAddress.ToString();
-            // browser started on the same pc as this service
-            var aa = ip1 == "::1" ? _localIpAddress : ip1;
-            _logFile.AppendLine($"OutOfTurnPreciseMeasurement request from {aa}");
-           
+            _logFile.AppendLine($"OutOfTurnPreciseMeasurement request from {GetRemoteAddress()}");
+
             try
             {
                 string body;

@@ -12,7 +12,7 @@ namespace Graph.Tests
 
         public Task NotifyAll(string eventType, string dataInJson)
         {
-            return Task.Delay(1);
+            return Task.Delay(0);
         }
 
         public Task<bool> CheckServerIn()

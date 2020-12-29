@@ -251,7 +251,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 {
                     body = await reader.ReadToEndAsync();
                 }
-                _logFile.AppendLine("body: " + body);
+                _logFile.AppendLine("body: " + body); // RTU maker
                 var str = JsonConvert.DeserializeObject<string>(body);
                 var rtuMaker = (RtuMaker)Enum.Parse(typeof(RtuMaker), str);
                 var dto = new StopMonitoringDto() { RtuId = rtuGuid, RtuMaker = rtuMaker };
@@ -267,6 +267,56 @@ namespace Iit.Fibertest.DataCenterWebApi
             }
         }
 
+        [Authorize]
+        [HttpPost("Initialize/{id}")]
+        public async Task<RtuInitializedWebDto> InitializeRtu(string id)
+        {
+            try
+            {
+                await Task.Delay(1);
+                var rtuGuid = Guid.Parse(id);
+                _logFile.AppendLine($"Initialize RTU, ID = {rtuGuid}");
+                var dto = new InitializeRtuDto() { RtuId = rtuGuid, ClientIp = GetRemoteAddress() };
+                var rtuInitializedDto = await _webC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .InitializeRtuAsync(dto);
+                if (rtuInitializedDto.ReturnCode == ReturnCode.Ok)
+                    rtuInitializedDto.ReturnCode = ReturnCode.RtuInitializedSuccessfully;
+                _logFile.AppendLine($"LongRtuInitialization: {rtuInitializedDto.ReturnCode}");
+                return Map(rtuInitializedDto);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"InitializeRtu: {e.Message}");
+                return new RtuInitializedWebDto();
+            }
+        }
 
+        private RtuInitializedWebDto Map(RtuInitializedDto dto)
+        {
+            return new RtuInitializedWebDto()
+            {
+                RtuId = dto.RtuId,
+                ReturnCode = dto.ReturnCode,
+                ErrorMessage = dto.ErrorMessage,
+                RtuNetworkSettings = new RtuNetworkSettingsDto()
+                {
+                    MainChannel = dto.RtuAddresses?.Main?.ToStringASpace,
+                    IsReserveChannelSet = dto.RtuAddresses?.HasReserveAddress ?? false,
+                    ReserveChannel = dto.RtuAddresses?.Reserve?.ToStringASpace,
+                    OtdrAddress = dto.OtdrAddress == null
+                        ? ""
+                        : dto.OtdrAddress.Ip4Address == "192.168.88.101"
+                            ? $"{dto.RtuAddresses?.Main?.Ip4Address} : {dto.OtdrAddress.Port}"
+                            : dto.OtdrAddress.ToStringASpace,
+                    Mfid = dto.Mfid,
+                    Serial = dto.Serial,
+                    OwnPortCount = dto.OwnPortCount,
+                    FullPortCount = dto.FullPortCount,
+                    Version = dto.Version,
+                    Version2 = dto.Version2,
+                }
+            };
+        }
     }
 }

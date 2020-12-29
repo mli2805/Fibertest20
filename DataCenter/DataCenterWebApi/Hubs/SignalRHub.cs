@@ -25,7 +25,6 @@ namespace Iit.Fibertest.DataCenterWebApi
             _webC2DWcfManager = new WebC2DWcfManager(iniFile, logFile);
             _commonC2DWcfManager = new CommonC2DWcfManager(iniFile, logFile);
             _localIpAddress = iniFile.Read(IniSection.ClientLocalAddress, -1).Ip4Address;
-            _logFile.AppendLine($"signalR Hub c-tor");
         }
 
         private string GetRemoteAddress()
@@ -43,7 +42,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         public override async Task OnConnectedAsync()
         {
-            _logFile.AppendLine($"SignalR Hub: User {Context.User.Identity.Name} connected from = {GetRemoteAddress()} assigned id {Context.ConnectionId}");
+//            _logFile.AppendLine($"SignalR Hub: User {Context.User.Identity.Name} connected from = {GetRemoteAddress()} assigned id {Context.ConnectionId}");
             await base.OnConnectedAsync();
         }
 
@@ -51,7 +50,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         {
             if (e == null)
             {
-                _logFile.AppendLine($"OnDisconnectedAsync (ClientIp = {GetRemoteAddress()},  ConnectionId = {Context.ConnectionId})");
+//                _logFile.AppendLine($"OnDisconnectedAsync (ClientIp = {GetRemoteAddress()},  ConnectionId = {Context.ConnectionId})");
                 await base.OnDisconnectedAsync(new Exception("SignalR disconnected"));
             }
             else
@@ -74,6 +73,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         public async Task CheckServerIn()
         {
+//            _logFile.AppendLine("Returns DC's connection ID");
             await Clients.All.SendCoreAsync("NotifyServer", new object[] {Context.ConnectionId});
         }
 

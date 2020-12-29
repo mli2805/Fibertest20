@@ -82,7 +82,6 @@ namespace Iit.Fibertest.WcfConnections
                 dto.ClientIp = _clientIp;
                 var channel = wcfConnection.CreateChannel();
                 var result = await channel.UnregisterClientAsync(dto);
-                _logFile.AppendLine($@"Unregistered on server");
                 wcfConnection.Close();
                 return result;
             }

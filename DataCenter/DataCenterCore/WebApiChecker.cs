@@ -16,7 +16,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IFtSignalRClient _ftSignalRClient;
         private TimeSpan _checkWebApiEvery;
 
-        public WebApiChecker(IniFile iniFile, IMyLog logFile, 
+        public WebApiChecker(IniFile iniFile, IMyLog logFile,
             CurrentDatacenterParameters cdp, IFtSignalRClient ftSignalRClient)
         {
             _iniFile = iniFile;
@@ -63,10 +63,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<bool> CheckSignalR()
         {
-//            var res = await _ftSignalRClient.IsSignalRConnected(false);
             var res = await _ftSignalRClient.CheckServerIn();
 
-//         if (res != _isSignalrHubAvailable)
+            if (res != _isSignalrHubAvailable)
             {
                 _isSignalrHubAvailable = res;
                 var word = res ? "success" : "fail";

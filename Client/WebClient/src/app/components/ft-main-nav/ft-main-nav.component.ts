@@ -27,6 +27,7 @@ import {
   MessageBoxStyle,
 } from "../ft-simple-dialog/ft-message-box";
 import { MatDialog } from "@angular/material";
+import { RtuInitializedWebDto } from "src/app/models/dtos/rtu/rtuInitializedWebDto";
 
 @Component({
   selector: "ft-main-nav",
@@ -34,12 +35,12 @@ import { MatDialog } from "@angular/material";
   styleUrls: ["./ft-main-nav.component.css"],
 })
 export class FtMainNavComponent implements OnInit, OnDestroy {
-  @ViewChild("outletDiv", { static: false }) outletDiv: ElementRef<
-    HTMLDivElement
-  >;
+  @ViewChild("outletDiv", { static: false })
+  outletDiv: ElementRef<HTMLDivElement>;
   private measurementAddedSubscription: Subscription;
   private networkEventAddedSubscription: Subscription;
   private bopEventAddedSubscription: Subscription;
+  private rtuInitializedSubscription: Subscription;
 
   private opticalAlarmIndicator: OpticalAlarmIndicator;
   private networkAlarmIndicator: NetworkAlarmIndicator;
@@ -78,6 +79,11 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
 
     this.subscribeNewAlarmEvents();
     this.subscribeUserSeenAlarms();
+    this.rtuInitializedSubscription = this.signalRService.rtuInitializedEmitter.subscribe(
+      (signal: RtuInitializedWebDto) => {
+        console.log("RTU initialized signal came.", signal);
+      }
+    );
 
     router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {

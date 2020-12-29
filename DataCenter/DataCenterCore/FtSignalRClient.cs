@@ -14,7 +14,7 @@ namespace Iit.Fibertest.DataCenterCore
         Task<bool> CheckServerIn();
 
     }
-    public class FtSignalRClient : IFtSignalRClient
+    public class FtSignalRClient : IFtSignalRClient, IDisposable
     {
         private readonly IMyLog _logFile;
         private readonly ClientsCollection _clientsCollection;
@@ -70,6 +70,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task NotifyAll(string eventType, string dataInJson)
         {
             if (!_isWebApiInstalled) return;
+          //  if (!_clientsCollection.HasAnyWebClients()) return;
             try
             {
                 if (eventType == "ClientMeasurementDone")
@@ -77,7 +78,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var isConnected = await IsSignalRConnected();
                 if (isConnected)
                 {
-                    await connection.InvokeAsync("NotifyAll", eventType, dataInJson);
+                    var unused = connection.InvokeAsync("NotifyAll", eventType, dataInJson);
                 }
             }
             catch (Exception ex)
@@ -94,13 +95,14 @@ namespace Iit.Fibertest.DataCenterCore
                 var isConnected = await IsSignalRConnected();
                 if (isConnected)
                 {
-                    await connection.InvokeAsync("CheckServerIn");
+//                    await connection.InvokeAsync("CheckServerIn");
+                    var unused = connection.InvokeAsync("CheckServerIn");
                     return true;
                 }
             }
             catch (Exception e)
             {
-                _logFile.AppendLine($"FtSignalRClient CheckServerIn: " + e.Message);
+                _logFile.AppendLine("Exception in FtSignalRClient CheckServerIn: " + e.Message);
             }
             return false;
         }
@@ -142,6 +144,11 @@ namespace Iit.Fibertest.DataCenterCore
             }
 
             return true;
+        }
+
+        public async void Dispose()
+        {
+            await connection.DisposeAsync();
         }
     }
 }

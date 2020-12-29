@@ -7,6 +7,7 @@ import { Subscription } from "rxjs";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 import { OneApiService } from "src/app/api/one.service";
+import { InitializeRtuDto } from "src/app/models/dtos/rtu/initializeRtuDto";
 
 @Component({
   selector: "ft-rtu-network-settings",
@@ -42,35 +43,47 @@ export class FtRtuNetworkSettingsComponent implements OnInit, OnDestroy {
       });
 
     this.subscription = this.signalRService.rtuInitializedEmitter.subscribe(
-      (signal: RtuInitializedWebDto) => {
-        if (signal.returnCode === ReturnCode.RtuInitializedSuccessfully) {
-          signal.rtuNetworkSettings.rtuTitle = this.vm.rtuTitle;
-          this.vm = signal.rtuNetworkSettings;
-        } else {
-        }
-        this.initializationMessage = this.returnCodePipe.transform(
-          signal.returnCode
-        );
-        if (signal.errorMessage !== null && signal.errorMessage !== undefined) {
-          this.initializationMessage += ";  " + signal.errorMessage;
-        }
-        this.standardView();
-        console.log(signal);
-      }
+      (signal: RtuInitializedWebDto) => this.processInitializationResult(signal)
     );
+  }
+
+  processInitializationResult(signal: RtuInitializedWebDto) {
+    if (signal.returnCode === ReturnCode.RtuInitializedSuccessfully) {
+      signal.rtuNetworkSettings.rtuTitle = this.vm.rtuTitle;
+      this.vm = signal.rtuNetworkSettings;
+    } else {
+    }
+    this.initializationMessage = this.returnCodePipe.transform(
+      signal.returnCode
+    );
+    if (signal.errorMessage !== null && signal.errorMessage !== undefined) {
+      this.initializationMessage += ";  " + signal.errorMessage;
+    }
+    this.setStandardView();
+    console.log(signal);
   }
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
 
-  initializeRtu() {
+  _initializeRtu() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
-    this.whileRequestView();
+    this.setRequestView();
     this.signalRService.initializeRtu(id);
   }
 
-  standardView() {
+  initializeRtu() {
+    const id = this.activeRoute.snapshot.paramMap.get("id");
+    this.setRequestView();
+    this.oneApiService
+      .postRequest(`rtu/initialize/${id}`, null)
+      .subscribe((res: RtuInitializedWebDto) =>
+        this.processInitializationResult(res)
+      );
+  }
+
+  setStandardView() {
     this.isSpinnerVisible = false;
     this.isButtonDisabled = false;
 
@@ -78,7 +91,7 @@ export class FtRtuNetworkSettingsComponent implements OnInit, OnDestroy {
     matCard.removeAttribute("id");
   }
 
-  whileRequestView() {
+  setRequestView() {
     this.initializationMessage = "";
     this.isSpinnerVisible = true;
     this.isButtonDisabled = true;
