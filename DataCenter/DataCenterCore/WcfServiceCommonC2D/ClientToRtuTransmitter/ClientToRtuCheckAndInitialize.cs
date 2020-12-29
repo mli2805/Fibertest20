@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -12,16 +13,19 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly ID2RWcfManager _d2RWcfManager;
+        private readonly IFtSignalRClient _ftSignalRClient;
 
         private readonly DoubleAddress _serverDoubleAddress;
 
         public ClientToRtuTransmitter(IniFile iniFile, IMyLog logFile,
-            RtuStationsRepository rtuStationsRepository, ID2RWcfManager d2RWcfManager)
+            RtuStationsRepository rtuStationsRepository, ID2RWcfManager d2RWcfManager,
+            IFtSignalRClient ftSignalRClient)
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _rtuStationsRepository = rtuStationsRepository;
             _d2RWcfManager = d2RWcfManager;
+            _ftSignalRClient = ftSignalRClient;
 
             _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
         }
@@ -43,19 +47,37 @@ namespace Iit.Fibertest.DataCenterCore
                 // (it is an idealogical requirement)
                 dto.ServerAddresses.HasReserveAddress = false;
 
-            var rtuInitializedDto = await _d2RWcfManager
-                .SetRtuAddresses(dto.RtuAddresses, _iniFile, _logFile)
-                .InitializeAsync(dto);
-            if (rtuInitializedDto.IsInitialized)
+            RtuInitializedDto rtuInitializedDto;
+            string message;
+            try
             {
-                rtuInitializedDto.RtuAddresses = dto.RtuAddresses;
-                var rtuStation = RtuStationFactory.Create(rtuInitializedDto);
-                await _rtuStationsRepository.RegisterRtuAsync(rtuStation);
+                rtuInitializedDto = await _d2RWcfManager
+                    .SetRtuAddresses(dto.RtuAddresses, _iniFile, _logFile)
+                    .InitializeAsync(dto);
+                if (rtuInitializedDto.IsInitialized)
+                {
+                    rtuInitializedDto.RtuAddresses = dto.RtuAddresses;
+                    var rtuStation = RtuStationFactory.Create(rtuInitializedDto);
+                    await _rtuStationsRepository.RegisterRtuAsync(rtuStation);
+                }
+                message = rtuInitializedDto.IsInitialized
+                    ? "RTU initialized successfully, monitoring mode is " + (rtuInitializedDto.IsMonitoringOn ? "AUTO" : "MANUAL")
+                    : "RTU initialization failed";
+              
             }
-            var message = rtuInitializedDto.IsInitialized
-                ? "RTU initialized successfully, monitoring mode is " + (rtuInitializedDto.IsMonitoringOn ? "AUTO" : "MANUAL")
-                : "RTU initialization failed";
+            catch (Exception e)
+            {
+                rtuInitializedDto = new RtuInitializedDto()
+                {
+                    RtuId =  dto.RtuId, 
+                    IsInitialized = false, 
+                    ErrorMessage = e.Message
+                };
+                message = "RTU initialization failed: " + e.Message;
+            }
+
             _logFile.AppendLine(message);
+            await _ftSignalRClient.NotifyAll("RtuInitialized", rtuInitializedDto.ToCamelCaseJson());
 
             return rtuInitializedDto;
         }

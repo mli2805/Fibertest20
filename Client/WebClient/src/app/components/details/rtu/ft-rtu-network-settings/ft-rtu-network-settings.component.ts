@@ -7,16 +7,15 @@ import { Subscription } from "rxjs";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 import { OneApiService } from "src/app/api/one.service";
-import { InitializeRtuDto } from "src/app/models/dtos/rtu/initializeRtuDto";
+import { Utils } from "src/app/Utils/utils";
 
 @Component({
   selector: "ft-rtu-network-settings",
   templateUrl: "./ft-rtu-network-settings.component.html",
   styleUrls: ["./ft-rtu-network-settings.component.css"],
 })
-export class FtRtuNetworkSettingsComponent implements OnInit, OnDestroy {
+export class FtRtuNetworkSettingsComponent implements OnInit {
   vm: RtuNetworkSettingsDto = new RtuNetworkSettingsDto();
-  private subscription: Subscription;
   public isSpinnerVisible = true;
   public isButtonDisabled = true;
   public initializationReturnCode = ReturnCode.Ok;
@@ -25,7 +24,6 @@ export class FtRtuNetworkSettingsComponent implements OnInit, OnDestroy {
   constructor(
     private activeRoute: ActivatedRoute,
     private oneApiService: OneApiService,
-    private signalRService: SignalrService,
     private returnCodePipe: ReturnCodePipe
   ) {
     this.isSpinnerVisible = true;
@@ -41,36 +39,25 @@ export class FtRtuNetworkSettingsComponent implements OnInit, OnDestroy {
         this.vm = res;
         this.isSpinnerVisible = false;
       });
-
-    this.subscription = this.signalRService.rtuInitializedEmitter.subscribe(
-      (signal: RtuInitializedWebDto) => this.processInitializationResult(signal)
-    );
   }
 
-  processInitializationResult(signal: RtuInitializedWebDto) {
-    if (signal.returnCode === ReturnCode.RtuInitializedSuccessfully) {
-      signal.rtuNetworkSettings.rtuTitle = this.vm.rtuTitle;
-      this.vm = signal.rtuNetworkSettings;
+  processInitializationResult(resultDto: RtuInitializedWebDto) {
+    if (resultDto.returnCode === ReturnCode.RtuInitializedSuccessfully) {
+      resultDto.rtuNetworkSettings.rtuTitle = this.vm.rtuTitle;
+      this.vm = resultDto.rtuNetworkSettings;
     } else {
     }
     this.initializationMessage = this.returnCodePipe.transform(
-      signal.returnCode
+      resultDto.returnCode
     );
-    if (signal.errorMessage !== null && signal.errorMessage !== undefined) {
-      this.initializationMessage += ";  " + signal.errorMessage;
+    if (
+      resultDto.errorMessage !== null &&
+      resultDto.errorMessage !== undefined
+    ) {
+      this.initializationMessage += ";  " + resultDto.errorMessage;
     }
-    this.setStandardView();
-    console.log(signal);
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-  }
-
-  _initializeRtu() {
-    const id = this.activeRoute.snapshot.paramMap.get("id");
-    this.setRequestView();
-    this.signalRService.initializeRtu(id);
+    console.log(resultDto);
+    this.setStandardView(resultDto);
   }
 
   initializeRtu() {
@@ -83,7 +70,11 @@ export class FtRtuNetworkSettingsComponent implements OnInit, OnDestroy {
       );
   }
 
-  setStandardView() {
+  setStandardView(resultDto: RtuInitializedWebDto) {
+    if (resultDto.returnCode === ReturnCode.Error) {
+      resultDto.returnCode = ReturnCode.RtuInitializationError;
+    }
+    window.alert(this.returnCodePipe.transform(resultDto.returnCode));
     this.isSpinnerVisible = false;
     this.isButtonDisabled = false;
 

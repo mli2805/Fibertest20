@@ -79,11 +79,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
 
     this.subscribeNewAlarmEvents();
     this.subscribeUserSeenAlarms();
-    this.rtuInitializedSubscription = this.signalRService.rtuInitializedEmitter.subscribe(
-      (signal: RtuInitializedWebDto) => {
-        console.log("RTU initialized signal came.", signal);
-      }
-    );
 
     router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {

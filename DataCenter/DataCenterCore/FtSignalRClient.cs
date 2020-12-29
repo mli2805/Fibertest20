@@ -54,14 +54,14 @@ namespace Iit.Fibertest.DataCenterCore
 
             connection.Closed += async (error) =>
             {
-                _logFile.AppendLine("FtSignalRClient connection was closed.");
+//                _logFile.AppendLine("FtSignalRClient connection was closed.");
                 await Task.Delay(1);
             };
 
             connection.On<string>("NotifyServer", connId =>
             {
                 _clientsCollection.SignalrHubConnectionId = connId;
-                _logFile.AppendLine($"NotifyServer returned id {connId}");
+//                _logFile.AppendLine($"NotifyServer returned id {connId}");
             });
         }
 
@@ -92,7 +92,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (!_isWebApiInstalled) return true;
             try
             {
-                var isConnected = await IsSignalRConnected();
+                var isConnected = await IsSignalRConnected(false);
                 if (isConnected)
                 {
 //                    await connection.InvokeAsync("CheckServerIn");

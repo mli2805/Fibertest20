@@ -169,14 +169,15 @@ namespace Iit.Fibertest.DataCenterCore
         /// not the same as desktop command:
         /// web client sends only id of RTU which had already been initialized and now should be RE-initialized
         /// </summary>
-        /// <param name="dto">contains only RTU ID and will be filled in now (on server)</param>
+        /// <param name="dto">contains only RTU ID and will be filled in now (on data center)</param>
         /// <returns></returns>
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
             if (!FillIn(dto)) return new RtuInitializedDto() { ReturnCode = ReturnCode.RtuInitializationError, };
-            return dto.RtuMaker == RtuMaker.IIT
+            var resultDto = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.InitializeAsync(dto)
                 : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.InitializeAsync(dto).Result);
+            return resultDto;
         }
 
         private bool FillIn(InitializeRtuDto dto)

@@ -6,7 +6,6 @@ namespace Iit.Fibertest.Dto
     {
         public Guid RtuId { get; set; }
 
-        public string RequestId { get; set; }
         public ReturnCode ReturnCode { get; set; }
         public string ErrorMessage { get; set; }
 

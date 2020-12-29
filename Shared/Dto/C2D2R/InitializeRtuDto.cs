@@ -11,9 +11,6 @@ namespace Iit.Fibertest.Dto
         public string ClientIp { get; set; }
         
         [DataMember]
-        public string RequestId { get; set; }
-
-        [DataMember]
         public RtuMaker RtuMaker { get; set; }
         [DataMember]
         public Guid RtuId { get; set; }

@@ -276,13 +276,13 @@ namespace Iit.Fibertest.DataCenterWebApi
                 await Task.Delay(1);
                 var rtuGuid = Guid.Parse(id);
                 _logFile.AppendLine($"Initialize RTU, ID = {rtuGuid}");
-                var dto = new InitializeRtuDto() { RtuId = rtuGuid, ClientIp = GetRemoteAddress() };
+                var dto = new InitializeRtuDto() { RtuId = rtuGuid, ClientIp = GetRemoteAddress()};
                 var rtuInitializedDto = await _webC2DWcfManager
                     .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
                     .InitializeRtuAsync(dto);
                 if (rtuInitializedDto.ReturnCode == ReturnCode.Ok)
                     rtuInitializedDto.ReturnCode = ReturnCode.RtuInitializedSuccessfully;
-                _logFile.AppendLine($"LongRtuInitialization: {rtuInitializedDto.ReturnCode}");
+                _logFile.AppendLine($"Rtu initialization: {rtuInitializedDto.ReturnCode}");
                 return Map(rtuInitializedDto);
             }
             catch (Exception e)
