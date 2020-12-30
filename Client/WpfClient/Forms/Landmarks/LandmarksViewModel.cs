@@ -66,7 +66,7 @@ namespace Iit.Fibertest.Client
         private ObservableCollection<LandmarkRow> LandmarksToRows()
         {
             var temp = _isFilterOn ? _landmarks.Where(l => l.EquipmentType != EquipmentType.EmptyNode) : _landmarks;
-            return new ObservableCollection<LandmarkRow>(temp.Select(l => l.ToRow(_selectedGpsInputMode.Mode)));
+            return new ObservableCollection<LandmarkRow>(temp.Select(l =>  new LandmarkRow().FromLandmark(l, _selectedGpsInputMode.Mode)));
         }
 
         private bool _isFilterOn;
@@ -132,7 +132,7 @@ namespace Iit.Fibertest.Client
                 OneLandmarkViewModel.IsExcludeEquipmentEnabled = !OneLandmarkViewModel.IsIncludeEquipmentEnabled;
             }
 
-            OneLandmarkViewModel.IsFromBaseRef = _isFromBaseRef;
+            OneLandmarkViewModel.IsFromBaseRef = _isLandmarksFromBase;
         }
 
         private OneLandmarkViewModel _oneLandmarkViewModel;
@@ -203,7 +203,7 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Landmarks_of_traces_of_RTU_ + _rtuTitle;
         }
 
-        private bool _isFromBaseRef;
+      //  private bool _isFromBaseRef;
         private async Task<int> PrepareLandmarks()
         {
             OneLandmarkViewModel.TraceTitle = SelectedTrace.Title;
@@ -211,13 +211,13 @@ namespace Iit.Fibertest.Client
             if (SelectedTrace.PreciseId == Guid.Empty)
             {
                 _landmarks = _landmarksGraphParser.GetLandmarks(SelectedTrace);
-                _isFromBaseRef = false;
+//                _isFromBaseRef = false;
             }
             else
             {
                 var sorData = await GetBase(SelectedTrace.PreciseId);
                 _landmarks = _landmarksBaseParser.GetLandmarks(sorData, SelectedTrace);
-                _isFromBaseRef = true;
+//                _isFromBaseRef = true;
             }
             Rows = LandmarksToRows();
             return 0;
@@ -273,7 +273,7 @@ namespace Iit.Fibertest.Client
             var cmd = new IncludeEquipmentIntoTrace()
                 {
                     TraceId = SelectedTrace.TraceId,
-                    IndexInTrace = SelectedRow.NumberIncludingAdjustmentPoints,
+                    IndexInTrace = SelectedRow.NumberIncludingEmptyWells,
                     EquipmentId = traceContentChoiceViewModel.GetSelectedEquipmentGuid()
                 };
             await _c2DWcfManager.SendCommandAsObj(cmd);
@@ -284,7 +284,7 @@ namespace Iit.Fibertest.Client
             var cmd = new ExcludeEquipmentFromTrace()
             {
                 TraceId = SelectedTrace.TraceId,
-                IndexInTrace = SelectedRow.NumberIncludingAdjustmentPoints,
+                IndexInTrace = SelectedRow.NumberIncludingEmptyWells,
                 EquipmentId = SelectedRow.EquipmentId,
             };
             await _c2DWcfManager.SendCommandAsObj(cmd);

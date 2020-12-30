@@ -153,6 +153,9 @@
     <Compile Include="Algorithms\Gis\DecartAxis.cs" />
     <Compile Include="Algorithms\Gis\DecartCoors.cs" />
     <Compile Include="Algorithms\Gis\GisLabCalculator.cs" />
+    <Compile Include="Algorithms\LandmarksExtractors\Landmark.cs" />
+    <Compile Include="Algorithms\LandmarksExtractors\LandmarksBaseParser.cs" />
+    <Compile Include="Algorithms\LandmarksExtractors\LandmarksGraphParser.cs" />
     <Compile Include="Algorithms\TraceStatePdfReport\AccidentLineModel.cs" />
     <Compile Include="Algorithms\TraceStatePdfReport\AccidentLineModelFactory.cs" />
     <Compile Include="Algorithms\TraceStatePdfReport\AccidentPlaceReportProvider.cs" />

@@ -1,5 +1,7 @@
 ﻿using System;
 using Caliburn.Micro;
+using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -7,7 +9,7 @@ namespace Iit.Fibertest.Client
     {
         public Guid NodeId { get; set; }
         public int Number { get; set; }
-        public int NumberIncludingAdjustmentPoints { get; set; }
+        public int NumberIncludingEmptyWells { get; set; }
 
         public string NodeTitle
         {
@@ -50,6 +52,23 @@ namespace Iit.Fibertest.Client
                 _gpsCoors = value;
                 NotifyOfPropertyChange();
             }
+        }
+
+        public LandmarkRow FromLandmark(Landmark landmark, GpsInputMode mode)
+        {
+            Number = landmark.Number;
+            NumberIncludingEmptyWells = landmark.NumberIncludingEmptyWells;
+            NodeId = landmark.NodeId;
+            NodeTitle = landmark.NodeTitle;
+            NodeComment = landmark.NodeComment;
+            EquipmentId = landmark.EquipmentId;
+            EquipmentTitle = landmark.EquipmentTitle;
+            EquipmentType = landmark.EquipmentType.ToLocalizedString();
+            Distance = $@"{landmark.Distance: 0.000}";
+            EventNumber = landmark.EventNumber == -1 ? Resources.SID_no : $@"{landmark.EventNumber}";
+            GpsCoors = landmark.GpsCoors.ToDetailedString(mode);
+
+            return this;
         }
     }
 }

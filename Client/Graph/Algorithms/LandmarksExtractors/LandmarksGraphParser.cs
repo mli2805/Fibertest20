@@ -2,9 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph
 {
     public class LandmarksGraphParser
     {
@@ -47,7 +46,7 @@ namespace Iit.Fibertest.Client
             return new Landmark()
             {
                 Number = number,
-                NumberIncludingAdjustmentPoints = numberIncludingAdjustmentPoints,
+                NumberIncludingEmptyWells = numberIncludingAdjustmentPoints,
                 NodeId = node.NodeId,
                 NodeTitle = node.Title,
                 NodeComment = comment,

@@ -564,10 +564,7 @@
     </Compile>
     <Compile Include="Forms\Controls\NetAddressTestViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\Zones\ZonesViewModel.cs" />
-    <Compile Include="Forms\Landmarks\Landmark.cs" />
     <Compile Include="Forms\Landmarks\LandmarkRow.cs" />
-    <Compile Include="Forms\Landmarks\LandmarksBaseParser.cs" />
-    <Compile Include="Forms\Landmarks\LandmarksGraphParser.cs" />
     <Compile Include="Forms\Landmarks\LandmarksViewModel.cs" />
     <Compile Include="Forms\LoginServer\LoginViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\Users\UserVm.cs" />

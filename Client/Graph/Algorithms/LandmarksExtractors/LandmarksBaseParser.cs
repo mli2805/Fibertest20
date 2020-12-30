@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using GMap.NET;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph
 {
     public class LandmarksBaseParser
     {

@@ -3,7 +3,6 @@ using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Optixsoft.SorExaminer.OtdrDataFormat;
-using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
 namespace Iit.Fibertest.Graph
 {
@@ -56,7 +55,7 @@ namespace Iit.Fibertest.Graph
 
         public void InsertLandmarks(OtdrDataKnownBlocks sorData, TraceModelForBaseRef model)
         {
-            var newLandmarks = new Landmark[model.EquipArray.Length];
+            var newLandmarks = new Optixsoft.SorExaminer.OtdrDataFormat.Structures.Landmark[model.EquipArray.Length];
 
             var oldLandmarkIndex = 0;
             for (var i = 0; i < model.EquipArray.Length; i++)
@@ -67,7 +66,7 @@ namespace Iit.Fibertest.Graph
                     oldLandmarkIndex++;
                 }
                 else
-                    newLandmarks[i] = new Landmark() { Code = LandmarkCode.Manhole };
+                    newLandmarks[i] = new Optixsoft.SorExaminer.OtdrDataFormat.Structures.Landmark() { Code = LandmarkCode.Manhole };
             }
 
             sorData.LinkParameters.LandmarkBlocks = newLandmarks;
