@@ -69,6 +69,7 @@ namespace Iit.Fibertest.DataCenterCore
                 EqType = lm.EquipmentType,
                 EquipmentTitle = lm.EquipmentTitle,
                 DistanceKm = lm.Distance,
+                EventOrdinal = lm.EventNumber,
                 Coors = new GeoPoint()
                 {
                     Latitude = lm.GpsCoors.Lat,

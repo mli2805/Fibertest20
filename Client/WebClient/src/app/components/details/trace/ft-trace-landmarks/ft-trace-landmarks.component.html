@@ -1,1 +1,84 @@
-<p>ft-trace-landmarks works!</p>
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>
+        {{ "SID_Landmarks" | translate }}
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <h3>{{ "SID_Trace" | translate }}: {{ vm.header.traceTitle }}</h3>
+      <div class="landmarksTable">
+        <mat-table [dataSource]="vm.landmarks">
+          <ng-container matColumnDef="ordinal">
+            <mat-header-cell *matHeaderCellDef>{{
+              "SID_Number" | translate
+            }}</mat-header-cell>
+            <mat-cell class="ordinal-cell" *matCellDef="let element">{{
+              element.ordinal
+            }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="nodeTitle">
+            <mat-header-cell *matHeaderCellDef>{{
+              "SID_Node" | translate
+            }}</mat-header-cell>
+            <mat-cell class="node-cell" *matCellDef="let element">{{
+              element.nodeTitle
+            }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="eqType">
+            <mat-header-cell *matHeaderCellDef>{{
+              "SID_Equipment_type" | translate
+            }}</mat-header-cell>
+            <mat-cell class="node-cell" *matCellDef="let element">{{
+              element.eqType | equipmentTypeToLocalizedStringPipe
+            }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="equipmentTitle">
+            <mat-header-cell *matHeaderCellDef>{{
+              "SID_Equipm__title" | translate
+            }}</mat-header-cell>
+            <mat-cell class="node-cell" *matCellDef="let element">{{
+              element.equipmentTitle
+            }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="distanceKm">
+            <mat-header-cell *matHeaderCellDef>{{
+              "SID_Distance__km" | translate
+            }}</mat-header-cell>
+            <mat-cell class="node-cell" *matCellDef="let element">{{
+              element.distanceKm | number: ".3-3"
+            }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="eventOrdinal">
+            <mat-header-cell *matHeaderCellDef>{{
+              "SID_Event" | translate
+            }}</mat-header-cell>
+            <mat-cell class="event-cell" *matCellDef="let element">{{
+              getEventNumberForTable(element.eventOrdinal)
+            }}</mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="coors">
+            <mat-header-cell *matHeaderCellDef>{{
+              "SID_GPS_coordinates" | translate
+            }}</mat-header-cell>
+            <mat-cell class="node-cell" *matCellDef="let element">{{
+              getCoorsForTable(element.coors)
+            }}</mat-cell>
+          </ng-container>
+
+          <mat-header-row
+            *matHeaderRowDef="displayedColumns; sticky: true"
+          ></mat-header-row>
+
+          <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>

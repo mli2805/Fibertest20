@@ -1,0 +1,31 @@
+.container {
+  margin: 0px 10px;
+}
+
+mat-card {
+  margin-top: 10px;
+}
+
+.mat-header-cell {
+  text-align: center !important;
+  border-right: 1px solid lightgrey;
+  font-size: 14px;
+  background: azure;
+  color: black;
+  padding: 5px;
+}
+
+.mat-cell {
+  justify-content: center;
+  flex-wrap: wrap;
+  border-right: 1px solid lightgrey;
+  padding: 0 5px;
+}
+
+.mat-column-ordinal {
+  max-width: 30px !important;
+}
+
+.mat-column-eventOrdinal {
+  max-width: 60px !important;
+}
