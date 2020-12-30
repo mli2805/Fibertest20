@@ -7,7 +7,7 @@ namespace Iit.Fibertest.Graph
     public class Landmark : ICloneable
     {
         public int Number { get; set; }
-        public int NumberIncludingEmptyWells { get; set; }
+        public int NumberIncludingAdjustmentPoints { get; set; }
         public Guid NodeId { get; set; }
         public string NodeTitle { get; set; }
         public string NodeComment { get; set; }
@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Graph
             return new Landmark()
             {
                 Number = Number,
-                NumberIncludingEmptyWells = NumberIncludingEmptyWells,
+                NumberIncludingAdjustmentPoints = NumberIncludingAdjustmentPoints,
                 NodeId = NodeId,
                 NodeTitle = NodeTitle,
                 NodeComment = NodeComment,

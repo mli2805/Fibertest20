@@ -30,7 +30,10 @@ export class FtDetachedLineComponent implements OnInit {
 
   displayInformation() {
     console.log(this.trace);
-    this.router.navigate(["/ft-main-nav/trace-information", this.trace.traceId]);
+    this.router.navigate([
+      "/ft-main-nav/trace-information",
+      this.trace.traceId,
+    ]);
   }
 
   assignBaseRefs() {
@@ -51,5 +54,9 @@ export class FtDetachedLineComponent implements OnInit {
 
   displayStatistics() {
     this.router.navigate(["/ft-main-nav/trace-statistics", this.trace.traceId]);
+  }
+
+  displayLandmarks() {
+    this.router.navigate(["/ft-main-nav/trace-landmarks", this.trace.traceId]);
   }
 }

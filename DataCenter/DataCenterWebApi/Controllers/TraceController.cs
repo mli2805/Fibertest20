@@ -86,6 +86,29 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [Authorize]
+        [HttpGet("Landmarks/{id}")]
+        public async Task<TraceLandmarksDto> GetTraceLandmarks(string id)
+        {
+            try
+            {
+                _logFile.AppendLine($"trace id = {id}");
+                var traceGuid = Guid.Parse(id);
+                var traceLandmarksDto = await _webC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .GetTraceLandmarks(User.Identity.Name, traceGuid);
+                _logFile.AppendLine(traceLandmarksDto == null
+                    ? "Failed to get trace's landmarks"
+                    : $"trace has {traceLandmarksDto.Landmarks.Count} landmarks");
+                return traceLandmarksDto;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"GetTraceLandmarks: {e.Message}");
+            }
+            return null;
+        }
+
+        [Authorize]
         [HttpGet("State")]
         public async Task<TraceStateDto> GetTraceState(string type, Guid traceId, int fileId)
         {
@@ -93,7 +116,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 var body = $"{{\"type\" : \"{type}\", \"traceId\" : \"{traceId}\", \"fileId\" : {fileId}}}";
                 _logFile.AppendLine(body);
-                
+
                 var traceStateDto = await _webC2DWcfManager
                     .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
                     .GetTraceState(User.Identity.Name, body);

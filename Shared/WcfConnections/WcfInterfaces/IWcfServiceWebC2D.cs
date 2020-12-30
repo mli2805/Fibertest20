@@ -53,6 +53,9 @@ namespace Iit.Fibertest.WcfConnections
         [OperationContract]
         Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId, int pageNumber, int pageSize);
 
+         [OperationContract]
+        Task<TraceLandmarksDto> GetTraceLandmarks(string username, Guid traceId);
+
         [OperationContract]
         Task<TraceStateDto> GetTraceState(string username, string requestBody);
 

@@ -3,7 +3,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json.Linq;
+using Optixsoft.SorExaminer.OtdrDataFormat;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -26,6 +28,53 @@ namespace Iit.Fibertest.DataCenterCore
             result.IsLightMonitoring = trace.Mode == TraceMode.Light;
             result.Comment = trace.Comment;
             return result;
+        }
+
+        public async Task<TraceLandmarksDto> GetTraceLandmarks(string username, Guid traceId)
+        {
+            if (!await Authorize(username, "GetTraceLandmarks")) return null;
+
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
+            if (trace == null)
+                return null;
+
+            _logFile.AppendLine("We are going to get landmarks...");
+            var _landmarks = trace.PreciseId != Guid.Empty
+                ? _landmarksBaseParser.GetLandmarks(await GetBase(trace.PreciseId), trace)
+                : _landmarksGraphParser.GetLandmarks(trace);
+
+            return new TraceLandmarksDto()
+            {
+                Header = _writeModel.BuildHeader(trace),
+                Landmarks = _landmarks.Select(MapLm).ToList(),
+            };
+        }
+
+        private async Task<OtdrDataKnownBlocks> GetBase(Guid baseId)
+        {
+            if (baseId == Guid.Empty)
+                return null;
+
+            var baseRef = _writeModel.BaseRefs.First(b => b.Id == baseId);
+            var sorBytes = await _sorFileRepository.GetSorBytesAsync(baseRef.SorFileId);
+            return SorData.FromBytes(sorBytes);
+        }
+
+        private LandmarkDto MapLm(Landmark lm)
+        {
+            return new LandmarkDto()
+            {
+                Ordinal = lm.Number,
+                NodeTitle = lm.NodeTitle,
+                EqType = lm.EquipmentType,
+                EquipmentTitle = lm.EquipmentTitle,
+                DistanceKm = lm.Distance,
+                Coors = new GeoPoint()
+                {
+                    Latitude = lm.GpsCoors.Lat,
+                    Longitude = lm.GpsCoors.Lng,
+                }
+            };
         }
 
         public async Task<TraceStatisticsDto> GetTraceStatistics(string username, Guid traceId, int pageNumber, int pageSize)

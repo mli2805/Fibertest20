@@ -2,6 +2,7 @@
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
+using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
@@ -22,22 +23,29 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly Model _writeModel;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly ClientsCollection _clientsCollection;
+        private readonly SorFileRepository _sorFileRepository;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
+        private readonly LandmarksBaseParser _landmarksBaseParser;
+        private readonly LandmarksGraphParser _landmarksGraphParser;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
         private readonly MeasurementsForWebNotifier _measurementsForWebNotifier;
 
         public WcfServiceWebC2D(IMyLog logFile, Model writeModel, CurrentDatacenterParameters currentDatacenterParameters,
-            ClientsCollection clientsCollection,
+            ClientsCollection clientsCollection, SorFileRepository sorFileRepository,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter,
+            LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,
             AccidentLineModelFactory accidentLineModelFactory, MeasurementsForWebNotifier measurementsForWebNotifier)
         {
             _logFile = logFile;
             _writeModel = writeModel;
             _currentDatacenterParameters = currentDatacenterParameters;
             _clientsCollection = clientsCollection;
+            _sorFileRepository = sorFileRepository;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
+            _landmarksBaseParser = landmarksBaseParser;
+            _landmarksGraphParser = landmarksGraphParser;
             _accidentLineModelFactory = accidentLineModelFactory;
             _measurementsForWebNotifier = measurementsForWebNotifier;
         }
@@ -137,6 +145,7 @@ namespace Iit.Fibertest.DataCenterCore
             return Task.FromResult(_measurementsForWebNotifier.Extract(measId));
         }
 
+     
         public async Task<AssignBaseParamsDto> GetAssignBaseParams(string username, Guid traceId)
         {
             if (!await Authorize(username, "GetAssignBaseParams")) return null;

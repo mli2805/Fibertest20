@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Client
     {
         public Guid NodeId { get; set; }
         public int Number { get; set; }
-        public int NumberIncludingEmptyWells { get; set; }
+        public int NumberIncludingAdjustmentPoints { get; set; }
 
         public string NodeTitle
         {
@@ -57,7 +57,7 @@ namespace Iit.Fibertest.Client
         public LandmarkRow FromLandmark(Landmark landmark, GpsInputMode mode)
         {
             Number = landmark.Number;
-            NumberIncludingEmptyWells = landmark.NumberIncludingEmptyWells;
+            NumberIncludingAdjustmentPoints = landmark.NumberIncludingAdjustmentPoints;
             NodeId = landmark.NodeId;
             NodeTitle = landmark.NodeTitle;
             NodeComment = landmark.NodeComment;

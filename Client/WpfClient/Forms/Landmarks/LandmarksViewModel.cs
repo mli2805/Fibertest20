@@ -203,22 +203,20 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Landmarks_of_traces_of_RTU_ + _rtuTitle;
         }
 
-      //  private bool _isFromBaseRef;
         private async Task<int> PrepareLandmarks()
         {
             OneLandmarkViewModel.TraceTitle = SelectedTrace.Title;
             _isLandmarksFromBase = SelectedTrace.PreciseId != Guid.Empty;
-            if (SelectedTrace.PreciseId == Guid.Empty)
-            {
-                _landmarks = _landmarksGraphParser.GetLandmarks(SelectedTrace);
-//                _isFromBaseRef = false;
-            }
-            else
+            if (_isLandmarksFromBase)
             {
                 var sorData = await GetBase(SelectedTrace.PreciseId);
                 _landmarks = _landmarksBaseParser.GetLandmarks(sorData, SelectedTrace);
-//                _isFromBaseRef = true;
             }
+            else
+            {
+                _landmarks = _landmarksGraphParser.GetLandmarks(SelectedTrace);
+            }
+
             Rows = LandmarksToRows();
             return 0;
         }
@@ -273,7 +271,7 @@ namespace Iit.Fibertest.Client
             var cmd = new IncludeEquipmentIntoTrace()
                 {
                     TraceId = SelectedTrace.TraceId,
-                    IndexInTrace = SelectedRow.NumberIncludingEmptyWells,
+                    IndexInTrace = SelectedRow.NumberIncludingAdjustmentPoints,
                     EquipmentId = traceContentChoiceViewModel.GetSelectedEquipmentGuid()
                 };
             await _c2DWcfManager.SendCommandAsObj(cmd);
@@ -284,7 +282,7 @@ namespace Iit.Fibertest.Client
             var cmd = new ExcludeEquipmentFromTrace()
             {
                 TraceId = SelectedTrace.TraceId,
-                IndexInTrace = SelectedRow.NumberIncludingEmptyWells,
+                IndexInTrace = SelectedRow.NumberIncludingAdjustmentPoints,
                 EquipmentId = SelectedRow.EquipmentId,
             };
             await _c2DWcfManager.SendCommandAsObj(cmd);

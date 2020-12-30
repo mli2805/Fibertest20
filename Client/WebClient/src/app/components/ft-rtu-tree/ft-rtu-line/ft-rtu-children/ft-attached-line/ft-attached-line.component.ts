@@ -72,6 +72,10 @@ export class FtAttachedLineComponent implements OnInit {
     this.router.navigate(["/ft-main-nav/trace-statistics", this.trace.traceId]);
   }
 
+  displayLandmarks() {
+    this.router.navigate(["/ft-main-nav/trace-landmarks", this.trace.traceId]);
+  }
+
   detachTrace() {
     this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.showSpinner);
     this.oneApiService

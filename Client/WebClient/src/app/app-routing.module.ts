@@ -24,6 +24,7 @@ import { SorViewerComponent } from "./components/sor-viewer/sor-viewer.component
 import { FtOutOfTurnMeasurementComponent } from "./components/details/trace/ft-out-of-turn-measurement/ft-out-of-turn-measurement.component";
 import { FtRftsEventsComponent } from "./components/details/trace/ft-rfts-events/ft-rfts-events.component";
 import { FtMainNavComponent } from "./components/ft-main-nav/ft-main-nav.component";
+import { FtTraceLandmarksComponent } from "./components/details/trace/ft-trace-landmarks/ft-trace-landmarks.component";
 
 const routes: Routes = [
   {
@@ -68,6 +69,7 @@ const routes: Routes = [
       { path: "assign-base/:id", component: FtAssignBaseComponent },
       { path: "trace-state", component: FtTraceStateComponent },
       { path: "trace-statistics/:id", component: FtTraceStatisticsComponent },
+      { path: "trace-landmarks/:id", component: FtTraceLandmarksComponent },
 
       { path: "port-attach-trace", component: FtPortAttachTraceComponent },
       { path: "port-attach-otau", component: FtPortAttachOtauComponent },

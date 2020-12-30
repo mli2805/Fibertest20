@@ -46,7 +46,7 @@ namespace Iit.Fibertest.Graph
             return new Landmark()
             {
                 Number = number,
-                NumberIncludingEmptyWells = numberIncludingAdjustmentPoints,
+                NumberIncludingAdjustmentPoints = numberIncludingAdjustmentPoints,
                 NodeId = node.NodeId,
                 NodeTitle = node.Title,
                 NodeComment = comment,

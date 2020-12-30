@@ -77,6 +77,7 @@
     <Compile Include="ForWebApi\BaseRefFile.cs" />
     <Compile Include="ForWebApi\BaseRefInfoDto.cs" />
     <Compile Include="ForWebApi\BopEventDto.cs" />
+    <Compile Include="ForWebApi\LandmarkDto.cs" />
     <Compile Include="ForWebApi\MeasurementDto.cs" />
     <Compile Include="ForWebApi\AboutRtuDto.cs" />
     <Compile Include="ForWebApi\NetworkAlarm.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="ForWebApi\Trace\GeoPoint.cs" />
     <Compile Include="ForWebApi\Trace\TraceHeaderDto.cs" />
     <Compile Include="ForWebApi\Trace\TraceInformationDto.cs" />
+    <Compile Include="ForWebApi\Trace\TraceLandmarksDto.cs" />
     <Compile Include="ForWebApi\Trace\TraceStateDto.cs" />
     <Compile Include="ForWebApi\Trace\TraceStatisticsDto.cs" />
     <Compile Include="ForWebApi\UpdateMeasurementDto.cs" />
