@@ -6,6 +6,37 @@ mat-card {
   margin-top: 10px;
 }
 
+#header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.right-part {
+  display: flex;
+}
+
+#card-title {
+  display: inline;
+  font-weight: bold;
+  font-size: 20px;
+  margin: 0px 15px 28px 0px;
+}
+
+#slider {
+  margin: 0px 0px 18px 15px;
+}
+
+#slider-label {
+  overflow-wrap: break-word;
+  width: 130px;
+  margin: 0px 0px 18px 15px;
+}
+
+#combobox {
+  width: 180px;
+  margin-left: 15px;
+}
+
 .mat-header-cell {
   text-align: center !important;
   border-right: 1px solid lightgrey;
@@ -41,8 +72,17 @@ mat-card {
 /* ---------------- media requests ----------------- */
 
 @media (min-width: 0) {
+  #header {
+    flex-direction: column;
+  }
   .mat-column-coors {
     max-width: 80px !important;
+  }
+}
+
+@media (min-width: 600px) {
+  #header {
+    flex-direction: row;
   }
 }
 

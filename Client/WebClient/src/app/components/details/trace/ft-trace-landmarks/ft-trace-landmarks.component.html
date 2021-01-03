@@ -1,32 +1,37 @@
 <div class="container">
   <mat-card>
-    <mat-card-header>
-      <mat-card-title>
+    <div id="header">
+      <div id="card-title">
         {{ "SID_Landmarks" | translate }}
-      </mat-card-title>
-    </mat-card-header>
+      </div>
+      <div class="right-part">
+        <mat-slide-toggle
+          [(ngModel)]="withoutEmptyNodes"
+          [labelPosition]="labelPosition"
+          [color]="sliderColor"
+          (change)="changedSlider()"
+          id="slider"
+        >
+        </mat-slide-toggle>
+        <p id="slider-label">
+          {{ "SID_Nodes_with_equipment_only" | translate }}
+        </p>
+        <mat-form-field id="combobox">
+          <mat-label>{{ "SID_GPS_coordinates_format" | translate }}</mat-label>
+          <mat-select [(ngModel)]="currentGpsFormat">
+            <mat-option
+              *ngFor="let gpsFormat of gpsFormats"
+              [value]="gpsFormat.value"
+            >
+              {{ gpsFormat.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
     <mat-card-content>
-      <mat-slide-toggle
-        [(ngModel)]="withoutEmptyNodes"
-        [labelPosition]="labelPosition"
-        [color]="sliderColor"
-        (change)="changedSlider()"
-        >{{ "SID_Nodes_with_equipment_only" | translate }}
-      </mat-slide-toggle>
-
-      <mat-form-field appearance="fill">
-        <mat-label>GPS format</mat-label>
-        <mat-select [(ngModel)]="currentGpsFormat">
-          <mat-option
-            *ngFor="let gpsFormat of gpsFormats"
-            [value]="gpsFormat.value"
-          >
-            {{ gpsFormat.viewValue }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-
       <h3>{{ "SID_Trace" | translate }}: {{ vm.header.traceTitle }}</h3>
+
       <div class="landmarksTable">
         <mat-table [dataSource]="vm.landmarks">
           <ng-container matColumnDef="ordinal">
