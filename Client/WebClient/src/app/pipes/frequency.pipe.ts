@@ -2,15 +2,16 @@ import { PipeTransform, Pipe } from "@angular/core";
 import { Frequency } from "../models/enums/frequency";
 import { TranslateService } from "@ngx-translate/core";
 
-@Pipe ({ name: "frequencyToLocalizedStringPipe" })
+@Pipe({ name: "frequencyToLocalizedStringPipe" })
 export class FrequencyPipe implements PipeTransform {
   constructor(private ts: TranslateService) {}
 
   transform(value: Frequency, isSave: boolean): string {
-
     switch (value) {
       case Frequency.DoNot:
-        return this.ts.instant(isSave ? "SID_Do_not_save" : "SID_Do_not_measure");
+        return this.ts.instant(
+          isSave ? "SID_Do_not_save" : "SID_Do_not_measure"
+        );
       case Frequency.EveryHour:
         return this.ts.instant("SID_Every_hour");
       case Frequency.Every6Hours:
