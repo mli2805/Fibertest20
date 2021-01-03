@@ -6,6 +6,26 @@
       </mat-card-title>
     </mat-card-header>
     <mat-card-content>
+      <mat-slide-toggle
+        [(ngModel)]="withoutEmptyNodes"
+        [labelPosition]="labelPosition"
+        [color]="sliderColor"
+        (change)="changedSlider()"
+        >{{ "SID_Nodes_with_equipment_only" | translate }}
+      </mat-slide-toggle>
+
+      <mat-form-field appearance="fill">
+        <mat-label>GPS format</mat-label>
+        <mat-select [(ngModel)]="currentGpsFormat">
+          <mat-option
+            *ngFor="let gpsFormat of gpsFormats"
+            [value]="gpsFormat.value"
+          >
+            {{ gpsFormat.viewValue }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
       <h3>{{ "SID_Trace" | translate }}: {{ vm.header.traceTitle }}</h3>
       <div class="landmarksTable">
         <mat-table [dataSource]="vm.landmarks">

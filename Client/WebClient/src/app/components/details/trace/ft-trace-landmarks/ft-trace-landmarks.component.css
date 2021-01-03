@@ -26,6 +26,28 @@ mat-card {
   max-width: 30px !important;
 }
 
+.mat-column-eqType {
+  max-width: 90px !important;
+}
+
+.mat-column-distanceKm {
+  max-width: 60px !important;
+}
+
 .mat-column-eventOrdinal {
   max-width: 60px !important;
+}
+
+/* ---------------- media requests ----------------- */
+
+@media (min-width: 0) {
+  .mat-column-coors {
+    max-width: 80px !important;
+  }
+}
+
+@media (min-width: 960px) {
+  .mat-column-coors {
+    max-width: 180px !important;
+  }
 }

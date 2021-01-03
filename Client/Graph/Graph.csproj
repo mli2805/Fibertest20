@@ -322,7 +322,6 @@
     <Compile Include="EventSourcing\EventExecutors\EventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\EventExecutors\FiberEventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\EventExecutors\MeasurementEventOnModelExecutor.cs" />
-    <Compile Include="Algorithms\Gis\GpsCalculator.cs" />
     <Compile Include="Algorithms\Gis\GraphGpsCalculator.cs" />
     <Compile Include="EventSourcing\EventExecutors\NodeEventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\Model\Model.cs" />
