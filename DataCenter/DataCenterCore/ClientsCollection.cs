@@ -255,6 +255,11 @@ namespace Iit.Fibertest.DataCenterCore
             return _clients.FirstOrDefault(c => c.ClientIp == clientIp);
         }
 
+        public ClientStation GetStationByConnectionId(string connectionId)
+        {
+            return _clients.FirstOrDefault(s => s.ConnectionId == connectionId);
+        }
+
         private void LogStations()
         {
             _logFile.EmptyLine();
