@@ -18,6 +18,7 @@ export class RtuDto {
   mfsn: string;
   omid: string;
   omsn: string;
+  serial: string;
 
   fullPortCount: number;
   ownPortCount: number;
