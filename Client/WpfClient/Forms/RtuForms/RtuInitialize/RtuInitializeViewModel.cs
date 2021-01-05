@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
@@ -19,10 +18,7 @@ namespace Iit.Fibertest.Client
 
         private readonly ILifetimeScope _globalScope;
         private readonly CurrentUser _currentUser;
-        private readonly Model _readModel;
-        private readonly IniFile _iniFile;
         private readonly IWindowManager _windowManager;
-        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IMyLog _logFile;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
@@ -54,18 +50,15 @@ namespace Iit.Fibertest.Client
 
         public bool IsInitializationPermitted => _currentUser.Role <= Role.Root && IsIdle;
 
-        public RtuInitializeViewModel(ILifetimeScope globalScope, CurrentUser currentUser, Model readModel,
-            IniFile iniFile, IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager,  IWcfServiceCommonC2D c2RWcfManager,
+        public RtuInitializeViewModel(ILifetimeScope globalScope, CurrentUser currentUser,
+            IWindowManager windowManager,  IWcfServiceCommonC2D c2RWcfManager,
             IMyLog logFile, RtuLeaf rtuLeaf, CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
             _currentUser = currentUser;
             IsIdle = true;
             IsCloseEnabled = true;
-            _readModel = readModel;
-            _iniFile = iniFile;
             _windowManager = windowManager;
-            _c2DWcfManager = c2DWcfManager;
             _c2RWcfManager = c2RWcfManager;
             _logFile = logFile;
             _commonStatusBarViewModel = commonStatusBarViewModel;
@@ -193,52 +186,52 @@ namespace Iit.Fibertest.Client
             if (dto.IsInitialized)
             {
                 // apply initialization to graph
-                _c2DWcfManager.SendCommandsAsObjs(DtoToCommandList(dto));
-                var ip4AddressDefault = FullModel.MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address;
-                ip4AddressDefault = ip4AddressDefault.Substring(0, ip4AddressDefault.LastIndexOf('.') + 1);
-                _iniFile.Write(IniSection.General, IniKey.Ip4Default, ip4AddressDefault);
+//                _c2DWcfManager.SendCommandsAsObjs(DtoToCommandList(dto));
+//                var ip4AddressDefault = FullModel.MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress().Ip4Address;
+//                ip4AddressDefault = ip4AddressDefault.Substring(0, ip4AddressDefault.LastIndexOf('.') + 1);
+//                _iniFile.Write(IniSection.General, IniKey.Ip4Default, ip4AddressDefault);
                 FullModel.UpdateWithDto(dto);
             }
 
             ShowInitializationResultMessageBox(dto);
         }
 
-        private List<object> DtoToCommandList(RtuInitializedDto dto)
-        {
-            var commandList = new List<object>();
-
-            // Own port count changed
-            if (FullModel.OriginalRtu.OwnPortCount > dto.OwnPortCount)
-            {
-                var traces = _readModel.Traces.Where(t =>
-                    t.RtuId == dto.RtuId && t.Port >= dto.OwnPortCount && t.OtauPort.Serial == FullModel.OriginalRtu.Serial);
-                foreach (var trace in traces)
-                {
-                    var cmd = new DetachTrace() { TraceId = trace.TraceId };
-                    commandList.Add(cmd);
-                }
-            }
-
-            // BOP state changed
-            if (dto.Children != null)
-                foreach (var keyValuePair in dto.Children)
-                {
-                    var bop = _readModel.Otaus.First(o => o.NetAddress.Equals(keyValuePair.Value.NetAddress));
-                    if (bop.IsOk != keyValuePair.Value.IsOk)
-                        commandList.Add(new AddBopNetworkEvent()
-                        {
-                            EventTimestamp = DateTime.Now,
-                            RtuId = dto.RtuId,
-                            Serial = keyValuePair.Value.Serial == null ? bop.Serial : keyValuePair.Value.Serial,
-                            OtauIp = keyValuePair.Value.NetAddress.Ip4Address,
-                            TcpPort = keyValuePair.Value.NetAddress.Port,
-                            IsOk = keyValuePair.Value.IsOk,
-                        });
-                }
-
-            commandList.Add(GetInitializeRtuCommand(dto));
-            return commandList;
-        }
+//        private List<object> DtoToCommandList(RtuInitializedDto dto)
+//        {
+//            var commandList = new List<object>();
+//
+//            // Own port count changed
+//            if (FullModel.OriginalRtu.OwnPortCount > dto.OwnPortCount)
+//            {
+//                var traces = _readModel.Traces.Where(t =>
+//                    t.RtuId == dto.RtuId && t.Port >= dto.OwnPortCount && t.OtauPort.Serial == FullModel.OriginalRtu.Serial);
+//                foreach (var trace in traces)
+//                {
+//                    var cmd = new DetachTrace() { TraceId = trace.TraceId };
+//                    commandList.Add(cmd);
+//                }
+//            }
+//
+//            // BOP state changed
+//            if (dto.Children != null)
+//                foreach (var keyValuePair in dto.Children)
+//                {
+//                    var bop = _readModel.Otaus.First(o => o.NetAddress.Equals(keyValuePair.Value.NetAddress));
+//                    if (bop.IsOk != keyValuePair.Value.IsOk)
+//                        commandList.Add(new AddBopNetworkEvent()
+//                        {
+//                            EventTimestamp = DateTime.Now,
+//                            RtuId = dto.RtuId,
+//                            Serial = keyValuePair.Value.Serial == null ? bop.Serial : keyValuePair.Value.Serial,
+//                            OtauIp = keyValuePair.Value.NetAddress.Ip4Address,
+//                            TcpPort = keyValuePair.Value.NetAddress.Port,
+//                            IsOk = keyValuePair.Value.IsOk,
+//                        });
+//                }
+//
+//            commandList.Add(GetInitializeRtuCommand(dto));
+//            return commandList;
+//        }
 
         private void ShowInitializationResultMessageBox(RtuInitializedDto dto)
         {
@@ -263,37 +256,37 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
-        private InitializeRtu GetInitializeRtuCommand(RtuInitializedDto dto)
-        {
-            var cmd = new InitializeRtu
-            {
-                Id = dto.RtuId,
-                Maker = dto.Maker,
-                OtdrId = dto.OtdrId,
-                OtauId = dto.OtauId,
-                Mfid = dto.Mfid,
-                Mfsn = dto.Mfsn,
-                Omid = dto.Omid,
-                Omsn = dto.Omsn,
-                MainChannel = FullModel.MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
-                MainChannelState = RtuPartState.Ok,
-                IsReserveChannelSet = FullModel.IsReserveChannelEnabled,
-                ReserveChannel = FullModel.IsReserveChannelEnabled
-                    ? FullModel.ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress()
-                    : null,
-                ReserveChannelState = FullModel.IsReserveChannelEnabled ? RtuPartState.Ok : RtuPartState.NotSetYet,
-                OtauNetAddress = dto.OtdrAddress,
-                OwnPortCount = dto.OwnPortCount,
-                FullPortCount = dto.FullPortCount,
-                Serial = dto.Serial,
-                Version = dto.Version,
-                Version2 = dto.Version2,
-                IsMonitoringOn = dto.IsMonitoringOn,
-                Children = dto.Children,
-                AcceptableMeasParams = dto.AcceptableMeasParams,
-            };
-            return cmd;
-        }
+//        private InitializeRtu GetInitializeRtuCommand(RtuInitializedDto dto)
+//        {
+//            var cmd = new InitializeRtu
+//            {
+//                Id = dto.RtuId,
+//                Maker = dto.Maker,
+//                OtdrId = dto.OtdrId,
+//                OtauId = dto.OtauId,
+//                Mfid = dto.Mfid,
+//                Mfsn = dto.Mfsn,
+//                Omid = dto.Omid,
+//                Omsn = dto.Omsn,
+//                MainChannel = FullModel.MainChannelTestViewModel.NetAddressInputViewModel.GetNetAddress(),
+//                MainChannelState = RtuPartState.Ok,
+//                IsReserveChannelSet = FullModel.IsReserveChannelEnabled,
+//                ReserveChannel = FullModel.IsReserveChannelEnabled
+//                    ? FullModel.ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress()
+//                    : null,
+//                ReserveChannelState = FullModel.IsReserveChannelEnabled ? RtuPartState.Ok : RtuPartState.NotSetYet,
+//                OtauNetAddress = dto.OtdrAddress,
+//                OwnPortCount = dto.OwnPortCount,
+//                FullPortCount = dto.FullPortCount,
+//                Serial = dto.Serial,
+//                Version = dto.Version,
+//                Version2 = dto.Version2,
+//                IsMonitoringOn = dto.IsMonitoringOn,
+//                Children = dto.Children,
+//                AcceptableMeasParams = dto.AcceptableMeasParams,
+//            };
+//            return cmd;
+//        }
 
         public void Close()
         {
