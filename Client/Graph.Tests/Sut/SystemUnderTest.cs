@@ -166,6 +166,7 @@ namespace Graph.Tests
 
             builder.RegisterType<ClientsCollection>().InstancePerLifetimeScope();
             builder.RegisterType<RtuStationsRepository>().InstancePerLifetimeScope();
+            builder.RegisterType<IntermediateLayer>().InstancePerLifetimeScope();
             builder.RegisterType<ClientToRtuTransmitter>().InstancePerLifetimeScope();
             builder.RegisterType<ClientToRtuVeexTransmitter>().InstancePerLifetimeScope();
             builder.RegisterType<BaseRefRepairmanIntermediary>().InstancePerLifetimeScope();

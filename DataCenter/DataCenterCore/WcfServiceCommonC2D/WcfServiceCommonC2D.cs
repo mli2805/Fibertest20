@@ -23,6 +23,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientsCollection _clientsCollection;
         private readonly BaseRefsChecker2 _baseRefsChecker;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
+        private readonly IntermediateLayer _intermediateLayer;
         private readonly IFtSignalRClient _ftSignalRClient;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
@@ -31,6 +32,7 @@ namespace Iit.Fibertest.DataCenterCore
             Model writeModel, SorFileRepository sorFileRepository,
             EventStoreService eventStoreService, ClientsCollection clientsCollection,
             BaseRefsChecker2 baseRefsChecker, BaseRefLandmarksTool baseRefLandmarksTool,
+            IntermediateLayer intermediateLayer,
             IFtSignalRClient ftSignalRClient,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter
             )
@@ -43,6 +45,7 @@ namespace Iit.Fibertest.DataCenterCore
             _clientsCollection = clientsCollection;
             _baseRefsChecker = baseRefsChecker;
             _baseRefLandmarksTool = baseRefLandmarksTool;
+            _intermediateLayer = intermediateLayer;
             _ftSignalRClient = ftSignalRClient;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
@@ -88,8 +91,6 @@ namespace Iit.Fibertest.DataCenterCore
             return 0;
         }
 
-
-
         public async Task<RtuConnectionCheckedDto> CheckRtuConnectionAsync(CheckRtuConnectionDto dto)
         {
             return await _clientToRtuTransmitter.CheckRtuConnection(dto);
@@ -97,12 +98,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto)
         {
-            var result = dto.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.InitializeAsync(dto)
-                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.InitializeAsync(dto).Result);
-
-            await _ftSignalRClient.NotifyAll("RtuInitialized", result.ToCamelCaseJson());
-            return result;
+            return await _intermediateLayer.InitializeRtuAsync(dto);
         }
 
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
