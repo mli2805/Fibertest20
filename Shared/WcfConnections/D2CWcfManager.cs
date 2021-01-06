@@ -6,7 +6,7 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.WcfConnections
 {
-    public class D2CWcfManager
+    public class D2CWcfManager : IWcfServiceInClient
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
@@ -67,7 +67,7 @@ namespace Iit.Fibertest.WcfConnections
                 try
                 {
                     var channel = wcfConnection.CreateChannel();
-                    var result = await channel.NotifyAboutMeasurementClientDone(dto);
+                    var result = await channel.NotifyMeasurementClientDone(dto);
                     wcfConnection.Close();
                     return result;
                 }
