@@ -8,6 +8,8 @@ namespace Iit.Fibertest.Dto
     {
         [DataMember]
         public string ClientIp { get; set; }
+        [DataMember]
+        public string ConnectionId { get; set; }
 
         [DataMember]
         public ReturnCode ReturnCode { get; set; }
@@ -16,6 +18,6 @@ namespace Iit.Fibertest.Dto
         public byte[] SorBytes { get; set; }
 
         [DataMember]
-        public  Guid Id { get; set; }
+        public Guid Id { get; set; }
     }
 }

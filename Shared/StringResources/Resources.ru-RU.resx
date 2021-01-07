@@ -2825,4 +2825,13 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Failed_to_uninstall__0_" xml:space="preserve">
 		<value>Не удалось удалить {0}</value>
 	</data>
+	<data name="SID_Database_optimization_started_on_server_" xml:space="preserve">
+		<value>На сервере запущена оптимизация БД!</value>
+	</data>
+	<data name="SID_Please_leave_application_" xml:space="preserve">
+		<value>Пожалуйста, закройте приложение.</value>
+	</data>
+	<data name="SID_User__0__logged_in_via_WebClient_at__1_" xml:space="preserve">
+		<value>Пользователь {0} вошел в систему с помощью WebClient в {1}</value>
+	</data>
 </root>

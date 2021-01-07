@@ -2026,6 +2026,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Database optimization started on server!.
+        /// </summary>
+        public static string SID_Database_optimization_started_on_server_ {
+            get {
+                return ResourceManager.GetString("SID_Database_optimization_started_on_server_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to DataCenter connected successfully!.
         /// </summary>
         public static string SID_DataCenter_connected_successfully_ {
@@ -2967,15 +2976,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Failed_to_set_AntiGhost_parameter___0_ {
             get {
                 return ResourceManager.GetString("SID_Failed_to_set_AntiGhost_parameter___0_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Failed to uninstall.
-        /// </summary>
-        public static string SID_Failed_to_uninstall {
-            get {
-                return ResourceManager.GetString("SID_Failed_to_uninstall", resourceCulture);
             }
         }
         
@@ -5281,6 +5281,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Please__wait___ {
             get {
                 return ResourceManager.GetString("SID_Please__wait___", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Please leave application..
+        /// </summary>
+        public static string SID_Please_leave_application_ {
+            get {
+                return ResourceManager.GetString("SID_Please_leave_application_", resourceCulture);
             }
         }
         
@@ -7820,6 +7829,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_User {
             get {
                 return ResourceManager.GetString("SID_User", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User {0} logged in via WebClient at {1}.
+        /// </summary>
+        public static string SID_User__0__logged_in_via_WebClient_at__1_ {
+            get {
+                return ResourceManager.GetString("SID_User__0__logged_in_via_WebClient_at__1_", resourceCulture);
             }
         }
         
