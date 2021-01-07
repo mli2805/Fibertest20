@@ -105,7 +105,7 @@ namespace Iit.Fibertest.SuperClient
         {
             var ftClientAddress = new NetAddress() { Ip4Address = @"localhost", Port = 11843 + ftServer.Entity.Postfix };
             _d2CWcfManager.SetClientsAddresses(new List<DoubleAddress>() { new DoubleAddress() { Main = ftClientAddress } });
-            await _d2CWcfManager.AskClientToExit();
+            await _d2CWcfManager.SuperClientAsksClientToExit();
             _childStarter.CleanAfterClosing(ftServer.Entity);
             ftServer.ServerConnectionState = FtServerConnectionState.Disconnected;
             ftServer.SystemState = FtSystemState.Unknown;

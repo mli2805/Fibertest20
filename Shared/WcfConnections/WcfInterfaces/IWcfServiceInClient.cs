@@ -15,13 +15,16 @@ namespace Iit.Fibertest.WcfConnections
 
 
         [OperationContract]
-        Task<int> AskClientToExit();
+        Task<int> ServerAsksClientToExit(ServerAsksClientToExitDto dto);
+
+        [OperationContract]
+        Task<int> SuperClientAsksClientToExit();
 
 
         [OperationContract]
         Task<int> BlockClientWhileDbOptimization(DbOptimizationProgressDto dto);
 
-        [OperationContract]
-        Task<int> UnBlockClientAfterDbOptimization();
+//        [OperationContract]
+//        Task<int> UnBlockClientAfterDbOptimization();
     }
 }

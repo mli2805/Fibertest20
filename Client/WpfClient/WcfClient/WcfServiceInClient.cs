@@ -19,11 +19,13 @@ namespace Iit.Fibertest.Client
         private readonly ClientPoller _clientPoller;
         private readonly ClientMeasurementViewModel _clientMeasurementViewModel;
         private readonly IWcfServiceCommonC2D _commonC2DWcfManager;
+        private readonly CurrentUser _currentUser;
         private readonly WaitViewModel _waitViewModel;
         private readonly IWindowManager _windowManager;
 
         public WcfServiceInClient(IMyLog logFile, RtuStateViewsManager rtuStateViewsManager, ClientPoller clientPoller,
             ClientMeasurementViewModel clientMeasurementViewModel, IWcfServiceCommonC2D commonC2DWcfManager,
+            CurrentUser currentUser,
             WaitViewModel waitViewModel, IWindowManager windowManager)
         {
             _logFile = logFile;
@@ -31,6 +33,7 @@ namespace Iit.Fibertest.Client
             _clientPoller = clientPoller;
             _clientMeasurementViewModel = clientMeasurementViewModel;
             _commonC2DWcfManager = commonC2DWcfManager;
+            _currentUser = currentUser;
             _waitViewModel = waitViewModel;
             _windowManager = windowManager;
         }
@@ -48,7 +51,7 @@ namespace Iit.Fibertest.Client
             return Task.FromResult(0);
         }
 
-        public async Task<int> AskClientToExit()
+        public async Task<int> SuperClientAsksClientToExit()
         {
             _logFile.AppendLine(@"SuperClient asks to exit.");
             await _commonC2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto());
@@ -62,6 +65,13 @@ namespace Iit.Fibertest.Client
             Application.Current.Dispatcher?.InvokeAsync(() => Application.Current.Shutdown());
         }
 
+        public async Task<int> ServerAsksClientToExit(ServerAsksClientToExitDto dto)
+        {
+            if (dto.ToAll || dto.ConnectionId == _currentUser.ConnectionId)
+                await Task.Factory.StartNew(() => LeaveApp(dto.Reason));
+            return 0;
+        }
+
         public async Task<int> BlockClientWhileDbOptimization(DbOptimizationProgressDto dto)
         {
             if (!_waitViewModel.IsOpen)
@@ -71,11 +81,11 @@ namespace Iit.Fibertest.Client
             return 0;
         }
 
-        public async Task<int> UnBlockClientAfterDbOptimization()
-        {
-            await Task.Factory.StartNew(LeaveApp);
-            return 0;
-        }
+//        public async Task<int> UnBlockClientAfterDbOptimization()
+//        {
+//            await Task.Factory.StartNew(() => LeaveApp(UnRegisterReason.DbOptimizationFinished));
+//            return 0;
+//        }
 
         private void ShowWaiting()
         {
@@ -86,9 +96,10 @@ namespace Iit.Fibertest.Client
             Application.Current.Dispatcher?.InvokeAsync(() => _windowManager.ShowDialogWithAssignedOwner(_waitViewModel));
         }
 
-        private async Task<int> LeaveApp()
+        private async Task<int> LeaveApp(UnRegisterReason reason)
         {
             var vm = new LeaveAppViewModel();
+            vm.Initialize(reason, _currentUser.UserName);
             if (Application.Current.Dispatcher != null)
                 await Application.Current.Dispatcher.InvokeAsync(() => _windowManager.ShowDialogWithAssignedOwner(vm));
             return 0;

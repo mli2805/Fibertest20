@@ -5,10 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen">
+        SizeToContent="WidthAndHeight" Loaded="Window_Loaded" WindowStartupLocation="CenterScreen"
+        d:DataContext="{d:DesignData LeaveAppViewModel}">
    <StackPanel Margin="5,20,5,0">
-       <TextBlock Text="{x:Static stringResources:Resources.SID_Database_optimization_is_terminated_successfully_}" Margin="20,5" TextAlignment="Center"/>
-       <TextBlock Text="{x:Static stringResources:Resources.SID_Please_restart_application_}" Margin="5" TextAlignment="Center"/>
+       <TextBlock Text="{Binding Line1}" Margin="20,5" TextAlignment="Center"/>
+       <TextBlock Text="{Binding Line2}" Margin="5" TextAlignment="Center"/>
        <Button Content="{x:Static stringResources:Resources.SID_Exit_application}" Width="150" Margin="5,40,5,20" Name="ExitApp"/>
    </StackPanel>
 </Window>

@@ -43,8 +43,8 @@ namespace Iit.Fibertest.DataCenterCore
                 Stage = DbOptimizationStage.SnapshotDone,
             });
 
-            _logFile.AppendLine("Unblocking connections");
-            await _d2CWcfManager.UnBlockClientAfterDbOptimization();
+            _logFile.AppendLine("Finishing connections");
+            await _d2CWcfManager.ServerAsksClientToExit(new ServerAsksClientToExitDto(){ToAll = true, Reason = UnRegisterReason.DbOptimizationFinished});
             _clientsCollection.CleanDeadClients(TimeSpan.FromMilliseconds(1));
         }
 

@@ -38,7 +38,7 @@ namespace Iit.Fibertest.DataCenterCore
                 Stage = DbOptimizationStage.OptimizationDone,
                 OldSizeGb = oldSize, NewSizeGb = newSize,
             });
-            await _d2CWcfManager.UnBlockClientAfterDbOptimization();
+            await _d2CWcfManager.ServerAsksClientToExit(new ServerAsksClientToExitDto(){ToAll = true, Reason = UnRegisterReason.DbOptimizationFinished});
             _clientsCollection.CleanDeadClients(TimeSpan.FromMilliseconds(1));
         }
 
