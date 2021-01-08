@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -15,18 +16,21 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly Model _writeModel;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly EventStoreService _eventStoreService;
+        private readonly D2CWcfManager _d2CWcfService;
         private readonly List<ClientStation> _clients = new List<ClientStation>();
 
         public string SignalrHubConnectionId;
 
         public ClientsCollection(IniFile iniFile, IMyLog logFile, Model writeModel,
-            CurrentDatacenterParameters currentDatacenterParameters, EventStoreService eventStoreService)
+            CurrentDatacenterParameters currentDatacenterParameters, EventStoreService eventStoreService,
+            D2CWcfManager d2CWcfService )
         {
             _iniFile = iniFile;
             _logFile = logFile;
             _writeModel = writeModel;
             _currentDatacenterParameters = currentDatacenterParameters;
             _eventStoreService = eventStoreService;
+            _d2CWcfService = d2CWcfService;
         }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
@@ -68,8 +72,14 @@ namespace Iit.Fibertest.DataCenterCore
                 else
                 // different types of clients or both clients are web
                 {
-                    // TODO: notify old station
                     _logFile.AppendLine($"The same client {stationWithTheSameUser.UserName}/{stationWithTheSameUser.ClientIp} with connectionId {stationWithTheSameUser.ConnectionId} removed.");
+                    // notify old station
+                    await _d2CWcfService.ServerAsksClientToExit(new ServerAsksClientToExitDto()
+                    {
+                        ToAll = false, 
+                        ConnectionId = stationWithTheSameUser.ConnectionId, 
+                        Reason = UnRegisterReason.UserRegistersAnotherSession
+                    });
                     _clients.Remove(stationWithTheSameUser);
                     _logFile.AppendLine("Old client deleted");
                 }

@@ -98,6 +98,7 @@ namespace Iit.Fibertest.Client
 
         private async Task<int> LeaveApp(UnRegisterReason reason)
         {
+            _clientPoller.CancellationTokenSource.Cancel();
             var vm = new LeaveAppViewModel();
             vm.Initialize(reason, _currentUser.UserName);
             if (Application.Current.Dispatcher != null)
