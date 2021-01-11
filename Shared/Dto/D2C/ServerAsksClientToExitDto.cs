@@ -11,6 +11,12 @@ namespace Iit.Fibertest.Dto
         public string ConnectionId { get; set; }
         [DataMember]
         public UnRegisterReason Reason { get; set; }
+
+        // if user pushed out by new session
+        [DataMember]
+        public string NewAddress { get; set; }
+        [DataMember]
+        public bool IsNewUserWeb { get; set; }
     }
 
     public enum UnRegisterReason

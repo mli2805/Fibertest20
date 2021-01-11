@@ -14,6 +14,7 @@ import { MonitoringStartdedDto } from "../models/dtos/rtu/monitoringStartedDto";
 import { NetworkEventDto } from "../models/dtos/networkEventDto";
 import { BopEventDto } from "../models/dtos/bopEventDto";
 import { UpdateMeasurementDto } from "../models/dtos/trace/updateMeasurementDto";
+import { ServerAsksClientToExitDto } from "../models/dtos/serverAsksClientToExitDto";
 
 @Injectable({
   providedIn: "root",
@@ -30,6 +31,7 @@ export class SignalrService {
   public networkEventAddedEmitter = new EventEmitter<NetworkEventDto>();
   public bopEventAddedEmitter = new EventEmitter<BopEventDto>();
   public measurementUpdatedEmitter = new EventEmitter<UpdateMeasurementDto>();
+  public serverAsksExitEmitter = new EventEmitter<ServerAsksClientToExitDto>();
 
   public buildConnection(token: string) {
     const url = Utils.GetWebApiUrl() + "/webApiSignalRHub";
@@ -163,9 +165,9 @@ export class SignalrService {
       this.measurementUpdatedEmitter.emit(dto);
     });
 
-    this.hubConnection.on("UserPushedOut", (signal: string) => {
+    this.hubConnection.on("ServerAsksClientToExit", (signal: string) => {
       const dto = JSON.parse(signal);
-      console.log(dto);
+      this.serverAsksExitEmitter.emit(dto);
     });
   }
 }

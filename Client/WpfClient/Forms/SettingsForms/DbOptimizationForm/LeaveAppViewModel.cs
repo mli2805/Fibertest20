@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Client
                     Line2 = Resources.SID_Please_restart_application_;
                     return;
                 case UnRegisterReason.UserRegistersAnotherSession:
-                    Line1 = string.Format(Resources.SID_User__0__logged_in_via_WebClient_at__1_, username, DateTime.Now);
+                    Line1 = string.Format(Resources.SID_User__0__is_logged_in_from_a_different_device_at__1_, username, DateTime.Now);
                     Line2 = Resources.SID_Please_leave_application_;
                     return;
                 default: return;

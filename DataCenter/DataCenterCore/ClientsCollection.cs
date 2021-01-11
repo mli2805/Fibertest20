@@ -20,8 +20,6 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IFtSignalRClient _ftSignalRClient;
         private readonly List<ClientStation> _clients = new List<ClientStation>();
 
-//        public string SignalrHubConnectionId;
-
         public ClientsCollection(IniFile iniFile, IMyLog logFile, Model writeModel,
             CurrentDatacenterParameters currentDatacenterParameters, EventStoreService eventStoreService,
             D2CWcfManager d2CWcfService, IFtSignalRClient ftSignalRClient )
@@ -76,12 +74,18 @@ namespace Iit.Fibertest.DataCenterCore
                 {
                     _logFile.AppendLine($"The same client {stationWithTheSameUser.UserName}/{stationWithTheSameUser.ClientIp} with connectionId {stationWithTheSameUser.ConnectionId} removed.");
                     // notify old station
-                    await _d2CWcfService.ServerAsksClientToExit(new ServerAsksClientToExitDto()
+                    var serverAsksClientToExitDto = new ServerAsksClientToExitDto()
                     {
                         ToAll = false, 
                         ConnectionId = stationWithTheSameUser.ConnectionId, 
-                        Reason = UnRegisterReason.UserRegistersAnotherSession
-                    });
+                        Reason = UnRegisterReason.UserRegistersAnotherSession,
+
+                        IsNewUserWeb = dto.IsWebClient,
+                        NewAddress = dto.ClientIp,
+                    };
+                    await _d2CWcfService.ServerAsksClientToExit(serverAsksClientToExitDto);
+                    await _ftSignalRClient.NotifyAll("ServerAsksClientToExit", serverAsksClientToExitDto.ToCamelCaseJson());
+                    await Task.Delay(1000);
                     _clients.Remove(stationWithTheSameUser);
                     _logFile.AppendLine("Old client deleted");
                 }

@@ -7833,6 +7833,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User {0} is logged in from a different device at {1}.
+        /// </summary>
+        public static string SID_User__0__is_logged_in_from_a_different_device_at__1_ {
+            get {
+                return ResourceManager.GetString("SID_User__0__is_logged_in_from_a_different_device_at__1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User {0} logged in via WebClient at {1}.
         /// </summary>
         public static string SID_User__0__logged_in_via_WebClient_at__1_ {

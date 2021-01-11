@@ -102,7 +102,6 @@
     <Compile Include="ForWebApi\Trace\TraceStatisticsDto.cs" />
     <Compile Include="ForWebApi\UpdateMeasurementDto.cs" />
     <Compile Include="ForWebApi\UserDto.cs" />
-    <Compile Include="ForWebApi\UserPushedOutDto.cs" />
     <Compile Include="R2D2C\BopStateChangedDto.cs" />
     <Compile Include="D2C\ServerAsksClientToExitDto.cs" />
     <Compile Include="R2D2C\SorBytesDto.cs" />

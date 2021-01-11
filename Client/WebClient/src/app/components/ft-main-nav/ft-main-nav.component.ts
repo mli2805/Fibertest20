@@ -27,7 +27,7 @@ import {
   MessageBoxStyle,
 } from "../ft-simple-dialog/ft-message-box";
 import { MatDialog } from "@angular/material";
-import { RtuInitializedWebDto } from "src/app/models/dtos/rtu/rtuInitializedWebDto";
+import { ServerAsksClientToExitDto } from "src/app/models/dtos/serverAsksClientToExitDto";
 
 @Component({
   selector: "ft-main-nav",
@@ -40,7 +40,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   private measurementAddedSubscription: Subscription;
   private networkEventAddedSubscription: Subscription;
   private bopEventAddedSubscription: Subscription;
-  private rtuInitializedSubscription: Subscription;
+  private serverAsksExitSubscription: Subscription;
 
   private opticalAlarmIndicator: OpticalAlarmIndicator;
   private networkAlarmIndicator: NetworkAlarmIndicator;
@@ -77,7 +77,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
       this.initializeIndicators()
     );
 
-    this.subscribeNewAlarmEvents();
+    this.subscribeSignalRNotifications();
     this.subscribeUserSeenAlarms();
 
     router.events.subscribe((event) => {
@@ -170,7 +170,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     });
   }
 
-  private subscribeNewAlarmEvents() {
+  private subscribeSignalRNotifications() {
     this.measurementAddedSubscription = this.signalRService.measurementAddedEmitter.subscribe(
       (signal: TraceStateDto) => this.onMeasurementAdded(signal)
     );
@@ -181,6 +181,32 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.bopEventAddedSubscription = this.signalRService.bopEventAddedEmitter.subscribe(
       (signal: BopEventDto) => this.onBopEventAdded(signal)
     );
+
+    this.serverAsksExitSubscription = this.signalRService.serverAsksExitEmitter.subscribe(
+      (signal: ServerAsksClientToExitDto) => this.onServerAsksExit(signal)
+    );
+  }
+
+  async onServerAsksExit(signal: ServerAsksClientToExitDto) {
+    console.log(signal);
+    const res = JSON.parse(sessionStorage.getItem("currentUser"));
+    if (signal.connectionId === res.connectionId) {
+      await this.logout();
+      await FtMessageBox.show(
+        this.matDialog,
+        this.ts.instant(
+          "SID_User__0__is_logged_in_from_a_different_device_at__1_",
+          { 0: res.username, 1: new Date().toLocaleTimeString() }
+        ),
+        this.ts.instant("SID_Attention_"),
+        this.ts.instant("SID_Please_leave_application_"),
+        MessageBoxButton.Ok,
+        false,
+        MessageBoxStyle.Full,
+        "600px"
+      ).toPromise();
+      this.router.navigate(["/ft-main-nav/logout"]);
+    }
   }
 
   onMeasurementAdded(signal: TraceStateDto) {
@@ -205,6 +231,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.measurementAddedSubscription.unsubscribe();
     this.networkEventAddedSubscription.unsubscribe();
     this.bopEventAddedSubscription.unsubscribe();
+    this.serverAsksExitSubscription.unsubscribe();
   }
 
   async logout() {

@@ -81,18 +81,18 @@ namespace Iit.Fibertest.Client
             if (string.IsNullOrEmpty(UserName))
                 //                UserName = @"superclient";
                 //                UserName = @"Протасовицкий В.";
-                UserName = @"developer";
+//                UserName = @"developer";
             //                                            UserName = @"operator";
             //                UserName = @"supervisor";
-            //                            UserName = @"root";
+            UserName = @"root";
             //                UserName = @"Brigadir";
             if (string.IsNullOrEmpty(Password))
                 //                Password = @"superclient";
                 //                Password = @"1";
-                Password = @"developer";
+//                Password = @"developer";
             //                                            Password = @"operator";
             //                Password = @"supervisor";
-            //                            Password = @"root";
+            Password = @"root";
             //                Passwod = @"1";
 #endif
             if (string.IsNullOrEmpty(ConnectionId))
