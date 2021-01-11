@@ -77,17 +77,17 @@ export class SignalrService {
     }
   }
 
-  public async initializeRtu(id: string) {
-    try {
-      await this.reStartConnection();
-      await this.hubConnection.invoke("InitializeRtu", id);
-    } catch (err) {
-      console.log(err);
-      const data = new RtuInitializedWebDto();
-      data.returnCode = ReturnCode.RtuInitializationError;
-      this.rtuInitializedEmitter.emit(data);
-    }
-  }
+  // public async initializeRtu(id: string) {
+  //   try {
+  //     await this.reStartConnection();
+  //     await this.hubConnection.invoke("InitializeRtu", id);
+  //   } catch (err) {
+  //     console.log(err);
+  //     const data = new RtuInitializedWebDto();
+  //     data.returnCode = ReturnCode.RtuInitializationError;
+  //     this.rtuInitializedEmitter.emit(data);
+  //   }
+  // }
 
   private onNotifyMonitoringStep(signal: string) {
     const a = signal.length - 1;
@@ -161,6 +161,11 @@ export class SignalrService {
     this.hubConnection.on("UpdateMeasurement", (signal: string) => {
       const dto = JSON.parse(signal);
       this.measurementUpdatedEmitter.emit(dto);
+    });
+
+    this.hubConnection.on("UserPushedOut", (signal: string) => {
+      const dto = JSON.parse(signal);
+      console.log(dto);
     });
   }
 }

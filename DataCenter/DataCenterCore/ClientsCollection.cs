@@ -17,13 +17,14 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly EventStoreService _eventStoreService;
         private readonly D2CWcfManager _d2CWcfService;
+        private readonly IFtSignalRClient _ftSignalRClient;
         private readonly List<ClientStation> _clients = new List<ClientStation>();
 
-        public string SignalrHubConnectionId;
+//        public string SignalrHubConnectionId;
 
         public ClientsCollection(IniFile iniFile, IMyLog logFile, Model writeModel,
             CurrentDatacenterParameters currentDatacenterParameters, EventStoreService eventStoreService,
-            D2CWcfManager d2CWcfService )
+            D2CWcfManager d2CWcfService, IFtSignalRClient ftSignalRClient )
         {
             _iniFile = iniFile;
             _logFile = logFile;
@@ -31,6 +32,7 @@ namespace Iit.Fibertest.DataCenterCore
             _currentDatacenterParameters = currentDatacenterParameters;
             _eventStoreService = eventStoreService;
             _d2CWcfService = d2CWcfService;
+            _ftSignalRClient = ftSignalRClient;
         }
 
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
@@ -202,7 +204,7 @@ namespace Iit.Fibertest.DataCenterCore
         // WebApi has not got user's name and put it as "onSignalRDisconnected"
         public bool UnregisterClientAsync(UnRegisterClientDto dto)
         {
-            if (dto.ConnectionId == SignalrHubConnectionId)
+            if (dto.ConnectionId == _ftSignalRClient.ServerConnectionId)
                 return false;
             var station = _clients.FirstOrDefault(s => s.ConnectionId == dto.ConnectionId);
             if (station != null)

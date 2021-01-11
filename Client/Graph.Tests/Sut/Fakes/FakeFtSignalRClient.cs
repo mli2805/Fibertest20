@@ -19,5 +19,7 @@ namespace Graph.Tests
         {
             return Task.FromResult(true);
         }
+
+        public string ServerConnectionId { get; set; }
     }
 }

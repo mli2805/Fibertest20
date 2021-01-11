@@ -13,20 +13,21 @@ namespace Iit.Fibertest.DataCenterCore
         Task NotifyAll(string eventType, string dataInJson);
         Task<bool> CheckServerIn();
 
+        string ServerConnectionId { get; set; }
     }
     public class FtSignalRClient : IFtSignalRClient, IDisposable
     {
         private readonly IMyLog _logFile;
-        private readonly ClientsCollection _clientsCollection;
         private HubConnection connection;
         private readonly bool _isWebApiInstalled;
 
         private readonly string _webApiUrl;
 
-        public FtSignalRClient(IniFile iniFile, IMyLog logFile, ClientsCollection clientsCollection)
+        public string ServerConnectionId { get; set; }
+
+        public FtSignalRClient(IniFile iniFile, IMyLog logFile)
         {
             _logFile = logFile;
-            _clientsCollection = clientsCollection;
             var bindingProtocol = iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "http");
             _isWebApiInstalled = bindingProtocol != "none";
             _webApiUrl = $"{bindingProtocol}://localhost:{(int)TcpPorts.WebApiListenTo}/webApiSignalRHub";
@@ -60,7 +61,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             connection.On<string>("NotifyServer", connId =>
             {
-                _clientsCollection.SignalrHubConnectionId = connId;
+                ServerConnectionId = connId;
 //                _logFile.AppendLine($"NotifyServer returned id {connId}");
             });
         }
@@ -70,7 +71,6 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task NotifyAll(string eventType, string dataInJson)
         {
             if (!_isWebApiInstalled) return;
-          //  if (!_clientsCollection.HasAnyWebClients()) return;
             try
             {
                 if (eventType == "ClientMeasurementDone")
