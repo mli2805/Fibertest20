@@ -1119,7 +1119,7 @@ RTU инициализируется в данный момент!</value>
     <value>Команда подана на RTU. {0}Ожидаем результат.</value>
   </data>
 	<data name="SID_RTU_Manager_software_version" xml:space="preserve">
-    <value>Версия ПО RTU менеджера</value>
+    <value>Версия ПК RTU менеджера</value>
   </data>
 	<data name="SID_Wrong_user_name_or_password_" xml:space="preserve">
     <value>Неверное имя пользователя или пароль!</value>
@@ -1785,7 +1785,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Справка</value>
 	</data>
 	<data name="SID_About" xml:space="preserve">
-		<value>О программе</value>
+		<value>О системе</value>
 	</data>
 	<data name="SID_License" xml:space="preserve">
 		<value>Лицензия</value>
@@ -2286,7 +2286,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Настройки пользователя</value>
 	</data>
 	<data name="SID_This_user_has_no_right_to_start_client" xml:space="preserve">
-		<value>Данный пользователь не имеет прав на запуск ПО FIbertest Client</value>
+		<value>Данный пользователь не имеет прав на запуск ПК FIbertest Client</value>
 	</data>
 	<data name="SID_Set_password" xml:space="preserve">
 		<value>Задать пароль</value>
@@ -2337,7 +2337,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Не удалось поместить тестовую SMS в очередь на отправку</value>
 	</data>
 	<data name="SID_This_user_has_no_right_to_start_SuperClient" xml:space="preserve">
-		<value>Данный пользователь не имеет прав на запуск ПО FIbertest SuperClient</value>
+		<value>Данный пользователь не имеет прав на запуск ПК FIbertest SuperClient</value>
 	</data>
 	<data name="SID_Edit_settings" xml:space="preserve">
 		<value>Изменить настройки сервера</value>
@@ -2382,13 +2382,13 @@ RTU инициализируется в данный момент!</value>
 		<value>Резервный канал - Ok</value>
 	</data>
 	<data name="SID_Data-center_software_version" xml:space="preserve">
-		<value>Версия ПО Сервер</value>
+		<value>Версия ПК Сервер</value>
 	</data>
 	<data name="SID_Client_software_version" xml:space="preserve">
-		<value>Версия ПО Клиент</value>
+		<value>Версия ПК Клиент</value>
 	</data>
 	<data name="SID_RTUs_software_version" xml:space="preserve">
-		<value>Версии ПО RTU менеджер</value>
+		<value>Версии ПК RTU менеджер</value>
 	</data>
 	<data name="SID_Users_guide" xml:space="preserve">
 		<value>Руководство пользователя</value>
@@ -2475,7 +2475,7 @@ RTU инициализируется в данный момент!</value>
 		<value>портов : {0}</value>
 	</data>
 	<data name="SID_software____0_" xml:space="preserve">
-		<value>версия ПО : {0}</value>
+		<value>версия ПК : {0}</value>
 	</data>
 	<data name="SID_port__0__1____" xml:space="preserve">
 		<value>порт {0}{1}  ; </value>
@@ -2556,7 +2556,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Время регистрации события</value>
 	</data>
 	<data name="SID__0_____software__1_" xml:space="preserve">
-		<value>{0} ;  версия ПО {1}</value>
+		<value>{0} ;  версия ПК {1}</value>
 	</data>
 	<data name="SID_Database_optimization" xml:space="preserve">
 		<value>Оптимизация БД</value>
@@ -2625,7 +2625,7 @@ RTU инициализируется в данный момент!</value>
 		<value>В зависимости от размеров БД, выбранных параметров и быстодействия Вашего ПК</value>
 	</data>
 	<data name="SID_Fibertest_data_size" xml:space="preserve">
-		<value>Размер данных ПО Fibertest:</value>
+		<value>Размер данных ПК Fibertest:</value>
 	</data>
 	<data name="SID_Data" xml:space="preserve">
 		<value>Данные</value>
@@ -2730,7 +2730,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Ошибка задания базовой рефлектограммы</value>
 	</data>
 	<data name="SID_This_user_has_no_right_to_start_Web_Client" xml:space="preserve">
-		<value>Данный пользователь не имеет прав на запуск ПО Fibertest WebClient</value>
+		<value>Данный пользователь не имеет прав на запуск ПК Fibertest WebClient</value>
 	</data>
 	<data name="SID_Files_are_unzipped___" xml:space="preserve">
 		<value>Распаковка файлов...</value>
