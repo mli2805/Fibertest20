@@ -67,7 +67,7 @@
       </button>
       <span>Fibertest&trade; 2.0</span>
       <div class="indicators">
-        <div class="oe one-indicator">
+        <div class="oe one-indicator" *ngIf="isOpticalAlarm !== ''">
           <div class="oe ball">
             <div *ngIf="isOpticalAlarm === 'alarmExclamation'">
               <img
@@ -93,7 +93,7 @@
           </div>
           <span class="oe letters">OE</span>
         </div>
-        <div class="ne one-indicator">
+        <div class="ne one-indicator" *ngIf="isNetworkAlarm !== ''">
           <div class="ne ball">
             <div *ngIf="isNetworkAlarm === 'alarmExclamation'">
               <img
@@ -119,7 +119,7 @@
           </div>
           <span class="ne letters">NE</span>
         </div>
-        <div class="bop one-indicator">
+        <div class="bop one-indicator" *ngIf="isBopAlarm !== ''">
           <div class="bop ball">
             <div *ngIf="isBopAlarm === 'alarmExclamation'">
               <img
