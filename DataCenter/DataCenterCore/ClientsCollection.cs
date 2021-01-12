@@ -219,8 +219,8 @@ namespace Iit.Fibertest.DataCenterCore
                 return true;
             }
             else
-                _logFile.AppendLine($"There is no client {dto.Username}/{dto.ClientIp} with connectionId {dto.ConnectionId}");
-            LogStations();
+//                _logFile.AppendLine($"There is no client {dto.Username}/{dto.ClientIp} with connectionId {dto.ConnectionId}");
+//            LogStations();
             return false;
         }
 

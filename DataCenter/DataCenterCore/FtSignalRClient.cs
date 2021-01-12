@@ -73,12 +73,12 @@ namespace Iit.Fibertest.DataCenterCore
             if (!_isWebApiInstalled) return;
             try
             {
-                if (eventType == "ClientMeasurementDone")
-                    _logFile.AppendLine($"FtSignalRClient: have {eventType} signal, need to connect to hub");
-                var isConnected = await IsSignalRConnected();
+                var isConnected = await IsSignalRConnected(false);
                 if (isConnected)
                 {
                     var unused = connection.InvokeAsync("NotifyAll", eventType, dataInJson);
+                    if (eventType != "CurrentMonitoringStep") // too many
+                        _logFile.AppendLine($"FtSignalRClient: {eventType} sent successfully.");
                 }
             }
             catch (Exception ex)
