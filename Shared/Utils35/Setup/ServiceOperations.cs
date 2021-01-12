@@ -1,6 +1,8 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Iit.Fibertest.UtilsLib.ServiceManager;
 
 namespace Iit.Fibertest.UtilsLib
@@ -31,13 +33,6 @@ namespace Iit.Fibertest.UtilsLib
             return true;
         }
 
-        public static bool UninstallAllServicesOnThisPc(BackgroundWorker worker, DestinationComputer destinationComputer)
-        {
-            return FtServices.List
-                .Where(s => s.DestinationComputer == destinationComputer)
-                .All(service => UninstallServiceIfExist(service, worker));
-        }
-
         public static bool UninstallServiceIfExist(FtService ftService, BackgroundWorker worker)
         {
             if (!ServiceInstaller.ServiceIsInstalled(ftService.Name)) return true;
@@ -46,8 +41,9 @@ namespace Iit.Fibertest.UtilsLib
 
             worker.ReportProgress((int)BwReturnProgressCode.ServiceIsBeingUninstalled, ftService.DisplayName);
             ServiceInstaller.Uninstall(ftService.Name);
-            if (ServiceInstaller.ServiceIsInstalled(ftService.Name)
-                && ServiceInstaller.ServiceIsInstalled(ftService.Name))
+            if (ServiceInstaller.ServiceIsInstalled(ftService.Name)) 
+                Thread.Sleep(2000);
+            if (ServiceInstaller.ServiceIsInstalled(ftService.Name))
             {
                 worker.ReportProgress((int)BwReturnProgressCode.CannotUninstallService, ftService.DisplayName);
                 return false;
