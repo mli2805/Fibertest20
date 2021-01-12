@@ -37,7 +37,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         public override async Task OnConnectedAsync()
         {
-//            _logFile.AppendLine($"SignalR Hub: User {Context.User.Identity.Name} connected from = {GetRemoteAddress()} assigned id {Context.ConnectionId}");
+            //            _logFile.AppendLine($"SignalR Hub: User {Context.User.Identity.Name} connected from = {GetRemoteAddress()} assigned id {Context.ConnectionId}");
             await base.OnConnectedAsync();
         }
 
@@ -45,7 +45,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         {
             if (e == null)
             {
-//                _logFile.AppendLine($"OnDisconnectedAsync (ClientIp = {GetRemoteAddress()},  ConnectionId = {Context.ConnectionId})");
+                //                _logFile.AppendLine($"OnDisconnectedAsync (ClientIp = {GetRemoteAddress()},  ConnectionId = {Context.ConnectionId})");
                 await base.OnDisconnectedAsync(new Exception("SignalR disconnected"));
             }
             else
@@ -68,22 +68,23 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         public async Task CheckServerIn()
         {
-//            _logFile.AppendLine("Returns DC's connection ID");
-            await Clients.All.SendCoreAsync("NotifyServer", new object[] {Context.ConnectionId});
+            //            _logFile.AppendLine("Returns DC's connection ID");
+            await Clients.All.SendCoreAsync("NotifyServer", new object[] { Context.ConnectionId });
         }
 
         public async Task NotifyAll(string eventType, string dataInJson)
         {
-            _logFile.AppendLine($"Hub received {eventType} event");
+            if (eventType != "NotifyMonitoringStep")
+                _logFile.AppendLine($"Hub transmitted {eventType} event");
             await Clients.All.SendAsync(eventType, dataInJson);
         }
 
-//        public async Task AnswerToThisUser(string eventType, string dataInJson)
-//        {
-//            _logFile.AppendLine($"Hub received {eventType} event");
-//            // TODO send only to this user
-//            await Clients.All.SendAsync(eventType, dataInJson);
-//        }
+        //        public async Task AnswerToThisUser(string eventType, string dataInJson)
+        //        {
+        //            _logFile.AppendLine($"Hub received {eventType} event");
+        //            // TODO send only to this user
+        //            await Clients.All.SendAsync(eventType, dataInJson);
+        //        }
     }
 
 }
