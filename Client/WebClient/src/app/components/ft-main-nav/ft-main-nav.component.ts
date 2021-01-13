@@ -62,6 +62,9 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     private matDialog: MatDialog
   ) {
     console.log("main nav c-tor");
+
+    signalRService.reStartConnection();
+
     this.language = sessionStorage.getItem("language");
 
     this.opticalAlarmIndicator = new OpticalAlarmIndicator(
@@ -97,12 +100,24 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     });
   }
 
+  ngOnInit() {
+    // setTimeout(function tick() {
+    //   this.sendHeartbeat();
+    //   setTimeout(tick, 3000);
+    // }, 3000);
+
+    setInterval(() => {
+      this.sendHeartbeat();
+    }, 7000);
+  }
+
   async sendHeartbeat() {
     try {
       const user = sessionStorage.getItem("currentUser");
       if (user === null) {
         console.log("user has not logged yet");
       } else {
+        console.log("Heartbeat.");
         const currentUser = JSON.parse(sessionStorage.currentUser);
         const res = (await this.oneApiService
           .getRequest(`authentication/heartbeat/${currentUser.connectionId}`)
@@ -119,19 +134,20 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   async exit() {
-    await this.logout();
-    this.router.navigate(["/ft-main-nav/logout"]);
+    this.clearSessionStorage();
 
     await FtMessageBox.show(
       this.matDialog,
       this.ts.instant("SID_Server_connection_lost_"),
       this.ts.instant("SID_Error_"),
-      "",
+      this.ts.instant("SID_Please_leave_application_"),
       MessageBoxButton.Ok,
       false,
       MessageBoxStyle.Full,
       "600px"
     ).toPromise();
+
+    this.router.navigate(["/ft-main-nav/logout"]);
   }
 
   async initializeIndicators() {
@@ -146,10 +162,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
       this.isNetworkAlarm = "";
       this.isBopAlarm = "";
     }
-  }
-
-  ngOnInit() {
-    setInterval(() => {}, 100);
   }
 
   private subscribeUserSeenAlarms() {
@@ -240,6 +252,10 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     } catch {
       console.log(`exception while logging out`);
     }
+    this.clearSessionStorage();
+  }
+
+  clearSessionStorage() {
     this.signalRService.stopConnection();
     sessionStorage.removeItem("currentUser");
     sessionStorage.removeItem("currentOpticalAlarms");

@@ -227,7 +227,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async void CleanDeadClients(TimeSpan timeSpan)
         {
             DateTime noLaterThan = DateTime.Now - timeSpan;
-            var deadStations = _clients.Where(s => s.LastConnectionTimestamp < noLaterThan && !s.IsWebClient).ToList();
+            var deadStations = _clients.Where(s => s.LastConnectionTimestamp < noLaterThan).ToList();
             if (deadStations.Count == 0) return;
 
             foreach (var deadStation in deadStations)

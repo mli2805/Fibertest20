@@ -55,15 +55,15 @@ namespace Iit.Fibertest.DataCenterWebApi
                     _logFile.AppendLine($"Inner exception: {e.InnerException.Message}");
                 await base.OnDisconnectedAsync(e);
             }
-            await _commonC2DWcfManager
-                .SetServerAddresses(_doubleAddressForCommonWcfManager, "onSignalRDisconnected", GetRemoteAddress())
-                .UnregisterClientAsync(
-                    new UnRegisterClientDto()
-                    {
-                        ClientIp = GetRemoteAddress(),
-                        Username = "onSignalRDisconnected",
-                        ConnectionId = Context.ConnectionId,
-                    });
+//            await _commonC2DWcfManager
+//                .SetServerAddresses(_doubleAddressForCommonWcfManager, "onSignalRDisconnected", GetRemoteAddress())
+//                .UnregisterClientAsync(
+//                    new UnRegisterClientDto()
+//                    {
+//                        ClientIp = GetRemoteAddress(),
+//                        Username = "onSignalRDisconnected",
+//                        ConnectionId = Context.ConnectionId,
+//                    });
         }
 
         public async Task CheckServerIn()
