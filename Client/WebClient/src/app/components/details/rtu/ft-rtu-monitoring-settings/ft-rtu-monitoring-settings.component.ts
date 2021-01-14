@@ -85,7 +85,7 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
 
   onButtonClicked() {
     if (this.monitoringMode === 0 && this.portTableComponent.cycleTime === 0) {
-      FtMessageBox.show(
+      FtMessageBox.showAndGoAlong(
         this.matDialog,
         this.ts.instant("SID_No_traces_selected_for_monitoring_"),
         this.ts.instant("SID_Error_"),
@@ -94,9 +94,10 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
         false,
         MessageBoxStyle.Full,
         "600px"
-      ).subscribe((res) => {
-        console.log(res);
-      });
+        // ).subscribe((res) => {
+        //   console.log(res);
+        // });
+      );
       return;
     }
 

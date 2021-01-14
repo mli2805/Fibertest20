@@ -103,7 +103,7 @@ export class FtRtuLineComponent implements OnInit {
     ) {
       this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.hideSpinner);
 
-      const answer = await FtMessageBox.show(
+      await FtMessageBox.showAndGoAlong(
         this.matDialog,
         this.ts.instant("SID_No_traces_selected_for_monitoring_"),
         this.ts.instant("SID_Error_"),
@@ -112,8 +112,7 @@ export class FtRtuLineComponent implements OnInit {
         false,
         MessageBoxStyle.Full,
         "600px"
-      ).toPromise();
-      console.log(answer);
+      );
       return;
     }
 

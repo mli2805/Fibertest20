@@ -5,7 +5,30 @@ import { MatDialog, MAT_DIALOG_DATA } from "@angular/material";
 import { FtSimpleDialogComponent } from "./ft-simple-dialog.component";
 
 export class FtMessageBox {
-  static show(
+  static showAndGoAlong(
+    dialog: MatDialog,
+    message,
+    title = "Alert",
+    information = "",
+    button = 0,
+    allowOutsideClick = false,
+    style = 0,
+    width = "600px"
+  ) {
+    dialog.open(FtSimpleDialogComponent, {
+      data: {
+        title: title || "Alert",
+        message,
+        information,
+        button: button || 0,
+        style: style || 0,
+        allow_outside_click: allowOutsideClick || false,
+      },
+      width,
+    });
+  }
+
+  static showAndWaitAnswer(
     dialog: MatDialog,
     message,
     title = "Alert",

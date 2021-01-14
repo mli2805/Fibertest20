@@ -166,8 +166,9 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
 
   async exit() {
     this.clearSessionStorage();
+    this.signalRService.stopConnection();
 
-    await FtMessageBox.show(
+    await FtMessageBox.showAndGoAlong(
       this.matDialog,
       this.ts.instant("SID_Server_connection_lost_"),
       this.ts.instant("SID_Error_"),
@@ -176,7 +177,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
       false,
       MessageBoxStyle.Full,
       "600px"
-    ).toPromise();
+    );
 
     this.router.navigate(["/ft-main-nav/logout"]);
   }
@@ -234,7 +235,8 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     console.log(signal);
     const res = JSON.parse(sessionStorage.getItem("currentUser"));
     if (signal.connectionId === res.connectionId) {
-      await FtMessageBox.show(
+      await this.logout();
+      await FtMessageBox.showAndGoAlong(
         this.matDialog,
         this.ts.instant(
           "SID_User__0__is_logged_in_from_a_different_device_at__1_",
@@ -246,9 +248,8 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
         false,
         MessageBoxStyle.Full,
         "600px"
-      ).toPromise();
+      );
       this.router.navigate(["/ft-main-nav/logout"]);
-      await this.logout();
     }
   }
 
@@ -279,6 +280,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
 
   async logout() {
     try {
+      this.signalRService.stopConnection();
       await this.authService.logout().toPromise();
     } catch {
       console.log(`exception while logging out`);
@@ -287,8 +289,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   clearSessionStorage() {
-    this.signalRService.stopConnection();
-
     sessionStorage.removeItem("currentUser");
     sessionStorage.removeItem("currentOpticalAlarms");
     this.opticalAlarmIndicator.ClearList();
