@@ -51,6 +51,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   public isBopAlarm = "";
 
   private language: string;
+  private timer;
 
   constructor(
     private router: Router,
@@ -101,14 +102,45 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    // как передать this внутрь функции тика таймера?
+
     // setTimeout(function tick() {
     //   this.sendHeartbeat();
     //   setTimeout(tick, 3000);
     // }, 3000);
 
-    setInterval(() => {
+    this.timer = setInterval(() => {
       this.sendHeartbeat();
     }, 7000);
+
+    // const delay = 7000;
+    // let flag = true;
+    // let timerId = setTimeout(async function heartbeat() {
+    //   try {
+    //     const user = sessionStorage.getItem("currentUser");
+    //     if (user === null) {
+    //       console.log("user has not logged yet");
+    //     } else {
+    //       const currentUser = JSON.parse(sessionStorage.currentUser);
+    //       const res = (await this.oneApiService
+    //         .getRequest(`authentication/heartbeat/${currentUser.connectionId}`)
+    //         .toPromise()) as RequestAnswer;
+    //       if (res.returnCode !== ReturnCode.Ok) {
+    //         console.log(`Heartbeat: ${res.errorMessage}`);
+    //         flag = false;
+    //         await this.exit();
+    //       }
+    //     }
+    //   } catch (error) {
+    //     console.log(`can't send heartbeat: ${error}`);
+    //     flag = false;
+    //     await this.exit();
+    //   }
+
+    //   if (flag) {
+    //     timerId = setTimeout(heartbeat, delay);
+    //   }
+    // }, delay);
   }
 
   async sendHeartbeat() {
@@ -117,7 +149,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
       if (user === null) {
         console.log("user has not logged yet");
       } else {
-        console.log("Heartbeat.");
         const currentUser = JSON.parse(sessionStorage.currentUser);
         const res = (await this.oneApiService
           .getRequest(`authentication/heartbeat/${currentUser.connectionId}`)
@@ -134,6 +165,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   async exit() {
+    clearTimeout(this.timer);
     this.clearSessionStorage();
 
     await FtMessageBox.show(
@@ -200,6 +232,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   async onServerAsksExit(signal: ServerAsksClientToExitDto) {
+    clearTimeout(this.timer);
     console.log(signal);
     const res = JSON.parse(sessionStorage.getItem("currentUser"));
     if (signal.connectionId === res.connectionId) {
@@ -256,7 +289,13 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   clearSessionStorage() {
+    this.measurementAddedSubscription.unsubscribe();
+    this.networkEventAddedSubscription.unsubscribe();
+    this.bopEventAddedSubscription.unsubscribe();
+    this.serverAsksExitSubscription.unsubscribe();
+
     this.signalRService.stopConnection();
+
     sessionStorage.removeItem("currentUser");
     sessionStorage.removeItem("currentOpticalAlarms");
     this.opticalAlarmIndicator.ClearList();
