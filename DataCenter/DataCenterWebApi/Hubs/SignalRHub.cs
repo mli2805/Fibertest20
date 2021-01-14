@@ -74,9 +74,13 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         public async Task NotifyAll(string eventType, string dataInJson)
         {
-            if (eventType != "NotifyMonitoringStep")
-                _logFile.AppendLine($"Hub transmitted {eventType} event");
             await Clients.All.SendAsync(eventType, dataInJson);
+            if (eventType != "NotifyMonitoringStep")
+            {
+                _logFile.AppendLine($"Hub transmitted {eventType} event");
+                if (eventType == "ServerAsksClientToExit")
+                    _logFile.AppendLine($"{dataInJson}");
+            }
         }
 
         //        public async Task AnswerToThisUser(string eventType, string dataInJson)

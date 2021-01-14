@@ -165,7 +165,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   async exit() {
-    clearTimeout(this.timer);
     this.clearSessionStorage();
 
     await FtMessageBox.show(
@@ -232,7 +231,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   async onServerAsksExit(signal: ServerAsksClientToExitDto) {
-    clearTimeout(this.timer);
     console.log(signal);
     const res = JSON.parse(sessionStorage.getItem("currentUser"));
     if (signal.connectionId === res.connectionId) {
@@ -289,11 +287,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   clearSessionStorage() {
-    this.measurementAddedSubscription.unsubscribe();
-    this.networkEventAddedSubscription.unsubscribe();
-    this.bopEventAddedSubscription.unsubscribe();
-    this.serverAsksExitSubscription.unsubscribe();
-
     this.signalRService.stopConnection();
 
     sessionStorage.removeItem("currentUser");
