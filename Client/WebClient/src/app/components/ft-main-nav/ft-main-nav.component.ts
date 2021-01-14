@@ -234,7 +234,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     console.log(signal);
     const res = JSON.parse(sessionStorage.getItem("currentUser"));
     if (signal.connectionId === res.connectionId) {
-      await this.logout();
       await FtMessageBox.show(
         this.matDialog,
         this.ts.instant(
@@ -249,6 +248,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
         "600px"
       ).toPromise();
       this.router.navigate(["/ft-main-nav/logout"]);
+      await this.logout();
     }
   }
 
