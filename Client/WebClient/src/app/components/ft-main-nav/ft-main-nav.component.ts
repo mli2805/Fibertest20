@@ -240,10 +240,10 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
         this.matDialog,
         this.ts.instant(
           "SID_User__0__is_logged_in_from_a_different_device_at__1_",
-          { 0: res.username, 1: new Date().toLocaleTimeString() }
+          { 0: res.username, 1: new Date().toLocaleString() }
         ),
         this.ts.instant("SID_Attention_"),
-        this.ts.instant("SID_Please_leave_application_"),
+        this.ts.instant("SID_Application_closed"),
         MessageBoxButton.Ok,
         false,
         MessageBoxStyle.Full,
