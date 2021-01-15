@@ -112,7 +112,10 @@ namespace Iit.Fibertest.DataCenterCore
                     ReturnCode = ReturnCode.RtuAttachOtauError
                 };
             if (otauAttachedDto.IsAttached)
+            {
                 AttachOtauIntoGraph(dto, otauAttachedDto);
+                await _ftSignalRClient.NotifyAll("FetchTree", null);
+            }
             return otauAttachedDto;
         }
 
@@ -136,7 +139,10 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var otauDetachedDto = await _clientToRtuTransmitter.DetachOtauAsync(dto);
             if (otauDetachedDto.IsDetached)
+            {
                 RemoveOtauFromGraph(dto);
+                await _ftSignalRClient.NotifyAll("FetchTree", null);
+            }
             return otauDetachedDto;
         }
 

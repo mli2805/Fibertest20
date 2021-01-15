@@ -172,7 +172,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
       this.matDialog,
       this.ts.instant("SID_Server_connection_lost_"),
       this.ts.instant("SID_Error_"),
-      this.ts.instant("SID_Please_leave_application_"),
+      this.ts.instant("SID_Application_closed"),
       MessageBoxButton.Ok,
       false,
       MessageBoxStyle.Full,

@@ -204,8 +204,6 @@ namespace Iit.Fibertest.DataCenterCore
                     break;
                 }
 
-                case AttachOtau _:
-                case DetachOtau _:
                 case AttachTrace _:
                 case DetachTrace _:
                 case DetachAllTraces _:
