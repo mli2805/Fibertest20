@@ -16,6 +16,11 @@ export class OneApiService {
     console.log(`get request with url ${url}`);
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
+    // now these two parameters are used only by GetTree request (on web api side)
+    // just add function parameters on web api side to use these
+    if (params === null) {
+      params = { connectionId: currentUser.connectionId, username: currentUser.username };
+    }
     const myHttpOptions = {
       headers: {
         Authorization: "Bearer " + currentUser.jsonWebToken,

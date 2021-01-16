@@ -47,17 +47,21 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         [Authorize]
         [HttpGet("Tree")]
-        public async Task<IEnumerable<RtuDto>> GetTree()
+        public async Task<IEnumerable<RtuDto>> GetTree(string connectionId, string username)
         {
+            _logFile.AppendLine($"GetTree requested by {username}, connId {connectionId}");
             var tree = await _webC2DWcfManager
                 .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
                 .GetTreeInJson(User.Identity.Name);
-            _logFile.AppendLine(tree == null
-                ? "Failed to get tree"
-                : $"tree contains {tree.Length} symbols");
+            if (tree == null)
+            {
+                _logFile.AppendLine("Failed to get tree");
+                return null;
+            }
+           
             var rtuList = (List<RtuDto>)JsonConvert.DeserializeObject(tree, JsonSerializerSettings);
             _logFile.AppendLine(rtuList == null
-                ? "Failed to get RTU list"
+                ? "Failed to deserialize RTU list"
                 : $"RTU list contains {rtuList.Count} items");
 
             return rtuList;

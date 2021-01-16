@@ -97,7 +97,10 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy, AfterViewChecked {
       });
 
     this.fetchDataSubscription = this.signalRService.fetchTreeEmitter.subscribe(
-      () => this.fetchData()
+      () => {
+        console.log(`fetch signal received`);
+        this.fetchData();
+      }
     );
 
     this.monitoringStoppedSubscription = this.signalRService.monitoringStoppedEmitter.subscribe(
