@@ -55,15 +55,15 @@ namespace Iit.Fibertest.DataCenterWebApi
                     _logFile.AppendLine($"Inner exception: {e.InnerException.Message}");
                 await base.OnDisconnectedAsync(e);
             }
-//            await _commonC2DWcfManager
-//                .SetServerAddresses(_doubleAddressForCommonWcfManager, "onSignalRDisconnected", GetRemoteAddress())
-//                .UnregisterClientAsync(
-//                    new UnRegisterClientDto()
-//                    {
-//                        ClientIp = GetRemoteAddress(),
-//                        Username = "onSignalRDisconnected",
-//                        ConnectionId = Context.ConnectionId,
-//                    });
+            //            await _commonC2DWcfManager
+            //                .SetServerAddresses(_doubleAddressForCommonWcfManager, "onSignalRDisconnected", GetRemoteAddress())
+            //                .UnregisterClientAsync(
+            //                    new UnRegisterClientDto()
+            //                    {
+            //                        ClientIp = GetRemoteAddress(),
+            //                        Username = "onSignalRDisconnected",
+            //                        ConnectionId = Context.ConnectionId,
+            //                    });
         }
 
         public async Task CheckServerIn()
@@ -74,12 +74,20 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         public async Task NotifyAll(string eventType, string dataInJson)
         {
-            await Clients.All.SendAsync(eventType, dataInJson);
-            if (eventType != "NotifyMonitoringStep")
+            try
             {
-                _logFile.AppendLine($"Hub transmitted {eventType} event");
-                if (eventType == "ServerAsksClientToExit")
-                    _logFile.AppendLine($"{dataInJson}");
+                await Clients.All.SendAsync(eventType, dataInJson);
+                // if (eventType != "NotifyMonitoringStep")
+                {
+                    _logFile.AppendLine($"Hub transmitted {eventType} event");
+                    if (eventType == "ServerAsksClientToExit")
+                        _logFile.AppendLine($"{dataInJson}");
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"SignalR Hub NotifyAll {eventType}. Exception {e.Message}");
+
             }
         }
 
