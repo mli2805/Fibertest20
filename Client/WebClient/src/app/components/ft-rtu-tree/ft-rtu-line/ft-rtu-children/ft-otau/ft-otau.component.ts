@@ -62,7 +62,8 @@ export class FtOtauComponent implements OnInit {
         if (res.returnCode !== ReturnCode.OtauDetachedSuccesfully) {
           alert("Error");
         }
-        this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.fetchTree);
+        // server will send this signal
+        // this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.fetchTree);
       });
   }
 

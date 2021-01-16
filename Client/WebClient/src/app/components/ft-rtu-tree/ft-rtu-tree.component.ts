@@ -176,6 +176,7 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   ngOnDestroy() {
+    this.fetchDataSubscription.unsubscribe();
     this.monitoringStoppedSubscription.unsubscribe();
     this.monitoringStartedSubscription.unsubscribe();
     this.measurementAddedSubscription.unsubscribe();

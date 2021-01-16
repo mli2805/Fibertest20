@@ -82,7 +82,8 @@ export class FtAttachedLineComponent implements OnInit {
       .postRequest(`port/detach-trace/${this.trace.traceId}`, null)
       .subscribe((res) => {
         console.log(res);
-        this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.fetchTree);
+        // server will send fetch signal
+        // this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.fetchTree);
       });
   }
 
