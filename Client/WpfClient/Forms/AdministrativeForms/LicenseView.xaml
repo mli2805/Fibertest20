@@ -7,37 +7,18 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews;assembly=Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d"
-        Width="400" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Width="480" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:LicenseViewModel}">
     <StackPanel>
         <wpfCommonViews:IitOfficialHeader/>
+        <wpfCommonViews:LicenseControlView DataContext="{Binding LicenseControlViewModel }"/>
         <DockPanel  Margin="10,0">
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="10,5,5,10" HorizontalAlignment="Center">
                 <Button Name="ApplyLicFile" Content="{x:Static stringResources:Resources.SID_I_have_a_license_file}" 
                         Width="180" Margin="5" IsEnabled="{Binding IsApplyLicenseEnabled}" />
                 <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Width="80" Margin="5"/>
             </StackPanel>
-            <StackPanel Margin="5">
-                <TextBlock Text="{x:Static stringResources:Resources.SID_License_owner}" Margin="5,0" HorizontalAlignment="Left"/>
-                <TextBlock Text="{Binding License.Owner}" Margin="5" Background="Azure" HorizontalAlignment="Center"/>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="RTUs" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
-                    <TextBlock Text="{Binding License.RtuCount}" Background="Azure" Margin="5,1,5,5" Width="200"/>
-                </StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Clients" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
-                    <TextBlock Text="{Binding License.ClientStationCount}" Background="Azure" Margin="5,1,5,5" Width="200"/>
-                </StackPanel>  
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Web clients" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
-                    <TextBlock Text="{Binding License.WebClientCount}" Background="Azure" Margin="5,1,5,5" Width="200"/>
-                </StackPanel> 
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="Super-clients" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
-                    <TextBlock Text="{Binding License.SuperClientStationCount}" Background="Azure" Margin="5,1,5,5" Width="200"/>
-                </StackPanel>
-               
-            </StackPanel>
+   
         </DockPanel>
 
 

@@ -6,7 +6,7 @@
         Width="480" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
     <StackPanel>
         <wpfCommonViews:IitOfficialHeader/>
-        <wpfCommonViews:LicenseView DataContext="{Binding LicenseViewModel}" HorizontalContentAlignment="Center"/>
+        <wpfCommonViews:LicenseControlView DataContext="{Binding LicenseControlViewModel}"/>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="10,5,5,10" HorizontalAlignment="Center">
             <Button Name="OpenLicFile" Content="{x:Static stringResources:Resources.OpenLicFile_Content}" 
                     Width="180" Margin="5" IsEnabled="{Binding IsApplyLicenseEnabled}" />

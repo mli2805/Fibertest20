@@ -9,7 +9,7 @@ namespace LicenseViewer
     {
         private readonly IWindowManager _windowManager;
         private readonly LicenseManager _licenseManager;
-        public LicenseViewModel LicenseViewModel { get; set; } = new LicenseViewModel();
+        public LicenseControlViewModel LicenseControlViewModel { get; set; } = new LicenseControlViewModel();
 
         public ShellViewModel(IWindowManager windowManager)
         {
@@ -32,20 +32,7 @@ namespace LicenseViewer
                 return;
             }
 
-            LicenseViewModel.License = Map(licenseInFile);
-        }
-
-        private License Map(LicenseInFile licenseInFile)
-        {
-            return new License
-            {
-                Owner = licenseInFile.Owner,
-                RtuCount = new LicenseParameter(licenseInFile.RtuCount),
-                ClientStationCount = new LicenseParameter(licenseInFile.ClientStationCount),
-                WebClientCount = new LicenseParameter(licenseInFile.WebClientCount),
-                SuperClientStationCount = new LicenseParameter(licenseInFile.SuperClientStationCount),
-                Version = licenseInFile.Version,
-            };
+            LicenseControlViewModel.FromFile(licenseInFile);
         }
 
         public void Close()

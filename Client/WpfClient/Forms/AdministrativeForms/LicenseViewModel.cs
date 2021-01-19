@@ -12,6 +12,7 @@ namespace Iit.Fibertest.Client
         private readonly LicenseManager _licenseManager;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
+        public LicenseControlViewModel LicenseControlViewModel { get; set; } = new LicenseControlViewModel();
         private License _license;
         public License License
         {
@@ -32,7 +33,8 @@ namespace Iit.Fibertest.Client
             _licenseManager = licenseManager;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
-            License = readModel.License;
+            // License = readModel.License;
+            LicenseControlViewModel.License = readModel.License;
             IsApplyLicenseEnabled = currentUser.Role <= Role.Root;
         }
 

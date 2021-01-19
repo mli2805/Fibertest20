@@ -130,10 +130,10 @@
       <DependentUpon>IitOfficialHeader.xaml</DependentUpon>
     </Compile>
     <Compile Include="License\LicenseInFileModel.cs" />
-    <Compile Include="License\LicenseView.xaml.cs">
-      <DependentUpon>LicenseView.xaml</DependentUpon>
+    <Compile Include="License\LicenseControlView.xaml.cs">
+      <DependentUpon>LicenseControlView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="License\LicenseViewModel.cs" />
+    <Compile Include="License\LicenseControlViewModel.cs" />
     <Compile Include="MyMessageBox\MessageType.cs" />
     <Compile Include="MyMessageBox\MessageTypeExt.cs" />
     <Compile Include="MyMessageBox\MyMessageBoxLineModel.cs" />
@@ -183,7 +183,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="License\LicenseView.xaml">
+    <Page Include="License\LicenseControlView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

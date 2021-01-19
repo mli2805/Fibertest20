@@ -1,11 +1,11 @@
 ﻿namespace Iit.Fibertest.WpfCommonViews
 {
     /// <summary>
-    /// Interaction logic for LicenseView.xaml
+    /// Interaction logic for LicenseControlView.xaml
     /// </summary>
-    public partial class LicenseView
+    public partial class LicenseControlView
     {
-        public LicenseView()
+        public LicenseControlView()
         {
             InitializeComponent();
         }
