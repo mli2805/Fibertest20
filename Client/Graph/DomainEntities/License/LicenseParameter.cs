@@ -23,7 +23,7 @@ namespace Iit.Fibertest.Graph
         public override string ToString()
         {
             var text = Resources.SID_valid_until;
-            return $@"{Value}   ({text} {ValidUntil:d}) ";
+            return $@"{Value}   ({text} {ValidUntil:dd MMMM yyyy}) ";
         }
     }
 }

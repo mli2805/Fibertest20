@@ -14,7 +14,7 @@
         <DockPanel  Margin="10,0">
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="10,5,5,10" HorizontalAlignment="Center">
                 <Button Name="ApplyLicFile" Content="{x:Static stringResources:Resources.SID_I_have_a_license_file}" 
-                        Width="180" Margin="5" IsEnabled="{Binding IsApplyLicenseEnabled}"/>
+                        Width="180" Margin="5" IsEnabled="{Binding IsApplyLicenseEnabled}" />
                 <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Width="80" Margin="5"/>
             </StackPanel>
             <StackPanel Margin="5">

@@ -1,4 +1,4 @@
-﻿namespace LicenseReader
+﻿namespace LicenseViewer
 {
     /// <summary>
     /// Interaction logic for App.xaml

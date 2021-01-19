@@ -1,9 +1,20 @@
-﻿using Iit.Fibertest.Graph;
+﻿using Caliburn.Micro;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.WpfCommonViews
 {
-    public class LicenseViewModel
+    public class LicenseViewModel : PropertyChangedBase
     {
-        public License LicenseInFileModel { get;set; }
+        private License _license;
+        public License License
+        {
+            get => _license;
+            set
+            {
+                if (Equals(value, _license)) return;
+                _license = value;
+                NotifyOfPropertyChange();
+            }
+        }
     }
 }

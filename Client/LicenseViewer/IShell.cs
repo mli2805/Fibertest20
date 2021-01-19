@@ -1,3 +1,3 @@
-namespace LicenseReader {
+namespace LicenseViewer {
     public interface IShell {}
 }

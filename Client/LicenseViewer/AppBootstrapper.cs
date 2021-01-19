@@ -1,4 +1,4 @@
-namespace LicenseReader {
+namespace LicenseViewer {
     using System;
     using System.Collections.Generic;
     using Caliburn.Micro;
