@@ -129,10 +129,11 @@
     <Compile Include="Controls\IitOfficialHeader.xaml.cs">
       <DependentUpon>IitOfficialHeader.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\LicenseView.xaml.cs">
+    <Compile Include="License\LicenseInFileModel.cs" />
+    <Compile Include="License\LicenseView.xaml.cs">
       <DependentUpon>LicenseView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\LicenseViewModel.cs" />
+    <Compile Include="License\LicenseViewModel.cs" />
     <Compile Include="MyMessageBox\MessageType.cs" />
     <Compile Include="MyMessageBox\MessageTypeExt.cs" />
     <Compile Include="MyMessageBox\MyMessageBoxLineModel.cs" />
@@ -182,7 +183,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Controls\LicenseView.xaml">
+    <Page Include="License\LicenseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -248,6 +249,10 @@
     <ProjectReference Include="..\..\Shared\Utils35\UtilsLib.csproj">
       <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
       <Name>UtilsLib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Graph\Graph.csproj">
+      <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
+      <Name>Graph</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
