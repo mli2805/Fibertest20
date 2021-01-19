@@ -12,7 +12,6 @@ namespace Iit.Fibertest.InstallRtu
     {
         private IMyLog _logFile;
         private CurrentRtuInstallation _currentRtuInstallation;
-        private IWindowManager _windowManager;
         public LicenseAgreementViewModel LicenseAgreementViewModel { get; set; }
         public InstallationFolderViewModel InstallationFolderViewModel { get; set; }
         public ProcessProgressViewModel ProcessProgressViewModel { get; set; }
@@ -107,15 +106,13 @@ namespace Iit.Fibertest.InstallRtu
 
         #endregion
 
-        public ShellViewModel(CurrentRtuInstallation currentRtuInstallation, 
-            IWindowManager windowManager, IMyLog logFile,
+        public ShellViewModel(CurrentRtuInstallation currentRtuInstallation, IMyLog logFile,
             LicenseAgreementViewModel licenseAgreementViewModel,
             InstallationFolderViewModel installationFolderViewModel,
             ProcessProgressViewModel processProgressViewModel)
         {
             _logFile = logFile;
             _currentRtuInstallation = currentRtuInstallation;
-            _windowManager = windowManager;
             LicenseAgreementViewModel = licenseAgreementViewModel;
             InstallationFolderViewModel = installationFolderViewModel;
             ProcessProgressViewModel = processProgressViewModel;

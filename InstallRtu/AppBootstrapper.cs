@@ -52,7 +52,7 @@ namespace Iit.Fibertest.InstallRtu
             _container.InjectProperties(instance);
         }
 
-        protected override void OnStartup(object sender, System.Windows.StartupEventArgs e)
+        protected override void OnStartup(object sender, StartupEventArgs e)
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacInRtuInstall>();

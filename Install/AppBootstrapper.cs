@@ -1,17 +1,15 @@
-using Autofac;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
 using System.Windows;
-using Iit.Fibertest.Install;
+using Autofac;
+using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 
-namespace Setup
+namespace Iit.Fibertest.Install
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Globalization;
-    using System.Threading;
-    using Caliburn.Micro;
-
     public class AppBootstrapper : BootstrapperBase
     {
         // SimpleContainer container;
@@ -53,7 +51,7 @@ namespace Setup
             _container.InjectProperties(instance);
         }
 
-        protected override void OnStartup(object sender, System.Windows.StartupEventArgs e)
+        protected override void OnStartup(object sender, StartupEventArgs e)
         {
             var builder = new ContainerBuilder();
             builder.RegisterModule<AutofacInSetup>();

@@ -1,12 +1,12 @@
-namespace Uninstall
-{
-    using System;
-    using System.Collections.Generic;
-    using Caliburn.Micro;
-    using Iit.Fibertest.UtilsLib;
-    using System.Threading;
-    using System.Globalization;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.Threading;
+using Caliburn.Micro;
+using Iit.Fibertest.UtilsLib;
 
+namespace Iit.Fibertest.Uninstall
+{
     public class AppBootstrapper : BootstrapperBase
     {
         SimpleContainer container;

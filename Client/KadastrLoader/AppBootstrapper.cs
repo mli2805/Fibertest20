@@ -41,7 +41,7 @@ namespace KadastrLoader
             _container.InjectProperties(instance);
         }
 
-        protected override void OnStartup(object sender, System.Windows.StartupEventArgs e)
+        protected override void OnStartup(object sender, StartupEventArgs e)
         {
             SomeInitialActions();
             DisplayRootViewFor<IShell>();

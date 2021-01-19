@@ -8,7 +8,7 @@
         xmlns:uninstall1="clr-namespace:Iit.Fibertest.Uninstall"
         mc:Ignorable="d"
         Width="600" Height="400" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        d:DataContext="{d:DesignInstance uninstall:ShellViewModel}">
+        d:DataContext="{d:DesignInstance uninstall1:ShellViewModel}">
 
    <DockPanel>
        <uninstall1:HeaderView DockPanel.Dock="Top" DataContext="{Binding HeaderViewModel}"/>

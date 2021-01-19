@@ -4,10 +4,9 @@ using System.Windows;
 using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.Uninstall;
 using Iit.Fibertest.UtilsLib;
 
-namespace Uninstall
+namespace Iit.Fibertest.Uninstall
 {
     public class ShellViewModel : Screen, IShell
     {
@@ -68,7 +67,6 @@ namespace Uninstall
         }
         #endregion
 
-        private readonly IniFile _iniFile;
         private readonly bool _isOnRtu;
 
         public ShellViewModel()
@@ -83,9 +81,9 @@ namespace Uninstall
             IsButtonUninstallEnabled = true;
             IsButtonCancelEnabled = true;
 
-            _iniFile = new IniFile();
-            _iniFile.AssignFile("uninstall.ini");
-            _isOnRtu = _iniFile.Read(IniSection.Uninstall, IniKey.IsOnRtu, false);
+            var iniFile = new IniFile();
+            iniFile.AssignFile("uninstall.ini");
+            _isOnRtu = iniFile.Read(IniSection.Uninstall, IniKey.IsOnRtu, false);
         }
 
         protected override void OnViewLoaded(object view)

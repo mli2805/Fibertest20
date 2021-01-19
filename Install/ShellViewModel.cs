@@ -12,7 +12,6 @@ namespace Iit.Fibertest.Install
     {
         private IMyLog _logFile;
         private CurrentInstallation _currentInstallation;
-        private IWindowManager _windowManager;
         public LicenseAgreementViewModel LicenseAgreementViewModel { get; set; }
         public InstallationFolderViewModel InstallationFolderViewModel { get; set; }
         public InstTypeChoiceViewModel InstTypeChoiceViewModel { get; set; }
@@ -108,8 +107,7 @@ namespace Iit.Fibertest.Install
 
         #endregion
 
-        public ShellViewModel(CurrentInstallation currentInstallation, 
-            IWindowManager windowManager, IMyLog logFile,
+        public ShellViewModel(CurrentInstallation currentInstallation, IMyLog logFile,
             LicenseAgreementViewModel licenseAgreementViewModel,
             InstallationFolderViewModel installationFolderViewModel,
             InstTypeChoiceViewModel instTypeChoiceViewModel,
@@ -117,7 +115,6 @@ namespace Iit.Fibertest.Install
         {
             _logFile = logFile;
             _currentInstallation = currentInstallation;
-            _windowManager = windowManager;
             LicenseAgreementViewModel = licenseAgreementViewModel;
             InstallationFolderViewModel = installationFolderViewModel;
             InstTypeChoiceViewModel = instTypeChoiceViewModel;
