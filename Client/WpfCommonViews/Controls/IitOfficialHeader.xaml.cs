@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.Client
+﻿namespace Iit.Fibertest.WpfCommonViews
 {
     /// <summary>
     /// Interaction logic for IitOfficialHeader.xaml

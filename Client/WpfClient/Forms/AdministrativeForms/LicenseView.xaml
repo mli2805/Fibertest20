@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews;assembly=Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d"
         Width="400" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:LicenseViewModel}">
     <StackPanel>
-        <client:IitOfficialHeader/>
+        <wpfCommonViews:IitOfficialHeader/>
         <DockPanel  Margin="10,0">
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="10,5,5,10" HorizontalAlignment="Center">
                 <Button Name="ApplyLicFile" Content="{x:Static stringResources:Resources.SID_I_have_a_license_file}" 

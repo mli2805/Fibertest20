@@ -325,9 +325,6 @@
       <DependentUpon>GpsInputSmallView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Controls\GpsInputControl\GpsInputSmallViewModel.cs" />
-    <Compile Include="Forms\Controls\IitOfficialHeader.xaml.cs">
-      <DependentUpon>IitOfficialHeader.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Forms\EquipmentAddUpdate\EquipmentInfoModel.cs" />
     <Compile Include="Forms\EquipmentAddUpdate\ViewMode.cs" />
     <Compile Include="Forms\AdministrativeForms\ObjectsToZones\ObjectsAsTreeToZonesView.xaml.cs">
@@ -748,10 +745,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\Controls\GpsInputControl\GpsInputSmallView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Forms\Controls\IitOfficialHeader.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

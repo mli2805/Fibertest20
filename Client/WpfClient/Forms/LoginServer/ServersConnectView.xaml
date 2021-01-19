@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews;assembly=Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d"
         Width="400" SizeToContent="Height" ResizeMode="NoResize" WindowStartupLocation="CenterOwner"
         d:DataContext="{d:DesignInstance client:ServersConnectViewModel}">
     <StackPanel>
-        <client:IitOfficialHeader></client:IitOfficialHeader>
+        <wpfCommonViews:IitOfficialHeader/>
         <StackPanel  Margin="30,0">
             <StackPanel Margin="5" Orientation="Horizontal">
                 <Button Name="ButtonMinus" Width="25" Content="-" Margin="36,0,0,0" IsEnabled="{Binding IsRemoveServerEnabled}"/>

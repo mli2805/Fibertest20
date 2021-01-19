@@ -126,6 +126,13 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\IitOfficialHeader.xaml.cs">
+      <DependentUpon>IitOfficialHeader.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LicenseView.xaml.cs">
+      <DependentUpon>LicenseView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\LicenseViewModel.cs" />
     <Compile Include="MyMessageBox\MessageType.cs" />
     <Compile Include="MyMessageBox\MessageTypeExt.cs" />
     <Compile Include="MyMessageBox\MyMessageBoxLineModel.cs" />
@@ -154,10 +161,10 @@
     </Compile>
     <Compile Include="RftsEvents\RftsEventsViewModel.cs" />
     <Compile Include="RftsEvents\SorDataToViewContent.cs" />
-    <Compile Include="ServerConnectionLostView.xaml.cs">
+    <Compile Include="ServerConnectionLost\ServerConnectionLostView.xaml.cs">
       <DependentUpon>ServerConnectionLostView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ServerConnectionLostViewModel.cs" />
+    <Compile Include="ServerConnectionLost\ServerConnectionLostViewModel.cs" />
     <Compile Include="WaitForm\LongOperation.cs" />
     <Compile Include="WaitForm\LongOperationExt.cs" />
     <Compile Include="WaitForm\WaitView.xaml.cs">
@@ -171,6 +178,14 @@
     <Compile Include="WpfTricks\PasswordHelper.cs" />
     <Compile Include="WpfTricks\SoundManager.cs" />
     <Compile Include="WpfTricks\WaitCursor.cs" />
+    <Page Include="Controls\IitOfficialHeader.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Controls\LicenseView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MyMessageBox\MyMessageBoxView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -191,7 +206,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="ServerConnectionLostView.xaml">
+    <Page Include="ServerConnectionLost\ServerConnectionLostView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -236,6 +251,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Resources\Ico\IIT.ico" />
     <Content Include="Resources\Sounds\Accident.mp3" />
     <Content Include="Resources\Sounds\Ok.mp3" />
     <Content Include="Resources\SorExample\MeasWithBase.sor" />
