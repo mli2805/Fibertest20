@@ -2834,4 +2834,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_User__0__is_logged_in_from_a_different_device_at__1_" xml:space="preserve">
 		<value>Пользователь {0} вошел в систему с другого устройства в {1}</value>
 	</data>
+	<data name="OpenLicFile.Content" xml:space="preserve">
+		<value>Открыть другой файл</value>
+	</data>
+	<data name="SID_License_viewer" xml:space="preserve">
+		<value>Просмотрщик лицензий</value>
+	</data>
 </root>

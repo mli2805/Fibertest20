@@ -19,7 +19,7 @@ namespace LicenseViewer
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = "License reader";
+            DisplayName = Resources.SID_License_viewer;
         }
 
         public void OpenLicFile()

@@ -1,3 +1,8 @@
+using System.Globalization;
+using System.Reflection;
+using System.Threading;
+using Iit.Fibertest.UtilsLib;
+
 namespace LicenseViewer {
     using System;
     using System.Collections.Generic;
@@ -30,8 +35,21 @@ namespace LicenseViewer {
             container.BuildUp(instance);
         }
 
-        protected override void OnStartup(object sender, System.Windows.StartupEventArgs e) {
+        protected override void OnStartup(object sender, System.Windows.StartupEventArgs e) 
+        {
+            var iniFile = new IniFile();
+            iniFile.AssignFile("licviewer.ini");
+            var currentCulture = iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
+            Thread.CurrentThread.CurrentCulture = new CultureInfo(currentCulture);
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
+
             DisplayRootViewFor<IShell>();
+        }
+
+        protected override IEnumerable<Assembly> SelectAssemblies()
+        {
+            yield return typeof(ShellView).Assembly; // this Assembly (.exe)
+            yield return typeof(Iit.Fibertest.WpfCommonViews.RftsEventsView).Assembly; // WpfCommonViews
         }
     }
 }
