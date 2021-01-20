@@ -17,6 +17,8 @@
             <MenuItem Header="{x:Static stringResources:Resources.SID_Reports}">
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Monitoring_system_components}" cal:Message.Attach="LaunchComponentsReport"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Optical_events_report}" cal:Message.Attach="LaunchOpticalEventsReport"/>
+                <MenuItem Header="{x:Static stringResources:Resources.SID_Traces_in_DB}"
+                          cal:Message.Attach="LaunchTracesInDbReport" Visibility="Visible"/>
                 <Separator/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Event_log}" cal:Message.Attach="LaunchEventLogView"/>
             </MenuItem>

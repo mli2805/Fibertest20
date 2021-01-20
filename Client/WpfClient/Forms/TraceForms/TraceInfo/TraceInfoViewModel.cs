@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
@@ -53,6 +54,9 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange();
             }
         }
+
+        public Visibility IsDev { get; set; }
+
         public TraceInfoViewModel(Model readModel, CurrentUser currentUser, IWcfServiceDesktopC2D c2DWcfManager,
             IWindowManager windowManager)
         {
@@ -60,6 +64,7 @@ namespace Iit.Fibertest.Client
             _currentUser = currentUser;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
+            IsDev = currentUser.Role == Role.Developer ? Visibility.Visible : Visibility.Collapsed;
         }
 
 
@@ -128,7 +133,7 @@ namespace Iit.Fibertest.Client
             if (_readModel.Traces.Any(t => t.Title == Title && t.TraceId != Model.TraceId))
                 return Resources.SID_There_is_a_trace_with_the_same_title;
             if (Title.IndexOfAny(@"*+:\/[];|=".ToCharArray()) != -1)
-                 return   Resources.SID_Trace_title_contains_forbidden_symbols;
+                return Resources.SID_Trace_title_contains_forbidden_symbols;
 
             return string.Empty;
         }
@@ -162,6 +167,33 @@ namespace Iit.Fibertest.Client
                 Comment = Model.Comment
             };
             await _c2DWcfManager.SendCommandAsObj(cmd);
+        }
+
+        public void DevReport()
+        {
+            if (_isInCreationMode)
+            {
+                MessageBox.Show(@"Report could be done for ready trace only!");
+                return;
+            }
+
+            var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == Model.TraceId);
+            if (trace == null) return;
+
+            var res = _readModel.TraceDevReport(trace, out List<string> content);
+            var filename = $@"..\Reports\tdr-{trace.Title}.txt";
+            File.WriteAllLines(filename, content);
+
+            var content2 = _readModel.TraceDevReport2(trace);
+            var filename2 = $@"..\Reports\tdr2-{trace.Title}.txt";
+            File.WriteAllLines(filename2, content2);
+            var vm = new MyMessageBoxViewModel(MessageType.Information, new List<string>()
+            {
+                res ? @"Trace has no errors. Congratulations!" : @"Error(s) found on trace!",
+                "",
+                $@"Created report {filename}"
+            }, 0);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
         public void Cancel()

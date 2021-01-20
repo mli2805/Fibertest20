@@ -42,7 +42,7 @@
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar Name="ExpandBar">
                 <Button Name="Expand" Background="Transparent" BorderThickness="0" Width="20" Height="20" Click="Expand_Click"
-                    RenderOptions.BitmapScalingMode="NearestNeighbor">
+                    RenderOptions.BitmapScalingMode="NearestNeighbor" Margin="0,0,0,1" VerticalAlignment="Bottom">
                     <Image Source="../../../Resources/Buttons/Expand.png" Width="16" Height="16"/>
                 </Button>
                 <Button Name="Collapse" Background="Transparent" BorderThickness="0" Width="20" Height="20" Click="Collapse_Click"
@@ -53,6 +53,10 @@
                           Style="{StaticResource MyToggleButtonStyle}"
                           RenderOptions.BitmapScalingMode="NearestNeighbor">
                 </ToggleButton>
+                <Button Name="LaunchTracesInDbReport" Background="Transparent" BorderThickness="0" Width="20" Height="20"
+                        RenderOptions.BitmapScalingMode="NearestNeighbor" Margin="0,0,0,1" VerticalAlignment="Bottom">
+                    <Image Source="../../../Resources/Buttons/Test.png" Width="16" Height="16" Visibility="{Binding IsDev}"/>
+                </Button>   
             </ToolBar>
             <ToolBar>
                 <TextBox Text="{Binding TextToFind, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" Width="100"/>

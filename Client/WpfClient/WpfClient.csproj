@@ -282,6 +282,8 @@
     <Compile Include="Forms\SettingsForms\SnmpSettingsViewModel.cs" />
     <Compile Include="Forms\Shell\ChildrenViews.cs" />
     <Compile Include="Forms\Shell\SystemState.cs" />
+    <Compile Include="Forms\TraceForms\TraceInfo\TraceDevReportExt.cs" />
+    <Compile Include="Forms\TraceForms\TraceInfo\TraceDevReportExt2.cs" />
     <Compile Include="Forms\TraceForms\TraceState\TraceStateModelHeader.cs" />
     <Compile Include="GlobalVars\CommandLineParameters.cs" />
     <Compile Include="GlobalVars\CurrentlyHiddenRtu.cs" />
@@ -1184,6 +1186,7 @@
     <Content Include="Resources\AccidentSchemes\FiberBrokenInNode.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Buttons\Test.png" />
     <Content Include="Resources\Reports\header-landscape.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

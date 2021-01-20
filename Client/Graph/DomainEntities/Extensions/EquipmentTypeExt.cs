@@ -63,6 +63,33 @@ namespace Iit.Fibertest.Graph
             return Resources.SID_Switch_ended_unexpectedly;
         }
 
+        public static string ToShortString(this EquipmentType type)
+        {
+            switch (type)
+            {
+                case EquipmentType.AdjustmentPoint:
+                    return @"тчкприв";
+                case EquipmentType.EmptyNode:
+                    return @"пустой_";
+                case EquipmentType.CableReserve:
+                    return @"каб_рез";
+                case EquipmentType.Other:
+                    return @"другой_";
+                case EquipmentType.Closure:
+                    return @"_муфта_";
+                case EquipmentType.Cross:
+                    return @"проключ";
+                case EquipmentType.Well:
+                    return @"колодец";
+                case EquipmentType.Terminal:
+                    return @"оккросс";
+
+                case EquipmentType.Rtu:
+                    return @"__RTU__";
+            }
+            return Resources.SID_Switch_ended_unexpectedly;
+        }
+
         public static string ToSID(this EquipmentType type)
         {
             switch (type)

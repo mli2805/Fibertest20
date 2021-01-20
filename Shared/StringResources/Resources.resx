@@ -2840,4 +2840,7 @@ RTU is initializing right now!</value>
 	<data name="SID_License_viewer" xml:space="preserve">
 		<value>License viewer</value>
 	</data>
+	<data name="SID_Traces_in_DB" xml:space="preserve">
+		<value>Traces in DB</value>
+	</data>
 </root>

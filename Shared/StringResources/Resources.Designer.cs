@@ -7590,6 +7590,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Traces in DB.
+        /// </summary>
+        public static string SID_Traces_in_DB {
+            get {
+                return ResourceManager.GetString("SID_Traces_in_DB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Traces in node.
         /// </summary>
         public static string SID_Traces_in_node {

@@ -17,14 +17,14 @@ namespace Iit.Fibertest.Client
         private readonly ComponentsReportViewModel _componentsReportViewModel;
         private readonly OpticalEventsReportViewModel _opticalEventsReportViewModel;
 
-
-        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager,
+        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager, 
             ComponentsReportViewModel componentsReportViewModel, OpticalEventsReportViewModel opticalEventsReportViewModel)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
             _componentsReportViewModel = componentsReportViewModel;
             _opticalEventsReportViewModel = opticalEventsReportViewModel;
+
         }
 
         public void LaunchResponsibilityZonesView()
@@ -89,6 +89,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
+      
 
         public void LaunchSmtpSettingsView()
         {

@@ -8,7 +8,8 @@
         mc:Ignorable="d"
         FocusManager.FocusedElement="{Binding ElementName=TraceTitleTextbox}"
         SizeToContent="Height" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
-        d:DataContext="{d:DesignData TraceInfoViewModel}">
+        d:DataContext="{d:DesignData TraceInfoViewModel}"
+        >
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}" x:Key="TextBoxValidationStyle">
             <Style.Triggers>
@@ -20,6 +21,7 @@
             </Style.Triggers>
         </Style>
     </Window.Resources>
+
     <StackPanel>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Information}" Margin="5">
             <StackPanel Margin="5">
@@ -84,6 +86,8 @@
                     IsDefault="True" IsEnabled="{Binding IsButtonSaveEnabled}" TabIndex="1" />
             <Button Name="Cancel" Height="25" Width="100" IsCancel="True" 
                     Content="{x:Static stringResources:Resources.SID_Cancel}"/>
+
+            <Button Name="DevReport" Height="25" Width="40" Margin="45,5,5,5" Content="Dev" Visibility="{Binding IsDev}"/>
         </StackPanel>
 
     </StackPanel>
