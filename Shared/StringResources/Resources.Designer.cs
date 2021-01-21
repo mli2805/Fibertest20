@@ -2152,6 +2152,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Define trace again..
+        /// </summary>
+        public static string SID_Define_trace_again_ {
+            get {
+                return ResourceManager.GetString("SID_Define_trace_again_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Define trace step by step.
         /// </summary>
         public static string SID_Define_trace_step_by_step {

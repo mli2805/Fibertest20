@@ -143,7 +143,12 @@ namespace Iit.Fibertest.Client
             var fiberIds = _readModel.GetFibersAtTraceCreation(Model.TraceNodes).ToList();
             if (fiberIds.Count + 1 != Model.TraceNodes.Count)
             {
-                var errVm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Nodes_count_does_not_match_sections_count_);
+                var errVm = new MyMessageBoxViewModel(MessageType.Error, new List<string>()
+                {
+                    Resources.SID_Nodes_count_does_not_match_sections_count_,
+                    "",
+                    Resources.SID_Define_trace_again_,
+                }, 0) ;
                 _windowManager.ShowDialogWithAssignedOwner(errVm);
                 return;
             }

@@ -2846,4 +2846,7 @@ RTU is initializing right now!</value>
 	<data name="SID_Nodes_count_does_not_match_sections_count_" xml:space="preserve">
 		<value>Nodes count does not match sections count!</value>
 	</data>
+	<data name="SID_Define_trace_again_" xml:space="preserve">
+		<value>Define trace again.</value>
+	</data>
 </root>
