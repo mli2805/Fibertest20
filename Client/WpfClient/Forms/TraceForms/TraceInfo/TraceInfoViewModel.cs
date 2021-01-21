@@ -141,6 +141,12 @@ namespace Iit.Fibertest.Client
         private async Task SendAddTraceCommand()
         {
             var fiberIds = _readModel.GetFibersAtTraceCreation(Model.TraceNodes).ToList();
+            if (fiberIds.Count + 1 != Model.TraceNodes.Count)
+            {
+                var errVm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Nodes_count_does_not_match_sections_count_);
+                _windowManager.ShowDialogWithAssignedOwner(errVm);
+                return;
+            }
             var cmd = new AddTrace()
             {
                 TraceId = Model.TraceId,

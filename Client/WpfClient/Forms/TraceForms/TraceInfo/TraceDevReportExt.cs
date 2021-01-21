@@ -31,6 +31,11 @@ namespace Iit.Fibertest.Client
                     content.Add($@"        не найдено волокно между узлами {trace.NodeIds[i - 1].First6()} и {trace.NodeIds[i].First6()}");
                     flag = false;
                 }
+                else if (i - 1 >= trace.FiberIds.Count)
+                {
+                    content.Add($@"        кончились волокна в списке");
+                    flag = false;
+                }
                 else if (fiberBetweenNodes.FiberId != trace.FiberIds[i - 1])
                 {
                     content.Add($@"        !!! В списке волокно {trace.FiberIds[i - 1].First6()}, а между узлами {fiberBetweenNodes.FiberId.First6()}");

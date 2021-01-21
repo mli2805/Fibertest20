@@ -4726,6 +4726,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nodes count does not match sections count!.
+        /// </summary>
+        public static string SID_Nodes_count_does_not_match_sections_count_ {
+            get {
+                return ResourceManager.GetString("SID_Nodes_count_does_not_match_sections_count_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nodes loaded from Kadastr so far: {0}.
         /// </summary>
         public static string SID_Nodes_loaded_from_Kadastr_so_far___0_ {

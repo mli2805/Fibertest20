@@ -149,8 +149,13 @@ namespace Iit.Fibertest.Graph
             trace.OtauPort = null;
             trace.IsIncludedInMonitoringCycle = false;
             trace.State = FiberState.NotJoined;
-            foreach (var fiber in  model.GetTraceFibersByNodes(trace.NodeIds))
-                fiber.SetState(trace.TraceId, FiberState.NotJoined);
+
+            foreach (var fiberId in trace.FiberIds)
+                model.Fibers.FirstOrDefault(f => f.FiberId == fiberId)?
+                    .SetState(trace.TraceId, FiberState.NotJoined);
+
+            // foreach (var fiber in  model.GetTraceFibersByNodes(trace.NodeIds))
+                // fiber.SetState(trace.TraceId, FiberState.NotJoined);
 
             model.CleanAccidentPlacesOnTrace(trace.TraceId);
         }

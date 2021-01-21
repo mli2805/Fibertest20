@@ -25,6 +25,12 @@ namespace Iit.Fibertest.Client
 
             var traceId = Guid.NewGuid();
             var fiberIds = model.ReadModel.GetFibersAtTraceCreation(traceNodes).ToList();
+            if (fiberIds.Count + 1 != traceNodes.Count)
+            {
+                var errVm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Nodes_count_does_not_match_sections_count_);
+                model.WindowManager.ShowDialogWithAssignedOwner(errVm);
+                return;
+            }
             model.ChangeFutureTraceColor(traceId, fiberIds, FiberState.HighLighted);
             try
             {

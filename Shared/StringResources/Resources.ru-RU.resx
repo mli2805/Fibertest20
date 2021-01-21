@@ -2843,4 +2843,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Traces_in_DB" xml:space="preserve">
 		<value>Трассы в БД</value>
 	</data>
+	<data name="SID_Nodes_count_does_not_match_sections_count_" xml:space="preserve">
+		<value>Количество узлов не соответствует количеству участков!</value>
+	</data>
 </root>
