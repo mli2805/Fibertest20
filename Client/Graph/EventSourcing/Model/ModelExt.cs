@@ -41,17 +41,17 @@ namespace Iit.Fibertest.Graph
                      f.NodeId1 == node2 && f.NodeId2 == node1);
         }
 
-        public static IEnumerable<Guid> GetTraceFiberIdsByNodes(this Model model, List<Guid> nodes)
-        {
-            for (int i = 1; i < nodes.Count; i++)
-                yield return model.GetFiberIdBetweenNodes(nodes[i - 1], nodes[i]);
-        }
-
-        public static IEnumerable<Fiber> GetTraceFibersByNodes(this Model model, List<Guid> nodes)
-        {
-            for (int i = 1; i < nodes.Count; i++)
-                yield return model.GetFiberBetweenNodes(nodes[i - 1], nodes[i]);
-        }
+        // public static IEnumerable<Guid> GetTraceFiberIdsByNodes(this Model model, List<Guid> nodes)
+        // {
+        //     for (int i = 1; i < nodes.Count; i++)
+        //         yield return model.GetFiberIdBetweenNodes(nodes[i - 1], nodes[i]);
+        // }
+        //
+        // public static IEnumerable<Fiber> GetTraceFibersByNodes(this Model model, List<Guid> nodes)
+        // {
+        //     for (int i = 1; i < nodes.Count; i++)
+        //         yield return model.GetFiberBetweenNodes(nodes[i - 1], nodes[i]);
+        // }
 
 
         public static IEnumerable<Fiber> GetTraceFibers(this Model model, Trace trace)

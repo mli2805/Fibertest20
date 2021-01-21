@@ -41,13 +41,26 @@ namespace Iit.Fibertest.Graph
                 model.ActiveMeasurements.Remove(thisTraceActiveMeas);
 
             model.RemoveBaseRefsAndMeasurementsForTrace(trace);
-            var traceFibers =  model.GetTraceFibersByNodes(trace.NodeIds).ToList();
-            foreach (var fiber in traceFibers)
+
+            foreach (var fiberId in trace.FiberIds)
             {
-                fiber.TracesWithExceededLossCoeff.Remove(trace.TraceId);
-                if (fiber.States.ContainsKey(trace.TraceId))
-                    fiber.States.Remove(trace.TraceId);
+                var fiber = model.Fibers.FirstOrDefault(f => f.FiberId == fiberId);
+                if (fiber != null)
+                {
+                    fiber.TracesWithExceededLossCoeff.Remove(trace.TraceId);
+                    if (fiber.States.ContainsKey(trace.TraceId))
+                        fiber.States.Remove(trace.TraceId);
+                }
             }
+
+            //
+            // var traceFibers =  model.GetTraceFibersByNodes(trace.NodeIds).ToList();
+            // foreach (var fiber in traceFibers)
+            // {
+            //     fiber.TracesWithExceededLossCoeff.Remove(trace.TraceId);
+            //     if (fiber.States.ContainsKey(trace.TraceId))
+            //         fiber.States.Remove(trace.TraceId);
+            // }
 
             model.Traces.Remove(trace);
             return null;
@@ -72,18 +85,35 @@ namespace Iit.Fibertest.Graph
                 model.ActiveMeasurements.Remove(thisTraceActiveMeas);
 
             model.RemoveBaseRefsAndMeasurementsForTrace(trace);
-            var traceFibers =  model.GetTraceFibersByNodes(trace.NodeIds).ToList();
-            foreach (var fiber in traceFibers)
+
+            foreach (var fiberId in trace.FiberIds)
             {
-                if (model.Traces.Where(t => t.TraceId != e.TraceId).All(t => t.FiberIds.IndexOf(fiber.FiberId) == -1))
-                    model.Fibers.Remove(fiber);
-                else
+                var fiber = model.Fibers.FirstOrDefault(f => f.FiberId == fiberId);
+                if (fiber != null)
                 {
-                    fiber.TracesWithExceededLossCoeff.Remove(trace.TraceId);
-                    if (fiber.States.ContainsKey(trace.TraceId))
-                        fiber.States.Remove(trace.TraceId);
+                    if (model.Traces.Where(t => t.TraceId != e.TraceId).All(t => t.FiberIds.IndexOf(fiber.FiberId) == -1))
+                        model.Fibers.Remove(fiber);
+                    else
+                    {
+                        fiber.TracesWithExceededLossCoeff.Remove(trace.TraceId);
+                        if (fiber.States.ContainsKey(trace.TraceId))
+                            fiber.States.Remove(trace.TraceId);
+                    }
                 }
             }
+
+            // var traceFibers =  model.GetTraceFibersByNodes(trace.NodeIds).ToList();
+            // foreach (var fiber in traceFibers)
+            // {
+            //     if (model.Traces.Where(t => t.TraceId != e.TraceId).All(t => t.FiberIds.IndexOf(fiber.FiberId) == -1))
+            //         model.Fibers.Remove(fiber);
+            //     else
+            //     {
+            //         fiber.TracesWithExceededLossCoeff.Remove(trace.TraceId);
+            //         if (fiber.States.ContainsKey(trace.TraceId))
+            //             fiber.States.Remove(trace.TraceId);
+            //     }
+            // }
 
             foreach (var traceNodeId in trace.NodeIds)
             {
