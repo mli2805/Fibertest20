@@ -55,8 +55,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public Visibility IsDev { get; set; }
-
         public TraceInfoViewModel(Model readModel, CurrentUser currentUser, IWcfServiceDesktopC2D c2DWcfManager,
             IWindowManager windowManager)
         {
@@ -64,7 +62,6 @@ namespace Iit.Fibertest.Client
             _currentUser = currentUser;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
-            IsDev = currentUser.Role == Role.Developer ? Visibility.Visible : Visibility.Collapsed;
         }
 
 

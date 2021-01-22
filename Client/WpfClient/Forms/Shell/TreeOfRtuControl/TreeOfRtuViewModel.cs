@@ -1,20 +1,10 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Windows;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using Caliburn.Micro;
-using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
-using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
     public class TreeOfRtuViewModel : PropertyChangedBase
     {
-        private readonly IMyLog _logFile;
-        private readonly IWindowManager _windowManager;
-        private readonly Model _readModel;
         private readonly ChildrenViews _childrenViews;
         public TreeOfRtuModel TreeOfRtuModel { get; set; }
         public FreePorts FreePorts { get; }
@@ -37,16 +27,9 @@ namespace Iit.Fibertest.Client
         private int _foundCounter;
         public string Found => _foundCounter == 0 ? "" : _foundCounter.ToString();
 
-        public Visibility IsDev { get; set; }
-        public TreeOfRtuViewModel(CurrentUser currentUser, IMyLog logFile, IWindowManager windowManager,
-            Model readModel, TreeOfRtuModel treeOfRtuModel, FreePorts freePorts, 
+        public TreeOfRtuViewModel(TreeOfRtuModel treeOfRtuModel, FreePorts freePorts, 
             ChildrenViews childrenViews, EventArrivalNotifier eventArrivalNotifier)
         {
-            IsDev = currentUser.Role == Role.Developer ? Visibility.Visible : Visibility.Collapsed;
-
-            _logFile = logFile;
-            _windowManager = windowManager;
-            _readModel = readModel;
             _childrenViews = childrenViews;
             TreeOfRtuModel = treeOfRtuModel;
             TreeOfRtuModel.RefreshStatistics();
@@ -138,27 +121,6 @@ namespace Iit.Fibertest.Client
                     ExtinguishLeaves(subPortOwner);
                 child.BackgroundBrush = Brushes.White;
             }
-        }
-
-        public void LaunchTracesInDbReport()
-        {
-            foreach (var trace in _readModel.Traces)
-            {
-                if (!_readModel.TraceDevReport(trace, out List<string> content))
-                {
-                    var filename = $@"..\Reports\tdr-{trace.Title}.txt";
-                    File.WriteAllLines(filename, content);
-                    var vm = new MyMessageBoxViewModel(MessageType.Information, new List<string>()
-                    {
-                        @"Error(s) found on trace!",
-                        "",
-                        $@"Created report {filename}"
-                    }, 0);
-                    _windowManager.ShowDialogWithAssignedOwner(vm);
-                }
-                _logFile.AppendLine($@"checked: {trace.Title}");
-            }
-            _logFile.AppendLine(@"All traces are checked");
         }
 
     }

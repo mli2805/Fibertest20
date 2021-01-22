@@ -5,11 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:dto="clr-namespace:Iit.Fibertest.Dto;assembly=Iit.Fibertest.Dto"
+        xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
         FocusManager.FocusedElement="{Binding ElementName=TraceTitleTextbox}"
         SizeToContent="Height" Width="350" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignData TraceInfoViewModel}"
-        >
+        cal:Message.Attach="[Gesture Ctrl+F11] = [DevReport]">
     <Window.Resources>
         <Style TargetType="{x:Type TextBox}" x:Key="TextBoxValidationStyle">
             <Style.Triggers>
@@ -28,7 +29,8 @@
                 <DockPanel>
                     <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Title}" Width="55"/>
                     <TextBox Name="TraceTitleTextbox" Margin="5" TabIndex="0" IsEnabled="{Binding IsEditEnabled}" Style="{StaticResource TextBoxValidationStyle}"
-                             Text="{Binding Title, ValidatesOnDataErrors=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                             Text="{Binding Title, ValidatesOnDataErrors=True, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
+                             />
                 </DockPanel>
                 <StackPanel Orientation="Horizontal">
                     <TextBlock Text="ID" Margin="5" Width="55"/>
@@ -83,11 +85,9 @@
         </GroupBox>
         <StackPanel Orientation="Horizontal" Margin="15,15"  IsEnabled="{Binding IsButtonsEnabled}">
             <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}" 
-                    IsDefault="True" IsEnabled="{Binding IsButtonSaveEnabled}" TabIndex="1" />
-            <Button Name="Cancel" Height="25" Width="100" IsCancel="True" 
+                    IsEnabled="{Binding IsButtonSaveEnabled}" TabIndex="1" />
+            <Button Name="Cancel" Height="25" Width="100"  
                     Content="{x:Static stringResources:Resources.SID_Cancel}"/>
-
-            <Button Name="DevReport" Height="25" Width="40" Margin="45,5,5,5" Content="Dev" Visibility="{Binding IsDev}"/>
         </StackPanel>
 
     </StackPanel>

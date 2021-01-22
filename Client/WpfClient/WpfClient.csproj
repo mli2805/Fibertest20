@@ -222,6 +222,10 @@
     <Compile Include="Forms\AdministrativeForms\EventLog\UserFilter.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefMessages.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\EventLogReportProvider.cs" />
+    <Compile Include="Forms\Input\KeySequence.cs" />
+    <Compile Include="Forms\Input\KeyTrigger.cs" />
+    <Compile Include="Forms\Input\MultiKeyGesture.cs" />
+    <Compile Include="Forms\Input\MultiKeyGestureConverter.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\Controls\OtdrAddressView.xaml.cs">
       <DependentUpon>OtdrAddressView.xaml</DependentUpon>
     </Compile>
@@ -1186,7 +1190,6 @@
     <Content Include="Resources\AccidentSchemes\FiberBrokenInNode.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Resource Include="Resources\Buttons\Test.png" />
     <Content Include="Resources\Reports\header-landscape.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
