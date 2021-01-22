@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using Autofac;
 using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -10,11 +11,13 @@ namespace Iit.Fibertest.Client
     public class NodeEventsOnGraphExecutor
     {
         private readonly GraphReadModel _graphModel;
+        private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
 
-        public NodeEventsOnGraphExecutor(IMyLog logFile, GraphReadModel graphModel)
+        public NodeEventsOnGraphExecutor(IMyLog logFile, GraphReadModel graphModel, ILifetimeScope globalScope)
         {
             _graphModel = graphModel;
+            _globalScope = globalScope;
             _logFile = logFile;
         }
 
@@ -37,6 +40,12 @@ namespace Iit.Fibertest.Client
             var fiberForDeletion = _graphModel.Data.Fibers.First(f => f.Id == evnt.FiberId);
             AddTwoFibersToNewNode(evnt, fiberForDeletion);
             _graphModel.Data.Fibers.Remove(fiberForDeletion);
+
+            var vm = _globalScope.Resolve<TraceStepByStepViewModel>();
+            if (vm.IsOpen)
+            {
+                vm.AddNodeIntoFiber(evnt);
+            }
         }
 
         private void AddTwoFibersToNewNode(NodeIntoFiberAdded e, FiberVm oldFiberVm)

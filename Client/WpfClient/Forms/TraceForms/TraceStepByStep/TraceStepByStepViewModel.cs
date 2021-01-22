@@ -101,7 +101,7 @@ namespace Iit.Fibertest.Client
         private bool MakeStepForward(bool isButtonPressed)
         {
             // return a previous node among others
-            var neighbours = _graphReadModel.GetNeiboursPassingThroughAdjustmentPoints(Steps.Last().NodeId);
+            var neighbours = _graphReadModel.GetNeighboursPassingThroughAdjustmentPoints(Steps.Last().NodeId);
             Guid previousNodeId = Steps.Count == 1 ? Guid.Empty : Steps[Steps.Count - 2].NodeId;
 
             switch (neighbours.Count)
@@ -249,6 +249,46 @@ namespace Iit.Fibertest.Client
 
                 nodes.Add(Steps[i].NodeId);
                 equipments.Add(Steps[i].EquipmentId);
+            }
+        }
+
+        public void AddNodeIntoFiber(NodeIntoFiberAdded evnt)
+        {
+            var step = Steps.FirstOrDefault(s => s.FiberVms.FirstOrDefault(f=>f.Id == evnt.FiberId) != null);
+            if (step == null) return;
+            var pos = Steps.IndexOf(step);
+
+            if (evnt.InjectionType == EquipmentType.AdjustmentPoint)
+            {
+                var neighbours = _graphReadModel.GetNeighboursPassingThroughAdjustmentPoints(Steps[pos - 1].NodeId);
+                var tuple = neighbours.First(t => t.Item1.Id == step.NodeId);
+                step.FiberVms = tuple.Item2;
+            }
+            else
+            {
+                var newStep1 = new StepModel()
+                {
+                    NodeId = evnt.Id,
+                    Title = "",
+                    EquipmentId = evnt.EquipmentId,
+                };
+                var neighbours = _graphReadModel.GetNeighboursPassingThroughAdjustmentPoints(Steps[pos - 1].NodeId);
+                var tuple = neighbours.First(t => t.Item1.Id == evnt.Id);
+                newStep1.FiberVms = tuple.Item2;
+
+                var newStep2 = new StepModel()
+                {
+                    NodeId = step.NodeId,
+                    Title = step.Title,
+                    EquipmentId = step.EquipmentId,
+                };
+                var neighbours2 = _graphReadModel.GetNeighboursPassingThroughAdjustmentPoints(evnt.Id);
+                var tuple2 = neighbours2.First(t => t.Item1.Id == step.NodeId);
+                newStep2.FiberVms = tuple2.Item2;
+
+                Steps.Remove(step);
+                Steps.Insert(pos, newStep1);
+                Steps.Insert(pos + 1, newStep2);
             }
         }
 
