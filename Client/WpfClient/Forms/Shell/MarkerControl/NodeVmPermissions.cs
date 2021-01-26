@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Autofac;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Client
@@ -6,10 +7,12 @@ namespace Iit.Fibertest.Client
     public class NodeVmPermissions
     {
         private readonly CurrentUser _currentUser;
+        private readonly ILifetimeScope _globalScope;
 
-        public NodeVmPermissions(CurrentUser currentUser)
+        public NodeVmPermissions(CurrentUser currentUser, ILifetimeScope globalScope)
         {
             _currentUser = currentUser;
+            _globalScope = globalScope;
         }
 
         public bool CanUpdateNode(object parameter)
@@ -38,6 +41,10 @@ namespace Iit.Fibertest.Client
             var marker = (MarkerControl)parameter;
             if (marker.Type == EquipmentType.AdjustmentPoint) return true;
             if (marker.Owner.GraphReadModel.ReadModel.Traces.Any(t => t.NodeIds.Contains(marker.GMapMarker.Id) && t.HasAnyBaseRef)) return false;
+
+            var vm = _globalScope.Resolve<TraceStepByStepViewModel>();
+            if (vm.IsOpen && vm.IsNodeUsed(marker.GMapMarker.Id)) return false;
+
             return marker.Owner.GraphReadModel.ReadModel.Traces.All(t => t.NodeIds.Last() != marker.GMapMarker.Id);
         }
 

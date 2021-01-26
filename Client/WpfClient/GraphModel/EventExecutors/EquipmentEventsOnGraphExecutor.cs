@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using Autofac;
 using Caliburn.Micro;
 using GMap.NET;
 using Iit.Fibertest.Dto;
@@ -9,14 +10,16 @@ namespace Iit.Fibertest.Client
 {
     public class EquipmentEventsOnGraphExecutor
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly GraphReadModel _model;
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
         private readonly IWindowManager _windowManager;
 
-        public EquipmentEventsOnGraphExecutor(GraphReadModel model, Model readModel, CurrentUser currentUser,
-            IWindowManager windowManager)
+        public EquipmentEventsOnGraphExecutor(ILifetimeScope globalScope, GraphReadModel model,
+            Model readModel, CurrentUser currentUser, IWindowManager windowManager)
         {
+            _globalScope = globalScope;
             _model = model;
             _readModel = readModel;
             _currentUser = currentUser;
@@ -72,7 +75,14 @@ namespace Iit.Fibertest.Client
 
             var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == equipment.NodeId);
             if (nodeVm != null)
+            {
                 nodeVm.Type = evnt.Type;
+
+                var vm = _globalScope.Resolve<TraceStepByStepViewModel>();
+                if (vm.IsOpen)
+                    vm.UpdateNode(nodeVm.Id);
+            }
+
         }
 
         public void RemoveEquipment(EquipmentRemoved evnt)
@@ -81,6 +91,10 @@ namespace Iit.Fibertest.Client
             if (nodeVm == null) return;
             var majorEquipmentInNode = _readModel.Equipments.Last(e => e.NodeId == nodeVm.Id).Type;
             nodeVm.Type = majorEquipmentInNode;
+    
+            var vm = _globalScope.Resolve<TraceStepByStepViewModel>();
+            if (vm.IsOpen)
+                vm.UpdateNode(evnt.NodeId);
         }
 
     }

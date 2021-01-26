@@ -292,6 +292,35 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public void UpdateNode(Guid nodeId)
+        {
+            var step = Steps.FirstOrDefault(s => s.NodeId == nodeId);
+            if (step == null) return;
+            var pos = Steps.IndexOf(step);
+            var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == nodeId);
+            step.Title = nodeVm.Title;
+
+            var equipment = _readModel.Equipments.FirstOrDefault(e => e.EquipmentId == step.EquipmentId);
+            if (equipment == null)
+            {
+                equipment = _readModel.Equipments.First(e => e.NodeId == nodeId);
+                step.EquipmentId = equipment.EquipmentId;
+            }
+            else
+            {
+                step.Title += @" / " + equipment.Title;
+            }
+
+            Steps.Remove(step);
+            Steps.Insert(pos, step);
+        }
+
+        public bool IsNodeUsed(Guid nodeId)
+        {
+            return Steps.Any(s => s.NodeId == nodeId);
+        }
+
+
         private bool Validate()
         {
             if (Steps.Count <= 1) return false;

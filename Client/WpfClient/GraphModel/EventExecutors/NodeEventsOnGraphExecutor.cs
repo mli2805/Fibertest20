@@ -43,9 +43,7 @@ namespace Iit.Fibertest.Client
 
             var vm = _globalScope.Resolve<TraceStepByStepViewModel>();
             if (vm.IsOpen)
-            {
                 vm.AddNodeIntoFiber(evnt);
-            }
         }
 
         private void AddTwoFibersToNewNode(NodeIntoFiberAdded e, FiberVm oldFiberVm)
@@ -84,6 +82,10 @@ namespace Iit.Fibertest.Client
             if (nodeVm == null)
                 return;
             nodeVm.Title = evnt.Title;
+
+            var vm = _globalScope.Resolve<TraceStepByStepViewModel>();
+            if (vm.IsOpen)
+                vm.UpdateNode(evnt.NodeId);
         }
 
         public void UpdateAndMoveNode(NodeUpdatedAndMoved evnt)
@@ -93,6 +95,10 @@ namespace Iit.Fibertest.Client
                 return;
             nodeVm.Title = evnt.Title;
             nodeVm.Position = evnt.Position;
+      
+            var vm = _globalScope.Resolve<TraceStepByStepViewModel>();
+            if (vm.IsOpen)
+                vm.UpdateNode(evnt.NodeId);
         }
 
         public void RemoveNode(NodeRemoved evnt)
@@ -112,8 +118,6 @@ namespace Iit.Fibertest.Client
                 RemoveNodeWithAllHisFibersUptoRealNode(evnt.NodeId);
             else
                 RemoveNodeWithAllHisFibers(evnt.NodeId);
-
-
         }
 
         private void ExcludeAdjustmentPoint(Guid nodeId, Guid detourFiberId)
