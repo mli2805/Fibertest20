@@ -54,7 +54,7 @@ namespace Iit.Fibertest.Client
         public async Task<int> SuperClientAsksClientToExit()
         {
             _logFile.AppendLine(@"SuperClient asks to exit.");
-            await _commonC2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto());
+            await _commonC2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto(){ConnectionId = _currentUser.ConnectionId});
             await Task.Factory.StartNew(ExitApp);
             return 0;
         }
