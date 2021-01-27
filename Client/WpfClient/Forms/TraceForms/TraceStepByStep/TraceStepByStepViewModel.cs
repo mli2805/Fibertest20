@@ -254,72 +254,79 @@ namespace Iit.Fibertest.Client
 
         public void AddNodeIntoFiber(NodeIntoFiberAdded evnt)
         {
-            var step = Steps.FirstOrDefault(s => s.FiberVms.FirstOrDefault(f=>f.Id == evnt.FiberId) != null);
-            if (step == null) return;
-            var pos = Steps.IndexOf(step);
-
-            if (evnt.InjectionType == EquipmentType.AdjustmentPoint)
+            StepModel step;
+            while ((step = Steps.FirstOrDefault(s => s.FiberVms
+                .FirstOrDefault(f => f.Id == evnt.FiberId) != null)) != null)
             {
-                var neighbours = _graphReadModel.GetNeighboursPassingThroughAdjustmentPoints(Steps[pos - 1].NodeId);
-                var tuple = neighbours.First(t => t.Item1.Id == step.NodeId);
-                step.FiberVms = tuple.Item2;
-            }
-            else
-            {
-                var newStep1 = new StepModel()
-                {
-                    NodeId = evnt.Id,
-                    Title = "",
-                    EquipmentId = evnt.EquipmentId,
-                };
-                var neighbours = _graphReadModel.GetNeighboursPassingThroughAdjustmentPoints(Steps[pos - 1].NodeId);
-                var tuple = neighbours.First(t => t.Item1.Id == evnt.Id);
-                newStep1.FiberVms = tuple.Item2;
+                var pos = Steps.IndexOf(step);
 
-                var newStep2 = new StepModel()
+                if (evnt.InjectionType == EquipmentType.AdjustmentPoint)
                 {
-                    NodeId = step.NodeId,
-                    Title = step.Title,
-                    EquipmentId = step.EquipmentId,
-                };
-                var neighbours2 = _graphReadModel.GetNeighboursPassingThroughAdjustmentPoints(evnt.Id);
-                var tuple2 = neighbours2.First(t => t.Item1.Id == step.NodeId);
-                newStep2.FiberVms = tuple2.Item2;
+                    var neighbours = _graphReadModel.GetNeighboursPassingThroughAdjustmentPoints(Steps[pos - 1].NodeId);
+                    var tuple = neighbours.First(t => t.Item1.Id == step.NodeId);
+                    step.FiberVms = tuple.Item2;
+                }
+                else
+                {
+                    var newStep1 = new StepModel()
+                    {
+                        NodeId = evnt.Id,
+                        Title = "",
+                        EquipmentId = evnt.EquipmentId,
+                    };
+                    var neighbours = _graphReadModel.GetNeighboursPassingThroughAdjustmentPoints(Steps[pos - 1].NodeId);
+                    var tuple = neighbours.First(t => t.Item1.Id == evnt.Id);
+                    newStep1.FiberVms = tuple.Item2;
 
-                Steps.Remove(step);
-                Steps.Insert(pos, newStep1);
-                Steps.Insert(pos + 1, newStep2);
+                    var newStep2 = new StepModel()
+                    {
+                        NodeId = step.NodeId,
+                        Title = step.Title,
+                        EquipmentId = step.EquipmentId,
+                    };
+                    var neighbours2 = _graphReadModel.GetNeighboursPassingThroughAdjustmentPoints(evnt.Id);
+                    var tuple2 = neighbours2.First(t => t.Item1.Id == step.NodeId);
+                    newStep2.FiberVms = tuple2.Item2;
+
+                    Steps.Remove(step);
+                    Steps.Insert(pos, newStep1);
+                    Steps.Insert(pos + 1, newStep2);
+                }
             }
         }
 
         public void UpdateNode(Guid nodeId)
         {
-            var step = Steps.FirstOrDefault(s => s.NodeId == nodeId);
-            if (step == null) return;
-            var pos = Steps.IndexOf(step);
-            var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == nodeId);
-            step.Title = nodeVm.Title;
-
-            var equipment = _readModel.Equipments.FirstOrDefault(e => e.EquipmentId == step.EquipmentId);
-            if (equipment == null)
+            for (int i = 1; i < Steps.Count; i++)
             {
-                equipment = _readModel.Equipments.First(e => e.NodeId == nodeId);
-                step.EquipmentId = equipment.EquipmentId;
-            }
-            else
-            {
-                step.Title += @" / " + equipment.Title;
-            }
+                if (Steps[i].NodeId == nodeId)
+                {
+                    var step = Steps[i];
+                    var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == nodeId);
+                    step.Title = nodeVm.Title;
 
-            Steps.Remove(step);
-            Steps.Insert(pos, step);
+                    var equipment = _readModel.Equipments.FirstOrDefault(e => e.EquipmentId == step.EquipmentId);
+                    if (equipment == null)
+                    {
+                        equipment = _readModel.Equipments.First(e => e.NodeId == nodeId);
+                        step.EquipmentId = equipment.EquipmentId;
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(equipment.Title))
+                            step.Title += @" / " + equipment.Title;
+                    }
+
+                    Steps.Remove(step);
+                    Steps.Insert(i, step);
+                }
+            }
         }
 
         public bool IsNodeUsed(Guid nodeId)
         {
             return Steps.Any(s => s.NodeId == nodeId);
         }
-
 
         private bool Validate()
         {
