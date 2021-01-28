@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Windows;
 using System.Windows.Controls;
 using Caliburn.Micro;
 using System.Windows.Forms.Integration;
@@ -35,6 +36,8 @@ namespace Iit.Fibertest.SuperClient
         public ObservableCollection<TabItem> Children { get; set; } = new ObservableCollection<TabItem>();
 
         private TabItem _selectedTabItem;
+        private Visibility _tabVisibility;
+
         public TabItem SelectedTabItem
         {
             get { return _selectedTabItem; }
@@ -46,11 +49,24 @@ namespace Iit.Fibertest.SuperClient
             }
         }
 
+        public Visibility TabVisibility
+        {
+            get => _tabVisibility;
+            set
+            {
+                if (value == _tabVisibility) return;
+                _tabVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+
         public void PutProcessOnPanel(Process childProcess, int postfix)
         {
             var tabItem = new TabItem() { Header = new ContentControl(), Tag = postfix};
             Children.Add(tabItem);
             SelectedTabItem = tabItem;
+            TabVisibility = Visibility.Visible;
 
             var windowsFormsHost = new WindowsFormsHost() { Background = Brushes.Aquamarine};
             tabItem.Content = windowsFormsHost;
@@ -63,8 +79,8 @@ namespace Iit.Fibertest.SuperClient
 
         private System.Windows.Forms.Panel CreatePanel()
         {
-            var screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
-            var screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+            var screenHeight = SystemParameters.PrimaryScreenHeight;
+            var screenWidth = SystemParameters.PrimaryScreenWidth;
 
             return new System.Windows.Forms.Panel
             {
@@ -96,6 +112,7 @@ namespace Iit.Fibertest.SuperClient
             var tabItem = Children.FirstOrDefault(i => (int)(i.Tag) == postfix);
             if (tabItem != null)
                 SelectedTabItem = tabItem;
+            TabVisibility = tabItem == null ? Visibility.Hidden : Visibility.Visible;
         }
     }
 }

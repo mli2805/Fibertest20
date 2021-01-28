@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
         xmlns:sc="clr-namespace:Iit.Fibertest.SuperClient"
         WindowState="Maximized" d:DataContext="{d:DesignInstance sc:ShellViewModel}">
-    <DockPanel>
+    <DockPanel >
         <sc:ServersView DockPanel.Dock="Left" DataContext="{Binding ServersViewModel}"/>
         <sc:GasketView DataContext="{Binding GasketViewModel}"/>
     </DockPanel>
