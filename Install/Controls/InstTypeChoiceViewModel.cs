@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Install
 {
@@ -40,6 +41,7 @@ namespace Iit.Fibertest.Install
             set
             {
                 if (value == _isWebNeeded) return;
+                if (value && !IsIisOk()) return;
                 _isWebNeeded = value;
                 WebSettingsVisibility = _isWebNeeded ? Visibility.Visible : Visibility.Collapsed;
                 NotifyOfPropertyChange();
@@ -150,6 +152,17 @@ namespace Iit.Fibertest.Install
                 default: return InstallationType.Client;
             }
 
+        }
+
+        private bool IsIisOk()
+        {
+            var iisVersion = RegistryOperations.CheckIisVersion();
+            if (iisVersion >= 10) return true;
+            if (iisVersion == -1)
+                MessageBox.Show(Resources.SID_Iis_not_found, Resources.SID_Error_);
+            else
+                MessageBox.Show(string.Format(Resources.SID_Iis_version_is, iisVersion), Resources.SID_Error_);
+            return false;
         }
     }
 }

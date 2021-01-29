@@ -3394,11 +3394,33 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to IIS not found!
+        ///
+        ///Please install IIS before installing Fibertest Web Component..
+        /// </summary>
+        public static string SID_Iis_not_found {
+            get {
+                return ResourceManager.GetString("SID_Iis_not_found", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to IIS operation error: {0}.
         /// </summary>
         public static string SID_IIS_operation_error___0_ {
             get {
                 return ResourceManager.GetString("SID_IIS_operation_error___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to IIS version is {0}!
+        ///
+        ///Fibertest Web Component needs IIS version 10 or later..
+        /// </summary>
+        public static string SID_Iis_version_is {
+            get {
+                return ResourceManager.GetString("SID_Iis_version_is", resourceCulture);
             }
         }
         

@@ -26,7 +26,7 @@ namespace Iit.Fibertest.Uninstall
                 .All(service => ServiceOperations.UninstallServiceIfExist(service, worker)))
                 return false;
 
-            if (!isOnRtu)
+            if (!isOnRtu && RegistryOperations.CheckIisVersion() != -1)
                 SiteOperations.DeleteAllFibertestSitesOnThisPc(worker);
            
             if (!DeleteFiles(worker, fibertestFolder, isFullUninstall)) return false;

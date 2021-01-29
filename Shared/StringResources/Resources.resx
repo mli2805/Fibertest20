@@ -2849,4 +2849,14 @@ RTU is initializing right now!</value>
 	<data name="SID_Define_trace_again_" xml:space="preserve">
 		<value>Define trace again.</value>
 	</data>
+	<data name="SID_Iis_version_is" xml:space="preserve">
+		<value>IIS version is {0}!
+
+Fibertest Web Component needs IIS version 10 or later.</value>
+	</data>
+	<data name="SID_Iis_not_found" xml:space="preserve">
+		<value>IIS not found!
+
+Please install IIS before installing Fibertest Web Component.</value>
+	</data>
 </root>

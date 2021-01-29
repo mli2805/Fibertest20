@@ -51,5 +51,13 @@ namespace Iit.Fibertest.UtilsLib
         {
             Registry.LocalMachine.DeleteSubKeyTree(FibertestBranch, false);
         }
+
+        public static int CheckIisVersion()
+        {
+            RegistryKey iisKey = Registry.LocalMachine.OpenSubKey(@"Software\Microsoft\InetStp", false);
+            if (iisKey == null) return -1;
+            var res = (int)iisKey.GetValue("MajorVersion");
+            return res;
+        }
     }
 }
