@@ -2859,4 +2859,7 @@ Fibertest Web Component needs IIS version 10 or later.</value>
 
 Please install IIS before installing Fibertest Web Component.</value>
 	</data>
+	<data name="SID_License_file_not_found_" xml:space="preserve">
+		<value>License file not found!</value>
+	</data>
 </root>

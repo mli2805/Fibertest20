@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Install
             }
             catch (Exception e )
             {
-                MessageBox.Show("License file not found!" + e.Message, "Error", MessageBoxButton.OK);
+                MessageBox.Show(Resources.SID_License_file_not_found_ + e.Message, Resources.SID_Error_, MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

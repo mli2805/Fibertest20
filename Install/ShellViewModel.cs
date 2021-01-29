@@ -254,7 +254,7 @@ namespace Iit.Fibertest.Install
         public void Cancel()
         {
             var result = MessageBox.Show(string.Format(Resources.SID_Are_you_sure_you_want_to_quit__0__setup_, 
-                    _currentInstallation.MainName), Resources.SID_Confirmation, MessageBoxButton.YesNo);
+                    _currentInstallation.MainName), Resources.SID_Confirmation, MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result == MessageBoxResult.Yes)
                 TryClose();
         }

@@ -87,7 +87,7 @@ namespace Iit.Fibertest.Install
 
             var result = MessageBox.Show(
                 string.Format(Resources.SID__0__installed_on_your_PC_already__Continue_, _currentInstallation.MainName),
-                Resources.SID_Confirmation, MessageBoxButton.YesNo);
+                Resources.SID_Confirmation, MessageBoxButton.YesNo, MessageBoxImage.Question);
             if (result != MessageBoxResult.Yes)
                 Application.Current.Shutdown();
         }

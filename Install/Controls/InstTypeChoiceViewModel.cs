@@ -158,10 +158,11 @@ namespace Iit.Fibertest.Install
         {
             var iisVersion = RegistryOperations.CheckIisVersion();
             if (iisVersion >= 10) return true;
-            if (iisVersion == -1)
-                MessageBox.Show(Resources.SID_Iis_not_found, Resources.SID_Error_);
-            else
-                MessageBox.Show(string.Format(Resources.SID_Iis_version_is, iisVersion), Resources.SID_Error_);
+            MessageBox.Show(
+                iisVersion == -1
+                    ? Resources.SID_Iis_not_found
+                    : string.Format(Resources.SID_Iis_version_is, iisVersion),
+                Resources.SID_Error_, MessageBoxButton.OK, MessageBoxImage.Error);
             return false;
         }
     }

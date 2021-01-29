@@ -3911,6 +3911,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to License file not found!.
+        /// </summary>
+        public static string SID_License_file_not_found_ {
+            get {
+                return ResourceManager.GetString("SID_License_file_not_found_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to License owner.
         /// </summary>
         public static string SID_License_owner {

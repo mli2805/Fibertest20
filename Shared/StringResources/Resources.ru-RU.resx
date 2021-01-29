@@ -2859,4 +2859,7 @@ RTU инициализируется в данный момент!</value>
 
 Пожалуйста, установите IIS до установки компонента Fibertest WebClient.</value>
   </data>
+  <data name="SID_License_file_not_found_" xml:space="preserve">
+	  <value>Файл с лицензионным соглашением не найден!</value>
+  </data>
 </root>
