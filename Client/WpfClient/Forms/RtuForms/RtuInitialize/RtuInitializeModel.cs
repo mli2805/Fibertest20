@@ -93,7 +93,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-
         public RtuInitializeModel(ILifetimeScope globalScope, IniFile iniFile, 
             IWindowManager windowManager, Model readModel)
         {
@@ -230,8 +229,6 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
             return false;
         }
-
-
         #endregion
     }
 }

@@ -65,6 +65,9 @@ namespace Iit.Fibertest.Graph
                 return $@"RtuInitialized: RTU {e.Id.First6()} not found";
             }
 
+            if (e.OtauNetAddress == null)
+                return null;
+
             model.SetRtuProperties(rtu, e);
             return null;
         }

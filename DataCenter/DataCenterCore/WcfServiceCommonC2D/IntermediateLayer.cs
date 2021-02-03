@@ -35,8 +35,10 @@ namespace Iit.Fibertest.DataCenterCore
                 : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.InitializeAsync(dto).Result);
 
             await _ftSignalRClient.NotifyAll("RtuInitialized", result.ToCamelCaseJson());
+
                 // apply initialization to graph
-            await _eventStoreService.SendCommands(DtoToCommandList(dto, result), "data-center", "");
+            if (result.IsInitialized)
+                await _eventStoreService.SendCommands(DtoToCommandList(dto, result), "data-center", "");
             return result;
         }
 
