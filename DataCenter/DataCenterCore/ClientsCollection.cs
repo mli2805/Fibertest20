@@ -283,7 +283,7 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.EmptyLine('-');
             foreach (var station in _clients)
             {
-                _logFile.AppendLine($"{station.UserName}/{station.ClientIp} with connection id {station.ConnectionId}");
+                _logFile.AppendLine($"{station.UserName}/{station.ClientIp}:{station.ClientAddressPort} with connection id {station.ConnectionId}");
             }
             _logFile.EmptyLine('-');
             _logFile.EmptyLine();
