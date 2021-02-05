@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client
         private readonly NodeEventsOnGraphExecutor _nodeEventsOnGraphExecutor;
         private readonly TraceEventsOnGraphExecutor _traceEventsOnGraphExecutor;
 
-        public RtuEventsOnGraphExecutor(GraphReadModel model, Model readModel, CurrentUser currentUser, 
+        public RtuEventsOnGraphExecutor(GraphReadModel model, Model readModel, CurrentUser currentUser,
             NodeEventsOnGraphExecutor nodeEventsOnGraphExecutor, TraceEventsOnGraphExecutor traceEventsOnGraphExecutor)
         {
             _model = model;
@@ -43,7 +43,7 @@ namespace Iit.Fibertest.Client
         {
             var rtu = _readModel.Rtus.First(r => r.Id == evnt.RtuId);
 
-            if (_currentUser.ZoneId != Guid.Empty && 
+            if (_currentUser.ZoneId != Guid.Empty &&
                 !rtu.ZoneIds.Contains(_currentUser.ZoneId)) return;
 
             var nodeVm = _model.Data.Nodes.FirstOrDefault(n => n.Id == rtu.NodeId);
@@ -55,11 +55,11 @@ namespace Iit.Fibertest.Client
         public void RemoveRtu(RtuRemoved evnt)
         {
             if (_currentUser.ZoneId != Guid.Empty &&
-                _model.Data.Nodes.All(n=>n.Id != evnt.RtuNodeId)) return;
+                _model.Data.Nodes.All(n => n.Id != evnt.RtuNodeId)) return;
 
             foreach (var pair in evnt.FibersFromCleanedTraces)
             {
-                _model.Data.Fibers.FirstOrDefault(f=>f.Id == pair.Key)?.RemoveState(pair.Value);
+                _model.Data.Fibers.FirstOrDefault(f => f.Id == pair.Key)?.RemoveState(pair.Value);
             }
             _nodeEventsOnGraphExecutor.RemoveNodeWithAllHisFibersUptoRealNode(evnt.RtuNodeId);
         }
@@ -68,15 +68,16 @@ namespace Iit.Fibertest.Client
         {
             foreach (var traceId in evnt.TracesOnOtau)
             {
-                _traceEventsOnGraphExecutor.DetachTrace(traceId);
+                var trace = _readModel.Traces.First(t => t.TraceId == traceId);
+                _traceEventsOnGraphExecutor.DetachTrace(trace);
             }
         }
 
         public void DetachAllTraces(AllTracesDetached evnt)
         {
-            foreach (var trace in _readModel.Traces.Where(t=>t.RtuId == evnt.RtuId))
+            foreach (var trace in _readModel.Traces.Where(t => t.RtuId == evnt.RtuId))
             {
-                _traceEventsOnGraphExecutor.DetachTrace(trace.TraceId);
+                _traceEventsOnGraphExecutor.DetachTrace(trace);
             }
         }
     }

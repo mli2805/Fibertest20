@@ -87,20 +87,20 @@ namespace Iit.Fibertest.Client
 
         public void DetachTrace(TraceDetached evnt)
         {
-            DetachTrace(evnt.TraceId);
+            var trace = _readModel.Traces.First(t => t.TraceId == evnt.TraceId);
+            DetachTrace(trace);
         }
 
-        public void DetachTrace(Guid traceId)
+        public void DetachTrace(Trace trace)
         {
-            if (!ShouldAcceptEventForTrace(traceId)) return;
+            if (!ShouldAcceptEventForTrace(trace.TraceId)) return;
 
-            var trace = _readModel.Traces.First(t => t.TraceId == traceId);
             foreach (var fiberId in trace.FiberIds)
             {
                 var fiberVm = _graphModel.Data.Fibers.First(f => f.Id == fiberId);
                 fiberVm.SetState(trace.TraceId, trace.State);
             }
-            _graphModel.CleanAccidentPlacesOnTrace(traceId);
+            _graphModel.CleanAccidentPlacesOnTrace(trace.TraceId);
         }
 
         private bool ShouldAcceptEventForTrace(Guid traceId)

@@ -67,42 +67,18 @@ namespace Iit.Fibertest.Client
 
         public async void OtauRemoveAction(object param)
         {
-//            if (!(param is OtauLeaf otauLeaf)) return;
-
-            var dto = new DetachOtauDto() { OtauId = Id, RtuId = Parent.Id, OpticalPort = MasterPort, NetAddress = (NetAddress)OtauNetAddress.Clone()};
+            var dto = new DetachOtauDto()
+            {
+                OtauId = Id, 
+                RtuId = Parent.Id, 
+                OpticalPort = MasterPort, 
+                NetAddress = (NetAddress)OtauNetAddress.Clone(),
+            };
             using (new WaitCursor())
             {
-//                var result = await _c2RWcfManager.DetachOtauAsync(dto);
                  await _c2RWcfManager.DetachOtauAsync(dto);
-//                if (result.IsDetached)
-//                {
-//                    RemoveOtauFromGraph(otauLeaf);
-//                }
             }
         }
-
-//        private DetachOtau CreateCmd()
-//        {
-//            return new DetachOtau()
-//            {
-//                Id = Id,
-//                RtuId = Parent.Id,
-//                OtauIp = OtauNetAddress.Ip4Address,
-//                TcpPort = OtauNetAddress.Port,
-//                TracesOnOtau = new List<Guid>()
-//            };
-//        }
-//
-//        public async void RemoveOtauFromGraph(OtauLeaf otauLeaf)
-//        {
-//            var cmd = CreateCmd();
-//            foreach (var child in otauLeaf.ChildrenImpresario.Children)
-//            {
-//                if (child is TraceLeaf traceLeaf)
-//                    cmd.TracesOnOtau.Add(traceLeaf.Id);
-//            }
-//            await C2DWcfManager.SendCommandAsObj(cmd);
-//        }
 
         private bool CanOtauRemoveAction(object param)
         {

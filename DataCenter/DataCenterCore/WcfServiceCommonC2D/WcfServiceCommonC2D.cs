@@ -148,6 +148,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async void RemoveOtauFromGraph(DetachOtauDto dto)
         {
+            var otau = _writeModel.Otaus.FirstOrDefault(o => o.Id == dto.OtauId);
+            if (otau == null) return;
             var cmd = new DetachOtau
             {
                 Id = dto.OtauId,
@@ -155,7 +157,7 @@ namespace Iit.Fibertest.DataCenterCore
                 OtauIp = dto.NetAddress.Ip4Address,
                 TcpPort = dto.OpticalPort,
                 TracesOnOtau = _writeModel.Traces
-                    .Where(t => t.OtauPort != null && t.OtauPort.OtauId == dto.OtauId.ToString())
+                    .Where(t => t.OtauPort != null && t.OtauPort.Serial == otau.Serial)
                     .Select(t => t.TraceId)
                     .ToList(),
             };

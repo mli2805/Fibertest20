@@ -99,8 +99,10 @@ namespace Iit.Fibertest.Client
             var otauLeaf = (OtauLeaf)_treeOfRtuModel.GetById(e.Id);
             var port = otauLeaf.MasterPort;
 
-            foreach (var traceId in e.TracesOnOtau)
-                _traceEventsOnTreeExecutor.DetachTrace(traceId);
+            foreach (var traceLeaf in otauLeaf.ChildrenImpresario.Children.Where(c=>c is TraceLeaf).ToList())
+            {
+                _traceEventsOnTreeExecutor.DetachTrace(traceLeaf.Id);
+            }
 
             rtuLeaf.FullPortCount -= otauLeaf.OwnPortCount;
             rtuLeaf.ChildrenImpresario.Children.Remove(otauLeaf);
