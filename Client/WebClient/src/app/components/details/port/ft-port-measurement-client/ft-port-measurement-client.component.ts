@@ -188,6 +188,6 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
   }
 
   close() {
-    this.router.navigate(["/rtu-tree"]);
+    this.router.navigate(["/ft-main-nav/rtu-tree"]);
   }
 }
