@@ -46,11 +46,11 @@ namespace Iit.Fibertest.DataCenterCore
 
         public WcfServiceDesktopC2D(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
             Model writeModel, IEventStoreInitializer eventStoreInitializer, EventStoreService eventStoreService,
-            MeasurementFactory measurementFactory, ClientsCollection clientsCollection, 
+            MeasurementFactory measurementFactory, ClientsCollection clientsCollection,
             RtuStationsRepository rtuStationsRepository, IFtSignalRClient ftSignalRClient,
             BaseRefRepairmanIntermediary baseRefRepairmanIntermediary,
             SorFileRepository sorFileRepository, SnapshotRepository snapshotRepository,
-            Smtp smtp, SnmpAgent snmpAgent, SmsManager smsManager, DiskSpaceProvider diskSpaceProvider, 
+            Smtp smtp, SnmpAgent snmpAgent, SmsManager smsManager, DiskSpaceProvider diskSpaceProvider,
             GlobalState globalState, D2CWcfManager d2CWcfManager
             )
         {
@@ -156,7 +156,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return resultInGraph;
 
             // Some commands need to be reported to web client
-//             await Task.Factory.StartNew(() => NotifyWebClient(cmd));
+            //             await Task.Factory.StartNew(() => NotifyWebClient(cmd));
             await NotifyWebClient(cmd);
 
             // A few commands need post-processing in Db or RTU
@@ -198,19 +198,21 @@ namespace Iit.Fibertest.DataCenterCore
             switch (cmd)
             {
                 case UpdateMeasurement _:
-                {
-                    var evnt = Mapper.Map<UpdateMeasurementDto>(cmd);
-                    await _ftSignalRClient.NotifyAll("UpdateMeasurement", evnt.ToCamelCaseJson());
-                    break;
-                }
+                    {
+                        var evnt = Mapper.Map<UpdateMeasurementDto>(cmd);
+                        await _ftSignalRClient.NotifyAll("UpdateMeasurement", evnt.ToCamelCaseJson());
+                        break;
+                    }
 
+                case AddRtuAtGpsLocation _:
+                case RemoveRtu _:
                 case AttachTrace _:
                 case DetachTrace _:
                 case DetachAllTraces _:
-                {
-                    await _ftSignalRClient.NotifyAll("FetchTree", null);
-                    break;
-                }
+                    {
+                        await _ftSignalRClient.NotifyAll("FetchTree", null);
+                        break;
+                    }
             }
         }
 
@@ -231,7 +233,7 @@ namespace Iit.Fibertest.DataCenterCore
             return await _snapshotRepository.GetSnapshotPortion(portionOrdinal);
         }
 
-       
+
         public async Task<DiskSpaceDto> GetDiskSpaceGb()
         {
             return await _diskSpaceProvider.GetDiskSpaceGb();
