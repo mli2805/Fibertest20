@@ -142,7 +142,7 @@ export class FtAssignBaseComponent implements OnInit {
   }
 
   cancel() {
-    this.router.navigate(["/rtu-tree"]);
+    this.router.navigate(["/ft-main-nav/rtu-tree"]);
   }
 
   fillTheForm(res: AssignBaseParamsDto) {
