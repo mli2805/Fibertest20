@@ -17,6 +17,9 @@ export class FtRftsEventsLevelComponent implements OnInit {
   ngOnInit() {}
 
   public thresholdToScreen(threshold: MonitoringThreshold): string {
+    if (threshold === null) {
+      return "";
+    }
     const tt = threshold.isAbsolute
       ? this.ts.instant("SID__abs__")
       : this.ts.instant("SID__rel__");
