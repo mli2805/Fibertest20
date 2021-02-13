@@ -1,5 +1,6 @@
 .container {
   padding: 0px 10px;
+  min-width: 640px;
 }
 .mat-table {
   width: 100%;
@@ -54,7 +55,37 @@
   font-size: medium;
 }
 
+.controls {
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.controlsItem {
+  margin-left: 20px;
+}
+
 .spacer {
   display: inline-block;
   flex: 1 1 0%;
 }
+
+/* ---------------- media requests ----------------- */
+/* 
+@media (min-width: 0) {
+  .controls {
+    flex-direction: column;
+    margin-bottom: 24px;
+  }
+
+  .controlsItem {
+    max-width: 200px;
+  }
+}
+
+@media (min-width: 640px) {
+  .controls {
+    flex-direction: row;
+    align-items: center;
+  }
+} */
