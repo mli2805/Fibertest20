@@ -1,6 +1,6 @@
 .component-container {
   margin: 0px 10px;
-  overflow: auto;
+  overflow: hidden;
 }
 
 .rtu-cycle {
