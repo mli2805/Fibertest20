@@ -16,9 +16,12 @@ namespace Iit.Fibertest.Graph
 
             if (meas.EventStatus != EventStatus.JustMeasurementNotAnEvent)
             {
-                var sameTraceActiveMeas = model.ActiveMeasurements.FirstOrDefault(m => m.TraceId == meas.TraceId);
-                if (sameTraceActiveMeas != null)
-                    model.ActiveMeasurements.Remove(sameTraceActiveMeas);
+                for (var i = model.ActiveMeasurements.Count - 1; i >= 0; i--)
+                {
+                    if (model.ActiveMeasurements[i].TraceId == meas.TraceId)
+                        model.ActiveMeasurements.RemoveAt(i);
+                }
+
                 if (meas.TraceState != FiberState.Ok)
                     model.ActiveMeasurements.Add(meas);
             }
