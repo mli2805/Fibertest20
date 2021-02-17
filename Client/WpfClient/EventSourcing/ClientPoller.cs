@@ -139,8 +139,8 @@ namespace Iit.Fibertest.Client
             {
                 _exceptionCount++;
                 _logFile.AppendLine($@"Cannot establish connection with data-center. Exception count: {_exceptionCount}");
-                if (_exceptionCount == _exceptionCountLimit)
-                    _dispatcherProvider.GetDispatcher().Invoke(NotifyUserConnectionProblems); // blocks current thread till user clicks to close form
+                if (_exceptionCount == _exceptionCountLimit) // blocks current thread till user clicks to close form
+                    _dispatcherProvider.GetDispatcher().Invoke(NotifyUserConnectionProblems); 
                 return -1;
             }
 

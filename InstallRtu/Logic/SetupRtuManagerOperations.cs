@@ -19,6 +19,7 @@ namespace Iit.Fibertest.InstallRtu
 
             if (!FtServices.List
                 .Where(s => s.DestinationComputer == DestinationComputer.Rtu)
+                .OrderBy(l=>l.Ordinal)
                 .All(ss => ServiceOperations.UninstallServiceIfExist(ss, worker)))
                 return false;
 
