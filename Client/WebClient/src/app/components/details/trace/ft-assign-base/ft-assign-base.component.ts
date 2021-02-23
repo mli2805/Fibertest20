@@ -83,10 +83,10 @@ export class FtAssignBaseComponent implements OnInit {
           }
           this.isSpinnerVisible = false;
           this.isButtonDisabled = false;
-          this.router.navigate(["/rtu-tree"]);
+          this.router.navigate(["/ft-main-nav/rtu-tree"]);
         });
     } else {
-      this.router.navigate(["/rtu-tree"]);
+      this.router.navigate(["/ft-main-nav/rtu-tree"]);
     }
   }
 
