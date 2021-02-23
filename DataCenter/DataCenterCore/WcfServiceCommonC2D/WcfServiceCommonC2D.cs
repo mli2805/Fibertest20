@@ -240,14 +240,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (checkResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 return checkResult;
 
-            if (dto.OtauPortDto == null) // unattached trace
-            {
-                var result = await SaveChangesOnServer(dto);
-                return !string.IsNullOrEmpty(result)
-                    ? new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignmentFailed }
-                    : new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
-            }
-            else
+            if (dto.OtauPortDto != null) // trace attached to the real port => send base to RTU
             {
                 var transferResult = dto.RtuMaker == RtuMaker.IIT
                     ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto)
@@ -255,12 +248,17 @@ namespace Iit.Fibertest.DataCenterCore
 
                 if (transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                     return transferResult;
-
-                var result = await SaveChangesOnServer(dto);
-                return !string.IsNullOrEmpty(result)
-                    ? new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignmentFailed }
-                    : transferResult;
             }
+
+            var result = await SaveChangesOnServer(dto);
+            if (string.IsNullOrEmpty(result))
+                await _ftSignalRClient.NotifyAll("FetchTree", null);
+
+            return !string.IsNullOrEmpty(result)
+                ? new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignmentFailed }
+                : new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
+
+
         }
 
         private async Task<string> SaveChangesOnServer(AssignBaseRefsDto dto)
