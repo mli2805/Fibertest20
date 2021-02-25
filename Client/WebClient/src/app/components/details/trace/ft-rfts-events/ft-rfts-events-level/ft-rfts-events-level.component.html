@@ -7,8 +7,8 @@
         <span>{{ column.landmarkTitle }}</span>
         <span>{{ column.landmarkType | translate }}</span>
         <span>{{ column.state | translate }}</span>
-        <span>{{ column.distanceKm }}</span>
         <span>{{ column.damageType }}</span>
+        <span>{{ column.distanceKm }}</span>
         <span>{{ column.enabled | translate }}</span>
         <span>{{ column.eventType }}</span>
         <span class="offset"></span>
@@ -38,6 +38,8 @@
     <p class="eelt-params">{{ "SID_Deviation__dB" | translate }}</p>
     <p class="eelt-value">{{ vm.totalFiberLoss.deviation }}</p>
     <p class="eelt-params">{{ "SID_State_" | translate }}</p>
-    <p class="eelt-value">{{ eeltStateToScreen(vm.totalFiberLoss.isPassed) }}</p>
+    <p class="eelt-value">
+      {{ eeltStateToScreen(vm.totalFiberLoss.isPassed) }}
+    </p>
   </div>
 </div>

@@ -24,7 +24,7 @@ export class FtRftsEventsLevelComponent implements OnInit {
       ? this.ts.instant("SID__abs__")
       : this.ts.instant("SID__rel__");
 
-    return `${threshold.value} ${tt}`;
+    return `${(threshold.value / 1000).toFixed(3)} ${tt}`;
   }
 
   public eeltStateToScreen(state: boolean): string {
