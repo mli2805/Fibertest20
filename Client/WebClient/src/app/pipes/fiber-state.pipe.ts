@@ -9,7 +9,10 @@ import { FiberState } from "../models/enums/fiberState";
 export class FiberStatePipe implements PipeTransform {
   constructor(private ts: TranslateService) {}
 
-  transform(value: FiberState, arg1: BaseRefType): string {
+  transform(
+    value: FiberState,
+    arg1: BaseRefType = BaseRefType.Precise
+  ): string {
     if (value <= FiberState.Ok) {
       switch (value) {
         case FiberState.Nothing:
