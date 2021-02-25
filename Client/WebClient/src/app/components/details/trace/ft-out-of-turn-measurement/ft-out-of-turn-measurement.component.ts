@@ -55,7 +55,7 @@ export class FtOutOfTurnMeasurementComponent implements OnInit {
         };
         sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
         this.isSpinnerVisible = false;
-        this.router.navigate(["/trace-state"]);
+        this.router.navigate(["/ft-main-nav/trace-state"]);
       }
     );
 
