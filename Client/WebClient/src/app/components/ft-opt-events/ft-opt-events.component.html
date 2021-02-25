@@ -16,24 +16,7 @@
       >{{ "SID_Current_accidents" | translate }}
     </mat-slide-toggle>
   </div>
-  <!-- <mat-toolbar class="tools">
-    <mat-form-field>
-      <input matInput placeholder="RTU" #inputRtu />
-    </mat-form-field>
-    <mat-form-field style="margin-left: 20px">
-      <input matInput placeholder="{{ 'SID_Trace' | translate }}" #inputTrace />
-    </mat-form-field>
-    <div class="spacer"></div>
-    <mat-slide-toggle
-      [(ngModel)]="isCurrentEvents"
-      [labelPosition]="labelPosition"
-      [color]="sliderColor"
-      (change)="changedSlider()"
-      >{{ "SID_Current_accidents" | translate }}
-    </mat-slide-toggle>
-  </mat-toolbar> -->
-
-  <table
+   <table
     mat-table
     class="opt-event-table mat-elevation-z8"
     [dataSource]="dataSource"
@@ -102,7 +85,7 @@
           )
         }"
       >
-        {{ element.traceState | fiberStateToLocalizedStringPipe }}
+        {{ element.traceState | fiberStateToLocalizedStringPipe: element.baseRefType }}
       </td>
     </ng-container>
 
