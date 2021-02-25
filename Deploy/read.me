@@ -1,9 +1,12 @@
+
 Процедура тестирования сборки на локальной машине:
 
 1. в VS Code собрать web client'a:  ng build --prod
-2. BuildReleaseOnMyPC.cmd
+
+2.1  VersionPatcher.exe [fullVersion]
+2.2  BuildReleaseOnMyPC.cmd
 	билдит проект Fibertest25.sln в release
-3. Запустить упаковку с числовым ключом: PackSetup.cmd 888
+3. Запустить упаковку с числовым ключом: PackSetup.cmd [fullVersion]
 	он заберет релизы прог из bin\release и dist
 	документацию
 	выкачает запиненный Reflect с jenkins'a

@@ -1,5 +1,4 @@
 import { Component, OnInit } from "@angular/core";
-import { environment } from "src/environments/environment";
 
 @Component({
   selector: "ft-iit-header",
@@ -12,14 +11,10 @@ export class FtIitHeaderComponent implements OnInit {
   constructor() {}
 
   ngOnInit() {
-    if (environment.production === true) {
-      this.version = "2.0";
-    } else {
-      if (sessionStorage.settings === undefined) {
-        this.version = `There is no SETTINGS in sessionStorage!!!`;
-      }
-      const settings = JSON.parse(sessionStorage.settings);
-      this.version = settings.version;
+    if (sessionStorage.settings === undefined) {
+      this.version = ``;
     }
+    const settings = JSON.parse(sessionStorage.settings);
+    this.version = settings.version;
   }
 }
