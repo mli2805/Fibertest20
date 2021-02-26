@@ -6,10 +6,18 @@
 >
   <p>N{{ port }}</p>
   <mat-menu #freePortContextMenu="matMenu">
-    <button mat-menu-item (click)="attachTraceFromList()">
+    <button
+      mat-menu-item
+      (click)="attachTraceFromList()"
+      [disabled]="isAttachTraceDisabled()"
+    >
       {{ "SID_Attach_trace" | translate }}
     </button>
-    <button mat-menu-item (click)="attachOpticalSwitch()">
+    <button
+      mat-menu-item
+      (click)="attachOpticalSwitch()"
+      [disabled]="isAttachSwitchDisabled()"
+    >
       {{ "SID_Attach_optical_switch" | translate }}
     </button>
     <mat-divider></mat-divider>

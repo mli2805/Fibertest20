@@ -12,7 +12,6 @@ import {
 import { OneApiService } from "src/app/api/one.service";
 import {
   RtuMonitoringSettingsDto,
-  RtuMonitoringPortDto,
 } from "src/app/models/dtos/rtu/rtuMonitoringSettingsDto";
 import { PortMonitoringMode } from "src/app/models/enums/portMonitoringMode";
 import {

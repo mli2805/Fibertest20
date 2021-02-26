@@ -2,6 +2,8 @@ import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
+import { MonitoringMode } from "src/app/models/enums/monitoringMode";
+import { Role } from "src/app/models/enums/role";
 import { OtauPortDto } from "src/app/models/underlying/otauPortDto";
 
 @Component({
@@ -20,9 +22,14 @@ export class FtFreePortComponent implements OnInit {
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
+  private role: Role;
+
   constructor(private router: Router) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    const res = JSON.parse(sessionStorage.getItem("currentUser"));
+    this.role = res.role;
+  }
 
   onContextMenu(event: MouseEvent) {
     event.preventDefault();
@@ -71,5 +78,19 @@ export class FtFreePortComponent implements OnInit {
     selectedPort.otauId = this.otauId;
     selectedPort.serial = this.serial;
     return selectedPort;
+  }
+
+  public isAttachTraceDisabled() {
+    return (
+      this.parentRtu.monitoringMode === MonitoringMode.On ||
+      this.role > Role.Root
+    );
+  }
+
+  public isAttachSwitchDisabled() {
+    return (
+      this.parentRtu.monitoringMode === MonitoringMode.On ||
+      this.role > Role.Root
+    );
   }
 }
