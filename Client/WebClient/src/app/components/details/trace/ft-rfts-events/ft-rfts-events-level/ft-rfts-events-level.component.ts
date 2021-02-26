@@ -30,4 +30,11 @@ export class FtRftsEventsLevelComponent implements OnInit {
   public eeltStateToScreen(state: boolean): string {
     return state ? this.ts.instant("SID_pass") : this.ts.instant("SID_fail");
   }
+
+  public getStateBackgroundColor(eventStateString: string) {
+    if (eventStateString !== "" && eventStateString !== "SID_pass") {
+      return "red";
+    }
+    return "transparent";
+  }
 }

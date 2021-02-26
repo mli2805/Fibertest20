@@ -6,7 +6,12 @@
         <span class="offset"></span>
         <span>{{ column.landmarkTitle }}</span>
         <span>{{ column.landmarkType | translate }}</span>
-        <span>{{ column.state | translate }}</span>
+        <span
+          [ngStyle]="{
+            'background-color': getStateBackgroundColor(column.state)
+          }"
+          >{{ column.state | translate }}</span
+        >
         <span>{{ column.damageType }}</span>
         <span>{{ column.distanceKm }}</span>
         <span>{{ column.enabled | translate }}</span>
