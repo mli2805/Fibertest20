@@ -1,7 +1,15 @@
+import { AccidentPlace } from "../../enums/accidentPlace";
+import { FiberState } from "../../enums/fiberState";
 import { GeoPoint } from "../../underlying/geoPoint";
 
 export class AccidentLineDto {
   caption: string;
+
+  number: number;
+  accidentSeriousness: FiberState;
+  accidentTypeLetter: string;
+  accidentPlace: AccidentPlace;
+
   topLeft: string;
   topCenter: string;
   topRight: string;

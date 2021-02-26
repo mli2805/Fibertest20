@@ -1,18 +1,9 @@
-﻿using System;
-using GMap.NET;
-using Iit.Fibertest.Dto;
-
-namespace Iit.Fibertest.Graph
+﻿namespace Iit.Fibertest.Dto
 {
-    public enum AccidentPlace
-    {
-        InNode, BetweenNodes, BadSegment
-    }
-
-    public class AccidentLineModel
+    public class AccidentLineDto
     {
         public string Caption { get; set; }
-
+     
         public int Number { get; set; }
         public FiberState AccidentSeriousness { get; set; }
         public string AccidentTypeLetter { get; set; }
@@ -26,10 +17,8 @@ namespace Iit.Fibertest.Graph
         public string Bottom2 { get; set; }
         public string Bottom3 { get; set; }
         public string Bottom4 { get; set; }
+        public string PngPath { get; set; } 
 
-        public string PngPath { get; set; }
-        public Uri Scheme => new Uri(PngPath);
-
-        public PointLatLng? Position { get; set; }
+        public GeoPoint Position { get; set; }
     }
 }

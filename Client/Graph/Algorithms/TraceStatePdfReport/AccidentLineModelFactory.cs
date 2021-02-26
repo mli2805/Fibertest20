@@ -35,6 +35,12 @@ namespace Iit.Fibertest.Graph
                     $@"{number}. {accidentInOldEvent.AccidentSeriousness.ToLocalizedString()} ({
                             accidentInOldEvent.OpticalTypeOfAccident.ToLetter()
                         }) {Resources.SID_in_the_node}:",
+
+                Number = number,
+                AccidentSeriousness = accidentInOldEvent.AccidentSeriousness,
+                AccidentTypeLetter = accidentInOldEvent.OpticalTypeOfAccident.ToLetter(),
+                AccidentPlace = AccidentPlace.InNode,
+
                 TopCenter = accidentInOldEvent.AccidentTitle,
                 TopLeft = $@"RTU {LeftArrow} {accidentInOldEvent.AccidentToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
                 Bottom2 = _isGisOn
@@ -59,6 +65,12 @@ namespace Iit.Fibertest.Graph
                              $@"{number}. {accidentAsNewEvent.AccidentSeriousness.ToLocalizedString()} ({
                                      accidentAsNewEvent.OpticalTypeOfAccident.ToLetter()
                                  }) {Resources.SID_between_nodes}:",
+
+                Number = number,
+                AccidentSeriousness = accidentAsNewEvent.AccidentSeriousness,
+                AccidentTypeLetter = accidentAsNewEvent.OpticalTypeOfAccident.ToLetter(),
+                AccidentPlace = AccidentPlace.BetweenNodes,
+
                 TopLeft = accidentAsNewEvent.Left.Title,
                 TopCenter = $@"RTU {LeftArrow} {accidentAsNewEvent.AccidentToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",
                 TopRight = accidentAsNewEvent.Right.Title,
@@ -84,6 +96,12 @@ namespace Iit.Fibertest.Graph
                     $@"{number}. {accidentInOldEvent.AccidentSeriousness.ToLocalizedString()} (C) {
                             Resources.SID_between_nodes
                         }: ",
+
+                Number = number,
+                AccidentSeriousness = accidentInOldEvent.AccidentSeriousness,
+                AccidentTypeLetter = @"C",
+                AccidentPlace = AccidentPlace.BadSegment,
+
                 TopLeft = accidentInOldEvent.Left.Title,
                 TopRight = accidentInOldEvent.Right.Title,
                 Bottom1 = $@"RTU {LeftArrow} {accidentInOldEvent.Left.ToRtuOpticalDistanceKm:0.000} {Resources.SID_km}",

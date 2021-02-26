@@ -66,6 +66,8 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 var line = accidentLineModelFactory.Create(accidentOnTraceV2, i++, true, GpsInputMode.Degrees, false);
                 var dtoLine = Mapper.Map<AccidentLineDto>(line);
+                if (line.Position != null)
+                    dtoLine.Position = new GeoPoint{Latitude = line.Position.Value.Lat, Longitude = line.Position.Value.Lng};
                 yield return dtoLine;
             }
         }

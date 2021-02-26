@@ -92,7 +92,8 @@
     <Compile Include="ForWebApi\Rtu\RtuStateChildDto.cs" />
     <Compile Include="ForWebApi\Rtu\RtuStateDto.cs" />
     <Compile Include="ForWebApi\Trace\AccidentNeighbourDto.cs" />
-    <Compile Include="ForWebApi\Trace\AccidentOnTraceV2Dto.cs" />
+    <Compile Include="ForWebApi\Trace\AccidentLineDto.cs" />
+    <Compile Include="Enums\AccidentPlace.cs" />
     <Compile Include="ForWebApi\Trace\AssignBaseParamsDto.cs" />
     <Compile Include="ForWebApi\Trace\GeoPoint.cs" />
     <Compile Include="ForWebApi\Trace\TraceHeaderDto.cs" />

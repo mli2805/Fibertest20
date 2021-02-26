@@ -8,6 +8,9 @@ import { UpdateMeasurementDto } from "src/app/models/dtos/trace/updateMeasuremen
 import { SignalrService } from "src/app/api/signalr.service";
 import { SorFileManager } from "src/app/utils/sorFileManager";
 import { Router } from "@angular/router";
+import { AccidentPlace } from "src/app/models/enums/accidentPlace";
+import { TranslateService } from "@ngx-translate/core";
+import { FiberStatePipe } from "src/app/pipes/fiber-state.pipe";
 
 @Component({
   selector: "ft-trace-state",
@@ -28,7 +31,9 @@ export class FtTraceStateComponent implements OnInit {
     private router: Router,
     private oneApiService: OneApiService,
     private signalRService: SignalrService,
-    private eventStatusPipe: EventStatusPipe
+    private eventStatusPipe: EventStatusPipe,
+    private ts: TranslateService,
+    private fiberStatePipe: FiberStatePipe
   ) {}
 
   ngOnInit() {
@@ -54,6 +59,19 @@ export class FtTraceStateComponent implements OnInit {
         this.isEventStatusVisible =
           res.eventStatus > EventStatus.EventButNotAnAccident;
         this.selectedEventStatus = res.eventStatus;
+
+        for (const accidentLine of res.accidents) {
+          accidentLine.caption = `${
+            accidentLine.number
+          } ${this.fiberStatePipe.transform(
+            accidentLine.accidentSeriousness
+          )} (${accidentLine.accidentTypeLetter}) ${
+            accidentLine.accidentPlace === AccidentPlace.InNode
+              ? this.ts.instant("SID_in_the_node")
+              : this.ts.instant("SID_between_nodes")
+          }`;
+        }
+
         this.isSpinnerVisible = false;
       });
 
