@@ -88,6 +88,7 @@ const routes: Routes = [
 
   { path: "sor-viewer", component: SorViewerComponent },
   { path: "rfts-events/:id", component: FtRftsEventsComponent },
+  { path: "trace-state", component: FtTraceStateComponent },
   { path: "", redirectTo: "/ft-main-nav/login", pathMatch: "full" },
   { path: "**", component: PageNotFoundComponent },
 ];
