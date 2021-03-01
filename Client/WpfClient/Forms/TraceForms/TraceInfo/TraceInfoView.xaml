@@ -85,8 +85,8 @@
         </GroupBox>
         <StackPanel Orientation="Horizontal" Margin="15,15"  IsEnabled="{Binding IsButtonsEnabled}">
             <Button Name="Save" Height="25" Width="100" Margin="5" Content="{x:Static stringResources:Resources.SID_Save}" 
-                    IsEnabled="{Binding IsButtonSaveEnabled}" TabIndex="1" />
-            <Button Name="Cancel" Height="25" Width="100"  
+                    IsEnabled="{Binding IsButtonSaveEnabled}" TabIndex="1" IsDefault="True" />
+            <Button Name="Cancel" Height="25" Width="100"  IsCancel="True"
                     Content="{x:Static stringResources:Resources.SID_Cancel}"/>
         </StackPanel>
 
