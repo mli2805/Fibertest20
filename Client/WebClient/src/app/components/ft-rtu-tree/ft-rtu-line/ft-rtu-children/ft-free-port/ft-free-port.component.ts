@@ -2,6 +2,7 @@ import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
+import { UserDto } from "src/app/models/dtos/userDto";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { Role } from "src/app/models/enums/role";
 import { OtauPortDto } from "src/app/models/underlying/otauPortDto";
@@ -22,14 +23,9 @@ export class FtFreePortComponent implements OnInit {
   contextMenu: MatMenuTrigger;
   contextMenuPosition = { x: "0px", y: "0px" };
 
-  private role: Role;
-
   constructor(private router: Router) {}
 
-  ngOnInit() {
-    const res = JSON.parse(sessionStorage.getItem("currentUser"));
-    this.role = res.role;
-  }
+  ngOnInit() {}
 
   onContextMenu(event: MouseEvent) {
     event.preventDefault();
@@ -81,16 +77,15 @@ export class FtFreePortComponent implements OnInit {
   }
 
   public isAttachTraceDisabled() {
-    return (
-      this.parentRtu.monitoringMode === MonitoringMode.On ||
-      this.role > Role.Root
-    );
+    const user: UserDto = JSON.parse(sessionStorage.getItem("currentUser"));
+    return user.role > Role.Root;
   }
 
   public isAttachSwitchDisabled() {
+    const user: UserDto = JSON.parse(sessionStorage.getItem("currentUser"));
     return (
       this.parentRtu.monitoringMode === MonitoringMode.On ||
-      this.role > Role.Root
+      user.role > Role.Root
     );
   }
 }

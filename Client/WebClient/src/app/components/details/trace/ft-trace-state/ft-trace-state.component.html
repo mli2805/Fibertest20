@@ -38,7 +38,9 @@
               }
       }}
     </p>
-    <h3>{{ vm.traceState | fiberStateToLocalizedStringPipe }}</h3>
+    <h3>
+      {{ vm.traceState | fiberStateToLocalizedStringPipe: vm.baseRefType }}
+    </h3>
   </div>
   <div class="accidents bottomLine" *ngIf="isAccidentsVisible">
     <p>

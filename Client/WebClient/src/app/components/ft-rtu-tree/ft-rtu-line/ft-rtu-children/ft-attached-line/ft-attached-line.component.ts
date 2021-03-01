@@ -104,10 +104,7 @@ export class FtAttachedLineComponent implements OnInit {
 
   isDetachTraceDisabled(): boolean {
     const user: UserDto = JSON.parse(sessionStorage.getItem("currentUser"));
-    return (
-      user.role > Role.Root ||
-      this.parentRtu.monitoringMode === MonitoringMode.On
-    );
+    return user.role > Role.Root || this.trace.isIncludedInMonitoringCycle;
   }
 
   hasBase(): boolean {
