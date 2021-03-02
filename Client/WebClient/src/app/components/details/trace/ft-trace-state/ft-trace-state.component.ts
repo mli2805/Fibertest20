@@ -22,7 +22,6 @@ export class FtTraceStateComponent implements OnInit {
   public isAccidentsVisible: boolean;
   public isEventStatusVisible: boolean;
   public isSpinnerVisible: boolean;
-  public isButtonDisabled: boolean;
 
   itemsSourceEventStatuses;
   selectedEventStatus;
@@ -103,7 +102,6 @@ export class FtTraceStateComponent implements OnInit {
 
   save() {
     this.isSpinnerVisible = true;
-    this.isButtonDisabled = true;
 
     const dto = this.prepareDto();
     this.oneApiService
@@ -113,7 +111,6 @@ export class FtTraceStateComponent implements OnInit {
       });
 
     this.isSpinnerVisible = false;
-    this.isButtonDisabled = false;
   }
 
   prepareDto(): UpdateMeasurementDto {
@@ -123,12 +120,6 @@ export class FtTraceStateComponent implements OnInit {
     dto.statusChangedTimestamp = new Date();
     dto.comment = this.vm.comment;
     return dto;
-  }
-
-  // it's my button "Back"
-  back() {
-    console.log(window.history);
-    window.history.back();
   }
 
   @HostListener("window:popstate", ["$event"])

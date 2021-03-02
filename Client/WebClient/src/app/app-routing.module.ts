@@ -67,7 +67,6 @@ const routes: Routes = [
 
       { path: "trace-information/:id", component: FtTraceInformationComponent },
       { path: "assign-base/:id", component: FtAssignBaseComponent },
-      { path: "trace-state", component: FtTraceStateComponent },
       { path: "trace-statistics/:id", component: FtTraceStatisticsComponent },
       { path: "trace-landmarks/:id", component: FtTraceLandmarksComponent },
 

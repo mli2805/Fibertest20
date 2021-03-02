@@ -65,7 +65,7 @@
       </div>
     </div>
   </div>
-  <div class="measNotes bottomLine">
+  <div class="measNotes">
     <button
       mat-stroked-button
       color="primary"
@@ -94,14 +94,6 @@
       </mat-form-field>
     </div>
   </div>
-  <button
-    mat-stroked-button
-    color="primary"
-    (click)="back()"
-    [disabled]="isButtonDisabled"
-  >
-    {{ "SID_Back" | translate }}
-  </button>
   <div class="spinner-container" *ngIf="isSpinnerVisible">
     <mat-spinner></mat-spinner>
   </div>
