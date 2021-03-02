@@ -22,6 +22,7 @@ export class FtTraceStateComponent implements OnInit {
   public isAccidentsVisible: boolean;
   public isEventStatusVisible: boolean;
   public isSpinnerVisible: boolean;
+  public isButtonDisabled: boolean;
 
   itemsSourceEventStatuses;
   selectedEventStatus;
@@ -102,6 +103,7 @@ export class FtTraceStateComponent implements OnInit {
 
   save() {
     this.isSpinnerVisible = true;
+    this.isButtonDisabled = true;
 
     const dto = this.prepareDto();
     this.oneApiService
@@ -111,6 +113,7 @@ export class FtTraceStateComponent implements OnInit {
       });
 
     this.isSpinnerVisible = false;
+    this.isButtonDisabled = false;
   }
 
   prepareDto(): UpdateMeasurementDto {

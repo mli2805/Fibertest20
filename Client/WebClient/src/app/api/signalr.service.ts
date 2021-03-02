@@ -4,7 +4,6 @@ import { Injectable, EventEmitter } from "@angular/core";
 import * as signalR from "@aspnet/signalr";
 import { Utils } from "../Utils/utils";
 import { RtuInitializedWebDto } from "../models/dtos/rtu/rtuInitializedWebDto";
-import { ReturnCode } from "../models/enums/returnCode";
 import { CurrentMonitoringStepDto } from "../models/dtos/rtu/currentMonitoringStepDto";
 import { ClientMeasurementDoneDto } from "../models/dtos/port/clientMeasurementDoneDto";
 import { formatDate } from "@angular/common";
