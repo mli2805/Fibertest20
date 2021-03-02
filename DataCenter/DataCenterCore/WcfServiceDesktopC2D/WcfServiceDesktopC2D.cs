@@ -134,11 +134,6 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var cmd = JsonConvert.DeserializeObject(json, JsonSerializerSettings);
 
-            if (cmd is CleanTrace cleanTrace)
-                return await RemoveSorFilesAndTrace(cleanTrace.TraceId, cleanTrace, username, clientIp);
-            if (cmd is RemoveTrace removeTrace)
-                return await RemoveSorFilesAndTrace(removeTrace.TraceId, removeTrace, username, clientIp);
-
             if (cmd is RemoveEventsAndSors removeEventsAndSors)
             {
                 await Task.Factory.StartNew(() => RemoveEventsAndSors(removeEventsAndSors, username, clientIp));
@@ -151,12 +146,23 @@ namespace Iit.Fibertest.DataCenterCore
                 return null;
             }
 
+            if (cmd is CleanTrace cleanTrace) // only removes sor files, Trace will be cleaned further
+            {
+                var res = await RemoveSorFiles(cleanTrace.TraceId);
+                if (!string.IsNullOrEmpty(res)) return res;
+            }
+
+            if (cmd is RemoveTrace removeTrace) // only removes sor files, Trace will be removed further
+            {
+                var res = await RemoveSorFiles(removeTrace.TraceId);
+                if (!string.IsNullOrEmpty(res)) return res;
+            }
+         
             var resultInGraph = await _eventStoreService.SendCommand(cmd, username, clientIp);
             if (resultInGraph != null)
                 return resultInGraph;
 
             // Some commands need to be reported to web client
-            //             await Task.Factory.StartNew(() => NotifyWebClient(cmd));
             await NotifyWebClient(cmd);
 
             // A few commands need post-processing in Db or RTU
@@ -209,6 +215,9 @@ namespace Iit.Fibertest.DataCenterCore
                 case AttachTrace _:
                 case DetachTrace _:
                 case DetachAllTraces _:
+                case CleanTrace _:
+                case RemoveTrace _:
+                case AddTrace _:
                     {
                         await _ftSignalRClient.NotifyAll("FetchTree", null);
                         break;
@@ -239,22 +248,30 @@ namespace Iit.Fibertest.DataCenterCore
             return await _diskSpaceProvider.GetDiskSpaceGb();
         }
 
-        private async Task<string> RemoveSorFilesAndTrace(Guid traceId, object cleanTrace, string username, string clientIp)
+        private async Task<string> RemoveSorFiles(Guid traceId)
         {
             var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
             if (trace == null)
                 return $@"Trace {traceId} not found";
+
             // starting in another thread breaks tests
             // await Task.Factory.StartNew(() => LongPart(traceId, cleanTrace, username, clientIp));
-            return await LongPart(traceId, cleanTrace, username, clientIp);
+
+            return await LongPart(traceId);
         }
 
-        private async Task<string> LongPart(Guid traceId, object cmd, string username, string clientIp)
+        private async Task<string> LongPart(Guid traceId)
         {
-            var sorFileIds = _writeModel.Measurements.Where(m => m.TraceId == traceId).Select(l => l.SorFileId).ToArray();
-            var sorFileIds2 = sorFileIds.Concat(_writeModel.BaseRefs.Where(b => b.TraceId == traceId).Select(l => l.SorFileId).ToArray()).ToArray();
+            var sorFileIds = _writeModel.Measurements
+                .Where(m => m.TraceId == traceId)
+                .Select(l => l.SorFileId).ToArray();
+            var sorFileIds2 = sorFileIds.Concat(_writeModel.BaseRefs
+                .Where(b => b.TraceId == traceId)
+                .Select(l => l.SorFileId).ToArray())
+                .ToArray();
             await _sorFileRepository.RemoveManySorAsync(sorFileIds2);
-            return await _eventStoreService.SendCommand(cmd, username, clientIp);
+            // return await _eventStoreService.SendCommand(cmd, username, clientIp);
+            return null;
         }
     }
 }
