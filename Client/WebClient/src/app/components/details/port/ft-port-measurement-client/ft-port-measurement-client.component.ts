@@ -172,6 +172,7 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     dto.rtuId = params.rtuId;
     dto.otauPortDto = params.otauPortDto;
     dto.selectedMeasParams = this.getSelectedParameters();
+    console.log(`DoClientMeasurementDto ${dto}`);
     this.oneApiService
       .postRequest("measurement/measurement-client", dto)
       .subscribe((res: RequestAnswer) => {
