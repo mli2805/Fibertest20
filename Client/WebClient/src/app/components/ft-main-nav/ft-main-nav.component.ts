@@ -28,6 +28,8 @@ import {
 } from "../ft-simple-dialog/ft-message-box";
 import { MatDialog } from "@angular/material";
 import { ServerAsksClientToExitDto } from "src/app/models/dtos/serverAsksClientToExitDto";
+import { ClientMeasurementDoneDto } from "src/app/models/dtos/port/clientMeasurementDoneDto";
+import { SorFileManager } from "src/app/utils/sorFileManager";
 
 @Component({
   selector: "ft-main-nav",
@@ -41,6 +43,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   private networkEventAddedSubscription: Subscription;
   private bopEventAddedSubscription: Subscription;
   private serverAsksExitSubscription: Subscription;
+  private measEmmitterSubscription: Subscription;
 
   private opticalAlarmIndicator: OpticalAlarmIndicator;
   private networkAlarmIndicator: NetworkAlarmIndicator;
@@ -229,6 +232,34 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.serverAsksExitSubscription = this.signalRService.serverAsksExitEmitter.subscribe(
       (signal: ServerAsksClientToExitDto) => this.onServerAsksExit(signal)
     );
+
+    this.measEmmitterSubscription = this.signalRService.clientMeasEmitter.subscribe(
+      (signal: ClientMeasurementDoneDto) => this.onMeasurementClientDone(signal)
+    );
+  }
+
+  async onMeasurementClientDone(signal: ClientMeasurementDoneDto) {
+    console.log(signal);
+    const currentUser = JSON.parse(sessionStorage.currentUser);
+    if (signal.connectionId !== currentUser.connectionId) {
+      console.log(`It is measurement for another web client`);
+      return;
+    }
+
+    if (signal.returnCode === ReturnCode.MeasurementEndedNormally) {
+      console.log(
+        `Measurement (Client) done. Request bytes for id ${signal.id}`
+      );
+      SorFileManager.Show(
+        this.router,
+        false,
+        0,
+        signal.id,
+        false,
+        "meas",
+        new Date()
+      );
+    };
   }
 
   async onServerAsksExit(signal: ServerAsksClientToExitDto) {
@@ -276,6 +307,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.networkEventAddedSubscription.unsubscribe();
     this.bopEventAddedSubscription.unsubscribe();
     this.serverAsksExitSubscription.unsubscribe();
+    this.measEmmitterSubscription.unsubscribe();
   }
 
   async logout() {

@@ -13,8 +13,9 @@ export class FtIitHeaderComponent implements OnInit {
   ngOnInit() {
     if (sessionStorage.settings === undefined) {
       this.version = ``;
+    } else {
+      const settings = JSON.parse(sessionStorage.settings);
+      this.version = settings.version;
     }
-    const settings = JSON.parse(sessionStorage.settings);
-    this.version = settings.version;
   }
 }

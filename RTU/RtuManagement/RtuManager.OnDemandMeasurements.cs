@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
@@ -45,9 +46,10 @@ namespace Iit.Fibertest.RtuManagement
 
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start Measurement (Client).");
+            _rtuLog.AppendLine($"Lmax {dto.SelectedMeasParams.First(p=>p.Param == ServiceFunctionFirstParam.Lmax)}");
 
             var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, "192.168.88.101");
-           // var res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
+            // var res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
             var res = _otdrManager.ConnectOtdr(otdrAddress);
             if (!res)
             {
@@ -80,11 +82,13 @@ namespace Iit.Fibertest.RtuManagement
                 return new SorBytesDto()
                 {
                     ReturnCode = ReturnCode.MeasurementError,
+                    ConnectionId = dto.ConnectionId,
                     ClientIp = dto.ClientIp,
                 };
             return new SorBytesDto()
             {
                 ReturnCode = ReturnCode.MeasurementEndedNormally,
+                ConnectionId = dto.ConnectionId,
                 ClientIp = dto.ClientIp,
                 SorBytes = _otdrManager.ApplyAutoAnalysis(lastSorDataBuffer),
             };

@@ -53,7 +53,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             try
             {
-//                _logFile.AppendLine("WcfServiceForRtu.NotifyUserCurrentMonitoringStep: " + dto.Step);
+                //                _logFile.AppendLine("WcfServiceForRtu.NotifyUserCurrentMonitoringStep: " + dto.Step);
                 if (_globalState.IsDatacenterInDbOptimizationMode)
                     return;
 
@@ -84,21 +84,36 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine("Bad measurement client result.");
                 return;
             }
-            _logFile.AppendLine($"Measurement Client result received ({result.SorBytes.Length} bytes, for clientIp {result.ClientIp})");
+            _logFile.AppendLine($"Measurement Client result for {result.ConnectionId} / {result.ClientIp}, {result.SorBytes.Length} bytes");
 
             try
             {
-                _measurementsForWebNotifier.Push(result);
-                _logFile.AppendLine("measurement placed into queue");
-                
-                var address = _clientsCollection.GetOneDesktopClientAddress(result.ClientIp);
-                if (address != null)
+                var client = !string.IsNullOrEmpty(result.ConnectionId)
+                    ? _clientsCollection.GetClientByConnectionId(result.ConnectionId)
+                    : _clientsCollection.GetClientByClientIp(result.ClientIp);
+
+                if (client == null)
                 {
-                    _logFile.AppendLine($@"TransmitClientMeasurementResult: meas will be sent to desktop client {result.ClientIp}");
-                    _d2CWcfManager.SetClientsAddresses(new List<DoubleAddress>(){address});
+                    _logFile.AppendLine($@"TransmitClientMeasurementResult: client {result.ConnectionId} / {result.ClientIp} not found");
+                    return;
+                }
+
+                if (client.IsWebClient)
+                {
+                    _measurementsForWebNotifier.Push(result);
+                    _logFile.AppendLine("TransmitClientMeasurementResult: measurement placed into queue for web clients");
+                }
+                else
+                {
+                    _logFile.AppendLine(
+                        $@"TransmitClientMeasurementResult: meas will be sent to desktop client {result.ClientIp}");
+                    _d2CWcfManager.SetClientsAddresses(new List<DoubleAddress>()
+                    {
+                        new DoubleAddress()
+                            { Main = new NetAddress(client.ClientIp, client.ClientAddressPort) }
+                    });
                     _d2CWcfManager.NotifyMeasurementClientDone(result).Wait();
                 }
-                else _logFile.AppendLine($@"TransmitClientMeasurementResult: no desktop clients with IP {result.ClientIp} found");
             }
             catch (Exception e)
             {

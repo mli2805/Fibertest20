@@ -22,7 +22,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public ClientsCollection(IniFile iniFile, IMyLog logFile, Model writeModel,
             CurrentDatacenterParameters currentDatacenterParameters, EventStoreService eventStoreService,
-            D2CWcfManager d2CWcfService, IFtSignalRClient ftSignalRClient )
+            D2CWcfManager d2CWcfService, IFtSignalRClient ftSignalRClient)
         {
             _iniFile = iniFile;
             _logFile = logFile;
@@ -76,8 +76,8 @@ namespace Iit.Fibertest.DataCenterCore
                     // notify old station
                     var serverAsksClientToExitDto = new ServerAsksClientToExitDto()
                     {
-                        ToAll = false, 
-                        ConnectionId = stationWithTheSameUser.ConnectionId, 
+                        ToAll = false,
+                        ConnectionId = stationWithTheSameUser.ConnectionId,
                         Reason = UnRegisterReason.UserRegistersAnotherSession,
 
                         IsNewUserWeb = dto.IsWebClient,
@@ -145,7 +145,6 @@ namespace Iit.Fibertest.DataCenterCore
             }
             return null;
         }
-
 
         private static ClientStation Create(RegisterClientDto dto, User user)
         {
@@ -219,9 +218,9 @@ namespace Iit.Fibertest.DataCenterCore
                 return true;
             }
             else
-//                _logFile.AppendLine($"There is no client {dto.Username}/{dto.ClientIp} with connectionId {dto.ConnectionId}");
-//            LogStations();
-            return false;
+                //                _logFile.AppendLine($"There is no client {dto.Username}/{dto.ClientIp} with connectionId {dto.ConnectionId}");
+                //            LogStations();
+                return false;
         }
 
         public async void CleanDeadClients(TimeSpan timeSpan)
@@ -254,19 +253,34 @@ namespace Iit.Fibertest.DataCenterCore
         {
             if (clientIp == null)
                 return null;
-            var client = _clients.FirstOrDefault(c => c.ClientIp == clientIp);
+            var client = _clients.FirstOrDefault(c => c.ClientIp == clientIp && !c.IsWebClient);
             return client == null
                 ? null
                 : new DoubleAddress() { Main = new NetAddress(client.ClientIp, client.ClientAddressPort) };
         }
 
+        public DoubleAddress GetClientAddressByConnectionId(string connectionId)
+        {
+            if (connectionId == null)
+                return null;
+            
+            var client = _clients.FirstOrDefault(c => c.ConnectionId == connectionId);
+            return client == null
+                ? null
+                : new DoubleAddress() { Main = new NetAddress(client.ClientIp, client.ClientAddressPort) };
+        }
+
+        public ClientStation GetClientByConnectionId(string connectionId)
+        {
+            return connectionId == null ? null :  _clients.FirstOrDefault(c => c.ConnectionId == connectionId);
+        }
 
         public bool HasAnyWebClients()
         {
             return _clients.Any(s => s.IsWebClient);
         }
 
-        public ClientStation GetClientStation(string clientIp)
+        public ClientStation GetClientByClientIp(string clientIp)
         {
             return _clients.FirstOrDefault(c => c.ClientIp == clientIp);
         }
@@ -276,7 +290,7 @@ namespace Iit.Fibertest.DataCenterCore
             return _clients.FirstOrDefault(s => s.ConnectionId == connectionId);
         }
 
-        private void LogStations()
+        public void LogStations()
         {
             _logFile.EmptyLine();
             _logFile.AppendLine($"There are {_clients.Count} client(s):");

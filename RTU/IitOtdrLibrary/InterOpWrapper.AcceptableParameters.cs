@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.Threading;
 using Iit.Fibertest.Dto;
 
@@ -47,19 +48,19 @@ namespace Iit.Fibertest.IitOtdrLibrary
             result.MeasCountsToAverage = ParseLineOfVariantsForParam(ServiceFunctionFirstParam.Navr);
             return result;
         }
-
-        public void SetMeasurementParametersFromUserInput(SelectedMeasParams list)
+        
+        public void SetMeasurementParametersFromUserInput(List<MeasParam> list)
         {
-            foreach (var measParam in list.MeasParams)
+            foreach (var measParam in list)
             {
-                var prms = ParseLineOfVariantsForParam(measParam.Item1);
+                var prms = ParseLineOfVariantsForParam(measParam.Param);
                 Thread.Sleep(50);
 
-                if ((int)measParam.Item1 > 8)
-                    _rtuLogger.AppendLine($"{measParam.Item1.ToString()} - {measParam.Item2}", 0, 3);
-                else _rtuLogger.AppendLine($"{measParam.Item1.ToString()} - {measParam.Item2} ({prms[measParam.Item2]})", 0, 3);
+                if ((int)measParam.Param > 8)
+                    _rtuLogger.AppendLine($"{measParam.Param.ToString()} - {measParam.Value}", 0, 3);
+                else _rtuLogger.AppendLine($"{measParam.Param.ToString()} - {measParam.Value} ({prms[measParam.Value]})", 0, 3);
                 Thread.Sleep(50);
-                SetParam(measParam.Item1, measParam.Item2);
+                SetParam(measParam.Param, measParam.Value);
             }
         }
     }

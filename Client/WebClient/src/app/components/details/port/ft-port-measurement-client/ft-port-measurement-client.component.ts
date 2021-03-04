@@ -1,7 +1,10 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
 import { TreeOfAcceptableVeasParams } from "src/app/models/dtos/meas-params/acceptableMeasParams";
 import { Router } from "@angular/router";
-import { DoClientMeasurementDto } from "src/app/models/dtos/meas-params/doClientMeasurementDto";
+import {
+  DoClientMeasurementDto,
+  MeasParam,
+} from "src/app/models/dtos/meas-params/doClientMeasurementDto";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { SignalrService } from "src/app/api/signalr.service";
@@ -66,20 +69,14 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     this.measEmmitterSubscription = this.signalRService.clientMeasEmitter.subscribe(
       (signal: ClientMeasurementDoneDto) => {
         console.log(signal);
+        const currentUser = JSON.parse(sessionStorage.currentUser);
+        if (signal.connectionId !== currentUser.connectionId) {
+          console.log(`It is measurement for another web client`);
+          return;
+        }
+
         if (signal.returnCode === ReturnCode.MeasurementEndedNormally) {
           this.message = this.ts.instant("SID_Measurement_is_finished_");
-          console.log(
-            `Measurement (Client) done. Request bytes for id ${signal.id}`
-          );
-          SorFileManager.Show(
-            this.router,
-            false,
-            0,
-            signal.id,
-            false,
-            "meas",
-            new Date()
-          );
         } else {
           this.message = "Measurement (Client) failed!";
         }
@@ -147,32 +144,47 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
   }
 
   getSelectedParameters() {
-    const result = {
-      1: this.selectedUnit,
-      11: Math.round(this.selectedBc * 100),
-      10: this.selectedRi * 100000,
-      2: this.selectedDistance,
-      5: this.selectedResolution,
-      6: this.selectedPulseDuration,
-      9: 1,
-      8: this.selectedPeriodToAverage,
-    };
-    return result;
+    const params: MeasParam[] = new Array(8);
+    params[0] = new MeasParam(
+      1,
+      this.itemsSourceUnits.indexOf(this.selectedUnit)
+    );
+    params[1] = new MeasParam(11, Math.round(this.selectedBc * 100));
+    params[2] = new MeasParam(10, this.selectedRi * 100000);
+    params[3] = new MeasParam(
+      2,
+      this.itemsSourceDistances.indexOf(this.selectedDistance)
+    );
+    params[4] = new MeasParam(
+      5,
+      this.itemsSourceResolutions.indexOf(this.selectedResolution)
+    );
+    params[5] = new MeasParam(
+      6,
+      this.itemsSourcePulseDurations.indexOf(this.selectedPulseDuration)
+    );
+    params[6] = new MeasParam(9, 1);
+    params[7] = new MeasParam(
+      8,
+      this.itemsSourcePeriodsToAverages.indexOf(this.selectedPeriodToAverage)
+    );
+    return params;
   }
 
   measure() {
     this.isSpinnerVisible = true;
     this.isButtonDisabled = true;
     this.message = this.ts.instant("SID_Sending_command__Wait_please___");
-    console.log(this.getSelectedParameters());
     const params = JSON.parse(
       sessionStorage.getItem("measurementClientParams")
     );
     const dto = new DoClientMeasurementDto();
+    const currentUser = JSON.parse(sessionStorage.currentUser);
+    dto.connectionId = currentUser.connectionId;
     dto.rtuId = params.rtuId;
     dto.otauPortDto = params.otauPortDto;
     dto.selectedMeasParams = this.getSelectedParameters();
-    console.log(`DoClientMeasurementDto ${dto}`);
+    console.log(dto);
     this.oneApiService
       .postRequest("measurement/measurement-client", dto)
       .subscribe((res: RequestAnswer) => {

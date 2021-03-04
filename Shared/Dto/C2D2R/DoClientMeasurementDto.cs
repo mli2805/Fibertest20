@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
@@ -15,7 +16,8 @@ namespace Iit.Fibertest.Dto
         public Guid RtuId { get; set; }
 
         [DataMember]
-        public SelectedMeasParams SelectedMeasParams { get; set; }
+        // public SelectedMeasParams SelectedMeasParams { get; set; }
+        public List<MeasParam> SelectedMeasParams { get; set; }
 
         [DataMember]
         public OtauPortDto OtauPortDto { get; set; }
@@ -28,4 +30,5 @@ namespace Iit.Fibertest.Dto
         public int OtauTcpPort { get; set; }
 
     }
+    
 }

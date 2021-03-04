@@ -76,6 +76,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 {
                     body = await reader.ReadToEndAsync();
                 }
+                _logFile.AppendLine(body);
                 var dto = JsonConvert.DeserializeObject<DoClientMeasurementDto>(body);
                 var clientMeasurementStartedDto = await _commonC2DWcfManager
                     .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())

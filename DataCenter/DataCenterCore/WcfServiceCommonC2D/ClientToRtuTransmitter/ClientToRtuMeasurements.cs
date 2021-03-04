@@ -8,7 +8,7 @@ namespace Iit.Fibertest.DataCenterCore
     {
         public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
-            _logFile.AppendLine($"Client from {dto.ClientIp} asked to do client's measurement on RTU {dto.RtuId.First6()}");
+            _logFile.AppendLine($"Client {dto.ConnectionId} / {dto.ClientIp} asked to do measurement on RTU {dto.RtuId.First6()}");
             try
             {
                 var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);

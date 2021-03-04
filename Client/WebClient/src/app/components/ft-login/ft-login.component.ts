@@ -73,7 +73,11 @@ export class FtLoginComponent implements OnInit {
         const connectionId = await this.signalrService.startConnection();
 
         await this.authService
-          .changeGuidWithSignalrConnectionId(res.jsonWebToken, res.connectionId, connectionId)
+          .changeGuidWithSignalrConnectionId(
+            res.jsonWebToken,
+            res.connectionId,
+            connectionId
+          )
           .toPromise();
 
         res.connectionId = connectionId;

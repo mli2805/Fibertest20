@@ -131,7 +131,7 @@ namespace Iit.Fibertest.DataCenterCore
                 NetAddress = (NetAddress)dto.NetAddress.Clone(),
                 IsOk = true,
             };
-            var username = _clientsCollection.GetClientStation(dto.ClientIp)?.UserName;
+            var username = _clientsCollection.GetClientByClientIp(dto.ClientIp)?.UserName;
             await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
         }
 
@@ -162,7 +162,7 @@ namespace Iit.Fibertest.DataCenterCore
                     .ToList(),
             };
 
-            var username = _clientsCollection.GetClientStation(dto.ClientIp)?.UserName;
+            var username = _clientsCollection.GetClientByClientIp(dto.ClientIp)?.UserName;
             await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
         }
 
@@ -174,7 +174,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             if (isStopped)
             {
-                var username = _clientsCollection.GetClientStation(dto.ClientIp)?.UserName;
+                var username = _clientsCollection.GetClientByClientIp(dto.ClientIp)?.UserName;
                 var cmd = new StopMonitoring { RtuId = dto.RtuId };
                 await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
                 await _ftSignalRClient.NotifyAll("MonitoringStopped", cmd.ToCamelCaseJson());
@@ -191,7 +191,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             if (resultFromRtu.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
             {
-                var username = _clientsCollection.GetClientStation(dto.ClientIp)?.UserName;
+                var username = _clientsCollection.GetClientByClientIp(dto.ClientIp)?.UserName;
 
                 var cmd = new ChangeMonitoringSettings
                 {

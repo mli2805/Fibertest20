@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Caliburn.Micro;
@@ -110,21 +109,18 @@ namespace Iit.Fibertest.Client
             TryClose();
         }
 
-        public SelectedMeasParams GetSelectedParameters()
+        public List<MeasParam> GetSelectedParameters()
         {
-            var result = new SelectedMeasParams
+            var result = new List<MeasParam>
             {
-                MeasParams = new List<Tuple<ServiceFunctionFirstParam, int>>
-                {
-                    new Tuple<ServiceFunctionFirstParam, int>(ServiceFunctionFirstParam.Unit, Model.Units.IndexOf(Model.SelectedUnit)),
-                    new Tuple<ServiceFunctionFirstParam, int>(ServiceFunctionFirstParam.Bc, (int) (Model.BackscatteredCoefficient * 100)),
-                    new Tuple<ServiceFunctionFirstParam, int>(ServiceFunctionFirstParam.Ri, (int) (Model.RefractiveIndex * 100000)),
-                    new Tuple<ServiceFunctionFirstParam, int>(ServiceFunctionFirstParam.Lmax, Model.Distances.IndexOf(Model.SelectedDistance)),
-                    new Tuple<ServiceFunctionFirstParam, int>(ServiceFunctionFirstParam.Res, Model.Resolutions.IndexOf(Model.SelectedResolution)),
-                    new Tuple<ServiceFunctionFirstParam, int>(ServiceFunctionFirstParam.Pulse, Model.PulseDurations.IndexOf(Model.SelectedPulseDuration)),
-                    new Tuple<ServiceFunctionFirstParam, int>(ServiceFunctionFirstParam.IsTime, 1),
-                    new Tuple<ServiceFunctionFirstParam, int>(ServiceFunctionFirstParam.Time, Model.MeasurementTime.IndexOf(Model.SelectedMeasurementTime)),
-                }
+                    new MeasParam{Param = ServiceFunctionFirstParam.Unit, Value = Model.Units.IndexOf(Model.SelectedUnit)},
+                    new MeasParam{Param = ServiceFunctionFirstParam.Bc, Value = (int) (Model.BackscatteredCoefficient * 100)},
+                    new MeasParam{Param = ServiceFunctionFirstParam.Ri, Value = (int) (Model.RefractiveIndex * 100000)},
+                    new MeasParam{Param = ServiceFunctionFirstParam.Lmax, Value = Model.Distances.IndexOf(Model.SelectedDistance)},
+                    new MeasParam{Param = ServiceFunctionFirstParam.Res, Value = Model.Resolutions.IndexOf(Model.SelectedResolution)},
+                    new MeasParam{Param = ServiceFunctionFirstParam.Pulse, Value = Model.PulseDurations.IndexOf(Model.SelectedPulseDuration)},
+                    new MeasParam{Param = ServiceFunctionFirstParam.IsTime, Value = 1},
+                    new MeasParam{Param = ServiceFunctionFirstParam.Time,Value =  Model.MeasurementTime.IndexOf(Model.SelectedMeasurementTime)},
             };
             return result;
         }
