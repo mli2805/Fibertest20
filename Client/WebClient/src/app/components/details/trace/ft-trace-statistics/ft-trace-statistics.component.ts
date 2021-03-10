@@ -124,19 +124,8 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
     );
   }
 
-   showTraceState() {
-    const dict = {
-      type: "fileId",
-      traceId: null,
-      fileId: this.contextMenu.menuData.row.sorFileId,
-    };
-    sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
-
-    // this.router.navigate(["/ft-main-nav/trace-state"]);
-    const url = this.router.serializeUrl(
-      this.router.createUrlTree(["/trace-state"])
-    );
-    window.open(url, "_blank");
+  showTraceState() {
+    this.router.navigate(["/ft-main-nav/trace-state"]);
   }
 
   getTraceStateColor(traceState: FiberState, baseRefType: BaseRefType) {

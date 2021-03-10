@@ -67,6 +67,7 @@ const routes: Routes = [
 
       { path: "trace-information/:id", component: FtTraceInformationComponent },
       { path: "assign-base/:id", component: FtAssignBaseComponent },
+      { path: "trace-state", component: FtTraceStateComponent },
       { path: "trace-statistics/:id", component: FtTraceStatisticsComponent },
       { path: "trace-landmarks/:id", component: FtTraceLandmarksComponent },
 
@@ -87,7 +88,6 @@ const routes: Routes = [
 
   { path: "sor-viewer", component: SorViewerComponent },
   { path: "rfts-events/:id", component: FtRftsEventsComponent },
-  { path: "trace-state", component: FtTraceStateComponent },
   { path: "", redirectTo: "/ft-main-nav/login", pathMatch: "full" },
   { path: "**", component: PageNotFoundComponent },
 ];

@@ -59,17 +59,8 @@ export class FtAttachedLineComponent implements OnInit {
     if (this.trace.state === FiberState.Unknown) {
       return;
     }
-    const dict = {
-      type: "traceId",
-      traceId: this.trace.traceId,
-      fileId: null,
-    };
-    sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
-    // this.router.navigate(["/ft-main-nav/trace-state"]);
-    const url = this.router.serializeUrl(
-      this.router.createUrlTree(["/trace-state"])
-    );
-    window.open(url, "_blank");
+
+    this.router.navigate(["/ft-main-nav/trace-state"]);
   }
 
   displayStatistics() {

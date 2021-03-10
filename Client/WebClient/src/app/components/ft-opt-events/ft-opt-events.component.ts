@@ -183,18 +183,7 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
   }
 
   showTraceState() {
-    const dict = {
-      type: "fileId",
-      traceId: null,
-      fileId: this.contextMenu.menuData.row.eventId,
-    };
-    sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
-
-    // this.router.navigate(["/ft-main-nav/trace-state"]);
-    const url = this.router.serializeUrl(
-      this.router.createUrlTree(["/trace-state"])
-    );
-    window.open(url, "_blank");
+    this.router.navigate(["/ft-main-nav/trace-state"]);
   }
 
   getTraceStateColor(traceState: FiberState, baseRefType: BaseRefType) {
