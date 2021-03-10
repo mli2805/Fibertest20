@@ -16,13 +16,11 @@ export class FtRtuInformationComponent implements OnInit {
     private oneApiService: OneApiService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
-    this.oneApiService
+    this.vm = (await this.oneApiService
       .getRequest(`rtu/information/${id}`)
-      .subscribe((res: RtuInformationDto) => {
-        console.log("rtu information received");
-        this.vm = res;
-      });
+      .toPromise()) as RtuInformationDto;
+    console.log("rtu information received");
   }
 }

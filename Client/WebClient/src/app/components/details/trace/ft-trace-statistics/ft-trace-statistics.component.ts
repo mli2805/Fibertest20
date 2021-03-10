@@ -41,21 +41,20 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
     private oneApiService: OneApiService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
     const params = {
       pageNumber: "0",
       pageSize: "13",
     };
 
-    this.oneApiService
+    this.vm = (await this.oneApiService
       .getRequest(`trace/statistics/${id}`, params)
-      .subscribe((res: TraceStatisticsDto) => {
-        console.log("trace statistics initial page received");
-        this.vm = res;
-        this.fullCount = res.measFullCount;
-        this.isNotLoaded = false;
-      });
+      .toPromise()) as TraceStatisticsDto;
+
+    console.log("trace statistics initial page received");
+    this.fullCount = this.vm.measFullCount;
+    this.isNotLoaded = false;
   }
 
   ngAfterViewInit() {
@@ -68,7 +67,7 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
       .subscribe();
   }
 
-  loadPage() {
+  async loadPage() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
 
     const params = {
@@ -76,14 +75,14 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
       pageSize: this.paginator.pageSize.toString(),
     };
 
-    this.oneApiService
+    const res = (await this.oneApiService
       .getRequest(`trace/statistics/${id}`, params)
-      .subscribe((res: TraceStatisticsDto) => {
-        console.log("trace statistics page received");
-        this.vm = res;
-        this.fullCount = res.measFullCount;
-        this.isNotLoaded = false;
-      });
+      .toPromise()) as TraceStatisticsDto;
+
+    console.log("trace statistics page received");
+    this.vm = res;
+    this.fullCount = res.measFullCount;
+    this.isNotLoaded = false;
   }
 
   onContextMenu(event: MouseEvent, row: MeasurementDto) {

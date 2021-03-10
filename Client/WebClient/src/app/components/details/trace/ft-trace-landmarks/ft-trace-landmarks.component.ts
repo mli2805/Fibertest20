@@ -40,17 +40,16 @@ export class FtTraceLandmarksComponent implements OnInit {
     private ts: TranslateService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.isSpinnerVisible = true;
     const id = this.activeRoute.snapshot.paramMap.get("id");
-    this.oneApiService
+    const res = (await this.oneApiService
       .getRequest(`trace/landmarks/${id}`)
-      .subscribe((res: TraceLandmarksDto) => {
-        this.isSpinnerVisible = false;
-        console.log(res);
-        this.requestResult = res;
-        this.applyRequestResultToView();
-      });
+      .toPromise()) as TraceLandmarksDto;
+    this.isSpinnerVisible = false;
+    console.log(res);
+    this.requestResult = res;
+    this.applyRequestResultToView();
   }
 
   applyRequestResultToView() {

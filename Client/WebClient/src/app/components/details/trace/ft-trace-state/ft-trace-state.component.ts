@@ -36,7 +36,7 @@ export class FtTraceStateComponent implements OnInit {
     private fiberStatePipe: FiberStatePipe
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     const ess = Object.keys(EventStatus)
       .filter((e) => !isNaN(+e) && +e > -9)
       .map((e) => {
@@ -48,32 +48,30 @@ export class FtTraceStateComponent implements OnInit {
     const params = JSON.parse(sessionStorage.getItem("traceStateParams"));
     console.log(params);
 
-    this.oneApiService
+    const res = (await this.oneApiService
       .getRequest(`trace/state`, params)
-      .subscribe((res: TraceStateDto) => {
-        console.log(res);
-        this.vm = res;
-        this.isAccidentsVisible =
-          res.traceState !== FiberState.Ok &&
-          res.traceState !== FiberState.NoFiber;
-        this.isEventStatusVisible =
-          res.eventStatus > EventStatus.EventButNotAnAccident;
-        this.selectedEventStatus = res.eventStatus;
+      .toPromise()) as TraceStateDto;
+    console.log(res);
+    this.vm = res;
+    this.isAccidentsVisible =
+      res.traceState !== FiberState.Ok && res.traceState !== FiberState.NoFiber;
+    this.isEventStatusVisible =
+      res.eventStatus > EventStatus.EventButNotAnAccident;
+    this.selectedEventStatus = res.eventStatus;
 
-        for (const accidentLine of res.accidents) {
-          accidentLine.caption = `${
-            accidentLine.number
-          } ${this.fiberStatePipe.transform(
-            accidentLine.accidentSeriousness
-          )} (${accidentLine.accidentTypeLetter}) ${
-            accidentLine.accidentPlace === AccidentPlace.InNode
-              ? this.ts.instant("SID_in_the_node")
-              : this.ts.instant("SID_between_nodes")
-          }`;
-        }
+    for (const accidentLine of res.accidents) {
+      accidentLine.caption = `${
+        accidentLine.number
+      } ${this.fiberStatePipe.transform(accidentLine.accidentSeriousness)} (${
+        accidentLine.accidentTypeLetter
+      }) ${
+        accidentLine.accidentPlace === AccidentPlace.InNode
+          ? this.ts.instant("SID_in_the_node")
+          : this.ts.instant("SID_between_nodes")
+      }`;
+    }
 
-        this.isSpinnerVisible = false;
-      });
+    this.isSpinnerVisible = false;
 
     this.signalRService.measurementUpdatedEmitter.subscribe(
       (signal: UpdateMeasurementDto) => {
@@ -101,16 +99,15 @@ export class FtTraceStateComponent implements OnInit {
     SorFileManager.ShowRftsEvents(this.router, this.vm.sorFileId);
   }
 
-  save() {
+  async save() {
     this.isSpinnerVisible = true;
     this.isButtonDisabled = true;
 
     const dto = this.prepareDto();
-    this.oneApiService
+    const res = (await this.oneApiService
       .postRequest("measurement/update", dto)
-      .subscribe((res: string) => {
-        console.log(res);
-      });
+      .toPromise()) as string;
+    console.log(res);
 
     this.isSpinnerVisible = false;
     this.isButtonDisabled = false;

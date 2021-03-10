@@ -105,45 +105,9 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // как передать this внутрь функции тика таймера?
-
-    // setTimeout(function tick() {
-    //   this.sendHeartbeat();
-    //   setTimeout(tick, 3000);
-    // }, 3000);
-
     this.timer = setInterval(() => {
       this.sendHeartbeat();
     }, 7000);
-
-    // const delay = 7000;
-    // let flag = true;
-    // let timerId = setTimeout(async function heartbeat() {
-    //   try {
-    //     const user = sessionStorage.getItem("currentUser");
-    //     if (user === null) {
-    //       console.log("user has not logged yet");
-    //     } else {
-    //       const currentUser = JSON.parse(sessionStorage.currentUser);
-    //       const res = (await this.oneApiService
-    //         .getRequest(`authentication/heartbeat/${currentUser.connectionId}`)
-    //         .toPromise()) as RequestAnswer;
-    //       if (res.returnCode !== ReturnCode.Ok) {
-    //         console.log(`Heartbeat: ${res.errorMessage}`);
-    //         flag = false;
-    //         await this.exit();
-    //       }
-    //     }
-    //   } catch (error) {
-    //     console.log(`can't send heartbeat: ${error}`);
-    //     flag = false;
-    //     await this.exit();
-    //   }
-
-    //   if (flag) {
-    //     timerId = setTimeout(heartbeat, delay);
-    //   }
-    // }, delay);
   }
 
   async sendHeartbeat() {
@@ -259,7 +223,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
         "meas",
         new Date()
       );
-    };
+    }
   }
 
   async onServerAsksExit(signal: ServerAsksClientToExitDto) {

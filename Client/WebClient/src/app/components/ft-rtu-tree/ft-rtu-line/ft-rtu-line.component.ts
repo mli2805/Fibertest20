@@ -10,9 +10,7 @@ import {
   RtuTreeEvent,
 } from "../ft-rtu-tree-event-service";
 import { OneApiService } from "src/app/api/one.service";
-import {
-  RtuMonitoringSettingsDto,
-} from "src/app/models/dtos/rtu/rtuMonitoringSettingsDto";
+import { RtuMonitoringSettingsDto } from "src/app/models/dtos/rtu/rtuMonitoringSettingsDto";
 import { PortMonitoringMode } from "src/app/models/enums/portMonitoringMode";
 import {
   FtMessageBox,
@@ -73,19 +71,18 @@ export class FtRtuLineComponent implements OnInit {
     this.router.navigate(["/ft-main-nav/rtu-monitoring-settings", rtu.rtuId]);
   }
 
-  manualMode(rtu: RtuDto) {
+  async manualMode(rtu: RtuDto) {
     this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.showSpinner);
     const id = rtu.rtuId;
     console.log("manual pressed id=", id);
-    this.oneApiService
+    const res = (await this.oneApiService
       .postRequest(`rtu/stop-monitoring/${id}`, rtu.rtuMaker)
-      .subscribe((res: boolean) => {
-        this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.fetchTree);
-        console.log(res);
-        if (res === true) {
-          this.router.navigate(["/ft-main-nav/rtu-tree"]);
-        }
-      });
+      .toPromise()) as boolean;
+
+    this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.fetchTree);
+    if (res === true) {
+      this.router.navigate(["/ft-main-nav/rtu-tree"]);
+    }
   }
 
   async automaticMode(rtu: RtuDto) {

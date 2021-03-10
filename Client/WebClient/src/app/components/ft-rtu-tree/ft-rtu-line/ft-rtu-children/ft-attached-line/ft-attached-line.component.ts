@@ -71,15 +71,14 @@ export class FtAttachedLineComponent implements OnInit {
     this.router.navigate(["/ft-main-nav/trace-landmarks", this.trace.traceId]);
   }
 
-  detachTrace() {
+  async detachTrace() {
     this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.showSpinner);
-    this.oneApiService
+    await this.oneApiService
       .postRequest(`port/detach-trace/${this.trace.traceId}`, null)
-      .subscribe(() => {
-        console.log(`detach trace: done`);
-        // server will send fetch signal
-        // this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.fetchTree);
-      });
+      .toPromise();
+    console.log(`detach trace: done`);
+    // server will send fetch signal
+    // this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.fetchTree);
   }
 
   outOfTurnMeasurement() {

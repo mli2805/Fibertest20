@@ -33,7 +33,7 @@ export class FtPortAttachTraceComponent implements OnInit {
     }
   }
 
-  attachTrace() {
+  async attachTrace() {
     this.isSpinnerVisible = true;
     this.isButtonDisabled = true;
     const trace: TraceDto = this.traceList.find(
@@ -44,18 +44,17 @@ export class FtPortAttachTraceComponent implements OnInit {
     cmd.TraceId = trace.traceId;
     cmd.OtauPortDto = params.selectedPort;
     console.log(cmd);
-    this.oneApiService
+    const res = (await this.oneApiService
       .postRequest("port/attach-trace", cmd)
-      .subscribe((res: RequestAnswer) => {
-        this.isSpinnerVisible = false;
-        this.isButtonDisabled = false;
-        console.log(res);
-        if (res.returnCode === ReturnCode.Ok) {
-          this.router.navigate(["/ft-main-nav/rtu-tree"]);
-        } else {
-          this.resultMessage = res.errorMessage;
-        }
-      });
+      .toPromise()) as RequestAnswer;
+    this.isSpinnerVisible = false;
+    this.isButtonDisabled = false;
+    console.log(res);
+    if (res.returnCode === ReturnCode.Ok) {
+      this.router.navigate(["/ft-main-nav/rtu-tree"]);
+    } else {
+      this.resultMessage = res.errorMessage;
+    }
   }
 
   cancel() {

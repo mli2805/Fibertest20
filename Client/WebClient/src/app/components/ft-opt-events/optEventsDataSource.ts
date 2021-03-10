@@ -28,7 +28,7 @@ export class OptEventsDataSource implements DataSource<OptEventDto> {
     this.fullCountSubject.complete();
   }
 
-  loadOptEvents(
+  async loadOptEvents(
     isCurrentEvents = "true",
     filterRtu = "",
     filterTrace = "",
@@ -47,18 +47,17 @@ export class OptEventsDataSource implements DataSource<OptEventDto> {
       pageSize: pageSize.toString(),
     };
 
-    this.oneApiService
+    const res = (await this.oneApiService
       .getRequest("tables/getOpticalsPage", params)
       .pipe(
         catchError(() => of([])),
         finalize(() => this.loadingSubject.next(false))
       )
-      .subscribe((res: OptEventRequestDto) => {
-        console.log(
-          `${res.eventPortion.length} of ${res.fullCount} optical event(s) received`
-        );
-        this.optEventsSubject.next(res.eventPortion);
-        this.fullCountSubject.next(res.fullCount);
-      });
+      .toPromise()) as OptEventRequestDto;
+    console.log(
+      `${res.eventPortion.length} of ${res.fullCount} optical event(s) received`
+    );
+    this.optEventsSubject.next(res.eventPortion);
+    this.fullCountSubject.next(res.fullCount);
   }
 }

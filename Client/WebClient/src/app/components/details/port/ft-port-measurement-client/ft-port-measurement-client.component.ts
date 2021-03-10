@@ -171,7 +171,7 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     return params;
   }
 
-  measure() {
+  async measure() {
     this.isSpinnerVisible = true;
     this.isButtonDisabled = true;
     this.message = this.ts.instant("SID_Sending_command__Wait_please___");
@@ -185,19 +185,18 @@ export class FtPortMeasurementClientComponent implements OnInit, OnDestroy {
     dto.otauPortDto = params.otauPortDto;
     dto.selectedMeasParams = this.getSelectedParameters();
     console.log(dto);
-    this.oneApiService
+    const res = (await this.oneApiService
       .postRequest("measurement/measurement-client", dto)
-      .subscribe((res: RequestAnswer) => {
-        if (res.returnCode !== ReturnCode.Ok) {
-          this.message = res.errorMessage;
-          this.isSpinnerVisible = false;
-          this.isButtonDisabled = false;
-        } else {
-          this.message = this.ts.instant(
-            "SID_Measurement__Client__in_progress__Please_wait___"
-          );
-        }
-      });
+      .toPromise()) as RequestAnswer;
+    if (res.returnCode !== ReturnCode.Ok) {
+      this.message = res.errorMessage;
+      this.isSpinnerVisible = false;
+      this.isButtonDisabled = false;
+    } else {
+      this.message = this.ts.instant(
+        "SID_Measurement__Client__in_progress__Please_wait___"
+      );
+    }
   }
 
   close() {

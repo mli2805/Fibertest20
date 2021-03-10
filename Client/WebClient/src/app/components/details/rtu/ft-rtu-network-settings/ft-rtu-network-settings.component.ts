@@ -30,15 +30,13 @@ export class FtRtuNetworkSettingsComponent implements OnInit {
     this.isButtonDisabled = false;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
-    this.oneApiService
+    this.vm = (await this.oneApiService
       .getRequest(`rtu/network-settings/${id}`)
-      .subscribe((res: RtuNetworkSettingsDto) => {
-        console.log("rtu network settings received");
-        this.vm = res;
-        this.isSpinnerVisible = false;
-      });
+      .toPromise()) as RtuNetworkSettingsDto;
+    console.log("rtu network settings received");
+    this.isSpinnerVisible = false;
   }
 
   processInitializationResult(resultDto: RtuInitializedWebDto) {
@@ -60,14 +58,13 @@ export class FtRtuNetworkSettingsComponent implements OnInit {
     this.setStandardView(resultDto);
   }
 
-  initializeRtu() {
+  async initializeRtu() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
     this.setRequestView();
-    this.oneApiService
+    const res = (await this.oneApiService
       .postRequest(`rtu/initialize/${id}`, null)
-      .subscribe((res: RtuInitializedWebDto) =>
-        this.processInitializationResult(res)
-      );
+      .toPromise()) as RtuInitializedWebDto;
+    this.processInitializationResult(res);
   }
 
   setStandardView(resultDto: RtuInitializedWebDto) {

@@ -19,6 +19,8 @@ import { Utils } from "src/app/Utils/utils";
   styleUrls: ["./ft-login.component.css"],
 })
 export class FtLoginComponent implements OnInit {
+  user: string;
+  pw: string;
   resultMessage: string;
   public isSpinnerVisible = false;
 
@@ -31,21 +33,17 @@ export class FtLoginComponent implements OnInit {
     private httpClient: HttpClient,
 
     private returnCodePipe: ReturnCodePipe
-  ) {
+  ) {}
+
+  async ngOnInit() {
     this.isSpinnerVisible = false;
 
-    this.getSettings().subscribe((settings) => {
-      console.log("Settings are: ", settings);
-      sessionStorage.setItem("settings", JSON.stringify(settings));
-    });
+    const settings = await this.getSettings().toPromise();
+    console.log("Settings are: ", settings);
+    sessionStorage.setItem("settings", JSON.stringify(settings));
   }
 
-  user: string;
-  pw: string;
-
-  ngOnInit() {}
-
-  public getSettings(): Observable<any> {
+  private getSettings(): Observable<any> {
     const uuid = Utils.generateUUID();
     return this.httpClient.get(`./assets/settings.json?${uuid}`);
   }

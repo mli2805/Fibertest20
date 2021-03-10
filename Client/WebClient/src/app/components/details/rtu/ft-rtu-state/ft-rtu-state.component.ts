@@ -48,25 +48,25 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
     this.measurementAddedSubscription.unsubscribe();
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
 
     setInterval(() => {}, 1000);
 
-    this.oneApiService
+    const res = (await this.oneApiService
       .getRequest(`rtu/state/${id}`)
-      .subscribe((res: RtuStateDto) => {
-        Object.assign(this.vm, res);
-        if (this.vm.monitoringMode === MonitoringMode.Off) {
-          this.currentMonitoringStepSubject.next(
-            this.ts.instant("SID_No_measurement")
-          );
-        } else {
-          this.currentMonitoringStepSubject.next(
-            this.ts.instant("SID_Waiting_for_data")
-          );
-        }
-      });
+      .toPromise()) as RtuStateDto;
+
+    Object.assign(this.vm, res);
+    if (this.vm.monitoringMode === MonitoringMode.Off) {
+      this.currentMonitoringStepSubject.next(
+        this.ts.instant("SID_No_measurement")
+      );
+    } else {
+      this.currentMonitoringStepSubject.next(
+        this.ts.instant("SID_Waiting_for_data")
+      );
+    }
 
     this.monitoringStepSubscription = this.signalRService.monitoringStepNotifier.subscribe(
       (signal: any) => {

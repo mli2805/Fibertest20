@@ -38,7 +38,7 @@ export class FtPortAttachOtauComponent implements OnInit {
     this.mainPort = params.selectedPort.opticalPort;
   }
 
-  attachOtau() {
+  async attachOtau() {
     this.isButtonDisabled = true;
     this.isSpinnerVisible = true;
     this.resultMessage = this.ts.instant("SID_Please__wait_");
@@ -51,22 +51,19 @@ export class FtPortAttachOtauComponent implements OnInit {
     cmd.NetAddress.IsAddressSetAsIp = true;
     cmd.NetAddress.Port = 11834;
     console.log(cmd);
-    this.oneApiService
+    const res = (await this.oneApiService
       .postRequest("port/attach-otau", cmd)
-      .subscribe((res: OtauAttachedDto) => {
-        console.log(res);
-        if (res.isAttached) {
-          this.resultMessage = this.ts.instant("SID_Successful_");
-          this.serial = res.serial;
-          this.portCount = res.portCount;
-          this.isButtonDisabled = false;
-          this.isSpinnerVisible = false;
-        } else {
-          this.resultMessage = this.ts.instant("SID_Attach_OTAU_error_");
-          this.isButtonDisabled = false;
-          this.isSpinnerVisible = false;
-        }
-      });
+      .toPromise()) as OtauAttachedDto;
+    console.log(res);
+    if (res.isAttached) {
+      this.resultMessage = this.ts.instant("SID_Successful_");
+      this.serial = res.serial;
+      this.portCount = res.portCount;
+    } else {
+      this.resultMessage = this.ts.instant("SID_Attach_OTAU_error_");
+    }
+    this.isButtonDisabled = false;
+    this.isSpinnerVisible = false;
   }
 
   cancel() {

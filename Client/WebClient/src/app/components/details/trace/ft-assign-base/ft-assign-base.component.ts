@@ -48,43 +48,41 @@ export class FtAssignBaseComponent implements OnInit {
     this.savedInDb = this.ts.instant("SID_Saved_in_DB");
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const params = JSON.parse(sessionStorage.getItem("assignBaseParams"));
     this.trace = params.trace;
-    this.oneApiService
+    const res = (await this.oneApiService
       .getRequest(`trace/assign-base-params/${this.trace.traceId}`)
-      .subscribe((res: AssignBaseParamsDto) => {
-        this.params = res;
-        this.fillTheForm(res);
-      });
+      .toPromise()) as AssignBaseParamsDto;
+    this.params = res;
+    this.fillTheForm(res);
   }
 
-  save() {
+  async save() {
     this.isSpinnerVisible = true;
     this.isButtonDisabled = true;
 
     this.prepareDto();
     if (this.assignDto.baseRefs.length > 0) {
-      this.oneApiService
+      const res = (await this.oneApiService
         .postFile(`trace/assign-base-refs`, this.assignDto)
-        .subscribe((res: RequestAnswer) => {
-          console.log(res);
-          if (res.returnCode === ReturnCode.BaseRefAssignedSuccessfully) {
-            console.log("base refs assigned successfully!");
-          } else {
-            console.log("Error: ", res.errorMessage);
-            this.message = this.returnCodePipe.transform(res.returnCode);
-            if (res.errorMessage != null) {
-              this.message += "<br/>" + res.errorMessage;
-            }
-            this.isSpinnerVisible = false;
-            this.isButtonDisabled = false;
-            return;
-          }
-          this.isSpinnerVisible = false;
-          this.isButtonDisabled = false;
-          this.router.navigate(["/ft-main-nav/rtu-tree"]);
-        });
+        .toPromise()) as RequestAnswer;
+      console.log(res);
+      if (res.returnCode === ReturnCode.BaseRefAssignedSuccessfully) {
+        console.log("base refs assigned successfully!");
+      } else {
+        console.log("Error: ", res.errorMessage);
+        this.message = this.returnCodePipe.transform(res.returnCode);
+        if (res.errorMessage != null) {
+          this.message += "<br/>" + res.errorMessage;
+        }
+        this.isSpinnerVisible = false;
+        this.isButtonDisabled = false;
+        return;
+      }
+      this.isSpinnerVisible = false;
+      this.isButtonDisabled = false;
+      this.router.navigate(["/ft-main-nav/rtu-tree"]);
     } else {
       this.router.navigate(["/ft-main-nav/rtu-tree"]);
     }

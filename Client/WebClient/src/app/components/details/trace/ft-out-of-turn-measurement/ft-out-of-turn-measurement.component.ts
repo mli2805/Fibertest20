@@ -8,6 +8,7 @@ import { ReturnCode } from "src/app/models/enums/returnCode";
 import { SignalrService } from "src/app/api/signalr.service";
 import { TraceStateDto } from "src/app/models/dtos/trace/traceStateDto";
 import { Router } from "@angular/router";
+import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 
 @Component({
   selector: "ft-out-of-turn-measurement",
@@ -48,25 +49,15 @@ export class FtOutOfTurnMeasurementComponent implements OnInit {
     this.signalRService.measurementAddedEmitter.subscribe(
       (signal: TraceStateDto) => {
         console.log(signal);
-        const dict = {
-          type: "traceId",
-          traceId: this.params.trace.traceId,
-          fileId: null,
-        };
-        sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
         this.isSpinnerVisible = false;
-        // this.router.navigate(["/ft-main-nav/trace-state"]);
-        const url = this.router.serializeUrl(
-          this.router.createUrlTree(["/trace-state"])
-        );
-        window.open(url, "_blank");
+        this.router.navigate(["/ft-main-nav/trace-state"]);
       }
     );
 
     this.sendCommand(this.params);
   }
 
-  private sendCommand(params: any) {
+  private async sendCommand(params: any) {
     this.vm.traceTitle = params.trace.title;
     this.vm.port = params.trace.otauPort.opticalPort;
     this.vm.rtuTitle = params.rtu.title;
@@ -78,17 +69,16 @@ export class FtOutOfTurnMeasurementComponent implements OnInit {
     dto.portWithTraceDto = new PortWithTraceDto();
     dto.portWithTraceDto.traceId = params.trace.traceId;
     dto.portWithTraceDto.otauPort = params.trace.otauPort;
-    this.oneApiService
+    const res = (await this.oneApiService
       .postRequest("measurement/out-of-turn-measurement", dto)
-      .subscribe((res: any) => {
-        console.log(res);
-        if (res.returnCode !== ReturnCode.Ok) {
-          this.message = res.errorMessage;
-          this.isSpinnerVisible = false;
-        } else {
-          this.message = this.ts.instant("SID_Precise_monitoring_in_progress_");
-        }
-      });
+      .toPromise()) as RequestAnswer;
+    console.log(res);
+    if (res.returnCode !== ReturnCode.Ok) {
+      this.message = res.errorMessage;
+      this.isSpinnerVisible = false;
+    } else {
+      this.message = this.ts.instant("SID_Precise_monitoring_in_progress_");
+    }
   }
 
   @HostListener("window:popstate", ["$event"])

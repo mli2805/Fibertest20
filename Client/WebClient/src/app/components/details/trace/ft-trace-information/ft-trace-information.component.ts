@@ -19,19 +19,18 @@ export class FtTraceInformationComponent implements OnInit {
     private ts: TranslateService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.isSpinnerVisible = true;
     const id = this.activeRoute.snapshot.paramMap.get("id");
-    this.oneApiService
+    const res = (await this.oneApiService
       .getRequest(`trace/information/${id}`)
-      .subscribe((res: TraceInformationDto) => {
-        this.isSpinnerVisible = false;
-        console.log(res);
-        this.vm = res;
-        this.vm.header.port =
-          res.header.port === "-1"
-            ? this.ts.instant("SID_not_attached")
-            : res.header.port;
-      });
+      .toPromise()) as TraceInformationDto;
+    this.isSpinnerVisible = false;
+    console.log(res);
+    this.vm = res;
+    this.vm.header.port =
+      res.header.port === "-1"
+        ? this.ts.instant("SID_not_attached")
+        : res.header.port;
   }
 }

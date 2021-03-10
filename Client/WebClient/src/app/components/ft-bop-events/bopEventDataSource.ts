@@ -27,7 +27,7 @@ export class BopEventsDataSource implements DataSource<BopEventDto> {
     this.loadingSubject.complete();
   }
 
-  loadBopEvents(
+  async loadBopEvents(
     isCurrentEvents = "true",
     filterRtu = "",
     sortOrder = "asc",
@@ -44,19 +44,18 @@ export class BopEventsDataSource implements DataSource<BopEventDto> {
       pageSize: pageSize.toString(),
     };
 
-    this.oneApiService
+    const res = (await this.oneApiService
       .getRequest("tables/getBopsPage", params)
       .pipe(
         catchError(() => of([])),
         finalize(() => this.loadingSubject.next(false))
       )
-      .subscribe((res: BopEventRequestDto) => {
-        console.log(
-          `${res.eventPortion.length} of ${res.fullCount} Bop event(s) received`
-        );
-        console.log(res);
-        this.BopEventsSubject.next(res.eventPortion);
-        this.fullCountSubject.next(res.fullCount);
-      });
+      .toPromise()) as BopEventRequestDto;
+    console.log(
+      `${res.eventPortion.length} of ${res.fullCount} Bop event(s) received`
+    );
+    console.log(res);
+    this.BopEventsSubject.next(res.eventPortion);
+    this.fullCountSubject.next(res.fullCount);
   }
 }

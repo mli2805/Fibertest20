@@ -51,7 +51,7 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
     this.isButtonDisabled = false;
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     const frs = Object.keys(Frequency)
       .filter((e) => !isNaN(+e))
       .map((e) => {
@@ -67,23 +67,22 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
     this.itemsSourceMeas = frm;
 
     const id = this.activeRoute.snapshot.paramMap.get("id");
-    this.oneApiService
+    const res = (await this.oneApiService
       .getRequest(`rtu/monitoring-settings/${id}`)
-      .subscribe((res: RtuMonitoringSettingsDto) => {
-        console.log("rtu monitoring settings received");
-        this.vm = res;
+      .toPromise()) as RtuMonitoringSettingsDto;
+    console.log("rtu monitoring settings received");
+    this.vm = res;
 
-        this.selectedPreciseMeas = res.preciseMeas;
-        this.selectedPreciseSave = res.preciseSave;
-        this.selectedFastMeas = "pp";
-        this.selectedFastSave = res.fastSave;
+    this.selectedPreciseMeas = res.preciseMeas;
+    this.selectedPreciseSave = res.preciseSave;
+    this.selectedFastMeas = "pp";
+    this.selectedFastSave = res.fastSave;
 
-        this.monitoringMode = res.monitoringMode === MonitoringMode.On ? 0 : 1;
-        this.isSpinnerVisible = false;
-      });
+    this.monitoringMode = res.monitoringMode === MonitoringMode.On ? 0 : 1;
+    this.isSpinnerVisible = false;
   }
 
-  onButtonClicked() {
+  async onButtonClicked() {
     if (this.monitoringMode === 0 && this.portTableComponent.cycleTime === 0) {
       FtMessageBox.showAndGoAlong(
         this.matDialog,
@@ -94,9 +93,6 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
         false,
         MessageBoxStyle.Full,
         "600px"
-        // ).subscribe((res) => {
-        //   console.log(res);
-        // });
       );
       return;
     }
@@ -126,17 +122,14 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
     console.log(dto);
 
     const id = this.activeRoute.snapshot.paramMap.get("id");
-    this.oneApiService
+    const res = (await this.oneApiService
       .postRequest(`rtu/monitoring-settings/${id}`, dto)
-      .subscribe((res: RequestAnswer) => {
-        console.log(res);
-        if (
-          res.returnCode === ReturnCode.MonitoringSettingsAppliedSuccessfully
-        ) {
-          console.log("Successfully!");
-        }
-        this.standardView();
-      });
+      .toPromise()) as RequestAnswer;
+    console.log(res);
+    if (res.returnCode === ReturnCode.MonitoringSettingsAppliedSuccessfully) {
+      console.log("Successfully!");
+    }
+    this.standardView();
   }
 
   whileRequestView() {
