@@ -88,13 +88,10 @@ namespace Iit.Fibertest.DataCenterCore
 
             try
             {
-                var client = !string.IsNullOrEmpty(result.ConnectionId)
-                    ? _clientsCollection.GetClientByConnectionId(result.ConnectionId)
-                    : _clientsCollection.GetClientByClientIp(result.ClientIp);
-
+                var client =  _clientsCollection.GetClientByConnectionId(result.ConnectionId);
                 if (client == null)
                 {
-                    _logFile.AppendLine($@"TransmitClientMeasurementResult: client {result.ConnectionId} / {result.ClientIp} not found");
+                    _logFile.AppendLine($@"TransmitClientMeasurementResult: client {result.ConnectionId} not found");
                     return;
                 }
 
