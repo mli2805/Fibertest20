@@ -193,7 +193,7 @@ namespace Iit.Fibertest.RtuManagement
 
             var result = _otdrManager.MeasureWithBase(_cancellationTokenSource, baseBytes, _mainCharon.GetActiveChildCharon());
 
-            if (result == ReturnCode.MeasurementInterrupted)
+             if (result == ReturnCode.MeasurementInterrupted)
             {
                 IsMonitoringOn = false;
                 SendCurrentMonitoringStep(MonitoringCurrentStep.Interrupted);
@@ -213,6 +213,7 @@ namespace Iit.Fibertest.RtuManagement
             var buffer = _otdrManager.GetLastSorDataBuffer();
             _rtuLog.AppendLine($"Measurement result ({buffer.Length} bytes).");
 
+            // sometimes GetLastSorDataBuffer returns not full sor data, so
             // just to check whether OTDR still works and measurement is reliable
             if (!_otdrManager.InterOpWrapper.PrepareMeasurement(true))
             {
@@ -222,6 +223,9 @@ namespace Iit.Fibertest.RtuManagement
                 ReInitializeDlls();
                 return new MoniResult(){MeasurementResult = MeasurementResult.HardwareProblem};
             }
+            // PrepareMeasurement shows on led display Измерение Порт ХХ
+            // so to show Готово
+            // _mainCharon.ShowOnDisplayMessageReady();
 
             monitorigPort.SaveMeasBytes(baseRefType, buffer, SorType.Raw, _rtuLog); // for investigations purpose
 
