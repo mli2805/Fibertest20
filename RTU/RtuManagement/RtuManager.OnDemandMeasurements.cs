@@ -46,8 +46,6 @@ namespace Iit.Fibertest.RtuManagement
 
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start Measurement (Client).");
-            _rtuLog.AppendLine($"Lmax {dto.SelectedMeasParams.First(p=>p.Param == ServiceFunctionFirstParam.Lmax)}");
-
             var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, "192.168.88.101");
             // var res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
             var res = _otdrManager.ConnectOtdr(otdrAddress);
