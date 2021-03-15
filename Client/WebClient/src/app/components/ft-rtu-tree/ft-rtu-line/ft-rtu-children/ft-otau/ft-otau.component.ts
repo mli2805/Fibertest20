@@ -12,6 +12,7 @@ import { ReturnCode } from "src/app/models/enums/returnCode";
 import { UserDto } from "src/app/models/dtos/userDto";
 import { Role } from "src/app/models/enums/role";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
+import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 
 @Component({
   selector: "ft-otau",
@@ -47,7 +48,7 @@ export class FtOtauComponent implements OnInit {
     this.contextMenu.focus("mouse");
   }
 
-  removeOtau() {
+  async removeOtau() {
     this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.showSpinner);
     const detachOtauDto = new DetachOtauDto();
     detachOtauDto.rtuId = this.otau.rtuId;
@@ -55,16 +56,13 @@ export class FtOtauComponent implements OnInit {
     detachOtauDto.netAddress = this.otau.otauNetAddress;
     detachOtauDto.opticalPort = this.otau.port;
     console.log(detachOtauDto);
-    this.oneApiService
+    const res = await this.oneApiService
       .postRequest("port/detach-otau", detachOtauDto)
-      .subscribe((res: any) => {
-        console.log(res);
-        if (res.returnCode !== ReturnCode.OtauDetachedSuccesfully) {
-          alert("Error");
-        }
-        // server will send this signal
-        // this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.fetchTree);
-      });
+      .toPromise() as RequestAnswer;
+    console.log(res);
+    if (res.returnCode !== ReturnCode.OtauDetachedSuccesfully) {
+      alert("Error");
+    }
   }
 
   isRemoveOtauDisabled(): boolean {
