@@ -27,6 +27,9 @@ namespace Iit.Fibertest.WcfConnections
         Task<string> SendCommand(string json, string username, string clientIp);
 
         [OperationContract]
+        Task<bool> CompareEvent(CompareEventDto dto);
+
+        [OperationContract]
         Task<string[]> GetEvents(GetEventsDto dto);
 
         [OperationContract]
@@ -36,7 +39,7 @@ namespace Iit.Fibertest.WcfConnections
         Task<byte[]> GetSnapshotPortion(int portionOrdinal);
 
         // C2D
-     
+
         [OperationContract]
         Task<bool> CheckServerConnection(CheckServerConnectionDto dto);
 

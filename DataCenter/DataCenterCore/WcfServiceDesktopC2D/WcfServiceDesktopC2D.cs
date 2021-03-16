@@ -225,6 +225,11 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
+        public async Task<bool> CompareEvent(CompareEventDto dto)
+        {
+            return await Task.FromResult(_eventStoreService.CompareEvent(dto.Revision, dto.Timestamp));
+        }
+
         public async Task<string[]> GetEvents(GetEventsDto dto)
         {
             if (!_clientsCollection.RegisterHeartbeat(dto.ConnectionId)) return null;

@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public int SnapshotLastEvent { get; set; }
 
-       [DataMember]
+        [DataMember]
         public DateTime SnapshotLastDate { get; set; }
 
         [DataMember]

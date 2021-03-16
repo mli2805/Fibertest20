@@ -206,7 +206,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="EventSourcing\LocalDb\CacheParameters.cs" />
     <Compile Include="EventSourcing\LocalDb\EsSnapshot.cs" />
+    <Compile Include="EventSourcing\LocalDb\SqliteOperations.cs" />
     <Compile Include="EventSourcing\Rendering\LessThanRootRenderer.cs" />
     <Compile Include="EventSourcing\Rendering\OneRtuOrTraceRenderer.cs" />
     <Compile Include="EventSourcing\Rendering\RootRenderer.cs" />

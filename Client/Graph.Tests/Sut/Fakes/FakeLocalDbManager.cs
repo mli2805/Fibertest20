@@ -27,6 +27,11 @@ namespace Graph.Tests
             return Task.FromResult(1);
         }
 
+        public Task<CacheParameters> GetCacheParameters()
+        {
+            return Task.FromResult(new CacheParameters());
+        }
+
         public Task<string[]> LoadEvents(int lastEventInSnapshot)
         {
             return Task.FromResult(_localBase.Values.ToArray());

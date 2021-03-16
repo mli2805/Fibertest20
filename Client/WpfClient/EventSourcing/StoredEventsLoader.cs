@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
@@ -13,10 +14,16 @@ using NEventStore;
 
 namespace Iit.Fibertest.Client
 {
+    public class LoadingResult
+    {
+        public int Count;
+        public DateTime LastEventTimestamp;
+    }
     public class StoredEventsLoader
     {
         private static readonly JsonSerializerSettings JsonSerializerSettings =
-            new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All};
+            new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+        const string Header = @"Timestamp";
 
         private readonly IMyLog _logFile;
         private readonly ILocalDbManager _localDbManager;
@@ -38,7 +45,7 @@ namespace Iit.Fibertest.Client
 
         public StoredEventsLoader(IMyLog logFile, ILocalDbManager localDbManager, IWcfServiceInSuperClient c2SWcfManager,
             IWindowManager windowManager, IDispatcherProvider dispatcherProvider,
-            CommandLineParameters commandLineParameters, CurrentDatacenterParameters currentDatacenterParameters, 
+            CommandLineParameters commandLineParameters, CurrentDatacenterParameters currentDatacenterParameters,
             ServerConnectionLostViewModel serverConnectionLostViewModel, IWcfServiceDesktopC2D c2DWcfManager, CurrentUser currentUser,
             Model readModel, SnapshotsLoader snapshotsLoader,
             EventsOnTreeExecutor eventsOnTreeExecutor,
@@ -71,10 +78,13 @@ namespace Iit.Fibertest.Client
         {
             try
             {
-                var lastEventFromSnapshot = await _snapshotsLoader.LoadAndApplySnapshot();
+                var isCleared = await ClearCacheIfDoesnotMatchDb();
+                var lastEventFromSnapshot = await _snapshotsLoader.LoadAndApplySnapshot(isCleared);
 
-                var lastLoadedEvent = lastEventFromSnapshot + await LoadAndApplyEvents(lastEventFromSnapshot);
-                var currentEventNumber = await DownloadAndApplyEvents(lastLoadedEvent);
+                var loadingCacheResult = await LoadAndApplyEventsFromCache(lastEventFromSnapshot);
+                loadingCacheResult.Count += lastEventFromSnapshot;
+                _logFile.AppendLine($@"Last loaded from cache event has timestamp {loadingCacheResult.LastEventTimestamp:O}");
+                var currentEventNumber = await DownloadAndApplyEvents(loadingCacheResult);
 
                 _renderingManager.Initialize();
                 await _renderingManager.RenderCurrentZoneOnApplicationStart();
@@ -88,22 +98,59 @@ namespace Iit.Fibertest.Client
             }
         }
 
-      
-        private async Task<int> LoadAndApplyEvents(int lastLoadedEvent)
+        private async Task<bool> ClearCacheIfDoesnotMatchDb()
+        {
+            var cacheParameters = await _localDbManager.GetCacheParameters();
+            if (cacheParameters == null || cacheParameters.LastEventNumber == 0) return false;
+
+            if (cacheParameters.SnapshotLastEventNumber != _currentDatacenterParameters.SnapshotLastEvent
+                || !await CompareLastEvent(cacheParameters.LastEventNumber, cacheParameters.LastEventTimestamp))
+            {
+                return await _localDbManager.RecreateCacheDb() == 0;
+            }
+
+            return false;
+        }
+
+        private async Task<bool> CompareLastEvent(int count, DateTime lastEventTimestamp)
+        {
+            var compareEventDto = new CompareEventDto()
+            {
+                ConnectionId = _currentUser.ConnectionId,
+                Revision = count - 1,
+                Timestamp = lastEventTimestamp,
+            };
+
+            if (await _c2DWcfManager.CompareEvent(compareEventDto)) return true;
+
+            _logFile.AppendLine(@"Cache does not match server's database!");
+            return false;
+        }
+
+        private async Task<LoadingResult> LoadAndApplyEventsFromCache(int lastLoadedEvent)
         {
             var jsonsInCache = await _localDbManager.LoadEvents(lastLoadedEvent);
             _logFile.AppendLine($@"{jsonsInCache.Length} events in cache should be applying...");
-            return ApplyBatch(jsonsInCache);
+            var result = new LoadingResult { Count = ApplyBatch(jsonsInCache) };
+            if (jsonsInCache.Any())
+            {
+                var json = jsonsInCache.Last();
+                var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
+                result.LastEventTimestamp = (DateTime)msg.Headers[Header];
+            }
+            return result;
         }
 
-     
-        private async Task<int> DownloadAndApplyEvents(int currentEventNumber)
+        private async Task<int> DownloadAndApplyEvents(LoadingResult cacheLoadingResult)
         {
+            var currentEventNumber = cacheLoadingResult.Count;
+
+
             _logFile.AppendLine($@"Downloading events from {currentEventNumber}...");
             string[] events;
             do
             {
-                events = await _c2DWcfManager.GetEvents(new GetEventsDto() {Revision = currentEventNumber, ConnectionId = _currentUser.ConnectionId });
+                events = await _c2DWcfManager.GetEvents(new GetEventsDto() { Revision = currentEventNumber, ConnectionId = _currentUser.ConnectionId });
                 await _localDbManager.SaveEvents(events, currentEventNumber + 1);
                 currentEventNumber = currentEventNumber + ApplyBatch(events);
             } while (events.Length != 0);
@@ -117,7 +164,7 @@ namespace Iit.Fibertest.Client
             for (var i = 0; i < events.Length; i++)
             {
                 var json = events[i];
-                var msg = (EventMessage) JsonConvert.DeserializeObject(json, JsonSerializerSettings);
+                var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
                 var evnt = msg.Body;
 
                 try
@@ -131,14 +178,12 @@ namespace Iit.Fibertest.Client
                 catch (Exception e)
                 {
                     _logFile.AppendLine(e.Message);
-                    var header = @"Timestamp";
                     _logFile.AppendLine(
-                        $@"Exception thrown while processing event with timestamp {msg.Headers[header]} \n {
+                        $@"Exception thrown while processing event with timestamp {msg.Headers[Header]} \n {
                                 evnt.GetType().FullName
                             }");
                 }
             }
-
             return events.Length;
         }
 

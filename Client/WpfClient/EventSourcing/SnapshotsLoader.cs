@@ -37,23 +37,39 @@ namespace Iit.Fibertest.Client
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
         }
 
-        public async Task<int> LoadAndApplySnapshot()
+        public async Task<int> LoadAndApplySnapshot(bool isCacheCleared)
         {
             if (_currentDatacenterParameters.SnapshotLastEvent == 0)
                 return 0;
             _logFile.AppendLine($@"Loading snapshot ({_currentDatacenterParameters.SnapshotLastEvent})");
-            var snapshot = await _localDbManager.LoadSnapshot(_currentDatacenterParameters.SnapshotLastEvent);
-            if (snapshot == null) return -1;
-            if (snapshot.Length == 0)
-            {
-                var unused = _localDbManager.RecreateCacheDb();
-                snapshot = await DownloadSnapshot();
-            }
+
+            var snapshot = isCacheCleared 
+                ? await DownloadSnapshot()
+                : await _localDbManager.LoadSnapshot(_currentDatacenterParameters.SnapshotLastEvent);
+
             if (snapshot == null) return -1;
             var appliedSuccessfully = await ApplySnapshot(snapshot);
 
             return appliedSuccessfully ? _currentDatacenterParameters.SnapshotLastEvent : -1;
         }
+
+        // public async Task<int> LoadAndApplySnapshot()
+        // {
+        //     if (_currentDatacenterParameters.SnapshotLastEvent == 0)
+        //         return 0;
+        //     _logFile.AppendLine($@"Loading snapshot ({_currentDatacenterParameters.SnapshotLastEvent})");
+        //     var snapshot = await _localDbManager.LoadSnapshot(_currentDatacenterParameters.SnapshotLastEvent);
+        //     if (snapshot == null) return -1;
+        //     if (snapshot.Length == 0)
+        //     {
+        //         var unused = await _localDbManager.RecreateCacheDb();
+        //         snapshot = await DownloadSnapshot();
+        //     }
+        //     if (snapshot == null) return -1;
+        //     var appliedSuccessfully = await ApplySnapshot(snapshot);
+        //
+        //     return appliedSuccessfully ? _currentDatacenterParameters.SnapshotLastEvent : -1;
+        // }
 
         private async Task<bool> ApplySnapshot(byte[] snapshot)
         {

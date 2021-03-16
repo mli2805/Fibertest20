@@ -111,6 +111,27 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<bool> CompareEvent(CompareEventDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
+            if (wcfConnection == null)
+                return false;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                dto.ClientIp = _clientIp;
+                var result = await channel.CompareEvent(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("CompareEvent: " + e.Message);
+                return false;
+            }
+        }
+
         public async Task<string[]> GetEvents(GetEventsDto dto)
         {
             var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();

@@ -50,6 +50,7 @@
     <Compile Include="C2D2R\ReSendBaseRefsDto.cs" />
     <Compile Include="C2D\AddMeasurementFromOldBase.cs" />
     <Compile Include="C2D\CheckServerConnectionDto.cs" />
+    <Compile Include="C2D\CompareEventDto.cs" />
     <Compile Include="C2D\GetEventsDto.cs" />
     <Compile Include="C2D\GetSnapshotDto.cs" />
     <Compile Include="D2C\CurrentDatacenterParameters.cs" />

@@ -1,16 +1,20 @@
 using System;
-using System.Data;
 using System.Data.SQLite;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
+using NEventStore;
+using Newtonsoft.Json;
 
 namespace Iit.Fibertest.Client
 {
     public class LocalDbManager : ILocalDbManager
     {
+        private static readonly JsonSerializerSettings JsonSerializerSettings =
+            new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
@@ -70,6 +74,42 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public async Task<CacheParameters> GetCacheParameters()
+        {
+            try
+            {
+                await Task.Delay(1);
+                using (var dataContext = new LocalDbSqliteContext(_connectionString))
+                {
+                    var result = new CacheParameters();
+                    var snapshot = dataContext.EsSnapshots.FirstOrDefault();
+                    result.SnapshotLastEventNumber = snapshot?.LastIncludedEvent ?? 0;
+
+                    var count = dataContext.EsEvents.Count();
+                    result.LastEventNumber = count + result.SnapshotLastEventNumber;
+
+                    if (count > 0)
+                    {
+                        var esEvent = dataContext.EsEvents.FirstOrDefault(m => m.Id == count); // last event
+                        if (esEvent != null)
+                        {
+                            var msg = (EventMessage)JsonConvert.DeserializeObject(esEvent.Json,
+                                JsonSerializerSettings);
+                            result.LastEventTimestamp = (DateTime)msg.Headers[@"Timestamp"];
+                        }
+                    }
+
+                    _logFile.AppendLine($@"Cache: last in snapshot {result.SnapshotLastEventNumber
+                                   }, last event {result.LastEventNumber} at {result.LastEventTimestamp:O}");
+                    return result;
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($@"GetCacheParameters : {e.Message}");
+                return null;
+            }
+        }
 
         public async Task<string[]> LoadEvents(int lastEventInSnapshot)
         {
@@ -108,8 +148,8 @@ namespace Iit.Fibertest.Client
                     var portions = dataContext.EsSnapshots.Where(p => p.LastIncludedEvent == lastEventInSnapshotOnServer).ToArray();
                     if (portions.Length == 0)
                     {
-                        _logFile.AppendLine( $@"Snapshot with last event number {
-                                     lastEventInSnapshotOnServer } not found in cache."); 
+                        _logFile.AppendLine($@"Snapshot with last event number {
+                                     lastEventInSnapshotOnServer } not found in cache.");
                         return new byte[0];
                     }
                     _logFile.AppendLine($@"From cache. {portions.Length} records");
@@ -130,7 +170,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-       public async Task<int> SaveSnapshot(byte[] portion)
+        public async Task<int> SaveSnapshot(byte[] portion)
         {
             try
             {
@@ -155,9 +195,9 @@ namespace Iit.Fibertest.Client
         {
             try
             {
-                DropCacheTables();
+                SqliteOperations.DropCacheTables(_filename, _logFile);
                 await Task.Delay(20);
-                CreateCacheTables();
+                SqliteOperations.CreateCacheTables(_filename, _logFile);
                 return 0;
             }
             catch (Exception e)
@@ -167,77 +207,16 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void CreateIfNeeded()
+        private void CreateIfNeeded()
         {
             var s = AppDomain.CurrentDomain.BaseDirectory + $@"..\Cache\GraphDb\{_serverAddress}";
             if (!Directory.Exists(s))
                 Directory.CreateDirectory(s);
 
-            if (!File.Exists(_filename))
-                CreateCacheDb();
-        }
+            if (File.Exists(_filename)) return;
 
-        private void CreateCacheDb()
-        {
             SQLiteConnection.CreateFile(_filename);
-            CreateCacheTables();
-        }
-
-        private void CreateCacheTables()
-        {
-            using (SQLiteConnection conn = new SQLiteConnection($@"Data Source={_filename}; Version=3;"))
-            {
-                try
-                {
-                    conn.Open();
-
-                    const string sql = @"CREATE TABLE EsEvents (Id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, EventId INTEGER UNIQUE, Json TEXT)";
-                    SQLiteCommand command = new SQLiteCommand(sql, conn);
-                    command.ExecuteNonQuery();
-
-                    const string sql2 =
-                        "CREATE TABLE EsSnapshots (Id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE, LastIncludedEvent INTEGER, Snapshot	BLOB)";
-                    SQLiteCommand command2 = new SQLiteCommand(sql2, conn);
-                    command2.ExecuteNonQuery();
-                }
-                catch (SQLiteException ex)
-                {
-                    _logFile.AppendLine($@"CreateCacheTables: {ex.Message}");
-                }
-
-                if (conn.State == ConnectionState.Open)
-                {
-                    _logFile.AppendLine(@"Local cache created successfully");
-                }
-            }
-        } 
-        
-        private void DropCacheTables()
-        {
-            using (SQLiteConnection conn = new SQLiteConnection($@"Data Source={_filename}; Version=3;"))
-            {
-                try
-                {
-                    conn.Open();
-
-                    const string sql = @"DROP TABLE EsEvents";
-                    SQLiteCommand command = new SQLiteCommand(sql, conn);
-                    command.ExecuteNonQuery();
-
-                    const string sql2 = "DROP TABLE EsSnapshots";
-                    SQLiteCommand command2 = new SQLiteCommand(sql2, conn);
-                    command2.ExecuteNonQuery();
-                }
-                catch (SQLiteException ex)
-                {
-                    _logFile.AppendLine($@"DropCacheTables: {ex.Message}");
-                }
-
-                if (conn.State == ConnectionState.Open)
-                {
-                    _logFile.AppendLine(@"Local cache dropped successfully");
-                }
-            }
+            SqliteOperations.CreateCacheTables(_filename, _logFile);
         }
     }
 }

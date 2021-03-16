@@ -12,6 +12,7 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public class EventStoreService
     {
+        const string Timestamp = @"Timestamp";
         private readonly IMyLog _logFile;
         private readonly IEventStoreInitializer _eventStoreInitializer;
         private readonly SnapshotRepository _snapshotRepository;
@@ -66,7 +67,6 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine("Empty graph is seeded with default zone and users.");
             }
 
-            // var events = eventStream.CommittedEvents.Select(x => x.Body).Skip(LastEventNumberInSnapshot).ToList();
             var events = eventStream.CommittedEvents.Select(x => x.Body).ToList();
             _logFile.AppendLine($"{events.Count} events should be applied...");
             foreach (var evnt in events)
@@ -74,6 +74,10 @@ namespace Iit.Fibertest.DataCenterCore
                 _writeModel.Apply(evnt);
             }
             _logFile.AppendLine("Events applied successfully.");
+            _logFile.AppendLine($"Last event number is {LastEventNumberInSnapshot + events.Count}");
+            var msg = eventStream.CommittedEvents.LastOrDefault();
+            if (msg != null)
+                _logFile.AppendLine($@"Last applied event has timestamp {msg.Headers[Timestamp]:O}");
 
             return events.Count;
         }
@@ -147,6 +151,35 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 _logFile.AppendLine(e.Message);
                 return new string[0];
+            }
+        }
+
+        public bool CompareEvent(int revision, DateTime timestamp)
+        {
+            try
+            {
+                var evnt = StoreEvents.OpenStream(StreamIdOriginal, revision + 1).CommittedEvents.FirstOrDefault();
+                if (evnt == null)
+                {
+                    _logFile.AppendLine($"CompareLastEvent: there is no event with revision {revision}");
+                    return false;
+                }
+
+                if ((DateTime) evnt.Headers[Timestamp] == timestamp)
+                {
+                    _logFile.AppendLine($"CompareLastEvent: Events {revision} are the same on server and client");
+                    return true;
+                }
+                else
+                {
+                    _logFile.AppendLine($"CompareLastEvent: Events {revision} are DIFFERENT on server and client");
+                    return false;
+                }
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"CompareLastEvent: {e.Message}");
+                return false;
             }
         }
 

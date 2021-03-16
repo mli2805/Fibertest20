@@ -60,7 +60,7 @@ namespace Iit.Fibertest.Client
             var daysForEventLog = _iniFile.Read(IniSection.MySql, IniKey.SnapshotUptoLimitInDays, 90);
             Model.FromLimit2 = _currentDatacenterParameters.SnapshotLastDate.AddDays(1);
             Model.UpToLimit2 = DateTime.Today.Date.AddDays(-daysForEventLog-1);
-            Model.SelectedDate2 = DateTime.Today.Date.AddDays(-daysForEventLog-1);
+            Model.SelectedDate2 = DateTime.Today.Date.AddDays(-daysForEventLog-1); // something should remain in db, otherwise index will be started from 1
 
             Model.IsEnabled = _currentUser.Role <= Role.Root;
         }
