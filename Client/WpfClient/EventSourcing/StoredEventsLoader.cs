@@ -101,7 +101,7 @@ namespace Iit.Fibertest.Client
         private async Task<bool> ClearCacheIfDoesnotMatchDb()
         {
             var cacheParameters = await _localDbManager.GetCacheParameters();
-            if (cacheParameters == null || cacheParameters.LastEventNumber == 0) return false;
+            if (cacheParameters == null || cacheParameters.LastEventNumber == 0) return true;
 
             if (cacheParameters.SnapshotLastEventNumber != _currentDatacenterParameters.SnapshotLastEvent
                 || !await CompareLastEvent(cacheParameters.LastEventNumber, cacheParameters.LastEventTimestamp))
