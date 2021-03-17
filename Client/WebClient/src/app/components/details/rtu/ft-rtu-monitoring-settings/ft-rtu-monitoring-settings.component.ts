@@ -25,8 +25,7 @@ import { TranslateService } from "@ngx-translate/core";
 export class FtRtuMonitoringSettingsComponent implements OnInit {
   @ViewChild(FtRtuMonitoringPortsComponent, { static: false })
   private portTableComponent: FtRtuMonitoringPortsComponent;
-  public isSpinnerVisible = true;
-  public isButtonDisabled = true;
+  public isBusy = true;
   public initializationMessage: string;
   vm: RtuMonitoringSettingsDto = new RtuMonitoringSettingsDto();
 
@@ -47,8 +46,7 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
     private ts: TranslateService,
     private matDialog: MatDialog
   ) {
-    this.isSpinnerVisible = true;
-    this.isButtonDisabled = false;
+    this.isBusy = true;
   }
 
   async ngOnInit() {
@@ -79,7 +77,7 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
     this.selectedFastSave = res.fastSave;
 
     this.monitoringMode = res.monitoringMode === MonitoringMode.On ? 0 : 1;
-    this.isSpinnerVisible = false;
+    this.isBusy = false;
   }
 
   async onButtonClicked() {
@@ -134,12 +132,10 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
 
   whileRequestView() {
     this.initializationMessage = "";
-    this.isSpinnerVisible = true;
-    this.isButtonDisabled = true;
+    this.isBusy = true;
   }
 
   standardView() {
-    this.isSpinnerVisible = false;
-    this.isButtonDisabled = false;
+    this.isBusy = false;
   }
 }

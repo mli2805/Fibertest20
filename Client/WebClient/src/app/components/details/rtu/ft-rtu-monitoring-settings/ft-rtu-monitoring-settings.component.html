@@ -13,6 +13,7 @@
               <mat-option
                 *ngFor="let item of itemsSourceMeas"
                 [value]="item.index"
+                [disabled]="isBusy"
               >
                 {{ item.name }}</mat-option
               >
@@ -24,6 +25,7 @@
               <mat-option
                 *ngFor="let item of itemsSourceSave"
                 [value]="item.index"
+                [disabled]="isBusy"
               >
                 {{ item.name }}</mat-option
               >
@@ -46,6 +48,7 @@
               <mat-option
                 *ngFor="let item of itemsSourceSave"
                 [value]="item.index"
+                [disabled]="isBusy"
               >
                 {{ item.name }}</mat-option
               >
@@ -57,7 +60,11 @@
         <div class="cycle">
           {{ "SID_Cycle_full_time_sec" | translate: { "0": ports.cycleTime } }}
         </div>
-        <mat-radio-group [(ngModel)]="monitoringMode" color="primary">
+        <mat-radio-group
+          [(ngModel)]="monitoringMode"
+          color="primary"
+          [disabled]="isBusy"
+        >
           <mat-radio-button [value]="0">{{
             "SID_Auto" | translate
           }}</mat-radio-button>
@@ -69,7 +76,7 @@
         <button
           mat-stroked-button
           color="primary"
-          [disabled]="isButtonDisabled"
+          [disabled]="isBusy"
           (click)="onButtonClicked()"
         >
           {{ "SID_Apply" | translate }}
@@ -80,12 +87,13 @@
     <div class="portTable">
       <ft-rtu-monitoring-ports
         [ports]="vm.lines"
+        [disabled]="isBusy"
         #ports
       ></ft-rtu-monitoring-ports>
     </div>
 
     <div class="spinner-container">
-      <mat-spinner *ngIf="isSpinnerVisible"></mat-spinner>
+      <mat-spinner *ngIf="isBusy"></mat-spinner>
     </div>
   </div>
 </div>

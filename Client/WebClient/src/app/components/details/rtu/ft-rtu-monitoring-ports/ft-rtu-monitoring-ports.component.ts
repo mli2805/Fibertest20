@@ -8,10 +8,11 @@ import { PortLineVm } from "../ft-rtu-monitoring-settings/portLineVm";
 @Component({
   selector: "ft-rtu-monitoring-ports",
   templateUrl: "./ft-rtu-monitoring-ports.component.html",
-  styleUrls: ["./ft-rtu-monitoring-ports.component.css"]
+  styleUrls: ["./ft-rtu-monitoring-ports.component.css"],
 })
 export class FtRtuMonitoringPortsComponent implements OnInit, OnChanges {
   @Input() ports: RtuMonitoringPortDto[];
+  @Input() disabled: boolean;
 
   tableData: PortLineVm[];
 
@@ -37,13 +38,15 @@ export class FtRtuMonitoringPortsComponent implements OnInit, OnChanges {
     this.dataSource = new MatTableDataSource<PortLineVm>(this.tableData);
     this.selectionModel = new SelectionModel<PortLineVm>(
       true,
-      this.tableData.filter(l => l.portMonitoringMode === PortMonitoringMode.On)
+      this.tableData.filter(
+        (l) => l.portMonitoringMode === PortMonitoringMode.On
+      )
     );
     this.cycleTime = this.evaluateCycleTime();
   }
 
   private createPortLines() {
-    this.tableData = this.ports.map(l => {
+    this.tableData = this.ports.map((l) => {
       return {
         portMonitoringMode: l.portMonitoringMode,
         disabled:
@@ -53,19 +56,21 @@ export class FtRtuMonitoringPortsComponent implements OnInit, OnChanges {
         traceTitle: l.traceTitle,
         durationOfFastBase: l.durationOfFastBase,
         durationOfPreciseBase: l.durationOfPreciseBase,
-        duration: `${l.durationOfFastBase} / ${l.durationOfPreciseBase} sec`
+        duration: `${l.durationOfFastBase} / ${l.durationOfPreciseBase} sec`,
       };
     });
   }
 
   public getPortLines(): boolean[] {
-    return this.dataSource.data.map(r => this.selectionModel.selected.includes(r));
+    return this.dataSource.data.map((r) =>
+      this.selectionModel.selected.includes(r)
+    );
   }
 
   /** Whether the number of selected elements matches the total number of enabled rows. */
   isAllSelected() {
     const numSelected = this.selectionModel.selected.length;
-    const numRows = this.tableData.filter(l => !l.disabled).length;
+    const numRows = this.tableData.filter((l) => !l.disabled).length;
     return numSelected === numRows;
   }
 
@@ -73,7 +78,7 @@ export class FtRtuMonitoringPortsComponent implements OnInit, OnChanges {
   masterToggle() {
     this.isAllSelected()
       ? this.selectionModel.clear()
-      : this.dataSource.data.forEach(row => {
+      : this.dataSource.data.forEach((row) => {
           if (!row.disabled) {
             this.selectionModel.select(row);
           }

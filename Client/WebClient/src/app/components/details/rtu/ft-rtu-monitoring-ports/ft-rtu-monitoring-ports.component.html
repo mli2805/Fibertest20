@@ -6,6 +6,7 @@
         (change)="$event ? masterToggle() : null"
         [checked]="selectionModel.hasValue() && isAllSelected()"
         [indeterminate]="selectionModel.hasValue() && !isAllSelected()"
+        [disabled]="disabled"
         color="primary"
       >
       </mat-checkbox>
@@ -15,7 +16,7 @@
         (click)="$event.stopPropagation()"
         (change)="$event ? slaveToggle(row) : null"
         [checked]="selectionModel.isSelected(row)"
-        [disabled]="row.disabled"
+        [disabled]="row.disabled || disabled"
         color="primary"
       >
       </mat-checkbox>
