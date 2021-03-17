@@ -32,7 +32,7 @@
         <GroupBox Header="{x:Static stringResources:Resources.SID_Main_channel}" Margin="5" IsEnabled="{Binding IsIdle}">
             <client:NetAddressTestView x:Name="MainAddress"  Margin="0,5,0,0" DataContext="{Binding FullModel.MainChannelTestViewModel}"/>
         </GroupBox>
-       <client:OtdrAddressView DataContext="{Binding FullModel.OtdrAddressViewModel}"></client:OtdrAddressView>
+       <client:OtdrAddressView DataContext="{Binding FullModel.OtdrAddressViewModel}"/>
         <GroupBox Margin="5" IsEnabled="{Binding IsIdle}">
             <GroupBox.Header>
                 <CheckBox Name="CheckBoxReserveAddress" Content="{x:Static stringResources:Resources.SID_Reserve_channel}" 

@@ -15,6 +15,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
     public class MonitoringSettingsViewModel : Screen
     {
         private readonly ILifetimeScope _globalScope;
+        private readonly CurrentUser _currentUser;
         private readonly Model _readModel;
         private readonly IWcfServiceDesktopC2D _desktopC2DWcfManager;
         private readonly IWcfServiceCommonC2D _commonC2DWcfManager;
@@ -26,7 +27,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         private string _messageProp;
         public string MessageProp
         {
-            get { return _messageProp; }
+            get => _messageProp;
             set
             {
                 if (value == _messageProp) return;
@@ -35,31 +36,33 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             }
         }
 
-        public bool IsEditEnabled { get; set; }
-
         private bool _isButtonsEnabled;
         public bool IsButtonsEnabled
         {
-            get { return _isButtonsEnabled; }
+            get => _isButtonsEnabled;
             set
             {
                 if (value == _isButtonsEnabled) return;
                 _isButtonsEnabled = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IsEditEnabled));
             }
         }
+
+        public bool IsEditEnabled => _currentUser.Role <= Role.Operator && IsButtonsEnabled;
 
         public MonitoringSettingsViewModel(RtuLeaf rtuLeaf, ILifetimeScope globalScope, CurrentUser currentUser, Model readModel,
             IWcfServiceDesktopC2D desktopC2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager, IWindowManager windowManager, 
             MonitoringSettingsModelFactory monitoringSettingsModelFactory)
         {
             _globalScope = globalScope;
-            IsEditEnabled = currentUser.Role <= Role.Operator;
+            _currentUser = currentUser;
             _readModel = readModel;
             _desktopC2DWcfManager = desktopC2DWcfManager;
             _commonC2DWcfManager = commonC2DWcfManager;
             _windowManager = windowManager;
 
+            IsButtonsEnabled = true;
             Model = monitoringSettingsModelFactory.Create(rtuLeaf, IsEditEnabled);
             Model.CalculateCycleTime();
             SelectedTabIndex = 0; // strange but it's necessary
@@ -68,7 +71,6 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Monitoring_settings;
-            IsButtonsEnabled = true;
         }
 
         public async void Apply()
