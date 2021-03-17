@@ -49,6 +49,12 @@ export class FtOutOfTurnMeasurementComponent implements OnInit {
     this.signalRService.measurementAddedEmitter.subscribe(
       (signal: TraceStateDto) => {
         console.log(signal);
+        const dict = {
+          type: "traceId",
+          traceId: this.params.trace.traceId,
+          fileId: null,
+        };
+        sessionStorage.setItem("traceStateParams", JSON.stringify(dict));
         this.isSpinnerVisible = false;
         this.router.navigate(["/ft-main-nav/trace-state"]);
       }
