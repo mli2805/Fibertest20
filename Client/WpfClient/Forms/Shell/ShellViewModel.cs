@@ -241,6 +241,7 @@ namespace Iit.Fibertest.Client
                 if (!vm.IsAnswerPositive) return;
             }
 
+            _heartbeaterCts.Cancel();
             _clientPollerCts.Cancel();
             _logFile.AppendLine(@"Client application finished.");
 
