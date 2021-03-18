@@ -84,6 +84,12 @@ namespace Iit.Fibertest.DataCenterCore
             return this;
         }
 
+        public async Task<bool> SendHeartbeat(HeartbeatDto dto)
+        {
+            await Task.Delay(1);
+            return _clientsCollection.RegisterHeartbeat(dto.ConnectionId);
+        }
+
         public async Task<int> SendCommands(List<string> jsons, string username, string clientIp) // especially for Migrator.exe
         {
             var cmds = jsons.Select(json => JsonConvert.DeserializeObject(json, JsonSerializerSettings)).ToList();

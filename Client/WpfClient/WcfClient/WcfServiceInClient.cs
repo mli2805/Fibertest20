@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly IMyLog _logFile;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
+        private readonly Heartbeater _heartbeater;
         private readonly ClientPoller _clientPoller;
         private readonly ClientMeasurementViewModel _clientMeasurementViewModel;
         private readonly IWcfServiceCommonC2D _commonC2DWcfManager;
@@ -23,13 +24,15 @@ namespace Iit.Fibertest.Client
         private readonly WaitViewModel _waitViewModel;
         private readonly IWindowManager _windowManager;
 
-        public WcfServiceInClient(IMyLog logFile, RtuStateViewsManager rtuStateViewsManager, ClientPoller clientPoller,
+        public WcfServiceInClient(IMyLog logFile, RtuStateViewsManager rtuStateViewsManager, 
+            Heartbeater heartbeater, ClientPoller clientPoller,
             ClientMeasurementViewModel clientMeasurementViewModel, IWcfServiceCommonC2D commonC2DWcfManager,
             CurrentUser currentUser,
             WaitViewModel waitViewModel, IWindowManager windowManager)
         {
             _logFile = logFile;
             _rtuStateViewsManager = rtuStateViewsManager;
+            _heartbeater = heartbeater;
             _clientPoller = clientPoller;
             _clientMeasurementViewModel = clientMeasurementViewModel;
             _commonC2DWcfManager = commonC2DWcfManager;
@@ -81,16 +84,11 @@ namespace Iit.Fibertest.Client
             return 0;
         }
 
-//        public async Task<int> UnBlockClientAfterDbOptimization()
-//        {
-//            await Task.Factory.StartNew(() => LeaveApp(UnRegisterReason.DbOptimizationFinished));
-//            return 0;
-//        }
-
         private void ShowWaiting()
         {
             _logFile.AppendLine(@"DbOptimizationProgressDto received");
 
+            _heartbeater.CancellationTokenSource.Cancel();
             _clientPoller.CancellationTokenSource.Cancel();
             _waitViewModel.Initialize(LongOperation.DbOptimization);
             Application.Current.Dispatcher?.InvokeAsync(() => _windowManager.ShowDialogWithAssignedOwner(_waitViewModel));
@@ -98,6 +96,7 @@ namespace Iit.Fibertest.Client
 
         private async Task<int> LeaveApp(UnRegisterReason reason)
         {
+            _heartbeater.CancellationTokenSource.Cancel();
             _clientPoller.CancellationTokenSource.Cancel();
             var vm = new LeaveAppViewModel();
             vm.Initialize(reason, _currentUser.UserName);

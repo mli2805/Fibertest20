@@ -169,6 +169,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<StoredEventsLoader>().InstancePerLifetimeScope();
             builder.RegisterType<SnapshotsLoader>().InstancePerLifetimeScope();
             builder.RegisterType<EventArrivalNotifier>().InstancePerLifetimeScope();
+            builder.RegisterType<Heartbeater>().InstancePerLifetimeScope();
             builder.RegisterType<ClientPoller>().InstancePerLifetimeScope();
 
             builder.RegisterType<AddEquipmentIntoNodeBuilder>();

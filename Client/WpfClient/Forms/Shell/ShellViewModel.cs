@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly LoginViewModel _loginViewModel;
         private readonly StoredEventsLoader _storedEventsLoader;
+        private readonly Heartbeater _heartbeater;
         private readonly ClientPoller _clientPoller;
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
@@ -48,7 +49,8 @@ namespace Iit.Fibertest.Client
             IClientWcfServiceHost host, IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
             IWcfServiceInSuperClient c2SWcfManager,
             GraphReadModel graphReadModel, ILocalDbManager localDbManager, IWindowManager windowManager,
-            LoginViewModel loginViewModel, StoredEventsLoader storedEventsLoader, ClientPoller clientPoller,
+            LoginViewModel loginViewModel, StoredEventsLoader storedEventsLoader, 
+            Heartbeater heartbeater, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
             TabulatorViewModel tabulatorViewModel, CommonStatusBarViewModel commonStatusBarViewModel,
              OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
@@ -73,6 +75,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _loginViewModel = loginViewModel;
             _storedEventsLoader = storedEventsLoader;
+            _heartbeater = heartbeater;
             _clientPoller = clientPoller;
             _logFile = logFile;
             _currentUser = currentUser;
@@ -83,6 +86,7 @@ namespace Iit.Fibertest.Client
 
 
         private readonly CancellationTokenSource _clientPollerCts = new CancellationTokenSource();
+        private readonly CancellationTokenSource _heartbeaterCts = new CancellationTokenSource();
 
         private bool _isEnabled;
         public bool IsEnabled
@@ -128,6 +132,7 @@ namespace Iit.Fibertest.Client
                 TabulatorViewModel.SelectedTabIndex = 4;
 
                 SetDisplayName();
+                StartSendHeartbeats();
                 await GetAlreadyStoredInCacheAndOnServerData();
                 StartRegularCommunicationWithServer();
                 if (_commandLineParameters.IsUnderSuperClientStart)
@@ -202,6 +207,15 @@ namespace Iit.Fibertest.Client
             {
                 _localDbManager.Initialize();
                 _clientPoller.CurrentEventNumber = await _storedEventsLoader.TwoComponentLoading();
+            }
+        }
+
+        private void StartSendHeartbeats()
+        {
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                _heartbeater.CancellationTokenSource = _heartbeaterCts;
+                _heartbeater.Start();
             }
         }
 

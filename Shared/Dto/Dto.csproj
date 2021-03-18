@@ -53,6 +53,7 @@
     <Compile Include="C2D\CompareEventDto.cs" />
     <Compile Include="C2D\GetEventsDto.cs" />
     <Compile Include="C2D\GetSnapshotDto.cs" />
+    <Compile Include="C2D\HeartbeatDto.cs" />
     <Compile Include="D2C\CurrentDatacenterParameters.cs" />
     <Compile Include="D2C\DbOptimizationProgressDto.cs" />
     <Compile Include="D2C\SnmpSettingsDto.cs" />

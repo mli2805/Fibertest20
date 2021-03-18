@@ -35,6 +35,27 @@ namespace Iit.Fibertest.WcfConnections
             return this;
         }
 
+        public async Task<bool> SendHeartbeat(HeartbeatDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
+            if (wcfConnection == null)
+                return false;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                dto.ClientIp = _clientIp;
+                var result = await channel.SendHeartbeat(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("SendHeartbeat: " + e.Message);
+                return false;
+            }
+        }
+
         public async Task<int> SendCommandsAsObjs(List<object> cmds)
         {
             var list = new List<string>();

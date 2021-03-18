@@ -12,6 +12,9 @@ namespace Iit.Fibertest.WcfConnections
 
 
         [OperationContract]
+        Task<bool> SendHeartbeat(HeartbeatDto dto);
+
+        [OperationContract]
         Task<int> SendCommands(List<string> jsons, string username, string clientIp); // especially for Migrator.exe
 
         [OperationContract]
