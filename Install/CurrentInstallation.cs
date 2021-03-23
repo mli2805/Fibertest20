@@ -20,7 +20,21 @@ namespace Iit.Fibertest.Install
         public string SslCertificatePath { get; set; }
         public string SslCertificatePassword { get; set; }
 
-        public string GetApiSettingsJson()
+        public string GetWebApiSettingsJson()
+        {
+            return new WebApiSettings()
+            {
+                ApiProtocol = IsWebByHttps
+                    ? "https"
+                    : "http",
+                SslCertificateName = SslCertificateName,
+                SslCertificatePath = SslCertificatePath,
+                SslCertificatePassword = SslCertificatePassword,
+            }
+            .ToCamelCaseJson();
+        }
+        
+        public string GetWebClientSettingsJson()
         {
             return new WebClientSettings()
             {
@@ -29,21 +43,8 @@ namespace Iit.Fibertest.Install
                     : "http",
                 ApiPort = (int)TcpPorts.WebApiListenTo,
                 Version = ProductVersion,
-                SslCertificateName = SslCertificateName,
-                SslCertificatePath = SslCertificatePath,
-                SslCertificatePassword = SslCertificatePassword,
             }
             .ToCamelCaseJson();
         }
-    }
-    public class WebClientSettings
-    {
-        public string ApiProtocol;
-        public int ApiPort;
-        public string Version;
-
-        public string SslCertificateName;
-        public string SslCertificatePath;
-        public string SslCertificatePassword;
     }
 }

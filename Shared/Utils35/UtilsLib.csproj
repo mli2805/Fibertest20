@@ -130,6 +130,8 @@
     <Compile Include="Setup\SetupUninstallOperations.cs" />
     <Compile Include="Setup\ShortcutOperatios.cs" />
     <Compile Include="Setup\SiteOperations.cs" />
+    <Compile Include="Setup\WebApiSettings.cs" />
+    <Compile Include="Setup\WebClientSettings.cs" />
     <Compile Include="SnmpAgent.cs" />
     <Compile Include="SorData\AccidentsExtractor.cs" />
     <Compile Include="SorData\RftsEventExt.cs" />

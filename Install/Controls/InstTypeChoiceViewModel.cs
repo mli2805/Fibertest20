@@ -188,7 +188,7 @@ namespace Iit.Fibertest.Install
             try
             {
                 var json = File.ReadAllText(settingsFilename);
-                WebClientSettings wcs = JsonConvert.DeserializeObject<WebClientSettings>(json);
+                WebApiSettings wcs = JsonConvert.DeserializeObject<WebApiSettings>(json);
 
                 _currentInstallation.IsWebByHttps = wcs.ApiProtocol == "https";
                 _currentInstallation.SslCertificateName = wcs.SslCertificateName;

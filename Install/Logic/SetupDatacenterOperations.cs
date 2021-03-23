@@ -77,7 +77,7 @@ namespace Iit.Fibertest.Install
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
 
             var settingsFilename = currentInstallation.InstallationFolder + service.FolderInsideFibertest + @"/ini/settings.json";
-            File.WriteAllText(settingsFilename, currentInstallation.GetApiSettingsJson());
+            File.WriteAllText(settingsFilename, currentInstallation.GetWebApiSettingsJson());
 
             return ServiceOperations.InstallService(service, currentInstallation.InstallationFolder, worker);
         }
@@ -113,7 +113,7 @@ namespace Iit.Fibertest.Install
                 return false;
 
             var settingsFilename = fullWebClientPath + @"/assets/settings.json";
-            File.WriteAllText(settingsFilename, currentInstallation.GetApiSettingsJson());
+            File.WriteAllText(settingsFilename, currentInstallation.GetWebClientSettingsJson());
 
             var userGuideFolder = Path.Combine(fullWebClientPath, UserGuideSubdir);
             if (!FileOperations.DirectoryCopyWithDecorations(SourcePathUserGuide,
