@@ -89,6 +89,7 @@ namespace Iit.Fibertest.Client
         private readonly CancellationTokenSource _heartbeaterCts = new CancellationTokenSource();
 
         private bool _isEnabled;
+
         public bool IsEnabled
         {
             get => _isEnabled;
@@ -100,8 +101,21 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        private string _backgroundMessage;
+        public string BackgroundMessage
+        {
+            get => _backgroundMessage;
+            set
+            {
+                if (value == _backgroundMessage) return;
+                _backgroundMessage = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         protected override async void OnViewLoaded(object view)
         {
+            BackgroundMessage = Resources.SID_Data_is_loading;
             TabulatorViewModel.MessageVisibility = Visibility.Collapsed;
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -206,7 +220,10 @@ namespace Iit.Fibertest.Client
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 _localDbManager.Initialize();
-                _clientPoller.CurrentEventNumber = await _storedEventsLoader.TwoComponentLoading();
+                var isCleared = await _storedEventsLoader.ClearCacheIfDoesnotMatchDb();
+                if (isCleared)
+                    BackgroundMessage = Resources.SID_Loading_data_after_DB_recovery__optimization_;
+                _clientPoller.CurrentEventNumber = await _storedEventsLoader.TwoComponentLoading(isCleared);
             }
         }
 

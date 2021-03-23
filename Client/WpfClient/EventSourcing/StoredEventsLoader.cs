@@ -73,32 +73,7 @@ namespace Iit.Fibertest.Client
             _renderingManager = renderingManager;
         }
 
-        // TwoComponentLoading
-        public async Task<int> TwoComponentLoading()
-        {
-            try
-            {
-                var isCleared = await ClearCacheIfDoesnotMatchDb();
-                var lastEventFromSnapshot = await _snapshotsLoader.LoadAndApplySnapshot(isCleared);
-
-                var loadingCacheResult = await LoadAndApplyEventsFromCache(lastEventFromSnapshot);
-                loadingCacheResult.Count += lastEventFromSnapshot;
-                _logFile.AppendLine($@"Last loaded from cache event has timestamp {loadingCacheResult.LastEventTimestamp:O}");
-                var currentEventNumber = await DownloadAndApplyEvents(loadingCacheResult);
-
-                _renderingManager.Initialize();
-                await _renderingManager.RenderCurrentZoneOnApplicationStart();
-                return currentEventNumber;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($@"TwoComponentLoading: {e.Message}");
-                _dispatcherProvider.GetDispatcher().Invoke(NotifyUserConnectionProblems); // blocks current thread till user clicks to close form
-                return -1;
-            }
-        }
-
-        private async Task<bool> ClearCacheIfDoesnotMatchDb()
+        public async Task<bool> ClearCacheIfDoesnotMatchDb()
         {
             var cacheParameters = await _localDbManager.GetCacheParameters();
             if (cacheParameters == null || cacheParameters.LastEventNumber == 0) return true;
@@ -125,6 +100,29 @@ namespace Iit.Fibertest.Client
 
             _logFile.AppendLine(@"Cache does not match server's database!");
             return false;
+        }
+
+        public async Task<int> TwoComponentLoading(bool isCleared)
+        {
+            try
+            {
+                var lastEventFromSnapshot = await _snapshotsLoader.LoadAndApplySnapshot(isCleared);
+
+                var loadingCacheResult = await LoadAndApplyEventsFromCache(lastEventFromSnapshot);
+                loadingCacheResult.Count += lastEventFromSnapshot;
+                _logFile.AppendLine($@"Last loaded from cache event has timestamp {loadingCacheResult.LastEventTimestamp:O}");
+                var currentEventNumber = await DownloadAndApplyEvents(loadingCacheResult);
+
+                _renderingManager.Initialize();
+                await _renderingManager.RenderCurrentZoneOnApplicationStart();
+                return currentEventNumber;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($@"TwoComponentLoading: {e.Message}");
+                _dispatcherProvider.GetDispatcher().Invoke(NotifyUserConnectionProblems); // blocks current thread till user clicks to close form
+                return -1;
+            }
         }
 
         private async Task<LoadingResult> LoadAndApplyEventsFromCache(int lastLoadedEvent)

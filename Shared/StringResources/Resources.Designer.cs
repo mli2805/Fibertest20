@@ -3992,6 +3992,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Loading data after DB recovery (optimization).
+        /// </summary>
+        public static string SID_Loading_data_after_DB_recovery__optimization_ {
+            get {
+                return ResourceManager.GetString("SID_Loading_data_after_DB_recovery__optimization_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Location.
         /// </summary>
         public static string SID_Location {
