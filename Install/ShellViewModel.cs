@@ -230,6 +230,8 @@ namespace Iit.Fibertest.Install
             _currentInstallation.IsWebNeeded = InstTypeChoiceViewModel.IsWebNeeded;
             _currentInstallation.IsWebByHttps = InstTypeChoiceViewModel.IsWebByHttps;
             _currentInstallation.SslCertificateName = InstTypeChoiceViewModel.SelectedCertificate;
+            _currentInstallation.SslCertificatePath = InstTypeChoiceViewModel.Filename;
+            _currentInstallation.SslCertificatePassword = AesExt.Encript(InstTypeChoiceViewModel.Password);
         }
 
         private void ProcessProgressViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

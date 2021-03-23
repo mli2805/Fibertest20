@@ -1,19 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
+using Microsoft.Win32;
+using Newtonsoft.Json;
 
 namespace Iit.Fibertest.Install
 {
     public class InstTypeChoiceViewModel : PropertyChangedBase
     {
-        private Visibility _visibility = Visibility.Collapsed;
+        private readonly CurrentInstallation _currentInstallation;
 
+        private Visibility _visibility = Visibility.Collapsed;
         public Visibility Visibility
         {
-            get { return _visibility; }
+            get => _visibility;
             set
             {
                 if (value == _visibility) return;
@@ -44,6 +49,8 @@ namespace Iit.Fibertest.Install
                 if (value && !IsIisOk()) return;
                 _isWebNeeded = value;
                 WebSettingsVisibility = _isWebNeeded ? Visibility.Visible : Visibility.Collapsed;
+                if (_isWebNeeded)
+                    InitializeWebSettingsFromPreviousInstallation();
                 NotifyOfPropertyChange();
             }
         }
@@ -88,7 +95,7 @@ namespace Iit.Fibertest.Install
         private Visibility _dataCenterSettingsVisibility = Visibility.Collapsed;
         public Visibility DataCenterSettingsVisibility
         {
-            get { return _dataCenterSettingsVisibility; }
+            get => _dataCenterSettingsVisibility;
             set
             {
                 if (value == _dataCenterSettingsVisibility) return;
@@ -99,7 +106,6 @@ namespace Iit.Fibertest.Install
 
         public HeaderViewModel HeaderViewModel { get; set; } = new HeaderViewModel();
         public string Text1 { get; set; }
-        public string Text2 { get; set; } = Resources.SID_Type_of_install_;
         public List<string> InstTypes { get; set; }
         public List<string> Certificates { get; set; }
 
@@ -117,7 +123,6 @@ namespace Iit.Fibertest.Install
         }
 
         private string _selectedCertificate;
-
         public string SelectedCertificate
         {
             get => _selectedCertificate;
@@ -129,17 +134,71 @@ namespace Iit.Fibertest.Install
             }
         }
 
+        private string _filename;
+        public string Filename
+        {
+            get => _filename;
+            set
+            {
+                if (value == _filename) return;
+                _filename = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private string _password;
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                if (value == _password) return;
+                _password = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public InstTypeChoiceViewModel(CurrentInstallation currentInstallation)
         {
+            _currentInstallation = currentInstallation;
             HeaderViewModel.InBold = Resources.SID_Installation_Type;
             HeaderViewModel.Explanation = string.Format(Resources.SID_Please_select_the_type_of__0__install, currentInstallation.MainName);
 
             Text1 = string.Format(Resources.SID_Select_the_type_of__0__install__Click_Next_to_continue_, currentInstallation.MainName);
             InstTypes = new List<string>() { "Client", "Data Center", "Super Client" };
             SelectedType = InstTypes[0];
-
             Certificates = IisOperations.GetCertificates().ToList();
-            SelectedCertificate = Certificates.FirstOrDefault();
+        }
+
+        private void InitializeWebSettingsFromPreviousInstallation()
+        {
+            GetPreviousSettings();
+            IsWebByHttps = _currentInstallation.IsWebByHttps;
+            SelectedCertificate = string.IsNullOrEmpty(_currentInstallation.SslCertificateName)
+                ? Certificates.FirstOrDefault()
+                : _currentInstallation.SslCertificateName;
+            Filename = _currentInstallation.SslCertificatePath;
+            Password = _currentInstallation.SslCertificatePassword;
+        }
+
+        private void GetPreviousSettings()
+        {
+            var service = FtServices.List.First(s => s.Name == "FibertestWaService");
+            var settingsFilename = _currentInstallation.InstallationFolder + service.FolderInsideFibertest + @"/ini/settings.json";
+            try
+            {
+                var json = File.ReadAllText(settingsFilename);
+                WebClientSettings wcs = JsonConvert.DeserializeObject<WebClientSettings>(json);
+
+                _currentInstallation.IsWebByHttps = wcs.ApiProtocol == "https";
+                _currentInstallation.SslCertificateName = wcs.SslCertificateName;
+                _currentInstallation.SslCertificatePath = wcs.SslCertificatePath;
+                _currentInstallation.SslCertificatePassword = AesExt.Decrypt(wcs.SslCertificatePassword);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
         }
 
         public InstallationType GetSelectedType()
@@ -151,7 +210,6 @@ namespace Iit.Fibertest.Install
                 case "Super Client": return InstallationType.SuperClient;
                 default: return InstallationType.Client;
             }
-
         }
 
         private bool IsIisOk()
@@ -164,6 +222,15 @@ namespace Iit.Fibertest.Install
                     : string.Format(Resources.SID_Iis_version_is, iisVersion),
                 Resources.SID_Error_, MessageBoxButton.OK, MessageBoxImage.Error);
             return false;
+        }
+
+        public void ChooseCertificateFile()
+        {
+            var fd = new OpenFileDialog();
+            fd.Filter = @"SSL certificate files (*.pfx)|*.pfx";
+            fd.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            if (fd.ShowDialog() == true)
+                Filename = fd.FileName;
         }
     }
 }
