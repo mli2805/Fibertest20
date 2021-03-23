@@ -115,7 +115,6 @@ namespace Iit.Fibertest.Client
 
         protected override async void OnViewLoaded(object view)
         {
-            BackgroundMessage = Resources.SID_Data_is_loading;
             TabulatorViewModel.MessageVisibility = Visibility.Collapsed;
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
@@ -221,8 +220,9 @@ namespace Iit.Fibertest.Client
             {
                 _localDbManager.Initialize();
                 var cleaningResult = await _storedEventsLoader.ClearCacheIfDoesnotMatchDb();
-                if (cleaningResult == CacheClearResult.ClearedSuccessfully)
-                    BackgroundMessage = Resources.SID_Loading_data_after_DB_recovery__optimization_;
+                BackgroundMessage = cleaningResult == CacheClearResult.ClearedSuccessfully 
+                    ? Resources.SID_Loading_data_after_DB_recovery__optimization_
+                    : Resources.SID_Data_is_loading;
                 _clientPoller.CurrentEventNumber = 
                     await _storedEventsLoader.TwoComponentLoading(cleaningResult == CacheClearResult.ClearedSuccessfully 
                                                                   || cleaningResult == CacheClearResult.CacheNotFound);

@@ -1575,6 +1575,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Choose SSL certificate file.
+        /// </summary>
+        public static string SID_Choose_SSL_certificate_file {
+            get {
+                return ResourceManager.GetString("SID_Choose_SSL_certificate_file", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clean.
         /// </summary>
         public static string SID_Clean {
@@ -6843,6 +6852,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Space_available___0_ {
             get {
                 return ResourceManager.GetString("SID_Space_available___0_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SSL certificate password.
+        /// </summary>
+        public static string SID_SSL_certificate_password {
+            get {
+                return ResourceManager.GetString("SID_SSL_certificate_password", resourceCulture);
             }
         }
         

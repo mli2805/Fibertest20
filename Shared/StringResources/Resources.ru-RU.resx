@@ -2862,7 +2862,13 @@ RTU инициализируется в данный момент!</value>
   <data name="SID_License_file_not_found_" xml:space="preserve">
 	  <value>Файл с лицензионным соглашением не найден!</value>
   </data>
+  <data name="SID_SSL_certificate_password" xml:space="preserve">
+	  <value>Пароль SSL сертификата</value>
+  </data>
+  <data name="SID_Choose_SSL_certificate_file" xml:space="preserve">
+	  <value>Укажите файл с SSL сертификатом</value>
+  </data>
   <data name="SID_Loading_data_after_DB_recovery__optimization_" xml:space="preserve">
-	  <value>Загрузка после восстановления (оптимизации) базы данных, пожалуйста подождите...</value>
+	  <value>Загрузка данных после восстановления (оптимизации) БД, пожалуйста подождите...</value>
   </data>
 </root>
