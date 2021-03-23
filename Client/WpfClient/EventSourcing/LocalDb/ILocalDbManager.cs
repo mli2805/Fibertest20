@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Client
         Task<int> SaveSnapshot(byte[] portion);
         Task<byte[]> LoadSnapshot(int lastEventInSnapshotOnServer);
 
-        Task<int> RecreateCacheDb();
+        Task<bool> RecreateCacheDb();
         void Initialize();
 
     }

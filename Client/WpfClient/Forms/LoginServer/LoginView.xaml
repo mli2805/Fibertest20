@@ -23,8 +23,9 @@
                 <Button DockPanel.Dock="Right" Name="SetServerAddress" Content="{x:Static stringResources:Resources.SID_Server}" 
                             Margin="10,0,0,0" Width="80" KeyboardNavigation.TabIndex="3"/>
                 <PasswordBox wpfCommonViews:PasswordHelper.Attach="True"  
-                                 wpfCommonViews:PasswordHelper.Password="{Binding Password, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                 DockPanel.Dock="Right"  Width="100" Margin="10,0,0,0" KeyboardNavigation.TabIndex="1"/>
+                             wpfCommonViews:PasswordHelper.Password="{Binding Password, Mode=TwoWay,
+                                                                            UpdateSourceTrigger=PropertyChanged}"
+                             DockPanel.Dock="Right"  Width="100" Margin="10,0,0,0" KeyboardNavigation.TabIndex="1"/>
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Password}" TextAlignment="Right"/>
             </DockPanel>
             <Button Width="1" Height="1"  Name="Cancel" IsCancel="True"/>

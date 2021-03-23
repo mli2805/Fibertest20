@@ -19,6 +19,8 @@ namespace Iit.Fibertest.Client
         public int Count;
         public DateTime LastEventTimestamp;
     }
+
+    public enum CacheClearResult{ FailedToClear, CacheNotFound, ClearedSuccessfully, CacheMatchesDb}
     public class StoredEventsLoader
     {
         private static readonly JsonSerializerSettings JsonSerializerSettings =
@@ -73,18 +75,18 @@ namespace Iit.Fibertest.Client
             _renderingManager = renderingManager;
         }
 
-        public async Task<bool> ClearCacheIfDoesnotMatchDb()
+        public async Task<CacheClearResult> ClearCacheIfDoesnotMatchDb()
         {
             var cacheParameters = await _localDbManager.GetCacheParameters();
-            if (cacheParameters == null || cacheParameters.LastEventNumber == 0) return true;
+            if (cacheParameters == null || cacheParameters.LastEventNumber == 0) return CacheClearResult.CacheNotFound;
 
             if (cacheParameters.SnapshotLastEventNumber != _currentDatacenterParameters.SnapshotLastEvent
                 || !await CompareLastEvent(cacheParameters.LastEventNumber, cacheParameters.LastEventTimestamp))
             {
-                return await _localDbManager.RecreateCacheDb() == 0;
+                return await _localDbManager.RecreateCacheDb() ? CacheClearResult.ClearedSuccessfully : CacheClearResult.FailedToClear;
             }
 
-            return false;
+            return CacheClearResult.CacheMatchesDb;
         }
 
         private async Task<bool> CompareLastEvent(int count, DateTime lastEventTimestamp)

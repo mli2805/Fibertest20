@@ -220,10 +220,12 @@ namespace Iit.Fibertest.Client
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 _localDbManager.Initialize();
-                var isCleared = await _storedEventsLoader.ClearCacheIfDoesnotMatchDb();
-                if (isCleared)
+                var cleaningResult = await _storedEventsLoader.ClearCacheIfDoesnotMatchDb();
+                if (cleaningResult == CacheClearResult.ClearedSuccessfully)
                     BackgroundMessage = Resources.SID_Loading_data_after_DB_recovery__optimization_;
-                _clientPoller.CurrentEventNumber = await _storedEventsLoader.TwoComponentLoading(isCleared);
+                _clientPoller.CurrentEventNumber = 
+                    await _storedEventsLoader.TwoComponentLoading(cleaningResult == CacheClearResult.ClearedSuccessfully 
+                                                                  || cleaningResult == CacheClearResult.CacheNotFound);
             }
         }
 

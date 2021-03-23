@@ -191,19 +191,19 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public async Task<int> RecreateCacheDb()
+        public async Task<bool> RecreateCacheDb()
         {
             try
             {
                 SqliteOperations.DropCacheTables(_filename, _logFile);
                 await Task.Delay(20);
                 SqliteOperations.CreateCacheTables(_filename, _logFile);
-                return 0;
+                return true;
             }
             catch (Exception e)
             {
                 _logFile.AppendLine($@"RecreateCache : {e.Message}");
-                return -1;
+                return false;
             }
         }
 

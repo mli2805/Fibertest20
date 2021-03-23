@@ -42,9 +42,9 @@ namespace Graph.Tests
             return Task.FromResult(new byte[0]);
         }
 
-        public Task<int> RecreateCacheDb()
+        public Task<bool> RecreateCacheDb()
         {
-            return Task.FromResult(1);
+            return Task.FromResult(true);
         }
 
         public Task<int> SaveSnapshot(byte[] portion)
