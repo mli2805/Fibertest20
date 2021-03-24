@@ -10,7 +10,9 @@ export class FtIitHeaderComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit() {
+  async ngOnInit() {
+    await new Promise((res) => setTimeout(res, 1000));
+
     if (sessionStorage.settings === undefined) {
       this.version = ``;
     } else {
