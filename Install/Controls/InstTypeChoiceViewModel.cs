@@ -158,6 +158,18 @@ namespace Iit.Fibertest.Install
             }
         }
 
+        private string _domainName;
+        public string DomainName
+        {
+            get => _domainName;
+            set
+            {
+                if (value == _domainName) return;
+                _domainName = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public InstTypeChoiceViewModel(CurrentInstallation currentInstallation)
         {
             _currentInstallation = currentInstallation;
@@ -177,6 +189,7 @@ namespace Iit.Fibertest.Install
             SelectedCertificate = string.IsNullOrEmpty(_currentInstallation.SslCertificateName)
                 ? Certificates.FirstOrDefault()
                 : _currentInstallation.SslCertificateName;
+            DomainName = _currentInstallation.SslCertificateDomain;
             Filename = _currentInstallation.SslCertificatePath;
             Password = _currentInstallation.SslCertificatePassword;
         }
@@ -192,6 +205,7 @@ namespace Iit.Fibertest.Install
 
                 _currentInstallation.IsWebByHttps = wcs.ApiProtocol == "https";
                 _currentInstallation.SslCertificateName = wcs.SslCertificateName;
+                _currentInstallation.SslCertificateDomain = wcs.SslCertificateDomain;
                 _currentInstallation.SslCertificatePath = wcs.SslCertificatePath;
                 _currentInstallation.SslCertificatePassword = AesExt.Decrypt(wcs.SslCertificatePassword);
             }

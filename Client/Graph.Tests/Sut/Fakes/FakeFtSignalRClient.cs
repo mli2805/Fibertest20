@@ -10,6 +10,11 @@ namespace Graph.Tests
             return Task.FromResult(true);
         }
 
+        public void Initialize()
+        {
+            
+        }
+
         public Task NotifyAll(string eventType, string dataInJson)
         {
             return Task.Delay(0);

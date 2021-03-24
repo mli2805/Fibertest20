@@ -42,7 +42,7 @@ namespace Iit.Fibertest.DataCenterCore
             var interval = _iniFile.Read(IniSection.General, IniKey.CheckWebApiEvery, 300);
             if (interval == 0) return;
             _checkWebApiEvery = TimeSpan.FromSeconds(interval);
-            _webApiUrl = $"{_cdp.WebApiBinding}://localhost:{(int)TcpPorts.WebApiListenTo}/misc/checkapi";
+            _webApiUrl = $"{_cdp.WebApiBindingProtocol}://{_cdp.WebApiDomainName}:{(int)TcpPorts.WebApiListenTo}/misc/checkapi";
             _logFile.AppendLine($"Web API check will be carried out at {_webApiUrl}");
 
             while (true)

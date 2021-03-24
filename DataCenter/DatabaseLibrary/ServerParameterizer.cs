@@ -36,8 +36,9 @@ namespace Iit.Fibertest.DatabaseLibrary
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
             _currentDatacenterParameters.DatacenterVersion = fvi.FileVersion;
 
-            _currentDatacenterParameters.WebApiBinding = _iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "none");
-            if (_currentDatacenterParameters.WebApiBinding == "none")
+            _currentDatacenterParameters.WebApiDomainName = _iniFile.Read(IniSection.WebApi, IniKey.DomainName, "iit-fibertest");
+            _currentDatacenterParameters.WebApiBindingProtocol = _iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "none");
+            if (_currentDatacenterParameters.WebApiBindingProtocol == "none")
                 _logFile.AppendLine("Web API service is not installed.");
 
             _currentDatacenterParameters.Smtp = new SmtpSettingsDto()

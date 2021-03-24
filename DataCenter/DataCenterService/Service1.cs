@@ -22,6 +22,7 @@ namespace Iit.Fibertest.DataCenterService
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
         private readonly WebApiChecker _webApiChecker;
         private readonly SmsSender _smsSender;
+        private readonly IFtSignalRClient _ftSignalRClient;
         private readonly MeasurementsForWebNotifier _measurementsForWebNotifier;
         private readonly WcfServiceForDesktopC2DBootstrapper _wcfServiceForDesktopC2DBootstrapper;
         private readonly WcfServiceForCommonC2DBootstrapper _wcfServiceForCommonC2DBootstrapper;
@@ -32,7 +33,7 @@ namespace Iit.Fibertest.DataCenterService
         public Service1(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters, 
             IParameterizer serverParameterizer, EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
             LastConnectionTimeChecker lastConnectionTimeChecker, WebApiChecker webApiChecker, SmsSender smsSender,
-            MeasurementsForWebNotifier measurementsForWebNotifier,
+            IFtSignalRClient ftSignalRClient, MeasurementsForWebNotifier measurementsForWebNotifier,
             WcfServiceForDesktopC2DBootstrapper wcfServiceForDesktopC2DBootstrapper,
             WcfServiceForCommonC2DBootstrapper wcfServiceForCommonC2DBootstrapper,
             WcfServiceForRtuBootstrapper wcfServiceForRtuBootstrapper,
@@ -49,6 +50,7 @@ namespace Iit.Fibertest.DataCenterService
             _lastConnectionTimeChecker = lastConnectionTimeChecker;
             _webApiChecker = webApiChecker;
             _smsSender = smsSender;
+            _ftSignalRClient = ftSignalRClient;
             _measurementsForWebNotifier = measurementsForWebNotifier;
             _wcfServiceForDesktopC2DBootstrapper = wcfServiceForDesktopC2DBootstrapper;
             _wcfServiceForCommonC2DBootstrapper = wcfServiceForCommonC2DBootstrapper;
@@ -79,10 +81,11 @@ namespace Iit.Fibertest.DataCenterService
             IniFile.Write(IniSection.General, IniKey.Version, info.FileVersion);
      
             _serverParameterizer.Init();
+            _ftSignalRClient.Initialize();
             await InitializeEventStoreService();
             _lastConnectionTimeChecker.Start();
 
-            if (_currentDatacenterParameters.WebApiBinding != "none")
+            if (_currentDatacenterParameters.WebApiBindingProtocol != "none")
             {
                 _webApiChecker.Start();
                 _measurementsForWebNotifier.Start();

@@ -138,6 +138,7 @@
         Pause,
 
         // WebApi
+        DomainName,
         BindingProtocol,
 
         // Uninstall

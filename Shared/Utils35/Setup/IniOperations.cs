@@ -6,7 +6,7 @@ namespace Iit.Fibertest.UtilsLib
     public static class IniOperations
     {
         private const string DataCenterIniSubdir = @"DataCenter\ini";
-        public static void PlaceParamsIntoIniFile(string installationFolder, string mysqlTcpPort, string bindingProtocol)
+        public static void PlaceParamsIntoIniFile(string installationFolder, string mysqlTcpPort, string bindingProtocol, string domainName)
         {
             var iniDataCenterPath = Path.Combine(installationFolder, DataCenterIniSubdir);
 
@@ -16,6 +16,7 @@ namespace Iit.Fibertest.UtilsLib
             iniFile.AssignFile(iniFileName, true);
 
             iniFile.Write(IniSection.MySql, IniKey.MySqlTcpPort, mysqlTcpPort);
+            iniFile.Write(IniSection.WebApi, IniKey.DomainName, domainName);
             iniFile.Write(IniSection.WebApi, IniKey.BindingProtocol, bindingProtocol);
         }
         

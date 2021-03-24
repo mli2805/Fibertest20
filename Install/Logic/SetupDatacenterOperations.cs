@@ -64,7 +64,7 @@ namespace Iit.Fibertest.Install
                     : "http"
                 : "none";
             IniOperations.PlaceParamsIntoIniFile(currentInstallation.InstallationFolder,
-                currentInstallation.MySqlTcpPort, webApiBindingProtocol);
+                currentInstallation.MySqlTcpPort, webApiBindingProtocol, currentInstallation.SslCertificateDomain);
         }
 
         private static bool SetupWebApiComponent(BackgroundWorker worker, CurrentInstallation currentInstallation)

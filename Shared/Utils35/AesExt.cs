@@ -37,7 +37,7 @@ namespace Iit.Fibertest.UtilsLib
                 using StreamWriter sWriter = new StreamWriter(cryptStream);
 
                 //Write to the stream.  
-                sWriter.WriteLine(str);
+                sWriter.Write(str);
                 sWriter.Close();
 
                 return ByteArrayToString(myStream.ToArray());
@@ -72,7 +72,8 @@ namespace Iit.Fibertest.UtilsLib
 
                 //Read the stream.
                 using StreamReader sReader = new StreamReader(cryptStream);
-                return sReader.ReadToEnd();
+                var result = sReader.ReadToEnd();
+                return result;
             }
             catch (Exception e)
             {

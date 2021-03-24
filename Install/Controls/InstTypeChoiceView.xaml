@@ -58,6 +58,10 @@
                                                 Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                         </DockPanel>
+                        <DockPanel>
+                            <TextBlock Margin="5" Text="Domain name"/>
+                            <TextBox Margin="5" Text="{Binding DomainName}"/>
+                        </DockPanel>
                     </StackPanel>
                 </GroupBox>
             </StackPanel>

@@ -10,6 +10,7 @@ namespace Iit.Fibertest.DataCenterCore
     public interface IFtSignalRClient
     {
         Task<bool> IsSignalRConnected(bool isLog = true);
+        void Initialize();
         Task NotifyAll(string eventType, string dataInJson);
         Task<bool> CheckServerIn();
 
@@ -18,19 +19,24 @@ namespace Iit.Fibertest.DataCenterCore
     public class FtSignalRClient : IFtSignalRClient, IDisposable
     {
         private readonly IMyLog _logFile;
+        private readonly CurrentDatacenterParameters _cdp;
         private HubConnection connection;
-        private readonly bool _isWebApiInstalled;
-
-        private readonly string _webApiUrl;
+        private bool _isWebApiInstalled;
+        private string _webApiUrl;
 
         public string ServerConnectionId { get; set; }
 
-        public FtSignalRClient(IniFile iniFile, IMyLog logFile)
+        public FtSignalRClient(IMyLog logFile, CurrentDatacenterParameters cdp)
         {
             _logFile = logFile;
-            var bindingProtocol = iniFile.Read(IniSection.WebApi, IniKey.BindingProtocol, "http");
-            _isWebApiInstalled = bindingProtocol != "none";
-            _webApiUrl = $"{bindingProtocol}://localhost:{(int)TcpPorts.WebApiListenTo}/webApiSignalRHub";
+            _cdp = cdp;
+        }
+
+        public void Initialize()
+        {
+            _isWebApiInstalled = _cdp.WebApiBindingProtocol != "none";
+            _webApiUrl = $"{_cdp.WebApiBindingProtocol}://{_cdp.WebApiDomainName}:{(int)TcpPorts.WebApiListenTo}/webApiSignalRHub";
+
         }
 
         private void Build()
