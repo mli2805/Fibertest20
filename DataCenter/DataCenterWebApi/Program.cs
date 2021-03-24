@@ -18,25 +18,39 @@ namespace Iit.Fibertest.DataCenterWebApi
         private static IHostBuilder CreateHostBuilder(string[] args)
         {
             var webApiSettings = GetWebApiSettings();
-            var hostBuilder = Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    // webBuilder.UseUrls($"{webApiSettings.ApiProtocol}://*:{(int)TcpPorts.WebApiListenTo}");
-                    webBuilder.ConfigureKestrel(serverOptions =>
+
+            if (webApiSettings.ApiProtocol == "http")
+            {
+                return Host.CreateDefaultBuilder(args)
+                    .ConfigureWebHostDefaults(webBuilder =>
                     {
-                        // serverOptions.Listen(IPAddress.Loopback, 11080);
-                        serverOptions.Listen(IPAddress.Loopback, 11080,
-                            listenOptions =>
+                        webBuilder.ConfigureKestrel(serverOptions =>
                             {
-                                listenOptions.UseHttps(
-                                    webApiSettings.SslCertificatePath,
-                                    webApiSettings.SslCertificatePassword);
-                            });
+                                serverOptions.Listen(IPAddress.Loopback, 11080);
+                            })
+                            .UseStartup<Startup>();
                     })
-                        .UseStartup<Startup>();
-                })
-                .UseWindowsService();
-            return hostBuilder;
+                    .UseWindowsService();
+            }
+            else
+            {
+                return Host.CreateDefaultBuilder(args)
+                    .ConfigureWebHostDefaults(webBuilder =>
+                    {
+                        webBuilder.ConfigureKestrel(serverOptions =>
+                            {
+                                serverOptions.Listen(IPAddress.Loopback, 11080,
+                                    listenOptions =>
+                                    {
+                                        listenOptions.UseHttps(
+                                            webApiSettings.SslCertificatePath,
+                                            webApiSettings.SslCertificatePassword);
+                                    });
+                            })
+                            .UseStartup<Startup>();
+                    })
+                    .UseWindowsService();
+            }
         }
 
 
