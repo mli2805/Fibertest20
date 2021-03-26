@@ -17,9 +17,12 @@ namespace Iit.Fibertest.UtilsLib
 
             iniFile.Write(IniSection.MySql, IniKey.MySqlTcpPort, mysqlTcpPort);
             iniFile.Write(IniSection.WebApi, IniKey.DomainName, domainName);
-            iniFile.Write(IniSection.WebApi, IniKey.BindingProtocol, bindingProtocol);
+            if (string.IsNullOrEmpty(bindingProtocol) || bindingProtocol == "http")
+                iniFile.Write(IniSection.WebApi, IniKey.BindingProtocol, "localhost");
+            else
+                iniFile.Write(IniSection.WebApi, IniKey.BindingProtocol, bindingProtocol);
         }
-        
+
         public static string GetMysqlTcpPort(string installationFolder)
         {
             try

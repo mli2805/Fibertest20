@@ -26,7 +26,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                     {
                         webBuilder.ConfigureKestrel(serverOptions =>
                             {
-                                serverOptions.Listen(IPAddress.Loopback, 11080);
+                                serverOptions.Listen(IPAddress.Any, 11080);
                             })
                             .UseStartup<Startup>();
                     })
@@ -39,7 +39,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                     {
                         webBuilder.ConfigureKestrel(serverOptions =>
                             {
-                                serverOptions.Listen(IPAddress.Loopback, 11080,
+                                serverOptions.Listen(IPAddress.Any, 11080,
                                     listenOptions =>
                                     {
                                         listenOptions.UseHttps(
