@@ -1,6 +1,6 @@
 .container {
   margin: 15px 10px 0px 10px;
-  width: 960px;
+  min-width: 640px;
 }
 
 #header {
@@ -35,6 +35,10 @@
 #combobox {
   width: 167px;
   margin-left: 15px;
+}
+
+.mat-table {
+  width: 100%;
 }
 
 .mat-header-cell {
@@ -84,26 +88,18 @@
   }
 }
 
-@media (min-width: 600px) {
-  #header {
-    flex-direction: column;
-  }
-
-  .right-part {
-    margin: 20px 0px;
-  }
-}
-
-@media (min-width: 960px) {
-  .mat-column-coors {
-    max-width: 180px !important;
-  }
-
+@media (min-width: 660px) {
   #header {
     flex-direction: row;
   }
 
   .right-part {
     margin: 0px 0px;
+  }
+}
+
+@media (min-width: 960px) {
+  .mat-column-coors {
+    max-width: 180px !important;
   }
 }
