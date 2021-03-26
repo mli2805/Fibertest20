@@ -26,7 +26,7 @@
             <CheckBox Content="{x:Static stringResources:Resources.SID_Install_Web_Service}" 
                       IsChecked="{Binding IsWebNeeded}" Margin="5,15,10,10"/>
             <StackPanel Margin="0,0,10,0" Visibility="{Binding WebSettingsVisibility}">
-                <StackPanel Orientation="Horizontal">
+                <StackPanel Orientation="Horizontal" IsEnabled="False">
                     <RadioButton GroupName="1" Margin="5" Content="HTTPS" 
                                      IsChecked="{Binding IsWebByHttps}"/>
                     <RadioButton GroupName="1" Margin="5" Content="HTTP" IsChecked="True"/>
