@@ -117,7 +117,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             app.UseCors("Cors");
 
             // in http version does nothing
-//            app.UseHttpsRedirection();
+            app.UseHttpsRedirection();
 
             app.UseRouting();
 
