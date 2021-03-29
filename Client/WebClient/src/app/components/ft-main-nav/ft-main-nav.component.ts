@@ -129,6 +129,10 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
         const res = (await this.oneApiService
           .getRequest(`authentication/heartbeat/${currentUser.connectionId}`)
           .toPromise()) as RequestAnswer;
+
+        const settings = JSON.parse(sessionStorage.settings);
+        this.version = settings.version;
+
         if (res.returnCode !== ReturnCode.Ok) {
           console.log(`Heartbeat: ${res.errorMessage}`);
           await this.exit();
@@ -144,7 +148,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.clearSessionStorage();
     this.signalRService.stopConnection();
 
-    await FtMessageBox.showAndGoAlong(
+    FtMessageBox.showAndGoAlong(
       this.matDialog,
       this.ts.instant("SID_Server_connection_lost_"),
       this.ts.instant("SID_Error_"),

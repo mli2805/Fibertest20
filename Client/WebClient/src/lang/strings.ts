@@ -929,7 +929,9 @@ export const languages = {
     "SID_Yes": "Yes",
     "SID_No": "No",
     "SID_Device": "Device",
-    "SID_Application_closed": "Application closed."
+    "SID_Application_closed": "Application closed.",
+    "SID_Versions_do_not_match": "Client's version does not match server's one!",
+    "SID_Please_close_browser": "Please close browser's tab and start Fibertest again."
   },
   "ru-RU": {
     "SID_CableReserve": "Запас кабеля",
@@ -1858,6 +1860,8 @@ export const languages = {
     "SID_Yes": "Да",
     "SID_No": "Нет",
     "SID_Device": "Устройство",
-    "SID_Application_closed": "Приложение закрыто."
+    "SID_Application_closed": "Приложение закрыто.",
+    "SID_Versions_do_not_match": "Версия клиента не совпадает с версией сервера",
+    "SID_Please_close_browser": "Пожалуйста, закройте вкладку браузера и запустите Fibertest снова."
   }
 };

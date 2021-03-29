@@ -7,9 +7,8 @@ import {
   RtuTreeEvent,
 } from "../../../ft-rtu-tree-event-service";
 import { OneApiService } from "src/app/api/one.service";
-import { UserDto } from "src/app/models/dtos/userDto";
+import { RegistrationAnswerDto } from "src/app/models/dtos/registrationAnswerDto";
 import { Role } from "src/app/models/enums/role";
-import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { FiberState } from "src/app/models/enums/fiberState";
 
@@ -102,7 +101,7 @@ export class FtAttachedLineComponent implements OnInit {
   }
 
   isDetachTraceDisabled(): boolean {
-    const user: UserDto = JSON.parse(sessionStorage.getItem("currentUser"));
+    const user: RegistrationAnswerDto = JSON.parse(sessionStorage.getItem("currentUser"));
     return user.role > Role.Root || this.trace.isIncludedInMonitoringCycle;
   }
 

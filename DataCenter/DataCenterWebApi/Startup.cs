@@ -1,4 +1,6 @@
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -79,8 +81,11 @@ namespace Iit.Fibertest.DataCenterWebApi
             var logFile = new LogFile(iniFile);
             logFile.AssignFile("webapi.log");
             services.AddSingleton<IMyLog>(logFile);
-            logFile.AppendLine("Fibertest WebApi service started");
 
+            var assembly = Assembly.GetExecutingAssembly();
+            FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
+            iniFile.Write(IniSection.General, IniKey.Version, info.FileVersion);
+            logFile.AppendLine($"Fibertest WebApi service {info.FileVersion} started");
         }
 
         private static void SetServerAddress(IniFile iniFile)

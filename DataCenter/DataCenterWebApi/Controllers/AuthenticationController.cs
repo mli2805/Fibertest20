@@ -28,9 +28,11 @@ namespace Iit.Fibertest.DataCenterWebApi
         private readonly CommonC2DWcfManager _commonC2DWcfManager;
         private readonly WebC2DWcfManager _webC2DWcfManager;
         private readonly string _localIpAddress;
+        private readonly string _version;
 
         public AuthenticationController(IniFile iniFile, IMyLog logFile)
         {
+            _version = iniFile.Read(IniSection.General, IniKey.Version, "2.1.0.0");
             _logFile = logFile;
             _doubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToCommonClient);
             _doubleAddressForWebWcfManager = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToWebClient);
@@ -160,6 +162,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 zone = clientRegisteredDto.ZoneTitle,
                 connectionId,
                 jsonWebToken = encodedJwt,
+                serverVersion = _version,
             };
 
             // response serialization

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from "@angular/core";
-import { UserDto } from "src/app/models/dtos/userDto";
+import { RegistrationAnswerDto } from "src/app/models/dtos/registrationAnswerDto";
 import { Role } from "src/app/models/enums/role";
 import { AboutDto } from "src/app/models/dtos/aboutDto";
 import { OneApiService } from "src/app/api/one.service";
@@ -10,7 +10,7 @@ import { OneApiService } from "src/app/api/one.service";
   styleUrls: ["./ft-about.component.css"],
 })
 export class FtAboutComponent implements OnInit {
-  loggedUser: UserDto;
+  loggedUser: RegistrationAnswerDto;
   aboutVm: AboutDto = new AboutDto();
   roleString: string;
   columnsToDisplay = ["title", "version", "version2"];

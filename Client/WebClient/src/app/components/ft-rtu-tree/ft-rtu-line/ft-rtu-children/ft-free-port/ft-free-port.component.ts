@@ -2,7 +2,7 @@ import { Component, OnInit, Input, ViewChild } from "@angular/core";
 import { MatMenuTrigger } from "@angular/material";
 import { Router } from "@angular/router";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
-import { UserDto } from "src/app/models/dtos/userDto";
+import { RegistrationAnswerDto } from "src/app/models/dtos/registrationAnswerDto";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { Role } from "src/app/models/enums/role";
 import { OtauPortDto } from "src/app/models/underlying/otauPortDto";
@@ -77,12 +77,12 @@ export class FtFreePortComponent implements OnInit {
   }
 
   public isAttachTraceDisabled() {
-    const user: UserDto = JSON.parse(sessionStorage.getItem("currentUser"));
+    const user: RegistrationAnswerDto = JSON.parse(sessionStorage.getItem("currentUser"));
     return user.role > Role.Root;
   }
 
   public isAttachSwitchDisabled() {
-    const user: UserDto = JSON.parse(sessionStorage.getItem("currentUser"));
+    const user: RegistrationAnswerDto = JSON.parse(sessionStorage.getItem("currentUser"));
     return (
       this.parentRtu.monitoringMode === MonitoringMode.On ||
       user.role > Role.Root
