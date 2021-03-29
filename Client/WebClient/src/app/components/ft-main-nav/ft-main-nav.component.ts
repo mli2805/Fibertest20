@@ -105,11 +105,12 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.timer = setInterval(() => {
       this.sendHeartbeat();
     }, 7000);
 
+    await new Promise((res) => setTimeout(res, 1000));
     if (sessionStorage.settings === undefined) {
       this.version = ``;
     } else {
