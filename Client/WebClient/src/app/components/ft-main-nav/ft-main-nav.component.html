@@ -65,7 +65,10 @@
       >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>Fibertest&trade; 2.0</span>
+      <div class="fibertest">
+        <div>Fibertest&trade; 2.0</div>
+        <span class="version">( {{ version }} )</span>
+      </div>
       <div class="indicators">
         <div class="oe one-indicator" *ngIf="isOpticalAlarm !== ''">
           <div class="oe ball">

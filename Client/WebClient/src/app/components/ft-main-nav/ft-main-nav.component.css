@@ -32,6 +32,18 @@ mat-toolbar a {
   text-decoration: none;
 }
 
+.fibertest {
+  margin: 10px 0px 0px 10px;
+}
+.version {
+  display: flex;
+  justify-self: center;
+  font-size: 70%;
+  color: aliceblue;
+  margin-top: -10px;
+  margin-left: 20px;
+}
+
 @media (min-width: 1600px) {
   .sidenav {
     display: none;

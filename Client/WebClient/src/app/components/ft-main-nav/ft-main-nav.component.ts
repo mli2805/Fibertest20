@@ -52,6 +52,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   public isOpticalAlarm = "";
   public isNetworkAlarm = "";
   public isBopAlarm = "";
+  public version = "2.1.1.531";
 
   private language: string;
   private timer;
@@ -108,6 +109,13 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.timer = setInterval(() => {
       this.sendHeartbeat();
     }, 7000);
+
+    if (sessionStorage.settings === undefined) {
+      this.version = ``;
+    } else {
+      const settings = JSON.parse(sessionStorage.settings);
+      this.version = settings.version;
+    }
   }
 
   async sendHeartbeat() {
