@@ -49,7 +49,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                     _logFile.AppendLine($"Inner exception: {e.InnerException.Message}");
                 await base.OnDisconnectedAsync(e);
             }
-         }
+        }
 
         public async Task CheckServerIn()
         {
@@ -76,12 +76,12 @@ namespace Iit.Fibertest.DataCenterWebApi
             }
         }
 
-        //        public async Task AnswerToThisUser(string eventType, string dataInJson)
-        //        {
-        //            _logFile.AppendLine($"Hub received {eventType} event");
-        //            // TODO send only to this user
-        //            await Clients.All.SendAsync(eventType, dataInJson);
-        //        }
+        // send only to user with connectionID
+        public async Task SendToOne(string connectionId, string eventType, string dataInJson)
+        {
+            _logFile.AppendLine($"Hub received {eventType} event");
+            await Clients.Client(connectionId).SendAsync(eventType, dataInJson);
+        }
     }
 
 }

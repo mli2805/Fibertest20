@@ -49,7 +49,7 @@ namespace Iit.Fibertest.DataCenterCore
                 _measDict.TryAdd(sorBytesDto.Id, sorBytesDto.SorBytes);
                 sorBytesDto.SorBytes = null;
                 _logFile.AppendLine($"measurement result saved with id {sorBytesDto.Id}");
-                await _ftSignalRClient.NotifyAll("ClientMeasurementDone", sorBytesDto.ToCamelCaseJson());
+                await _ftSignalRClient.SendToOne(sorBytesDto.ConnectionId, "ClientMeasurementDone", sorBytesDto.ToCamelCaseJson());
             }
         }
 

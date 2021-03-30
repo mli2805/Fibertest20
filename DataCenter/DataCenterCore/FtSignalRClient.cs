@@ -12,6 +12,7 @@ namespace Iit.Fibertest.DataCenterCore
         Task<bool> IsSignalRConnected(bool isLog = true);
         void Initialize();
         Task NotifyAll(string eventType, string dataInJson);
+        Task SendToOne(string connectionId, string eventType, string dataInJson);
         Task<bool> CheckServerIn();
 
         string ServerConnectionId { get; set; }
@@ -61,18 +62,18 @@ namespace Iit.Fibertest.DataCenterCore
 
             connection.Closed += async (error) =>
             {
-//                _logFile.AppendLine("FtSignalRClient connection was closed.");
+                //                _logFile.AppendLine("FtSignalRClient connection was closed.");
                 await Task.Delay(1);
             };
 
             connection.On<string>("NotifyServer", connId =>
             {
                 ServerConnectionId = connId;
-//                _logFile.AppendLine($"NotifyServer returned id {connId}");
+                //                _logFile.AppendLine($"NotifyServer returned id {connId}");
             });
         }
 
-      
+
         // DataCenter notifies WebClients
         public async Task NotifyAll(string eventType, string dataInJson)
         {
@@ -93,6 +94,25 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
+        // use it for ClientsMeasurement
+        public async Task SendToOne(string connectionId, string eventType, string dataInJson)
+        {
+            if (!_isWebApiInstalled) return;
+            try
+            {
+                var isConnected = await IsSignalRConnected(false);
+                if (isConnected)
+                {
+                    var unused = connection.InvokeAsync("SendToOne", connectionId, eventType, dataInJson);
+                    _logFile.AppendLine($"FtSignalRClient: {eventType} sent successfully.");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logFile.AppendLine($"FtSignalRClient: {eventType} " + ex.Message);
+            }
+        }
+
         public async Task<bool> CheckServerIn()
         {
             if (!_isWebApiInstalled) return true;
@@ -101,7 +121,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var isConnected = await IsSignalRConnected(false);
                 if (isConnected)
                 {
-//                    await connection.InvokeAsync("CheckServerIn");
+                    //                    await connection.InvokeAsync("CheckServerIn");
                     var unused = connection.InvokeAsync("CheckServerIn");
                     return true;
                 }
