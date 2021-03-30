@@ -1862,6 +1862,6 @@ export const languages = {
     "SID_Device": "Устройство",
     "SID_Application_closed": "Приложение закрыто.",
     "SID_Versions_do_not_match": "Версия клиента не совпадает с версией сервера",
-    "SID_Please_close_browser": "Пожалуйста, закройте вкладку браузера и запустите Fibertest снова."
+    "SID_Please_close_browser": "Пожалуйста, закройте вкладку браузера и повторите подключение в новой вкладке."
   }
 };

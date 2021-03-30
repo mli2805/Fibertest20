@@ -7,6 +7,7 @@ import {
   SorAreaViewerService,
   SorViewerService,
   EventTableService,
+  SorAreaSettings,
 } from "@veex/sor";
 import { VX_DIALOG_SERVICE, Color } from "@veex/common";
 import { ChartDataService, ChartMatrixesService } from "@veex/chart";
@@ -39,6 +40,9 @@ export class SorViewerComponent implements OnInit {
     private oneApiService: OneApiService
   ) {
     sorAreaService.showLandmarksDock = true;
+    const sorSettings = SorAreaSettings.Default();
+    sorSettings.showDock = false;
+    sorAreaService.setSettings(sorSettings);
   }
 
   async ngOnInit() {
