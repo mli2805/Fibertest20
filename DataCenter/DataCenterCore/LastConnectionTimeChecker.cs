@@ -9,6 +9,7 @@ using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
+using Newtonsoft.Json;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -77,6 +78,10 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<int> Tick()
         {
+            var testObj = new {number = DateTime.Now.Second};
+            var testJson = JsonConvert.SerializeObject(testObj);
+            await _ftSignalRClient.NotifyListOfClients(_clientsCollection.GetWebClientsId(), "SignalRtest", testJson);
+
             _clientsCollection.CleanDeadClients(_clientHeartbeatPermittedGap);
 
             var networkEvents = await GetNewNetworkEvents(_rtuHeartbeatPermittedGap);

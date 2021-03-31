@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iit.Fibertest.UtilsLib;
 using Microsoft.AspNetCore.SignalR;
@@ -76,11 +77,41 @@ namespace Iit.Fibertest.DataCenterWebApi
             }
         }
 
+        public async Task NotifyListOfClients(List<string> connectionIds, string eventType, string dataInJson)
+        {
+            foreach (var connectionId in connectionIds)
+            {
+                await SendTestToOne(connectionId, eventType, dataInJson);
+            }
+        }
+
+        private async Task SendTestToOne(string connectionId, string eventType, string dataInJson)
+        {
+            try
+            {
+                _logFile.AppendLine($"Hub received {dataInJson} event for {connectionId}");
+                await Clients.Client(connectionId).SendAsync(eventType, dataInJson);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"SignalR Hub SendTestToOne {eventType}. Exception {e.Message}");
+
+            }
+        }
+
         // send only to user with connectionID
         public async Task SendToOne(string connectionId, string eventType, string dataInJson)
         {
-            _logFile.AppendLine($"Hub received {eventType} event");
-            await Clients.Client(connectionId).SendAsync(eventType, dataInJson);
+            try
+            {
+                _logFile.AppendLine($"Hub received {eventType} event for {connectionId}");
+                await Clients.Client(connectionId).SendAsync(eventType, dataInJson);
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"SignalR Hub SendToOne {eventType}. Exception {e.Message}");
+
+            }
         }
     }
 

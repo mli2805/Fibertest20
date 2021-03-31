@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -12,6 +13,7 @@ namespace Iit.Fibertest.DataCenterCore
         Task<bool> IsSignalRConnected(bool isLog = true);
         void Initialize();
         Task NotifyAll(string eventType, string dataInJson);
+        Task NotifyListOfClients(List<string> connectionIds, string eventType, string dataInJson);
         Task SendToOne(string connectionId, string eventType, string dataInJson);
         Task<bool> CheckServerIn();
 
@@ -85,12 +87,32 @@ namespace Iit.Fibertest.DataCenterCore
                 {
                     var unused = connection.InvokeAsync("NotifyAll", eventType, dataInJson);
                     if (eventType != "NotifyMonitoringStep") // too many
-                        _logFile.AppendLine($"FtSignalRClient: {eventType} sent successfully.");
+                        _logFile.AppendLine($"FtSignalRClient NotifyAll: {eventType} sent successfully.");
                 }
             }
             catch (Exception ex)
             {
-                _logFile.AppendLine($"FtSignalRClient: {eventType} " + ex.Message);
+                _logFile.AppendLine($"FtSignalRClient NotifyAll: {eventType} " + ex.Message);
+            }
+        }
+
+        // temp, for SignalR testing
+        public async Task NotifyListOfClients(List<string> connectionIds, string eventType, string dataInJson)
+        {
+            if (!_isWebApiInstalled) return;
+            try
+            {
+                var isConnected = await IsSignalRConnected(false);
+                if (isConnected)
+                {
+                    var unused = connection.InvokeAsync("NotifyListOfClients", connectionIds, eventType, dataInJson);
+                    if (eventType != "NotifyMonitoringStep") // too many
+                        _logFile.AppendLine($"FtSignalRClient NotifyListOfClients: {eventType} sent successfully.");
+                }
+            }
+            catch (Exception ex)
+            {
+                _logFile.AppendLine($"FtSignalRClient NotifyListOfClients: {eventType} " + ex.Message);
             }
         }
 
