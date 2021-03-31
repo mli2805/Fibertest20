@@ -78,9 +78,16 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<int> Tick()
         {
-            var testObj = new {number = DateTime.Now.Second};
-            var testJson = JsonConvert.SerializeObject(testObj);
-            await _ftSignalRClient.NotifyListOfClients(_clientsCollection.GetWebClientsId(), "SignalRtest", testJson);
+            var webClients = _clientsCollection.GetWebClients();
+            foreach (var webClient in webClients)
+            {
+                var testObj = new { 
+                        user = webClient.UserName + " / " + webClient.ConnectionId, 
+                        lastHeartbeat = webClient.LastConnectionTimestamp.ToLongTimeString()
+                };
+                var testJson = JsonConvert.SerializeObject(testObj);
+                await _ftSignalRClient.SendTestToOne(webClient.ConnectionId, "SignalRtest", testJson);
+            }
 
             _clientsCollection.CleanDeadClients(_clientHeartbeatPermittedGap);
 

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iit.Fibertest.DataCenterCore;
 
@@ -21,7 +20,7 @@ namespace Graph.Tests
             return Task.Delay(0);
         }
 
-        public Task NotifyListOfClients(List<string> connectionIds, string eventType, string dataInJson)
+        public Task SendTestToOne(string connectionId, string eventType, string dataInJson)
         {
             return Task.Delay(0);
         }

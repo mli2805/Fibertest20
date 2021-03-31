@@ -285,6 +285,11 @@ namespace Iit.Fibertest.DataCenterCore
             return _clients.Where(c => c.IsWebClient).Select(l => l.ConnectionId).ToList();
         }
 
+        public List<ClientStation> GetWebClients()
+        {
+            return _clients.Where(c => c.IsWebClient).ToList();
+        }
+
         public ClientStation GetClientByClientIp(string clientIp)
         {
             return _clients.FirstOrDefault(c => c.ClientIp == clientIp);

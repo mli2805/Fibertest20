@@ -30,6 +30,7 @@ import { MatDialog } from "@angular/material";
 import { ServerAsksClientToExitDto } from "src/app/models/dtos/serverAsksClientToExitDto";
 import { ClientMeasurementDoneDto } from "src/app/models/dtos/port/clientMeasurementDoneDto";
 import { SorFileManager } from "src/app/utils/sorFileManager";
+import { formatDate } from "@angular/common";
 
 @Component({
   selector: "ft-main-nav",
@@ -56,6 +57,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
 
   private language: string;
   private timer;
+  private badHeartbeatCount = 0;
 
   constructor(
     private router: Router,
@@ -133,14 +135,38 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
         const settings = JSON.parse(sessionStorage.settings);
         this.version = settings.version;
 
-        if (res.returnCode !== ReturnCode.Ok) {
-          console.log(`Heartbeat: ${res.errorMessage}`);
+        if (res.returnCode >= 2000 && res.returnCode < 3000) {
+          console.log(
+            `Heartbeat connection failed at ${formatDate(
+              Date.now(),
+              "yyyy-MM-dd HH-mm-ss",
+              "en-US"
+            )}.`
+          );
+          this.badHeartbeatCount++;
+          if (this.badHeartbeatCount > 3) {
+            await this.exit();
+          }
+          return;
+        } else if (res.returnCode !== ReturnCode.Ok) {
+          console.log(
+            `Heartbeat: ${res.errorMessage} at ${formatDate(
+              Date.now(),
+              "yyyy-MM-dd HH-mm-ss",
+              "en-US"
+            )}`
+          );
           await this.exit();
+        } else {
+          this.badHeartbeatCount = 0;
         }
       }
     } catch (error) {
-      console.log(`can't send heartbeat: ${error}`);
-      await this.exit();
+      console.log(`can't send heartbeat: ${error.message}`);
+      this.badHeartbeatCount++;
+      if (this.badHeartbeatCount > 3) {
+        await this.exit();
+      }
     }
   }
 

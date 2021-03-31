@@ -49,7 +49,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         [HttpGet("Tree")]
         public async Task<IEnumerable<RtuDto>> GetTree(string connectionId, string username)
         {
-            _logFile.AppendLine($"GetTree requested by {username}, connId {connectionId}");
+            _logFile.AppendLine($"GetTree requested by {username} / {connectionId}");
             var tree = await _webC2DWcfManager
                 .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
                 .GetTreeInJson(User.Identity.Name);

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -13,7 +12,7 @@ namespace Iit.Fibertest.DataCenterCore
         Task<bool> IsSignalRConnected(bool isLog = true);
         void Initialize();
         Task NotifyAll(string eventType, string dataInJson);
-        Task NotifyListOfClients(List<string> connectionIds, string eventType, string dataInJson);
+        Task SendTestToOne(string connectionId, string eventType, string dataInJson);
         Task SendToOne(string connectionId, string eventType, string dataInJson);
         Task<bool> CheckServerIn();
 
@@ -97,7 +96,7 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
         // temp, for SignalR testing
-        public async Task NotifyListOfClients(List<string> connectionIds, string eventType, string dataInJson)
+        public async Task SendTestToOne(string connectionId, string eventType, string dataInJson)
         {
             if (!_isWebApiInstalled) return;
             try
@@ -105,14 +104,14 @@ namespace Iit.Fibertest.DataCenterCore
                 var isConnected = await IsSignalRConnected(false);
                 if (isConnected)
                 {
-                    var unused = connection.InvokeAsync("NotifyListOfClients", connectionIds, eventType, dataInJson);
+                    var unused = connection.InvokeAsync("SendTestToOne", connectionId, eventType, dataInJson);
                     if (eventType != "NotifyMonitoringStep") // too many
-                        _logFile.AppendLine($"FtSignalRClient NotifyListOfClients: {eventType} sent successfully.");
+                        _logFile.AppendLine($"FtSignalRClient SendTestToOne: {eventType} sent successfully.");
                 }
             }
             catch (Exception ex)
             {
-                _logFile.AppendLine($"FtSignalRClient NotifyListOfClients: {eventType} " + ex.Message);
+                _logFile.AppendLine($"FtSignalRClient SendTestToOne: {eventType} " + ex.Message);
             }
         }
 
