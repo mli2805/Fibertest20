@@ -1,7 +1,8 @@
 // https://medium.com/@berkokur/a-real-life-scenario-implementation-with-angular-8-and-asp-net-core-signalr-3ad7e5a46fca
 
 import { Injectable, EventEmitter } from "@angular/core";
-import * as signalR from "@aspnet/signalr";
+// import * as signalR from "@aspnet/signalr";
+import * as signalR from "@microsoft/signalr";
 import { Utils } from "../Utils/utils";
 import { RtuInitializedWebDto } from "../models/dtos/rtu/rtuInitializedWebDto";
 import { CurrentMonitoringStepDto } from "../models/dtos/rtu/currentMonitoringStepDto";
@@ -52,9 +53,8 @@ export class SignalrService {
   private async startConnection(): Promise<string> {
     try {
       await this.hubConnection.start();
-      const connectionId = await this.hubConnection.invoke("getConnectionId");
       this.registerSignalEvents();
-      return connectionId;
+      return this.hubConnection.connectionId;
     } catch (err) {
       console.log("Error while starting connection: " + err);
       setTimeout(() => this.startConnection(), 3000);
