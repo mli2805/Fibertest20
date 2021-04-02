@@ -43,6 +43,10 @@ export class SignalrService {
       // but without JWT you can only subscribe on notifications from signalR
       // and cannot invoke signalR methods if they have attribute [Autorize]
       .build();
+
+    this.hubConnection.onclose(() => {
+      console.log("signalR connection closed");
+    });
   }
 
   private async startConnection(): Promise<string> {

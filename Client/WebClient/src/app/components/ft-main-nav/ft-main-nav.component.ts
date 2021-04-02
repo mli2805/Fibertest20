@@ -139,7 +139,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
 
         if (res.returnCode >= 2000 && res.returnCode < 3000) {
           console.log(
-            `Heartbeat connection failed at ${formatDate(
+            `Heartbeat network connection failed at ${formatDate(
               Date.now(),
               "yyyy-MM-dd HH-mm-ss",
               "en-US"
