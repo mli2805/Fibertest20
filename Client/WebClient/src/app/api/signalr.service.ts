@@ -14,6 +14,7 @@ import { NetworkEventDto } from "../models/dtos/networkEventDto";
 import { BopEventDto } from "../models/dtos/bopEventDto";
 import { UpdateMeasurementDto } from "../models/dtos/trace/updateMeasurementDto";
 import { ServerAsksClientToExitDto } from "../models/dtos/serverAsksClientToExitDto";
+import { AuthService } from "./auth.service";
 
 @Injectable({
   providedIn: "root",
@@ -32,7 +33,9 @@ export class SignalrService {
   public measurementUpdatedEmitter = new EventEmitter<UpdateMeasurementDto>();
   public serverAsksExitEmitter = new EventEmitter<ServerAsksClientToExitDto>();
 
-  public buildConnection(token: string) {
+  constructor(private authService: AuthService) {}
+
+  private buildConnection(token: string) {
     const url = Utils.GetWebApiUrl() + "/webApiSignalRHub";
     this.hubConnection = new signalR.HubConnectionBuilder()
       .withUrl(url, { accessTokenFactory: () => token })
@@ -42,7 +45,7 @@ export class SignalrService {
       .build();
   }
 
-  public async startConnection(): Promise<string> {
+  private async startConnection(): Promise<string> {
     try {
       await this.hubConnection.start();
       const connectionId = await this.hubConnection.invoke("getConnectionId");
@@ -54,21 +57,35 @@ export class SignalrService {
     }
   }
 
-  public async reStartConnection() {
-    console.log("restart signalR connection");
-    if (sessionStorage.getItem("currentUser") === null) {
-      return;
-    }
-    console.log(this.hubConnection);
+  public async reStartConnection(): Promise<string> {
+    console.log("(re)start signalR connection");
+
+    const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
     if (this.hubConnection === undefined) {
-      const res = JSON.parse(sessionStorage.getItem("currentUser"));
-      this.buildConnection(res.jsonWebToken);
+      console.log("user logged in but hub counnection is undefined, build it");
+      this.buildConnection(currentUser.jsonWebToken);
     }
     if (this.hubConnection.state !== signalR.HubConnectionState.Connected) {
-      await this.startConnection();
-      const connectionId = await this.hubConnection.invoke("getConnectionId");
-      console.log("signalR connection restarted, ID: ", connectionId);
+      const connectionId = await this.startConnection();
+      console.log("signalR connection (re)started, ID: ", connectionId);
+
+      this.changeConnectionId(currentUser, connectionId);
+
+      return connectionId;
     }
+  }
+
+  private async changeConnectionId(res, newConnectionId: string) {
+    await this.authService
+      .changeGuidWithSignalrConnectionId(
+        res.jsonWebToken,
+        res.connectionId,
+        newConnectionId
+      )
+      .toPromise();
+
+    res.connectionId = newConnectionId;
+    sessionStorage.setItem("currentUser", JSON.stringify(res));
   }
 
   public stopConnection() {
@@ -108,7 +125,6 @@ export class SignalrService {
   }
 
   private registerSignalEvents() {
-    // this.hubConnection.on("RtuInitialized", this.onRtuInitialized.bind(this));
     this.hubConnection.on("RtuInitialized", (data: RtuInitializedWebDto) =>
       this.rtuInitializedEmitter.emit(data)
     );

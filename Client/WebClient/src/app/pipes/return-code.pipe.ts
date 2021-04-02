@@ -99,6 +99,8 @@ export class ReturnCodePipe implements PipeTransform {
         return this.ts.instant(
           "SID_This_user_has_no_right_to_start_Web_Client"
         );
+      case ReturnCode.VersionsDoNotMatch:
+        return this.ts.instant("SID_Versions_do_not_match");
       // 9401
       case ReturnCode.BaseRefAssignmentFailed:
         return this.ts.instant("SID_Base_reference_assignment_failed");

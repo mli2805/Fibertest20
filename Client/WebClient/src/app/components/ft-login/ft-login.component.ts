@@ -58,6 +58,31 @@ export class FtLoginComponent implements OnInit {
   }
 
   async login() {
+    this.initializeVariables();
+
+    try {
+      const settings = JSON.parse(sessionStorage.settings);
+
+      const res = (await this.authService
+        .login(this.user, this.pw, settings.version)
+        .toPromise()) as RegistrationAnswerDto;
+      sessionStorage.setItem("currentUser", JSON.stringify(res));
+
+      const connectionId = await this.signalrService.reStartConnection();
+
+      console.log(
+        `Logged in with signalR connection id ${connectionId} successfully!`
+      );
+
+      await this.initializeIndicators(res);
+      this.router.navigate(["/ft-main-nav/rtu-tree"], { queryParams: null });
+    } catch (unsuccessfulResult) {
+      this.handleRegistrationProblems(unsuccessfulResult);
+    }
+    this.isSpinnerVisible = false;
+  }
+
+  initializeVariables() {
     this.resultMessage = "";
     if (
       environment.production === false &&
@@ -68,75 +93,35 @@ export class FtLoginComponent implements OnInit {
       this.pw = "root";
     }
     this.isSpinnerVisible = true;
+  }
 
-    try {
-      const settings = JSON.parse(sessionStorage.settings);
+  async handleRegistrationProblems(unsuccessfulResult) {
+    if (unsuccessfulResult.error === undefined) {
+      this.resultMessage = unsuccessfulResult.message;
+    } else if (unsuccessfulResult.error.returnCode === undefined) {
+      this.resultMessage = this.returnCodePipe.transform(
+        ReturnCode.C2DWcfConnectionError
+      );
+    } else if (
+      unsuccessfulResult.error.returnCode === ReturnCode.VersionsDoNotMatch
+    ) {
+      const mess = await this.closeCurrentTab();
+      this.resultMessage = this.returnCodePipe.transform(
+        ReturnCode.VersionsDoNotMatch
+      );
+      this.isSpinnerVisible = false;
 
-      const res = (await this.authService
-        .login(this.user, this.pw, settings.version)
-        .toPromise()) as RegistrationAnswerDto;
-      if (res === null) {
-        console.log("Login failed, try again...");
-      } else {
-        if (res.returnCode === ReturnCode.VersionsDoNotMatch) {
-          const mess = await this.closeCurrentTab();
-          this.isSpinnerVisible = false;
-
-          if (environment.production === false) {
-            settings.version = res.serverVersion;
-            sessionStorage.setItem("settings", JSON.stringify(settings));
-          }
-          return;
-        }
-
-        this.signalrService.buildConnection(res.jsonWebToken);
-        const connectionId = await this.signalrService.startConnection();
-
-        await this.authService
-          .changeGuidWithSignalrConnectionId(
-            res.jsonWebToken,
-            res.connectionId,
-            connectionId
-          )
-          .toPromise();
-
-        res.connectionId = connectionId;
-        sessionStorage.setItem("currentUser", JSON.stringify(res));
-
-        console.log(
-          `Logged in with signalR connection id ${connectionId} successfully!`
-        );
-
-        await this.initializeIndicators(res);
-        this.router.navigate(["/ft-main-nav/rtu-tree"], { queryParams: null });
+      if (environment.production === false) {
+        const settings = JSON.parse(sessionStorage.settings);
+        settings.version = unsuccessfulResult.error.serverVersion;
+        sessionStorage.setItem("settings", JSON.stringify(settings));
       }
-    } catch (unsuccessfulResult) {
-      if (unsuccessfulResult.error === undefined) {
-        this.resultMessage = unsuccessfulResult.message;
-      } else if (unsuccessfulResult.error.returnCode === undefined) {
-        this.resultMessage = this.returnCodePipe.transform(
-          ReturnCode.C2DWcfConnectionError
-        );
-      } else if (
-        unsuccessfulResult.error.returnCode === ReturnCode.VersionsDoNotMatch
-      ) {
-        const mess = await this.closeCurrentTab();
-        this.isSpinnerVisible = false;
-
-        if (environment.production === false) {
-          const settings = JSON.parse(sessionStorage.settings);
-          settings.version = unsuccessfulResult.error.serverVersion;
-          sessionStorage.setItem("settings", JSON.stringify(settings));
-        }
-      } else {
-        this.resultMessage = this.returnCodePipe.transform(
-          unsuccessfulResult.error.returnCode
-        );
-      }
-      console.log("login: " + this.resultMessage);
+    } else {
+      this.resultMessage = this.returnCodePipe.transform(
+        unsuccessfulResult.error.returnCode
+      );
     }
-
-    this.isSpinnerVisible = false;
+    console.log("login: " + this.resultMessage);
   }
 
   async initializeIndicators(res: RegistrationAnswerDto) {

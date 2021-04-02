@@ -114,7 +114,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             if (user.version != _version)
             {
                 _logFile.AppendLine($"Web client version is {user.version}, Web API version is {_version}");
-                await ReturnError(ReturnCode.VersionsDoNotMatch, "");
+                await ReturnError(409, ReturnCode.VersionsDoNotMatch, "");
                 return;
             }
 
@@ -138,7 +138,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
             if (clientRegisteredDto.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
             {
-                await ReturnError(clientRegisteredDto.ReturnCode, clientRegisteredDto.ErrorMessage);
+                await ReturnError(401, clientRegisteredDto.ReturnCode, clientRegisteredDto.ErrorMessage);
                 return;
             }
           
@@ -170,9 +170,9 @@ namespace Iit.Fibertest.DataCenterWebApi
             await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
 
-        private async Task ReturnError(ReturnCode returnCode, string exceptionMessage)
+        private async Task ReturnError(int httpStatusCode, ReturnCode returnCode, string exceptionMessage)
         {
-            Response.StatusCode = 401;
+            Response.StatusCode = httpStatusCode;
             var responseError = new { returnCode, exceptionMessage, serverVersion = _version };
             Response.ContentType = "application/json";
             await Response.WriteAsync(JsonConvert.SerializeObject(responseError,
