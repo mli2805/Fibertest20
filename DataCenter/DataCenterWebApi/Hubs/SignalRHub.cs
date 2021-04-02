@@ -31,7 +31,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         public override async Task OnConnectedAsync()
         {
-            //            _logFile.AppendLine($"SignalR Hub: User {Context.User.Identity.Name} connected from = {GetRemoteAddress()} assigned id {Context.ConnectionId}");
+            _logFile.AppendLine($"SignalR Hub: User {Context.User.Identity.Name} connected from = {GetRemoteAddress()} assigned id {Context.ConnectionId}");
             await base.OnConnectedAsync();
         }
 
@@ -39,7 +39,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         {
             if (e == null)
             {
-                //                _logFile.AppendLine($"OnDisconnectedAsync (ClientIp = {GetRemoteAddress()},  ConnectionId = {Context.ConnectionId})");
+                _logFile.AppendLine($"OnDisconnectedAsync (ClientIp = {GetRemoteAddress()},  ConnectionId = {Context.ConnectionId})");
                 await base.OnDisconnectedAsync(new Exception("SignalR disconnected"));
             }
             else
@@ -72,7 +72,6 @@ namespace Iit.Fibertest.DataCenterWebApi
             catch (Exception e)
             {
                 _logFile.AppendLine($"SignalR Hub NotifyAll {eventType}. Exception {e.Message}");
-
             }
         }
 
@@ -86,7 +85,6 @@ namespace Iit.Fibertest.DataCenterWebApi
             catch (Exception e)
             {
                 _logFile.AppendLine($"SignalR Hub SendTestToOne {eventType}. Exception {e.Message}");
-
             }
         }
 

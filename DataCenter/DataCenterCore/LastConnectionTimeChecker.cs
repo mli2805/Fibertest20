@@ -9,7 +9,6 @@ using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
-using Newtonsoft.Json;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -78,16 +77,16 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<int> Tick()
         {
-            var webClients = _clientsCollection.GetWebClients();
-            foreach (var webClient in webClients)
-            {
-                var testObj = new { 
-                        user = webClient.UserName + " / " + webClient.ConnectionId, 
-                        lastHeartbeat = webClient.LastConnectionTimestamp.ToLongTimeString()
-                };
-                var testJson = JsonConvert.SerializeObject(testObj);
-                await _ftSignalRClient.SendTestToOne(webClient.ConnectionId, "SignalRtest", testJson);
-            }
+            // var webClients = _clientsCollection.GetWebClients();
+            // foreach (var webClient in webClients)
+            // {
+            //     var testObj = new { 
+            //             user = webClient.UserName + " / " + webClient.ConnectionId, 
+            //             lastHeartbeat = webClient.LastConnectionTimestamp.ToLongTimeString()
+            //     };
+            //     var testJson = JsonConvert.SerializeObject(testObj);
+            //     await _ftSignalRClient.SendTestToOne(webClient.ConnectionId, "SignalRtest", testJson);
+            // }
 
             _clientsCollection.CleanDeadClients(_clientHeartbeatPermittedGap);
 

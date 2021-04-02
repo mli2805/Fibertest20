@@ -18,6 +18,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         string ServerConnectionId { get; set; }
     }
+
     public class FtSignalRClient : IFtSignalRClient, IDisposable
     {
         private readonly IMyLog _logFile;

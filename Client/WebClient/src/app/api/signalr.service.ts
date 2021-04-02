@@ -55,6 +55,7 @@ export class SignalrService {
   }
 
   public async reStartConnection() {
+    console.log("restart signalR connection");
     if (sessionStorage.getItem("currentUser") === null) {
       return;
     }
@@ -65,10 +66,8 @@ export class SignalrService {
     }
     if (this.hubConnection.state !== signalR.HubConnectionState.Connected) {
       await this.startConnection();
-      console.log(
-        "signalR connection restarted, state: ",
-        this.hubConnection.state
-      );
+      const connectionId = await this.hubConnection.invoke("getConnectionId");
+      console.log("signalR connection restarted, ID: ", connectionId);
     }
   }
 

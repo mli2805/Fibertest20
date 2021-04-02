@@ -64,6 +64,7 @@
         UserHasNoRightsToStartClient,
         UserHasNoRightsToStartSuperClient,
         UserHasNoRightsToStartWebClient,
+        VersionsDoNotMatch,
 
         BaseRefAssignmentFailed = 9401,
         BaseRefAssignmentParamNotAcceptable = 9402,

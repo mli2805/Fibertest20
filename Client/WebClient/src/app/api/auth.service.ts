@@ -8,24 +8,11 @@ import { Utils } from "../Utils/utils";
 export class AuthService {
   constructor(private httpClient: HttpClient) {}
 
-  login(user: string, pw: string) {
+  login(user: string, pw: string, version: string) {
     const url = Utils.GetWebApiUrl() + "/authentication/login/";
     console.log(`login url: ${url}`);
-    const body = { username: user, password: pw };
-
-    // !!!!!!!!!!!  press Ctrl+F5   !!!!!!!!!!!!!!!!!!
-    // or even restart w3wp processes for webApi and webClient
-
-    // const myHeaders = new HttpHeaders({
-    //   // "Access-Control-Allow-Origin": "*",
-    //   "Access-Control-Allow-Origin": "http://localhost:4200",
-    // });
-
+    const body = { username: user, password: pw, version };
     return this.httpClient.post(url, body);
-
-    // return this.httpClient.post(url, body, {
-    //   headers: myHeaders,
-    // });
   }
 
   changeGuidWithSignalrConnectionId(

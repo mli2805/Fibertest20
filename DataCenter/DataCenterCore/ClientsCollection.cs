@@ -93,7 +93,8 @@ namespace Iit.Fibertest.DataCenterCore
 
             _clients.Add(Create(dto, user));
             _logFile.AppendLine($"Client {dto.UserName}/{dto.ClientIp} registered with connectionId {dto.ConnectionId}");
-            LogStations();
+            if (!dto.IsWebClient)
+                LogStations();
             return await FillInSuccessfulResult(dto, user);
         }
 
@@ -192,6 +193,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (station == null)
                 return false;
             station.ConnectionId = connId;
+            LogStations();
             return true;
         }
 

@@ -110,6 +110,14 @@ namespace Iit.Fibertest.DataCenterWebApi
                 body = await reader.ReadToEndAsync();
             }
             dynamic user = JObject.Parse(body);
+
+            if (user.version != _version)
+            {
+                _logFile.AppendLine($"Web client version is {user.version}, Web API version is {_version}");
+                await ReturnError(ReturnCode.VersionsDoNotMatch, "");
+                return;
+            }
+
             var connectionId = Guid.NewGuid().ToString();
             var clientRegisteredDto = await _commonC2DWcfManager
                 .SetServerAddresses(_doubleAddress, (string)user.username, clientIp)
@@ -130,18 +138,10 @@ namespace Iit.Fibertest.DataCenterWebApi
 
             if (clientRegisteredDto.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
             {
-                Response.StatusCode = 401;
-                var responseError = new
-                {
-                    returnCode = clientRegisteredDto.ReturnCode,
-                    exceptionMessage = clientRegisteredDto.ErrorMessage,
-                };
-                Response.ContentType = "application/json";
-                await Response.WriteAsync(JsonConvert.SerializeObject(responseError,
-                                new JsonSerializerSettings { Formatting = Formatting.Indented }));
+                await ReturnError(clientRegisteredDto.ReturnCode, clientRegisteredDto.ErrorMessage);
                 return;
             }
-
+          
             var identity = GetIdentity((string)user.username, clientRegisteredDto.Role);
 
             var now = DateTime.UtcNow;
@@ -168,6 +168,15 @@ namespace Iit.Fibertest.DataCenterWebApi
             // response serialization
             Response.ContentType = "application/json";
             await Response.WriteAsync(JsonConvert.SerializeObject(response, new JsonSerializerSettings { Formatting = Formatting.Indented }));
+        }
+
+        private async Task ReturnError(ReturnCode returnCode, string exceptionMessage)
+        {
+            Response.StatusCode = 401;
+            var responseError = new { returnCode, exceptionMessage, serverVersion = _version };
+            Response.ContentType = "application/json";
+            await Response.WriteAsync(JsonConvert.SerializeObject(responseError,
+                new JsonSerializerSettings { Formatting = Formatting.Indented }));
         }
 
         private ClaimsIdentity GetIdentity(string username, Role role)

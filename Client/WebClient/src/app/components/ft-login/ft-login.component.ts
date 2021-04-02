@@ -70,14 +70,15 @@ export class FtLoginComponent implements OnInit {
     this.isSpinnerVisible = true;
 
     try {
+      const settings = JSON.parse(sessionStorage.settings);
+
       const res = (await this.authService
-        .login(this.user, this.pw)
+        .login(this.user, this.pw, settings.version)
         .toPromise()) as RegistrationAnswerDto;
       if (res === null) {
         console.log("Login failed, try again...");
       } else {
-        const settings = JSON.parse(sessionStorage.settings);
-        if (settings.version !== res.serverVersion) {
+        if (res.returnCode === ReturnCode.VersionsDoNotMatch) {
           const mess = await this.closeCurrentTab();
           this.isSpinnerVisible = false;
 
@@ -116,6 +117,17 @@ export class FtLoginComponent implements OnInit {
         this.resultMessage = this.returnCodePipe.transform(
           ReturnCode.C2DWcfConnectionError
         );
+      } else if (
+        unsuccessfulResult.error.returnCode === ReturnCode.VersionsDoNotMatch
+      ) {
+        const mess = await this.closeCurrentTab();
+        this.isSpinnerVisible = false;
+
+        if (environment.production === false) {
+          const settings = JSON.parse(sessionStorage.settings);
+          settings.version = unsuccessfulResult.error.serverVersion;
+          sessionStorage.setItem("settings", JSON.stringify(settings));
+        }
       } else {
         this.resultMessage = this.returnCodePipe.transform(
           unsuccessfulResult.error.returnCode
