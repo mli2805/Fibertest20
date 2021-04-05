@@ -68,7 +68,7 @@ export class FtLoginComponent implements OnInit {
         .toPromise()) as RegistrationAnswerDto;
       sessionStorage.setItem("currentUser", JSON.stringify(res));
 
-      const connectionId = await this.signalrService.reStartConnection();
+      const connectionId = await this.signalrService.fullStartProcedure();
 
       console.log(
         `Logged in with signalR connection id ${connectionId} successfully!`

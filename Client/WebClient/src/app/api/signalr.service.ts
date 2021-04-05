@@ -36,6 +36,30 @@ export class SignalrService {
 
   constructor(private authService: AuthService) {}
 
+  public async fullStartProcedure(): Promise<string> {
+    console.log("(re)start signalR connection");
+
+    const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+    if (this.hubConnection === undefined) {
+      console.log("user logged in but hub counnection is undefined, build it");
+      this.buildConnection(currentUser.jsonWebToken);
+    }
+
+    this.hubConnection.onclose(() => {
+      console.log("signalR connection closed");
+      this.startConnection();
+    });
+
+    if (this.hubConnection.state !== signalR.HubConnectionState.Connected) {
+      const connectionId = await this.startConnection();
+      console.log("signalR connection (re)started, ID: ", connectionId);
+
+      this.changeConnectionId(currentUser, connectionId);
+
+      return connectionId;
+    }
+  }
+
   private buildConnection(token: string) {
     const url = Utils.GetWebApiUrl() + "/webApiSignalRHub";
     this.hubConnection = new signalR.HubConnectionBuilder()
@@ -44,10 +68,6 @@ export class SignalrService {
       // but without JWT you can only subscribe on notifications from signalR
       // and cannot invoke signalR methods if they have attribute [Autorize]
       .build();
-
-    this.hubConnection.onclose(() => {
-      console.log("signalR connection closed");
-    });
   }
 
   private async startConnection(): Promise<string> {
@@ -61,35 +81,17 @@ export class SignalrService {
     }
   }
 
-  public async reStartConnection(): Promise<string> {
-    console.log("(re)start signalR connection");
-
-    const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
-    if (this.hubConnection === undefined) {
-      console.log("user logged in but hub counnection is undefined, build it");
-      this.buildConnection(currentUser.jsonWebToken);
-    }
-    if (this.hubConnection.state !== signalR.HubConnectionState.Connected) {
-      const connectionId = await this.startConnection();
-      console.log("signalR connection (re)started, ID: ", connectionId);
-
-      this.changeConnectionId(currentUser, connectionId);
-
-      return connectionId;
-    }
-  }
-
-  private async changeConnectionId(res, newConnectionId: string) {
+  private async changeConnectionId(currentUser, newConnectionId: string) {
     await this.authService
       .changeGuidWithSignalrConnectionId(
-        res.jsonWebToken,
-        res.connectionId,
+        currentUser.jsonWebToken,
+        currentUser.connectionId,
         newConnectionId
       )
       .toPromise();
 
-    res.connectionId = newConnectionId;
-    sessionStorage.setItem("currentUser", JSON.stringify(res));
+    currentUser.connectionId = newConnectionId;
+    sessionStorage.setItem("currentUser", JSON.stringify(currentUser));
   }
 
   public stopConnection() {

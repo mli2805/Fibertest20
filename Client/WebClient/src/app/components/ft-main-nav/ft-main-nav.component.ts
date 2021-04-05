@@ -71,7 +71,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     console.log("main nav c-tor");
 
     if (sessionStorage.getItem("currentUser") !== null) {
-      signalRService.reStartConnection();
+      signalRService.fullStartProcedure();
     }
 
     this.language = sessionStorage.getItem("language");
