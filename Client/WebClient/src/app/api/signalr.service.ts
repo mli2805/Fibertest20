@@ -55,6 +55,7 @@ export class SignalrService {
       console.log("signalR connection (re)started, ID: ", connectionId);
 
       this.changeConnectionId(currentUser, connectionId);
+      this.registerSignalEvents();
 
       return connectionId;
     }
@@ -73,7 +74,6 @@ export class SignalrService {
   private async startConnection(): Promise<string> {
     try {
       await this.hubConnection.start();
-      this.registerSignalEvents();
       return this.hubConnection.connectionId;
     } catch (err) {
       console.log("Error while starting connection: " + err);
