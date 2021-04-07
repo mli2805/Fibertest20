@@ -105,7 +105,7 @@ namespace Iit.Fibertest.Graph
             rtu.OtdrNetAddress = e.OtauNetAddress;
             rtu.Version = e.Version;
             rtu.Version2 = e.Version2;
-            rtu.MonitoringState = MonitoringState.Off;
+            rtu.MonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
             rtu.AcceptableMeasParams = e.AcceptableMeasParams;
 
             if (e.Children == null) return;

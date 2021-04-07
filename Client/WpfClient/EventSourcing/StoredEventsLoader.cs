@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client
         public DateTime LastEventTimestamp;
     }
 
-    public enum CacheClearResult{ FailedToClear, CacheNotFound, ClearedSuccessfully, CacheMatchesDb}
+    public enum CacheClearResult { FailedToClear, CacheNotFound, ClearedSuccessfully, CacheMatchesDb }
     public class StoredEventsLoader
     {
         private static readonly JsonSerializerSettings JsonSerializerSettings =
@@ -130,7 +130,7 @@ namespace Iit.Fibertest.Client
         private async Task<LoadingResult> LoadAndApplyEventsFromCache(int lastLoadedEvent)
         {
             var jsonsInCache = await _localDbManager.LoadEvents(lastLoadedEvent);
-            _logFile.AppendLine($@"{jsonsInCache.Length} events in cache should be applying...");
+            _logFile.AppendLine($@"{jsonsInCache.Length} events in cache should be applied...");
             var result = new LoadingResult { Count = ApplyBatch(jsonsInCache) };
             if (jsonsInCache.Any())
             {
@@ -144,15 +144,19 @@ namespace Iit.Fibertest.Client
         private async Task<int> DownloadAndApplyEvents(LoadingResult cacheLoadingResult)
         {
             var currentEventNumber = cacheLoadingResult.Count;
-
-
             _logFile.AppendLine($@"Downloading events from {currentEventNumber}...");
+            int logged = currentEventNumber;
             string[] events;
             do
             {
                 events = await _c2DWcfManager.GetEvents(new GetEventsDto() { Revision = currentEventNumber, ConnectionId = _currentUser.ConnectionId });
                 await _localDbManager.SaveEvents(events, currentEventNumber + 1);
                 currentEventNumber = currentEventNumber + ApplyBatch(events);
+                if (currentEventNumber - logged >= 1000)
+                {
+                    _logFile.AppendLine($@"{currentEventNumber}...");
+                    logged = currentEventNumber;
+                }
             } while (events.Length != 0);
 
             _logFile.AppendLine($@"{currentEventNumber} is last event number found in Cache + Db");
@@ -183,6 +187,9 @@ namespace Iit.Fibertest.Client
                                 evnt.GetType().FullName
                             }");
                 }
+
+                if (i > 0 && i % 8000 == 0)
+                    _logFile.AppendLine($@"{i}...");
             }
             return events.Length;
         }

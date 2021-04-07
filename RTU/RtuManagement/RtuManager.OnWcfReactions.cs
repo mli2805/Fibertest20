@@ -35,8 +35,7 @@ namespace Iit.Fibertest.RtuManagement
                 if (param.ShouldMonitoringBeStopped)
                 {
                     _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
-                    _rtuLog.AppendLine("false1");
-
+                    _rtuLog.AppendLine("First initialization! Turning monitoring off.");
                 }
             }
 
@@ -52,7 +51,7 @@ namespace Iit.Fibertest.RtuManagement
             if (param != null && param.Serial != _mainCharon.Serial)
             {
                 _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
-                    _rtuLog.AppendLine("false2");
+                    _rtuLog.AppendLine("Serials do not match! Turning monitoring off.");
             }
 
             IsRtuInitialized = true;
