@@ -97,6 +97,7 @@ export class SignalrService {
   public stopConnection() {
     if (this.hubConnection !== undefined) {
       this.hubConnection.stop();
+      this.hubConnection = undefined;
     }
   }
 

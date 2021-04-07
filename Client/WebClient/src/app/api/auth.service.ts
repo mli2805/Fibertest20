@@ -34,7 +34,7 @@ export class AuthService {
   logout() {
     const url = Utils.GetWebApiUrl() + "/authentication/logout/";
     const currentUser = JSON.parse(sessionStorage.currentUser);
-    const body = { username: currentUser.username };
+    const body = { username: currentUser.username, connectionId: currentUser.connectionId };
 
     const myHeaders = new HttpHeaders({
       Authorization: "Bearer " + currentUser.jsonWebToken,

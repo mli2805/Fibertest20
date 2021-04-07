@@ -26,46 +26,42 @@ namespace Iit.Fibertest.DataCenterWebApi
             return ip1 == "::1" ? _localIpAddress : ip1;
         }
 
-        // used by web client
-        public string GetConnectionId()
-        {
-            return Context.ConnectionId;
-        }
-
         public override async Task OnConnectedAsync()
         {
             var userName = Context.User.Identity.Name;
+            if (string.IsNullOrEmpty(userName))
+                userName = "DataCenter?";
+
             _logFile.AppendLine($"SignalR Hub: User {userName} connected from = {GetRemoteAddress()} assigned id {Context.ConnectionId}");
 
-            if (!string.IsNullOrEmpty(userName))
-            {
-                Users.TryAdd(Context.ConnectionId, userName);
-                LogUsers();
-            }
+            Users.TryAdd(Context.ConnectionId, $"{userName} / {GetRemoteAddress()}");
+            LogUsers();
+
             await base.OnConnectedAsync();
         }
 
         public override async Task OnDisconnectedAsync(Exception e)
         {
             var userName = Context.User.Identity.Name;
-            if (!string.IsNullOrEmpty(userName))
-            {
-                Users.Remove(Context.ConnectionId);
-                LogUsers();
-            }
-            
+            if (string.IsNullOrEmpty(userName))
+                userName = "DataCenter?";
+
+            Users.Remove(Context.ConnectionId);
+
             if (e == null)
             {
-                _logFile.AppendLine($"OnDisconnectedAsync (ClientIp = {GetRemoteAddress()},  ConnectionId = {Context.ConnectionId})");
+                _logFile.AppendLine($"OnDisconnectedAsync (User {userName} / {GetRemoteAddress()},  ConnectionId = {Context.ConnectionId})");
                 await base.OnDisconnectedAsync(new Exception("SignalR disconnected"));
             }
             else
             {
-                _logFile.AppendLine($"OnDisconnectedAsync (ClientIp = {GetRemoteAddress()}). Exception {e.Message}");
+                _logFile.AppendLine($"OnDisconnectedAsync (User {userName} / {GetRemoteAddress()}). Exception {e.Message}");
                 if (e.InnerException != null)
                     _logFile.AppendLine($"Inner exception: {e.InnerException.Message}");
                 await base.OnDisconnectedAsync(e);
             }
+
+            LogUsers();
         }
 
         public async Task CheckServerIn()
@@ -123,10 +119,12 @@ namespace Iit.Fibertest.DataCenterWebApi
         private void LogUsers()
         {
             _logFile.EmptyLine();
+            _logFile.EmptyLine('-');
             foreach (var pair in Users)
             {
                 _logFile.AppendLine($"user: {pair.Value} with signalR ID {pair.Key}");
             }
+            _logFile.EmptyLine('-');
             _logFile.EmptyLine();
         }
     }

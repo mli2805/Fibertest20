@@ -78,10 +78,11 @@ namespace Iit.Fibertest.DataCenterWebApi
             }
             dynamic dto = JObject.Parse(body);
             var username = (string)dto.username;
+            var connectionId = (string) dto.connectionId;
             await _commonC2DWcfManager
                 .SetServerAddresses(_doubleAddress, username, GetRemoteAddress())
                 .UnregisterClientAsync(
-                    new UnRegisterClientDto { ClientIp = GetRemoteAddress(), Username = username });
+                    new UnRegisterClientDto { ClientIp = GetRemoteAddress(), Username = username, ConnectionId = connectionId});
             _logFile.AppendLine($"User {username} logged out.");
             Response.StatusCode = 201;
         }
