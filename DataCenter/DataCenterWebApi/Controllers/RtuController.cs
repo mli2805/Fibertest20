@@ -58,11 +58,13 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine("Failed to get tree");
                 return null;
             }
-           
+            _logFile.AppendLine(tree, 0, 3);
+
             var rtuList = (List<RtuDto>)JsonConvert.DeserializeObject(tree, JsonSerializerSettings);
             _logFile.AppendLine(rtuList == null
                 ? "Failed to deserialize RTU list"
                 : $"RTU list contains {rtuList.Count} items");
+
 
             return rtuList;
         }
@@ -280,7 +282,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 await Task.Delay(1);
                 var rtuGuid = Guid.Parse(id);
                 _logFile.AppendLine($"Initialize RTU, ID = {rtuGuid}");
-                var dto = new InitializeRtuDto() { RtuId = rtuGuid, ClientIp = GetRemoteAddress()};
+                var dto = new InitializeRtuDto() { RtuId = rtuGuid, ClientIp = GetRemoteAddress() };
                 var rtuInitializedDto = await _webC2DWcfManager
                     .SetServerAddresses(_doubleAddressForWebWcfManager, User.Identity.Name, GetRemoteAddress())
                     .InitializeRtuAsync(dto);

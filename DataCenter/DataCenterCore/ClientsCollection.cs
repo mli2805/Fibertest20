@@ -209,7 +209,7 @@ namespace Iit.Fibertest.DataCenterCore
         // WebApi has not got user's name and put it as "onSignalRDisconnected"
         public bool UnregisterClientAsync(UnRegisterClientDto dto)
         {
-            if (dto.ConnectionId == _ftSignalRClient.ServerConnectionId)
+            if (dto.ConnectionId == _ftSignalRClient.ServerConnectionId) // it is DC to WebApi connection
                 return false;
             var station = _clients.FirstOrDefault(s => s.ConnectionId == dto.ConnectionId);
             if (station != null)
@@ -219,10 +219,10 @@ namespace Iit.Fibertest.DataCenterCore
                 LogStations();
                 return true;
             }
-            else
-                //                _logFile.AppendLine($"There is no client {dto.Username}/{dto.ClientIp} with connectionId {dto.ConnectionId}");
-                //            LogStations();
-                return false;
+
+            _logFile.AppendLine($"There is no client {dto.Username}/{dto.ClientIp} with connectionId {dto.ConnectionId}");
+            LogStations();
+            return false;
         }
 
         public async void CleanDeadClients(TimeSpan timeSpan)
@@ -265,7 +265,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             if (connectionId == null)
                 return null;
-            
+
             var client = _clients.FirstOrDefault(c => c.ConnectionId == connectionId);
             return client == null
                 ? null
@@ -274,7 +274,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public ClientStation GetClientByConnectionId(string connectionId)
         {
-            return connectionId == null ? null :  _clients.FirstOrDefault(c => c.ConnectionId == connectionId);
+            return connectionId == null ? null : _clients.FirstOrDefault(c => c.ConnectionId == connectionId);
         }
 
         public bool HasAnyWebClients()

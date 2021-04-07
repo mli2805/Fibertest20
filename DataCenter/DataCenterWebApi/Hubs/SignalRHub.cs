@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iit.Fibertest.UtilsLib;
 using Microsoft.AspNetCore.SignalR;
@@ -7,6 +8,8 @@ namespace Iit.Fibertest.DataCenterWebApi
 {
     public class SignalRHub : Hub
     {
+        private static Dictionary<string, string> Users = new Dictionary<string, string>();
+
         private readonly IMyLog _logFile;
         private readonly string _localIpAddress;
 
@@ -31,12 +34,26 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         public override async Task OnConnectedAsync()
         {
-            _logFile.AppendLine($"SignalR Hub: User {Context.User.Identity.Name} connected from = {GetRemoteAddress()} assigned id {Context.ConnectionId}");
+            var userName = Context.User.Identity.Name;
+            _logFile.AppendLine($"SignalR Hub: User {userName} connected from = {GetRemoteAddress()} assigned id {Context.ConnectionId}");
+
+            if (!string.IsNullOrEmpty(userName))
+            {
+                Users.TryAdd(Context.ConnectionId, userName);
+                LogUsers();
+            }
             await base.OnConnectedAsync();
         }
 
         public override async Task OnDisconnectedAsync(Exception e)
         {
+            var userName = Context.User.Identity.Name;
+            if (!string.IsNullOrEmpty(userName))
+            {
+                Users.Remove(Context.ConnectionId);
+                LogUsers();
+            }
+            
             if (e == null)
             {
                 _logFile.AppendLine($"OnDisconnectedAsync (ClientIp = {GetRemoteAddress()},  ConnectionId = {Context.ConnectionId})");
@@ -101,6 +118,16 @@ namespace Iit.Fibertest.DataCenterWebApi
                 _logFile.AppendLine($"SignalR Hub SendToOne {eventType}. Exception {e.Message}");
 
             }
+        }
+
+        private void LogUsers()
+        {
+            _logFile.EmptyLine();
+            foreach (var pair in Users)
+            {
+                _logFile.AppendLine($"user: {pair.Value} with signalR ID {pair.Key}");
+            }
+            _logFile.EmptyLine();
         }
     }
 
