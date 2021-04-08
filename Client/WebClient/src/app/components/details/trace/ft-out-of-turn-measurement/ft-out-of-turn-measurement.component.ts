@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from "@angular/core";
+import { Component, OnInit, HostListener, OnDestroy } from "@angular/core";
 import { DoOutOfTurnMeasurementDto } from "src/app/models/dtos/trace/doOutOfTurnMeasurementDto";
 import { PortWithTraceDto } from "src/app/models/underlying/portWithTraceDto";
 import { OneApiService } from "src/app/api/one.service";
@@ -15,11 +15,13 @@ import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
   templateUrl: "./ft-out-of-turn-measurement.component.html",
   styleUrls: ["./ft-out-of-turn-measurement.component.css"],
 })
-export class FtOutOfTurnMeasurementComponent implements OnInit {
+export class FtOutOfTurnMeasurementComponent implements OnInit, OnDestroy {
   public isSpinnerVisible: boolean;
   public vm: TraceHeaderDto = new TraceHeaderDto();
   public params: any;
   message;
+
+  measEmmitterSubscription;
 
   constructor(
     private router: Router,
@@ -46,7 +48,7 @@ export class FtOutOfTurnMeasurementComponent implements OnInit {
     );
     console.log(this.params);
 
-    this.signalRService.measurementAddedEmitter.subscribe(
+    this.measEmmitterSubscription = this.signalRService.measurementAddedEmitter.subscribe(
       (signal: TraceStateDto) => {
         console.log(signal);
         const dict = {
@@ -61,6 +63,10 @@ export class FtOutOfTurnMeasurementComponent implements OnInit {
     );
 
     this.sendCommand(this.params);
+  }
+
+  ngOnDestroy(): void {
+    this.measEmmitterSubscription.unsubscribe();
   }
 
   private async sendCommand(params: any) {
