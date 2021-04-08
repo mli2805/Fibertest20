@@ -73,6 +73,11 @@ export class SignalrService {
 
   private async startConnection(): Promise<string> {
     try {
+      if (this.hubConnection === undefined) {
+        console.log("hubconnection is undefined now");
+        return;
+      }
+
       await this.hubConnection.start();
       return this.hubConnection.connectionId;
     } catch (err) {
@@ -96,6 +101,7 @@ export class SignalrService {
 
   public stopConnection() {
     if (this.hubConnection !== undefined) {
+      // this.hubConnection.onclose = null;
       this.hubConnection.stop();
       this.hubConnection = undefined;
     }
