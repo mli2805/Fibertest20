@@ -88,18 +88,18 @@ namespace Iit.Fibertest.DataCenterWebApi
             }
         }
 
-        public async Task SendTestToOne(string connectionId, string eventType, string dataInJson)
-        {
-            try
-            {
-                _logFile.AppendLine($"Hub received {dataInJson}");
-                await Clients.Client(connectionId).SendAsync(eventType, dataInJson);
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"SignalR Hub SendTestToOne {eventType}. Exception {e.Message}");
-            }
-        }
+        // public async Task SendTestToOne(string connectionId, string eventType, string dataInJson)
+        // {
+        //     try
+        //     {
+        //         _logFile.AppendLine($"Hub received {dataInJson}");
+        //         await Clients.Client(connectionId).SendAsync(eventType, dataInJson);
+        //     }
+        //     catch (Exception e)
+        //     {
+        //         _logFile.AppendLine($"SignalR Hub SendTestToOne {eventType}. Exception {e.Message}");
+        //     }
+        // }
 
         // send only to user with connectionID
         public async Task SendToOne(string connectionId, string eventType, string dataInJson)

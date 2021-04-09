@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Utils } from "../Utils/utils";
 import { AssignBaseRefDtoWithFiles } from "../models/dtos/trace/assignBaseRefDtoWithFiles";
+import { formatDate } from "@angular/common";
 
 @Injectable({
   providedIn: "root",
@@ -13,13 +14,22 @@ export class OneApiService {
 
   getRequest(request: string, params: any = null) {
     const url = Utils.GetWebApiUrl() + `/${request}`;
-    console.log(`get request with url ${url}`);
+    console.log(
+      `[${formatDate(
+        Date.now(),
+        "dd/MM HH:mm:ss",
+        "en-US"
+      )}] get request with url ${url}`
+    );
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
     // now these two parameters are used only by GetTree request (on web api side)
     // just add function parameters on web api side to use these
     if (params === null) {
-      params = { connectionId: currentUser.connectionId, username: currentUser.username };
+      params = {
+        connectionId: currentUser.connectionId,
+        username: currentUser.username,
+      };
     }
     const myHttpOptions = {
       headers: {

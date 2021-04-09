@@ -46,15 +46,18 @@ export class SignalrService {
     }
 
     this.hubConnection.onclose(() => {
-      console.log("signalR connection closed");
+      console.log(
+        `signalR connection closed, need to restart at ${Utils.stime()}`
+      );
       this.startConnection();
     });
 
     if (this.hubConnection.state !== signalR.HubConnectionState.Connected) {
       const connectionId = await this.startConnection();
-      console.log("signalR connection (re)started, ID: ", connectionId);
+      console.log(
+        `signalR connection (re)started at ${Utils.stime()}, ID: ${connectionId}`
+      );
 
-      this.changeConnectionId(currentUser, connectionId);
       this.registerSignalEvents();
 
       return connectionId;
@@ -79,6 +82,15 @@ export class SignalrService {
       }
 
       await this.hubConnection.start();
+      console.log(
+        `restarted signalR at ${Utils.stime()} with new Id ${
+          this.hubConnection.connectionId
+        }`
+      );
+
+      const currentUser = JSON.parse(sessionStorage.getItem("currentUser"));
+      this.changeConnectionId(currentUser, this.hubConnection.connectionId);
+
       return this.hubConnection.connectionId;
     } catch (err) {
       console.log("Error while starting connection: " + err);
@@ -168,7 +180,7 @@ export class SignalrService {
     this.hubConnection.on("AddMeasurement", (signal: string) => {
       const dto = JSON.parse(signal) as TraceStateDto;
       console.log(
-        `measurement ${dto.sorFileId} reg.time ${Utils.ToLongRussian(
+        `measurement ${dto.sorFileId} reg.time ${Utils.dtLong(
           new Date(dto.registrationTimestamp)
         )} for trace ${dto.traceId.substr(1, 6)} came with state ${
           dto.traceState

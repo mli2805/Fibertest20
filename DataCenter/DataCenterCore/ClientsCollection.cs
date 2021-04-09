@@ -193,6 +193,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (station == null)
                 return false;
             station.ConnectionId = connId;
+            station.LastConnectionTimestamp = DateTime.Now;
             LogStations();
             return true;
         }

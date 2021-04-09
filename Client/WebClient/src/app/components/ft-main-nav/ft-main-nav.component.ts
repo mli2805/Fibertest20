@@ -31,6 +31,7 @@ import { ServerAsksClientToExitDto } from "src/app/models/dtos/serverAsksClientT
 import { ClientMeasurementDoneDto } from "src/app/models/dtos/port/clientMeasurementDoneDto";
 import { SorFileManager } from "src/app/utils/sorFileManager";
 import { formatDate } from "@angular/common";
+import { Utils } from "src/app/Utils/utils";
 
 @Component({
   selector: "ft-main-nav",
@@ -124,26 +125,25 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   async sendHeartbeat() {
+    console.log(`Heartbeat timer tick at ${Utils.stime()}`);
     try {
       const user = sessionStorage.getItem("currentUser");
       if (user === null) {
         console.log("user has not logged yet");
       } else {
         const currentUser = JSON.parse(sessionStorage.currentUser);
+        const settings = JSON.parse(sessionStorage.settings);
+        this.version = settings.version;
+
         const res = (await this.oneApiService
           .getRequest(`authentication/heartbeat/${currentUser.connectionId}`)
           .toPromise()) as RequestAnswer;
 
-        const settings = JSON.parse(sessionStorage.settings);
-        this.version = settings.version;
-
         if (res.returnCode >= 2000 && res.returnCode < 3000) {
           console.log(
-            `Heartbeat network connection failed at ${formatDate(
-              Date.now(),
-              "yyyy-MM-dd HH-mm-ss",
-              "en-US"
-            )}.`
+            `Heartbeat network connection failed at ${Utils.stime()}. Return code is ${
+              res.returnCode
+            }`
           );
           this.badHeartbeatCount++;
           if (this.badHeartbeatCount > 3) {
@@ -151,13 +151,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
           }
           return;
         } else if (res.returnCode !== ReturnCode.Ok) {
-          console.log(
-            `Heartbeat: ${res.errorMessage} at ${formatDate(
-              Date.now(),
-              "yyyy-MM-dd HH-mm-ss",
-              "en-US"
-            )}`
-          );
+          console.log(`Heartbeat: ${res.errorMessage} at ${Utils.stime()}`);
           await this.exit();
         } else {
           this.badHeartbeatCount = 0;

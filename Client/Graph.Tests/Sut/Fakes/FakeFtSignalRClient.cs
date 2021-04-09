@@ -20,10 +20,10 @@ namespace Graph.Tests
             return Task.Delay(0);
         }
 
-        public Task SendTestToOne(string connectionId, string eventType, string dataInJson)
-        {
-            return Task.Delay(0);
-        }
+        // public Task SendTestToOne(string connectionId, string eventType, string dataInJson)
+        // {
+        //     return Task.Delay(0);
+        // }
 
         public Task SendToOne(string connectionId, string eventType, string dataInJson)
         {

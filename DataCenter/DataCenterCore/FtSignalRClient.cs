@@ -12,7 +12,7 @@ namespace Iit.Fibertest.DataCenterCore
         Task<bool> IsSignalRConnected(bool isLog = true);
         void Initialize();
         Task NotifyAll(string eventType, string dataInJson);
-        Task SendTestToOne(string connectionId, string eventType, string dataInJson);
+        // Task SendTestToOne(string connectionId, string eventType, string dataInJson);
         Task SendToOne(string connectionId, string eventType, string dataInJson);
         Task<bool> CheckServerIn();
 
@@ -97,24 +97,24 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
         // temp, for SignalR testing
-        public async Task SendTestToOne(string connectionId, string eventType, string dataInJson)
-        {
-            if (!_isWebApiInstalled) return;
-            try
-            {
-                var isConnected = await IsSignalRConnected(false);
-                if (isConnected)
-                {
-                    var unused = connection.InvokeAsync("SendTestToOne", connectionId, eventType, dataInJson);
-                    if (eventType != "NotifyMonitoringStep") // too many
-                        _logFile.AppendLine($"FtSignalRClient SendTestToOne: {eventType} sent successfully.");
-                }
-            }
-            catch (Exception ex)
-            {
-                _logFile.AppendLine($"FtSignalRClient SendTestToOne: {eventType} " + ex.Message);
-            }
-        }
+        // public async Task SendTestToOne(string connectionId, string eventType, string dataInJson)
+        // {
+        //     if (!_isWebApiInstalled) return;
+        //     try
+        //     {
+        //         var isConnected = await IsSignalRConnected(false);
+        //         if (isConnected)
+        //         {
+        //             var unused = connection.InvokeAsync("SendTestToOne", connectionId, eventType, dataInJson);
+        //             if (eventType != "NotifyMonitoringStep") // too many
+        //                 _logFile.AppendLine($"FtSignalRClient SendTestToOne: {eventType} sent successfully.");
+        //         }
+        //     }
+        //     catch (Exception ex)
+        //     {
+        //         _logFile.AppendLine($"FtSignalRClient SendTestToOne: {eventType} " + ex.Message);
+        //     }
+        // }
 
         // use it for ClientsMeasurement
         public async Task SendToOne(string connectionId, string eventType, string dataInJson)
