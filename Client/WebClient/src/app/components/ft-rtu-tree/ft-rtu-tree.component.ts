@@ -105,16 +105,12 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy, AfterViewChecked {
 
     this.monitoringStoppedSubscription = this.signalRService.monitoringStoppedEmitter.subscribe(
       (signal: any) => {
-        // const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
-        // rtu.monitoringMode = MonitoringMode.Off;
         this.fetchData();
       }
     );
 
     this.monitoringStartedSubscription = this.signalRService.monitoringStartedEmitter.subscribe(
       (signal: any) => {
-        // const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
-        // rtu.monitoringMode = MonitoringMode.On;
         this.fetchData();
       }
     );
@@ -186,17 +182,19 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.destroyed.complete();
   }
 
-  fetchData() {
+  async fetchData() {
     this.isNotLoaded = true;
-    this.oneApiService.getRequest(`rtu/tree`).subscribe((res: RtuDto[]) => {
-      console.log("rtu tree received", res);
-      this.rtus = res;
-      this.applyStoredExpandeds();
-      this.applyMonitoringMode();
-      const pos = sessionStorage.getItem("scrollTop");
-      this.scrollPosition = +pos;
-      this.isNotLoaded = false;
-    });
+    const res = (await this.oneApiService
+      .getRequest(`rtu/tree`)
+      .toPromise()) as RtuDto[];
+
+    console.log("rtu tree received", res);
+    this.rtus = res;
+    this.applyStoredExpandeds();
+    this.applyMonitoringMode();
+    const pos = sessionStorage.getItem("scrollTop");
+    this.scrollPosition = +pos;
+    this.isNotLoaded = false;
   }
 
   back() {

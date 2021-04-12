@@ -14,13 +14,7 @@ export class OneApiService {
 
   getRequest(request: string, params: any = null) {
     const url = Utils.GetWebApiUrl() + `/${request}`;
-    console.log(
-      `[${formatDate(
-        Date.now(),
-        "dd/MM HH:mm:ss",
-        "en-US"
-      )}] get request with url ${url}`
-    );
+    console.log(`get request with url ${url}`);
     const currentUser = JSON.parse(sessionStorage.currentUser);
 
     // now these two parameters are used only by GetTree request (on web api side)

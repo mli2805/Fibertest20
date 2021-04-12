@@ -4,7 +4,6 @@ import { MatMenuTrigger, MatDialog } from "@angular/material";
 import { Router } from "@angular/router";
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
-import { ReturnCode } from "src/app/models/enums/returnCode";
 import {
   FtRtuTreeEventService,
   RtuTreeEvent,
@@ -78,11 +77,6 @@ export class FtRtuLineComponent implements OnInit {
     const res = (await this.oneApiService
       .postRequest(`rtu/stop-monitoring/${id}`, rtu.rtuMaker)
       .toPromise()) as boolean;
-
-    this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.fetchTree);
-    if (res === true) {
-      this.router.navigate(["/ft-main-nav/rtu-tree"]);
-    }
   }
 
   async automaticMode(rtu: RtuDto) {
@@ -117,9 +111,6 @@ export class FtRtuLineComponent implements OnInit {
       .postRequest(`rtu/monitoring-settings/${id}`, dto)
       .toPromise()) as RequestAnswer;
     console.log(res);
-    if (res.returnCode === ReturnCode.MonitoringSettingsAppliedSuccessfully) {
-      this.router.navigate(["/ft-main-nav/rtu-tree"]);
-    }
   }
 
   isManualModeDisabled(rtu: RtuDto): boolean {

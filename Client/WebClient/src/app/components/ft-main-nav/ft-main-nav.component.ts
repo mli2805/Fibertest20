@@ -30,7 +30,6 @@ import { MatDialog } from "@angular/material";
 import { ServerAsksClientToExitDto } from "src/app/models/dtos/serverAsksClientToExitDto";
 import { ClientMeasurementDoneDto } from "src/app/models/dtos/port/clientMeasurementDoneDto";
 import { SorFileManager } from "src/app/utils/sorFileManager";
-import { formatDate } from "@angular/common";
 import { Utils } from "src/app/Utils/utils";
 
 @Component({
@@ -125,7 +124,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   async sendHeartbeat() {
-    console.log(`Heartbeat timer tick at ${Utils.stime()}`);
+    // console.log(`Heartbeat timer tick at ${Utils.stime()}`);
     try {
       const user = sessionStorage.getItem("currentUser");
       if (user === null) {
