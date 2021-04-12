@@ -44,7 +44,10 @@ namespace Iit.Fibertest.RtuManagement
                 try
                 {
                     _rtuManager.StartOutOfTurnMeasurement(dto, () => callbackChannel.EndStartOutOfTurnMeasurement(
-                            new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.Ok, ErrorMessage = "just for test purposes" }));
+                            new OutOfTurnMeasurementStartedDto()
+                            {
+                                ReturnCode = ReturnCode.Ok, ErrorMessage = "Out of turn measurement started(!) successfully."
+                            }));
                 }
                 catch (Exception e)
                 {

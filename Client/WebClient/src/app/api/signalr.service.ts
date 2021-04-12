@@ -119,18 +119,6 @@ export class SignalrService {
     }
   }
 
-  // public async initializeRtu(id: string) {
-  //   try {
-  //     await this.reStartConnection();
-  //     await this.hubConnection.invoke("InitializeRtu", id);
-  //   } catch (err) {
-  //     console.log(err);
-  //     const data = new RtuInitializedWebDto();
-  //     data.returnCode = ReturnCode.RtuInitializationError;
-  //     this.rtuInitializedEmitter.emit(data);
-  //   }
-  // }
-
   private onNotifyMonitoringStep(signal: string) {
     const a = signal.length - 1;
     const timestamp = `, "Timestamp":"${formatDate(
@@ -179,13 +167,18 @@ export class SignalrService {
 
     this.hubConnection.on("AddMeasurement", (signal: string) => {
       const dto = JSON.parse(signal) as TraceStateDto;
-      console.log(
-        `measurement ${dto.sorFileId} reg.time ${Utils.dtLong(
-          new Date(dto.registrationTimestamp)
-        )} for trace ${dto.traceId.substr(1, 6)} came with state ${
-          dto.traceState
-        }`
-      );
+      try {
+        console.log(
+          `measurement ${dto.sorFileId} reg.time ${Utils.ToLongRussian(
+            new Date(dto.registrationTimestamp)
+          )} for trace ${dto.traceId.substr(1, 6)} came with state ${
+            dto.traceState
+          }`
+        );
+      } catch {
+        console.log("something happend");
+      }
+
       this.measurementAddedEmitter.emit(dto);
     });
 

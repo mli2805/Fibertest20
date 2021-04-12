@@ -27,32 +27,28 @@ export class Utils {
     return formatDate(Date.now(), "HH:mm:ss:SSS", "en-US");
   }
 
-  static dtLong(timestamp: Date): string {
-    return formatDate(timestamp, "HH:mm:ss dd/MM/yyyy", "ru-RU");
+  static ToLongRussian(timestamp: Date): string {
+    const mm = timestamp.getMonth() + 1; // getMonth() is zero-based
+    const dd = timestamp.getDate();
+
+    const hh = timestamp.getHours();
+    const min = timestamp.getMinutes();
+    const sec = timestamp.getSeconds();
+
+    return [
+      (hh > 9 ? "" : "0") + hh,
+      ":",
+      (min > 9 ? "" : "0") + min,
+      ":",
+      (sec > 9 ? "" : "0") + sec,
+      " ",
+      (dd > 9 ? "" : "0") + dd,
+      "/",
+      (mm > 9 ? "" : "0") + mm,
+      "/",
+      timestamp.getFullYear(),
+    ].join("");
   }
-
-  // static ToLongRussian(timestamp: Date): string {
-  //   const mm = timestamp.getMonth() + 1; // getMonth() is zero-based
-  //   const dd = timestamp.getDate();
-
-  //   const hh = timestamp.getHours();
-  //   const min = timestamp.getMinutes();
-  //   const sec = timestamp.getSeconds();
-
-  //   return [
-  //     (hh > 9 ? "" : "0") + hh,
-  //     ":",
-  //     (min > 9 ? "" : "0") + min,
-  //     ":",
-  //     (sec > 9 ? "" : "0") + sec,
-  //     " ",
-  //     (dd > 9 ? "" : "0") + dd,
-  //     "/",
-  //     (mm > 9 ? "" : "0") + mm,
-  //     "/",
-  //     timestamp.getFullYear(),
-  //   ].join("");
-  // }
 
   static toCamel(o: any) {
     let newO: any;
