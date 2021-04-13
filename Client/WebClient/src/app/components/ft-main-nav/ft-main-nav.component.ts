@@ -31,6 +31,7 @@ import { ServerAsksClientToExitDto } from "src/app/models/dtos/serverAsksClientT
 import { ClientMeasurementDoneDto } from "src/app/models/dtos/port/clientMeasurementDoneDto";
 import { SorFileManager } from "src/app/utils/sorFileManager";
 import { Utils } from "src/app/Utils/utils";
+import { ConsoleLogger } from "@microsoft/signalr/dist/esm/Utils";
 
 @Component({
   selector: "ft-main-nav",
@@ -111,7 +112,11 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.timer = setInterval(() => {
-      this.sendHeartbeat();
+      try {
+        this.sendHeartbeat();
+      } catch {
+        console.log(`exception while heartbeat`);
+      }
     }, 7000);
 
     await new Promise((res) => setTimeout(res, 1000));
@@ -153,6 +158,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
           console.log(`Heartbeat: ${res.errorMessage} at ${Utils.stime()}`);
           await this.exit();
         } else {
+          console.log(`Heartbeat result is OK`);
           this.badHeartbeatCount = 0;
         }
       }
