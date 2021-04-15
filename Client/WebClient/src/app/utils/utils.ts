@@ -15,6 +15,10 @@ export class Utils {
     return protocol + "://" + window.location.hostname + ":" + port;
   }
 
+  static async delay(ms: number) {
+    await new Promise((res) => setTimeout(res, ms));
+  }
+
   static dtime(): string {
     return formatDate(Date.now(), "dd MMM HH:mm:ss", "en-US");
   }

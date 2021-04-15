@@ -77,18 +77,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<int> Tick()
         {
-            // var webClients = _clientsCollection.GetWebClients();
-            // foreach (var webClient in webClients)
-            // {
-            //     var testObj = new { 
-            //             user = webClient.UserName + " / " + webClient.ConnectionId, 
-            //             lastHeartbeat = webClient.LastConnectionTimestamp.ToLongTimeString()
-            //     };
-            //     var testJson = JsonConvert.SerializeObject(testObj);
-            //     await _ftSignalRClient.SendTestToOne(webClient.ConnectionId, "SignalRtest", testJson);
-            // }
-
-            _clientsCollection.CleanDeadClients(_clientHeartbeatPermittedGap);
+             _clientsCollection.CleanDeadClients(_clientHeartbeatPermittedGap);
 
             var networkEvents = await GetNewNetworkEvents(_rtuHeartbeatPermittedGap);
             if (networkEvents.Count == 0)

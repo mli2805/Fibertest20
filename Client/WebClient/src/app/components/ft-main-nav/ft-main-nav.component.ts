@@ -119,7 +119,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
       }
     }, 7000);
 
-    await new Promise((res) => setTimeout(res, 1000));
+    await Utils.delay(1000);
     if (sessionStorage.settings === undefined) {
       this.version = ``;
     } else {

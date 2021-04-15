@@ -283,6 +283,7 @@
     <Compile Include="FtSignalRClient.cs" />
     <Compile Include="MeasurementsForWebNotifier.cs" />
     <Compile Include="NEventStore\DbSeeds.cs" />
+    <Compile Include="SignalRNudger.cs" />
     <Compile Include="WcfServiceCommonC2D\IntermediateLayer.cs" />
     <Compile Include="WcfServiceWebC2D\EventsExt.cs" />
     <Compile Include="WcfServiceWebC2D\TraceWebDtoFactory.cs" />

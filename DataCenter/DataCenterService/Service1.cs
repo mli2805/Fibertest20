@@ -20,6 +20,7 @@ namespace Iit.Fibertest.DataCenterService
         private readonly EventStoreService _eventStoreService;
         private readonly IEventStoreInitializer _eventStoreInitializer;
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
+        private readonly SignalRNudger _signalRNudger;
         private readonly WebApiChecker _webApiChecker;
         private readonly SmsSender _smsSender;
         private readonly IFtSignalRClient _ftSignalRClient;
@@ -30,9 +31,10 @@ namespace Iit.Fibertest.DataCenterService
         private readonly WcfServiceForWebC2DBootstrapper _wcfServiceForWebC2DBootstrapper;
         private readonly IMsmqHandler _msmqHandler;
 
-        public Service1(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters, 
+        public Service1(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
             IParameterizer serverParameterizer, EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
-            LastConnectionTimeChecker lastConnectionTimeChecker, WebApiChecker webApiChecker, SmsSender smsSender,
+            LastConnectionTimeChecker lastConnectionTimeChecker, SignalRNudger signalRNudger,
+            WebApiChecker webApiChecker, SmsSender smsSender,
             IFtSignalRClient ftSignalRClient, MeasurementsForWebNotifier measurementsForWebNotifier,
             WcfServiceForDesktopC2DBootstrapper wcfServiceForDesktopC2DBootstrapper,
             WcfServiceForCommonC2DBootstrapper wcfServiceForCommonC2DBootstrapper,
@@ -48,6 +50,7 @@ namespace Iit.Fibertest.DataCenterService
             _eventStoreInitializer = eventStoreInitializer;
             _logFile.AssignFile("DataCenter.log");
             _lastConnectionTimeChecker = lastConnectionTimeChecker;
+            _signalRNudger = signalRNudger;
             _webApiChecker = webApiChecker;
             _smsSender = smsSender;
             _ftSignalRClient = ftSignalRClient;
@@ -79,7 +82,7 @@ namespace Iit.Fibertest.DataCenterService
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
             _logFile.AppendLine($"Data-center version {info.FileVersion}");
             IniFile.Write(IniSection.General, IniKey.Version, info.FileVersion);
-     
+
             _serverParameterizer.Init();
             _ftSignalRClient.Initialize();
             await InitializeEventStoreService();
@@ -88,6 +91,7 @@ namespace Iit.Fibertest.DataCenterService
             if (_currentDatacenterParameters.WebApiBindingProtocol != "none")
             {
                 _webApiChecker.Start();
+                _signalRNudger.Start();
                 _measurementsForWebNotifier.Start();
                 _wcfServiceForWebC2DBootstrapper.Start();
             }

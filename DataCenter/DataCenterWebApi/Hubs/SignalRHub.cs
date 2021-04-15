@@ -103,6 +103,13 @@ namespace Iit.Fibertest.DataCenterWebApi
             }
         }
 
+        // https://stackoverflow.com/questions/66496547/signalr-and-or-timer-issues-since-chrome-88
+        // temporary workaround chromium timer throttling problem
+        public async Task AckHeartbeat()
+        {
+            await Task.Delay(1);
+        }
+
         private void LogUsers()
         {
             _logFile.EmptyLine();

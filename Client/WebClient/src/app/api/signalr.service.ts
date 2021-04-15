@@ -138,6 +138,13 @@ export class SignalrService {
   }
 
   private registerSignalEvents() {
+    // https://stackoverflow.com/questions/66496547/signalr-and-or-timer-issues-since-chrome-88
+    // temporary workaround chromium timer throttling problem
+    this.hubConnection.on("NudgeSignalR", () => {
+      this.hubConnection.send("AckHeartbeat");
+      console.log(`${Utils.stime()}  NudgeSignalR`);
+    });
+
     this.hubConnection.on("RtuInitialized", (data: RtuInitializedWebDto) =>
       this.rtuInitializedEmitter.emit(data)
     );

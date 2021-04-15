@@ -31,6 +31,8 @@
         CheckHeartbeatEvery,
         ClientConnectionsPermittedGap,
         RtuHeartbeatPermittedGap,
+        // General - WebApi
+        NudgeSignalrTimeout,
 
         EventSourcingPortion,
 
