@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { Utils } from "../Utils/utils";
+import { Utils } from "../utils/utils";
 import { AssignBaseRefDtoWithFiles } from "../models/dtos/trace/assignBaseRefDtoWithFiles";
 import { formatDate } from "@angular/common";
 

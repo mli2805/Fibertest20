@@ -1,9 +1,8 @@
 // https://medium.com/@berkokur/a-real-life-scenario-implementation-with-angular-8-and-asp-net-core-signalr-3ad7e5a46fca
 
 import { Injectable, EventEmitter } from "@angular/core";
-// import * as signalR from "@aspnet/signalr";
 import * as signalR from "@microsoft/signalr";
-import { Utils } from "../Utils/utils";
+import { Utils } from "../utils/utils";
 import { RtuInitializedWebDto } from "../models/dtos/rtu/rtuInitializedWebDto";
 import { CurrentMonitoringStepDto } from "../models/dtos/rtu/currentMonitoringStepDto";
 import { ClientMeasurementDoneDto } from "../models/dtos/port/clientMeasurementDoneDto";
@@ -33,6 +32,7 @@ export class SignalrService {
   public bopEventAddedEmitter = new EventEmitter<BopEventDto>();
   public measurementUpdatedEmitter = new EventEmitter<UpdateMeasurementDto>();
   public serverAsksExitEmitter = new EventEmitter<ServerAsksClientToExitDto>();
+  public serverAsksHeartbeatEmitter = new EventEmitter();
 
   constructor(private authService: AuthService) {}
 
@@ -143,6 +143,7 @@ export class SignalrService {
     this.hubConnection.on("NudgeSignalR", () => {
       this.hubConnection.send("AckHeartbeat");
       console.log(`${Utils.stime()}  NudgeSignalR`);
+      this.serverAsksHeartbeatEmitter.emit();
     });
 
     this.hubConnection.on("RtuInitialized", (data: RtuInitializedWebDto) =>

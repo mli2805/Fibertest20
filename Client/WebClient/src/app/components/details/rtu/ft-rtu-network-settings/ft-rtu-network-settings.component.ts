@@ -7,7 +7,7 @@ import { Subscription } from "rxjs";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 import { OneApiService } from "src/app/api/one.service";
-import { Utils } from "src/app/Utils/utils";
+import { Utils } from "src/app/utils/utils";
 
 @Component({
   selector: "ft-rtu-network-settings",

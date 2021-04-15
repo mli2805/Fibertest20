@@ -30,7 +30,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         {
             var userName = Context.User.Identity.Name;
             if (string.IsNullOrEmpty(userName))
-                userName = "DataCenter?";
+                userName = "DataCenter";
 
             _logFile.AppendLine($"SignalR Hub: User {userName} connected from = {GetRemoteAddress()} assigned id {Context.ConnectionId}");
 

@@ -30,8 +30,8 @@ import { MatDialog } from "@angular/material";
 import { ServerAsksClientToExitDto } from "src/app/models/dtos/serverAsksClientToExitDto";
 import { ClientMeasurementDoneDto } from "src/app/models/dtos/port/clientMeasurementDoneDto";
 import { SorFileManager } from "src/app/utils/sorFileManager";
-import { Utils } from "src/app/Utils/utils";
-import { ConsoleLogger } from "@microsoft/signalr/dist/esm/Utils";
+import { Utils } from "src/app/utils/utils";
+import { HeartbeatSender } from "src/app/utils/heartbeatSender";
 
 @Component({
   selector: "ft-main-nav",
@@ -41,6 +41,7 @@ import { ConsoleLogger } from "@microsoft/signalr/dist/esm/Utils";
 export class FtMainNavComponent implements OnInit, OnDestroy {
   @ViewChild("outletDiv", { static: false })
   outletDiv: ElementRef<HTMLDivElement>;
+  private heartbeatAskedSubscription: Subscription;
   private measurementAddedSubscription: Subscription;
   private networkEventAddedSubscription: Subscription;
   private bopEventAddedSubscription: Subscription;
@@ -113,7 +114,8 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.timer = setInterval(() => {
       try {
-        this.sendHeartbeat();
+        // this.sendHeartbeat();
+        this.doSend();
       } catch {
         console.log(`exception while heartbeat`);
       }
@@ -128,51 +130,60 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     }
   }
 
-  async sendHeartbeat() {
-    // console.log(`Heartbeat timer tick at ${Utils.stime()}`);
-    try {
-      const user = sessionStorage.getItem("currentUser");
-      if (user === null) {
-        console.log("user has not logged yet");
-      } else {
-        const currentUser = JSON.parse(sessionStorage.currentUser);
-        const settings = JSON.parse(sessionStorage.settings);
-        this.version = settings.version;
-
-        const res = (await this.oneApiService
-          .getRequest(`authentication/heartbeat/${currentUser.connectionId}`)
-          .toPromise()) as RequestAnswer;
-
-        if (res.returnCode >= 2000 && res.returnCode < 3000) {
-          console.log(
-            `Heartbeat network connection failed at ${Utils.stime()}. Return code is ${
-              res.returnCode
-            }`
-          );
-          this.badHeartbeatCount++;
-          if (this.badHeartbeatCount > 3) {
-            await this.exit();
-          }
-          return;
-        } else if (res.returnCode !== ReturnCode.Ok) {
-          console.log(`Heartbeat: ${res.errorMessage} at ${Utils.stime()}`);
-          await this.exit();
-        } else {
-          console.log(`Heartbeat result is OK`);
-          this.badHeartbeatCount = 0;
-        }
-      }
-    } catch (error) {
-      console.log(`can't send heartbeat: ${error.message}`);
-      this.badHeartbeatCount++;
-      if (this.badHeartbeatCount > 3) {
-        await this.exit();
-      }
+  async doSend() {
+    const res = await HeartbeatSender.Send(this.oneApiService);
+    if (res === false) {
+      await this.exit();
+      return;
     }
   }
 
+  // async sendHeartbeat() {
+  //   // console.log(`Heartbeat timer tick at ${Utils.stime()}`);
+  //   try {
+  //     const user = sessionStorage.getItem("currentUser");
+  //     if (user === null) {
+  //       console.log("user has not logged yet");
+  //     } else {
+  //       const currentUser = JSON.parse(sessionStorage.currentUser);
+  //       const settings = JSON.parse(sessionStorage.settings);
+  //       this.version = settings.version;
+
+  //       const res = (await this.oneApiService
+  //         .getRequest(`authentication/heartbeat/${currentUser.connectionId}`)
+  //         .toPromise()) as RequestAnswer;
+
+  //       if (res.returnCode >= 2000 && res.returnCode < 3000) {
+  //         console.log(
+  //           `Heartbeat network connection failed at ${Utils.stime()}. Return code is ${
+  //             res.returnCode
+  //           }`
+  //         );
+  //         this.badHeartbeatCount++;
+  //         if (this.badHeartbeatCount > 3) {
+  //           await this.exit();
+  //         }
+  //         return;
+  //       } else if (res.returnCode !== ReturnCode.Ok) {
+  //         console.log(`Heartbeat: ${res.errorMessage} at ${Utils.stime()}`);
+  //         await this.exit();
+  //       } else {
+  //         console.log(`Heartbeat result is OK`);
+  //         this.badHeartbeatCount = 0;
+  //       }
+  //     }
+  //   } catch (error) {
+  //     console.log(`can't send heartbeat: ${error.message}`);
+  //     this.badHeartbeatCount++;
+  //     if (this.badHeartbeatCount > 3) {
+  //       await this.exit();
+  //     }
+  //   }
+  // }
+
   async exit() {
     this.clearSessionStorage();
+    this.initializeIndicators();
     this.signalRService.stopConnection();
 
     FtMessageBox.showAndGoAlong(
@@ -222,6 +233,11 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   private subscribeSignalRNotifications() {
+    this.heartbeatAskedSubscription = this.signalRService.serverAsksHeartbeatEmitter.subscribe(
+      () => {
+        this.doSend();
+      }
+    );
     this.measurementAddedSubscription = this.signalRService.measurementAddedEmitter.subscribe(
       (signal: TraceStateDto) => this.onMeasurementAdded(signal)
     );
@@ -312,6 +328,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.bopEventAddedSubscription.unsubscribe();
     this.serverAsksExitSubscription.unsubscribe();
     this.measEmmitterSubscription.unsubscribe();
+    this.heartbeatAskedSubscription.unsubscribe();
   }
 
   async logout() {
@@ -322,6 +339,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
       console.log(`exception while logging out`);
     }
     this.clearSessionStorage();
+    this.initializeIndicators();
   }
 
   clearSessionStorage() {
@@ -333,7 +351,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     sessionStorage.removeItem("currentBopAlarms");
     this.bopAlarmIndicator.ClearList();
     console.log("session storage cleaned.");
-    this.initializeIndicators();
   }
 
   toggleLanguage() {
