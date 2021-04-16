@@ -35,5 +35,8 @@ namespace Iit.Fibertest.Client
         public PointLatLng? RtuPosition { get; set; }
         public string RtuSoftwareVersion { get; set; }
         public string RtuCompilation => $@"{RtuTitle} (v. {RtuSoftwareVersion})";
+
+        public string ServerTitle { get; set; }
+
     }
 }

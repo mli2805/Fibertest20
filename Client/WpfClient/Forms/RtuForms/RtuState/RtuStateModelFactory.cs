@@ -10,10 +10,12 @@ namespace Iit.Fibertest.Client
     public class RtuStateModelFactory
     {
         private readonly Model _model;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
 
-        public RtuStateModelFactory(Model model)
+        public RtuStateModelFactory(Model model, CurrentDatacenterParameters currentDatacenterParameters)
         {
             _model = model;
+            _currentDatacenterParameters = currentDatacenterParameters;
         }
 
         public RtuStateModel Create(RtuLeaf rtuLeaf)
@@ -23,6 +25,7 @@ namespace Iit.Fibertest.Client
 
             var rtuStateModel = new RtuStateModel();
             rtuStateModel.Title = rtuLeaf.Title;
+            rtuStateModel.ServerTitle = _currentDatacenterParameters.ServerTitle;
 
             rtuStateModel.MainAddress = rtu.MainChannel.ToStringA();
             rtuStateModel.MainAddressState = rtuLeaf.MainChannelState;

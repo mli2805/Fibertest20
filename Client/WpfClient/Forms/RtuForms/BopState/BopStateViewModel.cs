@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Linq;
 using System.Windows.Media;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WpfCommonViews;
@@ -11,11 +12,13 @@ namespace Iit.Fibertest.Client
 {
     public class BopStateViewModel : Screen
     {
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly SoundManager _soundManager;
         private readonly Model _readModel;
         public string BopIp { get; set; }
         public int PortRtu { get;set; }
         public string RtuTitle { get; set; }
+        public string ServerTitle { get; set; }
         public string StateOn { get; set; }
         public string BopState { get; set; }
         public Brush BopStateBrush { get; set; }
@@ -36,8 +39,9 @@ namespace Iit.Fibertest.Client
 
         public bool IsOpen { get; private set; }
 
-        public BopStateViewModel(SoundManager soundManager, Model readModel)
+        public BopStateViewModel(CurrentDatacenterParameters currentDatacenterParameters, SoundManager soundManager, Model readModel)
         {
+            _currentDatacenterParameters = currentDatacenterParameters;
             _soundManager = soundManager;
             _readModel = readModel;
         }
@@ -52,6 +56,7 @@ namespace Iit.Fibertest.Client
                 PortRtu = otau.MasterPort;
 
             RtuTitle = _readModel.Rtus.First(r => r.Id == bopNetworkEventAdded.RtuId).Title;
+            ServerTitle = _currentDatacenterParameters.ServerTitle;
             StateOn = string.Format(Resources.SID_State_at_,
                 bopNetworkEventAdded.EventTimestamp.ToString(CultureInfo.CurrentCulture), bopNetworkEventAdded.Ordinal);
             IsOk = bopNetworkEventAdded.IsOk;

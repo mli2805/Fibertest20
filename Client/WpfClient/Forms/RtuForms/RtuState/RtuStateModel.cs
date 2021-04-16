@@ -13,6 +13,7 @@ namespace Iit.Fibertest.Client
         private string _currentMeasurementStep;
         private FiberState _tracesState;
         public string Title { get; set; }
+        public string ServerTitle { get; set; }
         public string RtuAvailabilityOnScreen => RtuAvailabilityToString();
         public Brush RtuAvailabilityBrush => RtuAvalilabilityToBrush(true);
 

@@ -12,12 +12,15 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
         private readonly CurrentGis _currentGis;
+        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
 
-        public TraceStateModelFactory(Model readModel, AccidentLineModelFactory accidentLineModelFactory, CurrentGis currentGis)
+        public TraceStateModelFactory(Model readModel, AccidentLineModelFactory accidentLineModelFactory, 
+            CurrentGis currentGis, CurrentDatacenterParameters currentDatacenterParameters)
         {
             _readModel = readModel;
             _accidentLineModelFactory = accidentLineModelFactory;
             _currentGis = currentGis;
+            _currentDatacenterParameters = currentDatacenterParameters;
         }
 
         // TraceLeaf
@@ -100,6 +103,8 @@ namespace Iit.Fibertest.Client
                 ? trace.OtauPort.OpticalPort.ToString()
                 : $@"{trace.OtauPort.Serial}-{trace.OtauPort.OpticalPort}";
             result.RtuSoftwareVersion = rtu?.Version;
+
+            result.ServerTitle = _currentDatacenterParameters.ServerTitle;
             return result;
         }
     }

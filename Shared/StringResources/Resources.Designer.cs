@@ -4001,7 +4001,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Loading data after DB recovery (optimization).
+        ///   Looks up a localized string similar to Loading data after DB recovery (optimization), please wait.
         /// </summary>
         public static string SID_Loading_data_after_DB_recovery__optimization_ {
             get {
