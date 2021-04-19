@@ -4,7 +4,7 @@ import { RequestAnswer } from "../models/underlying/requestAnswer";
 import { Utils } from "./utils";
 
 export class HeartbeatSender {
-  static badHeartbeatCount: number;
+  static badHeartbeatCount = 0;
 
   static async Send(oneApiService: OneApiService): Promise<boolean> {
     // console.log(`Heartbeat timer tick at ${Utils.stime()}`);
@@ -28,10 +28,13 @@ export class HeartbeatSender {
             }`
           );
           this.badHeartbeatCount++;
-          if (this.badHeartbeatCount > 3) {
+          if (this.badHeartbeatCount >= 3) {
             return false;
           }
-          return true; // problem, but give it a chance
+          console.log(
+            `badHeartbeatCount ${this.badHeartbeatCount}, there is a problem, but give it a chance`
+          );
+          return true;
         } else if (res.returnCode !== ReturnCode.Ok) {
           console.log(`Heartbeat: ${res.errorMessage} at ${Utils.stime()}`);
           return false;
@@ -44,7 +47,7 @@ export class HeartbeatSender {
     } catch (error) {
       console.log(`can't send heartbeat: ${error.message}`);
       this.badHeartbeatCount++;
-      if (this.badHeartbeatCount > 3) {
+      if (this.badHeartbeatCount >= 3) {
         return false;
       }
     }
