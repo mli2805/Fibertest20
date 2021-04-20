@@ -289,13 +289,13 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
 
   async logout() {
     try {
+      this.clearSessionStorage();
+      this.initializeIndicators();
       this.signalRService.stopConnection();
       await this.authService.logout().toPromise();
     } catch {
       console.log(`exception while logging out`);
     }
-    this.clearSessionStorage();
-    this.initializeIndicators();
   }
 
   clearSessionStorage() {
