@@ -67,9 +67,11 @@ namespace Iit.Fibertest.Client
                 ? await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingForShowAll)
                 : await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingForHiddenAll);
 
+            var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
+            _currentlyHiddenRtu.CleanFlags();
             _waitViewModel.TryClose();
 
-            return await _renderingApplierToUi.ToEmptyGraph(renderingResult);
+            return unused;
         }
 
         public async Task<int> RenderOnRtuChanged()
@@ -79,10 +81,9 @@ namespace Iit.Fibertest.Client
 
             var unused1 = await FullClean();
             var renderingResult = await Task.Factory.StartNew(_currentZoneRenderer.GetCurrentRendering);
-            // var unused = await _renderingApplierToUi.ToExistingGraph(renderingResult);
+
             var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
             _currentlyHiddenRtu.CleanFlags();
-
             _waitViewModel.TryClose();
 
             return unused;
@@ -113,7 +114,6 @@ namespace Iit.Fibertest.Client
 
             var unused1 = await FullClean();
             var renderingResult = await Task.Factory.StartNew(() => _currentZoneRenderer.GetCurrentRendering());
-            // var unused = await _renderingApplierToUi.ToExistingGraph(renderingResult);
             var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
 
             _waitViewModel.TryClose();

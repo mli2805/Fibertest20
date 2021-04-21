@@ -38,7 +38,6 @@ namespace Iit.Fibertest.Client
         {
             _renderingResult = _currentUser.Role <= Role.Root
                 ?  _rootRenderer.ShowAllMinusHiddenTraces()
-//                ? _rootRenderer.ShowNothingPlusShownTraces()
                 : _lessThanRootRenderer.ShowRtusAndTraces();
 
             _logFile.AppendLine($@"{_renderingResult.NodeVms.Count} nodes ready");
@@ -47,8 +46,6 @@ namespace Iit.Fibertest.Client
 
             return _renderingResult;
         }
-
-
 
     }
 }
