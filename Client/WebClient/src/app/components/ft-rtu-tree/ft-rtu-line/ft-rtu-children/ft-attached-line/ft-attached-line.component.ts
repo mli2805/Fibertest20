@@ -11,6 +11,7 @@ import { RegistrationAnswerDto } from "src/app/models/dtos/registrationAnswerDto
 import { Role } from "src/app/models/enums/role";
 import { RtuDto } from "src/app/models/dtos/rtuTree/rtuDto";
 import { FiberState } from "src/app/models/enums/fiberState";
+import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 
 @Component({
   selector: "ft-attached-line",
@@ -101,8 +102,14 @@ export class FtAttachedLineComponent implements OnInit {
   }
 
   isDetachTraceDisabled(): boolean {
-    const user: RegistrationAnswerDto = JSON.parse(sessionStorage.getItem("currentUser"));
-    return user.role > Role.Root || this.trace.isIncludedInMonitoringCycle;
+    const user: RegistrationAnswerDto = JSON.parse(
+      sessionStorage.getItem("currentUser")
+    );
+    return (
+      user.role > Role.Root ||
+      (this.trace.isIncludedInMonitoringCycle &&
+        this.trace.rtuMonitoringMode === MonitoringMode.On)
+    );
   }
 
   hasBase(): boolean {
