@@ -245,6 +245,17 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy, AfterViewChecked {
         if (child != null && child.childType === ChildType.Trace) {
           const trace = child as TraceDto;
           trace.rtuMonitoringMode = mode;
+        } else if (child != null && child.childType === ChildType.Otau) {
+          const otau = child as OtauWebDto;
+          for (const grandChild of otau.children) {
+            if (
+              grandChild != null &&
+              grandChild.childType === ChildType.Trace
+            ) {
+              const trace = grandChild as TraceDto;
+              trace.rtuMonitoringMode = mode;
+            }
+          }
         }
       }
     }
