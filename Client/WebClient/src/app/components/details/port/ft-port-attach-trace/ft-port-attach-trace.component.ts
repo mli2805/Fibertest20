@@ -7,6 +7,7 @@ import { AttachTraceDto } from "src/app/models/dtos/port/attachTraceDto";
 import { OneApiService } from "src/app/api/one.service";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 import { ReturnCode } from "src/app/models/enums/returnCode";
+import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 
 @Component({
   selector: "ft-port-attach-trace",
@@ -20,7 +21,11 @@ export class FtPortAttachTraceComponent implements OnInit {
   public isButtonDisabled = false;
   public resultMessage: string;
 
-  constructor(private router: Router, private oneApiService: OneApiService) {}
+  constructor(
+    private router: Router,
+    private oneApiService: OneApiService,
+    private returnCodePipe: ReturnCodePipe
+  ) {}
 
   ngOnInit() {
     const params = JSON.parse(sessionStorage.getItem("attachTraceParams"));
@@ -53,7 +58,11 @@ export class FtPortAttachTraceComponent implements OnInit {
     if (res.returnCode === ReturnCode.Ok) {
       this.router.navigate(["/ft-main-nav/rtu-tree"]);
     } else {
-      this.resultMessage = res.errorMessage;
+      if (res.errorMessage !== null) {
+        this.resultMessage = res.errorMessage;
+      } else {
+        this.resultMessage = this.returnCodePipe.transform(res.returnCode);
+      }
     }
   }
 
