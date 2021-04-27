@@ -22,7 +22,7 @@ namespace Graph.Tests
             if (!(model is TraceToAttachViewModel vm)) return false;
             vm.SelectedTrace = vm.Choices.First(t => t.TraceId == traceId);
             if (answer == Answer.Yes)
-                vm.Attach();
+                vm.FullAttach();
             else
                 vm.Cancel();
             return true;

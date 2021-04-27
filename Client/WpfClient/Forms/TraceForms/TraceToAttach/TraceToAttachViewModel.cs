@@ -7,18 +7,15 @@ using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 
-
 namespace Iit.Fibertest.Client
 {
     public class TraceToAttachViewModel : Screen
     {
         private readonly Model _readModel;
-        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
-        private readonly IWcfServiceCommonC2D _c2RWcfManager;
+        private readonly IWcfServiceCommonC2D _c2DCommonWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly CurrentUser _currentUser;
         private OtauPortDto _otauPortDto;
-        private Rtu _rtu;
         private Trace _selectedTrace;
 
         public List<Trace> Choices { get; set; }
@@ -46,12 +43,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceToAttachViewModel(Model readModel, IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D c2RWcfManager,
+        public TraceToAttachViewModel(Model readModel, IWcfServiceCommonC2D c2DCommonWcfManager,
             IWindowManager windowManager, CurrentUser currentUser)
         {
             _readModel = readModel;
-            _c2DWcfManager = c2DWcfManager;
-            _c2RWcfManager = c2RWcfManager;
+            _c2DCommonWcfManager = c2DCommonWcfManager;
             _windowManager = windowManager;
             _currentUser = currentUser;
         }
@@ -59,7 +55,6 @@ namespace Iit.Fibertest.Client
         public void Initialize(Rtu rtu, OtauPortDto otauPortDto)
         {
             _otauPortDto = otauPortDto;
-            _rtu = rtu;
             Choices = _readModel.Traces.Where(t => t.RtuId == rtu.Id && t.Port < 1 && t.ZoneIds.Contains(_currentUser.ZoneId)).ToList();
             SelectedTrace = Choices.FirstOrDefault();
         }
@@ -77,7 +72,7 @@ namespace Iit.Fibertest.Client
                 TraceId = SelectedTrace.TraceId,
                 OtauPortDto = _otauPortDto,
             };
-            var result = await _c2RWcfManager.AttachTraceAndSendBaseRefs(command);
+            var result = await _c2DCommonWcfManager.AttachTraceAndSendBaseRefs(command);
             if (result.ReturnCode != ReturnCode.Ok)
             {
                 var errs = new List<string>
@@ -94,54 +89,6 @@ namespace Iit.Fibertest.Client
                 _windowManager.ShowDialog(vm);
             } 
           
-            IsButtonsEnabled = true;
-            TryClose();
-        }
-
-        public async void Attach()
-        {
-            IsButtonsEnabled = false;
-            var cmd = new ReSendBaseRefsDto()
-            {
-                TraceId = _selectedTrace.TraceId,
-                RtuMaker = _rtu.RtuMaker,
-                RtuId = _selectedTrace.RtuId,
-                OtdrId = _rtu.OtdrId,
-                OtauPortDto = _otauPortDto,
-                BaseRefDtos = new List<BaseRefDto>(),
-            };
-            foreach (var baseRef in _readModel.BaseRefs.Where(b => b.TraceId == _selectedTrace.TraceId))
-            {
-                cmd.BaseRefDtos.Add(new BaseRefDto()
-                {
-                    SorFileId = baseRef.SorFileId,
-
-                    Id = baseRef.TraceId,
-                    BaseRefType = baseRef.BaseRefType,
-                    Duration = baseRef.Duration,
-                    SaveTimestamp = baseRef.SaveTimestamp,
-                    UserName = baseRef.UserName,
-                });
-            }
-
-            if (cmd.BaseRefDtos.Any())
-            {
-                var result = await _c2RWcfManager.ReSendBaseRefAsync(cmd);
-                if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-                {
-                    _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error,
-                        Resources.SID_Cannot_send_base_refs_to_RTU));
-                    return;
-                }
-            }
-
-            var command = new AttachTrace()
-            {
-                TraceId = SelectedTrace.TraceId,
-                OtauPortDto = _otauPortDto,
-            };
-
-            await _c2DWcfManager.SendCommandAsObj(command);
             IsButtonsEnabled = true;
             TryClose();
         }
