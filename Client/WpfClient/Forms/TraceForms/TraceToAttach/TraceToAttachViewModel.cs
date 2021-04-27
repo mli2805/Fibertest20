@@ -69,6 +69,35 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Not_attached_traces_list;
         }
 
+        public async void FullAttach()
+        {
+            IsButtonsEnabled = false;
+            var command = new AttachTraceDto()
+            {
+                TraceId = SelectedTrace.TraceId,
+                OtauPortDto = _otauPortDto,
+            };
+            var result = await _c2RWcfManager.AttachTraceAndSendBaseRefs(command);
+            if (result.ReturnCode != ReturnCode.Ok)
+            {
+                var errs = new List<string>
+                {
+                    result.ReturnCode == ReturnCode.D2RWcfConnectionError
+                        ? Resources.SID_Cannot_send_base_refs_to_RTU
+                        : Resources.SID_Base_reference_assignment_failed
+                };
+
+                if (!string.IsNullOrEmpty(result.ErrorMessage))
+                    errs.Add(result.ErrorMessage);
+
+                var vm = new MyMessageBoxViewModel(MessageType.Error, errs);
+                _windowManager.ShowDialog(vm);
+            } 
+          
+            IsButtonsEnabled = true;
+            TryClose();
+        }
+
         public async void Attach()
         {
             IsButtonsEnabled = false;
@@ -111,8 +140,6 @@ namespace Iit.Fibertest.Client
                 TraceId = SelectedTrace.TraceId,
                 OtauPortDto = _otauPortDto,
             };
-
-         
 
             await _c2DWcfManager.SendCommandAsObj(command);
             IsButtonsEnabled = true;

@@ -238,13 +238,11 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<string[]> GetEvents(GetEventsDto dto)
         {
-            // if (!_clientsCollection.RegisterHeartbeat(dto.ConnectionId)) return null;
             return await Task.FromResult(_eventStoreService.GetEvents(dto.Revision));
         }
 
         public async Task<SnapshotParamsDto> GetSnapshotParams(GetSnapshotDto dto)
         {
-            // _clientsCollection.RegisterHeartbeat(dto.ConnectionId);
             return await _snapshotRepository.GetSnapshotParams(dto.LastIncludedEvent);
         }
 
@@ -281,7 +279,6 @@ namespace Iit.Fibertest.DataCenterCore
                 .Select(l => l.SorFileId).ToArray())
                 .ToArray();
             await _sorFileRepository.RemoveManySorAsync(sorFileIds2);
-            // return await _eventStoreService.SendCommand(cmd, username, clientIp);
             return null;
         }
     }

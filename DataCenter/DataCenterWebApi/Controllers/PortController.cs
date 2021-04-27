@@ -50,14 +50,11 @@ namespace Iit.Fibertest.DataCenterWebApi
                     body = await reader.ReadToEndAsync();
                 }
                 _logFile.AppendLine(body);
-                var dto = JsonConvert.DeserializeObject<AttachTrace>(body);
+                var dto = JsonConvert.DeserializeObject<AttachTraceDto>(body);
 
-                var result = await _desktopC2DWcfManager
-                    .SetServerAddresses(_doubleAddressForDesktopWcfManager, User.Identity.Name, GetRemoteAddress())
-                    .SendCommandAsObj(dto);
-                return string.IsNullOrEmpty(result) 
-                    ? new RequestAnswer(){ReturnCode = ReturnCode.Ok} 
-                    : new RequestAnswer(){ReturnCode = ReturnCode.Error, ErrorMessage = result};
+                return await _commonC2DWcfManager
+                    .SetServerAddresses(_doubleAddressForCommonWcfManager, User.Identity.Name, GetRemoteAddress())
+                    .AttachTraceAndSendBaseRefs(dto);
             }
             catch (Exception e)
             {

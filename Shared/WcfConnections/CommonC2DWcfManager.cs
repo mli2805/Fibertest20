@@ -265,6 +265,29 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<RequestAnswer> AttachTraceAndSendBaseRefs(AttachTraceDto cmd)
+        {
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
+            if (wcfConnection == null)
+                return new RequestAnswer() { ReturnCode = ReturnCode.C2RWcfConnectionError };
+
+            try
+            {
+                _logFile.AppendLine($@"Attaching trace to RTU port {cmd.TraceId.First6()}...");
+                cmd.Username = _username;
+                cmd.ClientIp = _clientIp;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.AttachTraceAndSendBaseRefs(cmd);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("AttachTraceAndSendBaseRefs: " + e.Message);
+                return new RequestAnswer() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
+            }
+        }
+
         public async Task<BaseRefAssignedDto> AssignBaseRefAsyncFromMigrator(AssignBaseRefsDto dto)
         {
             var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();

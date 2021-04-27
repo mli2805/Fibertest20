@@ -43,6 +43,9 @@ namespace Iit.Fibertest.WcfConnections
         Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto baseRefs);
 
         [OperationContract]
+        Task<RequestAnswer> AttachTraceAndSendBaseRefs(AttachTraceDto cmd);
+
+        [OperationContract]
         Task<BaseRefAssignedDto> AssignBaseRefAsyncFromMigrator(AssignBaseRefsDto baseRefs);
 
         [OperationContract]

@@ -257,8 +257,6 @@ namespace Iit.Fibertest.DataCenterCore
             return !string.IsNullOrEmpty(result)
                 ? new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignmentFailed }
                 : new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
-
-
         }
 
         private async Task<string> SaveChangesOnServer(AssignBaseRefsDto dto)
@@ -292,6 +290,64 @@ namespace Iit.Fibertest.DataCenterCore
             return await _eventStoreService.SendCommand(command, dto.Username, dto.ClientIp);
         }
 
+        private async Task<AssignBaseRefsDto> CreateAssignBaseRefsDto(AttachTraceDto cmd)
+        {
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == cmd.TraceId);
+            if (trace == null) return null;
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
+            if (rtu == null) return null;
+
+            var dto = new AssignBaseRefsDto()
+            {
+                RtuId = trace.RtuId,
+                OtdrId = rtu.OtdrId,
+                TraceId = cmd.TraceId,
+                OtauPortDto = cmd.OtauPortDto,
+                BaseRefs = new List<BaseRefDto>(),
+            };
+
+            foreach (var baseRef in _writeModel.BaseRefs.Where(b => b.TraceId == trace.TraceId))
+            {
+                dto.BaseRefs.Add(new BaseRefDto()
+                {
+                    SorFileId = baseRef.SorFileId,
+                    Id = baseRef.TraceId,
+                    BaseRefType = baseRef.BaseRefType,
+                    Duration = baseRef.Duration,
+                    SaveTimestamp = baseRef.SaveTimestamp,
+                    UserName = baseRef.UserName,
+
+                    SorBytes = await _sorFileRepository.GetSorBytesAsync(baseRef.SorFileId),
+                });
+            }
+
+            return dto;
+        }
+
+        // Base refs had been assigned earlier (and saved in Db) and now user attached trace to the port
+        // base refs should be extracted from Db and sent to the RTU
+        public async Task<RequestAnswer> AttachTraceAndSendBaseRefs(AttachTraceDto dto)
+        {
+            _logFile.AppendLine("AttachTraceAndSendBaseRefs started");
+            var dto1 = await CreateAssignBaseRefsDto(dto);
+            if (dto1 == null) return new RequestAnswer() { ReturnCode = ReturnCode.Error };
+            if (dto1.BaseRefs.Any())
+            {
+                var baseRefAssignedDto = dto1.RtuMaker == RtuMaker.IIT
+                    ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto1)
+                    : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto1).Result);
+
+                if (baseRefAssignedDto.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+                    return new RequestAnswer()
+                        { ReturnCode = baseRefAssignedDto.ReturnCode, ErrorMessage = baseRefAssignedDto.ErrorMessage };
+            }
+          
+            var cmd = new AttachTrace() {TraceId = dto.TraceId, OtauPortDto = dto.OtauPortDto};
+            var res = await _eventStoreService.SendCommand(cmd, dto.Username, dto.ClientIp);
+            return string.IsNullOrEmpty(res)
+                ? new RequestAnswer() { ReturnCode = ReturnCode.Ok }
+                : new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = res };
+        }
 
         // Base refs had been assigned earlier (and saved in Db) and now user attached trace to the port
         // base refs should be extracted from Db and sent to the RTU
