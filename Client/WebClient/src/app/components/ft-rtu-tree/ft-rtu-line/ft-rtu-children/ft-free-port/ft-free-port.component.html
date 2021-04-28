@@ -21,7 +21,11 @@
       {{ "SID_Attach_optical_switch" | translate }}
     </button>
     <mat-divider></mat-divider>
-    <button mat-menu-item (click)="measurementClient()">
+    <button
+      mat-menu-item
+      (click)="measurementClient()"
+      [disabled]="isMeasurementClientDisabled()"
+    >
       {{ "SID_Measurement__Client_" | translate }}
     </button>
   </mat-menu>

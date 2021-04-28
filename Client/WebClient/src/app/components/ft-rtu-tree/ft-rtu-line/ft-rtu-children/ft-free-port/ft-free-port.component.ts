@@ -6,6 +6,7 @@ import { RegistrationAnswerDto } from "src/app/models/dtos/registrationAnswerDto
 import { MonitoringMode } from "src/app/models/enums/monitoringMode";
 import { Role } from "src/app/models/enums/role";
 import { OtauPortDto } from "src/app/models/underlying/otauPortDto";
+import { RtuPartState } from "src/app/models/enums/rtuPartState";
 
 @Component({
   selector: "ft-free-port",
@@ -77,15 +78,34 @@ export class FtFreePortComponent implements OnInit {
   }
 
   public isAttachTraceDisabled() {
-    const user: RegistrationAnswerDto = JSON.parse(sessionStorage.getItem("currentUser"));
-    return user.role > Role.Root;
+    const user: RegistrationAnswerDto = JSON.parse(
+      sessionStorage.getItem("currentUser")
+    );
+    return user.role > Role.WebOperator || this.isRtuAvailable() !== true;
   }
 
   public isAttachSwitchDisabled() {
-    const user: RegistrationAnswerDto = JSON.parse(sessionStorage.getItem("currentUser"));
+    const user: RegistrationAnswerDto = JSON.parse(
+      sessionStorage.getItem("currentUser")
+    );
     return (
       this.parentRtu.monitoringMode === MonitoringMode.On ||
+      this.isRtuAvailable() !== true ||
       user.role > Role.Root
+    );
+  }
+
+  public isMeasurementClientDisabled() {
+    const user: RegistrationAnswerDto = JSON.parse(
+      sessionStorage.getItem("currentUser")
+    );
+    return user.role > Role.WebOperator || this.isRtuAvailable() !== true;
+  }
+
+  private isRtuAvailable(): boolean {
+    return (
+      this.parentRtu.mainChannelState === RtuPartState.Ok ||
+      this.parentRtu.reserveChannelState === RtuPartState.Ok
     );
   }
 }
