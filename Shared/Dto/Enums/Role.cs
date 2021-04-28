@@ -5,12 +5,14 @@
         System = 0,
         Developer = 1,
         Root = 2,
-        Operator = 3,
-        Supervisor = 4,
-        Superclient = 5,
 
+        Operator = 3,
         WebOperator = 31,
+
+        Supervisor = 4,
         WebSupervisor = 41,
+
+        Superclient = 5,
 
         NotificationReceiver = 99,
     }

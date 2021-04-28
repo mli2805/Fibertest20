@@ -81,6 +81,8 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
       this.loadPage()
     );
 
+    this.signalRService.fetchTreeEmitter.subscribe(() => this.loadPage());
+
     this.signalRService.measurementUpdatedEmitter.subscribe(
       (signal: UpdateMeasurementDto) => {
         const line = this.dataSource.optEventsSubject.value.find(

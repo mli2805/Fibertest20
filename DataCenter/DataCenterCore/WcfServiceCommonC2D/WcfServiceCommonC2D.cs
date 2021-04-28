@@ -140,16 +140,17 @@ namespace Iit.Fibertest.DataCenterCore
             var otauDetachedDto = await _clientToRtuTransmitter.DetachOtauAsync(dto);
             if (otauDetachedDto.IsDetached)
             {
-                RemoveOtauFromGraph(dto);
-                await _ftSignalRClient.NotifyAll("FetchTree", null);
+                var res = await RemoveOtauFromGraph(dto);
+                if (string.IsNullOrEmpty(res))
+                    await _ftSignalRClient.NotifyAll("FetchTree", null);
             }
             return otauDetachedDto;
         }
 
-        private async void RemoveOtauFromGraph(DetachOtauDto dto)
+        private async Task<string> RemoveOtauFromGraph(DetachOtauDto dto)
         {
             var otau = _writeModel.Otaus.FirstOrDefault(o => o.Id == dto.OtauId);
-            if (otau == null) return;
+            if (otau == null) return null;
             var cmd = new DetachOtau
             {
                 Id = dto.OtauId,
@@ -163,7 +164,7 @@ namespace Iit.Fibertest.DataCenterCore
             };
 
             var username = _clientsCollection.GetClientByClientIp(dto.ClientIp)?.UserName;
-            await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
+            return await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
         }
 
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
@@ -339,11 +340,13 @@ namespace Iit.Fibertest.DataCenterCore
 
                 if (baseRefAssignedDto.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                     return new RequestAnswer()
-                        { ReturnCode = baseRefAssignedDto.ReturnCode, ErrorMessage = baseRefAssignedDto.ErrorMessage };
+                    { ReturnCode = baseRefAssignedDto.ReturnCode, ErrorMessage = baseRefAssignedDto.ErrorMessage };
             }
-          
-            var cmd = new AttachTrace() {TraceId = dto.TraceId, OtauPortDto = dto.OtauPortDto};
+
+            var cmd = new AttachTrace() { TraceId = dto.TraceId, OtauPortDto = dto.OtauPortDto };
             var res = await _eventStoreService.SendCommand(cmd, dto.Username, dto.ClientIp);
+            if (string.IsNullOrEmpty(res))
+                await _ftSignalRClient.NotifyAll("FetchTree", null);
             return string.IsNullOrEmpty(res)
                 ? new RequestAnswer() { ReturnCode = ReturnCode.Ok }
                 : new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = res };

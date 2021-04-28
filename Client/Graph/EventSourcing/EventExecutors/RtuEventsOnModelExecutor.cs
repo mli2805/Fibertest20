@@ -111,6 +111,11 @@ namespace Iit.Fibertest.Graph
 
             rtu.RemoveOtauState(e.Id);
             model.Otaus.Remove(otau);
+
+            foreach (var measurement in model.ActiveMeasurements.Where(m=> e.TracesOnOtau.Contains(m.TraceId)).ToList())
+            {
+                model.ActiveMeasurements.Remove(measurement);
+            }
             return null;
         }
 

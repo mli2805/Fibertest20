@@ -10,7 +10,6 @@ namespace Iit.Fibertest.Client
 {
     public class OtauLeaf : Leaf, IPortOwner
     {
-        public IWcfServiceDesktopC2D C2DWcfManager { get; }
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly CurrentUser _currentUser;
         private RtuPartState _otauState;
@@ -41,10 +40,9 @@ namespace Iit.Fibertest.Client
         public ChildrenImpresario ChildrenImpresario { get; }
         public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf);
 
-        public OtauLeaf(IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D c2RWcfManager, 
+        public OtauLeaf(IWcfServiceCommonC2D c2RWcfManager, 
             CurrentUser currentUser, FreePorts freePorts)
         {
-            C2DWcfManager = c2DWcfManager;
             _c2RWcfManager = c2RWcfManager;
             _currentUser = currentUser;
             ChildrenImpresario = new ChildrenImpresario(freePorts);

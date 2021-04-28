@@ -36,6 +36,8 @@ namespace Iit.Fibertest.Client
                     _opticalEventsDoubleViewModel.DetachTrace(evnt); break;
                 case AllTracesDetached evnt:
                     _opticalEventsDoubleViewModel.DetachAllTraces(evnt); break;
+                case OtauDetached evnt: 
+                    _opticalEventsDoubleViewModel.DetachOtau(evnt); break;
 
                 case TraceRemoved evnt: _opticalEventsDoubleViewModel.RemoveTrace(evnt); break;
                 case TraceCleaned evnt: _opticalEventsDoubleViewModel.CleanTrace(evnt); break;

@@ -92,6 +92,14 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public void DetachOtau(OtauDetached evnt)
+        {
+            foreach (var traceId in evnt.TracesOnOtau)
+            {
+                ActualOpticalEventsViewModel.RemoveEventsOfTrace(traceId);
+            }
+        }
+
         public void CleanTrace(TraceCleaned evnt)
         {
             ActualOpticalEventsViewModel.RemoveEventsOfTrace(evnt.TraceId);
