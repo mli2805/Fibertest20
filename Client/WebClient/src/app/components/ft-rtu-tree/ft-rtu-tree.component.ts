@@ -118,6 +118,28 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.measurementAddedSubscription = this.signalRService.measurementAddedEmitter.subscribe(
       (signal: TraceStateDto) => {
         const rtu = this.rtus.find((r) => r.rtuId === signal.rtuId);
+        for (const child of rtu.children) {
+          if (child.childType === ChildType.Trace) {
+            const tr = child as TraceDto;
+            if (tr.traceId === signal.traceId) {
+              tr.state = signal.traceState;
+              return;
+            }
+          } else if (child.childType === ChildType.Otau) {
+            const otau = child as OtauWebDto;
+            for (const grandchild of otau.children) {
+              if (grandchild.childType === ChildType.Trace) {
+                const tr = grandchild as TraceDto;
+                if (tr.traceId === signal.traceId) {
+                  tr.state = signal.traceState;
+                  return;
+                }
+              }
+            }
+          }
+        }
+
+
         const trace = rtu.children.find(
           (t) =>
             t.childType === ChildType.Trace &&
