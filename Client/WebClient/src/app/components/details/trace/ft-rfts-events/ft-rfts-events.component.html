@@ -54,7 +54,14 @@
           <p>{{ "SID_ORL__dB" | translate }}</p>
         </div>
         <div class="trace-state-value">
-          <p>{{ vm.summary.traceState | translate }}</p>
+          <p
+            [ngStyle]="{
+              color: getTraceStateColor(vm.summary.traceState),
+              'font-weight': 'bold'
+            }"
+          >
+            {{ vm.summary.traceState | translate }}
+          </p>
           <p>{{ vm.summary.orl }}</p>
         </div>
       </div>
@@ -65,9 +72,16 @@
             <p>{{ ts.levelTitle | translate }}</p>
           </ng-container>
         </div>
-        <div>
+        <div class="by-levels">
           <ng-container *ngFor="let ts of vm.summary.levelStates">
-            <p>{{ ts.state }}</p>
+            <p
+              [ngStyle]="{
+                color: getLevelStateColor(ts.state),
+                'font-weight': 'bold'
+              }"
+            >
+              {{ ts.state }}
+            </p>
           </ng-container>
         </div>
       </div>

@@ -37,4 +37,12 @@ export class FtRftsEventsLevelComponent implements OnInit {
     }
     return "transparent";
   }
+
+  public getLevelAttColor(isPassed: boolean) {
+    console.log(isPassed);
+    if (isPassed) {
+      return "black";
+    }
+    return "red";
+  }
 }

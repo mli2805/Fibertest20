@@ -6,6 +6,7 @@ import {
 } from "src/app/models/dtos/trace/rftsEventsDto";
 import { OneApiService } from "src/app/api/one.service";
 import { ActivatedRoute } from "@angular/router";
+import { FiberState } from "src/app/models/enums/fiberState";
 
 @Component({
   selector: "ft-rfts-events",
@@ -66,5 +67,22 @@ export class FtRftsEventsComponent implements OnInit {
         res.summary.traceState = level.title;
       }
     }
+  }
+
+  public getTraceStateColor(traceState: string) {
+    if (traceState !== "SID_Ok") {
+      return "red";
+    }
+    return "black";
+  }
+
+  public getLevelStateColor(eventStateString: string) {
+    if (
+      eventStateString !== "" &&
+      eventStateString !== this.ts.instant("SID_pass")
+    ) {
+      return "red";
+    }
+    return "black";
   }
 }

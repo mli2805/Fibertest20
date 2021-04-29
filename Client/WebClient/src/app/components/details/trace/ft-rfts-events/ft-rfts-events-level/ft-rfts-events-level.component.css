@@ -29,6 +29,22 @@ span.offset {
 
 .eelt {
   display: flex;
+  flex-direction: column;
+}
+
+.eelt-line {
+  display: flex;
+  flex-direction: row;
+}
+
+.eelt-line2 {
+  margin-top: -18px;
+  display: flex;
+  flex-direction: row;
+}
+
+.eelt-elem {
+  display: flex;
   flex-direction: row;
 }
 

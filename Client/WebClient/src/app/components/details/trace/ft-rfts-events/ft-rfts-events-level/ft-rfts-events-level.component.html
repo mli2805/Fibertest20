@@ -34,17 +34,35 @@
     </ng-container>
   </div>
   <div class="eelt">
-    <p class="eelt-params">{{ "SID_Value__dB" | translate }}</p>
-    <p class="eelt-value">{{ vm.totalFiberLoss.value }}</p>
-    <p class="eelt-params">{{ "SID_Threshold__dB" | translate }}</p>
-    <p class="eelt-value">
-      {{ thresholdToScreen(vm.totalFiberLoss.threshold) }}
-    </p>
-    <p class="eelt-params">{{ "SID_Deviation__dB" | translate }}</p>
-    <p class="eelt-value">{{ vm.totalFiberLoss.deviation }}</p>
-    <p class="eelt-params">{{ "SID_State_" | translate }}</p>
-    <p class="eelt-value">
-      {{ eeltStateToScreen(vm.totalFiberLoss.isPassed) }}
-    </p>
+    <div class="eelt-line">
+      <div class="eelt-elem">
+        <p class="eelt-params">{{ "SID_Value__dB" | translate }}</p>
+        <p class="eelt-value">{{ vm.totalFiberLoss.value }}</p>
+      </div>
+      <div class="eelt-elem">
+        <p class="eelt-params">{{ "SID_Threshold__dB" | translate }}</p>
+        <p class="eelt-value">
+          {{ thresholdToScreen(vm.totalFiberLoss.threshold) }}
+        </p>
+      </div>
+    </div>
+    <div class="eelt-line2">
+      <div class="eelt-elem">
+        <p class="eelt-params">{{ "SID_Deviation__dB" | translate }}</p>
+        <p class="eelt-value">{{ vm.totalFiberLoss.deviation }}</p>
+      </div>
+      <div class="eelt-elem">
+        <p class="eelt-params">{{ "SID_State_" | translate }}</p>
+        <p
+          class="eelt-value"
+          [ngStyle]="{
+            color: getLevelAttColor(vm.totalFiberLoss.isPassed),
+            'font-weight': 'bold'
+          }"
+        >
+          {{ eeltStateToScreen(vm.totalFiberLoss.isPassed) }}
+        </p>
+      </div>
+    </div>
   </div>
 </div>
