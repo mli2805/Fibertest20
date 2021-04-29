@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.StringResources;
+﻿using System.Windows.Media;
+using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
@@ -10,6 +11,7 @@ namespace Iit.Fibertest.WpfCommonViews
         public string Threshold { get; set; }
         public string DeviationValue { get; set; }
         public string StateValue { get; set; }
+        public Brush StateColor => StateValue == Resources.SID_pass ? Brushes.Black : Brushes.Red;
 
         public bool IsFailed { get; set; }
 

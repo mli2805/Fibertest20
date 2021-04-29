@@ -16,7 +16,8 @@
                 <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Deviation__dB}" />
                 <TextBlock Margin="0,5,11,5" Text="{Binding DeviationValue}" />
                 <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_State_}" />
-                <TextBlock Margin="0,5,11,5" Text="{Binding StateValue}" />
+                <TextBlock Margin="0,5,11,5" Text="{Binding StateValue}"
+                           Foreground="{Binding StateColor}"/>
             </DockPanel>
         </GroupBox>
 

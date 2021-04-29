@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.StringResources;
+﻿using System.Windows.Media;
+using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -8,12 +9,17 @@ namespace Iit.Fibertest.WpfCommonViews
     public class RftsEventsFooterViewModel
     {
         public string TraceState { get; set; }
+        public Brush TraceStateColor => TraceState == Resources.SID_pass ? Brushes.Black : Brushes.Red;
         public double Orl { get; set; }
 
         public string Minor { get; set; }
+        public Brush MinorColor => TraceState == Resources.SID_pass ? Brushes.Black : Brushes.Red;
         public string Major { get; set; }
+        public Brush MajorColor => TraceState == Resources.SID_pass ? Brushes.Black : Brushes.Red;
         public string Critical { get; set; }
+        public Brush CriticalColor => TraceState == Resources.SID_pass ? Brushes.Black : Brushes.Red;
         public string Users { get; set; }
+        public Brush UsersColor => TraceState == Resources.SID_pass ? Brushes.Black : Brushes.Red;
 
         public LevelsContent LevelsContent { get; set; }
 
