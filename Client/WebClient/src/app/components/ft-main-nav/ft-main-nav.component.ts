@@ -109,7 +109,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     });
   }
 
-  private flag = true;
+  private flag = -1;
   async ngOnInit() {
     this.timer = setInterval(() => {
       try {
@@ -125,10 +125,10 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     if (res === -9) {
       await this.exit();
       return;
-    } else if (this.flag && res === 1) {
+    } else if (this.flag < res) {
       const settings = JSON.parse(sessionStorage.settings);
       this.version = settings.version;
-      this.flag = false;
+      this.flag = res;
     }
   }
 

@@ -25,6 +25,8 @@ import { RtuPartState } from "src/app/models/enums/rtuPartState";
 import { BopEventDto } from "src/app/models/dtos/bopEventDto";
 import { TraceStateDto } from "src/app/models/dtos/trace/traceStateDto";
 import { DOCUMENT } from "@angular/common";
+import { FiberState } from "src/app/models/enums/fiberState";
+import { BaseRefType } from "src/app/models/enums/baseRefType";
 
 @Component({
   selector: "ft-rtu-tree",
@@ -122,7 +124,7 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy, AfterViewChecked {
           if (child.childType === ChildType.Trace) {
             const tr = child as TraceDto;
             if (tr.traceId === signal.traceId) {
-              tr.state = signal.traceState;
+              tr.state = this.buildState(signal);
               return;
             }
           } else if (child.childType === ChildType.Otau) {
@@ -131,14 +133,13 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy, AfterViewChecked {
               if (grandchild.childType === ChildType.Trace) {
                 const tr = grandchild as TraceDto;
                 if (tr.traceId === signal.traceId) {
-                  tr.state = signal.traceState;
+                  tr.state = this.buildState(signal);
                   return;
                 }
               }
             }
           }
         }
-
 
         const trace = rtu.children.find(
           (t) =>
@@ -191,6 +192,16 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy, AfterViewChecked {
         }
       }
     );
+  }
+
+  private buildState(dto: TraceStateDto) {
+    if (dto.traceState === FiberState.Ok) {
+      return FiberState.Ok;
+    } else if (dto.baseRefType === BaseRefType.Fast) {
+      return FiberState.Suspicion;
+    } else {
+      return dto.traceState;
+    }
   }
 
   ngOnDestroy() {
