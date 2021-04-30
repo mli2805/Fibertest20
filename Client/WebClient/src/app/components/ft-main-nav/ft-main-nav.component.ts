@@ -18,7 +18,6 @@ import { BopAlarmIndicator } from "src/app/models/dtos/alarms/bopAlarm";
 import { BopEventDto } from "src/app/models/dtos/bopEventDto";
 import { TranslateService } from "@ngx-translate/core";
 import { OneApiService } from "src/app/api/one.service";
-import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { NavigationStart, Router } from "@angular/router";
 import {
@@ -59,7 +58,6 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
 
   private language: string;
   private timer;
-  private badHeartbeatCount = 0;
 
   constructor(
     private router: Router,
@@ -111,6 +109,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     });
   }
 
+  private flag = true;
   async ngOnInit() {
     this.timer = setInterval(() => {
       try {
@@ -119,21 +118,17 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
         console.log(`exception while heartbeat`);
       }
     }, 7000);
-
-    await Utils.delay(1000);
-    if (sessionStorage.settings === undefined) {
-      this.version = ``;
-    } else {
-      const settings = JSON.parse(sessionStorage.settings);
-      this.version = settings.version;
-    }
   }
 
   async doSend() {
     const res = await HeartbeatSender.Send(this.oneApiService);
-    if (res === false) {
+    if (res === -9) {
       await this.exit();
       return;
+    } else if (this.flag && res === 1) {
+      const settings = JSON.parse(sessionStorage.settings);
+      this.version = settings.version;
+      this.flag = false;
     }
   }
 

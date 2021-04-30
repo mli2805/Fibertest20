@@ -6,16 +6,22 @@ import { Utils } from "./utils";
 export class HeartbeatSender {
   static badHeartbeatCount = 0;
 
-  static async Send(oneApiService: OneApiService): Promise<boolean> {
+
+  /*
+  0 - has not logget yet
+  -1 - problem, but give it a chance
+  -9 - exit program
+  +1 - ok
+  */
+  static async Send(oneApiService: OneApiService): Promise<number> {
     // console.log(`Heartbeat timer tick at ${Utils.stime()}`);
     try {
       const user = sessionStorage.getItem("currentUser");
       if (user === null) {
         console.log("user has not logged yet");
-        return true;
+        return 0;
       } else {
         const currentUser = JSON.parse(sessionStorage.currentUser);
-        const settings = JSON.parse(sessionStorage.settings);
 
         const res = (await oneApiService
           .getRequest(`authentication/heartbeat/${currentUser.connectionId}`)
@@ -29,26 +35,26 @@ export class HeartbeatSender {
           );
           this.badHeartbeatCount++;
           if (this.badHeartbeatCount >= 3) {
-            return false;
+            return -9;
           }
           console.log(
             `badHeartbeatCount ${this.badHeartbeatCount}, there is a problem, but give it a chance`
           );
-          return true;
+          return -1;
         } else if (res.returnCode !== ReturnCode.Ok) {
           console.log(`Heartbeat: ${res.errorMessage} at ${Utils.stime()}`);
-          return false;
+          return -9;
         } else {
-          console.log(`Heartbeat result is OK`);
+          // console.log(`Heartbeat result is OK`);
           this.badHeartbeatCount = 0;
-          return true;
+          return 1;
         }
       }
     } catch (error) {
       console.log(`can't send heartbeat: ${error.message}`);
       this.badHeartbeatCount++;
       if (this.badHeartbeatCount >= 3) {
-        return false;
+        return -9;
       }
     }
   }

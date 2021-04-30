@@ -142,7 +142,7 @@ export class SignalrService {
     // temporary workaround chromium timer throttling problem
     this.hubConnection.on("NudgeSignalR", () => {
       this.hubConnection.send("AckHeartbeat");
-      console.log(`${Utils.stime()}  NudgeSignalR`);
+      // console.log(`${Utils.stime()}  NudgeSignalR`);
       this.serverAsksHeartbeatEmitter.emit();
     });
 
