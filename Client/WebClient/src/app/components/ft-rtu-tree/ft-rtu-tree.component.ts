@@ -42,6 +42,7 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy, AfterViewChecked {
   public destroyed = new Subject<any>();
 
   private fetchDataSubscription: Subscription;
+  private traceTachedSubscription: Subscription;
   private monitoringStoppedSubscription: Subscription;
   private monitoringStartedSubscription: Subscription;
   private measurementAddedSubscription: Subscription;
@@ -101,6 +102,13 @@ export class FtRtuTreeComponent implements OnInit, OnDestroy, AfterViewChecked {
     this.fetchDataSubscription = this.signalRService.fetchTreeEmitter.subscribe(
       () => {
         console.log(`fetch signal received`);
+        this.fetchData();
+      }
+    );
+
+    this.traceTachedSubscription = this.signalRService.traceTachEmitter.subscribe(
+      () => {
+        console.log(`trace tached - need to fetch`);
         this.fetchData();
       }
     );

@@ -163,7 +163,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var res = await RemoveSorFiles(removeTrace.TraceId);
                 if (!string.IsNullOrEmpty(res)) return res;
             }
-         
+
             var resultInGraph = await _eventStoreService.SendCommand(cmd, username, clientIp);
             if (resultInGraph != null)
                 return resultInGraph;
@@ -218,8 +218,6 @@ namespace Iit.Fibertest.DataCenterCore
 
                 case AddRtuAtGpsLocation _:
                 case RemoveRtu _:
-                case AttachTrace _:
-                case DetachTrace _:
                 case DetachAllTraces _:
                 case CleanTrace _:
                 case RemoveTrace _:
@@ -228,7 +226,27 @@ namespace Iit.Fibertest.DataCenterCore
                         await _ftSignalRClient.NotifyAll("FetchTree", null);
                         break;
                     }
+                case AttachTrace dto:
+                    {
+                        await OnTraceTached(dto.TraceId, true);
+                        break;
+                    }
+                case DetachTrace dto:
+                    {
+                        await OnTraceTached(dto.TraceId, false);
+                        break;
+                    }
             }
+        }
+
+        private async Task OnTraceTached(Guid traceId, bool isAttach)
+        {
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
+            if (trace == null) return;
+            var meas = _writeModel.Measurements.LastOrDefault(m => m.TraceId == traceId);
+            var signal = new TraceTachDto() { TraceId = traceId, Attach = isAttach, TraceState = trace.State, SorFileId = meas?.SorFileId ?? -1 };
+
+            await _ftSignalRClient.NotifyAll("TraceTach", signal.ToCamelCaseJson());
         }
 
         public async Task<bool> CompareEvent(CompareEventDto dto)

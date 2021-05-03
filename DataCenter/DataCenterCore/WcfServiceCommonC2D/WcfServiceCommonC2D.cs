@@ -346,7 +346,22 @@ namespace Iit.Fibertest.DataCenterCore
             var cmd = new AttachTrace() { TraceId = dto.TraceId, OtauPortDto = dto.OtauPortDto };
             var res = await _eventStoreService.SendCommand(cmd, dto.Username, dto.ClientIp);
             if (string.IsNullOrEmpty(res))
-                await _ftSignalRClient.NotifyAll("FetchTree", null);
+            {
+                var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.TraceId);
+                if (trace != null)
+                {
+                    var meas = _writeModel.Measurements.LastOrDefault(m => m.TraceId == dto.TraceId);
+                    var signal = new TraceTachDto()
+                    {
+                        TraceId = dto.TraceId,
+                        Attach = true,
+                        TraceState = trace.State,
+                        SorFileId = meas?.SorFileId ?? -1
+                    };
+
+                    await _ftSignalRClient.NotifyAll("TraceTach", signal.ToCamelCaseJson());
+                }
+            }
             return string.IsNullOrEmpty(res)
                 ? new RequestAnswer() { ReturnCode = ReturnCode.Ok }
                 : new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = res };

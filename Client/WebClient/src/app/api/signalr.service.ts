@@ -15,6 +15,7 @@ import { BopEventDto } from "../models/dtos/bopEventDto";
 import { UpdateMeasurementDto } from "../models/dtos/trace/updateMeasurementDto";
 import { ServerAsksClientToExitDto } from "../models/dtos/serverAsksClientToExitDto";
 import { AuthService } from "./auth.service";
+import { TraceTachDto } from "../models/dtos/trace/traceTachDto";
 
 @Injectable({
   providedIn: "root",
@@ -23,6 +24,7 @@ export class SignalrService {
   private hubConnection: signalR.HubConnection;
   public rtuInitializedEmitter = new EventEmitter<RtuInitializedWebDto>();
   public fetchTreeEmitter = new EventEmitter();
+  public traceTachEmitter = new EventEmitter<TraceTachDto>();
   public monitoringStepNotifier = new EventEmitter<CurrentMonitoringStepDto>();
   public clientMeasEmitter = new EventEmitter<ClientMeasurementDoneDto>();
   public monitoringStoppedEmitter = new EventEmitter<MonitoringStoppedDto>();
@@ -152,6 +154,11 @@ export class SignalrService {
 
     this.hubConnection.on("FetchTree", () => {
       this.fetchTreeEmitter.emit();
+    });
+
+    this.hubConnection.on("TraceTach", (signal: string) => {
+      const dto = JSON.parse(signal) as TraceTachDto;
+      this.traceTachEmitter.emit(dto);
     });
 
     this.hubConnection.on("NotifyMonitoringStep", (signal: string) => {

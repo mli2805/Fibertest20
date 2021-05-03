@@ -31,6 +31,7 @@ import { ClientMeasurementDoneDto } from "src/app/models/dtos/port/clientMeasure
 import { SorFileManager } from "src/app/utils/sorFileManager";
 import { Utils } from "src/app/utils/utils";
 import { HeartbeatSender } from "src/app/utils/heartbeatSender";
+import { TraceTachDto } from "src/app/models/dtos/trace/traceTachDto";
 
 @Component({
   selector: "ft-main-nav",
@@ -42,6 +43,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   outletDiv: ElementRef<HTMLDivElement>;
   private heartbeatAskedSubscription: Subscription;
   private measurementAddedSubscription: Subscription;
+  private traceTachedSubscription: Subscription;
   private networkEventAddedSubscription: Subscription;
   private bopEventAddedSubscription: Subscription;
   private serverAsksExitSubscription: Subscription;
@@ -192,6 +194,9 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     this.measurementAddedSubscription = this.signalRService.measurementAddedEmitter.subscribe(
       (signal: TraceStateDto) => this.onMeasurementAdded(signal)
     );
+    this.traceTachedSubscription = this.signalRService.traceTachEmitter.subscribe(
+      (signal: TraceTachDto) => this.onTraceTached(signal)
+    );
     this.networkEventAddedSubscription = this.signalRService.networkEventAddedEmitter.subscribe(
       (signal: NetworkEventDto) => this.onNetworkEventAdded(signal)
     );
@@ -263,6 +268,11 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
     }
   }
 
+  onTraceTached(signal: TraceTachDto) {
+    console.log(`traceTached ${signal}`);
+    this.isOpticalAlarm = this.opticalAlarmIndicator.TraceTached(signal);
+  }
+
   onNetworkEventAdded(signal: NetworkEventDto) {
     this.isNetworkAlarm = this.networkAlarmIndicator.NetworkEventReceived(
       signal
@@ -274,6 +284,7 @@ export class FtMainNavComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.traceTachedSubscription.unsubscribe();
     this.measurementAddedSubscription.unsubscribe();
     this.networkEventAddedSubscription.unsubscribe();
     this.bopEventAddedSubscription.unsubscribe();
