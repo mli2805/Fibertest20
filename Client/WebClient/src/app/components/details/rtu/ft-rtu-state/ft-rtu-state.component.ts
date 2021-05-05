@@ -51,8 +51,6 @@ export class FtRtuStateComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     const id = this.activeRoute.snapshot.paramMap.get("id");
 
-    setInterval(() => {}, 1000);
-
     const res = (await this.oneApiService
       .getRequest(`rtu/state/${id}`)
       .toPromise()) as RtuStateDto;

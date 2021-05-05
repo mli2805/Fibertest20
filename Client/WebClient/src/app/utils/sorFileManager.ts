@@ -43,6 +43,7 @@ export class SorFileManager {
   static async Download(
     oneApiService: OneApiService,
     sorFileId: number,
+    name: string,
     isBaseIncluded: boolean,
     traceTitle: string,
     eventRegistrationTimestamp: Date
@@ -56,7 +57,7 @@ export class SorFileManager {
     );
 
     if (blob !== null) {
-      const filename = `${traceTitle} - ID${sorFileId} - ${SorFileManager.ToFilename(
+      const filename = `${traceTitle} - ${name} - ${SorFileManager.ToFilename(
         new Date(eventRegistrationTimestamp)
       )}.sor`;
       SorFileManager.Html5Saver(blob, filename);

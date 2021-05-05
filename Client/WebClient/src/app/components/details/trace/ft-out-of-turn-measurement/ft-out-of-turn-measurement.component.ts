@@ -41,8 +41,6 @@ export class FtOutOfTurnMeasurementComponent implements OnInit, OnDestroy {
 
     this.isSpinnerVisible = true;
 
-    setInterval(() => {}, 1000);
-
     this.params = JSON.parse(
       sessionStorage.getItem("outOfTurnMeasurementParams")
     );

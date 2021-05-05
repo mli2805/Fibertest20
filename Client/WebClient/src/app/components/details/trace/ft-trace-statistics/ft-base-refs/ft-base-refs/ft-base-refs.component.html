@@ -1,0 +1,52 @@
+<table mat-table [dataSource]="vm">
+  <ng-container matColumnDef="baseRefType">
+    <th mat-header-cell *matHeaderCellDef>
+      {{ "SID_Base_ref_type" | translate }}
+    </th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.baseRefType | BaseRefTypeToLocalizedFemaleStringPipe }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="assignmentTimestamp">
+    <th mat-header-cell *matHeaderCellDef>
+      {{ "SID_Assigned_at" | translate }}
+    </th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.assignmentTimestamp | date: "dd/MM/yyyy H:mm:ss" }}
+    </td>
+  </ng-container>
+  <ng-container matColumnDef="username">
+    <th mat-header-cell *matHeaderCellDef>
+      {{ "SID_Assigned_by" | translate }}
+    </th>
+    <td mat-cell *matCellDef="let element">
+      {{ element.username }}
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplayBaseRefs"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: columnsToDisplayBaseRefs"
+    (contextmenu)="onContextMenu($event, row)"
+    (click)="onContextMenu($event, row)"
+  ></tr>
+</table>
+
+<div
+  style="visibility: hidden; position: fixed"
+  [style.left]="contextMenuPosition.x"
+  [style.top]="contextMenuPosition.y"
+  [matMenuTriggerFor]="measContextMenu"
+></div>
+
+<mat-menu #measContextMenu="matMenu">
+  <ng-template matMenuContent let-item="item">
+    <button mat-menu-item (click)="showRef(false)">
+      {{ "SID_Show_reflectogram" | translate }}
+    </button>
+    <button mat-menu-item (click)="saveRef(false)">
+      {{ "SID_Save_reflectogram_as" | translate }}
+    </button>
+  </ng-template>
+</mat-menu>

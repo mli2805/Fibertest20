@@ -8,7 +8,7 @@ import { MeasurementDto } from "src/app/models/dtos/measurementDto";
 import { SorFileManager } from "src/app/utils/sorFileManager";
 import { FiberState } from "src/app/models/enums/fiberState";
 import { BaseRefType } from "src/app/models/enums/baseRefType";
-import { TraceStateParams } from "../trace-state-params";
+import { BaseRefInfoDto } from "src/app/models/underlying/baseRefInfoDto";
 
 @Component({
   selector: "ft-trace-statistics",
@@ -110,6 +110,7 @@ export class FtTraceStatisticsComponent implements OnInit, AfterViewInit {
     SorFileManager.Download(
       this.oneApiService,
       this.contextMenu.menuData.row.sorFileId,
+      `ID${this.contextMenu.menuData.row.sorFileId}`,
       isBaseIncluded,
       this.vm.header.traceTitle,
       this.contextMenu.menuData.row.eventRegistrationTimestamp

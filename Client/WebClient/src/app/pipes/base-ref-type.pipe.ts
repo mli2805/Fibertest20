@@ -3,6 +3,26 @@ import { TranslateService } from "@ngx-translate/core";
 import { BaseRefType } from "../models/enums/baseRefType";
 
 @Pipe({
+  name: "BaseRefStringPipe"
+})
+export class BaseRefPipe implements PipeTransform {
+  constructor() {}
+
+  transform(value: BaseRefType): string {
+    switch (value) {
+      case BaseRefType.Precise:
+        return ("Precise");
+      case BaseRefType.Fast:
+        return ("Fast");
+      case BaseRefType.Additional:
+        return ("Second");
+      default:
+        return "";
+    }
+  }
+}
+
+@Pipe({
   name: "BaseRefTypeToLocalizedStringPipe"
 })
 export class BaseRefTypePipe implements PipeTransform {

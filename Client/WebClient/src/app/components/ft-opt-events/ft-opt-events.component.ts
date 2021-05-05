@@ -171,6 +171,7 @@ export class FtOptEventsComponent implements OnInit, AfterViewInit {
     SorFileManager.Download(
       this.oneApiService,
       this.contextMenu.menuData.row.eventId,
+      `ID${this.contextMenu.menuData.row.eventId}`,
       isBaseIncluded,
       this.contextMenu.menuData.row.traceTitle,
       this.contextMenu.menuData.row.eventRegistrationTimestamp

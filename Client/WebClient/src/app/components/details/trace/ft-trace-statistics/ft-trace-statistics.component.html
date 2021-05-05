@@ -5,35 +5,10 @@
     <p>RTU {{ vm.header.rtuTitle }}</p>
   </mat-card>
 
-  <table mat-table [dataSource]="vm.baseRefs">
-    <ng-container matColumnDef="baseRefType">
-      <th mat-header-cell *matHeaderCellDef>
-        {{ "SID_Base_ref_type" | translate }}
-      </th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.baseRefType | BaseRefTypeToLocalizedFemaleStringPipe }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="assignmentTimestamp">
-      <th mat-header-cell *matHeaderCellDef>
-        {{ "SID_Assigned_at" | translate }}
-      </th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.assignmentTimestamp | date: "dd/MM/yyyy H:mm:ss" }}
-      </td>
-    </ng-container>
-    <ng-container matColumnDef="username">
-      <th mat-header-cell *matHeaderCellDef>
-        {{ "SID_Assigned_by" | translate }}
-      </th>
-      <td mat-cell *matCellDef="let element">
-        {{ element.username }}
-      </td>
-    </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="columnsToDisplayBaseRefs"></tr>
-    <tr mat-row *matRowDef="let row; columns: columnsToDisplayBaseRefs"></tr>
-  </table>
+  <ft-base-refs
+    [vm]="vm.baseRefs"
+    [traceTitle]="vm.header.traceTitle"
+  ></ft-base-refs>
 
   <table mat-table [dataSource]="vm.measPortion">
     <ng-container matColumnDef="sorFileId">
@@ -83,7 +58,7 @@
           )
         }"
       >
-        {{ 
+        {{
           element.traceState
             | fiberStateToLocalizedStringPipe: element.baseRefType
         }}

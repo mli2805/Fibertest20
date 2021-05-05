@@ -14,7 +14,8 @@ export class FtRftsEventsLevelComponent implements OnInit {
   @Input() vm: RftsLevelDto;
   constructor(private ts: TranslateService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   public thresholdToScreen(threshold: MonitoringThreshold): string {
     if (threshold === null) {
@@ -39,7 +40,6 @@ export class FtRftsEventsLevelComponent implements OnInit {
   }
 
   public getLevelAttColor(isPassed: boolean) {
-    console.log(isPassed);
     if (isPassed) {
       return "black";
     }
