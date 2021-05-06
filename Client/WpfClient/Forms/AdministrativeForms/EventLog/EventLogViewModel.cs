@@ -146,8 +146,7 @@ namespace Iit.Fibertest.Client
             if (_currentDatacenterParameters.SnapshotLastEvent != 0)
             {
                 var snapshot = await _localDbManager.LoadSnapshot(_currentDatacenterParameters.SnapshotLastEvent);
-                var modelAtSnapshot = new Model()
-                    ;
+                var modelAtSnapshot = new Model();
                 await modelAtSnapshot.Deserialize(_logFile, snapshot);
                 _eventToLogLineParser.InitializeBySnapshot(modelAtSnapshot);
             }

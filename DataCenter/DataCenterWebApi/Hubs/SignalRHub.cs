@@ -23,7 +23,7 @@ namespace Iit.Fibertest.DataCenterWebApi
         {
             var ip1 = Context.GetHttpContext().Connection.RemoteIpAddress.ToString();
             // browser started on the same pc as this service
-            return ip1 == "::1" ? _localIpAddress : ip1;
+            return ip1 == "::1" || ip1 == "127.0.0.1" ? _localIpAddress : ip1;
         }
 
         public override async Task OnConnectedAsync()

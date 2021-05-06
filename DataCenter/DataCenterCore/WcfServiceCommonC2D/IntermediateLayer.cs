@@ -13,17 +13,19 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly Model _writeModel;
         private readonly EventStoreService _eventStoreService;
         private readonly IFtSignalRClient _ftSignalRClient;
+        private readonly ClientsCollection _clientsCollection;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
         public IntermediateLayer(Model writeModel, EventStoreService eventStoreService,
-            IFtSignalRClient ftSignalRClient,
+            IFtSignalRClient ftSignalRClient, ClientsCollection clientsCollection,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter
             )
         {
             _writeModel = writeModel;
             _eventStoreService = eventStoreService;
             _ftSignalRClient = ftSignalRClient;
+            _clientsCollection = clientsCollection;
             _clientToRtuTransmitter = clientToRtuTransmitter;
             _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
         }
@@ -36,9 +38,12 @@ namespace Iit.Fibertest.DataCenterCore
 
             await _ftSignalRClient.NotifyAll("RtuInitialized", result.ToCamelCaseJson());
 
-                // apply initialization to graph
+            // apply initialization to graph
             if (result.IsInitialized)
-                await _eventStoreService.SendCommands(DtoToCommandList(dto, result), "data-center", "");
+            {
+                var username = _clientsCollection.GetClientByClientIp(dto.ClientIp)?.UserName;
+                await _eventStoreService.SendCommands(DtoToCommandList(dto, result), username, dto.ClientIp);
+            }
             return result;
         }
 
