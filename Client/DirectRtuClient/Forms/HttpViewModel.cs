@@ -23,6 +23,7 @@ namespace DirectRtuClient
     public class HttpViewModel : Screen
     {
         private readonly IniFile _iniFile;
+        private readonly IMyLog _logFile;
 
         private readonly DoubleAddress _rtuVeexDoubleAddress;
         private string _resultString;
@@ -68,6 +69,7 @@ namespace DirectRtuClient
         public HttpViewModel(IniFile iniFile, IMyLog logFile)
         {
             _iniFile = iniFile;
+            _logFile = logFile;
 
             _rtuVeexDoubleAddress = iniFile.ReadDoubleAddress(80);
             _httpExt = new HttpExt(logFile);
@@ -251,7 +253,7 @@ namespace DirectRtuClient
                 }
             };
             var d2R = new D2RtuVeexLayer2(_httpExt);
-            var layer3 = new D2RtuVeexLayer3(d2R);
+            var layer3 = new D2RtuVeexLayer3(_logFile, d2R);
             var result = await Task.Factory.StartNew(() =>
                 layer3.AssignBaseRefAsync(dto, _rtuVeexDoubleAddress).Result);
 

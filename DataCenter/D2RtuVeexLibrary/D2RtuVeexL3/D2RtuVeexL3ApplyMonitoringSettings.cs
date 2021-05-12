@@ -63,10 +63,13 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         // if it is so - proxy mode should be changed
         private async Task<bool> SetMonitoringMode(DoubleAddress rtuAddresses, string otdrId, string mode)
         {
+            _logFile.AppendLine("SetMonitoringMode:");
             var httpRequestResult = await _d2RtuVeexLayer2.SetMonitoringMode(rtuAddresses, mode);
+            _logFile.AppendLine($"SetMonitoringMode request result status code: { httpRequestResult.HttpStatusCode}");
             if (httpRequestResult.HttpStatusCode == HttpStatusCode.Conflict)
             {
                 var proxy = await _d2RtuVeexLayer2.ChangeProxyMode(rtuAddresses, otdrId);
+                _logFile.AppendLine($"ChangeProxyMode request result status code: { proxy.HttpStatusCode}");
                 if (proxy.HttpStatusCode != HttpStatusCode.NoContent)
                     return false;
 

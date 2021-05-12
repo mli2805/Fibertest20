@@ -39,7 +39,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<HttpRequestResult> ChangeProxyMode(DoubleAddress rtuDoubleAddress, string otdrId)
         {
             var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress,
-                $"odtrs/{otdrId}", "patch", "application/merge-patch+json");
+                $"otdrs/{otdrId}", "patch", "application/merge-patch+json", "");
             return httpResult;
         }
 
