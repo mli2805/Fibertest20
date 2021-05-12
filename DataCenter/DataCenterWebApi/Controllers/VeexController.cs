@@ -1,8 +1,9 @@
 ﻿using System.IO;
 using System.Threading.Tasks;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
 
 namespace Iit.Fibertest.DataCenterWebApi
 {
@@ -25,8 +26,12 @@ namespace Iit.Fibertest.DataCenterWebApi
             {
                 body = await reader.ReadToEndAsync();
             }
-            dynamic notification = JObject.Parse(body);
-            _logFile.AppendLine($"Notification from VeEX RTU {(string)notification.rtuId} received");
+            var notification = JsonConvert.DeserializeObject<VeexNotification>(body);
+            _logFile.AppendLine($"Notification {notification.type} from VeEX RTU, {notification.events.Count} event(s) received");
+            foreach (var notificationEvent in notification.events)
+            {
+                _logFile.AppendLine($"test {notificationEvent.data.testId} - {notificationEvent.type} at {notificationEvent.time}");
+            }
             Response.StatusCode = 200;
         }
     }

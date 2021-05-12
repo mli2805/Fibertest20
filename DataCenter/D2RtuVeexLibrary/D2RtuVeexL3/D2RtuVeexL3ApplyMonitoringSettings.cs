@@ -8,20 +8,19 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer3
     {
-        public async Task<bool> StopMonitoringAsync(DoubleAddress rtuAddresses)
+        public async Task<bool> StopMonitoringAsync(DoubleAddress rtuAddresses, string otdrId)
         {
             try
             {
-                await Task.Delay(1);
-                SetMonitoringMode(rtuAddresses, "disabled");
-                return true;
+                return await SetMonitoringMode(rtuAddresses, otdrId, "disabled");
             }
             catch (Exception)
             {
                 return false;
             }
         }
-        public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto, DoubleAddress rtuAddresses)
+
+        public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto, string otdrId, DoubleAddress rtuAddresses)
         {
             int periodForPrecise = dto.Timespans.PreciseMeas != TimeSpan.Zero
                             ? (int)dto.Timespans.PreciseMeas.TotalSeconds : -1;
@@ -46,7 +45,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     }
                 }
 
-                SetMonitoringMode(rtuAddresses, dto.IsMonitoringOn ? "enabled" : "disabled");
+                var res = await SetMonitoringMode(rtuAddresses, otdrId, dto.IsMonitoringOn ? "enabled" : "disabled");
+                return res ? new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully }
+                           : new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError };
             }
             catch (Exception e)
             {
@@ -56,15 +57,23 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     ErrorMessage = e.Message
                 };
             }
-
-            return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully };
         }
 
-        private async void SetMonitoringMode(DoubleAddress rtuAddresses, string mode)
+        // monitoring mode could not be changed if otdr in "proxy" mode (for reflect connection)
+        // if it is so - proxy mode should be changed
+        private async Task<bool> SetMonitoringMode(DoubleAddress rtuAddresses, string otdrId, string mode)
         {
-            var setMode = await _d2RtuVeexLayer2.SetMonitoringMode(rtuAddresses, mode);
-            if (setMode.HttpStatusCode != HttpStatusCode.NoContent)
-                throw new Exception(setMode.ErrorMessage);
+            var httpRequestResult = await _d2RtuVeexLayer2.SetMonitoringMode(rtuAddresses, mode);
+            if (httpRequestResult.HttpStatusCode == HttpStatusCode.Conflict)
+            {
+                var proxy = await _d2RtuVeexLayer2.ChangeProxyMode(rtuAddresses, otdrId);
+                if (proxy.HttpStatusCode != HttpStatusCode.NoContent)
+                    return false;
+
+                httpRequestResult = await _d2RtuVeexLayer2.SetMonitoringMode(rtuAddresses, mode);
+            }
+
+            return httpRequestResult.HttpStatusCode == HttpStatusCode.NoContent;
         }
 
         private async void DisableTest(Test test, DoubleAddress rtuAddresses)

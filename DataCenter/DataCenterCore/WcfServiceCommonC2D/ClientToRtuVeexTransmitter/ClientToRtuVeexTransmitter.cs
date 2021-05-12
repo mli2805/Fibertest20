@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.D2RtuVeexLibrary;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterCore
@@ -10,14 +12,16 @@ namespace Iit.Fibertest.DataCenterCore
     public class ClientToRtuVeexTransmitter : IClientToRtuTransmitter
     {
         private readonly IMyLog _logFile;
+        private readonly Model _writeModel;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
         private readonly DoubleAddress _serverDoubleAddress;
 
-        public ClientToRtuVeexTransmitter(IniFile iniFile, IMyLog logFile, RtuStationsRepository rtuStationsRepository,
-            D2RtuVeexLayer3 d2RtuVeexLayer3)
+        public ClientToRtuVeexTransmitter(IniFile iniFile, IMyLog logFile, Model writeModel,
+            RtuStationsRepository rtuStationsRepository, D2RtuVeexLayer3 d2RtuVeexLayer3)
         {
             _logFile = logFile;
+            _writeModel = writeModel;
             _rtuStationsRepository = rtuStationsRepository;
             _d2RtuVeexLayer3 = d2RtuVeexLayer3;
 
@@ -60,6 +64,9 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _logFile.AppendLine(
                 $"Client from {dto.ClientIp} sent apply monitoring settings to VeEX RTU {dto.RtuId.First6()} request");
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
+            if (rtu == null) return null;
+           
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
             {
@@ -71,7 +78,7 @@ namespace Iit.Fibertest.DataCenterCore
                 };
             }
 
-            var result = await _d2RtuVeexLayer3.ApplyMonitoringSettingsAsync(dto, rtuAddresses);
+            var result = await _d2RtuVeexLayer3.ApplyMonitoringSettingsAsync(dto, rtu.OtdrId, rtuAddresses);
             _logFile.AppendLine($"{result.ReturnCode}");
             if (result.ReturnCode != ReturnCode.MonitoringSettingsAppliedSuccessfully)
                 _logFile.AppendLine($"{result.ErrorMessage}");
@@ -81,7 +88,10 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<bool> StopMonitoringAsync(StopMonitoringDto dto)
         {
             _logFile.AppendLine(
-                $"Client from {dto.ClientIp} sent stop monitoring on VeEX RTU {dto.RtuId.First6()} request");
+                $"Client from {dto.ClientIp} sent request to stop monitoring on VeEX RTU {dto.RtuId.First6()} ");
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
+            if (rtu == null) return false;
+           
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
             {
@@ -89,7 +99,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return false;
             }
 
-            var result = await _d2RtuVeexLayer3.StopMonitoringAsync(rtuAddresses);
+            var result = await _d2RtuVeexLayer3.StopMonitoringAsync(rtuAddresses, rtu.OtdrId);
             _logFile.AppendLine($"Stop monitoring result is {result}");
             return result;
         }

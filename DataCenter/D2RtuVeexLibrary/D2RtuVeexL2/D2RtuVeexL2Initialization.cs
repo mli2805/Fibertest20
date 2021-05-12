@@ -29,8 +29,27 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             result.OtdrAddress = (NetAddress)result.RtuAddresses.Main.Clone();
             result.Maker = RtuMaker.VeEX;
             result.ReturnCode = ReturnCode.RtuInitializedSuccessfully;
+
+            var monitoringResponse = await GetMonitoringMode(rtuDoubleAddress, result);
+            if (!monitoringResponse)
+                return result;
+
             result.IsInitialized = true;
             return result;
+        }
+
+        private async Task<bool> GetMonitoringMode(DoubleAddress rtuDoubleAddress, RtuInitializedDto result)
+        {
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "monitoring", "get");
+            if (httpResult.HttpStatusCode != HttpStatusCode.OK)
+            {
+                result.ErrorMessage = httpResult.ErrorMessage;
+                return false;
+            }
+
+            var monitoring = JsonConvert.DeserializeObject<MonitoringVeexDto>(httpResult.ResponseJson);
+            result.IsMonitoringOn = monitoring.state == "enabled";
+            return true;
         }
 
         private async Task<bool> GetOtauSettings(DoubleAddress rtuDoubleAddress, RtuInitializedDto result)

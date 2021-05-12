@@ -36,6 +36,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return false;
         }
 
+        public async Task<HttpRequestResult> ChangeProxyMode(DoubleAddress rtuDoubleAddress, string otdrId)
+        {
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress,
+                $"odtrs/{otdrId}", "patch", "application/merge-patch+json");
+            return httpResult;
+        }
+
+
         public async Task<Tests> GetTests(DoubleAddress rtuDoubleAddress)
         {
             var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "monitoring/tests", "get");
@@ -131,7 +139,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             var httpResult = await _httpExt.GetFile(rtuDoubleAddress, fileUri);
             return httpResult.HttpStatusCode == HttpStatusCode.OK;
-
         }
 
     }

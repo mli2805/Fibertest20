@@ -14,6 +14,8 @@ namespace Iit.Fibertest.Dto
         public Guid RtuId { get; set; }
         [DataMember]
         public RtuMaker RtuMaker { get; set; }
+        [DataMember]
+        public string OtdrId { get; set; }
 
         [DataMember]
         public bool IsMonitoringOn { get; set; }
