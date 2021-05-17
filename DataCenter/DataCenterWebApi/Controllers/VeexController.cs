@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -19,15 +20,17 @@ namespace Iit.Fibertest.DataCenterWebApi
         }
 
         [HttpPost("Notify")]
-        public async Task Notify()
+        public async Task Notify(Guid rtuId)
         {
+            _logFile.AppendLine(rtuId.ToString());
             string body;
             using (var reader = new StreamReader(Request.Body))
             {
                 body = await reader.ReadToEndAsync();
             }
+
             var notification = JsonConvert.DeserializeObject<VeexNotification>(body);
-            _logFile.AppendLine($"Notification {notification.type} from VeEX RTU, {notification.events.Count} event(s) received");
+            _logFile.AppendLine($"Notification {notification.type} from VeEX RTU {rtuId.First6()}, {notification.events.Count} event(s) received");
             foreach (var notificationEvent in notification.events)
             {
                 _logFile.AppendLine($"test {notificationEvent.data.testId} - {notificationEvent.type} at {notificationEvent.time}");
