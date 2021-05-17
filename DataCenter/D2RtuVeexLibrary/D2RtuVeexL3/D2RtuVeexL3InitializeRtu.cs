@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -13,8 +12,16 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             try
             {
                 var rtuAddresses = (DoubleAddress)dto.RtuAddresses.Clone();
-                var rtuInitializedDto = await GetSettings(rtuAddresses, dto);
-                SaveServerUrl(rtuAddresses, dto);
+                var rtuInitializedDto = await _d2RtuVeexLayer2.GetSettings(rtuAddresses, dto);
+                if (!rtuInitializedDto.IsInitialized)
+                    return rtuInitializedDto;
+                var saveRes = await _d2RtuVeexLayer2.SetServerNotificationUrl(rtuAddresses, dto);
+                if (saveRes.HttpStatusCode != HttpStatusCode.NoContent)
+                    return new RtuInitializedDto()
+                    {
+                        ReturnCode = ReturnCode.RtuInitializationError,
+                        ErrorMessage = saveRes.ErrorMessage,
+                    };  
 
                 rtuInitializedDto.ReturnCode = ReturnCode.RtuInitializedSuccessfully;
                 return rtuInitializedDto;
@@ -28,28 +35,5 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 };
             }
         }
-
-        private async Task<RtuInitializedDto> GetSettings(DoubleAddress rtuDoubleAddress, InitializeRtuDto dto)
-        {
-            var result = await _d2RtuVeexLayer2.GetSettings(rtuDoubleAddress, dto);
-            if (!result.IsInitialized)
-                throw new Exception(result.ErrorMessage);
-            return result;
-        }
-
-        private async void SaveServerUrl(DoubleAddress rtuDoubleAddress, InitializeRtuDto dto)
-        {
-            var serverNotificationSettings = new ServerNotificationSettings()
-            {
-                state = "enabled",
-                eventTypes = new List<string>() { "monitoring_test_failed", "monitoring_test_passed" },
-                url = $@"http://{dto.ServerAddresses.Main.ToStringA()}/veex/notify/",
-            };
-            var result = await _d2RtuVeexLayer2.SetServerUrl(rtuDoubleAddress, serverNotificationSettings);
-            if (result.HttpStatusCode != HttpStatusCode.NoContent)
-                throw new Exception(result.ErrorMessage);
-        }
-
-
     }
 }

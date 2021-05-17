@@ -67,6 +67,55 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return result;
         }
 
+        private async Task<BaseRefAssignedDto> FullTestCreation(DoubleAddress rtuDoubleAddress, string otdrId, int portIndex, BaseRefDto dto)
+        {
+            var thresholds = ExtractThresholds(dto);
+            if (thresholds == null) return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentNoThresholds };
+
+            var createResult = await CreateTest(rtuDoubleAddress, otdrId, portIndex, dto);
+            if (createResult.HttpStatusCode != HttpStatusCode.Created)
+                return new BaseRefAssignedDto()
+                    { ReturnCode = ReturnCode.BaseRefAssignmentFailed, ErrorMessage = createResult.ErrorMessage };
+            var testLink = createResult.ResponseJson;
+
+            var setBaseResult = await _d2RtuVeexLayer2.SetBaseRef(rtuDoubleAddress, $@"monitoring/{testLink}/references", dto.SorBytes);
+            if (setBaseResult.HttpStatusCode != HttpStatusCode.Created)
+                return new BaseRefAssignedDto()
+                    { ReturnCode = ReturnCode.BaseRefAssignmentFailed, ErrorMessage = setBaseResult.ErrorMessage };
+
+            var setThresholdResult =
+                await _d2RtuVeexLayer2.SetThresholds(rtuDoubleAddress, $@"monitoring/{testLink}/thresholds",
+                    thresholds);
+            if (setThresholdResult.HttpStatusCode != HttpStatusCode.OK)
+                return new BaseRefAssignedDto()
+                    {ReturnCode = ReturnCode.BaseRefAssignmentFailed, ErrorMessage = setBaseResult.ErrorMessage};
+
+            return new BaseRefAssignedDto() {ReturnCode = ReturnCode.BaseRefAssignedSuccessfully};
+        }
+
+        private ThresholdSet ExtractThresholds(BaseRefDto dto)
+        {
+            return new ThresholdSet();
+        }
+
+        private async Task<HttpRequestResult> CreateTest(DoubleAddress rtuDoubleAddress, string otdrId, int portIndex, BaseRefDto dto)
+        {
+            var testName = $@"Port { portIndex }, {
+                    dto.BaseRefType.ToString().ToLower()}, created {
+                    DateTime.Now.ToString(CultureInfo.DefaultThreadCurrentUICulture)}";
+
+            var newTest = new CreateTestCmd()
+            {
+                id = Guid.NewGuid().ToString(),
+                name = testName,
+                state = "disabled",
+                otdrId = otdrId,
+                otauPort = new OtauPort() { otauId = otdrId, portIndex = portIndex }, //
+                period = 0, // null in the future
+            };
+            return await _d2RtuVeexLayer2.CreateTest(rtuDoubleAddress, newTest);
+        }
+
         private async Task<string> CreateTest(DoubleAddress rtuDoubleAddress, string name, AssignBaseRefsDto dto)
         {
             var newTest = new CreateTestCmd()
@@ -88,7 +137,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             var test = new Test() { name = newName, };
             var result = await _d2RtuVeexLayer2.ChangeTest(rtuDoubleAddress, testUri, test);
-            if (result.HttpStatusCode != HttpStatusCode.OK)
+            if (result.HttpStatusCode != HttpStatusCode.NoContent)
                 throw new Exception(result.ErrorMessage + ";  " + result.ResponseJson);
             return testUri;
         }
@@ -96,7 +145,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         private async Task<int> DeleteTest(DoubleAddress rtuDoubleAddress, string testUri)
         {
             var result = await _d2RtuVeexLayer2.DeleteTest(rtuDoubleAddress, testUri);
-            if (result.HttpStatusCode != HttpStatusCode.OK)
+            if (result.HttpStatusCode != HttpStatusCode.NoContent)
                 throw new Exception(result.ErrorMessage + ";  " + result.ResponseJson);
             return 0;
         }

@@ -32,17 +32,16 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     Test test = await _d2RtuVeexLayer2.GetTest(rtuAddresses, testLink.self);
                     if (test?.otauPort == null) continue;
 
+                    // no matter is test enabled or disabled, set its period, it does not do any harm
+                    var period = test.name.ToLower().Contains("fast") ? 0 : periodForPrecise;
+                    if ((await ChangedTestPeriod(test, rtuAddresses, period)).HttpStatusCode != HttpStatusCode.NoContent)
+                        return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError };
+
                     var portInCycle = dto.Ports.FirstOrDefault(p => p.OtauPort.OpticalPort - 1 == test.otauPort.portIndex);
-                    if (portInCycle == null)
-                        DisableTest(test, rtuAddresses);
-                    else
-                    {
-                        if (test.name.ToLower().Contains("additional"))
-                            SetPeriod(test, rtuAddresses, -1);
-                        if (test.name.ToLower().Contains("precise"))
-                            SetPeriod(test, rtuAddresses, periodForPrecise);
-                        EnableTest(test, rtuAddresses);
-                    }
+                    var state = portInCycle == null || test.name.ToLower().Contains("additional")
+                        ? "disabled" : "enabled";
+                    if (( await ChangeTestState(test, rtuAddresses, state)).HttpStatusCode != HttpStatusCode.NoContent)
+                        return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError };
                 }
 
                 var res = await SetMonitoringMode(rtuAddresses, otdrId, dto.IsMonitoringOn ? "enabled" : "disabled");
@@ -79,26 +78,16 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return httpRequestResult.HttpStatusCode == HttpStatusCode.NoContent;
         }
 
-        private async void DisableTest(Test test, DoubleAddress rtuAddresses)
+        private async Task<HttpRequestResult> ChangeTestState(Test test, DoubleAddress rtuAddresses, string state)
         {
-            var disableResult = await _d2RtuVeexLayer2.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { state = "disabled" });
-            if (disableResult.HttpStatusCode != HttpStatusCode.NoContent)
-                throw new Exception(disableResult.ErrorMessage);
+            return await _d2RtuVeexLayer2.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { state = state });
         }
 
-        private async void EnableTest(Test test, DoubleAddress rtuAddresses)
+        private async Task<HttpRequestResult> ChangedTestPeriod(Test test, DoubleAddress rtuAddresses, int periodForPrecise)
         {
-            var enableTest = await _d2RtuVeexLayer2.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { state = "enabled" });
-            if (enableTest.HttpStatusCode != HttpStatusCode.NoContent)
-                throw new Exception(enableTest.ErrorMessage);
+            return await _d2RtuVeexLayer2.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { period = periodForPrecise });
         }
 
-        private async void SetPeriod(Test test, DoubleAddress rtuAddresses, int periodForPrecise)
-        {
-            var changePeriod = await _d2RtuVeexLayer2.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { period = periodForPrecise });
-            if (changePeriod.HttpStatusCode != HttpStatusCode.NoContent)
-                throw new Exception(changePeriod.ErrorMessage);
-        }
 
     }
 }

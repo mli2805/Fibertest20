@@ -85,7 +85,7 @@ namespace Iit.Fibertest.DataCenterCore
                 if (isConnected)
                 {
                     var unused = connection.InvokeAsync("NotifyAll", eventType, dataInJson);
-                    if (eventType != "NotifyMonitoringStep") // too many
+                    if (eventType != "NotifyMonitoringStep" && eventType != "NudgeSignalR") // too many
                         _logFile.AppendLine($"FtSignalRClient NotifyAll: {eventType} sent successfully.");
                 }
             }

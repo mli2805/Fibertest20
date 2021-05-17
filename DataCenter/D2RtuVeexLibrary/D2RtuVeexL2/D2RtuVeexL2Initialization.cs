@@ -14,15 +14,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             var platformResponse = await GetPlatformSettings(rtuDoubleAddress, result);
             if (!platformResponse)
-                return result;
+                return new RtuInitializedDto { ReturnCode = ReturnCode.RtuInitializationError };
 
             var otdrResponse = await GetOtdrSettings(rtuDoubleAddress, result);
             if (!otdrResponse)
-                return result;
+                return new RtuInitializedDto { ReturnCode = ReturnCode.RtuInitializationError };
 
             var otauResponse = await GetOtauSettings(rtuDoubleAddress, result);
             if (!otauResponse)
-                return result;
+                return new RtuInitializedDto { ReturnCode = ReturnCode.OtauInitializationError };
 
             result.RtuId = dto.RtuId;
             result.RtuAddresses = dto.RtuAddresses;
@@ -32,7 +32,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             var monitoringResponse = await GetMonitoringMode(rtuDoubleAddress, result);
             if (!monitoringResponse)
-                return result;
+                return new RtuInitializedDto { ReturnCode = ReturnCode.RtuInitializationError };
 
             result.IsInitialized = true;
             return result;
@@ -137,8 +137,18 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return true;
         }
 
-        public async Task<HttpRequestResult> SetServerUrl(DoubleAddress rtuDoubleAddress, ServerNotificationSettings serverNotificationSettings)
+        public async Task<HttpRequestResult> SetServerNotificationUrl(DoubleAddress rtuDoubleAddress, InitializeRtuDto dto)
         {
+            var serverNotificationSettings = new ServerNotificationSettings()
+            {
+                state = "enabled",
+                eventTypes = new List<string>()
+                {
+                    "monitoring_test_failed", 
+                    "monitoring_test_passed"
+                },
+                url = $@"http://{dto.ServerAddresses.Main.ToStringA()}/veex/notify?rtuId={dto.RtuId}",
+            };
             var jsonData = JsonConvert.SerializeObject(serverNotificationSettings);
             return await _httpExt.RequestByUrl(rtuDoubleAddress,
                 $@"/notification/settings", "patch", "application/merge-patch+json", jsonData);

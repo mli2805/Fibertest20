@@ -3,7 +3,6 @@ using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
@@ -23,26 +22,12 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return httpResult;
         }
 
-        public async Task<bool> GetMonitoringMode(DoubleAddress rtuDoubleAddress)
-        {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "monitoring", "get");
-            if (httpResult.HttpStatusCode == HttpStatusCode.OK)
-            {
-                var j = JObject.Parse(httpResult.ResponseJson);
-                var rr = (string)j["state"];
-                return (rr == "enabled");
-            }
-
-            return false;
-        }
-
         public async Task<HttpRequestResult> ChangeProxyMode(DoubleAddress rtuDoubleAddress, string otdrId)
         {
             var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress,
                 $"otdrs/{otdrId}", "patch", "application/merge-patch+json", "");
             return httpResult;
         }
-
 
         public async Task<Tests> GetTests(DoubleAddress rtuDoubleAddress)
         {
@@ -77,8 +62,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 $@"monitoring/{testUri}", "patch", "application/merge-patch+json", jsonData);
         }
 
-
-
         public async Task<HttpRequestResult> DeleteTest(DoubleAddress rtuDoubleAddress, string testUri)
         {
             var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, $@"monitoring/{testUri}", "delete");
@@ -96,6 +79,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<HttpRequestResult> SetBaseRef(DoubleAddress rtuDoubleAddress, string refUri, byte[] sorBytes)
         {
             return await _httpExt.PostFile(rtuDoubleAddress, refUri, sorBytes);
+        }
+
+        public async Task<HttpRequestResult> SetThresholds(DoubleAddress rtuDoubleAddress, string thresholdUri,
+            ThresholdSet thresholdSet)
+        {
+            var jsonData = JsonConvert.SerializeObject(thresholdSet);
+            return await _httpExt.RequestByUrl(
+                rtuDoubleAddress, thresholdUri, "post", "application/json", jsonData);
         }
 
         public async Task<bool> SetThresholds(DoubleAddress rtuDoubleAddress, string thresholdUri)

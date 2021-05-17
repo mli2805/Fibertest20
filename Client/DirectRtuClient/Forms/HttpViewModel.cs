@@ -103,12 +103,7 @@ namespace DirectRtuClient
             else
                 MessageBox.Show(result.ErrorMessage);
 
-            var d2RM = new D2RtuVeexLayer2(_httpExt);
-            var res = await Task.Factory.StartNew(() =>
-                d2RM.GetMonitoringMode(_rtuVeexDoubleAddress).Result);
-
-            IsButtonEnabled = true;
-            ResultString = res ? @"Done" : @"Error";
+            ResultString = result.ReturnCode == ReturnCode.RtuInitializedSuccessfully ? @"Done" : @"Error";
         }
 
         public string PatchMonitoringButton

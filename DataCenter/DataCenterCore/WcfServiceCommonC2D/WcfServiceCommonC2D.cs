@@ -301,6 +301,7 @@ namespace Iit.Fibertest.DataCenterCore
             var dto = new AssignBaseRefsDto()
             {
                 RtuId = trace.RtuId,
+                RtuMaker = rtu.RtuMaker,
                 OtdrId = rtu.OtdrId,
                 TraceId = cmd.TraceId,
                 OtauPortDto = cmd.OtauPortDto,

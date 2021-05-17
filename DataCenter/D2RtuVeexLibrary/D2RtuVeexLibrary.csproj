@@ -49,6 +49,7 @@
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3ApplyMonitoringSettings.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3.cs" />
     <Compile Include="D2RtuVeexL2\D2RtuVeexL2ApplyMonitoring.cs" />
+    <Compile Include="D2RtuVeexL3\D2RtuVeexL3ReSendBaseRefs.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3InitializeRtu.cs" />
     <Compile Include="HttpExt.cs" />
     <Compile Include="HttpRequestResult.cs" />
