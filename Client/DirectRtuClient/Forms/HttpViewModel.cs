@@ -157,7 +157,7 @@ namespace DirectRtuClient
                     var test = await Task.Factory.StartNew(() => d2R.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}").Result);
                     _rtuVeexModel.Tests.Add(test);
                     var thresholdSet = await Task.Factory.StartNew(() =>
-                        d2R.GetTestThresholds(_rtuVeexDoubleAddress, $@"monitoring/tests/{test.thresholds.self}").Result);
+                        d2R.GetTestThresholds(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}/thresholds/current").Result);
                     _rtuVeexModel.Thresholds.Add(test.id, thresholdSet);
 
                     var httpRequestResult = await Task.Factory.StartNew(() =>
@@ -213,9 +213,9 @@ namespace DirectRtuClient
             {
                 _rtuVeexModel.TestsHeader = allTests;
                 var testItem = _rtuVeexModel.TestsHeader.items.First();
-                var test = await Task.Factory.StartNew(() => d2R.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testItem.self}").Result);
+                // var test = await Task.Factory.StartNew(() => d2R.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testItem.self}").Result);
                 var thresholdSet = await Task.Factory.StartNew(() =>
-                                      d2R.GetTestThresholds(_rtuVeexDoubleAddress, $@"monitoring/tests/{test.thresholds.self}").Result);
+                                      d2R.GetTestThresholds(_rtuVeexDoubleAddress, $@"monitoring/{testItem.self}/thresholds/current").Result);
                 if (thresholdSet != null)
                 {
                     Console.WriteLine(@"thresholdSet received");
@@ -231,26 +231,31 @@ namespace DirectRtuClient
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
 
-            var sorBytes = File.ReadAllBytes(@"c:\temp\sor\1.sor");
-            var dto = new AssignBaseRefsDto()
+            // var sorBytes = File.ReadAllBytes(@"c:\temp\sor\2 nodes 1650.sor");
+            var sorBytes = File.ReadAllBytes(@"c:\temp\sor\4p Мстиславль-Хлдосы-Мушино-Селец-Подлужье - Fast.sor");
+            var oneBaseRef = new BaseRefDto()
+            {
+                BaseRefType = BaseRefType.Precise,
+                SorBytes = sorBytes,
+            };
+            var dto = new ReSendBaseRefsDto()
             {
                 OtauPortDto = new OtauPortDto()
                 {
                     OpticalPort = 1,
                 },
-                BaseRefs = new List<BaseRefDto>()
+                BaseRefDtos = new List<BaseRefDto>()
                 {
-                    new BaseRefDto()
-                    {
-                        BaseRefType = BaseRefType.Precise,
-                        SorBytes = sorBytes,
-                    }
+                    oneBaseRef
                 }
             };
-            var d2R = new D2RtuVeexLayer2(_httpExt);
-            var layer3 = new D2RtuVeexLayer3(_logFile, d2R);
+            var layer2 = new D2RtuVeexLayer2(_httpExt);
+
+            var unused = await layer2.FullTestCreation(_rtuVeexDoubleAddress, "", 1, oneBaseRef);
+
+            var layer3 = new D2RtuVeexLayer3(_logFile, layer2);
             var result = await Task.Factory.StartNew(() =>
-                layer3.AssignBaseRefAsync(dto, _rtuVeexDoubleAddress).Result);
+                layer3.ReSendBaseRefsAsync(dto, _rtuVeexDoubleAddress).Result);
 
 
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)

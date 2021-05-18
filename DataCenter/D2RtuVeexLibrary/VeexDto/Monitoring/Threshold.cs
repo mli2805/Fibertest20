@@ -9,8 +9,18 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
     public class Level
     {
+        public AdvancedThresholds advancedThresholds { get; set; }
         public List<Group> groups { get; set; }
         public string name { get; set; }
+    }
+
+    public class AdvancedThresholds
+    {
+        public double attenuationCoefficientChangeForNewEvents { get; set; }
+        public double eofAttenuationCoefficientChangeForFiberBreak { get; set; }
+        public double eofLossChangeForFiberBreak { get; set; }
+        public double maxEofAttenuationCoefficientForFiberBreak { get; set; }
+        public double noiseLevelChangeForFiberElongation { get; set; }
     }
 
     public class Group
@@ -24,6 +34,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public CombinedThreshold eventLoss { get; set; }
         public CombinedThreshold eventMaxLevel { get; set; }  // PON
         public CombinedThreshold eventReflectance { get; set; }
+        public CombinedThreshold nonReflectiveEventPosition { get; set; } // UI in Advanced
+        public CombinedThreshold reflectiveEventPosition { get; set; } // UI in Advanced
     }
 
     public class CombinedThreshold

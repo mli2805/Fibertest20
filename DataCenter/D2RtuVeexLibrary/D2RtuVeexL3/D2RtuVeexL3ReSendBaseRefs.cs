@@ -7,7 +7,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer3
     {
-        public async Task<bool> ReSendBaseRefsAsync(DoubleAddress rtuAddresses, ReSendBaseRefsDto dto)
+        public async Task<BaseRefAssignedDto> ReSendBaseRefsAsync(ReSendBaseRefsDto dto, DoubleAddress rtuAddresses)
         {
             try
             {
@@ -16,20 +16,23 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 {
                     var delResult = await _d2RtuVeexLayer2.DeleteTest(rtuAddresses, $@"tests/{oldTest.id}");
                     if (delResult.HttpStatusCode != HttpStatusCode.NoContent)
-                        return false;
+                        return new BaseRefAssignedDto(){ ReturnCode = ReturnCode.BaseRefAssignmentFailed };
                 }
 
+                BaseRefAssignedDto createResult = new BaseRefAssignedDto();
                 foreach (var baseRefDto in dto.BaseRefDtos)
                 {
-                    
+                    createResult =
+                        await _d2RtuVeexLayer2.FullTestCreation(rtuAddresses, dto.OtdrId,
+                            dto.OtauPortDto.OpticalPort - 1, baseRefDto);
                 }
 
 
-                return true;
+                return createResult;
             }
             catch (Exception)
             {
-                return false;
+                return new BaseRefAssignedDto(){ ReturnCode = ReturnCode.BaseRefAssignmentFailed };
             }
         }
     }
