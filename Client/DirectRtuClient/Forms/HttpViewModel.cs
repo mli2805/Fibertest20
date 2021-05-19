@@ -92,7 +92,8 @@ namespace DirectRtuClient
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
 
-            var d2R = new D2RtuVeexLayer2(_httpExt);
+            var d2RL1 = new D2RtuVeexLayer1(_httpExt);
+            var d2R = new D2RtuVeexLayer2(_logFile, _httpExt, d2RL1);
             var result = await Task.Factory.StartNew(() =>
                 d2R.GetSettings(_rtuVeexDoubleAddress, new InitializeRtuDto() { RtuAddresses = _rtuVeexDoubleAddress }).Result);
 
@@ -123,9 +124,9 @@ namespace DirectRtuClient
             IsButtonEnabled = false;
             var flag = PatchMonitoringButton == @"Stop monitoring";
 
-            var d2R = new D2RtuVeexLayer2(_httpExt);
+            var d2RL1 = new D2RtuVeexLayer1(_httpExt);
             var result = await Task.Factory.StartNew(() =>
-                d2R.SetMonitoringMode(_rtuVeexDoubleAddress, flag ? @"disabled" : @"enabled").Result);
+                d2RL1.SetMonitoringMode(_rtuVeexDoubleAddress, flag ? @"disabled" : @"enabled").Result);
 
             ResultString = $@"Stop monitoring result is {result.HttpStatusCode == HttpStatusCode.OK}";
             PatchMonitoringButton = flag ? @"Start monitoring" : @"Stop monitoring";
@@ -139,9 +140,9 @@ namespace DirectRtuClient
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
 
-            var d2R = new D2RtuVeexLayer2(_httpExt);
+            var d2RL1 = new D2RtuVeexLayer1(_httpExt);
             var result = await Task.Factory.StartNew(() =>
-                d2R.GetTests(_rtuVeexDoubleAddress).Result);
+                d2RL1.GetTests(_rtuVeexDoubleAddress).Result);
 
             if (result == null)
             {
@@ -154,29 +155,58 @@ namespace DirectRtuClient
                 _rtuVeexModel.Thresholds = new Dictionary<string, ThresholdSet>();
                 foreach (var testsItem in _rtuVeexModel.TestsHeader.items)
                 {
-                    var test = await Task.Factory.StartNew(() => d2R.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}").Result);
+                    var test = await Task.Factory.StartNew(() => d2RL1.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}").Result);
                     _rtuVeexModel.Tests.Add(test);
                     var thresholdSet = await Task.Factory.StartNew(() =>
-                        d2R.GetTestThresholds(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}/thresholds/current").Result);
+                        d2RL1.GetTestThresholds(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}/thresholds/current").Result);
                     _rtuVeexModel.Thresholds.Add(test.id, thresholdSet);
 
-                    var httpRequestResult = await Task.Factory.StartNew(() =>
-                        d2R.ChangeTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}", new Test() { state = @"disabled" }).Result);
-                    if (httpRequestResult.HttpStatusCode == HttpStatusCode.OK)
+                    var res1 = await Task.Factory.StartNew(() =>
+                        d2RL1.ChangeTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}", new Test() { state = @"disabled" }).Result);
+                    if (res1)
                     {
                         var changedTest = await Task.Factory.StartNew(() =>
-                            d2R.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}").Result);
+                            d2RL1.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}").Result);
                         Console.WriteLine(changedTest);
                     }
                 }
 
                 var firstTest = _rtuVeexModel.TestsHeader.items.First();
+                var thresholdSet1 = new ThresholdSet()
+                {
+                    levels = new List<Level>()
+                    {
+                        new Level()
+                        {
+                            groups = new List<Group>()
+                            {
+                                new Group()
+                                {
+                                    thresholds = new Thresholds()
+                                    {
+                                        eventLeadingLossCoefficient = new CombinedThreshold(){decrease = 1},
+                                        eventLoss = new CombinedThreshold(){decrease = 2, increase = 2},
+                                        eventReflectance = new CombinedThreshold(){min = 4, max = 4}
+                                    }
+                                }
+                            }, name = @"minor"
+                        },
+                        new Level()
+                        {
+                            groups = new List<Group>(), name = @"major"
+                        },
+                        new Level()
+                        {
+                            groups = new List<Group>(), name = @"critical"
+                        },
+                    }
+                };
                 var res = await Task.Factory.StartNew(() =>
-                    d2R.SetThresholds(_rtuVeexDoubleAddress, $@"monitoring/{firstTest.self}/thresholds").Result);
+                    d2RL1.SetThresholds(_rtuVeexDoubleAddress, $@"monitoring/{firstTest.self}/thresholds", thresholdSet1).Result);
                 Console.WriteLine(res);
 
 
-                var rr = await d2R.CreateTest(_rtuVeexDoubleAddress, new CreateTestCmd()
+                var rr = await d2RL1.CreateTest(_rtuVeexDoubleAddress, new CreateTestCmd()
                 {
                     id = Guid.NewGuid().ToString(),
                     name = @"precise",
@@ -201,9 +231,9 @@ namespace DirectRtuClient
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
 
-            var d2R = new D2RtuVeexLayer2(_httpExt);
+            var d2RL1 = new D2RtuVeexLayer1(_httpExt);
             var allTests = await Task.Factory.StartNew(() =>
-                d2R.GetTests(_rtuVeexDoubleAddress).Result);
+                d2RL1.GetTests(_rtuVeexDoubleAddress).Result);
 
             if (allTests == null)
             {
@@ -215,7 +245,7 @@ namespace DirectRtuClient
                 var testItem = _rtuVeexModel.TestsHeader.items.First();
                 // var test = await Task.Factory.StartNew(() => d2R.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testItem.self}").Result);
                 var thresholdSet = await Task.Factory.StartNew(() =>
-                                      d2R.GetTestThresholds(_rtuVeexDoubleAddress, $@"monitoring/{testItem.self}/thresholds/current").Result);
+                    d2RL1.GetTestThresholds(_rtuVeexDoubleAddress, $@"monitoring/{testItem.self}/thresholds/current").Result);
                 if (thresholdSet != null)
                 {
                     Console.WriteLine(@"thresholdSet received");
@@ -249,11 +279,13 @@ namespace DirectRtuClient
                     oneBaseRef
                 }
             };
-            var layer2 = new D2RtuVeexLayer2(_httpExt);
+            var d2RL1 = new D2RtuVeexLayer1(_httpExt);
+            var layer2 = new D2RtuVeexLayer2(_logFile, _httpExt, d2RL1);
+            var layer21 = new D2RtuVeexLayer21(d2RL1, layer2);
 
-            var unused = await layer2.FullTestCreation(_rtuVeexDoubleAddress, "", 1, oneBaseRef);
+            var unused = await layer21.FullTestCreation(_rtuVeexDoubleAddress, "", 1, oneBaseRef);
 
-            var layer3 = new D2RtuVeexLayer3(_logFile, layer2);
+            var layer3 = new D2RtuVeexLayer3(d2RL1, layer2, layer21);
             var result = await Task.Factory.StartNew(() =>
                 layer3.ReSendBaseRefsAsync(dto, _rtuVeexDoubleAddress).Result);
 

@@ -174,7 +174,9 @@ namespace Graph.Tests
             builder.RegisterType<SnapshotRepository>().InstancePerLifetimeScope();
             builder.RegisterType<D2CWcfManager>().InstancePerLifetimeScope();
             builder.RegisterType<HttpExt>().SingleInstance();
+            builder.RegisterType<D2RtuVeexLayer1>().SingleInstance();
             builder.RegisterType<D2RtuVeexLayer2>().SingleInstance();
+            builder.RegisterType<D2RtuVeexLayer21>().SingleInstance();
             builder.RegisterType<D2RtuVeexLayer3>().SingleInstance();
             builder.RegisterType<SmsSender>().InstancePerLifetimeScope();
             builder.RegisterType<SmsManager>().InstancePerLifetimeScope();

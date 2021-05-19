@@ -10,24 +10,18 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
     {
         public static ThresholdSet ExtractThresholds(this byte[] bytes)
         {
-            var res = SorData.TryGetFromBytes(bytes, out OtdrDataKnownBlocks sorData);
-            if (res != "")
+            if (SorData.TryGetFromBytes(bytes, out OtdrDataKnownBlocks sorData) != "")
                 return null;
 
             var thresholdSet = new ThresholdSet() { levels = new List<Level>() };
             foreach (var rftsParametersLevel in sorData.RftsParameters.Levels)
             {
-                var level = new Level() { groups = new List<Group>(), name = rftsParametersLevel.LevelName.ToString() };
-
-                level.groups.Add(new Group()
+                thresholdSet.levels.Add(new Level()
                 {
-                    thresholds = GetLevelThresholds(rftsParametersLevel, sorData),
+                    name = rftsParametersLevel.LevelName.ToString(), 
+                    groups = new List<Group>(){ new Group() { thresholds = GetLevelThresholds(rftsParametersLevel, sorData) }},
+                    advancedThresholds = GetAdvancedThresholds(sorData),
                 });
-
-                level.advancedThresholds = GetAdvancedThresholds(sorData);
-
-
-                thresholdSet.levels.Add(level);
             }
 
             return new ThresholdSet();

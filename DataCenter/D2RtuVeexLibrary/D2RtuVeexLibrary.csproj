@@ -48,12 +48,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="D2RtuVeexL2\D2RtuVeexL2.cs" />
+    <Compile Include="D2RtuVeexL1\D2RtuVeexL1GetSettings.cs" />
+    <Compile Include="D2RtuVeexL1\D2RtuVeexL1.cs" />
+    <Compile Include="D2RtuVeexL1\D2RtuVeexL1Tests.cs" />
+    <Compile Include="D2RtuVeexL1\D2RtuVeexL1Thresholds.cs" />
     <Compile Include="D2RtuVeexL2\D2RtuVeexL2Initialization.cs" />
-    <Compile Include="D2RtuVeexL2\D2RtuVeexL2TestCreation.cs" />
+    <Compile Include="D2RtuVeexL21\D2RtuVeexLayer21.cs" />
+    <Compile Include="D2RtuVeexL2\D2RtuVeexL2.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3ApplyMonitoringSettings.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3.cs" />
-    <Compile Include="D2RtuVeexL2\D2RtuVeexL2ApplyMonitoring.cs" />
+    <Compile Include="D2RtuVeexL2\D2RtuVeexL2Tests.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3ReSendBaseRefs.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3InitializeRtu.cs" />
     <Compile Include="HttpExt.cs" />
@@ -88,5 +92,6 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

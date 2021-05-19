@@ -12,15 +12,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             var result = new RtuInitializedDto();
 
-            var platformResponse = await GetPlatformSettings(rtuDoubleAddress, result);
+            var platformResponse = await _d2RtuVeexLayer1.GetPlatformSettings(rtuDoubleAddress, result);
             if (!platformResponse)
                 return new RtuInitializedDto { ReturnCode = ReturnCode.RtuInitializationError };
 
-            var otdrResponse = await GetOtdrSettings(rtuDoubleAddress, result);
+            var otdrResponse = await _d2RtuVeexLayer1.GetOtdrSettings(rtuDoubleAddress, result);
             if (!otdrResponse)
                 return new RtuInitializedDto { ReturnCode = ReturnCode.RtuInitializationError };
 
-            var otauResponse = await GetOtauSettings(rtuDoubleAddress, result);
+            var otauResponse = await _d2RtuVeexLayer1.GetOtauSettings(rtuDoubleAddress, result);
             if (!otauResponse)
                 return new RtuInitializedDto { ReturnCode = ReturnCode.OtauInitializationError };
 
@@ -30,7 +30,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             result.Maker = RtuMaker.VeEX;
             result.ReturnCode = ReturnCode.RtuInitializedSuccessfully;
 
-            var monitoringResponse = await GetMonitoringMode(rtuDoubleAddress, result);
+            var monitoringResponse = await _d2RtuVeexLayer1.GetMonitoringMode(rtuDoubleAddress, result);
             if (!monitoringResponse)
                 return new RtuInitializedDto { ReturnCode = ReturnCode.RtuInitializationError };
 
@@ -38,105 +38,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return result;
         }
 
-        private async Task<bool> GetMonitoringMode(DoubleAddress rtuDoubleAddress, RtuInitializedDto result)
-        {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "monitoring", "get");
-            if (httpResult.HttpStatusCode != HttpStatusCode.OK)
-            {
-                result.ErrorMessage = httpResult.ErrorMessage;
-                return false;
-            }
-
-            var monitoring = JsonConvert.DeserializeObject<MonitoringVeexDto>(httpResult.ResponseJson);
-            result.IsMonitoringOn = monitoring.state == "enabled";
-            return true;
-        }
-
-        private async Task<bool> GetOtauSettings(DoubleAddress rtuDoubleAddress, RtuInitializedDto result)
-        {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "otaus", "get");
-            if (httpResult.HttpStatusCode != HttpStatusCode.OK)
-            {
-                result.ErrorMessage = httpResult.ErrorMessage;
-                return false;
-            }
-
-            var otaus = JsonConvert.DeserializeObject<Otaus>(httpResult.ResponseJson);
-            if (otaus.total == 0)
-                return true;
-
-            var httpResult2 = await _httpExt.RequestByUrl(rtuDoubleAddress, $"{otaus.items[0].self}", "get");
-            if (httpResult2.HttpStatusCode != HttpStatusCode.OK)
-            {
-                result.ErrorMessage = httpResult.ErrorMessage;
-                return false;
-            }
-
-            var otau = JsonConvert.DeserializeObject<Otau>(httpResult2.ResponseJson);
-            result.OtauId =otau.id;
-            result.OwnPortCount = otau.portCount;
-            result.FullPortCount = otau.portCount;
-            result.Children = new Dictionary<int, OtauDto>(); // empty, no children
-            return true;
-        }
-
-        private async Task<bool> GetOtdrSettings(DoubleAddress rtuDoubleAddress, RtuInitializedDto result)
-        {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "otdrs", "get");
-            if (httpResult.HttpStatusCode != HttpStatusCode.OK)
-            {
-                result.ErrorMessage = httpResult.ErrorMessage;
-                return false;
-            }
-
-            var otdrs = JsonConvert.DeserializeObject<Otdrs>(httpResult.ResponseJson);
-            if (otdrs.total == 0)
-                return true;
-
-            var httpResult2 = await _httpExt.RequestByUrl(rtuDoubleAddress, $"{otdrs.items[0].self}", "get");
-            if (httpResult2.HttpStatusCode != HttpStatusCode.OK)
-            {
-                result.ErrorMessage = httpResult.ErrorMessage;
-                return false;
-            }
-
-            var otdr = JsonConvert.DeserializeObject<Otdr>(httpResult2.ResponseJson);
-            result.OtdrId = otdr.id;
-            result.Omid = otdr.mainframeId;
-            result.Omsn = otdr.opticalModuleSerialNumber;
-            result.AcceptableMeasParams = new TreeOfAcceptableMeasParams();
-            foreach (var laserUnitPair in otdr.supportedMeasurementParameters.laserUnits)
-            {
-                var branch = new BranchOfAcceptableMeasParams();
-                foreach (var distancePair in laserUnitPair.Value.distanceRanges)
-                {
-                    var leaf = new LeafOfAcceptableMeasParams();
-                    leaf.Resolutions = distancePair.Value.resolutions;
-                    leaf.PulseDurations = distancePair.Value.pulseDurations;
-                    leaf.MeasCountsToAverage = distancePair.Value.fastAveragingTimes;
-                    leaf.PeriodsToAverage = distancePair.Value.averagingTimes;
-                    branch.Distances.Add(distancePair.Key, leaf);
-                }
-
-                result.AcceptableMeasParams.Units.Add(laserUnitPair.Key, branch);
-            }
-            return true;
-        }
-
-        private async Task<bool> GetPlatformSettings(DoubleAddress rtuDoubleAddress, RtuInitializedDto result)
-        {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "info", "get");
-            if (httpResult.HttpStatusCode != HttpStatusCode.OK)
-                return false;
-            var info = JsonConvert.DeserializeObject<Info>(httpResult.ResponseJson);
-            result.Mfid = info.platform.name;
-            result.Mfsn = info.platform.serialNumber;
-            result.Serial = info.platform.serialNumber;
-            result.Version = info.platform.firmwareVersion;
-            result.Version2 = info.platform.moduleFirmwareVersion;
-            return true;
-        }
-
+    
         public async Task<HttpRequestResult> SetServerNotificationUrl(DoubleAddress rtuDoubleAddress, InitializeRtuDto dto)
         {
             var serverNotificationSettings = new ServerNotificationSettings()
@@ -152,6 +54,26 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var jsonData = JsonConvert.SerializeObject(serverNotificationSettings);
             return await _httpExt.RequestByUrl(rtuDoubleAddress,
                 $@"/notification/settings", "patch", "application/merge-patch+json", jsonData);
+        }
+
+        // monitoring mode could not be changed if otdr in "proxy" mode (for reflect connection)
+        // if it is so - proxy mode should be changed
+        public async Task<bool> SetMonitoringMode(DoubleAddress rtuAddresses, string otdrId, string mode)
+        {
+            _logFile.AppendLine("SetMonitoringMode:");
+            var httpRequestResult = await _d2RtuVeexLayer1.SetMonitoringMode(rtuAddresses, mode);
+            _logFile.AppendLine($"SetMonitoringMode request result status code: { httpRequestResult.HttpStatusCode}");
+            if (httpRequestResult.HttpStatusCode == HttpStatusCode.Conflict)
+            {
+                var proxy = await _d2RtuVeexLayer1.ChangeProxyMode(rtuAddresses, otdrId);
+                _logFile.AppendLine($"ChangeProxyMode request result status code: { proxy.HttpStatusCode}");
+                if (proxy.HttpStatusCode != HttpStatusCode.NoContent)
+                    return false;
+
+                httpRequestResult = await _d2RtuVeexLayer1.SetMonitoringMode(rtuAddresses, mode);
+            }
+
+            return httpRequestResult.HttpStatusCode == HttpStatusCode.NoContent;
         }
 
     }
