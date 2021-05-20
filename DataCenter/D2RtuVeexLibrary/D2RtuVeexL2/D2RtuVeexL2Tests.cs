@@ -8,6 +8,23 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer2
     {
+        public async Task<bool> DeleteTestsForPort(DoubleAddress rtuDoubleAddress, int opticalPort)
+        {
+            var listOfTestLinks = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress);
+            if (listOfTestLinks == null) return true;
+            foreach (var testLink in listOfTestLinks.items)
+            {
+                var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
+                if (test?.otauPort != null && test.otauPort.portIndex == opticalPort - 1)
+                {
+                    var deleteResult = await _d2RtuVeexLayer1.DeleteTest(rtuDoubleAddress, testLink.self);
+                    if (!deleteResult)
+                        return false;
+                }
+            }
+            return true;
+        }
+
         public async Task<List<Test>> GetTestsForPort(DoubleAddress rtuDoubleAddress, int opticalPort)
         {
             var result = new List<Test>();
@@ -22,6 +39,21 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             }
 
             return result;
+        }
+
+        public async Task<Test> GetTestForPortAndBaseType(DoubleAddress rtuDoubleAddress, int opticalPort, string baseType)
+        {
+            var listOfTestLinks = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress); 
+            if (listOfTestLinks == null) return null;
+
+            foreach (var testLink in listOfTestLinks.items)
+            {
+                var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
+                if (test?.otauPort != null && test.otauPort.portIndex == opticalPort - 1 && test.name.Contains(baseType))
+                    return test;
+            }
+
+            return null;
         }
 
         public async Task<HttpRequestResult> CreateTest(DoubleAddress rtuDoubleAddress, string otdrId, int portIndex, BaseRefDto dto)

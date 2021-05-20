@@ -281,7 +281,7 @@ namespace DirectRtuClient
             };
             var d2RL1 = new D2RtuVeexLayer1(_httpExt);
             var layer2 = new D2RtuVeexLayer2(_logFile, d2RL1);
-            var layer21 = new D2RtuVeexLayer21(d2RL1, layer2);
+            var layer21 = new D2RtuVeexLayer21(layer2);
 
             var unused = await layer21.FullTestCreation(_rtuVeexDoubleAddress, "", 1, oneBaseRef);
 
