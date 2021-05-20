@@ -16,13 +16,19 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     createResult =
                         await _d2RtuVeexLayer21.ReSetBaseRefs(rtuAddresses, dto.OtdrId,
                             dto.OtauPortDto.OpticalPort - 1, baseRefDto);
+                    if (createResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+                        return createResult;
                 }
 
                 return createResult;
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentFailed };
+                return new BaseRefAssignedDto()
+                {
+                    ReturnCode = ReturnCode.BaseRefAssignmentFailed,
+                    ErrorMessage = e.Message
+                };
             }
         }
     }

@@ -25,6 +25,22 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return true;
         }
 
+        public async Task<bool> DeleteTestForPortAndBaseType(DoubleAddress rtuDoubleAddress, int opticalPort, string baseType)
+        {
+            var listOfTestLinks = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress); 
+            if (listOfTestLinks == null) return true;
+
+            foreach (var testLink in listOfTestLinks.items)
+            {
+                var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
+                if (test?.otauPort != null 
+                    && test.otauPort.portIndex == opticalPort - 1 
+                    && test.name.Contains(baseType))
+                    return await _d2RtuVeexLayer1.DeleteTest(rtuDoubleAddress, testLink.self);
+            }
+            return true;
+        }
+
         public async Task<List<Test>> GetTestsForPort(DoubleAddress rtuDoubleAddress, int opticalPort)
         {
             var result = new List<Test>();

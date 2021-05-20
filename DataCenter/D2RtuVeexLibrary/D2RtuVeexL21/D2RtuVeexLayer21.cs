@@ -13,6 +13,23 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             _d2RtuVeexLayer2 = d2RtuVeexLayer2;
         }
 
+        /// <summary>
+        /// Creates test if does not exist
+        /// </summary>
+        /// <param name="rtuDoubleAddress"></param>
+        /// <param name="otdrId"></param>
+        /// <param name="portIndex"></param>
+        /// <param name="dto"></param>
+        /// <returns></returns>
+        public async Task<BaseRefAssignedDto> ReSetBaseRefs(DoubleAddress rtuDoubleAddress, string otdrId, int portIndex, BaseRefDto dto)
+        {
+            var test = await _d2RtuVeexLayer2.GetTestForPortAndBaseType(rtuDoubleAddress, portIndex, dto.BaseRefType.ToString());
+            if (test != null)
+                return await _d2RtuVeexLayer2.SetBaseWithThresholdsForTest(rtuDoubleAddress, test.id, dto);
+            else 
+                return await FullTestCreation(rtuDoubleAddress, otdrId, portIndex, dto);
+        }
+
         public async Task<BaseRefAssignedDto> FullTestCreation(DoubleAddress rtuDoubleAddress, string otdrId, int portIndex, BaseRefDto dto)
         {
             var createResult = await _d2RtuVeexLayer2.CreateTest(rtuDoubleAddress, otdrId, portIndex, dto);
@@ -22,15 +39,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var testLink = createResult.ResponseJson;
 
             return await _d2RtuVeexLayer2.SetBaseWithThresholdsForTest(rtuDoubleAddress, testLink, dto);
-        }
-
-        public async Task<BaseRefAssignedDto> ReSetBaseRefs(DoubleAddress rtuDoubleAddress, string otdrId, int portIndex, BaseRefDto dto)
-        {
-            var test = await _d2RtuVeexLayer2.GetTestForPortAndBaseType(rtuDoubleAddress, portIndex, dto.BaseRefType.ToString());
-            if (test != null)
-                return await _d2RtuVeexLayer2.SetBaseWithThresholdsForTest(rtuDoubleAddress, test.id, dto);
-            else 
-                return await FullTestCreation(rtuDoubleAddress, otdrId, portIndex, dto);
         }
     }
 }
