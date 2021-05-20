@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -41,21 +40,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 period = 0, // null in the future
             };
             return await _d2RtuVeexLayer1.CreateTest(rtuDoubleAddress, newTest);
-        }
-
-        public async Task<string> CreateTest(DoubleAddress rtuDoubleAddress, string name, AssignBaseRefsDto dto)
-        {
-            var newTest = new CreateTestCmd()
-            {
-                id = Guid.NewGuid().ToString(),
-                name = name,
-                state = "disabled",
-                otdrId = dto.OtdrId,
-                otauPort = new OtauPort() { otauId = dto.OtauPortDto.OtauId, portIndex = dto.OtauPortDto.OpticalPort - 1 }, //
-                period = 0, // null in the future
-            };
-            var result = await _d2RtuVeexLayer1.CreateTest(rtuDoubleAddress, newTest);
-            return result.HttpStatusCode != HttpStatusCode.Created ? null : result.ResponseJson;
         }
 
         public async Task<bool> ChangeTestState(Test test, DoubleAddress rtuAddresses, string state)

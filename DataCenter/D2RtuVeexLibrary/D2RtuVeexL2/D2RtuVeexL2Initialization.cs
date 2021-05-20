@@ -2,7 +2,6 @@
 using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
-using Newtonsoft.Json;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
@@ -38,7 +37,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return result;
         }
 
-    
         public async Task<HttpRequestResult> SetServerNotificationUrl(DoubleAddress rtuDoubleAddress, InitializeRtuDto dto)
         {
             var serverNotificationSettings = new ServerNotificationSettings()
@@ -51,9 +49,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 },
                 url = $@"http://{dto.ServerAddresses.Main.ToStringA()}/veex/notify?rtuId={dto.RtuId}",
             };
-            var jsonData = JsonConvert.SerializeObject(serverNotificationSettings);
-            return await _httpExt.RequestByUrl(rtuDoubleAddress,
-                $@"/notification/settings", "patch", "application/merge-patch+json", jsonData);
+
+            return await _d2RtuVeexLayer1.SetServerNotificationUrl(rtuDoubleAddress, serverNotificationSettings);
         }
 
         // monitoring mode could not be changed if otdr in "proxy" mode (for reflect connection)

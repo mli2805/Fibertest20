@@ -38,7 +38,17 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     string testLink;
 
                     if (test == null) // if there is no test - create it
-                        testLink = await _d2RtuVeexLayer2.CreateTest(rtuAddresses, testName, dto);
+                    {
+                        var createResult = await _d2RtuVeexLayer2.CreateTest(rtuAddresses, dto.OtdrId, dto.OtauPortDto.OpticalPort, baseRefDto);
+                        if (createResult.HttpStatusCode == HttpStatusCode.Created)
+                            testLink = createResult.ResponseJson;
+                        else
+                            return new BaseRefAssignedDto()
+                            {
+                                ReturnCode = ReturnCode.BaseRefAssignmentFailed,
+                                ErrorMessage = createResult.ErrorMessage
+                            }; 
+                    }
                     else
                     {
                         testLink = $@"tests/{test.id}";

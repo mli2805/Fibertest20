@@ -28,6 +28,13 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return httpResult;
         }
 
+        public async Task<HttpRequestResult> SetServerNotificationUrl(DoubleAddress rtuDoubleAddress, ServerNotificationSettings dto)
+        {
+            var jsonData = JsonConvert.SerializeObject(dto);
+            return await _httpExt.RequestByUrl(rtuDoubleAddress,
+                $@"/notification/settings", "patch", "application/merge-patch+json", jsonData);
+        }
+
         public async Task<HttpRequestResult> SetBaseRef(DoubleAddress rtuDoubleAddress, string refUri, byte[] sorBytes)
         {
             return await _httpExt.PostFile(rtuDoubleAddress, refUri, sorBytes);
