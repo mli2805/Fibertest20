@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -53,25 +52,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return await _d2RtuVeexLayer1.SetServerNotificationUrl(rtuDoubleAddress, serverNotificationSettings);
         }
 
-        // monitoring mode could not be changed if otdr in "proxy" mode (for reflect connection)
-        // if it is so - proxy mode should be changed
-        public async Task<bool> SetMonitoringMode(DoubleAddress rtuAddresses, string otdrId, string mode)
-        {
-            _logFile.AppendLine("SetMonitoringMode:");
-            var httpRequestResult = await _d2RtuVeexLayer1.SetMonitoringMode(rtuAddresses, mode);
-            _logFile.AppendLine($"SetMonitoringMode request result status code: { httpRequestResult.HttpStatusCode}");
-            if (httpRequestResult.HttpStatusCode == HttpStatusCode.Conflict)
-            {
-                var proxy = await _d2RtuVeexLayer1.ChangeProxyMode(rtuAddresses, otdrId);
-                _logFile.AppendLine($"ChangeProxyMode request result status code: { proxy.HttpStatusCode}");
-                if (proxy.HttpStatusCode != HttpStatusCode.NoContent)
-                    return false;
-
-                httpRequestResult = await _d2RtuVeexLayer1.SetMonitoringMode(rtuAddresses, mode);
-            }
-
-            return httpRequestResult.HttpStatusCode == HttpStatusCode.NoContent;
-        }
+      
 
     }
 }

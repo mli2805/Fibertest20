@@ -40,5 +40,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             return await _d2RtuVeexLayer2.SetBaseWithThresholdsForTest(rtuDoubleAddress, testLink, dto);
         }
+
+      
     }
 }

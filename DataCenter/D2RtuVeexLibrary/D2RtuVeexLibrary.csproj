@@ -56,6 +56,7 @@
     <Compile Include="D2RtuVeexL2\D2RtuVeexL2Initialization.cs" />
     <Compile Include="D2RtuVeexL21\D2RtuVeexLayer21.cs" />
     <Compile Include="D2RtuVeexL2\D2RtuVeexL2.cs" />
+    <Compile Include="D2RtuVeexL2\D2RtuVeexL2MonitoringSettings.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3ApplyMonitoringSettings.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3.cs" />
     <Compile Include="D2RtuVeexL2\D2RtuVeexL2Tests.cs" />
