@@ -47,10 +47,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return new AdvancedThresholds()
             {
                 attenuationCoefficientChangeForNewEvents = IitUniversalParam2double(sorData, "EvtDetectDeltaCT"),
-                eofAttenuationCoefficientChangeForFiberBreak = IitUniversalParam2double(sorData, "EvtChangeLT"),
-                eofLossChangeForFiberBreak = IitUniversalParam2double(sorData, "EvtChangeCT"),
+                eofAttenuationCoefficientChangeForFiberBreak = IitUniversalParam2double(sorData, "EvtChangeСT"),
+                eofLossChangeForFiberBreak = IitUniversalParam2double(sorData, "EvtChangeЕT"),
                 maxEofAttenuationCoefficientForFiberBreak = 0.05,
-                noiseLevelChangeForFiberElongation = IitUniversalParam2double(sorData, ""),
+                // noiseLevelChangeForFiberElongation, // is not used in IIT
             };
         }
 
