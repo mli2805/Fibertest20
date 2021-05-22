@@ -2,7 +2,7 @@
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
-    public class Tests
+    public class TestsLinks
     {
         public List<LinkObject> items { get; set; }
         public int offset { get; set; }

@@ -76,7 +76,7 @@
     <Compile Include="VeexDto\Info\OtauPort.cs" />
     <Compile Include="VeexDto\Monitoring\Threshold.cs" />
     <Compile Include="VeexDto\Monitoring\Test.cs" />
-    <Compile Include="VeexDto\Monitoring\Tests.cs" />
+    <Compile Include="VeexDto\Monitoring\TestsLinks.cs" />
     <Compile Include="VeexDto\LinkObject.cs" />
     <Compile Include="VeexDto\Monitoring\MonitoringVeexDto.cs" />
     <Compile Include="VeexDto\ServerNotificationSettings.cs" />

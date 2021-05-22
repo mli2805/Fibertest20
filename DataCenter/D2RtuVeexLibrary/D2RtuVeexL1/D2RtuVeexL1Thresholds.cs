@@ -7,20 +7,20 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer1
     {
-        public async Task<ThresholdSet> GetTestThresholds(DoubleAddress rtuDoubleAddress, string setUri)
+        public async Task<ThresholdSet> GetTestThresholds(DoubleAddress rtuDoubleAddress, string testLink)
         {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, setUri, "get");
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, $@"monitoring/{testLink}/thresholds/current", "get");
             return httpResult.HttpStatusCode == HttpStatusCode.OK
                 ? JsonConvert.DeserializeObject<ThresholdSet>(httpResult.ResponseJson)
                 : null;
         }
 
-        public async Task<HttpRequestResult> SetThresholds(DoubleAddress rtuDoubleAddress, string thresholdUri,
+        public async Task<HttpRequestResult> SetThresholds(DoubleAddress rtuDoubleAddress, string testLink,
             ThresholdSet thresholdSet)
         {
             var jsonData = JsonConvert.SerializeObject(thresholdSet);
             return await _httpExt.RequestByUrl(
-                rtuDoubleAddress, thresholdUri, "post", "application/json", jsonData);
+                rtuDoubleAddress, $@"monitoring/{testLink}/thresholds", "post", "application/json", jsonData);
         }
 
     }
