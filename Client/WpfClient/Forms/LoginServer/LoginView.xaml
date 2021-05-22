@@ -7,12 +7,12 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews;assembly=Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d"
-        Width="400" Height="225" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Width="400" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:LoginViewModel}" FocusManager.FocusedElement="{Binding ElementName=UsernameTextBox}">
     <StackPanel>
         <wpfCommonViews:IitOfficialHeader/>
         <StackPanel HorizontalAlignment="Center">
-            <DockPanel Margin="0,5,0,0" >
+            <DockPanel Margin="0,5,0,0">
                 <Button DockPanel.Dock="Right" Name="Login" Content="{x:Static stringResources:Resources.SID_Login}" 
                             IsDefault="True" Margin="10,0,0,0" Width="80" KeyboardNavigation.TabIndex="2"/>
                 <TextBox Name="UsernameTextBox" DockPanel.Dock="Right" Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" Width="100" Margin="10,0,0,0" 
@@ -28,10 +28,11 @@
                              DockPanel.Dock="Right"  Width="100" Margin="10,0,0,0" KeyboardNavigation.TabIndex="1"/>
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Password}" TextAlignment="Right"/>
             </DockPanel>
-            <Button Width="1" Height="1"  Name="Cancel" IsCancel="True"/>
-            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,10">
-                <TextBlock Text="{Binding Status}" Background="AliceBlue" Padding="10,0" TextWrapping="Wrap"/>
-            </StackPanel>
+          
         </StackPanel>
-    </StackPanel>
+        <Button Width="1" Height="1"  Name="Cancel" IsCancel="True"/>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,20,0,20">
+            <TextBlock Text="{Binding Status}" Background="AliceBlue" MaxWidth="350" 
+                       Padding="10,0" TextWrapping="Wrap"/>
+        </StackPanel>  </StackPanel>
 </Window>
