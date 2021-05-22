@@ -153,20 +153,21 @@ namespace DirectRtuClient
                 _rtuVeexModel.TestsHeader = result;
                 _rtuVeexModel.Tests = new List<Test>();
                 _rtuVeexModel.Thresholds = new Dictionary<string, ThresholdSet>();
-                foreach (var testsItem in _rtuVeexModel.TestsHeader.items)
+                foreach (var testItem in _rtuVeexModel.TestsHeader.items)
                 {
-                    var test = await Task.Factory.StartNew(() => d2RL1.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}").Result);
+                    // var test = await Task.Factory.StartNew(() => d2RL1.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testItem.self}").Result);
+                    var test = await d2RL1.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testItem.self}");
                     _rtuVeexModel.Tests.Add(test);
                     var thresholdSet = await Task.Factory.StartNew(() =>
-                        d2RL1.GetTestThresholds(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}/thresholds/current").Result);
+                        d2RL1.GetTestThresholds(_rtuVeexDoubleAddress, $@"monitoring/{testItem.self}/thresholds/current").Result);
                     _rtuVeexModel.Thresholds.Add(test.id, thresholdSet);
 
                     var res1 = await Task.Factory.StartNew(() =>
-                        d2RL1.ChangeTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}", new Test() { state = @"disabled" }).Result);
+                        d2RL1.ChangeTest(_rtuVeexDoubleAddress, $@"monitoring/{testItem.self}", new Test() { state = @"disabled" }).Result);
                     if (res1)
                     {
                         var changedTest = await Task.Factory.StartNew(() =>
-                            d2RL1.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testsItem.self}").Result);
+                            d2RL1.GetTest(_rtuVeexDoubleAddress, $@"monitoring/{testItem.self}").Result);
                         Console.WriteLine(changedTest);
                     }
                 }
@@ -263,6 +264,9 @@ namespace DirectRtuClient
 
             // var sorBytes = File.ReadAllBytes(@"c:\temp\sor\2 nodes 1650.sor");
             var sorBytes = File.ReadAllBytes(@"c:\temp\sor\4p Мстиславль-Хлдосы-Мушино-Селец-Подлужье - Fast.sor");
+
+          //  var sorData = SorData.FromBytes(sorBytes);
+
             var oneBaseRef = new BaseRefDto()
             {
                 BaseRefType = BaseRefType.Precise,

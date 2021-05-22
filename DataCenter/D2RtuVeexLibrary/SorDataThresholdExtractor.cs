@@ -35,7 +35,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 eventLoss = Iit2CmbThreshold(levelParams.LevelThresholdSet.AttenuationThreshold),
                 eventLeadingLossCoefficient =
                     Iit2CmbThreshold(levelParams.LevelThresholdSet.AttenuationCoefThreshold),
-                eventMaxLevel = null, // PON, reflect does not work with this parameter
+                eventMaxLevel = null, // PON, reflect do not work with this parameter
 
                 reflectiveEventPosition = IitUniversalParam2CmbThreshold(sorData, "EvtRDetectDeltaLen"),
                 nonReflectiveEventPosition = IitUniversalParam2CmbThreshold(sorData, "EvtDetectDeltaLen"),
@@ -49,7 +49,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 attenuationCoefficientChangeForNewEvents = IitUniversalParam2double(sorData, "EvtDetectDeltaCT"),
                 eofAttenuationCoefficientChangeForFiberBreak = IitUniversalParam2double(sorData, "EvtChangeLT"),
                 eofLossChangeForFiberBreak = IitUniversalParam2double(sorData, "EvtChangeCT"),
-                maxEofAttenuationCoefficientForFiberBreak = IitUniversalParam2double(sorData, ""),
+                maxEofAttenuationCoefficientForFiberBreak = 0.05,
                 noiseLevelChangeForFiberElongation = IitUniversalParam2double(sorData, ""),
             };
         }
@@ -69,7 +69,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             return new CombinedThreshold()
             {
-                min = -parameter.Value / parameter.Scale,
+                min = - parameter.Value / parameter.Scale,
                 max = parameter.Value / parameter.Scale,
             };
         }
@@ -82,13 +82,13 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var cmbThreshold = new CombinedThreshold();
             if (iitThreshold.IsAbsolute)
             {
-                cmbThreshold.min = iitThreshold.AbsoluteThreshold / iitCoef;
+                cmbThreshold.min = - iitThreshold.AbsoluteThreshold / iitCoef;
                 cmbThreshold.max = iitThreshold.AbsoluteThreshold / iitCoef;
             }
             else
             {
                 cmbThreshold.increase = iitThreshold.RelativeThreshold / iitCoef;
-                cmbThreshold.decrease = iitThreshold.RelativeThreshold / iitCoef;
+                cmbThreshold.decrease = -iitThreshold.RelativeThreshold / iitCoef;
             }
             return cmbThreshold;
         }
