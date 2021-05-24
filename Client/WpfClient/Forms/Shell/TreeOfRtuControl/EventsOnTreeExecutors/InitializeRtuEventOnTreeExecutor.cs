@@ -114,9 +114,9 @@ namespace Iit.Fibertest.Client
             rtuLeaf.Serial = e.Serial;
             rtuLeaf.MainChannelState = e.MainChannelState;
             rtuLeaf.ReserveChannelState = e.ReserveChannelState;
-            rtuLeaf.OtauNetAddress = e.OtauNetAddress;
+            rtuLeaf.OtauNetAddress = e.OtauNetAddress ?? new NetAddress("", -1);
             rtuLeaf.Color = Brushes.Black;
-            rtuLeaf.TreeOfAcceptableMeasParams = e.AcceptableMeasParams;
+            rtuLeaf.TreeOfAcceptableMeasParams = e.AcceptableMeasParams ?? new TreeOfAcceptableMeasParams();
         }
     }
 }
