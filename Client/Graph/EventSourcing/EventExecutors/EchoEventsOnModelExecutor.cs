@@ -96,17 +96,17 @@ namespace Iit.Fibertest.Graph
                 rtu.Serial = e.Serial;
             }
 
-            rtu.MainChannel = e.MainChannel;
+            rtu.MainChannel = e.MainChannel ?? new NetAddress("", -1);
             rtu.MainChannelState = e.MainChannelState;
             rtu.IsReserveChannelSet = e.IsReserveChannelSet;
             if (e.IsReserveChannelSet)
-                rtu.ReserveChannel = e.ReserveChannel;
+                rtu.ReserveChannel = e.ReserveChannel ?? new NetAddress("", -1);
             rtu.ReserveChannelState = e.ReserveChannelState;
-            rtu.OtdrNetAddress = e.OtauNetAddress;
+            rtu.OtdrNetAddress = e.OtauNetAddress ?? new NetAddress("", -1);
             rtu.Version = e.Version;
             rtu.Version2 = e.Version2;
             rtu.MonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
-            rtu.AcceptableMeasParams = e.AcceptableMeasParams;
+            rtu.AcceptableMeasParams = e.AcceptableMeasParams ?? new TreeOfAcceptableMeasParams();
 
             if (e.Children == null) return;
 
