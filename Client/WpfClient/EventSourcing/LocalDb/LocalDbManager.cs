@@ -95,7 +95,8 @@ namespace Iit.Fibertest.Client
                         {
                             var msg = (EventMessage)JsonConvert.DeserializeObject(esEvent.Json,
                                 JsonSerializerSettings);
-                            result.LastEventTimestamp = (DateTime)msg.Headers[@"Timestamp"];
+                            if (msg != null)
+                                result.LastEventTimestamp = (DateTime)msg.Headers[@"Timestamp"];
                         }
                     }
 

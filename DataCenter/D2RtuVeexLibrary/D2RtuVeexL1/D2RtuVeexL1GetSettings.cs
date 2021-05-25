@@ -18,6 +18,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             }
 
             var monitoring = JsonConvert.DeserializeObject<MonitoringVeexDto>(httpResult.ResponseJson);
+            if (monitoring == null) return false;
             result.IsMonitoringOn = monitoring.state == "enabled";
             return true;
         }
@@ -32,6 +33,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             }
 
             var otaus = JsonConvert.DeserializeObject<Otaus>(httpResult.ResponseJson);
+            if (otaus == null) return false;
             if (otaus.total == 0)
                 return true;
 
@@ -43,6 +45,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             }
 
             var otau = JsonConvert.DeserializeObject<Otau>(httpResult2.ResponseJson);
+            if (otau == null) return false;
             result.OtauId = otau.id;
             result.OwnPortCount = otau.portCount;
             result.FullPortCount = otau.portCount;
@@ -60,6 +63,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             }
 
             var otdrs = JsonConvert.DeserializeObject<Otdrs>(httpResult.ResponseJson);
+            if (otdrs == null) return false;
             if (otdrs.total == 0)
                 return true;
 
@@ -71,6 +75,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             }
 
             var otdr = JsonConvert.DeserializeObject<Otdr>(httpResult2.ResponseJson);
+            if (otdr == null) return false;
             result.OtdrId = otdr.id;
             result.Omid = otdr.mainframeId;
             result.Omsn = otdr.opticalModuleSerialNumber;
@@ -101,6 +106,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (httpResult.HttpStatusCode != HttpStatusCode.OK)
                 return false;
             var info = JsonConvert.DeserializeObject<Info>(httpResult.ResponseJson);
+            if (info == null) return false;
             result.Mfid = info.platform.name;
             result.Mfsn = info.platform.serialNumber;
             result.Serial = info.platform.serialNumber;

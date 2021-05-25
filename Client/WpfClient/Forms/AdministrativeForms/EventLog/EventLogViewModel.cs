@@ -158,6 +158,7 @@ namespace Iit.Fibertest.Client
                 try
                 {
                     var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
+                    if (msg == null) continue;
                     var username = (string)msg.Headers[@"Username"];
                     var user = _readModel.Users.FirstOrDefault(u => u.Title == username);
 

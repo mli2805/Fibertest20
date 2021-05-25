@@ -136,7 +136,8 @@ namespace Iit.Fibertest.Client
             {
                 var json = jsonsInCache.Last();
                 var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
-                result.LastEventTimestamp = (DateTime)msg.Headers[Header];
+                if (msg != null)
+                    result.LastEventTimestamp = (DateTime)msg.Headers[Header];
             }
             return result;
         }
@@ -169,6 +170,7 @@ namespace Iit.Fibertest.Client
             {
                 var json = events[i];
                 var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
+                if (msg == null) continue;
                 var evnt = msg.Body;
 
                 try

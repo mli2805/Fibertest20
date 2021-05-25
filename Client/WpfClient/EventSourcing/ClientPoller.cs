@@ -176,6 +176,7 @@ namespace Iit.Fibertest.Client
             foreach (var json in events)
             {
                 var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
+                if (msg == null) continue;
                 var evnt = msg.Body;
 
                 try
