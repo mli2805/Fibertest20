@@ -278,7 +278,7 @@ namespace DirectRtuClient
             var layer2 = new D2RtuVeexLayer2(_logFile, d2RL1);
             var layer21 = new D2RtuVeexLayer21(layer2);
 
-            var unused = await layer21.FullTestCreation(_rtuVeexDoubleAddress, "", 1, oneBaseRef);
+            var unused = await layer21.FullTestCreation(_rtuVeexDoubleAddress, "", "", 1, oneBaseRef);
 
             var layer3 = new D2RtuVeexLayer3(layer2, layer21);
             var result = await Task.Factory.StartNew(() =>

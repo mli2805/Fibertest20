@@ -72,7 +72,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return null;
         }
 
-        public async Task<HttpRequestResult> CreateTest(DoubleAddress rtuDoubleAddress, string otdrId, int portIndex, BaseRefDto dto)
+        public async Task<HttpRequestResult> CreateTest(DoubleAddress rtuDoubleAddress, string otdrId, string otauId, int portIndex, BaseRefDto dto)
         {
             var testName = $@"Port { portIndex }, {
                     dto.BaseRefType.ToString().ToLower()}, created {
@@ -84,8 +84,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 name = testName,
                 state = "disabled",
                 otdrId = otdrId,
-                otauPort = new OtauPort() { otauId = otdrId, portIndex = portIndex }, //
-                period = 0, // null in the future
+                otauPort = new OtauPort() { otauId = otauId, portIndex = portIndex - 1 }, 
+                period = 0, 
             };
             return await _d2RtuVeexLayer1.CreateTest(rtuDoubleAddress, newTest);
         }

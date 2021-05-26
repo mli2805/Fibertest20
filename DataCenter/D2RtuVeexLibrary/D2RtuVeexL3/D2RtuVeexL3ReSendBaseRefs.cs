@@ -14,7 +14,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 foreach (var baseRefDto in dto.BaseRefDtos)
                 {
                     createResult =
-                        await _d2RtuVeexLayer21.ReSetBaseRefs(rtuAddresses, dto.OtdrId,
+                        await _d2RtuVeexLayer21.ReSetBaseRefs(rtuAddresses, dto.OtdrId, dto.OtauPortDto.OtauId,
                             dto.OtauPortDto.OpticalPort - 1, baseRefDto);
                     if (createResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                         return createResult;

@@ -35,12 +35,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 $@"/notification/settings", "patch", "application/merge-patch+json", jsonData);
         }
 
-        public async Task<HttpRequestResult> SetBaseRef(DoubleAddress rtuDoubleAddress, string refUri, byte[] sorBytes)
+        public async Task<HttpRequestResult> SetBaseRef(DoubleAddress rtuDoubleAddress, string testId, byte[] sorBytes)
         {
-            return await _httpExt.PostFile(rtuDoubleAddress, refUri, sorBytes);
+            return await _httpExt.PostFile(rtuDoubleAddress, $@"monitoring/{testId}/references", sorBytes);
         }
-
-
-
     }
 }

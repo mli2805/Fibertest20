@@ -33,7 +33,8 @@ namespace Iit.Fibertest.DataCenterWebApi
             _logFile.AppendLine($"Notification {notification.type} from VeEX RTU {rtuId.First6()}, {notification.events.Count} event(s) received");
             foreach (var notificationEvent in notification.events)
             {
-                _logFile.AppendLine($"test {notificationEvent.data.testId} - {notificationEvent.type} at {notificationEvent.time}");
+                var localTime = TimeZoneInfo.ConvertTime(notificationEvent.time, TimeZoneInfo.Local);
+                _logFile.AppendLine($"test {notificationEvent.data.testId} - {notificationEvent.type} at {localTime}");
             }
             Response.StatusCode = 200;
         }

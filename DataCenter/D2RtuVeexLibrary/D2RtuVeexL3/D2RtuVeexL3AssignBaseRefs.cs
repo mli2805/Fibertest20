@@ -6,7 +6,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer3
     {
-
         public async Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto, DoubleAddress rtuAddresses)
         {
             try
@@ -16,7 +15,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 {
                     if (baseRefDto.Id == Guid.Empty) // it is command to delete such a base ref
                     {
-                        var deleteResult = await _d2RtuVeexLayer2.DeleteTestForPortAndBaseType(rtuAddresses, dto.OtauPortDto.OpticalPort, baseRefDto.BaseRefType.ToString());
+                        var deleteResult = await _d2RtuVeexLayer2.DeleteTestForPortAndBaseType(rtuAddresses, dto.OtauPortDto.OpticalPort, baseRefDto.BaseRefType.ToString().ToLower());
                         if (!deleteResult)
                             return new BaseRefAssignedDto()
                             {
@@ -27,8 +26,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     else
                     {
                         createResult =
-                            await _d2RtuVeexLayer21.ReSetBaseRefs(rtuAddresses, dto.OtdrId,
-                                dto.OtauPortDto.OpticalPort - 1, baseRefDto);
+                            await _d2RtuVeexLayer21.ReSetBaseRefs(rtuAddresses, dto.OtdrId, dto.OtauPortDto.OtauId,
+                                dto.OtauPortDto.OpticalPort, baseRefDto);
                         if (createResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                             return createResult;
                     }

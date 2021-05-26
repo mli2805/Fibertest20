@@ -6,10 +6,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer2
     {
-        public async Task<BaseRefAssignedDto> SetBaseWithThresholdsForTest(DoubleAddress rtuDoubleAddress, string testId,
+        public async Task<BaseRefAssignedDto> SetBaseWithThresholdsForTest(DoubleAddress rtuDoubleAddress, string testLink,
             BaseRefDto dto)
         {
-            var setBaseResult = await _d2RtuVeexLayer1.SetBaseRef(rtuDoubleAddress, $@"monitoring/tests/{testId}/references", dto.SorBytes);
+            var setBaseResult = await _d2RtuVeexLayer1.SetBaseRef(rtuDoubleAddress, testLink, dto.SorBytes);
             if (setBaseResult.HttpStatusCode != HttpStatusCode.Created)
                 return new BaseRefAssignedDto()
                 { ReturnCode = ReturnCode.BaseRefAssignmentFailed, ErrorMessage = setBaseResult.ErrorMessage };
@@ -19,13 +19,12 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentNoThresholds };
 
             var setThresholdResult =
-                await _d2RtuVeexLayer1.SetThresholds(rtuDoubleAddress, $@"monitoring/tests/{testId}/thresholds",
-                    thresholds);
-            if (setThresholdResult.HttpStatusCode != HttpStatusCode.OK)
-                return new BaseRefAssignedDto()
-                { ReturnCode = ReturnCode.BaseRefAssignmentFailed, ErrorMessage = setBaseResult.ErrorMessage };
+                await _d2RtuVeexLayer1.SetThresholds(rtuDoubleAddress, testLink, thresholds);
 
-            return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
+            return setThresholdResult.HttpStatusCode != HttpStatusCode.Created
+                ? new BaseRefAssignedDto()
+                    { ReturnCode = ReturnCode.BaseRefAssignmentFailed, ErrorMessage = setBaseResult.ErrorMessage }
+                : new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
         }
     }
 }

@@ -24,7 +24,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 });
             }
 
-            return new ThresholdSet();
+            return thresholdSet;
         }
 
         private static Thresholds GetLevelThresholds(RftsLevel levelParams, OtdrDataKnownBlocks sorData)
