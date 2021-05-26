@@ -19,11 +19,12 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly TraceModelBuilder _traceModelBuilder;
         private readonly BaseRefLandmarksTool _baseRefLandmarksTool;
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
+        private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
         public BaseRefRepairmanIntermediary(Model writeModel, IMyLog logFile,
             SorFileRepository sorFileRepository, BaseRefDtoFactory baseRefDtoFactory,
             TraceModelBuilder traceModelBuilder, BaseRefLandmarksTool baseRefLandmarksTool,
-            ClientToRtuTransmitter clientToRtuTransmitter)
+            ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter)
         {
             _writeModel = writeModel;
             _logFile = logFile;
@@ -32,6 +33,7 @@ namespace Iit.Fibertest.DataCenterCore
             _traceModelBuilder = traceModelBuilder;
             _baseRefLandmarksTool = baseRefLandmarksTool;
             _clientToRtuTransmitter = clientToRtuTransmitter;
+            _clientToRtuVeexTransmitter = clientToRtuVeexTransmitter;
         }
 
         public async Task<string> AmendForTracesWhichUseThisNode(Guid nodeId)
@@ -97,7 +99,10 @@ namespace Iit.Fibertest.DataCenterCore
                 if (trace.OtauPort == null) // unattached trace
                     continue;
 
-                var result = await SendAmendedBaseRefsToRtu(trace, listOfBaseRef);
+                var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
+                if (rtu == null)
+                    return "RTU not found.";
+                var result = await SendAmendedBaseRefsToRtu(rtu, trace, listOfBaseRef);
                 if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                     return result.ErrorMessage;
             }
@@ -107,10 +112,6 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<List<BaseRefDto>> GetBaseRefDtos(Trace trace)
         {
-          // if (_writeModel.BaseRefs.Any(b=>b.Id == Guid.Empty))
-          //      _logFile.AppendLine("There is a base ref with Empty ID!!!");
-          //  else _logFile.AppendLine("All base refs have valid IDs");
-
             var list = new List<BaseRef>
             {
                 _writeModel.BaseRefs.FirstOrDefault(b => b.Id == trace.PreciseId),
@@ -125,10 +126,7 @@ namespace Iit.Fibertest.DataCenterCore
                 if (baseRef == null) continue;
                 var sorBytes = await _sorFileRepository.GetSorBytesAsync(baseRef.SorFileId);
                 if (sorBytes == null)
-                {
-            //        _logFile.AppendLine($"sorBytes not found for ID = {baseRef.SorFileId}, skip it!");
                     continue;
-                }
                 listOfBaseRef.Add(_baseRefDtoFactory.CreateFromBaseRef(baseRef, sorBytes));
             }
 
@@ -153,16 +151,20 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        private async Task<BaseRefAssignedDto> SendAmendedBaseRefsToRtu(Trace trace, List<BaseRefDto> baseRefDtos)
+        private async Task<BaseRefAssignedDto> SendAmendedBaseRefsToRtu(Rtu rtu, Trace trace, List<BaseRefDto> baseRefDtos)
         {
             var dto = new AssignBaseRefsDto()
             {
                 TraceId = trace.TraceId,
-                RtuId = trace.RtuId,
+                RtuId = rtu.Id,
+                RtuMaker = rtu.RtuMaker,
                 OtauPortDto = trace.OtauPort,
                 BaseRefs = baseRefDtos,
             };
-            return await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto);
+
+            return dto.RtuMaker == RtuMaker.IIT
+                ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto)
+                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto).Result);
         }
     }
 }

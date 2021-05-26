@@ -25,9 +25,12 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     }
                     else
                     {
+                        var testLink = await _d2RtuVeexLayer21.GetOrCreateTest(rtuAddresses, dto.OtdrId, dto.OtauPortDto.OtauId, dto.OtauPortDto.OpticalPort, baseRefDto);
+                        if (testLink == null)
+                            return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentFailed };
+
                         createResult =
-                            await _d2RtuVeexLayer21.ReSetBaseRefs(rtuAddresses, dto.OtdrId, dto.OtauPortDto.OtauId,
-                                dto.OtauPortDto.OpticalPort, baseRefDto);
+                            await _d2RtuVeexLayer2.SetBaseWithThresholdsForTest(rtuAddresses, testLink, baseRefDto);
                         if (createResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                             return createResult;
                     }

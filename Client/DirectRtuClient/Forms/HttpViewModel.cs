@@ -263,13 +263,14 @@ namespace DirectRtuClient
                 BaseRefType = BaseRefType.Precise,
                 SorBytes = sorBytes,
             };
-            var dto = new ReSendBaseRefsDto()
+            var dto = new AssignBaseRefsDto()
             {
                 OtauPortDto = new OtauPortDto()
                 {
                     OpticalPort = 1,
-                },
-                BaseRefDtos = new List<BaseRefDto>()
+                }, 
+                
+                BaseRefs = new List<BaseRefDto>()
                 {
                     oneBaseRef
                 }
@@ -277,12 +278,9 @@ namespace DirectRtuClient
             var d2RL1 = new D2RtuVeexLayer1(_httpExt);
             var layer2 = new D2RtuVeexLayer2(_logFile, d2RL1);
             var layer21 = new D2RtuVeexLayer21(layer2);
-
-            var unused = await layer21.FullTestCreation(_rtuVeexDoubleAddress, "", "", 1, oneBaseRef);
-
             var layer3 = new D2RtuVeexLayer3(layer2, layer21);
             var result = await Task.Factory.StartNew(() =>
-                layer3.ReSendBaseRefsAsync(dto, _rtuVeexDoubleAddress).Result);
+                layer3.AssignBaseRefAsync(dto, _rtuVeexDoubleAddress).Result);
 
 
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
