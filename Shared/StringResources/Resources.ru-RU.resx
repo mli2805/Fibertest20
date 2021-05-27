@@ -1057,9 +1057,6 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
   <data name="SID_Command_was_delivered_to_RTU__0__but_RTU_ignored_it__RTU_is_busy_" xml:space="preserve">
     <value>Команда была доставлена на RTU {0} но RTU отклонил ее (RTU занят)</value>
   </data>
-  <data name="SID_" xml:space="preserve">
-    <value>RTU инициализировани, серийный номер = {0}</value>
-  </data>
   <data name="SID_Base_ref_assigned_successfully___0_" xml:space="preserve">
     <value>Базовая задана успешно: {0}</value>
   </data>
@@ -2834,7 +2831,7 @@ RTU инициализируется в данный момент!</value>
   <data name="SID_User__0__is_logged_in_from_a_different_device_at__1_" xml:space="preserve">
     <value>Пользователь {0} вошел в систему с другого устройства в {1}</value>
   </data>
-  <data name="OpenLicFile.Content" xml:space="preserve">
+  <data name="SID_Open_another_file" xml:space="preserve">
     <value>Открыть другой файл</value>
   </data>
   <data name="SID_License_viewer" xml:space="preserve">
@@ -2870,5 +2867,11 @@ RTU инициализируется в данный момент!</value>
   </data>
   <data name="SID_Loading_data_after_DB_recovery__optimization_" xml:space="preserve">
 	  <value>Загрузка данных после восстановления (оптимизации) БД, пожалуйста подождите...</value>
+  </data>
+  <data name="SID_Error_during_Client_RTU_operation__" xml:space="preserve">
+	  <value>Ошибка во время операции Клиент-RTU</value>
+  </data>
+  <data name="SID_Failed_to_apply_monitoring_settings_" xml:space="preserve">
+	  <value>Не удалось применить настройки мониторинга!</value>
   </data>
 </root>

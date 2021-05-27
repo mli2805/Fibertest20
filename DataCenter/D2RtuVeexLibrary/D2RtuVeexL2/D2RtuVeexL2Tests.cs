@@ -90,19 +90,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return await _d2RtuVeexLayer1.CreateTest(rtuDoubleAddress, newTest);
         }
 
-        public async Task<bool> ChangeTestState(Test test, DoubleAddress rtuAddresses, string state)
+        private async Task<bool> ChangeTestState(DoubleAddress rtuAddresses, Test test, string state)
         {
             return await _d2RtuVeexLayer1.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { state = state });
         }
 
-        public async Task<bool> ChangeTestPeriod(Test test, DoubleAddress rtuAddresses, int periodForPrecise)
+        private async Task<bool> ChangeTestPeriod(DoubleAddress rtuAddresses, Test test, int period)
         {
-            return await _d2RtuVeexLayer1.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { period = periodForPrecise });
-        }
-
-        public async Task<bool> ChangeTestName(Test test, DoubleAddress rtuAddresses, string newName)
-        {
-            return await _d2RtuVeexLayer1.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { name = newName });
+            return await _d2RtuVeexLayer1.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { period = period });
         }
 
     }

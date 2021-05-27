@@ -61,24 +61,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Open another file.
-        /// </summary>
-        public static string OpenLicFile_Content {
-            get {
-                return ResourceManager.GetString("OpenLicFile.Content", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to RTU initialized, serial = {0}.
-        /// </summary>
-        public static string SID_ {
-            get {
-                return ResourceManager.GetString("SID_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to                      serial {0}  {1} ports.
         /// </summary>
         public static string SID_______________________serial__0____1__ports {
@@ -2593,6 +2575,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Error during Client RTU operation: .
+        /// </summary>
+        public static string SID_Error_during_Client_RTU_operation__ {
+            get {
+                return ResourceManager.GetString("SID_Error_during_Client_RTU_operation__", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Error during Datacenter-Rtu connection.
         /// </summary>
         public static string SID_Error_during_Datacenter_Rtu_connection {
@@ -2922,6 +2913,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Failed_to_apply_license_ {
             get {
                 return ResourceManager.GetString("SID_Failed_to_apply_license_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to apply monitoring settings!.
+        /// </summary>
+        public static string SID_Failed_to_apply_monitoring_settings_ {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_apply_monitoring_settings_", resourceCulture);
             }
         }
         
@@ -4997,6 +4997,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Only_RTU {
             get {
                 return ResourceManager.GetString("SID_Only_RTU", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Open another file.
+        /// </summary>
+        public static string SID_Open_another_file {
+            get {
+                return ResourceManager.GetString("SID_Open_another_file", resourceCulture);
             }
         }
         

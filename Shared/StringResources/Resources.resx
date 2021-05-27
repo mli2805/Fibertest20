@@ -1054,9 +1054,6 @@ on port {0}: charon {1} ip {2} has {3} ports</value>
 	<data name="SID_Command_was_delivered_to_RTU__0__but_RTU_ignored_it__RTU_is_busy_" xml:space="preserve">
     <value>Command was delivered to RTU {0} but RTU ignored it (RTU is busy)</value>
   </data>
-	<data name="SID_" xml:space="preserve">
-    <value>RTU initialized, serial = {0}</value>
-  </data>
 	<data name="SID_Base_ref_assigned_successfully___0_" xml:space="preserve">
     <value>Base ref assigned successfully: {0}</value>
   </data>
@@ -2834,9 +2831,6 @@ RTU is initializing right now!</value>
 	<data name="SID_User__0__is_logged_in_from_a_different_device_at__1_" xml:space="preserve">
     <value>User {0} is logged in from a different device at {1}</value>
   </data>
-	<data name="OpenLicFile.Content" xml:space="preserve">
-		<value>Open another file</value>
-	</data>
 	<data name="SID_License_viewer" xml:space="preserve">
 		<value>License viewer</value>
 	</data>
@@ -2870,5 +2864,14 @@ Please install IIS before installing Fibertest Web Component.</value>
 	</data>
 	<data name="SID_Loading_data_after_DB_recovery__optimization_" xml:space="preserve">
 		<value>Loading data after DB recovery (optimization), please wait</value>
+	</data>
+	<data name="SID_Failed_to_apply_monitoring_settings_" xml:space="preserve">
+		<value>Failed to apply monitoring settings!</value>
+	</data>
+	<data name="SID_Error_during_Client_RTU_operation__" xml:space="preserve">
+		<value>Error during Client RTU operation: </value>
+	</data>
+	<data name="SID_Open_another_file" xml:space="preserve">
+		<value>Open another file</value>
 	</data>
 </root>

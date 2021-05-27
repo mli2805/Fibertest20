@@ -158,6 +158,7 @@ namespace Iit.Fibertest.DataCenterCore
                 TraceId = trace.TraceId,
                 RtuId = rtu.Id,
                 RtuMaker = rtu.RtuMaker,
+                OtdrId = rtu.OtdrId,
                 OtauPortDto = trace.OtauPort,
                 BaseRefs = baseRefDtos,
             };

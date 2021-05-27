@@ -28,6 +28,8 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Too_big_port_number_for_BOP_attachment;
                 case ReturnCode.RtuAttachOtauError:
                     return Resources.SID_Attach_OTAU_error_;
+                case ReturnCode.RtuMonitoringSettingsApplyError:
+                    return Resources.SID_Failed_to_apply_monitoring_settings_;
 
                 // 2000
                 case ReturnCode.C2DWcfConnectionError:
@@ -38,6 +40,8 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Cannot_establish_connection_with_RTU;
                 case ReturnCode.D2RWcfOperationError:
                     return Resources.SID_Error_during_Datacenter_Rtu_connection + $@" {exceptionMessage}";
+                case ReturnCode.C2RWcfOperationError:
+                    return Resources.SID_Error_during_Client_RTU_operation__ + $@" {exceptionMessage}";
 
                 // 3000
                 case ReturnCode.DbError:

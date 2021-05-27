@@ -21,7 +21,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 Test test = await _d2RtuVeexLayer1.GetTest(rtuAddresses, testLink.self);
                 if (test?.otauPort == null) continue;
 
-                if (!await ApplyMoniSettingsToOneTest(rtuAddresses, includedPorts, test, periodForFast, periodForPrecise)) 
+                if (!await ApplyMoniSettingsToOneTest(rtuAddresses, includedPorts, test, periodForFast, periodForPrecise))
                     return false;
             }
 
@@ -42,11 +42,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 ? "disabled"
                 : "enabled";
 
-            if (test.period != period || test.state != state)
-            {
-                if (!await _d2RtuVeexLayer1.ChangeTest(rtuAddresses, test.id, new Test() {period = period, state = state}))
+            if (test.period != period)
+                if (!await ChangeTestPeriod(rtuAddresses, test, period))
                     return false;
-            }
+
+            if (test.state == "disable" && state == "enable" 
+                || test.state != "disable" && state == "disable")
+                if (!await ChangeTestState(rtuAddresses, test, state))
+                    return false;
 
             return true;
         }

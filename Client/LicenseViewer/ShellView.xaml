@@ -8,7 +8,7 @@
         <wpfCommonViews:IitOfficialHeader/>
         <wpfCommonViews:LicenseControlView DataContext="{Binding LicenseControlViewModel}"/>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="10,5,5,10" HorizontalAlignment="Center">
-            <Button Name="OpenLicFile" Content="{x:Static stringResources:Resources.OpenLicFile_Content}" 
+            <Button Name="OpenLicFile" Content="{x:Static stringResources:Resources.SID_Open_another_file}" 
                     Width="180" Margin="5" IsEnabled="{Binding IsApplyLicenseEnabled}" />
             <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Width="80" Margin="5"/>
         </StackPanel>
