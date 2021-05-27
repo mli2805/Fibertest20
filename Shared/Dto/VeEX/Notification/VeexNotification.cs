@@ -42,7 +42,7 @@ namespace Iit.Fibertest.Dto
         public TraceChange traceChange { get; set; }
     }
 
-    public class Event
+    public class VeexNotificationEvent
     {
         public Data data { get; set; }
         public DateTime time { get; set; }
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.Dto
 
     public class VeexNotification
     {
-        public List<Event> events { get; set; }
+        public List<VeexNotificationEvent> events { get; set; }
         public string type { get; set; }
     }
 

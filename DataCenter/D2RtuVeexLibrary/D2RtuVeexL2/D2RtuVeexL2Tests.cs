@@ -75,7 +75,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<HttpRequestResult> CreateTest(DoubleAddress rtuDoubleAddress, string otdrId, string otauId, int portIndex, BaseRefDto dto)
         {
             var testName = $@"Port { portIndex }, {
-                    dto.BaseRefType.ToString().ToLower()}, created {
+                    dto.BaseRefType.ToString().ToLower()}, created at {
                     DateTime.Now.ToString(CultureInfo.DefaultThreadCurrentUICulture)}";
 
             var newTest = new CreateTestCmd()

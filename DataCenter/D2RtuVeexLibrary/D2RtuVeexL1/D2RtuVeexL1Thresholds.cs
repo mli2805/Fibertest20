@@ -23,5 +23,21 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 rtuDoubleAddress, $@"monitoring/{testLink}/thresholds", "post", "application/json", jsonData);
         }
 
+        public async Task<CompletedTest> GetCompletedTest(DoubleAddress rtuDoubleAddress, string testId, string kind)
+        {
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, $"monitoring/tests/{testId}/completed/{kind}", "get");
+            return httpResult.HttpStatusCode == HttpStatusCode.OK
+                ? JsonConvert.DeserializeObject<CompletedTest>(httpResult.ResponseJson)
+                : null;
+        }
+
+        public async Task<byte[]> GetSorBytes(DoubleAddress rtuDoubleAddress,  string testId, string kind)
+        {
+            var httpResult = await _httpExt.GetByteArray(rtuDoubleAddress, $"monitoring/tests/{testId}/completed/{kind}/traces/0.sor");
+            return httpResult.HttpStatusCode == HttpStatusCode.OK
+                ? httpResult.ResponseBytesArray
+                : null;
+        }
+
     }
 }

@@ -66,6 +66,29 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return result;
         }
 
+        public async Task<HttpRequestResult> GetByteArray(DoubleAddress rtuDoubleAddress, string relativeUri)
+        {
+            _httpClient.DefaultRequestHeaders.ExpectContinue = false;
+            var result = new HttpRequestResult();
+            var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
+            try
+            {
+                var myArr = await _httpClient.GetByteArrayAsync(url);
+                result.ResponseBytesArray = myArr;
+                result.HttpStatusCode = HttpStatusCode.OK;
+            }
+            catch (Exception e)
+            {
+                result.HttpStatusCode = HttpStatusCode.BadRequest;
+                result.ErrorMessage = e.Message;
+                _logFile.AppendLine(e.Message);
+            }
+
+            return result;
+        }
+
+
+
         public async Task<HttpRequestResult> PostFile(DoubleAddress rtuDoubleAddress, string relativeUri, byte[] bytes)
         {
             _httpClient.DefaultRequestHeaders.ExpectContinue = false;
@@ -73,7 +96,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
             try
             {
-                MultipartFormDataContent dataContent = 
+                MultipartFormDataContent dataContent =
                     new MultipartFormDataContent(Guid.NewGuid().ToString());
 
                 var byteArrayContent = new ByteArrayContent(bytes);

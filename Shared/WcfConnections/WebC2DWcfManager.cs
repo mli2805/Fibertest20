@@ -433,5 +433,25 @@ namespace Iit.Fibertest.WcfConnections
                 return null;
             }
         }
+
+        public async Task<bool> MonitoringMeasurementDone(VeexMeasurementDto veexMeasurementDto)
+        {
+            var wcfConnection = _wcfFactory.GetWebC2DChannelFactory();
+            if (wcfConnection == null)
+                return false;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.MonitoringMeasurementDone(veexMeasurementDto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("MonitoringMeasurementDone: " + e.Message);
+                return false;
+            }
+        }
     }
 }

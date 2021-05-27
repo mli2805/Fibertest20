@@ -169,6 +169,8 @@
     <Compile Include="Underlying\RequestAnswer.cs" />
     <Compile Include="Underlying\RtuWithChannelChanges.cs" />
     <Compile Include="Underlying\TraceInfoTableItem.cs" />
+    <Compile Include="VeEX\CompletedTest\CompletedTest.cs" />
+    <Compile Include="VeEX\Notification\VeexMeasurementDto.cs" />
     <Compile Include="VeEX\Notification\VeexNotification.cs" />
   </ItemGroup>
   <ItemGroup>

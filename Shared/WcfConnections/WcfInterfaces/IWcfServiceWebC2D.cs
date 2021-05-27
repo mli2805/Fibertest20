@@ -79,5 +79,13 @@ namespace Iit.Fibertest.WcfConnections
             string filterRtu, string sortOrder, int pageNumber, int pageSize);
 
         #endregion
+
+        #region Veex
+
+        [OperationContract]
+        Task<bool> MonitoringMeasurementDone(VeexMeasurementDto veexMeasurementDto);
+
+
+        #endregion
     }
 }

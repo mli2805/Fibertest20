@@ -291,6 +291,7 @@
     <Compile Include="WcfServiceWebC2D\WcfServiceWebC2DRtu.cs" />
     <Compile Include="WcfServiceWebC2D\WcfServiceWebC2DTables.cs" />
     <Compile Include="WcfServiceWebC2D\WcfServiceWebC2DTrace.cs" />
+    <Compile Include="WcfServiceWebC2D\WcfServiceWebVeex.cs" />
     <Compile Include="WcfServiceWebC2D\WebDtoFactory.cs" />
     <Compile Include="GlobalState.cs" />
     <Compile Include="MappingWebApiProfile.cs" />

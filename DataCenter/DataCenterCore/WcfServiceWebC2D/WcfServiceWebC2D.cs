@@ -2,6 +2,7 @@
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
+using Iit.Fibertest.D2RtuVeexLibrary;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -25,6 +26,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientsCollection _clientsCollection;
         private readonly SorFileRepository _sorFileRepository;
         private readonly IntermediateLayer _intermediateLayer;
+        private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
         private readonly LandmarksBaseParser _landmarksBaseParser;
         private readonly LandmarksGraphParser _landmarksGraphParser;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
@@ -32,7 +34,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public WcfServiceWebC2D(IMyLog logFile, Model writeModel, CurrentDatacenterParameters currentDatacenterParameters,
             ClientsCollection clientsCollection, SorFileRepository sorFileRepository,
-            IntermediateLayer intermediateLayer,
+            IntermediateLayer intermediateLayer, D2RtuVeexLayer3 d2RtuVeexLayer3,
             LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,
             AccidentLineModelFactory accidentLineModelFactory, MeasurementsForWebNotifier measurementsForWebNotifier)
         {
@@ -42,6 +44,7 @@ namespace Iit.Fibertest.DataCenterCore
             _clientsCollection = clientsCollection;
             _sorFileRepository = sorFileRepository;
             _intermediateLayer = intermediateLayer;
+            _d2RtuVeexLayer3 = d2RtuVeexLayer3;
             _landmarksBaseParser = landmarksBaseParser;
             _landmarksGraphParser = landmarksGraphParser;
             _accidentLineModelFactory = accidentLineModelFactory;
