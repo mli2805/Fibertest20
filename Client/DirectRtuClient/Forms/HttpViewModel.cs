@@ -300,7 +300,7 @@ namespace DirectRtuClient
             var d2RL1 = new D2RtuVeexLayer1(_httpExt);
             var layer2 = new D2RtuVeexLayer2(_logFile, d2RL1);
 
-            var rrr = await layer2.GetCompletedTest(_rtuVeexDoubleAddress, @"4dc19b64-7431-435b-9248-621d79d84e0b", @"monitoring_test_passed");
+            var rrr = await layer2.GetTestsLastMeasurement(_rtuVeexDoubleAddress, @"4dc19b64-7431-435b-9248-621d79d84e0b", @"monitoring_test_passed");
             File.WriteAllBytes(@"c:\temp\0.sor", rrr.SorBytes);
 
             IsButtonEnabled = true;

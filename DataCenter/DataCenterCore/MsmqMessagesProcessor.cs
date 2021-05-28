@@ -49,8 +49,14 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task ProcessMessage(Message message)
         {
-            if (message.Body is MonitoringResultDto monitoringResultDto)
-                await ProcessMonitoringResult(monitoringResultDto);
+            if (message.Body is MonitoringResultDto dto)
+            {
+                _logFile.AppendLine($@"MSMQ message, measure time: {dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture)
+                    }, RTU { dto.RtuId.First6()
+                    }, Trace {dto.PortWithTrace.TraceId.First6()} - {dto.TraceState} ({ dto.BaseRefType })");
+
+                await ProcessMonitoringResult(dto);
+            }
             if (message.Body is BopStateChangedDto bopStateChangedDto)
                 await ProcessBopStateChanges(bopStateChangedDto);
         }
@@ -64,10 +70,6 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task ProcessMonitoringResult(MonitoringResultDto dto)
         {
             if (!await _rtuStationsRepository.IsRtuExist(dto.RtuId)) return;
-
-            _logFile.AppendLine($@"MSMQ message, measure time: {dto.TimeStamp.ToString(Thread.CurrentThread.CurrentUICulture)
-                }, RTU { dto.RtuId.First6()
-                }, Trace {dto.PortWithTrace.TraceId.First6()} - {dto.TraceState} ({ dto.BaseRefType })");
 
             var sorId = await _sorFileRepository.AddSorBytesAsync(dto.SorBytes);
             if (sorId != -1)

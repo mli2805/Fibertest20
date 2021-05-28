@@ -10,7 +10,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             try
             {
-                var result = await _d2RtuVeexLayer2.GetCompletedTest(rtuAddresses, notificationEvent.data.testId,
+                var result = await _d2RtuVeexLayer2.GetTestsLastMeasurement(rtuAddresses, notificationEvent.data.testId,
                     notificationEvent.type);
                 if (result == null)
                     return null;

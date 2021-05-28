@@ -6,7 +6,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer2
     {
-        public async Task<MonitoringResultDto> GetCompletedTest(DoubleAddress rtuAddresses, string testId, string type)
+        public async Task<MonitoringResultDto> GetTestsLastMeasurement(DoubleAddress rtuAddresses, string testId, string type)
         {
             var kind = type == "monitoring_test_passed" ? "last_passed" : "last_failed";
             try

@@ -37,7 +37,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<HttpRequestResult> SetBaseRef(DoubleAddress rtuDoubleAddress, string testId, byte[] sorBytes)
         {
-            return await _httpExt.PostFile(rtuDoubleAddress, $@"monitoring/{testId}/references", sorBytes);
+            return await _httpExt.PostByteArray(rtuDoubleAddress, $@"monitoring/{testId}/references", sorBytes);
         }
     }
 }
