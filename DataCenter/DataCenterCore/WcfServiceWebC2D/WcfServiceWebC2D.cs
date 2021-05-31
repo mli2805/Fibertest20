@@ -25,30 +25,36 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly ClientsCollection _clientsCollection;
         private readonly SorFileRepository _sorFileRepository;
+        private readonly D2RtuVeexLayer1 _d2RtuVeexLayer1;
         private readonly IntermediateLayer _intermediateLayer;
         private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
         private readonly LandmarksBaseParser _landmarksBaseParser;
         private readonly LandmarksGraphParser _landmarksGraphParser;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
         private readonly MeasurementsForWebNotifier _measurementsForWebNotifier;
+        private readonly MsmqMessagesProcessor _msmqMessagesProcessor;
 
         public WcfServiceWebC2D(IMyLog logFile, Model writeModel, CurrentDatacenterParameters currentDatacenterParameters,
             ClientsCollection clientsCollection, SorFileRepository sorFileRepository,
+            D2RtuVeexLayer1 d2RtuVeexLayer1,
             IntermediateLayer intermediateLayer, D2RtuVeexLayer3 d2RtuVeexLayer3,
             LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,
-            AccidentLineModelFactory accidentLineModelFactory, MeasurementsForWebNotifier measurementsForWebNotifier)
+            AccidentLineModelFactory accidentLineModelFactory, MeasurementsForWebNotifier measurementsForWebNotifier,
+            MsmqMessagesProcessor msmqMessagesProcessor)
         {
             _logFile = logFile;
             _writeModel = writeModel;
             _currentDatacenterParameters = currentDatacenterParameters;
             _clientsCollection = clientsCollection;
             _sorFileRepository = sorFileRepository;
+            _d2RtuVeexLayer1 = d2RtuVeexLayer1;
             _intermediateLayer = intermediateLayer;
             _d2RtuVeexLayer3 = d2RtuVeexLayer3;
             _landmarksBaseParser = landmarksBaseParser;
             _landmarksGraphParser = landmarksGraphParser;
             _accidentLineModelFactory = accidentLineModelFactory;
             _measurementsForWebNotifier = measurementsForWebNotifier;
+            _msmqMessagesProcessor = msmqMessagesProcessor;
         }
 
         public async Task<string> CheckDataCenterConnection()

@@ -22,6 +22,7 @@ namespace Iit.Fibertest.Dto
         public Linkmap linkmap { get; set; }
         public Report report { get; set; }
         public string result { get; set; }
+        public string extendedResult { get; set; }
         public DateTime started { get; set; }
         public Traces traces { get; set; }
         public string type { get; set; }

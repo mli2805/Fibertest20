@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Optixsoft.SorExaminer.OtdrDataFormat;
+using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
 namespace Iit.Fibertest.UtilsLib
 {
@@ -37,6 +39,23 @@ namespace Iit.Fibertest.UtilsLib
                 : sorData.RftsParameters.UniversalParameters.First(p => p.Name == "EvtDetectDeltaLen");
 
             return (double)param.Value / param.Scale;
+        }
+
+        public static void EmbedBaseRef(this OtdrDataKnownBlocks measSorData, byte[] baseBytes)
+        {
+            var embeddedData = new List<EmbeddedData> {BaseBufferToEmbeddedData(baseBytes)};
+            measSorData.EmbeddedData.EmbeddedDataBlocks = embeddedData.ToArray();
+            measSorData.EmbeddedData.EmbeddedBlocksCount = (ushort)embeddedData.Count;
+        }
+
+        private static EmbeddedData BaseBufferToEmbeddedData(byte[] buffer)
+        {
+            return new EmbeddedData
+            {
+                Description = "SOR",
+                DataSize = buffer.Length,
+                Data = buffer.ToArray()
+            };
         }
     }
 }

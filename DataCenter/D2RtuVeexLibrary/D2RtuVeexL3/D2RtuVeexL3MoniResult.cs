@@ -6,15 +6,12 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer3
     {
-        public async Task<MonitoringResultDto> GetMoniResult(DoubleAddress rtuAddresses, VeexNotificationEvent notificationEvent)
+        public async Task<MonitoringResultDto> GetTestLastMeasurement(DoubleAddress rtuAddresses, VeexNotificationEvent notificationEvent)
         {
             try
             {
-                var result = await _d2RtuVeexLayer2.GetTestsLastMeasurement(rtuAddresses, notificationEvent.data.testId,
-                    notificationEvent.type);
-                if (result == null)
-                    return null;
-                return new MonitoringResultDto();
+                return await _d2RtuVeexLayer2
+                    .GetTestLastMeasurement(rtuAddresses, notificationEvent.data.testId, notificationEvent.type);
             }
             catch (Exception)
             {

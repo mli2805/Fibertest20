@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -13,11 +14,11 @@ namespace Iit.Fibertest.DataCenterCore
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == veexMeasurementDto.RtuId);
             if (rtu == null) return false;
             var rtuAddresses = new DoubleAddress()
-                {Main = rtu.MainChannel, HasReserveAddress = rtu.IsReserveChannelSet, Reserve = rtu.ReserveChannel};
+            { Main = rtu.MainChannel, HasReserveAddress = rtu.IsReserveChannelSet, Reserve = rtu.ReserveChannel };
 
             foreach (var notificationEvent in veexMeasurementDto.VeexNotification.events)
             {
-               await ProcessOneNotification(notificationEvent, rtu, rtuAddresses);
+                await ProcessOneNotification(notificationEvent, rtu, rtuAddresses);
             }
 
             return true;
@@ -26,47 +27,84 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task ProcessOneNotification(VeexNotificationEvent notificationEvent, Rtu rtu, DoubleAddress rtuAddresses)
         {
             notificationEvent.time = TimeZoneInfo.ConvertTime(notificationEvent.time, TimeZoneInfo.Local);
-            _logFile.AppendLine($"test {notificationEvent.data.testId} - {notificationEvent.type} at {notificationEvent.time}");
 
-            // Alex promised to return port in notification
-            var port = 3;
+            // Alex promised to return port and test name (to extract base ref type) in notification
+            var test = await _d2RtuVeexLayer1.GetTest(rtuAddresses, $"tests/{notificationEvent.data.testId}");
+            var port = test.otauPort.portIndex + 1;
+            var testName = test.name;
+            // so far
+
+            _logFile.AppendLine($"{testName} on port {port} - {notificationEvent.type} at {notificationEvent.time}");
             var trace = _writeModel.Traces.FirstOrDefault(t => t.RtuId == rtu.Id && t.Port == port);
             if (trace == null)
                 return;  // no such a trace
-            // Alex promised to return test name (to extract base ref type) in notification
-            var testName = "Port 3, fast, created 26-May-21 09:59:57";
             var baseRefType = GetBaseRefTypeFromName(testName);
 
             // first we need to check if monitoring result should be fetched and saved
             if (!ShouldMoniResultBeSaved(notificationEvent, rtu, trace, baseRefType)) return;
 
             // second: fetch moni result
-            var res = await _d2RtuVeexLayer3.GetMoniResult(rtuAddresses, notificationEvent);
+            var res = await _d2RtuVeexLayer3.GetTestLastMeasurement(rtuAddresses, notificationEvent);
             if (res.MeasurementResult != MeasurementResult.Success) return;
 
-            var baseRef = await GetBaseRefSorBytes(trace, baseRefType);
+            var baseRef = await GetBaseRefSorBytes(trace, baseRefType); // from db on server
+            var sorData = SorData.FromBytes(res.SorBytes);
+            sorData.EmbedBaseRef(baseRef);
+            res.SorBytes = sorData.ToBytes();
+
+            res.TimeStamp = notificationEvent.time;
+            res.RtuId = rtu.Id;
+            res.BaseRefType = baseRefType;
+            res.PortWithTrace = new PortWithTraceDto()
+            {
+                TraceId = trace.TraceId,
+                OtauPort = trace.OtauPort,
+            };
+            res.TraceState = GetNewTraceState(notificationEvent);
+
+            await _msmqMessagesProcessor.ProcessMonitoringResult(res);
         }
 
         private bool ShouldMoniResultBeSaved(VeexNotificationEvent notificationEvent, Rtu rtu, Trace trace, BaseRefType baseRefType)
         {
-             var traceLastMeas = _writeModel.Measurements.LastOrDefault(m => m.TraceId == trace.TraceId);
-            if (traceLastMeas == null) 
+            var traceLastMeas = _writeModel.Measurements
+                .LastOrDefault(m => m.TraceId == trace.TraceId && m.BaseRefType == baseRefType);
+            if (traceLastMeas == null)
+            {
+                _logFile.AppendLine($"Should be saved as first measurement on trace {trace.Title}");
                 return true; // first measurement on trace
+            }
+
             if (IsTimeToSave(notificationEvent, rtu, traceLastMeas, baseRefType))
+            {
+                _logFile.AppendLine($"Time to save {baseRefType} measurement on trace {trace.Title}");
                 return true;
-         
-            return IsTraceStateChanged();
+            }
+
+            var oldTraceState = trace.State;
+            var newTraceState = GetNewTraceState(notificationEvent);
+            _logFile.AppendLine($"Old state: {oldTraceState} - new state: {newTraceState}");
+            return newTraceState != oldTraceState;
         }
 
-        private bool IsTraceStateChanged()
-        {
 
-            return true;
+        private FiberState GetNewTraceState(VeexNotificationEvent notificationEvent)
+        {
+            if (notificationEvent.type == "monitoring_test_passed") return FiberState.Ok;
+
+            switch (notificationEvent.data.traceChange.changeType)
+            {
+                case "no_fiber": return FiberState.NoFiber;
+                case "major": return FiberState.Major;
+            }
+
+            return FiberState.Ok;
         }
 
         private bool IsTimeToSave(VeexNotificationEvent notificationEvent, Rtu rtu, Measurement traceLastMeas, BaseRefType baseRefType)
         {
             var frequency = baseRefType == BaseRefType.Fast ? rtu.FastSave : rtu.PreciseSave;
+            if (frequency == Frequency.DoNot) return false;
             return notificationEvent.time - traceLastMeas.MeasurementTimestamp > frequency.GetTimeSpan();
         }
 
@@ -79,9 +117,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<byte[]> GetBaseRefSorBytes(Trace trace, BaseRefType baseRefType)
         {
-              var baseRef = _writeModel.BaseRefs.FirstOrDefault(b => b.TraceId == trace.TraceId && b.BaseRefType == baseRefType);
-              if (baseRef == null) return null;
-              return await _sorFileRepository.GetSorBytesAsync(baseRef.SorFileId);
+            var baseRef = _writeModel.BaseRefs.FirstOrDefault(b => b.TraceId == trace.TraceId && b.BaseRefType == baseRefType);
+            if (baseRef == null) return null;
+            return await _sorFileRepository.GetSorBytesAsync(baseRef.SorFileId);
         }
     }
 }
