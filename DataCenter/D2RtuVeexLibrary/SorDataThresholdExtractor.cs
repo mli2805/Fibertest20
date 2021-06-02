@@ -14,17 +14,25 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return null;
 
             var thresholdSet = new ThresholdSet() { levels = new List<Level>() };
-            foreach (var rftsParametersLevel in sorData.RftsParameters.Levels)
-            {
-                thresholdSet.levels.Add(new Level()
-                {
-                    name = rftsParametersLevel.LevelName.ToString(), 
-                    groups = new List<Group>(){ new Group() { thresholds = GetLevelThresholds(rftsParametersLevel, sorData) }},
-                    advancedThresholds = GetAdvancedThresholds(sorData),
-                });
-            }
+            thresholdSet.AddRftsLevel(sorData, "Critical");
+            thresholdSet.AddRftsLevel(sorData, "Major");
+            thresholdSet.AddRftsLevel(sorData, "Minor");
 
             return thresholdSet;
+        }
+
+        private static void AddRftsLevel(this ThresholdSet thresholdSet, OtdrDataKnownBlocks sorData, string levelName)
+        {
+            var rftsParametersLevel =
+                sorData.RftsParameters.Levels.FirstOrDefault(l => l.LevelName.ToString() == levelName);
+            if (rftsParametersLevel == null) return;
+            var level = new Level()
+            {
+                name = rftsParametersLevel.LevelName.ToString(), 
+                groups = new List<Group>(){ new Group() { thresholds = GetLevelThresholds(rftsParametersLevel, sorData) }},
+                advancedThresholds = GetAdvancedThresholds(sorData),
+            };
+            thresholdSet.levels.Add(level);
         }
 
         private static Thresholds GetLevelThresholds(RftsLevel levelParams, OtdrDataKnownBlocks sorData)

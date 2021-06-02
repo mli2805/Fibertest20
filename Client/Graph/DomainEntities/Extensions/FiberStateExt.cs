@@ -9,6 +9,21 @@ namespace Iit.Fibertest.Graph
 {
     public static class FiberStateExt
     {
+        public static FiberState ToFiberState(this string state)
+        {
+            switch (state.ToLower())
+            {
+                case "ok": return FiberState.Ok;
+                case "no_fiber": return FiberState.NoFiber;
+                case "fiber_break": return FiberState.FiberBreak;
+                case "critical": return FiberState.Critical;
+                case "major": return FiberState.Major;
+                case "minor": return FiberState.Minor;
+            }
+
+            return FiberState.Unknown;
+        }
+
         public static string ToLocalizedString(this FiberState state)
         {
             switch (state)

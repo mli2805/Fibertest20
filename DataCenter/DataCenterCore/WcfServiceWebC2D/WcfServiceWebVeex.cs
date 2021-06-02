@@ -87,18 +87,17 @@ namespace Iit.Fibertest.DataCenterCore
             return newTraceState != oldTraceState;
         }
 
-
         private FiberState GetNewTraceState(VeexNotificationEvent notificationEvent)
         {
             if (notificationEvent.type == "monitoring_test_passed") return FiberState.Ok;
 
-            switch (notificationEvent.data.traceChange.changeType)
-            {
-                case "no_fiber": return FiberState.NoFiber;
-                case "major": return FiberState.Major;
-            }
+            if (notificationEvent.data.extendedResult == "trace_change")
+                if (notificationEvent.data.traceChange.changeType == "exceeded_threshold")
+                    return notificationEvent.data.traceChange.levelName.ToFiberState();
+                else
+                    return notificationEvent.data.traceChange.changeType.ToFiberState();
 
-            return FiberState.Ok;
+            return notificationEvent.data.extendedResult.ToFiberState();
         }
 
         private bool IsTimeToSave(VeexNotificationEvent notificationEvent, Rtu rtu, Measurement traceLastMeas, BaseRefType baseRefType)
