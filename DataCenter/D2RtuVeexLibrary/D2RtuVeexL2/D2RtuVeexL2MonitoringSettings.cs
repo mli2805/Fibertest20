@@ -9,24 +9,50 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer2
     {
-        public async Task<bool> ApplyMoniSettingsToEveryTest(DoubleAddress rtuAddresses, TimeSpan preciseTimeSpan, List<PortWithTraceDto> includedPorts)
+        /// <summary>
+        /// Временно работаем по схеме Мониторинг по одной базовой (точной)
+        /// Потом Леша сделает связку быстрая - точная на рту
+        /// </summary>
+        /// <param name="rtuAddresses"></param>
+        /// <param name="preciseTimeSpan"></param>
+        /// <param name="includedPorts"></param>
+        /// <returns></returns>
+        public async Task<bool> ApplyMoniSettingsToEveryTest(DoubleAddress rtuAddresses, TimeSpan preciseTimeSpan,
+            List<PortWithTraceDto> includedPorts)
         {
-            int periodForFast = 0; // run permanently
-            int periodForPrecise = preciseTimeSpan != TimeSpan.Zero
-                ? (int)preciseTimeSpan.TotalSeconds : -1;
-
             var listOfTestLinks = await _d2RtuVeexLayer1.GetTests(rtuAddresses);
             foreach (var testLink in listOfTestLinks.items)
             {
                 Test test = await _d2RtuVeexLayer1.GetTest(rtuAddresses, testLink.self);
                 if (test?.otauPort == null) continue;
+                if (test.name.Contains("fast")) continue;
 
-                if (!await ApplyMoniSettingsToOneTest(rtuAddresses, includedPorts, test, periodForFast, periodForPrecise))
+                if (!await ApplyMoniSettingsToOneTest(rtuAddresses, includedPorts, test, 0, 0))
                     return false;
             }
 
             return true;
         }
+
+
+        // public async Task<bool> ApplyMoniSettingsToEveryTest(DoubleAddress rtuAddresses, TimeSpan preciseTimeSpan, List<PortWithTraceDto> includedPorts)
+        // {
+        //     int periodForFast = 0; // run permanently
+        //     int periodForPrecise = preciseTimeSpan != TimeSpan.Zero
+        //         ? (int)preciseTimeSpan.TotalSeconds : -1;
+        //
+        //     var listOfTestLinks = await _d2RtuVeexLayer1.GetTests(rtuAddresses);
+        //     foreach (var testLink in listOfTestLinks.items)
+        //     {
+        //         Test test = await _d2RtuVeexLayer1.GetTest(rtuAddresses, testLink.self);
+        //         if (test?.otauPort == null) continue;
+        //
+        //         if (!await ApplyMoniSettingsToOneTest(rtuAddresses, includedPorts, test, periodForFast, periodForPrecise))
+        //             return false;
+        //     }
+        //
+        //     return true;
+        // }
 
         private async Task<bool> ApplyMoniSettingsToOneTest(DoubleAddress rtuAddresses, List<PortWithTraceDto> includedPorts, Test test,
             int periodForFast, int periodForPrecise)
@@ -46,8 +72,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 if (!await ChangeTestPeriod(rtuAddresses, test, period))
                     return false;
 
-            if (test.state == "disable" && state == "enable" 
-                || test.state != "disable" && state == "disable")
+            if (test.state == "disabled" && state == "enabled" 
+                || test.state != "disabled" && state == "disabled")
                 if (!await ChangeTestState(rtuAddresses, test, state))
                     return false;
 
