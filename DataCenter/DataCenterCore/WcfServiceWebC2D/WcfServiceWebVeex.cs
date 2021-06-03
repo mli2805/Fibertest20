@@ -27,12 +27,8 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task ProcessOneNotification(VeexNotificationEvent notificationEvent, Rtu rtu, DoubleAddress rtuAddresses)
         {
             notificationEvent.time = TimeZoneInfo.ConvertTime(notificationEvent.time, TimeZoneInfo.Local);
-
-            // Alex promised to return port and test name (to extract base ref type) in notification
-            var test = await _d2RtuVeexLayer1.GetTest(rtuAddresses, $"tests/{notificationEvent.data.testId}");
-            var port = test.otauPort.portIndex + 1;
-            var testName = test.name;
-            // so far
+            var port = notificationEvent.data.OtauPorts[0].portIndex + 1;
+            var testName = notificationEvent.data.testName;
 
             _logFile.AppendLine($"{testName} on port {port} - {notificationEvent.type} at {notificationEvent.time}");
             var trace = _writeModel.Traces.FirstOrDefault(t => t.RtuId == rtu.Id && t.Port == port);

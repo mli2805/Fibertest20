@@ -1,6 +1,6 @@
-﻿namespace Iit.Fibertest.D2RtuVeexLibrary
+﻿namespace Iit.Fibertest.Dto
 {
-    public class OtauPort
+    public class VeexOtauPort
     {
         public string otauId { get; set; }
         public int portIndex { get; set; }

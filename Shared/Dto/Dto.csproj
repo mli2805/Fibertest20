@@ -170,8 +170,21 @@
     <Compile Include="Underlying\RtuWithChannelChanges.cs" />
     <Compile Include="Underlying\TraceInfoTableItem.cs" />
     <Compile Include="VeEX\CompletedTest\CompletedTest.cs" />
+    <Compile Include="VeEX\Info\InfoDtoClasses.cs" />
+    <Compile Include="VeEX\Info\InitializedVeexDto.cs" />
+    <Compile Include="VeEX\Info\VeexOtau.cs" />
+    <Compile Include="VeEX\Info\VeexOtauPort.cs" />
+    <Compile Include="VeEX\Info\Otaus.cs" />
+    <Compile Include="VeEX\Info\VeexOtdr.cs" />
+    <Compile Include="VeEX\Info\Otdrs.cs" />
+    <Compile Include="VeEX\LinkObject.cs" />
+    <Compile Include="VeEX\Monitoring\MonitoringVeexDto.cs" />
+    <Compile Include="VeEX\Monitoring\Test.cs" />
+    <Compile Include="VeEX\Monitoring\TestsLinks.cs" />
+    <Compile Include="VeEX\Monitoring\Threshold.cs" />
     <Compile Include="VeEX\Notification\VeexMeasurementDto.cs" />
     <Compile Include="VeEX\Notification\VeexNotification.cs" />
+    <Compile Include="VeEX\ServerNotificationSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

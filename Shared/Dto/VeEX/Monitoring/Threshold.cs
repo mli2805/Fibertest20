@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Iit.Fibertest.D2RtuVeexLibrary
+namespace Iit.Fibertest.Dto
 {
     public class ThresholdSet
     {

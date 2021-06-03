@@ -24,7 +24,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             foreach (var testLink in listOfTestLinks.items)
             {
                 Test test = await _d2RtuVeexLayer1.GetTest(rtuAddresses, testLink.self);
-                if (test?.otauPort == null) continue;
+                if (test?.VeexOtauPort == null) continue;
                 if (test.name.Contains("fast")) continue;
 
                 if (!await ApplyMoniSettingsToOneTest(rtuAddresses, includedPorts, test, 0, 0))
@@ -45,7 +45,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         //     foreach (var testLink in listOfTestLinks.items)
         //     {
         //         Test test = await _d2RtuVeexLayer1.GetTest(rtuAddresses, testLink.self);
-        //         if (test?.otauPort == null) continue;
+        //         if (test?.VeexOtauPort == null) continue;
         //
         //         if (!await ApplyMoniSettingsToOneTest(rtuAddresses, includedPorts, test, periodForFast, periodForPrecise))
         //             return false;
@@ -63,7 +63,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 : periodForPrecise;
             // if included in cycle state should be "enabled"
             var portInCycle =
-                includedPorts.FirstOrDefault(p => p.OtauPort.OpticalPort - 1 == test.otauPort.portIndex);
+                includedPorts.FirstOrDefault(p => p.OtauPort.OpticalPort - 1 == test.VeexOtauPort.portIndex);
             var state = portInCycle == null || test.name.ToLower().Contains("additional")
                 ? "disabled"
                 : "enabled";

@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.D2RtuVeexLibrary
+﻿namespace Iit.Fibertest.Dto
 {
     public class Test
     {
@@ -6,7 +6,7 @@
         public string name { get; set; }
         public string state { get; set; }
         public string otdrId { get; set; }
-        public OtauPort otauPort { get; set; }
+        public VeexOtauPort VeexOtauPort { get; set; }
         public int? period { get; set; }
 
         public LinkObject analysis_parameters { get; set; }
@@ -22,7 +22,7 @@
         public string name { get; set; }
         public string state { get; set; }
         public string otdrId { get; set; } // must be GUID, but no matter which
-        public OtauPort otauPort { get; set; } // could null, but if set otauId should be GUID, but no matter which
+        public VeexOtauPort VeexOtauPort { get; set; } // could null, but if set otauId should be GUID, but no matter which
         public int period { get; set; }
     }
 }

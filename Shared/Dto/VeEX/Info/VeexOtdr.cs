@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-namespace Iit.Fibertest.D2RtuVeexLibrary
+namespace Iit.Fibertest.Dto
 {
-    public class Otdr
+    public class VeexOtdr
     {
         public bool canVscout { get; set; }
         public IList<object> enabledOptions { get; set; }

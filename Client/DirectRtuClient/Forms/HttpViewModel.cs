@@ -206,7 +206,7 @@ namespace DirectRtuClient
                     id = Guid.NewGuid().ToString(),
                     name = @"precise",
                     otdrId = Guid.Empty.ToString(),
-                    otauPort = new OtauPort()
+                    VeexOtauPort = new VeexOtauPort()
                     {
                         otauId = Guid.Empty.ToString(),
                         portIndex = 1

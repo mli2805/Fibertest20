@@ -44,7 +44,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return false;
             }
 
-            var otau = JsonConvert.DeserializeObject<Otau>(httpResult2.ResponseJson);
+            var otau = JsonConvert.DeserializeObject<VeexOtau>(httpResult2.ResponseJson);
             if (otau == null) return false;
             result.OtauId = otau.id;
             result.OwnPortCount = otau.portCount;
@@ -74,7 +74,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return false;
             }
 
-            var otdr = JsonConvert.DeserializeObject<Otdr>(httpResult2.ResponseJson);
+            var otdr = JsonConvert.DeserializeObject<VeexOtdr>(httpResult2.ResponseJson);
             if (otdr == null) return false;
             result.OtdrId = otdr.id;
             result.Omid = otdr.mainframeId;
