@@ -76,7 +76,10 @@ namespace Iit.Fibertest.Install
                 return false;
             worker.ReportProgress((int)BwReturnProgressCode.FilesAreCopiedSuccessfully);
 
-            var settingsFilename = currentInstallation.InstallationFolder + service.FolderInsideFibertest + @"/ini/settings.json";
+            var settingsDirectory = currentInstallation.InstallationFolder + service.FolderInsideFibertest + @"/ini";
+            if (!Directory.Exists(settingsDirectory))
+                Directory.CreateDirectory(settingsDirectory);
+            var settingsFilename = settingsDirectory + @"/settings.json";
             File.WriteAllText(settingsFilename, currentInstallation.GetWebApiSettingsJson());
 
             return ServiceOperations.InstallService(service, currentInstallation.InstallationFolder, worker);
