@@ -1,4 +1,4 @@
-using Autofac;
+﻿using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;

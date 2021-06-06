@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Threading;
 using Iit.Fibertest.UtilsLib;
 using MySql.Data.MySqlClient;

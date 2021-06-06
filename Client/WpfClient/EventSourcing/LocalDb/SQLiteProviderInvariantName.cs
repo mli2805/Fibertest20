@@ -1,4 +1,4 @@
-using System.Data.Entity.Infrastructure;
+﻿using System.Data.Entity.Infrastructure;
 
 namespace Iit.Fibertest.Client
 {

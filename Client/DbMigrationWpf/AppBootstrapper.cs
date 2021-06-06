@@ -1,4 +1,4 @@
-namespace DbMigrationWpf {
+﻿namespace DbMigrationWpf {
     using System;
     using System.Collections.Generic;
     using Caliburn.Micro;

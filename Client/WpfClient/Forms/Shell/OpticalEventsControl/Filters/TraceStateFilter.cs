@@ -1,4 +1,4 @@
-using Iit.Fibertest.Dto;
+п»їusing Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
@@ -10,12 +10,12 @@ namespace Iit.Fibertest.Client
         public FiberState TraceState { get; set; }
 
         /// <summary>
-        /// таким конструктором создается ВЫключенный фильтр
+        /// пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
         /// </summary>
         public TraceStateFilter() { IsOn = false; }
 
         /// <summary>
-        /// а такой фильтр пропускает только "свое" значение
+        /// пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ "пїЅпїЅпїЅпїЅ" пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         /// </summary>
         /// <param name="traceState"></param>
         public TraceStateFilter(FiberState traceState)

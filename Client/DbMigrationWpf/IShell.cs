@@ -1,3 +1,3 @@
-namespace DbMigrationWpf {
+﻿namespace DbMigrationWpf {
     public interface IShell {}
 }

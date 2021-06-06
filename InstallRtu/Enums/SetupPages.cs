@@ -1,4 +1,4 @@
-namespace Iit.Fibertest.InstallRtu
+﻿namespace Iit.Fibertest.InstallRtu
 {
     public enum SetupPages
     {

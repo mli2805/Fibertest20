@@ -1,4 +1,4 @@
-namespace Iit.Fibertest.Dto
+﻿namespace Iit.Fibertest.Dto
 {
     public class SorFile
     {

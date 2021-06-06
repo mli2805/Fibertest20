@@ -1,3 +1,3 @@
-namespace LicenseViewer {
+﻿namespace LicenseViewer {
     public interface IShell {}
 }

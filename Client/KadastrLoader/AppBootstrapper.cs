@@ -1,4 +1,4 @@
-namespace KadastrLoader 
+﻿namespace KadastrLoader 
 {
     using System;
     using System.Collections.Generic;

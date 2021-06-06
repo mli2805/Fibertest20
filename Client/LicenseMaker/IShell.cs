@@ -1,3 +1,3 @@
-namespace LicenseMaker {
+﻿namespace LicenseMaker {
     public interface IShell {}
 }

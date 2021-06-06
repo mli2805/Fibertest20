@@ -1,4 +1,4 @@
-namespace Iit.Fibertest.SuperClient 
+﻿namespace Iit.Fibertest.SuperClient 
 {
     public interface IShell {}
 }

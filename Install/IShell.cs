@@ -1,3 +1,3 @@
-namespace Iit.Fibertest.Install {
+﻿namespace Iit.Fibertest.Install {
     public interface IShell {}
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ServiceModel;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;

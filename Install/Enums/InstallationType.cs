@@ -1,4 +1,4 @@
-namespace Iit.Fibertest.Install
+﻿namespace Iit.Fibertest.Install
 {
     public enum InstallationType
     {

@@ -1,4 +1,4 @@
-namespace LicenseMaker {
+﻿namespace LicenseMaker {
     using System;
     using System.Collections.Generic;
     using Caliburn.Micro;

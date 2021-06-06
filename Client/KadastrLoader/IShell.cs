@@ -1,3 +1,3 @@
-namespace KadastrLoader {
+﻿namespace KadastrLoader {
     public interface IShell {}
 }

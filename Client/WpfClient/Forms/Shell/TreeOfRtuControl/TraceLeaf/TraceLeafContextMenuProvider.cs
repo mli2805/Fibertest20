@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client

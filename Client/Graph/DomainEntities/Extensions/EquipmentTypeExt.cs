@@ -1,4 +1,4 @@
-using System;
+п»їusing System;
 using System.Windows.Media.Imaging;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
@@ -68,21 +68,21 @@ namespace Iit.Fibertest.Graph
             switch (type)
             {
                 case EquipmentType.AdjustmentPoint:
-                    return @"тчкприв";
+                    return @"пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
                 case EquipmentType.EmptyNode:
-                    return @"пустой_";
+                    return @"пїЅпїЅпїЅпїЅпїЅпїЅ_";
                 case EquipmentType.CableReserve:
-                    return @"каб_рез";
+                    return @"пїЅпїЅпїЅ_пїЅпїЅпїЅ";
                 case EquipmentType.Other:
-                    return @"другой_";
+                    return @"пїЅпїЅпїЅпїЅпїЅпїЅ_";
                 case EquipmentType.Closure:
-                    return @"_муфта_";
+                    return @"_пїЅпїЅпїЅпїЅпїЅ_";
                 case EquipmentType.Cross:
-                    return @"проключ";
+                    return @"пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
                 case EquipmentType.Well:
-                    return @"колодец";
+                    return @"пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
                 case EquipmentType.Terminal:
-                    return @"оккросс";
+                    return @"пїЅпїЅпїЅпїЅпїЅпїЅпїЅ";
 
                 case EquipmentType.Rtu:
                     return @"__RTU__";
