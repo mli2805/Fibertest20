@@ -104,8 +104,7 @@ namespace Iit.Fibertest.Client
             UserInWork = new UserVm();
             UserInWork.SmsReceiverVm.TestButtonPressed += SmsReceiverVm_TestButtonPressed;
 
-            var skip = _currentUser.Role == Role.Developer ? 1 : (int) _currentUser.Role + 1;
-            Roles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(skip).ToList();
+            Roles = GetAvailableRoles();
             IsntItRoot = true;
 
             IsPasswordsEnabled = true;
@@ -150,8 +149,7 @@ namespace Iit.Fibertest.Client
             UserInWork = user;
             UserInWork.SmsReceiverVm.TestButtonPressed += SmsReceiverVm_TestButtonPressed;
 
-            var skip = _currentUser.Role == Role.Developer ? 1 : (int) _currentUser.Role + 1;
-            Roles = Enum.GetValues(typeof(Role)).Cast<Role>().Skip(skip).ToList();
+            Roles = GetAvailableRoles();
             IsntItRoot = UserInWork.Role > Role.Root;
 
             if (UserInWork.Role == 0)
@@ -163,6 +161,13 @@ namespace Iit.Fibertest.Client
 
             Zones = _readModel.Zones;
             SelectedZone = Zones.First(z => z.ZoneId == user.ZoneId);
+        }
+
+        private List<Role> GetAvailableRoles()
+        {
+            var skip = _currentUser.Role == Role.Developer ? 1 : 2;
+            if (UserInWork.Role > Role.Root) skip = 3;
+            return Enum.GetValues(typeof(Role)).Cast<Role>().Skip(skip).ToList();
         }
 
         protected override void OnViewLoaded(object view)
