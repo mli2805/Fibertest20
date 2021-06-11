@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -204,22 +205,22 @@ namespace Iit.Fibertest.Client
             _currentHighlightedNode.IsHighlighted = true;
         }
 
-        public void Accept()
+        public async void Accept()
         {
             IsButtonsEnabled = false;
-            var result = AcceptProcedure();
+            var result = await AcceptProcedure();
             IsButtonsEnabled = true;
             if (result)
                 TryClose();
         }
 
-        private bool AcceptProcedure()
+        private async Task<bool> AcceptProcedure()
         {
             if (!Validate()) return false;
 
             GetListsAugmentedWithAdjustmentPoints(out var traceNodes, out var traceEquipments);
             var traceAddViewModel = _globalScope.Resolve<TraceInfoViewModel>();
-            traceAddViewModel.Initialize(_newTraceId, traceEquipments, traceNodes, true);
+            await traceAddViewModel.Initialize(_newTraceId, traceEquipments, traceNodes, true);
             _windowManager.ShowDialogWithAssignedOwner(traceAddViewModel);
 
             if (!traceAddViewModel.IsSavePressed) return false;

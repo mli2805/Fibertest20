@@ -2877,4 +2877,7 @@ RTU инициализируется в данный момент!</value>
   <data name="SID_Physical_length" xml:space="preserve">
 	  <value>Физическая длина</value>
   </data>
+  <data name="SID_Optical_length" xml:space="preserve">
+	  <value>Оптическая длина</value>
+  </data>
 </root>

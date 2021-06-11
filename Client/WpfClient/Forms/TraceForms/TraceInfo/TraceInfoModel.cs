@@ -24,6 +24,8 @@ namespace Iit.Fibertest.Client
         public string AdjustmentPointsLine { get; set; }
         public Visibility AdjustmentPointsLineVisibility { get; set; } = Visibility.Collapsed;
 
+        public string PhysicalLength { get; set; }
+        public string OpticalLength { get; set; }
       
         private bool _isTraceModeLight;
         public bool IsTraceModeLight

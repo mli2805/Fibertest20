@@ -72,6 +72,19 @@
         </GroupBox>
         <TextBlock Margin="20,0" Foreground="LightGray" TextWrapping="Wrap" 
                    Visibility="{Binding Model.AdjustmentPointsLineVisibility}" Text="{Binding Model.AdjustmentPointsLine}"/>
+
+        <GroupBox Margin="5" Visibility="{Binding LengthVisibility}">
+            <StackPanel Margin="5">
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Physical_length}" Width="220"/>
+                    <TextBlock Text="{Binding Model.PhysicalLength}"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="5">
+                    <TextBlock Text="{x:Static stringResources:Resources.SID_Optical_length}" Width="220"/>
+                    <TextBlock Text="{Binding Model.OpticalLength}"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Trace_monitoring_mode}" Margin="5">
             <StackPanel Orientation="Horizontal" Margin="5" IsEnabled="{Binding IsEditEnabled}">
                 <RadioButton GroupName="1" Name="Dark" Margin="30,5,5,5" Content="{x:Static stringResources:Resources.SID_Dark_OF}"

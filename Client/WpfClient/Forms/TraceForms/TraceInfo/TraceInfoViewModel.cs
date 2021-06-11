@@ -9,8 +9,10 @@ using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
+using Optixsoft.SorExaminer.OtdrDataFormat;
 
 
 namespace Iit.Fibertest.Client
@@ -20,7 +22,10 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly IWcfServiceCommonC2D _c2DWcfCommonManager;
         private readonly IWindowManager _windowManager;
+        private readonly CurrentGis _currentGis;
+        private readonly GraphGpsCalculator _graphGpsCalculator;
         public bool IsSavePressed { get; set; }
 
         private bool _isInCreationMode;
@@ -41,6 +46,7 @@ namespace Iit.Fibertest.Client
         public TraceInfoModel Model { get; set; } = new TraceInfoModel();
         public bool IsEditEnabled { get; set; }
 
+        public Visibility LengthVisibility { get; set; }
         public bool IsButtonSaveEnabled => IsEditEnabled && IsTitleValid() == string.Empty;
 
         private bool _isButtonsEnabled = true;
@@ -55,20 +61,25 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceInfoViewModel(Model readModel, CurrentUser currentUser, IWcfServiceDesktopC2D c2DWcfManager,
-            IWindowManager windowManager)
+        public TraceInfoViewModel(Model readModel, CurrentUser currentUser,
+            IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D c2DWcfCommonManager, IWindowManager windowManager,
+            CurrentGis currentGis, GraphGpsCalculator graphGpsCalculator)
         {
             _readModel = readModel;
             _currentUser = currentUser;
             _c2DWcfManager = c2DWcfManager;
+            _c2DWcfCommonManager = c2DWcfCommonManager;
             _windowManager = windowManager;
+            _currentGis = currentGis;
+            _graphGpsCalculator = graphGpsCalculator;
         }
 
 
         /// Setup traceId (for existing trace) or traceEquipments for trace creation moment
-        public void Initialize(Guid traceId, List<Guid> traceEquipments, List<Guid> traceNodes, bool isInCreationMode)
+        public async Task Initialize(Guid traceId, List<Guid> traceEquipments, List<Guid> traceNodes, bool isInCreationMode)
         {
             _isInCreationMode = isInCreationMode;
+            LengthVisibility = isInCreationMode ? Visibility.Collapsed : Visibility.Visible;
             Model.TraceId = traceId;
             Model.TraceEquipments = traceEquipments;
             Model.TraceNodes = traceNodes;
@@ -89,13 +100,14 @@ namespace Iit.Fibertest.Client
             if (_isInCreationMode)
                 Model.IsTraceModeDark = true;
             else
-                GetOtherPropertiesOfExistingTrace();
+                _ = await GetOtherPropertiesOfExistingTrace();
             IsEditEnabled = _currentUser.Role <= Role.Root;
         }
 
-        private void GetOtherPropertiesOfExistingTrace()
+        private async Task<bool> GetOtherPropertiesOfExistingTrace()
         {
-            var trace = _readModel.Traces.First(t => t.TraceId == Model.TraceId);
+            var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == Model.TraceId);
+            if (trace == null) return false;
 
             Title = trace.Title;
             if (trace.Mode == TraceMode.Light)
@@ -104,6 +116,32 @@ namespace Iit.Fibertest.Client
                 Model.IsTraceModeDark = true;
             Model.PortNumber = trace.Port > 0 ? trace.Port.ToString() : Resources.SID_not_attached;
             Model.Comment = trace.Comment;
+
+            var km = Resources.SID_km;
+            var sorData = await GetBase(trace.PreciseId);
+            Model.OpticalLength = sorData == null
+                ? Resources.SID_no_base
+                : $@"{sorData.GetTraceLengthKm():#,0.##} {km}";
+
+            Model.PhysicalLength = _currentGis.IsWithoutMapMode
+                ? Resources.SID_Without_map_mode
+                : $@"{_graphGpsCalculator.CalculateTraceGpsLengthKm(trace):#,0.##} {km}";
+
+
+            return true;
+        }
+
+        private async Task<OtdrDataKnownBlocks> GetBase(Guid baseId)
+        {
+            if (baseId == Guid.Empty)
+                return null;
+
+            var baseRef = _readModel.BaseRefs.FirstOrDefault(b => b.Id == baseId);
+            if (baseRef == null)
+                return null;
+
+            var sorBytes = await _c2DWcfCommonManager.GetSorBytes(baseRef.SorFileId);
+            return SorData.FromBytes(sorBytes);
         }
 
         protected override void OnViewLoaded(object view)
@@ -145,7 +183,7 @@ namespace Iit.Fibertest.Client
                     Resources.SID_Nodes_count_does_not_match_sections_count_,
                     "",
                     Resources.SID_Define_trace_again_,
-                }, 0) ;
+                }, 0);
                 _windowManager.ShowDialogWithAssignedOwner(errVm);
                 return;
             }

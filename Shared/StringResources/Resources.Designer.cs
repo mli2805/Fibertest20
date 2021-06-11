@@ -5082,6 +5082,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Optical length.
+        /// </summary>
+        public static string SID_Optical_length {
+            get {
+                return ResourceManager.GetString("SID_Optical_length", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Optical length is {0} km.
         /// </summary>
         public static string SID_Optical_length_is__0__km {

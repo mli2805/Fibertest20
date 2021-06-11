@@ -2877,4 +2877,7 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Physical_length" xml:space="preserve">
 		<value>Physical length</value>
 	</data>
+	<data name="SID_Optical_length" xml:space="preserve">
+		<value>Optical length</value>
+	</data>
 </root>
