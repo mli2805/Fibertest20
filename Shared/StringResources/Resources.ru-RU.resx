@@ -2874,4 +2874,7 @@ RTU инициализируется в данный момент!</value>
   <data name="SID_Failed_to_apply_monitoring_settings_" xml:space="preserve">
 	  <value>Не удалось применить настройки мониторинга!</value>
   </data>
+  <data name="SID_Physical_length" xml:space="preserve">
+	  <value>Физическая длина</value>
+  </data>
 </root>

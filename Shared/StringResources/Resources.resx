@@ -2874,4 +2874,7 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Open_another_file" xml:space="preserve">
 		<value>Open another file</value>
 	</data>
+	<data name="SID_Physical_length" xml:space="preserve">
+		<value>Physical length</value>
+	</data>
 </root>

@@ -5325,6 +5325,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Physical length.
+        /// </summary>
+        public static string SID_Physical_length {
+            get {
+                return ResourceManager.GetString("SID_Physical_length", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ping does not pass. Service state is unknown..
         /// </summary>
         public static string SID_Ping_does_not_pass_ {

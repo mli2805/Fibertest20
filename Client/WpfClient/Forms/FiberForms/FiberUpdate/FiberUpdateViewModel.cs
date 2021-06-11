@@ -77,6 +77,13 @@ namespace Iit.Fibertest.Client
                 {
                     var realIndex = GetRealFiberIndex(trace, index);
                     TracesThrough.Add(new Tuple<Trace, string>(trace, await GetOpticalLength(trace, realIndex)));
+                    if (trace.IsIncludedInMonitoringCycle)
+                    {
+                        var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == trace.RtuId);
+                        if (rtu == null) continue;
+                        if (rtu.MonitoringState == MonitoringState.On)
+                            IsEditEnabled = false;
+                    }
                 }
             }
             SelectedTrace = TracesThrough.FirstOrDefault();
