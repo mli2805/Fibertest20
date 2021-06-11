@@ -19,7 +19,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             var monitoring = JsonConvert.DeserializeObject<MonitoringVeexDto>(httpResult.ResponseJson);
             if (monitoring == null) return false;
-            result.IsMonitoringOn = monitoring.state == "enabled";
+            result.IsMonitoringOn = monitoring.State == "enabled";
             return true;
         }
 
@@ -34,10 +34,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             var otaus = JsonConvert.DeserializeObject<Otaus>(httpResult.ResponseJson);
             if (otaus == null) return false;
-            if (otaus.total == 0)
+            if (otaus.Total == 0)
                 return true;
 
-            var httpResult2 = await _httpExt.RequestByUrl(rtuDoubleAddress, $"{otaus.items[0].self}", "get");
+            var httpResult2 = await _httpExt.RequestByUrl(rtuDoubleAddress, $"{otaus.Items[0].Self}", "get");
             if (httpResult2.HttpStatusCode != HttpStatusCode.OK)
             {
                 result.ErrorMessage = httpResult.ErrorMessage;
@@ -46,9 +46,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             var otau = JsonConvert.DeserializeObject<VeexOtau>(httpResult2.ResponseJson);
             if (otau == null) return false;
-            result.OtauId = otau.id;
-            result.OwnPortCount = otau.portCount;
-            result.FullPortCount = otau.portCount;
+            result.OtauId = otau.Id;
+            result.OwnPortCount = otau.PortCount;
+            result.FullPortCount = otau.PortCount;
             result.Children = new Dictionary<int, OtauDto>(); // empty, no children
             return true;
         }
@@ -64,10 +64,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             var otdrs = JsonConvert.DeserializeObject<Otdrs>(httpResult.ResponseJson);
             if (otdrs == null) return false;
-            if (otdrs.total == 0)
+            if (otdrs.Total == 0)
                 return true;
 
-            var httpResult2 = await _httpExt.RequestByUrl(rtuDoubleAddress, $"{otdrs.items[0].self}", "get");
+            var httpResult2 = await _httpExt.RequestByUrl(rtuDoubleAddress, $"{otdrs.Items[0].Self}", "get");
             if (httpResult2.HttpStatusCode != HttpStatusCode.OK)
             {
                 result.ErrorMessage = httpResult.ErrorMessage;
@@ -76,21 +76,21 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             var otdr = JsonConvert.DeserializeObject<VeexOtdr>(httpResult2.ResponseJson);
             if (otdr == null) return false;
-            result.OtdrId = otdr.id;
-            result.Omid = otdr.mainframeId;
-            result.Omsn = otdr.opticalModuleSerialNumber;
+            result.OtdrId = otdr.Id;
+            result.Omid = otdr.MainframeId;
+            result.Omsn = otdr.OpticalModuleSerialNumber;
             result.AcceptableMeasParams = new TreeOfAcceptableMeasParams();
-            foreach (var laserUnitPair in otdr.supportedMeasurementParameters.laserUnits)
+            foreach (var laserUnitPair in otdr.SupportedMeasurementParameters.LaserUnits)
             {
                 var branch = new BranchOfAcceptableMeasParams();
-                foreach (var distancePair in laserUnitPair.Value.distanceRanges)
+                foreach (var distancePair in laserUnitPair.Value.DistanceRanges)
                 {
                     var leaf = new LeafOfAcceptableMeasParams
                     {
-                        Resolutions = distancePair.Value.resolutions,
-                        PulseDurations = distancePair.Value.pulseDurations,
-                        MeasCountsToAverage = distancePair.Value.fastAveragingTimes,
-                        PeriodsToAverage = distancePair.Value.averagingTimes
+                        Resolutions = distancePair.Value.Resolutions,
+                        PulseDurations = distancePair.Value.PulseDurations,
+                        MeasCountsToAverage = distancePair.Value.FastAveragingTimes,
+                        PeriodsToAverage = distancePair.Value.AveragingTimes
                     };
                     branch.Distances.Add(distancePair.Key, leaf);
                 }
@@ -107,11 +107,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return false;
             var info = JsonConvert.DeserializeObject<Info>(httpResult.ResponseJson);
             if (info == null) return false;
-            result.Mfid = info.platform.name;
-            result.Mfsn = info.platform.serialNumber;
-            result.Serial = info.platform.serialNumber;
-            result.Version = info.platform.firmwareVersion;
-            result.Version2 = info.platform.moduleFirmwareVersion;
+            result.Mfid = info.Platform.Name;
+            result.Mfsn = info.Platform.SerialNumber;
+            result.Serial = info.Platform.SerialNumber;
+            result.Version = info.Platform.FirmwareVersion;
+            result.Version2 = info.Platform.ModuleFirmwareVersion;
             return true;
         }
     }

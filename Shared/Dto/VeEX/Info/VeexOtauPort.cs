@@ -2,9 +2,9 @@
 {
     public class VeexOtauPort
     {
-        public string otauId { get; set; }
-        public int portIndex { get; set; }
-        public int inputPortIndex { get; set; }
+        public string OtauId { get; set; }
+        public int PortIndex { get; set; }
+        public int InputPortIndex { get; set; }
     }
 
     

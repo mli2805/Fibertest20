@@ -6,55 +6,55 @@ namespace Iit.Fibertest.Dto
     // Root myDeserializedClass = JsonConvert.DeserializeObject<VeexNotification>(myJsonResponse); 
     public class Change
     {
-        public double changeLocation { get; set; }
-        public string changeType { get; set; }
-        public int currentEventIndex { get; set; }
-        public double currentEventLeadingLossCoefficient { get; set; }
-        public double currentEventReflectance { get; set; }
-        public string currentEventType { get; set; }
-        public int referenceEventIndex { get; set; }
-        public bool referenceEventMapsToCurrentEvent { get; set; }
-        public string referenceEventType { get; set; }
+        public double ChangeLocation { get; set; }
+        public string ChangeType { get; set; }
+        public int CurrentEventIndex { get; set; }
+        public double CurrentEventLeadingLossCoefficient { get; set; }
+        public double CurrentEventReflectance { get; set; }
+        public string CurrentEventType { get; set; }
+        public int ReferenceEventIndex { get; set; }
+        public bool ReferenceEventMapsToCurrentEvent { get; set; }
+        public string ReferenceEventType { get; set; }
     }
 
     public class TraceChange
     {
-        public double changeLocation { get; set; }
-        public string changeType { get; set; }
-        public List<Change> changes { get; set; }
-        public int currentEventIndex { get; set; }
-        public double currentEventLeadingLossCoefficient { get; set; }
-        public double currentEventReflectance { get; set; }
-        public string currentEventType { get; set; }
-        public string levelName { get; set; }
-        public int referenceEventIndex { get; set; }
-        public bool referenceEventMapsToCurrentEvent { get; set; }
-        public string referenceEventType { get; set; }
+        public double ChangeLocation { get; set; }
+        public string ChangeType { get; set; }
+        public List<Change> Changes { get; set; }
+        public int CurrentEventIndex { get; set; }
+        public double CurrentEventLeadingLossCoefficient { get; set; }
+        public double CurrentEventReflectance { get; set; }
+        public string CurrentEventType { get; set; }
+        public string LevelName { get; set; }
+        public int ReferenceEventIndex { get; set; }
+        public bool ReferenceEventMapsToCurrentEvent { get; set; }
+        public string ReferenceEventType { get; set; }
     }
 
     public class Data
     {
-        public string result { get; set; }
+        public string Result { get; set; }
         public List<VeexOtauPort> OtauPorts { get; set; }
-        public DateTime started { get; set; }
-        public string testId { get; set; }
-        public string testName { get; set; }
-        public string type { get; set; }
-        public string extendedResult { get; set; }
-        public TraceChange traceChange { get; set; }
+        public DateTime Started { get; set; }
+        public string TestId { get; set; }
+        public string TestName { get; set; }
+        public string Type { get; set; }
+        public string ExtendedResult { get; set; }
+        public TraceChange TraceChange { get; set; }
     }
 
     public class VeexNotificationEvent
     {
-        public Data data { get; set; }
-        public DateTime time { get; set; }
-        public string type { get; set; }
+        public Data Data { get; set; }
+        public DateTime Time { get; set; }
+        public string Type { get; set; }
     }
 
     public class VeexNotification
     {
-        public List<VeexNotificationEvent> events { get; set; }
-        public string type { get; set; }
+        public List<VeexNotificationEvent> Events { get; set; }
+        public string Type { get; set; }
     }
 
 }

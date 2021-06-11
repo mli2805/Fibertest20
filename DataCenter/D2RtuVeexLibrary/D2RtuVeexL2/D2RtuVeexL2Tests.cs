@@ -12,12 +12,12 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             var listOfTestLinks = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress);
             if (listOfTestLinks == null) return true;
-            foreach (var testLink in listOfTestLinks.items)
+            foreach (var testLink in listOfTestLinks.Items)
             {
-                var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
-                if (test?.OtauPort != null && test.OtauPort.portIndex == opticalPort - 1)
+                var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.Self);
+                if (test?.OtauPort != null && test.OtauPort.PortIndex == opticalPort - 1)
                 {
-                    var deleteResult = await _d2RtuVeexLayer1.DeleteTest(rtuDoubleAddress, testLink.self);
+                    var deleteResult = await _d2RtuVeexLayer1.DeleteTest(rtuDoubleAddress, testLink.Self);
                     if (!deleteResult)
                         return false;
                 }
@@ -30,13 +30,13 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var listOfTestLinks = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress); 
             if (listOfTestLinks == null) return true;
 
-            foreach (var testLink in listOfTestLinks.items)
+            foreach (var testLink in listOfTestLinks.Items)
             {
-                var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
+                var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.Self);
                 if (test?.OtauPort != null 
-                    && test.OtauPort.portIndex == opticalPort - 1 
-                    && test.name.Contains(baseType))
-                    return await _d2RtuVeexLayer1.DeleteTest(rtuDoubleAddress, testLink.self);
+                    && test.OtauPort.PortIndex == opticalPort - 1 
+                    && test.Name.Contains(baseType))
+                    return await _d2RtuVeexLayer1.DeleteTest(rtuDoubleAddress, testLink.Self);
             }
             return true;
         }
@@ -47,10 +47,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var listOfTestLinks = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress);
             if (listOfTestLinks == null) return result;
 
-            foreach (var testLink in listOfTestLinks.items)
+            foreach (var testLink in listOfTestLinks.Items)
             {
-                var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
-                if (test?.OtauPort != null && test.OtauPort.portIndex == opticalPort - 1)
+                var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.Self);
+                if (test?.OtauPort != null && test.OtauPort.PortIndex == opticalPort - 1)
                     result.Add(test);
             }
 
@@ -62,10 +62,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var listOfTestLinks = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress); 
             if (listOfTestLinks == null) return null;
 
-            foreach (var testLink in listOfTestLinks.items)
+            foreach (var testLink in listOfTestLinks.Items)
             {
-                var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
-                if (test?.OtauPort != null && test.OtauPort.portIndex == opticalPort - 1 && test.name.Contains(baseType))
+                var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.Self);
+                if (test?.OtauPort != null && test.OtauPort.PortIndex == opticalPort - 1 && test.Name.Contains(baseType))
                     return test;
             }
 
@@ -80,24 +80,24 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             var newTest = new CreateTestCmd()
             {
-                id = Guid.NewGuid().ToString(),
-                name = testName,
-                state = "disabled",
-                otdrId = otdrId,
-                VeexOtauPort = new VeexOtauPort() { otauId = otauId, portIndex = portIndex - 1 }, 
-                period = 0, 
+                Id = Guid.NewGuid().ToString(),
+                Name = testName,
+                State = "disabled",
+                OtdrId = otdrId,
+                VeexOtauPort = new VeexOtauPort() { OtauId = otauId, PortIndex = portIndex - 1 }, 
+                Period = 0, 
             };
             return await _d2RtuVeexLayer1.CreateTest(rtuDoubleAddress, newTest);
         }
 
         private async Task<bool> ChangeTestState(DoubleAddress rtuAddresses, Test test, string state)
         {
-            return await _d2RtuVeexLayer1.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { state = state });
+            return await _d2RtuVeexLayer1.ChangeTest(rtuAddresses, $@"tests/{test.Id}", new Test() { State = state });
         }
 
         private async Task<bool> ChangeTestPeriod(DoubleAddress rtuAddresses, Test test, int period)
         {
-            return await _d2RtuVeexLayer1.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { period = period });
+            return await _d2RtuVeexLayer1.ChangeTest(rtuAddresses, $@"tests/{test.Id}", new Test() { Period = period });
         }
 
     }

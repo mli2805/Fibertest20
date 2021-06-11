@@ -42,7 +42,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 body = await reader.ReadToEndAsync();
             }
             var notification = JsonConvert.DeserializeObject<VeexNotification>(body);
-            _logFile.AppendLine($"Notification from VeEX RTU {rtuId.First6()}, {notification.events.Count} event(s) received");
+            _logFile.AppendLine($"Notification from VeEX RTU {rtuId.First6()}, {notification.Events.Count} event(s) received");
 
             _ = await _webVeexWcfManager
                 .SetServerAddresses(_doubleAddressForWebWcfManager, "Veex Controller", GetRemoteAddress())

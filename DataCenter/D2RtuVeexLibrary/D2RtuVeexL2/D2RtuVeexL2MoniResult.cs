@@ -31,10 +31,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         private MeasurementResult f(CompletedTest completedTest)
         {
-            if (completedTest.result == "ok") return MeasurementResult.Success;
+            if (completedTest.Result == "ok") return MeasurementResult.Success;
 
-            if (completedTest.extendedResult == "otau_failed") return MeasurementResult.ToggleToPortFailed;
-            if (completedTest.extendedResult == "otdr_failed") return MeasurementResult.HardwareProblem;
+            if (completedTest.ExtendedResult == "otau_failed") return MeasurementResult.ToggleToPortFailed;
+            if (completedTest.ExtendedResult == "otdr_failed") return MeasurementResult.HardwareProblem;
 
             return MeasurementResult.Success;
         }

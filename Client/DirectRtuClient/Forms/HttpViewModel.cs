@@ -152,67 +152,67 @@ namespace DirectRtuClient
                 _rtuVeexModel.TestsLinks = result;
                 _rtuVeexModel.Tests = new List<Test>();
                 _rtuVeexModel.Thresholds = new Dictionary<string, ThresholdSet>();
-                foreach (var testItem in _rtuVeexModel.TestsLinks.items)
+                foreach (var testItem in _rtuVeexModel.TestsLinks.Items)
                 {
-                    var test = await d2RtuVeexLayer1.GetTest(_rtuVeexDoubleAddress, testItem.self);
+                    var test = await d2RtuVeexLayer1.GetTest(_rtuVeexDoubleAddress, testItem.Self);
                     _rtuVeexModel.Tests.Add(test);
-                    var thresholdSet = await d2RtuVeexLayer1.GetTestThresholds(_rtuVeexDoubleAddress, testItem.self);
-                    _rtuVeexModel.Thresholds.Add(test.id, thresholdSet);
+                    var thresholdSet = await d2RtuVeexLayer1.GetTestThresholds(_rtuVeexDoubleAddress, testItem.Self);
+                    _rtuVeexModel.Thresholds.Add(test.Id, thresholdSet);
 
-                    var res1 = await d2RtuVeexLayer1.ChangeTest(_rtuVeexDoubleAddress, testItem.self, new Test() { state = @"disabled" });
+                    var res1 = await d2RtuVeexLayer1.ChangeTest(_rtuVeexDoubleAddress, testItem.Self, new Test() { State = @"disabled" });
                     if (res1)
                     {
-                        var changedTest = await d2RtuVeexLayer1.GetTest(_rtuVeexDoubleAddress, testItem.self);
+                        var changedTest = await d2RtuVeexLayer1.GetTest(_rtuVeexDoubleAddress, testItem.Self);
                         Console.WriteLine(changedTest);
                     }
                 }
 
-                var firstTest = _rtuVeexModel.TestsLinks.items.First();
+                var firstTest = _rtuVeexModel.TestsLinks.Items.First();
                 var thresholdSet1 = new ThresholdSet()
                 {
-                    levels = new List<Level>()
+                    Levels = new List<Level>()
                     {
                         new Level()
                         {
-                            groups = new List<Group>()
+                            Groups = new List<Group>()
                             {
                                 new Group()
                                 {
-                                    thresholds = new Thresholds()
+                                    Thresholds = new Thresholds()
                                     {
-                                        eventLeadingLossCoefficient = new CombinedThreshold(){decrease = 1},
-                                        eventLoss = new CombinedThreshold(){decrease = 2, increase = 2},
-                                        eventReflectance = new CombinedThreshold(){min = 4, max = 4}
+                                        EventLeadingLossCoefficient = new CombinedThreshold(){Decrease = 1},
+                                        EventLoss = new CombinedThreshold(){Decrease = 2, Increase = 2},
+                                        EventReflectance = new CombinedThreshold(){Min = 4, Max = 4}
                                     }
                                 }
-                            }, name = @"minor"
+                            }, Name = @"minor"
                         },
                         new Level()
                         {
-                            groups = new List<Group>(), name = @"major"
+                            Groups = new List<Group>(), Name = @"major"
                         },
                         new Level()
                         {
-                            groups = new List<Group>(), name = @"critical"
+                            Groups = new List<Group>(), Name = @"critical"
                         },
                     }
                 };
-                var res = await d2RtuVeexLayer1.SetThresholds(_rtuVeexDoubleAddress, firstTest.self, thresholdSet1);
+                var res = await d2RtuVeexLayer1.SetThresholds(_rtuVeexDoubleAddress, firstTest.Self, thresholdSet1);
                 Console.WriteLine(res);
 
 
                 var rr = await d2RtuVeexLayer1.CreateTest(_rtuVeexDoubleAddress, new CreateTestCmd()
                 {
-                    id = Guid.NewGuid().ToString(),
-                    name = @"precise",
-                    otdrId = Guid.Empty.ToString(),
+                    Id = Guid.NewGuid().ToString(),
+                    Name = @"precise",
+                    OtdrId = Guid.Empty.ToString(),
                     VeexOtauPort = new VeexOtauPort()
                     {
-                        otauId = Guid.Empty.ToString(),
-                        portIndex = 1
+                        OtauId = Guid.Empty.ToString(),
+                        PortIndex = 1
                     },
-                    period = 0,
-                    state = @"disable",
+                    Period = 0,
+                    State = @"disable",
                 });
                 Console.WriteLine(rr.ResponseJson);
             }
@@ -236,8 +236,8 @@ namespace DirectRtuClient
             else
             {
                 _rtuVeexModel.TestsLinks = testsLinks;
-                var testItem = _rtuVeexModel.TestsLinks.items.First();
-                var thresholdSet = await d2RtuVeexLayer1.GetTestThresholds(_rtuVeexDoubleAddress, testItem.self);
+                var testItem = _rtuVeexModel.TestsLinks.Items.First();
+                var thresholdSet = await d2RtuVeexLayer1.GetTestThresholds(_rtuVeexDoubleAddress, testItem.Self);
                 if (thresholdSet != null)
                 {
                     Console.WriteLine(@"thresholdSet received");

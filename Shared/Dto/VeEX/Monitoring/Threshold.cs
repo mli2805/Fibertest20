@@ -4,45 +4,45 @@ namespace Iit.Fibertest.Dto
 {
     public class ThresholdSet
     {
-        public List<Level> levels { get; set; }
+        public List<Level> Levels { get; set; }
     }
 
     public class Level
     {
-        public AdvancedThresholds advancedThresholds { get; set; }
-        public List<Group> groups { get; set; }
-        public string name { get; set; }
+        public AdvancedThresholds AdvancedThresholds { get; set; }
+        public List<Group> Groups { get; set; }
+        public string Name { get; set; }
     }
 
     public class AdvancedThresholds
     {
-        public double attenuationCoefficientChangeForNewEvents { get; set; }
-        public double eofAttenuationCoefficientChangeForFiberBreak { get; set; }
-        public double eofLossChangeForFiberBreak { get; set; }
-        public double maxEofAttenuationCoefficientForFiberBreak { get; set; }
-        public double noiseLevelChangeForFiberElongation { get; set; }
+        public double AttenuationCoefficientChangeForNewEvents { get; set; }
+        public double EofAttenuationCoefficientChangeForFiberBreak { get; set; }
+        public double EofLossChangeForFiberBreak { get; set; }
+        public double MaxEofAttenuationCoefficientForFiberBreak { get; set; }
+        public double NoiseLevelChangeForFiberElongation { get; set; }
     }
 
     public class Group
     {
-        public Thresholds thresholds { get; set; }
+        public Thresholds Thresholds { get; set; }
     }
 
     public class Thresholds
     {
-        public CombinedThreshold eventLeadingLossCoefficient { get; set; }
-        public CombinedThreshold eventLoss { get; set; }
-        public CombinedThreshold eventMaxLevel { get; set; }  // PON
-        public CombinedThreshold eventReflectance { get; set; }
-        public CombinedThreshold nonReflectiveEventPosition { get; set; } // UI in Advanced
-        public CombinedThreshold reflectiveEventPosition { get; set; } // UI in Advanced
+        public CombinedThreshold EventLeadingLossCoefficient { get; set; }
+        public CombinedThreshold EventLoss { get; set; }
+        public CombinedThreshold EventMaxLevel { get; set; }  // PON
+        public CombinedThreshold EventReflectance { get; set; }
+        public CombinedThreshold NonReflectiveEventPosition { get; set; } // UI in Advanced
+        public CombinedThreshold ReflectiveEventPosition { get; set; } // UI in Advanced
     }
 
     public class CombinedThreshold
     {
-        public double? min { get; set; }
-        public double? max { get; set; }
-        public double? decrease { get; set; }
-        public double? increase { get; set; }
+        public double? Min { get; set; }
+        public double? Max { get; set; }
+        public double? Decrease { get; set; }
+        public double? Increase { get; set; }
     }
 }

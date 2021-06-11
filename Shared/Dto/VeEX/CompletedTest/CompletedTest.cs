@@ -4,27 +4,27 @@ namespace Iit.Fibertest.Dto
 {
     public class Linkmap
     {
-        public string self { get; set; }
+        public string Self { get; set; }
     }
 
     public class Report
     {
-        public string self { get; set; }
+        public string Self { get; set; }
     }
 
     public class Traces
     {
-        public string self { get; set; }
+        public string Self { get; set; }
     }
 
     public class CompletedTest
     {
-        public Linkmap linkmap { get; set; }
-        public Report report { get; set; }
-        public string result { get; set; }
-        public string extendedResult { get; set; }
-        public DateTime started { get; set; }
-        public Traces traces { get; set; }
-        public string type { get; set; }
+        public Linkmap Linkmap { get; set; }
+        public Report Report { get; set; }
+        public string Result { get; set; }
+        public string ExtendedResult { get; set; }
+        public DateTime Started { get; set; }
+        public Traces Traces { get; set; }
+        public string Type { get; set; }
     }
 }
