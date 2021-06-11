@@ -15,7 +15,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             foreach (var testLink in listOfTestLinks.items)
             {
                 var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
-                if (test?.VeexOtauPort != null && test.VeexOtauPort.portIndex == opticalPort - 1)
+                if (test?.OtauPort != null && test.OtauPort.portIndex == opticalPort - 1)
                 {
                     var deleteResult = await _d2RtuVeexLayer1.DeleteTest(rtuDoubleAddress, testLink.self);
                     if (!deleteResult)
@@ -33,8 +33,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             foreach (var testLink in listOfTestLinks.items)
             {
                 var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
-                if (test?.VeexOtauPort != null 
-                    && test.VeexOtauPort.portIndex == opticalPort - 1 
+                if (test?.OtauPort != null 
+                    && test.OtauPort.portIndex == opticalPort - 1 
                     && test.name.Contains(baseType))
                     return await _d2RtuVeexLayer1.DeleteTest(rtuDoubleAddress, testLink.self);
             }
@@ -50,7 +50,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             foreach (var testLink in listOfTestLinks.items)
             {
                 var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
-                if (test?.VeexOtauPort != null && test.VeexOtauPort.portIndex == opticalPort - 1)
+                if (test?.OtauPort != null && test.OtauPort.portIndex == opticalPort - 1)
                     result.Add(test);
             }
 
@@ -65,7 +65,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             foreach (var testLink in listOfTestLinks.items)
             {
                 var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
-                if (test?.VeexOtauPort != null && test.VeexOtauPort.portIndex == opticalPort - 1 && test.name.Contains(baseType))
+                if (test?.OtauPort != null && test.OtauPort.portIndex == opticalPort - 1 && test.name.Contains(baseType))
                     return test;
             }
 

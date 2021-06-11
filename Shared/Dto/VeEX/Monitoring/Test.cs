@@ -6,7 +6,7 @@
         public string name { get; set; }
         public string state { get; set; }
         public string otdrId { get; set; }
-        public VeexOtauPort VeexOtauPort { get; set; }
+        public VeexOtauPort OtauPort { get; set; }
         public int? period { get; set; }
 
         public LinkObject analysis_parameters { get; set; }
