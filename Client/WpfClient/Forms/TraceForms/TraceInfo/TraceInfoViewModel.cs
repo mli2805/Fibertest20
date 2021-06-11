@@ -114,7 +114,7 @@ namespace Iit.Fibertest.Client
                 Model.IsTraceModeLight = true;
             else
                 Model.IsTraceModeDark = true;
-            Model.PortNumber = trace.Port > 0 ? trace.Port.ToString() : Resources.SID_not_attached;
+            Model.PortNumber = GetPortString(trace);
             Model.Comment = trace.Comment;
 
             var km = Resources.SID_km;
@@ -129,6 +129,16 @@ namespace Iit.Fibertest.Client
 
 
             return true;
+        }
+
+        private string GetPortString(Trace trace)
+        {
+            if (trace.OtauPort == null) return Resources.SID_not_attached;
+            if (trace.OtauPort.IsPortOnMainCharon) return trace.OtauPort.OpticalPort.ToString();
+
+            var otau = _readModel.Otaus.FirstOrDefault(o => o.Serial == trace.OtauPort.Serial);
+            if (otau == null) return @"error";
+            return $@"{otau.MasterPort}-{trace.OtauPort.OpticalPort}";
         }
 
         private async Task<OtdrDataKnownBlocks> GetBase(Guid baseId)
