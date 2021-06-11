@@ -102,7 +102,7 @@ namespace Iit.Fibertest.Client
         {
             _isInCreationMode = true;
             UserInWork = new UserVm();
-            UserInWork.SmsReceiverVm.TestButtonPressed += SmsReceiverVm_TestButtonPressed;
+            UserInWork.SmsReceiverVm.OnTestButtonPressed += SmsReceiverVm_TestButtonPressed;
 
             Roles = GetAvailableRoles();
             IsntItRoot = true;
@@ -147,7 +147,7 @@ namespace Iit.Fibertest.Client
             _isInCreationMode = false;
 
             UserInWork = user;
-            UserInWork.SmsReceiverVm.TestButtonPressed += SmsReceiverVm_TestButtonPressed;
+            UserInWork.SmsReceiverVm.OnTestButtonPressed += SmsReceiverVm_TestButtonPressed;
 
             Roles = GetAvailableRoles();
             IsntItRoot = UserInWork.Role > Role.Root;

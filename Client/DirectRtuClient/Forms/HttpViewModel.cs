@@ -92,8 +92,8 @@ namespace DirectRtuClient
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
 
-            var d2RL1 = new D2RtuVeexLayer1(_httpExt);
-            var d2R = new D2RtuVeexLayer2(_logFile, d2RL1);
+            var d2Rl1 = new D2RtuVeexLayer1(_httpExt);
+            var d2R = new D2RtuVeexLayer2(_logFile, d2Rl1);
             var result = await Task.Factory.StartNew(() =>
                 d2R.GetSettings(_rtuVeexDoubleAddress, new InitializeRtuDto() { RtuAddresses = _rtuVeexDoubleAddress }).Result);
 
@@ -124,9 +124,9 @@ namespace DirectRtuClient
             IsButtonEnabled = false;
             var flag = PatchMonitoringButton == @"Stop monitoring";
 
-            var d2RL1 = new D2RtuVeexLayer1(_httpExt);
+            var d2Rl1 = new D2RtuVeexLayer1(_httpExt);
             var result = await Task.Factory.StartNew(() =>
-                d2RL1.SetMonitoringMode(_rtuVeexDoubleAddress, flag ? @"disabled" : @"enabled").Result);
+                d2Rl1.SetMonitoringMode(_rtuVeexDoubleAddress, flag ? @"disabled" : @"enabled").Result);
 
             ResultString = $@"Stop monitoring result is {result.HttpStatusCode == HttpStatusCode.OK}";
             PatchMonitoringButton = flag ? @"Start monitoring" : @"Stop monitoring";
@@ -275,8 +275,8 @@ namespace DirectRtuClient
                     oneBaseRef
                 }
             };
-            var d2RL1 = new D2RtuVeexLayer1(_httpExt);
-            var layer2 = new D2RtuVeexLayer2(_logFile, d2RL1);
+            var d2Rl1 = new D2RtuVeexLayer1(_httpExt);
+            var layer2 = new D2RtuVeexLayer2(_logFile, d2Rl1);
             var layer21 = new D2RtuVeexLayer21(layer2);
             var layer3 = new D2RtuVeexLayer3(layer2, layer21);
             var result = await Task.Factory.StartNew(() =>
@@ -297,8 +297,8 @@ namespace DirectRtuClient
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
 
-            var d2RL1 = new D2RtuVeexLayer1(_httpExt);
-            var layer2 = new D2RtuVeexLayer2(_logFile, d2RL1);
+            var d2Rl1 = new D2RtuVeexLayer1(_httpExt);
+            var layer2 = new D2RtuVeexLayer2(_logFile, d2Rl1);
 
             var rrr = await layer2.GetTestLastMeasurement(_rtuVeexDoubleAddress, @"4dc19b64-7431-435b-9248-621d79d84e0b", @"monitoring_test_passed");
             File.WriteAllBytes(@"c:\temp\0.sor", rrr.SorBytes);

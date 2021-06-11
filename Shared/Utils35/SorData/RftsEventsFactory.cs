@@ -80,24 +80,24 @@ namespace Iit.Fibertest.UtilsLib
 
 
                 // Current measurement
-                rftsEventDto.reflectanceCoeff = sorData.KeyEvents.KeyEvents[i].EventReflectance.ToString(CultureInfo.CurrentCulture);
+                rftsEventDto.ReflectanceCoeff = sorData.KeyEvents.KeyEvents[i].EventReflectance.ToString(CultureInfo.CurrentCulture);
                 if (i != 0)
                 {
                     var eventLoss = sorData.KeyEvents.KeyEvents[i].EventLoss;
                     var endOfFiberThreshold = sorData.FixedParameters.EndOfFiberThreshold;
-                    rftsEventDto.attenuationInClosure = eventLoss > endOfFiberThreshold ? $@">{endOfFiberThreshold:0.000}" : $@"{eventLoss:0.000}";
+                    rftsEventDto.AttenuationInClosure = eventLoss > endOfFiberThreshold ? $@">{endOfFiberThreshold:0.000}" : $@"{eventLoss:0.000}";
                     var attenuationCoeffToDbKm = sorData.KeyEvents.KeyEvents[i].LeadInFiberAttenuationCoefficient /
                                                  sorData.GetOwtToKmCoeff();
-                    rftsEventDto.attenuationCoeff = $@"{attenuationCoeffToDbKm: 0.000}";
+                    rftsEventDto.AttenuationCoeff = $@"{attenuationCoeffToDbKm: 0.000}";
                 }
 
                 // Monitoring threshold
                 if ((rftsEventsBlock.Events[i].EventTypes & RftsEventTypes.IsNew) == 0)
                 {
                     var threshold = level.ThresholdSets[i];
-                    rftsEventDto.reflectanceCoeffThreshold = threshold.ReflectanceThreshold.Convert();
-                    rftsEventDto.attenuationInClosureThreshold = threshold.AttenuationThreshold.Convert();
-                    rftsEventDto.attenuationCoeffThreshold = threshold.AttenuationCoefThreshold.Convert();
+                    rftsEventDto.ReflectanceCoeffThreshold = threshold.ReflectanceThreshold.Convert();
+                    rftsEventDto.AttenuationInClosureThreshold = threshold.AttenuationThreshold.Convert();
+                    rftsEventDto.AttenuationCoeffThreshold = threshold.AttenuationCoefThreshold.Convert();
                 }
 
                 // Deviations
@@ -107,14 +107,14 @@ namespace Iit.Fibertest.UtilsLib
                     rftsEventDto.DamageType = @"B";
                 }
 
-                rftsEventDto.reflectanceCoeffDeviation
+                rftsEventDto.ReflectanceCoeffDeviation
                     = rftsEventDto.ForDeviationInTable(rftsEventsBlock.Events[i].ReflectanceThreshold, @"R");
 
                 if (i < rftsEventsBlock.EventsCount - 1)
-                    rftsEventDto.attenuationInClosureDeviation
+                    rftsEventDto.AttenuationInClosureDeviation
                         = rftsEventDto.ForDeviationInTable(rftsEventsBlock.Events[i].AttenuationThreshold, @"L");
 
-                rftsEventDto.attenuationCoeffDeviation
+                rftsEventDto.AttenuationCoeffDeviation
                     = rftsEventDto.ForDeviationInTable(rftsEventsBlock.Events[i].AttenuationCoefThreshold, @"C");
 
                 rftsEventDto.State = rftsEventsBlock.Events[i].EventTypes.ForStateInTable(rftsEventDto.IsFailed);

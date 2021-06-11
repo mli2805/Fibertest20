@@ -38,18 +38,18 @@ namespace Iit.Fibertest.WpfCommonViews
             return pdfDocumentRenderer.PdfDocument;
         }
 
-        private const int eventOnPage = 6;
-        private static readonly int[] separatorLines = {
+        private const int EventOnPage = 6;
+        private static readonly int[] SeparatorLines = {
             0, 8, 12, 16
         };
 
-        private static readonly int stateLine = 3;
+        private static readonly int StateLine = 3;
 
         private static void DrawTables(DataTable levelDataTable, Document doc, Section section)
         {
             var line = levelDataTable.Rows[0];
             var eventCount = line.ItemArray.Length - 1;
-            var pages = eventCount / eventOnPage + 1;
+            var pages = eventCount / EventOnPage + 1;
             for (int i = 0; i < pages; i++)
             {
                 DrawOneTable(levelDataTable, section, i);
@@ -62,8 +62,8 @@ namespace Iit.Fibertest.WpfCommonViews
         {
             var table = section.AddTable();
             table.Borders.Width = 0.25;
-            var columnCount = levelDataTable.Rows[0].ItemArray.Length - 1 - ordinal * eventOnPage;
-            columnCount = columnCount > eventOnPage ? eventOnPage : columnCount;
+            var columnCount = levelDataTable.Rows[0].ItemArray.Length - 1 - ordinal * EventOnPage;
+            columnCount = columnCount > EventOnPage ? EventOnPage : columnCount;
             DrawTableHeader(table, ordinal, columnCount);
 
             for (int i = 0; i < levelDataTable.Rows.Count; i++)
@@ -74,18 +74,18 @@ namespace Iit.Fibertest.WpfCommonViews
                 row.HeightRule = RowHeightRule.AtLeast;
                 row.VerticalAlignment = VerticalAlignment.Center;
                 row.Cells[0].AddParagraph((string)line.ItemArray[0]);
-                if (separatorLines.Contains(i))
+                if (SeparatorLines.Contains(i))
                     row.Cells[0].Shading.Color = Colors.Azure;
 
                 for (int j = 1; j <= columnCount; j++)
                 {
-                    var text = line.ItemArray[j + ordinal * eventOnPage] is System.DBNull
+                    var text = line.ItemArray[j + ordinal * EventOnPage] is System.DBNull
                         ? "" 
-                        : line.ItemArray[j + ordinal * eventOnPage];
+                        : line.ItemArray[j + ordinal * EventOnPage];
                     row.Cells[j].AddParagraph((string)text);
-                    if (separatorLines.Contains(i))
+                    if (SeparatorLines.Contains(i))
                         row.Cells[j].Shading.Color = Colors.Azure;
-                    if (i == stateLine && text.ToString() != Resources.SID_pass && text.ToString() != "")
+                    if (i == StateLine && text.ToString() != Resources.SID_pass && text.ToString() != "")
                         row.Cells[j].Shading.Color = Colors.Red;
                 }
             }
@@ -110,7 +110,7 @@ namespace Iit.Fibertest.WpfCommonViews
             rowHeader.Format.Font.Bold = true;
             rowHeader.Cells[0].AddParagraph(Resources.SID_Parameters);
             for (int i = 0; i < columnCount; i++)
-                rowHeader.Cells[i + 1].AddParagraph(string.Format(Resources.SID_Event_N_0_, i + ordinal * eventOnPage));
+                rowHeader.Cells[i + 1].AddParagraph(string.Format(Resources.SID_Event_N_0_, i + ordinal * EventOnPage));
         }
 
     }

@@ -68,21 +68,21 @@ namespace Iit.Fibertest.Graph
             switch (type)
             {
                 case EquipmentType.AdjustmentPoint:
-                    return @"�������";
+                    return @"тчкприв";
                 case EquipmentType.EmptyNode:
-                    return @"������_";
+                    return @"пустой_";
                 case EquipmentType.CableReserve:
-                    return @"���_���";
+                    return @"каб_рез";
                 case EquipmentType.Other:
-                    return @"������_";
+                    return @"другой_";
                 case EquipmentType.Closure:
-                    return @"_�����_";
+                    return @"_муфта_";
                 case EquipmentType.Cross:
-                    return @"�������";
+                    return @"проключ";
                 case EquipmentType.Well:
-                    return @"�������";
+                    return @"колодец";
                 case EquipmentType.Terminal:
-                    return @"�������";
+                    return @"оккросс";
 
                 case EquipmentType.Rtu:
                     return @"__RTU__";
@@ -90,7 +90,7 @@ namespace Iit.Fibertest.Graph
             return Resources.SID_Switch_ended_unexpectedly;
         }
 
-        public static string ToSID(this EquipmentType type)
+        public static string ToSid(this EquipmentType type)
         {
             switch (type)
             {

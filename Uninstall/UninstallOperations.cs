@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Uninstall
 {
     public static class UninstallOperations
     {
-        private static readonly Dictionary<string, string> _componentFolders = new Dictionary<string, string>
+        private static readonly Dictionary<string, string> ComponentFolders = new Dictionary<string, string>
         {
             {"Client", "bin"}, {"SuperClient", "bin"},
             {"DataCenter", "bin"}, {"RtuManager", "bin"},
@@ -45,7 +45,7 @@ namespace Iit.Fibertest.Uninstall
             worker.ReportProgress((int)BwReturnProgressCode.DeletingFiles);
             try
             {
-                foreach (var componentFolder in _componentFolders)
+                foreach (var componentFolder in ComponentFolders)
                 {
                     var dir = fibertestFolder + $@"\{componentFolder.Key}";
                     if (!isFullUninstall && componentFolder.Value != "")

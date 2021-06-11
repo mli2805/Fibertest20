@@ -115,10 +115,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public event EventHandler TestButtonPressed;
+        public event EventHandler OnTestButtonPressed;
         public void SendTestSms()
         {
-            TestButtonPressed?.Invoke(this, null);
+            OnTestButtonPressed?.Invoke(this, null);
         }
 
         public SmsReceiver Get()

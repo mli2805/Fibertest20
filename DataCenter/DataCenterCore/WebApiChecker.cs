@@ -74,17 +74,17 @@ namespace Iit.Fibertest.DataCenterCore
             return res;
         }
 
-        private static readonly HttpClientHandler httpClientHandler = new HttpClientHandler
+        private static readonly HttpClientHandler HttpClientHandler = new HttpClientHandler
         {
             ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator,
         };
-        private static readonly HttpClient httpClient = new HttpClient(httpClientHandler);
+        private static readonly HttpClient HttpClient = new HttpClient(HttpClientHandler);
         private string _webApiUrl;
         private async Task<bool> CheckApi()
         {
             try
             {
-                var responseString = await httpClient.GetStringAsync(_webApiUrl);
+                var responseString = await HttpClient.GetStringAsync(_webApiUrl);
                 if (_isWebApiAvailable != true)
                     _logFile.AppendLine($"CheckApi response: {responseString}");
                 return true;

@@ -168,7 +168,7 @@ namespace Broadcaster
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        private int snmpTrapVersion;
+        private int _snmpTrapVersion;
         public string SnmpManagerIp { get; set; }
         public int SnmpManagerPort { get; set; }
         public string SnmpCommunity { get; set; }
@@ -189,7 +189,7 @@ namespace Broadcaster
 
         private void LoadSnmpSets()
         {
-            snmpTrapVersion = _iniFile.Read(IniSection.Snmp, IniKey.SnmpTrapVersion, 1);
+            _snmpTrapVersion = _iniFile.Read(IniSection.Snmp, IniKey.SnmpTrapVersion, 1);
             SnmpManagerIp = _iniFile.Read(IniSection.Snmp, IniKey.SnmpReceiverIp, "192.168.96.21");
             SnmpManagerPort = _iniFile.Read(IniSection.Snmp, IniKey.SnmpReceiverPort, 162);
             SnmpCommunity = _iniFile.Read(IniSection.Snmp, IniKey.SnmpCommunity, "IIT");
@@ -200,7 +200,7 @@ namespace Broadcaster
 
         private void SaveInputs()
         {
-            _iniFile.Write(IniSection.Snmp, IniKey.SnmpTrapVersion, snmpTrapVersion);
+            _iniFile.Write(IniSection.Snmp, IniKey.SnmpTrapVersion, _snmpTrapVersion);
 
             _iniFile.Write(IniSection.Snmp, IniKey.SnmpReceiverIp, SnmpManagerIp);
             _iniFile.Write(IniSection.Snmp, IniKey.SnmpReceiverPort, SnmpManagerPort);

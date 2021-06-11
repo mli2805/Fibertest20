@@ -54,39 +54,39 @@ namespace Iit.Fibertest.UtilsLib
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private DateTime startTime;
+        private DateTime _startTime;
 
-        private int snmpTrapVersion;
-        private string snmpReceiverAddress;
-        private int snmpReceiverPort;
-        private string snmpAgentIp;
-        private string snmpCommunity;
-        private string snmpEncoding;
+        private int _snmpTrapVersion;
+        private string _snmpReceiverAddress;
+        private int _snmpReceiverPort;
+        private string _snmpAgentIp;
+        private string _snmpCommunity;
+        private string _snmpEncoding;
 
-        private string enterpriseOid;
+        private string _enterpriseOid;
 
         public SnmpAgent(IniFile iniFile, IMyLog logFile)
         {
             _iniFile = iniFile;
             _logFile = logFile;
-            startTime = DateTime.Now;
+            _startTime = DateTime.Now;
             Initialize();
         }
 
         private void Initialize()
         {
-            snmpTrapVersion = 1; // for future purposes
+            _snmpTrapVersion = 1; // for future purposes
 
-            snmpReceiverAddress = _iniFile.Read(IniSection.Snmp, IniKey.SnmpReceiverIp, "192.168.96.21");
-            snmpReceiverPort = _iniFile.Read(IniSection.Snmp, IniKey.SnmpReceiverPort, 162);
+            _snmpReceiverAddress = _iniFile.Read(IniSection.Snmp, IniKey.SnmpReceiverIp, "192.168.96.21");
+            _snmpReceiverPort = _iniFile.Read(IniSection.Snmp, IniKey.SnmpReceiverPort, 162);
 
             var localIp = LocalAddressResearcher.GetAllLocalAddresses().FirstOrDefault() ?? "127.0.0.1";
-            snmpAgentIp = _iniFile.Read(IniSection.Snmp, IniKey.SnmpAgentIp, localIp);
+            _snmpAgentIp = _iniFile.Read(IniSection.Snmp, IniKey.SnmpAgentIp, localIp);
 
-            snmpCommunity = _iniFile.Read(IniSection.Snmp, IniKey.SnmpCommunity, "IIT");
-            snmpEncoding = _iniFile.Read(IniSection.Snmp, IniKey.SnmpEncoding, "windows1251");
+            _snmpCommunity = _iniFile.Read(IniSection.Snmp, IniKey.SnmpCommunity, "IIT");
+            _snmpEncoding = _iniFile.Read(IniSection.Snmp, IniKey.SnmpEncoding, "windows1251");
 
-            enterpriseOid = _iniFile.Read(IniSection.Snmp, IniKey.EnterpriseOid, "1.3.6.1.4.1.36220");
+            _enterpriseOid = _iniFile.Read(IniSection.Snmp, IniKey.EnterpriseOid, "1.3.6.1.4.1.36220");
         }
 
         public void SaveSnmpSettings(SnmpSettingsDto dto)
@@ -107,7 +107,7 @@ namespace Iit.Fibertest.UtilsLib
         public bool SendTestTrap()
         {
             var trapData = CreateTestTrapData();
-            if (snmpTrapVersion == 1)
+            if (_snmpTrapVersion == 1)
                 return SendSnmpV1Trap(trapData, SnmpTrapType.TestTrap);
             return false;
         }
@@ -117,14 +117,14 @@ namespace Iit.Fibertest.UtilsLib
             try
             {
                 TrapAgent trapAgent = new TrapAgent();
-                trapAgent.SendV1Trap(new IpAddress(snmpReceiverAddress),
-                    snmpReceiverPort,
-                    snmpCommunity,
-                    new Oid(enterpriseOid),
-                    new IpAddress(snmpAgentIp),
+                trapAgent.SendV1Trap(new IpAddress(_snmpReceiverAddress),
+                    _snmpReceiverPort,
+                    _snmpCommunity,
+                    new Oid(_enterpriseOid),
+                    new IpAddress(_snmpAgentIp),
                     6,
                     (int)trapType, // my trap type 
-                    (uint)(DateTime.Now - startTime).TotalSeconds * 10, // system UpTime in 0,1sec
+                    (uint)(DateTime.Now - _startTime).TotalSeconds * 10, // system UpTime in 0,1sec
                     trapData);
                 _logFile.AppendLine("SendSnmpV1Trap sent.");
                 return true;
@@ -141,8 +141,8 @@ namespace Iit.Fibertest.UtilsLib
             var trapData = new VbCollection();
             foreach (KeyValuePair<SnmpProperty, string> pair in data)
             {
-                trapData.Add(new Oid(enterpriseOid + "." + (int)pair.Key),
-                    new OctetString(EncodeString(pair.Value, snmpEncoding)));
+                trapData.Add(new Oid(_enterpriseOid + "." + (int)pair.Key),
+                    new OctetString(EncodeString(pair.Value, _snmpEncoding)));
             }
             return SendSnmpV1Trap(trapData, trapType);
         }
@@ -151,13 +151,13 @@ namespace Iit.Fibertest.UtilsLib
         {
             var trapData = new VbCollection();
 
-            trapData.Add(new Oid(enterpriseOid + "." + (int)SnmpProperty.TestString),
-                new OctetString(EncodeString("Test string with Русский язык.",snmpEncoding)));
-            trapData.Add(new Oid(enterpriseOid + "." + (int)SnmpProperty.EventRegistrationTime), 
+            trapData.Add(new Oid(_enterpriseOid + "." + (int)SnmpProperty.TestString),
+                new OctetString(EncodeString("Test string with Русский язык.",_snmpEncoding)));
+            trapData.Add(new Oid(_enterpriseOid + "." + (int)SnmpProperty.EventRegistrationTime), 
                 new OctetString(DateTime.Now.ToString("G")));
-            trapData.Add(new Oid(enterpriseOid + "." + (int)SnmpProperty.TestInt), new Integer32(412));
+            trapData.Add(new Oid(_enterpriseOid + "." + (int)SnmpProperty.TestInt), new Integer32(412));
             var doubleValue = 43.0319;
-            trapData.Add(new Oid(enterpriseOid + "." + (int)SnmpProperty.TestDouble), 
+            trapData.Add(new Oid(_enterpriseOid + "." + (int)SnmpProperty.TestDouble), 
                 new OctetString(doubleValue.ToString(CultureInfo.CurrentUICulture)));
             return trapData;
         }

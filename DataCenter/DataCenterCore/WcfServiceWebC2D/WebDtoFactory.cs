@@ -170,7 +170,7 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 SorFileId = m.SorFileId,
                 TraceId = m.TraceId,
-                hasBeenSeen = true,
+                HasBeenSeen = true,
             };
         }
 
@@ -193,7 +193,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public static IEnumerable<NetworkAlarm> CreateNetworkAlarms(this NetworkEvent n)
         {
-            var na = new NetworkAlarm { EventId = n.Ordinal, RtuId = n.RtuId, hasBeenSeen = true };
+            var na = new NetworkAlarm { EventId = n.Ordinal, RtuId = n.RtuId, HasBeenSeen = true };
             if (n.OnMainChannel == ChannelEvent.Broken)
             {
                 na.Channel = "Main";
@@ -208,7 +208,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public static BopAlarm CreateBopAlarm(this BopNetworkEvent b)
         {
-            return new BopAlarm() { EventId = b.Ordinal, Serial = b.Serial, hasBeenSeen = true };
+            return new BopAlarm() { EventId = b.Ordinal, Serial = b.Serial, HasBeenSeen = true };
         }
     }
 }

@@ -39,7 +39,7 @@ namespace Iit.Fibertest.RtuManagement
                 {
                     if (File.Exists(_monitoringSettingsMd5File))
                     {
-                        var md5 = CalculateMD5(_monitoringSettingsFile);
+                        var md5 = CalculateMd5(_monitoringSettingsFile);
                         var md5FromFile = File.ReadAllText(_monitoringSettingsMd5File);
                         return File.ReadAllLines(md5 == md5FromFile ? _monitoringSettingsFile : _monitoringSettingFileBackup);
                     }
@@ -88,7 +88,7 @@ namespace Iit.Fibertest.RtuManagement
             {
                 var list = Queue.Select(p => JsonConvert.SerializeObject(new MonitoringPortOnDisk(p), JsonSerializerSettings)).ToList();
                 File.WriteAllLines(_monitoringSettingsFile, list);
-                var md5 = CalculateMD5(_monitoringSettingsFile);
+                var md5 = CalculateMd5(_monitoringSettingsFile);
                 File.WriteAllText(_monitoringSettingsMd5File, md5);
             }
             catch (Exception e)
@@ -152,7 +152,7 @@ namespace Iit.Fibertest.RtuManagement
             }
         }
 
-        static string CalculateMD5(string filename)
+        static string CalculateMd5(string filename)
         {
             using (var md5 = MD5.Create())
             {

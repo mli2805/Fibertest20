@@ -22,7 +22,7 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IMyLog _logFile;
         private readonly CurrentDatacenterParameters _cdp;
-        private HubConnection connection;
+        private HubConnection _connection;
         private bool _isWebApiInstalled;
         private string _webApiUrl;
 
@@ -43,7 +43,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private void Build()
         {
-            connection = new HubConnectionBuilder()
+            _connection = new HubConnectionBuilder()
                 .WithUrl(_webApiUrl, (opts) =>
                 {
                     opts.HttpMessageHandlerFactory = (message) =>
@@ -61,13 +61,13 @@ namespace Iit.Fibertest.DataCenterCore
                 })
                 .Build();
 
-            connection.Closed += async (error) =>
+            _connection.Closed += async (error) =>
             {
                 //                _logFile.AppendLine("FtSignalRClient connection was closed.");
                 await Task.Delay(1);
             };
 
-            connection.On<string>("NotifyServer", connId =>
+            _connection.On<string>("NotifyServer", connId =>
             {
                 ServerConnectionId = connId;
                 //                _logFile.AppendLine($"NotifyServer returned id {connId}");
@@ -84,7 +84,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var isConnected = await IsSignalRConnected(false);
                 if (isConnected)
                 {
-                    var unused = connection.InvokeAsync("NotifyAll", eventType, dataInJson);
+                    var unused = _connection.InvokeAsync("NotifyAll", eventType, dataInJson);
                     if (eventType != "NotifyMonitoringStep" && eventType != "NudgeSignalR") // too many
                         _logFile.AppendLine($"FtSignalRClient NotifyAll: {eventType} sent successfully.");
                 }
@@ -104,7 +104,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var isConnected = await IsSignalRConnected(false);
                 if (isConnected)
                 {
-                    var unused = connection.InvokeAsync("SendToOne", connectionId, eventType, dataInJson);
+                    var unused = _connection.InvokeAsync("SendToOne", connectionId, eventType, dataInJson);
                     _logFile.AppendLine($"FtSignalRClient: {eventType} sent successfully.");
                 }
             }
@@ -123,7 +123,7 @@ namespace Iit.Fibertest.DataCenterCore
                 if (isConnected)
                 {
                     //                    await connection.InvokeAsync("CheckServerIn");
-                    var unused = connection.InvokeAsync("CheckServerIn");
+                    var unused = _connection.InvokeAsync("CheckServerIn");
                     return true;
                 }
             }
@@ -137,7 +137,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<bool> IsSignalRConnected(bool isLog = true)
         {
             if (!_isWebApiInstalled) return false;
-            if (connection == null)
+            if (_connection == null)
             {
                 if (isLog) _logFile.AppendLine($"Build signalR connection to {_webApiUrl}");
                 try
@@ -149,24 +149,24 @@ namespace Iit.Fibertest.DataCenterCore
                     if (isLog) _logFile.AppendLine($"Build signalR connection: " + e.Message);
                     return false;
                 }
-                if (isLog) _logFile.AppendLine($"SignalR connection state is {connection.State}");
+                if (isLog) _logFile.AppendLine($"SignalR connection state is {_connection.State}");
                 await Task.Delay(500);
             }
 
-            if (connection.State != HubConnectionState.Connected)
+            if (_connection.State != HubConnectionState.Connected)
             {
                 if (isLog) _logFile.AppendLine($"Start signalR connection to {_webApiUrl}");
                 try
                 {
-                    await connection.StartAsync();
+                    await _connection.StartAsync();
                 }
                 catch (Exception e)
                 {
                     if (isLog) _logFile.AppendLine($"FtSignalRClient Start connection: " + e.Message);
-                    connection = null;
+                    _connection = null;
                     return false;
                 }
-                if (isLog) _logFile.AppendLine($"SignalR connection state is {connection.State}");
+                if (isLog) _logFile.AppendLine($"SignalR connection state is {_connection.State}");
                 await Task.Delay(500);
             }
 
@@ -175,7 +175,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async void Dispose()
         {
-            await connection.DisposeAsync();
+            await _connection.DisposeAsync();
         }
     }
 }

@@ -12,7 +12,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
     public class HttpExt
     {
         private readonly IMyLog _logFile;
-        private static readonly HttpClient _httpClient = new HttpClient();
+        private static readonly HttpClient HttpClient = new HttpClient();
 
         public HttpExt(IMyLog logFile)
         {
@@ -23,12 +23,12 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<HttpRequestResult> GetByteArray(DoubleAddress rtuDoubleAddress, string relativeUri)
         {
-            _httpClient.DefaultRequestHeaders.ExpectContinue = false;
+            HttpClient.DefaultRequestHeaders.ExpectContinue = false;
             var result = new HttpRequestResult();
             var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
             try
             {
-                var myArr = await _httpClient.GetByteArrayAsync(url);
+                var myArr = await HttpClient.GetByteArrayAsync(url);
                 result.ResponseBytesArray = myArr;
                 result.HttpStatusCode = HttpStatusCode.OK;
             }
@@ -44,7 +44,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<HttpRequestResult> PostByteArray(DoubleAddress rtuDoubleAddress, string relativeUri, byte[] bytes)
         {
-            _httpClient.DefaultRequestHeaders.ExpectContinue = false;
+            HttpClient.DefaultRequestHeaders.ExpectContinue = false;
             var result = new HttpRequestResult();
             var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
             try
@@ -56,7 +56,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 byteArrayContent.Headers.ContentDisposition = ContentDispositionHeaderValue.Parse("form-data; name=\"0\"; filename=\"\"");
                 byteArrayContent.Headers.ContentType = MediaTypeHeaderValue.Parse("text/plain");
                 dataContent.Add(byteArrayContent);
-                HttpResponseMessage responseMessage = await _httpClient.PostAsync(url, dataContent);
+                HttpResponseMessage responseMessage = await HttpClient.PostAsync(url, dataContent);
                 if (responseMessage.StatusCode != HttpStatusCode.Created)
                     result.ErrorMessage = responseMessage.ReasonPhrase;
                 result.ResponseJson = await responseMessage.Content.ReadAsStringAsync(); // if error - it could be explanation
@@ -74,7 +74,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<HttpRequestResult> RequestByUrl(DoubleAddress rtuDoubleAddress, string relativeUri,
             string httpMethod, string contentRepresentation = null, string jsonData = null)
         {
-            _httpClient.DefaultRequestHeaders.ExpectContinue = false;
+            HttpClient.DefaultRequestHeaders.ExpectContinue = false;
             var result = new HttpRequestResult();
             var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
             try
@@ -102,20 +102,20 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             switch (httpMethod.ToLower())
             {
-                case "get": return await _httpClient.GetAsync(url);
+                case "get": return await HttpClient.GetAsync(url);
 
                 case "post":
                     var content = new StringContent(
                jsonData, Encoding.UTF8, contentRepresentation);
-                    return await _httpClient.PostAsync(url, content);
+                    return await HttpClient.PostAsync(url, content);
 
                 case "patch":
                     var request = new HttpRequestMessage(new HttpMethod("PATCH"), url);
                     request.Content = new StringContent(
                         jsonData, Encoding.UTF8, contentRepresentation);
-                    return await _httpClient.SendAsync(request);
+                    return await HttpClient.SendAsync(request);
 
-                case "delete": return await _httpClient.DeleteAsync(url);
+                case "delete": return await HttpClient.DeleteAsync(url);
             }
             return new HttpResponseMessage(HttpStatusCode.BadRequest);
         }

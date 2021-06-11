@@ -61,7 +61,7 @@ namespace LicenseMaker
 
         private byte[] EncodeLicense()
         {
-            LicenseInFile _license = new LicenseInFile()
+            LicenseInFile license = new LicenseInFile()
             {
                 LicenseId = Guid.NewGuid(),
                 Owner = LicenseInFileModel.Owner,
@@ -90,7 +90,7 @@ namespace LicenseMaker
                     IsTermInYears = LicenseInFileModel.SuperClientTermUnit == LicenseInFileModel.TermUnit.First(),
                 },
             };
-            return new LicenseManager().Encode(_license);
+            return new LicenseManager().Encode(license);
         }
 
         public void Close()

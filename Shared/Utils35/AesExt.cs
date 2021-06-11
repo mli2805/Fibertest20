@@ -7,7 +7,7 @@ namespace Iit.Fibertest.UtilsLib
 {
      public static class AesExt
     {
-        private static readonly byte[] key = Encoding.ASCII.GetBytes(":r5\u0002F#a-\u00172f@\u0011al8");
+        private static readonly byte[] Key = Encoding.ASCII.GetBytes(":r5\u0002F#a-\u00172f@\u0011al8");
 
         public static string Encript(string str)
         {
@@ -18,7 +18,7 @@ namespace Iit.Fibertest.UtilsLib
                 //Create a new instance of the default Aes implementation class  
                 // and configure encryption key.  
                 using Aes aes = Aes.Create();
-                aes.Key = key;
+                aes.Key = Key;
 
                 //Stores IV at the beginning of the file.
                 //This information will be used for decryption.
@@ -67,7 +67,7 @@ namespace Iit.Fibertest.UtilsLib
                 //it with the Aes class using the key and IV.
                 using CryptoStream cryptStream = new CryptoStream(
                     myStream,
-                    aes.CreateDecryptor(key, iv),
+                    aes.CreateDecryptor(Key, iv),
                     CryptoStreamMode.Read);
 
                 //Read the stream.
@@ -92,9 +92,9 @@ namespace Iit.Fibertest.UtilsLib
 
         private static byte[] StringToByteArray(string hex)
         {
-            int NumberChars = hex.Length;
-            byte[] bytes = new byte[NumberChars / 2];
-            for (int i = 0; i < NumberChars; i += 2)
+            int numberChars = hex.Length;
+            byte[] bytes = new byte[numberChars / 2];
+            for (int i = 0; i < numberChars; i += 2)
                 bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
             return bytes;
         }

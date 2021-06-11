@@ -148,11 +148,11 @@ namespace Iit.Fibertest.DataCenterWebApi
             var now = DateTime.UtcNow;
             // create JWT
             var jwt = new JwtSecurityToken(
-                    issuer: AuthOptions.ISSUER,
-                    audience: AuthOptions.AUDIENCE,
+                    issuer: AuthOptions.Issuer,
+                    audience: AuthOptions.Audience,
                     notBefore: now,
                     claims: identity.Claims,
-                    expires: now.Add(TimeSpan.FromDays(AuthOptions.LIFETIME)),
+                    expires: now.Add(TimeSpan.FromDays(AuthOptions.Lifetime)),
                     signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
             var encodedJwt = new JwtSecurityTokenHandler().WriteToken(jwt);
 
@@ -201,13 +201,13 @@ namespace Iit.Fibertest.DataCenterWebApi
 
     public class AuthOptions
     {
-        public const string ISSUER = "MyAuthServer"; // издатель токена
-        public const string AUDIENCE = "http://localhost:4200/"; // потребитель токена ????
-        const string KEY = "100TimesMoreSecret_SecretKey_С_русскими_буквами!";   // ключ для шифрации
-        public const int LIFETIME = 400; // время жизни токена - дней
+        public const string Issuer = "MyAuthServer"; // издатель токена
+        public const string Audience = "http://localhost:4200/"; // потребитель токена ????
+        const string Key = "100TimesMoreSecret_SecretKey_С_русскими_буквами!";   // ключ для шифрации
+        public const int Lifetime = 400; // время жизни токена - дней
         public static SymmetricSecurityKey GetSymmetricSecurityKey()
         {
-            return new SymmetricSecurityKey(Encoding.ASCII.GetBytes(KEY));
+            return new SymmetricSecurityKey(Encoding.ASCII.GetBytes(Key));
         }
     }
 }

@@ -3,6 +3,7 @@ using System.Windows.Media;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+// ReSharper disable InconsistentNaming
 
 namespace Iit.Fibertest.Client
 {

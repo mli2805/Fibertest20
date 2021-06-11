@@ -1,5 +1,6 @@
 ﻿using System;
 using Iit.Fibertest.Dto;
+// ReSharper disable InconsistentNaming
 
 namespace Iit.Fibertest.Graph
 {

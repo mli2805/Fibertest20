@@ -14,7 +14,7 @@ namespace Iit.Fibertest.Client.Input
         /// <summary>
         ///   The maximum delay between key presses.
         /// </summary>
-        static readonly TimeSpan maximumDelay = TimeSpan.FromSeconds(1);
+        static readonly TimeSpan MaximumDelay = TimeSpan.FromSeconds(1);
 
         /// <summary>
         ///   Determines whether the keyis define.
@@ -61,27 +61,27 @@ namespace Iit.Fibertest.Client.Input
         /// <summary>
         ///   The display string.
         /// </summary>
-        readonly string displayString;
+        readonly string _displayString;
 
         /// <summary>
         ///   The key sequences composing the gesture.
         /// </summary>
-        readonly KeySequence[] keySequences;
+        readonly KeySequence[] _keySequences;
 
         /// <summary>
         ///   The index of the current gesture key.
         /// </summary>
-        int currentKeyIndex;
+        int _currentKeyIndex;
 
         /// <summary>
         ///   The current sequence index.
         /// </summary>
-        int currentSequenceIndex;
+        int _currentSequenceIndex;
 
         /// <summary>
         ///   The last time a gesture key was pressed.
         /// </summary>
-        DateTime lastKeyPress;
+        DateTime _lastKeyPress;
 
         /// <summary>
         ///   Gets the key sequences composing the gesture.
@@ -89,7 +89,7 @@ namespace Iit.Fibertest.Client.Input
         /// <value> The key sequences composing the gesture. </value>
         public KeySequence[] KeySequences
         {
-            get { return keySequences; }
+            get { return _keySequences; }
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace Iit.Fibertest.Client.Input
         /// <value> The display string. </value>
         public string DisplayString
         {
-            get { return displayString; }
+            get { return _displayString; }
         }
 
         /// <summary>
@@ -120,9 +120,9 @@ namespace Iit.Fibertest.Client.Input
             if (sequences.Length == 0)
                 throw new ArgumentException(@"At least one sequence must be specified.", @"sequences");
 
-            this.displayString = displayString;
-            keySequences = new KeySequence[sequences.Length];
-            sequences.CopyTo(keySequences, 0);
+            this._displayString = displayString;
+            _keySequences = new KeySequence[sequences.Length];
+            sequences.CopyTo(_keySequences, 0);
         }
 
         /// <summary>
@@ -144,8 +144,8 @@ namespace Iit.Fibertest.Client.Input
             if (!IsDefinedKey(key))
                 return false;
 
-            var currentSequence = keySequences[currentSequenceIndex];
-            var currentKey = currentSequence.Keys[currentKeyIndex];
+            var currentSequence = _keySequences[_currentSequenceIndex];
+            var currentKey = currentSequence.Keys[_currentKeyIndex];
 
             //Check if the key is a modifier...
             if (IsModifierKey(key))
@@ -155,7 +155,7 @@ namespace Iit.Fibertest.Client.Input
             }
 
             //Check if the current key press happened too late...
-            if (currentSequenceIndex != 0 && ((DateTime.Now - lastKeyPress) > maximumDelay))
+            if (_currentSequenceIndex != 0 && ((DateTime.Now - _lastKeyPress) > MaximumDelay))
             {
                 //The delay has expired, abort the match...
                 ResetState();
@@ -188,21 +188,21 @@ namespace Iit.Fibertest.Client.Input
             }
 
             //Move on the index, pointing to the next key...
-            currentKeyIndex++;
+            _currentKeyIndex++;
 
             //Check if the key is the last of the current sequence...
-            if (currentKeyIndex == keySequences[currentSequenceIndex].Keys.Length)
+            if (_currentKeyIndex == _keySequences[_currentSequenceIndex].Keys.Length)
             {
                 //The key is the last of the current sequence, go to the next sequence...
-                currentSequenceIndex++;
-                currentKeyIndex = 0;
+                _currentSequenceIndex++;
+                _currentKeyIndex = 0;
             }
 
             //Check if the sequence is the last one of the gesture...
-            if (currentSequenceIndex != keySequences.Length)
+            if (_currentSequenceIndex != _keySequences.Length)
             {
                 //If the key is not the last one, get the current date time, handle the match event but do nothing...
-                lastKeyPress = DateTime.Now;
+                _lastKeyPress = DateTime.Now;
                 inputEventArgs.Handled = true;
 #if DEBUG_MESSAGES
                 System.Diagnostics.Debug.WriteLine("Waiting for " + (m_KeySequences.Length - m_CurrentSequenceIndex) + " sequences", "[" + MultiKeyGestureConverter.Default.ConvertToString(this) + "]");
@@ -224,8 +224,8 @@ namespace Iit.Fibertest.Client.Input
         /// </summary>
         void ResetState()
         {
-            currentSequenceIndex = 0;
-            currentKeyIndex = 0;
+            _currentSequenceIndex = 0;
+            _currentKeyIndex = 0;
         }
     }
 }

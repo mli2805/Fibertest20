@@ -8,6 +8,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WpfCommonViews;
+// ReSharper disable InconsistentNaming
 
 namespace Iit.Fibertest.Client
 {

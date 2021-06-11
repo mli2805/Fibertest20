@@ -33,17 +33,17 @@
         public string Enabled;
         public string EventType;
 
-        public string reflectanceCoeff;
-        public string attenuationInClosure;
-        public string attenuationCoeff;
+        public string ReflectanceCoeff;
+        public string AttenuationInClosure;
+        public string AttenuationCoeff;
 
-        public MonitoringThreshold reflectanceCoeffThreshold;
-        public MonitoringThreshold attenuationInClosureThreshold;
-        public MonitoringThreshold attenuationCoeffThreshold;
+        public MonitoringThreshold ReflectanceCoeffThreshold;
+        public MonitoringThreshold AttenuationInClosureThreshold;
+        public MonitoringThreshold AttenuationCoeffThreshold;
 
-        public string reflectanceCoeffDeviation;
-        public string attenuationInClosureDeviation;
-        public string attenuationCoeffDeviation;
+        public string ReflectanceCoeffDeviation;
+        public string AttenuationInClosureDeviation;
+        public string AttenuationCoeffDeviation;
     }
 
     public class TotalFiberLossDto

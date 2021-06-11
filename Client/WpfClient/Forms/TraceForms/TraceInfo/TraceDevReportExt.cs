@@ -59,9 +59,9 @@ namespace Iit.Fibertest.Client
         }
 
 
-        private static string FiberStr(this Model _readModel, Guid fiberId)
+        private static string FiberStr(this Model readModel, Guid fiberId)
         {
-            var fiber = _readModel.Fibers.FirstOrDefault(f => f.FiberId == fiberId);
+            var fiber = readModel.Fibers.FirstOrDefault(f => f.FiberId == fiberId);
             var ne = fiber == null ? @"не " : "";
             return $@"        волокно {fiberId.First6()} {ne}найдено";
         }

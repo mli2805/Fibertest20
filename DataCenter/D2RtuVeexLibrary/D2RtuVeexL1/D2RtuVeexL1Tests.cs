@@ -30,11 +30,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 "monitoring/tests", "post", "application/json", content);
         }
 
-        private static readonly JsonSerializerSettings ignoreNulls = new JsonSerializerSettings(){ NullValueHandling = NullValueHandling.Ignore };
+        private static readonly JsonSerializerSettings IgnoreNulls = new JsonSerializerSettings(){ NullValueHandling = NullValueHandling.Ignore };
       
         public async Task<bool> ChangeTest(DoubleAddress rtuDoubleAddress, string testLink, Test test)
         {
-            var jsonData = JsonConvert.SerializeObject(test, ignoreNulls);
+            var jsonData = JsonConvert.SerializeObject(test, IgnoreNulls);
             var result = await _httpExt.RequestByUrl(rtuDoubleAddress,
                 $@"monitoring/{testLink}", "patch", "application/merge-patch+json", jsonData);
             return result.HttpStatusCode == HttpStatusCode.NoContent;

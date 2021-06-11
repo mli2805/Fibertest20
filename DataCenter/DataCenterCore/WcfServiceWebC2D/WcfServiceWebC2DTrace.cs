@@ -39,14 +39,14 @@ namespace Iit.Fibertest.DataCenterCore
                 return null;
 
             _logFile.AppendLine("We are going to get landmarks...");
-            var _landmarks = trace.PreciseId != Guid.Empty
+            var landmarks = trace.PreciseId != Guid.Empty
                 ? _landmarksBaseParser.GetLandmarks(await GetBase(trace.PreciseId), trace)
                 : _landmarksGraphParser.GetLandmarks(trace);
 
             return new TraceLandmarksDto()
             {
                 Header = _writeModel.BuildHeader(trace),
-                Landmarks = _landmarks.Select(MapLm).ToList(),
+                Landmarks = landmarks.Select(MapLm).ToList(),
             };
         }
 
