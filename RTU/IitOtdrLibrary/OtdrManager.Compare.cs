@@ -1,13 +1,9 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
-using Optixsoft.SharedCommons.SorSerialization;
 using Optixsoft.SorExaminer.OtdrDataFormat;
-using Optixsoft.SorExaminer.OtdrDataFormat.IO;
 using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
-using BinaryWriter = System.IO.BinaryWriter;
 
 namespace Iit.Fibertest.IitOtdrLibrary
 {
@@ -91,44 +87,10 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 {
                     baseSorData.RftsParameters.ActiveLevelIndex = i;
                     CompareOneLevel(baseSorData, ref measSorData, GetMoniLevelType(rftsLevel.LevelName), moniResult);
-                    embeddedData.Add(RftsEventsToEmbeddedData(measSorData));
+                    embeddedData.Add(measSorData.RftsEventsToEmbeddedData());
                 }
             }
             return moniResult;
-        }
-
-
-        private EmbeddedData RftsEventsToEmbeddedData(OtdrDataKnownBlocks sorData)
-        {
-            byte[] rftsEventsBytes = RftsEventsToBytes(sorData);
-            return new EmbeddedData
-            {
-                Description = "RFTSEVENTS",
-                BlockId = sorData.RftsEvents.BlockId,
-                Comment = sorData.RftsEvents.LevelName.ToString(),
-                DataSize = rftsEventsBytes.Length,
-                Data = rftsEventsBytes
-            };
-        }
-        private byte[] RftsEventsToBytes(OtdrDataKnownBlocks sorData)
-        {
-            sorData.GeneralParameters.Language = LanguageCode.Utf8;
-            using (MemoryStream ms = new MemoryStream())
-            {
-                BinaryWriter w = new BinaryWriter(ms);
-                OpxSerializer opxSerializer = new OpxSerializer(
-                    new Optixsoft.SharedCommons.SorSerialization.BinaryWriter(
-                        w, sorData.GeneralParameters.Language.GetEncoding()), 
-                        new FixDistancesContext(sorData.FixedParameters));
-
-                var otdrBlock = new OtdrBlock(sorData.RftsEvents);
-                var list = new List<OtdrBlock> {otdrBlock};
-                list.UpdateBlocks(otdrBlock.RevisionNumber);
-
-                w.Write((ushort)otdrBlock.RevisionNumber);
-                opxSerializer.Serialize(otdrBlock.Body, otdrBlock.RevisionNumber);
-                return ms.ToArray();
-            }
         }
 
         private void CompareOneLevel(OtdrDataKnownBlocks baseSorData, ref OtdrDataKnownBlocks measSorData,  MoniLevelType type, MoniResult moniResult)
