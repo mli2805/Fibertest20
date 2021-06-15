@@ -1,4 +1,5 @@
-﻿namespace Iit.Fibertest.Dto
+﻿// ReSharper disable InconsistentNaming
+namespace Iit.Fibertest.Dto
 {
     public class VeexOtauPort
     {
