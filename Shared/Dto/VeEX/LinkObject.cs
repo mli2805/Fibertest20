@@ -2,6 +2,6 @@
 {
     public class LinkObject
     {
-        public string Self { get; set; }
+        public string self { get; set; }
     }
 }

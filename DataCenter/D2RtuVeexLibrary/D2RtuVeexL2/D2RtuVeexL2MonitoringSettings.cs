@@ -21,11 +21,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             List<PortWithTraceDto> includedPorts)
         {
             var listOfTestLinks = await _d2RtuVeexLayer1.GetTests(rtuAddresses);
-            foreach (var testLink in listOfTestLinks.Items)
+            foreach (var testLink in listOfTestLinks.items)
             {
-                Test test = await _d2RtuVeexLayer1.GetTest(rtuAddresses, testLink.Self);
+                Test test = await _d2RtuVeexLayer1.GetTest(rtuAddresses, testLink.self);
                 if (test?.OtauPort == null) continue;
-                if (test.Name.Contains("fast")) continue;
+                if (test.name.Contains("fast")) continue;
 
                 if (!await ApplyMoniSettingsToOneTest(rtuAddresses, includedPorts, test, 0, 0))
                     return false;
@@ -58,22 +58,22 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             int periodForFast, int periodForPrecise)
         {
             // no matter is test enabled or disabled, set its period, it does not do any harm
-            var period = test.Name.ToLower().Contains("fast")
+            var period = test.name.ToLower().Contains("fast")
                 ? periodForFast
                 : periodForPrecise;
             // if included in cycle state should be "enabled"
             var portInCycle =
-                includedPorts.FirstOrDefault(p => p.OtauPort.OpticalPort - 1 == test.OtauPort.PortIndex);
-            var state = portInCycle == null || test.Name.ToLower().Contains("additional")
+                includedPorts.FirstOrDefault(p => p.OtauPort.OpticalPort - 1 == test.OtauPort.portIndex);
+            var state = portInCycle == null || test.name.ToLower().Contains("additional")
                 ? "disabled"
                 : "enabled";
 
-            if (test.Period != period)
+            if (test.period != period)
                 if (!await ChangeTestPeriod(rtuAddresses, test, period))
                     return false;
 
-            if (test.State == "disabled" && state == "enabled" 
-                || test.State != "disabled" && state == "disabled")
+            if (test.state == "disabled" && state == "enabled" 
+                || test.state != "disabled" && state == "disabled")
                 if (!await ChangeTestState(rtuAddresses, test, state))
                     return false;
 

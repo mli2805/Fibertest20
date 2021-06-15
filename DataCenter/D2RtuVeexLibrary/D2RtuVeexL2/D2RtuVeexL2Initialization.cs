@@ -40,13 +40,13 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             var serverNotificationSettings = new ServerNotificationSettings()
             {
-                State = "enabled",
-                EventTypes = new List<string>()
+                state = "enabled",
+                eventTypes = new List<string>()
                 {
                     "monitoring_test_failed", 
                     "monitoring_test_passed"
                 },
-                Url = $@"http://{dto.ServerAddresses.Main.ToStringA()}/veex/notify?rtuId={dto.RtuId}",
+                url = $@"http://{dto.ServerAddresses.Main.ToStringA()}/veex/notify?rtuId={dto.RtuId}",
             };
 
             return await _d2RtuVeexLayer1.SetServerNotificationUrl(rtuDoubleAddress, serverNotificationSettings);

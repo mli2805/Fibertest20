@@ -4,8 +4,8 @@ namespace Iit.Fibertest.Dto
 {
     public class ServerNotificationSettings
     {
-        public string State { get; set; }
-        public List<string> EventTypes { get; set; }
-        public string Url { get; set; }
+        public string state { get; set; }
+        public List<string> eventTypes { get; set; }
+        public string url { get; set; }
     }
 }

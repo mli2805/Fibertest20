@@ -2,10 +2,10 @@
 {
     public class VeexOtau
     {
-        public string Id { get; set; }
-        public int InputPortCount { get; set; }
-        public string Model { get; set; }
-        public int PortCount { get; set; }
-        public string Protocol { get; set; }
+        public string id { get; set; }
+        public int inputPortCount { get; set; }
+        public string model { get; set; }
+        public int portCount { get; set; }
+        public string protocol { get; set; }
     }
 }

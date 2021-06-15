@@ -2,6 +2,6 @@
 {
     public class MonitoringVeexDto
     {
-        public string State;
+        public string state;
     }
 }

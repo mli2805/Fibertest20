@@ -17,7 +17,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             var test = await _d2RtuVeexLayer2.GetTestForPortAndBaseType(rtuDoubleAddress, portIndex, dto.BaseRefType.ToString().ToLower());
             if (test != null)
-                return $@"tests/{test.Id}";
+                return $@"tests/{test.id}";
 
             var createResult = await _d2RtuVeexLayer2.CreateTest(rtuDoubleAddress, otdrId, otauId, portIndex, dto);
             return createResult.HttpStatusCode != HttpStatusCode.Created ? null : createResult.ResponseJson;

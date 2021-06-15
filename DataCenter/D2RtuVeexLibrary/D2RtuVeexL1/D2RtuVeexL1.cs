@@ -15,7 +15,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<HttpRequestResult> SetMonitoringMode(DoubleAddress rtuDoubleAddress, string mode)
         {
-            var json = JsonConvert.SerializeObject(new MonitoringVeexDto() { State = mode });
+            var json = JsonConvert.SerializeObject(new MonitoringVeexDto() { state = mode });
             var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress,
                 "monitoring", "patch", "application/merge-patch+json", json);
             return httpResult;

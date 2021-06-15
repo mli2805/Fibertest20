@@ -16,7 +16,7 @@ namespace Iit.Fibertest.DataCenterCore
             var rtuAddresses = new DoubleAddress()
             { Main = rtu.MainChannel, HasReserveAddress = rtu.IsReserveChannelSet, Reserve = rtu.ReserveChannel };
 
-            foreach (var notificationEvent in veexMeasurementDto.VeexNotification.Events)
+            foreach (var notificationEvent in veexMeasurementDto.VeexNotification.events)
             {
                 await ProcessOneNotification(notificationEvent, rtu, rtuAddresses);
             }
@@ -26,11 +26,11 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task ProcessOneNotification(VeexNotificationEvent notificationEvent, Rtu rtu, DoubleAddress rtuAddresses)
         {
-            notificationEvent.Time = TimeZoneInfo.ConvertTime(notificationEvent.Time, TimeZoneInfo.Local);
-            var port = notificationEvent.Data.OtauPorts[0].PortIndex + 1;
-            var testName = notificationEvent.Data.TestName;
+            notificationEvent.time = TimeZoneInfo.ConvertTime(notificationEvent.time, TimeZoneInfo.Local);
+            var port = notificationEvent.data.OtauPorts[0].portIndex + 1;
+            var testName = notificationEvent.data.testName;
 
-            _logFile.AppendLine($"{testName} on port {port} - {notificationEvent.Type} at {notificationEvent.Time}");
+            _logFile.AppendLine($"{testName} on port {port} - {notificationEvent.type} at {notificationEvent.time}");
             var trace = _writeModel.Traces.FirstOrDefault(t => t.RtuId == rtu.Id && t.Port == port);
             if (trace == null)
                 return;  // no such a trace
@@ -48,7 +48,7 @@ namespace Iit.Fibertest.DataCenterCore
             sorData.EmbedBaseRef(baseRef);
             res.SorBytes = sorData.ToBytes();
 
-            res.TimeStamp = notificationEvent.Time;
+            res.TimeStamp = notificationEvent.time;
             res.RtuId = rtu.Id;
             res.BaseRefType = baseRefType;
             res.PortWithTrace = new PortWithTraceDto()
@@ -85,22 +85,22 @@ namespace Iit.Fibertest.DataCenterCore
 
         private FiberState GetNewTraceState(VeexNotificationEvent notificationEvent)
         {
-            if (notificationEvent.Type == "monitoring_test_passed") return FiberState.Ok;
+            if (notificationEvent.type == "monitoring_test_passed") return FiberState.Ok;
 
-            if (notificationEvent.Data.ExtendedResult == "trace_change")
-                if (notificationEvent.Data.TraceChange.ChangeType == "exceeded_threshold")
-                    return notificationEvent.Data.TraceChange.LevelName.ToFiberState();
+            if (notificationEvent.data.extendedResult == "trace_change")
+                if (notificationEvent.data.traceChange.changeType == "exceeded_threshold")
+                    return notificationEvent.data.traceChange.levelName.ToFiberState();
                 else
-                    return notificationEvent.Data.TraceChange.ChangeType.ToFiberState();
+                    return notificationEvent.data.traceChange.changeType.ToFiberState();
 
-            return notificationEvent.Data.ExtendedResult.ToFiberState();
+            return notificationEvent.data.extendedResult.ToFiberState();
         }
 
         private bool IsTimeToSave(VeexNotificationEvent notificationEvent, Rtu rtu, Measurement traceLastMeas, BaseRefType baseRefType)
         {
             var frequency = baseRefType == BaseRefType.Fast ? rtu.FastSave : rtu.PreciseSave;
             if (frequency == Frequency.DoNot) return false;
-            return notificationEvent.Time - traceLastMeas.MeasurementTimestamp > frequency.GetTimeSpan();
+            return notificationEvent.time - traceLastMeas.MeasurementTimestamp > frequency.GetTimeSpan();
         }
 
         private BaseRefType GetBaseRefTypeFromName(string testName)

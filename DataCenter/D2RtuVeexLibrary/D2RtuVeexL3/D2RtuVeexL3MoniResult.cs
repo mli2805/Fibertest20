@@ -11,7 +11,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             try
             {
                 return await _d2RtuVeexLayer2
-                    .GetTestLastMeasurement(rtuAddresses, notificationEvent.Data.TestId, notificationEvent.Type);
+                    .GetTestLastMeasurement(rtuAddresses, notificationEvent.data.testId, notificationEvent.type);
             }
             catch (Exception)
             {

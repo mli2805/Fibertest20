@@ -14,7 +14,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (SorData.TryGetFromBytes(bytes, out OtdrDataKnownBlocks sorData) != "")
                 return null;
 
-            var thresholdSet = new ThresholdSet() { Levels = new List<Level>() };
+            var thresholdSet = new ThresholdSet() { levels = new List<Level>() };
             thresholdSet.AddRftsLevel(sorData, "Critical");
             thresholdSet.AddRftsLevel(sorData, "Major");
             thresholdSet.AddRftsLevel(sorData, "Minor");
@@ -29,25 +29,25 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (rftsParametersLevel == null) return;
             var level = new Level()
             {
-                Name = rftsParametersLevel.LevelName.ToString(), 
-                Groups = new List<Group>(){ new Group() { Thresholds = GetLevelThresholds(rftsParametersLevel, sorData) }},
-                AdvancedThresholds = GetAdvancedThresholds(sorData),
+                name = rftsParametersLevel.LevelName.ToString(), 
+                groups = new List<Group>(){ new Group() { thresholds = GetLevelThresholds(rftsParametersLevel, sorData) }},
+                advancedThresholds = GetAdvancedThresholds(sorData),
             };
-            thresholdSet.Levels.Add(level);
+            thresholdSet.levels.Add(level);
         }
 
         private static Thresholds GetLevelThresholds(RftsLevel levelParams, OtdrDataKnownBlocks sorData)
         {
             return new Thresholds()
             {
-                EventReflectance = Iit2CmbThreshold(levelParams.LevelThresholdSet.ReflectanceThreshold),
-                EventLoss = Iit2CmbThreshold(levelParams.LevelThresholdSet.AttenuationThreshold),
-                EventLeadingLossCoefficient =
+                eventReflectance = Iit2CmbThreshold(levelParams.LevelThresholdSet.ReflectanceThreshold),
+                eventLoss = Iit2CmbThreshold(levelParams.LevelThresholdSet.AttenuationThreshold),
+                eventLeadingLossCoefficient =
                     Iit2CmbThreshold(levelParams.LevelThresholdSet.AttenuationCoefThreshold),
-                EventMaxLevel = null, // PON, reflect do not work with this parameter
+                eventMaxLevel = null, // PON, reflect do not work with this parameter
 
-                ReflectiveEventPosition = IitUniversalParam2CmbThreshold(sorData, "EvtRDetectDeltaLen"),
-                NonReflectiveEventPosition = IitUniversalParam2CmbThreshold(sorData, "EvtDetectDeltaLen"),
+                reflectiveEventPosition = IitUniversalParam2CmbThreshold(sorData, "EvtRDetectDeltaLen"),
+                nonReflectiveEventPosition = IitUniversalParam2CmbThreshold(sorData, "EvtDetectDeltaLen"),
             };
         }
 
@@ -55,10 +55,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             return new AdvancedThresholds()
             {
-                AttenuationCoefficientChangeForNewEvents = IitUniversalParam2double(sorData, "EvtDetectDeltaCT"),
-                EofAttenuationCoefficientChangeForFiberBreak = IitUniversalParam2double(sorData, "EvtChangeСT"),
-                EofLossChangeForFiberBreak = IitUniversalParam2double(sorData, "EvtChangeЕT"),
-                MaxEofAttenuationCoefficientForFiberBreak = 0.05,
+                attenuationCoefficientChangeForNewEvents = IitUniversalParam2double(sorData, "EvtDetectDeltaCT"),
+                eofAttenuationCoefficientChangeForFiberBreak = IitUniversalParam2double(sorData, "EvtChangeСT"),
+                eofLossChangeForFiberBreak = IitUniversalParam2double(sorData, "EvtChangeЕT"),
+                maxEofAttenuationCoefficientForFiberBreak = 0.05,
                 // noiseLevelChangeForFiberElongation, // is not used in IIT
             };
         }
@@ -78,8 +78,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             return new CombinedThreshold()
             {
-                Min = - parameter.Value / parameter.Scale,
-                Max = parameter.Value / parameter.Scale,
+                min = - parameter.Value / parameter.Scale,
+                max = parameter.Value / parameter.Scale,
             };
         }
 
@@ -91,13 +91,13 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var cmbThreshold = new CombinedThreshold();
             if (iitThreshold.IsAbsolute)
             {
-                cmbThreshold.Min = - iitThreshold.AbsoluteThreshold / iitCoef;
-                cmbThreshold.Max = iitThreshold.AbsoluteThreshold / iitCoef;
+                cmbThreshold.min = - iitThreshold.AbsoluteThreshold / iitCoef;
+                cmbThreshold.max = iitThreshold.AbsoluteThreshold / iitCoef;
             }
             else
             {
-                cmbThreshold.Increase = iitThreshold.RelativeThreshold / iitCoef;
-                cmbThreshold.Decrease = -iitThreshold.RelativeThreshold / iitCoef;
+                cmbThreshold.increase = iitThreshold.RelativeThreshold / iitCoef;
+                cmbThreshold.decrease = -iitThreshold.RelativeThreshold / iitCoef;
             }
             return cmbThreshold;
         }
