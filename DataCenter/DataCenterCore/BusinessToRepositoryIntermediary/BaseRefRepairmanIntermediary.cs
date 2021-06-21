@@ -50,16 +50,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<string> ProcessUpdateEquipment(Guid equipmentId)
         {
-            var equipment = _writeModel.Equipments.FirstOrDefault(e => e.EquipmentId == equipmentId);
-            if (equipment == null)
-                return $"Can't find equipment {equipmentId}";
-
-            var node = _writeModel.Nodes.FirstOrDefault(n => n.NodeId == equipment.NodeId);
-            if (node == null)
-                return $"Can't find node {equipment.NodeId}";
-
-            var tracesWhichUseThisNode = _writeModel.Traces.Where(t => t.NodeIds.Contains(node.NodeId) && t.HasAnyBaseRef).ToList();
-            return await AmendBaseRefs(tracesWhichUseThisNode);
+            var tracesWhichUseThisEquipment = _writeModel.Traces
+                .Where(t => t.EquipmentIds.Contains(equipmentId) && t.HasAnyBaseRef).ToList();
+            return await AmendBaseRefs(tracesWhichUseThisEquipment);
         }
 
         public async Task<string> ProcessUpdateFiber(Guid fiberId)
