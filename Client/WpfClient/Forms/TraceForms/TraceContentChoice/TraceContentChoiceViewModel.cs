@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
+        private readonly Model _readModel;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly EquipmentOfChoiceModelFactory _equipmentOfChoiceModelFactory;
@@ -44,13 +45,14 @@ namespace Iit.Fibertest.Client
 
         public bool ShouldWeContinue { get; set; }
 
-        public TraceContentChoiceViewModel(ILifetimeScope globalScope, IniFile iniFile, 
-            IMyLog logFile, IWcfServiceDesktopC2D c2DWcfManager,
+        public TraceContentChoiceViewModel(ILifetimeScope globalScope, IniFile iniFile,
+            IMyLog logFile, Model readModel, IWcfServiceDesktopC2D c2DWcfManager,
             IWindowManager windowManager, EquipmentOfChoiceModelFactory equipmentOfChoiceModelFactory)
         {
             _globalScope = globalScope;
             _iniFile = iniFile;
             _logFile = logFile;
+            _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _equipmentOfChoiceModelFactory = equipmentOfChoiceModelFactory;
@@ -148,6 +150,15 @@ namespace Iit.Fibertest.Client
                             _windowManager.ShowDialogWithAssignedOwner(vm);
                             return;
                         }
+
+                        if (!_readModel.EquipmentCanBeChanged(equipment.EquipmentId, _windowManager))
+                        {
+                            model.TitleOfEquipment = equipment.Title;
+                            model.LeftCableReserve = equipment.CableReserveLeft;
+                            model.RightCableReserve = equipment.CableReserveRight;
+                            return;
+                        }
+
                         var str = await SendEquipmentChanges(equipment, model.TitleOfEquipment, model.LeftCableReserve, model.RightCableReserve);
                         if (!string.IsNullOrEmpty(str))
                             _logFile.AppendLine($@"TraceContentChoiceViewModel - SendEquipmentChanges - {str}");
@@ -171,6 +182,8 @@ namespace Iit.Fibertest.Client
 
         private async Task<string> SendEquipmentChanges(Equipment equipment, string newTitle, int leftCableReserve, int rightCableReserve)
         {
+            // if (!_readModel.EquipmentCanBeChanged(equipment.EquipmentId, _windowManager)) return null;
+
             var cmd = new UpdateEquipment()
             {
                 EquipmentId = equipment.EquipmentId,

@@ -2880,4 +2880,13 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Optical_length" xml:space="preserve">
 		<value>Optical length</value>
 	</data>
+	<data name="SID_This_equipment_could_not_be_changed_" xml:space="preserve">
+		<value>This equipment could not be changed!</value>
+	</data>
+	<data name="SID_There_are_traces_which_use_this_equipment_and_are_under_monitoring_now_" xml:space="preserve">
+		<value>There are traces which use this equipment and are under monitoring now.</value>
+	</data>
+	<data name="SID_Stop_monitoring_in_order_to_change_equipment" xml:space="preserve">
+		<value>Stop monitoring in order to change equipment.</value>
+	</data>
 </root>

@@ -7036,6 +7036,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Stop monitoring in order to change equipment.
+        /// </summary>
+        public static string SID_Stop_monitoring_in_order_to_change_equipment {
+            get {
+                return ResourceManager.GetString("SID_Stop_monitoring_in_order_to_change_equipment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Strings encoding.
         /// </summary>
         public static string SID_Strings_encoding {
@@ -7234,6 +7243,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to There are traces which use this equipment and are under monitoring now..
+        /// </summary>
+        public static string SID_There_are_traces_which_use_this_equipment_and_are_under_monitoring_now_ {
+            get {
+                return ResourceManager.GetString("SID_There_are_traces_which_use_this_equipment_and_are_under_monitoring_now_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to There is a node with the same title.
         /// </summary>
         public static string SID_There_is_a_node_with_the_same_title {
@@ -7275,6 +7293,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_There_is_RTU_with_the_same_ip_address_ {
             get {
                 return ResourceManager.GetString("SID_There_is_RTU_with_the_same_ip_address_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This equipment could not be changed!.
+        /// </summary>
+        public static string SID_This_equipment_could_not_be_changed_ {
+            get {
+                return ResourceManager.GetString("SID_This_equipment_could_not_be_changed_", resourceCulture);
             }
         }
         

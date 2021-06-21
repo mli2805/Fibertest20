@@ -24,14 +24,15 @@ namespace Iit.Fibertest.Client
 
         public object Command { get; set; }
 
-        public EquipmentInfoViewModel(IniFile iniFile, IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)
+        public EquipmentInfoViewModel(IniFile iniFile, 
+            IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)
         {
             _iniFile = iniFile;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
         }
 
-      
+
         public void InitializeForAdd(Guid nodeId)
         {
             _mode = ViewMode.Add;
@@ -81,6 +82,7 @@ namespace Iit.Fibertest.Client
 
             if (_mode == ViewMode.Update)
             {
+
                 var cmd = new UpdateEquipment()
                 {
                     EquipmentId = EquipmentId,
