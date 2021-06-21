@@ -80,7 +80,6 @@
     <Compile Include="Charon.Commands.Bops.cs" />
     <Compile Include="Charon.cs" />
     <Compile Include="Charon.TransmissionLevel.cs" />
-    <Compile Include="CharonLogLevel.cs" />
     <Compile Include="CharonOperationResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
