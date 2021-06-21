@@ -90,7 +90,6 @@ namespace Iit.Fibertest.Client
                     CableReserveRight = Model.CableReserveRight,
                     Comment = Model.Comment,
                 };
-                Command = cmd; // nodeUpdateView take this command to update its equipment table
                 await _c2DWcfManager.SendCommandAsObj(cmd);
             }
 
