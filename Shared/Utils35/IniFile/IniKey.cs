@@ -26,6 +26,7 @@
         Ip4Default,
         // General - RTU
         RtuHeartbeatRate,
+        RtuPauseAfterReboot,
         // General - DataCenter
         CheckWebApiEvery,
         CheckHeartbeatEvery,

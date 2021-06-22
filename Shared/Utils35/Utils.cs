@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -34,11 +33,25 @@ namespace Iit.Fibertest.UtilsLib
             }
         }
 
-        public static float GetUpTimeInSeconds()
+        public static TimeSpan GetUpTime()
         {
-            using var upTime = new PerformanceCounter("System", "System Up Time");
-            upTime.NextValue();       //Call this an extra time before reading its value
-            return upTime.NextValue();
+            int tickCount = Environment.TickCount; // unfortunately INT, so after 24 days tickCount is invalid
+            return TimeSpan.FromMilliseconds(tickCount);
         }
+
+        // public static TimeSpan GetUpTime()
+        // {
+        //     using var upTime = new PerformanceCounter("System", "System Up Time");
+        //     upTime.NextValue();       //Call this an extra time before reading its value
+        //     return TimeSpan.FromSeconds(upTime.NextValue());
+        // }
+
+        // public static TimeSpan GetUpTime()
+        // {
+        //     return TimeSpan.FromMilliseconds(GetTickCount64());
+        // }
+
+        // [DllImport("kernel32")]
+        // static extern UInt64 GetTickCount64();
     }
 }

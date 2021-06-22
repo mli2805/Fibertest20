@@ -9,14 +9,17 @@ namespace Iit.Fibertest.RtuService
 {
     public partial class Service1 : ServiceBase
     {
+        private readonly IniFile _iniFile;
         private readonly IMyLog _serviceLog;
         private readonly RtuManager _rtuManager;
         private readonly RtuWcfServiceBootstrapper _rtuWcfServiceBootstrapper;
         private readonly Heartbeat _heartbeat;
         private Thread _rtuManagerThread;
 
-        public Service1(IMyLog serviceLog, RtuManager rtuManager, RtuWcfServiceBootstrapper rtuWcfServiceBootstrapper, Heartbeat heartbeat)
+        public Service1(IniFile iniFile, IMyLog serviceLog, RtuManager rtuManager, 
+            RtuWcfServiceBootstrapper rtuWcfServiceBootstrapper, Heartbeat heartbeat)
         {
+            _iniFile = iniFile;
             _serviceLog = serviceLog;
             _rtuManager = rtuManager;
             _rtuWcfServiceBootstrapper = rtuWcfServiceBootstrapper;
@@ -31,12 +34,13 @@ namespace Iit.Fibertest.RtuService
             var tid = Thread.CurrentThread.ManagedThreadId;
             _serviceLog.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
-            var upTime = Utils.GetUpTimeInSeconds();
-            _serviceLog.AppendLine($"Windows up time is {upTime} seconds");
-            if (upTime < 300)
+            var upTime = Utils.GetUpTime();
+            _serviceLog.AppendLine($"Windows' UpTime is {upTime}");
+            if (TimeSpan.Zero < upTime && upTime < TimeSpan.FromSeconds(100))
             {
-                _serviceLog.AppendLine("Additional pause after RTU restart is 20 sec");
-                Thread.Sleep(20000);
+                var delay = _iniFile.Read(IniSection.General, IniKey.RtuPauseAfterReboot, 20);
+                _serviceLog.AppendLine($"Additional pause after RTU restart is {delay} sec");
+                Thread.Sleep(delay);
             }
 
             _rtuManagerThread = new Thread(_rtuManager.OnServiceStart) { IsBackground = true };
