@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.InteropServices;
 
@@ -6,12 +7,12 @@ namespace Iit.Fibertest.UtilsLib
 {
     public static class Utils
     {
-        public static string FileNameForSure(string subDir,  string filename, bool isBoomNeeded, bool isSubDirAbsolute = false)
+        public static string FileNameForSure(string subDir, string filename, bool isBoomNeeded, bool isSubDirAbsolute = false)
         {
             try
             {
-                string folder = isSubDirAbsolute 
-                    ? subDir 
+                string folder = isSubDirAbsolute
+                    ? subDir
                     : Path.GetFullPath(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, subDir));
                 if (!Directory.Exists(folder))
                     Directory.CreateDirectory(folder);
@@ -31,6 +32,13 @@ namespace Iit.Fibertest.UtilsLib
                 Console.WriteLine(e.Message);
                 return null;
             }
+        }
+
+        public static float GetUpTimeInSeconds()
+        {
+            using var upTime = new PerformanceCounter("System", "System Up Time");
+            upTime.NextValue();       //Call this an extra time before reading its value
+            return upTime.NextValue();
         }
     }
 }

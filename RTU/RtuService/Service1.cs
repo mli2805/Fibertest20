@@ -31,6 +31,14 @@ namespace Iit.Fibertest.RtuService
             var tid = Thread.CurrentThread.ManagedThreadId;
             _serviceLog.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
+            var upTime = Utils.GetUpTimeInSeconds();
+            _serviceLog.AppendLine($"Windows up time is {upTime} seconds");
+            if (upTime < 300)
+            {
+                _serviceLog.AppendLine("Additional pause after RTU restart is 20 sec");
+                Thread.Sleep(20000);
+            }
+
             _rtuManagerThread = new Thread(_rtuManager.OnServiceStart) { IsBackground = true };
             _rtuManagerThread.Start();
 
