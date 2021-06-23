@@ -59,6 +59,7 @@
         ComSpeed,
         PauseAfterReset,
         PauseBetweenCommandsMs,
+        CharonIniSize,
 
         // Monitoring
         IsMonitoringOn,
