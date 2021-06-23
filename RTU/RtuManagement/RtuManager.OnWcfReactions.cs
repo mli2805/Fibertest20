@@ -95,7 +95,10 @@ namespace Iit.Fibertest.RtuManagement
 
             if (newCharon.IsLastCommandSuccessful && _mainCharon.AttachOtauToPort(param.NetAddress, param.OpticalPort))
             {
-                _mainCharon.InitializeOtauRecursively();
+                // _mainCharon.InitializeOtauRecursively();
+                _mainCharon.Children.Add(param.OpticalPort, newCharon);
+                _rtuLog.AppendLine($"Otau {param.NetAddress.ToStringA()} attached to port {param.OpticalPort}");
+
                 var child = _mainCharon.GetBopCharonWithLogging(param.NetAddress);
                 OtauAttachedDto = new OtauAttachedDto()
                 {
@@ -123,7 +126,10 @@ namespace Iit.Fibertest.RtuManagement
             _rtuLog.EmptyLine();
             if (_mainCharon.DetachOtauFromPort(param.OpticalPort))
             {
-                _mainCharon.InitializeOtauRecursively();
+                // _mainCharon.InitializeOtauRecursively();
+                _mainCharon.Children.Remove(param.OpticalPort);
+                _rtuLog.AppendLine($"Otau {param.NetAddress.ToStringA()} detached from port {param.OpticalPort}");
+
                 OtauDetachedDto = new OtauDetachedDto()
                 {
                     IsDetached = true,
