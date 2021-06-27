@@ -131,7 +131,7 @@ namespace Iit.Fibertest.Client
         {
             var jsonsInCache = await _localDbManager.LoadEvents(lastLoadedEvent);
             _logFile.AppendLine($@"{jsonsInCache.Length} events in cache should be applied...");
-            var result = new LoadingResult { Count = ApplyBatch(jsonsInCache) };
+            var result = new LoadingResult { Count = ApplyBatch(jsonsInCache, lastLoadedEvent) };
             if (jsonsInCache.Any())
             {
                 var json = jsonsInCache.Last();
@@ -152,7 +152,7 @@ namespace Iit.Fibertest.Client
             {
                 events = await _c2DWcfManager.GetEvents(new GetEventsDto() { Revision = currentEventNumber, ConnectionId = _currentUser.ConnectionId });
                 await _localDbManager.SaveEvents(events, currentEventNumber + 1);
-                currentEventNumber = currentEventNumber + ApplyBatch(events);
+                currentEventNumber = currentEventNumber + ApplyBatch(events, currentEventNumber);
                 if (currentEventNumber - logged >= 1000)
                 {
                     _logFile.AppendLine($@"{currentEventNumber}...");
@@ -164,18 +164,19 @@ namespace Iit.Fibertest.Client
             return currentEventNumber;
         }
 
-        private int ApplyBatch(string[] events)
+        private int ApplyBatch(string[] events, int lastBeforeBatch)
         {
             for (var i = 0; i < events.Length; i++)
             {
                 var json = events[i];
+
                 var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
                 if (msg == null) continue;
                 var evnt = msg.Body;
 
                 try
                 {
-                    _readModel.Apply(evnt);
+                    if (!string.IsNullOrEmpty(_readModel.Apply(evnt))) continue;
                     _eventsOnTreeExecutor.Apply(evnt);
                     _opticalEventsExecutor.Apply(evnt);
                     _networkEventsDoubleViewModel.Apply(evnt);
@@ -185,7 +186,7 @@ namespace Iit.Fibertest.Client
                 {
                     _logFile.AppendLine(e.Message);
                     _logFile.AppendLine(
-                        $@"Exception thrown while processing event with timestamp {msg.Headers[Header]} \n {
+                        $@"Exception thrown while processing event {lastBeforeBatch + i} with timestamp {msg.Headers[Header]} \n {
                                 evnt.GetType().FullName
                             }");
                 }

@@ -89,6 +89,7 @@ namespace Iit.Fibertest.Client
             SetRtuProperties(rtuLeaf, e);
         }
 
+      
         private void InitializeFirstTime(RtuLeaf rtuLeaf, RtuInitialized e)
         {
             SetRtuProperties(rtuLeaf, e);

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Media;
 using FluentAssertions;
 using Iit.Fibertest.Client;
@@ -34,7 +35,7 @@ namespace Graph.Tests
             _sut.Poller.EventSourcingTick().Wait();
             _rtu = _sut.ReadModel.Rtus.Last();
             _oldOwnPortCount = p3;
-            _sut.FakeD2RWcfManager.SetFakeInitializationAnswer(serial:p0, waveLength: p2, ownPortCount: _oldOwnPortCount);
+            _sut.FakeD2RWcfManager.SetFakeInitializationAnswer(serial: p0, waveLength: p2, ownPortCount: _oldOwnPortCount);
             _rtuAddress = p1;
             _rtuLeaf = _sut.SetNameAndAskInitializationRtu(_rtu.Id, _rtuAddress);
         }
@@ -84,7 +85,13 @@ namespace Graph.Tests
             if (_portWithBop > _newOwnPortCount)
                 _sut.FakeD2RWcfManager.SetFakeInitializationAnswer(ReturnCode.RtuTooBigPortNumber);
             else
-                _sut.FakeD2RWcfManager.SetFakeInitializationAnswer(ReturnCode.Ok, serial:_newSerial, ownPortCount: _newOwnPortCount);
+            {
+                var bop = new OtauDto() {OwnPortCount = 16, NetAddress = new NetAddress(@"1.1.1.1", 11834), Serial   = @"6543210", };
+                var children = new Dictionary<int, OtauDto>();
+                children.Add(_portWithBop, bop);
+                _sut.FakeD2RWcfManager.SetFakeInitializationAnswer(ReturnCode.Ok, _newSerial,
+                    _newOwnPortCount, 16, @"SM1624", children);
+            }
         }
 
         [When(@"Пользователь нажимает переинициализировать RTU")]

@@ -13,15 +13,17 @@ namespace Graph.Tests
         private int _ownPortCount;
         private int _fullPortCount;
         private string _waveLength;
+        private Dictionary<int, OtauDto> _children;
 
         public void SetFakeInitializationAnswer(ReturnCode returnCode = ReturnCode.Ok, string serial = "123456", 
-            int ownPortCount = 8, int fullPortCount = 8, string waveLength = "SM1625")
+            int ownPortCount = 8, int fullPortCount = 8, string waveLength = "SM1625", Dictionary<int, OtauDto> children = null)
         {
             _fakeInitializationReturnCode = returnCode;
             _serial = serial;
             _ownPortCount = ownPortCount;
             _fullPortCount = fullPortCount;
             _waveLength = waveLength;
+            _children = children;
         }
 
         public ID2RWcfManager SetRtuAddresses(DoubleAddress rtuAddress, IniFile iniFile, IMyLog logFile)
@@ -54,7 +56,7 @@ namespace Graph.Tests
                 RtuAddresses = dto.RtuAddresses,
                 OtdrAddress =  new NetAddress(dto.RtuAddresses.Main.Ip4Address, 23),
                 Version = @"2.0.1.0",
-                Children = new Dictionary<int, OtauDto>(),
+                Children = _children ?? new Dictionary<int, OtauDto>(),
                 IsMonitoringOn = false,
                 AcceptableMeasParams = new TreeOfAcceptableMeasParams()
                 {

@@ -65,12 +65,31 @@ namespace Iit.Fibertest.Graph
                 return $@"RtuInitialized: RTU {e.Id.First6()} not found";
             }
 
+            if (!IsOtauStructureValid(rtu, e))
+            {
+                return $@"RtuInitialized: Otau structure does match";
+            }
+
             if (e.OtauNetAddress == null)
                 return null;
 
             model.SetRtuProperties(rtu, e);
             return null;
         }
+
+        private static bool IsOtauStructureValid(Rtu rtu, RtuInitialized e)
+        {
+            if (e.Children == null) return false;
+
+            foreach (var keyValuePair in rtu.Children)
+            {
+                if (!e.Children.ContainsKey(keyValuePair.Key))
+                    return false;
+            }
+
+            return true;
+        }
+
 
         private static void SetRtuProperties(this Model model, Rtu rtu, RtuInitialized e)
         {
