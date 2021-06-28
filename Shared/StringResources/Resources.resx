@@ -2889,4 +2889,7 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Stop_monitoring_in_order_to_change_equipment" xml:space="preserve">
 		<value>Stop monitoring in order to change equipment.</value>
 	</data>
+	<data name="SID_Available_ports" xml:space="preserve">
+		<value>Available ports</value>
+	</data>
 </root>

@@ -891,6 +891,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Available ports.
+        /// </summary>
+        public static string SID_Available_ports {
+            get {
+                return ResourceManager.GetString("SID_Available_ports", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back.
         /// </summary>
         public static string SID_Back {
@@ -7036,7 +7045,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Stop monitoring in order to change equipment.
+        ///   Looks up a localized string similar to Stop monitoring in order to change equipment..
         /// </summary>
         public static string SID_Stop_monitoring_in_order_to_change_equipment {
             get {

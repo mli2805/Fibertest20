@@ -2889,4 +2889,7 @@ RTU инициализируется в данный момент!</value>
   <data name="SID_Stop_monitoring_in_order_to_change_equipment" xml:space="preserve">
 	  <value>Для внесения изменений остановите мониторинг этих трасс.</value>
   </data>
+  <data name="SID_Available_ports" xml:space="preserve">
+	  <value>Доступно портов</value>
+  </data>
 </root>

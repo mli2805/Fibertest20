@@ -25,7 +25,6 @@ namespace Iit.Fibertest.Client
         private string _mfsn;
         private string _omid;
         private string _omsn;
-        private int _ownPortCount;
         private string _version;
         private string _version2;
         private List<string> _bops;
@@ -76,16 +75,17 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public int OwnPortCount
-        {
-            get => _ownPortCount;
-            set
-            {
-                if (value == _ownPortCount) return;
-                _ownPortCount = value;
-                NotifyOfPropertyChange();
-            }
-        }
+        // private int _ownPortCount;
+        // public int OwnPortCount
+        // {
+        //     get => _ownPortCount;
+        //     set
+        //     {
+        //         if (value == _ownPortCount) return;
+        //         _ownPortCount = value;
+        //         NotifyOfPropertyChange();
+        //     }
+        // }
 
         public int FullPortCount
         {
@@ -159,8 +159,8 @@ namespace Iit.Fibertest.Client
             Mfsn = rtu.Mfsn;
             Omid = rtu.Omid;
             Omsn = rtu.Omsn;
-            OwnPortCount = rtu.OwnPortCount;
-            FullPortCount = rtu.FullPortCount;
+            // OwnPortCount = rtu.OwnPortCount;
+            FullPortCount = rtu.FullPortCount - rtu.Children.Count;
 
             Bops = CreateBops(rtu);
 
@@ -175,8 +175,8 @@ namespace Iit.Fibertest.Client
             Mfsn = dto.Mfsn;
             Omid = dto.Omid;
             Omsn = dto.Omsn;
-            OwnPortCount = dto.OwnPortCount;
-            FullPortCount = dto.FullPortCount;
+            // OwnPortCount = dto.OwnPortCount;
+            FullPortCount = dto.FullPortCount - dto.Children.Count;
 
             Bops = CreateBops(dto);
 
