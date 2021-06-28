@@ -89,25 +89,21 @@ namespace Iit.Fibertest.RtuManagement
         {
             _rtuLog.EmptyLine();
 
-            _rtuLog.AppendLine($"Check connection with OTAU {param.NetAddress.ToStringA()}");
-            var newCharon = new Charon(param.NetAddress, _rtuIni, _rtuLog);
-            newCharon.GetSerial();
-
-            if (newCharon.IsLastCommandSuccessful && _mainCharon.AttachOtauToPort(param.NetAddress, param.OpticalPort))
+            var newCharon = _mainCharon.AttachOtauToPort(param.NetAddress, param.OpticalPort);
+            if (newCharon != null)
             {
                 // _mainCharon.InitializeOtauRecursively();
-                _mainCharon.Children.Add(param.OpticalPort, newCharon);
-                _rtuLog.AppendLine($"Otau {param.NetAddress.ToStringA()} attached to port {param.OpticalPort}");
+                _rtuLog.AppendLine($"Otau {param.NetAddress.ToStringA()} attached to port {param.OpticalPort} and has {newCharon.OwnPortCount} ports");
+                _rtuLog.AppendLine($"Now RTU has {_mainCharon.OwnPortCount}/{_mainCharon.FullPortCount} ports");
 
-                var child = _mainCharon.GetBopCharonWithLogging(param.NetAddress);
                 OtauAttachedDto = new OtauAttachedDto()
                 {
                     IsAttached = true,
                     ReturnCode = ReturnCode.OtauAttachedSuccesfully,
                     OtauId = param.OtauId,
                     RtuId = param.RtuId,
-                    Serial = child.Serial,
-                    PortCount = child.OwnPortCount,
+                    Serial = newCharon.Serial,
+                    PortCount = newCharon.OwnPortCount,
                 };
             }
             else
@@ -127,8 +123,8 @@ namespace Iit.Fibertest.RtuManagement
             if (_mainCharon.DetachOtauFromPort(param.OpticalPort))
             {
                 // _mainCharon.InitializeOtauRecursively();
-                _mainCharon.Children.Remove(param.OpticalPort);
                 _rtuLog.AppendLine($"Otau {param.NetAddress.ToStringA()} detached from port {param.OpticalPort}");
+                _rtuLog.AppendLine($"Now RTU has {_mainCharon.OwnPortCount}/{_mainCharon.FullPortCount} ports");
 
                 OtauDetachedDto = new OtauDetachedDto()
                 {

@@ -62,7 +62,7 @@ namespace Graph.Tests
         {
             _sut.ReadModel.Otaus.FirstOrDefault(o => o.Id == _otauLeaf.Id).Should().NotBeNull();
 
-            _rtuLeaf.FullPortCount.Should().Be(24);
+            _rtuLeaf.FullPortCount.Should().Be(23);
             _rtuLeaf.ChildrenImpresario.Children[_portNumberForOtau-1].Should().Be(_otauLeaf);
             _otauLeaf.ChildrenImpresario.Children.Count.Should().Be(16);
 
@@ -84,7 +84,7 @@ namespace Graph.Tests
         [Then(@"Подключено два переключателя")]
         public void ThenПодключеноДваПереключателя()
         {
-            _rtuLeaf.FullPortCount.Should().Be(40);
+            _rtuLeaf.FullPortCount.Should().Be(38);
         }
 
 

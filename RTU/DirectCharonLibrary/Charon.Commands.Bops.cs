@@ -25,37 +25,60 @@ namespace Iit.Fibertest.DirectCharonLibrary
             extPorts.Remove(fromOpticalPort);
             var content = DictionaryToContent(extPorts);
             SendWriteIniCommand(content);
+
+            if (IsLastCommandSuccessful)
+            {
+                var child = Children[fromOpticalPort];
+                FullPortCount -= child.FullPortCount;
+                Children.Remove(fromOpticalPort);
+            }
             return IsLastCommandSuccessful;
         }
 
-        public bool AttachOtauToPort(NetAddress additionalOtauAddress, int toOpticalPort)
+        public Charon AttachOtauToPort(NetAddress additionalOtauAddress, int toOpticalPort)
         {
             _rtuLogFile.AppendLine($"Attach {additionalOtauAddress.ToStringA()} to port {toOpticalPort} requested...");
             if (!ValidateAttachCommand(additionalOtauAddress, toOpticalPort))
-                return false;
+                return null;
             var extPorts = GetExtentedPorts();
             if (extPorts == null) // read charon ini file error
             {
                 LastErrorMessage = "Read charon ini file error";
                 _rtuLogFile.AppendLine(LastErrorMessage, 2);
-                return false;
+                return null;
             }
             if (LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
             {
                 LastErrorMessage = "Charon too old, knows nothing about extensions";
                 _rtuLogFile.AppendLine(LastErrorMessage, 2);
-                return false;
+                return null;
             }
             if (extPorts.ContainsKey(toOpticalPort))
             {
                 LastErrorMessage = "This is extended port already. Denied.";
                 _rtuLogFile.AppendLine(LastErrorMessage, 2);
-                return false;
+                return null;
             }
+
+            _rtuLogFile.AppendLine($"Check connection with OTAU {additionalOtauAddress.ToStringA()}");
+            var child = new Charon(additionalOtauAddress, _iniFile35, _rtuLogFile);
+            child.InitializeOtauRecursively();
+            if (!IsLastCommandSuccessful)
+            {
+                return null;
+            }
+
             extPorts.Add(toOpticalPort, additionalOtauAddress);
             var content = DictionaryToContent(extPorts);
             SendWriteIniCommand(content);
-            return IsLastCommandSuccessful;
+
+            if (IsLastCommandSuccessful)
+            {
+                Children.Add(toOpticalPort, child);
+                FullPortCount += child.FullPortCount;
+            }
+
+            return child;
         }
 
         private bool ValidateAttachCommand(NetAddress additionalOtauAddress, int toOpticalPort)
