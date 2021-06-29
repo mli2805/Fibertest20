@@ -9,6 +9,6 @@
         <TextBlock DockPanel.Dock="Top" Text="{Binding Text1}" Margin="5"/>
         <TextBox  DockPanel.Dock="Top" Text="{Binding InstallationFolder}" Margin="15,5" IsEnabled="false"/>
         <CheckBox  DockPanel.Dock="Top" Margin="15, 10" IsChecked="{Binding IsFullUninstall}" 
-                   Content="{Binding CheckContent}"/>
+                   Content="{Binding CheckContent}" Visibility="{Binding FullUninstallVisibility}"/>
     </DockPanel>
 </UserControl>

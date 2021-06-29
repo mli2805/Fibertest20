@@ -75,15 +75,18 @@ namespace Iit.Fibertest.Uninstall
             HeaderViewModel.InBold = string.Format(Resources.SID_Uninstall__0_, MainName);
             HeaderViewModel.Explanation = string.Format(Resources.SID_Remove__0__from_your_computer, MainName);
 
-            UnInstallFolderViewModel = new UnInstallFolderViewModel() { Visibility = Visibility.Visible };
+            var iniFile = new IniFile();
+            iniFile.AssignFile("uninstall.ini");
+            _isOnRtu = iniFile.Read(IniSection.Uninstall, IniKey.IsOnRtu, false);
+
+            UnInstallFolderViewModel =
+                new UnInstallFolderViewModel(_isOnRtu ? Visibility.Collapsed : Visibility.Visible)
+                { Visibility = Visibility.Visible };
             ProcessProgressViewModel = new ProcessProgressViewModel() { Visibility = Visibility.Collapsed };
             LastButtonContent = "Cancel";
             IsButtonUninstallEnabled = true;
             IsButtonCancelEnabled = true;
 
-            var iniFile = new IniFile();
-            iniFile.AssignFile("uninstall.ini");
-            _isOnRtu = iniFile.Read(IniSection.Uninstall, IniKey.IsOnRtu, false);
         }
 
         protected override void OnViewLoaded(object view)

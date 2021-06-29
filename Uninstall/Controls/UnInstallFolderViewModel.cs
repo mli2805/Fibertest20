@@ -28,10 +28,11 @@ namespace Iit.Fibertest.Uninstall
         public bool IsFullUninstall { get; set; }
 
         public string CheckContent { get; set; }
+        public Visibility FullUninstallVisibility { get; set; }
 
-
-        public UnInstallFolderViewModel()
+        public UnInstallFolderViewModel(Visibility fullUninstallVisibility)
         {
+            FullUninstallVisibility = fullUninstallVisibility;
             Text1 = string.Format(Resources.SID__0__will_be_uninstalled_from_the_following_folder__Click_Uninstall_to_start_the_uninstallation_, MainName);
             InstallationFolder = RegistryOperations.GetFibertestValue("InstallationFolder", "");
             if (string.IsNullOrEmpty(InstallationFolder))
