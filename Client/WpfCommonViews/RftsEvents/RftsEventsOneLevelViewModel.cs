@@ -17,6 +17,10 @@ namespace Iit.Fibertest.WpfCommonViews
 
         public RftsEventsOneLevelViewModel(OtdrDataKnownBlocks sorData, RftsEventsBlock rftsEventsBlock, RftsLevel rftsLevel)
         {
+            if (rftsEventsBlock == null)
+            {
+                return;
+            }
             OneLevelTableContent = new SorDataToViewContent(sorData, rftsEventsBlock, rftsLevel.LevelName).Parse();
             CreateTable(OneLevelTableContent.Table.First().Value.Length-1);
             PopulateTable();

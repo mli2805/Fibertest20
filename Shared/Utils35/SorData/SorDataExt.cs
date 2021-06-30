@@ -21,8 +21,8 @@ namespace Iit.Fibertest.UtilsLib
 
         public static int GetLandmarkToTheLeftFromOwt(this OtdrDataKnownBlocks sorData, int owt)
         {
-            var leftLandmarkIndex = 0; 
-            for (int i =1; i < sorData.LinkParameters.LandmarksCount; i++)
+            var leftLandmarkIndex = 0;
+            for (int i = 1; i < sorData.LinkParameters.LandmarksCount; i++)
             {
                 if (sorData.LinkParameters.LandmarkBlocks[i].Location < owt)
                     leftLandmarkIndex = i;
@@ -43,12 +43,24 @@ namespace Iit.Fibertest.UtilsLib
 
         public static void EmbedBaseRef(this OtdrDataKnownBlocks measSorData, byte[] baseBytes)
         {
-            var embeddedData = new List<EmbeddedData> {BaseBufferToEmbeddedData(baseBytes)};
-            measSorData.EmbeddedData.EmbeddedDataBlocks = embeddedData.ToArray();
-            measSorData.EmbeddedData.EmbeddedBlocksCount = (ushort)embeddedData.Count;
+          
+            if (measSorData.EmbeddedData.EmbeddedDataBlocks != null)
+            {
+                var embeddedData = measSorData.EmbeddedData.EmbeddedDataBlocks.ToList();
+                embeddedData.Add(BaseBufferToEmbeddedDataBlock(baseBytes));
+                measSorData.EmbeddedData.EmbeddedDataBlocks = embeddedData.ToArray();
+                measSorData.EmbeddedData.EmbeddedBlocksCount = (ushort)embeddedData.Count;
+            }
+            else
+            {
+                var embeddedData = new List<EmbeddedData> { BaseBufferToEmbeddedDataBlock(baseBytes) };
+                measSorData.EmbeddedData.EmbeddedDataBlocks = embeddedData.ToArray();
+                measSorData.EmbeddedData.EmbeddedBlocksCount = (ushort)embeddedData.Count;
+
+            }
         }
 
-        private static EmbeddedData BaseBufferToEmbeddedData(byte[] buffer)
+        private static EmbeddedData BaseBufferToEmbeddedDataBlock(byte[] buffer)
         {
             return new EmbeddedData
             {
