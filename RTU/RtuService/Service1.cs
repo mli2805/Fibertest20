@@ -9,17 +9,15 @@ namespace Iit.Fibertest.RtuService
 {
     public partial class Service1 : ServiceBase
     {
-        private readonly IniFile _iniFile;
         private readonly IMyLog _serviceLog;
         private readonly RtuManager _rtuManager;
         private readonly RtuWcfServiceBootstrapper _rtuWcfServiceBootstrapper;
         private readonly Heartbeat _heartbeat;
         private Thread _rtuManagerThread;
 
-        public Service1(IniFile iniFile, IMyLog serviceLog, RtuManager rtuManager,
+        public Service1(IMyLog serviceLog, RtuManager rtuManager,
             RtuWcfServiceBootstrapper rtuWcfServiceBootstrapper, Heartbeat heartbeat)
         {
-            _iniFile = iniFile;
             _serviceLog = serviceLog;
             _rtuManager = rtuManager;
             _rtuWcfServiceBootstrapper = rtuWcfServiceBootstrapper;
