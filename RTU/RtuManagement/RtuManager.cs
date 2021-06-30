@@ -102,6 +102,16 @@ namespace Iit.Fibertest.RtuManagement
 
         public void OnServiceStart()
         {
+            var upTime = Utils.GetUpTime();
+            _serviceLog.AppendLine($"Windows' UpTime is {upTime}");
+            var limit = _serviceIni.Read(IniSection.General, IniKey.RtuUpTimeForAdditionalPause, 100);
+            if (TimeSpan.Zero < upTime && upTime < TimeSpan.FromSeconds(limit))
+            {
+                var delay = _serviceIni.Read(IniSection.General, IniKey.RtuPauseAfterReboot, 20);
+                _serviceLog.AppendLine($"Additional pause after RTU restart is {delay} sec");
+                Thread.Sleep(TimeSpan.FromSeconds(delay));
+            }
+            
             Initialize(null, null);
         }
 

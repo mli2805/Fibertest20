@@ -27,6 +27,7 @@
         // General - RTU
         RtuHeartbeatRate,
         RtuPauseAfterReboot,
+        RtuUpTimeForAdditionalPause,
         // General - DataCenter
         CheckWebApiEvery,
         CheckHeartbeatEvery,

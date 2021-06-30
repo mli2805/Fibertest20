@@ -16,7 +16,7 @@ namespace Iit.Fibertest.RtuService
         private readonly Heartbeat _heartbeat;
         private Thread _rtuManagerThread;
 
-        public Service1(IniFile iniFile, IMyLog serviceLog, RtuManager rtuManager, 
+        public Service1(IniFile iniFile, IMyLog serviceLog, RtuManager rtuManager,
             RtuWcfServiceBootstrapper rtuWcfServiceBootstrapper, Heartbeat heartbeat)
         {
             _iniFile = iniFile;
@@ -34,21 +34,12 @@ namespace Iit.Fibertest.RtuService
             var tid = Thread.CurrentThread.ManagedThreadId;
             _serviceLog.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
-            var upTime = Utils.GetUpTime();
-            _serviceLog.AppendLine($"Windows' UpTime is {upTime}");
-            if (TimeSpan.Zero < upTime && upTime < TimeSpan.FromSeconds(100))
-            {
-                var delay = _iniFile.Read(IniSection.General, IniKey.RtuPauseAfterReboot, 20);
-                _serviceLog.AppendLine($"Additional pause after RTU restart is {delay} sec");
-                Thread.Sleep(delay);
-            }
-
             _rtuManagerThread = new Thread(_rtuManager.OnServiceStart) { IsBackground = true };
             _rtuManagerThread.Start();
 
             _rtuWcfServiceBootstrapper.Start();
 
-            var heartbeatThread = new Thread(_heartbeat.Start) {IsBackground = true};
+            var heartbeatThread = new Thread(_heartbeat.Start) { IsBackground = true };
             heartbeatThread.Start();
         }
 
