@@ -43,6 +43,7 @@ namespace Iit.Fibertest.Client
         public OtdrAddressViewModel OtdrAddressViewModel { get; set; } = new OtdrAddressViewModel();
         public RtuIitInfoViewModel IitInfoModel { get; set; } = new RtuIitInfoViewModel();
         public RtuVeexInfoViewModel VeexInfoModel { get; set; } = new RtuVeexInfoViewModel();
+        public PortsAndBopsViewModel PortsAndBopsViewModel { get; set; } = new PortsAndBopsViewModel();
 
         private Rtu _originalRtu;
         public Rtu OriginalRtu
@@ -93,7 +94,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public RtuInitializeModel(ILifetimeScope globalScope, IniFile iniFile, 
+        public RtuInitializeModel(ILifetimeScope globalScope, IniFile iniFile,
             IWindowManager windowManager, Model readModel)
         {
             _globalScope = globalScope;
@@ -108,7 +109,7 @@ namespace Iit.Fibertest.Client
             RtuId = OriginalRtu.Id.ToString();
             RtuName = OriginalRtu.Title;
             if (OriginalRtu.MainChannel.Ip4Address == "")
-                OriginalRtu.MainChannel.Ip4Address = 
+                OriginalRtu.MainChannel.Ip4Address =
                     _iniFile.Read(IniSection.General, IniKey.Ip4Default, @"192.168.96.");
             MainChannelTestViewModel = _globalScope.Resolve<NetAddressTestViewModel>
                 (new NamedParameter(@"netAddressForConnectionTest", new NetAddressForConnectionTest(OriginalRtu.MainChannel, true)));
@@ -133,6 +134,7 @@ namespace Iit.Fibertest.Client
                 IitVisibility = Visibility.Collapsed;
                 VeexVisibility = Visibility.Visible;
             }
+            PortsAndBopsViewModel.FillInPortsAndBops(OriginalRtu);
         }
 
         public void UpdateWithDto(RtuInitializedDto dto)
@@ -154,9 +156,10 @@ namespace Iit.Fibertest.Client
                 IitVisibility = Visibility.Collapsed;
                 VeexVisibility = Visibility.Visible;
             }
+            PortsAndBopsViewModel.FillInPortsAndBops(dto);
         }
 
-      
+
         private void ReserveChannelTestViewModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             if (e.PropertyName == @"Result")

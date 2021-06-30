@@ -84,8 +84,7 @@ namespace Iit.Fibertest.Client
                 using (_globalScope.Resolve<IWaitCursor>())
                 {
 
-                    if (!await CheckConnectionBeforeInitializaion()) return;
-                    // TODO maybe special type ?
+                    if (!await CheckConnectionBeforeInitialization()) return;
                     var rtuMaker = FullModel.MainChannelTestViewModel.NetAddressInputViewModel.Port == (int)TcpPorts.RtuListenTo
                         ? RtuMaker.IIT
                         : RtuMaker.VeEX;
@@ -146,7 +145,7 @@ namespace Iit.Fibertest.Client
             };
         }
 
-        private async Task<bool> CheckConnectionBeforeInitializaion()
+        private async Task<bool> CheckConnectionBeforeInitialization()
         {
             if (!FullModel.MainChannelTestViewModel.NetAddressInputViewModel.IsValidIpAddress())
             {

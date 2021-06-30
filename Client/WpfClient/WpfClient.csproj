@@ -243,12 +243,16 @@
       <DependentUpon>OtdrAddressView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\RtuForms\RtuInitialize\Controls\OtdrAddressViewModel.cs" />
+    <Compile Include="Forms\RtuForms\RtuInitialize\Controls\PortsAndBopsView.xaml.cs">
+      <DependentUpon>PortsAndBopsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\RtuForms\RtuInitialize\Controls\PortsAndBopsViewModel.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\Controls\RtuIitInfoView.xaml.cs">
       <DependentUpon>RtuIitInfoView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\RtuForms\RtuInitialize\Controls\RtuIitInfoViewModel.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\Controls\RtuVeexInfoViewModel.cs" />
-    <Compile Include="Forms\RtuForms\RtuInitialize\RtuInfoModel.cs" />
+    <Compile Include="Forms\RtuForms\RtuInitialize\Controls\RtuInfoModel.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\RtuInitializeModel.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\Controls\RtuVeexInfoView.xaml.cs">
       <DependentUpon>RtuVeexInfoView.xaml</DependentUpon>
@@ -713,6 +717,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\RtuForms\RtuInitialize\Controls\OtdrAddressView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\RtuForms\RtuInitialize\Controls\PortsAndBopsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

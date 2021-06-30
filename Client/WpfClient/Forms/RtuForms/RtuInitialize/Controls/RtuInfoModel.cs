@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Windows;
+﻿using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -27,9 +26,7 @@ namespace Iit.Fibertest.Client
         private string _omsn;
         private string _version;
         private string _version2;
-        private List<string> _bops;
         private Visibility _visibility;
-        private int _fullPortCount;
 
         public string Mfid
         {
@@ -75,29 +72,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        // private int _ownPortCount;
-        // public int OwnPortCount
-        // {
-        //     get => _ownPortCount;
-        //     set
-        //     {
-        //         if (value == _ownPortCount) return;
-        //         _ownPortCount = value;
-        //         NotifyOfPropertyChange();
-        //     }
-        // }
-
-        public int FullPortCount
-        {
-            get => _fullPortCount;
-            set
-            {
-                if (value == _fullPortCount) return;
-                _fullPortCount = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
         public string Version
         {
             get => _version;
@@ -129,17 +103,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public List<string> Bops
-        {
-            get => _bops;
-            set
-            {
-                if (Equals(value, _bops)) return;
-                _bops = value;
-                NotifyOfPropertyChange();
-            }
-        }
-
+       
         public Visibility Visibility
         {
             get => _visibility;
@@ -159,11 +123,6 @@ namespace Iit.Fibertest.Client
             Mfsn = rtu.Mfsn;
             Omid = rtu.Omid;
             Omsn = rtu.Omsn;
-            // OwnPortCount = rtu.OwnPortCount;
-            FullPortCount = rtu.FullPortCount - rtu.Children.Count;
-
-            Bops = CreateBops(rtu);
-
             Version = rtu.Version;
             Version2 = rtu.Version2;
         }
@@ -175,41 +134,8 @@ namespace Iit.Fibertest.Client
             Mfsn = dto.Mfsn;
             Omid = dto.Omid;
             Omsn = dto.Omsn;
-            // OwnPortCount = dto.OwnPortCount;
-            FullPortCount = dto.FullPortCount - dto.Children.Count;
-
-            Bops = CreateBops(dto);
-
             Version = dto.Version;
             Version2 = dto.Version2;
         }
-
-        private List<string> CreateBops(Rtu rtu)
-        {
-            var bops = new List<string>();
-            foreach (var pair in rtu.Children)
-            {
-                bops.Add(string.Format(Resources.SID____on_port__0___optical_switch__1___,
-                    pair.Key, pair.Value.NetAddress.ToStringA()));
-                bops.Add(string.Format(Resources.SID_______________________serial__0____1__ports,
-                    pair.Value.Serial, pair.Value.OwnPortCount));
-            }
-            return bops;
-        }
-
-        private List<string> CreateBops(RtuInitializedDto dto)
-        {
-            var bops = new List<string>();
-            if (dto.Children != null)
-                foreach (var pair in dto.Children)
-                {
-                    bops.Add(string.Format(Resources.SID____on_port__0___optical_switch__1___,
-                        pair.Key, pair.Value.NetAddress.ToStringA()));
-                    bops.Add(string.Format(Resources.SID_______________________serial__0____1__ports,
-                        pair.Value.Serial, pair.Value.OwnPortCount));
-                }
-            return bops;
-        }
-
     }
 }

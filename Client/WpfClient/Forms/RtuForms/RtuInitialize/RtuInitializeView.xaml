@@ -49,6 +49,7 @@
                 <StackPanel Visibility="{Binding FullModel.VeexVisibility}" >
                     <client:RtuVeexInfoView DataContext="{Binding FullModel.VeexInfoModel}" />
                 </StackPanel>
+                <client:PortsAndBopsView DataContext="{Binding FullModel.PortsAndBopsViewModel}" />
             </StackPanel>
         </GroupBox>
 
