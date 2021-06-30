@@ -134,7 +134,7 @@ namespace Iit.Fibertest.Client
             if (result.IsAttached)
             {
                 AttachmentProgress = Resources.SID_Successful_;
-                OtauSerial = result.Serial;
+                OtauSerial = result.Serial.Substring(0, result.Serial.Length - 1);
                 OtauPortCount = result.PortCount;
             }
             else
