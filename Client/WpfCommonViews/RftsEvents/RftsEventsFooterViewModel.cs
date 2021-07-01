@@ -13,13 +13,13 @@ namespace Iit.Fibertest.WpfCommonViews
         public double Orl { get; set; }
 
         public string Minor { get; set; }
-        public Brush MinorColor => TraceState == Resources.SID_pass ? Brushes.Black : Brushes.Red;
+        public Brush MinorColor => Minor == Resources.SID_pass ? Brushes.Black : Brushes.Red;
         public string Major { get; set; }
-        public Brush MajorColor => TraceState == Resources.SID_pass ? Brushes.Black : Brushes.Red;
+        public Brush MajorColor => Major == Resources.SID_pass ? Brushes.Black : Brushes.Red;
         public string Critical { get; set; }
-        public Brush CriticalColor => TraceState == Resources.SID_pass ? Brushes.Black : Brushes.Red;
+        public Brush CriticalColor => Critical == Resources.SID_pass ? Brushes.Black : Brushes.Red;
         public string Users { get; set; }
-        public Brush UsersColor => TraceState == Resources.SID_pass ? Brushes.Black : Brushes.Red;
+        public Brush UsersColor => Users == Resources.SID_pass ? Brushes.Black : Brushes.Red;
 
         public LevelsContent LevelsContent { get; set; }
 
