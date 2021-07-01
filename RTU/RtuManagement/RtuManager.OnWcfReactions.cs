@@ -45,13 +45,13 @@ namespace Iit.Fibertest.RtuManagement
             {
                 callback?.Invoke();
                 isCallbackReturned = true;
-                while (RunMainCharonRecovery() != ReturnCode.Ok){}
+                while (RunMainCharonRecovery() != ReturnCode.Ok) { }
             }
 
             if (param != null && param.Serial != _mainCharon.Serial)
             {
                 _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
-                    _rtuLog.AppendLine("Serials do not match! Turning monitoring off.");
+                _rtuLog.AppendLine("Serials do not match! Turning monitoring off.");
             }
 
             IsRtuInitialized = true;
@@ -92,10 +92,7 @@ namespace Iit.Fibertest.RtuManagement
             var newCharon = _mainCharon.AttachOtauToPort(param.NetAddress, param.OpticalPort);
             if (newCharon != null)
             {
-                // _mainCharon.InitializeOtauRecursively();
                 _rtuLog.AppendLine($"Otau {param.NetAddress.ToStringA()} attached to port {param.OpticalPort} and has {newCharon.OwnPortCount} ports");
-                _rtuLog.AppendLine($"Now RTU has {_mainCharon.OwnPortCount}/{_mainCharon.FullPortCount} ports");
-
                 OtauAttachedDto = new OtauAttachedDto()
                 {
                     IsAttached = true,
@@ -113,6 +110,8 @@ namespace Iit.Fibertest.RtuManagement
                     ReturnCode = ReturnCode.RtuAttachOtauError,
                     ErrorMessage = _mainCharon.LastErrorMessage
                 };
+
+            _rtuLog.AppendLine($"Now RTU has {_mainCharon.OwnPortCount}/{_mainCharon.FullPortCount} ports");
             callback?.Invoke();
         }
 
@@ -151,7 +150,7 @@ namespace Iit.Fibertest.RtuManagement
             bool isCallbackReturned = false;
             if (_rtuInitializationResult != ReturnCode.Ok)
             {
-                while (RunMainCharonRecovery() != ReturnCode.Ok){}
+                while (RunMainCharonRecovery() != ReturnCode.Ok) { }
             }
             else
             {

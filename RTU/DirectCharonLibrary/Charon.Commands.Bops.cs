@@ -62,8 +62,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
             _rtuLogFile.AppendLine($"Check connection with OTAU {additionalOtauAddress.ToStringA()}");
             var child = new Charon(additionalOtauAddress, _iniFile35, _rtuLogFile);
-            child.InitializeOtauRecursively();
-            if (!IsLastCommandSuccessful)
+            if (child.InitializeOtauRecursively() != null)
             {
                 return null;
             }
