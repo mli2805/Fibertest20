@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -48,7 +49,7 @@ namespace Iit.Fibertest.Client
         {
             var bops = new List<string>();
             if (otaus != null)
-                foreach (var pair in otaus)
+                foreach (var pair in otaus.OrderBy(p=>p.Key))
                 {
                     bops.Add(string.Format(Resources.SID____on_port__0___optical_switch__1___,
                         pair.Key, pair.Value.NetAddress.ToStringA()));

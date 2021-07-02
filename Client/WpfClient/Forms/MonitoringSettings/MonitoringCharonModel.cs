@@ -6,8 +6,8 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 {
     public class MonitoringCharonModel : PropertyChangedBase
     {
-//        public string CharonIpAddress { get; set; }
-//        public int CharonTcpPort { get; set; }
+        //        public string CharonIpAddress { get; set; }
+        //        public int CharonTcpPort { get; set; }
         public string Serial { get; set; }
         public bool IsMainCharon { get; set; }
         public string Title { get; set; }
@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             set
             {
                 _groupenCheck = value;
-                foreach (var port in Ports.Where(p=>p.IsReadyForMonitoring))
+                foreach (var port in Ports.Where(p => p.IsReadyForMonitoring))
                 {
                     port.IsIncluded = _groupenCheck;
                 }
@@ -31,13 +31,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         public bool IsEditEnabled { get; set; }
 
 
-//        public MonitoringCharonModel(string charonIpAddress, int charonTcpPort)
-//        {
-//            CharonIpAddress = charonIpAddress;
-//            CharonTcpPort = charonTcpPort;
-//            Title = CharonIpAddress + @":" + CharonTcpPort;
-//        }
-  public MonitoringCharonModel(string serial)
+        public MonitoringCharonModel(string serial)
         {
             Serial = serial;
             Title = Serial;
@@ -57,9 +51,9 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                 NotifyOfPropertyChange(nameof(CycleTime));
         }
 
-        public int CycleTime => 
-            Ports.Where(p => p.IsIncluded).Sum(p => (int)p.FastBaseSpan.TotalSeconds) +
-                   Ports.Count(p => p.IsIncluded) * 2; // 2 sec for toggle port
-        
+        public int CycleTime =>
+            Ports.Where(p => p.IsIncluded).Sum(p => (int)p.FastBaseSpan.TotalSeconds + 2); 
+                // 2 sec for toggle port
+
     }
 }
