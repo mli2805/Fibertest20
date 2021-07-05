@@ -54,7 +54,7 @@ namespace Iit.Fibertest.Client
                     bops.Add(string.Format(Resources.SID____on_port__0___optical_switch__1___,
                         pair.Key, pair.Value.NetAddress.ToStringA()));
 
-                    var bopSerial = pair.Value.Serial.Substring(0, pair.Value.Serial.Length - 1);
+                    var bopSerial = pair.Value.Serial?.Substring(0, pair.Value.Serial.Length - 1) ?? @"not available";
                     bops.Add(string.Format(Resources.SID_______________________serial__0____1__ports,
                         bopSerial, pair.Value.OwnPortCount));
                 }

@@ -87,24 +87,24 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 _rtuLogFile.AppendLine(Encoding.ASCII.GetString(bytesToRead, 0, bytesRead), 4, 3, "Received :");
 
                 //---send the content---
-                byte[] contentBytes = new byte[_charonIniSize];
+                byte[] contentBytes = new byte[CharonIniSize];
                 var contentB = Encoding.ASCII.GetBytes(content);
                 Array.Copy(contentB, contentBytes, contentB.Length);
 
-                int rest = _charonIniSize;
+                int rest = CharonIniSize;
                 while (rest > 0)
                 {
                     if (rest >= 256)
                     {
                         byte[] bytes256 = new byte[256];
-                        Array.Copy(contentBytes, _charonIniSize - rest, bytes256, 0,256);
+                        Array.Copy(contentBytes, CharonIniSize - rest, bytes256, 0,256);
                         nwStream.Write(bytes256, 0, bytes256.Length);
                         rest = rest - 256;
                     }
                     else
                     {
                         byte[] bytes = new byte[rest];
-                        Array.Copy(contentBytes, _charonIniSize - rest, bytes, 0, rest);
+                        Array.Copy(contentBytes, CharonIniSize - rest, bytes, 0, rest);
                         nwStream.Write(bytes, 0, bytes.Length);
                         rest = 0;
                     }

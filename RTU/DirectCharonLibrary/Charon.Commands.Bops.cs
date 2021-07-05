@@ -7,7 +7,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
         public bool DetachOtauFromPort(int fromOpticalPort)
         {
             _rtuLogFile.AppendLine($"Detach from port {fromOpticalPort} requested...");
-            var extPorts = GetExtentedPorts();
+            var extPorts = GetExtendedPorts();
             if (extPorts == null)
                 return false;
             if (LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
@@ -40,7 +40,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             _rtuLogFile.AppendLine($"Attach {additionalOtauAddress.ToStringA()} to port {toOpticalPort} requested...");
             if (!ValidateAttachCommand(additionalOtauAddress, toOpticalPort))
                 return null;
-            var extPorts = GetExtentedPorts();
+            var extPorts = GetExtendedPorts();
             if (extPorts == null) // read charon ini file error
             {
                 LastErrorMessage = "Read charon ini file error";

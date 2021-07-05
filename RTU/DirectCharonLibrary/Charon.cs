@@ -13,7 +13,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
         private readonly int _readTimeout;
         private readonly int _writeTimeout;
         private readonly int _pauseBetweenCommands;
-        private readonly int _charonIniSize;
+        public int CharonIniSize { get; set; }
         public NetAddress NetAddress { get; set; }
         public string Serial { get; set; }
         public int OwnPortCount { get; set; }
@@ -35,8 +35,8 @@ namespace Iit.Fibertest.DirectCharonLibrary
             _readTimeout = _iniFile35.Read(IniSection.Charon, IniKey.ReadTimeout, 2);
             _writeTimeout = _iniFile35.Read(IniSection.Charon, IniKey.WriteTimeout, 2);
             _pauseBetweenCommands = _iniFile35.Read(IniSection.Charon, IniKey.PauseBetweenCommandsMs, 200);
-            _charonIniSize = _iniFile35.Read(IniSection.Charon, IniKey.CharonIniSize, 480);
             NetAddress = netAddress;
+            // CharonIniSize = _iniFile35.Read(IniSection.Charon, IniKey.CharonIniSize, 480);
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             IsOk = true;
 
             IsBopSupported = false;
-            var expendedPorts = GetExtentedPorts();
+            var expendedPorts = GetExtendedPorts();
             if (!IsLastCommandSuccessful)
             {
                 LastErrorMessage = $"Get extended ports error {LastErrorMessage}";

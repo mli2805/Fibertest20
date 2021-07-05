@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
@@ -92,7 +93,7 @@ namespace Iit.Fibertest.RtuManagement
                 return dto.Children.Count > 0 ? ReturnCode.RtuDoesntSupportBop : ReturnCode.Ok;
 
             // detach bops if they are not attached in client
-            foreach (var pair in _mainCharon.Children)
+            foreach (var pair in _mainCharon.Children.ToArray())
             {
                 _rtuLog.AppendLine($"RTU hardware has additional OTAU {pair.Value.Serial} on port {pair.Key}", messageLevel: 3);
 
@@ -123,6 +124,9 @@ namespace Iit.Fibertest.RtuManagement
         {
             var otauIpAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtauIp, DefaultIp);
             _mainCharon = new Charon(new NetAddress(otauIpAddress, 23), _rtuIni, _rtuLog);
+            var iniSize = _mainCharon.GetIniSize();
+            _rtuLog.AppendLine($"Charon ini size is {iniSize}");
+            _mainCharon.CharonIniSize = iniSize;
             var res = _mainCharon.InitializeOtauRecursively();
             if (res == _mainCharon.NetAddress)
                 return ReturnCode.OtauInitializationError;

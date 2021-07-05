@@ -47,7 +47,34 @@ namespace Iit.Fibertest.DirectCharonLibrary
             return !IsLastCommandSuccessful ? LastErrorMessage : "";
         }
 
-        public Dictionary<int, NetAddress> GetExtentedPorts()
+        public int GetIniSize()
+        {
+            try
+            {
+                SendCommand("ini_size\r\n");
+                if (!IsLastCommandSuccessful)
+                    return 0; // read error
+
+                if (LastAnswer.Length >=15 && LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
+                    return 480; // charon too old, know nothing about ini file size
+
+                var lines = LastAnswer.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                return int.Parse(lines[0]);
+            }
+            catch (Exception e)
+            {
+                if (IsLastCommandSuccessful)
+                {
+                    IsLastCommandSuccessful = false;
+                    LastErrorMessage = $"{e.Message} in GetIniSize!";
+                    _rtuLogFile.AppendLine(LastErrorMessage);
+                }
+
+                return 0;
+            }
+        }
+
+        public Dictionary<int, NetAddress> GetExtendedPorts()
         {
             try
             {
@@ -68,11 +95,13 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 if (IsLastCommandSuccessful)
                 {
                     IsLastCommandSuccessful = false;
-                    LastErrorMessage = $"{e.Message} in GetExtentedPorts!";
+                    LastErrorMessage = $"{e.Message} in GetExtendedPorts!";
                 }
                 return null;
             }
         }
+
+        private void ReadIniFile() { SendCommand("ini_read\r\n"); }
 
         private Dictionary<int, NetAddress> ParseIniContent(string content)
         {
@@ -89,7 +118,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
             }
             return result;
         }
-        private void ReadIniFile() { SendCommand("ini_read\r\n"); }
 
         private int SetActivePort(int port)
         {

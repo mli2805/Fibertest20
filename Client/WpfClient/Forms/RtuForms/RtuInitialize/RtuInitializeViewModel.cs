@@ -179,7 +179,9 @@ namespace Iit.Fibertest.Client
         {
             var message = dto.IsInitialized
                 ? $@"RTU {dto.RtuAddresses.Main.Ip4Address} initialized successfully."
-                : $@"RTU {dto.RtuAddresses.Main.Ip4Address} initialization failed. " + dto.ErrorMessage;
+                : dto.RtuAddresses != null 
+                    ? $@"RTU {dto.RtuAddresses.Main.Ip4Address} initialization failed. " + dto.ErrorMessage
+                    : @"RTU initialization failed. " + dto.ErrorMessage;
             _logFile.AppendLine(message);
 
             if (dto.IsInitialized)
