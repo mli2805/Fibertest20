@@ -86,8 +86,8 @@ namespace Iit.Fibertest.RtuManagement
 
         private ReturnCode ReInitializeOtauOnUsersRequest(InitializeRtuDto dto)
         {
-            _rtuLog.AppendLine($"RTU hardware has {_mainCharon.Children.Count} additional OTAU ", messageLevel: 3);
-            _rtuLog.AppendLine($"RTU in client has {dto.Children.Count} additional OTAU", messageLevel: 3);
+            _rtuLog.AppendLine($"RTU hardware has {_mainCharon.Children.Count} additional OTAU ", messageLevel: 2);
+            _rtuLog.AppendLine($"RTU in client has {dto.Children.Count} additional OTAU", messageLevel: 2);
 
             if (!_mainCharon.IsBopSupported)
                 return dto.Children.Count > 0 ? ReturnCode.RtuDoesntSupportBop : ReturnCode.Ok;
@@ -123,10 +123,7 @@ namespace Iit.Fibertest.RtuManagement
         private ReturnCode InitializeOtau()
         {
             var otauIpAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtauIp, DefaultIp);
-            _mainCharon = new Charon(new NetAddress(otauIpAddress, 23), _rtuIni, _rtuLog);
-            var iniSize = _mainCharon.GetIniSize();
-            _rtuLog.AppendLine($"Charon ini size is {iniSize}");
-            _mainCharon.CharonIniSize = iniSize;
+            _mainCharon = new Charon(new NetAddress(otauIpAddress, 23), true, _rtuIni, _rtuLog);
             var res = _mainCharon.InitializeOtauRecursively();
             if (res == _mainCharon.NetAddress)
                 return ReturnCode.OtauInitializationError;

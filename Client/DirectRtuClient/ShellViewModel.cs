@@ -35,10 +35,11 @@ namespace DirectRtuClient
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowWindow(vm);
         }
+
+
         public void OtauView()
         {
-            var otauPort = _iniFile35.Read(IniSection.RtuManager, IniKey.OtauPort, 23);
-            var vm = new OtauViewModel(IpAddress, otauPort, _iniFile35, _rtuLogger);
+            var vm = new OtauViewModel(_iniFile35, _rtuLogger);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowWindow(vm);
         }

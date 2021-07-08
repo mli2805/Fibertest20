@@ -191,16 +191,28 @@ namespace DirectRtuClient
                   ? MainCharon.Serial
                   : MainCharon.Children.Values.First(a => a.NetAddress.ToStringA() == SelectedOtau).Serial;
 
-        public string BopIpAddress { get; set; }
-        public int BopTcpPort { get; set; }
+        private string _bopIpAddress;
+        public string BopIpAddress
+        {
+            get => _bopIpAddress;
+            set
+            {
+                if (value == _bopIpAddress) return;
+                _bopIpAddress = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
-        public OtauViewModel(string ipAddress, int tcpPort, IniFile iniFile, IMyLog rtuLogger)
+        public int BopTcpPort { get; set; } = 11834;
+
+        public OtauViewModel(IniFile iniFile, IMyLog rtuLogger)
         {
             _iniFile35 = iniFile;
             _rtuLogger = rtuLogger;
 
-            IpAddress = ipAddress;
-            OtauTcpPort = tcpPort;
+            IpAddress = _iniFile35.Read(IniSection.RtuManager, IniKey.OtauIp, @"192.168.96.53");
+            OtauTcpPort = _iniFile35.Read(IniSection.RtuManager, IniKey.OtauPort, 23);
+            BopIpAddress = _iniFile35.Read(IniSection.DirectCharonLibrary, IniKey.BopIpAddress, @"192.168.96.58");
 
             OtauList = new List<string>();
             BopOtauList = new List<string>();
@@ -216,7 +228,7 @@ namespace DirectRtuClient
             using (new WaitCursor())
             {
                 CharonInfo = Resources.SID_Wait__please___;
-                MainCharon = new Charon(new NetAddress() { Ip4Address = IpAddress, Port = OtauTcpPort }, _iniFile35,
+                MainCharon = new Charon(new NetAddress() { Ip4Address = IpAddress, Port = OtauTcpPort }, true, _iniFile35,
                     _rtuLogger);
                 //            await RunOtauInitialization();
                 await Task.Run(() => RunOtauInitialization());
@@ -345,12 +357,13 @@ namespace DirectRtuClient
             }
         }
 
-        public async Task AttachOtau()
+        public void AttachOtau()
         {
             using (new WaitCursor())
             {
                 var bopAddress = new NetAddress(BopIpAddress, BopTcpPort);
-                await Task.Run(() => MainCharon.AttachOtauToPort(bopAddress, PortForAttachment));
+                // await Task.Run(() => MainCharon.AttachOtauToPort(bopAddress, PortForAttachment));
+                MainCharon.AttachOtauToPort(bopAddress, PortForAttachment);
                 AttachMessage = MainCharon.IsLastCommandSuccessful
                     ? Resources.SID_Attached_successfully__Press_initialize_main_otau_
                     : MainCharon.LastErrorMessage;

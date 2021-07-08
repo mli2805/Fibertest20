@@ -14,7 +14,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             return LastAnswer == "OK\r\n";
         }
 
-       
+
         public string GetSerial()
         {
             SendCommand("get_rtu_number\r\n");
@@ -47,7 +47,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             return !IsLastCommandSuccessful ? LastErrorMessage : "";
         }
 
-        public int GetIniSize()
+        private int GetIniSize()
         {
             try
             {
@@ -55,11 +55,13 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 if (!IsLastCommandSuccessful)
                     return 0; // read error
 
-                if (LastAnswer.Length >=15 && LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
+                if (LastAnswer.Length >= 15 && LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
                     return 480; // charon too old, know nothing about ini file size
 
                 var lines = LastAnswer.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
-                return int.Parse(lines[0]);
+                CharonIniSize = int.Parse(lines[0]);
+                _rtuLogFile.AppendLine($"Charon ini size is {CharonIniSize}");
+                return CharonIniSize;
             }
             catch (Exception e)
             {
@@ -74,16 +76,25 @@ namespace Iit.Fibertest.DirectCharonLibrary
             }
         }
 
-        public Dictionary<int, NetAddress> GetExtendedPorts()
+        private Dictionary<int, NetAddress> GetExtendedPorts()
         {
             try
             {
                 ReadIniFile();
                 if (!IsLastCommandSuccessful)
-                    return null; // read iniFile error
+                {
+                    // read iniFile error
+                    LastErrorMessage = $"Get extended ports error {LastErrorMessage}";
+                    _rtuLogFile.AppendLine(LastErrorMessage, 2);
+                    return null; 
+                }
 
                 if (LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
-                    return new Dictionary<int, NetAddress>(); // charon too old, know nothing about extensions
+                {
+                    // charon too old, know nothing about extensions
+                    _rtuLogFile.AppendLine("Charon too old, knows nothing about extensions", 2);
+                    return null; 
+                }
 
                 if (LastAnswer.Substring(0, 22) == "[OpticalPortExtension]")
                     return ParseIniContent(LastAnswer);

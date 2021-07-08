@@ -198,7 +198,7 @@ namespace DirectRtuClient
         private Charon GetActiveChildCharon()
         {
             // Maybe it should be done in outer scope (something like RtuManager, which has its own MainCharon) ?
-            var mainCharon = new Charon(new NetAddress(IpAddress, 23), _iniFile35, _rtuLogger);
+            var mainCharon = new Charon(new NetAddress(IpAddress, 23), true, _iniFile35, _rtuLogger);
             mainCharon.InitializeOtauRecursively();
             NetAddress activeCharonAddress;
             if (!mainCharon.GetExtendedActivePort(out activeCharonAddress, out _))

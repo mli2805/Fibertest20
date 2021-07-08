@@ -18,6 +18,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
         public string Serial { get; set; }
         public int OwnPortCount { get; set; }
         public int FullPortCount { get; set; }
+        public bool IsMainCharon { get; set; }
         public bool IsBopSupported { get; set; } // for main charon
         public bool IsOk { get; set; }
 
@@ -27,7 +28,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
         public string LastAnswer { get; set; }
         public bool IsLastCommandSuccessful { get; set; }
 
-        public Charon(NetAddress netAddress, IniFile iniFile35, IMyLog rtuLogFile)
+        public Charon(NetAddress netAddress, bool isMainCharon, IniFile iniFile35, IMyLog rtuLogFile)
         {
             _iniFile35 = iniFile35;
             _rtuLogFile = rtuLogFile;
@@ -36,7 +37,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             _writeTimeout = _iniFile35.Read(IniSection.Charon, IniKey.WriteTimeout, 2);
             _pauseBetweenCommands = _iniFile35.Read(IniSection.Charon, IniKey.PauseBetweenCommandsMs, 200);
             NetAddress = netAddress;
-            // CharonIniSize = _iniFile35.Read(IniSection.Charon, IniKey.CharonIniSize, 480);
+            IsMainCharon = isMainCharon;
         }
 
         /// <summary>
@@ -70,24 +71,17 @@ namespace Iit.Fibertest.DirectCharonLibrary
             _rtuLogFile.AppendLine($"Own port count  {OwnPortCount}", 2);
             IsOk = true;
 
-            IsBopSupported = false;
-            var expendedPorts = GetExtendedPorts();
-            if (!IsLastCommandSuccessful)
+            if (IsMainCharon)
             {
-                LastErrorMessage = $"Get extended ports error {LastErrorMessage}";
-                _rtuLogFile.AppendLine(LastErrorMessage, 2);
-                return NetAddress;
-            }
-            if (LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
-            {
-                _rtuLogFile.AppendLine("Charon too old, knows nothing about extensions", 2);
-            }
-            IsBopSupported = true;
+                CharonIniSize = GetIniSize();
+                IsBopSupported = CharonIniSize > 0;
+                var expendedPorts = GetExtendedPorts();
+                if (!IsLastCommandSuccessful)
+                    return NetAddress;
 
-            if (expendedPorts != null)
                 foreach (var expendedPort in expendedPorts)
                 {
-                    var childCharon = new Charon(expendedPort.Value, _iniFile35, _rtuLogFile);
+                    var childCharon = new Charon(expendedPort.Value, false, _iniFile35, _rtuLogFile);
                     Children.Add(expendedPort.Key, childCharon); // even if it broken it should be in list
 
                     var childSerial = childCharon.GetSerial();
@@ -111,10 +105,11 @@ namespace Iit.Fibertest.DirectCharonLibrary
                         FullPortCount += childCharon.FullPortCount;
                     }
                 }
+            }
 
             _rtuLogFile.AppendLine($"Full port count  {FullPortCount}");
 
-            _rtuLogFile.AppendLine($"OTAU initialized successfully.  {Serial}  {OwnPortCount}/{FullPortCount}");
+            _rtuLogFile.AppendLine($"OTAU {Serial} initialized successfully.   {OwnPortCount}/{FullPortCount}");
             return null;
         }
 

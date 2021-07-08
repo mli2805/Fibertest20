@@ -106,7 +106,7 @@ namespace Iit.Fibertest.Client
                 ? (NetAddress)rtu.MainChannel.Clone() 
                 : (NetAddress)rtu.OtdrNetAddress.Clone();
             mainCharonAddress.Port = 23;
-            var mainCharon = new Charon(mainCharonAddress, _iniFile35, _logFile)
+            var mainCharon = new Charon(mainCharonAddress, true, _iniFile35, _logFile)
             {
                 OwnPortCount = rtuLeaf.OwnPortCount,
                 Serial = rtuLeaf.Serial,
@@ -117,7 +117,7 @@ namespace Iit.Fibertest.Client
             {
                 serialOfCharonWithThisPort = otauLeaf.Serial;
 
-                var bopCharon = new Charon(otauLeaf.OtauNetAddress, _iniFile35, _logFile);
+                var bopCharon = new Charon(otauLeaf.OtauNetAddress, false, _iniFile35, _logFile);
                 bopCharon.Serial = otauLeaf.Serial;
                 bopCharon.OwnPortCount = otauLeaf.OwnPortCount;
                 mainCharon.Children = new Dictionary<int, Charon> { {otauLeaf.MasterPort, bopCharon} };

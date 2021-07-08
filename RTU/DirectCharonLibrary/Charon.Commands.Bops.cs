@@ -12,7 +12,6 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 return false;
             if (LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
             {
-                _rtuLogFile.AppendLine("Charon too old, know nothing about extensions", 2);
                 return true;
             }
             if (!extPorts.ContainsKey(fromOpticalPort))
@@ -43,14 +42,10 @@ namespace Iit.Fibertest.DirectCharonLibrary
             var extPorts = GetExtendedPorts();
             if (extPorts == null) // read charon ini file error
             {
-                LastErrorMessage = "Read charon ini file error";
-                _rtuLogFile.AppendLine(LastErrorMessage, 2);
                 return null;
             }
             if (LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
             {
-                LastErrorMessage = "Charon too old, knows nothing about extensions";
-                _rtuLogFile.AppendLine(LastErrorMessage, 2);
                 return null;
             }
             if (extPorts.ContainsKey(toOpticalPort))
@@ -61,7 +56,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             }
 
             _rtuLogFile.AppendLine($"Check connection with OTAU {additionalOtauAddress.ToStringA()}");
-            var child = new Charon(additionalOtauAddress, _iniFile35, _rtuLogFile);
+            var child = new Charon(additionalOtauAddress, false, _iniFile35, _rtuLogFile);
             if (child.InitializeOtauRecursively() != null)
             {
                 return null;

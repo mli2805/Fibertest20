@@ -46,6 +46,9 @@
         PreviousOwnPortCount,
         ShouldLogHeartbeatProblems,
 
+        //DirectCharonLibrary
+        BopIpAddress,
+
         // Migrator
         OldFibertestServerIp,  
         ShouldTransferMeasurements,

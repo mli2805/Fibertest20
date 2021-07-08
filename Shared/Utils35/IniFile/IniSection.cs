@@ -5,6 +5,7 @@
         General,
         Server,
         RtuManager,
+        DirectCharonLibrary,
         ServerMainAddress,
         ServerReserveAddress,
         ClientLocalAddress,
