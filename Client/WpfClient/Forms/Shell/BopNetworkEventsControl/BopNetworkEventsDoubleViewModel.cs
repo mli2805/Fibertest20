@@ -61,7 +61,7 @@ namespace Iit.Fibertest.Client
             if (rtu == null || !rtu.ZoneIds.Contains(_currentUser.ZoneId))
                 return;
 
-            var bop = _readModel.Otaus.FirstOrDefault(o => o.Serial == evnt.Serial);
+            var bop = _readModel.Otaus.FirstOrDefault(o => o.NetAddress.Ip4Address == evnt.OtauIp && o.NetAddress.Port == evnt.TcpPort);
             if (bop == null)
             {
                 return;
