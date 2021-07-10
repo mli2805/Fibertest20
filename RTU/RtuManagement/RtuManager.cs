@@ -133,7 +133,6 @@ namespace Iit.Fibertest.RtuManagement
                 FullPortCount = _mainCharon?.FullPortCount ?? 0,
                 OwnPortCount = _mainCharon?.OwnPortCount ?? 0,
                 Children = _mainCharon?.GetChildrenDto(),
-               // OtdrAddress = _mainCharon?.NetAddress,
                 OtdrAddress = new NetAddress(otdrIp, otdrPort),
                 Version = _version,
                 IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, false),

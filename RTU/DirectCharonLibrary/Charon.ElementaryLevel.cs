@@ -35,6 +35,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             IsLastCommandSuccessful = false;
             return -1;
         }
+
         public string ShowOnDisplayMessageReady()
         {
             SendCommand("pc_loaded\r\n");
@@ -60,7 +61,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
                 var lines = LastAnswer.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
                 CharonIniSize = int.Parse(lines[0]);
-                _rtuLogFile.AppendLine($"Charon ini size is {CharonIniSize}");
+                _rtuLogFile.AppendLine($"Charon ini size is {CharonIniSize}", 2);
                 return CharonIniSize;
             }
             catch (Exception e)
@@ -163,6 +164,7 @@ namespace Iit.Fibertest.DirectCharonLibrary
             IsLastCommandSuccessful = false;
             return -1;
         }
+
         private string DictionaryToContent(Dictionary<int, NetAddress> extPorts)
         {
             if (extPorts.Count == 0)

@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.Dto;
+﻿using System.Collections.Generic;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.DirectCharonLibrary
 {
@@ -32,6 +33,12 @@ namespace Iit.Fibertest.DirectCharonLibrary
                 Children.Remove(fromOpticalPort);
             }
             return IsLastCommandSuccessful;
+        }
+
+        public void RewriteIni(Dictionary<int, NetAddress> extPorts)
+        {
+            var content = DictionaryToContent(extPorts);
+            SendWriteIniCommand(content);
         }
 
         public Charon AttachOtauToPort(NetAddress additionalOtauAddress, int toOpticalPort)

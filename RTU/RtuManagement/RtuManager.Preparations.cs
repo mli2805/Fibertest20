@@ -81,21 +81,35 @@ namespace Iit.Fibertest.RtuManagement
             _omsn = _otdrManager.InterOpWrapper.GetOtdrInfo(GetOtdrInfo.ServiceCmdGetotdrinfoOmsn);
             _rtuLog.AppendLine($"OMSN = {_omsn}");
             return ReturnCode.Ok;
-            // return _otdrManager.ConnectOtdr(otdrAddress) ? ReturnCode.Ok : ReturnCode.FailedToConnectOtdr;
         }
 
         private ReturnCode ReInitializeOtauOnUsersRequest(InitializeRtuDto dto)
         {
-            _rtuLog.AppendLine($"RTU hardware has {_mainCharon.Children.Count} additional OTAU ", messageLevel: 2);
-            _rtuLog.AppendLine($"RTU in client has {dto.Children.Count} additional OTAU", messageLevel: 2);
+            var msl= 2;
+
+            _rtuLog.AppendLine($"RTU hardware has {_mainCharon.Children.Count} additional OTAU ", messageLevel: msl);
+            foreach (var pair in _mainCharon.Children)
+                _rtuLog.AppendLine($"   port {pair.Key}: bop {pair.Value.NetAddress.ToStringA()} {pair.Value.Serial} isOk - {pair.Value.IsOk}", messageLevel: msl);
+            _rtuLog.AppendLine($"RTU in client has {dto.Children.Count} additional OTAU", messageLevel: msl);
+            foreach (var pair in dto.Children)
+                _rtuLog.AppendLine($"   port {pair.Key}: bop {pair.Value.NetAddress.ToStringA()} {pair.Value.Serial} isOk - {pair.Value.IsOk}", messageLevel: msl);
 
             if (!_mainCharon.IsBopSupported)
                 return dto.Children.Count > 0 ? ReturnCode.RtuDoesntSupportBop : ReturnCode.Ok;
 
+            if (!IsFullMatch(_mainCharon, dto))
+            {
+                _rtuLog.AppendLine("FullMatch - false, need to rewrite ini");
+                var expPorts = dto.Children.ToDictionary(pair => pair.Key, pair => pair.Value.NetAddress);
+                _mainCharon.RewriteIni(expPorts);
+            }
+           
+
+/*
             // detach bops if they are not attached in client
             foreach (var pair in _mainCharon.Children.ToArray())
             {
-                _rtuLog.AppendLine($"RTU hardware has additional OTAU {pair.Value.Serial} on port {pair.Key}", messageLevel: 3);
+                _rtuLog.AppendLine($"RTU hardware has additional OTAU {pair.Value.Serial} on port {pair.Key}", messageLevel: msl);
 
                 if (!dto.Children.ContainsKey(pair.Key) ||
                     pair.Value.Serial != dto.Children[pair.Key].Serial)
@@ -108,7 +122,7 @@ namespace Iit.Fibertest.RtuManagement
             // initialize all child bops to get their states
             foreach (var pair in dto.Children)
             {
-                _rtuLog.AppendLine($"RTU in client has additional OTAU {pair.Value.Serial} on port {pair.Key}", messageLevel: 3);
+                _rtuLog.AppendLine($"RTU in client has additional OTAU {pair.Value.Serial} on port {pair.Key}", messageLevel: msl);
 
                 if (!_mainCharon.Children.ContainsKey(pair.Key)
                     || _mainCharon.Children[pair.Key].Serial != pair.Value.Serial)
@@ -116,8 +130,26 @@ namespace Iit.Fibertest.RtuManagement
                     _mainCharon.AttachOtauToPort(pair.Value.NetAddress, pair.Key);
                 }
             }
-
+*/
             return InitializeOtau();
+        }
+
+        private bool IsFullMatch(Charon mainCharon, InitializeRtuDto dto)
+        {
+            if (mainCharon.Children.Count != dto.Children.Count)
+                return false;
+
+            foreach (var pair in mainCharon.Children)
+            {
+                if (!dto.Children.ContainsKey(pair.Key))
+                    return false;
+                var otau = dto.Children[pair.Key];
+                if (!pair.Value.NetAddress.Equals(otau.NetAddress))
+                    return false;
+            }
+
+            _rtuLog.AppendLine("Full match!");
+            return true;
         }
 
         private ReturnCode InitializeOtau()

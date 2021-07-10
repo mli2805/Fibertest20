@@ -143,6 +143,11 @@ namespace Iit.Fibertest.Graph
                     otau.IsOk = childPair.Value.IsOk;
                     rtu.SetOtauState(otau.Id, otau.IsOk);
                 }
+                
+                if (rtu.Children.TryGetValue(childPair.Key, out OtauDto otauDto))
+                {
+                    otauDto.IsOk = childPair.Value.IsOk;
+                }
             }
         }
 
