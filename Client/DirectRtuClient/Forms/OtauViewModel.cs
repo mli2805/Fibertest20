@@ -263,7 +263,7 @@ namespace DirectRtuClient
             using (new WaitCursor())
             {
                 CharonInfo = Resources.SID_Wait__please___;
-                await Task.Run(() => MainCharon.ResetOtau());
+                _ = await Task.Run(() => MainCharon.ResetOtau());
                 CharonInfo = MainCharon.LastAnswer;
             }
         }

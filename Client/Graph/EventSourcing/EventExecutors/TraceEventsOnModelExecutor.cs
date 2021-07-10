@@ -131,7 +131,7 @@ namespace Iit.Fibertest.Graph
 
         public static string AttachTrace(this Model model, TraceAttached e)
         {
-            var trace = model.Traces.First(t => t.TraceId == e.TraceId);
+            var trace = model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
             {
                 return $@"TraceAttached: Trace {e.TraceId} not found";
@@ -159,7 +159,7 @@ namespace Iit.Fibertest.Graph
 
         public static string DetachTrace(this Model model, TraceDetached e)
         {
-            var trace = model.Traces.First(t => t.TraceId == e.TraceId);
+            var trace = model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
             {
                 return $@"TraceDetached: Trace {e.TraceId} not found";
