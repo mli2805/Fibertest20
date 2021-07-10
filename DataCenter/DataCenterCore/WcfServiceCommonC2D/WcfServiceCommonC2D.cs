@@ -156,7 +156,7 @@ namespace Iit.Fibertest.DataCenterCore
                 Id = dto.OtauId,
                 RtuId = dto.RtuId,
                 OtauIp = dto.NetAddress.Ip4Address,
-                TcpPort = dto.OpticalPort,
+                TcpPort = dto.NetAddress.Port,
                 TracesOnOtau = _writeModel.Traces
                     .Where(t => t.OtauPort != null && t.OtauPort.Serial == otau.Serial)
                     .Select(t => t.TraceId)
