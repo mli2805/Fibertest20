@@ -15,6 +15,7 @@ namespace Iit.Fibertest.Client
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
         private readonly SoundManager _soundManager;
         private readonly Model _readModel;
+        public Guid BopId { get; set; }
         public string BopIp { get; set; }
         public int PortRtu { get;set; }
         public string RtuTitle { get; set; }
@@ -53,7 +54,10 @@ namespace Iit.Fibertest.Client
                 o.NetAddress.Ip4Address == bopNetworkEventAdded.OtauIp &&
                 o.NetAddress.Port == bopNetworkEventAdded.TcpPort);
             if (otau != null)
+            {
+                BopId = otau.Id;
                 PortRtu = otau.MasterPort;
+            }
 
             RtuTitle = _readModel.Rtus.First(r => r.Id == bopNetworkEventAdded.RtuId).Title;
             ServerTitle = _currentDatacenterParameters.ServerTitle;

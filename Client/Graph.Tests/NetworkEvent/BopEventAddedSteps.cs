@@ -15,6 +15,7 @@ namespace Graph.Tests
     {
         private SystemUnderTest _sut = new SystemUnderTest();
         private Guid _rtuId;
+        private Guid _otauId;
         private Iit.Fibertest.Graph.Trace _trace;
         private RtuLeaf _rtuLeaf;
         private OtauLeaf _otauLeaf;
@@ -36,6 +37,9 @@ namespace Graph.Tests
             _otauIp = p0;
             _otauTcpPort = p1;
             _otauLeaf = _sut.AttachOtau(_rtuLeaf, 3, _otauIp, _otauTcpPort);
+            _otauId =  _sut.ReadModel.Otaus.FirstOrDefault(o =>
+                o.NetAddress.Ip4Address == _otauIp &&
+                o.NetAddress.Port == _otauTcpPort)?.Id  ?? Guid.Empty;
         }
 
         [Then(@"У OTAU зеленый квадрат и у RTU на месте для БОПа зеленый квадрат")]
@@ -107,7 +111,7 @@ namespace Graph.Tests
             var bopStateViewsManager = _sut.ClientScope.Resolve<BopStateViewsManager>();
             bopStateViewsManager.LaunchedViews.Count.Should().Be(1);
             var pair = bopStateViewsManager.LaunchedViews.First();
-            pair.Key.Should().Be(_rtuId);
+            pair.Key.Should().Be(_otauId);
             var vm = pair.Value;
             vm.BopState.Should().Be(Resources.SID_Bop_breakdown);
         }
@@ -118,7 +122,7 @@ namespace Graph.Tests
             var bopStateViewsManager = _sut.ClientScope.Resolve<BopStateViewsManager>();
             bopStateViewsManager.LaunchedViews.Count.Should().Be(1);
             var pair = bopStateViewsManager.LaunchedViews.First();
-            pair.Key.Should().Be(_rtuId);
+            pair.Key.Should().Be(_otauId);
             var vm = pair.Value;
             vm.BopState.Should().Be(Resources.SID_OK_BOP);
         }

@@ -74,7 +74,7 @@ namespace Iit.Fibertest.DataCenterCore
                         {
                             EventTimestamp = DateTime.Now,
                             RtuId = result.RtuId,
-                            Serial = keyValuePair.Value.Serial == null ? bop.Serial : keyValuePair.Value.Serial,
+                            Serial = keyValuePair.Value.Serial ?? bop.Serial,
                             OtauIp = keyValuePair.Value.NetAddress.Ip4Address,
                             TcpPort = keyValuePair.Value.NetAddress.Port,
                             IsOk = keyValuePair.Value.IsOk,
