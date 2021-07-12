@@ -88,8 +88,8 @@ namespace Iit.Fibertest.DirectCharonLibrary
                     if (!IsLastCommandSuccessful || childSerial == "")
                     {
                         LedDisplay.Show(_iniFile35, _rtuLogFile, LedDisplayCode.ErrorConnectOtau);
-                        LastErrorMessage = $"Get Serial for {expendedPort.Value.ToStringA()} error {LastErrorMessage}";
-                        _rtuLogFile.AppendLine(LastErrorMessage, 2);
+                        childCharon.LastErrorMessage = $"Get Serial for {expendedPort.Value.ToStringA()} error {LastErrorMessage}";
+                        _rtuLogFile.AppendLine(childCharon.LastErrorMessage, 2);
                     }
                     else
                     {
@@ -98,8 +98,8 @@ namespace Iit.Fibertest.DirectCharonLibrary
                         {
                             LedDisplay.Show(_iniFile35, _rtuLogFile, LedDisplayCode.ErrorConnectBop);
                             IsLastCommandSuccessful = true; // child initialization shouldn't break full process
-                            LastErrorMessage = $"Child charon {expendedPort.Value.ToStringA()} initialization failed";
-                            _rtuLogFile.AppendLine(LastErrorMessage, 2);
+                            childCharon.LastErrorMessage = LastErrorMessage = $"Child charon {expendedPort.Value.ToStringA()} initialization failed";
+                            _rtuLogFile.AppendLine(childCharon.LastErrorMessage, 2);
                             continue;
                         }
                         FullPortCount += childCharon.FullPortCount;
