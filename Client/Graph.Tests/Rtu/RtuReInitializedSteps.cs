@@ -86,7 +86,7 @@ namespace Graph.Tests
                 _sut.FakeD2RWcfManager.SetFakeInitializationAnswer(ReturnCode.RtuTooBigPortNumber);
             else
             {
-                var bop = new OtauDto() {OwnPortCount = 16, NetAddress = new NetAddress(@"1.1.1.1", 11834), Serial   = @"6543210", };
+                var bop = new OtauDto() {OwnPortCount = 16, NetAddress = new NetAddress(@"1.1.1.1", 11834), Serial   = @"6543210", IsOk = true};
                 var children = new Dictionary<int, OtauDto>();
                 children.Add(_portWithBop, bop);
                 _sut.FakeD2RWcfManager.SetFakeInitializationAnswer(ReturnCode.Ok, _newSerial,

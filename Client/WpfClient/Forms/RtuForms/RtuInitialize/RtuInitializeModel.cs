@@ -156,7 +156,7 @@ namespace Iit.Fibertest.Client
                 IitVisibility = Visibility.Collapsed;
                 VeexVisibility = Visibility.Visible;
             }
-            PortsAndBopsViewModel.FillInPortsAndBops(dto);
+            PortsAndBopsViewModel.FillInPortsAndBops(OriginalRtu, dto);
         }
 
 

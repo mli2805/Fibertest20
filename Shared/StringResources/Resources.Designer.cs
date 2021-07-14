@@ -6081,6 +6081,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU initiallized.
+        /// </summary>
+        public static string SID_RTU_initiallized {
+            get {
+                return ResourceManager.GetString("SID_RTU_initiallized", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to RTU is available.
         /// </summary>
         public static string SID_RTU_is_available {

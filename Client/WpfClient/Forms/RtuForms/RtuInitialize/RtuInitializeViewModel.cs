@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
@@ -199,8 +200,11 @@ namespace Iit.Fibertest.Client
             {
                 case ReturnCode.Ok:
                 case ReturnCode.RtuInitializedSuccessfully:
-                    vm = new MyMessageBoxViewModel(MessageType.Information,
-                        Resources.SID_RTU_initialized_successfully_);
+
+                    var msg = dto.Children.Any(c=>!c.Value.IsOk) 
+                        ? Resources.SID_RTU_initialized2 
+                        : Resources.SID_RTU_initialized_successfully_;
+                    vm = new MyMessageBoxViewModel(MessageType.Information, msg);
                     break;
                 case ReturnCode.RtuDoesntSupportBop:
                 case ReturnCode.RtuTooBigPortNumber:

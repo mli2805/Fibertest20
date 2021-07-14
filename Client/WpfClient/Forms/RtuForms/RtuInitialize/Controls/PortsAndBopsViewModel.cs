@@ -39,9 +39,9 @@ namespace Iit.Fibertest.Client
             Bops = FillInOtauList(rtu.Children);
         }
 
-        public void FillInPortsAndBops(RtuInitializedDto dto)
+        public void FillInPortsAndBops(Rtu originalRtu, RtuInitializedDto dto)
         {
-            FullPortCount = dto.FullPortCount - dto.Children.Count;
+            FullPortCount = originalRtu.FullPortCount - originalRtu.Children.Count;
             Bops = FillInOtauList(dto.Children);
         }
 
@@ -54,9 +54,11 @@ namespace Iit.Fibertest.Client
                     bops.Add(string.Format(Resources.SID____on_port__0___optical_switch__1___,
                         pair.Key, pair.Value.NetAddress.ToStringA()));
 
-                    var bopSerial = pair.Value.Serial?.Substring(0, pair.Value.Serial.Length - 1) ?? @"not available";
-                    bops.Add(string.Format(Resources.SID_______________________serial__0____1__ports,
-                        bopSerial, pair.Value.OwnPortCount));
+                    var bopSerial = pair.Value.Serial?.Substring(0, pair.Value.Serial.Length - 1) ?? Resources.SID_Not_available;
+                    var secondString = pair.Value.IsOk 
+                        ? string.Format(Resources.SID_______________________serial__0____1__ports, bopSerial, pair.Value.OwnPortCount)
+                        : @"                       " + Resources.SID_Not_available;
+                    bops.Add(secondString);
                 }
             return bops;
         }

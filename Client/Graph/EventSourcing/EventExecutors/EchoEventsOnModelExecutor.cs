@@ -104,7 +104,15 @@ namespace Iit.Fibertest.Graph
             rtu.Omsn = e.Omsn;
 
             rtu.OwnPortCount = e.OwnPortCount;
-            rtu.FullPortCount = e.FullPortCount;
+            rtu.FullPortCount = e.OwnPortCount;
+            foreach (var pair in rtu.Children)
+            {
+                rtu.FullPortCount += pair.Value.IsOk 
+                    ? pair.Value.OwnPortCount 
+                    : rtu.Children[pair.Key].OwnPortCount;
+                // rtu.FullPortCount--;
+            }
+
 
             if (rtu.Serial != e.Serial)
             {
