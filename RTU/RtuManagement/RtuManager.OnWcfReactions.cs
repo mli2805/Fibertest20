@@ -40,11 +40,11 @@ namespace Iit.Fibertest.RtuManagement
             }
 
             _rtuInitializationResult = InitializeRtuManager(param);
-            bool isCallbackReturned = false;
-            if (_rtuInitializationResult != ReturnCode.Ok)
+            // bool isCallbackReturned = false;
+            if (_rtuInitializationResult != ReturnCode.Ok && param == null)
             {
-                callback?.Invoke();
-                isCallbackReturned = true;
+                // callback?.Invoke();
+                // isCallbackReturned = true;
                 while (RunMainCharonRecovery() != ReturnCode.Ok) { }
             }
 
@@ -55,7 +55,7 @@ namespace Iit.Fibertest.RtuManagement
             }
 
             IsRtuInitialized = true;
-            if (!isCallbackReturned)
+            // if (!isCallbackReturned)
                 callback?.Invoke();
 
             IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
