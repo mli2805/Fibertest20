@@ -84,5 +84,18 @@
         ParamDwdmLaserHeating = 764,
         OtdrUnitTemperature = 765,
 
+        SetParamList                          =766,
+        PaidOptionCheck                      =767,
+        SorSetLangCode                      =768,
+        GetIdLib                             =769,
+        GetMeasSteppingMode                 =770,
+        SetMeasSteppingMode                 =771,
+        LinkScanGetParam                      =772,
+        ObtainLinkscanParamsEx              =773,
+        PresetSorField                       =774,
+        ParamOutSwitchControl               =775,
+        LinkScanSetParam                      =776,
+        SorSetAutoPrmFlag                   =777,
+
     }
 }

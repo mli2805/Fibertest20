@@ -25,6 +25,15 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return "";
         }
 
+        public void SetEqualStepsOfMeasurement()
+        {
+            int cmd = (int) ServiceFunctionCommand.SetMeasSteppingMode;
+            int prm = 1; // 1 - equal steps, 0 - permanently increasing
+            IntPtr prm2 = IntPtr.Zero;
+
+            ServiceFunction(cmd, ref prm, ref prm2);
+        }
+
         public bool SetBaseForComparison(IntPtr baseSorData)
         {
             int cmd = (int)ServiceFunctionCommand.Setbase;
