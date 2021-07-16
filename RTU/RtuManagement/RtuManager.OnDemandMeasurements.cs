@@ -45,15 +45,18 @@ namespace Iit.Fibertest.RtuManagement
 
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start Measurement (Client).");
-            var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, "192.168.88.101");
-            // var res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
-            var res = _otdrManager.ConnectOtdr(otdrAddress);
-            if (!res)
+
+            if (_wasMonitoringOn)
             {
-                RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-                res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
+                var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, "192.168.88.101");
+                var res = _otdrManager.ConnectOtdr(otdrAddress);
                 if (!res)
+                {
                     RunMainCharonRecovery(); // one of recovery steps inevitably exits process
+                    res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
+                    if (!res)
+                        RunMainCharonRecovery(); // one of recovery steps inevitably exits process
+                }
             }
 
             _otdrManager.InterOpWrapper.SetMeasurementParametersFromUserInput(dto.SelectedMeasParams);
@@ -103,15 +106,17 @@ namespace Iit.Fibertest.RtuManagement
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start out of turn precise monitoring.");
 
-            var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, "192.168.88.101");
-            // var res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
-            var res = _otdrManager.ConnectOtdr(otdrAddress);
-            if (!res)
+            if (!_wasMonitoringOn)
             {
-                RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-                res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
+                var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, "192.168.88.101");
+                var res = _otdrManager.ConnectOtdr(otdrAddress);
                 if (!res)
+                {
                     RunMainCharonRecovery(); // one of recovery steps inevitably exits process
+                    res = _otdrManager.ConnectOtdr(_mainCharon.NetAddress.Ip4Address);
+                    if (!res)
+                        RunMainCharonRecovery(); // one of recovery steps inevitably exits process
+                }
             }
 
             callback?.Invoke();

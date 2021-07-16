@@ -48,10 +48,14 @@ namespace Iit.Fibertest.RtuManagement
 
             _rtuLog.AppendLine("Monitoring stopped.");
             _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
-            var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, DefaultIp);
-            _otdrManager.DisconnectOtdr(otdrAddress);
-            IsMonitoringOn = false;
-            _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");
+
+            if (!_wasMonitoringOn)
+            {
+                var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, DefaultIp);
+                _otdrManager.DisconnectOtdr(otdrAddress);
+                IsMonitoringOn = false;
+                _rtuLog.AppendLine("Rtu is turned into MANUAL mode.");
+            }
         }
 
         private void ProcessOnePort(MonitorigPort monitorigPort)
@@ -189,15 +193,15 @@ namespace Iit.Fibertest.RtuManagement
             _rtuIni.Write(IniSection.Monitoring, IniKey.LastMeasurementTimestamp, DateTime.Now.ToString(CultureInfo.CurrentCulture));
 
             if (_cancellationTokenSource.IsCancellationRequested) // command to interrupt monitoring came while port toggling
-                return new MoniResult(){MeasurementResult = MeasurementResult.Cancelled};
+                return new MoniResult(){MeasurementResult = MeasurementResult.Interrupted};
 
             var result = _otdrManager.MeasureWithBase(_cancellationTokenSource, baseBytes, _mainCharon.GetActiveChildCharon());
 
-             if (result == ReturnCode.MeasurementInterrupted)
+            if (result == ReturnCode.MeasurementInterrupted)
             {
                 IsMonitoringOn = false;
                 SendCurrentMonitoringStep(MonitoringCurrentStep.Interrupted);
-                return new MoniResult(){MeasurementResult = MeasurementResult.Cancelled};
+                return new MoniResult(){MeasurementResult = MeasurementResult.Interrupted};
             }
 
             if (result != ReturnCode.MeasurementEndedNormally)
@@ -213,23 +217,28 @@ namespace Iit.Fibertest.RtuManagement
             var buffer = _otdrManager.GetLastSorDataBuffer();
             _rtuLog.AppendLine($"Measurement result ({buffer.Length} bytes).");
 
-            // sometimes GetLastSorDataBuffer returns not full sor data, so
-            // just to check whether OTDR still works and measurement is reliable
-            if (!_otdrManager.InterOpWrapper.PrepareMeasurement(true))
+            try
             {
-                _rtuLog.AppendLine("Additional check after measurement failed!");
-                if (_rtuIni.Read(IniSection.General, IniKey.LogLevel, 2) >= 3)
-                    monitorigPort.SaveMeasBytes(baseRefType, buffer, SorType.Error, _rtuLog); // save meas if error
-                ReInitializeDlls();
-                return new MoniResult(){MeasurementResult = MeasurementResult.HardwareProblem};
+                // sometimes GetLastSorDataBuffer returns not full sor data, so
+                // just to check whether OTDR still works and measurement is reliable
+                if (!_otdrManager.InterOpWrapper.PrepareMeasurement(true))
+                {
+                    _rtuLog.AppendLine("Additional check after measurement failed!");
+                    if (_rtuIni.Read(IniSection.General, IniKey.LogLevel, 2) >= 3)
+                        monitorigPort.SaveMeasBytes(baseRefType, buffer, SorType.Error, _rtuLog); // save meas if error
+                    ReInitializeDlls();
+                    return new MoniResult(){MeasurementResult = MeasurementResult.HardwareProblem};
+                }
             }
-            // PrepareMeasurement shows on led display Измерение Порт ХХ
-            // so to show Готово
-            // _mainCharon.ShowOnDisplayMessageReady();
+            catch (Exception e)
+            {
+                _rtuLog.AppendLine($"Exception during PrepareMeasurement: {e.Message}");
+
+            }
 
             monitorigPort.SaveMeasBytes(baseRefType, buffer, SorType.Raw, _rtuLog); // for investigations purpose
 
-            var measBytes = _otdrManager.ApplyAutoAnalysis(buffer); // is ApplyAutoAnalysis necessary ?
+            var measBytes = _otdrManager.ApplyAutoAnalysis(buffer);
             _rtuLog.AppendLine($"Auto analysis applied. Now sor data has ({measBytes.Length} bytes).");
             var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true); // base is inserted into meas during comparison
             monitorigPort.SaveMeasBytes(baseRefType, measBytes, SorType.Meas, _rtuLog); // so re-save meas after comparison

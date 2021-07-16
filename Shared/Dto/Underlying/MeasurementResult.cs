@@ -8,6 +8,6 @@
         PreciseBaseRefNotFound,
         AdditionalBaseRefNotFound,
         HardwareProblem,
-        Cancelled,
+        Interrupted,
     }
 }

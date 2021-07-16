@@ -91,7 +91,7 @@
         GetMeasSteppingMode                 =770,
         SetMeasSteppingMode                 =771,
         LinkScanGetParam                      =772,
-        ObtainLinkscanParamsEx              =773,
+        ObtainLinkScanParamsEx              =773,
         PresetSorField                       =774,
         ParamOutSwitchControl               =775,
         LinkScanSetParam                      =776,
