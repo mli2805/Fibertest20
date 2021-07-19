@@ -138,7 +138,7 @@ namespace Iit.Fibertest.RtuManagement
             return moniResult;
         }
 
-        private MoniResult DoSecondMeasurement(MonitorigPort monitorigPort, bool hasFastPerformed, 
+        private MoniResult DoSecondMeasurement(MonitorigPort monitorigPort, bool hasFastPerformed,
             BaseRefType baseType, bool isOutOfTurnMeasurement = false)
         {
             _rtuLog.EmptyLine();
@@ -148,7 +148,7 @@ namespace Iit.Fibertest.RtuManagement
 
             if (moniResult.MeasurementResult == MeasurementResult.Success)
             {
-              
+
                 var message = "";
                 if (isOutOfTurnMeasurement)
                     message = "It's out of turn precise measurement";
@@ -182,18 +182,18 @@ namespace Iit.Fibertest.RtuManagement
             _cancellationTokenSource = new CancellationTokenSource();
 
             if (shouldChangePort && !ToggleToPort(monitorigPort))
-                return new MoniResult(){MeasurementResult = MeasurementResult.ToggleToPortFailed};
+                return new MoniResult() { MeasurementResult = MeasurementResult.ToggleToPortFailed };
 
             var baseBytes = monitorigPort.GetBaseBytes(baseRefType, _rtuLog);
             if (baseBytes == null)
-                return new MoniResult(){MeasurementResult = baseRefType.ToMeasurementResultProblem()};
+                return new MoniResult() { MeasurementResult = baseRefType.ToMeasurementResultProblem() };
 
             SendCurrentMonitoringStep(MonitoringCurrentStep.Measure, monitorigPort, baseRefType);
 
             _rtuIni.Write(IniSection.Monitoring, IniKey.LastMeasurementTimestamp, DateTime.Now.ToString(CultureInfo.CurrentCulture));
 
             if (_cancellationTokenSource.IsCancellationRequested) // command to interrupt monitoring came while port toggling
-                return new MoniResult(){MeasurementResult = MeasurementResult.Interrupted};
+                return new MoniResult() { MeasurementResult = MeasurementResult.Interrupted };
 
             var result = _otdrManager.MeasureWithBase(_cancellationTokenSource, baseBytes, _mainCharon.GetActiveChildCharon());
 
@@ -201,20 +201,21 @@ namespace Iit.Fibertest.RtuManagement
             {
                 IsMonitoringOn = false;
                 SendCurrentMonitoringStep(MonitoringCurrentStep.Interrupted);
-                return new MoniResult(){MeasurementResult = MeasurementResult.Interrupted};
+                return new MoniResult() { MeasurementResult = MeasurementResult.Interrupted };
             }
 
             if (result != ReturnCode.MeasurementEndedNormally)
             {
                 if (RunMainCharonRecovery() != ReturnCode.Ok)
                     RunMainCharonRecovery(); // one of recovery steps inevitably exits process
-                return new MoniResult(){MeasurementResult = MeasurementResult.HardwareProblem};
+                return new MoniResult() { MeasurementResult = MeasurementResult.HardwareProblem };
             }
 
             _serviceIni.Write(IniSection.Recovering, IniKey.RecoveryStep, (int)RecoveryStep.Ok);
 
             SendCurrentMonitoringStep(MonitoringCurrentStep.Analysis, monitorigPort, baseRefType);
             var buffer = _otdrManager.GetLastSorDataBuffer();
+            monitorigPort.SaveMeasBytes(baseRefType, buffer, SorType.Raw, _rtuLog); // for investigations purpose
             _rtuLog.AppendLine($"Measurement result ({buffer.Length} bytes).");
 
             try
@@ -224,10 +225,9 @@ namespace Iit.Fibertest.RtuManagement
                 if (!_otdrManager.InterOpWrapper.PrepareMeasurement(true))
                 {
                     _rtuLog.AppendLine("Additional check after measurement failed!");
-                    if (_rtuIni.Read(IniSection.General, IniKey.LogLevel, 2) >= 3)
-                        monitorigPort.SaveMeasBytes(baseRefType, buffer, SorType.Error, _rtuLog); // save meas if error
+                    monitorigPort.SaveMeasBytes(baseRefType, buffer, SorType.Error, _rtuLog); // save meas if error
                     ReInitializeDlls();
-                    return new MoniResult(){MeasurementResult = MeasurementResult.HardwareProblem};
+                    return new MoniResult() { MeasurementResult = MeasurementResult.HardwareProblem };
                 }
             }
             catch (Exception e)
@@ -235,8 +235,6 @@ namespace Iit.Fibertest.RtuManagement
                 _rtuLog.AppendLine($"Exception during PrepareMeasurement: {e.Message}");
 
             }
-
-            monitorigPort.SaveMeasBytes(baseRefType, buffer, SorType.Raw, _rtuLog); // for investigations purpose
 
             var measBytes = _otdrManager.ApplyAutoAnalysis(buffer);
             _rtuLog.AppendLine($"Auto analysis applied. Now sor data has ({measBytes.Length} bytes).");

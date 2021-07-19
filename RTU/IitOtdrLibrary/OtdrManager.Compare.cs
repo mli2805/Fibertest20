@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.UtilsLib;
@@ -95,32 +96,39 @@ namespace Iit.Fibertest.IitOtdrLibrary
 
         private void CompareOneLevel(OtdrDataKnownBlocks baseSorData, ref OtdrDataKnownBlocks measSorData,  MoniLevelType type, MoniResult moniResult)
         {
-            var moniLevel = new MoniLevel {Type = type};
+            try
+            {
+                var moniLevel = new MoniLevel {Type = type};
 
-            // allocate memory
-            var baseIntPtr = InterOpWrapper.SetSorData(baseSorData.ToBytes());
-            InterOpWrapper.SetBaseForComparison(baseIntPtr);
+                // allocate memory
+                var baseIntPtr = InterOpWrapper.SetSorData(baseSorData.ToBytes());
+                InterOpWrapper.SetBaseForComparison(baseIntPtr);
 
-            // allocate memory
-            var measIntPtr = InterOpWrapper.SetSorData(measSorData.ToBytes());
-            var returnCode = InterOpWrapper.CompareActiveLevel(measIntPtr);
+                // allocate memory
+                var measIntPtr = InterOpWrapper.SetSorData(measSorData.ToBytes());
+                var returnCode = InterOpWrapper.CompareActiveLevel(measIntPtr);
 
-            var size = InterOpWrapper.GetSorDataSize(measIntPtr);
-            byte[] buffer = new byte[size];
-            InterOpWrapper.GetSordata(measIntPtr, buffer, size);
-            measSorData = SorData.FromBytes(buffer);
+                var size = InterOpWrapper.GetSorDataSize(measIntPtr);
+                byte[] buffer = new byte[size];
+                InterOpWrapper.GetSordata(measIntPtr, buffer, size);
+                measSorData = SorData.FromBytes(buffer);
 
-            moniLevel.IsLevelFailed = (measSorData.RftsEvents.Results & MonitoringResults.IsFailed) != 0;
-            moniResult.Levels.Add(moniLevel);
+                moniLevel.IsLevelFailed = (measSorData.RftsEvents.Results & MonitoringResults.IsFailed) != 0;
+                moniResult.Levels.Add(moniLevel);
 
-            var levelResult = returnCode != ComparisonReturns.Ok ? returnCode.ToString() : moniLevel.IsLevelFailed ? "Failed!" : "OK!";
-            _rtuLogger.AppendLine($"Level {type} comparison result = {levelResult}!");
+                var levelResult = returnCode != ComparisonReturns.Ok ? returnCode.ToString() : moniLevel.IsLevelFailed ? "Failed!" : "OK!";
+                _rtuLogger.AppendLine($"Level {type} comparison result = {levelResult}!");
 
-            SetMoniResultFlags(moniResult, returnCode);
+                SetMoniResultFlags(moniResult, returnCode);
 
-            // free memory
-            InterOpWrapper.FreeSorDataMemory(measIntPtr);
-            InterOpWrapper.FreeSorDataMemory(baseIntPtr);
+                // free memory
+                InterOpWrapper.FreeSorDataMemory(measIntPtr);
+                InterOpWrapper.FreeSorDataMemory(baseIntPtr);
+            }
+            catch (Exception e)
+            {
+                _rtuLogger.AppendLine($"Compare one level error: {e.Message}");
+            }
         }
     }
 }
