@@ -96,6 +96,14 @@ namespace Iit.Fibertest.Client
             if (!(param is TraceLeaf traceLeaf) || !traceLeaf.IsInZone)
                 return false;
 
+            if (traceLeaf.Parent is OtauLeaf otauLeaf && otauLeaf.OtauState != RtuPartState.Ok)
+                return false;
+
+            var parent = traceLeaf.Parent as RtuLeaf;
+            var rtuLeaf = parent ?? (RtuLeaf)traceLeaf.Parent.Parent;
+            if (!rtuLeaf.IsAvailable)
+                return false;
+
             return traceLeaf.PortNumber > 0 && traceLeaf.BaseRefsSet.PreciseId != Guid.Empty;
         }
     }

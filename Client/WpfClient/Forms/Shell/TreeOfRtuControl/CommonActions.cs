@@ -154,7 +154,10 @@ namespace Iit.Fibertest.Client
             if (param is TraceLeaf traceLeaf && !traceLeaf.IsInZone) return false;
 
             var parent = GetParent(param);
-            if (parent == null)
+            if (parent == null )
+                return false;
+
+            if (parent is OtauLeaf otauLeaf && otauLeaf.OtauState != RtuPartState.Ok)
                 return false;
 
             RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
@@ -170,6 +173,9 @@ namespace Iit.Fibertest.Client
 
             var parent = GetParent(param);
             if (parent == null)
+                return false;
+
+            if (parent is OtauLeaf otauLeaf && otauLeaf.OtauState != RtuPartState.Ok)
                 return false;
 
             RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
