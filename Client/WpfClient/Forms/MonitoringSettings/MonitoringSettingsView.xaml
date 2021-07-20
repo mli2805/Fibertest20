@@ -6,7 +6,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:monitoringSettings="clr-namespace:Iit.Fibertest.Client.MonitoringSettings"
         mc:Ignorable="d"
-        SizeToContent="WidthAndHeight" MinHeight="520" MinWidth="650" WindowStartupLocation="CenterScreen" 
+        SizeToContent="WidthAndHeight" MinHeight="520" MinWidth="650" MaxWidth="768" WindowStartupLocation="CenterScreen" 
         d:DataContext="{d:DesignInstance monitoringSettings:MonitoringSettingsViewModel}" 
         KeyDown="Window_KeyDown" Loaded="Window_Loaded">
     <Window.Resources>
