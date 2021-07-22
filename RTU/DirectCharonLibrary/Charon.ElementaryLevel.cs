@@ -92,9 +92,9 @@ namespace Iit.Fibertest.DirectCharonLibrary
 
                 if (LastAnswer.Substring(0, 15) == "ERROR_COMMAND\r\n")
                 {
-                    // charon too old, know nothing about extensions
+                    // charon too old, knows nothing about extensions
                     _rtuLogFile.AppendLine("Charon too old, knows nothing about extensions", 2);
-                    return null; 
+                    return new Dictionary<int, NetAddress>(); 
                 }
 
                 if (LastAnswer.Substring(0, 22) == "[OpticalPortExtension]")

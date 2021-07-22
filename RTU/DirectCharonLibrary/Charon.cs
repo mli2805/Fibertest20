@@ -75,11 +75,11 @@ namespace Iit.Fibertest.DirectCharonLibrary
             {
                 CharonIniSize = GetIniSize();
                 IsBopSupported = CharonIniSize > 0;
-                var expendedPorts = GetExtendedPorts();
-                if (!IsLastCommandSuccessful)
+                var extendedPorts = GetExtendedPorts();
+                if (extendedPorts == null)
                     return NetAddress;
 
-                foreach (var expendedPort in expendedPorts)
+                foreach (var expendedPort in extendedPorts)
                 {
                     var childCharon = new Charon(expendedPort.Value, false, _iniFile35, _rtuLogFile);
                     Children.Add(expendedPort.Key, childCharon); // even if it broken it should be in list
