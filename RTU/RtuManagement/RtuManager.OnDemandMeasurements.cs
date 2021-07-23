@@ -46,7 +46,7 @@ namespace Iit.Fibertest.RtuManagement
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start Measurement (Client).");
 
-            if (_wasMonitoringOn)
+            if (!_wasMonitoringOn)
             {
                 var otdrAddress = _rtuIni.Read(IniSection.RtuManager, IniKey.OtdrIp, "192.168.88.101");
                 var res = _otdrManager.ConnectOtdr(otdrAddress);
