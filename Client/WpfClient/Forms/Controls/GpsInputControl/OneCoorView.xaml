@@ -10,25 +10,72 @@
     <StackPanel>
         <StackPanel Name="DegreesMode" Orientation="Horizontal" Height="25"
                         Visibility="{Binding DegreesModeVisibility, Mode=TwoWay}"  VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBox Width="100" Margin="5,0,5,0" Text="{Binding Degrees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                         TextAlignment="Center" VerticalContentAlignment="Center" ForceCursor="True"/>
+            <TextBox Width="100" Margin="5,0,5,0" 
+                         TextAlignment="Center" VerticalContentAlignment="Center" ForceCursor="True">
+                <TextBox.Text>
+                    <Binding Path="Degrees" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
         </StackPanel>
         <StackPanel Name="DegreesAndMinutesMode" Orientation="Horizontal" Height="25"
                         Visibility="{Binding DegreesAndMinutesModeVisibility, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBox Width="50" Margin="5,0,5,0" Text="{Binding Degrees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                         TextAlignment="Center" VerticalContentAlignment="Center" ForceCursor="True"/>
-            <TextBox Width="75" Margin="5,0,5,0" Text="{Binding Minutes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                         TextAlignment="Center" VerticalContentAlignment="Center"/>
+            <TextBox Width="50" Margin="5,0,5,0" TextAlignment="Center" VerticalContentAlignment="Center" ForceCursor="True">
+                <TextBox.Text>
+                    <Binding Path="Degrees" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox Width="75" Margin="5,0,5,0" 
+                     TextAlignment="Center" VerticalContentAlignment="Center">
+                <TextBox.Text>
+                    <Binding Path="Minutes" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
         </StackPanel>
         <StackPanel Name="DegreesMinutesAndSecondsMode" Orientation="Horizontal" Height="25"
                         Visibility="{Binding DegreesMinutesAndSecondsModeVisibility, Mode=TwoWay}" VerticalAlignment="Center" HorizontalAlignment="Center">
-            <TextBox Width="50" Margin="5,0,5,0" Text="{Binding Degrees, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                         TextAlignment="Center" VerticalContentAlignment="Center" ForceCursor="True"/>
-            <TextBox Width="50" Margin="5,0,5,0" Text="{Binding Minutes, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                         TextAlignment="Center" VerticalContentAlignment="Center"/>
-            <TextBox Width="50" Margin="5,0,5,0" Text="{Binding Seconds, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                         TextAlignment="Center" VerticalContentAlignment="Center"
-                         Visibility="{Binding DegreesMinutesAndSecondsModeVisibility, Mode=TwoWay}"/>
+            <TextBox Width="50" Margin="5,0,5,0" 
+                         TextAlignment="Center" VerticalContentAlignment="Center" ForceCursor="True">
+                <TextBox.Text>
+                    <Binding Path="Degrees" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox Width="50" Margin="5,0,5,0" 
+                     TextAlignment="Center" VerticalContentAlignment="Center">
+                <TextBox.Text>
+                    <Binding Path="Minutes" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
+            <TextBox Width="50" Margin="5,0,5,0" 
+                     TextAlignment="Center" VerticalContentAlignment="Center"
+                     Visibility="{Binding DegreesMinutesAndSecondsModeVisibility, Mode=TwoWay}">
+                <TextBox.Text>
+                    <Binding Path="Seconds" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged">
+                        <Binding.ValidationRules>
+                            <DataErrorValidationRule />
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
         </StackPanel>
     </StackPanel>
 </UserControl>

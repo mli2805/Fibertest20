@@ -137,12 +137,19 @@ namespace Iit.Fibertest.Client
 
         private async Task<bool> CreateRtu()
         {
+            var errorMessage = GpsInputViewModel.TryGetPoint(out PointLatLng position);
+            if (errorMessage != null)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, errorMessage);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return false;
+            }
             var cmd = new AddRtuAtGpsLocation()
             {
                 Id = _originalRtu.Id,
                 NodeId = _originalNode.NodeId,
-                Latitude = GpsInputViewModel.OneCoorViewModelLatitude.StringsToValue(),
-                Longitude = GpsInputViewModel.OneCoorViewModelLongitude.StringsToValue(),
+                Latitude = position.Lat,
+                Longitude = position.Lng,
                 Title = Title,
                 Comment = Comment,
             };
@@ -162,7 +169,14 @@ namespace Iit.Fibertest.Client
             IMapper mapper =
                 new MapperConfiguration(cfg => cfg.AddProfile<MappingViewModelToCommand>()).CreateMapper();
             UpdateRtu cmd = mapper.Map<UpdateRtu>(this);
-            cmd.Position = new PointLatLng(GpsInputViewModel.OneCoorViewModelLatitude.StringsToValue(), GpsInputViewModel.OneCoorViewModelLongitude.StringsToValue());
+            var errorMessage = GpsInputViewModel.TryGetPoint(out PointLatLng position);
+            if (errorMessage != null)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, errorMessage);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return false;
+            }
+            cmd.Position = position;
             var result = await _c2DWcfManager.SendCommandAsObj(cmd);
             if (result != null)
             {

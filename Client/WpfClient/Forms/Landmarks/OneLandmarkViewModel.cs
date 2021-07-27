@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
+using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WcfConnections;
@@ -237,9 +238,17 @@ namespace Iit.Fibertest.Client
 
         private async Task<string> ApplyNode()
         {
+            var errorMessage = GpsInputSmallViewModel.TryGetPoint(out PointLatLng position);
+            if (errorMessage != null)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, errorMessage);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return null;
+            }
+
             if (_landmarkBeforeChanges.NodeTitle != SelectedLandmark.NodeTitle ||
                 _landmarkBeforeChanges.NodeComment != SelectedLandmark.NodeComment ||
-                _landmarkBeforeChanges.GpsCoors != GpsInputSmallViewModel.Get())
+                _landmarkBeforeChanges.GpsCoors != position)
             {
                 var cmd = SelectedLandmark.EquipmentType == EquipmentType.Rtu
                     ? (object)new UpdateRtu()
@@ -247,14 +256,14 @@ namespace Iit.Fibertest.Client
                         RtuId = RtuId,
                         Title = SelectedLandmark.NodeTitle,
                         Comment = SelectedLandmark.NodeComment,
-                        Position = GpsInputSmallViewModel.Get()
+                        Position = position,
                     }
                     : new UpdateAndMoveNode
                     {
                         NodeId = SelectedLandmark.NodeId,
                         Title = SelectedLandmark.NodeTitle,
                         Comment = SelectedLandmark.NodeComment,
-                        Position = GpsInputSmallViewModel.Get()
+                        Position = position,
                     };
                 return await _c2DWcfManager.SendCommandAsObj(cmd);
             }
@@ -264,11 +273,21 @@ namespace Iit.Fibertest.Client
         public void Cancel()
         {
             if (_landmarkBeforeChanges == null) return;
-            if (_currentlyHiddenRtu.Collection.Contains(RtuId)) return;
 
             SelectedLandmark = _landmarkBeforeChanges;
+
+            var errorMessage = GpsInputSmallViewModel.TryGetPoint(out PointLatLng position);
+            if (errorMessage != null)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, errorMessage);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return;
+            }
+
+            if (_currentlyHiddenRtu.Collection.Contains(RtuId)) return;
+
             var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
-            nodeVm.Position = GpsInputSmallViewModel.Get();
+            nodeVm.Position = position;
             _graphReadModel.ExtinguishNodes();
         }
 
@@ -282,17 +301,25 @@ namespace Iit.Fibertest.Client
             }
 
             var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
-            nodeVm.Position = GpsInputSmallViewModel.Get();
+
+            var errorMessage = GpsInputSmallViewModel.TryGetPoint(out PointLatLng position);
+            if (errorMessage != null)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, errorMessage);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return;
+            }
+            nodeVm.Position = position;
+
             _graphReadModel.PlaceNodeIntoScreenCenter(SelectedLandmark.NodeId);
             if (_tabulatorViewModel.SelectedTabIndex != 3)
                 _tabulatorViewModel.SelectedTabIndex = 3;
         }
+
         public void ShowReflectogram()
         {
             _reflectogramManager.SetTempFileName(TraceTitle, BaseRefType.Precise.ToString(), PreciseTimestamp);
             _reflectogramManager.ShowBaseReflectogramWithSelectedLandmark(SorFileId, SelectedLandmark.Number + 1);
         }
-
-
     }
 }

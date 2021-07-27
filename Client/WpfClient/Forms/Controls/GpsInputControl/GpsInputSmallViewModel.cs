@@ -59,9 +59,14 @@ namespace Iit.Fibertest.Client
             OneCoorViewModelLongitude = new OneCoorViewModel(_currentGis.GpsInputMode, Coors.Lng);
         }
 
-        public PointLatLng Get()
+        public string TryGetPoint(out PointLatLng point)
         {
-            return new PointLatLng(OneCoorViewModelLatitude.StringsToValue(), OneCoorViewModelLongitude.StringsToValue());
+            point = new PointLatLng();
+            if (!OneCoorViewModelLatitude.TryGetValue(out double lat)) return OneCoorViewModelLatitude.Error;
+            if (!OneCoorViewModelLongitude.TryGetValue(out double lng)) return OneCoorViewModelLongitude.Error;
+            point = new PointLatLng(lat, lng);
+            return null;
         }
+
     }
 }

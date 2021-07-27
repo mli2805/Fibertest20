@@ -49,7 +49,7 @@ namespace Graph.Tests
         [When(@"Задается базовая")]
         public void WhenЗадаетсяБазовая()
         {
-            var traceLeaf = (TraceLeaf) _sut.TreeOfRtuModel.GetById(_trace.TraceId);
+            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuModel.GetById(_trace.TraceId);
             _sut.AssignBaseRef(traceLeaf, SystemUnderTest.BaseTrace7, SystemUnderTest.BaseTrace7, null, Answer.Yes);
         }
 
@@ -86,7 +86,7 @@ namespace Graph.Tests
             var nodeId = _sut.ReadModel.Nodes.First(n => n.TypeOfLastAddedEquipment == EquipmentType.Cross).NodeId;
 
             _sut.GraphReadModel.GrmNodeRequests
-                .MoveNode(new MoveNode() {NodeId = nodeId, Latitude = 55.2, Longitude = 30.2}).Wait();
+                .MoveNode(new MoveNode() { NodeId = nodeId, Latitude = 55.2, Longitude = 30.2 }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
 
             var nodeUpdateViewModel = _sut.ClientScope.Resolve<NodeUpdateViewModel>();
@@ -145,7 +145,7 @@ namespace Graph.Tests
             _vm.SelectedRow = _vm.Rows[1];
             _vm.OneLandmarkViewModel.SelectedLandmark.EquipmentTitle = @"New title for equipment in node 1";
             _vm.OneLandmarkViewModel.SelectedLandmark.EquipmentType = EquipmentType.Other;
-      
+
         }
 
         [When(@"Изменяет название и координаты первого узла и жмет Применить")]
@@ -153,6 +153,11 @@ namespace Graph.Tests
         {
             _vm.OneLandmarkViewModel.SelectedLandmark.NodeTitle = @"New title for node 1";
             _vm.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLatitude.Degrees = @"44";
+            _vm.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLatitude.Minutes = @"0";
+            _vm.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLatitude.Seconds = @"12";
+            _vm.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLongitude.Degrees = @"12";
+            _vm.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLongitude.Minutes = @"34";
+            _vm.OneLandmarkViewModel.GpsInputSmallViewModel.OneCoorViewModelLongitude.Seconds = @"56";
 
             _vm.OneLandmarkViewModel.Apply();
             _sut.Poller.EventSourcingTick().Wait();

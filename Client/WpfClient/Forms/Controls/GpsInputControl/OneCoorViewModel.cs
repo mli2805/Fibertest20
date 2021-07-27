@@ -175,12 +175,38 @@ namespace Iit.Fibertest.Client
             if (string.IsNullOrEmpty(Degrees)) Degrees = @"0";
             if (string.IsNullOrEmpty(Minutes)) Minutes = @"0";
             if (string.IsNullOrEmpty(Seconds)) Seconds = @"0";
-            
+
             if (CurrentGpsInputMode == GpsInputMode.Degrees)
                 return double.Parse(Degrees);
             if (CurrentGpsInputMode == GpsInputMode.DegreesAndMinutes)
                 return double.Parse(Degrees) + double.Parse(Minutes) / 60;
             return double.Parse(Degrees) + double.Parse(Minutes) / 60 + double.Parse(Seconds) / 3600;
+        }
+
+        public bool TryGetValue(out double value)
+        {
+            value = 0;
+
+            if (string.IsNullOrEmpty(Degrees)) return false;
+            if (CurrentGpsInputMode == GpsInputMode.Degrees)
+                return double.TryParse(Degrees, out value);
+
+            if (string.IsNullOrEmpty(Minutes)) return false;
+            if (CurrentGpsInputMode == GpsInputMode.DegreesAndMinutes)
+            {
+                if (!double.TryParse(Degrees, out double degrees) || !double.TryParse(Minutes, out double minutes))
+                    return false;
+                value = degrees + minutes / 60;
+                return true;
+            }
+
+            if (string.IsNullOrEmpty(Seconds)) return false;
+            if (!double.TryParse(Degrees, out double degrees3) 
+                || !double.TryParse(Minutes, out double minutes3)
+                || !double.TryParse(Seconds, out double seconds3))
+                return false;
+            value = degrees3 + minutes3 / 60 + seconds3 / 3600;
+            return true;
         }
 
         [UsedImplicitly/*by VS designer*/]
@@ -204,9 +230,25 @@ namespace Iit.Fibertest.Client
                     case "Degrees":
                         if (string.IsNullOrEmpty(Degrees))
                             errorMessage = Resources.SID_Degrees_is_required;
-                        if (!double.TryParse(Degrees, out _))
+                        if (!double.TryParse(Degrees, out double degrees))
                             errorMessage = Resources.SID_Invalid_input;
-                        Error = Resources.SID_Invalid_input;
+                        if (degrees < 0 || degrees >= 360) 
+                            errorMessage = Resources.SID_Invalid_input;
+                        Error = errorMessage;
+                        break;
+                    case "Minutes":
+                        if (!double.TryParse(Minutes, out double minutes))
+                            errorMessage = Resources.SID_Invalid_input;
+                        if (minutes < 0 || minutes >= 60) 
+                            errorMessage = Resources.SID_Invalid_input;
+                        Error = errorMessage;
+                        break;
+                    case "Seconds":
+                        if (!double.TryParse(Seconds, out double seconds))
+                            errorMessage = Resources.SID_Invalid_input;
+                        if (seconds < 0 || seconds >= 60) 
+                            errorMessage = Resources.SID_Invalid_input;
+                        Error = errorMessage;
                         break;
                 }
                 return errorMessage;

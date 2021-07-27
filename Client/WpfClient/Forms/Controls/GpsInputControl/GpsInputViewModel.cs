@@ -37,7 +37,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-      
+
         public bool IsEditEnabled { get; set; }
         private Guid _originalNodeId;
         public GpsInputViewModel(CurrentGis currentGis, GraphReadModel graphReadModel, TabulatorViewModel tabulatorViewModel)
@@ -58,14 +58,18 @@ namespace Iit.Fibertest.Client
 
             OneCoorViewModelLatitude = new OneCoorViewModel(SelectedGpsInputModeComboItem.Mode, Coors.Lat);
             OneCoorViewModelLongitude = new OneCoorViewModel(SelectedGpsInputModeComboItem.Mode, Coors.Lng);
-            SelectedGpsInputModeComboItem = GpsInputModes.FirstOrDefault(i=>i.Mode == _modeInIniFile);
+            SelectedGpsInputModeComboItem = GpsInputModes.FirstOrDefault(i => i.Mode == _modeInIniFile);
 
             IsEditEnabled = isEditEnabled;
         }
 
-        public PointLatLng Get()
+        public string TryGetPoint(out PointLatLng point)
         {
-            return new PointLatLng(OneCoorViewModelLatitude.StringsToValue(), OneCoorViewModelLongitude.StringsToValue());
+            point = new PointLatLng();
+            if (!OneCoorViewModelLatitude.TryGetValue(out double lat)) return OneCoorViewModelLatitude.Error;
+            if (!OneCoorViewModelLongitude.TryGetValue(out double lng)) return OneCoorViewModelLongitude.Error;
+            point = new PointLatLng(lat, lng);
+            return null;
         }
 
         public void PreView()
