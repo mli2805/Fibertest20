@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Linq;
 using Iit.Fibertest.StringResources;
 using Optixsoft.SorExaminer.OtdrDataFormat;
@@ -21,7 +22,15 @@ namespace Iit.Fibertest.WpfCommonViews
             {
                 return;
             }
-            OneLevelTableContent = new SorDataToViewContent(sorData, rftsEventsBlock, rftsLevel.LevelName).Parse();
+
+            try
+            {
+                OneLevelTableContent = new SorDataToViewContent(sorData, rftsEventsBlock, rftsLevel.LevelName).Parse();
+            }
+            catch (Exception )
+            {
+                return;
+            }
             CreateTable(OneLevelTableContent.Table.First().Value.Length-1);
             PopulateTable();
             EeltViewModel = new RftsEventsOneLevelEeltViewModel(sorData.KeyEvents.EndToEndLoss, rftsLevel.EELT, rftsEventsBlock.EELD);
