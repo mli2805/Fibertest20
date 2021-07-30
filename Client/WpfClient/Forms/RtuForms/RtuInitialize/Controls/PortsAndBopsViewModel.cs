@@ -41,7 +41,9 @@ namespace Iit.Fibertest.Client
 
         public void FillInPortsAndBops(Rtu originalRtu, RtuInitializedDto dto)
         {
-            FullPortCount = originalRtu.FullPortCount - originalRtu.Children.Count;
+            FullPortCount = originalRtu.FullPortCount != 0
+                ? originalRtu.FullPortCount - originalRtu.Children.Count // re-initialization
+                : dto.FullPortCount - dto.Children.Count; // first initialization
             Bops = FillInOtauList(dto.Children);
         }
 
