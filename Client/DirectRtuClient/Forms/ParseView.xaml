@@ -6,10 +6,22 @@
         mc:Ignorable="d"
         Title="ParseView" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
     <StackPanel>
+        <GroupBox Header="Initialization" Margin="5">
+            <StackPanel>
+                <TextBlock Margin="5" Text="{Binding InitializationMessage}" Background="AliceBlue" TextWrapping="Wrap" />
+            </StackPanel>
+        </GroupBox>
         <DockPanel>
-            <Button Name="ChooseResultFilename" Content="Choose result file" Width="130" Margin="5" />
+            <Button Name="ChooseBaseFilename" Content="Choose base file" Width="150" Margin="5" />
+            <TextBlock Name="BaseFileNameTextBox" Text="{Binding BaseFileName}" Margin="5" Width="400" Background="AliceBlue"/>
+        </DockPanel>
+        <DockPanel>
+            <Button Name="ChooseResultFilename" Content="Choose measurement file" Width="150" Margin="5" />
             <TextBlock Name="ResultFileNameTextBox" Text="{Binding ResultFileName}" Margin="5" Width="400" Background="AliceBlue"/>
         </DockPanel>
-        <Button Name="Parse" Content="Parse" Margin="5"/>  
+        <DockPanel>
+            <Button Name="Compare" Content="Compare" Width="280" Margin="5"/>
+            <Button Name="Parse" Content="Parse measurement to log file" Margin="5"/>
+        </DockPanel>
     </StackPanel>
 </Window>

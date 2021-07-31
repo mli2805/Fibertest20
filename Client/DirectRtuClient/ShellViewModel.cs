@@ -24,7 +24,7 @@ namespace DirectRtuClient
 
         public void ParseView()
         {
-            var vm = new ParseViewModel(_rtuLogger);
+            var vm = new ParseViewModel(_iniFile35, _rtuLogger);
             IWindowManager windowManager = new WindowManager();
             windowManager.ShowWindow(vm);
         }
