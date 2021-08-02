@@ -7,8 +7,8 @@
         <Button Name="ParseView" Content="Parse Sor File View" Margin="5"/>
         <Button Name="OtdrView" Content="Otdr View" Margin="5"/>
         <Button Name="OtauView" Content="Otau View" Margin="5"/>
-        <Button Name="WcfView" Content="WCF View" Margin="5"/>
-        <Button Name="HttpView" Content="Http View" Margin="5"/>
+        <Button Name="WcfView" Content="Client - DataCenter WCF functions View" Margin="5"/>
+        <Button Name="HttpView" Content="Veex RTU View" Margin="5"/>
         <Button Name="SslCertificatesView" Content="SSL Certificates View" Margin="5"/>
     </StackPanel>
 

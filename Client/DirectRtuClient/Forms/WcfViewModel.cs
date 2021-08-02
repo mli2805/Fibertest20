@@ -17,7 +17,7 @@ namespace DirectRtuClient
         private readonly IniFile _iniFile;
 
         private readonly string _username;
-        private readonly string _clientIp;
+        public string ClientIp { get; set; }
         private readonly CommonC2DWcfManager _commonC2DWcfManager;
         private readonly DesktopC2DWcfManager _desktopC2DWcfManager;
 
@@ -38,7 +38,7 @@ namespace DirectRtuClient
             _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToDesktopClient);
             ServerAddress = _serverDoubleAddress.Main.Ip4Address;
             var clientAddresses = _iniFile.Read(IniSection.ClientLocalAddress, (int)TcpPorts.ClientListenTo);
-            _clientIp = clientAddresses.Ip4Address;
+            ClientIp = clientAddresses.Ip4Address;
 
             _desktopC2DWcfManager = new DesktopC2DWcfManager(_iniFile, _logFile);
             _desktopC2DWcfManager.SetServerAddresses(new DoubleAddress()
@@ -108,7 +108,7 @@ namespace DirectRtuClient
         {
             var dto = new RegisterClientDto()
             {
-                ClientIp = _clientIp,
+                ClientIp = ClientIp,
                 UserName = _username,
                 Password = _username,
                 Addresses = new DoubleAddress(),
@@ -144,7 +144,7 @@ namespace DirectRtuClient
         {
             try
             {
-                var dto = new UnRegisterClientDto() { ClientIp = _clientIp };
+                var dto = new UnRegisterClientDto() { ClientIp = ClientIp };
                 await _commonC2DWcfManager.UnregisterClientAsync(dto);
             }
             catch (Exception e)

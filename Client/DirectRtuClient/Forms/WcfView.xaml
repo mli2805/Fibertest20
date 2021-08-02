@@ -8,6 +8,10 @@
         Height="300" Width="300" WindowStartupLocation="CenterScreen" d:DataContext="{d:DesignInstance directRtuClient:WcfViewModel}">
     <StackPanel>
         <DockPanel>
+            <TextBlock Text="Адрес клиента из ини файла" Margin="5"/>
+            <TextBlock Text="{Binding ClientIp}" Margin="5"/>
+        </DockPanel>
+        <DockPanel>
             <Button DockPanel.Dock="Right" Name="SaveAddress" Content="Save address" Margin="5" Width="100"/>
             <TextBox Text="{Binding ServerAddress}" Margin="5"/>
         </DockPanel>
