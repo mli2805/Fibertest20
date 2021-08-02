@@ -84,6 +84,7 @@ namespace DirectRtuClient
 
             var moniResult = _otdrManager.CompareMeasureWithBase(baseBytes, measBytes, true);
             var measWithBase = SorData.FromBytes(moniResult.SorBytes);
+            // measWithBase.Save(@"c:\temp\sor\after-compare.sor");
 
             IWindowManager windowManager = new WindowManager();
             var vm = new RftsEventsViewModel(windowManager);

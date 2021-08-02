@@ -74,7 +74,7 @@ namespace Iit.Fibertest.IitOtdrLibrary
             return moniResult;
         }
 
-        private MoniResult Compare(OtdrDataKnownBlocks baseSorData, ref OtdrDataKnownBlocks measSorData, List<EmbeddedData> embeddedData)
+        private MoniResult Compare(OtdrDataKnownBlocks baseSorData, ref OtdrDataKnownBlocks cleanMeasSorData, List<EmbeddedData> rftsEventsList)
         {
             MoniResult moniResult = new MoniResult();
 
@@ -87,10 +87,18 @@ namespace Iit.Fibertest.IitOtdrLibrary
                 if (rftsLevel.IsEnabled)
                 {
                     baseSorData.RftsParameters.ActiveLevelIndex = i;
+
+                    var measBytes = cleanMeasSorData.ToBytes();
+                    var measSorData = SorData.FromBytes(measBytes);
+
                     CompareOneLevel(baseSorData, ref measSorData, GetMoniLevelType(rftsLevel.LevelName), moniResult);
-                    embeddedData.Add(measSorData.RftsEventsToEmbeddedData());
+                    rftsEventsList.Add(measSorData.RftsEventsToEmbeddedData());
+
+                    if (i == levelCount - 1)
+                        cleanMeasSorData = measSorData;
                 }
             }
+
             return moniResult;
         }
 
