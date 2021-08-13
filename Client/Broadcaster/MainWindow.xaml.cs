@@ -22,6 +22,7 @@ namespace Broadcaster
         private IniFile _iniFile;
         private IMyLog _logFile;
         private int _sentCount;
+        private DateTime _startTime;
 
         public int GsmComPort { get; set; }
 
@@ -50,6 +51,7 @@ namespace Broadcaster
         public MainWindow()
         {
             InitializeComponent();
+            _startTime = DateTime.Now;
             DataContext = this;
         }
 
@@ -173,7 +175,7 @@ namespace Broadcaster
         public int SnmpManagerPort { get; set; }
         public string SnmpCommunity { get; set; }
 
-        public List<string> SnmpEncodings { get; set; } = new List<string>(){ "unicode (utf16)", "utf8", "windows1251"};
+        public List<string> SnmpEncodings { get; set; } = new List<string>() { "unicode (utf16)", "utf8", "windows1251" };
 
         public string SelectedSnmpEncoding { get; set; }
         public string EnterpriseOid { get; set; }
@@ -185,6 +187,15 @@ namespace Broadcaster
 
             var snmpAgent = new SnmpAgent(_iniFile, _logFile);
             var unused = snmpAgent.SendTestTrap();
+        }
+
+        private void SendV2CPonTestTrap(object sender, RoutedEventArgs e)
+        {
+            // save all user's input into ini-file: snmpAgent will read them from ini-file
+            SaveInputs();
+
+            var snmpAgent = new SnmpAgent(_iniFile, _logFile);
+            var unused = snmpAgent.SendV2CPonTestTrap(_startTime);
         }
 
         private void LoadSnmpSets()

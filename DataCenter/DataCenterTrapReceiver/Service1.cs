@@ -36,40 +36,49 @@ namespace Iit.Fibertest.DataCenterTrapReceiver
             var tid = Thread.CurrentThread.ManagedThreadId;
             _logFile.AppendLine($"Trap listener thread. Process {pid}, thread {tid}");
 
-            Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            EndPoint ep = new IPEndPoint(IPAddress.Any, 162);
-            socket.Bind(ep);
-            // Disable timeout processing. Just block until packet is received
-            socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 0);
-
-            while (true)
+            try
             {
-                byte[] inData = new byte[16 * 1024];
-                EndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 0);
-                int inLen;
-                try
+                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+                EndPoint ep = new IPEndPoint(IPAddress.Any, 162);
+                socket.Bind(ep);
+                // Disable timeout processing. Just block until packet is received
+                socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 0);
+
+
+                while (true)
                 {
-                    inLen = socket.ReceiveFrom(inData, ref ipEndPoint);
-                }
-                catch (Exception ex)
-                {
-                    _logFile.AppendLine($"Exception {ex.Message}");
-                    inLen = -1;
-                }
-                if (inLen > 0)
-                {
-                    // Check protocol version int
-                    int ver = SnmpPacket.GetProtocolVersion(inData, inLen);
-                    if (ver == (int)SnmpVersion.Ver1)
-                        ParseSnmpVersion1TrapPacket(inData, inLen, ipEndPoint);
+                    byte[] inData = new byte[16 * 1024];
+                    EndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 0);
+                    int inLen;
+                    try
+                    {
+                        inLen = socket.ReceiveFrom(inData, ref ipEndPoint);
+                    }
+                    catch (Exception ex)
+                    {
+                        _logFile.AppendLine($"Exception {ex.Message}");
+                        inLen = -1;
+                    }
+                    if (inLen > 0)
+                    {
+                        // Check protocol version int
+                        int ver = SnmpPacket.GetProtocolVersion(inData, inLen);
+                        if (ver == (int)SnmpVersion.Ver1)
+                            ParseSnmpVersion1TrapPacket(inData, inLen, ipEndPoint);
+                        else
+                            ParseSnmpVersion2TrapPacket(inData, inLen, ipEndPoint);
+                    }
                     else
-                        ParseSnmpVersion2TrapPacket(inData, inLen, ipEndPoint);
+                    {
+                        if (inLen == 0)
+                            _logFile.AppendLine("Zero length packet received.");
+                    }
                 }
-                else
-                {
-                    if (inLen == 0)
-                        _logFile.AppendLine("Zero length packet received.");
-                }
+
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"Failed to establish connection. {e.Message}");
             }
             // ReSharper disable once FunctionNeverReturns
         }
@@ -104,7 +113,8 @@ namespace Iit.Fibertest.DataCenterTrapReceiver
             }
             else
             {
-                _logFile.AppendLine($"*** Community: {pkt.Community}");
+                _logFile.AppendLine($"*** Community: {pkt.Community}"); 
+                _logFile.AppendLine($"*** System Up Time: {new TimeSpan(pkt.Pdu.TrapSysUpTime * 100000)}");
                 _logFile.AppendLine($"*** VarBind count: {pkt.Pdu.VbList.Count}");
                 _logFile.AppendLine($"*** VarBind content:");
                 foreach (Vb v in pkt.Pdu.VbList)

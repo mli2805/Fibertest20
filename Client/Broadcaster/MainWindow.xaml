@@ -67,7 +67,10 @@
                     <TextBlock Text="EnterpriseOid" Margin="5"/>
                     <TextBox Text="{Binding EnterpriseOid}" Margin="5" Width="200"/>
                 </StackPanel>
-                <Button Width="200" Height="22" Content="Send Test Trap " Margin="5" Click="SendV1TestTrap"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button Width="200" Height="22" Content="Send Test Trap " Margin="5" Click="SendV1TestTrap"/>
+                    <Button Width="200" Height="22" Content="Send V2C Pon Test Trap " Margin="5" Click="SendV2CPonTestTrap"/>
+                </StackPanel>
             </StackPanel>
         </GroupBox>
         <StackPanel></StackPanel>

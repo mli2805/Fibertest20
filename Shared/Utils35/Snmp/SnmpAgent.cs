@@ -8,53 +8,10 @@ using SnmpSharpNet;
 
 namespace Iit.Fibertest.UtilsLib
 {
-    // should be the same as in MIB file
-    public enum SnmpTrapType
-    {
-        MeasurementAsSnmp = 100,
-        RtuNetworkEventAsSnmp = 200,
-        BopNetworkEventAsSnmp = 300,
-        TestTrap = 777,
-    }
-
-    // should be the same as in MIB file
-    public enum SnmpProperty
-    {
-        EventId = 0,
-        EventRegistrationTime,
-        RtuTitle,
-        TraceTitle,
-
-        RtuMainChannel = 10,
-        RtuReserveChannel = 11,
-
-        BopTitle = 20,
-        BopState,
-
-        TraceState = 30,
-        AccidentNodeTitle,
-        AccidentType,
-        AccidentToRtuDistanceKm,
-        AccidentGps,
-
-        LeftNodeTitle = 40,
-        LeftNodeGps,
-        LeftNodeToRtuDistanceKm,
-
-        RightNodeTitle = 50,
-        RightNodeGps,
-        RightNodeToRtuDistanceKm,
-
-        TestString = 700,
-        TestInt,
-        TestDouble,
-    }
-
     public class SnmpAgent
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
-        private DateTime _startTime;
 
         private int _snmpTrapVersion;
         private string _snmpReceiverAddress;
@@ -63,13 +20,14 @@ namespace Iit.Fibertest.UtilsLib
         private string _snmpCommunity;
         private string _snmpEncoding;
 
+        private const string HuaweiOid = "1.3.6.1.4.1.2011.2.248";
         private string _enterpriseOid;
 
         public SnmpAgent(IniFile iniFile, IMyLog logFile)
         {
             _iniFile = iniFile;
             _logFile = logFile;
-            _startTime = DateTime.Now;
+
             Initialize();
         }
 
@@ -108,11 +66,11 @@ namespace Iit.Fibertest.UtilsLib
         {
             var trapData = CreateTestTrapData();
             if (_snmpTrapVersion == 1)
-                return SendSnmpV1Trap(trapData, SnmpTrapType.TestTrap);
+                return SendSnmpV1Trap(trapData, FtTrapType.TestTrap);
             return false;
         }
 
-        private bool SendSnmpV1Trap(VbCollection trapData, SnmpTrapType trapType)
+        private bool SendSnmpV1Trap(VbCollection trapData, FtTrapType trapType)
         {
             try
             {
@@ -124,7 +82,7 @@ namespace Iit.Fibertest.UtilsLib
                     new IpAddress(_snmpAgentIp),
                     6,
                     (int)trapType, // my trap type 
-                    (uint)(DateTime.Now - _startTime).TotalSeconds * 10, // system UpTime in 0,1sec
+                    12345678, // system UpTime in 0,1sec
                     trapData);
                 _logFile.AppendLine("SendSnmpV1Trap sent.");
                 return true;
@@ -136,10 +94,58 @@ namespace Iit.Fibertest.UtilsLib
             }
         }
 
-        public bool SentRealTrap(List<KeyValuePair<SnmpProperty, string>> data, SnmpTrapType trapType)
+        public bool SendV2CPonTestTrap(DateTime systemStartTime)
+        {
+            var trapData = CreateV2CPonTestTrap();
+            return SendSnmpV2CTrap(trapData, systemStartTime);
+        }
+
+        private VbCollection CreateV2CPonTestTrap()
+        {
+            var data = new List<Tuple<string, string, SnmpV2CDataType>>();
+
+            // 1 tick is 10 ms
+            // data.Add(new Tuple<string, string, SnmpV2CDataType>("1.3.6.1.2.1.1.3.0", "123", SnmpV2CDataType.TimeTicks));
+            // var oid1 = "1.3.6.1.4.1.2011.2.247";
+            // data.Add(new Tuple<string, string, SnmpV2CDataType>("1.3.6.1.6.3.1.1.4.1.0", oid1, SnmpV2CDataType.Oid));
+            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "0", SnmpV2CDataType.Integer32));
+            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "4", SnmpV2CDataType.Integer32));
+            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "3", SnmpV2CDataType.Integer32));
+            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "192.168.96.59", SnmpV2CDataType.IpAddress));
+            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "416", SnmpV2CDataType.Integer32));
+            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, DateTime.Now.ToString("O"), SnmpV2CDataType.OctetString));
+            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "00000000", SnmpV2CDataType.OctetString));
+            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "2", SnmpV2CDataType.Integer32));
+            data.Add(new Tuple<string, string, SnmpV2CDataType>(HuaweiOid, "1", SnmpV2CDataType.Integer32));
+
+            return new VbCollection(VbCollectionFactory.CreateCollection(data));
+        }
+
+        private bool SendSnmpV2CTrap(VbCollection trapData, DateTime systemStartTime)
+        {
+            try
+            {
+                TrapAgent trapAgent = new TrapAgent();
+                trapAgent.SendV2Trap(new IpAddress(_snmpReceiverAddress),
+                    _snmpReceiverPort,
+                    "public",
+                    (uint)(DateTime.Now - systemStartTime).TotalSeconds * 100, // Huawei OLT sends UpTime in 0,1sec,
+                    new Oid(HuaweiOid),
+                    trapData);
+                _logFile.AppendLine("SendSnmpV2Trap sent.");
+                return true;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine($"SendSnmpV2Trap: {e.Message}");
+                return false;
+            }
+        }
+
+        public bool SentRealTrap(List<KeyValuePair<FtTrapProperty, string>> data, FtTrapType trapType)
         {
             var trapData = new VbCollection();
-            foreach (KeyValuePair<SnmpProperty, string> pair in data)
+            foreach (KeyValuePair<FtTrapProperty, string> pair in data)
             {
                 trapData.Add(new Oid(_enterpriseOid + "." + (int)pair.Key),
                     new OctetString(EncodeString(pair.Value, _snmpEncoding)));
@@ -151,13 +157,13 @@ namespace Iit.Fibertest.UtilsLib
         {
             var trapData = new VbCollection();
 
-            trapData.Add(new Oid(_enterpriseOid + "." + (int)SnmpProperty.TestString),
-                new OctetString(EncodeString("Test string with Русский язык.",_snmpEncoding)));
-            trapData.Add(new Oid(_enterpriseOid + "." + (int)SnmpProperty.EventRegistrationTime), 
+            trapData.Add(new Oid(_enterpriseOid + "." + (int)FtTrapProperty.TestString),
+                new OctetString(EncodeString("Test string with Русский язык.", _snmpEncoding)));
+            trapData.Add(new Oid(_enterpriseOid + "." + (int)FtTrapProperty.EventRegistrationTime),
                 new OctetString(DateTime.Now.ToString("G")));
-            trapData.Add(new Oid(_enterpriseOid + "." + (int)SnmpProperty.TestInt), new Integer32(412));
+            trapData.Add(new Oid(_enterpriseOid + "." + (int)FtTrapProperty.TestInt), new Integer32(412));
             var doubleValue = 43.0319;
-            trapData.Add(new Oid(_enterpriseOid + "." + (int)SnmpProperty.TestDouble), 
+            trapData.Add(new Oid(_enterpriseOid + "." + (int)FtTrapProperty.TestDouble),
                 new OctetString(doubleValue.ToString(CultureInfo.CurrentUICulture)));
             return trapData;
         }
