@@ -425,12 +425,6 @@ namespace Iit.Fibertest.DataCenterCore
             return await _eventStoreService.SendCommand(cmd, username, dto.ClientIp);
         }
 
-        public Task<string> ReactOltTrap(ReactOltTrapDto dto)
-        {
-            _logFile.AppendLine($"React on trap from {dto.OltIp}");
-            return null;
-        }
-
         public async Task<byte[]> GetSorBytes(int sorFileId)
         {
             return await _sorFileRepository.GetSorBytesAsync(sorFileId);

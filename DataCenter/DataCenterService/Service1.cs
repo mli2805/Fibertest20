@@ -23,6 +23,7 @@ namespace Iit.Fibertest.DataCenterService
         private readonly SignalRNudger _signalRNudger;
         private readonly WebApiChecker _webApiChecker;
         private readonly SmsSender _smsSender;
+        private readonly TrapExecutor _trapExecutor;
         private readonly IFtSignalRClient _ftSignalRClient;
         private readonly MeasurementsForWebNotifier _measurementsForWebNotifier;
         private readonly WcfServiceForDesktopC2DBootstrapper _wcfServiceForDesktopC2DBootstrapper;
@@ -34,7 +35,7 @@ namespace Iit.Fibertest.DataCenterService
         public Service1(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
             IParameterizer serverParameterizer, EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
             LastConnectionTimeChecker lastConnectionTimeChecker, SignalRNudger signalRNudger,
-            WebApiChecker webApiChecker, SmsSender smsSender,
+            WebApiChecker webApiChecker, SmsSender smsSender, TrapExecutor trapExecutor,
             IFtSignalRClient ftSignalRClient, MeasurementsForWebNotifier measurementsForWebNotifier,
             WcfServiceForDesktopC2DBootstrapper wcfServiceForDesktopC2DBootstrapper,
             WcfServiceForCommonC2DBootstrapper wcfServiceForCommonC2DBootstrapper,
@@ -53,6 +54,7 @@ namespace Iit.Fibertest.DataCenterService
             _signalRNudger = signalRNudger;
             _webApiChecker = webApiChecker;
             _smsSender = smsSender;
+            _trapExecutor = trapExecutor;
             _ftSignalRClient = ftSignalRClient;
             _measurementsForWebNotifier = measurementsForWebNotifier;
             _wcfServiceForDesktopC2DBootstrapper = wcfServiceForDesktopC2DBootstrapper;
@@ -101,6 +103,7 @@ namespace Iit.Fibertest.DataCenterService
             _wcfServiceForRtuBootstrapper.Start();
             _msmqHandler.Start();
             _smsSender.Start();
+            _trapExecutor.Start();
             Console.WriteLine(@"Service initialization done.");
         }
 

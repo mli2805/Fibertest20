@@ -53,7 +53,7 @@ namespace Iit.Fibertest.WcfConnections
         {
             var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
-                return new RequestAnswer(){ReturnCode = ReturnCode.C2DWcfConnectionError};
+                return new RequestAnswer() { ReturnCode = ReturnCode.C2DWcfConnectionError };
 
             try
             {
@@ -123,8 +123,8 @@ namespace Iit.Fibertest.WcfConnections
             if (wcfConnection == null)
                 return new RtuInitializedDto()
                 {
-                    IsInitialized = false, 
-                    ReturnCode = ReturnCode.C2RWcfConnectionError, 
+                    IsInitialized = false,
+                    ReturnCode = ReturnCode.C2RWcfConnectionError,
                     ErrorMessage = "Can't establish connection with DataCenter"
                 };
 
@@ -142,8 +142,8 @@ namespace Iit.Fibertest.WcfConnections
                 _logFile.AppendLine("InitializeRtuAsync: " + e.Message);
                 return new RtuInitializedDto()
                 {
-                    IsInitialized = false, 
-                    ReturnCode = ReturnCode.C2RWcfOperationError, 
+                    IsInitialized = false,
+                    ReturnCode = ReturnCode.C2RWcfOperationError,
                     ErrorMessage = e.Message
                 };
             }
@@ -155,8 +155,8 @@ namespace Iit.Fibertest.WcfConnections
             if (wcfConnection == null)
                 return new OtauAttachedDto()
                 {
-                    IsAttached = false, 
-                    ReturnCode = ReturnCode.C2RWcfConnectionError, 
+                    IsAttached = false,
+                    ReturnCode = ReturnCode.C2RWcfConnectionError,
                     ErrorMessage = "Can't establish connection with DataCenter"
                 };
 
@@ -392,26 +392,6 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine("UpdateMeasurement: " + e.Message);
-                return null;
-            }
-        }
-
-        public async Task<string> ReactOltTrap(ReactOltTrapDto dto)
-        {
-            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
-            if (wcfConnection == null)
-                return null;
-
-            try
-            {
-                var channel = wcfConnection.CreateChannel();
-                var result = await channel.ReactOltTrap(dto);
-                wcfConnection.Close();
-                return result;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("ReactOltTrap: " + e.Message);
                 return null;
             }
         }

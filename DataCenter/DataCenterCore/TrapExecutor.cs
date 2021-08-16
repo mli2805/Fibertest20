@@ -2,35 +2,23 @@
 using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
-using System.ServiceProcess;
 using System.Threading;
-using System.Threading.Tasks;
 using Iit.Fibertest.UtilsLib;
 using SnmpSharpNet;
 
-namespace Iit.Fibertest.DataCenterTrapReceiver
+namespace Iit.Fibertest.DataCenterCore
 {
-    public class Service1 : ServiceBase
+    public class TrapExecutor
     {
         private readonly IMyLog _logFile;
 
-        public Service1(IMyLog logFile)
+        public TrapExecutor(IMyLog logFile)
         {
             _logFile = logFile;
-            _logFile.AssignFile("TrapReceiver.log");
-        }
-
-        protected override async void OnStart(string[] args)
-        {
-            var pid = Process.GetCurrentProcess().Id;
-            var tid = Thread.CurrentThread.ManagedThreadId;
-            _logFile.AppendLine($"Trap receiver started. Process {pid}, thread {tid}");
-
-            await Task.Factory.StartNew(Listen);
         }
 
         // http://snmpsharpnet.com/index.php/receive-snmp-version-1-and-2c-trap-notifications/
-        private void Listen()
+        public void Start()
         {
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
@@ -125,20 +113,5 @@ namespace Iit.Fibertest.DataCenterTrapReceiver
                 _logFile.AppendLine($"** End of SNMP Version 2 TRAP data.");
             }
         }
-
-        protected override void OnStop()
-        {
-            var pid = Process.GetCurrentProcess().Id;
-            var tid = Thread.CurrentThread.ManagedThreadId;
-            _logFile.AppendLine($"Trap receiver stopped. Process {pid}, thread {tid}");
-        }
-
-        // used for Debug as console application
-        internal void TestStartupAndStop(string[] args)
-        {
-            OnStart(args);
-            Console.ReadLine();
-            OnStop();
-        }
-    }
+ }
 }
