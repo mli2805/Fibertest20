@@ -396,6 +396,26 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<string> ReactOltTrap(ReactOltTrapDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.ReactOltTrap(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("ReactOltTrap: " + e.Message);
+                return null;
+            }
+        }
+
         public async Task<byte[]> GetSorBytes(int sorFileId)
         {
             var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();

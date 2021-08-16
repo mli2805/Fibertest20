@@ -14,6 +14,5 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public PortWithTraceDto PortWithTraceDto { get; set; }
-
     }
 }
