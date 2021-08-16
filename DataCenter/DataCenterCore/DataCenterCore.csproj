@@ -284,7 +284,7 @@
     <Compile Include="MeasurementsForWebNotifier.cs" />
     <Compile Include="NEventStore\DbSeeds.cs" />
     <Compile Include="SignalRNudger.cs" />
-    <Compile Include="TrapExecutor.cs" />
+    <Compile Include="PON\TrapReceiver.cs" />
     <Compile Include="WcfServiceCommonC2D\IntermediateLayer.cs" />
     <Compile Include="WcfServiceWebC2D\EventsExt.cs" />
     <Compile Include="WcfServiceWebC2D\TraceWebDtoFactory.cs" />
@@ -380,6 +380,7 @@
       <Name>DatabaseLibrary</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets" Condition="Exists('..\..\packages\Microsoft.Bcl.Build.1.0.21\build\Microsoft.Bcl.Build.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

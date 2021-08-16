@@ -8,11 +8,11 @@ using SnmpSharpNet;
 
 namespace Iit.Fibertest.DataCenterCore
 {
-    public class TrapExecutor
+    public class TrapReceiver
     {
         private readonly IMyLog _logFile;
 
-        public TrapExecutor(IMyLog logFile)
+        public TrapReceiver(IMyLog logFile)
         {
             _logFile = logFile;
         }
@@ -32,54 +32,63 @@ namespace Iit.Fibertest.DataCenterCore
                 // Disable timeout processing. Just block until packet is received
                 socket.SetSocketOption(SocketOptionLevel.Socket, SocketOptionName.ReceiveTimeout, 0);
 
-
                 while (true)
                 {
                     byte[] inData = new byte[16 * 1024];
                     EndPoint ipEndPoint = new IPEndPoint(IPAddress.Any, 0);
-                    int inLen;
                     try
                     {
-                        inLen = socket.ReceiveFrom(inData, ref ipEndPoint);
+                        var inLen = socket.ReceiveFrom(inData, ref ipEndPoint);
+                        ProcessData(inData, inLen, ipEndPoint);
                     }
                     catch (Exception ex)
                     {
                         _logFile.AppendLine($"Exception {ex.Message}");
-                        inLen = -1;
-                    }
-                    if (inLen > 0)
-                    {
-                        // Check protocol version int
-                        int ver = SnmpPacket.GetProtocolVersion(inData, inLen);
-                        if (ver == (int)SnmpVersion.Ver1)
-                            ParseSnmpVersion1TrapPacket(inData, inLen, ipEndPoint);
-                        else
-                            ParseSnmpVersion2TrapPacket(inData, inLen, ipEndPoint);
-                    }
-                    else
-                    {
-                        if (inLen == 0)
-                            _logFile.AppendLine("Zero length packet received.");
                     }
                 }
-
             }
             catch (Exception e)
             {
-                _logFile.AppendLine($"Failed to establish connection. {e.Message}");
+                _logFile.AppendLine($"Failed to start listen to port 162. {e.Message}");
             }
             // ReSharper disable once FunctionNeverReturns
         }
 
-        private void ParseSnmpVersion1TrapPacket(byte[] inData, int inLen, EndPoint endPoint)
+        private void ProcessData(byte[] inData, int inLen, EndPoint endPoint)
         {
-            SnmpV1TrapPacket pkt = new SnmpV1TrapPacket();
-            pkt.decode(inData, inLen);
-            _logFile.AppendLine($"** SNMP Version 1 TRAP received from {endPoint}:");
+            if (inLen > 0)
+            {
+                // Check protocol version int
+                int ver = SnmpPacket.GetProtocolVersion(inData, inLen);
+                if (ver == (int)SnmpVersion.Ver1)
+                {
+                    _logFile.AppendLine($"** SNMP Version 1 TRAP received from {endPoint}:");
+                    SnmpV1TrapPacket pkt = new SnmpV1TrapPacket();
+                    pkt.decode(inData, inLen);
+                    LogSnmpVersion1TrapPacket(pkt);
+                }
+                else
+                {
+                    _logFile.AppendLine($"** SNMP Version 2 TRAP received from {endPoint}:");
+                    SnmpV2Packet pkt = new SnmpV2Packet();
+                    pkt.decode(inData, inLen);
+                    LogSnmpVersion2TrapPacket(pkt); // Hide after debugging
+
+                }
+            }
+            else
+            {
+                if (inLen == 0)
+                    _logFile.AppendLine("Zero length packet received.");
+            }
+        }
+
+        private void LogSnmpVersion1TrapPacket(SnmpV1TrapPacket pkt)
+        {
             _logFile.AppendLine($"*** Trap generic: {pkt.Pdu.Generic}");
             _logFile.AppendLine($"*** Trap specific: {pkt.Pdu.Specific}");
             _logFile.AppendLine($"*** Agent address: {pkt.Pdu.AgentAddress}");
-            _logFile.AppendLine($"*** Timestamp: {pkt.Pdu.TimeStamp.ToString()}");
+            _logFile.AppendLine($"*** Timestamp: {pkt.Pdu.TimeStamp}");
             _logFile.AppendLine($"*** VarBind count: {pkt.Pdu.VbList.Count}");
             _logFile.AppendLine($"*** VarBind content:");
             foreach (Vb v in pkt.Pdu.VbList)
@@ -90,18 +99,15 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine($"** End of SNMP Version 1 TRAP data.");
         }
 
-        private void ParseSnmpVersion2TrapPacket(byte[] inData, int inLen, EndPoint ipEndPoint)
+        private void LogSnmpVersion2TrapPacket(SnmpV2Packet pkt)
         {
-            SnmpV2Packet pkt = new SnmpV2Packet();
-            pkt.decode(inData, inLen);
-            _logFile.AppendLine($"** SNMP Version 2 TRAP received from {ipEndPoint}:");
             if (pkt.Pdu.Type != PduType.V2Trap)
             {
                 _logFile.AppendLine($"*** NOT an SNMPv2 trap ****");
             }
             else
             {
-                _logFile.AppendLine($"*** Community: {pkt.Community}"); 
+                _logFile.AppendLine($"*** Community: {pkt.Community}");
                 _logFile.AppendLine($"*** System Up Time: {new TimeSpan(pkt.Pdu.TrapSysUpTime * 100000)}");
                 _logFile.AppendLine($"*** VarBind count: {pkt.Pdu.VbList.Count}");
                 _logFile.AppendLine($"*** VarBind content:");
@@ -113,5 +119,5 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine($"** End of SNMP Version 2 TRAP data.");
             }
         }
- }
+    }
 }
