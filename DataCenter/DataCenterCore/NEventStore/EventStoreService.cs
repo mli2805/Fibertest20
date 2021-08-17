@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json;
@@ -80,6 +81,51 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine($@"Last applied event has timestamp {msg.Headers[Timestamp]:O}");
 
             return events.Count;
+        }
+
+        public async void OltSeed()
+        {
+            var rtu53 = _writeModel.Rtus.First(r => r.Title == "53");
+            var olt21Id = Guid.NewGuid();
+            var olt59Id = Guid.NewGuid();
+
+            var seeds = new List<object>()
+            {
+                new AddOlt()
+                {
+                    Id = olt21Id,
+                    Ip = @"192.168.96.21",
+                    OltModel = OltModel.Huawei_MA5608T,
+                },
+
+                new AddOlt()
+                {
+                    Id = olt59Id,
+                    Ip = @"192.168.96.59",
+                    OltModel = OltModel.Huawei_MA5608T,
+                },
+
+
+                new AddGponPortRelation()
+                {
+                    Id = Guid.NewGuid(),
+                    OltId = olt21Id,
+                    GponInterface = 5,
+                    RtuId = rtu53.Id,
+                },
+                
+                new AddGponPortRelation()
+                {
+                    Id = Guid.NewGuid(),
+                    OltId = olt59Id,
+                    GponInterface = 5,
+                    RtuId = rtu53.Id,
+                },
+            };
+
+            foreach (object seed in seeds)
+                await SendCommand(seed, "developer", "OnServer");
+
         }
 
         // especially for Migrator.exe
@@ -165,7 +211,7 @@ namespace Iit.Fibertest.DataCenterCore
                     return false;
                 }
 
-                if ((DateTime) evnt.Headers[Timestamp] == timestamp)
+                if ((DateTime)evnt.Headers[Timestamp] == timestamp)
                 {
                     _logFile.AppendLine($"CompareLastEvent: Events {revision} are the same on server and client");
                     return true;

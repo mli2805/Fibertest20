@@ -20,27 +20,7 @@ namespace Iit.Fibertest.Graph
         public List<NetworkEvent> NetworkEvents { get; set; } = new List<NetworkEvent>();
         public List<BopNetworkEvent> BopNetworkEvents { get; set; } = new List<BopNetworkEvent>();
         public List<BaseRef> BaseRefs { get; set; } = new List<BaseRef>();
-        public List<Olt> Olts { get; set; } = new List<Olt>()
-        // {
-        //     new Olt()
-        //     {
-        //         Id = Guid.NewGuid(),
-        //         Ip = @"192.168.96.21",
-        //         OltModel = OltModel.Huawei_MA5608T,
-        //         Relations = new Dictionary<int, Tuple<Guid, OtauPortDto>> 
-        //             {{5, new Tuple<Guid, OtauPortDto>(Guid.Empty, new OtauPortDto() { OtauId = Guid.Empty.ToString(), OpticalPort = 1 })}},
-        //     },
-        //
-        //     new Olt()
-        //     {
-        //         Id = Guid.NewGuid(),
-        //         Ip = @"192.168.96.59",
-        //         OltModel = OltModel.Huawei_MA5608T,
-        //         Relations = new Dictionary<int, Tuple<Guid, OtauPortDto>> 
-        //             {{5, new Tuple<Guid, OtauPortDto>(Guid.Empty, new OtauPortDto() { OtauId = Guid.Empty.ToString(), OpticalPort = 1 })}},
-        //     },
-        // }
-        ;
+        public List<Olt> Olts { get; set; } = new List<Olt>();
 
         public void CopyFrom(Model source)
         {
