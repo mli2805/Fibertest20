@@ -283,6 +283,9 @@
     <Compile Include="FtSignalRClient.cs" />
     <Compile Include="MeasurementsForWebNotifier.cs" />
     <Compile Include="NEventStore\DbSeeds.cs" />
+    <Compile Include="PON\OltTrapExecutor.cs" />
+    <Compile Include="PON\OltTrapParser.cs" />
+    <Compile Include="PON\OltTrapParserResult.cs" />
     <Compile Include="SignalRNudger.cs" />
     <Compile Include="PON\TrapReceiver.cs" />
     <Compile Include="WcfServiceCommonC2D\IntermediateLayer.cs" />

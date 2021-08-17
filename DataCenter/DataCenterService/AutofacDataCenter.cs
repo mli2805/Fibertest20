@@ -95,6 +95,9 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<MsmqMessagesProcessor>().SingleInstance();
             builder.RegisterType<MsmqHandler>().As<IMsmqHandler>().SingleInstance();
             builder.RegisterType<DiskSpaceProvider>().SingleInstance();
+
+            builder.RegisterType<OltTrapParser>().SingleInstance();
+            builder.RegisterType<OltTrapExecutor>().SingleInstance();
             builder.RegisterType<TrapReceiver>().SingleInstance();
 
             builder.RegisterType<Service1>().As<ServiceBase>().SingleInstance();

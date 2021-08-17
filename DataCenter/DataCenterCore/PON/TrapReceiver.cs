@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Threading;
+using System.Threading.Tasks;
 using Iit.Fibertest.UtilsLib;
 using SnmpSharpNet;
 
@@ -11,14 +12,16 @@ namespace Iit.Fibertest.DataCenterCore
     public class TrapReceiver
     {
         private readonly IMyLog _logFile;
+        private readonly OltTrapExecutor _oltTrapExecutor;
 
-        public TrapReceiver(IMyLog logFile)
+        public TrapReceiver(IMyLog logFile, OltTrapExecutor oltTrapExecutor)
         {
             _logFile = logFile;
+            _oltTrapExecutor = oltTrapExecutor;
         }
 
         // http://snmpsharpnet.com/index.php/receive-snmp-version-1-and-2c-trap-notifications/
-        public void Start()
+        public async void Start()
         {
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
@@ -39,7 +42,7 @@ namespace Iit.Fibertest.DataCenterCore
                     try
                     {
                         var inLen = socket.ReceiveFrom(inData, ref ipEndPoint);
-                        ProcessData(inData, inLen, ipEndPoint);
+                        await ProcessData(inData, inLen, ipEndPoint);
                     }
                     catch (Exception ex)
                     {
@@ -54,7 +57,7 @@ namespace Iit.Fibertest.DataCenterCore
             // ReSharper disable once FunctionNeverReturns
         }
 
-        private void ProcessData(byte[] inData, int inLen, EndPoint endPoint)
+        private async Task ProcessData(byte[] inData, int inLen, EndPoint endPoint)
         {
             if (inLen > 0)
             {
@@ -73,7 +76,7 @@ namespace Iit.Fibertest.DataCenterCore
                     SnmpV2Packet pkt = new SnmpV2Packet();
                     pkt.decode(inData, inLen);
                     LogSnmpVersion2TrapPacket(pkt); // Hide after debugging
-
+                    await _oltTrapExecutor.Process(pkt, endPoint);
                 }
             }
             else

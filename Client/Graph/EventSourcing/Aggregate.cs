@@ -75,6 +75,9 @@ namespace Iit.Fibertest.Graph
                 case AttachTrace command: return Complete(command);
                 case DetachTrace command: return _eventsQueue.Add(Mapper.Map<TraceDetached>(command));
 
+                case AddOlt command: return _eventsQueue.Add(Mapper.Map<OltAdded>(command));
+                case AddGponPortRelation command: return _eventsQueue.Add(Mapper.Map<GponPortRelationAdded>(command));
+
                 case AssignBaseRef command: return _eventsQueue.Add(Mapper.Map<BaseRefAssigned>(command));
                 case ChangeMonitoringSettings command: return _eventsQueue.Add(Mapper.Map<MonitoringSettingsChanged>(command));
                 case InitializeRtu command: return _eventsQueue.Add(Mapper.Map<RtuInitialized>(command));

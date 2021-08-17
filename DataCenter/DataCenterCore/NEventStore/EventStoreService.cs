@@ -76,6 +76,9 @@ namespace Iit.Fibertest.DataCenterCore
             }
             _logFile.AppendLine("Events applied successfully.");
             _logFile.AppendLine($"Last event number is {LastEventNumberInSnapshot + events.Count}");
+
+            await SeedOlts();
+
             var msg = eventStream.CommittedEvents.LastOrDefault();
             if (msg != null)
                 _logFile.AppendLine($@"Last applied event has timestamp {msg.Headers[Timestamp]:O}");
@@ -83,10 +86,24 @@ namespace Iit.Fibertest.DataCenterCore
             return events.Count;
         }
 
-        public async void OltSeed()
+        private async Task SeedOlts()
         {
-            var rtu53 = _writeModel.Rtus.First(r => r.Title == "53");
+            _writeModel.Olts.Clear();
+
+            var rtu53 = _writeModel.Rtus.FirstOrDefault(r => r.Title == "53");
+            if (rtu53 == null) return;
+
+            var otauDto = rtu53.Children.First().Value;
+            var otau = _writeModel.Otaus.First(o => o.Serial == otauDto.Serial);
+            var otauPort = new OtauPortDto()
+            {
+                OtauId = otau.Id.ToString(),
+                Serial = otauDto.Serial,
+                IsPortOnMainCharon = false,
+                OpticalPort = 1,
+            };
             var olt21Id = Guid.NewGuid();
+            var olt9714Id = Guid.NewGuid();
             var olt59Id = Guid.NewGuid();
 
             var seeds = new List<object>()
@@ -95,6 +112,13 @@ namespace Iit.Fibertest.DataCenterCore
                 {
                     Id = olt21Id,
                     Ip = @"192.168.96.21",
+                    OltModel = OltModel.Huawei_MA5608T,
+                },
+
+                new AddOlt()
+                {
+                    Id = olt9714Id,
+                    Ip = @"192.168.97.14",
                     OltModel = OltModel.Huawei_MA5608T,
                 },
 
@@ -112,20 +136,34 @@ namespace Iit.Fibertest.DataCenterCore
                     OltId = olt21Id,
                     GponInterface = 5,
                     RtuId = rtu53.Id,
+                    OtauPort = otauPort,
                 },
-                
+
+                new AddGponPortRelation()
+                {
+                    Id = Guid.NewGuid(),
+                    OltId = olt9714Id,
+                    GponInterface = 5,
+                    RtuId = rtu53.Id,
+                    OtauPort = otauPort,
+                },
+
                 new AddGponPortRelation()
                 {
                     Id = Guid.NewGuid(),
                     OltId = olt59Id,
                     GponInterface = 5,
                     RtuId = rtu53.Id,
+                    OtauPort = otauPort,
                 },
             };
 
             foreach (object seed in seeds)
-                await SendCommand(seed, "developer", "OnServer");
-
+            {
+                var ss = await SendCommand(seed, "developer", "OnServer");
+                if (ss != null)
+                    _logFile.AppendLine(ss);
+            }
         }
 
         // especially for Migrator.exe
