@@ -171,6 +171,8 @@
     <Compile Include="Commands\Client\LostClientConnection.cs" />
     <Compile Include="Commands\Client\RegisterClientStation.cs" />
     <Compile Include="Commands\Client\UnregisterClientStation.cs" />
+    <Compile Include="Commands\Olt\AddGponPortRelation.cs" />
+    <Compile Include="Commands\Olt\AddOlt.cs" />
     <Compile Include="Commands\Rtu\DetachAllTraces.cs" />
     <Compile Include="DomainEntities\Administration\EmailReceiver.cs" />
     <Compile Include="DomainEntities\Administration\SmsReceiver.cs" />
@@ -179,6 +181,9 @@
     <Compile Include="DomainEntities\Extensions\BoolExt.cs" />
     <Compile Include="DomainEntities\Extensions\AccessModeExt.cs" />
     <Compile Include="DomainEntities\Extensions\MonitoringStateExt.cs" />
+    <Compile Include="DomainEntities\Graph\GponPortRelation.cs" />
+    <Compile Include="DomainEntities\Graph\Olt.cs" />
+    <Compile Include="EventSourcing\EventExecutors\OltEventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\Model\ModelCleaningExt.cs" />
     <Compile Include="EventSourcing\Model\ModelEmailExt.cs" />
     <Compile Include="EventSourcing\Model\ModelSerializationExt.cs" />
@@ -211,6 +216,8 @@
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StartMonitoring.cs" />
     <Compile Include="Commands\JustEchosOfCmdsSentToRtu\StopMonitoring.cs" />
     <Compile Include="EventSourcing\EventsQueue.cs" />
+    <Compile Include="Events\Olt\GponPortRelationAdded.cs" />
+    <Compile Include="Events\Olt\OltAdded.cs" />
     <Compile Include="Events\SnapshotMade.cs" />
     <Compile Include="Events\LicenseApplied.cs" />
     <Compile Include="Events\Node\NodeUpdatedAndMoved.cs" />

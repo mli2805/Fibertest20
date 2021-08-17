@@ -70,6 +70,7 @@
     <Compile Include="Enums\EquipmentType.cs" />
     <Compile Include="Enums\MonitoringState.cs" />
     <Compile Include="Enums\NotificationType.cs" />
+    <Compile Include="Enums\OltModel.cs" />
     <Compile Include="Enums\OpticalAccidentType.cs" />
     <Compile Include="Enums\OpticalAccidentTypeExt.cs" />
     <Compile Include="Enums\RtuMaker.cs" />

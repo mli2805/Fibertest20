@@ -9,7 +9,7 @@ namespace Iit.Fibertest.Graph
         private static readonly IMapper Mapper = new MapperConfiguration(
             cfg => cfg.AddProfile<MappingEventToDomainModelProfile>()).CreateMapper();
 
-      
+
         public static string AddTrace(this Model model, TraceAdded e)
         {
             Trace trace = Mapper.Map<Trace>(e);
@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Graph
             model.Traces.Add(trace);
 
             foreach (var fiberId in trace.FiberIds)
-                model.Fibers.First(f=>f.FiberId == fiberId).SetState(trace.TraceId, FiberState.NotJoined);
+                model.Fibers.First(f => f.FiberId == fiberId).SetState(trace.TraceId, FiberState.NotJoined);
             return null;
         }
 
@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Graph
 
         public static string CleanTrace(this Model model, TraceCleaned e)
         {
-           var trace = model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
+            var trace = model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
             if (trace == null)
             {
                 return $@"TraceCleaned: Trace {e.TraceId} not found";
@@ -68,10 +68,10 @@ namespace Iit.Fibertest.Graph
 
         private static void RemoveBaseRefsAndMeasurementsForTrace(this Model model, Trace trace)
         {
-            model.Measurements.RemoveAll(m=>m.TraceId == trace.TraceId);
+            model.Measurements.RemoveAll(m => m.TraceId == trace.TraceId);
             model.BaseRefs.RemoveAll(b => b.TraceId == trace.TraceId);
         }
-      
+
         public static string RemoveTrace(this Model model, TraceRemoved e)
         {
             var trace = model.Traces.FirstOrDefault(t => t.TraceId == e.TraceId);
@@ -145,7 +145,7 @@ namespace Iit.Fibertest.Graph
             if (lastAccidentOnTrace != null && lastAccidentOnTrace.TraceState != FiberState.Ok)
             {
                 model.ActiveMeasurements.Add(lastAccidentOnTrace);
-               
+
             }
             model.ShowMonitoringResult(new MeasurementAdded()
             {
@@ -185,7 +185,7 @@ namespace Iit.Fibertest.Graph
                     .SetState(trace.TraceId, FiberState.NotJoined);
 
             // foreach (var fiber in  model.GetTraceFibersByNodes(trace.NodeIds))
-                // fiber.SetState(trace.TraceId, FiberState.NotJoined);
+            // fiber.SetState(trace.TraceId, FiberState.NotJoined);
 
             model.CleanAccidentPlacesOnTrace(trace.TraceId);
         }
