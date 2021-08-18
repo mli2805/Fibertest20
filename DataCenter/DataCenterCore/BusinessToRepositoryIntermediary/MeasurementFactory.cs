@@ -128,50 +128,6 @@ namespace Iit.Fibertest.DataCenterCore
             return false;
         }
         
-//        private bool IsEvent(MonitoringResultDto result)
-//        {
-//            var previousMeasurementOnTrace = _writeModel.Measurements
-//                .Where(ev => ev.TraceId == result.PortWithTrace.TraceId).ToList()
-//                .LastOrDefault();
-//            if (previousMeasurementOnTrace == null)
-//            {
-//                _logFile.AppendLine($"First measurement on trace {result.PortWithTrace.TraceId.First6()} - event.");
-//                return true;
-//            }
-//
-//            if (previousMeasurementOnTrace.TraceState != result.TraceState)
-//            {
-//                _logFile.AppendLine($"State of trace {result.PortWithTrace.TraceId.First6()} changed - event.");
-//                return true;
-//            }
-//
-//            if (previousMeasurementOnTrace.BaseRefType == BaseRefType.Fast
-//                && previousMeasurementOnTrace.EventStatus >
-//                EventStatus.JustMeasurementNotAnEvent // fast measurement could be made 
-//                                                      // when monitoring mode is turned to Automatic 
-//                                                      // or it could be made by schedule
-//                                                      // but we are interested only in Events
-//                && result.BaseRefType != BaseRefType.Fast // Precise or Additional
-//                && result.TraceState != FiberState.Ok)
-//            {
-//                _logFile.AppendLine(
-//                    $"Confirmation of accident on trace {result.PortWithTrace.TraceId.First6()} - event.");
-//                return true;
-//            }
-//
-//            return false;
-//        }
-
-
-//        private EventStatus EvaluateStatus(MonitoringResultDto result)
-//        {
-//            if (!IsEvent(result))
-//                return EventStatus.JustMeasurementNotAnEvent;
-//            if (result.TraceState == FiberState.Ok || result.BaseRefType == BaseRefType.Fast)
-//                return EventStatus.EventButNotAnAccident;
-//            return EventStatus.Unprocessed;
-//        }
-
         private List<AccidentOnTraceV2> ExtractAccidents(byte[] sorBytes, Guid traceId)
         {
             var sorData = SorData.FromBytes(sorBytes);

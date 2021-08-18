@@ -117,7 +117,7 @@ namespace Iit.Fibertest.Client
             try
             {
 
-                // SQLite do not work asynchronously (event though there is a ToArrayAsync function)
+                // SQLite do not work asynchronously (even though there is a ToArrayAsync function)
                 // https://stackoverflow.com/questions/42982444/entity-framework-core-sqlite-async-requests-are-actually-synchronous
 
                 return await Task.Factory.StartNew(() =>

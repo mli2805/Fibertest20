@@ -77,7 +77,7 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine("Events applied successfully.");
             _logFile.AppendLine($"Last event number is {LastEventNumberInSnapshot + events.Count}");
 
-            await SeedOlts();
+            // await SeedOlts();
 
             var msg = eventStream.CommittedEvents.LastOrDefault();
             if (msg != null)
