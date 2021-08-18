@@ -10,7 +10,7 @@
         d:DataContext="{d:DesignInstance client:EquipmentInfoViewModel}">
     <StackPanel>
         <GroupBox Header="{x:Static stringResources:Resources.SID_Title}" Margin="5, 10, 5, 5">
-            <TextBox Margin="5" Text="{Binding Model.Title}"/>
+            <TextBox Margin="5" Text="{Binding Model.Title, UpdateSourceTrigger = PropertyChanged}"/>
         </GroupBox>
         <TextBlock Margin="5" Text="{x:Static stringResources:Resources.SID_Equipment_type}"/>
     
