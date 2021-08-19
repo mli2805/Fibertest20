@@ -29,8 +29,12 @@ namespace Iit.Fibertest.Graph
 
         private void ReportBaseAndMeasEventsParsing(List<RftsEventsBlock> levels)
         {
+            _report.Add(@"   Base sor ");
             ReportLandmarks(_baseSorData);
             ReportKeyAndRftsEvents(_baseSorData, null);
+
+            _report.Add("");
+            _report.Add(@"   Measurement sor ");
             ReportLandmarks(_sorData);
             ReportKeyAndRftsEvents(_sorData, levels);
 

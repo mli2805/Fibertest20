@@ -120,24 +120,7 @@ namespace Iit.Fibertest.Graph
             }
 
             var accidentOnTraceV2 = rftsEvent.GetOpticalTypeOfAccident() == OpticalAccidentType.LossCoeff
-                ? new AccidentOnTraceV2()
-                {
-                    IsAccidentInOldEvent = true,
-                    BrokenRftsEventNumber = keyEventIndex,
-                    IsAccidentInLastNode = brokenLandmarkIndex == _nodesExcludingAdjustmentPoints.Count - 1, // always false
-
-                    AccidentLandmarkIndex = brokenLandmarkIndex,
-                    AccidentCoors = _nodesExcludingAdjustmentPoints[brokenLandmarkIndex].Position,
-                    AccidentToRtuOpticalDistanceKm = _sorData.KeyEventDistanceKm(keyEventIndex),
-                    AccidentTitle = GetTitleForLandmark(brokenLandmarkIndex),
-
-                    Left = GetNeighbour(brokenLandmarkIndex),
-                    Right = GetNeighbour(brokenLandmarkIndex + 1),
-
-                    AccidentSeriousness = level.ConvertToFiberState(),
-                    OpticalTypeOfAccident = rftsEvent.GetOpticalTypeOfAccident(),
-                    EventCode = _sorData.KeyEvents.KeyEvents[keyEventIndex].EventCode.EventCodeForTable(),
-                }
+                ? GetLossCoeffAccident(rftsEvent, keyEventIndex, level, brokenLandmarkIndex)
                 : new AccidentOnTraceV2
                 {
                     IsAccidentInOldEvent = true,
@@ -159,6 +142,36 @@ namespace Iit.Fibertest.Graph
 
             accidentOnTraceV2.DeltaLen = _sorData.GetDeltaLen(accidentOnTraceV2.EventCode[0]);
             return accidentOnTraceV2;
+        }
+
+        private AccidentOnTraceV2 GetLossCoeffAccident
+            (RftsEvent rftsEvent, int keyEventIndex, RftsLevelType level, int brokenLandmarkIndex)
+        {
+            if (keyEventIndex == 0)
+            {
+                _logFile.AppendLine(@"Loss coeff accident could not happen in RTU!");
+                keyEventIndex = 1;
+            }
+            var landmarkIndexToTheLeft = _sorData.GetLandmarkIndexForKeyEventIndex(keyEventIndex - 1);
+
+            return new AccidentOnTraceV2()
+            {
+                IsAccidentInOldEvent = true,
+                BrokenRftsEventNumber = keyEventIndex,
+                IsAccidentInLastNode = brokenLandmarkIndex == _nodesExcludingAdjustmentPoints.Count - 1, // always false
+
+                AccidentLandmarkIndex = brokenLandmarkIndex,
+                AccidentCoors = _nodesExcludingAdjustmentPoints[brokenLandmarkIndex].Position,
+                AccidentToRtuOpticalDistanceKm = _sorData.KeyEventDistanceKm(keyEventIndex),
+                AccidentTitle = GetTitleForLandmark(brokenLandmarkIndex),
+
+                Left = GetNeighbour(landmarkIndexToTheLeft),
+                Right = GetNeighbour(brokenLandmarkIndex),
+
+                AccidentSeriousness = level.ConvertToFiberState(),
+                OpticalTypeOfAccident = rftsEvent.GetOpticalTypeOfAccident(),
+                EventCode = _sorData.KeyEvents.KeyEvents[keyEventIndex].EventCode.EventCodeForTable(),
+            };
         }
 
         private AccidentOnTraceV2 BuildAccidentAsNewEvent(RftsEvent rftsEvent, int keyEventIndex, RftsLevelType level)
