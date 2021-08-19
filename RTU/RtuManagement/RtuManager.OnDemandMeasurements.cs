@@ -38,10 +38,7 @@ namespace Iit.Fibertest.RtuManagement
         private void PrepareClientMeasurement(DoClientMeasurementDto dto)
         {
             if (IsMonitoringOn)
-            {
                 StopMonitoring("Measurement (Client)");
-                Thread.Sleep(TimeSpan.FromSeconds(5));
-            }
 
             _rtuLog.EmptyLine();
             _rtuLog.AppendLine("Start Measurement (Client).");

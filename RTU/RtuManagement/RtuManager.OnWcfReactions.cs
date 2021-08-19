@@ -179,7 +179,9 @@ namespace Iit.Fibertest.RtuManagement
             IsMonitoringOn = false;
             _rtuLog.AppendLine($"{caller}: Interrupting current measurement...");
             _cancellationTokenSource?.Cancel();
-            Thread.Sleep(TimeSpan.FromSeconds(5)); //for long measurements it could be not enough!!!
+
+            // if Lmax = 240km and Time = 10min one step lasts 5-6 sec
+            Thread.Sleep(TimeSpan.FromSeconds(6)); 
         }
 
         public void ChangeSettings(ApplyMonitoringSettingsDto settings, Action callback)
