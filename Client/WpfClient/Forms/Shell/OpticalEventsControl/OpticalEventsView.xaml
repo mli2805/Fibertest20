@@ -130,6 +130,8 @@
                     <Separator />
                     <MenuItem Header="{x:Static stringResources:Resources.SID_Rfts_Events}" cal:Message.Attach="[Event Click] = [Action ShowRftsEvents]"/>
                     <MenuItem Header="{x:Static stringResources:Resources.SID_Trace_state_Event_status}" cal:Message.Attach="[Event Click] = [Action ShowTraceState]"/>
+                    <MenuItem Visibility="{Binding ForDev}" Header="Recalculate accidents" 
+                              cal:Message.Attach="[Event Click] = [Action RecalculateAccidents]"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
         </DataGrid>

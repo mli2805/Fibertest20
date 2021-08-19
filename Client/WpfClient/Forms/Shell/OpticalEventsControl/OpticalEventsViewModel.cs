@@ -5,11 +5,14 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Threading;
+using System.Windows;
 using System.Windows.Data;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
 
 
@@ -17,6 +20,7 @@ namespace Iit.Fibertest.Client
 {
     public class OpticalEventsViewModel : Screen
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly TraceStateViewsManager _traceStateViewsManager;
@@ -88,6 +92,7 @@ namespace Iit.Fibertest.Client
         }
 
         private string _rtuFilterNow = Resources.SID__no_filter_;
+
         public string RtuFilterNow
         {
             get => _rtuFilterNow;
@@ -99,10 +104,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public OpticalEventsViewModel(Model readModel,
+        public Visibility ForDev { get; set; }
+
+        public OpticalEventsViewModel(ILifetimeScope globalScope, Model readModel, 
             ReflectogramManager reflectogramManager, TraceStateViewsManager traceStateViewsManager,
             RtuFilterViewModel rtuFilterViewModel, IWindowManager windowManager)
         {
+            _globalScope = globalScope;
             _readModel = readModel;
             _reflectogramManager = reflectogramManager;
             _traceStateViewsManager = traceStateViewsManager;
@@ -116,6 +124,8 @@ namespace Iit.Fibertest.Client
 
         protected override void OnViewLoaded(object o)
         {
+            var currentUser = _globalScope.Resolve<CurrentUser>();
+            ForDev = currentUser.Role == Role.Developer ? Visibility.Visible : Visibility.Collapsed;
             try
             {
                 var view = CollectionViewSource.GetDefaultView(Rows);
@@ -267,6 +277,15 @@ namespace Iit.Fibertest.Client
                                                                && m.EventStatus > EventStatus.JustMeasurementNotAnEvent);
             var isLastAccident = lastEvent == null || lastEvent.SorFileId <= SelectedRow.SorFileId;
             _traceStateViewsManager.ShowTraceState(SelectedRow, isLastMeasurement, isLastAccident);
+        }
+
+        public async void RecalculateAccidents()
+        {
+            byte[] sorBytes = await _reflectogramManager.GetSorBytes(SelectedRow.SorFileId);
+            var sorData = SorData.FromBytes(sorBytes);
+            var _ = 
+                _globalScope.Resolve<AccidentsFromSorExtractor>()
+                    .GetAccidents(sorData, SelectedRow.TraceId, true);
         }
 
         public void ShowRtuFilter()
