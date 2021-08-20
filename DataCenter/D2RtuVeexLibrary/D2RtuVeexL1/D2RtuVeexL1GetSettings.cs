@@ -33,7 +33,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             }
 
             var otaus = JsonConvert.DeserializeObject<Otaus>(httpResult.ResponseJson);
-            if (otaus == null) return false;
+            if (otaus == null || otaus.total == 0) return false;
             if (otaus.total == 0)
                 return true;
 

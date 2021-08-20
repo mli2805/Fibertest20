@@ -200,7 +200,6 @@ namespace Iit.Fibertest.Client
             {
                 case ReturnCode.Ok:
                 case ReturnCode.RtuInitializedSuccessfully:
-
                     var msg = dto.Children.Any(c=>!c.Value.IsOk) 
                         ? Resources.SID_RTU_initialized2 
                         : Resources.SID_RTU_initialized_successfully_;
@@ -210,6 +209,10 @@ namespace Iit.Fibertest.Client
                 case ReturnCode.RtuTooBigPortNumber:
                     var strs = new List<string>() { dto.ReturnCode.GetLocalizedString(), "", Resources.SID_Detach_BOP_manually, Resources.SID_and_start_initialization_again_ };
                     vm = new MyMessageBoxViewModel(MessageType.Error, strs);
+                    break;
+                case ReturnCode.OtauInitializationError:
+                    var strs2 = new List<string>() { Resources.SID_RTU_initialization_error_, "", dto.ReturnCode.GetLocalizedString() };
+                    vm = new MyMessageBoxViewModel(MessageType.Error, strs2, 2);
                     break;
                 default:
                     vm = new MyMessageBoxViewModel(MessageType.Error,

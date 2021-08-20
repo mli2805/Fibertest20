@@ -81,7 +81,7 @@ namespace Iit.Fibertest.Client
 
         public void SetWorstTraceStateAsAggregate()
         {
-            TracesState = Ports.Max(p => p.TraceState);
+            TracesState = Ports.Count == 0 ? FiberState.Unknown : Ports.Max(p => p.TraceState);
         }
 
         private bool _isSoundButtonEnabled;

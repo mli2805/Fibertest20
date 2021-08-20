@@ -43,7 +43,7 @@ namespace Iit.Fibertest.Client
         {
             FullPortCount = originalRtu.FullPortCount != 0
                 ? originalRtu.FullPortCount - originalRtu.Children.Count // re-initialization
-                : dto.FullPortCount - dto.Children.Count; // first initialization
+                : dto.FullPortCount - (dto.Children?.Count ?? 0); // first initialization
             Bops = FillInOtauList(dto.Children);
         }
 
