@@ -110,8 +110,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             result.Mfid = info.platform.name;
             result.Mfsn = info.platform.serialNumber;
             result.Serial = info.platform.serialNumber;
-            result.Version = info.platform.firmwareVersion;
-            result.Version2 = info.platform.moduleFirmwareVersion;
+            result.Version = info.components.api;
+            result.Version2 = info.components.otdrEngine.iit_otdr;
             return true;
         }
     }

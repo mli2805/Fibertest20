@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 using System.Threading;
 using Iit.Fibertest.DirectCharonLibrary;
@@ -15,6 +16,7 @@ namespace Iit.Fibertest.RtuManagement
 
         private Guid _id;
         private readonly string _version;
+        private readonly string _versionIitOtdr;
         private readonly IMyLog _rtuLog;
         private readonly IniFile _rtuIni;
         private readonly IMyLog _serviceLog;
@@ -98,6 +100,11 @@ namespace Iit.Fibertest.RtuManagement
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
             _version = info.FileVersion;
             _serviceIni.Write(IniSection.General, IniKey.Version, _version);
+
+            var path = Path.GetDirectoryName(assembly.Location);
+            var iitOtdrPath = Path.Combine(path + @"\OtdrMeasEngine\iit_otdr.dll");
+            FileVersionInfo info2 = FileVersionInfo.GetVersionInfo(iitOtdrPath);
+            _versionIitOtdr = info2.FileVersion;
         }
 
         public void OnServiceStart()
@@ -111,7 +118,7 @@ namespace Iit.Fibertest.RtuManagement
                 _serviceLog.AppendLine($"Additional pause after RTU restart is {delay} sec");
                 Thread.Sleep(TimeSpan.FromSeconds(delay));
             }
-            
+
             Initialize(null, null);
         }
 
@@ -135,6 +142,7 @@ namespace Iit.Fibertest.RtuManagement
                 Children = _mainCharon?.GetChildrenDto(),
                 OtdrAddress = new NetAddress(otdrIp, otdrPort),
                 Version = _version,
+                Version2 = _versionIitOtdr,
                 IsMonitoringOn = _rtuIni.Read(IniSection.Monitoring, IniKey.IsMonitoringOn, false),
                 AcceptableMeasParams = _otdrManager.InterOpWrapper.GetTreeOfAcceptableMeasParams(),
             };

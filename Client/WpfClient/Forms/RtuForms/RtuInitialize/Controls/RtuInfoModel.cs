@@ -80,6 +80,7 @@ namespace Iit.Fibertest.Client
                 if (value == _version) return;
                 _version = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(MfidVersion));
             }
         }
 
@@ -100,6 +101,7 @@ namespace Iit.Fibertest.Client
                 if (value == _version2) return;
                 _version2 = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(OmidVersion));
             }
         }
 
