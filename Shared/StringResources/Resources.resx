@@ -2892,4 +2892,7 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Available_ports" xml:space="preserve">
 		<value>Available ports</value>
 	</data>
+	<data name="SID_Failed_to_initialize_optical_switch" xml:space="preserve">
+		<value>Failed to initialize optical switch!</value>
+	</data>
 </root>

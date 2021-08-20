@@ -2944,6 +2944,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to initialize optical switch!.
+        /// </summary>
+        public static string SID_Failed_to_initialize_optical_switch {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_initialize_optical_switch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to place test SMS into sending queue.
         /// </summary>
         public static string SID_Failed_to_place_test_SMS_into_sending_queue {
@@ -6077,15 +6086,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_RTU_initialized2 {
             get {
                 return ResourceManager.GetString("SID_RTU_initialized2", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to RTU initiallized.
-        /// </summary>
-        public static string SID_RTU_initiallized {
-            get {
-                return ResourceManager.GetString("SID_RTU_initiallized", resourceCulture);
             }
         }
         

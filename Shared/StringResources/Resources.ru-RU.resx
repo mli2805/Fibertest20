@@ -2892,4 +2892,7 @@ RTU инициализируется в данный момент!</value>
   <data name="SID_Available_ports" xml:space="preserve">
 	  <value>Доступно портов</value>
   </data>
+  <data name="SID_Failed_to_initialize_optical_switch" xml:space="preserve">
+	  <value>Не удалось инициализировать оптический переключатель!</value>
+  </data>
 </root>
