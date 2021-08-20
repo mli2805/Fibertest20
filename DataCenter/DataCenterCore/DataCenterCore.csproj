@@ -301,7 +301,7 @@
     <Compile Include="MappingWebApiProfile.cs" />
     <Compile Include="MsmqMessagesProcessor.cs" />
     <Compile Include="Notifications\SnmpNotifier.cs" />
-    <Compile Include="WcfServiceForCommonC2DBootstrapper.cs" />
+    <Compile Include="WcfBootstrappers\WcfServiceForCommonC2DBootstrapper.cs" />
     <Compile Include="WcfServiceCommonC2D\ClientToRtuTransmitter\ClientToRtuCheckAndInitialize.cs" />
     <Compile Include="WcfServiceCommonC2D\ClientToRtuTransmitter\ClientToRtuMeasurements.cs" />
     <Compile Include="WcfServiceCommonC2D\ClientToRtuTransmitter\ClientToRtuOtau.cs" />
@@ -314,7 +314,7 @@
     <Compile Include="Notifications\SmsManager.cs" />
     <Compile Include="Notifications\Smtp.cs" />
     <Compile Include="Notifications\SmsSender.cs" />
-    <Compile Include="WcfServiceForDesktopC2DBootstrapper.cs" />
+    <Compile Include="WcfBootstrappers\WcfServiceForDesktopC2DBootstrapper.cs" />
     <Compile Include="NEventStore\EventStoreService.cs" />
     <Compile Include="LastConnectionTimeChecker.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -328,9 +328,9 @@
     <Compile Include="WcfServiceDesktopC2D\WcfServiceForClientSnapshot.cs" />
     <Compile Include="WcfServiceCommonC2D\WcfServiceCommonC2D.cs" />
     <Compile Include="WcfServiceForRtu.cs" />
-    <Compile Include="WcfServiceForRtuBootstrapper.cs" />
+    <Compile Include="WcfBootstrappers\WcfServiceForRtuBootstrapper.cs" />
     <Compile Include="WcfServiceWebC2D\WcfServiceWebC2D.cs" />
-    <Compile Include="WcfServiceForWebC2DBootstrapper.cs" />
+    <Compile Include="WcfBootstrappers\WcfServiceForWebC2DBootstrapper.cs" />
     <Compile Include="WebApiChecker.cs" />
   </ItemGroup>
   <ItemGroup>
