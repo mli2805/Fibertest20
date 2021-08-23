@@ -34,26 +34,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return true;
         }
 
-
-        // public async Task<bool> ApplyMoniSettingsToEveryTest(DoubleAddress rtuAddresses, TimeSpan preciseTimeSpan, List<PortWithTraceDto> includedPorts)
-        // {
-        //     int periodForFast = 0; // run permanently
-        //     int periodForPrecise = preciseTimeSpan != TimeSpan.Zero
-        //         ? (int)preciseTimeSpan.TotalSeconds : -1;
-        //
-        //     var listOfTestLinks = await _d2RtuVeexLayer1.GetTests(rtuAddresses);
-        //     foreach (var testLink in listOfTestLinks.items)
-        //     {
-        //         Test test = await _d2RtuVeexLayer1.GetTest(rtuAddresses, testLink.self);
-        //         if (test?.OtauPort == null) continue;
-        //
-        //         if (!await ApplyMoniSettingsToOneTest(rtuAddresses, includedPorts, test, periodForFast, periodForPrecise))
-        //             return false;
-        //     }
-        //
-        //     return true;
-        // }
-
         private async Task<bool> ApplyMoniSettingsToOneTest(DoubleAddress rtuAddresses, List<PortWithTraceDto> includedPorts, Test test,
             int periodForFast, int periodForPrecise)
         {

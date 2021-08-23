@@ -277,8 +277,7 @@ namespace DirectRtuClient
             };
             var d2Rl1 = new D2RtuVeexLayer1(_httpExt);
             var layer2 = new D2RtuVeexLayer2(_logFile, d2Rl1);
-            var layer21 = new D2RtuVeexLayer21(layer2);
-            var layer3 = new D2RtuVeexLayer3(layer2, layer21);
+            var layer3 = new D2RtuVeexLayer3(layer2);
             var result = await Task.Factory.StartNew(() =>
                 layer3.AssignBaseRefAsync(dto, _rtuVeexDoubleAddress).Result);
 

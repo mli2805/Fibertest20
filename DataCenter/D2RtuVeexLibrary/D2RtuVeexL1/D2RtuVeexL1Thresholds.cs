@@ -22,8 +22,5 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return await _httpExt.RequestByUrl(
                 rtuDoubleAddress, $@"monitoring/{testLink}/thresholds", "post", "application/json", jsonData);
         }
-
-       
-
     }
 }

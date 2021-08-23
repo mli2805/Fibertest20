@@ -71,7 +71,6 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<HttpExt>().SingleInstance();
             builder.RegisterType<D2RtuVeexLayer1>().SingleInstance();
             builder.RegisterType<D2RtuVeexLayer2>().SingleInstance();
-            builder.RegisterType<D2RtuVeexLayer21>().SingleInstance();
             builder.RegisterType<D2RtuVeexLayer3>().SingleInstance();
 
             builder.RegisterType<ServerParameterizer>().As<IParameterizer>().SingleInstance();
