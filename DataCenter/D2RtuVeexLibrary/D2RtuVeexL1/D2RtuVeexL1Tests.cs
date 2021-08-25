@@ -22,8 +22,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return httpResult.HttpStatusCode == HttpStatusCode.OK
                 ? JsonConvert.DeserializeObject<Test>(httpResult.ResponseJson)
                 : null;
-        }  
-        
+        }
+
         public async Task<Test> GetTest(DoubleAddress rtuDoubleAddress, string testLink)
         {
             var relativeUri = $@"monitoring/{testLink}?fields=*,otauPort.*,relations.items.*";
@@ -40,14 +40,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 "monitoring/tests", "post", "application/json", content);
         }
 
-        public async Task<List<TestsRelation>> GetTestRelation(DoubleAddress rtuDoubleAddress, string testId)
-        {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, $@"monitoring/tests/{testId}/relations", "get");
-            return httpResult.HttpStatusCode == HttpStatusCode.OK
-                ? JsonConvert.DeserializeObject<List<TestsRelation>>(httpResult.ResponseJson)
-                : null;
-        }
-
         public async Task<HttpRequestResult> AddTestsRelation(DoubleAddress rtuDoubleAddress, TestsRelation relation)
         {
             var content = JsonConvert.SerializeObject(relation);
@@ -61,8 +53,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return result.HttpStatusCode == HttpStatusCode.NoContent;
         }
 
-        private static readonly JsonSerializerSettings IgnoreNulls = new JsonSerializerSettings(){ NullValueHandling = NullValueHandling.Ignore };
-      
+        private static readonly JsonSerializerSettings IgnoreNulls = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore };
+
         public async Task<bool> ChangeTest(DoubleAddress rtuDoubleAddress, string testLink, Test test)
         {
             var jsonData = JsonConvert.SerializeObject(test, IgnoreNulls);
