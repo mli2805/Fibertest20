@@ -15,7 +15,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             foreach (var testLink in listOfTestLinks.items)
             {
                 var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
-                if (test?.OtauPort != null && test.OtauPort.portIndex == opticalPort - 1)
+                if (test?.otauPort != null && test.otauPort.portIndex == opticalPort - 1)
                 {
                     var deleteResult = await _d2RtuVeexLayer1.DeleteTest(rtuDoubleAddress, testLink.self);
                     if (!deleteResult)
@@ -33,10 +33,18 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             foreach (var testLink in listOfTestLinks.items)
             {
                 var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
-                if (test?.OtauPort != null 
-                    && test.OtauPort.portIndex == opticalPort - 1 
+                if (test?.otauPort != null
+                    && test.otauPort.portIndex == opticalPort - 1
                     && test.name.Contains(baseType))
+                {
+                    foreach (var relation in test.relations.items)
+                    {
+                        if (!await _d2RtuVeexLayer1.DeleteTestsRelation(rtuDoubleAddress, relation.id)) 
+                            return false;
+                    }
+
                     return await _d2RtuVeexLayer1.DeleteTest(rtuDoubleAddress, testLink.self);
+                }
             }
             return true;
         }
@@ -50,7 +58,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             foreach (var testLink in listOfTestLinks.items)
             {
                 var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
-                if (test?.OtauPort != null && test.OtauPort.portIndex == opticalPort - 1)
+                if (test?.otauPort != null && test.otauPort.portIndex == opticalPort - 1)
                     result.Add(test);
             }
 
@@ -65,14 +73,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             foreach (var testLink in listOfTestLinks.items)
             {
                 var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
-                if (test?.OtauPort != null && test.OtauPort.portIndex == opticalPort - 1 && test.name.Contains(baseType))
+                if (test?.otauPort != null && test.otauPort.portIndex == opticalPort - 1 && test.name.Contains(baseType))
                     return test;
             }
 
             return null;
         }
 
-        public async Task<HttpRequestResult> CreateTest(DoubleAddress rtuDoubleAddress, string otdrId, string otauId, int portIndex, BaseRefDto dto)
+        private async Task<HttpRequestResult> CreateTest(DoubleAddress rtuDoubleAddress, string otdrId, string otauId, int portIndex, BaseRefDto dto)
         {
             var testName = $@"Port { portIndex }, {
                     dto.BaseRefType.ToString().ToLower()}, created at {
@@ -84,7 +92,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 name = testName,
                 state = "disabled",
                 otdrId = otdrId,
-                VeexOtauPort = new VeexOtauPort() { otauId = otauId, portIndex = portIndex - 1 }, 
+                otauPort = new VeexOtauPort()
+                {
+                    otauId = otauId,
+                    portIndex = portIndex - 1,
+                },
                 period = 0, 
             };
             return await _d2RtuVeexLayer1.CreateTest(rtuDoubleAddress, newTest);

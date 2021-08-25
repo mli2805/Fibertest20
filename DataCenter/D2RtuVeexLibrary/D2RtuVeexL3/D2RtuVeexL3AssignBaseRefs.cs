@@ -10,12 +10,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             try
             {
-                var createResult = new BaseRefAssignedDto();
+                var createResult = new BaseRefAssignedDto(){ReturnCode = ReturnCode.BaseRefAssignedSuccessfully};
                 foreach (var baseRefDto in dto.BaseRefs)
                 {
+                    createResult.BaseRefType = baseRefDto.BaseRefType;
                     if (baseRefDto.Id == Guid.Empty) // it is command to delete such a base ref
                     {
-                        var deleteResult = await _d2RtuVeexLayer2.DeleteTestForPortAndBaseType(rtuAddresses, dto.OtauPortDto.OpticalPort, baseRefDto.BaseRefType.ToString().ToLower());
+                        var deleteResult = await _d2RtuVeexLayer2
+                            .DeleteTestForPortAndBaseType(rtuAddresses, dto.OtauPortDto.OpticalPort, 
+                                baseRefDto.BaseRefType.ToString().ToLower());
                         if (!deleteResult)
                             return new BaseRefAssignedDto()
                             {
@@ -25,7 +28,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     }
                     else
                     {
-                        var testLink = await _d2RtuVeexLayer2.GetOrCreateTest(rtuAddresses, dto.OtdrId, dto.OtauPortDto.OtauId, dto.OtauPortDto.OpticalPort, baseRefDto);
+                        var testLink = await _d2RtuVeexLayer2
+                            .GetOrCreateTest(rtuAddresses, dto.OtdrId, dto.OtauPortDto.OtauId, 
+                                dto.OtauPortDto.OpticalPort, baseRefDto);
                         if (testLink == null)
                             return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentFailed };
 

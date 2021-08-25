@@ -13,9 +13,17 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             _httpExt = httpExt;
         }
 
-        public async Task<HttpRequestResult> SetMonitoringMode(DoubleAddress rtuDoubleAddress, string mode)
+        public async Task<HttpRequestResult> SetMonitoringState(DoubleAddress rtuDoubleAddress, string state)
         {
-            var json = JsonConvert.SerializeObject(new MonitoringVeexDto() { state = mode });
+            var json = JsonConvert.SerializeObject(new MonitoringVeexDto() { state = state });
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress,
+                "monitoring", "patch", "application/merge-patch+json", json);
+            return httpResult;
+        }
+
+        public async Task<HttpRequestResult> SetMonitoringTypeToFibertest(DoubleAddress rtuDoubleAddress)
+        {
+            var json = JsonConvert.SerializeObject(new MonitoringVeexDto() { type = "fibertest" });
             var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress,
                 "monitoring", "patch", "application/merge-patch+json", json);
             return httpResult;
@@ -28,7 +36,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return httpResult;
         }
 
-        public async Task<HttpRequestResult> SetServerNotificationUrl(DoubleAddress rtuDoubleAddress, ServerNotificationSettings dto)
+        public async Task<HttpRequestResult> SetServerNotificationSettings(DoubleAddress rtuDoubleAddress, ServerNotificationSettings dto)
         {
             var jsonData = JsonConvert.SerializeObject(dto);
             return await _httpExt.RequestByUrl(rtuDoubleAddress,

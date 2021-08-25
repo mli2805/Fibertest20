@@ -36,7 +36,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return result;
         }
 
-        public async Task<HttpRequestResult> SetServerNotificationUrl(DoubleAddress rtuDoubleAddress, InitializeRtuDto dto)
+        public async Task<HttpRequestResult> SetServerNotificationSettings(DoubleAddress rtuDoubleAddress, InitializeRtuDto dto)
         {
             var serverNotificationSettings = new ServerNotificationSettings()
             {
@@ -49,10 +49,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 url = $@"http://{dto.ServerAddresses.Main.ToStringA()}/veex/notify?rtuId={dto.RtuId}",
             };
 
-            return await _d2RtuVeexLayer1.SetServerNotificationUrl(rtuDoubleAddress, serverNotificationSettings);
+            return await _d2RtuVeexLayer1.SetServerNotificationSettings(rtuDoubleAddress, serverNotificationSettings);
         }
-
-      
-
     }
 }

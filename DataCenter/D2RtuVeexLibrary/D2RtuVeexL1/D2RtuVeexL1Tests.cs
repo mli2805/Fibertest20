@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Newtonsoft.Json;
@@ -15,9 +16,18 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 : null;
         }
 
-        public async Task<Test> GetTest(DoubleAddress rtuDoubleAddress, string testLink)
+        public async Task<Test> GetTestOld(DoubleAddress rtuDoubleAddress, string testLink)
         {
             var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, $@"monitoring/{testLink}", "get");
+            return httpResult.HttpStatusCode == HttpStatusCode.OK
+                ? JsonConvert.DeserializeObject<Test>(httpResult.ResponseJson)
+                : null;
+        }  
+        
+        public async Task<Test> GetTest(DoubleAddress rtuDoubleAddress, string testLink)
+        {
+            var relativeUri = $@"monitoring/{testLink}?fields=*,otauPort.*,relations.items.*";
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, relativeUri, "get");
             return httpResult.HttpStatusCode == HttpStatusCode.OK
                 ? JsonConvert.DeserializeObject<Test>(httpResult.ResponseJson)
                 : null;
@@ -28,6 +38,27 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var content = JsonConvert.SerializeObject(test);
             return await _httpExt.RequestByUrl(rtuDoubleAddress,
                 "monitoring/tests", "post", "application/json", content);
+        }
+
+        public async Task<List<TestsRelation>> GetTestRelation(DoubleAddress rtuDoubleAddress, string testId)
+        {
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, $@"monitoring/tests/{testId}/relations", "get");
+            return httpResult.HttpStatusCode == HttpStatusCode.OK
+                ? JsonConvert.DeserializeObject<List<TestsRelation>>(httpResult.ResponseJson)
+                : null;
+        }
+
+        public async Task<HttpRequestResult> AddTestsRelation(DoubleAddress rtuDoubleAddress, TestsRelation relation)
+        {
+            var content = JsonConvert.SerializeObject(relation);
+            return await _httpExt.RequestByUrl(rtuDoubleAddress,
+                "monitoring/test_relations", "post", "application/json", content);
+        }
+
+        public async Task<bool> DeleteTestsRelation(DoubleAddress rtuDoubleAddress, string relationId)
+        {
+            var result = await _httpExt.RequestByUrl(rtuDoubleAddress, $@"monitoring/test_relations/{relationId}", "delete");
+            return result.HttpStatusCode == HttpStatusCode.NoContent;
         }
 
         private static readonly JsonSerializerSettings IgnoreNulls = new JsonSerializerSettings(){ NullValueHandling = NullValueHandling.Ignore };

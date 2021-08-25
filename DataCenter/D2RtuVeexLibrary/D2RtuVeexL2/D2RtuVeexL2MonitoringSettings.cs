@@ -24,7 +24,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             foreach (var testLink in listOfTestLinks.items)
             {
                 Test test = await _d2RtuVeexLayer1.GetTest(rtuAddresses, testLink.self);
-                if (test?.OtauPort == null) continue;
+                if (test?.otauPort == null) continue;
                 if (test.name.Contains("fast")) continue;
 
                 if (!await ApplyMoniSettingsToOneTest(rtuAddresses, includedPorts, test, 0, 0))
@@ -43,7 +43,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 : periodForPrecise;
             // if included in cycle state should be "enabled"
             var portInCycle =
-                includedPorts.FirstOrDefault(p => p.OtauPort.OpticalPort - 1 == test.OtauPort.portIndex);
+                includedPorts.FirstOrDefault(p => p.OtauPort.OpticalPort - 1 == test.otauPort.portIndex);
             var state = portInCycle == null || test.name.ToLower().Contains("additional")
                 ? "disabled"
                 : "enabled";
@@ -62,11 +62,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         // monitoring mode could not be changed if otdr in "proxy" mode (for reflect connection)
         // if it is so - proxy mode should be changed
-        public async Task<bool> SetMonitoringMode(DoubleAddress rtuAddresses, string otdrId, string mode)
+        public async Task<bool> SetMonitoringState(DoubleAddress rtuAddresses, string otdrId, string state)
         {
-            _logFile.AppendLine("SetMonitoringMode:");
-            var httpRequestResult = await _d2RtuVeexLayer1.SetMonitoringMode(rtuAddresses, mode);
-            _logFile.AppendLine($"SetMonitoringMode request result status code: { httpRequestResult.HttpStatusCode}");
+            _logFile.AppendLine("SetMonitoringState:");
+            var httpRequestResult = await _d2RtuVeexLayer1.SetMonitoringState(rtuAddresses, state);
+            _logFile.AppendLine($"SetMonitoringState request result status code: { httpRequestResult.HttpStatusCode}");
             if (httpRequestResult.HttpStatusCode == HttpStatusCode.Conflict)
             {
                 var proxy = await _d2RtuVeexLayer1.ChangeProxyMode(rtuAddresses, otdrId);
@@ -74,10 +74,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 if (proxy.HttpStatusCode != HttpStatusCode.NoContent)
                     return false;
 
-                httpRequestResult = await _d2RtuVeexLayer1.SetMonitoringMode(rtuAddresses, mode);
+                httpRequestResult = await _d2RtuVeexLayer1.SetMonitoringState(rtuAddresses, state);
             }
 
             return httpRequestResult.HttpStatusCode == HttpStatusCode.NoContent;
+        }
+
+        public async Task<HttpRequestResult> SetMonitoringTypeToFibertest(DoubleAddress rtuAddresses)
+        {
+            return await _d2RtuVeexLayer1.SetMonitoringTypeToFibertest(rtuAddresses);
         }
     }
 }

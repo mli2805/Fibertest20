@@ -126,7 +126,7 @@ namespace DirectRtuClient
 
             var d2Rl1 = new D2RtuVeexLayer1(_httpExt);
             var result = await Task.Factory.StartNew(() =>
-                d2Rl1.SetMonitoringMode(_rtuVeexDoubleAddress, flag ? @"disabled" : @"enabled").Result);
+                d2Rl1.SetMonitoringState(_rtuVeexDoubleAddress, flag ? @"disabled" : @"enabled").Result);
 
             ResultString = $@"Stop monitoring result is {result.HttpStatusCode == HttpStatusCode.OK}";
             PatchMonitoringButton = flag ? @"Start monitoring" : @"Stop monitoring";
@@ -206,7 +206,7 @@ namespace DirectRtuClient
                     id = Guid.NewGuid().ToString(),
                     name = @"precise",
                     otdrId = Guid.Empty.ToString(),
-                    VeexOtauPort = new VeexOtauPort()
+                    otauPort = new VeexOtauPort()
                     {
                         otauId = Guid.Empty.ToString(),
                         portIndex = 1

@@ -10,7 +10,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             try
             {
-                return await _d2RtuVeexLayer2.SetMonitoringMode(rtuAddresses, otdrId, "disabled");
+                return await _d2RtuVeexLayer2.SetMonitoringState(rtuAddresses, otdrId, "disabled");
             }
             catch (Exception)
             {
@@ -26,7 +26,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 if (!await _d2RtuVeexLayer2.ApplyMoniSettingsToEveryTest(rtuAddresses, dto.Timespans.PreciseMeas, dto.Ports))
                     return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError };
 
-                var res = await _d2RtuVeexLayer2.SetMonitoringMode(rtuAddresses, otdrId, dto.IsMonitoringOn ? "enabled" : "disabled");
+                var res = await _d2RtuVeexLayer2.SetMonitoringState(rtuAddresses, otdrId, dto.IsMonitoringOn ? "enabled" : "disabled");
                 return res ? new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully }
                            : new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError };
             }
