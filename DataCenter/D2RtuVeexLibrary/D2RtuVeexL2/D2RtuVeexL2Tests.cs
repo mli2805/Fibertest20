@@ -86,7 +86,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     dto.BaseRefType.ToString().ToLower()}, created at {
                     DateTime.Now.ToString(CultureInfo.DefaultThreadCurrentUICulture)}";
 
-            var newTest = new CreateTestCmd()
+            var newTest = new Test()
             {
                 id = Guid.NewGuid().ToString(),
                 name = testName,

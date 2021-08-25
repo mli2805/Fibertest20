@@ -201,7 +201,7 @@ namespace DirectRtuClient
                 Console.WriteLine(res);
 
 
-                var rr = await d2RtuVeexLayer1.CreateTest(_rtuVeexDoubleAddress, new CreateTestCmd()
+                var rr = await d2RtuVeexLayer1.CreateTest(_rtuVeexDoubleAddress, new Test()
                 {
                     id = Guid.NewGuid().ToString(),
                     name = @"precise",

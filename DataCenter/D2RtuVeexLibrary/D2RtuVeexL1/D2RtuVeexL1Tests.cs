@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Net;
+﻿using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Newtonsoft.Json;
@@ -33,9 +32,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 : null;
         }
 
-        public async Task<HttpRequestResult> CreateTest(DoubleAddress rtuDoubleAddress, CreateTestCmd test)
+        public async Task<HttpRequestResult> CreateTest(DoubleAddress rtuDoubleAddress, Test test)
         {
-            var content = JsonConvert.SerializeObject(test);
+            var content = JsonConvert.SerializeObject(test, new JsonSerializerSettings{NullValueHandling = NullValueHandling.Ignore});
             return await _httpExt.RequestByUrl(rtuDoubleAddress,
                 "monitoring/tests", "post", "application/json", content);
         }

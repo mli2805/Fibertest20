@@ -35,13 +35,4 @@ namespace Iit.Fibertest.Dto
         public LinkObject lastPassed { get; set; }
     }
 
-    public class CreateTestCmd
-    {
-        public string id { get; set; }
-        public string name { get; set; }
-        public string state { get; set; }
-        public string otdrId { get; set; } 
-        public VeexOtauPort otauPort { get; set; } 
-        public int period { get; set; }
-    }
 }
