@@ -3,19 +3,21 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
-
+using Iit.Fibertest.WpfCommonViews;
 using Microsoft.Win32;
 
 namespace Iit.Fibertest.Client
 {
     public class BaseRefsAssignViewModel : Screen
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly IniFile _iniFile;
         private Trace _trace;
         private readonly Model _readModel;
@@ -112,11 +114,12 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public BaseRefsAssignViewModel(IniFile iniFile, Model readModel, CurrentUser currentUser,
-            IWcfServiceCommonC2D c2RWcfManager,
+        public BaseRefsAssignViewModel(ILifetimeScope globalScope, IniFile iniFile, Model readModel, 
+            CurrentUser currentUser, IWcfServiceCommonC2D c2RWcfManager,
             CurrentGis currentGis, GraphGpsCalculator graphGpsCalculator,
             BaseRefDtoFactory baseRefDtoFactory, BaseRefMessages baseRefMessages)
         {
+            _globalScope = globalScope;
             _iniFile = iniFile;
             _readModel = readModel;
             _currentUser = currentUser;
@@ -219,12 +222,18 @@ namespace Iit.Fibertest.Client
             var dto = PrepareDto(_trace);
             if (dto.BaseRefs.Any() && IsDistanceLengthAcceptable(dto, _trace))
             {
-                var result = await _c2RWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
+                BaseRefAssignedDto result;
+                using (_globalScope.Resolve<IWaitCursor>())
+                {
+                    result = await _c2RWcfManager.AssignBaseRefAsync(dto); // send to Db and RTU
+                }
+
                 if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                     _baseRefMessages.Display(result, _trace);
                 else
                     TryClose();
             }
+
             IsEditEnabled = true;
         }
 
