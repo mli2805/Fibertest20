@@ -181,8 +181,8 @@ namespace Iit.Fibertest.Client
             var message = dto.IsInitialized
                 ? $@"RTU {dto.RtuAddresses.Main.Ip4Address} initialized successfully."
                 : dto.RtuAddresses != null 
-                    ? $@"RTU {dto.RtuAddresses.Main.Ip4Address} initialization failed. " + dto.ErrorMessage
-                    : @"RTU initialization failed. " + dto.ErrorMessage;
+                    ? $@"RTU {dto.RtuAddresses.Main.Ip4Address} initialization failed. " + Environment.NewLine + dto.ErrorMessage
+                    : @"RTU initialization failed. " + Environment.NewLine + dto.ErrorMessage;
             _logFile.AppendLine(message);
 
             if (dto.IsInitialized)
@@ -215,8 +215,8 @@ namespace Iit.Fibertest.Client
                     vm = new MyMessageBoxViewModel(MessageType.Error, strs2, 2);
                     break;
                 default:
-                    vm = new MyMessageBoxViewModel(MessageType.Error,
-                        ReturnCode.RtuInitializationError.GetLocalizedString());
+                    var strs3 = new List<string>() { ReturnCode.RtuInitializationError.GetLocalizedString(), "",  dto.ErrorMessage };
+                    vm = new MyMessageBoxViewModel(MessageType.Error, strs3, 2);
                     break;
             }
             _windowManager.ShowDialogWithAssignedOwner(vm);
