@@ -42,7 +42,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return result;
         }
 
-        public async Task<HttpRequestResult> PostByteArray(DoubleAddress rtuDoubleAddress, string relativeUri, byte[] bytes)
+        public async Task<HttpRequestResult> PostByteArray(DoubleAddress rtuDoubleAddress, string relativeUri, byte[] bytes, byte[] bytes2 = null)
         {
             HttpClient.DefaultRequestHeaders.ExpectContinue = false;
             var result = new HttpRequestResult();
@@ -56,6 +56,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 byteArrayContent.Headers.ContentDisposition = ContentDispositionHeaderValue.Parse("form-data; name=\"0\"; filename=\"\"");
                 byteArrayContent.Headers.ContentType = MediaTypeHeaderValue.Parse("text/plain");
                 dataContent.Add(byteArrayContent);
+
+                if (bytes2 != null)
+                {
+                    var byteArrayContent2 = new ByteArrayContent(bytes2);
+                    byteArrayContent2.Headers.ContentDisposition = ContentDispositionHeaderValue.Parse("form-data; name=\"1\"; filename=\"\"");
+                    byteArrayContent2.Headers.ContentType = MediaTypeHeaderValue.Parse("text/plain");
+                    dataContent.Add(byteArrayContent2);
+                }
+
                 HttpResponseMessage responseMessage = await HttpClient.PostAsync(url, dataContent);
                 if (responseMessage.StatusCode != HttpStatusCode.Created)
                     result.ErrorMessage = responseMessage.ReasonPhrase;
