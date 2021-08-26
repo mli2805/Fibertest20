@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -28,12 +29,44 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             result.Maker = RtuMaker.VeEX;
             result.ReturnCode = ReturnCode.RtuInitializedSuccessfully;
 
-            var monitoringResponse = await _d2RtuVeexLayer1.GetMonitoringMode(rtuDoubleAddress, result);
-            if (!monitoringResponse)
-                return new RtuInitializedDto { ReturnCode = ReturnCode.RtuInitializationError };
-
+          
             result.IsInitialized = true;
             return result;
+        }
+
+        public async Task<RtuInitializedDto> InitializeMonitoringProperties(DoubleAddress rtuDoubleAddress)
+        {
+            var monitoringProperties = await _d2RtuVeexLayer1.GetMonitoringProperties(rtuDoubleAddress);
+            if (monitoringProperties == null)
+                return new RtuInitializedDto()
+                {
+                    ReturnCode = ReturnCode.RtuInitializationError, 
+                    ErrorMessage = "Failed to get monitoring properties"
+                };
+
+            if (monitoringProperties.type == "fibertest") return null;
+
+            if (monitoringProperties.state == "enabled")
+            {
+                var setStateRes = await _d2RtuVeexLayer1.SetMonitoringState(rtuDoubleAddress, "disabled");
+                if (setStateRes.HttpStatusCode != HttpStatusCode.NoContent)
+                    return new RtuInitializedDto()
+                    {
+                        ReturnCode = ReturnCode.RtuInitializationError, 
+                        ErrorMessage = setStateRes.ErrorMessage,
+                    };
+            }
+
+            var setResult = await _d2RtuVeexLayer1.SetMonitoringTypeToFibertest(rtuDoubleAddress);
+            if (setResult.HttpStatusCode != HttpStatusCode.NoContent)
+            {
+                return new RtuInitializedDto()
+                {
+                    ReturnCode = ReturnCode.RtuInitializationError, 
+                    ErrorMessage = setResult.ErrorMessage + System.Environment.NewLine + setResult.ResponseJson,
+                };
+            }
+            return null;
         }
 
         public async Task<HttpRequestResult> SetServerNotificationSettings(DoubleAddress rtuDoubleAddress, InitializeRtuDto dto)

@@ -7,6 +7,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer1
     {
+        public async Task<HttpRequestResult> SetBaseRef(DoubleAddress rtuDoubleAddress, string testId, byte[] sorBytes, byte[] sorBytes2 = null)
+        {
+            return await _httpExt.PostByteArray(rtuDoubleAddress, $@"monitoring/{testId}/references", sorBytes, sorBytes2);
+        }
+
         public async Task<ThresholdSet> GetTestThresholds(DoubleAddress rtuDoubleAddress, string testLink)
         {
             var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, $@"monitoring/{testLink}/thresholds/current", "get");

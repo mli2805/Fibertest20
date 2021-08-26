@@ -79,10 +79,5 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             return httpRequestResult.HttpStatusCode == HttpStatusCode.NoContent;
         }
-
-        public async Task<HttpRequestResult> SetMonitoringTypeToFibertest(DoubleAddress rtuAddresses)
-        {
-            return await _d2RtuVeexLayer1.SetMonitoringTypeToFibertest(rtuAddresses);
-        }
     }
 }

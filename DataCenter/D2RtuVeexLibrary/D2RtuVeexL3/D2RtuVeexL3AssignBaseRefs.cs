@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -10,38 +12,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             try
             {
-                var createResult = new BaseRefAssignedDto(){ReturnCode = ReturnCode.BaseRefAssignedSuccessfully};
-                foreach (var baseRefDto in dto.BaseRefs)
+                var res = await RemovalPart(dto, rtuAddresses);
+                if (res != null) return res;
+                if (dto.BaseRefs.Any(b => b.Id != Guid.Empty))
                 {
-                    createResult.BaseRefType = baseRefDto.BaseRefType;
-                    if (baseRefDto.Id == Guid.Empty) // it is command to delete such a base ref
-                    {
-                        var deleteResult = await _d2RtuVeexLayer2
-                            .DeleteTestForPortAndBaseType(rtuAddresses, dto.OtauPortDto.OpticalPort, 
-                                baseRefDto.BaseRefType.ToString().ToLower());
-                        if (!deleteResult)
-                            return new BaseRefAssignedDto()
-                            {
-                                ReturnCode = ReturnCode.BaseRefAssignmentFailed,
-                                ErrorMessage = "Failed to delete old base ref",
-                            };
-                    }
-                    else
-                    {
-                        var testLink = await _d2RtuVeexLayer2
-                            .GetOrCreateTest(rtuAddresses, dto.OtdrId, dto.OtauPortDto.OtauId, 
-                                dto.OtauPortDto.OpticalPort, baseRefDto);
-                        if (testLink == null)
-                            return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentFailed };
-
-                        createResult =
-                            await _d2RtuVeexLayer2.SetBaseWithThresholdsForTest(rtuAddresses, testLink, baseRefDto);
-                        if (createResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-                            return createResult;
-                    }
+                    res = await CreationPart(dto, rtuAddresses);
+                    if (res != null) return res;
                 }
 
-                return createResult;
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
             }
             catch (Exception e)
             {
@@ -51,6 +30,94 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     ErrorMessage = e.Message
                 };
             }
+        }
+
+        private async Task<BaseRefAssignedDto> CreationPart(AssignBaseRefsDto dto, DoubleAddress rtuDoubleAddress)
+        {
+            var fast = await GetOrCreateTestWithBase(rtuDoubleAddress, dto, BaseRefType.Fast);
+            if (fast.Test == null)
+                return fast.ResultWhenFailed;
+
+            var secondRefType = dto.BaseRefs.Any(b => b.BaseRefType == BaseRefType.Additional && b.Id != Guid.Empty)
+                ? BaseRefType.Additional
+                : BaseRefType.None;
+            var precise = await GetOrCreateTestWithBase(rtuDoubleAddress, dto, BaseRefType.Precise, secondRefType);
+            if (precise.Test == null)
+                return precise.ResultWhenFailed;
+
+            return await SetRelationship(rtuDoubleAddress, fast.Test, precise.Test);
+        }
+
+        private async Task<TestCreationResult> GetOrCreateTestWithBase(DoubleAddress rtuDoubleAddress, AssignBaseRefsDto dto,
+            BaseRefType baseRefType, BaseRefType baseRefType2 = BaseRefType.None)
+        {
+            var test = await _d2RtuVeexLayer2.GetOrCreateTest(rtuDoubleAddress, 
+                dto.OtdrId, dto.OtauPortDto.OtauId, dto.OtauPortDto.OpticalPort, baseRefType);
+
+            var result = new TestCreationResult() { Test = test };
+            if (test == null)
+            {
+                result.ResultWhenFailed = new BaseRefAssignedDto()
+                {
+                    BaseRefType = baseRefType,
+                    ReturnCode = ReturnCode.BaseRefAssignmentFailed,
+                    ErrorMessage = "Failed to get or create test!"
+
+                };
+                return result;
+            }
+
+            var baseRefDto = dto.BaseRefs.FirstOrDefault(b => b.BaseRefType == baseRefType);
+            var baseRefDto2 = dto.BaseRefs.FirstOrDefault(b => b.BaseRefType == baseRefType2);
+
+            var setBaseResult =
+                await _d2RtuVeexLayer2.SetBaseWithThresholdsForTest(rtuDoubleAddress, $"tests/{test.id}", baseRefDto, baseRefDto2);
+            if (setBaseResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+            {
+                result.Test = null;
+                setBaseResult.BaseRefType = baseRefType;
+                result.ResultWhenFailed = setBaseResult;
+            }
+
+            return result;
+        }
+
+        private async Task<BaseRefAssignedDto> SetRelationship(DoubleAddress rtuAddresses, Test fastTest, Test preciseTest)
+        {
+            if (!await _d2RtuVeexLayer2.DeleteTestRelations(rtuAddresses, fastTest))
+                return new BaseRefAssignedDto()
+                {
+                    ReturnCode = ReturnCode.BaseRefAssignmentFailed,
+                    ErrorMessage = "Failed to delete old relation",
+                };
+
+            var relationRes = await _d2RtuVeexLayer2.AddRelation(rtuAddresses, fastTest, preciseTest);
+            if (relationRes.HttpStatusCode != HttpStatusCode.Created)
+                return new BaseRefAssignedDto()
+                {
+                    ReturnCode = ReturnCode.BaseRefAssignmentFailed,
+                    ErrorMessage = "Failed to create tests relation",
+                };
+
+            return null;
+        }
+
+        private async Task<BaseRefAssignedDto> RemovalPart(AssignBaseRefsDto dto, DoubleAddress rtuAddresses)
+        {
+            foreach (var baseRefDto in dto.BaseRefs.Where(b => b.Id == Guid.Empty))
+            {
+                if (!await _d2RtuVeexLayer2
+                    .DeleteTestForPortAndBaseType(rtuAddresses, dto.OtauPortDto.OpticalPort,
+                        baseRefDto.BaseRefType.ToString().ToLower()))
+                    return new BaseRefAssignedDto()
+                    {
+                        BaseRefType = baseRefDto.BaseRefType,
+                        ReturnCode = ReturnCode.BaseRefAssignmentFailed,
+                        ErrorMessage = "Failed to delete old base ref",
+                    };
+            }
+
+            return null;
         }
     }
 }

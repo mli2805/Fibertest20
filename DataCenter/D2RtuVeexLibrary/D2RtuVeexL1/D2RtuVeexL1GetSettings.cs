@@ -8,19 +8,12 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer1
     {
-        public async Task<bool> GetMonitoringMode(DoubleAddress rtuDoubleAddress, RtuInitializedDto result)
+        public async Task<MonitoringVeexDto> GetMonitoringProperties(DoubleAddress rtuDoubleAddress)
         {
             var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "monitoring", "get");
-            if (httpResult.HttpStatusCode != HttpStatusCode.OK)
-            {
-                result.ErrorMessage = httpResult.ErrorMessage;
-                return false;
-            }
-
-            var monitoring = JsonConvert.DeserializeObject<MonitoringVeexDto>(httpResult.ResponseJson);
-            if (monitoring == null) return false;
-            result.IsMonitoringOn = monitoring.state == "enabled";
-            return true;
+            return httpResult.HttpStatusCode == HttpStatusCode.OK 
+                ? JsonConvert.DeserializeObject<MonitoringVeexDto>(httpResult.ResponseJson) 
+                : null;
         }
 
         public async Task<bool> GetOtauSettings(DoubleAddress rtuDoubleAddress, RtuInitializedDto result)

@@ -37,15 +37,23 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     && test.otauPort.portIndex == opticalPort - 1
                     && test.name.Contains(baseType))
                 {
-                    foreach (var relation in test.relations.items)
-                    {
-                        if (!await _d2RtuVeexLayer1.DeleteTestsRelation(rtuDoubleAddress, relation.id)) 
-                            return false;
-                    }
+                    if (! await DeleteTestRelations(rtuDoubleAddress, test))
+                        return false;
 
                     return await _d2RtuVeexLayer1.DeleteTest(rtuDoubleAddress, testLink.self);
                 }
             }
+            return true;
+        }
+
+        public async Task<bool> DeleteTestRelations(DoubleAddress rtuDoubleAddress, Test test)
+        {
+            foreach (var relation in test.relations.items)
+            {
+                if (!await _d2RtuVeexLayer1.DeleteRelation(rtuDoubleAddress, relation.id)) 
+                    return false;
+            }
+
             return true;
         }
 
@@ -80,10 +88,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return null;
         }
 
-        private async Task<HttpRequestResult> CreateTest(DoubleAddress rtuDoubleAddress, string otdrId, string otauId, int portIndex, BaseRefDto dto)
+        private async Task<HttpRequestResult> CreateTest(DoubleAddress rtuDoubleAddress, 
+            string otdrId, string otauId, int portIndex, BaseRefType baseRefType)
         {
             var testName = $@"Port { portIndex }, {
-                    dto.BaseRefType.ToString().ToLower()}, created at {
+                    baseRefType.ToString().ToLower()}, created at {
                     DateTime.Now.ToString(CultureInfo.DefaultThreadCurrentUICulture)}";
 
             var newTest = new Test()
@@ -100,6 +109,19 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 period = 0, 
             };
             return await _d2RtuVeexLayer1.CreateTest(rtuDoubleAddress, newTest);
+        }
+
+        public async Task<HttpRequestResult> AddRelation(DoubleAddress rtuDoubleAddress, Test fastTest,
+            Test preciseTest)
+        {
+            var relation = new TestsRelation()
+            {
+                id = Guid.NewGuid().ToString(),
+                testAId = fastTest.id,
+                testBId = preciseTest.id,
+            };
+
+            return await _d2RtuVeexLayer1.AddTestsRelation(rtuDoubleAddress, relation);
         }
 
         private async Task<bool> ChangeTestState(DoubleAddress rtuAddresses, Test test, string state)

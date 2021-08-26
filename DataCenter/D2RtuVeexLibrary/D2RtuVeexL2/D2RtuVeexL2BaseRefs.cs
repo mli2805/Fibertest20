@@ -6,20 +6,22 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer2
     {
-        public async Task<string> GetOrCreateTest(DoubleAddress rtuDoubleAddress, string otdrId, string otauId, int portIndex, BaseRefDto dto)
+        public async Task<Test> GetOrCreateTest(DoubleAddress rtuDoubleAddress, string otdrId, string otauId, int portIndex, BaseRefType baseRefType)
         {
-            var test = await GetTestForPortAndBaseType(rtuDoubleAddress, portIndex, dto.BaseRefType.ToString().ToLower());
+            var test = await GetTestForPortAndBaseType(rtuDoubleAddress, portIndex, baseRefType.ToString().ToLower());
             if (test != null)
-                return $@"tests/{test.id}";
+                return test;
 
-            var createResult = await CreateTest(rtuDoubleAddress, otdrId, otauId, portIndex, dto);
-            return createResult.HttpStatusCode != HttpStatusCode.Created ? null : createResult.ResponseJson;
+            var createResult = await CreateTest(rtuDoubleAddress, otdrId, otauId, portIndex, baseRefType);
+            return createResult.HttpStatusCode != HttpStatusCode.Created 
+                ? null 
+                : await GetTestForPortAndBaseType(rtuDoubleAddress, portIndex, baseRefType.ToString().ToLower());
         }
         
         public async Task<BaseRefAssignedDto> SetBaseWithThresholdsForTest(DoubleAddress rtuDoubleAddress, string testLink,
-            BaseRefDto dto)
+            BaseRefDto dto, BaseRefDto dto2 = null)
         {
-            var setBaseResult = await _d2RtuVeexLayer1.SetBaseRef(rtuDoubleAddress, testLink, dto.SorBytes);
+            var setBaseResult = await _d2RtuVeexLayer1.SetBaseRef(rtuDoubleAddress, testLink, dto.SorBytes, dto2?.SorBytes);
             if (setBaseResult.HttpStatusCode != HttpStatusCode.Created)
                 return new BaseRefAssignedDto()
                 { ReturnCode = ReturnCode.BaseRefAssignmentFailed, ErrorMessage = setBaseResult.ErrorMessage };

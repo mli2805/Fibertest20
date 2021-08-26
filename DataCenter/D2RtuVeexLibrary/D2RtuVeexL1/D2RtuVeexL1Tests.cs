@@ -34,7 +34,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<HttpRequestResult> CreateTest(DoubleAddress rtuDoubleAddress, Test test)
         {
-            var content = JsonConvert.SerializeObject(test, new JsonSerializerSettings{NullValueHandling = NullValueHandling.Ignore});
+            var content = JsonConvert.SerializeObject(test, IgnoreNulls);
             return await _httpExt.RequestByUrl(rtuDoubleAddress,
                 "monitoring/tests", "post", "application/json", content);
         }
@@ -46,13 +46,12 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 "monitoring/test_relations", "post", "application/json", content);
         }
 
-        public async Task<bool> DeleteTestsRelation(DoubleAddress rtuDoubleAddress, string relationId)
+        public async Task<bool> DeleteRelation(DoubleAddress rtuDoubleAddress, string relationId)
         {
             var result = await _httpExt.RequestByUrl(rtuDoubleAddress, $@"monitoring/test_relations/{relationId}", "delete");
             return result.HttpStatusCode == HttpStatusCode.NoContent;
         }
 
-        private static readonly JsonSerializerSettings IgnoreNulls = new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore };
 
         public async Task<bool> ChangeTest(DoubleAddress rtuDoubleAddress, string testLink, Test test)
         {
