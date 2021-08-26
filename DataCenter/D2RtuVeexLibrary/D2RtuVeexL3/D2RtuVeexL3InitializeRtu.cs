@@ -16,13 +16,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 if (!rtuInitializedDto.IsInitialized)
                     return rtuInitializedDto;
 
-                var ftTypeRes = await _d2RtuVeexLayer2.SetMonitoringTypeToFibertest(rtuAddresses);
-                if (ftTypeRes.HttpStatusCode != HttpStatusCode.NoContent)
-                    return new RtuInitializedDto()
-                    {
-                        ReturnCode = ReturnCode.RtuInitializationError,
-                        ErrorMessage = ftTypeRes.ErrorMessage,
-                    };  
+                var initRes = await _d2RtuVeexLayer2.InitializeMonitoringProperties(rtuAddresses);
+                if (initRes != null)
+                    return initRes;
 
                 var saveRes = await _d2RtuVeexLayer2.SetServerNotificationSettings(rtuAddresses, dto);
                 if (saveRes.HttpStatusCode != HttpStatusCode.NoContent)

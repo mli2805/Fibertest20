@@ -6,6 +6,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer1
     {
+        private static readonly JsonSerializerSettings IgnoreNulls =
+            new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore };
         private readonly HttpExt _httpExt;
 
         public D2RtuVeexLayer1(HttpExt httpExt)
@@ -15,15 +17,18 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<HttpRequestResult> SetMonitoringState(DoubleAddress rtuDoubleAddress, string state)
         {
-            var json = JsonConvert.SerializeObject(new MonitoringVeexDto() { state = state });
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress,
-                "monitoring", "patch", "application/merge-patch+json", json);
-            return httpResult;
+            return await SetMonitoringProperty(rtuDoubleAddress, "state", state);
         }
 
         public async Task<HttpRequestResult> SetMonitoringTypeToFibertest(DoubleAddress rtuDoubleAddress)
         {
-            var json = JsonConvert.SerializeObject(new MonitoringVeexDto() { type = "fibertest" });
+            return await SetMonitoringProperty(rtuDoubleAddress, "type", "fibertest");
+        }
+
+        // only one property could be changed at a time
+        private async Task<HttpRequestResult> SetMonitoringProperty(DoubleAddress rtuDoubleAddress, string propertyName, string propertyValue)
+        {
+            var json = $"{{\"{propertyName}\":\"{propertyValue}\"}}";
             var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress,
                 "monitoring", "patch", "application/merge-patch+json", json);
             return httpResult;
@@ -43,9 +48,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 $@"/notification/settings", "patch", "application/merge-patch+json", jsonData);
         }
 
-        public async Task<HttpRequestResult> SetBaseRef(DoubleAddress rtuDoubleAddress, string testId, byte[] sorBytes)
-        {
-            return await _httpExt.PostByteArray(rtuDoubleAddress, $@"monitoring/{testId}/references", sorBytes);
-        }
+
     }
 }
