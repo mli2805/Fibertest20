@@ -25,6 +25,7 @@ namespace Iit.Fibertest.Dto
         public string otdrId { get; set; }
         public VeexOtauPort otauPort { get; set; }
         public int? period { get; set; }
+        public int? failedPeriod { get; set; }
 
         public LinkObject analysis_parameters { get; set; }
         public LinkObject thresholds { get; set; }

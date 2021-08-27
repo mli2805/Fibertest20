@@ -107,6 +107,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     portIndex = portIndex - 1,
                 },
                 period = 0, 
+                failedPeriod = baseRefType == BaseRefType.Fast ? int.MaxValue : 0,
             };
             return await _d2RtuVeexLayer1.CreateTest(rtuDoubleAddress, newTest);
         }
@@ -129,9 +130,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return await _d2RtuVeexLayer1.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { state = state });
         }
 
-        private async Task<bool> ChangeTestPeriod(DoubleAddress rtuAddresses, Test test, int period)
+        private async Task<bool> ChangeTestPeriod(DoubleAddress rtuAddresses, Test test, int period, int failedPeriod)
         {
-            return await _d2RtuVeexLayer1.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { period = period });
+            return await _d2RtuVeexLayer1.ChangeTest(rtuAddresses, $@"tests/{test.id}", 
+                new Test() { period = period, failedPeriod = failedPeriod });
         }
 
     }
