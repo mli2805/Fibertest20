@@ -18,7 +18,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
                 var initRes = await _d2RtuVeexLayer2.InitializeMonitoringProperties(rtuAddresses);
                 if (initRes != null)
-                    return initRes;
+                {
+                    rtuInitializedDto.ErrorMessage = initRes.ErrorMessage;
+                    rtuInitializedDto.ReturnCode = initRes.ReturnCode;
+                    return rtuInitializedDto;
+                }
 
                 var saveRes = await _d2RtuVeexLayer2.SetServerNotificationSettings(rtuAddresses, dto);
                 if (saveRes.HttpStatusCode != HttpStatusCode.NoContent)
