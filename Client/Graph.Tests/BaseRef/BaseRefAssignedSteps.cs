@@ -7,6 +7,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WpfCommonViews;
 using Optixsoft.SorExaminer.OtdrDataFormat;
 using TechTalk.SpecFlow;
 
@@ -92,12 +93,32 @@ namespace Graph.Tests
             _sut.AssignBaseRef(_traceLeaf, "", null, SystemUnderTest.Base1625, Answer.Yes);
         }
 
-        [Then(@"У трассы не задана точная и старая быстрая и есть дополнительная базовые")]
-        public void ThenУТрассыНеЗаданаТочнаяСтараяБыстраяИЕстьДополнительнаяБазовые()
+        [Then(@"Выдается сообщение что точная должна быть задана")]
+        public void ThenВыдаетсяСообщениеЧтоТочнаяДолжнаБытьЗадана()
         {
-            _trace.PreciseId.Should().Be(Guid.Empty);
+            var lastNotificationViewModel = _sut.FakeWindowManager.Log
+                .OfType<MyMessageBoxViewModel>()
+                .Last();
+
+            var message = Resources.SID_Precise_base_ref_must_be_set_;
+            lastNotificationViewModel.Lines.FirstOrDefault(l => l.Line == message).Should().NotBe(null);
+
+            _sut.FakeWindowManager.Log.Remove(lastNotificationViewModel);
+            _trace.AdditionalId.Should().Be(Guid.Empty);
+        }
+
+        [When(@"Пользователь задает дополнительную и жмет сохранить")]
+        public void WhenПользовательЗадаетДополнительнуюИЖметСохранить()
+        {
+            _sut.AssignBaseRef(_traceLeaf, null, null, SystemUnderTest.Base1625, Answer.Yes);
+        }
+
+        [Then(@"У трассы задана дополнительная")]
+        public void ThenУТрассыЗаданаДополнительная()
+        {
             _trace.AdditionalId.Should().NotBe(Guid.Empty);
         }
+
 
         [Given(@"Задается имя (.*) для узла с оконечным кроссом")]
         public void GivenЗадаетсяИмяПосленийУзелДляУзлаСОконечнымКроссом(string p0)
@@ -125,7 +146,7 @@ namespace Graph.Tests
         [Then(@"У сохраненных на сервере базовых третий ориентир имеет имя (.*) и тип Другое")]
         public void ThenУСохраненныхНаСервереБазовыхТретийОриентирИмеетИмяПоследнийУзелДрИТипДругое(string p0)
         {
-            var sorFileId = _sut.ReadModel.BaseRefs.First(b=>b.Id == _trace.PreciseId).SorFileId;
+            var sorFileId = _sut.ReadModel.BaseRefs.First(b => b.Id == _trace.PreciseId).SorFileId;
             var sorbBytes = _sut.WcfServiceCommonC2D.GetSorBytes(sorFileId).Result;
             var sorData = SorData.FromBytes(sorbBytes);
 

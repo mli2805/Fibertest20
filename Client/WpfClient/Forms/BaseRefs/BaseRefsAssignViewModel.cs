@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private Trace _trace;
         private readonly Model _readModel;
+        private readonly IWindowManager _windowManager;
         private readonly CurrentUser _currentUser;
 
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
@@ -114,7 +115,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public BaseRefsAssignViewModel(ILifetimeScope globalScope, IniFile iniFile, Model readModel, 
+        public BaseRefsAssignViewModel(ILifetimeScope globalScope, IniFile iniFile,
+            Model readModel, IWindowManager windowManager,
             CurrentUser currentUser, IWcfServiceCommonC2D c2RWcfManager,
             CurrentGis currentGis, GraphGpsCalculator graphGpsCalculator,
             BaseRefDtoFactory baseRefDtoFactory, BaseRefMessages baseRefMessages)
@@ -122,6 +124,7 @@ namespace Iit.Fibertest.Client
             _globalScope = globalScope;
             _iniFile = iniFile;
             _readModel = readModel;
+            _windowManager = windowManager;
             _currentUser = currentUser;
             _c2RWcfManager = c2RWcfManager;
             _currentGis = currentGis;
@@ -165,6 +168,8 @@ namespace Iit.Fibertest.Client
         {
             return (filename != "" && filename != _savedInDb) || (filename == "" && previousBaseRefId != Guid.Empty);
         }
+
+        #region Buttons
 
         public void GetPathToPrecise()
         {
@@ -216,11 +221,13 @@ namespace Iit.Fibertest.Client
         public void ClearPathToFast() { FastBaseFilename = ""; }
         public void ClearPathToAdditional() { AdditionalBaseFilename = ""; }
 
+        #endregion
+
         public async Task Save()
         {
             IsEditEnabled = false;
             var dto = PrepareDto(_trace);
-            if (dto.BaseRefs.Any() && IsDistanceLengthAcceptable(dto, _trace))
+            if (dto.BaseRefs.Any() && IsValidCombination() && IsDistanceLengthAcceptable(dto, _trace))
             {
                 BaseRefAssignedDto result;
                 using (_globalScope.Resolve<IWaitCursor>())
@@ -235,6 +242,26 @@ namespace Iit.Fibertest.Client
             }
 
             IsEditEnabled = true;
+        }
+
+        private bool IsValidCombination()
+        {
+            if (string.IsNullOrEmpty(PreciseBaseFilename) 
+                && string.IsNullOrEmpty(FastBaseFilename) 
+                && string.IsNullOrEmpty(AdditionalBaseFilename)) return true;
+            if (!string.IsNullOrEmpty(PreciseBaseFilename) 
+                && !string.IsNullOrEmpty(FastBaseFilename)) return true;
+
+            if (string.IsNullOrEmpty(PreciseBaseFilename))
+            {
+                var vm1 = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Precise_base_ref_must_be_set_);
+                _windowManager.ShowDialogWithAssignedOwner(vm1);
+                return false;
+            }
+
+            var vmp = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Fast_base_ref_must_be_set_);
+            _windowManager.ShowDialogWithAssignedOwner(vmp);
+            return false;
         }
 
         private bool IsDistanceLengthAcceptable(AssignBaseRefsDto dto, Trace trace)

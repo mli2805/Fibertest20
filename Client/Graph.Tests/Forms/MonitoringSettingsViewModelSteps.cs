@@ -72,34 +72,21 @@ namespace Graph.Tests
             vm.Save().Wait();
         }
 
-        [Given(@"Еще трасса только с точной базовой подключена к (.*) порту БОПа")]
-        public void GivenЕщеТрассаТолькоСТочнойБазовойПодключенаКПортуБоПа(int p0)
+        [Given(@"Еще трасса без базовых подключена к (.*) порту БОПа")]
+        public void GivenЕщеТрассаБезБазовыхПодключенаКПортуБоПа(int p0)
         {
             var trace = _sut.SetTrace(_rtu.NodeId, @"trace2");
             _sut.AttachTraceTo(trace.TraceId, _otauLeaf, p0, Answer.Yes);
             _traceLeaf2 = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(trace.TraceId);
-
-            var vm = _sut.ClientScope.Resolve<BaseRefsAssignViewModel>();
-            vm.Initialize(trace);
-            vm.PreciseBaseFilename = SystemUnderTest.Base1550Lm4YesThresholds;
-            var baseRefs = vm.PrepareDto(trace).BaseRefs;
-
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            var baseRefChecker2 = _sut.ClientScope.Resolve<BaseRefsChecker2>();
-            var checkResult = baseRefChecker2.AreBaseRefsAcceptable(baseRefs, trace);
-            checkResult.ReturnCode.Should().Be(ReturnCode.BaseRefAssignedSuccessfully);
-
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            vm.Save().Wait();
-            _sut.Poller.EventSourcingTick().Wait();
         }
 
-        [Given(@"Задаем второй трассе быструю базовую")]
-        public void GivenЗадаемВторойТрассеБыструюБазовую()
+        [Given(@"Задаем второй трассе базовые")]
+        public void GivenЗадаемВторойТрассеБазовые()
         {
             var trace = _sut.ReadModel.Traces.First(t => t.TraceId == _traceLeaf2.Id);
             var vm = _sut.ClientScope.Resolve<BaseRefsAssignViewModel>();
             vm.Initialize(trace);
+            vm.PreciseBaseFilename = SystemUnderTest.Base1550Lm4YesThresholds;
             vm.FastBaseFilename = SystemUnderTest.Base1550Lm4YesThresholds;
             var baseRefs = vm.PrepareDto(trace).BaseRefs;
             _sut.FakeWindowManager.RegisterHandler(model => _sut.ManyLinesMessageBoxAnswer(Answer.Yes, model));
@@ -123,7 +110,7 @@ namespace Graph.Tests
             _vm.Model.Charons[0].Ports[2].IsIncluded.Should().BeFalse();
             _vm.Model.Charons[0].Ports[2].IsReadyForMonitoring.Should().BeTrue();
             _vm.Model.Charons[1].Ports[3].TraceTitle.Should().Be(_traceLeaf2.Title);
-            _vm.Model.Charons[1].Ports[3].Duration.Should().Be(@"0 / 15 sec");
+            _vm.Model.Charons[1].Ports[3].Duration.Should().Be(@"0 / 0 sec");
             _vm.Model.Charons[1].Ports[3].IsIncluded.Should().BeFalse();
             _vm.Model.Charons[1].Ports[3].IsReadyForMonitoring.Should().BeFalse();
         }

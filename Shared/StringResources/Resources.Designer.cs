@@ -3061,6 +3061,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Fast base ref must be set!.
+        /// </summary>
+        public static string SID_Fast_base_ref_must_be_set_ {
+            get {
+                return ResourceManager.GetString("SID_Fast_base_ref_must_be_set_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Fast.
         /// </summary>
         public static string SID_FastF {
@@ -5555,6 +5564,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Precise_base_ref {
             get {
                 return ResourceManager.GetString("SID_Precise_base_ref", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Precise base ref must be set!.
+        /// </summary>
+        public static string SID_Precise_base_ref_must_be_set_ {
+            get {
+                return ResourceManager.GetString("SID_Precise_base_ref_must_be_set_", resourceCulture);
             }
         }
         

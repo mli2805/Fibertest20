@@ -47,10 +47,10 @@ namespace Graph.Tests
         }
 
 
-        [When(@"Пользователь указывает путь к базовой c длинной волны SM(.*) и жмет сохранить")]
-        public void WhenПользовательУказываетПутьКБазовойCДлиннойВолныSmиЖметСохранить(string p0)
+        [When(@"Пользователь указывает путь к базовым c длинной волны SM(.*) и жмет сохранить")]
+        public void WhenПользовательУказываетПутьКБазовымCДлиннойВолныSmиЖметСохранить(string p0)
         {
-            _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1625, null, null, Answer.Yes);
+            _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes);
         }
 
         [Then(@"Отказ с указанием неправильной длины волны SM(.*) И базовые не заданы")]
@@ -72,7 +72,7 @@ namespace Graph.Tests
         [When(@"Пользователь выбирает базовые с правильной длиной волны но без порогов")]
         public void WhenПользовательВыбираетБазовыеСПравильнойДлинойВолныНоБезПорогов()
         {
-            _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1550Lm2NoThresholds, null, null, Answer.Yes);
+            _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1550Lm2NoThresholds, SystemUnderTest.Base1550Lm2NoThresholds, null, Answer.Yes);
         }
 
         [Then(@"Отказ с подсказкой И базовые не заданы")]
@@ -94,7 +94,7 @@ namespace Graph.Tests
         [When(@"Базовые с порогами но колво ориентиров не совпадает ни с узлами ни с оборудованием")]
         public void WhenБазовыеСПорогамиНоКолвоОриентировНеСовпадаетНиСУзламиНиСОборудованием()
         {
-            _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1550Lm4YesThresholds, null, null, Answer.Yes);
+            _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1550Lm4YesThresholds, SystemUnderTest.Base1550Lm4YesThresholds, null, Answer.Yes);
         }
 
         [Then(@"Отказ с подсказкой о количестве и того и другого И базовые не заданы")]
@@ -116,7 +116,7 @@ namespace Graph.Tests
         [When(@"И наконец колво ориентиров совпадает с колвом узлов")]
         public void WhenИНаконецКолвоОриентировСовпадаетСКолвомУзлов()
         {
-            _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1550Lm2YesThresholds, null, null, Answer.Yes);
+            _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1550Lm2YesThresholds, SystemUnderTest.Base1550Lm2YesThresholds, null, Answer.Yes);
         }
 
         [Then(@"Выдается инфо по длинам трассы и рефлектограммы И у трассы становится задани базовая")]
@@ -133,7 +133,7 @@ namespace Graph.Tests
             _sut.FakeWindowManager.Log.Remove(lastNotificationViewModel);
 
             _trace.PreciseId.Should().NotBe(Guid.Empty);
-            _trace.FastId.Should().Be(Guid.Empty);
+            _trace.FastId.Should().NotBe(Guid.Empty);
         }
 
     }

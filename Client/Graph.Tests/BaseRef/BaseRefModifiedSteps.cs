@@ -40,6 +40,7 @@ namespace Graph.Tests
             var vm = _sut.ClientScope.Resolve<BaseRefsAssignViewModel>();
             vm.Initialize(_trace);
             vm.PreciseBaseFilename = SystemUnderTest.Base1550Lm4YesThresholds;
+            vm.FastBaseFilename = SystemUnderTest.Base1550Lm4YesThresholds;
             _baseRefs = vm.PrepareDto(_trace).BaseRefs;
 
             SorData.TryGetFromBytes(_baseRefs[0].SorBytes, out var otdrKnownBlocks);

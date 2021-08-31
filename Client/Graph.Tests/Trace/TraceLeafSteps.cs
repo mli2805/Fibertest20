@@ -33,28 +33,14 @@ namespace Graph.Tests
             _traceLeaf.TraceStatePictogram.ShouldBeEquivalentTo(@"pack://application:,,,/Resources/LeftPanel/EmptySquare.png");
         }
 
-        [When(@"Задаем точную базовую")]
-        public void WhenЗадаемТочнуюБазовую()
+        [When(@"Задаем точную и быструю базовые")]
+        public void WhenЗадаемТочнуюИБыструюБазовые()
         {
-            _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1625, null, null, Answer.Yes);
+            _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes);
         }
 
-        [Then(@"Лист трассы получает ее идентификатор остальное не меняется")]
-        public void ThenЛистТрассыПолучаетЕеИдентификаторОстальноеНеМеняется()
-        {
-            _traceLeaf.BaseRefsSet.PreciseId.Should().NotBe(Guid.Empty);
-            _traceLeaf.BaseRefsSet.FastId.Should().Be(Guid.Empty);
-            _traceLeaf.BaseRefsSet.HasEnoughBaseRefsToPerformMonitoring.Should().BeFalse();
-        }
-
-        [When(@"Задаем быструю базовую")]
-        public void WhenЗадаемБыструюБазовую()
-        {
-            _sut.AssignBaseRef(_traceLeaf, null, SystemUnderTest.Base1625, null, Answer.Yes);
-        }
-
-        [Then(@"Лист трассы получает идентификатор быстрой остальное не меняется")]
-        public void ThenЛистТрассыПолучаетИдентификаторБыстройОстальноеНеМеняется()
+        [Then(@"Лист трассы получает их ИД и пиктограмму наличия рефлектограм")]
+        public void ThenЛистТрассыПолучаетИхИдиПиктограммуНаличияРефлектограм()
         {
             _traceLeaf.BaseRefsSet.PreciseId.Should().NotBe(Guid.Empty);
             _traceLeaf.BaseRefsSet.FastId.Should().NotBe(Guid.Empty);
@@ -81,10 +67,11 @@ namespace Graph.Tests
             _traceLeaf.BaseRefsSet.MonitoringPictogram.ShouldBeEquivalentTo(@"pack://application:,,,/Resources/LeftPanel/GreyHalfSquare.png");
         }
 
-        [When(@"Удаляем быструю базовую")]
-        public void WhenУдаляемБыструюБазовую()
+        [When(@"Удаляем точную и быструю базовые")]
+        public void WhenУдаляемТочнуюИБыструюБазовые()
         {
-            _sut.AssignBaseRef(_traceLeaf, null, "", null, Answer.Yes);
+
+            _sut.AssignBaseRef(_traceLeaf, "", "", null, Answer.Yes);
         }
 
         [Then(@"Первая пиктограмма изменяется")]

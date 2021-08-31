@@ -30,7 +30,7 @@ namespace Iit.Fibertest.DataCenterCore
             var port = notificationEvent.data.OtauPorts[0].portIndex + 1;
             var testName = notificationEvent.data.testName;
 
-            _logFile.AppendLine($"{testName} on port {port} - {notificationEvent.type} at {notificationEvent.time}");
+            _logFile.AppendLine($"{testName} on port {port} - {notificationEvent.type} at {notificationEvent.time}", 0, 3);
             var trace = _writeModel.Traces.FirstOrDefault(t => t.RtuId == rtu.Id && t.Port == port);
             if (trace == null)
                 return;  // no such a trace
@@ -79,7 +79,11 @@ namespace Iit.Fibertest.DataCenterCore
 
             var oldTraceState = trace.State;
             var newTraceState = GetNewTraceState(notificationEvent);
-            _logFile.AppendLine($"Old state: {oldTraceState} - new state: {newTraceState}");
+
+            if (oldTraceState != newTraceState)
+            {
+                _logFile.AppendLine($"Trace state changed: {oldTraceState} -> {newTraceState}");
+            }
             return newTraceState != oldTraceState;
         }
 

@@ -18,7 +18,7 @@ namespace Graph.Tests
             traceLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Base_refs_assignment).Command.Execute(traceLeaf);
             sut.Poller.EventSourcingTick().Wait();
         }
-
+       
         private static bool BaseRefAssignHandler2(object model, string precisePath, string fastPath, string aditionalPath, Answer answer)
         {
             if (!(model is BaseRefsAssignViewModel vm)) return false;

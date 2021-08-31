@@ -28,13 +28,14 @@ namespace Graph.Tests
         private DateTime _assignedAt;
         private int _closureLocation;
 
-        [Given(@"Существует трасса с заданной базовой")]
-        public void GivenСуществуетТрассаСЗаданнойБазовой()
+        [Given(@"Существует трасса с заданными базовыми")]
+        public void GivenСуществуетТрассаСЗаданнымиБазовыми()
         {
             _rtu = _sut.SetInitializedRtu();
             _trace = _sut.SetTrace(_rtu.NodeId, @"Trace1");
             _traceLeaf = (TraceLeaf)_sut.TreeOfRtuModel.GetById(_trace.TraceId);
-            _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1550Lm4YesThresholds, null, null, Answer.Yes);
+            _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1550Lm4YesThresholds,
+                SystemUnderTest.Base1550Lm4YesThresholds, null, Answer.Yes);
         }
 
         [When(@"Пользователь открывает статистику по трассе")]
@@ -44,16 +45,20 @@ namespace Graph.Tests
             _vm.Initialize(_trace.TraceId);
         }
 
-        [Then(@"Там есть строка для базовой с именем и временем задания")]
-        public async void ThenТамЕстьСтрокаДляБазовойСИменемИВременемЗадания()
+        [Then(@"Там есть строки для каждой базовой с именем и временем задания")]
+        public async void ThenТамЕстьСтрокиДляКаждойБазовойСИменемИВременемЗадания()
         {
             var line = _vm.BaseRefs.First(i => i.BaseRefType == BaseRefType.Precise);
             line.Should().NotBe(null);
             _assignedBy = line.AssignedBy;
             _assignedAt = line.AssignedAt;
+            var line2 = _vm.BaseRefs.First(i => i.BaseRefType == BaseRefType.Fast);
+            line2.Should().NotBe(null);
+            _assignedBy = line2.AssignedBy;
+            _assignedAt = line2.AssignedAt;
 
             var baseRefs = _sut.ReadModel.BaseRefs.Where(b => b.TraceId == _trace.TraceId).ToList();
-            baseRefs.Count.Should().Be(1);
+            baseRefs.Count.Should().Be(2);
 
             var wcf = _sut.ServerScope.Resolve<IWcfServiceCommonC2D>();
             var sorBytes = await wcf.GetSorBytes(baseRefs[0].SorFileId);
@@ -98,7 +103,7 @@ namespace Graph.Tests
         public async void ThenИзменилосьПоложениеОриентиров()
         {
             var baseRefs = _sut.ReadModel.BaseRefs.Where(b => b.TraceId == _trace.TraceId).ToList();
-            baseRefs.Count.Should().Be(1);
+            baseRefs.Count.Should().Be(2);
             var sorBytes = await _sut.WcfServiceCommonC2D.GetSorBytes(baseRefs[0].SorFileId);
             var otdrDataKnownBlocks = SorData.FromBytes(sorBytes);
 
