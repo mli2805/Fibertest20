@@ -24,8 +24,8 @@ namespace Graph.Tests
         private TraceLeaf _traceLeaf;
 
         private TraceStatisticsViewModel _vm;
-        private string _assignedBy;
-        private DateTime _assignedAt;
+        private string _assignedBy, _assignedBy2;
+        private DateTime _assignedAt, _assignedAt2;
         private int _closureLocation;
 
         [Given(@"Существует трасса с заданными базовыми")]
@@ -54,8 +54,8 @@ namespace Graph.Tests
             _assignedAt = line.AssignedAt;
             var line2 = _vm.BaseRefs.First(i => i.BaseRefType == BaseRefType.Fast);
             line2.Should().NotBe(null);
-            _assignedBy = line2.AssignedBy;
-            _assignedAt = line2.AssignedAt;
+            _assignedBy2 = line2.AssignedBy;
+            _assignedAt2 = line2.AssignedAt;
 
             var baseRefs = _sut.ReadModel.BaseRefs.Where(b => b.TraceId == _trace.TraceId).ToList();
             baseRefs.Count.Should().Be(2);
@@ -96,6 +96,10 @@ namespace Graph.Tests
             line.Should().NotBe(null);
             line.AssignedBy.Should().Be(_assignedBy);
             line.AssignedAt.Should().Be(_assignedAt);
+            var line2 = _vm.BaseRefs.First(i => i.BaseRefType == BaseRefType.Fast);
+            line2.Should().NotBe(null);
+            line2.AssignedBy.Should().Be(_assignedBy2);
+            line2.AssignedAt.Should().Be(_assignedAt2);
             _vm.TryClose();
         }
 
