@@ -63,7 +63,6 @@ namespace Graph.Tests
             _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes);
         }
 
-
         [Then(@"У трассы заданы точная и быстрая базовые")]
         public void ThenУТрассыЗаданыТочнаяИБыстраяБазовые()
         {

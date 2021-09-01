@@ -102,7 +102,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 3
 this.FeatureBackground();
 #line 11
- testRunner.When("Пользователь указывает путь к базовой c длинной волны SM1625 и жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Пользователь указывает путь к базовым c длинной волны SM1625 и жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 12
  testRunner.Then("Отказ с указанием неправильной длины волны SM1625 И базовые не заданы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 13
