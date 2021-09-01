@@ -63,15 +63,15 @@ namespace Iit.Fibertest.DataCenterCore
 
         private bool ShouldMoniResultBeSaved(VeexNotificationEvent notificationEvent, Rtu rtu, Trace trace, BaseRefType baseRefType)
         {
-            var traceLastMeas = _writeModel.Measurements
+            var traceLastMeasOfThisBaseType = _writeModel.Measurements
                 .LastOrDefault(m => m.TraceId == trace.TraceId && m.BaseRefType == baseRefType);
-            if (traceLastMeas == null)
+            if (traceLastMeasOfThisBaseType == null)
             {
-                _logFile.AppendLine($"Should be saved as first measurement on trace {trace.Title}");
+                _logFile.AppendLine($"Should be saved as first measurement of this base type on trace {trace.Title}");
                 return true; // first measurement on trace
             }
 
-            if (IsTimeToSave(notificationEvent, rtu, traceLastMeas, baseRefType))
+            if (IsTimeToSave(notificationEvent, rtu, traceLastMeasOfThisBaseType, baseRefType))
             {
                 _logFile.AppendLine($"Time to save {baseRefType} measurement on trace {trace.Title}");
                 return true;
@@ -83,8 +83,17 @@ namespace Iit.Fibertest.DataCenterCore
             if (oldTraceState != newTraceState)
             {
                 _logFile.AppendLine($"Trace state changed: {oldTraceState} -> {newTraceState}");
+                return true;
             }
-            return newTraceState != oldTraceState;
+
+            var tracePreviousMeas = _writeModel.Measurements.Last(m => m.TraceId == trace.TraceId);
+            if (tracePreviousMeas.BaseRefType == BaseRefType.Fast && baseRefType != BaseRefType.Fast)
+            {
+                _logFile.AppendLine($"Event confirmation by {baseRefType} ref");
+                return true;
+            }
+
+            return false;
         }
 
         private FiberState GetNewTraceState(VeexNotificationEvent notificationEvent)
