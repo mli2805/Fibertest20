@@ -1,5 +1,4 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
 using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.Client;
@@ -80,15 +79,6 @@ namespace Graph.Tests
             FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
             ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
             ReadModel.Users.Count.Should().Be(7);
-            WcfServiceDesktopC2D.SendCommandAsObj(new ApplyLicense()
-            {
-                LicenseId = Guid.NewGuid(),
-                Owner = @"SystemUnderText C-tor",
-                RtuCount = new LicenseParameter(){Value = 2, ValidUntil = DateTime.MaxValue}, 
-                ClientStationCount = new LicenseParameter(){Value = 5, ValidUntil = DateTime.MaxValue},
-                SuperClientStationCount = new LicenseParameter(){Value = 0, ValidUntil = DateTime.MaxValue},
-            }).Wait();
-            Poller.EventSourcingTick().Wait();
         }
 
 

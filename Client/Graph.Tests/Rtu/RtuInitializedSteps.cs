@@ -22,7 +22,7 @@ namespace Graph.Tests
         [Given(@"На сервере применена демо лицензия с одним RTU")]
         public void GivenНаСервереПримененаДемоЛицензияСОднимRtu()
         {
-            _sut.ApplyDemoLicense();
+            // When DB is initialized the demo license is applied
         }
         
         [When(@"На сервере применена другая лицензия с двумя RTU")]

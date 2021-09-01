@@ -16,7 +16,7 @@ namespace Graph.Tests
         [Given(@"На сервере применена демо лицензия на один RTU")]
         public void GivenНаСервереПримененаДемоЛицензияНаОдинRtu()
         {
-            _sut.ApplyDemoLicense();
+            // When DB is initialized the demo license is applied
         }
 
         [When(@"Пользователь кликает добавить РТУ")]
