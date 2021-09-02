@@ -14,16 +14,17 @@ namespace Iit.Fibertest.Graph
 
         public LicenseParameter(LicenseParameterInFile licenseParameterInFile)
         {
-            Value = licenseParameterInFile.Value;
-            ValidUntil = licenseParameterInFile.IsTermInYears
-                ? DateTime.Today.AddYears(licenseParameterInFile.Term)
-                : DateTime.Today.AddMonths(licenseParameterInFile.Term);
+            Value = licenseParameterInFile?.Value ?? -1;
+            ValidUntil = licenseParameterInFile != null 
+                ? licenseParameterInFile.IsTermInYears
+                    ? DateTime.Today.AddYears(licenseParameterInFile.Term)
+                    : DateTime.Today.AddMonths(licenseParameterInFile.Term) 
+                : DateTime.Today.AddDays(-1);
         }
 
         public override string ToString()
         {
-            var text = Resources.SID_valid_until;
-            return $@"{Value}   ({text} {ValidUntil:dd MMMM yyyy}) ";
+            return $@"{Value}   ({Resources.SID_valid_until} {ValidUntil:dd MMMM yyyy}) ";
         }
     }
 }
