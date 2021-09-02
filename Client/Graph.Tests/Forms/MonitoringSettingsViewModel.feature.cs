@@ -96,7 +96,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 8
  testRunner.And("Создана трасса подключена к 3 порту RTU и заданы базовые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 9
- testRunner.And("Еще трасса только с точной базовой подключена к 4 порту БОПа", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.And("Еще трасса без базовых подключена к 4 порту БОПа", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 11
  testRunner.When("Пользователь открывает Настройки мониторинга - вторая трасса недоступна для включ" +
                     "ения в цикл мониторинга", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -105,7 +105,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 13
  testRunner.Then("Сообщение что не задана ни одна трасса для мониторинга", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 15
- testRunner.Given("Задаем второй трассе быструю базовую", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Задаем второй трассе базовые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 16
  testRunner.Then("Теперь вторую трассу разрешено включить в цикл мониторинга", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 17
@@ -127,6 +127,8 @@ this.ScenarioInitialize(scenarioInfo);
  testRunner.When("Пользователь включает авто режим и жмет применить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 28
  testRunner.When("Пользователь жмет секретную комбинацию Ctrl-B для пересылки базовых на RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 29
+ testRunner.Then("Someting Happend", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -150,3 +152,4 @@ this.ScenarioInitialize(scenarioInfo);
 }
 #pragma warning restore
 #endregion
+

@@ -112,7 +112,11 @@ this.FeatureBackground();
 #line 14
  testRunner.When("Пользователь сбрасывает точную и задает дополнительную и жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 15
- testRunner.Then("У трассы не задана точная и старая быстрая и есть дополнительная базовые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Выдается сообщение что точная должна быть задана", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 16
+ testRunner.When("Пользователь задает дополнительную и жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 17
+ testRunner.Then("У трассы задана дополнительная", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -123,18 +127,18 @@ this.FeatureBackground();
         public virtual void СохранениеИменУзловИОборудованияВБазовойРефлектограмме()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Сохранение имен узлов и оборудования в базовой рефлектограмме", null, ((string[])(null)));
-#line 17
+#line 20
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 3
 this.FeatureBackground();
-#line 18
- testRunner.Given("Задается имя Последний узел для узла с оконечным кроссом", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 19
- testRunner.Given("Оконечный кросс меняется на Другое и имя оборудования Др-1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 20
- testRunner.When("Пользователь указывает пути к точной и быстрой базовам и жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 21
+ testRunner.Given("Задается имя Последний узел для узла с оконечным кроссом", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 22
+ testRunner.Given("Оконечный кросс меняется на Другое и имя оборудования Др-1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 23
+ testRunner.When("Пользователь указывает пути к точной и быстрой базовам и жмет сохранить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 24
  testRunner.Then("У сохраненных на сервере базовых третий ориентир имеет имя Последний узел / Др-1 " +
                     "и тип Другое", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
@@ -160,3 +164,4 @@ this.FeatureBackground();
 }
 #pragma warning restore
 #endregion
+
