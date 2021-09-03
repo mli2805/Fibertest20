@@ -57,6 +57,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     };
             }
 
+            if (!await DeleteAllTests(rtuDoubleAddress))
+            {
+                return new RtuInitializedDto()
+                {
+                    ReturnCode = ReturnCode.RtuInitializationError, 
+                    ErrorMessage = "Failed to delete existing tests",
+                };
+            }
+
             var setResult = await _d2RtuVeexLayer1.SetMonitoringTypeToFibertest(rtuDoubleAddress);
             if (setResult.HttpStatusCode != HttpStatusCode.NoContent)
             {
