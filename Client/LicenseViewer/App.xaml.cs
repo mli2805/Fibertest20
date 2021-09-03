@@ -1,4 +1,4 @@
-﻿namespace LicenseViewer
+﻿namespace Iit.Fibertest.LicenseViewer
 {
     /// <summary>
     /// Interaction logic for App.xaml

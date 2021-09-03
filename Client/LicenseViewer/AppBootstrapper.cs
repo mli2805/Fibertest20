@@ -1,13 +1,13 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
 using System.Threading;
+using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
+using LicenseViewer;
 
-namespace LicenseViewer {
-    using System;
-    using System.Collections.Generic;
-    using Caliburn.Micro;
-
+namespace Iit.Fibertest.LicenseViewer {
     public class AppBootstrapper : BootstrapperBase {
         SimpleContainer _container;
 
@@ -49,7 +49,7 @@ namespace LicenseViewer {
         protected override IEnumerable<Assembly> SelectAssemblies()
         {
             yield return typeof(ShellView).Assembly; // this Assembly (.exe)
-            yield return typeof(Iit.Fibertest.WpfCommonViews.RftsEventsView).Assembly; // WpfCommonViews
+            yield return typeof(WpfCommonViews.RftsEventsView).Assembly; // WpfCommonViews
         }
     }
 }

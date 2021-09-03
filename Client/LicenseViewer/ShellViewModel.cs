@@ -3,7 +3,7 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WpfCommonViews;
 
-namespace LicenseViewer
+namespace Iit.Fibertest.LicenseViewer
 {
     public class ShellViewModel : Screen, IShell
     {

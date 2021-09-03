@@ -1,13 +1,12 @@
-﻿<Application x:Class="LicenseViewer.App"
+﻿<Application x:Class="Iit.Fibertest.LicenseViewer.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:LicenseViewer"
-             >
+             xmlns:licenseViewer="clr-namespace:Iit.Fibertest.LicenseViewer">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <local:AppBootstrapper x:Key="Bootstrapper" />
+                    <licenseViewer:AppBootstrapper x:Key="Bootstrapper" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
