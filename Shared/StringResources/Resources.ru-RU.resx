@@ -2904,4 +2904,40 @@ RTU инициализируется в данный момент!</value>
   <data name="SID_License_Key" xml:space="preserve">
 	  <value>Лицензионный ключ</value>
   </data>
+  <data name="SID_Incremental" xml:space="preserve">
+	  <value>Дополнительный</value>
+  </data>
+  <data name="SID_Rtu_count" xml:space="preserve">
+	  <value>Количество модулей</value>
+  </data>
+  <data name="SID_Client_stations" xml:space="preserve">
+	  <value>Клиентских рабочих мест</value>
+  </data>
+  <data name="SID_Web_clients" xml:space="preserve">
+	  <value>Web клиентов</value>
+  </data>
+  <data name="SID_SuperClients" xml:space="preserve">
+	  <value>СуперКлиентов</value>
+  </data>
+  <data name="SID_Creation_date" xml:space="preserve">
+	  <value>Дата создания</value>
+  </data>
+  <data name="SID_Load_from_file" xml:space="preserve">
+	  <value>Загрузить из файла</value>
+  </data>
+  <data name="SID_Save_as_file" xml:space="preserve">
+	  <value>Сохранить в файле</value>
+  </data>
+  <data name="SID_Pdf_certificate" xml:space="preserve">
+	  <value>Pdf сертификат</value>
+  </data>
+  <data name="SID_with_no_limitation_by_time" xml:space="preserve">
+	  <value>без ограничений по сроку</value>
+  </data>
+  <data name="SID_for__0___1_" xml:space="preserve">
+	  <value>на {0} {1}</value>
+  </data>
+  <data name="SID_month_s_" xml:space="preserve">
+	  <value>мес.</value>
+  </data>
 </root>

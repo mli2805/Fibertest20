@@ -2904,4 +2904,40 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_License_Key" xml:space="preserve">
 		<value>License Key</value>
 	</data>
+	<data name="SID_Incremental" xml:space="preserve">
+		<value>Incremental</value>
+	</data>
+	<data name="SID_Rtu_count" xml:space="preserve">
+		<value>RTU count</value>
+	</data>
+	<data name="SID_Client_stations" xml:space="preserve">
+		<value>Client stations</value>
+	</data>
+	<data name="SID_Web_clients" xml:space="preserve">
+		<value>Web clients</value>
+	</data>
+	<data name="SID_SuperClients" xml:space="preserve">
+		<value>SuperClients</value>
+	</data>
+	<data name="SID_Creation_date" xml:space="preserve">
+		<value>Creation date</value>
+	</data>
+	<data name="SID_Load_from_file" xml:space="preserve">
+		<value>Load from file</value>
+	</data>
+	<data name="SID_Save_as_file" xml:space="preserve">
+		<value>Save as file</value>
+	</data>
+	<data name="SID_Pdf_certificate" xml:space="preserve">
+		<value>Pdf Certificate</value>
+	</data>
+	<data name="SID_with_no_limitation_by_time" xml:space="preserve">
+		<value>with no limitation by time</value>
+	</data>
+	<data name="SID_for__0___1_" xml:space="preserve">
+		<value>for {0} {1}</value>
+	</data>
+	<data name="SID_month_s_" xml:space="preserve">
+		<value>month(s)</value>
+	</data>
 </root>

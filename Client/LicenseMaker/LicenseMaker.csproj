@@ -141,6 +141,10 @@
       <Project>{0cb0ea37-4a27-45f0-bb01-4c0e064e8962}</Project>
       <Name>StringResources</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\Shared\Utils35\UtilsLib.csproj">
+      <Project>{716240ff-d1e8-4bd3-9e63-431382617398}</Project>
+      <Name>UtilsLib</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Graph\Graph.csproj">
       <Project>{a734876e-977b-4dda-b6a4-ad1dd525c6d1}</Project>
       <Name>Graph</Name>

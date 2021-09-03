@@ -1656,6 +1656,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Client stations.
+        /// </summary>
+        public static string SID_Client_stations {
+            get {
+                return ResourceManager.GetString("SID_Client_stations", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clients license is expired.
         /// </summary>
         public static string SID_Clients_license_is_expired {
@@ -1878,6 +1887,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Create_report {
             get {
                 return ResourceManager.GetString("SID_Create_report", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Creation date.
+        /// </summary>
+        public static string SID_Creation_date {
+            get {
+                return ResourceManager.GetString("SID_Creation_date", resourceCulture);
             }
         }
         
@@ -3232,6 +3250,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to for {0} {1}.
+        /// </summary>
+        public static string SID_for__0___1_ {
+            get {
+                return ResourceManager.GetString("SID_for__0___1_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Free space threshold:.
         /// </summary>
         public static string SID_Free_space_threshold {
@@ -3511,6 +3538,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Include_equipment_into_trace {
             get {
                 return ResourceManager.GetString("SID_Include_equipment_into_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Incremental.
+        /// </summary>
+        public static string SID_Incremental {
+            get {
+                return ResourceManager.GetString("SID_Incremental", resourceCulture);
             }
         }
         
@@ -4024,6 +4060,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Load_additional_data_ {
             get {
                 return ResourceManager.GetString("SID_Load_additional_data_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Load from file.
+        /// </summary>
+        public static string SID_Load_from_file {
+            get {
+                return ResourceManager.GetString("SID_Load_from_file", resourceCulture);
             }
         }
         
@@ -4564,6 +4609,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Monitoring_system_components {
             get {
                 return ResourceManager.GetString("SID_Monitoring_system_components", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to month(s).
+        /// </summary>
+        public static string SID_month_s_ {
+            get {
+                return ResourceManager.GetString("SID_month_s_", resourceCulture);
             }
         }
         
@@ -5352,6 +5406,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Pdf Certificate.
+        /// </summary>
+        public static string SID_Pdf_certificate {
+            get {
+                return ResourceManager.GetString("SID_Pdf_certificate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Performing registration on {0}.
         /// </summary>
         public static string SID_Performing_registration_on__0_ {
@@ -6054,6 +6117,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to RTU count.
+        /// </summary>
+        public static string SID_Rtu_count {
+            get {
+                return ResourceManager.GetString("SID_Rtu_count", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This RTU does not support BOP attachment.
         /// </summary>
         public static string SID_RTU_does_not_support_BOP {
@@ -6266,6 +6338,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Save_and_test {
             get {
                 return ResourceManager.GetString("SID_Save_and_test", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save as file.
+        /// </summary>
+        public static string SID_Save_as_file {
+            get {
+                return ResourceManager.GetString("SID_Save_as_file", resourceCulture);
             }
         }
         
@@ -7122,6 +7203,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Super_clients_license_is_expired {
             get {
                 return ResourceManager.GetString("SID_Super_clients_license_is_expired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SuperClients.
+        /// </summary>
+        public static string SID_SuperClients {
+            get {
+                return ResourceManager.GetString("SID_SuperClients", resourceCulture);
             }
         }
         
@@ -8260,6 +8350,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Web clients.
+        /// </summary>
+        public static string SID_Web_clients {
+            get {
+                return ResourceManager.GetString("SID_Web_clients", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Web clients license is expired.
         /// </summary>
         public static string SID_Web_clients_license_is_expired {
@@ -8319,6 +8418,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_With_cable_reserve_to_the_left_m {
             get {
                 return ResourceManager.GetString("SID_With_cable_reserve_to_the_left_m", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to with no limitation by time.
+        /// </summary>
+        public static string SID_with_no_limitation_by_time {
+            get {
+                return ResourceManager.GetString("SID_with_no_limitation_by_time", resourceCulture);
             }
         }
         

@@ -61,39 +61,11 @@ namespace Iit.Fibertest.LicenseMaker
             LicenseInFileModel = new LicenseInFileModel(licenseInFile);
         }
 
+      
+
         private byte[] EncodeLicense()
         {
-            LicenseInFile license = new LicenseInFile()
-            {
-                LicenseId = LicenseInFileModel.LicenseId,
-                Owner = LicenseInFileModel.Owner,
-                IsReplacementLicense = !LicenseInFileModel.IsIncremental,
-                RtuCount = new LicenseParameterInFile()
-                {
-                    Value = LicenseInFileModel.RtuCount,
-                    Term = LicenseInFileModel.RtuCountTerm,
-                    IsTermInYears = LicenseInFileModel.RtuCountTermUnit == LicenseInFileModel.TermUnit.First(),
-                },
-                ClientStationCount = new LicenseParameterInFile()
-                {
-                    Value = LicenseInFileModel.ClientStationCount,
-                    Term = LicenseInFileModel.ClientStationTerm,
-                    IsTermInYears = LicenseInFileModel.ClientStationTermUnit == LicenseInFileModel.TermUnit.First(),
-                }, 
-                WebClientCount = new LicenseParameterInFile()
-                {
-                    Value = LicenseInFileModel.WebClientCount,
-                    Term = LicenseInFileModel.WebClientTerm,
-                    IsTermInYears = LicenseInFileModel.WebClientTermUnit == LicenseInFileModel.TermUnit.First(),
-                },
-                SuperClientStationCount = new LicenseParameterInFile()
-                {
-                    Value = LicenseInFileModel.SuperClientStationCount,
-                    Term = LicenseInFileModel.SuperClientTerm,
-                    IsTermInYears = LicenseInFileModel.SuperClientTermUnit == LicenseInFileModel.TermUnit.First(),
-                },
-                CreationDate = LicenseInFileModel.CreationDate,
-            };
+            var license = LicenseInFileModel.ToLicenseInFile();
             return new LicenseManager().Encode(license);
         }
 
@@ -108,7 +80,7 @@ namespace Iit.Fibertest.LicenseMaker
                 var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
                 if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
 
-                string filename = Path.Combine(folder, @"MonitoringSystemComponentsReport.pdf");
+                string filename = Path.Combine(folder, @"LicenseCertificate.pdf");
                 pdfDoc.Save(filename);
                 Process.Start(filename);
             }

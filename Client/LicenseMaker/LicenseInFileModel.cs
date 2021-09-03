@@ -256,5 +256,40 @@ namespace Iit.Fibertest.LicenseMaker
 
             CreationDate = licenseInFile.CreationDate;
         }
+
+        public LicenseInFile ToLicenseInFile()
+        {
+            return new LicenseInFile()
+            {
+                LicenseId = LicenseId,
+                Owner = Owner,
+                IsReplacementLicense = !IsIncremental,
+                RtuCount = new LicenseParameterInFile()
+                {
+                    Value = RtuCount,
+                    Term = RtuCountTerm,
+                    IsTermInYears = RtuCountTermUnit == TermUnit.First(),
+                },
+                ClientStationCount = new LicenseParameterInFile()
+                {
+                    Value = ClientStationCount,
+                    Term = ClientStationTerm,
+                    IsTermInYears = ClientStationTermUnit == TermUnit.First(),
+                }, 
+                WebClientCount = new LicenseParameterInFile()
+                {
+                    Value = WebClientCount,
+                    Term = WebClientTerm,
+                    IsTermInYears = WebClientTermUnit == TermUnit.First(),
+                },
+                SuperClientStationCount = new LicenseParameterInFile()
+                {
+                    Value = SuperClientStationCount,
+                    Term = SuperClientTerm,
+                    IsTermInYears = SuperClientTermUnit == TermUnit.First(),
+                },
+                CreationDate = CreationDate,
+            };
+        }
     }
 }

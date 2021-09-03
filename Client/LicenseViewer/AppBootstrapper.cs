@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Threading;
 using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
-using LicenseViewer;
 
 namespace Iit.Fibertest.LicenseViewer {
     public class AppBootstrapper : BootstrapperBase {
