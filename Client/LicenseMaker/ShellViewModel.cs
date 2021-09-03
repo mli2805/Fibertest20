@@ -5,10 +5,9 @@ using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.WpfCommonViews;
 using Microsoft.Win32;
 
-namespace LicenseMaker
+namespace Iit.Fibertest.LicenseMaker
 {
     public class ShellViewModel : Screen, IShell
     {

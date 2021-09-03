@@ -1,8 +1,8 @@
-﻿namespace LicenseMaker {
-    using System;
-    using System.Collections.Generic;
-    using Caliburn.Micro;
+﻿using System;
+using System.Collections.Generic;
+using Caliburn.Micro;
 
+namespace Iit.Fibertest.LicenseMaker {
     public class AppBootstrapper : BootstrapperBase {
         SimpleContainer _container;
 

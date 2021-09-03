@@ -3,7 +3,7 @@ using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
 using PdfSharp.Pdf;
 
-namespace LicenseMaker
+namespace Iit.Fibertest.LicenseMaker
 {
     public class PdfCertificateProvider
     {
@@ -15,7 +15,7 @@ namespace LicenseMaker
             Document doc = new Document();
 
             Section section = doc.AddSection();
-
+            AddContent(section);
 
 
             PdfDocumentRenderer pdfDocumentRenderer =
