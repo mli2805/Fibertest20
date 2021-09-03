@@ -6,6 +6,7 @@ namespace Iit.Fibertest.Graph
     public class LicenseInFile
     {
         public Guid LicenseId { get; set; } = Guid.NewGuid();
+        public bool IsReplacementLicense { get; set; } // by default = false -> Additional license
         public string Owner { get; set; }
 
         public LicenseParameterInFile RtuCount { get; set; } = new LicenseParameterInFile();
@@ -13,6 +14,8 @@ namespace Iit.Fibertest.Graph
         public LicenseParameterInFile WebClientCount { get; set; } = new LicenseParameterInFile();
         public LicenseParameterInFile SuperClientStationCount { get; set; } = new LicenseParameterInFile();
 
+        public DateTime CreationDate { get; set; } // Used in LicenseKey string
+        public DateTime LoadingDate { get; set; } // for evaluations
         public string Version { get; set; } = @"2.0.0.0";
     }
 }

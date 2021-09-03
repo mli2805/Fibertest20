@@ -6,7 +6,7 @@ namespace Iit.Fibertest.Graph
     [Serializable]
     public class Model
     {
-        public License License { get; set; }
+        public List<License> Licenses { get; set; } = new List<License>();
         public List<Node> Nodes { get; set; } = new List<Node>();
         public List<Fiber> Fibers { get; set; } = new List<Fiber>();
         public List<Equipment> Equipments { get; set; } = new List<Equipment>();
@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Graph
 
         public void CopyFrom(Model source)
         {
-            License = source.License;
+            Licenses = source.Licenses;
             Nodes = source.Nodes;
             Fibers = source.Fibers;
             Equipments = source.Equipments;

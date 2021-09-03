@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.WpfCommonViews;
 using Microsoft.Win32;
 
 namespace LicenseMaker
@@ -63,8 +66,9 @@ namespace LicenseMaker
         {
             LicenseInFile license = new LicenseInFile()
             {
-                LicenseId = Guid.NewGuid(),
+                LicenseId = LicenseInFileModel.LicenseId,
                 Owner = LicenseInFileModel.Owner,
+                IsReplacementLicense = !LicenseInFileModel.IsIncremental,
                 RtuCount = new LicenseParameterInFile()
                 {
                     Value = LicenseInFileModel.RtuCount,
@@ -89,8 +93,30 @@ namespace LicenseMaker
                     Term = LicenseInFileModel.SuperClientTerm,
                     IsTermInYears = LicenseInFileModel.SuperClientTermUnit == LicenseInFileModel.TermUnit.First(),
                 },
+                CreationDate = LicenseInFileModel.CreationDate,
             };
             return new LicenseManager().Encode(license);
+        }
+
+        public void ToPdf()
+        {
+            var provider = new PdfCertificateProvider();
+            var pdfDoc = provider.Create(LicenseInFileModel);
+            if (pdfDoc == null) return;
+
+            try
+            {
+                var folder = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"..\Reports");
+                if (!Directory.Exists(folder)) Directory.CreateDirectory(folder);
+
+                string filename = Path.Combine(folder, @"MonitoringSystemComponentsReport.pdf");
+                pdfDoc.Save(filename);
+                Process.Start(filename);
+            }
+            catch (Exception e)
+            {
+                MessageBox.Show(e.Message);
+            }
         }
 
         public void Close()

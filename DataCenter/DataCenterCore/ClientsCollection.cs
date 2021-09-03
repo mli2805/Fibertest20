@@ -122,27 +122,27 @@ namespace Iit.Fibertest.DataCenterCore
         {
             if (dto.IsUnderSuperClient)
             {
-                if (_clients.Count(c => c.UserRole == Role.Superclient) >= _writeModel.License.SuperClientStationCount.Value
+                if (_clients.Count(c => c.UserRole == Role.Superclient) >= _writeModel.GetSuperClientStationLicenseCount()
                     && _clients.All(s => s.ClientIp != dto.ClientIp))
                     return new ClientRegisteredDto() { ReturnCode = ReturnCode.SuperClientsCountExceeded };
-                if (_writeModel.License.SuperClientStationCount.ValidUntil < DateTime.Today)
-                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.SuperClientsCountLicenseExpired };
+                // if (_writeModel.License.SuperClientStationCount.ValidUntil < DateTime.Today)
+                    // return new ClientRegisteredDto() { ReturnCode = ReturnCode.SuperClientsCountLicenseExpired };
             }
             else if (dto.IsWebClient)
             {
-                if (_clients.Count(c => c.IsWebClient) >= _writeModel.License.WebClientCount.Value
+                if (_clients.Count(c => c.IsWebClient) >= _writeModel.GetWebClientLicenseCount()
                     && _clients.All(s => s.ClientIp != dto.ClientIp))
                     return new ClientRegisteredDto() { ReturnCode = ReturnCode.WebClientsCountExceeded };
-                if (_writeModel.License.WebClientCount.ValidUntil < DateTime.Today)
-                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.WebClientsCountLicenseExpired };
+                // if (_writeModel.License.WebClientCount.ValidUntil < DateTime.Today)
+                    // return new ClientRegisteredDto() { ReturnCode = ReturnCode.WebClientsCountLicenseExpired };
             }
             else
             {
-                if (_clients.Count(c => c.IsDesktopClient) >= _writeModel.License.ClientStationCount.Value
+                if (_clients.Count(c => c.IsDesktopClient) >= _writeModel.GetClientStationLicenseCount()
                     && _clients.All(s => s.ClientIp != dto.ClientIp))
                     return new ClientRegisteredDto() { ReturnCode = ReturnCode.ClientsCountExceeded };
-                if (_writeModel.License.ClientStationCount.ValidUntil < DateTime.Today)
-                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.ClientsCountLicenseExpired };
+                // if (_writeModel.License.ClientStationCount.ValidUntil < DateTime.Today)
+                    // return new ClientRegisteredDto() { ReturnCode = ReturnCode.ClientsCountLicenseExpired };
             }
             return null;
         }

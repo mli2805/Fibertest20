@@ -2901,4 +2901,7 @@ RTU инициализируется в данный момент!</value>
   <data name="SID_Fast_base_ref_must_be_set_" xml:space="preserve">
 	  <value>Быстрая базовая должна быть задана!</value>
   </data>
+  <data name="SID_License_Key" xml:space="preserve">
+	  <value>Лицензионный ключ</value>
+  </data>
 </root>

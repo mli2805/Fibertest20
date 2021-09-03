@@ -193,7 +193,7 @@ namespace Iit.Fibertest.Client
             var initializedRtuCount = _readModel.Rtus.Count(r => r.OwnPortCount > 0);
             if (OriginalRtu.OwnPortCount > 0)
                 initializedRtuCount--;
-            if (_readModel.License.RtuCount.Value <= initializedRtuCount)
+            if (_readModel.GetRtuLicenseCount() <= initializedRtuCount)
             {
                 var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Exceeded_the_number_of_RTU_for_an_existing_license);
                 _windowManager.ShowDialogWithAssignedOwner(vm);

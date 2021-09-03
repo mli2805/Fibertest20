@@ -3956,6 +3956,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to License Key.
+        /// </summary>
+        public static string SID_License_Key {
+            get {
+                return ResourceManager.GetString("SID_License_Key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to License owner.
         /// </summary>
         public static string SID_License_owner {

@@ -2901,4 +2901,7 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Fast_base_ref_must_be_set_" xml:space="preserve">
 		<value>Fast base ref must be set!</value>
 	</data>
+	<data name="SID_License_Key" xml:space="preserve">
+		<value>License Key</value>
+	</data>
 </root>

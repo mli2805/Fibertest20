@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System.Collections.Generic;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.WpfCommonViews
@@ -16,6 +17,8 @@ namespace Iit.Fibertest.WpfCommonViews
                 NotifyOfPropertyChange();
             }
         }
+
+        public List<License> Licenses { get; set; }
 
         public void FromFile(LicenseInFile licenseInFile)
         {

@@ -8,23 +8,9 @@ namespace LicenseMaker
 {
     public class LicenseInFileModel : PropertyChangedBase
     {
-        public List<string> TermUnit { get; set; } = new List<string>(){"years", "months"};
+        public List<string> TermUnit { get; set; } = new List<string>() { "years", "months" };
 
-        private string _owner;
-        private int _rtuCount = -1;
-        private int _clientStationCount = -1;
-        private int _superClientStationCount = -1;
-        private int _rtuCountTerm = 999;
-        private int _clientStationTerm = 999;
-        private int _superClientTerm = 6;
-        private string _rtuCountTermUnit;
-        private string _clientStationTermUnit;
-        private string _superClientTermUnit;
         private Guid _licenseId;
-        private int _webClientCount = -1;
-        private int _webClientTerm = 999;
-        private string _webClientTermUnit;
-
         public Guid LicenseId
         {
             get => _licenseId;
@@ -33,9 +19,20 @@ namespace LicenseMaker
                 if (value.Equals(_licenseId)) return;
                 _licenseId = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(LicenseKey));
             }
         }
 
+        public string LicenseKey => Lk();
+
+        private string Lk()
+        {
+            var id = LicenseId.ToString().ToUpper().Substring(0, 8);
+            var licType = IsIncremental ? "I" : "B";
+            return $"FT020-{id}-{licType}{RtuCount:D2}{ClientStationCount:D2}{WebClientCount:D2}{SuperClientStationCount:D2}-{CreationDate:yyMMdd}";
+        }
+
+        private string _owner;
         public string Owner
         {
             get => _owner;
@@ -47,6 +44,20 @@ namespace LicenseMaker
             }
         }
 
+        private bool _isIncremental;
+        public bool IsIncremental
+        {
+            get => _isIncremental;
+            set
+            {
+                if (value == _isIncremental) return;
+                _isIncremental = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(LicenseKey));
+            }
+        }
+
+        private int _rtuCount;
         public int RtuCount
         {
             get => _rtuCount;
@@ -55,9 +66,11 @@ namespace LicenseMaker
                 if (value == _rtuCount) return;
                 _rtuCount = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(LicenseKey));
             }
         }
 
+        private int _rtuCountTerm = 999;
         public int RtuCountTerm
         {
             get => _rtuCountTerm;
@@ -69,6 +82,7 @@ namespace LicenseMaker
             }
         }
 
+        private string _rtuCountTermUnit;
         public string RtuCountTermUnit
         {
             get => _rtuCountTermUnit;
@@ -80,6 +94,7 @@ namespace LicenseMaker
             }
         }
 
+        private int _clientStationCount;
         public int ClientStationCount
         {
             get => _clientStationCount;
@@ -88,9 +103,11 @@ namespace LicenseMaker
                 if (value == _clientStationCount) return;
                 _clientStationCount = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(LicenseKey));
             }
         }
 
+        private int _clientStationTerm = 999;
         public int ClientStationTerm
         {
             get => _clientStationTerm;
@@ -102,6 +119,7 @@ namespace LicenseMaker
             }
         }
 
+        private string _clientStationTermUnit;
         public string ClientStationTermUnit
         {
             get => _clientStationTermUnit;
@@ -113,6 +131,7 @@ namespace LicenseMaker
             }
         }
 
+        private int _webClientCount;
         public int WebClientCount
         {
             get => _webClientCount;
@@ -121,9 +140,12 @@ namespace LicenseMaker
                 if (value == _webClientCount) return;
                 _webClientCount = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(LicenseKey));
             }
         }
 
+
+        private int _webClientTerm = 6;
         public int WebClientTerm
         {
             get => _webClientTerm;
@@ -134,6 +156,8 @@ namespace LicenseMaker
                 NotifyOfPropertyChange();
             }
         }
+
+        private string _webClientTermUnit;
 
         public string WebClientTermUnit
         {
@@ -146,6 +170,8 @@ namespace LicenseMaker
             }
         }
 
+
+        private int _superClientStationCount;
         public int SuperClientStationCount
         {
             get => _superClientStationCount;
@@ -154,9 +180,11 @@ namespace LicenseMaker
                 if (value == _superClientStationCount) return;
                 _superClientStationCount = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(LicenseKey));
             }
         }
 
+        private int _superClientTerm = 999;
         public int SuperClientTerm
         {
             get => _superClientTerm;
@@ -168,6 +196,7 @@ namespace LicenseMaker
             }
         }
 
+        private string _superClientTermUnit;
         public string SuperClientTermUnit
         {
             get => _superClientTermUnit;
@@ -179,33 +208,53 @@ namespace LicenseMaker
             }
         }
 
+        private DateTime _creationDate;
+
+        public DateTime CreationDate
+        {
+            get => _creationDate;
+            set
+            {
+                if (value.Equals(_creationDate)) return;
+                _creationDate = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(LicenseKey));
+            }
+        }
+
         public LicenseInFileModel()
         {
             LicenseId = Guid.NewGuid();
             RtuCountTermUnit = TermUnit.First();
             ClientStationTermUnit = TermUnit.First();
-            WebClientTermUnit = TermUnit.First();
-            SuperClientTermUnit = TermUnit.Skip(1).First();
+            WebClientTermUnit = TermUnit.Skip(1).First();
+            SuperClientTermUnit = TermUnit.First();
+            CreationDate = DateTime.Today;
         }
 
         public LicenseInFileModel(LicenseInFile licenseInFile)
         {
             LicenseId = licenseInFile.LicenseId;
             Owner = licenseInFile.Owner;
-            RtuCount = licenseInFile.RtuCount.Value;
-            ClientStationCount = licenseInFile.ClientStationCount.Value;
-            WebClientCount = licenseInFile.WebClientCount.Value;
-            SuperClientStationCount = licenseInFile.SuperClientStationCount.Value;
+            IsIncremental = !licenseInFile.IsReplacementLicense;
 
+            RtuCount = licenseInFile.RtuCount.Value;
             RtuCountTerm = licenseInFile.RtuCount.Term;
             RtuCountTermUnit = licenseInFile.RtuCount.IsTermInYears ? TermUnit.First() : TermUnit.Last();
+
+            ClientStationCount = licenseInFile.ClientStationCount.Value;
             ClientStationTerm = licenseInFile.ClientStationCount.Term;
             ClientStationTermUnit = licenseInFile.ClientStationCount.IsTermInYears ? TermUnit.First() : TermUnit.Last();
+
+            WebClientCount = licenseInFile.WebClientCount.Value;
             WebClientTerm = licenseInFile.WebClientCount.Term;
             WebClientTermUnit = licenseInFile.WebClientCount.IsTermInYears ? TermUnit.First() : TermUnit.Last();
+
+            SuperClientStationCount = licenseInFile.SuperClientStationCount.Value;
             SuperClientTerm = licenseInFile.SuperClientStationCount.Term;
             SuperClientTermUnit = licenseInFile.SuperClientStationCount.IsTermInYears ? TermUnit.First() : TermUnit.Last();
 
+            CreationDate = licenseInFile.CreationDate;
         }
     }
 }

@@ -16,20 +16,24 @@ namespace Iit.Fibertest.Graph
 
         public static string ApplyLicense(this Model model, LicenseApplied e)
         {
-            if (model.License == null)
-                model.License = new License();
-            model.License.LicenseIds.Add(e.LicenseId);
+            if (e.IsReplacementLicense)
+                model.Licenses.Clear();
+            model.Licenses.Add(Mapper.Map<License>(e));
 
-            if (e.Owner != "")
-                model.License.Owner = e.Owner;
-            if (e.RtuCount.Value != -1)
-                model.License.RtuCount = e.RtuCount;
-            if (e.ClientStationCount.Value != -1)
-                model.License.ClientStationCount = e.ClientStationCount;
-            if (e.WebClientCount.Value != -1)
-                model.License.WebClientCount = e.WebClientCount;
-            if (e.SuperClientStationCount.Value != -1)
-                model.License.SuperClientStationCount = e.SuperClientStationCount;
+            // if (model.License == null)
+            //     model.License = new License();
+            // model.License.LicenseIds.Add(e.LicenseId);
+            //
+            // if (e.Owner != "")
+            //     model.License.Owner = e.Owner;
+            // if (e.RtuCount.Value != -1)
+            //     model.License.RtuCount = e.RtuCount;
+            // if (e.ClientStationCount.Value != -1)
+            //     model.License.ClientStationCount = e.ClientStationCount;
+            // if (e.WebClientCount.Value != -1)
+            //     model.License.WebClientCount = e.WebClientCount;
+            // if (e.SuperClientStationCount.Value != -1)
+            //     model.License.SuperClientStationCount = e.SuperClientStationCount;
             return null;
         }
 
