@@ -145,7 +145,7 @@ namespace Iit.Fibertest.Licenser
         }
 
 
-        private int _webClientTerm = 6;
+        private int _webClientTerm = 999;
         public int WebClientTerm
         {
             get => _webClientTerm;
@@ -227,7 +227,7 @@ namespace Iit.Fibertest.Licenser
             LicenseId = Guid.NewGuid();
             RtuCountTermUnit = TermUnit.First();
             ClientStationTermUnit = TermUnit.First();
-            WebClientTermUnit = TermUnit.Skip(1).First();
+            WebClientTermUnit = TermUnit.First();
             SuperClientTermUnit = TermUnit.First();
             CreationDate = DateTime.Today;
         }
