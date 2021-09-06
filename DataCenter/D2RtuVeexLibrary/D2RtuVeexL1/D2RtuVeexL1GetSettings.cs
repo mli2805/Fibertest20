@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -76,7 +78,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             foreach (var laserUnitPair in otdr.supportedMeasurementParameters.laserUnits)
             {
                 var branch = new BranchOfAcceptableMeasParams();
-                foreach (var distancePair in laserUnitPair.Value.distanceRanges)
+                foreach (var distancePair in laserUnitPair.Value.distanceRanges.OrderBy(p=>p.Key))
                 {
                     var leaf = new LeafOfAcceptableMeasParams
                     {
@@ -85,7 +87,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                         MeasCountsToAverage = distancePair.Value.fastAveragingTimes,
                         PeriodsToAverage = distancePair.Value.averagingTimes
                     };
-                    branch.Distances.Add(distancePair.Key, leaf);
+                    branch.Distances.Add(distancePair.Key.ToString(CultureInfo.InvariantCulture), leaf);
                 }
 
                 result.AcceptableMeasParams.Units.Add(laserUnitPair.Key, branch);
