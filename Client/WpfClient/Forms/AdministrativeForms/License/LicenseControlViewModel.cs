@@ -18,7 +18,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public List<License> Licenses { get; set; }
 
         public void FromFile(LicenseInFile licenseInFile)
         {

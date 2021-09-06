@@ -34,7 +34,7 @@ namespace Iit.Fibertest.Client
             _licenseManager = licenseManager;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
-            LicenseControlViewModel.Licenses = readModel.Licenses;
+            LicenseControlViewModel.License = readModel.Licenses[0];
             IsApplyLicenseEnabled = currentUser.Role <= Role.Root;
         }
 

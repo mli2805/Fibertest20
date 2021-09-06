@@ -7,7 +7,7 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews;assembly=Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d"
-        Width="480" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:LicenseViewModel}">
     <StackPanel>
         <wpfCommonViews:IitOfficialHeader/>

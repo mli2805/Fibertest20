@@ -6,6 +6,15 @@ namespace Iit.Fibertest.Graph
     public class License
     {
         public Guid LicenseId { get; set; }
+        public string LicenseKey => Lk();
+
+        private string Lk()
+        {
+            var id = LicenseId.ToString().ToUpper().Substring(0, 8);
+            var licType = IsReplacementLicense ? "I" : "B";
+            return $@"FT020-{id}-{licType}{RtuCount.Value:D2}{ClientStationCount.Value:D2}{WebClientCount.Value:D2}{SuperClientStationCount.Value:D2}-{CreationDate:yyMMdd}";
+        }
+        
         public bool IsReplacementLicense { get; set; } // by default = false -> Additional license
         public string Owner { get; set; }
 
