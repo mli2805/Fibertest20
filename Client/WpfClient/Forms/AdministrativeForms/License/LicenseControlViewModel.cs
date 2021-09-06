@@ -2,7 +2,7 @@
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.WpfCommonViews
+namespace Iit.Fibertest.Client
 {
     public class LicenseControlViewModel : PropertyChangedBase
     {

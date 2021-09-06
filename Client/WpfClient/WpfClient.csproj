@@ -233,6 +233,10 @@
     </Compile>
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\UserFilter.cs" />
+    <Compile Include="Forms\AdministrativeForms\License\LicenseControlView.xaml.cs">
+      <DependentUpon>LicenseControlView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\AdministrativeForms\License\LicenseControlViewModel.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefMessages.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\EventLogReportProvider.cs" />
     <Compile Include="Forms\Input\KeySequence.cs" />
@@ -332,10 +336,10 @@
       <DependentUpon>ConfigurationView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\SettingsForms\ConfigurationViewModel.cs" />
-    <Compile Include="Forms\AdministrativeForms\LicenseView.xaml.cs">
+    <Compile Include="Forms\AdministrativeForms\License\LicenseView.xaml.cs">
       <DependentUpon>LicenseView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\AdministrativeForms\LicenseViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\License\LicenseViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\ObjectsToZones\BoolWithNotification.cs" />
     <Compile Include="Forms\AdministrativeForms\ObjectsToZones\ObjectsAsTreeToZonesViewModel.cs" />
     <Compile Include="Forms\AdministrativeForms\ObjectsToZones\ObjectToZonesModel.cs" />
@@ -716,6 +720,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Forms\AdministrativeForms\License\LicenseControlView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Forms\RtuForms\RtuInitialize\Controls\OtdrAddressView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -760,7 +768,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\AdministrativeForms\LicenseView.xaml">
+    <Page Include="Forms\AdministrativeForms\License\LicenseView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

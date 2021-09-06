@@ -129,11 +129,6 @@
     <Compile Include="Controls\IitOfficialHeader.xaml.cs">
       <DependentUpon>IitOfficialHeader.xaml</DependentUpon>
     </Compile>
-    <Compile Include="License\LicenseInFileModel.cs" />
-    <Compile Include="License\LicenseControlView.xaml.cs">
-      <DependentUpon>LicenseControlView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="License\LicenseControlViewModel.cs" />
     <Compile Include="MyMessageBox\MessageType.cs" />
     <Compile Include="MyMessageBox\MessageTypeExt.cs" />
     <Compile Include="MyMessageBox\MyMessageBoxLineModel.cs" />
@@ -182,10 +177,6 @@
     <Page Include="Controls\IitOfficialHeader.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="License\LicenseControlView.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MyMessageBox\MyMessageBoxView.xaml">
       <Generator>MSBuild:Compile</Generator>

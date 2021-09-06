@@ -13,6 +13,7 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         public LicenseControlViewModel LicenseControlViewModel { get; set; } = new LicenseControlViewModel();
+
         private License _license;
         public License License
         {

@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.WpfCommonViews
+﻿namespace Iit.Fibertest.Client
 {
     /// <summary>
     /// Interaction logic for LicenseControlView.xaml

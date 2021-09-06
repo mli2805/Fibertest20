@@ -11,7 +11,7 @@
         d:DataContext="{d:DesignInstance client:LicenseViewModel}">
     <StackPanel>
         <wpfCommonViews:IitOfficialHeader/>
-        <wpfCommonViews:LicenseControlView DataContext="{Binding LicenseControlViewModel }"/>
+        <client:LicenseControlView DataContext="{Binding LicenseControlViewModel }"/>
         <DockPanel  Margin="10,0">
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="10,5,5,10" HorizontalAlignment="Center">
                 <Button Name="ApplyLicFile" Content="{x:Static stringResources:Resources.SID_I_have_a_license_file}" 
