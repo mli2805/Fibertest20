@@ -2914,10 +2914,10 @@ Please install IIS before installing Fibertest Web Component.</value>
 		<value>Client stations count</value>
 	</data>
 	<data name="SID_Web_clients" xml:space="preserve">
-		<value>Web clients count</value>
+		<value>WebClient stations count</value>
 	</data>
 	<data name="SID_SuperClients" xml:space="preserve">
-		<value>SuperClients count</value>
+		<value>SuperClient stations count</value>
 	</data>
 	<data name="SID_Creation_date" xml:space="preserve">
 		<value>Creation date</value>
@@ -2945,5 +2945,11 @@ Please install IIS before installing Fibertest Web Component.</value>
 	</data>
 	<data name="SID_License_key_long" xml:space="preserve">
 		<value>License key for optical fiber monitoring system software Fibertest 2.0</value>
+	</data>
+	<data name="SID_Optical_fiber_monitoring_system_software_FIBERTEST_2_0" xml:space="preserve">
+		<value>Optical fiber monitoring system software FIBERTEST 2.0</value>
+	</data>
+	<data name="SID_License_number_" xml:space="preserve">
+		<value>License number:</value>
 	</data>
 </root>

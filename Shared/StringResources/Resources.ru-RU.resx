@@ -2911,13 +2911,13 @@ RTU инициализируется в данный момент!</value>
 	  <value>Количество модулей</value>
   </data>
 	<data name="SID_Client_stations" xml:space="preserve">
-	  <value>Количество клиентских рабочих мест</value>
+	  <value>Количество рабочих мест Client</value>
   </data>
 	<data name="SID_Web_clients" xml:space="preserve">
-	  <value>Количество рабочих мест WebКлиент</value>
+	  <value>Количество рабочих мест WebClient</value>
   </data>
 	<data name="SID_SuperClients" xml:space="preserve">
-	  <value>Количество рабочих мест СуперКлиент</value>
+	  <value>Количество рабочих мест SuperClient</value>
   </data>
 	<data name="SID_Creation_date" xml:space="preserve">
 	  <value>Дата создания</value>
@@ -2945,5 +2945,11 @@ RTU инициализируется в данный момент!</value>
   </data>
 	<data name="SID_License_key_long" xml:space="preserve">
 		<value>Лицензионный ключ программного комплекса мониторинга оптических волокон Fibertest 2.0</value>
+	</data>
+	<data name="SID_Optical_fiber_monitoring_system_software_FIBERTEST_2_0" xml:space="preserve">
+		<value>Программный комплекс мониторинга оптических волокон FIBERTEST 2.0</value>
+	</data>
+	<data name="SID_License_number_" xml:space="preserve">
+		<value>Номер лицензии:</value>
 	</data>
 </root>

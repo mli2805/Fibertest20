@@ -4019,6 +4019,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to License number:.
+        /// </summary>
+        public static string SID_License_number_ {
+            get {
+                return ResourceManager.GetString("SID_License_number_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to License owner.
         /// </summary>
         public static string SID_License_owner {
@@ -5186,6 +5195,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Optical_events_report_for__0_d_____1_d_ {
             get {
                 return ResourceManager.GetString("SID_Optical_events_report_for__0_d_____1_d_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Optical fiber monitoring system software FIBERTEST 2.0.
+        /// </summary>
+        public static string SID_Optical_fiber_monitoring_system_software_FIBERTEST_2_0 {
+            get {
+                return ResourceManager.GetString("SID_Optical_fiber_monitoring_system_software_FIBERTEST_2_0", resourceCulture);
             }
         }
         
@@ -7225,7 +7243,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SuperClients count.
+        ///   Looks up a localized string similar to SuperClient stations count.
         /// </summary>
         public static string SID_SuperClients {
             get {
@@ -8368,7 +8386,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Web clients count.
+        ///   Looks up a localized string similar to WebClient stations count.
         /// </summary>
         public static string SID_Web_clients {
             get {

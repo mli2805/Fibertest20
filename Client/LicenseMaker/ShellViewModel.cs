@@ -10,6 +10,7 @@ namespace Iit.Fibertest.LicenseMaker
 {
     public class ShellViewModel : Screen, IShell
     {
+        public Visibility ButtonsVisibility { get; set; }
         public bool IsEditable { get; set; }
 
         private LicenseInFileModel _licenseInFileModel = new LicenseInFileModel();
@@ -29,7 +30,8 @@ namespace Iit.Fibertest.LicenseMaker
         {
             var rr = Environment.GetCommandLineArgs();
             IsEditable = rr.Length > 1 && rr[1] == "ihaverights";
-
+            ButtonsVisibility = IsEditable ? Visibility.Visible : Visibility.Collapsed;
+          
             if (rr.Length > 2)
             {
                 var license = new LicenseManager().ReadLicenseFromFile(rr[2]);
@@ -74,7 +76,7 @@ namespace Iit.Fibertest.LicenseMaker
             LicenseInFileModel = new LicenseInFileModel(licenseInFile);
         }
 
-      
+
 
         private byte[] EncodeLicense()
         {

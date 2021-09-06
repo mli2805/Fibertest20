@@ -28,6 +28,7 @@ namespace Iit.Fibertest.LicenseMaker
             doc.DefaultPageSetup.FooterDistance = Unit.FromCentimeter(0.5);
 
             AddCaption(section);
+            AddMain(section);
             AddContent(section);
 
             PdfDocumentRenderer pdfDocumentRenderer =
@@ -52,14 +53,21 @@ namespace Iit.Fibertest.LicenseMaker
             paragraph.Format.SpaceBefore = Unit.FromCentimeter(0.3);
         }
 
-        private void AddContent(Section section)
+        private void AddMain(Section section)
         {
+            var paragraph = section.AddParagraph();
+            // paragraph.AddFormattedText("OPTICAL FIBER MONITORING SYSTEM SOFTWARE FIBERTEST 2.0");
+            paragraph.AddFormattedText(Resources.SID_Optical_fiber_monitoring_system_software_FIBERTEST_2_0);
+            paragraph.Format.Alignment = ParagraphAlignment.Center;
+            paragraph.Format.Font.Size = 16;
+            paragraph.Format.Font.Bold = true;
+            paragraph.Format.SpaceBefore = Unit.FromCentimeter(1.4);
+
             var paragraph2 = section.AddParagraph();
-            // paragraph2.AddFormattedText(Resources.SID_License_Key);
-            paragraph2.AddFormattedText(Resources.SID_License_key_long);
+            paragraph2.AddFormattedText(Resources.SID_License_number_);
             paragraph2.Format.Alignment = ParagraphAlignment.Center;
-            paragraph2.Format.Font.Size = 18;
-            paragraph2.Format.SpaceBefore = Unit.FromCentimeter(1.4);
+            paragraph2.Format.Font.Size = 16;
+            paragraph2.Format.SpaceBefore = Unit.FromCentimeter(0.7);
 
             var paragraph3 = section.AddParagraph();
             paragraph3.AddFormattedText(_licenseInFileModel.LicenseKey);
@@ -67,7 +75,10 @@ namespace Iit.Fibertest.LicenseMaker
             paragraph3.Format.Font.Size = 20;
             paragraph3.Format.SpaceBefore = Unit.FromCentimeter(0.4);
             paragraph3.Format.SpaceAfter = Unit.FromCentimeter(1.4);
+        }
 
+        private void AddContent(Section section)
+        {
             var licenseInFile = _licenseInFileModel.ToLicenseInFile();
 
             AddParam(section, Resources.SID_License_owner, _licenseInFileModel.Owner);
@@ -100,8 +111,8 @@ namespace Iit.Fibertest.LicenseMaker
             }
             else
             {
-                var yearInLocalLng = Thread.CurrentThread.CurrentUICulture.Equals(new CultureInfo("ru-RU")) 
-                    ? GetYearInRussian(parameterInFile.Value) 
+                var yearInLocalLng = Thread.CurrentThread.CurrentUICulture.Equals(new CultureInfo("ru-RU"))
+                    ? GetYearInRussian(parameterInFile.Value)
                     : "year(s)";
                 var units = parameterInFile.IsTermInYears ? yearInLocalLng : Resources.SID_month_s_;
                 term = string.Format(Resources.SID_for__0___1_, parameterInFile.Term, units);

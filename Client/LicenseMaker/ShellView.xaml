@@ -2,52 +2,53 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-        Width="550" Height="400" WindowStartupLocation="CenterScreen">
+        Height="400" SizeToContent="Width" WindowStartupLocation="CenterScreen">
 
     <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Margin="0,15,25, 0" IsEnabled="{Binding IsEditable}">
+        <StackPanel DockPanel.Dock="Top" Margin="25,15,25, 0" IsEnabled="{Binding IsEditable}">
             <StackPanel Name="Id" Orientation="Horizontal" HorizontalAlignment="Right" Height="22" Visibility="Collapsed">
                 <TextBlock Width="160" Text="License ID" TextAlignment="Right" Margin="0,0,20,0" Foreground="Gray"/>
                 <TextBlock Width="300" Text="{Binding LicenseInFileModel.LicenseId}" Foreground="Gray"/>
             </StackPanel>
 
             <StackPanel Name="Key" Orientation="Horizontal" HorizontalAlignment="Right" Height="22" Margin="0,5, 0,20">
-                <TextBlock Width="160" Text="{x:Static stringResources:Resources.SID_License_Key}" TextAlignment="Right" Margin="0,0,20,0" FontWeight="DemiBold" FontSize="16"/>
+                <TextBlock Width="160" Text="{x:Static stringResources:Resources.SID_License_number_}" TextAlignment="Right" Margin="0,0,20,0" FontWeight="DemiBold" FontSize="16"/>
                 <TextBlock Width="300" Text="{Binding LicenseInFileModel.LicenseKey}"  FontWeight="DemiBold" FontSize="16"/>
             </StackPanel>
 
             <StackPanel Name="Owner" Orientation="Horizontal" Height="22" Margin="0,5"  HorizontalAlignment="Right" >
-                <TextBlock Width="160" Text="{x:Static stringResources:Resources.SID_License_owner}" TextAlignment="Right" Margin="0,0,20,0"/>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_License_owner}" TextAlignment="Right" Margin="0,0,20,0"/>
                 <TextBox Width="300" Text="{Binding LicenseInFileModel.Owner}" />
             </StackPanel>
             <StackPanel Name="Incremental" Orientation="Horizontal" Height="22" Margin="0,5"  HorizontalAlignment="Right" >
-                <TextBlock Width="160" Text="{x:Static stringResources:Resources.SID_Incremental}" TextAlignment="Right" Margin="0,0,20,0"/>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Incremental}" TextAlignment="Right" Margin="0,0,20,0"/>
                 <CheckBox IsChecked="{Binding LicenseInFileModel.IsIncremental}"/>
                 <TextBlock Width="285"/>
             </StackPanel>
             <StackPanel Name="Rtu" Orientation="Horizontal" Height="22" Margin="0,5" HorizontalAlignment="Right" >
-                <TextBlock Width="160" Text="{x:Static stringResources:Resources.SID_Rtu_count}" TextAlignment="Right" Margin="0,0,20,0"/>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Rtu_count}" TextAlignment="Right" Margin="0,0,20,0"/>
                 <TextBox Width="100" Text="{Binding LicenseInFileModel.RtuCount, UpdateSourceTrigger=PropertyChanged}" />
                 <TextBox Width="70" Margin="20, 0, 10, 0" Text="{Binding LicenseInFileModel.RtuCountTerm}"/>
                 <ComboBox Width="100" ItemsSource="{Binding LicenseInFileModel.TermUnit}" 
                           SelectedItem="{Binding LicenseInFileModel.RtuCountTermUnit}"/>
             </StackPanel>
             <StackPanel Name="Client" Orientation="Horizontal" Height="22" Margin="0,5" HorizontalAlignment="Right" >
-                <TextBlock Width="160" Text="{x:Static stringResources:Resources.SID_Client_stations}" TextAlignment="Right" Margin="0,0,20,0"/>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Client_stations}" TextAlignment="Right" Margin="0,0,20,0"/>
                 <TextBox Width="100" Text="{Binding LicenseInFileModel.ClientStationCount}" />
                 <TextBox Width="70" Margin="20, 0, 10, 0" Text="{Binding LicenseInFileModel.ClientStationTerm}"/>
                 <ComboBox Width="100" ItemsSource="{Binding LicenseInFileModel.TermUnit}" 
                           SelectedItem="{Binding LicenseInFileModel.ClientStationTermUnit}"/>
             </StackPanel>
             <StackPanel Name="Web" Orientation="Horizontal" Height="22" Margin="0,5" HorizontalAlignment="Right" >
-                <TextBlock Width="160" Text="{x:Static stringResources:Resources.SID_Web_clients}" TextAlignment="Right" Margin="0,0,20,0"/>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Web_clients}" TextAlignment="Right" Margin="0,0,20,0"/>
                 <TextBox Width="100" Text="{Binding LicenseInFileModel.WebClientCount}" />
                 <TextBox Width="70" Margin="20, 0, 10, 0" Text="{Binding LicenseInFileModel.WebClientTerm}"/>
                 <ComboBox Width="100" ItemsSource="{Binding LicenseInFileModel.TermUnit}" 
                           SelectedItem="{Binding LicenseInFileModel.WebClientTermUnit}"/>
             </StackPanel>
             <StackPanel Name="Super" Orientation="Horizontal" Height="22" Margin="0,5" HorizontalAlignment="Right" >
-                <TextBlock Width="160" Text="{x:Static stringResources:Resources.SID_SuperClients}" TextAlignment="Right" Margin="0,0,20,0"/>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_SuperClients}" TextAlignment="Right" 
+                           Margin="0,0,20,0"/>
                 <TextBox Width="100" Text="{Binding LicenseInFileModel.SuperClientStationCount}" />
                 <TextBox Width="70" Margin="20, 0, 10, 0" Text="{Binding LicenseInFileModel.SuperClientTerm}"/>
                 <ComboBox Width="100" ItemsSource="{Binding LicenseInFileModel.TermUnit}" 
@@ -61,11 +62,12 @@
             </StackPanel>
         </StackPanel>
 
-        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,15,0,5" HorizontalAlignment="Center">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,15,15,5" HorizontalAlignment="Right">
             <Button Name="LoadFromFile" Content="{x:Static stringResources:Resources.SID_Load_from_file}" Width="120" Height="22" Margin="5"/>
             <Button Name="SaveAsFile" Content="{x:Static stringResources:Resources.SID_Save_as_file}" 
-                    IsEnabled="{Binding IsEditable}" Width="120" Height="22" Margin="5"/>
-            <Button Name="ToPdf" Content="{x:Static stringResources:Resources.SID_Pdf_certificate}" Width="120" Height="22" Margin="5"/>
+                    Visibility="{Binding ButtonsVisibility}" Width="120" Height="22" Margin="5"/>
+            <Button Name="ToPdf" Content="{x:Static stringResources:Resources.SID_Pdf_certificate}"
+                    Visibility="{Binding ButtonsVisibility}" Width="120" Height="22" Margin="5"/>
             <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" Width="100" Height="22" Margin="5"/>
         </StackPanel>
     </DockPanel>
