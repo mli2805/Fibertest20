@@ -5,7 +5,7 @@
         Width="550" Height="400" WindowStartupLocation="CenterScreen">
 
     <DockPanel>
-        <StackPanel DockPanel.Dock="Top" Margin="0,15,25, 0">
+        <StackPanel DockPanel.Dock="Top" Margin="0,15,25, 0" IsEnabled="{Binding IsEditable}">
             <StackPanel Name="Id" Orientation="Horizontal" HorizontalAlignment="Right" Height="22" Visibility="Collapsed">
                 <TextBlock Width="160" Text="License ID" TextAlignment="Right" Margin="0,0,20,0" Foreground="Gray"/>
                 <TextBlock Width="300" Text="{Binding LicenseInFileModel.LicenseId}" Foreground="Gray"/>
@@ -63,7 +63,8 @@
 
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="0,15,0,5" HorizontalAlignment="Center">
             <Button Name="LoadFromFile" Content="{x:Static stringResources:Resources.SID_Load_from_file}" Width="120" Height="22" Margin="5"/>
-            <Button Name="SaveAsFile" Content="{x:Static stringResources:Resources.SID_Save_as_file}" Width="120" Height="22" Margin="5"/>
+            <Button Name="SaveAsFile" Content="{x:Static stringResources:Resources.SID_Save_as_file}" 
+                    IsEnabled="{Binding IsEditable}" Width="120" Height="22" Margin="5"/>
             <Button Name="ToPdf" Content="{x:Static stringResources:Resources.SID_Pdf_certificate}" Width="120" Height="22" Margin="5"/>
             <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" Width="100" Height="22" Margin="5"/>
         </StackPanel>

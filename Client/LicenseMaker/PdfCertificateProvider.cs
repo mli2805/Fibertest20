@@ -1,4 +1,6 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
+using System.IO;
 using System.Text;
 using System.Threading;
 using Iit.Fibertest.Graph;
@@ -17,7 +19,6 @@ namespace Iit.Fibertest.LicenseMaker
             _licenseInFileModel = licenseModel;
 
             Document doc = new Document();
-
             Section section = doc.AddSection();
             doc.DefaultPageSetup.Orientation = Orientation.Portrait;
             doc.DefaultPageSetup.LeftMargin = Unit.FromCentimeter(2);
@@ -26,6 +27,7 @@ namespace Iit.Fibertest.LicenseMaker
             doc.DefaultPageSetup.BottomMargin = Unit.FromCentimeter(1.5);
             doc.DefaultPageSetup.FooterDistance = Unit.FromCentimeter(0.5);
 
+            AddCaption(section);
             AddContent(section);
 
             PdfDocumentRenderer pdfDocumentRenderer =
@@ -35,17 +37,28 @@ namespace Iit.Fibertest.LicenseMaker
             return pdfDocumentRenderer.PdfDocument;
         }
 
-        private void AddContent(Section section)
+        private void AddCaption(Section section)
         {
+            var headerFileName = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\Reports\Header.png");
+            section.AddImage(headerFileName);
+
             var paragraph = section.AddParagraph();
-            paragraph.AddFormattedText(Resources.SID_Institute_of_Information_Technologies);
-            paragraph.Format.Alignment = ParagraphAlignment.Center;
+            paragraph.AddFormattedText(Resources.SID_JS_Institute_of_Information_Technologies);
             paragraph.Format.Font.Size = 16;
-            paragraph.Format.SpaceBefore = Unit.FromCentimeter(0.4);
 
             var paragraph2 = section.AddParagraph();
-            paragraph2.AddFormattedText(Resources.SID_License_Key);
-            paragraph2.Format.Font.Size = 20;
+            paragraph2.AddFormattedText("220099, Беларусь, г. Минск, ул. Казинца, д. 11а, офис А304.");
+            paragraph2.Format.Font.Size = 12;
+            paragraph.Format.SpaceBefore = Unit.FromCentimeter(0.3);
+        }
+
+        private void AddContent(Section section)
+        {
+            var paragraph2 = section.AddParagraph();
+            // paragraph2.AddFormattedText(Resources.SID_License_Key);
+            paragraph2.AddFormattedText(Resources.SID_License_key_long);
+            paragraph2.Format.Alignment = ParagraphAlignment.Center;
+            paragraph2.Format.Font.Size = 18;
             paragraph2.Format.SpaceBefore = Unit.FromCentimeter(1.4);
 
             var paragraph3 = section.AddParagraph();
@@ -64,7 +77,8 @@ namespace Iit.Fibertest.LicenseMaker
             AddCompleteParam(section, Resources.SID_SuperClients, licenseInFile.SuperClientStationCount);
             AddParam(section, Resources.SID_Creation_date, _licenseInFileModel.CreationDate.ToString("d"));
 
-            AddDigitalFootprint(section, licenseInFile);
+            AddDigitalKey(section, licenseInFile);
+            AddSignature(section);
         }
 
         private void AddParam(Section section, string title, string value)
@@ -77,6 +91,7 @@ namespace Iit.Fibertest.LicenseMaker
 
         private void AddCompleteParam(Section section, string title, LicenseParameterInFile parameterInFile)
         {
+            if (parameterInFile.Value <= 0) return;
             var paragraph = section.AddParagraph();
             string term;
             if (parameterInFile.Term == 999 && parameterInFile.IsTermInYears)
@@ -113,7 +128,7 @@ namespace Iit.Fibertest.LicenseMaker
             return "лет";
         }
 
-        private void AddDigitalFootprint(Section section, LicenseInFile licenseInFile)
+        private void AddDigitalKey(Section section, LicenseInFile licenseInFile)
         {
             var bytes = new LicenseManager().Encode(licenseInFile);
 
@@ -138,6 +153,17 @@ namespace Iit.Fibertest.LicenseMaker
             foreach (byte b in ba)
                 hex.AppendFormat("{0:x2} ", b);
             return hex.ToString().ToUpper();
+        }
+
+        private void AddSignature(Section section)
+        {
+            var paragraph = section.AddParagraph();
+            paragraph.AddFormattedText("     Директор     __________________________");
+            paragraph.Format.Alignment = ParagraphAlignment.Left;
+            paragraph.Format.LeftIndent = Unit.FromCentimeter(2);
+            paragraph.Format.Font.Size = 12;
+            paragraph.Format.SpaceBefore = Unit.FromCentimeter(2.4);
+
         }
     }
 }

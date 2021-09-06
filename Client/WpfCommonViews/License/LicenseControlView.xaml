@@ -4,25 +4,45 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-             mc:Ignorable="d" Width="450" >
-    <StackPanel Margin="5" HorizontalAlignment="Center">
-        <TextBlock Text="{x:Static stringResources:Resources.SID_License_owner}" Margin="5,0" HorizontalAlignment="Left"/>
-        <TextBlock Text="{Binding License.Owner}" Margin="5" Background="Azure" HorizontalAlignment="Center"/>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="RTUs" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
-            <TextBlock Text="{Binding License.RtuCount}" Background="Azure" Margin="5,1,5,5" Width="300"/>
+             mc:Ignorable="d" Width="550" >
+    <Grid Background="MistyRose">
+        <StackPanel Margin="5" HorizontalAlignment="Center">
+            <StackPanel Name="Key" Orientation="Horizontal" HorizontalAlignment="Right" Height="22" Margin="0,5, 0,20">
+                <TextBlock Width="160" Text="{x:Static stringResources:Resources.SID_License_Key}" TextAlignment="Right" Margin="0,0,20,0" FontWeight="DemiBold" FontSize="16"/>
+                <TextBlock Width="300" Text="{Binding LicenseInFileModel.LicenseKey}"  FontWeight="DemiBold" FontSize="16"/>
+            </StackPanel>
+
+            <TextBlock Text="{x:Static stringResources:Resources.SID_License_owner}" Margin="5,0" HorizontalAlignment="Left"/>
+            <TextBlock Text="{Binding License.Owner}" Margin="5" Background="Azure" HorizontalAlignment="Center"/>
+
+            <StackPanel Name="Incremental" Orientation="Horizontal" >
+                <TextBlock Width="100" Text="{x:Static stringResources:Resources.SID_Incremental}" Margin="5,0,5,5" HorizontalAlignment="Left"/>
+                <CheckBox IsChecked="{Binding LicenseInFileModel.IsIncremental}" Margin="5,1,5,5"/>
+                <TextBlock Width="285"/>
+            </StackPanel>
+
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Rtu_count}" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
+                <TextBlock Text="{Binding License.RtuCount}" Background="Azure" Margin="5,1,5,5" Width="300"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Client_stations}" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
+                <TextBlock Text="{Binding License.ClientStationCount}" Background="Azure" Margin="5,1,5,5" Width="300"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Web_clients}" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
+                <TextBlock Text="{Binding License.WebClientCount}" Background="Azure" Margin="5,1,5,5" Width="300"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{x:Static stringResources:Resources.SID_SuperClients}" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
+                <TextBlock Text="{Binding License.SuperClientStationCount}" Background="Azure" Margin="5,1,5,5" Width="300"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Creation_date}" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
+                <TextBlock Text="{Binding License.CreationDate}" Background="Azure" Margin="5,1,5,5" Width="300"/>
+            </StackPanel>
+
         </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Clients" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
-            <TextBlock Text="{Binding License.ClientStationCount}" Background="Azure" Margin="5,1,5,5" Width="300"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Web clients" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
-            <TextBlock Text="{Binding License.WebClientCount}" Background="Azure" Margin="5,1,5,5" Width="300"/>
-        </StackPanel>
-        <StackPanel Orientation="Horizontal">
-            <TextBlock Text="Super-clients" Width="100" Margin="5,0,5,5" HorizontalAlignment="Left"/>
-            <TextBlock Text="{Binding License.SuperClientStationCount}" Background="Azure" Margin="5,1,5,5" Width="300"/>
-        </StackPanel>
-    </StackPanel>
+    </Grid>
+
 </UserControl>

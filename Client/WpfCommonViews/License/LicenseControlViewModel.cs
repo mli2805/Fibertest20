@@ -30,10 +30,12 @@ namespace Iit.Fibertest.WpfCommonViews
             return new License
             {
                 Owner = licenseInFile.Owner,
+                IsReplacementLicense = licenseInFile.IsReplacementLicense,
                 RtuCount = new LicenseParameter(licenseInFile.RtuCount),
                 ClientStationCount = new LicenseParameter(licenseInFile.ClientStationCount),
                 WebClientCount = new LicenseParameter(licenseInFile.WebClientCount),
                 SuperClientStationCount = new LicenseParameter(licenseInFile.SuperClientStationCount),
+                CreationDate = licenseInFile.CreationDate,
                 Version = licenseInFile.Version,
             };
         }

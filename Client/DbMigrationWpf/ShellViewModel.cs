@@ -137,7 +137,7 @@ namespace DbMigrationWpf
             var path = Path.GetDirectoryName(location);
 
             var licManager = new LicenseManager();
-            var licenseInFile = licManager.ReadLicenseFromFile(path);
+            var licenseInFile = licManager.ReadLicenseFromFileDialog(path);
             if (licenseInFile == null) return;
             var cmd = new ApplyLicense()
             {

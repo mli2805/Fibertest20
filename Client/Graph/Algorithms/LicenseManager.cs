@@ -49,7 +49,7 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        public LicenseInFile ReadLicenseFromFile(string initialDirectory = "")
+        public LicenseInFile ReadLicenseFromFileDialog(string initialDirectory = "")
         {
             OpenFileDialog dlg = new OpenFileDialog();
             dlg.DefaultExt = @".lic";
@@ -57,7 +57,11 @@ namespace Iit.Fibertest.Graph
             dlg.Filter = @"License file  |*.lic";
             if (dlg.ShowDialog() != true) return null;
 
-            string filename = dlg.FileName;
+            return ReadLicenseFromFile(dlg.FileName);
+        }
+
+        public LicenseInFile ReadLicenseFromFile(string filename)
+        {
             var encoded = File.ReadAllBytes(filename);
             try
             {

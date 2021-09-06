@@ -2911,13 +2911,13 @@ Please install IIS before installing Fibertest Web Component.</value>
 		<value>RTU count</value>
 	</data>
 	<data name="SID_Client_stations" xml:space="preserve">
-		<value>Client stations</value>
+		<value>Client stations count</value>
 	</data>
 	<data name="SID_Web_clients" xml:space="preserve">
-		<value>Web clients</value>
+		<value>Web clients count</value>
 	</data>
 	<data name="SID_SuperClients" xml:space="preserve">
-		<value>SuperClients</value>
+		<value>SuperClients count</value>
 	</data>
 	<data name="SID_Creation_date" xml:space="preserve">
 		<value>Creation date</value>
@@ -2939,5 +2939,11 @@ Please install IIS before installing Fibertest Web Component.</value>
 	</data>
 	<data name="SID_month_s_" xml:space="preserve">
 		<value>month(s)</value>
+	</data>
+	<data name="SID_JS_Institute_of_Information_Technologies" xml:space="preserve">
+		<value>JS Institute of Information Technologies</value>
+	</data>
+	<data name="SID_License_key_long" xml:space="preserve">
+		<value>License key for optical fiber monitoring system software Fibertest 2.0</value>
 	</data>
 </root>

@@ -1656,7 +1656,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Client stations.
+        ///   Looks up a localized string similar to Client stations count.
         /// </summary>
         public static string SID_Client_stations {
             get {
@@ -3776,6 +3776,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to JS Institute of Information Technologies.
+        /// </summary>
+        public static string SID_JS_Institute_of_Information_Technologies {
+            get {
+                return ResourceManager.GetString("SID_JS_Institute_of_Information_Technologies", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Kadastr Db connection error!  .
         /// </summary>
         public static string SID_Kadastr_Db_connection_error___ {
@@ -3997,6 +4006,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_License_Key {
             get {
                 return ResourceManager.GetString("SID_License_Key", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to License key for optical fiber monitoring system software Fibertest 2.0.
+        /// </summary>
+        public static string SID_License_key_long {
+            get {
+                return ResourceManager.GetString("SID_License_key_long", resourceCulture);
             }
         }
         
@@ -7207,7 +7225,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SuperClients.
+        ///   Looks up a localized string similar to SuperClients count.
         /// </summary>
         public static string SID_SuperClients {
             get {
@@ -8350,7 +8368,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Web clients.
+        ///   Looks up a localized string similar to Web clients count.
         /// </summary>
         public static string SID_Web_clients {
             get {

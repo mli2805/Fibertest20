@@ -24,7 +24,7 @@ namespace Iit.Fibertest.LicenseViewer
 
         public void OpenLicFile()
         {
-            var licenseInFile = _licenseManager.ReadLicenseFromFile();
+            var licenseInFile = _licenseManager.ReadLicenseFromFileDialog();
             if (licenseInFile == null)
             {
                 var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Invalid_license_file_);

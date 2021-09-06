@@ -10,6 +10,8 @@ namespace Iit.Fibertest.LicenseMaker
 {
     public class ShellViewModel : Screen, IShell
     {
+        public bool IsEditable { get; set; }
+
         private LicenseInFileModel _licenseInFileModel = new LicenseInFileModel();
 
         public LicenseInFileModel LicenseInFileModel
@@ -23,6 +25,18 @@ namespace Iit.Fibertest.LicenseMaker
             }
         }
 
+        public ShellViewModel()
+        {
+            var rr = Environment.GetCommandLineArgs();
+            IsEditable = rr.Length > 1 && rr[1] == "ihaverights";
+
+            if (rr.Length > 2)
+            {
+                var license = new LicenseManager().ReadLicenseFromFile(rr[2]);
+                if (license != null)
+                    LicenseInFileModel = new LicenseInFileModel(license);
+            }
+        }
 
         protected override void OnViewLoaded(object view)
         {
@@ -31,7 +45,7 @@ namespace Iit.Fibertest.LicenseMaker
 
         public void LoadFromFile()
         {
-            var license = new LicenseManager().ReadLicenseFromFile();
+            var license = new LicenseManager().ReadLicenseFromFileDialog();
             if (license != null)
                 LicenseInFileModel = new LicenseInFileModel(license);
         }

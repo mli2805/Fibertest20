@@ -44,7 +44,7 @@ namespace Iit.Fibertest.Client
 
         public async void ApplyLicFile()
         {
-            var licenseInFile = _licenseManager.ReadLicenseFromFile();
+            var licenseInFile = _licenseManager.ReadLicenseFromFileDialog();
             if (licenseInFile == null)
             {
                 var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Invalid_license_file_);
