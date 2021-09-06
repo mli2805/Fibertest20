@@ -9,7 +9,7 @@ using MigraDoc.DocumentObjectModel;
 using MigraDoc.Rendering;
 using PdfSharp.Pdf;
 
-namespace Iit.Fibertest.LicenseMaker
+namespace Iit.Fibertest.Licenser
 {
     public class PdfCertificateProvider
     {
@@ -48,7 +48,7 @@ namespace Iit.Fibertest.LicenseMaker
             paragraph.Format.Font.Size = 16;
 
             var paragraph2 = section.AddParagraph();
-            paragraph2.AddFormattedText("220099, Беларусь, г. Минск, ул. Казинца, д. 11а, офис А304.");
+            paragraph2.AddFormattedText("220099, Республика Беларусь, г. Минск, ул. Казинца, д. 11а, офис А304.");
             paragraph2.Format.Font.Size = 12;
             paragraph.Format.SpaceBefore = Unit.FromCentimeter(0.3);
         }
@@ -169,7 +169,7 @@ namespace Iit.Fibertest.LicenseMaker
         private void AddSignature(Section section)
         {
             var paragraph = section.AddParagraph();
-            paragraph.AddFormattedText("     Директор     __________________________");
+            paragraph.AddFormattedText("     Директор     __________________________     Слесарчик М.В.");
             paragraph.Format.Alignment = ParagraphAlignment.Left;
             paragraph.Format.LeftIndent = Unit.FromCentimeter(2);
             paragraph.Format.Font.Size = 12;

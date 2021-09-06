@@ -1,12 +1,12 @@
-﻿<Application x:Class="Iit.Fibertest.LicenseMaker.App"
+﻿<Application x:Class="Iit.Fibertest.Licenser.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:licenseMaker="clr-namespace:Iit.Fibertest.LicenseMaker">
+             xmlns:licenser="clr-namespace:Iit.Fibertest.Licenser">
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary>
-                    <licenseMaker:AppBootstrapper x:Key="Bootstrapper" />
+                    <licenser:AppBootstrapper x:Key="Bootstrapper" />
                 </ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

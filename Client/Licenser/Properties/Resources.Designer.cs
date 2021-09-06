@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Iit.Fibertest.LicenseMaker.Properties {
+namespace Iit.Fibertest.Licenser.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Iit.Fibertest.LicenseMaker.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Iit.Fibertest.LicenseMaker.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Iit.Fibertest.Licenser.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

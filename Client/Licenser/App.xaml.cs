@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.LicenseMaker
+﻿namespace Iit.Fibertest.Licenser
 {
     /// <summary>
     /// Interaction logic for App.xaml

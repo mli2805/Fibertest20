@@ -6,7 +6,7 @@ using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Microsoft.Win32;
 
-namespace Iit.Fibertest.LicenseMaker
+namespace Iit.Fibertest.Licenser
 {
     public class ShellViewModel : Screen, IShell
     {

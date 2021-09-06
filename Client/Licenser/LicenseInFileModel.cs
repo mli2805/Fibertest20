@@ -4,7 +4,7 @@ using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.LicenseMaker
+namespace Iit.Fibertest.Licenser
 {
     public class LicenseInFileModel : PropertyChangedBase
     {

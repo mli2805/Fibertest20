@@ -1,4 +1,4 @@
-<Window x:Class="Iit.Fibertest.LicenseMaker.ShellView"
+<Window x:Class="Iit.Fibertest.Licenser.ShellView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"

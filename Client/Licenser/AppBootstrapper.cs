@@ -6,7 +6,7 @@ using System.Threading;
 using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
 
-namespace Iit.Fibertest.LicenseMaker {
+namespace Iit.Fibertest.Licenser {
     public class AppBootstrapper : BootstrapperBase {
         SimpleContainer _container;
 

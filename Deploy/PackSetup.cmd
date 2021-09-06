@@ -57,8 +57,7 @@ xcopy Pack\RftsReflect\*.* PackRtu\RftsReflect\*.* /S/D/Y
 
 rem additional archive with administrative tools
 
-xcopy ..\Client\LicenseMaker\bin\Release\*.* PackAdmin\LicenseMaker\bin\*.* /S/D/Y
-xcopy ..\Client\LicenseViewer\bin\Release\*.* PackAdmin\LicenseViewer\bin\*.* /S/D/Y
+xcopy ..\Client\Licenser\bin\Release\*.* PackAdmin\Licenser\bin\*.* /S/D/Y
 xcopy ..\Client\DbMigrationWpf\bin\Release\*.* PackAdmin\DbMigrationWpf\bin\*.* /S/D/Y
 xcopy ..\Client\KadastrLoader\bin\Release\*.* PackAdmin\KadastrLoader\bin\*.* /S/D/Y
 xcopy ..\Client\Broadcaster\bin\Release\*.* PackAdmin\Broadcaster\bin\*.* /S/D/Y
