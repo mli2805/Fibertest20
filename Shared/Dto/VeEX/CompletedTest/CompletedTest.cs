@@ -1,4 +1,5 @@
 ﻿using System;
+
 // ReSharper disable InconsistentNaming
 
 namespace Iit.Fibertest.Dto
@@ -22,6 +23,7 @@ namespace Iit.Fibertest.Dto
     {
         public Linkmap linkmap { get; set; }
         public Report report { get; set; }
+        public int[] indicesOfReferenceTraces { get; set; }
         public string result { get; set; }
         public string extendedResult { get; set; }
         public DateTime started { get; set; }

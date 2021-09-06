@@ -40,10 +40,10 @@ namespace Iit.Fibertest.DataCenterCore
             if (!ShouldMoniResultBeSaved(notificationEvent, rtu, trace, baseRefType)) return;
 
             // second: fetch moni result
-            var res = await _d2RtuVeexLayer3.GetTestLastMeasurement(rtuAddresses, notificationEvent);
+            var res = await _d2RtuVeexLayer3.GetTestLastMeasurement(rtuAddresses, notificationEvent, baseRefType == BaseRefType.Fast);
             if (res.MeasurementResult != MeasurementResult.Success) return;
 
-            var baseRef = await GetBaseRefSorBytes(trace, baseRefType); // from db on server
+            var baseRef = await GetBaseRefSorBytes(trace, res.BaseRefType); // from db on server
             var sorData = SorData.FromBytes(res.SorBytes);
             sorData.EmbedBaseRef(baseRef);
             res.SorBytes = sorData.ToBytes();

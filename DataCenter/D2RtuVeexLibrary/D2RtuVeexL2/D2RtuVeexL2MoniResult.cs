@@ -6,7 +6,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer2
     {
-        public async Task<MonitoringResultDto> GetTestLastMeasurement(DoubleAddress rtuAddresses, string testId, string type)
+        public async Task<MonitoringResultDto> GetTestLastMeasurement(DoubleAddress rtuAddresses, string testId, string type, bool isFast)
         {
             var kind = type == "monitoring_test_passed" ? "last_passed" : "last_failed";
             try
@@ -17,7 +17,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 var sorBytes = await _d2RtuVeexLayer1.GetSorBytes(rtuAddresses, testId, kind);
                 return new MonitoringResultDto()
                 {
-                    MeasurementResult = f(completedTest),
+                    MeasurementResult = GetMeasurementResult(completedTest),
+                    BaseRefType = isFast 
+                        ? BaseRefType.Fast
+                        : completedTest.indicesOfReferenceTraces[0] == 0 ? BaseRefType.Precise : BaseRefType.Additional,
                     SorBytes = sorBytes,
                 };
             }
@@ -29,7 +32,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
           
         }
 
-        private MeasurementResult f(CompletedTest completedTest)
+        private MeasurementResult GetMeasurementResult(CompletedTest completedTest)
         {
             if (completedTest.result == "ok") return MeasurementResult.Success;
 
