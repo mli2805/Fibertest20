@@ -2908,7 +2908,7 @@ RTU инициализируется в данный момент!</value>
 	  <value>Дополнительный</value>
   </data>
 	<data name="SID_Rtu_count" xml:space="preserve">
-	  <value>Количество модулей</value>
+	  <value>Количество модулей удаленного тестирования</value>
   </data>
 	<data name="SID_Client_stations" xml:space="preserve">
 	  <value>Количество рабочих мест Client</value>

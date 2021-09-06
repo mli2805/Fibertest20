@@ -50,7 +50,7 @@ namespace Iit.Fibertest.Licenser
             var paragraph2 = section.AddParagraph();
             paragraph2.AddFormattedText("220099, Республика Беларусь, г. Минск, ул. Казинца, д. 11а, офис А304.");
             paragraph2.Format.Font.Size = 12;
-            paragraph.Format.SpaceBefore = Unit.FromCentimeter(0.3);
+            paragraph2.Format.SpaceBefore = Unit.FromCentimeter(0.1);
         }
 
         private void AddMain(Section section)
