@@ -236,7 +236,7 @@ namespace Iit.Fibertest.Licenser
         {
             LicenseId = licenseInFile.LicenseId;
             Owner = licenseInFile.Owner;
-            IsIncremental = !licenseInFile.IsReplacementLicense;
+            IsIncremental = licenseInFile.IsIncremental;
 
             RtuCount = licenseInFile.RtuCount.Value;
             RtuCountTerm = licenseInFile.RtuCount.Term;
@@ -263,7 +263,7 @@ namespace Iit.Fibertest.Licenser
             {
                 LicenseId = LicenseId,
                 Owner = Owner,
-                IsReplacementLicense = !IsIncremental,
+                IsIncremental = IsIncremental,
                 RtuCount = new LicenseParameterInFile()
                 {
                     Value = RtuCount,

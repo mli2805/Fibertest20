@@ -12,6 +12,7 @@ namespace Iit.Fibertest.Licenser
     {
         public Visibility ButtonsVisibility { get; set; }
         public bool IsEditable { get; set; }
+        public int LoadFromFileButtonRow { get; set; }
 
         private LicenseInFileModel _licenseInFileModel = new LicenseInFileModel();
 
@@ -31,6 +32,7 @@ namespace Iit.Fibertest.Licenser
             var rr = Environment.GetCommandLineArgs();
             IsEditable = rr.Length > 1 && rr[1] == "ihaverights";
             ButtonsVisibility = IsEditable ? Visibility.Visible : Visibility.Collapsed;
+            LoadFromFileButtonRow = IsEditable ? 0 : 1;
           
             if (rr.Length > 2)
             {
@@ -43,6 +45,11 @@ namespace Iit.Fibertest.Licenser
         protected override void OnViewLoaded(object view)
         {
             DisplayName = "Fibertest 2.0 License maker";
+        }
+
+        public void CreateNew()
+        {
+            LicenseInFileModel = new LicenseInFileModel();
         }
 
         public void LoadFromFile()

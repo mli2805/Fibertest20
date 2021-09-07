@@ -82,7 +82,7 @@ namespace Iit.Fibertest.Licenser
             var licenseInFile = _licenseInFileModel.ToLicenseInFile();
 
             AddParam(section, Resources.SID_License_owner, _licenseInFileModel.Owner);
-            AddCompleteParam(section, Resources.SID_Rtu_count, licenseInFile.RtuCount);
+            AddCompleteParam(section, Resources.SID_Remote_testing_unit_count, licenseInFile.RtuCount);
             AddCompleteParam(section, Resources.SID_Client_stations, licenseInFile.ClientStationCount);
             AddCompleteParam(section, Resources.SID_Web_clients, licenseInFile.WebClientCount);
             AddCompleteParam(section, Resources.SID_SuperClients, licenseInFile.SuperClientStationCount);

@@ -2908,8 +2908,8 @@ RTU инициализируется в данный момент!</value>
 	  <value>Дополнительный</value>
   </data>
 	<data name="SID_Rtu_count" xml:space="preserve">
-	  <value>Количество модулей удаленного тестирования</value>
-  </data>
+		<value>Количество модулей</value>
+	</data>
 	<data name="SID_Client_stations" xml:space="preserve">
 	  <value>Количество рабочих мест Client</value>
   </data>
@@ -2951,5 +2951,11 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_License_number_" xml:space="preserve">
 		<value>Номер лицензии:</value>
+	</data>
+	<data name="SID_Remote_testing_unit_count" xml:space="preserve">
+		<value>Количество модулей удаленного тестирования</value>
+	</data>
+	<data name="SID_Create_new" xml:space="preserve">
+		<value>Создать новый</value>
 	</data>
 </root>

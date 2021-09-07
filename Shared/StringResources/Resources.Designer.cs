@@ -1882,6 +1882,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create new.
+        /// </summary>
+        public static string SID_Create_new {
+            get {
+                return ResourceManager.GetString("SID_Create_new", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create report.
         /// </summary>
         public static string SID_Create_report {
@@ -5834,6 +5843,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Registry_cleaned_ {
             get {
                 return ResourceManager.GetString("SID_Registry_cleaned_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remote testing unit count.
+        /// </summary>
+        public static string SID_Remote_testing_unit_count {
+            get {
+                return ResourceManager.GetString("SID_Remote_testing_unit_count", resourceCulture);
             }
         }
         

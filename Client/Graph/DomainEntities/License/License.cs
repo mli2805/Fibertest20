@@ -11,11 +11,11 @@ namespace Iit.Fibertest.Graph
         private string Lk()
         {
             var id = LicenseId.ToString().ToUpper().Substring(0, 8);
-            var licType = IsReplacementLicense ? "I" : "B";
+            var licType = IsIncremental ? @"I" : @"B";
             return $@"FT020-{id}-{licType}{RtuCount.Value:D2}{ClientStationCount.Value:D2}{WebClientCount.Value:D2}{SuperClientStationCount.Value:D2}-{CreationDate:yyMMdd}";
         }
         
-        public bool IsReplacementLicense { get; set; } // by default = false -> Additional license
+        public bool IsIncremental { get; set; } // by default = false -> Main license
         public string Owner { get; set; }
 
         public LicenseParameter RtuCount { get; set; }

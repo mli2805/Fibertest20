@@ -120,7 +120,7 @@ namespace Iit.Fibertest.Graph
             // if (_writeModel.License != null && _writeModel.License.LicenseIds.Contains(cmd.LicenseId))
                 return Resources.SID_License_could_not_be_applied_repeatedly_;
             return _eventsQueue.Add(Mapper.Map<LicenseApplied>(cmd));
-        }
+        }             
 
         private string Validate(RemoveNode cmd)
         {

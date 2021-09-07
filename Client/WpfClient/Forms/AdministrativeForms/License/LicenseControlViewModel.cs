@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
@@ -18,7 +17,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-
         public void FromFile(LicenseInFile licenseInFile)
         {
             License = Map(licenseInFile);
@@ -29,7 +27,7 @@ namespace Iit.Fibertest.Client
             return new License
             {
                 Owner = licenseInFile.Owner,
-                IsReplacementLicense = licenseInFile.IsReplacementLicense,
+                IsIncremental = licenseInFile.IsIncremental,
                 RtuCount = new LicenseParameter(licenseInFile.RtuCount),
                 ClientStationCount = new LicenseParameter(licenseInFile.ClientStationCount),
                 WebClientCount = new LicenseParameter(licenseInFile.WebClientCount),

@@ -1,4 +1,6 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using System.Windows;
+using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -9,19 +11,33 @@ namespace Iit.Fibertest.Client
 {
     public class LicenseViewModel : Screen
     {
+        private readonly Model _readModel;
         private readonly LicenseManager _licenseManager;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         public LicenseControlViewModel LicenseControlViewModel { get; set; } = new LicenseControlViewModel();
+        private int _selectedLicenseIndex;
 
-        private License _license;
-        public License License
+        private Visibility _previousButtonVisibility;
+        public Visibility PreviousButtonVisibility
         {
-            get => _license;
+            get => _previousButtonVisibility;
             set
             {
-                if (Equals(value, _license)) return;
-                _license = value;
+                if (value == _previousButtonVisibility) return;
+                _previousButtonVisibility = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private Visibility _nextButtonVisibility;
+        public Visibility NextButtonVisibility
+        {
+            get => _nextButtonVisibility;
+            set
+            {
+                if (value == _nextButtonVisibility) return;
+                _nextButtonVisibility = value;
                 NotifyOfPropertyChange();
             }
         }
@@ -31,16 +47,42 @@ namespace Iit.Fibertest.Client
         public LicenseViewModel(Model readModel, LicenseManager licenseManager, 
             IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager, CurrentUser currentUser)
         {
+            _readModel = readModel;
             _licenseManager = licenseManager;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
-            LicenseControlViewModel.License = readModel.Licenses[0];
-            IsApplyLicenseEnabled = currentUser.Role <= Role.Root;
+             IsApplyLicenseEnabled = currentUser.Role <= Role.Root;
         }
 
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_License;
+        }
+
+        public void Initialize()
+        {
+            LicenseControlViewModel.License = _readModel.Licenses[0];
+            _selectedLicenseIndex = 0;
+            PreviousButtonVisibility = Visibility.Hidden;
+            NextButtonVisibility = _readModel.Licenses.Count > 1 ? Visibility.Visible : Visibility.Hidden;
+        }
+
+        public void ShowPreviousLicense()
+        {
+            if (_selectedLicenseIndex > 0)
+                LicenseControlViewModel.License = _readModel.Licenses[--_selectedLicenseIndex];
+            NextButtonVisibility = Visibility.Visible;
+            if (_selectedLicenseIndex == 0)
+                PreviousButtonVisibility = Visibility.Hidden;
+        }
+
+        public void ShowNextLicense()
+        {
+            if (_selectedLicenseIndex < _readModel.Licenses.Count - 1)
+                LicenseControlViewModel.License = _readModel.Licenses[++_selectedLicenseIndex];
+            PreviousButtonVisibility = Visibility.Visible;
+            if (_selectedLicenseIndex == _readModel.Licenses.Count - 1)
+                NextButtonVisibility = Visibility.Hidden;
         }
 
         public async void ApplyLicFile()
@@ -56,11 +98,14 @@ namespace Iit.Fibertest.Client
             var cmd = new ApplyLicense()
             {
                 LicenseId = licenseInFile.LicenseId,
+                IsIncremental = licenseInFile.IsIncremental,
                 Owner = licenseInFile.Owner,
                 RtuCount = new LicenseParameter(licenseInFile.RtuCount),
                 ClientStationCount = new LicenseParameter(licenseInFile.ClientStationCount),
                 WebClientCount = new LicenseParameter(licenseInFile.WebClientCount),
                 SuperClientStationCount = new LicenseParameter(licenseInFile.SuperClientStationCount),
+                CreationDate = licenseInFile.CreationDate,
+                LoadingDate = DateTime.Today,
                 Version = licenseInFile.Version,
             };
             var result = await _c2DWcfManager.SendCommandAsObj(cmd);

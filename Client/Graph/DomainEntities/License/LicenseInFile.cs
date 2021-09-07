@@ -6,7 +6,7 @@ namespace Iit.Fibertest.Graph
     public class LicenseInFile
     {
         public Guid LicenseId { get; set; } = Guid.NewGuid();
-        public bool IsReplacementLicense { get; set; } // by default = false -> Additional license
+        public bool IsIncremental { get; set; } // by default = false -> Main license
         public string Owner { get; set; }
 
         public LicenseParameterInFile RtuCount { get; set; } = new LicenseParameterInFile();

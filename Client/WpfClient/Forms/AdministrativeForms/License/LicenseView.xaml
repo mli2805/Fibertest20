@@ -12,15 +12,18 @@
     <StackPanel>
         <wpfCommonViews:IitOfficialHeader/>
         <client:LicenseControlView DataContext="{Binding LicenseControlViewModel }"/>
+        <Button Name="ShowPreviousLicense" Content="&lt;" Width="32" Height="32" FontSize="20" 
+                Visibility="{Binding PreviousButtonVisibility}" 
+                Margin="-505, -210, 0,0" Foreground="Gray" Background="White" BorderThickness="0"/>
+        <Button Name="ShowNextLicense" Content="&gt;" Width="32" Height="32" FontSize="20" 
+                Visibility="{Binding NextButtonVisibility}"
+                Margin=" 505, -210, 0,0" Foreground="Gray" Background="White" BorderThickness="0"/>
         <DockPanel  Margin="10,0">
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="10,5,5,10" HorizontalAlignment="Center">
                 <Button Name="ApplyLicFile" Content="{x:Static stringResources:Resources.SID_I_have_a_license_file}" 
                         Width="180" Margin="5" IsEnabled="{Binding IsApplyLicenseEnabled}" />
                 <Button Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" IsCancel="True" Width="80" Margin="5"/>
             </StackPanel>
-   
         </DockPanel>
-
-
     </StackPanel>
 </Window>

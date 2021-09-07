@@ -16,24 +16,15 @@ namespace Iit.Fibertest.Graph
 
         public static string ApplyLicense(this Model model, LicenseApplied e)
         {
-            if (e.IsReplacementLicense)
+            if (!e.IsIncremental)
+            {
                 model.Licenses.Clear();
+                if (e.ClientStationCount.Value < 1)
+                    e.ClientStationCount.Value = 1;
+            }
             model.Licenses.Add(Mapper.Map<License>(e));
 
-            // if (model.License == null)
-            //     model.License = new License();
-            // model.License.LicenseIds.Add(e.LicenseId);
-            //
-            // if (e.Owner != "")
-            //     model.License.Owner = e.Owner;
-            // if (e.RtuCount.Value != -1)
-            //     model.License.RtuCount = e.RtuCount;
-            // if (e.ClientStationCount.Value != -1)
-            //     model.License.ClientStationCount = e.ClientStationCount;
-            // if (e.WebClientCount.Value != -1)
-            //     model.License.WebClientCount = e.WebClientCount;
-            // if (e.SuperClientStationCount.Value != -1)
-            //     model.License.SuperClientStationCount = e.SuperClientStationCount;
+
             return null;
         }
 
