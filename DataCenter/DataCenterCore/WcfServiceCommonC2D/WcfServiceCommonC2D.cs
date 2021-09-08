@@ -409,7 +409,12 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
-            return await _clientToRtuTransmitter.DoClientMeasurementAsync(dto);
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
+            if (rtu == null) return new ClientMeasurementStartedDto() {ReturnCode = ReturnCode.NoSuchRtu};
+
+            return rtu.RtuMaker == RtuMaker.IIT
+                ? await _clientToRtuTransmitter.DoClientMeasurementAsync(dto)
+                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.DoClientMeasurementAsync(dto).Result);
         }
 
         public async Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)

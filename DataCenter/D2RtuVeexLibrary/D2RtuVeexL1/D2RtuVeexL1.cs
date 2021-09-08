@@ -48,6 +48,20 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 $@"/notification/settings", "patch", "application/merge-patch+json", jsonData);
         }
 
+        public async Task<HttpRequestResult> SwitchOtauToPort(DoubleAddress rtuDoubleAddress, string otauId, int port)
+        {
+            var jsonData = $"{{\"portIndex\":\"{port}\"}}";
+            return await _httpExt.RequestByUrl(rtuDoubleAddress,
+                $@"/otaus/{otauId}", "patch", "application/merge-patch+json", jsonData);
+        }
+
+        public async Task<HttpRequestResult> DoMeasurementRequest(DoubleAddress rtuDoubleAddress, VeexMeasurementRequest dto)
+        {
+            var jsonData = JsonConvert.SerializeObject(dto);
+            return await _httpExt.RequestByUrl(rtuDoubleAddress,
+                $@"/measurements", "post", "application/json", jsonData);
+        }
+
 
     }
 }

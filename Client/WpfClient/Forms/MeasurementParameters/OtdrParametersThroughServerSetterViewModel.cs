@@ -9,7 +9,7 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
 {
-   
+
     public class OtdrParametersThroughServerSetterViewModel : Screen
     {
         private TreeOfAcceptableMeasParams _treeOfAcceptableMeasParams;
@@ -69,12 +69,13 @@ namespace Iit.Fibertest.Client
             var currentDistance = Model.SelectedDistance;
             Model.Distances = branchOfAcceptableMeasParams.Distances.Keys.ToList();
             var index = Model.Distances.IndexOf(currentDistance);
-            Model.SelectedDistance = index != -1 ?  Model.Distances[index] : Model.Distances.First();
+            Model.SelectedDistance = index != -1 ? Model.Distances[index] : Model.Distances.First();
         }
 
         private void ReInitializeForSelectedDistance()
         {
-            var leafOfAcceptableMeasParams = _treeOfAcceptableMeasParams.Units[Model.SelectedUnit].Distances[Model.SelectedDistance];
+            var leafOfAcceptableMeasParams =
+                _treeOfAcceptableMeasParams.Units[Model.SelectedUnit].Distances[Model.SelectedDistance];
 
             var currentResolution = Model.SelectedResolution;
             Model.Resolutions = leafOfAcceptableMeasParams.Resolutions.ToList();
@@ -113,16 +114,60 @@ namespace Iit.Fibertest.Client
         {
             var result = new List<MeasParam>
             {
-                    new MeasParam{Param = ServiceFunctionFirstParam.Unit, Value = Model.Units.IndexOf(Model.SelectedUnit)},
-                    new MeasParam{Param = ServiceFunctionFirstParam.Bc, Value = (int) (Model.BackscatteredCoefficient * 100)},
-                    new MeasParam{Param = ServiceFunctionFirstParam.Ri, Value = (int) (Model.RefractiveIndex * 100000)},
-                    new MeasParam{Param = ServiceFunctionFirstParam.Lmax, Value = Model.Distances.IndexOf(Model.SelectedDistance)},
-                    new MeasParam{Param = ServiceFunctionFirstParam.Res, Value = Model.Resolutions.IndexOf(Model.SelectedResolution)},
-                    new MeasParam{Param = ServiceFunctionFirstParam.Pulse, Value = Model.PulseDurations.IndexOf(Model.SelectedPulseDuration)},
-                    new MeasParam{Param = ServiceFunctionFirstParam.IsTime, Value = 1},
-                    new MeasParam{Param = ServiceFunctionFirstParam.Time,Value =  Model.MeasurementTime.IndexOf(Model.SelectedMeasurementTime)},
+                new MeasParam {Param = ServiceFunctionFirstParam.Unit, Value = Model.Units.IndexOf(Model.SelectedUnit)},
+                new MeasParam
+                    {Param = ServiceFunctionFirstParam.Bc, Value = (int) (Model.BackscatteredCoefficient * 100)},
+                new MeasParam {Param = ServiceFunctionFirstParam.Ri, Value = (int) (Model.RefractiveIndex * 100000)},
+                new MeasParam
+                    {Param = ServiceFunctionFirstParam.Lmax, Value = Model.Distances.IndexOf(Model.SelectedDistance)},
+                new MeasParam
+                {
+                    Param = ServiceFunctionFirstParam.Res, Value = Model.Resolutions.IndexOf(Model.SelectedResolution)
+                },
+                new MeasParam
+                {
+                    Param = ServiceFunctionFirstParam.Pulse,
+                    Value = Model.PulseDurations.IndexOf(Model.SelectedPulseDuration)
+                },
+                new MeasParam {Param = ServiceFunctionFirstParam.IsTime, Value = 1},
+                new MeasParam
+                {
+                    Param = ServiceFunctionFirstParam.Time,
+                    Value = Model.MeasurementTime.IndexOf(Model.SelectedMeasurementTime)
+                },
             };
             return result;
         }
-    }
+
+        public VeexMeasOtdrParameters GetVeexSelectedParameters()
+        {
+            var result = new VeexMeasOtdrParameters()
+            {
+                measurementType = @"manual",
+                fastMeasurement = false,
+                highFrequencyResolution = false,
+                lasers = new List<Laser>(){ new Laser() {laserUnit = Model.SelectedUnit}},
+                opticalLineProperties = new OpticalLineProperties()
+                {
+                    kind = @"point_to_point", 
+                    lasersProperties = new List<LasersProperty>()
+                    {
+                        new LasersProperty()
+                        {
+                            laserUnit = Model.SelectedUnit, 
+                            backscatterCoefficient = (int) (Model.BackscatteredCoefficient * 100),
+                            refractiveIndex = Model.RefractiveIndex,
+                        }
+                    }
+                },
+                distanceRange = Model.SelectedDistance,
+                resolution = Model.SelectedResolution,
+                pulseDuration = Model.SelectedPulseDuration,
+                averagingTime = Model.SelectedMeasurementTime,
+            };
+
+            return result;
+        }
+
+}
 }

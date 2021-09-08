@@ -179,6 +179,15 @@
     <Compile Include="VeEX\Info\VeexOtdr.cs" />
     <Compile Include="VeEX\Info\Otdrs.cs" />
     <Compile Include="VeEX\LinkObject.cs" />
+    <Compile Include="VeEX\Measurement\AnalysisParameters.cs" />
+    <Compile Include="VeEX\Measurement\GeneralParameters.cs" />
+    <Compile Include="VeEX\Measurement\Laser.cs" />
+    <Compile Include="VeEX\Measurement\LasersParameter.cs" />
+    <Compile Include="VeEX\Measurement\LasersProperty.cs" />
+    <Compile Include="VeEX\Measurement\OpticalLineProperties.cs" />
+    <Compile Include="VeEX\Measurement\VeexMeasOtdrParameters.cs" />
+    <Compile Include="VeEX\Measurement\SpanParameters.cs" />
+    <Compile Include="VeEX\Measurement\VeexMeasurementRequest.cs" />
     <Compile Include="VeEX\Monitoring\MonitoringVeexDto.cs" />
     <Compile Include="VeEX\Monitoring\Test.cs" />
     <Compile Include="VeEX\Monitoring\TestsLinks.cs" />

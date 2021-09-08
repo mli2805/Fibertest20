@@ -58,6 +58,7 @@
     <Compile Include="D2RtuVeexL2\D2RtuVeexL2.cs" />
     <Compile Include="D2RtuVeexL2\D2RtuVeexL2MoniResult.cs" />
     <Compile Include="D2RtuVeexL2\D2RtuVeexL2MonitoringSettings.cs" />
+    <Compile Include="D2RtuVeexL2\D2RtuVeexL2OnDemandMeasurements.cs" />
     <Compile Include="D2RtuVeexL2\TestCreationResult.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3ApplyMonitoringSettings.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3.cs" />

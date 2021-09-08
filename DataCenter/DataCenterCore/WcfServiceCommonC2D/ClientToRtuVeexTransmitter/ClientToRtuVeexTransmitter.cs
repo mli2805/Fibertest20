@@ -104,9 +104,22 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
+        public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
-            throw new NotImplementedException();
+            _logFile.AppendLine($"Client {dto.ConnectionId} / {dto.ClientIp} asked to do measurement on VeEX RTU {dto.RtuId.First6()}");
+            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+            if (rtuAddresses == null)
+            {
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
+                return new ClientMeasurementStartedDto()
+                {
+                    ReturnCode = ReturnCode.NoSuchRtu
+                };
+            }
+
+            var result = await _d2RtuVeexLayer3.StartMeasurementClient(rtuAddresses, dto);
+            _logFile.AppendLine($"Stop monitoring result is {result}");
+            return result;
         }
 
         public Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(

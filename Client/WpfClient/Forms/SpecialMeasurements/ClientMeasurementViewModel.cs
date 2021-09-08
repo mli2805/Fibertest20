@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
@@ -16,6 +18,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IMyLog _logFile;
+        private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
         private readonly OnDemandMeasurement _onDemandMeasurement;
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
@@ -49,12 +52,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ClientMeasurementViewModel(ILifetimeScope globalScope, IMyLog logFile, 
+        public ClientMeasurementViewModel(ILifetimeScope globalScope, IMyLog logFile, Model readModel,
             CurrentUser currentUser, OnDemandMeasurement onDemandMeasurement,
             IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
             _logFile = logFile;
+            _readModel = readModel;
             _currentUser = currentUser;
             _onDemandMeasurement = onDemandMeasurement;
             _c2RWcfManager = c2RWcfManager;
@@ -64,6 +68,7 @@ namespace Iit.Fibertest.Client
         public bool Initialize(Leaf parent, int portNumber)
         {
             RtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
+            var rtu = _readModel.Rtus.First(r => r.Id == RtuLeaf.Id);
             var otau = (IPortOwner)parent;
             var address = otau.OtauNetAddress;
 
@@ -74,19 +79,27 @@ namespace Iit.Fibertest.Client
             if (!vm.IsAnswerPositive)
                 return false;
 
+            var otauPortDto = new OtauPortDto()
+            {
+                Serial = otau.Serial,
+                IsPortOnMainCharon = RtuLeaf.OtauNetAddress.Equals(address),
+                OpticalPort = portNumber
+            };
+            otauPortDto.OtauId = otauPortDto.IsPortOnMainCharon
+                ? rtu.OtauId
+                : _readModel.Otaus.First(o => o.Serial == otau.Serial).Id.ToString();
+
             _dto = new DoClientMeasurementDto()
             {
                 ConnectionId = _currentUser.ConnectionId,
                 RtuId = RtuLeaf.Id,
-                OtauPortDto = new OtauPortDto()
-                {
-                    Serial = otau.Serial,
-                    IsPortOnMainCharon = RtuLeaf.OtauNetAddress.Equals(address),
-                    OpticalPort = portNumber
-                },
+                OtdrId = rtu.OtdrId,
+                OtauPortDto = otauPortDto,
                 OtauIp = address.Ip4Address,
                 OtauTcpPort = address.Port,
+
                 SelectedMeasParams = vm.GetSelectedParameters(),
+                VeexMeasOtdrParameters = vm.GetVeexSelectedParameters(),
             };
             return true;
         }
