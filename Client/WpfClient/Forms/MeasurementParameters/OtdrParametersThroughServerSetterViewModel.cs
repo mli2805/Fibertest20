@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using Caliburn.Micro;
@@ -48,7 +49,8 @@ namespace Iit.Fibertest.Client
             var branchOfAcceptableMeasParams = _treeOfAcceptableMeasParams.Units[Model.SelectedUnit];
             Model.BackscatteredCoefficient = branchOfAcceptableMeasParams.BackscatteredCoefficient;
             Model.RefractiveIndex = branchOfAcceptableMeasParams.RefractiveIndex;
-            Model.Distances = branchOfAcceptableMeasParams.Distances.Keys.ToList();
+            Model.Distances = branchOfAcceptableMeasParams.Distances
+                .Keys.OrderBy(x =>double.Parse(x, new CultureInfo("en-US"))).ToList();
             Model.SelectedDistance = Model.Distances.First();
 
             var leafOfAcceptableMeasParams = branchOfAcceptableMeasParams.Distances[Model.SelectedDistance];
@@ -155,7 +157,7 @@ namespace Iit.Fibertest.Client
                         new LasersProperty()
                         {
                             laserUnit = Model.SelectedUnit, 
-                            backscatterCoefficient = (int) (Model.BackscatteredCoefficient * 100),
+                            backscatterCoefficient = (int)Model.BackscatteredCoefficient,
                             refractiveIndex = Model.RefractiveIndex,
                         }
                     }

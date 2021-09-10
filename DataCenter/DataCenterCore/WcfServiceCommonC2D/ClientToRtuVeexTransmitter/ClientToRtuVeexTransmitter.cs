@@ -104,30 +104,6 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
-        {
-            _logFile.AppendLine($"Client {dto.ConnectionId} / {dto.ClientIp} asked to do measurement on VeEX RTU {dto.RtuId.First6()}");
-            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
-            if (rtuAddresses == null)
-            {
-                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return new ClientMeasurementStartedDto()
-                {
-                    ReturnCode = ReturnCode.NoSuchRtu
-                };
-            }
-
-            var result = await _d2RtuVeexLayer3.StartMeasurementClient(rtuAddresses, dto);
-            _logFile.AppendLine($"Stop monitoring result is {result}");
-            return result;
-        }
-
-        public Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(
-            DoOutOfTurnPreciseMeasurementDto dto)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<BaseRefAssignedDto> TransmitBaseRefsToRtu(AssignBaseRefsDto dto)
         {
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
@@ -145,6 +121,48 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile.AppendLine($"{result.ReturnCode}");
             if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 _logFile.AppendLine($"{result.ErrorMessage}");
+            return result;
+        }
+
+        public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
+        {
+            _logFile.AppendLine($"Client {dto.ConnectionId} / {dto.ClientIp} asked to do measurement on VeEX RTU {dto.RtuId.First6()}");
+            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+            if (rtuAddresses == null)
+            {
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
+                return new ClientMeasurementStartedDto()
+                {
+                    ReturnCode = ReturnCode.NoSuchRtu
+                };
+            }
+
+            var result = await _d2RtuVeexLayer3.StartMeasurementClient(rtuAddresses, dto);
+            _logFile.AppendLine($"Start measurement result is {result.ReturnCode}");
+            return result;
+        }
+
+        public Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(
+            DoOutOfTurnPreciseMeasurementDto dto)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ClientMeasurementDto> GetMeasurementResult(GetClientMeasurementDto dto)
+        {
+            _logFile.AppendLine($"Client {dto.ConnectionId} / {dto.ClientIp} asked to get measurement from VeEX RTU {dto.RtuId.First6()}");
+            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+            if (rtuAddresses == null)
+            {
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
+                return new ClientMeasurementDto()
+                {
+                    ReturnCode = ReturnCode.NoSuchRtu
+                };
+            }
+
+            var result = await _d2RtuVeexLayer3.GetMeasurementClientResult(rtuAddresses, dto.VeexMeasurementId);
+            _logFile.AppendLine($"Get measurement result is {result.ReturnCode}");
             return result;
         }
     }

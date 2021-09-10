@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,6 +26,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         public RtuLeaf RtuLeaf { get; set; }
         private DoClientMeasurementDto _dto;
+        private Rtu _rtu;
 
         public bool IsOpen { get; set; }
 
@@ -68,7 +70,7 @@ namespace Iit.Fibertest.Client
         public bool Initialize(Leaf parent, int portNumber)
         {
             RtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
-            var rtu = _readModel.Rtus.First(r => r.Id == RtuLeaf.Id);
+            _rtu = _readModel.Rtus.First(r => r.Id == RtuLeaf.Id);
             var otau = (IPortOwner)parent;
             var address = otau.OtauNetAddress;
 
@@ -86,14 +88,14 @@ namespace Iit.Fibertest.Client
                 OpticalPort = portNumber
             };
             otauPortDto.OtauId = otauPortDto.IsPortOnMainCharon
-                ? rtu.OtauId
+                ? _rtu.OtauId
                 : _readModel.Otaus.First(o => o.Serial == otau.Serial).Id.ToString();
 
             _dto = new DoClientMeasurementDto()
             {
                 ConnectionId = _currentUser.ConnectionId,
                 RtuId = RtuLeaf.Id,
-                OtdrId = rtu.OtdrId,
+                OtdrId = _rtu.OtdrId,
                 OtauPortDto = otauPortDto,
                 OtauIp = address.Ip4Address,
                 OtauTcpPort = address.Port,
@@ -110,10 +112,10 @@ namespace Iit.Fibertest.Client
             IsCancelButtonEnabled = false;
             DisplayName = Resources.SID_Measurement__Client_;
 
-            var result = await StartRequestedMeasurement();
-            if (result.ReturnCode != ReturnCode.Ok)
+            var startResult = await StartRequestedMeasurement();
+            if (startResult.ReturnCode != ReturnCode.Ok)
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, result.ErrorMessage);
+                var vm = new MyMessageBoxViewModel(MessageType.Error, startResult.ErrorMessage);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 TryClose();
                 return;
@@ -121,6 +123,43 @@ namespace Iit.Fibertest.Client
 
             Message = Resources.SID_Measurement__Client__in_progress__Please_wait___;
             IsCancelButtonEnabled = true;
+
+            if (_rtu.RtuMaker == RtuMaker.VeEX)
+            {
+                var getDto = new GetClientMeasurementDto()
+                {
+                    RtuId = _dto.RtuId,
+                    VeexMeasurementId = startResult.ErrorMessage, // sorry, if ReturnCode is OK, ErrorMessage contains Id
+                };
+                while (true)
+                {
+                    await Task.Delay(5000);
+                    var measResult = await _c2RWcfManager.GetClientMeasurementAsync(getDto);
+
+                    if (measResult.ReturnCode != ReturnCode.Ok || measResult.VeexMeasurementStatus == @"failed")
+                    {
+                        var firstLine = measResult.ReturnCode != ReturnCode.Ok
+                            ? measResult.ReturnCode.GetLocalizedString()
+                            : @"Failed to do Measurement(Client)!";
+
+                        var vm = new MyMessageBoxViewModel(MessageType.Error, new List<string>()
+                        {
+                            firstLine,
+                            "",
+                            measResult.ErrorMessage,
+                        }, 0);
+                        _windowManager.ShowDialogWithAssignedOwner(vm);
+                        TryClose(true);
+                        return;
+                    }
+                    if (measResult.ReturnCode == ReturnCode.Ok && measResult.VeexMeasurementStatus == @"finished")
+                    {
+                        ShowReflectogram(measResult.SorBytes);
+                        TryClose(true);
+                        return;
+                    }
+                }
+            }
         }
 
         private async Task<ClientMeasurementStartedDto> StartRequestedMeasurement()

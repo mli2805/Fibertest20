@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Net;
+using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Newtonsoft.Json;
 
@@ -60,6 +61,22 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var jsonData = JsonConvert.SerializeObject(dto);
             return await _httpExt.RequestByUrl(rtuDoubleAddress,
                 $@"/measurements", "post", "application/json", jsonData);
+        }
+
+        public async Task<VeexMeasurementResult> GetMeasurementResult(DoubleAddress rtuDoubleAddress, string measId)
+        {
+            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, $"measurements/{measId}", "get");
+            return httpResult.HttpStatusCode == HttpStatusCode.OK 
+                ? JsonConvert.DeserializeObject<VeexMeasurementResult>(httpResult.ResponseJson) 
+                : null;
+        }
+
+        public async Task<byte[]> GetMeasurementBytes(DoubleAddress rtuDoubleAddress, string measId)
+        {
+            var httpResult = await _httpExt.GetByteArray(rtuDoubleAddress, $"measurements/{measId}/traces/0");
+            return httpResult.HttpStatusCode == HttpStatusCode.OK
+                ? httpResult.ResponseBytesArray
+                : null;
         }
 
 

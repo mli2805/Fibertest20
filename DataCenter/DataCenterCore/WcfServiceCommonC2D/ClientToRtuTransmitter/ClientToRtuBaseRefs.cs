@@ -30,7 +30,10 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-      
-       
+        // Veex only
+        public Task<ClientMeasurementDto> GetMeasurementResult(GetClientMeasurementDto dto)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

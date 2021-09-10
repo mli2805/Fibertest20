@@ -15,9 +15,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return null;
 
             var thresholdSet = new ThresholdSet() { levels = new List<Level>() };
-            thresholdSet.AddRftsLevel(sorData, "Critical");
-            thresholdSet.AddRftsLevel(sorData, "Major");
             thresholdSet.AddRftsLevel(sorData, "Minor");
+            thresholdSet.AddRftsLevel(sorData, "Major");
+            thresholdSet.AddRftsLevel(sorData, "Critical");
 
             return thresholdSet;
         }

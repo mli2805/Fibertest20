@@ -30,11 +30,25 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                         portIndex = dto.OtauPortDto.OpticalPort - 1
                     }
                 },
-                analysisParameters = new AnalysisParameters(){ lasersParameters = new List<LasersParameter>()},
+                analysisParameters = new AnalysisParameters()
+                {
+                    lasersParameters = new List<LasersParameter> { new LasersParameter() }
+                },
                 spanParameters = new SpanParameters(),
+                generalParameters = new GeneralParameters(),
+
+                suspendMonitoring = true,
             };
 
-            return await _d2RtuVeexLayer2.DoMeasurementRequest(rtuDoubleAddress, request);
+            var clientMeasurementStartedDto = await _d2RtuVeexLayer2.DoMeasurementRequest(rtuDoubleAddress, request);
+            if (clientMeasurementStartedDto.ReturnCode == ReturnCode.Ok)
+                clientMeasurementStartedDto.ErrorMessage = request.id; // sorry for this
+            return clientMeasurementStartedDto;
+        }
+
+        public async Task<ClientMeasurementDto> GetMeasurementClientResult(DoubleAddress rtuDoubleAddress, string measId)
+        {
+            return await _d2RtuVeexLayer2.GetMeasurementClientResult(rtuDoubleAddress, measId);
         }
     }
 }

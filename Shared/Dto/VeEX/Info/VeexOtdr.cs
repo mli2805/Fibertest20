@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Dto
     public class LaserUnit
     {
         public string connector { get; set; }
-        public Dictionary<double, DistanceRange> distanceRanges { get; set; }
+        public Dictionary<string, DistanceRange> distanceRanges { get; set; }
         public double dynamicRange { get; set; }
     }
 

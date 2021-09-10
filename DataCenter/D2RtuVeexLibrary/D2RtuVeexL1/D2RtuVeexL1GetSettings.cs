@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -77,8 +76,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             result.AcceptableMeasParams = new TreeOfAcceptableMeasParams();
             foreach (var laserUnitPair in otdr.supportedMeasurementParameters.laserUnits)
             {
-                var branch = new BranchOfAcceptableMeasParams();
-                foreach (var distancePair in laserUnitPair.Value.distanceRanges.OrderBy(p=>p.Key))
+                var branch = new BranchOfAcceptableMeasParams
+                {
+                    BackscatteredCoefficient = -81, RefractiveIndex = 1.4682
+                };
+                foreach (var distancePair in laserUnitPair.Value.distanceRanges)
                 {
                     var leaf = new LeafOfAcceptableMeasParams
                     {

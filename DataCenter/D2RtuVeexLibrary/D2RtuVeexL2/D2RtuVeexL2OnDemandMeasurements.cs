@@ -17,5 +17,39 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 };
             return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.Ok };
         }
+
+        public async Task<ClientMeasurementDto> GetMeasurementClientResult(DoubleAddress rtuDoubleAddress, string measId)
+        {
+            var veexMeasurementResult = await _d2RtuVeexLayer1.GetMeasurementResult(rtuDoubleAddress, measId);
+            if (veexMeasurementResult == null)
+                return new ClientMeasurementDto()
+                {
+                    ReturnCode = ReturnCode.Error,
+                    ErrorMessage = "Failed to get measurement result!",
+                };
+
+            var result = new ClientMeasurementDto()
+            {
+                ReturnCode = ReturnCode.Ok,
+                VeexMeasurementStatus = veexMeasurementResult.status,
+                ErrorMessage = veexMeasurementResult.extendedStatus,
+            };
+
+            if (veexMeasurementResult.status == "finished")
+            {
+                var bytes = await _d2RtuVeexLayer1.GetMeasurementBytes(rtuDoubleAddress, measId);
+                if (bytes == null)
+                {
+                    result.ReturnCode = ReturnCode.Error;
+                    result.ErrorMessage = "Failed to get measurement bytes";
+                }
+                else
+                {
+                    result.SorBytes = bytes;
+                }
+
+            }
+            return result;
+        }
     }
 }
