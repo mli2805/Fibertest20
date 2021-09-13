@@ -51,6 +51,7 @@
     <Compile Include="D2RtuVeexL1\D2RtuVeexL1GetSettings.cs" />
     <Compile Include="D2RtuVeexL1\D2RtuVeexL1.cs" />
     <Compile Include="D2RtuVeexL1\D2RtuVeexL1MoniResult.cs" />
+    <Compile Include="D2RtuVeexL1\D2RtuVeexL1Otau.cs" />
     <Compile Include="D2RtuVeexL1\D2RtuVeexL1Tests.cs" />
     <Compile Include="D2RtuVeexL1\D2RtuVeexL1BaseRef.cs" />
     <Compile Include="D2RtuVeexL2\D2RtuVeexL2BaseRefs.cs" />
@@ -59,6 +60,7 @@
     <Compile Include="D2RtuVeexL2\D2RtuVeexL2MoniResult.cs" />
     <Compile Include="D2RtuVeexL2\D2RtuVeexL2MonitoringSettings.cs" />
     <Compile Include="D2RtuVeexL2\D2RtuVeexL2OnDemandMeasurements.cs" />
+    <Compile Include="D2RtuVeexL2\D2RtuVeexL2Otau.cs" />
     <Compile Include="D2RtuVeexL2\TestCreationResult.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3ApplyMonitoringSettings.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3.cs" />

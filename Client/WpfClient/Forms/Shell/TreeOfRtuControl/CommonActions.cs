@@ -6,6 +6,7 @@ using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 
 
@@ -20,10 +21,11 @@ namespace Iit.Fibertest.Client
         private readonly ClientMeasurementViewModel _clientMeasurementViewModel;
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
+        private readonly IWcfServiceCommonC2D _c2RWcfManager;
 
         public CommonActions(IniFile iniFile35, IMyLog logFile, CurrentUser currentUser,
-            ClientMeasurementViewModel clientMeasurementViewModel, Model readModel,
-            IWindowManager windowManager)
+            Model readModel, IWindowManager windowManager, IWcfServiceCommonC2D c2RWcfManager,
+            ClientMeasurementViewModel clientMeasurementViewModel)
         {
             _iniFile35 = iniFile35;
             _logFile = logFile;
@@ -31,6 +33,7 @@ namespace Iit.Fibertest.Client
             _clientMeasurementViewModel = clientMeasurementViewModel;
             _readModel = readModel;
             _windowManager = windowManager;
+            _c2RWcfManager = c2RWcfManager;
         }
 
         public void MeasurementClientAction(object param)
@@ -102,8 +105,8 @@ namespace Iit.Fibertest.Client
             var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
             if (rtu == null) return;
 
-            var mainCharonAddress = isMak100 || isUcc 
-                ? (NetAddress)rtu.MainChannel.Clone() 
+            var mainCharonAddress = isMak100 || isUcc
+                ? (NetAddress)rtu.MainChannel.Clone()
                 : (NetAddress)rtu.OtdrNetAddress.Clone();
             mainCharonAddress.Port = 23;
             var mainCharon = new Charon(mainCharonAddress, true, _iniFile35, _logFile)
@@ -112,6 +115,8 @@ namespace Iit.Fibertest.Client
                 Serial = rtuLeaf.Serial,
             };
 
+            var otauId = rtu.OtauId;
+            var masterPort = 0;
             string serialOfCharonWithThisPort;
             if (parent is OtauLeaf otauLeaf)
             {
@@ -120,14 +125,21 @@ namespace Iit.Fibertest.Client
                 var bopCharon = new Charon(otauLeaf.OtauNetAddress, false, _iniFile35, _logFile);
                 bopCharon.Serial = otauLeaf.Serial;
                 bopCharon.OwnPortCount = otauLeaf.OwnPortCount;
-                mainCharon.Children = new Dictionary<int, Charon> { {otauLeaf.MasterPort, bopCharon} };
+                mainCharon.Children = new Dictionary<int, Charon> { { otauLeaf.MasterPort, bopCharon } };
+
+                otauId = _readModel.Otaus.First(o => o.Serial == otauLeaf.Serial).VeexOtauId;
+                masterPort = otauLeaf.MasterPort;
             }
             else
             {
                 serialOfCharonWithThisPort = mainCharon.Serial;
             }
 
-            if (!ToggleToPort(mainCharon, serialOfCharonWithThisPort, portNumber)) return;
+            var toggleResult = rtu.RtuMaker == RtuMaker.IIT
+                ? ToggleToPort(mainCharon, serialOfCharonWithThisPort, portNumber)
+                : VeexToggleToPort(otauId, masterPort, portNumber);
+
+            if (!toggleResult) return;
 
             int otdrPort = isUcc ? 10001 : 1500;
             var rootPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory, 2);
@@ -145,6 +157,17 @@ namespace Iit.Fibertest.Client
             return false;
         }
 
+        private bool VeexToggleToPort(string otauId, int masterPortNumber, int portNumber)
+        {
+            _c2RWcfManager.PrepareReflectMeasurementAsync(new PrepareReflectMeasurementDto()
+            {
+                OtauId = otauId,
+                MasterPortNumber = masterPortNumber,
+                PortNumber = portNumber,
+            });
+            return true;
+        }
+
 
         public bool CanMeasurementClientAction(object param)
         {
@@ -154,7 +177,7 @@ namespace Iit.Fibertest.Client
             if (param is TraceLeaf traceLeaf && !traceLeaf.IsInZone) return false;
 
             var parent = GetParent(param);
-            if (parent == null )
+            if (parent == null)
                 return false;
 
             if (parent is OtauLeaf otauLeaf && otauLeaf.OtauState != RtuPartState.Ok)

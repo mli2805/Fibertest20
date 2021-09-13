@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Client
             {
                 RtuId = rtuLeaf.Id,
                 RtuAddresses = new DoubleAddress() { Main = rtu.MainChannel, HasReserveAddress = rtu.IsReserveChannelSet, Reserve = rtu.ReserveChannel },
-                ShouldMonitoringBeStopped = false,
+                IsFirstInitialization = false,
             };
             await _c2RWcfManager.InitializeRtuAsync(dto);
         }

@@ -51,5 +51,21 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             }
             return result;
         }
+
+        public async Task<RequestAnswer> PrepareReflectMeasurementAsync(DoubleAddress rtuDoubleAddress,
+            PrepareReflectMeasurementDto dto)
+        {
+            var otdrRes = await _d2RtuVeexLayer1.ChangeProxyMode(rtuDoubleAddress, dto.OtdrId, true);
+            if (otdrRes.HttpStatusCode != HttpStatusCode.NoContent)
+                return new RequestAnswer()
+                    {ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to enable proxy mode!"};
+
+            var toggleRes = await _d2RtuVeexLayer1.SwitchOtauToPort(rtuDoubleAddress, dto.OtauId, dto.PortNumber);
+            if (toggleRes.HttpStatusCode != HttpStatusCode.NoContent)
+                return new RequestAnswer()
+                    {ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to switch otau to port!"};
+
+            return new RequestAnswer() {ReturnCode = ReturnCode.Ok};
+        }
     }
 }

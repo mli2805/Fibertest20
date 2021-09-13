@@ -48,6 +48,7 @@
     <Compile Include="C2D2R\DetachOtauDto.cs" />
     <Compile Include="C2D2R\DoClientMeasurementDto.cs" />
     <Compile Include="C2D2R\GetClientMeasurementDto.cs" />
+    <Compile Include="C2D2R\PrepareReflectMeasurementDto.cs" />
     <Compile Include="C2D2R\ReSendBaseRefsDto.cs" />
     <Compile Include="C2D\AddMeasurementFromOldBase.cs" />
     <Compile Include="C2D\AttachTraceDto.cs" />
@@ -173,6 +174,7 @@
     <Compile Include="Underlying\RtuWithChannelChanges.cs" />
     <Compile Include="Underlying\TraceInfoTableItem.cs" />
     <Compile Include="VeEX\CompletedTest\CompletedTest.cs" />
+    <Compile Include="VeEX\OtauOperating\CreateOtau.cs" />
     <Compile Include="VeEX\Info\InfoDtoClasses.cs" />
     <Compile Include="VeEX\Info\InitializedVeexDto.cs" />
     <Compile Include="VeEX\Info\VeexOtau.cs" />
@@ -198,6 +200,7 @@
     <Compile Include="VeEX\Monitoring\Threshold.cs" />
     <Compile Include="VeEX\Notification\VeexMeasurementDto.cs" />
     <Compile Include="VeEX\Notification\VeexNotification.cs" />
+    <Compile Include="VeEX\OtauOperating\VeexOtauCascadingScheme.cs" />
     <Compile Include="VeEX\ServerNotificationSettings.cs" />
   </ItemGroup>
   <ItemGroup>

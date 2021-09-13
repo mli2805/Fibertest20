@@ -104,6 +104,12 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
+        public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
+        {
+            await Task.Delay(1);
+            return null;
+        }
+
         public async Task<BaseRefAssignedDto> TransmitBaseRefsToRtu(AssignBaseRefsDto dto)
         {
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
@@ -142,12 +148,6 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(
-            DoOutOfTurnPreciseMeasurementDto dto)
-        {
-            throw new NotImplementedException();
-        }
-
         public async Task<ClientMeasurementDto> GetMeasurementResult(GetClientMeasurementDto dto)
         {
             _logFile.AppendLine($"Client {dto.ConnectionId} / {dto.ClientIp} asked to get measurement from VeEX RTU {dto.RtuId.First6()}");
@@ -164,6 +164,30 @@ namespace Iit.Fibertest.DataCenterCore
             var result = await _d2RtuVeexLayer3.GetMeasurementClientResult(rtuAddresses, dto.VeexMeasurementId);
             _logFile.AppendLine($"Get measurement result is {result.ReturnCode}");
             return result;
+        }
+
+        public async Task<RequestAnswer> PrepareReflectMeasurementAsync(PrepareReflectMeasurementDto dto)
+        {
+            _logFile.AppendLine($"Client {dto.ConnectionId} / {dto.ClientIp} asked to prepare Reflect measurement on VeEX RTU {dto.RtuId.First6()}");
+            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+            if (rtuAddresses == null)
+            {
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
+                return new RequestAnswer()
+                {
+                    ReturnCode = ReturnCode.NoSuchRtu
+                };
+            }
+
+            var result = await _d2RtuVeexLayer3.PrepareReflectMeasurementAsync(rtuAddresses, dto);
+            _logFile.AppendLine($"Prepare Reflect measurement result is {result.ReturnCode}");
+            return result;
+        }
+
+        public Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(
+            DoOutOfTurnPreciseMeasurementDto dto)
+        {
+            throw new NotImplementedException();
         }
     }
 

@@ -50,5 +50,12 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             return await _d2RtuVeexLayer2.GetMeasurementClientResult(rtuDoubleAddress, measId);
         }
+
+        public async Task<RequestAnswer> PrepareReflectMeasurementAsync(DoubleAddress rtuDoubleAddress,
+            PrepareReflectMeasurementDto dto)
+        {
+            return await _d2RtuVeexLayer2.PrepareReflectMeasurementAsync(rtuDoubleAddress, dto);
+
+        }
     }
 }

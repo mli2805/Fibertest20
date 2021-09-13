@@ -63,7 +63,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             _logFile.AppendLine($"SetMonitoringState request result status code: { httpRequestResult.HttpStatusCode}");
             if (httpRequestResult.HttpStatusCode == HttpStatusCode.Conflict)
             {
-                var proxy = await _d2RtuVeexLayer1.ChangeProxyMode(rtuAddresses, otdrId);
+                var proxy = await _d2RtuVeexLayer1.ChangeProxyMode(rtuAddresses, otdrId, false);
                 _logFile.AppendLine($"ChangeProxyMode request result status code: { proxy.HttpStatusCode}");
                 if (proxy.HttpStatusCode != HttpStatusCode.NoContent)
                     return false;

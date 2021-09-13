@@ -376,6 +376,28 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<RequestAnswer> PrepareReflectMeasurementAsync(PrepareReflectMeasurementDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
+            if (wcfConnection == null)
+                return new RequestAnswer() { ReturnCode = ReturnCode.C2RWcfConnectionError };
+
+            try
+            {
+                _logFile.AppendLine($@"Sending command to get client's measurement from RTU {dto.RtuId.First6()}");
+                dto.ClientIp = _clientIp;
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.PrepareReflectMeasurementAsync(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetClientMeasurementAsync:" + e.Message);
+                return new RequestAnswer() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
+            }
+        }
+
         public async Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
         {
             var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();

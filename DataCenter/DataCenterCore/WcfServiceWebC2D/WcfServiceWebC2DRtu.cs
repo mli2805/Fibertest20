@@ -188,7 +188,7 @@ namespace Iit.Fibertest.DataCenterCore
                 Reserve = (NetAddress)rtu.ReserveChannel.Clone(),
                 HasReserveAddress = rtu.IsReserveChannelSet,
             };
-            dto.ShouldMonitoringBeStopped = false;
+            dto.IsFirstInitialization = false;
             dto.Serial = rtu.Serial;
             dto.OwnPortCount = rtu.OwnPortCount;
             dto.Children = rtu.Children;
