@@ -140,7 +140,7 @@ namespace Iit.Fibertest.Client
                         ? FullModel.ReserveChannelTestViewModel.NetAddressInputViewModel.GetNetAddress()
                         : null,
                 },
-                ShouldMonitoringBeStopped =
+                IsFirstInitialization =
                     FullModel.OriginalRtu.OwnPortCount ==
                     0, // if it's first initialization for this RTU - monitoring should be stopped - in case it's running somehow
             };

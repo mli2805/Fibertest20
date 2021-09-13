@@ -306,6 +306,16 @@ namespace DirectRtuClient
             ResultString = @"Done";
         }
 
+        public async void CreateOtau()
+        {
+            var d2Rl1 = new D2RtuVeexLayer1(_httpExt);
+            await d2Rl1.CreateOtau(_rtuVeexDoubleAddress,
+                new CreateOtau()
+                {
+                    connectionParameters = new CreateOtauAddress() {address = @"192.168.96.237", port = 4001},
+                });
+        }
+
         public void EmbedBaseRef()
         {
             ResultString = @"Wait, please";

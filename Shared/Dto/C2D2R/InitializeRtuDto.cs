@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Dto
         public DoubleAddress RtuAddresses { get; set; }
 
         [DataMember]
-        public bool ShouldMonitoringBeStopped { get; set; }
+        public bool IsFirstInitialization { get; set; }
 
         // RTU properties after previous initialization
         [DataMember]

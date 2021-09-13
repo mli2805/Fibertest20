@@ -32,7 +32,7 @@ namespace Iit.Fibertest.RtuManagement
             if (param != null)
             {
                 SaveInitializationParameters(param);
-                if (param.ShouldMonitoringBeStopped)
+                if (param.IsFirstInitialization)
                 {
                     _rtuIni.Write(IniSection.Monitoring, IniKey.IsMonitoringOn, false);
                     _rtuLog.AppendLine("First initialization! Turning monitoring off.");
