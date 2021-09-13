@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Newtonsoft.Json;
 
@@ -12,7 +11,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var jsonData = JsonConvert.SerializeObject(createOtau);
             return await _httpExt.RequestByUrl(rtuDoubleAddress,
                 $@"/otaus", "post", "application/json", jsonData);
-           }
+        }
 
         public async Task<HttpRequestResult> DeleteOtau(DoubleAddress rtuDoubleAddress, string otauId)
         {
@@ -30,7 +29,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             var jsonData = JsonConvert.SerializeObject(scheme);
             return await _httpExt.RequestByUrl(rtuDoubleAddress,
-                $@"/otau_cascading", "post", "application/json", jsonData);
+                $@"/otau_cascading", "patch", "application/merge-patch+json", jsonData);
         }
 
     }

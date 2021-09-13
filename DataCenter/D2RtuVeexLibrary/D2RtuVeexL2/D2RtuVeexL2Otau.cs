@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -8,6 +9,25 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer2
     {
+        public async Task<HttpRequestResult> InitializeCascadingScheme(DoubleAddress rtuDoubleAddress, string mainOtauId)
+        {
+            var scheme = new VeexOtauCascadingScheme()
+            {
+                rootConnections = new List<RootConnection>(),
+                connections = new List<Connection>(),
+            };
+            var resetResult = await _d2RtuVeexLayer1.ChangeOtauCascading(rtuDoubleAddress, scheme);
+            if (resetResult.HttpStatusCode != HttpStatusCode.NoContent)
+                return resetResult;
+
+            scheme.rootConnections.Add(new RootConnection()
+            {
+                inputOtauId = mainOtauId,
+                inputOtauPort = 0,
+            });
+            return await _d2RtuVeexLayer1.ChangeOtauCascading(rtuDoubleAddress, scheme);
+        }
+
         public async Task<HttpRequestResult> DetachOtau(DoubleAddress rtuDoubleAddress, string otauId)
         {
             var requestResult = await _d2RtuVeexLayer1.GetOtauCascading(rtuDoubleAddress);
