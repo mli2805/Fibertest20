@@ -174,7 +174,7 @@
     <Compile Include="Underlying\RtuWithChannelChanges.cs" />
     <Compile Include="Underlying\TraceInfoTableItem.cs" />
     <Compile Include="VeEX\CompletedTest\CompletedTest.cs" />
-    <Compile Include="VeEX\OtauOperating\CreateOtau.cs" />
+    <Compile Include="VeEX\OtauOperating\NewOtau.cs" />
     <Compile Include="VeEX\Info\InfoDtoClasses.cs" />
     <Compile Include="VeEX\Info\InitializedVeexDto.cs" />
     <Compile Include="VeEX\Info\VeexOtau.cs" />

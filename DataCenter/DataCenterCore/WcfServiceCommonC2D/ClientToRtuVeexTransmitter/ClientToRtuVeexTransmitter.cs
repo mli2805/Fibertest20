@@ -106,8 +106,22 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto)
         {
-            await Task.Delay(1);
-            return null;
+            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+            if (rtuAddresses == null)
+            {
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
+                return new OtauAttachedDto()
+                {
+                    ReturnCode = ReturnCode.BaseRefAssignmentFailed,
+                    ErrorMessage = $"Unknown RTU {dto.RtuId.First6()}"
+                };
+            }
+
+            var result = await _d2RtuVeexLayer3.AttachOtauAsync(dto, rtuAddresses);
+            _logFile.AppendLine($"{result.ReturnCode}");
+            if (result.ReturnCode != ReturnCode.OtauAttachedSuccesfully)
+                _logFile.AppendLine($"{result.ErrorMessage}");
+            return result;
         }
 
         public async Task<BaseRefAssignedDto> TransmitBaseRefsToRtu(AssignBaseRefsDto dto)

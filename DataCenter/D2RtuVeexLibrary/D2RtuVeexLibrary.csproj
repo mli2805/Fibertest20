@@ -67,6 +67,7 @@
     <Compile Include="D2RtuVeexL2\D2RtuVeexL2Tests.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3InitializeRtu.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3MoniResult.cs" />
+    <Compile Include="D2RtuVeexL3\D2RtuVeexL3Otau.cs" />
     <Compile Include="HttpExt.cs" />
     <Compile Include="HttpRequestResult.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

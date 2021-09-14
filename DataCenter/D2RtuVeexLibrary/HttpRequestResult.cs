@@ -6,6 +6,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
     {
         public string ResponseJson;
         public byte[] ResponseBytesArray;
+        public object ResponseObject;
         public HttpStatusCode HttpStatusCode;
         public string ErrorMessage;
     }

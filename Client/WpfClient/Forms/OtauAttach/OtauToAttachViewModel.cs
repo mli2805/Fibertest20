@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
@@ -13,7 +14,7 @@ namespace Iit.Fibertest.Client
 {
     public class OtauToAttachViewModel : Screen
     {
-        private Guid _rtuId;
+        private Rtu _rtu;
         private int _portNumberForAttachment;
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
@@ -94,21 +95,26 @@ namespace Iit.Fibertest.Client
 
         public void Initialize(Guid rtuId, int portNumberForAttachment)
         {
-            _rtuId = rtuId;
+            _rtu = _readModel.Rtus.First(r => r.Id == rtuId);
             _portNumberForAttachment = portNumberForAttachment;
             InitializeView();
         }
 
         private void InitializeView()
         {
-            RtuTitle = _readModel.Rtus.First(r => r.Id == _rtuId).Title;
+            RtuTitle = _rtu.Title;
             RtuPortNumber = _portNumberForAttachment;
             OtauSerial = "";
             OtauPortCount = 0;
             AttachmentProgress = "";
 
             NetAddressInputViewModel = new NetAddressInputViewModel(
-                new NetAddress() { Ip4Address = @"192.168.96.57", Port = 11834, IsAddressSetAsIp = true }, true);
+                new NetAddress()
+                {
+                    Ip4Address = @"192.168.96.57", 
+                    Port = _rtu.RtuMaker == RtuMaker.IIT ? 11834 : 4001, 
+                    IsAddressSetAsIp = true
+                }, true);
         }
 
         protected override void OnViewLoaded(object view)
@@ -140,7 +146,13 @@ namespace Iit.Fibertest.Client
             else
             {
                 AttachmentProgress = Resources.SID_Failed_;
-                var vm = new MyMessageBoxViewModel(MessageType.Error, $@"{result.ReturnCode.GetLocalizedString()}");
+                var strs = new List<string>()
+                {
+                    $@"{result.ReturnCode.GetLocalizedString()}",
+                    "",
+                    result.ErrorMessage,
+                };
+                var vm = new MyMessageBoxViewModel(MessageType.Error, strs, 0);
                 _windowManager.ShowDialogWithAssignedOwner(vm);
             }
 
@@ -153,7 +165,8 @@ namespace Iit.Fibertest.Client
                 NetAddressInputViewModel.GetNetAddress().Port);
             var dto = new AttachOtauDto()
             {
-                RtuId = _rtuId,
+                RtuId = _rtu.Id,
+                RtuMaker = _rtu.RtuMaker,
                 OtauId = Guid.NewGuid(),
                 NetAddress = netAddress,
                 OpticalPort = _portNumberForAttachment

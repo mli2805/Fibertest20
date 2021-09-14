@@ -29,7 +29,7 @@ namespace Iit.Fibertest.DataCenterCore
                 result = new OtauAttachedDto() { IsAttached = false, ReturnCode = ReturnCode.RtuAttachOtauError, ErrorMessage = e.Message };
             }
 
-            var message = result.IsAttached ? "OTAU attached successfully" : "Failed to attach OTAU";
+            var message = result == null || !result.IsAttached ? "Failed to attach OTAU" : "OTAU attached successfully";
             _logFile.AppendLine(message);
             return result;
         }

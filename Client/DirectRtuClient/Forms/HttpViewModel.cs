@@ -310,9 +310,9 @@ namespace DirectRtuClient
         {
             var d2Rl1 = new D2RtuVeexLayer1(_httpExt);
             await d2Rl1.CreateOtau(_rtuVeexDoubleAddress,
-                new CreateOtau()
+                new NewOtau()
                 {
-                    connectionParameters = new CreateOtauAddress() {address = @"192.168.96.237", port = 4001},
+                    connectionParameters = new VeexOtauAddress() {address = @"192.168.96.237", port = 4001},
                 });
         }
 

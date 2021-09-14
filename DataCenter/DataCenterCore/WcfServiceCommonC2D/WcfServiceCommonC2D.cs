@@ -105,12 +105,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var otauAttachedDto = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.AttachOtauAsync(dto)
-                : new OtauAttachedDto
-                {
-                    IsAttached = false,
-                    ErrorMessage = "This function for VeEX RTU doesn't implemented",
-                    ReturnCode = ReturnCode.RtuAttachOtauError
-                };
+                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.AttachOtauAsync(dto).Result);
             if (otauAttachedDto.IsAttached)
             {
                 AttachOtauIntoGraph(dto, otauAttachedDto);

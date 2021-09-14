@@ -8,5 +8,6 @@ namespace Iit.Fibertest.Dto
         public string model { get; set; }
         public int portCount { get; set; }
         public string protocol { get; set; }
+        public string serialNumber { get; set; }
     }
 }
