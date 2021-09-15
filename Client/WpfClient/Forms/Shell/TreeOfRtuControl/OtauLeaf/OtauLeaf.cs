@@ -11,6 +11,7 @@ namespace Iit.Fibertest.Client
     public class OtauLeaf : Leaf, IPortOwner
     {
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
+        private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
         private RtuPartState _otauState;
         public int OwnPortCount { get; set; }
@@ -40,10 +41,11 @@ namespace Iit.Fibertest.Client
         public ChildrenImpresario ChildrenImpresario { get; }
         public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf);
 
-        public OtauLeaf(IWcfServiceCommonC2D c2RWcfManager, 
+        public OtauLeaf(IWcfServiceCommonC2D c2RWcfManager, Model readModel,
             CurrentUser currentUser, FreePorts freePorts)
         {
             _c2RWcfManager = c2RWcfManager;
+            _readModel = readModel;
             _currentUser = currentUser;
             ChildrenImpresario = new ChildrenImpresario(freePorts);
         }
@@ -65,10 +67,13 @@ namespace Iit.Fibertest.Client
 
         public async void OtauRemoveAction(object param)
         {
+            var rtu = _readModel.Rtus.First(r => r.Id == Parent.Id);
+
             var dto = new DetachOtauDto()
             {
                 OtauId = Id, 
-                RtuId = Parent.Id, 
+                RtuId = rtu.Id,
+                RtuMaker = rtu.RtuMaker,
                 OpticalPort = MasterPort, 
                 NetAddress = (NetAddress)OtauNetAddress.Clone(),
             };

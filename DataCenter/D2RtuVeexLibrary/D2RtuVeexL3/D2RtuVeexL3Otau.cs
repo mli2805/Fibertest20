@@ -36,9 +36,21 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 ReturnCode = ReturnCode.RtuAttachOtauError,
                 ErrorMessage = res.ErrorMessage + Environment.NewLine + res.ResponseJson,
             };
+        }
 
+        public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto, DoubleAddress rtuDoubleAddress)
+        {
+            var res = await _d2RtuVeexLayer2.DetachOtau(rtuDoubleAddress, dto.OtauId.ToString());
 
-
+            var result = new OtauDetachedDto()
+            {
+                IsDetached = res.IsSuccessful,
+                RtuId = dto.RtuId,
+                OtauId = dto.OtauId,
+                ReturnCode = res.IsSuccessful ? ReturnCode.OtauDetachedSuccesfully : ReturnCode.RtuDetachOtauError,
+                ErrorMessage = res.ErrorMessage,
+            };
+            return result;
         }
     }
 }

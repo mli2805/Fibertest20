@@ -25,7 +25,7 @@ namespace Iit.Fibertest.DataCenterCore
             _rtuStationsRepository = rtuStationsRepository;
             _d2RtuVeexLayer3 = d2RtuVeexLayer3;
 
-            _serverDoubleAddress = iniFile.ReadDoubleAddress((int) TcpPorts.ServerListenToRtu);
+            _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
         }
 
         public Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto)
@@ -66,7 +66,7 @@ namespace Iit.Fibertest.DataCenterCore
                 $"Client from {dto.ClientIp} sent apply monitoring settings to VeEX RTU {dto.RtuId.First6()} request");
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
             if (rtu == null) return null;
-           
+
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
             {
@@ -91,7 +91,7 @@ namespace Iit.Fibertest.DataCenterCore
                 $"Client from {dto.ClientIp} sent request to stop monitoring on VeEX RTU {dto.RtuId.First6()} ");
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
             if (rtu == null) return false;
-           
+
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
             {
@@ -112,7 +112,7 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
                 return new OtauAttachedDto()
                 {
-                    ReturnCode = ReturnCode.BaseRefAssignmentFailed,
+                    ReturnCode = ReturnCode.RtuAttachOtauError,
                     ErrorMessage = $"Unknown RTU {dto.RtuId.First6()}"
                 };
             }
@@ -120,6 +120,26 @@ namespace Iit.Fibertest.DataCenterCore
             var result = await _d2RtuVeexLayer3.AttachOtauAsync(dto, rtuAddresses);
             _logFile.AppendLine($"{result.ReturnCode}");
             if (result.ReturnCode != ReturnCode.OtauAttachedSuccesfully)
+                _logFile.AppendLine($"{result.ErrorMessage}");
+            return result;
+        }
+
+        public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
+        {
+            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+            if (rtuAddresses == null)
+            {
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
+                return new OtauDetachedDto()
+                {
+                    ReturnCode = ReturnCode.RtuDetachOtauError,
+                    ErrorMessage = $"Unknown RTU {dto.RtuId.First6()}"
+                };
+            }
+
+            var result = await _d2RtuVeexLayer3.DetachOtauAsync(dto, rtuAddresses);
+            _logFile.AppendLine($"{result.ReturnCode}");
+            if (result.ReturnCode != ReturnCode.OtauDetachedSuccesfully)
                 _logFile.AppendLine($"{result.ErrorMessage}");
             return result;
         }
