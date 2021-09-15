@@ -14,9 +14,6 @@
 
         <Button DockPanel.Dock="Top" Name="GetSettings" Content="Get settings" Margin="5" 
                 IsEnabled="{Binding IsButtonEnabled, Mode=TwoWay}"/>
-
-        <Button DockPanel.Dock="Top" Name="PatchMonitoring" Content="{Binding PatchMonitoringButton}" Margin="5" 
-                IsEnabled="{Binding IsButtonEnabled, Mode=TwoWay}"/>
         <Button DockPanel.Dock="Top" Name="GetTests" Content="Get Tests" Margin="5" 
                 IsEnabled="{Binding IsButtonEnabled, Mode=TwoWay}"/>
         <Button DockPanel.Dock="Top" Name="GetThresholds" Content="Get Thresholds for First Test" Margin="5" 

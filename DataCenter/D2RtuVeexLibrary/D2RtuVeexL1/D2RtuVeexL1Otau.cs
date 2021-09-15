@@ -53,10 +53,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return res;
         }
 
-        public async Task<HttpRequestResult> GetOtau(DoubleAddress rtuDoubleAddress, string otauId)
+        public async Task<HttpRequestResult> GetOtau(DoubleAddress rtuDoubleAddress, string link)
         {
             var res = await _httpExt.RequestByUrl(rtuDoubleAddress,
-                $@"/otaus/{otauId}", "get", "application/json");
+                $@"/{link}", "get", "application/json");
 
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
             if (res.IsSuccessful)

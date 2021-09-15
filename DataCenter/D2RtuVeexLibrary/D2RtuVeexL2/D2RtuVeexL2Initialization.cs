@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -21,17 +20,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (!otdrResponse.IsSuccessful)
                 return new RtuInitializedDto { ReturnCode = ReturnCode.RtuInitializationError };
             FillInOtdr((VeexOtdr)otdrResponse.ResponseObject, result);
-
-            var otauRes = await GetOtauSettings(rtuDoubleAddress);
-            if (otauRes.IsSuccessful)
-                FillInOtau((VeexOtauInfo)otauRes.ResponseObject, result);
-            else
-                return new RtuInitializedDto
-                {
-                    ReturnCode = ReturnCode.OtauInitializationError,
-                    ErrorMessage = otauRes.ErrorMessage,
-                };
-
+          
             result.RtuId = dto.RtuId;
             result.RtuAddresses = dto.RtuAddresses;
             result.OtdrAddress = (NetAddress)result.RtuAddresses.Main.Clone();
@@ -80,36 +69,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             }
         }
 
-        private void FillInOtau(VeexOtauInfo otauInfo, RtuInitializedDto result)
-        {
-            if (otauInfo.OtauList.Count == 0)
-            {
-                result.OwnPortCount = 1;
-                result.FullPortCount = 1;
-                result.Children = new Dictionary<int, OtauDto>();
-                return;
-            }
-
-            var mainOtauId = otauInfo.OtauScheme.rootConnections[0].inputOtauId;
-            var mainOtau = otauInfo.OtauList.First(o => o.id == mainOtauId);
-
-            result.OtauId = mainOtau.id;
-            result.OwnPortCount = mainOtau.portCount;
-            result.FullPortCount = mainOtau.portCount;
-            result.Children = new Dictionary<int, OtauDto>();
-
-            foreach (var childConnection in otauInfo.OtauScheme.connections)
-            {
-                var childOtau = otauInfo.OtauList.First(c => c.id == childConnection.outputOtauId);
-                result.Children.Add(childConnection.outputOtauPort, new OtauDto()
-                {
-                    OtauId = childOtau.id,
-                    IsOk = true,
-                });
-                result.FullPortCount += childOtau.portCount - 1;
-            }
-        }
-
         public async Task<RtuInitializedDto> InitializeMonitoringProperties(DoubleAddress rtuDoubleAddress)
         {
             var getResult = await _d2RtuVeexLayer1.GetMonitoringProperties(rtuDoubleAddress);
@@ -126,7 +85,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             if (monitoringProperties.state == "enabled")
             {
-                var setStateRes = await SetMonitoringState(rtuDoubleAddress, "disabled");
+                var setStateRes =
+                    await _d2RtuVeexLayer1.SetMonitoringProperty(rtuDoubleAddress, "state", "disabled");
                 if (!setStateRes.IsSuccessful)
                     return new RtuInitializedDto()
                     {
@@ -144,7 +104,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 };
             }
 
-            var setResult = await SetMonitoringTypeToFibertest(rtuDoubleAddress);
+            var setResult = await _d2RtuVeexLayer1.SetMonitoringProperty(rtuDoubleAddress, "type", "fibertest");
             if (!setResult.IsSuccessful)
             {
                 return new RtuInitializedDto()

@@ -28,7 +28,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<HttpRequestResult> GetPlatform(DoubleAddress rtuDoubleAddress)
         {
             var res = await _httpExt.RequestByUrl(rtuDoubleAddress, "info", "get");
-            res.IsSuccessful = res.HttpStatusCode != HttpStatusCode.OK;
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
             if (res.IsSuccessful)
                 res.ResponseObject = JsonConvert.DeserializeObject<VeexPlatformInfo>(res.ResponseJson);
             return res;

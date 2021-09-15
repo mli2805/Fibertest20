@@ -130,6 +130,7 @@ namespace Iit.Fibertest.Client
                 RtuId = FullModel.OriginalRtu.Id,
                 Serial = FullModel.OriginalRtu.Serial, // properties after previous initialization (if it was)
                 OwnPortCount = FullModel.OriginalRtu.OwnPortCount,
+                OtauId = FullModel.OriginalRtu.OtauId,
                 Children = FullModel.OriginalRtu.Children,
 
                 RtuAddresses = new DoubleAddress()

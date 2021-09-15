@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -16,8 +17,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 if (!rtuInitializedDto.IsInitialized)
                     return rtuInitializedDto;
 
-                if (!await AdjustCascadingScheme(rtuAddresses, dto, rtuInitializedDto))
-                    return rtuInitializedDto;
+                var otauRes = await _d2RtuVeexLayer2.InitializeOtaus(rtuAddresses, dto);
+                if (otauRes.IsSuccessful)
+                    FillInOtau((VeexOtauInfo)otauRes.ResponseObject, dto, rtuInitializedDto);
+                else
+                    return new RtuInitializedDto
+                    {
+                        ReturnCode = ReturnCode.OtauInitializationError,
+                        ErrorMessage = otauRes.ErrorMessage,
+                    };
 
                 var initRes = await _d2RtuVeexLayer2.InitializeMonitoringProperties(rtuAddresses);
                 if (initRes != null)
@@ -48,45 +56,31 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             }
         }
 
-        private async Task<bool> AdjustCascadingScheme(DoubleAddress rtuDoubleAddress,
-            InitializeRtuDto dto, RtuInitializedDto rtuInitializedDto)
+        private void FillInOtau(VeexOtauInfo otauInfo, InitializeRtuDto dto, RtuInitializedDto result)
         {
-
-            // adjust cascading scheme to Client's one
-            var adjustRes = await _d2RtuVeexLayer2.AdjustCascadingScheme(rtuDoubleAddress,
-                CreateScheme(rtuInitializedDto.OtauId, dto.Children));
-            if (!adjustRes.IsSuccessful)
+            if (otauInfo.OtauList.Count == 0)
             {
-                rtuInitializedDto.ReturnCode = ReturnCode.RtuInitializationError;
-                rtuInitializedDto.ErrorMessage = "Failed to adjust cascading scheme to client's one!"
-                                                 + Environment.NewLine + adjustRes.ErrorMessage;
-                return false;
+                result.OwnPortCount = 1;
+                result.FullPortCount = 1;
+                result.Children = new Dictionary<int, OtauDto>();
+                return;
             }
 
-            return true;
-        }
+            var mainOtauId = otauInfo.OtauScheme.rootConnections[0].inputOtauId;
+            var mainOtau = otauInfo.OtauList.First(o => o.id == mainOtauId);
 
-        private static VeexOtauCascadingScheme CreateScheme(string mainOtauId, Dictionary<int, OtauDto> children)
-        {
-            var scheme = new VeexOtauCascadingScheme()
+            result.OtauId = mainOtau.id;
+            result.OwnPortCount = mainOtau.portCount;
+            result.FullPortCount = mainOtau.portCount;
+            result.Children = new Dictionary<int, OtauDto>();
+
+            foreach (var childConnection in otauInfo.OtauScheme.connections)
             {
-                rootConnections = new List<RootConnection>()
-                {
-                    new RootConnection(){ inputOtauId = mainOtauId, inputOtauPort = 0 }
-                },
-                connections = new List<Connection>()
-            };
-            foreach (var child in children)
-            {
-                scheme.connections.Add(new Connection()
-                {
-                    inputOtauId = mainOtauId,
-                    inputOtauPort = 0,
-                    outputOtauId = child.Value.OtauId,
-                    outputOtauPort = child.Key - 1,
-                });
+                var pair = dto.Children.First(c => c.Value.OtauId == childConnection.inputOtauId);
+                result.Children.Add(pair.Key, pair.Value);
+
+                result.FullPortCount += pair.Value.OwnPortCount - 1;
             }
-            return scheme;
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
@@ -23,7 +22,6 @@ namespace DirectRtuClient
     public class HttpViewModel : Screen
     {
         private readonly IniFile _iniFile;
-        private readonly IMyLog _logFile;
 
         private readonly DoubleAddress _rtuVeexDoubleAddress;
         private string _resultString;
@@ -69,7 +67,6 @@ namespace DirectRtuClient
         public HttpViewModel(IniFile iniFile, IMyLog logFile)
         {
             _iniFile = iniFile;
-            _logFile = logFile;
 
             _rtuVeexDoubleAddress = iniFile.ReadDoubleAddress(80);
             _httpExt = new HttpExt(logFile);
@@ -93,7 +90,7 @@ namespace DirectRtuClient
             IsButtonEnabled = false;
 
             var d2Rl1 = new D2RtuVeexLayer1(_httpExt);
-            var d2R = new D2RtuVeexLayer2(_logFile, d2Rl1);
+            var d2R = new D2RtuVeexLayer2(d2Rl1);
             var result = await Task.Factory.StartNew(() =>
                 d2R.GetSettings(_rtuVeexDoubleAddress, new InitializeRtuDto() { RtuAddresses = _rtuVeexDoubleAddress }).Result);
 
@@ -116,24 +113,6 @@ namespace DirectRtuClient
                 _patchMonitoringButton = value;
                 NotifyOfPropertyChange();
             }
-        }
-
-        public async void PatchMonitoring()
-        {
-            ResultString = @"Wait, please";
-            IsButtonEnabled = false;
-            var flag = PatchMonitoringButton == @"Stop monitoring";
-
-            var d2Rl1 = new D2RtuVeexLayer1(_httpExt);
-            var d2Rl2 = new D2RtuVeexLayer2(_logFile, d2Rl1);
-            var result = await Task.Factory.StartNew(() =>
-                d2Rl2.SetMonitoringState(_rtuVeexDoubleAddress, flag ? @"disabled" : @"enabled").Result);
-
-            ResultString = $@"Stop monitoring result is {result.HttpStatusCode == HttpStatusCode.OK}";
-            PatchMonitoringButton = flag ? @"Start monitoring" : @"Stop monitoring";
-            IsButtonEnabled = true;
-            if (result.HttpStatusCode != HttpStatusCode.OK)
-                MessageBox.Show(result.ErrorMessage);
         }
 
         public async void GetTests()
@@ -281,7 +260,7 @@ namespace DirectRtuClient
                 }
             };
             var d2Rl1 = new D2RtuVeexLayer1(_httpExt);
-            var layer2 = new D2RtuVeexLayer2(_logFile, d2Rl1);
+            var layer2 = new D2RtuVeexLayer2(d2Rl1);
             var layer3 = new D2RtuVeexLayer3(layer2);
             var result = await Task.Factory.StartNew(() =>
                 layer3.AssignBaseRefAsync(dto, _rtuVeexDoubleAddress).Result);
@@ -302,7 +281,7 @@ namespace DirectRtuClient
             IsButtonEnabled = false;
 
             var d2Rl1 = new D2RtuVeexLayer1(_httpExt);
-            var layer2 = new D2RtuVeexLayer2(_logFile, d2Rl1);
+            var layer2 = new D2RtuVeexLayer2(d2Rl1);
 
             var rrr = await layer2.GetTestLastMeasurement(_rtuVeexDoubleAddress, @"4dc19b64-7431-435b-9248-621d79d84e0b", @"monitoring_test_passed", false);
             File.WriteAllBytes(@"c:\temp\0.sor", rrr.SorBytes);

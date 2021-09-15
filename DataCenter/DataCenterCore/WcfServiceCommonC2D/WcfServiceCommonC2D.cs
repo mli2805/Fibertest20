@@ -118,7 +118,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var cmd = new AttachOtau
             {
-                Id = dto.OtauId,
+                Id = result.OtauId,
                 RtuId = dto.RtuId,
                 MasterPort = dto.OpticalPort,
                 Serial = result.Serial,

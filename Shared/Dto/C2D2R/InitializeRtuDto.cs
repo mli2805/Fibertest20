@@ -14,6 +14,8 @@ namespace Iit.Fibertest.Dto
         public RtuMaker RtuMaker { get; set; }
         [DataMember]
         public Guid RtuId { get; set; }
+        [DataMember]
+        public string OtauId { get; set; }
 
         [DataMember]
         public DoubleAddress ServerAddresses { get; set; }
@@ -28,7 +30,8 @@ namespace Iit.Fibertest.Dto
         public string Serial { get; set; }
         [DataMember]
         public int OwnPortCount { get; set; }
-        [DataMember]
+
+         [DataMember]
         public Dictionary<int, OtauDto> Children { get; set; }
     }
 }

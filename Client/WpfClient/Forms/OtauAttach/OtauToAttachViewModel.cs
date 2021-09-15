@@ -111,7 +111,7 @@ namespace Iit.Fibertest.Client
             NetAddressInputViewModel = new NetAddressInputViewModel(
                 new NetAddress()
                 {
-                    Ip4Address = @"192.168.96.57", 
+                    Ip4Address = _rtu.RtuMaker == RtuMaker.IIT ?  @"192.168.96.57" : @"192.168.96.237", 
                     Port = _rtu.RtuMaker == RtuMaker.IIT ? 11834 : 4001, 
                     IsAddressSetAsIp = true
                 }, true);

@@ -69,8 +69,16 @@ namespace Iit.Fibertest.Graph
         {
             Otau otau = Mapper.Map<Otau>(e);
             model.Otaus.Add(otau);
-            var otauDto = new OtauDto { Serial = otau.Serial, NetAddress = otau.NetAddress, OwnPortCount = otau.PortCount, IsOk = otau.IsOk };
             var rtu = model.Rtus.First(r => r.Id == otau.RtuId);
+
+            var otauDto = new OtauDto
+            {
+                OtauId = otau.Id.ToString(), 
+                Serial = otau.Serial, 
+                NetAddress = otau.NetAddress, 
+                OwnPortCount = otau.PortCount, 
+                IsOk = otau.IsOk
+            };
             rtu.Children.Add(otau.MasterPort, otauDto);
             rtu.FullPortCount += otau.PortCount;
             rtu.SetOtauState(e.Id, e.IsOk);
