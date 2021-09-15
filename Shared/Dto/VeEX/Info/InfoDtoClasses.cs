@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Dto
         public string serialNumber { get; set; }
     }
 
-    public class Info
+    public class VeexPlatformInfo
     {
         public Components components { get; set; }
         public DateTime dateTime { get; set; }

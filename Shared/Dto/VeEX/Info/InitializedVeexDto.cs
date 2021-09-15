@@ -2,8 +2,8 @@
 {
     public class InitializedVeexDto
     {
-        public Info Info;
-        public Otdrs Otdrs;
-        public Otaus Otaus;
+        public VeexPlatformInfo VeexPlatformInfo;
+        public VeexOtdrs VeexOtdrs;
+        public VeexOtaus VeexOtaus;
     }
 }

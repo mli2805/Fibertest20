@@ -125,8 +125,9 @@ namespace DirectRtuClient
             var flag = PatchMonitoringButton == @"Stop monitoring";
 
             var d2Rl1 = new D2RtuVeexLayer1(_httpExt);
+            var d2Rl2 = new D2RtuVeexLayer2(_logFile, d2Rl1);
             var result = await Task.Factory.StartNew(() =>
-                d2Rl1.SetMonitoringState(_rtuVeexDoubleAddress, flag ? @"disabled" : @"enabled").Result);
+                d2Rl2.SetMonitoringState(_rtuVeexDoubleAddress, flag ? @"disabled" : @"enabled").Result);
 
             ResultString = $@"Stop monitoring result is {result.HttpStatusCode == HttpStatusCode.OK}";
             PatchMonitoringButton = flag ? @"Start monitoring" : @"Stop monitoring";
@@ -143,24 +144,28 @@ namespace DirectRtuClient
             var d2RtuVeexLayer1 = new D2RtuVeexLayer1(_httpExt);
             var result = await d2RtuVeexLayer1.GetTests(_rtuVeexDoubleAddress);
 
-            if (result == null)
+            if (!result.IsSuccessful)
             {
                 MessageBox.Show(@"Error");
             }
             else
             {
-                _rtuVeexModel.TestsLinks = result;
+                _rtuVeexModel.TestsLinks = (TestsLinks)result.ResponseObject;
                 _rtuVeexModel.Tests = new List<Test>();
                 _rtuVeexModel.Thresholds = new Dictionary<string, ThresholdSet>();
                 foreach (var testItem in _rtuVeexModel.TestsLinks.items)
                 {
-                    var test = await d2RtuVeexLayer1.GetTest(_rtuVeexDoubleAddress, testItem.self);
+                    var testRes = await d2RtuVeexLayer1.GetTest(_rtuVeexDoubleAddress, testItem.self);
+                    if (!testRes.IsSuccessful) return;
+                    var test = (Test)testRes.ResponseObject;
                     _rtuVeexModel.Tests.Add(test);
-                    var thresholdSet = await d2RtuVeexLayer1.GetTestThresholds(_rtuVeexDoubleAddress, testItem.self);
+                    var getResult = await d2RtuVeexLayer1.GetTestThresholds(_rtuVeexDoubleAddress, testItem.self);
+
+                    var thresholdSet = (ThresholdSet)getResult.ResponseObject;
                     _rtuVeexModel.Thresholds.Add(test.id, thresholdSet);
 
                     var res1 = await d2RtuVeexLayer1.ChangeTest(_rtuVeexDoubleAddress, testItem.self, new Test() { state = @"disabled" });
-                    if (res1)
+                    if (res1.IsSuccessful)
                     {
                         var changedTest = await d2RtuVeexLayer1.GetTest(_rtuVeexDoubleAddress, testItem.self);
                         Console.WriteLine(changedTest);
@@ -227,15 +232,15 @@ namespace DirectRtuClient
             IsButtonEnabled = false;
 
             var d2RtuVeexLayer1 = new D2RtuVeexLayer1(_httpExt);
-            var testsLinks = await d2RtuVeexLayer1.GetTests(_rtuVeexDoubleAddress);
+            var getRes = await d2RtuVeexLayer1.GetTests(_rtuVeexDoubleAddress);
 
-            if (testsLinks == null)
+            if (!getRes.IsSuccessful)
             {
                 MessageBox.Show(@"Error");
             }
             else
             {
-                _rtuVeexModel.TestsLinks = testsLinks;
+                _rtuVeexModel.TestsLinks = (TestsLinks)getRes.ResponseObject;
                 var testItem = _rtuVeexModel.TestsLinks.items.First();
                 var thresholdSet = await d2RtuVeexLayer1.GetTestThresholds(_rtuVeexDoubleAddress, testItem.self);
                 if (thresholdSet != null)

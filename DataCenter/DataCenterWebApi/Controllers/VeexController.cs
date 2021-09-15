@@ -45,7 +45,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             _logFile.AppendLine($"Notification from VeEX RTU {rtuId.First6()}, {notification.events.Count} event(s) received");
 
             _ = await _webVeexWcfManager
-                .SetServerAddresses(_doubleAddressForWebWcfManager, "Veex Controller", GetRemoteAddress())
+                .SetServerAddresses(_doubleAddressForWebWcfManager, "VeexOtaus Controller", GetRemoteAddress())
                 .MonitoringMeasurementDone(new VeexMeasurementDto(){RtuId = rtuId, VeexNotification =  notification});
 
             Response.StatusCode = 200;

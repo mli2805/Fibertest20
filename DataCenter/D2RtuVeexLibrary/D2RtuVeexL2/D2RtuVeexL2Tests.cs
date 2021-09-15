@@ -9,12 +9,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
     {
         public async Task<bool> DeleteAllTests(DoubleAddress rtuDoubleAddress)
         {
-            var listOfTestLinks = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress);
+            var getResult = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress);
+            if (!getResult.IsSuccessful)
+                return false;
+            var listOfTestLinks = (TestsLinks)getResult.ResponseObject;
             if (listOfTestLinks == null) return true;
             foreach (var testLink in listOfTestLinks.items)
             {
                 var deleteResult = await _d2RtuVeexLayer1.DeleteTest(rtuDoubleAddress, testLink.self);
-                if (!deleteResult)
+                if (!deleteResult.IsSuccessful)
                     return false;
             }
             return true;
@@ -22,20 +25,26 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<bool> DeleteTestForPortAndBaseType(DoubleAddress rtuDoubleAddress, int opticalPort, string baseType)
         {
-            var listOfTestLinks = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress);
+            var getResult = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress);
+            if (!getResult.IsSuccessful)
+                return false;
+            var listOfTestLinks = (TestsLinks)getResult.ResponseObject;
             if (listOfTestLinks == null) return true;
 
             foreach (var testLink in listOfTestLinks.items)
             {
-                var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
-                if (test?.otauPort != null
+                var getRes = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
+                if (!getRes.IsSuccessful) continue;
+
+                var test = (Test)getRes.ResponseObject;
+                if (test.otauPort != null
                     && test.otauPort.portIndex == opticalPort - 1
                     && test.name.Contains(baseType))
                 {
                     if (!await DeleteTestRelations(rtuDoubleAddress, test))
                         return false;
 
-                    return await _d2RtuVeexLayer1.DeleteTest(rtuDoubleAddress, testLink.self);
+                    return (await _d2RtuVeexLayer1.DeleteTest(rtuDoubleAddress, testLink.self)).IsSuccessful;
                 }
             }
             return true;
@@ -45,7 +54,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             foreach (var relation in test.relations.items)
             {
-                if (!await _d2RtuVeexLayer1.DeleteRelation(rtuDoubleAddress, relation.id))
+                var deleteRes = await _d2RtuVeexLayer1.DeleteRelation(rtuDoubleAddress, relation.id);
+                if (!deleteRes.IsSuccessful)
                     return false;
             }
 
@@ -54,13 +64,19 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         private async Task<Test> GetTestForPortAndBaseType(DoubleAddress rtuDoubleAddress, int opticalPort, string baseType)
         {
-            var listOfTestLinks = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress);
+            var getResult = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress);
+            if (!getResult.IsSuccessful)
+                return null;
+            var listOfTestLinks = (TestsLinks)getResult.ResponseObject;
             if (listOfTestLinks == null) return null;
 
             foreach (var testLink in listOfTestLinks.items)
             {
-                var test = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
-                if (test?.otauPort != null && test.otauPort.portIndex == opticalPort - 1 && test.name.Contains(baseType))
+                var getRes = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, testLink.self);
+                if (!getRes.IsSuccessful) continue;
+
+                var test = (Test)getRes.ResponseObject;
+                if (test.otauPort != null && test.otauPort.portIndex == opticalPort - 1 && test.name.Contains(baseType))
                     return test;
             }
 
@@ -106,13 +122,13 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         private async Task<bool> ChangeTestState(DoubleAddress rtuAddresses, Test test, string state)
         {
-            return await _d2RtuVeexLayer1.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { state = state });
+            return (await _d2RtuVeexLayer1.ChangeTest(rtuAddresses, $@"tests/{test.id}", new Test() { state = state })).IsSuccessful;
         }
 
         private async Task<bool> ChangeTestPeriod(DoubleAddress rtuAddresses, Test test, int period, int failedPeriod)
         {
-            return await _d2RtuVeexLayer1.ChangeTest(rtuAddresses, $@"tests/{test.id}",
-                new Test() { period = period, failedPeriod = failedPeriod });
+            return (await _d2RtuVeexLayer1.ChangeTest(rtuAddresses, $@"tests/{test.id}",
+                new Test() { period = period, failedPeriod = failedPeriod })).IsSuccessful;
         }
 
     }

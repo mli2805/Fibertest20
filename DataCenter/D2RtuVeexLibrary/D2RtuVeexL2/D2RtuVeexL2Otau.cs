@@ -1,16 +1,52 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
-using Newtonsoft.Json;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer2
     {
-        public async Task<HttpRequestResult> InitializeCascadingScheme(DoubleAddress rtuDoubleAddress, string mainOtauId)
+        public async Task<HttpRequestResult> GetOtauSettings(DoubleAddress rtuDoubleAddress)
+        {
+            var res = await _d2RtuVeexLayer1.GetOtaus(rtuDoubleAddress);
+            if (!res.IsSuccessful) return res;
+
+            var otaus = (VeexOtaus) res.ResponseObject;
+            var otauList = new List<VeexOtau>();
+            foreach (var link in otaus.items)
+            {
+                var resOtau = await _d2RtuVeexLayer1.GetOtau(rtuDoubleAddress, link.self);
+                if (!resOtau.IsSuccessful) return resOtau;
+                otauList.Add((VeexOtau)resOtau.ResponseObject);
+            }
+
+            var resScheme = await _d2RtuVeexLayer1.GetOtauCascadingScheme(rtuDoubleAddress);
+            if (!resScheme.IsSuccessful) return resScheme;
+
+            if (otauList.Count > 0 && ((VeexOtauCascadingScheme) resScheme.ResponseObject).rootConnections.Count == 0)
+            {
+                // first initialization
+                var initSchemeRes = await InitializeCascadingScheme(rtuDoubleAddress, otauList[0].id);
+                if (!initSchemeRes.IsSuccessful)
+                {
+                    initSchemeRes.ErrorMessage = "Failed to set main OTAU as a root in cascading scheme!" 
+                                                 + Environment.NewLine + initSchemeRes.ErrorMessage;
+                    return initSchemeRes;
+                }
+            }
+
+            res.ResponseObject = new VeexOtauInfo()
+            {
+                OtauList = otauList,
+                OtauScheme = (VeexOtauCascadingScheme) resScheme.ResponseObject,
+            };
+            return res;
+        }
+
+        private async Task<HttpRequestResult> InitializeCascadingScheme(DoubleAddress rtuDoubleAddress, string mainOtauId)
         {
             var scheme = new VeexOtauCascadingScheme()
             {
@@ -18,7 +54,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 connections = new List<Connection>(),
             };
             var resetResult = await _d2RtuVeexLayer1.ChangeOtauCascadingScheme(rtuDoubleAddress, scheme);
-            if (resetResult.HttpStatusCode != HttpStatusCode.NoContent)
+            if (!resetResult.IsSuccessful)
                 return resetResult;
 
             scheme.rootConnections.Add(new RootConnection()
@@ -26,22 +62,27 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 inputOtauId = mainOtauId,
                 inputOtauPort = 0,
             });
+
+            return await _d2RtuVeexLayer1.ChangeOtauCascadingScheme(rtuDoubleAddress, scheme);
+        }
+
+        public async Task<HttpRequestResult> AdjustCascadingScheme(DoubleAddress rtuDoubleAddress, VeexOtauCascadingScheme scheme)
+        {
             return await _d2RtuVeexLayer1.ChangeOtauCascadingScheme(rtuDoubleAddress, scheme);
         }
 
         public async Task<HttpRequestResult> DetachOtau(DoubleAddress rtuDoubleAddress, string otauId)
         {
-            var requestResult = await _d2RtuVeexLayer1.GetOtauCascadingScheme(rtuDoubleAddress);
-            if (requestResult.HttpStatusCode != HttpStatusCode.OK) return requestResult;
+            var getSchemeResult = await _d2RtuVeexLayer1.GetOtauCascadingScheme(rtuDoubleAddress);
+            if (!getSchemeResult.IsSuccessful) return getSchemeResult;
 
-            var scheme = JsonConvert.DeserializeObject<VeexOtauCascadingScheme>(requestResult.ResponseJson);
-            if (scheme == null) return requestResult; // strange, but...
-
+            var scheme = (VeexOtauCascadingScheme)getSchemeResult.ResponseObject;
+           
             var removed = scheme.connections.RemoveAll(c => c.outputOtauId == otauId);
             if (removed > 0)
             {
                 var updateSchemeResult = await _d2RtuVeexLayer1.ChangeOtauCascadingScheme(rtuDoubleAddress, scheme);
-                if (updateSchemeResult.HttpStatusCode != HttpStatusCode.NoContent) return updateSchemeResult;
+                if (!updateSchemeResult.IsSuccessful) return updateSchemeResult;
             }
 
             return await _d2RtuVeexLayer1.DeleteOtau(rtuDoubleAddress, otauId);
@@ -59,15 +100,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var otauId = responseParts[1];
 
             var getSchemeResult = await _d2RtuVeexLayer1.GetOtauCascadingScheme(rtuDoubleAddress);
-            if (getSchemeResult.HttpStatusCode != HttpStatusCode.OK) return getSchemeResult;
+            if (!getSchemeResult.IsSuccessful) return getSchemeResult;
 
-            var scheme = JsonConvert.DeserializeObject<VeexOtauCascadingScheme>(getSchemeResult.ResponseJson);
-            if (scheme == null)
-            {
-                getSchemeResult.ErrorMessage = "Failed to parse cascading scheme!";
-                getSchemeResult.HttpStatusCode = HttpStatusCode.ExpectationFailed;
-                return getSchemeResult; // strange, but...
-            }
+            var scheme = (VeexOtauCascadingScheme)getSchemeResult.ResponseObject;
 
             // Supposing Root OTAU was set during first RTU initialization
             var rootConnection = scheme.rootConnections.FirstOrDefault();
@@ -87,7 +122,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             });
 
             var changeScheme = await _d2RtuVeexLayer1.ChangeOtauCascadingScheme(rtuDoubleAddress, scheme);
-            if (changeScheme.HttpStatusCode != HttpStatusCode.NoContent)
+            if (!changeScheme.IsSuccessful)
                 return changeScheme;
 
             return await _d2RtuVeexLayer1.GetOtau(rtuDoubleAddress, otauId);

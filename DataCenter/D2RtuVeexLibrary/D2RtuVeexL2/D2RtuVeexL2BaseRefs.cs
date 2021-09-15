@@ -22,7 +22,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             BaseRefDto dto, BaseRefDto dto2 = null)
         {
             var setBaseResult = await _d2RtuVeexLayer1.SetBaseRef(rtuDoubleAddress, testLink, dto.SorBytes, dto2?.SorBytes);
-            if (setBaseResult.HttpStatusCode != HttpStatusCode.Created)
+            if (!setBaseResult.IsSuccessful)
                 return new BaseRefAssignedDto()
                 { ReturnCode = ReturnCode.BaseRefAssignmentFailed, ErrorMessage = setBaseResult.ErrorMessage };
 
@@ -33,10 +33,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var setThresholdResult =
                 await _d2RtuVeexLayer1.SetThresholds(rtuDoubleAddress, testLink, thresholds);
 
-            return setThresholdResult.HttpStatusCode != HttpStatusCode.Created
-                ? new BaseRefAssignedDto()
-                    { ReturnCode = ReturnCode.BaseRefAssignmentFailed, ErrorMessage = setBaseResult.ErrorMessage }
-                : new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
+            return setThresholdResult.IsSuccessful
+                ? new BaseRefAssignedDto() {ReturnCode = ReturnCode.BaseRefAssignedSuccessfully}
+                : new BaseRefAssignedDto()
+                    {ReturnCode = ReturnCode.BaseRefAssignmentFailed, ErrorMessage = setBaseResult.ErrorMessage};
         }
     }
 }

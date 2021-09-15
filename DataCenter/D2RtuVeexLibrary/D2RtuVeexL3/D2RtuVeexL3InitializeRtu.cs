@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -16,17 +17,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 if (!rtuInitializedDto.IsInitialized)
                     return rtuInitializedDto;
 
-                if (dto.IsFirstInitialization)
-                {
-                    var schemeRes = await _d2RtuVeexLayer2.InitializeCascadingScheme(rtuAddresses, rtuInitializedDto.OtauId);
-                    if (schemeRes.HttpStatusCode != HttpStatusCode.NoContent)
-                    {
-                        rtuInitializedDto.OwnPortCount = 0; // cos scheme initialization is made only while OwnPortCount is 0
-                        rtuInitializedDto.ReturnCode = ReturnCode.RtuInitializationError;
-                        rtuInitializedDto.ErrorMessage = "Failed to set main OTAU as a root in cascading scheme!" + Environment.NewLine + schemeRes.ErrorMessage;
-                        return rtuInitializedDto;
-                    }
-                }
+                if (!await AdjustCascadingScheme(rtuAddresses, dto, rtuInitializedDto))
+                    return rtuInitializedDto;
 
                 var initRes = await _d2RtuVeexLayer2.InitializeMonitoringProperties(rtuAddresses);
                 if (initRes != null)
@@ -55,6 +47,47 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     ErrorMessage = e.Message,
                 };
             }
+        }
+
+        private async Task<bool> AdjustCascadingScheme(DoubleAddress rtuDoubleAddress,
+            InitializeRtuDto dto, RtuInitializedDto rtuInitializedDto)
+        {
+
+            // adjust cascading scheme to Client's one
+            var adjustRes = await _d2RtuVeexLayer2.AdjustCascadingScheme(rtuDoubleAddress,
+                CreateScheme(rtuInitializedDto.OtauId, dto.Children));
+            if (adjustRes.HttpStatusCode != HttpStatusCode.NoContent)
+            {
+                rtuInitializedDto.ReturnCode = ReturnCode.RtuInitializationError;
+                rtuInitializedDto.ErrorMessage = "Failed to adjust cascading scheme to client's one!"
+                                                 + Environment.NewLine + adjustRes.ErrorMessage;
+                return false;
+            }
+
+            return true;
+        }
+
+        private static VeexOtauCascadingScheme CreateScheme(string mainOtauId, Dictionary<int, OtauDto> children)
+        {
+            var scheme = new VeexOtauCascadingScheme()
+            {
+                rootConnections = new List<RootConnection>()
+                {
+                    new RootConnection(){ inputOtauId = mainOtauId, inputOtauPort = 0 }
+                },
+                connections = new List<Connection>()
+            };
+            foreach (var child in children)
+            {
+                scheme.connections.Add(new Connection()
+                {
+                    inputOtauId = mainOtauId,
+                    inputOtauPort = 0,
+                    outputOtauId = child.Value.OtauId,
+                    outputOtauPort = child.Key - 1,
+                });
+            }
+            return scheme;
         }
     }
 }

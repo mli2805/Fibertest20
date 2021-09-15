@@ -8,6 +8,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public byte[] ResponseBytesArray;
         public object ResponseObject;
         public HttpStatusCode HttpStatusCode;
+        public bool IsSuccessful;
         public string ErrorMessage;
     }
 }

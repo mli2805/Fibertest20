@@ -12,11 +12,18 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<bool> ApplyMoniSettingsToEveryTest(DoubleAddress rtuAddresses, TimeSpan preciseTimeSpan,
             List<PortWithTraceDto> includedPorts)
         {
-            var listOfTestLinks = await _d2RtuVeexLayer1.GetTests(rtuAddresses);
+            var getResult = await _d2RtuVeexLayer1.GetTests(rtuAddresses);
+            if (!getResult.IsSuccessful)
+                return false;
+
+            var listOfTestLinks = (TestsLinks)getResult.ResponseObject;
             foreach (var testLink in listOfTestLinks.items)
             {
-                Test test = await _d2RtuVeexLayer1.GetTest(rtuAddresses, testLink.self);
-                if (test?.otauPort == null) continue;
+                var getRes = await _d2RtuVeexLayer1.GetTest(rtuAddresses, testLink.self);
+                if (!getRes.IsSuccessful)
+                    return false;
+                Test test = (Test)getRes.ResponseObject;
+                if (test.otauPort == null) continue;
 
                 if (!await ApplyMoniSettingsToOneTest(rtuAddresses, includedPorts, test, (int)preciseTimeSpan.TotalSeconds))
                     return false;
@@ -59,7 +66,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<bool> SetMonitoringState(DoubleAddress rtuAddresses, string otdrId, string state)
         {
             _logFile.AppendLine("SetMonitoringState:");
-            var httpRequestResult = await _d2RtuVeexLayer1.SetMonitoringState(rtuAddresses, state);
+            var httpRequestResult = await SetMonitoringState(rtuAddresses, state);
             _logFile.AppendLine($"SetMonitoringState request result status code: { httpRequestResult.HttpStatusCode}");
             if (httpRequestResult.HttpStatusCode == HttpStatusCode.Conflict)
             {
@@ -68,7 +75,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 if (proxy.HttpStatusCode != HttpStatusCode.NoContent)
                     return false;
 
-                httpRequestResult = await _d2RtuVeexLayer1.SetMonitoringState(rtuAddresses, state);
+                httpRequestResult = await SetMonitoringState(rtuAddresses, state);
             }
 
             return httpRequestResult.HttpStatusCode == HttpStatusCode.NoContent;

@@ -10,6 +10,8 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public string Serial { get; set; }
         [DataMember]
+        public string OtauId { get; set; }
+        [DataMember]
         public NetAddress NetAddress { get; set; }
         [DataMember]
         public int OwnPortCount { get; set; }

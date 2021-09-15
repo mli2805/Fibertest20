@@ -20,32 +20,34 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<ClientMeasurementDto> GetMeasurementClientResult(DoubleAddress rtuDoubleAddress, string measId)
         {
-            var veexMeasurementResult = await _d2RtuVeexLayer1.GetMeasurementResult(rtuDoubleAddress, measId);
-            if (veexMeasurementResult == null)
+            var getResult = await _d2RtuVeexLayer1.GetMeasurementResult(rtuDoubleAddress, measId);
+            if (!getResult.IsSuccessful)
                 return new ClientMeasurementDto()
                 {
                     ReturnCode = ReturnCode.Error,
                     ErrorMessage = "Failed to get measurement result!",
                 };
 
+            var measResult = (VeexMeasurementResult) getResult.ResponseObject;
+
             var result = new ClientMeasurementDto()
             {
                 ReturnCode = ReturnCode.Ok,
-                VeexMeasurementStatus = veexMeasurementResult.status,
-                ErrorMessage = veexMeasurementResult.extendedStatus,
+                VeexMeasurementStatus = measResult.status,
+                ErrorMessage = measResult.extendedStatus,
             };
 
-            if (veexMeasurementResult.status == "finished")
+            if (measResult.status == "finished")
             {
-                var bytes = await _d2RtuVeexLayer1.GetMeasurementBytes(rtuDoubleAddress, measId);
-                if (bytes == null)
+                var getResult2 = await _d2RtuVeexLayer1.GetMeasurementBytes(rtuDoubleAddress, measId);
+                if (!getResult2.IsSuccessful || getResult2.ResponseBytesArray == null)
                 {
                     result.ReturnCode = ReturnCode.Error;
                     result.ErrorMessage = "Failed to get measurement bytes";
                 }
                 else
                 {
-                    result.SorBytes = bytes;
+                    result.SorBytes = getResult.ResponseBytesArray;
                 }
 
             }

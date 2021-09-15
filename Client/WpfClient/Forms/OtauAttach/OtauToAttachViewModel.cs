@@ -167,7 +167,7 @@ namespace Iit.Fibertest.Client
             {
                 RtuId = _rtu.Id,
                 RtuMaker = _rtu.RtuMaker,
-                OtauId = Guid.NewGuid(),
+                OtauId = Guid.NewGuid(), // Veex Rtu will replace this by its own id
                 NetAddress = netAddress,
                 OpticalPort = _portNumberForAttachment
             };

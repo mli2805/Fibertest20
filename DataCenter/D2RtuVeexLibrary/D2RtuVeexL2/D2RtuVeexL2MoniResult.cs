@@ -11,25 +11,28 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var kind = type == "monitoring_test_passed" ? "last_passed" : "last_failed";
             try
             {
-                var completedTest = await _d2RtuVeexLayer1.GetCompletedTest(rtuAddresses, testId, kind);
-                if (completedTest == null) return null;
+                var getTestResult = await _d2RtuVeexLayer1.GetCompletedTest(rtuAddresses, testId, kind);
+                if (!getTestResult.IsSuccessful) 
+                    return null;
+                var completedTest = (CompletedTest) getTestResult.ResponseObject;
 
-                var sorBytes = await _d2RtuVeexLayer1.GetSorBytes(rtuAddresses, testId, kind);
+                var getSorResult = await _d2RtuVeexLayer1.GetSorBytes(rtuAddresses, testId, kind);
+                if (!getSorResult.IsSuccessful)
+                    return null;
+
                 return new MonitoringResultDto()
                 {
                     MeasurementResult = GetMeasurementResult(completedTest),
                     BaseRefType = isFast 
                         ? BaseRefType.Fast
                         : completedTest.indicesOfReferenceTraces[0] == 0 ? BaseRefType.Precise : BaseRefType.Additional,
-                    SorBytes = sorBytes,
+                    SorBytes = getSorResult.ResponseBytesArray,
                 };
             }
             catch (Exception)
             {
                 return null;
             }
-
-          
         }
 
         private MeasurementResult GetMeasurementResult(CompletedTest completedTest)

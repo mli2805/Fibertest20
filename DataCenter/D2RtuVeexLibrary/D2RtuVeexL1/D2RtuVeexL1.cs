@@ -15,70 +15,76 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             _httpExt = httpExt;
         }
-
-        public async Task<HttpRequestResult> SetMonitoringState(DoubleAddress rtuDoubleAddress, string state)
+       
+        public async Task<HttpRequestResult> GetMonitoringProperties(DoubleAddress rtuDoubleAddress)
         {
-            return await SetMonitoringProperty(rtuDoubleAddress, "state", state);
-        }
-
-        public async Task<HttpRequestResult> SetMonitoringTypeToFibertest(DoubleAddress rtuDoubleAddress)
-        {
-            return await SetMonitoringProperty(rtuDoubleAddress, "type", "fibertest");
+            var res = await _httpExt.RequestByUrl(rtuDoubleAddress, "monitoring", "get");
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
+            if (res.IsSuccessful)
+                res.ResponseObject = JsonConvert.DeserializeObject<VeexMonitoringDto>(res.ResponseJson);
+            return res;
         }
 
         // only one property could be changed at a time
-        private async Task<HttpRequestResult> SetMonitoringProperty(DoubleAddress rtuDoubleAddress, string propertyName, string propertyValue)
+        public async Task<HttpRequestResult> SetMonitoringProperty(DoubleAddress rtuDoubleAddress, string propertyName, string propertyValue)
         {
             var json = $"{{\"{propertyName}\":\"{propertyValue}\"}}";
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress,
+            var res = await _httpExt.RequestByUrl(rtuDoubleAddress,
                 "monitoring", "patch", "application/merge-patch+json", json);
-            return httpResult;
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
+            return res;
         }
 
         public async Task<HttpRequestResult> ChangeProxyMode(DoubleAddress rtuDoubleAddress, string otdrId, bool isProxyEnabled)
         {
             var word = isProxyEnabled ? "true" : "false";
             var json = $"{{\"enabled\":\"{word}\"}}";
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress,
+            var res = await _httpExt.RequestByUrl(rtuDoubleAddress,
                 $"otdrs/{otdrId}", "patch", "application/merge-patch+json", json);
-            return httpResult;
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
+            return res;
         }
 
         public async Task<HttpRequestResult> SetServerNotificationSettings(DoubleAddress rtuDoubleAddress, ServerNotificationSettings dto)
         {
             var jsonData = JsonConvert.SerializeObject(dto);
-            return await _httpExt.RequestByUrl(rtuDoubleAddress,
+            var res = await _httpExt.RequestByUrl(rtuDoubleAddress,
                 $@"/notification/settings", "patch", "application/merge-patch+json", jsonData);
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
+            return res;
         }
 
         public async Task<HttpRequestResult> SwitchOtauToPort(DoubleAddress rtuDoubleAddress, string otauId, int port)
         {
             var jsonData = $"{{\"portIndex\":\"{port}\"}}";
-            return await _httpExt.RequestByUrl(rtuDoubleAddress,
+            var res = await _httpExt.RequestByUrl(rtuDoubleAddress,
                 $@"/otaus/{otauId}", "patch", "application/merge-patch+json", jsonData);
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
+            return res;
         }
 
         public async Task<HttpRequestResult> DoMeasurementRequest(DoubleAddress rtuDoubleAddress, VeexMeasurementRequest dto)
         {
             var jsonData = JsonConvert.SerializeObject(dto);
-            return await _httpExt.RequestByUrl(rtuDoubleAddress,
+            var res = await _httpExt.RequestByUrl(rtuDoubleAddress,
                 $@"/measurements", "post", "application/json", jsonData);
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.Created;
+            return res;
         }
 
-        public async Task<VeexMeasurementResult> GetMeasurementResult(DoubleAddress rtuDoubleAddress, string measId)
+        public async Task<HttpRequestResult> GetMeasurementResult(DoubleAddress rtuDoubleAddress, string measId)
         {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, $"measurements/{measId}", "get");
-            return httpResult.HttpStatusCode == HttpStatusCode.OK 
-                ? JsonConvert.DeserializeObject<VeexMeasurementResult>(httpResult.ResponseJson) 
-                : null;
+            var res = await _httpExt.RequestByUrl(rtuDoubleAddress, $"measurements/{measId}", "get");
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
+            res.ResponseObject = JsonConvert.DeserializeObject<VeexMeasurementResult>(res.ResponseJson);
+            return res;
         }
 
-        public async Task<byte[]> GetMeasurementBytes(DoubleAddress rtuDoubleAddress, string measId)
+        public async Task<HttpRequestResult> GetMeasurementBytes(DoubleAddress rtuDoubleAddress, string measId)
         {
-            var httpResult = await _httpExt.GetByteArray(rtuDoubleAddress, $"measurements/{measId}/traces/0");
-            return httpResult.HttpStatusCode == HttpStatusCode.OK
-                ? httpResult.ResponseBytesArray
-                : null;
+            var res = await _httpExt.GetByteArray(rtuDoubleAddress, $"measurements/{measId}/traces/0");
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
+            return res;
         }
 
 

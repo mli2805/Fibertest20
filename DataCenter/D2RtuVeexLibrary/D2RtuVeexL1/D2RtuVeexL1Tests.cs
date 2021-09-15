@@ -7,64 +7,66 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer1
     {
-        public async Task<TestsLinks> GetTests(DoubleAddress rtuDoubleAddress)
+        public async Task<HttpRequestResult> GetTests(DoubleAddress rtuDoubleAddress)
         {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, "monitoring/tests", "get");
-            return httpResult.HttpStatusCode == HttpStatusCode.OK
-                ? JsonConvert.DeserializeObject<TestsLinks>(httpResult.ResponseJson)
-                : null;
+            var res = await _httpExt.RequestByUrl(rtuDoubleAddress, "monitoring/tests", "get");
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
+            if (res.IsSuccessful)
+                res.ResponseObject = JsonConvert.DeserializeObject<TestsLinks>(res.ResponseJson);
+            return res;  
         }
-
-        public async Task<Test> GetTestOld(DoubleAddress rtuDoubleAddress, string testLink)
-        {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, $@"monitoring/{testLink}", "get");
-            return httpResult.HttpStatusCode == HttpStatusCode.OK
-                ? JsonConvert.DeserializeObject<Test>(httpResult.ResponseJson)
-                : null;
-        }
-
-        public async Task<Test> GetTest(DoubleAddress rtuDoubleAddress, string testLink)
+      
+        public async Task<HttpRequestResult> GetTest(DoubleAddress rtuDoubleAddress, string testLink)
         {
             var relativeUri = $@"monitoring/{testLink}?fields=*,otauPort.*,relations.items.*";
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, relativeUri, "get");
-            return httpResult.HttpStatusCode == HttpStatusCode.OK
-                ? JsonConvert.DeserializeObject<Test>(httpResult.ResponseJson)
-                : null;
+            var res = await _httpExt.RequestByUrl(rtuDoubleAddress, relativeUri, "get");
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
+            if (res.IsSuccessful)
+                res.ResponseObject = JsonConvert.DeserializeObject<Test>(res.ResponseJson);
+            return res;
         }
 
         public async Task<HttpRequestResult> CreateTest(DoubleAddress rtuDoubleAddress, Test test)
         {
             var content = JsonConvert.SerializeObject(test, IgnoreNulls);
-            return await _httpExt.RequestByUrl(rtuDoubleAddress,
+            var res = await _httpExt.RequestByUrl(rtuDoubleAddress,
                 "monitoring/tests", "post", "application/json", content);
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.Created;
+            return res;
         }
 
         public async Task<HttpRequestResult> AddTestsRelation(DoubleAddress rtuDoubleAddress, TestsRelation relation)
         {
             var content = JsonConvert.SerializeObject(relation);
-            return await _httpExt.RequestByUrl(rtuDoubleAddress,
+            var res = await _httpExt.RequestByUrl(rtuDoubleAddress,
                 "monitoring/test_relations", "post", "application/json", content);
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.Created;
+            return res;
         }
 
-        public async Task<bool> DeleteRelation(DoubleAddress rtuDoubleAddress, string relationId)
+        public async Task<HttpRequestResult> DeleteRelation(DoubleAddress rtuDoubleAddress, string relationId)
         {
-            var result = await _httpExt.RequestByUrl(rtuDoubleAddress, $@"monitoring/test_relations/{relationId}", "delete");
-            return result.HttpStatusCode == HttpStatusCode.NoContent;
+            var res = await _httpExt.RequestByUrl(rtuDoubleAddress, 
+                $@"monitoring/test_relations/{relationId}", "delete");
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
+            return res;
         }
 
 
-        public async Task<bool> ChangeTest(DoubleAddress rtuDoubleAddress, string testLink, Test test)
+        public async Task<HttpRequestResult> ChangeTest(DoubleAddress rtuDoubleAddress, string testLink, Test test)
         {
             var jsonData = JsonConvert.SerializeObject(test, IgnoreNulls);
-            var result = await _httpExt.RequestByUrl(rtuDoubleAddress,
+            var res = await _httpExt.RequestByUrl(rtuDoubleAddress,
                 $@"monitoring/{testLink}", "patch", "application/merge-patch+json", jsonData);
-            return result.HttpStatusCode == HttpStatusCode.NoContent;
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
+            return res;
         }
 
-        public async Task<bool> DeleteTest(DoubleAddress rtuDoubleAddress, string testLink)
+        public async Task<HttpRequestResult> DeleteTest(DoubleAddress rtuDoubleAddress, string testLink)
         {
-            var result = await _httpExt.RequestByUrl(rtuDoubleAddress, $@"monitoring/{testLink}", "delete");
-            return result.HttpStatusCode == HttpStatusCode.NoContent;
+            var res = await _httpExt.RequestByUrl(rtuDoubleAddress, $@"monitoring/{testLink}", "delete");
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
+            return res;
         }
     }
 }

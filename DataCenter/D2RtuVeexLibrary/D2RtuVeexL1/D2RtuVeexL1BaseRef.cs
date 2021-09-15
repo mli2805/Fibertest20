@@ -9,23 +9,28 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
     {
         public async Task<HttpRequestResult> SetBaseRef(DoubleAddress rtuDoubleAddress, string testId, byte[] sorBytes, byte[] sorBytes2 = null)
         {
-            return await _httpExt.PostByteArray(rtuDoubleAddress, $@"monitoring/{testId}/references", sorBytes, sorBytes2);
+            var res = await _httpExt.PostByteArray(
+                rtuDoubleAddress, $@"monitoring/{testId}/references", sorBytes, sorBytes2);
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.Created;
+            return res;
         }
 
-        public async Task<ThresholdSet> GetTestThresholds(DoubleAddress rtuDoubleAddress, string testLink)
+        public async Task<HttpRequestResult> GetTestThresholds(DoubleAddress rtuDoubleAddress, string testLink)
         {
-            var httpResult = await _httpExt.RequestByUrl(rtuDoubleAddress, $@"monitoring/{testLink}/thresholds/current", "get");
-            return httpResult.HttpStatusCode == HttpStatusCode.OK
-                ? JsonConvert.DeserializeObject<ThresholdSet>(httpResult.ResponseJson)
-                : null;
+            var res = await _httpExt.RequestByUrl(rtuDoubleAddress, $@"monitoring/{testLink}/thresholds/current", "get");
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
+            if (res.IsSuccessful) res.ResponseObject = JsonConvert.DeserializeObject<ThresholdSet>(res.ResponseJson);
+            return res;
         }
 
         public async Task<HttpRequestResult> SetThresholds(DoubleAddress rtuDoubleAddress, string testLink,
             ThresholdSet thresholdSet)
         {
             var jsonData = JsonConvert.SerializeObject(thresholdSet);
-            return await _httpExt.RequestByUrl(
+            var res = await _httpExt.RequestByUrl(
                 rtuDoubleAddress, $@"monitoring/{testLink}/thresholds", "post", "application/json", jsonData);
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.Created;
+            return res;
         }
     }
 }
