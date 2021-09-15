@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
@@ -9,7 +8,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<ClientMeasurementStartedDto> DoMeasurementRequest(DoubleAddress rtuDoubleAddress, VeexMeasurementRequest dto)
         {
             var res = await _d2RtuVeexLayer1.DoMeasurementRequest(rtuDoubleAddress, dto);
-            if (res.HttpStatusCode != HttpStatusCode.Created)
+            if (!res.IsSuccessful)
                 return new ClientMeasurementStartedDto()
                 {
                     ReturnCode = ReturnCode.Error,
@@ -58,12 +57,12 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             PrepareReflectMeasurementDto dto)
         {
             var otdrRes = await _d2RtuVeexLayer1.ChangeProxyMode(rtuDoubleAddress, dto.OtdrId, true);
-            if (otdrRes.HttpStatusCode != HttpStatusCode.NoContent)
+            if (!otdrRes.IsSuccessful)
                 return new RequestAnswer()
                     {ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to enable proxy mode!"};
 
             var toggleRes = await _d2RtuVeexLayer1.SwitchOtauToPort(rtuDoubleAddress, dto.OtauId, dto.PortNumber);
-            if (toggleRes.HttpStatusCode != HttpStatusCode.NoContent)
+            if (!toggleRes.IsSuccessful)
                 return new RequestAnswer()
                     {ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to switch otau to port!"};
 

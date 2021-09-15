@@ -91,7 +91,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<HttpRequestResult> AttachOtau(DoubleAddress rtuDoubleAddress, NewOtau newOtau, int masterOpticalPort)
         {
             var creationResult = await _d2RtuVeexLayer1.CreateOtau(rtuDoubleAddress, newOtau);
-            if (creationResult.HttpStatusCode != HttpStatusCode.Created)
+            if (!creationResult.IsSuccessful)
                 return creationResult;
 
             var responseParts = creationResult.ResponseJson.Split('/');
@@ -125,7 +125,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (!changeScheme.IsSuccessful)
                 return changeScheme;
 
-            return await _d2RtuVeexLayer1.GetOtau(rtuDoubleAddress, otauId);
+            return await _d2RtuVeexLayer1.GetOtau(rtuDoubleAddress, creationResult.ResponseJson);
         }
 
     }

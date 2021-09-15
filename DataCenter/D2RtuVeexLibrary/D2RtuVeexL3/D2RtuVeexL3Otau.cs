@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -19,7 +18,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             };
             var res = await _d2RtuVeexLayer2.AttachOtau(rtuDoubleAddress, newOtau, dto.OpticalPort);
 
-            if (res.HttpStatusCode == HttpStatusCode.OK && res.ResponseObject is VeexOtau otau)
+            if (res.IsSuccessful && res.ResponseObject is VeexOtau otau)
             {
                 return new OtauAttachedDto()
                 {

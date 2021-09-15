@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -66,19 +65,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<bool> SetMonitoringState(DoubleAddress rtuAddresses, string otdrId, string state)
         {
             _logFile.AppendLine("SetMonitoringState:");
-            var httpRequestResult = await SetMonitoringState(rtuAddresses, state);
-            _logFile.AppendLine($"SetMonitoringState request result status code: { httpRequestResult.HttpStatusCode}");
-            if (httpRequestResult.HttpStatusCode == HttpStatusCode.Conflict)
-            {
-                var proxy = await _d2RtuVeexLayer1.ChangeProxyMode(rtuAddresses, otdrId, false);
-                _logFile.AppendLine($"ChangeProxyMode request result status code: { proxy.HttpStatusCode}");
-                if (proxy.HttpStatusCode != HttpStatusCode.NoContent)
-                    return false;
+            var res = await SetMonitoringState(rtuAddresses, state);
+            if (res.IsSuccessful) return true;
 
-                httpRequestResult = await SetMonitoringState(rtuAddresses, state);
-            }
+            var proxy = await _d2RtuVeexLayer1.ChangeProxyMode(rtuAddresses, otdrId, false);
+            if (!proxy.IsSuccessful)
+                return false;
 
-            return httpRequestResult.HttpStatusCode == HttpStatusCode.NoContent;
+            return (await SetMonitoringState(rtuAddresses, state)).IsSuccessful;
         }
     }
 }

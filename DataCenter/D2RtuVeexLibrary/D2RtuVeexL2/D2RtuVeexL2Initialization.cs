@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -128,7 +127,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (monitoringProperties.state == "enabled")
             {
                 var setStateRes = await SetMonitoringState(rtuDoubleAddress, "disabled");
-                if (setStateRes.HttpStatusCode != HttpStatusCode.NoContent)
+                if (!setStateRes.IsSuccessful)
                     return new RtuInitializedDto()
                     {
                         ReturnCode = ReturnCode.RtuInitializationError,
@@ -146,7 +145,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             }
 
             var setResult = await SetMonitoringTypeToFibertest(rtuDoubleAddress);
-            if (setResult.HttpStatusCode != HttpStatusCode.NoContent)
+            if (!setResult.IsSuccessful)
             {
                 return new RtuInitializedDto()
                 {

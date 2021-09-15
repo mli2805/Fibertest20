@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Linq;
-using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -92,7 +91,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 };
 
             var relationRes = await _d2RtuVeexLayer2.AddRelation(rtuAddresses, fastTest, preciseTest);
-            if (relationRes.HttpStatusCode != HttpStatusCode.Created)
+            if (!relationRes.IsSuccessful)
                 return new BaseRefAssignedDto()
                 {
                     ReturnCode = ReturnCode.BaseRefAssignmentFailed,

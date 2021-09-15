@@ -1,5 +1,4 @@
-﻿using System.Net;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
@@ -13,7 +12,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return test;
 
             var createResult = await CreateTest(rtuDoubleAddress, otdrId, otauId, portIndex, baseRefType);
-            return createResult.HttpStatusCode != HttpStatusCode.Created 
+            return !createResult.IsSuccessful 
                 ? null 
                 : await GetTestForPortAndBaseType(rtuDoubleAddress, portIndex, baseRefType.ToString().ToLower());
         }

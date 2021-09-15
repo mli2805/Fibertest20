@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -29,7 +28,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 }
 
                 var saveRes = await _d2RtuVeexLayer2.SetServerNotificationSettings(rtuAddresses, dto);
-                if (saveRes.HttpStatusCode != HttpStatusCode.NoContent)
+                if (!saveRes.IsSuccessful)
                     return new RtuInitializedDto()
                     {
                         ReturnCode = ReturnCode.RtuInitializationError,
@@ -56,7 +55,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             // adjust cascading scheme to Client's one
             var adjustRes = await _d2RtuVeexLayer2.AdjustCascadingScheme(rtuDoubleAddress,
                 CreateScheme(rtuInitializedDto.OtauId, dto.Children));
-            if (adjustRes.HttpStatusCode != HttpStatusCode.NoContent)
+            if (!adjustRes.IsSuccessful)
             {
                 rtuInitializedDto.ReturnCode = ReturnCode.RtuInitializationError;
                 rtuInitializedDto.ErrorMessage = "Failed to adjust cascading scheme to client's one!"
