@@ -45,7 +45,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (!adjustRes.IsSuccessful)
             {
                 adjustRes.ErrorMessage = "Failed to adjust cascading scheme to client's one!"
-                                         + Environment.NewLine + adjustRes.ErrorMessage;
+                                         + Environment.NewLine + adjustRes.ResponseJson;
                 return adjustRes;
             }
 
