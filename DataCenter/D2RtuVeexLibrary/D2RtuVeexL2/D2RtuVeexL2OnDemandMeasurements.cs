@@ -46,7 +46,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 }
                 else
                 {
-                    result.SorBytes = getResult.ResponseBytesArray;
+                    result.SorBytes = getResult2.ResponseBytesArray;
                 }
 
             }
