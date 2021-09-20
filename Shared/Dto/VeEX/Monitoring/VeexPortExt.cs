@@ -15,7 +15,7 @@ namespace Iit.Fibertest.Dto
         {
             if (anotherList == null) return false;
             if (otauPorts.Count != anotherList.Count) return false;
-            return otauPorts.All(otauPort => anotherList.Any(o => IsEqual((VeexOtauPort) o, otauPort)));
+            return otauPorts.All(otauPort => anotherList.Any(o => IsEqual(o, otauPort)));
         }
 
         public static string PortName(this List<VeexOtauPort> otauPorts)
@@ -43,6 +43,21 @@ namespace Iit.Fibertest.Dto
                 otauPorts.Add(Map(mainOtau));
             }
             otauPorts.Add(Map(otauWithLine));
+            return otauPorts;
+        }
+
+        public static List<VeexOtauPort> Create(PortWithTraceDto dto, string mainOtauId)
+        {
+            var otauPorts = new List<VeexOtauPort>();
+            if (!dto.OtauPort.IsPortOnMainCharon)
+            {
+                otauPorts.Add(new VeexOtauPort()
+                {
+                    otauId = mainOtauId,
+                    portIndex = dto.OtauPort.MainCharonPort - 1,
+                });
+            }
+            otauPorts.Add(Map(dto.OtauPort));
             return otauPorts;
         }
     }

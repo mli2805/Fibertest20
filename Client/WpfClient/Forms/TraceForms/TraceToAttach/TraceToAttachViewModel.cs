@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly CurrentUser _currentUser;
         private OtauPortDto _otauPortDto;
+        private Rtu _rtu;
         private Trace _selectedTrace;
 
         public List<Trace> Choices { get; set; }
@@ -54,6 +55,7 @@ namespace Iit.Fibertest.Client
 
         public void Initialize(Rtu rtu, OtauPortDto otauPortDto)
         {
+            _rtu = rtu;
             _otauPortDto = otauPortDto;
             Choices = _readModel.Traces.Where(t => t.RtuId == rtu.Id && t.Port < 1 && t.ZoneIds.Contains(_currentUser.ZoneId)).ToList();
             SelectedTrace = Choices.FirstOrDefault();
@@ -74,7 +76,7 @@ namespace Iit.Fibertest.Client
                 MainOtauPortDto = new OtauPortDto()
                 {
                     IsPortOnMainCharon = true,
-                    OtauId = _otauPortDto.OtauId,
+                    OtauId = _rtu.OtauId,
                     OpticalPort = _otauPortDto.MainCharonPort
                 },
             };

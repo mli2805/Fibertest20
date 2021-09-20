@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -8,8 +6,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer2
     {
-        public async Task<bool> ApplyMoniSettingsToEveryTest(DoubleAddress rtuAddresses, TimeSpan preciseTimeSpan,
-            List<PortWithTraceDto> includedPorts)
+        public async Task<bool> ApplyMoniSettingsToEveryTest(DoubleAddress rtuAddresses, ApplyMonitoringSettingsDto dto)
         {
             var getResult = await _d2RtuVeexLayer1.GetTests(rtuAddresses);
             if (!getResult.IsSuccessful)
@@ -24,29 +21,31 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 Test test = (Test)getRes.ResponseObject;
                 if (test.otauPorts == null) continue;
 
-                if (!await ApplyMoniSettingsToOneTest(rtuAddresses, includedPorts, test, (int)preciseTimeSpan.TotalSeconds))
+                if (!await ApplyMoniSettingsToOneTest(rtuAddresses, dto, test))
                     return false;
             }
 
             return true;
         }
 
-        private async Task<bool> ApplyMoniSettingsToOneTest(DoubleAddress rtuAddresses, 
-            List<PortWithTraceDto> includedPorts, Test test, int periodForPrecise)
+        private async Task<bool> ApplyMoniSettingsToOneTest(DoubleAddress rtuAddresses, ApplyMonitoringSettingsDto dto,
+            Test test)
         {
             // no matter is test enabled or disabled, set its period, it does not do any harm
             var isFast = test.name.ToLower().Contains("fast");
             var periodShouldBe = isFast
                 ? 0
-                : periodForPrecise;
+                : (int)dto.Timespans.PreciseMeas.TotalSeconds;
             var failedPeriodShouldBe = isFast
                 ? int.MaxValue
                 : 0;
 
+            var otauPortsUnderMonitoring = dto.Ports.Select(p => VeexPortExt.Create(p, dto.OtauId));
+
             // if included in cycle state should be "enabled"
-            var stateShouldBe = includedPorts.All(p => p.OtauPort.OpticalPort - 1 != test.otauPorts.Last().portIndex)
-                ? "disabled"
-                : "enabled";
+            var stateShouldBe = otauPortsUnderMonitoring.Any(o=>o.IsEqual(test.otauPorts))
+                ? "enabled"
+                : "disabled";
 
             if (test.period != periodShouldBe)
                 if (!await ChangeTestPeriod(rtuAddresses, test, periodShouldBe, failedPeriodShouldBe))

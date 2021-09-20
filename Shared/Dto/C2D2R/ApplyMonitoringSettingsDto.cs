@@ -18,6 +18,9 @@ namespace Iit.Fibertest.Dto
         public string OtdrId { get; set; }
 
         [DataMember]
+        public string OtauId { get; set; }
+
+        [DataMember]
         public bool IsMonitoringOn { get; set; }
 
         [DataMember]

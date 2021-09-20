@@ -120,6 +120,8 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             {
                 RtuId = Model.RtuId,
                 RtuMaker = Model.RtuMaker,
+                OtdrId = Model.OtdrId,
+                OtauId = Model.OtauId,
                 IsMonitoringOn = Model.IsMonitoringOn,
                 Timespans = ConvertFrequenciesToDto(),
                 Ports = ConvertPorts()

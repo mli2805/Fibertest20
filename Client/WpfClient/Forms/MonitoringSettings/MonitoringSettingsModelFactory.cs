@@ -27,6 +27,8 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             {
                 RtuId = _rtuLeaf.Id,
                 RtuMaker = _rtuLeaf.RtuMaker,
+                OtdrId = rtu.OtdrId,
+                OtauId = rtu.OtauId,
                 RealOtdrAddress = GetRealOtdrAddress(),
                 IsMonitoringOn = _rtuLeaf.MonitoringState == MonitoringState.On,
                 Charons = PrepareMonitoringCharonModels(isEditEnabled),

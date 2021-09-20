@@ -78,7 +78,7 @@ namespace Iit.Fibertest.DataCenterCore
                 };
             }
 
-            var result = await _d2RtuVeexLayer3.ApplyMonitoringSettingsAsync(dto, rtu.OtdrId, rtuAddresses);
+            var result = await _d2RtuVeexLayer3.ApplyMonitoringSettingsAsync(dto, rtuAddresses);
             _logFile.AppendLine($"{result.ReturnCode}");
             if (result.ReturnCode != ReturnCode.MonitoringSettingsAppliedSuccessfully)
                 _logFile.AppendLine($"{result.ErrorMessage}");

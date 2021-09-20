@@ -19,14 +19,16 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         }
 
         // re-factored
-        public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto, string otdrId, DoubleAddress rtuAddresses)
+        public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(
+            ApplyMonitoringSettingsDto dto, DoubleAddress rtuAddresses)
         {
             try
             {
-                if (!await _d2RtuVeexLayer2.ApplyMoniSettingsToEveryTest(rtuAddresses, dto.Timespans.PreciseMeas, dto.Ports))
+                if (!await _d2RtuVeexLayer2.ApplyMoniSettingsToEveryTest(rtuAddresses, dto))
                     return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError };
 
-                var res = await _d2RtuVeexLayer2.ChangeMonitoringState(rtuAddresses, otdrId, dto.IsMonitoringOn ? "enabled" : "disabled");
+                var res = await _d2RtuVeexLayer2.ChangeMonitoringState(
+                    rtuAddresses, dto.OtdrId, dto.IsMonitoringOn ? "enabled" : "disabled");
                 return res ? new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully }
                            : new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError };
             }
