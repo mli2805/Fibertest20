@@ -23,30 +23,33 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var resScheme = await _d2RtuVeexLayer1.GetOtauCascadingScheme(rtuDoubleAddress);
             if (!resScheme.IsSuccessful) return resScheme;
 
-            if (otauList.Count > 0 && dto.IsFirstInitialization)
+            if (otauList.Count > 0)
             {
-                // first initialization
-                var resetRes = await LeaveOnlyRootOtau(rtuDoubleAddress, otauList);
-                if (!resetRes.IsSuccessful)
-                    return resetRes;
-
-                dto.OtauId = resetRes.ResponseJson;
-
-                var initSchemeRes = await SetRootOtauIntoScheme(rtuDoubleAddress, dto.OtauId);
-                if (!initSchemeRes.IsSuccessful)
+                if (dto.IsFirstInitialization)
                 {
-                    initSchemeRes.ErrorMessage = "Failed to set main OTAU as a root in cascading scheme!"
-                                                 + Environment.NewLine + initSchemeRes.ErrorMessage;
-                    return initSchemeRes;
-                }
-            }
+                    // first initialization
+                    var resetRes = await LeaveOnlyRootOtau(rtuDoubleAddress, otauList);
+                    if (!resetRes.IsSuccessful)
+                        return resetRes;
 
-            var adjustRes = await AdjustSchemeToClientsView(rtuDoubleAddress, dto.OtauId, dto.Children, otauList);
-            if (!adjustRes.IsSuccessful)
-            {
-                adjustRes.ErrorMessage = "Failed to adjust cascading scheme to client's one!"
-                                         + Environment.NewLine + adjustRes.ResponseJson;
-                return adjustRes;
+                    dto.OtauId = resetRes.ResponseJson;
+
+                    var initSchemeRes = await SetRootOtauIntoScheme(rtuDoubleAddress, dto.OtauId);
+                    if (!initSchemeRes.IsSuccessful)
+                    {
+                        initSchemeRes.ErrorMessage = "Failed to set main OTAU as a root in cascading scheme!"
+                                                     + Environment.NewLine + initSchemeRes.ErrorMessage;
+                        return initSchemeRes;
+                    }
+                }
+
+                var adjustRes = await AdjustSchemeToClientsView(rtuDoubleAddress, dto.OtauId, dto.Children, otauList);
+                if (!adjustRes.IsSuccessful)
+                {
+                    adjustRes.ErrorMessage = "Failed to adjust cascading scheme to client's one!"
+                                             + Environment.NewLine + adjustRes.ResponseJson;
+                    return adjustRes;
+                }
             }
 
             res.ResponseObject = new VeexOtauInfo()
