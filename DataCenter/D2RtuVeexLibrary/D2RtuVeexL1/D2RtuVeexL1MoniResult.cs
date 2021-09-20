@@ -16,7 +16,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return res;
         }
 
-        public async Task<HttpRequestResult> GetSorBytes(DoubleAddress rtuDoubleAddress,  string testId, string kind)
+        public async Task<HttpRequestResult> GetSorBytes(DoubleAddress rtuDoubleAddress, string testId, string kind)
         {
             var res = await _httpExt.GetByteArray(
                 rtuDoubleAddress, $"monitoring/tests/{testId}/completed/{kind}/traces/0.sor");
@@ -24,5 +24,22 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return res;
         }
 
+        public async Task<HttpRequestResult> GetCompletedTestsAfterTimestamp(DoubleAddress rtuDoubleAddress, string timestamp)
+        {
+            var res = await _httpExt.RequestByUrl(
+                rtuDoubleAddress, $"monitoring/completed?fields=*,items.*&starting={timestamp}", "get");
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
+            if (res.IsSuccessful)
+                res.ResponseObject = JsonConvert.DeserializeObject<CompletedTestPortion>(res.ResponseJson);
+            return res;
+        }
+
+        public async Task<HttpRequestResult> GetCompletedTestSorBytes(DoubleAddress rtuDoubleAddress, string measId)
+        {
+            var res = await _httpExt.GetByteArray(
+                rtuDoubleAddress, $"monitoring/completed/{measId}/traces/0.sor");
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
+            return res;
+        }
     }
 }

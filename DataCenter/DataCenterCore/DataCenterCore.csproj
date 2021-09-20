@@ -288,6 +288,8 @@
     <Compile Include="PON\OltTrapParserResult.cs" />
     <Compile Include="SignalRNudger.cs" />
     <Compile Include="PON\TrapReceiver.cs" />
+    <Compile Include="VeexCompletedTestProcessor.cs" />
+    <Compile Include="VeexCompletedTestsFetcher.cs" />
     <Compile Include="WcfServiceCommonC2D\IntermediateLayer.cs" />
     <Compile Include="WcfServiceWebC2D\EventsExt.cs" />
     <Compile Include="WcfServiceWebC2D\TraceWebDtoFactory.cs" />

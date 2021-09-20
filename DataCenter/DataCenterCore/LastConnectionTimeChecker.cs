@@ -77,7 +77,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<int> Tick()
         {
-             _clientsCollection.CleanDeadClients(_clientHeartbeatPermittedGap);
+            _clientsCollection.CleanDeadClients(_clientHeartbeatPermittedGap);
 
             var networkEvents = await GetNewNetworkEvents(_rtuHeartbeatPermittedGap);
             if (networkEvents.Count == 0)
@@ -92,7 +92,7 @@ namespace Iit.Fibertest.DataCenterCore
                     OnMainChannel = networkEvent.OnMainChannel,
                     OnReserveChannel = networkEvent.OnReserveChannel,
                 };
-                if (!string.IsNullOrEmpty(await _eventStoreService.SendCommand(command, "system", "OnServer"))) 
+                if (!string.IsNullOrEmpty(await _eventStoreService.SendCommand(command, "system", "OnServer")))
                     continue;
                 var lastEvent = _writeModel.NetworkEvents.LastOrDefault(n => n.RtuId == networkEvent.RtuId);
                 if (lastEvent == null) continue;

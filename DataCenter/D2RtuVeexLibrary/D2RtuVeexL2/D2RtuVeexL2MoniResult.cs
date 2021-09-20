@@ -44,5 +44,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             return MeasurementResult.Success;
         }
+
+        public async Task<HttpRequestResult> GetCompletedTestsAfterTimestamp(DoubleAddress rtuDoubleAddress,
+            string timestamp)
+        {
+            return await _d2RtuVeexLayer1.GetCompletedTestsAfterTimestamp(rtuDoubleAddress, timestamp);
+        }
     }
 }

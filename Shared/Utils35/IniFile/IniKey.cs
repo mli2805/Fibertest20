@@ -29,6 +29,7 @@
         RtuPauseAfterReboot,
         RtuUpTimeForAdditionalPause,
         // General - DataCenter
+        AskVeexRtuEvery,
         CheckWebApiEvery,
         CheckHeartbeatEvery,
         ClientConnectionsPermittedGap,

@@ -21,6 +21,7 @@ namespace Iit.Fibertest.DataCenterService
         private readonly IEventStoreInitializer _eventStoreInitializer;
         private readonly LastConnectionTimeChecker _lastConnectionTimeChecker;
         private readonly SignalRNudger _signalRNudger;
+        private readonly VeexCompletedTestsFetcher _veexCompletedTestsFetcher;
         private readonly WebApiChecker _webApiChecker;
         private readonly SmsSender _smsSender;
         private readonly TrapReceiver _trapReceiver;
@@ -34,8 +35,9 @@ namespace Iit.Fibertest.DataCenterService
 
         public Service1(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
             IParameterizer serverParameterizer, EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
-            LastConnectionTimeChecker lastConnectionTimeChecker, SignalRNudger signalRNudger,
-            WebApiChecker webApiChecker, SmsSender smsSender, TrapReceiver trapReceiver,
+            LastConnectionTimeChecker lastConnectionTimeChecker, SignalRNudger signalRNudger, 
+            VeexCompletedTestsFetcher veexCompletedTestsFetcher, WebApiChecker webApiChecker, 
+            SmsSender smsSender, TrapReceiver trapReceiver,
             IFtSignalRClient ftSignalRClient, MeasurementsForWebNotifier measurementsForWebNotifier,
             WcfServiceForDesktopC2DBootstrapper wcfServiceForDesktopC2DBootstrapper,
             WcfServiceForCommonC2DBootstrapper wcfServiceForCommonC2DBootstrapper,
@@ -52,6 +54,7 @@ namespace Iit.Fibertest.DataCenterService
             _logFile.AssignFile("DataCenter.log");
             _lastConnectionTimeChecker = lastConnectionTimeChecker;
             _signalRNudger = signalRNudger;
+            _veexCompletedTestsFetcher = veexCompletedTestsFetcher;
             _webApiChecker = webApiChecker;
             _smsSender = smsSender;
             _trapReceiver = trapReceiver;
@@ -102,6 +105,7 @@ namespace Iit.Fibertest.DataCenterService
             _wcfServiceForDesktopC2DBootstrapper.Start();
             _wcfServiceForRtuBootstrapper.Start();
             _msmqHandler.Start();
+            _veexCompletedTestsFetcher.Start();
             _smsSender.Start();
             _trapReceiver.Start();
             Console.WriteLine(@"Service initialization done.");

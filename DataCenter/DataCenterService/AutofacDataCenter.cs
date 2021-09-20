@@ -63,6 +63,8 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<LastConnectionTimeChecker>().SingleInstance();
             builder.RegisterType<SignalRNudger>().SingleInstance();
             builder.RegisterType<MeasurementsForWebNotifier>().SingleInstance();
+            builder.RegisterType<VeexCompletedTestsFetcher>().SingleInstance();
+            builder.RegisterType<VeexCompletedTestProcessor>().SingleInstance();
             builder.RegisterType<SmsSender>().SingleInstance();
 
             builder.RegisterType<D2RWcfManager>().As<ID2RWcfManager>().SingleInstance();
