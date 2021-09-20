@@ -190,10 +190,13 @@ namespace DirectRtuClient
                     id = Guid.NewGuid().ToString(),
                     name = @"precise",
                     otdrId = Guid.Empty.ToString(),
-                    otauPort = new VeexOtauPort()
+                    otauPorts = new List<VeexOtauPort>()
                     {
-                        otauId = Guid.Empty.ToString(),
-                        portIndex = 1
+                        new VeexOtauPort()
+                        {
+                            otauId = Guid.Empty.ToString(),
+                            portIndex = 1
+                        }
                     },
                     period = 0,
                     state = @"disable",

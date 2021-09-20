@@ -71,7 +71,14 @@ namespace Iit.Fibertest.Client
             {
                 TraceId = SelectedTrace.TraceId,
                 OtauPortDto = _otauPortDto,
+                MainOtauPortDto = new OtauPortDto()
+                {
+                    IsPortOnMainCharon = true,
+                    OtauId = _otauPortDto.OtauId,
+                    OpticalPort = _otauPortDto.MainCharonPort
+                },
             };
+
             var result = await _c2DCommonWcfManager.AttachTraceAndSendBaseRefs(command);
             if (result.ReturnCode != ReturnCode.Ok)
             {

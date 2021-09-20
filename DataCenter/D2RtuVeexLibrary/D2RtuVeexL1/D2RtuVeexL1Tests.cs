@@ -18,7 +18,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
       
         public async Task<HttpRequestResult> GetTest(DoubleAddress rtuDoubleAddress, string testLink)
         {
-            var relativeUri = $@"monitoring/{testLink}?fields=*,otauPort.*,relations.items.*";
+            var relativeUri = $@"monitoring/{testLink}?fields=*,otauPorts.*,relations.items.*";
             var res = await _httpExt.RequestByUrl(rtuDoubleAddress, relativeUri, "get");
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
             if (res.IsSuccessful)

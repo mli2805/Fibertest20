@@ -102,19 +102,6 @@ namespace Iit.Fibertest.Graph
                 }
             }
 
-            // var traceFibers =  model.GetTraceFibersByNodes(trace.NodeIds).ToList();
-            // foreach (var fiber in traceFibers)
-            // {
-            //     if (model.Traces.Where(t => t.TraceId != e.TraceId).All(t => t.FiberIds.IndexOf(fiber.FiberId) == -1))
-            //         model.Fibers.Remove(fiber);
-            //     else
-            //     {
-            //         fiber.TracesWithExceededLossCoeff.Remove(trace.TraceId);
-            //         if (fiber.States.ContainsKey(trace.TraceId))
-            //             fiber.States.Remove(trace.TraceId);
-            //     }
-            // }
-
             foreach (var traceNodeId in trace.NodeIds)
             {
                 if (model.Fibers.Any(f => f.NodeId1 == traceNodeId || f.NodeId2 == traceNodeId))
@@ -135,6 +122,12 @@ namespace Iit.Fibertest.Graph
             if (trace == null)
             {
                 return $@"TraceAttached: Trace {e.TraceId} not found";
+            }
+
+            if (!e.OtauPortDto.IsPortOnMainCharon)
+            {
+                var otau = model.Otaus.FirstOrDefault(o => o.Id.ToString() == e.OtauPortDto.OtauId);
+                e.OtauPortDto.MainCharonPort = otau?.MasterPort ?? 1;
             }
 
             trace.Port = e.OtauPortDto.OpticalPort;

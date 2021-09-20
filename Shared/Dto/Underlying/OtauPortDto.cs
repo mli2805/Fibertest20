@@ -8,15 +8,18 @@ namespace Iit.Fibertest.Dto
     public class OtauPortDto
     {
         [DataMember]
-        public int OpticalPort { get; set; }
+        public string OtauId { get; set; } // in VeEX RTU main OTAU has its own ID
 
         [DataMember]
-        public bool IsPortOnMainCharon { get; set; }
+        public int OpticalPort { get; set; }
 
         [DataMember] 
         public string Serial { get; set; }
 
         [DataMember]
-        public string OtauId { get; set; } // in VeEX RTU main OTAU has its own ID
+        public bool IsPortOnMainCharon { get; set; }
+
+        [DataMember]
+        public int MainCharonPort { get; set; }
     }
 }

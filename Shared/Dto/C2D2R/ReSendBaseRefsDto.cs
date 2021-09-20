@@ -24,6 +24,9 @@ namespace Iit.Fibertest.Dto
         public OtauPortDto OtauPortDto { get; set; } // could be null if trace isn't attached to port yet
 
         [DataMember]
+        public OtauPortDto MainOtauPortDto { get; set; } // veex cannot measure bop without this
+
+        [DataMember]
         public List<BaseRefDto> BaseRefDtos { get; set; }
     }
 }

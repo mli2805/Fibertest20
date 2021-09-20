@@ -139,10 +139,10 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                             OtauPort = new OtauPortDto
                             {
                                 IsPortOnMainCharon = charon.IsMainCharon,
-                                //                                OtauIp = charon.IsMainCharon ? Model.RealOtdrAddress : charon.CharonIpAddress,
-                                //                                OtauTcpPort = charon.CharonTcpPort,
                                 Serial = charon.Serial,
                                 OpticalPort = port.PortNumber,
+                                OtauId = charon.OtauId,
+                                MainCharonPort = charon.MainCharonPort,
                             },
                             TraceId = port.TraceId,
                         });

@@ -71,8 +71,8 @@ namespace Iit.Fibertest.Client
         {
             RtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
             _rtu = _readModel.Rtus.First(r => r.Id == RtuLeaf.Id);
-            var otau = (IPortOwner)parent;
-            var address = otau.OtauNetAddress;
+            var otauLeaf = (IPortOwner)parent;
+            var address = otauLeaf.OtauNetAddress;
 
             var vm = _globalScope.Resolve<OtdrParametersThroughServerSetterViewModel>();
             vm.Initialize(RtuLeaf.TreeOfAcceptableMeasParams);
@@ -83,13 +83,15 @@ namespace Iit.Fibertest.Client
 
             var otauPortDto = new OtauPortDto()
             {
-                Serial = otau.Serial,
+                Serial = otauLeaf.Serial,
                 IsPortOnMainCharon = RtuLeaf.OtauNetAddress.Equals(address),
                 OpticalPort = portNumber
             };
-            otauPortDto.OtauId = otauPortDto.IsPortOnMainCharon
+
+            var otau = _readModel.Otaus.FirstOrDefault(o => o.Serial == otauLeaf.Serial);
+            otauPortDto.OtauId = otau == null
                 ? _rtu.OtauId
-                : _readModel.Otaus.First(o => o.Serial == otau.Serial).Id.ToString();
+                : otau.Id.ToString();
 
             _dto = new DoClientMeasurementDto()
             {
@@ -103,6 +105,17 @@ namespace Iit.Fibertest.Client
                 SelectedMeasParams = vm.GetSelectedParameters(),
                 VeexMeasOtdrParameters = vm.GetVeexSelectedParameters(),
             };
+
+            if (!otauPortDto.IsPortOnMainCharon && _rtu.RtuMaker == RtuMaker.VeEX)
+            {
+                _dto.MainOtauPortDto = new OtauPortDto()
+                {
+                    IsPortOnMainCharon = true,
+                    OtauId = _rtu.OtauId,
+                    OpticalPort = otau?.MasterPort ?? 1
+                };
+            }
+
             return true;
         }
 

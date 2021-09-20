@@ -31,13 +31,35 @@ namespace Iit.Fibertest.Client
 
             var rtuId = portLeaf.Parent is RtuLeaf ? portLeaf.Parent.Id : portLeaf.Parent.Parent.Id;
             var rtu = _readModel.Rtus.First(r => r.Id == rtuId);
+
             var otauPortDto = new OtauPortDto()
             {
                 Serial = ((IPortOwner)portLeaf.Parent).Serial,
                 IsPortOnMainCharon = portLeaf.Parent is RtuLeaf,
                 OpticalPort = portLeaf.PortNumber,
-                OtauId = rtu.OtauId,
             };
+
+            switch (portLeaf.Parent)
+            {
+                case RtuLeaf _:
+                    otauPortDto.OtauId = rtu.OtauId;
+                    otauPortDto.Serial = rtu.Serial;
+                    otauPortDto.IsPortOnMainCharon = true;
+                    otauPortDto.OpticalPort = portLeaf.PortNumber;
+                    break;
+                case OtauLeaf otauLeaf:
+                {
+                    var otau = _readModel.Otaus.First(o => o.Id == otauLeaf.Id);
+
+                    otauPortDto.OtauId = otau.Id.ToString();
+                    otauPortDto.Serial = otau.Serial;
+                    otauPortDto.IsPortOnMainCharon = false;
+                    otauPortDto.OpticalPort = portLeaf.PortNumber;
+                    otauPortDto.MainCharonPort = otau.MasterPort;
+                    break;
+                }
+            }
+
             _traceToAttachViewModel.Initialize(rtu, otauPortDto);
             _windowManager.ShowDialogWithAssignedOwner(_traceToAttachViewModel);
         }
@@ -61,7 +83,7 @@ namespace Iit.Fibertest.Client
             if (portLeaf.Parent is OtauLeaf)
                 return false;
             var rtuLeaf = (RtuLeaf)portLeaf.Parent;
-            return rtuLeaf.IsAvailable && rtuLeaf.MonitoringState == MonitoringState.Off ;
+            return rtuLeaf.IsAvailable && rtuLeaf.MonitoringState == MonitoringState.Off;
         }
 
         public bool CanAttachTraceAction(object param)
@@ -73,7 +95,7 @@ namespace Iit.Fibertest.Client
 
             var rtuLeaf = portLeaf.Parent is RtuLeaf leaf ? leaf : (RtuLeaf)portLeaf.Parent.Parent;
 
-            var hasFreeTraces = rtuLeaf.ChildrenImpresario.Children.Any(c=>c is TraceLeaf && ((TraceLeaf)c).PortNumber < 1);
+            var hasFreeTraces = rtuLeaf.ChildrenImpresario.Children.Any(c => c is TraceLeaf && ((TraceLeaf)c).PortNumber < 1);
             return rtuLeaf.IsAvailable && hasFreeTraces;
         }
     }

@@ -294,6 +294,16 @@ namespace Iit.Fibertest.Client
                 DeleteOldSorFileIds = new List<int>()
             };
 
+            if (!trace.OtauPort.IsPortOnMainCharon && rtu.RtuMaker == RtuMaker.VeEX)
+            {
+                dto.MainOtauPortDto = new OtauPortDto()
+                {
+                    IsPortOnMainCharon = true,
+                    OtauId = rtu.OtauId,
+                    OpticalPort = trace.OtauPort.MainCharonPort,
+                };
+            }
+
             var baseRefs = new List<BaseRefDto>();
             if (IsFilenameChanged(PreciseBaseFilename, trace.PreciseId))
             {

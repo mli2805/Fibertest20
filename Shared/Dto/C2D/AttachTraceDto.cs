@@ -17,5 +17,9 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public OtauPortDto OtauPortDto { get; set; }
+
+        [DataMember]
+        public OtauPortDto MainOtauPortDto { get; set; } // veex cannot measure bop without this
+
     }
 }

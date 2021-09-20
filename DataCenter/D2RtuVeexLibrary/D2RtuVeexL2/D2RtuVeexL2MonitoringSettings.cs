@@ -22,7 +22,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 if (!getRes.IsSuccessful)
                     return false;
                 Test test = (Test)getRes.ResponseObject;
-                if (test.otauPort == null) continue;
+                if (test.otauPorts == null) continue;
 
                 if (!await ApplyMoniSettingsToOneTest(rtuAddresses, includedPorts, test, (int)preciseTimeSpan.TotalSeconds))
                     return false;
@@ -44,7 +44,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 : 0;
 
             // if included in cycle state should be "enabled"
-            var stateShouldBe = includedPorts.All(p => p.OtauPort.OpticalPort - 1 != test.otauPort.portIndex)
+            var stateShouldBe = includedPorts.All(p => p.OtauPort.OpticalPort - 1 != test.otauPorts.Last().portIndex)
                 ? "disabled"
                 : "enabled";
 

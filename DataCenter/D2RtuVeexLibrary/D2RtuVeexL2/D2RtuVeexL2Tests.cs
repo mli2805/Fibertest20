@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -23,7 +24,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return true;
         }
 
-        public async Task<bool> DeleteTestForPortAndBaseType(DoubleAddress rtuDoubleAddress, int opticalPort, string baseType)
+        public async Task<bool> DeleteTestForPortAndBaseType(DoubleAddress rtuDoubleAddress, List<VeexOtauPort> otauPorts, string baseType)
         {
             var getResult = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress);
             if (!getResult.IsSuccessful)
@@ -37,8 +38,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 if (!getRes.IsSuccessful) continue;
 
                 var test = (Test)getRes.ResponseObject;
-                if (test.otauPort != null
-                    && test.otauPort.portIndex == opticalPort - 1
+                if (test.otauPorts.IsEqual(otauPorts)
                     && test.name.Contains(baseType))
                 {
                     if (!await DeleteTestRelations(rtuDoubleAddress, test))
@@ -62,7 +62,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return true;
         }
 
-        private async Task<Test> GetTestForPortAndBaseType(DoubleAddress rtuDoubleAddress, int opticalPort, string baseType)
+        private async Task<Test> GetTestForPortAndBaseType(DoubleAddress rtuDoubleAddress, List<VeexOtauPort> otauPorts, string baseType)
         {
             var getResult = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress);
             if (!getResult.IsSuccessful)
@@ -76,7 +76,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 if (!getRes.IsSuccessful) continue;
 
                 var test = (Test)getRes.ResponseObject;
-                if (test.otauPort != null && test.otauPort.portIndex == opticalPort - 1 && test.name.Contains(baseType))
+                if (test.otauPorts.IsEqual(otauPorts) && test.name.Contains(baseType))
                     return test;
             }
 
@@ -84,9 +84,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         }
 
         private async Task<HttpRequestResult> CreateTest(DoubleAddress rtuDoubleAddress,
-            string otdrId, string otauId, int portIndex, BaseRefType baseRefType)
+            string otdrId, List<VeexOtauPort> otauPorts, BaseRefType baseRefType)
         {
-            var testName = $@"Port { portIndex }, {
+            var testName = $@"Port { otauPorts.PortName() }, {
                     baseRefType.ToString().ToLower()}, created at {
                     DateTime.Now.ToString(CultureInfo.DefaultThreadCurrentUICulture)}";
 
@@ -96,11 +96,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 name = testName,
                 state = "disabled",
                 otdrId = otdrId,
-                otauPort = new VeexOtauPort()
-                {
-                    otauId = otauId,
-                    portIndex = portIndex - 1,
-                },
+                otauPorts = otauPorts,
                 period = 0,
                 failedPeriod = baseRefType == BaseRefType.Fast ? int.MaxValue : 0,
             };

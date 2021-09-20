@@ -56,10 +56,12 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 
         private MonitoringCharonModel PrepareMainCharonModel(bool isEditEnabled)
         {
+            var rtu = _readModel.Rtus.First(r => r.Id == _rtuLeaf.Id);
             var mainCharonModel = new MonitoringCharonModel(_rtuLeaf.Serial)
             {
                 Title = _rtuLeaf.Title,
                 IsMainCharon = true,
+                OtauId = rtu.OtauId,
                 Ports = PrepareMonitoringPortModels(_rtuLeaf),
                 IsEditEnabled = isEditEnabled,
             };
@@ -68,10 +70,13 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 
         private MonitoringCharonModel PrepareBopCharonModel(OtauLeaf otauLeaf, bool isEditEnabled)
         {
+            var otau = _readModel.Otaus.First(o => o.Id == otauLeaf.Id);
             var bopCharonModel = new MonitoringCharonModel(otauLeaf.Serial)
             {
                 Title = otauLeaf.OtauNetAddress.ToStringA(),
                 IsMainCharon = false,
+                OtauId = otau.Id.ToString(),
+                MainCharonPort = otau.MasterPort,
                 Ports = PrepareMonitoringPortModels(otauLeaf),
                 IsEditEnabled = isEditEnabled,
             };

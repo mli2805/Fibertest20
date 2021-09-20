@@ -24,26 +24,5 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public int OpticalPort { get; set; }
     }
-
-    [DataContract]
-    public class VeexOtauTachDto
-    {
-        [DataMember]
-        public string ClientIp { get; set; }
-
-        [DataMember]
-        public Guid RtuId { get; set; }
-
-        [DataMember]
-        public RtuMaker RtuMaker { get; set; }
-
-        [DataMember]
-        public Guid OtauId { get; set; }
-
-        [DataMember]
-        public NetAddress NetAddress { get; set; }
-
-        [DataMember]
-        public int OpticalPort { get; set; }
-    }
+  
 }

@@ -303,6 +303,7 @@ namespace Iit.Fibertest.DataCenterCore
                 OtdrId = rtu.OtdrId,
                 TraceId = cmd.TraceId,
                 OtauPortDto = cmd.OtauPortDto,
+                MainOtauPortDto = cmd.MainOtauPortDto,
                 BaseRefs = new List<BaseRefDto>(),
             };
 
@@ -393,6 +394,7 @@ namespace Iit.Fibertest.DataCenterCore
                 OtdrId = dto.OtdrId,
                 TraceId = dto.TraceId,
                 OtauPortDto = dto.OtauPortDto,
+                MainOtauPortDto = dto.MainOtauPortDto,
                 BaseRefs = new List<BaseRefDto>(),
             };
 

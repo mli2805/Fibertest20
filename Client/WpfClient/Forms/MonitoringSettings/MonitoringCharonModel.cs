@@ -6,10 +6,10 @@ namespace Iit.Fibertest.Client.MonitoringSettings
 {
     public class MonitoringCharonModel : PropertyChangedBase
     {
-        //        public string CharonIpAddress { get; set; }
-        //        public int CharonTcpPort { get; set; }
         public string Serial { get; set; }
+        public string OtauId { get; set; }
         public bool IsMainCharon { get; set; }
+        public int MainCharonPort { get; set; }
         public string Title { get; set; }
 
 

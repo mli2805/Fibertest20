@@ -17,19 +17,27 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<ClientMeasurementStartedDto> StartMeasurementClient(DoubleAddress rtuDoubleAddress, DoClientMeasurementDto dto)
         {
+            var veexOtauPort = new VeexOtauPort()
+            {
+                otauId = dto.OtauPortDto.OtauId,
+                portIndex = dto.OtauPortDto.OpticalPort - 1
+            };
+            var otauPorts = new List<VeexOtauPort>();
+            if (!dto.OtauPortDto.IsPortOnMainCharon)
+            {
+                otauPorts.Add(new VeexOtauPort()
+                {
+                    otauId = dto.MainOtauPortDto.OtauId,
+                    portIndex = dto.MainOtauPortDto.OpticalPort - 1
+                });
+            }
+            otauPorts.Add(veexOtauPort);
             var request = new VeexMeasurementRequest()
             {
                 id = Guid.NewGuid().ToString(),
                 otdrId = dto.OtdrId,
                 otdrParameters = dto.VeexMeasOtdrParameters,
-                otauPorts = new List<VeexOtauPort>()
-                {
-                    new VeexOtauPort()
-                    {
-                        otauId = dto.OtauPortDto.OtauId,
-                        portIndex = dto.OtauPortDto.OpticalPort - 1
-                    }
-                },
+                otauPorts = otauPorts,
                 analysisParameters = new AnalysisParameters()
                 {
                     lasersParameters = new List<LasersParameter> { new LasersParameter() }

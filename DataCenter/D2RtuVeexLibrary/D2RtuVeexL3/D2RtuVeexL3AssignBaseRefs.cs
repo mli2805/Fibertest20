@@ -51,7 +51,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             BaseRefType baseRefType, BaseRefType baseRefType2 = BaseRefType.None)
         {
             var test = await _d2RtuVeexLayer2.GetOrCreateTest(rtuDoubleAddress, 
-                dto.OtdrId, dto.OtauPortDto.OtauId, dto.OtauPortDto.OpticalPort, baseRefType);
+                dto.OtdrId, VeexPortExt.Create(dto.OtauPortDto, dto.MainOtauPortDto), baseRefType);
 
             var result = new TestCreationResult() { Test = test };
             if (test == null)
@@ -61,7 +61,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     BaseRefType = baseRefType,
                     ReturnCode = ReturnCode.BaseRefAssignmentFailed,
                     ErrorMessage = "Failed to get or create test!"
-
                 };
                 return result;
             }
@@ -106,7 +105,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             foreach (var baseRefDto in dto.BaseRefs.Where(b => b.Id == Guid.Empty))
             {
                 if (!await _d2RtuVeexLayer2
-                    .DeleteTestForPortAndBaseType(rtuAddresses, dto.OtauPortDto.OpticalPort,
+                    .DeleteTestForPortAndBaseType(rtuAddresses, VeexPortExt.Create(dto.OtauPortDto, dto.MainOtauPortDto),
                         baseRefDto.BaseRefType.ToString().ToLower()))
                     return new BaseRefAssignedDto()
                     {
