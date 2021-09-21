@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Graph
         public List<BopNetworkEvent> BopNetworkEvents { get; set; } = new List<BopNetworkEvent>();
         public List<BaseRef> BaseRefs { get; set; } = new List<BaseRef>();
         public List<Olt> Olts { get; set; } = new List<Olt>();
+        public List<VeexTest> VeexTests { get; set; } = new List<VeexTest>();
 
         public void CopyFrom(Model source)
         {
@@ -38,6 +39,7 @@ namespace Iit.Fibertest.Graph
             BopNetworkEvents = source.BopNetworkEvents;
             BaseRefs = source.BaseRefs;
             Olts = source.Olts;
+            VeexTests = source.VeexTests;
         }
     }
 }

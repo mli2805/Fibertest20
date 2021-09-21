@@ -1,4 +1,6 @@
-﻿using System.Runtime.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
 {
@@ -9,7 +11,7 @@ namespace Iit.Fibertest.Dto
         public ReturnCode ReturnCode { get; set; }
 
         [DataMember]
-        public BaseRefType BaseRefType { get; set; }
+        public BaseRefType BaseRefType { get; set; } // type of base ref where error happened
         [DataMember]
         public string ErrorMessage { get; set; }
 
@@ -21,5 +23,7 @@ namespace Iit.Fibertest.Dto
         public int Equipments { get; set; }
         [DataMember]
         public string WaveLength { get; set; }
+        [DataMember]
+        public List<Guid> VeexTestIds { get; set; }
     }
 }

@@ -68,6 +68,8 @@ namespace Iit.Fibertest.Graph
             CreateMap<RemoveEventsAndSors, EventsAndSorsRemoved>();
 
             CreateMap<RegisterClientStation, ClientStationRegistered>();
+
+            CreateMap<AddVeexTest, VeexTest>();
         }
     }
 }

@@ -42,6 +42,8 @@ namespace Iit.Fibertest.Graph
             CreateMap<NetworkEventAdded, NetworkEvent>();
             CreateMap<BopNetworkEventAdded, BopNetworkEvent>();
             CreateMap<LicenseApplied, License>();
+
+            CreateMap<VeexTestAdded, VeexTest>();
         }
 
 

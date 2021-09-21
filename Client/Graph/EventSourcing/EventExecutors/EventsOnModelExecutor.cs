@@ -74,6 +74,9 @@ namespace Iit.Fibertest.Graph
 
                     case EventsAndSorsRemoved evnt: return model.RemoveEventsAndSors(evnt);
 
+                    case VeexTestAdded evnt: return model.AddVeexTest(evnt);
+                    case VeexTestRemoved evnt: return model.RemoveVeexTest(evnt);
+
                     default: return @"Unknown event";
                 }
             }

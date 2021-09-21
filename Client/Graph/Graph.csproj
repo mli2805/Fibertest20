@@ -174,6 +174,8 @@
     <Compile Include="Commands\Olt\AddGponPortRelation.cs" />
     <Compile Include="Commands\Olt\AddOlt.cs" />
     <Compile Include="Commands\Rtu\DetachAllTraces.cs" />
+    <Compile Include="Commands\VeexTest\AddVeexTest.cs" />
+    <Compile Include="Commands\VeexTest\RemoveVeexTest.cs" />
     <Compile Include="DomainEntities\Administration\EmailReceiver.cs" />
     <Compile Include="DomainEntities\Administration\SmsReceiver.cs" />
     <Compile Include="DomainEntities\Breaks\AccidentNeighbour.cs" />
@@ -183,7 +185,9 @@
     <Compile Include="DomainEntities\Extensions\MonitoringStateExt.cs" />
     <Compile Include="DomainEntities\Graph\GponPortRelation.cs" />
     <Compile Include="DomainEntities\Graph\Olt.cs" />
+    <Compile Include="DomainEntities\Graph\VeexTest.cs" />
     <Compile Include="EventSourcing\EventExecutors\OltEventsOnModelExecutor.cs" />
+    <Compile Include="EventSourcing\EventExecutors\VeexTestsEventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\Model\ModelCleaningExt.cs" />
     <Compile Include="EventSourcing\Model\ModelEmailExt.cs" />
     <Compile Include="EventSourcing\Model\ModelLicenseExt.cs" />
@@ -248,6 +252,8 @@
     <Compile Include="Events\User\UserRemoved.cs" />
     <Compile Include="Events\User\UserUpdated.cs" />
     <Compile Include="DomainEntities\Administration\User.cs" />
+    <Compile Include="Events\VeexTest\VeexTestAdded.cs" />
+    <Compile Include="Events\VeexTest\VeexTestRemoved.cs" />
     <Compile Include="Events\Zone\ZoneAdded.cs" />
     <Compile Include="Events\Zone\ZoneRemoved.cs" />
     <Compile Include="Events\Zone\ZoneUpdated.cs" />
