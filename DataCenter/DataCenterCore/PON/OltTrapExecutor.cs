@@ -54,7 +54,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return;
             }
 
-            var trace = _writeModel.Traces.FirstOrDefault(t =>
+            var trace = _writeModel.Traces.FirstOrDefault(t =>t.OtauPort != null &&
                     t.OtauPort.Serial == relation.OtauPort.Serial && t.OtauPort.OpticalPort == relation.OtauPort.OpticalPort);
             if (trace == null)
             {

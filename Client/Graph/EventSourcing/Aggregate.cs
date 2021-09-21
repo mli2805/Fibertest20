@@ -78,6 +78,9 @@ namespace Iit.Fibertest.Graph
                 case AddOlt command: return _eventsQueue.Add(Mapper.Map<OltAdded>(command));
                 case AddGponPortRelation command: return _eventsQueue.Add(Mapper.Map<GponPortRelationAdded>(command));
 
+                case AddVeexTest command: return _eventsQueue.Add(Mapper.Map<VeexTestAdded>(command));
+                case RemoveVeexTest command: return _eventsQueue.Add(Mapper.Map<VeexTestRemoved>(command));
+
                 case AssignBaseRef command: return _eventsQueue.Add(Mapper.Map<BaseRefAssigned>(command));
                 case ChangeMonitoringSettings command: return _eventsQueue.Add(Mapper.Map<MonitoringSettingsChanged>(command));
                 case InitializeRtu command: return _eventsQueue.Add(Mapper.Map<RtuInitialized>(command));

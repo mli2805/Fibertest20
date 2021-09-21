@@ -353,6 +353,7 @@
     <Compile Include="Requests\RequestRemoveRtu.cs" />
     <Compile Include="Requests\RequestUpdateFiber.cs" />
     <Compile Include="Requests\RequestUpdateRtu.cs" />
+    <Compile Include="VeexTestMappingProfile.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

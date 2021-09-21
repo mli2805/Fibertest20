@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -14,10 +15,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 var res = await RemovalPart(dto, rtuAddresses);
                 if (res != null) return res;
                 if (dto.BaseRefs.Any(b => b.Id != Guid.Empty))
-                {
-                    res = await CreationPart(dto, rtuAddresses);
-                    if (res != null) return res;
-                }
+                    return await CreationPart(dto, rtuAddresses);
 
                 return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
             }
@@ -44,13 +42,27 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (precise.Test == null)
                 return precise.ResultWhenFailed;
 
-            return await SetRelationship(rtuDoubleAddress, fast.Test, precise.Test);
+            var baseRefAssignedDto = await SetRelationship(rtuDoubleAddress, fast.Test, precise.Test);
+            if (baseRefAssignedDto == null)
+                return new BaseRefAssignedDto
+                {
+                    ReturnCode = ReturnCode.BaseRefAssignedSuccessfully,
+                    VeexTests = new List<VeexTestCreatedDto>()
+                    {
+                        new VeexTestCreatedDto
+                            { TestId = Guid.Parse(fast.Test.id), BaseRefType = BaseRefType.Fast, TraceId = dto.TraceId },
+                        new VeexTestCreatedDto
+                            { TestId = Guid.Parse(precise.Test.id), BaseRefType = BaseRefType.Precise, TraceId = dto.TraceId },
+                    }
+                };
+
+            return baseRefAssignedDto;
         }
 
         private async Task<TestCreationResult> GetOrCreateTestWithBase(DoubleAddress rtuDoubleAddress, AssignBaseRefsDto dto,
             BaseRefType baseRefType, BaseRefType baseRefType2 = BaseRefType.None)
         {
-            var test = await _d2RtuVeexLayer2.GetOrCreateTest(rtuDoubleAddress, 
+            var test = await _d2RtuVeexLayer2.GetOrCreateTest(rtuDoubleAddress,
                 dto.OtdrId, VeexPortExt.Create(dto.OtauPortDto, dto.MainOtauPortDto), baseRefType);
 
             var result = new TestCreationResult() { Test = test };
@@ -94,7 +106,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return new BaseRefAssignedDto()
                 {
                     ReturnCode = ReturnCode.BaseRefAssignmentFailed,
-                    ErrorMessage = "Failed to create tests relation",
+                    ErrorMessage = "Failed to create tests relation" + Environment.NewLine + relationRes.ErrorMessage,
                 };
 
             return null;
@@ -105,7 +117,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             foreach (var baseRefDto in dto.BaseRefs.Where(b => b.Id == Guid.Empty))
             {
                 if (!await _d2RtuVeexLayer2
-                    .DeleteTestForPortAndBaseType(rtuAddresses, VeexPortExt.Create(dto.OtauPortDto, dto.MainOtauPortDto),
+                    .DeleteTestForPortAndBaseType(rtuAddresses,
+                        VeexPortExt.Create(dto.OtauPortDto, dto.MainOtauPortDto),
                         baseRefDto.BaseRefType.ToString().ToLower()))
                     return new BaseRefAssignedDto()
                     {

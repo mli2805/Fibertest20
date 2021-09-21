@@ -239,6 +239,7 @@
     <Compile Include="Forms\AdministrativeForms\License\LicenseControlViewModel.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefMessages.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\EventLogReportProvider.cs" />
+    <Compile Include="Forms\BaseRefs\VeexTestMappingProfile.cs" />
     <Compile Include="Forms\Input\KeySequence.cs" />
     <Compile Include="Forms\Input\KeyTrigger.cs" />
     <Compile Include="Forms\Input\MultiKeyGesture.cs" />

@@ -10,7 +10,9 @@ namespace Iit.Fibertest.Graph
 
         public static string AddVeexTest(this Model model, VeexTestAdded e)
         {
-            model.VeexTests.Add(Mapper.Map<VeexTest>(e));
+            if (model.VeexTests.All(t => t.TestId != e.TestId))
+                model.VeexTests.Add(Mapper.Map<VeexTest>(e));
+           
             return null;
         }
 

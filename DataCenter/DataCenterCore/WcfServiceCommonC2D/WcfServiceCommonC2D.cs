@@ -239,9 +239,10 @@ namespace Iit.Fibertest.DataCenterCore
             if (checkResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                 return checkResult;
 
+            BaseRefAssignedDto transferResult = null;
             if (dto.OtauPortDto != null) // trace attached to the real port => send base to RTU
             {
-                var transferResult = dto.RtuMaker == RtuMaker.IIT
+                transferResult = dto.RtuMaker == RtuMaker.IIT
                     ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto)
                     : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto).Result);
 
@@ -254,8 +255,12 @@ namespace Iit.Fibertest.DataCenterCore
                 await _ftSignalRClient.NotifyAll("FetchTree", null);
 
             return !string.IsNullOrEmpty(result)
-                ? new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignmentFailed }
-                : new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
+                ? new BaseRefAssignedDto
+                {
+                    ReturnCode = ReturnCode.BaseRefAssignmentFailed, 
+                    ErrorMessage = result
+                }
+                : transferResult ?? new BaseRefAssignedDto() {ReturnCode = ReturnCode.BaseRefAssignedSuccessfully};
         }
 
         private async Task<string> SaveChangesOnServer(AssignBaseRefsDto dto)
@@ -327,20 +332,21 @@ namespace Iit.Fibertest.DataCenterCore
 
         // Base refs had been assigned earlier (and saved in Db) and now user attached trace to the port
         // base refs should be extracted from Db and sent to the RTU
-        public async Task<RequestAnswer> AttachTraceAndSendBaseRefs(AttachTraceDto dto)
+        public async Task<BaseRefAssignedDto> AttachTraceAndSendBaseRefs(AttachTraceDto dto)
         {
             _logFile.AppendLine("AttachTraceAndSendBaseRefs started");
             var dto1 = await CreateAssignBaseRefsDto(dto);
-            if (dto1 == null) return new RequestAnswer() { ReturnCode = ReturnCode.Error };
+            if (dto1 == null) return new BaseRefAssignedDto() { ReturnCode = ReturnCode.Error };
+
+            BaseRefAssignedDto transferResult = null;
             if (dto1.BaseRefs.Any())
             {
-                var baseRefAssignedDto = dto1.RtuMaker == RtuMaker.IIT
+                transferResult = dto1.RtuMaker == RtuMaker.IIT
                     ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto1)
                     : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto1).Result);
 
-                if (baseRefAssignedDto.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-                    return new RequestAnswer()
-                    { ReturnCode = baseRefAssignedDto.ReturnCode, ErrorMessage = baseRefAssignedDto.ErrorMessage };
+                if (transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+                    return transferResult;
             }
 
             var cmd = new AttachTrace() { TraceId = dto.TraceId, OtauPortDto = dto.OtauPortDto };
@@ -362,9 +368,9 @@ namespace Iit.Fibertest.DataCenterCore
                     await _ftSignalRClient.NotifyAll("TraceTach", signal.ToCamelCaseJson());
                 }
             }
-            return string.IsNullOrEmpty(res)
-                ? new RequestAnswer() { ReturnCode = ReturnCode.Ok }
-                : new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = res };
+            return !string.IsNullOrEmpty(res)
+                ? new BaseRefAssignedDto() { ReturnCode = ReturnCode.Error, ErrorMessage = res }
+                : transferResult ?? new BaseRefAssignedDto() { ReturnCode = ReturnCode.Ok };
         }
 
         // Base refs had been assigned earlier (and saved in Db) and now user attached trace to the port

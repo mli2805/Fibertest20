@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Iit.Fibertest.Dto
@@ -24,6 +23,6 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public string WaveLength { get; set; }
         [DataMember]
-        public List<Guid> VeexTestIds { get; set; }
+        public List<VeexTestCreatedDto> VeexTests { get; set; }
     }
 }

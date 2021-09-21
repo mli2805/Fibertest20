@@ -265,11 +265,11 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<RequestAnswer> AttachTraceAndSendBaseRefs(AttachTraceDto cmd)
+        public async Task<BaseRefAssignedDto> AttachTraceAndSendBaseRefs(AttachTraceDto cmd)
         {
             var wcfConnection = _wcfFactory.GetCommonC2DChannelFactory();
             if (wcfConnection == null)
-                return new RequestAnswer() { ReturnCode = ReturnCode.C2RWcfConnectionError };
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError };
 
             try
             {
@@ -284,7 +284,7 @@ namespace Iit.Fibertest.WcfConnections
             catch (Exception e)
             {
                 _logFile.AppendLine("AttachTraceAndSendBaseRefs: " + e.Message);
-                return new RequestAnswer() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.C2RWcfConnectionError, ErrorMessage = e.Message };
             }
         }
 
