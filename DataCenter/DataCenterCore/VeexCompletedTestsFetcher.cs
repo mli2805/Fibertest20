@@ -65,17 +65,21 @@ namespace Iit.Fibertest.DataCenterCore
 
                 var rtuDoubleAddress = station.GetRtuDoubleAddress();
                 var startingFrom = station.LastConnectionByMainAddressTimestamp.AddMilliseconds(1).ToString("O");
-                var getPortionResult = await _d2RtuVeexLayer3.GetCompletedTestsAfterTimestamp(rtuDoubleAddress, startingFrom);
+
+                // rtu can't return more than 1024 completed tests at a time, but can less, parameter limit is optional
+                var getPortionResult = await _d2RtuVeexLayer3.GetCompletedTestsAfterTimestamp(rtuDoubleAddress, startingFrom, 2048);
 
                 if (getPortionResult.IsSuccessful)
                 {
-                    // station.LastConnectionByMainAddressTimestamp = DateTime.Now;
-                    // changedStations.Add(station);
-
                     if (getPortionResult.ResponseObject is CompletedTestPortion portion)
                     {
                         _logFile.AppendLine($"RTU {station.MainAddress} returned portion of {portion.items.Count} from {portion.total}");
-                        await ProcessPortionOfMeasurements(portion);
+                        if (portion.items.Any())
+                        {
+                            station.LastConnectionByMainAddressTimestamp = await ProcessPortionOfMeasurements(portion, rtu, rtuDoubleAddress);
+                            if (await _rtuStationsRepository.RefreshStationLastConnectionTime(station) > 0)
+                                _logFile.AppendLine("last connection time refreshed successfully");
+                        }
                     }
                 }
                 else
@@ -88,13 +92,14 @@ namespace Iit.Fibertest.DataCenterCore
             return 0;
         }
 
-        private async Task ProcessPortionOfMeasurements(CompletedTestPortion portion)
+        private async Task<DateTime> ProcessPortionOfMeasurements(CompletedTestPortion portion, Rtu rtu, DoubleAddress rtuDoubleAddress)
         {
-            await Task.Delay(1);
             foreach (var completedTest in portion.items)
             {
-                await _veexCompletedTestProcessor.ProcessOneCompletedTest(completedTest);
+                await _veexCompletedTestProcessor.ProcessOneCompletedTest(completedTest, rtu, rtuDoubleAddress);
             }
+
+            return portion.items.Last().started;
         }
     }
 }

@@ -22,15 +22,16 @@ namespace Iit.Fibertest.Dto
 
     public class CompletedTest
     {
-        public int id { get; set; } // completed test ID
-        public string testId { get; set; } 
-        public string reason { get; set; }
-        public Linkmap linkmap { get; set; }
-        public Report report { get; set; }
-        public int[] indicesOfReferenceTraces { get; set; }
-        public string result { get; set; }
         public string extendedResult { get; set; }
+        public int id { get; set; } // completed test ID
+        public int[] indicesOfReferenceTraces { get; set; }
+        public Linkmap linkmap { get; set; }
+        public string reason { get; set; }
+        public Report report { get; set; }
+        public string result { get; set; }
         public DateTime started { get; set; }
+        public string testId { get; set; }
+        public TraceChange traceChange { get; set; }
         public Traces traces { get; set; }
         public string type { get; set; }
     }

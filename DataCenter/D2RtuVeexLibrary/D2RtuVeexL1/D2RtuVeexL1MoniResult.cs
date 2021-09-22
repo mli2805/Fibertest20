@@ -24,10 +24,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return res;
         }
 
-        public async Task<HttpRequestResult> GetCompletedTestsAfterTimestamp(DoubleAddress rtuDoubleAddress, string timestamp)
+        public async Task<HttpRequestResult> GetCompletedTestsAfterTimestamp(DoubleAddress rtuDoubleAddress, string timestamp, int limit)
         {
             var res = await _httpExt.RequestByUrl(
-                rtuDoubleAddress, $"monitoring/completed?fields=*,items.*&starting={timestamp}", "get");
+                rtuDoubleAddress, $"monitoring/completed?fields=*,items.*&starting={timestamp}&limit={limit}", "get");
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
             if (res.IsSuccessful)
                 res.ResponseObject = JsonConvert.DeserializeObject<CompletedTestPortion>(res.ResponseJson);

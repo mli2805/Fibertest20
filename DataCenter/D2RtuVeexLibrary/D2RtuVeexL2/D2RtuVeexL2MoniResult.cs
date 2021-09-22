@@ -6,6 +6,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer2
     {
+        public async Task<HttpRequestResult> GetCompletedTestSorBytes(DoubleAddress rtuDoubleAddress, string measId)
+        {
+            return await _d2RtuVeexLayer1.GetCompletedTestSorBytes(rtuDoubleAddress, measId);
+        }
+
         public async Task<MonitoringResultDto> GetTestLastMeasurement(DoubleAddress rtuAddresses, string testId, string type, bool isFast)
         {
             var kind = type == "monitoring_test_passed" ? "last_passed" : "last_failed";
@@ -46,9 +51,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         }
 
         public async Task<HttpRequestResult> GetCompletedTestsAfterTimestamp(DoubleAddress rtuDoubleAddress,
-            string timestamp)
+            string timestamp, int limit)
         {
-            return await _d2RtuVeexLayer1.GetCompletedTestsAfterTimestamp(rtuDoubleAddress, timestamp);
+            return await _d2RtuVeexLayer1.GetCompletedTestsAfterTimestamp(rtuDoubleAddress, timestamp, limit);
         }
     }
 }

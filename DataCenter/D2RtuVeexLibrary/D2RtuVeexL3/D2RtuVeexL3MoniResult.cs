@@ -23,9 +23,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
 
         public async Task<HttpRequestResult> GetCompletedTestsAfterTimestamp(DoubleAddress rtuDoubleAddress,
-            string timestamp)
+            string timestamp, int limit)
         {
-            return await _d2RtuVeexLayer2.GetCompletedTestsAfterTimestamp(rtuDoubleAddress, timestamp);
+            return await _d2RtuVeexLayer2.GetCompletedTestsAfterTimestamp(rtuDoubleAddress, timestamp, limit);
         }
+
+        public async Task<HttpRequestResult> GetCompletedTestSorBytes(DoubleAddress rtuDoubleAddress, string measId)
+        {
+            return await _d2RtuVeexLayer2.GetCompletedTestSorBytes(rtuDoubleAddress, measId);
+        }
+
     }
 }
