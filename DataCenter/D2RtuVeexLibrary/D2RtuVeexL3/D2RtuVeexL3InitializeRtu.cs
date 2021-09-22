@@ -35,13 +35,13 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     return rtuInitializedDto;
                 }
 
-                var saveRes = await _d2RtuVeexLayer2.SetServerNotificationSettings(rtuAddresses, dto);
-                if (!saveRes.IsSuccessful)
-                    return new RtuInitializedDto()
-                    {
-                        ReturnCode = ReturnCode.RtuInitializationError,
-                        ErrorMessage = saveRes.ErrorMessage,
-                    };
+                // var saveRes = await _d2RtuVeexLayer2.SetServerNotificationSettings(rtuAddresses, dto);
+                // if (!saveRes.IsSuccessful)
+                //     return new RtuInitializedDto()
+                //     {
+                //         ReturnCode = ReturnCode.RtuInitializationError,
+                //         ErrorMessage = saveRes.ErrorMessage,
+                //     };
 
                 rtuInitializedDto.ReturnCode = ReturnCode.RtuInitializedSuccessfully;
                 return rtuInitializedDto;

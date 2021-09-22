@@ -82,8 +82,8 @@ namespace Iit.Fibertest.WcfConnections
 
         #region Veex
 
-        [OperationContract]
-        Task<bool> MonitoringMeasurementDone(VeexMeasurementDto veexMeasurementDto);
+        // [OperationContract]
+        // Task<bool> MonitoringMeasurementDone(VeexMeasurementDto veexMeasurementDto);
 
 
         #endregion

@@ -45,14 +45,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return res;
         }
 
-        public async Task<HttpRequestResult> SetServerNotificationSettings(DoubleAddress rtuDoubleAddress, ServerNotificationSettings dto)
-        {
-            var jsonData = JsonConvert.SerializeObject(dto);
-            var res = await _httpExt.RequestByUrl(rtuDoubleAddress,
-                $@"/notification/settings", "patch", "application/merge-patch+json", jsonData);
-            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
-            return res;
-        }
+        // public async Task<HttpRequestResult> SetServerNotificationSettings(DoubleAddress rtuDoubleAddress, ServerNotificationSettings dto)
+        // {
+        //     var jsonData = JsonConvert.SerializeObject(dto);
+        //     var res = await _httpExt.RequestByUrl(rtuDoubleAddress,
+        //         $@"/notification/settings", "patch", "application/merge-patch+json", jsonData);
+        //     res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
+        //     return res;
+        // }
 
         public async Task<HttpRequestResult> SwitchOtauToPort(DoubleAddress rtuDoubleAddress, string otauId, int port)
         {

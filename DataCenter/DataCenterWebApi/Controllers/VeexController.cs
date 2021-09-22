@@ -33,23 +33,23 @@ namespace Iit.Fibertest.DataCenterWebApi
             return ip1 == "::1" || ip1 == "127.0.0.1" ? _localIpAddress : ip1;
         }
 
-        [HttpPost("Notify")]
-        public async Task Notify(Guid rtuId)
-        {
-            string body;
-            using (var reader = new StreamReader(Request.Body))
-            {
-                body = await reader.ReadToEndAsync();
-            }
-            var notification = JsonConvert.DeserializeObject<VeexNotification>(body);
-            _logFile.AppendLine($"Notification from VeEX RTU {rtuId.First6()}, {notification.events.Count} event(s) received");
-
-            _ = await _webVeexWcfManager
-                .SetServerAddresses(_doubleAddressForWebWcfManager, "VeexOtaus Controller", GetRemoteAddress())
-                .MonitoringMeasurementDone(new VeexMeasurementDto(){RtuId = rtuId, VeexNotification =  notification});
-
-            Response.StatusCode = 200;
-        }
+        // [HttpPost("Notify")]
+        // public async Task Notify(Guid rtuId)
+        // {
+        //     string body;
+        //     using (var reader = new StreamReader(Request.Body))
+        //     {
+        //         body = await reader.ReadToEndAsync();
+        //     }
+        //     var notification = JsonConvert.DeserializeObject<VeexNotification>(body);
+        //     _logFile.AppendLine($"Notification from VeEX RTU {rtuId.First6()}, {notification.events.Count} event(s) received");
+        //
+        //     _ = await _webVeexWcfManager
+        //         .SetServerAddresses(_doubleAddressForWebWcfManager, "VeexOtaus Controller", GetRemoteAddress())
+        //         .MonitoringMeasurementDone(new VeexMeasurementDto(){RtuId = rtuId, VeexNotification =  notification});
+        //
+        //     Response.StatusCode = 200;
+        // }
 
     }
 }
