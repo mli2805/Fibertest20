@@ -9,15 +9,18 @@
         mc:Ignorable="d"
         SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:LicenseViewModel}">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Window.Resources>
     <StackPanel>
         <wpfCommonViews:IitOfficialHeader/>
+        <ListView Margin="5" ItemsSource="{Binding Licenses}" 
+                  SelectedItem="{Binding SelectedLicense}" 
+                  Visibility="{Binding IsListVisible, 
+                    Converter={StaticResource BoolToVis}}">
+
+        </ListView>
         <client:LicenseControlView DataContext="{Binding LicenseControlViewModel }"/>
-        <Button Name="ShowPreviousLicense" Content="&lt;" Width="32" Height="32" FontSize="20" 
-                Visibility="{Binding PreviousButtonVisibility}" 
-                Margin="-505, -210, 0,0" Foreground="Gray" Background="White" BorderThickness="0"/>
-        <Button Name="ShowNextLicense" Content="&gt;" Width="32" Height="32" FontSize="20" 
-                Visibility="{Binding NextButtonVisibility}"
-                Margin=" 505, -210, 0,0" Foreground="Gray" Background="White" BorderThickness="0"/>
         <DockPanel  Margin="10,0">
             <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="10,5,5,10" HorizontalAlignment="Center">
                 <Button Name="ApplyLicFile" Content="{x:Static stringResources:Resources.SID_I_have_a_license_file}" 

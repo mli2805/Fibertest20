@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -15,32 +17,24 @@ namespace Iit.Fibertest.Client
         private readonly LicenseManager _licenseManager;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
+        private License _selectedLicense;
         public LicenseControlViewModel LicenseControlViewModel { get; set; } = new LicenseControlViewModel();
-        private int _selectedLicenseIndex;
 
-        private Visibility _previousButtonVisibility;
-        public Visibility PreviousButtonVisibility
+        public List<License> Licenses { get; set; }
+
+        public License SelectedLicense
         {
-            get => _previousButtonVisibility;
+            get => _selectedLicense;
             set
             {
-                if (value == _previousButtonVisibility) return;
-                _previousButtonVisibility = value;
+                if (Equals(value, _selectedLicense)) return;
+                _selectedLicense = value;
                 NotifyOfPropertyChange();
+                LicenseControlViewModel.License = SelectedLicense;
             }
         }
 
-        private Visibility _nextButtonVisibility;
-        public Visibility NextButtonVisibility
-        {
-            get => _nextButtonVisibility;
-            set
-            {
-                if (value == _nextButtonVisibility) return;
-                _nextButtonVisibility = value;
-                NotifyOfPropertyChange();
-            }
-        }
+        public bool IsListVisible => _readModel.Licenses.Count > 1;
 
         public bool IsApplyLicenseEnabled { get; set; }
 
@@ -61,28 +55,9 @@ namespace Iit.Fibertest.Client
 
         public void Initialize()
         {
-            LicenseControlViewModel.License = _readModel.Licenses[0];
-            _selectedLicenseIndex = 0;
-            PreviousButtonVisibility = Visibility.Hidden;
-            NextButtonVisibility = _readModel.Licenses.Count > 1 ? Visibility.Visible : Visibility.Hidden;
-        }
-
-        public void ShowPreviousLicense()
-        {
-            if (_selectedLicenseIndex > 0)
-                LicenseControlViewModel.License = _readModel.Licenses[--_selectedLicenseIndex];
-            NextButtonVisibility = Visibility.Visible;
-            if (_selectedLicenseIndex == 0)
-                PreviousButtonVisibility = Visibility.Hidden;
-        }
-
-        public void ShowNextLicense()
-        {
-            if (_selectedLicenseIndex < _readModel.Licenses.Count - 1)
-                LicenseControlViewModel.License = _readModel.Licenses[++_selectedLicenseIndex];
-            PreviousButtonVisibility = Visibility.Visible;
-            if (_selectedLicenseIndex == _readModel.Licenses.Count - 1)
-                NextButtonVisibility = Visibility.Hidden;
+            Licenses = _readModel.Licenses;
+            SelectedLicense = Licenses.First();
+            LicenseControlViewModel.License = SelectedLicense;
         }
 
         public async void ApplyLicFile()

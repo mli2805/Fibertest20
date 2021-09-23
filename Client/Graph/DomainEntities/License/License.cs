@@ -26,5 +26,10 @@ namespace Iit.Fibertest.Graph
         public DateTime CreationDate { get; set; } // Used in LicenseKey string
         public DateTime LoadingDate { get; set; } // for evaluations
         public string Version { get; set; } = @"2.0.0.0";
+
+        public override string ToString()
+        {
+            return Lk();
+        }
     }
 }
