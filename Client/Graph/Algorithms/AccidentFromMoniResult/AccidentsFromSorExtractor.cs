@@ -103,14 +103,15 @@ namespace Iit.Fibertest.Graph
                 if ((rftsEvent.EventTypes & RftsEventTypes.IsFailed) != 0 || (rftsEvent.EventTypes & RftsEventTypes.IsFiberBreak) != 0)
                     foreach (var opticalAccidentType in rftsEvent.GetOpticalTypesOfAccident())
                     {
-                        var accident = BuildAccidentInOldEvent(rftsEvent, keyEventIndex, rftsEventsBlock.LevelName);
+                        var accident = BuildAccidentInOldEvent(rftsEvent, opticalAccidentType, keyEventIndex, rftsEventsBlock.LevelName);
                         accident.OpticalTypeOfAccident = opticalAccidentType;
                         yield return accident;
                     }
             }
         }
 
-        private AccidentOnTraceV2 BuildAccidentInOldEvent(RftsEvent rftsEvent, int keyEventIndex, RftsLevelType level)
+        private AccidentOnTraceV2 BuildAccidentInOldEvent(RftsEvent rftsEvent, 
+            OpticalAccidentType opticalAccidentTypeInRftsEvent, int keyEventIndex, RftsLevelType level)
         {
             var brokenLandmarkIndex = _sorData.GetLandmarkIndexForKeyEventIndex(keyEventIndex);
             if (brokenLandmarkIndex == -1)
@@ -119,7 +120,7 @@ namespace Iit.Fibertest.Graph
                 return BuildAccidentAsNewEvent(rftsEvent, keyEventIndex, level);
             }
 
-            var accidentOnTraceV2 = rftsEvent.GetOpticalTypeOfAccident() == OpticalAccidentType.LossCoeff
+            var accidentOnTraceV2 = opticalAccidentTypeInRftsEvent == OpticalAccidentType.LossCoeff
                 ? GetLossCoeffAccident(rftsEvent, keyEventIndex, level, brokenLandmarkIndex)
                 : new AccidentOnTraceV2
                 {
@@ -136,7 +137,7 @@ namespace Iit.Fibertest.Graph
                     Right = brokenLandmarkIndex == _sorData.LinkParameters.LandmarksCount - 1 ? null : GetNeighbour(brokenLandmarkIndex + 1),
 
                     AccidentSeriousness = (rftsEvent.EventTypes & RftsEventTypes.IsFiberBreak) != 0 ? FiberState.FiberBreak : level.ConvertToFiberState(),
-                    OpticalTypeOfAccident = rftsEvent.GetOpticalTypeOfAccident(),
+                    OpticalTypeOfAccident = opticalAccidentTypeInRftsEvent,
                     EventCode = _sorData.KeyEvents.KeyEvents[keyEventIndex].EventCode.EventCodeForTable(),
                 };
 

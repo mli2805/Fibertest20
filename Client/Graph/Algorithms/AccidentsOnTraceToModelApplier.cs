@@ -35,8 +35,14 @@ namespace Iit.Fibertest.Graph
 
             model.CleanAccidentPlacesOnTrace(trace.TraceId);
 
-            if (e.TraceState != FiberState.Unknown && e.TraceState != FiberState.Ok && e.TraceState != FiberState.NoFiber)
-                e.Accidents.ForEach(a => model.ShowAccidentPlaceOnTrace(a, e.TraceId));
+            if (e.TraceState != FiberState.Unknown && e.TraceState != FiberState.Ok &&
+                e.TraceState != FiberState.NoFiber)
+            {
+                for (int i = e.Accidents.Count; i > 0; i--)
+                {
+                    model.ShowAccidentPlaceOnTrace(e.Accidents[i-1], e.TraceId);
+                }
+            }
         }
 
         private static void ShowAccidentPlaceOnTrace(this Model model, AccidentOnTraceV2 accident, Guid traceId)
