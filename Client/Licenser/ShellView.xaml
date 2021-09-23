@@ -4,6 +4,9 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
          SizeToContent="WidthAndHeight" WindowStartupLocation="CenterScreen">
 
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+    </Window.Resources>
     <DockPanel>
         <StackPanel DockPanel.Dock="Top" Margin="25,15,25, 0" IsEnabled="{Binding IsEditable}">
             <StackPanel Name="Id" Orientation="Horizontal" HorizontalAlignment="Right" Height="22" Visibility="Collapsed">
@@ -12,8 +15,10 @@
             </StackPanel>
 
             <StackPanel Name="Key" Orientation="Horizontal" HorizontalAlignment="Right" Height="22" Margin="0,5, 0,20">
-                <TextBlock Width="160" Text="{x:Static stringResources:Resources.SID_License_number_}" TextAlignment="Right" Margin="0,0,20,0" FontWeight="DemiBold" FontSize="16"/>
-                <TextBlock Width="300" Text="{Binding LicenseInFileModel.LicenseKey}"  FontWeight="DemiBold" FontSize="16"/>
+                <TextBlock Width="160" Text="{x:Static stringResources:Resources.SID_License_number_}" 
+                           TextAlignment="Right" Margin="0,0,20,0" FontWeight="DemiBold" FontSize="16"/>
+                <TextBlock Width="300" Text="{Binding LicenseInFileModel.LicenseKey}"  
+                           FontWeight="DemiBold" FontSize="16" Foreground="{Binding LicenseInFileModel.LicenseKeyColor}"/>
             </StackPanel>
 
             <StackPanel Name="Owner" Orientation="Horizontal" Height="22" Margin="0,5"  HorizontalAlignment="Right" >
@@ -72,14 +77,18 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Row="0" Grid.Column="0" Name="CreateNew" Content="{x:Static stringResources:Resources.SID_Create_new}" 
-                    Visibility="{Binding ButtonsVisibility}" Width="120" Height="22" Margin="5"/>
+            <Button Grid.Row="{Binding LoadFromFileButtonRow}" Grid.Column="0" Name="CreateNew" 
+                    Content="{x:Static stringResources:Resources.SID_Create_new}" 
+                    Visibility="{Binding HaveRights, Converter={StaticResource BoolToVis}}" 
+                    Width="120" Height="22" Margin="5"/>
             <Button Grid.Row="{Binding LoadFromFileButtonRow}" Grid.Column="1" Name="LoadFromFile" 
                     Content="{x:Static stringResources:Resources.SID_Load_from_file}" Width="120" Height="22" Margin="5"/>
             <Button Grid.Row="0" Grid.Column="2" Name="SaveAsFile" Content="{x:Static stringResources:Resources.SID_Save_as_file}" 
-                    Visibility="{Binding ButtonsVisibility}" Width="120" Height="22" Margin="5"/>
+                    Visibility="{Binding IsEditable, Converter={StaticResource BoolToVis}}" 
+                    Width="120" Height="22" Margin="5"/>
             <Button Grid.Row="1" Grid.Column="1" Name="ToPdf" Content="{x:Static stringResources:Resources.SID_Pdf_certificate}"
-                    Visibility="{Binding ButtonsVisibility}" Width="120" Height="22" Margin="5"/>
+                    Visibility="{Binding IsEditable, Converter={StaticResource BoolToVis}}" 
+                    Width="120" Height="22" Margin="5"/>
             <Button Grid.Row="1" Grid.Column="2"  Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" 
                     Width="120" Height="22" Margin="5"/>
         </Grid>

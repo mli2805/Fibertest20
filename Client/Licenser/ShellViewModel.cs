@@ -10,9 +10,31 @@ namespace Iit.Fibertest.Licenser
 {
     public class ShellViewModel : Screen, IShell
     {
-        public Visibility ButtonsVisibility { get; set; }
-        public bool IsEditable { get; set; }
-        public int LoadFromFileButtonRow { get; set; }
+        public bool HaveRights { get; set; }
+
+        private bool _isEditable;
+        public bool IsEditable
+        {
+            get => _isEditable;
+            set
+            {
+                if (value == _isEditable) return;
+                _isEditable = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private int _loadFromFileButtonRow;
+        public int LoadFromFileButtonRow
+        {
+            get => _loadFromFileButtonRow;
+            set
+            {
+                if (value == _loadFromFileButtonRow) return;
+                _loadFromFileButtonRow = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
         private LicenseInFileModel _licenseInFileModel = new LicenseInFileModel();
 
@@ -30,16 +52,17 @@ namespace Iit.Fibertest.Licenser
         public ShellViewModel()
         {
             var rr = Environment.GetCommandLineArgs();
-            IsEditable = rr.Length > 1 && rr[1] == "ihaverights";
-            ButtonsVisibility = IsEditable ? Visibility.Visible : Visibility.Collapsed;
-            LoadFromFileButtonRow = IsEditable ? 0 : 1;
+            HaveRights = rr.Length > 1 && rr[1] == "ihaverights";
           
             if (rr.Length > 2)
             {
                 var license = new LicenseManager().ReadLicenseFromFile(rr[2]);
                 if (license != null)
                     LicenseInFileModel = new LicenseInFileModel(license);
+                IsEditable = true;
             }
+
+            LoadFromFileButtonRow = IsEditable ? 0 : 1;
         }
 
         protected override void OnViewLoaded(object view)
@@ -49,7 +72,13 @@ namespace Iit.Fibertest.Licenser
 
         public void CreateNew()
         {
-            LicenseInFileModel = new LicenseInFileModel();
+            LicenseInFileModel = new LicenseInFileModel()
+            {
+                LicenseId = Guid.NewGuid(),
+                CreationDate = DateTime.Today,
+            };
+            IsEditable = true;
+            LoadFromFileButtonRow = IsEditable ? 0 : 1;
         }
 
         public void LoadFromFile()
@@ -57,6 +86,8 @@ namespace Iit.Fibertest.Licenser
             var license = new LicenseManager().ReadLicenseFromFileDialog();
             if (license != null)
                 LicenseInFileModel = new LicenseInFileModel(license);
+            IsEditable = HaveRights;
+            LoadFromFileButtonRow = IsEditable ? 0 : 1;
         }
 
 

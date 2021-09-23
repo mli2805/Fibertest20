@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows.Media;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
@@ -20,6 +21,7 @@ namespace Iit.Fibertest.Licenser
                 _licenseId = value;
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(LicenseKey));
+                NotifyOfPropertyChange(nameof(LicenseKeyColor));
             }
         }
 
@@ -27,10 +29,15 @@ namespace Iit.Fibertest.Licenser
 
         private string Lk()
         {
+            if (LicenseId == Guid.Empty)
+                return "FT020-00000000-000000000-000000";
+
             var id = LicenseId.ToString().ToUpper().Substring(0, 8);
             var licType = IsIncremental ? "I" : "B";
             return $"FT020-{id}-{licType}{RtuCount:D2}{ClientStationCount:D2}{WebClientCount:D2}{SuperClientStationCount:D2}-{CreationDate:yyMMdd}";
         }
+
+        public Brush LicenseKeyColor => LicenseId == Guid.Empty ? Brushes.Gray : Brushes.Black;
 
         private string _owner;
         public string Owner
@@ -224,12 +231,11 @@ namespace Iit.Fibertest.Licenser
 
         public LicenseInFileModel()
         {
-            LicenseId = Guid.NewGuid();
+            LicenseId = Guid.Empty;
             RtuCountTermUnit = TermUnit.First();
             ClientStationTermUnit = TermUnit.First();
             WebClientTermUnit = TermUnit.First();
             SuperClientTermUnit = TermUnit.First();
-            CreationDate = DateTime.Today;
         }
 
         public LicenseInFileModel(LicenseInFile licenseInFile)
