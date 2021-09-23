@@ -36,33 +36,25 @@ namespace Iit.Fibertest.WpfCommonViews
             TraceState = Resources.SID_pass;
             if (LevelsContent.IsMinorExists)
             {
-                Minor = LevelsContent.MinorLevelViewModel.IsFailed 
-                    ? string.Format(Resources.SID_fail___0__km_, LevelsContent.MinorLevelViewModel.OneLevelTableContent.FirstProblemLocation) 
-                    : Resources.SID_pass;
+                Minor = LevelsContent.MinorLevelViewModel.GetState(); 
                 if (LevelsContent.MinorLevelViewModel.IsFailed)
                     TraceState = Resources.SID_Minor;
             }
             if (LevelsContent.IsMajorExists)
             {
-                Major = LevelsContent.MajorLevelViewModel.IsFailed
-                    ? string.Format(Resources.SID_fail___0__km_, LevelsContent.MajorLevelViewModel.OneLevelTableContent.FirstProblemLocation)
-                    : Resources.SID_pass;
+                Major = LevelsContent.MajorLevelViewModel.GetState();
                 if (LevelsContent.MajorLevelViewModel.IsFailed)
                     TraceState = Resources.SID_Major;
             }
             if (LevelsContent.IsCriticalExists)
             {
-                Critical = LevelsContent.CriticalLevelViewModel.IsFailed
-                    ? string.Format(Resources.SID_fail___0__km_, LevelsContent.CriticalLevelViewModel.OneLevelTableContent.FirstProblemLocation)
-                    : Resources.SID_pass;
+                Critical = LevelsContent.CriticalLevelViewModel.GetState();
                 if (LevelsContent.CriticalLevelViewModel.IsFailed)
                     TraceState = Resources.SID_Critical;
             }
             if (LevelsContent.IsUsersExists)
             {
-                Users = LevelsContent.UsersLevelViewModel.IsFailed
-                    ? string.Format(Resources.SID_fail___0__km_, LevelsContent.UsersLevelViewModel.OneLevelTableContent.FirstProblemLocation)
-                    : Resources.SID_pass;
+                Users = LevelsContent.UsersLevelViewModel.GetState();
                 if (LevelsContent.UsersLevelViewModel.IsFailed)
                     TraceState = Resources.SID_User_s;
             }

@@ -134,7 +134,7 @@ namespace Iit.Fibertest.Client
         public void ShowRftsEvents()
         {
             if (SelectedRow == null) return;
-            _reflectogramManager.ShowRftsEvents(SelectedRow.Measurement.SorFileId);
+            _reflectogramManager.ShowRftsEvents(SelectedRow.Measurement.SorFileId, TraceTitle);
         }
 
         public void ShowTraceState()

@@ -89,7 +89,7 @@ namespace Iit.Fibertest.Client
             SaveAs(sorbytes);
         }
 
-        public async void ShowRftsEvents(int sorFileId)
+        public async void ShowRftsEvents(int sorFileId, string traceTitle)
         {
             var sorbytes = await GetSorBytes(sorFileId);
 
@@ -102,7 +102,7 @@ namespace Iit.Fibertest.Client
             }
 
             var vm = new RftsEventsViewModel(_windowManager);
-            vm.Initialize(sorData);
+            vm.Initialize(sorData, traceTitle);
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 

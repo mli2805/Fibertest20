@@ -1,4 +1,6 @@
-﻿namespace Iit.Fibertest.WpfCommonViews
+﻿using System.Collections.Generic;
+
+namespace Iit.Fibertest.WpfCommonViews
 {
     public class LevelsContent
     {
@@ -23,6 +25,14 @@
             }
 
             return null;
+        }
+
+        public IEnumerable<RftsEventsOneLevelViewModel> GetAll()
+        {
+            if (IsMinorExists) yield return MinorLevelViewModel;
+            if (IsMajorExists) yield return MajorLevelViewModel;
+            if (IsCriticalExists) yield return CriticalLevelViewModel;
+            if (IsUsersExists) yield return UsersLevelViewModel;
         }
 
     }

@@ -1,4 +1,5 @@
-﻿using PdfSharp.Pdf;
+﻿using System.Collections.Generic;
+using PdfSharp.Pdf;
 using System.Data;
 using System.Linq;
 using Iit.Fibertest.StringResources;
@@ -10,7 +11,7 @@ namespace Iit.Fibertest.WpfCommonViews
 {
     public static class RftsEventsPdfProvider
     {
-        public static PdfDocument Create(DataTable levelDataTable)
+        public static PdfDocument Create(IEnumerable<RftsEventsOneLevelViewModel> levelViewModels, string traceTitle)
         {
             Document doc = new Document();
             doc.DefaultPageSetup.Orientation = Orientation.Landscape;
@@ -20,16 +21,27 @@ namespace Iit.Fibertest.WpfCommonViews
             doc.DefaultPageSetup.BottomMargin = Unit.FromCentimeter(1.5);
             doc.DefaultPageSetup.FooterDistance = Unit.FromCentimeter(0.5);
 
-            Section section = doc.AddSection();
-            section.PageSetup.DifferentFirstPageHeaderFooter = false;
+            foreach (var levelViewModel in levelViewModels)
+            {
+                Section section = doc.AddSection();
+                section.PageSetup.DifferentFirstPageHeaderFooter = false;
 
-            var paragraph = section.AddParagraph();
-            paragraph.AddFormattedText(Resources.SID_Rfts_Events, TextFormat.NotBold);
-            paragraph.Format.Font.Size = 14;
-            paragraph.Format.SpaceBefore = Unit.FromCentimeter(0.4);
-            paragraph.Format.SpaceAfter = Unit.FromCentimeter(0.4);
+                var paragraph = section.AddParagraph();
+                paragraph.AddFormattedText(Resources.SID_Rfts_Events + $":  {traceTitle}", TextFormat.NotBold);
+                paragraph.Format.Font.Size = 14;
+                paragraph.Format.SpaceBefore = Unit.FromCentimeter(0.4);
+                paragraph.Format.SpaceAfter = Unit.FromCentimeter(0.4);
 
-            DrawTables(levelDataTable, doc, section);
+                var paragraph2 = section.AddParagraph();
+                paragraph2.AddFormattedText(levelViewModel.BindableTable.TableName + $":  {levelViewModel.GetState()}");
+                paragraph2.Format.Font.Size = 12;
+                paragraph2.Format.SpaceAfter = Unit.FromCentimeter(0.4);
+                paragraph2.Format.Font.Color = levelViewModel.IsFailed ? Colors.Red : Colors.Black;
+
+                DrawTables(levelViewModel.BindableTable, doc, section);
+                DrawFooter(section, levelViewModel);
+              
+            }
 
             PdfDocumentRenderer pdfDocumentRenderer =
                 new PdfDocumentRenderer(true) {Document = doc};
@@ -113,5 +125,25 @@ namespace Iit.Fibertest.WpfCommonViews
                 rowHeader.Cells[i + 1].AddParagraph(string.Format(Resources.SID_Event_N_0_, i + ordinal * EventOnPage));
         }
 
+        private static void DrawFooter(Section section, RftsEventsOneLevelViewModel levelViewModel)
+        {
+            var paragraph = section.AddParagraph();
+            paragraph.AddFormattedText(Resources.SID_Total_fiber_loss);
+            paragraph.Format.Font.Size = 11;
+            paragraph.Format.SpaceBefore = Unit.FromCentimeter(0.4);
+            paragraph.Format.SpaceAfter = Unit.FromCentimeter(0.1);
+
+            var paragraph3 = section.AddParagraph();
+            paragraph3.AddFormattedText($"{Resources.SID_Value__dB}  {levelViewModel.EeltViewModel.AttenuationValue}");
+            paragraph3.Elements.AddSpace(5);
+            paragraph3.AddFormattedText($"{Resources.SID_Threshold__dB}  {levelViewModel.EeltViewModel.Threshold}");
+            paragraph3.Elements.AddSpace(5);
+            paragraph3.AddFormattedText($"{Resources.SID_Deviation__dB}  {levelViewModel.EeltViewModel.DeviationValue}");
+            paragraph3.Elements.AddSpace(5);
+            paragraph3.AddFormattedText($"{Resources.SID_State_}  {levelViewModel.EeltViewModel.StateValue}");
+            paragraph3.Format.Font.Size = 11;
+            paragraph3.Format.LeftIndent = Unit.FromCentimeter(1);
+            paragraph3.Format.Font.Color = levelViewModel.EeltViewModel.IsFailed ? Colors.Red : Colors.Black;
+        }
     }
 }

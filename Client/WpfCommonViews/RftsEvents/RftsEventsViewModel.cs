@@ -15,6 +15,7 @@ namespace Iit.Fibertest.WpfCommonViews
     {
         private readonly IWindowManager _windowManager;
         private bool _isNoFiber;
+        private string _traceTitle;
         public Visibility NoFiberLabelVisibility => _isNoFiber ? Visibility.Visible : Visibility.Collapsed;
         public Visibility RftsEventsTableVisibility => _isNoFiber ? Visibility.Collapsed : Visibility.Visible;
 
@@ -28,10 +29,12 @@ namespace Iit.Fibertest.WpfCommonViews
             _windowManager = windowManager;
         }
 
-        public void Initialize(OtdrDataKnownBlocks sorData)
+        public void Initialize(OtdrDataKnownBlocks sorData, string traceTitle = "")
         {
+            _traceTitle = traceTitle;
             _isNoFiber = sorData.RftsEvents.MonitoringResult == (int) ComparisonReturns.NoFiber;
             if (_isNoFiber) return;
+
             var rftsEventsBlocks = sorData.GetRftsEventsBlockForEveryLevel().ToList();
 
             var rftsParameters = sorData.RftsParameters;
@@ -73,12 +76,12 @@ namespace Iit.Fibertest.WpfCommonViews
 
         protected override void OnViewLoaded(object view)
         {
-            DisplayName = Resources.SID_Rfts_Events;
+            DisplayName = Resources.SID_Rfts_Events + $":  {_traceTitle}";
         }
 
         public void ExportToPdf()
         {
-            var report = RftsEventsPdfProvider.Create(LevelsContent.GetByIndex(SelectedIndex).BindableTable);
+            var report = RftsEventsPdfProvider.Create(LevelsContent.GetAll(), _traceTitle);
             if (report == null) return;
             try
             {

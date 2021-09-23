@@ -4,6 +4,7 @@ using Optixsoft.SorExaminer.OtdrDataFormat.Structures;
 
 namespace Iit.Fibertest.UtilsLib
 {
+    // for WebClient
     public static class RftsEventsExt
     {
         public static string ForStateInTable(this RftsEventTypes rftsEventType, bool isFailed)

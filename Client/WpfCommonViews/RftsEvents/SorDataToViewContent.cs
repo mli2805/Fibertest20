@@ -10,7 +10,6 @@ namespace Iit.Fibertest.WpfCommonViews
 {
     public class SorDataToViewContent
     {
-        private readonly RftsLevelType _rftsLevel;
         private readonly OtdrDataKnownBlocks _sorData;
         private readonly RftsEventsBlock _rftsEvents;
         private int _eventCount;
@@ -40,9 +39,8 @@ namespace Iit.Fibertest.WpfCommonViews
             { 900, ""                                            },
         };
 
-        public SorDataToViewContent(OtdrDataKnownBlocks sorData, RftsEventsBlock rftsEvents, RftsLevelType rftsLevel)
+        public SorDataToViewContent(OtdrDataKnownBlocks sorData, RftsEventsBlock rftsEvents)
         {
-            _rftsLevel = rftsLevel;
             _sorData = sorData;
             _rftsEvents = rftsEvents;
         }
@@ -117,7 +115,7 @@ namespace Iit.Fibertest.WpfCommonViews
 
         private void ParseMonitoringThresholds(Dictionary<int, string[]> eventTable)
         {
-            var level = _sorData.RftsParameters.Levels.First(l => l.LevelName == _rftsLevel);
+            var level = _sorData.RftsParameters.Levels.First(l => l.LevelName == _rftsEvents.LevelName);
 
             for (int i = 0; i < _eventCount; i++)
             {

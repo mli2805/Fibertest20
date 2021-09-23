@@ -175,7 +175,7 @@ namespace Iit.Fibertest.Client
             _reflectogramManager.SetTempFileName(Model.Header.TraceTitle, Model.SorFileId, Model.MeasurementTimestamp);
             _reflectogramManager.ShowRefWithBase(Model.SorFileId);
         }
-        public void ShowRftsEvents() { _reflectogramManager.ShowRftsEvents(Model.SorFileId); }
+        public void ShowRftsEvents() { _reflectogramManager.ShowRftsEvents(Model.SorFileId, Model.Header.TraceTitle); }
         public void ShowTraceStatistics() { _traceStatisticsViewsManager.Show(Model.TraceId); }
         public void ExportToKml() { }
 
