@@ -95,42 +95,42 @@ namespace Iit.Fibertest.RtuManagement
             monitorigPort.IsConfirmationRequired = false;
         }
 
-        private MoniResult DoFastMeasurement(MonitorigPort monitorigPort)
+        private MoniResult DoFastMeasurement(MonitorigPort monitoringPort)
         {
             _rtuLog.EmptyLine();
-            _rtuLog.AppendLine($"MEAS. {_measurementNumber}, Fast, port {monitorigPort.ToStringB(_mainCharon)}");
+            _rtuLog.AppendLine($"MEAS. {_measurementNumber}, Fast, port {monitoringPort.ToStringB(_mainCharon)}");
 
-            var moniResult = DoMeasurement(BaseRefType.Fast, monitorigPort);
+            var moniResult = DoMeasurement(BaseRefType.Fast, monitoringPort);
 
             if (moniResult.MeasurementResult == MeasurementResult.Success)
             {
                 if (moniResult.GetAggregatedResult() != FiberState.Ok)
-                    monitorigPort.IsBreakdownCloserThen20Km = moniResult.FirstBreakDistance < 20;
+                    monitoringPort.IsBreakdownCloserThen20Km = moniResult.FirstBreakDistance < 20;
 
                 var message = "";
 
-                if (moniResult.IsStateChanged(monitorigPort.LastMoniResult))
+                if (moniResult.GetAggregatedResult() != monitoringPort.LastTraceState)
                 {
-                    message = $"Trace state has changed ({monitorigPort.LastTraceState} => {moniResult.GetAggregatedResult()})";
-                    monitorigPort.IsConfirmationRequired = true;
+                    message = $"Trace state has changed ({monitoringPort.LastTraceState} => {moniResult.GetAggregatedResult()})";
+                    monitoringPort.IsConfirmationRequired = true;
                 }
-                else if (monitorigPort.IsMonitoringModeChanged)
+                else if (monitoringPort.IsMonitoringModeChanged)
                 {
                     message = "Monitoring mode was changed";
                 }
-                else if (_fastSaveTimespan != TimeSpan.Zero && DateTime.Now - monitorigPort.LastFastSavedTimestamp > _fastSaveTimespan)
+                else if (_fastSaveTimespan != TimeSpan.Zero && DateTime.Now - monitoringPort.LastFastSavedTimestamp > _fastSaveTimespan)
                 {
-                    _rtuLog.AppendLine($"last fast saved - {monitorigPort.LastFastSavedTimestamp}, _fastSaveTimespan - {_fastSaveTimespan.TotalMinutes} minutes");
+                    _rtuLog.AppendLine($"last fast saved - {monitoringPort.LastFastSavedTimestamp}, _fastSaveTimespan - {_fastSaveTimespan.TotalMinutes} minutes");
                     message = "It's time to save fast reflectogram";
                 }
-                monitorigPort.LastMoniResult = moniResult;
-                monitorigPort.LastTraceState = moniResult.GetAggregatedResult();
+                monitoringPort.LastMoniResult = moniResult;
+                monitoringPort.LastTraceState = moniResult.GetAggregatedResult();
 
                 if (message != "")
                 {
                     _rtuLog.AppendLine("Send by MSMQ:  " + message);
-                    SendByMsmq(CreateDto(moniResult, monitorigPort));
-                    monitorigPort.LastFastSavedTimestamp = DateTime.Now;
+                    SendByMsmq(CreateDto(moniResult, monitoringPort));
+                    monitoringPort.LastFastSavedTimestamp = DateTime.Now;
                 }
 
                 _monitoringQueue.Save();
