@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Autofac;
-using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -13,10 +11,8 @@ namespace Iit.Fibertest.Client
 {
     public class TraceToAttachViewModel : Screen
     {
-        private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
         private readonly IWcfServiceCommonC2D _c2DCommonWcfManager;
-        private readonly IWcfServiceDesktopC2D _c2DDesktopWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly CurrentUser _currentUser;
         private OtauPortDto _otauPortDto;
@@ -48,13 +44,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceToAttachViewModel(ILifetimeScope globalScope, Model readModel, CurrentUser currentUser,
-            IWcfServiceCommonC2D c2DCommonWcfManager, IWcfServiceDesktopC2D c2DDesktopWcfManager, IWindowManager windowManager)
+        public TraceToAttachViewModel(Model readModel, CurrentUser currentUser,
+            IWcfServiceCommonC2D c2DCommonWcfManager, IWindowManager windowManager)
         {
-            _globalScope = globalScope;
             _readModel = readModel;
             _c2DCommonWcfManager = c2DCommonWcfManager;
-            _c2DDesktopWcfManager = c2DDesktopWcfManager;
             _windowManager = windowManager;
             _currentUser = currentUser;
         }
@@ -72,8 +66,6 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Not_attached_traces_list;
         }
 
-        private static readonly IMapper Mapper = new MapperConfiguration(
-            cfg => cfg.AddProfile<VeexTestMappingProfile>()).CreateMapper();
         public async void FullAttach()
         {
             IsButtonsEnabled = false;
