@@ -138,38 +138,39 @@ namespace Iit.Fibertest.RtuManagement
             return moniResult;
         }
 
-        private MoniResult DoSecondMeasurement(MonitorigPort monitorigPort, bool hasFastPerformed,
+        private MoniResult DoSecondMeasurement(MonitorigPort monitoringPort, bool hasFastPerformed,
             BaseRefType baseType, bool isOutOfTurnMeasurement = false)
         {
             _rtuLog.EmptyLine();
-            _rtuLog.AppendLine($"MEAS. {_measurementNumber}, {baseType}, port {monitorigPort.ToStringB(_mainCharon)}");
+            _rtuLog.AppendLine($"MEAS. {_measurementNumber}, {baseType}, port {monitoringPort.ToStringB(_mainCharon)}");
 
-            var moniResult = DoMeasurement(baseType, monitorigPort, !hasFastPerformed);
+            var moniResult = DoMeasurement(baseType, monitoringPort, !hasFastPerformed);
 
             if (moniResult.MeasurementResult == MeasurementResult.Success)
             {
-
                 var message = "";
                 if (isOutOfTurnMeasurement)
                     message = "It's out of turn precise measurement";
-                else if (moniResult.IsStateChanged(monitorigPort.LastMoniResult))
-                    message = "Trace state has changed";
-                else if (monitorigPort.IsMonitoringModeChanged)
+                else if (moniResult.GetAggregatedResult() != monitoringPort.LastTraceState)
+                {
+                    message = $"Trace state has changed ({monitoringPort.LastTraceState} => {moniResult.GetAggregatedResult()})";
+                }
+                else if (monitoringPort.IsMonitoringModeChanged)
                     message = "Monitoring mode was changed";
-                else if (monitorigPort.IsConfirmationRequired)
+                else if (monitoringPort.IsConfirmationRequired)
                     message = "Accident confirmation - should be saved";
-                else if (_preciseSaveTimespan != TimeSpan.Zero && DateTime.Now - monitorigPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
+                else if (_preciseSaveTimespan != TimeSpan.Zero && DateTime.Now - monitoringPort.LastPreciseSavedTimestamp > _preciseSaveTimespan)
                     message = "It's time to save precise reflectogram";
 
-                monitorigPort.LastPreciseMadeTimestamp = DateTime.Now;
-                monitorigPort.LastMoniResult = moniResult;
-                monitorigPort.LastTraceState = moniResult.GetAggregatedResult();
+                monitoringPort.LastPreciseMadeTimestamp = DateTime.Now;
+                monitoringPort.LastMoniResult = moniResult;
+                monitoringPort.LastTraceState = moniResult.GetAggregatedResult();
 
                 if (message != "")
                 {
                     _rtuLog.AppendLine("Send by MSMQ:  " + message);
-                    SendByMsmq(CreateDto(moniResult, monitorigPort));
-                    monitorigPort.LastPreciseSavedTimestamp = DateTime.Now;
+                    SendByMsmq(CreateDto(moniResult, monitoringPort));
+                    monitoringPort.LastPreciseSavedTimestamp = DateTime.Now;
                 }
 
                 _monitoringQueue.Save();
@@ -272,8 +273,8 @@ namespace Iit.Fibertest.RtuManagement
                     OtauPort = new OtauPortDto()
                     {
                         Serial = monitorigPort.CharonSerial,
-                        //                        OtauIp = monitorigPort.NetAddress.Ip4Address,
-                        //                        OtauTcpPort = monitorigPort.NetAddress.Port,
+                        //                        OtauIp = monitoringPort.NetAddress.Ip4Address,
+                        //                        OtauTcpPort = monitoringPort.NetAddress.Port,
                         IsPortOnMainCharon = monitorigPort.IsPortOnMainCharon,
                         OpticalPort = monitorigPort.OpticalPort,
                     },

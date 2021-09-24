@@ -19,6 +19,9 @@ namespace Iit.Fibertest.Dto
 
         public FiberState GetAggregatedResult()
         {
+            if (MeasurementResult == MeasurementResult.Interrupted)
+                return FiberState.Unknown;
+
             if (IsNoFiber)
                 return FiberState.NoFiber;
             if (IsFiberBreak)

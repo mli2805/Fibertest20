@@ -107,7 +107,8 @@ namespace Iit.Fibertest.RtuManagement
 
         public void SaveMeasBytes(BaseRefType baseRefType, byte[] bytes, SorType sorType, IMyLog rtuLog)
         {
-            var measfile = AppDomain.CurrentDomain.BaseDirectory + $@"..\PortData\{GetPortFolderName()}\{baseRefType.ToFileName(sorType)}";
+            var measfile = AppDomain.CurrentDomain.BaseDirectory + 
+                           $@"..\PortData\{GetPortFolderName()}\{baseRefType.ToFileName(sorType)}";
 
             try
             {
