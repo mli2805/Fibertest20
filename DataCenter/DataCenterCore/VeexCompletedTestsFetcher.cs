@@ -21,6 +21,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly VeexCompletedTestProcessor _veexCompletedTestProcessor;
 
         private List<Rtu> _veexRtus;
+        private TimeSpan _gap;
 
         public VeexCompletedTestsFetcher(IniFile iniFile, IMyLog logFile, Model writeModel,
             RtuStationsRepository rtuStationsRepository, D2RtuVeexLayer3 d2RtuVeexLayer3,
@@ -43,12 +44,12 @@ namespace Iit.Fibertest.DataCenterCore
         // ReSharper disable once FunctionNeverReturns
         private void Init()
         {
-            var gap = TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.AskVeexRtuEvery, 5));
+            _gap = TimeSpan.FromSeconds(_iniFile.Read(IniSection.General, IniKey.AskVeexRtuEvery, 8));
 
             while (true)
             {
                 Tick().Wait();
-                Thread.Sleep(gap);
+                Thread.Sleep(_gap);
             }
         }
 
@@ -64,26 +65,12 @@ namespace Iit.Fibertest.DataCenterCore
                 if (station == null) continue;
 
                 var rtuDoubleAddress = station.GetRtuDoubleAddress();
-                var startingFrom = station.LastConnectionByMainAddressTimestamp.AddMilliseconds(1).ToString("O");
+                var utc = station.LastConnectionByMainAddressTimestamp.ToUniversalTime();
+                var startingFrom = utc.AddSeconds(1).ToString("O");
 
                 // rtu can't return more than 1024 completed tests at a time, but can less, parameter limit is optional
                 var getPortionResult = await _d2RtuVeexLayer3.GetCompletedTestsAfterTimestamp(rtuDoubleAddress, startingFrom, 2048);
-
-                if (getPortionResult.IsSuccessful)
-                {
-                    if (getPortionResult.ResponseObject is CompletedTestPortion portion)
-                    {
-                        _logFile.AppendLine($"RTU {station.MainAddress} returned portion of {portion.items.Count} from {portion.total}");
-                        if (portion.items.Any())
-                        {
-                            station.LastConnectionByMainAddressTimestamp = await ProcessPortionOfMeasurements(portion, rtu, rtuDoubleAddress);
-                            if (await _rtuStationsRepository.RefreshStationLastConnectionTime(station) > 0)
-                                _logFile.AppendLine("last connection time refreshed successfully");
-                        }
-                    }
-                }
-                else
-                    _logFile.AppendLine($"RTU {station.MainAddress} returned {getPortionResult.ErrorMessage}");
+                await ProcessRequestResult(getPortionResult, station, rtu, rtuDoubleAddress);
             }
 
             if (changedStations.Any())
@@ -92,14 +79,26 @@ namespace Iit.Fibertest.DataCenterCore
             return 0;
         }
 
-        private async Task<DateTime> ProcessPortionOfMeasurements(CompletedTestPortion portion, Rtu rtu, DoubleAddress rtuDoubleAddress)
+        private async Task ProcessRequestResult(HttpRequestResult getPortionResult, RtuStation station, Rtu rtu, DoubleAddress rtuDoubleAddress)
         {
-            foreach (var completedTest in portion.items)
+            if (getPortionResult.IsSuccessful)
             {
-                await _veexCompletedTestProcessor.ProcessOneCompletedTest(completedTest, rtu, rtuDoubleAddress);
-            }
+                if (getPortionResult.ResponseObject is CompletedTestPortion portion)
+                {
+                    _logFile.AppendLine($"RTU {station.MainAddress} returned " +
+                              $"portion of {portion.items.Count} from {portion.total} completed tests", 0, 3);
+                    foreach (var completedTest in portion.items)
+                        await _veexCompletedTestProcessor.ProcessOneCompletedTest(completedTest, rtu, rtuDoubleAddress);
 
-            return portion.items.Last().started;
+                    if (portion.items.Any())
+                        station.LastConnectionByMainAddressTimestamp = portion.items.Last().started.ToLocalTime();
+
+                    if (await _rtuStationsRepository.RefreshStationLastConnectionTime(station) > 0)
+                        _logFile.AppendLine("last fetched measurement time refreshed successfully", 0, 3);
+                }
+            }
+            else
+                _logFile.AppendLine($"RTU {station.MainAddress} returned {getPortionResult.ErrorMessage}");
         }
     }
 }
