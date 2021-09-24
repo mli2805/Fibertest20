@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
+﻿using System.Globalization;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -115,21 +114,5 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             }
             return null;
         }
-
-        // public async Task<HttpRequestResult> SetServerNotificationSettings(DoubleAddress rtuDoubleAddress, InitializeRtuDto dto)
-        // {
-        //     var serverNotificationSettings = new ServerNotificationSettings()
-        //     {
-        //         state = "enabled",
-        //         eventTypes = new List<string>()
-        //         {
-        //             "monitoring_test_failed",
-        //             "monitoring_test_passed"
-        //         },
-        //         url = $@"http://{dto.ServerAddresses.Main.ToStringA()}/veex/notify?rtuId={dto.RtuId}",
-        //     };
-        //
-        //     return await _d2RtuVeexLayer1.SetServerNotificationSettings(rtuDoubleAddress, serverNotificationSettings);
-        // }
     }
 }
