@@ -132,7 +132,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto)
         {
-            var otauDetachedDto =  dto.RtuMaker == RtuMaker.IIT
+            var otauDetachedDto = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.DetachOtauAsync(dto)
                 : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.DetachOtauAsync(dto).Result);
 
@@ -257,10 +257,10 @@ namespace Iit.Fibertest.DataCenterCore
             return !string.IsNullOrEmpty(result)
                 ? new BaseRefAssignedDto
                 {
-                    ReturnCode = ReturnCode.BaseRefAssignmentFailed, 
+                    ReturnCode = ReturnCode.BaseRefAssignmentFailed,
                     ErrorMessage = result
                 }
-                : transferResult ?? new BaseRefAssignedDto() {ReturnCode = ReturnCode.BaseRefAssignedSuccessfully};
+                : transferResult ?? new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
         }
 
         private async Task<string> SaveChangesOnServer(AssignBaseRefsDto dto)
@@ -332,45 +332,69 @@ namespace Iit.Fibertest.DataCenterCore
 
         // Base refs had been assigned earlier (and saved in Db) and now user attached trace to the port
         // base refs should be extracted from Db and sent to the RTU
-        public async Task<BaseRefAssignedDto> AttachTraceAndSendBaseRefs(AttachTraceDto dto)
+        public async Task<RequestAnswer> AttachTraceAndSendBaseRefs(AttachTraceDto dto)
         {
             _logFile.AppendLine("AttachTraceAndSendBaseRefs started");
-            var dto1 = await CreateAssignBaseRefsDto(dto);
-            if (dto1 == null) return new BaseRefAssignedDto() { ReturnCode = ReturnCode.Error };
+            BaseRefAssignedDto transferResult = await SendBaseRefsIfAny(dto);
 
-            BaseRefAssignedDto transferResult = null;
-            if (dto1.BaseRefs.Any())
-            {
-                transferResult = dto1.RtuMaker == RtuMaker.IIT
-                    ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto1)
-                    : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto1).Result);
-
-                if (transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
-                    return transferResult;
-            }
+            if (transferResult != null && transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+                return new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = transferResult.ErrorMessage};
 
             var cmd = new AttachTrace() { TraceId = dto.TraceId, OtauPortDto = dto.OtauPortDto };
             var res = await _eventStoreService.SendCommand(cmd, dto.Username, dto.ClientIp);
-            if (string.IsNullOrEmpty(res))
-            {
-                var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == dto.TraceId);
-                if (trace != null)
-                {
-                    var meas = _writeModel.Measurements.LastOrDefault(m => m.TraceId == dto.TraceId);
-                    var signal = new TraceTachDto()
-                    {
-                        TraceId = dto.TraceId,
-                        Attach = true,
-                        TraceState = trace.State,
-                        SorFileId = meas?.SorFileId ?? -1
-                    };
 
-                    await _ftSignalRClient.NotifyAll("TraceTach", signal.ToCamelCaseJson());
-                }
+            if (!string.IsNullOrEmpty(res))
+                return new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = res };
+
+            await NotifyWebClientTraceAttached(dto.TraceId);
+
+            if (transferResult == null || dto.RtuMaker == RtuMaker.IIT)
+                return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
+
+            // Veex and there are base refs so veexTests table should be updated
+            var commands = transferResult.VeexTests
+                .Select(l => (object)(Mapper.Map<AddVeexTest>(l))).ToList();
+
+            var cmdCount = await _eventStoreService.SendCommands(commands, dto.Username, dto.ClientIp);
+
+            return cmdCount == commands.Count
+                ? new RequestAnswer() { ReturnCode = ReturnCode.Ok }
+                : new RequestAnswer()
+                {
+                    ReturnCode = ReturnCode.Error, 
+                    ErrorMessage = "Failed to apply commands maintaining veex tests table!"
+                };
+        }
+
+        private async Task<BaseRefAssignedDto> SendBaseRefsIfAny(AttachTraceDto dto)
+        {
+            var dto1 = await CreateAssignBaseRefsDto(dto);
+            if (dto1 == null)
+                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.Error, ErrorMessage = "RTU or trace not found!" };
+
+            if (dto1.BaseRefs.Any())
+                return dto1.RtuMaker == RtuMaker.IIT
+                    ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto1)
+                    : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto1).Result);
+            return null;
+        }
+
+        private async Task NotifyWebClientTraceAttached(Guid traceId)
+        {
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == traceId);
+            if (trace != null)
+            {
+                var meas = _writeModel.Measurements.LastOrDefault(m => m.TraceId == traceId);
+                var signal = new TraceTachDto()
+                {
+                    TraceId = traceId,
+                    Attach = true,
+                    TraceState = trace.State,
+                    SorFileId = meas?.SorFileId ?? -1
+                };
+
+                await _ftSignalRClient.NotifyAll("TraceTach", signal.ToCamelCaseJson());
             }
-            return !string.IsNullOrEmpty(res)
-                ? new BaseRefAssignedDto() { ReturnCode = ReturnCode.Error, ErrorMessage = res }
-                : transferResult ?? new BaseRefAssignedDto() { ReturnCode = ReturnCode.Ok };
         }
 
         // Base refs had been assigned earlier (and saved in Db) and now user attached trace to the port
@@ -416,7 +440,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
-            if (rtu == null) return new ClientMeasurementStartedDto() {ReturnCode = ReturnCode.NoSuchRtu};
+            if (rtu == null) return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.NoSuchRtu };
 
             return rtu.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.DoClientMeasurementAsync(dto)
@@ -426,7 +450,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<ClientMeasurementDto> GetClientMeasurementAsync(GetClientMeasurementDto dto)
         {
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
-            if (rtu == null) return new ClientMeasurementDto() {ReturnCode = ReturnCode.NoSuchRtu};
+            if (rtu == null) return new ClientMeasurementDto() { ReturnCode = ReturnCode.NoSuchRtu };
 
             return rtu.RtuMaker == RtuMaker.VeEX
                 ? await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.GetMeasurementResult(dto).Result)
@@ -436,7 +460,7 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<RequestAnswer> PrepareReflectMeasurementAsync(PrepareReflectMeasurementDto dto)
         {
             var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
-            if (rtu == null) return new RequestAnswer() {ReturnCode = ReturnCode.NoSuchRtu};
+            if (rtu == null) return new RequestAnswer() { ReturnCode = ReturnCode.NoSuchRtu };
 
             return rtu.RtuMaker == RtuMaker.VeEX
                 ? await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.PrepareReflectMeasurementAsync(dto).Result)

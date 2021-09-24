@@ -79,6 +79,7 @@ namespace Iit.Fibertest.Client
             IsButtonsEnabled = false;
             var dto = new AttachTraceDto()
             {
+                RtuMaker = _rtu.RtuMaker,
                 TraceId = SelectedTrace.TraceId,
                 OtauPortDto = _otauPortDto,
                 MainOtauPortDto = new OtauPortDto()
@@ -90,41 +91,20 @@ namespace Iit.Fibertest.Client
             };
 
             var result = await _c2DCommonWcfManager.AttachTraceAndSendBaseRefs(dto);
-            switch (result.ReturnCode)
+            if (result.ReturnCode != ReturnCode.Ok)
             {
-                case ReturnCode.Ok: break;
-                case ReturnCode.BaseRefAssignedSuccessfully:
+                var errs = new List<string>
                 {
-                    if (_rtu.RtuMaker == RtuMaker.VeEX && result.VeexTests != null)
-                    {
-                        using (_globalScope.Resolve<IWaitCursor>())
-                        {
-                            var commands = result.VeexTests
-                                .Select(l => (object) (Mapper.Map<AddVeexTest>(l))).ToList();
+                    result.ReturnCode == ReturnCode.D2RWcfConnectionError
+                        ? Resources.SID_Cannot_send_base_refs_to_RTU
+                        : Resources.SID_Base_reference_assignment_failed
+                };
 
-                            if (commands.Any())
-                                await _c2DDesktopWcfManager.SendCommandsAsObjs(commands);
-                        }
-                    }
+                if (!string.IsNullOrEmpty(result.ErrorMessage))
+                    errs.Add(result.ErrorMessage);
 
-                    break;
-                }
-                default:
-                {
-                    var errs = new List<string>
-                    {
-                        result.ReturnCode == ReturnCode.D2RWcfConnectionError
-                            ? Resources.SID_Cannot_send_base_refs_to_RTU
-                            : Resources.SID_Base_reference_assignment_failed
-                    };
-
-                    if (!string.IsNullOrEmpty(result.ErrorMessage))
-                        errs.Add(result.ErrorMessage);
-
-                    var vm = new MyMessageBoxViewModel(MessageType.Error, errs);
-                    _windowManager.ShowDialog(vm);
-                    break;
-                }
+                var vm = new MyMessageBoxViewModel(MessageType.Error, errs);
+                _windowManager.ShowDialog(vm);
             }
 
             IsButtonsEnabled = true;

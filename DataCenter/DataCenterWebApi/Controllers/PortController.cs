@@ -40,7 +40,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         [Authorize]
         [HttpPost("Attach-trace")]
-        public async Task<BaseRefAssignedDto> AttachTrace()
+        public async Task<RequestAnswer> AttachTrace()
         {
             try
             {
@@ -59,7 +59,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             catch (Exception e)
             {
                 _logFile.AppendLine($"AttachTrace: {e.Message}");
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
+                return new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
             }
         }
 

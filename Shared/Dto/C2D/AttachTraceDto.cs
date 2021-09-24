@@ -13,6 +13,9 @@ namespace Iit.Fibertest.Dto
         public string Username { get; set; }
 
         [DataMember]
+        public RtuMaker RtuMaker { get; set; }
+
+          [DataMember]
         public Guid TraceId { get; set; }
 
         [DataMember]
