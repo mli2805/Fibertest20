@@ -40,10 +40,11 @@ namespace Iit.Fibertest.Client
                     _opticalEventsDoubleViewModel.DetachOtau(evnt); break;
 
                 case TraceRemoved evnt: _opticalEventsDoubleViewModel.RemoveTrace(evnt); break;
+                case TraceUpdated evnt: _opticalEventsDoubleViewModel.UpdateTrace(evnt); break;
                 case TraceCleaned evnt: _opticalEventsDoubleViewModel.CleanTrace(evnt); break;
 
+                case RtuRemoved evnt: _opticalEventsDoubleViewModel.RemoveRtu(evnt); break;
                 case RtuUpdated evnt: _opticalEventsDoubleViewModel.UpdateRtu(evnt); break;
-                case TraceUpdated evnt: _opticalEventsDoubleViewModel.UpdateTrace(evnt); break;
 
                 case ResponsibilitiesChanged evnt: _opticalEventsDoubleViewModel.ChangeResponsibilities(evnt); break;
                 case EventsAndSorsRemoved evnt: _opticalEventsDoubleViewModel.

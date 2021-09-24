@@ -55,7 +55,7 @@ namespace Iit.Fibertest.Client
             foreach (var measurement in _readModel.Measurements)
             {
                 var trace = _readModel.Traces.FirstOrDefault(t => t.TraceId == measurement.TraceId);
-                if (trace == null || !trace.ZoneIds.Contains(_currentUser.ZoneId) || !trace.IsAttached 
+                if (trace == null || !trace.ZoneIds.Contains(_currentUser.ZoneId) || !trace.IsAttached
                     || measurement.EventStatus <= EventStatus.JustMeasurementNotAnEvent)
                     continue;
                 AllOpticalEventsViewModel.AddEvent(measurement);
@@ -112,16 +112,22 @@ namespace Iit.Fibertest.Client
             AllOpticalEventsViewModel.RemoveEventsOfTrace(evnt.TraceId);
         }
 
+        public void UpdateTrace(TraceUpdated evnt)
+        {
+            ActualOpticalEventsViewModel.RefreshRowsWithUpdatedTrace(evnt.Id);
+            AllOpticalEventsViewModel.RefreshRowsWithUpdatedTrace(evnt.Id);
+        }
+
         public void UpdateRtu(RtuUpdated evnt)
         {
             ActualOpticalEventsViewModel.RefreshRowsWithUpdatedRtu(evnt.RtuId);
             AllOpticalEventsViewModel.RefreshRowsWithUpdatedRtu(evnt.RtuId);
         }
 
-        public void UpdateTrace(TraceUpdated evnt)
+        public void RemoveRtu(RtuRemoved evnt)
         {
-            ActualOpticalEventsViewModel.RefreshRowsWithUpdatedTrace(evnt.Id);
-            AllOpticalEventsViewModel.RefreshRowsWithUpdatedTrace(evnt.Id);
+            ActualOpticalEventsViewModel.RemoveEventsOfRtu(evnt.RtuId);
+            AllOpticalEventsViewModel.RemoveEventsOfRtu(evnt.RtuId);
         }
 
         public void ChangeResponsibilities(ResponsibilitiesChanged evnt)

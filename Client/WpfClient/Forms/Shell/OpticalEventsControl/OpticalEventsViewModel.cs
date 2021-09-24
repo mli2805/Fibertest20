@@ -192,6 +192,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
+
         public void AddEvent(Measurement measurement)
         {
             Rows.Add(new OpticalEventModel()
@@ -218,6 +219,14 @@ namespace Iit.Fibertest.Client
                 Accidents = measurement.Accidents,
                 SorFileId = measurement.SorFileId,
             });
+        }
+
+        public void RemoveEventsOfRtu(Guid rtuId)
+        {
+            foreach (var opticalEventModel in Rows.Where(m => m.RtuId == rtuId).ToList())
+            {
+                Rows.Remove(opticalEventModel);
+            }
         }
 
         public void RemoveEventsOfTrace(Guid traceId)
