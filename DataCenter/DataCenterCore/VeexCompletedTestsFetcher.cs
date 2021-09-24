@@ -65,10 +65,11 @@ namespace Iit.Fibertest.DataCenterCore
                 if (station == null) continue;
 
                 var rtuDoubleAddress = station.GetRtuDoubleAddress();
-                var utc = station.LastConnectionByMainAddressTimestamp.ToUniversalTime();
+                var utc = station.LastMeasurementTimestamp.ToUniversalTime();
                 var startingFrom = utc.AddSeconds(1).ToString("O");
 
                 // rtu can't return more than 1024 completed tests at a time, but can less, parameter limit is optional
+                _logFile.AppendLine($"get completed tests from UTC {startingFrom}", 0, 3);
                 var getPortionResult = await _d2RtuVeexLayer3.GetCompletedTestsAfterTimestamp(rtuDoubleAddress, startingFrom, 2048);
                 await ProcessRequestResult(getPortionResult, station, rtu, rtuDoubleAddress);
             }
@@ -91,10 +92,10 @@ namespace Iit.Fibertest.DataCenterCore
                         await _veexCompletedTestProcessor.ProcessOneCompletedTest(completedTest, rtu, rtuDoubleAddress);
 
                     if (portion.items.Any())
-                        station.LastConnectionByMainAddressTimestamp = portion.items.Last().started.ToLocalTime();
+                        station.LastMeasurementTimestamp = portion.items.Last().started.ToLocalTime();
+                    station.LastConnectionByMainAddressTimestamp = DateTime.Now;
 
-                    if (await _rtuStationsRepository.RefreshStationLastConnectionTime(station) > 0)
-                        _logFile.AppendLine("last fetched measurement time refreshed successfully", 0, 3);
+                    await _rtuStationsRepository.SaveAvailabilityChanges(new List<RtuStation>() { station });
                 }
             }
             else

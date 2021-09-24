@@ -7,6 +7,7 @@ namespace Iit.Fibertest.Dto
         public int Id { get; set; }
         public Guid RtuGuid { get; set; }
         public string Version { get; set; }
+        public DateTime LastMeasurementTimestamp { get; set; }
 
         public string MainAddress { get; set; }
         public int MainAddressPort { get; set; }
