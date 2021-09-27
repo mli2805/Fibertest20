@@ -73,6 +73,9 @@ namespace Iit.Fibertest.DataCenterCore
                     var bop = _writeModel.Otaus.FirstOrDefault(o => o.NetAddress.Equals(keyValuePair.Value.NetAddress));
                     if (bop == null)
                     {
+                        // This happens when Khazanov writes into RTU's ini file while RTU works
+                        // should not happen in real life but anyway
+                        result.Children.Remove(keyValuePair.Key);
                         _logFile.AppendLine($"There is no bop with address {keyValuePair.Value.NetAddress.ToStringA()} in graph");
                         continue;
                     }
