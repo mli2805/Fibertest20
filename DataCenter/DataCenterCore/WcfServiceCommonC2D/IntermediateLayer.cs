@@ -10,6 +10,7 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public class IntermediateLayer
     {
+        private readonly IMyLog _logFile;
         private readonly Model _writeModel;
         private readonly EventStoreService _eventStoreService;
         private readonly IFtSignalRClient _ftSignalRClient;
@@ -17,11 +18,12 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientToRtuTransmitter _clientToRtuTransmitter;
         private readonly ClientToRtuVeexTransmitter _clientToRtuVeexTransmitter;
 
-        public IntermediateLayer(Model writeModel, EventStoreService eventStoreService,
+        public IntermediateLayer(IMyLog logFile, Model writeModel, EventStoreService eventStoreService,
             IFtSignalRClient ftSignalRClient, ClientsCollection clientsCollection,
             ClientToRtuTransmitter clientToRtuTransmitter, ClientToRtuVeexTransmitter clientToRtuVeexTransmitter
             )
         {
+            _logFile = logFile;
             _writeModel = writeModel;
             _eventStoreService = eventStoreService;
             _ftSignalRClient = ftSignalRClient;
@@ -68,7 +70,12 @@ namespace Iit.Fibertest.DataCenterCore
             if (result.Children != null)
                 foreach (var keyValuePair in result.Children)
                 {
-                    var bop = _writeModel.Otaus.First(o => o.NetAddress.Equals(keyValuePair.Value.NetAddress));
+                    var bop = _writeModel.Otaus.FirstOrDefault(o => o.NetAddress.Equals(keyValuePair.Value.NetAddress));
+                    if (bop == null)
+                    {
+                        _logFile.AppendLine($"There is no bop with address {keyValuePair.Value.NetAddress.ToStringA()} in graph");
+                        continue;
+                    }
                     if (bop.IsOk != keyValuePair.Value.IsOk)
                         commandList.Add(new AddBopNetworkEvent()
                         {
