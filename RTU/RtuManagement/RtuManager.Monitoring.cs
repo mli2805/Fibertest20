@@ -349,6 +349,8 @@ namespace Iit.Fibertest.RtuManagement
                                 {
                                     RtuId = _id,
                                     Serial = monitorigPort.CharonSerial,
+                                    OtauIp = cha.NetAddress.Ip4Address,
+                                    TcpPort = cha.NetAddress.Port,
                                     IsOk = true,
                                 };
                                 SendByMsmq(dto);
