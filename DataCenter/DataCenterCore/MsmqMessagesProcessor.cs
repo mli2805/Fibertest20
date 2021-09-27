@@ -126,11 +126,11 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task CheckAndSendBopNetworkEventIfNeeded(BopStateChangedDto dto)
         {
             var otau = _writeModel.Otaus.FirstOrDefault(o =>
-                o.Serial == dto.Serial
+                o.NetAddress.Ip4Address == dto.OtauIp && o.NetAddress.Port == dto.TcpPort
             );
             if (otau != null)
             {
-                _logFile.AppendLine($@"RTU {dto.RtuId.First6()} BOP {dto.Serial} state changed to {
+                _logFile.AppendLine($@"RTU {dto.RtuId.First6()} BOP {otau.NetAddress.ToStringA()} state changed to {
                     dto.IsOk} (because MSMQ message about BOP came)");
                 var cmd = new AddBopNetworkEvent()
                 {
