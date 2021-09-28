@@ -160,6 +160,10 @@ namespace Iit.Fibertest.Client
         private void ProcessTrace(Section section, TraceLeaf traceLeaf, int otauPort = 0)
         {
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
+
+            if (!trace.ZoneIds.Contains(_reportModel.SelectedZone.ZoneId))
+                return;
+
             var paragraph = section.AddParagraph();
             if (trace.IsIncludedInMonitoringCycle)
             {
