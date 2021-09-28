@@ -69,7 +69,7 @@ namespace Iit.Fibertest.DataCenterCore
                 var startingFrom = utc.AddSeconds(1).ToString("O");
 
                 // rtu can't return more than 1024 completed tests at a time, but can less, parameter limit is optional
-                _logFile.AppendLine($"get completed tests from UTC {startingFrom}", 0, 3);
+                _logFile.AppendLine($"get completed tests from UTC {startingFrom}");
                 var getPortionResult = await _d2RtuVeexLayer3.GetCompletedTestsAfterTimestamp(rtuDoubleAddress, startingFrom, 2048);
                 await ProcessRequestResult(getPortionResult, station, rtu, rtuDoubleAddress);
             }
@@ -87,7 +87,7 @@ namespace Iit.Fibertest.DataCenterCore
                 if (getPortionResult.ResponseObject is CompletedTestPortion portion)
                 {
                     _logFile.AppendLine($"RTU {station.MainAddress} returned " +
-                              $"portion of {portion.items.Count} from {portion.total} completed tests", 0, 3);
+                              $"portion of {portion.items.Count} from {portion.total} completed tests");
                     foreach (var completedTest in portion.items)
                         await _veexCompletedTestProcessor.ProcessOneCompletedTest(completedTest, rtu, rtuDoubleAddress);
 

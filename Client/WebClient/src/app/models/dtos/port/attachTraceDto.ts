@@ -5,4 +5,5 @@ export class AttachTraceDto {
   RtuMaker: RtuMaker;
   TraceId: string;
   OtauPortDto: OtauPortDto;
+  MainOtauPortDto: OtauPortDto;
 }

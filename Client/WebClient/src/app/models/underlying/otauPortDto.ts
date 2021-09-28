@@ -1,6 +1,9 @@
+import * as internal from "assert";
+
 export class OtauPortDto {
-  opticalPort: number;
-  isPortOnMainCharon: boolean;
-  serial: string;
   otauId: string;
+  opticalPort: number;
+  serial: string;
+  isPortOnMainCharon: boolean;
+  mainCharonPort: number;
 }

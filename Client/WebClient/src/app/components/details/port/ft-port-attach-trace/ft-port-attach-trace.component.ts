@@ -8,6 +8,7 @@ import { OneApiService } from "src/app/api/one.service";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
+import { OtauPortDto } from "src/app/models/underlying/otauPortDto";
 
 @Component({
   selector: "ft-port-attach-trace",
@@ -50,6 +51,11 @@ export class FtPortAttachTraceComponent implements OnInit {
     cmd.TraceId = trace.traceId;
     cmd.RtuMaker = this.rtu.rtuMaker;
     cmd.OtauPortDto = params.selectedPort;
+    cmd.MainOtauPortDto = new OtauPortDto();
+    cmd.MainOtauPortDto.isPortOnMainCharon = true;
+    cmd.MainOtauPortDto.otauId = this.rtu.otauId;
+    cmd.MainOtauPortDto.opticalPort = cmd.OtauPortDto.mainCharonPort;
+
     console.log(cmd);
     const res = (await this.oneApiService
       .postRequest("port/attach-trace", cmd)

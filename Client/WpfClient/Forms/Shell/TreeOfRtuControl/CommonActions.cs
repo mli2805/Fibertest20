@@ -127,7 +127,7 @@ namespace Iit.Fibertest.Client
                 bopCharon.OwnPortCount = otauLeaf.OwnPortCount;
                 mainCharon.Children = new Dictionary<int, Charon> { { otauLeaf.MasterPort, bopCharon } };
 
-                otauId = _readModel.Otaus.First(o => o.Serial == otauLeaf.Serial).VeexOtauId;
+                otauId = _readModel.Otaus.First(o => o.Serial == otauLeaf.Serial).Id.ToString();
                 masterPort = otauLeaf.MasterPort;
             }
             else

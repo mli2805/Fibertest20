@@ -128,9 +128,9 @@ namespace Iit.Fibertest.DataCenterCore
             try
             {
                 var result = _writeModel.GetTree(_logFile, user).ToList();
-                var resString = JsonConvert.SerializeObject(result, JsonSerializerSettings);
-                _logFile.AppendLine(resString, 0, 3);
-                return resString;
+                var json = JsonConvert.SerializeObject(result, JsonSerializerSettings);
+                // _logFile.AppendLine(json, 0, 3);
+                return json;
             }
             catch (Exception e)
             {
