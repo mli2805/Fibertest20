@@ -52,6 +52,7 @@ export class FtOtauComponent implements OnInit {
     this.ftRtuTreeEventService.emitEvent(RtuTreeEvent.showSpinner);
     const detachOtauDto = new DetachOtauDto();
     detachOtauDto.rtuId = this.otau.rtuId;
+    detachOtauDto.rtuMaker = this.parentRtu.rtuMaker;
     detachOtauDto.otauId = this.otau.otauId;
     detachOtauDto.netAddress = this.otau.otauNetAddress;
     detachOtauDto.opticalPort = this.otau.port;
