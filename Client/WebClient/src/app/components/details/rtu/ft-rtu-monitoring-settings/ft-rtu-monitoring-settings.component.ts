@@ -70,6 +70,7 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
       .toPromise()) as RtuMonitoringSettingsDto;
     console.log("rtu monitoring settings received");
     this.vm = res;
+    console.log(this.vm);
 
     this.selectedPreciseMeas = res.preciseMeas;
     this.selectedPreciseSave = res.preciseSave;
@@ -98,6 +99,8 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
     this.whileRequestView();
     const dto = new RtuMonitoringSettingsDto();
     dto.rtuMaker = this.vm.rtuMaker;
+    dto.otdrId = this.vm.otdrId;
+    dto.otauId = this.vm.otauId;
     dto.monitoringMode =
       this.monitoringMode === 0 ? MonitoringMode.On : MonitoringMode.Off;
 
@@ -106,8 +109,6 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
     dto.preciseSave = this.selectedPreciseSave;
 
     const isPortOns = this.portTableComponent.getPortLines();
-
-    console.log(isPortOns);
 
     dto.lines = [];
     for (let i = 0; i < isPortOns.length; i++) {

@@ -7,6 +7,8 @@ import { OtauPortDto } from "../../underlying/otauPortDto";
 export class RtuMonitoringSettingsDto {
   rtuTitle: string;
   rtuMaker: RtuMaker;
+  otdrId: string;
+  otauId: string;
   monitoringMode: MonitoringMode;
 
   preciseMeas: Frequency;
