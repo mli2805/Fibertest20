@@ -109,11 +109,12 @@ export class FtRtuMonitoringSettingsComponent implements OnInit {
     dto.preciseSave = this.selectedPreciseSave;
 
     const isPortOns = this.portTableComponent.getPortLines();
+    console.log(isPortOns);
 
     dto.lines = [];
     for (let i = 0; i < isPortOns.length; i++) {
+      this.vm.lines[i].portMonitoringMode = isPortOns[i] ? PortMonitoringMode.On : PortMonitoringMode.Off;
       if (isPortOns[i]) {
-        this.vm.lines[i].portMonitoringMode = PortMonitoringMode.On;
         dto.lines.push(this.vm.lines[i]);
       }
     }
