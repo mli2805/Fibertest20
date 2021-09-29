@@ -19,6 +19,7 @@ namespace Iit.Fibertest.DataCenterCore
 
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
+        private readonly GlobalState _globalState;
         private readonly EventStoreService _eventStoreService;
         private readonly ClientsCollection _clientsCollection;
         private readonly RtuStationsRepository _rtuStationsRepository;
@@ -31,13 +32,15 @@ namespace Iit.Fibertest.DataCenterCore
         private TimeSpan _rtuHeartbeatPermittedGap;
         private TimeSpan _clientHeartbeatPermittedGap;
 
-        public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile, EventStoreService eventStoreService,
-            ClientsCollection clientsCollection, RtuStationsRepository rtuStationsRepository, Model writeModel,
+        public LastConnectionTimeChecker(IniFile iniFile, IMyLog logFile, GlobalState globalState, 
+            EventStoreService eventStoreService, ClientsCollection clientsCollection, 
+            RtuStationsRepository rtuStationsRepository, Model writeModel,
             IFtSignalRClient ftSignalRClient,
             Smtp smtp, SmsManager smsManager, SnmpNotifier snmpNotifier)
         {
             _iniFile = iniFile;
             _logFile = logFile;
+            _globalState = globalState;
             _eventStoreService = eventStoreService;
             _clientsCollection = clientsCollection;
             _rtuStationsRepository = rtuStationsRepository;
@@ -70,7 +73,8 @@ namespace Iit.Fibertest.DataCenterCore
 
             while (true)
             {
-                Tick().Wait();
+                if (!_globalState.IsDatacenterInDbOptimizationMode)
+                    Tick().Wait();
                 Thread.Sleep(_checkHeartbeatEvery);
             }
         }

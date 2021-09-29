@@ -15,13 +15,16 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
+        private readonly GlobalState _globalState;
         private readonly MsmqMessagesProcessor _msmqMessagesProcessor;
 
 
-        public MsmqHandler(IniFile iniFile, IMyLog logFile, MsmqMessagesProcessor msmqMessagesProcessor)
+        public MsmqHandler(IniFile iniFile, IMyLog logFile, GlobalState globalState, 
+            MsmqMessagesProcessor msmqMessagesProcessor)
         {
             _iniFile = iniFile;
             _logFile = logFile;
+            _globalState = globalState;
             _msmqMessagesProcessor = msmqMessagesProcessor;
         }
 
@@ -49,6 +52,11 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async void MyReceiveCompleted(object source, ReceiveCompletedEventArgs asyncResult)
         {
+            while (_globalState.IsDatacenterInDbOptimizationMode)
+            {
+                await Task.Delay(10000);
+            }
+
             // Connect to the queue.
             MessageQueue queue = (MessageQueue)source;
             try

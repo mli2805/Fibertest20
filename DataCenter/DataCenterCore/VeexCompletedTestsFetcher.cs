@@ -15,6 +15,7 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
+        private readonly GlobalState _globalState;
         private readonly Model _writeModel;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
@@ -22,12 +23,13 @@ namespace Iit.Fibertest.DataCenterCore
 
         private List<Rtu> _veexRtus;
 
-        public VeexCompletedTestsFetcher(IniFile iniFile, IMyLog logFile, Model writeModel,
+        public VeexCompletedTestsFetcher(IniFile iniFile, IMyLog logFile, GlobalState globalState, Model writeModel,
             RtuStationsRepository rtuStationsRepository, D2RtuVeexLayer3 d2RtuVeexLayer3,
             VeexCompletedTestProcessor veexCompletedTestProcessor)
         {
             _iniFile = iniFile;
             _logFile = logFile;
+            _globalState = globalState;
             _writeModel = writeModel;
             _rtuStationsRepository = rtuStationsRepository;
             _d2RtuVeexLayer3 = d2RtuVeexLayer3;
@@ -47,7 +49,8 @@ namespace Iit.Fibertest.DataCenterCore
 
             while (true)
             {
-                Tick().Wait();
+                if (!_globalState.IsDatacenterInDbOptimizationMode)
+                    Tick().Wait();
                 Thread.Sleep(gap);
             }
         }

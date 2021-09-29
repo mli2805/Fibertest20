@@ -30,7 +30,8 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task ProcessOneCompletedTest(CompletedTest completedTest, Rtu rtu, DoubleAddress rtuDoubleAddress)
         {
-            var veexTest = _writeModel.VeexTests.First(v => v.TestId.ToString() == completedTest.testId);
+            var veexTest = _writeModel.VeexTests.FirstOrDefault(v => v.TestId.ToString() == completedTest.testId);
+            if (veexTest == null) return;
             var trace = _writeModel.Traces.First(t => t.TraceId == veexTest.TraceId);
 
             if (ShouldMoniResultBeSaved(completedTest, rtu, trace, veexTest.BaseRefType))
