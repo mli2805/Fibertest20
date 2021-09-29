@@ -53,6 +53,7 @@ namespace Iit.Fibertest.DataCenterCore
             _eventStoreService.StoreEvents.Dispose();
             _eventStoreInitializer.RemoveCommitsIncludedIntoSnapshot(lastEventNumber);
             _eventStoreService.StoreEvents = _eventStoreInitializer.Init();
+            Task.Delay(1000);
         }
 
         private async Task<Tuple<int, Model>> CreateModelUptoDate(DateTime date)
@@ -70,7 +71,7 @@ namespace Iit.Fibertest.DataCenterCore
             var eventStream = _eventStoreService.StoreEvents.OpenStream(_eventStoreService.StreamIdOriginal);
             var events = eventStream.CommittedEvents
                 .Where(x => ((DateTime)x.Headers["Timestamp"]).Date <= date.Date)
-                .Skip(lastIncludedEvent).ToList();
+                .ToList();
             _logFile.AppendLine($"{events.Count} events should be applied...");
             foreach (var evnt in events)
             {
