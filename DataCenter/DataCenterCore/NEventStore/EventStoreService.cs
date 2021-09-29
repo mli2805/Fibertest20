@@ -56,6 +56,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (LastEventNumberInSnapshot != 0)
             {
                 if (!await _writeModel.Deserialize(_logFile, snapshot.Item2)) return -1;
+                AdjustModelDeserializedFromSnapshotMadeByOldVersion();
             }
 
             var eventStream = StoreEvents.OpenStream(StreamIdOriginal);
@@ -84,6 +85,33 @@ namespace Iit.Fibertest.DataCenterCore
                 _logFile.AppendLine($@"Last applied event has timestamp {msg.Headers[Timestamp]:O}");
 
             return events.Count;
+        }
+
+        private void AdjustModelDeserializedFromSnapshotMadeByOldVersion()
+        {
+            // if snapshot was made before v926
+            if (_writeModel.Licenses == null)
+            {
+                _writeModel.Licenses = new List<License>()
+                {
+                    new License()
+                    {
+                        LicenseId = new Guid(),
+                        ClientStationCount = new LicenseParameter()
+                        {
+                            Value = 1,
+                            ValidUntil = DateTime.MaxValue,
+                        },
+                        CreationDate = DateTime.Today,
+                        LoadingDate = DateTime.Today,
+                    }
+                };
+            }
+
+            if (_writeModel.Olts == null)
+                _writeModel.Olts = new List<Olt>();
+            if (_writeModel.VeexTests == null)
+                _writeModel.VeexTests = new List<VeexTest>();
         }
 
         private async Task SeedOlts()
