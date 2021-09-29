@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
@@ -39,7 +40,9 @@ namespace Iit.Fibertest.Graph
                     var binaryFormatter = new BinaryFormatter();
                     var model2 = (Model)binaryFormatter.Deserialize(stream);
                     logFile.AppendLine(@"Model deserialized successfully!");
+                    model2.AdjustModelDeserializedFromSnapshotMadeByOldVersion();
                     model.CopyFrom(model2);
+
                     return model2.Rtus.Count == model.Rtus.Count;
                 }
             }
@@ -48,6 +51,36 @@ namespace Iit.Fibertest.Graph
                 logFile.AppendLine(@"Model deserialization: " + e.Message);
                 return false;
             }
+        }
+
+        private static void AdjustModelDeserializedFromSnapshotMadeByOldVersion(this Model model)
+        {
+            // if snapshot was made before v926
+            if (model.Licenses == null)
+            {
+                model.Licenses = new List<License>()
+                {
+                    new License()
+                    {
+                        LicenseId = new Guid(),
+                        ClientStationCount = new LicenseParameter()
+                        {
+                            Value = 1,
+                            ValidUntil = DateTime.MaxValue,
+                        },
+                        RtuCount = new LicenseParameter(),
+                        WebClientCount = new LicenseParameter(),
+                        SuperClientStationCount = new LicenseParameter(),
+                        CreationDate = DateTime.Today,
+                        LoadingDate = DateTime.Today,
+                    }
+                };
+            }
+
+            if (model.Olts == null)
+                model.Olts = new List<Olt>();
+            if (model.VeexTests == null)
+                model.VeexTests = new List<VeexTest>();
         }
     }
 }
