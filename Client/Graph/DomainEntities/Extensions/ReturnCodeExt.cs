@@ -30,6 +30,8 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Too_big_port_number_for_BOP_attachment;
                 case ReturnCode.RtuAttachOtauError:
                     return Resources.SID_Attach_OTAU_error_;
+                case ReturnCode.RtuDetachOtauError:
+                    return Resources.SID_Failed_to_detach_additional_otau_;
                 case ReturnCode.RtuMonitoringSettingsApplyError:
                     return Resources.SID_Failed_to_apply_monitoring_settings_;
 

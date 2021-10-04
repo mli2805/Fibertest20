@@ -2958,4 +2958,7 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Create_new" xml:space="preserve">
 		<value>Create new</value>
 	</data>
+	<data name="SID_Failed_to_detach_additional_otau_" xml:space="preserve">
+		<value>Failed to detach additional otau!</value>
+	</data>
 </root>

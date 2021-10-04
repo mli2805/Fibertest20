@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -11,6 +12,7 @@ namespace Iit.Fibertest.Client
     public class OtauLeaf : Leaf, IPortOwner
     {
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
+        private readonly IWindowManager _windowManager;
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
         private RtuPartState _otauState;
@@ -41,10 +43,11 @@ namespace Iit.Fibertest.Client
         public ChildrenImpresario ChildrenImpresario { get; }
         public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf);
 
-        public OtauLeaf(IWcfServiceCommonC2D c2RWcfManager, Model readModel,
-            CurrentUser currentUser, FreePorts freePorts)
+        public OtauLeaf(Model readModel, FreePorts freePorts, CurrentUser currentUser, 
+            IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager)
         {
             _c2RWcfManager = c2RWcfManager;
+            _windowManager = windowManager;
             _readModel = readModel;
             _currentUser = currentUser;
             ChildrenImpresario = new ChildrenImpresario(freePorts);
@@ -77,9 +80,22 @@ namespace Iit.Fibertest.Client
                 OpticalPort = MasterPort, 
                 NetAddress = (NetAddress)OtauNetAddress.Clone(),
             };
+            OtauDetachedDto result;
             using (new WaitCursor())
             {
-                 await _c2RWcfManager.DetachOtauAsync(dto);
+                 result =await _c2RWcfManager.DetachOtauAsync(dto);
+            }
+
+            if (!result.IsDetached)
+            {
+                var lines = new List<string>()
+                {
+                    result.ReturnCode.GetLocalizedString(),
+                    "",
+                    result.ErrorMessage,
+                };
+                var vm = new MyMessageBoxViewModel(MessageType.Error, lines, 0);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
             }
         }
 

@@ -2962,6 +2962,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Failed to detach additional otau!.
+        /// </summary>
+        public static string SID_Failed_to_detach_additional_otau_ {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_detach_additional_otau_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Failed to establish connection..
         /// </summary>
         public static string SID_Failed_to_establish_connection_ {
