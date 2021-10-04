@@ -8,6 +8,7 @@ import { OneApiService } from "src/app/api/one.service";
 import { RequestAnswer } from "src/app/models/underlying/requestAnswer";
 import { ReturnCode } from "src/app/models/enums/returnCode";
 import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
+import { OtauPortDto } from "src/app/models/underlying/otauPortDto";
 
 @Component({
   selector: "ft-port-attach-trace",
@@ -17,6 +18,7 @@ import { ReturnCodePipe } from "src/app/pipes/return-code.pipe";
 export class FtPortAttachTraceComponent implements OnInit {
   traceList: TraceDto[];
   selectedTrace: string;
+  rtu: RtuDto;
   public isSpinnerVisible = false;
   public isButtonDisabled = false;
   public resultMessage: string;
@@ -29,8 +31,8 @@ export class FtPortAttachTraceComponent implements OnInit {
 
   ngOnInit() {
     const params = JSON.parse(sessionStorage.getItem("attachTraceParams"));
-    const rtu: RtuDto = params.selectedRtu;
-    this.traceList = rtu.children
+    this.rtu = params.selectedRtu;
+    this.traceList = this.rtu.children
       .filter((c) => c.childType === 1 && c.port === -1)
       .map((ch: ChildDto) => ch as TraceDto);
     if (this.traceList.length > 0) {
@@ -47,7 +49,13 @@ export class FtPortAttachTraceComponent implements OnInit {
     const params = JSON.parse(sessionStorage.getItem("attachTraceParams"));
     const cmd = new AttachTraceDto();
     cmd.TraceId = trace.traceId;
+    cmd.RtuMaker = this.rtu.rtuMaker;
     cmd.OtauPortDto = params.selectedPort;
+    cmd.MainOtauPortDto = new OtauPortDto();
+    cmd.MainOtauPortDto.isPortOnMainCharon = true;
+    cmd.MainOtauPortDto.otauId = this.rtu.otauId;
+    cmd.MainOtauPortDto.opticalPort = cmd.OtauPortDto.mainCharonPort;
+
     console.log(cmd);
     const res = (await this.oneApiService
       .postRequest("port/attach-trace", cmd)

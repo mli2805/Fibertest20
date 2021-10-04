@@ -40,7 +40,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 ? int.MaxValue
                 : 0;
 
-            var otauPortsUnderMonitoring = dto.Ports.Select(p => VeexPortExt.Create(p, dto.OtauId));
+            var otauPortsUnderMonitoring = dto.Ports.Select(p => VeexPortExt.Create(p, dto.OtauId)).ToList();
 
             // if included in cycle state should be "enabled"
             var stateShouldBe = otauPortsUnderMonitoring.Any(o=>o.IsEqual(test.otauPorts))

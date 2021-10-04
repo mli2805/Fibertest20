@@ -184,25 +184,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<int> RefreshStationLastConnectionTime(RtuStation station)
-        {
-            try
-            {
-                using (var dbContext = new FtDbContext(_parameterizer.Options))
-                {
-                    var rtuStation = dbContext.RtuStations.First(r => r.RtuGuid == station.RtuGuid);
-                    rtuStation.LastConnectionByMainAddressTimestamp = station.LastConnectionByMainAddressTimestamp;
-                    return await dbContext.SaveChangesAsync();
-                }
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("RefreshStationLastConnectionTime: " + e.Message);
-                return -1;
-            }
-        }
-
-        private void Cop(RtuStation source, RtuStation destination)
+         private void Cop(RtuStation source, RtuStation destination)
         {
             destination.IsMainAddressOkDuePreviousCheck = source.IsMainAddressOkDuePreviousCheck;
             destination.IsReserveAddressOkDuePreviousCheck = source.IsReserveAddressOkDuePreviousCheck;
@@ -215,6 +197,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             destination.ReserveAddressPort = source.ReserveAddressPort;
             destination.RtuGuid = source.RtuGuid;
             destination.Version = source.Version;
+            destination.LastMeasurementTimestamp = source.LastMeasurementTimestamp;
         }
     }
 }

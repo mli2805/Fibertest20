@@ -40,7 +40,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         [Authorize]
         [HttpPost("Attach-trace")]
-        public async Task<BaseRefAssignedDto> AttachTrace()
+        public async Task<RequestAnswer> AttachTrace()
         {
             try
             {
@@ -59,7 +59,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             catch (Exception e)
             {
                 _logFile.AppendLine($"AttachTrace: {e.Message}");
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
+                return new RequestAnswer() { ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
             }
         }
 
@@ -76,6 +76,8 @@ namespace Iit.Fibertest.DataCenterWebApi
                 }
                 _logFile.AppendLine(body);
                 var dto = JsonConvert.DeserializeObject<AttachOtauDto>(body);
+                if (dto == null)
+                    return new OtauAttachedDto() {ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to deserialize json"};
                 dto.OtauId = Guid.NewGuid();
 
                 var result = await _commonC2DWcfManager

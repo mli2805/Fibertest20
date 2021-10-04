@@ -18,7 +18,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             }
         }
 
-        // re-factored
         public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(
             ApplyMonitoringSettingsDto dto, DoubleAddress rtuAddresses)
         {

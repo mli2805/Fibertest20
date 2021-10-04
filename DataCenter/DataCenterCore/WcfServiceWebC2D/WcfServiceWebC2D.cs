@@ -2,7 +2,6 @@
 using System.Linq;
 using System.ServiceModel;
 using System.Threading.Tasks;
-using Iit.Fibertest.D2RtuVeexLibrary;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -26,19 +25,16 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly ClientsCollection _clientsCollection;
         private readonly SorFileRepository _sorFileRepository;
         private readonly IntermediateLayer _intermediateLayer;
-        private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
         private readonly LandmarksBaseParser _landmarksBaseParser;
         private readonly LandmarksGraphParser _landmarksGraphParser;
         private readonly AccidentLineModelFactory _accidentLineModelFactory;
         private readonly MeasurementsForWebNotifier _measurementsForWebNotifier;
-        private readonly MsmqMessagesProcessor _msmqMessagesProcessor;
 
         public WcfServiceWebC2D(IMyLog logFile, Model writeModel, CurrentDatacenterParameters currentDatacenterParameters,
             ClientsCollection clientsCollection, SorFileRepository sorFileRepository,
-            IntermediateLayer intermediateLayer, D2RtuVeexLayer3 d2RtuVeexLayer3,
+            IntermediateLayer intermediateLayer, 
             LandmarksBaseParser landmarksBaseParser, LandmarksGraphParser landmarksGraphParser,
-            AccidentLineModelFactory accidentLineModelFactory, MeasurementsForWebNotifier measurementsForWebNotifier,
-            MsmqMessagesProcessor msmqMessagesProcessor)
+            AccidentLineModelFactory accidentLineModelFactory, MeasurementsForWebNotifier measurementsForWebNotifier)
         {
             _logFile = logFile;
             _writeModel = writeModel;
@@ -46,12 +42,10 @@ namespace Iit.Fibertest.DataCenterCore
             _clientsCollection = clientsCollection;
             _sorFileRepository = sorFileRepository;
             _intermediateLayer = intermediateLayer;
-            _d2RtuVeexLayer3 = d2RtuVeexLayer3;
             _landmarksBaseParser = landmarksBaseParser;
             _landmarksGraphParser = landmarksGraphParser;
             _accidentLineModelFactory = accidentLineModelFactory;
             _measurementsForWebNotifier = measurementsForWebNotifier;
-            _msmqMessagesProcessor = msmqMessagesProcessor;
         }
 
         public async Task<string> CheckDataCenterConnection()
@@ -134,9 +128,9 @@ namespace Iit.Fibertest.DataCenterCore
             try
             {
                 var result = _writeModel.GetTree(_logFile, user).ToList();
-                var resString = JsonConvert.SerializeObject(result, JsonSerializerSettings);
-                _logFile.AppendLine(resString, 0, 3);
-                return resString;
+                var json = JsonConvert.SerializeObject(result, JsonSerializerSettings);
+                // _logFile.AppendLine(json, 0, 3);
+                return json;
             }
             catch (Exception e)
             {

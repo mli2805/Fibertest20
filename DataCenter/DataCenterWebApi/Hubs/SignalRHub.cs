@@ -75,7 +75,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             try
             {
                 await Clients.All.SendAsync(eventType, dataInJson);
-                if (eventType != "NotifyMonitoringStep")
+                if (eventType != "NotifyMonitoringStep" && eventType != "NudgeSignalR")
                 {
                     _logFile.AppendLine($"Hub transmitted {eventType} event");
                     if (eventType == "ServerAsksClientToExit")

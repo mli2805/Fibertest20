@@ -15,6 +15,7 @@ import { RtuPartState } from "src/app/models/enums/rtuPartState";
 })
 export class FtFreePortComponent implements OnInit {
   @Input() port: number;
+  @Input() masterPort: number;
   @Input() parentRtu: RtuDto;
   @Input() isPortOnMainCharon: boolean;
   @Input() otauId: string;
@@ -74,6 +75,7 @@ export class FtFreePortComponent implements OnInit {
     selectedPort.isPortOnMainCharon = this.isPortOnMainCharon;
     selectedPort.otauId = this.otauId;
     selectedPort.serial = this.serial;
+    selectedPort.mainCharonPort = this.masterPort;
     return selectedPort;
   }
 

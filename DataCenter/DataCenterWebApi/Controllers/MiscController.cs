@@ -50,6 +50,9 @@ namespace Iit.Fibertest.DataCenterWebApi
             _logFile.AppendLine(about == null
                 ? "Failed to get about view model"
                 : $"json contains {about.Length} symbols");
+            if (about == null)
+                return null;
+
             var dto = (AboutDto)JsonConvert.DeserializeObject(about, JsonSerializerSettings);
             _logFile.AppendLine(dto == null
                 ? "Failed to get dto"
@@ -73,6 +76,8 @@ namespace Iit.Fibertest.DataCenterWebApi
             _logFile.AppendLine(currentAccidents == null
                 ? "Failed to get current accidents"
                 : $"json contains {currentAccidents.Length} symbols");
+            if (currentAccidents == null)
+                return null;
             var dto = (AlarmsDto)JsonConvert.DeserializeObject(currentAccidents, JsonSerializerSettings);
             _logFile.AppendLine(dto == null
                 ? "Failed to get dto"

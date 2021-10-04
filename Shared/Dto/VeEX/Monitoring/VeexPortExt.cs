@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Dto
         {
             if (otauPorts == null || otauPorts.Count == 0) return "no port";
             if (otauPorts.Count == 1)
-                return otauPorts[0].portIndex.ToString();
+                return (otauPorts[0].portIndex + 1).ToString();
             return $"{otauPorts[0].portIndex + 1}-{otauPorts[1].portIndex + 1}";
         }
 

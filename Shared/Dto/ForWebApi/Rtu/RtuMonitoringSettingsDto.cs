@@ -6,6 +6,8 @@ namespace Iit.Fibertest.Dto
     {
         public string RtuTitle;
         public RtuMaker RtuMaker;
+        public string OtdrId;
+        public string OtauId;
         public MonitoringState MonitoringMode;
 
         public Frequency PreciseMeas;

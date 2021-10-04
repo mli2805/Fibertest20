@@ -46,6 +46,9 @@ namespace Iit.Fibertest.DataCenterWebApi
                 }
                 _logFile.AppendLine(body);
                 var dto = JsonConvert.DeserializeObject<UpdateMeasurementDto>(body);
+                if (dto == null)
+                    return new RequestAnswer() {ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to deserialize json"};
+
                 dto.ClientIp = GetRemoteAddress();
                 dto.StatusChangedTimestamp = DateTime.Now;
                 dto.StatusChangedByUser = User.Identity.Name;

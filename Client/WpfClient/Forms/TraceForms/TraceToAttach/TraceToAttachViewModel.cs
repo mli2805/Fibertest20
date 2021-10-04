@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Autofac;
-using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -13,10 +11,8 @@ namespace Iit.Fibertest.Client
 {
     public class TraceToAttachViewModel : Screen
     {
-        private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
         private readonly IWcfServiceCommonC2D _c2DCommonWcfManager;
-        private readonly IWcfServiceDesktopC2D _c2DDesktopWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly CurrentUser _currentUser;
         private OtauPortDto _otauPortDto;
@@ -48,13 +44,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceToAttachViewModel(ILifetimeScope globalScope, Model readModel, CurrentUser currentUser,
-            IWcfServiceCommonC2D c2DCommonWcfManager, IWcfServiceDesktopC2D c2DDesktopWcfManager, IWindowManager windowManager)
+        public TraceToAttachViewModel(Model readModel, CurrentUser currentUser,
+            IWcfServiceCommonC2D c2DCommonWcfManager, IWindowManager windowManager)
         {
-            _globalScope = globalScope;
             _readModel = readModel;
             _c2DCommonWcfManager = c2DCommonWcfManager;
-            _c2DDesktopWcfManager = c2DDesktopWcfManager;
             _windowManager = windowManager;
             _currentUser = currentUser;
         }
@@ -72,13 +66,12 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Not_attached_traces_list;
         }
 
-        private static readonly IMapper Mapper = new MapperConfiguration(
-            cfg => cfg.AddProfile<VeexTestMappingProfile>()).CreateMapper();
         public async void FullAttach()
         {
             IsButtonsEnabled = false;
             var dto = new AttachTraceDto()
             {
+                RtuMaker = _rtu.RtuMaker,
                 TraceId = SelectedTrace.TraceId,
                 OtauPortDto = _otauPortDto,
                 MainOtauPortDto = new OtauPortDto()
@@ -90,41 +83,20 @@ namespace Iit.Fibertest.Client
             };
 
             var result = await _c2DCommonWcfManager.AttachTraceAndSendBaseRefs(dto);
-            switch (result.ReturnCode)
+            if (result.ReturnCode != ReturnCode.Ok)
             {
-                case ReturnCode.Ok: break;
-                case ReturnCode.BaseRefAssignedSuccessfully:
+                var errs = new List<string>
                 {
-                    if (_rtu.RtuMaker == RtuMaker.VeEX && result.VeexTests != null)
-                    {
-                        using (_globalScope.Resolve<IWaitCursor>())
-                        {
-                            var commands = result.VeexTests
-                                .Select(l => (object) (Mapper.Map<AddVeexTest>(l))).ToList();
+                    result.ReturnCode == ReturnCode.D2RWcfConnectionError
+                        ? Resources.SID_Cannot_send_base_refs_to_RTU
+                        : Resources.SID_Base_reference_assignment_failed
+                };
 
-                            if (commands.Any())
-                                await _c2DDesktopWcfManager.SendCommandsAsObjs(commands);
-                        }
-                    }
+                if (!string.IsNullOrEmpty(result.ErrorMessage))
+                    errs.Add(result.ErrorMessage);
 
-                    break;
-                }
-                default:
-                {
-                    var errs = new List<string>
-                    {
-                        result.ReturnCode == ReturnCode.D2RWcfConnectionError
-                            ? Resources.SID_Cannot_send_base_refs_to_RTU
-                            : Resources.SID_Base_reference_assignment_failed
-                    };
-
-                    if (!string.IsNullOrEmpty(result.ErrorMessage))
-                        errs.Add(result.ErrorMessage);
-
-                    var vm = new MyMessageBoxViewModel(MessageType.Error, errs);
-                    _windowManager.ShowDialog(vm);
-                    break;
-                }
+                var vm = new MyMessageBoxViewModel(MessageType.Error, errs);
+                _windowManager.ShowDialog(vm);
             }
 
             IsButtonsEnabled = true;

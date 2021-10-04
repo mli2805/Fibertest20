@@ -7,6 +7,7 @@ import { NetAddress } from "src/app/models/underlying/netAddress";
 import { OtauAttachedDto } from "src/app/models/dtos/port/otauAttachedDto";
 import { OneApiService } from "src/app/api/one.service";
 import { TranslateService } from "@ngx-translate/core";
+import { RtuMaker } from "src/app/models/enums/rtuMaker";
 
 @Component({
   selector: "ft-port-attach-otau",
@@ -49,7 +50,7 @@ export class FtPortAttachOtauComponent implements OnInit {
     cmd.NetAddress = new NetAddress();
     cmd.NetAddress.Ip4Address = this.ipAddress;
     cmd.NetAddress.IsAddressSetAsIp = true;
-    cmd.NetAddress.Port = 11834;
+    cmd.NetAddress.Port = this.rtu.rtuMaker == RtuMaker.IIT ? 11834 : 4001;
     console.log(cmd);
     const res = (await this.oneApiService
       .postRequest("port/attach-otau", cmd)
