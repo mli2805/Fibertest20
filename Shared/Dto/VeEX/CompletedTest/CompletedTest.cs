@@ -27,6 +27,7 @@ namespace Iit.Fibertest.Dto
         public int[] indicesOfReferenceTraces { get; set; }
         public Linkmap linkmap { get; set; }
         public string reason { get; set; }
+        public string failure { get; set; }
         public Report report { get; set; }
         public string result { get; set; }
         public DateTime started { get; set; }
