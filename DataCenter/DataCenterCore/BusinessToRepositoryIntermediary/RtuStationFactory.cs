@@ -16,6 +16,7 @@ namespace Iit.Fibertest.DataCenterCore
                 LastConnectionByMainAddressTimestamp = DateTime.Now,
                 IsMainAddressOkDuePreviousCheck = true,
                 IsReserveAddressSet = dto.RtuAddresses.HasReserveAddress,
+                LastMeasurementTimestamp = DateTime.Now,
             };
             if (dto.RtuAddresses.HasReserveAddress)
             {
