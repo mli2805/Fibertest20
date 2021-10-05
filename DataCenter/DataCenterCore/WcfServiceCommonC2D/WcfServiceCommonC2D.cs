@@ -248,6 +248,15 @@ namespace Iit.Fibertest.DataCenterCore
 
                 if (transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                     return transferResult;
+
+                if (dto.RtuMaker == RtuMaker.VeEX)
+                    // Veex and there are base refs so veexTests table should be updated
+                {
+                    var updateResult = await UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
+                    if (updateResult.ReturnCode != ReturnCode.Ok)
+                        return new BaseRefAssignedDto()
+                            {ReturnCode = updateResult.ReturnCode, ErrorMessage = updateResult.ErrorMessage};
+                }
             }
 
             var result = await SaveChangesOnServer(dto);
@@ -352,16 +361,21 @@ namespace Iit.Fibertest.DataCenterCore
                 return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
 
             // Veex and there are base refs so veexTests table should be updated
-            var commands = transferResult.VeexTests
-                .Select(l => (object)(Mapper.Map<AddVeexTest>(l))).ToList();
+            return await UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
+        }
 
-            var cmdCount = await _eventStoreService.SendCommands(commands, dto.Username, dto.ClientIp);
+        private async Task<RequestAnswer> UpdateVeexTestList(BaseRefAssignedDto transferResult, string username, string clientIp)
+        {
+            var commands = transferResult.VeexTests
+                .Select(l => (object) (Mapper.Map<AddVeexTest>(l))).ToList();
+
+            var cmdCount = await _eventStoreService.SendCommands(commands, username, clientIp);
 
             return cmdCount == commands.Count
-                ? new RequestAnswer() { ReturnCode = ReturnCode.Ok }
+                ? new RequestAnswer() {ReturnCode = ReturnCode.Ok}
                 : new RequestAnswer()
                 {
-                    ReturnCode = ReturnCode.Error, 
+                    ReturnCode = ReturnCode.Error,
                     ErrorMessage = "Failed to apply commands maintaining veex tests table!"
                 };
         }

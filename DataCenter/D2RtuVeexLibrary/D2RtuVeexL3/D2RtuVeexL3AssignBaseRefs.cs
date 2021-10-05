@@ -47,16 +47,23 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return new BaseRefAssignedDto
                 {
                     ReturnCode = ReturnCode.BaseRefAssignedSuccessfully,
-                    VeexTests = new List<VeexTestCreatedDto>()
-                    {
-                        new VeexTestCreatedDto
-                            { TestId = Guid.Parse(fast.Test.id), BaseRefType = BaseRefType.Fast, TraceId = dto.TraceId },
-                        new VeexTestCreatedDto
-                            { TestId = Guid.Parse(precise.Test.id), BaseRefType = BaseRefType.Precise, TraceId = dto.TraceId },
-                    }
+                    VeexTests = new List<VeexTestCreatedDto>() { Create(fast, dto), Create(precise, dto),}
                 };
 
             return baseRefAssignedDto;
+        }
+
+        private VeexTestCreatedDto Create(TestCreationResult testCreationResult, AssignBaseRefsDto dto)
+        {
+            return new VeexTestCreatedDto
+            {
+                TestId = Guid.Parse(testCreationResult.Test.id),
+                BaseRefType = testCreationResult.ResultWhenFailed.BaseRefType,
+                TraceId = dto.TraceId,
+                IsOnBop = dto.MainOtauPortDto.IsPortOnMainCharon,
+                OtauId = dto.MainOtauPortDto.IsPortOnMainCharon ? dto.MainOtauPortDto.OtauId : dto.OtauPortDto.OtauId,
+                CreationTimestamp = DateTime.Now,
+            };
         }
 
         private async Task<TestCreationResult> GetOrCreateTestWithBase(DoubleAddress rtuDoubleAddress, AssignBaseRefsDto dto,
