@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
-using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -24,7 +23,6 @@ namespace Iit.Fibertest.Client
         private Trace _trace;
         private readonly Model _readModel;
         private readonly IWindowManager _windowManager;
-        private readonly IWcfServiceDesktopC2D _c2DWcfDesktopManager;
         private readonly CurrentUser _currentUser;
 
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
@@ -119,7 +117,7 @@ namespace Iit.Fibertest.Client
         }
 
         public BaseRefsAssignViewModel(ILifetimeScope globalScope, IniFile iniFile,
-            Model readModel, IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfDesktopManager,
+            Model readModel, IWindowManager windowManager, 
             CurrentUser currentUser, IWcfServiceCommonC2D c2RWcfManager,
             CurrentGis currentGis, GraphGpsCalculator graphGpsCalculator,
             BaseRefDtoFactory baseRefDtoFactory, BaseRefMessages baseRefMessages)
@@ -128,7 +126,6 @@ namespace Iit.Fibertest.Client
             _iniFile = iniFile;
             _readModel = readModel;
             _windowManager = windowManager;
-            _c2DWcfDesktopManager = c2DWcfDesktopManager;
             _currentUser = currentUser;
             _c2RWcfManager = c2RWcfManager;
             _currentGis = currentGis;
@@ -175,7 +172,6 @@ namespace Iit.Fibertest.Client
         }
 
         #region Buttons
-
         public void GetPathToPrecise()
         {
             OpenFileDialog dialog = new OpenFileDialog()
@@ -228,9 +224,6 @@ namespace Iit.Fibertest.Client
 
         #endregion
 
-        private static readonly IMapper Mapper = new MapperConfiguration(
-            cfg => cfg.AddProfile<VeexTestMappingProfile>()).CreateMapper();
-
         public async Task Save()
         {
             IsEditEnabled = false;
@@ -245,30 +238,8 @@ namespace Iit.Fibertest.Client
 
                 if (result.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                     _baseRefMessages.Display(result, _trace);
-                else
-                {
-                    if (_rtu.RtuMaker == RtuMaker.VeEX && _trace.OtauPort != null)
-                    {
-                        using (_globalScope.Resolve<IWaitCursor>())
-                        {
-                            var commands = result.VeexTests
-                                .Select(l => (object)(Mapper.Map<AddVeexTest>(l))).ToList();
 
-                            foreach (var baseRefDto in dto.BaseRefs.Where(b=>b.Id == Guid.Empty))
-                            {
-                                var veexTest = _readModel.VeexTests.FirstOrDefault(t =>
-                                    t.TraceId == dto.TraceId && t.BaseRefType == baseRefDto.BaseRefType);
-                                if (veexTest != null)
-                                    commands.Add(new RemoveVeexTest(){TestId = veexTest.TestId});
-                            }
-                    
-                            if (commands.Any())
-                                await _c2DWcfDesktopManager.SendCommandsAsObjs(commands);
-                        }
-                      
-                    }
-                    TryClose();
-                }
+                TryClose();
             }
 
             IsEditEnabled = true;

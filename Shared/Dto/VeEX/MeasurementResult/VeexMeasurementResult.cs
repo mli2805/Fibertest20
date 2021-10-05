@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Dto
         public LinkObject report { get; set; }
         public string status { get; set; }
         public string extendedStatus { get; set; }
-        public string failure { get; set; }
+        public Failure failure { get; set; }
         public LinkObject traces { get; set; }
     }
 }

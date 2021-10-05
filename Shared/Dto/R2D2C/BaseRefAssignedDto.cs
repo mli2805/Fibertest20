@@ -22,7 +22,8 @@ namespace Iit.Fibertest.Dto
         public int Equipments { get; set; }
         [DataMember]
         public string WaveLength { get; set; }
+
         [DataMember]
-        public List<VeexTestCreatedDto> VeexTests { get; set; }
+        public List<VeexTestCreatedDto> VeexTests { get; set; } = new List<VeexTestCreatedDto>();
     }
 }
