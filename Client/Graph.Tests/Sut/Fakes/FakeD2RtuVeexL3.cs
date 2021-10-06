@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iit.Fibertest.D2RtuVeexLibrary;
 using Iit.Fibertest.Dto;
 
@@ -9,7 +11,23 @@ namespace Graph.Tests
         public Task<RtuInitializedDto> InitializeRtu(InitializeRtuDto dto)
         {
             return Task.FromResult(new RtuInitializedDto()
-                {ReturnCode = ReturnCode.RtuInitializedSuccessfully, IsInitialized = true});
+            {
+                RtuId = dto.RtuId,
+                IsInitialized = true,
+                ReturnCode = ReturnCode.RtuInitializedSuccessfully,
+                Serial = @"123456",
+                FullPortCount = 8,
+                OwnPortCount = 8,
+                RtuAddresses = dto.RtuAddresses,
+                OtdrAddress = new NetAddress(dto.RtuAddresses.Main.Ip4Address, 23),
+                Version = @"2.0.1.0",
+                Children = dto.Children ?? new Dictionary<int, OtauDto>(),
+                IsMonitoringOn = false,
+                AcceptableMeasParams = new TreeOfAcceptableMeasParams()
+                {
+                    Units = new Dictionary<string, BranchOfAcceptableMeasParams>() { { @"SM1625", new BranchOfAcceptableMeasParams() } },
+                },
+            });
         }
 
         public Task<OtauAttachedDto> AttachOtauAsync(AttachOtauDto dto, DoubleAddress rtuDoubleAddress)
@@ -38,7 +56,15 @@ namespace Graph.Tests
 
         public Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto, DoubleAddress rtuAddresses)
         {
-            return Task.FromResult(new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully });
+            return Task.FromResult(new BaseRefAssignedDto()
+            {
+                ReturnCode = ReturnCode.BaseRefAssignedSuccessfully,
+                VeexTests = new List<VeexTestCreatedDto>()
+                {
+                    new VeexTestCreatedDto(){TestId = Guid.NewGuid()},
+                    new VeexTestCreatedDto(){TestId = Guid.NewGuid()}
+                }
+            });
         }
 
         public Task<bool> StopMonitoringAsync(DoubleAddress rtuAddresses, string otdrId)

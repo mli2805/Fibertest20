@@ -15,7 +15,7 @@ namespace Graph.Tests
         private string _waveLength;
         private Dictionary<int, OtauDto> _children;
 
-        public void SetFakeInitializationAnswer(ReturnCode returnCode = ReturnCode.Ok, string serial = "123456", 
+        public void SetFakeInitializationAnswer(ReturnCode returnCode = ReturnCode.Ok, string serial = "123456",
             int ownPortCount = 8, int fullPortCount = 8, string waveLength = "SM1625", Dictionary<int, OtauDto> children = null)
         {
             _fakeInitializationReturnCode = returnCode;
@@ -54,13 +54,13 @@ namespace Graph.Tests
                 FullPortCount = _fullPortCount,
                 OwnPortCount = _ownPortCount,
                 RtuAddresses = dto.RtuAddresses,
-                OtdrAddress =  new NetAddress(dto.RtuAddresses.Main.Ip4Address, 23),
+                OtdrAddress = new NetAddress(dto.RtuAddresses.Main.Ip4Address, 23),
                 Version = @"2.0.1.0",
                 Children = _children ?? new Dictionary<int, OtauDto>(),
                 IsMonitoringOn = false,
                 AcceptableMeasParams = new TreeOfAcceptableMeasParams()
                 {
-                    Units = new Dictionary<string, BranchOfAcceptableMeasParams>(){{ _waveLength, new BranchOfAcceptableMeasParams()}},
+                    Units = new Dictionary<string, BranchOfAcceptableMeasParams>() { { _waveLength, new BranchOfAcceptableMeasParams() } },
                 },
             });
         }
@@ -96,22 +96,22 @@ namespace Graph.Tests
 
         public Task<BaseRefAssignedDto> AssignBaseRefAsync(AssignBaseRefsDto dto)
         {
-            return Task.FromResult(new BaseRefAssignedDto(){ReturnCode = ReturnCode.BaseRefAssignedSuccessfully});
+            return Task.FromResult(new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully });
         }
 
         public Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto)
         {
-            return Task.FromResult(new MonitoringSettingsAppliedDto(){ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully});
+            return Task.FromResult(new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.MonitoringSettingsAppliedSuccessfully });
         }
 
         public Task<ClientMeasurementStartedDto> DoClientMeasurementAsync(DoClientMeasurementDto dto)
         {
-            return Task.FromResult(new ClientMeasurementStartedDto(){ReturnCode = ReturnCode.Ok});
+            return Task.FromResult(new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.Ok });
         }
 
         public Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
         {
-            return Task.FromResult(new OutOfTurnMeasurementStartedDto(){ReturnCode = ReturnCode.Ok});
+            return Task.FromResult(new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.Ok });
         }
     }
 }

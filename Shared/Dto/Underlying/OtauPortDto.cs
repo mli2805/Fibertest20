@@ -20,6 +20,6 @@ namespace Iit.Fibertest.Dto
         public bool IsPortOnMainCharon { get; set; }
 
         [DataMember]
-        public int MainCharonPort { get; set; }
+        public int MainCharonPort { get; set; } // only for additional otau - port of main otau this otau is connected to
     }
 }

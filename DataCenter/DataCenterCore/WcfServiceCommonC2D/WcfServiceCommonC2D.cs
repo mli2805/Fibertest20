@@ -244,7 +244,8 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 transferResult = dto.RtuMaker == RtuMaker.IIT
                     ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto)
-                    : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto).Result);
+                    : await _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto);
+                    // : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto).Result);
 
                 if (transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                     return transferResult;
@@ -317,7 +318,7 @@ namespace Iit.Fibertest.DataCenterCore
                 OtdrId = rtu.OtdrId,
                 TraceId = cmd.TraceId,
                 OtauPortDto = cmd.OtauPortDto,
-                MainOtauPortDto = cmd.MainOtauPortDto,
+                MainOtauPortDto = cmd.ParentOtauPortDto,
                 BaseRefs = new List<BaseRefDto>(),
             };
 
@@ -364,10 +365,13 @@ namespace Iit.Fibertest.DataCenterCore
             return await UpdateVeexTestList(transferResult, dto.Username, dto.ClientIp);
         }
 
+        private static readonly IMapper Mapper1 = new MapperConfiguration(
+            cfg => cfg.AddProfile<VeexTestMappingProfile>()).CreateMapper();
+
         private async Task<RequestAnswer> UpdateVeexTestList(BaseRefAssignedDto transferResult, string username, string clientIp)
         {
             var commands = transferResult.VeexTests
-                .Select(l => (object) (Mapper.Map<AddVeexTest>(l))).ToList();
+                .Select(l => (object) (Mapper1.Map<AddVeexTest>(l))).ToList();
 
             var cmdCount = await _eventStoreService.SendCommands(commands, username, clientIp);
 

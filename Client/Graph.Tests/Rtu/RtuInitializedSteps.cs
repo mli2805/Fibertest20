@@ -61,7 +61,8 @@ namespace Graph.Tests
         {
             _mainAddress = p0;
             _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, p0, "", Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => 
+                _sut.RtuInitializeHandler(model, p0, ""));
 
             _rtuLeaf.MyContextMenu.FirstOrDefault(i => i.Header == Resources.SID_Network_settings)?.Command.Execute(_rtuLeaf);
             _sut.Poller.EventSourcingTick().Wait();
@@ -73,7 +74,8 @@ namespace Graph.Tests
             _mainAddress = p0;
             _reserveAddress = p1;
             _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, p0, p1, Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model => 
+                _sut.RtuInitializeHandler(model, p0, p1));
 
             _rtuLeaf.MyContextMenu.FirstOrDefault(i => i.Header == Resources.SID_Network_settings)?.Command.Execute(_rtuLeaf);
             _sut.Poller.EventSourcingTick().Wait();
@@ -107,7 +109,8 @@ namespace Graph.Tests
         [When(@"Пользователь открывает форму инициализации и жмет Отмена")]
         public void WhenПользовательОткрываетФормуИнициализацииИЖметОтмена()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, "", "", Answer.Cancel));
+            _sut.FakeWindowManager.RegisterHandler(model => 
+                _sut.RtuInitializeHandler(model, "", "", 11842, Answer.Cancel));
             _rtuLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Network_settings).Command.Execute(_rtuLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }

@@ -61,7 +61,8 @@ namespace Graph.Tests
         public void WhenПользовательЖметПереинициализироватьRtu()
         {
             _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
-            _sut.FakeWindowManager.RegisterHandler(model => _sut.RtuInitializeHandler(model, _rtuAddress, "", Answer.Yes));
+            _sut.FakeWindowManager.RegisterHandler(model =>
+                _sut.RtuInitializeHandler(model, _rtuAddress, ""));
             _rtuLeaf.MyContextMenu.First(i => i?.Header == Resources.SID_Network_settings).Command.Execute(_rtuLeaf);
         }
 
