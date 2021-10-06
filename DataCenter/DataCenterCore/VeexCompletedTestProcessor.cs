@@ -14,11 +14,11 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
         private readonly SorFileRepository _sorFileRepository;
-        private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
+        private readonly ID2RtuVeexL3 _d2RtuVeexLayer3;
         private readonly MsmqMessagesProcessor _msmqMessagesProcessor;
 
         public VeexCompletedTestProcessor(IMyLog logFile, Model writeModel,
-            SorFileRepository sorFileRepository, D2RtuVeexLayer3 d2RtuVeexLayer3,
+            SorFileRepository sorFileRepository, ID2RtuVeexL3 d2RtuVeexLayer3,
             MsmqMessagesProcessor msmqMessagesProcessor)
         {
             _logFile = logFile;

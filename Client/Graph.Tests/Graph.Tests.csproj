@@ -204,6 +204,14 @@
     <Compile Include="BaseRef\BaseRefModifiedSteps.cs">
       <DependentUpon>BaseRefModified.feature</DependentUpon>
     </Compile>
+    <Compile Include="BaseRef\BaseRefRtu4000.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BaseRefRtu4000.feature</DependentUpon>
+    </Compile>
+    <Compile Include="BaseRef\BaseRefRtu400Steps.cs">
+      <DependentUpon>BaseRefRtu4000.feature</DependentUpon>
+    </Compile>
     <Compile Include="Equipment\EquipmentAddedOnNodeUpdate.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -368,6 +376,7 @@
       <DependentUpon>RtuUpdated.feature</DependentUpon>
     </Compile>
     <Compile Include="Sut\Enums\Answer.cs" />
+    <Compile Include="Sut\Fakes\FakeD2RtuVeexL3.cs" />
     <Compile Include="Sut\Fakes\FakeFtSignalRClient.cs" />
     <Compile Include="Sut\SutExtensions\Handlers.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForHideTraces.cs" />
@@ -656,6 +665,10 @@
     <None Include="BaseRef\BaseRefModified.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BaseRefModified.feature.cs</LastGenOutput>
+    </None>
+    <None Include="BaseRef\BaseRefRtu4000.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>BaseRefRtu4000.feature.cs</LastGenOutput>
     </None>
     <None Include="Equipment\EquipmentAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

@@ -40,9 +40,5 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 };
             }
         }
-
-      
-
-
     }
 }
