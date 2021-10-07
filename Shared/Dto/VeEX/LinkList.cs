@@ -3,7 +3,7 @@
 
 namespace Iit.Fibertest.Dto
 {
-    public class VeexOtdrs
+    public class LinkList
     {
         public List<LinkObject> items { get; set; }
         public int offset { get; set; }

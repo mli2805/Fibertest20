@@ -185,9 +185,7 @@
     <Compile Include="VeEX\Info\InitializedVeexDto.cs" />
     <Compile Include="VeEX\Info\VeexOtau.cs" />
     <Compile Include="VeEX\Info\VeexOtauPort.cs" />
-    <Compile Include="VeEX\Info\VeexOtaus.cs" />
     <Compile Include="VeEX\Info\VeexOtdr.cs" />
-    <Compile Include="VeEX\Info\VeexOtdrs.cs" />
     <Compile Include="VeEX\LinkObject.cs" />
     <Compile Include="VeEX\MeasurementRequest\AnalysisParameters.cs" />
     <Compile Include="VeEX\MeasurementRequest\GeneralParameters.cs" />
@@ -202,7 +200,7 @@
     <Compile Include="VeEX\MeasurementResult\VeexMeasurementResult.cs" />
     <Compile Include="VeEX\Monitoring\VeexMonitoringDto.cs" />
     <Compile Include="VeEX\Monitoring\Test.cs" />
-    <Compile Include="VeEX\Monitoring\TestsLinks.cs" />
+    <Compile Include="VeEX\LinkList.cs" />
     <Compile Include="VeEX\Monitoring\Threshold.cs" />
     <Compile Include="VeEX\Notification\VeexMeasurementDto.cs" />
     <Compile Include="VeEX\Notification\VeexNotification.cs" />

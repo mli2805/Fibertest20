@@ -6,7 +6,7 @@ using Iit.Fibertest.Dto;
 
 namespace Graph.Tests
 {
-    public class FakeD2RtuVeexL3 : ID2RtuVeexL3
+    public class FakeD2RtuVeexL3 : ID2RtuVeexL3111
     {
         public Task<RtuInitializedDto> InitializeRtu(InitializeRtuDto dto)
         {

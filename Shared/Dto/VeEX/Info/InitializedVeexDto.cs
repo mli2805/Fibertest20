@@ -3,7 +3,7 @@
     public class InitializedVeexDto
     {
         public VeexPlatformInfo VeexPlatformInfo;
-        public VeexOtdrs VeexOtdrs;
-        public VeexOtaus VeexOtaus;
+        public LinkList VeexOtdrs;
+        public LinkList VeexOtaus;
     }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
 using TechTalk.SpecFlow;
@@ -28,24 +27,25 @@ namespace Graph.Tests
         [When(@"Пользователь присылает на сервер базовые")]
         public void WhenПользовательПрисылаетНаСерверБазовые()
         {
-            var dto = new AssignBaseRefsDto()
-            {
-                RtuId = _rtuLeaf.Id,
-                RtuMaker = RtuMaker.VeEX,
-                TraceId = _trace.TraceId,
-                OtauPortDto = new OtauPortDto()
-                {
-                    IsPortOnMainCharon = true,
-                    OpticalPort = 7,
-                },
-                BaseRefs = new List<BaseRefDto>()
-                {
-                    new BaseRefDto(){BaseRefType = BaseRefType.Precise,},
-                    new BaseRefDto(){BaseRefType = BaseRefType.Fast,}
-                }
-            };
-
-            _sut.WcfServiceCommonC2D.AssignBaseRefAsync(dto).Wait();
+            _sut.AssignBaseRef(_traceLeaf, SystemUnderTest.Base1625, SystemUnderTest.Base1625, null, Answer.Yes);
+            // var dto = new AssignBaseRefsDto()
+            // {
+            //     RtuId = _rtuLeaf.Id,
+            //     RtuMaker = RtuMaker.VeEX,
+            //     TraceId = _trace.TraceId,
+            //     OtauPortDto = new OtauPortDto()
+            //     {
+            //         IsPortOnMainCharon = true,
+            //         OpticalPort = 7,
+            //     },
+            //     BaseRefs = new List<BaseRefDto>()
+            //     {
+            //         new BaseRefDto(){Id = Guid.NewGuid(), BaseRefType = BaseRefType.Precise, },
+            //         new BaseRefDto(){Id = Guid.NewGuid(), BaseRefType = BaseRefType.Fast,}
+            //     }
+            // };
+            //
+            // _sut.WcfServiceCommonC2D.AssignBaseRefAsync(dto).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
 

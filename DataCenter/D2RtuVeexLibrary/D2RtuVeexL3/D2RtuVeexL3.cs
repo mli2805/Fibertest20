@@ -5,7 +5,7 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
-    public partial class D2RtuVeexLayer3 : ID2RtuVeexL3
+    public partial class D2RtuVeexLayer3 : ID2RtuVeexL3111
     {
         private readonly D2RtuVeexLayer2 _d2RtuVeexLayer2;
 

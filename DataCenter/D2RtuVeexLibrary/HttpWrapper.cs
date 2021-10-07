@@ -9,12 +9,12 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
-    public class HttpExt
+    public class HttpWrapper : IHttpWrapper
     {
         private readonly IMyLog _logFile;
         private static readonly HttpClient HttpClient = new HttpClient();
 
-        public HttpExt(IMyLog logFile)
+        public HttpWrapper(IMyLog logFile)
         {
             _logFile = logFile;
         }

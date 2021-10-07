@@ -18,14 +18,14 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly GlobalState _globalState;
         private readonly Model _writeModel;
         private readonly RtuStationsRepository _rtuStationsRepository;
-        private readonly ID2RtuVeexL3 _d2RtuVeexLayer3;
+        private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
         private readonly VeexCompletedTestProcessor _veexCompletedTestProcessor;
 
         private List<Rtu> _veexRtus;
         private TimeSpan _gap;
 
         public VeexCompletedTestsFetcher(IniFile iniFile, IMyLog logFile, GlobalState globalState, Model writeModel,
-            RtuStationsRepository rtuStationsRepository, ID2RtuVeexL3 d2RtuVeexLayer3,
+            RtuStationsRepository rtuStationsRepository, D2RtuVeexLayer3 d2RtuVeexLayer3,
             VeexCompletedTestProcessor veexCompletedTestProcessor)
         {
             _iniFile = iniFile;

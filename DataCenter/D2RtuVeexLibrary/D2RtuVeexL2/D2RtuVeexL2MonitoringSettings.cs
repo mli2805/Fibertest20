@@ -12,7 +12,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (!getResult.IsSuccessful)
                 return false;
 
-            var listOfTestLinks = (TestsLinks)getResult.ResponseObject;
+            var listOfTestLinks = (LinkList)getResult.ResponseObject;
             foreach (var testLink in listOfTestLinks.items)
             {
                 var getRes = await _d2RtuVeexLayer1.GetTest(rtuAddresses, testLink.self);

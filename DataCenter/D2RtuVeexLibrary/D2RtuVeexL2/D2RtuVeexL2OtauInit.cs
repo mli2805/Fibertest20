@@ -89,7 +89,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var res = await _d2RtuVeexLayer1.GetOtaus(rtuDoubleAddress);
             if (!res.IsSuccessful) return res;
 
-            var otaus = (VeexOtaus)res.ResponseObject;
+            var otaus = (LinkList)res.ResponseObject;
             var otauList = new List<VeexOtau>();
             foreach (var link in otaus.items)
             {

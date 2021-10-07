@@ -10,6 +10,7 @@ namespace Iit.Fibertest.Dto
         public string id { get; set; }
         public string mainframeId { get; set; }
         public string opticalModuleSerialNumber { get; set; }
+
         public SupportedMeasurementParameters supportedMeasurementParameters { get; set; }
         public TcpProxy tcpProxy { get; set; }
     }

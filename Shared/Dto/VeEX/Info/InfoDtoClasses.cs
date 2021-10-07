@@ -20,7 +20,7 @@ namespace Iit.Fibertest.Dto
         public string api { get; set; }
         public string core { get; set; }
         public string httpServer { get; set; }
-        public OtdrEngine otdrEngine { get; set; }
+        public OtdrEngine otdrEngine { get; set; } = new OtdrEngine();
         public Other other { get; set; }
     }
 
@@ -35,10 +35,10 @@ namespace Iit.Fibertest.Dto
 
     public class VeexPlatformInfo
     {
-        public Components components { get; set; }
+        public Components components { get; set; } = new Components();
         public DateTime dateTime { get; set; }
         public string id { get; set; }
         public string name { get; set; }
-        public Platform platform { get; set; }
+        public Platform platform { get; set; } = new Platform();
     }
 }

@@ -10,16 +10,16 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<HttpRequestResult> CreateOtau(DoubleAddress rtuDoubleAddress, NewOtau newOtau)
         {
             var jsonData = JsonConvert.SerializeObject(newOtau);
-            var res = await _httpExt.RequestByUrl(rtuDoubleAddress,
-                $@"/otaus", "post", "application/json", jsonData);
+            var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress,
+                @"otaus", "post", "application/json", jsonData);
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.Created;
             return res;
         }
 
         public async Task<HttpRequestResult> DeleteOtau(DoubleAddress rtuDoubleAddress, string otauId)
         {
-            var res = await _httpExt.RequestByUrl(rtuDoubleAddress,
-                $@"/otaus/{otauId}", "delete", "application/json");
+            var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress,
+                $@"otaus/{otauId}", "delete", "application/json");
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
             return res;
         }
@@ -28,16 +28,16 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             VeexOtauCascadingScheme scheme)
         {
             var jsonData = JsonConvert.SerializeObject(scheme);
-            var res = await _httpExt.RequestByUrl(rtuDoubleAddress,
-                $@"/otau_cascading", "patch", "application/merge-patch+json", jsonData);
+            var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress,
+                @"otau_cascading", "patch", "application/merge-patch+json", jsonData);
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
             return res;
         }
 
         public async Task<HttpRequestResult> GetOtauCascadingScheme(DoubleAddress rtuDoubleAddress)
         {
-            var res = await _httpExt.RequestByUrl(rtuDoubleAddress,
-                $@"/otau_cascading", "get", "application/json");
+            var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress,
+                @"otau_cascading", "get", "application/json");
 
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
             if (res.IsSuccessful)
@@ -55,8 +55,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<HttpRequestResult> GetOtau(DoubleAddress rtuDoubleAddress, string link)
         {
-            var res = await _httpExt.RequestByUrl(rtuDoubleAddress,
-                $@"/{link}", "get", "application/json");
+            var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress,
+                $@"{link}", "get", "application/json");
 
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
             if (res.IsSuccessful)
@@ -67,10 +67,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<HttpRequestResult> GetOtaus(DoubleAddress rtuDoubleAddress)
         {
-            var res = await _httpExt.RequestByUrl(rtuDoubleAddress, "otaus", "get");
+            var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress, "otaus", "get");
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
             if (res.IsSuccessful)
-                res.ResponseObject = JsonConvert.DeserializeObject<VeexOtaus>(res.ResponseJson);
+                res.ResponseObject = JsonConvert.DeserializeObject<LinkList>(res.ResponseJson);
 
             return res;
         }

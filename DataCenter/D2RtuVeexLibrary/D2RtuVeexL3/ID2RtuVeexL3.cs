@@ -3,7 +3,7 @@ using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
-    public interface ID2RtuVeexL3
+    public interface ID2RtuVeexL3111
     {
         Task<RtuInitializedDto> InitializeRtu(InitializeRtuDto dto);
 

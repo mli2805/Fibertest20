@@ -9,7 +9,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
     {
         public async Task<HttpRequestResult> GetCompletedTest(DoubleAddress rtuDoubleAddress, string testId, string kind)
         {
-            var res = await _httpExt.RequestByUrl(
+            var res = await _httpWrapper.RequestByUrl(
                 rtuDoubleAddress, $"monitoring/tests/{testId}/completed/{kind}", "get");
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
             res.ResponseObject = JsonConvert.DeserializeObject<CompletedTest>(res.ResponseJson);
@@ -18,7 +18,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<HttpRequestResult> GetSorBytes(DoubleAddress rtuDoubleAddress, string testId, string kind)
         {
-            var res = await _httpExt.GetByteArray(
+            var res = await _httpWrapper.GetByteArray(
                 rtuDoubleAddress, $"monitoring/tests/{testId}/completed/{kind}/traces/0.sor");
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
             return res;
@@ -26,7 +26,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<HttpRequestResult> GetCompletedTestsAfterTimestamp(DoubleAddress rtuDoubleAddress, string timestamp, int limit)
         {
-            var res = await _httpExt.RequestByUrl(
+            var res = await _httpWrapper.RequestByUrl(
                 rtuDoubleAddress, $"monitoring/completed?fields=*,items.*&starting={timestamp}&limit={limit}", "get");
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
             if (res.IsSuccessful)
@@ -36,7 +36,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<HttpRequestResult> GetCompletedTestSorBytes(DoubleAddress rtuDoubleAddress, string measId)
         {
-            var res = await _httpExt.GetByteArray(
+            var res = await _httpWrapper.GetByteArray(
                 rtuDoubleAddress, $"monitoring/completed/{measId}/traces/0.sor");
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
             return res;

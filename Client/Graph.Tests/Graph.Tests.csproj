@@ -378,6 +378,9 @@
     <Compile Include="Sut\Enums\Answer.cs" />
     <Compile Include="Sut\Fakes\FakeD2RtuVeexL3.cs" />
     <Compile Include="Sut\Fakes\FakeFtSignalRClient.cs" />
+    <Compile Include="Sut\Fakes\FakeHttpWrapper\FakeHttpWrapper.cs" />
+    <Compile Include="Sut\Fakes\FakeHttpWrapper\FakeVeexRtuModel.cs" />
+    <Compile Include="Sut\Fakes\FakeHttpWrapper\RequestFromUri.cs" />
     <Compile Include="Sut\SutExtensions\Handlers.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForHideTraces.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForResponsibilityZones.cs" />
@@ -950,6 +953,7 @@
   <ItemGroup>
     <Analyzer Include="..\..\packages\xunit.analyzers.0.10.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

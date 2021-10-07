@@ -71,8 +71,9 @@
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3MoniResult.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3Otau.cs" />
     <Compile Include="D2RtuVeexL3\ID2RtuVeexL3.cs" />
-    <Compile Include="HttpExt.cs" />
+    <Compile Include="HttpWrapper.cs" />
     <Compile Include="HttpRequestResult.cs" />
+    <Compile Include="IHttpWrapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3AssignBaseRefs.cs" />
     <Compile Include="SorDataThresholdExtractor.cs" />

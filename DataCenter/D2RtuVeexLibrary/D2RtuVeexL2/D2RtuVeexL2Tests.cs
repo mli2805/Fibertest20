@@ -13,7 +13,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var getResult = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress);
             if (!getResult.IsSuccessful)
                 return false;
-            var listOfTestLinks = (TestsLinks)getResult.ResponseObject;
+            var listOfTestLinks = (LinkList)getResult.ResponseObject;
             if (listOfTestLinks == null) return true;
             foreach (var testLink in listOfTestLinks.items)
             {
@@ -29,7 +29,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var getResult = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress);
             if (!getResult.IsSuccessful)
                 return false;
-            var listOfTestLinks = (TestsLinks)getResult.ResponseObject;
+            var listOfTestLinks = (LinkList)getResult.ResponseObject;
             if (listOfTestLinks == null) return true;
 
             foreach (var testLink in listOfTestLinks.items)
@@ -67,7 +67,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var getResult = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress);
             if (!getResult.IsSuccessful)
                 return null;
-            var listOfTestLinks = (TestsLinks)getResult.ResponseObject;
+            var listOfTestLinks = (LinkList)getResult.ResponseObject;
             if (listOfTestLinks == null) return null;
 
             foreach (var testLink in listOfTestLinks.items)
@@ -99,6 +99,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 otauPorts = otauPorts,
                 period = 0,
                 failedPeriod = baseRefType == BaseRefType.Fast ? int.MaxValue : 0,
+                relations = new RelationItems() { items = new List<TestsRelation>() },
             };
             return await _d2RtuVeexLayer1.CreateTest(rtuDoubleAddress, newTest);
         }

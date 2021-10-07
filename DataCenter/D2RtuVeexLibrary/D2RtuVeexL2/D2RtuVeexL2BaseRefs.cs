@@ -13,9 +13,17 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return test;
 
             var createResult = await CreateTest(rtuDoubleAddress, otdrId, otauPorts, baseRefType);
-            return !createResult.IsSuccessful 
-                ? null 
-                : await GetTestForPortAndBaseType(rtuDoubleAddress, otauPorts, baseRefType.ToString().ToLower());
+            if (!createResult.IsSuccessful)
+                return null;
+
+            var getResult = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, createResult.ResponseJson);
+            return !getResult.IsSuccessful
+                ? null
+                : (Test) getResult.ResponseObject;
+
+            // return !createResult.IsSuccessful 
+            // ? null 
+            // : await GetTestForPortAndBaseType(rtuDoubleAddress, otauPorts, baseRefType.ToString().ToLower());
         }
         
         public async Task<BaseRefAssignedDto> SetBaseWithThresholdsForTest(DoubleAddress rtuDoubleAddress, string testLink,

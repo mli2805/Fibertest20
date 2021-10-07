@@ -14,11 +14,11 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
         private readonly RtuStationsRepository _rtuStationsRepository;
-        private readonly ID2RtuVeexL3 _d2RtuVeexLayer3;
+        private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
         private readonly DoubleAddress _serverDoubleAddress;
 
         public ClientToRtuVeexTransmitter(IniFile iniFile, IMyLog logFile, Model writeModel,
-            RtuStationsRepository rtuStationsRepository, ID2RtuVeexL3 d2RtuVeexLayer3)
+            RtuStationsRepository rtuStationsRepository, D2RtuVeexLayer3 d2RtuVeexLayer3)
         {
             _logFile = logFile;
             _writeModel = writeModel;

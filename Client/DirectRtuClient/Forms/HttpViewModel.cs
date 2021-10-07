@@ -14,7 +14,7 @@ namespace DirectRtuClient
     public class RtuVeexModel
     {
         public RtuInitializedDto RtuInitializedDto { get; set; }
-        public TestsLinks TestsLinks { get; set; }
+        public LinkList LinkList { get; set; }
         public List<Test> Tests { get; set; }
         public Dictionary<string, ThresholdSet> Thresholds { get; set; } // testId - thresholdSet
     }
@@ -26,7 +26,7 @@ namespace DirectRtuClient
         private readonly DoubleAddress _rtuVeexDoubleAddress;
         private string _resultString;
         private string _rtuVeexAddress;
-        private readonly HttpExt _httpExt;
+        private readonly HttpWrapper _httpWrapper;
 
         public string RtuVeexAddress
         {
@@ -69,7 +69,7 @@ namespace DirectRtuClient
             _iniFile = iniFile;
 
             _rtuVeexDoubleAddress = iniFile.ReadDoubleAddress(80);
-            _httpExt = new HttpExt(logFile);
+            _httpWrapper = new HttpWrapper(logFile);
             RtuVeexAddress = _rtuVeexDoubleAddress.Main.Ip4Address;
         }
 
@@ -89,7 +89,7 @@ namespace DirectRtuClient
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
 
-            var d2Rl1 = new D2RtuVeexLayer1(_httpExt);
+            var d2Rl1 = new D2RtuVeexLayer1(_httpWrapper);
             var d2R = new D2RtuVeexLayer2(d2Rl1);
             var result = await Task.Factory.StartNew(() =>
                 d2R.GetSettings(_rtuVeexDoubleAddress, new InitializeRtuDto() { RtuAddresses = _rtuVeexDoubleAddress }).Result);
@@ -120,7 +120,7 @@ namespace DirectRtuClient
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
 
-            var d2RtuVeexLayer1 = new D2RtuVeexLayer1(_httpExt);
+            var d2RtuVeexLayer1 = new D2RtuVeexLayer1(_httpWrapper);
             var result = await d2RtuVeexLayer1.GetTests(_rtuVeexDoubleAddress);
 
             if (!result.IsSuccessful)
@@ -129,10 +129,10 @@ namespace DirectRtuClient
             }
             else
             {
-                _rtuVeexModel.TestsLinks = (TestsLinks)result.ResponseObject;
+                _rtuVeexModel.LinkList = (LinkList)result.ResponseObject;
                 _rtuVeexModel.Tests = new List<Test>();
                 _rtuVeexModel.Thresholds = new Dictionary<string, ThresholdSet>();
-                foreach (var testItem in _rtuVeexModel.TestsLinks.items)
+                foreach (var testItem in _rtuVeexModel.LinkList.items)
                 {
                     var testRes = await d2RtuVeexLayer1.GetTest(_rtuVeexDoubleAddress, testItem.self);
                     if (!testRes.IsSuccessful) return;
@@ -151,7 +151,7 @@ namespace DirectRtuClient
                     }
                 }
 
-                var firstTest = _rtuVeexModel.TestsLinks.items.First();
+                var firstTest = _rtuVeexModel.LinkList.items.First();
                 var thresholdSet1 = new ThresholdSet()
                 {
                     levels = new List<Level>()
@@ -213,7 +213,7 @@ namespace DirectRtuClient
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
 
-            var d2RtuVeexLayer1 = new D2RtuVeexLayer1(_httpExt);
+            var d2RtuVeexLayer1 = new D2RtuVeexLayer1(_httpWrapper);
             var getRes = await d2RtuVeexLayer1.GetTests(_rtuVeexDoubleAddress);
 
             if (!getRes.IsSuccessful)
@@ -222,8 +222,8 @@ namespace DirectRtuClient
             }
             else
             {
-                _rtuVeexModel.TestsLinks = (TestsLinks)getRes.ResponseObject;
-                var testItem = _rtuVeexModel.TestsLinks.items.First();
+                _rtuVeexModel.LinkList = (LinkList)getRes.ResponseObject;
+                var testItem = _rtuVeexModel.LinkList.items.First();
                 var thresholdSet = await d2RtuVeexLayer1.GetTestThresholds(_rtuVeexDoubleAddress, testItem.self);
                 if (thresholdSet != null)
                 {
@@ -262,7 +262,7 @@ namespace DirectRtuClient
                     oneBaseRef
                 }
             };
-            var d2Rl1 = new D2RtuVeexLayer1(_httpExt);
+            var d2Rl1 = new D2RtuVeexLayer1(_httpWrapper);
             var layer2 = new D2RtuVeexLayer2(d2Rl1);
             var layer3 = new D2RtuVeexLayer3(layer2);
             var result = await Task.Factory.StartNew(() =>
@@ -283,7 +283,7 @@ namespace DirectRtuClient
             ResultString = @"Wait, please";
             IsButtonEnabled = false;
 
-            var d2Rl1 = new D2RtuVeexLayer1(_httpExt);
+            var d2Rl1 = new D2RtuVeexLayer1(_httpWrapper);
             var layer2 = new D2RtuVeexLayer2(d2Rl1);
 
             var rrr = await layer2.GetTestLastMeasurement(_rtuVeexDoubleAddress, @"4dc19b64-7431-435b-9248-621d79d84e0b", @"monitoring_test_passed", false);
@@ -295,7 +295,7 @@ namespace DirectRtuClient
 
         public async void CreateOtau()
         {
-            var d2Rl1 = new D2RtuVeexLayer1(_httpExt);
+            var d2Rl1 = new D2RtuVeexLayer1(_httpWrapper);
             await d2Rl1.CreateOtau(_rtuVeexDoubleAddress,
                 new NewOtau()
                 {

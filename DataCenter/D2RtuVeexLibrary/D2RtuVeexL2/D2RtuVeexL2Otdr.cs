@@ -11,7 +11,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (!res.IsSuccessful)
                 return res;
 
-            var otdrs = (VeexOtdrs) res.ResponseObject;
+            var otdrs = (LinkList) res.ResponseObject;
             if (otdrs.items.Count == 0)
                 return res;
 
