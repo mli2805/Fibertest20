@@ -34,7 +34,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (veexTest == null) return;
             var trace = _writeModel.Traces.First(t => t.TraceId == veexTest.TraceId);
 
-            if (ShouldMoniResultBeSaved(completedTest, rtu, trace, veexTest.BaseRefType))
+            if (ShouldMoniResultBeSaved(completedTest, rtu, trace, veexTest.BasRefType))
                 await AcceptMoniResult(rtuDoubleAddress, completedTest, veexTest, rtu, trace);
         }
 
@@ -92,7 +92,7 @@ namespace Iit.Fibertest.DataCenterCore
             var res = new MonitoringResultDto()
             {
                 MeasurementResult = MeasurementResult.Success,
-                BaseRefType = veexTest.BaseRefType == BaseRefType.Fast
+                BaseRefType = veexTest.BasRefType == BaseRefType.Fast
                     ? BaseRefType.Fast
                     : completedTest.indicesOfReferenceTraces[0] == 0
                         ? BaseRefType.Precise

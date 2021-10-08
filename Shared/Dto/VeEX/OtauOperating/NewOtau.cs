@@ -9,6 +9,7 @@ namespace Iit.Fibertest.Dto
     
     public class NewOtau
     {
+        public string id { get; set; }
         public VeexOtauAddress connectionParameters { get; set; }
     }
 }

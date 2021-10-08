@@ -103,6 +103,9 @@ namespace Iit.Fibertest.Graph
             {
                 model.DetachTrace(trace);
             }
+
+            model.VeexTests.RemoveAll(t => t.OtauId == e.Id.ToString());
+
             rtu.FullPortCount -= otau.PortCount;
             foreach (var port in rtu.Children.Keys.ToList())
             {

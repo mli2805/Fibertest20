@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Iit.Fibertest.Dto;
 
 namespace Graph.Tests
@@ -36,20 +37,20 @@ namespace Graph.Tests
             Otdrs = new List<VeexOtdr>() { otdr };
             OtdrItems = new LinkList { items = new List<LinkObject>() { new LinkObject() { self = $@"otdrs/{otdr.id}" } }, total = 1 };
 
-            var otau = new VeexOtau()
+            var mainOtau = new VeexOtau()
             {
-                id = @"Main Otau 16 port",
-                protocol = @"tcpip",
+                id = @"S1_OXA-4000__32",
+                protocol = @"db25",
                 inputPortCount = 1,
-                portCount = 16,
-                serialNumber = @"1233456789"
+                portCount = 32,
+                serialNumber = @"123456789"
             };
-            OtauItems = new LinkList() { items = new List<LinkObject>() { new LinkObject() { self = $@"otaus/{otau.id}" } }, total = 1 };
-            Otaus = new List<VeexOtau>() { otau };
+            OtauItems = new LinkList() { items = new List<LinkObject>() { new LinkObject() { self = $@"otaus/{mainOtau.id}" } }, total = 1 };
+            Otaus = new List<VeexOtau>() { mainOtau };
 
             Scheme = new VeexOtauCascadingScheme()
             {
-                rootConnections = new List<RootConnection>() { new RootConnection() { inputOtauId = otau.id, inputOtauPort = 0 } },
+                rootConnections = new List<RootConnection>() { new RootConnection() { inputOtauId = mainOtau.id, inputOtauPort = 0 } },
                 connections = new List<Connection>(),
             };
 
@@ -81,5 +82,33 @@ namespace Graph.Tests
             TestsRelations.Add(relation);
             return $@"test_relations/{relation.id}";
         }
+
+        public string AddOtau(NewOtau otau)
+        {
+            var link = $@"otaus/{otau.id}";
+            OtauItems.items.Add(new LinkObject(){self = link});
+            Otaus.Add(new VeexOtau()
+            {
+                id = otau.id,
+                portCount = 16,
+                protocol = "tcpip",
+                serialNumber = "12345678",
+            });
+            return link;
+        }
+
+        public VeexOtau GetOtau(string link)
+        {
+            var parts = link.Split('/');
+            return Otaus.First(o => o.id == parts[1]);
+        }
+
+        public void DeleteOtau(string link)
+        {
+            var parts = link.Split('/');
+            Otaus.RemoveAll(o => o.id == parts[1]);
+            OtauItems.items.RemoveAll(i => i.self == link);
+        }
+
     }
 }

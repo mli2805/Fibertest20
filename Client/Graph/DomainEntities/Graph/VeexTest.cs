@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Graph
     {
         public Guid TestId { get; set; }
         public Guid TraceId { get; set; }
-        public BaseRefType BaseRefType { get; set; }
+        public BaseRefType BasRefType { get; set; }
 
         public bool IsOnBop { get; set; }
         public string OtauId { get; set; }

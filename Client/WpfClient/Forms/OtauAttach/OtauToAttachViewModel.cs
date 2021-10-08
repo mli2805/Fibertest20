@@ -140,7 +140,9 @@ namespace Iit.Fibertest.Client
             if (result.IsAttached)
             {
                 AttachmentProgress = Resources.SID_Successful_;
-                OtauSerial = result.Serial.Substring(0, result.Serial.Length - 1);
+                OtauSerial = _rtu.RtuMaker == RtuMaker.IIT
+                    ? result.Serial.Substring(0, result.Serial.Length - 1)
+                    : result.Serial;
                 OtauPortCount = result.PortCount;
             }
             else

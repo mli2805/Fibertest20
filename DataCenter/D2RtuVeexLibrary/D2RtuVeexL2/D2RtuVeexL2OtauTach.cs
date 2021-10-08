@@ -14,7 +14,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             var scheme = (VeexOtauCascadingScheme)getSchemeResult.ResponseObject;
 
-            var removed = scheme.connections.RemoveAll(c => c.outputOtauId == otauId);
+            var removed = scheme.connections.RemoveAll(c => c.inputOtauId == otauId);
             if (removed > 0)
             {
                 var updateSchemeResult = await _d2RtuVeexLayer1.ChangeOtauCascadingScheme(rtuDoubleAddress, scheme);

@@ -66,22 +66,26 @@ namespace Graph.Tests
                     break;
 
                 case "CreateOtau":
+                    if (jsonData == null) break;
+                    result.ResponseJson = FakeVeexRtuModel.AddOtau(JsonConvert.DeserializeObject<NewOtau>(jsonData));
                     result.HttpStatusCode = HttpStatusCode.Created;
-                    result.ResponseJson = Guid.NewGuid().ToString();
                     break;
                 case "DeleteOtau":
+                    FakeVeexRtuModel.DeleteOtau(relativeUri);
                     result.HttpStatusCode = HttpStatusCode.NoContent;
                     break;
                 case "ChangeOtauCascadingScheme":
+                    if (jsonData == null) break;
+                    FakeVeexRtuModel.Scheme = JsonConvert.DeserializeObject<VeexOtauCascadingScheme>(jsonData);
                     result.HttpStatusCode = HttpStatusCode.NoContent;
                     break;
                 case "GetOtauCascadingScheme":
                     result.HttpStatusCode = HttpStatusCode.OK;
                     result.ResponseJson = JsonConvert.SerializeObject(FakeVeexRtuModel.Scheme);
                     break;
-                case "GetOtau": //TODO select by id
+                case "GetOtau": 
                     result.HttpStatusCode = HttpStatusCode.OK;
-                    result.ResponseJson = JsonConvert.SerializeObject(FakeVeexRtuModel.Otaus[0]);
+                    result.ResponseJson = JsonConvert.SerializeObject(FakeVeexRtuModel.GetOtau(relativeUri));
                     break;
                 case "GetOtaus":
                     result.HttpStatusCode = HttpStatusCode.OK;

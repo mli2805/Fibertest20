@@ -10,6 +10,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             var newOtau = new NewOtau()
             {
+                id = "S2_" + dto.OtauId,
                 connectionParameters = new VeexOtauAddress()
                 {
                     address = dto.NetAddress.Ip4Address,
@@ -25,7 +26,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     ReturnCode = ReturnCode.OtauAttachedSuccesfully,
                     IsAttached = true,
                     RtuId = dto.RtuId,
-                    OtauId = Guid.Parse(otau.id),
+                    OtauId = Guid.Parse(otau.id.Substring(3)),
                     PortCount = otau.portCount,
                     Serial = otau.serialNumber,
                 };
@@ -40,7 +41,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<OtauDetachedDto> DetachOtauAsync(DetachOtauDto dto, DoubleAddress rtuDoubleAddress)
         {
-            var res = await _d2RtuVeexLayer2.DetachOtau(rtuDoubleAddress, dto.OtauId.ToString());
+            var res = await _d2RtuVeexLayer2.DetachOtau(rtuDoubleAddress, "S2_" + dto.OtauId);
 
             var result = new OtauDetachedDto()
             {

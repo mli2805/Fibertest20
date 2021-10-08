@@ -134,7 +134,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var otauDetachedDto = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.DetachOtauAsync(dto)
-                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.DetachOtauAsync(dto).Result);
+                : await _clientToRtuVeexTransmitter.DetachOtauAsync(dto);
 
             if (otauDetachedDto.IsDetached)
             {
