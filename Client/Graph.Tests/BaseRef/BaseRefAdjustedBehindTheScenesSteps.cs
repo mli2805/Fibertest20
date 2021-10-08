@@ -13,7 +13,7 @@ using TechTalk.SpecFlow;
 namespace Graph.Tests
 {
     [Binding]
-    public sealed class BaseRefAdjustedBehindTheScenesSteps
+    public sealed class BasRefAdjustedBehindTheScenesSteps
     {
         private const string NodeNewTitle = @"Node with changes";
         private const string EquipmentNewTitle = @"Equipment with changes";

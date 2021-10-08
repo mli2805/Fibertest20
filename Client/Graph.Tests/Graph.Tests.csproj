@@ -180,37 +180,37 @@
     <Compile Include="Accidents\MoniResultLossCoefSteps.cs">
       <DependentUpon>MoniResultLossCoef.feature</DependentUpon>
     </Compile>
-    <Compile Include="BaseRef\BaseRefAdjustedBehindTheScenes.feature.cs">
+    <Compile Include="BaseRef\BasRefAdjustedBehindTheScenes.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BaseRefAdjustedBehindTheScenes.feature</DependentUpon>
+      <DependentUpon>BasRefAdjustedBehindTheScenes.feature</DependentUpon>
     </Compile>
     <Compile Include="BaseRef\BaseRefAdjustedBehindTheScenesSteps.cs">
-      <DependentUpon>BaseRefAdjustedBehindTheScenes.feature</DependentUpon>
+      <DependentUpon>BasRefAdjustedBehindTheScenes.feature</DependentUpon>
     </Compile>
-    <Compile Include="BaseRef\BaseRefChecked.feature.cs">
+    <Compile Include="BaseRef\BasRefChecked.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BaseRefChecked.feature</DependentUpon>
+      <DependentUpon>BasRefChecked.feature</DependentUpon>
     </Compile>
     <Compile Include="BaseRef\BaseRefCheckedSteps.cs">
-      <DependentUpon>BaseRefChecked.feature</DependentUpon>
+      <DependentUpon>BasRefChecked.feature</DependentUpon>
     </Compile>
-    <Compile Include="BaseRef\BaseRefModified.feature.cs">
+    <Compile Include="BaseRef\BasRefModified.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BaseRefModified.feature</DependentUpon>
+      <DependentUpon>BasRefModified.feature</DependentUpon>
     </Compile>
     <Compile Include="BaseRef\BaseRefModifiedSteps.cs">
-      <DependentUpon>BaseRefModified.feature</DependentUpon>
+      <DependentUpon>BasRefModified.feature</DependentUpon>
     </Compile>
-    <Compile Include="BaseRef\BaseRefRtu4000.feature.cs">
+    <Compile Include="BaseRef\BasRefRtu4000.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BaseRefRtu4000.feature</DependentUpon>
+      <DependentUpon>BasRefRtu4000.feature</DependentUpon>
     </Compile>
     <Compile Include="BaseRef\BaseRefRtu400Steps.cs">
-      <DependentUpon>BaseRefRtu4000.feature</DependentUpon>
+      <DependentUpon>BasRefRtu4000.feature</DependentUpon>
     </Compile>
     <Compile Include="Equipment\EquipmentAddedOnNodeUpdate.feature.cs">
       <AutoGen>True</AutoGen>
@@ -391,7 +391,7 @@
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForLossCoef.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\TraceWithLoop.cs" />
     <Compile Include="Sut\SutExtensions\Tools\OtauAttacher.cs" />
-    <Compile Include="Sut\SutExtensions\Tools\BaseRefAssigner.cs" />
+    <Compile Include="Sut\SutExtensions\Tools\BasRefAssigner.cs" />
     <Compile Include="Sut\Enums\EquipmentChoiceAnswer.cs" />
     <Compile Include="Equipment\EquipmentAdded.feature.cs">
       <AutoGen>True</AutoGen>
@@ -535,13 +535,13 @@
     <Compile Include="Gps\GpsInputModeChangedSteps.cs">
       <DependentUpon>GpsInputModeChanged.feature</DependentUpon>
     </Compile>
-    <Compile Include="BaseRef\BaseRefAssigned.feature.cs">
+    <Compile Include="BaseRef\BasRefAssigned.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BaseRefAssigned.feature</DependentUpon>
+      <DependentUpon>BasRefAssigned.feature</DependentUpon>
     </Compile>
     <Compile Include="BaseRef\BaseRefAssignedSteps.cs">
-      <DependentUpon>BaseRefAssigned.feature</DependentUpon>
+      <DependentUpon>BasRefAssigned.feature</DependentUpon>
     </Compile>
     <Compile Include="Trace\TraceAddedFirstStageSteps.cs">
       <DependentUpon>TraceAddedFirstStage.feature</DependentUpon>
@@ -657,21 +657,21 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>MoniResultLossCoef.feature.cs</LastGenOutput>
     </None>
-    <None Include="BaseRef\BaseRefAdjustedBehindTheScenes.feature">
+    <None Include="BaseRef\BasRefAdjustedBehindTheScenes.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>BaseRefAdjustedBehindTheScenes.feature.cs</LastGenOutput>
+      <LastGenOutput>BasRefAdjustedBehindTheScenes.feature.cs</LastGenOutput>
     </None>
-    <None Include="BaseRef\BaseRefChecked.feature">
+    <None Include="BaseRef\BasRefChecked.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>BaseRefChecked.feature.cs</LastGenOutput>
+      <LastGenOutput>BasRefChecked.feature.cs</LastGenOutput>
     </None>
-    <None Include="BaseRef\BaseRefModified.feature">
+    <None Include="BaseRef\BasRefModified.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>BaseRefModified.feature.cs</LastGenOutput>
+      <LastGenOutput>BasRefModified.feature.cs</LastGenOutput>
     </None>
-    <None Include="BaseRef\BaseRefRtu4000.feature">
+    <None Include="BaseRef\BasRefRtu4000.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>BaseRefRtu4000.feature.cs</LastGenOutput>
+      <LastGenOutput>BasRefRtu4000.feature.cs</LastGenOutput>
     </None>
     <None Include="Equipment\EquipmentAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
@@ -821,9 +821,9 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>GpsInputModeChanged.feature.cs</LastGenOutput>
     </None>
-    <None Include="BaseRef\BaseRefAssigned.feature">
+    <None Include="BaseRef\BasRefAssigned.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>BaseRefAssigned.feature.cs</LastGenOutput>
+      <LastGenOutput>BasRefAssigned.feature.cs</LastGenOutput>
     </None>
     <None Include="Trace\TraceAddedFirstStage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

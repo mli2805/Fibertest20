@@ -8,8 +8,7 @@ using TechTalk.SpecFlow;
 namespace Graph.Tests
 {
     [Binding]
-    // ReSharper disable once InconsistentNaming
-    public sealed class BaseRefRtu400Steps
+    public sealed class BasRefRtu400Steps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Iit.Fibertest.Graph.Trace _trace;

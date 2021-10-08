@@ -50,7 +50,7 @@ namespace Graph.Tests
         public void WhenЗадаетсяБазовая()
         {
             var traceLeaf = (TraceLeaf)_sut.TreeOfRtuModel.GetById(_trace.TraceId);
-            _sut.AssignBaseRef(traceLeaf, SystemUnderTest.BaseTrace7, SystemUnderTest.BaseTrace7, null, Answer.Yes);
+            _sut.AssignBaseRef(traceLeaf, SystemUnderTest.BasTrace7, SystemUnderTest.BasTrace7, null, Answer.Yes);
         }
 
         [Then(@"Проверяем ориентиры из базовой")]
