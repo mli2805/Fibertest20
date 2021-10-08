@@ -19,32 +19,38 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var getResult = await _d2RtuVeexLayer1.GetTest(rtuDoubleAddress, createResult.ResponseJson);
             return !getResult.IsSuccessful
                 ? null
-                : (Test) getResult.ResponseObject;
-
-            // return !createResult.IsSuccessful 
-            // ? null 
-            // : await GetTestForPortAndBaseType(rtuDoubleAddress, otauPorts, baseRefType.ToString().ToLower());
+                : (Test)getResult.ResponseObject;
         }
-        
-        public async Task<BaseRefAssignedDto> SetBaseWithThresholdsForTest(DoubleAddress rtuDoubleAddress, string testLink,
+
+        public async Task<BaseRefAssignedDto> SetBaseRefsForTest(DoubleAddress rtuDoubleAddress, string testLink,
             BaseRefDto dto, BaseRefDto dto2 = null)
         {
             var setBaseResult = await _d2RtuVeexLayer1.SetBaseRef(rtuDoubleAddress, testLink, dto.SorBytes, dto2?.SorBytes);
-            if (!setBaseResult.IsSuccessful)
-                return new BaseRefAssignedDto()
-                { ReturnCode = ReturnCode.BaseRefAssignmentFailed, ErrorMessage = setBaseResult.ErrorMessage };
-
-            var thresholds = dto.SorBytes.ExtractThresholds();
-            if (thresholds == null)
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentNoThresholds };
-
-            var setThresholdResult =
-                await _d2RtuVeexLayer1.SetThresholds(rtuDoubleAddress, testLink, thresholds);
-
-            return setThresholdResult.IsSuccessful
-                ? new BaseRefAssignedDto() {ReturnCode = ReturnCode.BaseRefAssignedSuccessfully}
-                : new BaseRefAssignedDto()
-                    {ReturnCode = ReturnCode.BaseRefAssignmentFailed, ErrorMessage = setBaseResult.ErrorMessage};
+            return setBaseResult.IsSuccessful 
+                ? new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully }
+                : new BaseRefAssignedDto
+                    { ReturnCode = ReturnCode.BaseRefAssignmentFailed, ErrorMessage = setBaseResult.ErrorMessage };
         }
+
+        // public async Task<BaseRefAssignedDto> SetBaseWithThresholdsForTest(DoubleAddress rtuDoubleAddress, string testLink,
+        //     BaseRefDto dto, BaseRefDto dto2 = null)
+        // {
+        //     var setBaseResult = await _d2RtuVeexLayer1.SetBaseRef(rtuDoubleAddress, testLink, dto.SorBytes, dto2?.SorBytes);
+        //     if (!setBaseResult.IsSuccessful)
+        //         return new BaseRefAssignedDto()
+        //         { ReturnCode = ReturnCode.BaseRefAssignmentFailed, ErrorMessage = setBaseResult.ErrorMessage };
+        //
+        //     var thresholds = dto.SorBytes.ExtractThresholds();
+        //     if (thresholds == null)
+        //         return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignmentNoThresholds };
+        //
+        //     var setThresholdResult =
+        //         await _d2RtuVeexLayer1.SetThresholds(rtuDoubleAddress, testLink, thresholds);
+        //
+        //     return setThresholdResult.IsSuccessful
+        //         ? new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully }
+        //         : new BaseRefAssignedDto()
+        //         { ReturnCode = ReturnCode.BaseRefAssignmentFailed, ErrorMessage = setBaseResult.ErrorMessage };
+        // }
     }
 }

@@ -245,7 +245,6 @@ namespace Iit.Fibertest.DataCenterCore
                 transferResult = dto.RtuMaker == RtuMaker.IIT
                     ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto)
                     : await _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto);
-                    // : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto).Result);
 
                 if (transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                     return transferResult;
@@ -370,8 +369,11 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task<RequestAnswer> UpdateVeexTestList(BaseRefAssignedDto transferResult, string username, string clientIp)
         {
-            var commands = transferResult.VeexTests
-                .Select(l => (object) (Mapper1.Map<AddVeexTest>(l))).ToList();
+            var commands = transferResult.AddVeexTests
+                .Select(l => (object)Mapper1.Map<AddVeexTest>(l) ).ToList();
+
+            var ccc = transferResult.RemoveVeexTests.Select(l => new RemoveVeexTest() {TestId = l});
+            commands.AddRange(ccc);
 
             var cmdCount = await _eventStoreService.SendCommands(commands, username, clientIp);
 
@@ -393,7 +395,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (dto1.BaseRefs.Any())
                 return dto1.RtuMaker == RtuMaker.IIT
                     ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto1)
-                    : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto1).Result);
+                    : await _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto1);
             return null;
         }
 

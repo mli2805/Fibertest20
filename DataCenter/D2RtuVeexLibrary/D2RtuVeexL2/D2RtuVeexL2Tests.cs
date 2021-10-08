@@ -24,13 +24,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return true;
         }
 
-        public async Task<bool> DeleteTestForPortAndBaseType(DoubleAddress rtuDoubleAddress, List<VeexOtauPort> otauPorts, string baseType)
+        public async Task<HttpRequestResult> DeleteTestForPortAndBaseType(DoubleAddress rtuDoubleAddress, List<VeexOtauPort> otauPorts, string baseType)
         {
             var getResult = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress);
             if (!getResult.IsSuccessful)
-                return false;
+                return getResult;
             var listOfTestLinks = (LinkList)getResult.ResponseObject;
-            if (listOfTestLinks == null) return true;
+            if (listOfTestLinks == null || listOfTestLinks.items == null || listOfTestLinks.items.Count == 0)
+                return new HttpRequestResult() { IsSuccessful = true };
 
             foreach (var testLink in listOfTestLinks.items)
             {
@@ -41,25 +42,30 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 if (test.otauPorts.IsEqual(otauPorts)
                     && test.name.Contains(baseType))
                 {
-                    if (!await DeleteTestRelations(rtuDoubleAddress, test))
-                        return false;
+                    var deleteTestRelationsRes = await DeleteTestRelations(rtuDoubleAddress, test);
+                    if (!deleteTestRelationsRes.IsSuccessful)
+                        return deleteTestRelationsRes;
 
-                    return (await _d2RtuVeexLayer1.DeleteTest(rtuDoubleAddress, testLink.self)).IsSuccessful;
+                    var deleteTestRes = await _d2RtuVeexLayer1.DeleteTest(rtuDoubleAddress, testLink.self);
+                    deleteTestRes.ResponseObject = test.id;
+                    return deleteTestRes; // there is only one test for this port and base type
                 }
             }
-            return true;
+
+            // such a test not found
+            return new HttpRequestResult() { IsSuccessful = true };
         }
 
-        public async Task<bool> DeleteTestRelations(DoubleAddress rtuDoubleAddress, Test test)
+        public async Task<HttpRequestResult> DeleteTestRelations(DoubleAddress rtuDoubleAddress, Test test)
         {
             foreach (var relation in test.relations.items)
             {
                 var deleteRes = await _d2RtuVeexLayer1.DeleteRelation(rtuDoubleAddress, relation.id);
                 if (!deleteRes.IsSuccessful)
-                    return false;
+                    return deleteRes;
             }
 
-            return true;
+            return new HttpRequestResult() { IsSuccessful = true };
         }
 
         private async Task<Test> GetTestForPortAndBaseType(DoubleAddress rtuDoubleAddress, List<VeexOtauPort> otauPorts, string baseType)
@@ -99,7 +105,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 otauPorts = otauPorts,
                 period = 0,
                 failedPeriod = baseRefType == BaseRefType.Fast ? int.MaxValue : 0,
-                relations = new RelationItems() { items = new List<TestsRelation>() },
             };
             return await _d2RtuVeexLayer1.CreateTest(rtuDoubleAddress, newTest);
         }

@@ -162,6 +162,8 @@ namespace Iit.Fibertest.Graph
             if (thisTraceActiveMeas != null)
                 model.ActiveMeasurements.Remove(thisTraceActiveMeas);
 
+            model.VeexTests.RemoveAll(t => t.TraceId == e.TraceId);
+
             model.DetachTrace(trace);
             return null;
         }
@@ -176,9 +178,6 @@ namespace Iit.Fibertest.Graph
             foreach (var fiberId in trace.FiberIds)
                 model.Fibers.FirstOrDefault(f => f.FiberId == fiberId)?
                     .SetState(trace.TraceId, FiberState.NotJoined);
-
-            // foreach (var fiber in  model.GetTraceFibersByNodes(trace.NodeIds))
-            // fiber.SetState(trace.TraceId, FiberState.NotJoined);
 
             model.CleanAccidentPlacesOnTrace(trace.TraceId);
         }

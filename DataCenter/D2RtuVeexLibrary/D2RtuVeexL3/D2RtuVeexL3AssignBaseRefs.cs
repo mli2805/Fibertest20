@@ -13,11 +13,17 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             try
             {
                 var res = await RemovalPart(dto, rtuAddresses);
-                if (res != null) return res;
-                if (dto.BaseRefs.Any(b => b.Id != Guid.Empty))
-                    return await CreationPart(dto, rtuAddresses);
+                if (res.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
+                    return res;
 
-                return new BaseRefAssignedDto() { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
+                if (dto.BaseRefs.Any(b => b.Id != Guid.Empty))
+                {
+                    var creationRes = await CreationPart(dto, rtuAddresses);
+                    creationRes.RemoveVeexTests = res.RemoveVeexTests;
+                    return creationRes;
+                }
+
+                return res;
             }
             catch (Exception e)
             {
@@ -47,7 +53,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return new BaseRefAssignedDto
                 {
                     ReturnCode = ReturnCode.BaseRefAssignedSuccessfully,
-                    VeexTests = new List<VeexTestCreatedDto>() { Create(fast, dto), Create(precise, dto),}
+                    AddVeexTests = new List<VeexTestCreatedDto>() { Create(fast, dto), Create(precise, dto), }
                 };
 
             return baseRefAssignedDto;
@@ -89,7 +95,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var baseRefDto2 = dto.BaseRefs.FirstOrDefault(b => b.BaseRefType == baseRefType2);
 
             var setBaseResult =
-                await _d2RtuVeexLayer2.SetBaseWithThresholdsForTest(rtuDoubleAddress, $"tests/{test.id}", baseRefDto, baseRefDto2);
+                await _d2RtuVeexLayer2.SetBaseRefsForTest(rtuDoubleAddress, $"tests/{test.id}", baseRefDto, baseRefDto2);
             if (setBaseResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
             {
                 result.Test = null;
@@ -102,7 +108,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         private async Task<BaseRefAssignedDto> SetRelationship(DoubleAddress rtuAddresses, Test fastTest, Test preciseTest)
         {
-            if (!await _d2RtuVeexLayer2.DeleteTestRelations(rtuAddresses, fastTest))
+            if (!(await _d2RtuVeexLayer2.DeleteTestRelations(rtuAddresses, fastTest)).IsSuccessful)
                 return new BaseRefAssignedDto()
                 {
                     ReturnCode = ReturnCode.BaseRefAssignmentFailed,
@@ -122,12 +128,17 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         private async Task<BaseRefAssignedDto> RemovalPart(AssignBaseRefsDto dto, DoubleAddress rtuAddresses)
         {
+            var testIds = new List<string>();
             foreach (var baseRefDto in dto.BaseRefs.Where(b => b.Id == Guid.Empty))
             {
-                if (!await _d2RtuVeexLayer2
+                var deleteRes = await _d2RtuVeexLayer2
                     .DeleteTestForPortAndBaseType(rtuAddresses,
                         VeexPortExt.Create(dto.OtauPortDto, dto.MainOtauPortDto),
-                        baseRefDto.BaseRefType.ToString().ToLower()))
+                        baseRefDto.BaseRefType.ToString().ToLower());
+
+                if (deleteRes.IsSuccessful)
+                    testIds.Add((string)deleteRes.ResponseObject);
+                else
                     return new BaseRefAssignedDto()
                     {
                         BaseRefType = baseRefDto.BaseRefType,
@@ -136,7 +147,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     };
             }
 
-            return null;
+            return new BaseRefAssignedDto()
+            {
+                ReturnCode = ReturnCode.BaseRefAssignedSuccessfully,
+                RemoveVeexTests = testIds.Select(Guid.Parse).ToList(),
+            };
         }
     }
 }

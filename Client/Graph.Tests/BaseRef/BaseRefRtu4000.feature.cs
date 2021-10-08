@@ -84,12 +84,12 @@ namespace Graph.Tests.BaseRef
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Присоединение трассы с базовыми к порту VeexRtu")]
+        [Xunit.FactAttribute(DisplayName="Присоединение отсоединение трассы с базовыми к порту VeexRtu")]
         [Xunit.TraitAttribute("FeatureTitle", "BaseRefRtu4000")]
-        [Xunit.TraitAttribute("Description", "Присоединение трассы с базовыми к порту VeexRtu")]
-        public virtual void ПрисоединениеТрассыСБазовымиКПортуVeexRtu()
+        [Xunit.TraitAttribute("Description", "Присоединение отсоединение трассы с базовыми к порту VeexRtu")]
+        public virtual void ПрисоединениеОтсоединениеТрассыСБазовымиКПортуVeexRtu()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Присоединение трассы с базовыми к порту VeexRtu", null, ((string[])(null)));
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Присоединение отсоединение трассы с базовыми к порту VeexRtu", null, ((string[])(null)));
 #line 6
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
@@ -101,57 +101,35 @@ this.FeatureBackground();
  testRunner.When("Пользователь присылает на сервер команду присоединить трассу к порту", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 9
  testRunner.Then("В таблице виикс-тестов появляется две записи", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Задание базовых трассе присоединенной к порту VeexRtu")]
-        [Xunit.TraitAttribute("FeatureTitle", "BaseRefRtu4000")]
-        [Xunit.TraitAttribute("Description", "Задание базовых трассе присоединенной к порту VeexRtu")]
-        public virtual void ЗаданиеБазовыхТрассеПрисоединеннойКПортуVeexRtu()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Задание базовых трассе присоединенной к порту VeexRtu", null, ((string[])(null)));
+#line 10
+ testRunner.When("Пользователь присылает на сервер команду отсоединитть трассу от порта", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 11
-this.ScenarioInitialize(scenarioInfo);
-            this.ScenarioStart();
-#line 3
-this.FeatureBackground();
-#line 12
- testRunner.When("Пользователь присылает на сервер команду присоединить трассу к порту", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Then("В таблице виикс-тестов не остается записей", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Задание очистка базовых у трассы присоединенной к порту VeexRtu")]
+        [Xunit.TraitAttribute("FeatureTitle", "BaseRefRtu4000")]
+        [Xunit.TraitAttribute("Description", "Задание очистка базовых у трассы присоединенной к порту VeexRtu")]
+        public virtual void ЗаданиеОчисткаБазовыхУТрассыПрисоединеннойКПортуVeexRtu()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Задание очистка базовых у трассы присоединенной к порту VeexRtu", null, ((string[])(null)));
 #line 13
- testRunner.When("Пользователь присылает на сервер базовые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 3
+this.FeatureBackground();
 #line 14
- testRunner.Then("В таблице виикс-тестов появляется две записи", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Очистка базовых у трассы присоединенной к порту VeexRtu")]
-        [Xunit.TraitAttribute("FeatureTitle", "BaseRefRtu4000")]
-        [Xunit.TraitAttribute("Description", "Очистка базовых у трассы присоединенной к порту VeexRtu")]
-        public virtual void ОчисткаБазовыхУТрассыПрисоединеннойКПортуVeexRtu()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Очистка базовых у трассы присоединенной к порту VeexRtu", null, ((string[])(null)));
+ testRunner.When("Пользователь присылает на сервер команду присоединить трассу к порту", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 15
+ testRunner.When("Пользователь присылает на сервер базовые", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 16
-this.ScenarioInitialize(scenarioInfo);
-            this.ScenarioStart();
-#line 3
-this.FeatureBackground();
-#line hidden
-            this.ScenarioCleanup();
-        }
-        
-        [Xunit.FactAttribute(DisplayName="Отсоединение трассы с базовыми от порта VeexRtu")]
-        [Xunit.TraitAttribute("FeatureTitle", "BaseRefRtu4000")]
-        [Xunit.TraitAttribute("Description", "Отсоединение трассы с базовыми от порта VeexRtu")]
-        public virtual void ОтсоединениеТрассыСБазовымиОтПортаVeexRtu()
-        {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отсоединение трассы с базовыми от порта VeexRtu", null, ((string[])(null)));
+ testRunner.Then("В таблице виикс-тестов появляется две записи", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 17
+ testRunner.When("Пользователь очищает базовые у трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 18
-this.ScenarioInitialize(scenarioInfo);
-            this.ScenarioStart();
-#line 3
-this.FeatureBackground();
+ testRunner.Then("В таблице виикс-тестов не остается записей", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

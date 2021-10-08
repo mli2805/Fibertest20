@@ -40,9 +40,9 @@ namespace Iit.Fibertest.DataCenterCore
 
         private bool ShouldMoniResultBeSaved(CompletedTest completedTest, Rtu rtu, Trace trace, BaseRefType baseRefType)
         {
-            if (completedTest.result == "failed" && 
+            if (completedTest.result == "failed" &&
                 (completedTest.extendedResult == "otau_failed" ||
-                    completedTest.extendedResult == "otdr_failed")) 
+                    completedTest.extendedResult == "otdr_failed"))
                 return false;
 
             var traceLastMeasOfThisBaseType = _writeModel.Measurements
@@ -79,7 +79,7 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
 
-        private async Task AcceptMoniResult(DoubleAddress rtuDoubleAddress, 
+        private async Task AcceptMoniResult(DoubleAddress rtuDoubleAddress,
             CompletedTest completedTest, VeexTest veexTest, Rtu rtu, Trace trace)
         {
             var getSorResult = await _d2RtuVeexLayer3.GetCompletedTestSorBytes(rtuDoubleAddress, completedTest.id.ToString());
@@ -124,7 +124,13 @@ namespace Iit.Fibertest.DataCenterCore
                 if (completedTest.extendedResult == "trace_change")
                 {
                     if (completedTest.traceChange.changeType == "exceeded_threshold")
-                        return completedTest.traceChange.levelName.ToFiberState();
+                    {
+                        if (completedTest.traceChange.levels.Any(l => l.levelName == "critical"))
+                            return FiberState.Critical;
+                        if (completedTest.traceChange.levels.Any(l => l.levelName == "major"))
+                            return FiberState.Major;
+                        return FiberState.Minor;
+                    }
                     else
                         return completedTest.traceChange.changeType.ToFiberState();
                 }

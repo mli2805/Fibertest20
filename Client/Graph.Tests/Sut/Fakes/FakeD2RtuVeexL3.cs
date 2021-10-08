@@ -59,7 +59,7 @@ namespace Graph.Tests
             return Task.FromResult(new BaseRefAssignedDto()
             {
                 ReturnCode = ReturnCode.BaseRefAssignedSuccessfully,
-                VeexTests = new List<VeexTestCreatedDto>()
+                AddVeexTests = new List<VeexTestCreatedDto>()
                 {
                     new VeexTestCreatedDto(){TestId = Guid.NewGuid()},
                     new VeexTestCreatedDto(){TestId = Guid.NewGuid()}

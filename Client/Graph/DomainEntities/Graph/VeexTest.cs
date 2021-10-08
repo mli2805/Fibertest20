@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Graph
         public BaseRefType BaseRefType { get; set; }
 
         public bool IsOnBop { get; set; }
-        public Guid OtauId { get; set; }
+        public string OtauId { get; set; }
 
         public DateTime CreationTimestamp { get; set; }
 

@@ -28,9 +28,16 @@ namespace Iit.Fibertest.Dto
         public double currentEventReflectance { get; set; }
         public string currentEventType { get; set; }
         public string levelName { get; set; }
+        public List<VeexMeasurementLevel> levels { get; set; }
         public int referenceEventIndex { get; set; }
         public bool referenceEventMapsToCurrentEvent { get; set; }
         public string referenceEventType { get; set; }
+    }
+
+    public class VeexMeasurementLevel
+    {
+        public List<Change> changes { get; set; }
+        public string levelName { get; set; }
     }
 
     public class Data

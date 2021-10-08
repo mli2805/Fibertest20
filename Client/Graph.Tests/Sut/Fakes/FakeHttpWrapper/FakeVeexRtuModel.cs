@@ -58,6 +58,7 @@ namespace Graph.Tests
 
         public string AddTest(Test test)
         {
+            test.relations = new RelationItems() {items = new List<TestsRelation>()};
             Tests.Add(test.id, test);
             var link = $@"tests/{test.id}";
             TestItems.items.Add(new LinkObject() { self = link });

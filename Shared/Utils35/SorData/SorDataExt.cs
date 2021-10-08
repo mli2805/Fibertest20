@@ -47,20 +47,20 @@ namespace Iit.Fibertest.UtilsLib
             if (measSorData.EmbeddedData.EmbeddedDataBlocks != null)
             {
                 var embeddedData = measSorData.EmbeddedData.EmbeddedDataBlocks.ToList();
-                embeddedData.Add(BaseBufferToEmbeddedDataBlock(baseBytes));
+                embeddedData.Add(BufferToEmbeddedDataBlock(baseBytes));
                 measSorData.EmbeddedData.EmbeddedDataBlocks = embeddedData.ToArray();
                 measSorData.EmbeddedData.EmbeddedBlocksCount = (ushort)embeddedData.Count;
             }
             else
             {
-                var embeddedData = new List<EmbeddedData> { BaseBufferToEmbeddedDataBlock(baseBytes) };
+                var embeddedData = new List<EmbeddedData> { BufferToEmbeddedDataBlock(baseBytes) };
                 measSorData.EmbeddedData.EmbeddedDataBlocks = embeddedData.ToArray();
                 measSorData.EmbeddedData.EmbeddedBlocksCount = (ushort)embeddedData.Count;
 
             }
         }
 
-        private static EmbeddedData BaseBufferToEmbeddedDataBlock(byte[] buffer)
+        private static EmbeddedData BufferToEmbeddedDataBlock(byte[] buffer)
         {
             return new EmbeddedData
             {
