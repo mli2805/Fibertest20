@@ -64,7 +64,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return new VeexTestCreatedDto
             {
                 TestId = Guid.Parse(testCreationResult.Test.id),
-                BaseRefType = testCreationResult.BaseRefType,
+                BasRefType = testCreationResult.BasRefType,
                 TraceId = dto.TraceId,
                 IsOnBop = dto.OtauPortDto.IsPortOnMainCharon,
                 OtauId = dto.OtauPortDto.OtauId,
@@ -79,7 +79,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var test = await _d2RtuVeexLayer2.GetOrCreateTest(rtuDoubleAddress,
                 dto.OtdrId, VeexPortExt.Create(dto.OtauPortDto, dto.MainOtauPortDto), baseRefType);
 
-            var result = new TestCreationResult() { Test = test, BaseRefType = baseRefType };
+            var result = new TestCreationResult() { Test = test, BasRefType = baseRefType };
             if (test == null)
             {
                 result.ResultWhenFailed = new BaseRefAssignedDto()

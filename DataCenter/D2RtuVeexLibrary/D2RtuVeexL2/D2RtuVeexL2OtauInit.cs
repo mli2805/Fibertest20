@@ -147,7 +147,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             foreach (var pair in children)
             {
-                var veexOtau = otauList.FirstOrDefault(o => o.id == pair.Value.OtauId);
+                var veexOtau = otauList.FirstOrDefault(o => o.id == "S2_" + pair.Value.OtauId);
                 if (veexOtau == null)
                 {
                     var createRes = await _d2RtuVeexLayer1.CreateOtau(rtuDoubleAddress, new NewOtau()
@@ -171,13 +171,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 {
                     outputOtauId = mainOtauId,
                     outputOtauPort = pair.Key - 1,
-                    inputOtauId = pair.Value.OtauId,
+                    inputOtauId = "S2_" + pair.Value.OtauId,
                     inputOtauPort = 0,
                 });
             }
             return await _d2RtuVeexLayer1.ChangeOtauCascadingScheme(rtuDoubleAddress, scheme);
         }
-
-
     }
 }

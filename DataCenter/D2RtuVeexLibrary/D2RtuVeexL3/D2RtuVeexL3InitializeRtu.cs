@@ -68,7 +68,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             foreach (var childConnection in otauInfo.OtauScheme.connections)
             {
-                var pair = dto.Children.First(c => c.Value.OtauId == childConnection.inputOtauId);
+                var pair = dto.Children.First(c => "S2_" + c.Value.OtauId == childConnection.inputOtauId);
                 result.Children.Add(pair.Key, pair.Value);
 
                 result.FullPortCount += pair.Value.OwnPortCount - 1;

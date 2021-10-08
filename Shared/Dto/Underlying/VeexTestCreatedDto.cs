@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public Guid TraceId { get; set; }
         [DataMember]
-        public BaseRefType BaseRefType { get; set; }
+        public BaseRefType BasRefType { get; set; }
 
         [DataMember]
         public bool IsOnBop { get; set; }

@@ -30,7 +30,7 @@ namespace Iit.Fibertest.Dto
         {
             return new VeexOtauPort()
             {
-                otauId = otauPortDto.OtauId,
+                otauId = otauPortDto.IsPortOnMainCharon ? otauPortDto.OtauId : "S2_" + otauPortDto.OtauId,
                 portIndex = otauPortDto.OpticalPort - 1,
             };
         }
