@@ -311,20 +311,20 @@
     <Compile Include="Node\NodeRemoveFromLoopOfTraceSteps.cs">
       <DependentUpon>NodeRemoveFromLoopOfTrace.feature</DependentUpon>
     </Compile>
-    <Compile Include="Rtu\OtauAttached.feature.cs">
+    <Compile Include="Otau\OtauAttached.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>OtauAttached.feature</DependentUpon>
     </Compile>
-    <Compile Include="Rtu\OtauAttachedSteps.cs">
+    <Compile Include="Otau\OtauAttachedSteps.cs">
       <DependentUpon>OtauAttached.feature</DependentUpon>
     </Compile>
-    <Compile Include="Rtu\OtauDetach.feature.cs">
+    <Compile Include="Otau\OtauDetach.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>OtauDetach.feature</DependentUpon>
     </Compile>
-    <Compile Include="Rtu\OtauDetachSteps.cs">
+    <Compile Include="Otau\OtauDetachSteps.cs">
       <DependentUpon>OtauDetach.feature</DependentUpon>
     </Compile>
     <Compile Include="Rtu\RtuInitialized.feature.cs">
@@ -777,11 +777,11 @@
       <LastGenOutput>NodeAdded.feature.cs</LastGenOutput>
     </None>
     <None Include="packages.config" />
-    <None Include="Rtu\OtauAttached.feature">
+    <None Include="Otau\OtauAttached.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>OtauAttached.feature.cs</LastGenOutput>
     </None>
-    <None Include="Rtu\OtauDetach.feature">
+    <None Include="Otau\OtauDetach.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>OtauDetach.feature.cs</LastGenOutput>
     </None>

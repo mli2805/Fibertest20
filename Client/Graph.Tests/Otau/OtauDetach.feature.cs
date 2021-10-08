@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Graph.Tests.Rtu
+namespace Graph.Tests.Otau
 {
     using TechTalk.SpecFlow;
     
@@ -149,3 +149,4 @@ this.FeatureBackground();
 }
 #pragma warning restore
 #endregion
+
