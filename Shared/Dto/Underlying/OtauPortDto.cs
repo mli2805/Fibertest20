@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Dto
     public class OtauPortDto
     {
         [DataMember]
-        public string OtauId { get; set; } // in VeEX RTU main OTAU has its own ID
+        public string OtauId { get; set; } // in VeEX RTU main OTAU has its own ID, for MAK it is a RTU ID
 
         [DataMember]
         public int OpticalPort { get; set; }
