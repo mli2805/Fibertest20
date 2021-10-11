@@ -173,6 +173,7 @@ namespace Graph.Tests
             builder.RegisterType<SnmpNotifier>().InstancePerLifetimeScope();
             builder.RegisterType<SnmpAgent>().InstancePerLifetimeScope();
             builder.RegisterType<MsmqMessagesProcessor>().InstancePerLifetimeScope();
+            builder.RegisterType<CommonBopProcessor>().InstancePerLifetimeScope();
             builder.RegisterType<GlobalState>().InstancePerLifetimeScope();
             builder.RegisterType<DiskSpaceProvider>().InstancePerLifetimeScope();
             builder.RegisterType<FakeFtSignalRClient>().As<IFtSignalRClient>().InstancePerLifetimeScope();

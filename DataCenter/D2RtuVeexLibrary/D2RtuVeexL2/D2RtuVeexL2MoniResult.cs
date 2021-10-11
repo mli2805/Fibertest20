@@ -45,6 +45,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (completedTest.result == "ok") return MeasurementResult.Success;
 
             if (completedTest.extendedResult == "otau_failed") return MeasurementResult.ToggleToPortFailed;
+            if (completedTest.extendedResult == "otau_not_found") return MeasurementResult.ToggleToPortFailed;
             if (completedTest.extendedResult == "otdr_failed") return MeasurementResult.HardwareProblem;
 
             return MeasurementResult.Success;

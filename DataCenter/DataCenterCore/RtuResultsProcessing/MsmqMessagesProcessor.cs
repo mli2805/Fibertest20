@@ -4,7 +4,6 @@ using System.Linq;
 using System.Messaging;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -17,6 +16,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly IniFile _iniFile;
         private readonly Model _writeModel;
+        private readonly CommonBopProcessor _commonBopProcessor;
         private readonly EventStoreService _eventStoreService;
         private readonly MeasurementFactory _measurementFactory;
         private readonly SorFileRepository _sorFileRepository;
@@ -28,6 +28,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly SnmpNotifier _snmpNotifier;
 
         public MsmqMessagesProcessor(IMyLog logFile, IniFile iniFile, Model writeModel,
+            CommonBopProcessor commonBopProcessor,
             EventStoreService eventStoreService, MeasurementFactory measurementFactory,
             SorFileRepository sorFileRepository, RtuStationsRepository rtuStationsRepository,
             IFtSignalRClient ftSignalRClient, AccidentLineModelFactory accidentLineModelFactory,
@@ -36,6 +37,7 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile = logFile;
             _iniFile = iniFile;
             _writeModel = writeModel;
+            _commonBopProcessor = commonBopProcessor;
             _eventStoreService = eventStoreService;
             _measurementFactory = measurementFactory;
             _sorFileRepository = sorFileRepository;
@@ -107,13 +109,13 @@ namespace Iit.Fibertest.DataCenterCore
             _snmpNotifier.SendTraceEvent(addMeasurement);
         }
 
-        private async void SendNotificationsAboutBop(AddBopNetworkEvent cmd)
-        {
-            SetCulture();
-            await _smtp.SendBopState(cmd);
-            _smsManager.SendBopState(cmd);
-            _snmpNotifier.SendBopNetworkEvent(cmd);
-        }
+        // private async void SendNotificationsAboutBop(AddBopNetworkEvent cmd)
+        // {
+        //     SetCulture();
+        //     await _smtp.SendBopState(cmd);
+        //     _smsManager.SendBopState(cmd);
+        //     _snmpNotifier.SendBopNetworkEvent(cmd);
+        // }
 
         private void SetCulture()
         {
@@ -141,7 +143,7 @@ namespace Iit.Fibertest.DataCenterCore
                     TcpPort = otau.NetAddress.Port,
                     IsOk = dto.IsOk,
                 };
-                await PersistBopEvent(cmd);
+                await _commonBopProcessor.PersistBopEvent(cmd);
             }
         }
 
@@ -165,24 +167,24 @@ namespace Iit.Fibertest.DataCenterCore
                     TcpPort = otau.NetAddress.Port,
                     IsOk = true,
                 };
-                await PersistBopEvent(cmd);
+                await _commonBopProcessor.PersistBopEvent(cmd);
             }
         }
 
-        private static readonly IMapper Mapper = new MapperConfiguration(
-            cfg => cfg.AddProfile<MappingWebApiProfile>()).CreateMapper();
-
-        private async Task PersistBopEvent(AddBopNetworkEvent cmd)
-        {
-            var result = await _eventStoreService.SendCommand(cmd, "system", "OnServer");
-            if (string.IsNullOrEmpty(result))
-            {
-                var bopEvent = _writeModel.BopNetworkEvents.LastOrDefault();
-                var signal = Mapper.Map<BopEventDto>(bopEvent);
-
-                await _ftSignalRClient.NotifyAll("AddBopEvent", signal.ToCamelCaseJson());
-                var unused = Task.Factory.StartNew(() => SendNotificationsAboutBop(cmd));
-            }
-        }
+        // private static readonly IMapper Mapper = new MapperConfiguration(
+        //     cfg => cfg.AddProfile<MappingWebApiProfile>()).CreateMapper();
+        //
+        // private async Task PersistBopEvent(AddBopNetworkEvent cmd)
+        // {
+        //     var result = await _eventStoreService.SendCommand(cmd, "system", "OnServer");
+        //     if (string.IsNullOrEmpty(result))
+        //     {
+        //         var bopEvent = _writeModel.BopNetworkEvents.LastOrDefault();
+        //         var signal = Mapper.Map<BopEventDto>(bopEvent);
+        //
+        //         await _ftSignalRClient.NotifyAll("AddBopEvent", signal.ToCamelCaseJson());
+        //         var unused = Task.Factory.StartNew(() => SendNotificationsAboutBop(cmd));
+        //     }
+        // }
     }
 }

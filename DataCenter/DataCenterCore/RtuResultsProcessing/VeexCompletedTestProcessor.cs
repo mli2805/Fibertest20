@@ -13,16 +13,18 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
+        private readonly CommonBopProcessor _commonBopProcessor;
         private readonly SorFileRepository _sorFileRepository;
         private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
         private readonly MsmqMessagesProcessor _msmqMessagesProcessor;
 
-        public VeexCompletedTestProcessor(IMyLog logFile, Model writeModel,
+        public VeexCompletedTestProcessor(IMyLog logFile, Model writeModel, CommonBopProcessor commonBopProcessor,
             SorFileRepository sorFileRepository, D2RtuVeexLayer3 d2RtuVeexLayer3,
             MsmqMessagesProcessor msmqMessagesProcessor)
         {
             _logFile = logFile;
             _writeModel = writeModel;
+            _commonBopProcessor = commonBopProcessor;
             _sorFileRepository = sorFileRepository;
             _d2RtuVeexLayer3 = d2RtuVeexLayer3;
             _msmqMessagesProcessor = msmqMessagesProcessor;
@@ -32,17 +34,62 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var veexTest = _writeModel.VeexTests.FirstOrDefault(v => v.TestId.ToString() == completedTest.testId);
             if (veexTest == null) return;
-            var trace = _writeModel.Traces.First(t => t.TraceId == veexTest.TraceId);
 
+            if (veexTest.IsOnBop)
+                await CheckAndSendBopNetworkIfNeeded(completedTest, rtu, veexTest);
+
+            if (completedTest.result == "failed") 
+                return;
+
+            var trace = _writeModel.Traces.First(t => t.TraceId == veexTest.TraceId);
             if (ShouldMoniResultBeSaved(completedTest, rtu, trace, veexTest.BasRefType))
                 await AcceptMoniResult(rtuDoubleAddress, completedTest, veexTest, rtu, trace);
+        }
+
+        private async Task CheckAndSendBopNetworkIfNeeded(CompletedTest completedTest, Rtu rtu, VeexTest veexTest)
+        {
+            if (completedTest.result == "failed")
+            {
+                if (completedTest.extendedResult == "otau_failed" ||
+                    completedTest.extendedResult == "otau_not_found")
+                {
+                    var otauId = completedTest.failure.otauId.Substring(3);
+                    var otau = _writeModel.Otaus.FirstOrDefault(o => o.Id.ToString() == otauId);
+                    if (otau != null && otau.IsOk)
+                    {
+                        _logFile.AppendLine($@"RTU {rtu.Id.First6()} BOP {otau.Serial} state changed to broken");
+                        await _commonBopProcessor.PersistBopEvent(CreateCmd(rtu.Id, otau));
+                    }
+                }
+            }
+            else
+            {
+                var otau = _writeModel.Otaus.FirstOrDefault(o => o.Id.ToString() == veexTest.OtauId);
+                if (otau != null && !otau.IsOk)
+                {
+                    _logFile.AppendLine($@"RTU {rtu.Id.First6()} BOP {otau.Serial} state changed to OK");
+                     await _commonBopProcessor.PersistBopEvent(CreateCmd(rtu.Id, otau));
+                }
+            }
+        }
+
+        private AddBopNetworkEvent CreateCmd(Guid rtuId, Otau otau)
+        {
+            return new AddBopNetworkEvent()
+            {
+                EventTimestamp = DateTime.Now,
+                RtuId = rtuId,
+                Serial = otau.Serial,
+                OtauIp = otau.NetAddress.Ip4Address,
+                TcpPort = otau.NetAddress.Port,
+                IsOk = !otau.IsOk,
+            };
         }
 
         private bool ShouldMoniResultBeSaved(CompletedTest completedTest, Rtu rtu, Trace trace, BaseRefType baseRefType)
         {
             if (completedTest.result == "failed" &&
-                (completedTest.extendedResult == "otau_failed" ||
-                    completedTest.extendedResult == "otdr_failed"))
+                    completedTest.extendedResult == "otdr_failed")
                 return false;
 
             var traceLastMeasOfThisBaseType = _writeModel.Measurements

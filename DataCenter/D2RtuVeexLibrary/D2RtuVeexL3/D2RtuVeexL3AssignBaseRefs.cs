@@ -66,7 +66,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 TestId = Guid.Parse(testCreationResult.Test.id),
                 BasRefType = testCreationResult.BasRefType,
                 TraceId = dto.TraceId,
-                IsOnBop = dto.OtauPortDto.IsPortOnMainCharon,
+                IsOnBop = !dto.OtauPortDto.IsPortOnMainCharon,
                 OtauId = dto.OtauPortDto.OtauId,
                 // OtauId = dto.OtauPortDto.IsPortOnMainCharon ? dto.OtauPortDto.OtauId : dto.MainOtauPortDto.OtauId,
                 CreationTimestamp = DateTime.Now,
