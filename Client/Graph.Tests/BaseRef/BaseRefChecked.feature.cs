@@ -24,7 +24,7 @@ namespace Graph.Tests.BaseRef
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "BasRefChecked.feature"
+#line 1 "BaseRefChecked.feature"
 #line hidden
         
         public BaseRefCheckedFeature(BaseRefCheckedFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
