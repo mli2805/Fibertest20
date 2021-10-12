@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Graph.Tests.NetworkEvent
+namespace Graph.Tests.BopNetworkEvent
 {
     using TechTalk.SpecFlow;
     
@@ -130,3 +130,4 @@ this.ScenarioInitialize(scenarioInfo);
 }
 #pragma warning restore
 #endregion
+

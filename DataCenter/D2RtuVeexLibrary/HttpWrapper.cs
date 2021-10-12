@@ -12,7 +12,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
     public class HttpWrapper : IHttpWrapper
     {
         private readonly IMyLog _logFile;
-        private static readonly HttpClient HttpClient = new HttpClient();
+        private static readonly HttpClient HttpClient = new HttpClient() { Timeout = TimeSpan.FromSeconds(4) };
 
         public HttpWrapper(IMyLog logFile)
         {
