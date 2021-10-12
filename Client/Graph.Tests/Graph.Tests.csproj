@@ -399,7 +399,7 @@
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForLossCoef.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\TraceWithLoop.cs" />
     <Compile Include="Sut\SutExtensions\Tools\OtauAttacher.cs" />
-    <Compile Include="Sut\SutExtensions\Tools\BasRefAssigner.cs" />
+    <Compile Include="Sut\SutExtensions\Tools\BaseRefAssigner.cs" />
     <Compile Include="Sut\Enums\EquipmentChoiceAnswer.cs" />
     <Compile Include="Equipment\EquipmentAdded.feature.cs">
       <AutoGen>True</AutoGen>

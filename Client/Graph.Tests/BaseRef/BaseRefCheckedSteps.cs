@@ -10,7 +10,7 @@ using TechTalk.SpecFlow;
 namespace Graph.Tests
 {
     [Binding]
-    public sealed class BasRefCheckedSteps
+    public sealed class BaseRefCheckedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Iit.Fibertest.Graph.Trace _trace;

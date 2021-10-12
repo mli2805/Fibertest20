@@ -5,7 +5,7 @@ using Iit.Fibertest.StringResources;
 
 namespace Graph.Tests
 {
-    public static class BasRefAssigner
+    public static class BaseRefAssigner
     {
         public static void AssignBaseRef(this SystemUnderTest sut, TraceLeaf traceLeaf,
             string precisePath, string fastPath, string aditionalPath, Answer answer)

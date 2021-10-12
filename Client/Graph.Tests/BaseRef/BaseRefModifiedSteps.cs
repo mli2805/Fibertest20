@@ -12,7 +12,7 @@ namespace Graph.Tests
 {
    
     [Binding]
-    public sealed class BasRefModifiedSteps
+    public sealed class BaseRefModifiedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest();
         private Iit.Fibertest.Graph.Rtu _rtu;
