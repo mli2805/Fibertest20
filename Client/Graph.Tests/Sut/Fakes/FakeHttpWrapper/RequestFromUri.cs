@@ -69,6 +69,11 @@
                 return @"SetThresholds";
             #endregion
 
+            #region MoniResult
+            if (IsGetCompletedTestsAfterTimestamp(relativeUri))
+                return "GetCompletedTestsAfterTimestamp";
+            #endregion
+
             return @"UnknownRequest";
         }
 
@@ -101,6 +106,11 @@
         {
             return relativeUri.StartsWith(@"monitoring/tests/") &&
                    relativeUri.EndsWith(@"/thresholds");
+        }
+
+        private static bool IsGetCompletedTestsAfterTimestamp(string relativeUri)
+        {
+            return relativeUri.StartsWith("monitoring/completed?fields=*,items.*&starting=");
         }
     }
 }

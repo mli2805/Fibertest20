@@ -21,6 +21,9 @@ namespace Graph.Tests
             _trace = _sut.CreateTraceRtuEmptyTerminal();
             _traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(_trace.TraceId);
             _rtuLeaf = (RtuLeaf)_traceLeaf.Parent;
+            // _sut.ClientScope.Resolve<VeexRtuCompletedTestsSceneSetter>().InitializeModel("SM1625");
+            // _sut.ServerScope.Resolve<VeexRtuCompletedTestsSceneSetter>().InitializeModel("SM1625");
+            // _sut.VeexRtuCompletedTestsSceneSetter.InitializeModel(@"SM1625");
             _sut.SetNameAndAskInitializationRtu(_rtuLeaf.Id, @"1.1.1.1", "", 80);
         }
 

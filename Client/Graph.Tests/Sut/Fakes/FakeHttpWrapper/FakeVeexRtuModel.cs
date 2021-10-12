@@ -7,6 +7,7 @@ namespace Graph.Tests
 {
     public class FakeVeexRtuModel
     {
+        public Guid Id { get; set; }
         public VeexPlatformInfo PlatformInfo { get; set; } = new VeexPlatformInfo();
         public LinkList OtdrItems { get; set; }
         public List<VeexOtdr> Otdrs { get; set; }
@@ -18,7 +19,17 @@ namespace Graph.Tests
         public Dictionary<string, Test> Tests { get; set; } = new Dictionary<string, Test>();
         public List<TestsRelation> TestsRelations { get; set; } = new List<TestsRelation>();
 
+        public List<CompletedTest> CompletedTests { get; set; } = new List<CompletedTest>();
+
+        public byte[] SorBytesToReturn { get; set; }
+
         public FakeVeexRtuModel()
+        {
+            Id = Guid.NewGuid();
+            Initialize(@"SM1625");
+        }
+
+        public void Initialize(string waveLength)
         {
             var otdr = new VeexOtdr()
             {
@@ -28,14 +39,15 @@ namespace Graph.Tests
                     laserUnits = new Dictionary<string, LaserUnit>()
                     {
                         {
-                            @"SM1625",
+                            waveLength,
                             new LaserUnit() {distanceRanges = new Dictionary<string, DistanceRange>()}
                         }
                     }
                 }
             };
-            Otdrs = new List<VeexOtdr>() { otdr };
-            OtdrItems = new LinkList { items = new List<LinkObject>() { new LinkObject() { self = $@"otdrs/{otdr.id}" } }, total = 1 };
+            Otdrs = new List<VeexOtdr>() {otdr};
+            OtdrItems = new LinkList
+                {items = new List<LinkObject>() {new LinkObject() {self = $@"otdrs/{otdr.id}"}}, total = 1};
 
             var mainOtau = new VeexOtau()
             {
@@ -45,16 +57,18 @@ namespace Graph.Tests
                 portCount = 32,
                 serialNumber = @"123456789"
             };
-            OtauItems = new LinkList() { items = new List<LinkObject>() { new LinkObject() { self = $@"otaus/{mainOtau.id}" } }, total = 1 };
-            Otaus = new List<VeexOtau>() { mainOtau };
+            OtauItems = new LinkList()
+                {items = new List<LinkObject>() {new LinkObject() {self = $@"otaus/{mainOtau.id}"}}, total = 1};
+            Otaus = new List<VeexOtau>() {mainOtau};
 
             Scheme = new VeexOtauCascadingScheme()
             {
-                rootConnections = new List<RootConnection>() { new RootConnection() { inputOtauId = mainOtau.id, inputOtauPort = 0 } },
+                rootConnections = new List<RootConnection>()
+                    {new RootConnection() {inputOtauId = mainOtau.id, inputOtauPort = 0}},
                 connections = new List<Connection>(),
             };
 
-            TestItems = new LinkList() { items = new List<LinkObject>() };
+            TestItems = new LinkList() {items = new List<LinkObject>()};
         }
 
         public string AddTest(Test test)
@@ -110,5 +124,18 @@ namespace Graph.Tests
             OtauItems.items.RemoveAll(i => i.self == link);
         }
 
+        public CompletedTestPortion GetCompletedTestsAfterTimestamp(string uri)
+        {
+            var pos = "monitoring/completed?fields=*,items.*&starting=".Length;
+            var pos2 = uri.LastIndexOf('&');
+            var str = uri.Substring(pos + 1, pos2 - pos - 1);
+            var timestamp = DateTime.Parse(str);
+            var completedTests = CompletedTests.Where(c => c.started > timestamp).ToList();
+            return new CompletedTestPortion()
+            {
+                items = completedTests,
+                total = completedTests.Count,
+            };
+        }
     }
 }

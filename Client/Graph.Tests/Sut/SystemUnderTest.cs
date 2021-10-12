@@ -39,6 +39,8 @@ namespace Graph.Tests
         public WcfServiceCommonC2D WcfServiceCommonC2D { get; set; }
         public int CurrentEventNumber => Poller.CurrentEventNumber;
 
+        public VeexCompletedTestsFetcher VeexCompletedTestsFetcher { get; set; }
+
         public const string NewTitleForTest = "New name for old equipment";
         public const EquipmentType NewTypeForTest = EquipmentType.Cross;
         public const int NewLeftCableReserve = 15;
@@ -62,6 +64,7 @@ namespace Graph.Tests
             var eventStoreService = ServerScope.Resolve<EventStoreService>();
             eventStoreService.Init().Wait();
             MsmqMessagesProcessor = ServerScope.Resolve<MsmqMessagesProcessor>();
+            VeexCompletedTestsFetcher = ServerScope.Resolve<VeexCompletedTestsFetcher>();
             FakeD2RWcfManager = (FakeD2RWcfManager)ServerScope.Resolve<ID2RWcfManager>();
             FakeD2RWcfManager.SetFakeInitializationAnswer();
 
@@ -133,6 +136,7 @@ namespace Graph.Tests
             builder.RegisterInstance(parameters);
 
             // fakes
+            builder.RegisterType<FakeVeexRtuModel>().InstancePerLifetimeScope();
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().InstancePerLifetimeScope();
             builder.RegisterType<FakeD2RWcfManager>().As<ID2RWcfManager>().InstancePerLifetimeScope();
             builder.RegisterType<FakeHttpWrapper>().As<IHttpWrapper>().InstancePerLifetimeScope();
@@ -173,6 +177,8 @@ namespace Graph.Tests
             builder.RegisterType<SnmpNotifier>().InstancePerLifetimeScope();
             builder.RegisterType<SnmpAgent>().InstancePerLifetimeScope();
             builder.RegisterType<MsmqMessagesProcessor>().InstancePerLifetimeScope();
+            builder.RegisterType<VeexCompletedTestProcessor>().InstancePerLifetimeScope();
+            builder.RegisterType<VeexCompletedTestsFetcher>().InstancePerLifetimeScope();
             builder.RegisterType<CommonBopProcessor>().InstancePerLifetimeScope();
             builder.RegisterType<GlobalState>().InstancePerLifetimeScope();
             builder.RegisterType<DiskSpaceProvider>().InstancePerLifetimeScope();

@@ -56,7 +56,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        private async Task<int> Tick()
+        public async Task<int> Tick()
         {
             _veexRtus = _writeModel.Rtus.Where(r => r.RtuMaker == RtuMaker.VeEX && r.IsInitialized).ToList();
             var stations = await _rtuStationsRepository.GetAllRtuStations();

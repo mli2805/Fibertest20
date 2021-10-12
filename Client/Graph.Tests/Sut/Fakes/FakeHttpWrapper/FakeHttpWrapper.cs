@@ -9,14 +9,19 @@ namespace Graph.Tests
 {
     public class FakeHttpWrapper : IHttpWrapper
     {
-        public FakeVeexRtuModel FakeVeexRtuModel { get; set; } = new FakeVeexRtuModel();
+        public FakeVeexRtuModel FakeVeexRtuModel { get; set; }
+
+        public FakeHttpWrapper(FakeVeexRtuModel fakeVeexRtuModel)
+        {
+            FakeVeexRtuModel = fakeVeexRtuModel;
+        }
 
         public Task<HttpRequestResult> GetByteArray(DoubleAddress rtuDoubleAddress, string relativeUri)
         {
             return Task.FromResult(new HttpRequestResult()
             {
                 HttpStatusCode = HttpStatusCode.OK,
-                ResponseBytesArray = new byte[0],
+                ResponseBytesArray = FakeVeexRtuModel.SorBytesToReturn,
             });
         }
 
@@ -134,6 +139,11 @@ namespace Graph.Tests
                 case "SetThresholds":
                     result.HttpStatusCode = HttpStatusCode.Created;
                     result.ResponseJson = Guid.NewGuid().ToString();
+                    break;
+
+                case "GetCompletedTestsAfterTimestamp":
+                    result.HttpStatusCode = HttpStatusCode.OK;
+                    result.ResponseJson = JsonConvert.SerializeObject(FakeVeexRtuModel.GetCompletedTestsAfterTimestamp(relativeUri));
                     break;
             }
 
