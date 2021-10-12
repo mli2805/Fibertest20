@@ -3,6 +3,8 @@ using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.StringResources;
+using Iit.Fibertest.WpfCommonViews;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -42,6 +44,25 @@ namespace Graph.Tests
             _otauLeaf = _sut.AttachOtau(_rtuLeaf, 5, "192.168.96.237", 4001);
             _sut.Poller.EventSourcingTick().Wait();
         }
+
+        [When(@"Переинициализируем RTU")]
+        public void WhenПереинициализируемRtu()
+        {
+            _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
+            _sut.FakeWindowManager.RegisterHandler(model => 
+                _sut.RtuInitializeHandler(model, _rtu.MainChannel.Ip4Address, "", _rtu.MainChannel.Port));
+            _rtuLeaf.MyContextMenu.First(i => i?.Header == Resources.SID_Network_settings).Command.Execute(_rtuLeaf);
+
+            _sut.Poller.EventSourcingTick().Wait();
+        }
+
+        [Then(@"Возвращает RTU с доп переключателем и общим количеством портов")]
+        public void ThenВозвращаетRtuсДопПереключателемИОбщимКоличествомПортов()
+        {
+            _rtu.Children[5].IsOk.ShouldBeEquivalentTo(true);
+            _rtu.FullPortCount.ShouldBeEquivalentTo(48);
+        }
+
 
         [Given(@"Трасса с базовыми подключена к основному")]
         public void GivenТрассаСБазовымиПодключенаКОсновному()

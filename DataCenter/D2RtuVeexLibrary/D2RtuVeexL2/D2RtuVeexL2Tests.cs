@@ -8,7 +8,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer2
     {
-        public async Task<bool> DeleteAllTests(DoubleAddress rtuDoubleAddress)
+        private async Task<bool> DeleteAllTests(DoubleAddress rtuDoubleAddress)
         {
             var getResult = await _d2RtuVeexLayer1.GetTests(rtuDoubleAddress);
             if (!getResult.IsSuccessful)

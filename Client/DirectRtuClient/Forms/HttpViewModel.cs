@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
@@ -138,10 +137,6 @@ namespace DirectRtuClient
                     if (!testRes.IsSuccessful) return;
                     var test = (Test)testRes.ResponseObject;
                     _rtuVeexModel.Tests.Add(test);
-                    var getResult = await d2RtuVeexLayer1.GetTestThresholds(_rtuVeexDoubleAddress, testItem.self);
-
-                    var thresholdSet = (ThresholdSet)getResult.ResponseObject;
-                    _rtuVeexModel.Thresholds.Add(test.id, thresholdSet);
 
                     var res1 = await d2RtuVeexLayer1.ChangeTest(_rtuVeexDoubleAddress, testItem.self, new Test() { state = @"disabled" });
                     if (res1.IsSuccessful)
@@ -150,40 +145,6 @@ namespace DirectRtuClient
                         Console.WriteLine(changedTest);
                     }
                 }
-
-                var firstTest = _rtuVeexModel.LinkList.items.First();
-                var thresholdSet1 = new ThresholdSet()
-                {
-                    levels = new List<Level>()
-                    {
-                        new Level()
-                        {
-                            groups = new List<Group>()
-                            {
-                                new Group()
-                                {
-                                    thresholds = new Thresholds()
-                                    {
-                                        eventLeadingLossCoefficient = new CombinedThreshold(){decrease = 1},
-                                        eventLoss = new CombinedThreshold(){decrease = 2, increase = 2},
-                                        eventReflectance = new CombinedThreshold(){min = 4, max = 4}
-                                    }
-                                }
-                            }, name = @"minor"
-                        },
-                        new Level()
-                        {
-                            groups = new List<Group>(), name = @"major"
-                        },
-                        new Level()
-                        {
-                            groups = new List<Group>(), name = @"critical"
-                        },
-                    }
-                };
-                var res = await d2RtuVeexLayer1.SetThresholds(_rtuVeexDoubleAddress, firstTest.self, thresholdSet1);
-                Console.WriteLine(res);
-
 
                 var rr = await d2RtuVeexLayer1.CreateTest(_rtuVeexDoubleAddress, new Test()
                 {
@@ -223,12 +184,6 @@ namespace DirectRtuClient
             else
             {
                 _rtuVeexModel.LinkList = (LinkList)getRes.ResponseObject;
-                var testItem = _rtuVeexModel.LinkList.items.First();
-                var thresholdSet = await d2RtuVeexLayer1.GetTestThresholds(_rtuVeexDoubleAddress, testItem.self);
-                if (thresholdSet != null)
-                {
-                    Console.WriteLine(@"thresholdSet received");
-                }
             }
 
             IsButtonEnabled = true;
@@ -273,21 +228,6 @@ namespace DirectRtuClient
             {
                 Console.WriteLine(result.ErrorMessage);
             }
-
-            IsButtonEnabled = true;
-            ResultString = @"Done";
-        }
-
-        public async void GetLastPassed()
-        {
-            ResultString = @"Wait, please";
-            IsButtonEnabled = false;
-
-            var d2Rl1 = new D2RtuVeexLayer1(_httpWrapper);
-            var layer2 = new D2RtuVeexLayer2(d2Rl1);
-
-            var rrr = await layer2.GetTestLastMeasurement(_rtuVeexDoubleAddress, @"4dc19b64-7431-435b-9248-621d79d84e0b", @"monitoring_test_passed", false);
-            File.WriteAllBytes(@"c:\temp\0.sor", rrr.SorBytes);
 
             IsButtonEnabled = true;
             ResultString = @"Done";

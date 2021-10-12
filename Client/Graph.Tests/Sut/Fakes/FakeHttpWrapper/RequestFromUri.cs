@@ -58,15 +58,8 @@
                 return @"ChangeTest";
             if (IsOneOfUri(relativeUri, @"monitoring/tests") && httpMethod == @"delete")
                 return @"DeleteTest";
-            #endregion
-
-            #region BaseRef
             if (IsSetBaseRefUri(relativeUri))
                 return @"SetBaseRef";
-            if (IsGetTestThresholdsUri(relativeUri))
-                return @"GetTestThresholds";
-            if (IsSetThresholdsUri(relativeUri))
-                return @"SetThresholds";
             #endregion
 
             #region MoniResult
@@ -97,17 +90,7 @@
             return relativeUri.StartsWith(@"monitoring/tests/") &&
                    relativeUri.EndsWith(@"/references");
         }
-        private static bool IsGetTestThresholdsUri(string relativeUri)
-        {
-            return relativeUri.StartsWith(@"monitoring/tests/") &&
-                   relativeUri.EndsWith(@"/thresholds/current");
-        }
-        private static bool IsSetThresholdsUri(string relativeUri)
-        {
-            return relativeUri.StartsWith(@"monitoring/tests/") &&
-                   relativeUri.EndsWith(@"/thresholds");
-        }
-
+      
         private static bool IsGetCompletedTestsAfterTimestamp(string relativeUri)
         {
             return relativeUri.StartsWith("monitoring/completed?fields=*,items.*&starting=");

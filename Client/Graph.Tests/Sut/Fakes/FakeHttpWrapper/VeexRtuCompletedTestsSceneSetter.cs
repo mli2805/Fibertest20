@@ -24,9 +24,6 @@ namespace Graph.Tests
                 started = DateTime.Now,
                 indicesOfReferenceTraces = new[] {0},
                 traceChange = new TraceChange()
-                {
-
-                }
             };
             fakeVeexRtuModel.CompletedTests.Add(completedTest);
         }
@@ -48,9 +45,6 @@ namespace Graph.Tests
                 started = DateTime.Now,
                 indicesOfReferenceTraces = new[] {0},
                 traceChange = new TraceChange()
-                {
-
-                }
             };
             fakeVeexRtuModel.CompletedTests.Add(completedTest);
         }

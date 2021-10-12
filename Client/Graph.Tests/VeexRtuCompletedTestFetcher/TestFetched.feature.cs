@@ -90,20 +90,24 @@ this.ScenarioInitialize(scenarioInfo);
 #line 5
  testRunner.And("К нему подключен доп переключатель", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 6
- testRunner.And("Трасса с базовыми подключена к основному", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.When("Переинициализируем RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 7
- testRunner.And("Трасса с базовыми подключена к дополнительному", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+ testRunner.Then("Возвращает RTU с доп переключателем и общим количеством портов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 8
- testRunner.When("Извлекаем порцию результатов измерений с RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("Трасса с базовыми подключена к основному", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 9
- testRunner.Then("Первые рефки по трассам выкачиваются и сохраняются в статистике", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("Трасса с базовыми подключена к дополнительному", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 10
- testRunner.When("Приходит результат с проблемой доп переключателя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Извлекаем порцию результатов измерений с RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 11
- testRunner.Then("Появляется форма авария БОП и запись на форме событий БОП", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Первые рефки по трассам выкачиваются и сохраняются в статистике", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 12
- testRunner.When("Приходит успешное измерение трассы на доп переключателе", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Приходит результат с проблемой доп переключателя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 13
+ testRunner.Then("Появляется форма авария БОП и запись на форме событий БОП", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 14
+ testRunner.When("Приходит успешное измерение трассы на доп переключателе", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 15
  testRunner.Then("Появляется форма БОП починен и очищается запись на форме актуальных событий БОП", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

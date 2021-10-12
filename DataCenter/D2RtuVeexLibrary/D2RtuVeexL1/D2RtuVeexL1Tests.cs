@@ -68,5 +68,13 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
             return res;
         }
+
+        public async Task<HttpRequestResult> SetBaseRef(DoubleAddress rtuDoubleAddress, string testLink, byte[] sorBytes, byte[] sorBytes2 = null)
+        {
+            var res = await _httpWrapper.PostByteArray(
+                rtuDoubleAddress, $@"monitoring/{testLink}/references", sorBytes, sorBytes2);
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.Created;
+            return res;
+        }
     }
 }

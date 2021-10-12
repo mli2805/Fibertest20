@@ -15,7 +15,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             _httpWrapper = httpWrapper;
         }
-       
+
         public async Task<HttpRequestResult> GetMonitoringProperties(DoubleAddress rtuDoubleAddress)
         {
             var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress, "monitoring", "get");
@@ -44,15 +44,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
             return res;
         }
-
-        // public async Task<HttpRequestResult> SetServerNotificationSettings(DoubleAddress rtuDoubleAddress, ServerNotificationSettings dto)
-        // {
-        //     var jsonData = JsonConvert.SerializeObject(dto);
-        //     var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress,
-        //         $@"/notification/settings", "patch", "application/merge-patch+json", jsonData);
-        //     res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
-        //     return res;
-        // }
 
         public async Task<HttpRequestResult> SwitchOtauToPort(DoubleAddress rtuDoubleAddress, string otauId, int port)
         {
@@ -86,7 +77,5 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
             return res;
         }
-
-
     }
 }

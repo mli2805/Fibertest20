@@ -127,20 +127,11 @@ namespace Graph.Tests
                 case "DeleteTest":
                     result.HttpStatusCode = HttpStatusCode.NoContent;
                     break;
-
                 case "SetBaseRef":
                     result.HttpStatusCode = HttpStatusCode.Created;
                     result.ResponseJson = Guid.NewGuid().ToString();
                     break;
-                case "GetTestThresholds":
-                    result.HttpStatusCode = HttpStatusCode.OK;
-                    result.ResponseJson = JsonConvert.SerializeObject(new ThresholdSet());
-                    break;
-                case "SetThresholds":
-                    result.HttpStatusCode = HttpStatusCode.Created;
-                    result.ResponseJson = Guid.NewGuid().ToString();
-                    break;
-
+              
                 case "GetCompletedTestsAfterTimestamp":
                     result.HttpStatusCode = HttpStatusCode.OK;
                     result.ResponseJson = JsonConvert.SerializeObject(FakeVeexRtuModel.GetCompletedTestsAfterTimestamp(relativeUri));
