@@ -243,8 +243,8 @@ namespace Iit.Fibertest.DataCenterCore
             if (dto.OtauPortDto != null) // trace attached to the real port => send base to RTU
             {
                 transferResult = dto.RtuMaker == RtuMaker.IIT
-                    ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto)
-                    : await _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto);
+                    ? await _clientToRtuTransmitter.TransmitBaseRefsToRtuAsync(dto)
+                    : await _clientToRtuVeexTransmitter.TransmitBaseRefsToRtuAsync(dto);
 
                 if (transferResult.ReturnCode != ReturnCode.BaseRefAssignedSuccessfully)
                     return transferResult;
@@ -394,8 +394,8 @@ namespace Iit.Fibertest.DataCenterCore
 
             if (dto1.BaseRefs.Any())
                 return dto1.RtuMaker == RtuMaker.IIT
-                    ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(dto1)
-                    : await _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(dto1);
+                    ? await _clientToRtuTransmitter.TransmitBaseRefsToRtuAsync(dto1)
+                    : await _clientToRtuVeexTransmitter.TransmitBaseRefsToRtuAsync(dto1);
             return null;
         }
 
@@ -431,8 +431,8 @@ namespace Iit.Fibertest.DataCenterCore
                 return new BaseRefAssignedDto { ReturnCode = ReturnCode.BaseRefAssignedSuccessfully };
 
             return dto.RtuMaker == RtuMaker.IIT
-                ? await _clientToRtuTransmitter.TransmitBaseRefsToRtu(convertedDto)
-                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtu(convertedDto).Result);
+                ? await _clientToRtuTransmitter.TransmitBaseRefsToRtuAsync(convertedDto)
+                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtuAsync(convertedDto).Result);
         }
 
         private async Task<AssignBaseRefsDto> ConvertToAssignBaseRefsDto(ReSendBaseRefsDto dto)
@@ -473,7 +473,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (rtu == null) return new ClientMeasurementDto() { ReturnCode = ReturnCode.NoSuchRtu };
 
             return rtu.RtuMaker == RtuMaker.VeEX
-                ? await _clientToRtuVeexTransmitter.GetMeasurementResult(dto)
+                ? await _clientToRtuVeexTransmitter.GetMeasurementClientResultAsync(dto)
                 : null;
         }
 

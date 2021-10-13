@@ -144,7 +144,7 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public async Task<BaseRefAssignedDto> TransmitBaseRefsToRtu(AssignBaseRefsDto dto)
+        public async Task<BaseRefAssignedDto> TransmitBaseRefsToRtuAsync(AssignBaseRefsDto dto)
         {
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
             if (rtuAddresses == null)
@@ -177,12 +177,12 @@ namespace Iit.Fibertest.DataCenterCore
                 };
             }
 
-            var result = await _d2RtuVeexLayer3.StartMeasurementClient(rtuAddresses, dto);
+            var result = await _d2RtuVeexLayer3.StartMeasurementClientAsync(rtuAddresses, dto);
             _logFile.AppendLine($"Start measurement result is {result.ReturnCode}");
             return result;
         }
 
-        public async Task<ClientMeasurementDto> GetMeasurementResult(GetClientMeasurementDto dto)
+        public async Task<ClientMeasurementDto> GetMeasurementClientResultAsync(GetClientMeasurementDto dto)
         {
             _logFile.AppendLine($"Client {dto.ConnectionId} / {dto.ClientIp} asked to get measurement from VeEX RTU {dto.RtuId.First6()}");
             var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
@@ -195,7 +195,7 @@ namespace Iit.Fibertest.DataCenterCore
                 };
             }
 
-            var result = await _d2RtuVeexLayer3.GetMeasurementClientResult(rtuAddresses, dto.VeexMeasurementId);
+            var result = await _d2RtuVeexLayer3.GetMeasurementClientResultAsync(rtuAddresses, dto.VeexMeasurementId);
             _logFile.AppendLine($"Get measurement result is {result.ReturnCode}");
             return result;
         }

@@ -129,7 +129,7 @@ namespace Iit.Fibertest.DataCenterCore
         private async Task AcceptMoniResult(DoubleAddress rtuDoubleAddress,
             CompletedTest completedTest, VeexTest veexTest, Rtu rtu, Trace trace)
         {
-            var getSorResult = await _d2RtuVeexLayer3.GetCompletedTestSorBytes(rtuDoubleAddress, completedTest.id.ToString());
+            var getSorResult = await _d2RtuVeexLayer3.GetCompletedTestSorBytesAsync(rtuDoubleAddress, completedTest.id.ToString());
             if (!getSorResult.IsSuccessful)
             {
                 _logFile.AppendLine($"Failed to get sor bytes of measurements. {getSorResult.ErrorMessage}");

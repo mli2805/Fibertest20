@@ -59,7 +59,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return result;
         }
 
-        public async Task<RequestAnswer> PrepareReflectMeasurementAsync(DoubleAddress rtuDoubleAddress,
+        public async Task<RequestAnswer> PrepareReflectMeasurement(DoubleAddress rtuDoubleAddress,
             string otdrId, List<VeexOtauPort> otauPorts)
         {
             var otdrRes = await _d2RtuVeexLayer1.ChangeProxyMode(rtuDoubleAddress, otdrId, true);

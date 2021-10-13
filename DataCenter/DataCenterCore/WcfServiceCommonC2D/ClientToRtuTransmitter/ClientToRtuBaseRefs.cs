@@ -7,7 +7,7 @@ namespace Iit.Fibertest.DataCenterCore
     public partial class ClientToRtuTransmitter
     {
         
-        public async Task<BaseRefAssignedDto> TransmitBaseRefsToRtu(AssignBaseRefsDto dto)
+        public async Task<BaseRefAssignedDto> TransmitBaseRefsToRtuAsync(AssignBaseRefsDto dto)
         {
             try
             {
@@ -31,7 +31,7 @@ namespace Iit.Fibertest.DataCenterCore
         }
 
         // Veex only
-        public Task<ClientMeasurementDto> GetMeasurementResult(GetClientMeasurementDto dto)
+        public Task<ClientMeasurementDto> GetMeasurementClientResultAsync(GetClientMeasurementDto dto)
         {
             throw new NotImplementedException();
         }

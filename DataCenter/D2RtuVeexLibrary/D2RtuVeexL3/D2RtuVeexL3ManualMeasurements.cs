@@ -7,7 +7,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer3
     {
-        public async Task<ClientMeasurementStartedDto> StartMeasurementClient
+        public async Task<ClientMeasurementStartedDto> StartMeasurementClientAsync
                     (DoubleAddress rtuDoubleAddress, DoClientMeasurementDto dto)
         {
             var proxy = await _d2RtuVeexLayer2.DisableProxyMode(rtuDoubleAddress, dto.OtdrId);
@@ -32,7 +32,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return res;
         }
 
-        public async Task<ClientMeasurementDto> GetMeasurementClientResult(DoubleAddress rtuDoubleAddress,
+        public async Task<ClientMeasurementDto> GetMeasurementClientResultAsync(DoubleAddress rtuDoubleAddress,
             string measId)
         {
             return await _d2RtuVeexLayer2.GetMeasurementClientResult(rtuDoubleAddress, measId);
@@ -42,7 +42,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             PrepareReflectMeasurementDto dto)
         {
             var otauPorts = CreateVeexOtauPortList(dto.OtauPortDto, dto.MainOtauPortDto);
-            return await _d2RtuVeexLayer2.PrepareReflectMeasurementAsync(rtuDoubleAddress, dto.OtdrId, otauPorts);
+            return await _d2RtuVeexLayer2.PrepareReflectMeasurement(rtuDoubleAddress, dto.OtdrId, otauPorts);
         }
 
         private static List<VeexOtauPort> CreateVeexOtauPortList(OtauPortDto otauPortDto, OtauPortDto mainOtauPortDto)
