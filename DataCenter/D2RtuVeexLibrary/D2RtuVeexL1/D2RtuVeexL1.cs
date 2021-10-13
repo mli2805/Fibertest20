@@ -38,16 +38,16 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<HttpRequestResult> ChangeProxyMode(DoubleAddress rtuDoubleAddress, string otdrId, bool isProxyEnabled)
         {
             var word = isProxyEnabled ? "true" : "false";
-            var json = $"{{\"enabled\":\"{word}\"}}";
+            var json = $"{{\"enabled\":{word}}}";
             var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress,
-                $"otdrs/{otdrId}", "patch", "application/merge-patch+json", json);
+                $"otdrs/{otdrId}/tcp_proxy", "patch", "application/merge-patch+json", json);
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
             return res;
         }
 
         public async Task<HttpRequestResult> SwitchOtauToPort(DoubleAddress rtuDoubleAddress, string otauId, int port)
         {
-            var jsonData = $"{{\"portIndex\":\"{port}\"}}";
+            var jsonData = $"{{\"portIndex\":{port}}}";
             var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress,
                 $@"otaus/{otauId}", "patch", "application/merge-patch+json", jsonData);
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;

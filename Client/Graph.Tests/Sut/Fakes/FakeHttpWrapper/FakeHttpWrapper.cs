@@ -51,11 +51,17 @@ namespace Graph.Tests
                     break;
                 case "DoMeasurementRequest":
                     result.HttpStatusCode = HttpStatusCode.Created;
-                    result.ResponseJson = Guid.NewGuid().ToString();
+                    FakeVeexRtuModel.MeasurementRequestId = Guid.NewGuid();
+                    FakeVeexRtuModel.SorBytesToReturn = new byte[32000];
+                    result.ResponseJson = FakeVeexRtuModel.MeasurementRequestId.ToString();
                     break;
                 case "GetMeasurementResult":
                     result.HttpStatusCode = HttpStatusCode.OK;
-                    result.ResponseJson = JsonConvert.SerializeObject(new VeexMeasurementResult());
+                    result.ResponseJson = JsonConvert.SerializeObject(new VeexMeasurementResult()
+                    {
+                        id = FakeVeexRtuModel.MeasurementRequestId.ToString(),
+                        status = "finished"
+                    });
                     break;
                 case "GetOtdrs":
                     result.HttpStatusCode = HttpStatusCode.OK;

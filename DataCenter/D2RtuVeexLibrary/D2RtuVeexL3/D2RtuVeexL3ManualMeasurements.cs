@@ -7,45 +7,29 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer3
     {
-        public async Task<ClientMeasurementStartedDto> StartMeasurementClient(DoubleAddress rtuDoubleAddress,
-            DoClientMeasurementDto dto)
+        public async Task<ClientMeasurementStartedDto> StartMeasurementClient
+                    (DoubleAddress rtuDoubleAddress, DoClientMeasurementDto dto)
         {
-            var veexOtauPort = new VeexOtauPort()
-            {
-                otauId = dto.OtauPortDto.OtauId,
-                portIndex = dto.OtauPortDto.OpticalPort - 1
-            };
-            var otauPorts = new List<VeexOtauPort>();
-            if (!dto.OtauPortDto.IsPortOnMainCharon)
-            {
-                otauPorts.Add(new VeexOtauPort()
+            var proxy = await _d2RtuVeexLayer2.DisableProxyMode(rtuDoubleAddress, dto.OtdrId);
+            if (!proxy.IsSuccessful)
+                return new ClientMeasurementStartedDto
                 {
-                    otauId = dto.MainOtauPortDto.OtauId,
-                    portIndex = dto.MainOtauPortDto.OpticalPort - 1
-                });
-            }
+                    ReturnCode = ReturnCode.RtuInitializationError,
+                    ErrorMessage = "Failed to disable proxy mode!" + Environment.NewLine + proxy.ErrorMessage,
+                };
 
-            otauPorts.Add(veexOtauPort);
             var request = new VeexMeasurementRequest()
             {
                 id = Guid.NewGuid().ToString(),
                 otdrId = dto.OtdrId,
                 otdrParameters = dto.VeexMeasOtdrParameters,
-                otauPorts = otauPorts,
-                analysisParameters = new AnalysisParameters()
-                {
-                    lasersParameters = new List<LasersParameter> {new LasersParameter()}
-                },
-                spanParameters = new SpanParameters(),
-                generalParameters = new GeneralParameters(),
-
+                otauPorts = CreateVeexOtauPortList(dto.OtauPortDto, dto.MainOtauPortDto),
                 suspendMonitoring = true,
             };
-
-            var clientMeasurementStartedDto = await _d2RtuVeexLayer2.DoMeasurementRequest(rtuDoubleAddress, request);
-            if (clientMeasurementStartedDto.ReturnCode == ReturnCode.Ok)
-                clientMeasurementStartedDto.ErrorMessage = request.id; // sorry for this
-            return clientMeasurementStartedDto;
+            var res = await _d2RtuVeexLayer2.DoMeasurementRequest(rtuDoubleAddress, request);
+            if (res.ReturnCode == ReturnCode.Ok)
+                res.ErrorMessage = request.id; // sorry for this
+            return res;
         }
 
         public async Task<ClientMeasurementDto> GetMeasurementClientResult(DoubleAddress rtuDoubleAddress,
@@ -57,7 +41,28 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<RequestAnswer> PrepareReflectMeasurementAsync(DoubleAddress rtuDoubleAddress,
             PrepareReflectMeasurementDto dto)
         {
-            return await _d2RtuVeexLayer2.PrepareReflectMeasurementAsync(rtuDoubleAddress, dto);
+            var otauPorts = CreateVeexOtauPortList(dto.OtauPortDto, dto.MainOtauPortDto);
+            return await _d2RtuVeexLayer2.PrepareReflectMeasurementAsync(rtuDoubleAddress, dto.OtdrId, otauPorts);
+        }
+
+        private static List<VeexOtauPort> CreateVeexOtauPortList(OtauPortDto otauPortDto, OtauPortDto mainOtauPortDto)
+        {
+            var otauPorts = new List<VeexOtauPort>();
+            if (!otauPortDto.IsPortOnMainCharon)
+            {
+                otauPorts.Add(new VeexOtauPort()
+                {
+                    otauId = mainOtauPortDto.OtauId,
+                    portIndex = mainOtauPortDto.OpticalPort - 1
+                });
+            }
+            otauPorts.Add(new VeexOtauPort()
+            {
+                otauId = otauPortDto.OtauId,
+                portIndex = otauPortDto.OpticalPort - 1
+            });
+
+            return otauPorts;
         }
     }
 }

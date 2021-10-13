@@ -180,37 +180,37 @@
     <Compile Include="Accidents\MoniResultLossCoefSteps.cs">
       <DependentUpon>MoniResultLossCoef.feature</DependentUpon>
     </Compile>
-    <Compile Include="BaseRef\BasRefAdjustedBehindTheScenes.feature.cs">
+    <Compile Include="BaseRef\BaseRefAdjustedBehindTheScenes.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BasRefAdjustedBehindTheScenes.feature</DependentUpon>
+      <DependentUpon>BaseRefAdjustedBehindTheScenes.feature</DependentUpon>
     </Compile>
     <Compile Include="BaseRef\BaseRefAdjustedBehindTheScenesSteps.cs">
-      <DependentUpon>BasRefAdjustedBehindTheScenes.feature</DependentUpon>
+      <DependentUpon>BaseRefAdjustedBehindTheScenes.feature</DependentUpon>
     </Compile>
-    <Compile Include="BaseRef\BasRefChecked.feature.cs">
+    <Compile Include="BaseRef\BaseRefChecked.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BasRefChecked.feature</DependentUpon>
+      <DependentUpon>BaseRefChecked.feature</DependentUpon>
     </Compile>
     <Compile Include="BaseRef\BaseRefCheckedSteps.cs">
-      <DependentUpon>BasRefChecked.feature</DependentUpon>
+      <DependentUpon>BaseRefChecked.feature</DependentUpon>
     </Compile>
-    <Compile Include="BaseRef\BasRefModified.feature.cs">
+    <Compile Include="BaseRef\BaseRefModified.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BasRefModified.feature</DependentUpon>
+      <DependentUpon>BaseRefModified.feature</DependentUpon>
     </Compile>
     <Compile Include="BaseRef\BaseRefModifiedSteps.cs">
-      <DependentUpon>BasRefModified.feature</DependentUpon>
+      <DependentUpon>BaseRefModified.feature</DependentUpon>
     </Compile>
-    <Compile Include="BaseRef\BasRefRtu4000.feature.cs">
+    <Compile Include="BaseRef\BaseRefRtu4000.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BasRefRtu4000.feature</DependentUpon>
+      <DependentUpon>BaseRefRtu4000.feature</DependentUpon>
     </Compile>
     <Compile Include="BaseRef\BaseRefRtu400Steps.cs">
-      <DependentUpon>BasRefRtu4000.feature</DependentUpon>
+      <DependentUpon>BaseRefRtu4000.feature</DependentUpon>
     </Compile>
     <Compile Include="Equipment\EquipmentAddedOnNodeUpdate.feature.cs">
       <AutoGen>True</AutoGen>
@@ -543,13 +543,13 @@
     <Compile Include="Gps\GpsInputModeChangedSteps.cs">
       <DependentUpon>GpsInputModeChanged.feature</DependentUpon>
     </Compile>
-    <Compile Include="BaseRef\BasRefAssigned.feature.cs">
+    <Compile Include="BaseRef\BaseRefAssigned.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>BasRefAssigned.feature</DependentUpon>
+      <DependentUpon>BaseRefAssigned.feature</DependentUpon>
     </Compile>
     <Compile Include="BaseRef\BaseRefAssignedSteps.cs">
-      <DependentUpon>BasRefAssigned.feature</DependentUpon>
+      <DependentUpon>BaseRefAssigned.feature</DependentUpon>
     </Compile>
     <Compile Include="Trace\TraceAddedFirstStageSteps.cs">
       <DependentUpon>TraceAddedFirstStage.feature</DependentUpon>
@@ -647,6 +647,14 @@
     <Compile Include="UsersAndZones\ZonesSteps.cs">
       <DependentUpon>Zones.feature</DependentUpon>
     </Compile>
+    <Compile Include="VeexRtuCompletedTestFetcher\MeasurementClient.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>MeasurementClient.feature</DependentUpon>
+    </Compile>
+    <Compile Include="VeexRtuCompletedTestFetcher\MeasurementClientSteps.cs">
+      <DependentUpon>MeasurementClient.feature</DependentUpon>
+    </Compile>
     <Compile Include="VeexRtuCompletedTestFetcher\TestFetched.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -673,21 +681,21 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>MoniResultLossCoef.feature.cs</LastGenOutput>
     </None>
-    <None Include="BaseRef\BasRefAdjustedBehindTheScenes.feature">
+    <None Include="BaseRef\BaseRefAdjustedBehindTheScenes.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>BasRefAdjustedBehindTheScenes.feature.cs</LastGenOutput>
+      <LastGenOutput>BaseRefAdjustedBehindTheScenes.feature.cs</LastGenOutput>
     </None>
-    <None Include="BaseRef\BasRefChecked.feature">
+    <None Include="BaseRef\BaseRefChecked.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>BasRefChecked.feature.cs</LastGenOutput>
+      <LastGenOutput>BaseRefChecked.feature.cs</LastGenOutput>
     </None>
-    <None Include="BaseRef\BasRefModified.feature">
+    <None Include="BaseRef\BaseRefModified.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>BasRefModified.feature.cs</LastGenOutput>
+      <LastGenOutput>BaseRefModified.feature.cs</LastGenOutput>
     </None>
-    <None Include="BaseRef\BasRefRtu4000.feature">
+    <None Include="BaseRef\BaseRefRtu4000.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>BasRefRtu4000.feature.cs</LastGenOutput>
+      <LastGenOutput>BaseRefRtu4000.feature.cs</LastGenOutput>
     </None>
     <None Include="Equipment\EquipmentAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
@@ -841,9 +849,9 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>GpsInputModeChanged.feature.cs</LastGenOutput>
     </None>
-    <None Include="BaseRef\BasRefAssigned.feature">
+    <None Include="BaseRef\BaseRefAssigned.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>BasRefAssigned.feature.cs</LastGenOutput>
+      <LastGenOutput>BaseRefAssigned.feature.cs</LastGenOutput>
     </None>
     <None Include="Trace\TraceAddedFirstStage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
@@ -892,6 +900,10 @@
     <None Include="UsersAndZones\Zones.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Zones.feature.cs</LastGenOutput>
+    </None>
+    <None Include="VeexRtuCompletedTestFetcher\MeasurementClient.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>MeasurementClient.feature.cs</LastGenOutput>
     </None>
     <None Include="VeexRtuCompletedTestFetcher\TestFetched.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

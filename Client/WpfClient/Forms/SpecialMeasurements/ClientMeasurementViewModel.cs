@@ -25,8 +25,9 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
         private readonly IWindowManager _windowManager;
         public RtuLeaf RtuLeaf { get; set; }
-        private DoClientMeasurementDto _dto;
         private Rtu _rtu;
+        private DoClientMeasurementDto _dto;
+        private OtdrParametersThroughServerSetterViewModel _vm;
 
         public bool IsOpen { get; set; }
 
@@ -70,53 +71,65 @@ namespace Iit.Fibertest.Client
         public bool Initialize(Leaf parent, int portNumber)
         {
             RtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
-            _rtu = _readModel.Rtus.First(r => r.Id == RtuLeaf.Id);
             var otauLeaf = (IPortOwner)parent;
-            var address = otauLeaf.OtauNetAddress;
+            _rtu = _readModel.Rtus.First(r => r.Id == RtuLeaf.Id);
 
-            var vm = _globalScope.Resolve<OtdrParametersThroughServerSetterViewModel>();
-            vm.Initialize(RtuLeaf.TreeOfAcceptableMeasParams);
+            _vm = _globalScope.Resolve<OtdrParametersThroughServerSetterViewModel>();
+            _vm.Initialize(_rtu.AcceptableMeasParams);
             IWindowManager windowManager = new WindowManager();
-            windowManager.ShowDialog(vm);
-            if (!vm.IsAnswerPositive)
+            windowManager.ShowDialog(_vm);
+            if (!_vm.IsAnswerPositive)
                 return false;
 
-            var otauPortDto = new OtauPortDto()
-            {
-                Serial = otauLeaf.Serial,
-                IsPortOnMainCharon = RtuLeaf.OtauNetAddress.Equals(address),
-                OpticalPort = portNumber
-            };
-
             var otau = _readModel.Otaus.FirstOrDefault(o => o.Serial == otauLeaf.Serial);
-            otauPortDto.OtauId = otau == null
-                ? _rtu.OtauId
-                : otau.Id.ToString();
+            var otauPortDto = PrepareOtauPortDto(_rtu, otau, otauLeaf, portNumber);
+            _dto = PrepareDto(_rtu, otauPortDto, otauLeaf.OtauNetAddress, _vm.GetSelectedParameters(), _vm.GetVeexSelectedParameters());
+            return true;
+        }
 
-            _dto = new DoClientMeasurementDto()
+        public OtauPortDto PrepareOtauPortDto(Rtu rtu, Otau otau, IPortOwner otauLeaf, int portNumber)
+        {
+            var otauId = otau == null
+                ? rtu.OtauId
+                : @"S2_" + otau.Id;
+
+            var otauPortDto = new OtauPortDto(){
+                OtauId = otauId,
+                OpticalPort = portNumber,
+                Serial = otauLeaf.Serial,
+                IsPortOnMainCharon = otauLeaf is RtuLeaf,
+                MainCharonPort = otau?.MasterPort ?? 1
+            };
+            return otauPortDto;
+        }
+
+        public DoClientMeasurementDto PrepareDto(Rtu rtu, OtauPortDto otauPortDto, 
+            NetAddress address, List<MeasParam> iitMeasParams, VeexMeasOtdrParameters veexMeasParams)
+        {
+            var dto = new DoClientMeasurementDto()
             {
                 ConnectionId = _currentUser.ConnectionId,
-                RtuId = RtuLeaf.Id,
-                OtdrId = _rtu.OtdrId,
+                RtuId = rtu.Id,
+                OtdrId = rtu.OtdrId,
                 OtauPortDto = otauPortDto,
                 OtauIp = address.Ip4Address,
                 OtauTcpPort = address.Port,
 
-                SelectedMeasParams = vm.GetSelectedParameters(),
-                VeexMeasOtdrParameters = vm.GetVeexSelectedParameters(),
+                SelectedMeasParams = iitMeasParams,
+                VeexMeasOtdrParameters = veexMeasParams,
             };
 
-            if (!otauPortDto.IsPortOnMainCharon && _rtu.RtuMaker == RtuMaker.VeEX)
+            if (!otauPortDto.IsPortOnMainCharon && rtu.RtuMaker == RtuMaker.VeEX)
             {
-                _dto.MainOtauPortDto = new OtauPortDto()
+                dto.MainOtauPortDto = new OtauPortDto()
                 {
                     IsPortOnMainCharon = true,
-                    OtauId = _rtu.OtauId,
-                    OpticalPort = otau?.MasterPort ?? 1
+                    OtauId = rtu.OtauId,
+                    OpticalPort = otauPortDto.MainCharonPort,
                 };
             }
 
-            return true;
+            return dto;
         }
 
         protected override async void OnViewLoaded(object view)

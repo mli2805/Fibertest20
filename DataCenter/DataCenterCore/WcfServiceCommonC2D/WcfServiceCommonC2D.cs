@@ -464,7 +464,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             return rtu.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.DoClientMeasurementAsync(dto)
-                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.DoClientMeasurementAsync(dto).Result);
+                : await _clientToRtuVeexTransmitter.DoClientMeasurementAsync(dto);
         }
 
         public async Task<ClientMeasurementDto> GetClientMeasurementAsync(GetClientMeasurementDto dto)
@@ -473,7 +473,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (rtu == null) return new ClientMeasurementDto() { ReturnCode = ReturnCode.NoSuchRtu };
 
             return rtu.RtuMaker == RtuMaker.VeEX
-                ? await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.GetMeasurementResult(dto).Result)
+                ? await _clientToRtuVeexTransmitter.GetMeasurementResult(dto)
                 : null;
         }
 

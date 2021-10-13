@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
@@ -7,6 +8,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
     {
         public async Task<ClientMeasurementStartedDto> DoMeasurementRequest(DoubleAddress rtuDoubleAddress, VeexMeasurementRequest dto)
         {
+            var otdrRes = await _d2RtuVeexLayer1.ChangeProxyMode(rtuDoubleAddress, dto.otdrId, false);
+            if (!otdrRes.IsSuccessful)
+                return new ClientMeasurementStartedDto()
+                    {ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to disable proxy mode!"};
+
             var res = await _d2RtuVeexLayer1.DoMeasurementRequest(rtuDoubleAddress, dto);
             if (!res.IsSuccessful)
                 return new ClientMeasurementStartedDto()
@@ -54,17 +60,21 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         }
 
         public async Task<RequestAnswer> PrepareReflectMeasurementAsync(DoubleAddress rtuDoubleAddress,
-            PrepareReflectMeasurementDto dto)
+            string otdrId, List<VeexOtauPort> otauPorts)
         {
-            var otdrRes = await _d2RtuVeexLayer1.ChangeProxyMode(rtuDoubleAddress, dto.OtdrId, true);
+            var otdrRes = await _d2RtuVeexLayer1.ChangeProxyMode(rtuDoubleAddress, otdrId, true);
             if (!otdrRes.IsSuccessful)
                 return new RequestAnswer()
                     {ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to enable proxy mode!"};
 
-            var toggleRes = await _d2RtuVeexLayer1.SwitchOtauToPort(rtuDoubleAddress, dto.OtauId, dto.PortNumber);
-            if (!toggleRes.IsSuccessful)
-                return new RequestAnswer()
-                    {ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to switch otau to port!"};
+            foreach (var otauPort in otauPorts)
+            {
+                var toggleRes = await _d2RtuVeexLayer1
+                    .SwitchOtauToPort(rtuDoubleAddress, otauPort.otauId, otauPort.portIndex);
+                if (!toggleRes.IsSuccessful)
+                    return new RequestAnswer()
+                        {ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to switch otau to port!"};
+            }
 
             return new RequestAnswer() {ReturnCode = ReturnCode.Ok};
         }

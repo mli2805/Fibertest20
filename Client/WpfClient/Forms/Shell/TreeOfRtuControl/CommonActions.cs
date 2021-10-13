@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
@@ -96,14 +97,33 @@ namespace Iit.Fibertest.Client
          *  - from outside as 172.16.4.8 : 10001
          *
          *
+         *  Veex RTU4000 has main address someIp : 80
+         *  it could be augmented with additional OTAU (address in not important)
+         *  first we send command to enable proxy mode (e.i. RTU stop measurements and ready for attachment from the outside)
+         *  send we send command to the RTU to toggle main and additional otaus
+         *
          */
-        private void DoMeasurementRftsReflect(Leaf parent, int portNumber)
+        private async void DoMeasurementRftsReflect(Leaf parent, int portNumber)
         {
             RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
-            var isMak100 = rtuLeaf.OtauNetAddress.Ip4Address == @"192.168.88.101";
-            var isUcc = rtuLeaf.OtauNetAddress.Ip4Address == @"192.168.88.102"; // БУС
             var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
             if (rtu == null) return;
+
+            var prepareResult = rtu.RtuMaker == RtuMaker.IIT
+                ? await PrepareIitRtu(rtuLeaf, rtu, parent, portNumber)
+                : await PrepareVeexRtu(rtu, parent, portNumber);
+
+            if (prepareResult == null) return;
+
+            var rootPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory, 2);
+            System.Diagnostics.Process.Start(rootPath + @"\RftsReflect\Reflect.exe",
+                $@"-fnw -n {prepareResult.Ip4Address} -p {prepareResult.Port}");
+        }
+
+        private async Task<NetAddress> PrepareIitRtu(RtuLeaf rtuLeaf, Rtu rtu, Leaf parent, int portNumber)
+        {
+            var isMak100 = rtuLeaf.OtauNetAddress.Ip4Address == @"192.168.88.101";
+            var isUcc = rtuLeaf.OtauNetAddress.Ip4Address == @"192.168.88.102"; // БУС
 
             var mainCharonAddress = isMak100 || isUcc
                 ? (NetAddress)rtu.MainChannel.Clone()
@@ -115,8 +135,6 @@ namespace Iit.Fibertest.Client
                 Serial = rtuLeaf.Serial,
             };
 
-            var otauId = rtu.OtauId;
-            var masterPort = 0;
             string serialOfCharonWithThisPort;
             if (parent is OtauLeaf otauLeaf)
             {
@@ -126,46 +144,76 @@ namespace Iit.Fibertest.Client
                 bopCharon.Serial = otauLeaf.Serial;
                 bopCharon.OwnPortCount = otauLeaf.OwnPortCount;
                 mainCharon.Children = new Dictionary<int, Charon> { { otauLeaf.MasterPort, bopCharon } };
-
-                otauId = _readModel.Otaus.First(o => o.Serial == otauLeaf.Serial).Id.ToString();
-                masterPort = otauLeaf.MasterPort;
             }
             else
             {
                 serialOfCharonWithThisPort = mainCharon.Serial;
             }
 
-            var toggleResult = rtu.RtuMaker == RtuMaker.IIT
-                ? ToggleToPort(mainCharon, serialOfCharonWithThisPort, portNumber)
-                : VeexToggleToPort(otauId, masterPort, portNumber);
-
-            if (!toggleResult) return;
-
-            int otdrPort = isUcc ? 10001 : 1500;
-            var rootPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory, 2);
-            System.Diagnostics.Process.Start(rootPath + @"\RftsReflect\Reflect.exe",
-                $@"-fnw -n {mainCharonAddress.Ip4Address} -p {otdrPort}");
+            var toggleResult = await ToggleToPort(mainCharon, serialOfCharonWithThisPort, portNumber);
+            return toggleResult ? new NetAddress(mainCharonAddress.Ip4Address, isUcc ? 10001 : 1500) : null;
         }
 
-        private bool ToggleToPort(Charon mainCharon, string serialOfCharonWithThisPort, int portNumber)
+        private async Task<NetAddress> PrepareVeexRtu(Rtu rtu, Leaf parent, int portNumber)
+        {
+            var dto = new PrepareReflectMeasurementDto()
+            {
+                RtuId = rtu.Id,
+                OtdrId = rtu.OtdrId,
+            };
+
+            if (parent is OtauLeaf otauLeaf)
+            {
+                dto.OtauPortDto = new OtauPortDto()
+                {
+                    IsPortOnMainCharon = false,
+                    MainCharonPort = otauLeaf.MasterPort,
+                    OtauId = @"S2_" + _readModel.Otaus.First(o => o.Serial == otauLeaf.Serial).Id,
+                    OpticalPort = portNumber,
+                    Serial = otauLeaf.Serial,
+                };
+                dto.MainOtauPortDto = new OtauPortDto()
+                {
+                    IsPortOnMainCharon = true,
+                    OtauId = rtu.OtauId,
+                    OpticalPort = otauLeaf.MasterPort,
+                };
+            }
+            else // main
+            {
+                dto.OtauPortDto = new OtauPortDto()
+                {
+                    IsPortOnMainCharon = true,
+                    OtauId = rtu.OtauId,
+                    OpticalPort = portNumber,
+                };
+                dto.MainOtauPortDto = null;
+            }
+
+            var toggleResult = await SendPreparationCommand(dto);
+            return toggleResult ? new NetAddress(rtu.MainChannel.Ip4Address, 1500) : null;
+        }
+
+        private Task<bool> ToggleToPort(Charon mainCharon, string serialOfCharonWithThisPort, int portNumber)
         {
             var result = mainCharon.SetExtendedActivePort(serialOfCharonWithThisPort, portNumber);
             if (result == CharonOperationResult.Ok)
-                return true;
+                return Task.FromResult(true);
             var vm = new MyMessageBoxViewModel(MessageType.Error, $@"{mainCharon.LastErrorMessage}");
             _windowManager.ShowDialogWithAssignedOwner(vm);
-            return false;
+            return Task.FromResult(false);
         }
 
-        private bool VeexToggleToPort(string otauId, int masterPortNumber, int portNumber)
+        private async Task<bool> SendPreparationCommand(PrepareReflectMeasurementDto dto)
         {
-            _c2RWcfManager.PrepareReflectMeasurementAsync(new PrepareReflectMeasurementDto()
-            {
-                OtauId = otauId,
-                MasterPortNumber = masterPortNumber,
-                PortNumber = portNumber,
-            });
-            return true;
+            var answer = await _c2RWcfManager.PrepareReflectMeasurementAsync(dto);
+            if (answer.ReturnCode == ReturnCode.Ok)
+                return true;
+
+            var vm = new MyMessageBoxViewModel(MessageType.Error, $@"{answer.ErrorMessage}");
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+            return false;
+
         }
 
 

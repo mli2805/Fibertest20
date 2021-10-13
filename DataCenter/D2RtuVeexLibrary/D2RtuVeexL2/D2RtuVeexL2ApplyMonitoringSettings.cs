@@ -59,17 +59,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return true;
         }
 
-        // monitoring mode could not be changed if otdr in "proxy" mode (for reflect connection)
-        // if it is so - proxy mode should be changed
         public async Task<bool> ChangeMonitoringState(DoubleAddress rtuAddresses, string otdrId, string state)
         {
-            var res = await _d2RtuVeexLayer1.SetMonitoringProperty(rtuAddresses, "state", state);
-            if (res.IsSuccessful) return true;
-
-            var proxy = await _d2RtuVeexLayer1.ChangeProxyMode(rtuAddresses, otdrId, false);
-            if (!proxy.IsSuccessful)
-                return false;
-
             return (await _d2RtuVeexLayer1.SetMonitoringProperty(rtuAddresses, "state", state)).IsSuccessful;
         }
     }

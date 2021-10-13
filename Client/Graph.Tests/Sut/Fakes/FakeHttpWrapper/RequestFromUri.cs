@@ -9,7 +9,7 @@
                 return @"GetMonitoringProperties";
             if (relativeUri == @"monitoring" && httpMethod == @"patch")
                 return @"SetMonitoringProperty";
-            if (IsOneOfUri(relativeUri, @"otdrs") && httpMethod == @"patch")
+            if (IsChangeProxyMode(relativeUri) && httpMethod == @"patch")
                 return @"ChangeProxyMode";
             if (IsOneOfUri(relativeUri, @"otaus") && httpMethod == @"patch")
                 return @"SwitchOtauToPort";
@@ -78,6 +78,13 @@
             var last = relativeUri.LastIndexOf('/');
             var starts = relativeUri.Substring(0, last);
             return starts == branch;
+        }
+
+        private static bool IsChangeProxyMode(string relativeUri)
+        {
+            return relativeUri.StartsWith(@"otdrs/") &&
+                   relativeUri.EndsWith(@"/tcp_proxy");
+
         }
 
         private static bool IsGetTestUri(string relativeUri)

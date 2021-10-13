@@ -15,12 +15,12 @@ namespace Iit.Fibertest.Dto
         public Guid RtuId { get; set; }
 
         [DataMember]
+        public OtauPortDto OtauPortDto { get; set; }
+
+        [DataMember]
+        public OtauPortDto MainOtauPortDto { get; set; } // optional, filled in if trace attached to the child otau
+
+        [DataMember]
         public string OtdrId { get; set; }
-        [DataMember]
-        public string OtauId { get; set; }
-        [DataMember]
-        public int MasterPortNumber { get; set; }
-        [DataMember]
-        public int PortNumber { get; set; }
     }
 }

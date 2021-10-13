@@ -21,6 +21,8 @@ namespace Graph.Tests
 
         public List<CompletedTest> CompletedTests { get; set; } = new List<CompletedTest>();
 
+        public Guid MeasurementRequestId { get; set; }
+
         public byte[] SorBytesToReturn { get; set; }
 
         public FakeVeexRtuModel()
@@ -40,14 +42,28 @@ namespace Graph.Tests
                     {
                         {
                             waveLength,
-                            new LaserUnit() {distanceRanges = new Dictionary<string, DistanceRange>()}
+                            new LaserUnit() {
+                                distanceRanges = new Dictionary<string, DistanceRange>()
+                                {
+                                    {
+                                        "100", new DistanceRange()
+                                        {
+                                            averagingTimes = new []{"", ""},
+                                            fastAveragingTimes = new []{"", ""},
+                                            pulseDurations = new []{"", ""},
+                                            resolutions = new []{"", ""},
+                                        }
+
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             };
-            Otdrs = new List<VeexOtdr>() {otdr};
+            Otdrs = new List<VeexOtdr>() { otdr };
             OtdrItems = new LinkList
-                {items = new List<LinkObject>() {new LinkObject() {self = $@"otdrs/{otdr.id}"}}, total = 1};
+            { items = new List<LinkObject>() { new LinkObject() { self = $@"otdrs/{otdr.id}" } }, total = 1 };
 
             var mainOtau = new VeexOtau()
             {
@@ -58,8 +74,8 @@ namespace Graph.Tests
                 serialNumber = @"123456789"
             };
             OtauItems = new LinkList()
-                {items = new List<LinkObject>() {new LinkObject() {self = $@"otaus/{mainOtau.id}"}}, total = 1};
-            Otaus = new List<VeexOtau>() {mainOtau};
+            { items = new List<LinkObject>() { new LinkObject() { self = $@"otaus/{mainOtau.id}" } }, total = 1 };
+            Otaus = new List<VeexOtau>() { mainOtau };
 
             Scheme = new VeexOtauCascadingScheme()
             {
@@ -68,12 +84,12 @@ namespace Graph.Tests
                 connections = new List<Connection>(),
             };
 
-            TestItems = new LinkList() {items = new List<LinkObject>()};
+            TestItems = new LinkList() { items = new List<LinkObject>() };
         }
 
         public string AddTest(Test test)
         {
-            test.relations = new RelationItems() {items = new List<TestsRelation>()};
+            test.relations = new RelationItems() { items = new List<TestsRelation>() };
             Tests.Add(test.id, test);
             var link = $@"tests/{test.id}";
             TestItems.items.Add(new LinkObject() { self = link });
@@ -100,7 +116,7 @@ namespace Graph.Tests
         public string AddOtau(NewOtau otau)
         {
             var link = $@"otaus/{otau.id}";
-            OtauItems.items.Add(new LinkObject(){self = link});
+            OtauItems.items.Add(new LinkObject() { self = link });
             Otaus.Add(new VeexOtau()
             {
                 id = otau.id,

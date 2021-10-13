@@ -8,14 +8,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
     {
         public async Task<bool> StopMonitoringAsync(DoubleAddress rtuAddresses, string otdrId)
         {
-            try
-            {
-                return await _d2RtuVeexLayer2.ChangeMonitoringState(rtuAddresses, otdrId, "disabled");
-            }
-            catch (Exception)
-            {
+            var proxy = await _d2RtuVeexLayer2.DisableProxyMode(rtuAddresses, otdrId);
+            if (!proxy.IsSuccessful)
                 return false;
-            }
+            return await _d2RtuVeexLayer2.ChangeMonitoringState(rtuAddresses, otdrId, "disabled");
+
         }
 
         public async Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(
@@ -23,6 +20,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             try
             {
+                var proxy = await _d2RtuVeexLayer2.DisableProxyMode(rtuAddresses, dto.OtdrId);
+                if (!proxy.IsSuccessful)
+                    return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError };
+          
                 if (!await _d2RtuVeexLayer2.ApplyMoniSettingsToEveryTest(rtuAddresses, dto))
                     return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError };
 

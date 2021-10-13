@@ -27,6 +27,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                         ErrorMessage = otauRes.ErrorMessage,
                     };
 
+                var proxy = await _d2RtuVeexLayer2.DisableProxyMode(rtuAddresses, rtuInitializedDto.OtdrId);
+                if (!proxy.IsSuccessful)
+                    return new RtuInitializedDto
+                    {
+                        ReturnCode = ReturnCode.RtuInitializationError,
+                        ErrorMessage = "Failed to disable proxy mode!" + Environment.NewLine +  proxy.ErrorMessage,
+                    };
+
                 var initRes = await _d2RtuVeexLayer2.InitializeMonitoringProperties(rtuAddresses);
                 if (initRes != null)
                 {
