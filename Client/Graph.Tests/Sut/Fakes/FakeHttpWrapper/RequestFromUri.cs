@@ -84,7 +84,6 @@
         {
             return relativeUri.StartsWith(@"otdrs/") &&
                    relativeUri.EndsWith(@"/tcp_proxy");
-
         }
 
         private static bool IsGetTestUri(string relativeUri)
