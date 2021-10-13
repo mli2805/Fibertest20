@@ -483,7 +483,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (rtu == null) return new RequestAnswer() { ReturnCode = ReturnCode.NoSuchRtu };
 
             return rtu.RtuMaker == RtuMaker.VeEX
-                ? await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.PrepareReflectMeasurementAsync(dto).Result)
+                ? await _clientToRtuVeexTransmitter.PrepareReflectMeasurementAsync(dto)
                 : null;
         }
 

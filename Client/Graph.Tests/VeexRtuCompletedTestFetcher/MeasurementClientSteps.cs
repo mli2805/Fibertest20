@@ -3,6 +3,7 @@ using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.StringResources;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -19,6 +20,8 @@ namespace Graph.Tests
 
         private ClientMeasurementStartedDto _startedDto;
         private ClientMeasurementDto _measResult;
+
+        private NetAddress _preparationResult;
 
         [Given(@"Существует вииксовский RTU")]
         public void GivenСуществуетВииксовскийRtu()
@@ -58,14 +61,14 @@ namespace Graph.Tests
             _measResult.SorBytes.Length.ShouldBeEquivalentTo(32000);
         }
 
-        [When(@"Присоединяем доп переключатель")]
-        public void WhenПрисоединяемДопПереключатель()
+        [Given(@"Присоединяем доп переключатель")]
+        public void GivenПрисоединяемДопПереключатель()
         {
             _otauLeaf = _sut.AttachOtau(_rtuLeaf, 5, "192.168.96.237", 4001);
         }
 
-        [When(@"Пользователь запускает измерение Client на порту доп переключателя")]
-        public void WhenПользовательЗапускаетИзмерениеClientНаПортуДопПереключателя()
+        [Given(@"Пользователь запускает измерение Client на порту доп переключателя")]
+        public void GivenПользовательЗапускаетИзмерениеClientНаПортуДопПереключателя()
         {
             var vm = _sut.ClientScope.Resolve<ClientMeasurementViewModel>();
             var otau = _sut.ReadModel.Otaus.FirstOrDefault(o => o.Serial == _otauLeaf.Serial);
@@ -75,5 +78,17 @@ namespace Graph.Tests
             _startedDto = _sut.WcfServiceCommonC2D.DoClientMeasurementAsync(fullDto).Result;
         }
 
+        [When(@"Пользователь запрашивает измерение Reflect по порту доп переключателя")]
+        public void WhenПользовательЗапрашиваетИзмерениеReflectПоПортуДопПереключателя()
+        {
+            var ca = _sut.ClientScope.Resolve<CommonActions>();
+            _preparationResult = ca.PrepareRtu(_otauLeaf, 3).Result;
+        }
+
+        [Then(@"Отсылается команда подготовки RTU")]
+        public void ThenОтсылаетсяКомандаПодготовкиRtu()
+        {
+            _preparationResult.ShouldBeEquivalentTo(new NetAddress("1.1.1.1", 1500));
+        }
     }
 }

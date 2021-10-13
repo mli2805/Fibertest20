@@ -71,6 +71,16 @@ namespace Graph.Tests.VeexRtuCompletedTestFetcher
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+#line 3
+#line 4
+ testRunner.Given("Существует вииксовский RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 5
+ testRunner.And("Присоединяем доп переключатель", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+        }
+        
         void System.IDisposable.Dispose()
         {
             this.ScenarioTearDown();
@@ -82,25 +92,42 @@ namespace Graph.Tests.VeexRtuCompletedTestFetcher
         public virtual void ИзмерениеClient()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Измерение Client", null, ((string[])(null)));
-#line 3
+#line 7
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
-#line 4
- testRunner.Given("Существует вииксовский RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 5
- testRunner.And("Пользователь запускает измерение Client на порту основного переключателя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 6
- testRunner.When("Клиент запрашивает результат измерния по Id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 7
- testRunner.Then("Приходит рефлектограмма", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 3
+this.FeatureBackground();
 #line 8
- testRunner.When("Присоединяем доп переключатель", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("Пользователь запускает измерение Client на порту основного переключателя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 9
- testRunner.And("Пользователь запускает измерение Client на порту доп переключателя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 10
  testRunner.When("Клиент запрашивает результат измерния по Id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 11
+#line 10
  testRunner.Then("Приходит рефлектограмма", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 11
+ testRunner.Given("Пользователь запускает измерение Client на порту доп переключателя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 12
+ testRunner.When("Клиент запрашивает результат измерния по Id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 13
+ testRunner.Then("Приходит рефлектограмма", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Измерение Reflect")]
+        [Xunit.TraitAttribute("FeatureTitle", "MeasurementClient")]
+        [Xunit.TraitAttribute("Description", "Измерение Reflect")]
+        public virtual void ИзмерениеReflect()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Измерение Reflect", null, ((string[])(null)));
+#line 15
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 3
+this.FeatureBackground();
+#line 16
+ testRunner.When("Пользователь запрашивает измерение Reflect по порту доп переключателя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 17
+ testRunner.Then("Отсылается команда подготовки RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

@@ -105,19 +105,23 @@ namespace Iit.Fibertest.Client
          */
         private async void DoMeasurementRftsReflect(Leaf parent, int portNumber)
         {
-            RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
-            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
-            if (rtu == null) return;
-
-            var prepareResult = rtu.RtuMaker == RtuMaker.IIT
-                ? await PrepareIitRtu(rtuLeaf, rtu, parent, portNumber)
-                : await PrepareVeexRtu(rtu, parent, portNumber);
-
+            var prepareResult = await PrepareRtu(parent, portNumber);
             if (prepareResult == null) return;
 
             var rootPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory, 2);
             System.Diagnostics.Process.Start(rootPath + @"\RftsReflect\Reflect.exe",
                 $@"-fnw -n {prepareResult.Ip4Address} -p {prepareResult.Port}");
+        }
+
+        public async Task<NetAddress> PrepareRtu(Leaf parent, int portNumber)
+        {
+            RtuLeaf rtuLeaf = parent is RtuLeaf leaf ? leaf : (RtuLeaf)parent.Parent;
+            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == rtuLeaf.Id);
+            if (rtu == null) return null;
+
+            return rtu.RtuMaker == RtuMaker.IIT
+                ? await PrepareIitRtu(rtuLeaf, rtu, parent, portNumber)
+                : await PrepareVeexRtu(rtu, parent, portNumber);
         }
 
         private async Task<NetAddress> PrepareIitRtu(RtuLeaf rtuLeaf, Rtu rtu, Leaf parent, int portNumber)
