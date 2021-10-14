@@ -1,4 +1,6 @@
-﻿namespace Graph.Tests
+﻿using System.Text.RegularExpressions;
+
+namespace Graph.Tests
 {
     public static class RequestFromUri
     {
@@ -72,18 +74,16 @@
 
         private static bool IsOneOfUri(string relativeUri, string branch)
         {
-            var parts = relativeUri.Split('/');
-            if (parts.Length < 2)
-                return false;
-            var last = relativeUri.LastIndexOf('/');
-            var starts = relativeUri.Substring(0, last);
-            return starts == branch;
+            return Regex.IsMatch(relativeUri, $@"^{branch}/");
+
+            // return relativeUri.StartsWith($"{branch}/");
         }
 
         private static bool IsChangeProxyMode(string relativeUri)
         {
-            return relativeUri.StartsWith(@"otdrs/") &&
-                   relativeUri.EndsWith(@"/tcp_proxy");
+            return Regex.IsMatch(relativeUri, @"^otdrs/[\w\W]+/tcp_proxy$");
+
+            // return relativeUri.StartsWith(@"otdrs/") && relativeUri.EndsWith(@"/tcp_proxy");
         }
 
         private static bool IsGetTestUri(string relativeUri)
@@ -96,7 +96,7 @@
             return relativeUri.StartsWith(@"monitoring/tests/") &&
                    relativeUri.EndsWith(@"/references");
         }
-      
+
         private static bool IsGetCompletedTestsAfterTimestamp(string relativeUri)
         {
             return relativeUri.StartsWith("monitoring/completed?fields=*,items.*&starting=");
