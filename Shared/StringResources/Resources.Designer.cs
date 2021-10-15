@@ -4523,6 +4523,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Model.
+        /// </summary>
+        public static string SID_Model {
+            get {
+                return ResourceManager.GetString("SID_Model", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Model adjusting....
         /// </summary>
         public static string SID_Model_adjusting___ {
@@ -8364,6 +8373,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Value__dB {
             get {
                 return ResourceManager.GetString("SID_Value__dB", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Version.
+        /// </summary>
+        public static string SID_Version {
+            get {
+                return ResourceManager.GetString("SID_Version", resourceCulture);
             }
         }
         

@@ -7,6 +7,7 @@ export class AboutDto {
 
 export class AboutRtuDto {
   title: string;
+  model: string;
+  serial: string;
   version: string;
-  version2: string;
 }

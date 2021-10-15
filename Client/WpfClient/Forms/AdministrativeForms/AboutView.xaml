@@ -7,7 +7,7 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews;assembly=Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d"
-        SizeToContent="Height" Width="400" ResizeMode="NoResize"
+        SizeToContent="Height" Width="590" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:AboutViewModel}">
     <StackPanel>
         <wpfCommonViews:IitOfficialHeader/>
@@ -21,14 +21,23 @@
                 <TextBlock Margin="10,0,0,5" Text="{Binding ClientVersion}"/>
             </StackPanel>
             <Border BorderBrush="Gray" BorderThickness="0,1,0,0"/>
-            <TextBlock Text="{x:Static stringResources:Resources.SID_RTUs_software_version}"  Width="160" HorizontalAlignment="Left" Margin="5,10"/>
+            <!-- <TextBlock Text="{x:Static stringResources:Resources.SID_RTUs_software_version}"  -->
+                       <!-- Width="160" HorizontalAlignment="Left" Margin="5,10"/> -->
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Title}" Width="160" HorizontalAlignment="Left" Margin="5,10"/>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Model}" Width="100" HorizontalAlignment="Left" Margin="5,10"/>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Serial}" Width="110" TextAlignment="Right" Margin="10"/>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_Version}" HorizontalAlignment="Left" Margin="5,10"/>
+            </StackPanel>
             <ScrollViewer VerticalScrollBarVisibility="Auto"  Margin="0,0,0,20" MaxHeight="140">
                 <ItemsControl ItemsSource="{Binding Rtus}">
                     <ItemsControl.ItemTemplate>
-                        <DataTemplate DataType="client:RtuVersion">
+                        <DataTemplate DataType="client:RtuLine">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{Binding Title}" Width="160" Margin="5,0" Height="20"/>
-                                <TextBlock Text="{Binding Version}" Margin="5,0"/>
+                                <TextBlock Text="{Binding Model}" Width="100" Margin="5,0"/>
+                                <TextBlock Text="{Binding Serial}" Width="110" Margin="10,0" TextAlignment="Right"/>
+                                <TextBlock Text="{Binding Version}"  Margin="5,0"/>
                             </StackPanel>
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

@@ -13,7 +13,7 @@ export class FtAboutComponent implements OnInit {
   loggedUser: RegistrationAnswerDto;
   aboutVm: AboutDto = new AboutDto();
   roleString: string;
-  columnsToDisplay = ["title", "version", "version2"];
+  columnsToDisplay = ["title", "model", "serial", "version"];
 
   constructor(private oneApiService: OneApiService) {}
 

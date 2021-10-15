@@ -45,9 +45,9 @@ namespace Iit.Fibertest.DataCenterCore
             return new AboutRtuDto()
             {
                 Title = r.Title,
+                Model = r.Mfid,
+                Serial = r.Serial,
                 Version = r.Version,
-                Version2 = r.Version2,
-
             };
         }
 

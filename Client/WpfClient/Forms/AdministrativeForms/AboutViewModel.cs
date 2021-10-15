@@ -7,14 +7,18 @@ using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
-    public class RtuVersion
+    public class RtuLine
     {
         public string Title { get; set; }
+        public string Model { get; set; }
+        public string Serial { get; set; }
         public string Version { get; set; }
 
-        public RtuVersion(string title, string version)
+        public RtuLine(string title, string model, string serial, string version)
         {
             Title = title;
+            Model = model;
+            Serial = serial;
             Version = version;
         }
     }
@@ -25,7 +29,7 @@ namespace Iit.Fibertest.Client
         public string ServerVersion { get; set; }
         public string ClientVersion { get; set; }
 
-        public ObservableCollection<RtuVersion> Rtus { get;set; }= new ObservableCollection<RtuVersion>();
+        public ObservableCollection<RtuLine> Rtus { get;set; }= new ObservableCollection<RtuLine>();
 
         public AboutViewModel(CurrentDatacenterParameters currentDatacenterParameters, Model readModel)
         {
@@ -43,7 +47,7 @@ namespace Iit.Fibertest.Client
 
             Rtus.Clear();
             foreach (var rtu in _readModel.Rtus)
-                Rtus.Add(new RtuVersion(rtu.Title, rtu.Version));
+                Rtus.Add(new RtuLine(rtu.Title, rtu.Mfid, rtu.Serial, rtu.Version));
         }
 
         public void Close() { TryClose(); }

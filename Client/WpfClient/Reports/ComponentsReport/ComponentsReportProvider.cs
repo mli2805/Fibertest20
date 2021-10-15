@@ -115,7 +115,7 @@ namespace Iit.Fibertest.Client
             var serial = string.Format(Resources.SID_s_n__0_, rtu.Serial);
             var portCount = string.Format(Resources.SID_ports____0_, rtu.PortCount);
             var software = string.Format(Resources.SID_software____0_, rtu.Version);
-            paragraph.AddFormattedText($@"{rtu.Title} ; {serial} ; {portCount} ; {software} ; {mode} ; {availability}");
+            paragraph.AddFormattedText($@"{rtu.Title} ; {rtu.Mfid} ; {serial} ; {portCount} ; {software} ; {mode} ; {availability}");
             var mainChannel = string.Format(Resources.SID_Main_channel____0_____1_,
                 rtu.MainChannel.ToStringA(), rtu.MainChannelState.ToLocalizedString());
             var reserveChannel = rtu.IsReserveChannelSet
