@@ -2967,4 +2967,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Model" xml:space="preserve">
 		<value>Модель</value>
 	</data>
+	<data name="SID_Copy_coordinates_to_clipboard" xml:space="preserve">
+		<value>Копировать координаты в буфер обмена</value>
+	</data>
 </root>

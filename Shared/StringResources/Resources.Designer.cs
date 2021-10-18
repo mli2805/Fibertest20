@@ -1873,6 +1873,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Copy coordinates to clipboard.
+        /// </summary>
+        public static string SID_Copy_coordinates_to_clipboard {
+            get {
+                return ResourceManager.GetString("SID_Copy_coordinates_to_clipboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Copy files error: {0}.
         /// </summary>
         public static string SID_Copy_files_error___0_ {
