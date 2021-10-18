@@ -2970,4 +2970,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Copy_coordinates_to_clipboard" xml:space="preserve">
 		<value>Копировать координаты в буфер обмена</value>
 	</data>
+	<data name="SID_Input_trace" xml:space="preserve">
+		<value>Ввести трассу</value>
+	</data>
 </root>

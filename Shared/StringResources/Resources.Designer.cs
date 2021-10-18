@@ -3632,6 +3632,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Input trace.
+        /// </summary>
+        public static string SID_Input_trace {
+            get {
+                return ResourceManager.GetString("SID_Input_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Input user name and password.
         /// </summary>
         public static string SID_Input_user_name_and_password {

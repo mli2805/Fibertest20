@@ -240,6 +240,10 @@
     <Compile Include="Forms\BaseRefs\BaseRefMessages.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\EventLogReportProvider.cs" />
     <Compile Include="Forms\BaseRefs\VeexTestMappingProfile.cs" />
+    <Compile Include="Forms\InputTraceTable\InputTraceTableView.xaml.cs">
+      <DependentUpon>InputTraceTableView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\InputTraceTable\InputTraceTableViewModel.cs" />
     <Compile Include="Forms\Input\KeySequence.cs" />
     <Compile Include="Forms\Input\KeyTrigger.cs" />
     <Compile Include="Forms\Input\MultiKeyGesture.cs" />
@@ -724,6 +728,10 @@
     <Page Include="Forms\AdministrativeForms\License\LicenseControlView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Forms\InputTraceTable\InputTraceTableView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\RtuForms\RtuInitialize\Controls\OtdrAddressView.xaml">
       <SubType>Designer</SubType>

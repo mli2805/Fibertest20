@@ -25,12 +25,13 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceCommonC2D _commonC2DWcfManager;
         private readonly RtuRemover _rtuRemover;
         private readonly TabulatorViewModel _tabulatorViewModel;
+        private readonly InputTraceTableViewModel _inputTraceTableViewModel;
         private readonly RtuStateViewsManager _rtuStateViewsManager;
         private readonly LandmarksViewsManager _landmarksViewsManager;
 
         public RtuLeafActions(ILifetimeScope globalScope, IMyLog logFile, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager,  IWcfServiceCommonC2D commonC2DWcfManager,
-            RtuRemover rtuRemover, TabulatorViewModel tabulatorViewModel,
+            RtuRemover rtuRemover, TabulatorViewModel tabulatorViewModel, InputTraceTableViewModel inputTraceTableViewModel,
             RtuStateViewsManager rtuStateViewsManager, LandmarksViewsManager landmarksViewsManager)
         {
             _globalScope = globalScope;
@@ -42,6 +43,7 @@ namespace Iit.Fibertest.Client
             _commonC2DWcfManager = commonC2DWcfManager;
             _rtuRemover = rtuRemover;
             _tabulatorViewModel = tabulatorViewModel;
+            _inputTraceTableViewModel = inputTraceTableViewModel;
             _rtuStateViewsManager = rtuStateViewsManager;
             _landmarksViewsManager = landmarksViewsManager;
         }
@@ -88,6 +90,15 @@ namespace Iit.Fibertest.Client
                 return;
 
             await _landmarksViewsManager.InitializeFromRtu(rtuLeaf.Id);
+        }
+
+        public void InputTraceTable(object param)
+        {
+            if (!(param is RtuLeaf rtuLeaf))
+                return;
+
+            _inputTraceTableViewModel.Initialize(rtuLeaf);
+            _windowManager.ShowWindowWithAssignedOwner(_inputTraceTableViewModel);
         }
 
         public void ShowMonitoringSettings(object param)

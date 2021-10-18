@@ -32,6 +32,8 @@ namespace Iit.Fibertest.Client
             return _readModel.Traces.Any(t => t.RtuId == rtuLeaf.Id);
         }
 
+        public bool CanInputTrace(object param) { return param is RtuLeaf; }
+
         public bool CanShowMonitoringSettings(object param)
         {
             return param is RtuLeaf rtuLeaf && rtuLeaf.IsAvailable;
