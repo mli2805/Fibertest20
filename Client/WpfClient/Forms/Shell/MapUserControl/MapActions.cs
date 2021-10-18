@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.Dto;
+﻿using System.Windows;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph.Requests;
 
 namespace Iit.Fibertest.Client
@@ -40,6 +41,12 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public void CopyCoordinatesToClipboard(object parameter)
+        {
+            var position = _graphReadModel.MainMap.FromLocalToLatLng(_graphReadModel.MainMap.ContextMenuPoint);
+            Clipboard.SetText(position.ToString());
+        }
+
         public void ToggleToDistanceMeasurementMode(object parameter)
         {
             if (!_graphReadModel.MainMap.IsInDistanceMeasurementMode)
@@ -61,7 +68,7 @@ namespace Iit.Fibertest.Client
             return _graphReadModel.CurrentUser.Role <= Role.Root;
         }
 
-        public bool CanMeasureDistance(object parameter)
+        public bool Can(object parameter)
         {
             return true;
         }

@@ -73,8 +73,14 @@ namespace Iit.Fibertest.Client
 
             contextMenu.Items.Add(new MenuItem()
             {
+                Header = Resources.SID_Copy_coordinates_to_clipboard,
+                Command = new ContextMenuAction(_mapActions.CopyCoordinatesToClipboard, _mapActions.Can),
+                CommandParameter = null,
+            });
+            contextMenu.Items.Add(new MenuItem()
+            {
                 Header = Resources.SID_Distace_measurement,
-                Command = new ContextMenuAction(_mapActions.ToggleToDistanceMeasurementMode, _mapActions.CanMeasureDistance),
+                Command = new ContextMenuAction(_mapActions.ToggleToDistanceMeasurementMode, _mapActions.Can),
                 CommandParameter = null,
             });
 
