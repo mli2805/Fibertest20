@@ -50,7 +50,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-
         private GpsInputSmallViewModel _gpsInputSmallViewModel;
         public GpsInputSmallViewModel GpsInputSmallViewModel
         {
@@ -286,7 +285,9 @@ namespace Iit.Fibertest.Client
 
             if (_currentlyHiddenRtu.Collection.Contains(RtuId)) return;
 
-            var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
+            var nodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == SelectedLandmark.NodeId);
+            if (nodeVm == null)
+                return;
             nodeVm.Position = position;
             _graphReadModel.ExtinguishNodes();
         }

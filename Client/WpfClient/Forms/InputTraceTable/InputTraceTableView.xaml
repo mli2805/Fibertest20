@@ -3,9 +3,85 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:cal="http://www.caliburnproject.org"
         mc:Ignorable="d"
-        Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+        SizeToContent="Width" Height="708"
+        d:DataContext="{d:DesignInstance client:InputTraceTableViewModel}">
+    <Window.Resources>
+        <FrameworkElement x:Key="ProxyElement" DataContext="{Binding GisVisibility}"/>
+    </Window.Resources>
+
+    <DockPanel>
+        <client:OneLandmarkView DockPanel.Dock="Bottom" 
+                                DataContext="{Binding OneLandmarkViewModel}" 
+                                />
+        <DataGrid DockPanel.Dock="Left" Margin ="5" ItemsSource="{Binding Rows}" 
+                  SelectedItem="{Binding SelectedRow}" AutoGenerateColumns="False"
+                  Width="{Binding DataGridWidth}" IsReadOnly="True">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="No" Binding="{Binding Ordinal}" Width="30"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Node}" 
+                                    Binding="{Binding NodeTitle}" Width="120"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Type}" 
+                                    Binding="{Binding EquipmentType}" Width="120"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Equipm__title}" 
+                                    Binding="{Binding EquipmentTitle}" Width="120"/>
+                <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" 
+                                    Binding="{Binding GpsCoors}" Width="174" 
+                                    Visibility="{Binding DataContext, 
+                                        Source={StaticResource ProxyElement}}"/>
+            </DataGrid.Columns>
+            <DataGrid.Resources>
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="LightBlue" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.HighlightTextBrushKey}" Color="Black" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightBrushKey}" Color="LightBlue" />
+                <SolidColorBrush x:Key="{x:Static SystemColors.InactiveSelectionHighlightTextBrushKey}" Color="Black" />
+            </DataGrid.Resources>
+            <DataGrid.RowStyle>
+                <Style TargetType="DataGridRow">
+                    <Style.Triggers>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="AliceBlue"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Add new row after"
+                              cal:Message.Attach="AddNewRowAfterSelected"/>
+                    <MenuItem Header="Cut row" 
+                              cal:Message.Attach="CutSelectedRow"
+                              IsEnabled="{Binding IsNotRtuSelected}"/>
+                    <MenuItem Header="Copy row" 
+                              cal:Message.Attach="CopySelectedRow"
+                              IsEnabled="{Binding IsNotRtuSelected}"/>
+                    <MenuItem Header="Paste after"
+                              cal:Message.Attach="PasteRowAfterSelected"
+                              IsEnabled="{Binding IsRowCopied}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
+        </DataGrid>
+        <DockPanel>
+          
+                <StackPanel DockPanel.Dock="Bottom" Margin="10, 5, 10 , 0">
+                    <Button Content="New table" Name="CreateNewTable" Margin="5" Width="150"/>
+                    <Button Content="Load from file" Name="LoadTable" Margin="5" Width="150"/>
+                    <Button Content="Save to file" Name="SaveTable" Margin="5" Width="150"/>
+                    <Button Content="Create trace" Name="CreateNewTrace" Margin="5" Width="150"/>
+                    <Button Content="Export to PDF" Name="ExportToPdf" Margin="5" Width="150"/>
+                </StackPanel>
+            <GroupBox DockPanel.Dock="Top" Width="160" Header="{x:Static stringResources:Resources.SID_GPS_coordinates_format}" 
+                      Visibility="{Binding GisVisibility}">
+                <ComboBox ItemsSource="{Binding GpsInputModes}" 
+                          SelectedItem="{Binding SelectedGpsInputMode}" 
+                          Height="25" Margin="5,5,5,5"/>
+            </GroupBox>
+            <StackPanel/>
+        </DockPanel>
+       
+     
+    </DockPanel>
 </Window>

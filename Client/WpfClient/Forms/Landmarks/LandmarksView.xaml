@@ -38,20 +38,29 @@
                 <Button Margin="5" Content="PDF" Name="ExportToPdf"/>
             </GroupBox>
         </DockPanel>
-        <client:OneLandmarkView DockPanel.Dock="Bottom" DataContext="{Binding OneLandmarkViewModel}" Width="790" HorizontalAlignment="Left" />
+        <client:OneLandmarkView DockPanel.Dock="Bottom" DataContext="{Binding OneLandmarkViewModel}" 
+                                Width="790" HorizontalAlignment="Left" />
 
         <GroupBox Header="{x:Static stringResources:Resources.SID_Landmarks}" Margin="5">
-            <DataGrid Margin="5" ItemsSource="{Binding Rows}" SelectedItem="{Binding SelectedRow, Mode=TwoWay}" CanUserSortColumns="False" 
+            <DataGrid Margin="5" ItemsSource="{Binding Rows}" 
+                      SelectedItem="{Binding SelectedRow, Mode=TwoWay}" CanUserSortColumns="False" 
                       AutoGenerateColumns="False" IsReadOnly="True" SelectionMode="Single" SelectionUnit="FullRow" 
-                      HorizontalAlignment="Left" Width="{Binding DataGridWidth}" HorizontalScrollBarVisibility="Disabled">
+                      HorizontalAlignment="Left" Width="{Binding DataGridWidth}" 
+                      HorizontalScrollBarVisibility="Disabled">
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="No" Binding="{Binding Number}" Width="30"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Node}" Binding="{Binding NodeTitle}" Width="120"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Type}" Binding="{Binding EquipmentType}" Width="120"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Equipm__title}" Binding="{Binding EquipmentTitle}" Width="120"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Distance__km}" Binding="{Binding Distance}" Width="100"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event}" Binding="{Binding EventNumber}" Width="80"/>
-                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" Binding="{Binding GpsCoors}" Width="174" 
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Node}" 
+                                        Binding="{Binding NodeTitle}" Width="120"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Type}" 
+                                        Binding="{Binding EquipmentType}" Width="120"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Equipm__title}" 
+                                        Binding="{Binding EquipmentTitle}" Width="120"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Distance__km}" 
+                                        Binding="{Binding Distance}" Width="100"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_Event}" 
+                                        Binding="{Binding EventNumber}" Width="80"/>
+                    <DataGridTextColumn Header="{x:Static stringResources:Resources.SID_GPS_coordinates}" 
+                                        Binding="{Binding GpsCoors}" Width="174" 
                                         Visibility="{Binding DataContext, Source={StaticResource ProxyElement}}"/>
                 </DataGrid.Columns>
                 <DataGrid.Resources>
@@ -72,9 +81,11 @@
                 <DataGrid.ContextMenu>
                     <ContextMenu>
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Include_equipment_into_trace}"
-                                  cal:Message.Attach="IncludeEquipment" IsEnabled="{Binding OneLandmarkViewModel.IsIncludeEquipmentEnabled}"/>
+                                  cal:Message.Attach="IncludeEquipment" 
+                                  IsEnabled="{Binding OneLandmarkViewModel.IsIncludeEquipmentEnabled}"/>
                         <MenuItem Header="{x:Static stringResources:Resources.SID_Exclude_equipment_from_trace}" 
-                                  cal:Message.Attach="ExcludeEquipment" IsEnabled="{Binding OneLandmarkViewModel.IsExcludeEquipmentEnabled}"/>
+                                  cal:Message.Attach="ExcludeEquipment" 
+                                  IsEnabled="{Binding OneLandmarkViewModel.IsExcludeEquipmentEnabled}"/>
                     </ContextMenu>
                 </DataGrid.ContextMenu>
             </DataGrid>
