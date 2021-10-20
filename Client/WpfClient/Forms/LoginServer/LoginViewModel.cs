@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
@@ -99,7 +100,8 @@ namespace Iit.Fibertest.Client
         }
 
         // public to start under super-client
-        public async Task<bool> RegisterClientAsync(string username, string password, string connectionId, bool isUnderSuperClient = false, int ordinal = 0)
+        public async Task<bool> RegisterClientAsync(string username, string password,
+            string connectionId, bool isUnderSuperClient = false, int ordinal = 0)
         {
             ClientRegisteredDto dto;
             using (_globalScope.Resolve<IWaitCursor>())
@@ -107,19 +109,34 @@ namespace Iit.Fibertest.Client
                 var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToDesktopClient);
                 _currentDatacenterParameters.ServerIp = dcServiceAddresses.Main.Ip4Address;
                 _currentDatacenterParameters.ServerTitle = _iniFile.Read(IniSection.Server, IniKey.ServerTitle, "");
+                var sendDto = new RegisterClientDto()
+                {
+                    UserName = username,
+                    Password = password,
+                    ConnectionId = connectionId,
+                    IsUnderSuperClient = isUnderSuperClient,
+                };
                 Status = string.Format(Resources.SID_Performing_registration_on__0_, dcServiceAddresses.Main.Ip4Address);
                 _logFile.AppendLine($@"Performing registration on {dcServiceAddresses.Main.Ip4Address}");
                 var clientPort = (int)TcpPorts.ClientListenTo;
                 if (isUnderSuperClient) clientPort += ordinal;
-                dto = await PureRegisterClientAsync(dcServiceAddresses, clientPort,
-                    username, password, connectionId, isUnderSuperClient);
+                dto = await PureRegisterClientAsync(dcServiceAddresses, clientPort, sendDto);
             }
+
+            if (dto.ReturnCode == ReturnCode.ClientRegisteredSuccessfully)
+            {
+                var machineKey = MachineKeyGetter.GetMachineKey();
+                var hash = (machineKey + username).GetHashString();
+                Debug.WriteLine(hash);
+                //TODO compare with hash in file
+            }
+
             ParseServerAnswer(dto);
             return true;
         }
 
         private async Task<ClientRegisteredDto> PureRegisterClientAsync(
-            DoubleAddress dcServiceAddresses, int clientTcpPort, string username, string password, string connectionId, bool isUnderSuperClient)
+            DoubleAddress dcServiceAddresses, int clientTcpPort, RegisterClientDto dto)
         {
             var clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, clientTcpPort);
             if (clientAddress.IsAddressSetAsIp && clientAddress.Ip4Address == @"0.0.0.0" &&
@@ -129,21 +146,13 @@ namespace Iit.Fibertest.Client
                 _iniFile.Write(clientAddress, IniSection.ClientLocalAddress);
             }
 
-            _desktopC2DWcfManager.SetServerAddresses(dcServiceAddresses, username, clientAddress.Ip4Address);
+            _desktopC2DWcfManager.SetServerAddresses(dcServiceAddresses, dto.UserName, clientAddress.Ip4Address);
             var da = (DoubleAddress)dcServiceAddresses.Clone();
             da.Main.Port = (int)TcpPorts.ServerListenToCommonClient;
             if (da.HasReserveAddress) da.Reserve.Port = (int)TcpPorts.ServerListenToCommonClient;
-            _commonC2DWcfManager.SetServerAddresses(da, username, clientAddress.Ip4Address);
-
-            var result = await _commonC2DWcfManager.RegisterClientAsync(
-                new RegisterClientDto()
-                {
-                    Addresses = new DoubleAddress() { Main = clientAddress, HasReserveAddress = false },
-                    UserName = username,
-                    Password = password,
-                    ConnectionId = connectionId,
-                    IsUnderSuperClient = isUnderSuperClient,
-                });
+            _commonC2DWcfManager.SetServerAddresses(da, dto.UserName, clientAddress.Ip4Address);
+            dto.Addresses = new DoubleAddress() { Main = clientAddress, HasReserveAddress = false };
+            var result = await _commonC2DWcfManager.RegisterClientAsync(dto);
 
             if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
                 MessageBox.Show(result.ReturnCode.GetLocalizedString(), Resources.SID_Error_);
