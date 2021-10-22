@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AutoMapper;
+using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.Graph
 {
@@ -24,6 +26,17 @@ namespace Iit.Fibertest.Graph
             }
             model.Licenses.Add(Mapper.Map<License>(e));
 
+            if (e.IsMachineKeyRequired && model.Users.All(u => u.Role != Role.SecurityAdmin))
+            {
+                model.Users.Add(new User()
+                {
+                    UserId = Guid.NewGuid(),
+                    Role = Role.SecurityAdmin,
+                    Title = @"admin",
+                    EncodedPassword = e.SecurityAdminPassword,
+                    ZoneId = Guid.Empty,
+                });
+            }
 
             return null;
         }

@@ -16,9 +16,13 @@ namespace Iit.Fibertest.Dto
 
         [DataMember]
         public string UserName { get; set; }
-
         [DataMember]
         public string Password { get; set; }
+
+        [DataMember]
+        public string MachineKey { get; set; }
+        [DataMember]
+        public string SecurityAdminPassword { get; set; }
 
         [DataMember]
         public bool IsUnderSuperClient { get; set; }

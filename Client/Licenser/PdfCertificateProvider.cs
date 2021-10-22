@@ -30,12 +30,24 @@ namespace Iit.Fibertest.Licenser
             AddCaption(section);
             AddMain(section);
             AddContent(section);
+            if (_licenseInFileModel.IsMachineKeyRequired)
+                AddSecurityAdminPasswordPage(section);
 
             PdfDocumentRenderer pdfDocumentRenderer =
                 new PdfDocumentRenderer(true) { Document = doc };
             pdfDocumentRenderer.RenderDocument();
 
             return pdfDocumentRenderer.PdfDocument;
+        }
+
+        private void AddSecurityAdminPasswordPage(Section section)
+        {
+            section.AddPageBreak();
+            var paragraph = section.AddParagraph();
+            paragraph.AddFormattedText(_licenseInFileModel.SecurityAdminPassword);
+            paragraph.Format.SpaceBefore = Unit.FromCentimeter(10);
+            paragraph.Format.Font.Size = 16;
+
         }
 
         private void AddCaption(Section section)
@@ -141,7 +153,7 @@ namespace Iit.Fibertest.Licenser
 
         private void AddDigitalKey(Section section, LicenseInFile licenseInFile)
         {
-            var bytes = new LicenseManager().Encode(licenseInFile);
+            var bytes = Cryptography.Encode(licenseInFile);
 
             var paragraph = section.AddParagraph();
             paragraph.AddFormattedText("=== digital key starts ===");

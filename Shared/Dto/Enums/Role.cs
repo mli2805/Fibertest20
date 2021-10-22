@@ -14,6 +14,7 @@
 
         Superclient = 5,
 
+        SecurityAdmin = 98,
         NotificationReceiver = 99,
     }
 

@@ -150,6 +150,7 @@
     <Compile Include="Algorithms\AccidentFromMoniResult\AccidentPlaceLocator.cs" />
     <Compile Include="Algorithms\AccidentFromMoniResult\AccidentsFromSorExtractor.cs" />
     <Compile Include="Algorithms\BaseRefToolKit\BaseRefsChecker2.cs" />
+    <Compile Include="Algorithms\Cryptography.cs" />
     <Compile Include="Algorithms\Gis\CoorsInRad.cs" />
     <Compile Include="Algorithms\Gis\DecartAxis.cs" />
     <Compile Include="Algorithms\Gis\DecartCoors.cs" />

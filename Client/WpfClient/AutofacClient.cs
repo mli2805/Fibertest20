@@ -190,6 +190,7 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<LoginViewModel>();
             builder.RegisterType<ServersConnectViewModel>();
+            builder.RegisterType<SecurityAdminConfirmationViewModel>();
             builder.RegisterType<ServerConnectionLostViewModel>();
             builder.RegisterType<NetAddressTestViewModel>();
             builder.RegisterType<NetAddressInputViewModel>();

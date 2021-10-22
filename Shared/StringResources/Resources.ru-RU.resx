@@ -2905,7 +2905,7 @@ RTU инициализируется в данный момент!</value>
 	  <value>Лицензионный ключ</value>
   </data>
 	<data name="SID_Incremental" xml:space="preserve">
-	  <value>Дополнительный</value>
+	  <value>Дополнительная</value>
   </data>
 	<data name="SID_Rtu_count" xml:space="preserve">
 		<value>Количество модулей</value>
@@ -2969,5 +2969,14 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Copy_coordinates_to_clipboard" xml:space="preserve">
 		<value>Копировать координаты в буфер обмена</value>
+	</data>
+	<data name="SID_License_type" xml:space="preserve">
+		<value>Тип лицензии</value>
+	</data>
+	<data name="SID_User_workplace_linking" xml:space="preserve">
+		<value>Привязка рабочее место - пользователь</value>
+	</data>
+	<data name="SID_Basic" xml:space="preserve">
+		<value>Основная</value>
 	</data>
 </root>

@@ -1,4 +1,6 @@
-﻿using Caliburn.Micro;
+﻿using System;
+using Caliburn.Micro;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 
 namespace DirectRtuClient
@@ -20,6 +22,14 @@ namespace DirectRtuClient
 
             IpAddress = _iniFile35.Read(IniSection.RtuManager, IniKey.OtauIp, @"172.16.5.53");
 
+
+            var str = @"Test string Тестовая строка 1234567890 !№);%:?*()";
+            var bytes = Cryptography.Encode(str);
+            var str2 = (string)Cryptography.Decode(bytes);
+            if (str != str2)
+            {
+                Console.WriteLine(@"Error!");
+            }
         }
 
         public void ParseView()

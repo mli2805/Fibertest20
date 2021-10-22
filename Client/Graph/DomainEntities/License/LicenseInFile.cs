@@ -14,6 +14,8 @@ namespace Iit.Fibertest.Graph
         public LicenseParameterInFile WebClientCount { get; set; } = new LicenseParameterInFile();
         public LicenseParameterInFile SuperClientStationCount { get; set; } = new LicenseParameterInFile();
 
+        public bool IsMachineKeyRequired { get; set; }
+        public byte[] SecurityAdminPassword { get; set; }
         public DateTime CreationDate { get; set; } // Used in LicenseKey string
         public DateTime LoadingDate { get; set; } // for evaluations
         public string Version { get; set; } = @"2.0.0.0";

@@ -12,11 +12,13 @@ namespace Iit.Fibertest.DataCenterCore
             new ApplyLicense()
             {
                 Owner = "Demo license",
+                IsIncremental = false,
                 RtuCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.MaxValue },
-                ClientStationCount = new LicenseParameter() { Value = 2, ValidUntil = DateTime.MaxValue },
-                WebClientCount = new LicenseParameter() {Value = 1, ValidUntil = DateTime.MaxValue },
-                SuperClientStationCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.Today.AddMonths(6) },
-                Version = "2.5.0.1"
+                ClientStationCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.MaxValue },
+                WebClientCount = new LicenseParameter() {Value = 0, ValidUntil = DateTime.MaxValue },
+                SuperClientStationCount = new LicenseParameter() { Value = 0, ValidUntil = DateTime.MaxValue },
+                IsMachineKeyRequired = false,
+                Version = "2.0.0.0"
             },
             new AddZone() { IsDefaultZone = true, Title = StringResources.Resources.SID_Default_Zone },
             new AddUser() { UserId = Guid.NewGuid(), Title = "developer",
@@ -33,6 +35,8 @@ namespace Iit.Fibertest.DataCenterCore
                 Role = Role.WebSupervisor, ZoneId = Guid.Empty },
             new AddUser() { UserId = Guid.NewGuid(), Title = "superclient", EncodedPassword = UserExt.FlipFlop("superclient"),
                 Role = Role.Superclient, ZoneId = Guid.Empty },
+            new AddUser() { UserId = Guid.NewGuid(), Title = "admin", EncodedPassword = "admin".GetHashString(),
+                Role = Role.SecurityAdmin, ZoneId = Guid.Empty },
         };
     }
 }

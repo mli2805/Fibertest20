@@ -65,6 +65,8 @@
         UserHasNoRightsToStartSuperClient,
         UserHasNoRightsToStartWebClient,
         VersionsDoNotMatch,
+        WrongMachineKey = 9051,
+        WrongSecurityAdminPassword = 9052,
 
         BaseRefAssignmentFailed = 9401,
         BaseRefAssignmentParamNotAcceptable = 9402,

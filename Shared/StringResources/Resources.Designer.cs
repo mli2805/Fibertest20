@@ -999,6 +999,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Basic.
+        /// </summary>
+        public static string SID_Basic {
+            get {
+                return ResourceManager.GetString("SID_Basic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Before {0}Gb  After {1}Gb  Released {2}Gb.
         /// </summary>
         public static string SID_Before__0___After__1___Released__2_ {
@@ -4060,6 +4069,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_License_owner {
             get {
                 return ResourceManager.GetString("SID_License_owner", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to License type.
+        /// </summary>
+        public static string SID_License_type {
+            get {
+                return ResourceManager.GetString("SID_License_type", resourceCulture);
             }
         }
         
@@ -8292,6 +8310,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_User_with_the_same_name_is_registered_on_another_PC {
             get {
                 return ResourceManager.GetString("SID_User_with_the_same_name_is_registered_on_another_PC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User-workplace linking.
+        /// </summary>
+        public static string SID_User_workplace_linking {
+            get {
+                return ResourceManager.GetString("SID_User_workplace_linking", resourceCulture);
             }
         }
         

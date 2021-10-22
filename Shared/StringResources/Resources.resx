@@ -2970,4 +2970,13 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Copy_coordinates_to_clipboard" xml:space="preserve">
 		<value>Copy coordinates to clipboard</value>
 	</data>
+	<data name="SID_License_type" xml:space="preserve">
+		<value>License type</value>
+	</data>
+	<data name="SID_User_workplace_linking" xml:space="preserve">
+		<value>User-workplace linking</value>
+	</data>
+	<data name="SID_Basic" xml:space="preserve">
+		<value>Basic</value>
+	</data>
 </root>

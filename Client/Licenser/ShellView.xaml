@@ -26,9 +26,13 @@
                 <TextBox Width="300" Text="{Binding LicenseInFileModel.Owner}" />
             </StackPanel>
             <StackPanel Name="Incremental" Orientation="Horizontal" Height="22" Margin="0,5"  HorizontalAlignment="Right" >
-                <TextBlock Text="{x:Static stringResources:Resources.SID_Incremental}" TextAlignment="Right" Margin="0,0,20,0"/>
-                <CheckBox IsChecked="{Binding LicenseInFileModel.IsIncremental}"/>
-                <TextBlock Width="285"/>
+                <TextBlock Text="{x:Static stringResources:Resources.SID_License_type}" TextAlignment="Right" Margin="0,0,20,0"/>
+
+                <RadioButton GroupName="LicType" Width="120" Height="18" Content="{x:Static stringResources:Resources.SID_Basic}" 
+                             IsChecked="{Binding LicenseInFileModel.IsBasic}"/>
+                <RadioButton GroupName="LicType" Width="120" Height="18" Content="{x:Static stringResources:Resources.SID_Incremental}" 
+                             IsChecked="{Binding LicenseInFileModel.IsIncremental}"/>
+                <TextBlock Width="60"/>
             </StackPanel>
             <StackPanel Name="Rtu" Orientation="Horizontal" Height="22" Margin="0,5" HorizontalAlignment="Right" >
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Rtu_count}" TextAlignment="Right" Margin="0,0,20,0"/>
@@ -59,9 +63,17 @@
                 <ComboBox Width="100" ItemsSource="{Binding LicenseInFileModel.TermUnit}" 
                           SelectedItem="{Binding LicenseInFileModel.SuperClientTermUnit}"/>
             </StackPanel>
+            <StackPanel Name="MachineKey" Orientation="Horizontal" Height="32" Margin="0,5" 
+                        HorizontalAlignment="Right" Visibility="{Binding LicenseInFileModel.IsBasic, Converter={StaticResource BoolToVis}}">
+                <TextBlock Text="{x:Static stringResources:Resources.SID_User_workplace_linking}" 
+                           Width="200" TextWrapping="Wrap" TextAlignment="Right" Margin="0,0,20,0"/>
+                <CheckBox Height="18" IsChecked="{Binding LicenseInFileModel.IsMachineKeyRequired}"/>
+                <TextBlock Width="285"/>
+            </StackPanel>
 
             <StackPanel Name="Date" Orientation="Horizontal" Height="24" Margin="0,5" HorizontalAlignment="Right">
-                <TextBlock Width="160" Text="{x:Static stringResources:Resources.SID_Creation_date}" TextAlignment="Right" Margin="0,0,20,0"/>
+                <TextBlock Width="160" Text="{x:Static stringResources:Resources.SID_Creation_date}" 
+                           TextAlignment="Right" Margin="0,0,20,0" Height="18"/>
                 <DatePicker Width="100" SelectedDate="{Binding LicenseInFileModel.CreationDate}" />
                 <TextBlock Width="200"/>
             </StackPanel>
@@ -92,7 +104,7 @@
             <Button Grid.Row="1" Grid.Column="2"  Name="Close" Content="{x:Static stringResources:Resources.SID_Close}" 
                     Width="120" Height="22" Margin="5"/>
         </Grid>
-       
+
     </DockPanel>
 
 </Window>

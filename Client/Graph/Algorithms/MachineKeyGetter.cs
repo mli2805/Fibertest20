@@ -10,8 +10,7 @@ namespace Iit.Fibertest.Graph
             var cpuId = GetCpuId();
             var mbSerial = GetMotherBoardSerial();
             var ddSerial = GetDiskDriveSerial();
-            var machineName = Environment.MachineName;
-            return cpuId + mbSerial + ddSerial + machineName;
+            return cpuId + mbSerial + ddSerial;
         }
 
         private static string GetCpuId()

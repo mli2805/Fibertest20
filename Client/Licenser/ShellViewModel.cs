@@ -75,6 +75,8 @@ namespace Iit.Fibertest.Licenser
             LicenseInFileModel = new LicenseInFileModel()
             {
                 LicenseId = Guid.NewGuid(),
+                IsBasic = true,
+                SecurityAdminPassword = Cryptography.CreatePassword(8),
                 CreationDate = DateTime.Today,
             };
             IsEditable = true;
@@ -93,7 +95,8 @@ namespace Iit.Fibertest.Licenser
 
         public void SaveAsFile()
         {
-            var encoded = EncodeLicense();
+            var license = LicenseInFileModel.ToLicenseInFile();
+            var encoded = Cryptography.Encode(license);
             SaveLicenseAsFile(encoded);
         }
 
@@ -110,17 +113,10 @@ namespace Iit.Fibertest.Licenser
                 File.WriteAllBytes(filename, encoded);
             }
 
-            var licenseInFile = new LicenseManager().Decode(encoded);
+            var licenseInFile = (LicenseInFile)Cryptography.Decode(encoded);
             LicenseInFileModel = new LicenseInFileModel(licenseInFile);
         }
 
-
-
-        private byte[] EncodeLicense()
-        {
-            var license = LicenseInFileModel.ToLicenseInFile();
-            return new LicenseManager().Encode(license);
-        }
 
         public void ToPdf()
         {

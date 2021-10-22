@@ -91,6 +91,24 @@ namespace Iit.Fibertest.DataCenterCore
                 }
             }
 
+            // R6 Machine Key
+            if (_writeModel.IsMachineKeyRequired() && user.MachineKey != dto.MachineKey)
+            {
+                if (string.IsNullOrEmpty(dto.SecurityAdminPassword))
+                {   // prohibited, call Security Admin to confirm 
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.WrongMachineKey };
+                }
+
+                var admin = _writeModel.Users.First(u => u.Role == Role.SecurityAdmin);
+                if (admin.EncodedPassword != dto.SecurityAdminPassword)
+                {   
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.WrongSecurityAdminPassword };
+                }
+
+                user.MachineKey = dto.MachineKey;
+            }
+            //
+
             _clients.Add(Create(dto, user));
             _logFile.AppendLine($"Client {dto.UserName}/{dto.ClientIp} registered with connectionId {dto.ConnectionId}");
             if (!dto.IsWebClient)
@@ -126,7 +144,7 @@ namespace Iit.Fibertest.DataCenterCore
                     && _clients.All(s => s.ClientIp != dto.ClientIp))
                     return new ClientRegisteredDto() { ReturnCode = ReturnCode.SuperClientsCountExceeded };
                 // if (_writeModel.License.SuperClientStationCount.ValidUntil < DateTime.Today)
-                    // return new ClientRegisteredDto() { ReturnCode = ReturnCode.SuperClientsCountLicenseExpired };
+                // return new ClientRegisteredDto() { ReturnCode = ReturnCode.SuperClientsCountLicenseExpired };
             }
             else if (dto.IsWebClient)
             {
@@ -134,7 +152,7 @@ namespace Iit.Fibertest.DataCenterCore
                     && _clients.All(s => s.ClientIp != dto.ClientIp))
                     return new ClientRegisteredDto() { ReturnCode = ReturnCode.WebClientsCountExceeded };
                 // if (_writeModel.License.WebClientCount.ValidUntil < DateTime.Today)
-                    // return new ClientRegisteredDto() { ReturnCode = ReturnCode.WebClientsCountLicenseExpired };
+                // return new ClientRegisteredDto() { ReturnCode = ReturnCode.WebClientsCountLicenseExpired };
             }
             else
             {
@@ -142,7 +160,7 @@ namespace Iit.Fibertest.DataCenterCore
                     && _clients.All(s => s.ClientIp != dto.ClientIp))
                     return new ClientRegisteredDto() { ReturnCode = ReturnCode.ClientsCountExceeded };
                 // if (_writeModel.License.ClientStationCount.ValidUntil < DateTime.Today)
-                    // return new ClientRegisteredDto() { ReturnCode = ReturnCode.ClientsCountLicenseExpired };
+                // return new ClientRegisteredDto() { ReturnCode = ReturnCode.ClientsCountLicenseExpired };
             }
             return null;
         }

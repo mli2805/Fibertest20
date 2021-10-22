@@ -24,5 +24,10 @@ namespace Iit.Fibertest.Graph
         {
             return model.Licenses.Where(l=>l.SuperClientStationCount.ValidUntil >= DateTime.Today).Sum(l=>l.SuperClientStationCount.Value);
         }
+
+        public static bool IsMachineKeyRequired(this Model model)
+        {
+            return model.Licenses.Last().IsMachineKeyRequired;
+        }
     }
 }

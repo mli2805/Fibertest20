@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
@@ -17,6 +16,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
+        private readonly SecurityAdminConfirmationViewModel _securityAdminConfirmationViewModel;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly IWcfServiceDesktopC2D _desktopC2DWcfManager;
@@ -55,13 +55,15 @@ namespace Iit.Fibertest.Client
 
         public bool IsRegistrationSuccessful { get; set; }
 
-        public LoginViewModel(ILifetimeScope globalScope, IWindowManager windowManager, IniFile iniFile, IMyLog logFile,
+        public LoginViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, 
+            IWindowManager windowManager, SecurityAdminConfirmationViewModel securityAdminConfirmationViewModel,
             IWcfServiceDesktopC2D desktopC2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
             CurrentUser currentUser, CurrentGis currentGis,
             CurrentDatacenterParameters currentDatacenterParameters)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
+            _securityAdminConfirmationViewModel = securityAdminConfirmationViewModel;
             _iniFile = iniFile;
             _logFile = logFile;
             _desktopC2DWcfManager = desktopC2DWcfManager;
@@ -103,7 +105,7 @@ namespace Iit.Fibertest.Client
         public async Task<bool> RegisterClientAsync(string username, string password,
             string connectionId, bool isUnderSuperClient = false, int ordinal = 0)
         {
-            ClientRegisteredDto dto;
+            ClientRegisteredDto resultDto;
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToDesktopClient);
@@ -120,18 +122,25 @@ namespace Iit.Fibertest.Client
                 _logFile.AppendLine($@"Performing registration on {dcServiceAddresses.Main.Ip4Address}");
                 var clientPort = (int)TcpPorts.ClientListenTo;
                 if (isUnderSuperClient) clientPort += ordinal;
-                dto = await PureRegisterClientAsync(dcServiceAddresses, clientPort, sendDto);
+                resultDto = await PureRegisterClientAsync(dcServiceAddresses, clientPort, sendDto);
             }
 
-            if (dto.ReturnCode == ReturnCode.ClientRegisteredSuccessfully)
+            if (resultDto.ReturnCode == ReturnCode.WrongMachineKey || resultDto.ReturnCode == ReturnCode.WrongSecurityAdminPassword)
             {
-                var machineKey = MachineKeyGetter.GetMachineKey();
-                var hash = (machineKey + username).GetHashString();
-                Debug.WriteLine(hash);
-                //TODO compare with hash in file
+                if (!AskSecurityAdminConfirmation(resultDto))
+                {
+                    resultDto.ReturnCode = ReturnCode.WrongMachineKey;
+                }
             }
 
-            ParseServerAnswer(dto);
+            ParseServerAnswer(resultDto);
+            return true;
+        }
+
+        private bool AskSecurityAdminConfirmation(ClientRegisteredDto resultDto)
+        {
+            _securityAdminConfirmationViewModel.Initialize(resultDto);
+            _windowManager.ShowDialog(_securityAdminConfirmationViewModel);
             return true;
         }
 
@@ -209,7 +218,7 @@ namespace Iit.Fibertest.Client
             else
             {
                 _logFile.AppendLine(result.ReturnCode.ToString());
-                Status = result.ReturnCode.GetLocalizedString();
+                Status = result.ReturnCode.GetLocalizedString(result.ErrorMessage);
             }
         }
 

@@ -81,7 +81,7 @@ namespace Graph.Tests
             vm.Login();
             FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
             ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
-            ReadModel.Users.Count.Should().Be(7);
+            ReadModel.Users.Count.Should().Be(8);
         }
 
 

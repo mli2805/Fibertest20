@@ -33,8 +33,9 @@ namespace Iit.Fibertest.Licenser
                 return "FT020-00000000-000000000-000000";
 
             var id = LicenseId.ToString().ToUpper().Substring(0, 8);
-            var licType = IsIncremental ? "I" : "B";
-            return $"FT020-{id}-{licType}{RtuCount:D2}{ClientStationCount:D2}{WebClientCount:D2}{SuperClientStationCount:D2}-{CreationDate:yyMMdd}";
+            var licType = IsIncremental ? "I" : IsMachineKeyRequired ? "BR" : "BF";
+            var stations = $"{ClientStationCount:D2}{WebClientCount:D2}{SuperClientStationCount:D2}";
+            return $"FT020-{id}-{licType}{RtuCount:D2}{stations}-{CreationDate:yyMMdd}";
         }
 
         public Brush LicenseKeyColor => LicenseId == Guid.Empty ? Brushes.Gray : Brushes.Black;
@@ -61,6 +62,18 @@ namespace Iit.Fibertest.Licenser
                 _isIncremental = value;
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(LicenseKey));
+            }
+        }
+
+        private bool _isBasic;
+        public bool IsBasic
+        {
+            get => _isBasic;
+            set
+            {
+                if (value == _isBasic) return;
+                _isBasic = value;
+                NotifyOfPropertyChange();
             }
         }
 
@@ -215,6 +228,21 @@ namespace Iit.Fibertest.Licenser
             }
         }
 
+        private bool _isMachineKeyRequired;
+        public bool IsMachineKeyRequired
+        {
+            get => _isMachineKeyRequired;
+            set
+            {
+                if (value == _isMachineKeyRequired) return;
+                _isMachineKeyRequired = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(LicenseKey));
+            }
+        }
+        public string SecurityAdminPassword { get; set; }
+
+
         private DateTime _creationDate;
 
         public DateTime CreationDate
@@ -243,6 +271,7 @@ namespace Iit.Fibertest.Licenser
             LicenseId = licenseInFile.LicenseId;
             Owner = licenseInFile.Owner;
             IsIncremental = licenseInFile.IsIncremental;
+            IsBasic = !licenseInFile.IsIncremental;
 
             RtuCount = licenseInFile.RtuCount.Value;
             RtuCountTerm = licenseInFile.RtuCount.Term;
@@ -260,6 +289,8 @@ namespace Iit.Fibertest.Licenser
             SuperClientTerm = licenseInFile.SuperClientStationCount.Term;
             SuperClientTermUnit = licenseInFile.SuperClientStationCount.IsTermInYears ? TermUnit.First() : TermUnit.Last();
 
+            IsMachineKeyRequired = licenseInFile.IsMachineKeyRequired;
+            SecurityAdminPassword = (string) Cryptography.Decode(licenseInFile.SecurityAdminPassword);
             CreationDate = licenseInFile.CreationDate;
         }
 
@@ -294,8 +325,12 @@ namespace Iit.Fibertest.Licenser
                     Term = SuperClientTerm,
                     IsTermInYears = SuperClientTermUnit == TermUnit.First(),
                 },
+                IsMachineKeyRequired = IsMachineKeyRequired,
+                SecurityAdminPassword = Cryptography.Encode(SecurityAdminPassword),
                 CreationDate = CreationDate,
             };
         }
+
+        
     }
 }
