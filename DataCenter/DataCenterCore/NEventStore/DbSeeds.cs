@@ -15,8 +15,8 @@ namespace Iit.Fibertest.DataCenterCore
                 IsIncremental = false,
                 RtuCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.MaxValue },
                 ClientStationCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.MaxValue },
-                WebClientCount = new LicenseParameter() {Value = 0, ValidUntil = DateTime.MaxValue },
-                SuperClientStationCount = new LicenseParameter() { Value = 0, ValidUntil = DateTime.MaxValue },
+                WebClientCount = new LicenseParameter() {Value = 1, ValidUntil = DateTime.MaxValue },
+                SuperClientStationCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.MaxValue },
                 IsMachineKeyRequired = false,
                 Version = "2.0.0.0"
             },

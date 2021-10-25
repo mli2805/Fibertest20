@@ -2,7 +2,6 @@
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace Iit.Fibertest.Graph
 {
@@ -50,25 +49,6 @@ namespace Iit.Fibertest.Graph
                 Console.WriteLine(e.Message);
                 return null;
             }
-        }
-
-        public static string CreatePassword(int length)
-        {
-            const string valid = "1234567890!@#$%&*abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
-            StringBuilder res = new StringBuilder();
-            using (RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider())
-            {
-                byte[] uintBuffer = new byte[sizeof(uint)];
-
-                while (length-- > 0)
-                {
-                    rng.GetBytes(uintBuffer);
-                    uint num = BitConverter.ToUInt32(uintBuffer, 0);
-                    res.Append(valid[(int)(num % (uint)valid.Length)]);
-                }
-            }
-
-            return res.ToString();
         }
     }
 }

@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Licenser
         {
             var rr = Environment.GetCommandLineArgs();
             HaveRights = rr.Length > 1 && rr[1] == "ihaverights";
-          
+
             if (rr.Length > 2)
             {
                 var license = new LicenseManager().ReadLicenseFromFile(rr[2]);
@@ -76,7 +76,7 @@ namespace Iit.Fibertest.Licenser
             {
                 LicenseId = Guid.NewGuid(),
                 IsBasic = true,
-                SecurityAdminPassword = Cryptography.CreatePassword(8),
+                SecurityAdminPassword = Password.Generate(8),
                 CreationDate = DateTime.Today,
             };
             IsEditable = true;

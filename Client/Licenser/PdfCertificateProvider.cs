@@ -6,6 +6,7 @@ using System.Threading;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using MigraDoc.DocumentObjectModel;
+using MigraDoc.DocumentObjectModel.Shapes;
 using MigraDoc.Rendering;
 using PdfSharp.Pdf;
 
@@ -45,9 +46,28 @@ namespace Iit.Fibertest.Licenser
             section.AddPageBreak();
             var paragraph = section.AddParagraph();
             paragraph.AddFormattedText(_licenseInFileModel.SecurityAdminPassword);
-            paragraph.Format.SpaceBefore = Unit.FromCentimeter(10);
-            paragraph.Format.Font.Size = 16;
+            paragraph.Format.SpaceBefore = Unit.FromCentimeter(13.5);
+            paragraph.Format.LeftIndent = Unit.FromCentimeter(7);
+            paragraph.Format.Font.Size = 24;
+            paragraph.Format.Font.Color = Colors.Gray;
 
+            TextFrame tf = section.AddTextFrame();
+            tf.RelativeHorizontal = RelativeHorizontal.Page;
+            tf.RelativeVertical = RelativeVertical.Page;
+            tf.Left = ShapePosition.Left;
+            tf.Top = ShapePosition.Top;
+            var background = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, @"Resources\Reports\PasswordBackground.png");
+            tf.AddImage(background);
+
+            TextFrame tf2 = section.AddTextFrame();
+            tf2.RelativeHorizontal = RelativeHorizontal.Page;
+            tf2.RelativeVertical = RelativeVertical.Page;
+            tf2.Left = ShapePosition.Right;
+            tf2.Top = Unit.FromCentimeter(28);
+            tf2.Width = Unit.FromCentimeter(12);
+            var paragraph2 = tf2.AddParagraph(Resources.SID_JS_Institute_of_Information_Technologies);
+            paragraph2.Format.Font.Size = 14;
+            paragraph2.Format.Font.Color = Colors.DarkGray;
         }
 
         private void AddCaption(Section section)
