@@ -9,17 +9,17 @@ namespace Iit.Fibertest.DataCenterCore
     {
         public static readonly List<object> Collection = new List<object>()
         {
-            new ApplyLicense()
-            {
-                Owner = "Demo license",
-                IsIncremental = false,
-                RtuCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.MaxValue },
-                ClientStationCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.MaxValue },
-                WebClientCount = new LicenseParameter() {Value = 1, ValidUntil = DateTime.MaxValue },
-                SuperClientStationCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.MaxValue },
-                IsMachineKeyRequired = false,
-                Version = "2.0.0.0"
-            },
+            // new ApplyLicense()
+            // {
+            //     Owner = "Demo license",
+            //     IsIncremental = false,
+            //     RtuCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.MaxValue },
+            //     ClientStationCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.MaxValue },
+            //     WebClientCount = new LicenseParameter() {Value = 1, ValidUntil = DateTime.MaxValue },
+            //     SuperClientStationCount = new LicenseParameter() { Value = 1, ValidUntil = DateTime.MaxValue },
+            //     IsMachineKeyRequired = false,
+            //     Version = "2.0.0.0"
+            // },
             new AddZone() { IsDefaultZone = true, Title = StringResources.Resources.SID_Default_Zone },
             new AddUser() { UserId = Guid.NewGuid(), Title = "developer",
                 EncodedPassword = UserExt.FlipFlop("developer"), Role = Role.Developer, ZoneId = Guid.Empty },
@@ -35,8 +35,8 @@ namespace Iit.Fibertest.DataCenterCore
                 Role = Role.WebSupervisor, ZoneId = Guid.Empty },
             new AddUser() { UserId = Guid.NewGuid(), Title = "superclient", EncodedPassword = UserExt.FlipFlop("superclient"),
                 Role = Role.Superclient, ZoneId = Guid.Empty },
-            new AddUser() { UserId = Guid.NewGuid(), Title = "admin", EncodedPassword = "admin".GetHashString(),
-                Role = Role.SecurityAdmin, ZoneId = Guid.Empty },
+            // new AddUser() { UserId = Guid.NewGuid(), Title = "admin", EncodedPassword = "admin".GetHashString(),
+            //     Role = Role.SecurityAdmin, ZoneId = Guid.Empty },
         };
     }
 }

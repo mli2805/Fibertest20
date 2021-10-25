@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.Client;
@@ -69,6 +70,18 @@ namespace Graph.Tests
             FakeD2RWcfManager.SetFakeInitializationAnswer();
 
             ResolveClientsPartsOnStart();
+
+            eventStoreService.SendCommand(new ApplyLicense()
+            {
+                Owner = "Demo license",
+                IsIncremental = false,
+                RtuCount = new LicenseParameter() {Value = 1, ValidUntil = DateTime.MaxValue},
+                ClientStationCount = new LicenseParameter() {Value = 1, ValidUntil = DateTime.MaxValue},
+                WebClientCount = new LicenseParameter() {Value = 1, ValidUntil = DateTime.MaxValue},
+                SuperClientStationCount = new LicenseParameter() {Value = 1, ValidUntil = DateTime.MaxValue},
+                IsMachineKeyRequired = false,
+                Version = "2.0.0.0"
+            }, "system", "");
             LoginAsRoot();
         }
 
@@ -81,7 +94,7 @@ namespace Graph.Tests
             vm.Login();
             FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
             ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
-            ReadModel.Users.Count.Should().Be(8);
+            ReadModel.Users.Count.Should().Be(7);
         }
 
 
