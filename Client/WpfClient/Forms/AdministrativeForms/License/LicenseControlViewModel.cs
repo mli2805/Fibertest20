@@ -14,8 +14,11 @@ namespace Iit.Fibertest.Client
                 if (Equals(value, _license)) return;
                 _license = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IsBasic));
             }
         }
+
+        public bool IsBasic => !License.IsIncremental;
 
         public void FromFile(LicenseInFile licenseInFile)
         {
@@ -32,6 +35,7 @@ namespace Iit.Fibertest.Client
                 ClientStationCount = new LicenseParameter(licenseInFile.ClientStationCount),
                 WebClientCount = new LicenseParameter(licenseInFile.WebClientCount),
                 SuperClientStationCount = new LicenseParameter(licenseInFile.SuperClientStationCount),
+                IsMachineKeyRequired = licenseInFile.IsMachineKeyRequired,
                 CreationDate = licenseInFile.CreationDate,
                 Version = licenseInFile.Version,
             };

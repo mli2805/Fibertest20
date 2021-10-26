@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
+        private readonly NoLicenseAppliedViewModel _noLicenseAppliedViewModel;
         private readonly SecurityAdminConfirmationViewModel _securityAdminConfirmationViewModel;
         private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
@@ -55,14 +56,16 @@ namespace Iit.Fibertest.Client
 
         public bool IsRegistrationSuccessful { get; set; }
 
-        public LoginViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile, 
-            IWindowManager windowManager, SecurityAdminConfirmationViewModel securityAdminConfirmationViewModel,
+        public LoginViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,
+            IWindowManager windowManager, NoLicenseAppliedViewModel noLicenseAppliedViewModel,
+            SecurityAdminConfirmationViewModel securityAdminConfirmationViewModel,
             IWcfServiceDesktopC2D desktopC2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
             CurrentUser currentUser, CurrentGis currentGis,
             CurrentDatacenterParameters currentDatacenterParameters)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
+            _noLicenseAppliedViewModel = noLicenseAppliedViewModel;
             _securityAdminConfirmationViewModel = securityAdminConfirmationViewModel;
             _iniFile = iniFile;
             _logFile = logFile;
@@ -105,33 +108,50 @@ namespace Iit.Fibertest.Client
         public async Task<bool> RegisterClientAsync(string username, string password,
             string connectionId, bool isUnderSuperClient = false, int ordinal = 0)
         {
-            ClientRegisteredDto resultDto;
-            using (_globalScope.Resolve<IWaitCursor>())
-            {
-                var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToDesktopClient);
-                _currentDatacenterParameters.ServerIp = dcServiceAddresses.Main.Ip4Address;
-                _currentDatacenterParameters.ServerTitle = _iniFile.Read(IniSection.Server, IniKey.ServerTitle, "");
-                var sendDto = new RegisterClientDto()
-                {
-                    UserName = username,
-                    Password = password,
-                    ConnectionId = connectionId,
-                    IsUnderSuperClient = isUnderSuperClient,
-                };
-                Status = string.Format(Resources.SID_Performing_registration_on__0_, dcServiceAddresses.Main.Ip4Address);
-                _logFile.AppendLine($@"Performing registration on {dcServiceAddresses.Main.Ip4Address}");
-                var clientPort = (int)TcpPorts.ClientListenTo;
-                if (isUnderSuperClient) clientPort += ordinal;
-                resultDto = await PureRegisterClientAsync(dcServiceAddresses, clientPort, sendDto);
-            }
+            var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToDesktopClient);
+            _currentDatacenterParameters.ServerIp = dcServiceAddresses.Main.Ip4Address;
+            _currentDatacenterParameters.ServerTitle = _iniFile.Read(IniSection.Server, IniKey.ServerTitle, "");
+            var clientPort = (int)TcpPorts.ClientListenTo;
+            if (isUnderSuperClient) clientPort += ordinal;
+            Status = string.Format(Resources.SID_Performing_registration_on__0_, dcServiceAddresses.Main.Ip4Address);
+            _logFile.AppendLine($@"Performing registration on {dcServiceAddresses.Main.Ip4Address}");
 
-            if (resultDto.ReturnCode == ReturnCode.WrongMachineKey || resultDto.ReturnCode == ReturnCode.WrongSecurityAdminPassword)
+            var sendDto = new RegisterClientDto()
+            {
+                UserName = username,
+                Password = password,
+                ConnectionId = connectionId,
+                IsUnderSuperClient = isUnderSuperClient,
+            };
+
+            var resultDto = await PureRegisterClientAsync(dcServiceAddresses, clientPort, sendDto);
+
+            if (resultDto.ReturnCode == ReturnCode.NoLicenseHasBeenAppliedYet)
+            {
+                _windowManager.ShowDialog(_noLicenseAppliedViewModel);
+                if (!_noLicenseAppliedViewModel.IsCommandSent)
+                {
+                    var vm = new MyMessageBoxViewModel(MessageType.Error,
+                        @"Enter program without license applied prohibited");
+                    _windowManager.ShowDialogWithAssignedOwner(vm);
+                    return false;
+                }
+                if (!_noLicenseAppliedViewModel.IsLicenseAppliedSuccessfully)
+                    return false; // message was shown already
+
+                resultDto = await PureRegisterClientAsync(dcServiceAddresses, clientPort, sendDto);
+
+            }
+            else if (resultDto.ReturnCode == ReturnCode.WrongMachineKey
+                     || resultDto.ReturnCode == ReturnCode.WrongSecurityAdminPassword)
             {
                 if (!AskSecurityAdminConfirmation(resultDto))
                 {
                     resultDto.ReturnCode = ReturnCode.WrongMachineKey;
                 }
             }
+            else if (resultDto.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
+                MessageBox.Show(resultDto.ReturnCode.GetLocalizedString(), Resources.SID_Error_);
 
             ParseServerAnswer(resultDto);
             return true;
@@ -147,25 +167,28 @@ namespace Iit.Fibertest.Client
         private async Task<ClientRegisteredDto> PureRegisterClientAsync(
             DoubleAddress dcServiceAddresses, int clientTcpPort, RegisterClientDto dto)
         {
-            var clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, clientTcpPort);
-            if (clientAddress.IsAddressSetAsIp && clientAddress.Ip4Address == @"0.0.0.0" &&
-                dcServiceAddresses.Main.Ip4Address != @"0.0.0.0")
+            using (_globalScope.Resolve<IWaitCursor>())
             {
-                clientAddress.Ip4Address = LocalAddressResearcher.GetLocalAddressToConnectServer(dcServiceAddresses.Main.Ip4Address);
-                _iniFile.Write(clientAddress, IniSection.ClientLocalAddress);
+                var clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, clientTcpPort);
+                if (clientAddress.IsAddressSetAsIp && clientAddress.Ip4Address == @"0.0.0.0" &&
+                    dcServiceAddresses.Main.Ip4Address != @"0.0.0.0")
+                {
+                    clientAddress.Ip4Address = LocalAddressResearcher.GetLocalAddressToConnectServer(dcServiceAddresses.Main.Ip4Address);
+                    _iniFile.Write(clientAddress, IniSection.ClientLocalAddress);
+                }
+
+                _desktopC2DWcfManager.SetServerAddresses(dcServiceAddresses, dto.UserName, clientAddress.Ip4Address);
+                var da = (DoubleAddress)dcServiceAddresses.Clone();
+                da.Main.Port = (int)TcpPorts.ServerListenToCommonClient;
+                if (da.HasReserveAddress) da.Reserve.Port = (int)TcpPorts.ServerListenToCommonClient;
+                _commonC2DWcfManager.SetServerAddresses(da, dto.UserName, clientAddress.Ip4Address);
+                dto.Addresses = new DoubleAddress() { Main = clientAddress, HasReserveAddress = false };
+                var result = await _commonC2DWcfManager.RegisterClientAsync(dto);
+
+                return result;
             }
 
-            _desktopC2DWcfManager.SetServerAddresses(dcServiceAddresses, dto.UserName, clientAddress.Ip4Address);
-            var da = (DoubleAddress)dcServiceAddresses.Clone();
-            da.Main.Port = (int)TcpPorts.ServerListenToCommonClient;
-            if (da.HasReserveAddress) da.Reserve.Port = (int)TcpPorts.ServerListenToCommonClient;
-            _commonC2DWcfManager.SetServerAddresses(da, dto.UserName, clientAddress.Ip4Address);
-            dto.Addresses = new DoubleAddress() { Main = clientAddress, HasReserveAddress = false };
-            var result = await _commonC2DWcfManager.RegisterClientAsync(dto);
 
-            if (result.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
-                MessageBox.Show(result.ReturnCode.GetLocalizedString(), Resources.SID_Error_);
-            return result;
         }
 
         public void SetServerAddress()

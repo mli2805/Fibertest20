@@ -6,9 +6,9 @@
         xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
         xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews;assembly=Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d"
-        Width="400" SizeToContent="Height">
+        Width="600" SizeToContent="Height" WindowStartupLocation="CenterOwner">
     <StackPanel>
-        <TextBlock Text="{Binding Text1}" TextAlignment="Center" Margin="5"/>
+        <TextBlock Text="{Binding Text1}" TextAlignment="Center" Margin="5,20, 5,5"/>
         <TextBlock Text="{Binding Text2}" TextAlignment="Center" Margin="5"/>
         <TextBlock Text="{Binding Text3}" TextAlignment="Center" Margin="5"/>
         <TextBlock Text="{Binding Text4}" TextAlignment="Center" Margin="5, 30, 5, 5"/>
@@ -19,7 +19,13 @@
                          wpfCommonViews:PasswordHelper.Password="{Binding Password, Mode=TwoWay,
                                                                             UpdateSourceTrigger=PropertyChanged}"
                          Width="100" Margin="5"/>
-            <Button Name="Confirm" Content="Confirm" Margin="5" Width="100"/>
+            <!-- <Button Name="Confirm" Content="Confirm" Margin="5" Width="100"/> -->
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,0,0,20">
+            <Button Name="OkButton" Visibility="{Binding OkVisibility}" Content="OK" Margin="5" 
+                    IsDefault="True" HorizontalAlignment="Center" Width="100"/>
+            <Button Name="CancelButton" Visibility="{Binding CancelVisibility}" Content="Cancel" Margin="5" 
+                    IsCancel="True" HorizontalAlignment="Center" Width="100"/>
         </StackPanel>
     </StackPanel>
 </Window>

@@ -67,6 +67,7 @@
         VersionsDoNotMatch,
         WrongMachineKey = 9051,
         WrongSecurityAdminPassword = 9052,
+        NoLicenseHasBeenAppliedYet = 9099,
 
         BaseRefAssignmentFailed = 9401,
         BaseRefAssignmentParamNotAcceptable = 9402,

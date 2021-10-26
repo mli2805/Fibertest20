@@ -26,16 +26,23 @@ namespace Iit.Fibertest.Graph
             }
             model.Licenses.Add(Mapper.Map<License>(e));
 
-            if (e.IsMachineKeyRequired && model.Users.All(u => u.Role != Role.SecurityAdmin))
+            if (e.IsMachineKeyRequired)
             {
-                model.Users.Add(new User()
+                if (model.Users.All(u => u.Role != Role.SecurityAdmin))
                 {
-                    UserId = Guid.NewGuid(),
-                    Role = Role.SecurityAdmin,
-                    Title = @"admin",
-                    EncodedPassword = e.SecurityAdminPassword,
-                    ZoneId = Guid.Empty,
-                });
+                    model.Users.Add(new User()
+                    {
+                        UserId = Guid.NewGuid(),
+                        Role = Role.SecurityAdmin,
+                        Title = @"admin",
+                        EncodedPassword = e.SecurityAdminPassword,
+                        ZoneId = Guid.Empty,
+                    });
+                }
+
+                var user = model.Users.FirstOrDefault(u => u.UserId == e.UserId);
+                if (user == null) return null;
+                user.MachineKey = e.MachineKey;
             }
 
             return null;

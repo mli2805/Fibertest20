@@ -238,6 +238,7 @@
       <DependentUpon>LicenseControlView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\AdministrativeForms\License\LicenseControlViewModel.cs" />
+    <Compile Include="Forms\AdministrativeForms\License\LicenseSender.cs" />
     <Compile Include="Forms\BaseRefs\BaseRefMessages.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\EventLogReportProvider.cs" />
     <Compile Include="Forms\BaseRefs\VeexTestMappingProfile.cs" />
@@ -245,6 +246,10 @@
     <Compile Include="Forms\Input\KeyTrigger.cs" />
     <Compile Include="Forms\Input\MultiKeyGesture.cs" />
     <Compile Include="Forms\Input\MultiKeyGestureConverter.cs" />
+    <Compile Include="Forms\LoginServer\NoLicenseAppliedView.xaml.cs">
+      <DependentUpon>NoLicenseAppliedView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LoginServer\NoLicenseAppliedViewModel.cs" />
     <Compile Include="Forms\LoginServer\SecurityAdminConfirmationView.xaml.cs">
       <DependentUpon>SecurityAdminConfirmationView.xaml</DependentUpon>
     </Compile>
@@ -729,6 +734,10 @@
     <Page Include="Forms\AdministrativeForms\License\LicenseControlView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Forms\LoginServer\NoLicenseAppliedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\LoginServer\SecurityAdminConfirmationView.xaml">
       <SubType>Designer</SubType>

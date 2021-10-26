@@ -5,6 +5,7 @@ namespace Iit.Fibertest.Graph
     public class LicenseApplied
     {
         public Guid LicenseId { get; set; }
+        public Guid UserId { get; set; } // user who sends license to server
         public bool IsIncremental { get; set; } // by default = false -> Main license
         public string Owner { get; set; }
        
@@ -15,6 +16,7 @@ namespace Iit.Fibertest.Graph
 
         public bool IsMachineKeyRequired { get; set; }
         public string SecurityAdminPassword { get; set; }
+        public string MachineKey { get; set; }
 
         public DateTime CreationDate { get; set; } // Used in LicenseKey string
         public DateTime LoadingDate { get; set; } // for evaluations
