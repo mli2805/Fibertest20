@@ -30,6 +30,5 @@ namespace Iit.Fibertest.Graph
                 return null;
             }
         }
-
     }
 }
