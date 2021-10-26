@@ -9,7 +9,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeIntoLoopOfTraceSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
         private Iit.Fibertest.Graph.Fiber _doublePassedFiber;
         private Iit.Fibertest.Graph.Trace _trace;
         private Guid _nodeId;

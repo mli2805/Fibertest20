@@ -17,6 +17,10 @@ namespace Graph.Tests
         public Iit.Fibertest.Graph.Trace Trace1 { get; set; }
         public Iit.Fibertest.Graph.Trace Trace2 { get; set; }
 
+        public SceneForHideTraces()
+        {
+            LoginAsRoot(Answer.Yes);
+        }
 
         public void CreateRtu1WithTrace1()
         {

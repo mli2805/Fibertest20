@@ -10,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class FiberUpdatedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
         private Guid _saidFiberId;
         private int _cutOff;
         private int _userInputLength;

@@ -1,5 +1,4 @@
-﻿using System;
-using Autofac;
+﻿using Autofac;
 using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.Client;
@@ -70,31 +69,31 @@ namespace Graph.Tests
             FakeD2RWcfManager.SetFakeInitializationAnswer();
 
             ResolveClientsPartsOnStart();
-
-            eventStoreService.SendCommand(new ApplyLicense()
-            {
-                Owner = "Demo license",
-                IsIncremental = false,
-                RtuCount = new LicenseParameter() {Value = 1, ValidUntil = DateTime.MaxValue},
-                ClientStationCount = new LicenseParameter() {Value = 1, ValidUntil = DateTime.MaxValue},
-                WebClientCount = new LicenseParameter() {Value = 1, ValidUntil = DateTime.MaxValue},
-                SuperClientStationCount = new LicenseParameter() {Value = 1, ValidUntil = DateTime.MaxValue},
-                IsMachineKeyRequired = false,
-                Version = "2.0.0.0"
-            }, "system", "");
-            LoginAsRoot();
         }
 
-        private void LoginAsRoot()
+        public SystemUnderTest LoginAsRoot(Answer withDemoLicense)
         {
+            var writeModel = ServerScope.Resolve<Model>();
+            writeModel.Users.Count.ShouldBeEquivalentTo(7);
+            writeModel.Licenses.Count.ShouldBeEquivalentTo(0);
+
             var vm = ClientScope.Resolve<LoginViewModel>();
             vm.UserName = @"root";
             vm.Password = @"root";
             vm.ConnectionId = @"connectionIdroot";
+
+            FakeWindowManager.RegisterHandler(model => this.NoLicenseHandler(model, withDemoLicense));
+            FakeWindowManager.RegisterHandler(model => this.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            ReadModel.Users.Count.Should().Be(0);
             vm.Login();
+            ReadModel.Users.Count.Should().Be(0);
+            ReadModel.Licenses.Count.Should().Be(0);
+
             FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
             ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
             ReadModel.Users.Count.Should().Be(7);
+
+            return this;
         }
 
 

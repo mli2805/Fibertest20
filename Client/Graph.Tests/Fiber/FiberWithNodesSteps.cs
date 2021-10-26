@@ -14,7 +14,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class FiberWithNodesSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
         private Guid _leftNodeId;
         private Guid _rightNodeId;
         private int _equipmentCountCutOff;

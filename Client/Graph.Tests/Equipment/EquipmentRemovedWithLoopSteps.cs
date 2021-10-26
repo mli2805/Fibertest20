@@ -11,7 +11,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentRemovedWithLoopSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
         private Guid _nodeAId, _equipmentA1Id;
         private Iit.Fibertest.Graph.Trace _trace;
         private NodeUpdateViewModel _vm;

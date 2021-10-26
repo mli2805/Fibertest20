@@ -276,6 +276,14 @@
     <Compile Include="BopNetworkEvent\BopEventAddedSteps.cs">
       <DependentUpon>BopEventAdded.feature</DependentUpon>
     </Compile>
+    <Compile Include="Login\Login.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Login.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Login\LoginSteps.cs">
+      <DependentUpon>Login.feature</DependentUpon>
+    </Compile>
     <Compile Include="Node\AdjustmentPointIntoFiberAdded.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -763,6 +771,10 @@
     <None Include="BopNetworkEvent\BopEventAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BopEventAdded.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Login\Login.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Login.feature.cs</LastGenOutput>
     </None>
     <None Include="Node\AdjustmentPointIntoFiberAdded.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

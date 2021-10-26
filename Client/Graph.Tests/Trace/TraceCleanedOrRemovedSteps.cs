@@ -11,7 +11,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceCleanedOrRemovedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
         private Guid _traceId1, _traceId2;
 
         [Given(@"Даны две трассы с общим отрезком")]

@@ -16,7 +16,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class RtuReInitializedSteps
     {
-        private SystemUnderTest _sut = new SystemUnderTest();
+        private SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
         private Iit.Fibertest.Graph.Rtu _rtu;
         private RtuLeaf _rtuLeaf;
         private OtauLeaf _otauLeaf;

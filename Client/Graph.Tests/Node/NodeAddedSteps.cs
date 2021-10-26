@@ -8,7 +8,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeAddedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
         private int _cutOff;
       
 

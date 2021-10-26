@@ -18,7 +18,7 @@ namespace Graph.Tests
         private const string NodeNewTitle = @"Node with changes";
         private const string EquipmentNewTitle = @"Equipment with changes";
 
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
         private Iit.Fibertest.Graph.Rtu _rtu;
         private Iit.Fibertest.Graph.Trace _trace;
         private TraceLeaf _traceLeaf;

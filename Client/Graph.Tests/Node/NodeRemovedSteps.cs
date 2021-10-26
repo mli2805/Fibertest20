@@ -12,7 +12,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeRemovedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
         private Guid _nodeId;
         private const EquipmentType Type = EquipmentType.Closure;
         private Guid _rtuNodeId;

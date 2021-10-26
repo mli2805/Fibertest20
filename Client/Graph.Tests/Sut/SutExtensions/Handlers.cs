@@ -130,6 +130,16 @@ namespace Graph.Tests
             return true;
         }
 
+        public static bool NoLicenseHandler(this SystemUnderTest sut, object model, Answer answer)
+        {
+            if (!(model is NoLicenseAppliedViewModel vm)) return false;
+            if (answer == Answer.Yes)
+                vm.ApplyDemoLicense();
+            else
+                vm.LoadLicenseFromFile();
+            return true;
+        }
+
         public static bool ZoneHandler(this SystemUnderTest sut, object model, string zoneTitle, Answer answer)
         {
             if (!(model is ZoneViewModel vm)) return false;

@@ -12,7 +12,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class TestFetchedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
         private FakeVeexRtuModel _fakeVeexRtuModel;
         private Iit.Fibertest.Graph.Trace _trace;
         private Iit.Fibertest.Graph.Trace _traceOnBop;

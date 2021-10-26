@@ -16,7 +16,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class BaseRefAssignedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
         private Iit.Fibertest.Graph.Trace _trace;
         private RtuLeaf _rtuLeaf;
         private TraceLeaf _traceLeaf;

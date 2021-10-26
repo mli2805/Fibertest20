@@ -14,7 +14,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class ZonesSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
         private Iit.Fibertest.Graph.Rtu _rtu1;
         private Iit.Fibertest.Graph.Rtu _rtu2;
         private Guid _zone1Id;
