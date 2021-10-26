@@ -16,7 +16,7 @@ namespace Graph.Tests
             var rtu = sut.SetInitializedRtu();
             var trace = sut.SetTrace(rtu.NodeId, @"Trace with accident in existing node");
             var traceLeaf = (TraceLeaf)sut.TreeOfRtuModel.GetById(trace.TraceId);
-            sut.AssignBaseRef(traceLeaf, SystemUnderTest.Base1550Lm4RealplaceYesRough, SystemUnderTest.Base1550Lm4RealplaceYesRough, null, Answer.Yes);
+            sut.AssignBaseRef(traceLeaf, SystemUnderTest.Base1550Lm4RealPlaceYesRough, SystemUnderTest.Base1550Lm4RealPlaceYesRough, null, Answer.Yes);
             return trace;
         }
 

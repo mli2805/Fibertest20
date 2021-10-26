@@ -865,6 +865,8 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BaseRefAssigned.feature.cs</LastGenOutput>
     </None>
+    <None Include="Sut\LicenseFiles\DevSecAdmin.lic" />
+    <None Include="Sut\LicenseFiles\Fibertest20dev.lic" />
     <None Include="Trace\TraceAddedFirstStage.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>TraceAddedFirstStage.feature.cs</LastGenOutput>

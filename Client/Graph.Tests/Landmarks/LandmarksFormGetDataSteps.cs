@@ -12,7 +12,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class LandmaksFormGetDataSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
         private Iit.Fibertest.Graph.Trace _trace;
         private LandmarksViewModel _vm;
 

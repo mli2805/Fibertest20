@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfCommonViews;
 
 
@@ -130,13 +131,25 @@ namespace Graph.Tests
             return true;
         }
 
-        public static bool NoLicenseHandler(this SystemUnderTest sut, object model, Answer answer)
+        public static bool NoLicenseHandler(this SystemUnderTest sut, object model, string filename = "")
         {
             if (!(model is NoLicenseAppliedViewModel vm)) return false;
-            if (answer == Answer.Yes)
+            if (filename == "")
                 vm.ApplyDemoLicense();
             else
-                vm.LoadLicenseFromFile();
+            {
+                var licenseInFile = new LicenseManager().ReadLicenseFromFile(filename);
+                vm.LicenseSender.ApplyLicenseFromFile(licenseInFile).Wait();
+            }
+            return true;
+        }
+
+        public static bool SecurityAdminPasswordHandler(this SystemUnderTest sut, object model, string password)
+        {
+            if (!(model is SecurityAdminConfirmationViewModel vm)) return false;
+            vm.Initialize();
+            vm.Password = password;
+            vm.OkButton();
             return true;
         }
 

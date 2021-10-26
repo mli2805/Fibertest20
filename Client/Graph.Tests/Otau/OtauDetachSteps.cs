@@ -12,7 +12,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class OtauDetachSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
         private Guid _rtuId;
         private Iit.Fibertest.Graph.Trace _trace;
         private RtuLeaf _rtuLeaf;

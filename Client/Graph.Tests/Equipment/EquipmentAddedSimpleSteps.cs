@@ -10,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public class EquipmentAddedSimpleSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
         private Guid _nodeId;
         private Iit.Fibertest.Graph.Equipment _equipment;
 

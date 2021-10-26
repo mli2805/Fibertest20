@@ -19,7 +19,7 @@ namespace Graph.Tests
 
         public SceneForHideTraces()
         {
-            LoginAsRoot(Answer.Yes);
+            LoginAsRoot();
         }
 
         public void CreateRtu1WithTrace1()

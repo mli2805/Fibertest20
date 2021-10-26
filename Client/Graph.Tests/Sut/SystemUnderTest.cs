@@ -54,8 +54,11 @@ namespace Graph.Tests
         public const string Base1550Lm4YesThresholds = @"..\..\Sut\BaseSorFiles\base1550-4lm-3-thresholds.sor";
         public const string Base1550Lm2YesThresholds = @"..\..\Sut\BaseSorFiles\base1550-2lm-3-thresholds.sor";
 
-        public const string Base1550Lm4RealplaceYesRough = @"..\..\Sut\BaseSorFiles\base1550-4lm-realplace-rough.sor";
+        public const string Base1550Lm4RealPlaceYesRough = @"..\..\Sut\BaseSorFiles\base1550-4lm-realplace-rough.sor";
         public const string Base1550Lm5FakeYesRough = @"..\..\Sut\BaseSorFiles\base1550-5lm-fake-rough.sor";
+
+        public const string Fibertest20dev = @"..\..\Sut\LicenseFiles\Fibertest20dev.lic";
+        public const string DevSecAdmin = @"..\..\Sut\LicenseFiles\DevSecAdmin.lic";
 
         public SystemUnderTest()
         {
@@ -71,7 +74,7 @@ namespace Graph.Tests
             ResolveClientsPartsOnStart();
         }
 
-        public SystemUnderTest LoginAsRoot(Answer withDemoLicense)
+        public SystemUnderTest LoginAsRoot(string filename = "")
         {
             var writeModel = ServerScope.Resolve<Model>();
             writeModel.Users.Count.ShouldBeEquivalentTo(7);
@@ -82,8 +85,12 @@ namespace Graph.Tests
             vm.Password = @"root";
             vm.ConnectionId = @"connectionIdroot";
 
-            FakeWindowManager.RegisterHandler(model => this.NoLicenseHandler(model, withDemoLicense));
+            FakeWindowManager.RegisterHandler(model => this.NoLicenseHandler(model, filename));
             FakeWindowManager.RegisterHandler(model => this.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            if (filename != "")
+                FakeWindowManager.RegisterHandler(model => this.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            if (filename == DevSecAdmin)
+                FakeWindowManager.RegisterHandler(model => this.SecurityAdminPasswordHandler(model, "lAChr6zA"));
             ReadModel.Users.Count.Should().Be(0);
             vm.Login();
             ReadModel.Users.Count.Should().Be(0);
@@ -91,11 +98,10 @@ namespace Graph.Tests
 
             FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
             ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
-            ReadModel.Users.Count.Should().Be(7);
+            ReadModel.Users.Count.Should().Be(filename == DevSecAdmin ? 8 : 7);
 
             return this;
         }
-
 
         private void ResolveClientsPartsOnStart()
         {

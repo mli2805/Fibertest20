@@ -12,7 +12,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentAddedOnNodeUpdateSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
         private Iit.Fibertest.Graph.Equipment _oldEquipment;
         private NodeUpdateViewModel _nodeUpdateViewModel;
         private int _cutOff, _itemsCount;

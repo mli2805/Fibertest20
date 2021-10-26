@@ -12,7 +12,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class MoniResultComesSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
         private Iit.Fibertest.Graph.Trace _trace;
         private TraceLeaf _traceLeaf;
 

@@ -13,7 +13,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceAddedFirstStageSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
         private Guid _rtuNodeId;
         private Guid _lastNodeId;
         private Guid _wrongNodeId, _wrongNodeWithEqId;

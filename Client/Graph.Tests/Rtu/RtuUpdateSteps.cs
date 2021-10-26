@@ -12,7 +12,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class RtuUpdateSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
         private Guid _saidRtuId;
         private Guid _saidNodeId;
         private int _cutOff; // in scenario with no changes and Save button it's interesting that not only node wasn't changed but command wasn't sent

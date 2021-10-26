@@ -71,26 +71,73 @@ namespace Graph.Tests.Login
             testRunner.CollectScenarioErrors();
         }
         
+        public virtual void FeatureBackground()
+        {
+#line 3
+#line 4
+ testRunner.Given("База пустая после установки или сброса", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+        }
+        
         void System.IDisposable.Dispose()
         {
             this.ScenarioTearDown();
         }
         
-        [Xunit.FactAttribute(DisplayName="Вход на пустой базе")]
+        [Xunit.FactAttribute(DisplayName="Вход на пустой базе с Демо лицензией")]
         [Xunit.TraitAttribute("FeatureTitle", "Login")]
-        [Xunit.TraitAttribute("Description", "Вход на пустой базе")]
-        public virtual void ВходНаПустойБазе()
+        [Xunit.TraitAttribute("Description", "Вход на пустой базе с Демо лицензией")]
+        public virtual void ВходНаПустойБазеСДемоЛицензией()
         {
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Вход на пустой базе", null, ((string[])(null)));
-#line 3
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Вход на пустой базе с Демо лицензией", null, ((string[])(null)));
+#line 6
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
-#line 4
- testRunner.Given("База пустая после установки или сброса", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 5
+#line 3
+this.FeatureBackground();
+#line 7
  testRunner.When("Рут входит и выбирает применить Демо лицензию", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 6
+#line 8
  testRunner.Then("Вход осуществлен разрешен один пользователь и один рту", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Вход на пустой базе с лицензией без привязки рабмест")]
+        [Xunit.TraitAttribute("FeatureTitle", "Login")]
+        [Xunit.TraitAttribute("Description", "Вход на пустой базе с лицензией без привязки рабмест")]
+        public virtual void ВходНаПустойБазеСЛицензиейБезПривязкиРабмест()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Вход на пустой базе с лицензией без привязки рабмест", null, ((string[])(null)));
+#line 10
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 3
+this.FeatureBackground();
+#line 11
+ testRunner.When("Рут входит и указывает файл с лицензией без привязки рабмест", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 12
+ testRunner.Then("Вход осуществлен пользователи и рту разрешены в соответствии с лицензионным файло" +
+                    "м", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.FactAttribute(DisplayName="Вход на пустой базе с лицензией с привязкой рабмест")]
+        [Xunit.TraitAttribute("FeatureTitle", "Login")]
+        [Xunit.TraitAttribute("Description", "Вход на пустой базе с лицензией с привязкой рабмест")]
+        public virtual void ВходНаПустойБазеСЛицензиейСПривязкойРабмест()
+        {
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Вход на пустой базе с лицензией с привязкой рабмест", null, ((string[])(null)));
+#line 15
+this.ScenarioInitialize(scenarioInfo);
+            this.ScenarioStart();
+#line 3
+this.FeatureBackground();
+#line 16
+ testRunner.When("Рут входит и указывает файл с лицензией с привязкой рабмест", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 17
+ testRunner.Then("Вход осуществлен пользователи и рту разрешены", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

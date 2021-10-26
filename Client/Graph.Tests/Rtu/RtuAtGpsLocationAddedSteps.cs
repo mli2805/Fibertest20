@@ -10,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class RtuAtGpsLocationAddedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
         private int _rtuCutOff;
 
         [Given(@"На сервере применена демо лицензия на один RTU")]

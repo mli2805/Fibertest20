@@ -14,7 +14,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class FiberAddedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
         private Guid _leftNodeId;
         private Guid _rightNodeId;
         private int _cutOff;

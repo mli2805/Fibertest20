@@ -12,7 +12,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentAddedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
         private Guid _equipmentId;
         private Guid _rtuNodeId;
         private Guid _anotherNodeId, _anotherNodeId2;

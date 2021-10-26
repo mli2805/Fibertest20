@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
 
         private SecurityAdminConfirmationViewModel _vm;
 
-        public LicenseSender(LicenseManager licenseManager, IWcfServiceDesktopC2D c2DWcfManager, 
+        public LicenseSender(LicenseManager licenseManager, IWcfServiceDesktopC2D c2DWcfManager,
             IWindowManager windowManager, CurrentUser currentUser)
         {
             _licenseManager = licenseManager;
@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _currentUser = currentUser;
         }
-        
+
         public async Task<bool> ApplyLicenseFromFile()
         {
             var licenseInFile = _licenseManager.ReadLicenseFromFileDialog();
@@ -36,6 +36,12 @@ namespace Iit.Fibertest.Client
                 return false;
             }
 
+            return await ApplyLicenseFromFile(licenseInFile);
+        }
+
+        // from this point test can take part
+        public async Task<bool> ApplyLicenseFromFile(LicenseInFile licenseInFile)
+        {
             var cmd = LicenseCommandFactory.CreateFromFile(licenseInFile, _currentUser.UserId);
             if (licenseInFile.IsMachineKeyRequired)
             {

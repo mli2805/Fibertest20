@@ -10,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentAtGpsLocationAddedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
 
         [When(@"Пользователь кликает добавить узел с оборудованием")]
         public void WhenПользовательКликаетДобавитьУзелСОборудованием()

@@ -13,7 +13,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeIntoFiberAddedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
         private Guid _a1Id;
         private Guid _b1Id;
         private Guid _nodeId;

@@ -5,14 +5,14 @@ namespace Iit.Fibertest.Client
 {
     public class NoLicenseAppliedViewModel : Screen
     {
-        private readonly LicenseSender _licenseSender;
+        public readonly LicenseSender LicenseSender;
 
         public bool IsCommandSent { get; set; }
         public bool IsLicenseAppliedSuccessfully { get; set; }
 
         public NoLicenseAppliedViewModel(LicenseSender licenseSender)
         {
-            _licenseSender = licenseSender;
+            LicenseSender = licenseSender;
         }
 
         protected override void OnViewLoaded(object view)
@@ -23,14 +23,14 @@ namespace Iit.Fibertest.Client
         public async void ApplyDemoLicense()
         {
             IsCommandSent = true;
-            IsLicenseAppliedSuccessfully = await _licenseSender.ApplyDemoLicense();
+            IsLicenseAppliedSuccessfully = await LicenseSender.ApplyDemoLicense();
             TryClose();
         }
 
         public async void LoadLicenseFromFile()
         {
             IsCommandSent = true;
-            IsLicenseAppliedSuccessfully = await _licenseSender.ApplyLicenseFromFile();
+            IsLicenseAppliedSuccessfully = await LicenseSender.ApplyLicenseFromFile();
             TryClose();
         }
     }

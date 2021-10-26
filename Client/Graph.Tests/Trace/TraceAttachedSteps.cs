@@ -10,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceAttachedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot(Answer.Yes);
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
         private Guid _traceId;
         private int _portNumber;
         private Guid _rtuId;
