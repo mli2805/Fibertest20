@@ -13,5 +13,15 @@ namespace Iit.Fibertest.Client
         public string ConnectionId { get; set; }
 
         public bool IsDefaultZoneUser => ZoneId == Guid.Empty;
+
+        public void FillIn(ClientRegisteredDto dto)
+        {
+            UserId = dto.UserId;
+            UserName = UserName;
+            Role = dto.Role;
+            ZoneId = dto.ZoneId;
+            ZoneTitle = dto.ZoneTitle;
+            ConnectionId = dto.ConnectionId;
+        }
     }
 }

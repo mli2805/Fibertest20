@@ -20,7 +20,7 @@
                 <TextBlock Text="{x:Static stringResources:Resources.SID_User}" TextAlignment="Right"/>
             </DockPanel>
             <DockPanel Margin="0,7,0,0">
-                <Button DockPanel.Dock="Right" Name="SetServerAddress" Content="{x:Static stringResources:Resources.SID_Server}" 
+                <Button DockPanel.Dock="Right" Name="ChooseServer" Content="{x:Static stringResources:Resources.SID_Server}" 
                             Margin="10,0,0,0" Width="80" KeyboardNavigation.TabIndex="3"/>
                 <PasswordBox wpfCommonViews:PasswordHelper.Attach="True"  
                              wpfCommonViews:PasswordHelper.Password="{Binding Password, Mode=TwoWay,

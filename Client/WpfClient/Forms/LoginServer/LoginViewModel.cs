@@ -58,12 +58,10 @@ namespace Iit.Fibertest.Client
         public bool IsRegistrationSuccessful { get; set; }
 
         public LoginViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,
-            IWindowManager windowManager, IMachineKeyProvider machineKeyProvider,
-            NoLicenseAppliedViewModel noLicenseAppliedViewModel,
-            SecurityAdminConfirmationViewModel securityAdminConfirmationViewModel,
+            IWindowManager windowManager, SecurityAdminConfirmationViewModel securityAdminConfirmationViewModel,
+            IMachineKeyProvider machineKeyProvider, NoLicenseAppliedViewModel noLicenseAppliedViewModel,
             IWcfServiceDesktopC2D desktopC2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
-            CurrentUser currentUser, CurrentGis currentGis,
-            CurrentDatacenterParameters currentDatacenterParameters)
+            CurrentUser currentUser, CurrentGis currentGis, CurrentDatacenterParameters currentDatacenterParameters)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
@@ -84,23 +82,15 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Authentication;
         }
 
-        // button
         public async void Login()
         {
 #if DEBUG
-            if (string.IsNullOrEmpty(UserName))
-                //                UserName = @"superclient";
-                UserName = @"developer";
-            //                                            UserName = @"operator";
-            //                UserName = @"supervisor";
-            //            UserName = @"root";
-            if (string.IsNullOrEmpty(Password))
-                //                Password = @"superclient";
-                //                Password = @"1";
-                Password = @"developer";
-            //                                            Password = @"operator";
-            //                Password = @"supervisor";
-            //            Password = @"root";
+            if (string.IsNullOrEmpty(UserName) && string.IsNullOrEmpty(Password))
+            //  UserName = @"superclient";  Password = @"superclient";
+                UserName = @"developer"; Password = @"developer";
+            //  UserName = @"operator";  Password = @"operator";
+            //  UserName = @"supervisor"; Password = @"supervisor";
+            //  UserName = @"root"; Password = @"root";
 #endif
             if (string.IsNullOrEmpty(ConnectionId))
                 ConnectionId = Guid.NewGuid().ToString();
@@ -108,17 +98,43 @@ namespace Iit.Fibertest.Client
             var unused = await RegisterClientAsync(UserName, Password, ConnectionId);
         }
 
+        private DoubleAddress _commonServiceAdresses;
+        private DoubleAddress _desktopServiceAdresses;
+        private NetAddress _clientAddress;
+
+        private void PrepareAddresses(string username, bool isUnderSuperClient = false, int ordinal = 0)
+        {
+            _desktopServiceAdresses = _iniFile.ReadDoubleAddress((int) TcpPorts.ServerListenToDesktopClient);
+            _currentDatacenterParameters.ServerIp = _desktopServiceAdresses.Main.Ip4Address;
+            _currentDatacenterParameters.ServerTitle = _iniFile.Read(IniSection.Server, IniKey.ServerTitle, "");
+
+            var clientTcpPort = (int)TcpPorts.ClientListenTo;
+            if (isUnderSuperClient) clientTcpPort += ordinal;
+            _clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, clientTcpPort);
+            if (_clientAddress.IsAddressSetAsIp && _clientAddress.Ip4Address == @"0.0.0.0" &&
+                _desktopServiceAdresses.Main.Ip4Address != @"0.0.0.0")
+            {
+                _clientAddress.Ip4Address = LocalAddressResearcher.GetLocalAddressToConnectServer(_desktopServiceAdresses.Main.Ip4Address);
+                _iniFile.Write(_clientAddress, IniSection.ClientLocalAddress);
+            }
+
+            _commonServiceAdresses = (DoubleAddress)_desktopServiceAdresses.Clone();
+            _commonServiceAdresses.Main.Port = (int)TcpPorts.ServerListenToCommonClient;
+            if (_commonServiceAdresses.HasReserveAddress)
+                _commonServiceAdresses.Reserve.Port = (int)TcpPorts.ServerListenToCommonClient;
+
+            _desktopC2DWcfManager.SetServerAddresses(_desktopServiceAdresses, username, _clientAddress.Ip4Address);
+            _commonC2DWcfManager.SetServerAddresses(_commonServiceAdresses, username, _clientAddress.Ip4Address);
+        }
+
         // public to start under super-client
         public async Task<bool> RegisterClientAsync(string username, string password,
             string connectionId, bool isUnderSuperClient = false, int ordinal = 0)
         {
-            var dcServiceAddresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToDesktopClient);
-            _currentDatacenterParameters.ServerIp = dcServiceAddresses.Main.Ip4Address;
-            _currentDatacenterParameters.ServerTitle = _iniFile.Read(IniSection.Server, IniKey.ServerTitle, "");
-            var clientPort = (int)TcpPorts.ClientListenTo;
-            if (isUnderSuperClient) clientPort += ordinal;
-            Status = string.Format(Resources.SID_Performing_registration_on__0_, dcServiceAddresses.Main.Ip4Address);
-            _logFile.AppendLine($@"Performing registration on {dcServiceAddresses.Main.Ip4Address}");
+            PrepareAddresses(username, isUnderSuperClient, ordinal);
+
+            Status = string.Format(Resources.SID_Performing_registration_on__0_, _desktopServiceAdresses.Main.Ip4Address);
+            _logFile.AppendLine($@"Performing registration on {_desktopServiceAdresses.Main.Ip4Address}");
 
             var sendDto = new RegisterClientDto()
             {
@@ -127,9 +143,10 @@ namespace Iit.Fibertest.Client
                 ConnectionId = connectionId,
                 MachineKey = _machineKeyProvider.Get(),
                 IsUnderSuperClient = isUnderSuperClient,
+                Addresses = new DoubleAddress() { Main = _clientAddress, HasReserveAddress = false }
             };
 
-            var resultDto = await PureRegisterClientAsync(dcServiceAddresses, clientPort, sendDto);
+            var resultDto = await PureRegisterClientAsync(sendDto);
 
             if (resultDto.ReturnCode == ReturnCode.NoLicenseHasBeenAppliedYet)
             {
@@ -145,7 +162,7 @@ namespace Iit.Fibertest.Client
                     return false; // message was shown already
 
                 sendDto.SecurityAdminPassword = _securityAdminConfirmationViewModel.Password;
-                resultDto = await PureRegisterClientAsync(dcServiceAddresses, clientPort, sendDto);
+                resultDto = await PureRegisterClientAsync(sendDto);
 
             }
             else if (resultDto.ReturnCode == ReturnCode.WrongMachineKey
@@ -163,6 +180,14 @@ namespace Iit.Fibertest.Client
             return true;
         }
 
+        private async Task<ClientRegisteredDto> PureRegisterClientAsync(RegisterClientDto dto)
+        {
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                return await _commonC2DWcfManager.RegisterClientAsync(dto);
+            }
+        }
+
         private bool AskSecurityAdminConfirmation(ClientRegisteredDto resultDto)
         {
             _securityAdminConfirmationViewModel.Initialize(resultDto);
@@ -170,33 +195,7 @@ namespace Iit.Fibertest.Client
             return true;
         }
 
-        private async Task<ClientRegisteredDto> PureRegisterClientAsync(
-            DoubleAddress dcServiceAddresses, int clientTcpPort, RegisterClientDto dto)
-        {
-            using (_globalScope.Resolve<IWaitCursor>())
-            {
-                var clientAddress = _iniFile.Read(IniSection.ClientLocalAddress, clientTcpPort);
-                if (clientAddress.IsAddressSetAsIp && clientAddress.Ip4Address == @"0.0.0.0" &&
-                    dcServiceAddresses.Main.Ip4Address != @"0.0.0.0")
-                {
-                    clientAddress.Ip4Address = LocalAddressResearcher.GetLocalAddressToConnectServer(dcServiceAddresses.Main.Ip4Address);
-                    _iniFile.Write(clientAddress, IniSection.ClientLocalAddress);
-                }
-
-                _desktopC2DWcfManager.SetServerAddresses(dcServiceAddresses, dto.UserName, clientAddress.Ip4Address);
-                var da = (DoubleAddress)dcServiceAddresses.Clone();
-                da.Main.Port = (int)TcpPorts.ServerListenToCommonClient;
-                if (da.HasReserveAddress) da.Reserve.Port = (int)TcpPorts.ServerListenToCommonClient;
-                _commonC2DWcfManager.SetServerAddresses(da, dto.UserName, clientAddress.Ip4Address);
-                dto.Addresses = new DoubleAddress() { Main = clientAddress, HasReserveAddress = false };
-                var result = await _commonC2DWcfManager.RegisterClientAsync(dto);
-
-                return result;
-            }
-        }
-
-        // button
-        public void SetServerAddress()
+        public void ChooseServer()
         {
             var vm = _globalScope.Resolve<ServersConnectViewModel>();
             _windowManager.ShowDialogWithAssignedOwner(vm);
@@ -206,36 +205,8 @@ namespace Iit.Fibertest.Client
         {
             if (result.ReturnCode == ReturnCode.ClientRegisteredSuccessfully)
             {
-                _currentUser.UserId = result.UserId;
-                _currentUser.UserName = UserName;
-                _currentUser.Role = result.Role;
-                _currentUser.ZoneId = result.ZoneId;
-                _currentUser.ZoneTitle = result.ZoneTitle;
-                _currentUser.ConnectionId = result.ConnectionId;
-                _currentDatacenterParameters.DatacenterVersion = result.DatacenterVersion;
-                _currentDatacenterParameters.StreamIdOriginal = result.StreamIdOriginal;
-                _currentDatacenterParameters.SnapshotLastEvent = result.SnapshotLastEvent;
-                _currentDatacenterParameters.SnapshotLastDate = result.SnapshotLastDate;
-                _currentDatacenterParameters.Smtp = new SmtpSettingsDto()
-                {
-                    SmptHost = result.Smtp.SmptHost,
-                    SmptPort = result.Smtp.SmptPort,
-                    MailFrom = result.Smtp.MailFrom,
-                    MailFromPassword = result.Smtp.MailFromPassword,
-                    SmtpTimeoutMs = result.Smtp.SmtpTimeoutMs,
-                };
-                _currentDatacenterParameters.GsmModemComPort = result.GsmModemComPort;
-                _currentDatacenterParameters.Snmp = new SnmpSettingsDto()
-                {
-                    IsSnmpOn = result.Snmp.IsSnmpOn,
-                    SnmpTrapVersion = result.Snmp.SnmpTrapVersion,
-                    SnmpReceiverIp = result.Snmp.SnmpReceiverIp,
-                    SnmpReceiverPort = result.Snmp.SnmpReceiverPort,
-                    SnmpAgentIp = result.Snmp.SnmpAgentIp,
-                    SnmpCommunity = result.Snmp.SnmpCommunity,
-                    EnterpriseOid = result.Snmp.EnterpriseOid,
-                    SnmpEncoding = result.Snmp.SnmpEncoding,
-                };
+                _currentUser.FillIn(result);
+                _currentDatacenterParameters.FillIn(result);
                 _currentGis.IsWithoutMapMode = result.IsWithoutMapMode;
 
                 _logFile.AppendLine(@"Registered successfully");
