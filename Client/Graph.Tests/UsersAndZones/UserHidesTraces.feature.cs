@@ -96,7 +96,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 8
  testRunner.Given("Рисует отдельные узлы B и C и отрезок между ними", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 10
- testRunner.Given("Входит пользователь operator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Выходит root и входит operator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 11
  testRunner.Then("В дереве видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 12
@@ -112,7 +112,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 19
  testRunner.And("Не включенные в трассы элементы НЕ видны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 21
- testRunner.Given("Входит пользователь supervisor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Выходит operator и входит supervisor", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 22
  testRunner.Then("В дереве видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 23
@@ -120,7 +120,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 24
  testRunner.And("Не включенные в трассы элементы НЕ видны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 26
- testRunner.Given("Входит пользователь operator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Выходит supervisor и входит operator", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 27
  testRunner.Then("В дереве видны оба RTU и обе трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 28
@@ -136,7 +136,7 @@ this.ScenarioInitialize(scenarioInfo);
 #line 35
  testRunner.And("Не включенные в трассы элементы НЕ видны", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line 37
- testRunner.Given("Входит пользователь root", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Выходит operator и входит root", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 38
  testRunner.When("Кликает на карте на иконке RTU1 пункт меню Скрыть трассы", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 40
@@ -168,3 +168,4 @@ this.ScenarioInitialize(scenarioInfo);
 }
 #pragma warning restore
 #endregion
+

@@ -10,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeRemoveFromLoopOfTraceSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
         private Iit.Fibertest.Graph.Fiber _doublePassedFiber1, _doublePassedFiber2;
         private Iit.Fibertest.Graph.Trace _trace;
         private Guid _nodeId;

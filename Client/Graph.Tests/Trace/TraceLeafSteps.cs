@@ -9,7 +9,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceLeafSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
         private Guid _traceId;
         private TraceLeaf _traceLeaf;
         private int _portNumber;

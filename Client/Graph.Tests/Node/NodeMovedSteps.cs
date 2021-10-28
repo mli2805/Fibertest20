@@ -11,7 +11,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class NodeMovedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
 
         private Guid _nodeId;
         private int _cutOff;

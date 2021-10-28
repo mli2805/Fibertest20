@@ -14,7 +14,7 @@ using Iit.Fibertest.WpfCommonViews;
 
 namespace Graph.Tests
 {
-    
+
     public class SystemUnderTest
     {
         public IContainer Container { get; set; }
@@ -30,8 +30,8 @@ namespace Graph.Tests
         public FakeWindowManager FakeWindowManager { get; set; }
         public FakeD2RWcfManager FakeD2RWcfManager { get; set; }
         public ShellViewModel ShellVm { get; set; }
-        public CurrentlyHiddenRtu CurrentlyHiddenRtu { get;set; }
-        public string ConnectionId { get;set; }
+        public CurrentlyHiddenRtu CurrentlyHiddenRtu { get; set; }
+        public string ConnectionId { get; set; }
 
         public AccidentsFromSorExtractor AccidentsFromSorExtractor { get; set; }
         public MsmqMessagesProcessor MsmqMessagesProcessor { get; }
@@ -70,26 +70,46 @@ namespace Graph.Tests
             VeexCompletedTestsFetcher = ServerScope.Resolve<VeexCompletedTestsFetcher>();
             FakeD2RWcfManager = (FakeD2RWcfManager)ServerScope.Resolve<ID2RWcfManager>();
             FakeD2RWcfManager.SetFakeInitializationAnswer();
-
-            ResolveClientsPartsOnStart();
-        }
-
-        public SystemUnderTest LoginAsRoot(string filename = "")
-        {
             var writeModel = ServerScope.Resolve<Model>();
             writeModel.Users.Count.ShouldBeEquivalentTo(7);
             writeModel.Licenses.Count.ShouldBeEquivalentTo(0);
 
-            var vm = ClientScope.Resolve<LoginViewModel>();
-            vm.UserName = @"root";
-            vm.Password = @"root";
-            vm.ConnectionId = @"connectionIdroot";
+            ResolveClientsPartsOnStart();
+        }
 
-            FakeWindowManager.RegisterHandler(model => this.NoLicenseHandler(model, filename));
+        private void ResolveClientsPartsOnStart()
+        {
+            ReadModel = ClientScope.Resolve<Model>();
+            Poller = ClientScope.Resolve<ClientPoller>();
+
+            FakeWindowManager = (FakeWindowManager)ClientScope.Resolve<IWindowManager>();
+
+            MyLogFile = ClientScope.Resolve<IMyLog>();
+            ShellVm = (ShellViewModel)ClientScope.Resolve<IShell>();
+            CurrentlyHiddenRtu = ClientScope.Resolve<CurrentlyHiddenRtu>();
+            GraphReadModel = ClientScope.Resolve<GraphReadModel>();
+            TreeOfRtuModel = ClientScope.Resolve<TreeOfRtuModel>();
+            TreeOfRtuViewModel = ClientScope.Resolve<TreeOfRtuViewModel>();
+            AccidentsFromSorExtractor = ClientScope.Resolve<AccidentsFromSorExtractor>();
+
+            WcfServiceDesktopC2D = (WcfServiceDesktopC2D)ClientScope.Resolve<IWcfServiceDesktopC2D>();
+            WcfServiceCommonC2D = (WcfServiceCommonC2D)ClientScope.Resolve<IWcfServiceCommonC2D>();
+        }
+
+        // by default with DEMO license
+        public SystemUnderTest LoginOnEmptyBaseAsRoot(string licenseFilename = "")
+        {
+            string username = "root";
+            var vm = ClientScope.Resolve<LoginViewModel>();
+            vm.UserName = username;
+            vm.Password = username;
+            vm.ConnectionId = @"connectionId" + username;
+
+            FakeWindowManager.RegisterHandler(model => this.NoLicenseHandler(model, licenseFilename));
             FakeWindowManager.RegisterHandler(model => this.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            if (filename != "")
+            if (licenseFilename != "")
                 FakeWindowManager.RegisterHandler(model => this.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            if (filename == DevSecAdmin)
+            if (licenseFilename == DevSecAdmin)
                 FakeWindowManager.RegisterHandler(model => this.SecurityAdminPasswordHandler(model, "lAChr6zA"));
             ReadModel.Users.Count.Should().Be(0);
             vm.Login();
@@ -98,39 +118,40 @@ namespace Graph.Tests
 
             FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
             ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
-            ReadModel.Users.Count.Should().Be(filename == DevSecAdmin ? 8 : 7);
+            ReadModel.Users.Count.Should().Be(licenseFilename == DevSecAdmin ? 8 : 7);
 
             return this;
         }
 
-        private void ResolveClientsPartsOnStart()
+        public void LoginAs(string username = "root", string licenseFilename = "")
         {
-            ReadModel = ClientScope.Resolve<Model>();
-            Poller = ClientScope.Resolve<ClientPoller>();
+            var vm = ClientScope.Resolve<LoginViewModel>();
+            vm.UserName = username;
+            vm.Password = username;
+            vm.ConnectionId = @"connectionId" + username;
 
-            FakeWindowManager = (FakeWindowManager) ClientScope.Resolve<IWindowManager>();
-      
-            MyLogFile = ClientScope.Resolve<IMyLog>();
-            ShellVm = (ShellViewModel) ClientScope.Resolve<IShell>();
-            CurrentlyHiddenRtu = ClientScope.Resolve<CurrentlyHiddenRtu>();
-            GraphReadModel = ClientScope.Resolve<GraphReadModel>();
-            TreeOfRtuModel = ClientScope.Resolve<TreeOfRtuModel>();
-            TreeOfRtuViewModel = ClientScope.Resolve<TreeOfRtuViewModel>();
-            AccidentsFromSorExtractor = ClientScope.Resolve<AccidentsFromSorExtractor>();
+            FakeWindowManager.RegisterHandler(model => this.NoLicenseHandler(model, licenseFilename));
+            FakeWindowManager.RegisterHandler(model => this.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            if (licenseFilename != "")
+                FakeWindowManager.RegisterHandler(model => this.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            if (licenseFilename == DevSecAdmin)
+                FakeWindowManager.RegisterHandler(model => this.SecurityAdminPasswordHandler(model, "lAChr6zA"));
+            vm.Login();
 
-            WcfServiceDesktopC2D = (WcfServiceDesktopC2D) ClientScope.Resolve<IWcfServiceDesktopC2D>();
-            WcfServiceCommonC2D = (WcfServiceCommonC2D) ClientScope.Resolve<IWcfServiceCommonC2D>();
+            FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
+            ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
         }
 
-        public void RestartClient(string username, string connectionId)
+        public void LogoutAs(string username)
         {
             var commonC2D = ClientScope.Resolve<IWcfServiceCommonC2D>();
+            var connectionId = @"connectionId" + username;
             var unused = commonC2D.UnregisterClientAsync(
-                new UnRegisterClientDto(){ClientIp = @"1.2.3.4", Username = username, ConnectionId = connectionId}).Result;
+                new UnRegisterClientDto() { ClientIp = @"1.2.3.4", Username = username, ConnectionId = connectionId }).Result;
             ClientScope = Container.BeginLifetimeScope(cfg =>
             {
-                 cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceCommonC2D>());
-                 cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceDesktopC2D>());
+                cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceCommonC2D>());
+                cfg.RegisterInstance(ServerScope.Resolve<IWcfServiceDesktopC2D>());
             });
             ResolveClientsPartsOnStart();
 

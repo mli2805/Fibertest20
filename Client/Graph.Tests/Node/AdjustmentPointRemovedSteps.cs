@@ -11,7 +11,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class AdjustmentPointRemovedSteps
     {
-        private SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
+        private SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
         private Guid _fiberId;
         private Guid _n1, _n2, _nodeWithPointId, _middleNodeForDeletion;
 

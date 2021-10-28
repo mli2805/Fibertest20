@@ -14,7 +14,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class EquipmentRemovedLightSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
         private Guid _nodeAId, _equipmentA1Id;
         private Guid _notInTraceEquipmentId;
         private NodeUpdateViewModel _vm;

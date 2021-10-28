@@ -13,28 +13,23 @@ namespace Graph.Tests
     public sealed class UserHidesTracesSteps
     {
         private readonly SceneForHideTraces _sut = new SceneForHideTraces();
-        private string _connectionId = @"connectionIdroot";
 
 
         [Given(@"Входит пользователь (.*)")]
         public void GivenВходитПользователь(string user)
         {
-            _sut.RestartClient(user, _connectionId);
-
-            var vm = _sut.ClientScope.Resolve<LoginViewModel>();
-            vm.UserName = user;
-            vm.Password = user;
-            vm.ConnectionId = @"connectionId"+user;
-            vm.Login();
-            _connectionId = @"connectionId"+user;
-            _sut.FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
-            _sut.ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
-            _sut.ReadModel.Users.Count.Should().Be(7);
-
+            _sut.LoginOnEmptyBaseAsRoot();
+           
             var vm1 = _sut.ClientScope.Resolve<ConfigurationViewModel>();
             vm1.IsGraphVisibleOnStart = true;
         }
 
+        [Given(@"Выходит (.*) и входит (.*)")]
+        public void GivenВыходитИВходит(string userOut, string userIn)
+        {
+            _sut.LogoutAs(userOut);
+            _sut.LoginAs(userIn);
+        }
 
         [Given(@"Рисует RTU1 с трассой1")]
         public void GivenРисуетRtu1СТрассой1()

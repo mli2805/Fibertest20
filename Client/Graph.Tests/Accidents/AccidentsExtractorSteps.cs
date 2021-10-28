@@ -14,7 +14,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class AccidentsExtractorSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
         private OtdrDataKnownBlocks _sorData;
         private Iit.Fibertest.Graph.Trace _trace;
 

@@ -11,7 +11,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class FiberRemovedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
         private Guid _leftNodeId;
         private Guid _rightNodeId;
         private Guid _fiberId;

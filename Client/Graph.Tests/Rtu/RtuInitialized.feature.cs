@@ -75,7 +75,7 @@ namespace Graph.Tests.Rtu
         {
 #line 3
 #line 4
- testRunner.Given("На сервере применена демо лицензия с одним RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+ testRunner.Given("Пустая база входит рут и применяет демо лицензию", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 5
  testRunner.Given("Существует RTU с основным 192.168.96.52 и резервным 172.16.4.10 адресами", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 6
@@ -197,3 +197,4 @@ this.FeatureBackground();
 }
 #pragma warning restore
 #endregion
+

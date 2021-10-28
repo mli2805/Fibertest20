@@ -10,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class MeasurementClientSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
         private Iit.Fibertest.Graph.Trace _trace;
         private Iit.Fibertest.Graph.Rtu _rtu;
         private RtuLeaf _rtuLeaf;

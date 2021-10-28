@@ -10,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class RftsEventsViewModelSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
         private RftsEventsViewModel _vm;
 
         [When(@"Открываем форму событий для измерения (.*)")]

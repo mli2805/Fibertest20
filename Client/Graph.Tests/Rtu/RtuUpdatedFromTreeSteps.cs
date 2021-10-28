@@ -11,7 +11,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class RtuUpdatedFromTreeSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
         private Guid _saidRtuId;
         private const string Title = "Title for test";
         private const string Comment = "Comment for test";

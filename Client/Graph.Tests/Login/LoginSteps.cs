@@ -22,7 +22,7 @@ namespace Graph.Tests
         [When(@"Рут входит и выбирает применить Демо лицензию")]
         public void WhenРутВходитИВыбираетПрименитьДемоЛицензию()
         {
-            _sut.LoginAsRoot();
+            _sut.LoginOnEmptyBaseAsRoot();
         }
 
         [Then(@"Вход осуществлен разрешен один пользователь и один рту")]
@@ -37,7 +37,7 @@ namespace Graph.Tests
         [When(@"Рут входит и указывает файл с лицензией без привязки рабмест")]
         public void WhenРутВходитИУказываетФайлСЛицензиейБезПривязкиРабмест()
         {
-            _sut.LoginAsRoot(SystemUnderTest.Fibertest20dev);
+            _sut.LoginOnEmptyBaseAsRoot(SystemUnderTest.Fibertest20dev);
         }
 
         [Then(@"Вход осуществлен пользователи и рту разрешены в соответствии с лицензионным файлом")]
@@ -49,19 +49,35 @@ namespace Graph.Tests
             license.ClientStationCount.Value.ShouldBeEquivalentTo(5);
         }
 
-        [When(@"Рут входит и указывает файл с лицензией с привязкой рабмест")]
-        public void WhenРутВходитИУказываетФайлСЛицензиейСПривязкойРабмест()
+        [When(@"Рут входит и указывает файл с лицензией с привязкой рабмест вводится пароль безопасника")]
+        public void WhenРутВходитИУказываетФайлСЛицензиейСПривязкойРабместВводитсяПарольБезопасника()
         {
-            _sut.LoginAsRoot(SystemUnderTest.DevSecAdmin);
+            _sut.LoginOnEmptyBaseAsRoot(SystemUnderTest.DevSecAdmin);
         }
 
-        [Then(@"Вход осуществлен пользователи и рту разрешены")]
-        public void ThenВходОсуществленПользователиИРтуРазрешены()
+        [Then(@"Вход осуществлен пользователи и рту разрешены кроме вэбклиентов")]
+        public void ThenВходОсуществленПользователиИРтуРазрешеныКромеВэбклиентов()
         {
             _sut.ReadModel.Licenses.Count.ShouldBeEquivalentTo(1);
             var license = _sut.ReadModel.Licenses.First();
             license.RtuCount.Value.ShouldBeEquivalentTo(999);
             license.ClientStationCount.Value.ShouldBeEquivalentTo(5);
+            license.WebClientCount.Value.ShouldBeEquivalentTo(0);
+        }
+
+        [When(@"Рут выходит на этом же компе входит оператор")]
+        public void WhenРутВыходитНаЭтомЖеКомпеВходитОператор()
+        {
+        }
+
+        [Then(@"Требует ввода пароля безопасника")]
+        public void ThenТребуетВводаПароляБезопасника()
+        {
+        }
+
+        [When(@"Пароль введен неверно")]
+        public void WhenПарольВведенНеверно()
+        {
         }
 
     }

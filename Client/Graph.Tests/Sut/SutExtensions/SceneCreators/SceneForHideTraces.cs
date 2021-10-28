@@ -17,11 +17,6 @@ namespace Graph.Tests
         public Iit.Fibertest.Graph.Trace Trace1 { get; set; }
         public Iit.Fibertest.Graph.Trace Trace2 { get; set; }
 
-        public SceneForHideTraces()
-        {
-            LoginAsRoot();
-        }
-
         public void CreateRtu1WithTrace1()
         {
             FakeWindowManager.RegisterHandler(model => this.RtuUpdateHandler(model, @"RTU1", @"RTU1 comment", Answer.Yes));

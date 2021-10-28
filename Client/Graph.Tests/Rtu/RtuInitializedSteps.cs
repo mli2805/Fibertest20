@@ -14,17 +14,17 @@ namespace Graph.Tests
     [Binding]
     public sealed class RtuInitializedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
+        private readonly SystemUnderTest _sut = new SystemUnderTest();
         private RtuLeaf _rtuLeaf;
         private Iit.Fibertest.Graph.Rtu _rtu;
         private string _mainAddress, _reserveAddress;
 
-        [Given(@"На сервере применена демо лицензия с одним RTU")]
-        public void GivenНаСервереПримененаДемоЛицензияСОднимRtu()
+        [Given(@"Пустая база входит рут и применяет демо лицензию")]
+        public void GivenПустаяБазаВходитРутИПрименяетДемоЛицензию()
         {
-            // When DB is initialized the demo license is applied
+            _sut.LoginOnEmptyBaseAsRoot();
         }
-        
+
         [When(@"На сервере применена другая лицензия с двумя RTU")]
         public void WhenНаСервереПримененаДругаяЛицензияСДвумяRtu()
         {
@@ -32,7 +32,7 @@ namespace Graph.Tests
             {
                 LicenseId = Guid.NewGuid(),
                 Owner = @"RtuAtGpsLocationAddedSteps 2 RTU",
-                RtuCount = new LicenseParameter(){Value = 2, ValidUntil = DateTime.MaxValue}
+                RtuCount = new LicenseParameter() { Value = 2, ValidUntil = DateTime.MaxValue }
             }).Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
@@ -61,7 +61,7 @@ namespace Graph.Tests
         {
             _mainAddress = p0;
             _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
-            _sut.FakeWindowManager.RegisterHandler(model => 
+            _sut.FakeWindowManager.RegisterHandler(model =>
                 _sut.RtuInitializeHandler(model, p0, ""));
 
             _rtuLeaf.MyContextMenu.FirstOrDefault(i => i.Header == Resources.SID_Network_settings)?.Command.Execute(_rtuLeaf);
@@ -74,7 +74,7 @@ namespace Graph.Tests
             _mainAddress = p0;
             _reserveAddress = p1;
             _sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
-            _sut.FakeWindowManager.RegisterHandler(model => 
+            _sut.FakeWindowManager.RegisterHandler(model =>
                 _sut.RtuInitializeHandler(model, p0, p1));
 
             _rtuLeaf.MyContextMenu.FirstOrDefault(i => i.Header == Resources.SID_Network_settings)?.Command.Execute(_rtuLeaf);
@@ -105,11 +105,11 @@ namespace Graph.Tests
             _sut.FakeWindowManager.Log.Remove(lastNotificationViewModel);
         }
 
-       
+
         [When(@"Пользователь открывает форму инициализации и жмет Отмена")]
         public void WhenПользовательОткрываетФормуИнициализацииИЖметОтмена()
         {
-            _sut.FakeWindowManager.RegisterHandler(model => 
+            _sut.FakeWindowManager.RegisterHandler(model =>
                 _sut.RtuInitializeHandler(model, "", "", 11842, Answer.Cancel));
             _rtuLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Network_settings).Command.Execute(_rtuLeaf);
             _sut.Poller.EventSourcingTick().Wait();

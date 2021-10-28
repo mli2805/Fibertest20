@@ -13,7 +13,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class GpsInputModeChangedSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
         private Guid _rtuId;
         private RtuUpdateViewModel _rtuUpdateViewModel;
 

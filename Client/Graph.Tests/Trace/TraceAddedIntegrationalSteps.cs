@@ -12,7 +12,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceAddedIntegrationalSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
         private Guid _rtuNodeId;
         private Guid _lastNodeId;
         private TraceLeaf _traceLeaf;

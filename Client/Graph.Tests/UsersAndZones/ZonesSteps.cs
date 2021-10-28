@@ -5,7 +5,6 @@ using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
-using Iit.Fibertest.WpfCommonViews;
 
 using TechTalk.SpecFlow;
 
@@ -14,7 +13,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class ZonesSteps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
         private Iit.Fibertest.Graph.Rtu _rtu1;
         private Iit.Fibertest.Graph.Rtu _rtu2;
         private Guid _zone1Id;
@@ -22,8 +21,7 @@ namespace Graph.Tests
         private Iit.Fibertest.Graph.Trace _trace1;
         private Iit.Fibertest.Graph.Trace _trace2;
         private ObjectsAsTreeToZonesViewModel _objectsVm;
-        private string _connectionId = @"connectionIdroot";
-     
+
 
         [Given(@"Добавляем Зона1")]
         public void GivenДобавляемЗона1()
@@ -42,7 +40,7 @@ namespace Graph.Tests
         public void GivenДобавляемОператораДляЗона1()
         {
             _sut.FakeWindowManager.RegisterHandler(model =>
-                _sut.UserHandler(model, @"OpZone1", @"123", _zone1Id, Answer.Yes));
+                _sut.UserHandler(model, @"OpZone1", @"OpZone1", _zone1Id, Answer.Yes));
             var vm2 = _sut.ClientScope.Resolve<UserListViewModel>();
             vm2.AddNewUser();
             _sut.Poller.EventSourcingTick().Wait();
@@ -93,29 +91,21 @@ namespace Graph.Tests
             _trace2.ZoneIds.Count.Should().Be(2);
         }
 
-        [When(@"Перезапускаем клиентское приложение")]
-        public void WhenПерезапускаемКлиентскоеПриложение()
+        [When(@"Выходит пользователь (.*)")]
+        public void WhenВыходитПользователь(string username)
         {
-            _sut.RestartClient(@"OpZone1", _connectionId);
+            _sut.LogoutAs(username);
         }
 
         [When(@"Вход как Оператор для Зона1")]
         public void WhenВходКакОператорДляЗона1()
         {
-            var vm = _sut.ClientScope.Resolve<LoginViewModel>();
-            vm.UserName = @"OpZone1";
-            vm.Password = @"123";
-            vm.ConnectionId = @"connectionId123";
-            vm.Login();
-            _connectionId = @"connectionId123";
-            _sut.ClientScope.Resolve<CurrentUser>().UserId.Should().Be(_opZone1UserId);
-
             _sut.ReadModel.Nodes.Count.Should().Be(0);
             _sut.TreeOfRtuModel.Tree.Count.Should().Be(0);
             _sut.GraphReadModel.Data.Nodes.Count.Should().Be(0);
 
-            _sut.FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
-            _sut.ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
+            _sut.LoginAs("OpZone1");
+            _sut.ClientScope.Resolve<CurrentUser>().UserId.Should().Be(_opZone1UserId);
 
             _sut.ReadModel.Nodes.Count.Should().Be(12);
 
@@ -149,8 +139,6 @@ namespace Graph.Tests
         public void ThenНаКартеТолькоОдинRtu1()
         {
             _sut.GraphReadModel.Data.Nodes.Count.Should().Be(1);
-
         }
-
     }
 }

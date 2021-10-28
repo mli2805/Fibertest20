@@ -9,7 +9,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class OtauOnRtu4000Steps
     {
-        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
+        private readonly SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
         private Iit.Fibertest.Graph.Trace _trace;
         private RtuLeaf _rtuLeaf;
         private OtauLeaf _otauLeaf;

@@ -10,7 +10,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class TraceUpdatedSteps
     {
-        private SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
+        private SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
         private Guid _traceId;
         private TraceInfoViewModel _viewModel;
         private const string NewTitle = @"new trace title";

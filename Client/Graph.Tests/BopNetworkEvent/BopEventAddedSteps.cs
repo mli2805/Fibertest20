@@ -13,7 +13,7 @@ namespace Graph.Tests
     [Binding]
     public sealed class BopEventAddedSteps
     {
-        private SystemUnderTest _sut = new SystemUnderTest().LoginAsRoot();
+        private SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
         private Guid _rtuId;
         private Guid _otauId;
         private Iit.Fibertest.Graph.Trace _trace;
