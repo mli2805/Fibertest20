@@ -11,16 +11,19 @@ namespace Iit.Fibertest.Client
     public class LicenseSender
     {
         private readonly LicenseManager _licenseManager;
+        private readonly LicenseCommandFactory _licenseCommandFactory;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly CurrentUser _currentUser;
 
         private SecurityAdminConfirmationViewModel _vm;
 
-        public LicenseSender(LicenseManager licenseManager, IWcfServiceDesktopC2D c2DWcfManager,
+        public LicenseSender(LicenseManager licenseManager, LicenseCommandFactory licenseCommandFactory,
+            IWcfServiceDesktopC2D c2DWcfManager,
             IWindowManager windowManager, CurrentUser currentUser)
         {
             _licenseManager = licenseManager;
+            _licenseCommandFactory = licenseCommandFactory;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _currentUser = currentUser;
@@ -42,7 +45,7 @@ namespace Iit.Fibertest.Client
         // from this point test can take part
         public async Task<bool> ApplyLicenseFromFile(LicenseInFile licenseInFile)
         {
-            var cmd = LicenseCommandFactory.CreateFromFile(licenseInFile, _currentUser.UserId);
+            var cmd = _licenseCommandFactory.CreateFromFile(licenseInFile, _currentUser.UserId);
             if (licenseInFile.IsMachineKeyRequired)
             {
                 if (!IsCorrectPasswordEntered(licenseInFile))
@@ -54,7 +57,7 @@ namespace Iit.Fibertest.Client
 
         public async Task<bool> ApplyDemoLicense()
         {
-            var cmd = LicenseCommandFactory.CreateDemo();
+            var cmd = _licenseCommandFactory.CreateDemo();
             return await SendApplyLicenseCommand(cmd);
         }
 

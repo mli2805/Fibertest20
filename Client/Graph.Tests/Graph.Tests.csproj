@@ -397,6 +397,7 @@
     <Compile Include="Sut\Fakes\FakeHttpWrapper\FakeVeexRtuModel.cs" />
     <Compile Include="Sut\Fakes\FakeHttpWrapper\VeexRtuCompletedTestsSceneSetter.cs" />
     <Compile Include="Sut\Fakes\FakeHttpWrapper\RequestFromUri.cs" />
+    <Compile Include="Sut\Fakes\FakeMachineKeyProvider.cs" />
     <Compile Include="Sut\SutExtensions\Handlers.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForHideTraces.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForResponsibilityZones.cs" />

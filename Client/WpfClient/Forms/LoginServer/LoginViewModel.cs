@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
+        private readonly IMachineKeyProvider _machineKeyProvider;
         private readonly NoLicenseAppliedViewModel _noLicenseAppliedViewModel;
         private readonly SecurityAdminConfirmationViewModel _securityAdminConfirmationViewModel;
         private readonly IniFile _iniFile;
@@ -57,7 +58,8 @@ namespace Iit.Fibertest.Client
         public bool IsRegistrationSuccessful { get; set; }
 
         public LoginViewModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,
-            IWindowManager windowManager, NoLicenseAppliedViewModel noLicenseAppliedViewModel,
+            IWindowManager windowManager, IMachineKeyProvider machineKeyProvider,
+            NoLicenseAppliedViewModel noLicenseAppliedViewModel,
             SecurityAdminConfirmationViewModel securityAdminConfirmationViewModel,
             IWcfServiceDesktopC2D desktopC2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
             CurrentUser currentUser, CurrentGis currentGis,
@@ -65,6 +67,7 @@ namespace Iit.Fibertest.Client
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
+            _machineKeyProvider = machineKeyProvider;
             _noLicenseAppliedViewModel = noLicenseAppliedViewModel;
             _securityAdminConfirmationViewModel = securityAdminConfirmationViewModel;
             _iniFile = iniFile;
@@ -81,6 +84,7 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Authentication;
         }
 
+        // button
         public async void Login()
         {
 #if DEBUG
@@ -121,6 +125,7 @@ namespace Iit.Fibertest.Client
                 UserName = username,
                 Password = password,
                 ConnectionId = connectionId,
+                MachineKey = _machineKeyProvider.Get(),
                 IsUnderSuperClient = isUnderSuperClient,
             };
 
@@ -139,6 +144,7 @@ namespace Iit.Fibertest.Client
                 if (!_noLicenseAppliedViewModel.IsLicenseAppliedSuccessfully)
                     return false; // message was shown already
 
+                sendDto.SecurityAdminPassword = _securityAdminConfirmationViewModel.Password;
                 resultDto = await PureRegisterClientAsync(dcServiceAddresses, clientPort, sendDto);
 
             }
@@ -187,10 +193,9 @@ namespace Iit.Fibertest.Client
 
                 return result;
             }
-
-
         }
 
+        // button
         public void SetServerAddress()
         {
             var vm = _globalScope.Resolve<ServersConnectViewModel>();

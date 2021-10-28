@@ -51,6 +51,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<BaseRefModelFactory>();
             builder.RegisterType<TraceStatisticsViewModel>();
 
+            builder.RegisterType<LicenseCommandFactory>().InstancePerLifetimeScope();
             builder.RegisterType<LicenseManager>().InstancePerLifetimeScope();
             builder.RegisterType<LicenseSender>().InstancePerLifetimeScope();
             builder.RegisterType<LicenseViewModel>().InstancePerLifetimeScope();
@@ -190,6 +191,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<MonitoringSettingsModelFactory>();
             builder.RegisterType<MonitoringSettingsViewModel>();
 
+            builder.RegisterType<MachineKeyProvider>().As<IMachineKeyProvider>();
             builder.RegisterType<LoginViewModel>();
             builder.RegisterType<ServersConnectViewModel>();
             builder.RegisterType<SecurityAdminConfirmationViewModel>();

@@ -159,7 +159,7 @@
     <Compile Include="Algorithms\LandmarksExtractors\LandmarksBaseParser.cs" />
     <Compile Include="Algorithms\LandmarksExtractors\LandmarksGraphParser.cs" />
     <Compile Include="Algorithms\License\LicenseCommandFactory.cs" />
-    <Compile Include="Algorithms\License\MachineKeyGetter.cs" />
+    <Compile Include="Algorithms\License\MachineKeyProvider.cs" />
     <Compile Include="Algorithms\License\Password.cs" />
     <Compile Include="Algorithms\License\Sha256Hasher.cs" />
     <Compile Include="Algorithms\TraceStatePdfReport\AccidentLineModel.cs" />

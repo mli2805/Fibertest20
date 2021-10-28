@@ -41,17 +41,11 @@ namespace Iit.Fibertest.DataCenterCore
                 return new ClientRegisteredDto { ReturnCode = ReturnCode.NoSuchUserOrWrongPassword };
 
             // R2
-            //            var station = _clients.FirstOrDefault(s => s.ClientIp == dto.ClientIp);
-            //            if (station != null && !(station.IsWebClient ^ dto.IsWebClient))
-            //            {
-            //                _clients.Remove(station);
-            //            }
-
-            // R3
             var hasRight = CheckUsersRights(dto, user);
             if (hasRight != null)
                 return hasRight;
-            // R4
+
+            // R3
             var licenseCheckResult = CheckLicense(dto);
             if (licenseCheckResult != null)
             {
@@ -59,7 +53,7 @@ namespace Iit.Fibertest.DataCenterCore
                 return licenseCheckResult;
             }
 
-            // R5
+            // R4
             var stationWithTheSameUser = _clients.FirstOrDefault(s => s.UserId == user.UserId);
             if (stationWithTheSameUser != null)
             {
@@ -91,7 +85,7 @@ namespace Iit.Fibertest.DataCenterCore
                 }
             }
 
-            // R6 Machine Key
+            // R5 Machine Key
             if (_writeModel.IsMachineKeyRequired() && user.MachineKey != dto.MachineKey)
             {
                 if (string.IsNullOrEmpty(dto.SecurityAdminPassword))

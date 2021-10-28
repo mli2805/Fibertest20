@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System.Linq;
+using Autofac;
 using Caliburn.Micro;
 using FluentAssertions;
 using Iit.Fibertest.Client;
@@ -11,10 +12,8 @@ using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
 
-
 namespace Graph.Tests
 {
-
     public class SystemUnderTest
     {
         public IContainer Container { get; set; }
@@ -105,12 +104,21 @@ namespace Graph.Tests
             vm.Password = username;
             vm.ConnectionId = @"connectionId" + username;
 
+            // NoLicenseAppliedView - выберите демо или из файла
             FakeWindowManager.RegisterHandler(model => this.NoLicenseHandler(model, licenseFilename));
-            FakeWindowManager.RegisterHandler(model => this.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            if (licenseFilename != "")
+           
+            if (licenseFilename != "") // взять из файла
+                // формы выбора файла нет мы передаем его имя и сразу читаем ????
+                // почему-то это MessageBox нужен и для файла лицензии с привязкой и без
                 FakeWindowManager.RegisterHandler(model => this.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+
             if (licenseFilename == DevSecAdmin)
+                // форма для ввода пароля безопасника
                 FakeWindowManager.RegisterHandler(model => this.SecurityAdminPasswordHandler(model, "lAChr6zA"));
+            
+            // MessageBox лицензия применена успешно
+            FakeWindowManager.RegisterHandler(model => this.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+
             ReadModel.Users.Count.Should().Be(0);
             vm.Login();
             ReadModel.Users.Count.Should().Be(0);
@@ -123,19 +131,19 @@ namespace Graph.Tests
             return this;
         }
 
-        public void LoginAs(string username = "root", string licenseFilename = "")
+        // login again when license has been applied already
+        public void LoginAs(string username = "root", string secAdminPassword = "")
         {
             var vm = ClientScope.Resolve<LoginViewModel>();
             vm.UserName = username;
             vm.Password = username;
             vm.ConnectionId = @"connectionId" + username;
 
-            FakeWindowManager.RegisterHandler(model => this.NoLicenseHandler(model, licenseFilename));
+            var writeModel = ServerScope.Resolve<Model>();
+            if (writeModel.Licenses.First().IsMachineKeyRequired)
+                FakeWindowManager.RegisterHandler(model => this.SecurityAdminPasswordHandler(model, secAdminPassword));
+
             FakeWindowManager.RegisterHandler(model => this.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            if (licenseFilename != "")
-                FakeWindowManager.RegisterHandler(model => this.ManyLinesMessageBoxAnswer(Answer.Yes, model));
-            if (licenseFilename == DevSecAdmin)
-                FakeWindowManager.RegisterHandler(model => this.SecurityAdminPasswordHandler(model, "lAChr6zA"));
             vm.Login();
 
             FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
@@ -182,6 +190,7 @@ namespace Graph.Tests
             builder.RegisterType<FakeLocalDbManager>().As<ILocalDbManager>().InstancePerLifetimeScope();
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
             builder.RegisterType<FakeWaitCursor>().As<IWaitCursor>().InstancePerLifetimeScope();
+            builder.RegisterType<FakeMachineKeyProvider>().As<IMachineKeyProvider>().InstancePerLifetimeScope();
             builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().InstancePerLifetimeScope();  // server!!!
 
             // server's

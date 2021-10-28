@@ -2,9 +2,16 @@
 
 namespace Iit.Fibertest.Graph
 {
-    public static class LicenseCommandFactory
+    public class LicenseCommandFactory
     {
-        public static ApplyLicense CreateDemo()
+        private readonly IMachineKeyProvider _machineKeyProvider;
+
+        public LicenseCommandFactory(IMachineKeyProvider machineKeyProvider)
+        {
+            _machineKeyProvider = machineKeyProvider;
+        }
+
+        public ApplyLicense CreateDemo()
         {
             return new ApplyLicense()
             {
@@ -19,7 +26,7 @@ namespace Iit.Fibertest.Graph
             };
         }
 
-        public static ApplyLicense CreateFromFile(LicenseInFile licenseInFile, Guid currentUserId)
+        public ApplyLicense CreateFromFile(LicenseInFile licenseInFile, Guid currentUserId)
         {
            return new ApplyLicense()
             {
@@ -34,7 +41,7 @@ namespace Iit.Fibertest.Graph
                 IsMachineKeyRequired = licenseInFile.IsMachineKeyRequired,
                 SecurityAdminPassword = licenseInFile.IsMachineKeyRequired
                     ? ((string)Cryptography.Decode(licenseInFile.SecurityAdminPassword)).GetHashString() : "",
-                MachineKey = MachineKeyGetter.GetMachineKey(),
+                MachineKey = _machineKeyProvider.Get(),
                 CreationDate = licenseInFile.CreationDate,
                 LoadingDate = DateTime.Today,
                 Version = licenseInFile.Version,

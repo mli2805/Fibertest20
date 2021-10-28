@@ -99,6 +99,8 @@ this.FeatureBackground();
  testRunner.When("Рут входит и выбирает применить Демо лицензию", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 8
  testRunner.Then("Вход осуществлен разрешен один пользователь и один рту", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 9
+ testRunner.Then("Рут выходит на этом же компе входит оператор", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -109,16 +111,18 @@ this.FeatureBackground();
         public virtual void ВходНаПустойБазеСЛицензиейБезПривязкиРабмест()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Вход на пустой базе с лицензией без привязки рабмест", null, ((string[])(null)));
-#line 10
+#line 11
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 3
 this.FeatureBackground();
-#line 11
- testRunner.When("Рут входит и указывает файл с лицензией без привязки рабмест", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 12
+ testRunner.When("Рут входит и указывает файл с лицензией без привязки рабмест", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 13
  testRunner.Then("Вход осуществлен пользователи и рту разрешены в соответствии с лицензионным файло" +
                     "м", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 14
+ testRunner.Then("Рут выходит на этом же компе входит оператор", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -129,22 +133,20 @@ this.FeatureBackground();
         public virtual void ВходНаПустойБазеСЛицензиейСПривязкойРабмест()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Вход на пустой базе с лицензией с привязкой рабмест", null, ((string[])(null)));
-#line 15
+#line 17
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 3
 this.FeatureBackground();
-#line 16
+#line 18
  testRunner.When("Рут входит и указывает файл с лицензией с привязкой рабмест вводится пароль безоп" +
                     "асника", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 17
- testRunner.Then("Вход осуществлен пользователи и рту разрешены кроме вэбклиентов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
-#line 18
- testRunner.When("Рут выходит на этом же компе входит оператор", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 19
- testRunner.Then("Требует ввода пароля безопасника", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Вход осуществлен пользователи и рту разрешены кроме вэбклиентов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 20
- testRunner.When("Пароль введен неверно", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Рут выходит", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 21
+ testRunner.Then("Оператор входит выдает запрос пароля безопасника", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }

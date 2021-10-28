@@ -3,9 +3,13 @@ using System.Management;
 
 namespace Iit.Fibertest.Graph
 {
-    public static class MachineKeyGetter
+    public interface IMachineKeyProvider
     {
-        public static string GetMachineKey()
+        string Get();
+    }
+    public class MachineKeyProvider : IMachineKeyProvider
+    {
+        public string Get()
         {
             var cpuId = GetCpuId();
             var mbSerial = GetMotherBoardSerial();
@@ -13,7 +17,7 @@ namespace Iit.Fibertest.Graph
             return cpuId + mbSerial + ddSerial;
         }
 
-        private static string GetCpuId()
+        private string GetCpuId()
         {
             try
             {

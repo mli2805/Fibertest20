@@ -34,6 +34,13 @@ namespace Graph.Tests
             license.ClientStationCount.Value.ShouldBeEquivalentTo(1);
         }
 
+        [Then(@"Рут выходит на этом же компе входит оператор")]
+        public void ThenРутВыходитНаЭтомЖеКомпеВходитОператор()
+        {
+            _sut.LogoutAs("root");
+            _sut.LoginAs("operator");
+        }
+
         [When(@"Рут входит и указывает файл с лицензией без привязки рабмест")]
         public void WhenРутВходитИУказываетФайлСЛицензиейБезПривязкиРабмест()
         {
@@ -65,19 +72,16 @@ namespace Graph.Tests
             license.WebClientCount.Value.ShouldBeEquivalentTo(0);
         }
 
-        [When(@"Рут выходит на этом же компе входит оператор")]
-        public void WhenРутВыходитНаЭтомЖеКомпеВходитОператор()
+        [When(@"Рут выходит")]
+        public void WhenРутВыходит()
         {
+            _sut.LogoutAs("root");
         }
 
-        [Then(@"Требует ввода пароля безопасника")]
-        public void ThenТребуетВводаПароляБезопасника()
+        [Then(@"Оператор входит выдает запрос пароля безопасника")]
+        public void ThenОператорВходитВыдаетЗапросПароляБезопасника()
         {
-        }
-
-        [When(@"Пароль введен неверно")]
-        public void WhenПарольВведенНеверно()
-        {
+            _sut.LoginAs("operator");
         }
 
     }
