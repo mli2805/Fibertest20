@@ -279,7 +279,10 @@
     <Compile Include="BusinessToRepositoryIntermediary\BaseRefRepairmanIntermediary.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\MeasurementFactory.cs" />
     <Compile Include="BusinessToRepositoryIntermediary\RtuStationFactory.cs" />
-    <Compile Include="ClientsCollection.cs" />
+    <Compile Include="ClientStations\ClientsCollection.cs" />
+    <Compile Include="ClientStations\ClientsInCollectionFinder.cs" />
+    <Compile Include="ClientStations\ClientsRegistrator.cs" />
+    <Compile Include="ClientStations\ClientStationFactory.cs" />
     <Compile Include="FtSignalRClient.cs" />
     <Compile Include="MeasurementsForWebNotifier.cs" />
     <Compile Include="NEventStore\DbSeeds.cs" />

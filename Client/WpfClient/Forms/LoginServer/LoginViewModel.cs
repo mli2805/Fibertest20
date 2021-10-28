@@ -86,11 +86,13 @@ namespace Iit.Fibertest.Client
         {
 #if DEBUG
             if (string.IsNullOrEmpty(UserName) && string.IsNullOrEmpty(Password))
-            //  UserName = @"superclient";  Password = @"superclient";
+            {
+                //  UserName = @"superclient";  Password = @"superclient";
                 UserName = @"developer"; Password = @"developer";
-            //  UserName = @"operator";  Password = @"operator";
-            //  UserName = @"supervisor"; Password = @"supervisor";
-            //  UserName = @"root"; Password = @"root";
+                //  UserName = @"operator";  Password = @"operator";
+                //  UserName = @"supervisor"; Password = @"supervisor";
+                //  UserName = @"root"; Password = @"root";
+            }
 #endif
             if (string.IsNullOrEmpty(ConnectionId))
                 ConnectionId = Guid.NewGuid().ToString();
@@ -104,7 +106,7 @@ namespace Iit.Fibertest.Client
 
         private void PrepareAddresses(string username, bool isUnderSuperClient = false, int ordinal = 0)
         {
-            _desktopServiceAdresses = _iniFile.ReadDoubleAddress((int) TcpPorts.ServerListenToDesktopClient);
+            _desktopServiceAdresses = _iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToDesktopClient);
             _currentDatacenterParameters.ServerIp = _desktopServiceAdresses.Main.Ip4Address;
             _currentDatacenterParameters.ServerTitle = _iniFile.Read(IniSection.Server, IniKey.ServerTitle, "");
 
