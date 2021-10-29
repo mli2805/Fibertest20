@@ -129,6 +129,8 @@
     <Compile Include="Controls\IitOfficialHeader.xaml.cs">
       <DependentUpon>IitOfficialHeader.xaml</DependentUpon>
     </Compile>
+    <Compile Include="License\LicenseFileChooser.cs" />
+    <Compile Include="License\LicenseFromFileDecoder.cs" />
     <Compile Include="MyMessageBox\MessageType.cs" />
     <Compile Include="MyMessageBox\MessageTypeExt.cs" />
     <Compile Include="MyMessageBox\MyMessageBoxLineModel.cs" />

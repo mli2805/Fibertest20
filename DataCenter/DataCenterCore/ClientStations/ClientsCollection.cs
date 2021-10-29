@@ -36,16 +36,6 @@ namespace Iit.Fibertest.DataCenterCore
         public async Task<ClientRegisteredDto> RegisterClientAsync(RegisterClientDto dto)
         {
             // R1
-            var user = WriteModel.Users.FirstOrDefault(u => u.Title == dto.UserName && UserExt.FlipFlop(u.EncodedPassword) == dto.Password);
-            if (user == null)
-                return new ClientRegisteredDto { ReturnCode = ReturnCode.NoSuchUserOrWrongPassword };
-
-            // R2
-            var hasRight = user.CheckRights(dto);
-            if (hasRight != null)
-                return hasRight;
-
-            // R3
             var licenseCheckResult = this.CheckLicense(dto);
             if (licenseCheckResult != null)
             {
@@ -53,6 +43,19 @@ namespace Iit.Fibertest.DataCenterCore
                 return licenseCheckResult;
             }
 
+            // R2
+            var user = WriteModel.Users
+                .FirstOrDefault(u => u.Title == dto.UserName 
+                                     && UserExt.FlipFlop(u.EncodedPassword) == dto.Password);
+            if (user == null)
+                return new ClientRegisteredDto { ReturnCode = ReturnCode.NoSuchUserOrWrongPassword };
+
+            // R3
+            var hasRight = user.CheckRights(dto);
+            if (hasRight != null)
+                return hasRight;
+
+           
             // R4
             var theSameUserCheckResult = await this.CheckTheSameUser(dto, user);
             if (theSameUserCheckResult != null)

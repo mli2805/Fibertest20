@@ -4,6 +4,7 @@ using System.IO;
 using System.Windows;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.WpfCommonViews;
 using Microsoft.Win32;
 
 namespace Iit.Fibertest.Licenser
@@ -56,7 +57,8 @@ namespace Iit.Fibertest.Licenser
 
             if (rr.Length > 2)
             {
-                var license = new LicenseManager().ReadLicenseFromFile(rr[2]);
+                var licFileDecoder = new LicenseFromFileDecoder(new WindowManager());
+                var license = licFileDecoder.Decode(rr[2]);
                 if (license != null)
                     LicenseInFileModel = new LicenseInFileModel(license);
                 IsEditable = true;
@@ -85,7 +87,10 @@ namespace Iit.Fibertest.Licenser
 
         public void LoadFromFile()
         {
-            var license = new LicenseManager().ReadLicenseFromFileDialog();
+            var licenseFromFileDecoder = new LicenseFromFileDecoder(new WindowManager());
+            var licFileReader = new LicenseFileChooser();
+            var license = licenseFromFileDecoder.Decode(licFileReader.ChooseFilename());
+
             if (license != null)
                 LicenseInFileModel = new LicenseInFileModel(license);
             IsEditable = HaveRights;
@@ -116,7 +121,6 @@ namespace Iit.Fibertest.Licenser
             var licenseInFile = (LicenseInFile)Cryptography.Decode(encoded);
             LicenseInFileModel = new LicenseInFileModel(licenseInFile);
         }
-
 
         public void ToPdf()
         {

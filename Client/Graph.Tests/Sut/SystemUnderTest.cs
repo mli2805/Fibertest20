@@ -191,6 +191,7 @@ namespace Graph.Tests
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
             builder.RegisterType<FakeWaitCursor>().As<IWaitCursor>().InstancePerLifetimeScope();
             builder.RegisterType<FakeMachineKeyProvider>().As<IMachineKeyProvider>().InstancePerLifetimeScope();
+            builder.RegisterType<FakeLicenseFileChooser>().As<ILicenseFileChooser>().InstancePerLifetimeScope();
             builder.RegisterType<FakeEventStoreInitializer>().As<IEventStoreInitializer>().InstancePerLifetimeScope();  // server!!!
 
             // server's

@@ -88,8 +88,8 @@ namespace Iit.Fibertest.Client
             if (string.IsNullOrEmpty(UserName) && string.IsNullOrEmpty(Password))
             {
                 //  UserName = @"superclient";  Password = @"superclient";
-                UserName = @"developer"; Password = @"developer";
-                //  UserName = @"operator";  Password = @"operator";
+                // UserName = @"developer"; Password = @"developer";
+                UserName = @"operator";  Password = @"operator";
                 //  UserName = @"supervisor"; Password = @"supervisor";
                 //  UserName = @"root"; Password = @"root";
             }
@@ -103,6 +103,7 @@ namespace Iit.Fibertest.Client
         private DoubleAddress _commonServiceAdresses;
         private DoubleAddress _desktopServiceAdresses;
         private NetAddress _clientAddress;
+        private RegisterClientDto _sendDto;
 
         private void PrepareAddresses(string username, bool isUnderSuperClient = false, int ordinal = 0)
         {
@@ -138,7 +139,7 @@ namespace Iit.Fibertest.Client
             Status = string.Format(Resources.SID_Performing_registration_on__0_, _desktopServiceAdresses.Main.Ip4Address);
             _logFile.AppendLine($@"Performing registration on {_desktopServiceAdresses.Main.Ip4Address}");
 
-            var sendDto = new RegisterClientDto()
+            _sendDto = new RegisterClientDto()
             {
                 UserName = username,
                 Password = password,
@@ -148,31 +149,42 @@ namespace Iit.Fibertest.Client
                 Addresses = new DoubleAddress() { Main = _clientAddress, HasReserveAddress = false }
             };
 
-            var resultDto = await PureRegisterClientAsync(sendDto);
+            var resultDto = await PureRegisterClientAsync(_sendDto);
+            return await ProcessRegistrationResult(resultDto);
+        }
 
+        private async Task<bool> ProcessRegistrationResult(ClientRegisteredDto resultDto)
+        {
             if (resultDto.ReturnCode == ReturnCode.NoLicenseHasBeenAppliedYet)
             {
                 _windowManager.ShowDialog(_noLicenseAppliedViewModel);
                 if (!_noLicenseAppliedViewModel.IsCommandSent)
                 {
                     var vm = new MyMessageBoxViewModel(MessageType.Error,
-                        @"Enter program without license applied prohibited");
+                        @"Enter program without license applied is prohibited!");
                     _windowManager.ShowDialogWithAssignedOwner(vm);
                     return false;
                 }
                 if (!_noLicenseAppliedViewModel.IsLicenseAppliedSuccessfully)
                     return false; // message was shown already
 
-                sendDto.SecurityAdminPassword = _securityAdminConfirmationViewModel.Password;
-                resultDto = await PureRegisterClientAsync(sendDto);
-
+                _sendDto.SecurityAdminPassword = _noLicenseAppliedViewModel.SecurityAdminPassword;
+                resultDto = await PureRegisterClientAsync(_sendDto);
             }
             else if (resultDto.ReturnCode == ReturnCode.WrongMachineKey
+                     || resultDto.ReturnCode == ReturnCode.EmptyMachineKey
                      || resultDto.ReturnCode == ReturnCode.WrongSecurityAdminPassword)
             {
-                if (!AskSecurityAdminConfirmation(resultDto))
+                if (!AskSecurityAdminPassword(resultDto))
                 {
-                    resultDto.ReturnCode = ReturnCode.WrongMachineKey;
+                    var vm = new MyMessageBoxViewModel(MessageType.Error,
+                        @"Enter without security admin password is prohibited!");
+                    _windowManager.ShowDialogWithAssignedOwner(vm);
+                    return false;
+                }
+                else
+                {
+                    resultDto = await PureRegisterClientAsync(_sendDto);
                 }
             }
             else if (resultDto.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
@@ -190,11 +202,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private bool AskSecurityAdminConfirmation(ClientRegisteredDto resultDto)
+        private bool AskSecurityAdminPassword(ClientRegisteredDto resultDto)
         {
             _securityAdminConfirmationViewModel.Initialize(resultDto);
             _windowManager.ShowDialog(_securityAdminConfirmationViewModel);
-            return true;
+            return _securityAdminConfirmationViewModel.IsOkPressed;
         }
 
         public void ChooseServer()

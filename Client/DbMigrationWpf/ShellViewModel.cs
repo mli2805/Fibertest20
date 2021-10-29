@@ -7,6 +7,7 @@ using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
+using Iit.Fibertest.WpfCommonViews;
 using Microsoft.Win32;
 
 namespace DbMigrationWpf
@@ -136,9 +137,14 @@ namespace DbMigrationWpf
             var location = System.Reflection.Assembly.GetExecutingAssembly().Location;
             var path = Path.GetDirectoryName(location);
 
-            var licManager = new LicenseManager();
-            var licenseInFile = licManager.ReadLicenseFromFileDialog(path);
+            // var licManager = new LicenseManager();
+            // var licenseInFile = licManager.ReadLicenseFromFileDialog(path);
+
+            var licenseFromFileDecoder = new LicenseFromFileDecoder(new WindowManager());
+            var licFileReader = new LicenseFileChooser();
+            var licenseInFile = licenseFromFileDecoder.Decode(licFileReader.ChooseFilename(path));
             if (licenseInFile == null) return;
+
             var cmd = new ApplyLicense()
             {
                 LicenseId = licenseInFile.LicenseId,

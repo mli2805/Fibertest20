@@ -87,6 +87,8 @@ namespace Iit.Fibertest.Graph
                     return @"WrongMachineKey";
                 case ReturnCode.NoLicenseHasBeenAppliedYet:
                     return @"NoLicenseHasBeenAppliedYet";
+                case ReturnCode.EmptyMachineKey:
+                    return @"EmptyMachineKey";
                 //9401
                 case ReturnCode.BaseRefAssignmentFailed:
                     return Resources.SID_Base_reference_assignment_failed;

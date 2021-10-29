@@ -62,14 +62,17 @@ namespace Graph.Tests
             _sut.LoginOnEmptyBaseAsRoot(SystemUnderTest.DevSecAdmin);
         }
 
-        [Then(@"Вход осуществлен пользователи и рту разрешены кроме вэбклиентов")]
-        public void ThenВходОсуществленПользователиИРтуРазрешеныКромеВэбклиентов()
+        [Then(@"Вход осуществлен рут привязан к машине пользователи и рту разрешены кроме вэбклиентов")]
+        public void ThenВходОсуществленРутПривязанКМашинеПользователиИРтуРазрешеныКромеВэбклиентов()
         {
             _sut.ReadModel.Licenses.Count.ShouldBeEquivalentTo(1);
             var license = _sut.ReadModel.Licenses.First();
             license.RtuCount.Value.ShouldBeEquivalentTo(999);
             license.ClientStationCount.Value.ShouldBeEquivalentTo(5);
             license.WebClientCount.Value.ShouldBeEquivalentTo(0);
+
+            var writeModel = _sut.ServerScope.Resolve<Model>();
+            writeModel.Users.First(u => u.Title == "root").MachineKey.ShouldBeEquivalentTo(new FakeMachineKeyProvider().Get());
         }
 
         [When(@"Рут выходит")]
@@ -81,7 +84,7 @@ namespace Graph.Tests
         [Then(@"Оператор входит выдает запрос пароля безопасника")]
         public void ThenОператорВходитВыдаетЗапросПароляБезопасника()
         {
-            _sut.LoginAs("operator");
+            _sut.LoginAs("operator", "wrong_password");
         }
 
     }

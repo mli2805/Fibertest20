@@ -142,7 +142,8 @@ this.FeatureBackground();
  testRunner.When("Рут входит и указывает файл с лицензией с привязкой рабмест вводится пароль безоп" +
                     "асника", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 19
- testRunner.Then("Вход осуществлен пользователи и рту разрешены кроме вэбклиентов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.Then("Вход осуществлен рут привязан к машине пользователи и рту разрешены кроме вэбклие" +
+                    "нтов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 20
  testRunner.When("Рут выходит", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 21

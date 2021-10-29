@@ -27,6 +27,8 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<EventLogViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<AboutViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<WaitViewModel>().InstancePerLifetimeScope();
+            builder.RegisterType<LicenseFromFileDecoder>().InstancePerLifetimeScope();
+            builder.RegisterType<LicenseFileChooser>().As<ILicenseFileChooser>().InstancePerLifetimeScope();
 
             builder.RegisterType<LocalDbManager>().As<ILocalDbManager>().InstancePerLifetimeScope();
             builder.RegisterType<ReflectogramManager>().InstancePerLifetimeScope();
@@ -52,7 +54,6 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<TraceStatisticsViewModel>();
 
             builder.RegisterType<LicenseCommandFactory>().InstancePerLifetimeScope();
-            builder.RegisterType<LicenseManager>().InstancePerLifetimeScope();
             builder.RegisterType<LicenseSender>().InstancePerLifetimeScope();
             builder.RegisterType<LicenseViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<NoLicenseAppliedViewModel>().InstancePerLifetimeScope();

@@ -290,8 +290,9 @@ namespace Iit.Fibertest.Licenser
             SuperClientTermUnit = licenseInFile.SuperClientStationCount.IsTermInYears ? TermUnit.First() : TermUnit.Last();
 
             IsMachineKeyRequired = licenseInFile.IsMachineKeyRequired;
-            SecurityAdminPassword = (string) Cryptography.Decode(licenseInFile.SecurityAdminPassword);
+            SecurityAdminPassword = (string)Cryptography.Decode(licenseInFile.SecurityAdminPassword);
             CreationDate = licenseInFile.CreationDate;
+
         }
 
         public LicenseInFile ToLicenseInFile()
@@ -312,7 +313,7 @@ namespace Iit.Fibertest.Licenser
                     Value = ClientStationCount,
                     Term = ClientStationTerm,
                     IsTermInYears = ClientStationTermUnit == TermUnit.First(),
-                }, 
+                },
                 WebClientCount = new LicenseParameterInFile()
                 {
                     Value = WebClientCount,
@@ -331,6 +332,6 @@ namespace Iit.Fibertest.Licenser
             };
         }
 
-        
+
     }
 }

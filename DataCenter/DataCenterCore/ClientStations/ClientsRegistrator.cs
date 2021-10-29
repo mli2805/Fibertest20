@@ -8,28 +8,7 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public static class ClientsRegistrator
     {
-        // R2
-        public static ClientRegisteredDto CheckRights(this User user, RegisterClientDto dto)
-        {
-            if (dto.IsUnderSuperClient)
-            {
-                if (!user.Role.IsSuperclientPermitted())
-                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.UserHasNoRightsToStartSuperClient };
-            }
-            else if (dto.IsWebClient)
-            {
-                if (!user.Role.IsWebPermitted())
-                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.UserHasNoRightsToStartWebClient };
-            }
-            else
-            {
-                if (!user.Role.IsDesktopPermitted())
-                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.UserHasNoRightsToStartClient };
-            }
-            return null;
-        }
-        
-        // R3
+        // R1
         public static ClientRegisteredDto CheckLicense(this ClientsCollection collection, RegisterClientDto dto)
         {
             if (collection.WriteModel.Licenses.Count == 0)
@@ -56,6 +35,30 @@ namespace Iit.Fibertest.DataCenterCore
             return null;
         }
 
+        // R2 Check user and password
+
+        // R3
+        public static ClientRegisteredDto CheckRights(this User user, RegisterClientDto dto)
+        {
+            if (dto.IsUnderSuperClient)
+            {
+                if (!user.Role.IsSuperclientPermitted())
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.UserHasNoRightsToStartSuperClient };
+            }
+            else if (dto.IsWebClient)
+            {
+                if (!user.Role.IsWebPermitted())
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.UserHasNoRightsToStartWebClient };
+            }
+            else
+            {
+                if (!user.Role.IsDesktopPermitted())
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.UserHasNoRightsToStartClient };
+            }
+            return null;
+        }
+
+
         // R4
         public static async Task<ClientRegisteredDto> CheckTheSameUser(
             this ClientsCollection collection, RegisterClientDto dto, User user)
@@ -70,7 +73,7 @@ namespace Iit.Fibertest.DataCenterCore
                     return new ClientRegisteredDto() { ReturnCode = ReturnCode.ThisUserRegisteredFromAnotherDevice };
                 }
                 else
-                    // different types of clients or both clients are web
+                // different types of clients or both clients are web
                 {
                     collection.LogFile.AppendLine($"The same client {stationWithTheSameUser.UserName}/{stationWithTheSameUser.ClientIp} with connectionId {stationWithTheSameUser.ConnectionId} removed.");
                     // notify old station
@@ -93,29 +96,29 @@ namespace Iit.Fibertest.DataCenterCore
             return null;
         }
 
+
         // R5
         public static ClientRegisteredDto CheckMachineKey(this ClientsCollection collection, RegisterClientDto dto, User user)
         {
-            if (collection.WriteModel.IsMachineKeyRequired() && user.MachineKey != dto.MachineKey)
+            if (!collection.WriteModel.IsMachineKeyRequired()) return null;
+            if (user.MachineKey == dto.MachineKey) return null;
+
+            if (string.IsNullOrEmpty(dto.SecurityAdminPassword))
             {
-                if (!string.IsNullOrEmpty(user.MachineKey))
-                {
-                    if (string.IsNullOrEmpty(dto.SecurityAdminPassword))
-                    {
-                        // prohibited, call Security Admin to confirm 
-                        return new ClientRegisteredDto() { ReturnCode = ReturnCode.WrongMachineKey };
-                    }
-
-                    var admin = collection.WriteModel.Users.First(u => u.Role == Role.SecurityAdmin);
-                    if (admin.EncodedPassword != dto.SecurityAdminPassword)
-                    {
-                        return new ClientRegisteredDto() { ReturnCode = ReturnCode.WrongSecurityAdminPassword };
-                    }
-                }
-
-                // if SecurityAdminPassword is sent correctly or it is a first connection for user
-                user.MachineKey = dto.MachineKey;
+                // prohibited, call Security Admin to confirm 
+                return user.MachineKey == null
+                    ? new ClientRegisteredDto() { ReturnCode = ReturnCode.EmptyMachineKey }
+                    : new ClientRegisteredDto() { ReturnCode = ReturnCode.WrongMachineKey };
             }
+
+            var admin = collection.WriteModel.Users.First(u => u.Role == Role.SecurityAdmin);
+            if (admin.EncodedPassword != dto.SecurityAdminPassword)
+            {
+                return new ClientRegisteredDto() { ReturnCode = ReturnCode.WrongSecurityAdminPassword };
+            }
+
+            // if SecurityAdminPassword is sent correctly or it is a first connection for user
+            user.MachineKey = dto.MachineKey;
 
             return null;
         }

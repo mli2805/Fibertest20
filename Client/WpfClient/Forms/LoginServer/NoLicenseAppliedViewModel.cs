@@ -9,6 +9,7 @@ namespace Iit.Fibertest.Client
 
         public bool IsCommandSent { get; set; }
         public bool IsLicenseAppliedSuccessfully { get; set; }
+        public string SecurityAdminPassword;
 
         public NoLicenseAppliedViewModel(LicenseSender licenseSender)
         {
@@ -27,10 +28,11 @@ namespace Iit.Fibertest.Client
             TryClose();
         }
 
-        public async void LoadLicenseFromFile()
+        public async void LoadLicenseFromFile(string initialFolder)
         {
             IsCommandSent = true;
-            IsLicenseAppliedSuccessfully = await LicenseSender.ApplyLicenseFromFile();
+            IsLicenseAppliedSuccessfully = await LicenseSender.ApplyLicenseFromFile(initialFolder);
+            SecurityAdminPassword = LicenseSender.SecurityAdminPassword;
             TryClose();
         }
     }

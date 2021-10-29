@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfCommonViews;
 
 
@@ -138,8 +137,11 @@ namespace Graph.Tests
                 vm.ApplyDemoLicense();
             else
             {
-                var licenseInFile = new LicenseManager().ReadLicenseFromFile(filename);
-                vm.LicenseSender.ApplyLicenseFromFile(licenseInFile).Wait();
+                // vm.IsCommandSent = true;
+                // vm.IsLicenseAppliedSuccessfully = true;
+                // var licenseInFile = new LicenseManager().ReadLicenseFromFile(filename);
+
+                vm.LoadLicenseFromFile(filename);
             }
             return true;
         }

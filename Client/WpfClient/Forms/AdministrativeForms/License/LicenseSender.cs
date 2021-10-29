@@ -10,34 +10,35 @@ namespace Iit.Fibertest.Client
 {
     public class LicenseSender
     {
-        private readonly LicenseManager _licenseManager;
         private readonly LicenseCommandFactory _licenseCommandFactory;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly ILicenseFileChooser _licenseFileChooser;
+        private readonly LicenseFromFileDecoder _licenseFromFileDecoder;
         private readonly IWindowManager _windowManager;
         private readonly CurrentUser _currentUser;
 
         private SecurityAdminConfirmationViewModel _vm;
 
-        public LicenseSender(LicenseManager licenseManager, LicenseCommandFactory licenseCommandFactory,
-            IWcfServiceDesktopC2D c2DWcfManager,
-            IWindowManager windowManager, CurrentUser currentUser)
+        public string SecurityAdminPassword;
+
+        public LicenseSender(IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager, 
+            LicenseCommandFactory licenseCommandFactory, ILicenseFileChooser licenseFileChooser,
+            LicenseFromFileDecoder licenseFromFileDecoder, CurrentUser currentUser)
         {
-            _licenseManager = licenseManager;
             _licenseCommandFactory = licenseCommandFactory;
             _c2DWcfManager = c2DWcfManager;
+            _licenseFileChooser = licenseFileChooser;
+            _licenseFromFileDecoder = licenseFromFileDecoder;
             _windowManager = windowManager;
             _currentUser = currentUser;
         }
 
-        public async Task<bool> ApplyLicenseFromFile()
+        public async Task<bool> ApplyLicenseFromFile(string initialDirectory = "")
         {
-            var licenseInFile = _licenseManager.ReadLicenseFromFileDialog();
+            var licenseInFile = _licenseFromFileDecoder.Decode(_licenseFileChooser.ChooseFilename(initialDirectory));
+
             if (licenseInFile == null)
-            {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Invalid_license_file_);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-                return false;
-            }
+               return false;
 
             return await ApplyLicenseFromFile(licenseInFile);
         }
@@ -102,6 +103,7 @@ namespace Iit.Fibertest.Client
                 return false;
             }
 
+            SecurityAdminPassword = _vm.Password;
             return true;
         }
     }
