@@ -37,6 +37,8 @@ namespace Iit.Fibertest.Graph
                         Title = @"admin",
                         EncodedPassword = e.SecurityAdminPassword,
                         ZoneId = Guid.Empty,
+                        Email = new EmailReceiver(),
+                        Sms = new SmsReceiver(),
                     });
                 }
 

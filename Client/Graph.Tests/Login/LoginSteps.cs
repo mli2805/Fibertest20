@@ -117,7 +117,7 @@ namespace Graph.Tests
         [Then(@"Рут входит Пароль безопасника больше не спрашивает")]
         public void ThenРутВходитПарольБезопасникаБольшеНеСпрашивает()
         {
-            _sut.LoginAs("root");
+            _sut.LoginAs();
             _sut.ReadModel.Licenses.Count.ShouldBeEquivalentTo(1);
             _sut.ReadModel.Users.Count.ShouldBeEquivalentTo(8);
         }
