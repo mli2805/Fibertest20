@@ -28,10 +28,11 @@ namespace Iit.Fibertest.Client
             TryClose();
         }
 
-        public async void LoadLicenseFromFile(string initialFolder)
+        // It is a button handler, but when called from tests receives parameter
+        public async void LoadLicenseFromFile(string licenseFilename)
         {
             IsCommandSent = true;
-            IsLicenseAppliedSuccessfully = await LicenseSender.ApplyLicenseFromFile(initialFolder);
+            IsLicenseAppliedSuccessfully = await LicenseSender.ApplyLicenseFromFile(licenseFilename);
             SecurityAdminPassword = LicenseSender.SecurityAdminPassword;
             TryClose();
         }

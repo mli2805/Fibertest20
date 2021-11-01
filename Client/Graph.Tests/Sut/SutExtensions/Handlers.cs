@@ -136,13 +136,7 @@ namespace Graph.Tests
             if (filename == "")
                 vm.ApplyDemoLicense();
             else
-            {
-                // vm.IsCommandSent = true;
-                // vm.IsLicenseAppliedSuccessfully = true;
-                // var licenseInFile = new LicenseManager().ReadLicenseFromFile(filename);
-
                 vm.LoadLicenseFromFile(filename);
-            }
             return true;
         }
 

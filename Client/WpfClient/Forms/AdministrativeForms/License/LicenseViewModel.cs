@@ -52,9 +52,10 @@ namespace Iit.Fibertest.Client
             LicenseControlViewModel.License = SelectedLicense;
         }
 
-        public async void ApplyLicFile()
+        // It is a button handler, but when called from tests receives parameter
+        public async void ApplyLicFile(string licenseFilename)
         {
-            await _licenseSender.ApplyLicenseFromFile();
+            await _licenseSender.ApplyLicenseFromFile(licenseFilename);
         }
     }
 }

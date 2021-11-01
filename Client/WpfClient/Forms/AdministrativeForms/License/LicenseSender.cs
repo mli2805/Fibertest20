@@ -43,8 +43,7 @@ namespace Iit.Fibertest.Client
             return await ApplyLicenseFromFile(licenseInFile);
         }
 
-        // from this point test can take part
-        public async Task<bool> ApplyLicenseFromFile(LicenseInFile licenseInFile)
+        private async Task<bool> ApplyLicenseFromFile(LicenseInFile licenseInFile)
         {
             var cmd = _licenseCommandFactory.CreateFromFile(licenseInFile, _currentUser.UserId);
             if (licenseInFile.IsMachineKeyRequired)

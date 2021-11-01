@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using Autofac;
 using FluentAssertions;
+using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
 using TechTalk.SpecFlow;
 
@@ -81,12 +82,71 @@ namespace Graph.Tests
             _sut.LogoutAs("root");
         }
 
-        [Then(@"Оператор входит выдает запрос пароля безопасника")]
-        public void ThenОператорВходитВыдаетЗапросПароляБезопасника()
+        [When(@"Оператор входит Выдается запрос пароля безопасника Неверный пароль безопасника")]
+        public void WhenОператорВходитВыдаетсяЗапросПароляБезопасникаНеверныйПарольБезопасника()
         {
             _sut.LoginAs("operator", "wrong_password");
+        }
+
+        [Then(@"Не пускает")]
+        public void ThenНеПускает()
+        {
             _sut.ReadModel.Licenses.Count.ShouldBeEquivalentTo(0);
         }
 
+        [When(@"Верный пароль безопасника")]
+        public void WhenВерныйПарольБезопасника()
+        {
+            _sut.LoginAs("operator", "lAChr6zA");
+        }
+
+        [Then(@"Успешно входит")]
+        public void ThenУспешноВходит()
+        {
+            _sut.ReadModel.Licenses.Count.ShouldBeEquivalentTo(1);
+            _sut.ReadModel.Users.Count.ShouldBeEquivalentTo(8);
+        }
+
+
+        [When(@"Оператор выходит")]
+        public void WhenОператорВыходит()
+        {
+            _sut.LogoutAs("operator");
+        }
+
+        [Then(@"Рут входит Пароль безопасника больше не спрашивает")]
+        public void ThenРутВходитПарольБезопасникаБольшеНеСпрашивает()
+        {
+            _sut.LoginAs("root");
+            _sut.ReadModel.Licenses.Count.ShouldBeEquivalentTo(1);
+            _sut.ReadModel.Users.Count.ShouldBeEquivalentTo(8);
+        }
+
+        [When(@"Рут применяет основную лицензию без привязки")]
+        public void WhenРутПрименяетОсновнуюЛицензиюБезПривязки()
+        {
+            var licenseVm = _sut.ClientScope.Resolve<LicenseViewModel>();
+            licenseVm.Initialize();
+            licenseVm.SelectedLicense.IsMachineKeyRequired.ShouldBeEquivalentTo(true);
+
+            licenseVm.ApplyLicFile(SystemUnderTest.Fibertest20dev);
+            _sut.Poller.EventSourcingTick().Wait();
+        }
+
+        [Then(@"Старая лицензия удалена Новая лицензия применена")]
+        public void ThenСтараяЛицензияУдаленаНоваяЛицензияПрименена()
+        {
+            _sut.ReadModel.Licenses.Count.ShouldBeEquivalentTo(1);
+            var license = _sut.ReadModel.Licenses.First();
+            license.IsMachineKeyRequired.ShouldBeEquivalentTo(false);
+        }
+
+
+        [Then(@"При входе супервизора пароль безопасника не требует")]
+        public void ThenПриВходеСупервизораПарольБезопасникаНеТребует()
+        {
+            _sut.LogoutAs("root");
+            _sut.LoginAs("supervisor");
+        }
     }
 }
