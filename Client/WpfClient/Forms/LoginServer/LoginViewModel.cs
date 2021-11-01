@@ -149,12 +149,12 @@ namespace Iit.Fibertest.Client
                 Addresses = new DoubleAddress() { Main = _clientAddress, HasReserveAddress = false }
             };
 
-            var resultDto = await PureRegisterClientAsync(_sendDto);
-            return await ProcessRegistrationResult(resultDto);
+            return await ProcessRegistrationResult();
         }
 
-        private async Task<bool> ProcessRegistrationResult(ClientRegisteredDto resultDto)
+        private async Task<bool> ProcessRegistrationResult()
         {
+            var resultDto = await SendAsync(_sendDto);
             if (resultDto.ReturnCode == ReturnCode.NoLicenseHasBeenAppliedYet)
             {
                 _windowManager.ShowDialog(_noLicenseAppliedViewModel);
@@ -168,8 +168,8 @@ namespace Iit.Fibertest.Client
                 if (!_noLicenseAppliedViewModel.IsLicenseAppliedSuccessfully)
                     return false; // message was shown already
 
-                _sendDto.SecurityAdminPassword = _noLicenseAppliedViewModel.SecurityAdminPassword;
-                resultDto = await PureRegisterClientAsync(_sendDto);
+                _sendDto.SecurityAdminPassword = _noLicenseAppliedViewModel.SecurityAdminPassword.GetHashString();
+                resultDto = await SendAsync(_sendDto);
             }
             else if (resultDto.ReturnCode == ReturnCode.WrongMachineKey
                      || resultDto.ReturnCode == ReturnCode.EmptyMachineKey
@@ -184,7 +184,7 @@ namespace Iit.Fibertest.Client
                 }
                 else
                 {
-                    resultDto = await PureRegisterClientAsync(_sendDto);
+                    resultDto = await SendAsync(_sendDto);
                 }
             }
             else if (resultDto.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
@@ -194,7 +194,7 @@ namespace Iit.Fibertest.Client
             return true;
         }
 
-        private async Task<ClientRegisteredDto> PureRegisterClientAsync(RegisterClientDto dto)
+        private async Task<ClientRegisteredDto> SendAsync(RegisterClientDto dto)
         {
             using (_globalScope.Resolve<IWaitCursor>())
             {

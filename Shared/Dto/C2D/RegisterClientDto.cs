@@ -22,7 +22,7 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public string MachineKey { get; set; }
         [DataMember]
-        public string SecurityAdminPassword { get; set; }
+        public string SecurityAdminPassword { get; set; } // Hashed
 
         [DataMember]
         public bool IsUnderSuperClient { get; set; }

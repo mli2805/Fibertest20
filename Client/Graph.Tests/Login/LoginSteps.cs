@@ -62,7 +62,7 @@ namespace Graph.Tests
             _sut.LoginOnEmptyBaseAsRoot(SystemUnderTest.DevSecAdmin);
         }
 
-        [Then(@"Вход осуществлен рут привязан к машине пользователи и рту разрешены кроме вэбклиентов")]
+        [Then(@"Вход осуществлен Рут привязан к машине Пользователи и рту разрешены кроме вэбклиентов")]
         public void ThenВходОсуществленРутПривязанКМашинеПользователиИРтуРазрешеныКромеВэбклиентов()
         {
             _sut.ReadModel.Licenses.Count.ShouldBeEquivalentTo(1);
