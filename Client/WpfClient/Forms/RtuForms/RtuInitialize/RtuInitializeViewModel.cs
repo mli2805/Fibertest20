@@ -52,7 +52,7 @@ namespace Iit.Fibertest.Client
         public bool IsInitializationPermitted => _currentUser.Role <= Role.Root && IsIdle;
 
         public RtuInitializeViewModel(ILifetimeScope globalScope, CurrentUser currentUser,
-            IWindowManager windowManager,  IWcfServiceCommonC2D c2RWcfManager,
+            IWindowManager windowManager, IWcfServiceCommonC2D c2RWcfManager,
             IMyLog logFile, RtuLeaf rtuLeaf, CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
@@ -81,10 +81,10 @@ namespace Iit.Fibertest.Client
             {
                 IsIdle = false;
                 IsCloseEnabled = false;
+                RtuInitializedDto result;
 
                 using (_globalScope.Resolve<IWaitCursor>())
                 {
-
                     if (!await CheckConnectionBeforeInitialization()) return;
                     var rtuMaker = FullModel.MainChannelTestViewModel.NetAddressInputViewModel.Port == (int)TcpPorts.RtuListenTo
                         ? RtuMaker.IIT
@@ -92,12 +92,10 @@ namespace Iit.Fibertest.Client
                     _commonStatusBarViewModel.StatusBarMessage2 = Resources.SID_RTU_is_being_initialized___;
 
                     var initializeRtuDto = CreateDto(rtuMaker);
-                    var result = await _c2RWcfManager.InitializeRtuAsync(initializeRtuDto);
-
-                    _commonStatusBarViewModel.StatusBarMessage2 = "";
-
-                    ReactRtuInitialized(result);
+                    result = await _c2RWcfManager.InitializeRtuAsync(initializeRtuDto);
                 }
+                _commonStatusBarViewModel.StatusBarMessage2 = "";
+                ReactRtuInitialized(result);
             }
             catch (Exception e)
             {
@@ -169,7 +167,7 @@ namespace Iit.Fibertest.Client
                 _windowManager.ShowDialogWithAssignedOwner(
                     new MyMessageBoxViewModel(MessageType.Error, Resources.SID_Invalid_IP_address));
                 return false;
-            } 
+            }
             if (await FullModel.ReserveChannelTestViewModel.ExternalTest()) return true;
 
             _windowManager.ShowDialogWithAssignedOwner(
@@ -181,7 +179,7 @@ namespace Iit.Fibertest.Client
         {
             var message = dto.IsInitialized
                 ? $@"RTU {dto.RtuAddresses.Main.Ip4Address} initialized successfully."
-                : dto.RtuAddresses != null 
+                : dto.RtuAddresses != null
                     ? $@"RTU {dto.RtuAddresses.Main.Ip4Address} initialization failed. " + Environment.NewLine + dto.ErrorMessage
                     : @"RTU initialization failed. " + Environment.NewLine + dto.ErrorMessage;
             _logFile.AppendLine(message);
@@ -201,8 +199,8 @@ namespace Iit.Fibertest.Client
             {
                 case ReturnCode.Ok:
                 case ReturnCode.RtuInitializedSuccessfully:
-                    var msg = dto.Children.Any(c=>!c.Value.IsOk) 
-                        ? Resources.SID_RTU_initialized2 
+                    var msg = dto.Children.Any(c => !c.Value.IsOk)
+                        ? Resources.SID_RTU_initialized2
                         : Resources.SID_RTU_initialized_successfully_;
                     vm = new MyMessageBoxViewModel(MessageType.Information, msg);
                     break;
@@ -222,7 +220,7 @@ namespace Iit.Fibertest.Client
                     vm = new MyMessageBoxViewModel(MessageType.Error, strs2, 2);
                     break;
                 default:
-                    var strs3 = new List<string>() { ReturnCode.RtuInitializationError.GetLocalizedString(), "",  dto.ErrorMessage };
+                    var strs3 = new List<string>() { ReturnCode.RtuInitializationError.GetLocalizedString(), "", dto.ErrorMessage };
                     vm = new MyMessageBoxViewModel(MessageType.Error, strs3, 2);
                     break;
             }
