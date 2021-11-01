@@ -17,6 +17,7 @@ namespace Iit.Fibertest.Client
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Password;
+            Password = "";
         }
 
         public void Initialize(ClientRegisteredDto resultDto)
@@ -26,6 +27,16 @@ namespace Iit.Fibertest.Client
                 Text1 = @"Wrong workstation key!";
                 Text2 = @"Your credentials must be verified by Security Administrator.";
                 Text3 = @"Ваши полномочия должны быть подтверждены администратором безопасности.";
+            }
+            else if (resultDto.ReturnCode == ReturnCode.EmptyMachineKey)
+            {
+                Text1 = @"Для данного пользователя не задана привязка к рабочему месту!";
+                Text2 = @"Your credentials must be verified by Security Administrator.";
+                Text3 = @"Ваши полномочия должны быть подтверждены администратором безопасности.";
+            }
+            else if (resultDto.ReturnCode == ReturnCode.WrongSecurityAdminPassword)
+            {
+                Text2 = @"Неверный пароль администратора безопасности!";
             }
         }
 

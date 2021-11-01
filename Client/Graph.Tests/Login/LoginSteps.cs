@@ -85,6 +85,7 @@ namespace Graph.Tests
         public void ThenОператорВходитВыдаетЗапросПароляБезопасника()
         {
             _sut.LoginAs("operator", "wrong_password");
+            _sut.ReadModel.Licenses.Count.ShouldBeEquivalentTo(0);
         }
 
     }

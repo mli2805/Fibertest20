@@ -106,7 +106,7 @@ namespace Graph.Tests
 
             // NoLicenseAppliedView - выберите демо или из файла
             FakeWindowManager.RegisterHandler(model => this.NoLicenseHandler(model, licenseFilename));
-           
+
             if (licenseFilename != "") // взять из файла
                 // формы выбора файла нет мы передаем его имя и сразу читаем ????
                 // почему-то это MessageBox нужен и для файла лицензии с привязкой и без
@@ -115,19 +115,22 @@ namespace Graph.Tests
             if (licenseFilename == DevSecAdmin)
                 // форма для ввода пароля безопасника
                 FakeWindowManager.RegisterHandler(model => this.SecurityAdminPasswordHandler(model, "lAChr6zA"));
-            
+
             // MessageBox лицензия применена успешно
             FakeWindowManager.RegisterHandler(model => this.ManyLinesMessageBoxAnswer(Answer.Yes, model));
 
             ReadModel.Users.Count.Should().Be(0);
             vm.Login();
+            vm.IsRegistrationSuccessful.ShouldBeEquivalentTo(true);
             ReadModel.Users.Count.Should().Be(0);
             ReadModel.Licenses.Count.Should().Be(0);
 
-            FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
-            ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
-            ReadModel.Users.Count.Should().Be(licenseFilename == DevSecAdmin ? 8 : 7);
-
+            if (vm.IsRegistrationSuccessful)
+            {
+                FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
+                ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
+                ReadModel.Users.Count.Should().Be(licenseFilename == DevSecAdmin ? 8 : 7);
+            }
             return this;
         }
 
@@ -144,10 +147,14 @@ namespace Graph.Tests
                 FakeWindowManager.RegisterHandler(model => this.SecurityAdminPasswordHandler(model, secAdminPassword));
 
             FakeWindowManager.RegisterHandler(model => this.ManyLinesMessageBoxAnswer(Answer.Yes, model));
+            if (secAdminPassword == "wrong_password")
+                FakeWindowManager.RegisterHandler(model => this.ManyLinesMessageBoxAnswer(Answer.Yes, model));
             vm.Login();
-
-            FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
-            ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
+            if (vm.IsRegistrationSuccessful)
+            {
+                FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
+                ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
+            }
         }
 
         public void LogoutAs(string username)

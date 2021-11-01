@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using System.Windows;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -88,8 +87,8 @@ namespace Iit.Fibertest.Client
             if (string.IsNullOrEmpty(UserName) && string.IsNullOrEmpty(Password))
             {
                 //  UserName = @"superclient";  Password = @"superclient";
-                // UserName = @"developer"; Password = @"developer";
-                UserName = @"operator";  Password = @"operator";
+                UserName = @"developer"; Password = @"developer";
+                // UserName = @"operator"; Password = @"operator";
                 //  UserName = @"supervisor"; Password = @"supervisor";
                 //  UserName = @"root"; Password = @"root";
             }
@@ -182,13 +181,16 @@ namespace Iit.Fibertest.Client
                     _windowManager.ShowDialogWithAssignedOwner(vm);
                     return false;
                 }
-                else
-                {
-                    resultDto = await SendAsync(_sendDto);
-                }
+
+                _sendDto.SecurityAdminPassword = _securityAdminConfirmationViewModel.Password.GetHashString();
+                resultDto = await SendAsync(_sendDto);
             }
-            else if (resultDto.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
-                MessageBox.Show(resultDto.ReturnCode.GetLocalizedString(), Resources.SID_Error_);
+
+            if (resultDto.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, resultDto.ReturnCode.GetLocalizedString());
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+            }
 
             ParseServerAnswer(resultDto);
             return true;
