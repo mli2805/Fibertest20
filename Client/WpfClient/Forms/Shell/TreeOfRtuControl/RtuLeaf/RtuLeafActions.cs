@@ -126,6 +126,7 @@ namespace Iit.Fibertest.Client
             {
                 RtuId = rtuLeaf.Id,
                 OtdrId = rtu.OtdrId,
+                OtauId = rtu.OtauId,
                 RtuMaker = rtuLeaf.RtuMaker,
                 Timespans = new MonitoringTimespansDto()
                 {
@@ -133,19 +134,21 @@ namespace Iit.Fibertest.Client
                     PreciseMeas = TimeSpan.FromHours((int)rtu.PreciseMeas),
                     PreciseSave = TimeSpan.FromHours((int)rtu.PreciseSave),
                 },
-                Ports = CollectTracesInMonitoringCycle(rtuLeaf, true),
+                Ports = CollectTracesInMonitoringCycle(rtuLeaf, true, rtu.OtauId, 1),
             };
             return result;
         }
 
-        private List<PortWithTraceDto> CollectTracesInMonitoringCycle(IPortOwner portOwnerLeaf, bool isMainCharon)
+        private List<PortWithTraceDto> CollectTracesInMonitoringCycle(
+            IPortOwner portOwnerLeaf, bool isMainCharon, string otauId, int masterPort)
         {
             var result = new List<PortWithTraceDto>();
             foreach (var child in portOwnerLeaf.ChildrenImpresario.Children)
             {
-                if (child is IPortOwner otauLeaf)
+                if (child is OtauLeaf otauLeaf)
                 {
-                    result.AddRange(CollectTracesInMonitoringCycle(otauLeaf, false));
+                    result.AddRange(CollectTracesInMonitoringCycle(
+                        otauLeaf, false, otauLeaf.Id.ToString(), otauLeaf.MasterPort));
                     continue;
                 }
 
@@ -161,6 +164,8 @@ namespace Iit.Fibertest.Client
                             Serial = portOwnerLeaf.Serial,
                             IsPortOnMainCharon = isMainCharon,
                             OpticalPort = trace.PortNumber,
+                            OtauId = otauId,
+                            MainCharonPort = masterPort,
                         }
                     });
             }
