@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Client
         private readonly LandmarksViewsManager _landmarksViewsManager;
 
         public RtuLeafActions(ILifetimeScope globalScope, IMyLog logFile, Model readModel, GraphReadModel graphReadModel,
-            IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager,  IWcfServiceCommonC2D commonC2DWcfManager,
+            IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
             RtuRemover rtuRemover, TabulatorViewModel tabulatorViewModel,
             RtuStateViewsManager rtuStateViewsManager, LandmarksViewsManager landmarksViewsManager)
         {
@@ -108,7 +108,7 @@ namespace Iit.Fibertest.Client
             if (rtu == null) return;
 
             bool result;
-            using (new WaitCursor())
+            using (_globalScope.Resolve<IWaitCursor>())
             {
                 result =
                     await _commonC2DWcfManager.StopMonitoringAsync(new StopMonitoringDto() { RtuId = rtuLeaf.Id, RtuMaker = rtu.RtuMaker });
@@ -125,6 +125,7 @@ namespace Iit.Fibertest.Client
             var result = new ApplyMonitoringSettingsDto()
             {
                 RtuId = rtuLeaf.Id,
+                OtdrId = rtu.OtdrId,
                 RtuMaker = rtuLeaf.RtuMaker,
                 Timespans = new MonitoringTimespansDto()
                 {
@@ -180,11 +181,19 @@ namespace Iit.Fibertest.Client
             }
             dto.IsMonitoringOn = true;
 
-            using (new WaitCursor())
+            MonitoringSettingsAppliedDto resultDto;
+            using (_globalScope.Resolve<IWaitCursor>())
             {
-                var resultDto = await _commonC2DWcfManager.ApplyMonitoringSettingsAsync(dto);
-                _logFile.AppendLine($@"Start monitoring result - {resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully}");
+                resultDto = await _commonC2DWcfManager.ApplyMonitoringSettingsAsync(dto);
             }
+            if (resultDto.ReturnCode != ReturnCode.MonitoringSettingsAppliedSuccessfully)
+            {
+                var lines = new List<string>()
+                    {resultDto.ReturnCode.GetLocalizedString(), "", resultDto.ErrorMessage};
+                var vm = new MyMessageBoxViewModel(MessageType.Error, lines, 0);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+            }
+            _logFile.AppendLine($@"Start monitoring result - {resultDto.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully}");
         }
 
         public async void DetachAllTraces(object param)
@@ -192,9 +201,9 @@ namespace Iit.Fibertest.Client
             if (!(param is RtuLeaf rtuLeaf))
                 return;
 
-            using (new WaitCursor())
+            using (_globalScope.Resolve<IWaitCursor>())
             {
-                var cmd = new DetachAllTraces() {RtuId = rtuLeaf.Id};
+                var cmd = new DetachAllTraces() { RtuId = rtuLeaf.Id };
                 await _c2DWcfManager.SendCommandAsObj(cmd);
                 _rtuStateViewsManager.NotifyUserMonitoringStarted(rtuLeaf.Id);
             }

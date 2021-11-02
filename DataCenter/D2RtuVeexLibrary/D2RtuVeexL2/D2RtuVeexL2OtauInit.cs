@@ -152,6 +152,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 {
                     var createRes = await _d2RtuVeexLayer1.CreateOtau(rtuDoubleAddress, new NewOtau()
                     {
+                        id = "S2_" + pair.Value.OtauId,
                         connectionParameters = new VeexOtauAddress()
                         {
                             address = pair.Value.NetAddress.Ip4Address,

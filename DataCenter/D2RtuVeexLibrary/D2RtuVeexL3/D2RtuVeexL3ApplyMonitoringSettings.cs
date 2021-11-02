@@ -22,7 +22,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             {
                 var proxy = await _d2RtuVeexLayer2.DisableProxyMode(rtuAddresses, dto.OtdrId);
                 if (!proxy.IsSuccessful)
-                    return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError };
+                    return new MonitoringSettingsAppliedDto() 
+                        { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError, ErrorMessage = proxy.ErrorMessage};
           
                 if (!await _d2RtuVeexLayer2.ApplyMoniSettingsToEveryTest(rtuAddresses, dto))
                     return new MonitoringSettingsAppliedDto() { ReturnCode = ReturnCode.RtuMonitoringSettingsApplyError };
