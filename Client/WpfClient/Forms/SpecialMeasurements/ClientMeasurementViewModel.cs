@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Autofac;
@@ -91,7 +92,7 @@ namespace Iit.Fibertest.Client
         {
             var otauId = otau == null
                 ? rtu.OtauId
-                : @"S2_" + otau.Id;
+                : otau.Id.ToString();
 
             var otauPortDto = new OtauPortDto(){
                 OtauId = otauId,
@@ -198,6 +199,8 @@ namespace Iit.Fibertest.Client
         {
             _logFile.AppendLine(@"Measurement (Client) result received");
             var clientPath = FileOperations.GetParentFolder(AppDomain.CurrentDomain.BaseDirectory);
+            if (!Directory.Exists(clientPath + @"\temp"))
+                Directory.CreateDirectory(clientPath + @"\temp");
             var filename = clientPath + $@"\temp\meas-{DateTime.Now:yyyy-MM-dd-hh-mm-ss}.sor";
             SorData.Save(sorBytes, filename);
             var iitPath = FileOperations.GetParentFolder(clientPath);

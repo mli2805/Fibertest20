@@ -52,13 +52,13 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             {
                 otauPorts.Add(new VeexOtauPort()
                 {
-                    otauId = mainOtauPortDto.OtauId,
+                    otauId =mainOtauPortDto.OtauId,
                     portIndex = mainOtauPortDto.OpticalPort - 1
                 });
             }
             otauPorts.Add(new VeexOtauPort()
             {
-                otauId = otauPortDto.OtauId,
+                otauId =  @"S2_" + otauPortDto.OtauId,
                 portIndex = otauPortDto.OpticalPort - 1
             });
 
