@@ -45,6 +45,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return await _d2RtuVeexLayer2.PrepareReflectMeasurement(rtuDoubleAddress, dto.OtdrId, otauPorts);
         }
 
+        public async Task<RequestAnswer> StartOutOfTurnPreciseMeasurement(DoubleAddress rtuDoubleAddress, string testId)
+        {
+            return await _d2RtuVeexLayer2.StartOutOfTurnPreciseMeasurement(rtuDoubleAddress, testId);
+        }
+
         private static List<VeexOtauPort> CreateVeexOtauPortList(OtauPortDto otauPortDto, OtauPortDto mainOtauPortDto)
         {
             var otauPorts = new List<VeexOtauPort>();

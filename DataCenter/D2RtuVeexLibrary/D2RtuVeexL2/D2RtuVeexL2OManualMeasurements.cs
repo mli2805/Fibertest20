@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -11,14 +12,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var otdrRes = await _d2RtuVeexLayer1.ChangeProxyMode(rtuDoubleAddress, dto.otdrId, false);
             if (!otdrRes.IsSuccessful)
                 return new ClientMeasurementStartedDto()
-                    {ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to disable proxy mode!"};
+                { ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to disable proxy mode!" };
 
             var res = await _d2RtuVeexLayer1.DoMeasurementRequest(rtuDoubleAddress, dto);
             if (!res.IsSuccessful)
                 return new ClientMeasurementStartedDto()
                 {
                     ReturnCode = ReturnCode.Error,
-                    ErrorMessage = res.ErrorMessage + System.Environment.NewLine + res.ResponseJson,
+                    ErrorMessage = res.ErrorMessage + Environment.NewLine + res.ResponseJson,
                 };
             return new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.Ok };
         }
@@ -33,7 +34,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     ErrorMessage = "Failed to get measurement result!",
                 };
 
-            var measResult = (VeexMeasurementResult) getResult.ResponseObject;
+            var measResult = (VeexMeasurementResult)getResult.ResponseObject;
 
             var result = new ClientMeasurementDto()
             {
@@ -65,7 +66,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var otdrRes = await _d2RtuVeexLayer1.ChangeProxyMode(rtuDoubleAddress, otdrId, true);
             if (!otdrRes.IsSuccessful)
                 return new RequestAnswer()
-                    {ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to enable proxy mode!"};
+                { ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to enable proxy mode!" };
 
             foreach (var otauPort in otauPorts)
             {
@@ -73,10 +74,22 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     .SwitchOtauToPort(rtuDoubleAddress, otauPort.otauId, otauPort.portIndex);
                 if (!toggleRes.IsSuccessful)
                     return new RequestAnswer()
-                        {ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to switch otau to port!"};
+                    { ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to switch otau to port!" };
             }
 
-            return new RequestAnswer() {ReturnCode = ReturnCode.Ok};
+            return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
         }
+
+        public async Task<RequestAnswer> StartOutOfTurnPreciseMeasurement(DoubleAddress rtuDoubleAddress, string testId)
+        {
+            var res = await _d2RtuVeexLayer1.StartOutOfTurnPreciseMeasurement(rtuDoubleAddress, testId);
+            if (res.IsSuccessful)
+                return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
+            return new RequestAnswer()
+            {
+                ReturnCode = ReturnCode.Error, ErrorMessage = res.ErrorMessage + Environment.NewLine + res.ResponseJson
+            };
+        }
+
     }
 }

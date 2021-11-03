@@ -72,8 +72,8 @@ namespace Iit.Fibertest.DataCenterCore
                 var startingFrom = utc.AddSeconds(1).ToString("O");
 
                 // rtu can't return more than 1024 completed tests at a time, but can less, parameter limit is optional
-                // _logFile.AppendLine($"get completed tests from UTC {startingFrom}");
-                var getPortionResult = await _d2RtuVeexLayer3.GetCompletedTestsAfterTimestampAsync(rtuDoubleAddress, startingFrom, 2048);
+                // limit = 1024 sometimes causes exception "A task was canceled"
+                var getPortionResult = await _d2RtuVeexLayer3.GetCompletedTestsAfterTimestampAsync(rtuDoubleAddress, startingFrom, 512);
                 await ProcessRequestResult(getPortionResult, station, rtu, rtuDoubleAddress);
             }
 

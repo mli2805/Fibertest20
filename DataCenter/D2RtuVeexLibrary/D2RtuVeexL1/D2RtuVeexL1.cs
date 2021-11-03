@@ -58,7 +58,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             var jsonData = JsonConvert.SerializeObject(dto);
             var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress,
-                $@"measurements", "post", "application/json", jsonData);
+                @"measurements", "post", "application/json", jsonData);
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.Created;
             return res;
         }
@@ -75,6 +75,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             var res = await _httpWrapper.GetByteArray(rtuDoubleAddress, $"measurements/{measId}/traces/0");
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
+            return res;
+        }
+
+        public async Task<HttpRequestResult> StartOutOfTurnPreciseMeasurement(DoubleAddress rtuDoubleAddress, string testId)
+        {
+            var jsonData = "{}";
+            var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress,
+                $@"monitoring/tests/{testId}/out_of_turn", "post", "application/json", jsonData);
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.Created;
             return res;
         }
     }
