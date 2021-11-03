@@ -8,6 +8,7 @@ namespace Iit.Fibertest.Dto
         public bool canVscout { get; set; }
         public IList<object> enabledOptions { get; set; }
         public string id { get; set; }
+        public bool isConnected { get; set; }
         public string mainframeId { get; set; }
         public string opticalModuleSerialNumber { get; set; }
 
