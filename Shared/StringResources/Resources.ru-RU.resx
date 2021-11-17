@@ -2979,4 +2979,37 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Basic" xml:space="preserve">
 		<value>Основная</value>
 	</data>
+	<data name="SID_User_is_linked_to_another_workstation" xml:space="preserve">
+		<value>Пользователь привязан к другому рабочему месту</value>
+	</data>
+	<data name="SID_Wrong_security_admin_password" xml:space="preserve">
+		<value>Неверный пароль администратора безопасности</value>
+	</data>
+	<data name="SID_User_has_no_linking_to_any_workstation" xml:space="preserve">
+		<value>Пользователь не привязан к рабочему месту</value>
+	</data>
+	<data name="SID_No_license_has_been_applied_yet" xml:space="preserve">
+		<value>Еще не была применена лицензия!</value>
+	</data>
+	<data name="SID_To_link_user_to_the_workstation_your_privileges" xml:space="preserve">
+		<value>Для привязки пользователя к рабочему месту Ваши полномочия</value>
+	</data>
+	<data name="SID_have_to_be_confirmed_by_security_administrator_password_" xml:space="preserve">
+		<value>должны быть подтверждены паролем администратора безопасности.</value>
+	</data>
+	<data name="SID_To_apply_the_license_security_administrator" xml:space="preserve">
+		<value>Для применения данной лицензии требуется</value>
+	</data>
+	<data name="SID_password_has_to_be_input_" xml:space="preserve">
+		<value>ввод пароля администратора безопасности.</value>
+	</data>
+	<data name="SID_Apply_Demo_license" xml:space="preserve">
+		<value>Применить ДЕМО режим</value>
+	</data>
+	<data name="SID_Load_license_from_file" xml:space="preserve">
+		<value>Загрузить лицензию из файла</value>
+	</data>
+	<data name="SID_You_can apply_DEMO_license_or" xml:space="preserve">
+		<value>Вы можете применить ДЕМО лицензию или загрузить Вашу лицензию из файла.</value>
+	</data>
 </root>

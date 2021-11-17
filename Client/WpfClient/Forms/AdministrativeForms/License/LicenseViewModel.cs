@@ -55,7 +55,9 @@ namespace Iit.Fibertest.Client
         // It is a button handler, but when called from tests receives parameter
         public async void ApplyLicFile(string licenseFilename)
         {
-            await _licenseSender.ApplyLicenseFromFile(licenseFilename);
+            var res = await _licenseSender.ApplyLicenseFromFile(licenseFilename);
+            if (res)
+                TryClose();
         }
     }
 }

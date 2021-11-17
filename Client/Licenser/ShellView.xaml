@@ -48,7 +48,8 @@
                 <ComboBox Width="100" ItemsSource="{Binding LicenseInFileModel.TermUnit}" 
                           SelectedItem="{Binding LicenseInFileModel.ClientStationTermUnit}"/>
             </StackPanel>
-            <StackPanel Name="Web" Orientation="Horizontal" Height="22" Margin="0,5" HorizontalAlignment="Right" >
+            <StackPanel Name="Web" Orientation="Horizontal" Height="22" Margin="0,5" HorizontalAlignment="Right" 
+                        IsEnabled="{Binding LicenseInFileModel.IsNotMachineKeyRequired}" >
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Web_clients}" TextAlignment="Right" Margin="0,0,20,0"/>
                 <TextBox Width="100" Text="{Binding LicenseInFileModel.WebClientCount}" />
                 <TextBox Width="70" Margin="20, 0, 10, 0" Text="{Binding LicenseInFileModel.WebClientTerm}"/>

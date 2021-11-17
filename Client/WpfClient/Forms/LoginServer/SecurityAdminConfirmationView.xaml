@@ -3,24 +3,16 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
-        xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews;assembly=Iit.Fibertest.WpfCommonViews"
+        xmlns:client="clr-namespace:Iit.Fibertest.Client"
         mc:Ignorable="d"
-        Width="600" SizeToContent="Height" WindowStartupLocation="CenterOwner">
+        Width="500" SizeToContent="Height" WindowStartupLocation="CenterOwner">
     <StackPanel>
-        <TextBlock Text="{Binding Text1}" TextAlignment="Center" Margin="5,20, 5,5"/>
-        <TextBlock Text="{Binding Text2}" TextAlignment="Center" Margin="5"/>
+        <TextBlock Text="{Binding ReturnCodeText}" TextAlignment="Center" Margin="5,20, 5,5" FontWeight="Bold"/>
         <TextBlock Text="{Binding Text3}" TextAlignment="Center" Margin="5"/>
-        <TextBlock Text="{Binding Text4}" TextAlignment="Center" Margin="5, 30, 5, 5"/>
+        <TextBlock Text="{Binding Text4}" TextAlignment="Center" Margin="5, 5, 5, 25"/>
 
-        <StackPanel Orientation="Horizontal" Margin="5,5,5,30" HorizontalAlignment="Center">
-            <TextBlock Text="{x:Static stringResources:Resources.SID_Password}" Margin="5"/>
-            <PasswordBox wpfCommonViews:PasswordHelper.Attach="True"  
-                         wpfCommonViews:PasswordHelper.Password="{Binding Password, Mode=TwoWay,
-                                                                            UpdateSourceTrigger=PropertyChanged}"
-                         Width="100" Margin="5"/>
-            <!-- <Button Name="Confirm" Content="Confirm" Margin="5" Width="100"/> -->
-        </StackPanel>
+        <client:PasswordView DataContext="{Binding PasswordViewModel}" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,0,0,20">
             <Button Name="OkButton" Visibility="{Binding OkVisibility}" Content="OK" Margin="5" 
                     IsDefault="True" HorizontalAlignment="Center" Width="100"/>

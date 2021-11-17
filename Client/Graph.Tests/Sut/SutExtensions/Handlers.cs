@@ -144,7 +144,7 @@ namespace Graph.Tests
         {
             if (!(model is SecurityAdminConfirmationViewModel vm)) return false;
             vm.Initialize();
-            vm.Password = password;
+            vm.PasswordViewModel.Password = password;
             vm.OkButton();
             return true;
         }

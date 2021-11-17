@@ -2979,4 +2979,37 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Basic" xml:space="preserve">
 		<value>Basic</value>
 	</data>
+	<data name="SID_User_is_linked_to_another_workstation" xml:space="preserve">
+		<value>User is linked to another workstation</value>
+	</data>
+	<data name="SID_Wrong_security_admin_password" xml:space="preserve">
+		<value>Wrong security admin password</value>
+	</data>
+	<data name="SID_User_has_no_linking_to_any_workstation" xml:space="preserve">
+		<value>User has no linking to any workstation</value>
+	</data>
+	<data name="SID_No_license_has_been_applied_yet" xml:space="preserve">
+		<value>No license has been applied yet!</value>
+	</data>
+	<data name="SID_To_link_user_to_the_workstation_your_privileges" xml:space="preserve">
+		<value>To link user to the workstation your privileges</value>
+	</data>
+	<data name="SID_have_to_be_confirmed_by_security_administrator_password_" xml:space="preserve">
+		<value>have to be confirmed by security administrator password.</value>
+	</data>
+	<data name="SID_To_apply_the_license_security_administrator" xml:space="preserve">
+		<value>To apply the license security administrator</value>
+	</data>
+	<data name="SID_password_has_to_be_input_" xml:space="preserve">
+		<value>password has to be input.</value>
+	</data>
+	<data name="SID_Apply_Demo_license" xml:space="preserve">
+		<value>Apply Demo mode</value>
+	</data>
+	<data name="SID_Load_license_from_file" xml:space="preserve">
+		<value>Load license from file</value>
+	</data>
+	<data name="SID_You_can apply_DEMO_license_or" xml:space="preserve">
+		<value>You can apply DEMO license or load your license from file</value>
+	</data>
 </root>

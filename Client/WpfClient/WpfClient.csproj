@@ -250,6 +250,10 @@
       <DependentUpon>NoLicenseAppliedView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\LoginServer\NoLicenseAppliedViewModel.cs" />
+    <Compile Include="Forms\LoginServer\PasswordView.xaml.cs">
+      <DependentUpon>PasswordView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\LoginServer\PasswordViewModel.cs" />
     <Compile Include="Forms\LoginServer\SecurityAdminConfirmationView.xaml.cs">
       <DependentUpon>SecurityAdminConfirmationView.xaml</DependentUpon>
     </Compile>
@@ -736,6 +740,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Forms\LoginServer\NoLicenseAppliedView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\LoginServer\PasswordView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1239,6 +1247,7 @@
     <Content Include="Resources\AccidentSchemes\FiberBrokenInNode.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Buttons\eye1.png" />
     <Content Include="Resources\Reports\header-landscape.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

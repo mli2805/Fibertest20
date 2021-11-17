@@ -236,10 +236,17 @@ namespace Iit.Fibertest.Licenser
             {
                 if (value == _isMachineKeyRequired) return;
                 _isMachineKeyRequired = value;
+                if (_isMachineKeyRequired) 
+                    WebClientCount = 0;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IsNotMachineKeyRequired));
+                NotifyOfPropertyChange(nameof(WebClientCount));
                 NotifyOfPropertyChange(nameof(LicenseKey));
             }
         }
+
+        public bool IsNotMachineKeyRequired => !IsMachineKeyRequired;
+
         public string SecurityAdminPassword { get; set; }
 
 

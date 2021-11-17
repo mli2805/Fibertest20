@@ -86,7 +86,7 @@ namespace Iit.Fibertest.Client
             if (_vm.IsOkPressed)
             {
                 var password = (string)Cryptography.Decode(licenseInFile.SecurityAdminPassword);
-                if (_vm.Password != password)
+                if (_vm.PasswordViewModel.Password != password)
                 {
                     var strs = new List<string>() { @"Неверный пароль!", "", @"Лицензия не будет применена!" };
                     var mb = new MyMessageBoxViewModel(MessageType.Information, strs, 0);
@@ -102,7 +102,7 @@ namespace Iit.Fibertest.Client
                 return false;
             }
 
-            SecurityAdminPassword = _vm.Password;
+            SecurityAdminPassword = _vm.PasswordViewModel.Password;
             return true;
         }
     }

@@ -84,13 +84,13 @@ namespace Iit.Fibertest.Graph
                 case ReturnCode.UserHasNoRightsToStartWebClient:
                     return Resources.SID_This_user_has_no_right_to_start_Web_Client;
                 case ReturnCode.WrongMachineKey:
-                    return @"WrongMachineKey";
+                    return Resources.SID_User_is_linked_to_another_workstation;
                 case ReturnCode.WrongSecurityAdminPassword:
-                    return @"WrongSecurityAdminPassword";
+                    return Resources.SID_Wrong_security_admin_password;
                 case ReturnCode.EmptyMachineKey:
-                    return @"EmptyMachineKey";
+                    return Resources.SID_User_has_no_linking_to_any_workstation;
                 case ReturnCode.NoLicenseHasBeenAppliedYet:
-                    return @"NoLicenseHasBeenAppliedYet";
+                    return Resources.SID_No_license_has_been_applied_yet;
                 //9401
                 case ReturnCode.BaseRefAssignmentFailed:
                     return Resources.SID_Base_reference_assignment_failed;

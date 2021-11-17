@@ -711,6 +711,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Apply Demo license.
+        /// </summary>
+        public static string SID_Apply_Demo_license {
+            get {
+                return ResourceManager.GetString("SID_Apply_Demo_license", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure?.
         /// </summary>
         public static string SID_Are_you_sure_ {
@@ -3412,6 +3421,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to have to be confirmed by security administrator password..
+        /// </summary>
+        public static string SID_have_to_be_confirmed_by_security_administrator_password_ {
+            get {
+                return ResourceManager.GetString("SID_have_to_be_confirmed_by_security_administrator_password_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Help.
         /// </summary>
         public static string SID_Help {
@@ -4154,6 +4172,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Load license from file.
+        /// </summary>
+        public static string SID_Load_license_from_file {
+            get {
+                return ResourceManager.GetString("SID_Load_license_from_file", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Loading data after DB recovery (optimization), please wait.
         /// </summary>
         public static string SID_Loading_data_after_DB_recovery__optimization_ {
@@ -4883,6 +4910,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to No license has been applied yet.
+        /// </summary>
+        public static string SID_No_license_has_been_applied_yet {
+            get {
+                return ResourceManager.GetString("SID_No_license_has_been_applied_yet", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to No measurement.
         /// </summary>
         public static string SID_No_measurement {
@@ -5465,6 +5501,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Password {
             get {
                 return ResourceManager.GetString("SID_Password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to password has to be input..
+        /// </summary>
+        public static string SID_password_has_to_be_input_ {
+            get {
+                return ResourceManager.GetString("SID_password_has_to_be_input_", resourceCulture);
             }
         }
         
@@ -7648,6 +7693,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To apply the license security administrator.
+        /// </summary>
+        public static string SID_To_apply_the_license_security_administrator {
+            get {
+                return ResourceManager.GetString("SID_To_apply_the_license_security_administrator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To link user to the workstation your privileges.
+        /// </summary>
+        public static string SID_To_link_user_to_the_workstation_your_privileges {
+            get {
+                return ResourceManager.GetString("SID_To_link_user_to_the_workstation_your_privileges", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to To optical port.
         /// </summary>
         public static string SID_To_optical_port {
@@ -8233,6 +8296,24 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User has no linking to any workstation.
+        /// </summary>
+        public static string SID_User_has_no_linking_to_any_workstation {
+            get {
+                return ResourceManager.GetString("SID_User_has_no_linking_to_any_workstation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User is linked to another workstation.
+        /// </summary>
+        public static string SID_User_is_linked_to_another_workstation {
+            get {
+                return ResourceManager.GetString("SID_User_is_linked_to_another_workstation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User Length, m.
         /// </summary>
         public static string SID_User_Length_m {
@@ -8593,6 +8674,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Wrong security admin password.
+        /// </summary>
+        public static string SID_Wrong_security_admin_password {
+            get {
+                return ResourceManager.GetString("SID_Wrong_security_admin_password", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Wrong user name or password!.
         /// </summary>
         public static string SID_Wrong_user_name_or_password_ {
@@ -8607,6 +8697,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_yes {
             get {
                 return ResourceManager.GetString("SID_yes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You can apply DEMO license or load your license from file.
+        /// </summary>
+        public static string SID_You_can_apply_DEMO_license_or {
+            get {
+                return ResourceManager.GetString("SID_You_can apply_DEMO_license_or", resourceCulture);
             }
         }
         
