@@ -1584,7 +1584,7 @@ RTU is initializing right now!</value>
     <value>New password</value>
   </data>
 	<data name="SID_Wrong_password" xml:space="preserve">
-    <value>Wrong password</value>
+    <value>Wrong password!</value>
   </data>
 	<data name="SID_Next_step" xml:space="preserve">
     <value>Next step</value>
@@ -3011,5 +3011,11 @@ Please install IIS before installing Fibertest Web Component.</value>
 	</data>
 	<data name="SID_You_can apply_DEMO_license_or" xml:space="preserve">
 		<value>You can apply DEMO license or load your license from file</value>
+	</data>
+	<data name="SID_License_will_not_be_applied_" xml:space="preserve">
+		<value>License will not be applied!</value>
+	</data>
+	<data name="SID_Password_is_not_entered_" xml:space="preserve">
+		<value>Password is not entered.</value>
 	</data>
 </root>

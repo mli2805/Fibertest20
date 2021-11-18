@@ -88,7 +88,7 @@ namespace Iit.Fibertest.Client
                 var password = (string)Cryptography.Decode(licenseInFile.SecurityAdminPassword);
                 if (_vm.PasswordViewModel.Password != password)
                 {
-                    var strs = new List<string>() { @"Неверный пароль!", "", @"Лицензия не будет применена!" };
+                    var strs = new List<string>() { Resources.SID_Wrong_password, "", Resources.SID_License_will_not_be_applied_ };
                     var mb = new MyMessageBoxViewModel(MessageType.Information, strs, 0);
                     _windowManager.ShowDialogWithAssignedOwner(mb);
                     return false;
@@ -96,7 +96,7 @@ namespace Iit.Fibertest.Client
             }
             else
             {
-                var strs = new List<string>() { @"Пароль не введен.", "", @"Лицензия не будет применена!" };
+                var strs = new List<string>() { Resources.SID_Password_is_not_entered_, "", Resources.SID_License_will_not_be_applied_ };
                 var mb = new MyMessageBoxViewModel(MessageType.Information, strs, 0);
                 _windowManager.ShowDialogWithAssignedOwner(mb);
                 return false;

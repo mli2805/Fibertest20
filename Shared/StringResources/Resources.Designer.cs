@@ -711,7 +711,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Apply Demo license.
+        ///   Looks up a localized string similar to Apply Demo mode.
         /// </summary>
         public static string SID_Apply_Demo_license {
             get {
@@ -4109,6 +4109,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to License will not be applied!.
+        /// </summary>
+        public static string SID_License_will_not_be_applied_ {
+            get {
+                return ResourceManager.GetString("SID_License_will_not_be_applied_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to In service.
         /// </summary>
         public static string SID_Light_OF {
@@ -4910,7 +4919,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No license has been applied yet.
+        ///   Looks up a localized string similar to No license has been applied yet!.
         /// </summary>
         public static string SID_No_license_has_been_applied_yet {
             get {
@@ -5510,6 +5519,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_password_has_to_be_input_ {
             get {
                 return ResourceManager.GetString("SID_password_has_to_be_input_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Password is not entered..
+        /// </summary>
+        public static string SID_Password_is_not_entered_ {
+            get {
+                return ResourceManager.GetString("SID_Password_is_not_entered_", resourceCulture);
             }
         }
         
