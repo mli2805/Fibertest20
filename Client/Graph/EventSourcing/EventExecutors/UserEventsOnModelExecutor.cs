@@ -20,6 +20,9 @@ namespace Iit.Fibertest.Graph
         {
             if (!e.IsIncremental)
             {
+                var securityAdmin = model.Users.FirstOrDefault(u => u.Role == Role.SecurityAdmin);
+                if (securityAdmin != null)
+                    model.Users.Remove(securityAdmin);
                 model.Licenses.Clear();
                 if (e.ClientStationCount.Value < 1)
                     e.ClientStationCount.Value = 1;
