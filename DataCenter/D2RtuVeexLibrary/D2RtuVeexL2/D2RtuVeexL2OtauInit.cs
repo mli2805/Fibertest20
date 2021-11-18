@@ -62,20 +62,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         private async Task<HttpRequestResult> LeaveOnlyRootOtau(DoubleAddress rtuDoubleAddress, List<VeexOtau> otauList)
         {
-            string mainOtauId = "";
-            // temporary, certainly need to be more reliable attribute
+            var rootOtau = otauList.FirstOrDefault(o => o.id.StartsWith("S1_"));
+            string mainOtauId = rootOtau?.id ?? "";
             foreach (var veexOtau in otauList)
             {
-                if (veexOtau.protocol.StartsWith("tcpip"))
+                if (veexOtau.id.StartsWith("S2_"))
                 {
                     var deleteResult = await _d2RtuVeexLayer1.DeleteOtau(rtuDoubleAddress, veexOtau.id);
                     if (!deleteResult.IsSuccessful)
                         return deleteResult;
-                }
-
-                if (veexOtau.protocol.StartsWith("db25"))
-                {
-                    mainOtauId = veexOtau.id;
                 }
             }
 
