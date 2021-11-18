@@ -95,7 +95,7 @@ namespace Iit.Fibertest.RtuManagement
                 _rtuLog.AppendLine($"   port {pair.Key}: bop {pair.Value.NetAddress.ToStringA()} {pair.Value.Serial} isOk - {pair.Value.IsOk}", messageLevel: msl);
 
             if (!_mainCharon.IsBopSupported)
-                return dto.Children.Count > 0 ? ReturnCode.RtuDoesntSupportBop : ReturnCode.Ok;
+                return dto.Children.Count > 0 ? ReturnCode.RtuDoesNotSupportBop : ReturnCode.Ok;
 
             if (!IsFullMatch(_mainCharon, dto))
             {

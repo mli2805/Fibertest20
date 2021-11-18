@@ -16,7 +16,7 @@
         CharonComPortError = 1006,
 
 
-        RtuDoesntSupportBop = 1012,
+        RtuDoesNotSupportBop = 1012,
         RtuTooBigPortNumber = 1013,
 
         RtuIsBusy = 1100,
@@ -47,8 +47,8 @@
 
         BaseRefAssignedSuccessfully = 4001,
         MonitoringSettingsAppliedSuccessfully = 4002,
-        OtauAttachedSuccesfully = 4003,
-        OtauDetachedSuccesfully = 4004,
+        OtauAttachedSuccessfully = 4003,
+        OtauDetachedSuccessfully = 4004,
 
         ClientRegisteredSuccessfully = 9000,
         NoSuchUserOrWrongPassword = 9001,

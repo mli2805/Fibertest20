@@ -45,7 +45,7 @@ namespace Graph.Tests
         [When(@"RTU заменен на старинный не поддерживающий БОПы RTU")]
         public void WhenRtuЗамененНаСтаринныйНеПоддерживающийБопыRtu()
         {
-            _sut.FakeD2RWcfManager.SetFakeInitializationAnswer(ReturnCode.RtuDoesntSupportBop);
+            _sut.FakeD2RWcfManager.SetFakeInitializationAnswer(ReturnCode.RtuDoesNotSupportBop);
         }
 
         [When(@"RTU заменяется на свежий c (.*) портами")]

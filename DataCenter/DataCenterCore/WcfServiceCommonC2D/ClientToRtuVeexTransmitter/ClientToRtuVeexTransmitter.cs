@@ -119,7 +119,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             var result = await _d2RtuVeexLayer3.AttachOtauAsync(dto, rtuAddresses);
             _logFile.AppendLine($"{result.ReturnCode}");
-            if (result.ReturnCode != ReturnCode.OtauAttachedSuccesfully)
+            if (result.ReturnCode != ReturnCode.OtauAttachedSuccessfully)
                 _logFile.AppendLine($"{result.ErrorMessage}");
             return result;
         }
@@ -139,7 +139,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             var result = await _d2RtuVeexLayer3.DetachOtauAsync(dto, rtuAddresses);
             _logFile.AppendLine($"{result.ReturnCode}");
-            if (result.ReturnCode != ReturnCode.OtauDetachedSuccesfully)
+            if (result.ReturnCode != ReturnCode.OtauDetachedSuccessfully)
                 _logFile.AppendLine($"{result.ErrorMessage}");
             return result;
         }

@@ -24,7 +24,7 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Cannot_initialize_dll_;
                 case ReturnCode.OtauInitializationError:
                     return Resources.SID_Failed_to_initialize_optical_switch;
-                case ReturnCode.RtuDoesntSupportBop:
+                case ReturnCode.RtuDoesNotSupportBop:
                     return Resources.SID_RTU_does_not_support_BOP;
                 case ReturnCode.RtuTooBigPortNumber:
                     return Resources.SID_Too_big_port_number_for_BOP_attachment;

@@ -204,7 +204,7 @@ namespace Iit.Fibertest.Client
                         : Resources.SID_RTU_initialized_successfully_;
                     vm = new MyMessageBoxViewModel(MessageType.Information, msg);
                     break;
-                case ReturnCode.RtuDoesntSupportBop:
+                case ReturnCode.RtuDoesNotSupportBop:
                 case ReturnCode.RtuTooBigPortNumber:
                     var strs = new List<string>()
                     {

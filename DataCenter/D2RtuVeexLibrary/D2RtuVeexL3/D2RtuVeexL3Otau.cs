@@ -23,7 +23,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             {
                 return new OtauAttachedDto()
                 {
-                    ReturnCode = ReturnCode.OtauAttachedSuccesfully,
+                    ReturnCode = ReturnCode.OtauAttachedSuccessfully,
                     IsAttached = true,
                     RtuId = dto.RtuId,
                     OtauId = Guid.Parse(otau.id.Substring(3)),
@@ -48,7 +48,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 IsDetached = res.IsSuccessful,
                 RtuId = dto.RtuId,
                 OtauId = dto.OtauId,
-                ReturnCode = res.IsSuccessful ? ReturnCode.OtauDetachedSuccesfully : ReturnCode.RtuDetachOtauError,
+                ReturnCode = res.IsSuccessful ? ReturnCode.OtauDetachedSuccessfully : ReturnCode.RtuDetachOtauError,
                 ErrorMessage = res.ErrorMessage,
             };
             return result;

@@ -69,7 +69,7 @@ namespace Graph.Tests
         {
             return Task.FromResult(new OtauAttachedDto()
             {
-                ReturnCode = ReturnCode.OtauAttachedSuccesfully,
+                ReturnCode = ReturnCode.OtauAttachedSuccessfully,
                 IsAttached = true,
                 RtuId = dto.RtuId,
                 OtauId = dto.OtauId,
@@ -82,7 +82,7 @@ namespace Graph.Tests
         {
             return Task.FromResult(new OtauDetachedDto()
             {
-                ReturnCode = ReturnCode.OtauDetachedSuccesfully,
+                ReturnCode = ReturnCode.OtauDetachedSuccessfully,
                 RtuId = dto.RtuId,
                 OtauId = dto.OtauId,
                 IsDetached = true,

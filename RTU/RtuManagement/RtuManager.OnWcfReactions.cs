@@ -96,7 +96,7 @@ namespace Iit.Fibertest.RtuManagement
                 OtauAttachedDto = new OtauAttachedDto()
                 {
                     IsAttached = true,
-                    ReturnCode = ReturnCode.OtauAttachedSuccesfully,
+                    ReturnCode = ReturnCode.OtauAttachedSuccessfully,
                     OtauId = param.OtauId,
                     RtuId = param.RtuId,
                     Serial = newCharon.Serial,
@@ -128,7 +128,7 @@ namespace Iit.Fibertest.RtuManagement
                 OtauDetachedDto = new OtauDetachedDto()
                 {
                     IsDetached = true,
-                    ReturnCode = ReturnCode.OtauDetachedSuccesfully
+                    ReturnCode = ReturnCode.OtauDetachedSuccessfully
                 };
             }
             else
