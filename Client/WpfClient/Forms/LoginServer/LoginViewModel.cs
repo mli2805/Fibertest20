@@ -141,7 +141,7 @@ namespace Iit.Fibertest.Client
             _sendDto = new RegisterClientDto()
             {
                 UserName = username,
-                Password = password,
+                Password = password.GetHashString(),
                 ConnectionId = connectionId,
                 MachineKey = _machineKeyProvider.Get(),
                 IsUnderSuperClient = isUnderSuperClient,

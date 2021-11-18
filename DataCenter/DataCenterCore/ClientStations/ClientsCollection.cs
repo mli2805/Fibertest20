@@ -46,7 +46,7 @@ namespace Iit.Fibertest.DataCenterCore
             // R2
             var user = WriteModel.Users
                 .FirstOrDefault(u => u.Title == dto.UserName 
-                                     && UserExt.FlipFlop(u.EncodedPassword) == dto.Password);
+                                     && u.EncodedPassword == dto.Password);
             if (user == null)
                 return new ClientRegisteredDto { ReturnCode = ReturnCode.NoSuchUserOrWrongPassword };
 

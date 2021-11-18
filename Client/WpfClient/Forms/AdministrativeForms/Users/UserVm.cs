@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public string Password { get; set; } = "";
+        public string EncodedPassword { get; set; } = "";
 
         public string EmailAddress
         {
@@ -98,7 +98,7 @@ namespace Iit.Fibertest.Client
         {
             UserId = user.UserId;
             Title = user.Title;
-            Password = UserExt.FlipFlop(user.EncodedPassword);
+            EncodedPassword = user.EncodedPassword;
             Role = user.Role;
 
             EmailAddress = user.Email.Address;

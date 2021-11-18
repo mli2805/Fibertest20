@@ -673,6 +673,14 @@
     <Compile Include="VeexRtuCompletedTestFetcher\TestFetchedSteps.cs">
       <DependentUpon>TestFetched.feature</DependentUpon>
     </Compile>
+    <Compile Include="VersionComparison.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VersionComparison.feature</DependentUpon>
+    </Compile>
+    <Compile Include="VersionComparisonSteps.cs">
+      <DependentUpon>VersionComparison.feature</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Accidents\AccidentsExtractor.feature">
@@ -924,6 +932,10 @@
     <None Include="VeexRtuCompletedTestFetcher\TestFetched.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>TestFetched.feature.cs</LastGenOutput>
+    </None>
+    <None Include="VersionComparison.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>VersionComparison.feature.cs</LastGenOutput>
     </None>
   </ItemGroup>
   <ItemGroup>

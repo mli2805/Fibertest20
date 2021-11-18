@@ -130,7 +130,7 @@ namespace Iit.Fibertest.Client
 
         public void CompareWithCurrent()
         {
-            IsChangePasswordEnabled = UserExt.FlipFlop(_user.EncodedPassword) == InputPassword;
+            IsChangePasswordEnabled = _user.EncodedPassword == InputPassword.GetHashString();
             Explanation = IsChangePasswordEnabled ? "" : Resources.SID_Wrong_password;
             NewPasswordBlockVisibility = IsChangePasswordEnabled ? Visibility.Visible : Visibility.Collapsed;
             IsNewPasswordFocused = IsChangePasswordEnabled;
@@ -144,9 +144,9 @@ namespace Iit.Fibertest.Client
                 UserId = _user.UserId,
                 Title = _user.Title,
                 Role = _user.Role,
-                Email = new EmailReceiver(){Address = _user.Email.Address, IsActivated = _user.Email.IsActivated},
-                Sms = new SmsReceiver(){PhoneNumber = ""},
-                EncodedPassword = UserExt.FlipFlop(Password1),
+                Email = _user.Email,
+                Sms = _user.Sms,
+                EncodedPassword = Password1.GetHashString(),
                 ZoneId = _user.ZoneId,
             };
             await _c2DWcfManager.SendCommandAsObj(cmd);

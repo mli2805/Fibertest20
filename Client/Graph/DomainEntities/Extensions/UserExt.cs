@@ -6,7 +6,9 @@ namespace Iit.Fibertest.Graph
     {
         public static string FlipFlop(string before)
         {
-            return string.IsNullOrEmpty(before) ? "" : before.Substring(before.Length - 1, 1) + FlipFlop(before.Substring(0, before.Length - 1));
+            return string.IsNullOrEmpty(before) 
+                ? "" 
+                : before.Substring(before.Length - 1, 1) + FlipFlop(before.Substring(0, before.Length - 1));
         }
 
         public static bool ShouldReceiveThisSms(this User user, MonitoringResultDto dto)

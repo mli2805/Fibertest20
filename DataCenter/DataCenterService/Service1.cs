@@ -35,8 +35,8 @@ namespace Iit.Fibertest.DataCenterService
 
         public Service1(IniFile iniFile, IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
             IParameterizer serverParameterizer, EventStoreService eventStoreService, IEventStoreInitializer eventStoreInitializer,
-            LastConnectionTimeChecker lastConnectionTimeChecker, SignalRNudger signalRNudger, 
-            VeexCompletedTestsFetcher veexCompletedTestsFetcher, WebApiChecker webApiChecker, 
+            LastConnectionTimeChecker lastConnectionTimeChecker, SignalRNudger signalRNudger,
+            VeexCompletedTestsFetcher veexCompletedTestsFetcher, WebApiChecker webApiChecker,
             SmsSender smsSender, TrapReceiver trapReceiver,
             IFtSignalRClient ftSignalRClient, MeasurementsForWebNotifier measurementsForWebNotifier,
             WcfServiceForDesktopC2DBootstrapper wcfServiceForDesktopC2DBootstrapper,
@@ -83,6 +83,8 @@ namespace Iit.Fibertest.DataCenterService
             var tid = Thread.CurrentThread.ManagedThreadId;
             _logFile.AppendLine($"Service initialization thread. Process {pid}, thread {tid}");
 
+            var previousStartOnVersion = IniFile.Read(IniSection.General, IniKey.Version, "0.0.0.0");
+            IniFile.Write(IniSection.Server, IniKey.PreviousStartOnVersion, previousStartOnVersion);
             var assembly = Assembly.GetExecutingAssembly();
             FileVersionInfo info = FileVersionInfo.GetVersionInfo(assembly.Location);
             _logFile.AppendLine($"Data-center version {info.FileVersion}");

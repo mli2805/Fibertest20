@@ -14,6 +14,7 @@ namespace Iit.Fibertest.DataCenterCore
     public class EventStoreService
     {
         const string Timestamp = @"Timestamp";
+        private readonly IniFile _iniFile;
         private readonly IMyLog _logFile;
         private readonly IEventStoreInitializer _eventStoreInitializer;
         private readonly SnapshotRepository _snapshotRepository;
@@ -38,6 +39,7 @@ namespace Iit.Fibertest.DataCenterCore
              CommandAggregator commandAggregator, EventsQueue eventsQueue, Model writeModel)
         {
             _eventsPortion = iniFile.Read(IniSection.General, IniKey.EventSourcingPortion, 100);
+            _iniFile = iniFile;
             _logFile = logFile;
             _eventStoreInitializer = eventStoreInitializer;
             _snapshotRepository = snapshotRepository;
@@ -60,14 +62,16 @@ namespace Iit.Fibertest.DataCenterCore
 
             var eventStream = StoreEvents.OpenStream(StreamIdOriginal);
 
+            var flag = false;
             if (LastEventNumberInSnapshot == 0 && eventStream.CommittedEvents.FirstOrDefault() == null)
             {
+                flag = true;
                 foreach (object seed in DbSeeds.Collection)
                     await SendCommand(seed, "developer", "OnServer");
 
                 _logFile.AppendLine("Empty graph is seeded with default zone and users.");
             }
-
+           
             var events = eventStream.CommittedEvents.Select(x => x.Body).ToList();
             _logFile.AppendLine($"{events.Count} events should be applied...");
             foreach (var evnt in events)
@@ -82,6 +86,30 @@ namespace Iit.Fibertest.DataCenterCore
             var msg = eventStream.CommittedEvents.LastOrDefault();
             if (msg != null)
                 _logFile.AppendLine($@"Last applied event has timestamp {msg.Headers[Timestamp]:O}");
+
+
+            if (!flag) // this block should be deleted after MGTS, Mogilev and Vitebsk update to 986+
+            {
+                var previousStartOnVersion = _iniFile.Read(IniSection.Server, IniKey.PreviousStartOnVersion, "");
+                if (previousStartOnVersion.IsOlder("2.1.0.986"))
+                {
+                    foreach (var user in _writeModel.Users)
+                    {
+                        var cmd = new UpdateUser()
+                        {
+                            UserId = user.UserId,
+                            Title = user.Title,
+                            Role = user.Role,
+                            Email = user.Email,
+                            Sms = user.Sms,
+                            EncodedPassword = UserExt.FlipFlop(user.EncodedPassword).GetHashString(),
+                            ZoneId = user.ZoneId,
+                        };
+                        var _ = await SendCommand(cmd, "system", "OnServer");
+                    }
+                }
+            }
+
 
             return events.Count;
         }
