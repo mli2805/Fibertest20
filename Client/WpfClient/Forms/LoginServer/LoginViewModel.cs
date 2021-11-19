@@ -212,6 +212,7 @@ namespace Iit.Fibertest.Client
             if (result.ReturnCode == ReturnCode.ClientRegisteredSuccessfully)
             {
                 _currentUser.FillIn(result);
+                _currentUser.UserName = UserName;
                 _currentDatacenterParameters.FillIn(result);
                 _currentGis.IsWithoutMapMode = result.IsWithoutMapMode;
 

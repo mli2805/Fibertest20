@@ -17,7 +17,6 @@ namespace Iit.Fibertest.Client
         public void FillIn(ClientRegisteredDto dto)
         {
             UserId = dto.UserId;
-            UserName = UserName;
             Role = dto.Role;
             ZoneId = dto.ZoneId;
             ZoneTitle = dto.ZoneTitle;
