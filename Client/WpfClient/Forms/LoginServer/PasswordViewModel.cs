@@ -1,9 +1,22 @@
 ﻿using Caliburn.Micro;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
     public class PasswordViewModel : PropertyChangedBase
     {
-        public string Password { get; set; }
+        private string _password;
+        public string Label { get; set; } = Resources.SID_Password;
+
+        public string Password
+        {
+            get => _password;
+            set
+            {
+                if (value == _password) return;
+                _password = value;
+                NotifyOfPropertyChange();
+            }
+        }
     }
 }

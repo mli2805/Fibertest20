@@ -35,7 +35,7 @@ namespace Iit.Fibertest.Graph
                 {
                     model.Users.Add(new User()
                     {
-                        UserId = Guid.NewGuid(),
+                        UserId = e.AdminUserId,
                         Role = Role.SecurityAdmin,
                         Title = @"admin",
                         EncodedPassword = e.SecurityAdminPassword,

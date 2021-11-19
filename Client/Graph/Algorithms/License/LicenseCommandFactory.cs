@@ -41,6 +41,7 @@ namespace Iit.Fibertest.Graph
                 IsMachineKeyRequired = licenseInFile.IsMachineKeyRequired,
                 SecurityAdminPassword = licenseInFile.IsMachineKeyRequired
                     ? ((string)Cryptography.Decode(licenseInFile.SecurityAdminPassword)).GetHashString() : "",
+                AdminUserId = Guid.NewGuid(),
                 MachineKey = _machineKeyProvider.Get(),
                 CreationDate = licenseInFile.CreationDate,
                 LoadingDate = DateTime.Today,

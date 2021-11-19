@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.Windows;
+using AutoMapper;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -7,24 +8,12 @@ using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.Client
 {
-    public class ChangePasswordViewModel : Screen, IDataErrorInfo
+    public class ChangePasswordViewModel : Screen
     {
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
-
-        private string _inputPassword;
-        public string InputPassword
-        {
-            get => _inputPassword;
-            set
-            {
-                if (value == _inputPassword) return;
-                _inputPassword = value;
-                Explanation = "";
-                NotifyOfPropertyChange();
-            }
-        }
-
         private User _user;
+
+        public PasswordViewModel OldPasswordVm { get; set; } = new PasswordViewModel();
 
         private bool _isChangePasswordEnabled;
         public bool IsChangePasswordEnabled
@@ -38,31 +27,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private string _password1;
-        public string Password1
-        {
-            get => _password1;
-            set
-            {
-                if (value == _password1) return;
-                _password1 = value;
-                NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(Password2));
-            }
-        }
-
-        private string _password2;
-        public string Password2
-        {
-            get => _password2;
-            set
-            {
-                if (value == _password2) return;
-                _password2 = value;
-                NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(Password1));
-            }
-        }
+        public PasswordViewModel NewPasswordVm1 { get; set; } = new PasswordViewModel();
+        public PasswordViewModel NewPasswordVm2 { get; set; } = new PasswordViewModel();
 
         private bool _isButtonSaveEnabled;
         public bool IsButtonSaveEnabled
@@ -121,16 +87,31 @@ namespace Iit.Fibertest.Client
         public void Initialize(User user)
         {
             _user = user;
+            OldPasswordVm.Label = "";
+            NewPasswordVm1.Label = "";
+            NewPasswordVm2.Label = "";
         }
 
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Change_password;
+            NewPasswordVm1.PropertyChanged += NewPasswordVm1_PropertyChanged;
+            NewPasswordVm2.PropertyChanged += NewPasswordVm2_PropertyChanged;
+        }
+
+        private void NewPasswordVm2_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            IsButtonSaveEnabled = IsPasswordValid();
+        }
+
+        private void NewPasswordVm1_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            IsButtonSaveEnabled = IsPasswordValid();
         }
 
         public void CompareWithCurrent()
         {
-            IsChangePasswordEnabled = _user.EncodedPassword == InputPassword.GetHashString();
+            IsChangePasswordEnabled = _user.EncodedPassword == OldPasswordVm.Password.GetHashString();
             Explanation = IsChangePasswordEnabled ? "" : Resources.SID_Wrong_password;
             NewPasswordBlockVisibility = IsChangePasswordEnabled ? Visibility.Visible : Visibility.Collapsed;
             IsNewPasswordFocused = IsChangePasswordEnabled;
@@ -139,16 +120,10 @@ namespace Iit.Fibertest.Client
 
         public async void Save()
         {
-            var cmd = new UpdateUser()
-            {
-                UserId = _user.UserId,
-                Title = _user.Title,
-                Role = _user.Role,
-                Email = _user.Email,
-                Sms = _user.Sms,
-                EncodedPassword = Password1.GetHashString(),
-                ZoneId = _user.ZoneId,
-            };
+            IMapper mapper = new MapperConfiguration(
+                cfg => cfg.AddProfile<MappingModelToCmdProfile>()).CreateMapper();
+            var cmd = mapper.Map<UpdateUser>(_user);
+            cmd.EncodedPassword = NewPasswordVm1.Password.GetHashString();
             await _c2DWcfManager.SendCommandAsObj(cmd);
             TryClose();
         }
@@ -167,9 +142,10 @@ namespace Iit.Fibertest.Client
                 {
                     case "Password1":
                     case "Password2":
-                        if (string.IsNullOrEmpty(Password1?.Trim()) || string.IsNullOrEmpty(Password2?.Trim()))
+                        if (string.IsNullOrEmpty(NewPasswordVm1.Password?.Trim())
+                            || string.IsNullOrEmpty(NewPasswordVm2.Password?.Trim()))
                             errorMessage = Resources.SID_Password_should_be_set;
-                        else if (Password1 != Password2)
+                        else if (NewPasswordVm1.Password != NewPasswordVm2.Password)
                             errorMessage = Resources.SID_Passwords_don_t_match;
                         break;
                 }
@@ -178,6 +154,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public string Error { get; set; }
+        private bool IsPasswordValid()
+        {
+            if (string.IsNullOrEmpty(NewPasswordVm1.Password?.Trim())) return false;
+            return NewPasswordVm1.Password == NewPasswordVm2.Password;
+        }
+
     }
 }

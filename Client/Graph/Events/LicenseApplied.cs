@@ -16,6 +16,7 @@ namespace Iit.Fibertest.Graph
 
         public bool IsMachineKeyRequired { get; set; }
         public string SecurityAdminPassword { get; set; }
+        public Guid AdminUserId { get; set; }
         public string MachineKey { get; set; }
 
         public DateTime CreationDate { get; set; } // Used in LicenseKey string

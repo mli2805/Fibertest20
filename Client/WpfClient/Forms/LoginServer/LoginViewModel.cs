@@ -33,15 +33,7 @@ namespace Iit.Fibertest.Client
             set { _userName = value; Status = Resources.SID_Input_user_name_and_password; }
         }
 
-        // private string _password;
-        // public string Password
-        // {
-        //     get => _password;
-        //     set { _password = value; Status = Resources.SID_Input_user_name_and_password; }
-        // }
-
         public PasswordViewModel PasswordViewModel { get; set; } = new PasswordViewModel();
-
 
         public string ConnectionId { get; set; }
 
