@@ -9,6 +9,7 @@ namespace Iit.Fibertest.Client
         private bool _isClientStarted = true;
         private bool _isClientExited = true;
         private bool _isClientConnectionLost = true;
+        private bool _isUsersMachineKeyAssigned = true;
         private bool _isRtuAdded = true;
         private bool _isRtuUpdated = true;
         private bool _isRtuInitialized = true;
@@ -19,7 +20,7 @@ namespace Iit.Fibertest.Client
         private bool _isTraceDetached = true;
         private bool _isTraceCleaned = true;
         private bool _isTraceRemoved = true;
-        private bool _isBaseRefAssined = true;
+        private bool _isBaseRefAssigned = true;
         private bool _isMonitoringSettingsChanged = true;
         private bool _isMonitoringStarted = true;
         private bool _isMonitoringStopped = true;
@@ -44,6 +45,7 @@ namespace Iit.Fibertest.Client
             return _isClientStarted &&
                    _isClientExited &&
                    _isClientConnectionLost &&
+                   _isUsersMachineKeyAssigned &&
                    _isRtuAdded &&
                    _isRtuUpdated &&
                    _isRtuInitialized &&
@@ -54,7 +56,7 @@ namespace Iit.Fibertest.Client
                    _isTraceDetached &&
                    _isTraceCleaned &&
                    _isTraceRemoved &&
-                   _isBaseRefAssined &&
+                   _isBaseRefAssigned &&
                    _isMonitoringSettingsChanged &&
                    _isMonitoringStarted &&
                    _isMonitoringStopped &&
@@ -68,6 +70,7 @@ namespace Iit.Fibertest.Client
             IsClientStarted = IsAll;
             IsClientExited = IsAll;
             IsClientConnectionLost = IsAll;
+            IsUsersMachineKeyAssigned = IsAll;
 
             IsRtuAdded = IsAll;
             IsRtuUpdated = IsAll;
@@ -81,7 +84,7 @@ namespace Iit.Fibertest.Client
             IsTraceCleaned = IsAll;
             IsTraceRemoved = IsAll;
 
-            IsBaseRefAssined = IsAll;
+            IsBaseRefAssigned = IsAll;
             IsMonitoringSettingsChanged = IsAll;
             IsMonitoringStarted = IsAll;
             IsMonitoringStopped = IsAll;
@@ -122,6 +125,17 @@ namespace Iit.Fibertest.Client
                 if (value == _isClientConnectionLost) return;
                 _isClientConnectionLost = value;
                 NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsUsersMachineKeyAssigned
+        {
+            get => _isUsersMachineKeyAssigned;
+            set
+            {
+                if (value == _isUsersMachineKeyAssigned) return;
+                _isUsersMachineKeyAssigned = value;
+                NotifyOfPropertyChange(() => IsUsersMachineKeyAssigned);
             }
         }
 
@@ -235,13 +249,13 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public bool IsBaseRefAssined
+        public bool IsBaseRefAssigned
         {
-            get => _isBaseRefAssined;
+            get => _isBaseRefAssigned;
             set
             {
-                if (value == _isBaseRefAssined) return;
-                _isBaseRefAssined = value;
+                if (value == _isBaseRefAssigned) return;
+                _isBaseRefAssigned = value;
                 NotifyOfPropertyChange();
             }
         }

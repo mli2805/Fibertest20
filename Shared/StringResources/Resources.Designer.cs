@@ -8404,6 +8404,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to User to workstation linking set.
+        /// </summary>
+        public static string SID_User_to_workstation_linking_set {
+            get {
+                return ResourceManager.GetString("SID_User_to_workstation_linking_set", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User with the same name is registered from another device.
         /// </summary>
         public static string SID_User_with_the_same_name_is_registered_on_another_PC {
@@ -8683,7 +8692,7 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wrong password.
+        ///   Looks up a localized string similar to Wrong password!.
         /// </summary>
         public static string SID_Wrong_password {
             get {

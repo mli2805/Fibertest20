@@ -16,6 +16,7 @@
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Client_started}" Margin="5" IsChecked="{Binding IsClientStarted, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Client_exited}" Margin="5" IsChecked="{Binding IsClientExited, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Client_s_connection_lost}" Margin="5" IsChecked="{Binding IsClientConnectionLost, Mode=TwoWay}"/>
+                <CheckBox Content="{x:Static stringResources:Resources.SID_User_to_workstation_linking_set}" Margin="5" IsChecked="{Binding IsUsersMachineKeyAssigned, Mode=TwoWay}"/>
                 <Separator/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_RTU_added}" Margin="5" IsChecked="{Binding IsRtuAdded, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_RTU_updated}" Margin="5" IsChecked="{Binding IsRtuUpdated, Mode=TwoWay}"/>
@@ -28,7 +29,7 @@
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Trace_detached}" Margin="5" IsChecked="{Binding IsTraceDetached, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Trace_cleaned}" Margin="5" IsChecked="{Binding IsTraceCleaned, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Trace_removed}" Margin="5" IsChecked="{Binding IsTraceRemoved, Mode=TwoWay}"/>
-                <CheckBox Content="{x:Static stringResources:Resources.SID_Base_ref_assigned}" Margin="5" IsChecked="{Binding IsBaseRefAssined, Mode=TwoWay}"/>
+                <CheckBox Content="{x:Static stringResources:Resources.SID_Base_ref_assigned}" Margin="5" IsChecked="{Binding IsBaseRefAssigned, Mode=TwoWay}"/>
                 <Separator/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Monitoring_settings_changed}" Margin="5" IsChecked="{Binding IsMonitoringSettingsChanged, Mode=TwoWay}"/>
                 <CheckBox Content="{x:Static stringResources:Resources.SID_Monitoring_started}" Margin="5" IsChecked="{Binding IsMonitoringStarted, Mode=TwoWay}"/>

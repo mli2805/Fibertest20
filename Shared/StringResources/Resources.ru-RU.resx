@@ -3018,4 +3018,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Password_is_not_entered_" xml:space="preserve">
 		<value>Пароль не введен.</value>
 	</data>
+	<data name="SID_User_to_workstation_linking_set" xml:space="preserve">
+		<value>Выполнена привязка пользователя к раб месту</value>
+	</data>
 </root>

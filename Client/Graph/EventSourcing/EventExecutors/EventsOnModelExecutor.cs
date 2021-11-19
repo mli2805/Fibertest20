@@ -53,6 +53,7 @@ namespace Iit.Fibertest.Graph
                     case UserAdded evnt: return model.AddUser(evnt);
                     case UserUpdated evnt: return model.UpdateUser(evnt);
                     case UserRemoved evnt: return model.RemoveUser(evnt);
+                    case UsersMachineKeyAssigned evnt: return model.AssignUsersMachineKey(evnt);
                     case LicenseApplied evnt: return model.ApplyLicense(evnt);
 
                     case ZoneAdded evnt: return model.AddZone(evnt);

@@ -5,6 +5,7 @@
         ClientStarted = 101,
         ClientExited = 102,
         ClientConnectionLost = 103,
+        UsersMachineKeyAssigned,
 
         RtuAdded = 201,
         RtuUpdated,

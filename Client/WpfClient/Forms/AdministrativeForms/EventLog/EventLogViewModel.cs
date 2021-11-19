@@ -108,6 +108,7 @@ namespace Iit.Fibertest.Client
                 case LogOperationCode.ClientStarted: return _logOperationsViewModel.IsClientStarted;
                 case LogOperationCode.ClientExited: return _logOperationsViewModel.IsClientExited;
                 case LogOperationCode.ClientConnectionLost: return _logOperationsViewModel.IsClientConnectionLost;
+                case LogOperationCode.UsersMachineKeyAssigned: return _logOperationsViewModel.IsUsersMachineKeyAssigned;
 
                 case LogOperationCode.RtuAdded: return _logOperationsViewModel.IsRtuAdded;
                 case LogOperationCode.RtuUpdated: return _logOperationsViewModel.IsRtuUpdated;
@@ -121,7 +122,7 @@ namespace Iit.Fibertest.Client
                 case LogOperationCode.TraceCleaned: return _logOperationsViewModel.IsTraceCleaned;
                 case LogOperationCode.TraceRemoved: return _logOperationsViewModel.IsTraceRemoved;
 
-                case LogOperationCode.BaseRefAssigned: return _logOperationsViewModel.IsBaseRefAssined;
+                case LogOperationCode.BaseRefAssigned: return _logOperationsViewModel.IsBaseRefAssigned;
                 case LogOperationCode.MonitoringSettingsChanged:
                     return _logOperationsViewModel.IsMonitoringSettingsChanged;
                 case LogOperationCode.MonitoringStarted: return _logOperationsViewModel.IsMonitoringStarted;

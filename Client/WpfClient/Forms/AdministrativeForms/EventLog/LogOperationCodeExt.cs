@@ -11,6 +11,7 @@ namespace Iit.Fibertest.Client
                 case LogOperationCode.ClientStarted: return Resources.SID_Client_started;
                 case LogOperationCode.ClientExited: return Resources.SID_Client_exited;
                 case LogOperationCode.ClientConnectionLost: return Resources.SID_Client_s_connection_lost;
+                case LogOperationCode.UsersMachineKeyAssigned: return Resources.SID_User_to_workstation_linking_set;
 
                 case LogOperationCode.RtuAdded: return Resources.SID_RTU_added;
                 case LogOperationCode.RtuUpdated: return Resources.SID_RTU_updated;

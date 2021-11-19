@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -8,6 +9,8 @@ namespace Iit.Fibertest.Client
 {
     public class EventToLogLineParser
     {
+        private readonly Model _readModel;
+
         // ID - Title
         private Dictionary<Guid, string> _rtuTitles;
 
@@ -17,6 +20,10 @@ namespace Iit.Fibertest.Client
         // SorfileId - Measurement
         private Dictionary<int, MeasurementAdded> _measurements;
 
+        public EventToLogLineParser(Model readModel)
+        {
+            _readModel = readModel;
+        }
 
         public LogLine ParseEventBody(object body)
         {
@@ -43,6 +50,7 @@ namespace Iit.Fibertest.Client
                 case ClientStationUnregistered _: return new LogLine() { OperationCode = LogOperationCode.ClientExited };
                 case ClientConnectionLost _:
                     return new LogLine() { OperationCode = LogOperationCode.ClientConnectionLost };
+                case UsersMachineKeyAssigned evnt: return Parse(evnt);
 
                 case MeasurementAdded evnt: return Parse(evnt);
                 case MeasurementUpdated evnt: return Parse(evnt);
@@ -199,6 +207,15 @@ namespace Iit.Fibertest.Client
             {
                 OperationCode = LogOperationCode.ClientStarted,
                 OperationParams = e.RegistrationResult.GetLocalizedString(),
+            };
+        }
+
+        private LogLine Parse(UsersMachineKeyAssigned e)
+        {
+            return new LogLine()
+            {
+                OperationCode = LogOperationCode.UsersMachineKeyAssigned,
+                OperationParams = _readModel.Users.FirstOrDefault(u => u.UserId == e.UserId)?.Title ?? ""
             };
         }
 

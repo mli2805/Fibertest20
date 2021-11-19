@@ -7,6 +7,7 @@ namespace Iit.Fibertest.Graph
         public MappingModelToCmdProfile()
         {
             CreateMap<User, UpdateUser>();
+            CreateMap<User, AssignUsersMachineKey>();
         }
     }
 }

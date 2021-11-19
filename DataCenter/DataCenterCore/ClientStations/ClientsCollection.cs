@@ -69,7 +69,7 @@ namespace Iit.Fibertest.DataCenterCore
             {
                 IMapper mapper = new MapperConfiguration(
                     cfg => cfg.AddProfile<MappingModelToCmdProfile>()).CreateMapper();
-                var cmd = mapper.Map<UpdateUser>(user);
+                var cmd = mapper.Map<AssignUsersMachineKey>(user);
                 await _eventStoreService.SendCommand(cmd, "admin", dto.ClientIp);
             }
             else if (machineKeyCheckResult.ReturnCode != ReturnCode.Ok)

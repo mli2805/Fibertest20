@@ -180,6 +180,7 @@
     <Compile Include="Commands\Olt\AddGponPortRelation.cs" />
     <Compile Include="Commands\Olt\AddOlt.cs" />
     <Compile Include="Commands\Rtu\DetachAllTraces.cs" />
+    <Compile Include="Commands\User\AssignUsersMachineKey.cs" />
     <Compile Include="Commands\VeexTest\AddVeexTest.cs" />
     <Compile Include="Commands\VeexTest\RemoveVeexTest.cs" />
     <Compile Include="DomainEntities\Administration\EmailReceiver.cs" />
@@ -256,6 +257,7 @@
     <Compile Include="Commands\RemoveEventsAndSors.cs" />
     <Compile Include="Events\User\UserAdded.cs" />
     <Compile Include="Events\User\UserRemoved.cs" />
+    <Compile Include="Events\User\UsersMachineKeyAssigned.cs" />
     <Compile Include="Events\User\UserUpdated.cs" />
     <Compile Include="DomainEntities\Administration\User.cs" />
     <Compile Include="Events\VeexTest\VeexTestAdded.cs" />

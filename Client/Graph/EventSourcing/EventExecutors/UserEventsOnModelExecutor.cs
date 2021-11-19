@@ -60,10 +60,19 @@ namespace Iit.Fibertest.Graph
             return null;
         }
 
+        public static string AssignUsersMachineKey(this Model model, UsersMachineKeyAssigned source)
+        {
+            var destination = model.Users.First(f => f.UserId == source.UserId);
+            destination.MachineKey = source.MachineKey;
+            return null;
+        }
+
         public static string RemoveUser(this Model model, UserRemoved e)
         {
             model.Users.Remove(model.Users.First(f => f.UserId == e.UserId));
             return null;
         }
+
+
     }
 }

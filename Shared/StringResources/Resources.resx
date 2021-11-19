@@ -3018,4 +3018,7 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Password_is_not_entered_" xml:space="preserve">
 		<value>Password is not entered.</value>
 	</data>
+	<data name="SID_User_to_workstation_linking_set" xml:space="preserve">
+		<value>User to workstation linking set</value>
+	</data>
 </root>
