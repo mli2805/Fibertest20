@@ -33,12 +33,15 @@ namespace Iit.Fibertest.Client
             set { _userName = value; Status = Resources.SID_Input_user_name_and_password; }
         }
 
-        private string _password;
-        public string Password
-        {
-            get => _password;
-            set { _password = value; Status = Resources.SID_Input_user_name_and_password; }
-        }
+        // private string _password;
+        // public string Password
+        // {
+        //     get => _password;
+        //     set { _password = value; Status = Resources.SID_Input_user_name_and_password; }
+        // }
+
+        public PasswordViewModel PasswordViewModel { get; set; } = new PasswordViewModel();
+
 
         public string ConnectionId { get; set; }
 
@@ -84,19 +87,19 @@ namespace Iit.Fibertest.Client
         public async void Login()
         {
 #if DEBUG
-            if (string.IsNullOrEmpty(UserName) && string.IsNullOrEmpty(Password))
+            if (string.IsNullOrEmpty(UserName) && string.IsNullOrEmpty(PasswordViewModel.Password))
             {
-                // UserName = @"superclient";  Password = @"superclient";
-                UserName = @"developer"; Password = @"developer";
-                // UserName = @"operator"; Password = @"operator";
-                // UserName = @"supervisor"; Password = @"supervisor";
-                //  UserName = @"root"; Password = @"root";
+                // UserName = @"superclient";  PasswordViewModel.Password = @"superclient";
+                UserName = @"developer"; PasswordViewModel.Password = @"developer";
+                // UserName = @"operator"; PasswordViewModel.Password = @"operator";
+                // UserName = @"supervisor"; PasswordViewModel.Password = @"supervisor";
+                //  UserName = @"root"; PasswordViewModel.Password = @"root";
             }
 #endif
             if (string.IsNullOrEmpty(ConnectionId))
                 ConnectionId = Guid.NewGuid().ToString();
 
-            var unused = await RegisterClientAsync(UserName, Password, ConnectionId);
+            var unused = await RegisterClientAsync(UserName, PasswordViewModel.Password, ConnectionId);
         }
 
         private DoubleAddress _commonServiceAddresses;

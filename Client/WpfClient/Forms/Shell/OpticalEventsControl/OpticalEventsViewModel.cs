@@ -106,7 +106,7 @@ namespace Iit.Fibertest.Client
 
         public Visibility ForDev { get; set; }
 
-        public OpticalEventsViewModel(ILifetimeScope globalScope, Model readModel, 
+        public OpticalEventsViewModel(ILifetimeScope globalScope, Model readModel,
             ReflectogramManager reflectogramManager, TraceStateViewsManager traceStateViewsManager,
             RtuFilterViewModel rtuFilterViewModel, IWindowManager windowManager)
         {
@@ -126,17 +126,11 @@ namespace Iit.Fibertest.Client
         {
             var currentUser = _globalScope.Resolve<CurrentUser>();
             ForDev = currentUser.Role == Role.Developer ? Visibility.Visible : Visibility.Collapsed;
-            try
-            {
-                var view = CollectionViewSource.GetDefaultView(Rows);
-                view.Filter += OnFilter;
-                view.SortDescriptions.Add(new SortDescription(@"Nomer", ListSortDirection.Descending));
-
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine($@"Cancel was pressed instead of login. {e.Message}");
-            }
+            var view = CollectionViewSource.GetDefaultView(Rows);
+            if (view == null) // cancel was pressed instead of login
+                return;
+            view.Filter += OnFilter;
+            view.SortDescriptions.Add(new SortDescription(@"Nomer", ListSortDirection.Descending));
         }
 
         private void InitializeTraceStateFilters()
@@ -292,7 +286,7 @@ namespace Iit.Fibertest.Client
         {
             byte[] sorBytes = await _reflectogramManager.GetSorBytes(SelectedRow.SorFileId);
             var sorData = SorData.FromBytes(sorBytes);
-            var _ = 
+            var _ =
                 _globalScope.Resolve<AccidentsFromSorExtractor>()
                     .GetAccidents(sorData, SelectedRow.TraceId, true);
         }

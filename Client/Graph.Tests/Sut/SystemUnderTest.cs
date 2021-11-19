@@ -101,7 +101,7 @@ namespace Graph.Tests
             string username = "root";
             var vm = ClientScope.Resolve<LoginViewModel>();
             vm.UserName = username;
-            vm.Password = username;
+            vm.PasswordViewModel.Password = username;
             vm.ConnectionId = @"connectionId" + username;
 
             // NoLicenseAppliedView - выберите демо или из файла
@@ -139,7 +139,7 @@ namespace Graph.Tests
         {
             var vm = ClientScope.Resolve<LoginViewModel>();
             vm.UserName = username;
-            vm.Password = username;
+            vm.PasswordViewModel.Password = username;
             vm.ConnectionId = @"connectionId" + username;
 
             var writeModel = ServerScope.Resolve<Model>();
