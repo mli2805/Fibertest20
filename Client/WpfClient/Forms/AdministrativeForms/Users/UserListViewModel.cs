@@ -20,7 +20,6 @@ namespace Iit.Fibertest.Client
         private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
         private readonly EventArrivalNotifier _eventArrivalNotifier;
-        private readonly SecurityAdminConfirmationViewModel _securityAdminConfirmationViewModel;
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly CurrentUser _currentUser;
@@ -56,13 +55,12 @@ namespace Iit.Fibertest.Client
                                  && SelectedUser?.Role != Role.Root && SelectedUser?.Role != Role.SecurityAdmin;
 
         public UserListViewModel(ILifetimeScope globalScope, Model readModel, 
-            EventArrivalNotifier eventArrivalNotifier, SecurityAdminConfirmationViewModel securityAdminConfirmationViewModel,
-            IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager, CurrentUser currentUser)
+            EventArrivalNotifier eventArrivalNotifier, IWindowManager windowManager, 
+            IWcfServiceDesktopC2D c2DWcfManager, CurrentUser currentUser)
         {
             _globalScope = globalScope;
             _readModel = readModel;
             _eventArrivalNotifier = eventArrivalNotifier;
-            _securityAdminConfirmationViewModel = securityAdminConfirmationViewModel;
             _windowManager = windowManager;
             _c2DWcfManager = c2DWcfManager;
             _currentUser = currentUser;
@@ -117,25 +115,25 @@ namespace Iit.Fibertest.Client
                 ChangePassword();
         }
 
-        private void ChangeSecurityAdminPassword()
-        {
-            _securityAdminConfirmationViewModel.Initialize();
-            _windowManager.ShowDialog(_securityAdminConfirmationViewModel);
-            if (!_securityAdminConfirmationViewModel.IsOkPressed)
-                return;
+        // private void ChangeSecurityAdminPassword()
+        // {
+        //     _securityAdminConfirmationViewModel.Initialize();
+        //     _windowManager.ShowDialog(_securityAdminConfirmationViewModel);
+        //     if (!_securityAdminConfirmationViewModel.IsOkPressed)
+        //         return;
+        //
+        //     var admin = _readModel.Users.First(u => u.Role == Role.SecurityAdmin);
+        //     if (_securityAdminConfirmationViewModel.PasswordViewModel.Password.GetHashString() != admin.EncodedPassword)
+        //     {
+        //         var strs = new List<string>() { Resources.SID_Wrong_password };
+        //         var mb = new MyMessageBoxViewModel(MessageType.Information, strs, 0);
+        //         _windowManager.ShowDialogWithAssignedOwner(mb);
+        //         return;
+        //     }
+        //     // if confirmed - open special form
+        // }
 
-            var admin = _readModel.Users.First(u => u.Role == Role.SecurityAdmin);
-            if (_securityAdminConfirmationViewModel.PasswordViewModel.Password.GetHashString() != admin.EncodedPassword)
-            {
-                var strs = new List<string>() { Resources.SID_Wrong_password };
-                var mb = new MyMessageBoxViewModel(MessageType.Information, strs, 0);
-                _windowManager.ShowDialogWithAssignedOwner(mb);
-                return;
-            }
-            // if confirmed - open special form
-        }
-
-        public void ChangePassword()
+        private void ChangePassword()
         {
             var vm = _globalScope.Resolve<ChangePasswordViewModel>();
             var admin = _readModel.Users.First(u => u.Role == Role.SecurityAdmin);

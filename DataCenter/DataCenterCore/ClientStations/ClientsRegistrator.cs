@@ -100,8 +100,8 @@ namespace Iit.Fibertest.DataCenterCore
         // R5
         public static ClientRegisteredDto CheckMachineKey(this ClientsCollection collection, RegisterClientDto dto, User user)
         {
-            if (!collection.WriteModel.IsMachineKeyRequired()) return null;
-            if (user.MachineKey == dto.MachineKey) return null;
+            if (!collection.WriteModel.IsMachineKeyRequired()) return  new ClientRegisteredDto(){ReturnCode = ReturnCode.Ok};
+            if (user.MachineKey == dto.MachineKey) return  new ClientRegisteredDto(){ReturnCode = ReturnCode.Ok};
 
             if (string.IsNullOrEmpty(dto.SecurityAdminPassword))
             {
@@ -119,8 +119,8 @@ namespace Iit.Fibertest.DataCenterCore
 
             // if SecurityAdminPassword is sent correctly or it is a first connection for user
             user.MachineKey = dto.MachineKey;
-
-            return null;
+            
+            return new ClientRegisteredDto(){ReturnCode = ReturnCode.SaveUsersMachineKey};
         }
 
         public static ClientRegisteredDto FillInSuccessfulResult(this ClientsCollection collection, RegisterClientDto dto, User user)

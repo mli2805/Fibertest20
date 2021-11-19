@@ -75,6 +75,7 @@ namespace Iit.Fibertest.DataCenterService
             _logFile.AppendLine($"Windows service started. Process {pid}, thread {tid}");
 
             await Task.Factory.StartNew(Initialize);
+            Console.WriteLine(@"Service initialization done.");
         }
 
         private async void Initialize()
@@ -110,7 +111,6 @@ namespace Iit.Fibertest.DataCenterService
             _veexCompletedTestsFetcher.Start();
             _smsSender.Start();
             _trapReceiver.Start();
-            Console.WriteLine(@"Service initialization done.");
         }
 
         private async Task InitializeEventStoreService()

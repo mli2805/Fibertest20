@@ -68,6 +68,7 @@
         WrongMachineKey = 9051,
         WrongSecurityAdminPassword = 9052,
         EmptyMachineKey,
+        SaveUsersMachineKey,
         NoLicenseHasBeenAppliedYet = 9099,
 
         BaseRefAssignmentFailed = 9401,

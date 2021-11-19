@@ -110,7 +110,6 @@ namespace Iit.Fibertest.DataCenterCore
                 }
             }
 
-
             return events.Count;
         }
 

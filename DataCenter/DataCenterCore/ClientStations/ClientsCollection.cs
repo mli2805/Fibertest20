@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
@@ -45,7 +46,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             // R2
             var user = WriteModel.Users
-                .FirstOrDefault(u => u.Title == dto.UserName 
+                .FirstOrDefault(u => u.Title == dto.UserName
                                      && u.EncodedPassword == dto.Password);
             if (user == null)
                 return new ClientRegisteredDto { ReturnCode = ReturnCode.NoSuchUserOrWrongPassword };
@@ -55,18 +56,25 @@ namespace Iit.Fibertest.DataCenterCore
             if (hasRight != null)
                 return hasRight;
 
-           
+
             // R4
             var theSameUserCheckResult = await this.CheckTheSameUser(dto, user);
             if (theSameUserCheckResult != null)
                 return theSameUserCheckResult;
-           
+
 
             // R5 Machine Key
             var machineKeyCheckResult = this.CheckMachineKey(dto, user);
-            if (machineKeyCheckResult != null)
+            if (machineKeyCheckResult.ReturnCode == ReturnCode.SaveUsersMachineKey)
+            {
+                IMapper mapper = new MapperConfiguration(
+                    cfg => cfg.AddProfile<MappingModelToCmdProfile>()).CreateMapper();
+                var cmd = mapper.Map<UpdateUser>(user);
+                await _eventStoreService.SendCommand(cmd, "admin", dto.ClientIp);
+            }
+            else if (machineKeyCheckResult.ReturnCode != ReturnCode.Ok)
                 return machineKeyCheckResult;
-          
+
             Clients.Add(ClientStationFactory.Create(dto, user));
             LogFile.AppendLine($"Client {dto.UserName}/{dto.ClientIp} registered with connectionId {dto.ConnectionId}");
             if (!dto.IsWebClient)
