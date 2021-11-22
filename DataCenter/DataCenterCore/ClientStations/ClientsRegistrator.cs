@@ -16,19 +16,28 @@ namespace Iit.Fibertest.DataCenterCore
 
             if (dto.IsUnderSuperClient)
             {
-                if (collection.Clients.Count(c => c.UserRole == Role.Superclient) >= collection.WriteModel.GetSuperClientStationLicenseCount()
+                var licenseCount = collection.WriteModel.GetSuperClientStationLicenseCount();
+                if (licenseCount == 0)
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.SuperClientsCountExceeded };
+                if (collection.Clients.Count(c => c.UserRole == Role.Superclient) >= licenseCount
                     && collection.Clients.All(s => s.ClientIp != dto.ClientIp))
                     return new ClientRegisteredDto() { ReturnCode = ReturnCode.SuperClientsCountExceeded };
             }
             else if (dto.IsWebClient)
             {
-                if (collection.Clients.Count(c => c.IsWebClient) >= collection.WriteModel.GetWebClientLicenseCount()
+                var licenseCount = collection.WriteModel.GetWebClientLicenseCount();
+                if (licenseCount == 0)
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.WebClientsCountExceeded };
+                if (collection.Clients.Count(c => c.IsWebClient) >= licenseCount
                     && collection.Clients.All(s => s.ClientIp != dto.ClientIp))
                     return new ClientRegisteredDto() { ReturnCode = ReturnCode.WebClientsCountExceeded };
             }
             else
             {
-                if (collection.Clients.Count(c => c.IsDesktopClient) >= collection.WriteModel.GetClientStationLicenseCount()
+                var licenseCount = collection.WriteModel.GetClientStationLicenseCount();
+                if (licenseCount == 0)
+                    return new ClientRegisteredDto() { ReturnCode = ReturnCode.ClientsCountExceeded };
+                if (collection.Clients.Count(c => c.IsDesktopClient) >= licenseCount
                     && collection.Clients.All(s => s.ClientIp != dto.ClientIp))
                     return new ClientRegisteredDto() { ReturnCode = ReturnCode.ClientsCountExceeded };
             }
@@ -100,8 +109,8 @@ namespace Iit.Fibertest.DataCenterCore
         // R5
         public static ClientRegisteredDto CheckMachineKey(this ClientsCollection collection, RegisterClientDto dto, User user)
         {
-            if (!collection.WriteModel.IsMachineKeyRequired()) return  new ClientRegisteredDto(){ReturnCode = ReturnCode.Ok};
-            if (user.MachineKey == dto.MachineKey) return  new ClientRegisteredDto(){ReturnCode = ReturnCode.Ok};
+            if (!collection.WriteModel.IsMachineKeyRequired()) return new ClientRegisteredDto() { ReturnCode = ReturnCode.Ok };
+            if (user.MachineKey == dto.MachineKey) return new ClientRegisteredDto() { ReturnCode = ReturnCode.Ok };
 
             if (string.IsNullOrEmpty(dto.SecurityAdminPassword))
             {
@@ -119,8 +128,8 @@ namespace Iit.Fibertest.DataCenterCore
 
             // if SecurityAdminPassword is sent correctly or it is a first connection for user
             user.MachineKey = dto.MachineKey;
-            
-            return new ClientRegisteredDto(){ReturnCode = ReturnCode.SaveUsersMachineKey};
+
+            return new ClientRegisteredDto() { ReturnCode = ReturnCode.SaveUsersMachineKey };
         }
 
         public static ClientRegisteredDto FillInSuccessfulResult(this ClientsCollection collection, RegisterClientDto dto, User user)

@@ -132,7 +132,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                             HasReserveAddress = false
                         },
                         UserName = (string)user.username,
-                        Password = (string)user.password,
+                        Password = ((string)user.password).GetHashString(),
                         ConnectionId = connectionId,
                         IsUnderSuperClient = false,
                         IsWebClient = true,
