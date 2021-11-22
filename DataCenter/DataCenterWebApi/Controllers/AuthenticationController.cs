@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WcfConnections;
 using Microsoft.AspNetCore.Authorization;
@@ -137,6 +138,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                         IsWebClient = true,
                     });
 
+            _logFile.AppendLine($"Authentication response: {clientRegisteredDto.ReturnCode.GetLocalizedString()}");
             if (clientRegisteredDto.ReturnCode != ReturnCode.ClientRegisteredSuccessfully)
             {
                 await ReturnError(401, clientRegisteredDto.ReturnCode, clientRegisteredDto.ErrorMessage);
