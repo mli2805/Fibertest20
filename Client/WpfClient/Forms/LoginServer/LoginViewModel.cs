@@ -33,6 +33,18 @@ namespace Iit.Fibertest.Client
             set { _userName = value; Status = Resources.SID_Input_user_name_and_password; }
         }
 
+        private bool _isButtonEnabled;
+        public bool IsButtonEnabled
+        {
+            get => _isButtonEnabled;
+            set
+            {
+                if (value == _isButtonEnabled) return;
+                _isButtonEnabled = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public PasswordViewModel PasswordViewModel { get; set; } = new PasswordViewModel();
 
         public string ConnectionId { get; set; }
@@ -74,10 +86,12 @@ namespace Iit.Fibertest.Client
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Authentication;
+            IsButtonEnabled = true;
         }
 
         public async void Login()
         {
+            IsButtonEnabled = false;
 #if DEBUG
             if (string.IsNullOrEmpty(UserName) && string.IsNullOrEmpty(PasswordViewModel.Password))
             {
@@ -92,6 +106,7 @@ namespace Iit.Fibertest.Client
                 ConnectionId = Guid.NewGuid().ToString();
 
             var unused = await RegisterClientAsync(UserName, PasswordViewModel.Password, ConnectionId);
+            IsButtonEnabled = true;
         }
 
         private DoubleAddress _commonServiceAddresses;
