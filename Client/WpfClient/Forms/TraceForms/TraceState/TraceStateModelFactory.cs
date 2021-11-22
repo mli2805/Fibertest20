@@ -101,7 +101,7 @@ namespace Iit.Fibertest.Client
             result.RtuTitle = rtu?.Title;
             result.PortTitle = trace.OtauPort == null ? Resources.SID__not_attached_ : trace.OtauPort.IsPortOnMainCharon
                 ? trace.OtauPort.OpticalPort.ToString()
-                : $@"{trace.OtauPort.Serial}-{trace.OtauPort.OpticalPort}";
+                : $@"{trace.OtauPort.MainCharonPort}-{trace.OtauPort.OpticalPort}";
             result.RtuSoftwareVersion = rtu?.Version;
 
             result.ServerTitle = _currentDatacenterParameters.ServerTitle;
