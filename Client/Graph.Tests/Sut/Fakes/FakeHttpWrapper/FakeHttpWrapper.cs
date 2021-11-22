@@ -46,8 +46,10 @@ namespace Graph.Tests
                     break;
                 case "SetMonitoringProperty":
                 case "ChangeProxyMode":
-                case "SwitchOtauToPort":
                     result.HttpStatusCode = HttpStatusCode.NoContent;
+                    break;  
+                case "SwitchOtauToPort":
+                    result.HttpStatusCode = FakeVeexRtuModel.SwitchOtauToPort(relativeUri, jsonData);
                     break;
                 case "DoMeasurementRequest":
                     result.HttpStatusCode = HttpStatusCode.Created;

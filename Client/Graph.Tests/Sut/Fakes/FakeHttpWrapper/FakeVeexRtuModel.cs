@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Iit.Fibertest.Dto;
+using Newtonsoft.Json;
 
 namespace Graph.Tests
 {
@@ -152,6 +154,19 @@ namespace Graph.Tests
                 items = completedTests,
                 total = completedTests.Count,
             };
+        }
+
+        public HttpStatusCode SwitchOtauToPort(string link, string jsonData)
+        {
+            var parts = link.Split('/');
+            var otau = Otaus.First(o => o.id == parts[1]); // test crashes if otau not found
+
+            dynamic myObj = JsonConvert.DeserializeObject<dynamic>(jsonData);
+            int portIndex = myObj?.portIndex ?? -1;
+
+            return portIndex > 0 && portIndex <= otau.portCount 
+                ? HttpStatusCode.NoContent 
+                : HttpStatusCode.BadRequest;
         }
     }
 }

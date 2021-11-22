@@ -657,13 +657,13 @@
     <Compile Include="UsersAndZones\ZonesSteps.cs">
       <DependentUpon>Zones.feature</DependentUpon>
     </Compile>
-    <Compile Include="VeexRtuCompletedTestFetcher\MeasurementClient.feature.cs">
+    <Compile Include="VeexManualMeas\ManualMeasurements.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MeasurementClient.feature</DependentUpon>
+      <DependentUpon>ManualMeasurements.feature</DependentUpon>
     </Compile>
-    <Compile Include="VeexRtuCompletedTestFetcher\MeasurementClientSteps.cs">
-      <DependentUpon>MeasurementClient.feature</DependentUpon>
+    <Compile Include="VeexManualMeas\ManualMeasurementsSteps.cs">
+      <DependentUpon>ManualMeasurements.feature</DependentUpon>
     </Compile>
     <Compile Include="VeexRtuCompletedTestFetcher\TestFetched.feature.cs">
       <AutoGen>True</AutoGen>
@@ -925,9 +925,9 @@
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>Zones.feature.cs</LastGenOutput>
     </None>
-    <None Include="VeexRtuCompletedTestFetcher\MeasurementClient.feature">
+    <None Include="VeexManualMeas\ManualMeasurements.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
-      <LastGenOutput>MeasurementClient.feature.cs</LastGenOutput>
+      <LastGenOutput>ManualMeasurements.feature.cs</LastGenOutput>
     </None>
     <None Include="VeexRtuCompletedTestFetcher\TestFetched.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

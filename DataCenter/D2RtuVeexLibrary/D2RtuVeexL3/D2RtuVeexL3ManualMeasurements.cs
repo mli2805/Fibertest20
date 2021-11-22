@@ -50,20 +50,44 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return await _d2RtuVeexLayer2.StartOutOfTurnPreciseMeasurement(rtuDoubleAddress, testId);
         }
 
+
+        /// <summary>
+        /// IIT RTU Manager expects only dto.OtauPortDto filled
+        ///
+        /// for VEEX RTU dto.MainOtauPortDto added
+        ///
+        /// if port is on main otau then MainOtauPortDto is null and OtauPortDto.IsPortOnMainCharon = true
+        ///
+        /// if port is on additional otau
+        ///    OtauPortDto contains additional otau parameters
+        ///     and MainOtauPortDto contains main otau parameters
+        /// </summary>
+        /// <param name="otauPortDto"></param>
+        /// <param name="mainOtauPortDto"></param>
+        /// <returns></returns>
         private static List<VeexOtauPort> CreateVeexOtauPortList(OtauPortDto otauPortDto, OtauPortDto mainOtauPortDto)
         {
             var otauPorts = new List<VeexOtauPort>();
-            if (!otauPortDto.IsPortOnMainCharon)
+            if (otauPortDto.IsPortOnMainCharon)
             {
                 otauPorts.Add(new VeexOtauPort()
                 {
-                    otauId =mainOtauPortDto.OtauId,
-                    portIndex = mainOtauPortDto.OpticalPort - 1
+                    otauId = otauPortDto.OtauId,
+                    portIndex = otauPortDto.OpticalPort - 1
                 });
+                return otauPorts;
             }
+
+            // else
+
             otauPorts.Add(new VeexOtauPort()
             {
-                otauId =  @"S2_" + otauPortDto.OtauId,
+                otauId = mainOtauPortDto.OtauId,
+                portIndex = mainOtauPortDto.OpticalPort - 1
+            });
+            otauPorts.Add(new VeexOtauPort()
+            {
+                otauId = @"S2_" + otauPortDto.OtauId,
                 portIndex = otauPortDto.OpticalPort - 1
             });
 

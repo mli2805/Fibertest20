@@ -10,24 +10,24 @@
 // ------------------------------------------------------------------------------
 #region Designer generated code
 #pragma warning disable
-namespace Graph.Tests.VeexRtuCompletedTestFetcher
+namespace Graph.Tests.VeexManualMeas
 {
     using TechTalk.SpecFlow;
     
     
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "2.4.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public partial class MeasurementClientFeature : Xunit.IClassFixture<MeasurementClientFeature.FixtureData>, System.IDisposable
+    public partial class ManualMeasurementsFeature : Xunit.IClassFixture<ManualMeasurementsFeature.FixtureData>, System.IDisposable
     {
         
         private static TechTalk.SpecFlow.ITestRunner testRunner;
         
         private Xunit.Abstractions.ITestOutputHelper _testOutputHelper;
         
-#line 1 "MeasurementClient.feature"
+#line 1 "ManualMeasurements.feature"
 #line hidden
         
-        public MeasurementClientFeature(MeasurementClientFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
+        public ManualMeasurementsFeature(ManualMeasurementsFeature.FixtureData fixtureData, Xunit.Abstractions.ITestOutputHelper testOutputHelper)
         {
             this._testOutputHelper = testOutputHelper;
             this.TestInitialize();
@@ -36,7 +36,7 @@ namespace Graph.Tests.VeexRtuCompletedTestFetcher
         public static void FeatureSetup()
         {
             testRunner = TechTalk.SpecFlow.TestRunnerManager.GetTestRunner();
-            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "MeasurementClient", null, ProgrammingLanguage.CSharp, ((string[])(null)));
+            TechTalk.SpecFlow.FeatureInfo featureInfo = new TechTalk.SpecFlow.FeatureInfo(new System.Globalization.CultureInfo("en-US"), "ManualMeasurements", null, ProgrammingLanguage.CSharp, ((string[])(null)));
             testRunner.OnFeatureStart(featureInfo);
         }
         
@@ -76,8 +76,6 @@ namespace Graph.Tests.VeexRtuCompletedTestFetcher
 #line 3
 #line 4
  testRunner.Given("Существует вииксовский RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 5
- testRunner.And("Присоединяем доп переключатель", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
         
@@ -87,46 +85,54 @@ namespace Graph.Tests.VeexRtuCompletedTestFetcher
         }
         
         [Xunit.FactAttribute(DisplayName="Измерение Client")]
-        [Xunit.TraitAttribute("FeatureTitle", "MeasurementClient")]
+        [Xunit.TraitAttribute("FeatureTitle", "ManualMeasurements")]
         [Xunit.TraitAttribute("Description", "Измерение Client")]
         public virtual void ИзмерениеClient()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Измерение Client", null, ((string[])(null)));
-#line 7
+#line 6
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 3
 this.FeatureBackground();
-#line 8
+#line 7
  testRunner.Given("Пользователь запускает измерение Client на порту основного переключателя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 9
+#line 8
  testRunner.When("Клиент запрашивает результат измерния по Id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 10
+#line 9
  testRunner.Then("Приходит рефлектограмма", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 11
- testRunner.Given("Пользователь запускает измерение Client на порту доп переключателя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 12
- testRunner.When("Клиент запрашивает результат измерния по Id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.Given("Присоединяем доп переключатель", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line 13
+ testRunner.Given("Пользователь запускает измерение Client на порту доп переключателя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 14
+ testRunner.When("Клиент запрашивает результат измерния по Id", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 15
  testRunner.Then("Приходит рефлектограмма", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
         
         [Xunit.FactAttribute(DisplayName="Измерение Reflect")]
-        [Xunit.TraitAttribute("FeatureTitle", "MeasurementClient")]
+        [Xunit.TraitAttribute("FeatureTitle", "ManualMeasurements")]
         [Xunit.TraitAttribute("Description", "Измерение Reflect")]
         public virtual void ИзмерениеReflect()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Измерение Reflect", null, ((string[])(null)));
-#line 15
+#line 17
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 3
 this.FeatureBackground();
-#line 16
+#line 18
+ testRunner.Given("Пользователь запрашивает измерение Reflect по порту основного переключателя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 19
+ testRunner.Then("Отсылается команда подготовки RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 21
+ testRunner.Given("Присоединяем доп переключатель", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line 23
  testRunner.When("Пользователь запрашивает измерение Reflect по порту доп переключателя", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line 17
+#line 24
  testRunner.Then("Отсылается команда подготовки RTU", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -139,12 +145,12 @@ this.FeatureBackground();
             
             public FixtureData()
             {
-                MeasurementClientFeature.FeatureSetup();
+                ManualMeasurementsFeature.FeatureSetup();
             }
             
             void System.IDisposable.Dispose()
             {
-                MeasurementClientFeature.FeatureTearDown();
+                ManualMeasurementsFeature.FeatureTearDown();
             }
         }
     }

@@ -77,6 +77,14 @@ namespace Graph.Tests
             _startedDto = _sut.WcfServiceCommonC2D.DoClientMeasurementAsync(fullDto).Result;
         }
 
+        [Given(@"Пользователь запрашивает измерение Reflect по порту основного переключателя")]
+        public void GivenПользовательЗапрашиваетИзмерениеReflectПоПортуОсновногоПереключателя()
+        {
+            var ca = _sut.ClientScope.Resolve<CommonActions>();
+            _preparationResult = ca.PrepareRtu(_rtuLeaf, 5).Result;
+        }
+
+
         [When(@"Пользователь запрашивает измерение Reflect по порту доп переключателя")]
         public void WhenПользовательЗапрашиваетИзмерениеReflectПоПортуДопПереключателя()
         {
