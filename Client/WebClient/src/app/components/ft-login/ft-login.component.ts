@@ -57,23 +57,11 @@ export class FtLoginComponent implements OnInit {
     return this.httpClient.get(`./assets/settings.json?${uuid}`);
   }
 
-  async getHash(pw: string ){
-    const {
-      createHash
-    } = await import('crypto');
-    
-    const hash = createHash('sha256').update(pw).digest('hex');
-  }
-
-
-  async login() {
+    async login() {
     this.initializeVariables();
 
     try {
       const settings = JSON.parse(sessionStorage.settings);
-
-      const hash = await this.getHash(this.pw);
-      console.log(hash);
 
       const res = (await this.authService
         .login(this.user, this.pw, settings.version)
