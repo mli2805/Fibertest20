@@ -7,7 +7,7 @@
         xmlns:client="clr-namespace:Iit.Fibertest.Client"
         xmlns:wpfCommonViews="clr-namespace:Iit.Fibertest.WpfCommonViews;assembly=Iit.Fibertest.WpfCommonViews"
         mc:Ignorable="d"
-        Width="400" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        Width="420" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:LoginViewModel}" 
         FocusManager.FocusedElement="{Binding ElementName=UsernameTextBox}">
     <StackPanel>
@@ -19,7 +19,7 @@
                             Margin="10,0,0,0" Width="80" KeyboardNavigation.TabIndex="2"/>
                 <TextBox Name="UsernameTextBox" DockPanel.Dock="Right" 
                          Text="{Binding UserName, UpdateSourceTrigger=PropertyChanged}" 
-                         Width="110" Margin="10,0,0,0" Height="22"
+                         Width="130" Margin="10,0,0,0" Height="22"
                               KeyboardNavigation.TabIndex="0"/>
                 <TextBlock Text="{x:Static stringResources:Resources.SID_User}" TextAlignment="Right" VerticalAlignment="Center"/>
             </DockPanel>

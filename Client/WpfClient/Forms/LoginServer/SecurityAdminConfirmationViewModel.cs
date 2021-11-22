@@ -10,7 +10,6 @@ namespace Iit.Fibertest.Client
         public string ReturnCodeText { get; set; }
         public string Text3 { get; set; }
         public string Text4 { get; set; }
-        // public string Password { get; set; }
 
         public PasswordViewModel PasswordViewModel { get; set; } = new PasswordViewModel();
 

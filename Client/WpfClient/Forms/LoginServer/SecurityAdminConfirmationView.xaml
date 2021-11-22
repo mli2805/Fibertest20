@@ -14,9 +14,9 @@
         <client:PasswordView DataContext="{Binding PasswordViewModel}" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 
         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10,0,0,20">
-            <Button Name="OkButton" Visibility="{Binding OkVisibility}" Content="OK" Margin="5" 
+            <Button Name="OkButton" Content="OK" Margin="5" 
                     IsDefault="True" HorizontalAlignment="Center" Width="100"/>
-            <Button Name="CancelButton" Visibility="{Binding CancelVisibility}" Content="Cancel" Margin="5" 
+            <Button Name="CancelButton" Content="Cancel" Margin="5" 
                     IsCancel="True" HorizontalAlignment="Center" Width="100"/>
         </StackPanel>
     </StackPanel>
