@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.DirectCharonLibrary;
 using Iit.Fibertest.Dto;
@@ -16,6 +17,7 @@ namespace Iit.Fibertest.Client
     // Could be done for TraceLeaf and PortLeaf
     public class CommonActions
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly IniFile _iniFile35;
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
@@ -24,10 +26,11 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceCommonC2D _c2RWcfManager;
 
-        public CommonActions(IniFile iniFile35, IMyLog logFile, CurrentUser currentUser,
+        public CommonActions(ILifetimeScope globalScope, IniFile iniFile35, IMyLog logFile, CurrentUser currentUser,
             Model readModel, IWindowManager windowManager, IWcfServiceCommonC2D c2RWcfManager,
             ClientMeasurementViewModel clientMeasurementViewModel)
         {
+            _globalScope = globalScope;
             _iniFile35 = iniFile35;
             _logFile = logFile;
             _currentUser = currentUser;
@@ -210,10 +213,14 @@ namespace Iit.Fibertest.Client
 
         private async Task<bool> SendPreparationCommand(PrepareReflectMeasurementDto dto)
         {
-            var answer = await _c2RWcfManager.PrepareReflectMeasurementAsync(dto);
+            RequestAnswer answer;
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                answer = await _c2RWcfManager.PrepareReflectMeasurementAsync(dto);
+            }
             if (answer.ReturnCode == ReturnCode.Ok)
                 return true;
-
+          
             var vm = new MyMessageBoxViewModel(MessageType.Error, $@"{answer.ErrorMessage}");
             _windowManager.ShowDialogWithAssignedOwner(vm);
             return false;

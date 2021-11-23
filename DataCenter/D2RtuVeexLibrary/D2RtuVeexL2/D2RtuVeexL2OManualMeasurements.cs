@@ -63,10 +63,27 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<RequestAnswer> PrepareReflectMeasurement(DoubleAddress rtuDoubleAddress,
             string otdrId, List<VeexOtauPort> otauPorts)
         {
+            // it is prohibited to do ReflectMeasurement from fibertest if while monitoring is running
+            // but if somehow monitoring was started from webGUI and fibertest sends ReflectMeasurement command - stop monitoring
+            var setStateRes =
+                await _d2RtuVeexLayer1.SetMonitoringProperty(rtuDoubleAddress, "state", "disabled");
+            if (!setStateRes.IsSuccessful)
+                return new RequestAnswer()
+                {
+                    ReturnCode = ReturnCode.Error,
+                    ErrorMessage = setStateRes.ErrorMessage,
+                };
+
             var otdrRes = await _d2RtuVeexLayer1.ChangeProxyMode(rtuDoubleAddress, otdrId, true);
             if (!otdrRes.IsSuccessful)
                 return new RequestAnswer()
-                { ReturnCode = ReturnCode.Error, ErrorMessage = "Failed to enable proxy mode!" };
+                {
+                    ReturnCode = ReturnCode.Error, 
+                    ErrorMessage = "Failed to enable proxy mode!" + Environment.NewLine + otdrRes.ResponseJson
+                };
+
+            // old RTU300 needs this pause after enable proxy mode
+            await Task.Delay(1000);
 
             foreach (var otauPort in otauPorts)
             {
