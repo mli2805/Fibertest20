@@ -109,6 +109,8 @@ this.FeatureBackground();
  testRunner.Then("У неприсоединенной трассы есть пункты Очистить и Удалить", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 13
  testRunner.Then("Нет пункта Отсоединить и трех пунктов Измерения", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line 14
+ testRunner.Then("На карте все участки трассы синие", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
         }
@@ -119,14 +121,14 @@ this.FeatureBackground();
         public virtual void ОтказОтСозданияТрассы()
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Отказ от создания трассы", null, ((string[])(null)));
-#line 15
+#line 16
 this.ScenarioInitialize(scenarioInfo);
             this.ScenarioStart();
 #line 3
 this.FeatureBackground();
-#line 16
- testRunner.When("Пользователь что-то вводит но жмет Отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 17
+ testRunner.When("Пользователь что-то вводит но жмет Отмена", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line 18
  testRunner.Then("Трасса не сохраняется", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -151,3 +153,4 @@ this.FeatureBackground();
 }
 #pragma warning restore
 #endregion
+

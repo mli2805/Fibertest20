@@ -47,11 +47,14 @@ namespace Iit.Fibertest.Client
                 var traceAddViewModel = model.GlobalScope.Resolve<TraceInfoViewModel>();
                 await traceAddViewModel.Initialize(traceId, traceEquipments, traceNodes, true);
                 model.WindowManager.ShowDialogWithAssignedOwner(traceAddViewModel);
+                if (traceAddViewModel.IsCreatedSuccessfully)
+                    return;
             }
-            finally
+            catch (Exception e)
             {
-                model.ChangeFutureTraceColor(traceId, fiberIds, FiberState.NotInTrace);
+                Console.WriteLine(e.Message);
             }
+            model.ChangeFutureTraceColor(traceId, fiberIds, FiberState.NotInTrace);
         }
 
         private static bool Validate(this GraphReadModel model, RequestAddTrace request)
@@ -70,7 +73,7 @@ namespace Iit.Fibertest.Client
 
             var pathFinder = new PathFinder(model);
             var path = await Task.Factory.StartNew(() => pathFinder.FindPath(request.NodeWithRtuId, request.LastNodeId).Result);
-         
+
             vm.TryClose();
 
             if (path == null)

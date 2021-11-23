@@ -3,6 +3,7 @@ using System.Linq;
 using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph.Requests;
 using Iit.Fibertest.StringResources;
 using TechTalk.SpecFlow;
@@ -91,6 +92,13 @@ namespace Graph.Tests
             _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Measurement__Client_).Should().BeNull();
             _traceLeaf.MyContextMenu.FirstOrDefault(item => item?.Header == Resources.SID_Measurement__RFTS_Reflect_).Should().BeNull();
         }
+
+        [Then(@"На карте все участки трассы синие")]
+        public void ThenНаКартеВсеУчасткиТрассыСиние()
+        {
+            _sut.GraphReadModel.Data.Fibers.Count(f => f.State == FiberState.NotJoined).Should().Be(5);
+        }
+
 
         [When(@"Пользователь что-то вводит но жмет Отмена")]
         public void WhenПользовательЧто_ТоВводитНоЖметОтмена()

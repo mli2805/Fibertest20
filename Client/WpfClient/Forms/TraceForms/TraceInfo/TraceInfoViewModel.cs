@@ -63,6 +63,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public bool IsCreatedSuccessfully { get; set; }
+
         public TraceInfoViewModel(ILifetimeScope globalScope, Model readModel, CurrentUser currentUser,
             IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D c2DWcfCommonManager, IWindowManager windowManager,
             CurrentGis currentGis, GraphGpsCalculator graphGpsCalculator)
@@ -105,6 +107,7 @@ namespace Iit.Fibertest.Client
             else
                 _ = await GetOtherPropertiesOfExistingTrace();
             IsEditEnabled = _currentUser.Role <= Role.Root;
+            IsCreatedSuccessfully = false;
         }
 
         private async Task<bool> GetOtherPropertiesOfExistingTrace()
@@ -217,8 +220,11 @@ namespace Iit.Fibertest.Client
                 message = await _c2DWcfManager.SendCommandAsObj(cmd);
             }
 
-            if (message != null)
-                _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, @"AddTrace: " + message));
+            if (message == null)
+                IsCreatedSuccessfully = true;
+            else
+                _windowManager.ShowDialogWithAssignedOwner(
+                    new MyMessageBoxViewModel(MessageType.Error, @"AddTrace: " + message));
         }
 
         private async Task SendUpdateTraceCommand()
