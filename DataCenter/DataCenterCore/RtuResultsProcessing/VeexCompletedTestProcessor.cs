@@ -38,8 +38,8 @@ namespace Iit.Fibertest.DataCenterCore
             if (veexTest.IsOnBop)
                 await CheckAndSendBopNetworkIfNeeded(completedTest, rtu, veexTest);
 
-            if (completedTest.result == "failed") 
-                return;
+            // if (completedTest.result == "failed") 
+                // return;
 
             var trace = _writeModel.Traces.First(t => t.TraceId == veexTest.TraceId);
             if (ShouldMoniResultBeSaved(completedTest, rtu, trace, veexTest.BasRefType))
@@ -89,7 +89,8 @@ namespace Iit.Fibertest.DataCenterCore
         private bool ShouldMoniResultBeSaved(CompletedTest completedTest, Rtu rtu, Trace trace, BaseRefType baseRefType)
         {
             if (completedTest.result == "failed" &&
-                    completedTest.extendedResult == "otdr_failed")
+                    (completedTest.extendedResult.StartsWith("otdr")
+                    || completedTest.extendedResult.StartsWith("otau")))
                 return false;
 
             var traceLastMeasOfThisBaseType = _writeModel.Measurements
@@ -181,7 +182,7 @@ namespace Iit.Fibertest.DataCenterCore
                     else
                         return completedTest.traceChange.changeType.ToFiberState();
                 }
-                return completedTest.extendedResult.ToFiberState();
+                return completedTest.extendedResult.ToFiberState(); // no_fiber
             }
             return FiberState.Ok;
         }
