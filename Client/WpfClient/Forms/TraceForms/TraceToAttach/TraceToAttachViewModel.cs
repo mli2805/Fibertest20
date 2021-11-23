@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -11,6 +12,7 @@ namespace Iit.Fibertest.Client
 {
     public class TraceToAttachViewModel : Screen
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
         private readonly IWcfServiceCommonC2D _c2DCommonWcfManager;
         private readonly IWindowManager _windowManager;
@@ -44,9 +46,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceToAttachViewModel(Model readModel, CurrentUser currentUser,
+        public TraceToAttachViewModel(ILifetimeScope globalScope, Model readModel, CurrentUser currentUser,
             IWcfServiceCommonC2D c2DCommonWcfManager, IWindowManager windowManager)
         {
+            _globalScope = globalScope;
             _readModel = readModel;
             _c2DCommonWcfManager = c2DCommonWcfManager;
             _windowManager = windowManager;
@@ -82,7 +85,12 @@ namespace Iit.Fibertest.Client
                 },
             };
 
-            var result = await _c2DCommonWcfManager.AttachTraceAndSendBaseRefs(dto);
+            RequestAnswer result;
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                result = await _c2DCommonWcfManager.AttachTraceAndSendBaseRefs(dto);
+            }
+
             if (result.ReturnCode != ReturnCode.Ok)
             {
                 var errs = new List<string>

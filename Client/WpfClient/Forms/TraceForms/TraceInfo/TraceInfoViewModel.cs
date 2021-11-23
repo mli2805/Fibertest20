@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -19,6 +20,7 @@ namespace Iit.Fibertest.Client
 {
     public class TraceInfoViewModel : Screen, IDataErrorInfo
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
@@ -61,10 +63,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceInfoViewModel(Model readModel, CurrentUser currentUser,
+        public TraceInfoViewModel(ILifetimeScope globalScope, Model readModel, CurrentUser currentUser,
             IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D c2DWcfCommonManager, IWindowManager windowManager,
             CurrentGis currentGis, GraphGpsCalculator graphGpsCalculator)
         {
+            _globalScope = globalScope;
             _readModel = readModel;
             _currentUser = currentUser;
             _c2DWcfManager = c2DWcfManager;
@@ -207,7 +210,12 @@ namespace Iit.Fibertest.Client
                 FiberIds = fiberIds,
                 Comment = Model.Comment
             };
-            var message = await _c2DWcfManager.SendCommandAsObj(cmd);
+
+            string message;
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                message = await _c2DWcfManager.SendCommandAsObj(cmd);
+            }
 
             if (message != null)
                 _windowManager.ShowDialogWithAssignedOwner(new MyMessageBoxViewModel(MessageType.Error, @"AddTrace: " + message));
@@ -222,7 +230,11 @@ namespace Iit.Fibertest.Client
                 Mode = Model.IsTraceModeLight ? TraceMode.Light : TraceMode.Dark,
                 Comment = Model.Comment
             };
-            await _c2DWcfManager.SendCommandAsObj(cmd);
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                await _c2DWcfManager.SendCommandAsObj(cmd);
+            }
+
         }
 
         public void DevReport()

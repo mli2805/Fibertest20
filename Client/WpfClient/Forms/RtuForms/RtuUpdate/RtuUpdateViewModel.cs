@@ -67,7 +67,7 @@ namespace Iit.Fibertest.Client
         }
         public GpsInputViewModel GpsInputViewModel { get; set; }
         public bool HasPrivilegies { get; set; }
-        public Visibility GisVisibility {get; set; }
+        public Visibility GisVisibility { get; set; }
 
         private bool _isEditEnabled;
         public bool IsEditEnabled
@@ -82,7 +82,7 @@ namespace Iit.Fibertest.Client
         }
 
         public RtuUpdateViewModel(ILifetimeScope globalScope, CurrentUser currentUser, CurrentGis currentGis,
-            Model readModel, GraphReadModel graphReadModel, 
+            Model readModel, GraphReadModel graphReadModel,
             IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
@@ -128,8 +128,8 @@ namespace Iit.Fibertest.Client
         public async void Save()
         {
             IsEditEnabled = false;
-            var result = _isInCreationMode 
-                ? await CreateRtu() 
+            var result = _isInCreationMode
+                ? await CreateRtu()
                 : await UpdateRtu();
             IsEditEnabled = true;
             if (result) TryClose();
@@ -153,7 +153,13 @@ namespace Iit.Fibertest.Client
                 Title = Title,
                 Comment = Comment,
             };
-            var result = await _c2DWcfManager.SendCommandAsObj(cmd);
+
+            string result;
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                result = await _c2DWcfManager.SendCommandAsObj(cmd);
+            }
+
             if (result != null)
             {
                 var mb = new MyMessageBoxViewModel(MessageType.Error, @"CreateRtu: " + result);
@@ -186,19 +192,6 @@ namespace Iit.Fibertest.Client
             }
             return true;
         }
-
-//        public void PreView()
-//        {
-//            var nodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == _originalNode.NodeId);
-//            if (nodeVm == null) return;
-//
-//            nodeVm.Position = new PointLatLng(GpsInputViewModel.OneCoorViewModelLatitude.StringsToValue(),
-//                GpsInputViewModel.OneCoorViewModelLongitude.StringsToValue());
-//
-//            _graphReadModel.PlacePointIntoScreenCenter(nodeVm.Position);
-//            if (_tabulatorViewModel.SelectedTabIndex != 3)
-//                _tabulatorViewModel.SelectedTabIndex = 3;
-//        }
 
         public void Cancel()
         {
