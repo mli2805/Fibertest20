@@ -210,7 +210,7 @@ namespace Iit.Fibertest.Client
             {
                 var cmd = new DetachAllTraces() { RtuId = rtuLeaf.Id };
                 await _c2DWcfManager.SendCommandAsObj(cmd);
-                _rtuStateViewsManager.NotifyUserMonitoringStarted(rtuLeaf.Id);
+                _rtuStateViewsManager.NotifyUserTraceChanged(rtuLeaf.Id);
             }
         }
 

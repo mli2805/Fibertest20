@@ -70,7 +70,15 @@ namespace Iit.Fibertest.Client
                 case TraceUpdated e: NotifyUserTraceChanged(e.Id); return;
                 case RtuUpdated e: NotifyUserRtuUpdated(e.RtuId); return;
                 case RtuInitialized e: NotifyUserRtuUpdated(e.Id); return;
-                case MonitoringStarted e: NotifyUserMonitoringStarted(e.RtuId); return;
+                case MonitoringSettingsChanged e:
+                    if (e.IsMonitoringOn)
+                        NotifyUserMonitoringStarted(e.RtuId);
+                    else
+                        NotifyUserMonitoringStopped(e.RtuId);
+                    return;
+                case MonitoringStarted e: 
+                    NotifyUserMonitoringStarted(e.RtuId); 
+                    return;
                 case MonitoringStopped e: NotifyUserMonitoringStopped(e.RtuId); return;
                 case ResponsibilitiesChanged _: ChangeResponsibilities(); return;
                 default: return;

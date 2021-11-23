@@ -3021,4 +3021,7 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_User_to_workstation_linking_set" xml:space="preserve">
 		<value>User to workstation linking set</value>
 	</data>
+	<data name="SID_Measurement_on_port__0__trace__1__is_finished" xml:space="preserve">
+		<value>Measurement on port {0} trace {1} is finished</value>
+	</data>
 </root>

@@ -98,11 +98,6 @@ namespace Iit.Fibertest.Client
 
             if (dto.PortWithTraceDto != null)
             {
-                portName = dto.PortWithTraceDto.OtauPort.IsPortOnMainCharon
-                    ? $@"{dto.PortWithTraceDto.OtauPort.OpticalPort}"
-                    : $@"{dto.PortWithTraceDto.OtauPort.Serial}-
-                            {dto.PortWithTraceDto.OtauPort.OpticalPort}";
-
                 var portLineVm = Model.Ports.FirstOrDefault(p => p.TraceId == dto.PortWithTraceDto.TraceId);
                 if (portLineVm != null)
                 {
@@ -128,6 +123,8 @@ namespace Iit.Fibertest.Client
                     return string.Format(Resources.SID_Measurement_s_result_analysis__port__0____trace___1__, portName, traceTitle);
                 case MonitoringCurrentStep.Interrupted:
                     return Resources.SID_Measurement_interrupted;
+                case MonitoringCurrentStep.MeasurementFinished:
+                    return string.Format(Resources.SID_Measurement_on_port__0__trace__1__is_finished, portName, traceTitle);
                 default:
                     return Resources.SID_Unknown;
             }

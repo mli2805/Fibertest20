@@ -4460,6 +4460,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Measurement on port {0} trace {1} is finished.
+        /// </summary>
+        public static string SID_Measurement_on_port__0__trace__1__is_finished {
+            get {
+                return ResourceManager.GetString("SID_Measurement_on_port__0__trace__1__is_finished", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Measurement parameters.
         /// </summary>
         public static string SID_Measurement_parameters {

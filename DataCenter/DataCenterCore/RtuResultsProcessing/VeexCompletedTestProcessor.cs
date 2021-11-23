@@ -6,6 +6,7 @@ using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.DataCenterCore
 {
@@ -17,10 +18,11 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly SorFileRepository _sorFileRepository;
         private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
         private readonly MsmqMessagesProcessor _msmqMessagesProcessor;
+        private readonly IWcfServiceForRtu _wcfServiceForRtu;
 
         public VeexCompletedTestProcessor(IMyLog logFile, Model writeModel, CommonBopProcessor commonBopProcessor,
             SorFileRepository sorFileRepository, D2RtuVeexLayer3 d2RtuVeexLayer3,
-            MsmqMessagesProcessor msmqMessagesProcessor)
+            MsmqMessagesProcessor msmqMessagesProcessor, IWcfServiceForRtu wcfServiceForRtu)
         {
             _logFile = logFile;
             _writeModel = writeModel;
@@ -28,6 +30,7 @@ namespace Iit.Fibertest.DataCenterCore
             _sorFileRepository = sorFileRepository;
             _d2RtuVeexLayer3 = d2RtuVeexLayer3;
             _msmqMessagesProcessor = msmqMessagesProcessor;
+            _wcfServiceForRtu = wcfServiceForRtu;
         }
 
         public async Task ProcessOneCompletedTest(CompletedTest completedTest, Rtu rtu, DoubleAddress rtuDoubleAddress)
@@ -39,11 +42,28 @@ namespace Iit.Fibertest.DataCenterCore
                 await CheckAndSendBopNetworkIfNeeded(completedTest, rtu, veexTest);
 
             // if (completedTest.result == "failed") 
-                // return;
+            // return;
 
             var trace = _writeModel.Traces.First(t => t.TraceId == veexTest.TraceId);
             if (ShouldMoniResultBeSaved(completedTest, rtu, trace, veexTest.BasRefType))
                 await AcceptMoniResult(rtuDoubleAddress, completedTest, veexTest, rtu, trace);
+            else
+            {
+                _wcfServiceForRtu.NotifyUserCurrentMonitoringStep(new CurrentMonitoringStepDto()
+                {
+                    RtuId = rtu.Id,
+                    Step = MonitoringCurrentStep.MeasurementFinished,
+                    PortWithTraceDto = new PortWithTraceDto()
+                    {
+                        TraceId = veexTest.TraceId,
+                        OtauPort = new OtauPortDto()
+                        {
+                            OtauId = veexTest.OtauId,
+                        }
+                    },
+                    BaseRefType = veexTest.BasRefType,
+                });
+            }
         }
 
         private async Task CheckAndSendBopNetworkIfNeeded(CompletedTest completedTest, Rtu rtu, VeexTest veexTest)
@@ -68,7 +88,7 @@ namespace Iit.Fibertest.DataCenterCore
                 if (otau != null && !otau.IsOk)
                 {
                     _logFile.AppendLine($@"RTU {rtu.Id.First6()} BOP {otau.Serial} state changed to OK");
-                     await _commonBopProcessor.PersistBopEvent(CreateCmd(rtu.Id, otau));
+                    await _commonBopProcessor.PersistBopEvent(CreateCmd(rtu.Id, otau));
                 }
             }
         }
@@ -179,8 +199,7 @@ namespace Iit.Fibertest.DataCenterCore
                             return FiberState.Major;
                         return FiberState.Minor;
                     }
-                    else
-                        return completedTest.traceChange.changeType.ToFiberState();
+                    return completedTest.traceChange.changeType.ToFiberState(); // fiber_break
                 }
                 return completedTest.extendedResult.ToFiberState(); // no_fiber
             }

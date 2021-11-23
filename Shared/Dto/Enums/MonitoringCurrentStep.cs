@@ -7,5 +7,6 @@
         Measure,
         Interrupted,
         Analysis,
+        MeasurementFinished,
     }
 }

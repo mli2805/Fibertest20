@@ -204,8 +204,10 @@ namespace Graph.Tests
             // server's
             builder.RegisterType<WcfServiceDesktopC2D>().As<IWcfServiceDesktopC2D>().InstancePerLifetimeScope();  // server !!!
             builder.RegisterType<WcfServiceCommonC2D>().As<IWcfServiceCommonC2D>().InstancePerLifetimeScope();
-            builder.RegisterType<WcfServiceForRtu>().InstancePerLifetimeScope();  // server !!!
+            builder.RegisterType<WcfServiceForRtu>().As<IWcfServiceForRtu>().InstancePerLifetimeScope();  // server !!!
             builder.RegisterType<WcfServiceWebC2D>().InstancePerLifetimeScope();  // server !!!
+            builder.RegisterType<MeasurementsForWebNotifier>().InstancePerLifetimeScope();  // server !!!
+            
 
             builder.RegisterType<EventsQueue>().InstancePerLifetimeScope();
             builder.RegisterType<EventStoreService>().InstancePerLifetimeScope();

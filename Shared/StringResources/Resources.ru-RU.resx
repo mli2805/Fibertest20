@@ -3021,4 +3021,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_User_to_workstation_linking_set" xml:space="preserve">
 		<value>Выполнена привязка пользователя к раб месту</value>
 	</data>
+	<data name="SID_Measurement_on_port__0__trace__1__is_finished" xml:space="preserve">
+		<value>Завершено измерение порт {0}, трасса "{1}"</value>
+	</data>
 </root>
