@@ -38,8 +38,8 @@ namespace Iit.Fibertest.DataCenterCore
             var veexTest = _writeModel.VeexTests.FirstOrDefault(v => v.TestId.ToString() == completedTest.testId);
             if (veexTest == null) return;
 
-            if (veexTest.IsOnBop)
-                await CheckAndSendBopNetworkIfNeeded(completedTest, rtu, veexTest);
+            // for both main and additional otau
+            await CheckAndSendBopNetworkIfNeeded(completedTest, rtu, veexTest);
 
             var trace = _writeModel.Traces.First(t => t.TraceId == veexTest.TraceId);
             if (ShouldMoniResultBeSaved(completedTest, rtu, trace, veexTest.BasRefType))
@@ -65,28 +65,24 @@ namespace Iit.Fibertest.DataCenterCore
 
         private async Task CheckAndSendBopNetworkIfNeeded(CompletedTest completedTest, Rtu rtu, VeexTest veexTest)
         {
-            if (completedTest.result == "failed")
+            // CompletedTest contains completedTest.failure.otauId
+            // but
+            var otau = veexTest.IsOnBop
+                ? _writeModel.Otaus.FirstOrDefault(o => o.Id.ToString() == veexTest.OtauId)
+                : _writeModel.Otaus.FirstOrDefault(o => o.VeexRtuMainOtauId == veexTest.OtauId);
+            if (otau == null) return;
+            if (completedTest.failure != null)
+                if (veexTest.IsOnBop && completedTest.failure.otauId.StartsWith("S1_")  // test on Bop but failed main otau
+                        || !veexTest.IsOnBop && completedTest.failure.otauId.StartsWith("S2_")) // or vise versa
+                    return; 
+
+            var isOtauBroken = completedTest.result == "failed" && completedTest.extendedResult.StartsWith("otau");
+
+            if (otau.IsOk == isOtauBroken)
             {
-                if (completedTest.extendedResult == "otau_failed" ||
-                    completedTest.extendedResult == "otau_not_found")
-                {
-                    var otauId = completedTest.failure.otauId.Substring(3);
-                    var otau = _writeModel.Otaus.FirstOrDefault(o => o.Id.ToString() == otauId);
-                    if (otau != null && otau.IsOk)
-                    {
-                        _logFile.AppendLine($@"RTU {rtu.Id.First6()} BOP {otau.Serial} state changed to broken");
-                        await _commonBopProcessor.PersistBopEvent(CreateCmd(rtu.Id, otau));
-                    }
-                }
-            }
-            else
-            {
-                var otau = _writeModel.Otaus.FirstOrDefault(o => o.Id.ToString() == veexTest.OtauId);
-                if (otau != null && !otau.IsOk)
-                {
-                    _logFile.AppendLine($@"RTU {rtu.Id.First6()} BOP {otau.Serial} state changed to OK");
-                    await _commonBopProcessor.PersistBopEvent(CreateCmd(rtu.Id, otau));
-                }
+                var word = isOtauBroken ? "broken" : "OK";
+                _logFile.AppendLine($@"RTU {rtu.Id.First6()} otau {otau.Serial} state changed to {word}");
+                await _commonBopProcessor.PersistBopEvent(CreateCmd(rtu.Id, otau));
             }
         }
 
