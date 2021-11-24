@@ -110,7 +110,6 @@ namespace Iit.Fibertest.Graph
                 rtu.FullPortCount += pair.Value.IsOk 
                     ? pair.Value.OwnPortCount 
                     : rtu.Children[pair.Key].OwnPortCount;
-                // rtu.FullPortCount--;
             }
 
 
@@ -134,6 +133,23 @@ namespace Iit.Fibertest.Graph
             rtu.Version2 = e.Version2;
             rtu.MonitoringState = e.IsMonitoringOn ? MonitoringState.On : MonitoringState.Off;
             rtu.AcceptableMeasParams = e.AcceptableMeasParams ?? new TreeOfAcceptableMeasParams();
+
+            if (rtu.RtuMaker == RtuMaker.VeEX)
+            {
+                var mainVeexOtau = model.Otaus.FirstOrDefault(o => o.RtuId == rtu.Id && o.Id.ToString() == rtu.OtauId);
+                if (mainVeexOtau == null)
+                {
+                    mainVeexOtau = new Otau()
+                    {
+                        VeexRtuMainOtauId = rtu.OtauId,
+                        RtuId = rtu.Id,
+                        NetAddress = rtu.OtdrNetAddress,
+                        PortCount = rtu.OwnPortCount,
+                        IsOk = true,
+                    };
+                    model.Otaus.Add(mainVeexOtau);
+                }
+            }
 
             if (e.Children == null) return;
 

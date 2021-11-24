@@ -41,9 +41,6 @@ namespace Iit.Fibertest.DataCenterCore
             if (veexTest.IsOnBop)
                 await CheckAndSendBopNetworkIfNeeded(completedTest, rtu, veexTest);
 
-            // if (completedTest.result == "failed") 
-            // return;
-
             var trace = _writeModel.Traces.First(t => t.TraceId == veexTest.TraceId);
             if (ShouldMoniResultBeSaved(completedTest, rtu, trace, veexTest.BasRefType))
                 await AcceptMoniResult(rtuDoubleAddress, completedTest, veexTest, rtu, trace);

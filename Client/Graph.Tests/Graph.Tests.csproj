@@ -391,6 +391,14 @@
     <Compile Include="Rtu\RtuUpdateSteps.cs">
       <DependentUpon>RtuUpdated.feature</DependentUpon>
     </Compile>
+    <Compile Include="Rtu\VeexRtuInitialized.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VeexRtuInitialized.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\VeexRtuInitializedSteps.cs">
+      <DependentUpon>VeexRtuInitialized.feature</DependentUpon>
+    </Compile>
     <Compile Include="Sut\Enums\Answer.cs" />
     <Compile Include="Sut\Fakes\FakeFtSignalRClient.cs" />
     <Compile Include="Sut\Fakes\FakeHttpWrapper\FakeHttpWrapper.cs" />
@@ -874,6 +882,10 @@
     <None Include="BaseRef\BaseRefAssigned.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BaseRefAssigned.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Rtu\VeexRtuInitialized.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>VeexRtuInitialized.feature.cs</LastGenOutput>
     </None>
     <None Include="Sut\LicenseFiles\DevSecAdmin.lic" />
     <None Include="Sut\LicenseFiles\Fibertest20dev.lic" />

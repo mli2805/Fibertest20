@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Graph
     {
         public Guid Id { get; set; }
         public Guid RtuId { get; set; }
-        // public string VeexOtauId { get; set; }
+        public string VeexRtuMainOtauId { get; set; }
 
         public NetAddress NetAddress { get; set; } = new NetAddress();
         public string Serial { get; set; }
@@ -16,7 +16,5 @@ namespace Iit.Fibertest.Graph
 
         public int MasterPort { get; set; }
         public bool IsOk { get; set; }
-
-
     }
 }

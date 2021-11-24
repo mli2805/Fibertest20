@@ -38,7 +38,7 @@ namespace Graph.Tests
             {
                 vm.FullModel.MainChannelTestViewModel.NetAddressInputViewModel.Ip4InputViewModel = new Ip4InputViewModel(mainIpAddress);
                 vm.FullModel.MainChannelTestViewModel.NetAddressInputViewModel.Port = port;
-                if (reserveIpAddress != "")
+                if (!string.IsNullOrEmpty(reserveIpAddress))
                 {
                     vm.FullModel.IsReserveChannelEnabled = true;
                     vm.FullModel.ReserveChannelTestViewModel.NetAddressInputViewModel.Ip4InputViewModel = new Ip4InputViewModel(reserveIpAddress);
