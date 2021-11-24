@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Client
     public class RtuLeaf : Leaf, IPortOwner
     {
         private readonly RtuLeafContextMenuProvider _rtuLeafContextMenuProvider;
-        
+
 
         #region Pictograms
         private MonitoringState _monitoringState;
@@ -26,6 +26,8 @@ namespace Iit.Fibertest.Client
                 NotifyOfPropertyChange(nameof(MonitoringPictogram));
             }
         }
+
+        public bool IsMainOtauOk;
 
         // pair OTAU ID - is OK or not
         private Dictionary<Guid, bool> _otauStates = new Dictionary<Guid, bool>();
@@ -51,11 +53,16 @@ namespace Iit.Fibertest.Client
         {
             get
             {
+                if (RtuMaker == RtuMaker.VeEX)
+                    return !IsMainOtauOk || _otauStates.Any(s => s.Value != true)
+                            ? RtuPartState.Broken
+                            : RtuPartState.Ok;
+
                 return _otauStates.Count == 0
-                    ? RtuPartState.NotSetYet
-                    : _otauStates.Any(s => s.Value != true)
-                        ? RtuPartState.Broken
-                        : RtuPartState.Ok;
+                      ? RtuPartState.NotSetYet
+                      : _otauStates.Any(s => s.Value != true)
+                          ? RtuPartState.Broken
+                          : RtuPartState.Ok;
             }
         }
 

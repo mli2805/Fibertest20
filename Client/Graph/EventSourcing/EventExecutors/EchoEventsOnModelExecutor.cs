@@ -143,7 +143,7 @@ namespace Iit.Fibertest.Graph
                     {
                         VeexRtuMainOtauId = rtu.OtauId,
                         RtuId = rtu.Id,
-                        NetAddress = rtu.OtdrNetAddress,
+                        NetAddress = e.OtauNetAddress,
                         PortCount = rtu.OwnPortCount,
                         IsOk = true,
                     };

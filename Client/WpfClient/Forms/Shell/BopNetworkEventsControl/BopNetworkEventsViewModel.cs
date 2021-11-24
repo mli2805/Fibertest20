@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows.Data;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
+using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
@@ -35,14 +36,17 @@ namespace Iit.Fibertest.Client
 
         public void AddEvent(BopNetworkEvent evnt)
         {
+            var rtu = _readModel.Rtus.FirstOrDefault(r => r.Id == evnt.RtuId);
+            if (rtu == null) return;
             Rows.Add(new BopNetworkEventModel()
             {
                 Nomer = evnt.Ordinal,
                 EventTimestamp = evnt.EventTimestamp,
                 OtauIp = evnt.OtauIp,
+                BopName = rtu.OtdrNetAddress.Ip4Address == evnt.OtauIp ? Resources.SID_Main : evnt.OtauIp,
                 TcpPort = evnt.TcpPort,
                 RtuId = evnt.RtuId,
-                RtuTitle = _readModel.Rtus.FirstOrDefault(r => r.Id == evnt.RtuId)?.Title,
+                RtuTitle = rtu.Title,
                 IsOk = evnt.IsOk,
             });
         }

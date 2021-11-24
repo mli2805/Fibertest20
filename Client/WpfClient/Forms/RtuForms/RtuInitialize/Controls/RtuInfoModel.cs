@@ -72,6 +72,17 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public string MainOtauModel
+        {
+            get => _mainOtauModel;
+            set
+            {
+                if (value == _mainOtauModel) return;
+                _mainOtauModel = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public string Version
         {
             get => _version;
@@ -85,6 +96,8 @@ namespace Iit.Fibertest.Client
         }
 
         private readonly string _firmwareVersion = Resources.SID_firmwareVersion;
+        private string _mainOtauModel;
+
         public string MfidVersion => _firmwareVersion == @"firmware version"
             ? $@"{Mfid} {_firmwareVersion} {Version}"
             : $@"{_firmwareVersion} {Mfid} {Version}";
@@ -127,6 +140,8 @@ namespace Iit.Fibertest.Client
             Omsn = rtu.Omsn;
             Version = rtu.Version;
             Version2 = rtu.Version2;
+
+            MainOtauModel = rtu.RtuMaker == RtuMaker.VeEX ? rtu.OtauId.Substring(3) : "";
         }
 
         public void FromDto(RtuInitializedDto dto)
@@ -138,6 +153,8 @@ namespace Iit.Fibertest.Client
             Omsn = dto.Omsn;
             Version = dto.Version;
             Version2 = dto.Version2;
+
+            MainOtauModel = dto.Maker == RtuMaker.VeEX ? dto.OtauId.Substring(3) : "";
         }
     }
 }

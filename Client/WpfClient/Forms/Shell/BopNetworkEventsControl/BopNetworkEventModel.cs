@@ -12,6 +12,7 @@ namespace Iit.Fibertest.Client
 
         public string Serial { get; set; }
         public string OtauIp { get; set; }
+        public string BopName { get; set; }
         public int TcpPort { get; set; }
 
         public string RtuTitle { get; set; }

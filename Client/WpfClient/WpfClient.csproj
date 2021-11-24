@@ -306,11 +306,11 @@
       <DependentUpon>TraceChoiceView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\Landmarks\TraceChoiceViewModel.cs" />
-    <Compile Include="Forms\RtuForms\BopState\BopStateView.xaml.cs">
+    <Compile Include="Forms\Otau\BopState\BopStateView.xaml.cs">
       <DependentUpon>BopStateView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\RtuForms\BopState\BopStateViewModel.cs" />
-    <Compile Include="Forms\RtuForms\BopState\BopStateViewsManager.cs" />
+    <Compile Include="Forms\Otau\BopState\BopStateViewModel.cs" />
+    <Compile Include="Forms\Otau\BopState\BopStateViewsManager.cs" />
     <Compile Include="Forms\RtuForms\RtuChannel\RtuChannelView.xaml.cs">
       <DependentUpon>RtuChannelView.xaml</DependentUpon>
     </Compile>
@@ -624,11 +624,11 @@
     <Compile Include="Forms\LoginServer\LoginView.xaml.cs">
       <DependentUpon>LoginView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Forms\OtauAttach\OtauToAttachViewModel.cs" />
+    <Compile Include="Forms\Otau\OtauAttach\OtauToAttachViewModel.cs" />
     <Compile Include="Forms\RtuForms\RtuInitialize\RtuInitializeViewModel.cs" />
     <Compile Include="Forms\TraceForms\TraceToAttach\TraceToAttachViewModel.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\TreeOfRtuViewModel.cs" />
-    <Compile Include="Forms\OtauAttach\OtauToAttachView.xaml.cs">
+    <Compile Include="Forms\Otau\OtauAttach\OtauToAttachView.xaml.cs">
       <DependentUpon>OtauToAttachView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\RtuForms\RtuInitialize\RtuInitializeView.xaml.cs">
@@ -827,7 +827,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Forms\RtuForms\BopState\BopStateView.xaml">
+    <Page Include="Forms\Otau\BopState\BopStateView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -983,7 +983,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Forms\OtauAttach\OtauToAttachView.xaml">
+    <Page Include="Forms\Otau\OtauAttach\OtauToAttachView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

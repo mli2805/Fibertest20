@@ -18,6 +18,11 @@
             <TextBlock Text="{x:Static stringResources:Resources.SID_Serial}" Margin="25,5,5,5"/>
             <TextBlock Text="{Binding Model.Omsn}" Margin="5"/>
         </StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="OTAU" Margin="5"/>
+            <TextBlock Text="{Binding Model.MainOtauModel}" Margin="5" />
+            <TextBlock Text="{x:Static stringResources:Resources.SID_Serial}" Margin="25,5,5,5"/>
+        </StackPanel>
         <DockPanel>
             <TextBlock Text="{Binding Model.MfidVersion}" Margin="5"/>
         </DockPanel>

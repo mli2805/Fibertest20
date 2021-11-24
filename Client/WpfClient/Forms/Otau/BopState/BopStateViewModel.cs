@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         public Guid BopId { get; set; }
         public string BopIp { get; set; }
-        public int PortRtu { get;set; }
+        public string PortRtu { get; set; }
         public string RtuTitle { get; set; }
         public string ServerTitle { get; set; }
         public string StateOn { get; set; }
@@ -49,17 +49,18 @@ namespace Iit.Fibertest.Client
 
         public void Initialize(BopNetworkEventAdded bopNetworkEventAdded)
         {
-            BopIp = bopNetworkEventAdded.OtauIp;
             var otau = _readModel.Otaus.FirstOrDefault(o =>
                 o.NetAddress.Ip4Address == bopNetworkEventAdded.OtauIp &&
                 o.NetAddress.Port == bopNetworkEventAdded.TcpPort);
-            if (otau != null)
-            {
-                BopId = otau.Id;
-                PortRtu = otau.MasterPort;
-            }
+            if (otau == null) return;
 
-            RtuTitle = _readModel.Rtus.First(r => r.Id == bopNetworkEventAdded.RtuId).Title;
+            BopId = otau.Id;
+            PortRtu = otau.MasterPort != 0 ? otau.MasterPort.ToString() : "";
+            BopIp = !string.IsNullOrEmpty(otau.VeexRtuMainOtauId) && otau.VeexRtuMainOtauId.StartsWith(@"S1_") 
+                ? Resources.SID_Main : bopNetworkEventAdded.OtauIp;
+
+            var rtu = _readModel.Rtus.First(r => r.Id == bopNetworkEventAdded.RtuId);
+            RtuTitle = rtu.Title;
             ServerTitle = _currentDatacenterParameters.ServerTitle;
             StateOn = string.Format(Resources.SID_State_at_,
                 bopNetworkEventAdded.EventTimestamp.ToString(CultureInfo.CurrentCulture), bopNetworkEventAdded.Ordinal);
