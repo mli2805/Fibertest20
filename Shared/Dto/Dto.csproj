@@ -177,6 +177,7 @@
     <Compile Include="VeEX\CompletedTest\CompletedTest.cs" />
     <Compile Include="VeEX\Failure.cs" />
     <Compile Include="VeEX\Info\ReinitializeOtdrStatus.cs" />
+    <Compile Include="VeEX\Info\VeexOtauConnectionParameters.cs" />
     <Compile Include="VeEX\Info\VeexOtauInfo.cs" />
     <Compile Include="VeEX\Monitoring\RelationItems.cs" />
     <Compile Include="VeEX\Monitoring\TestsRelation.cs" />

@@ -155,6 +155,16 @@ namespace Iit.Fibertest.Client
             if (rtuLeaf == null)
                 return;
 
+            if (rtuLeaf.RtuMaker == RtuMaker.VeEX)
+            {
+                var rtu = _readModel.Rtus.First(r => r.Id == e.RtuId);
+                if (e.OtauIp == rtu.MainChannel.Ip4Address)
+                {
+                    rtuLeaf.IsMainOtauOk = e.IsOk;
+                    return;
+                }
+            }
+
             foreach (var child in rtuLeaf.ChildrenImpresario.Children)
             {
                 // do not check TCP port - if RTU has BOP with 2 OTAU (one address but two ports) - both OTAU should have the same state

@@ -42,7 +42,7 @@ namespace Iit.Fibertest.Client
             switch (portLeaf.Parent)
             {
                 case RtuLeaf _:
-                    otauPortDto.OtauId = rtu.OtauId;
+                    otauPortDto.OtauId = rtu.MainVeexOtau.id;
                     otauPortDto.Serial = rtu.Serial;
                     otauPortDto.IsPortOnMainCharon = true;
                     otauPortDto.OpticalPort = portLeaf.PortNumber;

@@ -182,7 +182,7 @@ namespace Iit.Fibertest.Client
                 dto.MainOtauPortDto = new OtauPortDto()
                 {
                     IsPortOnMainCharon = true,
-                    OtauId = rtu.OtauId,
+                    OtauId = rtu.MainVeexOtau.id,
                     OpticalPort = otauLeaf.MasterPort,
                 };
             }
@@ -191,7 +191,7 @@ namespace Iit.Fibertest.Client
                 dto.OtauPortDto = new OtauPortDto()
                 {
                     IsPortOnMainCharon = true,
-                    OtauId = rtu.OtauId,
+                    OtauId = rtu.MainVeexOtau.id,
                     OpticalPort = portNumber,
                 };
                 dto.MainOtauPortDto = null;

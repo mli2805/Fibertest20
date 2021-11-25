@@ -59,7 +59,7 @@ namespace Iit.Fibertest.DataCenterCore
                 Title = r.Title,
                 RtuMaker = r.RtuMaker,
                 Serial = r.Serial,
-                OtauId = r.OtauId,
+                MainVeexOtau = r.MainVeexOtau,
                 OtdrId = r.OtdrId,
 
                 FullPortCount = r.FullPortCount,

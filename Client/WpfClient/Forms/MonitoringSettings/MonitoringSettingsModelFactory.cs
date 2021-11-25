@@ -28,7 +28,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
                 RtuId = _rtuLeaf.Id,
                 RtuMaker = _rtuLeaf.RtuMaker,
                 OtdrId = rtu.OtdrId,
-                OtauId = rtu.OtauId,
+                MainVeexOtau = rtu.MainVeexOtau,
                 RealOtdrAddress = GetRealOtdrAddress(),
                 IsMonitoringOn = _rtuLeaf.MonitoringState == MonitoringState.On,
                 Charons = PrepareMonitoringCharonModels(isEditEnabled),
@@ -63,7 +63,7 @@ namespace Iit.Fibertest.Client.MonitoringSettings
             {
                 Title = _rtuLeaf.Title,
                 IsMainCharon = true,
-                OtauId = rtu.OtauId,
+                OtauId = rtu.MainVeexOtau.id,
                 Ports = PrepareMonitoringPortModels(_rtuLeaf),
                 IsEditEnabled = isEditEnabled,
             };

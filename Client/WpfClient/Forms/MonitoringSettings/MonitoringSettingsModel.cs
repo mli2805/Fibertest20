@@ -11,7 +11,8 @@ namespace Iit.Fibertest.Client.MonitoringSettings
         public Guid RtuId { get; set; }
         public RtuMaker RtuMaker { get; set; }
         public string OtdrId { get; set; }
-        public string OtauId { get; set; }
+        // public string OtauId { get; set; }
+        public VeexOtau MainVeexOtau { get; set; } = new VeexOtau(); // in Veex RTU it is a separate unit
         public string RealOtdrAddress { get; set; }
         public List<MonitoringCharonModel> Charons { get; set; } = new List<MonitoringCharonModel>();
         public MonitoringFrequenciesModel Frequencies { get; set; } = new MonitoringFrequenciesModel();

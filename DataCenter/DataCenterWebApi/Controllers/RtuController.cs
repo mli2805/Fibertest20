@@ -220,7 +220,7 @@ namespace Iit.Fibertest.DataCenterWebApi
                 RtuId = rtuId,
                 RtuMaker = dto.RtuMaker,
                 OtdrId = dto.OtdrId,
-                OtauId = dto.OtauId,
+                MainVeexOtau = dto.MainVeexOtau,
                 IsMonitoringOn = dto.MonitoringMode == MonitoringState.On,
 
                 Timespans = new MonitoringTimespansDto()

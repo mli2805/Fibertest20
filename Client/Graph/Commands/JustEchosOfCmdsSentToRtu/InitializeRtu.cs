@@ -9,8 +9,9 @@ namespace Iit.Fibertest.Graph
         public Guid Id { get; set; }
         public RtuMaker Maker { get; set; }
 
-        public string OtauId { get; set; } // in VeEX RTU main OTAU has its own ID
+        // public string OtauId { get; set; } // in VeEX RTU main OTAU has its own ID
         public string OtdrId { get; set; } // ditto
+        public VeexOtau MainVeexOtau { get; set; } = new VeexOtau(); // in Veex RTU it is a separate unit
 
         public string Mfid { get; set; }
         public string Mfsn { get; set; }

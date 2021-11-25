@@ -126,7 +126,7 @@ namespace Iit.Fibertest.Client
             {
                 RtuId = rtuLeaf.Id,
                 OtdrId = rtu.OtdrId,
-                OtauId = rtu.OtauId,
+                MainVeexOtau = rtu.MainVeexOtau,
                 RtuMaker = rtuLeaf.RtuMaker,
                 Timespans = new MonitoringTimespansDto()
                 {
@@ -134,7 +134,7 @@ namespace Iit.Fibertest.Client
                     PreciseMeas = TimeSpan.FromHours((int)rtu.PreciseMeas),
                     PreciseSave = TimeSpan.FromHours((int)rtu.PreciseSave),
                 },
-                Ports = CollectTracesInMonitoringCycle(rtuLeaf, true, rtu.OtauId, 1),
+                Ports = CollectTracesInMonitoringCycle(rtuLeaf, true, rtu.MainVeexOtau.id, 1),
             };
             return result;
         }

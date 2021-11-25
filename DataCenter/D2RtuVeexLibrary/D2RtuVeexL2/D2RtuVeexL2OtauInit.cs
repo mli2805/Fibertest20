@@ -32,9 +32,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     if (!resetRes.IsSuccessful)
                         return resetRes;
 
-                    dto.OtauId = resetRes.ResponseJson;
+                    dto.MainVeexOtau.id = resetRes.ResponseJson;
 
-                    var initSchemeRes = await SetRootOtauIntoScheme(rtuDoubleAddress, dto.OtauId);
+                    var initSchemeRes = await SetRootOtauIntoScheme(rtuDoubleAddress, dto.MainVeexOtau.id);
                     if (!initSchemeRes.IsSuccessful)
                     {
                         initSchemeRes.ErrorMessage = "Failed to set main OTAU as a root in cascading scheme!"
@@ -43,7 +43,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     }
                 }
 
-                var adjustRes = await AdjustSchemeToClientsView(rtuDoubleAddress, dto.OtauId, dto.Children, otauList);
+                var adjustRes = await AdjustSchemeToClientsView(rtuDoubleAddress, dto.MainVeexOtau.id, dto.Children, otauList);
                 if (!adjustRes.IsSuccessful)
                 {
                     adjustRes.ErrorMessage = "Failed to adjust cascading scheme to client's one!"

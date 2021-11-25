@@ -25,7 +25,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (rtu == null) return result;
             result.RtuMaker = rtu.RtuMaker;
             result.OtdrId = rtu.OtdrId;
-            result.OtauId = rtu.OtauId;
+            result.MainVeexOtau = rtu.MainVeexOtau;
             result.RtuTitle = rtu.Title;
             result.MonitoringMode = rtu.MonitoringState;
             result.PreciseMeas = rtu.PreciseMeas;

@@ -30,7 +30,7 @@ namespace Graph.Tests
         [Then(@"В списке переключателей появляется главный переключатель этого RTU")]
         public void ThenВСпискеПереключателейПоявляетсяГлавныйПереключательЭтогоRtu()
         {
-            _sut.ReadModel.Otaus.FirstOrDefault(o => o.RtuId == _rtu.Id && o.VeexRtuMainOtauId == _rtu.OtauId)
+            _sut.ReadModel.Otaus.FirstOrDefault(o => o.RtuId == _rtu.Id && o.VeexRtuMainOtauId == _rtu.MainVeexOtau.id)
                 .Should().NotBe(null);
         }
 

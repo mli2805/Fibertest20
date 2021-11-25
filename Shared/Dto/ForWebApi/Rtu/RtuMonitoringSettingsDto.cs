@@ -7,7 +7,8 @@ namespace Iit.Fibertest.Dto
         public string RtuTitle;
         public RtuMaker RtuMaker;
         public string OtdrId;
-        public string OtauId;
+        // public string OtauId;
+        public VeexOtau MainVeexOtau = new VeexOtau(); // in Veex RTU it is a separate unit
         public MonitoringState MonitoringMode;
 
         public Frequency PreciseMeas;

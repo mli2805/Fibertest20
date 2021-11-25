@@ -15,7 +15,8 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public Guid RtuId { get; set; }
         [DataMember]
-        public string OtauId { get; set; }
+        // public string OtauId { get; set; }
+        public VeexOtau MainVeexOtau { get; set; } = new VeexOtau(); // in Veex RTU it is a separate unit
 
         [DataMember]
         public DoubleAddress ServerAddresses { get; set; }

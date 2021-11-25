@@ -10,8 +10,9 @@ namespace Iit.Fibertest.Dto
         [DataMember] public Guid RtuId;
         [DataMember] public RtuMaker RtuMaker;
         [DataMember] public string Title;
-        [DataMember] public string OtauId; // in VeEX RTU main OTAU has its own ID
+        // [DataMember] public string OtauId; // in VeEX RTU main OTAU has its own ID
         [DataMember] public string OtdrId; // ditto
+        [DataMember] public VeexOtau MainVeexOtau = new VeexOtau(); // in Veex RTU it is a separate unit
 
         [DataMember] public string Mfid;
         [DataMember] public string Mfsn;

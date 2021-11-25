@@ -103,7 +103,7 @@ namespace Iit.Fibertest.DataCenterCore
                 Id = result.RtuId,
                 Maker = result.Maker,
                 OtdrId = result.OtdrId,
-                OtauId = result.OtauId,
+                MainVeexOtau = result.MainVeexOtau,
                 Mfid = result.Mfid,
                 Mfsn = result.Mfsn,
                 Omid = result.Omid,

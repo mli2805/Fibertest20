@@ -27,7 +27,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public bool IsMainOtauOk;
+        public bool IsMainOtauOk
+        {
+            get => _isMainOtauOk;
+            set
+            {
+                if (value == _isMainOtauOk) return;
+                _isMainOtauOk = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(BopState));
+                NotifyOfPropertyChange(nameof(BopPictogram));
+            }
+        }
 
         // pair OTAU ID - is OK or not
         private Dictionary<Guid, bool> _otauStates = new Dictionary<Guid, bool>();
@@ -80,6 +91,8 @@ namespace Iit.Fibertest.Client
         }
 
         private RtuPartState _reserveChannelState;
+        private bool _isMainOtauOk;
+
         public RtuPartState ReserveChannelState
         {
             get => _reserveChannelState;

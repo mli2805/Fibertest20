@@ -18,7 +18,8 @@ namespace Iit.Fibertest.Dto
         public string OtdrId { get; set; }
 
         [DataMember]
-        public string OtauId { get; set; }
+        // public string OtauId { get; set; }
+        public VeexOtau MainVeexOtau { get; set; } = new VeexOtau(); // in Veex RTU it is a separate unit
 
         [DataMember]
         public bool IsMonitoringOn { get; set; }

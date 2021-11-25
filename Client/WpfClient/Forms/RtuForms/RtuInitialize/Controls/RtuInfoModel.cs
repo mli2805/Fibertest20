@@ -141,7 +141,7 @@ namespace Iit.Fibertest.Client
             Version = rtu.Version;
             Version2 = rtu.Version2;
 
-            MainOtauModel = rtu.RtuMaker == RtuMaker.VeEX ? rtu.OtauId.Substring(3) : "";
+            MainOtauModel = rtu.RtuMaker == RtuMaker.VeEX ? rtu.MainVeexOtau.model : "";
         }
 
         public void FromDto(RtuInitializedDto dto)
@@ -154,7 +154,7 @@ namespace Iit.Fibertest.Client
             Version = dto.Version;
             Version2 = dto.Version2;
 
-            MainOtauModel = dto.Maker == RtuMaker.VeEX ? dto.OtauId.Substring(3) : "";
+            MainOtauModel = dto.Maker == RtuMaker.VeEX ? dto.MainVeexOtau.model : "";
         }
     }
 }

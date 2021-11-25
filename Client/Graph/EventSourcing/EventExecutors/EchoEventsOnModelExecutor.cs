@@ -95,7 +95,7 @@ namespace Iit.Fibertest.Graph
         {
             rtu.RtuMaker = e.Maker;
 
-            rtu.OtauId = e.OtauId;
+            rtu.MainVeexOtau = e.MainVeexOtau;
             rtu.OtdrId = e.OtdrId;
 
             rtu.Mfid = e.Mfid;
@@ -136,12 +136,12 @@ namespace Iit.Fibertest.Graph
 
             if (rtu.RtuMaker == RtuMaker.VeEX)
             {
-                var mainVeexOtau = model.Otaus.FirstOrDefault(o => o.RtuId == rtu.Id && o.Id.ToString() == rtu.OtauId);
+                var mainVeexOtau = model.Otaus.FirstOrDefault(o => o.RtuId == rtu.Id && o.VeexRtuMainOtauId == rtu.MainVeexOtau.id);
                 if (mainVeexOtau == null)
                 {
                     mainVeexOtau = new Otau()
                     {
-                        VeexRtuMainOtauId = rtu.OtauId,
+                        VeexRtuMainOtauId = rtu.MainVeexOtau.id,
                         RtuId = rtu.Id,
                         NetAddress = e.OtauNetAddress,
                         PortCount = rtu.OwnPortCount,

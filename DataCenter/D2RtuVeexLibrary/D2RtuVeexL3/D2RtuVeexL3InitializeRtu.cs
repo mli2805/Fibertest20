@@ -69,7 +69,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var mainOtauId = otauInfo.OtauScheme.rootConnections[0].inputOtauId;
             var mainOtau = otauInfo.OtauList.First(o => o.id == mainOtauId);
 
-            result.OtauId = mainOtau.id;
+            result.MainVeexOtau = mainOtau;
+
             result.OwnPortCount = mainOtau.portCount;
             result.FullPortCount = mainOtau.portCount;
             result.Children = new Dictionary<int, OtauDto>();

@@ -80,7 +80,7 @@ namespace Iit.Fibertest.Client
                 ParentOtauPortDto = new OtauPortDto()
                 {
                     IsPortOnMainCharon = true,
-                    OtauId = _rtu.OtauId,
+                    OtauId = _rtu.MainVeexOtau.id,
                     OpticalPort = _otauPortDto.MainCharonPort
                 },
             };
