@@ -2,6 +2,7 @@
 {
     public class NullLog : IMyLog
     {
+        public int LogLevel { get; } = 3;
 
         public IMyLog AssignFile(string filename)
         {

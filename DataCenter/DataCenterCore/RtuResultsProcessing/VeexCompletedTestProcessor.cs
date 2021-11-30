@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.D2RtuVeexLibrary;
@@ -19,6 +20,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
         private readonly MsmqMessagesProcessor _msmqMessagesProcessor;
         private readonly IWcfServiceForRtu _wcfServiceForRtu;
+        public readonly ConcurrentDictionary<Guid, string> RequestedTests = new ConcurrentDictionary<Guid, string>();
 
         public VeexCompletedTestProcessor(IMyLog logFile, Model writeModel, CommonBopProcessor commonBopProcessor,
             SorFileRepository sorFileRepository, D2RtuVeexLayer3 d2RtuVeexLayer3,
@@ -35,13 +37,18 @@ namespace Iit.Fibertest.DataCenterCore
 
         public async Task ProcessOneCompletedTest(CompletedTest completedTest, Rtu rtu, DoubleAddress rtuDoubleAddress)
         {
-            var veexTest = _writeModel.VeexTests.FirstOrDefault(v => v.TestId.ToString() == completedTest.testId);
+            var veexTest = _writeModel.VeexTests.FirstOrDefault(v => v.TestId == completedTest.testId);
             if (veexTest == null) return;
+
+            var trace = _writeModel.Traces.FirstOrDefault(t => t.TraceId == veexTest.TraceId);
+            if (trace == null) // old tests
+                return;
+
+            _logFile.AppendLine($"RTU {rtu.Title} returned {trace.Title} monitoring result", 0, 3);
 
             // for both main and additional otau
             await CheckAndSendBopNetworkIfNeeded(completedTest, rtu, veexTest);
 
-            var trace = _writeModel.Traces.First(t => t.TraceId == veexTest.TraceId);
             if (ShouldMoniResultBeSaved(completedTest, rtu, trace, veexTest.BasRefType))
                 await AcceptMoniResult(rtuDoubleAddress, completedTest, veexTest, rtu, trace);
             else
@@ -74,7 +81,7 @@ namespace Iit.Fibertest.DataCenterCore
             if (completedTest.failure != null)
                 if (veexTest.IsOnBop && completedTest.failure.otauId.StartsWith("S1_")  // test on Bop but failed main otau
                         || !veexTest.IsOnBop && completedTest.failure.otauId.StartsWith("S2_")) // or vise versa
-                    return; 
+                    return;
 
             var isOtauBroken = completedTest.result == "failed" && completedTest.extendedResult.StartsWith("otau");
 
@@ -101,6 +108,12 @@ namespace Iit.Fibertest.DataCenterCore
 
         private bool ShouldMoniResultBeSaved(CompletedTest completedTest, Rtu rtu, Trace trace, BaseRefType baseRefType)
         {
+            if (RequestedTests.ContainsKey(completedTest.testId))
+            {
+                RequestedTests.TryRemove(completedTest.testId, out string _);
+                return true;
+            }
+
             if (completedTest.result == "failed" &&
                     (completedTest.extendedResult.StartsWith("otdr")
                     || completedTest.extendedResult.StartsWith("otau")))

@@ -32,7 +32,7 @@ namespace Iit.Fibertest.Dto
         public Report report { get; set; }
         public string result { get; set; }
         public DateTime started { get; set; }
-        public string testId { get; set; }
+        public Guid testId { get; set; }
         public TraceChange traceChange { get; set; }
         public Traces traces { get; set; }
         public string type { get; set; }

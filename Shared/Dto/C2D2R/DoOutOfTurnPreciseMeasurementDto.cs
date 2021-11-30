@@ -7,6 +7,8 @@ namespace Iit.Fibertest.Dto
     public class DoOutOfTurnPreciseMeasurementDto
     {
         [DataMember]
+        public string ConnectionId { get; set; }
+        [DataMember]
         public string ClientIp { get; set; }
 
         [DataMember]

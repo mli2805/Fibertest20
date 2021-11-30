@@ -83,7 +83,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var jsonData = "{}";
             var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress,
                 $@"monitoring/tests/{testId}/out_of_turn", "post", "application/json", jsonData);
-            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.Created;
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
             return res;
         }
     }

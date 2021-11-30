@@ -32,7 +32,7 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         public Handler<ClientMeasurementStartedDto> HandlerForClientMeasurement { get; } = new Handler<ClientMeasurementStartedDto>();
         public void EndStartClientMeasurement(ClientMeasurementStartedDto result) => HandlerForClientMeasurement.End(result);
 
-        public Handler<OutOfTurnMeasurementStartedDto> HandlerForOutOfTurnMeasurement { get; } = new Handler<OutOfTurnMeasurementStartedDto>();
-        public void EndStartOutOfTurnMeasurement(OutOfTurnMeasurementStartedDto result) => HandlerForOutOfTurnMeasurement.End(result);
+        public Handler<RequestAnswer> HandlerForOutOfTurnMeasurement { get; } = new Handler<RequestAnswer>();
+        public void EndStartOutOfTurnMeasurement(RequestAnswer result) => HandlerForOutOfTurnMeasurement.End(result);
     }
 }

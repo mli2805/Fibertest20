@@ -95,7 +95,7 @@ namespace Iit.Fibertest.DataCenterWebApi
 
         [Authorize]
         [HttpPost("Out-of-turn-measurement")]
-        public async Task<OutOfTurnMeasurementStartedDto> OutOfTurnPreciseMeasurement()
+        public async Task<RequestAnswer> OutOfTurnPreciseMeasurement()
         {
             _logFile.AppendLine($"OutOfTurnPreciseMeasurement request from {GetRemoteAddress()}");
 
@@ -115,7 +115,7 @@ namespace Iit.Fibertest.DataCenterWebApi
             catch (Exception e)
             {
                 _logFile.AppendLine($"OutOfTurnPreciseMeasurement: {e.Message}");
-                return new OutOfTurnMeasurementStartedDto() { ErrorMessage = e.Message, ReturnCode = ReturnCode.MeasurementPreparationError };
+                return new RequestAnswer() { ErrorMessage = e.Message, ReturnCode = ReturnCode.MeasurementPreparationError };
             }
         }
     }

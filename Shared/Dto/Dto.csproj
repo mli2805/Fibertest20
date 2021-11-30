@@ -116,7 +116,6 @@
     <Compile Include="R2D2C\ClientMeasurementStartedDto.cs" />
     <Compile Include="R2D2C\OtauAttachedDto.cs" />
     <Compile Include="R2D2C\OtauDetachedDto.cs" />
-    <Compile Include="R2D2C\OutOfTurnMeasurementStartedDto.cs" />
     <Compile Include="ForWebApi\RtuTree\Child.cs" />
     <Compile Include="ForWebApi\RtuTree\ChildType.cs" />
     <Compile Include="ForWebApi\OpticalEventDto.cs" />

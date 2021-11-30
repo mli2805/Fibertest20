@@ -61,7 +61,7 @@ namespace Iit.Fibertest.WcfConnections
         Task<RequestAnswer> PrepareReflectMeasurementAsync(PrepareReflectMeasurementDto dto);
 
         [OperationContract]
-        Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto);
+        Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto);
 
         [OperationContract]
         Task<string> UpdateMeasurement(string username, UpdateMeasurementDto dto);

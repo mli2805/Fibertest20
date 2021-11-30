@@ -24,7 +24,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (!otdrResponse.IsSuccessful)
                 return new RtuInitializedDto { ReturnCode = ReturnCode.RtuInitializationError };
             FillInOtdr((VeexOtdr)otdrResponse.ResponseObject, result);
-          
+
             result.RtuId = dto.RtuId;
             result.RtuAddresses = dto.RtuAddresses;
             result.OtdrAddress = (NetAddress)result.RtuAddresses.Main.Clone();
@@ -73,20 +73,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             }
         }
 
-        public async Task<RtuInitializedDto> InitializeMonitoringProperties(DoubleAddress rtuDoubleAddress)
+        public async Task<HttpRequestResult> GetMonitoringProperties(DoubleAddress rtuDoubleAddress)
         {
-            var getResult = await _d2RtuVeexLayer1.GetMonitoringProperties(rtuDoubleAddress);
-            if (!getResult.IsSuccessful)
-                return new RtuInitializedDto()
-                {
-                    ReturnCode = ReturnCode.RtuInitializationError,
-                    ErrorMessage = "Failed to get monitoring properties"
-                };
+            return await _d2RtuVeexLayer1.GetMonitoringProperties(rtuDoubleAddress);
+        }
 
-            var monitoringProperties = (VeexMonitoringDto)getResult.ResponseObject;
-
-            if (monitoringProperties.type == "fibertest") return null;
-
+        public async Task<RtuInitializedDto> InitializeMonitoringProperties(
+            DoubleAddress rtuDoubleAddress, VeexMonitoringDto monitoringProperties)
+        {
             if (monitoringProperties.state == "enabled")
             {
                 var setStateRes =
@@ -117,7 +111,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     ErrorMessage = setResult.ErrorMessage + System.Environment.NewLine + setResult.ResponseJson,
                 };
             }
+
             return null;
         }
+
+     
     }
 }

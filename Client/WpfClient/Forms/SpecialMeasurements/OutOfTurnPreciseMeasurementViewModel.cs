@@ -84,7 +84,7 @@ namespace Iit.Fibertest.Client
             return line1 + line2 + line3;
         }
 
-        private async Task<OutOfTurnMeasurementStartedDto> StartRequestedMeasurement()
+        private async Task<RequestAnswer> StartRequestedMeasurement()
         {
             Message = Resources.SID_Sending_command__Wait_please___;
 

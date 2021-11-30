@@ -64,10 +64,10 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
             rtuWcfService.BeginClientMeasurement(dto);
             return src.Task;
         }
-        public static Task<OutOfTurnMeasurementStartedDto> StartOutOfTurnMeasurementAsync(
+        public static Task<RequestAnswer> StartOutOfTurnMeasurementAsync(
             this IRtuWcfService rtuWcfService, RtuWcfServiceBackward backwardService, DoOutOfTurnPreciseMeasurementDto dto)
         {
-            var src = new TaskCompletionSource<OutOfTurnMeasurementStartedDto>();
+            var src = new TaskCompletionSource<RequestAnswer>();
             backwardService.HandlerForOutOfTurnMeasurement.AddHandler(src);
             rtuWcfService.BeginOutOfTurnPreciseMeasurement(dto);
             return src.Task;

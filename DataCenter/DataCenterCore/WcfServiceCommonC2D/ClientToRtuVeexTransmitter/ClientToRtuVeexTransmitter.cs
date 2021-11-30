@@ -13,15 +13,18 @@ namespace Iit.Fibertest.DataCenterCore
     {
         private readonly IMyLog _logFile;
         private readonly Model _writeModel;
+        private readonly VeexCompletedTestProcessor _veexCompletedTestProcessor;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
         private readonly DoubleAddress _serverDoubleAddress;
 
         public ClientToRtuVeexTransmitter(IniFile iniFile, IMyLog logFile, Model writeModel,
+            VeexCompletedTestProcessor veexCompletedTestProcessor,
             RtuStationsRepository rtuStationsRepository, D2RtuVeexLayer3 d2RtuVeexLayer3)
         {
             _logFile = logFile;
             _writeModel = writeModel;
+            _veexCompletedTestProcessor = veexCompletedTestProcessor;
             _rtuStationsRepository = rtuStationsRepository;
             _d2RtuVeexLayer3 = d2RtuVeexLayer3;
 
@@ -218,10 +221,36 @@ namespace Iit.Fibertest.DataCenterCore
             return result;
         }
 
-        public Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(
+        public async Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(
             DoOutOfTurnPreciseMeasurementDto dto)
         {
-            throw new NotImplementedException();
+            _logFile.AppendLine($"Client {dto.ConnectionId} / {dto.ClientIp} asked to start measurement out of turn on VeEX RTU {dto.RtuId.First6()}");
+            var rtuAddresses = await _rtuStationsRepository.GetRtuAddresses(dto.RtuId);
+            if (rtuAddresses == null)
+            {
+                _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
+                return new RequestAnswer()
+                {
+                    ReturnCode = ReturnCode.NoSuchRtu
+                };
+            }
+
+            var veexTest = _writeModel.VeexTests.FirstOrDefault(v =>
+                v.BasRefType == BaseRefType.Precise && v.TraceId == dto.PortWithTraceDto.TraceId);
+            if (veexTest == null)
+            {
+                _logFile.AppendLine($"No precise veex test for RTU {dto.RtuId.First6()} and trace {dto.PortWithTraceDto.TraceId.First6()}");
+                return new RequestAnswer()
+                {
+                    ReturnCode = ReturnCode.NoSuchRtu
+                };
+            }
+
+            var result = await _d2RtuVeexLayer3.StartOutOfTurnPreciseMeasurement(rtuAddresses, veexTest.TestId.ToString());
+            _logFile.AppendLine($"Start out of turn measurement result is {result.ReturnCode}");
+            if (result.ReturnCode == ReturnCode.Ok)
+                _veexCompletedTestProcessor.RequestedTests.TryAdd(veexTest.TestId, dto.ConnectionId);
+            return result;
         }
     }
 

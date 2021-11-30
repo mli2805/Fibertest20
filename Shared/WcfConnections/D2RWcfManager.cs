@@ -203,12 +203,12 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
+        public async Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
         {
             var backward = new RtuWcfServiceBackward();
             var rtuDuplexConnection = _wcfFactory.GetDuplexRtuChannelFactory(backward);
             if (rtuDuplexConnection == null)
-                return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.D2RWcfConnectionError };
+                return new RequestAnswer() { ReturnCode = ReturnCode.D2RWcfConnectionError };
 
             try
             {

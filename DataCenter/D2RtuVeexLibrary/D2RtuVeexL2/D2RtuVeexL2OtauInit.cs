@@ -27,12 +27,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             {
                 if (dto.IsFirstInitialization)
                 {
-                    // first initialization
                     var resetRes = await LeaveOnlyRootOtau(rtuDoubleAddress, otauList);
                     if (!resetRes.IsSuccessful)
                         return resetRes;
 
-                    dto.MainVeexOtau.id = resetRes.ResponseJson;
+                    dto.MainVeexOtau = otauList[0];
+                    if (!dto.MainVeexOtau.connected)
+                    {
+                        dto.MainVeexOtau.portCount = 1;
+                    }
 
                     var initSchemeRes = await SetRootOtauIntoScheme(rtuDoubleAddress, dto.MainVeexOtau.id);
                     if (!initSchemeRes.IsSuccessful)

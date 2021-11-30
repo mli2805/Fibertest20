@@ -69,6 +69,8 @@ namespace Graph.Tests
 
             var mainOtau = new VeexOtau()
             {
+                connected = true,
+                connectionParameters = new VeexOtauConnectionParameters(),
                 id = @"S1_OXA-4000__32",
                 protocol = @"db25",
                 inputPortCount = 1,

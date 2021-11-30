@@ -35,15 +35,31 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                         ErrorMessage = "Failed to disable proxy mode!" + Environment.NewLine +  proxy.ErrorMessage,
                     };
 
-                var initRes = await _d2RtuVeexLayer2.InitializeMonitoringProperties(rtuAddresses);
-                if (initRes != null)
+                var getMoniPropResult = await _d2RtuVeexLayer2.GetMonitoringProperties(rtuAddresses);
+                if (!getMoniPropResult.IsSuccessful)
+                    return new RtuInitializedDto()
+                    {
+                        ReturnCode = ReturnCode.RtuInitializationError,
+                        ErrorMessage = "Failed to get monitoring properties"
+                    };
+
+                var monitoringProperties = (VeexMonitoringDto)getMoniPropResult.ResponseObject;
+
+                if (dto.IsFirstInitialization || monitoringProperties.type != "fibertest")
                 {
-                    rtuInitializedDto.ErrorMessage = initRes.ErrorMessage;
-                    rtuInitializedDto.ReturnCode = initRes.ReturnCode;
-                    return rtuInitializedDto;
+                    var initRes = await _d2RtuVeexLayer2.InitializeMonitoringProperties(rtuAddresses, monitoringProperties);
+                    if (initRes != null)
+                    {
+                        rtuInitializedDto.ErrorMessage = initRes.ErrorMessage;
+                        rtuInitializedDto.ReturnCode = initRes.ReturnCode;
+                        return rtuInitializedDto;
+                    }
+
+                    monitoringProperties.state = "disabled";
                 }
 
                 rtuInitializedDto.ReturnCode = ReturnCode.RtuInitializedSuccessfully;
+                rtuInitializedDto.IsMonitoringOn = monitoringProperties.state == "enabled";
                 return rtuInitializedDto;
             }
             catch (Exception e)

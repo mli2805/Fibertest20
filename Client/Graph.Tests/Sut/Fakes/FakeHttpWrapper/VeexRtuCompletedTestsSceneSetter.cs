@@ -20,7 +20,7 @@ namespace Graph.Tests
             var completedTest = new CompletedTest()
             {
                 result = "Ok",
-                testId = test.TestId.ToString(),
+                testId = test.TestId,
                 started = DateTime.Now,
                 indicesOfReferenceTraces = new[] {0},
                 traceChange = new TraceChange()
@@ -41,7 +41,7 @@ namespace Graph.Tests
                 {
                     otauId = "S2_" + otauId
                 },
-                testId = test.TestId.ToString(),
+                testId = test.TestId,
                 started = DateTime.Now,
                 indicesOfReferenceTraces = new[] {0},
                 traceChange = new TraceChange()

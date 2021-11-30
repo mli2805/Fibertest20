@@ -44,7 +44,7 @@ namespace Iit.Fibertest.RtuManagement
                 try
                 {
                     _rtuManager.StartOutOfTurnMeasurement(dto, () => callbackChannel.EndStartOutOfTurnMeasurement(
-                            new OutOfTurnMeasurementStartedDto()
+                            new RequestAnswer()
                             {
                                 ReturnCode = ReturnCode.Ok, ErrorMessage = "Out of turn measurement started(!) successfully."
                             }));
@@ -52,7 +52,7 @@ namespace Iit.Fibertest.RtuManagement
                 catch (Exception e)
                 {
                     _serviceLog.AppendLine("Thread pool: " + e);
-                    var result = new OutOfTurnMeasurementStartedDto { ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
+                    var result = new RequestAnswer { ReturnCode = ReturnCode.Error, ErrorMessage = e.Message };
                     callbackChannel.EndStartOutOfTurnMeasurement(result);
                 }
             });

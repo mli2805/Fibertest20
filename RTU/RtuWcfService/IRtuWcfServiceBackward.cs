@@ -28,6 +28,6 @@ namespace Iit.Fibertest.RtuWcfServiceInterface
         void EndStartClientMeasurement(ClientMeasurementStartedDto result);
 
         [OperationContract(IsOneWay = true)]
-        void EndStartOutOfTurnMeasurement(OutOfTurnMeasurementStartedDto result);
+        void EndStartOutOfTurnMeasurement(RequestAnswer result);
     }
 }

@@ -70,6 +70,7 @@
         EmptyMachineKey,
         SaveUsersMachineKey,
         NoLicenseHasBeenAppliedYet = 9099,
+        NoSuchVeexTest,
 
         BaseRefAssignmentFailed = 9401,
         BaseRefAssignmentParamNotAcceptable = 9402,

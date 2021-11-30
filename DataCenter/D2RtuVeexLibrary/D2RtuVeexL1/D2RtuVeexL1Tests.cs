@@ -65,7 +65,8 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<HttpRequestResult> DeleteTest(DoubleAddress rtuDoubleAddress, string testLink)
         {
             var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress, $@"monitoring/{testLink}", "delete");
-            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent
+                                    || res.HttpStatusCode == 0; // it is a long operation and will be finished asynchronously
             return res;
         }
 

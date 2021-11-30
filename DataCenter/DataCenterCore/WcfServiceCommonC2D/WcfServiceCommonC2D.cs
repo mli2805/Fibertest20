@@ -487,9 +487,14 @@ namespace Iit.Fibertest.DataCenterCore
                 : null;
         }
 
-        public async Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
+        public async Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
         {
-            return await _clientToRtuTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto);
+            var rtu = _writeModel.Rtus.FirstOrDefault(r => r.Id == dto.RtuId);
+            if (rtu == null) return new RequestAnswer() { ReturnCode = ReturnCode.NoSuchRtu };
+
+            return rtu.RtuMaker == RtuMaker.IIT
+                ? await _clientToRtuTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto)
+                : await _clientToRtuVeexTransmitter.DoOutOfTurnPreciseMeasurementAsync(dto);
         }
 
         private static readonly IMapper Mapper = new MapperConfiguration(

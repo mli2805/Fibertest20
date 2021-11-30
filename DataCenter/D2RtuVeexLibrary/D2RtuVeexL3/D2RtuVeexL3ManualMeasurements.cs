@@ -47,7 +47,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<RequestAnswer> StartOutOfTurnPreciseMeasurement(DoubleAddress rtuDoubleAddress, string testId)
         {
-            return await _d2RtuVeexLayer2.StartOutOfTurnPreciseMeasurement(rtuDoubleAddress, testId);
+            var result = await _d2RtuVeexLayer2.StartOutOfTurnPreciseMeasurement(rtuDoubleAddress, testId);
+            return new RequestAnswer()
+                {ReturnCode = result.ReturnCode, ErrorMessage = result.ErrorMessage};
         }
 
 

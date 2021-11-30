@@ -109,9 +109,9 @@ namespace Graph.Tests
             return Task.FromResult(new ClientMeasurementStartedDto() { ReturnCode = ReturnCode.Ok });
         }
 
-        public Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
+        public Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
         {
-            return Task.FromResult(new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.Ok });
+            return Task.FromResult(new RequestAnswer() { ReturnCode = ReturnCode.Ok });
         }
     }
 }

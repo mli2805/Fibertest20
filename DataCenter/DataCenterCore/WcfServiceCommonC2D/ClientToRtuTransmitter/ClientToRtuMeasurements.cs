@@ -29,7 +29,7 @@ namespace Iit.Fibertest.DataCenterCore
             }
         }
 
-        public async Task<OutOfTurnMeasurementStartedDto> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
+        public async Task<RequestAnswer> DoOutOfTurnPreciseMeasurementAsync(DoOutOfTurnPreciseMeasurementDto dto)
         {
             _logFile.AppendLine($"Client from {dto.ClientIp} asked to do out of turn measurement on RTU {dto.RtuId.First6()}");
             try
@@ -40,12 +40,12 @@ namespace Iit.Fibertest.DataCenterCore
                         .DoOutOfTurnPreciseMeasurementAsync(dto);
 
                 _logFile.AppendLine($"Unknown RTU {dto.RtuId.First6()}");
-                return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.DbError };
+                return new RequestAnswer() { ReturnCode = ReturnCode.DbError };
             }
             catch (Exception e)
             {
                 _logFile.AppendLine("DoOutOfTurnPreciseMeasurementAsync:" + e.Message);
-                return new OutOfTurnMeasurementStartedDto() { ReturnCode = ReturnCode.DbError, ErrorMessage = e.Message };
+                return new RequestAnswer() { ReturnCode = ReturnCode.DbError, ErrorMessage = e.Message };
             }
         }
 
