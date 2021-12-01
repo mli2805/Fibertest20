@@ -97,8 +97,19 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
         }
 
-        public async Task<RequestAnswer> StartOutOfTurnPreciseMeasurement(DoubleAddress rtuDoubleAddress, string testId)
+        public async Task<RequestAnswer> StartOutOfTurnPreciseMeasurement(DoubleAddress rtuDoubleAddress, string otdrId, string testId)
         {
+            var otdrRes = await _d2RtuVeexLayer1.ChangeProxyMode(rtuDoubleAddress, otdrId, true);
+            if (!otdrRes.IsSuccessful)
+                return new RequestAnswer()
+                {
+                    ReturnCode = ReturnCode.Error, 
+                    ErrorMessage = "Failed to enable proxy mode!" + Environment.NewLine + otdrRes.ResponseJson
+                };
+
+            // old RTU300 needs this pause after enable proxy mode
+            await Task.Delay(1000);
+
             var res = await _d2RtuVeexLayer1.StartOutOfTurnPreciseMeasurement(rtuDoubleAddress, testId);
             if (res.IsSuccessful)
                 return new RequestAnswer() { ReturnCode = ReturnCode.Ok };
