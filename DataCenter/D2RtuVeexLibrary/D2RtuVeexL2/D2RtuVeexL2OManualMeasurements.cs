@@ -99,7 +99,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<RequestAnswer> StartOutOfTurnPreciseMeasurement(DoubleAddress rtuDoubleAddress, string otdrId, string testId)
         {
-            var otdrRes = await _d2RtuVeexLayer1.ChangeProxyMode(rtuDoubleAddress, otdrId, true);
+            var otdrRes = await _d2RtuVeexLayer1.ChangeProxyMode(rtuDoubleAddress, otdrId, false);
             if (!otdrRes.IsSuccessful)
                 return new RequestAnswer()
                 {
