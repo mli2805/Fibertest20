@@ -13,8 +13,16 @@ namespace Iit.Fibertest.Client
         }
 
         public bool CanUpdateTrace(object param) { return true; }
-      
+
         public bool CanHighlightTrace(object param)
+        {
+            if (!(param is TraceLeaf traceLeaf))
+                return false;
+
+            return traceLeaf.IsInZone;
+        }
+
+        public bool CanRevealTrace(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return false;

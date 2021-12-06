@@ -83,6 +83,18 @@ namespace Iit.Fibertest.Client
                 _tabulatorViewModel.SelectedTabIndex = 3;
         }
 
+        public async void RevealTrace(object param)
+        {
+            if (!(param is TraceLeaf traceLeaf))
+                return;
+            var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
+            var unused = await _renderingManager.RenderOnTraceChanged(trace);
+           // render trace
+
+            if (_tabulatorViewModel.SelectedTabIndex != 3)
+                _tabulatorViewModel.SelectedTabIndex = 3;
+        }
+
         public void AssignBaseRefs(object param)
         {
             if (!(param is TraceLeaf traceLeaf))

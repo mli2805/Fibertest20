@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using System.Windows.Threading;
 using Caliburn.Micro;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -14,6 +15,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly IDispatcherProvider _dispatcherProvider;
         private readonly CurrentZoneRenderer _currentZoneRenderer;
+        private readonly OneRtuOrTraceRenderer _oneRtuOrTraceRenderer;
         private readonly RenderingApplierToUi _renderingApplierToUi;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly CurrentUser _currentUser;
@@ -21,8 +23,8 @@ namespace Iit.Fibertest.Client
         private readonly WaitViewModel _waitViewModel;
 
         public RenderingManager(IMyLog logFile, IWindowManager windowManager, IDispatcherProvider dispatcherProvider,
-            CurrentZoneRenderer currentZoneRenderer,
-             RenderingApplierToUi renderingApplierToUi, CurrentlyHiddenRtu currentlyHiddenRtu,
+            CurrentZoneRenderer currentZoneRenderer, OneRtuOrTraceRenderer oneRtuOrTraceRenderer,
+            RenderingApplierToUi renderingApplierToUi, CurrentlyHiddenRtu currentlyHiddenRtu,
             CurrentUser currentUser, GraphReadModel graphReadModel,
             WaitViewModel waitViewModel)
         {
@@ -30,6 +32,7 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
             _dispatcherProvider = dispatcherProvider;
             _currentZoneRenderer = currentZoneRenderer;
+            _oneRtuOrTraceRenderer = oneRtuOrTraceRenderer;
             _renderingApplierToUi = renderingApplierToUi;
             _currentlyHiddenRtu = currentlyHiddenRtu;
             _currentUser = currentUser;
@@ -81,6 +84,22 @@ namespace Iit.Fibertest.Client
 
             var unused1 = await FullClean();
             var renderingResult = await Task.Factory.StartNew(_currentZoneRenderer.GetCurrentRendering);
+
+            var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
+            _currentlyHiddenRtu.CleanFlags();
+            _waitViewModel.TryClose();
+
+            return unused;
+        }
+
+        public async Task<int> RenderOnTraceChanged(Trace trace)
+        {
+            _waitViewModel.Initialize(LongOperation.DrawingGraph);
+            _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
+
+            var unused1 = await FullClean();
+            var renderingResult = await Task.Factory.StartNew(_currentZoneRenderer.GetCurrentRendering);
+            _oneRtuOrTraceRenderer.GetTraceRendering(trace, renderingResult);
 
             var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
             _currentlyHiddenRtu.CleanFlags();
