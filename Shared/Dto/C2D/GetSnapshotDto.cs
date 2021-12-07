@@ -27,5 +27,20 @@ namespace Iit.Fibertest.Dto
         [DataMember]
         public int Size { get; set; }
 
+    } 
+    
+    [DataContract]
+    public class SerializedModelDto
+    {
+        [DataMember]
+        public int PortionsCount { get; set; }
+
+        [DataMember]
+        public int Size { get; set; }
+
+        [DataMember]
+        public int LastIncludedEvent { get; set; }
+
+
     }
 }

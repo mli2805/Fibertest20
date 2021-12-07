@@ -113,7 +113,7 @@ namespace Iit.Fibertest.Client
                 var loadingCacheResult = await LoadAndApplyEventsFromCache(lastEventFromSnapshot);
                 loadingCacheResult.Count += lastEventFromSnapshot;
                 _logFile.AppendLine($@"Last loaded from cache event has timestamp {loadingCacheResult.LastEventTimestamp:O}");
-                var currentEventNumber = await DownloadAndApplyEvents(loadingCacheResult);
+                var currentEventNumber = await DownloadAndApplyEvents(loadingCacheResult.Count);
 
                 _renderingManager.Initialize();
                 await _renderingManager.RenderCurrentZoneOnApplicationStart();
@@ -142,9 +142,9 @@ namespace Iit.Fibertest.Client
             return result;
         }
 
-        private async Task<int> DownloadAndApplyEvents(LoadingResult cacheLoadingResult)
+        private async Task<int> DownloadAndApplyEvents(int eventCountInSnapshot)
         {
-            var currentEventNumber = cacheLoadingResult.Count;
+            var currentEventNumber = eventCountInSnapshot;
             _logFile.AppendLine($@"Downloading events from {currentEventNumber}...");
             int logged = currentEventNumber;
             string[] events;

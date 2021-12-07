@@ -174,6 +174,47 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
+        public async Task<SerializedModelDto> GetModelDownloadParams(GetSnapshotDto dto)
+        {
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                dto.ClientIp = _clientIp;
+                var result = await channel.GetModelDownloadParams(dto);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetModelDownloadParams: " + e.Message);
+                return null;
+            }
+        }
+
+        public async Task<byte[]> GetModelPortion(int portionOrdinal)
+        {
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
+            if (wcfConnection == null)
+                return null;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.GetModelPortion(portionOrdinal);
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("GetModelPortion: " + e.Message);
+                return null;
+            }
+        }
+
         public async Task<SnapshotParamsDto> GetSnapshotParams(GetSnapshotDto dto)
         {
             var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
@@ -190,7 +231,7 @@ namespace Iit.Fibertest.WcfConnections
             }
             catch (Exception e)
             {
-                _logFile.AppendLine("GetSnapshot: " + e.Message);
+                _logFile.AppendLine("GetSnapshotParams: " + e.Message);
                 return null;
             }
         }

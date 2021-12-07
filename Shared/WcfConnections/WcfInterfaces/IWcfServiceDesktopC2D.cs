@@ -36,6 +36,14 @@ namespace Iit.Fibertest.WcfConnections
         Task<string[]> GetEvents(GetEventsDto dto);
 
         [OperationContract]
+        Task<SerializedModelDto> GetModelDownloadParams(GetSnapshotDto dto);
+
+        [OperationContract]
+        Task<byte[]> GetModelPortion(int portionOrdinal);
+
+
+
+        [OperationContract]
         Task<SnapshotParamsDto> GetSnapshotParams(GetSnapshotDto dto);
 
         [OperationContract]

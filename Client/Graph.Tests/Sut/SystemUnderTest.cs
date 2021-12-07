@@ -128,7 +128,7 @@ namespace Graph.Tests
             if (vm.IsRegistrationSuccessful)
             {
                 FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
-                ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
+                ShellVm.GetAlreadyStoredOnServerData().Wait();
                 ReadModel.Users.Count.Should().Be(licenseFilename == DevSecAdmin ? 8 : 7);
             }
             return this;
@@ -153,7 +153,7 @@ namespace Graph.Tests
             if (vm.IsRegistrationSuccessful)
             {
                 FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
-                ShellVm.GetAlreadyStoredInCacheAndOnServerData().Wait();
+                ShellVm.GetAlreadyStoredOnServerData().Wait();
             }
         }
 

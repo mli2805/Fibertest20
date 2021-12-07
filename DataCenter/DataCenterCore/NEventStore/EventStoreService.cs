@@ -241,6 +241,11 @@ namespace Iit.Fibertest.DataCenterCore
             return msg;
         }
 
+        public int GetEventsCount()
+        {
+            return LastEventNumberInSnapshot + StoreEvents.OpenStream(StreamIdOriginal).CommittedEvents.Count;
+        }
+
         public string[] GetEvents(int revision)
         {
             try

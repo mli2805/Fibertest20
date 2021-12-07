@@ -61,18 +61,18 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public ClientPoller(IWcfServiceDesktopC2D wcfConnection, IDispatcherProvider dispatcherProvider, 
+        public ClientPoller(IWcfServiceDesktopC2D wcfConnection, IDispatcherProvider dispatcherProvider,
             IWindowManager windowManager, Model readModel,
-            ServerConnectionLostViewModel serverConnectionLostViewModel, 
+            ServerConnectionLostViewModel serverConnectionLostViewModel,
             IWcfServiceInSuperClient c2SWcfManager, SystemState systemState, CurrentUser currentUser,
-            CommandLineParameters commandLineParameters, CurrentDatacenterParameters currentDatacenterParameters, 
+            CommandLineParameters commandLineParameters, CurrentDatacenterParameters currentDatacenterParameters,
 
-            EventsOnGraphExecutor eventsOnGraphExecutor, 
+            EventsOnGraphExecutor eventsOnGraphExecutor,
             EventsOnTreeExecutor eventsOnTreeExecutor, OpticalEventsExecutor opticalEventsExecutor,
 
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             RtuStateViewsManager rtuStateViewsManager, RtuChannelViewsManager rtuChannelViewsManager,
-            BopStateViewsManager bopStateViewsManager, NetworkEventsDoubleViewModel networkEventsDoubleViewModel, 
+            BopStateViewsManager bopStateViewsManager, NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel, LandmarksViewsManager landmarksViewsManager,
 
             IMyLog logFile, IniFile iniFile, EventArrivalNotifier eventArrivalNotifier, ILocalDbManager localDbManager)
@@ -107,7 +107,7 @@ namespace Iit.Fibertest.Client
 
         public void Start()
         {
-            _logFile.AppendLine(@"Polling started");
+            _logFile.AppendLine($@"Polling started from {_currentEventNumber}");
             _pollerThread = new Thread(DoPolling) { IsBackground = true };
             _pollerThread.Start();
         }
@@ -133,14 +133,14 @@ namespace Iit.Fibertest.Client
         public async Task<int> EventSourcingTick()
         {
             string[] events = await _wcfConnection.GetEvents(
-                new GetEventsDto(){Revision = CurrentEventNumber, ConnectionId = _currentUser.ConnectionId});
+                new GetEventsDto() { Revision = CurrentEventNumber, ConnectionId = _currentUser.ConnectionId });
 
             if (events == null)
             {
                 _exceptionCount++;
                 _logFile.AppendLine($@"Cannot establish connection with data-center. Exception count: {_exceptionCount}");
                 if (_exceptionCount == _exceptionCountLimit) // blocks current thread till user clicks to close form
-                    _dispatcherProvider.GetDispatcher().Invoke(NotifyUserConnectionProblems); 
+                    _dispatcherProvider.GetDispatcher().Invoke(NotifyUserConnectionProblems);
                 return -1;
             }
 
@@ -149,7 +149,7 @@ namespace Iit.Fibertest.Client
             if (events.Length == 0)
                 return 0;
 
-            await _localDbManager.SaveEvents(events, CurrentEventNumber + 1);
+            //   await _localDbManager.SaveEvents(events, CurrentEventNumber + 1);
             _dispatcherProvider.GetDispatcher().Invoke(() => ApplyEventSourcingEvents(events)); // sync, GUI thread
             return events.Length;
         }

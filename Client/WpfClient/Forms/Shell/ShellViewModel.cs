@@ -23,6 +23,7 @@ namespace Iit.Fibertest.Client
         private readonly StoredEventsLoader _storedEventsLoader;
         private readonly Heartbeater _heartbeater;
         private readonly ClientPoller _clientPoller;
+        private readonly ModelLoader _modelLoader;
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
@@ -49,13 +50,14 @@ namespace Iit.Fibertest.Client
             IClientWcfServiceHost host, IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
             IWcfServiceInSuperClient c2SWcfManager,
             GraphReadModel graphReadModel, ILocalDbManager localDbManager, IWindowManager windowManager,
-            LoginViewModel loginViewModel, StoredEventsLoader storedEventsLoader, 
+            LoginViewModel loginViewModel, StoredEventsLoader storedEventsLoader,
             Heartbeater heartbeater, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
             TabulatorViewModel tabulatorViewModel, CommonStatusBarViewModel commonStatusBarViewModel,
              OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
              NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
-             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel
+             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
+            ModelLoader modelLoader
         )
         {
             GraphReadModel = graphReadModel;
@@ -77,6 +79,7 @@ namespace Iit.Fibertest.Client
             _storedEventsLoader = storedEventsLoader;
             _heartbeater = heartbeater;
             _clientPoller = clientPoller;
+            _modelLoader = modelLoader;
             _logFile = logFile;
             _currentUser = currentUser;
             _currentDatacenterParameters = currentDatacenterParameters;
@@ -118,7 +121,7 @@ namespace Iit.Fibertest.Client
             TabulatorViewModel.MessageVisibility = Visibility.Collapsed;
             System.Reflection.Assembly assembly = System.Reflection.Assembly.GetExecutingAssembly();
             FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(assembly.Location);
-            DisplayName = @"Fibertest v"+fvi.FileVersion;
+            DisplayName = @"Fibertest v" + fvi.FileVersion;
 
             ((App)Application.Current).ShutdownMode = ShutdownMode.OnExplicitShutdown;
 
@@ -146,13 +149,13 @@ namespace Iit.Fibertest.Client
 
                 SetDisplayName();
                 StartSendHeartbeats();
-                await GetAlreadyStoredInCacheAndOnServerData();
+                await GetAlreadyStoredOnServerData();
                 StartRegularCommunicationWithServer();
                 if (_commandLineParameters.IsUnderSuperClientStart)
                     await Task.Factory.StartNew(() => NotifySuperClientImReady(_commandLineParameters.ClientOrdinal));
                 IsEnabled = true;
                 TreeOfRtuViewModel.CollapseAll();
-                 TabulatorViewModel.SelectedTabIndex = 0; // the same value should be in TabulatorViewModel c-tor !!!
+                TabulatorViewModel.SelectedTabIndex = 0; // the same value should be in TabulatorViewModel c-tor !!!
                 var unused = await CheckFreeSpaceThreshold();
             }
             else
@@ -220,12 +223,20 @@ namespace Iit.Fibertest.Client
             {
                 _localDbManager.Initialize();
                 var cleaningResult = await _storedEventsLoader.ClearCacheIfDoesnotMatchDb();
-                BackgroundMessage = cleaningResult == CacheClearResult.ClearedSuccessfully 
+                BackgroundMessage = cleaningResult == CacheClearResult.ClearedSuccessfully
                     ? Resources.SID_Loading_data_after_DB_recovery__optimization_
                     : Resources.SID_Data_is_loading;
-                _clientPoller.CurrentEventNumber = 
-                    await _storedEventsLoader.TwoComponentLoading(cleaningResult == CacheClearResult.ClearedSuccessfully 
+                _clientPoller.CurrentEventNumber =
+                    await _storedEventsLoader.TwoComponentLoading(cleaningResult == CacheClearResult.ClearedSuccessfully
                                                                   || cleaningResult == CacheClearResult.CacheNotFound);
+            }
+        }
+        public async Task GetAlreadyStoredOnServerData()
+        {
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                var res = await _modelLoader.DownloadAndApplyModel();
+               _clientPoller.CurrentEventNumber = res;
             }
         }
 
@@ -268,8 +279,8 @@ namespace Iit.Fibertest.Client
                 base.CanClose(callback);
             else
             {
-                 await _commonC2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto(){ConnectionId = _currentUser.ConnectionId}).
-                     ContinueWith(ttt => { Environment.Exit(Environment.ExitCode); });
+                await _commonC2DWcfManager.UnregisterClientAsync(new UnRegisterClientDto() { ConnectionId = _currentUser.ConnectionId }).
+                    ContinueWith(ttt => { Environment.Exit(Environment.ExitCode); });
             }
         }
     }

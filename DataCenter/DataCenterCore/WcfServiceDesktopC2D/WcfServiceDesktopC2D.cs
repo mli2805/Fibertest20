@@ -259,6 +259,32 @@ namespace Iit.Fibertest.DataCenterCore
             return await Task.FromResult(_eventStoreService.GetEvents(dto.Revision));
         }
 
+        private byte[] _serializedModel;
+        private const int PortionSize = 2 * 1024 * 1024;
+        public async Task<SerializedModelDto> GetModelDownloadParams(GetSnapshotDto dto)
+        {
+            _serializedModel = await _writeModel.Serialize(_logFile);
+            return new SerializedModelDto()
+            {
+                PortionsCount = _serializedModel.Length / PortionSize + 1,
+                Size = _serializedModel.Length,
+                LastIncludedEvent = _eventStoreService.GetEventsCount(),
+            };
+        }
+
+        public async Task<byte[]> GetModelPortion(int portionOrdinal)
+        {
+            await Task.Delay(1);
+            var currentPortionSize = PortionSize * (portionOrdinal + 1) < _serializedModel.Length
+                ? PortionSize
+                : _serializedModel.Length - PortionSize * (portionOrdinal);
+            var portion = new byte[currentPortionSize];
+            Array.Copy(_serializedModel, PortionSize * portionOrdinal, 
+                    portion, 0, currentPortionSize);
+
+            return portion;
+        }
+
         public async Task<SnapshotParamsDto> GetSnapshotParams(GetSnapshotDto dto)
         {
             return await _snapshotRepository.GetSnapshotParams(dto.LastIncludedEvent);

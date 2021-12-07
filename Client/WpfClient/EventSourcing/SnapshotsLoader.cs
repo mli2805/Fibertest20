@@ -43,9 +43,23 @@ namespace Iit.Fibertest.Client
                 return 0;
             _logFile.AppendLine($@"Loading snapshot ({_currentDatacenterParameters.SnapshotLastEvent})");
 
-            var snapshot = isCacheCleared 
+            var snapshot = isCacheCleared
                 ? await DownloadSnapshot()
                 : await _localDbManager.LoadSnapshot(_currentDatacenterParameters.SnapshotLastEvent);
+
+            if (snapshot == null) return -1;
+            var appliedSuccessfully = await ApplySnapshot(snapshot);
+
+            return appliedSuccessfully ? _currentDatacenterParameters.SnapshotLastEvent : -1;
+        }
+
+        public async Task<int> LoadAndApplySnapshotFromServer()
+        {
+            if (_currentDatacenterParameters.SnapshotLastEvent == 0)
+                return 0;
+            _logFile.AppendLine($@"Loading snapshot ({_currentDatacenterParameters.SnapshotLastEvent})");
+
+            var snapshot = await DownloadSnapshot();
 
             if (snapshot == null) return -1;
             var appliedSuccessfully = await ApplySnapshot(snapshot);

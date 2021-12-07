@@ -223,6 +223,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<OpticalEventsReportViewModel>().InstancePerLifetimeScope();
 
             builder.RegisterType<TraceStateReportProvider>().InstancePerLifetimeScope();
+            builder.RegisterType<ModelLoader>().InstancePerLifetimeScope();
 
         }
     }
