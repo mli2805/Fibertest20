@@ -45,7 +45,6 @@ namespace Iit.Fibertest.Client
         private readonly int _exceptionCountLimit;
         private readonly IMyLog _logFile;
         private readonly EventArrivalNotifier _eventArrivalNotifier;
-        private readonly ILocalDbManager _localDbManager;
         private readonly int _pollingRate;
         public CancellationTokenSource CancellationTokenSource { get; set; }
 
@@ -75,7 +74,7 @@ namespace Iit.Fibertest.Client
             BopStateViewsManager bopStateViewsManager, NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel, LandmarksViewsManager landmarksViewsManager,
 
-            IMyLog logFile, IniFile iniFile, EventArrivalNotifier eventArrivalNotifier, ILocalDbManager localDbManager)
+            IMyLog logFile, IniFile iniFile, EventArrivalNotifier eventArrivalNotifier)
         {
             _wcfConnection = wcfConnection;
             _windowManager = windowManager;
@@ -100,7 +99,6 @@ namespace Iit.Fibertest.Client
             _dispatcherProvider = dispatcherProvider;
             _logFile = logFile;
             _eventArrivalNotifier = eventArrivalNotifier;
-            _localDbManager = localDbManager;
             _pollingRate = iniFile.Read(IniSection.General, IniKey.ClientPollingRateMs, 500);
             _exceptionCountLimit = iniFile.Read(IniSection.General, IniKey.FailedPollsLimit, 7);
         }
