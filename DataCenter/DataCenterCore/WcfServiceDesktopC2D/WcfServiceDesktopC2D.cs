@@ -261,9 +261,17 @@ namespace Iit.Fibertest.DataCenterCore
 
         private byte[] _serializedModel;
         private const int PortionSize = 2 * 1024 * 1024;
+        static readonly object LockObj = new object();
         public async Task<SerializedModelDto> GetModelDownloadParams(GetSnapshotDto dto)
         {
-            _serializedModel = await _writeModel.Serialize(_logFile);
+            await Task.Delay(1);
+            _logFile.AppendLine("Model asked by client");
+            lock (LockObj)
+            {
+                _serializedModel = _writeModel.Serialize(_logFile).Result;
+            }
+            _logFile.AppendLine("Model serialized successfully");
+
             return new SerializedModelDto()
             {
                 PortionsCount = _serializedModel.Length / PortionSize + 1,
