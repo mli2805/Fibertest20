@@ -20,7 +20,6 @@ namespace Iit.Fibertest.Client
     {
         private readonly IWindowManager _windowManager;
         private readonly LoginViewModel _loginViewModel;
-        private readonly StoredEventsLoader _storedEventsLoader;
         private readonly Heartbeater _heartbeater;
         private readonly ClientPoller _clientPoller;
         private readonly ModelLoader _modelLoader;
@@ -34,7 +33,6 @@ namespace Iit.Fibertest.Client
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWcfServiceCommonC2D _commonC2DWcfManager;
         private readonly IWcfServiceInSuperClient _c2SWcfManager;
-        private readonly ILocalDbManager _localDbManager;
 
         public GraphReadModel GraphReadModel { get; set; }
         public MainMenuViewModel MainMenuViewModel { get; }
@@ -49,8 +47,8 @@ namespace Iit.Fibertest.Client
             CurrentDatacenterParameters currentDatacenterParameters, CommandLineParameters commandLineParameters,
             IClientWcfServiceHost host, IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceCommonC2D commonC2DWcfManager,
             IWcfServiceInSuperClient c2SWcfManager,
-            GraphReadModel graphReadModel, ILocalDbManager localDbManager, IWindowManager windowManager,
-            LoginViewModel loginViewModel, StoredEventsLoader storedEventsLoader,
+            GraphReadModel graphReadModel, IWindowManager windowManager,
+            LoginViewModel loginViewModel, 
             Heartbeater heartbeater, ClientPoller clientPoller,
             MainMenuViewModel mainMenuViewModel, TreeOfRtuViewModel treeOfRtuViewModel,
             TabulatorViewModel tabulatorViewModel, CommonStatusBarViewModel commonStatusBarViewModel,
@@ -73,10 +71,8 @@ namespace Iit.Fibertest.Client
             _c2DWcfManager = c2DWcfManager;
             _commonC2DWcfManager = commonC2DWcfManager;
             _c2SWcfManager = c2SWcfManager;
-            _localDbManager = localDbManager;
             _windowManager = windowManager;
             _loginViewModel = loginViewModel;
-            _storedEventsLoader = storedEventsLoader;
             _heartbeater = heartbeater;
             _clientPoller = clientPoller;
             _modelLoader = modelLoader;
@@ -217,24 +213,11 @@ namespace Iit.Fibertest.Client
             await _c2SWcfManager.ClientLoadingResult(postfix, false, false);
         }
 
-        public async Task GetAlreadyStoredInCacheAndOnServerData()
-        {
-            using (_globalScope.Resolve<IWaitCursor>())
-            {
-                _localDbManager.Initialize();
-                var cleaningResult = await _storedEventsLoader.ClearCacheIfDoesnotMatchDb();
-                BackgroundMessage = cleaningResult == CacheClearResult.ClearedSuccessfully
-                    ? Resources.SID_Loading_data_after_DB_recovery__optimization_
-                    : Resources.SID_Data_is_loading;
-                _clientPoller.CurrentEventNumber =
-                    await _storedEventsLoader.TwoComponentLoading(cleaningResult == CacheClearResult.ClearedSuccessfully
-                                                                  || cleaningResult == CacheClearResult.CacheNotFound);
-            }
-        }
         public async Task GetAlreadyStoredOnServerData()
         {
             using (_globalScope.Resolve<IWaitCursor>())
             {
+                BackgroundMessage = Resources.SID_Data_is_loading;
                 var res = await _modelLoader.DownloadAndApplyModel();
                _clientPoller.CurrentEventNumber = res;
             }

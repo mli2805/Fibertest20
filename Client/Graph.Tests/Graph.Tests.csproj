@@ -454,7 +454,6 @@
     <Compile Include="Sut\Fakes\FakeClientWcfServiceHost.cs" />
     <Compile Include="Sut\Fakes\FakeD2RWcfManager.cs" />
     <Compile Include="Sut\Fakes\FakeEventStoreInitializer.cs" />
-    <Compile Include="Sut\Fakes\FakeLocalDbManager.cs" />
     <Compile Include="Sut\Fakes\FakeWindowManager.cs" />
     <Compile Include="Fiber\FiberAdded.feature.cs">
       <AutoGen>True</AutoGen>

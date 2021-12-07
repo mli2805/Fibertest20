@@ -217,15 +217,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="EventSourcing\LocalDb\CacheParameters.cs" />
-    <Compile Include="EventSourcing\LocalDb\EsSnapshot.cs" />
-    <Compile Include="EventSourcing\LocalDb\SqliteOperations.cs" />
     <Compile Include="EventSourcing\Heartbeater.cs" />
     <Compile Include="EventSourcing\ModelLoader.cs" />
     <Compile Include="EventSourcing\Rendering\LessThanRootRenderer.cs" />
     <Compile Include="EventSourcing\Rendering\OneRtuOrTraceRenderer.cs" />
     <Compile Include="EventSourcing\Rendering\RootRenderer.cs" />
-    <Compile Include="EventSourcing\SnapshotsLoader.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\EventToLogLineParser.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\LogLine.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationCode.cs" />
@@ -333,7 +329,6 @@
     <Compile Include="EventSourcing\Rendering\CurrentZoneRenderer.cs" />
     <Compile Include="EventSourcing\Rendering\ElementRenderer.cs" />
     <Compile Include="EventSourcing\Rendering\RenderingManager.cs" />
-    <Compile Include="EventSourcing\StoredEventsLoader.cs" />
     <Compile Include="EventSourcing\Rendering\RenderingApplierToUi.cs" />
     <Compile Include="EventSourcing\Rendering\RenderingResult.cs" />
     <Compile Include="Forms\AdministrativeForms\AboutView.xaml.cs">
@@ -569,14 +564,6 @@
       <DependentUpon>TraceStatisticsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\TraceForms\TraceStatistics\TraceStatisticsViewModel.cs" />
-    <Compile Include="EventSourcing\LocalDb\EsEvent.cs" />
-    <Compile Include="EventSourcing\LocalDb\ILocalDbManager.cs" />
-    <Compile Include="EventSourcing\LocalDb\LocalDbManager.cs" />
-    <Compile Include="EventSourcing\LocalDb\LocalDbSqliteContext.cs" />
-    <Compile Include="EventSourcing\LocalDb\SQLiteDbConfiguration.cs" />
-    <Compile Include="EventSourcing\LocalDb\SQLiteDbDependencyResolver.cs" />
-    <Compile Include="EventSourcing\LocalDb\SQLiteDbProviderFactoryResolver.cs" />
-    <Compile Include="EventSourcing\LocalDb\SQLiteProviderInvariantName.cs" />
     <Compile Include="Logic\ReflectogramManager.cs" />
     <Compile Include="Forms\TraceForms\TraceState\TraceStateViewsManager.cs" />
     <Compile Include="Forms\Shell\TreeOfRtuControl\RtuLeaf\RtuLeafActions.cs" />

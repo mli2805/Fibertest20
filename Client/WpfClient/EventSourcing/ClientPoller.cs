@@ -147,7 +147,6 @@ namespace Iit.Fibertest.Client
             if (events.Length == 0)
                 return 0;
 
-            //   await _localDbManager.SaveEvents(events, CurrentEventNumber + 1);
             _dispatcherProvider.GetDispatcher().Invoke(() => ApplyEventSourcingEvents(events)); // sync, GUI thread
             return events.Length;
         }
