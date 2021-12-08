@@ -40,10 +40,6 @@ namespace Iit.Fibertest.Client
             foreach (var newItem in newItems)
             {
                 var nodeVm = (NodeVm)newItem;
-                if (nodeVm.Id.ToString().StartsWith(@"61c04"))
-                {
-                    Console.WriteLine(@"ddd");
-                }
                 nodeVm.PropertyChanged += NodeVm_PropertyChanged;
                 var marker = new GMapMarker(nodeVm.Id, nodeVm.Position, false);
                 marker.ZIndex = nodeVm.Type == EquipmentType.AccidentPlace ? -2 : 2;
