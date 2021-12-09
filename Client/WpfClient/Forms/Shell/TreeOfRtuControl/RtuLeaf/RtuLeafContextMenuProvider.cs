@@ -1,15 +1,19 @@
 ﻿using System.Collections.Generic;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
     public class RtuLeafContextMenuProvider
     {
+        private readonly CurrentUser _currentUser;
         private readonly RtuLeafActions _rtuLeafActions;
         private readonly RtuLeafActionsPermissions _rtuLeafActionsPermissions;
 
-        public RtuLeafContextMenuProvider(RtuLeafActions rtuLeafActions, RtuLeafActionsPermissions rtuLeafActionsPermissions)
+        public RtuLeafContextMenuProvider(CurrentUser currentUser,
+            RtuLeafActions rtuLeafActions, RtuLeafActionsPermissions rtuLeafActionsPermissions)
         {
+            _currentUser = currentUser;
             _rtuLeafActions = rtuLeafActions;
             _rtuLeafActionsPermissions = rtuLeafActionsPermissions;
         }
@@ -27,9 +31,17 @@ namespace Iit.Fibertest.Client
             menu.Add(new MenuItemVm()
             {
                 Header = Resources.SID_Show_RTU,
-                Command = new ContextMenuAction(_rtuLeafActions.HigtlightRtu, _rtuLeafActionsPermissions.CanHighlightRtu),
+                Command = new ContextMenuAction(_rtuLeafActions.HighlightRtu, _rtuLeafActionsPermissions.CanHighlightRtu),
                 CommandParameter = rtuLeaf
             });
+
+            if (_currentUser.Role == Role.Developer)
+                menu.Add(new MenuItemVm()
+                {
+                    Header = @"Export to file",
+                    Command = new ContextMenuAction(_rtuLeafActions.ExportRtuToFile, _rtuLeafActionsPermissions.CanExportRtuToFile),
+                    CommandParameter = rtuLeaf
+                });
 
             menu.Add(new MenuItemVm()
             {

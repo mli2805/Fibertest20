@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using System.Windows;
 using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
+using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
+using Microsoft.Win32;
 
 namespace Iit.Fibertest.Client
 {
@@ -14,14 +19,34 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly IWindowManager _windowManager;
+        private readonly IMyLog _logFile;
+        private readonly Model _readModel;
         private readonly ComponentsReportViewModel _componentsReportViewModel;
         private readonly OpticalEventsReportViewModel _opticalEventsReportViewModel;
+ 
+        private Role _currentUserRole = Role.Supervisor;
+        public Role CurrentUserRole
+        {
+            get => _currentUserRole;
+            set
+            {
+                if (Equals(value, _currentUserRole)) return;
+                _currentUserRole = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(DeveloperMenuItemsVisibility));
+            }
+        }
 
-        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager, 
+        public Visibility DeveloperMenuItemsVisibility =>
+            _currentUserRole == Role.Developer ? Visibility.Visible : Visibility.Collapsed;
+
+        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager, IMyLog logFile, Model readModel,
             ComponentsReportViewModel componentsReportViewModel, OpticalEventsReportViewModel opticalEventsReportViewModel)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
+            _logFile = logFile;
+            _readModel = readModel;
             _componentsReportViewModel = componentsReportViewModel;
             _opticalEventsReportViewModel = opticalEventsReportViewModel;
 
@@ -43,6 +68,21 @@ namespace Iit.Fibertest.Client
         {
             var vm = _globalScope.Resolve<ObjectsAsTreeToZonesViewModel>();
             _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
+        public async void ImportRtuFromFolder()
+        {
+            var basePath = AppDomain.CurrentDomain.BaseDirectory;
+            var folder = Path.GetFullPath(Path.Combine(basePath, @"..\temp\"));
+            string[] files = Directory.GetFiles(folder, "*.brtu");
+
+            foreach (var filename in files)
+            {
+                var bytes = File.ReadAllBytes(filename);
+                var oneRtuGraphModel = new Model();
+                if (!await oneRtuGraphModel.Deserialize(_logFile, bytes)) return;
+                _readModel.AddOneRtuToModel(oneRtuGraphModel);
+            }
         }
 
 
@@ -88,8 +128,6 @@ namespace Iit.Fibertest.Client
                 _windowManager.ShowDialogWithAssignedOwner(vm);
             }
         }
-
-      
 
         public void LaunchSmtpSettingsView()
         {

@@ -206,6 +206,7 @@
     <Compile Include="DomainEntities\License\LicenseInFile.cs" />
     <Compile Include="DomainEntities\License\LicenseParameter.cs" />
     <Compile Include="DomainEntities\License\LicenseParameterInFile.cs" />
+    <Compile Include="EventSourcing\Model\OneRtuExportImport.cs" />
     <Compile Include="EventSourcing\Model\TraceInfoCalculator.cs" />
     <Compile Include="Events\Client\ClientConnectionLost.cs" />
     <Compile Include="Events\Client\ClientStationRegistered.cs" />
