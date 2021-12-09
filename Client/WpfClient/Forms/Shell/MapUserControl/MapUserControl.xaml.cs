@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -26,6 +27,17 @@ namespace Iit.Fibertest.Client
             // map events
             MainMap.MouseEnter += MainMap_MouseEnter;
             MainMap.OnTraceDefiningCancelled += MainMap_OnTraceDefiningCancelled;
+            MainMap.MouseWheel += MainMap_MouseWheel;
+            MainMap.Limits.PropertyChanged += Limits_PropertyChanged;
+        }
+
+        private void Limits_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            MainMap.Limits.NodeCount = GraphReadModel.Data.Nodes.Count(n => MainMap.Limits.IsIn(n.Position));
+        }
+
+        private void MainMap_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
         }
 
         private void MainMap_OnTraceDefiningCancelled()

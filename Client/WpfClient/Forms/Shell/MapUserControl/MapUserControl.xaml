@@ -9,7 +9,7 @@
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom" Height="25" BorderBrush="DarkGray" BorderThickness="0,1,0,0">
             <StatusBarItem>
-                <TextBlock Text="{Binding MainMap.MouseCurrentCoorsString}" Margin="5,0,20,0" Width="200"/>
+                <TextBlock Text="{Binding MainMap.MouseCurrentCoorsString}" Margin="5,0,20,0" Width="600"/>
             </StatusBarItem>
             <StatusBarItem>
                 <TextBlock Text="{Binding MainMap.MeasuredDistance}"/>
