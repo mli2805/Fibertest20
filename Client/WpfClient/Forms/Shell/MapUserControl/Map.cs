@@ -28,14 +28,8 @@ namespace Iit.Fibertest.Client
                 if (Equals(value, _currentGis)) return;
                 _currentGis = value;
                 OnPropertyChanged();
-                _currentGis.PropertyChanged += CurrentGisPropertyChanged;
                 OnPropertyChanged(nameof(MouseCurrentCoorsString));
             }
-        }
-
-        private void CurrentGisPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            OnPropertyChanged(nameof(MouseCurrentCoorsString));
         }
 
         private PointLatLng _mouseCurrentCoors;
@@ -51,8 +45,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public string MouseCurrentCoorsString => CurrentGis.IsGisOn 
-            ? Zoom + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode) 
+        public string MouseCurrentCoorsString => CurrentGis.IsGisOn
+            ? Zoom + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode)
             : "";
         #endregion
 

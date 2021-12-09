@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Autofac;
@@ -11,7 +12,6 @@ using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.UtilsLib;
 using Iit.Fibertest.WpfCommonViews;
-using Microsoft.Win32;
 
 namespace Iit.Fibertest.Client
 {
@@ -21,9 +21,10 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
+        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly ComponentsReportViewModel _componentsReportViewModel;
         private readonly OpticalEventsReportViewModel _opticalEventsReportViewModel;
- 
+
         private Role _currentUserRole = Role.Supervisor;
         public Role CurrentUserRole
         {
@@ -40,13 +41,15 @@ namespace Iit.Fibertest.Client
         public Visibility DeveloperMenuItemsVisibility =>
             _currentUserRole == Role.Developer ? Visibility.Visible : Visibility.Collapsed;
 
-        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager, IMyLog logFile, Model readModel,
+        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager,
+            IMyLog logFile, Model readModel, CurrentlyHiddenRtu currentlyHiddenRtu,
             ComponentsReportViewModel componentsReportViewModel, OpticalEventsReportViewModel opticalEventsReportViewModel)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
             _logFile = logFile;
             _readModel = readModel;
+            _currentlyHiddenRtu = currentlyHiddenRtu;
             _componentsReportViewModel = componentsReportViewModel;
             _opticalEventsReportViewModel = opticalEventsReportViewModel;
 
@@ -83,6 +86,9 @@ namespace Iit.Fibertest.Client
                 if (!await oneRtuGraphModel.Deserialize(_logFile, bytes)) return;
                 _readModel.AddOneRtuToModel(oneRtuGraphModel);
             }
+
+            _currentlyHiddenRtu.Collection.AddRange(_readModel.Rtus.Select(r=>r.Id));
+            _currentlyHiddenRtu.IsHideAllPressed = true;
         }
 
 
@@ -173,7 +179,7 @@ namespace Iit.Fibertest.Client
             waitVm.Initialize(LongOperation.CollectingEventLog);
             _windowManager.ShowWindowWithAssignedOwner(waitVm);
 
-            var unused = await Task.Factory.StartNew(()=>vm.Initialize().Result);
+            var unused = await Task.Factory.StartNew(() => vm.Initialize().Result);
 
             waitVm.TryClose();
 
