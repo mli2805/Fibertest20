@@ -120,8 +120,9 @@ namespace Iit.Fibertest.Graph
 
         private string Validate(ApplyLicense cmd)
         {
+            if (cmd.IsIncremental && !_writeModel.Licenses.Any())
+                return Resources.SID_First_license_key_must_not_be_Incremental;
             if (_writeModel.Licenses.Any(l=>l.LicenseId == cmd.LicenseId))
-            // if (_writeModel.License != null && _writeModel.License.LicenseIds.Contains(cmd.LicenseId))
                 return Resources.SID_License_could_not_be_applied_repeatedly_;
             return _eventsQueue.Add(Mapper.Map<LicenseApplied>(cmd));
         }             

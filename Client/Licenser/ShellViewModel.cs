@@ -77,6 +77,7 @@ namespace Iit.Fibertest.Licenser
             LicenseInFileModel = new LicenseInFileModel()
             {
                 LicenseId = Guid.NewGuid(),
+                IsStandart = true,
                 IsBasic = true,
                 SecurityAdminPassword = Password.Generate(8),
                 CreationDate = DateTime.Today,
@@ -102,15 +103,11 @@ namespace Iit.Fibertest.Licenser
         {
             var license = LicenseInFileModel.ToLicenseInFile();
             var encoded = Cryptography.Encode(license);
-            SaveLicenseAsFile(encoded);
-        }
 
-        private void SaveLicenseAsFile(byte[] encoded)
-        {
             SaveFileDialog dlg = new SaveFileDialog();
-            dlg.FileName = "Fibertest20"; // Default file name
+            dlg.FileName = LicenseInFileModel.LicenseKey; // Default file name
             dlg.DefaultExt = ".lic";
-            dlg.Filter = "License file (.lic)|*.lic";
+            dlg.Filter = "License file (*.lic)|*.lic";
 
             if (dlg.ShowDialog() == true)
             {
@@ -118,8 +115,8 @@ namespace Iit.Fibertest.Licenser
                 File.WriteAllBytes(filename, encoded);
             }
 
-            var licenseInFile = (LicenseInFile)Cryptography.Decode(encoded);
-            LicenseInFileModel = new LicenseInFileModel(licenseInFile);
+            // var licenseInFile = (LicenseInFile)Cryptography.Decode(encoded);
+            // LicenseInFileModel = new LicenseInFileModel(licenseInFile);
         }
 
         public void ToPdf()

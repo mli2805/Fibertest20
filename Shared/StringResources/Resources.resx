@@ -3024,4 +3024,16 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Measurement_on_port__0__trace__1__is_finished" xml:space="preserve">
 		<value>Measurement on port {0} trace {1} is finished</value>
 	</data>
+	<data name="SID_License_key_type" xml:space="preserve">
+		<value>License key type</value>
+	</data>
+	<data name="SID_With_workstation_linking" xml:space="preserve">
+		<value>With workstation linking</value>
+	</data>
+	<data name="SID_Standart" xml:space="preserve">
+		<value>Standart</value>
+	</data>
+	<data name="SID_First_license_key_must_not_be_Incremental" xml:space="preserve">
+		<value>First license key must not be Incremental</value>
+	</data>
 </root>

@@ -19,6 +19,7 @@ namespace Iit.Fibertest.Client
         }
 
         public bool IsBasic => !License.IsIncremental;
+        public bool IsStandart => !License.IsMachineKeyRequired;
 
         public void FromFile(LicenseInFile licenseInFile)
         {
