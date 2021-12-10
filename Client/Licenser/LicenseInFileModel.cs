@@ -62,6 +62,7 @@ namespace Iit.Fibertest.Licenser
                 _isIncremental = value;
                 NotifyOfPropertyChange();
                 NotifyOfPropertyChange(nameof(LicenseKey));
+                NotifyOfPropertyChange(nameof(IsWebClientsEnabled));
             }
         }
 
@@ -73,7 +74,11 @@ namespace Iit.Fibertest.Licenser
             {
                 if (value == _isBasic) return;
                 _isBasic = value;
+                if (_isMachineKeyRequired && _isBasic) 
+                    WebClientCount = 0;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(WebClientCount));  NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IsWebClientsEnabled));
             }
         }
 
@@ -236,22 +241,34 @@ namespace Iit.Fibertest.Licenser
             {
                 if (value == _isMachineKeyRequired) return;
                 _isMachineKeyRequired = value;
-                if (_isMachineKeyRequired) 
+                if (_isMachineKeyRequired && _isBasic) 
                     WebClientCount = 0;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(IsNotMachineKeyRequired));
                 NotifyOfPropertyChange(nameof(WebClientCount));
                 NotifyOfPropertyChange(nameof(LicenseKey));
+                NotifyOfPropertyChange(nameof(IsWebClientsEnabled));
             }
         }
 
-        public bool IsNotMachineKeyRequired => !IsMachineKeyRequired;
+        private bool _isStandart;
+        public bool IsStandart
+        {
+            get => _isStandart;
+            set
+            {
+                if (value == _isStandart) return;
+                _isStandart = value;
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(IsWebClientsEnabled));
+            }
+        }
+
+        public bool IsWebClientsEnabled => IsStandart || IsIncremental;
 
         public string SecurityAdminPassword { get; set; }
 
 
         private DateTime _creationDate;
-
         public DateTime CreationDate
         {
             get => _creationDate;
@@ -267,6 +284,8 @@ namespace Iit.Fibertest.Licenser
         public LicenseInFileModel()
         {
             LicenseId = Guid.Empty;
+            IsBasic = true;
+            IsStandart = true;
             RtuCountTermUnit = TermUnit.First();
             ClientStationTermUnit = TermUnit.First();
             WebClientTermUnit = TermUnit.First();
@@ -297,6 +316,7 @@ namespace Iit.Fibertest.Licenser
             SuperClientTermUnit = licenseInFile.SuperClientStationCount.IsTermInYears ? TermUnit.First() : TermUnit.Last();
 
             IsMachineKeyRequired = licenseInFile.IsMachineKeyRequired;
+            IsStandart = !licenseInFile.IsMachineKeyRequired;
             SecurityAdminPassword = (string)Cryptography.Decode(licenseInFile.SecurityAdminPassword);
             CreationDate = licenseInFile.CreationDate;
 

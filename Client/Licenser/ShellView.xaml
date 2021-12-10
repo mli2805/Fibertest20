@@ -25,14 +25,22 @@
                 <TextBlock Text="{x:Static stringResources:Resources.SID_License_owner}" TextAlignment="Right" Margin="0,0,20,0"/>
                 <TextBox Width="300" Text="{Binding LicenseInFileModel.Owner}" />
             </StackPanel>
-            <StackPanel Name="Incremental" Orientation="Horizontal" Height="22" Margin="0,5"  HorizontalAlignment="Right" >
+            <StackPanel Name="MachineKey" Orientation="Horizontal" Height="22" Margin="0,5" HorizontalAlignment="Right" 
+                        Visibility="{Binding LicenseInFileModel.IsBasic, Converter={StaticResource BoolToVis}}">
                 <TextBlock Text="{x:Static stringResources:Resources.SID_License_type}" TextAlignment="Right" Margin="0,0,20,0"/>
-
-                <RadioButton GroupName="LicType" Width="120" Height="18" Content="{x:Static stringResources:Resources.SID_Basic}" 
+                <RadioButton GroupName="LicType" Width="110" Height="18" Content="{x:Static stringResources:Resources.SID_Standart}" 
+                             IsChecked="{Binding LicenseInFileModel.IsStandart}"/>
+                <RadioButton GroupName="LicType" Width="190" Height="18" Content="{x:Static stringResources:Resources.SID_With_workstation_linking}" 
+                             IsChecked="{Binding LicenseInFileModel.IsMachineKeyRequired}"/>
+                <TextBlock Width="0"/>
+            </StackPanel>
+            <StackPanel Name="Incremental" Orientation="Horizontal" Height="22" Margin="0,5"  HorizontalAlignment="Right" >
+                <TextBlock Text="{x:Static stringResources:Resources.SID_License_key_type}" TextAlignment="Right" Margin="0,0,20,0"/>
+                <RadioButton GroupName="LicKeyType" Width="110" Height="18" Content="{x:Static stringResources:Resources.SID_Basic}" 
                              IsChecked="{Binding LicenseInFileModel.IsBasic}"/>
-                <RadioButton GroupName="LicType" Width="120" Height="18" Content="{x:Static stringResources:Resources.SID_Incremental}" 
+                <RadioButton GroupName="LicKeyType" Width="120" Height="18" Content="{x:Static stringResources:Resources.SID_Incremental}" 
                              IsChecked="{Binding LicenseInFileModel.IsIncremental}"/>
-                <TextBlock Width="60"/>
+                <TextBlock Width="70"/>
             </StackPanel>
             <StackPanel Name="Rtu" Orientation="Horizontal" Height="22" Margin="0,5" HorizontalAlignment="Right" >
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Rtu_count}" TextAlignment="Right" Margin="0,0,20,0"/>
@@ -49,7 +57,7 @@
                           SelectedItem="{Binding LicenseInFileModel.ClientStationTermUnit}"/>
             </StackPanel>
             <StackPanel Name="Web" Orientation="Horizontal" Height="22" Margin="0,5" HorizontalAlignment="Right" 
-                        IsEnabled="{Binding LicenseInFileModel.IsNotMachineKeyRequired}" >
+                        IsEnabled="{Binding LicenseInFileModel.IsWebClientsEnabled}" >
                 <TextBlock Text="{x:Static stringResources:Resources.SID_Web_clients}" TextAlignment="Right" Margin="0,0,20,0"/>
                 <TextBox Width="100" Text="{Binding LicenseInFileModel.WebClientCount}" />
                 <TextBox Width="70" Margin="20, 0, 10, 0" Text="{Binding LicenseInFileModel.WebClientTerm}"/>
@@ -64,13 +72,7 @@
                 <ComboBox Width="100" ItemsSource="{Binding LicenseInFileModel.TermUnit}" 
                           SelectedItem="{Binding LicenseInFileModel.SuperClientTermUnit}"/>
             </StackPanel>
-            <StackPanel Name="MachineKey" Orientation="Horizontal" Height="32" Margin="0,5" 
-                        HorizontalAlignment="Right" Visibility="{Binding LicenseInFileModel.IsBasic, Converter={StaticResource BoolToVis}}">
-                <TextBlock Text="{x:Static stringResources:Resources.SID_User_workplace_linking}" 
-                           Width="200" TextWrapping="Wrap" TextAlignment="Right" Margin="0,0,20,0"/>
-                <CheckBox Height="18" IsChecked="{Binding LicenseInFileModel.IsMachineKeyRequired}"/>
-                <TextBlock Width="285"/>
-            </StackPanel>
+
 
             <StackPanel Name="Date" Orientation="Horizontal" Height="24" Margin="0,5" HorizontalAlignment="Right">
                 <TextBlock Width="160" Text="{x:Static stringResources:Resources.SID_Creation_date}" 

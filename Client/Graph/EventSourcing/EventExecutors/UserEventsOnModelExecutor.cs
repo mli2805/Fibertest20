@@ -27,6 +27,11 @@ namespace Iit.Fibertest.Graph
                 if (e.ClientStationCount.Value < 1)
                     e.ClientStationCount.Value = 1;
             }
+            else
+            {
+                if (model.Licenses.First().IsMachineKeyRequired)
+                    e.WebClientCount.Value = 0;
+            }
             model.Licenses.Add(Mapper.Map<License>(e));
 
             if (e.IsMachineKeyRequired)

@@ -3295,6 +3295,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to First license key must not be Incremental.
+        /// </summary>
+        public static string SID_First_license_key_must_not_be_Incremental {
+            get {
+                return ResourceManager.GetString("SID_First_license_key_must_not_be_Incremental", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to for {0} {1}.
         /// </summary>
         public static string SID_for__0___1_ {
@@ -4069,6 +4078,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_License_key_long {
             get {
                 return ResourceManager.GetString("SID_License_key_long", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to License key type.
+        /// </summary>
+        public static string SID_License_key_type {
+            get {
+                return ResourceManager.GetString("SID_License_key_type", resourceCulture);
             }
         }
         
@@ -7189,6 +7207,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Standart.
+        /// </summary>
+        public static string SID_Standart {
+            get {
+                return ResourceManager.GetString("SID_Standart", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Start.
         /// </summary>
         public static string SID_Start {
@@ -8670,6 +8697,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_with_no_possibility_to_restore_them_ {
             get {
                 return ResourceManager.GetString("SID_with_no_possibility_to_restore_them_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to With workstation linking.
+        /// </summary>
+        public static string SID_With_workstation_linking {
+            get {
+                return ResourceManager.GetString("SID_With_workstation_linking", resourceCulture);
             }
         }
         

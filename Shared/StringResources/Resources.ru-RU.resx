@@ -2905,7 +2905,7 @@ RTU инициализируется в данный момент!</value>
 	  <value>Лицензионный ключ</value>
   </data>
 	<data name="SID_Incremental" xml:space="preserve">
-	  <value>Дополнительная</value>
+	  <value>Дополнительный</value>
   </data>
 	<data name="SID_Rtu_count" xml:space="preserve">
 		<value>Количество модулей</value>
@@ -2977,7 +2977,7 @@ RTU инициализируется в данный момент!</value>
 		<value>Привязка рабочее место - пользователь</value>
 	</data>
 	<data name="SID_Basic" xml:space="preserve">
-		<value>Основная</value>
+		<value>Основной</value>
 	</data>
 	<data name="SID_User_is_linked_to_another_workstation" xml:space="preserve">
 		<value>Пользователь привязан к другому рабочему месту</value>
@@ -3023,5 +3023,17 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Measurement_on_port__0__trace__1__is_finished" xml:space="preserve">
 		<value>Завершено измерение порт {0}, трасса "{1}"</value>
+	</data>
+	<data name="SID_License_key_type" xml:space="preserve">
+		<value>Тип лицензионного ключа</value>
+	</data>
+	<data name="SID_With_workstation_linking" xml:space="preserve">
+		<value>С привязкой раб места</value>
+	</data>
+	<data name="SID_Standart" xml:space="preserve">
+		<value>Стандартная</value>
+	</data>
+	<data name="SID_First_license_key_must_not_be_Incremental" xml:space="preserve">
+		<value>Первый лицензионный ключ не должен быть Дополнительный</value>
 	</data>
 </root>
