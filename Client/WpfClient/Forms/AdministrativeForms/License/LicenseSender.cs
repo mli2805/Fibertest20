@@ -35,8 +35,11 @@ namespace Iit.Fibertest.Client
 
         public async Task<bool> ApplyLicenseFromFile(string initialDirectory = "")
         {
-            var licenseInFile = _licenseFromFileDecoder.Decode(_licenseFileChooser.ChooseFilename(initialDirectory));
+            var filename = _licenseFileChooser.ChooseFilename(initialDirectory);
+            if (filename == null)
+                return false;
 
+            var licenseInFile = _licenseFromFileDecoder.Decode(filename);
             if (licenseInFile == null)
                return false;
 
