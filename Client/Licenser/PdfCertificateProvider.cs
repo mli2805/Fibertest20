@@ -25,7 +25,7 @@ namespace Iit.Fibertest.Licenser
             doc.DefaultPageSetup.LeftMargin = Unit.FromCentimeter(2);
             doc.DefaultPageSetup.RightMargin = Unit.FromCentimeter(1);
             doc.DefaultPageSetup.TopMargin = Unit.FromCentimeter(0.5);
-            doc.DefaultPageSetup.BottomMargin = Unit.FromCentimeter(1.5);
+            doc.DefaultPageSetup.BottomMargin = Unit.FromCentimeter(0.5);
             doc.DefaultPageSetup.FooterDistance = Unit.FromCentimeter(0.5);
 
             AddCaption(section);
@@ -178,7 +178,7 @@ namespace Iit.Fibertest.Licenser
             var paragraph = section.AddParagraph();
             paragraph.AddFormattedText("=== digital key starts ===");
             paragraph.Format.Font.Size = 8;
-            paragraph.Format.SpaceBefore = Unit.FromCentimeter(1.4);
+            paragraph.Format.SpaceBefore = Unit.FromCentimeter(1.0);
 
             var code = ByteArrayToString(bytes);
             var paragraph2 = section.AddParagraph();
@@ -205,7 +205,7 @@ namespace Iit.Fibertest.Licenser
             paragraph.Format.Alignment = ParagraphAlignment.Left;
             paragraph.Format.LeftIndent = Unit.FromCentimeter(2);
             paragraph.Format.Font.Size = 12;
-            paragraph.Format.SpaceBefore = Unit.FromCentimeter(2.4);
+            paragraph.Format.SpaceBefore = Unit.FromCentimeter(1.6);
 
         }
     }
