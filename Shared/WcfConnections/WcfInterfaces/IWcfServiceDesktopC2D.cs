@@ -38,14 +38,6 @@ namespace Iit.Fibertest.WcfConnections
         [OperationContract]
         Task<byte[]> GetModelPortion(int portionOrdinal);
 
-
-
-        [OperationContract]
-        Task<SnapshotParamsDto> GetSnapshotParams(GetSnapshotDto dto);
-
-        [OperationContract]
-        Task<byte[]> GetSnapshotPortion(int portionOrdinal);
-
         // C2D
 
         [OperationContract]

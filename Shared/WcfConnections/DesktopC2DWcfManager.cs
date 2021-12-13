@@ -194,47 +194,6 @@ namespace Iit.Fibertest.WcfConnections
             }
         }
 
-        public async Task<SnapshotParamsDto> GetSnapshotParams(GetSnapshotDto dto)
-        {
-            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
-            if (wcfConnection == null)
-                return null;
-
-            try
-            {
-                var channel = wcfConnection.CreateChannel();
-                dto.ClientIp = _clientIp;
-                var result = await channel.GetSnapshotParams(dto);
-                wcfConnection.Close();
-                return result;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("GetSnapshotParams: " + e.Message);
-                return null;
-            }
-        }
-
-        public async Task<byte[]> GetSnapshotPortion(int portionOrdinal)
-        {
-            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
-            if (wcfConnection == null)
-                return null;
-
-            try
-            {
-                var channel = wcfConnection.CreateChannel();
-                var result = await channel.GetSnapshotPortion(portionOrdinal);
-                wcfConnection.Close();
-                return result;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("GetSnapshotPortion: " + e.Message);
-                return null;
-            }
-        }
-
         public async Task<bool> CheckServerConnection(CheckServerConnectionDto dto)
         {
             var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();

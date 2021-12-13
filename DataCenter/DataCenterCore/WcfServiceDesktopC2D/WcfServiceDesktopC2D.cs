@@ -288,17 +288,6 @@ namespace Iit.Fibertest.DataCenterCore
             return portion;
         }
 
-        public async Task<SnapshotParamsDto> GetSnapshotParams(GetSnapshotDto dto)
-        {
-            return await _snapshotRepository.GetSnapshotParams(dto.LastIncludedEvent);
-        }
-
-        public async Task<byte[]> GetSnapshotPortion(int portionOrdinal)
-        {
-            return await _snapshotRepository.GetSnapshotPortion(portionOrdinal);
-        }
-
-
         public async Task<DiskSpaceDto> GetDiskSpaceGb()
         {
             return await _diskSpaceProvider.GetDiskSpaceGb();
