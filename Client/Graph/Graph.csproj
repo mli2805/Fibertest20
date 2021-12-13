@@ -193,6 +193,10 @@
     <Compile Include="DomainEntities\Graph\GponPortRelation.cs" />
     <Compile Include="DomainEntities\Graph\Olt.cs" />
     <Compile Include="DomainEntities\Graph\VeexTest.cs" />
+    <Compile Include="DomainEntities\LogLine.cs" />
+    <Compile Include="DomainEntities\LogOperationCode.cs" />
+    <Compile Include="DomainEntities\LogOperationCodeExt.cs" />
+    <Compile Include="EventSourcing\EventExecutors\EventToLogLineParser.cs" />
     <Compile Include="EventSourcing\EventExecutors\OltEventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\EventExecutors\VeexTestsEventsOnModelExecutor.cs" />
     <Compile Include="EventSourcing\Model\ModelCleaningExt.cs" />

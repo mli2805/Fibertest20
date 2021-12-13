@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
-namespace Iit.Fibertest.Client
+namespace Iit.Fibertest.Graph
 {
     public class EventToLogLineParser
     {
