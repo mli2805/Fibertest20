@@ -23,6 +23,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<WindowManager>().As<IWindowManager>().InstancePerLifetimeScope();
             builder.RegisterType<ConfigurationViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<EventToLogLineParser>().InstancePerLifetimeScope();
+            builder.RegisterType<EventLogComposer>().InstancePerLifetimeScope();
             builder.RegisterType<LogOperationsViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<EventLogViewModel>().InstancePerLifetimeScope();
             builder.RegisterType<AboutViewModel>().InstancePerLifetimeScope();

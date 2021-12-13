@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Globalization;
 using System.Reflection;
 using System.ServiceProcess;
 using System.Threading;
@@ -83,6 +84,11 @@ namespace Iit.Fibertest.DataCenterService
             var pid = Process.GetCurrentProcess().Id;
             var tid = Thread.CurrentThread.ManagedThreadId;
             _logFile.AppendLine($"Service initialization thread. Process {pid}, thread {tid}");
+
+            var currentCulture = IniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
+            // used by user actions log composer
+            Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
+            _logFile.AppendLine($"Current UI culture is {Thread.CurrentThread.CurrentUICulture}");
 
             var previousStartOnVersion = IniFile.Read(IniSection.General, IniKey.Version, "0.0.0.0");
             IniFile.Write(IniSection.Server, IniKey.PreviousStartOnVersion, previousStartOnVersion);

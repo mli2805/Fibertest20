@@ -210,6 +210,8 @@ namespace Graph.Tests
 
             builder.RegisterType<EventsQueue>().InstancePerLifetimeScope();
             builder.RegisterType<EventStoreService>().InstancePerLifetimeScope();
+            builder.RegisterType<EventLogComposer>().InstancePerLifetimeScope();
+            builder.RegisterType<EventToLogLineParser>().InstancePerLifetimeScope();
 
             builder.RegisterType<CommandAggregator>().InstancePerLifetimeScope();
             builder.RegisterType<MeasurementFactory>().InstancePerLifetimeScope();

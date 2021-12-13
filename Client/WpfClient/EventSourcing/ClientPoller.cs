@@ -29,6 +29,7 @@ namespace Iit.Fibertest.Client
         private readonly CommandLineParameters _commandLineParameters;
         private readonly EventsOnGraphExecutor _eventsOnGraphExecutor;
         private readonly CurrentDatacenterParameters _currentDatacenterParameters;
+        private readonly EventLogComposer _eventLogComposer;
         private readonly EventsOnTreeExecutor _eventsOnTreeExecutor;
         private readonly OpticalEventsExecutor _opticalEventsExecutor;
         private readonly TraceStateViewsManager _traceStateViewsManager;
@@ -66,7 +67,7 @@ namespace Iit.Fibertest.Client
             IWcfServiceInSuperClient c2SWcfManager, SystemState systemState, CurrentUser currentUser,
             CommandLineParameters commandLineParameters, CurrentDatacenterParameters currentDatacenterParameters,
 
-            EventsOnGraphExecutor eventsOnGraphExecutor,
+            EventLogComposer eventLogComposer, EventsOnGraphExecutor eventsOnGraphExecutor,
             EventsOnTreeExecutor eventsOnTreeExecutor, OpticalEventsExecutor opticalEventsExecutor,
 
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
@@ -86,6 +87,7 @@ namespace Iit.Fibertest.Client
             _commandLineParameters = commandLineParameters;
             _eventsOnGraphExecutor = eventsOnGraphExecutor;
             _currentDatacenterParameters = currentDatacenterParameters;
+            _eventLogComposer = eventLogComposer;
             _eventsOnTreeExecutor = eventsOnTreeExecutor;
             _opticalEventsExecutor = opticalEventsExecutor;
             _traceStateViewsManager = traceStateViewsManager;
@@ -106,6 +108,7 @@ namespace Iit.Fibertest.Client
         public void Start()
         {
             _logFile.AppendLine($@"Polling started from {_currentEventNumber}");
+            _eventLogComposer.Initialize();
             _pollerThread = new Thread(DoPolling) { IsBackground = true };
             _pollerThread.Start();
         }
@@ -191,6 +194,8 @@ namespace Iit.Fibertest.Client
                     _rtuChannelViewsManager.Apply(evnt);
                     _bopStateViewsManager.Apply(evnt);
                     _bopNetworkEventsDoubleViewModel.Apply(evnt);
+
+                    _eventLogComposer.AddEventToLog(msg);
                 }
                 catch (Exception e)
                 {

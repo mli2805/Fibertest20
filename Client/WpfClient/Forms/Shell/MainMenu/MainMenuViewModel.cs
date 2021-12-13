@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.StringResources;
@@ -17,14 +16,13 @@ namespace Iit.Fibertest.Client
         private readonly ComponentsReportViewModel _componentsReportViewModel;
         private readonly OpticalEventsReportViewModel _opticalEventsReportViewModel;
 
-        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager, 
+        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager,
             ComponentsReportViewModel componentsReportViewModel, OpticalEventsReportViewModel opticalEventsReportViewModel)
         {
             _globalScope = globalScope;
             _windowManager = windowManager;
             _componentsReportViewModel = componentsReportViewModel;
             _opticalEventsReportViewModel = opticalEventsReportViewModel;
-
         }
 
         public void LaunchResponsibilityZonesView()
@@ -44,7 +42,6 @@ namespace Iit.Fibertest.Client
             var vm = _globalScope.Resolve<ObjectsAsTreeToZonesViewModel>();
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
-
 
         public void LaunchComponentsReport()
         {
@@ -89,7 +86,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-      
+
 
         public void LaunchSmtpSettingsView()
         {
@@ -127,18 +124,10 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
-        public async void LaunchEventLogView()
+        public void LaunchEventLogView()
         {
             var vm = _globalScope.Resolve<EventLogViewModel>();
-
-            var waitVm = new WaitViewModel();
-            waitVm.Initialize(LongOperation.CollectingEventLog);
-            _windowManager.ShowWindowWithAssignedOwner(waitVm);
-
-            var unused = await Task.Factory.StartNew(()=>vm.Initialize().Result);
-
-            waitVm.TryClose();
-
+            vm.Initialize();
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 

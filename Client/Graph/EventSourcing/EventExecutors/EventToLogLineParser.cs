@@ -22,6 +22,9 @@ namespace Iit.Fibertest.Graph
         public EventToLogLineParser(Model readModel)
         {
             _readModel = readModel;
+            _rtuTitles = new Dictionary<Guid, string>();
+            _traces = new Dictionary<Guid, Tuple<string, Guid>>();
+            _measurements = new Dictionary<int, MeasurementAdded>();
         }
 
         public LogLine ParseEventBody(object body)
@@ -60,15 +63,19 @@ namespace Iit.Fibertest.Graph
             }
         }
 
-        public void Initialize()
-        {
-            _rtuTitles = new Dictionary<Guid, string>();
-            _traces = new Dictionary<Guid, Tuple<string, Guid>>();
-            _measurements = new Dictionary<int, MeasurementAdded>();
-        }
+        // public void Initialize()
+        // {
+        //     _rtuTitles = new Dictionary<Guid, string>();
+        //     _traces = new Dictionary<Guid, Tuple<string, Guid>>();
+        //     _measurements = new Dictionary<int, MeasurementAdded>();
+        // }
 
         public void InitializeBySnapshot(Model modelAtSnapshot)
         {
+            // for old snapshots made before event log move to server
+            if (modelAtSnapshot.UserActionsLog == null)
+                modelAtSnapshot.UserActionsLog = new List<LogLine>();
+
             foreach (var rtu in modelAtSnapshot.Rtus)
                 _rtuTitles.Add(rtu.Id, rtu.Title);
 
