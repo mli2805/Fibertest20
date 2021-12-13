@@ -10,10 +10,19 @@ namespace Iit.Fibertest.WcfConnections
     {
         IWcfServiceDesktopC2D SetServerAddresses(DoubleAddress newServerAddress, string username, string clientIp);
 
-
         [OperationContract]
         Task<bool> SendHeartbeat(HeartbeatDto dto);
 
+        [OperationContract]
+        Task<bool> CheckServerConnection(CheckServerConnectionDto dto);
+
+        [OperationContract]
+        Task<DiskSpaceDto> GetDiskSpaceGb();
+
+        [OperationContract]
+        Task<int> ExportEvents();
+
+        #region Event sourcing
         [OperationContract]
         Task<int> SendCommands(List<string> jsons, string username, string clientIp); // especially for Migrator.exe
 
@@ -37,12 +46,9 @@ namespace Iit.Fibertest.WcfConnections
 
         [OperationContract]
         Task<byte[]> GetModelPortion(int portionOrdinal);
+        #endregion
 
-        // C2D
-
-        [OperationContract]
-        Task<bool> CheckServerConnection(CheckServerConnectionDto dto);
-
+        #region Settings
         [OperationContract]
         Task<bool> SaveSmtpSettings(SmtpSettingsDto dto);
 
@@ -57,9 +63,7 @@ namespace Iit.Fibertest.WcfConnections
 
         [OperationContract]
         Task<bool> SendTest(string to, NotificationType notificationType);
-
-        [OperationContract]
-        Task<DiskSpaceDto> GetDiskSpaceGb();
+        #endregion
 
     }
 }

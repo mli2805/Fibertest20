@@ -141,6 +141,7 @@ namespace Iit.Fibertest.Client
 
             if (_loginViewModel.IsRegistrationSuccessful)
             {
+                MainMenuViewModel.CurrentUser = _currentUser;
                 TabulatorViewModel.SelectedTabIndex = 4;
 
                 SetDisplayName();

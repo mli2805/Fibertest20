@@ -295,6 +295,8 @@
     <Compile Include="RtuResultsProcessing\VeexCompletedTestProcessor.cs" />
     <Compile Include="RtuResultsProcessing\VeexCompletedTestsFetcher.cs" />
     <Compile Include="WcfServiceCommonC2D\IntermediateLayer.cs" />
+    <Compile Include="WcfServiceDesktopC2D\WcfServiceForEventSourcing.cs" />
+    <Compile Include="WcfServiceDesktopC2D\WcfServiceNotifyWebClient.cs" />
     <Compile Include="WcfServiceWebC2D\EventsExt.cs" />
     <Compile Include="WcfServiceWebC2D\TraceWebDtoFactory.cs" />
     <Compile Include="WcfServiceWebC2D\WcfServiceWebC2DMonitoringSettings.cs" />
@@ -326,10 +328,10 @@
     <Compile Include="WcfServiceCommonC2D\IClientToRtuTransmitter.cs" />
     <Compile Include="WcfServiceCommonC2D\ClientToRtuVeexTransmitter\ClientToRtuVeexTransmitter.cs" />
     <Compile Include="WcfServiceDesktopC2D\WcfServiceDesktopC2D.cs" />
-    <Compile Include="WcfServiceDesktopC2D\WcfServiceForClientAccidentNotifications.cs" />
+    <Compile Include="WcfServiceDesktopC2D\WcfServiceSettings.cs" />
     <Compile Include="WcfServiceDesktopC2D\WcfServiceForClientDbOptimization.cs" />
     <Compile Include="WcfServiceCommonC2D\WcfServiceCommonC2DForMigrator.cs" />
-    <Compile Include="WcfServiceDesktopC2D\WcfServiceForClientRegistration.cs" />
+    <Compile Include="WcfServiceDesktopC2D\WcfServiceForEventsExport.cs" />
     <Compile Include="WcfServiceDesktopC2D\WcfServiceForClientSnapshot.cs" />
     <Compile Include="WcfServiceCommonC2D\WcfServiceCommonC2D.cs" />
     <Compile Include="WcfServiceForRtu.cs" />

@@ -13,7 +13,8 @@
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Responsibility_zones}" 
                           cal:Message.Attach="LaunchResponsibilityZonesView"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Users}" cal:Message.Attach="LaunchUserListView()"/>
-                <MenuItem Header="{x:Static stringResources:Resources.SID_Responsibility_zones_settings}" cal:Message.Attach="LaunchObjectsToZonesView"/>
+                <MenuItem Header="{x:Static stringResources:Resources.SID_Responsibility_zones_settings}" 
+                          cal:Message.Attach="LaunchObjectsToZonesView"/>
             </MenuItem>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Reports}">
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Monitoring_system_components}" cal:Message.Attach="LaunchComponentsReport"/>
@@ -36,6 +37,9 @@
                 <MenuItem Header="{x:Static stringResources:Resources.SID_License}" cal:Message.Attach="LaunchLicenseView"/>
                 <Separator/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_About}" cal:Message.Attach="LaunchAboutView"/>
+            </MenuItem>
+            <MenuItem Header="Service" Visibility="{Binding ServiceMenuVisibility}">
+                <MenuItem Header="Export events to file" cal:Message.Attach="ExportEvents"/>
             </MenuItem>
         </Menu>
     </Grid>
