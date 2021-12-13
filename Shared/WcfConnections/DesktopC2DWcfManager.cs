@@ -67,6 +67,7 @@ namespace Iit.Fibertest.WcfConnections
             return await SendCommands(list, _username, _clientIp);
         }
 
+       
         public async Task<int> SendCommands(List<string> jsons, string username, string clientIp)
         {
             var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
@@ -129,6 +130,26 @@ namespace Iit.Fibertest.WcfConnections
             {
                 _logFile.AppendLine("SendCommand: " + e.Message);
                 return e.Message;
+            }
+        }
+
+        public async Task<int> ExportEvents()
+        {
+            var wcfConnection = _wcfFactory.GetDesktopC2DChannelFactory();
+            if (wcfConnection == null)
+                return -1;
+
+            try
+            {
+                var channel = wcfConnection.CreateChannel();
+                var result = await channel.ExportEvents();
+                wcfConnection.Close();
+                return result;
+            }
+            catch (Exception e)
+            {
+                _logFile.AppendLine("ExportEvents: " + e.Message);
+                return -1;
             }
         }
 

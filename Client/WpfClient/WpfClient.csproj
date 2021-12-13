@@ -318,6 +318,7 @@
    <Compile Include="Forms\Shell\MainMenu\MainMenuAdministrative.cs" />
     <Compile Include="Forms\Shell\MainMenu\MainMenuHelp.cs" />
     <Compile Include="Forms\Shell\MainMenu\MainMenuReports.cs" />
+    <Compile Include="Forms\Shell\MainMenu\MainMenuService.cs" />
     <Compile Include="Forms\Shell\MainMenu\MainMenuSettings.cs" />
     <Compile Include="Forms\Shell\SystemState.cs" />
     <Compile Include="Forms\TraceForms\TraceInfo\TraceDevReportExt.cs" />

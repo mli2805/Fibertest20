@@ -1,70 +1,56 @@
 using System;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
+using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.Client
 {
     public partial class MainMenuViewModel : PropertyChangedBase
     {
         private readonly ILifetimeScope _globalScope;
-        private readonly IWindowManager _windowManager;
         private readonly IMyLog _logFile;
+        private readonly IWindowManager _windowManager;
         private readonly Model _readModel;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
+        private readonly IWcfServiceDesktopC2D _wcfDesktopC2D;
         private readonly ComponentsReportViewModel _componentsReportViewModel;
         private readonly OpticalEventsReportViewModel _opticalEventsReportViewModel;
-
-        private Role _currentUserRole = Role.Supervisor;
-        public Role CurrentUserRole
+      
+        private CurrentUser _currentUser = new CurrentUser();
+        public CurrentUser CurrentUser
         {
-            get => _currentUserRole;
+            get => _currentUser;
             set
             {
-                if (Equals(value, _currentUserRole)) return;
-                _currentUserRole = value;
+                if (Equals(value, _currentUser)) return;
+                _currentUser = value;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(DeveloperMenuItemsVisibility));
+                NotifyOfPropertyChange(nameof(ServiceMenuVisibility));
             }
         }
 
-        public Visibility DeveloperMenuItemsVisibility =>
-            _currentUserRole == Role.Developer ? Visibility.Visible : Visibility.Collapsed;
+        public Visibility ServiceMenuVisibility =>
+            CurrentUser.Role == Role.Developer ? Visibility.Visible : Visibility.Collapsed;
 
-        public MainMenuViewModel(ILifetimeScope globalScope, IWindowManager windowManager,
-            IMyLog logFile, Model readModel, CurrentlyHiddenRtu currentlyHiddenRtu,
+        public MainMenuViewModel(ILifetimeScope globalScope, IMyLog logFile, IWindowManager windowManager,
+            Model readModel, CurrentlyHiddenRtu currentlyHiddenRtu, IWcfServiceDesktopC2D wcfDesktopC2D,
             ComponentsReportViewModel componentsReportViewModel, OpticalEventsReportViewModel opticalEventsReportViewModel)
         {
             _globalScope = globalScope;
-            _windowManager = windowManager;
             _logFile = logFile;
+            _windowManager = windowManager;
             _readModel = readModel;
             _currentlyHiddenRtu = currentlyHiddenRtu;
+            _wcfDesktopC2D = wcfDesktopC2D;
             _componentsReportViewModel = componentsReportViewModel;
             _opticalEventsReportViewModel = opticalEventsReportViewModel;
         }
 
-         public async void ImportRtuFromFolder()
-        {
-            var basePath = AppDomain.CurrentDomain.BaseDirectory;
-            var folder = Path.GetFullPath(Path.Combine(basePath, @"..\temp\"));
-            string[] files = Directory.GetFiles(folder, "*.brtu");
-
-            foreach (var filename in files)
-            {
-                var bytes = File.ReadAllBytes(filename);
-                var oneRtuGraphModel = new Model();
-                if (!await oneRtuGraphModel.Deserialize(_logFile, bytes)) return;
-                _readModel.AddOneRtuToModel(oneRtuGraphModel);
-            }
-
-            _currentlyHiddenRtu.Collection.AddRange(_readModel.Rtus.Select(r=>r.Id));
-            _currentlyHiddenRtu.IsHideAllPressed = true;
-        }
+     
     }
 }
