@@ -52,7 +52,6 @@ namespace Iit.Fibertest.Client
             _currentlyHiddenRtu = currentlyHiddenRtu;
             _componentsReportViewModel = componentsReportViewModel;
             _opticalEventsReportViewModel = opticalEventsReportViewModel;
-
         }
 
         public void LaunchResponsibilityZonesView()
@@ -171,18 +170,10 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
-        public async void LaunchEventLogView()
+        public void LaunchEventLogView()
         {
             var vm = _globalScope.Resolve<EventLogViewModel>();
-
-            var waitVm = new WaitViewModel();
-            waitVm.Initialize(LongOperation.CollectingEventLog);
-            _windowManager.ShowWindowWithAssignedOwner(waitVm);
-
-            var unused = await Task.Factory.StartNew(() => vm.Initialize().Result);
-
-            waitVm.TryClose();
-
+            vm.Initialize();
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 

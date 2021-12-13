@@ -18,6 +18,7 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly IMyLog _logFile;
         private readonly IEventStoreInitializer _eventStoreInitializer;
         private readonly SnapshotRepository _snapshotRepository;
+        private readonly EventLogComposer _eventLogComposer;
         public IStoreEvents StoreEvents;
         private readonly CommandAggregator _commandAggregator;
         private readonly EventsQueue _eventsQueue;
@@ -35,7 +36,7 @@ namespace Iit.Fibertest.DataCenterCore
         };
 
         public EventStoreService(IniFile iniFile, IMyLog logFile, IEventStoreInitializer eventStoreInitializer,
-            SnapshotRepository snapshotRepository,
+            SnapshotRepository snapshotRepository, EventLogComposer eventLogComposer,
              CommandAggregator commandAggregator, EventsQueue eventsQueue, Model writeModel)
         {
             _eventsPortion = iniFile.Read(IniSection.General, IniKey.EventSourcingPortion, 100);
@@ -43,6 +44,7 @@ namespace Iit.Fibertest.DataCenterCore
             _logFile = logFile;
             _eventStoreInitializer = eventStoreInitializer;
             _snapshotRepository = snapshotRepository;
+            _eventLogComposer = eventLogComposer;
             _commandAggregator = commandAggregator;
             _eventsQueue = eventsQueue;
             _writeModel = writeModel;
@@ -57,7 +59,9 @@ namespace Iit.Fibertest.DataCenterCore
             LastEventDateInSnapshot = snapshot.Item3;
             if (LastEventNumberInSnapshot != 0)
             {
-                if (!await _writeModel.Deserialize(_logFile, snapshot.Item2)) return -1;
+                if (!await _writeModel.Deserialize(_logFile, snapshot.Item2)) 
+                    return -1;
+                _eventLogComposer.Initialize();
             }
 
             var eventStream = StoreEvents.OpenStream(StreamIdOriginal);
@@ -71,15 +75,16 @@ namespace Iit.Fibertest.DataCenterCore
 
                 _logFile.AppendLine("Empty graph is seeded with default zone and users.");
             }
-           
-            var events = eventStream.CommittedEvents.Select(x => x.Body).ToList();
-            _logFile.AppendLine($"{events.Count} events should be applied...");
-            foreach (var evnt in events)
+
+            var eventMessages = eventStream.CommittedEvents.ToList();
+            _logFile.AppendLine($"{eventMessages.Count} events should be applied...");
+            foreach (var eventMessage in eventMessages)
             {
-                _writeModel.Apply(evnt);
+                _writeModel.Apply(eventMessage.Body);
+                _eventLogComposer.AddEventToLog(eventMessage);
             }
             _logFile.AppendLine("Events applied successfully.");
-            _logFile.AppendLine($"Last event number is {LastEventNumberInSnapshot + events.Count}");
+            _logFile.AppendLine($"Last event number is {LastEventNumberInSnapshot + eventMessages.Count}");
 
             // await SeedOlts();
 
@@ -110,7 +115,7 @@ namespace Iit.Fibertest.DataCenterCore
                 }
             }
 
-            return events.Count;
+            return eventMessages.Count;
         }
 
         private async Task SeedOlts()
@@ -224,7 +229,9 @@ namespace Iit.Fibertest.DataCenterCore
             var eventStream = StoreEvents.OpenStream(StreamIdOriginal);
             foreach (var e in _eventsQueue.EventsWaitingForCommit)   // takes already applied event(s) from WriteModel's list
             {
-                eventStream.Add(WrapEvent(e, username, clientIp));   // and stores this event in BD
+                var eventMessage = WrapEvent(e, username, clientIp);
+                eventStream.Add(eventMessage);   // and stores this event in BD
+                _eventLogComposer.AddEventToLog(eventMessage);
             }
             _eventsQueue.Commit();                                     // now cleans WriteModel's list
             eventStream.CommitChanges(Guid.NewGuid());

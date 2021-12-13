@@ -4,35 +4,23 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows.Data;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
-using Iit.Fibertest.UtilsLib;
-using Iit.Fibertest.WcfConnections;
 using Iit.Fibertest.WpfCommonViews;
-using Newtonsoft.Json;
-using NEventStore;
 
 namespace Iit.Fibertest.Client
 {
     public class EventLogViewModel : Screen
     {
-        private readonly IMyLog _logFile;
-        private readonly CurrentDatacenterParameters _currentDatacenterParameters;
-        private readonly CurrentUser _currentUser;
-        private readonly EventToLogLineParser _eventToLogLineParser;
-        private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly Model _readModel;
         private readonly LogOperationsViewModel _logOperationsViewModel;
         private readonly IWindowManager _windowManager;
         private UserFilter _selectedUserFilter;
         private string _operationsFilterButtonContent;
-
-        private static readonly JsonSerializerSettings JsonSerializerSettings =
-            new JsonSerializerSettings { TypeNameHandling = TypeNameHandling.All };
+        private List<LogLine> _rows;
 
         public string OperationsFilterButtonContent
         {
@@ -60,17 +48,21 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public List<LogLine> Rows { get; set; }
+        // public ObservableCollection<LogLine> Rows { get; set; } = new ObservableCollection<LogLine>();
 
-        public EventLogViewModel(IMyLog logFile, CurrentDatacenterParameters currentDatacenterParameters,
-            CurrentUser currentUser, EventToLogLineParser eventToLogLineParser, IWcfServiceDesktopC2D c2DWcfManager,
-            Model readModel, LogOperationsViewModel logOperationsViewModel, IWindowManager windowManager)
+        public List<LogLine> Rows
         {
-            _logFile = logFile;
-            _currentDatacenterParameters = currentDatacenterParameters;
-            _currentUser = currentUser;
-            _eventToLogLineParser = eventToLogLineParser;
-            _c2DWcfManager = c2DWcfManager;
+            get => _rows;
+            set
+            {
+                if (Equals(value, _rows)) return;
+                _rows = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public EventLogViewModel(Model readModel, LogOperationsViewModel logOperationsViewModel, IWindowManager windowManager)
+        {
             _readModel = readModel;
             _logOperationsViewModel = logOperationsViewModel;
             _windowManager = windowManager;
@@ -140,73 +132,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        // do before show form!
-        public async Task<int> Initialize()
+        public void Initialize()
         {
-            Rows = new List<LogLine>();
+            Rows = _readModel.UserActionsLog;
             InitializeFilters();
-
-            _eventToLogLineParser.Initialize();
-            if (_currentDatacenterParameters.SnapshotLastEvent != 0)
-            {
-                var snapshot = await DownloadSnapshot();
-                var modelAtSnapshot = new Model();
-                await modelAtSnapshot.Deserialize(_logFile, snapshot);
-                _eventToLogLineParser.InitializeBySnapshot(modelAtSnapshot);
-            }
-
-            var offset = 0;
-            while (true)
-            {
-                string[] events = await _c2DWcfManager.GetEvents(
-                    new GetEventsDto()
-                    {
-                        Revision = _currentDatacenterParameters.SnapshotLastEvent + offset,
-                        ConnectionId = _currentUser.ConnectionId
-                    });
-
-
-                if (events == null)
-                {
-                    _logFile.AppendLine($@"Cannot establish connection with data-center. ");
-                    return -1;
-                }
-
-                if (events.Length == 0)
-                    break;
-
-                offset += events.Length;
-
-                var ordinal = 1;
-                foreach (var json in events)
-                {
-                    try
-                    {
-                        var msg = (EventMessage)JsonConvert.DeserializeObject(json, JsonSerializerSettings);
-                        if (msg == null) continue;
-                        var username = (string)msg.Headers[@"Username"];
-                        var user = _readModel.Users.FirstOrDefault(u => u.Title == username);
-
-                        var line = _eventToLogLineParser.ParseEventBody(msg.Body);
-                        // event should be parsed even before check in order to update internal dictionaries
-                        if (line == null ||
-                            user == null || (user.Role < Role.Developer && line.OperationCode != LogOperationCode.EventsAndSorsRemoved)) continue;
-
-                        line.Ordinal = ordinal;
-                        line.Username = username;
-                        line.ClientIp = (string)msg.Headers[@"ClientIp"];
-                        line.Timestamp = (DateTime)msg.Headers[@"Timestamp"];
-                        Rows.Insert(0, line);
-                        ordinal++;
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine(e);
-                    }
-                }
-            }
-
-            return Rows.Count;
         }
 
         public void ShowOperationFilter()
@@ -242,37 +171,6 @@ namespace Iit.Fibertest.Client
         public void Close()
         {
             TryClose();
-        }
-
-
-        private async Task<byte[]> DownloadSnapshot()
-        {
-            try
-            {
-                _logFile.AppendLine(@"Downloading snapshot...");
-                var dto = await _c2DWcfManager.GetSnapshotParams(
-                    new GetSnapshotDto() { LastIncludedEvent = _currentDatacenterParameters.SnapshotLastEvent });
-                _logFile.AppendLine($@"{dto.PortionsCount} portions in snapshot");
-                if (dto.PortionsCount < 1)
-                    return null;
-
-                var snapshot = new byte[dto.Size];
-                var offset = 0;
-                for (int i = 0; i < dto.PortionsCount; i++)
-                {
-                    var portion = await _c2DWcfManager.GetSnapshotPortion(i);
-                    portion.CopyTo(snapshot, offset);
-                    offset = offset + portion.Length;
-                    _logFile.AppendLine($@"portion {i}  {portion.Length} bytes received and saved in cache");
-                }
-
-                return snapshot;
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($@"DownloadSnapshot : {e.Message}");
-                return null;
-            }
         }
     }
 }

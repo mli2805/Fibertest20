@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-using System.ServiceProcess;
-using System.Threading;
+﻿using System.ServiceProcess;
 using Autofac;
 using Iit.Fibertest.DatabaseLibrary;
 using Iit.Fibertest.DataCenterCore;
@@ -18,10 +16,7 @@ namespace Iit.Fibertest.DataCenterService
         {
             var iniFile = new IniFile().AssignFile("DataCenter.ini");
             builder.RegisterInstance(iniFile);
-            var currentCulture = iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
-            Thread.CurrentThread.CurrentCulture = new CultureInfo(currentCulture);
-            Thread.CurrentThread.CurrentUICulture = new CultureInfo(currentCulture);
-
+          
             var logFile = new LogFile(iniFile, 100000);
             builder.RegisterInstance<IMyLog>(logFile);
 
@@ -41,6 +36,8 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<EventsQueue>().SingleInstance();
             builder.RegisterType<CommandAggregator>().SingleInstance();
             builder.RegisterType<EventStoreService>().SingleInstance();
+            builder.RegisterType<EventLogComposer>().SingleInstance();
+            builder.RegisterType<EventToLogLineParser>().SingleInstance();
             builder.RegisterType<MeasurementFactory>().SingleInstance();
             builder.RegisterType<SnapshotRepository>().SingleInstance();
             builder.RegisterType<RtuStationsRepository>().SingleInstance();

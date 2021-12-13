@@ -22,6 +22,7 @@ namespace Iit.Fibertest.Graph
         public List<BaseRef> BaseRefs { get; set; } = new List<BaseRef>();
         public List<Olt> Olts { get; set; } = new List<Olt>();
         public List<VeexTest> VeexTests { get; set; } = new List<VeexTest>();
+        public List<LogLine> UserActionsLog { get; set; } = new List<LogLine>();
 
         public void CopyFrom(Model source)
         {
@@ -40,6 +41,7 @@ namespace Iit.Fibertest.Graph
             BaseRefs = source.BaseRefs;
             Olts = source.Olts;
             VeexTests = source.VeexTests;
+            UserActionsLog = source.UserActionsLog;
         }
     }
 }
