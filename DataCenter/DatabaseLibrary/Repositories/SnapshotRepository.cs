@@ -86,48 +86,7 @@ namespace Iit.Fibertest.DatabaseLibrary
             }
         }
 
-        public async Task<SnapshotParamsDto> GetSnapshotParams(int lastIncludedEvent)
-        {
-            try
-            {
-                await Task.Delay(1);
-                using (var dbContext = new FtDbContext(_parameterizer.Options))
-                {
-                    var result = new SnapshotParamsDto
-                    {
-                        PortionsCount = dbContext.Snapshots.Count(l => l.LastEventNumber == lastIncludedEvent),
-                        Size = dbContext.Snapshots.Where(l => l.LastEventNumber == lastIncludedEvent)
-                            .Select(r => r.Payload.Length).AsEnumerable().Sum()
-                    };
-                    return result;
-                }
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("GetSnapshotParams: " + e.Message);
-                return null;
-            }
-        }
-
-        public async Task<byte[]> GetSnapshotPortion(int portionOrdinal)
-        {
-            try
-            {
-                await Task.Delay(1);
-                using (var dbContext = new FtDbContext(_parameterizer.Options))
-                {
-                    var firstId = dbContext.Snapshots.First().Id;
-                    return dbContext.Snapshots.First(p => p.Id == firstId + portionOrdinal).Payload;
-                }
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine("GetSnapshotPortion: " + e.Message);
-                return null;
-            }
-        }
-
-
+     
         public async Task<int> RemoveOldSnapshots()
         {
             try
