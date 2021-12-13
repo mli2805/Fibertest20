@@ -269,35 +269,5 @@ namespace Iit.Fibertest.DataCenterCore
                 return new string[0];
             }
         }
-
-        public bool CompareEvent(int revision, DateTime timestamp)
-        {
-            try
-            {
-                var evnt = StoreEvents.OpenStream(StreamIdOriginal, revision + 1).CommittedEvents.FirstOrDefault();
-                if (evnt == null)
-                {
-                    _logFile.AppendLine($"CompareLastEvent: there is no event with revision {revision}");
-                    return false;
-                }
-
-                if ((DateTime)evnt.Headers[Timestamp] == timestamp)
-                {
-                    _logFile.AppendLine($"CompareLastEvent: Events {revision} are the same on server and client");
-                    return true;
-                }
-                else
-                {
-                    _logFile.AppendLine($"CompareLastEvent: Events {revision} are DIFFERENT on server and client");
-                    return false;
-                }
-            }
-            catch (Exception e)
-            {
-                _logFile.AppendLine($"CompareLastEvent: {e.Message}");
-                return false;
-            }
-        }
-
     }
 }

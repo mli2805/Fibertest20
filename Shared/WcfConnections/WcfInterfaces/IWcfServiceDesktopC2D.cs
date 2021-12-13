@@ -30,9 +30,6 @@ namespace Iit.Fibertest.WcfConnections
         Task<string> SendCommand(string json, string username, string clientIp);
 
         [OperationContract]
-        Task<bool> CompareEvent(CompareEventDto dto);
-
-        [OperationContract]
         Task<string[]> GetEvents(GetEventsDto dto);
 
         [OperationContract]
