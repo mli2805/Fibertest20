@@ -249,11 +249,6 @@ namespace Iit.Fibertest.DataCenterCore
             await _ftSignalRClient.NotifyAll("TraceTach", signal.ToCamelCaseJson());
         }
 
-        public async Task<bool> CompareEvent(CompareEventDto dto)
-        {
-            return await Task.FromResult(_eventStoreService.CompareEvent(dto.Revision, dto.Timestamp));
-        }
-
         public async Task<string[]> GetEvents(GetEventsDto dto)
         {
             return await Task.FromResult(_eventStoreService.GetEvents(dto.Revision));
@@ -287,7 +282,7 @@ namespace Iit.Fibertest.DataCenterCore
                 ? PortionSize
                 : _serializedModel.Length - PortionSize * (portionOrdinal);
             var portion = new byte[currentPortionSize];
-            Array.Copy(_serializedModel, PortionSize * portionOrdinal, 
+            Array.Copy(_serializedModel, PortionSize * portionOrdinal,
                     portion, 0, currentPortionSize);
 
             return portion;

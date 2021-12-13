@@ -53,7 +53,6 @@
     <Compile Include="C2D\AddMeasurementFromOldBase.cs" />
     <Compile Include="C2D\AttachTraceDto.cs" />
     <Compile Include="C2D\CheckServerConnectionDto.cs" />
-    <Compile Include="C2D\CompareEventDto.cs" />
     <Compile Include="C2D\GetEventsDto.cs" />
     <Compile Include="C2D\GetSnapshotDto.cs" />
     <Compile Include="C2D\HeartbeatDto.cs" />
