@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using MigraDoc.DocumentObjectModel;
 using MigraDoc.DocumentObjectModel.Tables;

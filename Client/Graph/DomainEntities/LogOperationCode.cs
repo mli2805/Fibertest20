@@ -1,4 +1,4 @@
-﻿namespace Iit.Fibertest.Client
+﻿namespace Iit.Fibertest.Graph
 {
     public enum LogOperationCode
     {
