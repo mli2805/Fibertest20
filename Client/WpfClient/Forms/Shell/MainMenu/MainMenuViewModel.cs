@@ -2,7 +2,6 @@
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
-using Iit.Fibertest.Graph;
 using Iit.Fibertest.WcfConnections;
 
 namespace Iit.Fibertest.Client
