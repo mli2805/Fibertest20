@@ -314,8 +314,8 @@
     </Compile>
     <Compile Include="Forms\SettingsForms\SnmpSettingsViewModel.cs" />
     <Compile Include="Forms\Shell\ChildrenViews.cs" />
-   <Compile Include="Forms\Shell\MapUserControl\MapLimits.cs" />
-   <Compile Include="Forms\Shell\MainMenu\MainMenuAdministrative.cs" />
+    <Compile Include="Forms\Shell\MapUserControl\MapLimits.cs" />
+    <Compile Include="Forms\Shell\MainMenu\MainMenuAdministrative.cs" />
     <Compile Include="Forms\Shell\MainMenu\MainMenuHelp.cs" />
     <Compile Include="Forms\Shell\MainMenu\MainMenuReports.cs" />
     <Compile Include="Forms\Shell\MainMenu\MainMenuService.cs" />
@@ -419,6 +419,9 @@
     <Compile Include="GraphModel\EventExecutors\ResponsibilityEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\RtuEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\TraceEventsOnGraphExecutor.cs" />
+    <Compile Include="GraphModel\GraphCount.cs" />
+    <Compile Include="GraphModel\GraphModelRendering.cs" />
+    <Compile Include="GraphModel\GraphReadModelRenderingExt.cs" />
     <Compile Include="GraphModel\GrmData.cs" />
     <Compile Include="GraphModel\Visibility\GraphVisibilityLevel.cs" />
     <Compile Include="GraphModel\Visibility\GraphVisibilityExt.cs" />

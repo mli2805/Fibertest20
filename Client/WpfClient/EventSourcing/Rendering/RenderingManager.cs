@@ -65,7 +65,7 @@ namespace Iit.Fibertest.Client
             _waitViewModel.Initialize(LongOperation.DrawingGraph);
             _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
 
-            var unused1 = await FullClean();
+            var unused1 = await _graphReadModel.FullClean();
             var renderingResult = _currentlyHiddenRtu.Collection.Count == 0
                 ? await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingForShowAll)
                 : await Task.Factory.StartNew(_currentZoneRenderer.GetRenderingForHiddenAll);
@@ -82,7 +82,7 @@ namespace Iit.Fibertest.Client
             _waitViewModel.Initialize(LongOperation.DrawingGraph);
             _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
 
-            var unused1 = await FullClean();
+            var unused1 = await _graphReadModel.FullClean();
             var renderingResult = await Task.Factory.StartNew(_currentZoneRenderer.GetCurrentRendering);
 
             var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
@@ -97,7 +97,7 @@ namespace Iit.Fibertest.Client
             _waitViewModel.Initialize(LongOperation.DrawingGraph);
             _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
 
-            var unused1 = await FullClean();
+            var unused1 = await _graphReadModel.FullClean();
             var renderingResult = await Task.Factory.StartNew(_currentZoneRenderer.GetCurrentRendering);
             _oneRtuOrTraceRenderer.GetTraceRendering(trace, renderingResult);
 
@@ -131,28 +131,12 @@ namespace Iit.Fibertest.Client
             _waitViewModel.Initialize(LongOperation.DrawingGraph);
             _windowManager.ShowWindowWithAssignedOwner(_waitViewModel);
 
-            var unused1 = await FullClean();
+            var unused1 = await _graphReadModel.FullClean();
             var renderingResult = await Task.Factory.StartNew(() => _currentZoneRenderer.GetCurrentRendering());
             var unused = await _renderingApplierToUi.ToEmptyGraph(renderingResult);
 
             _waitViewModel.TryClose();
         }
 
-        private async Task<int> FullClean()
-        {
-            await Task.Delay(2);
-            _graphReadModel.Data.Fibers.Clear();
-            await Task.Delay(2);
-            _graphReadModel.Data.Nodes.Clear();
-            await Task.Delay(2);
-            if (_graphReadModel.MainMap == null) return 0; // under tests
-            for (int i = _graphReadModel.MainMap.Markers.Count - 1; i >= 0; i--)
-            {
-                _graphReadModel.MainMap.Markers.RemoveAt(i);
-                if (i % 100 == 0) await Task.Delay(2);
-            }
-
-            return 1;
-        }
     }
 }

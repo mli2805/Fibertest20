@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Input;
@@ -33,7 +32,7 @@ namespace Iit.Fibertest.Client
 
         private void Limits_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            MainMap.Limits.NodeCount = GraphReadModel.Data.Nodes.Count(n => MainMap.Limits.IsIn(n.Position));
+            GraphReadModel.Render(MainMap.Limits);
         }
 
         private void MainMap_MouseWheel(object sender, MouseWheelEventArgs e)

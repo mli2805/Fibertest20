@@ -37,19 +37,11 @@ namespace Iit.Fibertest.Client
             NotifyOfPropertyChange(nameof(IsEmpty));
         }
 
-        public int NodeCount;
+        public string NodeCountString;
 
         public bool IsIn(PointLatLng point)
         {
             return !(point.Lat > _top) && !(point.Lat < _bottom) && !(point.Lng < _left) && !(point.Lng > _right);
         }
-
-
-        public override string ToString()
-        {
-            // return $@"lat [{_bottom:F6} : {_top:F6}] - lng [{_left:F6} : {_right:F6}]";
-            return $@"node count {NodeCount}";
-        }
-
     }
 }

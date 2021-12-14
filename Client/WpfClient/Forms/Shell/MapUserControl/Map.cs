@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Client
 
         public MapLimits Limits = new MapLimits();
         public string MouseCurrentCoorsString => CurrentGis.IsGisOn
-            ? Zoom + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode) + " ; " + Limits
+            ? Zoom + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode) + " ; " + Limits.NodeCountString
             : "";
 
         #endregion
