@@ -314,7 +314,8 @@
     </Compile>
     <Compile Include="Forms\SettingsForms\SnmpSettingsViewModel.cs" />
     <Compile Include="Forms\Shell\ChildrenViews.cs" />
-    <Compile Include="Forms\Shell\MainMenu\MainMenuAdministrative.cs" />
+   <Compile Include="Forms\Shell\MapUserControl\MapLimits.cs" />
+   <Compile Include="Forms\Shell\MainMenu\MainMenuAdministrative.cs" />
     <Compile Include="Forms\Shell\MainMenu\MainMenuHelp.cs" />
     <Compile Include="Forms\Shell\MainMenu\MainMenuReports.cs" />
     <Compile Include="Forms\Shell\MainMenu\MainMenuSettings.cs" />
