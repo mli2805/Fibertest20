@@ -196,6 +196,8 @@
     <Compile Include="DomainEntities\LogLine.cs" />
     <Compile Include="DomainEntities\LogOperationCode.cs" />
     <Compile Include="DomainEntities\LogOperationCodeExt.cs" />
+    <Compile Include="DomainEntities\TraceDetalization.cs" />
+    <Compile Include="EventSourcing\Model\TraceExt.cs" />
     <Compile Include="EventSourcing\EventExecutors\EventLogComposer.cs" />
     <Compile Include="EventSourcing\EventExecutors\EventToLogLineParser.cs" />
     <Compile Include="EventSourcing\EventExecutors\OltEventsOnModelExecutor.cs" />

@@ -20,7 +20,9 @@ namespace Iit.Fibertest.Dto
         Well = 405,
         Terminal = 406,
 
+        RtuAndEot = 490,
         Rtu = 500,
+
         AccidentPlace = 501,
     }
 }
