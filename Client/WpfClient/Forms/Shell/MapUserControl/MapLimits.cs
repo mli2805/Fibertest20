@@ -43,5 +43,19 @@ namespace Iit.Fibertest.Client
         {
             return !(point.Lat > _top) && !(point.Lat < _bottom) && !(point.Lng < _left) && !(point.Lng > _right);
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="point"></param>
+        /// <param name="shift">shift is part of actual limits</param>
+        /// <returns>whether point is in limits augmented by shift*limits at every side</returns>
+        public bool IsInPlus(PointLatLng point, double shift)
+        {
+            var vertPad = (_top - _bottom) * shift;
+            var horPad = (_right - _left) * shift;
+            return !(point.Lat > _top + vertPad) && !(point.Lat < _bottom - vertPad) 
+                       && !(point.Lng < _left - horPad) && !(point.Lng > _right + horPad);
+        }
     }
 }

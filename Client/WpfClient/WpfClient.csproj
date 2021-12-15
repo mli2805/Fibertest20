@@ -411,6 +411,7 @@
     </Compile>
     <Compile Include="Forms\TraceForms\TraceStepByStep\TraceStepByStepViewModel.cs" />
     <Compile Include="GlobalVars\CurrentGis.cs" />
+    <Compile Include="GraphModel\DetalizationApplier.cs" />
     <Compile Include="GraphModel\EventExecutors\AccidentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EquipmentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EventsOnGraphExecutor.cs" />
@@ -420,7 +421,7 @@
     <Compile Include="GraphModel\EventExecutors\RtuEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\TraceEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\GraphCount.cs" />
-    <Compile Include="GraphModel\GraphModelRendering.cs" />
+    <Compile Include="GraphModel\DetalizationRenderer.cs" />
     <Compile Include="GraphModel\GraphReadModelRenderingExt.cs" />
     <Compile Include="GraphModel\GrmData.cs" />
     <Compile Include="GraphModel\Visibility\GraphVisibilityLevel.cs" />

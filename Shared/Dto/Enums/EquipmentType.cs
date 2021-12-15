@@ -14,6 +14,7 @@ namespace Iit.Fibertest.Dto
 
         CableReserve = 300,
 
+        AnyEquipment = 399,
         Other = 400,
         Closure = 402, 
         Cross = 403,

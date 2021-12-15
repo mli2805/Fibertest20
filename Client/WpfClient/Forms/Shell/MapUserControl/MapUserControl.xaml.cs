@@ -30,9 +30,15 @@ namespace Iit.Fibertest.Client
             MainMap.Limits.PropertyChanged += Limits_PropertyChanged;
         }
 
-        private void Limits_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        private int _previousZoom;
+
+        private async void Limits_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            GraphReadModel.Render(MainMap.Limits);
+            var renderingResult = await GraphReadModel.Render(MainMap.Limits, (int)MainMap.Zoom, _previousZoom, MainMap.NeedRenderingCause);
+            _previousZoom = (int) MainMap.Zoom;
+            if (renderingResult == null) return;
+            
+            var unused = await GraphReadModel.ToEmptyGraph(renderingResult);
         }
 
         private void MainMap_MouseWheel(object sender, MouseWheelEventArgs e)
