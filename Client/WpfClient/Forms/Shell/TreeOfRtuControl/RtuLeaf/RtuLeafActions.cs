@@ -78,9 +78,9 @@ namespace Iit.Fibertest.Client
 
             using (_globalScope.Resolve<IWaitCursor>())
             {
-                 var exportModel = _readModel.CreateOneRtuModel(rtu);
+                var exportModel = _readModel.CreateOneRtuModel(rtu);
                 var bytes = await exportModel.Serialize(_logFile);
-                File.WriteAllBytes($@"..\temp\export_"+rtuLeaf.Title+".brtu", bytes);
+                File.WriteAllBytes($@"..\temp\export_" + rtuLeaf.Title + ".brtu", bytes);
             }
         }
 

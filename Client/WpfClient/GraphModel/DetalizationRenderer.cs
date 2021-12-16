@@ -52,8 +52,8 @@ namespace Iit.Fibertest.Client
         {
             if (zoom > 18) return EquipmentType.AdjustmentPoint;
             if (zoom > 17) return EquipmentType.EmptyNode;
-            if (zoom > 13) return EquipmentType.AnyEquipment;
-            if (zoom > 12) return EquipmentType.RtuAndEot;
+            if (zoom > 14) return EquipmentType.AnyEquipment;
+            if (zoom > 13) return EquipmentType.RtuAndEot;
             return EquipmentType.Rtu;
         }
 

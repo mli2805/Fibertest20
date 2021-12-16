@@ -37,7 +37,6 @@ namespace Iit.Fibertest.DataCenterCore
             var result = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.InitializeAsync(dto)
                 : await _clientToRtuVeexTransmitter.InitializeAsync(dto);
-                // : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.InitializeAsync(dto).Result);
 
             await _ftSignalRClient.NotifyAll("RtuInitialized", result.ToCamelCaseJson());
 

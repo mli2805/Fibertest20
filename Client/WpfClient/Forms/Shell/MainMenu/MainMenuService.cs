@@ -16,9 +16,11 @@ namespace Iit.Fibertest.Client
             foreach (var filename in files)
             {
                 var bytes = File.ReadAllBytes(filename);
-                var oneRtuGraphModel = new Model();
-                if (!await oneRtuGraphModel.Deserialize(_logFile, bytes)) return;
-                _readModel.AddOneRtuToModel(oneRtuGraphModel);
+                var oneRtuModelFromFile = new Model();
+                if (!await oneRtuModelFromFile.Deserialize(_logFile, bytes)) return;
+                // _readModel.AddOneRtuToModel(oneRtuModelFromFile);
+
+                await _modelFromFileExporter.Apply(oneRtuModelFromFile);
             }
 
             _currentlyHiddenRtu.Collection.AddRange(_readModel.Rtus.Select(r=>r.Id));

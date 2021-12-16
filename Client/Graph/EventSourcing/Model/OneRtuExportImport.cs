@@ -4,43 +4,6 @@ namespace Iit.Fibertest.Graph
 {
     public static class OneRtuExportImport
     {
-        public static void AddOneRtuToModel(this Model readModel, Model oneRtuModel)
-        {
-            if (readModel.Rtus.Any(r => r.Id == oneRtuModel.Rtus.First().Id))
-                return;
-
-            readModel.Rtus.Add(oneRtuModel.Rtus.First());
-
-            foreach (var otau in oneRtuModel.Otaus)
-            {
-                readModel.Otaus.Add(otau);
-            }
-
-            foreach (var trace in oneRtuModel.Traces)
-            {
-                readModel.Traces.Add(trace);
-            }
-
-            foreach (var node in oneRtuModel.Nodes)
-            {
-                if (readModel.Nodes.All(n => n.NodeId != node.NodeId))
-                    readModel.Nodes.Add(node);
-            }
-
-            foreach (var equipment in oneRtuModel.Equipments)
-            {
-                if (readModel.Equipments.All(n => n.EquipmentId != equipment.EquipmentId))
-                    readModel.Equipments.Add(equipment);
-            }
-
-            foreach (var fiber in oneRtuModel.Fibers)
-            {
-                if (readModel.Fibers.All(n => n.FiberId != fiber.FiberId))
-                    readModel.Fibers.Add(fiber);
-            }
-
-        }
-
         public static Model CreateOneRtuModel(this Model readModel, Rtu rtu)
         {
             var oneRtuGraphModel = new Model();

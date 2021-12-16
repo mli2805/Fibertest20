@@ -222,6 +222,7 @@ namespace Iit.Fibertest.Client
 
             builder.RegisterType<TraceStateReportProvider>().InstancePerLifetimeScope();
             builder.RegisterType<ModelLoader>().InstancePerLifetimeScope();
+            builder.RegisterType<ModelFromFileExporter>().InstancePerLifetimeScope();
 
         }
     }
