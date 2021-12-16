@@ -11,8 +11,9 @@ namespace Iit.Fibertest.Graph
         private string Lk()
         {
             var id = LicenseId.ToString().ToUpper().Substring(0, 8);
-            var licType = IsIncremental ? @"I" : @"B";
-            return $@"FT020-{id}-{licType}{RtuCount.Value:D2}{ClientStationCount.Value:D2}{WebClientCount.Value:D2}{SuperClientStationCount.Value:D2}-{CreationDate:yyMMdd}";
+            var licType = IsIncremental ? @"I" : IsMachineKeyRequired ? @"BR" : @"BF";
+            var stations = $@"{ClientStationCount.Value:D2}{WebClientCount.Value:D2}{SuperClientStationCount.Value:D2}";
+            return $@"FT020-{id}-{licType}{RtuCount.Value:D2}{stations}-{CreationDate:yyMMdd}";
         }
         
         public bool IsIncremental { get; set; } // by default = false -> Main license
