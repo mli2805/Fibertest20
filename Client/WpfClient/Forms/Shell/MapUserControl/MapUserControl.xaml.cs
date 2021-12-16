@@ -26,7 +26,6 @@ namespace Iit.Fibertest.Client
             // map events
             MainMap.MouseEnter += MainMap_MouseEnter;
             MainMap.OnTraceDefiningCancelled += MainMap_OnTraceDefiningCancelled;
-            MainMap.MouseWheel += MainMap_MouseWheel;
             MainMap.Limits.PropertyChanged += Limits_PropertyChanged;
         }
 
@@ -35,14 +34,10 @@ namespace Iit.Fibertest.Client
         private async void Limits_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             var renderingResult = await GraphReadModel.Render(MainMap.Limits, (int)MainMap.Zoom, _previousZoom, MainMap.NeedRenderingCause);
-            _previousZoom = (int) MainMap.Zoom;
+            _previousZoom = (int)MainMap.Zoom;
             if (renderingResult == null) return;
-            
-            var unused = await GraphReadModel.ToEmptyGraph(renderingResult);
-        }
 
-        private void MainMap_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
+            var unused = await GraphReadModel.ToEmptyGraph(renderingResult);
         }
 
         private void MainMap_OnTraceDefiningCancelled()

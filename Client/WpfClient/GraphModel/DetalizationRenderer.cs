@@ -50,10 +50,10 @@ namespace Iit.Fibertest.Client
 
         private static EquipmentType GetDetalizationMode(int zoom)
         {
-            if (zoom > 18) return EquipmentType.AdjustmentPoint;
-            if (zoom > 17) return EquipmentType.EmptyNode;
-            if (zoom > 14) return EquipmentType.AnyEquipment;
-            if (zoom > 13) return EquipmentType.RtuAndEot;
+            if (zoom > 15) return EquipmentType.AdjustmentPoint;
+            // if (zoom > 17) return EquipmentType.EmptyNode;
+            // if (zoom > 14) return EquipmentType.AnyEquipment;
+            // if (zoom > 13) return EquipmentType.RtuAndEot;
             return EquipmentType.Rtu;
         }
 
