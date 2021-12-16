@@ -88,12 +88,11 @@ namespace Iit.Fibertest.Licenser
         private void AddMain(Section section)
         {
             var paragraph = section.AddParagraph();
-            // paragraph.AddFormattedText("OPTICAL FIBER MONITORING SYSTEM SOFTWARE FIBERTEST 2.0");
             paragraph.AddFormattedText(Resources.SID_Optical_fiber_monitoring_system_software_FIBERTEST_2_0);
             paragraph.Format.Alignment = ParagraphAlignment.Center;
             paragraph.Format.Font.Size = 16;
             paragraph.Format.Font.Bold = true;
-            paragraph.Format.SpaceBefore = Unit.FromCentimeter(1.4);
+            paragraph.Format.SpaceBefore = Unit.FromCentimeter(1.1);
 
             var paragraph2 = section.AddParagraph();
             paragraph2.AddFormattedText(Resources.SID_License_number_);
@@ -106,13 +105,18 @@ namespace Iit.Fibertest.Licenser
             paragraph3.Format.Alignment = ParagraphAlignment.Center;
             paragraph3.Format.Font.Size = 20;
             paragraph3.Format.SpaceBefore = Unit.FromCentimeter(0.4);
-            paragraph3.Format.SpaceAfter = Unit.FromCentimeter(1.4);
+            paragraph3.Format.SpaceAfter = Unit.FromCentimeter(1);
         }
 
         private void AddContent(Section section)
         {
             var licenseInFile = _licenseInFileModel.ToLicenseInFile();
 
+            if (!_licenseInFileModel.IsIncremental)
+                AddParam(section, Resources.SID_License_type, _licenseInFileModel.IsMachineKeyRequired
+                        ? Resources.SID_With_user_s_account_to_workstation_linking : Resources.SID_Standart);
+            AddParam(section, Resources.SID_License_key_type,
+                _licenseInFileModel.IsIncremental ? Resources.SID_Incremental : Resources.SID_Basic);
             AddParam(section, Resources.SID_License_owner, _licenseInFileModel.Owner);
             AddCompleteParam(section, Resources.SID_Remote_testing_unit_count, licenseInFile.RtuCount);
             AddCompleteParam(section, Resources.SID_Client_stations, licenseInFile.ClientStationCount);

@@ -8701,6 +8701,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to With user&apos;s account to workstation linking.
+        /// </summary>
+        public static string SID_With_user_s_account_to_workstation_linking {
+            get {
+                return ResourceManager.GetString("SID_With_user_s_account_to_workstation_linking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to With workstation linking.
         /// </summary>
         public static string SID_With_workstation_linking {
