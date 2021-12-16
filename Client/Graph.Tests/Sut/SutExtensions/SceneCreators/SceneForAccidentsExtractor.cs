@@ -70,7 +70,12 @@ namespace Graph.Tests
             {
                 var fiberVm = sut.GraphReadModel.Data.Fibers.First(f => f.Id == fiber.FiberId);
 
-                fiber.States.Contains(new KeyValuePair<Guid, FiberState>(trace.TraceId, trace.State)).Should().Be(true);
+                var fiberState = trace.State == FiberState.Unknown
+                    ? trace.IsAttached 
+                        ? FiberState.Ok : FiberState.NotJoined
+                    : trace.State;
+
+                fiber.States.Contains(new KeyValuePair<Guid, FiberState>(trace.TraceId, fiberState)).Should().Be(true);
                 fiberVm.States.Contains(new KeyValuePair<Guid, FiberState>(trace.TraceId, trace.State)).Should().Be(true);
             }
         }

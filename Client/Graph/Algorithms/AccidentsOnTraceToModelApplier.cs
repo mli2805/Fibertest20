@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Graph
                 return;
             trace.State = e.TraceState;
             foreach (var fiber in model.GetTraceFibers(trace))
-                fiber.SetState(trace.TraceId, trace.State);
+                fiber.SetState(trace.TraceId, trace.State == FiberState.Unknown ? FiberState.Ok : trace.State);
 
             model.CleanAccidentPlacesOnTrace(trace.TraceId);
 
