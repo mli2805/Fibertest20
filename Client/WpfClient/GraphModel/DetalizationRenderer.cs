@@ -41,7 +41,7 @@ namespace Iit.Fibertest.Client
                 foreach (var fiber in det.Fibers)
                 {
                     if (renderingResult.FiberVms.Any(f => f.Id == fiber.FiberId)) continue;
-                    var fiberVm = ElementRenderer.Map(fiber, renderingResult.NodeVms);
+                    var fiberVm = ElementRenderer.MapWithStates(fiber, renderingResult.NodeVms);
                     if (fiberVm != null)
                         renderingResult.FiberVms.Add(fiberVm);
                 }
