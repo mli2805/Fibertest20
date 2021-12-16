@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
@@ -10,6 +12,7 @@ namespace Iit.Fibertest.Client
 {
     public class LicenseSender
     {
+        private readonly ILifetimeScope _globalScope;
         private readonly LicenseCommandFactory _licenseCommandFactory;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly ILicenseFileChooser _licenseFileChooser;
@@ -21,10 +24,11 @@ namespace Iit.Fibertest.Client
 
         public string SecurityAdminPassword;
 
-        public LicenseSender(IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager, 
+        public LicenseSender(ILifetimeScope globalScope, IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager,
             LicenseCommandFactory licenseCommandFactory, ILicenseFileChooser licenseFileChooser,
             LicenseFromFileDecoder licenseFromFileDecoder, CurrentUser currentUser)
         {
+            _globalScope = globalScope;
             _licenseCommandFactory = licenseCommandFactory;
             _c2DWcfManager = c2DWcfManager;
             _licenseFileChooser = licenseFileChooser;
@@ -41,7 +45,7 @@ namespace Iit.Fibertest.Client
 
             var licenseInFile = _licenseFromFileDecoder.Decode(filename);
             if (licenseInFile == null)
-               return false;
+                return false;
 
             return await ApplyLicenseFromFile(licenseInFile);
         }
@@ -66,19 +70,18 @@ namespace Iit.Fibertest.Client
 
         private async Task<bool> SendApplyLicenseCommand(ApplyLicense cmd)
         {
-            var result = await _c2DWcfManager.SendCommandAsObj(cmd);
-            if (result != null)
+            string result;
+
+            using (_globalScope.Resolve<IWaitCursor>())
             {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, @"ApplyLicense: " + result);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-                return false;
+                result = await _c2DWcfManager.SendCommandAsObj(cmd);
             }
-            else
-            {
-                var vm = new MyMessageBoxViewModel(MessageType.Information, Resources.SID_License_applied_successfully_);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-                return true;
-            }
+
+            var vm = result != null
+                ? new MyMessageBoxViewModel(MessageType.Error, @"ApplyLicense: " + result)
+                : new MyMessageBoxViewModel(MessageType.Information, Resources.SID_License_applied_successfully_);
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+            return result == null;
         }
 
         private bool IsCorrectPasswordEntered(LicenseInFile licenseInFile)
