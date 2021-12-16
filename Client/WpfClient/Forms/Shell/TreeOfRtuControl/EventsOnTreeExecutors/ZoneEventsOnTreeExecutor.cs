@@ -103,6 +103,7 @@ namespace Iit.Fibertest.Client
                         _globalScope.Resolve<PortLeaf>(new NamedParameter(@"parent", otauLeaf), new NamedParameter(@"portNumber", i + 1)));
                 rtuLeaf.ChildrenImpresario.Children.Remove(rtuLeaf.ChildrenImpresario.Children[otau.MasterPort - 1]);
                 rtuLeaf.ChildrenImpresario.Children.Insert(otau.MasterPort - 1, otauLeaf);
+                rtuLeaf.SetOtauState(otau.Id, otau.IsOk);
             }
 
             foreach (var trace in _readModel.Traces.Where(t => t.RtuId == rtu.Id))
@@ -123,12 +124,12 @@ namespace Iit.Fibertest.Client
                     FastId = trace.FastId, FastDuration = trace.FastDuration,
                     AdditionalId = trace.AdditionalId, AdditionalDuration = trace.AdditionalDuration,
                     IsInMonitoringCycle = trace.IsIncludedInMonitoringCycle,
+                    RtuMonitoringState = rtu.MonitoringState,
                 };
 
                 if (traceLeaf.PortNumber > 0)
                 {
                     portOwner.ChildrenImpresario.Children[traceLeaf.PortNumber - 1] = traceLeaf;
-
                 }
                 else
                     rtuLeaf.ChildrenImpresario.Children.Add(traceLeaf);
