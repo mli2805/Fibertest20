@@ -70,11 +70,14 @@ namespace Iit.Fibertest.Client
             SizeChanged += MarkerControl_SizeChanged;
             MouseEnter += MarkerControl_MouseEnter;
             MouseLeave += MarkerControl_MouseLeave;
+            MouseWheel += MarkerControl_MouseWheel;
             PreviewMouseMove += MarkerControl_PreviewMouseMove;
             PreviewMouseLeftButtonUp += MarkerControl_PreviewMouseLeftButtonUp;
             PreviewMouseLeftButtonDown += MarkerControl_PreviewMouseLeftButtonDown;
             PreviewMouseRightButtonUp += MarkerControl_PreviewMouseRightButtonUp;
         }
+
+     
 
         private void InitializePopup()
         {
@@ -108,6 +111,7 @@ namespace Iit.Fibertest.Client
             SizeChanged -= MarkerControl_SizeChanged;
             MouseEnter -= MarkerControl_MouseEnter;
             MouseLeave -= MarkerControl_MouseLeave;
+            MouseWheel -= MarkerControl_MouseWheel;
             PreviewMouseMove -= MarkerControl_PreviewMouseMove;
             PreviewMouseLeftButtonUp -= MarkerControl_PreviewMouseLeftButtonUp;
             PreviewMouseLeftButtonDown -= MarkerControl_PreviewMouseLeftButtonDown;

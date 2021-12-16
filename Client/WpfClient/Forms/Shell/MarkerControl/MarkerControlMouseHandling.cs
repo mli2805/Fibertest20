@@ -131,5 +131,11 @@ namespace Iit.Fibertest.Client
             if (!string.IsNullOrEmpty(Title))
                 _popup.IsOpen = true;
         }
+
+        private void MarkerControl_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(Title))
+                _popup.IsOpen = false;
+        }
     }
 }
