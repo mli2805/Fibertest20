@@ -7,7 +7,7 @@ namespace Iit.Fibertest.Client
         private const int Portion = 50;
         private const int Delay = 2;
 
-        public static async Task<int> ToEmptyGraph(this GraphReadModel graphReadModel, RenderingResult renderingResult)
+        public static async Task ToEmptyGraph(this GraphReadModel graphReadModel, RenderingResult renderingResult)
         {
             var i = 0;
             while (i < renderingResult.NodeVms.Count)
@@ -34,8 +34,11 @@ namespace Iit.Fibertest.Client
                 }
                 await Task.Delay(Delay);
             }
+        }
 
-            return 1;
+        public static async Task ToExistingGraph(this GraphReadModel graphReadModel, RenderingResult renderingResult)
+        {
+
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
@@ -7,45 +8,61 @@ namespace Iit.Fibertest.Client
 {
     public static class DetalizationRenderer
     {
-        public static async Task<RenderingResult> Render(this GraphReadModel graphReadModel, 
-            MapLimits limits, int zoom, int previousZoom, int needRenderingCause)
+        public static async Task<RenderingResult> Render(this GraphReadModel graphReadModel,
+            MapLimits limits, int zoom)
         {
-            var count = Calc(graphReadModel, limits);
-            limits.NodeCountString = count.ToString();
-
-            if (needRenderingCause == 3 && GetDetalizationMode(previousZoom) == GetDetalizationMode(zoom))
-                return null;
-
-            await graphReadModel.FullClean();
+            await Task.Delay(1);
             var renderingResult = new RenderingResult();
-            GetRenderingResultFromMode(graphReadModel, limits, GetDetalizationMode(zoom), renderingResult);
-            return renderingResult;
-        }
-
-        private static void GetRenderingResultFromMode(GraphReadModel graphReadModel,
-            MapLimits limits, EquipmentType detalizationMode, RenderingResult renderingResult)
-        {
             var readModel = graphReadModel.ReadModel;
             foreach (var trace in readModel.Traces)
             {
-                var det = readModel.GetTraceDetalization(trace, detalizationMode);
+                var det = readModel.GetTraceDetalization(trace, GetDetalizationMode(zoom));
                 foreach (var nodeId in det.Nodes)
                 {
                     if (renderingResult.NodeVms.Any(n => n.Id == nodeId)) continue;
                     var node = readModel.Nodes.FirstOrDefault(n => n.NodeId == nodeId);
 
-                    if (node != null && limits.IsInPlus(node.Position, 0.5))
+                    if (node != null && limits.IsInPlus(node.Position, 0))
                         renderingResult.NodeVms.Add(ElementRenderer.Map(node));
                 }
 
+                var nodesNear = new List<NodeVm>();
                 foreach (var fiber in det.Fibers)
                 {
                     if (renderingResult.FiberVms.Any(f => f.Id == fiber.FiberId)) continue;
-                    var fiberVm = ElementRenderer.MapWithStates(fiber, renderingResult.NodeVms);
-                    if (fiberVm != null)
-                        renderingResult.FiberVms.Add(fiberVm);
+
+                    var nodeVm1 = renderingResult.NodeVms.FirstOrDefault(n => n.Id == fiber.NodeId1);
+                    var nodeVm2 = renderingResult.NodeVms.FirstOrDefault(n => n.Id == fiber.NodeId2);
+                    
+                    #region One node of the fiber is on screen while other is out
+                    if (nodeVm1 != null && nodeVm2 == null)
+                    {
+                        nodeVm2 = nodesNear.FirstOrDefault(n => n.Id == fiber.NodeId2);
+                        if (nodeVm2 == null)
+                        {
+                            nodeVm2 = ElementRenderer.Map(readModel.Nodes.First(n => n.NodeId == fiber.NodeId2));
+                            nodesNear.Add(nodeVm2);
+                        }
+                    }
+                    if (nodeVm1 == null && nodeVm2 != null)
+                    {
+                        nodeVm1 = nodesNear.FirstOrDefault(n => n.Id == fiber.NodeId1);
+                        if (nodeVm1 == null)
+                        {
+                            nodeVm1 = ElementRenderer.Map(readModel.Nodes.First(n => n.NodeId == fiber.NodeId1));
+                            nodesNear.Add(nodeVm1);
+                        }
+                    }
+                    #endregion
+
+                    if (nodeVm1 != null && nodeVm2 != null)
+                        renderingResult.FiberVms.Add(ElementRenderer.MapWithStates(fiber, nodeVm1, nodeVm2));
                 }
+
+                renderingResult.NodeVms.AddRange(nodesNear);
             }
+
+            return renderingResult;
         }
 
         private static EquipmentType GetDetalizationMode(int zoom)
@@ -55,17 +72,6 @@ namespace Iit.Fibertest.Client
             // if (zoom > 14) return EquipmentType.AnyEquipment;
             // if (zoom > 13) return EquipmentType.RtuAndEot;
             return EquipmentType.Rtu;
-        }
-
-        private static GraphCount Calc(GraphReadModel graphReadModel, MapLimits limits)
-        {
-            var count = new GraphCount();
-            var nodes = graphReadModel.ReadModel.Nodes.Where(n => limits.IsIn(n.Position)).Select(e => e).ToList();
-            count.Rtus = nodes.Count(n => n.TypeOfLastAddedEquipment == EquipmentType.Rtu);
-            count.Eqs = nodes.Count(n => n.TypeOfLastAddedEquipment > EquipmentType.EmptyNode);
-            count.Wells = nodes.Count(n => n.TypeOfLastAddedEquipment > EquipmentType.AdjustmentPoint);
-            count.Total = nodes.Count;
-            return count;
         }
 
     }

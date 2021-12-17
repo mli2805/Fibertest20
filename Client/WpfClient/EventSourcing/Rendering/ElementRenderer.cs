@@ -46,6 +46,23 @@ namespace Iit.Fibertest.Client
             foreach (var pair in fiber.TracesWithExceededLossCoeff)
                 fiberVm.TracesWithExceededLossCoeff.Add(pair.Key, pair.Value);
             return fiberVm;
+        }  
+        
+        public static FiberVm MapWithStates(Fiber fiber, NodeVm nodeVm1, NodeVm nodeVm2)
+        {
+            var fiberVm = new FiberVm()
+            {
+                Id = fiber.FiberId,
+                Node1 = nodeVm1,
+                Node2 = nodeVm2,
+                States = new Dictionary<Guid, FiberState>(),
+                TracesWithExceededLossCoeff = new Dictionary<Guid, FiberState>(),
+            };
+            foreach (var pair in fiber.States)
+                fiberVm.States.Add(pair.Key, pair.Value);
+            foreach (var pair in fiber.TracesWithExceededLossCoeff)
+                fiberVm.TracesWithExceededLossCoeff.Add(pair.Key, pair.Value);
+            return fiberVm;
         }
     }
 }

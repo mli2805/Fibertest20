@@ -46,8 +46,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public int NeedRenderingCause { get; set; }
-
         public MapLimits Limits = new MapLimits();
         public string MouseCurrentCoorsString => CurrentGis.IsGisOn
             ? Zoom + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode) + " ; " + Limits.NodeCountString
@@ -105,11 +103,10 @@ namespace Iit.Fibertest.Client
             LastDistance = 0;
         }
 
-        private void ShowLimits(int needRenderingCause)
+        private void ShowLimits()
         {
             var leftTop = FromLocalToLatLng(GetPointFromPosition(new Point(0, 0)));
             var rightBottom = FromLocalToLatLng(GetPointFromPosition(new Point(ActualWidth, ActualHeight)));
-            NeedRenderingCause = needRenderingCause;
             Limits.Set(leftTop, rightBottom);
             OnPropertyChanged(nameof(MouseCurrentCoorsString));
         }
@@ -119,7 +116,7 @@ namespace Iit.Fibertest.Client
             base.OnMouseMove(e);
             MouseCurrentCoors = FromLocalToLatLng(GetPointFromPosition(e.GetPosition(this)));
 
-            if (Limits.IsEmpty) ShowLimits(1);
+            if (Limits.IsEmpty) ShowLimits();
 
             if (IsInDistanceMeasurementMode && StartNode != null)
             {
@@ -141,13 +138,13 @@ namespace Iit.Fibertest.Client
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             base.OnMouseWheel(e);
-            ShowLimits(3);
+            ShowLimits();
             OnPropertyChanged(nameof(MouseCurrentCoorsString));
         }
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
-            ShowLimits(2);
+            ShowLimits();
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

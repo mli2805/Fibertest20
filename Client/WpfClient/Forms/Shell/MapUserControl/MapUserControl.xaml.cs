@@ -29,15 +29,13 @@ namespace Iit.Fibertest.Client
             MainMap.Limits.PropertyChanged += Limits_PropertyChanged;
         }
 
-        private int _previousZoom;
-
         private async void Limits_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var renderingResult = await GraphReadModel.Render(MainMap.Limits, (int)MainMap.Zoom, _previousZoom, MainMap.NeedRenderingCause);
-            _previousZoom = (int)MainMap.Zoom;
-            if (renderingResult == null) return;
+            var renderingResult = await GraphReadModel.Render(MainMap.Limits, (int)MainMap.Zoom);
+            await GraphReadModel.FullClean();
+            await GraphReadModel.ToEmptyGraph(renderingResult);
 
-            var unused = await GraphReadModel.ToEmptyGraph(renderingResult);
+            MainMap.Limits.NodeCountString = $@" {GraphReadModel.ReadModel.Nodes.Count} / {renderingResult.NodeVms.Count}";
         }
 
         private void MainMap_OnTraceDefiningCancelled()
