@@ -26,6 +26,7 @@ namespace Iit.Fibertest.Client
             var cmd = new AddRtuAtGpsLocation()
             {
                 Id = rtu.Id,
+                NodeId = rtu.NodeId,
                 Title = rtu.Title,
                 Latitude = rtuNode.Position.Lat,
                 Longitude = rtuNode.Position.Lng

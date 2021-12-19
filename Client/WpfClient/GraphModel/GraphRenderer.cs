@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Client
 {
     public static class GraphRenderer
     {
-        public static async Task<RenderingResult> Render(this Model readModel, MapLimits limits, int zoom)
+        public static async Task<RenderingResult> Render(this Model readModel, MapLimits limits, double zoom)
         {
             await Task.Delay(1);
             if (zoom < 15) return new RenderingResult()

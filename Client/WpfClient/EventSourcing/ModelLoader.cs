@@ -12,13 +12,14 @@ namespace Iit.Fibertest.Client
         private readonly IMyLog _logFile;
         private readonly Model _readModel;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
+        private readonly GraphReadModel _graphReadModel;
         private readonly RenderingManager _renderingManager;
         private readonly ZoneEventsOnTreeExecutor _zoneEventsOnTreeExecutor;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
 
-        public ModelLoader(IMyLog logFile, Model readModel, IWcfServiceDesktopC2D c2DWcfManager,
+        public ModelLoader(IMyLog logFile, Model readModel, IWcfServiceDesktopC2D c2DWcfManager, GraphReadModel graphReadModel,
             RenderingManager renderingManager,
             ZoneEventsOnTreeExecutor zoneEventsOnTreeExecutor, 
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
@@ -28,6 +29,7 @@ namespace Iit.Fibertest.Client
             _logFile = logFile;
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
+            _graphReadModel = graphReadModel;
             _renderingManager = renderingManager;
             _zoneEventsOnTreeExecutor = zoneEventsOnTreeExecutor;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
@@ -57,7 +59,13 @@ namespace Iit.Fibertest.Client
                 await _readModel.Deserialize(_logFile, bb);
 
                 _renderingManager.Initialize();
-                await _renderingManager.RenderCurrentZoneOnApplicationStart();
+                // await _renderingManager.RenderCurrentZoneOnApplicationStart();
+
+                var limits = _graphReadModel.MainMap?.Limits ?? new MapLimits(0,180,90,0);
+                var zoom = _graphReadModel.MainMap?.Zoom ?? 16;
+                var renderingResult = await _readModel.Render(limits, zoom);
+                await _graphReadModel.ToExistingGraph(renderingResult);
+
                 _zoneEventsOnTreeExecutor.RenderOfModelAfterSnapshot();
                 _opticalEventsDoubleViewModel.RenderMeasurementsFromSnapshot();
                 _networkEventsDoubleViewModel.RenderNetworkEvents();

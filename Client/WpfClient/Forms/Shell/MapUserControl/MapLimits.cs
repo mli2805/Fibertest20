@@ -10,6 +10,16 @@ namespace Iit.Fibertest.Client
 
         public bool IsEmpty => _left.Equals(0);
 
+        public MapLimits() {}
+
+        public MapLimits(double left, double right, double top, double bottom)
+        {
+            _left = left;
+            _right = right;
+            _top = top;
+            _bottom = bottom;
+        }
+
         public void Set(PointLatLng p1, PointLatLng p2)
         {
             if (p1.Lat > p2.Lat)

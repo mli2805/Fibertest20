@@ -23,8 +23,8 @@ namespace Iit.Fibertest.Client
                 await _modelFromFileExporter.Apply(oneRtuModelFromFile);
             }
 
-            _currentlyHiddenRtu.Collection.AddRange(_readModel.Rtus.Select(r=>r.Id));
-            _currentlyHiddenRtu.IsHideAllPressed = true;
+            // _currentlyHiddenRtu.Collection.AddRange(_readModel.Rtus.Select(r=>r.Id));
+            // _currentlyHiddenRtu.IsHideAllPressed = true;
         }
 
         public async void ExportEvents()

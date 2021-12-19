@@ -87,6 +87,10 @@ namespace Graph.Tests
             ShellVm = (ShellViewModel)ClientScope.Resolve<IShell>();
             CurrentlyHiddenRtu = ClientScope.Resolve<CurrentlyHiddenRtu>();
             GraphReadModel = ClientScope.Resolve<GraphReadModel>();
+
+            // var dispatcherProvider = ClientScope.Resolve<IDispatcherProvider>();
+            // dispatcherProvider.GetDispatcher().Invoke(() => GraphReadModel.MainMap = new Map());
+
             TreeOfRtuModel = ClientScope.Resolve<TreeOfRtuModel>();
             TreeOfRtuViewModel = ClientScope.Resolve<TreeOfRtuViewModel>();
             AccidentsFromSorExtractor = ClientScope.Resolve<AccidentsFromSorExtractor>();

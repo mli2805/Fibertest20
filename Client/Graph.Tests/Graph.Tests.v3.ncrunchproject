@@ -13,6 +13,12 @@
       <NamedTestSelector>
         <TestName>Graph.Tests.Gps.BreakPlaceFeature.ОпределениеМестаАварии</TestName>
       </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Graph.Tests.UsersAndZones.ZonesFeature.ОператорЗоны</TestName>
+      </NamedTestSelector>
+      <NamedTestSelector>
+        <TestName>Graph.Tests.UsersAndZones.UserHidesTracesFeature.ПользовательСкрываетИПоказываетТрассы</TestName>
+      </NamedTestSelector>
     </IgnoredTests>
     <PreviouslyBuiltSuccessfully>True</PreviouslyBuiltSuccessfully>
   </Settings>
