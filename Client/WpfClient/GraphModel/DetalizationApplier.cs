@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Iit.Fibertest.Client
 {
@@ -38,7 +41,37 @@ namespace Iit.Fibertest.Client
 
         public static async Task ToExistingGraph(this GraphReadModel graphReadModel, RenderingResult renderingResult)
         {
+            var newGoodFibers = new HashSet<Guid>(renderingResult.FiberVms.Select(f => f.Id));
+            var fibersToDelete = graphReadModel.Data.Fibers.Where(f => !newGoodFibers.Contains(f.Id)).ToList();
 
+            foreach (var fiberVm in fibersToDelete)
+            {
+                    graphReadModel.Data.Fibers.Remove(fiberVm);
+            }
+            await Task.Delay(Delay);
+
+            var newGoodNodes = new HashSet<Guid>(renderingResult.NodeVms.Select(n => n.Id));
+            var nodesToDelete = graphReadModel.Data.Nodes.Where(n => !newGoodNodes.Contains(n.Id)).ToList();
+
+            foreach (var nodeVm in nodesToDelete)
+            {
+                graphReadModel.Data.Nodes.Remove(nodeVm);
+            }
+            await Task.Delay(Delay);
+
+            foreach (var nodeVm in renderingResult.NodeVms)
+            {
+                if (graphReadModel.Data.Nodes.All(n => n.Id != nodeVm.Id))
+                    graphReadModel.Data.Nodes.Add(nodeVm);
+            }
+            await Task.Delay(Delay);
+
+            foreach (var fiberVm in renderingResult.FiberVms)
+            {
+                if (graphReadModel.Data.Fibers.All(f => f.Id != fiberVm.Id))
+                    graphReadModel.Data.Fibers.Add(fiberVm);
+            }
+            await Task.Delay(Delay);
         }
     }
 }

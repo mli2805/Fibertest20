@@ -420,8 +420,8 @@
     <Compile Include="GraphModel\EventExecutors\ResponsibilityEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\RtuEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\TraceEventsOnGraphExecutor.cs" />
-    <Compile Include="GraphModel\DetalizationRenderer.cs" />
     <Compile Include="GraphModel\GraphReadModelRenderingExt.cs" />
+    <Compile Include="GraphModel\GraphRenderer.cs" />
     <Compile Include="GraphModel\GrmData.cs" />
     <Compile Include="GraphModel\Visibility\GraphVisibilityLevel.cs" />
     <Compile Include="GraphModel\Visibility\GraphVisibilityExt.cs" />

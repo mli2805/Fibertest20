@@ -31,9 +31,11 @@ namespace Iit.Fibertest.Client
 
         private async void Limits_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var renderingResult = await GraphReadModel.Render(MainMap.Limits, (int)MainMap.Zoom);
-            await GraphReadModel.FullClean();
-            await GraphReadModel.ToEmptyGraph(renderingResult);
+            var renderingResult = await GraphReadModel.ReadModel.Render(MainMap.Limits, (int)MainMap.Zoom);
+            // await GraphReadModel.FullClean();
+            // await GraphReadModel.ToEmptyGraph(renderingResult);
+
+            await GraphReadModel.ToExistingGraph(renderingResult);
 
             MainMap.Limits.NodeCountString = $@" {GraphReadModel.ReadModel.Nodes.Count} / {renderingResult.NodeVms.Count}";
         }
