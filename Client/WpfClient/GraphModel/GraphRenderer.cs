@@ -8,43 +8,42 @@ namespace Iit.Fibertest.Client
 {
     public static class GraphRenderer
     {
-        public static async Task<RenderingResult> Render(this Model readModel, Trace activeTrace, MapLimits limits, double zoom)
+        public static async Task<RenderingResult> Render(this GraphReadModel graphReadModel)
         {
             await Task.Delay(1);
-            if (zoom < 17)
+            if (graphReadModel.MainMap == null || graphReadModel.MainMap.Zoom < graphReadModel.CurrentGis.ThresholdZoom)
             {
-                var res = new RenderingResult().RenderRtus(readModel, limits);
-                return activeTrace == null
+                var res = new RenderingResult().RenderRtus(graphReadModel);
+                return graphReadModel.ActiveTrace.Trace == null
                     ? res
-                    : res.RenderOneTraceNodes(readModel, activeTrace, limits)
-                        .RenderOneTraceFibers(readModel, activeTrace);
+                    : res.RenderOneTraceNodes(graphReadModel)
+                        .RenderOneTraceFibers(graphReadModel);
             }
 
             return new RenderingResult()
-                .RenderNodes(readModel, limits)
-                .RenderFibers(readModel);
+                .RenderNodes(graphReadModel)
+                .RenderFibers(graphReadModel);
         }
 
-        private static RenderingResult RenderRtus(this RenderingResult renderingResult, Model readModel,
-            MapLimits limits)
+
+        private static RenderingResult RenderRtus(this RenderingResult renderingResult, GraphReadModel graphReadModel)
         {
-            foreach (var rtu in readModel.Rtus)
+            foreach (var rtu in graphReadModel.ReadModel.Rtus)
             {
-                var nodeRtu = readModel.Nodes.First(n => n.NodeId == rtu.NodeId);
-                if (limits.IsInPlus(nodeRtu.Position, 0.5))
+                var nodeRtu = graphReadModel.ReadModel.Nodes.First(n => n.NodeId == rtu.NodeId);
+                if (graphReadModel.MainMap.Limits.IsInPlus(nodeRtu.Position, graphReadModel.CurrentGis.ScreenPartAsMargin))
                     renderingResult.NodeVms.Add(ElementRenderer.Map(nodeRtu));
             }
 
             return renderingResult;
         }
 
-        private static RenderingResult RenderOneTraceNodes(this RenderingResult renderingResult, Model readModel, Trace trace,
-            MapLimits limits)
+        private static RenderingResult RenderOneTraceNodes(this RenderingResult renderingResult, GraphReadModel graphReadModel)
         {
-            foreach (var nodeId in trace.NodeIds)
+            foreach (var nodeId in graphReadModel.ActiveTrace.Trace.NodeIds)
             {
-                var node = readModel.Nodes.First(n => n.NodeId == nodeId);
-                if (limits.IsInPlus(node.Position, 0.5))
+                var node = graphReadModel.ReadModel.Nodes.First(n => n.NodeId == nodeId);
+                if (graphReadModel.MainMap.Limits.IsInPlus(node.Position, graphReadModel.CurrentGis.ScreenPartAsMargin))
                     renderingResult.NodeVms.Add(ElementRenderer.Map(node));
 
             }
@@ -52,36 +51,35 @@ namespace Iit.Fibertest.Client
             return renderingResult;
         }
 
-        private static RenderingResult RenderOneTraceFibers(this RenderingResult renderingResult, Model readModel,
-            Trace trace)
+        private static RenderingResult RenderOneTraceFibers(this RenderingResult renderingResult, GraphReadModel graphReadModel)
         {
             var nodesNear = new List<NodeVm>();
-            foreach (var fiberId in trace.FiberIds)
+            foreach (var fiberId in graphReadModel.ActiveTrace.Trace.FiberIds)
             {
-                var fiber = readModel.Fibers.First(f => f.FiberId == fiberId);
-                if (FindFiberNodes(fiber, readModel, renderingResult, nodesNear, out NodeVm nodeVm1, out NodeVm nodeVm2))
+                var fiber = graphReadModel.ReadModel.Fibers.First(f => f.FiberId == fiberId);
+                if (FindFiberNodes(fiber, graphReadModel.ReadModel, renderingResult, nodesNear, out NodeVm nodeVm1, out NodeVm nodeVm2))
                     renderingResult.FiberVms.Add(ElementRenderer.MapWithStates(fiber, nodeVm1, nodeVm2));
             }
             renderingResult.NodeVms.AddRange(nodesNear);     
             return renderingResult;
         }
 
-        private static RenderingResult RenderNodes(this RenderingResult renderingResult, Model readModel, MapLimits limits)
+        private static RenderingResult RenderNodes(this RenderingResult renderingResult, GraphReadModel graphReadModel)
         {
-            foreach (var node in readModel.Nodes)
+            foreach (var node in graphReadModel.ReadModel.Nodes)
             {
-                if (limits.IsInPlus(node.Position, 0.5))
+                if (graphReadModel.MainMap.Limits.IsInPlus(node.Position, graphReadModel.CurrentGis.ScreenPartAsMargin))
                     renderingResult.NodeVms.Add(ElementRenderer.Map(node));
             }
             return renderingResult;
         }
 
-        private static RenderingResult RenderFibers(this RenderingResult renderingResult, Model readModel)
+        private static RenderingResult RenderFibers(this RenderingResult renderingResult, GraphReadModel graphReadModel)
         {
             var nodesNear = new List<NodeVm>();
-            foreach (var fiber in readModel.Fibers)
+            foreach (var fiber in graphReadModel.ReadModel.Fibers)
             {
-                if (FindFiberNodes(fiber, readModel, renderingResult, nodesNear, out NodeVm nodeVm1, out NodeVm nodeVm2))
+                if (FindFiberNodes(fiber, graphReadModel.ReadModel, renderingResult, nodesNear, out NodeVm nodeVm1, out NodeVm nodeVm2))
                     renderingResult.FiberVms.Add(ElementRenderer.MapWithStates(fiber, nodeVm1, nodeVm2));
             }
             renderingResult.NodeVms.AddRange(nodesNear);     

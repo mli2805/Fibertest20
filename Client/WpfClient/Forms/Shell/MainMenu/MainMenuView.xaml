@@ -22,8 +22,13 @@
                 <Separator/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Event_log}" cal:Message.Attach="LaunchEventLogView"/>
             </MenuItem>
+            <MenuItem Header="Tools" Visibility="{Binding ToolsMenuVisibility}">
+                <MenuItem Header="Export events to file" cal:Message.Attach="ExportEvents"/>
+                <MenuItem Header="Import RTU from folder" cal:Message.Attach="ImportRtuFromFolder"/>
+            </MenuItem>
             <MenuItem Header="{x:Static stringResources:Resources.SID_Settings}">
                 <MenuItem Header="{x:Static stringResources:Resources.SID_Gis_settings}" cal:Message.Attach="LaunchGisSettingsView"/>
+                <MenuItem Header="GIS experiment settings" cal:Message.Attach="LaunchGisExpSettingView"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_E_mail_settings}" cal:Message.Attach="LaunchSmtpSettingsView"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_SMS_settings}" cal:Message.Attach="LaunchSmsSettingsView"/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_SNMP_settings}" cal:Message.Attach="LaunchSnmpSettingsView"/>
@@ -37,10 +42,6 @@
                 <MenuItem Header="{x:Static stringResources:Resources.SID_License}" cal:Message.Attach="LaunchLicenseView"/>
                 <Separator/>
                 <MenuItem Header="{x:Static stringResources:Resources.SID_About}" cal:Message.Attach="LaunchAboutView"/>
-            </MenuItem>
-            <MenuItem Header="Service" Visibility="{Binding ServiceMenuVisibility}">
-                <MenuItem Header="Export events to file" cal:Message.Attach="ExportEvents"/>
-                <MenuItem Header="Import RTU from folder" cal:Message.Attach="ImportRtuFromFolder"/>
             </MenuItem>
         </Menu>
     </Grid>

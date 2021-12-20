@@ -1,0 +1,25 @@
+﻿<Window x:Class="Iit.Fibertest.Client.GisExpSettingsView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:stringResources="clr-namespace:Iit.Fibertest.StringResources;assembly=Iit.Fibertest.StringResources"
+        xmlns:client="clr-namespace:Iit.Fibertest.Client"
+        mc:Ignorable="d"
+        Width="450" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
+        d:DataContext="{d:DesignInstance client:GisExpSettingsViewModel}">
+    <StackPanel Margin="5,20,5,5">
+        <DockPanel Margin="5">
+            <TextBlock DockPanel.Dock="Left" Margin="5" Text="Graph is visible from zoom:" Width="250" />
+            <TextBox Margin="5" Text="{Binding ThresholdZoom}" />
+        </DockPanel>
+         <DockPanel Margin="5">
+            <TextBlock DockPanel.Dock="Left" Margin="5" Text="Graph is visible when node count is less than:" Width="250" />
+            <TextBox Margin="5" Text="{Binding ThresholdNodeCount}" />
+        </DockPanel>
+        <StackPanel Orientation="Horizontal" Margin="5,25,5,15" HorizontalAlignment="Center">
+            <Button Width="120" Margin="5" Name="Save" Content="{x:Static stringResources:Resources.SID_Save}"/>
+            <Button Width="120" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
+        </StackPanel>
+    </StackPanel>
+</Window>

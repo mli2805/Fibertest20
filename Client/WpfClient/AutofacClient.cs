@@ -69,6 +69,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<ZonesViewModel>();
             builder.RegisterType<ObjectsAsTreeToZonesViewModel>();
             builder.RegisterType<GisSettingsViewModel>();
+            builder.RegisterType<GisExpSettingsViewModel>();
             builder.RegisterType<SmtpSettingsViewModel>();
             builder.RegisterType<SmsSettingsViewModel>();
             builder.RegisterType<SnmpSettingsViewModel>();

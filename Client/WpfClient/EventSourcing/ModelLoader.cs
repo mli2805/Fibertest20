@@ -61,9 +61,7 @@ namespace Iit.Fibertest.Client
                 _renderingManager.Initialize();
                 // await _renderingManager.RenderCurrentZoneOnApplicationStart();
 
-                var limits = _graphReadModel.MainMap?.Limits ?? new MapLimits(0, 180, 90, 0);
-                var zoom = _graphReadModel.MainMap?.Zoom ?? 16;
-                var renderingResult = await _readModel.Render(null, limits, zoom);
+                var renderingResult = await _graphReadModel.Render();
                 await _graphReadModel.ToExistingGraph(renderingResult);
 
                 _zoneEventsOnTreeExecutor.RenderOfModelAfterSnapshot();

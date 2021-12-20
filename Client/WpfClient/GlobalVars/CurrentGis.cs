@@ -53,7 +53,14 @@ namespace Iit.Fibertest.Client
         {
             _iniFile = iniFile;
             _gpsInputMode = (GpsInputMode)iniFile.Read(IniSection.Miscellaneous, IniKey.GpsInputMode, 0);
+            ThresholdZoom = iniFile.Read(IniSection.Map, IniKey.ThresholdZoom, 17);
+            ThresholdNodeCount = iniFile.Read(IniSection.Map, IniKey.ThresholdNodeCount, 200);
         }
+
+        public int ThresholdZoom { get; set; }
+        public int ThresholdNodeCount { get; set; }
+        public double ScreenPartAsMargin { get; set; } = 0.1;
+
     }
 
 }

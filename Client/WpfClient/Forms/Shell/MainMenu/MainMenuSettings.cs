@@ -34,6 +34,12 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
+        public void LaunchGisExpSettingView()
+        {
+            var vm = _globalScope.Resolve<GisExpSettingsViewModel>();
+            _windowManager.ShowDialogWithAssignedOwner(vm);
+        }
+
         public void LaunchCleaningView()
         {
             var vm = _globalScope.Resolve<DbOptimizationViewModel>();

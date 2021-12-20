@@ -26,11 +26,11 @@ namespace Iit.Fibertest.Client
                 if (Equals(value, _currentUser)) return;
                 _currentUser = value;
                 NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(ServiceMenuVisibility));
+                NotifyOfPropertyChange(nameof(ToolsMenuVisibility));
             }
         }
 
-        public Visibility ServiceMenuVisibility =>
+        public Visibility ToolsMenuVisibility =>
             CurrentUser.Role == Role.Developer ? Visibility.Visible : Visibility.Collapsed;
 
         public MainMenuViewModel(ILifetimeScope globalScope, IMyLog logFile, IWindowManager windowManager,

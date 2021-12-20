@@ -10,7 +10,7 @@ namespace Iit.Fibertest.Client
         {
             var basePath = AppDomain.CurrentDomain.BaseDirectory;
             var folder = Path.GetFullPath(Path.Combine(basePath, @"..\temp\"));
-            string[] files = Directory.GetFiles(folder, "*.brtu");
+            string[] files = Directory.GetFiles(folder, @"*.brtu");
 
             foreach (var filename in files)
             {
@@ -26,5 +26,7 @@ namespace Iit.Fibertest.Client
         {
            await _wcfDesktopC2D.ExportEvents();
         }
+
+     
     }
 }

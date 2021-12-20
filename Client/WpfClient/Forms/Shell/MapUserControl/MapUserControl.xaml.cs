@@ -31,7 +31,7 @@ namespace Iit.Fibertest.Client
 
         private async void Limits_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var renderingResult = await GraphReadModel.ReadModel.Render(GraphReadModel.ActiveTrace.Trace, MainMap.Limits, (int)MainMap.Zoom);
+            var renderingResult = await GraphReadModel.Render();
             // await GraphReadModel.FullClean();
             // await GraphReadModel.ToEmptyGraph(renderingResult);
 

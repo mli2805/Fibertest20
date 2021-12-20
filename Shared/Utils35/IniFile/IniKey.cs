@@ -133,6 +133,8 @@
         SaveMaxZoomNoMoreThan,
         GMapProvider,
         MapAccessMode,
+        ThresholdZoom,
+        ThresholdNodeCount,
 
         // Miscellaneous
         PathToSor,

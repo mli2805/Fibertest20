@@ -219,6 +219,10 @@
     </ApplicationDefinition>
     <Compile Include="EventSourcing\Heartbeater.cs" />
     <Compile Include="EventSourcing\ModelLoader.cs" />
+    <Compile Include="Forms\SettingsForms\GisExpSettingsView.xaml.cs">
+      <DependentUpon>GisExpSettingsView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\SettingsForms\GisExpSettingsViewModel.cs" />
     <Compile Include="GlobalVars\ActiveTrace.cs" />
     <Compile Include="GraphModel\Rendering\LessThanRootRenderer.cs" />
     <Compile Include="GraphModel\Rendering\OneRtuOrTraceRenderer.cs" />
@@ -319,7 +323,7 @@
     <Compile Include="Forms\Shell\MainMenu\MainMenuAdministrative.cs" />
     <Compile Include="Forms\Shell\MainMenu\MainMenuHelp.cs" />
     <Compile Include="Forms\Shell\MainMenu\MainMenuReports.cs" />
-    <Compile Include="Forms\Shell\MainMenu\MainMenuService.cs" />
+    <Compile Include="Forms\Shell\MainMenu\MainMenuTools.cs" />
     <Compile Include="Forms\Shell\MainMenu\MainMenuSettings.cs" />
     <Compile Include="Forms\Shell\SystemState.cs" />
     <Compile Include="Forms\TraceForms\TraceInfo\TraceDevReportExt.cs" />
@@ -767,6 +771,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Forms\SettingsForms\DbOptimizationForm\LeaveAppView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Forms\SettingsForms\GisExpSettingsView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
