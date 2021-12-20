@@ -21,7 +21,7 @@ namespace Iit.Fibertest.MapLoader
             MaxZoom.Text = "17";
 
             // set cache mode only if no internet avaible
-            if (!PingNetwork("pingtest.com"))
+            if (!PingNetwork("google.com"))
             {
                 MainMap.Manager.Mode = AccessMode.CacheOnly;
                 MessageBox.Show("Нет соединения с сетью интернет, переходим в режим CacheOnly.",
