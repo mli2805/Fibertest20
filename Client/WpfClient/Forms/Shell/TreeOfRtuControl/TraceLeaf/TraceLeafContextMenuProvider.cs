@@ -1,20 +1,17 @@
 ﻿using System.Collections.Generic;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
 {
     public class TraceLeafContextMenuProvider
     {
-        private readonly CurrentUser _currentUser;
         private readonly TraceLeafActions _traceLeafActions;
         private readonly TraceLeafActionsPermissions _traceLeafActionsPermissions;
         private readonly CommonActions _commonActions;
 
-        public TraceLeafContextMenuProvider(CurrentUser currentUser, TraceLeafActions traceLeafActions,
+        public TraceLeafContextMenuProvider(TraceLeafActions traceLeafActions,
             TraceLeafActionsPermissions traceLeafActionsPermissions, CommonActions commonActions)
         {
-            _currentUser = currentUser;
             _traceLeafActions = traceLeafActions;
             _traceLeafActionsPermissions = traceLeafActionsPermissions;
             _commonActions = commonActions;
@@ -37,13 +34,12 @@ namespace Iit.Fibertest.Client
                 CommandParameter = traceLeaf
             });
 
-            if (_currentUser.Role == Role.Developer)
-                menu.Add(new MenuItemVm()
-                {
-                    Header = @"Reveal trace",
-                    Command = new ContextMenuAction(_traceLeafActions.RevealTrace, _traceLeafActionsPermissions.CanRevealTrace),
-                    CommandParameter = traceLeaf
-                });
+            menu.Add(new MenuItemVm()
+            {
+                Header = @"Reveal trace",
+                Command = new ContextMenuAction(_traceLeafActions.RevealTrace, _traceLeafActionsPermissions.CanRevealTrace),
+                CommandParameter = traceLeaf
+            });
 
             menu.Add(new MenuItemVm()
             {
