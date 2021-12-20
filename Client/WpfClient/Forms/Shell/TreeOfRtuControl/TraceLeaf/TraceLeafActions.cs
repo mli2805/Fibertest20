@@ -15,6 +15,7 @@ namespace Iit.Fibertest.Client
     public class TraceLeafActions
     {
         private readonly ILifetimeScope _globalScope;
+        private readonly ActiveTrace _activeTrace;
         private readonly Model _readModel;
         private readonly GraphReadModel _graphReadModel;
         private readonly IWindowManager _windowManager;
@@ -29,7 +30,7 @@ namespace Iit.Fibertest.Client
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly RenderingManager _renderingManager;
 
-        public TraceLeafActions(ILifetimeScope globalScope, Model readModel, GraphReadModel graphReadModel,
+        public TraceLeafActions(ILifetimeScope globalScope, ActiveTrace activeTrace, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager, TabulatorViewModel tabulatorViewModel,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             BaseRefsAssignViewModel baseRefsAssignViewModel, LandmarksViewsManager landmarksViewsManager,
@@ -38,6 +39,7 @@ namespace Iit.Fibertest.Client
             CurrentlyHiddenRtu currentlyHiddenRtu, RenderingManager renderingManager)
         {
             _globalScope = globalScope;
+            _activeTrace = activeTrace;
             _readModel = readModel;
             _graphReadModel = graphReadModel;
             _windowManager = windowManager;
@@ -83,12 +85,14 @@ namespace Iit.Fibertest.Client
                 _tabulatorViewModel.SelectedTabIndex = 3;
         }
 
-        public async void RevealTrace(object param)
+        public void RevealTrace(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
-            var unused = await _renderingManager.RenderOnTraceChanged(trace);
+            _activeTrace.Trace = trace;
+
+            // var unused = await _renderingManager.RenderOnTraceChanged(trace);
            // render trace
 
             if (_tabulatorViewModel.SelectedTabIndex != 3)

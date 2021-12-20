@@ -21,7 +21,7 @@ namespace Iit.Fibertest.Client
 
         public ModelLoader(IMyLog logFile, Model readModel, IWcfServiceDesktopC2D c2DWcfManager, GraphReadModel graphReadModel,
             RenderingManager renderingManager,
-            ZoneEventsOnTreeExecutor zoneEventsOnTreeExecutor, 
+            ZoneEventsOnTreeExecutor zoneEventsOnTreeExecutor,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel)
@@ -61,9 +61,9 @@ namespace Iit.Fibertest.Client
                 _renderingManager.Initialize();
                 // await _renderingManager.RenderCurrentZoneOnApplicationStart();
 
-                var limits = _graphReadModel.MainMap?.Limits ?? new MapLimits(0,180,90,0);
+                var limits = _graphReadModel.MainMap?.Limits ?? new MapLimits(0, 180, 90, 0);
                 var zoom = _graphReadModel.MainMap?.Zoom ?? 16;
-                var renderingResult = await _readModel.Render(limits, zoom);
+                var renderingResult = await _readModel.Render(null, limits, zoom);
                 await _graphReadModel.ToExistingGraph(renderingResult);
 
                 _zoneEventsOnTreeExecutor.RenderOfModelAfterSnapshot();

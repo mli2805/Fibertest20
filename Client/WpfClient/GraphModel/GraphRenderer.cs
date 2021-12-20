@@ -8,11 +8,17 @@ namespace Iit.Fibertest.Client
 {
     public static class GraphRenderer
     {
-        public static async Task<RenderingResult> Render(this Model readModel, MapLimits limits, double zoom)
+        public static async Task<RenderingResult> Render(this Model readModel, Trace activeTrace, MapLimits limits, double zoom)
         {
             await Task.Delay(1);
-            if (zoom < 15) return new RenderingResult()
-                .RenderRtus(readModel, limits);
+            if (zoom < 17)
+            {
+                var res = new RenderingResult().RenderRtus(readModel, limits);
+                return activeTrace == null
+                    ? res
+                    : res.RenderOneTraceNodes(readModel, activeTrace, limits)
+                        .RenderOneTraceFibers(readModel, activeTrace);
+            }
 
             return new RenderingResult()
                 .RenderNodes(readModel, limits)
@@ -25,10 +31,38 @@ namespace Iit.Fibertest.Client
             foreach (var rtu in readModel.Rtus)
             {
                 var nodeRtu = readModel.Nodes.First(n => n.NodeId == rtu.NodeId);
-                if (limits.IsInPlus(nodeRtu.Position, 0))
+                if (limits.IsInPlus(nodeRtu.Position, 0.5))
                     renderingResult.NodeVms.Add(ElementRenderer.Map(nodeRtu));
             }
 
+            return renderingResult;
+        }
+
+        private static RenderingResult RenderOneTraceNodes(this RenderingResult renderingResult, Model readModel, Trace trace,
+            MapLimits limits)
+        {
+            foreach (var nodeId in trace.NodeIds)
+            {
+                var node = readModel.Nodes.First(n => n.NodeId == nodeId);
+                if (limits.IsInPlus(node.Position, 0.5))
+                    renderingResult.NodeVms.Add(ElementRenderer.Map(node));
+
+            }
+
+            return renderingResult;
+        }
+
+        private static RenderingResult RenderOneTraceFibers(this RenderingResult renderingResult, Model readModel,
+            Trace trace)
+        {
+            var nodesNear = new List<NodeVm>();
+            foreach (var fiberId in trace.FiberIds)
+            {
+                var fiber = readModel.Fibers.First(f => f.FiberId == fiberId);
+                if (FindFiberNodes(fiber, readModel, renderingResult, nodesNear, out NodeVm nodeVm1, out NodeVm nodeVm2))
+                    renderingResult.FiberVms.Add(ElementRenderer.MapWithStates(fiber, nodeVm1, nodeVm2));
+            }
+            renderingResult.NodeVms.AddRange(nodesNear);     
             return renderingResult;
         }
 
@@ -36,7 +70,7 @@ namespace Iit.Fibertest.Client
         {
             foreach (var node in readModel.Nodes)
             {
-                if (limits.IsInPlus(node.Position, 0))
+                if (limits.IsInPlus(node.Position, 0.5))
                     renderingResult.NodeVms.Add(ElementRenderer.Map(node));
             }
             return renderingResult;

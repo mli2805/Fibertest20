@@ -30,6 +30,7 @@ namespace Iit.Fibertest.Client
         public IMyLog LogFile { get; }
         public CurrentGis CurrentGis { get; }
         public CurrentUser CurrentUser { get; }
+        public ActiveTrace ActiveTrace { get; }
         public CommonStatusBarViewModel CommonStatusBarViewModel { get; }
         public GrmNodeRequests GrmNodeRequests { get; }
         public GrmEquipmentRequests GrmEquipmentRequests { get; }
@@ -59,7 +60,7 @@ namespace Iit.Fibertest.Client
         }
 
         public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,
-            CurrentGis currentGis, CurrentUser currentUser,
+            CurrentGis currentGis, CurrentUser currentUser, ActiveTrace activeTrace,
             CommonStatusBarViewModel commonStatusBarViewModel,
             GrmNodeRequests grmNodeRequests, GrmEquipmentRequests grmEquipmentRequests,
             GrmFiberRequests grmFiberRequests, GrmFiberWithNodesRequest grmFiberWithNodesRequest,
@@ -70,6 +71,7 @@ namespace Iit.Fibertest.Client
             CurrentGis = currentGis;
             currentGis.PropertyChanged += CurrentGis_PropertyChanged;
             CurrentUser = currentUser;
+            ActiveTrace = activeTrace;
             CommonStatusBarViewModel = commonStatusBarViewModel;
             GrmNodeRequests = grmNodeRequests;
             GrmEquipmentRequests = grmEquipmentRequests;

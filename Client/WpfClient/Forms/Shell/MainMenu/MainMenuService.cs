@@ -1,6 +1,5 @@
 ﻿using System;
 using System.IO;
-using System.Linq;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
@@ -18,13 +17,9 @@ namespace Iit.Fibertest.Client
                 var bytes = File.ReadAllBytes(filename);
                 var oneRtuModelFromFile = new Model();
                 if (!await oneRtuModelFromFile.Deserialize(_logFile, bytes)) return;
-                // _readModel.AddOneRtuToModel(oneRtuModelFromFile);
 
                 await _modelFromFileExporter.Apply(oneRtuModelFromFile);
             }
-
-            // _currentlyHiddenRtu.Collection.AddRange(_readModel.Rtus.Select(r=>r.Id));
-            // _currentlyHiddenRtu.IsHideAllPressed = true;
         }
 
         public async void ExportEvents()

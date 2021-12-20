@@ -18,6 +18,7 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<CurrentUser>().InstancePerLifetimeScope();
             builder.RegisterType<CurrentlyHiddenRtu>().InstancePerLifetimeScope();
             builder.RegisterType<CurrentGis>().InstancePerLifetimeScope();
+            builder.RegisterType<ActiveTrace>().InstancePerLifetimeScope();
             builder.RegisterType<CurrentDatacenterParameters>().InstancePerLifetimeScope();
             builder.RegisterType<SystemState>().InstancePerLifetimeScope();
             builder.RegisterType<WindowManager>().As<IWindowManager>().InstancePerLifetimeScope();
