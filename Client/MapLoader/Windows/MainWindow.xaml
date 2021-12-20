@@ -38,6 +38,11 @@
                         <ProgressBar Margin="2" Name="ProgressBar1" IsIndeterminate="True" />
                     </Grid>
                 </GroupBox>
+                <GroupBox Header="storing" Height="50" HorizontalAlignment="Right" Margin="0,0,12,12" Name="GroupBox4" VerticalAlignment="Bottom" Width="169">
+                    <Grid>
+                        <ProgressBar Margin="2" Name="ProgressBar2" IsIndeterminate="True" />
+                    </Grid>
+                </GroupBox>
             </StackPanel>
         </GroupBox>
          <GroupBox Name="Mapgroup" Margin="5" VerticalContentAlignment="Stretch" HorizontalContentAlignment="Stretch">
