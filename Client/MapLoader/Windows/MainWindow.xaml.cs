@@ -37,6 +37,11 @@ namespace Iit.Fibertest.MapLoader
             MainMap.OnTileLoadStart += MainMap_OnTileLoadStart;
             MainMap.MouseEnter += MainMap_MouseEnter;
 
+            GroupBox4.Header = "готово";
+            ProgressBar2.Visibility = Visibility.Hidden;
+            MainMap.Manager.OnTileCacheStart += MainMap_OnTileCacheStart;
+            MainMap.Manager.OnTileCacheComplete += MainMap_OnTileCacheComplete;
+
             // get map types
             var providers = new List<GMapProvider>
             {
@@ -46,11 +51,11 @@ namespace Iit.Fibertest.MapLoader
             };
             ComboBoxMapType.ItemsSource = providers;
 
-         //   ComboBoxMapType.ItemsSource = GMapProviders.List;
+            //   ComboBoxMapType.ItemsSource = GMapProviders.List;
             ComboBoxMapType.DisplayMemberPath = "Name";
             ComboBoxMapType.SelectedItem = MainMap.MapProvider;
 
-            // acccess mode
+            // access mode
             ComboBoxMode.ItemsSource = Enum.GetValues(typeof(AccessMode));
             ComboBoxMode.SelectedItem = MainMap.Manager.Mode;
         }
@@ -60,13 +65,49 @@ namespace Iit.Fibertest.MapLoader
             MainMap.Focus();
         }
 
-        // tile louading starts
+        // tile loading starts
         void MainMap_OnTileLoadStart()
         {
             System.Windows.Forms.MethodInvoker m = delegate
             {
                 GroupBox3.Header = "";
                 ProgressBar1.Visibility = Visibility.Visible;
+            };
+
+            try
+            {
+                Dispatcher?.BeginInvoke(DispatcherPriority.Loaded, m);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        void MainMap_OnTileCacheStart()
+        {
+            System.Windows.Forms.MethodInvoker m = delegate
+            {
+                GroupBox4.Header = "сохранение на диске";
+                ProgressBar2.Visibility = Visibility.Visible;
+            };
+
+            try
+            {
+                Dispatcher?.BeginInvoke(DispatcherPriority.Loaded, m);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+        }
+
+        void MainMap_OnTileCacheComplete()
+        {
+            System.Windows.Forms.MethodInvoker m = delegate
+            {
+                GroupBox4.Header = "готово";
+                ProgressBar2.Visibility = Visibility.Hidden;
             };
 
             try
