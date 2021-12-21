@@ -8,7 +8,14 @@ namespace Iit.Fibertest.Client
 {
     public static class GraphRenderer
     {
+
         public static async Task<RenderingResult> Render(this GraphReadModel graphReadModel)
+        {
+            return await graphReadModel.RenderByNumber();
+            // return await graphReadModel.RenderByZoom();
+        }
+
+        public static async Task<RenderingResult> RenderByZoom(this GraphReadModel graphReadModel)
         {
             await Task.Delay(1);
             if (graphReadModel.MainMap == null || graphReadModel.MainMap.Zoom < graphReadModel.CurrentGis.ThresholdZoom)
@@ -26,7 +33,7 @@ namespace Iit.Fibertest.Client
         }
 
 
-        private static RenderingResult RenderRtus(this RenderingResult renderingResult, GraphReadModel graphReadModel)
+        public static RenderingResult RenderRtus(this RenderingResult renderingResult, GraphReadModel graphReadModel)
         {
             foreach (var rtu in graphReadModel.ReadModel.Rtus)
             {
@@ -74,7 +81,7 @@ namespace Iit.Fibertest.Client
             return renderingResult;
         }
 
-        private static RenderingResult RenderFibers(this RenderingResult renderingResult, GraphReadModel graphReadModel)
+        public static RenderingResult RenderFibers(this RenderingResult renderingResult, GraphReadModel graphReadModel)
         {
             var nodesNear = new List<NodeVm>();
             foreach (var fiber in graphReadModel.ReadModel.Fibers)

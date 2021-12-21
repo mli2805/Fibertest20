@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System.Collections.Generic;
+using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 
@@ -60,6 +61,9 @@ namespace Iit.Fibertest.Client
         public int ThresholdZoom { get; set; }
         public int ThresholdNodeCount { get; set; }
         public double ScreenPartAsMargin { get; set; } = 0.1;
+
+        public List<Trace> Traces { get; set; } = new List<Trace>();
+
 
     }
 

@@ -224,6 +224,7 @@
     </Compile>
     <Compile Include="Forms\SettingsForms\GisExpSettingsViewModel.cs" />
     <Compile Include="GlobalVars\ActiveTrace.cs" />
+    <Compile Include="GraphModel\GraphRenderer2.cs" />
     <Compile Include="GraphModel\Rendering\LessThanRootRenderer.cs" />
     <Compile Include="GraphModel\Rendering\OneRtuOrTraceRenderer.cs" />
     <Compile Include="GraphModel\Rendering\RootRenderer.cs" />
