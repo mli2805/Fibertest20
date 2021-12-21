@@ -9,14 +9,21 @@
         Width="450" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:GisExpSettingsViewModel}">
     <StackPanel Margin="5,20,5,5">
-        <DockPanel Margin="5">
-            <TextBlock DockPanel.Dock="Left" Margin="5" Text="Graph is visible from zoom:" Width="250" />
-            <TextBox Margin="5" Text="{Binding ThresholdZoom}" />
-        </DockPanel>
-         <DockPanel Margin="5">
-            <TextBlock DockPanel.Dock="Left" Margin="5" Text="Graph is visible when node count is less than:" Width="250" />
-            <TextBox Margin="5" Text="{Binding ThresholdNodeCount}" />
-        </DockPanel>
+
+        <RadioButton GroupName="1" IsChecked="{Binding IsZoom}"  
+                     Margin="15,0,0,0" VerticalContentAlignment="Center">
+            <DockPanel Margin="5">
+                <TextBlock DockPanel.Dock="Left" Margin="5" Text="Graph is visible from zoom:" Width="250" />
+                <TextBox Margin="5" Text="{Binding ThresholdZoom}" Width="50" />
+            </DockPanel>
+        </RadioButton>
+        <RadioButton GroupName="1" IsChecked="{Binding IsNodeCount}" 
+                     Margin="15,0,0,0" VerticalContentAlignment="Center">
+            <DockPanel Margin="5">
+                <TextBlock DockPanel.Dock="Left" Margin="5" Text="Graph is visible when node count is less than:" Width="250" />
+                <TextBox Margin="5" Text="{Binding ThresholdNodeCount}" Width="50" />
+            </DockPanel>
+        </RadioButton>
         <StackPanel Orientation="Horizontal" Margin="5,25,5,15" HorizontalAlignment="Center">
             <Button Width="120" Margin="5" Name="Save" Content="{x:Static stringResources:Resources.SID_Save}"/>
             <Button Width="120" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}"/>

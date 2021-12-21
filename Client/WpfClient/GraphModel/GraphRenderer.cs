@@ -11,8 +11,9 @@ namespace Iit.Fibertest.Client
 
         public static async Task<RenderingResult> Render(this GraphReadModel graphReadModel)
         {
-            return await graphReadModel.RenderByNumber();
-            // return await graphReadModel.RenderByZoom();
+            return graphReadModel.CurrentGis.GisRenderingByZoom
+                ? await graphReadModel.RenderByZoom()
+                : await graphReadModel.RenderByNumber();
         }
 
         public static async Task<RenderingResult> RenderByZoom(this GraphReadModel graphReadModel)

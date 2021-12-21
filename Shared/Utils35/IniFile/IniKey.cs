@@ -133,6 +133,7 @@
         SaveMaxZoomNoMoreThan,
         GMapProvider,
         MapAccessMode,
+        GisRenderingByZoom,
         ThresholdZoom,
         ThresholdNodeCount,
 

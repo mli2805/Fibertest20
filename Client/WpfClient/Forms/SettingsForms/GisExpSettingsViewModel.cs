@@ -11,11 +11,16 @@ namespace Iit.Fibertest.Client
         public int ThresholdZoom { get; set; }
         public int ThresholdNodeCount { get; set; }
 
+        public bool IsZoom { get; set; }
+        public bool IsNodeCount { get; set; }
+
         public GisExpSettingsViewModel(IniFile iniFile, CurrentGis currentGis)
         {
             _iniFile = iniFile;
             _currentGis = currentGis;
 
+            IsZoom = currentGis.GisRenderingByZoom;
+            IsNodeCount = !IsZoom;
             ThresholdZoom = currentGis.ThresholdZoom;
             ThresholdNodeCount = currentGis.ThresholdNodeCount;
         }
@@ -27,8 +32,10 @@ namespace Iit.Fibertest.Client
 
         public void Save()
         {
+            _currentGis.GisRenderingByZoom = IsZoom;
             _currentGis.ThresholdZoom = ThresholdZoom;
             _currentGis.ThresholdNodeCount = ThresholdNodeCount;
+            _iniFile.Write(IniSection.Map, IniKey.GisRenderingByZoom, IsZoom);
             _iniFile.Write(IniSection.Map, IniKey.ThresholdZoom, ThresholdZoom);
             _iniFile.Write(IniSection.Map, IniKey.ThresholdNodeCount, ThresholdNodeCount);
 
