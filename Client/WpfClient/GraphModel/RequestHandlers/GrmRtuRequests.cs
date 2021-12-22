@@ -16,15 +16,17 @@ namespace Iit.Fibertest.Client
     {
         private readonly ILifetimeScope _globalScope;
         private readonly Model _model;
+        private readonly CurrentGis _currentGis;
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly IWindowManager _windowManager;
         private readonly RtuRemover _rtuRemover;
 
-        public GrmRtuRequests(ILifetimeScope globalScope, Model model, CurrentlyHiddenRtu currentlyHiddenRtu,
+        public GrmRtuRequests(ILifetimeScope globalScope, Model model, CurrentGis currentGis, CurrentlyHiddenRtu currentlyHiddenRtu,
            IWindowManager windowManager, RtuRemover rtuRemover)
         {
             _globalScope = globalScope;
             _model = model;
+            _currentGis = currentGis;
             _currentlyHiddenRtu = currentlyHiddenRtu;
             _windowManager = windowManager;
             _rtuRemover = rtuRemover;
@@ -89,14 +91,21 @@ namespace Iit.Fibertest.Client
         public void ChangeRtuTracesVisibility(Guid rtuNodeId)
         {
             var rtu = _model.Rtus.First(r => r.NodeId == rtuNodeId);
-            _currentlyHiddenRtu.IsHideAllPressed = false;
-            _currentlyHiddenRtu.IsShowAllPressed = false;
+            // _currentlyHiddenRtu.IsHideAllPressed = false;
+            // _currentlyHiddenRtu.IsShowAllPressed = false;
+            //
+            // if (_currentlyHiddenRtu.Collection.Contains(rtu.Id))
+            //     _currentlyHiddenRtu.Collection.Remove(rtu.Id);
+            // else
+            //     _currentlyHiddenRtu.Collection.Add(rtu.Id);
+            // _currentlyHiddenRtu.ChangedRtu = rtu.Id;
 
-            if (_currentlyHiddenRtu.Collection.Contains(rtu.Id))
-                _currentlyHiddenRtu.Collection.Remove(rtu.Id);
-            else
-                _currentlyHiddenRtu.Collection.Add(rtu.Id);
-            _currentlyHiddenRtu.ChangedRtu = rtu.Id;
+            var rtuId = _currentGis.RtuIds.FirstOrDefault(r => r == rtu.Id);
+            if (rtuId == Guid.Empty)
+                _currentGis.RtuIds.Add(rtu.Id);
+            else 
+                _currentGis.RtuIds.Remove(rtuId);
+
         }
     }
 }

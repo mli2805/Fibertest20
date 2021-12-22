@@ -3039,4 +3039,7 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_With_user_s_account_to_workstation_linking" xml:space="preserve">
 		<value>With user's account to workstation linking</value>
 	</data>
+	<data name="SID_Reveal_trace" xml:space="preserve">
+		<value>Reveal trace</value>
+	</data>
 </root>

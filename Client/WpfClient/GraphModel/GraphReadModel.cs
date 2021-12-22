@@ -30,7 +30,6 @@ namespace Iit.Fibertest.Client
         public IMyLog LogFile { get; }
         public CurrentGis CurrentGis { get; }
         public CurrentUser CurrentUser { get; }
-        public ActiveTrace ActiveTrace { get; }
         public CommonStatusBarViewModel CommonStatusBarViewModel { get; }
         public GrmNodeRequests GrmNodeRequests { get; }
         public GrmEquipmentRequests GrmEquipmentRequests { get; }
@@ -60,7 +59,7 @@ namespace Iit.Fibertest.Client
         }
 
         public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,
-            CurrentGis currentGis, CurrentUser currentUser, ActiveTrace activeTrace,
+            CurrentGis currentGis, CurrentUser currentUser, 
             CommonStatusBarViewModel commonStatusBarViewModel,
             GrmNodeRequests grmNodeRequests, GrmEquipmentRequests grmEquipmentRequests,
             GrmFiberRequests grmFiberRequests, GrmFiberWithNodesRequest grmFiberWithNodesRequest,
@@ -70,8 +69,9 @@ namespace Iit.Fibertest.Client
             LogFile = logFile;
             CurrentGis = currentGis;
             currentGis.PropertyChanged += CurrentGis_PropertyChanged;
+            currentGis.Traces.CollectionChanged += Traces_CollectionChanged;
+            currentGis.RtuIds.CollectionChanged += RtuIds_CollectionChanged;
             CurrentUser = currentUser;
-            ActiveTrace = activeTrace;
             CommonStatusBarViewModel = commonStatusBarViewModel;
             GrmNodeRequests = grmNodeRequests;
             GrmEquipmentRequests = grmEquipmentRequests;
@@ -91,6 +91,21 @@ namespace Iit.Fibertest.Client
             if (!Enum.TryParse(levelString, out GraphVisibilityLevel level))
                 level = GraphVisibilityLevel.AllDetails;
             SetGraphVisibility(level);
+        }
+
+        private async void RtuIds_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            var renderingResult = await this.Render();
+            await this.ToExistingGraph(renderingResult);
+            MainMap.Limits.NodeCountString = $@" {ReadModel.Nodes.Count} / {renderingResult.NodeVms.Count}";
+
+        }
+
+        private async void Traces_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            var renderingResult = await this.Render();
+            await this.ToExistingGraph(renderingResult);
+            MainMap.Limits.NodeCountString = $@" {ReadModel.Nodes.Count} / {renderingResult.NodeVms.Count}";
         }
 
         private void CurrentGis_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)

@@ -16,21 +16,27 @@ namespace Iit.Fibertest.Client
                 : await graphReadModel.RenderByNumber();
         }
 
-        public static async Task<RenderingResult> RenderByZoom(this GraphReadModel graphReadModel)
+        private static async Task<RenderingResult> RenderByZoom(this GraphReadModel graphReadModel)
         {
             await Task.Delay(1);
             if (graphReadModel.MainMap == null || graphReadModel.MainMap.Zoom < graphReadModel.CurrentGis.ThresholdZoom)
             {
                 var res = new RenderingResult().RenderRtus(graphReadModel);
-                return graphReadModel.ActiveTrace.Trace == null
-                    ? res
-                    : res.RenderOneTraceNodes(graphReadModel)
-                        .RenderOneTraceFibers(graphReadModel);
+                var forcedTraces = GetForcedTraceList(graphReadModel);
+                return res.RenderForcedTracesNodes(graphReadModel, forcedTraces)
+                        .RenderForcedTracesFibers(graphReadModel, forcedTraces);
             }
 
             return new RenderingResult()
                 .RenderNodes(graphReadModel)
                 .RenderFibers(graphReadModel);
+        }
+
+        private static List<Trace> GetForcedTraceList(GraphReadModel gr)
+        {
+            var result = gr.ReadModel.Traces.Where(t=>gr.CurrentGis.RtuIds.Contains(t.RtuId)).ToList();
+            result.AddRange(gr.CurrentGis.Traces.Where(t=>!result.Contains(t)));
+            return result;
         }
 
 
@@ -46,29 +52,46 @@ namespace Iit.Fibertest.Client
             return renderingResult;
         }
 
-        private static RenderingResult RenderOneTraceNodes(this RenderingResult renderingResult, GraphReadModel graphReadModel)
+        private static RenderingResult RenderForcedTracesNodes(this RenderingResult renderingResult,
+            GraphReadModel graphReadModel, List<Trace> forcesTraces)
         {
-            foreach (var nodeId in graphReadModel.ActiveTrace.Trace.NodeIds)
+            var existingNodes = new HashSet<Guid>();
+            foreach (var trace in forcesTraces)
             {
-                var node = graphReadModel.ReadModel.Nodes.First(n => n.NodeId == nodeId);
-                if (graphReadModel.MainMap.Limits.IsInPlus(node.Position, graphReadModel.CurrentGis.ScreenPartAsMargin))
-                    renderingResult.NodeVms.Add(ElementRenderer.Map(node));
-
+                foreach (var nodeId in trace.NodeIds)
+                {
+                    if (!existingNodes.Contains(nodeId))
+                    {
+                        existingNodes.Add(nodeId);
+                        var node = graphReadModel.ReadModel.Nodes.First(n => n.NodeId == nodeId);
+                        if (graphReadModel.MainMap.Limits.IsInPlus(node.Position, graphReadModel.CurrentGis.ScreenPartAsMargin))
+                            renderingResult.NodeVms.Add(ElementRenderer.Map(node));
+                    }
+                }
             }
 
             return renderingResult;
         }
 
-        private static RenderingResult RenderOneTraceFibers(this RenderingResult renderingResult, GraphReadModel graphReadModel)
+        private static RenderingResult RenderForcedTracesFibers(this RenderingResult renderingResult,
+            GraphReadModel graphReadModel, List<Trace> forcesTraces)
         {
             var nodesNear = new List<NodeVm>();
-            foreach (var fiberId in graphReadModel.ActiveTrace.Trace.FiberIds)
+            var existingFibers = new HashSet<Guid>();
+            foreach (var trace in forcesTraces)
             {
-                var fiber = graphReadModel.ReadModel.Fibers.First(f => f.FiberId == fiberId);
-                if (FindFiberNodes(fiber, graphReadModel.ReadModel, renderingResult, nodesNear, out NodeVm nodeVm1, out NodeVm nodeVm2))
-                    renderingResult.FiberVms.Add(ElementRenderer.MapWithStates(fiber, nodeVm1, nodeVm2));
+                foreach (var fiberId in trace.FiberIds)
+                {
+                    if (!existingFibers.Contains(fiberId))
+                    {
+                        existingFibers.Add(fiberId);
+                        var fiber = graphReadModel.ReadModel.Fibers.First(f => f.FiberId == fiberId);
+                        if (FindFiberNodes(fiber, graphReadModel.ReadModel, renderingResult, nodesNear, out NodeVm nodeVm1, out NodeVm nodeVm2))
+                            renderingResult.FiberVms.Add(ElementRenderer.MapWithStates(fiber, nodeVm1, nodeVm2));
+                    }
+                }
             }
-            renderingResult.NodeVms.AddRange(nodesNear);     
+            renderingResult.NodeVms.AddRange(nodesNear);
             return renderingResult;
         }
 
@@ -90,11 +113,11 @@ namespace Iit.Fibertest.Client
                 if (FindFiberNodes(fiber, graphReadModel.ReadModel, renderingResult, nodesNear, out NodeVm nodeVm1, out NodeVm nodeVm2))
                     renderingResult.FiberVms.Add(ElementRenderer.MapWithStates(fiber, nodeVm1, nodeVm2));
             }
-            renderingResult.NodeVms.AddRange(nodesNear);     
+            renderingResult.NodeVms.AddRange(nodesNear);
             return renderingResult;
         }
 
-        private static bool FindFiberNodes(Fiber fiber, Model readModel, RenderingResult renderingResult, 
+        private static bool FindFiberNodes(Fiber fiber, Model readModel, RenderingResult renderingResult,
             List<NodeVm> nodesNear, out NodeVm nodeVm1, out NodeVm nodeVm2)
         {
             nodeVm1 = renderingResult.NodeVms.FirstOrDefault(n => n.Id == fiber.NodeId1);

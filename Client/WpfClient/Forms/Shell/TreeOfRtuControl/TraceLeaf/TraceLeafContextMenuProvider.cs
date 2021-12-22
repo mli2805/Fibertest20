@@ -36,7 +36,7 @@ namespace Iit.Fibertest.Client
 
             menu.Add(new MenuItemVm()
             {
-                Header = @"Reveal trace",
+                Header = Resources.SID_Reveal_trace,
                 Command = new ContextMenuAction(_traceLeafActions.RevealTrace, _traceLeafActionsPermissions.CanRevealTrace),
                 CommandParameter = traceLeaf
             });

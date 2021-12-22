@@ -3039,4 +3039,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_With_user_s_account_to_workstation_linking" xml:space="preserve">
 		<value>С привязкой учетной записи пользователя к рабочему месту</value>
 	</data>
+	<data name="SID_Reveal_trace" xml:space="preserve">
+		<value>Отобразить трассу</value>
+	</data>
 </root>

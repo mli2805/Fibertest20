@@ -6207,6 +6207,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reveal trace.
+        /// </summary>
+        public static string SID_Reveal_trace {
+            get {
+                return ResourceManager.GetString("SID_Reveal_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reveal traces.
         /// </summary>
         public static string SID_Reveal_traces {

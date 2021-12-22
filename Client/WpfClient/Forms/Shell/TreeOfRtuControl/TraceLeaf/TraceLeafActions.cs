@@ -15,7 +15,6 @@ namespace Iit.Fibertest.Client
     public class TraceLeafActions
     {
         private readonly ILifetimeScope _globalScope;
-        private readonly ActiveTrace _activeTrace;
         private readonly Model _readModel;
         private readonly GraphReadModel _graphReadModel;
         private readonly IWindowManager _windowManager;
@@ -27,19 +26,15 @@ namespace Iit.Fibertest.Client
         private readonly LandmarksViewsManager _landmarksViewsManager;
         private readonly OutOfTurnPreciseMeasurementViewModel _outOfTurnPreciseMeasurementViewModel;
         private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
-        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
-        private readonly RenderingManager _renderingManager;
 
-        public TraceLeafActions(ILifetimeScope globalScope, ActiveTrace activeTrace, Model readModel, GraphReadModel graphReadModel,
+        public TraceLeafActions(ILifetimeScope globalScope, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, IWcfServiceDesktopC2D c2DWcfManager, TabulatorViewModel tabulatorViewModel,
             TraceStateViewsManager traceStateViewsManager, TraceStatisticsViewsManager traceStatisticsViewsManager,
             BaseRefsAssignViewModel baseRefsAssignViewModel, LandmarksViewsManager landmarksViewsManager,
             OutOfTurnPreciseMeasurementViewModel outOfTurnPreciseMeasurementViewModel,
-            CommonStatusBarViewModel commonStatusBarViewModel,
-            CurrentlyHiddenRtu currentlyHiddenRtu, RenderingManager renderingManager)
+            CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
-            _activeTrace = activeTrace;
             _readModel = readModel;
             _graphReadModel = graphReadModel;
             _windowManager = windowManager;
@@ -51,8 +46,6 @@ namespace Iit.Fibertest.Client
             _landmarksViewsManager = landmarksViewsManager;
             _outOfTurnPreciseMeasurementViewModel = outOfTurnPreciseMeasurementViewModel;
             _commonStatusBarViewModel = commonStatusBarViewModel;
-            _currentlyHiddenRtu = currentlyHiddenRtu;
-            _renderingManager = renderingManager;
         }
 
         public async void UpdateTrace(object param)
@@ -67,17 +60,23 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
-        public async void HighlightTrace(object param)
+        public void HighlightTrace(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
 
-            if (_currentlyHiddenRtu.Collection.Contains(trace.RtuId))
-            {
-                _currentlyHiddenRtu.Collection.Remove(trace.RtuId);
-                var unused = await _renderingManager.RenderOnRtuChanged();
-            }
+            // if (_currentlyHiddenRtu.Collection.Contains(trace.RtuId))
+            // {
+            //     _currentlyHiddenRtu.Collection.Remove(trace.RtuId);
+            //     var unused = await _renderingManager.RenderOnRtuChanged();
+            // }
+
+            if (!_graphReadModel.CurrentGis.RtuIds.Contains(trace.RtuId)
+                && !_graphReadModel.CurrentGis.Traces.Contains(trace))
+                _graphReadModel.CurrentGis.Traces.Add(trace);
+
+
             _graphReadModel.HighlightTrace(trace.NodeIds[0], trace.FiberIds);
             trace.IsHighlighted = true;
 
@@ -90,10 +89,14 @@ namespace Iit.Fibertest.Client
             if (!(param is TraceLeaf traceLeaf))
                 return;
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
-            _activeTrace.Trace = trace;
+            var aTrace = _graphReadModel.CurrentGis.Traces.FirstOrDefault(t => t.TraceId == trace.TraceId);
+            if (aTrace == null)
+                _graphReadModel.CurrentGis.Traces.Add(trace);
+            else 
+                _graphReadModel.CurrentGis.Traces.Remove(aTrace);
 
             // var unused = await _renderingManager.RenderOnTraceChanged(trace);
-           // render trace
+            // render trace
 
             if (_tabulatorViewModel.SelectedTabIndex != 3)
                 _tabulatorViewModel.SelectedTabIndex = 3;
