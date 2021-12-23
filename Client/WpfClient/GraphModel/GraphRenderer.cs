@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
@@ -12,7 +13,9 @@ namespace Iit.Fibertest.Client
         public static async Task<RenderingResult> Render(this GraphReadModel graphReadModel)
         {
             return graphReadModel.CurrentGis.GisRenderingByZoom
-                ? await graphReadModel.RenderByZoom()
+                ? graphReadModel.CurrentUser.Role <= Role.Root
+                    ? await graphReadModel.RenderByZoomForRoot()
+                    : await graphReadModel.RenderByZoom()
                 : await graphReadModel.RenderByNumber();
         }
 
@@ -32,7 +35,7 @@ namespace Iit.Fibertest.Client
                 .RenderFibers(graphReadModel);
         }
 
-        private static List<Trace> GetForcedTraceList(GraphReadModel gr)
+        public static List<Trace> GetForcedTraceList(GraphReadModel gr)
         {
             var result = gr.ReadModel.Traces.Where(t=>gr.CurrentGis.RtuIds.Contains(t.RtuId)).ToList();
             result.AddRange(gr.CurrentGis.Traces.Where(t=>!result.Contains(t)));
@@ -53,10 +56,10 @@ namespace Iit.Fibertest.Client
         }
 
         private static RenderingResult RenderForcedTracesNodes(this RenderingResult renderingResult,
-            GraphReadModel graphReadModel, List<Trace> forcesTraces)
+            GraphReadModel graphReadModel, List<Trace> forcedTraces)
         {
             var existingNodes = new HashSet<Guid>();
-            foreach (var trace in forcesTraces)
+            foreach (var trace in forcedTraces)
             {
                 foreach (var nodeId in trace.NodeIds)
                 {
@@ -74,17 +77,17 @@ namespace Iit.Fibertest.Client
         }
 
         private static RenderingResult RenderForcedTracesFibers(this RenderingResult renderingResult,
-            GraphReadModel graphReadModel, List<Trace> forcesTraces)
+            GraphReadModel graphReadModel, List<Trace> forcedTraces)
         {
             var nodesNear = new List<NodeVm>();
-            var existingFibers = new HashSet<Guid>();
-            foreach (var trace in forcesTraces)
+            var checkedFibers = new HashSet<Guid>();
+            foreach (var trace in forcedTraces)
             {
                 foreach (var fiberId in trace.FiberIds)
                 {
-                    if (!existingFibers.Contains(fiberId))
+                    if (!checkedFibers.Contains(fiberId))
                     {
-                        existingFibers.Add(fiberId);
+                        checkedFibers.Add(fiberId);
                         var fiber = graphReadModel.ReadModel.Fibers.First(f => f.FiberId == fiberId);
                         if (FindFiberNodes(fiber, graphReadModel.ReadModel, renderingResult, nodesNear, out NodeVm nodeVm1, out NodeVm nodeVm2))
                             renderingResult.FiberVms.Add(ElementRenderer.MapWithStates(fiber, nodeVm1, nodeVm2));
@@ -95,7 +98,7 @@ namespace Iit.Fibertest.Client
             return renderingResult;
         }
 
-        private static RenderingResult RenderNodes(this RenderingResult renderingResult, GraphReadModel graphReadModel)
+        public static RenderingResult RenderNodes(this RenderingResult renderingResult, GraphReadModel graphReadModel)
         {
             foreach (var node in graphReadModel.ReadModel.Nodes)
             {
@@ -117,7 +120,7 @@ namespace Iit.Fibertest.Client
             return renderingResult;
         }
 
-        private static bool FindFiberNodes(Fiber fiber, Model readModel, RenderingResult renderingResult,
+        public static bool FindFiberNodes(Fiber fiber, Model readModel, RenderingResult renderingResult,
             List<NodeVm> nodesNear, out NodeVm nodeVm1, out NodeVm nodeVm2)
         {
             nodeVm1 = renderingResult.NodeVms.FirstOrDefault(n => n.Id == fiber.NodeId1);
