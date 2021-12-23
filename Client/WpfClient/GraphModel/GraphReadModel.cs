@@ -148,20 +148,34 @@ namespace Iit.Fibertest.Client
             MainMap.Position = rtuNodeVm.Position;
             foreach (var fiberId in fibers)
             {
-                var fiber = Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
-                if (fiber != null)
-                    fiber.IsHighlighted = true;
+                ReadModel.Fibers.First(f => f.FiberId == fiberId).IsHighLighted = true;
+
+                var fiberVm = Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
+                if (fiberVm != null)
+                    fiberVm.IsHighlighted = true;
             }
         }
 
-        public void Extinguish()
+        public void HideForced()
+        {
+            CurrentGis.Traces.Clear();
+            CurrentGis.RtuIds.Clear();
+        }
+
+        public void ExtinguishAll()
         {
             foreach (var nodeVm in Data.Nodes.Where(n => n.IsHighlighted))
                 nodeVm.IsHighlighted = false;
 
             foreach (var fiberVm in Data.Fibers.Where(f => f.IsHighlighted))
                 fiberVm.IsHighlighted = false;
+
+            foreach (var fiber in ReadModel.Fibers)
+            {
+                fiber.IsHighLighted = false;
+            }
         }
+
         public void ExtinguishNodes()
         {
             foreach (var nodeVm in Data.Nodes.Where(n => n.IsHighlighted))

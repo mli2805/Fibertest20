@@ -38,7 +38,7 @@ namespace Iit.Fibertest.Client
         // but in case trace was hidden check fiberVm/nodeVm on null before operations
         public void CleanTrace(TraceCleaned evnt)
         {
-            _graphModel.Extinguish();
+            _graphModel.ExtinguishAll();
             foreach (var fiberId in evnt.FiberIds)
             {
                 var fiberVm = _graphModel.Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
@@ -54,7 +54,7 @@ namespace Iit.Fibertest.Client
         // but in case trace was hidden check fiberVm/nodeVm on null before operations
         public void RemoveTrace(TraceRemoved evnt)
         {
-            _graphModel.Extinguish();
+            _graphModel.ExtinguishAll();
             foreach (var fiberId in evnt.FiberIds)
             {
                 var fiberVm = _graphModel.Data.Fibers.FirstOrDefault(f => f.Id == fiberId);

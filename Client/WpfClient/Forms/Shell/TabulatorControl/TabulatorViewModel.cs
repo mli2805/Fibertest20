@@ -194,9 +194,16 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void Extinguish()
+        public void ExtinguishAll()
         {
-            GraphReadModel.Extinguish();
+            GraphReadModel.ExtinguishAll();
+            foreach (var trace in _readModel.Traces)
+                trace.IsHighlighted = false;
+        }
+
+        public void HideForced()
+        {
+            GraphReadModel.HideForced();
             foreach (var trace in _readModel.Traces)
                 trace.IsHighlighted = false;
         }

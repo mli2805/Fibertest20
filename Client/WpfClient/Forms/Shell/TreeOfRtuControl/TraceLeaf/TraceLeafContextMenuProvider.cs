@@ -29,15 +29,15 @@ namespace Iit.Fibertest.Client
 
             menu.Add(new MenuItemVm()
             {
-                Header = Resources.SID_Show_trace,
-                Command = new ContextMenuAction(_traceLeafActions.HighlightTrace, _traceLeafActionsPermissions.CanHighlightTrace),
+                Header = Resources.SID_Reveal_trace,
+                Command = new ContextMenuAction(_traceLeafActions.RevealTrace, _traceLeafActionsPermissions.CanRevealTrace),
                 CommandParameter = traceLeaf
             });
 
             menu.Add(new MenuItemVm()
             {
-                Header = Resources.SID_Reveal_trace,
-                Command = new ContextMenuAction(_traceLeafActions.RevealTrace, _traceLeafActionsPermissions.CanRevealTrace),
+                Header = Resources.SID_Highlight_trace,
+                Command = new ContextMenuAction(_traceLeafActions.HighlightTrace, _traceLeafActionsPermissions.CanHighlightTrace),
                 CommandParameter = traceLeaf
             });
 

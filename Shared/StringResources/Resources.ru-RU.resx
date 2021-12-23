@@ -317,9 +317,6 @@
 	<data name="SID_Port_N" xml:space="preserve">
     <value>N{0}</value>
   </data>
-	<data name="SID_Show_trace" xml:space="preserve">
-    <value>Показать трассу</value>
-  </data>
 	<data name="SID_Settings" xml:space="preserve">
     <value>Настройки</value>
   </data>
@@ -3041,5 +3038,8 @@ RTU инициализируется в данный момент!</value>
 	</data>
 	<data name="SID_Reveal_trace" xml:space="preserve">
 		<value>Отобразить трассу</value>
+	</data>
+	<data name="SID_Highlight_trace" xml:space="preserve">
+		<value>Подсветить трассу</value>
 	</data>
 </root>

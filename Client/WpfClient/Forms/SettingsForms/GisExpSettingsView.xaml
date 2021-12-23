@@ -9,7 +9,9 @@
         Width="450" SizeToContent="Height" WindowStartupLocation="CenterScreen" ResizeMode="NoResize"
         d:DataContext="{d:DesignInstance client:GisExpSettingsViewModel}">
     <StackPanel Margin="5,20,5,5">
-
+        <CheckBox Margin="15,5,5,5" IsChecked="{Binding IsBigGraphMode}"
+                  Content="Big grahp mode"/>
+        <Border BorderBrush="LightGray" BorderThickness="1" Margin="5"/>
         <RadioButton GroupName="1" IsChecked="{Binding IsZoom}"  
                      Margin="15,0,0,0" VerticalContentAlignment="Center">
             <DockPanel Margin="5">

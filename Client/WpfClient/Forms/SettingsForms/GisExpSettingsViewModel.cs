@@ -8,6 +8,7 @@ namespace Iit.Fibertest.Client
         private readonly IniFile _iniFile;
         private readonly CurrentGis _currentGis;
 
+        public bool IsBigGraphMode { get; set; }
         public int ThresholdZoom { get; set; }
         public int ThresholdNodeCount { get; set; }
 
@@ -19,6 +20,7 @@ namespace Iit.Fibertest.Client
             _iniFile = iniFile;
             _currentGis = currentGis;
 
+            IsBigGraphMode = currentGis.IsBigGraphMode;
             IsZoom = currentGis.GisRenderingByZoom;
             IsNodeCount = !IsZoom;
             ThresholdZoom = currentGis.ThresholdZoom;
@@ -32,9 +34,11 @@ namespace Iit.Fibertest.Client
 
         public void Save()
         {
+            _currentGis.IsBigGraphMode = IsBigGraphMode;
             _currentGis.GisRenderingByZoom = IsZoom;
             _currentGis.ThresholdZoom = ThresholdZoom;
             _currentGis.ThresholdNodeCount = ThresholdNodeCount;
+            _iniFile.Write(IniSection.Map, IniKey.IsBigGraphMode, IsBigGraphMode);
             _iniFile.Write(IniSection.Map, IniKey.GisRenderingByZoom, IsZoom);
             _iniFile.Write(IniSection.Map, IniKey.ThresholdZoom, ThresholdZoom);
             _iniFile.Write(IniSection.Map, IniKey.ThresholdNodeCount, ThresholdNodeCount);

@@ -44,7 +44,7 @@
                      ItemsSource="{Binding TracesInNode}" SelectedItem="{Binding SelectedTrace}">
                 <ListBox.ContextMenu>
                     <ContextMenu >
-                        <MenuItem Header="{x:Static stringResources:Resources.SID_Show_trace}" 
+                        <MenuItem Header="{x:Static stringResources:Resources.SID_Highlight_trace}" 
                                   cal:Message.Attach="ShowTrace"/>
                     </ContextMenu>
                 </ListBox.ContextMenu>

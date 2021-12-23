@@ -55,6 +55,7 @@ namespace Iit.Fibertest.Client
                 Id = fiber.FiberId,
                 Node1 = nodeVm1,
                 Node2 = nodeVm2,
+                IsHighlighted = fiber.IsHighLighted,
                 States = new Dictionary<Guid, FiberState>(),
                 TracesWithExceededLossCoeff = new Dictionary<Guid, FiberState>(),
             };

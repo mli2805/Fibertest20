@@ -42,7 +42,7 @@
         <ListView Margin="10,5" ItemsSource="{Binding TracesThrough}">
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="{x:Static stringResources:Resources.SID_Show_trace}" 
+                    <MenuItem Header="{x:Static stringResources:Resources.SID_Highlight_trace}" 
                               cal:Message.Attach="ShowTrace"/>
                 </ContextMenu>
             </ListView.ContextMenu>

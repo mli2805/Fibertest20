@@ -25,6 +25,8 @@ namespace Iit.Fibertest.Graph
                 States.Add(traceId, traceState);
         }
 
+        public bool IsHighLighted { get; set; }
+
         public void RemoveState(Guid traceId)
         {
             if (States.ContainsKey(traceId))

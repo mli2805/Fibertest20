@@ -79,7 +79,9 @@ namespace Iit.Fibertest.Graph
                 case FiberState.Suspicion:
                     return Brushes.Yellow;
                 case FiberState.Minor:
-                    return isForeground ?  new SolidColorBrush(Color.FromArgb(255, 164, 128, 224)) : new SolidColorBrush(Color.FromArgb(255, 128, 128, 192));
+                    return isForeground 
+                        ?  new SolidColorBrush(Color.FromArgb(255, 164, 128, 224)) 
+                        : new SolidColorBrush(Color.FromArgb(255, 128, 128, 192));
                 case FiberState.Major:
                     return isForeground ? Brushes.Fuchsia :  Brushes.HotPink;
                 case FiberState.User:
@@ -89,7 +91,9 @@ namespace Iit.Fibertest.Graph
                 case FiberState.NoFiber:
                     return Brushes.Red;
                 case FiberState.HighLighted:
-                    return Brushes.Lime;
+                    return new SolidColorBrush(Color.FromArgb(255, 195, 0, 255));
+                    // return Brushes.Lime;
+                    // return Brushes.SandyBrown;
                 default:
                     return Brushes.Black;
             }
