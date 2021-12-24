@@ -132,7 +132,9 @@ namespace Iit.Fibertest.Client
             var neighbor = nodesNear.FirstOrDefault(n => n.Id == nodeId);
             if (neighbor == null)
             {
-                neighbor = ElementRenderer.Map(readModel.Nodes.First(n => n.NodeId == nodeId));
+                var node = readModel.Nodes.FirstOrDefault(n => n.NodeId == nodeId);
+                if (node == null) return null;
+                neighbor = ElementRenderer.Map(node);
                 nodesNear.Add(neighbor);
             }
 

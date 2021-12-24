@@ -83,7 +83,8 @@ namespace Iit.Fibertest.Client
 
             if (e.PropertyName == @"IsHighlighted")
             {
-                if (nodeVm.IsHighlighted) Highlight(nodeVm);
+                if (nodeVm.IsHighlighted) 
+                    Highlight(nodeVm);
                 else
                     Extinguish();
             }

@@ -130,13 +130,14 @@ namespace Iit.Fibertest.Client
 
         public void NodeToScreenCenter(Guid nodeId)
         {
-            var rtuNodeVm = Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
-            if (rtuNodeVm == null)
+            var nodeVm = Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
+            if (nodeVm == null)
             {
                 var rtuNode = ReadModel.Nodes.First(n => n.NodeId == nodeId);
-                rtuNodeVm = ElementRenderer.Map(rtuNode);
+                nodeVm = ElementRenderer.Map(rtuNode);
             }
-            MainMap.SetPosition(rtuNodeVm.Position);
+            nodeVm.IsHighlighted = true;
+            MainMap.SetPosition(nodeVm.Position);
         }
 
         private void HighlightTrace(Trace trace)
