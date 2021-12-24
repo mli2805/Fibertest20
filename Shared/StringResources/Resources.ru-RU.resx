@@ -3042,4 +3042,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Highlight_trace" xml:space="preserve">
 		<value>Подсветить трассу</value>
 	</data>
+	<data name="SID_Show_trace" xml:space="preserve">
+		<value>Показать трассу</value>
+	</data>
 </root>

@@ -89,5 +89,7 @@ namespace Iit.Fibertest.Graph
         public TreeOfAcceptableMeasParams AcceptableMeasParams { get; set; } = new TreeOfAcceptableMeasParams();
 
         public List<Guid> ZoneIds { get; set; } = new List<Guid>();
+
+        public bool IsHighlighted;
     }
 }

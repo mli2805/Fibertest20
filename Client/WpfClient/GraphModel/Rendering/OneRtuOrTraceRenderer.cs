@@ -36,7 +36,7 @@ namespace Iit.Fibertest.Client
 
                     fiberVm = ElementRenderer.Map(fiber, renderingResult.NodeVms);
                     if (fiberVm == null) continue; // something goes wrong, nodeVms not found to define fiberVm
-                    if (trace.IsHighlighted) fiberVm.IsHighlighted = true;
+                    if (trace.IsHighlighted) fiberVm.SetLight(trace.TraceId, true);
                     renderingResult.FiberVms.Add(fiberVm);
                 }
 

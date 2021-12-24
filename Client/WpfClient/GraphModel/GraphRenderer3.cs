@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Graph;
 
@@ -13,7 +14,7 @@ namespace Iit.Fibertest.Client
             if (graphReadModel.MainMap == null || graphReadModel.MainMap.Zoom < graphReadModel.CurrentGis.ThresholdZoom)
             {
                 var res = new RenderingResult().RenderRtus(graphReadModel);
-                var forcedTraces = GraphRenderer.GetForcedTraceList(graphReadModel);
+                var forcedTraces = graphReadModel.CurrentGis.Traces.ToList();
                 return res.RenderNodesForRoot(graphReadModel, forcedTraces)
                     .RenderFibersForRoot(graphReadModel, forcedTraces);
             }

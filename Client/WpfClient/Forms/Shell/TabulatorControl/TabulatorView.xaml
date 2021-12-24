@@ -39,8 +39,6 @@
             <TabItem.Header>
                 <DockPanel>
                     <TextBlock DockPanel.Dock="Left" Text="{x:Static stringResources:Resources.SID_Gis}" Margin="10,4,30,0"/>
-                    <Button  DockPanel.Dock="Right" cal:Message.Attach="HideForced" Width="30" Margin="5,0,0,0" Content="xx" 
-                             Visibility="{Binding MapVisibility}"/>
                     <Button DockPanel.Dock="Right" cal:Message.Attach="ExtinguishAll" Width="50" Margin="5,0,0,0" 
                             Background="WhiteSmoke" Visibility="{Binding MapVisibility}">
                         <Button.Content>

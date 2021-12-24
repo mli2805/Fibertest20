@@ -53,6 +53,13 @@ namespace Iit.Fibertest.Client
 
         #endregion
 
+        public void SetPosition(PointLatLng position)
+        {
+            Position = position;
+            ShowLimits();
+            OnPropertyChanged(nameof(MouseCurrentCoorsString));
+        }
+
         #region Distance measurement properties
         public bool IsInDistanceMeasurementMode { get; set; }
 

@@ -9,7 +9,6 @@ namespace Iit.Fibertest.Client
 {
     public static class GraphRenderer
     {
-
         public static async Task<RenderingResult> Render(this GraphReadModel graphReadModel)
         {
             return graphReadModel.CurrentGis.GisRenderingByZoom
@@ -25,7 +24,7 @@ namespace Iit.Fibertest.Client
             if (graphReadModel.MainMap == null || graphReadModel.MainMap.Zoom < graphReadModel.CurrentGis.ThresholdZoom)
             {
                 var res = new RenderingResult().RenderRtus(graphReadModel);
-                var forcedTraces = GetForcedTraceList(graphReadModel);
+                var forcedTraces = graphReadModel.CurrentGis.Traces.ToList();
                 return res.RenderForcedTracesNodes(graphReadModel, forcedTraces)
                         .RenderForcedTracesFibers(graphReadModel, forcedTraces);
             }
@@ -34,14 +33,6 @@ namespace Iit.Fibertest.Client
                 .RenderNodes(graphReadModel)
                 .RenderFibers(graphReadModel);
         }
-
-        public static List<Trace> GetForcedTraceList(GraphReadModel gr)
-        {
-            var result = gr.ReadModel.Traces.Where(t=>gr.CurrentGis.RtuIds.Contains(t.RtuId)).ToList();
-            result.AddRange(gr.CurrentGis.Traces.Where(t=>!result.Contains(t)));
-            return result;
-        }
-
 
         public static RenderingResult RenderRtus(this RenderingResult renderingResult, GraphReadModel graphReadModel)
         {

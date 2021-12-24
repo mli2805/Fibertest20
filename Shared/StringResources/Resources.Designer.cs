@@ -7090,6 +7090,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Show trace.
+        /// </summary>
+        public static string SID_Show_trace {
+            get {
+                return ResourceManager.GetString("SID_Show_trace", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Site {0} installed successfully.
         /// </summary>
         public static string SID_Site__0__installed_successfully {

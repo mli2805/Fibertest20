@@ -201,13 +201,6 @@ namespace Iit.Fibertest.Client
                 trace.IsHighlighted = false;
         }
 
-        public void HideForced()
-        {
-            GraphReadModel.HideForced();
-            foreach (var trace in _readModel.Traces)
-                trace.IsHighlighted = false;
-        }
-
         public void ShowAllGraph()
         {
             _currentlyHiddenRtu.Collection.Clear();

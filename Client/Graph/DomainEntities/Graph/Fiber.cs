@@ -25,13 +25,26 @@ namespace Iit.Fibertest.Graph
                 States.Add(traceId, traceState);
         }
 
-        public bool IsHighLighted { get; set; }
-
         public void RemoveState(Guid traceId)
         {
             if (States.ContainsKey(traceId))
                 States.Remove(traceId);
         }
+
+        public List<Guid> HighLights { get; set; } = new List<Guid>();
+
+        public void SetLight(Guid traceId, bool light)
+        {
+            if (HighLights == null) HighLights = new List<Guid>();
+            if (light && !HighLights.Contains(traceId))
+            {
+                HighLights.Add(traceId);
+            }
+
+            if (!light && HighLights.Contains(traceId))
+            {
+                HighLights.Remove(traceId);
+            }   }
 
         public Dictionary<Guid, FiberState> TracesWithExceededLossCoeff { get; set; } = new Dictionary<Guid, FiberState>();
 

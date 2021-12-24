@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Client
         public Guid Id { get; set; }
 
         private NodeVm _node1;
-        private bool _isHighlighted;
+        // private bool _isHighlighted;
 
         public NodeVm Node1
         {
@@ -48,24 +48,50 @@ namespace Iit.Fibertest.Client
             NotifyOfPropertyChange(nameof(State));
         }
 
-        public bool IsHighlighted
+        public List<Guid> HighLights { get; set; } = new List<Guid>();
+
+        public void SetLight(Guid traceId, bool light)
         {
-            get => _isHighlighted;
-            set
+            if (HighLights == null) HighLights = new List<Guid>();
+            if (light && !HighLights.Contains(traceId))
             {
-                if (value == _isHighlighted) return;
-                _isHighlighted = value;
-                NotifyOfPropertyChange();
-                NotifyOfPropertyChange(nameof(State));
+                HighLights.Add(traceId);
+                if (HighLights.Count == 1)
+                    NotifyOfPropertyChange(nameof(State));
+            }
+
+            if (!light && HighLights.Contains(traceId))
+            {
+                HighLights.Remove(traceId);
+                if (HighLights.Count == 0)
+                    NotifyOfPropertyChange(nameof(State));
             }
         }
 
-        public FiberState State => IsHighlighted 
+        public void ClearLight()
+        {
+            HighLights.Clear();
+            NotifyOfPropertyChange(nameof(State));
+        }
+
+        // public bool IsHighlighted
+        // {
+        //     get => _isHighlighted;
+        //     set
+        //     {
+        //         if (value == _isHighlighted) return;
+        //         _isHighlighted = value;
+        //         NotifyOfPropertyChange();
+        //         NotifyOfPropertyChange(nameof(State));
+        //     }
+        // }
+
+        public FiberState State => HighLights.Any()
             ? FiberState.HighLighted
-            : TracesWithExceededLossCoeff.Any() 
+            : TracesWithExceededLossCoeff.Any()
                  ? TracesWithExceededLossCoeff.Values.Max()
-                 : States.Count == 0 
-                     ? FiberState.NotInTrace 
+                 : States.Count == 0
+                     ? FiberState.NotInTrace
                      : States.Values.Max();
 
         public Dictionary<Guid, FiberState> TracesWithExceededLossCoeff { get; set; } = new Dictionary<Guid, FiberState>();
@@ -77,7 +103,7 @@ namespace Iit.Fibertest.Client
             else
             {
                 TracesWithExceededLossCoeff.Add(traceId, lossCoeffSeriousness);
-                if (TracesWithExceededLossCoeff.Count == 1) 
+                if (TracesWithExceededLossCoeff.Count == 1)
                     NotifyOfPropertyChange(nameof(IsBadSegment));
             }
 

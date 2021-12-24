@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
@@ -69,7 +68,6 @@ namespace Iit.Fibertest.Client
         public double ScreenPartAsMargin { get; set; } = 0.1;
 
         public readonly ObservableCollection<Trace> Traces  = new ObservableCollection<Trace>();
-        public readonly ObservableCollection<Guid> RtuIds = new ObservableCollection<Guid>();
 
 
     }

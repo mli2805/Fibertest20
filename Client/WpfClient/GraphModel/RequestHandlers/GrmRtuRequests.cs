@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
             return await _rtuRemover.Fire(rtu);
         }
 
-     
+
         public void DefineTraceStepByStep(Guid rtuNodeId, string rtuTitle)
         {
             if (!AskRevealTracesIfHidden(rtuNodeId)) return;
@@ -100,12 +100,25 @@ namespace Iit.Fibertest.Client
             //     _currentlyHiddenRtu.Collection.Add(rtu.Id);
             // _currentlyHiddenRtu.ChangedRtu = rtu.Id;
 
-            var rtuId = _currentGis.RtuIds.FirstOrDefault(r => r == rtu.Id);
-            if (rtuId == Guid.Empty)
-                _currentGis.RtuIds.Add(rtu.Id);
-            else 
-                _currentGis.RtuIds.Remove(rtuId);
+            if (rtu.IsHighlighted)
+            {
+                foreach (var trace in _currentGis.Traces.Where(t => t.RtuId == rtu.Id).ToList())
+                {
+                    _currentGis.Traces.Remove(trace);
+                    trace.IsHighlighted = false;
+                }
+            }
+            else
+            {
+                foreach (var trace in _model.Traces.Where(t => t.RtuId == rtu.Id))
+                {
+                    if (!_currentGis.Traces.Contains(trace))
+                        _currentGis.Traces.Add(trace);
+                    trace.IsHighlighted = true;
+                }
+            }
 
+            rtu.IsHighlighted = !rtu.IsHighlighted;
         }
     }
 }

@@ -17,7 +17,6 @@ namespace Iit.Fibertest.Client
     {
         private readonly Model _readModel;
         private readonly GraphReadModel _graphReadModel;
-        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly CurrentGis _currentGis;
         private readonly GraphGpsCalculator _graphGpsCalculator;
         private readonly ReflectogramManager _reflectogramManager;
@@ -50,12 +49,11 @@ namespace Iit.Fibertest.Client
         public Visibility GisVisibility { get; set; }
 
         public FiberUpdateViewModel(Model readModel, GraphReadModel graphReadModel,
-            CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu, CurrentGis currentGis,
+            CurrentUser currentUser, CurrentGis currentGis,
             GraphGpsCalculator graphGpsCalculator, ReflectogramManager reflectogramManager)
         {
             _readModel = readModel;
             _graphReadModel = graphReadModel;
-            _currentlyHiddenRtu = currentlyHiddenRtu;
             _currentGis = currentGis;
             IsEditEnabled = currentUser.Role <= Role.Root;
             _graphGpsCalculator = graphGpsCalculator;
@@ -125,12 +123,10 @@ namespace Iit.Fibertest.Client
         {
             if (SelectedTrace == null) return;
 
-            if (_currentlyHiddenRtu.Collection.Contains(SelectedTrace.Item1.RtuId))
-            {
-                _currentlyHiddenRtu.Collection.Remove(SelectedTrace.Item1.RtuId);
-                _currentlyHiddenRtu.ChangedRtu = SelectedTrace.Item1.RtuId;
-            }
-            _graphReadModel.HighlightTrace(SelectedTrace.Item1.NodeIds[0], SelectedTrace.Item1.FiberIds);
+            if (!_graphReadModel.CurrentGis.Traces.Contains(SelectedTrace.Item1))
+                _graphReadModel.CurrentGis.Traces.Add(SelectedTrace.Item1);
+            _graphReadModel.ShowTrace(SelectedTrace.Item1);
+            SelectedTrace.Item1.IsHighlighted = true;
         }
 
         public void Save()

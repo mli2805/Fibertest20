@@ -234,7 +234,7 @@ namespace Iit.Fibertest.Client
                 _currentlyHiddenRtu.Collection.Remove(SelectedTrace.RtuId);
                 _currentlyHiddenRtu.ChangedRtu = SelectedTrace.RtuId;
             }
-            _graphReadModel.HighlightTrace(SelectedTrace.NodeIds[0], SelectedTrace.FiberIds);
+            _graphReadModel.ShowTrace(SelectedTrace);
         }
 
         private async void LaunchUpdateEquipmentView(Guid id)

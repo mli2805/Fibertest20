@@ -60,43 +60,25 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
-        public void HighlightTrace(object param)
+        public void ShowTrace(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
 
-            // if (_currentlyHiddenRtu.Collection.Contains(trace.RtuId))
-            // {
-            //     _currentlyHiddenRtu.Collection.Remove(trace.RtuId);
-            //     var unused = await _renderingManager.RenderOnRtuChanged();
-            // }
-
-            if (!_graphReadModel.CurrentGis.RtuIds.Contains(trace.RtuId)
-                && !_graphReadModel.CurrentGis.Traces.Contains(trace))
-                _graphReadModel.CurrentGis.Traces.Add(trace);
-
-
-            _graphReadModel.HighlightTrace(trace.NodeIds[0], trace.FiberIds);
-            trace.IsHighlighted = true;
-
-            if (_tabulatorViewModel.SelectedTabIndex != 3)
-                _tabulatorViewModel.SelectedTabIndex = 3;
-        }
-
-        public void RevealTrace(object param)
-        {
-            if (!(param is TraceLeaf traceLeaf))
-                return;
-            var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
             var aTrace = _graphReadModel.CurrentGis.Traces.FirstOrDefault(t => t.TraceId == trace.TraceId);
             if (aTrace == null)
+            {
                 _graphReadModel.CurrentGis.Traces.Add(trace);
-            else 
+                _graphReadModel.ShowTrace(trace);
+                trace.IsHighlighted = true;
+            }
+            else
+            {
                 _graphReadModel.CurrentGis.Traces.Remove(aTrace);
-
-            // var unused = await _renderingManager.RenderOnTraceChanged(trace);
-            // render trace
+                _graphReadModel.ExtinguishTrace(trace);
+                trace.IsHighlighted = false;
+            }
 
             if (_tabulatorViewModel.SelectedTabIndex != 3)
                 _tabulatorViewModel.SelectedTabIndex = 3;

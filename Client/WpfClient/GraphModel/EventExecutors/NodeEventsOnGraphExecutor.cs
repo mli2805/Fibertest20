@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Autofac;
 using GMap.NET;
@@ -56,7 +57,7 @@ namespace Iit.Fibertest.Client
                 fiberVm1.States.Add(pair.Key, pair.Value);
             foreach (var pair in oldFiberVm.TracesWithExceededLossCoeff)
                 fiberVm1.TracesWithExceededLossCoeff.Add(pair.Key, pair.Value);
-            if (oldFiberVm.IsHighlighted) fiberVm1.IsHighlighted = true;
+            fiberVm1.HighLights = new List<Guid>(oldFiberVm.HighLights);
             _graphModel.Data.Fibers.Add(fiberVm1);
 
             var fiberVm2 = new FiberVm() { Id = e.NewFiberId2, Node1 = _graphModel.Data.Nodes.First(n => n.Id == e.Id), Node2 = node2 };
@@ -64,7 +65,7 @@ namespace Iit.Fibertest.Client
                 fiberVm2.States.Add(pair.Key, pair.Value);
             foreach (var pair in oldFiberVm.TracesWithExceededLossCoeff)
                 fiberVm2.TracesWithExceededLossCoeff.Add(pair.Key, pair.Value);
-            if (oldFiberVm.IsHighlighted) fiberVm2.IsHighlighted = true;
+            fiberVm2.HighLights = new List<Guid>(oldFiberVm.HighLights);
             _graphModel.Data.Fibers.Add(fiberVm2);
         }
 
@@ -186,7 +187,7 @@ namespace Iit.Fibertest.Client
 
         private void CreateDetourIfAbsent(NodeDetour detour)
         {
-            var isHighlighted = _graphModel.Data.Fibers.First(f => f.States.ContainsKey(detour.TraceId)).IsHighlighted;
+            // var isHighlighted = _graphModel.Data.Fibers.First(f => f.States.ContainsKey(detour.TraceId)).IsHighlighted;
 
             var fiberVm = _graphModel.Data.Fibers.FirstOrDefault(f => f.Node1.Id == detour.NodeId1 && f.Node2.Id == detour.NodeId2
                                                        || f.Node2.Id == detour.NodeId1 && f.Node1.Id == detour.NodeId2);
@@ -201,7 +202,7 @@ namespace Iit.Fibertest.Client
                 _graphModel.Data.Fibers.Add(fiberVm);
             }
             fiberVm.SetState(detour.TraceId, detour.TraceState);
-            fiberVm.IsHighlighted = isHighlighted;
+            // fiberVm.IsHighlighted = isHighlighted;
         }
     }
 }

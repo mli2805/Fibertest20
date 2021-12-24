@@ -59,7 +59,7 @@ namespace Iit.Fibertest.Client
         }
 
         public GraphReadModel(ILifetimeScope globalScope, IniFile iniFile, IMyLog logFile,
-            CurrentGis currentGis, CurrentUser currentUser, 
+            CurrentGis currentGis, CurrentUser currentUser,
             CommonStatusBarViewModel commonStatusBarViewModel,
             GrmNodeRequests grmNodeRequests, GrmEquipmentRequests grmEquipmentRequests,
             GrmFiberRequests grmFiberRequests, GrmFiberWithNodesRequest grmFiberWithNodesRequest,
@@ -70,7 +70,6 @@ namespace Iit.Fibertest.Client
             CurrentGis = currentGis;
             currentGis.PropertyChanged += CurrentGis_PropertyChanged;
             currentGis.Traces.CollectionChanged += Traces_CollectionChanged;
-            currentGis.RtuIds.CollectionChanged += RtuIds_CollectionChanged;
             CurrentUser = currentUser;
             CommonStatusBarViewModel = commonStatusBarViewModel;
             GrmNodeRequests = grmNodeRequests;
@@ -93,14 +92,6 @@ namespace Iit.Fibertest.Client
             SetGraphVisibility(level);
         }
 
-        private async void RtuIds_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            var renderingResult = await this.Render();
-            await this.ToExistingGraph(renderingResult);
-            MainMap.Limits.NodeCountString = $@" {ReadModel.Nodes.Count} / {renderingResult.NodeVms.Count}";
-
-        }
-
         private async void Traces_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             var renderingResult = await this.Render();
@@ -113,7 +104,6 @@ namespace Iit.Fibertest.Client
             IsInGisVisibleMode = ((CurrentGis)sender).IsGisOn;
         }
 
-
         public void SetGraphVisibility(GraphVisibilityLevel level)
         {
             SelectedGraphVisibilityItem =
@@ -124,55 +114,66 @@ namespace Iit.Fibertest.Client
         public void PlaceRtuIntoScreenCenter(Guid rtuId)
         {
             var rtu = ReadModel.Rtus.First(r => r.Id == rtuId);
-
-            var nodeVm = Data.Nodes.First(n => n.Id == rtu.NodeId);
-            nodeVm.IsHighlighted = true;
-            MainMap.Position = nodeVm.Position;
-        }
-
-        public void PlaceNodeIntoScreenCenter(Guid nodeId)
-        {
-            var nodeVm = Data.Nodes.First(n => n.Id == nodeId);
-            nodeVm.IsHighlighted = true;
-            MainMap.Position = nodeVm.Position;
+            NodeToScreenCenter(rtu.NodeId);
         }
 
         public void PlacePointIntoScreenCenter(PointLatLng position)
         {
-            MainMap.Position = position;
+            MainMap.SetPosition(position);
         }
 
-        public void HighlightTrace(Guid rtuNodeId, List<Guid> fibers)
+        public void ShowTrace(Trace trace)
         {
-            var rtuNodeVm = Data.Nodes.First(n => n.Id == rtuNodeId);
-            MainMap.Position = rtuNodeVm.Position;
-            foreach (var fiberId in fibers)
+            NodeToScreenCenter(trace.NodeIds[0]);
+            HighlightTrace(trace);
+        }
+
+        public void NodeToScreenCenter(Guid nodeId)
+        {
+            var rtuNodeVm = Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
+            if (rtuNodeVm == null)
             {
-                ReadModel.Fibers.First(f => f.FiberId == fiberId).IsHighLighted = true;
+                var rtuNode = ReadModel.Nodes.First(n => n.NodeId == nodeId);
+                rtuNodeVm = ElementRenderer.Map(rtuNode);
+            }
+            MainMap.SetPosition(rtuNodeVm.Position);
+        }
+
+        private void HighlightTrace(Trace trace)
+        {
+            SetTraceLight(trace, true);
+        }
+
+        public void ExtinguishTrace(Trace trace)
+        {
+            SetTraceLight(trace, false);
+        }
+
+        private void SetTraceLight(Trace trace, bool highlight)
+        {
+            foreach (var fiberId in trace.FiberIds)
+            {
+                ReadModel.Fibers.First(f => f.FiberId == fiberId).SetLight(trace.TraceId, highlight);
 
                 var fiberVm = Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
                 if (fiberVm != null)
-                    fiberVm.IsHighlighted = true;
+                    fiberVm.SetLight(trace.TraceId, highlight);
             }
-        }
-
-        public void HideForced()
-        {
-            CurrentGis.Traces.Clear();
-            CurrentGis.RtuIds.Clear();
         }
 
         public void ExtinguishAll()
         {
+            CurrentGis.Traces.Clear();
+
             foreach (var nodeVm in Data.Nodes.Where(n => n.IsHighlighted))
                 nodeVm.IsHighlighted = false;
 
-            foreach (var fiberVm in Data.Fibers.Where(f => f.IsHighlighted))
-                fiberVm.IsHighlighted = false;
+            foreach (var fiberVm in Data.Fibers.Where(f => f.HighLights.Any()))
+                fiberVm.ClearLight();
 
             foreach (var fiber in ReadModel.Fibers)
             {
-                fiber.IsHighLighted = false;
+                fiber.HighLights = new List<Guid>();
             }
         }
 
