@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 using Newtonsoft.Json;
@@ -12,8 +13,18 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             var res = await _httpWrapper.RequestByUrl(
                 rtuDoubleAddress, $"monitoring/completed?fields=*,items.*&starting={timestamp}&limit={limit}", "get");
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
-            if (res.IsSuccessful)
-                res.ResponseObject = JsonConvert.DeserializeObject<CompletedTestPortion>(res.ResponseJson);
+            try
+            {
+                if (res.IsSuccessful)
+                    res.ResponseObject = JsonConvert.DeserializeObject<CompletedTestPortion>(res.ResponseJson);
+            }
+            catch (Exception e)
+            {
+                // stranger's tests have wrong testId (not a guid)
+                res.IsSuccessful = false;
+                res.ErrorMessage = e.Message;
+            }
+
             return res;
         }
 
