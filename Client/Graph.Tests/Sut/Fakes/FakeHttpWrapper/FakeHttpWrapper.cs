@@ -48,6 +48,9 @@ namespace Graph.Tests
                 case "ChangeProxyMode":
                     result.HttpStatusCode = HttpStatusCode.NoContent;
                     break;  
+                case "DisableVesionIntegration":
+                    result.HttpStatusCode = HttpStatusCode.NoContent;
+                    break;
                 case "SwitchOtauToPort":
                     result.HttpStatusCode = FakeVeexRtuModel.SwitchOtauToPort(relativeUri, jsonData);
                     break;

@@ -11,6 +11,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return await _d2RtuVeexLayer1.ChangeProxyMode(rtuDoubleAddress, otdrId, false);
         }
 
+        public async Task<HttpRequestResult> DisableVesionIntegration(DoubleAddress rtuDoubleAddress)
+        {
+            return await _d2RtuVeexLayer1.DisableVesionIntegration(rtuDoubleAddress);
+        }
+
         public async Task<RtuInitializedDto> GetSettings(DoubleAddress rtuDoubleAddress, InitializeRtuDto dto)
         {
             var result = new RtuInitializedDto();

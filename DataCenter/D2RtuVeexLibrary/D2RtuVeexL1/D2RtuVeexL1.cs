@@ -45,6 +45,15 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return res;
         }
 
+        public async Task<HttpRequestResult> DisableVesionIntegration(DoubleAddress rtuDoubleAddress)
+        {
+            var json = $"{{\"state\":\"disabled\"}}";
+            var res = await _httpWrapper.RequestByUrl(rtuDoubleAddress,
+                $"vesion/settings", "patch", "application/merge-patch+json", json);
+            res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.NoContent;
+            return res;
+        }
+
         public async Task<HttpRequestResult> SwitchOtauToPort(DoubleAddress rtuDoubleAddress, string otauId, int port)
         {
             var jsonData = $"{{\"portIndex\":{port}}}";

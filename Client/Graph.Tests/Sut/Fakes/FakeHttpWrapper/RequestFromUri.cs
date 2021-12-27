@@ -13,6 +13,8 @@ namespace Graph.Tests
                 return @"SetMonitoringProperty";
             if (IsChangeProxyMode(relativeUri) && httpMethod == @"patch")
                 return @"ChangeProxyMode";
+            if (IsDisableVesionIntegration(relativeUri) && httpMethod == @"patch")
+                return @"DisableVesionIntegration";
             if (IsOneOfUri(relativeUri, @"otaus") && httpMethod == @"patch")
                 return @"SwitchOtauToPort";
             if (relativeUri == @"measurements" && httpMethod == @"post")
@@ -84,6 +86,11 @@ namespace Graph.Tests
             return Regex.IsMatch(relativeUri, @"^otdrs/[\w\W]+/tcp_proxy$");
 
             // return relativeUri.StartsWith(@"otdrs/") && relativeUri.EndsWith(@"/tcp_proxy");
+        }
+
+        private static bool IsDisableVesionIntegration(string relativeUri)
+        {
+            return relativeUri.EndsWith("vesion/settings");
         }
 
         private static bool IsGetTestUri(string relativeUri)
