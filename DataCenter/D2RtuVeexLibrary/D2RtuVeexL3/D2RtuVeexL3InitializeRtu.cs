@@ -17,6 +17,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 if (!rtuInitializedDto.IsInitialized)
                     return rtuInitializedDto;
 
+                var vesionRes = await _d2RtuVeexLayer2.DisableVesionIntegration(rtuAddresses);
+                if (!vesionRes.IsSuccessful)
+                    return new RtuInitializedDto()
+                    {
+                        ReturnCode = ReturnCode.RtuInitializationError,
+                        ErrorMessage = vesionRes.ErrorMessage
+                    };
+
                 var otauRes = await _d2RtuVeexLayer2.InitializeOtaus(rtuAddresses, dto);
                 if (otauRes.IsSuccessful)
                     FillInOtau((VeexOtauInfo)otauRes.ResponseObject, dto, rtuInitializedDto);
@@ -45,7 +53,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
                 var monitoringProperties = (VeexMonitoringDto)getMoniPropResult.ResponseObject;
 
-                if (dto.IsFirstInitialization || monitoringProperties.type != "fibertest")
+                if (monitoringProperties.type != "fibertest" || dto.IsFirstInitialization)
                 {
                     var initRes = await _d2RtuVeexLayer2.InitializeMonitoringProperties(rtuAddresses, monitoringProperties);
                     if (initRes != null)
