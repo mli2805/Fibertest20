@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.DatabaseLibrary;
-using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 using Newtonsoft.Json;
@@ -118,85 +117,85 @@ namespace Iit.Fibertest.DataCenterCore
             return eventMessages.Count;
         }
 
-        private async Task SeedOlts()
-        {
-            _writeModel.Olts.Clear();
-
-            var rtu53 = _writeModel.Rtus.FirstOrDefault(r => r.Title == "53");
-            if (rtu53 == null) return;
-
-            var otauDto = rtu53.Children.First().Value;
-            var otau = _writeModel.Otaus.First(o => o.Serial == otauDto.Serial);
-            var otauPort = new OtauPortDto()
-            {
-                OtauId = otau.Id.ToString(),
-                Serial = otauDto.Serial,
-                IsPortOnMainCharon = false,
-                OpticalPort = 1,
-            };
-            var olt21Id = Guid.NewGuid();
-            var olt9714Id = Guid.NewGuid();
-            var olt59Id = Guid.NewGuid();
-
-            var seeds = new List<object>()
-            {
-                new AddOlt()
-                {
-                    Id = olt21Id,
-                    Ip = @"192.168.96.21",
-                    OltModel = OltModel.Huawei_MA5608T,
-                },
-
-                new AddOlt()
-                {
-                    Id = olt9714Id,
-                    Ip = @"192.168.97.14",
-                    OltModel = OltModel.Huawei_MA5608T,
-                },
-
-                new AddOlt()
-                {
-                    Id = olt59Id,
-                    Ip = @"192.168.96.59",
-                    OltModel = OltModel.Huawei_MA5608T,
-                },
-
-
-                new AddGponPortRelation()
-                {
-                    Id = Guid.NewGuid(),
-                    OltId = olt21Id,
-                    GponInterface = 5,
-                    RtuId = rtu53.Id,
-                    OtauPort = otauPort,
-                },
-
-                new AddGponPortRelation()
-                {
-                    Id = Guid.NewGuid(),
-                    OltId = olt9714Id,
-                    GponInterface = 5,
-                    RtuId = rtu53.Id,
-                    OtauPort = otauPort,
-                },
-
-                new AddGponPortRelation()
-                {
-                    Id = Guid.NewGuid(),
-                    OltId = olt59Id,
-                    GponInterface = 5,
-                    RtuId = rtu53.Id,
-                    OtauPort = otauPort,
-                },
-            };
-
-            foreach (object seed in seeds)
-            {
-                var ss = await SendCommand(seed, "developer", "OnServer");
-                if (ss != null)
-                    _logFile.AppendLine(ss);
-            }
-        }
+        // private async Task SeedOlts()
+        // {
+        //     _writeModel.Olts.Clear();
+        //
+        //     var rtu53 = _writeModel.Rtus.FirstOrDefault(r => r.Title == "53");
+        //     if (rtu53 == null) return;
+        //
+        //     var otauDto = rtu53.Children.First().Value;
+        //     var otau = _writeModel.Otaus.First(o => o.Serial == otauDto.Serial);
+        //     var otauPort = new OtauPortDto()
+        //     {
+        //         OtauId = otau.Id.ToString(),
+        //         Serial = otauDto.Serial,
+        //         IsPortOnMainCharon = false,
+        //         OpticalPort = 1,
+        //     };
+        //     var olt21Id = Guid.NewGuid();
+        //     var olt9714Id = Guid.NewGuid();
+        //     var olt59Id = Guid.NewGuid();
+        //
+        //     var seeds = new List<object>()
+        //     {
+        //         new AddOlt()
+        //         {
+        //             Id = olt21Id,
+        //             Ip = @"192.168.96.21",
+        //             OltModel = OltModel.Huawei_MA5608T,
+        //         },
+        //
+        //         new AddOlt()
+        //         {
+        //             Id = olt9714Id,
+        //             Ip = @"192.168.97.14",
+        //             OltModel = OltModel.Huawei_MA5608T,
+        //         },
+        //
+        //         new AddOlt()
+        //         {
+        //             Id = olt59Id,
+        //             Ip = @"192.168.96.59",
+        //             OltModel = OltModel.Huawei_MA5608T,
+        //         },
+        //
+        //
+        //         new AddGponPortRelation()
+        //         {
+        //             Id = Guid.NewGuid(),
+        //             OltId = olt21Id,
+        //             GponInterface = 5,
+        //             RtuId = rtu53.Id,
+        //             OtauPort = otauPort,
+        //         },
+        //
+        //         new AddGponPortRelation()
+        //         {
+        //             Id = Guid.NewGuid(),
+        //             OltId = olt9714Id,
+        //             GponInterface = 5,
+        //             RtuId = rtu53.Id,
+        //             OtauPort = otauPort,
+        //         },
+        //
+        //         new AddGponPortRelation()
+        //         {
+        //             Id = Guid.NewGuid(),
+        //             OltId = olt59Id,
+        //             GponInterface = 5,
+        //             RtuId = rtu53.Id,
+        //             OtauPort = otauPort,
+        //         },
+        //     };
+        //
+        //     foreach (object seed in seeds)
+        //     {
+        //         var ss = await SendCommand(seed, "developer", "OnServer");
+        //         if (ss != null)
+        //             _logFile.AppendLine(ss);
+        //     }
+        // }
 
         // especially for Migrator.exe
         public Task<int> SendCommands(List<object> cmds, string username, string clientIp)
