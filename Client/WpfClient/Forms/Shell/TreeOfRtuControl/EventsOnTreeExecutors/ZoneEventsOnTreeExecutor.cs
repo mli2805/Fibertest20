@@ -65,6 +65,9 @@ namespace Iit.Fibertest.Client
             rtuLeaf.Id = rtu.Id;
             rtuLeaf.Title = rtu.Title;
             rtuLeaf.Color = string.IsNullOrEmpty(rtu.Serial) ? Brushes.DarkGray : Brushes.Black;
+            rtuLeaf.RtuMaker = rtu.RtuMaker;
+
+            rtuLeaf.IsMainOtauOk = rtu.MainVeexOtau.connected;
             rtuLeaf.OwnPortCount = rtu.OwnPortCount;
             rtuLeaf.FullPortCount = rtu.FullPortCount;
             rtuLeaf.Serial = rtu.Serial;
