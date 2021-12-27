@@ -39,7 +39,9 @@
                
             </StackPanel>
         </GroupBox>
-        <ListView Margin="10,5" ItemsSource="{Binding TracesThrough}">
+        <ListView Margin="10,5" Height="130" ItemsSource="{Binding TracesThrough}" 
+                  ScrollViewer.CanContentScroll="True"
+                  ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="{x:Static stringResources:Resources.SID_Highlight_trace}" 
