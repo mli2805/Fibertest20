@@ -8,6 +8,11 @@ namespace Iit.Fibertest.DataCenterCore
 {
     public partial class WcfServiceDesktopC2D
     {
+        /// <summary>
+        /// export events into text file
+        /// for developer needs
+        /// </summary>
+        /// <returns></returns>
         public async Task<int> ExportEvents()
         {
             await Task.Factory.StartNew(ExportEventsInThread);

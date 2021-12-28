@@ -33,7 +33,10 @@ namespace Iit.Fibertest.Graph
 
         public static string AddEquipmentAtGpsLocation(this Model model, EquipmentAtGpsLocationAdded e)
         {
-            Node node = new Node() { NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), TypeOfLastAddedEquipment = e.Type };
+            Node node = new Node()
+            {
+                NodeId = e.NodeId, Position = new PointLatLng(e.Latitude, e.Longitude), TypeOfLastAddedEquipment = e.Type
+            };
             model.Nodes.Add(node);
             Equipment equipment = Mapper.Map<Equipment>(e);
             equipment.EquipmentId = e.RequestedEquipmentId;
