@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Client
         public static async Task<RenderingResult> RenderForOperator(this GraphReadModel graphReadModel)
         {
             await Task.Delay(1);
-            if (graphReadModel.MainMap == null || graphReadModel.MainMap.Zoom < graphReadModel.CurrentGis.ThresholdZoom)
+            if (graphReadModel.MainMap.Zoom < graphReadModel.CurrentGis.ThresholdZoom)
             {
                 var res = new RenderingResult().RenderRtus(graphReadModel);
                 var forcedTraces = graphReadModel.CurrentGis.Traces.ToList();
@@ -19,8 +19,8 @@ namespace Iit.Fibertest.Client
                         .RenderForcedTracesFibers(graphReadModel, forcedTraces);
             }
 
-            var res1 = new RenderingResult().RenderRtus(graphReadModel);
-            return res1
+            return new RenderingResult()
+                .RenderRtus(graphReadModel)
                 .RenderAllTraceNodes(graphReadModel)
                 .RenderAllTraceFibers(graphReadModel);
         }

@@ -56,7 +56,7 @@ namespace Iit.Fibertest.Client
         public void SetPosition(PointLatLng position)
         {
             Position = position;
-            ShowLimits();
+            EvaluateMapLimits();
             OnPropertyChanged(nameof(MouseCurrentCoorsString));
         }
 
@@ -110,10 +110,14 @@ namespace Iit.Fibertest.Client
             LastDistance = 0;
         }
 
-        private void ShowLimits()
+        public void EvaluateMapLimits(double winHeight = 0, double winWidth = 0)
         {
-            var leftTop = FromLocalToLatLng(GetPointFromPosition(new Point(0, 0)));
-            var rightBottom = FromLocalToLatLng(GetPointFromPosition(new Point(ActualWidth, ActualHeight)));
+            var leftTop = winWidth == 0
+                ? FromLocalToLatLng(GetPointFromPosition(new Point(0, 0)))
+                : FromLocalToLatLng(GetPointFromPosition(new Point(-600, 0)));
+            var rightBottom = winHeight == 0
+                ? FromLocalToLatLng(GetPointFromPosition(new Point(ActualWidth, ActualHeight)))
+                : FromLocalToLatLng(GetPointFromPosition(new Point(winHeight - 165, winWidth)));
             Limits.Set(leftTop, rightBottom);
             OnPropertyChanged(nameof(MouseCurrentCoorsString));
         }
@@ -122,8 +126,6 @@ namespace Iit.Fibertest.Client
         {
             base.OnMouseMove(e);
             MouseCurrentCoors = FromLocalToLatLng(GetPointFromPosition(e.GetPosition(this)));
-
-            if (Limits.IsEmpty) ShowLimits();
 
             if (IsInDistanceMeasurementMode && StartNode != null)
             {
@@ -145,13 +147,13 @@ namespace Iit.Fibertest.Client
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
             base.OnMouseWheel(e);
-            ShowLimits();
+            EvaluateMapLimits();
             OnPropertyChanged(nameof(MouseCurrentCoorsString));
         }
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
         {
-            ShowLimits();
+            EvaluateMapLimits();
         }
 
         protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

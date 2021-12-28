@@ -8,18 +8,6 @@ namespace Iit.Fibertest.Client
         private double _left, _right;
         private double _top, _bottom;
 
-        public bool IsEmpty => _left.Equals(0);
-
-        public MapLimits() {}
-
-        public MapLimits(double left, double right, double top, double bottom)
-        {
-            _left = left;
-            _right = right;
-            _top = top;
-            _bottom = bottom;
-        }
-
         public void Set(PointLatLng p1, PointLatLng p2)
         {
             if (p1.Lat > p2.Lat)
@@ -43,16 +31,9 @@ namespace Iit.Fibertest.Client
                 _left = p1.Lng;
                 _right = p2.Lng;
             }
-
-            NotifyOfPropertyChange(nameof(IsEmpty));
         }
 
         public string NodeCountString;
-
-        public bool IsIn(PointLatLng point)
-        {
-            return !(point.Lat > _top) && !(point.Lat < _bottom) && !(point.Lng < _left) && !(point.Lng > _right);
-        }
 
         /// <summary>
         /// 
@@ -64,7 +45,7 @@ namespace Iit.Fibertest.Client
         {
             var vertPad = (_top - _bottom) * shift;
             var horPad = (_right - _left) * shift;
-            return !(point.Lat > _top + vertPad) && !(point.Lat < _bottom - vertPad) 
+            return !(point.Lat > _top + vertPad) && !(point.Lat < _bottom - vertPad)
                        && !(point.Lng < _left - horPad) && !(point.Lng > _right + horPad);
         }
     }

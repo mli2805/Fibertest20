@@ -27,6 +27,17 @@ namespace Iit.Fibertest.Client
             MainMap.MouseEnter += MainMap_MouseEnter;
             MainMap.OnTraceDefiningCancelled += MainMap_OnTraceDefiningCancelled;
             MainMap.Limits.PropertyChanged += Limits_PropertyChanged;
+            MainMap.Loaded += MainMap_Loaded;
+        }
+
+        private void MainMap_Loaded(object sender, RoutedEventArgs e)
+        {
+            Window window = Window.GetWindow(this);
+            if (window != null)
+            {
+                window.Closing += Window_Closing; 
+                MainMap.EvaluateMapLimits(window.Height, window.Width);
+            }
         }
 
         private async void Limits_PropertyChanged(object sender, PropertyChangedEventArgs e)
@@ -156,10 +167,6 @@ namespace Iit.Fibertest.Client
 
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
-            Window window = Window.GetWindow(this);
-            if (window != null)
-                window.Closing += Window_Closing;
-
             MainMap.Zoom = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.Zoom, 7);
             var lat = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.CenterLatitude, 53.856);
             var lng = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.CenterLongitude, 27.49);
