@@ -7,61 +7,6 @@ namespace Iit.Fibertest.Client
 {
     public static class GraphReadModelExt
     {
-        // public static NodeVm GetNodeByLandmarkIndex(this GraphReadModel model, Guid traceId, int landmarkIndex)
-        // {
-        //     var trace = model.ReadModel.Traces.First(t => t.TraceId == traceId);
-        //     var i = -1;
-        //     foreach (var nodeId in trace.NodeIds)
-        //     {
-        //         var nodeVm = model.Data.Nodes.First(n => n.Id == nodeId);
-        //         if (nodeVm.Type != EquipmentType.AdjustmentPoint) i++;
-        //
-        //         if (i == landmarkIndex)
-        //             return nodeVm;
-        //     }
-        //
-        //     return null;
-        // }
-
-        // public static FiberVm GetFiberByLandmarkIndexes(this GraphReadModel model, Guid traceId,
-        //     int leftLandmarkIndex, int rightLandmarkIndex)
-        // {
-        //     var trace = model.ReadModel.Traces.First(t => t.TraceId == traceId);
-        //     List<Guid> traceNodesWithoutAdjustmentPoints = new List<Guid>();
-        //     foreach (var nodeId in trace.NodeIds)
-        //     {
-        //         var nodeVm = model.Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
-        //         if (nodeVm != null && nodeVm.Type != EquipmentType.AdjustmentPoint)
-        //             traceNodesWithoutAdjustmentPoints.Add(nodeVm.Id);
-        //     }
-        //     return model.GetFiberByNodes(traceNodesWithoutAdjustmentPoints[leftLandmarkIndex],
-        //         traceNodesWithoutAdjustmentPoints[rightLandmarkIndex]);
-        // }
-
-        // public static IEnumerable<FiberVm> GetFibersBetweenLandmarks(this GraphReadModel model, Guid traceId,
-        //     int leftLandmarkIndex, int rightLandmarkIndex)
-        // {
-        //     int counter = 0;
-        //     var trace = model.ReadModel.Traces.First(t => t.TraceId == traceId);
-        //     for (int i = 0; i < trace.NodeIds.Count; i++)
-        //     {
-        //         if (counter == leftLandmarkIndex)
-        //             yield return model.Data.Fibers.First(f => f.Id == trace.FiberIds[i]);
-        //
-        //         var nodeVm = model.Data.Nodes.FirstOrDefault(n => n.Id == trace.NodeIds[i]);
-        //         if (nodeVm != null && nodeVm.Type != EquipmentType.AdjustmentPoint) counter++;
-        //
-        //     }
-        // }
-
-
-        // private static FiberVm GetFiberByNodes(this GraphReadModel model, Guid node1, Guid node2)
-        // {
-        //     return model.Data.Fibers.FirstOrDefault(
-        //         f => f.Node1.Id == node1 && f.Node2.Id == node2 ||
-        //              f.Node1.Id == node2 && f.Node2.Id == node1);
-        // }
-
         // start and finish are NOT included
         public static bool FindPathWhereAdjustmentPointsOnly(this GraphReadModel model, Guid start, Guid finish, out List<Guid> pathNodeIds)
         {

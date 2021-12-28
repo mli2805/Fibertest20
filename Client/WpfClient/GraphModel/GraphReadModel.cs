@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using GMap.NET;
@@ -41,7 +42,7 @@ namespace Iit.Fibertest.Client
         public readonly ILifetimeScope GlobalScope;
         public readonly IniFile IniFile;
 
-        public GrmData Data { get; set; } = new GrmData();
+        public GraphReadModelData Data { get; set; } = new GraphReadModelData();
 
         public List<GraphVisibilityLevelItem> GraphVisibilityItems { get; set; }
         private GraphVisibilityLevelItem _selectedGraphVisibilityItem;
@@ -94,7 +95,7 @@ namespace Iit.Fibertest.Client
 
         private async void Traces_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            var renderingResult = await this.Render();
+            var renderingResult = await Render();
             await this.ToExistingGraph(renderingResult);
             MainMap.Limits.NodeCountString = $@" {ReadModel.Nodes.Count} / {renderingResult.NodeVms.Count}";
         }
@@ -102,6 +103,13 @@ namespace Iit.Fibertest.Client
         private void CurrentGis_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             IsInGisVisibleMode = ((CurrentGis)sender).IsGisOn;
+        }
+
+        public async Task<RenderingResult> Render()
+        {
+            return CurrentUser.Role <= Role.Root
+                ? await this.RenderForRoot()
+                : await this.RenderForOperator();
         }
 
         public void SetGraphVisibility(GraphVisibilityLevel level)

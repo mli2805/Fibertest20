@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Iit.Fibertest.Client
 {
-    public static class DetalizationApplier
+    public static class GraphRenderingApplier
     {
         private const int Portion = 50;
         private const int Delay = 2;
