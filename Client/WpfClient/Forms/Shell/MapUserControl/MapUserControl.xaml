@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:client="clr-namespace:Iit.Fibertest.Client"
-             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:GraphReadModel}" LostFocus="UserControl_LostFocus" 
+             mc:Ignorable="d" d:DataContext="{d:DesignInstance client:GraphReadModel}" 
              Loaded="UserControl_Loaded" KeyDown="UserControl_KeyDown" PreviewKeyDown="UserControl_PreviewKeyDown">
     <DockPanel>
         <StatusBar DockPanel.Dock="Bottom" Height="25" BorderBrush="DarkGray" BorderThickness="0,1,0,0">

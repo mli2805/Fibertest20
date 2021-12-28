@@ -154,17 +154,12 @@ namespace Iit.Fibertest.Client
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-
-        private void UserControl_LostFocus(object sender, RoutedEventArgs e)
-        {
-            var saveZoomLimit = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.SaveMaxZoomNoMoreThan, 15);
-            GraphReadModel.IniFile.Write(IniSection.Map, IniKey.Zoom, MainMap.Zoom > saveZoomLimit ? saveZoomLimit : MainMap.Zoom);
-            GraphReadModel.IniFile.Write(IniSection.Map, IniKey.CenterLatitude, MainMap.Position.Lat);
-            GraphReadModel.IniFile.Write(IniSection.Map, IniKey.CenterLongitude, MainMap.Position.Lng);
-        }
-
         private void UserControl_Loaded(object sender, RoutedEventArgs e)
         {
+            Window window = Window.GetWindow(this);
+            if (window != null)
+                window.Closing += Window_Closing;
+
             MainMap.Zoom = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.Zoom, 7);
             var lat = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.CenterLatitude, 53.856);
             var lng = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.CenterLongitude, 27.49);
@@ -172,6 +167,14 @@ namespace Iit.Fibertest.Client
 
             MainMap.ContextMenu =
                 GraphReadModel.GlobalScope.Resolve<MapContextMenuProvider>().GetMapContextMenu();
+        }
+
+        private void Window_Closing(object sender, CancelEventArgs e)
+        {
+            var saveZoomLimit = GraphReadModel.IniFile.Read(IniSection.Map, IniKey.SaveMaxZoomNoMoreThan, 15);
+            GraphReadModel.IniFile.Write(IniSection.Map, IniKey.Zoom, MainMap.Zoom > saveZoomLimit ? saveZoomLimit : MainMap.Zoom);
+            GraphReadModel.IniFile.Write(IniSection.Map, IniKey.CenterLatitude, MainMap.Position.Lat);
+            GraphReadModel.IniFile.Write(IniSection.Map, IniKey.CenterLongitude, MainMap.Position.Lng);
         }
 
         private void UserControl_KeyDown(object sender, KeyEventArgs e)
