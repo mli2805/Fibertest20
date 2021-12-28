@@ -8,7 +8,7 @@ namespace Iit.Fibertest.Client
     public static class GraphRenderingApplier
     {
         private const int Portion = 50;
-        private const int Delay = 2;
+        private const int Delay = 20;
 
         public static async Task ToEmptyGraph(this GraphReadModel graphReadModel, RenderingResult renderingResult)
         {

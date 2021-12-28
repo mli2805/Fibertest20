@@ -15,16 +15,16 @@ namespace Iit.Fibertest.Client
             {
                 var res = new RenderingResult().RenderRtus(graphReadModel);
                 var forcedTraces = graphReadModel.CurrentGis.Traces.ToList();
-                return res.RenderNodesForRoot(graphReadModel, forcedTraces)
-                    .RenderFibersForRoot(graphReadModel, forcedTraces);
+                return res.RenderForcedTracesAndNotInTracesNodes(graphReadModel, forcedTraces)
+                    .RenderForcedTracesAndNotInTracesFibers(graphReadModel, forcedTraces);
             }
 
             return new RenderingResult()
-                .RenderNodes(graphReadModel)
-                .RenderFibers(graphReadModel);
+                .RenderAllNodes(graphReadModel)
+                .RenderAllFibers(graphReadModel);
         }
 
-        private static RenderingResult RenderNodesForRoot(this RenderingResult renderingResult, 
+        private static RenderingResult RenderForcedTracesAndNotInTracesNodes(this RenderingResult renderingResult, 
             GraphReadModel graphReadModel, List<Trace> forcedTraces)
         {
             var allTracesNodes = new HashSet<Guid>();
@@ -48,7 +48,7 @@ namespace Iit.Fibertest.Client
             return renderingResult;
         }
 
-        private static RenderingResult RenderFibersForRoot(this RenderingResult renderingResult,
+        private static RenderingResult RenderForcedTracesAndNotInTracesFibers(this RenderingResult renderingResult,
             GraphReadModel graphReadModel, List<Trace> forcedTraces)
         {
             var allTracesFibers = new HashSet<Guid>();
@@ -61,14 +61,11 @@ namespace Iit.Fibertest.Client
             }
 
             var nodesNear = new List<NodeVm>();
-            var checkedFibers = new HashSet<Guid>();
             foreach (var fiber in graphReadModel.ReadModel.Fibers)
             {
-                if ((forcedFibers.Contains(fiber.FiberId) || !allTracesFibers.Contains(fiber.FiberId)) 
-                    && !checkedFibers.Contains(fiber.FiberId))
+                if (forcedFibers.Contains(fiber.FiberId) || !allTracesFibers.Contains(fiber.FiberId))
                 {
-                    checkedFibers.Add(fiber.FiberId);
-                    if (FindFiberNodes(fiber, graphReadModel.ReadModel, renderingResult, nodesNear, 
+                    if (GraphRendererCommonDetails.FindFiberNodes(fiber, graphReadModel.ReadModel, renderingResult, nodesNear, 
                                         out NodeVm nodeVm1, out NodeVm nodeVm2))
                         renderingResult.FiberVms.Add(ElementRenderer.MapWithStates(fiber, nodeVm1, nodeVm2));
                 }
@@ -78,7 +75,7 @@ namespace Iit.Fibertest.Client
             return renderingResult;
         }
 
-        public static RenderingResult RenderNodes(this RenderingResult renderingResult, GraphReadModel graphReadModel)
+        private static RenderingResult RenderAllNodes(this RenderingResult renderingResult, GraphReadModel graphReadModel)
         {
             foreach (var node in graphReadModel.ReadModel.Nodes)
             {
@@ -88,46 +85,19 @@ namespace Iit.Fibertest.Client
             return renderingResult;
         }
 
-        public static RenderingResult RenderFibers(this RenderingResult renderingResult, GraphReadModel graphReadModel)
+        private static RenderingResult RenderAllFibers(this RenderingResult renderingResult, GraphReadModel graphReadModel)
         {
             var nodesNear = new List<NodeVm>();
             foreach (var fiber in graphReadModel.ReadModel.Fibers)
             {
-                if (FindFiberNodes(fiber, graphReadModel.ReadModel, renderingResult, nodesNear, out NodeVm nodeVm1, out NodeVm nodeVm2))
+                if (GraphRendererCommonDetails.FindFiberNodes(
+                        fiber, graphReadModel.ReadModel, renderingResult, nodesNear, out NodeVm nodeVm1, out NodeVm nodeVm2))
                     renderingResult.FiberVms.Add(ElementRenderer.MapWithStates(fiber, nodeVm1, nodeVm2));
             }
             renderingResult.NodeVms.AddRange(nodesNear);
             return renderingResult;
         }
 
-        public static bool FindFiberNodes(Fiber fiber, Model readModel, RenderingResult renderingResult,
-            List<NodeVm> nodesNear, out NodeVm nodeVm1, out NodeVm nodeVm2)
-        {
-            nodeVm1 = renderingResult.NodeVms.FirstOrDefault(n => n.Id == fiber.NodeId1);
-            nodeVm2 = renderingResult.NodeVms.FirstOrDefault(n => n.Id == fiber.NodeId2);
-
-            #region One node of the fiber is on screen while other is out
-            if (nodeVm1 != null && nodeVm2 == null)
-                nodeVm2 = FindNeighbor(fiber.NodeId2, readModel, nodesNear);
-            if (nodeVm1 == null && nodeVm2 != null)
-                nodeVm1 = FindNeighbor(fiber.NodeId1, readModel, nodesNear);
-            #endregion
-
-            return nodeVm1 != null && nodeVm2 != null;
-        }
-
-        private static NodeVm FindNeighbor(Guid nodeId, Model readModel, List<NodeVm> nodesNear)
-        {
-            var neighbor = nodesNear.FirstOrDefault(n => n.Id == nodeId);
-            if (neighbor == null)
-            {
-                var node = readModel.Nodes.FirstOrDefault(n => n.NodeId == nodeId);
-                if (node == null) return null;
-                neighbor = ElementRenderer.Map(node);
-                nodesNear.Add(neighbor);
-            }
-
-            return neighbor;
-        }
+      
     }
 }
