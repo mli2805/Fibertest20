@@ -19,8 +19,6 @@ namespace Iit.Fibertest.Client
         {
             var marker = (MarkerControl)parameter;
 
-            if (!marker.Owner.GraphReadModel.GrmRtuRequests.AskRevealTracesIfHidden(marker.GMapMarker.Id)) return;
-
             marker.Owner.SetBanner(StringResources.Resources.SID_Trace_definition);
             marker.MainMap.IsInTraceDefiningMode = true;
             marker.MainMap.StartNode = marker.GMapMarker;
