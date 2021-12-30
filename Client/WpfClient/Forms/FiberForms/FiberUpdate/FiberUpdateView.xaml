@@ -44,7 +44,7 @@
                   ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListView.ContextMenu>
                 <ContextMenu>
-                    <MenuItem Header="{x:Static stringResources:Resources.SID_Highlight_trace}" 
+                    <MenuItem Header="{x:Static stringResources:Resources.SID_Show_trace}" 
                               cal:Message.Attach="ShowTrace"/>
                 </ContextMenu>
             </ListView.ContextMenu>
