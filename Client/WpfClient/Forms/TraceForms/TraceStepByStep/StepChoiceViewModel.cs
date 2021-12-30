@@ -58,7 +58,7 @@ namespace Iit.Fibertest.Client
             if (modelWithChanges.IsChecked)
             {
                 _selectedNode = nodeWithChanges;
-                _graphReadModel.MainMap.Position = _selectedNode.Position;
+                _graphReadModel.MainMap.SetPosition(_selectedNode.Position);
             }
         }
 

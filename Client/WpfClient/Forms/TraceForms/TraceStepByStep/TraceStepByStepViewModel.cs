@@ -53,7 +53,7 @@ namespace Iit.Fibertest.Client
             _newTraceId = Guid.NewGuid();
             Steps = new ObservableCollection<StepModel>();
             var rtuNode = _readModel.Nodes.First(n => n.NodeId == rtuNodeId);
-            _graphReadModel.MainMap.Position = rtuNode.Position;
+            _graphReadModel.MainMap.SetPosition(rtuNode.Position);
             _currentHighlightedNode = _graphReadModel.Data.Nodes.First(n => n.Id == rtuNodeId);
             _currentHighlightedNode.IsHighlighted = true;
             var firstStepRtu = new StepModel()
@@ -156,7 +156,7 @@ namespace Iit.Fibertest.Client
             }
 
             Steps.Add(new StepModel() { NodeId = selectedNode.Id, Title = titleStr, EquipmentId = equipmentId, FiberVms = selectedTuple.Item2 });
-            _graphReadModel.MainMap.Position = selectedNode.Position;
+            _graphReadModel.MainMap.SetPosition(selectedNode.Position);
             _currentHighlightedNode = _graphReadModel.Data.Nodes.First(n => n.Id == selectedNode.Id);
             _currentHighlightedNode.IsHighlighted = true;
             foreach (var fiberVm in selectedTuple.Item2)
@@ -169,12 +169,12 @@ namespace Iit.Fibertest.Client
         private bool JustStep(NodeVm nextNode, List<FiberVm> fiberVmsToNode)
         {
             _currentHighlightedNode.IsHighlighted = false;
-            _graphReadModel.MainMap.Position = nextNode.Position;
+            _graphReadModel.MainMap.SetPosition(nextNode.Position);
             var equipmentId = _graphReadModel.ChooseEquipmentForNode(nextNode.Id, false, out var titleStr);
             if (equipmentId == Guid.Empty)
             {
                 _currentHighlightedNode.IsHighlighted = true;
-                _graphReadModel.MainMap.Position = _currentHighlightedNode.Position;
+                _graphReadModel.MainMap.SetPosition(_currentHighlightedNode.Position);
                 return false;
             }
 
@@ -200,8 +200,8 @@ namespace Iit.Fibertest.Client
             }
             Steps.Remove(Steps.Last());
 
-            _graphReadModel.MainMap.Position = _graphReadModel.Data.Nodes.First(n => n.Id == Steps.Last().NodeId).Position;
             _currentHighlightedNode = _graphReadModel.Data.Nodes.First(n => n.Id == Steps.Last().NodeId);
+            _graphReadModel.MainMap.SetPosition(_currentHighlightedNode.Position);
             _currentHighlightedNode.IsHighlighted = true;
         }
 
