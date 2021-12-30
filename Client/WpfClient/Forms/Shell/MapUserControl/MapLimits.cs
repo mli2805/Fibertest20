@@ -8,6 +8,8 @@ namespace Iit.Fibertest.Client
         private double _left, _right;
         private double _top, _bottom;
 
+        public bool IsChanged => _left.Equals(0);
+
         public void Set(PointLatLng p1, PointLatLng p2)
         {
             if (p1.Lat > p2.Lat)
@@ -31,6 +33,8 @@ namespace Iit.Fibertest.Client
                 _left = p1.Lng;
                 _right = p2.Lng;
             }
+
+            NotifyOfPropertyChange(nameof(IsChanged));
         }
 
         public string NodeCountString;

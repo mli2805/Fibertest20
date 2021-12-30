@@ -44,7 +44,8 @@ namespace Iit.Fibertest.Graph
             if (!light && HighLights.Contains(traceId))
             {
                 HighLights.Remove(traceId);
-            }   }
+            }
+        }
 
         public Dictionary<Guid, FiberState> TracesWithExceededLossCoeff { get; set; } = new Dictionary<Guid, FiberState>();
 

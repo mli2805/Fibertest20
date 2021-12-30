@@ -60,10 +60,14 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
-        public void ShowTrace(object param)
+        public async void ShowTrace(object param)
         {
             if (!(param is TraceLeaf traceLeaf))
                 return;
+            if (_tabulatorViewModel.SelectedTabIndex != 3)
+                _tabulatorViewModel.SelectedTabIndex = 3;
+            await Task.Delay(100);
+
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
 
             var aTrace = _graphReadModel.CurrentGis.Traces.FirstOrDefault(t => t.TraceId == trace.TraceId);
@@ -79,9 +83,6 @@ namespace Iit.Fibertest.Client
                 _graphReadModel.ExtinguishTrace(trace);
                 trace.IsHighlighted = false;
             }
-
-            if (_tabulatorViewModel.SelectedTabIndex != 3)
-                _tabulatorViewModel.SelectedTabIndex = 3;
         }
 
         public void AssignBaseRefs(object param)

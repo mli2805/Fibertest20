@@ -15,5 +15,7 @@ namespace Iit.Fibertest.Graph
         public string Comment { get; set; }
 
         public Guid AccidentOnTraceId { get; set; }
+
+        public bool IsHighlighted;
     }
 }

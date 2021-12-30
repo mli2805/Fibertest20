@@ -119,12 +119,6 @@ namespace Iit.Fibertest.Client
             IniFile.Write(IniSection.Miscellaneous, IniKey.GraphVisibilityLevel, level.ToString());
         }
 
-        public void PlaceRtuIntoScreenCenter(Guid rtuId)
-        {
-            var rtu = ReadModel.Rtus.First(r => r.Id == rtuId);
-            NodeToScreenCenter(rtu.NodeId);
-        }
-
         public void PlacePointIntoScreenCenter(PointLatLng position)
         {
             MainMap.SetPosition(position);
@@ -132,20 +126,22 @@ namespace Iit.Fibertest.Client
 
         public void ShowTrace(Trace trace)
         {
-            NodeToScreenCenter(trace.NodeIds[0]);
+            // RTU into screen center
+            var node = ReadModel.Nodes.First(n => n.NodeId == trace.NodeIds[0]);
+            MainMap.SetPosition(node.Position);
+
             HighlightTrace(trace);
         }
 
-        public void NodeToScreenCenter(Guid nodeId)
+        public void NodeToCenterAndHighlight(Guid nodeId)
         {
+            var node = ReadModel.Nodes.First(n => n.NodeId == nodeId);
+            MainMap.SetPosition(node.Position);
+
+            node.IsHighlighted = true;
             var nodeVm = Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
-            if (nodeVm == null)
-            {
-                var rtuNode = ReadModel.Nodes.First(n => n.NodeId == nodeId);
-                nodeVm = ElementRenderer.Map(rtuNode);
-            }
-            nodeVm.IsHighlighted = true;
-            MainMap.SetPosition(nodeVm.Position);
+            if (nodeVm != null)
+                nodeVm.IsHighlighted = true;
         }
 
         private void HighlightTrace(Trace trace)

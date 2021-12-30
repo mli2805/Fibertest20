@@ -51,6 +51,9 @@ namespace Iit.Fibertest.Client
                         ? Visibility.Visible
                         : Visibility.Hidden;
                 MainMap.Markers.Add(marker);
+
+                if (nodeVm.IsHighlighted)
+                    Highlight(nodeVm);
             }
         }
 

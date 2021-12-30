@@ -18,6 +18,7 @@ namespace Iit.Fibertest.Client
                 Type = node.TypeOfLastAddedEquipment,
                 AccidentOnTraceVmId = node.AccidentOnTraceId,
                 State = node.State,
+                IsHighlighted = node.IsHighlighted,
             };
         }
 

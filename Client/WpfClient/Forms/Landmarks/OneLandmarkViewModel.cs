@@ -311,7 +311,7 @@ namespace Iit.Fibertest.Client
             }
             nodeVm.Position = position;
 
-            _graphReadModel.NodeToScreenCenter(SelectedLandmark.NodeId);
+            _graphReadModel.NodeToCenterAndHighlight(SelectedLandmark.NodeId);
             if (_tabulatorViewModel.SelectedTabIndex != 3)
                 _tabulatorViewModel.SelectedTabIndex = 3;
         }

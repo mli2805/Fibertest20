@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Client.MonitoringSettings;
@@ -57,14 +58,17 @@ namespace Iit.Fibertest.Client
             _windowManager.ShowDialogWithAssignedOwner(vm);
         }
 
-        public void HighlightRtu(object param)
+        public async void HighlightRtu(object param)
         {
             if (param is RtuLeaf rtuLeaf)
             {
-
-                _graphReadModel.PlaceRtuIntoScreenCenter(rtuLeaf.Id);
                 if (_tabulatorViewModel.SelectedTabIndex != 3)
                     _tabulatorViewModel.SelectedTabIndex = 3;
+
+                await Task.Delay(100);
+
+                var rtu = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id);
+                _graphReadModel.NodeToCenterAndHighlight(rtu.NodeId);
             }
         }
 
@@ -80,7 +84,7 @@ namespace Iit.Fibertest.Client
             {
                 var exportModel = _readModel.CreateOneRtuModel(rtu);
                 var bytes = await exportModel.Serialize(_logFile);
-                File.WriteAllBytes($@"..\temp\export_" + rtuLeaf.Title + ".brtu", bytes);
+                File.WriteAllBytes($@"..\temp\export_" + rtuLeaf.Title + @".brtu", bytes);
             }
         }
 
