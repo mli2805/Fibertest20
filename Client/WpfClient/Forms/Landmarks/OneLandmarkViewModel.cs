@@ -20,6 +20,7 @@ namespace Iit.Fibertest.Client
         public Guid RtuId;
 
         private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
+        private readonly CurrentGis _currentGis;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly GraphReadModel _graphReadModel;
@@ -178,6 +179,7 @@ namespace Iit.Fibertest.Client
             HasPrivilevies = currentUser.Role <= Role.Root;
             IsEditEnabled = true;
             _currentlyHiddenRtu = currentlyHiddenRtu;
+            _currentGis = currentGis;
             GisVisibility = currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
@@ -293,27 +295,29 @@ namespace Iit.Fibertest.Client
 
         public async void ShowLandmarkOnMap()
         {
-            _graphReadModel.ExtinguishNodes();
-            if (_currentlyHiddenRtu.Collection.Contains(RtuId))
-            {
-                _currentlyHiddenRtu.Collection.Remove(RtuId);
-                var unused = await _renderingManager.RenderOnRtuChanged();
-            }
-
-            var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
-
-            var errorMessage = GpsInputSmallViewModel.TryGetPoint(out PointLatLng position);
-            if (errorMessage != null)
-            {
-                var vm = new MyMessageBoxViewModel(MessageType.Error, errorMessage);
-                _windowManager.ShowDialogWithAssignedOwner(vm);
-                return;
-            }
-            nodeVm.Position = position;
-
-            _graphReadModel.NodeToCenterAndHighlight(SelectedLandmark.NodeId);
             if (_tabulatorViewModel.SelectedTabIndex != 3)
                 _tabulatorViewModel.SelectedTabIndex = 3;
+
+            await Task.Delay(100);
+
+            if (_currentGis.ThresholdZoom > _graphReadModel.MainMap.Zoom)
+                _graphReadModel.MainMap.Zoom = _currentGis.ThresholdZoom;
+
+            _graphReadModel.ExtinguishNodes();
+            _graphReadModel.NodeToCenterAndHighlight(SelectedLandmark.NodeId);
+
+
+            // var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
+            //
+            // var errorMessage = GpsInputSmallViewModel.TryGetPoint(out PointLatLng position);
+            // if (errorMessage != null)
+            // {
+            //     var vm = new MyMessageBoxViewModel(MessageType.Error, errorMessage);
+            //     _windowManager.ShowDialogWithAssignedOwner(vm);
+            //     return;
+            // }
+            // nodeVm.Position = position;
+
         }
 
         public void ShowReflectogram()
