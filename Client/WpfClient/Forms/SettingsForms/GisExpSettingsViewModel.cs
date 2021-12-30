@@ -1,4 +1,5 @@
-﻿using Caliburn.Micro;
+﻿using System.Collections.Generic;
+using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.Client
@@ -9,11 +10,13 @@ namespace Iit.Fibertest.Client
         private readonly CurrentGis _currentGis;
 
         public bool IsBigGraphMode { get; set; }
-        public int ThresholdZoom { get; set; }
-        public int ThresholdNodeCount { get; set; }
 
-        public bool IsZoom { get; set; }
-        public bool IsNodeCount { get; set; }
+        public List<int> ZoomList { get; } = new List<int>() {15, 16, 17, 18, 19};
+        public int SelectedZoom { get; set; }
+
+
+        public List<int> ShiftList { get; } = new List<int>() {16, 28, 40, 52};
+        public int SelectedShift { get; set; }
 
         public GisExpSettingsViewModel(IniFile iniFile, CurrentGis currentGis)
         {
@@ -21,10 +24,8 @@ namespace Iit.Fibertest.Client
             _currentGis = currentGis;
 
             IsBigGraphMode = currentGis.IsBigGraphMode;
-            IsZoom = currentGis.GisRenderingByZoom;
-            IsNodeCount = !IsZoom;
-            ThresholdZoom = currentGis.ThresholdZoom;
-            ThresholdNodeCount = currentGis.ThresholdNodeCount;
+            SelectedZoom = currentGis.ThresholdZoom;
+            SelectedShift = (int)(currentGis.ScreenPartAsMargin * 100);
         }
 
         protected override void OnViewLoaded(object view)
@@ -35,13 +36,11 @@ namespace Iit.Fibertest.Client
         public void Save()
         {
             _currentGis.IsBigGraphMode = IsBigGraphMode;
-            _currentGis.GisRenderingByZoom = IsZoom;
-            _currentGis.ThresholdZoom = ThresholdZoom;
-            _currentGis.ThresholdNodeCount = ThresholdNodeCount;
             _iniFile.Write(IniSection.Map, IniKey.IsBigGraphMode, IsBigGraphMode);
-            _iniFile.Write(IniSection.Map, IniKey.GisRenderingByZoom, IsZoom);
-            _iniFile.Write(IniSection.Map, IniKey.ThresholdZoom, ThresholdZoom);
-            _iniFile.Write(IniSection.Map, IniKey.ThresholdNodeCount, ThresholdNodeCount);
+            _currentGis.ThresholdZoom = SelectedZoom;
+            _iniFile.Write(IniSection.Map, IniKey.ThresholdZoom, SelectedZoom);
+            _currentGis.ScreenPartAsMargin = SelectedShift / 100.0;
+            _iniFile.Write(IniSection.Map, IniKey.ScreenPartAsMargin, _currentGis.ScreenPartAsMargin);
 
             TryClose();
         }

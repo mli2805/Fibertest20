@@ -134,9 +134,8 @@
         GMapProvider,
         MapAccessMode,
         IsBigGraphMode,
-        GisRenderingByZoom,
         ThresholdZoom,
-        ThresholdNodeCount,
+        ScreenPartAsMargin,
 
         // Miscellaneous
         PathToSor,

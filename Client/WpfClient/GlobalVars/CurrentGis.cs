@@ -55,17 +55,14 @@ namespace Iit.Fibertest.Client
             _iniFile = iniFile;
             _gpsInputMode = (GpsInputMode)iniFile.Read(IniSection.Miscellaneous, IniKey.GpsInputMode, 0);
             IsBigGraphMode = iniFile.Read(IniSection.Map, IniKey.IsBigGraphMode, true);
-            GisRenderingByZoom = iniFile.Read(IniSection.Map, IniKey.GisRenderingByZoom, true);
             ThresholdZoom = iniFile.Read(IniSection.Map, IniKey.ThresholdZoom, 17);
-            ThresholdNodeCount = iniFile.Read(IniSection.Map, IniKey.ThresholdNodeCount, 200);
+            ScreenPartAsMargin = iniFile.Read(IniSection.Map, IniKey.ScreenPartAsMargin, 0.16);
         }
 
 
         public bool IsBigGraphMode { get; set; }
-        public bool GisRenderingByZoom { get; set; }
         public int ThresholdZoom { get; set; }
-        public int ThresholdNodeCount { get; set; }
-        public double ScreenPartAsMargin { get; set; } = 0.1;
+        public double ScreenPartAsMargin { get; set; }
 
         public readonly ObservableCollection<Trace> Traces  = new ObservableCollection<Trace>();
 

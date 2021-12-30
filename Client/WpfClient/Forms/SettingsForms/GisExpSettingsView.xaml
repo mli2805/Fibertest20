@@ -10,22 +10,19 @@
         d:DataContext="{d:DesignInstance client:GisExpSettingsViewModel}">
     <StackPanel Margin="5,20,5,5">
         <CheckBox Margin="15,5,5,5" IsChecked="{Binding IsBigGraphMode}"
-                  Content="Big grahp mode"/>
+                  Content="Big graph mode"/>
         <Border BorderBrush="LightGray" BorderThickness="1" Margin="5"/>
-        <RadioButton GroupName="1" IsChecked="{Binding IsZoom}"  
-                     Margin="15,0,0,0" VerticalContentAlignment="Center">
-            <DockPanel Margin="5">
-                <TextBlock DockPanel.Dock="Left" Margin="5" Text="Graph is visible from zoom:" Width="250" />
-                <TextBox Margin="5" Text="{Binding ThresholdZoom}" Width="50" />
-            </DockPanel>
-        </RadioButton>
-        <RadioButton GroupName="1" IsChecked="{Binding IsNodeCount}" 
-                     Margin="15,0,0,0" VerticalContentAlignment="Center">
-            <DockPanel Margin="5">
-                <TextBlock DockPanel.Dock="Left" Margin="5" Text="Graph is visible when node count is less than:" Width="250" />
-                <TextBox Margin="5" Text="{Binding ThresholdNodeCount}" Width="50" />
-            </DockPanel>
-        </RadioButton>
+        <DockPanel Margin="5">
+            <TextBlock DockPanel.Dock="Left" Margin="5" Text="Graph is visible from zoom:" Width="300" />
+            <ComboBox Height="22" Width="60" ItemsSource="{Binding ZoomList}" 
+                      SelectedItem="{Binding SelectedZoom}"/>
+        </DockPanel>
+        <DockPanel Margin="5">
+            <TextBlock DockPanel.Dock="Left" Margin="5" Text="Out of screen part of map taken into rendering (%):" Width="300" />
+            <ComboBox Height="22" Width="60" ItemsSource="{Binding ShiftList}" 
+                      SelectedItem="{Binding SelectedShift}"/>
+        </DockPanel>
+
         <StackPanel Orientation="Horizontal" Margin="5,25,5,15" HorizontalAlignment="Center">
             <Button Width="120" Margin="5" Name="Save" Content="{x:Static stringResources:Resources.SID_Save}"/>
             <Button Width="120" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel}"/>
