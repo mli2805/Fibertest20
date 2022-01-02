@@ -106,6 +106,7 @@
     </Compile>
     <Compile Include="Forms\InstallationLanguageViewModel.cs" />
     <Compile Include="IShell.cs" />
+    <Compile Include="JsonUtil.cs" />
     <Compile Include="Logic\IisOperations.cs" />
     <Compile Include="Logic\SetupDatacenterOperations.cs" />
     <Compile Include="Logic\SetupClientOperations.cs" />
