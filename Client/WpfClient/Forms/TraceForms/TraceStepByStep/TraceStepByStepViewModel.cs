@@ -161,7 +161,7 @@ namespace Iit.Fibertest.Client
             _currentHighlightedNode.IsHighlighted = true;
             foreach (var fiberVm in selectedTuple.Item2)
             {
-                fiberVm.SetState(_newTraceId, FiberState.HighLighted);
+                fiberVm.SetLightOnOff(_newTraceId, true);
             }
             return true;
         }
@@ -184,7 +184,7 @@ namespace Iit.Fibertest.Client
 
             foreach (var fiberVm in fiberVmsToNode)
             {
-                fiberVm.SetState(_newTraceId, FiberState.HighLighted);
+                fiberVm.SetLightOnOff(_newTraceId, true);
             }
             return true;
         }
@@ -196,7 +196,7 @@ namespace Iit.Fibertest.Client
 
             foreach (var fiberVm in Steps.Last().FiberVms)
             {
-                fiberVm.RemoveState(_newTraceId);
+                fiberVm.SetLightOnOff(_newTraceId, false);
             }
             Steps.Remove(Steps.Last());
 
@@ -344,8 +344,16 @@ namespace Iit.Fibertest.Client
         public void Cancel()
         {
             _currentHighlightedNode.IsHighlighted = false;
-            var fiberIds = Steps.Select(s => s.FiberVms).SelectMany(x => x).Select(f => f.Id).ToList();
-            _graphReadModel.ChangeFutureTraceColor(_newTraceId, fiberIds, FiberState.NotInTrace);
+            // var fiberIds = Steps.Select(s => s.FiberVms).SelectMany(x => x).Select(f => f.Id).ToList();
+
+            foreach (var fiberVms in Steps.Select(s=>s.FiberVms))
+            {
+                foreach (var fiberVm in fiberVms)
+                {
+                    fiberVm.SetLightOnOff(_newTraceId, false);
+                }
+            }
+            // _graphReadModel.ChangeFutureTraceColor(_newTraceId, fiberIds, FiberState.NotInTrace);
             TryClose();
         }
 

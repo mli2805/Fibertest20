@@ -72,8 +72,9 @@ namespace Iit.Fibertest.Client
         {
             var fiberVm = (FiberVm)sender;
 
-            var oldRoute = (GMapRoute)MainMap.Markers.First(r => r.Id == fiberVm.Id);
-            MainMap.Markers.Remove(oldRoute);
+            var oldRoute = (GMapRoute)MainMap.Markers.FirstOrDefault(r => r.Id == fiberVm.Id);
+            if (oldRoute != null)
+                MainMap.Markers.Remove(oldRoute);
 
             CreateRoute(fiberVm);
         }

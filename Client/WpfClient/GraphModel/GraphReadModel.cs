@@ -95,9 +95,7 @@ namespace Iit.Fibertest.Client
 
         private async void Traces_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            var renderingResult = await Render();
-            await this.ToExistingGraph(renderingResult);
-            MainMap.Limits.NodeCountString = $@" {ReadModel.Nodes.Count} / {renderingResult.NodeVms.Count}";
+            await RefreshVisiblePart();
         }
 
         private void CurrentGis_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -105,11 +103,16 @@ namespace Iit.Fibertest.Client
             IsInGisVisibleMode = ((CurrentGis)sender).IsGisOn;
         }
 
-        public async Task<RenderingResult> Render()
+        public async Task RefreshVisiblePart()
         {
-            return CurrentUser.Role <= Role.Root
+            var renderingResult = CurrentUser.Role <= Role.Root
                 ? await this.RenderForRoot()
                 : await this.RenderForOperator();
+
+            await this.ToExistingGraph(renderingResult);
+
+            if (MainMap != null)
+                MainMap.Limits.NodeCountString = $@" {ReadModel.Nodes.Count} / {renderingResult.NodeVms.Count}";
         }
 
         public void SetGraphVisibility(GraphVisibilityLevel level)
@@ -158,11 +161,11 @@ namespace Iit.Fibertest.Client
         {
             foreach (var fiberId in trace.FiberIds)
             {
-                ReadModel.Fibers.First(f => f.FiberId == fiberId).SetLight(trace.TraceId, highlight);
+                ReadModel.Fibers.First(f => f.FiberId == fiberId).SetLightOnOff(trace.TraceId, highlight);
 
                 var fiberVm = Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
                 if (fiberVm != null)
-                    fiberVm.SetLight(trace.TraceId, highlight);
+                    fiberVm.SetLightOnOff(trace.TraceId, highlight);
             }
         }
 
@@ -205,22 +208,31 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public bool ChangeFutureTraceColor(Guid traceId, List<Guid> fiberIds, FiberState state)
+        public void SetFutureTraceLightOnOff(Guid traceId, List<Guid> fiberIds, bool light)
+        {
+            foreach (var fiberId in fiberIds)
+            {
+                var fiber = ReadModel.Fibers.First(f => f.FiberId == fiberId);
+                fiber.SetLightOnOff(traceId, light);
+
+                var fiberVm = Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
+                fiberVm?.SetLightOnOff(traceId, light);
+            }
+        }
+
+        public void ChangeFutureTraceColor(Guid traceId, List<Guid> fiberIds, FiberState state)
         {
             foreach (var fiberId in fiberIds)
             {
                 var fiberVm = Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
-                if (fiberVm == null)
+                if (fiberVm != null)
                 {
-                    LogFile.AppendLine($@"Fiber {fiberId.First6()} was not found");
-                    return false;
+                    if (state != FiberState.NotInTrace)
+                        fiberVm.SetState(traceId, state);
+                    else
+                        fiberVm.RemoveState(traceId);
                 }
-                if (state != FiberState.NotInTrace)
-                    fiberVm.SetState(traceId, state);
-                else
-                    fiberVm.RemoveState(traceId);
             }
-            return true;
         }
     }
 }

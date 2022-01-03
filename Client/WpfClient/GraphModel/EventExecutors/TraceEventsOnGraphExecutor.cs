@@ -25,13 +25,15 @@ namespace Iit.Fibertest.Client
 
         public void AddTrace(TraceAdded evnt)
         {
-            // if (_currentUser.Role > Role.Root) return;
-            if (_currentlyHiddenRtu.Collection.Contains(evnt.RtuId)) return;
+            // if (_currentlyHiddenRtu.Collection.Contains(evnt.RtuId)) return;
+            //
+            // if (!_graphModel.ChangeFutureTraceColor(evnt.TraceId, evnt.FiberIds, FiberState.NotJoined))
+            // {   // Some fibers are invisible, so this is the way to refresh graph
+            //     _currentlyHiddenRtu.ChangedRtu = evnt.RtuId;
+            // }
 
-            if (!_graphModel.ChangeFutureTraceColor(evnt.TraceId, evnt.FiberIds, FiberState.NotJoined))
-            {   // Some fibers are invisible, so this is the way to refresh graph
-                _currentlyHiddenRtu.ChangedRtu = evnt.RtuId;
-            }
+            _graphModel.SetFutureTraceLightOnOff(evnt.TraceId, evnt.FiberIds, false);
+            _graphModel.ChangeFutureTraceColor(evnt.TraceId, evnt.FiberIds, FiberState.NotJoined);
         }
 
         // event applied to ReadModel firstly and at this moment trace could be cleaned/removed, so fibers list should be prepared beforehand

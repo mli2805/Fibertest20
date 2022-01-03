@@ -42,10 +42,10 @@ namespace Iit.Fibertest.Client
 
         private async void Limits_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var renderingResult = await GraphReadModel.Render();
-            await GraphReadModel.ToExistingGraph(renderingResult);
-
-            MainMap.Limits.NodeCountString = $@" {GraphReadModel.ReadModel.Nodes.Count} / {renderingResult.NodeVms.Count}";
+            await GraphReadModel.RefreshVisiblePart();
+            // var renderingResult = await GraphReadModel.Render();
+            // await GraphReadModel.ToExistingGraph(renderingResult);
+            // MainMap.Limits.NodeCountString = $@" {GraphReadModel.ReadModel.Nodes.Count} / {renderingResult.NodeVms.Count}";
         }
 
         private void MainMap_OnTraceDefiningCancelled()

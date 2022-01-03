@@ -11,7 +11,7 @@ namespace Iit.Fibertest.Client
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
-        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
+        private readonly CurrentGis _currentGis;
         private readonly Model _readModel;
 
         private int _selectedTabIndex;
@@ -42,7 +42,6 @@ namespace Iit.Fibertest.Client
         #region Visibilities
 
         private Visibility _opticalEventsVisibility;
-
         public Visibility OpticalEventsVisibility
         {
             get => _opticalEventsVisibility;
@@ -55,7 +54,6 @@ namespace Iit.Fibertest.Client
         }
 
         private Visibility _networkEventsVisibility;
-
         public Visibility NetworkEventsVisibility
         {
             get => _networkEventsVisibility;
@@ -68,7 +66,6 @@ namespace Iit.Fibertest.Client
         }
 
         private Visibility _bopNetworkEventsVisibility;
-
         public Visibility BopNetworkEventsVisibility
         {
             get => _bopNetworkEventsVisibility;
@@ -81,7 +78,6 @@ namespace Iit.Fibertest.Client
         }
 
         private Visibility _mapVisibility;
-
         public Visibility MapVisibility
         {
             get => _mapVisibility;
@@ -90,11 +86,16 @@ namespace Iit.Fibertest.Client
                 if (value == _mapVisibility) return;
                 _mapVisibility = value;
                 NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(ButtonVisibility));
             }
         }
 
-        private Visibility _messageVisibility;
+        public Visibility ButtonVisibility =>
+            MapVisibility == Visibility.Visible && !_currentGis.IsBigGraphMode
+                ? Visibility.Visible
+                : Visibility.Collapsed;
 
+        private Visibility _messageVisibility;
         public Visibility MessageVisibility
         {
             get => _messageVisibility;
@@ -111,17 +112,27 @@ namespace Iit.Fibertest.Client
         public TabulatorViewModel(OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
-            GraphReadModel graphReadModel, CurrentlyHiddenRtu currentlyHiddenRtu,
-            Model readModel)
+            GraphReadModel graphReadModel, 
+            CurrentGis currentGis, Model readModel)
         {
             GraphReadModel = graphReadModel;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
-            _currentlyHiddenRtu = currentlyHiddenRtu;
+            _currentGis = currentGis;
+            _currentGis.PropertyChanged += _currentGis_PropertyChanged;
             _readModel = readModel;
             SubscribeActualEventsRowChanged();
             SelectedTabIndex = 0;
+        }
+
+        private async void _currentGis_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "IsBigGraphMode")
+            {
+                NotifyOfPropertyChange(nameof(ButtonVisibility));
+                await GraphReadModel.RefreshVisiblePart();
+            }
         }
 
         private void SubscribeActualEventsRowChanged()
@@ -203,16 +214,10 @@ namespace Iit.Fibertest.Client
 
         public void ShowAllGraph()
         {
-            _currentlyHiddenRtu.Collection.Clear();
-            _currentlyHiddenRtu.IsShowAllPressed = true;
+            foreach (var trace in _readModel.Traces)
+                if (!_currentGis.Traces.Contains(trace))
+                    _currentGis.Traces.Add(trace);
         }
 
-        public void HideAllGraph()
-        {
-                var rtuToHide = _readModel.Rtus.Where(r => !_currentlyHiddenRtu.Collection.Contains(r.Id)).Select(rr => rr.Id);
-                _currentlyHiddenRtu.Collection.AddRange(rtuToHide);
-
-                _currentlyHiddenRtu.IsHideAllPressed = true;
-        }
     }
 }

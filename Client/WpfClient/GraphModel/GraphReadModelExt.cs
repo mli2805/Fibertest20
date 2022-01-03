@@ -73,7 +73,8 @@ namespace Iit.Fibertest.Client
 
         public static FiberVm GetAnotherFiberOfAdjustmentPoint(this GraphReadModel model, NodeVm adjustmentPoint, Guid fiberId)
         {
-            return model.Data.Fibers.First(f => (f.Node1 == adjustmentPoint || f.Node2 == adjustmentPoint) && f.Id != fiberId);
+            // return model.Data.Fibers.First(f => (f.Node1 == adjustmentPoint || f.Node2 == adjustmentPoint) && f.Id != fiberId);
+            return model.Data.Fibers.First(f => (f.Node1.Id == adjustmentPoint.Id || f.Node2.Id == adjustmentPoint.Id) && f.Id != fiberId);
         }
 
         public static void CleanAccidentPlacesOnTrace(this GraphReadModel model, Guid traceId)

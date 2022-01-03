@@ -60,13 +60,22 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public bool IsBigGraphMode { get; set; }
+        public bool IsBigGraphMode  
+        {
+            get => _isBigGraphMode;
+            set
+            {
+                if (value == _isBigGraphMode) return;
+                _isBigGraphMode = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public int ThresholdZoom { get; set; }
         public double ScreenPartAsMargin { get; set; }
 
         public readonly ObservableCollection<Trace> Traces  = new ObservableCollection<Trace>();
-
-
+        private bool _isBigGraphMode;
     }
 
 }

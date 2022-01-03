@@ -48,8 +48,7 @@
                             </ContentControl>
                         </Button.Content>
                     </Button>
-                    <Button  cal:Message.Attach="ShowAllGraph" Width="30" Margin="5,0,0,0" Content="++" Visibility="{Binding MapVisibility}"/>
-                    <Button  cal:Message.Attach="HideAllGraph" Width="30" Margin="5,0,0,0" Content="--" Visibility="{Binding MapVisibility}"/>
+                    <Button  cal:Message.Attach="ShowAllGraph" Width="30" Margin="5,0,0,0" Content="++" Visibility="{Binding ButtonVisibility}"/>
                     <ComboBox Margin="5,0,0,0" FontSize="14" VerticalContentAlignment="Center" Visibility="{Binding MapVisibility}"
                               ItemsSource="{Binding GraphReadModel.GraphVisibilityItems}" 
                               SelectedItem="{Binding GraphReadModel.SelectedGraphVisibilityItem}"/>

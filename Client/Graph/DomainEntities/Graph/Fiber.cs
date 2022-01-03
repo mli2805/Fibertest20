@@ -33,7 +33,7 @@ namespace Iit.Fibertest.Graph
 
         public List<Guid> HighLights { get; set; } = new List<Guid>();
 
-        public void SetLight(Guid traceId, bool light)
+        public void SetLightOnOff(Guid traceId, bool light)
         {
             if (HighLights == null) HighLights = new List<Guid>();
             if (light && !HighLights.Contains(traceId))

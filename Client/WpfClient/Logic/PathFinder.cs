@@ -2,26 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Iit.Fibertest.Graph;
 
 namespace Iit.Fibertest.Client
 {
     public class PathFinder
     {
-        private readonly GraphReadModel _model;
+        private readonly Model _model;
 
-        public PathFinder(GraphReadModel model)
+        public PathFinder(Model model)
         {
             _model = model;
         }
 
         private IEnumerable<Guid> GetAdjacentNodes(Guid nodeId)
         {
-            foreach (var fiber in _model.Data.Fibers)
+            foreach (var fiber in _model.Fibers)
             {
-                if (fiber.Node1.Id == nodeId)
-                    yield return fiber.Node2.Id;
-                if (fiber.Node2.Id == nodeId)
-                    yield return fiber.Node1.Id;
+                if (fiber.NodeId1 == nodeId)
+                    yield return fiber.NodeId2;
+                if (fiber.NodeId2 == nodeId)
+                    yield return fiber.NodeId1;
             }
         }
 

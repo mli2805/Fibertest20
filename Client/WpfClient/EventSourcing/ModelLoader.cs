@@ -61,8 +61,9 @@ namespace Iit.Fibertest.Client
                 _renderingManager.Initialize();
                 // await _renderingManager.RenderCurrentZoneOnApplicationStart();
 
-                var renderingResult = await _graphReadModel.Render();
-                await _graphReadModel.ToExistingGraph(renderingResult);
+                await _graphReadModel.RefreshVisiblePart();
+                // var renderingResult = await _graphReadModel.Render();
+                // await _graphReadModel.ToExistingGraph(renderingResult);
 
                 _zoneEventsOnTreeExecutor.RenderOfModelAfterSnapshot();
                 _opticalEventsDoubleViewModel.RenderMeasurementsFromSnapshot();
