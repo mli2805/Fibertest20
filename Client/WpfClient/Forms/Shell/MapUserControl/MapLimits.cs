@@ -5,12 +5,14 @@ namespace Iit.Fibertest.Client
 {
     public class MapLimits : PropertyChangedBase
     {
-        private double _left, _right;
-        private double _top, _bottom;
+        private readonly double _left;
+        private readonly double _right;
+        private readonly double _top;
+        private readonly double _bottom;
 
-        public bool IsChanged => _left.Equals(0);
+        public MapLimits() { }
 
-        public void Set(PointLatLng p1, PointLatLng p2)
+        public MapLimits(PointLatLng p1, PointLatLng p2)
         {
             if (p1.Lat > p2.Lat)
             {
@@ -33,8 +35,6 @@ namespace Iit.Fibertest.Client
                 _left = p1.Lng;
                 _right = p2.Lng;
             }
-
-            NotifyOfPropertyChange(nameof(IsChanged));
         }
 
         /// <summary>

@@ -48,17 +48,17 @@ namespace Iit.Fibertest.Client
             _windowManager = windowManager;
         }
 
-        public async Task Initialize(Guid rtuNodeId, string rtuTitle)
+        public async Task<int> Initialize(Guid rtuNodeId, string rtuTitle)
         {
             _newTraceId = Guid.NewGuid();
             Steps = new ObservableCollection<StepModel>();
 
             var rtuNode = _readModel.Nodes.First(n => n.NodeId == rtuNodeId);
-            _graphReadModel.MainMap.SetPosition(rtuNode.Position);
             if (_graphReadModel.CurrentGis.ThresholdZoom > _graphReadModel.MainMap.Zoom)
                 _graphReadModel.MainMap.Zoom = _graphReadModel.CurrentGis.ThresholdZoom;
+            _graphReadModel.MainMap.SetPositionWithoutFiringEvent(rtuNode.Position);
 
-            await Task.Delay(1000);
+            var nodeCount = await _graphReadModel.RefreshVisiblePart();
 
             _currentHighlightedNodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == rtuNodeId);
             _currentHighlightedNodeVm.IsHighlighted = true;
@@ -70,6 +70,8 @@ namespace Iit.Fibertest.Client
                 FiberVms = new List<FiberVm>(), // empty 
             };
             Steps.Add(firstStepRtu);
+
+            return nodeCount;
         }
 
         protected override void OnViewLoaded(object view)

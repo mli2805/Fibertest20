@@ -47,7 +47,17 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public MapLimits Limits = new MapLimits();
+        public MapLimits Limits
+        {
+            get => _limits;
+            set
+            {
+                if (Equals(value, _limits)) return;
+                _limits = value;
+                OnPropertyChanged();
+            }
+        }
+
         public string MouseCurrentCoorsString => CurrentGis.IsGisOn
             ? Zoom + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode)
             : "";
@@ -70,8 +80,14 @@ namespace Iit.Fibertest.Client
         {
             Position = position;
             EvaluateMapLimits();
-            OnPropertyChanged(nameof(MouseCurrentCoorsString));
         }
+
+        public void SetPositionWithoutFiringEvent(PointLatLng position)
+        {
+            Position = position;
+            EvaluateMapLimits(fireEvent: false);
+        }
+
 
         #region Distance measurement properties
         public bool IsInDistanceMeasurementMode { get; set; }
@@ -81,6 +97,8 @@ namespace Iit.Fibertest.Client
         public List<int> Distances;
 
         private int _lastDistance;
+        private MapLimits _limits = new MapLimits();
+
         public int LastDistance
         {
             get => _lastDistance;
@@ -121,7 +139,7 @@ namespace Iit.Fibertest.Client
             LastDistance = 0;
         }
 
-        public void EvaluateMapLimits(double winHeight = 0, double winWidth = 0)
+        public void EvaluateMapLimits(double winHeight = 0, double winWidth = 0, bool fireEvent = true)
         {
             var leftTop = winWidth == 0
                 ? FromLocalToLatLng(GetPointFromPosition(new Point(0, 0)))
@@ -129,7 +147,10 @@ namespace Iit.Fibertest.Client
             var rightBottom = winHeight == 0
                 ? FromLocalToLatLng(GetPointFromPosition(new Point(ActualWidth, ActualHeight)))
                 : FromLocalToLatLng(GetPointFromPosition(new Point(winHeight - 165, winWidth)));
-            Limits.Set(leftTop, rightBottom);
+            if (fireEvent)
+                Limits = new MapLimits(leftTop, rightBottom);
+            else
+                _limits = new MapLimits(leftTop, rightBottom);
             OnPropertyChanged(nameof(MouseCurrentCoors));
         }
 

@@ -103,16 +103,18 @@ namespace Iit.Fibertest.Client
             IsInGisVisibleMode = ((CurrentGis)sender).IsGisOn;
         }
 
-        public async Task RefreshVisiblePart()
+        public async Task<int> RefreshVisiblePart()
         {
             var renderingResult = CurrentUser.Role <= Role.Root
                 ? await this.RenderForRoot()
                 : await this.RenderForOperator();
 
-            await this.ToExistingGraph(renderingResult);
+            var nodeVmCount = await this.ToExistingGraph(renderingResult);
 
             if (MainMap != null)
-                MainMap.NodeCountString = $@" {ReadModel.Nodes.Count} / {renderingResult.NodeVms.Count}";
+                MainMap.NodeCountString = $@" {ReadModel.Nodes.Count} / {nodeVmCount}";
+
+            return nodeVmCount;
         }
 
         public void SetGraphVisibility(GraphVisibilityLevel level)

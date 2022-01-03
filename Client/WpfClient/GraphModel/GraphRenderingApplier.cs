@@ -39,7 +39,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public static async Task ToExistingGraph(this GraphReadModel graphReadModel, RenderingResult renderingResult)
+        public static async Task<int> ToExistingGraph(this GraphReadModel graphReadModel, RenderingResult renderingResult)
         {
             var newGoodFibers = new HashSet<Guid>(renderingResult.FiberVms.Select(f => f.Id));
             var fibersToDelete = graphReadModel.Data.Fibers.Where(f => !newGoodFibers.Contains(f.Id)).ToList();
@@ -99,6 +99,8 @@ namespace Iit.Fibertest.Client
 
                 }
             }
+
+            return renderingResult.NodeVms.Count;
         }
     }
 }

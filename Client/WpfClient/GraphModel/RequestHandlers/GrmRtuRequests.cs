@@ -63,8 +63,7 @@ namespace Iit.Fibertest.Client
 
             using (_globalScope.Resolve<IWaitCursor>())
             {
-                await vm.Initialize(rtuNodeId, rtuTitle);
-
+                var unused = await vm.Initialize(rtuNodeId, rtuTitle);
             }
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }

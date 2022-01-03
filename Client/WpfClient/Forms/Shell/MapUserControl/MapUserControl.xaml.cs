@@ -26,8 +26,14 @@ namespace Iit.Fibertest.Client
             // map events
             MainMap.MouseEnter += MainMap_MouseEnter;
             MainMap.OnTraceDefiningCancelled += MainMap_OnTraceDefiningCancelled;
-            MainMap.Limits.PropertyChanged += Limits_PropertyChanged;
             MainMap.Loaded += MainMap_Loaded;
+            MainMap.PropertyChanged += MainMap_PropertyChanged;
+        }
+
+        private async void MainMap_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            if (e.PropertyName == "Limits")
+                await GraphReadModel.RefreshVisiblePart();
         }
 
         private void MainMap_Loaded(object sender, RoutedEventArgs e)
@@ -35,17 +41,9 @@ namespace Iit.Fibertest.Client
             Window window = Window.GetWindow(this);
             if (window != null)
             {
-                window.Closing += Window_Closing; 
+                window.Closing += Window_Closing;
                 MainMap.EvaluateMapLimits(window.Height, window.Width);
             }
-        }
-
-        private async void Limits_PropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            await GraphReadModel.RefreshVisiblePart();
-            // var renderingResult = await GraphReadModel.Render();
-            // await GraphReadModel.ToExistingGraph(renderingResult);
-            // MainMap.Limits.NodeCountString = $@" {GraphReadModel.ReadModel.Nodes.Count} / {renderingResult.NodeVms.Count}";
         }
 
         private void MainMap_OnTraceDefiningCancelled()
