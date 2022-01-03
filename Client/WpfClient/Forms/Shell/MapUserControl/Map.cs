@@ -188,6 +188,7 @@ namespace Iit.Fibertest.Client
 
             base.OnMouseWheel(e);
             EvaluateMapLimits();
+            OnPropertyChanged(nameof(MouseCurrentCoorsString));
         }
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
