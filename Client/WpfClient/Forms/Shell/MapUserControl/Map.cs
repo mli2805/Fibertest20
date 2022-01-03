@@ -21,6 +21,7 @@ namespace Iit.Fibertest.Client
     {
         #region Current mouse coordinates
 
+        private CurrentGis _currentGis;
         public CurrentGis CurrentGis
         {
             get => _currentGis;
@@ -48,8 +49,20 @@ namespace Iit.Fibertest.Client
 
         public MapLimits Limits = new MapLimits();
         public string MouseCurrentCoorsString => CurrentGis.IsGisOn
-            ? Zoom + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode) + " ; " + Limits.NodeCountString
+            ? Zoom + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode)
             : "";
+
+        private string _nodeCountString;
+        public string NodeCountString
+        {
+            get => _nodeCountString;
+            set
+            {
+                if (value == _nodeCountString) return;
+                _nodeCountString = value;
+                OnPropertyChanged();
+            }
+        }
 
         #endregion
 
@@ -68,8 +81,6 @@ namespace Iit.Fibertest.Client
         public List<int> Distances;
 
         private int _lastDistance;
-        private CurrentGis _currentGis;
-
         public int LastDistance
         {
             get => _lastDistance;
@@ -119,7 +130,7 @@ namespace Iit.Fibertest.Client
                 ? FromLocalToLatLng(GetPointFromPosition(new Point(ActualWidth, ActualHeight)))
                 : FromLocalToLatLng(GetPointFromPosition(new Point(winHeight - 165, winWidth)));
             Limits.Set(leftTop, rightBottom);
-            OnPropertyChanged(nameof(MouseCurrentCoorsString));
+            OnPropertyChanged(nameof(MouseCurrentCoors));
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
@@ -135,8 +146,8 @@ namespace Iit.Fibertest.Client
                     Markers.Remove(Markers.Single(m => m.Id == DistanceFiberUnderCreation));
 
                 var mousePoint = e.GetPosition(this);
-                mousePoint.X = mousePoint.X - 1;
-                mousePoint.Y = mousePoint.Y - 1;
+                mousePoint.X -= 1;
+                mousePoint.Y -= 1;
                 var endMarkerPosition = FromLocalToLatLng(GetPointFromPosition(mousePoint));
                 Markers.Add(new GMapRoute(DistanceFiberUnderCreation, StartNode.Id, Guid.Empty, Brushes.Black, 1,
                     new List<PointLatLng>() { StartNode.Position, endMarkerPosition }, this));
@@ -148,7 +159,6 @@ namespace Iit.Fibertest.Client
         {
             base.OnMouseWheel(e);
             EvaluateMapLimits();
-            OnPropertyChanged(nameof(MouseCurrentCoorsString));
         }
 
         protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)

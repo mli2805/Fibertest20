@@ -19,7 +19,7 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly RtuRemover _rtuRemover;
 
-        public GrmRtuRequests(ILifetimeScope globalScope, Model model, CurrentGis currentGis, 
+        public GrmRtuRequests(ILifetimeScope globalScope, Model model, CurrentGis currentGis,
            IWindowManager windowManager, RtuRemover rtuRemover)
         {
             _globalScope = globalScope;
@@ -51,7 +51,7 @@ namespace Iit.Fibertest.Client
         }
 
 
-        public void DefineTraceStepByStep(Guid rtuNodeId, string rtuTitle)
+        public async void DefineTraceStepByStep(Guid rtuNodeId, string rtuTitle)
         {
             var vm = _globalScope.Resolve<TraceStepByStepViewModel>();
             if (vm.IsOpen)
@@ -60,7 +60,12 @@ namespace Iit.Fibertest.Client
                 _windowManager.ShowDialogWithAssignedOwner(vm1);
                 return;
             }
-            vm.Initialize(rtuNodeId, rtuTitle);
+
+            using (_globalScope.Resolve<IWaitCursor>())
+            {
+                await vm.Initialize(rtuNodeId, rtuTitle);
+
+            }
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
 

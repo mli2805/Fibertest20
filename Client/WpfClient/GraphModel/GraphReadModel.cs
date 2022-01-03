@@ -112,7 +112,7 @@ namespace Iit.Fibertest.Client
             await this.ToExistingGraph(renderingResult);
 
             if (MainMap != null)
-                MainMap.Limits.NodeCountString = $@" {ReadModel.Nodes.Count} / {renderingResult.NodeVms.Count}";
+                MainMap.NodeCountString = $@" {ReadModel.Nodes.Count} / {renderingResult.NodeVms.Count}";
         }
 
         public void SetGraphVisibility(GraphVisibilityLevel level)

@@ -37,8 +37,6 @@ namespace Iit.Fibertest.Client
             NotifyOfPropertyChange(nameof(IsChanged));
         }
 
-        public string NodeCountString;
-
         /// <summary>
         /// 
         /// </summary>
