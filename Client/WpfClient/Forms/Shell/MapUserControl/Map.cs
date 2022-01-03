@@ -74,6 +74,8 @@ namespace Iit.Fibertest.Client
             }
         }
 
+        public bool IsInTraceDefinitionMode = false;
+
         #endregion
 
         public void SetPosition(PointLatLng position)
@@ -178,6 +180,12 @@ namespace Iit.Fibertest.Client
 
         protected override void OnMouseWheel(MouseWheelEventArgs e)
         {
+            if (IsInTraceDefinitionMode &&
+                e.Delta < 0 && (int)Zoom == CurrentGis.ThresholdZoom)
+            {
+                return;
+            }
+
             base.OnMouseWheel(e);
             EvaluateMapLimits();
         }

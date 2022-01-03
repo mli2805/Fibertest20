@@ -77,6 +77,7 @@ namespace Iit.Fibertest.Client
         protected override void OnViewLoaded(object view)
         {
             DisplayName = Resources.SID_Step_by_step_trace_defining;
+            _graphReadModel.MainMap.IsInTraceDefinitionMode = true;
             IsOpen = true;
         }
 
@@ -368,6 +369,7 @@ namespace Iit.Fibertest.Client
         public override void CanClose(Action<bool> callback)
         {
             IsOpen = false;
+            _graphReadModel.MainMap.IsInTraceDefinitionMode = false;
             base.CanClose(callback);
         }
     }
