@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Caliburn.Micro;
 using Iit.Fibertest.UtilsLib;
 
@@ -8,11 +9,47 @@ namespace Iit.Fibertest.Client
     {
         private readonly IniFile _iniFile;
         private readonly CurrentGis _currentGis;
+       
+        private bool _isBigGraphMode;
 
-        public bool IsBigGraphMode { get; set; }
+        public bool IsBigGraphMode
+        {
+            get => _isBigGraphMode;
+            set
+            {
+                if (value == _isBigGraphMode) return;
+                _isBigGraphMode = value;
+                SelectedZoom = _isBigGraphMode ? 16 : 12;
+                ZoomList = _isBigGraphMode ? Enumerable.Range(10, 11).ToList() : Enumerable.Range(6, 11).ToList();
+                NotifyOfPropertyChange();
+                NotifyOfPropertyChange(nameof(ZoomList));
+                NotifyOfPropertyChange(nameof(SelectedZoom));
+            }
+        }
 
-        public List<int> ZoomList { get; } = new List<int>() {15, 16, 17, 18, 19};
-        public int SelectedZoom { get; set; }
+        private List<int> _zoomList = Enumerable.Range(7, 13).ToList();
+        public List<int> ZoomList
+        {
+            get => _zoomList;
+            private set
+            {
+                if (Equals(value, _zoomList)) return;
+                _zoomList = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        private int _selectedZoom;
+        public int SelectedZoom
+        {
+            get => _selectedZoom;
+            set
+            {
+                if (value == _selectedZoom) return;
+                _selectedZoom = value;
+                NotifyOfPropertyChange();
+            }
+        }
 
 
         public List<int> ShiftList { get; } = new List<int>() {16, 28, 40, 52};
