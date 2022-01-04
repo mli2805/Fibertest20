@@ -131,10 +131,10 @@ namespace Iit.Fibertest.Client
 
         public void Save()
         {
-            int userInputedLength = 0;
+            int userInputLength = 0;
             if (_userInputedLength != "")
-                int.TryParse(_userInputedLength, out userInputedLength);
-            Command = new UpdateFiber { Id = _fiber.FiberId, UserInputedLength = userInputedLength };
+                int.TryParse(_userInputedLength, out userInputLength);
+            Command = new UpdateFiber { Id = _fiber.FiberId, UserInputedLength = userInputLength };
             TryClose();
         }
 

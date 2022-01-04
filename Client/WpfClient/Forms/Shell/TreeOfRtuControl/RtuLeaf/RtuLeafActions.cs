@@ -241,10 +241,15 @@ namespace Iit.Fibertest.Client
                 await _rtuRemover.Fire(_readModel.Rtus.First(r => r.Id == rtuLeaf.Id));
         }
 
-        public void DefineTraceStepByStep(object param)
+        public async void DefineTraceStepByStep(object param)
         {
             if (!(param is RtuLeaf rtuLeaf))
                 return;
+
+            if (_tabulatorViewModel.SelectedTabIndex != 3)
+                _tabulatorViewModel.SelectedTabIndex = 3;
+
+            await Task.Delay(100);
 
             var rtuNodeId = _readModel.Rtus.First(r => r.Id == rtuLeaf.Id).NodeId;
             _graphReadModel.GrmRtuRequests.DefineTraceStepByStep(rtuNodeId, rtuLeaf.Title);
