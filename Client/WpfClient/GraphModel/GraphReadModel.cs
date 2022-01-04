@@ -149,7 +149,7 @@ namespace Iit.Fibertest.Client
                 nodeVm.IsHighlighted = true;
         }
 
-        private void HighlightTrace(Trace trace)
+        public void HighlightTrace(Trace trace)
         {
             SetTraceLight(trace, true);
         }

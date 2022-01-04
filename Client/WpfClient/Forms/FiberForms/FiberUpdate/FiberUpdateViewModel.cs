@@ -125,7 +125,7 @@ namespace Iit.Fibertest.Client
 
             if (!_graphReadModel.CurrentGis.Traces.Contains(SelectedTrace.Item1))
                 _graphReadModel.CurrentGis.Traces.Add(SelectedTrace.Item1);
-            _graphReadModel.ShowTrace(SelectedTrace.Item1);
+            _graphReadModel.HighlightTrace(SelectedTrace.Item1);
             SelectedTrace.Item1.IsHighlighted = true;
         }
 
