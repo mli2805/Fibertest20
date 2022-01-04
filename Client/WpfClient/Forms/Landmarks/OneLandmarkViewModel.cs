@@ -19,13 +19,11 @@ namespace Iit.Fibertest.Client
         public int SorFileId;
         public Guid RtuId;
 
-        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly CurrentGis _currentGis;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly IWindowManager _windowManager;
         private readonly GraphReadModel _graphReadModel;
         private readonly Model _readModel;
-        private readonly RenderingManager _renderingManager;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly TabulatorViewModel _tabulatorViewModel;
 
@@ -98,7 +96,7 @@ namespace Iit.Fibertest.Client
             GpsInputSmallViewModel.Initialize(SelectedLandmark.GpsCoors);
             ComboItems = GetItems(SelectedLandmark.EquipmentType);
             SelectedEquipmentTypeItem = ComboItems.First(i => i.Type == SelectedLandmark.EquipmentType);
-            IsEquipmentEnabled = HasPrivilevies && SelectedLandmark.EquipmentType != EquipmentType.EmptyNode &&
+            IsEquipmentEnabled = HasPrivileges && SelectedLandmark.EquipmentType != EquipmentType.EmptyNode &&
                                  SelectedLandmark.EquipmentType != EquipmentType.Rtu;
         }
 
@@ -128,7 +126,7 @@ namespace Iit.Fibertest.Client
             };
         }
 
-        public bool HasPrivilevies { get; set; }
+        public bool HasPrivileges { get; set; }
 
         private bool _isEquipmentEnabled;
         private bool _isIncludeEquipmentEnabled;
@@ -171,21 +169,19 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public OneLandmarkViewModel(CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu, CurrentGis currentGis,
+        public OneLandmarkViewModel(CurrentUser currentUser, CurrentGis currentGis,
             GpsInputSmallViewModel gpsInputSmallViewModel, IWcfServiceDesktopC2D c2DWcfManager, IWindowManager windowManager,
-            GraphReadModel graphReadModel, Model readModel, RenderingManager renderingManager,
+            GraphReadModel graphReadModel, Model readModel,
             ReflectogramManager reflectogramManager, TabulatorViewModel tabulatorViewModel)
         {
-            HasPrivilevies = currentUser.Role <= Role.Root;
+            HasPrivileges = currentUser.Role <= Role.Root;
             IsEditEnabled = true;
-            _currentlyHiddenRtu = currentlyHiddenRtu;
             _currentGis = currentGis;
             GisVisibility = currentGis.IsGisOn ? Visibility.Visible : Visibility.Collapsed;
             _c2DWcfManager = c2DWcfManager;
             _windowManager = windowManager;
             _graphReadModel = graphReadModel;
             _readModel = readModel;
-            _renderingManager = renderingManager;
             _reflectogramManager = reflectogramManager;
             _tabulatorViewModel = tabulatorViewModel;
             GpsInputSmallViewModel = gpsInputSmallViewModel;
@@ -272,7 +268,7 @@ namespace Iit.Fibertest.Client
             return null;
         }
 
-        public void Cancel()
+        public async void Cancel()
         {
             if (_landmarkBeforeChanges == null) return;
 
@@ -286,38 +282,46 @@ namespace Iit.Fibertest.Client
                 return;
             }
 
-            if (_currentlyHiddenRtu.Collection.Contains(RtuId)) return;
+            if (_showOnMapPressed)
+            {
+                _showOnMapPressed = false;
+                _graphReadModel.ExtinguishNodes();
+                var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
+                nodeVm.Position = position;
+                nodeVm.IsHighlighted = true;
+                var unused = await _graphReadModel.RefreshVisiblePart();
+            }
 
-            var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
-            nodeVm.Position = position;
-            _graphReadModel.ExtinguishNodes();
         }
+
+        private bool _showOnMapPressed;
 
         public async void ShowLandmarkOnMap()
         {
             if (_tabulatorViewModel.SelectedTabIndex != 3)
                 _tabulatorViewModel.SelectedTabIndex = 3;
+            _showOnMapPressed = true;
 
             await Task.Delay(100);
 
             if (_currentGis.ThresholdZoom > _graphReadModel.MainMap.Zoom)
                 _graphReadModel.MainMap.Zoom = _currentGis.ThresholdZoom;
-
             _graphReadModel.ExtinguishNodes();
+            var node = _readModel.Nodes.First(n => n.NodeId == SelectedLandmark.NodeId);
+            _graphReadModel.MainMap.SetPositionWithoutFiringEvent(node.Position);
+            var unused = await _graphReadModel.RefreshVisiblePart();
+
+            var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
+            var errorMessage = GpsInputSmallViewModel.TryGetPoint(out PointLatLng position);
+            if (errorMessage != null)
+            {
+                var vm = new MyMessageBoxViewModel(MessageType.Error, errorMessage);
+                _windowManager.ShowDialogWithAssignedOwner(vm);
+                return;
+            }
+            nodeVm.Position = position;
+
             _graphReadModel.NodeToCenterAndHighlight(SelectedLandmark.NodeId);
-
-
-            // var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
-            //
-            // var errorMessage = GpsInputSmallViewModel.TryGetPoint(out PointLatLng position);
-            // if (errorMessage != null)
-            // {
-            //     var vm = new MyMessageBoxViewModel(MessageType.Error, errorMessage);
-            //     _windowManager.ShowDialogWithAssignedOwner(vm);
-            //     return;
-            // }
-            // nodeVm.Position = position;
-
         }
 
         public void ShowReflectogram()
