@@ -107,7 +107,7 @@ namespace Iit.Fibertest.Client
         {
             var renderingResult = CurrentUser.Role <= Role.Root
                 ? await this.RenderForRoot()
-                : await this.RenderForOperator();
+                : await this.RenderForOperator(CurrentUser.ZoneId);
 
             var nodeVmCount = await this.ToExistingGraph(renderingResult);
 

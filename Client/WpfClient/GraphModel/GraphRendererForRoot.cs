@@ -13,7 +13,7 @@ namespace Iit.Fibertest.Client
             await Task.Delay(1);
             if ((graphReadModel.MainMap?.Zoom ?? 15) < graphReadModel.CurrentGis.ThresholdZoom)
             {
-                var res = new RenderingResult().RenderRtus(graphReadModel);
+                var res = new RenderingResult().RenderRtus(graphReadModel, Guid.Empty);
                 var forcedTraces = graphReadModel.CurrentGis.Traces.ToList();
                 return res.RenderForcedTracesAndNotInTracesNodes(graphReadModel, forcedTraces)
                     .RenderForcedTracesAndNotInTracesFibers(graphReadModel, forcedTraces);

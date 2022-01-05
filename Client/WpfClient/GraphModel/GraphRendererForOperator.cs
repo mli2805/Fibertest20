@@ -8,21 +8,21 @@ namespace Iit.Fibertest.Client
 {
     public static class GraphRendererForOperator
     {
-        public static async Task<RenderingResult> RenderForOperator(this GraphReadModel graphReadModel)
+        public static async Task<RenderingResult> RenderForOperator(this GraphReadModel graphReadModel, Guid zoneId)
         {
             await Task.Delay(1);
             if (graphReadModel.MainMap.Zoom < graphReadModel.CurrentGis.ThresholdZoom)
             {
-                var res = new RenderingResult().RenderRtus(graphReadModel);
+                var res = new RenderingResult().RenderRtus(graphReadModel, zoneId);
                 var forcedTraces = graphReadModel.CurrentGis.Traces.ToList();
                 return res.RenderForcedTracesNodes(graphReadModel, forcedTraces)
                         .RenderForcedTracesFibers(graphReadModel, forcedTraces);
             }
 
             return new RenderingResult()
-                .RenderRtus(graphReadModel)
-                .RenderAllTraceNodes(graphReadModel)
-                .RenderAllTraceFibers(graphReadModel);
+                .RenderRtus(graphReadModel, zoneId)
+                .RenderAllTraceNodes(graphReadModel, zoneId)
+                .RenderAllTraceFibers(graphReadModel, zoneId);
         }
 
         private static RenderingResult RenderForcedTracesNodes(this RenderingResult renderingResult,
@@ -70,10 +70,10 @@ namespace Iit.Fibertest.Client
         }
 
         private static RenderingResult RenderAllTraceNodes(this RenderingResult renderingResult,
-            GraphReadModel graphReadModel)
+            GraphReadModel graphReadModel, Guid zoneId)
         {
             var allTracesNodes = new HashSet<Guid>();
-            foreach (var trace in graphReadModel.ReadModel.Traces)
+            foreach (var trace in graphReadModel.ReadModel.Traces.Where(t=>t.ZoneIds.Contains(zoneId)))
                 allTracesNodes.UnionWith(trace.NodeIds);
 
             foreach (var nodeId in allTracesNodes)
@@ -87,10 +87,10 @@ namespace Iit.Fibertest.Client
         }
 
         private static RenderingResult RenderAllTraceFibers(this RenderingResult renderingResult,
-            GraphReadModel graphReadModel)
+            GraphReadModel graphReadModel, Guid zoneId)
         {
             var allTracesFibers = new HashSet<Guid>();
-            foreach (var trace in graphReadModel.ReadModel.Traces)
+            foreach (var trace in graphReadModel.ReadModel.Traces.Where(t => t.ZoneIds.Contains(zoneId)))
                 allTracesFibers.UnionWith(trace.FiberIds);
 
             var nodesNear = new List<NodeVm>();

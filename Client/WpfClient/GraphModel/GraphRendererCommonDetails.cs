@@ -7,9 +7,9 @@ namespace Iit.Fibertest.Client
 {
     public static class GraphRendererCommonDetails
     {
-        public static RenderingResult RenderRtus(this RenderingResult renderingResult, GraphReadModel graphReadModel)
+        public static RenderingResult RenderRtus(this RenderingResult renderingResult, GraphReadModel graphReadModel, Guid zoneId)
         {
-            foreach (var rtu in graphReadModel.ReadModel.Rtus)
+            foreach (var rtu in graphReadModel.ReadModel.Rtus.Where(r=>r.ZoneIds.Contains(zoneId)))
             {
                 var nodeRtu = graphReadModel.ReadModel.Nodes.First(n => n.NodeId == rtu.NodeId);
                 if (graphReadModel.MainMap.Limits.IsInPlus(nodeRtu.Position, graphReadModel.CurrentGis.ScreenPartAsMargin))

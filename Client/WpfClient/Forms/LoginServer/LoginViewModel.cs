@@ -97,6 +97,7 @@ namespace Iit.Fibertest.Client
             {
                 // UserName = @"superclient";  PasswordViewModel.Password = @"superclient";
                 UserName = @"developer"; PasswordViewModel.Password = @"developer";
+                // UserName = @"12"; PasswordViewModel.Password = @"12";
                 // UserName = @"operator"; PasswordViewModel.Password = @"operator";
                 // UserName = @"supervisor"; PasswordViewModel.Password = @"supervisor";
                 //  UserName = @"root"; PasswordViewModel.Password = @"root";
