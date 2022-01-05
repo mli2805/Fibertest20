@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Windows;
+using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 
@@ -8,6 +9,7 @@ namespace Iit.Fibertest.Client
     public class TabulatorViewModel : PropertyChangedBase
     {
         public GraphReadModel GraphReadModel { get; }
+        private readonly ILifetimeScope _globalScope;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
@@ -109,13 +111,14 @@ namespace Iit.Fibertest.Client
 
         #endregion
 
-        public TabulatorViewModel(OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
+        public TabulatorViewModel(ILifetimeScope globalScope, OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
             BopNetworkEventsDoubleViewModel bopNetworkEventsDoubleViewModel,
-            GraphReadModel graphReadModel, 
+            GraphReadModel graphReadModel,
             CurrentGis currentGis, Model readModel)
         {
             GraphReadModel = graphReadModel;
+            _globalScope = globalScope;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
             _bopNetworkEventsDoubleViewModel = bopNetworkEventsDoubleViewModel;
@@ -207,6 +210,9 @@ namespace Iit.Fibertest.Client
 
         public void ExtinguishAll()
         {
+            var vm = _globalScope.Resolve<TraceStepByStepViewModel>();
+            if (vm.IsOpen) return;
+
             GraphReadModel.ExtinguishAll();
             foreach (var rtu in _readModel.Rtus)
                 rtu.IsHighlighted = false;
