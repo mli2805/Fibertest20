@@ -68,19 +68,11 @@ namespace Iit.Fibertest.Client
                 _tabulatorViewModel.SelectedTabIndex = 3;
             await Task.Delay(100);
 
-            var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
+            if (_graphReadModel.CurrentGis.Traces.Any(t => t.TraceId == traceLeaf.Id)) return;
 
-            var aTrace = _graphReadModel.CurrentGis.Traces.FirstOrDefault(t => t.TraceId == trace.TraceId);
-            if (aTrace == null)
-            {
-                _graphReadModel.CurrentGis.Traces.Add(trace);
-                _graphReadModel.ShowTrace(trace);
-            }
-            else
-            {
-                _graphReadModel.CurrentGis.Traces.Remove(aTrace);
-                _graphReadModel.ExtinguishTrace(trace);
-            }
+            var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
+            _graphReadModel.CurrentGis.Traces.Add(trace);
+            _graphReadModel.ShowTrace(trace);
         }
 
         public void AssignBaseRefs(object param)
