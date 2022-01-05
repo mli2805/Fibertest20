@@ -286,10 +286,13 @@ namespace Iit.Fibertest.Client
             {
                 _showOnMapPressed = false;
                 _graphReadModel.ExtinguishNodes();
+                var node = _readModel.Nodes.First(n => n.NodeId == SelectedLandmark.NodeId);
                 var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
+                node.Position = position;
                 nodeVm.Position = position;
-                nodeVm.IsHighlighted = true;
-                var unused = await _graphReadModel.RefreshVisiblePart();
+                _graphReadModel.NodeToCenterAndHighlight(node.NodeId);
+                // nodeVm.IsHighlighted = true;
+                // var unused = await _graphReadModel.RefreshVisiblePart();
             }
 
         }
@@ -307,10 +310,9 @@ namespace Iit.Fibertest.Client
             if (_currentGis.ThresholdZoom > _graphReadModel.MainMap.Zoom)
                 _graphReadModel.MainMap.Zoom = _currentGis.ThresholdZoom;
             _graphReadModel.ExtinguishNodes();
-            var node = _readModel.Nodes.First(n => n.NodeId == SelectedLandmark.NodeId);
-            _graphReadModel.MainMap.SetPositionWithoutFiringEvent(node.Position);
-            var unused = await _graphReadModel.RefreshVisiblePart();
 
+
+            var node = _readModel.Nodes.First(n => n.NodeId == SelectedLandmark.NodeId);
             var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
             var errorMessage = GpsInputSmallViewModel.TryGetPoint(out PointLatLng position);
             if (errorMessage != null)
@@ -319,6 +321,7 @@ namespace Iit.Fibertest.Client
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return;
             }
+            node.Position = position;
             nodeVm.Position = position;
 
             _graphReadModel.NodeToCenterAndHighlight(SelectedLandmark.NodeId);
