@@ -8,21 +8,31 @@ namespace Iit.Fibertest.Client
 {
     public static class GraphRendererForOperator
     {
-        public static async Task<RenderingResult> RenderForOperator(this GraphReadModel graphReadModel, Guid zoneId)
+        public static async Task<RenderingResult> RenderForZoneOperator(this GraphReadModel graphReadModel, Guid zoneId)
         {
             await Task.Delay(1);
-            if (graphReadModel.MainMap.Zoom < graphReadModel.CurrentGis.ThresholdZoom)
-            {
-                var res = new RenderingResult().RenderRtus(graphReadModel, zoneId);
-                var forcedTraces = graphReadModel.CurrentGis.Traces.ToList();
-                return res.RenderForcedTracesNodes(graphReadModel, forcedTraces)
-                        .RenderForcedTracesFibers(graphReadModel, forcedTraces);
-            }
-
             return new RenderingResult()
                 .RenderRtus(graphReadModel, zoneId)
-                .RenderAllTraceNodes(graphReadModel, zoneId)
-                .RenderAllTraceFibers(graphReadModel, zoneId);
+                .RenderTraces(graphReadModel, zoneId)
+                .RenderAccidents(graphReadModel, zoneId);
+        }
+
+        private static RenderingResult RenderTraces(this RenderingResult renderingResult, GraphReadModel graphReadModel, Guid zoneId)
+        {
+            return graphReadModel.MainMap.Zoom < graphReadModel.CurrentGis.ThresholdZoom
+                ? renderingResult.RenderForcedTraces(graphReadModel)
+                : renderingResult
+                    .RenderAllTraceNodes(graphReadModel, zoneId)
+                    .RenderAllTraceFibers(graphReadModel, zoneId);
+        }
+
+        private static RenderingResult RenderForcedTraces(this RenderingResult renderingResult,
+            GraphReadModel graphReadModel)
+        {
+            var forcedTraces = graphReadModel.CurrentGis.Traces.ToList();
+            return renderingResult
+                .RenderForcedTracesNodes(graphReadModel, forcedTraces)
+                .RenderForcedTracesFibers(graphReadModel, forcedTraces);
         }
 
         private static RenderingResult RenderForcedTracesNodes(this RenderingResult renderingResult,
@@ -103,6 +113,20 @@ namespace Iit.Fibertest.Client
             }
 
             renderingResult.NodeVms.AddRange(nodesNear);
+            return renderingResult;
+        }
+
+        private static RenderingResult RenderAccidents(this RenderingResult renderingResult, GraphReadModel graphReadModel, Guid zoneId)
+        {
+            foreach (var node in graphReadModel.ReadModel.Nodes.Where(n=>n.AccidentOnTraceId != Guid.Empty))
+            {
+                var trace = graphReadModel.ReadModel.Traces.First(t => t.TraceId == node.AccidentOnTraceId);
+                if (trace.ZoneIds.Contains(zoneId))
+                {
+                    if (graphReadModel.MainMap.Limits.IsInPlus(node.Position, graphReadModel.CurrentGis.ScreenPartAsMargin))
+                        renderingResult.NodeVms.Add(ElementRenderer.Map(node));
+                }
+            }
             return renderingResult;
         }
     }

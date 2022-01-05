@@ -268,7 +268,7 @@ namespace Iit.Fibertest.Client
             return null;
         }
 
-        public async void Cancel()
+        public void Cancel()
         {
             if (_landmarkBeforeChanges == null) return;
 
@@ -291,8 +291,6 @@ namespace Iit.Fibertest.Client
                 node.Position = position;
                 nodeVm.Position = position;
                 _graphReadModel.NodeToCenterAndHighlight(node.NodeId);
-                // nodeVm.IsHighlighted = true;
-                // var unused = await _graphReadModel.RefreshVisiblePart();
             }
 
         }

@@ -96,8 +96,8 @@ namespace Iit.Fibertest.Client
             if (string.IsNullOrEmpty(UserName) && string.IsNullOrEmpty(PasswordViewModel.Password))
             {
                 // UserName = @"superclient";  PasswordViewModel.Password = @"superclient";
-                UserName = @"developer"; PasswordViewModel.Password = @"developer";
-                // UserName = @"12"; PasswordViewModel.Password = @"12";
+                // UserName = @"developer"; PasswordViewModel.Password = @"developer";
+                UserName = @"12"; PasswordViewModel.Password = @"12";
                 // UserName = @"operator"; PasswordViewModel.Password = @"operator";
                 // UserName = @"supervisor"; PasswordViewModel.Password = @"supervisor";
                 //  UserName = @"root"; PasswordViewModel.Password = @"root";
