@@ -3045,4 +3045,7 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Show_trace" xml:space="preserve">
 		<value>Show trace</value>
 	</data>
+	<data name="SID_Trace_definition_mode__Minimum_zoom__0_" xml:space="preserve">
+		<value>Trace definition mode: Minimum zoom {0}</value>
+	</data>
 </root>

@@ -3045,4 +3045,7 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_Show_trace" xml:space="preserve">
 		<value>Показать трассу</value>
 	</data>
+	<data name="SID_Trace_definition_mode__Minimum_zoom__0_" xml:space="preserve">
+		<value>Режим определения трассы: Минимальный зум {0}</value>
+	</data>
 </root>

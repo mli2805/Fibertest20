@@ -18,15 +18,17 @@ namespace Iit.Fibertest.Client
         private readonly CurrentGis _currentGis;
         private readonly IWindowManager _windowManager;
         private readonly RtuRemover _rtuRemover;
+        private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
 
         public GrmRtuRequests(ILifetimeScope globalScope, Model model, CurrentGis currentGis,
-           IWindowManager windowManager, RtuRemover rtuRemover)
+           IWindowManager windowManager, RtuRemover rtuRemover, CommonStatusBarViewModel commonStatusBarViewModel)
         {
             _globalScope = globalScope;
             _model = model;
             _currentGis = currentGis;
             _windowManager = windowManager;
             _rtuRemover = rtuRemover;
+            _commonStatusBarViewModel = commonStatusBarViewModel;
         }
 
         public void AddRtuAtGpsLocation(RequestAddRtuAtGpsLocation request)
@@ -61,6 +63,7 @@ namespace Iit.Fibertest.Client
                 return;
             }
 
+            _commonStatusBarViewModel.StatusBarMessage2 = string.Format(Resources.SID_Trace_definition_mode__Minimum_zoom__0_, _currentGis.ThresholdZoom);
             using (_globalScope.Resolve<IWaitCursor>())
             {
                 var unused = await vm.Initialize(rtuNodeId, rtuTitle);
