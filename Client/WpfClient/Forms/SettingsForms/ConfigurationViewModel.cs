@@ -29,18 +29,6 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        private bool _isGraphVisibleOnStart;
-        public bool IsGraphVisibleOnStart
-        {
-            get => _isGraphVisibleOnStart;
-            set
-            {
-                _isGraphVisibleOnStart = value;
-                _iniFile.Write(IniSection.Miscellaneous, IniKey.IsGraphVisibleOnStart, _isGraphVisibleOnStart);
-            }
-        }
-
-
         private string _selectedLanguage;
         public string SelectedLanguage
         {
@@ -60,7 +48,6 @@ namespace Iit.Fibertest.Client
             _soundManager = soundManager;
             IsEnabled = currentUser.Role < Role.Superclient;
 
-            _isGraphVisibleOnStart = _iniFile.Read(IniSection.Miscellaneous, IniKey.IsGraphVisibleOnStart, false);
             SelectedLanguage = _iniFile.Read(IniSection.General, IniKey.Culture, @"ru-RU");
             SoundButtonContent = Resources.SID_Turn_alarm_on;
             _isSoundOn = false;

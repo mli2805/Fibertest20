@@ -29,7 +29,6 @@ namespace Graph.Tests
         public FakeWindowManager FakeWindowManager { get; set; }
         public FakeD2RWcfManager FakeD2RWcfManager { get; set; }
         public ShellViewModel ShellVm { get; set; }
-        public CurrentlyHiddenRtu CurrentlyHiddenRtu { get; set; }
         public string ConnectionId { get; set; }
 
         public AccidentsFromSorExtractor AccidentsFromSorExtractor { get; set; }
@@ -85,7 +84,6 @@ namespace Graph.Tests
 
             MyLogFile = ClientScope.Resolve<IMyLog>();
             ShellVm = (ShellViewModel)ClientScope.Resolve<IShell>();
-            CurrentlyHiddenRtu = ClientScope.Resolve<CurrentlyHiddenRtu>();
             GraphReadModel = ClientScope.Resolve<GraphReadModel>();
 
             // var dispatcherProvider = ClientScope.Resolve<IDispatcherProvider>();

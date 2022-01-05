@@ -16,7 +16,6 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<GraphGpsCalculator>().InstancePerLifetimeScope();
 
             builder.RegisterType<CurrentUser>().InstancePerLifetimeScope();
-            builder.RegisterType<CurrentlyHiddenRtu>().InstancePerLifetimeScope();
             builder.RegisterType<CurrentGis>().InstancePerLifetimeScope();
             builder.RegisterType<CurrentDatacenterParameters>().InstancePerLifetimeScope();
             builder.RegisterType<SystemState>().InstancePerLifetimeScope();
@@ -165,12 +164,6 @@ namespace Iit.Fibertest.Client
             builder.RegisterType<C2SWcfManager>().AsSelf().As<IWcfServiceInSuperClient>().InstancePerLifetimeScope();
 
             builder.RegisterType<UiDispatcherProvider>().As<IDispatcherProvider>().InstancePerLifetimeScope();
-            builder.RegisterType<RenderingApplierToUi>();
-            builder.RegisterType<OneRtuOrTraceRenderer>();
-            builder.RegisterType<CurrentZoneRenderer>();
-            builder.RegisterType<LessThanRootRenderer>();
-            builder.RegisterType<RootRenderer>();
-            builder.RegisterType<RenderingManager>();
             builder.RegisterType<EventArrivalNotifier>().InstancePerLifetimeScope();
             builder.RegisterType<Heartbeater>().InstancePerLifetimeScope();
             builder.RegisterType<ClientPoller>().InstancePerLifetimeScope();

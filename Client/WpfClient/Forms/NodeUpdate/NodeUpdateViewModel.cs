@@ -24,7 +24,6 @@ namespace Iit.Fibertest.Client
         private readonly IWindowManager _windowManager;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly CurrentGis _currentGis;
-        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly AddEquipmentIntoNodeBuilder _addEquipmentIntoNodeBuilder;
         private Node _originalNode;
         private PointLatLng _nodeCoors;
@@ -134,7 +133,7 @@ namespace Iit.Fibertest.Client
         public NodeUpdateViewModel(ILifetimeScope globalScope, Model readModel, GraphReadModel graphReadModel,
             IWindowManager windowManager, EventArrivalNotifier eventArrivalNotifier,
             IWcfServiceDesktopC2D c2DWcfManager, CurrentGis currentGis,
-            CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu,
+            CurrentUser currentUser, 
             AddEquipmentIntoNodeBuilder addEquipmentIntoNodeBuilder)
         {
             _globalScope = globalScope;
@@ -144,7 +143,6 @@ namespace Iit.Fibertest.Client
             eventArrivalNotifier.PropertyChanged += _eventArrivalNotifier_PropertyChanged;
             _c2DWcfManager = c2DWcfManager;
             _currentGis = currentGis;
-            _currentlyHiddenRtu = currentlyHiddenRtu;
             IsEditEnabled = currentUser.Role <= Role.Root;
             _addEquipmentIntoNodeBuilder = addEquipmentIntoNodeBuilder;
         }
@@ -228,12 +226,6 @@ namespace Iit.Fibertest.Client
         public void ShowTrace()
         {
             if (SelectedTrace == null) return;
-
-            if (_currentlyHiddenRtu.Collection.Contains(SelectedTrace.RtuId))
-            {
-                _currentlyHiddenRtu.Collection.Remove(SelectedTrace.RtuId);
-                _currentlyHiddenRtu.ChangedRtu = SelectedTrace.RtuId;
-            }
             _graphReadModel.ShowTrace(SelectedTrace);
         }
 

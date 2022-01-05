@@ -10,28 +10,19 @@ namespace Iit.Fibertest.Client
         private readonly GraphReadModel _graphModel;
         private readonly Model _readModel;
         private readonly CurrentUser _currentUser;
-        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly AccidentEventsOnGraphExecutor _accidentEventsOnGraphExecutor;
 
-        public TraceEventsOnGraphExecutor(GraphReadModel graphModel, Model readModel,
-            CurrentUser currentUser, CurrentlyHiddenRtu currentlyHiddenRtu, AccidentEventsOnGraphExecutor accidentEventsOnGraphExecutor)
+        public TraceEventsOnGraphExecutor(GraphReadModel graphModel, Model readModel, 
+            CurrentUser currentUser, AccidentEventsOnGraphExecutor accidentEventsOnGraphExecutor)
         {
             _graphModel = graphModel;
             _readModel = readModel;
             _currentUser = currentUser;
-            _currentlyHiddenRtu = currentlyHiddenRtu;
             _accidentEventsOnGraphExecutor = accidentEventsOnGraphExecutor;
         }
 
         public void AddTrace(TraceAdded evnt)
         {
-            // if (_currentlyHiddenRtu.Collection.Contains(evnt.RtuId)) return;
-            //
-            // if (!_graphModel.ChangeFutureTraceColor(evnt.TraceId, evnt.FiberIds, FiberState.NotJoined))
-            // {   // Some fibers are invisible, so this is the way to refresh graph
-            //     _currentlyHiddenRtu.ChangedRtu = evnt.RtuId;
-            // }
-
             _graphModel.SetFutureTraceLightOnOff(evnt.TraceId, evnt.FiberIds, false);
             _graphModel.ChangeFutureTraceColor(evnt.TraceId, evnt.FiberIds, FiberState.NotJoined);
         }
@@ -46,10 +37,6 @@ namespace Iit.Fibertest.Client
                 var fiberVm = _graphModel.Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
                 fiberVm?.RemoveState(evnt.TraceId);
             }
-
-            var rtuId = _readModel.Rtus.First(r => r.NodeId == evnt.NodeIds[0]).Id;
-            if (_currentUser.Role > Role.Root && !_currentlyHiddenRtu.Collection.Contains(rtuId))
-                _currentlyHiddenRtu.ChangedRtu = rtuId;
         }
 
         // event applied to ReadModel firstly and at this moment trace could be cleaned/removed, so fibers list should be prepared beforehand
@@ -99,8 +86,9 @@ namespace Iit.Fibertest.Client
 
             foreach (var fiberId in trace.FiberIds)
             {
-                var fiberVm = _graphModel.Data.Fibers.First(f => f.Id == fiberId);
-                fiberVm.SetState(trace.TraceId, trace.State);
+                var fiberVm = _graphModel.Data.Fibers.FirstOrDefault(f => f.Id == fiberId);
+                if (fiberVm != null)
+                    fiberVm.SetState(trace.TraceId, trace.State);
             }
             _graphModel.CleanAccidentPlacesOnTrace(trace.TraceId);
         }
@@ -110,9 +98,7 @@ namespace Iit.Fibertest.Client
             if (_currentUser.ZoneId != Guid.Empty &&
                 !_readModel.Traces.First(t => t.TraceId == traceId).ZoneIds.Contains(_currentUser.ZoneId)) return false;
 
-            var trace = _readModel.Traces.First(t => t.TraceId == traceId);
-            var rtu = _readModel.Rtus.First(r => r.Id == trace.RtuId);
-            return !_currentlyHiddenRtu.Collection.Contains(rtu.Id);
+            return true;
         }
     }
 }

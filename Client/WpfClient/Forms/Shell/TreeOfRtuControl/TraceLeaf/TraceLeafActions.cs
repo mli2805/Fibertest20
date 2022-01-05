@@ -75,13 +75,11 @@ namespace Iit.Fibertest.Client
             {
                 _graphReadModel.CurrentGis.Traces.Add(trace);
                 _graphReadModel.ShowTrace(trace);
-                trace.IsHighlighted = true;
             }
             else
             {
                 _graphReadModel.CurrentGis.Traces.Remove(aTrace);
                 _graphReadModel.ExtinguishTrace(trace);
-                trace.IsHighlighted = false;
             }
         }
 

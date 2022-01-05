@@ -11,17 +11,15 @@ namespace Iit.Fibertest.Client
         private readonly CommonVmActions _commonVmActions;
         private readonly RtuVmPermissions _rtuVmPermissions;
         private readonly CurrentGis _currentGis;
-        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly Model _readModel;
 
         public RtuVmContextMenuProvider(RtuVmActions rtuVmActions, CommonVmActions commonVmActions, RtuVmPermissions rtuVmPermissions,
-            CurrentGis currentGis, CurrentlyHiddenRtu currentlyHiddenRtu, Model readModel)
+            CurrentGis currentGis, Model readModel)
         {
             _rtuVmActions = rtuVmActions;
             _commonVmActions = commonVmActions;
             _rtuVmPermissions = rtuVmPermissions;
             _currentGis = currentGis;
-            _currentlyHiddenRtu = currentlyHiddenRtu;
             _readModel = readModel;
         }
 
@@ -75,7 +73,7 @@ namespace Iit.Fibertest.Client
                     Header = Resources.SID_Reveal_traces,
                     Command = new ContextMenuAction(_rtuVmActions.RevealTraces, _rtuVmPermissions.CanRevealTraces),
                     CommandParameter = marker,
-                    IsChecked = !_currentlyHiddenRtu.Collection.Contains(rtu.Id),
+                    IsChecked = rtu.IsHighlighted,
                 });
             return contextMenu;
         }

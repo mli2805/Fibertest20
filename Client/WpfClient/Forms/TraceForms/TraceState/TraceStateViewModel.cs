@@ -19,7 +19,6 @@ namespace Iit.Fibertest.Client
     {
         private readonly IMyLog _logFile;
         private readonly CurrentUser _currentUser;
-        private readonly CurrentlyHiddenRtu _currentlyHiddenRtu;
         private readonly ReflectogramManager _reflectogramManager;
         private readonly SoundManager _soundManager;
         private readonly Model _readModel;
@@ -56,7 +55,7 @@ namespace Iit.Fibertest.Client
 
 
         public TraceStateViewModel(IMyLog logFile, CurrentUser currentUser,
-            CurrentlyHiddenRtu currentlyHiddenRtu, ReflectogramManager reflectogramManager,
+            ReflectogramManager reflectogramManager,
             SoundManager soundManager, Model readModel, GraphReadModel graphReadModel,
             IWcfServiceDesktopC2D c2DWcfManager, IWcfServiceInSuperClient c2SWcfManager, 
             CommandLineParameters commandLineParameters, CurrentDatacenterParameters currentDatacenterParameters, 
@@ -67,7 +66,6 @@ namespace Iit.Fibertest.Client
             _currentUser = currentUser;
             HasPrivilegies = currentUser.Role <= Role.Operator;
             IsEditEnabled = true;
-            _currentlyHiddenRtu = currentlyHiddenRtu;
             _reflectogramManager = reflectogramManager;
             _soundManager = soundManager;
             _readModel = readModel;
@@ -152,12 +150,6 @@ namespace Iit.Fibertest.Client
                 accidentPoint = Model.Header.RtuPosition;
             else accidentPoint = Model.SelectedAccident.Position;
 
-            if (_currentlyHiddenRtu.Collection.Contains(Model.Trace.RtuId))
-            {
-                //                _renderingManager.ShowOneTrace(Model.Trace);
-                _currentlyHiddenRtu.Collection.Remove(Model.Trace.RtuId);
-                _currentlyHiddenRtu.ChangedRtu = Model.Trace.RtuId;
-            }
             if (accidentPoint != null)
                 _graphReadModel.PlacePointIntoScreenCenter((PointLatLng)accidentPoint);
             if (_tabulatorViewModel.SelectedTabIndex != 3)

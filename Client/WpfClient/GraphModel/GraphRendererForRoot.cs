@@ -11,7 +11,10 @@ namespace Iit.Fibertest.Client
         public static async Task<RenderingResult> RenderForRoot(this GraphReadModel graphReadModel)
         {
             await Task.Delay(1);
-            if ((graphReadModel.MainMap?.Zoom ?? 15) < graphReadModel.CurrentGis.ThresholdZoom)
+            if (graphReadModel.MainMap == null)
+                return new RenderingResult();
+
+            if (graphReadModel.MainMap.Zoom < graphReadModel.CurrentGis.ThresholdZoom)
             {
                 var res = new RenderingResult().RenderRtus(graphReadModel, Guid.Empty);
                 var forcedTraces = graphReadModel.CurrentGis.Traces.ToList();

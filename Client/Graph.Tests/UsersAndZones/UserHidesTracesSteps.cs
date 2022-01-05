@@ -1,7 +1,5 @@
 ﻿using System.Linq;
-using Autofac;
 using FluentAssertions;
-using Iit.Fibertest.Client;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.WpfCommonViews;
 
@@ -20,8 +18,8 @@ namespace Graph.Tests
         {
             _sut.LoginOnEmptyBaseAsRoot();
            
-            var vm1 = _sut.ClientScope.Resolve<ConfigurationViewModel>();
-            vm1.IsGraphVisibleOnStart = true;
+            // var vm1 = _sut.ClientScope.Resolve<ConfigurationViewModel>();
+            // vm1.IsGraphVisibleOnStart = true;
         }
 
         [Given(@"Выходит (.*) и входит (.*)")]
@@ -156,13 +154,13 @@ namespace Graph.Tests
         [When(@"Кликает на карте на иконке RTU(.*) пункт меню Скрыть трассы")]
         public void WhenКликаетНаКартеНаИконкеRtuПунктМенюСкрытьТрассы(int p0)
         {
-            var rtuNodeId = p0 == 1 ? _sut.Rtu1.NodeId : _sut.Rtu2.NodeId;
-            var rtu = _sut.ReadModel.Rtus.First(r => r.NodeId == rtuNodeId);
-            _sut.CurrentlyHiddenRtu.Collection.Add(rtu.Id);
+            // var rtuNodeId = p0 == 1 ? _sut.Rtu1.NodeId : _sut.Rtu2.NodeId;
+            // var rtu = _sut.ReadModel.Rtus.First(r => r.NodeId == rtuNodeId);
+            // _sut.CurrentlyHiddenRtu.Collection.Add(rtu.Id);
             _sut.FakeWindowManager.RegisterHandler(model => model is WaitViewModel);
 
-            var renderingManager = _sut.ClientScope.Resolve<RenderingManager>();
-            int unused = renderingManager.RenderOnRtuChanged().Result;
+            // var renderingManager = _sut.ClientScope.Resolve<RenderingManager>();
+            // int unused = renderingManager.RenderOnRtuChanged().Result;
         }
     }
 }

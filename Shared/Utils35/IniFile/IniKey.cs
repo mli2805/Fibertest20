@@ -142,7 +142,6 @@
         MaxCableReserve,
         GpsInputMode,
         GraphVisibilityLevel,
-        IsGraphVisibleOnStart,
         PathToClient,
 
         // LoadTesting

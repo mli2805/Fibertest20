@@ -77,7 +77,6 @@ namespace Iit.Fibertest.Client
                 foreach (var trace in _currentGis.Traces.Where(t => t.RtuId == rtu.Id).ToList())
                 {
                     _currentGis.Traces.Remove(trace);
-                    trace.IsHighlighted = false;
                 }
             }
             else
@@ -86,7 +85,6 @@ namespace Iit.Fibertest.Client
                 {
                     if (!_currentGis.Traces.Contains(trace))
                         _currentGis.Traces.Add(trace);
-                    trace.IsHighlighted = true;
                 }
             }
 

@@ -225,9 +225,6 @@
     <Compile Include="Forms\SettingsForms\GisExpSettingsViewModel.cs" />
     <Compile Include="GraphModel\GraphRendererForRoot.cs" />
     <Compile Include="GraphModel\GraphRendererCommonDetails.cs" />
-    <Compile Include="GraphModel\Rendering\LessThanRootRenderer.cs" />
-    <Compile Include="GraphModel\Rendering\OneRtuOrTraceRenderer.cs" />
-    <Compile Include="GraphModel\Rendering\RootRenderer.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsView.xaml.cs">
       <DependentUpon>LogOperationsView.xaml</DependentUpon>
     </Compile>
@@ -331,13 +328,9 @@
     <Compile Include="Forms\TraceForms\TraceInfo\TraceDevReportExt2.cs" />
     <Compile Include="Forms\TraceForms\TraceState\TraceStateModelHeader.cs" />
     <Compile Include="GlobalVars\CommandLineParameters.cs" />
-    <Compile Include="GlobalVars\CurrentlyHiddenRtu.cs" />
     <Compile Include="GlobalVars\CurrentUser.cs" />
     <Compile Include="EventSourcing\EventArrivalNotifier.cs" />
-    <Compile Include="GraphModel\Rendering\CurrentZoneRenderer.cs" />
     <Compile Include="GraphModel\Rendering\ElementRenderer.cs" />
-    <Compile Include="GraphModel\Rendering\RenderingManager.cs" />
-    <Compile Include="GraphModel\Rendering\RenderingApplierToUi.cs" />
     <Compile Include="GraphModel\Rendering\RenderingResult.cs" />
     <Compile Include="Forms\AdministrativeForms\AboutView.xaml.cs">
       <DependentUpon>AboutView.xaml</DependentUpon>

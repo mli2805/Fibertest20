@@ -13,14 +13,12 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly IWcfServiceDesktopC2D _c2DWcfManager;
         private readonly GraphReadModel _graphReadModel;
-        private readonly RenderingManager _renderingManager;
         private readonly ZoneEventsOnTreeExecutor _zoneEventsOnTreeExecutor;
         private readonly OpticalEventsDoubleViewModel _opticalEventsDoubleViewModel;
         private readonly NetworkEventsDoubleViewModel _networkEventsDoubleViewModel;
         private readonly BopNetworkEventsDoubleViewModel _bopNetworkEventsDoubleViewModel;
 
         public ModelLoader(IMyLog logFile, Model readModel, IWcfServiceDesktopC2D c2DWcfManager, GraphReadModel graphReadModel,
-            RenderingManager renderingManager,
             ZoneEventsOnTreeExecutor zoneEventsOnTreeExecutor,
             OpticalEventsDoubleViewModel opticalEventsDoubleViewModel,
             NetworkEventsDoubleViewModel networkEventsDoubleViewModel,
@@ -30,7 +28,6 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
             _c2DWcfManager = c2DWcfManager;
             _graphReadModel = graphReadModel;
-            _renderingManager = renderingManager;
             _zoneEventsOnTreeExecutor = zoneEventsOnTreeExecutor;
             _opticalEventsDoubleViewModel = opticalEventsDoubleViewModel;
             _networkEventsDoubleViewModel = networkEventsDoubleViewModel;
@@ -58,7 +55,7 @@ namespace Iit.Fibertest.Client
 
                 await _readModel.Deserialize(_logFile, bb);
 
-                _renderingManager.Initialize();
+                // _renderingManager.Initialize();
                 // await _renderingManager.RenderCurrentZoneOnApplicationStart();
 
                 await _graphReadModel.RefreshVisiblePart();

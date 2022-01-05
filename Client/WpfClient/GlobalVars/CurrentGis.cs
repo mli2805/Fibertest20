@@ -59,7 +59,7 @@ namespace Iit.Fibertest.Client
             ScreenPartAsMargin = iniFile.Read(IniSection.Map, IniKey.ScreenPartAsMargin, 0.16);
         }
 
-
+        private bool _isBigGraphMode;
         public bool IsBigGraphMode  
         {
             get => _isBigGraphMode;
@@ -74,8 +74,7 @@ namespace Iit.Fibertest.Client
         public int ThresholdZoom { get; set; }
         public double ScreenPartAsMargin { get; set; }
 
-        public readonly ObservableCollection<Trace> Traces  = new ObservableCollection<Trace>();
-        private bool _isBigGraphMode;
+        public ObservableCollection<Trace> Traces { get; private set; } = new ObservableCollection<Trace>();
     }
 
 }

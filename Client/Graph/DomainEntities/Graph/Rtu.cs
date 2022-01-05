@@ -90,6 +90,6 @@ namespace Iit.Fibertest.Graph
 
         public List<Guid> ZoneIds { get; set; } = new List<Guid>();
 
-        public bool IsHighlighted;
+        public bool IsHighlighted { get; set; }
     }
 }

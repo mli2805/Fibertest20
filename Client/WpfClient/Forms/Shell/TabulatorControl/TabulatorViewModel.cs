@@ -208,12 +208,14 @@ namespace Iit.Fibertest.Client
         public void ExtinguishAll()
         {
             GraphReadModel.ExtinguishAll();
-            foreach (var trace in _readModel.Traces)
-                trace.IsHighlighted = false;
+            foreach (var rtu in _readModel.Rtus)
+                rtu.IsHighlighted = false;
         }
 
         public void ShowAllGraph()
         {
+            foreach (var rtu in _readModel.Rtus)
+                rtu.IsHighlighted = true;
             foreach (var trace in _readModel.Traces)
                 if (!_currentGis.Traces.Contains(trace))
                     _currentGis.Traces.Add(trace);
