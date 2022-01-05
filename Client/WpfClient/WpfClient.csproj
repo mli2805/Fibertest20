@@ -223,8 +223,8 @@
       <DependentUpon>GisExpSettingsView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Forms\SettingsForms\GisExpSettingsViewModel.cs" />
-    <Compile Include="GraphModel\GraphRendererForRoot.cs" />
-    <Compile Include="GraphModel\GraphRendererCommonDetails.cs" />
+    <Compile Include="GraphModel\Rendering\GraphRendererForRoot.cs" />
+    <Compile Include="GraphModel\Rendering\GraphRendererCommonDetails.cs" />
     <Compile Include="Forms\AdministrativeForms\EventLog\LogOperationsView.xaml.cs">
       <DependentUpon>LogOperationsView.xaml</DependentUpon>
     </Compile>
@@ -410,7 +410,7 @@
     </Compile>
     <Compile Include="Forms\TraceForms\TraceStepByStep\TraceStepByStepViewModel.cs" />
     <Compile Include="GlobalVars\CurrentGis.cs" />
-    <Compile Include="GraphModel\GraphRenderingApplier.cs" />
+    <Compile Include="GraphModel\Rendering\GraphRenderingApplier.cs" />
     <Compile Include="GraphModel\EventExecutors\AccidentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EquipmentEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\EventsOnGraphExecutor.cs" />
@@ -419,8 +419,7 @@
     <Compile Include="GraphModel\EventExecutors\ResponsibilityEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\RtuEventsOnGraphExecutor.cs" />
     <Compile Include="GraphModel\EventExecutors\TraceEventsOnGraphExecutor.cs" />
-    <Compile Include="GraphModel\GraphReadModelRenderingExt.cs" />
-    <Compile Include="GraphModel\GraphRendererForOperator.cs" />
+    <Compile Include="GraphModel\Rendering\GraphRendererForOperator.cs" />
     <Compile Include="GraphModel\GraphReadModelData.cs" />
     <Compile Include="GraphModel\Visibility\GraphVisibilityLevel.cs" />
     <Compile Include="GraphModel\Visibility\GraphVisibilityExt.cs" />
