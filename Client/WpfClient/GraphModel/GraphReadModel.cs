@@ -43,6 +43,7 @@ namespace Iit.Fibertest.Client
         public readonly IniFile IniFile;
 
         public GraphReadModelData Data { get; set; } = new GraphReadModelData();
+        public List<Trace> ForcedTraces { get; set; } = new List<Trace>();
 
         public List<GraphVisibilityLevelItem> GraphVisibilityItems { get; set; }
         private GraphVisibilityLevelItem _selectedGraphVisibilityItem;
@@ -70,7 +71,6 @@ namespace Iit.Fibertest.Client
             LogFile = logFile;
             CurrentGis = currentGis;
             currentGis.PropertyChanged += CurrentGis_PropertyChanged;
-            currentGis.Traces.CollectionChanged += Traces_CollectionChanged;
             CurrentUser = currentUser;
             CommonStatusBarViewModel = commonStatusBarViewModel;
             GrmNodeRequests = grmNodeRequests;
@@ -91,11 +91,6 @@ namespace Iit.Fibertest.Client
             if (!Enum.TryParse(levelString, out GraphVisibilityLevel level))
                 level = GraphVisibilityLevel.AllDetails;
             SetGraphVisibility(level);
-        }
-
-        private async void Traces_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            await RefreshVisiblePart();
         }
 
         private void CurrentGis_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -173,7 +168,7 @@ namespace Iit.Fibertest.Client
 
         public void ExtinguishAll()
         {
-            CurrentGis.Traces.Clear();
+            ForcedTraces.Clear();
 
             foreach (var nodeVm in Data.Nodes.Where(n => n.IsHighlighted))
                 nodeVm.IsHighlighted = false;

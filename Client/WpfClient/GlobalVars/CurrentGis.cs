@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Caliburn.Micro;
+﻿using Caliburn.Micro;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
 
@@ -73,8 +72,6 @@ namespace Iit.Fibertest.Client
 
         public int ThresholdZoom { get; set; }
         public double ScreenPartAsMargin { get; set; }
-
-        public ObservableCollection<Trace> Traces { get; private set; } = new ObservableCollection<Trace>();
     }
 
 }

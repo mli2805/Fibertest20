@@ -17,7 +17,7 @@ namespace Iit.Fibertest.Client
             if (graphReadModel.MainMap.Zoom < graphReadModel.CurrentGis.ThresholdZoom)
             {
                 var res = new RenderingResult().RenderRtus(graphReadModel, Guid.Empty);
-                var forcedTraces = graphReadModel.CurrentGis.Traces.ToList();
+                var forcedTraces = graphReadModel.ForcedTraces.ToList();
                 return res.RenderForcedTracesAndNotInTracesNodes(graphReadModel, forcedTraces)
                     .RenderForcedTracesAndNotInTracesFibers(graphReadModel, forcedTraces);
             }

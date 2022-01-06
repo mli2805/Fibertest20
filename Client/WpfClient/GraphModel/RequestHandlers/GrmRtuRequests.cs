@@ -70,28 +70,5 @@ namespace Iit.Fibertest.Client
             }
             _windowManager.ShowWindowWithAssignedOwner(vm);
         }
-
-
-        public void ChangeRtuTracesVisibility(Guid rtuNodeId)
-        {
-            var rtu = _model.Rtus.First(r => r.NodeId == rtuNodeId);
-            if (rtu.IsHighlighted)
-            {
-                foreach (var trace in _currentGis.Traces.Where(t => t.RtuId == rtu.Id).ToList())
-                {
-                    _currentGis.Traces.Remove(trace);
-                }
-            }
-            else
-            {
-                foreach (var trace in _model.Traces.Where(t => t.RtuId == rtu.Id))
-                {
-                    if (!_currentGis.Traces.Contains(trace))
-                        _currentGis.Traces.Add(trace);
-                }
-            }
-
-            rtu.IsHighlighted = !rtu.IsHighlighted;
-        }
     }
 }

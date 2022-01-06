@@ -29,7 +29,7 @@ namespace Iit.Fibertest.Client
         private static RenderingResult RenderForcedTraces(this RenderingResult renderingResult,
             GraphReadModel graphReadModel)
         {
-            var forcedTraces = graphReadModel.CurrentGis.Traces.ToList();
+            var forcedTraces = graphReadModel.ForcedTraces.ToList();
             return renderingResult
                 .RenderForcedTracesNodes(graphReadModel, forcedTraces)
                 .RenderForcedTracesFibers(graphReadModel, forcedTraces);

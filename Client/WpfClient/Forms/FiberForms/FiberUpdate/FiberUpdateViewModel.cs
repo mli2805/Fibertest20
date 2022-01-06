@@ -119,12 +119,13 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Section;
         }
 
-        public void ShowTrace()
+        public async void ShowTrace()
         {
             if (SelectedTrace == null) return;
 
-            if (!_graphReadModel.CurrentGis.Traces.Contains(SelectedTrace.Item1))
-                _graphReadModel.CurrentGis.Traces.Add(SelectedTrace.Item1);
+            if (!_graphReadModel.ForcedTraces.Contains(SelectedTrace.Item1))
+                _graphReadModel.ForcedTraces.Add(SelectedTrace.Item1);
+            await _graphReadModel.RefreshVisiblePart();
             _graphReadModel.HighlightTrace(SelectedTrace.Item1);
         }
 

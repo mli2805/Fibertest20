@@ -68,10 +68,10 @@ namespace Iit.Fibertest.Client
                 _tabulatorViewModel.SelectedTabIndex = 3;
             await Task.Delay(100);
 
-            if (_graphReadModel.CurrentGis.Traces.Any(t => t.TraceId == traceLeaf.Id)) return;
-
             var trace = _readModel.Traces.First(t => t.TraceId == traceLeaf.Id);
-            _graphReadModel.CurrentGis.Traces.Add(trace);
+            if (_graphReadModel.ForcedTraces.All(t => t.TraceId != traceLeaf.Id))
+                _graphReadModel.ForcedTraces.Add(trace);
+
             _graphReadModel.ShowTrace(trace);
         }
 
