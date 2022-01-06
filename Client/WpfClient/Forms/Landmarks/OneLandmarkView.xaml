@@ -14,7 +14,7 @@
             <StackPanel DockPanel.Dock="Bottom" Margin="5,5,0,0" Orientation="Horizontal">
                 <Button Width="132" Height="25" Margin="5" Name="Apply" Content="{x:Static stringResources:Resources.SID_Apply}" 
                         IsEnabled="{Binding HasPrivileges}"/>
-                <Button Width="132" Height="25" Margin="5" Name="Cancel" Content="{x:Static stringResources:Resources.SID_Cancel_changes}" 
+                <Button Width="132" Height="25" Margin="5" Name="CancelChanges" Content="{x:Static stringResources:Resources.SID_Cancel_changes}" 
                         IsEnabled="{Binding HasPrivileges}"/>
                 <Button Width="132" Height="25" Margin="5" Name="ShowLandmarkOnMap" Content="{x:Static stringResources:Resources.SID_Show_on_map}"/>
                 <Button Width="132" Height="25" Margin="5" Name="ShowReflectogram" Content="{x:Static stringResources:Resources.SID_Reflectogram}" 

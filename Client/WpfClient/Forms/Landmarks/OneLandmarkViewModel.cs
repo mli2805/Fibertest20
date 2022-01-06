@@ -268,11 +268,26 @@ namespace Iit.Fibertest.Client
             return null;
         }
 
-        public void Cancel()
+        public async void CancelChanges()
+        {
+            await Cancel(@"CancelChanges");
+        }
+
+        private const string RevertChanges = "CancelChanges";
+        public const string BeforeNew = "BeforeNew";
+        public const string CanClose = "CanClose";
+
+        public async Task Cancel(string reason)
         {
             if (_landmarkBeforeChanges == null) return;
 
             SelectedLandmark = _landmarkBeforeChanges;
+            if (reason != BeforeNew)
+            {
+                var nodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == SelectedLandmark.NodeId);
+                if (nodeVm != null)
+                    nodeVm.IsHighlighted = false;
+            }
 
             var errorMessage = GpsInputSmallViewModel.TryGetPoint(out PointLatLng position);
             if (errorMessage != null)
@@ -285,14 +300,19 @@ namespace Iit.Fibertest.Client
             if (_showOnMapPressed)
             {
                 _showOnMapPressed = false;
-                _graphReadModel.ExtinguishNodes();
                 var node = _readModel.Nodes.First(n => n.NodeId == SelectedLandmark.NodeId);
-                var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
-                node.Position = position;
-                nodeVm.Position = position;
-                _graphReadModel.NodeToCenterAndHighlight(node.NodeId);
+                if (node.Position != position)
+                {
+                    node.Position = position;
+                    _graphReadModel.MainMap.SetPositionWithoutFiringEvent(node.Position);
+                    var nodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == SelectedLandmark.NodeId);
+                    if (nodeVm != null)
+                        nodeVm.Position = position;
+                    await _graphReadModel.RefreshVisiblePart();
+                    if (nodeVm != null)
+                        nodeVm.IsHighlighted = reason == RevertChanges;
+                }
             }
-
         }
 
         private bool _showOnMapPressed;
@@ -309,9 +329,7 @@ namespace Iit.Fibertest.Client
                 _graphReadModel.MainMap.Zoom = _currentGis.ThresholdZoom;
             _graphReadModel.ExtinguishNodes();
 
-
             var node = _readModel.Nodes.First(n => n.NodeId == SelectedLandmark.NodeId);
-            var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
             var errorMessage = GpsInputSmallViewModel.TryGetPoint(out PointLatLng position);
             if (errorMessage != null)
             {
@@ -319,10 +337,14 @@ namespace Iit.Fibertest.Client
                 _windowManager.ShowDialogWithAssignedOwner(vm);
                 return;
             }
-            node.Position = position;
-            nodeVm.Position = position;
+            node.Position = position; 
+            node.IsHighlighted = true;
+            _graphReadModel.MainMap.SetPositionWithoutFiringEvent(node.Position);
+            await _graphReadModel.RefreshVisiblePart();
 
-            _graphReadModel.NodeToCenterAndHighlight(SelectedLandmark.NodeId);
+            var nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == SelectedLandmark.NodeId);
+            nodeVm.Position = position;
+            nodeVm.IsHighlighted = true;
         }
 
         public void ShowReflectogram()
