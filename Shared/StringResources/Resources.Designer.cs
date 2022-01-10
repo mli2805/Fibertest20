@@ -4037,6 +4037,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to License could not be applied!.
+        /// </summary>
+        public static string SID_License_could_not_be_applied_ {
+            get {
+                return ResourceManager.GetString("SID_License_could_not_be_applied_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to License file could not be applied repeatedly!.
         /// </summary>
         public static string SID_License_could_not_be_applied_repeatedly_ {

@@ -317,6 +317,9 @@ If chosen trace use some equipment in this node it will be replaced</value>
 	<data name="SID_Port_N" xml:space="preserve">
     <value>N{0}</value>
   </data>
+	<data name="SID_Show_trace" xml:space="preserve">
+    <value>Show trace</value>
+  </data>
 	<data name="SID_Settings" xml:space="preserve">
     <value>Settings</value>
   </data>
@@ -3042,10 +3045,10 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_Highlight_trace" xml:space="preserve">
 		<value>Highlight trace</value>
 	</data>
-	<data name="SID_Show_trace" xml:space="preserve">
-		<value>Show trace</value>
-	</data>
 	<data name="SID_Trace_definition_mode__Minimum_zoom__0_" xml:space="preserve">
 		<value>Trace definition mode: Minimum zoom {0}</value>
+	</data>
+	<data name="SID_License_could_not_be_applied_" xml:space="preserve">
+		<value>License could not be applied!</value>
 	</data>
 </root>

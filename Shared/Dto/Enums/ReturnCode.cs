@@ -77,5 +77,9 @@
         BaseRefAssignmentNoThresholds = 9403,
         BaseRefAssignmentLandmarkCountWrong = 9404,
         BaseRefAssignmentEdgeLandmarksWrong = 9405,
+
+        FirstLicenseKeyMustNotBeIncremental = 9501,
+        LicenseCouldNotBeAppliedRepeatedly,
+        LicenseCouldNotBeApplied,
     }
 }
