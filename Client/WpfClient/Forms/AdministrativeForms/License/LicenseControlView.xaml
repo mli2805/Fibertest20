@@ -27,7 +27,7 @@
                 <RadioButton GroupName="LicType" Width="110" Height="18" Content="{x:Static stringResources:Resources.SID_Standart}" 
                              IsChecked="{Binding IsStandart, Mode=OneWay}"/>
                 <RadioButton GroupName="LicType" Width="160" Height="18" Content="{x:Static stringResources:Resources.SID_With_workstation_linking}" 
-                             IsChecked="{Binding License.IsMachineKeyRequired}"/>
+                             IsChecked="{Binding License.IsMachineKeyRequired, Mode=OneWay}"/>
                 <TextBlock Width="15"/>
             </StackPanel>
 
@@ -37,7 +37,7 @@
                 <RadioButton GroupName="LicKeyType" Width="110" Height="18" Content="{x:Static stringResources:Resources.SID_Basic}" 
                              IsChecked="{Binding IsBasic, Mode=OneWay}"/>
                 <RadioButton GroupName="LicKeyType" Width="120" Height="18" Content="{x:Static stringResources:Resources.SID_Incremental}" 
-                             IsChecked="{Binding License.IsIncremental}"/>
+                             IsChecked="{Binding License.IsIncremental, Mode=OneWay}"/>
                 <TextBlock Width="55"/>
             </StackPanel>
 
