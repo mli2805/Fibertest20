@@ -45,7 +45,7 @@ namespace Iit.Fibertest.Client
             Model.BackscatteredCoefficient = branchOfAcceptableMeasParams.BackscatteredCoefficient;
             Model.RefractiveIndex = branchOfAcceptableMeasParams.RefractiveIndex;
             Model.Distances = branchOfAcceptableMeasParams.Distances
-                .Keys.OrderBy(x =>double.Parse(x, new CultureInfo("en-US"))).ToList();
+                .Keys.OrderBy(x =>double.Parse(x, new CultureInfo(@"en-US"))).ToList();
             Model.SelectedDistance = Model.Distances.First();
 
             var leafOfAcceptableMeasParams = branchOfAcceptableMeasParams.Distances[Model.SelectedDistance];

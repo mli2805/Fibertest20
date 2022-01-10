@@ -19,7 +19,7 @@ namespace Iit.Fibertest.StringResources {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class Resources {
@@ -4024,6 +4024,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_License_applied_successfully_ {
             get {
                 return ResourceManager.GetString("SID_License_applied_successfully_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to License could not be applied!.
+        /// </summary>
+        public static string SID_License_could_not_be_applied_ {
+            get {
+                return ResourceManager.GetString("SID_License_could_not_be_applied_", resourceCulture);
             }
         }
         

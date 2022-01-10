@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 using Iit.Fibertest.WcfConnections;
@@ -77,7 +78,7 @@ namespace Iit.Fibertest.Client
             }
 
             var vm = result != null
-                ? new MyMessageBoxViewModel(MessageType.Error, @"ApplyLicense: " + result)
+                ? new MyMessageBoxViewModel(MessageType.Error, ((ReturnCode)int.Parse(result)).GetLocalizedString())
                 : new MyMessageBoxViewModel(MessageType.Information, Resources.SID_License_applied_successfully_);
             _windowManager.ShowDialogWithAssignedOwner(vm);
             return result == null;

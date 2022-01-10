@@ -94,6 +94,13 @@ namespace Iit.Fibertest.Graph
                 //9401
                 case ReturnCode.BaseRefAssignmentFailed:
                     return Resources.SID_Base_reference_assignment_failed;
+                //9501
+                case ReturnCode.FirstLicenseKeyMustNotBeIncremental:
+                    return Resources.SID_First_license_key_must_not_be_Incremental;
+                case ReturnCode.LicenseCouldNotBeApplied:
+                    return Resources.SID_License_could_not_be_applied_;
+                case ReturnCode.LicenseCouldNotBeAppliedRepeatedly:
+                    return Resources.SID_License_could_not_be_applied_repeatedly_;
 
                 default: return Resources.SID_Unknown_return_code + @":  " + ((int)returnCode);
             }
