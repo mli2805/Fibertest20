@@ -49,7 +49,6 @@ namespace Iit.Fibertest.Client
         {
             Licenses = _readModel.Licenses;
             SelectedLicense = Licenses.First();
-            LicenseControlViewModel.License = SelectedLicense;
         }
 
         // It is a button handler, but when called from tests receives parameter
