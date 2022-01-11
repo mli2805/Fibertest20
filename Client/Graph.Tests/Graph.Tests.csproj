@@ -549,6 +549,7 @@
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForRtuRemoved.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForTraceAdded.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForTraceAttach.cs" />
+    <Compile Include="Sut\SutExtensions\TraceExt.cs" />
     <Compile Include="Sut\SystemUnderTest.cs" />
     <Compile Include="Sut\SutExtensions\SceneCreators\SceneForTraceCleanRemove.cs" />
     <Compile Include="Sut\SutExtensions\Tools\TraceAttacher.cs" />

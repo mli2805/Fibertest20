@@ -197,7 +197,6 @@
     <Compile Include="DomainEntities\LogOperationCode.cs" />
     <Compile Include="DomainEntities\LogOperationCodeExt.cs" />
     <Compile Include="DomainEntities\TraceDetalization.cs" />
-    <Compile Include="EventSourcing\Model\TraceExt.cs" />
     <Compile Include="EventSourcing\EventExecutors\EventLogComposer.cs" />
     <Compile Include="EventSourcing\EventExecutors\EventToLogLineParser.cs" />
     <Compile Include="EventSourcing\EventExecutors\OltEventsOnModelExecutor.cs" />
@@ -213,6 +212,9 @@
     <Compile Include="DomainEntities\License\LicenseInFile.cs" />
     <Compile Include="DomainEntities\License\LicenseParameter.cs" />
     <Compile Include="DomainEntities\License\LicenseParameterInFile.cs" />
+    <Compile Include="EventSourcing\Model\ModelTraceComponentsExt.cs" />
+    <Compile Include="EventSourcing\Model\ModelTraceExt.cs" />
+    <Compile Include="EventSourcing\Model\ModelZonesExt.cs" />
     <Compile Include="EventSourcing\Model\OneRtuExportImport.cs" />
     <Compile Include="EventSourcing\Model\TraceInfoCalculator.cs" />
     <Compile Include="Events\Client\ClientConnectionLost.cs" />

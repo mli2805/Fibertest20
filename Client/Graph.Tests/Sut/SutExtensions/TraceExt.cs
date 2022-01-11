@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.Graph;
 
-namespace Iit.Fibertest.Graph
+namespace Graph.Tests
 {
     public static class TraceExt
     {
-        public static TraceDetalization GetTraceDetalization(this Model readModel, Trace trace, EquipmentType upToType)
+        public static TraceDetalization GetTraceDetalization(this Model readModel, Iit.Fibertest.Graph.Trace trace, EquipmentType upToType)
         {
             var tEquips = trace.EquipmentIds.Skip(1)
                 .Select(i => readModel.Equipments.Single(eq => eq.EquipmentId == i)).ToList();
 
             var nodes = new List<Guid>() { trace.NodeIds[0] }; // RTU
-            var fibers = new List<Fiber>();
+            var fibers = new List<Iit.Fibertest.Graph.Fiber>();
             var previousNode = 0;
 
             for (int i = 1; i <= tEquips.Count; i++)
@@ -28,7 +29,7 @@ namespace Iit.Fibertest.Graph
                     }
                     else
                     {
-                        var fiber = new Fiber() 
+                        var fiber = new Iit.Fibertest.Graph.Fiber() 
                             {FiberId = Guid.NewGuid(), NodeId1 = nodes[nodes.Count-2], NodeId2 = nodes[nodes.Count-1]};
                         for (int j = previousNode; j < i; j++)
                         {
