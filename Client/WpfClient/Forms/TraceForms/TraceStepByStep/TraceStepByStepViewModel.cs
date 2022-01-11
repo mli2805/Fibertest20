@@ -198,7 +198,7 @@ namespace Iit.Fibertest.Client
 
         public void CancelStep()
         {
-            if (Steps.Count == 0) return;
+            if (Steps.Count == 1) return;
             _currentHighlightedNodeVm.IsHighlighted = false;
 
             SetFibersLight(Steps.Last().FiberVms, false);
