@@ -58,9 +58,10 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public string MouseCurrentCoorsString => CurrentGis.IsGisOn
-            ? Zoom + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode)
-            : "";
+        public string MouseCurrentCoorsString => 
+            CurrentGis.IsGisOn
+                ? Zoom + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode)
+                : "";
 
         private string _nodeCountString;
         public string NodeCountString
@@ -153,7 +154,8 @@ namespace Iit.Fibertest.Client
                 Limits = new MapLimits(leftTop, rightBottom);
             else
                 _limits = new MapLimits(leftTop, rightBottom);
-            OnPropertyChanged(nameof(MouseCurrentCoors));
+            if (MouseCurrentCoors.IsEmpty)
+                MouseCurrentCoors = FromLocalToLatLng(GetPointFromPosition(new Point()));
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
