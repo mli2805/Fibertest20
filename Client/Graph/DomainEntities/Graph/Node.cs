@@ -16,6 +16,10 @@ namespace Iit.Fibertest.Graph
 
         public Guid AccidentOnTraceId { get; set; }
 
-        public bool IsHighlighted;
+        public bool IsHighlighted
+        {
+            get; 
+            set;
+        }
     }
 }

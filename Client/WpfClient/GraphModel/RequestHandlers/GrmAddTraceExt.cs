@@ -133,7 +133,7 @@ namespace Iit.Fibertest.Client
             var traceContentChoiceViewModel = model.GlobalScope.Resolve<TraceContentChoiceViewModel>();
             traceContentChoiceViewModel.Initialize(allEquipmentInNode, node, isLastNode);
             model.WindowManager.ShowDialogWithAssignedOwner(traceContentChoiceViewModel);
-            model.ExtinguishNodes();
+            model.ExtinguishAllNodes();
             if (!traceContentChoiceViewModel.ShouldWeContinue) // user left the process
                 return Guid.Empty;
 

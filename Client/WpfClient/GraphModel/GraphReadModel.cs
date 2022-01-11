@@ -9,6 +9,7 @@ using GMap.NET;
 using Iit.Fibertest.Dto;
 using Iit.Fibertest.Graph;
 using Iit.Fibertest.UtilsLib;
+// ReSharper disable ForCanBeConvertedToForeach
 
 namespace Iit.Fibertest.Client
 {
@@ -169,23 +170,24 @@ namespace Iit.Fibertest.Client
         public void ExtinguishAll()
         {
             ForcedTraces.Clear();
-
-            foreach (var nodeVm in Data.Nodes.Where(n => n.IsHighlighted))
-                nodeVm.IsHighlighted = false;
-
-            foreach (var fiberVm in Data.Fibers.Where(f => f.HighLights.Any()))
-                fiberVm.ClearLight();
-
-            foreach (var fiber in ReadModel.Fibers)
-            {
-                fiber.HighLights = new List<Guid>();
-            }
+            ExtinguishAllNodes();
+            ExtinguishAllFibers();
         }
 
-        public void ExtinguishNodes()
+        public void ExtinguishAllNodes()
         {
-            foreach (var nodeVm in Data.Nodes.Where(n => n.IsHighlighted))
-                nodeVm.IsHighlighted = false;
+            for (int i = 0; i < Data.Nodes.Count; i++)
+                Data.Nodes[i].IsHighlighted = false;
+            for (int i = 0; i < ReadModel.Nodes.Count; i++)
+                ReadModel.Nodes[i].IsHighlighted = false;
+        }
+
+        private void ExtinguishAllFibers()
+        {
+            for (int i = 0; i < Data.Fibers.Count; i++)
+                Data.Fibers[i].ClearLight();
+            for (int i = 0; i < ReadModel.Fibers.Count; i++)
+                ReadModel.Fibers[i].HighLights = new List<Guid>();
         }
 
         public void ChangeTraceColor(Guid traceId, FiberState state)

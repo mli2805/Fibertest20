@@ -1,6 +1,4 @@
-﻿using System.Linq;
-using System.Windows.Controls;
-using Iit.Fibertest.Graph;
+﻿using System.Windows.Controls;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
@@ -11,23 +9,19 @@ namespace Iit.Fibertest.Client
         private readonly CommonVmActions _commonVmActions;
         private readonly RtuVmPermissions _rtuVmPermissions;
         private readonly CurrentGis _currentGis;
-        private readonly Model _readModel;
 
         public RtuVmContextMenuProvider(RtuVmActions rtuVmActions, CommonVmActions commonVmActions, RtuVmPermissions rtuVmPermissions,
-            CurrentGis currentGis, Model readModel)
+            CurrentGis currentGis)
         {
             _rtuVmActions = rtuVmActions;
             _commonVmActions = commonVmActions;
             _rtuVmPermissions = rtuVmPermissions;
             _currentGis = currentGis;
-            _readModel = readModel;
         }
 
         public ContextMenu GetRtuContextMenu(MarkerControl marker)
         {
             var contextMenu = new ContextMenu();
-            var rtuNodeId = marker.GMapMarker.Id;
-            var rtu = _readModel.Rtus.First(r => r.NodeId == rtuNodeId);
 
             contextMenu.Items.Add(new MenuItem()
             {
@@ -73,7 +67,6 @@ namespace Iit.Fibertest.Client
                     Header = Resources.SID_Reveal_traces,
                     Command = new ContextMenuAction(_rtuVmActions.RevealTraces, _rtuVmPermissions.CanRevealTraces),
                     CommandParameter = marker,
-                    IsChecked = rtu.IsHighlighted,
                 });
             return contextMenu;
         }

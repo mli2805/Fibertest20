@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using Autofac;
 using Caliburn.Micro;
@@ -215,25 +213,13 @@ namespace Iit.Fibertest.Client
             var vm = _globalScope.Resolve<TraceStepByStepViewModel>();
             if (vm.IsOpen) return;
 
-            GraphReadModel.ForcedTraces.Clear();
+            GraphReadModel.ExtinguishAll();
+
             await GraphReadModel.RefreshVisiblePart();
-
-            foreach (var nodeVm in GraphReadModel.Data.Nodes.Where(n => n.IsHighlighted))
-                nodeVm.IsHighlighted = false;
-
-            foreach (var fiberVm in GraphReadModel.Data.Fibers.Where(f => f.HighLights.Any()))
-                fiberVm.ClearLight();
-
-            foreach (var fiber in _readModel.Fibers)
-                fiber.HighLights = new List<Guid>();
-            foreach (var rtu in _readModel.Rtus)
-                rtu.IsHighlighted = false;
         }
 
         public async void ShowAllGraph()
         {
-            foreach (var rtu in _readModel.Rtus)
-                rtu.IsHighlighted = true;
             foreach (var trace in _readModel.Traces)
                 if (!GraphReadModel.ForcedTraces.Contains(trace))
                     GraphReadModel.ForcedTraces.Add(trace);

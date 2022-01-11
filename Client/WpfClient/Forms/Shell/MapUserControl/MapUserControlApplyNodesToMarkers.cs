@@ -86,29 +86,30 @@ namespace Iit.Fibertest.Client
 
             if (e.PropertyName == @"IsHighlighted")
             {
-                if (nodeVm.IsHighlighted) 
+                if (nodeVm.IsHighlighted)
                     Highlight(nodeVm);
                 else
-                    Extinguish();
+                    Extinguish(nodeVm);
             }
         }
 
         private void Highlight(NodeVm nodeVm)
         {
-            var marker = new GMapMarker(nodeVm.Id, nodeVm.Position, true) {ZIndex = -20000};
+            var marker = new GMapMarker(nodeVm.Id, nodeVm.Position, true) { ZIndex = -20000 };
 
             var highlightingControl = nodeVm.Type == EquipmentType.Rtu ? new HighlightingRtuControl() : (UIElement)new HighlightingControl();
             marker.Shape = highlightingControl;
-            marker.Offset = nodeVm.Type == EquipmentType.Rtu || nodeVm.Type == EquipmentType.AccidentPlace 
-                ? new Point(-24, -24) 
+            marker.Offset = nodeVm.Type == EquipmentType.Rtu || nodeVm.Type == EquipmentType.AccidentPlace
+                ? new Point(-24, -24)
                 : new Point(-16, -16);
             MainMap.Markers.Add(marker);
         }
 
-        private void Extinguish()
+        private void Extinguish(NodeVm nodeVm)
         {
-            var marker = MainMap.Markers.FirstOrDefault(m => m.IsHighlighting);
-            MainMap.Markers.Remove(marker);
+            var marker = MainMap.Markers.FirstOrDefault(m => m.Id == nodeVm.Id && m.IsHighlighting);
+            if (marker != null)
+                MainMap.Markers.Remove(marker);
         }
 
         private void ApplyRemovedNodes(IList oldItems)
@@ -116,9 +117,14 @@ namespace Iit.Fibertest.Client
             foreach (var oldItem in oldItems)
             {
                 var nodeVm = (NodeVm)oldItem;
+                if (nodeVm.IsHighlighted)
+                {
+                    var highlightMarker = MainMap.Markers.FirstOrDefault(m => m.Id == nodeVm.Id && m.IsHighlighting);
+                    if (highlightMarker != null)
+                        MainMap.Markers.Remove(highlightMarker);
+                }
                 var marker = MainMap.Markers.First(r => r.Id == nodeVm.Id);
                 MainMap.Markers.Remove(marker);
-
             }
         }
     }

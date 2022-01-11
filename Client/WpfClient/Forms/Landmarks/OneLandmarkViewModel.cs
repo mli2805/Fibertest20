@@ -190,7 +190,7 @@ namespace Iit.Fibertest.Client
         public async void Apply()
         {
             IsEditEnabled = false;
-            _graphReadModel.ExtinguishNodes();
+            _graphReadModel.ExtinguishAllNodes();
             var unused = await ApplyingProcess();
             IsEditEnabled = true;
         }
@@ -327,7 +327,7 @@ namespace Iit.Fibertest.Client
 
             if (_currentGis.ThresholdZoom > _graphReadModel.MainMap.Zoom)
                 _graphReadModel.MainMap.Zoom = _currentGis.ThresholdZoom;
-            _graphReadModel.ExtinguishNodes();
+            _graphReadModel.ExtinguishAllNodes();
 
             var node = _readModel.Nodes.First(n => n.NodeId == SelectedLandmark.NodeId);
             var errorMessage = GpsInputSmallViewModel.TryGetPoint(out PointLatLng position);

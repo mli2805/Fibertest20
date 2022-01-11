@@ -204,7 +204,9 @@ namespace Iit.Fibertest.Client
             SetFibersLight(Steps.Last().FiberVms, false);
             Steps.Remove(Steps.Last());
 
-            _currentHighlightedNodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == Steps.Last().NodeId);
+            _currentHighlightedNodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == Steps.Last().NodeId);
+            if (_currentHighlightedNodeVm == null)
+                return;
             _graphReadModel.MainMap.SetPosition(_currentHighlightedNodeVm.Position);
             _currentHighlightedNodeVm.IsHighlighted = true;
         }
