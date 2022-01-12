@@ -60,7 +60,7 @@ namespace Iit.Fibertest.Client
 
         public string MouseCurrentCoorsString => 
             CurrentGis.IsGisOn
-                ? Zoom + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode)
+                ? CurrentGis.ThresholdZoom + " / " + Zoom + " ; " + _mouseCurrentCoors.ToDetailedString(CurrentGis.GpsInputMode)
                 : "";
 
         private string _nodeCountString;
