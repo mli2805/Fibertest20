@@ -11,7 +11,8 @@ namespace Iit.Fibertest.Client
         public Guid EquipmentId { get; set; }
 
         // for first StepModel (RTU) it is empty, than list contains path from previous node to current through adjustment points
-        public List<FiberVm> FiberVms { get; set; }  
+        // public List<FiberVm> FiberVms { get; set; }  
+        public List<Guid> FiberIds { get; set; }  
 
         public override string ToString()
         {

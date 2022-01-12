@@ -107,41 +107,7 @@ namespace Iit.Fibertest.Client
             return equipments;
         }
 
-        public static Guid ChooseEquipmentForNode(this GraphReadModel model, Guid nodeId, bool isLastNode, out string dualName)
-        {
-            dualName = null;
-            var node = model.ReadModel.Nodes.First(n => n.NodeId == nodeId);
-            var nodeVm = model.Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
-            if (nodeVm != null)
-                nodeVm.IsHighlighted = true;
-
-            var allEquipmentInNode = model.ReadModel.Equipments.Where(e => e.NodeId == nodeId).ToList();
-
-            if (allEquipmentInNode.Count == 1 && allEquipmentInNode[0].Type == EquipmentType.AdjustmentPoint)
-                return allEquipmentInNode[0].EquipmentId;
-
-            if (allEquipmentInNode.Count == 1 && !string.IsNullOrEmpty(node.Title))
-            {
-                dualName = node.Title;
-                var equipment =
-                    model.ReadModel.Equipments.First(e => e.EquipmentId == allEquipmentInNode[0].EquipmentId);
-                if (!string.IsNullOrEmpty(equipment.Title))
-                    dualName = dualName + @" / " + equipment.Title;
-                return allEquipmentInNode[0].EquipmentId;
-            }
-
-            var traceContentChoiceViewModel = model.GlobalScope.Resolve<TraceContentChoiceViewModel>();
-            traceContentChoiceViewModel.Initialize(allEquipmentInNode, node, isLastNode);
-            model.WindowManager.ShowDialogWithAssignedOwner(traceContentChoiceViewModel);
-            model.ExtinguishAllNodes();
-            if (!traceContentChoiceViewModel.ShouldWeContinue) // user left the process
-                return Guid.Empty;
-
-            var selectedEquipmentGuid = traceContentChoiceViewModel.GetSelectedEquipmentGuid();
-            dualName = traceContentChoiceViewModel.GetSelectedDualName();
-            return selectedEquipmentGuid;
-
-        }
+      
 
     }
 }

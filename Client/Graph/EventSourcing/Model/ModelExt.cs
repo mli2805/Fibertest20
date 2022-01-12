@@ -14,11 +14,22 @@ namespace Iit.Fibertest.Graph
                      f.NodeId1 == node2 && f.NodeId2 == node1).FiberId;
         }
       
-        private static IEnumerable<Fiber> GetNodeFibers(this Model model, Node node)
+        public static IEnumerable<Fiber> GetNodeFibers(this Model model, Node node)
         {
             foreach (var fiber in model.Fibers)
                 if (fiber.NodeId1 == node.NodeId || fiber.NodeId2 == node.NodeId)
                     yield return fiber;
+        }
+
+        public static IEnumerable<Guid> GetNodeNeighbours(this Model model, Guid nodeId)
+        {
+            for (int i = 0; i < model.Fibers.Count; i++)
+            {
+                if (model.Fibers[i].NodeId1 == nodeId)
+                    yield return model.Fibers[i].NodeId2;
+                if (model.Fibers[i].NodeId2 == nodeId)
+                    yield return model.Fibers[i].NodeId1;
+            }
         }
 
         public static Fiber GetAnotherFiberOfAdjustmentPoint(this Model model, Node adjustmentPoint, Guid fiberId)
@@ -26,67 +37,12 @@ namespace Iit.Fibertest.Graph
             return model.GetNodeFibers(adjustmentPoint).First(f => f.FiberId != fiberId);
         }
 
-        public static void RemoveFiberUptoRealNodesNotPoints(this Model model, Fiber fiber)
+        public static Fiber GetAnotherFiberOfAdjustmentPoint(this Model model, Guid adjustmentPointId, Guid fiberId)
         {
-            var leftNode = model.Nodes.First(n => n.NodeId == fiber.NodeId1);
-            while (leftNode.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint)
-            {
-                var leftFiber = model.GetAnotherFiberOfAdjustmentPoint(leftNode, fiber.FiberId);
-                model.Nodes.Remove(leftNode);
-                var nextLeftNodeId = leftFiber.NodeId1 == leftNode.NodeId ? leftFiber.NodeId2 : leftFiber.NodeId1;
-                model.Fibers.Remove(leftFiber);
-                leftNode = model.Nodes.First(n => n.NodeId == nextLeftNodeId);
-            }
-
-            var rightNode = model.Nodes.First(n => n.NodeId == fiber.NodeId2);
-            while (rightNode.TypeOfLastAddedEquipment == EquipmentType.AdjustmentPoint)
-            {
-                var rightFiber = model.GetAnotherFiberOfAdjustmentPoint(rightNode, fiber.FiberId);
-                model.Nodes.Remove(rightNode);
-                var nextRightNodeId = rightFiber.NodeId1 == rightNode.NodeId ? rightFiber.NodeId2 : rightFiber.NodeId1;
-                model.Fibers.Remove(rightFiber);
-                rightNode = model.Nodes.First(n => n.NodeId == nextRightNodeId);
-            }
-
-            model.Fibers.Remove(fiber);
+            return model.Fibers.First(f => (f.NodeId1 == adjustmentPointId || f.NodeId2 == adjustmentPointId) && f.FiberId != fiberId);
         }
-
-        public static string RemoveNodeWithAllHisFibersUptoRealNode(this Model model, Guid nodeId)
-        {
-            foreach (var fiber in model.Fibers.Where(f => f.NodeId1 == nodeId || f.NodeId2 == nodeId).ToList())
-            {
-                var fiberForDeletion = fiber;
-                var nodeForDeletionId = nodeId;
-                while (true)
-                {
-                    var anotherNodeId = fiberForDeletion.NodeId1 == nodeForDeletionId
-                        ? fiberForDeletion.NodeId2
-                        : fiberForDeletion.NodeId1;
-                    model.Fibers.Remove(fiberForDeletion);
-                    if (!model.IsAdjustmentPoint(anotherNodeId)) break;
-
-                    fiberForDeletion =
-                        model.Fibers.First(f => f.NodeId1 == anotherNodeId || f.NodeId2 == anotherNodeId);
-                    model.Nodes.RemoveAll(n => n.NodeId == anotherNodeId);
-                    model.Equipments.RemoveAll(e => e.NodeId == anotherNodeId);
-                    nodeForDeletionId = anotherNodeId;
-                }
-            }
-
-            model.Equipments.RemoveAll(e => e.NodeId == nodeId);
-            model.Nodes.RemoveAll(n => n.NodeId == nodeId);
-            return null;
-        }
-
-        public static string RemoveNodeWithAllHisFibers(this Model model, Guid nodeId)
-        {
-            model.Fibers.RemoveAll(f => f.NodeId1 == nodeId || f.NodeId2 == nodeId);
-            model.Equipments.RemoveAll(e => e.NodeId == nodeId);
-            model.Nodes.RemoveAll(n => n.NodeId == nodeId);
-            return null;
-        }
-
-        private static bool IsAdjustmentPoint(this Model model, Guid nodeId)
+        
+        public static bool IsAdjustmentPoint(this Model model, Guid nodeId)
         {
             return model.Equipments.FirstOrDefault(e =>
                        e.NodeId == nodeId && e.Type == EquipmentType.AdjustmentPoint) != null;

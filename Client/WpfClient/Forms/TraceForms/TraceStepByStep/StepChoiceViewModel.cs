@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Caliburn.Micro;
+using Iit.Fibertest.Graph;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Client
@@ -9,13 +11,15 @@ namespace Iit.Fibertest.Client
     public class StepChoiceViewModel : Screen
     {
         private readonly GraphReadModel _graphReadModel;
+        private readonly Model _readModel;
         public List<RadioButtonModel> Models { get; set; }
-        private List<NodeVm> _neighbours;
-        private NodeVm _selectedNode;
+        private List<Node> _neighbours;
+        private Node _selectedNode;
 
-        public StepChoiceViewModel(GraphReadModel graphReadModel)
+        public StepChoiceViewModel(GraphReadModel graphReadModel, Model readModel)
         {
             _graphReadModel = graphReadModel;
+            _readModel = readModel;
         }
 
         protected override void OnViewLoaded(object view)
@@ -23,48 +27,64 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Next_step;
         }
 
-        public bool Initialize(List<NodeVm> neighbours, Guid previousNodeId)
+        public async Task<bool> Initialize(List<Guid> neighbours, Guid previousNodeId)
         {
-            _neighbours = neighbours;
-            Models = new List<RadioButtonModel>();
-            foreach (var nodeVm in neighbours.Where(n=>n.Id != previousNodeId))
-            {
-                var model = new RadioButtonModel() { Id = nodeVm.Id, IsEnabled = true, Title = nodeVm.Title };
-                model.PropertyChanged += Model_PropertyChanged;
-                Models.Add(model);
-            }
+            _neighbours = neighbours.Select(id => _readModel.Nodes.First(n => n.NodeId == id)).ToList();
 
-            var previous = neighbours.FirstOrDefault(n => n.Id == previousNodeId);
-            if (previous != null)
+            Models = new List<RadioButtonModel>();
+            foreach (var node in _neighbours)
             {
-                var model = new RadioButtonModel() { Id = previous.Id, IsEnabled = true, Title = previous.Title + Resources.SID____previous_ };
+                var model = new RadioButtonModel()
+                {
+                    Id = node.NodeId,
+                    IsEnabled = true,
+                    Title = node.NodeId == previousNodeId ? node.Title + Resources.SID____previous_ : node.Title,
+                };
                 model.PropertyChanged += Model_PropertyChanged;
-                Models.Add(model);
+                if (node.NodeId != previousNodeId)
+                    Models.Insert(0, model);
+                else
+                    Models.Add(model); // previous node should be last in Models list
             }
 
             _selectedNode = _neighbours.FirstOrDefault();
             if (_selectedNode == null) return false;
             Models.First().IsChecked = true;
-            _selectedNode.IsHighlighted = true;
+
+            var nodeVm = _graphReadModel.Data.Nodes.FirstOrDefault(n => n.Id == _selectedNode.NodeId);
+            if (nodeVm == null)
+            {
+                _graphReadModel.MainMap.SetPositionWithoutFiringEvent(_selectedNode.Position);
+                await _graphReadModel.RefreshVisiblePart();
+                nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == _selectedNode.NodeId);
+            }
+
+            nodeVm.IsHighlighted = true;
             return true;
         }
 
-        private void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        private async void Model_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             var modelWithChanges = (RadioButtonModel)sender;
-            var nodeWithChanges = _neighbours.First(n => n.Id == modelWithChanges.Id);
-            nodeWithChanges.IsHighlighted = modelWithChanges.IsChecked;
 
             if (modelWithChanges.IsChecked)
             {
-                _selectedNode = nodeWithChanges;
-                _graphReadModel.MainMap.SetPosition(_selectedNode.Position);
+                _selectedNode = _neighbours.First(n => n.NodeId == modelWithChanges.Id);
+                _graphReadModel.MainMap.SetPositionWithoutFiringEvent(_selectedNode.Position);
+                await _graphReadModel.RefreshVisiblePart();
+                var newChoiceNodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == _selectedNode.NodeId);
+                newChoiceNodeVm.IsHighlighted = true;
+            }
+            else
+            {
+                var previousChoiceNodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == modelWithChanges.Id);
+                previousChoiceNodeVm.IsHighlighted = false;
             }
         }
 
-        public NodeVm GetSelected()
+        public Node GetSelected()
         {
-            return _neighbours.First(n=>n.Id == Models.First(m => m.IsChecked).Id);
+            return _neighbours.First(n => n.NodeId == Models.First(m => m.IsChecked).Id);
         }
 
         public void Select()
@@ -76,6 +96,8 @@ namespace Iit.Fibertest.Client
         public void Cancel()
         {
             _selectedNode.IsHighlighted = false;
+            var  nodeVm = _graphReadModel.Data.Nodes.First(n => n.Id == _selectedNode.NodeId);
+            nodeVm.IsHighlighted = false;
             TryClose(false);
         }
     }

@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Autofac;
 using Iit.Fibertest.Dto;
+using Iit.Fibertest.WpfCommonViews;
 
 namespace Iit.Fibertest.Client
 {
@@ -43,37 +45,8 @@ namespace Iit.Fibertest.Client
             return nodeVms;
         }
 
-        // if some of neighbors are AdjustmentPoints - step farther a find first node on this way
-        public static List<Tuple<NodeVm, List<FiberVm>>> GetNeighboursPassingThroughAdjustmentPoints(this GraphReadModel model, Guid nodeId)
-        {
-            var res = new List<Tuple<NodeVm, List<FiberVm>>>();
-
-            var fiberVms = model.Data.Fibers.Where(f => f.Node1.Id == nodeId || f.Node2.Id == nodeId).ToList();
-            foreach (var fiberVm in fiberVms)
-            {
-                var fibersOfOneDestination = new List<FiberVm>();
-                var previousNodeId = nodeId;
-                var currentFiberVm = fiberVm;
-                NodeVm neighbourVm;
-                while (true)
-                {
-                    fibersOfOneDestination.Add(currentFiberVm);
-                    neighbourVm = currentFiberVm.Node1.Id == previousNodeId ? currentFiberVm.Node2 : currentFiberVm.Node1;
-                    if (neighbourVm.Type != EquipmentType.AdjustmentPoint)
-                        break;
-
-                    previousNodeId = neighbourVm.Id;
-                    currentFiberVm = model.GetAnotherFiberOfAdjustmentPoint(neighbourVm, currentFiberVm.Id);
-                }
-                res.Add(new Tuple<NodeVm, List<FiberVm>>(neighbourVm, fibersOfOneDestination));
-            }
-
-            return res;
-        }
-
         public static FiberVm GetAnotherFiberOfAdjustmentPoint(this GraphReadModel model, NodeVm adjustmentPoint, Guid fiberId)
         {
-            // return model.Data.Fibers.First(f => (f.Node1 == adjustmentPoint || f.Node2 == adjustmentPoint) && f.Id != fiberId);
             return model.Data.Fibers.First(f => (f.Node1.Id == adjustmentPoint.Id || f.Node2.Id == adjustmentPoint.Id) && f.Id != fiberId);
         }
 
@@ -97,6 +70,42 @@ namespace Iit.Fibertest.Client
             {
                 fiberVm.RemoveBadSegment(traceId);
             }
+        }
+
+        public static Guid ChooseEquipmentForNode(this GraphReadModel model, Guid nodeId, bool isLastNode, out string dualName)
+        {
+            dualName = null;
+            var node = model.ReadModel.Nodes.First(n => n.NodeId == nodeId);
+            var nodeVm = model.Data.Nodes.FirstOrDefault(n => n.Id == nodeId);
+            if (nodeVm != null)
+                nodeVm.IsHighlighted = true;
+
+            var allEquipmentInNode = model.ReadModel.Equipments.Where(e => e.NodeId == nodeId).ToList();
+
+            if (allEquipmentInNode.Count == 1 && allEquipmentInNode[0].Type == EquipmentType.AdjustmentPoint)
+                return allEquipmentInNode[0].EquipmentId;
+
+            if (allEquipmentInNode.Count == 1 && !string.IsNullOrEmpty(node.Title))
+            {
+                dualName = node.Title;
+                var equipment =
+                    model.ReadModel.Equipments.First(e => e.EquipmentId == allEquipmentInNode[0].EquipmentId);
+                if (!string.IsNullOrEmpty(equipment.Title))
+                    dualName = dualName + @" / " + equipment.Title;
+                return allEquipmentInNode[0].EquipmentId;
+            }
+
+            var traceContentChoiceViewModel = model.GlobalScope.Resolve<TraceContentChoiceViewModel>();
+            traceContentChoiceViewModel.Initialize(allEquipmentInNode, node, isLastNode);
+            model.WindowManager.ShowDialogWithAssignedOwner(traceContentChoiceViewModel);
+            model.ExtinguishAllNodes();
+            if (!traceContentChoiceViewModel.ShouldWeContinue) // user left the process
+                return Guid.Empty;
+
+            var selectedEquipmentGuid = traceContentChoiceViewModel.GetSelectedEquipmentGuid();
+            dualName = traceContentChoiceViewModel.GetSelectedDualName();
+            return selectedEquipmentGuid;
+
         }
     }
 }

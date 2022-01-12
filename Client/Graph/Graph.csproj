@@ -204,6 +204,7 @@
     <Compile Include="EventSourcing\Model\ModelCleaningExt.cs" />
     <Compile Include="EventSourcing\Model\ModelEmailExt.cs" />
     <Compile Include="EventSourcing\Model\ModelLicenseExt.cs" />
+    <Compile Include="EventSourcing\Model\ModelRemoveThroughAdjustmentPointsExt.cs" />
     <Compile Include="EventSourcing\Model\ModelSerializationExt.cs" />
     <Compile Include="EventSourcing\Model\ModelSmsExt.cs" />
     <Compile Include="DomainEntities\Kadastr\Conpoint.cs" />
@@ -213,6 +214,7 @@
     <Compile Include="DomainEntities\License\LicenseParameter.cs" />
     <Compile Include="DomainEntities\License\LicenseParameterInFile.cs" />
     <Compile Include="EventSourcing\Model\ModelTraceComponentsExt.cs" />
+    <Compile Include="EventSourcing\Model\ModelTraceDefinitionExt.cs" />
     <Compile Include="EventSourcing\Model\ModelTraceExt.cs" />
     <Compile Include="EventSourcing\Model\ModelZonesExt.cs" />
     <Compile Include="EventSourcing\Model\OneRtuExportImport.cs" />
