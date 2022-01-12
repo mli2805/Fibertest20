@@ -7,6 +7,7 @@ namespace Iit.Fibertest.Graph
 {
     public static class ModelTraceDefinitionExt
     {
+        // start and finish are NOT included
         public static bool FindPathWhereAdjustmentPointsOnly(this Model model, Guid start, Guid finish,
             out List<Guid> pathNodeIds)
         {

@@ -47,7 +47,7 @@ namespace Graph.Tests
             _sut.GraphReadModel.GrmNodeRequests.AddNodeIntoFiber(new RequestAddNodeIntoFiber(){FiberId = fiber.FiberId, InjectionType = EquipmentType.AdjustmentPoint}).Wait();
             _sut.Poller.EventSourcingTick().Wait();
             _adjustmentPointNodeId = _sut.ReadModel.Nodes.Last().NodeId;
-            _sut.GraphReadModel.FindPathWhereAdjustmentPointsOnly(_nodeId, _anotherNodeId, out var pathIds).Should().BeTrue();
+            _sut.ReadModel.FindPathWhereAdjustmentPointsOnly(_nodeId, _anotherNodeId, out var pathIds).Should().BeTrue();
             pathIds.Contains(_adjustmentPointNodeId).Should().BeTrue();
         }
 
@@ -103,7 +103,7 @@ namespace Graph.Tests
         [Then(@"Удаляется весь отрезок вплоть до соседнего узла-не точки")]
         public void ThenУдаляетсяВесьОтрезокВплотьДоСоседнегоУзла_НеТочки()
         {
-            _sut.GraphReadModel.FindPathWhereAdjustmentPointsOnly(_nodeId, _anotherNodeId, out var _).Should().BeFalse();
+            _sut.ReadModel.FindPathWhereAdjustmentPointsOnly(_nodeId, _anotherNodeId, out var _).Should().BeFalse();
         }
 
         [Then(@"Удаляется точка привязки")]
