@@ -125,10 +125,13 @@ namespace Iit.Fibertest.Client
                     _windowManager.ShowDialogWithAssignedOwner(vm);
                     return false;
                 case 2:
-                    if (previousNodeId != Guid.Empty)
+                    if (previousNodeId == neighbours[0].Item1)
                     {
-                        var nextTuple = neighbours[0].Item1 != previousNodeId ? neighbours[0] : neighbours[1];
-                        return await JustStep(nextTuple.Item1, nextTuple.Item2);
+                        return await JustStep(neighbours[1].Item1, neighbours[1].Item2);
+                    }
+                    else if (previousNodeId == neighbours[1].Item1)
+                    {
+                        return await JustStep(neighbours[0].Item1, neighbours[0].Item2);
                     }
                     else
                         return await ForkIt(neighbours, previousNodeId);
