@@ -22,6 +22,7 @@ namespace Iit.Fibertest.Client
         private readonly Model _readModel;
         private readonly StepChoiceViewModel _stepChoiceViewModel;
         private readonly IWindowManager _windowManager;
+        private readonly CommonStatusBarViewModel _commonStatusBarViewModel;
         private NodeVm _currentHighlightedNodeVm;
         public ObservableCollection<StepModel> Steps { get; set; }
         private Guid _newTraceId;
@@ -38,7 +39,7 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public TraceStepByStepViewModel(ILifetimeScope globalScope, IWindowManager windowManager,
+        public TraceStepByStepViewModel(ILifetimeScope globalScope, IWindowManager windowManager, CommonStatusBarViewModel commonStatusBarViewModel,
             GraphReadModel graphReadModel, Model readModel, StepChoiceViewModel stepChoiceViewModel)
         {
             _globalScope = globalScope;
@@ -46,6 +47,7 @@ namespace Iit.Fibertest.Client
             _readModel = readModel;
             _stepChoiceViewModel = stepChoiceViewModel;
             _windowManager = windowManager;
+            _commonStatusBarViewModel = commonStatusBarViewModel;
         }
 
         public async Task<int> Initialize(Guid rtuNodeId, string rtuTitle)
@@ -370,6 +372,7 @@ namespace Iit.Fibertest.Client
         {
             IsOpen = false;
             _graphReadModel.MainMap.IsInTraceDefinitionMode = false;
+            _commonStatusBarViewModel.StatusBarMessage2 = "";
             base.CanClose(callback);
         }
 

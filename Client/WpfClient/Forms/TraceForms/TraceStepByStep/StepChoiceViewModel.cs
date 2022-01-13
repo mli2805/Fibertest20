@@ -100,5 +100,15 @@ namespace Iit.Fibertest.Client
             nodeVm.IsHighlighted = false;
             TryClose(false);
         }
+
+        public override void CanClose(Action<bool> callback)
+        {
+            foreach (var radioButtonModel in Models)
+            {
+                radioButtonModel.PropertyChanged -= Model_PropertyChanged;
+            }
+            base.CanClose(callback);
+        }
+
     }
 }
