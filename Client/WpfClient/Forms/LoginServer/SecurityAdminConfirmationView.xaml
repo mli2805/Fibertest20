@@ -9,7 +9,8 @@
     <StackPanel>
         <TextBlock Text="{Binding ReturnCodeText}" TextAlignment="Center" Margin="5,20, 5,5" FontWeight="Bold"/>
         <TextBlock Text="{Binding Text3}" TextAlignment="Center" Margin="5"/>
-        <TextBlock Text="{Binding Text4}" TextAlignment="Center" Margin="5, 5, 5, 25"/>
+        <TextBlock Text="{Binding Text4}" TextAlignment="Center" Margin="5"/>
+        <TextBlock Text="{Binding Text5}" TextAlignment="Center" Margin="5, 5, 5, 25"/>
 
         <client:PasswordView DataContext="{Binding PasswordViewModel}" HorizontalAlignment="Center" Margin="0,0,0,20"/>
 

@@ -143,7 +143,7 @@ namespace Graph.Tests
         public static bool SecurityAdminPasswordHandler(this SystemUnderTest sut, object model, string password)
         {
             if (!(model is SecurityAdminConfirmationViewModel vm)) return false;
-            vm.Initialize();
+            vm.Initialize("");
             vm.PasswordViewModel.Password = password;
             vm.OkButton();
             return true;

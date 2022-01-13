@@ -2997,12 +2997,6 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_have_to_be_confirmed_by_security_administrator_password_" xml:space="preserve">
 		<value>have to be confirmed by security administrator password.</value>
 	</data>
-	<data name="SID_To_apply_the_license_security_administrator" xml:space="preserve">
-		<value>To apply the license security administrator</value>
-	</data>
-	<data name="SID_password_has_to_be_input_" xml:space="preserve">
-		<value>password has to be input.</value>
-	</data>
 	<data name="SID_Apply_Demo_license" xml:space="preserve">
 		<value>Apply Demo mode</value>
 	</data>
@@ -3041,5 +3035,11 @@ Please install IIS before installing Fibertest Web Component.</value>
 	</data>
 	<data name="SID_License_could_not_be_applied_" xml:space="preserve">
 		<value>License could not be applied!</value>
+	</data>
+	<data name="SID_To_apply_the_license" xml:space="preserve">
+		<value>To apply the license</value>
+	</data>
+	<data name="SID_security_administrator_password_has_to_be_input" xml:space="preserve">
+		<value>security administrator password has to be input</value>
 	</data>
 </root>

@@ -10,6 +10,7 @@ namespace Iit.Fibertest.Client
         public string ReturnCodeText { get; set; }
         public string Text3 { get; set; }
         public string Text4 { get; set; }
+        public string Text5 { get; set; }
 
         public PasswordViewModel PasswordViewModel { get; set; } = new PasswordViewModel();
 
@@ -32,10 +33,11 @@ namespace Iit.Fibertest.Client
             }
         }
 
-        public void Initialize()
+        public void Initialize(string licenseKey)
         {
-            Text3 = Resources.SID_To_apply_the_license_security_administrator;
-            Text4 = Resources.SID_password_has_to_be_input_;
+            Text3 = Resources.SID_To_apply_the_license;
+            Text4 = licenseKey;
+            Text5 = Resources.SID_security_administrator_password_has_to_be_input;
         }
 
         public void OkButton()

@@ -19,5 +19,13 @@ namespace Iit.Fibertest.Graph
         public DateTime CreationDate { get; set; } // Used in LicenseKey string
         public DateTime LoadingDate { get; set; } // for evaluations
         public string Version { get; set; } = @"2.0.0.0";
+
+        public string Lk()
+        {
+            var id = LicenseId.ToString().ToUpper().Substring(0, 8);
+            var licType = IsIncremental ? @"I" : IsMachineKeyRequired ? @"BR" : @"BF";
+            var stations = $@"{ClientStationCount.Value:D2}{WebClientCount.Value:D2}{SuperClientStationCount.Value:D2}";
+            return $@"FT020-{id}-{licType}{RtuCount.Value:D2}{stations}-{CreationDate:yyMMdd}";
+        }
     }
 }

@@ -6675,6 +6675,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to security administrator password has to be input.
+        /// </summary>
+        public static string SID_security_administrator_password_has_to_be_input {
+            get {
+                return ResourceManager.GetString("SID_security_administrator_password_has_to_be_input", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select.
         /// </summary>
         public static string SID_Select {
@@ -7752,6 +7761,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_To_adjust_trace_drawing_were_used__0__point_s_ {
             get {
                 return ResourceManager.GetString("SID_To_adjust_trace_drawing_were_used__0__point_s_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to To apply the license.
+        /// </summary>
+        public static string SID_To_apply_the_license {
+            get {
+                return ResourceManager.GetString("SID_To_apply_the_license", resourceCulture);
             }
         }
         
