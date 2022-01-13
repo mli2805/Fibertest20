@@ -87,7 +87,7 @@ namespace Iit.Fibertest.Client
         private bool IsCorrectPasswordEntered(LicenseInFile licenseInFile)
         {
             _vm = new SecurityAdminConfirmationViewModel();
-            _vm.Initialize();
+            _vm.Initialize(licenseInFile.Lk());
             _windowManager.ShowDialogWithAssignedOwner(_vm);
             if (_vm.IsOkPressed)
             {
