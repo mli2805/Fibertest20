@@ -39,7 +39,7 @@
                
             </StackPanel>
         </GroupBox>
-        <ListView Margin="10,5" Height="130" ItemsSource="{Binding TracesThrough}" 
+        <ListView Margin="10,5" Height="130" ItemsSource="{Binding TracesThrough}" SelectedItem="{Binding SelectedTrace}"
                   ScrollViewer.CanContentScroll="True"
                   ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListView.ContextMenu>
