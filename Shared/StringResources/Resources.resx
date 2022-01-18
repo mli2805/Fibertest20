@@ -3051,4 +3051,10 @@ Please install IIS before installing Fibertest Web Component.</value>
 	<data name="SID_security_administrator_password_has_to_be_input" xml:space="preserve">
 		<value>security administrator password has to be input</value>
 	</data>
+	<data name="SID_Failed_to_initialize_OTDR" xml:space="preserve">
+		<value>Failed to initialize OTDR!</value>
+	</data>
+	<data name="SID_Additional_OS_info_" xml:space="preserve">
+		<value>Additional OS info:</value>
+	</data>
 </root>

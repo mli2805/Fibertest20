@@ -14,6 +14,7 @@
         FailedToConnectOtdr = 1004,
         OtauInitializationError = 1005,
         CharonComPortError = 1006,
+        OtdrInitializationFailed = 1007, // Veex
 
 
         RtuDoesNotSupportBop = 1012,

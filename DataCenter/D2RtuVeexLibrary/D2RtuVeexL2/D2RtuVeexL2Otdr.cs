@@ -31,6 +31,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             string requestStatus;
             do
             {
+                await Task.Delay(2000);
                 var resetStatus = await _d2RtuVeexLayer1.GetResetOtdrStatus(rtuDoubleAddress, startResetResult.ResponseJson);
                 if (!resetStatus.IsSuccessful)
                     return resetStatus;
@@ -52,7 +53,11 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             var otdrs = (LinkList)res.ResponseObject;
             if (otdrs.items.Count == 0)
+            {
+                res.IsSuccessful = false;
+                res.ErrorMessage = "OTDR not found";
                 return res;
+            }
 
             return await _d2RtuVeexLayer1.GetOtdr(rtuDoubleAddress, otdrs.items[0].self);
         }

@@ -603,6 +603,15 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Additional OS info:.
+        /// </summary>
+        public static string SID_Additional_OS_info_ {
+            get {
+                return ResourceManager.GetString("SID_Additional_OS_info_", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adjustment point.
         /// </summary>
         public static string SID_Adjustment_point {
@@ -3012,6 +3021,15 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_Failed_to_initialize_optical_switch {
             get {
                 return ResourceManager.GetString("SID_Failed_to_initialize_optical_switch", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Failed to initialize OTDR!.
+        /// </summary>
+        public static string SID_Failed_to_initialize_OTDR {
+            get {
+                return ResourceManager.GetString("SID_Failed_to_initialize_OTDR", resourceCulture);
             }
         }
         
@@ -5559,15 +5577,6 @@ namespace Iit.Fibertest.StringResources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to password has to be input..
-        /// </summary>
-        public static string SID_password_has_to_be_input_ {
-            get {
-                return ResourceManager.GetString("SID_password_has_to_be_input_", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Password is not entered..
         /// </summary>
         public static string SID_Password_is_not_entered_ {
@@ -7788,15 +7797,6 @@ namespace Iit.Fibertest.StringResources {
         public static string SID_To_apply_the_license {
             get {
                 return ResourceManager.GetString("SID_To_apply_the_license", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to To apply the license security administrator.
-        /// </summary>
-        public static string SID_To_apply_the_license_security_administrator {
-            get {
-                return ResourceManager.GetString("SID_To_apply_the_license_security_administrator", resourceCulture);
             }
         }
         

@@ -1,4 +1,5 @@
-﻿using Iit.Fibertest.Dto;
+﻿using System;
+using Iit.Fibertest.Dto;
 using Iit.Fibertest.StringResources;
 
 namespace Iit.Fibertest.Graph
@@ -7,6 +8,9 @@ namespace Iit.Fibertest.Graph
     {
         public static string GetLocalizedString(this ReturnCode returnCode, string exceptionMessage = "")
         {
+            if (exceptionMessage != null)
+                exceptionMessage = Environment.NewLine + Resources.SID_Additional_OS_info_ + Environment.NewLine + exceptionMessage;
+
             switch (returnCode)
             {
                 case ReturnCode.Ok: return @"OK";
@@ -24,6 +28,8 @@ namespace Iit.Fibertest.Graph
                     return Resources.SID_Cannot_initialize_dll_;
                 case ReturnCode.OtauInitializationError:
                     return Resources.SID_Failed_to_initialize_optical_switch;
+                case  ReturnCode.OtdrInitializationFailed:
+                    return Resources.SID_Failed_to_initialize_OTDR + $@" {exceptionMessage}";
                 case ReturnCode.RtuDoesNotSupportBop:
                     return Resources.SID_RTU_does_not_support_BOP;
                 case ReturnCode.RtuTooBigPortNumber:
