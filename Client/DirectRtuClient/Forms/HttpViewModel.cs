@@ -91,7 +91,7 @@ namespace DirectRtuClient
             var d2Rl1 = new D2RtuVeexLayer1(_httpWrapper);
             var d2R = new D2RtuVeexLayer2(d2Rl1);
             var result = await Task.Factory.StartNew(() =>
-                d2R.GetSettings(_rtuVeexDoubleAddress, new InitializeRtuDto() { RtuAddresses = _rtuVeexDoubleAddress }).Result);
+                d2R.GetPlatformInfo(_rtuVeexDoubleAddress, new InitializeRtuDto() { RtuAddresses = _rtuVeexDoubleAddress }).Result);
 
             ResultString = result.ReturnCode.ToString();
             IsButtonEnabled = true;

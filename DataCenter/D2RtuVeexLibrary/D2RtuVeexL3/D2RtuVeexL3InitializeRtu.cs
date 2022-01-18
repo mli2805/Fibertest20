@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
@@ -13,7 +14,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             try
             {
                 var rtuAddresses = (DoubleAddress)dto.RtuAddresses.Clone();
-                var rtuInitializedDto = await _d2RtuVeexLayer2.GetSettings(rtuAddresses, dto);
+                var rtuInitializedDto = await _d2RtuVeexLayer2.GetPlatformInfo(rtuAddresses, dto);
                 if (!rtuInitializedDto.IsInitialized)
                     return rtuInitializedDto;
 
@@ -24,6 +25,13 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                         ReturnCode = ReturnCode.RtuInitializationError,
                         ErrorMessage = vesionRes.ErrorMessage
                     };
+
+                var otdrRes = await _d2RtuVeexLayer2.InitializeOtdrs(rtuAddresses);
+                if (otdrRes.IsSuccessful)
+                    FillInOtdr((VeexOtdr)otdrRes.ResponseObject, rtuInitializedDto);
+                else
+                    return new RtuInitializedDto()
+                        { ReturnCode = ReturnCode.RtuInitializationError, ErrorMessage = otdrRes.ErrorMessage };
 
                 var otauRes = await _d2RtuVeexLayer2.InitializeOtaus(rtuAddresses, dto);
                 if (otauRes.IsSuccessful)
@@ -77,6 +85,35 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     ReturnCode = ReturnCode.RtuInitializationError,
                     ErrorMessage = e.Message,
                 };
+            }
+        }
+
+        private void FillInOtdr(VeexOtdr otdr, RtuInitializedDto result)
+        {
+            result.OtdrId = otdr.id;
+            result.Omid = otdr.mainframeId;
+            result.Omsn = otdr.opticalModuleSerialNumber;
+            result.AcceptableMeasParams = new TreeOfAcceptableMeasParams();
+            foreach (var laserUnitPair in otdr.supportedMeasurementParameters.laserUnits)
+            {
+                var branch = new BranchOfAcceptableMeasParams
+                {
+                    BackscatteredCoefficient = -81,
+                    RefractiveIndex = 1.4682
+                };
+                foreach (var distancePair in laserUnitPair.Value.distanceRanges)
+                {
+                    var leaf = new LeafOfAcceptableMeasParams
+                    {
+                        Resolutions = distancePair.Value.resolutions,
+                        PulseDurations = distancePair.Value.pulseDurations,
+                        MeasCountsToAverage = distancePair.Value.fastAveragingTimes,
+                        PeriodsToAverage = distancePair.Value.averagingTimes
+                    };
+                    branch.Distances.Add(distancePair.Key.ToString(CultureInfo.InvariantCulture), leaf);
+                }
+
+                result.AcceptableMeasParams.Units.Add(laserUnitPair.Key, branch);
             }
         }
 

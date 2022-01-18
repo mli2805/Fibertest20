@@ -16,9 +16,8 @@ namespace Iit.Fibertest.DataCenterCore
         private readonly VeexCompletedTestProcessor _veexCompletedTestProcessor;
         private readonly RtuStationsRepository _rtuStationsRepository;
         private readonly D2RtuVeexLayer3 _d2RtuVeexLayer3;
-        private readonly DoubleAddress _serverDoubleAddress;
 
-        public ClientToRtuVeexTransmitter(IniFile iniFile, IMyLog logFile, Model writeModel,
+        public ClientToRtuVeexTransmitter(IMyLog logFile, Model writeModel,
             VeexCompletedTestProcessor veexCompletedTestProcessor,
             RtuStationsRepository rtuStationsRepository, D2RtuVeexLayer3 d2RtuVeexLayer3)
         {
@@ -27,8 +26,6 @@ namespace Iit.Fibertest.DataCenterCore
             _veexCompletedTestProcessor = veexCompletedTestProcessor;
             _rtuStationsRepository = rtuStationsRepository;
             _d2RtuVeexLayer3 = d2RtuVeexLayer3;
-
-            _serverDoubleAddress = iniFile.ReadDoubleAddress((int)TcpPorts.ServerListenToRtu);
         }
 
         public Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto)
@@ -40,11 +37,6 @@ namespace Iit.Fibertest.DataCenterCore
         {
             _logFile.AppendLine(
                 $"Client from {dto.ClientIp} sent initialize VeEX RTU {dto.RtuId.First6()} request");
-
-            dto.ServerAddresses = _serverDoubleAddress;
-            dto.ServerAddresses.Main.Port = (int)TcpPorts.WebApiListenTo;
-            if (dto.ServerAddresses.HasReserveAddress)
-                dto.ServerAddresses.Reserve.Port = (int)TcpPorts.WebApiListenTo;
 
             var rtuInitializedDto = await _d2RtuVeexLayer3.InitializeRtu(dto);
             if (rtuInitializedDto.IsInitialized)

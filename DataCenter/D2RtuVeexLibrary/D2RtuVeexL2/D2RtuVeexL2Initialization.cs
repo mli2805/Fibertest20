@@ -1,22 +1,11 @@
-﻿using System.Globalization;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer2
     {
-        public async Task<HttpRequestResult> DisableProxyMode(DoubleAddress rtuDoubleAddress, string otdrId)
-        {
-            return await _d2RtuVeexLayer1.ChangeProxyMode(rtuDoubleAddress, otdrId, false);
-        }
-
-        public async Task<HttpRequestResult> DisableVesionIntegration(DoubleAddress rtuDoubleAddress)
-        {
-            return await _d2RtuVeexLayer1.DisableVesionIntegration(rtuDoubleAddress);
-        }
-
-        public async Task<RtuInitializedDto> GetSettings(DoubleAddress rtuDoubleAddress, InitializeRtuDto dto)
+        public async Task<RtuInitializedDto> GetPlatformInfo(DoubleAddress rtuDoubleAddress, InitializeRtuDto dto)
         {
             var result = new RtuInitializedDto();
 
@@ -24,11 +13,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             if (!platformResponse.IsSuccessful)
                 return new RtuInitializedDto { ReturnCode = ReturnCode.RtuInitializationError };
             FillInPlatform((VeexPlatformInfo)platformResponse.ResponseObject, result);
-
-            var otdrResponse = await GetOtdrSettings(rtuDoubleAddress);
-            if (!otdrResponse.IsSuccessful)
-                return new RtuInitializedDto { ReturnCode = ReturnCode.RtuInitializationError };
-            FillInOtdr((VeexOtdr)otdrResponse.ResponseObject, result);
 
             result.RtuId = dto.RtuId;
             result.RtuAddresses = dto.RtuAddresses;
@@ -40,6 +24,16 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return result;
         }
 
+        public async Task<HttpRequestResult> DisableProxyMode(DoubleAddress rtuDoubleAddress, string otdrId)
+        {
+            return await _d2RtuVeexLayer1.ChangeProxyMode(rtuDoubleAddress, otdrId, false);
+        }
+
+        public async Task<HttpRequestResult> DisableVesionIntegration(DoubleAddress rtuDoubleAddress)
+        {
+            return await _d2RtuVeexLayer1.DisableVesionIntegration(rtuDoubleAddress);
+        }
+
         private void FillInPlatform(VeexPlatformInfo info, RtuInitializedDto result)
         {
             result.Mfid = info.platform.name;
@@ -49,34 +43,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             result.Version2 = info.components.otdrEngine.iit_otdr;
         }
 
-        private void FillInOtdr(VeexOtdr otdr, RtuInitializedDto result)
-        {
-            result.OtdrId = otdr.id;
-            result.Omid = otdr.mainframeId;
-            result.Omsn = otdr.opticalModuleSerialNumber;
-            result.AcceptableMeasParams = new TreeOfAcceptableMeasParams();
-            foreach (var laserUnitPair in otdr.supportedMeasurementParameters.laserUnits)
-            {
-                var branch = new BranchOfAcceptableMeasParams
-                {
-                    BackscatteredCoefficient = -81,
-                    RefractiveIndex = 1.4682
-                };
-                foreach (var distancePair in laserUnitPair.Value.distanceRanges)
-                {
-                    var leaf = new LeafOfAcceptableMeasParams
-                    {
-                        Resolutions = distancePair.Value.resolutions,
-                        PulseDurations = distancePair.Value.pulseDurations,
-                        MeasCountsToAverage = distancePair.Value.fastAveragingTimes,
-                        PeriodsToAverage = distancePair.Value.averagingTimes
-                    };
-                    branch.Distances.Add(distancePair.Key.ToString(CultureInfo.InvariantCulture), leaf);
-                }
-
-                result.AcceptableMeasParams.Units.Add(laserUnitPair.Key, branch);
-            }
-        }
+     
 
         public async Task<HttpRequestResult> GetMonitoringProperties(DoubleAddress rtuDoubleAddress)
         {
