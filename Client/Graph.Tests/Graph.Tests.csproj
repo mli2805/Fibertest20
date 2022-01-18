@@ -403,6 +403,7 @@
     <Compile Include="Sut\Fakes\FakeFtSignalRClient.cs" />
     <Compile Include="Sut\Fakes\FakeHttpWrapper\FakeHttpWrapper.cs" />
     <Compile Include="Sut\Fakes\FakeHttpWrapper\FakeVeexRtuModel.cs" />
+    <Compile Include="Sut\Fakes\FakeHttpWrapper\FakeVeexRtuModelExt.cs" />
     <Compile Include="Sut\Fakes\FakeHttpWrapper\VeexRtuCompletedTestsSceneSetter.cs" />
     <Compile Include="Sut\Fakes\FakeHttpWrapper\RequestFromUri.cs" />
     <Compile Include="Sut\Fakes\FakeLicenseFileReader.cs" />

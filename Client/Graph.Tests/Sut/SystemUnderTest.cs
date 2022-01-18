@@ -28,6 +28,7 @@ namespace Graph.Tests
         public ClientPoller Poller { get; set; }
         public FakeWindowManager FakeWindowManager { get; set; }
         public FakeD2RWcfManager FakeD2RWcfManager { get; set; }
+        public FakeVeexRtuModel FakeVeexRtuModel { get; set;  }
         public ShellViewModel ShellVm { get; set; }
         public CurrentlyHiddenRtu CurrentlyHiddenRtu { get; set; }
         public string ConnectionId { get; set; }
@@ -69,6 +70,8 @@ namespace Graph.Tests
             VeexCompletedTestsFetcher = ServerScope.Resolve<VeexCompletedTestsFetcher>();
             FakeD2RWcfManager = (FakeD2RWcfManager)ServerScope.Resolve<ID2RWcfManager>();
             FakeD2RWcfManager.SetFakeInitializationAnswer();
+            FakeVeexRtuModel = Container.Resolve<FakeVeexRtuModel>();
+            FakeVeexRtuModel.Initialize();
             var writeModel = ServerScope.Resolve<Model>();
             writeModel.Users.Count.ShouldBeEquivalentTo(7);
             writeModel.Licenses.Count.ShouldBeEquivalentTo(0);
