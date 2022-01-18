@@ -12,7 +12,7 @@
             <TextBox Text="{Binding RtuVeexAddress}" Margin="5"/>
         </DockPanel>
 
-        <Button DockPanel.Dock="Top" Name="GetSettings" Content="Get settings" Margin="5" 
+        <Button DockPanel.Dock="Top" Name="GetPlatformInfo" Content="Get settings" Margin="5" 
                 IsEnabled="{Binding IsButtonEnabled, Mode=TwoWay}"/>
         <Button DockPanel.Dock="Top" Name="GetTests" Content="Get Tests" Margin="5" 
                 IsEnabled="{Binding IsButtonEnabled, Mode=TwoWay}"/>

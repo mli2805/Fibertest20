@@ -10,6 +10,9 @@ namespace Graph.Tests
     public class FakeVeexRtuModel
     {
         public Guid Id { get; set; }
+        public RtuMaker RtuMaker { get; set; }
+        public string Omsn { get; set; }
+
         public VeexPlatformInfo PlatformInfo { get; set; } = new VeexPlatformInfo();
         public LinkList OtdrItems { get; set; }
         public List<VeexOtdr> Otdrs { get; set; }
@@ -33,11 +36,15 @@ namespace Graph.Tests
             Initialize(@"SM1625");
         }
 
-        public void Initialize(string waveLength)
+        private void Initialize(string waveLength)
         {
+            RtuMaker = RtuMaker.VeEX;
+            Omsn = "1105618";
+
             var otdr = new VeexOtdr()
             {
                 id = Guid.NewGuid().ToString(),
+                isConnected = true,
                 supportedMeasurementParameters = new SupportedMeasurementParameters()
                 {
                     laserUnits = new Dictionary<string, LaserUnit>()

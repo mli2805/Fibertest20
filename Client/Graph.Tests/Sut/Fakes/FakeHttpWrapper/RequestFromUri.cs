@@ -7,6 +7,8 @@ namespace Graph.Tests
         public static string Request(this string relativeUri, string httpMethod)
         {
             #region L1
+            if (relativeUri == @"info" && httpMethod == @"get")
+                return @"GetPlatform";
             if (relativeUri == @"monitoring" && httpMethod == @"get")
                 return @"GetMonitoringProperties";
             if (relativeUri == @"monitoring" && httpMethod == @"patch")
@@ -23,13 +25,15 @@ namespace Graph.Tests
                 return @"GetMeasurementResult";
             #endregion
 
-            #region GetInfo
+            #region Otdr
+            if (relativeUri == @"otdr_reconnection_requests" && httpMethod == @"post")
+                return @"ResetOtdr";
+            if (IsOneOfUri(relativeUri, @"otdr_reconnection_requests") && httpMethod == @"get")
+                return @"GetResetOtdrStatus";
             if (relativeUri == @"otdrs" && httpMethod == @"get")
                 return @"GetOtdrs";
             if (IsOneOfUri(relativeUri, @"otdrs") && httpMethod == @"get")
                 return @"GetOtdr";
-            if (relativeUri == @"info" && httpMethod == @"get")
-                return @"GetPlatform";
             #endregion
 
             #region Otau

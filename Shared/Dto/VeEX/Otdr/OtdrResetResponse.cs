@@ -1,12 +1,11 @@
 ﻿// ReSharper disable InconsistentNaming
+
 namespace Iit.Fibertest.Dto
 {
-    public class ReinitializeOtdrStatus
+    public class OtdrResetResponse
     {
         public string id { get; set; }
-        public int numberOfReconnectedOtdrs { get; set; }
-
-        // "status" is one of: "pending", "processing", "processed".
+        public string otdrId { get; set; }
         public string status { get; set; }
     }
 }

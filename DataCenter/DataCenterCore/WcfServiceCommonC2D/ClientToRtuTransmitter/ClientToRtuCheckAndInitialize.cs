@@ -44,7 +44,7 @@ namespace Iit.Fibertest.DataCenterCore
             dto.ServerAddresses = (DoubleAddress)_serverDoubleAddress.Clone();
             if (!dto.RtuAddresses.HasReserveAddress)
                 // if RTU has no reserve address it should not send to server's reserve address
-                // (it is an idealogical requirement)
+                // (it is an ideological requirement)
                 dto.ServerAddresses.HasReserveAddress = false;
 
             RtuInitializedDto rtuInitializedDto;

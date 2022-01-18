@@ -34,23 +34,23 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return res;
         }
 
-        public async Task<HttpRequestResult> ReinitializeOtdr(DoubleAddress rtuDoubleAddress, string otdrId)
+        public async Task<HttpRequestResult> ResetOtdr(DoubleAddress rtuDoubleAddress, string otdrId)
         {
-            // empty json "{}" - reinitialize all otdrs, but if /otdrs contains some links, they should be reinitialized separately 
-            var content = $"{{ \"otdrId\": {otdrId}}}"; 
+            // empty json "{}" - reset all otdrs, but if /otdrs contains some links, they should be reinitialized separately 
+            var content = otdrId == "" ? "{}" : $"{{ \"otdrId\": \"{otdrId}\"}}"; 
             var res = await _httpWrapper
-                .RequestByUrl(rtuDoubleAddress, "otdr_reconnection_requests", "post", content);
+                .RequestByUrl(rtuDoubleAddress, "otdr_reconnection_requests", "post", "application/json", content);
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.Created;
             return res;
         }
 
-        public async Task<HttpRequestResult> GetReinitializeOtdrStatus(DoubleAddress rtuDoubleAddress, string link)
+        public async Task<HttpRequestResult> GetResetOtdrStatus(DoubleAddress rtuDoubleAddress, string link)
         {
             var res = await _httpWrapper
                 .RequestByUrl(rtuDoubleAddress, $"{link}", "get");
             res.IsSuccessful = res.HttpStatusCode == HttpStatusCode.OK;
             if (res.IsSuccessful)
-                res.ResponseObject = JsonConvert.DeserializeObject<ReinitializeOtdrStatus>(res.ResponseJson);
+                res.ResponseObject = JsonConvert.DeserializeObject<OtdrResetResponse>(res.ResponseJson);
             return res;
         }
 

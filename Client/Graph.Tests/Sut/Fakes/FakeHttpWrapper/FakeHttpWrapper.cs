@@ -47,7 +47,7 @@ namespace Graph.Tests
                 case "SetMonitoringProperty":
                 case "ChangeProxyMode":
                     result.HttpStatusCode = HttpStatusCode.NoContent;
-                    break;  
+                    break;
                 case "DisableVesionIntegration":
                     result.HttpStatusCode = HttpStatusCode.NoContent;
                     break;
@@ -67,6 +67,14 @@ namespace Graph.Tests
                         id = FakeVeexRtuModel.MeasurementRequestId.ToString(),
                         status = "finished"
                     });
+                    break;
+                case "ResetOtdr":
+                    result.HttpStatusCode = HttpStatusCode.Created;
+                    result.ResponseJson = $"otdr_reconnection_requests/{Guid.NewGuid()}";
+                    break;
+                case "GetResetOtdrStatus":
+                    result.HttpStatusCode = HttpStatusCode.OK;
+                    result.ResponseJson = JsonConvert.SerializeObject(new OtdrResetResponse() { status = "processed" });
                     break;
                 case "GetOtdrs":
                     result.HttpStatusCode = HttpStatusCode.OK;
@@ -99,7 +107,7 @@ namespace Graph.Tests
                     result.HttpStatusCode = HttpStatusCode.OK;
                     result.ResponseJson = JsonConvert.SerializeObject(FakeVeexRtuModel.Scheme);
                     break;
-                case "GetOtau": 
+                case "GetOtau":
                     result.HttpStatusCode = HttpStatusCode.OK;
                     result.ResponseJson = JsonConvert.SerializeObject(FakeVeexRtuModel.GetOtau(relativeUri));
                     break;
@@ -142,7 +150,7 @@ namespace Graph.Tests
                     result.HttpStatusCode = HttpStatusCode.Created;
                     result.ResponseJson = Guid.NewGuid().ToString();
                     break;
-              
+
                 case "GetCompletedTestsAfterTimestamp":
                     result.HttpStatusCode = HttpStatusCode.OK;
                     result.ResponseJson = JsonConvert.SerializeObject(FakeVeexRtuModel.GetCompletedTestsAfterTimestamp(relativeUri));
