@@ -73,7 +73,7 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Network_settings;
         }
 
-        public async void InitializeRtu()
+        public async Task InitializeRtu()
         {
             if (!FullModel.Validate()) return;
 
@@ -177,11 +177,11 @@ namespace Iit.Fibertest.Client
 
         private void ReactRtuInitialized(RtuInitializedDto dto)
         {
+            var rtuName = dto.RtuAddresses != null ? $@"RTU {dto.RtuAddresses.Main.Ip4Address}" : @"RTU";
             var message = dto.IsInitialized
-                ? $@"RTU {dto.RtuAddresses.Main.Ip4Address} initialized successfully."
-                : dto.RtuAddresses != null
-                    ? $@"RTU {dto.RtuAddresses.Main.Ip4Address} initialization failed. " + Environment.NewLine + dto.ErrorMessage
-                    : @"RTU initialization failed. " + Environment.NewLine + dto.ErrorMessage;
+                ? $@"{rtuName} initialized successfully."
+                : $@"{rtuName} initialization failed. " + Environment.NewLine + dto.ErrorMessage;
+
             _logFile.AppendLine(message);
 
             if (dto.IsInitialized)
@@ -218,6 +218,10 @@ namespace Iit.Fibertest.Client
                         Resources.SID_RTU_initialization_error_, "", dto.ReturnCode.GetLocalizedString(), "", dto.ErrorMessage
                     };
                     vm = new MyMessageBoxViewModel(MessageType.Error, strs2, 2);
+                    break;
+                case ReturnCode.OtdrInitializationFailed:
+                    vm = new MyMessageBoxViewModel
+                        (MessageType.Error, dto.ReturnCode.GetLocalizedString(dto.ErrorMessage).Split('\n'), 0);
                     break;
                 default:
                     var strs3 = new List<string>() { ReturnCode.RtuInitializationError.GetLocalizedString(), "", dto.ErrorMessage };

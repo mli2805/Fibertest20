@@ -79,7 +79,8 @@ namespace Iit.Fibertest.DataCenterCore
                 : _writeModel.Otaus.FirstOrDefault(o => o.VeexRtuMainOtauId == veexTest.OtauId);
             if (otau == null) return;
             if (completedTest.failure != null)
-                if (veexTest.IsOnBop && completedTest.failure.otauId.StartsWith("S1_")  // test on Bop but failed main otau
+                if (completedTest.failure.message == "OTDR not found" //TODO how to make sure user knows about breakdown
+                    || veexTest.IsOnBop && completedTest.failure.otauId.StartsWith("S1_")  // test on Bop but failed main otau
                         || !veexTest.IsOnBop && completedTest.failure.otauId.StartsWith("S2_")) // or vise versa
                     return;
 

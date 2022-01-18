@@ -31,7 +31,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     FillInOtdr((VeexOtdr)otdrRes.ResponseObject, rtuInitializedDto);
                 else
                     return new RtuInitializedDto()
-                        { ReturnCode = ReturnCode.RtuInitializationError, ErrorMessage = otdrRes.ErrorMessage };
+                        { ReturnCode = ReturnCode.OtdrInitializationFailed, ErrorMessage = otdrRes.ErrorMessage };
 
                 var otauRes = await _d2RtuVeexLayer2.InitializeOtaus(rtuAddresses, dto);
                 if (otauRes.IsSuccessful)

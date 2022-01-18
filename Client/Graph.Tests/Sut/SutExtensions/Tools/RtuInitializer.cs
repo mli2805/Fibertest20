@@ -45,7 +45,7 @@ namespace Graph.Tests
                     vm.FullModel.ReserveChannelTestViewModel.NetAddressInputViewModel.Port = port;
                 }
 
-                vm.InitializeRtu();
+                vm.InitializeRtu().Wait();
             }
             else
                 vm.Close();

@@ -3042,4 +3042,10 @@ RTU инициализируется в данный момент!</value>
 	<data name="SID_security_administrator_password_has_to_be_input" xml:space="preserve">
 		<value>требуется ввод пароля администратора безопасности</value>
 	</data>
+	<data name="SID_Failed_to_initialize_OTDR" xml:space="preserve">
+		<value>Не удалось инициализировать рефлектометр!</value>
+	</data>
+	<data name="SID_Additional_OS_info_" xml:space="preserve">
+		<value>Дополнительные сведения ОС</value>
+	</data>
 </root>

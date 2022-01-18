@@ -30,7 +30,7 @@ namespace Iit.Fibertest.WpfCommonViews
             IsAnswerPositive = false;
         }
 
-        public MyMessageBoxViewModel(MessageType messageType, List<string> strs, int focusedString = Int32.MaxValue)
+        public MyMessageBoxViewModel(MessageType messageType, IEnumerable<string> strs, int focusedString = Int32.MaxValue)
         {
             Lines = strs.Select(s => new MyMessageBoxLineModel() {Line = s}).ToList();
             if (focusedString == -1)
@@ -44,9 +44,9 @@ namespace Iit.Fibertest.WpfCommonViews
             IsAnswerPositive = false;
         }
 
-        public MyMessageBoxViewModel(MessageType messageType, List<MyMessageBoxLineModel> lines)
+        public MyMessageBoxViewModel(MessageType messageType, IEnumerable<MyMessageBoxLineModel> lines)
         {
-            Lines = lines;
+            Lines = lines.ToList();
 
             _caption = messageType.GetLocalizedString();
             OkVisibility = messageType.ShouldOkBeVisible();
