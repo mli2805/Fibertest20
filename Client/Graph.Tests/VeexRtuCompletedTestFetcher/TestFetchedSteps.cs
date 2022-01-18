@@ -1,5 +1,4 @@
 ﻿using System.Linq;
-using Autofac;
 using FluentAssertions;
 using Iit.Fibertest.Client;
 using Iit.Fibertest.Dto;
@@ -13,7 +12,6 @@ namespace Graph.Tests
     public sealed class TestFetchedSteps
     {
         private readonly SystemUnderTest _sut = new SystemUnderTest().LoginOnEmptyBaseAsRoot();
-        private FakeVeexRtuModel _fakeVeexRtuModel;
         private Iit.Fibertest.Graph.Trace _trace;
         private Iit.Fibertest.Graph.Trace _traceOnBop;
         private TraceLeaf _traceLeaf;
@@ -34,7 +32,6 @@ namespace Graph.Tests
             _traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(_trace.TraceId);
             _traceLeafOnBop = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(_traceOnBop.TraceId);
 
-            _fakeVeexRtuModel = _sut.Container.Resolve<FakeVeexRtuModel>();
             _sut.SetNameAndAskInitializationRtu(_rtuLeaf.Id, @"1.1.1.1", "", 80);
         }
 
@@ -85,11 +82,11 @@ namespace Graph.Tests
         [When(@"Извлекаем порцию результатов измерений с RTU")]
         public void WhenИзвлекаемПорциюРезультатовИзмеренийСrtu()
         {
-            _fakeVeexRtuModel.AddOkTest(_sut.ReadModel, _trace.TraceId, BaseRefType.Fast);
-            _fakeVeexRtuModel.AddOkTest(_sut.ReadModel, _traceOnBop.TraceId, BaseRefType.Fast);
-            _fakeVeexRtuModel.AddOkTest(_sut.ReadModel, _trace.TraceId, BaseRefType.Precise);
-            _fakeVeexRtuModel.AddOkTest(_sut.ReadModel, _traceOnBop.TraceId, BaseRefType.Precise);
-            _fakeVeexRtuModel.SetSorBytesToReturn(SystemUnderTest.Base1625);
+            _sut.FakeVeexRtuModel.AddOkTest(_sut.ReadModel, _trace.TraceId, BaseRefType.Fast);
+            _sut.FakeVeexRtuModel.AddOkTest(_sut.ReadModel, _traceOnBop.TraceId, BaseRefType.Fast);
+            _sut.FakeVeexRtuModel.AddOkTest(_sut.ReadModel, _trace.TraceId, BaseRefType.Precise);
+            _sut.FakeVeexRtuModel.AddOkTest(_sut.ReadModel, _traceOnBop.TraceId, BaseRefType.Precise);
+            _sut.FakeVeexRtuModel.SetSorBytesToReturn(SystemUnderTest.Base1625);
             _sut.VeexCompletedTestsFetcher.Tick().Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
@@ -105,9 +102,9 @@ namespace Graph.Tests
         public void WhenПриходитРезультатСПроблемойДопПереключателя()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BopStateHandler(model));
-            _fakeVeexRtuModel.ClearTests();
-            _fakeVeexRtuModel.AddFailedBopTest(_sut.ReadModel, _traceOnBop.TraceId, _otauLeaf.Id, BaseRefType.Fast);
-            _fakeVeexRtuModel.AddFailedBopTest(_sut.ReadModel, _traceOnBop.TraceId, _otauLeaf.Id, BaseRefType.Precise);
+            _sut.FakeVeexRtuModel.ClearTests();
+            _sut.FakeVeexRtuModel.AddFailedBopTest(_sut.ReadModel, _traceOnBop.TraceId, _otauLeaf.Id, BaseRefType.Fast);
+            _sut.FakeVeexRtuModel.AddFailedBopTest(_sut.ReadModel, _traceOnBop.TraceId, _otauLeaf.Id, BaseRefType.Precise);
             _sut.VeexCompletedTestsFetcher.Tick().Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
@@ -122,8 +119,8 @@ namespace Graph.Tests
         public void WhenПриходитУспешноеИзмерениеТрассыНаДопПереключателе()
         {
             _sut.FakeWindowManager.RegisterHandler(model => _sut.BopStateHandler(model));
-            _fakeVeexRtuModel.ClearTests();
-            _fakeVeexRtuModel.AddOkTest(_sut.ReadModel, _traceOnBop.TraceId, BaseRefType.Precise);
+            _sut.FakeVeexRtuModel.ClearTests();
+            _sut.FakeVeexRtuModel.AddOkTest(_sut.ReadModel, _traceOnBop.TraceId, BaseRefType.Precise);
             _sut.VeexCompletedTestsFetcher.Tick().Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }

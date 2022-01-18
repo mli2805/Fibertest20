@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using Iit.Fibertest.Dto;
-using Newtonsoft.Json;
 
 namespace Graph.Tests
 {
@@ -30,14 +27,9 @@ namespace Graph.Tests
 
         public byte[] SorBytesToReturn { get; set; }
 
-        public FakeVeexRtuModel()
+        public void Initialize()
         {
             Id = Guid.NewGuid();
-            Initialize(@"SM1625");
-        }
-
-        private void Initialize(string waveLength)
-        {
             RtuMaker = RtuMaker.VeEX;
             Omsn = "1105618";
 
@@ -50,7 +42,7 @@ namespace Graph.Tests
                     laserUnits = new Dictionary<string, LaserUnit>()
                     {
                         {
-                            waveLength,
+                            "SM1625",
                             new LaserUnit() {
                                 distanceRanges = new Dictionary<string, DistanceRange>()
                                 {
@@ -97,85 +89,6 @@ namespace Graph.Tests
 
             TestItems = new LinkList() { items = new List<LinkObject>() };
         }
-
-        public string AddTest(Test test)
-        {
-            test.relations = new RelationItems() { items = new List<TestsRelation>() };
-            Tests.Add(test.id, test);
-            var link = $@"tests/{test.id}";
-            TestItems.items.Add(new LinkObject() { self = link });
-            TestItems.total++;
-            return link;
-        }
-
-        public Test GetTestByUri(string uri)
-        {
-            var pos = uri.LastIndexOf('/');
-            var pos2 = uri.IndexOf('?');
-            var id = uri.Substring(pos + 1, pos2 - pos - 1);
-            return Tests[id];
-        }
-
-        public string AddTestRelation(TestsRelation relation)
-        {
-            Tests[relation.testAId].relations.items.Add(relation);
-            Tests[relation.testBId].relations.items.Add(relation);
-            TestsRelations.Add(relation);
-            return $@"test_relations/{relation.id}";
-        }
-
-        public string AddOtau(NewOtau otau)
-        {
-            var link = $@"otaus/{otau.id}";
-            OtauItems.items.Add(new LinkObject() { self = link });
-            Otaus.Add(new VeexOtau()
-            {
-                id = otau.id,
-                portCount = 16,
-                protocol = "tcpip",
-                serialNumber = "12345678",
-            });
-            return link;
-        }
-
-        public VeexOtau GetOtau(string link)
-        {
-            var parts = link.Split('/');
-            return Otaus.First(o => o.id == parts[1]);
-        }
-
-        public void DeleteOtau(string link)
-        {
-            var parts = link.Split('/');
-            Otaus.RemoveAll(o => o.id == parts[1]);
-            OtauItems.items.RemoveAll(i => i.self == link);
-        }
-
-        public CompletedTestPortion GetCompletedTestsAfterTimestamp(string uri)
-        {
-            var pos = "monitoring/completed?fields=*,items.*&starting=".Length;
-            var pos2 = uri.LastIndexOf('&');
-            var str = uri.Substring(pos + 1, pos2 - pos - 1);
-            var timestamp = DateTime.Parse(str);
-            var completedTests = CompletedTests.Where(c => c.started > timestamp).ToList();
-            return new CompletedTestPortion()
-            {
-                items = completedTests,
-                total = completedTests.Count,
-            };
-        }
-
-        public HttpStatusCode SwitchOtauToPort(string link, string jsonData)
-        {
-            var parts = link.Split('/');
-            var otau = Otaus.First(o => o.id == parts[1]); // test crashes if otau not found
-
-            dynamic myObj = JsonConvert.DeserializeObject<dynamic>(jsonData);
-            int portIndex = myObj?.portIndex ?? -1;
-
-            return portIndex > 0 && portIndex <= otau.portCount 
-                ? HttpStatusCode.NoContent 
-                : HttpStatusCode.BadRequest;
-        }
+    
     }
 }
