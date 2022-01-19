@@ -68,7 +68,7 @@ namespace DirectRtuClient
             _iniFile = iniFile;
 
             _rtuVeexDoubleAddress = iniFile.ReadDoubleAddress(80);
-            _httpWrapper = new HttpWrapper(logFile);
+            _httpWrapper = new HttpWrapper(logFile, new HttpClientThinWrap());
             RtuVeexAddress = _rtuVeexDoubleAddress.Main.Ip4Address;
         }
 

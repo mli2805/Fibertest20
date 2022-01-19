@@ -9,26 +9,28 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
-    public class HttpWrapper : IHttpWrapper
+   
+    public class HttpWrapper
     {
         private readonly IMyLog _logFile;
-        private static readonly HttpClient HttpClient = new HttpClient() { Timeout = TimeSpan.FromSeconds(4) };
+        private readonly IHttpClientThinWrap _httpClientThinWrap;
 
-        public HttpWrapper(IMyLog logFile)
+        public HttpWrapper(IMyLog logFile, IHttpClientThinWrap httpClientThinWrap)
         {
             _logFile = logFile;
+            _httpClientThinWrap = httpClientThinWrap;
         }
 
         private string BaseUri(string address) { return $"http://{address}/api/v1/"; }
 
         public async Task<HttpRequestResult> GetByteArray(DoubleAddress rtuDoubleAddress, string relativeUri)
         {
-            HttpClient.DefaultRequestHeaders.ExpectContinue = false;
+            // _httpClient.DefaultRequestHeaders.ExpectContinue = false;
             var result = new HttpRequestResult();
             var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
             try
             {
-                var myArr = await HttpClient.GetByteArrayAsync(url);
+                var myArr = await _httpClientThinWrap.GetByteArrayAsync(url);
                 result.ResponseBytesArray = myArr;
                 result.HttpStatusCode = HttpStatusCode.OK;
             }
@@ -44,7 +46,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<HttpRequestResult> PostByteArray(DoubleAddress rtuDoubleAddress, string relativeUri, byte[] bytes, byte[] bytes2 = null)
         {
-            HttpClient.DefaultRequestHeaders.ExpectContinue = false;
+            // _httpClient.DefaultRequestHeaders.ExpectContinue = false;
             var result = new HttpRequestResult();
             var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
             try
@@ -65,7 +67,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     dataContent.Add(byteArrayContent2);
                 }
 
-                HttpResponseMessage responseMessage = await HttpClient.PostAsync(url, dataContent);
+                HttpResponseMessage responseMessage = await _httpClientThinWrap.PostAsync(url, dataContent);
                 if (responseMessage.StatusCode != HttpStatusCode.Created)
                     result.ErrorMessage = responseMessage.ReasonPhrase;
                 result.ResponseJson = await responseMessage.Content.ReadAsStringAsync(); // if error - it could be explanation
@@ -83,7 +85,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<HttpRequestResult> RequestByUrl(DoubleAddress rtuDoubleAddress, string relativeUri,
             string httpMethod, string contentRepresentation = null, string jsonData = null)
         {
-            HttpClient.DefaultRequestHeaders.ExpectContinue = false;
+            // _httpClient.DefaultRequestHeaders.ExpectContinue = false;
             var result = new HttpRequestResult();
             var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
             try
@@ -111,20 +113,20 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             switch (httpMethod.ToLower())
             {
-                case "get": return await HttpClient.GetAsync(url);
+                case "get": return await _httpClientThinWrap.GetAsync(url);
 
                 case "post":
                     var content = new StringContent(
                jsonData, Encoding.UTF8, contentRepresentation);
-                    return await HttpClient.PostAsync(url, content);
+                    return await _httpClientThinWrap.PostAsync(url, content);
 
                 case "patch":
                     var request = new HttpRequestMessage(new HttpMethod("PATCH"), url);
                     request.Content = new StringContent(
                         jsonData, Encoding.UTF8, contentRepresentation);
-                    return await HttpClient.SendAsync(request);
+                    return await _httpClientThinWrap.SendAsync(request);
 
-                case "delete": return await HttpClient.DeleteAsync(url);
+                case "delete": return await _httpClientThinWrap.DeleteAsync(url);
             }
             return new HttpResponseMessage(HttpStatusCode.BadRequest);
         }

@@ -9,9 +9,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
     {
         private static readonly JsonSerializerSettings IgnoreNulls =
             new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore };
-        private readonly IHttpWrapper _httpWrapper;
+        private readonly HttpWrapper _httpWrapper;
 
-        public D2RtuVeexLayer1(IHttpWrapper httpWrapper)
+        public D2RtuVeexLayer1(HttpWrapper httpWrapper)
         {
             _httpWrapper = httpWrapper;
         }

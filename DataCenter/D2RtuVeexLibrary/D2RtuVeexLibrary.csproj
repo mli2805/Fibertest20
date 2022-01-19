@@ -70,9 +70,10 @@
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3ManualMeasurements.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3CompletedTests.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3Otau.cs" />
+    <Compile Include="HttpClientThinWrap.cs" />
     <Compile Include="HttpWrapper.cs" />
     <Compile Include="HttpRequestResult.cs" />
-    <Compile Include="IHttpWrapper.cs" />
+    <Compile Include="IHttpClientThinWrap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3AssignBaseRefs.cs" />
     <Compile Include="SorDataThresholdExtractor.cs" />

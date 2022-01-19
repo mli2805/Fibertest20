@@ -67,7 +67,8 @@ namespace Iit.Fibertest.DataCenterService
             builder.RegisterType<D2RWcfManager>().As<ID2RWcfManager>().SingleInstance();
 
 
-            builder.RegisterType<HttpWrapper>().As<IHttpWrapper>().SingleInstance();
+            builder.RegisterType<HttpClientThinWrap>().As<IHttpClientThinWrap>().SingleInstance();
+            builder.RegisterType<HttpWrapper>().SingleInstance();
             builder.RegisterType<D2RtuVeexLayer1>().SingleInstance();
             builder.RegisterType<D2RtuVeexLayer2>().SingleInstance();
             builder.RegisterType<D2RtuVeexLayer3>().SingleInstance();
