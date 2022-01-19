@@ -77,6 +77,8 @@ namespace Iit.Fibertest.Client
             rtuLeaf.ReserveChannelState = rtu.ReserveChannelState;
             rtuLeaf.MonitoringState = rtu.MonitoringState;
 
+            rtuLeaf.TreeOfAcceptableMeasParams = rtu.AcceptableMeasParams;
+
             for (int i = 1; i <= rtuLeaf.OwnPortCount; i++)
             {
                 var port = _globalScope.Resolve<PortLeaf>(new NamedParameter(@"parent", rtuLeaf), new NamedParameter(@"portNumber", i));
