@@ -198,7 +198,9 @@ namespace Graph.Tests
             builder.RegisterType<FakeVeexRtuModel>().InstancePerLifetimeScope();
             builder.RegisterType<FakeWindowManager>().As<IWindowManager>().InstancePerLifetimeScope();
             builder.RegisterType<FakeD2RWcfManager>().As<ID2RWcfManager>().InstancePerLifetimeScope();
-            builder.RegisterType<FakeHttpWrapper>().As<IHttpWrapper>().InstancePerLifetimeScope();
+            builder.RegisterType<FakeHttpClientThinWrap>().As<IHttpClientThinWrap>().InstancePerLifetimeScope();
+            builder.RegisterType<HttpWrapper>().InstancePerLifetimeScope();
+            builder.RegisterType<FakeHttpWrapper>().InstancePerLifetimeScope();
             builder.RegisterType<FakeClientWcfServiceHost>().As<IClientWcfServiceHost>();
             builder.RegisterType<FakeWaitCursor>().As<IWaitCursor>().InstancePerLifetimeScope();
             builder.RegisterType<FakeMachineKeyProvider>().As<IMachineKeyProvider>().InstancePerLifetimeScope();

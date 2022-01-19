@@ -9,6 +9,8 @@ namespace Graph.Tests
             #region L1
             if (relativeUri == @"info" && httpMethod == @"get")
                 return @"GetPlatform";
+            if (relativeUri == @"vesion/settings" && httpMethod == @"patch")
+                return @"SetVesionSettings";
             if (relativeUri == @"monitoring" && httpMethod == @"get")
                 return @"GetMonitoringProperties";
             if (relativeUri == @"monitoring" && httpMethod == @"patch")

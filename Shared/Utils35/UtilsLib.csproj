@@ -144,6 +144,7 @@
     <Compile Include="SorData\SorData.cs" />
     <Compile Include="SorData\SorDataExt.cs" />
     <Compile Include="SorData\SorDataRftsExt.cs" />
+    <Compile Include="StringExt.cs" />
     <Compile Include="Utils.cs" />
   </ItemGroup>
   <ItemGroup>

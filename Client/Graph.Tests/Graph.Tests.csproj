@@ -401,11 +401,12 @@
     </Compile>
     <Compile Include="Sut\Enums\Answer.cs" />
     <Compile Include="Sut\Fakes\FakeFtSignalRClient.cs" />
-    <Compile Include="Sut\Fakes\FakeHttpWrapper\FakeHttpWrapper.cs" />
-    <Compile Include="Sut\Fakes\FakeHttpWrapper\FakeVeexRtuModel.cs" />
-    <Compile Include="Sut\Fakes\FakeHttpWrapper\FakeVeexRtuModelExt.cs" />
-    <Compile Include="Sut\Fakes\FakeHttpWrapper\VeexRtuCompletedTestsSceneSetter.cs" />
-    <Compile Include="Sut\Fakes\FakeHttpWrapper\RequestFromUri.cs" />
+    <Compile Include="Sut\Fakes\FakeHttpClient\FakeHttpClientThinWrap.cs" />
+    <Compile Include="Sut\Fakes\FakeHttpClient\FakeHttpWrapper.cs" />
+    <Compile Include="Sut\Fakes\FakeHttpClient\FakeVeexRtuModel.cs" />
+    <Compile Include="Sut\Fakes\FakeHttpClient\FakeVeexRtuModelExt.cs" />
+    <Compile Include="Sut\Fakes\FakeHttpClient\VeexRtuCompletedTestsSceneSetter.cs" />
+    <Compile Include="Sut\Fakes\FakeHttpClient\RequestFromUri.cs" />
     <Compile Include="Sut\Fakes\FakeLicenseFileReader.cs" />
     <Compile Include="Sut\Fakes\FakeMachineKeyProvider.cs" />
     <Compile Include="Sut\SutExtensions\Handlers.cs" />
