@@ -7,7 +7,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer2
     {
-   public async Task<HttpRequestResult> DetachOtau(DoubleAddress rtuDoubleAddress, string otauId)
+        public async Task<HttpRequestResult> DetachOtau(DoubleAddress rtuDoubleAddress, string otauId)
         {
             var getSchemeResult = await _d2RtuVeexLayer1.GetOtauCascadingScheme(rtuDoubleAddress);
             if (!getSchemeResult.IsSuccessful) return getSchemeResult;
@@ -63,5 +63,5 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             return await _d2RtuVeexLayer1.GetOtau(rtuDoubleAddress, creationResult.ResponseJson);
         }
-   }
+    }
 }

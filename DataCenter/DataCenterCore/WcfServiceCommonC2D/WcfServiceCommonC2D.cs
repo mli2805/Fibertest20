@@ -105,7 +105,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var otauAttachedDto = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.AttachOtauAsync(dto)
-                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.AttachOtauAsync(dto).Result);
+                : await _clientToRtuVeexTransmitter.AttachOtauAsync(dto);
             if (otauAttachedDto.IsAttached)
             {
                 AttachOtauIntoGraph(dto, otauAttachedDto);
@@ -169,7 +169,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var isStopped = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.StopMonitoringAsync(dto)
-                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.StopMonitoringAsync(dto).Result);
+                : await _clientToRtuVeexTransmitter.StopMonitoringAsync(dto);
 
             if (isStopped)
             {
@@ -186,7 +186,7 @@ namespace Iit.Fibertest.DataCenterCore
         {
             var resultFromRtu = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.ApplyMonitoringSettingsAsync(dto)
-                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.ApplyMonitoringSettingsAsync(dto).Result);
+                : await  _clientToRtuVeexTransmitter.ApplyMonitoringSettingsAsync(dto);
 
             if (resultFromRtu.ReturnCode == ReturnCode.MonitoringSettingsAppliedSuccessfully)
             {
@@ -432,7 +432,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             return dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.TransmitBaseRefsToRtuAsync(convertedDto)
-                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtuAsync(convertedDto).Result);
+                : await _clientToRtuVeexTransmitter.TransmitBaseRefsToRtuAsync(convertedDto);
         }
 
         private async Task<AssignBaseRefsDto> ConvertToAssignBaseRefsDto(ReSendBaseRefsDto dto)

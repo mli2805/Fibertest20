@@ -9,7 +9,7 @@ using Iit.Fibertest.UtilsLib;
 
 namespace Iit.Fibertest.D2RtuVeexLibrary
 {
-   
+
     public class HttpWrapper
     {
         private readonly IMyLog _logFile;
@@ -25,7 +25,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
         public async Task<HttpRequestResult> GetByteArray(DoubleAddress rtuDoubleAddress, string relativeUri)
         {
-            // _httpClient.DefaultRequestHeaders.ExpectContinue = false;
             var result = new HttpRequestResult();
             var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
             try
@@ -44,11 +43,12 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return result;
         }
 
-        public async Task<HttpRequestResult> PostByteArray(DoubleAddress rtuDoubleAddress, string relativeUri, byte[] bytes, byte[] bytes2 = null)
+        public async Task<HttpRequestResult> PostByteArray(DoubleAddress rtuDoubleAddress, string relativeUri,
+            byte[] bytes, byte[] bytes2 = null)
         {
-            // _httpClient.DefaultRequestHeaders.ExpectContinue = false;
             var result = new HttpRequestResult();
             var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
+
             try
             {
                 MultipartFormDataContent dataContent =
@@ -62,7 +62,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 if (bytes2 != null)
                 {
                     var byteArrayContent2 = new ByteArrayContent(bytes2);
-                    byteArrayContent2.Headers.ContentDisposition = ContentDispositionHeaderValue.Parse("form-data; name=\"1\"; filename=\"\"");
+                    byteArrayContent2.Headers.ContentDisposition = ContentDispositionHeaderValue.Parse("form-data; name=\"2\"; filename=\"\"");
                     byteArrayContent2.Headers.ContentType = MediaTypeHeaderValue.Parse("text/plain");
                     dataContent.Add(byteArrayContent2);
                 }
@@ -81,11 +81,10 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 
             return result;
         }
-
+     
         public async Task<HttpRequestResult> RequestByUrl(DoubleAddress rtuDoubleAddress, string relativeUri,
             string httpMethod, string contentRepresentation = null, string jsonData = null)
         {
-            // _httpClient.DefaultRequestHeaders.ExpectContinue = false;
             var result = new HttpRequestResult();
             var url = BaseUri(rtuDoubleAddress.Main.ToStringA()) + relativeUri;
             try

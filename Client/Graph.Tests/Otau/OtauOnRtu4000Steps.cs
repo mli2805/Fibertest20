@@ -1,7 +1,5 @@
-﻿using System.Linq;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Iit.Fibertest.Client;
-using Iit.Fibertest.StringResources;
 using TechTalk.SpecFlow;
 
 namespace Graph.Tests
@@ -53,11 +51,12 @@ namespace Graph.Tests
         [When(@"Отключаем доп переключатель")]
         public void WhenОтключаемДопПереключатель()
         {
-            _otauLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Remove)
-                .Command.Execute(_otauLeaf);
+            // _otauLeaf.MyContextMenu.First(i => i.Header == Resources.SID_Remove)
+                // .Command.Execute(_otauLeaf);
+
+            _otauLeaf.RemoveOtau().Wait();
             _sut.Poller.EventSourcingTick().Wait();
         }
-
 
         [Then(@"В таблице виикс-тестов нет записей")]
         public void ThenВТаблицеВиикс_ТестовНетЗаписей()

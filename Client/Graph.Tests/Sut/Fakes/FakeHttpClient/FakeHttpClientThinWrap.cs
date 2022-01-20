@@ -7,12 +7,12 @@ namespace Graph.Tests
 {
     public class FakeHttpClientThinWrap : IHttpClientThinWrap
     {
-        private readonly FakeHttpWrapper _fakeHttpWrapper;
+        private readonly FakeVeexRtuManager _fakeVeexRtuManager;
         public FakeVeexRtuModel FakeVeexRtuModel { get; set; }
 
-        public FakeHttpClientThinWrap(FakeVeexRtuModel fakeVeexRtuModel, FakeHttpWrapper fakeHttpWrapper)
+        public FakeHttpClientThinWrap(FakeVeexRtuModel fakeVeexRtuModel, FakeVeexRtuManager fakeVeexRtuManager)
         {
-            _fakeHttpWrapper = fakeHttpWrapper;
+            _fakeVeexRtuManager = fakeVeexRtuManager;
             FakeVeexRtuModel = fakeVeexRtuModel;
         }
 
@@ -20,14 +20,14 @@ namespace Graph.Tests
         {
             var pos = url.IndexOfNth("/", 4);
             var relativeUrl = url.Substring(pos + 1);
-            return _fakeHttpWrapper.RequestByUrl(relativeUrl, "delete");
+            return _fakeVeexRtuManager.RequestByUrl(relativeUrl, "delete");
         }
 
         public Task<HttpResponseMessage> GetAsync(string url)
         {
             var pos = url.IndexOfNth("/", 4);
             var relativeUrl = url.Substring(pos + 1);
-            return _fakeHttpWrapper.RequestByUrl(relativeUrl, "get");
+            return _fakeVeexRtuManager.RequestByUrl(relativeUrl, "get");
         }
 
         public Task<byte[]> GetByteArrayAsync(string url)
@@ -38,13 +38,17 @@ namespace Graph.Tests
         public Task<HttpResponseMessage> PostAsync(string url, StringContent stringContent)
         {
             var pos = url.IndexOfNth("/", 4);
-            var relativeUrl = url.Substring(pos + 1); 
-            return _fakeHttpWrapper.RequestByUrl(relativeUrl, "post");
+            var relativeUrl = url.Substring(pos + 1);
+
+            string representation = stringContent.Headers.ContentType.ToString();
+            string jsonData = stringContent.ReadAsStringAsync().Result;
+
+            return _fakeVeexRtuManager.RequestByUrl(relativeUrl, "post", representation, jsonData);
         }
 
         public Task<HttpResponseMessage> PostAsync(string url, MultipartFormDataContent dataContent)
         {
-            return Task.FromResult(new HttpResponseMessage());
+            return _fakeVeexRtuManager.PostByteArray();
         }
 
         public Task<HttpResponseMessage> SendAsync(HttpRequestMessage request)
@@ -58,7 +62,7 @@ namespace Graph.Tests
             string representation = requestContent.Headers.ContentType.ToString();
             string jsonData = requestContent.ReadAsStringAsync().Result;
 
-            return _fakeHttpWrapper.RequestByUrl(relativeUrl, method, representation, jsonData);
+            return _fakeVeexRtuManager.RequestByUrl(relativeUrl, method, representation, jsonData);
         }
     }
 }

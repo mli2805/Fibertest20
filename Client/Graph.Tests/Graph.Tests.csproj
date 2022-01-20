@@ -402,7 +402,7 @@
     <Compile Include="Sut\Enums\Answer.cs" />
     <Compile Include="Sut\Fakes\FakeFtSignalRClient.cs" />
     <Compile Include="Sut\Fakes\FakeHttpClient\FakeHttpClientThinWrap.cs" />
-    <Compile Include="Sut\Fakes\FakeHttpClient\FakeHttpWrapper.cs" />
+    <Compile Include="Sut\Fakes\FakeHttpClient\FakeVeexRtuManager.cs" />
     <Compile Include="Sut\Fakes\FakeHttpClient\FakeVeexRtuModel.cs" />
     <Compile Include="Sut\Fakes\FakeHttpClient\FakeVeexRtuModelExt.cs" />
     <Compile Include="Sut\Fakes\FakeHttpClient\VeexRtuCompletedTestsSceneSetter.cs" />

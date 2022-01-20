@@ -158,7 +158,7 @@ namespace Iit.Fibertest.DataCenterCore
 
             return dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.TransmitBaseRefsToRtuAsync(dto)
-                : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.TransmitBaseRefsToRtuAsync(dto).Result);
+                : await _clientToRtuVeexTransmitter.TransmitBaseRefsToRtuAsync(dto);
         }
     }
 }
