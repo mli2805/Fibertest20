@@ -8,11 +8,11 @@ using Newtonsoft.Json;
 
 namespace Graph.Tests
 {
-    public class FakeHttpWrapper
+    public class FakeVeexRtuManager
     {
         public FakeVeexRtuModel FakeVeexRtuModel { get; set; }
 
-        public FakeHttpWrapper(FakeVeexRtuModel fakeVeexRtuModel)
+        public FakeVeexRtuManager(FakeVeexRtuModel fakeVeexRtuModel)
         {
             FakeVeexRtuModel = fakeVeexRtuModel;
         }
@@ -26,11 +26,12 @@ namespace Graph.Tests
             });
         }
 
-        public Task<HttpRequestResult> PostByteArray(DoubleAddress rtuDoubleAddress, string relativeUri, byte[] bytes, byte[] bytes2 = null)
+        public Task<HttpResponseMessage> PostByteArray()
         {
-            return Task.FromResult(new HttpRequestResult()
+            return Task.FromResult(new HttpResponseMessage()
             {
-                HttpStatusCode = HttpStatusCode.Created,
+                StatusCode = HttpStatusCode.Created,
+                Content = new StringContent("")
             });
 
         }
@@ -39,6 +40,8 @@ namespace Graph.Tests
             string contentRepresentation = null, string jsonData = null)
         {
             var result = new HttpResponseMessage() { Content = new StringContent("") };
+            var baseUri = new Uri("http://fibertest.com/");
+
             switch (relativeUri.Request(httpMethod))
             {
                 case "GetMonitoringProperties":
@@ -73,9 +76,8 @@ namespace Graph.Tests
                 case "ResetOtdr":
                     result.StatusCode = HttpStatusCode.Created;
                     // result.Headers.Location = new Uri($"otdr_reconnection_requests/{ Guid.NewGuid() }");
-                    var uri1 = new Uri("http://fibertest.com/");
                     var uri2 = new Uri("http://fibertest.com/"+$"otdr_reconnection_requests/{ Guid.NewGuid() }");
-                    result.Headers.Location = uri1.MakeRelativeUri(uri2);
+                    result.Headers.Location = baseUri.MakeRelativeUri(uri2);
                     break;
                 case "GetResetOtdrStatus":
                     result.StatusCode = HttpStatusCode.OK;
@@ -96,8 +98,10 @@ namespace Graph.Tests
 
                 case "CreateOtau":
                     if (jsonData == null) break;
-                    result.Content = new StringContent(FakeVeexRtuModel.AddOtau(JsonConvert.DeserializeObject<NewOtau>(jsonData)));
                     result.StatusCode = HttpStatusCode.Created;
+                    var otauLink = FakeVeexRtuModel.AddOtau(JsonConvert.DeserializeObject<NewOtau>(jsonData));
+                    var fullOtauLink = new Uri(baseUri + otauLink);
+                    result.Headers.Location = baseUri.MakeRelativeUri(fullOtauLink);
                     break;
                 case "DeleteOtau":
                     FakeVeexRtuModel.DeleteOtau(relativeUri);
@@ -131,13 +135,16 @@ namespace Graph.Tests
                     break;
                 case "CreateTest":
                     if (jsonData == null) break;
-                    result.Content = new StringContent(FakeVeexRtuModel.AddTest(JsonConvert.DeserializeObject<Test>(jsonData)));
+                    var testLink = FakeVeexRtuModel.AddTest(JsonConvert.DeserializeObject<Test>(jsonData));
+                    var fullTestLink = new Uri(baseUri + testLink);
+                    result.Headers.Location = baseUri.MakeRelativeUri(fullTestLink); 
                     result.StatusCode = HttpStatusCode.Created;
                     break;
                 case "AddTestsRelation":
                     if (jsonData == null) break;
-                    result.Content = new StringContent(FakeVeexRtuModel
-                        .AddTestRelation(JsonConvert.DeserializeObject<TestsRelation>(jsonData)));
+                    var testRelationLink = FakeVeexRtuModel.AddTestRelation(JsonConvert.DeserializeObject<TestsRelation>(jsonData));
+                    var fullTestRelationLink = new Uri(baseUri + testRelationLink);
+                    result.Headers.Location = baseUri.MakeRelativeUri(fullTestRelationLink);
                     result.StatusCode = HttpStatusCode.Created;
                     break;
                 case "DeleteRelation":

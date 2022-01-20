@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -69,7 +70,7 @@ namespace Iit.Fibertest.Client
             DisplayName = Resources.SID_Not_attached_traces_list;
         }
 
-        public async void FullAttach()
+        public async Task FullAttach()
         {
             IsButtonsEnabled = false;
             var dto = new AttachTraceDto()

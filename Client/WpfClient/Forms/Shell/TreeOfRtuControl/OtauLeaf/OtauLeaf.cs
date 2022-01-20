@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Autofac;
 using Caliburn.Micro;
 using Iit.Fibertest.Dto;
@@ -45,7 +46,7 @@ namespace Iit.Fibertest.Client
         public ChildrenImpresario ChildrenImpresario { get; }
         public int TraceCount => ChildrenImpresario.Children.Count(c => c is TraceLeaf);
 
-        public OtauLeaf(ILifetimeScope globalScope, Model readModel, FreePorts freePorts, CurrentUser currentUser, 
+        public OtauLeaf(ILifetimeScope globalScope, Model readModel, FreePorts freePorts, CurrentUser currentUser,
             IWcfServiceCommonC2D c2RWcfManager, IWindowManager windowManager)
         {
             _globalScope = globalScope;
@@ -71,22 +72,27 @@ namespace Iit.Fibertest.Client
             };
         }
 
-        public async void OtauRemoveAction(object param)
+        private async void OtauRemoveAction(object param)
+        {
+            await RemoveOtau();
+        }
+
+        public async Task RemoveOtau()
         {
             var rtu = _readModel.Rtus.First(r => r.Id == Parent.Id);
 
             var dto = new DetachOtauDto()
             {
-                OtauId = Id, 
+                OtauId = Id,
                 RtuId = rtu.Id,
                 RtuMaker = rtu.RtuMaker,
-                OpticalPort = MasterPort, 
+                OpticalPort = MasterPort,
                 NetAddress = (NetAddress)OtauNetAddress.Clone(),
             };
             OtauDetachedDto result;
             using (_globalScope.Resolve<IWaitCursor>())
             {
-                 result =await _c2RWcfManager.DetachOtauAsync(dto);
+                result = await _c2RWcfManager.DetachOtauAsync(dto);
             }
 
             if (!result.IsDetached)

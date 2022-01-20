@@ -61,7 +61,7 @@ namespace Iit.Fibertest.UtilsLib
 
                 //Reads IV value from beginning of the file.
                 byte[] iv = new byte[aes.IV.Length];
-                myStream.Read(iv, 0, iv.Length);
+                var _ = myStream.Read(iv, 0, iv.Length);
 
                 //Create a CryptoStream, pass it the file stream, and decrypt
                 //it with the Aes class using the key and IV.
