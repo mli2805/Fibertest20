@@ -5,23 +5,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
 {
     public partial class D2RtuVeexLayer2
     {
-        public async Task<RtuInitializedDto> GetPlatformInfo(DoubleAddress rtuDoubleAddress, InitializeRtuDto dto)
+        public async Task<HttpRequestResult> GetPlatform(DoubleAddress rtuDoubleAddress)
         {
-            var result = new RtuInitializedDto();
-
-            var platformResponse = await _d2RtuVeexLayer1.GetPlatform(rtuDoubleAddress);
-            if (!platformResponse.IsSuccessful)
-                return new RtuInitializedDto { ReturnCode = ReturnCode.RtuInitializationError };
-            FillInPlatform((VeexPlatformInfo)platformResponse.ResponseObject, result);
-
-            result.RtuId = dto.RtuId;
-            result.RtuAddresses = dto.RtuAddresses;
-            result.OtdrAddress = (NetAddress)result.RtuAddresses.Main.Clone();
-            result.Maker = RtuMaker.VeEX;
-            result.ReturnCode = ReturnCode.RtuInitializedSuccessfully;
-
-            result.IsInitialized = true;
-            return result;
+            return await _d2RtuVeexLayer1.GetPlatform(rtuDoubleAddress);
         }
 
         public async Task<HttpRequestResult> DisableProxyMode(DoubleAddress rtuDoubleAddress, string otdrId)
@@ -33,17 +19,6 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         {
             return await _d2RtuVeexLayer1.DisableVesionIntegration(rtuDoubleAddress);
         }
-
-        private void FillInPlatform(VeexPlatformInfo info, RtuInitializedDto result)
-        {
-            result.Mfid = info.platform.name;
-            result.Mfsn = info.platform.serialNumber;
-            result.Serial = info.platform.serialNumber;
-            result.Version = info.components.api;
-            result.Version2 = info.components.otdrEngine.iit_otdr;
-        }
-
-     
 
         public async Task<HttpRequestResult> GetMonitoringProperties(DoubleAddress rtuDoubleAddress)
         {

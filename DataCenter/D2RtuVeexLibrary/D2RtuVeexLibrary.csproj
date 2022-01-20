@@ -70,6 +70,7 @@
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3ManualMeasurements.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3CompletedTests.cs" />
     <Compile Include="D2RtuVeexL3\D2RtuVeexL3Otau.cs" />
+    <Compile Include="D2RtuVeexL3\InitializedDtoFactory.cs" />
     <Compile Include="HttpClientThinWrap.cs" />
     <Compile Include="HttpWrapper.cs" />
     <Compile Include="HttpRequestResult.cs" />
