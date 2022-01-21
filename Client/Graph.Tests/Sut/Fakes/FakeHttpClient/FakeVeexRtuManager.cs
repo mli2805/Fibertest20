@@ -93,7 +93,7 @@ namespace Graph.Tests
                     break;
                 case "GetPlatform":
                     result.StatusCode = HttpStatusCode.OK;
-                    result.Content = new StringContent(JsonConvert.SerializeObject(FakeVeexRtuModel.PlatformInfo));
+                    result.Content = new StringContent(JsonConvert.SerializeObject(FakeVeexRtuModel.GetPlatformInfo()));
                     break;
 
                 case "CreateOtau":

@@ -22,6 +22,7 @@ namespace Graph.Tests
             _traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(_trace.TraceId);
             _rtuLeaf = (RtuLeaf)_traceLeaf.Parent;
             _sut.SetNameAndAskInitializationRtu(_rtuLeaf.Id, @"1.1.1.1", "", 80);
+            _sut.Poller.EventSourcingTick().Wait();
         }
 
         // такое название, чтобы подчеркнуть, что пользователь может задать базовые как через десктопный так и через вэб клиент
@@ -46,10 +47,13 @@ namespace Graph.Tests
                 {
                     IsPortOnMainCharon = true,
                     OpticalPort = 7,
+                    Serial = _rtuLeaf.Serial,
                 }
             };
             _sut.WcfServiceCommonC2D.AttachTraceAndSendBaseRefs(dto).Wait();
             _sut.Poller.EventSourcingTick().Wait();
+            _traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(_trace.TraceId);
+            _traceLeaf.PortNumber.Should().BeGreaterThan(0);
         }
 
         [Then(@"В таблице виикс-тестов появляется две записи")]
@@ -58,12 +62,10 @@ namespace Graph.Tests
             _sut.ReadModel.VeexTests.Count.ShouldBeEquivalentTo(2);
         }
 
-        [When(@"Пользователь присылает на сервер команду отсоединитть трассу от порта")]
-        public void WhenПользовательПрисылаетНаСерверКомандуОтсоединиттьТрассуОтПорта()
+        [When(@"Пользователь присылает на сервер команду отсоединить трассу от порта")]
+        public void WhenПользовательПрисылаетНаСерверКомандуОтсоединитьТрассуОтПорта()
         {
-            // new instance of traceLeaf created when trace attached
-            var traceLeaf = (TraceLeaf)_sut.TreeOfRtuViewModel.TreeOfRtuModel.GetById(_trace.TraceId);
-            traceLeaf.MyContextMenu.First(i =>  i?.Header == Resources.SID_Unplug_trace).Command.Execute(_traceLeaf);
+            _traceLeaf.MyContextMenu.First(i =>  i?.Header == Resources.SID_Unplug_trace).Command.Execute(_traceLeaf);
             _sut.Poller.EventSourcingTick().Wait();
         }
 

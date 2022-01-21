@@ -30,6 +30,17 @@ namespace Graph.Tests
             return rtuLeaf;
         }
 
+        public static void ReInitializeRtu(this SystemUnderTest sut, Iit.Fibertest.Graph.Rtu rtu, RtuLeaf rtuLeaf)
+        {
+            sut.FakeWindowManager.RegisterHandler(m => m is MyMessageBoxViewModel);
+            sut.FakeWindowManager.RegisterHandler(model =>
+                sut.RtuInitializeHandler(model, rtu.MainChannel.Ip4Address, 
+                    rtu.IsReserveChannelSet ? rtu.ReserveChannel.Ip4Address : null, rtu.MainChannel.Port));
+            rtuLeaf.MyContextMenu.First(i => i?.Header == Resources.SID_Network_settings).Command.Execute(rtuLeaf);
+
+            sut.Poller.EventSourcingTick().Wait();
+        }
+
         public static bool RtuInitializeHandler(this SystemUnderTest sut, object model, 
             string mainIpAddress, string reserveIpAddress, int port = 11842, Answer answer = Answer.Yes)
         {

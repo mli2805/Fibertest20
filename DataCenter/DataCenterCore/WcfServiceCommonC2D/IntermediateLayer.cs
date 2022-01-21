@@ -37,7 +37,6 @@ namespace Iit.Fibertest.DataCenterCore
             var result = dto.RtuMaker == RtuMaker.IIT
                 ? await _clientToRtuTransmitter.InitializeAsync(dto)
                 : await _clientToRtuVeexTransmitter.InitializeAsync(dto);
-                // : await Task.Factory.StartNew(() => _clientToRtuVeexTransmitter.InitializeAsync(dto).Result);
 
             await _ftSignalRClient.NotifyAll("RtuInitialized", result.ToCamelCaseJson());
 
@@ -65,6 +64,21 @@ namespace Iit.Fibertest.DataCenterCore
                     var cmd = new DetachTrace() { TraceId = trace.TraceId };
                     commandList.Add(cmd);
                 }
+            }
+
+            // main veex otau state changed
+            if (!dto.IsFirstInitialization && 
+                originalRtu.MainVeexOtau.connected != result.MainVeexOtau.connected)
+            {
+                commandList.Add(new AddBopNetworkEvent()
+                {
+                    EventTimestamp = DateTime.Now,
+                    RtuId = result.RtuId,
+                    Serial = originalRtu.Serial,
+                    OtauIp = originalRtu.OtdrNetAddress.Ip4Address,
+                    TcpPort = originalRtu.OtdrNetAddress.Port,
+                    IsOk = result.MainVeexOtau.connected,
+                });
             }
 
             // BOP state changed
