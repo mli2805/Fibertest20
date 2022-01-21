@@ -66,6 +66,21 @@ namespace Iit.Fibertest.DataCenterCore
                 }
             }
 
+            // main veex otau state changed
+            if (!dto.IsFirstInitialization && 
+                originalRtu.MainVeexOtau.connected != result.MainVeexOtau.connected)
+            {
+                commandList.Add(new AddBopNetworkEvent()
+                {
+                    EventTimestamp = DateTime.Now,
+                    RtuId = result.RtuId,
+                    Serial = originalRtu.Serial,
+                    OtauIp = originalRtu.OtdrNetAddress.Ip4Address,
+                    TcpPort = originalRtu.OtdrNetAddress.Port,
+                    IsOk = result.MainVeexOtau.connected,
+                });
+            }
+
             // BOP state changed
             if (result.Children != null)
                 foreach (var keyValuePair in result.Children)

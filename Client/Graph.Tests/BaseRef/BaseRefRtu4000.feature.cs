@@ -102,7 +102,7 @@ this.FeatureBackground();
 #line 9
  testRunner.Then("В таблице виикс-тестов появляется две записи", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line 10
- testRunner.When("Пользователь присылает на сервер команду отсоединитть трассу от порта", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+ testRunner.When("Пользователь присылает на сервер команду отсоединить трассу от порта", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line 11
  testRunner.Then("В таблице виикс-тестов не остается записей", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
@@ -153,4 +153,3 @@ this.FeatureBackground();
 }
 #pragma warning restore
 #endregion
-

@@ -8,9 +8,10 @@ namespace Graph.Tests
     {
         public Guid Id { get; set; }
         public RtuMaker RtuMaker { get; set; }
+        public string Mfsn { get; set; }
         public string Omsn { get; set; }
 
-        public VeexPlatformInfo PlatformInfo { get; set; } = new VeexPlatformInfo();
+        // public VeexPlatformInfo PlatformInfo { get; set; } = new VeexPlatformInfo();
         public LinkList OtdrItems { get; set; }
         public List<VeexOtdr> Otdrs { get; set; }
         public LinkList OtauItems { get; set; }

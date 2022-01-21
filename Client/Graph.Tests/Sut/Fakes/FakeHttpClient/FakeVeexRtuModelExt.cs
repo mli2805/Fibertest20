@@ -9,6 +9,16 @@ namespace Graph.Tests
 {
     public static class FakeVeexRtuModelExt
     {
+        public static VeexPlatformInfo GetPlatformInfo(this FakeVeexRtuModel fakeVeexRtuModel)
+        {
+            return new VeexPlatformInfo()
+            {
+                platform = new Platform()
+                {
+                    serialNumber = fakeVeexRtuModel.Omsn
+                }
+            };
+        }
         public static string AddTest(this FakeVeexRtuModel fakeVeexRtuModel, Test test)
         {
             test.relations = new RelationItems() { items = new List<TestsRelation>() };
