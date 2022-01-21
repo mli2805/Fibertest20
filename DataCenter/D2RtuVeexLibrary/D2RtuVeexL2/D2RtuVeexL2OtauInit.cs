@@ -17,97 +17,111 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
         public async Task<HttpRequestResult> InitializeOtaus(DoubleAddress rtuDoubleAddress, InitializeRtuDto dto)
         {
             var res = await GetOtauList(rtuDoubleAddress);
-            if (!res.IsSuccessful) return res;
+            if (!res.IsSuccessful)
+                return res;
             var otauList = (List<VeexOtau>)res.ResponseObject;
 
-            var resScheme = await _d2RtuVeexLayer1.GetOtauCascadingScheme(rtuDoubleAddress);
-            if (!resScheme.IsSuccessful) return resScheme;
+            var rootRes = await LeaveNoMoreThanOneRootOtau(rtuDoubleAddress, otauList, dto);
+            if (!rootRes.IsSuccessful)
+                return rootRes;
+            otauList = (List<VeexOtau>)rootRes.ResponseObject;
 
-            if (otauList.Count > 0)
+
+            var schemeRes = dto.IsFirstInitialization
+                ? await SetChildOtausFirstInitialization(rtuDoubleAddress, otauList)
+                : await SetChildOtausReInitialization(rtuDoubleAddress, otauList, dto);
+
+            if (!schemeRes.IsSuccessful)
             {
-                if (dto.IsFirstInitialization)
+                schemeRes.ErrorMessage = "Failed to adjust cascading scheme to client's one!"
+                                         + Environment.NewLine + schemeRes.ResponseJson;
+                return schemeRes;
+            }
+
+            return await GetOtauList(rtuDoubleAddress);
+        }
+
+        private async Task<HttpRequestResult> LeaveNoMoreThanOneRootOtau(DoubleAddress rtuDoubleAddress, List<VeexOtau> otauList, InitializeRtuDto dto)
+        {
+            if (otauList.Count(o => o.id.StartsWith("S1")) > 1)
+            {
+                var currentRootOtau = otauList.FirstOrDefault(o => o.id.StartsWith("S1") && o.connected);
+
+                if (currentRootOtau == null)
                 {
-                    var resetRes = await LeaveOnlyRootOtau(rtuDoubleAddress, otauList);
-                    if (!resetRes.IsSuccessful)
-                        return resetRes;
-
-                    dto.MainVeexOtau = otauList[0];
-                    if (!dto.MainVeexOtau.connected)
-                    {
-                        dto.MainVeexOtau.portCount = 1;
-                    }
-
-                    var initSchemeRes = await SetRootOtauIntoScheme(rtuDoubleAddress, dto.MainVeexOtau.id);
-                    if (!initSchemeRes.IsSuccessful)
-                    {
-                        initSchemeRes.ErrorMessage = "Failed to set main OTAU as a root in cascading scheme!"
-                                                     + Environment.NewLine + initSchemeRes.ErrorMessage;
-                        return initSchemeRes;
-                    }
+                    if (dto.IsFirstInitialization)
+                        currentRootOtau = otauList.First(o => o.id.StartsWith("S1"));
+                    else
+                        currentRootOtau = otauList.FirstOrDefault(o => o.id == dto.MainVeexOtau.id)
+                                          ?? otauList.First(o => o.id.StartsWith("S1"));
                 }
 
-                var adjustRes = await AdjustSchemeToClientsView(rtuDoubleAddress, dto.MainVeexOtau.id, dto.Children, otauList);
-                if (!adjustRes.IsSuccessful)
+                foreach (var otauS1 in otauList.Where(o => o.id.StartsWith("S1") && o.id != currentRootOtau.id))
                 {
-                    adjustRes.ErrorMessage = "Failed to adjust cascading scheme to client's one!"
-                                             + Environment.NewLine + adjustRes.ResponseJson;
-                    return adjustRes;
+                    var deleteRes = await _d2RtuVeexLayer1.DeleteOtau(rtuDoubleAddress, otauS1.id);
+                    if (!deleteRes.IsSuccessful)
+                        return deleteRes;
                 }
             }
 
-            res.ResponseObject = new VeexOtauInfo()
-            {
-                OtauList = otauList,
-                OtauScheme = (VeexOtauCascadingScheme)resScheme.ResponseObject,
-            };
-            return res;
+            return await GetOtauList(rtuDoubleAddress);
         }
 
-        private async Task<HttpRequestResult> LeaveOnlyRootOtau(DoubleAddress rtuDoubleAddress, List<VeexOtau> otauList)
+        private async Task<HttpRequestResult> SetChildOtausReInitialization(DoubleAddress rtuDoubleAddress, List<VeexOtau> otauList, InitializeRtuDto dto)
         {
-            var rootOtau = otauList.FirstOrDefault(o => o.id.StartsWith("S1_"));
-            string mainOtauId = rootOtau?.id ?? "";
-            foreach (var veexOtau in otauList)
+            var mainOtau = otauList.First(o => o.id.StartsWith("S1"));
+            foreach (var veexOtau in otauList.Where(veexOtau => veexOtau.id != mainOtau.id))
             {
-                if (veexOtau.id.StartsWith("S2_"))
+                var oldOtau = dto.Children.Values.FirstOrDefault(o => o.OtauId == veexOtau.id);
+                if (oldOtau == null)
                 {
                     var deleteResult = await _d2RtuVeexLayer1.DeleteOtau(rtuDoubleAddress, veexOtau.id);
                     if (!deleteResult.IsSuccessful)
                         return deleteResult;
                 }
+                else
+                {
+                    var port = dto.Children.FirstOrDefault(p => p.Value.OtauId == veexOtau.id).Key;
+                    if (port >= mainOtau.portCount)
+                    {
+                        var deleteResult = await _d2RtuVeexLayer1.DeleteOtau(rtuDoubleAddress, veexOtau.id);
+                        if (!deleteResult.IsSuccessful)
+                            return deleteResult;
+                    }
+                }
             }
 
-            var resetResult = await ResetCascadingScheme(rtuDoubleAddress);
-            resetResult.ResponseJson = mainOtauId;
-            return resetResult;
-        }
-
-        private async Task<HttpRequestResult> GetOtauList(DoubleAddress rtuDoubleAddress)
-        {
-            var res = await _d2RtuVeexLayer1.GetOtaus(rtuDoubleAddress);
-            if (!res.IsSuccessful) return res;
-
-            var otaus = (LinkList)res.ResponseObject;
-            var otauList = new List<VeexOtau>();
-            foreach (var link in otaus.items)
+            foreach (var otauDto in dto.Children.Where(k => k.Key < mainOtau.portCount).Select(p => p.Value))
             {
-                var resOtau = await _d2RtuVeexLayer1.GetOtau(rtuDoubleAddress, link.self);
-                if (!resOtau.IsSuccessful) return resOtau;
-                otauList.Add((VeexOtau)resOtau.ResponseObject);
+                if (otauList.All(o => o.id != otauDto.OtauId))
+                {
+                    var createRes = await _d2RtuVeexLayer1.CreateOtau(rtuDoubleAddress, new NewOtau());
+                    if (!createRes.IsSuccessful)
+                        return createRes;
+                }
             }
 
-            res.ResponseObject = otauList;
-            return res;
+            var res = await GetOtauList(rtuDoubleAddress);
+            if (!res.IsSuccessful)
+                return res;
+            otauList = (List<VeexOtau>)res.ResponseObject;
+
+            return await AdjustSchemeToClientsView(rtuDoubleAddress, mainOtau.id, dto.Children, otauList);
         }
 
-        private async Task<HttpRequestResult> ResetCascadingScheme(DoubleAddress rtuDoubleAddress)
+        private async Task<HttpRequestResult> SetChildOtausFirstInitialization(DoubleAddress rtuDoubleAddress, List<VeexOtau> otauList)
         {
-            var scheme = new VeexOtauCascadingScheme()
+            foreach (var veexOtau in otauList.Where(veexOtau => !veexOtau.id.StartsWith("S1")))
             {
-                rootConnections = new List<RootConnection>(),
-                connections = new List<Connection>(),
-            };
-            return await _d2RtuVeexLayer1.ChangeOtauCascadingScheme(rtuDoubleAddress, scheme);
+                var deleteResult = await _d2RtuVeexLayer1.DeleteOtau(rtuDoubleAddress, veexOtau.id);
+                if (!deleteResult.IsSuccessful)
+                    return deleteResult;
+            }
+
+            var mainOtau = otauList.FirstOrDefault(o => o.id.StartsWith("S1"));
+            return mainOtau == null
+                ? await ResetCascadingScheme(rtuDoubleAddress)
+                : await SetRootOtauIntoScheme(rtuDoubleAddress, mainOtau.id);
         }
 
         private async Task<HttpRequestResult> SetRootOtauIntoScheme(DoubleAddress rtuDoubleAddress, string mainOtauId)
@@ -126,6 +140,17 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             };
             return await _d2RtuVeexLayer1.ChangeOtauCascadingScheme(rtuDoubleAddress, scheme);
         }
+
+        private async Task<HttpRequestResult> ResetCascadingScheme(DoubleAddress rtuDoubleAddress)
+        {
+            var scheme = new VeexOtauCascadingScheme()
+            {
+                rootConnections = new List<RootConnection>(),
+                connections = new List<Connection>(),
+            };
+            return await _d2RtuVeexLayer1.ChangeOtauCascadingScheme(rtuDoubleAddress, scheme);
+        }
+
 
         private async Task<HttpRequestResult> AdjustSchemeToClientsView(DoubleAddress rtuDoubleAddress, string mainOtauId,
             Dictionary<int, OtauDto> children, List<VeexOtau> otauList)
@@ -174,7 +199,26 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     inputOtauPort = 0,
                 });
             }
+
             return await _d2RtuVeexLayer1.ChangeOtauCascadingScheme(rtuDoubleAddress, scheme);
+        }
+
+        private async Task<HttpRequestResult> GetOtauList(DoubleAddress rtuDoubleAddress)
+        {
+            var res = await _d2RtuVeexLayer1.GetOtaus(rtuDoubleAddress);
+            if (!res.IsSuccessful) return res;
+
+            var otaus = (LinkList)res.ResponseObject;
+            var otauList = new List<VeexOtau>();
+            foreach (var link in otaus.items)
+            {
+                var resOtau = await _d2RtuVeexLayer1.GetOtau(rtuDoubleAddress, link.self);
+                if (!resOtau.IsSuccessful) return resOtau;
+                otauList.Add((VeexOtau)resOtau.ResponseObject);
+            }
+
+            res.ResponseObject = otauList;
+            return res;
         }
     }
 }
