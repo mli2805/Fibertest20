@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Iit.Fibertest.Dto;
 
@@ -65,7 +66,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                     .FillInRtuSettings(dto)
                     .FillInPlatform((VeexPlatformInfo)platformRes.ResponseObject)
                     .FillInOtdr(otdr)
-                    .FillInOtau((VeexOtauInfo)otauRes.ResponseObject, dto);
+                    .FillInOtau((List<VeexOtau>)otauRes.ResponseObject, dto);
 
                 var monitoringProperties = (VeexMonitoringDto)getMoniPropResult.ResponseObject;
                 if (monitoringProperties.type != "fibertest" || dto.IsFirstInitialization)

@@ -56,8 +56,8 @@ namespace Graph.Tests
             _rtuLeaf.BopState.ShouldBeEquivalentTo(bopState);
         }
 
-        [Then(@"В дереве у RTU портов - (.*)")]
-        public void ThenВДеревеУRTUПортов_(int p0)
+        [Then(@"В дереве у этого RTU портов - (.*)")]
+        public void ThenВДеревеУЭтогоRTUПортов_(int p0)
         {
             _rtuLeaf.ChildrenImpresario.Children.Count.ShouldBeEquivalentTo(p0);
         }
@@ -79,6 +79,8 @@ namespace Graph.Tests
         {
             _sut.FakeVeexRtuModel.Otaus[0].connected = false;
         }
+
+      
 
         [Then(@"В событиях боп строка об аварии")]
         public void ThenВСобытияхБопСтрокаОбАварии()

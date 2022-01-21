@@ -391,6 +391,12 @@
     <Compile Include="Rtu\RtuUpdateSteps.cs">
       <DependentUpon>RtuUpdated.feature</DependentUpon>
     </Compile>
+    <Compile Include="Rtu\VeexRtuFirstInitialization.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>VeexRtuFirstInitialization.feature</DependentUpon>
+    </Compile>
+    <Compile Include="Rtu\VeexRtuFirstInitializationSteps.cs" />
     <Compile Include="Rtu\VeexRtuInitialized.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -883,6 +889,10 @@
     <None Include="BaseRef\BaseRefAssigned.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
       <LastGenOutput>BaseRefAssigned.feature.cs</LastGenOutput>
+    </None>
+    <None Include="Rtu\VeexRtuFirstInitialization.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>VeexRtuFirstInitialization.feature.cs</LastGenOutput>
     </None>
     <None Include="Rtu\VeexRtuInitialized.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>

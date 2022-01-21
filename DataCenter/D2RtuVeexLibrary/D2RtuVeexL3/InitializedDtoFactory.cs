@@ -61,9 +61,9 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             return result;
         }
 
-        public static RtuInitializedDto FillInOtau(this RtuInitializedDto result, VeexOtauInfo otauInfo, InitializeRtuDto dto)
+        public static RtuInitializedDto FillInOtau(this RtuInitializedDto result, List<VeexOtau> otauList, InitializeRtuDto dto)
         {
-            if (otauInfo.OtauList.Count == 0)
+            if (otauList.Count == 0 || (otauList.Count == 1 && !otauList[0].connected && dto.IsFirstInitialization))
             {
                 result.OwnPortCount = 1;
                 result.FullPortCount = 1;
@@ -72,8 +72,7 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
                 return result;
             }
 
-            var mainOtauId = otauInfo.OtauScheme.rootConnections[0].inputOtauId;
-            var mainOtau = otauInfo.OtauList.First(o => o.id == mainOtauId);
+            var mainOtau = otauList.First(o => o.id.StartsWith("S1"));
 
             result.MainVeexOtau = mainOtau;
 
@@ -81,12 +80,14 @@ namespace Iit.Fibertest.D2RtuVeexLibrary
             result.FullPortCount = mainOtau.portCount;
             result.Children = new Dictionary<int, OtauDto>();
 
-            foreach (var childConnection in otauInfo.OtauScheme.connections)
+            foreach (var pair in dto.Children)
             {
-                var pair = dto.Children.First(c => "S2_" + c.Value.OtauId == childConnection.inputOtauId);
-                result.Children.Add(pair.Key, pair.Value);
-
-                result.FullPortCount += pair.Value.OwnPortCount - 1;
+                var otau = otauList.FirstOrDefault(o => "S2_" + o.id == pair.Value.OtauId);
+                if (otau != null)
+                {
+                    result.Children.Add(pair.Key, pair.Value);
+                    result.FullPortCount += pair.Value.OwnPortCount - 1;
+                }
             }
 
             return result;
