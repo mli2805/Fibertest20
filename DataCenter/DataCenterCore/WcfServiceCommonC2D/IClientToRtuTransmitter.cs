@@ -6,7 +6,7 @@ namespace Iit.Fibertest.DataCenterCore
     public interface IClientToRtuTransmitter
     {
         Task<RtuConnectionCheckedDto> CheckRtuConnection(CheckRtuConnectionDto dto);
-        Task<RtuInitializedDto> InitializeAsync(InitializeRtuDto dto);
+        Task<RtuInitializedDto> InitializeRtuAsync(InitializeRtuDto dto);
         Task<MonitoringSettingsAppliedDto> ApplyMonitoringSettingsAsync(ApplyMonitoringSettingsDto dto);
         Task<bool> StopMonitoringAsync(StopMonitoringDto dto);
         Task<BaseRefAssignedDto> TransmitBaseRefsToRtuAsync(AssignBaseRefsDto dto);
